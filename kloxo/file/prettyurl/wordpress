@@ -1,2 +1,10 @@
-type 404
-<%lxpath%>/index.php
+type rewrite
+
+    url.rewrite-once = ( 
+        "^<%lxpath%>/(wp-.+).*/?" => "$0", 
+        "^<%lxpath%>/(sitemap.xml)" => "$0", 
+        "^<%lxpath%>/(xmlrpc.php)" => "$0", 
+        "^<%lxpath%>/keyword/([A-Za-z_0-9\-]+)/?$" => "<%lxpath%>/index.php?keyword=$1", 
+        "^<%lxpath%>/.*?(\?.*)?$" => "<%lxpath%>/index.php$1" 
+    )
+

@@ -989,14 +989,9 @@ static function continueForm($parent, $class, $param, $continueaction)
 	}
 
 	// also check if /home/<client> exists --> prevent use like 'httpd' as client
-/*
-	if (lxfile_exists("/home/{$param['nname']}")) {
-		throw new lxexception("{$param['nname']}_dir_exists_under_home_dir", 'nname');
 
-	}
-*/
 	$reserved = array(
-		'apache', 'lighttpd', 'nginx', 
+		'apache', 'lighttpd', 'nginx', 'php-fpm', 'ipalloc',
 		'httpd', 'kloxo', 'lxadmin', 'lxlabs', 'lxcenter', 'nouser', 
 		'tinydns', 'axfrdns', 'dnscache', 'dnslog', 'bind', 'named');
 
@@ -1006,6 +1001,10 @@ static function continueForm($parent, $class, $param, $continueaction)
 		}
 	}
 
+	if (lxfile_exists("/home/{$param['nname']}")) {
+		throw new lxexception("{$param['nname']}_dir_exists_under_home_dir", 'nname');
+
+	}
 
 	$param['nname'] = trim($param['nname']);
 

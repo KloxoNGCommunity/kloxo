@@ -7,11 +7,12 @@ $list = parse_opt($argv);
 
 $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $client = (isset($list['client'])) ? $list['client'] : null;
+$nolog  = (isset($list['nolog'])) ? $list['nolog'] : null;
 
 $login->loadAllObjects('client');
 $list = $login->getList('client');
 
-log_cleanup("Fixing Web server config");
+log_cleanup("Fixing Web server config", $nolog);
 
 $prevsyncserver = '';
 $currsyncserver = '';
@@ -39,16 +40,22 @@ foreach($list as $c) {
 
 		if ($prevsyncserver !== $currsyncserver) {
 			$web->setUpdateSubaction('static_config_update');
-
-			log_cleanup("- inside static (defaults/webmail) directory at '{$currsyncserver}'");
-
+			log_cleanup("- inside static (defaults/webmail) directory at '{$currsyncserver}'", 
+					$nolog);
 			$prevsyncserver = $currsyncserver;
 		}
 
 		$web->setUpdateSubaction('full_update');
-		$web->was();
+		log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
 
-		log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'");
+		$web->was();
 	}
 }
 
+print("\nNote: also fixing php-fpm config\n");
+
+if (!$nolog) {
+	lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixphpfpm.php");
+} else {
+	lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixphpfpm.php", "--nolog");
+}

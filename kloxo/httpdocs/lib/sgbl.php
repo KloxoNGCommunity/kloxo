@@ -251,6 +251,12 @@ class Sgbl
 	{
 		$this->__var_service_desc['httpd'] = "Apache Web Server";
 		$this->__var_service_desc['apache2'] = "Apache Web Server";
+
+		$this->__var_service_desc['lighttpd'] = "Lighttpd Web Server";
+		$this->__var_service_desc['nginx'] = "Nginx Web Server";
+
+		$this->__var_service_desc['php-fpm'] = "Php Fastcgi Process Manager";
+
 		$this->__var_service_desc['qmail'] = "Qmail Mail Server";
 		$this->__var_service_desc['named'] = "Bind Dns Server";
 		$this->__var_service_desc['bind9'] = "Bind Dns Server";

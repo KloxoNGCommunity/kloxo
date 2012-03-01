@@ -336,6 +336,10 @@ function deleteAlias()
 	lxshell_return("__path_mail_root/bin/vdeldomain", $this->main->__var_aliasdomain);
 }
 
+// MR -- this function is missing!
+function fixRedirectDomain() {
+}
+
 function fullUpdate()
 {
 	if ($this->ttype === 'forward') {

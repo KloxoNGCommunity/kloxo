@@ -9,97 +9,52 @@ initProgram('admin');
 
 $list = parse_opt($argv);
 
-$select = (isset($list['select'])) ? (int)$list['select'] : 'all';
+$server = (isset($list['server'])) ? $list['server'] : 'localhost';
+$select = (isset($list['select'])) ? $list['select'] : 'all';
+$nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
 
-setFixChownChmod($select);
+log_cleanup("Fixing Chown and Chmod", $nolog);
 
-/* ****** BEGIN - setFixChownChmod ***** */
+$login->loadAllObjects('client');
+$clist = $login->getList('client');
 
-function setFixChownChmod($select)
-{
-	global $gbl, $sgbl, $login, $ghtml;
+foreach($clist as $c) {
+	if ($server !== 'all') {
+		$sa = explode(",", $server);
+		if (!in_array($c->syncserver, $sa)) { continue; }
+	}
 
-	$login->loadAllObjects('client');
-	$list = $login->getList('client');
+	$dlist = $c->getList('domaina');
 
-	// --- still problem when switch to suphp use chmod 750 for userdir and then back to 770
-	// so, for compromise set /home/kloxo/httpd to 770 because less importance than /home/<client>
-	$httpddirchmod = '770';
-	$userdirchmod = '750';
-	$phpfilechmod = '644';
-	$domdirchmod = '755';
+	foreach((array) $dlist as $l) {
+		$web = $l->getObject('web');
 
-	// --- change because escape form suphp error
+		$currsyncserver = $web->syncserver;
 
-	// --- for /home/kloxo/httpd dirs (defaults pages)
+		if ($prevsyncserver !== $currsyncserver) {
+			$prevsyncserver = $currsyncserver;
 
-	log_cleanup("Fix file permission problems for defaults pages (chown/chmod files)");
-
-	system("chown -R lxlabs:lxlabs /home/kloxo/httpd/");
-	log_cleanup("- chown lxlabs:lxlabs FOR INSIDE /home/kloxo/httpd/");
-
-	system("chown lxlabs:apache /home/kloxo/httpd/");
-	log_cleanup("- chown lxlabs:apache FOR /home/kloxo/httpd/");
-
-	system("find /home/kloxo/httpd/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-	log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE /home/kloxo/httpd/");
-				
-	system("find /home/kloxo/httpd/ -type d -exec chmod {$domdirchmod} \{\} \\;");
-	log_cleanup("- chmod {$domdirchmod} FOR /home/kloxo/httpd/ AND INSIDE");
-
-	system("chmod {$httpddirchmod} /home/kloxo/httpd/");
-	log_cleanup("- chmod {$httpddirchmod} FOR /home/kloxo/httpd/");
-
-	// --- for domain dirs
-	log_cleanup("Fix file permission problems for domains (chown/chmod files)");
-
-	foreach($list as $c) {
-		$clname = $c->getPathFromName('nname');
-		$cdir = "/home/{$clname}";
-		$dlist = $c->getList('domaina');
-		$ks = "kloxoscript";
-	
-		system("chown {$clname}:apache {$cdir}/");
-		log_cleanup("- chown {$clname}:apache FOR {$cdir}/");
-		
-		system("chmod {$userdirchmod} {$cdir}/");
-		log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/");
-
-		system("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
-		log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/");
-
-		system("chown {$clname}:apache {$cdir}/{$ks}/");
-		log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/");
-
-		system("find {$cdir}/{$ks}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-		log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/");
-				
-		system("find {$cdir}/{$ks}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
-		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE");
-
-		foreach((array) $dlist as $l) {
-			$web = $l->nname;
-
-			if (($select === "all") || ($select === 'chown')) {
-				system("chown -R {$clname}:{$clname} {$cdir}/{$web}/");
-				log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$web}/");
-			}
-			
-			if (($select === "all") || ($select === 'chmod')) {
-				system("find {$cdir}/{$web}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-				log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$web}/");
-				
-				system("find {$cdir}/{$web}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
-				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/ AND INSIDE");
+			if (!$nolog) {
+				if ($select === 'all') {
+					$web->setUpdateSubaction('fix_chownchmod_all');
+				} elseif ($select === 'chown') {
+					$web->setUpdateSubaction('fix_chownchmod_own');
+				} elseif ($select === 'chmod') {
+					$web->setUpdateSubaction('fix_chownchmod_mod');
+				}
+			} else {
+				if ($select === 'all') {
+					$web->setUpdateSubaction('fix_chownchmod_all_nolog');
+				} elseif ($select === 'chown') {
+					$web->setUpdateSubaction('fix_chownchmod_own_nolog');
+				} elseif ($select === 'chmod') {
+					$web->setUpdateSubaction('fix_chownchmod_mod_nolog');
+				}
 			}
 
-			system("chown {$clname}:apache {$cdir}/{$web}/");
-			log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$web}/");
-
+			$web->was();
 		}
 	}
 }
-
-/* ****** END - setFixChownChmod ***** */
 
 

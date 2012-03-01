@@ -453,7 +453,13 @@ function do_desc_update($object, $subaction, $param)
 			check_listpriv($qparent, $class, $pvar, $v);
 			continue;
 		}
-		// Checking for used too. Special case.... Copy the current used to __old_used. This is done so that the changes are trackable. For instance, in frontpage, you need to know if the previous state of frontpage. You cannot simply run the frontpage enabled command evertime any change is made. It should be run only if the previous state was disabled and the current state is enabled. Or vice versa. This has to be done distributechildquota too, where the 'used' is forcibly turned off to synchronize with the priv variable.
+		// Checking for used too. Special case.... Copy the current used to __old_used. 
+		// This is done so that the changes are trackable. For instance, in frontpage, 
+		// you need to know if the previous state of frontpage. You cannot simply run 
+		// the frontpage enabled command evertime any change is made. 
+		// It should be run only if the previous state was disabled and the current state is enabled. 
+		// Or vice versa. This has to be done distributechildquota too, 
+		// where the 'used' is forcibly turned off to synchronize with the priv variable.
 		if ($k === 'used') {
 			$object->__old_used = clone $object->used;
 		}

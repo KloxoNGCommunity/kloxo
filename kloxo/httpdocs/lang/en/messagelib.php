@@ -191,7 +191,8 @@ $__information['webserver_config'] =
 		"InnoDB (higher performance)<br />".
 	"[b]Fix 'Ownership' And 'Permissions'[/b] - Prevent '500 Internal server error' on secure environment<br />".
 		"&nbsp;&nbsp;&nbsp;&nbsp;- Fix-ownership ('chown -R client:client' for directories and files) and ".
-		"Fix-permissions ('chmod 755' for directories and 'chmod 644' for .php files)";
+		"Fix-permissions ('chmod 755' for directories and 'chmod 644' for .php files)<br />".
+	"- [b]Remark[/b]: Apache Memory Optimize will be set half of values on [b]nginx/lighttpd-proxy[/b]";
 
 // Language Content for #656
 // by Andrew Ying

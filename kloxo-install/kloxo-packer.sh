@@ -25,12 +25,12 @@
 
 if [ "$#" == 0 ] ; then
 	echo
-	echo " --------------------------------------------------------------------"
-	echo "  format: sh $0 --svnpath=<>"
-	echo " --------------------------------------------------------------------"
-	echo "  --svnpath - example: tags/6.1.7 or branches/6.1.x or trunk"
+	echo " ----------------------------------------------------------------------"
+	echo "  format: sh $0 --fork=<> --branch=<>"
+	echo " ----------------------------------------------------------------------"
+	echo "  --fork - example: lxcenter or mustafaramadhan (for certain developer)"
+	echo "  --branch - example: master or dev"
 	echo
-	echo "  * Go to http://svn.lxcenter.org/svn/kloxo/ to find kloxo version"
 	echo "  * Pack main kloxo package from svn"
 	echo "  * Thirdparty packages download directly for latest version"
 	echo "  * Then run kloxo-installer.sh which the same place with local copy"
@@ -41,35 +41,30 @@ fi
 echo "Start pack..."
 
 request1=$1
-kloxo_path=${request1#--svnpath\=}
+kloxo_fork=${request1#--fork\=}
+
+request2=$2
+kloxo_branch=${request2#--branch\=}
+
+kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 
 mkdir -p ./combo
 
-mkdir -p ./current
-cd ./current
-
-if [ ! -d ./kloxo/httpdocs ] ; then
-	echo "Download kloxo svn from "$kloxo_path
-	svn checkout http://svn.lxcenter.org/svn/kloxo/$kloxo_path/kloxo
-	svn checkout http://svn.lxcenter.org/svn/kloxo/$kloxo_path/kloxo-install
+if [ ! -d ./current/kloxo/httpdocs ] ; then
+	echo "Download kloxo git from "${kloxo_path}
+	yes | rm -rf ${kloxo_branch}*
+	wget https://github.com/${kloxo_path} --no-check-certificate
+	mv -f $kloxo_branch kloxo.zip
+	unzip -oq kloxo.zip
+	mv -f ./$kloxo_fork* ./current
+	yes | rm -rf kloxo.zip
 else
 	echo "No download and use local copy"
 fi
 
-cd ../
-
 cp -rf ./current/* ./combo
 
 cp -rf ./patch/* ./combo
-
-rm -rf `find ./combo -type d -name .svn`
-rm -rf `find ./combo -type d -name CVS`
-
-if [ ! -f ./combo/kloxo-install/kloxo-installer.sh ] ; then
-	echo "Download kloxo-installer.sh from http://download.lxcenter.org/download/kloxo/production/"
-	wget http://download.lxcenter.org/download/kloxo/production/kloxo-installer.sh
-	mv -f kloxo-installer.sh ./combo/kloxo-install/kloxo-installer.sh
-fi
 
 if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then
 
@@ -96,9 +91,8 @@ zip -r9y kloxo-install.zip ./kloxo-install
 
 mv -f kloxo-install.zip ../
 
-cd ./kloxo
-
-cd ./src/
+cd ./kloxo/src
+yum install gcc-c++ -y
 make
 cd ../
 

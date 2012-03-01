@@ -45,8 +45,9 @@ XML;
 
 function enableDisableModule($flag, $mod)
 {
-	unlink("/etc/php.d/$mod.ini");
-	unlink("/etc/php.d/$mod.noini");
+	lxfile_rm("/etc/php.d/$mod.ini");
+	lxfile_rm("/etc/php.d/$mod.noini");
+
 	if ($this->main->phpini_flag_b->isOn($flag)) {
 		lxfile_cp("../file/$mod.ini", "/etc/php.d/$mod.ini");
 	} else {
