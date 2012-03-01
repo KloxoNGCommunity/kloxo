@@ -92,7 +92,7 @@ zip -r9y kloxo-install.zip ./kloxo-install
 mv -f kloxo-install.zip ../
 
 cd ./kloxo/src
-yum install gcc-c++ -y
+yum -y install gcc automake autoconf libtool make
 make
 cd ../
 
