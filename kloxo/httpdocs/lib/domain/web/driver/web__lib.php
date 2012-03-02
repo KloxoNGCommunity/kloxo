@@ -521,6 +521,9 @@ class web__ extends lxDriverClass
 
 				exec("chown {$clname}:apache {$cdir}/{$web}/");
 				log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$web}/", $nolog);
+
+				exec("chmod -R {$domdirchmod} {$cdir}/{$web}/cgi-bin");
+				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/cgi-bin AND FILES", $nolog);
 			}
 		}
 	}
