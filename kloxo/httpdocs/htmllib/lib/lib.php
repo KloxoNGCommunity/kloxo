@@ -6892,9 +6892,9 @@ function setCopyWebConfFiles($webdriver)
 	lxfile_cp_content_file($pathsrcgbl, $pathgbls);
 	lxfile_mv_rec("{$pathgbls}/custom.*", "{$pathgbls}/*");
 
-	if (file_exists("{$pathsrc}/mimetype.conf")) {
+//	if (file_exists("{$pathsrc}/mimetype.conf")) {
 		lxfile_cp(getLinkCustomfile($pathsrc, "mimetype.conf"), "{$pathdef}/mimetype.conf");
-	}
+//	}
 
 	if (!file_exists("{$pathconfd}/~lxcenter.conf")) {
 		lxfile_cp(getLinkCustomfile($pathsrc, "~lxcenter.conf"), "{$pathconfd}/~lxcenter.conf");
@@ -6906,17 +6906,17 @@ function setCopyWebConfFiles($webdriver)
 		}
 	}
 
-	if (file_exists("{$pathsrc}/{$aliasdriver}.init")) {
+//	if (file_exists("{$pathsrc}/{$aliasdriver}.init")) {
 		lxfile_cp(getLinkCustomfile($pathsrc, "{$aliasdriver}.init"), "{$pathinit}/{$aliasdriver}");
-	}
+//	}
 
-	if (file_exists("{$pathsrc}/ssl.conf")) {
+//	if (file_exists("{$pathsrc}/ssl.conf")) {
 		lxfile_cp(getLinkCustomfile($pathsrc, "ssl.conf"), "{$pathconfd}/ssl.conf");
-	}
+//	}
 
-	if (file_exists("{$pathsrc}/{$aliasdriver}.conf")) {
+//	if (file_exists("{$pathsrc}/{$aliasdriver}.conf")) {
 		lxfile_cp(getLinkCustomfile($pathsrc, "{$aliasdriver}.conf"), "{$pathconf}/{$aliasdriver}.conf");
-	}
+//	}
 }
 
 function isWebProxy($drivertype = null)

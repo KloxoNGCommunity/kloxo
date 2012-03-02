@@ -109,14 +109,15 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 
     include "/home/lighttpd/conf/globals/generic.conf"
 <?php
-    if ($statsapp === 'awstats') {
+    if (!$reverseproxy) {
+        if ($statsapp === 'awstats') {
 ?>
 
     var.statstype = "awstats"
 
     include "/home/lighttpd/conf/globals/awstats.conf"
 <?php
-        if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     var.protectpath = "awstats"
@@ -125,15 +126,15 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 
     include "/home/lighttpd/conf/globals/dirprotect.conf"
 <?php
-        }
-    } elseif ($statsapp === 'webalizer') {
+            }
+        } elseif ($statsapp === 'webalizer') {
 ?>
 
     var.statstype = "stats"
 
     include "/home/lighttpd/conf/globals/webalizer.conf"
 <?php
-        if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     var.protectpath = "stats"
@@ -142,6 +143,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 
     include "/home/lighttpd/conf/globals/dirprotect.conf"
 <?php
+            }
         }
     }
 

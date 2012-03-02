@@ -134,14 +134,20 @@ server {
 
     include '/home/nginx/conf/globals/generic.conf';
 <?php
-    if ($statsapp === 'awstats') {
+    if (!$reverseproxy) {
+?>
+
+    access_log /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log main;
+    error_log  /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log;
+<?php
+        if ($statsapp === 'awstats') {
 ?>
 
     set $statstype 'awstats';
 
     include '/home/nginx/conf/globals/awstats.conf';
 <?php
-        if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     set $protectpath     'awstats';
@@ -150,15 +156,15 @@ server {
 
     include '/home/nginx/conf/globals/dirprotect.conf';
 <?php
-        }
-    } elseif ($statsapp === 'webalizer') {
+            }
+        } elseif ($statsapp === 'webalizer') {
 ?>
 
     set $statstype 'stats';
 
     include '/home/nginx/conf/globals/webalizer.conf';
 <?php
-        if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     set $protectpath     'stats';
@@ -167,6 +173,7 @@ server {
 
     include '/home/nginx/conf/globals/dirprotect.conf';
 <?php
+            }
         }
     }
 
@@ -207,6 +214,8 @@ server {
 ?>
 
     include '/home/nginx/conf/globals/php-fpm.conf';
+
+    include '/home/nginx/conf/globals/perl.conf';
 <?php
         }
     }

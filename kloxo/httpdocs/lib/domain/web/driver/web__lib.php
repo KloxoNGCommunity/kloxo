@@ -314,6 +314,10 @@ class web__ extends lxDriverClass
 			file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
 
 			createRestartFile($l);
+
+			if ($l === 'lighttpd') {
+				self::setLighttpdPerlSuexec($input);
+			}
 		}
 	}
 
@@ -728,6 +732,21 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
+	static function setLighttpdPerlSuexec($input)
+	{
+		$tplsource = "/home/lighttpd/tpl/perlsuexec.sh.tpl";
+
+		$tpltarget = "/home/httpd/{$input['domainname']}/perlsuexec.sh";
+
+		$tpl = file_get_contents($tplsource);
+
+		$tplparse = getParseInlinePhp($tpl, $input);
+
+		file_put_contents($tpltarget, $tplparse);
+
+		lxfile_unix_chmod($tpltarget, '755');
+	}
+
 // MR -- (3) target to .httaccess or php.ini or log
 
 	function setLogfile()
@@ -741,6 +760,8 @@ class web__ extends lxDriverClass
 		$cust_log = "{$log_path}/{$domainname}-custom_log";
 		$err_log = "{$log_path}/{$domainname}-error_log";
 
+		// MR -- back to original!
+/*
 		if (file_exists($cust_log)) {
 			lxfile_cp($cust_log, "{$log_path}/custom.log");
 		}
@@ -748,6 +769,7 @@ class web__ extends lxDriverClass
 		if (file_exists($err_log)) {
 			lxfile_cp($err_log, "{$log_path}/error.log");
 		}
+*/
 	}
 
 	function setPhpIni()

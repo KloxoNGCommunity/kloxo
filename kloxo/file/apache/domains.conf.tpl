@@ -178,12 +178,15 @@ $fpmport = (50000 + $userinfo['uid']);
             php_admin_value open_basedir "/home/<?php echo $user; ?>:/home/<?php echo $user; ?>/kloxoscript:/home/<?php echo $domainname; ?>:/home/<?php echo $domainname; ?>/httpdocs:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script:<?php echo $extrabasedir; ?>"
         </IfModule>
     </Location>
-
-#    CustomLog "/home/httpd/<?php echo $domainname ?>/stats/custom.log" combined
-#    ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/error.log"
-
-    ErrorLog "/home/apache/logs/error.log"
 <?php
+    if (!$reverseproxy) {
+?>
+
+    CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
+    ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
+<?php
+    }
+
     if ($statsapp === 'awstats') {
 ?>
 
