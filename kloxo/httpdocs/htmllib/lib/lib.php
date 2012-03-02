@@ -5668,7 +5668,7 @@ function setInitialPhpFpmConfig($nolog = null)
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
 	lxfile_cp(getLinkCustomfile("{$fpath}/php-fpm", "php-fpm.conf"), 
-			"/etc/phpfpm.conf");
+			"/etc/php-fpm.conf");
 
 	log_cleanup("- Create $fpmpath dir", $nolog);
 
