@@ -26,12 +26,13 @@
 if [ "$#" == 0 ] ; then
 	echo
 	echo " ----------------------------------------------------------------------"
-	echo "  format: sh $0 --fork=<> --branch=<>"
+	echo "  format: sh $0 --fork=<> --branch=<> --part=<>"
 	echo " ----------------------------------------------------------------------"
 	echo "  --fork - example: lxcenter or mustafaramadhan (for certain developer)"
 	echo "  --branch - example: master or dev"
+	echo "  --part - example: core or all (defaulting to all)"
 	echo
-	echo "  * Pack main kloxo package from svn"
+	echo "  * Pack main kloxo package from git"
 	echo "  * Thirdparty packages download directly for latest version"
 	echo "  * Then run kloxo-installer.sh which the same place with local copy"
 	echo
@@ -46,6 +47,9 @@ kloxo_fork=${request1#--fork\=}
 request2=$2
 kloxo_branch=${request2#--branch\=}
 
+request3=$3
+kloxo_part=${request3#--part\=}
+
 kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 
 mkdir -p ./combo
@@ -54,9 +58,9 @@ if [ ! -d ./current/kloxo/httpdocs ] ; then
 	echo "Download kloxo git from "${kloxo_path}
 	yes | rm -rf ${kloxo_branch}*
 	wget https://github.com/${kloxo_path} --no-check-certificate
-	mv -f $kloxo_branch kloxo.zip
+	mv -f ${kloxo_branch} kloxo.zip
 	unzip -oq kloxo.zip
-	mv -f ./$kloxo_fork* ./current
+	mv -f ./${kloxo_fork}* ./current
 	yes | rm -rf kloxo.zip
 else
 	echo "No download and use local copy"
@@ -110,34 +114,37 @@ zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./REL
 mv -f kloxo-current.zip ../../
 cd ../../
 
-thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
-if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
-	echo $thirdpartyver > kloxo-thirdparty-version
-	wget http://download.lxcenter.org/download/kloxo-thirdparty.$thirdpartyver.zip
-fi
+if [ ${kloxo_part} != 'core' ] ; then
 
-kloxophpver=$(curl -L http://download.lxcenter.org/download/version/kloxophp)
-if [ ! -f kloxophp$kloxophpver.tar.gz ] ; then
-	echo $kloxophpver > kloxophp-version
-	wget http://download.lxcenter.org/download/kloxophp$kloxophpver.tar.gz
-fi
+	thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
+	if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
+		echo ${thirdpartyver} > kloxo-thirdparty-version
+		wget http://download.lxcenter.org/download/kloxo-thirdparty.${thirdpartyver}.zip
+	fi
 
-kloxophpsixfourver=$(curl -L http://download.lxcenter.org/download/version/kloxophpsixfour)
-if [ ! -f kloxophpsixfour$kloxophpsixfourver.tar.gz ] ; then
-	echo $kloxophpsixfourver > kloxophpsixfour-version
-	wget http://download.lxcenter.org/download/kloxophpsixfour$kloxophpsixfourver.tar.gz
-fi
+	kloxophpver=$(curl -L http://download.lxcenter.org/download/version/kloxophp)
+	if [ ! -f kloxophp${kloxophpver}.tar.gz ] ; then
+		echo ${kloxophpver} > kloxophp-version
+		wget http://download.lxcenter.org/download/kloxophp${kloxophpver}.tar.gz
+	fi
 
-lxwebmailver=$(curl -L http://download.lxcenter.org/download/version/lxwebmail)
-if [ ! -f lxwebmail$lxwebmailver.tar.gz ] ; then
-	echo $lxwebmailver > lxwebmail-version
-	wget http://download.lxcenter.org/download/lxwebmail$lxwebmailver.tar.gz
-fi
+	kloxophpsixfourver=$(curl -L http://download.lxcenter.org/download/version/kloxophpsixfour)
+	if [ ! -f kloxophpsixfour${kloxophpsixfourver}.tar.gz ] ; then
+		echo ${kloxophpsixfourver} > kloxophpsixfour-version
+		wget http://download.lxcenter.org/download/kloxophpsixfour${kloxophpsixfourver}.tar.gz
+	fi
 
-lxawstatsver=$(curl -L http://download.lxcenter.org/download/version/lxawstats)
-if [ ! -f lxawstats$lxawstatsver.tar.gz ] ; then
-	echo $lxawstatsver > lxawstats-version
-	wget http://download.lxcenter.org/download/lxawstats$lxawstatsver.tar.gz
+	lxwebmailver=$(curl -L http://download.lxcenter.org/download/version/lxwebmail)
+	if [ ! -f lxwebmail${lxwebmailver}.tar.gz ] ; then
+		echo ${lxwebmailver} > lxwebmail-version
+		wget http://download.lxcenter.org/download/lxwebmail${lxwebmailver}.tar.gz
+	fi
+
+	lxawstatsver=$(curl -L http://download.lxcenter.org/download/version/lxawstats)
+	if [ ! -f lxawstats${lxawstatsver}.tar.gz ] ; then
+		echo ${lxawstatsver} > lxawstats-version
+		wget http://download.lxcenter.org/download/lxawstats${lxawstatsver}.tar.gz
+	fi
 fi
 
 cp ./combo/kloxo-install/kloxo-installer.sh ./
