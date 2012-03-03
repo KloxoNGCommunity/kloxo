@@ -1,5 +1,20 @@
 LoadModule fastcgi_module modules/mod_fastcgi.so
 
+# sample PHP config
+# see /usr/share/doc/mod_fastcgi-2.4.6 for php-wrapper script
+# don't forget to disable mod_php in /etc/httpd/conf.d/php.conf!
+#
+#FastCgiServer /var/www/cgi-bin/php-wrapper
+#AddHandler php-fastcgi .php
+#
+#<Location /cgi-bin/php-wrapper>
+#    SetHandler fastcgi-script
+#</Location>
+#
+#Action php-fastcgi /cgi-bin/php-wrapper
+#DirectoryIndex index.html index.shtml index.cgi index.php
+#AddType application/x-httpd-php .php
+
     <IfModule mod_fastcgi.c>
         Alias /php.fcgi /home/apache/conf/globals/php.fcgi
 

@@ -85,7 +85,6 @@ class serverweb__ extends lxDriverClass
 				lxshell_return("yum", "-y", "install", "mod_suphp");
 				lxshell_return("yum", "-y", "update", "mod_suphp");
 
-
 				exec("rpm -q php", $out, $ret);
 
 				$ver = str_replace("php-", "", $out[0]);
@@ -117,15 +116,25 @@ class serverweb__ extends lxDriverClass
 				lxfile_cp("{$kfapath}/suphp.conf", "{$hcdpath}/suphp.conf");
 
 			} elseif (stripos($t, 'php-fpm') !== false) {
-				lxshell_return("yum", "-y", "install", "mod_fastcgi", "php-fpm");
-				lxshell_return("yum", "-y", "update", "mod_fastcgi", "php-fpm");
+				exec("rpm -q httpd", $out, $ret);
+
+				$ver = str_replace("httpd-", "", $out[0]);
+
+				if (version_compare($ver, "2.4.1", "<")) {
+					lxshell_return("yum", "-y", "install", "mod_fastcgi", "php-fpm");
+					lxshell_return("yum", "-y", "update", "mod_fastcgi", "php-fpm");
+					lxfile_cp("{$kfapath}/fastcgi.conf", "{$hcdpath}/fastcgi.conf");
+					lxfile_rm("{$hcdpath}/fastcgi.nonconf");
+					lxfile_cp("{$kfapath}/php.fcgi", "{$hacpath}/globals/php.fcgi");
+				} else {
+					lxfile_cp("{$kfapath}/proxy_fcgi.conf", "{$hcdpath}/proxy_fcgi.conf");
+					lxfile_rm("{$hcdpath}/proxy_fcgi.nonconf");
+				}
 
 				lxfile_mv("{$hcdpath}/php.conf", "{$hcdpath}/php.nonconf");
-				lxfile_mv("{$hcdpath}/fastcgi.nonconf", "{$hcdpath}/fastgi.conf");
 			//	lxfile_mv("{$hcdpath}/fcgid.conf", "{$hcdpath}/fcgid.nonconf");
 				lxfile_mv("{$hcdpath}/ruid2.conf", "{$hcdpath}/ruid2.nonconf");
 				lxfile_mv("{$hcdpath}/suphp.conf", "{$hcdpath}/suphp.nonconf");
-				lxfile_mv("{$hcdpath}/proxy_fcgi.conf", "{$hcdpath}/proxy_fcgi.nonconf");
 
 				lxfile_cp("{$kfppath}/php-fpm.conf", "/etc/php-fpm.conf");
 			}
