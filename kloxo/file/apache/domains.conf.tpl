@@ -131,6 +131,9 @@ $fpmport = (50000 + $userinfo['uid']);
     <IfModule itk.c>
         AssignUserId <?php echo $user; ?> <?php echo $user; ?>
 
+        <Location /awstats/>
+            AssignUserId lxlabs lxlabs
+        </Location>
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
