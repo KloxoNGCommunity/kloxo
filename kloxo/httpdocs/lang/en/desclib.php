@@ -1270,6 +1270,11 @@ $__description["path"] = array("Path");
 
 // release on Kloxo 6.1.7
 // by mustafa.ramadhan@lxcenter.org
+
+// MR -- in 'webserver config'
 $__description["apache_optimize"] = array("Apache memory optimize");
 $__description["mysql_convert"] = array("Mysql convert");
 $__description["fix_chownchmod"] = array("Fix 'ownership' and 'permissions'");
+
+// MR -- in 'switch program'
+$__description["no_fix_config"] = array("No fix config");

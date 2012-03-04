@@ -161,6 +161,8 @@ class pservercore extends Lxclient
 	static $__acdesc_update_timezone = array("", "", "timezone");
 	static $__acdesc_update_phpmyadmin = array("", "", "phpmyadmin");
 
+	static $__desc_no_fix_config = array("f", "", "no_fix_config");
+
 	function syncToSystem()
 	{
 		// Special for pserver... Since the whole idea of remote syncing is handled here, it makes sense to have the special case of pserver when it is added here itself.
@@ -1176,14 +1178,14 @@ STRIN;
 				$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'web');
 				$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'dns');
 				$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
-				$vlist['web_driver'] = array('s', array('apache', 'lighttpd', 'nginx', 'lighttpdproxy', 'nginxproxy'));
 
+				$vlist['web_driver'] = array('s', array('apache', 'lighttpd', 'nginx', 'lighttpdproxy', 'nginxproxy'));
 				$vlist['dns_driver'] = array('s', array('bind', 'djbdns'));
 				$vlist['spam_driver'] = array('s', array('spamassassin', 'bogofilter'));
 
-				// MR -- TODO!!!
+				$vlist['no_fix_config'] = array('f', 'on', 'off');
 
-			//	$vlist['no_fix_config'] = array('f', '', 'No fix config');
+				$this->setDefaultValue('no_fix_config', 'off');
 
 				return $vlist;
 

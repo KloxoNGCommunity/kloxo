@@ -33,6 +33,8 @@ function updateSwitchProgram($param)
 
 	if_demo_throw_exception('switchprog');
 
+	// MR -- change and add nofixconfig
+/*
 	$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'web');
 	$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'dns');
 	$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
@@ -40,6 +42,14 @@ function updateSwitchProgram($param)
 	$a['web'] = $this->web_driver;
 	$a['dns'] = $this->dns_driver;
 	$a['spam'] = $this->spam_driver;
+*/
+	$a['web'] = $param['web_driver'];
+	$a['dns'] = $param['dns_driver'];
+	$a['spam'] = $param['spam_driver'];
+
+	$nofixconfig = $param['no_fix_config'];
+
+	if ($nofixconfig === 'on') { return null; }
 
 	foreach($param as $k => $v) {
 		if ($this->$k === $v) {
