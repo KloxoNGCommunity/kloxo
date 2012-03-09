@@ -2317,6 +2317,7 @@ CREATE TABLE IF NOT EXISTS `web` (
   `ser_webindexdir_a` longtext,
   `webmail_url` varchar(255) default NULL,
   `text_lighty_rewrite` longtext,
+  `text_nginx_rewrite` longtext,
   `ftpusername` varchar(255) default NULL,
   `hotlink_flag` varchar(255) default NULL,
   `text_hotlink_allowed` longtext,
