@@ -5732,10 +5732,7 @@ function setKloxoHttpdChownChmod($nolog = null)
 	$hkhown = 'lxlabs:lxlabs';
 
 	lxfile_unix_chown_rec("{$hkhpath}/", "{$hkhown}");
-	log_cleanup("- chown {$hkhown} FOR INSIDE {$hkhpath}/", $nolog);
-
-//	lxfile_unix_chown("{$hkhpath}/", "{$hkhown}:{$hkhown}");
-//	log_cleanup("- chown {$hkhown} FOR {$hkhpath}/", $nolog);
+	log_cleanup("- chown {$hkhown} FOR {$hkhpath}/ AND INSIDE", $nolog);
 
 	exec("find {$hkhpath}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 	log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$hkhpath}/", $nolog);
@@ -5745,6 +5742,63 @@ function setKloxoHttpdChownChmod($nolog = null)
 
 	lxfile_unix_chmod("{$hkhpath}/", $httpddirchmod);
 	log_cleanup("- chmod {$httpddirchmod} FOR {$hkhpath}/", $nolog);
+}
+
+function setClientChownChmod($list, $select = null, $nolog = null)
+{
+	$select = (isset($select)) ? $select : 'all';
+
+	foreach ($list as $client => $domains) {
+		$userdirchmod = '751'; // need to change to 751 for nginx-proxy
+		$phpfilechmod = '644';
+		$domdirchmod = '755';
+
+		$cdir = "/home/{$client}";
+		$ks = "kloxoscript";
+
+		exec("chown {$client}:apache {$cdir}/");
+		log_cleanup("- chown {$client}:apache FOR {$cdir}/", $nolog);
+
+		exec("chmod {$userdirchmod} {$cdir}/");
+		log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
+
+		exec("chown -R {$client}:{$client} {$cdir}/{$ks}/");
+		log_cleanup("- chown {$client}:{$client} FOR INSIDE {$cdir}/{$ks}/", $nolog);
+
+		exec("chown {$client}:apache {$cdir}/{$ks}/");
+		log_cleanup("- chown {$client}:apache FOR {$cdir}/{$ks}/", $nolog);
+
+		exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" " .
+				"-exec chmod {$phpfilechmod} \{\} \\;");
+		log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
+
+		exec("find {$cdir}/{$ks}/ -type d " .
+				"-exec chmod {$domdirchmod} \{\} \\;");
+		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
+
+		foreach($domains as $dom) {
+			if (($select === "all") || ($select === 'chown')) {
+				exec("chown -R {$client}:{$client} {$cdir}/{$dom}/");
+				log_cleanup("- chown {$client}:{$client} FOR INSIDE {$cdir}/{$dom}/", $nolog);
+			}
+
+			if (($select === "all") || ($select === 'chmod')) {
+				exec("find {$cdir}/{$dom}/ -type f -name \"*.php*\" " .
+						"-exec chmod {$phpfilechmod} \{\} \\;");
+				log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$dom}/", $nolog);
+
+				exec("find {$cdir}/{$dom}/ -type d " .
+						"-exec chmod {$domdirchmod} \{\} \\;");
+				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$dom}/ AND INSIDE", $nolog);
+			}
+
+			exec("chown {$client}:apache {$cdir}/{$dom}/");
+			log_cleanup("- chown {$client}:apache FOR {$cdir}/{$dom}/", $nolog);
+
+			exec("chmod -R {$domdirchmod} {$cdir}/{$dom}/cgi-bin");
+			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$dom}/cgi-bin AND FILES", $nolog);
+		}
+	}
 }
 
 function setInitialPureftpConfig($nolog = null)
@@ -5969,6 +6023,9 @@ function setInstallMailserver($nolog = null)
 
 	log_cleanup("- Install qmail SMTP Greeting ($name - Welcome to Qmail)", $nolog);
 	lfile_put_contents("/var/qmail/control/smtpgreeting", "$name - Welcome to Qmail");
+	
+/*
+	// MR -- no needed because file inside /usr/local/bin no exist but inside /usr/bin
 
 	//	if (!lxfile_exists("/usr/bin/rblsmtpd")) {
 	log_cleanup("- Initialize rblsmtpd binary", $nolog);
@@ -5979,6 +6036,7 @@ function setInstallMailserver($nolog = null)
 	log_cleanup("- Initialize tcpserver binary", $nolog);
 	lxshell_return("ln", "-s", "/usr/local/bin/tcpserver", "/usr/bin/");
 	//	}
+*/
 }
 
 function setInitialServer($nolog = null)

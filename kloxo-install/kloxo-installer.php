@@ -51,8 +51,8 @@ function lxins_main()
 			exit;
 		} else {
 			// MR -- just for emergency
-			system("yes | cp -rf /usr/local/lxlabs /usr/local/lxlabs.bck");
-			system("yes | cp -rf /var/lib/mysql/kloxo /var/lib/mysql/kloxo.bck");
+			system("yes|cp -rf /usr/local/lxlabs /usr/local/lxlabs.bck");
+			system("yes|cp -rf /var/lib/mysql/kloxo /var/lib/mysql/kloxo.bck");
 		}
 	} else {
 		//--- Ask License

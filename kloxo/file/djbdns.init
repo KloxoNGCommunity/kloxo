@@ -12,6 +12,7 @@
 
 
 # Path to the Qmailctl script, server binary, and short-form for messages.
+# Qmailtcp=/usr/local/bin/tcpserver
 Qmailtcp=/usr/bin/tcpserver
 Qmailproc=/var/qmail/boot/proc
 prog=Djbdns

@@ -79,6 +79,9 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 		if ($maxpar_p < 4) {
 			$maxpar_p = 4;
 			$minpar_p = 2;
+		}
+		
+		if ($maxpar_w < 4) {
 			$maxpar_w = 4;
 			$minpar_w = 2;
 		}
