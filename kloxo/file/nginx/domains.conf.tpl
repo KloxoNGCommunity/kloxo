@@ -70,7 +70,6 @@ server {
 <?php
     }
 ?>
-
     server_name <?php echo $serveralias; ?>;
 
     set $domain '<?php echo $domainname; ?>';
@@ -78,7 +77,7 @@ server {
     if ($wwwredirect) {
 ?>
 
-    rewrite ^/(.*) http://www.example.com/$1 permanent;
+    rewrite ^/(.*) 'http://www.<?php echo $domainname; ?>/$1' permanent;
 <?php
     }
 
@@ -105,7 +104,7 @@ server {
                 } else {
                     if($webmailremote) {
 ?>
-        rewrite ^/(.*) <?php echo $webmailremote; ?>/$1 permanent;
+        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
 <?php
                     } else {
 ?>
@@ -306,7 +305,7 @@ server {
 ?>
     server_name webmail.<?php echo $domainname; ?>;
 
-    rewrite ^/(.*) <?php echo $webmailremote; ?>/$1 permanent;
+    rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
 }
 <?php
         } elseif ($webmailapp) {
@@ -400,7 +399,7 @@ server {
 ?>
     server_name '<?php echo $redirdomainname; ?>';
 
-    rewrite ^/(.*) 'http://<?php echo $domainname; ?>/';
+    rewrite ^/(.*) 'http://<?php echo $domainname; ?>/$1';
 }
 
 <?php
@@ -468,7 +467,7 @@ server {
 ?>
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
-    rewrite ^/(.*) '<?php echo $webmailremote; ?>';
+    rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
 }
 
 <?php
@@ -588,7 +587,7 @@ server {
 ?>
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
-    rewrite ^/(.*) '<?php echo $webmailremote; ?>';
+    rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
 }
 
 <?php

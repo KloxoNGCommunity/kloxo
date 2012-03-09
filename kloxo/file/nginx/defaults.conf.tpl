@@ -67,6 +67,7 @@ server {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
     listen <?php echo $ip ?>:<?php echo $portssl ?>;
+
 <?php 
     }
 ?>
