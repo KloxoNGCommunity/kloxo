@@ -6,91 +6,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eef652db-238d-4c7b-9707-07b032a44e9d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo-install\install_common.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo-install\kloxo-install-master.sh" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo-install\kloxo-install-slave.sh" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo-install\kloxo-linux\installall.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo-install\kloxo-linux\lxins.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo-install\reset-mysql-root-password.phps" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\apache\default_ssl.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\apache\etc_init.d" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\apache\kloxo.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\conf\kloxo\init.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\conf\kloxo\kloxo.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\conf\kloxo\ssl.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\conf\kloxo\virtualhost.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\conf\kloxo\webmail.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\conf\kloxo\webmail_select.conf" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\etc_init.d" afterPath="" />
-      <change type="DELETED" beforePath="D:\_nightly_update_\_webcp_\mustafaramadhan\kloxo\kloxo\file\lighttpd\tmp.lighttpd.conf" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/misc/fixftpuserclient.phps" afterPath="$PROJECT_DIR$/kloxo/bin/misc/fixftpuserclient.phps" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/djbdns.init" afterPath="$PROJECT_DIR$/kloxo/file/djbdns.init" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/prettyurl/drupal" afterPath="$PROJECT_DIR$/kloxo/file/prettyurl/drupal" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/prettyurl/wordpress" afterPath="$PROJECT_DIR$/kloxo/file/prettyurl/wordpress" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/mmail/driver/mmail__qmaillib.phps" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/mmail/driver/mmail__qmaillib.phps" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo-install/kloxo-installer.php" afterPath="$PROJECT_DIR$/kloxo-install/kloxo-installer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo-install/kloxo-installer.sh" afterPath="$PROJECT_DIR$/kloxo-install/kloxo-installer.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo-install/kloxo-linux/openssl.php" afterPath="$PROJECT_DIR$/kloxo-install/kloxo-linux/openssl.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo-install/kloxo-packer.sh" afterPath="$PROJECT_DIR$/kloxo-install/kloxo-packer.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/common/cleanup.php" afterPath="$PROJECT_DIR$/kloxo/bin/common/cleanup.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/common/tmpupdatecleanup.php" afterPath="$PROJECT_DIR$/kloxo/bin/common/tmpupdatecleanup.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/qmail.init" afterPath="$PROJECT_DIR$/kloxo/file/qmail.init" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/apache-optimize.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/apache-optimize.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fix-chownchmod.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fix-chownchmod.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fix-userlogo.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fix-userlogo.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fixdirprotect.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fixdirprotect.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fixdns.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fixdns.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fixmail.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fixmail.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fixmmail.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fixmmail.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fixphpini.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fixphpini.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fixsimpldocroot.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fixsimpldocroot.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/fix/fixweb.php" afterPath="$PROJECT_DIR$/kloxo/bin/fix/fixweb.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/bin/misc/fixwebdnsfullupdate.php" afterPath="$PROJECT_DIR$/kloxo/bin/misc/fixwebdnsfullupdate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/apache/~lxcenter.conf" afterPath="$PROJECT_DIR$/kloxo/file/apache/~lxcenter.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/default_index.php" afterPath="$PROJECT_DIR$/kloxo/file/default_index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/driver/linux.inc" afterPath="$PROJECT_DIR$/kloxo/file/driver/linux.inc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/etc_suphp.conf" afterPath="$PROJECT_DIR$/kloxo/file/etc_suphp.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/lighttpd.conf" afterPath="$PROJECT_DIR$/kloxo/file/lighttpd.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/lighttpd/lighttpd.conf" afterPath="$PROJECT_DIR$/kloxo/file/lighttpd/lighttpd.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/lighttpd/mimetype.conf" afterPath="$PROJECT_DIR$/kloxo/file/lighttpd/mimetype.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/lighttpd/~lxcenter.conf" afterPath="$PROJECT_DIR$/kloxo/file/lighttpd/~lxcenter.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/login_inc.php" afterPath="$PROJECT_DIR$/kloxo/file/login_inc.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/file/phpsuexec.sh" afterPath="$PROJECT_DIR$/kloxo/file/phpsuexec.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/client/clientbaselib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/client/clientbaselib.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/development-create-binaries.sh" afterPath="$PROJECT_DIR$/kloxo/development-create-binaries.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/lib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/lib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/linuxlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/linuxlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/objectactionlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/objectactionlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/domainipaddresslib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/domainipaddresslib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/component__rpmlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/component__rpmlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/ipaddress__redhatlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/ipaddress__redhatlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/pserver__linuxlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/pserver__linuxlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/service__linuxlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/driver/service__linuxlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/ipaddresslib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/ipaddresslib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/phpinilib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/phpinilib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/pservercorelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/pservercorelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/watchdoglib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/pserver/watchdoglib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/remotelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/lib/remotelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/phplib/lib/client/appearancelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/phplib/lib/client/appearancelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/phplib/lib/generallib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/phplib/lib/generallib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/phplib/lib/lxclass.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/htmllib/phplib/lib/lxclass.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lang/en/messagelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lang/en/messagelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/addondomainlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/addondomainlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/domaincorelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/domaincorelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/domainlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/domainlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/mmail/mmaillib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/mmail/mmaillib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/dirprotect__apachelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/dirprotect__apachelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/dirprotect__lighttpdlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/dirprotect__lighttpdlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/web__apachelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/web__apachelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/web__lighttpdlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/driver/web__lighttpdlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/weblib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/domain/web/weblib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/driver_define.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/driver_define.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/pserver/pserverlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/pserver/pserverlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/resourcecorelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/resourcecorelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/serverweb__apachelib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/serverweb__apachelib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/serverweb__lighttpdlib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/serverweb__lighttpdlib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/serverweblib.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/serverweblib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kloxo/httpdocs/lib/sgbl.php" afterPath="$PROJECT_DIR$/kloxo/httpdocs/lib/sgbl.php" />
     </list>
     <ignored path="kloxo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -112,19 +33,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="kloxo-installer.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/kloxo-install/kloxo-installer.php">
+      <file leaf-file-name="development-create-binaries.sh" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/kloxo/development-create-binaries.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="30" selection-start="2359" selection-end="2359" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="openssl.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/kloxo-install/kloxo-linux/openssl.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="21" column="4" selection-start="425" selection-end="425" vertical-scroll-proportion="0.51">
               <folding />
             </state>
           </provider>
@@ -147,6 +59,8 @@
         <option value="$PROJECT_DIR$/kloxo-install/install_common.php" />
         <option value="$PROJECT_DIR$/kloxo-install/kloxo-installer.sh" />
         <option value="$PROJECT_DIR$/kloxo-install/kloxo-installer.php" />
+        <option value="$PROJECT_DIR$/testing.php" />
+        <option value="$PROJECT_DIR$/kloxo/development-create-binaries.sh" />
       </list>
     </option>
   </component>
@@ -211,16 +125,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -239,50 +143,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo-install" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo-install" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo-linux" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kloxo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -293,11 +161,11 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="Errors" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/testing.php">
       <method>
         <option name="PhingTarget" enabled="false" />
       </method>
@@ -356,8 +224,9 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27893603" sideWeight="0.60055095" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29331416" sideWeight="0.60055095" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -366,7 +235,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39944905" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -485,14 +353,19 @@
         <state line="141" column="39" selection-start="4058" selection-end="4058" vertical-scroll-proportion="0.024285715" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kloxo-install/kloxo-installer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="30" selection-start="2359" selection-end="2359" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kloxo-install/kloxo-linux/openssl.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kloxo-install/kloxo-installer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="30" selection-start="2368" selection-end="2368" vertical-scroll-proportion="0.024745269" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kloxo/development-create-binaries.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="4" selection-start="425" selection-end="425" vertical-scroll-proportion="0.51">
           <folding />
         </state>
       </provider>

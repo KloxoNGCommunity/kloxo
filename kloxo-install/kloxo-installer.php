@@ -49,6 +49,10 @@ function lxins_main()
 		if (get_yes_no("Kloxo seems already installed do you wish to continue?") == 'n') {
 			print("Installation Aborted.\n");
 			exit;
+		} else {
+			// MR -- just for emergency
+			system("yes | cp -rf /usr/local/lxlabs /usr/local/lxlabs.bck");
+			system("yes | cp -rf /var/lib/mysql/kloxo /var/lib/mysql/kloxo.bck");
 		}
 	} else {
 		//--- Ask License

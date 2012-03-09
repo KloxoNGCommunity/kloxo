@@ -3129,9 +3129,32 @@ function change_db_pass()
 function create_database()
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
+/*
 	$flist = parse_sql_data();
 	foreach ($flist as $k => $v) {
 		create_table_with_drop($k, $v);
+	}
+*/
+	// MR -- create kloxo database like horde or roundcube model
+	// no override when database exist --> possible reinstall kloxo without lossing kloxo setting
+
+	$pass = slave_get_db_pass();
+
+	$pstring = null;
+
+	if ($pass) {
+		$pstring = "-p\"$pass\"";
+	}
+
+	$dbpath = '/usr/local/lxlabs/kloxo/httpdocs/sql';
+
+	system("mysql -f -u root $pstring < {$dbpath}/db-structure-base.sql >/dev/null 2>&1");
+
+	// MR -- running update sql file exist
+
+	if (file_exists('/usr/local/lxlabs/kloxo/httpdocs/sql/db-structure-update.sql')) {
+		system("mysql -f -u root $pstring < {$dbpath}/db-structure-update.sql >/dev/null 2>&1");
 	}
 }
 
