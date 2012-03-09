@@ -1019,7 +1019,7 @@ class web__ extends lxDriverClass
 					break;
 
 				case "graph_webtraffic":
-					$ret = rrd_graph_single("webtraffic (bytes)", $this->main->nname,
+					return rrd_graph_single("webtraffic (bytes)", $this->main->nname,
 							$this->main->rrdtime);
 					break;
 
@@ -1066,8 +1066,6 @@ class web__ extends lxDriverClass
 					$this->setFixChownChmodMod_nolog();
 					break;
 			}
-
-			return $ret;
 		}
 	}
 

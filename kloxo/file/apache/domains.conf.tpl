@@ -319,7 +319,7 @@ $fpmport = (50000 + $userinfo['uid']);
     ServerName webmail.<?php echo $domainname; ?>
 
 
-    Redirect / "<?php echo $webmailremote; ?>"
+    Redirect / "http://<?php echo $webmailremote; ?>"
 
 </VirtualHost>
 
@@ -432,7 +432,7 @@ $fpmport = (50000 + $userinfo['uid']);
     ServerName webmail.<?php echo $parkdomainname; ?>
 
 
-    Redirect / "<?php echo $webmailremote; ?>"
+    Redirect / "http://<?php echo $webmailremote; ?>"
 
 </VirtualHost>
 
@@ -513,7 +513,7 @@ $fpmport = (50000 + $userinfo['uid']);
     ServerName webmail.<?php echo $redirdomainname; ?>
 
 
-    Redirect / "<?php echo $webmailremote; ?>"
+    Redirect / "http://<?php echo $webmailremote; ?>"
 
 </VirtualHost>
 
