@@ -114,7 +114,7 @@ zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./REL
 mv -f kloxo-current.zip ../../
 cd ../../
 
-if [ ${kloxo_part} != 'core' ] ; then
+# if [ ${kloxo_part} != 'core' ] ; then
 
 	thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
 	if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
@@ -145,7 +145,7 @@ if [ ${kloxo_part} != 'core' ] ; then
 		echo ${lxawstatsver} > lxawstats-version
 		wget http://download.lxcenter.org/download/lxawstats${lxawstatsver}.tar.gz
 	fi
-fi
+# fi
 
 cp ./combo/kloxo-install/kloxo-installer.sh ./
 
