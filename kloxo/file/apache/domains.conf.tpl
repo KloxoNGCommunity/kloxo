@@ -138,12 +138,9 @@ $fpmport = (50000 + $userinfo['uid']);
 
     <IfModule mod_fastcgi.c>
         Alias /.fake <?php echo $rootpath; ?>/.fake
-
-        FastCGIExternalServer <?php echo $rootpath; ?>/.fake -flush -host 127.0.0.1:<?php echo $fpmport; ?>
-
+        FastCGIExternalServer <?php echo $rootpath; ?>/.fake -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
-
         Action application/x-httpd-fastphp /.fake
     </IfModule>
 
@@ -317,12 +314,8 @@ $fpmport = (50000 + $userinfo['uid']);
 
     <IfModule mod_fastcgi.c>
         Alias /.fake /home/kloxo/httpd/disable/.fake
-
-        FastCGIExternalServer /home/kloxo/httpd/disable/.fake -flush -host 127.0.0.1:<?php echo $fpmport; ?>
-
-
+        FastCGIExternalServer /home/kloxo/httpd/disable/.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
-
         Action application/x-httpd-fastphp /.fake
     </IfModule>
 
@@ -365,12 +358,8 @@ $fpmport = (50000 + $userinfo['uid']);
 
     <IfModule mod_fastcgi.c>
         Alias /.fake <?php echo $webmaildocroot; ?>/.fake
-
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/.fake -flush -host 127.0.0.1:<?php echo $fpmport; ?>
-
-
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
-
         Action application/x-httpd-fastphp /.fake
     </IfModule>
 
@@ -380,7 +369,7 @@ $fpmport = (50000 + $userinfo['uid']);
         } else {
 ?>
 
-## webmail for '<?php echo $domainname; ?>' handled by ../webmails/webmail.conf
+## webmail for '<?php echo $domainname; ?>' handled by ../defaults/webmail.conf
 
 <?php
         }
@@ -393,6 +382,7 @@ $fpmport = (50000 + $userinfo['uid']);
             $webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
 
             if ($redirpath) {
+                $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
@@ -403,7 +393,47 @@ $fpmport = (50000 + $userinfo['uid']);
     ServerName <?php echo $redirdomainname; ?>
 
 
-    Alias / "<?php echo str_replace('//', '/', $rootpath . '/' . $redirpath); ?>/"
+    DocumentRoot "<?php echo $redirfullpath; ?>/"
+
+    <IfModule suexec.c>
+        SuexecUserGroup <?php echo $user; ?> <?php echo $user; ?>
+
+    </IfModule>
+
+    <IfModule mod_suphp.c>
+        SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+
+        suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
+    </IfModule>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid <?php echo $user; ?> <?php echo $user; ?>
+
+        RMinUidGid <?php echo $user; ?> <?php echo $user; ?>
+
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId <?php echo $user; ?> <?php echo $user; ?>
+
+        <Location /awstats/>
+            AssignUserId lxlabs lxlabs
+        </Location>
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /.fake <?php echo $redirfullpath; ?>/.fake
+        FastCGIExternalServer <?php echo $redirfullpath; ?>/.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /.fake
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+    </IfModule>
 
 </VirtualHost>
 
@@ -452,12 +482,8 @@ $fpmport = (50000 + $userinfo['uid']);
 
     <IfModule mod_fastcgi.c>
         Alias /.fake /home/kloxo/httpd/disable/.fake
-
-        FastCGIExternalServer /home/kloxo/httpd/disable/.fake -flush -host 127.0.0.1:<?php echo $fpmport; ?>
-
-
+        FastCGIExternalServer /home/kloxo/httpd/disable/.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
-
         Action application/x-httpd-fastphp /.fake
     </IfModule>
 
@@ -501,12 +527,8 @@ $fpmport = (50000 + $userinfo['uid']);
 
     <IfModule mod_fastcgi.c>
         Alias /.fake <?php echo $webmaildocroot; ?>/.fake
-
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/.fake -flush -host 127.0.0.1:<?php echo $fpmport; ?>
-
-
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
-
         Action application/x-httpd-fastphp /.fake
     </IfModule>
 
@@ -516,7 +538,7 @@ $fpmport = (50000 + $userinfo['uid']);
                     } else {
 ?>
 
-## webmail for parked '<?php echo $parkdomainname; ?>' handled by ../webmails/webmail.conf
+## webmail for parked '<?php echo $parkdomainname; ?>' handled by ../defaults/webmail.conf
 
 <?php
                     }
@@ -555,12 +577,8 @@ $fpmport = (50000 + $userinfo['uid']);
 
     <IfModule mod_fastcgi.c>
         Alias /.fake /home/kloxo/httpd/disable/.fake
-
-        FastCGIExternalServer /home/kloxo/httpd/disable/.fake -flush -host 127.0.0.1:<?php echo $fpmport; ?>
-
-
+        FastCGIExternalServer /home/kloxo/httpd/disable/.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
-
         Action application/x-httpd-fastphp /.fake
     </IfModule>
 
@@ -604,12 +622,8 @@ $fpmport = (50000 + $userinfo['uid']);
 
     <IfModule mod_fastcgi.c>
         Alias /.fake <?php echo $webmaildocroot; ?>/.fake
-
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/.fake -flush -host 127.0.0.1:<?php echo $fpmport; ?>
-
-
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
-
         Action application/x-httpd-fastphp /.fake
     </IfModule>
 
@@ -619,7 +633,7 @@ $fpmport = (50000 + $userinfo['uid']);
                     } else {
 ?>
 
-## webmail for redirect '<?php echo $redirdomainname; ?>' handled by ../webmails/webmail.conf
+## webmail for redirect '<?php echo $redirdomainname; ?>' handled by ../defaults/webmail.conf
 
 <?php
                     }
