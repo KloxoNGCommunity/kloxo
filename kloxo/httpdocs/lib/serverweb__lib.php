@@ -136,7 +136,9 @@ class serverweb__ extends lxDriverClass
 				lxfile_mv("{$hcdpath}/ruid2.conf", "{$hcdpath}/ruid2.nonconf");
 				lxfile_mv("{$hcdpath}/suphp.conf", "{$hcdpath}/suphp.nonconf");
 
-				lxfile_cp("{$kfppath}/php-fpm.conf", "/etc/php-fpm.conf");
+				if (!file_exists('/etc/php-fpm.conf')) {
+					lxfile_cp("{$kfppath}/php-fpm.conf", "/etc/php-fpm.conf");
+				}
 			}
 
 			lxfile_rm("{$hcdpath}/fcgid.nonconf");

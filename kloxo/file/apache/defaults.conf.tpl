@@ -19,12 +19,12 @@ $ipports .= "    127.0.0.1:{$port}";
 
 if ($setdefaults === 'webmail') {
     if ($webmailappdefault) {
-        $docroot = "/home/kloxo/httpd/webmail/{$webmailappdefault}/";
+        $docroot = "/home/kloxo/httpd/webmail/{$webmailappdefault}";
     } else {
-        $docroot = "/home/kloxo/httpd/webmail/";
+        $docroot = "/home/kloxo/httpd/webmail";
     }
 } else {
-    $docroot = "/home/kloxo/httpd/{$setdefaults}/";
+    $docroot = "/home/kloxo/httpd/{$setdefaults}";
 }
 
 // MR -- don't use $_SERVER[] or apache_get_version because not work
@@ -95,7 +95,7 @@ NameVirtualHost 127.0.0.1:<?php echo $port ?>
     ServerName <?php echo $setdefaults; ?> 
     ServerAlias <?php echo $setdefaults; ?>.*
 
-    DocumentRoot "<?php echo $docroot; ?>"
+    DocumentRoot "<?php echo $docroot; ?>/"
 <?php
         if ($setdefaults === 'default') {
 ?> 
@@ -108,6 +108,16 @@ NameVirtualHost 127.0.0.1:<?php echo $port ?>
 ?> 
     <IfModule mod_suphp.c>
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /.fake <?php echo $docroot; ?>/.fake
+
+        FastCGIExternalServer <?php echo $docroot; ?>/.fake -flush -host 127.0.0.1:50000
+
+        AddType application/x-httpd-fastphp .php
+
+        Action application/x-httpd-fastphp /.fake
     </IfModule>
 
 </VirtualHost>
