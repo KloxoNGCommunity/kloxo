@@ -34,6 +34,10 @@ $webver = str_replace('httpd-', '', $out[0]);
 
 $isVer24 = (version_compare($webver, '2.4.0', '>=')) ? true : false;
 
+if ($indexorder) {
+    $indexorder = implode(' ', $indexorder);
+}
+
 ?>
 
 <?php
@@ -96,6 +100,9 @@ NameVirtualHost 127.0.0.1:<?php echo $port ?>
     ServerAlias <?php echo $setdefaults; ?>.*
 
     DocumentRoot "<?php echo $docroot; ?>/"
+
+    DirectoryIndex <?php echo $indexorder; ?>
+
 <?php
         if ($setdefaults === 'default') {
 ?> 

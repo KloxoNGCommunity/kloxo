@@ -14,6 +14,14 @@ if ($setdefaults === 'webmail') {
     $rootpath = "/home/kloxo/httpd/{$setdefaults}";
 }
 
+if ($blockips) {
+    $blockips = str_replace(' ', ', ', $blockips);
+}
+
+if ($indexorder) {
+    $indexorder = implode(' ', $indexorder);
+}
+
 ?>
 
 <?php 
@@ -76,6 +84,8 @@ server {
 ?> 
     server_name _;
 
+    index <?php echo $indexorder; ?>;
+
     location ~ ^/~(.+)/(.*)$ {
         alias /home/$1/public_html/$2;
     }
@@ -83,6 +93,8 @@ server {
     } else {
 ?>
     server_name <?php echo $setdefaults; ?>.*;
+
+    index <?php echo $indexorder; ?>;
 
     set $rootdir '<?php echo $rootpath; ?>';
 

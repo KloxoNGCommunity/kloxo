@@ -3,16 +3,24 @@
 
 if ($setdefaults === 'webmail') {
     if ($webmailappdefault) {
-        $docroot = "/home/kloxo/httpd/webmail/{$webmailappdefault}/";
+        $docroot = "/home/kloxo/httpd/webmail/{$webmailappdefault}";
     } else {
-        $docroot = "/home/kloxo/httpd/webmail/";
+        $docroot = "/home/kloxo/httpd/webmail";
     }
 } else {
-    $docroot = "/home/kloxo/httpd/{$setdefaults}/";
+    $docroot = "/home/kloxo/httpd/{$setdefaults}";
 }
 
 $port = '80';
 $portssl = '443';
+
+if ($indexorder) {
+    $indexorder = implode(' ', $indexorder);
+}
+
+$indexorder = '"' . $indexorder . '"';
+$indexorder = str_replace(' ', '", "', $indexorder);
+
 ?>
 
 <?php
@@ -43,6 +51,8 @@ $HTTP["host"] =~ "^<?php echo $setdefaults; ?>\.*" {
     var.rootdir = "/home/kloxo/httpd/<?php echo $setdefaults; ?>/"
 
     server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
     if ($reverseproxy) {
 ?>

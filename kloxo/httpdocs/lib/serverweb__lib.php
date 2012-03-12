@@ -135,10 +135,13 @@ class serverweb__ extends lxDriverClass
 			//	lxfile_mv("{$hcdpath}/fcgid.conf", "{$hcdpath}/fcgid.nonconf");
 				lxfile_mv("{$hcdpath}/ruid2.conf", "{$hcdpath}/ruid2.nonconf");
 				lxfile_mv("{$hcdpath}/suphp.conf", "{$hcdpath}/suphp.nonconf");
-
+			/*
 				if (!file_exists('/etc/php-fpm.conf')) {
 					lxfile_cp("{$kfppath}/php-fpm.conf", "/etc/php-fpm.conf");
 				}
+			*/
+				lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixphpfpm.php", "--nolog");
+				
 			}
 
 			lxfile_rm("{$hcdpath}/fcgid.nonconf");

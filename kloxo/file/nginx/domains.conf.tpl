@@ -57,6 +57,10 @@ if ($blockips) {
 $userinfo = posix_getpwnam($user);
 $fpmport = (50000 + $userinfo['uid']);
 
+$disablepath = "/home/kloxo/httpd/disable";
+
+$globalspath = "/home/nginx/conf/globals";
+
 ?>
 
 ## web for '<?php echo $domainname; ?>'
@@ -72,6 +76,8 @@ server {
 ?>
     server_name <?php echo $serveralias; ?>;
 
+    index <?php echo $indexorder; ?>;
+
     set $domain '<?php echo $domainname; ?>';
 <?php
     if ($wwwredirect) {
@@ -84,7 +90,7 @@ server {
     if ($disabled) {
 ?>
 
-    set $rootdir '/home/kloxo/httpd/disable';
+    set $rootdir '<?php echo $disablepath; ?>';
 <?php
     } else {
         if ($wildcards) {
@@ -127,11 +133,9 @@ server {
 
     root $rootdir;
 
-    index <?php echo $indexorder; ?>;
-
     set $user '<?php echo $user; ?>';
 
-    include '/home/nginx/conf/globals/generic.conf';
+    include '<?php echo $globalspath; ?>/generic.conf';
 <?php
     if (!$reverseproxy) {
 ?>
@@ -144,7 +148,7 @@ server {
 
     set $statstype 'awstats';
 
-    include '/home/nginx/conf/globals/awstats.conf';
+    include '<?php echo $globalspath; ?>/awstats.conf';
 <?php
             if ($statsprotect) {
 ?>
@@ -153,7 +157,7 @@ server {
     set $protectauthname 'Awstats';
     set $protectfile     '__stats';
 
-    include '/home/nginx/conf/globals/dirprotect.conf';
+    include '<?php echo $globalspath; ?>/dirprotect.conf';
 <?php
             }
         } elseif ($statsapp === 'webalizer') {
@@ -161,7 +165,7 @@ server {
 
     set $statstype 'stats';
 
-    include '/home/nginx/conf/globals/webalizer.conf';
+    include '<?php echo $globalspath; ?>/webalizer.conf';
 <?php
             if ($statsprotect) {
 ?>
@@ -170,7 +174,7 @@ server {
     set $protectauthname 'stats';
     set $protectfile     '__stats';
 
-    include '/home/nginx/conf/globals/dirprotect.conf';
+    include '<?php echo $globalspath; ?>/dirprotect.conf';
 <?php
             }
         }
@@ -190,7 +194,7 @@ server {
         if ($reverseproxy) {
 ?>
 
-    include '/home/nginx/conf/globals/proxy.conf';
+    include '<?php echo $globalspath; ?>/proxy.conf';
 <?php
         } else {
             if ($wildcards) {
@@ -212,9 +216,9 @@ server {
             }
 ?>
 
-    include '/home/nginx/conf/globals/php-fpm.conf';
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
 
-    include '/home/nginx/conf/globals/perl.conf';
+    include '<?php echo $globalspath; ?>/perl.conf';
 <?php
         }
     }
@@ -265,23 +269,24 @@ server {
 ?>
     server_name webmail.<?php echo $domainname; ?>;
 
-    set $rootdir '/home/kloxo/httpd/disable';
+    index <?php echo $indexorder; ?>;
+
+    set $rootdir '<?php echo $disablepath; ?>';
 
     root $rootdir;
 
-    set $domainname '<?php echo $domainname; ?>';
 <?php
         if ($reverseproxy) {
 ?>
 
-    include '/home/nginx/conf/globals/proxy.conf';
+    include '<?php echo $globalspath; ?>/proxy.conf';
 <?php
         } else {
 ?>
 
     set $fpmport '50000';
 
-    include '/home/nginx/conf/globals/php-fpm.conf';
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
 <?php
         }
 ?>
@@ -324,6 +329,8 @@ server {
 ?>
     server_name webmail.<?php echo $domainname; ?>;
 
+    index <?php echo $indexorder; ?>;
+
     set $rootdir '<?php echo $webmaildocroot; ?>';
 
     root $rootdir;
@@ -331,14 +338,14 @@ server {
             if ($reverseproxy) {
 ?>
 
-    include '/home/nginx/conf/globals/proxy.conf';
+    include '<?php echo $globalspath; ?>/proxy.conf';
 <?php
             } else {
 ?>
 
     set $fpmport '50000';
 
-    include '/home/nginx/conf/globals/php-fpm.conf';
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
 <?php
             }
 ?>
@@ -362,6 +369,7 @@ server {
             $webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
 
             if ($redirpath) {
+                $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
@@ -377,11 +385,29 @@ server {
 ?>
     server_name '<?php echo $redirdomainname; ?>';
 
-    location / {
-         alias '<?php echo str_replace('//', '/', $rootpath . '/' . $redirpath); ?>';
-    }
-}
+    index <?php echo $indexorder; ?>;
 
+    set $redir '<?php echo $redirfullpath; ?>';
+
+    root $rootdir;
+<?php
+                if ($reversrproxy) {
+?>
+
+    include '<?php echo $globalspath; ?>/proxy.conf';
+<?php
+                } else {
+?>
+
+    set $fpmport <?php echo $fpmport; ?>';
+
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
+
+    include '<?php echo $globalspath; ?>/perl.conf';
+<?php
+                }
+?>
+}
 <?php
             } else {
 ?>
@@ -428,22 +454,25 @@ server {
 ?>
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
-    set $rootdir '/home/kloxo/httpd/disable';
+    index <?php echo $indexorder; ?>;
+
+    set $rootdir '<?php echo $disablepath; ?>';
+
+    index <?php echo $indexorder; ?>;
 
     root $rootdir;
 <?php
                 if ($reverseproxy) {
 ?>
 
-    include '/home/nginx/conf/globals/proxy.conf';
+    include '<?php echo $globalspath; ?>/proxy.conf';
 <?php
                 } else {
 ?>
 
     set $fpmport '50000';
 
-
-    include '/home/nginx/conf/globals/php-fpm.conf';
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
 <?php
                 }
 ?>
@@ -489,6 +518,8 @@ server {
 ?>
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
+    index <?php echo $indexorder; ?>;
+
     set $rootdir '<?php echo $webmaildocroot; ?>';
 
     root $rootdir;
@@ -496,14 +527,14 @@ server {
                         if ($reverseproxy) {
 ?>
 
-    include '/home/nginx/conf/globals/proxy.conf';
+    include '<?php echo $globalspath; ?>/proxy.conf';
 <?php
                         } else {
 ?>
 
     set $fpmport '50000';
 
-    include '/home/nginx/conf/globals/php-fpm.conf';
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
 <?php
                         }
 ?>
@@ -549,21 +580,23 @@ server {
 ?>
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
-    set $rootdir '/home/kloxo/httpd/disable';
+    index <?php echo $indexorder; ?>;
+
+    set $rootdir '<?php echo $disablepath; ?>';
 
     root $rootdir;
 <?php
                 if ($reverseproxy) {
 ?>
 
-    include '/home/nginx/conf/globals/proxy.conf';
+    include '<?php echo $globalspath; ?>/proxy.conf';
 <?php
                 } else {
 ?>
 
     set $fpmport '50000';
 
-    include '/home/nginx/conf/globals/php-fpm.conf';
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
 <?php
                 }
 ?>
@@ -608,6 +641,8 @@ server {
 ?>
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
+    index <?php echo $indexorder; ?>;
+
     set $rootdir '<?php echo $webmaildocroot; ?>';
 
     root $rootdir;
@@ -615,15 +650,14 @@ server {
                         if ($reverseproxy) {
 ?>
 
-    include '/home/nginx/conf/globals/proxy.conf';
+    include '<?php echo $globalspath; ?>/proxy.conf';
 <?php
                         } else {
 ?>
 
     set $fpmport '50000';
 
-
-    include '/home/nginx/conf/globals/php-fpm.conf';
+    include '<?php echo $globalspath; ?>/php-fpm.conf';
 <?php
                         }
 ?>

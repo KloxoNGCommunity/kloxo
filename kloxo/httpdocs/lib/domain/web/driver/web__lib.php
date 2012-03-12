@@ -131,6 +131,8 @@ class web__ extends lxDriverClass
 		$input['setdefaults'] = 'init';
 		$input['iplist'] = self::getAllIps();
 
+		$input['indexorder'] = self::getIndexFileOrderDefault();
+
 		self::setCreateConfFile($input);
 	}
 
@@ -153,7 +155,7 @@ class web__ extends lxDriverClass
 
 			$input['setdefaults'] = 'ssl';
 
-			$input['indexorder'] = implode(' ', $this->main->__var_index_list);
+			$input['indexorder'] = self::getIndexFileOrderDefault();
 
 			self::setCreateConfFile($input);
 		}
@@ -170,6 +172,8 @@ class web__ extends lxDriverClass
 
 			$input['iplist'] = self::getAllIps();
 
+			$input['indexorder'] = self::getIndexFileOrderDefault();
+
 			self::setCreateConfFile($input);
 		}
 	}
@@ -183,6 +187,8 @@ class web__ extends lxDriverClass
 		$input['iplist'] = self::getAllIps();
 
 		$input['webmailappdefault'] = self::getWebmailAppDefault();
+
+		$input['indexorder'] = self::getIndexFileOrderDefault();
 
 		self::setCreateConfFile($input);
 	}
@@ -242,7 +248,8 @@ class web__ extends lxDriverClass
 		$mmaildb = new Sqlite($this->__masterserver, 'mmail');
 		$syncserver = $this->syncserver ? $this->syncserver : 'localhost';
 		$string = "syncserver = '{$syncserver}'";
-		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
+		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 
+				'webmail_url', 'remotelocalflag'));
 
 		foreach($mlist as $m) {
 			if ($m['nname'] === $domainname) {
@@ -266,7 +273,11 @@ class web__ extends lxDriverClass
 
 		} elseif ($for === 'app') {
 			if ($list['remotelocalflag'] !== 'remote') {
-				$r = $list['webmailprog'];
+				if ($list['webmailprog'] === '--system-default--') {
+					$r = self::getWebmailAppDefault();
+				} else {
+					$r = $list['webmailprog'];
+				}
 			}
 		}
 
@@ -581,7 +592,8 @@ class web__ extends lxDriverClass
 		if ($this->main->indexfile_list) {
 			$list = $this->main->indexfile_list;
 		} else {
-			$list = $this->main->__var_index_list;
+		//	$list = $this->main->__var_index_list;
+			$list = self::getIndexFileOrderDefault();
 		}
 
 		if ($list) {
@@ -593,6 +605,12 @@ class web__ extends lxDriverClass
 		return $string;
 	}
 
+	static function getIndexFileOrderDefault()
+	{
+    		return array('index.php', 'index.html', 'index.shtml', 'index.htm', 
+			'default.htm', 'Default.aspx', 'Default.asp', 'index.pl');
+
+	}
 	function isWildcards()
 	{
 		$serveralias = (isset($this->main->server_alias_a)) ?

@@ -40,9 +40,9 @@ if ($parkdomains) {
 }
 
 if ($webmailapp) {
-    $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}/";
+    $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
 } else {
-    $webmaildocroot = "/home/kloxo/httpd/webmail/";
+    $webmaildocroot = "/home/kloxo/httpd/webmail";
 }
 
 if ($indexorder) {
@@ -71,6 +71,10 @@ if ($reverseproxy) {
 	$lighttpdextratext = null;
 }
 
+$disablepath = "/home/kloxo/httpd/disable";
+
+$globalspath = "/home/lighttpd/conf/globals";
+
 ?>
 
 ## web for '<?php echo $domainname; ?>'
@@ -87,16 +91,18 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
     }
 
     if ($disabled) {
+
+
 ?>
 
-    var.rootdir = "/home/kloxo/httpd/disable/"
+    var.rootdir = "<?php echo $disablepath; ?>/"
 
     server.document-root = var.rootdir
 <?php
     } else {
 ?>
 
-    var.rootdir = "<?php echo $rootpath; ?>"
+    var.rootdir = "<?php echo $rootpath; ?>/"
 
     server.document-root = var.rootdir
 <?php
@@ -107,7 +113,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 
     var.user = "<?php echo $user; ?>"
 
-    include "/home/lighttpd/conf/globals/generic.conf"
+    include "<?php echo $globalspath; ?>/generic.conf"
 <?php
     if (!$reverseproxy) {
         if ($statsapp === 'awstats') {
@@ -115,7 +121,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 
     var.statstype = "awstats"
 
-    include "/home/lighttpd/conf/globals/awstats.conf"
+    include "<?php echo $globalspath; ?>/awstats.conf"
 <?php
             if ($statsprotect) {
 ?>
@@ -124,7 +130,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
     var.protectauthname = "Awstats"
     var.protectfile = "__stats"
 
-    include "/home/lighttpd/conf/globals/dirprotect.conf"
+    include "<?php echo $globalspath; ?>/dirprotect.conf"
 <?php
             }
         } elseif ($statsapp === 'webalizer') {
@@ -132,7 +138,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 
     var.statstype = "stats"
 
-    include "/home/lighttpd/conf/globals/webalizer.conf"
+    include "<?php echo $globalspath; ?>/webalizer.conf"
 <?php
             if ($statsprotect) {
 ?>
@@ -141,7 +147,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
     var.protectauthname = "stats"
     var.protectfile = "__stats"
 
-    include "/home/lighttpd/conf/globals/dirprotect.conf"
+    include "<?php echo $globalspath; ?>/dirprotect.conf"
 <?php
             }
         }
@@ -161,7 +167,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
         if ($reverseproxy) {
 ?>
 
-    include "/home/lighttpd/conf/globals/proxy.conf"
+    include "<?php echo $globalspath; ?>/proxy.conf"
 <?php
         } else {
             if ($phpcgitype === 'fastcgi') {
@@ -169,12 +175,12 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 
     var.fpmport = "<?php echo $fpmport; ?>"
 
-    include "/home/lighttpd/conf/globals/php-fpm.conf"
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
 <?php
             } elseif ($phpcgitype === 'suexec') {
 ?>
 
-    include "/home/lighttpd/conf/globals/suexec.conf"
+    include "<?php echo $globalspath; ?>/suexec.conf"
 <?php
             }
         }
@@ -218,21 +224,23 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
-    var.rootdir = "/home/kloxo/httpd/disable/"
+    var.rootdir = "<?php echo $disablepath; ?>/"
 
     server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
         if ($reverseproxy) {
 ?>
 
-    include "/home/lighttpd/conf/globals/proxy.conf"
+    include "<?php echo $globalspath; ?>/proxy.conf"
 <?php
         } else {
 ?>
 
     var.fpmport = "50000"
 
-    include "/home/lighttpd/conf/globals/php-fpm.conf"
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
 <?php
         }
 ?>
@@ -247,7 +255,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
-    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>" )
+    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>/" )
 
 }
 
@@ -258,21 +266,23 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
-    var.rootdir = "<?php echo $webmaildocroot; ?>"
+    var.rootdir = "<?php echo $webmaildocroot; ?>/"
 
     server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
             if ($reverseproxy) {
 ?>
 
-    include "/home/lighttpd/conf/globals/proxy.conf"
+    include "<?php echo $globalspath; ?>/proxy.conf"
 <?php
             } else {
 ?>
 
     var.fpmport = "50000"
 
-    include "/home/lighttpd/conf/globals/php-fpm.conf"
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
 <?php
             }
 ?>
@@ -296,12 +306,43 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
             $webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
 
             if ($redirpath) {
+                $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
-    alias.url = ( "/" =>  "<?php echo str_replace('//', '/', $rootpath . '/' . $redirpath); ?>/" )
+    var.rootdir = "<?php echo $redirfullpath; ?>/"
+
+    server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
+
+    var.user = "<?php echo $user; ?>"
+<?php
+    if (!$disablephp) {
+        if ($reverseproxy) {
+?>
+
+    include "<?php echo $globalspath; ?>/proxy.conf"
+<?php
+        } else {
+            if ($phpcgitype === 'fastcgi') {
+?>
+
+    var.fpmport = "<?php echo $fpmport; ?>"
+
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
+<?php
+            } elseif ($phpcgitype === 'suexec') {
+?>
+
+    include "<?php echo $globalspath; ?>/suexec.conf"
+<?php
+            }
+        }
+    }
+?>
 
 }
 
@@ -332,21 +373,23 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
-    var.rootdir = "/home/kloxo/httpd/disable/"
+    var.rootdir = "<?php echo $disablepath; ?>/"
 
     server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
                 if ($reverseproxy) {
 ?>
 
-    include "/home/lighttpd/conf/globals/proxy.conf"
+    include "<?php echo $globalspath; ?>/proxy.conf"
 <?php
                 } else {
 ?>
 
     var.fpmport = "50000"
 
-    include "/home/lighttpd/conf/globals/php-fpm.conf"
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
 <?php
                 }
 ?>
@@ -361,7 +404,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
-    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>" )
+    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>/" )
 
 }
 
@@ -374,21 +417,23 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
-    var.rootdir = "<?php echo $webmaildocroot; ?>"
+    var.rootdir = "<?php echo $webmaildocroot; ?>/"
 
     server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
                         if ($reverseproxy) {
 ?>
 
-    include "/home/lighttpd/conf/globals/proxy.conf"
+    include "<?php echo $globalspath; ?>/proxy.conf"
 <?php
                         } else {
 ?>
 
     var.fpmport = "50000"
 
-    include "/home/lighttpd/conf/globals/php-fpm.conf"
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
 <?php
                         }
 ?>
@@ -425,21 +470,23 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
-    var.rootdir = "/home/kloxo/httpd/disable"
+    var.rootdir = "<?php echo $disablepath; ?>/"
 
     server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
                 if ($reverseproxy) {
 ?>
 
-    include "/home/lighttpd/conf/globals/proxy.conf"
+    include "<?php echo $globalspath; ?>/proxy.conf"
 <?php
                 } else {
 ?>
 
     var.fpmport = "50000"
 
-    include "/home/lighttpd/conf/globals/php-fpm.conf"
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
 <?php
                 }
 ?>
@@ -454,7 +501,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
-    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>" )
+    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>/" )
 
 }
 
@@ -466,22 +513,23 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
-
-    var.rootdir = "<?php echo $webmaildocroot; ?>"
+    var.rootdir = "<?php echo $webmaildocroot; ?>/"
 
     server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
                         if ($reverseproxy) {
 ?>
 
-    include "/home/lighttpd/conf/globals/proxy.conf"
+    include "<?php echo $globalspath; ?>/proxy.conf"
 <?php
                         } else {
 ?>
 
     var.fpmport = "50000"
 
-    include "/home/lighttpd/conf/globals/php-fpm.conf"
+    include "<?php echo $globalspath; ?>/php-fpm.conf"
 <?php
                         }
 ?>

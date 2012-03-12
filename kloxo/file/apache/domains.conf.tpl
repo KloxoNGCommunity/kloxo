@@ -67,7 +67,7 @@ if ($indexorder) {
 $userinfo = posix_getpwnam($user);
 $fpmport = (50000 + $userinfo['uid']);
 
-$disablepath = "/home/kloxo/httpd/disable/";
+$disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## web for '<?php echo $domainname; ?>'
@@ -303,6 +303,9 @@ $disablepath = "/home/kloxo/httpd/disable/";
 
     DocumentRoot "<?php echo $disablepath; ?>/"
 
+    DirectoryIndex <?php echo $indexorder; ?>
+
+
     <IfModule mod_suphp.c>
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
@@ -346,6 +349,9 @@ $disablepath = "/home/kloxo/httpd/disable/";
 
 
     DocumentRoot "<?php echo $webmaildocroot; ?>/"
+
+    DirectoryIndex <?php echo $indexorder; ?>
+
 
     <IfModule mod_suphp.c>
         SuPhp_UserGroup lxlabs lxlabs
@@ -395,6 +401,9 @@ $disablepath = "/home/kloxo/httpd/disable/";
 
 
     DocumentRoot "<?php echo $redirfullpath; ?>/"
+
+    DirectoryIndex <?php echo $indexorder; ?>
+
 
     <IfModule suexec.c>
         SuexecUserGroup <?php echo $user; ?> <?php echo $user; ?>
@@ -477,6 +486,9 @@ $disablepath = "/home/kloxo/httpd/disable/";
 
     DocumentRoot "<?php echo $disablepath; ?>/"
 
+    DirectoryIndex <?php echo $indexorder; ?>
+
+
     <IfModule mod_suphp.c>
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
@@ -521,6 +533,9 @@ $disablepath = "/home/kloxo/httpd/disable/";
 
 
     DocumentRoot "<?php echo $webmaildocroot; ?>/"
+
+    DirectoryIndex <?php echo $indexorder; ?>
+
 
     <IfModule mod_suphp.c>
         SuPhp_UserGroup lxlabs lxlabs
@@ -572,6 +587,9 @@ $disablepath = "/home/kloxo/httpd/disable/";
 
     DocumentRoot "<?php echo $disablepath; ?>"
 
+    DirectoryIndex <?php echo $indexorder; ?>
+
+
     <IfModule mod_suphp.c>
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
@@ -616,6 +634,9 @@ $disablepath = "/home/kloxo/httpd/disable/";
 
 
     DocumentRoot "<?php echo $webmaildocroot; ?>/"
+
+    DirectoryIndex <?php echo $indexorder; ?>
+
 
     <IfModule mod_suphp.c>
         SuPhp_UserGroup lxlabs lxlabs
