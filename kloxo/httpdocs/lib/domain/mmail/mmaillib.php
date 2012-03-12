@@ -324,6 +324,8 @@ class Mmail extends Lxdb
 
 			case "webmail_select":
 
+			//	$this->fixWebmailRedirect();
+
 				$this->setDefaultValue('webmailprog', '--system-default--');
 				$base = "/home/kloxo/httpd/webmail/";
 			//	$list = lscandir_without_dot_or_underscore($base);
@@ -356,6 +358,8 @@ class Mmail extends Lxdb
 
 			case "remotelocalmail":
 
+			//	$this->fixWebmailRedirect();
+
 				$vlist['remotelocalflag'] = array('s', array('local', 'remote'));
 				$vlist['webmail_url'] = null;
 				$vlist['__v_updateall_button'] = array();
@@ -363,7 +367,9 @@ class Mmail extends Lxdb
 				return $vlist;
 		}
 
-		return parent::updateform($subaction, $param);
+		// MR -- this is for what?. Nothing useless?
+
+	//	return parent::updateform($subaction, $param);
 
 	}
 
@@ -400,6 +406,10 @@ class Mmail extends Lxdb
 
 	function postUpdate()
 	{
+
+		// MR -- still have a problem - need click 2 times for 'update'/'update all' button
+		// just single make kloxo recreate webserver config with reference to 'old' state!
+
 		if ($this->subaction === 'remotelocalmail' || $this->subaction === 'webmail_select') {
 			$this->fixWebmailRedirect();
 		}
@@ -421,14 +431,16 @@ class Mmail extends Lxdb
 	function fixWebmailRedirect()
 	{
 
-		global $gbl, $sgbl, $login, $ghtml;
+	//	global $gbl, $sgbl, $login, $ghtml;
 
 		// the same trick with createListSlist()
 		// on /usr/local/lxlabs/kloxo/httpdocs/lib/domain/addondomainlib.php
 
 		$web = $this->getParentO()->getObject('web');
+
 		// have trouble when use addondomain, so use full_update
 		$web->setUpdateSubaction('full_update');
+
 	//	$web->setUpdateSubaction('addondomain');
 
 		// MR -- must be return null to prevent blank page

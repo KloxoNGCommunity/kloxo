@@ -111,10 +111,10 @@ NameVirtualHost 127.0.0.1:<?php echo $port ?>
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /.fake <?php echo $docroot; ?>/.fake
-        FastCGIExternalServer <?php echo $docroot; ?>/.fake -host 127.0.0.1:50000
+        Alias /<?php echo $setdefaults; ?>.fake <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake
+        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /.fake
+        Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.fake
     </IfModule>
 
 </VirtualHost>

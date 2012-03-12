@@ -235,23 +235,26 @@ class web__ extends lxDriverClass
 	{
 		$domainname = $this->getDomainname();
 
-		$mlist = (isset($this->main->__var_mmaillist)) ?
-				$this->main->__var_mmaillist : null;
+//		$mlist = $this->main->__var_mmaillist;
 
-		$list = null;
+		// MR -- moving from weblib.php
 
-		if ($mlist) {
-			foreach ($mlist as $m) {
-				if ($m['nname'] === $domainname) {
-					$list = $m;
-					break;
-				}
+		$mmaildb = new Sqlite($this->__masterserver, 'mmail');
+		$syncserver = $this->syncserver ? $this->syncserver : 'localhost';
+		$string = "syncserver = '{$syncserver}'";
+		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
+
+		foreach($mlist as $m) {
+			if ($m['nname'] === $domainname) {
+				$list = $m;
+				break;
 			}
-		} else {
-			// MR -- for the first time domain create
-			$list = array('nname' => $domainname, 'parent_clname' => 'domain-' .
-					$domainname, 'webmailprog' => null, 'webmail_url' => null,
-					'remotelocalflag' => 'local');
+		}
+
+		// --- for the first time domain create
+		if (!isset($list)) {
+			$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname, 
+					'webmailprog' => '', 'webmail_url' => '', 'remotelocalflag' => 'local');
 		}
 
 		$r = null;
@@ -261,11 +264,9 @@ class web__ extends lxDriverClass
 				$r = $list['webmail_url'];
 			}
 
-		} else {
-			if ($for === 'app') {
-				if ($list['webmailprog']) {
-					$r = $list['webmailprog'];
-				}
+		} elseif ($for === 'app') {
+			if ($list['remotelocalflag'] !== 'remote') {
+				$r = $list['webmailprog'];
 			}
 		}
 

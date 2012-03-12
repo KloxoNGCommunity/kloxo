@@ -910,11 +910,15 @@ class Web extends Lxdb
 
 		 exit;
 	 */
+
+	/*
+		// MR -- move to web__lib.php directly because not work in here!
 		// MR -- make guarantee the last process!
 		// mod_php still possible not work (ftp issue) for tranfer skeleton.zip from master to slave
 		$this->getAndUnzipSkeleton($this->__var_skelmachine, $this->__var_skelfile, "$user_home/");
+	*/
 
-		dprint("end\n");
+	//	dprint("end\n");
 	}
 
 	static function createstatsConf($domname, $stats_name, $stats_password)
@@ -1396,7 +1400,7 @@ class Web extends Lxdb
 				return $vlist;
 		}
 
-		return parent::updateform($subaction, $param);
+	//	return parent::updateform($subaction, $param);
 	}
 
 	static function getSelectList($parent, $var)
