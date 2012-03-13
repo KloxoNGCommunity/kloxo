@@ -241,15 +241,7 @@ class web__ extends lxDriverClass
 	{
 		$domainname = $this->getDomainname();
 
-//		$mlist = $this->main->__var_mmaillist;
-
-		// MR -- moving from weblib.php
-
-		$mmaildb = new Sqlite($this->__masterserver, 'mmail');
-		$syncserver = $this->syncserver ? $this->syncserver : 'localhost';
-		$string = "syncserver = '{$syncserver}'";
-		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 
-				'webmail_url', 'remotelocalflag'));
+		$mlist = $this->main->__var_mmaillist;
 
 		foreach($mlist as $m) {
 			if ($m['nname'] === $domainname) {

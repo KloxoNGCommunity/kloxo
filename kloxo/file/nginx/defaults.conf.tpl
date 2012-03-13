@@ -14,10 +14,6 @@ if ($setdefaults === 'webmail') {
     $rootpath = "/home/kloxo/httpd/{$setdefaults}";
 }
 
-if ($blockips) {
-    $blockips = str_replace(' ', ', ', $blockips);
-}
-
 if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }

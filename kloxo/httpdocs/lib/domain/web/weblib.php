@@ -442,9 +442,12 @@ class Web extends Lxdb
 
 		$this->__var_railspp = $this->getList('rubyrails');
 
-		$mydb = new Sqlite($this->__masterserver, 'ipaddress');
-		$syncserver = $this->syncserver ? $this->syncserver : 'localhost';
-		$string = "syncserver = '$syncserver'";
+		$syncserver = ($this->syncserver) ? $this->syncserver : 'localhost';
+		$this->__syncserver = $syncserver;
+		$string = "syncserver = '{$syncserver}'";
+
+	//	$mydb = new Sqlite($this->__masterserver, 'ipaddress');
+		$mydb = new Sqlite(null, 'ipaddress');
 		$this->__var_ipssllist = $mydb->getRowsWhere($string, array('ipaddr', 'nname'));
 
 		$this->__var_addonlist = $this->getTrueParentO()->getList('addondomain');
@@ -454,15 +457,16 @@ class Web extends Lxdb
 		}
 
 		$dipdb = new Sqlite(null, "domainipaddress");
-		$string = "syncserver = '$syncserver' ";
 		$domainip = $dipdb->getRowsWhere($string, array('domain', 'ipaddr'));
 		$this->__var_domainipaddress = get_namelist_from_arraylist($domainip, 'ipaddr', 'domain');
 
-		$ipdb = new Sqlite($this->__masterserver, 'ipaddress');
-		$string = "syncserver = '$syncserver' ";
+	//	$ipdb = new Sqlite($this->__masterserver, 'ipaddress');
+		$ipdb = new Sqlite(null, 'ipaddress');
 		$iplist = $ipdb->getRowsWhere($string, array('ipaddr'));
 		$this->__var_ipaddress = $iplist;
-		$mydb = new Sqlite($this->__masterserver, "web");
+
+	//	$mydb = new Sqlite($this->__masterserver, "web");
+		$mydb = new Sqlite(null, "web");
 
 		if ($this->dbaction === 'update' && $this->subaction !== 'full_update' && $this->subaction !== 'fixipdomain') {
 			return;
@@ -473,13 +477,11 @@ class Web extends Lxdb
 			$this->__var_clientname = $this->getTrueParentO()->getTrueParentO()->nname;
 		}
 
-		$string = "syncserver = '$syncserver'";
 		$this->__var_vdomain_list = $mydb->getRowsWhere($string, array('nname', 'ipaddress'));
 
 		// MR -- related to apache/lighttpd new structure
-		$mmaildb = new Sqlite($this->__masterserver, 'mmail');
-		$syncserver = $this->syncserver ? $this->syncserver : 'localhost';
-		$string = "syncserver = '{$syncserver}'";
+	//	$mmaildb = new Sqlite($this->__masterserver, 'mmail');
+		$mmaildb = new Sqlite(null, 'mmail');
 		$this->__var_mmaillist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
 	}
 
