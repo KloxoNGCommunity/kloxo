@@ -21,3 +21,5 @@ RPAFsethostname On
 # X-Forwarded-For headers
 #
 RPAFproxy_ips 127.0.0.1:30080
+
+RPAFheader X-Forwarded-For
