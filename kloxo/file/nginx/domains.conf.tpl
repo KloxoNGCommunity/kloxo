@@ -391,7 +391,7 @@ server {
 
     root $rootdir;
 <?php
-                if ($reversrproxy) {
+                if ($reverseproxy) {
 ?>
 
     include '<?php echo $globalspath; ?>/proxy.conf';

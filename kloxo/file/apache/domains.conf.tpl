@@ -385,7 +385,7 @@ $disablepath = "/home/kloxo/httpd/disable";
             $randnum = rand(0, 32767);
 
             if ($redirpath) {
-                if ($disable) {
+                if ($disabled) {
                     $$redirfullpath = $disablepath;
                 } else {
                     $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
