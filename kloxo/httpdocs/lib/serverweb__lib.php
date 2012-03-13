@@ -25,11 +25,6 @@ class serverweb__ extends lxDriverClass
 		$fcphp = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
 		$mcphp = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
 
-
-		// MR -- because call slave_get_driver('web') not work
-		// identify apache/proxy with existing $this->main->php_type
-
-	//	if ($t) {
 		if (isWebProxyOrApache()) {
 			//-- old structure
 			lxfile_rm_rec("/etc/httpd/conf/kloxo");
@@ -108,7 +103,7 @@ class serverweb__ extends lxDriverClass
 
 				lxfile_mv("{$hcdpath}/php.conf", "{$hcdpath}/php.nonconf");
 				lxfile_mv("{$hcdpath}/fastcgi.conf", "{$hcdpath}/fastgi.nonconf");
-			//	lxfile_mv("{$hcdpath}/fcgid.conf", "{$hcdpath}/fcgid.nonconf");
+				lxfile_mv("{$hcdpath}/fcgid.conf", "{$hcdpath}/fcgid.nonconf");
 				lxfile_mv("{$hcdpath}/ruid2.conf", "{$hcdpath}/ruid2.nonconf");
 				lxfile_mv("{$hcdpath}/suphp.nonconf", "{$hcdpath}/suphp.conf");
 				lxfile_mv("{$hcdpath}/proxy_fcgi.conf", "{$hcdpath}/proxy_fcgi.nonconf");
@@ -132,16 +127,9 @@ class serverweb__ extends lxDriverClass
 				}
 
 				lxfile_mv("{$hcdpath}/php.conf", "{$hcdpath}/php.nonconf");
-			//	lxfile_mv("{$hcdpath}/fcgid.conf", "{$hcdpath}/fcgid.nonconf");
+				lxfile_mv("{$hcdpath}/fcgid.conf", "{$hcdpath}/fcgid.nonconf");
 				lxfile_mv("{$hcdpath}/ruid2.conf", "{$hcdpath}/ruid2.nonconf");
 				lxfile_mv("{$hcdpath}/suphp.conf", "{$hcdpath}/suphp.nonconf");
-			/*
-				if (!file_exists('/etc/php-fpm.conf')) {
-					lxfile_cp("{$kfppath}/php-fpm.conf", "/etc/php-fpm.conf");
-				}
-			*/
-				lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixphpfpm.php", "--nolog");
-				
 			}
 
 			lxfile_rm("{$hcdpath}/fcgid.nonconf");
@@ -160,6 +148,8 @@ class serverweb__ extends lxDriverClass
 			if ($ret) {
 				throw new lxexception('httpd_restart_failed', 'parent');
 			}
+			
+			lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixweb.php", "--target=defaults", "--nolog");
 		}
 
 		$nolog = 'yes';

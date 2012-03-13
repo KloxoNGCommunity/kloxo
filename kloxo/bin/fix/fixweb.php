@@ -9,6 +9,8 @@ $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $client = (isset($list['client'])) ? $list['client'] : null;
 $nolog  = (isset($list['nolog'])) ? $list['nolog'] : null;
 
+$target = (isset($list['target'])) ? $list['target'] : 'all';
+
 $login->loadAllObjects('client');
 $list = $login->getList('client');
 
@@ -39,14 +41,19 @@ foreach($list as $c) {
 		$currsyncserver = $web->syncserver;
 
 		if ($prevsyncserver !== $currsyncserver) {
-			$web->setUpdateSubaction('static_config_update');
-			log_cleanup("- inside static (defaults/webmail) directory at '{$currsyncserver}'", 
-					$nolog);
+			if (($target === 'all') || ($target === 'defaults')) {			
+				$web->setUpdateSubaction('static_config_update');
+				log_cleanup("- inside static (defaults/webmail) directory at '{$currsyncserver}'", 
+						$nolog);
+			}
+			
 			$prevsyncserver = $currsyncserver;
 		}
 
-		$web->setUpdateSubaction('full_update');
-		log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
+		if (($target === 'all') || ($target === 'domains')) {
+			$web->setUpdateSubaction('full_update');
+			log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
+		}
 
 		$web->was();
 	}
