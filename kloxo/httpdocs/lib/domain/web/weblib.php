@@ -787,14 +787,17 @@ class Web extends Lxdb
 
 		$web_home = $sgbl->__path_httpd_root;
 		$base_root = $sgbl->__path_httpd_root;
-		$v_dir = "$web_home/{$this->nname}/conf";
-		$log_path = "$web_home/{$this->nname}/stats";
+
+		$v_dir = "{$web_home}/{$this->nname}/conf";
+
+		$log_path = "{$web_home}/{$this->nname}/stats";
 		$cgi_path = "{$this->getFullDocRoot()}/cgi-bin/";
-		$log_path1 = "$log_path/";
-		$cust_log = "$log_path1/{$this->nname}-custom_log";
-		$err_log = "$log_path1/{$this->nname}-error_log";
-		$awstat_conf = "$sgbl->__path_real_etc_root/awstats/";
-		$awstat_dirdata = "$sgbl->__path_kloxo_httpd_root/awstats/";
+		$log_path1 = "{$log_path}/";
+
+		$cust_log = "{$log_path1}/{$this->nname}-custom_log";
+		$err_log = "{$log_path1}/{$this->nname}-error_log";
+		$awstat_conf = "{$sgbl->__path_real_etc_root}/awstats/";
+		$awstat_dirdata = "{$sgbl->__path_kloxo_httpd_root}/awstats/";
 		$user_home = $this->getFullDocRoot();
 
 		if (!lxfile_exists("{$this->getCustomerRoot()}/public_html")) {
@@ -803,35 +806,11 @@ class Web extends Lxdb
 
 		$domname = $this->nname;
 
-		/*
-		 print("+++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-		 print("This is the Conf file Path  $v_dir 		=" );
-		 print("This is the LogPath  	$log_path 	= ");
-		 print("This is the  LogPath $log_path1 	=");
-		 print("This is the Custom  LogPath $cust_log 	=" );
-		 print("This is the Error LoG Path  $err_log 	= ");
-		 print("$stat_conf 	= ");
-		 print("This is THE User Home $user_home = ");
-
-		 print("+++++++++++++++++++++++++++++++++++++++++++++++++++");
-	 */
 		// Protection for webstats.
 
-		/*
-		 $new_user_dir = false;
-		 lxfile_mkdir($user_home);
-
-		 if ((count(lscandir_without_dot($user_home)) == 0) && isset($this->__var_skelfile) && $this->__var_skelfile) {
-			 $this->getAndUnzipSkeleton($this->__var_skelmachine, $this->__var_skelfile, "$user_home/");
-			 $new_user_dir = true;
-		 }
-
-		 lxfile_mkdir("$web_home/$domname/webstats");
-	 */
 		$wsstring = "Stats not yet generated\n";
 
-		lfile_put_contents("$web_home/$domname/webstats/index.html", $wsstring);
+		lfile_put_contents("{$web_home}/{$domname}/webstats/index.html", $wsstring);
 
 		lxfile_mkdir($cgi_path);
 
@@ -841,17 +820,13 @@ class Web extends Lxdb
 		// Which is easier to remember. Slowly we need to change all the code from dom/dom to dom/httpdocs..
 		// but for now, just create a symlink.
 
-		lxfile_generic_chmod("$web_home/{$this->nname}", "0755");
-		lxfile_mkdir("$user_home/");
+		lxfile_generic_chmod("{$web_home}/{$this->nname}", "0755");
+		lxfile_mkdir("{$user_home}/");
 
 		lxfile_generic_chmod($user_home, "0755");
 
 		lxfile_mkdir($v_dir);
 		lxfile_mkdir($log_path);
-		//	lxfile_mkdir($log_path1);
-		// issue #589 - Change httpd config structure
-		//	lxfile_mkdir("__path_apache_path/kloxo");
-		//	lxfile_touch("__path_apache_path/kloxo/virtualhost.conf");
 
 		$parent_doc_root = $this->getParentFullDocRoot();
 
@@ -861,66 +836,24 @@ class Web extends Lxdb
 			lxfile_generic_chown_rec($user_home, "{$this->username}:{$this->username}");
 		}
 
-		/*
-				// Issue #565 - Domain skeleton files chmodded to 0755
-				// latest info from William
-
-				if ($new_user_dir) {
-					lxfile_generic_chmod_rec($user_home, "755");
-				}
-
-
-			  system("find {$user_home} -type f -exec chmod 644 {} \;");
-			  system("find {$user_home} -type d -exec chmod 755 {} \;");
-		  */
-		// MR --- consistence with fix-chownchmod script
-		// fixed 64bit slave (skeleton.zip always zero)
-		// back to original because problem with suphp
-
 		lxfile_generic_chown($user_home, "{$this->username}:apache");
-		lxfile_generic_chown("__path_customer_root/$this->customer_name", "{$this->username}:apache");
-		lxfile_generic_chmod("__path_customer_root/$this->customer_name", "751"); // change 750 to 751 because nginx-proxy
+		lxfile_generic_chown("{$sgbl->__path_customer_root}/{$this->customer_name}", "{$this->username}:apache");
+		lxfile_generic_chmod("{$sgbl->__path_customer_root}/{$this->customer_name}", "751"); // change 750 to 751 because nginx-proxy
 		lxfile_generic_chown($log_path1, "apache:apache");
 		lxfile_generic_chmod($log_path1, "771"); // change 770 to 771 because nginx-proxy
-		lxfile_generic_chown("$web_home/{$this->nname}", "{$this->username}:apache");
+		lxfile_generic_chown("{$web_home}/{$this->nname}", "{$this->username}:apache");
 
-		if (!lxfile_exists("$web_home/{$this->nname}/httpdocs")) {
-			//lxfile_mkdir("$sgbl->__path_customer_root/$this->customer_name/domain/$this->nname");
-			//lxfile_symlink("{$this->getFullDocRoot()}", "$sgbl->__path_customer_root/$this->customer_name/domain/$this->nname/www");
-			lxfile_symlink("{$this->getFullDocRoot()}", "$web_home/$this->nname/httpdocs");
-			//lxfile_symlink("$web_home/{$this->nname}/httpdocs", "$web_home/{$this->nname}/{$this->nname}");
+		if (!lxfile_exists("{$web_home}/{$this->nname}/httpdocs")) {
+			//lxfile_mkdir("{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}");
+			//lxfile_symlink("{$this->getFullDocRoot()}", "{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}/www");
+			lxfile_symlink("{$this->getFullDocRoot()}", "{$web_home}/{$this->nname}/httpdocs");
+			//lxfile_symlink("{$web_home}/{$this->nname}/httpdocs", "{$web_home}/{$this->nname}/{$this->nname}");
 		}
 
 		$this->createstatsConf($this->nname, $this->stats_username, $this->stats_password);
-		/*
-		 print("This is the User Home : $user_home \n");
-		 print("This is the certificate Pah : $sgbl->__path_ssl_root/certificate/\n");
-		 print("This is the Private Key Pah: $sgbl->__path_ssl_root/privatekey/\n");
-		 print("This is the Domain Name :$web_home/{$this->nname}\n");
 
-		 print( "This is teh User Httpdocs  :$user_home/www/");
-		 print("GO to the User Dir (chmod 775");
-		 print("Chown To The :{$this->username}:{$this->username}, $user_home\n");
-		 print("This is the Vdir :  $v_dir\n");
-		 print("Creating log path :$log_path\n");
-		 print("Creating Dir:$log_path1\n");
-		 print("Touching :$sgbl->__path_apache_path/kloxo\n");
-		 print("Touching Virtual hOPs$sgbl->__path_apache_path/kloxo/virtualhost.conf\n");
-		 print("$err_log\n");
-		 print("Install ALL : $install_all\n");
-		 print("chown  :{$this->username} , $web_home/{$this->nname}\n");
-
-		 exit;
-	 */
-
-	/*
-		// MR -- move to web__lib.php directly because not work in here!
-		// MR -- make guarantee the last process!
-		// mod_php still possible not work (ftp issue) for tranfer skeleton.zip from master to slave
+		// MR -- must be running here!
 		$this->getAndUnzipSkeleton($this->__var_skelmachine, $this->__var_skelfile, "$user_home/");
-	*/
-
-	//	dprint("end\n");
 	}
 
 	static function createstatsConf($domname, $stats_name, $stats_password)
@@ -942,51 +875,8 @@ class Web extends Lxdb
 	static function docreatestatsConf($inp, $outp, $domain, $stats_name, $stats_password)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-/*
-		$filecontents = lfile($inp);
-		
-		foreach ($filecontents as $f) {
-			if (preg_match("/_lx_domain_name_/", $f)) {
-				$f = preg_replace("/_lx_domain_name_/", $domain, $f);
-			}
 
-			if (preg_match("/_lx__path_httpd_root/", $f)) {
-				$f = preg_replace("/_lx__path_httpd_root/", $sgbl->__path_httpd_root, $f);
-			}
-
-			$regexdom = str_replace('.', '\.', $domain);
-			$regexdom .= "$";
-
-			if (preg_match("/_lxregex_domain_name_/", $f)) {
-				$f = preg_replace("/_lxregex_domain_name_/", $regexdom, $f);
-			}
-
-			if (preg_match("/_lx_authentic_user/", $f)) {
-				$f = preg_replace("/_lx_authentic_user/", $stats_name, $f);
-			}
-
-			if (preg_match("/_lx_dns_lookup_/", $f)) {
-				$f = preg_replace("/_lx_dns_lookup_/", "1", $f);
-			}
-
-			$st_pro = "0";
-
-			if ($stats_password) {
-				$st_pro = "1";
-			}
-
-			if (preg_match("/_lx_stats_protect/", $f)) {
-				$f = preg_replace("/_lx_stats_protect/", $st_pro, $f);
-			}
-		}
-
-
-		$filecontents = implode("", $filecontents);
-		lxfile_mkdir(dirname($outp));
-		lfile_put_contents($outp, $filecontents);
-		lxfile_generic_chmod($outp, "0744");
-*/
-		// MR -- the code before look like not work and then changed
+		// MR -- the original code look like not work and then changed!
 
 		$f = lfile_get_contents($inp);
 
