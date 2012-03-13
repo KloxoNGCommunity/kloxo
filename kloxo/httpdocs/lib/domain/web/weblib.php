@@ -479,7 +479,7 @@ class Web extends Lxdb
 
 		$this->__var_vdomain_list = $mydb->getRowsWhere($string, array('nname', 'ipaddress'));
 
-		// MR -- related to apache/lighttpd new structure
+		// MR -- related to apache/lighttpd new structure - still relevant for template-based config!
 	//	$mmaildb = new Sqlite($this->__masterserver, 'mmail');
 		$mmaildb = new Sqlite(null, 'mmail');
 		$this->__var_mmaillist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
