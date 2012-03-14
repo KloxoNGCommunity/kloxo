@@ -6167,18 +6167,15 @@ function setSomeScript($nolog = null)
 
 function setInitialLogrotate($nolog = null)
 {
-	return; // Kloxo 6.2.0 (#295)
-/*
 	log_cleanup("Initialize logrotate", $nolog);
 
-	if (lxfile_exists("/etc/logrotate.d/kloxo")) {
+	if (!lxfile_exists("/etc/logrotate.d/kloxo")) {
 		log_cleanup("- Initialize process", $nolog);
 
 		if (lxfile_exists("../file/kloxo.logrotate")) {
 			lxfile_cp("../file/kloxo.logrotate", "/etc/logrotate.d/kloxo");
 		}
 	}
-*/
 }
 
 function restart_xinetd_for_pureftp($nolog = null)
