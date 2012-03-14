@@ -167,8 +167,10 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
 
-    <Directory "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/">
+    <Directory "<?php echo $rootpath; ?>/">
         AllowOverride All
+        allow from all
+        Options +Indexes +FollowSymlinks
     </Directory>
 
     <Location />
@@ -444,6 +446,12 @@ $disablepath = "/home/kloxo/httpd/disable";
         ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
     </IfModule>
+
+    <Directory "<?php echo $redirfullpath; ?>/">
+        AllowOverride All
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Directory>
 
 </VirtualHost>
 

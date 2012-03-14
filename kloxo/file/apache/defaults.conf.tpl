@@ -124,6 +124,12 @@ NameVirtualHost 127.0.0.1:<?php echo $port ?>
         Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.fake
     </IfModule>
 
+    <Directory "<?php echo $docroot; ?>/">
+        AllowOverride All
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Directory>
+
 </VirtualHost>
 
 <?php
