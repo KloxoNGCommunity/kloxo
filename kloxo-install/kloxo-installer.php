@@ -41,6 +41,7 @@ function lxins_main()
 
 	if (!char_search_beg($osversion, "centos") && !char_search_beg($osversion, "rhel")) {
 		print("Kloxo is only supported on CentOS 5 and RHEL 5\n");
+
 		exit;
 	}
 
@@ -48,10 +49,16 @@ function lxins_main()
 		//--- Ask Reinstall
 		if (get_yes_no("Kloxo seems already installed do you wish to continue?") == 'n') {
 			print("Installation Aborted.\n");
+
 			exit;
-		} else {
-			// MR -- just for emergency
+		}
+		
+		// MR -- just for emergency
+		if (!file_exists("/usr/local/lxlabs /usr/local/lxlabs.bck")) {
 			system("yes|cp -rf /usr/local/lxlabs /usr/local/lxlabs.bck");
+		}
+
+		if (!file_exists("/var/lib/mysql/kloxo /var/lib/mysql/kloxo.bck")) {
 			system("yes|cp -rf /var/lib/mysql/kloxo /var/lib/mysql/kloxo.bck");
 		}
 	} else {
@@ -64,9 +71,11 @@ function lxins_main()
 			print("Installing Kloxo = YES\n\n");
 		}
 	}
+
 	//--- Ask for InstallApp
 	print("InstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
 	print("When you choose Yes, be aware of downloading about 350Mb of data!\n");
+
 	if(get_yes_no("Do you want to install the InstallAPP sotfware?") == 'n') {
 		print("Installing InstallApp = NO\n");
 		print("You can install it later with /script/installapp-update\n\n");
@@ -87,15 +96,19 @@ function lxins_main()
 	print("Installing LxCenter yum repository for updates\n");
 	install_yum_repo($osversion);
 
-	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel", "exim", "vsftpd", "postfix", "vpopmail", "qmail", "lxphp", "lxzend", "pure-ftpd", "imap");
+	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel", "exim", "vsftpd", "postfix",
+			"vpopmail", "qmail", "lxphp", "lxzend", "pure-ftpd", "imap");
 
 	$list = implode(" ", $packages);
 	print("Removing packages $list...\n");
+
 	foreach ($packages as $package) {
 		exec("rpm -e --nodeps $package > /dev/null 2>&1");
 	}
 
-	$packages = array("php-mbstring", "php-mysql", "which", "gcc-c++", "php-imap", "php-pear", "php-devel", "lxlighttpd", "httpd", "mod_ssl", "zip", "unzip", "lxphp", "lxzend", "mysql", "mysql-server", "curl", "autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase");
+	$packages = array("php-mbstring", "php-mysql", "which", "gcc-c++", "php-imap", "php-pear", "php-devel",
+			"lxlighttpd", "httpd", "mod_ssl", "zip", "unzip", "lxphp", "lxzend", "mysql", "mysql-server", "curl",
+			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase");
 
 	$list = implode(" ", $packages);
 
@@ -122,12 +135,14 @@ function lxins_main()
 	if ($installversion) {
 		if (substr($installversion, 0, 4) == '6.0.') {
 			print("\n*** Need additional files installing $installversion (less then 6.1.0)***\n");
-			print("      Run 'sh /script/kloxo-installer.sh' (without argument)\n\n");		
+			print("      Run 'sh /script/kloxo-installer.sh' (without argument)\n\n");
+
 			exit;
 		}
+		
 		chdir("/usr/local/lxlabs/kloxo");
 		system("mkdir -p /usr/local/lxlabs/kloxo/log");
-		@ unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
+		unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
 		print("Downloading Kloxo {$installversion} release\n");
 		system("wget {$downloadserver}download/kloxo/production/kloxo/kloxo-{$installversion}.zip");
 		system("mv -f ./kloxo-{$installversion}.zip ./kloxo-current.zip");
@@ -135,7 +150,7 @@ function lxins_main()
 	else {
 		if (file_exists("../kloxo-current.zip")) {
 			//--- Install from local file if exists
-			@ unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
+			unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
 			print("Local copying Kloxo release\n");
 			system("mkdir -p /var/cache/kloxo");
 			system("cp -rf ../kloxo-current.zip /usr/local/lxlabs/kloxo");
@@ -153,11 +168,13 @@ function lxins_main()
 			system("cp -rf ../lxwebmail*.tar.gz /var/cache/kloxo");
 			system("cp -rf ../kloxo-thirdparty-version /var/cache/kloxo");
 			system("cp -rf ../lxawstats-version /var/cache/kloxo");
-			system("cp -rf ../lxwebmail-version /var/cache/kloxo"); 
+			system("cp -rf ../lxwebmail-version /var/cache/kloxo");
+
 			if (file_exists("/usr/lib64")) {
 				if (!is_link("/usr/lib/kloxophp")) {
 					system("rm -rf /usr/lib/kloxophp");
 				}
+
 				system("cp -rf ../kloxophpsixfour*.tar.gz /var/cache/kloxo");
 				system("cp -rf ../kloxophpsixfour-version /var/cache/kloxo");
 				system("mkdir -p /usr/lib64/kloxophp");
@@ -176,23 +193,27 @@ function lxins_main()
 				system("rename ../_kloxophpsixfour ../kloxophpsixfour ../_kloxophpsixfour*");
 				system("cp -rf ../kloxophp-version /var/cache/kloxo"); 
 			}
+
 			chdir("/usr/local/lxlabs/kloxo");
 			system("mkdir -p /usr/local/lxlabs/kloxo/log");
 		}
 		else {
 			chdir("/usr/local/lxlabs/kloxo");
 			system("mkdir -p /usr/local/lxlabs/kloxo/log");
-			@ unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
+			unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
 			print("Downloading latest Kloxo release\n");
 			system("wget {$downloadserver}download/kloxo/production/kloxo/kloxo-current.zip");
 		}
 	}
 
 	print("\n\nInstalling Kloxo.....\n\n");
+
 	system("unzip -oq kloxo-current.zip", $return);
 
 	if ($return) {
-		print("Unzipping the core Failed.. Most likely it is corrupted. Report it at http://forum.lxcenter.org/\n");
+		print("Unzipping the core Failed.. Most likely it is corrupted. " .
+				"Report it at http://forum.lxcenter.org/\n");
+
 		exit;
 	}
 
@@ -226,11 +247,12 @@ function lxins_main()
 	print("Prepare /home/kloxo/httpd...\n");
 	system("mkdir -p /home/kloxo/httpd");
 	chdir("/home/kloxo/httpd");
-	@ unlink("skeleton-disable.zip");
+	unlink("skeleton-disable.zip");
 	system("chown -R lxlabs:lxlabs /home/kloxo/httpd");
 	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
 	chdir("/usr/local/lxlabs/kloxo/httpdocs/");
-	system("/usr/local/lxlabs/ext/php/php /usr/local/lxlabs/kloxo/bin/install/create.php --install-type=$installtype --db-rootuser=$dbroot --db-rootpassword=$dbpass");
+	system("/usr/local/lxlabs/ext/php/php /usr/local/lxlabs/kloxo/bin/install/create.php " .
+			"--install-type=$installtype --db-rootuser=$dbroot --db-rootpassword=$dbpass");
 
 	if ($installappinst) {
 		print("Install InstallApp...\n");
@@ -288,6 +310,7 @@ function lxins_main()
 		print("The slave will appear in the list of slaves, and you can access it\n");
 		print("just like you access localhost\n\n");
 	}
+
 	print("\n");
 	print("---------------------------------------------\n");
 }
@@ -309,8 +332,8 @@ function installcomp_mail() {
 }
 
 function install_main() {
-
-	$installcomp['mail'] = array("vpopmail", "courier-imap-toaster", "courier-authlib-toaster", "qmail", "safecat", "httpd", "spamassassin", "ezmlm-toaster", "autorespond-toaster");
+	$installcomp['mail'] = array("vpopmail", "courier-imap-toaster", "courier-authlib-toaster", "qmail",
+			"httpd", "spamassassin", "ezmlm-toaster", "autorespond-toaster");
 	$installcomp['web'] = array("httpd", "pure-ftpd");
 	$installcomp['dns'] = array("bind", "bind-chroot");
 	$installcomp['database'] = array("mysql");
@@ -322,15 +345,18 @@ function install_main() {
 
 	foreach ($comp as $c) {
 	    flush();
+
 	    if (array_search($c, $serverlist) !== false) {
-	   	 print("Installing $c Components....");
-	   	 $req = $installcomp[$c];
-	   	 $func = "installcomp_$c";
-	   	 if (function_exists($func)) {
-	   	     $func();
-	   	 }
-	   	 install_general_mine($req);
-	   	 print("\n");
+			print("Installing $c Components....");
+			$req = $installcomp[$c];
+			$func = "installcomp_$c";
+
+			if (function_exists($func)) {
+				$func();
+			}
+
+			install_general_mine($req);
+			print("\n");
 	    }
 	}
 
@@ -379,7 +405,6 @@ function install_main() {
 	addLineIfNotExist($file, $pattern, $comment);
 	touch("/var/named/chroot/etc/kloxo.named.conf");
 	chown("/var/named/chroot/etc/kloxo.named.conf", "named");
-
 }
 
 // ==== kloxo_common portion ===
@@ -388,11 +413,14 @@ class remote { }
 
 function slave_get_db_pass() {
 	$file = "/usr/local/lxlabs/kloxo/etc/slavedb/dbadmin";
+
 	if (!file_exists($file)) {
 		return null;
 	}
+
 	$var = file_get_contents($file);
 	$rmt = unserialize($var);
+
 	return $rmt->data['mysql']['dbpassword'];
 }
 
@@ -412,31 +440,37 @@ function check_default_mysql($dbroot, $dbpass) {
 
 function parse_opt($argv) {
 	unset($argv[0]);
+
 	if (!$argv) {
 		return null;
 	}
+
 	foreach ($argv as $v) {
 		if (strstr($v, "=") === false || strstr($v, "--") === false) {
 			continue;
 		}
+
 		$opt = explode("=", $v);
 		$opt[0] = substr($opt[0], 2);
 		$ret[$opt[0]] = $opt[1];
 	}
+
 	return $ret;
 }
 
 function password_gen() {
 	$data = mt_rand(2, 30);
 	$pass = "lx" . $data; // lx is a indentifier
+
 	return $pass;
 }
 
 function char_search_beg($haystack, $needle) {
 	if (strpos($haystack, $needle) === 0) {
 		return true;
+	} else {
+		return false;
 	}
-	return false;
 }
 
 function install_yum_repo($osversion) {
@@ -445,10 +479,13 @@ function install_yum_repo($osversion) {
 
 	if (!file_exists("/etc/yum.repos.d")) {
 		print("No yum.repos.d dir detected!\n");
+
 		return;
 	}
+
 	if (file_exists("/etc/yum.repos.d/lxcenter.repo")) {
 		print("LxCenter yum repository file already present.\n");
+
 		return;
 	}
 
@@ -485,10 +522,12 @@ function find_os_version() {
 			$mapos = explode(".", $osver[$verpos]);
 			$oss = $mapos[0];
 		}
+
 		return $ossup[$osver[0]]."-".$oss;
 	}
 	else {
 		print("This Operating System is currently *NOT* supported.\n");
+
 		exit;
 	}
 
@@ -513,6 +552,7 @@ function get_yes_no($question, $default = 'n') {
 		$input = fgets(STDIN, 255);
 		$input = trim($input);
 		$input = strtolower($input);
+
 		if ($input == 'y' || $input == 'yes' || ($default == 'y' && $input == '')) {
 			return 'y';
 		}
@@ -531,12 +571,14 @@ function resetDBPassword($user, $pass)
 	shell_exec("su mysql -c \"/usr/libexec/mysqld --skip-grant-tables\" >/dev/null 2>&1 &");
 	print("Using MySQL to flush privileges and reset password\n");
 	sleep(10);
-	system("echo \"update user set password = Password('{$pass}') where User = '{$user}'\" | mysql -u [$user} mysql ", $return);
+	system("echo \"update user set password = Password('{$pass}') where User = '{$user}'\" |" .
+			" mysql -u [$user} mysql ", $return);
 
 	while($return) {
 		print("MySQL could not connect, will sleep and try again\n");
 		sleep(10);
-		system("echo \"update user set password = Password('{$pass}') where User = '{$user}'\" | mysql -u {$user} mysql", $return);
+		system("echo \"update user set password = Password('{$pass}') where User = '{$user}'\" |" .
+			" mysql -u {$user} mysql", $return);
 	}
 
 	print("Password reset succesfully. Now killing MySQL softly\n");
@@ -563,8 +605,6 @@ function addLineIfNotExist($filename, $pattern, $comment) {
 	} else {
 		print("Pattern '$pattern' Already present in $filename\n");
 	}
-
-
 }
 
 lxins_main();

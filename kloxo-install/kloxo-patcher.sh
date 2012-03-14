@@ -231,6 +231,7 @@ function kloxo_end () {
 	echo
 	echo "... the end"
 	echo
+
 	exit
 }
 
@@ -260,6 +261,7 @@ if [ "$#" == 0 ] ; then
 	echo " * Note: - patch dirs inside ./patch"
 	echo " * Run kloxo-packer.sh to make kloxo packs (local copy)"
 	echo
+
 	exit;
 fi
 

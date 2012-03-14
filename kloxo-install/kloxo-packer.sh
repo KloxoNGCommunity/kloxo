@@ -47,8 +47,12 @@ kloxo_fork=${request1#--fork\=}
 request2=$2
 kloxo_branch=${request2#--branch\=}
 
-request3=$3
-kloxo_part=${request3#--part\=}
+if [ -s "$3" ] ; then
+	request3=$3
+	kloxo_part=${request3#--part\=}
+else
+	kloxo_part="all"
+fi
 
 kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 
@@ -114,7 +118,7 @@ zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./REL
 mv -f kloxo-current.zip ../../
 cd ../../
 
-# if [ ${kloxo_part} != 'core' ] ; then
+if [ ! $kloxo_part != "core" ] ; then
 
 	thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
 	if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
@@ -145,7 +149,7 @@ cd ../../
 		echo ${lxawstatsver} > lxawstats-version
 		wget http://download.lxcenter.org/download/lxawstats${lxawstatsver}.tar.gz
 	fi
-# fi
+fi
 
 cp ./combo/kloxo-install/kloxo-installer.sh ./
 
