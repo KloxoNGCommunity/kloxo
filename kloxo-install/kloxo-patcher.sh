@@ -103,16 +103,19 @@ function kloxo_64bit () {
 			mkdir -p /usr/lib64/php
 			ln -s /usr/lib64/php /usr/lib/php
 		fi
+
 		if [ ! -h /usr/lib/httpd ] ; then
 			echo "- Set symlink for /usr/lib/httpd"
 			mkdir -p /usr/lib64/httpd
 			ln -s /usr/lib64/httpd /usr/lib/httpd
 		fi
+
 		if [ ! -h /usr/lib/lighttpd ] ; then
 			echo "- Set symlink for /usr/lib/kloxophp"
 			mkdir -p /usr/lib64/lighttpd
 			ln -s /usr/lib64/lighttpd /usr/lib/lighttpd
 		fi
+
 		if [ ! -h /usr/lib/kloxophp ] ; then
 			echo "- Set symlink for /usr/lib/lighttpd"
 			mkdir -p /usr/lib64/kloxophp
@@ -128,24 +131,23 @@ function kloxo_thirdparty_portion () {
 
 	if [ -f ./patch/thirdparty-patch-version ] ; then
 		patchver=`cat ./patch/thirdparty-patch-version`
-	else
-		patchver=""
-	fi
 
-	wget -q http://download.lxcenter.org/download/thirdparty/kloxo-version.list > /dev/null
-	kloxover=`cat kloxo-version.list`
-	rm -f kloxo-version.list
+		wget -q http://download.lxcenter.org/download/thirdparty/kloxo-version.list > /dev/null
+		kloxover=`cat kloxo-version.list`
+		rm -f kloxo-version.list
 	
-	kloxo_check_version $patchver $kloxover
+		kloxo_check_version $patchver $kloxover
 	
-	if [ "$?" -eq "1" ] ; then
-		echo "- Set ownership and permissions"
-		chown -R lxlabs:lxlabs ./patch/thirdparty/
-		find ./patch/thirdparty/ -type f -name \"*.php*\" -exec chmod 644 {} \;
-		find ./patch/thirdparty/ -type d -exec chmod 755 {} \;
+		if [ "$?" -eq "1" ] ; then
+			echo "- Set ownership and permissions"
+			chown -R lxlabs:lxlabs ./patch/thirdparty/
+			find ./patch/thirdparty/ -type f -name \"*.php*\" -exec chmod 644 {} \;
+			find ./patch/thirdparty/ -type d -exec chmod 755 {} \;
 	
-		echo "- Copy patch files"
-		cp -rf ./patch/thirdparty/* /usr/local/lxlabs/kloxo/httpdocs/thirdparty
+			echo "- Copy patch files"
+			cp -rf ./patch/thirdparty/* /usr/local/lxlabs/kloxo/httpdocs/thirdparty
+
+		fi
 	else
 		echo " - No Thirdparty patches"
 	fi
@@ -156,24 +158,22 @@ function kloxo_webmail_portion () {
 
 	if [ -f ./patch/webmail-patch-version ] ; then
 		patchver=`cat ./patch/webmail-patch-version`
-	else
-		patchver=""
-	fi
 
-	wget -q http://download.lxcenter.org/download/version/lxwebmail
-	kloxover=`cat lxwebmail`
-	rm -f lxwebmail
+		wget -q http://download.lxcenter.org/download/version/lxwebmail
+		kloxover=`cat lxwebmail`
+		rm -f lxwebmail
 	
-	kloxo_check_version $patchver $kloxover
+		kloxo_check_version $patchver $kloxover
 	
-	if [ "$?" -eq "1" ] ; then
-		echo "- Set ownership and permissions"
-		chown -R lxlabs:lxlabs ./patch/webmail/
-		find ./patch/webmail/ -type f -name \"*.php*\" -exec chmod 644 {} \;
-		find ./patch/webmail/ -type d -exec chmod 755 {} \;
+		if [ "$?" -eq "1" ] ; then
+			echo "- Set ownership and permissions"
+			chown -R lxlabs:lxlabs ./patch/webmail/
+			find ./patch/webmail/ -type f -name \"*.php*\" -exec chmod 644 {} \;
+			find ./patch/webmail/ -type d -exec chmod 755 {} \;
 	
-		echo "- Copy patch files"
-		cp -rf ./patch/webmail/* /home/kloxo/httpd/webmail
+			echo "- Copy patch files"
+			cp -rf ./patch/webmail/* /home/kloxo/httpd/webmail
+		fi
 	else
 		echo " - No Webmail patches"
 	fi
@@ -184,24 +184,22 @@ function kloxo_awstats_portion () {
 
 	if [ -f ./patch/awstats-patch-version ] ; then
 		patchver=`cat ./patch/awstats-patch-version`
-	else
-		patchver=""
-	fi
 
-	wget -q http://download.lxcenter.org/download/version/lxawstats
-	kloxover=`cat lxawstats`
-	rm -f lxawstats
+		wget -q http://download.lxcenter.org/download/version/lxawstats
+		kloxover=`cat lxawstats`
+		rm -f lxawstats
 	
-	kloxo_check_version $patchver $kloxover
+		kloxo_check_version $patchver $kloxover
 	
-	if [ "$?" -eq "1" ] ; then
-		echo "- Set ownership and permissions"
-		chown -R lxlabs:lxlabs ./patch/awstats/
-		find ./patch/awstats/ -type f -name \"*.php*\" -exec chmod 644 {} \;
-		find ./patch/awstats/ -type d -exec chmod 755 {} \;
+		if [ "$?" -eq "1" ] ; then
+			echo "- Set ownership and permissions"
+			chown -R lxlabs:lxlabs ./patch/awstats/
+			find ./patch/awstats/ -type f -name \"*.php*\" -exec chmod 644 {} \;
+			find ./patch/awstats/ -type d -exec chmod 755 {} \;
 	
-		echo "- Copy patch files"
-		cp -rf ./patch/awstats/* /home/kloxo/httpd/awstats
+			echo "- Copy patch files"
+			cp -rf ./patch/awstats/* /home/kloxo/httpd/awstats
+		fi
 	else
 		echo " - No Awstats patches"
 	fi

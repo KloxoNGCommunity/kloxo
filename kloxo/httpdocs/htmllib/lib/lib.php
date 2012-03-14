@@ -2192,6 +2192,12 @@ function fix_rhn_sources_file($nolog = null)
 	log_cleanup("- Fix processes", $nolog);
 
 	$os = findOperatingSystem('pointversion');
+/*
+	// MR -- deprecated for this!
+	// info inside 'sources'
+	//     # CentOS NOTE: This file is deprecated and no longer used, all system management
+	//     # is now handled via yum, look at yum's configs to manage repositories etc
+
 	$list = lfile("/etc/sysconfig/rhn/sources");
 	foreach ($list as $k => $l) {
 		$l = trim($l);
@@ -2210,12 +2216,12 @@ function fix_rhn_sources_file($nolog = null)
 	$outlist[] = "yum lxcenter-lxupdates http://download.lxcenter.org/download/update/lxgeneral/";
 
 	lfile_put_contents("/etc/sysconfig/rhn/sources", implode("\n", $outlist) . "\n");
+*/
 	$cont = lfile_get_contents("__path_program_htmlbase/htmllib/filecore/lxcenter.repo.template");
 
 	$cont = str_replace("%distro%", $os, $cont);
 	lfile_put_contents("/etc/yum.repos.d/lxcenter.repo", $cont);
 }
-
 
 function mkdir_ifnotExist($name)
 {
