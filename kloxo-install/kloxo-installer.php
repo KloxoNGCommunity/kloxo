@@ -53,6 +53,8 @@ function lxins_main()
 			exit;
 		}
 		
+		print("\nAlert: only 6.2.0+ safe (without destroying Kloxo current config) reinstalling.\n\n");
+		
 		// MR -- just for emergency
 		if (!file_exists("/usr/local/lxlabs /usr/local/lxlabs.bck")) {
 			system("yes|cp -rf /usr/local/lxlabs /usr/local/lxlabs.bck");
