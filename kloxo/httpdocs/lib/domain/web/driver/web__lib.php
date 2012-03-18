@@ -156,23 +156,29 @@ class web__ extends lxDriverClass
 			$input['setdefaults'] = 'ssl';
 
 			$input['indexorder'] = self::getIndexFileOrderDefault();
+			
+			$input['userlist'] = $this->getUserList();
 
 			self::setCreateConfFile($input);
 		}
 	}
 
-	static function createCpConfig()
+	function createCpConfig()
 	{
 		$list = array('default', 'cp', 'disable');
 
 		$input = array();
+		
+		$input['iplist'] = self::getAllIps();
+
+		$input['indexorder'] = self::getIndexFileOrderDefault();
 
 		foreach ($list as &$v) {
 			$input['setdefaults'] = $v;
-
-			$input['iplist'] = self::getAllIps();
-
-			$input['indexorder'] = self::getIndexFileOrderDefault();
+			
+			if ($v === 'default') {
+				$input['userlist'] = $this->getUserList();			
+			}
 
 			self::setCreateConfFile($input);
 		}
@@ -223,6 +229,24 @@ class web__ extends lxDriverClass
 
 		return $ret;
 	}
+	
+	function getUserList()
+	{
+		// MR -- look like not work calling $this->main->__var_clientlist
+		// so, taken from database directly
+
+		$string = "syncserver = '{$this->main->__syncserver}'";
+		$clientdb = new Sqlite(null, 'client');
+		$ulist = $clientdb->getRowsWhere($string, array('nname'));
+
+		$users = array();
+
+		foreach ($ulist as $u) {
+			$users[] = $u['nname'];
+		}
+		
+		return $users;
+	}
 
 	static function getAllIps()
 	{
@@ -241,19 +265,26 @@ class web__ extends lxDriverClass
 	{
 		$domainname = $this->getDomainname();
 
-		$mlist = $this->main->__var_mmaillist;
+		// MR -- look like not work calling $this->main->__var_mmaillist
+		// so, taken from database directly
 
-		foreach($mlist as $m) {
-			if ($m['nname'] === $domainname) {
-				$list = $m;
-				break;
+		$string = "syncserver = '{$this->main->__syncserver}'";
+		$mmaildb = new Sqlite(null, 'mmail');
+		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
+
+		if ($mlist) {
+			foreach ($mlist as $m) {
+				if ($m['nname'] === $domainname) {
+					$list = $m;
+					break;
+				}
 			}
-		}
-
-		// --- for the first time domain create
-		if (!isset($list)) {
-			$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname, 
-					'webmailprog' => '', 'webmail_url' => '', 'remotelocalflag' => 'local');
+		} else {
+			// --- for the first time domain create
+			if (!isset($list)) {
+				$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname, 
+						'webmailprog' => '', 'webmail_url' => '', 'remotelocalflag' => 'local');
+			}
 		}
 
 		$r = null;
@@ -886,6 +917,11 @@ class web__ extends lxDriverClass
 		$this->main->deleteDir();
 
 		$this->createSSlConf();
+
+		// MR -- relate to fixed ip/~client, but better on add/delete client process
+		// meanwhile enough in here
+
+		$this->createCpConfig();
 	}
 
 	function addDomain()
@@ -897,6 +933,11 @@ class web__ extends lxDriverClass
 		$this->main->createPhpInfo();
 
 		$this->createSSlConf();
+
+		// MR -- relate to fixed ip/~client, but better on add/delete client process
+		// meanwhile enough in here
+
+		$this->createCpConfig();
 	}
 
 	function dbactionAdd()
@@ -1041,7 +1082,7 @@ class web__ extends lxDriverClass
 				case "static_config_update":
 					$this->updateMainConfFile();
 					$this->createSSlConf();
-					self::createCpConfig();
+					$this->createCpConfig();
 					self::createWebDefaultConfig();
 					break;
 

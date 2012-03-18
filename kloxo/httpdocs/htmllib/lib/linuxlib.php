@@ -192,14 +192,15 @@ function getIPs_from_ifcfg()
 
 	global $gbl, $sgbl, $login, $ghtml;
 
-	$driverapp = $gbl->getSyncClass(null, null, 'ipaddress');
+//	$driverapp = $gbl->getSyncClass(null, null, 'ipaddress');
 //	print($driverapp);
 
-	if ($driverapp === 'redhat') {
+//	if ($driverapp === 'redhat') {
 		$list = Ipaddress__Redhat::getCurrentIps();
-	}
+//	}
 
 	$iplist = array(); // Initialize return value
+	
 	if(!empty($list)) {
 		foreach($list as $k => $v) {
 			// Check ipaddr index

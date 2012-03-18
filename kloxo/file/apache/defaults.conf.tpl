@@ -109,6 +109,18 @@ NameVirtualHost 127.0.0.1:<?php echo $port ?>
     <Ifmodule mod_userdir.c>
         UserDir enabled
         UserDir "public_html"
+<?php
+            foreach ($userlist as &$user) {
+?>
+        <Location /<?php echo $user; ?>>
+            <IfModule mod_suphp.c>
+                SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+
+            </IfModule>
+        </Location>
+<?php
+            }
+?>
     </Ifmodule>
 <?php
         }

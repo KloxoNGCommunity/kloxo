@@ -478,12 +478,19 @@ class Web extends Lxdb
 		}
 
 		$this->__var_vdomain_list = $mydb->getRowsWhere($string, array('nname', 'ipaddress'));
+/*
+		// MR -- calling this vars from web__lib look like not work
 
-		// MR -- related to apache/lighttpd new structure - still relevant for template-based config!
 	//	$mmaildb = new Sqlite($this->__masterserver, 'mmail');
 		$mmaildb = new Sqlite(null, 'mmail');
 		$this->__var_mmaillist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
+
+	//	$clientdb = new Sqlite($this->__masterserver, 'client');
+		$clientdb = new Sqlite(null, 'client');
+		$this->__var_clientlist = $clientdb->getRowsWhere($string, array('nname', 'parent_clname'));
+*/
 	}
+	
 
 	function getQuotaNeedVar()
 	{
