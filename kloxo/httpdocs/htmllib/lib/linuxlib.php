@@ -120,7 +120,7 @@ function os_get_allips()
 			$iplist[] = $t;		
 		}
 	}
-	else {
+//	else {
 	/*
 		// get ip from ifconfig
 		$out = lxshell_output("ifconfig");
@@ -141,7 +141,12 @@ function os_get_allips()
 	//	$iplist = getIPs_from_ifconfig(false);
 
 		$iplist = getIPs_from_ifcfg();
-	}
+//	}
+
+	// MR -- change spec from substitution to complementary
+	// and then remove duplicate array value
+
+	array_unique($iplist);
 
 	return $iplist;
 }

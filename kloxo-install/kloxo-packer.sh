@@ -47,7 +47,7 @@ kloxo_fork=${request1#--fork\=}
 request2=$2
 kloxo_branch=${request2#--branch\=}
 
-if [ -s "$3" ] ; then
+if [ "$3" == '--part=core' ] ; then
 	request3=$3
 	kloxo_part=${request3#--part\=}
 else
@@ -67,12 +67,12 @@ if [ ! -d ./current/kloxo/httpdocs ] ; then
 	mv -f ./${kloxo_fork}* ./current
 	yes | rm -rf kloxo.zip
 else
-	echo "No download and use local copy"
+	echo "No download and use local copy - './current/kloxo/httpdocs already' exist"
 fi
 
-cp -rf ./current/* ./combo
+yes|cp -rf ./current/* ./combo
 
-cp -rf ./patch/* ./combo
+yes|cp -rf ./patch/* ./combo
 
 if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then
 
@@ -118,7 +118,7 @@ zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./REL
 mv -f kloxo-current.zip ../../
 cd ../../
 
-if [ ! $kloxo_part != "core" ] ; then
+if [ ! $kloxo_part == "core" ] ; then
 
 	thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
 	if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
@@ -151,7 +151,7 @@ if [ ! $kloxo_part != "core" ] ; then
 	fi
 fi
 
-cp ./combo/kloxo-install/kloxo-installer.sh ./
+yes|cp -rf ./combo/kloxo-install/kloxo-installer.sh ./
 
 # Reads yes|no answer from the input 
 # 1 question text
