@@ -83,7 +83,9 @@ server {
     if ($wwwredirect) {
 ?>
 
-    rewrite ^/(.*) 'http://www.<?php echo $domainname; ?>/$1' permanent;
+    location / {
+        rewrite ^/(.*) 'http://www.<?php echo $domainname; ?>/$1' permanent;
+    }
 <?php
     }
 
@@ -105,16 +107,18 @@ server {
 <?php
                 if ($ed !== 'webmail') {
 ?>
-        set $rootdir '/home/kloxo/httpd/<?php echo $ed; ?>';
+    set $rootdir '/home/kloxo/httpd/<?php echo $ed; ?>';
 <?php
                 } else {
                     if($webmailremote) {
 ?>
+    location / {
         rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
+    }
 <?php
                     } else {
 ?>
-        set $rootdir '<?php echo $webmaildocroot; ?>';
+    set $rootdir '<?php echo $webmaildocroot; ?>';
 <?php
                     }
                 }
@@ -310,7 +314,9 @@ server {
 ?>
     server_name webmail.<?php echo $domainname; ?>;
 
-    rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
+    location / {
+        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
+    }
 }
 <?php
         } elseif ($webmailapp) {
@@ -387,7 +393,7 @@ server {
 
     index <?php echo $indexorder; ?>;
 
-    set $redir '<?php echo $redirfullpath; ?>';
+    set $rootdir '<?php echo $redirfullpath; ?>';
 
     root $rootdir;
 <?php
@@ -425,7 +431,9 @@ server {
 ?>
     server_name '<?php echo $redirdomainname; ?>';
 
-    rewrite ^/(.*) 'http://<?php echo $domainname; ?>/$1';
+    location / {
+         rewrite ^/(.*) 'http://<?php echo $domainname; ?>/$1';
+    }
 }
 
 <?php
@@ -457,8 +465,6 @@ server {
     index <?php echo $indexorder; ?>;
 
     set $rootdir '<?php echo $disablepath; ?>';
-
-    index <?php echo $indexorder; ?>;
 
     root $rootdir;
 <?php
@@ -496,7 +502,9 @@ server {
 ?>
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
-    rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
+    location / {
+        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
+    }
 }
 
 <?php
@@ -620,7 +628,9 @@ server {
 ?>
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
-    rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
+    location / {
+        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
+    }
 }
 
 <?php
