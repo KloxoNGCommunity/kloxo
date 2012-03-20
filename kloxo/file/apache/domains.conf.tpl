@@ -89,7 +89,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     RewriteEngine On
     RewriteCond %{HTTP_HOST} ^<?php echo str_replace('.', '\.', $domainname); ?>$ [NC]
-    RewriteRule ^(.*)$ http://www.<?php echo $domainname; ?>/$1 [R=301,L]
+    RewriteRule ^(.*)$ http://www.<?php echo $domainname; ?>$1 [R=301,L]
 
 <?php
     }
