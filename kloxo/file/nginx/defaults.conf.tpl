@@ -51,6 +51,7 @@ index <?php echo $indexorder; ?>;
 <?php 
     }
 } elseif ($setdefaults === 'init') {
+/*
 ?>
 server {
 <?php
@@ -63,10 +64,12 @@ server {
 ?>
 }
 <?php
+*/
 } else {
 ?> 
 server {
 <?php
+/*
     foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -74,7 +77,11 @@ server {
 
 <?php 
     }
+*/
 ?>
+    listen *:<?php echo $port ?>;
+    listen *:<?php echo $portssl ?>;
+
 <?php
     if ($setdefaults === 'default') {
 ?> 

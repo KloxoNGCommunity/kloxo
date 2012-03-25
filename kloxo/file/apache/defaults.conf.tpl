@@ -10,12 +10,15 @@ if ($reverseproxy) {
     $port = '80';
     $portssl = '443';
 }
-
+/*
 foreach ($iplist as &$ip) {
     $ipports .= "    {$ip}:{$port} {$ip}:{$portssl}\\\n";
 }
 
 $ipports .= "    127.0.0.1:{$port}";
+*/
+
+$ipports = "    *:{$port} *:{$portssl}";
 
 if ($setdefaults === 'webmail') {
     if ($webmailappdefault) {
@@ -69,6 +72,7 @@ DirectoryIndex <?php echo $indexorder; ?>
 <?php
 } else {
     if ($setdefaults === 'init') {
+/*
         foreach ($iplist as &$ip) {
 ?> 
 Listen <?php echo $ip ?>:<?php echo $port ?> 
@@ -90,6 +94,14 @@ NameVirtualHost 127.0.0.1:<?php echo $port ?>
 
 <?php
         }
+*/
+?>
+Listen *:<?php echo $port ?> 
+Listen *:<?php echo $portssl ?> 
+
+NameVirtualHost *:<?php echo $port ?> 
+NameVirtualHost *:<?php echo $portssl ?> 
+<?php
     } else {
 ?> 
 <VirtualHost \

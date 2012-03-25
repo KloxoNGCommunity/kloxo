@@ -12,11 +12,15 @@ if ($reverseproxy) {
     $portssl = '443';
 }
 
+/*
 foreach ($iplist as &$ip) {
     $ipports .= "    {$ip}:{$port} {$ip}:{$portssl}\\\n";
 }
 
 $ipports .= "    127.0.0.1:{$port}";
+*/
+
+$ipports = "    *:{$port} *:{$portssl}";
 
 if ($ipssllist) {
     foreach ($ipssllist as &$ipssl) {

@@ -171,28 +171,38 @@ function getIPs_from_ifconfig($withV6 = true)
 
 // Bug #797 - Failed identify ip on apache
 // MR - mimic from getCurrentIps() on ipaddress__redhatlib.php
+// back to use mimic because possibility trouble on slave 
 function getIPs_from_ifcfg()
 {
-/*
 	$p = '/etc/sysconfig/network-scripts/';
 	$l = lscandir($p);
 
 	foreach($l as $t => $f) {
 		if (stristr($f, "ifcfg-")) {
 			if ($f === 'ifcfg-lo') { continue; }
+			
 			$c = file_get_contents($p.$f);
 			$a = explode("\n", $c);
+			
 			foreach($a as $k => $v) {
 				if (stristr($v, "IPADDR=")) {
 					$i = explode("=", $v);
-					$r[] = trim($i[1]);
+
+					$ip = trim($i[1]);
+
+					if ($ip === '127.0.0.1') { 
+						continue;
+					} else {
+						$r[] = trim($i[1]);
+					}
 				}
 			}
 		}
 	}
 	
 	return $r;
-*/
+
+/*
 	// instead mimic function, call function directly
 
 	global $gbl, $sgbl, $login, $ghtml;
@@ -219,6 +229,7 @@ function getIPs_from_ifcfg()
 	}
 
 	return $iplist;
+*/
 }
 
 function os_disable_user($username)

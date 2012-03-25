@@ -5807,6 +5807,112 @@ function setClientChownChmod($list, $select = null, $nolog = null)
 	}
 }
 
+	function setFixChownChmod($select, $nolog = null)
+	{
+		global $login;
+
+		$login->loadAllObjects('client');
+		$list = $login->getList('client');
+
+		$userdirchmod = '751'; // need to change to 751 for nginx-proxy
+		$phpfilechmod = '644';
+		$domdirchmod = '755';
+
+		// --- for /home/kloxo/httpd dirs (defaults pages)
+
+		log_cleanup("Fix file permission problems for defaults pages (chown/chmod files)", $nolog);
+
+		setKloxoHttpdChownChmod($nolog);
+		setWebDriverChownChmod('apache', $nolog);
+		setWebDriverChownChmod('lighttpd', $nolog);
+		setWebDriverChownChmod('nginx', $nolog);
+
+		// --- for domain dirs
+
+		foreach($list as $c) {
+			$clname = $c->getPathFromName('nname');
+			$cdir = "/home/{$clname}";
+			$dlist = $c->getList('domaina');
+			$ks = "kloxoscript";
+
+			lxshell_return("chown", "{$clname}:apache", "{$cdir}/");
+			log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
+
+			lxshell_return("chmod", "{$userdirchmod}", "{$cdir}/");
+			log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
+
+			lxshell_return("chown", "-R", "{$clname}:{$clname}", "{$cdir}/{$ks}/");
+			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/", $nolog);
+
+			lxshell_return("chown", "{$clname}:apache", "{$cdir}/{$ks}/");
+			log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/", $nolog);
+
+			lxshell_return("find", "{$cdir}/{$ks}/", "-type", "f", "-name", "\"*.php*\"",
+					"-exec", "chmod", "{$phpfilechmod}", "\{\}", "\\;");
+			log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
+
+			lxshell_return("find", "{$cdir}/{$ks}/", "-type", "d",
+					"-exec", "chmod", "{$domdirchmod}", "\{\}", "\\;");
+			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
+
+			foreach((array) $dlist as $l) {
+				$web = $l->nname;
+
+				if (($select === "all") || ($select === 'chown')) {
+					lxshell_return("chown", "-R", "{$clname}:{$clname}", "{$cdir}/{$web}/");
+					log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$web}/", $nolog);
+				}
+
+				if (($select === "all") || ($select === 'chmod')) {
+					lxshell_return("find", "{$cdir}/{$web}/", "-type", "f", "-name", "\"*.php*\"",
+							"-exec", "chmod", "{$phpfilechmod}", "\{\}", "\\;");
+					log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$web}/", $nolog);
+
+					lxshell_return("find", "{$cdir}/{$web}/", "-type", "d",
+							"-exec", "chmod", "{$domdirchmod}", "\{\}", "\\;");
+					log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/ AND INSIDE", $nolog);
+				}
+
+				lxshell_return("chown", "{$clname}:apache", "{$cdir}/{$web}/");
+				log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$web}/", $nolog);
+
+				lxshell_return("chmod", "-R", "{$domdirchmod}", "{$cdir}/{$web}/cgi-bin");
+				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/cgi-bin AND FILES", $nolog);
+			}
+		}
+	}
+
+	function setFixPhpFpm($nolog = null)
+	{
+		global $login;
+
+		$login->loadAllObjects('client');
+		$list = $login->getList('client');
+
+		$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
+
+		$tpltarget = "/etc/php-fpm.conf";
+
+		$tpl = file_get_contents($tplsource);
+
+		$input = array();
+
+		log_cleanup("Fixing Php-fpm config", $nolog);
+
+		foreach ($list as $c) {
+			$input['userlist'][] = $c->nname;
+			log_cleanup("- set pool for '{$c->nname}'", $nolog);
+		}
+
+		$tplparse = getParseInlinePhp($tpl, $input);
+
+		file_put_contents($tpltarget, $tplparse);
+
+		createRestartFile('php-fpm');
+	}
+
+
+
 function setInitialPureftpConfig($nolog = null)
 {
 	log_cleanup("Initialize PureFtp service", $nolog);

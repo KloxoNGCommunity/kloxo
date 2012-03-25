@@ -424,145 +424,6 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
-	function setFixPhpFpm_nolog()
-	{
-		$this->setFixPhpFpm($nolog = true);
-	}
-
-	function setFixPhpFpm($nolog = null)
-	{
-		global $login;
-
-		$login->loadAllObjects('client');
-		$list = $login->getList('client');
-
-		$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
-
-		$tpltarget = "/etc/php-fpm.conf";
-
-		$tpl = file_get_contents($tplsource);
-
-		$input = array();
-
-		log_cleanup("Fixing Php-fpm config", $nolog);
-
-		foreach ($list as $c) {
-			$input['userlist'][] = $c->nname;
-			log_cleanup("- set pool for '{$c->nname}'", $nolog);
-		}
-
-		$tplparse = getParseInlinePhp($tpl, $input);
-
-		file_put_contents($tpltarget, $tplparse);
-
-		createRestartFile('php-fpm');
-	}
-
-	function setFixChownChmodAll_nolog()
-	{
-		$this->setFixChownChmod('all', $nolog = true);
-	}
-
-	function setFixChownChmodOwn_nolog()
-	{
-		$this->setFixChownChmod('chown', $nolog = true);
-	}
-
-	function setFixChownChmodMod_nolog()
-	{
-		$this->setFixChownChmod('chmod', $nolog = true);
-	}
-
-	function setFixChownChmodAll()
-	{
-		$this->setFixChownChmod('all');
-	}
-
-	function setFixChownChmodOwn()
-	{
-		$this->setFixChownChmod('chown');
-	}
-
-	function setFixChownChmodMod()
-	{
-		$this->setFixChownChmod('chmod');
-	}
-
-	function setFixChownChmod($select, $nolog = null)
-	{
-		global $login;
-
-		$login->loadAllObjects('client');
-		$list = $login->getList('client');
-
-		$userdirchmod = '751'; // need to change to 751 for nginx-proxy
-		$phpfilechmod = '644';
-		$domdirchmod = '755';
-
-		// --- for /home/kloxo/httpd dirs (defaults pages)
-
-		log_cleanup("Fix file permission problems for defaults pages (chown/chmod files)", $nolog);
-
-		setKloxoHttpdChownChmod($nolog);
-		setWebDriverChownChmod('apache', $nolog);
-		setWebDriverChownChmod('lighttpd', $nolog);
-		setWebDriverChownChmod('nginx', $nolog);
-
-		// --- for domain dirs
-
-		foreach($list as $c) {
-			$clname = $c->getPathFromName('nname');
-			$cdir = "/home/{$clname}";
-			$dlist = $c->getList('domaina');
-			$ks = "kloxoscript";
-
-			exec("chown {$clname}:apache {$cdir}/");
-			log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
-
-			exec("chmod {$userdirchmod} {$cdir}/");
-			log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
-
-			exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
-			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/", $nolog);
-
-			exec("chown {$clname}:apache {$cdir}/{$ks}/");
-			log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/", $nolog);
-
-			exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" " .
-					"-exec chmod {$phpfilechmod} \{\} \\;");
-			log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
-
-			exec("find {$cdir}/{$ks}/ -type d " .
-					"-exec chmod {$domdirchmod} \{\} \\;");
-			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
-
-			foreach((array) $dlist as $l) {
-				$web = $l->nname;
-
-				if (($select === "all") || ($select === 'chown')) {
-					exec("chown -R {$clname}:{$clname} {$cdir}/{$web}/");
-					log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$web}/", $nolog);
-				}
-
-				if (($select === "all") || ($select === 'chmod')) {
-					exec("find {$cdir}/{$web}/ -type f -name \"*.php*\" " .
-							"-exec chmod {$phpfilechmod} \{\} \\;");
-					log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$web}/", $nolog);
-
-					exec("find {$cdir}/{$web}/ -type d " .
-							"-exec chmod {$domdirchmod} \{\} \\;");
-					log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/ AND INSIDE", $nolog);
-				}
-
-				exec("chown {$clname}:apache {$cdir}/{$web}/");
-				log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$web}/", $nolog);
-
-				exec("chmod -R {$domdirchmod} {$cdir}/{$web}/cgi-bin");
-				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/cgi-bin AND FILES", $nolog);
-			}
-		}
-	}
-
 	function getSslIpList()
 	{
 		$domainname = $this->getDomainname();
@@ -1087,35 +948,35 @@ class web__ extends lxDriverClass
 					break;
 
 				case "fix_phpfpm":
-					$this->setFixPhpFpm();
+					setFixPhpFpm();
 					break;
 
 				case "fix_phpfpm_nolog":
-					$this->setFixPhpFpm_nolog();
+					setFixPhpFpm($nolog = true);
 					break;
 
 				case "fix_chownchmod_all":
-					$this->setFixChownChmodAll();
+					setFixChownChmod('all');
 					break;
 
 				case "fix_chownchmod_own":
-					$this->setFixChownChmodOwn();
+					setFixChownChmod('chown');
 					break;
 
 				case "fix_chownchmod_mod":
-					$this->setFixChownChmodMod();
+					setFixChownChmod('chmod');
 					break;
 
 				case "fix_chownchmod_all_nolog":
-					$this->setFixChownChmodAll_nolog();
+					setFixChownChmod('all', $nolog = true);
 					break;
 
 				case "fix_chownchmod_own_nolog":
-					$this->setFixChownChmodOwn_nolog();
+					setFixChownChmod('chown', $nolog = true);
 					break;
 
 				case "fix_chownchmod_mod_nolog":
-					$this->setFixChownChmodMod_nolog();
+					setFixChownChmod('chmod', $nolog = true);
 					break;
 			}
 		}
