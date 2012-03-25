@@ -56,6 +56,8 @@ fi
 
 kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 
+yum install zip unzip -y
+
 mkdir -p ./combo
 
 if [ ! -d ./current/kloxo/httpdocs ] ; then
