@@ -88,7 +88,7 @@ server {
     if ($wwwredirect) {
 ?>
 
-    location / {
+    if ($host != 'www.<?php echo $domainname; ?>') {
         rewrite ^/(.*) 'http://www.<?php echo $domainname; ?>/$1' permanent;
     }
 <?php
@@ -117,7 +117,8 @@ server {
                 } else {
                     if($webmailremote) {
 ?>
-    location / {
+
+    if ($host != '<?php echo $webmailremote; ?>') {
         rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
     }
 <?php
@@ -251,7 +252,7 @@ server {
     if ($blockips) {
 ?>
 
-    location / {
+    location ^~ /(.*) {
         deny   <?php echo $blockips; ?>;
         allow  all;
     }
@@ -329,7 +330,7 @@ server {
 
     server_name webmail.<?php echo $domainname; ?>;
 
-    location / {
+    if ($host != '<?php echo $webmailremote; ?>') {
         rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
     }
 }
@@ -461,7 +462,7 @@ server {
 
     server_name '<?php echo $redirdomainname; ?>';
 
-    location / {
+    if ($host != '<?php echo $domainname; ?>') {
          rewrite ^/(.*) 'http://<?php echo $domainname; ?>/$1';
     }
 }
@@ -539,7 +540,7 @@ server {
 ?>
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
-    location / {
+    if ($host != '<?php echo $webmailremote; ?>') {
         rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
     }
 }
@@ -680,7 +681,7 @@ server {
 
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
-    location / {
+    if ($host != '<?php echo $webmailremote; ?>') {
         rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
     }
 }
