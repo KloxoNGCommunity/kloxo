@@ -242,8 +242,8 @@ server {
 
     location /<?php echo $protectpath; ?>/(.*)$ {
         satisfy any;
-        auth_basic <?php echo $protectauthname; ?>;
-        auth_basic_user_file /home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>;
+        auth_basic '<?php echo $protectauthname; ?>';
+        auth_basic_user_file '/home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>';
     }
 <?php
         }

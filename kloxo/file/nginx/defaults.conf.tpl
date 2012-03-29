@@ -84,7 +84,7 @@ server {
 
 <?php
     if ($setdefaults === 'default') {
-?> 
+?>
     server_name _;
 
     index <?php echo $indexorder; ?>;
