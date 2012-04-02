@@ -140,6 +140,7 @@ else
 	OUT=$?
 	if [ $OUT -eq "0" ] ; then
 		echo -en "SELinux disabled            " $C_NO
+        setenforce 0
 		echo "SELINUX=disabled" > $SELINUX_CFG
 		echo -e "SELinux disabled successfully\n"
 	elif [ $OUT -eq "1" ] ; then
