@@ -124,7 +124,7 @@ NameVirtualHost *:<?php echo $portssl ?>
 <?php
             foreach ($userlist as &$user) {
 ?>
-        <Location /<?php echo $user; ?>>
+        <Location /~<?php echo $user; ?>>
             <IfModule mod_suphp.c>
                 SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
