@@ -112,19 +112,16 @@ server {
 <?php
                 if ($ed !== 'webmail') {
 ?>
-    set $rootdir '/home/kloxo/httpd/<?php echo $ed; ?>';
+        set $rootdir '/home/kloxo/httpd/<?php echo $ed; ?>';
 <?php
                 } else {
                     if($webmailremote) {
 ?>
-
-    if ($host != '<?php echo $webmailremote; ?>') {
         rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
-    }
 <?php
                     } else {
 ?>
-    set $rootdir '<?php echo $webmaildocroot; ?>';
+        set $rootdir '<?php echo $webmaildocroot; ?>';
 <?php
                     }
                 }
