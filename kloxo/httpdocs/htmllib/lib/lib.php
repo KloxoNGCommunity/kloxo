@@ -5774,12 +5774,10 @@ function setClientChownChmod($list, $select = null, $nolog = null)
 		exec("chown {$client}:apache {$cdir}/{$ks}/");
 		log_cleanup("- chown {$client}:apache FOR {$cdir}/{$ks}/", $nolog);
 
-		exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" " .
-				"-exec chmod {$phpfilechmod} \{\} \\;");
+		exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 		log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
 
-		exec("find {$cdir}/{$ks}/ -type d " .
-				"-exec chmod {$domdirchmod} \{\} \\;");
+		exec("find {$cdir}/{$ks}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
 		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
 
 		foreach($domains as $dom) {
@@ -5789,12 +5787,10 @@ function setClientChownChmod($list, $select = null, $nolog = null)
 			}
 
 			if (($select === "all") || ($select === 'chmod')) {
-				exec("find {$cdir}/{$dom}/ -type f -name \"*.php*\" " .
-						"-exec chmod {$phpfilechmod} \{\} \\;");
+				exec("find {$cdir}/{$dom}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 				log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$dom}/", $nolog);
 
-				exec("find {$cdir}/{$dom}/ -type d " .
-						"-exec chmod {$domdirchmod} \{\} \\;");
+				exec("find {$cdir}/{$dom}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
 				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$dom}/ AND INSIDE", $nolog);
 			}
 
@@ -5827,57 +5823,61 @@ function setClientChownChmod($list, $select = null, $nolog = null)
 		setWebDriverChownChmod('lighttpd', $nolog);
 		setWebDriverChownChmod('nginx', $nolog);
 
+		$prevdir = '';
+
 		// --- for domain dirs
 
 		foreach($list as $c) {
 			$clname = $c->getPathFromName('nname');
 			$cdir = "/home/{$clname}";
 			$dlist = $c->getList('domaina');
+
 			$ks = "kloxoscript";
 
-			lxshell_return("chown", "{$clname}:apache", "{$cdir}/");
+			exec("chown {$clname}:apache {$cdir}/");
 			log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
 
-			lxshell_return("chmod", "{$userdirchmod}", "{$cdir}/");
+			exec("chmod {$userdirchmod} {$cdir}/");
 			log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
 
-			lxshell_return("chown", "-R", "{$clname}:{$clname}", "{$cdir}/{$ks}/");
+			exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
 			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/", $nolog);
 
-			lxshell_return("chown", "{$clname}:apache", "{$cdir}/{$ks}/");
+			exec("chown {$clname}:apache {$cdir}/{$ks}/");
 			log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/", $nolog);
 
-			lxshell_return("find", "{$cdir}/{$ks}/", "-type", "f", "-name", "\"*.php*\"",
-					"-exec", "chmod", "{$phpfilechmod}", "\{\}", "\\;");
+			exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 			log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
 
-			lxshell_return("find", "{$cdir}/{$ks}/", "-type", "d",
-					"-exec", "chmod", "{$domdirchmod}", "\{\}", "\\;");
+			exec("find {$cdir}/{$ks} -type d -exec chmod {$domdirchmod} \{\} \\;");
 			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
 
 			foreach((array) $dlist as $l) {
-				$web = $l->nname;
+				$web = $l->getObject('web');
+				$docroot = $web->docroot;
+
+				if ($docroot === $prevdir) { continue; }
 
 				if (($select === "all") || ($select === 'chown')) {
-					lxshell_return("chown", "-R", "{$clname}:{$clname}", "{$cdir}/{$web}/");
-					log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$web}/", $nolog);
+					exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
+					log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/", $nolog);
 				}
 
 				if (($select === "all") || ($select === 'chmod')) {
-					lxshell_return("find", "{$cdir}/{$web}/", "-type", "f", "-name", "\"*.php*\"",
-							"-exec", "chmod", "{$phpfilechmod}", "\{\}", "\\;");
-					log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$web}/", $nolog);
+					exec("find {$cdir}/{$docroot}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
+					log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$docroot}/", $nolog);
 
-					lxshell_return("find", "{$cdir}/{$web}/", "-type", "d",
-							"-exec", "chmod", "{$domdirchmod}", "\{\}", "\\;");
-					log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/ AND INSIDE", $nolog);
+					exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
+					log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
 				}
 
-				lxshell_return("chown", "{$clname}:apache", "{$cdir}/{$web}/");
-				log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$web}/", $nolog);
+				exec("chown {$clname}:apache {$cdir}/{$docroot}/");
+				log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$docroot}/", $nolog);
 
-				lxshell_return("chmod", "-R", "{$domdirchmod}", "{$cdir}/{$web}/cgi-bin");
-				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$web}/cgi-bin AND FILES", $nolog);
+				exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
+				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
+
+				$prevdir = $docroot;
 			}
 		}
 	}

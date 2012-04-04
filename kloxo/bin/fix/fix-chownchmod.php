@@ -18,6 +18,9 @@ log_cleanup("Fixing Chown and Chmod", $nolog);
 $login->loadAllObjects('client');
 $clist = $login->getList('client');
 
+$prevsyncserver = '';
+$currsyncserver = '';
+
 foreach($clist as $c) {
 	if ($server !== 'all') {
 		$sa = explode(",", $server);
