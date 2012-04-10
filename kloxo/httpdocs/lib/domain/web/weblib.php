@@ -1070,12 +1070,26 @@ class Web extends Lxdb
 
 	function updatepermalink($param)
 	{
+/*
+		// MR -- for future (permalink for lighttpd and nginx)
+
+		if (isset($param['lighty_pretty_app_f'])) {
+			$name = $param['lighty_pretty_app_f'];
+			$path = $param['lighty_pretty_path_f'];
+			$web = 'lighttpd';
+		} elseif (isset($param['nginx_pretty_app_f'])) {
+			$name = $param['nginx_pretty_app_f'];
+			$path = $param['nginx_pretty_path_f'];
+			$web = 'nginx';
+		}
+
+		$list = lfile("../file/prettyurl/{$name}.{$web}");
+*/
 		$name = $param['lighty_pretty_app_f'];
 		$path = $param['lighty_pretty_path_f'];
 
-	//	$list = lfile_trim("../file/prettyurl/$name");
-		$list = lfile("../file/prettyurl/$name");
-
+		$list = lfile_trim("../file/prettyurl/{$name}");
+	
 		$list[0] = trimSpaces($list[0]);
 		list($t, $type, $typen) = explode(" ", $list[0]);
 

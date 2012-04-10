@@ -5803,115 +5803,84 @@ function setClientChownChmod($list, $select = null, $nolog = null)
 	}
 }
 
-	function setFixChownChmod($select, $nolog = null)
-	{
-		global $login;
+function setFixChownChmod($select, $nolog = null)
+{
+	global $login;
 
-		$login->loadAllObjects('client');
-		$list = $login->getList('client');
+	$login->loadAllObjects('client');
+	$list = $login->getList('client');
 
-		$userdirchmod = '751'; // need to change to 751 for nginx-proxy
-		$phpfilechmod = '644';
-		$domdirchmod = '755';
+	$userdirchmod = '751'; // need to change to 751 for nginx-proxy
+	$phpfilechmod = '644';
+	$domdirchmod = '755';
 
-		// --- for /home/kloxo/httpd dirs (defaults pages)
+	// --- for /home/kloxo/httpd dirs (defaults pages)
 
-		log_cleanup("Fix file permission problems for defaults pages (chown/chmod files)", $nolog);
+	log_cleanup("Fix file permission problems for defaults pages (chown/chmod files)", $nolog);
 
-		setKloxoHttpdChownChmod($nolog);
-		setWebDriverChownChmod('apache', $nolog);
-		setWebDriverChownChmod('lighttpd', $nolog);
-		setWebDriverChownChmod('nginx', $nolog);
+	setKloxoHttpdChownChmod($nolog);
+	setWebDriverChownChmod('apache', $nolog);
+	setWebDriverChownChmod('lighttpd', $nolog);
+	setWebDriverChownChmod('nginx', $nolog);
 
-		$prevdir = '';
+	$prevdir = '';
 
-		// --- for domain dirs
+	// --- for domain dirs
 
-		foreach($list as $c) {
-			$clname = $c->getPathFromName('nname');
-			$cdir = "/home/{$clname}";
-			$dlist = $c->getList('domaina');
+	foreach($list as $c) {
+		$clname = $c->getPathFromName('nname');
+		$cdir = "/home/{$clname}";
+		$dlist = $c->getList('domaina');
 
-			$ks = "kloxoscript";
+		$ks = "kloxoscript";
 
-			exec("chown {$clname}:apache {$cdir}/");
-			log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
+		exec("chown {$clname}:apache {$cdir}/");
+		log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
 
-			exec("chmod {$userdirchmod} {$cdir}/");
-			log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
+		exec("chmod {$userdirchmod} {$cdir}/");
+		log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
 
-			exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
-			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/", $nolog);
+		exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
+		log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/", $nolog);
 
-			exec("chown {$clname}:apache {$cdir}/{$ks}/");
-			log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/", $nolog);
+		exec("chown {$clname}:apache {$cdir}/{$ks}/");
+		log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/", $nolog);
 
-			exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-			log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
+		exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
+		log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
 
-			exec("find {$cdir}/{$ks} -type d -exec chmod {$domdirchmod} \{\} \\;");
-			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
+		exec("find {$cdir}/{$ks} -type d -exec chmod {$domdirchmod} \{\} \\;");
+		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
 
-			foreach((array) $dlist as $l) {
-				$web = $l->getObject('web');
-				$docroot = $web->docroot;
+		foreach((array) $dlist as $l) {
+			$web = $l->getObject('web');
+			$docroot = $web->docroot;
 
-				if ($docroot === $prevdir) { continue; }
+			if ($docroot === $prevdir) { continue; }
 
-				if (($select === "all") || ($select === 'chown')) {
-					exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
-					log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/", $nolog);
-				}
-
-				if (($select === "all") || ($select === 'chmod')) {
-					exec("find {$cdir}/{$docroot}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-					log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$docroot}/", $nolog);
-
-					exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
-					log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
-				}
-
-				exec("chown {$clname}:apache {$cdir}/{$docroot}/");
-				log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$docroot}/", $nolog);
-
-				exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
-				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
-
-				$prevdir = $docroot;
+			if (($select === "all") || ($select === 'chown')) {
+				exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
+				log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/", $nolog);
 			}
+
+			if (($select === "all") || ($select === 'chmod')) {
+				exec("find {$cdir}/{$docroot}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
+				log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$docroot}/", $nolog);
+
+				exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
+				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
+			}
+
+			exec("chown {$clname}:apache {$cdir}/{$docroot}/");
+			log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$docroot}/", $nolog);
+
+			exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
+			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
+
+			$prevdir = $docroot;
 		}
 	}
-
-	function setFixPhpFpm($nolog = null)
-	{
-		global $login;
-
-		$login->loadAllObjects('client');
-		$list = $login->getList('client');
-
-		$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
-
-		$tpltarget = "/etc/php-fpm.conf";
-
-		$tpl = file_get_contents($tplsource);
-
-		$input = array();
-
-		log_cleanup("Fixing Php-fpm config", $nolog);
-
-		foreach ($list as $c) {
-			$input['userlist'][] = $c->nname;
-			log_cleanup("- set pool for '{$c->nname}'", $nolog);
-		}
-
-		$tplparse = getParseInlinePhp($tpl, $input);
-
-		file_put_contents($tpltarget, $tplparse);
-
-		createRestartFile('php-fpm');
-	}
-
-
+}
 
 function setInitialPureftpConfig($nolog = null)
 {

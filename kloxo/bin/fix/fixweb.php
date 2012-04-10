@@ -43,8 +43,9 @@ foreach($list as $c) {
 		if ($prevsyncserver !== $currsyncserver) {
 			if (($target === 'all') || ($target === 'defaults')) {			
 				$web->setUpdateSubaction('static_config_update');
-				log_cleanup("- inside static (defaults/webmail) directory at '{$currsyncserver}'", 
-						$nolog);
+				log_cleanup("- inside 'defaults' directory at '{$currsyncserver}'", $nolog);
+				$web->setUpdateSubaction('fix_phpfpm');
+				log_cleanup("- php-fpm at '{$currsyncserver}'", $nolog);
 			}
 			
 			$prevsyncserver = $currsyncserver;
@@ -59,10 +60,3 @@ foreach($list as $c) {
 	}
 }
 
-print("\nNote: also fixing php-fpm config\n");
-
-if (!$nolog) {
-	lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixphpfpm.php");
-} else {
-	lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixphpfpm.php", "--nolog");
-}

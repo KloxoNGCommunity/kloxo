@@ -11,6 +11,8 @@ $nolog  = (isset($list['nolog'])) ? $list['nolog'] : null;
 $login->loadAllObjects('client');
 $list = $login->getList('client');
 
+log_cleanup("Fixing Php-fpm config", $nolog);
+
 $prevsyncserver = '';
 $currsyncserver = '';
 
@@ -29,12 +31,9 @@ foreach($list as $c) {
 		$currsyncserver = $web->syncserver;
 
 		if ($prevsyncserver !== $currsyncserver) {
-			if (!$nolog) {
-				$web->setUpdateSubaction('fix_phpfpm');
-			} else {
-				$web->setUpdateSubaction('fix_phpfpm_nolog');
-			}
-
+			$web->setUpdateSubaction('fix_phpfpm');
+			log_cleanup("- php-fpm config at '{$currsyncserver}'", $nolog);
+			
 			$prevsyncserver = $currsyncserver;
 		}
 

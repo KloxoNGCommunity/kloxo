@@ -214,6 +214,25 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
+	function createPhpFpmConfig()
+	{
+		$input = array();
+		
+		$input['userlist'] = $this->getUserList();
+
+		$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
+
+		$tpltarget = "/etc/php-fpm.conf";
+
+		$tpl = file_get_contents($tplsource);
+
+		$tplparse = getParseInlinePhp($tpl, $input);
+
+		file_put_contents($tpltarget, $tplparse);
+
+		createRestartFile('php-fpm');
+	}
+
 // MR -- (2) call by 'related to create conf file' (1)
 
 	function getDomainname()
@@ -948,11 +967,7 @@ class web__ extends lxDriverClass
 					break;
 
 				case "fix_phpfpm":
-					setFixPhpFpm();
-					break;
-
-				case "fix_phpfpm_nolog":
-					setFixPhpFpm($nolog = true);
+					$this->createPhpFpmConfig();
 					break;
 
 				case "fix_chownchmod_all":
