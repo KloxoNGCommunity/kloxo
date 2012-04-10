@@ -6,8 +6,10 @@ $port = '80';
 $portssl = '443';
 
 if (!$ipssllist) {
-    $ipssllist = $iplist;
+    $ipssllist = array('*');
 }
+
+$iplist = array('*');
 
 $statsapp = $stats['app'];
 $statsprotect = ($stats['protect']) ? true : false;
@@ -66,7 +68,6 @@ $globalspath = "/home/nginx/conf/globals";
 ## web for '<?php echo $domainname; ?>'
 server {
 <?php
-/*
     foreach ($ipssllist as &$ipssl) {
 ?>
     listen <?php echo $ipssl ?>:<?php echo $port ?>;
@@ -74,11 +75,7 @@ server {
 
 <?php
     }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name <?php echo $serveralias; ?>;
 
     index <?php echo $indexorder; ?>;
@@ -266,7 +263,6 @@ if (!$wildcards) {
 ## webmail for '<?php echo $domainname; ?>'
 server {
 <?php
-/*
         foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -274,11 +270,7 @@ server {
 
 <?php
         }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name webmail.<?php echo $domainname; ?>;
 
     index <?php echo $indexorder; ?>;
@@ -312,7 +304,6 @@ server {
 ## webmail for '<?php echo $domainname; ?>'
 server {
 <?php
-/*
             foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -320,11 +311,7 @@ server {
 
 <?php
             }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name webmail.<?php echo $domainname; ?>;
 
     if ($host != '<?php echo $webmailremote; ?>') {
@@ -338,7 +325,6 @@ server {
 ## webmail for '<?php echo $domainname; ?>'
 server {
 <?php
-/*
             foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -346,11 +332,7 @@ server {
 
 <?php
             }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name webmail.<?php echo $domainname; ?>;
 
     index <?php echo $indexorder; ?>;
@@ -399,7 +381,6 @@ server {
 ## web for redirect '<?php echo $redirdomainname; ?>'
 server {
 <?php
-/*
                 foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -407,11 +388,7 @@ server {
 
 <?php
                 }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name '<?php echo $redirdomainname; ?>';
 
     index <?php echo $indexorder; ?>;
@@ -444,7 +421,6 @@ server {
 ## web for redirect '<?php echo $redirdomainname; ?>'
 server {
 <?php
-/*
                 foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -452,11 +428,7 @@ server {
 
 <?php
                 }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name '<?php echo $redirdomainname; ?>';
 
     if ($host != '<?php echo $domainname; ?>') {
@@ -480,7 +452,6 @@ server {
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
 <?php
-/*
                 foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -488,11 +459,7 @@ server {
 
 <?php
                 }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
     index <?php echo $indexorder; ?>;
@@ -525,7 +492,6 @@ server {
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
 <?php
-/*
                     foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -533,7 +499,6 @@ server {
 
 <?php
                     }
-*/
 ?>
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
@@ -551,7 +516,6 @@ server {
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
 <?php
-/*
                         foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -559,11 +523,7 @@ server {
 
 <?php
                         }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
     index <?php echo $indexorder; ?>;
@@ -618,7 +578,6 @@ server {
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
 <?php
-/*
                 foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -626,11 +585,7 @@ server {
 
 <?php
                 }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
     index <?php echo $indexorder; ?>;
@@ -663,7 +618,6 @@ server {
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
 <?php
-/*
                     foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -671,11 +625,7 @@ server {
 
 <?php
                     }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
     if ($host != '<?php echo $webmailremote; ?>') {
@@ -691,7 +641,6 @@ server {
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
 <?php
-/*
                         foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -699,11 +648,7 @@ server {
 
 <?php
                         }
-*/
 ?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
-
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
     index <?php echo $indexorder; ?>;

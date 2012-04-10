@@ -4,6 +4,8 @@
 $port = '80';
 $portssl = '443';
 
+$iplist = array('*');
+
 if ($setdefaults === 'webmail') {
     if ($webmailappdefault) {
         $rootpath = "/home/kloxo/httpd/webmail/{$webmailappdeffault}";
@@ -69,7 +71,6 @@ server {
 ?> 
 server {
 <?php
-/*
     foreach ($iplist as &$ip) {
 ?>
     listen <?php echo $ip ?>:<?php echo $port ?>;
@@ -77,12 +78,7 @@ server {
 
 <?php 
     }
-*/
-?>
-    listen *:<?php echo $port ?>;
-    listen *:<?php echo $portssl ?>;
 
-<?php
     if ($setdefaults === 'default') {
 ?>
     server_name _;

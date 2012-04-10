@@ -434,9 +434,9 @@ class web__ extends lxDriverClass
 		if ($domainipaddress) {
 			$list = array();
 
-			foreach ($domainipaddress as &$dom) {
+			foreach ($domainipaddress as $ip => $dom) {
 				if ($dom === $domainname) {
-					$list[] = $dom;
+					$list[] = $ip;
 				}
 			}
 

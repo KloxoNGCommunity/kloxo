@@ -24,7 +24,7 @@ $ipports = "    *:{$port} *:{$portssl}";
 
 if ($ipssllist) {
     foreach ($ipssllist as &$ipssl) {
-        $ipsslports .= "    {$ipssl}:{$port} {$ip}:{$portssl}\\\n";
+        $ipsslports .= "    {$ipssl}:{$port} {$ipssl}:{$portssl}\\\n";
     }
 
     $ipsslports .= "    127.0.0.1:{$port}";
