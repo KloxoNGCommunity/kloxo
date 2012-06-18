@@ -136,11 +136,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /<?php echo $domainname; ?>.fake <?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake
-        FastCGIExternalServer <?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        Alias /.fake <?php echo $rootpath; ?>/.fake
+        FastCGIExternalServer <?php echo $rootpath; ?>/.fake -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /<?php echo $domainname; ?>.fake
+        Action application/x-httpd-fastphp /.fake
+        <Files ".fake">
+            RewriteCond %{REQUEST_URI} !.fake
+        </Files>
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
