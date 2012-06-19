@@ -7,7 +7,7 @@
 <configuration>
     <section name="global_options">
         <value name="pid_file">/var/run/php-fpm.pid</value>
-        <value name="error_log">/home/php-fpm/logs/php-fpm.log</value>
+        <value name="error_log">/var/log/php-fpm/error.log</value>
         <value name="log_level">notice</value>
         <value name="emergency_restart_threshold">10</value>
         <value name="emergency_restart_interval">1m</value>
@@ -33,7 +33,7 @@
             </value>
             <value name="request_terminate_timeout">0s</value>
             <value name="request_slowlog_timeout">0s</value>
-            <value name="slowlog">/home/php-fpm/logs/slow.log</value>
+            <value name="slowlog">/var/log/php-fpm/slow.log</value>
             <value name="rlimit_files">1024</value>
             <value name="rlimit_core">0</value>
             <value name="chroot"></value>
@@ -74,7 +74,7 @@
             </value>
             <value name="request_terminate_timeout">0s</value>
             <value name="request_slowlog_timeout">0s</value>
-            <value name="slowlog">/home/php-fpm/logs/slow.log</value>
+            <value name="slowlog">/var/log/php-fpm/slow.log</value>
             <value name="rlimit_files">1024</value>
             <value name="rlimit_core">0</value>
             <value name="chroot"></value>

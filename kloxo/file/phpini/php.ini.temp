@@ -27,15 +27,6 @@ safe_mode = __lx__safe_mode_flag
 enable_dl = __lx__enable_dl_flag
 disable_functions = __lx__disable_functions
 zlib.output_compression = __lx__output_compression_flag
-;
-; xcache
-__lx__enable_xcache_val
-;
-; ioncube loader
-__lx__enable_ioncube_val
-;
-; zend engine loader/optimizer 
-__lx__enable_zend_val
 ;---
 ; Added by Kloxo file/phpini/php.ini.temp
 ;---

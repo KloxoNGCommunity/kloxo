@@ -51,6 +51,10 @@ function updateSwitchProgram($param)
 
 	if ($nofixconfig === 'on') { return null; }
 
+	// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
+	$a['pserver'] = $this->nname;
+	rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
+
 	foreach($param as $k => $v) {
 		if ($this->$k === $v) {
 			dprint("No change for $k: $v\n");

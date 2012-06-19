@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/lib/include.php"; 
+include_once "htmllib/lib/include.php";
 initProgram('admin');
 
 $list = parse_opt($argv);
@@ -16,19 +16,16 @@ $list = $login->getList('client');
 
 log_cleanup("Fixing Web server config", $nolog);
 
-$prevsyncserver = '';
-$currsyncserver = '';
+$slist = array();
 
 foreach($list as $c) {
 	if ($client) {
-	//	if ($client !== $c->nname) { continue; }
 		$ca = explode(",", $client);
 		if (!in_array($c->nname, $ca)) { continue; }
 		$server = 'all';
 	}
 
 	if ($server !== 'all') {
-	//	if ($c->syncserver !== $server) { continue; }
 		$sa = explode(",", $server);
 		if (!in_array($c->syncserver, $sa)) { continue; }
 	}
@@ -38,25 +35,27 @@ foreach($list as $c) {
 	foreach((array) $dlist as $l) {
 		$web = $l->getObject('web');
 
-		$currsyncserver = $web->syncserver;
-
-		if ($prevsyncserver !== $currsyncserver) {
-			if (($target === 'all') || ($target === 'defaults')) {			
+		if (!in_array($web->syncserver, $slist)) {
+			if (($target === 'all') || ($target === 'defaults')) {
 				$web->setUpdateSubaction('static_config_update');
-				log_cleanup("- inside 'defaults' directory at '{$currsyncserver}'", $nolog);
-				$web->setUpdateSubaction('fix_phpfpm');
-				log_cleanup("- php-fpm at '{$currsyncserver}'", $nolog);
+				log_cleanup("- php-fpm and 'defaults' at '{$web->syncserver}'", $nolog);
+			//	$web->setUpdateSubaction('fix_phpfpm');
+			//	log_cleanup("- php-fpm at '{$web->syncserver}'", $nolog);
 			}
-			
-			$prevsyncserver = $currsyncserver;
+
+			$slist[] = $web->syncserver;
+			array_unique($slist);
 		}
 
 		if (($target === 'all') || ($target === 'domains')) {
 			$web->setUpdateSubaction('full_update');
-			log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
+			log_cleanup("- domain '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
 		}
 
 		$web->was();
 	}
 }
 
+// MR - fix for php-fpm and fastcgi session issue
+mkdir("/var/log/php-fpm",0755);
+chmod("/var/lib/php/session", 0777);

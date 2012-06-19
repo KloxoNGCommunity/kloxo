@@ -182,6 +182,8 @@ class web__ extends lxDriverClass
 
 			self::setCreateConfFile($input);
 		}
+
+		$this->createPhpFpmConfig();
 	}
 
 	static function createWebDefaultConfig()
@@ -251,19 +253,19 @@ class web__ extends lxDriverClass
 	
 	function getUserList()
 	{
-		// MR -- look like not work calling $this->main->__var_clientlist
-		// so, taken from database directly
+		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', null);
 
-		$string = "syncserver = '{$this->main->__syncserver}'";
-		$clientdb = new Sqlite(null, 'client');
-		$ulist = $clientdb->getRowsWhere($string, array('nname'));
+		foreach ($clist as &$n) {
+/*
+			$userinfo = posix_getpwnam($n);
+			$fpmport = (50000 + $userinfo['uid']);
 
-		$users = array();
+			if ($fpmport === 50000) { continue; }
+*/
 
-		foreach ($ulist as $u) {
-			$users[] = $u['nname'];
+			$users[] = $n;
 		}
-		
+
 		return $users;
 	}
 
@@ -966,9 +968,9 @@ class web__ extends lxDriverClass
 					self::createWebDefaultConfig();
 					break;
 
-				case "fix_phpfpm":
-					$this->createPhpFpmConfig();
-					break;
+			//	case "fix_phpfpm":
+			//		$this->createPhpFpmConfig();
+			//		break;
 
 				case "fix_chownchmod_all":
 					setFixChownChmod('all');

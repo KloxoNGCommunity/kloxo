@@ -146,6 +146,9 @@ NameVirtualHost *:<?php echo $portssl ?>
         FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.fake
+        <Files "<?php echo $setdefaults; ?>.fake">
+            RewriteCond %{REQUEST_URI} !<?php echo $setdefaults; ?>.fake
+        </Files>
     </IfModule>
 
     <Directory "<?php echo $docroot; ?>/">

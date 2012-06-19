@@ -5882,6 +5882,21 @@ function setFixChownChmod($select, $nolog = null)
 	}
 }
 
+function getAllClientList()
+{
+	global $login;
+
+	$login->loadAllObjects('client');
+	$clist = $login->getList('client');
+
+	foreach ($clist as $c) {
+		$users[] = $c->nname;
+	}
+
+	return $users;
+}
+
+
 function setInitialPureftpConfig($nolog = null)
 {
 	log_cleanup("Initialize PureFtp service", $nolog);
