@@ -128,17 +128,17 @@ if [ ! $kloxo_part == "core" ] ; then
 		wget http://download.lxcenter.org/download/kloxo-thirdparty.${thirdpartyver}.zip
 	fi
 
-	kloxophpver=$(curl -L http://download.lxcenter.org/download/version/kloxophp)
-	if [ ! -f kloxophp${kloxophpver}.tar.gz ] ; then
-		echo ${kloxophpver} > kloxophp-version
-		wget http://download.lxcenter.org/download/kloxophp${kloxophpver}.tar.gz
-	fi
+#	kloxophpver=$(curl -L http://download.lxcenter.org/download/version/kloxophp)
+#	if [ ! -f kloxophp${kloxophpver}.tar.gz ] ; then
+#		echo ${kloxophpver} > kloxophp-version
+#		wget http://download.lxcenter.org/download/kloxophp${kloxophpver}.tar.gz
+#	fi
 
-	kloxophpsixfourver=$(curl -L http://download.lxcenter.org/download/version/kloxophpsixfour)
-	if [ ! -f kloxophpsixfour${kloxophpsixfourver}.tar.gz ] ; then
-		echo ${kloxophpsixfourver} > kloxophpsixfour-version
-		wget http://download.lxcenter.org/download/kloxophpsixfour${kloxophpsixfourver}.tar.gz
-	fi
+#	kloxophpsixfourver=$(curl -L http://download.lxcenter.org/download/version/kloxophpsixfour)
+#	if [ ! -f kloxophpsixfour${kloxophpsixfourver}.tar.gz ] ; then
+#		echo ${kloxophpsixfourver} > kloxophpsixfour-version
+#		wget http://download.lxcenter.org/download/kloxophpsixfour${kloxophpsixfourver}.tar.gz
+#	fi
 
 	lxwebmailver=$(curl -L http://download.lxcenter.org/download/version/lxwebmail)
 	if [ ! -f lxwebmail${lxwebmailver}.tar.gz ] ; then

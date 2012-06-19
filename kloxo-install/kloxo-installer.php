@@ -108,8 +108,8 @@ function lxins_main()
 		exec("rpm -e --nodeps $package > /dev/null 2>&1");
 	}
 
-	$packages = array("php-mbstring", "php-mysql", "which", "gcc-c++", "php-imap", "php-pear", "php-devel",
-			"lxlighttpd", "httpd", "mod_ssl", "zip", "unzip", "lxphp", "lxzend", "mysql", "mysql-server", "curl",
+	$packages = array("php-mbstring", "php-mysql", "which", "gcc-c++", "php-imap", "php-pear", "php-devel", "php-ioncube", "php-zend",	
+			"lxlighttpd", "httpd", "mod_ssl", "zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
 			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase");
 
 	$list = implode(" ", $packages);
@@ -161,8 +161,8 @@ function lxins_main()
 			system("rm -f /var/cache/kloxo/kloxo-thirdparty*.zip");
 			system("rm -f /var/cache/kloxo/lxawstats*.tar.gz");
 			system("rm -f /var/cache/kloxo/lxwebmail*.tar.gz");
-			system("rm -f /var/cache/kloxo/kloxophpsixfour*.tar.gz");
-			system("rm -f /var/cache/kloxo/kloxophp*.tar.gz");
+		//	system("rm -f /var/cache/kloxo/kloxophpsixfour*.tar.gz");
+		//	system("rm -f /var/cache/kloxo/kloxophp*.tar.gz");
 			system("rm -f /var/cache/kloxo/*-version");
 			//--- The second step - copy from packer script if exist
 			system("cp -rf ../kloxo-thirdparty*.zip /var/cache/kloxo");
@@ -174,13 +174,14 @@ function lxins_main()
 
 			if (file_exists("/usr/lib64")) {
 				if (!is_link("/usr/lib/kloxophp")) {
-					system("rm -rf /usr/lib/kloxophp");
+				//	system("rm -rf /usr/lib/kloxophp");
 				}
 
-				system("cp -rf ../kloxophpsixfour*.tar.gz /var/cache/kloxo");
-				system("cp -rf ../kloxophpsixfour-version /var/cache/kloxo");
-				system("mkdir -p /usr/lib64/kloxophp");
-				system("ln -s /usr/lib64/kloxophp /usr/lib/kloxophp");
+			//	system("cp -rf ../kloxophpsixfour*.tar.gz /var/cache/kloxo");
+			//	system("cp -rf ../kloxophpsixfour-version /var/cache/kloxo");
+			//	system("mkdir -p /usr/lib64/kloxophp");
+			//	system("ln -s /usr/lib64/kloxophp /usr/lib/kloxophp");
+				system("mv -f /usr/lib/php /usr/lib/php.bck");
 				system("mkdir -p /usr/lib64/php");
 				system("ln -s /usr/lib64/php /usr/lib/php");
 				system("mkdir -p /usr/lib64/httpd");
@@ -190,10 +191,10 @@ function lxins_main()
 			}
 			else {
 				//--- Needs version checks in the future
-				system("rename ../kloxophpsixfour ../_kloxophpsixfour ../kloxophpsixfour*");
-				system("cp -rf ../kloxophp*.tar.gz /var/cache/kloxo");
-				system("rename ../_kloxophpsixfour ../kloxophpsixfour ../_kloxophpsixfour*");
-				system("cp -rf ../kloxophp-version /var/cache/kloxo"); 
+			//	system("rename ../kloxophpsixfour ../_kloxophpsixfour ../kloxophpsixfour*");
+			//	system("cp -rf ../kloxophp*.tar.gz /var/cache/kloxo");
+			//	system("rename ../_kloxophpsixfour ../kloxophpsixfour ../_kloxophpsixfour*");
+			//	system("cp -rf ../kloxophp-version /var/cache/kloxo"); 
 			}
 
 			chdir("/usr/local/lxlabs/kloxo");
@@ -493,7 +494,10 @@ function install_yum_repo($osversion) {
 
 	$cont = file_get_contents("lxcenter.repo.template");
 	$cont = str_replace("%distro%", $osversion, $cont);
+	$cont = str_replace("%distro_ver%", "5", $cont);
 	file_put_contents("/etc/yum.repos.d/lxcenter.repo", $cont);
+	
+	system("yes|cp -rf kloxo-custom.repo /etc/yum.repos.d/kloxo-custom.repo");
 }
 
 function find_os_version() {
