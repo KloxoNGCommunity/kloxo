@@ -136,13 +136,13 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /.fake <?php echo $rootpath; ?>/.fake
-        FastCGIExternalServer <?php echo $rootpath; ?>/.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        Alias /<?php echo $domainname; ?>.fake <?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake
+        FastCGIExternalServer <?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /.fake
-        <Files ".fake">
-            RewriteCond %{REQUEST_URI} !.fake
+        Action application/x-httpd-fastphp /<?php echo $domainname; ?>.fake
+        <Files "<?php echo $domainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !<?php echo $domainname; ?>.fake
         </Files>
     </IfModule>
 
@@ -324,6 +324,9 @@ $disablepath = "/home/kloxo/httpd/disable";
         FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
+        <Files "webmail.<?php echo $domainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
+        </Files>
     </IfModule>
 
 </VirtualHost>
@@ -371,6 +374,9 @@ $disablepath = "/home/kloxo/httpd/disable";
         FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
+        <Files "webmail.<?php echo $domainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
+        </Files>
     </IfModule>
 
 </VirtualHost>
@@ -447,6 +453,9 @@ $disablepath = "/home/kloxo/httpd/disable";
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.fake
+        <Files "<?php echo $redirdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !<?php echo $redirdomainname; ?>.fake
+        </Files>
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
@@ -513,6 +522,9 @@ $disablepath = "/home/kloxo/httpd/disable";
         FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
+        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
+        </Files>
     </IfModule>
 
 </VirtualHost>
@@ -561,6 +573,9 @@ $disablepath = "/home/kloxo/httpd/disable";
         FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
+        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
+        </Files>
     </IfModule>
 
 </VirtualHost>
@@ -614,6 +629,9 @@ $disablepath = "/home/kloxo/httpd/disable";
         FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
+        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
+        </Files>
     </IfModule>
 
 </VirtualHost>
@@ -662,6 +680,9 @@ $disablepath = "/home/kloxo/httpd/disable";
         FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:50000
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
+        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
+        </Files>
     </IfModule>
 
 </VirtualHost>
