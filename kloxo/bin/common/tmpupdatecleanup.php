@@ -110,31 +110,12 @@ function updatecleanup_main()
 
 	// MR -- importance for update from 6.1.6 or previous where change apache/lighttpd structure 
 	// or others for next version
-/*
-	// MR -- so slow checking one-by-one
-	$slist = array(
-		"httpd", "httpd-tools", "lighttpd", "lighttpd-fastcgi",
-		"bind", "bind-chroot", "djbdns", "pure-ftpd",
-		"php", "php-devel", "php-fpm",
-		"php-gd", "php-imap", "php-mbstring", "php-mcrypt", 
-		"php-mysql", "php-pdo", "php-pear", "php-xcache", "php-xml",
-		'mod_php", "mod_ssl", "mod_suphp", "mod_ruid2", "mod_fastcgi",
-		"autorespond-toaster", "clamav-toaster", "courier-authlib-toaster",
-		"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster",
-		"libsrs2-toaster", "maildrop-toaster", "ripmime-toaster",
-		"simscan-toaster", "ucspi-tcp-toaster",
-		"qmail", "spamassassin", "bogofilter", "vpopmail",
-		"lxphp", "lxlighttpd", "lxjailshell", "lxzend",
-		"mysql", "mysql-server"
-	);
-*/
 
 	// MR -- the same accurate with update one-by-one but faster
 	// no need mod_fastcgi for httpd 2.4.x because using mod_proxy_fcgi
 	$slist = array(
 		"httpd httpd-tools", "lighttpd lighttpd-fastcgi", "nginx",
 		"bind bind-chroot", "djbdns", "pure-ftpd",
-		"php php-devel", "php-xcache php-gd php-fpm",
 		"mod_php mod_suphp mod_ruid2",
 		"autorespond-toaster clamav-toaster",
 		"courier-authlib-toaster courier-imap-toaster",
@@ -144,8 +125,29 @@ function updatecleanup_main()
 		"ucspi-tcp-toaster",
 		"qmail vpopmail",
 		"spamassassin bogofilter",
-		"lxphp lxlighttpd lxjailshell lxzend",
+		"lxphp lxlighttpd lxjailshell",
 		"mysql mysql-server"
+	);
+
+	setUpdateServices($slist);
+
+	// MR - specific for php variants
+	// php52/php53u/php54 taken from ius repo
+	// php (with 53 version) taken from atomic/centalt
+
+	$slist = array(
+		"php php52 php53u php54",
+		"php-devel php52-devel php53u-devel php54-devel",
+		"php-xcache php52-xcache php53u-xcache php54-xcache",
+		"php-gd php52-gd php53u-gd php54-gd",
+		"php-fpm php52-fpm php53u-fpm php54-fpm",
+		"php-zend php-ioncube",
+		"php-zend-optimizer-loader php-ioncube-loader",
+		"php-zend-guard-loader",
+		"php52-zend-optimizer-loader php52-ioncube-loader",
+		"php53u-zend-guard-loader php53u-ioncube-loader",
+		"php54-zend-guard-loader php54-ioncube-loader",
+		"php-suhosin php52-suhosin php53u-suhosin php54-suhosin"
 	);
 
 	setUpdateServices($slist);
