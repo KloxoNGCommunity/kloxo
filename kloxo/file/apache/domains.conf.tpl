@@ -162,11 +162,6 @@ $disablepath = "/home/kloxo/httpd/disable";
         AllowOverride All
     </Directory>
 
-    <IfModule sapi_apache2.c>
-        php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
-        php_admin_value sendmail_from "<?php echo $domainname; ?>"
-    </IfModule>
-
     <IfModule mod_php5.c>
         php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
         php_admin_value sendmail_from "<?php echo $domainname; ?>"
@@ -185,10 +180,6 @@ $disablepath = "/home/kloxo/httpd/disable";
     </Location>
 
     <Location />
-        <IfModule sapi_apache2.c>
-            php_admin_value open_basedir "/home/<?php echo $user; ?>:/home/<?php echo $user; ?>/kloxoscript:/home/<?php echo $domainname; ?>:/home/<?php echo $domainname; ?>/httpdocs:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script::/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
-        </IfModule>
-
         <IfModule mod_php5.c>
             php_admin_value open_basedir "/home/<?php echo $user; ?>:/home/<?php echo $user; ?>/kloxoscript:/home/<?php echo $domainname; ?>:/home/<?php echo $domainname; ?>/httpdocs:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script::/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
         </IfModule>
