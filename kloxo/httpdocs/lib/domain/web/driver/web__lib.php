@@ -222,15 +222,40 @@ class web__ extends lxDriverClass
 		
 		$input['userlist'] = $this->getUserList();
 
-		$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
+		$phpver = getPhpVersion();
 
-		$tpltarget = "/etc/php-fpm.conf";
+		if (version_compare($phpver, "5.3.3", "<")) {
+			// MR -- that mean xml type config
+			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
+			$tpltarget = "/etc/php-fpm.conf";
+			$tpl = file_get_contents($tplsource);
+			$tplparse = getParseInlinePhp($tpl, $input);
+			file_put_contents($tpltarget, $tplparse);
+		} else {
+			// MR -- that mean ini type config
+			$cfgmain = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm.conf");
+			lxfile_cp($cfgmain, "/etc/php-fpm.conf");
 
-		$tpl = file_get_contents($tplsource);
+			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm.conf.tpl");
+			$tpl = file_get_contents($tplsource);
 
-		$tplparse = getParseInlinePhp($tpl, $input);
+			foreach ($input['userlist'] as &$user) {
+				$input['user'] = $user;
+				$tpltarget = "/etc/php-fpm.d/{$user}.conf";
+				$tplparse = getParseInlinePhp($tpl, $input);
+				file_put_contents($tpltarget, $tplparse);		
+			}
 
-		file_put_contents($tpltarget, $tplparse);
+			$input['user'] = 'apache';
+			$tpltarget = "/etc/php-fpm.d/default.conf";
+			$tplparse = getParseInlinePhp($tpl, $input);
+			file_put_contents($tpltarget, $tplparse);	
+
+			if (file_exists("/etc/php-fpm.d/www.conf")) {
+				lxfile_mv("/etc/php-fpm.d/www.conf", "/etc/php-fpm.d/www.nonconf");
+			}
+
+		}
 
 		createRestartFile('php-fpm');
 	}

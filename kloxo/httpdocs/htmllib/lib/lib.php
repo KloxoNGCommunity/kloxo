@@ -5550,6 +5550,22 @@ function changeMailSoftlimit($nolog = null)
 	}
 }
 
+function getPhpVersion()
+{
+	exec("php -r 'echo phpversion();'", $out, $ret);
+
+	return $out[0];
+}
+
+function getRpmVersion($rpmname)
+{
+//	exec("rpm -qa | grep -w {$rpmname}-[0-9]", $out, $ret);
+
+	exec("rpm -q {$rpmname}", $out, $ret);
+
+	return str_replace($rpmname.'-', '', $out[0]);
+}
+
 function setInitialApacheConfig($nolog = null)
 {
 	setInitialWebConfig('apache', $nolog);
