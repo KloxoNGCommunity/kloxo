@@ -4748,7 +4748,7 @@ function install_xcache($nolog = null)
 			}
 		}
 		// for customize?
-		lxfile_cp("../file/xcache.ini", "/etc/php.d/xcache.ini");
+	//	lxfile_cp("../file/xcache.ini", "/etc/php.d/xcache.ini");
 	} else {
 		lxshell_return("yum", "-y", "remove", "php-xcache");
 		if (!$nolog) {
