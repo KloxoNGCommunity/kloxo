@@ -58,11 +58,13 @@ class phpini extends lxdb
 
 	function getInheritedList()
 	{
-		$list[] = 'enable_xcache_flag';
-		$list[] = 'enable_zend_flag';
-		$list[] = "enable_ioncube_flag";
+		// MR -- disable temporary until found better approach!
+
+	//	$list[] = 'enable_xcache_flag';
+	//	$list[] = 'enable_zend_flag';
+	//	$list[] = "enable_ioncube_flag";
 		$list[] = 'safe_mode_flag';
-		$list[] = 'output_compression_flag';
+	//	$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
 
 		return $list;
@@ -70,13 +72,15 @@ class phpini extends lxdb
 
 	function getLocalList()
 	{
+		// MR -- disable temporary until found better approach!
+
 		$list[] = 'display_error_flag';
 		$list[] = 'register_global_flag';
 		$list[] = 'log_errors_flag';
-		$list[] = 'output_compression_flag';
-		$list[] = 'enable_xcache_flag';
-		$list[] = 'enable_zend_flag';
-		$list[] = "enable_ioncube_flag";
+	//	$list[] = 'output_compression_flag';
+	//	$list[] = 'enable_xcache_flag';
+	//	$list[] = 'enable_zend_flag';
+	//	$list[] = "enable_ioncube_flag";
 
 		return $list;
 	}
@@ -240,10 +244,12 @@ class phpini extends lxdb
 
 	function setUpINitialValues()
 	{
-		$this->initialValue('enable_xcache_flag', 'off');
-		$this->initialValue('output_compression_flag', 'off');
-		$this->initialValue('enable_zend_flag', 'on');
-		$this->initialValue('enable_ioncube_flag', 'on');
+		// MR -- disable temporary until found better approach!
+
+	//	$this->initialValue('enable_xcache_flag', 'off');
+	//	$this->initialValue('output_compression_flag', 'off');
+	//	$this->initialValue('enable_zend_flag', 'on');
+	//	$this->initialValue('enable_ioncube_flag', 'on');
 		$this->initialValue('upload_max_filesize', '2M');
 		$this->initialValue('register_global_flag', 'off');
 		$this->initialValue('mysql_allow_persistent_flag', 'off');

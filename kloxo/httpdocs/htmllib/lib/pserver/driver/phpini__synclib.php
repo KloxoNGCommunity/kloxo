@@ -45,6 +45,9 @@ XML;
 
 function enableDisableModule($flag, $mod)
 {
+	// MR -- disable temporary until found better approach!
+
+/*
 	lxfile_rm("/etc/php.d/$mod.ini");
 	lxfile_rm("/etc/php.d/$mod.noini");
 
@@ -53,6 +56,7 @@ function enableDisableModule($flag, $mod)
 	} else {
 		lxfile_cp("../file/$mod.ini", "/etc/php.d/$mod.noini");
 	}
+*/
 
 }
 function createIniFile()

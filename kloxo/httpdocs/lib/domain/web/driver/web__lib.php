@@ -69,6 +69,12 @@ class web__ extends lxDriverClass
 		lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/php-fpm", "php-fpm.conf.tpl"),
 				"/home/php-fpm/tpl/php-fpm.conf.tpl");
 
+		lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/php-fpm", "php53-fpm.conf.tpl"),
+				"/home/php-fpm/tpl/php53-fpm.conf.tpl");
+
+		lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/php-fpm", "php53-fpm.conf"),
+				"/home/php-fpm/tpl/php53-fpm.conf");
+
 		lxshell_return("chkconfig", "php-fpm", "on");
 	}
 
