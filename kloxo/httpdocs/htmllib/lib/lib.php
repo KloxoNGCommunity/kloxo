@@ -557,6 +557,7 @@ function removeFromEtcHost($request)
 
 function find_php_version()
 {
+/*
 	global $global_dontlogshell;
 
 	$global_dontlogshell = true;
@@ -565,6 +566,11 @@ function find_php_version()
 	$global_dontlogshell = false;
 
 	return $ver;
+*/
+	$s = getPhpVersion();
+	$t = explode(".", $s);
+	$ret = $t[0] . "." . $t[1];
+	return $ret;
 }
 
 function createHtpasswordFile($object, $sdir, $list)

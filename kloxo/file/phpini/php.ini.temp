@@ -26,7 +26,6 @@ __lx_sendmail_from_comment sendmail_from = __lx__sendmail_from
 safe_mode = __lx__safe_mode_flag
 enable_dl = __lx__enable_dl_flag
 disable_functions = __lx__disable_functions
-zlib.output_compression = __lx__output_compression_flag
 ;---
 ; Added by Kloxo file/phpini/php.ini.temp
 ;---
