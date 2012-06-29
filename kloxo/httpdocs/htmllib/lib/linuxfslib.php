@@ -523,6 +523,22 @@ function lxfile_cp_content($dirsource, $dirdest)
 	}
 }
 
+// MR -- taken from (with mod)
+// http://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
+function xcopy($src, $dest)
+{
+	foreach  (scandir($src) as $file) {
+		if (!is_readable($src.'/'.$file)) { continue; }
+
+		if (is_dir($file) && ($file!='.') && ($file!='..') ) {
+			mkdir($dest . '/' . $file);
+			xcopy($src.'/'.$file, $dest.'/'.$file);
+		} else {
+			copy($src.'/'.$file, $dest.'/'.$file);
+		}
+	}
+}
+
 function lxfile_cp_rec($dirsource, $dirdest)
 { 
 	
@@ -533,7 +549,6 @@ function lxfile_cp_rec($dirsource, $dirdest)
 	$cmd = getShellCommand("cp", $arglist);
 	return do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 } 
-
 
 function lxfile_size($file)
 {

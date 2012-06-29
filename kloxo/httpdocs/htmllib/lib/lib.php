@@ -4877,15 +4877,17 @@ function install_gd($nolog = null)
 {
 	global $global_dontlogshell;
 
+	$phpvariant = getPhpVariant();
+
 	$global_dontlogshell = true;
 
-	log_cleanup("Check for php-gd", $nolog);
+	log_cleanup("Check for {$phpvariant}-gd", $nolog);
 
-	$ret = lxshell_return("rpm", "-q", "php-gd", $nolog);
+	$ret = lxshell_return("rpm", "-q", "{$phpvariant}-gd", $nolog);
 
 	if ($ret) {
 		log_cleanup("- Install process", $nolog);
-		system("yum -y install php-gd");
+		system("yum -y install {$phpvariant}-gd");
 	} else {
 		log_cleanup("- Already installed. No need to install", $nolog);
 	}
@@ -5406,7 +5408,7 @@ function setDefaultPages($nolog = null)
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
-			system("cp -rf $sourcezip $targetzip");
+			system("yes|cp -rf $sourcezip $targetzip");
 			$newer = true;
 		}
 	}
@@ -5452,7 +5454,7 @@ function setDefaultPages($nolog = null)
 	if (lxfile_exists($usersourcezip)) {
 		if (!checkIdenticalFile($usersourcezip, $usertargetzip)) {
 			log_cleanup("- Copy $usersourcezip to $usertargetzip", $nolog);
-			system("cp -rf $usersourcezip $usertargetzip");
+			system("yes|cp -rf $usersourcezip $usertargetzip");
 		} else {
 			log_cleanup("- No new user-skeleton", $nolog);
 		}
@@ -5563,13 +5565,35 @@ function getPhpVersion()
 	return $out[0];
 }
 
+function getPhpVariant()
+{
+	$a = array('php', 'php52', 'php53', 'php53u', 'php54');
+
+	foreach ($a as $e) {
+		if (isRpmInstalled($e)) {
+			return $e;
+		}
+	}
+}
+
 function getRpmVersion($rpmname)
 {
-//	exec("rpm -qa | grep -w {$rpmname}-[0-9]", $out, $ret);
-
-	exec("rpm -q {$rpmname}", $out, $ret);
+//	exec("rpm -q {$rpmname}", $out, $ret);
+	$out = lxshell_output("rpm -q {$rpmname}");
 
 	return str_replace($rpmname.'-', '', $out[0]);
+
+}
+
+function isRpmInstalled($rpmname)
+{
+	exec("rpm -q {$rpmname} | grep -i 'not installed'", $out, $ret);
+
+	if ($ret !== 0) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function setInitialApacheConfig($nolog = null)
@@ -5606,22 +5630,8 @@ function setInitialWebConfig($type, $nolog = null)
 
 	log_cleanup("Initialize {$type} config", $nolog);
 
-	log_cleanup("- Initialize process", $nolog);
-
-	if ($atype === 'httpd') {
-		log_cleanup("- Install {$eatpath}/conf/{$atype}.conf", $nolog);
-
-		lxfile_cp(getLinkCustomfile("{$fpath}/{$type}", "{$atype}.conf"), 
-				"{$eatpath}/conf/{$atype}.conf");
-	} else {
-		log_cleanup("- Install /etc/{$atype}/{$atype}.conf", $nolog);
-
-		lxfile_cp(getLinkCustomfile("{$fpath}/{$type}", "{$atype}.conf"), 
-				"{$eatpath}/{$atype}.conf");
-	}
-
-	$newlist = array("{$htpath}/conf", "{$hkhpath}/{$type}", "{$eatpath}/conf.d",
-			"/home/{$type}/tpl");
+	$newlist = array("{$hkhpath}/{$type}", "{$eatpath}/conf.d", "{$htpath}/tpl",
+			"{$htpath}/conf", "{$htpath}/etc", "{$htpath}/etc/conf","{$htpath}/etc/conf.d");
 
 	foreach ($newlist as &$n) {
 		if (!lxfile_exists("{$n}")) {
@@ -5631,8 +5641,15 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
+	log_cleanup("- Install {$eatpath}/conf/{$atype}.conf", $nolog);
+
+	lxfile_cp("{$fpath}/{$type}/conf/{$atype}.conf", "{$htpath}/conf/{$atype}.conf");
+	lxfile_cp(getLinkCustomfile("{$htpath}/conf", "{$atype}.conf"), "{$eatpath}/conf/{$atype}.conf");
+
 	// resolved issue for 'generalsetting' that can not write config files if 'root' as owner
 	log_cleanup("- Initialize lxlabs:lxlabs /home/{$type}", $nolog);
+
+	exec("chown -R lxlabs:lxlabs /home/{$type}");
 
 	$path = "/home/{$type}/conf";
 
@@ -5647,7 +5664,8 @@ function setInitialWebConfig($type, $nolog = null)
 	}
 
 	$oldlist = array("{$path}/redirects", "{$path}/exclusive", "{$path}/webmails", "{$path}/wildcards",
-			"{$htpath}/sock", "{$htpath}/socks", "{$eatpath}/conf/kloxo");
+			"{$htpath}/sock", "{$htpath}/socks", "{$eatpath}/conf/kloxo",
+			"{$htpath}/tmp", "{$htpath}/logs", "{$htpath}/cache");
 
 	foreach ($oldlist as &$l) {
 		if (lxfile_exists("{$l}")) {
@@ -5657,12 +5675,10 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	if (!lxfile_exists("/etc/{$atype}/conf.d/~lxcenter.conf")) {
-		log_cleanup("- Initialize /etc/{$atype}/conf.d/~lxcenter.conf", $nolog);
+	log_cleanup("- Initialize /etc/{$atype}/conf.d/~lxcenter.conf", $nolog);
 
-		lxfile_cp(getLinkCustomfile("{$fpath}/{$atype}", "~lxcenter.conf"),
-				"/etc/{$atype}/conf.d/~lxcenter.conf");
-	}
+	lxfile_cp("{$fpath}/{$type}/conf.d/~lxcenter.conf", "{$htpath}/conf.d/~lxcenter.conf");
+	lxfile_cp(getLinkCustomfile("{$htpath}/conf.d", "~lxcenter.conf"), "/etc/{$atype}/conf.d/~lxcenter.conf");
 
 	if (!lxfile_real("/etc/{$atype}/local.{$atype}.conf")) {
 		log_cleanup("- Initialize /etc/{$atype}/local.{$atype}.conf", $nolog);
@@ -5693,32 +5709,30 @@ function setInitialPhpFpmConfig($nolog = null)
 	$fpath = "/usr/local/lxlabs/kloxo/file";
 	$fpmpath = "/home/php-fpm";
 
+	log_cleanup("- Copy php-fpm config files to {$fpmpath} dir", $nolog);
+
+//	lxfile_cp_content_file("{$fpath}/php-fpm", "{$fpmpath}");
+	exec("yes|cp -rf {$fpath}/php-fpm /home");
+
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
-	lxfile_cp(getLinkCustomfile("{$fpath}/php-fpm", "php-fpm.conf"), 
-			"/etc/php-fpm.conf");
+	$phpver = getPhpVersion();
 
-	log_cleanup("- Create $fpmpath dir", $nolog);
+	if (version_compare($phpver, "5.3.2", ">")) {
+		$phptype = "php53";
+	} else {
+		$phptype = "php";
+	}
 
-	lxfile_mkdir("{$fpmpath}");
+	lxfile_cp(getLinkCustomfile("{$fpmpath}/etc", "{$phptype}-fpm.conf"), "/etc/php-fpm.conf");
 
-	log_cleanup("- Create {$fpmpath}/tpl dir", $nolog);
+	// MR -- no needed for 6.2.x+
+	if (file_exists("{$fpmpath}/logs")) {
+		lxfile_rm("{$fpmpath}/logs");
+	}
 
-	lxfile_mkdir("{$fpmpath}/tpl");
-
-	log_cleanup("- Create {$fpmpath}/logs dir", $nolog);
-
-	lxfile_mkdir("{$fpmpath}/logs");
-
-	log_cleanup("- Copy php-fpm.conf.tpl to {$fpmpath}/tpl dir", $nolog);
-
-	lxfile_cp(getLinkCustomfile("{$fpath}/php-fpm", "php-fpm.conf.tpl"), 
-			"{$fpmpath}/tpl/php-fpm.conf.tpl");
-
-	log_cleanup("- Copy php-fpm to /etc/init.d dir", $nolog);
-
-	lxfile_cp(getLinkCustomfile("{$fpath}/php-fpm", "php-fpm.init"), 
-			"/etc/init.d/php-fpm");
+	log_cleanup("- Copy php-fpm init to /etc/init.d dir", $nolog);
+	lxfile_cp(getLinkCustomfile("{$fpmpath}/init.d", "php-fpm.init"), "/etc/init.d/php-fpm");
 }
 
 function setWebDriverChownChmod($type, $nolog = null)
@@ -5726,26 +5740,8 @@ function setWebDriverChownChmod($type, $nolog = null)
 	$webdirchmod = '755';
 	$webdirchown = "apache:apache";
 
-	$lpath = "/home/{$type}/logs";
-	$tpath = "/home/{$type}/tmp";
-	$cpath = "/home/{$type}/cache";
-
-	$plist = array($lpath, $tpath, $cpath);
-
-	foreach ($plist as &$p) {
-		if (!lxfile_exists("{$p}")) {
-			log_cleanup("- Create {$p} dir", $nolog);
-
-			lxfile_mkdir("{$p}");
-
-		}
-
-		lxfile_unix_chmod_rec($p, $webdirchmod);
-		log_cleanup("- chmod {$webdirchmod} FOR {$p}/ AND INSIDE", $nolog);
-	}
-
-	lxfile_unix_chown_rec("/home/{$type}/", $webdirchown);
 	log_cleanup("- chown {$webdirchown} FOR /home/{$type}/ AND INSIDE", $nolog);
+	lxfile_unix_chown_rec("/home/{$type}/", $webdirchown);
 }
 
 function setKloxoHttpdChownChmod($nolog = null)
@@ -7045,7 +7041,7 @@ function setCopyWebConfFiles($webdriver)
 	$aliasdriver = ($webdriver === 'apache') ? 'httpd' : $webdriver;
 
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$webdriver}";
-	$pathsrcgbl = "{$pathsrc}/globals";
+	$pathdrv = "/home/{$webdriver}";
 	$pathtpl = "/home/{$webdriver}/tpl";
 	$pathgbls = "/home/{$webdriver}/conf/globals";
 	$pathdef = "/home/{$webdriver}/conf/defaults";
@@ -7054,42 +7050,16 @@ function setCopyWebConfFiles($webdriver)
 	$pathconfd = "{$pathetc}/conf.d";
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
 
-	$templateconfs = array('defaults.conf.tpl', 'domains.conf.tpl', '~lxcenter.conf.tpl');
+//	lxfile_cp_content_file($pathsrc, $pathdrv);
+	exec("yes|cp -rf {$pathsrc} /home");
 
-	foreach ($templateconfs as &$t) {
-		if (file_exists("{$pathsrc}/{$t}")) {
-			lxfile_cp(getLinkCustomfile($pathsrc, $t), "{$pathtpl}/{$t}");
-		}
-	}
+	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf.d", "~lxcenter.conf"), "{$pathconfd}/~lxcenter.conf");
 
-	lxfile_cp_content_file($pathsrcgbl, $pathgbls);
-	lxfile_mv_rec("{$pathgbls}/custom.*", "{$pathgbls}/*");
+	lxfile_cp(getLinkCustomfile($pathdrv."/etc/init.d", "{$aliasdriver}.init"), "{$pathinit}/{$aliasdriver}");
 
-//	if (file_exists("{$pathsrc}/mimetype.conf")) {
-		lxfile_cp(getLinkCustomfile($pathsrc, "mimetype.conf"), "{$pathdef}/mimetype.conf");
-//	}
+	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf.d", "ssl.conf"), "{$pathconfd}/ssl.conf");
 
-	if (!file_exists("{$pathconfd}/~lxcenter.conf")) {
-		lxfile_cp(getLinkCustomfile($pathsrc, "~lxcenter.conf"), "{$pathconfd}/~lxcenter.conf");
-	} else {
-		$content = file_get_contents("{$pathconfd}/~lxcenter.conf");
-
-		if (stripos($content, "/exclusive/*.conf")) {
-			lxfile_cp(getLinkCustomfile($pathsrc, "~lxcenter.conf"), "{$pathconfd}/~lxcenter.conf");
-		}
-	}
-
-//	if (file_exists("{$pathsrc}/{$aliasdriver}.init")) {
-		lxfile_cp(getLinkCustomfile($pathsrc, "{$aliasdriver}.init"), "{$pathinit}/{$aliasdriver}");
-//	}
-
-//	if (file_exists("{$pathsrc}/ssl.conf")) {
-		lxfile_cp(getLinkCustomfile($pathsrc, "ssl.conf"), "{$pathconfd}/ssl.conf");
-//	}
-
-//	if (file_exists("{$pathsrc}/{$aliasdriver}.conf")) {
-		lxfile_cp(getLinkCustomfile($pathsrc, "{$aliasdriver}.conf"), "{$pathconf}/{$aliasdriver}.conf");
-//	}
+	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf", "{$aliasdriver}.conf"), "{$pathconf}/{$aliasdriver}.conf");
 }
 
 function isWebProxy($drivertype = null)

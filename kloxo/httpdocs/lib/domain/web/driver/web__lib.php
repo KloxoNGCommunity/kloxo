@@ -39,15 +39,13 @@ class web__ extends lxDriverClass
 
 			if ($a === 'httpd') {
 				$ret = lxshell_return("yum", "-y", "install", $a, "mod_ssl", "mod_rpaf");
-				lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/apache", "rpaf.conf"),
+				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
 						"/etc/httpd/conf.d/rpaf.conf");
-				lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/apache", "ssl.conf"),
+				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
 						"/etc/httpd/conf.d/ssl.conf");
-			}
-			elseif ($a === 'lighttpd') {
+			} elseif ($a === 'lighttpd') {
 				$ret = lxshell_return("yum", "-y", "install", $a, "lighttpd-fastcgi");
-			}
-			elseif ($a === 'nginx') {
+			} elseif ($a === 'nginx') {
 				$ret = lxshell_return("yum", "-y", "install", $a);
 			}
 
@@ -62,18 +60,28 @@ class web__ extends lxDriverClass
 			createRestartFile($l);
 		}
 
-		$ret = lxshell_return("yum", "-y", "install", "php-fpm");
-		lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/php-fpm", "php-fpm.conf"),
-				"/etc/php-fpm.conf");
+		// MR -- lxfile_cp_content and lxfile_cp_content_file not work subdirs and files copy
+	//	lxfile_cp_content_file("/usr/local/lxlabs/kloxo/file/php-fpm", "/home/php-fpm");
+		exec("yes|cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
 
-		lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/php-fpm", "php-fpm.conf.tpl"),
-				"/home/php-fpm/tpl/php-fpm.conf.tpl");
+		$phpvariant = getPhpVariant();
 
-		lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/php-fpm", "php53-fpm.conf.tpl"),
-				"/home/php-fpm/tpl/php53-fpm.conf.tpl");
+		$out = isRpmInstalled("{$phpvariant}-fpm");
 
-		lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/file/php-fpm", "php53-fpm.conf"),
-				"/home/php-fpm/tpl/php53-fpm.conf");
+	//	exec("rpm -q {$phpvariant}-fpm | grep -i 'not installed'", $out, $ret);
+
+		if ($out) {
+			$ret = lxshell_return("yum", "-y", "install", "{$phpvariant}-fpm");
+		}
+
+		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
+			$fpmused = "php53";
+		} else {
+			$fpmused = "php";
+
+		}
+
+		lxfile_cp(getLinkCustomfile("/home/php-fpm/tpl", "{$fpmused}-fpm.conf"), "/etc/php-fpm.conf");
 
 		lxshell_return("chkconfig", "php-fpm", "on");
 	}
@@ -231,27 +239,29 @@ class web__ extends lxDriverClass
 		$phpver = getPhpVersion();
 
 		if (version_compare($phpver, "5.3.3", "<")) {
-			// MR -- that mean xml type config
+			// MR -- that mean 'xml' type config
 			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
 			$tpltarget = "/etc/php-fpm.conf";
 			$tpl = file_get_contents($tplsource);
 			$tplparse = getParseInlinePhp($tpl, $input);
 			file_put_contents($tpltarget, $tplparse);
 		} else {
-			// MR -- that mean ini type config
-			$cfgmain = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm.conf");
+			// MR -- that mean 'ini' type config
+			$cfgmain = getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf");
 			lxfile_cp($cfgmain, "/etc/php-fpm.conf");
 
-			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm.conf.tpl");
+			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm-pool.conf.tpl");
 			$tpl = file_get_contents($tplsource);
 
 			foreach ($input['userlist'] as &$user) {
+				// MR - for 'real' users
 				$input['user'] = $user;
 				$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 				$tplparse = getParseInlinePhp($tpl, $input);
 				file_put_contents($tpltarget, $tplparse);		
 			}
 
+			// MR - for 'default' user
 			$input['user'] = 'apache';
 			$tpltarget = "/etc/php-fpm.d/default.conf";
 			$tplparse = getParseInlinePhp($tpl, $input);
