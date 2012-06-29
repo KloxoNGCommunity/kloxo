@@ -5991,6 +5991,7 @@ function setInitialPhpMyAdmin($nolog = null)
 
 function setInitialKloxoPhp($nolog = null)
 {
+/*
 	log_cleanup("Initialize kloxophp", $nolog);
 
 	if (file_exists("/usr/lib64")) {
@@ -6018,6 +6019,7 @@ function setInitialKloxoPhp($nolog = null)
 		log_cleanup("- Install kloxophp 32bit", $nolog);
 		installWithVersion("/usr/lib/kloxophp", "kloxophp");
 	}
+*/
 }
 
 function setRemoveOldDirs($nolog = null)

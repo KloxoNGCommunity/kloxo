@@ -13,8 +13,8 @@ foreach($list as $l) {
 }
 
 foreach($newlist as $n) {
-	lxfile_cp("/usr/local/lxlabs/kloxo/file/program.crt", "/home/kloxo/httpd/ssl/$n.crt");
-	lxfile_cp("/usr/local/lxlabs/kloxo/file/program.key", "/home/kloxo/httpd/ssl/$n.key");
+//	lxfile_cp("/usr/local/lxlabs/kloxo/file/program.crt", "/home/kloxo/httpd/ssl/$n.crt");
+//	lxfile_cp("/usr/local/lxlabs/kloxo/file/program.key", "/home/kloxo/httpd/ssl/$n.key");
 	lxfile_cp("/usr/local/lxlabs/kloxo/file/program.pem", "/home/kloxo/httpd/ssl/$n.pem");
-	lxfile_cp("/usr/local/lxlabs/kloxo/httpdocs/htmllib/filecore/program.ca", "/home/kloxo/httpd/ssl/$n.ca");
+//	lxfile_cp("/usr/local/lxlabs/kloxo/httpdocs/htmllib/filecore/program.ca", "/home/kloxo/httpd/ssl/$n.ca");
 }
