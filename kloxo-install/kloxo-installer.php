@@ -56,11 +56,11 @@ function lxins_main()
 		print("\nAlert: only 6.2.0+ safe (without destroying Kloxo current config) reinstalling.\n\n");
 		
 		// MR -- just for emergency
-		if (!file_exists("/usr/local/lxlabs /usr/local/lxlabs.bck")) {
+		if (!file_exists("/usr/local/lxlabs.bck")) {
 			system("yes|cp -rf /usr/local/lxlabs /usr/local/lxlabs.bck");
 		}
 
-		if (!file_exists("/var/lib/mysql/kloxo /var/lib/mysql/kloxo.bck")) {
+		if (!file_exists("/var/lib/mysql/kloxo.bck")) {
 			system("yes|cp -rf /var/lib/mysql/kloxo /var/lib/mysql/kloxo.bck");
 		}
 	} else {

@@ -190,7 +190,7 @@ function get_yes_no {
     done
 }
 
-get_yes_no "Do you delete temporal dirs (patch, current and combo)?" 1
+get_yes_no "Delete temporal dirs (patch, current and combo)?" 1
 if [ "$?" -eq "1" ] ; then
 	rm -rf ./patch
 	rm -rf ./current
