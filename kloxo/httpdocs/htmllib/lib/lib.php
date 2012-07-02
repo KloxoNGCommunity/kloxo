@@ -4877,17 +4877,17 @@ function install_gd($nolog = null)
 {
 	global $global_dontlogshell;
 
-	$phpvariant = getPhpVariant();
+	$phpbranch = getPhpBranch();
 
 	$global_dontlogshell = true;
 
-	log_cleanup("Check for {$phpvariant}-gd", $nolog);
+	log_cleanup("Check for {$phpbranch}-gd", $nolog);
 
-	$ret = lxshell_return("rpm", "-q", "{$phpvariant}-gd", $nolog);
+	$ret = lxshell_return("rpm", "-q", "{$phpbranch}-gd", $nolog);
 
 	if ($ret) {
 		log_cleanup("- Install process", $nolog);
-		system("yum -y install {$phpvariant}-gd");
+		system("yum -y install {$phpbranch}-gd");
 	} else {
 		log_cleanup("- Already installed. No need to install", $nolog);
 	}
@@ -5565,7 +5565,7 @@ function getPhpVersion()
 	return $out[0];
 }
 
-function getPhpVariant()
+function getPhpBranch()
 {
 	$a = array('php', 'php52', 'php53', 'php53u', 'php54');
 
@@ -5574,6 +5574,17 @@ function getPhpVariant()
 			return $e;
 		}
 	}
+}
+
+function getApacheBranch()
+{
+	$a = array('httpd', 'httpd24');
+
+	foreach ($a as $e) {
+		if (isRpmInstalled($e)) {
+			return $e;
+		}
+	}	
 }
 
 function getRpmVersion($rpmname)

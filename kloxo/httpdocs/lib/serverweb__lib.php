@@ -6,16 +6,96 @@ class serverweb__ extends lxDriverClass
 	{
 	}
 
+
 	function dbactionUpdate($subaction)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		switch($subaction) {
+			case "apache_optimize":
+				$this->set_apacheoptimize();
+
+				break;
+
+			case "fix_chownchmod":
+				$this->set_fixchownchmod();
+
+				break;
+
+			case "mysql_convert":
+				$this->set_mysqlconvert();
+
+				break;
+
+			default:
+				$this->set_phptype();
+
+				break;
+		}
+	}
+
+	function set_apacheoptimize()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$nolog = 'yes';
+
+		$ullkbfaophp = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
+
+		switch($this->main->apache_optimize) {
+			case 'optimize':
+				lxshell_return("lxphp.exe", $ullkbfaophp, "--select=optimize", $nolog);
+				break;
+		}
+	}
+
+	function set_fixchownchmod()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$nolog = 'yes';
+
+		$ullkbffcphp = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
+
+		switch($this->main->fix_chownchmod) {
+			case 'fix-ownership':
+				lxshell_return("lxphp.exe", $ullkbffcphp, "--select=chmod", $nolog);
+				break;
+			case 'fix-permissions':
+				lxshell_return("lxphp.exe", $ullkbffcphp, "--select=chown", $nolog);
+				break;
+			case 'fix-ALL':
+				lxshell_return("lxphp.exe", $ullkbffcphp, "--select=all", $nolog);
+				break;
+		}
+	}
+
+	function set_mysqlconvert()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$nolog = 'yes';
+
+		$ullkbfmcphp = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
+
+		switch($this->main->mysql_convert) {
+			case 'to-myisam':
+				$t = 'myisam';
+				lxshell_return("lxphp.exe", $ullkbfmcphp, "--engine=myisam", $nolog);
+				break;
+			case 'to-innodb':
+				lxshell_return("lxphp.exe", $ullkbfmcphp, "--engine=innodb", $nolog);
+				break;
+		}
+	}
+
+	function set_phptype()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$nolog = 'yes';
+
 		$t = (isset($this->main->php_type)) ? $this->main->php_type : null;
-
-		$a = (isset($this->main->apache_optimize)) ? $this->main->apache_optimize : null;
-		$m = (isset($this->main->mysql_convert)) ? $this->main->mysql_convert : null;
-		$f = (isset($this->main->fix_chownchmod)) ? $this->main->fix_chownchmod : null;
-
 
 		$ullkfapath  = '/usr/local/lxlabs/kloxo/file/apache';
 		$ullkfpfpath = '/usr/local/lxlabs/kloxo/file/php-fpm';
@@ -32,9 +112,6 @@ class serverweb__ extends lxDriverClass
 		$haecpath = '/home/apache/etc/conf';
 		$haecdpath = '/home/apache/etc/conf.d';
 
-		$ullkbfaophp = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
-		$ullkbffcphp = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
-		$ullkbfmcphp = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
 		$ullkbffwphp = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 
 		if (isWebProxyOrApache()) {
@@ -63,7 +140,7 @@ class serverweb__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile($haecpath, "httpd.conf"), $ehcpath."/httpd.conf");
 			}
 
-			sleep(10);
+		//	sleep(10);
 
 			//--- don't use '=== true' but '!== false'
 			if (stripos($t, 'mod_php') !== false) {
@@ -87,34 +164,33 @@ class serverweb__ extends lxDriverClass
 				} elseif ($t === 'mod_php_itk') {
 					exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
 				}
-
 			} elseif (stripos($t, 'suphp') !== false) {
 				lxshell_return("yum", "-y", "install", "mod_suphp");
 				lxshell_return("yum", "-y", "update", "mod_suphp");
 
 				$ver = getPhpVersion();
 
-				if (version_compare($ver, "5.2.17-1", ">")) {
-					if (!file_exists('/usr/bin/php_pure')) {
-						exec('rpm -e --nodeps php');
-						exec('rpm -e --nodeps php-cli');
-						exec('rpm -e --nodeps php-common');
-						exec('rpm -e --nodeps php-fpm');
-						exec('yum install php-5.2.17-1 -y');
-						lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
-						lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
-						exec('yum update php -y');
-						exec('yum install php-fpm -y');
-					}
+				$phpbranch = getPhpBranch();
 
-					if (version_compare($ver, "5.3.2", ">")) {
-						lxfile_cp($haepath."/suphp.conf", "/etc/suphp.conf");
-					} else {
-						lxfile_cp($haepath."/suphp_pure.conf", "/etc/suphp.conf");
-					}
-				} else {
-					lxfile_cp($haepath."/suphp.conf", "/etc/suphp.conf");
+				if (!file_exists('/usr/bin/php_pure')) {
+					exec("rpm -e --nodeps {$phpbranch}");
+					exec("rpm -e --nodeps {$phpbranch}-cli");
+					exec("rpm -e --nodeps {$phpbranch}-common");
+					exec("rpm -e --nodeps {$phpbranch}-fpm");
+					exec("yum install php-5.2.17-1 -y");
+					lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
+					lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
+					exec("yum update {$phpbranch} -y");
+					exec("yum install {$phpbranch}-fpm -y");
 				}
+
+				if (version_compare($ver, "5.3.2", ">")) {
+					lxfile_cp($haepath."/suphp.conf", "/etc/suphp.conf");
+				} else {
+					lxfile_cp($haepath."/suphp_pure.conf", "/etc/suphp.conf");
+				}
+
+				exec("sh /script/fixphp --nolog");
 
 				lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
 				lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
@@ -124,24 +200,22 @@ class serverweb__ extends lxDriverClass
 				lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
 
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp.conf"), $ehcdpath."/suphp.conf");
-
-
 			} elseif (stripos($t, 'php-fpm') !== false) {
 
 				$ver = getRpmVersion('httpd');
 
-				if (version_compare($ver, "2.4.0", ">=")) {
+				if (version_compare($ver, "2.4.0", ">=") !== false) {
 					lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath."/proxy_fcgi.conf");
 					lxfile_rm($ehcdpath."/proxy_fcgi.nonconf");
 				} else {
-					$phpvariant = getPhpVariant();
+					$phpbranch = getPhpBranch();
 
 					lxshell_return("yum", "-y", "install", "mod_fastcgi");
 					lxshell_return("yum", "-y", "update", "mod_fastcgi");
-					lxshell_return("yum", "-y", "install", "{$phpvariant}-fpm");
-					lxshell_return("yum", "-y", "update", "{$phpvariant}-fpm");
+					lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
+					lxshell_return("yum", "-y", "update", "{$phpbranch}-fpm");
 					lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath."/fastcgi.conf");
-					lxfile_rm($ehcdpath."/fastcgi.nonconf");
+					lxfile_rm($ehcdpath."/fastgi.nonconf");
 				}
 
 				lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
@@ -156,7 +230,7 @@ class serverweb__ extends lxDriverClass
 			if (stripos($t, '_worker') !== false) {
 				exec("echo 'HTTPD=/usr/sbin/httpd.worker' >/etc/sysconfig/httpd");
 			} elseif (stripos($t, '_event') !== false) {
-					exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
+				exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
 			} else {
 				exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
 			}
@@ -169,26 +243,5 @@ class serverweb__ extends lxDriverClass
 			
 			lxshell_return("lxphp.exe", $ullkbffwphp, "--target=defaults", "--nolog");
 		}
-
-		$nolog = 'yes';
-
-		if ($a === 'optimize') {
-			lxshell_return("lxphp.exe", $ullkbfaophp, "--select=optimize", $nolog);
-		}
-
-		if ($f === 'fix-ownership') {
-			lxshell_return("lxphp.exe", $ullkbffcphp, "--select=chown", $nolog);
-		} elseif ($f === 'fix-permissions') {
-			lxshell_return("lxphp.exe", $ullkbffcphp, "--select=chmod", $nolog);
-		} elseif ($f === 'fix-ALL') {
-			lxshell_return("lxphp.exe", $ullkbffcphp, "--select=all", $nolog);
-		}
-
-		if ($m === 'to-myisam') {
-			lxshell_return("lxphp.exe", $ullkbfmcphp, "--engine=myisam", $nolog);
-		} elseif ($m === 'to-innodb') {
-			lxshell_return("lxphp.exe", $ullkbfmcphp, "--engine=innodb", $nolog);
-		}
-
 	}
 }

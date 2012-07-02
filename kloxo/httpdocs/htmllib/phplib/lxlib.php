@@ -3067,6 +3067,7 @@ function getDbvariable($listvar, $mainvar)
 		dprint("NO schema for $listvar $mainvar <br> \n");
 		return null;
 	}
+
 }
 
 function check_file_if_owned_by($file, $user)

@@ -64,7 +64,7 @@ class web__ extends lxDriverClass
 	//	lxfile_cp_content_file("/usr/local/lxlabs/kloxo/file/php-fpm", "/home/php-fpm");
 		exec("yes|cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
 
-		$phpvariant = getPhpVariant();
+		$phpvariant = getPhpBranch();
 
 		$out = isRpmInstalled("{$phpvariant}-fpm");
 

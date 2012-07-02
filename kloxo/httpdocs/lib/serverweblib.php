@@ -15,43 +15,58 @@ class serverweb extends lxdb
 	function createShowUpdateform()
 	{
 		$uflist['edit'] = null;
+		$uflist['apache_optimize'] = null;
+		$uflist['mysql_convert'] = null;
+		$uflist['fix_chownchmod'] = null;
+
 		return $uflist;
 	}
 
 	function updateform($subaction, $param)
 	{
-		// issue #571 - add httpd-worker and httpd-event for suphp
-		// issue #566 - Mod_ruid2 on Kloxo
-		// issue #567 - httpd-itk for kloxo
-
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//	$driverapp = $gbl->getSyncClass(null, 'localhost', 'serverweb');
+		switch($subaction) {
 
-		if (isWebProxyOrApache()) {
-			$vlist['php_type'] = array('s', array(
-					'mod_php', 'mod_php_ruid2', 'mod_php_itk',
-					'suphp', 'suphp_event', 'suphp_worker',
-					'php-fpm_event', 'php-fpm_worker')
-			);
+			case "apache_optimize":
+				if (isWebProxyOrApache()) {
+					$vlist['apache_optimize'] = array('s', array('--- none ---', 'optimize'));
+					$this->setDefaultValue('apache_optimize', '--- none ---');
+				}
 
-			$this->setDefaultValue('php_type', 'mod_php');
+				break;
 
-			$vlist['apache_optimize'] = array('s', array('--- none ---', 'optimize'));
-			$this->setDefaultValue('apache_optimize', '--- none ---');
+			case "mysql_convert":
+				$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb'));
+
+				$this->setDefaultValue('mysql_convert', '--- none ---');
+
+				break;
+
+			case "fix_chownchmod":
+				$vlist['fix_chownchmod'] = array('s', array(
+						'--- none ---', 'fix-ownership', 'fix-permissions', 'fix-ALL')
+				);
+
+				$this->setDefaultValue('fix_chownchmod', '--- none ---');
+
+				break;
+
+			default:
+				if (isWebProxyOrApache()) {
+					$vlist['php_type'] = array('s', array(
+							'mod_php', 'mod_php_ruid2', 'mod_php_itk',
+							'suphp', 'suphp_event', 'suphp_worker',
+							'php-fpm_event', 'php-fpm_worker')
+					);
+
+					$this->setDefaultValue('php_type', 'mod_php');
+				}
+
+				$vlist['__m_message_pre'] = 'webserver_config';
+
+				break;
 		}
-
-		$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb'));
-
-		$this->setDefaultValue('mysql_convert', '--- none ---');
-
-		$vlist['fix_chownchmod'] = array('s', array(
-				'--- none ---', 'fix-ownership', 'fix-permissions', 'fix-ALL')
-		);
-
-		$this->setDefaultValue('fix_chownchmod', '--- none ---');
-
-		$vlist['__m_message_pre'] = 'webserver_config';
 
 		return $vlist;
 	}
