@@ -57,7 +57,8 @@
         $userinfo = posix_getpwnam($user);
         $fpmport = (50000 + $userinfo['uid']);
 ?>
-       <section name="pool">
+
+        <section name="pool">
             <value name="name"><?php echo $user; ?></value>
             <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value>
             <value name="listen_options">

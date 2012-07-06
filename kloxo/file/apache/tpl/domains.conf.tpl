@@ -107,16 +107,48 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+<?php
+    if ($redirectionlocal) {
+        foreach ($redirectionlocal as $rl) {
+?>
+
+    Alias <?php echo $rl[0]; ?> "<?php echo $rootpath; ?><?php echo $rl[1]; ?>/"
+<?php
+        }
+    }
+
+    if ($redirectionremote) {
+        foreach ($redirectionremote as $rr) {
+            if ($rr[2] === 'both') {
+?>
+
+    Redirect <?php echo $rr[0]; ?> "<?php echo $rr[1]; ?>"
+#    Redirect <?php echo $rr[0]; ?> "<?php echo str_replace("http://", "https://", $rr[1]); ?>"
+<?php
+            } else {
+?>
+
+    Redirect <?php echo $rr[0]; ?> "<?php echo $rr[1]; ?>"
+<?php
+            }
+        }
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup <?php echo $user; ?> <?php echo $user; ?>
 
     </IfModule>
 
-    <IfModule mod_suphp.c>
-        SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+    <IfModule !mod_fastcgi.c>
+        <IfModule mod_suphp.c>
+            AddHandler x-httpd-php .php
+            AddHandler x-httpd-php .php .php4 .php3 .phtml
+            suPHP_AddHandler x-httpd-php
+            SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
-        suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
+            suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
+        </IfModule>
     </IfModule>
 
     <IfModule mod_ruid2.c>
@@ -307,18 +339,16 @@ $disablepath = "/home/kloxo/httpd/disable";
 
 
     <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
-    <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $domainname; ?>.fake <?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.fake
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:50000
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
-        <Files "webmail.<?php echo $domainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
-        </Files>
-    </IfModule>
+    <Location />
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Location>
 
 </VirtualHost>
 
@@ -357,18 +387,16 @@ $disablepath = "/home/kloxo/httpd/disable";
 
 
     <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
-    <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $domainname; ?>.fake <?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.fake
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:50000
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
-        <Files "webmail.<?php echo $domainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
-        </Files>
-    </IfModule>
+    <Location />
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Location>
 
 </VirtualHost>
 
@@ -416,10 +444,15 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     </IfModule>
 
-    <IfModule mod_suphp.c>
-        SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+    <IfModule !mod_fastcgi.c>
+        <IfModule mod_suphp.c>
+            AddHandler x-httpd-php .php
+            AddHandler x-httpd-php .php .php4 .php3 .phtml
+            suPHP_AddHandler x-httpd-php
+            SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
-        suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
+            suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
+        </IfModule>
     </IfModule>
 
     <IfModule mod_ruid2.c>
@@ -505,18 +538,16 @@ $disablepath = "/home/kloxo/httpd/disable";
 
 
     <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
-    <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $parkdomainname; ?>.fake <?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.fake
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:50000
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
-        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
-        </Files>
-    </IfModule>
+    <Location />
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Location>
 
 </VirtualHost>
 
@@ -556,18 +587,16 @@ $disablepath = "/home/kloxo/httpd/disable";
 
 
     <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
-    <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $parkdomainname; ?>.fake <?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.fake
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:50000
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
-        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
-        </Files>
-    </IfModule>
+    <Location />
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Location>
 
 </VirtualHost>
 
@@ -612,18 +641,16 @@ $disablepath = "/home/kloxo/httpd/disable";
 
 
     <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
-    <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $redirdomainname; ?>.fake <?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.fake
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:50000
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
-        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
-        </Files>
-    </IfModule>
+    <Location />
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Location>
 
 </VirtualHost>
 
@@ -663,18 +690,16 @@ $disablepath = "/home/kloxo/httpd/disable";
 
 
     <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
-    <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $redirdomainname; ?>.fake <?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.fake
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:50000
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
-        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
-        </Files>
-    </IfModule>
+    <Location />
+        allow from all
+        Options +Indexes +FollowSymlinks
+    </Location>
 
 </VirtualHost>
 

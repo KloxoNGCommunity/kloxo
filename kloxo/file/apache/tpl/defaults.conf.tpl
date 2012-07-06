@@ -126,6 +126,9 @@ NameVirtualHost *:<?php echo $portssl ?>
 ?>
         <Location /~<?php echo $user; ?>>
             <IfModule mod_suphp.c>
+                AddHandler x-httpd-php .php
+                AddHandler x-httpd-php .php .php4 .php3 .phtml
+                suPHP_AddHandler x-httpd-php
                 SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
             </IfModule>
@@ -138,24 +141,16 @@ NameVirtualHost *:<?php echo $portssl ?>
         }
 ?> 
     <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
-    <IfModule mod_fastcgi.c>
-        Alias /<?php echo $setdefaults; ?>.fake <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake
-        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake -host 127.0.0.1:50000
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.fake
-        <Files "<?php echo $setdefaults; ?>.fake">
-            RewriteCond %{REQUEST_URI} !<?php echo $setdefaults; ?>.fake
-        </Files>
-    </IfModule>
-
-    <Directory "<?php echo $docroot; ?>/">
-        AllowOverride All
+    <Location />
         allow from all
         Options +Indexes +FollowSymlinks
-    </Directory>
+    </Location>
 
 </VirtualHost>
 

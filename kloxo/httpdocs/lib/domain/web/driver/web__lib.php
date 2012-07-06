@@ -131,6 +131,9 @@ class web__ extends lxDriverClass
 
 		$input['setdomains'] = true;
 
+		$input['redirectionlocal'] = $this->getRedirectionLocal();
+		$input['redirectionremote'] = $this->getRedirectionRemote();
+
 		self::setCreateConfFile($input);
 
 		$this->setLogfile();
@@ -687,6 +690,36 @@ class web__ extends lxDriverClass
 	function getNginxExtraText()
 	{
 		return null;
+	}
+
+	function getRedirectionLocal()
+	{
+		$list = array();
+
+		foreach((array) $this->main->redirect_a as $red) {
+			$rednname = remove_extra_slash("/{$red->nname}");
+
+			if ($red->ttype === 'local') {
+				$list[] = array($rednname, $red->redirect);
+			}
+		}
+
+		return $list;
+	}
+
+	function getRedirectionRemote()
+	{
+		$list = array();
+
+		foreach((array) $this->main->redirect_a as $red) {
+			$rednname = remove_extra_slash("/{$red->nname}");
+
+			if ($red->ttype !== 'local') {
+				$list[] = array($rednname, $red->redirect, $red->httporssl);
+			}
+		}
+
+		return $list;
 	}
 
 	function getDisabled()

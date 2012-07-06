@@ -178,6 +178,35 @@ server {
 ?>
 
     root $rootdir;
+<?php
+    if ($redirectionlocal) {
+        foreach ($redirectionlocal as $rl) {
+?>
+
+    location ~ ^<?php echo $rl[0]; ?>/(.*)$ {
+        alias $rootdir<?php echo str_replace("//", "/", $rl[1]); ?>/$1;
+    }
+<?php
+        }
+    }
+
+    if ($redirectionremote) {
+        foreach ($redirectionremote as $rr) {
+            if ($rr[2] === 'both') {
+?>
+
+    rewrite ^<?php echo $rr[0]; ?>/(.*) <?php echo $rr[1]; ?>/$1 permanent;
+#    rewrite ^<?php echo $rr[0]; ?>/(.*) <?php echo str_replace("http://", "https://", $rr[1]); ?>/$1 permanent;
+<?php
+            } else {
+?>
+
+    rewrite ^<?php echo $rr[0]; ?>/(.*) <?php echo $rr[1]; ?>/$1 permanent;
+<?php
+            }
+        }
+    }
+?>
 
     set $user '<?php echo $user; ?>';
 
