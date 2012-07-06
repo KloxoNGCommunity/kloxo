@@ -110,7 +110,8 @@ function lxins_main()
 
 	$packages = array("php-mbstring", "php-mysql", "which", "gcc-c++", "php-imap", "php-pear", "php-devel", "php-ioncube", "php-zend",	
 			"lxlighttpd", "httpd", "mod_ssl", "zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
-			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase");
+			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase",
+			"php-xcache", "php-suhosin", "php-zts");
 
 	$list = implode(" ", $packages);
 

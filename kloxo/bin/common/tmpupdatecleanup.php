@@ -142,7 +142,7 @@ function updatecleanup_main()
 		"php-gd php52-gd php53u-gd php54-gd",
 		"php-fpm php52-fpm php53u-fpm php54-fpm",
 		"php-zend php-ioncube",
-		"php-zend-optimizer-loader php-ioncube-loader",
+		"php-zend-optimizer php-ioncube-loader",
 		"php-zend-guard-loader",
 		"php52-zend-optimizer-loader php52-ioncube-loader",
 		"php53u-zend-guard-loader php53u-ioncube-loader",

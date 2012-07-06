@@ -59,3 +59,8 @@ foreach($list as $c) {
 // MR - fix for php-fpm and fastcgi session issue
 mkdir("/var/log/php-fpm",0755);
 chmod("/var/lib/php/session", 0777);
+
+// MR - also fix for lighttpd
+mkdir("/var/log/lighttpd",0777);
+chmod("/var/log/lighttpd", 0777);
+
