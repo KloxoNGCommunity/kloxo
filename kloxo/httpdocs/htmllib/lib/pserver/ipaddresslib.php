@@ -401,6 +401,19 @@ class Ipaddress extends Lxdb
 		if (!lxfile_exists("__path_ssl_root/$name.ca")) {
 			lxfile_cp("__path_program_root/file/default.ca", "__path_ssl_root/$name.ca");
 		}
+
+		// MR -- add for missing (lighttpd error when select because need .pem file
+		if (!lxfile_exists("__path_ssl_root/$name.pem")) {
+			if (!lxfile_exists("__path_program_root/file/default.pem")) {
+				$contentscer = lfile_get_contents("__path_program_root/file/default.crt");
+				$contentskeyl = file_get_contents("__path_program_root/file/default.key");
+				$contentpem = "$contentscer\n$contentskey";
+				lfile_put_contents("__path_program_root/file/default.pem");
+			}
+
+			lxfile_cp("__path_program_root/file/default.pem", "__path_ssl_root/$name.pem");
+
+		}
 	}
 
 	static function chekIsExists($blockip, $ip)
