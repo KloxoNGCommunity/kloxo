@@ -3177,7 +3177,7 @@ function parse_sql_data()
 	$trel = $sgbl->__ver_release;
 
 	$rpath = "sql/full.lxsql";
-	$pathc = "htmllib/sql/common.lxsql";
+	$pathc = "sql/common.lxsql";
 	include $rpath;
 	include $pathc;
 
@@ -3290,7 +3290,8 @@ function parse_sql_data()
 	$var['quotavar'] = $_quota_var;
 	$var['fieldvar'] = $_field_var;
 
-	lfile_put_contents("__path_dbschema", serialize($var));
+	// MR -- no need for this!
+//	lfile_put_contents("__path_dbschema", serialize($var));
 	return $_return_value;
 }
 

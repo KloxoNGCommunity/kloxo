@@ -107,7 +107,7 @@ function updatecleanup_main()
 	
 	log_cleanup("- MySQL restarted");
 	exec("service mysqld restart");
-
+/*
 	// MR -- importance for update from 6.1.6 or previous where change apache/lighttpd structure 
 	// or others for next version
 
@@ -148,6 +148,17 @@ function updatecleanup_main()
 		"php53u-zend-guard-loader php53u-ioncube-loader",
 		"php54-zend-guard-loader php54-ioncube-loader",
 		"php-suhosin php52-suhosin php53u-suhosin php54-suhosin"
+	);
+
+	setUpdateServices($slist);
+*/
+	
+	$slist = array(
+		"httpd* lighttpd nginx*",
+		"mod_* mysql* php* lx*",
+		"bind* djbdns* pure-ftpd*",
+		"*-toaster qmail* vpopmail*",
+		"spamassassin* bogofilter*",
 	);
 
 	setUpdateServices($slist);

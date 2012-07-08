@@ -124,9 +124,10 @@ class phpini extends lxdb
 			$list[] = 'memory_limit_flag';
 			$list[] = 'post_max_size_flag';
 			$list[] = "upload_max_filesize";
+
+			return $list;
 		}
 		
-		return $list;
 	}
 
 	function fixphpIniFlag()
@@ -191,7 +192,7 @@ class phpini extends lxdb
 		//--- issue 547 - xcache failed to install
 		if ($login->isAdmin()) {
 			// function declare on lib.php
-			install_xcache($nolog = 'yes');
+		//	install_xcache($nolog = 'yes');
 		}
 
 		// We need to write because the fixphpini reads everything from the database.
