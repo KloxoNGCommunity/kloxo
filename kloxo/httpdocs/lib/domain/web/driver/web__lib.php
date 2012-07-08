@@ -45,6 +45,8 @@ class web__ extends lxDriverClass
 						"/etc/httpd/conf.d/ssl.conf");
 			} elseif ($a === 'lighttpd') {
 				$ret = lxshell_return("yum", "-y", "install", $a, "lighttpd-fastcgi");
+				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
+				lxfile_unix_chown("/var/log/lighttpd", "apache:apache");
 			} elseif ($a === 'nginx') {
 				$ret = lxshell_return("yum", "-y", "install", $a);
 			}
@@ -59,6 +61,9 @@ class web__ extends lxDriverClass
 
 			createRestartFile($l);
 		}
+
+		// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
+		lxfile_unix_chown("/var/log/lighttpd", "apache:apache");
 
 		// MR -- lxfile_cp_content and lxfile_cp_content_file not work subdirs and files copy
 	//	lxfile_cp_content_file("/usr/local/lxlabs/kloxo/file/php-fpm", "/home/php-fpm");

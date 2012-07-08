@@ -84,7 +84,7 @@ $HTTP["host"] =~ "^<?php echo $setdefaults; ?>\.*" {
 
     var.fpmport = "50000"
 
-    include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
+    include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 
 #    include "<?php echo $globalspath; ?>/<?php echo $nobodyconf; ?>"
 <?php

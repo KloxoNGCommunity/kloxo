@@ -39,3 +39,4 @@ baseurl=http://download.fedoraproject.org/pub/epel/5/$basearch
 mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch
 enabled=1
 gpgcheck=0
+exclude=lighttpd* nginx*
