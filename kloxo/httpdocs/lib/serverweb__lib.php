@@ -144,104 +144,174 @@ class serverweb__ extends lxDriverClass
 
 			//--- don't use '=== true' but '!== false'
 			if (stripos($t, 'mod_php') !== false) {
-				lxfile_mv($ehcdpath."/php.nonconf", $ehcdpath."/php.conf");
-				lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
-			//	lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
-				lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
-				lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
-				lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
-
-				// use > that equal to lxfile_rm + echo >>
-				exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
-
-				if ($t === 'mod_php') {
-					// nothing
-				} elseif ($t === 'mod_php_ruid2') {
-					lxshell_return("yum", "-y", "install", "mod_ruid2");
-					lxshell_return("yum", "-y", "update", "mod_ruid2");
-					lxfile_mv($ehcdpath."/ruid2.nonconf", $ehcdpath."/ruid2.conf");
-					lxfile_cp($haecdpath."/ruid2.conf", $ehcdpath."/ruid2.conf");
-				} elseif ($t === 'mod_php_itk') {
-					exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
-				}
+				$this->set_modphp($t);
 			} elseif (stripos($t, 'suphp') !== false) {
-				lxshell_return("yum", "-y", "install", "mod_suphp");
-				lxshell_return("yum", "-y", "update", "mod_suphp");
-
-				$ver = getPhpVersion();
-
-				$phpbranch = getPhpBranch();
-
-				if (!file_exists('/usr/bin/php_pure')) {
-					exec("rpm -e --nodeps {$phpbranch}");
-					exec("rpm -e --nodeps {$phpbranch}-cli");
-					exec("rpm -e --nodeps {$phpbranch}-common");
-					exec("rpm -e --nodeps {$phpbranch}-fpm");
-					exec("yum install php-5.2.17-1 -y");
-					lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
-					lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
-					exec("yum update {$phpbranch} -y");
-					exec("yum install {$phpbranch}-fpm -y");
-				}
-
-				if (version_compare($ver, "5.3.2", ">")) {
-					lxfile_cp($haepath."/suphp.conf", "/etc/suphp.conf");
-				} else {
-					lxfile_cp($haepath."/suphp_pure.conf", "/etc/suphp.conf");
-				}
-
-				exec("sh /script/fixphp --nolog");
-
-				lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
-				lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
-				lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
-				lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
-				lxfile_mv($ehcdpath."/suphp.nonconf", $ehcdpath."/suphp.conf");
-				lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
-
-				lxfile_cp(getLinkCustomfile($haecdpath, "suphp.conf"), $ehcdpath."/suphp.conf");
+				$this->set_suphp($t);
 			} elseif (stripos($t, 'php-fpm') !== false) {
-
-				$ver = getRpmVersion('httpd');
-
-				if (version_compare($ver, "2.4.0", ">=") !== false) {
-					lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath."/proxy_fcgi.conf");
-					lxfile_rm($ehcdpath."/proxy_fcgi.nonconf");
-				} else {
-					$phpbranch = getPhpBranch();
-
-					lxshell_return("yum", "-y", "install", "mod_fastcgi");
-					lxshell_return("yum", "-y", "update", "mod_fastcgi");
-					lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
-					lxshell_return("yum", "-y", "update", "{$phpbranch}-fpm");
-					lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath."/fastcgi.conf");
-					lxfile_rm($ehcdpath."/fastgi.nonconf");
-				}
-
-				lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
-				lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
-				lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
-				lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
+				$this->set_suphp($t);
+				$this->set_phpfpm($t);
 			}
 
 			lxfile_rm($ehcdpath."/fcgid.nonconf");
 			lxfile_rm($ehcdpath."/fcgid.conf");
 
-			if (stripos($t, '_worker') !== false) {
-				exec("echo 'HTTPD=/usr/sbin/httpd.worker' >/etc/sysconfig/httpd");
-			} elseif (stripos($t, '_event') !== false) {
-				exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
-			} else {
-				exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
-			}
+			$this->set_mpm($t);
+		}
+	}
 
-			$ret = lxshell_return("service", "httpd", "restart");
+	function set_modphp($type)
+	{
+		$ehcdpath = '/etc/httpd/conf.d';
+
+		lxfile_mv($ehcdpath."/php.nonconf", $ehcdpath."/php.conf");
+		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
+	//	lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
+		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
+		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
+		lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
+
+		// use > that equal to lxfile_rm + echo >>
+		exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
+
+		if ($type === 'mod_php') {
+			// nothing
+		} elseif ($type === 'mod_php_ruid2') {
+			lxshell_return("yum", "-y", "install", "mod_ruid2");
+			lxshell_return("yum", "-y", "update", "mod_ruid2");
+			lxfile_mv($ehcdpath."/ruid2.nonconf", $ehcdpath."/ruid2.conf");
+			lxfile_cp($haecdpath."/ruid2.conf", $ehcdpath."/ruid2.conf");
+		} elseif ($type === 'mod_php_itk') {
+			exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
+		}
+
+	}
+
+	function set_suphp($type)
+	{
+		$ehcdpath = '/etc/httpd/conf.d';
+		$haepath = '/home/apache/etc';
+		$haecdpath = '/home/apache/etc/conf.d';
+
+		lxshell_return("yum", "-y", "install", "mod_suphp");
+		$ret = lxshell_return("yum", "-y", "update", "mod_suphp");
+
+		if ($ret) {
+			throw new lxexception('mod_suphp_update_failed', 'parent');
+		}
+
+		$ver = getPhpVersion();
+
+		$phpbranch = getPhpBranch();
+
+		if (!file_exists('/usr/bin/php_pure')) {
+			exec("rpm -e --nodeps {$phpbranch}");
+			exec("rpm -e --nodeps {$phpbranch}-cli");
+			exec("rpm -e --nodeps {$phpbranch}-common");
+			exec("rpm -e --nodeps {$phpbranch}-fpm");
+
+			$ret = lxshell_return("yum", "-y", "install", "php-5.2.17-1");
 
 			if ($ret) {
-				throw new lxexception('httpd_restart_failed', 'parent');
+				throw new lxexception('php-5.2.17-1_update_failed', 'parent');
 			}
-			
-			lxshell_return("lxphp.exe", $ullkbffwphp, "--target=defaults", "--nolog");
+
+			lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
+			lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
+
+			$ret = lxshell_return("yum", "-y", "install", "{$phpbranch}", "{$phpbranch}-fpm");
+
+			if ($ret) {
+				throw new lxexception('{$phpbranch}_or_{$phpbranch}-fpm_install_failed', 'parent');
+			}
 		}
+
+		if (version_compare($ver, "5.3.2", ">")) {
+			lxfile_cp($haepath."/suphp.conf", "/etc/suphp.conf");
+		} else {
+			lxfile_cp($haepath."/suphp_pure.conf", "/etc/suphp.conf");
+		}
+
+		exec("sh /script/fixphp --nolog");
+
+		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
+		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
+		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
+		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
+		lxfile_mv($ehcdpath."/suphp.nonconf", $ehcdpath."/suphp.conf");
+		lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
+
+		lxfile_cp(getLinkCustomfile($haecdpath, "suphp.conf"), $ehcdpath."/suphp.conf");
+	}
+
+	function set_phpfpm($type)
+	{
+		$ehcdpath = '/etc/httpd/conf.d';
+		$haepath = '/home/apache/etc';
+		$haecdpath = '/home/apache/etc/conf.d';
+
+		$ver = getRpmVersion('httpd');
+
+		if (version_compare($ver, "2.4.0", ">=") !== false) {
+			lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath."/proxy_fcgi.conf");
+			lxfile_rm($ehcdpath."/proxy_fcgi.nonconf");
+		} else {
+			$phpbranch = getPhpBranch();
+
+			lxshell_return("yum", "-y", "install", "mod_fastcgi");
+			$ret = lxshell_return("yum", "-y", "update", "mod_fastcgi");
+
+			if ($ret) {
+				throw new lxexception('mod_fastcgi_update_failed', 'parent');
+			}
+
+			lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
+			$ret = lxshell_return("yum", "-y", "update", "{$phpbranch}-fpm");
+
+			if ($ret) {
+				throw new lxexception('{$phpbranch}-fpm_update_failed', 'parent');
+			}
+
+			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath."/fastcgi.conf");
+			lxfile_rm($ehcdpath."/fastgi.nonconf");
+		}
+
+		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
+		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
+		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
+		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
+
+		lxshell_return("chkconfig", "php-fpm", "on");
+		$ret = lxshell_return("service", "php-fpm", "restart");
+
+		if ($ret) {
+			throw new lxexception('php-fpm_restart_failed', 'parent');
+		}
+
+	}
+
+	function set_fcgid($type)
+	{
+		// MR -- not implementing yet
+	}
+
+	function set_mpm($type)
+	{
+		$ullkbffwphp = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+
+		if (stripos($type, '_worker') !== false) {
+			exec("echo 'HTTPD=/usr/sbin/httpd.worker' >/etc/sysconfig/httpd");
+		} elseif (stripos($type, '_event') !== false) {
+			exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
+		} else {
+			exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
+		}
+
+		$ret = lxshell_return("service", "httpd", "restart");
+
+		if ($ret) {
+			throw new lxexception('httpd_restart_failed', 'parent');
+		}
+			
+		lxshell_return("lxphp.exe", $ullkbffwphp, "--target=defaults", "--nolog");
 	}
 }
