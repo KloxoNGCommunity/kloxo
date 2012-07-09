@@ -38,17 +38,45 @@ class web__ extends lxDriverClass
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
 			if ($a === 'httpd') {
-				$ret = lxshell_return("yum", "-y", "install", $a, "mod_ssl", "mod_rpaf");
+				$rlist = array($a, "mod_ssl", "mod_rpaf");
+
+				foreach ($rlist as $k => $r) {
+					$flist = glob("/usr/local/lxlabs/rpms/{$r}-*.rpm");
+
+					if ($flist) {
+						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
+					} else {
+						$ret = lxshell_return("yum", "-y", "install", $r);
+					}
+				}
+
 				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
 						"/etc/httpd/conf.d/rpaf.conf");
 				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
 						"/etc/httpd/conf.d/ssl.conf");
 			} elseif ($a === 'lighttpd') {
-				$ret = lxshell_return("yum", "-y", "install", $a, "lighttpd-fastcgi");
+				$rlist = array($a, "{a}-fastcgi");
+
+				foreach ($rlist as $k => $r) {
+					$flist = glob("/usr/local/lxlabs/rpms/{$r}-*.rpm");
+
+					if ($flist) {
+						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
+					} else {
+						$ret = lxshell_return("yum", "-y", "install", $r);
+					}
+				}
+
 				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
-				lxfile_unix_chown("/var/log/lighttpd", "apache:apache");
+				lxfile_unix_chown("/var/log/{$a}", "apache:apache");
 			} elseif ($a === 'nginx') {
-				$ret = lxshell_return("yum", "-y", "install", $a);
+				$flist = glob("/usr/local/lxlabs/rpms/{$a}-*.rpm");
+
+				if ($flist) {
+						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
+				} else {
+					$ret = lxshell_return("yum", "-y", "install", $a);
+				}
 			}
 
 			if ($ret) {

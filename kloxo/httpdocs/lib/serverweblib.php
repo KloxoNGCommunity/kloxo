@@ -14,8 +14,11 @@ class serverweb extends lxdb
 
 	function createShowUpdateform()
 	{
-		$uflist['edit'] = null;
-		$uflist['apache_optimize'] = null;
+		if (isWebProxyOrApache()) {
+			$uflist['edit'] = null;
+			$uflist['apache_optimize'] = null;
+		}
+
 		$uflist['mysql_convert'] = null;
 		$uflist['fix_chownchmod'] = null;
 
@@ -29,14 +32,17 @@ class serverweb extends lxdb
 		switch($subaction) {
 
 			case "apache_optimize":
-				if (isWebProxyOrApache()) {
-					$vlist['apache_optimize'] = array('s', array('--- none ---', 'optimize'));
-					$this->setDefaultValue('apache_optimize', '--- none ---');
-				}
+				$vlist['apache_optimize'] = array('s', array('--- none ---', 'optimize'));
+				$this->setDefaultValue('apache_optimize', '--- none ---');
 
 				break;
 
 			case "mysql_convert":
+				if (!isWebProxyOrApache()) {
+					// MR -- just a trick to make message still appear on non-apache
+					$vlist['__m_message_pre'] = 'webserver_config';
+				}
+
 				$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb'));
 
 				$this->setDefaultValue('mysql_convert', '--- none ---');
@@ -53,15 +59,13 @@ class serverweb extends lxdb
 				break;
 
 			default:
-				if (isWebProxyOrApache()) {
-					$vlist['php_type'] = array('s', array(
-							'mod_php', 'mod_php_ruid2', 'mod_php_itk',
-							'suphp', 'suphp_event', 'suphp_worker',
-							'php-fpm_event', 'php-fpm_worker')
-					);
+				$vlist['php_type'] = array('s', array(
+						'mod_php', 'mod_php_ruid2', 'mod_php_itk',
+						'suphp', 'suphp_event', 'suphp_worker',
+						'php-fpm_event', 'php-fpm_worker')
+				);
 
-					$this->setDefaultValue('php_type', 'mod_php');
-				}
+				$this->setDefaultValue('php_type', 'mod_php');
 
 				$vlist['__m_message_pre'] = 'webserver_config';
 
