@@ -80,7 +80,7 @@ class web__ extends lxDriverClass
 			}
 
 			if ($ret) {
-				throw new lxException('install {$a} failed', 'parent');
+				throw new lxException("install {$a} failed", 'parent');
 			}
 
 			lxshell_return("chkconfig", $a, "on");
