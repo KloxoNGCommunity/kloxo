@@ -14,8 +14,10 @@ class serverweb extends lxdb
 
 	function createShowUpdateform()
 	{
+		$uflist['edit'] = null;
+
 		if (isWebProxyOrApache()) {
-			$uflist['edit'] = null;
+			$uflist['php_type'] = null;
 			$uflist['apache_optimize'] = null;
 		}
 
@@ -58,7 +60,7 @@ class serverweb extends lxdb
 
 				break;
 
-			default:
+			case "php_type":
 				$vlist['php_type'] = array('s', array(
 						'mod_php', 'mod_php_ruid2', 'mod_php_itk',
 						'suphp', 'suphp_event', 'suphp_worker',
@@ -67,7 +69,11 @@ class serverweb extends lxdb
 
 				$this->setDefaultValue('php_type', 'mod_php');
 
+				break;
+
+			default:
 				$vlist['__m_message_pre'] = 'webserver_config';
+				$vlist['__v_button'] = array();
 
 				break;
 		}
