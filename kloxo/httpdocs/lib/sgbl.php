@@ -22,18 +22,27 @@ class Sgbl
 		$this->initCtTypes();
 
 		$this->__var_program_name = 'kloxo';
+/*
 		$this->__ver_major = "6";
 		$this->__ver_minor = "2";
 		$this->__ver_release = "0";
+*/
+		$t = file_get_contents('/usr/local/lxlabs/kloxo/etc/kloxoversion');
+		$a = explode('.', $t);
+
+		$this->__ver_major = ($t) ? $a[0] : '[unknown]';
+		$this->__ver_minor = ($t) ? $a[1] : '[unknown]';
+		$this->__ver_release = ($t) ? $a[2] : '[unknown]';
+		$this->__ver_extra = ($t) ? $a[3] : '[unknown]';
+		// MR -- add new var!
+		$this->__ver_stamp = ($t) ? $a[4] : '[unknown]';
 
 		$this->__ver_enterprise = "Single Server Edition";
 		$this->__ver_type = "production";
-		$this->__ver_extra = "Beta";
+//		$this->__ver_extra = "Beta";
 		$this->__ver_major_minor = $this->__ver_major . "." . $this->__ver_minor;
 		$this->__ver_major_minor_release = $this->__ver_major_minor . "." . $this->__ver_release;
-		// MR -- add new var!
-		$this->__ver_stamp = "2012-07-13-01";
-		$this->__ver_major_minor_release_step = $this->__ver_major_minor_release . "." . $this->__ver_stamp;
+		$this->__ver_full = $t;
 		$this->__var_nname_impstr = "___";
 		$this->__var_prog_port = "7778";
 		$this->__var_prog_ssl_port = "7777";
