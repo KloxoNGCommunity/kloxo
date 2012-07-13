@@ -25,11 +25,15 @@ class Sgbl
 		$this->__ver_major = "6";
 		$this->__ver_minor = "2";
 		$this->__ver_release = "0";
+
 		$this->__ver_enterprise = "Single Server Edition";
 		$this->__ver_type = "production";
-		$this->__ver_extra = "Stable";
+		$this->__ver_extra = "Beta";
 		$this->__ver_major_minor = $this->__ver_major . "." . $this->__ver_minor;
-		$this->__ver_major_minor_release = $this->__ver_major . "." . $this->__ver_minor . "." . $this->__ver_release;
+		$this->__ver_major_minor_release = $this->__ver_major_minor . "." . $this->__ver_release;
+		// MR -- add new var!
+		$this->__ver_stamp = "2012-07-13-01";
+		$this->__ver_major_minor_release_step = $this->__ver_major_minor_release . "." . $this->__ver_stamp;
 		$this->__var_nname_impstr = "___";
 		$this->__var_prog_port = "7778";
 		$this->__var_prog_ssl_port = "7777";
