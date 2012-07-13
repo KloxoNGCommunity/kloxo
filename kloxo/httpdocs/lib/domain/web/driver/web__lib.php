@@ -14,8 +14,20 @@ class web__ extends lxDriverClass
 
 		if ($l === 'apache') { $l = 'httpd'; }
 
+		// MR -- for fixed an issue version conflict!
+		if ($l === 'httpd') {
+			$a = array ($l, "{$l}-tools");
+		} elseif ($l === 'lighttpd') {
+			$a = array ($l, "{$l}-fastcgi");		
+		} elseif ($l === 'nginx') {
+			$a = array ($l);
+		}
+
 		lxshell_return("service", $l, "stop");
-		lxshell_return("rpm", "-e", "--nodeps", $l);
+
+		foreach ($a as $k => $v) {
+			lxshell_return("rpm", "-e", "--nodeps", $v);
+		}
 
 		lxshell_return("chkconfig", $l, "off");
 
