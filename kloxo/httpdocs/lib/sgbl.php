@@ -27,7 +27,7 @@ class Sgbl
 		$this->__ver_minor = "2";
 		$this->__ver_release = "0";
 */
-		$t = file_get_contents('/usr/local/lxlabs/kloxo/etc/kloxoversion');
+		$t = file_get_contents('/usr/local/lxlabs/kloxo/bin/kloxoversion');
 		$a = explode('.', $t);
 
 		$this->__ver_major = ($t) ? $a[0] : '[unknown]';
