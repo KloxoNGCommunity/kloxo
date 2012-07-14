@@ -5569,7 +5569,7 @@ function getPhpBranch()
 {
 	$a = array('php', 'php52', 'php53', 'php53u', 'php54');
 
-	foreach ($a as $e) {
+	foreach ($a as $k => $e) {
 		if (isRpmInstalled($e)) {
 			return $e;
 		}
@@ -5580,7 +5580,7 @@ function getApacheBranch()
 {
 	$a = array('httpd', 'httpd24');
 
-	foreach ($a as $e) {
+	foreach ($a as $k => $e) {
 		if (isRpmInstalled($e)) {
 			return $e;
 		}

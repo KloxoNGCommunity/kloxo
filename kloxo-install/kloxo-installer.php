@@ -108,10 +108,17 @@ function lxins_main()
 		exec("rpm -e --nodeps $package > /dev/null 2>&1");
 	}
 
-	$packages = array("php-mbstring", "php-mysql", "which", "gcc-c++", "php-imap", "php-pear", "php-devel", "php-ioncube", "php-zend",	
-			"lxlighttpd", "httpd", "mod_ssl", "zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
-			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase",
-			"php-xcache", "php-suhosin", "php-zts");
+	// MR -- for accept for php and apache branch rpm
+	$phpbranch = getPhpBranch();
+	$httpdbranch = getApacheBranch();
+
+	$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-imap", "{$phpbranch}-pear", 
+			"{$phpbranch}-devel", "{$phpbranch}-ioncube*", "{$phpbranch}-zend*", "{$phpbranch}-xcache",
+			"{$phpbranch}-suhosin", "{$phpbranch}-zts", "which", "gcc-c++", 
+			"lxlighttpd", $httpdbranch, "mod_ssl", "zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
+			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", 
+			"yum-protectbase"
+		);
 
 	$list = implode(" ", $packages);
 
@@ -611,6 +618,52 @@ function addLineIfNotExist($filename, $pattern, $comment) {
 		file_put_contents($filename, "\n\n\n", FILE_APPEND);
 	} else {
 		print("Pattern '$pattern' Already present in $filename\n");
+	}
+}
+
+// MR -- taken from lib.php
+function getPhpBranch()
+{
+	$a = array('php', 'php52', 'php53', 'php53u', 'php54');
+
+	foreach ($a as $k => $e) {
+		if (isRpmInstalled($e)) {
+			return $e;
+		}
+	}
+}
+
+// MR -- taken from lib.php
+function getApacheBranch()
+{
+	$a = array('httpd', 'httpd24');
+
+	foreach ($a as $k => $e) {
+		if (isRpmInstalled($e)) {
+			return $e;
+		}
+	}	
+}
+
+// MR -- taken from lib.php
+function getRpmVersion($rpmname)
+{
+//	exec("rpm -q {$rpmname}", $out, $ret);
+	$out = lxshell_output("rpm -q {$rpmname}");
+
+	return str_replace($rpmname.'-', '', $out[0]);
+
+}
+
+// MR -- taken from lib.php
+function isRpmInstalled($rpmname)
+{
+	exec("rpm -q {$rpmname} | grep -i 'not installed'", $out, $ret);
+
+	if ($ret !== 0) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
