@@ -83,20 +83,21 @@ function kloxo_core_portion () {
 		cp -rf /usr/local/lxlabs/kloxo/pscript /script
 		cp -rf /usr/local/lxlabs/kloxo/httpdocs/htmllib/script /script
 
-		kloxo_64bit
+		kloxo_symlink
 	else
 		echo " - No Core patches"
 	fi
 }
 
-function kloxo_64bit () {
+function kloxo_symlink () {
 	if [ -d /usr/lib64 ] ; then
 		echo "- Set symlink from 64bit links if needed"
 
-		if [ ! -h /usr/lib/kloxophp ] ; then
-			echo "- /usr/lib/kloxophp not as symlink, deleted"
-			rm -rf /usr/lib/kloxophp
-		fi
+		# no need kloxophp on 6.2.x
+	#	if [ ! -h /usr/lib/kloxophp ] ; then
+	#		echo "- /usr/lib/kloxophp not as symlink, deleted"
+	#		rm -rf /usr/lib/kloxophp
+	#	fi
 	
 		if [ ! -h /usr/lib/php ] ; then
 			echo "- Set symlink for /usr/lib/php"
@@ -116,14 +117,25 @@ function kloxo_64bit () {
 			ln -s /usr/lib64/lighttpd /usr/lib/lighttpd
 		fi
 
-		if [ ! -h /usr/lib/kloxophp ] ; then
-			echo "- Set symlink for /usr/lib/lighttpd"
-			mkdir -p /usr/lib64/kloxophp
-			ln -s /usr/lib64/kloxophp /usr/lib/kloxophp
-		fi
+		# no need kloxophp on 6.2.x
+	#	if [ ! -h /usr/lib/kloxophp ] ; then
+	#		echo "- Set symlink for /usr/lib/kloxophp"
+	#		mkdir -p /usr/lib64/kloxophp
+	#		ln -s /usr/lib64/kloxophp /usr/lib/kloxophp
+	#	fi
 	else
 		echo "- No extra setting for 32bit"
 	fi
+
+	# no need kloxophp on 6.2.x
+	if [ -d /usr/lib/kloxophp ] ; then
+		rm -rf /usr/lib/kloxophp
+	fi
+
+	if [ -d /usr/lib64/kloxophp ] ; then
+		rm -rf /usr/lib64/kloxophp
+	fi
+
 }
 
 function kloxo_thirdparty_portion () {

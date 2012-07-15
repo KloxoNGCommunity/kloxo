@@ -72,9 +72,9 @@ else
 	echo "No download and use local copy - './current/kloxo/httpdocs already' exist"
 fi
 
-yes|cp -rf ./current/* ./combo
+cp -rf ./current/* ./combo
 
-yes|cp -rf ./patch/* ./combo
+cp -rf ./patch/* ./combo
 
 if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then
 
@@ -128,12 +128,14 @@ if [ ! $kloxo_part == "core" ] ; then
 		wget http://download.lxcenter.org/download/kloxo-thirdparty.${thirdpartyver}.zip
 	fi
 
+	# no need kloxophp on 6.2.0
 #	kloxophpver=$(curl -L http://download.lxcenter.org/download/version/kloxophp)
 #	if [ ! -f kloxophp${kloxophpver}.tar.gz ] ; then
 #		echo ${kloxophpver} > kloxophp-version
 #		wget http://download.lxcenter.org/download/kloxophp${kloxophpver}.tar.gz
 #	fi
 
+	# no need kloxophp on 6.2.0
 #	kloxophpsixfourver=$(curl -L http://download.lxcenter.org/download/version/kloxophpsixfour)
 #	if [ ! -f kloxophpsixfour${kloxophpsixfourver}.tar.gz ] ; then
 #		echo ${kloxophpsixfourver} > kloxophpsixfour-version
@@ -153,7 +155,7 @@ if [ ! $kloxo_part == "core" ] ; then
 	fi
 fi
 
-yes|cp -rf ./combo/kloxo-install/kloxo-installer.sh ./
+cp -rf ./combo/kloxo-install/kloxo-installer.sh ./
 
 # Reads yes|no answer from the input 
 # 1 question text

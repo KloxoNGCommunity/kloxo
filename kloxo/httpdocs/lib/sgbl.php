@@ -34,6 +34,8 @@ class Sgbl
 		$this->__ver_minor = ($t) ? $a[1] : '[unknown]';
 		$this->__ver_release = ($t) ? $a[2] : '[unknown]';
 		$this->__ver_extra = ($t) ? $a[3] : '[unknown]';
+		$this->__ver_step = $this->__ver_extra;
+		
 		// MR -- add new var!
 		$this->__ver_stamp = ($t) ? $a[4] : '[unknown]';
 
