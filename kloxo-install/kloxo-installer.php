@@ -58,7 +58,7 @@ function lxins_main()
 		print("- Select 'n' if your current Kloxo running well\n");
 
 		if (get_yes_no("Do you want to RE-INSTALL (just REPLACE core as opposite) Kloxo?") == 'y') {
-			// no action here
+			system("cp -rf {$kloxo_path} {$kloxo_path}.reinstall." . date("Y-m-d-H-i-s"));
 		} else {
 			kloxo_replace_core($osversion);
 			kloxo_install_bye($installtype);
@@ -235,9 +235,7 @@ function kloxo_replace_core($osversion)
 
 	$kloxo_path = "/usr/local/lxlabs/kloxo";
 
-	$stamp = date("Y-m-d-H-i-s");
-
-	system("cp -rf {$kloxo_path} {$kloxo_path}.bck.{$stamp}");
+	system("cp -rf {$kloxo_path} {$kloxo_path}.replace." . date("Y-m-d-H-i-s"));
 
 	$a = array('bin', 'cexe', 'file', 'httpdocs', 'pscript', 'RELEASEINFO', 'sbin', 'src');
 
@@ -250,6 +248,8 @@ function kloxo_replace_core($osversion)
 	system("cd {$kloxo_path}; unzip -oq kloxo-current.zip");
 
 	system("cd {$kloxo_path}; rm -rf kloxo-current.zip");
+
+	system("rm -f /var/cache/kloxo/kloxo-install-firsttime.flg");
 
 	system("sh /script/cleanup");
 	system("sh /script/fixdns");
@@ -594,8 +594,6 @@ function install_yum_repo($osversion)
 	$cont = str_replace("%distro%", $osversion, $cont);
 	$cont = str_replace("%distro_ver%", $vernum, $cont);
 	file_put_contents("/etc/yum.repos.d/kloxo-custom.repo", $cont);
-	
-	system("yum clean all");
 }
 
 function find_os_version()
