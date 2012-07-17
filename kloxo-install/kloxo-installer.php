@@ -30,7 +30,7 @@ function lxins_main()
 	$installtype = $opt['install-type'];
 	$installversion = (isset($opt['version'])) ? $opt['version'] : null;
 	$dbroot = "root";
-	$dbpass = "";
+	$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : "";
 	$osversion = find_os_version();
 	// $arch = trim( `arch` );
 
@@ -43,6 +43,8 @@ function lxins_main()
 
 		exit;
 	}
+
+	$kloxo_path = "/usr/local/lxlabs/kloxo";
 
 	$mypass = password_gen();
 
@@ -60,7 +62,7 @@ function lxins_main()
 		if (get_yes_no("Do you want to RE-INSTALL (just REPLACE core as opposite) Kloxo?") == 'y') {
 			system("cp -rf {$kloxo_path} {$kloxo_path}.reinstall." . date("Y-m-d-H-i-s"));
 		} else {
-			kloxo_replace_core($osversion);
+			kloxo_replace_core($osversion, $kloxo_path);
 			kloxo_install_bye($installtype);
 			exit;
 		}
@@ -228,12 +230,10 @@ function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 	system("service courier-imap restart >/dev/null 2>&1 &");
 }
 
-function kloxo_replace_core($osversion)
+function kloxo_replace_core($osversion, $kloxo_path)
 {
 	print("Installing LxCenter yum repository for updates\n");
 	install_yum_repo($osversion);
-
-	$kloxo_path = "/usr/local/lxlabs/kloxo";
 
 	system("cp -rf {$kloxo_path} {$kloxo_path}.replace." . date("Y-m-d-H-i-s"));
 
@@ -511,12 +511,12 @@ function check_default_mysql($dbroot, $dbpass)
 	system("service mysqld restart");
 
 	if ($dbpass) {
-		exec("echo \"show tables\" | mysql -u $dbroot -p\"$dbpass\" mysql", $out, $return);
+		exec("echo \"show tables\" | mysql -u $dbroot -p\"$dbpass\" mysql", $out, $ret);
 	} else {
-		exec("echo \"show tables\" | mysql -u $dbroot mysql", $out, $return);
+		exec("echo \"show tables\" | mysql -u $dbroot mysql", $out, $ret);
 	}
 
-	if ($return) {
+	if ($ret) {
 		resetDBPassword($dbroot, $dbpass);
 	}
 }
