@@ -1,25 +1,26 @@
 <?php
-    exec("php -r 'echo phpversion();'", $out, $ret);
+	exec("php -r 'echo phpversion();'", $out, $ret);
 
-    $phpver = $out[0];
+	$phpver = $out[0];
 
-    if (compare_version($phpver, "5.4.0", ">=")) {
-        $php54mark = '';
-    } else {
-        $php54mark = ';';
-    }
+	if (version_compare($phpver, "5.4.0", ">=")) {
+		$php54mark = '';
+	} else {
+		$php54mark = ';';
+	}
 
-    if (compare_version($phpver, "5.3.0", ">=")) {
-        $php53mark = '';
-    } else {
-        $php53mark = ';';
-    }
+	if (version_compare($phpver, "5.3.0", ">=")) {
+		$php53mark = '';
+	} else {
+		$php53mark = ';';
+	}
 
-    if ($sendmail_from) {
-        $sendmailmark = '';
-    } else {
-        $sendmailmark = ';';
-    }
+	if ($sendmail_from) {
+		$sendmailmark = '';
+	} else {
+		$sendmailmark = ';';
+		$sendmail_from = '';
+	}
 ?>
 
 [PHP]
@@ -55,7 +56,6 @@ default_socket_timeout = 60
 date.timezone = "Europe/London"
 
 ;### MR -- specific for php 5.3+
-
 <?php echo $php53mark; ?>auto_globals_jit = On
 <?php echo $php53mark; ?>zlib.output_compression = Off
 <?php echo $php53mark; ?>implicit_flush = Off
@@ -76,56 +76,54 @@ date.timezone = "Europe/London"
 ;### MR -- custom setting (handle by kloxo)
 disable_functions = <?php echo $disable_functions; ?>
 
-register_globals = <?php echo $register_globals; ?>
+register_globals = <?php echo $register_global_flag; ?>
 
-display_errors = <?php echo $display_errors; ?>
+display_errors = <?php echo $display_error_flag; ?>
 
-file_uploads = <?php echo $file_uploads; ?>
+file_uploads = <?php echo $file_uploads_flag; ?>
 
 upload_max_filesize = <?php echo $upload_max_filesize; ?>
 
-log_errors = <?php echo $log_errors; ?>
+log_errors = <?php echo $log_errors_flag; ?>
 
-output_buffering = <?php echo $output_buffering; ?>
+output_buffering = <?php echo $output_buffering_flag; ?>
 
-register_argc_argv = <?php echo $register_argc_argv; ?>
+register_argc_argv = <?php echo $register_argc_argv_flag; ?>
 
-magic_quotes_gpc = <?php echo $magic_quotes_gpc; ?>
+magic_quotes_gpc = <?php echo $magic_quotes_gpc_flag; ?>
 
-post_max_size = <?php echo $post_max_size; ?>
+post_max_size = <?php echo $post_max_size_flag; ?>
 
-magic_quotes_runtime = <?php echo $magic_quotes_runtime; ?>
+magic_quotes_runtime = <?php echo $magic_quotes_runtime_flag; ?>
 
-magic_quotes_sybase = <?php echo $magic_quotes_sybase; ?>
+magic_quotes_sybase = <?php echo $magic_quotes_sybase_flag; ?>
 
-mysql.allow_persistent = <?php echo $mysql_allow_persistent; ?>
+mysql.allow_persistent = <?php echo $mysql_allow_persistent_flag; ?>
 
-max_execution_time = <?php echo $max_execution_time; ?>
+max_execution_time = <?php echo $max_execution_time_flag; ?>
 
-max_input_time = <?php echo $max_input_time; ?>
+max_input_time = <?php echo $max_input_time_flag; ?>
 
-memory_limit = <?php echo $memory_limit; ?>
+memory_limit = <?php echo $memory_limit_flag; ?>
 
-post_max_size = <?php echo $post_max_size; ?>
+post_max_size = <?php echo $post_max_size_flag; ?>
 
-allow_url_fopen = <?php echo $allow_url_fopen; ?>
+allow_url_fopen = <?php echo $allow_url_fopen_flag; ?>
 
-allow_url_include = <?php echo $allow_url_include; ?>
+allow_url_include = <?php echo $allow_url_include_flag; ?>
 
-session.save_path = <?php echo $session_save_path; ?>
+session.save_path = <?php echo $session_save_path_flag; ?>
 
-cgi.force_redirect = <?php echo $cgi_force_redirect; ?>
+cgi.force_redirect = <?php echo $cgi_force_redirect_flag; ?>
 
 <?php echo $sendmailmark; ?>sendmail_from = <?php echo $sendmail_from; ?>
 
-safe_mode = <?php echo $safe_mode; ?>
+safe_mode = <?php echo $safe_mode_flag; ?>
 
-enable_dl = <?php echo $enable_dl; ?>
-
-disable_functions = <?php echo $disable_functions; ?>
+enable_dl = <?php echo $enable_dl_flag; ?>
 
 ;### MR -- not exist on php 5.4
-<?php echo $php54mark; ?>register_long_arrays = <?php echo $register_long_arrays; ?>
+<?php echo $php54mark; ?>register_long_arrays = <?php echo $register_long_arrays_flag; ?>
 
 
 [Syslog]
