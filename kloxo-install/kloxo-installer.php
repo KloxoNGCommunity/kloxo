@@ -45,7 +45,6 @@ function lxins_main()
 	}
 
 	$kloxo_path = "/usr/local/lxlabs/kloxo";
-
 	$mypass = password_gen();
 
 	if (file_exists("/usr/local/lxlabs/kloxo")) {
@@ -250,6 +249,12 @@ function kloxo_replace_core($osversion, $kloxo_path)
 	system("cd {$kloxo_path}; rm -rf kloxo-current.zip");
 
 	system("rm -f /var/cache/kloxo/kloxo-install-firsttime.flg");
+
+	system("cp -rf {$kloxo_path}/file/skeleton.zip {$kloxo_path}/httpdocs/login");
+
+	system("cd {$kloxo_path}/httpdocs/login; unzip -oq skeleton.zip; rm -f skeleton.zip");
+	system("cp -rf {$kloxo_path}/file/login_inc.php {$kloxo_path}/httpdocs/login/inc.php");
+	system("cp -rf {$kloxo_path}/file/login_inc2.php {$kloxo_path}/httpdocs/login/inc2.php");
 
 	system("sh /script/cleanup");
 	system("sh /script/fixdns");

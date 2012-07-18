@@ -27,7 +27,7 @@ class serverweb__ extends lxDriverClass
 
 				break;
 
-			default:
+			case "php_type":
 				$this->set_phptype();
 
 				break;
