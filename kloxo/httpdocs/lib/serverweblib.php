@@ -40,11 +40,6 @@ class serverweb extends lxdb
 				break;
 
 			case "mysql_convert":
-				if (!isWebProxyOrApache()) {
-					// MR -- just a trick to make message still appear on non-apache
-					$vlist['__m_message_pre'] = 'webserver_config';
-				}
-
 				$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb'));
 
 				$this->setDefaultValue('mysql_convert', '--- none ---');

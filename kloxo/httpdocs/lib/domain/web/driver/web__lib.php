@@ -67,7 +67,7 @@ class web__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
 						"/etc/httpd/conf.d/ssl.conf");
 			} elseif ($a === 'lighttpd') {
-				$rlist = array($a, "{a}-fastcgi");
+				$rlist = array($a, "{$a}-fastcgi");
 
 				foreach ($rlist as $k => $r) {
 					$flist = glob("/usr/local/lxlabs/rpms/{$r}-*.rpm");
