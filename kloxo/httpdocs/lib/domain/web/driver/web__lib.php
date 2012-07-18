@@ -267,7 +267,7 @@ class web__ extends lxDriverClass
 		$webmailapp = $login->getObject('general')->generalmisc_b->webmail_system_default;
 
 		if (($webmailapp === '--chooser--') || (!isset($webmailapp))) {
-			$ret = null;
+			$ret = '';
 		} else {
 			$ret = $webmailapp;
 		}
@@ -406,7 +406,11 @@ class web__ extends lxDriverClass
 				if ($list['webmailprog'] === '--system-default--') {
 					$r = self::getWebmailAppDefault();
 				} else {
-					$r = $list['webmailprog'];
+					if ($list['webmailprog'] === '--chooser--') {
+						$r = '';
+					} else {
+						$r = $list['webmailprog'];
+					}
 				}
 			}
 		}
