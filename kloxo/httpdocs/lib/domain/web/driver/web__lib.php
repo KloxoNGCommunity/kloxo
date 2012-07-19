@@ -238,8 +238,6 @@ class web__ extends lxDriverClass
 			if ($v === 'default') {
 				$input['userlist'] = $this->getUserList();			
 			}
-
-			self::setCreateConfFile($input);
 		}
 
 		$this->createPhpFpmConfig();
@@ -441,6 +439,8 @@ class web__ extends lxDriverClass
 				$conftpl = 'domains';
 
 				$conffile = $input['domainname'] . '.conf';
+
+				self::setHttpdFcgid($input);
 			}
 		}
 
@@ -781,7 +781,7 @@ class web__ extends lxDriverClass
 
 	static function setLighttpdPerlSuexec($input)
 	{
-		$tplsource = "/home/lighttpd/tpl/perlsuexec.sh.tpl";
+		$tplsource = getLinkCustomfile("/home/lighttpd/tpl", "perlsuexec.sh.tpl");
 
 		$tpltarget = "/home/httpd/{$input['domainname']}/perlsuexec.sh";
 
@@ -792,6 +792,28 @@ class web__ extends lxDriverClass
 		file_put_contents($tpltarget, $tplparse);
 
 		lxfile_unix_chmod($tpltarget, '755');
+	}
+
+	static function setHttpdFcgid($input)
+	{
+		$tplsource = getLinkCustomfile("/home/apache/tpl", "php5.fcgi.tpl");
+
+		$tpltarget = "/home/httpd/{$input['domainname']}/php5.fcgi";
+
+		$tpl = file_get_contents($tplsource);
+
+		$tplparse = getParseInlinePhp($tpl, $input);
+
+		file_put_contents($tpltarget, $tplparse);
+
+		lxfile_generic_chmod($tpltarget, "755");
+
+		if (!file_exists("/home/httpd/php5.fcgi")) {
+			lxfile_cp(getLinkCustomfile("/home/apache/tpl", "php5.fcgi"), 
+					"/home/httpd/php5.fcgi");
+
+			lxfile_generic_chmod("/home/httpd/php5.fcgi", "755");
+		}
 	}
 
 // MR -- (3) target to .httaccess or php.ini or log

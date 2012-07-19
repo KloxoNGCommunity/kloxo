@@ -5,8 +5,10 @@
 
 	if (version_compare($phpver, "5.4.0", ">=")) {
 		$php54mark = '';
+		$php54disable = ';';
 	} else {
 		$php54mark = ';';
+		$php54disable = '';
 	}
 
 	if (version_compare($phpver, "5.3.0", ">=")) {
@@ -54,6 +56,8 @@ extension_dir = /usr/lib/php/modules
 upload_tmp_dir = /tmp/
 default_socket_timeout = 60
 date.timezone = "Europe/London"
+
+cgi.fix_pathinfo=1
 
 ;### MR -- specific for php 5.3+
 <?php echo $php53mark; ?>auto_globals_jit = On
@@ -123,7 +127,7 @@ safe_mode = <?php echo $safe_mode_flag; ?>
 enable_dl = <?php echo $enable_dl_flag; ?>
 
 ;### MR -- not exist on php 5.4
-<?php echo $php54mark; ?>register_long_arrays = <?php echo $register_long_arrays_flag; ?>
+<?php echo $php54disable; ?>register_long_arrays = <?php echo $register_long_arrays_flag; ?>
 
 
 [Syslog]

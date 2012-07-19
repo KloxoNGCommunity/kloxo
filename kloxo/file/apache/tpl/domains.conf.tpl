@@ -141,13 +141,15 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule !mod_fastcgi.c>
-        <IfModule mod_suphp.c>
-            AddHandler x-httpd-php .php
-            AddHandler x-httpd-php .php .php4 .php3 .phtml
-            suPHP_AddHandler x-httpd-php
-            SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+        <IfModule !mod_fcgid.c>
+            <IfModule mod_suphp.c>
+                AddHandler x-httpd-php .php
+                AddHandler x-httpd-php .php .php4 .php3 .phtml
+                suPHP_AddHandler x-httpd-php
+                SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
-            suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
+                suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
+            </IfModule>
         </IfModule>
     </IfModule>
 
@@ -168,14 +170,26 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /<?php echo $domainname; ?>.fake <?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake
+        Alias /<?php echo $domainname; ?>.fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake"
         FastCGIExternalServer <?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $domainname; ?>.fake
+
         <Files "<?php echo $domainname; ?>.fake">
             RewriteCond %{REQUEST_URI} !<?php echo $domainname; ?>.fake
         </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $rootpath; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>

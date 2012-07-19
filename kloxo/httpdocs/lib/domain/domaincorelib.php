@@ -42,7 +42,7 @@ abstract class DomainCore extends Lxclient
 			case "ddatabasepserver":
 				if ($this->isLogin()) {
 					$vlist['mysqldbpserver_list'] = array('M', $this->listpriv->mysqldbpserver_list);
-					$vlist['mssqldbpserver_list'] = array('M', $this->listpriv->mssqldbpserver_list);
+				//	$vlist['mssqldbpserver_list'] = array('M', $this->listpriv->mssqldbpserver_list);
 				//	$vlist['dbtype_list'] = array('M', $this->listpriv->dbtype_list);
 					$vlist['__v_button'] = array();
 
@@ -51,7 +51,7 @@ abstract class DomainCore extends Lxclient
 
 				$parent = $this->getParentO();
 				$vlist['mysqldbpserver_list'] = array('Q', $parent->listpriv->mysqldbpserver_list);
-				$vlist['mssqldbpserver_list'] = array('Q', $parent->listpriv->mssqldbpserver_list);
+			//	$vlist['mssqldbpserver_list'] = array('Q', $parent->listpriv->mssqldbpserver_list);
 			//	$vlist['dbtype_list'] = array('Q', $parent->listpriv->dbtype_list);
 
 				if (!$this->isRightParent()) {

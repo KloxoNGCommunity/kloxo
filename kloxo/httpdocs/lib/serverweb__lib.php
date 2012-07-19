@@ -120,13 +120,13 @@ class serverweb__ extends lxDriverClass
 			lxfile_rm_rec($hhcpath);
 			lxfile_rm_rec($hacpath."/exclusive");
 			lxfile_rm_rec($hacpath."/redirects");
-			lxfile_rm_rec($hacpath."/webmails");
 			lxfile_rm_rec($hacpath."/wildcards");
 
 			//-- new structure	
 			lxfile_mkdir($hacpath);
 			lxfile_mkdir($hacpath."/defaults");
 			lxfile_mkdir($hacpath."/domains");
+			lxfile_rm_rec($hacpath."/webmails");
 			lxfile_mkdir($hacpath."/globals");
 
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
@@ -146,14 +146,14 @@ class serverweb__ extends lxDriverClass
 			if (stripos($t, 'mod_php') !== false) {
 				$this->set_modphp($t);
 			} elseif (stripos($t, 'suphp') !== false) {
-				$this->set_suphp($t);
+				$this->set_suphp();
 			} elseif (stripos($t, 'php-fpm') !== false) {
-				$this->set_suphp($t);
-				$this->set_phpfpm($t);
+				$this->set_suphp();
+				$this->set_phpfpm();
+			} elseif (stripos($t, 'fcgid') !== false) {
+				$this->set_suphp();
+				$this->set_fcgid();
 			}
-
-			lxfile_rm($ehcdpath."/fcgid.nonconf");
-			lxfile_rm($ehcdpath."/fcgid.conf");
 
 			$this->set_mpm($t);
 		}
@@ -162,35 +162,37 @@ class serverweb__ extends lxDriverClass
 	function set_modphp($type)
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
+		$haecdpath = '/home/apache/etc/conf.d';
 
-		lxfile_mv($ehcdpath."/php.nonconf", $ehcdpath."/php.conf");
-		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
-	//	lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
-		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
-		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
-		lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
+		$this->rename_to_nonconf();
 
 		// use > that equal to lxfile_rm + echo >>
 		exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
 
 		if ($type === 'mod_php') {
-			// nothing
+			// no action here
 		} elseif ($type === 'mod_php_ruid2') {
 			lxshell_return("yum", "-y", "install", "mod_ruid2");
 			lxshell_return("yum", "-y", "update", "mod_ruid2");
-			lxfile_mv($ehcdpath."/ruid2.nonconf", $ehcdpath."/ruid2.conf");
-			lxfile_cp($haecdpath."/ruid2.conf", $ehcdpath."/ruid2.conf");
+			lxfile_rm("{$ehcdpath}/ruid2.nonconf");
+			lxfile_cp(getLinkCustomfile($haecdpath, "ruid2.conf"), $ehcdpath."/ruid2.conf");
 		} elseif ($type === 'mod_php_itk') {
 			exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
 		}
 
+		lxfile_rm("{$ehcdpath}/php.nonconf");
+		lxfile_cp(getLinkCustomfile($haecdpath, "php.conf"), $ehcdpath."/php.conf");
+
+		$this->remove_phpfpm();
 	}
 
-	function set_suphp($type)
+	function set_suphp()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
 		$haepath = '/home/apache/etc';
 		$haecdpath = '/home/apache/etc/conf.d';
+
+		$this->rename_to_nonconf();
 
 		lxshell_return("yum", "-y", "install", "mod_suphp");
 		$ret = lxshell_return("yum", "-y", "update", "mod_suphp");
@@ -226,28 +228,26 @@ class serverweb__ extends lxDriverClass
 		}
 
 		if (version_compare($ver, "5.3.2", ">")) {
-			lxfile_cp($haepath."/suphp.conf", "/etc/suphp.conf");
+			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), "/etc/suphp.conf");
 		} else {
-			lxfile_cp($haepath."/suphp_pure.conf", "/etc/suphp.conf");
+			lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), "/etc/suphp.conf");
 		}
 
 		exec("sh /script/fixphp --nolog");
 
-		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
-		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
-		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
-		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
-		lxfile_mv($ehcdpath."/suphp.nonconf", $ehcdpath."/suphp.conf");
-		lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
-
+		lxfile_rm("{$ehcdpath}/suphp.nonconf");
 		lxfile_cp(getLinkCustomfile($haecdpath, "suphp.conf"), $ehcdpath."/suphp.conf");
+
+		$this->remove_phpfpm();
 	}
 
-	function set_phpfpm($type)
+	function set_phpfpm()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
 		$haepath = '/home/apache/etc';
 		$haecdpath = '/home/apache/etc/conf.d';
+
+		$this->rename_to_nonconf();
 
 		$ver = getRpmVersion('httpd');
 
@@ -272,13 +272,8 @@ class serverweb__ extends lxDriverClass
 			}
 
 			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath."/fastcgi.conf");
-			lxfile_rm($ehcdpath."/fastgi.nonconf");
+			lxfile_rm($ehcdpath."/fastcgi.nonconf");
 		}
-
-		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
-		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
-		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
-		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
 
 		lxshell_return("chkconfig", "php-fpm", "on");
 		$ret = lxshell_return("service", "php-fpm", "restart");
@@ -289,9 +284,48 @@ class serverweb__ extends lxDriverClass
 
 	}
 
-	function set_fcgid($type)
+	function set_fcgid()
 	{
-		// MR -- not implementing yet
+		$ehcdpath = '/etc/httpd/conf.d';
+		$haepath = '/home/apache/etc';
+		$haecdpath = '/home/apache/etc/conf.d';
+
+		$this->rename_to_nonconf();
+
+		lxshell_return("yum", "-y", "install", "mod_fcgid");
+		$ret = lxshell_return("yum", "-y", "update", "mod_fcgid");
+
+		if ($ret) {
+			throw new lxexception('mod_fcgid_update_failed', 'parent');
+		}
+
+		lxfile_cp(getLinkCustomfile($haecdpath, "fcgid.conf"), $ehcdpath."/fcgid.conf");
+		lxfile_rm($ehcdpath."/fcgid.nonconf");
+
+		$this->remove_phpfpm();
+	}
+
+	function remove_phpfpm()
+	{
+		$phpbranch = getPhpBranch();
+
+		$ret = lxshell_return("yum", "-y", "remove", "{$phpbranch}-fpm");
+
+		if ($ret) {
+			throw new lxexception('{$phpbranch}-fpm_update_failed', 'parent');
+		}
+	}
+
+	function rename_to_nonconf()
+	{
+		$ehcdpath = '/etc/httpd/conf.d';
+
+		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
+		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
+		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
+		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
+		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
+		lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
 	}
 
 	function set_mpm($type)

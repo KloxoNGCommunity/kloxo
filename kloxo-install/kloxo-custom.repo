@@ -4,7 +4,7 @@ baseurl=http://centos.alt.ru/repository/centos/5/$basearch/
 enabled=1
 gpgcheck=0
 #protect=1
-exclude=openssh*
+exclude=openssh* php*
 
 [kloxo-rpmforge]
 name=kloxo-rpmforge - $basearch

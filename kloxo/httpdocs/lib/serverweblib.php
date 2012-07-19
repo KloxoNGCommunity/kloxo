@@ -59,7 +59,8 @@ class serverweb extends lxdb
 				$vlist['php_type'] = array('s', array(
 						'mod_php', 'mod_php_ruid2', 'mod_php_itk',
 						'suphp', 'suphp_event', 'suphp_worker',
-						'php-fpm_event', 'php-fpm_worker')
+						'php-fpm_event', 'php-fpm_worker',
+						'fcgid_event', 'fcgid_worker')
 				);
 
 				$this->setDefaultValue('php_type', 'mod_php');

@@ -192,7 +192,7 @@ $__emessage['certificate_key_file_empty'] = "The certificate and the Key file yo
 
 $__information['webserver_config'] = 
 	"[b]PHP Type[/b] - Process-based (httpd-prefork/-itk), thread-based (httpd-worker/-event) and ".
-		"secure environment (suphp/php-fpm/ruid2/itk)<br />".
+		"secure environment (suphp/php-fpm/ruid2/itk/fcgid)<br />".
 	"[b]Apache Memory Optimize[/b] - Optimize memory usage<br />".
 	"[b]MySQL Convert[/b] - MyISAM (less memory usage (save 100-200 MB) and ".
 		"InnoDB (higher performance)<br />".
