@@ -49,6 +49,28 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
+			$hhcpath = '/home/httpd/conf';
+
+			$hwpath  = "/home/{$l}";
+			$hwcpath = "/home/{$l}/conf";
+			$hawpath = "/home/{$l}/etc";
+			$hawcpath = "/home/{$l}/etc/conf";
+			$hawcdpath = "/home/{$l}/etc/conf.d";
+
+			//-- old structure
+			lxfile_rm_rec($ehckpath);
+			lxfile_rm_rec($hhcpath);
+			lxfile_rm_rec($hwcpath."/exclusive");
+			lxfile_rm_rec($hwcpath."/redirects");
+			lxfile_rm_rec($hwcpath."/wildcards");
+
+			//-- new structure
+			lxfile_mkdir($hwcpath);
+			lxfile_mkdir($hwcpath."/defaults");
+			lxfile_mkdir($hwcpath."/domains");
+			lxfile_mkdir($hwcpath."/webmails");
+			lxfile_mkdir($hwcpath."/globals");
+
 			if ($a === 'httpd') {
 				$rlist = array($a, "mod_ssl", "mod_rpaf");
 
@@ -102,18 +124,30 @@ class web__ extends lxDriverClass
 			createRestartFile($l);
 		}
 
+		self::setInstallPhpfpm();
+	}
+
+	static function setUnnstallPhpfpm()
+	{
+		$phpbranch = getPhpBranch();
+
+		exec("yum remove {$phpbranch}-fpm -y");
+	}
+
+	static function setInstallPhpfpm()
+	{
 		// MR -- lxfile_cp_content and lxfile_cp_content_file not work subdirs and files copy
 	//	lxfile_cp_content_file("/usr/local/lxlabs/kloxo/file/php-fpm", "/home/php-fpm");
 		exec("yes|cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
 
-		$phpvariant = getPhpBranch();
+		$phpbranch = getPhpBranch();
 
-		$out = isRpmInstalled("{$phpvariant}-fpm");
+		$out = isRpmInstalled("{$phpbranch}-fpm");
 
-	//	exec("rpm -q {$phpvariant}-fpm | grep -i 'not installed'", $out, $ret);
+	//	exec("rpm -q {$phpbranch}-fpm | grep -i 'not installed'", $out, $ret);
 
-		if ($out) {
-			$ret = lxshell_return("yum", "-y", "install", "{$phpvariant}-fpm");
+		if (!$out) {
+			$ret = lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
 		}
 
 		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
@@ -451,7 +485,12 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/home/{$l}/tpl", "{$conftpl}.conf.tpl");
 
-			$tpltarget = "/home/{$l}/conf/{$conftype}";
+			if ($conffile !== 'webmail.conf') {
+				$tpltarget = "/home/{$l}/conf/{$conftype}";
+			} else {
+				lxfile_rm("/home/{$l}/conf/{$conftype}/webmail.conf");
+				$tpltarget = "/home/{$l}/conf/webmails";
+			}
 
 			$tpl = file_get_contents($tplsource);
 
@@ -828,6 +867,11 @@ class web__ extends lxDriverClass
 		$log_path = "{$web_home}/{$domainname}/stats";
 		$cust_log = "{$log_path}/{$domainname}-custom_log";
 		$err_log = "{$log_path}/{$domainname}-error_log";
+
+		// MR -- this function not used but for temporary using for fix lighttpd issue
+		// where lighttpd not running if ownership not apache
+
+		lxfile_unix_chown_rec("{$log_path}", "apache:apache");
 
 		// MR -- back to original!
 /*

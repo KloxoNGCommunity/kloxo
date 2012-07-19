@@ -115,20 +115,6 @@ class serverweb__ extends lxDriverClass
 		$ullkbffwphp = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 
 		if (isWebProxyOrApache()) {
-			//-- old structure
-			lxfile_rm_rec($ehckpath);
-			lxfile_rm_rec($hhcpath);
-			lxfile_rm_rec($hacpath."/exclusive");
-			lxfile_rm_rec($hacpath."/redirects");
-			lxfile_rm_rec($hacpath."/wildcards");
-
-			//-- new structure	
-			lxfile_mkdir($hacpath);
-			lxfile_mkdir($hacpath."/defaults");
-			lxfile_mkdir($hacpath."/domains");
-			lxfile_rm_rec($hacpath."/webmails");
-			lxfile_mkdir($hacpath."/globals");
-
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
 			lxshell_return("rm", "-f", $ehcdpath."/swtune.conf");
 
