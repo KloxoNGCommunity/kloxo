@@ -5408,7 +5408,7 @@ function setDefaultPages($nolog = null)
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
-			system("yes|cp -rf $sourcezip $targetzip");
+			system("cp -rf $sourcezip $targetzip");
 			$newer = true;
 		}
 	}
@@ -5454,7 +5454,7 @@ function setDefaultPages($nolog = null)
 	if (lxfile_exists($usersourcezip)) {
 		if (!checkIdenticalFile($usersourcezip, $usertargetzip)) {
 			log_cleanup("- Copy $usersourcezip to $usertargetzip", $nolog);
-			system("yes|cp -rf $usersourcezip $usertargetzip");
+			system("cp -rf $usersourcezip $usertargetzip");
 		} else {
 			log_cleanup("- No new user-skeleton", $nolog);
 		}
@@ -5652,10 +5652,10 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	log_cleanup("- Install {$eatpath}/conf/{$atype}.conf", $nolog);
+	log_cleanup("- Install {$eatpath}/etc/conf/{$atype}.conf", $nolog);
 
-	lxfile_cp("{$fpath}/{$type}/conf/{$atype}.conf", "{$htpath}/conf/{$atype}.conf");
-	lxfile_cp(getLinkCustomfile("{$htpath}/conf", "{$atype}.conf"), "{$eatpath}/conf/{$atype}.conf");
+	lxfile_cp("{$fpath}/{$type}/etc/conf/{$atype}.conf", "{$htpath}/conf/{$atype}.conf");
+	lxfile_cp(getLinkCustomfile("{$htpath}/etc/conf", "{$atype}.conf"), "{$eatpath}/conf/{$atype}.conf");
 
 	// resolved issue for 'generalsetting' that can not write config files if 'root' as owner
 	log_cleanup("- Initialize lxlabs:lxlabs /home/{$type}", $nolog);
@@ -5686,10 +5686,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	log_cleanup("- Initialize /etc/{$atype}/conf.d/~lxcenter.conf", $nolog);
-
-	lxfile_cp("{$fpath}/{$type}/conf.d/~lxcenter.conf", "{$htpath}/conf.d/~lxcenter.conf");
-	lxfile_cp(getLinkCustomfile("{$htpath}/conf.d", "~lxcenter.conf"), "/etc/{$atype}/conf.d/~lxcenter.conf");
+	lxfile_cp(getLinkCustomfile("{$htpath}/etc/conf.d", "~lxcenter.conf"), "/etc/{$atype}/conf.d/~lxcenter.conf");
 
 	if (!lxfile_real("/etc/{$atype}/local.{$atype}.conf")) {
 		log_cleanup("- Initialize /etc/{$atype}/local.{$atype}.conf", $nolog);
@@ -5718,12 +5715,12 @@ function setInitialWebConfig($type, $nolog = null)
 function setInitialPhpFpmConfig($nolog = null)
 {
 	$fpath = "/usr/local/lxlabs/kloxo/file";
-	$fpmpath = "/home/php-fpm";
+	$fpmpath = "/home/php-fpm/etc";
 
 	log_cleanup("- Copy php-fpm config files to {$fpmpath} dir", $nolog);
 
 //	lxfile_cp_content_file("{$fpath}/php-fpm", "{$fpmpath}");
-	exec("yes|cp -rf {$fpath}/php-fpm /home");
+	exec("cp -rf {$fpath}/php-fpm /home");
 
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
@@ -5735,7 +5732,7 @@ function setInitialPhpFpmConfig($nolog = null)
 		$phptype = "php";
 	}
 
-	lxfile_cp(getLinkCustomfile("{$fpmpath}/etc", "{$phptype}-fpm.conf"), "/etc/php-fpm.conf");
+	lxfile_cp(getLinkCustomfile("{$fpmpath}", "{$phptype}-fpm.conf"), "/etc/php-fpm.conf");
 
 	// MR -- no needed for 6.2.x+
 	if (file_exists("{$fpmpath}/logs")) {
@@ -7064,7 +7061,7 @@ function setCopyWebConfFiles($webdriver)
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
 
 //	lxfile_cp_content_file($pathsrc, $pathdrv);
-	exec("yes|cp -rf {$pathsrc} /home");
+	exec("cp -rf {$pathsrc} /home");
 
 	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf.d", "~lxcenter.conf"), "{$pathconfd}/~lxcenter.conf");
 

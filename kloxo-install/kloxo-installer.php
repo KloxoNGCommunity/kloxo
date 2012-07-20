@@ -55,10 +55,7 @@ function lxins_main()
 			exit;
 		}
 
-		print("\nKloxo already exists. Select 'y' if want re-install or 'n' for replace core\n");
-		print("- Select 'n' if your current Kloxo running well\n");
-
-		if (get_yes_no("Do you want to RE-INSTALL (just REPLACE core as opposite) Kloxo?") == 'y') {
+		if (get_yes_no("Do you want RE-INSTALL (just REPLACE core as opposite) Kloxo?") == 'y') {
 			exec("cp -rf {$kloxo_path} {$kloxo_path}.reinstall." . date("Y-m-d-H-i-s"));
 		} else {
 			kloxo_replace_core($osversion, $kloxo_path);
@@ -234,7 +231,9 @@ function kloxo_replace_core($osversion, $kloxo_path)
 	print("Installing LxCenter yum repository for updates\n");
 	install_yum_repo($osversion);
 
-	exec("cp -rf {$kloxo_path} {$kloxo_path}.replace." . date("Y-m-d-H-i-s"));
+	if (file_exists($kloxo_path)) {
+		exec("cp -rf {$kloxo_path} {$kloxo_path}.replace." . date("Y-m-d-H-i-s"));
+	}
 
 	$a = array('bin', 'cexe', 'file', 'httpdocs', 'pscript', 'RELEASEINFO', 'sbin', 'src');
 
@@ -331,14 +330,17 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 
 		chdir("/usr/local/lxlabs/kloxo");
 		exec("mkdir -p /usr/local/lxlabs/kloxo/log");
-		unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
+
+		exec("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
+
 		print("Downloading Kloxo {$installversion} release\n");
 		exec("wget {$downloadserver}download/kloxo/production/kloxo/kloxo-{$installversion}.zip");
 		exec("mv -f ./kloxo-{$installversion}.zip ./kloxo-current.zip");
 	} else {
 		if (file_exists("../kloxo-current.zip")) {
 			//--- Install from local file if exists
-			unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
+			exec("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
+
 			print("Local copying Kloxo release\n");
 			exec("mkdir -p /var/cache/kloxo");
 			exec("cp -rf ../kloxo-current.zip /usr/local/lxlabs/kloxo");
@@ -387,7 +389,9 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 		} else {
 			chdir("/usr/local/lxlabs/kloxo");
 			exec("mkdir -p /usr/local/lxlabs/kloxo/log");
-			unlink("/usr/local/lxlabs/kloxo/kloxo-current.zip");
+
+			exec("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
+
 			print("Downloading latest Kloxo release\n");
 			exec("wget {$downloadserver}download/kloxo/production/kloxo/kloxo-current.zip");
 		}
@@ -404,7 +408,8 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 		exit;
 	}
 
-	unlink("kloxo-current.zip");
+	exec("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
+
 	exec("chown -R lxlabs:lxlabs /usr/local/lxlabs/");
 	chdir("/usr/local/lxlabs/kloxo/httpdocs/");
 	exec("service mysqld start");
@@ -429,9 +434,7 @@ function kloxo_prepare_kloxo_httpd_dir()
 	print("Prepare /home/kloxo/httpd...\n");
 	exec("mkdir -p /home/kloxo/httpd");
 
-	if (file_exists("/home/kloxo/httpd/skeleton-disable.zip")) {
-		unlink("/home/kloxo/httpd/skeleton-disable.zip");
-	}
+	exec("rm -rf /home/kloxo/httpd/skeleton-disable.zip");
 
 	exec("chown -R lxlabs:lxlabs /home/kloxo/httpd");
 }
