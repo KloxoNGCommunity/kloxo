@@ -488,8 +488,11 @@ class web__ extends lxDriverClass
 			if ($conffile !== 'webmail.conf') {
 				$tpltarget = "/home/{$l}/conf/{$conftype}";
 			} else {
-				lxfile_rm("/home/{$l}/conf/{$conftype}/webmail.conf");
 				$tpltarget = "/home/{$l}/conf/webmails";
+			}
+
+			if (file_exists("/home/{$l}/conf/{$conftype}/webmail.conf")) {
+				lxfile_rm("/home/{$l}/conf/{$conftype}/webmail.conf");
 			}
 
 			$tpl = file_get_contents($tplsource);
@@ -835,7 +838,13 @@ class web__ extends lxDriverClass
 
 	static function setHttpdFcgid($input)
 	{
+		$ver = getPhpVersion();
+
 		$tplsource = getLinkCustomfile("/home/apache/tpl", "php5.fcgi.tpl");
+
+		$input['phpinipath'] = "/home/httpd/{$input['domainname']}";
+
+		$input['phpcginame'] = (version_compare($ver, "5.3.0", "<")) ? 'php-cgi_pure' : 'php-cgi';
 
 		$tpltarget = "/home/httpd/{$input['domainname']}/php5.fcgi";
 
@@ -847,12 +856,19 @@ class web__ extends lxDriverClass
 
 		lxfile_generic_chmod($tpltarget, "755");
 
-		if (!file_exists("/home/httpd/php5.fcgi")) {
-			lxfile_cp(getLinkCustomfile("/home/apache/tpl", "php5.fcgi"), 
-					"/home/httpd/php5.fcgi");
+	//	if (!file_exists("/home/httpd/php5.fcgi")) {
+			$input['phpinipath'] = "/etc";
 
-			lxfile_generic_chmod("/home/httpd/php5.fcgi", "755");
-		}
+			$tpltarget = "/home/httpd/php5.fcgi";
+
+			$tpl = file_get_contents($tplsource);
+
+			$tplparse = getParseInlinePhp($tpl, $input);
+
+			file_put_contents($tpltarget, $tplparse);
+
+			lxfile_generic_chmod($tpltarget, "755");
+	//	}
 	}
 
 // MR -- (3) target to .httaccess or php.ini or log
