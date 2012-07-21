@@ -12,9 +12,13 @@ class serverweb extends lxdb
 	static $__desc_mysql_convert = array("", "", "mysql_convert");
 	static $__desc_fix_chownchmod = array("", "", "fix_chownchmod");
 
+	static $__desc_php_branch = array("", "", "php_branch");
+
 	function createShowUpdateform()
 	{
 		$uflist['edit'] = null;
+
+		$uflist['php_branch'] = null;
 
 		if (isWebProxyOrApache()) {
 			$uflist['php_type'] = null;
@@ -34,7 +38,7 @@ class serverweb extends lxdb
 		switch($subaction) {
 
 			case "apache_optimize":
-				$vlist['apache_optimize'] = array('s', array('--- none ---', 'optimize'));
+				$vlist['apache_optimize'] = array('s', array('--- none ---', 'default', 'optimize'));
 				$this->setDefaultValue('apache_optimize', '--- none ---');
 
 				break;
@@ -64,6 +68,15 @@ class serverweb extends lxdb
 				);
 
 				$this->setDefaultValue('php_type', 'mod_php');
+
+				break;
+
+			case "php_branch":
+				$vlist['php_branch'] = array('s', array(
+						'php', 'php52', 'php53u', 'php54')
+				);
+
+				$this->setDefaultValue('php_branch', getPhpBranch());
 
 				break;
 

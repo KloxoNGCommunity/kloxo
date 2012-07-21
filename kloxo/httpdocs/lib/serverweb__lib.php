@@ -31,6 +31,11 @@ class serverweb__ extends lxDriverClass
 				$this->set_phptype();
 
 				break;
+
+			case "php_branch":
+				$this->set_phpbranch();
+
+				break;
 		}
 	}
 
@@ -40,11 +45,15 @@ class serverweb__ extends lxDriverClass
 
 		$nolog = 'yes';
 
-		$ullkbfaophp = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
 
 		switch($this->main->apache_optimize) {
+			case 'default':
+				lxshell_return("lxphp.exe", $scripting, "--select=optimize", $nolog);
+				break;
+
 			case 'optimize':
-				lxshell_return("lxphp.exe", $ullkbfaophp, "--select=optimize", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=optimize", $nolog);
 				break;
 		}
 	}
@@ -55,17 +64,17 @@ class serverweb__ extends lxDriverClass
 
 		$nolog = 'yes';
 
-		$ullkbffcphp = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
 
 		switch($this->main->fix_chownchmod) {
 			case 'fix-ownership':
-				lxshell_return("lxphp.exe", $ullkbffcphp, "--select=chmod", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=chmod", $nolog);
 				break;
 			case 'fix-permissions':
-				lxshell_return("lxphp.exe", $ullkbffcphp, "--select=chown", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=chown", $nolog);
 				break;
 			case 'fix-ALL':
-				lxshell_return("lxphp.exe", $ullkbffcphp, "--select=all", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
 				break;
 		}
 	}
@@ -76,15 +85,15 @@ class serverweb__ extends lxDriverClass
 
 		$nolog = 'yes';
 
-		$ullkbfmcphp = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
 
 		switch($this->main->mysql_convert) {
 			case 'to-myisam':
 				$t = 'myisam';
-				lxshell_return("lxphp.exe", $ullkbfmcphp, "--engine=myisam", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $nolog);
 				break;
 			case 'to-innodb':
-				lxshell_return("lxphp.exe", $ullkbfmcphp, "--engine=innodb", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $nolog);
 				break;
 		}
 	}
@@ -316,8 +325,6 @@ class serverweb__ extends lxDriverClass
 
 	function set_mpm($type)
 	{
-		$ullkbffwphp = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
-
 		if (stripos($type, '_worker') !== false) {
 			exec("echo 'HTTPD=/usr/sbin/httpd.worker' >/etc/sysconfig/httpd");
 		} elseif (stripos($type, '_event') !== false) {
@@ -331,7 +338,33 @@ class serverweb__ extends lxDriverClass
 		if ($ret) {
 			throw new lxexception('httpd_restart_failed', 'parent');
 		}
+
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 			
-		lxshell_return("lxphp.exe", $ullkbffwphp, "--target=defaults", "--nolog");
+		lxshell_return("lxphp.exe", $scripting, "--target=defaults", "--nolog");
+	}
+
+	function set_phpbranch()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$nolog = 'yes';
+
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/php-branch.php';
+
+		switch($this->main->php_branch) {
+			case 'php':
+				lxshell_return("lxphp.exe", $scripting, "--select=php", $nolog);
+				break;
+			case 'php52':
+				lxshell_return("lxphp.exe", $scripting, "--select=php52", $nolog);
+				break;
+			case 'php53u':
+				lxshell_return("lxphp.exe", $scripting, "--select=php53u", $nolog);
+				break;
+			case 'php54':
+				lxshell_return("lxphp.exe", $scripting, "--select=php54", $nolog);
+				break;
+		}
 	}
 }

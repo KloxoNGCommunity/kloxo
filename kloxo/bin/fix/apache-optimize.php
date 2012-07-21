@@ -29,8 +29,7 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 
 	if ($select === 'status') {
 		log_cleanup("- Status: $status", $nolog);
-	}
-	elseif ($select === 'optimize') {
+	} else {
 		//--- stristr for Case-insensitive
 		if (stristr($status, 'running') !== FALSE) {
 			log_cleanup("- Service stop", $nolog);
@@ -49,42 +48,53 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 			lunlink("/etc/httpd/conf.d/swtune.conf");
 		}
 
-		$m = array();
+		if ($select === 'optimize') {
+			$m = array();
 
-		// check memory -- $2=total, $3=used, $4=free, $5=shared, $6=buffers, $7=cached
+			// check memory -- $2=total, $3=used, $4=free, $5=shared, $6=buffers, $7=cached
 
-		$m['total']   = (int)shell_exec("free -m | grep Mem: | awk '{print $2}'");
-		$m['spare']   = ($spare) ? $spare : ($m['total'] * 0.25);
+			$m['total']   = (int)shell_exec("free -m | grep Mem: | awk '{print $2}'");
+			$m['spare']   = ($spare) ? $spare : ($m['total'] * 0.25);
 
-		$m['apps']    = (int)shell_exec("free -m | grep buffers/cache: | awk '{print $3}'");
+			$m['apps']    = (int)shell_exec("free -m | grep buffers/cache: | awk '{print $3}'");
 
-	/*
-		$m['used']    = (int)shell_exec("free -m | grep Mem: | awk '{print $3}'");
-		$m['free']    = (int)shell_exec("free -m | grep Mem: | awk '{print $4}'");
-		$m['shared']  = (int)shell_exec("free -m | grep Mem: | awk '{print $5}'");
-		$m['buffers'] = (int)shell_exec("free -m | grep Mem: | awk '{print $6}'");
-		$m['cached']  = (int)shell_exec("free -m | grep Mem: | awk '{print $7}'");
+		/*
+			$m['used']    = (int)shell_exec("free -m | grep Mem: | awk '{print $3}'");
+			$m['free']    = (int)shell_exec("free -m | grep Mem: | awk '{print $4}'");
+			$m['shared']  = (int)shell_exec("free -m | grep Mem: | awk '{print $5}'");
+			$m['buffers'] = (int)shell_exec("free -m | grep Mem: | awk '{print $6}'");
+			$m['cached']  = (int)shell_exec("free -m | grep Mem: | awk '{print $7}'");
 
-		$m['avail']   = $m['free'] + $m['shared'] + $m['buffers'] + $m['cached'] - $m['spare'];
-	*/
+			$m['avail']   = $m['free'] + $m['shared'] + $m['buffers'] + $m['cached'] - $m['spare'];
+		*/
 
-		$m['avail'] = $m['total'] - $m['spare'] - $m['apps'];
+			$m['avail'] = $m['total'] - $m['spare'] - $m['apps'];
 
-		$maxpar_p = (int)($m['avail'] / 30 * $factor);
-		$minpar_p = (int)($maxpar_p / 2);
+			$maxpar_p = (int)($m['avail'] / 30 * $factor);
+			$minpar_p = (int)($maxpar_p / 2);
 
-		$maxpar_w = (int)($m['avail'] / 35 * $factor);
-		$minpar_w = (int)($maxpar_w / 2);
+			$maxpar_w = (int)($m['avail'] / 35 * $factor);
+			$minpar_w = (int)($maxpar_w / 2);
 
-		if ($maxpar_p < 4) {
+			if ($maxpar_p < 4) {
+				$maxpar_p = 4;
+				$minpar_p = 2;
+			}
+		
+			if ($maxpar_w < 4) {
+				$maxpar_w = 4;
+				$minpar_w = 2;
+			}
+
+
+		} elseif ($select === 'default') {
 			$maxpar_p = 4;
 			$minpar_p = 2;
-		}
-		
-		if ($maxpar_w < 4) {
 			$maxpar_w = 4;
 			$minpar_w = 2;
 		}
+
+		log_cleanup("- Service start", $nolog);
 
 		$input = array('maxspareservers' => $maxpar_p, 'minspareservers' => $minpar_p,
 				'maxsparethreads' => $maxpar_w, 'minsparethreads' => $minpar_w,
@@ -107,7 +117,6 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 
 		if ($ret) { throw new lxexception('httpd_start_failed', 'parent'); }
 
-		log_cleanup("- Service start", $nolog);
 	}
 }
 

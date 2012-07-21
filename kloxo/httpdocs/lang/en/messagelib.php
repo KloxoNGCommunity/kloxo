@@ -191,15 +191,20 @@ $__emessage['certificate_key_file_empty'] = "The certificate and the Key file yo
 // by mustafa.ramadhan@lxcenter.org
 
 $__information['webserver_config'] = 
+	"[b]PHP Branch[/b] - Branch-based Php version - ".
+		"Php-fpm for 'php52' may not work; ".
+		"test result with 'php -v' via ssh to find out error (usually incompatible modules)<br />".
 	"[b]PHP Type[/b] - Process-based (httpd-prefork/-itk), thread-based (httpd-worker/-event) and ".
 		"secure environment (suphp/php-fpm/ruid2/itk/fcgid)<br />".
-	"[b]Apache Memory Optimize[/b] - Optimize memory usage<br />".
-	"[b]MySQL Convert[/b] - MyISAM (less memory usage (save 100-200 MB) and ".
+	"[b]Apache Memory Optimize[/b] - Optimize memory usage - ".
+		"set half amount for [b]nginx/lighttpd-proxy[/b]; ".
+		"select 'default' if select 'php-fpm' on 'Php Type'<br />".
+	"[b]MySQL Convert[/b] - MyISAM (less memory usage; save 100-200 MB) and ".
 		"InnoDB (higher performance)<br />".
-	"[b]Fix 'Ownership' And 'Permissions'[/b] - Prevent '500 Internal server error' on secure environment<br />".
-		"&nbsp;&nbsp;&nbsp;&nbsp;- Fix-ownership ('chown -R client:client' for directories and files) and ".
-		"Fix-permissions ('chmod 755' for directories and 'chmod 644' for .php files)<br />".
-	"- [b]Remark[/b]: Apache Memory Optimize will be set half of values on [b]nginx/lighttpd-proxy[/b]";
+	"[b]Fix 'Ownership' And 'Permissions'[/b] - Prevent '500 Internal server error' on secure environment. ".
+		"[b]Fix-ownership[/b] ('chown -R client:client' for directories and files) and ".
+		"[b]Fix-permissions[/b] ('chmod 755' for directories and 'chmod 644' for .php files)<br />".
+	"";
 
 // Language Content for #656
 // by Andrew Ying

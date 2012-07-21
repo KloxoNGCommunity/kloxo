@@ -1268,8 +1268,7 @@ $__description["applicationname"] = array("Applicationname");
 $__description["accessible_directly"] = array("Accessible Directly");
 $__description["path"] = array("Path");
 
-// release on Kloxo 6.1.7
-// by mustafa.ramadhan@lxcenter.org
+// release by mustafa.ramadhan@lxcenter.org
 
 // MR -- in 'webserver config'
 $__description["apache_optimize"] = array("Apache memory optimize");
@@ -1278,3 +1277,6 @@ $__description["fix_chownchmod"] = array("Fix 'ownership' and 'permissions'");
 
 // MR -- in 'switch program'
 $__description["no_fix_config"] = array("No fix config");
+
+// MR -- in 'webservr config'
+$__description["php_branch"] = array("Php Branch");
