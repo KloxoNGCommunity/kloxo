@@ -271,12 +271,7 @@ class serverweb__ extends lxDriverClass
 		}
 
 		lxshell_return("chkconfig", "php-fpm", "on");
-		$ret = lxshell_return("service", "php-fpm", "restart");
-
-		if ($ret) {
-			throw new lxexception('php-fpm_restart_failed', 'parent');
-		}
-
+		createRestartFile('phpfpm');
 	}
 
 	function set_fcgid()
@@ -352,19 +347,8 @@ class serverweb__ extends lxDriverClass
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/php-branch.php';
 
-		switch($this->main->php_branch) {
-			case 'php':
-				lxshell_return("lxphp.exe", $scripting, "--select=php", $nolog);
-				break;
-			case 'php52':
-				lxshell_return("lxphp.exe", $scripting, "--select=php52", $nolog);
-				break;
-			case 'php53u':
-				lxshell_return("lxphp.exe", $scripting, "--select=php53u", $nolog);
-				break;
-			case 'php54':
-				lxshell_return("lxphp.exe", $scripting, "--select=php54", $nolog);
-				break;
-		}
+		$branchselect = $this->main->php_branch;
+
+		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", $nolog);
 	}
 }
