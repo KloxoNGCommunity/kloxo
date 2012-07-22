@@ -993,7 +993,7 @@ static function continueForm($parent, $class, $param, $continueaction)
 	$reserved = array(
 		'apache', 'lighttpd', 'nginx', 'php-fpm', 'ipalloc',
 		'httpd', 'kloxo', 'lxadmin', 'lxlabs', 'lxcenter', 'nouser', 
-		'tinydns', 'axfrdns', 'dnscache', 'dnslog', 'bind', 'named');
+		'tinydns', 'axfrdns', 'dnscache', 'dnslog', 'bind', 'named', 'phpini');
 
 	foreach($reserved as $r) {
 		if ($param['nname'] === $r) {

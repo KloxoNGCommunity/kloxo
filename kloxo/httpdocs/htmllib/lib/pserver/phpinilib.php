@@ -7,6 +7,7 @@ class phpini_flag_b extends lxaclass
 	static $__desc_enable_zend_flag = array("f", "", "enable_zend");
 	static $__desc_enable_xcache_flag = array("f", "", "enable_xcache");
 	static $__desc_enable_ioncube_flag = array("f", "", "enable_ioncube");
+	static $__desc_enable_suhosin_flag = array("f", "", "enable_suhosin");
 	static $__desc_upload_max_filesize = array("", "", "upload_file_max_size");
 	static $__desc_log_errors_flag = array("f", "", "log_errors");
 	static $__desc_file_uploads_flag = array("f", "", "file_uploads");
@@ -58,11 +59,10 @@ class phpini extends lxdb
 
 	function getInheritedList()
 	{
-		// MR -- disable temporary until found better approach!
-
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
 		$list[] = "enable_ioncube_flag";
+		$list[] = "enable_suhosin_flag";
 		$list[] = 'safe_mode_flag';
 	//	$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
@@ -72,8 +72,6 @@ class phpini extends lxdb
 
 	function getLocalList()
 	{
-		// MR -- disable temporary until found better approach!
-
 		$list[] = 'display_error_flag';
 		$list[] = 'register_global_flag';
 		$list[] = 'log_errors_flag';
@@ -81,6 +79,7 @@ class phpini extends lxdb
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
 		$list[] = "enable_ioncube_flag";
+		$list[] = "enable_suhosin_flag";
 
 		return $list;
 	}
@@ -188,13 +187,6 @@ class phpini extends lxdb
 
 		$this->setUpINitialValues();
 
-		// trick to make sure xcache installed!
-		//--- issue 547 - xcache failed to install
-		if ($login->isAdmin()) {
-			// function declare on lib.php
-		//	install_xcache($nolog = 'yes');
-		}
-
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
 
@@ -237,6 +229,8 @@ class phpini extends lxdb
 			}
 		}
 
+		$vlist['__m_message_pre'] = 'php_config';
+
 		$this->postUpdate();
 
 		return $vlist;
@@ -245,12 +239,13 @@ class phpini extends lxdb
 
 	function setUpINitialValues()
 	{
-		// MR -- disable temporary until found better approach!
+		$this->initialValueRpmStatus('enable_xcache_flag', 'off');
+		$this->initialValueRpmStatus('enable_zend_flag', 'off');
+		$this->initialValueRpmStatus('enable_ioncube_flag', 'off');
+		$this->initialValueRpmStatus('enable_suhosin_flag', 'off');
 
-		$this->initialValue('enable_xcache_flag', 'off');
 	//	$this->initialValue('output_compression_flag', 'off');
-		$this->initialValue('enable_zend_flag', 'off');
-		$this->initialValue('enable_ioncube_flag', 'off');
+
 		$this->initialValue('upload_max_filesize', '2M');
 		$this->initialValue('register_global_flag', 'off');
 		$this->initialValue('mysql_allow_persistent_flag', 'off');
@@ -294,6 +289,64 @@ class phpini extends lxdb
 		if (!isset($this->phpini_flag_b->$var) || !$this->phpini_flag_b->$var) {
 			$this->phpini_flag_b->$var = $val;
 		}
+	}
 
+	function initialValueRpmStatus($var, $val)
+	{
+		$phpbranch = getPhpBranch();
+
+		if ($var === 'enable_xcache_flag') {
+			$list = array("{$phpbranch}-xcache", "php-xcache");
+
+			$installed = false;
+
+			foreach ($list as &$l) {
+				$installed = isRpmInstalled($l);
+				if ($installed) { break; }
+			}
+
+			$this->phpini_flag_b->$var = ($installed) ? 'yes' : 'no';
+		} elseif ($var === 'enable_ioncube_flag') {
+			$list = array("{$phpbranch}-ioncube-loader", "php-ioncube-loader", "php-ioncube");
+
+			$installed = false;
+
+			foreach ($list as &$l) {
+				$installed = isRpmInstalled($l);
+				if ($installed) { break; }
+			}
+
+			$this->phpini_flag_b->$var = ($installed) ? 'yes' : 'no';
+		} elseif ($var === 'enable_suhosin_flag') {
+			$list = array("{$phpbranch}-suhosin", "php-suhosin");
+
+			$installed = false;
+
+			foreach ($list as &$l) {
+				$installed = isRpmInstalled($l);
+				if ($installed) { break; }
+			}
+
+			$this->phpini_flag_b->$var = ($installed) ? 'yes' : 'no';
+		} elseif ($var === 'enable_zend_flag') {
+			$phpver = getPhpVersion();
+
+			if (version_compare($phpver, "5.3.0", ">=")) {
+				$list = array("{$phpbranch}-zend-guard-loader", "{$phpbranch}-zend-guard",
+					"php-zend-guard-loader", "php-zend-guard");
+			} else {
+				$list = array("{$phpbranch}-zend-optimizer-loader", "{$phpbranch}-zend-optimizer",
+					"php-zend-optimizer", "php-zend");
+			}
+
+			$installed = false;
+
+			foreach ($list as &$l) {
+				$installed = isRpmInstalled($l);
+				if ($installed) { break; }
+			}
+
+			$this->phpini_flag_b->$var = ($installed) ? 'yes' : 'no';
+		}
 	}
 }

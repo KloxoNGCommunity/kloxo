@@ -5674,7 +5674,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	$oldlist = array("{$path}/redirects", "{$path}/exclusive", "{$path}/webmails", "{$path}/wildcards",
+	$oldlist = array("{$path}/redirects", "{$path}/exclusive", "{$path}/wildcards",
 			"{$htpath}/sock", "{$htpath}/socks", "{$eatpath}/conf/kloxo",
 			"{$htpath}/tmp", "{$htpath}/logs", "{$htpath}/cache");
 
@@ -5704,6 +5704,12 @@ function setInitialWebConfig($type, $nolog = null)
 
 			lxfile_touch("{$path}/{$l}.conf");
 		}
+	}
+
+	$path = "/home/{$type}/conf/webmails";
+
+	if (!lxfile_real("{$path}")) {
+		lxfile_touch("{$path}/webmail.conf");
 	}
 
 	lxfile_rm("{$path}/cp_config.conf");
