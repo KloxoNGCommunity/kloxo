@@ -217,7 +217,7 @@ class web__ extends lxDriverClass
 
 // MR -- (1) related to create conf file
 
-	function updateMainConfFile()
+	static function updateMainConfFile()
 	{
 		$input = array();
 
@@ -1121,13 +1121,13 @@ class web__ extends lxDriverClass
 
 				case "fixipdomain":
 					$this->createConffile();
-					$this->updateMainConfFile();
+					self::updateMainConfFile();
 					$this->createSSlConf();
 					break;
 
 				case "enable_php_manage_flag":
 					$this->createConffile();
-					$this->updateMainConfFile();
+					self::updateMainConfFile();
 					break;
 
 				case "toggle_status" :
@@ -1164,7 +1164,7 @@ class web__ extends lxDriverClass
 					break;
 
 				case "static_config_update":
-					$this->updateMainConfFile();
+					self::updateMainConfFile();
 					$this->createSSlConf();
 					$this->createCpConfig();
 					self::createWebDefaultConfig();

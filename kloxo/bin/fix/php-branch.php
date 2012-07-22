@@ -44,5 +44,7 @@ function setPhpBranch($select, $nolog = null)
 	exec("sh /script/fixphp");
 	exec("sh /script/fixweb");
 
-	createRestartFile('phpfpm');
+	// createRestartFile('phpfpm');
+	// MR -- better using:
+	exec("service php-fpm force-reload");
 }

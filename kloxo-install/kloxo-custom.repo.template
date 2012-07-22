@@ -4,7 +4,7 @@ baseurl=http://centos.alt.ru/repository/centos/%distro_ver%/$basearch/
 enabled=1
 gpgcheck=0
 #protect=1
-exclude=openssh* php*
+exclude=openssh*
 
 [kloxo-rpmforge]
 name=kloxo-rpmforge - $basearch
@@ -40,5 +40,3 @@ mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-%distro_ver%&ar
 enabled=1
 gpgcheck=0
 exclude=lighttpd* nginx*
-
-### HELLO ###

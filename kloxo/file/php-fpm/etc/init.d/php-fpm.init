@@ -1,92 +1,87 @@
-#!/bin/sh
+#! /bin/sh
 #
-# php-fpm Start/Stop the php-fpm server
-#
-# chkconfig:   - 85 15
-# description: php-fpm server
+# chkconfig: - 84 16
+# description:  PHP FastCGI Process Manager
+# processname: php-fpm
+# config: /etc/php-fpm.conf
+# pidfile: /var/run/php-fpm/php-fpm.pid
+
+# Standard LSB functions
+#. /lib/lsb/init-functions
 
 # Source function library.
-. /etc/rc.d/init.d/functions
+. /etc/init.d/functions
 
-exec="/usr/bin/php-cgi"
+# Check that networking is up.
+. /etc/sysconfig/network
+
+if [ "$NETWORKING" = "no" ]
+then
+    exit 0
+fi
+
+RETVAL=0
 prog="php-fpm"
-config="/etc/sysconfig/php-fpm"
+pidfile=${PIDFILE-/var/run/php-fpm/php-fpm.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 
-[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
-
-lockfile=/var/lock/subsys/$prog
-
-start() {
-    [ -x $exec ] || exit 5
-    [ -f $config ] || exit 6
+start () {
     echo -n $"Starting $prog: "
-    daemon $exec $OPTIONS
-    retval=$?
+    daemon --pidfile ${pidfile} php-fpm
+    RETVAL=$?
     echo
-    [ $retval -eq 0 ] && touch $lockfile
-    return $retval
+    [ $RETVAL -eq 0 ] && touch ${lockfile}
 }
-
-stop() {
+stop () {
     echo -n $"Stopping $prog: "
-    killproc $prog
-    retval=$?
+    killproc -p ${pidfile} php-fpm
+    RETVAL=$?
     echo
-    [ $retval -eq 0 ] && rm -f $lockfile
-    return $retval
+    if [ $RETVAL -eq 0 ] ; then
+        rm -f ${lockfile} ${pidfile}
+    fi
 }
 
-restart() {
-    stop
-    start
+restart () {
+        stop
+        # MR -- need sleep 1 for guarantee restart sucessful
+        sleep 1
+        start
 }
 
-reload() {
-    restart
-}
-
-force_reload() {
-    restart
-}
-
-rh_status() {
-    status $prog
-}
-
-rh_status_q() {
-    rh_status >/dev/null 2>&1
+reload () {
+    echo -n $"Reloading $prog: "
+    killproc -p ${pidfile} php-fpm -USR2
+    RETVAL=$?
+    echo
 }
 
 
+# See how we were called.
 case "$1" in
-    start)
-        rh_status_q && exit 0
-        $1
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status -p ${pidfile} php-fpm
+    RETVAL=$?
+    ;;
+  restart)
+    restart
+    ;;
+  reload|force-reload)
+    reload
+    ;;
+  condrestart|try-restart)
+    [ -f ${lockfile} ] && restart || :
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|try-restart}"
+    RETVAL=2
         ;;
-    stop)
-        rh_status_q || exit 0
-        $1
-        ;;
-    restart)
-        $1
-        ;;
-    reload)
-        rh_status_q || exit 7
-        $1
-        ;;
-    force-reload)
-        force_reload
-        ;;
-    status)
-        rh_status
-        ;;
-    condrestart|try-restart)
-        rh_status_q || exit 0
-        restart
-        ;;
-    *)
-        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
-        exit 2
 esac
-exit $?
 
+exit $RETVAL

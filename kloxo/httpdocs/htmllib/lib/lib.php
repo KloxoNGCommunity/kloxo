@@ -5696,14 +5696,13 @@ function setInitialWebConfig($type, $nolog = null)
 
 	$path = "/home/{$type}/conf/defaults";
 
-	$list = array("__ssl.conf", "_default.conf", "disable.conf", "cp.conf",
-			"mimetype.conf", "init.conf");
+	$list = array("__ssl", "_default", "disable", "cp", "mimetype", "init");
 
 	foreach ($list as $k => $l) {
 		if (!lxfile_real("{$path}/{$l}")) {
-			log_cleanup("- Initialize {$path}/{$l}", $nolog);
+			log_cleanup("- Initialize {$path}/{$l}.conf", $nolog);
 
-			lxfile_touch("{$path}/{$l}");
+			lxfile_touch("{$path}/{$l}.conf");
 		}
 	}
 

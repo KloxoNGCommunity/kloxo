@@ -56,6 +56,9 @@ foreach($list as $c) {
 	}
 }
 
+// MR -- fix for init.conf when domain not already setup
+web::updateMainConfFile();
+
 // MR - fix for php-fpm and fastcgi session issue
 mkdir("/var/log/php-fpm",0755);
 chmod("/var/lib/php/session", 0777);
