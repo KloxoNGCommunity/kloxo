@@ -382,6 +382,11 @@ class Ipaddress extends Lxdb
 
 	static function copyCertificate($devname, $machinename)
 	{
+		global $sgbl;
+
+		$ppath = $sgbl->__path_program_root;
+		$spath = $sgbl->__path_ssl_root;
+
 		$name = $devname . "___" . $machinename;
 
 		$name = sslcert::getSslCertnameFromIP($name);
@@ -390,28 +395,33 @@ class Ipaddress extends Lxdb
 			lxfile_mkdir("__path_ssl_root");
 		}
 
-		if (!lxfile_exists("__path_ssl_root/$name.crt")) {
-			lxfile_cp("__path_program_root/file/default.crt", "__path_ssl_root/$name.crt");
+		if (!lxfile_exists("{$spath}/$name.crt")) {
+			lxfile_cp("{$ppath}/file/default.crt", "{$spath}/$name.crt");
 		}
 
-		if (!lxfile_exists("__path_ssl_root/$name.key")) {
-			lxfile_cp("__path_program_root/file/default.key", "__path_ssl_root/$name.key");
+		if (!lxfile_exists("{$spath}/$name.key")) {
+			lxfile_cp("{$ppath}/file/default.key", "{$spath}/$name.key");
 		}
 
-		if (!lxfile_exists("__path_ssl_root/$name.ca")) {
-			lxfile_cp("__path_program_root/file/default.ca", "__path_ssl_root/$name.ca");
+		if (!lxfile_exists("{$spath}/$name.ca")) {
+			lxfile_cp("{$ppath}/file/default.ca", "{$spath}/$name.ca");
 		}
 
 		// MR -- add for missing (lighttpd error when select because need .pem file
-		if (!lxfile_exists("__path_ssl_root/$name.pem")) {
-			if (!lxfile_exists("__path_program_root/file/default.pem")) {
+		if (!lxfile_exists("{$spath}/$name.pem")) {
+		//	if (!lxfile_exists("{$ppath}/file/default.pem")) {
+			/*
+				// MR -- look like not work!
 				$contentscer = lfile_get_contents("__path_program_root/file/default.crt");
 				$contentskeyl = file_get_contents("__path_program_root/file/default.key");
 				$contentpem = "$contentscer\n$contentskey";
 				lfile_put_contents("__path_program_root/file/default.pem");
-			}
+			*/
+		//	}
 
-			lxfile_cp("__path_program_root/file/default.pem", "__path_ssl_root/$name.pem");
+			exec("cat {$ppath}/file/default.crt {$ppath}/file/default.key > {$ppath}/file/default.pem");
+
+			lxfile_cp("{$ppath}/file/default.pem", "{$spath}/$name.pem");
 
 		}
 	}

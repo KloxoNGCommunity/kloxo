@@ -1109,8 +1109,12 @@ static function addform($parent, $class, $typetd = null)
 	$vlist['nname'] = "";
 
 	if ($sgbl->isKloxo()) {
-
+	/*
 		$dlist = domainbase::getDnsTemplateList($parent);
+
+		// MR -- don't know what a problem where including domain make unfinish looping
+		// so, for awhile option for customer as the same as reseller
+
 		if ($typetd['val'] === 'customer') {
 			$vlist['domain_name'] = "";
 			$vlist['dnstemplate_name'] = make_hidden_if_one($dlist);
@@ -1118,6 +1122,7 @@ static function addform($parent, $class, $typetd = null)
 			$list = lx_merge_good('--leave--', $list);
 			$vlist['installapp_app'] = array('s', $list);
 		}
+	*/
 	}
 	$vlist['password'] = "";
 
