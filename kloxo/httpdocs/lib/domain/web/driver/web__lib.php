@@ -75,7 +75,7 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "mod_ssl", "mod_rpaf");
 
 				foreach ($rlist as $k => $r) {
-					$flist = glob("/usr/local/lxlabs/rpms/{$r}-*.rpm");
+					$flist = glob("/home/rpms/{$r}-*.rpm");
 
 					if ($flist) {
 						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
@@ -92,7 +92,7 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "{$a}-fastcgi");
 
 				foreach ($rlist as $k => $r) {
-					$flist = glob("/usr/local/lxlabs/rpms/{$r}-*.rpm");
+					$flist = glob("/home/rpms/{$r}-*.rpm");
 
 					if ($flist) {
 						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
@@ -104,7 +104,7 @@ class web__ extends lxDriverClass
 				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
 				lxfile_unix_chown("/var/log/{$a}", "apache:apache");
 			} elseif ($a === 'nginx') {
-				$flist = glob("/usr/local/lxlabs/rpms/{$a}-*.rpm");
+				$flist = glob("/home/rpms/{$a}-*.rpm");
 
 				if ($flist) {
 						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
