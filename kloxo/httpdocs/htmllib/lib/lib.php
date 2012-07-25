@@ -6773,7 +6773,8 @@ function updatecleanup($nolog = null)
 
 	setInitialAdminAccount($nolog);
 
-	setInitialKloxoPhp($nolog);
+	// MR -- no needed since 6.2.x
+//	setInitialKloxoPhp($nolog);
 
 	installWebmail($nolog);
 
@@ -6815,7 +6816,8 @@ function updatecleanup($nolog = null)
 
 	copy_script($nolog);
 
-	install_xcache($nolog);
+	// MR -- no needed since 6.2.x
+//	install_xcache($nolog);
 
 	log_cleanup("Install Kloxo service", $nolog);
 	log_cleanup("- Install process", $nolog);
