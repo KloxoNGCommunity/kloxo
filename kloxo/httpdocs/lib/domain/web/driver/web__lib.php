@@ -64,7 +64,7 @@ class web__ extends lxDriverClass
 					$flist = glob("/home/rpms/{$r}-*.rpm");
 
 					if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
+						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", "/home/rpms/{$a}-*.rpm");
 					} else {
 						$ret = lxshell_return("yum", "-y", "install", $r);
 					}
@@ -90,12 +90,16 @@ class web__ extends lxDriverClass
 				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
 				lxfile_unix_chown("/var/log/{$a}", "apache:apache");
 			} elseif ($a === 'nginx') {
-				$flist = glob("/home/rpms/{$a}-*.rpm");
+				$rlist = array($a, "GeoIP");
 
-				if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
-				} else {
-					$ret = lxshell_return("yum", "-y", "install", $a);
+				foreach ($rlist as $k => $r) {
+					$flist = glob("/home/rpms/{$r}-*.rpm");
+
+					if ($flist) {
+							$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
+					} else {
+						$ret = lxshell_return("yum", "-y", "install", $a);
+					}
 				}
 			}
 
