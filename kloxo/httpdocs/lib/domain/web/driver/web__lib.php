@@ -61,10 +61,11 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "mod_ssl", "mod_rpaf");
 
 				foreach ($rlist as $k => $r) {
-					$flist = glob("/home/rpms/{$r}-*.rpm");
+					$f = "/home/rpms/{$r}-*.rpm";
+					$flist = glob($f);
 
 					if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", "/home/rpms/{$a}-*.rpm");
+						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
 					} else {
 						$ret = lxshell_return("yum", "-y", "install", $r);
 					}
@@ -78,10 +79,12 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "{$a}-fastcgi");
 
 				foreach ($rlist as $k => $r) {
-					$flist = glob("/home/rpms/{$r}-*.rpm");
+					$f = "/home/rpms/{$r}-*.rpm";
+
+					$flist = glob($f);
 
 					if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
+						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
 					} else {
 						$ret = lxshell_return("yum", "-y", "install", $r);
 					}
@@ -93,10 +96,12 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "GeoIP");
 
 				foreach ($rlist as $k => $r) {
-					$flist = glob("/home/rpms/{$r}-*.rpm");
+					$f = "/home/rpms/{$r}-*.rpm";
+
+					$flist = glob($f);
 
 					if ($flist) {
-							$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $flist);
+						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
 					} else {
 						$ret = lxshell_return("yum", "-y", "install", $a);
 					}
