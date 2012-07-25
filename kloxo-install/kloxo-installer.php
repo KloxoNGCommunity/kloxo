@@ -55,13 +55,14 @@ function lxins_main()
 			exit;
 		}
 
-		if (get_yes_no("Do you want RE-INSTALL (just REPLACE core as opposite) Kloxo?") == 'y') {
-			exec("cp -rf {$kloxo_path} {$kloxo_path}.reinstall." . date("Y-m-d-H-i-s"));
-		} else {
-			kloxo_replace_core($osversion, $kloxo_path);
-			kloxo_install_bye($installtype);
-			exit;
+		exec("cp -rf {$kloxo_path} {$kloxo_path}." . date("Y-m-d-H-i-s"));
+
+		$a = array('bin', 'cexe', 'file', 'httpdocs', 'pscript', 'RELEASEINFO', 'sbin', 'src');
+
+		foreach ($a as &$v) {
+			exec("rm -rf {$kloxo_path}/{$v}");
 		}
+
 	} else {
 		//--- Ask License
 		if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
@@ -224,45 +225,6 @@ function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 	exec("echo `hostname` > /var/qmail/control/me");
 	exec("service qmail restart >/dev/null 2>&1 &");
 	exec("service courier-imap restart >/dev/null 2>&1 &");
-}
-
-function kloxo_replace_core($osversion, $kloxo_path)
-{
-	print("Installing LxCenter yum repository for updates\n");
-	install_yum_repo($osversion);
-
-	if (file_exists($kloxo_path)) {
-		exec("cp -rf {$kloxo_path} {$kloxo_path}.replace." . date("Y-m-d-H-i-s"));
-	}
-
-	$a = array('bin', 'cexe', 'file', 'httpdocs', 'pscript', 'RELEASEINFO', 'sbin', 'src');
-
-	foreach ($a as &$v) {
-		exec("rm -rf {$kloxo_path}/{$v}");
-	}
-
-	exec("cp -rf ../kloxo-current.zip {$kloxo_path}");
-
-	exec("cd {$kloxo_path}; unzip -oq kloxo-current.zip");
-
-	exec("cd {$kloxo_path}; rm -rf kloxo-current.zip");
-
-	exec("rm -f /var/cache/kloxo/kloxo-install-firsttime.flg");
-
-	exec("cp -rf {$kloxo_path}/file/skeleton.zip {$kloxo_path}/httpdocs/login");
-
-	exec("cd {$kloxo_path}/httpdocs/login; unzip -oq skeleton.zip; rm -f skeleton.zip");
-	exec("cp -rf {$kloxo_path}/file/login_inc.php {$kloxo_path}/httpdocs/login/inc.php");
-	exec("cp -rf {$kloxo_path}/file/login_inc2.php {$kloxo_path}/httpdocs/login/inc2.php");
-
-	exec("cp -rf {$kloxo_path}/file/default_index.php {$kloxo_path}/httpdocs/login/index.php");
-	exec("cp -rf {$kloxo_path}/file/default_index.php /home/kloxo/httpd/webmail/index.php");
-
-	exec("sh /script/cleanup");
-	exec("sh /script/fixdns");
-	exec("sh /script/fixweb");
-	exec("sh /script/fixphp");
-	exec("sh /script/fixwebmail");
 }
 
 function kloxo_install_step1($osversion, $installversion, $downloadserver)
@@ -599,7 +561,7 @@ function install_yum_repo($osversion)
 	$cont = str_replace("%distro_ver%", $vernum, $cont);
 	file_put_contents("/etc/yum.repos.d/lxcenter.repo", $cont);
 
-	exec("/etc/yum.repos.d/kloxo-custom.repo");
+	exec("rm -f /etc/yum.repos.d/kloxo-custom.repo");
 
 	$cont = file_get_contents("kloxo-custom.repo.template");
 	$cont = str_replace("%distro%", $osversion, $cont);

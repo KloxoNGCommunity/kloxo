@@ -62,19 +62,19 @@ mkdir -p ./combo
 
 if [ ! -d ./current/kloxo/httpdocs ] ; then
 	echo "Download kloxo git from "${kloxo_path}
-	yes | rm -rf ${kloxo_branch}*
+	yes | rm -rf ${kloxo_branch}* > /dev/null 2>&1
 	wget https://github.com/${kloxo_path} --no-check-certificate
-	mv -f ${kloxo_branch} kloxo.zip
-	unzip -oq kloxo.zip
-	mv -f ./${kloxo_fork}* ./current
-	yes | rm -rf kloxo.zip
+	mv -f ${kloxo_branch} kloxo.zip > /dev/null 2>&1
+	unzip -oq kloxo.zip > /dev/null 2>&1
+	mv -f ./${kloxo_fork}* ./current > /dev/null 2>&1
+	yes | rm -rf kloxo.zip > /dev/null 2>&1
 else
 	echo "No download and use local copy - './current/kloxo/httpdocs already' exist"
 fi
 
-cp -rf ./current/* ./combo
+cp -rf ./current/* ./combo > /dev/null 2>&1
 
-cp -rf ./patch/* ./combo
+cp -rf ./patch/* ./combo > /dev/null 2>&1
 
 if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then
 
@@ -83,7 +83,7 @@ if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then
 	echo "Download kloxo-install.zip from http://download.lxcenter.org/download/"
 	wget http://download.lxcenter.org/download/kloxo-install.zip
 	unzip -oq kloxo-install.zip
-	rm -rf kloxo-install.zip
+	rm -rf kloxo-install.zip > /dev/null 2>&1
 	
 	cd ..
 	
@@ -91,15 +91,15 @@ if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then
 	if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then		
 		echo "Download kloxo-installer.php from http://download.lxcenter.org/download/kloxo/production/"
 		wget http://download.lxcenter.org/download/kloxo/production/kloxo-installer.php
-		mv -f kloxo-installer.php ./combo/kloxo-install/kloxo-installer.php
+		mv -f kloxo-installer.php ./combo/kloxo-install/kloxo-installer.php > /dev/null 2>&1
 	fi
 fi
 
 cd ./combo
 
-zip -r9y kloxo-install.zip ./kloxo-install
+zip -r9y kloxo-install.zip ./kloxo-install > /dev/null 2>&1
 
-mv -f kloxo-install.zip ../
+mv -f kloxo-install.zip ../ > /dev/null 2>&1
 
 cd ./kloxo/src
 yum -y install gcc automake autoconf libtool make
@@ -117,7 +117,7 @@ zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./REL
 	"*httpdocs/htmllib/fckeditor/*" \
 	"*httpdocs/htmllib/yui-dragdrop/*"
 
-mv -f kloxo-current.zip ../../
+mv -f kloxo-current.zip ../../ > /dev/null 2>&1
 cd ../../
 
 if [ ! $kloxo_part == "core" ] ; then
@@ -155,7 +155,7 @@ if [ ! $kloxo_part == "core" ] ; then
 	fi
 fi
 
-cp -rf ./combo/kloxo-install/kloxo-installer.sh ./
+cp -rf ./combo/kloxo-install/kloxo-installer.sh ./ > /dev/null 2>&1
 
 # Reads yes|no answer from the input 
 # 1 question text
@@ -194,9 +194,9 @@ function get_yes_no {
 
 get_yes_no "Delete temporal dirs (patch, current and combo)?" 1
 if [ "$?" -eq "1" ] ; then
-	rm -rf ./patch
-	rm -rf ./current
-	rm -rf ./combo
+	rm -rf ./patch > /dev/null 2>&1
+	rm -rf ./current > /dev/null 2>&1
+	rm -rf ./combo > /dev/null 2>&1
 fi
 
 echo

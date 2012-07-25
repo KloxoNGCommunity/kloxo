@@ -21,6 +21,7 @@
 # LxCenter - Kloxo Installer
 #
 # Version: 1.0 (2011-08-02 - by mustafa.ramadhan@lxcenter.org)
+# Version: 2.0 (2012-07-24 - by mustafa.ramadhan@lxcenter.org)
 #
 
 if [ "$#" == 0 ] ; then
@@ -165,7 +166,10 @@ echo -e "	When it's finished, you will be presented with a welcome message and f
 read -n 1 -p "Press any key to continue ..."
 
 # Start install
-yum -y install php php-mysql wget zip unzip
+if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
+	yum -y install php php-mysql wget zip unzip
+fi
+
 export PATH=/usr/sbin:/sbin:$PATH
 
 if [ ! -f ./kloxo-install.zip ] ; then
