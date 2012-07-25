@@ -5397,6 +5397,7 @@ function setDefaultPages($nolog = null)
 
 	$httpdpath = "/home/kloxo/httpd";
 	$filepath = "/usr/local/lxlabs/kloxo/file";
+	$hdocspath = "/usr/local/lxlabs/kloxo/httpdocs";
 
 	$sourcezip = "{$filepath}/skeleton.zip";
 	$targetzip = "$httpdpath/skeleton.zip";
@@ -5419,8 +5420,8 @@ function setDefaultPages($nolog = null)
 		}
 
 		log_cleanup("- Php files for {$p} web page", $nolog);
-		lxfile_cp("../file/{$p}_inc.php", "{$httpdpath}/{$p}/inc.php");
-		lxfile_cp("../file/default_index.php", "{$httpdpath}/{$p}/index.php");
+		lxfile_cp("{$filepath}/{$p}_inc.php", "{$httpdpath}/{$p}/inc.php");
+		lxfile_cp("{$filepath}/default_index.php", "{$httpdpath}/{$p}/index.php");
 
 		log_cleanup("- Skeleton for {$p} web page", $nolog);
 		lxshell_unzip("__system__", "{$httpdpath}/{$p}/", $targetzip);
@@ -5432,21 +5433,23 @@ function setDefaultPages($nolog = null)
 	}
 
 	log_cleanup("- Php files for login web page", $nolog);
-	if (!file_exists("/usr/local/lxlabs/kloxo/httpdocs/login")) {
-		lxfile_mkdir("/usr/local/lxlabs/kloxo/httpdocs/login");
-		lxfile_unix_chown("/usr/local/lxlabs/kloxo/httpdocs/login", "lxlabs:lxlabs");
-		lxfile_unix_chmod("/usr/local/lxlabs/kloxo/httpdocs/login", "0755");
+	if (!file_exists("{$hdocspath}/login")) {
+		lxfile_mkdir("{$hdocspath}/login");
+		lxfile_unix_chown("{$hdocspath}/login", "lxlabs:lxlabs");
+		lxfile_unix_chmod("{$hdocspath}/login", "0755");
 	}
-	lxfile_cp("../file/default_index.php", "/usr/local/lxlabs/kloxo/httpdocs/login/index.php");
-	lxfile_cp("../file/login_inc.php", "/usr/local/lxlabs/kloxo/httpdocs/login/inc.php");
-	lxfile_cp("../file/login_inc2.php", "/usr/local/lxlabs/kloxo/httpdocs/login/inc2.php");
-	lxfile_unix_chown("/usr/local/lxlabs/kloxo/httpdocs/login/index.php", "lxlabs:lxlabs");
-	lxfile_unix_chmod("/usr/local/lxlabs/kloxo/httpdocs/login/index.php", "0644");
-	lxfile_unix_chown("/usr/local/lxlabs/kloxo/httpdocs/login/inc.php", "lxlabs:lxlabs");
-	lxfile_unix_chmod("/usr/local/lxlabs/kloxo/httpdocs/login/inc.php", "0644");
+	lxfile_cp("{$filepath}/default_index.php", "{$hdocspath}/login/index.php");
+	lxfile_cp("{$filepath}/login_inc.php", "{$hdocspath}/login/inc.php");
+	lxfile_cp("{$filepath}/login_inc2.php", "{$hdocspath}/login/inc2.php");
+	lxfile_unix_chown("{$hdocspath}/login/index.php", "lxlabs:lxlabs");
+	lxfile_unix_chmod("{$hdocspath}/login/index.php", "0644");
+	lxfile_unix_chown("{$hdocspath}/login/inc.php", "lxlabs:lxlabs");
+	lxfile_unix_chmod("{$hdocspath}/login/inc.php", "0644");
+	lxfile_unix_chown("{$hdocspath}/login/inc2.php", "lxlabs:lxlabs");
+	lxfile_unix_chmod("{$hdocspath}/login/inc2.php", "0644");
 
 	log_cleanup("- Skeleton for login web page", $nolog);
-	lxshell_unzip("__system__", "/usr/local/lxlabs/kloxo/httpdocs/login", "../file/skeleton.zip");
+	lxshell_unzip("__system__", "{$hdocspath}/login", "../file/skeleton.zip");
 
 	$usersourcezip =  "{$filepath}/user-skeleton.zip";
 	$usertargetzip = "/home/kloxo/user-httpd/user-skeleton.zip";
@@ -5652,19 +5655,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	log_cleanup("- Install {$eatpath}/etc/conf/{$atype}.conf", $nolog);
-
-	lxfile_cp("{$fpath}/{$type}/etc/conf/{$atype}.conf", "{$htpath}/conf/{$atype}.conf");
-	lxfile_cp(getLinkCustomfile("{$htpath}/etc/conf", "{$atype}.conf"), "{$eatpath}/conf/{$atype}.conf");
-
-	// resolved issue for 'generalsetting' that can not write config files if 'root' as owner
-	log_cleanup("- Initialize lxlabs:lxlabs /home/{$type}", $nolog);
-
-	exec("chown -R lxlabs:lxlabs /home/{$type}");
-
-	$path = "/home/{$type}/conf";
-
-	$list = array("defaults", "domains", "globals");
+	$list = array("defaults", "domains", "globals", "webmails");
 
 	foreach ($list as $k => $l) {
 		if (!lxfile_exists("{$path}/{$l}")) {
@@ -5686,33 +5677,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	lxfile_cp(getLinkCustomfile("{$htpath}/etc/conf.d", "~lxcenter.conf"), "/etc/{$atype}/conf.d/~lxcenter.conf");
-
-	if (!lxfile_real("/etc/{$atype}/local.{$atype}.conf")) {
-		log_cleanup("- Initialize /etc/{$atype}/local.{$atype}.conf", $nolog);
-
-		lxfile_touch("/etc/{$atype}/local.{$atype}.conf");
-	}
-
 	$path = "/home/{$type}/conf/defaults";
-
-	$list = array("__ssl", "_default", "disable", "cp", "mimetype", "init");
-
-	foreach ($list as $k => $l) {
-		if (!lxfile_real("{$path}/{$l}")) {
-			log_cleanup("- Initialize {$path}/{$l}.conf", $nolog);
-
-			lxfile_touch("{$path}/{$l}.conf");
-		}
-	}
-
-	$path = "/home/{$type}/conf/webmails";
-
-	if (!lxfile_real("{$path}")) {
-		lxfile_touch("{$path}/webmail.conf");
-	}
-
-	lxfile_rm("{$path}/cp_config.conf");
 
 	setCopyWebConfFiles($type);
 }
@@ -5722,9 +5687,6 @@ function setInitialPhpFpmConfig($nolog = null)
 	$fpath = "/usr/local/lxlabs/kloxo/file";
 	$fpmpath = "/home/php-fpm/etc";
 
-	log_cleanup("- Copy php-fpm config files to {$fpmpath} dir", $nolog);
-
-//	lxfile_cp_content_file("{$fpath}/php-fpm", "{$fpmpath}");
 	exec("cp -rf {$fpath}/php-fpm /home");
 
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
@@ -7065,16 +7027,22 @@ function setCopyWebConfFiles($webdriver)
 	$pathconfd = "{$pathetc}/conf.d";
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
 
-//	lxfile_cp_content_file($pathsrc, $pathdrv);
+	log_cleanup("Copy all contents of $webdriver", $nolog);
+
+	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
 	exec("cp -rf {$pathsrc} /home");
 
+	log_cleanup("- Copy {$pathdrv}/etc/conf.d/~lxcenter.conf to {$pathconfd}/~lxcenter.conf", $nolog);
 	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf.d", "~lxcenter.conf"), "{$pathconfd}/~lxcenter.conf");
 
-	lxfile_cp(getLinkCustomfile($pathdrv."/etc/init.d", "{$aliasdriver}.init"), "{$pathinit}/{$aliasdriver}");
-
+	log_cleanup("- Copy {$pathdrv}/etc/conf.d/ssl.conf to {$pathconfd}/ssl.conf", $nolog);
 	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf.d", "ssl.conf"), "{$pathconfd}/ssl.conf");
 
+	log_cleanup("- Copy {$pathdrv}/etc/conf/{$aliasdriver}.conf to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf", "{$aliasdriver}.conf"), "{$pathconf}/{$aliasdriver}.conf");
+
+	log_cleanup("- Copy {$pathdrv}/etc/init.d/{$aliasdriver}.init to {$pathinit}/{$aliasdriver}", $nolog);
+	lxfile_cp(getLinkCustomfile($pathdrv."/etc/init.d", "{$aliasdriver}.init"), "{$pathinit}/{$aliasdriver}");
 }
 
 function isWebProxy($drivertype = null)

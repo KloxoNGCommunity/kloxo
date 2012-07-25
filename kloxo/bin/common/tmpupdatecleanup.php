@@ -154,7 +154,7 @@ function updatecleanup_main()
 */
 	
 	$slist = array(
-		"httpd* lighttpd nginx*",
+		"httpd* lighttpd* nginx*",
 		"mod_* mysql* php* lx*",
 		"bind* djbdns* pure-ftpd*",
 		"*-toaster qmail* vpopmail*",

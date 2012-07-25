@@ -136,15 +136,11 @@ class web__ extends lxDriverClass
 
 	static function setInstallPhpfpm()
 	{
-		// MR -- lxfile_cp_content and lxfile_cp_content_file not work subdirs and files copy
-	//	lxfile_cp_content_file("/usr/local/lxlabs/kloxo/file/php-fpm", "/home/php-fpm");
-		exec("yes|cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
+		exec("cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
 
 		$phpbranch = getPhpBranch();
 
 		$out = isRpmInstalled("{$phpbranch}-fpm");
-
-	//	exec("rpm -q {$phpbranch}-fpm | grep -i 'not installed'", $out, $ret);
 
 		if (!$out) {
 			$ret = lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
@@ -272,9 +268,9 @@ class web__ extends lxDriverClass
 			if ($v === 'default') {
 				$input['userlist'] = $this->getUserList();			
 			}
-		}
 
-		$this->createPhpFpmConfig();
+			self::setCreateConfFile($input);
+		}
 	}
 
 	static function createWebDefaultConfig()
@@ -1168,6 +1164,7 @@ class web__ extends lxDriverClass
 					$this->createSSlConf();
 					$this->createCpConfig();
 					self::createWebDefaultConfig();
+					$this->createPhpFpmConfig();
 					break;
 
 			//	case "fix_phpfpm":
