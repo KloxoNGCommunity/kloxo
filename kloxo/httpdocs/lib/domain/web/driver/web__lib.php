@@ -57,20 +57,6 @@ class web__ extends lxDriverClass
 			$hawcpath = "/home/{$l}/etc/conf";
 			$hawcdpath = "/home/{$l}/etc/conf.d";
 
-			//-- old structure
-			lxfile_rm_rec($ehckpath);
-			lxfile_rm_rec($hhcpath);
-			lxfile_rm_rec($hwcpath."/exclusive");
-			lxfile_rm_rec($hwcpath."/redirects");
-			lxfile_rm_rec($hwcpath."/wildcards");
-
-			//-- new structure
-			lxfile_mkdir($hwcpath);
-			lxfile_mkdir($hwcpath."/defaults");
-			lxfile_mkdir($hwcpath."/domains");
-			lxfile_mkdir($hwcpath."/webmails");
-			lxfile_mkdir($hwcpath."/globals");
-
 			if ($a === 'httpd') {
 				$rlist = array($a, "mod_ssl", "mod_rpaf");
 

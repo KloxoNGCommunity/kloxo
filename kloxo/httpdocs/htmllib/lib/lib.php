@@ -5642,6 +5642,8 @@ function setInitialWebConfig($type, $nolog = null)
 	$htpath = "/home/{$type}";
 	$eatpath = "/etc/{$atype}";
 
+	$htcpath = "{$htpath}/conf";
+
 	log_cleanup("Initialize {$type} config", $nolog);
 
 	$newlist = array("{$hkhpath}/{$type}", "{$eatpath}/conf.d", "{$htpath}/tpl",
@@ -5658,10 +5660,10 @@ function setInitialWebConfig($type, $nolog = null)
 	$list = array("defaults", "domains", "globals", "webmails");
 
 	foreach ($list as $k => $l) {
-		if (!lxfile_exists("{$path}/{$l}")) {
-			log_cleanup("- Create {$path}/{$l} dir", $nolog);
+		if (!lxfile_exists("{$htcpath}/{$l}")) {
+			log_cleanup("- Create {$htcpath}/{$l} dir", $nolog);
 
-			lxfile_mkdir("{$path}/{$l}");
+			lxfile_mkdir("{$htcpath}/{$l}");
 		}
 	}
 
