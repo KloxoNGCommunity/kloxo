@@ -7060,7 +7060,7 @@ function setCopyWebConfFiles($webdriver)
 		lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
 	}
 
-	$t = getLinkCustomfile($pathdrv."/etc/conf", "{$aliasdriver}.conf");
+	$t = getLinkCustomfile($pathdrv."/etc/init.d", "{$aliasdriver}.conf");
 	if (file_exists($t)) {
 		log_cleanup("- Copy {$t} to {$pathinit}/{$aliasdriver}", $nolog);
 		lxfile_cp($t, "{$pathinit}/{$aliasdriver}");
