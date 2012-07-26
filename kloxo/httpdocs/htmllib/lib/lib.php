@@ -5423,12 +5423,15 @@ function setDefaultPages($nolog = null)
 
 		log_cleanup("- Skeleton for {$p} web page", $nolog);
 		lxshell_unzip("__system__", "{$httpdpath}/{$p}/", $targetzip);
-
+/*
 		lxfile_unix_chown("{$httpdpath}/{$p}/", "lxlabs:lxlabs");
 		system("find {$httpdpath}/{$p}/ -type f -name \"*.php*\" -exec chmod 644 {} \;");
 		system("find {$httpdpath}/{$p}/ -type d -exec chmod 755 {} \;");
-
+*/
 	}
+
+	setKloxoHttpdChownChmod($nolog);
+
 
 	log_cleanup("- Php files for login web page", $nolog);
 
