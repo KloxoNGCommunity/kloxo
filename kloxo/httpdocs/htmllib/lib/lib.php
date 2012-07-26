@@ -5431,14 +5431,17 @@ function setDefaultPages($nolog = null)
 	}
 
 	log_cleanup("- Php files for login web page", $nolog);
+
 	if (!file_exists("{$hdocspath}/login")) {
 		lxfile_mkdir("{$hdocspath}/login");
 		lxfile_unix_chown("{$hdocspath}/login", "lxlabs:lxlabs");
 		lxfile_unix_chmod("{$hdocspath}/login", "0755");
 	}
+
 	lxfile_cp("{$filepath}/default_index.php", "{$hdocspath}/login/index.php");
 	lxfile_cp("{$filepath}/login_inc.php", "{$hdocspath}/login/inc.php");
 	lxfile_cp("{$filepath}/login_inc2.php", "{$hdocspath}/login/inc2.php");
+
 	lxfile_unix_chown("{$hdocspath}/login/index.php", "lxlabs:lxlabs");
 	lxfile_unix_chmod("{$hdocspath}/login/index.php", "0644");
 	lxfile_unix_chown("{$hdocspath}/login/inc.php", "lxlabs:lxlabs");
@@ -5447,7 +5450,7 @@ function setDefaultPages($nolog = null)
 	lxfile_unix_chmod("{$hdocspath}/login/inc2.php", "0644");
 
 	log_cleanup("- Skeleton for login web page", $nolog);
-	lxshell_unzip("__system__", "{$hdocspath}/login", "../file/skeleton.zip");
+	lxshell_unzip("__system__", "{$hdocspath}/login", $sourcezip);
 
 	$usersourcezip =  "{$filepath}/user-skeleton.zip";
 	$usertargetzip = "/home/kloxo/user-httpd/user-skeleton.zip";
@@ -6086,6 +6089,9 @@ function setCheckPackages($nolog = null)
 
 function setInstallMailserver($nolog = null)
 {
+	log_cleanup("Initialize Mail service", $nolog);
+	log_cleanup("- Initialize process", $nolog);
+
 	// MR -- disable checking for existing files to make guarantee to use setting from kloxo
 
 	//	if (!lxfile_exists("/etc/xinetd.d/smtp_lxa")) {
