@@ -41,6 +41,9 @@ if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
 
+$userinfo = posix_getpwnam('apache');
+$fpmport = (50000 + $userinfo['uid']);
+
 ?>
 
 <?php
@@ -145,6 +148,29 @@ NameVirtualHost *:<?php echo $portssl ?>
         AddHandler x-httpd-php .php .php4 .php3 .phtml
         suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /<?php echo $setdefaults; ?>.fake "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake"
+        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.fake
+
+        <Files "<?php echo $setdefaults; ?>.fake">
+            RewriteCond %{REQUEST_URI} !<?php echo $setdefaults; ?>.fake
+        </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $docroot; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
     </IfModule>
 
     <Location />

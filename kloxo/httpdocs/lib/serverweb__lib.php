@@ -143,10 +143,10 @@ class serverweb__ extends lxDriverClass
 			} elseif (stripos($t, 'suphp') !== false) {
 				$this->set_suphp();
 			} elseif (stripos($t, 'php-fpm') !== false) {
-				$this->set_suphp();
+			//	$this->set_suphp();
 				$this->set_phpfpm();
 			} elseif (stripos($t, 'fcgid') !== false) {
-				$this->set_suphp();
+			//	$this->set_suphp();
 				$this->set_fcgid();
 			}
 

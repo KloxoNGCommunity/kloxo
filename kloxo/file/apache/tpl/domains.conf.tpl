@@ -140,17 +140,13 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     </IfModule>
 
-    <IfModule !mod_fastcgi.c>
-        <IfModule !mod_fcgid.c>
-            <IfModule mod_suphp.c>
-                AddHandler x-httpd-php .php
-                AddHandler x-httpd-php .php .php4 .php3 .phtml
-                suPHP_AddHandler x-httpd-php
-                SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+    <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
+        SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
-                suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
-            </IfModule>
-        </IfModule>
+        suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
 
     <IfModule mod_ruid2.c>

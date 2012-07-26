@@ -41,6 +41,9 @@ if (file_exists("{$globalspath}/custom.nobody.conf")) {
     $nobodyconf = 'nobody.conf';
 }
 
+$userinfo = posix_getpwnam('apache');
+$fpmport = (50000 + $userinfo['uid']);
+
 ?>
 
 <?php
@@ -82,7 +85,7 @@ $HTTP["host"] =~ "^<?php echo $setdefaults; ?>\.*" {
     } else {
 ?>
 
-    var.fpmport = "50000"
+    var.fpmport = "<?php echo $fpmport; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 

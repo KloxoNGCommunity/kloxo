@@ -36,6 +36,9 @@ if (file_exists("{$globalspath}/custom.phpfpm.conf")) {
     $phpfpmconf = 'php-fpm.conf';
 }
 
+$userinfo = posix_getpwnam('apache');
+$fpmport = (50000 + $userinfo['uid']);
+
 ?>
 
 <?php 
@@ -129,7 +132,7 @@ server {
     } else {
 ?>
 
-    set $fpmport '50000';
+    set $fpmport '<?php echo $fpmport; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
 <?php 
