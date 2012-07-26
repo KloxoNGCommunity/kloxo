@@ -34,10 +34,6 @@ function lxins_main()
 	$osversion = find_os_version();
 	// $arch = trim( `arch` );
 
-	//--- Create temporary flags for install
-	exec("mkdir -p /var/cache/kloxo/");
-	exec("echo 1 > /var/cache/kloxo/kloxo-install-firsttime.flg");
-
 	if (!char_search_beg($osversion, "centos") && !char_search_beg($osversion, "rhel")) {
 		print("Kloxo is only supported on CentOS 5 and RHEL 5\n");
 
@@ -48,6 +44,10 @@ function lxins_main()
 	$mypass = password_gen();
 
 	if (file_exists("/usr/local/lxlabs/kloxo")) {
+		//--- Create temporary flags for install
+		exec("mkdir -p /var/cache/kloxo/");
+		exec("echo 1 > /var/cache/kloxo/kloxo-install-secondtime.flg");
+
 		//--- Ask Reinstall
 		if (get_yes_no("\nKloxo seems already installed do you wish to continue?") == 'n') {
 			print("Installation Aborted.\n");
@@ -64,6 +64,10 @@ function lxins_main()
 		}
 
 	} else {
+		//--- Create temporary flags for install
+		exec("mkdir -p /var/cache/kloxo/");
+		exec("echo 1 > /var/cache/kloxo/kloxo-install-firsttime.flg");
+
 		//--- Ask License
 		if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
 			print("You did not agree to the AGPL-V3.0 license terms.\n");
@@ -95,14 +99,16 @@ function lxins_main()
 		check_default_mysql($dbroot, $dbpass);
 	}
 
-	print("Prepare defaults and configurations...\n");
-	install_main();
+	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
+		print("Prepare defaults and configurations...\n");
+		install_main();
 
-	kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass);
+		kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass);
 
-	kloxo_prepare_kloxo_httpd_dir();
+		kloxo_prepare_kloxo_httpd_dir();
 
-	kloxo_install_step2($installtype, $dbroot, $dbpass);
+		kloxo_install_step2($installtype, $dbroot, $dbpass);
+	}
 
 	if ($installappinst) {
 		kloxo_install_installapp();
@@ -229,51 +235,53 @@ function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 
 function kloxo_install_step1($osversion, $installversion, $downloadserver)
 {
-	print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
-	exec("groupadd nogroup");
-	exec("useradd nouser -g nogroup -s '/sbin/nologin'");
-	exec("groupadd lxlabs");
-	exec("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
-
 	print("Installing LxCenter yum repository for updates\n");
 	install_yum_repo($osversion);
 
-	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
-		"exim", "vsftpd", "postfix", "vpopmail", "qmail", "lxphp",
-		"lxzend", "pure-ftpd", "imap");
+	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
+		print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
+		exec("groupadd nogroup");
+		exec("useradd nouser -g nogroup -s '/sbin/nologin'");
+		exec("groupadd lxlabs");
+		exec("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
 
-	$list = implode(" ", $packages);
-	print("Removing packages $list...\n");
+		$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
+			"exim", "vsftpd", "postfix", "vpopmail", "qmail", "lxphp",
+			"lxzend", "pure-ftpd", "imap");
 
-	foreach ($packages as $package) {
-		exec("rpm -e --nodeps $package > /dev/null 2>&1");
-	}
+		$list = implode(" ", $packages);
+		print("Removing packages $list...\n");
 
-	// MR -- for accept for php and apache branch rpm
-	$phpbranch = getPhpBranch();
-	$httpdbranch = getApacheBranch();
+		foreach ($packages as $package) {
+			exec("rpm -e --nodeps $package > /dev/null 2>&1");
+		}
 
-	// MR -- xcache, zend, ioncube, suhosin and zts not default install
-	$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-imap", "{$phpbranch}-pear",
-		"{$phpbranch}-devel", "which", "gcc-c++", "lxlighttpd", $httpdbranch, "mod_ssl",
-		"zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
-		"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd",
-		"yum-protectbase"
-	);
+		// MR -- for accept for php and apache branch rpm
+		$phpbranch = getPhpBranch();
+		$httpdbranch = getApacheBranch();
 
-	$list = implode(" ", $packages);
+		// MR -- xcache, zend, ioncube, suhosin and zts not default install
+		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-imap", "{$phpbranch}-pear",
+			"{$phpbranch}-devel", "which", "gcc-c++", "lxlighttpd", $httpdbranch, "mod_ssl",
+			"zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
+			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd",
+			"yum-protectbase"
+		);
 
-	while (true) {
-		print("Installing packages $list...\n");
-		exec("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+		$list = implode(" ", $packages);
 
-		if (file_exists("/usr/local/lxlabs/ext/php/php")) {
-			break;
-		} else {
-			print("YUM Gave Error... Trying Again...\n");
-			if (get_yes_no("Try again?") == 'n') {
-				print("- EXIT: Fix the problem and install Kloxo again.\n");
-				exit;
+		while (true) {
+			print("Installing packages $list...\n");
+			exec("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+
+			if (file_exists("/usr/local/lxlabs/ext/php/php")) {
+				break;
+			} else {
+				print("YUM Gave Error... Trying Again...\n");
+				if (get_yes_no("Try again?") == 'n') {
+					print("- EXIT: Fix the problem and install Kloxo again.\n");
+					exit;
+				}
 			}
 		}
 	}
@@ -463,20 +471,22 @@ function kloxo_install_bye($installtype)
 
 // ==== kloxo_common portion ===
 
-// class remote { }
+// MR -- this class must be exist for slave_get_db_pass()
+class remote { }
 
 function slave_get_db_pass()
 {
-	$file = "/usr/local/lxlabs/kloxo/etc/slavedb/dbadmin";
+	$rmt = file_get_unserialize("/usr/local/lxlabs/kloxo/etc/slavedb/dbadmin");
 
+	return $rmt->data['mysql']['dbpassword'];
+}
+
+function file_get_unserialize($file)
+{
 	if (!file_exists($file)) {
 		return null;
 	}
-
-	$var = file_get_contents($file);
-	$rmt = unserialize($var);
-
-	return $rmt->data['mysql']['dbpassword'];
+	return unserialize(file_get_contents($file));
 }
 
 function check_default_mysql($dbroot, $dbpass)
