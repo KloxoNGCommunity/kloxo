@@ -328,15 +328,15 @@ class serverweb__ extends lxDriverClass
 			exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
 		}
 
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+			
+		lxshell_return("lxphp.exe", $scripting, "--target=defaults", "--nolog");
+
 		$ret = lxshell_return("service", "httpd", "restart");
 
 		if ($ret) {
 			throw new lxexception('httpd_restart_failed', 'parent');
 		}
-
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
-			
-		lxshell_return("lxphp.exe", $scripting, "--target=defaults", "--nolog");
 	}
 
 	function set_phpbranch()
@@ -350,5 +350,9 @@ class serverweb__ extends lxDriverClass
 		$branchselect = $this->main->php_branch;
 
 		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", $nolog);
+
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+
+		lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
 	}
 }
