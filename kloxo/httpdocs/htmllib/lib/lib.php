@@ -4883,9 +4883,7 @@ function install_gd($nolog = null)
 
 	log_cleanup("Check for {$phpbranch}-gd", $nolog);
 
-	$ret = lxshell_return("rpm", "-q", "{$phpbranch}-gd", $nolog);
-
-	if ($ret) {
+	if (!isRpmInstalled("{$phpbranch}-gd")) {
 		log_cleanup("- Install process", $nolog);
 		system("yum -y install {$phpbranch}-gd");
 	} else {
@@ -5695,13 +5693,12 @@ function setInitialPhpFpmConfig($nolog = null)
 
 	$phpver = getPhpVersion();
 
-	if (version_compare($phpver, "5.3.2", ">")) {
-		$phptype = "php53";
-	} else {
-		$phptype = "php";
-	}
+	$phptype = version_compare($phpver, "5.3.2", ">") ? "php53" : "php";
 
-	lxfile_cp(getLinkCustomfile("{$fpmpath}", "{$phptype}-fpm.conf"), "/etc/php-fpm.conf");
+	$t = getLinkCustomfile("{$fpmpath}", "{$phptype}-fpm.conf");
+	if (file_exists($t)) {
+		lxfile_cp($t, "/etc/php-fpm.conf");
+	}
 
 	// MR -- no needed for 6.2.x+
 	if (file_exists("{$fpmpath}/logs")) {
@@ -5709,7 +5706,10 @@ function setInitialPhpFpmConfig($nolog = null)
 	}
 
 	log_cleanup("- Copy php-fpm init to /etc/init.d dir", $nolog);
-	lxfile_cp(getLinkCustomfile("{$fpmpath}/init.d", "php-fpm.init"), "/etc/init.d/php-fpm");
+	$t = getLinkCustomfile("{$fpmpath}/init.d", "php-fpm.init");
+	if (file_exists($t)) {
+		lxfile_cp($t, "/etc/init.d/php-fpm");
+	}
 }
 
 function setWebDriverChownChmod($type, $nolog = null)
@@ -7036,17 +7036,29 @@ function setCopyWebConfFiles($webdriver)
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
 	exec("cp -rf {$pathsrc} /home");
 
-	log_cleanup("- Copy {$pathdrv}/etc/conf.d/~lxcenter.conf to {$pathconfd}/~lxcenter.conf", $nolog);
-	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf.d", "~lxcenter.conf"), "{$pathconfd}/~lxcenter.conf");
+	$t = getLinkCustomfile($pathdrv."/etc/conf.d", "~lxcenter.conf");
+	if (file_exists($t)) {
+		log_cleanup("- Copy {$t} to {$pathconfd}/~lxcenter.conf", $nolog);
+		lxfile_cp($t, "{$pathconfd}/~lxcenter.conf");
+	}
 
-	log_cleanup("- Copy {$pathdrv}/etc/conf.d/ssl.conf to {$pathconfd}/ssl.conf", $nolog);
-	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf.d", "ssl.conf"), "{$pathconfd}/ssl.conf");
+	$t = getLinkCustomfile($pathdrv."/etc/conf.d", "ssl.conf");
+	if (file_exists($t)) {
+		log_cleanup("- Copy {$t} to {$pathconfd}/ssl.conf", $nolog);
+		lxfile_cp($t, "{$pathconfd}/ssl.conf");
+	}
 
-	log_cleanup("- Copy {$pathdrv}/etc/conf/{$aliasdriver}.conf to {$pathconf}/{$aliasdriver}.conf", $nolog);
-	lxfile_cp(getLinkCustomfile($pathdrv."/etc/conf", "{$aliasdriver}.conf"), "{$pathconf}/{$aliasdriver}.conf");
+	$t = getLinkCustomfile($pathdrv."/etc/conf", "{$aliasdriver}.conf");
+	if (file_exists($t)) {
+		log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
+		lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
+	}
 
-	log_cleanup("- Copy {$pathdrv}/etc/init.d/{$aliasdriver}.init to {$pathinit}/{$aliasdriver}", $nolog);
-	lxfile_cp(getLinkCustomfile($pathdrv."/etc/init.d", "{$aliasdriver}.init"), "{$pathinit}/{$aliasdriver}");
+	$t = getLinkCustomfile($pathdrv."/etc/conf", "{$aliasdriver}.conf");
+	if (file_exists($t)) {
+		log_cleanup("- Copy {$t} to {$pathinit}/{$aliasdriver}", $nolog);
+		lxfile_cp($t, "{$pathinit}/{$aliasdriver}");
+	}
 }
 
 function isWebProxy($drivertype = null)
