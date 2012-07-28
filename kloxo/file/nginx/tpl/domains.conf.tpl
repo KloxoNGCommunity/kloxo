@@ -59,6 +59,9 @@ if ($blockips) {
 $userinfo = posix_getpwnam($user);
 $fpmport = (50000 + $userinfo['uid']);
 
+$userinfoapache = posix_getpwnam('apache');
+$fpmportapache = (50000 + $userinfoapache['uid']);
+
 $disablepath = "/home/kloxo/httpd/disable";
 
 $globalspath = "/home/nginx/conf/globals";
@@ -280,7 +283,7 @@ server {
 #    }
 
     if ($host ~* ^((<?php echo $excludealias; ?>).<?php echo $domainname; ?>)$) {
-        set $fpmport '50000';
+        set $fpmport '<?php echo $fpmportapache; ?>';
     }
 <?php
             } else {
@@ -359,9 +362,11 @@ server {
         } else {
 ?>
 
-    set $fpmport '50000';
+    set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
         }
 ?>
@@ -420,9 +425,11 @@ server {
             } else {
 ?>
 
-    set $fpmport '50000';
+    set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
             }
 ?>
@@ -547,9 +554,11 @@ server {
                 } else {
 ?>
 
-    set $fpmport '50000';
+    set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                 }
 ?>
@@ -611,9 +620,11 @@ server {
                         } else {
 ?>
 
-    set $fpmport '50000';
+    set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                         }
 ?>
@@ -673,9 +684,11 @@ server {
                 } else {
 ?>
 
-    set $fpmport '50000';
+    set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                 }
 ?>
@@ -736,9 +749,11 @@ server {
                         } else {
 ?>
 
-    set $fpmport '50000';
+    set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                         }
 ?>

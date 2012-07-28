@@ -41,8 +41,8 @@ if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
 
-$userinfo = posix_getpwnam('apache');
-$fpmport = (50000 + $userinfo['uid']);
+$userinfoapache = posix_getpwnam('apache');
+$fpmportapache = (50000 + $userinfoapache['uid']);
 
 ?>
 
@@ -142,7 +142,12 @@ NameVirtualHost *:<?php echo $portssl ?>
     </Ifmodule>
 <?php
         }
-?> 
+?>
+
+    <IfModule suexec.c>
+        SuexecUserGroup lxlabs lxlabs
+    </IfModule>
+
     <IfModule mod_suphp.c>
         AddHandler x-httpd-php .php
         AddHandler x-httpd-php .php .php4 .php3 .phtml
@@ -150,9 +155,19 @@ NameVirtualHost *:<?php echo $portssl ?>
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid lxlabs lxlabs
+        RMinUidGid lxlabs lxlabs
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId lxlabs lxlabs
+    </IfModule>
+
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $setdefaults; ?>.fake "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake"
-        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.fake
@@ -171,6 +186,11 @@ NameVirtualHost *:<?php echo $portssl ?>
             Order allow,deny
             Allow from all
         </Directory>
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />

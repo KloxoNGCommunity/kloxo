@@ -36,8 +36,14 @@ if (file_exists("{$globalspath}/custom.phpfpm.conf")) {
     $phpfpmconf = 'php-fpm.conf';
 }
 
-$userinfo = posix_getpwnam('apache');
-$fpmport = (50000 + $userinfo['uid']);
+if (file_exists("{$globalspath}/custom.perl.conf")) {
+    $perlconf = 'custom.perl.conf';
+} else {
+    $perlconf = 'perl.conf';
+}
+
+$userinfoapache = posix_getpwnam('apache');
+$fpmportapache = (50000 + $userinfoapache['uid']);
 
 ?>
 
@@ -132,9 +138,11 @@ server {
     } else {
 ?>
 
-    set $fpmport '<?php echo $fpmport; ?>';
+    set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php 
     }
 ?>

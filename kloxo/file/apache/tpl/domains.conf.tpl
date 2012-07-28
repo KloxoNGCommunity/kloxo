@@ -71,6 +71,9 @@ if ($indexorder) {
 $userinfo = posix_getpwnam($user);
 $fpmport = (50000 + $userinfo['uid']);
 
+$userinfoapache = posix_getpwnam('apache');
+$fpmportapache = (50000 + $userinfoapache['uid']);
+
 $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
@@ -347,12 +350,53 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+    <IfModule suexec.c>
+        SuexecUserGroup lxlabs lxlabs
+    </IfModule>
 
     <IfModule mod_suphp.c>
         AddHandler x-httpd-php .php
         AddHandler x-httpd-php .php .php4 .php3 .phtml
         suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid lxlabs lxlabs
+        RMinUidGid lxlabs lxlabs
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /webmail.<?php echo $domainname; ?>.fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.fake"
+        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
+
+        <Files "webmail.<?php echo $domainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
+        </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $disablepath; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -396,11 +440,53 @@ $disablepath = "/home/kloxo/httpd/disable";
     DirectoryIndex <?php echo $indexorder; ?>
 
 
+    <IfModule suexec.c>
+        SuexecUserGroup lxlabs lxlabs
+    </IfModule>
+
     <IfModule mod_suphp.c>
         AddHandler x-httpd-php .php
         AddHandler x-httpd-php .php .php4 .php3 .phtml
         suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid lxlabs lxlabs
+        RMinUidGid lxlabs lxlabs
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /webmail.<?php echo $domainname; ?>.fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.fake"
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
+
+        <Files "webmail.<?php echo $domainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
+        </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $webmaildocroot; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -454,15 +540,13 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     </IfModule>
 
-    <IfModule !mod_fastcgi.c>
-        <IfModule mod_suphp.c>
-            AddHandler x-httpd-php .php
-            AddHandler x-httpd-php .php .php4 .php3 .phtml
-            suPHP_AddHandler x-httpd-php
-            SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+    <IfModule mod_suphp.c>
+        AddHandler x-httpd-php .php
+        AddHandler x-httpd-php .php .php4 .php3 .phtml
+        suPHP_AddHandler x-httpd-php
+        SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
-            suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
-        </IfModule>
+        suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
 
     <IfModule mod_ruid2.c>
@@ -482,14 +566,26 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /<?php echo $redirdomainname; ?>.fake <?php echo $rootpath; ?>/<?php echo $redirdomainname; ?>.fake
-        FastCGIExternalServer <?php echo $rootpath; ?>/<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        Alias /<?php echo $redirdomainname; ?>.fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.fake"
+        FastCGIExternalServer <?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.fake
+
         <Files "<?php echo $redirdomainname; ?>.fake">
             RewriteCond %{REQUEST_URI} !<?php echo $redirdomainname; ?>.fake
         </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $webmaildocroot; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
@@ -546,12 +642,53 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+    <IfModule suexec.c>
+        SuexecUserGroup lxlabs lxlabs
+    </IfModule>
 
     <IfModule mod_suphp.c>
         AddHandler x-httpd-php .php
         AddHandler x-httpd-php .php .php4 .php3 .phtml
         suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid lxlabs lxlabs
+        RMinUidGid lxlabs lxlabs
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /webmail.<?php echo $parkdomainname; ?>.fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.fake"
+        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
+
+        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
+        </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $disablepath; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -595,12 +732,53 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+    <IfModule suexec.c>
+        SuexecUserGroup lxlabs lxlabs
+    </IfModule>
 
     <IfModule mod_suphp.c>
         AddHandler x-httpd-php .php
         AddHandler x-httpd-php .php .php4 .php3 .phtml
         suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid lxlabs lxlabs
+        RMinUidGid lxlabs lxlabs
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /webmail.<?php echo $parkdomainname; ?>.fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.fake"
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
+
+        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
+        </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $disablepath; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -650,11 +828,53 @@ $disablepath = "/home/kloxo/httpd/disable";
     DirectoryIndex <?php echo $indexorder; ?>
 
 
+    <IfModule suexec.c>
+        SuexecUserGroup lxlabs lxlabs
+    </IfModule>
+
     <IfModule mod_suphp.c>
         AddHandler x-httpd-php .php
         AddHandler x-httpd-php .php .php4 .php3 .phtml
         suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid lxlabs lxlabs
+        RMinUidGid lxlabs lxlabs
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /webmail.<?php echo $redirdomainname; ?>.fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.fake"
+        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
+
+        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
+        </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $disablepath; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -699,11 +919,53 @@ $disablepath = "/home/kloxo/httpd/disable";
     DirectoryIndex <?php echo $indexorder; ?>
 
 
+    <IfModule suexec.c>
+        SuexecUserGroup lxlabs lxlabs
+    </IfModule>
+
     <IfModule mod_suphp.c>
         AddHandler x-httpd-php .php
         AddHandler x-httpd-php .php .php4 .php3 .phtml
         suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid lxlabs lxlabs
+        RMinUidGid lxlabs lxlabs
+    </IfModule>
+
+    <IfModule itk.c>
+        AssignUserId lxlabs lxlabs
+    </IfModule>
+
+    <IfModule mod_fastcgi.c>
+        Alias /webmail.<?php echo $redirdomainname; ?>.fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.fake"
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
+
+        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
+        </Files>
+    </IfModule>
+
+    <IfModule mod_fcgid.c>
+        <Directory <?php echo $disablepath; ?>/>
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            Order allow,deny
+            Allow from all
+        </Directory>
+    </IfModule>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />

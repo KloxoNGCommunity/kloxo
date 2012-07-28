@@ -67,6 +67,9 @@ if ($ipssllist) {
 $userinfo = posix_getpwnam($user);
 $fpmport = (50000 + $userinfo['uid']);
 
+$userinfoapache = posix_getpwnam('apache');
+$fpmportapache = (50000 + $userinfoapache['uid']);
+
 if ($reverseproxy) {
 	$lighttpdextratext = null;
 }
@@ -307,7 +310,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
         } else {
 ?>
 
-    var.fpmport = "50000"
+    var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 <?php
@@ -349,7 +352,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
             } else {
 ?>
 
-    var.fpmport = "50000"
+    var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 <?php
@@ -456,7 +459,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
                 } else {
 ?>
 
-    var.fpmport = "50000"
+    var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 <?php
@@ -500,7 +503,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
                         } else {
 ?>
 
-    var.fpmport = "50000"
+    var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 <?php
@@ -553,7 +556,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
                 } else {
 ?>
 
-    var.fpmport = "50000"
+    var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 <?php
@@ -596,7 +599,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
                         } else {
 ?>
 
-    var.fpmport = "50000"
+    var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 <?php
