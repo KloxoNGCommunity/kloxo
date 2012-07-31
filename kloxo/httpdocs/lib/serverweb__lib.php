@@ -49,7 +49,7 @@ class serverweb__ extends lxDriverClass
 
 		switch($this->main->apache_optimize) {
 			case 'default':
-				lxshell_return("lxphp.exe", $scripting, "--select=optimize", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=default", $nolog);
 				break;
 
 			case 'optimize':
@@ -330,7 +330,7 @@ class serverweb__ extends lxDriverClass
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 			
-		lxshell_return("lxphp.exe", $scripting, "--target=defaults", "--nolog");
+		lxshell_return("lxphp.exe", $scripting, "--select=all", "--nolog");
 
 		$ret = lxshell_return("service", "httpd", "restart");
 
