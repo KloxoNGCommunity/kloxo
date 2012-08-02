@@ -64,7 +64,7 @@ $SERVER["socket"] == "<?php echo $cert['ip']; ?>:<?php echo $portssl; ?>" {
 } elseif ($setdefaults === 'init') {
 ?>
 
-## not implementing yet
+## not needed
 <?php
 } else {
 ?>

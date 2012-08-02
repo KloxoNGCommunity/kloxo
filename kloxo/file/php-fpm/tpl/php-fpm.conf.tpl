@@ -55,7 +55,11 @@
 <?php
     foreach ($userlist as &$user) {
         $userinfo = posix_getpwnam($user);
-        $fpmport = (50000 + $userinfo['uid']);
+        if ($userinfo) {
+            $fpmport = (50000 + $userinfo['uid']);
+        } else {
+            continue;
+        }
 ?>
 
         <section name="pool">

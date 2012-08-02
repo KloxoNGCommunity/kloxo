@@ -326,7 +326,9 @@ class web__ extends lxDriverClass
 				$input['user'] = $user;
 				$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 				$tplparse = getParseInlinePhp($tpl, $input);
-				file_put_contents($tpltarget, $tplparse);		
+				if ($tplparse) {
+					file_put_contents($tpltarget, $tplparse);	
+				}
 			}
 
 			// MR - for 'default' user
@@ -490,7 +492,9 @@ class web__ extends lxDriverClass
 
 			$tplparse = getParseInlinePhp($tpl, $input);
 
-			file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
+			if ($tplparse) {
+				file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
+			}
 
 			createRestartFile($l);
 
@@ -822,9 +826,11 @@ class web__ extends lxDriverClass
 
 		$tplparse = getParseInlinePhp($tpl, $input);
 
-		file_put_contents($tpltarget, $tplparse);
+		if ($tplparse) {
+			file_put_contents($tpltarget, $tplparse);
 
-		lxfile_unix_chmod($tpltarget, '755');
+			lxfile_unix_chmod($tpltarget, '755');
+		}
 	}
 
 	static function setHttpdFcgid($input)
@@ -843,9 +849,11 @@ class web__ extends lxDriverClass
 
 		$tplparse = getParseInlinePhp($tpl, $input);
 
-		file_put_contents($tpltarget, $tplparse);
+		if ($tplparse) {
+			file_put_contents($tpltarget, $tplparse);
 
-		lxfile_generic_chmod($tpltarget, "755");
+			lxfile_generic_chmod($tpltarget, "755");
+		}
 
 	//	if (!file_exists("/home/httpd/php5.fcgi")) {
 			$input['phpinipath'] = "/etc";

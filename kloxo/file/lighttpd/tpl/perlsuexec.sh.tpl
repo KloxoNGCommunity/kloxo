@@ -1,6 +1,11 @@
 <?php
 $userinfo = posix_getpwnam($user);
-$userid = $userinfo['uid'];
+
+if ($userinfo) {
+    $fpmport = (50000 + $userinfo['uid']);
+} else {
+    return false;
+}
 ?>
 #!/bin/sh
 ### Username: <?php echo $user; ?>

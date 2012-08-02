@@ -69,7 +69,12 @@ if ($indexorder) {
 }
 
 $userinfo = posix_getpwnam($user);
-$fpmport = (50000 + $userinfo['uid']);
+
+if ($userinfo) {
+    $fpmport = (50000 + $userinfo['uid']);
+} else {
+    return false;
+}
 
 $userinfoapache = posix_getpwnam('apache');
 $fpmportapache = (50000 + $userinfoapache['uid']);

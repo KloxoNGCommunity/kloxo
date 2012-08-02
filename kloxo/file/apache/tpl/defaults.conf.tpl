@@ -126,6 +126,9 @@ NameVirtualHost *:<?php echo $portssl ?>
         UserDir "public_html"
 <?php
             foreach ($userlist as &$user) {
+                $userinfo = posix_getpwnam($user);
+
+                if (!$userinfo) { continue; }
 ?>
         <Location /~<?php echo $user; ?>>
             <IfModule mod_suphp.c>

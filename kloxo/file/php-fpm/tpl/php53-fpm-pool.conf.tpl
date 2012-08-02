@@ -1,8 +1,11 @@
 <?php
-    $maxchildren = '5';
-
     $userinfo = posix_getpwnam($user);
-    $fpmport = (50000 + $userinfo['uid']);
+
+    if ($userinfo) {
+        $fpmport = (50000 + $userinfo['uid']);
+    } else {
+        return false;
+    }
 
     if ($user == 'apache') {
         $pool = 'default';
@@ -20,8 +23,7 @@ user = <?php echo $user; ?>
 group = <?php echo $user; ?>
 
 pm = dynamic
-pm.max_children = <?php echo $maxchildren; ?>
-
+pm.max_children = 5
 pm.start_servers = 1
 pm.min_spare_servers = 1
 pm.max_spare_servers = 2
