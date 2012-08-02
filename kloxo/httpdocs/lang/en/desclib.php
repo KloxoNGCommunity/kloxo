@@ -1203,6 +1203,7 @@ $__description["register_globals"] = array("Register Globals");
 $__description["enable_zend"] = array("Enable Zend");
 $__description["enable_xcache"] = array("Enable Xcache");
 $__description["enable_ioncube"] = array("Enable Ioncube");
+$__description["enable_suhosin"] = array("Enable Suhosin");
 $__description["upload_file_max_size"] = array("Upload File Max Size");
 $__description["log_errors"] = array("Log Errors");
 $__description["file_uploads"] = array("File Uploads");

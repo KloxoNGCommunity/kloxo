@@ -204,7 +204,14 @@ $__information['webserver_config'] =
 		"InnoDB (higher performance)<br />".
 	"[b]Fix 'Ownership' And 'Permissions'[/b] - Prevent '500 Internal server error' on secure environment ".
 	"";
-
 // Language Content for #656
 // by Andrew Ying
 $__emessage['document_root_may_not_contain_spaces'] = "The document root may not contain any space at the end or before the slash. Please check and submit again.";
+
+// release on Kloxo 6.2.0
+// by mustafa.ramadhan@lxcenter.org
+
+$__information['php_config'] = "When enabled, Kloxo install xcache/ioncube/zend/suhosin rpm file inside /home/rpms first. " .
+	"If not exist than try install via yum. Installing this modules depend on php branch and version installed on system.<br />" .
+	"[b]Example[/b]: when system using php53u branch, Kloxo check php53u-xcache first and if not exist try check php-xcache. " .
+	"It's probable compatible issue. Try 'php -v' for to make sure";
