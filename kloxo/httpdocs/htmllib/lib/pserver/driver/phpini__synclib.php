@@ -8,60 +8,177 @@ function initString($ver)
 	$pclass = $this->main->getParentClass();
 
 	$this->main->fixphpIniFlag();
-/*
-// MR -- xcache, zend and ioncube no setting inside php.ini on 6.2.x
-// but directly install and that mean with their own ini
 
-if ($this->main->phpini_flag_b->isON('enable_zend_flag')) {
-	$this->main->phpini_flag_b->enable_zend_val =<<<XML
-[Zend]
-zend_extension_manager.optimizer=/usr/lib/kloxophp/zend/lib/Optimizer-3.2.8
-zend_extension_manager.optimizer_ts=/usr/lib/kloxophp/zend/lib/Optimizer_TS-3.2.8
-zend_optimizer.version=3.2.8
-zend_extension=/usr/lib/kloxophp/zend/lib/ZendExtensionManager.so
-zend_extension_ts=/usr/lib/kloxophp/zend/lib/ZendExtensionManager_TS.so
-XML;
+	$phpver = getPhpVersion();
+	$phpbranch = getPhpBranch();
 
-} else {
-	$this->main->phpini_flag_b->enable_zend_val = "";
-}
+	// MR -- for zend
+	if (version_compare($phpver, "5.3.0", ">=")) {
+		$list = array("{$phpbranch}-zend-guard-loader", "{$phpbranch}-zend-guard",
+			"php-zend-guard-loader", "php-zend-guard");
+	} else {
+		$list = array("{$phpbranch}-zend-optimizer-loader", "{$phpbranch}-zend-optimizer",
+			"php-zend-optimizer", "php-zend");
+	}
 
-if ($this->main->phpini_flag_b->isON('enable_xcache_flag')) {
-	lxfile_touch("../etc/flag/xcache_enabled.flg");
-	$this->main->phpini_flag_b->enable_xcache_val =<<<XML
-zend_extension = /usr/lib/php/modules/xcache.so
-XML;
-} else {
-	lxfile_rm("../etc/flag/xcache_enabled.flg");
-	$this->main->phpini_flag_b->enable_xcache_val = "";
-}
+	$installed = false;
 
-if ($this->main->phpini_flag_b->isON('enable_ioncube_flag')) {
-	$this->main->phpini_flag_b->enable_ioncube_val =<<<XML
-zend_extension=/usr/lib/kloxophp/ioncube/ioncube_loader_lin_$ver.so
-XML;
-} else {
-	$this->main->phpini_flag_b->enable_ioncube_val = "";
-}
-*/
+	foreach ($list as &$l) {
+		$installed = isRpmInstalled($l);
+		if ($installed) {
+			$mod = $l;
+			break; 
+		}
+	}
+
+	if ($this->main->phpini_flag_b->isON('enable_zend_flag')) {
+		if (!installed) {
+			foreach ($list as &$l) {
+				$f = "/home/rpms/{$l}-*.rpm";
+				$flist = glob($f);
+
+				if ($flist) {
+					$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
+				} else {
+					$ret = lxshell_return("yum", "-y", "install", $r);
+				}
+
+				if (!ret) { break; }
+			}
+		}
+	} else {
+		if (installed) {
+			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+
+			if ($ret) {
+				throw new lxException("remove {$mod} failed", 'parent');
+			}
+		}
+	}
+
+	// MR -- for xcache
+	$list = array("{$phpbranch}-xcache", "php-xcache");
+
+	$installed = false;
+
+	foreach ($list as &$l) {
+		$installed = isRpmInstalled($l);
+		if ($installed) {
+			$mod = $l;
+			break; 
+		}
+	}
+
+	if ($this->main->phpini_flag_b->isON('enable_xcache_flag')) {
+		if (!installed) {
+			foreach ($list as &$l) {
+				$f = "/home/rpms/{$l}-*.rpm";
+				$flist = glob($f);
+
+				if ($flist) {
+					$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
+				} else {
+					$ret = lxshell_return("yum", "-y", "install", $r);
+				}
+
+				if (!ret) { break; }
+			}
+		}
+	} else {
+		if (installed) {
+			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+
+			if ($ret) {
+				throw new lxException("remove {$mod} failed", 'parent');
+			}
+		}
+	}
+
+	// MR -- for ioncube
+	$list = array("{$phpbranch}-ioncube-loader", "php-ioncube-loader", "php-ioncube");
+
+	$installed = false;
+
+	foreach ($list as &$l) {
+		$installed = isRpmInstalled($l);
+
+		if ($installed) {
+			$mod = $l;
+			break; 
+		}
+	}
+
+	if ($this->main->phpini_flag_b->isON('enable_ioncube_flag')) {
+		if (!installed) {
+			foreach ($list as &$l) {
+				$f = "/home/rpms/{$l}-*.rpm";
+				$flist = glob($f);
+
+				if ($flist) {
+					$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
+				} else {
+					$ret = lxshell_return("yum", "-y", "install", $r);
+				}
+
+				if (!ret) { break; }
+			}
+		}
+	} else {
+		if (installed) {
+			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+
+			if ($ret) {
+				throw new lxException("remove {$mod} failed", 'parent');
+			}
+		}
+	}
+
+	// MR -- for suhosin
+	$list = array("{$phpbranch}-suhosin", "php-suhosin");
+
+	$installed = false;
+
+	foreach ($list as &$l) {
+		$installed = isRpmInstalled($l);
+
+		if ($installed) {
+			$mod = $l;
+			break; 
+		}
+	}
+
+	if ($this->main->phpini_flag_b->isON('enable_suhosin_flag')) {
+		if (!installed) {
+			foreach ($list as &$l) {
+				$f = "/home/rpms/{$l}-*.rpm";
+				$flist = glob($f);
+
+				if ($flist) {
+					$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
+				} else {
+					$ret = lxshell_return("yum", "-y", "install", $r);
+				}
+
+				if (!ret) { break; }
+			}
+		}
+	} else {
+		if (installed) {
+			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+
+			if ($ret) {
+				throw new lxException("remove {$mod} failed", 'parent');
+			}
+		}
+	}
+
 }
 
 function enableDisableModule($flag, $mod)
 {
-	// MR -- disable temporary until found better approach!
-
-/*
-	lxfile_rm("/etc/php.d/$mod.ini");
-	lxfile_rm("/etc/php.d/$mod.noini");
-
-	if ($this->main->phpini_flag_b->isOn($flag)) {
-		lxfile_cp("../file/$mod.ini", "/etc/php.d/$mod.ini");
-	} else {
-		lxfile_cp("../file/$mod.ini", "/etc/php.d/$mod.noini");
-	}
-*/
-
+	// MR -- not used since 6.2.x
 }
+
 function createIniFile()
 {
 	global $sgbl;
