@@ -127,15 +127,12 @@ class serverweb__ extends lxDriverClass
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
 			lxshell_return("rm", "-f", $ehcdpath."/swtune.conf");
 
-		//	lxfile_cp_content($ullkfapath, $hapath);
-			exec("yes|cp -rf {$ullkfapath} /home");
+			exec("cp -rf {$ullkfapath} /home");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
 				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath."/~lxcenter.conf");
 				lxfile_cp(getLinkCustomfile($haecpath, "httpd.conf"), $ehcpath."/httpd.conf");
 			}
-
-		//	sleep(10);
 
 			//--- don't use '=== true' but '!== false'
 			if (stripos($t, 'mod_php') !== false) {
@@ -143,10 +140,8 @@ class serverweb__ extends lxDriverClass
 			} elseif (stripos($t, 'suphp') !== false) {
 				$this->set_suphp();
 			} elseif (stripos($t, 'php-fpm') !== false) {
-			//	$this->set_suphp();
 				$this->set_phpfpm();
 			} elseif (stripos($t, 'fcgid') !== false) {
-			//	$this->set_suphp();
 				$this->set_fcgid();
 			}
 
@@ -187,8 +182,6 @@ class serverweb__ extends lxDriverClass
 		$haepath = '/home/apache/etc';
 		$haecdpath = '/home/apache/etc/conf.d';
 
-		$this->rename_to_nonconf();
-
 		lxshell_return("yum", "-y", "install", "mod_suphp");
 		$ret = lxshell_return("yum", "-y", "update", "mod_suphp");
 
@@ -200,27 +193,9 @@ class serverweb__ extends lxDriverClass
 
 		$phpbranch = getPhpBranch();
 
-		if (!file_exists('/usr/bin/php_pure')) {
-			exec("rpm -e --nodeps {$phpbranch}");
-			exec("rpm -e --nodeps {$phpbranch}-cli");
-			exec("rpm -e --nodeps {$phpbranch}-common");
-			exec("rpm -e --nodeps {$phpbranch}-fpm");
+		$this->set_php_pure();
 
-			$ret = lxshell_return("yum", "-y", "install", "php-5.2.17-1");
-
-			if ($ret) {
-				throw new lxexception('php-5.2.17-1_update_failed', 'parent');
-			}
-
-			lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
-			lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
-
-			$ret = lxshell_return("yum", "-y", "install", "{$phpbranch}", "{$phpbranch}-fpm");
-
-			if ($ret) {
-				throw new lxexception('{$phpbranch}_or_{$phpbranch}-fpm_install_failed', 'parent');
-			}
-		}
+		$this->rename_to_nonconf();
 
 		if (version_compare($ver, "5.3.2", ">")) {
 			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), "/etc/suphp.conf");
@@ -280,7 +255,8 @@ class serverweb__ extends lxDriverClass
 		$haepath = '/home/apache/etc';
 		$haecdpath = '/home/apache/etc/conf.d';
 
-		$this->rename_to_nonconf();
+		$ver = getPhpVersion();
+
 
 		lxshell_return("yum", "-y", "install", "mod_fcgid");
 		$ret = lxshell_return("yum", "-y", "update", "mod_fcgid");
@@ -289,8 +265,11 @@ class serverweb__ extends lxDriverClass
 			throw new lxexception('mod_fcgid_update_failed', 'parent');
 		}
 
+		$this->set_php_pure();
+
+		$this->rename_to_nonconf();
+
 		lxfile_cp(getLinkCustomfile($haecdpath, "fcgid.conf"), $ehcdpath."/fcgid.conf");
-		lxfile_rm($ehcdpath."/fcgid.nonconf");
 
 		$this->remove_phpfpm();
 	}
@@ -339,25 +318,67 @@ class serverweb__ extends lxDriverClass
 		}
 	}
 
-	function set_phpbranch()
+	function set_phpbranch($branch = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		$ehcdpath = '/etc/httpd/conf.d';
+
+		$installed = isRpmInstalled('yum-plugin-replace');
+
+		if (!$installed) {
+			$ret = lxshell_return("yum", "-y", "install", "yum-plugin-replace");
+
+			if ($ret) {
+				throw new lxexception('yum-plugin-replace_update_failed', 'parent');
+			}
+		}
 
 		$nolog = 'yes';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/php-branch.php';
 
-		$branchselect = $this->main->php_branch;
+		if ($branch) {
+			$branchselect = $branch;
+		} else {
+			$branchselect = $this->main->php_branch;
+		}
 
 		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", $nolog);
 
 		// MR -- to make sure this modules convert too
 		lxshell_return("yum", "install", "-y", "{$branchselect}-mbstring",
 				"{$branchselect}-mysql", "{$branchselect}-imap", "{$branchselect}-pear",
-				"{$branchselect}-devel");
+				"{$branchselect}-devel", "{$branchselect}-fpm");
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 
 		lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
+
+		$installed = isRpmInstalled("{$branchselect}-fpm");
+
+		if ($installed) {
+			lxshell_return("chkconfig", "php-fpm", "on");
+			createRestartFile('phpfpm');
+		}
+
+		if (stripos('mod_php', $this->main->php_type) === false) {
+			lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
+		}
+	}
+
+	function set_php_pure()
+	{
+		$phpbranch = getPhpBranch();
+
+		if (!file_exists('/usr/bin/php_pure')) {
+			$this->set_phpbranch('php52');
+
+			lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
+			lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
+
+			$this->set_phpbranch();
+		}
+
 	}
 }
