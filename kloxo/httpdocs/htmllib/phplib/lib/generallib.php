@@ -370,20 +370,22 @@ class General extends Lxdb
 				break;
 
 			case "reversedns":
-				if (!$this->reversedns_b) {
+			//	if (!$this->reversedns_b) {
 					$this->reversedns_b = new reversedns_b(null, null, 'general');
-				}
+			//	}
 
-				if ($sgbl->isHyperVM()) {
+			//	if ($sgbl->isHyperVM()) {
 					$vlist['reversedns_b-enableflag'] = null;
 					$vlist['reversedns_b-forwardenableflag'] = null;
-				}
+			//	}
 
 				$this->dns_slave_list = $this->reversedns_b->dns_slave_list;
 				$vlist['reversedns_b-primarydns'] = null;
 				$vlist['reversedns_b-secondarydns'] = null;
 				$serverlist = get_namelist_from_objectlist($login->getRealPserverList('dns'));
 				$vlist['dns_slave_list'] = array('U', $serverlist);
+
+			//	$vlist['__m_message_pre'] = 'reverse_dns';
 
 				break;
 

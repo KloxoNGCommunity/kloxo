@@ -215,3 +215,5 @@ $__information['php_config'] = "When enabled, Kloxo install xcache/ioncube/zend/
 	"If not exist than try install via yum. Installing this modules depend on php branch and version installed on system.<br />" .
 	"[b]Example[/b]: when system using php53u branch, Kloxo check php53u-xcache first and if not exist try check php-xcache. " .
 	"It's probable compatible issue. Try 'php -v' for to make sure";
+
+$__information['reverse_dns'] = "Reverse dns only work for Class C (256 ips) or more";
