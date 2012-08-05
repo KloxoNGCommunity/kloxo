@@ -3,7 +3,7 @@
 class phpini__sync extends Lxdriverclass {
 
 
-function initString($ver)
+function initString($ver = null)
 {
 	$pclass = $this->main->getParentClass();
 
@@ -31,8 +31,9 @@ function initString($ver)
 		}
 	}
 
-	if ($this->main->phpini_flag_b->isON('enable_zend_flag')) {
-		if (!installed) {
+//	if ($this->main->phpini_flag_b->isON('enable_zend_flag')) {
+	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enable_zend.flg")) {
+		if (!$installed) {
 			foreach ($list as &$l) {
 				$f = "/home/rpms/{$l}-*.rpm";
 				$flist = glob($f);
@@ -47,8 +48,8 @@ function initString($ver)
 			}
 		}
 	} else {
-		if (installed) {
-			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+		if ($installed) {
+			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
 
 			if ($ret) {
 				throw new lxException("remove {$mod} failed", 'parent');
@@ -69,8 +70,9 @@ function initString($ver)
 		}
 	}
 
-	if ($this->main->phpini_flag_b->isON('enable_xcache_flag')) {
-		if (!installed) {
+//	if ($this->main->phpini_flag_b->isON('enable_xcache_flag')) {
+	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enable_xcache.flg")) {
+		if (!$installed) {
 			foreach ($list as &$l) {
 				$f = "/home/rpms/{$l}-*.rpm";
 				$flist = glob($f);
@@ -85,8 +87,8 @@ function initString($ver)
 			}
 		}
 	} else {
-		if (installed) {
-			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+		if ($installed) {
+			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
 
 			if ($ret) {
 				throw new lxException("remove {$mod} failed", 'parent');
@@ -108,8 +110,9 @@ function initString($ver)
 		}
 	}
 
-	if ($this->main->phpini_flag_b->isON('enable_ioncube_flag')) {
-		if (!installed) {
+//	if ($this->main->phpini_flag_b->isON('enable_ioncube_flag')) {
+	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enable_ioncube.flg")) {
+		if (!$installed) {
 			foreach ($list as &$l) {
 				$f = "/home/rpms/{$l}-*.rpm";
 				$flist = glob($f);
@@ -124,8 +127,8 @@ function initString($ver)
 			}
 		}
 	} else {
-		if (installed) {
-			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+		if ($installed) {
+			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
 
 			if ($ret) {
 				throw new lxException("remove {$mod} failed", 'parent');
@@ -147,8 +150,9 @@ function initString($ver)
 		}
 	}
 
-	if ($this->main->phpini_flag_b->isON('enable_suhosin_flag')) {
-		if (!installed) {
+//	if ($this->main->phpini_flag_b->isON('enable_suhosin_flag')) {
+	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enable_suhosin.flg")) {
+		if (!$installed) {
 			foreach ($list as &$l) {
 				$f = "/home/rpms/{$l}-*.rpm";
 				$flist = glob($f);
@@ -163,8 +167,8 @@ function initString($ver)
 			}
 		}
 	} else {
-		if (installed) {
-			$ret = lxshell_return("rpm', "-e', "--nodeps", "{$mod}");
+		if ($installed) {
+			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
 
 			if ($ret) {
 				throw new lxException("remove {$mod} failed", 'parent');
@@ -185,9 +189,10 @@ function createIniFile()
 
 	$pclass = $this->main->getParentClass();
 
-	$ver = find_php_version();
+//	$ver = find_php_version();
 
-	$this->initString($ver);
+//	$this->initString($ver);
+	$this->initString();
 
 	$l1 = $this->main->getInheritedList();
 	$l2 = $this->main->getLocalList();
@@ -260,6 +265,16 @@ function dbactionAdd()
 
 function dbactionUpdate($subaction)
 {
+	$mods = array('xcache', 'suhosin', 'ioncube', 'zend');
+
+	foreach ($mods as &$m) {
+ 		if ($this->main->phpini_flag_b->isON('enable_{$m}_flag')) {
+			exec("");
+		} else {
+			exec("");
+		}
+	}
+
 	$this->createIniFile();
 }
 
