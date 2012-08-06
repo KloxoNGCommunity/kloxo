@@ -30,6 +30,9 @@ class Sgbl
 		$t = file_get_contents('/usr/local/lxlabs/kloxo/bin/kloxoversion');
 		$a = explode('.', $t);
 
+		$this->__ver_name = 'Kloxo-MR';
+		$this->__ver_note = 'Kloxo fork by Mustafa Ramadhan';
+
 		$this->__ver_major = ($t) ? $a[0] : '[unknown]';
 		$this->__ver_minor = ($t) ? $a[1] : '[unknown]';
 		$this->__ver_release = ($t) ? $a[2] : '[unknown]';
@@ -52,89 +55,48 @@ class Sgbl
 		$this->__var_lxlabs_marker = "__lxlabs_marker";
 		$this->__var_lpanelwidth = "220";
 
-		if (windowsOs()) {
-			$this->__var_quote_char = "\"";
-			$this->__var_database_type = "sqlite";
+		$this->__var_quote_char = "'";
+		$this->__path_perl_path = "/usr/bin/perl";
+		$this->__path_kloxo_back_phpini = "/etc/kloxo-backup-php.ini";
+		$this->__var_database_type = "mysql";
+		$this->__path_mysqlclient_path = "mysql";
+		$this->__path_mysqldump_path = "mysqldump";
+		$this->__var_noaccess_shell = '/sbin/nologin';
+		$this->__path_named_path = "/var/named";
+		$this->__path_customer_root = "/home";
+		$this->__path_mysql_datadir = "/var/lib/mysql/";
 
-			$this->__path_mysqldump_path = "C:/Program Files/lxlabs/ext/Mysql/";
+		$this->__path_slash = "/";
+		$this->__path_tmp = "/tmp";
+		$this->__path_user_root = "/usr";
+		$this->__path_var_root = "/var";
+		$this->__path_real_etc_root = "/etc";
+		$this->__path_log = "/var/log";
+		$this->__path_root_base = "/";
 
-			$this->__path_tmp = "c:/tmp";
-			$this->__path_slash = "c:/tmp";
-			$this->__path_user_root = "c:/usr";
-			$this->__path_var_root = "c:/var";
-			$this->__path_log = "d:/var/log";
-			$this->__path_root_base = "my_computer";
+		$this->__path_mara_path = "";
+		$this->__path_mara_chroot = "/etc/maradns/";
+		$this->__path_mara_conf = "/etc/mararc";
 
-			$this->__path_named_path = "c:/var/named";
-			$this->__path_named_conf = "c:/etc/named.conf";
-			$this->__path_apache_root = "c:/home/kloxo/httpd";
-			$this->__path_apache_path = "d:/etc/httpd/conf";
-			$this->__path_mysql_datadir = "/var/lib/mysql/";
-			$this->__path_customer_root = "c:/webroot/";
-			$this->__path_real_etc_root = "c:/etc/";
+		$this->__path_program_home = "/home/kloxo";
+		$this->__path_home_dir = "/home";
+		$this->__path_named_conf = "/etc/kloxo.named.conf";
+		$this->__path_named_chroot = "";
+		$this->__path_home_root = "/home/kloxo";
+		$this->__path_apache_path = "/etc/httpd/conf/";
+		$this->__path_lighty_path = "/etc/lighttpd/";
+		$this->__path_cron_root = '/var/spool/cron/';
+		$this->__path_real_etc_root = "/etc/";
 
-			$this->__path_etc_root = "C:/Program Files";
-			$this->__ver_extra = "Beta";
-
-			$this->__path_program_home = "c:/kloxo";
-
-			$this->__path_home_dir = "d:/";
-			$this->__path_client_root = "c:/home/kloxo/client";
-			$this->__path_kloxo_httpd_root = "c:/Program Files/kloxodata";
-			$this->__path_lxlabs_base = "c:/Program Files/lxlabs";
-			$this->__path_program_root = "c:/Program Files/lxlabs/kloxo";
-			$this->__path_program_htmlbase = "c:/Program Files/lxlabs/kloxo/httpdocs";
-			$this->__path_mail_root = "c:/home/lxadmin/mail/domains";
-			$this->__path_httpd_root  = "c:/httproot";
-			$this->__path_perl_path  = "c:/Program Files/Perl/perl.exe";
-			$this->__path_program_etc = "C:/Program Files/lxlabs/kloxo/etc";
-			$this->__path_php_path =  $this->__path_lxlabs_base . "/ext/php/php.exe";
-
-		} else {
-
-			$this->__var_quote_char = "'";
-			$this->__path_perl_path = "/usr/bin/perl";
-			$this->__path_kloxo_back_phpini = "/etc/kloxo-backup-php.ini";
-			$this->__var_database_type = "mysql";
-			$this->__path_mysqlclient_path = "mysql";
-			$this->__path_mysqldump_path = "mysqldump";
-			$this->__var_noaccess_shell = '/sbin/nologin';
-			$this->__path_named_path = "/var/named";
-			$this->__path_customer_root = "/home";
-			$this->__path_mysql_datadir = "/var/lib/mysql/";
-
-			$this->__path_slash = "/";
-			$this->__path_tmp = "/tmp";
-			$this->__path_user_root = "/usr";
-			$this->__path_var_root = "/var";
-			$this->__path_real_etc_root = "/etc";
-			$this->__path_log = "/var/log";
-			$this->__path_root_base = "/";
-
-			$this->__path_mara_path = "";
-			$this->__path_mara_chroot = "/etc/maradns/";
-			$this->__path_mara_conf = "/etc/mararc";
-
-			$this->__path_program_home = "/home/kloxo";
-			$this->__path_home_dir = "/home";
-			$this->__path_named_conf = "/etc/kloxo.named.conf";
-			$this->__path_named_chroot = "";
-			$this->__path_home_root = "/home/kloxo";
-			$this->__path_apache_path = "/etc/httpd/conf/";
-			$this->__path_lighty_path = "/etc/lighttpd/";
-			$this->__path_cron_root = '/var/spool/cron/';
-			$this->__path_real_etc_root = "/etc/";
-
-			$this->__path_httpd_root = "/home/httpd";
-			$this->__path_client_root = "/home/kloxo/client";
-			$this->__path_mail_root = "/home/lxadmin/mail";
-			$this->__path_kloxo_httpd_root = "/home/kloxo/httpd";
-			$this->__path_lxlabs_base = "/usr/local/lxlabs";
-			$this->__path_program_etc = "/usr/local/lxlabs/kloxo/etc/";
-			$this->__path_program_root = "/usr/local/lxlabs/kloxo";
-			$this->__path_program_htmlbase = "/usr/local/lxlabs/kloxo/httpdocs";
-			$this->__path_php_path = $this->__path_lxlabs_base . "/ext/php/php";
-		}
+		$this->__path_httpd_root = "/home/httpd";
+		$this->__path_client_root = "/home/kloxo/client";
+		$this->__path_mail_root = "/home/lxadmin/mail";
+		$this->__path_kloxo_httpd_root = "/home/kloxo/httpd";
+		$this->__path_lxlabs_base = "/usr/local/lxlabs";
+		$this->__path_program_etc = "/usr/local/lxlabs/kloxo/etc/";
+		$this->__path_program_root = "/usr/local/lxlabs/kloxo";
+		$this->__path_program_htmlbase = "/usr/local/lxlabs/kloxo/httpdocs";
+		$this->__path_php_path = $this->__path_lxlabs_base . "/ext/php/php";
 
 		$this->__path_serverfile = $this->__path_lxlabs_base . "/kloxo/serverfile";
 		$this->__path_download_dir = $this->__path_lxlabs_base . "/kloxo/download";

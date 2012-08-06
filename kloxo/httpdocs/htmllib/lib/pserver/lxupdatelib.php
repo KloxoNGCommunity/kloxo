@@ -17,6 +17,8 @@ static $__desc_buglist_f = array("T", "",  "bugs_in_this_version");
 // MR -- add new var
 static $__desc_stamp_f = array("", "",  "stamp");
 static $__desc_step_f = array("", "",  "step");
+static $__desc_name_f = array("", "",  "Name");
+static $__desc_note_f = array("", "",  "Note");
 
 static $__acdesc_update_lxupdateinfo = array("", "",  "update");
 static $__acdesc_update_bugs = array("", "",  "bugs");
@@ -59,10 +61,15 @@ function updateform($subaction, $param)
 
 		case "lxupdateinfo":
 			{
-				$vlist['current_version_f'] = array('M', $sgbl->__ver_major_minor_release);
-				$vlist['latest_version_f'] = array('M', getLatestVersion());
-				$vlist['stamp_f'] = array('M', $sgbl->__ver_stamp);
-				$vlist['step_f'] = array('M', $sgbl->__ver_extra);
+				$vlist['name_f'] = array('M', $sgbl->__ver_name);
+				$vlist['note_f'] = array('M', $sgbl->__ver_note);
+
+				$vlist['current_version_f'] = array('M', $sgbl->__ver_full);
+
+			//	$vlist['current_version_f'] = array('M', $sgbl->__ver_major_minor_release);
+			//	$vlist['latest_version_f'] = array('M', getLatestVersion());
+			//	$vlist['stamp_f'] = array('M', $sgbl->__ver_stamp);
+			//	$vlist['step_f'] = array('M', $sgbl->__ver_extra);
 
 				if ($sgbl->__ver_major_minor_release === getLatestVersion()) {
 					$vlist['__v_button'] = array();
