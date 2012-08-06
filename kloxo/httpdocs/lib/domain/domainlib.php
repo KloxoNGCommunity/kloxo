@@ -1391,6 +1391,11 @@ class Domaind extends DomainBase
 
 		$alist['__v_dialog_phpiniadv'] = "n=web&o=phpini&a=updateform&sa=extraedit";
 
+	/*
+		// MR -- permalink and rewrite rule disabling on 6.2.x because wrong code will be make webserver
+		// can't start ; just enough modified custom template by admin
+		// also fcgi_config
+
 		if ($web->__driverappclass === 'lighttpd') {
 			$alist['__v_dialog_perma'] = "n=web&a=updateform&sa=permalink";
 			$alist['__v_dialog_fcgi'] = "n=web&a=updateform&sa=fcgi_config";
@@ -1398,6 +1403,7 @@ class Domaind extends DomainBase
 				$alist['__v_dialog_lightyr'] = "n=web&a=updateform&sa=lighty_rewrite";
 			}
 		}
+	*/
 		$alist['__v_dialog_comp'] = "n=web&a=list&c=component";
 
 		if (!$gen->isOn('disableinstallapp') && $this->getClientParentO()->priv->isOn('installapp_flag')) {
