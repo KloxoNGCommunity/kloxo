@@ -412,7 +412,7 @@ function kloxo_prepare_kloxo_httpd_dir()
 function kloxo_install_before_bye()
 {
 
-	if (file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg") {
+	if (file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
 		$reinst = true;
 	} else {
 		$reinst = false;
