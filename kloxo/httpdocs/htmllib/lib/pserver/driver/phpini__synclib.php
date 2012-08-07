@@ -269,9 +269,9 @@ function dbactionUpdate($subaction)
 
 	foreach ($mods as &$m) {
  		if ($this->main->phpini_flag_b->isON('enable_{$m}_flag')) {
-			exec("");
+		//	exec("");
 		} else {
-			exec("");
+		//	exec("");
 		}
 	}
 

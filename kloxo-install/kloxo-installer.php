@@ -265,7 +265,7 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 			"{$phpbranch}-devel", "which", "gcc-c++", "lxlighttpd", $httpdbranch, "mod_ssl",
 			"zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
 			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd",
-			"yum-protectbase"
+			"yum-protectbase", "yum-plugin-replace"
 		);
 
 		$list = implode(" ", $packages);
@@ -478,7 +478,11 @@ function slave_get_db_pass()
 {
 	$rmt = file_get_unserialize("/usr/local/lxlabs/kloxo/etc/slavedb/dbadmin");
 
-	return $rmt->data['mysql']['dbpassword'];
+	if ($rmt) {
+		return $rmt->data['mysql']['dbpassword'];
+	} else {
+		return false;
+	}
 }
 
 function file_get_unserialize($file)
@@ -486,6 +490,7 @@ function file_get_unserialize($file)
 	if (!file_exists($file)) {
 		return null;
 	}
+
 	return unserialize(file_get_contents($file));
 }
 

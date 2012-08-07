@@ -501,6 +501,10 @@ class web__ extends lxDriverClass
 			if ($l === 'lighttpd') {
 				self::setLighttpdPerlSuexec($input);
 			}
+
+			if ($l === 'nginx') {
+				self::setNginxCgibinPhp();
+			}
 		}
 	}
 
@@ -831,6 +835,11 @@ class web__ extends lxDriverClass
 
 			lxfile_unix_chmod($tpltarget, '755');
 		}
+	}
+
+	static function setNginxCgibinPhp()
+	{
+		lxfile_cp(getLinkCustomfile("/home/nginx/tpl", "cgi-bin.php"), "/home/httpd/cgi-bin.php");
 	}
 
 	static function setHttpdFcgid($input)
