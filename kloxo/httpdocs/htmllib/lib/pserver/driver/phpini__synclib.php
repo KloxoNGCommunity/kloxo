@@ -12,6 +12,8 @@ function initString($ver = null)
 	$phpver = getPhpVersion();
 	$phpbranch = getPhpBranch();
 
+	$phpdpath = "/etc/php.d";
+
 	// MR -- for zend
 	if (version_compare($phpver, "5.3.0", ">=")) {
 		$list = array("{$phpbranch}-zend-guard-loader", "{$phpbranch}-zend-guard",
@@ -49,10 +51,12 @@ function initString($ver = null)
 		}
 	} else {
 		if ($installed) {
-			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
+			$inilist = array('zend', 'zendoptimizer', 'zendguard');
 
-			if ($ret) {
-				throw new lxException("remove {$mod} failed", 'parent');
+			foreach ($inilist as &$i) {
+				if (file_exists("{$phpdpath}/{$i}.ini")) {
+					lxfile_mv("{$phpdpath}/{$i}.ini", "{$phpdpath}/{$i}.nonini");
+				}
 			}
 		}
 	}
@@ -88,10 +92,12 @@ function initString($ver = null)
 		}
 	} else {
 		if ($installed) {
-			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
+			$inilist = array('xcache');
 
-			if ($ret) {
-				throw new lxException("remove {$mod} failed", 'parent');
+			foreach ($inilist as &$i) {
+				if (file_exists("{$phpdpath}/{$i}.ini")) {
+					lxfile_mv("{$phpdpath}/{$i}.ini", "{$phpdpath}/{$i}.nonini");
+				}
 			}
 		}
 	}
@@ -128,10 +134,12 @@ function initString($ver = null)
 		}
 	} else {
 		if ($installed) {
-			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
+			$inilist = array('ioncube', 'ioncube-loader');
 
-			if ($ret) {
-				throw new lxException("remove {$mod} failed", 'parent');
+			foreach ($inilist as &$i) {
+				if (file_exists("{$phpdpath}/{$i}.ini")) {
+					lxfile_mv("{$phpdpath}/{$i}.ini", "{$phpdpath}/{$i}.nonini");
+				}
 			}
 		}
 	}
@@ -168,10 +176,12 @@ function initString($ver = null)
 		}
 	} else {
 		if ($installed) {
-			$ret = lxshell_return("rpm", "-e", "--nodeps", "{$mod}");
+			$inilist = array('suhosin');
 
-			if ($ret) {
-				throw new lxException("remove {$mod} failed", 'parent');
+			foreach ($inilist as &$i) {
+				if (file_exists("{$phpdpath}/{$i}.ini")) {
+					lxfile_mv("{$phpdpath}/{$i}.ini", "{$phpdpath}/{$i}.nonini");
+				}
 			}
 		}
 	}

@@ -411,6 +411,13 @@ function kloxo_prepare_kloxo_httpd_dir()
 
 function kloxo_install_before_bye()
 {
+
+	if (file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg") {
+		$reinst = true;
+	} else {
+		$reinst = false;
+	}
+
 	//--- Remove all temporary flags because the end of install
 	print("\nRemove Kloxo install flags...\n");
 	exec("rm -rf /var/cache/kloxo/*-version");
@@ -440,6 +447,11 @@ function kloxo_install_before_bye()
 		exec("chown -R lxlabs:lxlabs /usr/local/lxlabs/kloxo/httpdocs/htmllib");
 		exec("rm -f /usr/local/lxlabs/kloxo/kloxo-thirdparty*.zip");
 	}
+
+	if ($reinst) {
+		exec("sh /script/cleanup");
+	}
+		
 }
 
 function kloxo_install_bye($installtype)
@@ -449,8 +461,9 @@ function kloxo_install_bye($installtype)
 		print("You can connect to the server at:\n");
 		print("	https://<ip-address>:7777 - secure ssl connection, or\n");
 		print("	http://<ip-address>:7778 - normal one.\n\n");
-		print("The login and password are 'admin' 'admin'. After Logging in, you will have to\n");
-		print("change your password to something more secure\n\n");
+		print("The login and password are 'admin' 'admin' for new install.\n")
+		print("After Logging in, you will have to change your password to \n");
+		print("something more secure\n\n");
 		print("We hope you will find managing your hosting with Kloxo\n");
 		print("refreshingly pleasurable, and also we wish you all the success\n");
 		print("on your hosting venture\n\n");

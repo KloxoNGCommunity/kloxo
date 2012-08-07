@@ -35,7 +35,7 @@ foreach($list as $c) {
 
 	$flist = $c->getList('ftpuser');
 
-	if (!$flist) { return continue; }
+	if (!$flist) { continue; }
 
 	foreach($flist as $fl) {
 		$fl->dbaction = 'syncadd';
