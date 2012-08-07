@@ -461,7 +461,7 @@ function kloxo_install_bye($installtype)
 		print("You can connect to the server at:\n");
 		print("	https://<ip-address>:7777 - secure ssl connection, or\n");
 		print("	http://<ip-address>:7778 - normal one.\n\n");
-		print("The login and password are 'admin' 'admin' for new install.\n")
+		print("The login and password are 'admin' 'admin' for new install.\n");
 		print("After Logging in, you will have to change your password to \n");
 		print("something more secure\n\n");
 		print("We hope you will find managing your hosting with Kloxo\n");
