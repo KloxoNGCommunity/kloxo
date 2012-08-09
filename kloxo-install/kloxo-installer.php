@@ -40,6 +40,9 @@ function lxins_main()
 		exit;
 	}
 
+	print("Installing LxCenter yum repository for updates\n");
+	install_yum_repo($osversion);
+
 	$kloxo_path = "/usr/local/lxlabs/kloxo";
 	$mypass = password_gen();
 
