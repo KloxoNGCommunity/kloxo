@@ -573,12 +573,6 @@ function install_yum_repo($osversion)
 		return;
 	}
 
-	if (file_exists("/etc/yum.repos.d/lxcenter.repo")) {
-		print("LxCenter yum repository file already present.\n");
-
-		return;
-	}
-
 	$a = explode("-", $osversion);
 	$vernum = $a[1];
 
