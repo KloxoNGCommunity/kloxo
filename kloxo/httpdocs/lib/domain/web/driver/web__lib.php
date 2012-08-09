@@ -478,6 +478,12 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/home/{$l}/tpl", "{$conftpl}.conf.tpl");
 
+			if ($conftpl === 'defaults') {
+				if (file_exists("/home/{$l}/conf/{$conftpl}/cp_config.conf")) {
+					lxfile_rm("/home/{$l}/conf/{$conftpl}/cp_config.conf");
+				}
+			}
+
 			if ($conffile !== 'webmail.conf') {
 				$tpltarget = "/home/{$l}/conf/{$conftype}";
 			} else {
