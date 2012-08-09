@@ -238,9 +238,6 @@ function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 
 function kloxo_install_step1($osversion, $installversion, $downloadserver)
 {
-	print("Installing LxCenter yum repository for updates\n");
-	install_yum_repo($osversion);
-
 	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
 		print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
 		exec("groupadd nogroup");
