@@ -12,6 +12,9 @@
     } else {
         $pool = $user;
     }
+
+    $maxchildren = '5';
+
 ?>
 [<?php echo $pool; ?>]
 listen = 127.0.0.1:<?php echo $fpmport; ?>
@@ -23,7 +26,8 @@ user = <?php echo $user; ?>
 group = <?php echo $user; ?>
 
 pm = dynamic
-pm.max_children = 5
+pm.max_children = <?php echo $maxchildren; ?>
+
 pm.start_servers = 1
 pm.min_spare_servers = 1
 pm.max_spare_servers = 2
