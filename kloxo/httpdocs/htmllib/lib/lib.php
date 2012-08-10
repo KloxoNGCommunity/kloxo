@@ -5671,7 +5671,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	$oldlist = array("{$path}/redirects", "{$path}/exclusive", "{$path}/wildcards",
+	$oldlist = array("{$htcpath}/redirects", "{$htcpath}/exclusive", "{$htcpath}/wildcards",
 			"{$htpath}/sock", "{$htpath}/socks", "{$eatpath}/conf/kloxo",
 			"{$htpath}/tmp", "{$htpath}/logs", "{$htpath}/cache");
 
@@ -5682,8 +5682,6 @@ function setInitialWebConfig($type, $nolog = null)
 			lxfile_rm_rec("{$l}");
 		}
 	}
-
-	$path = "/home/{$type}/conf/defaults";
 
 	setCopyWebConfFiles($type);
 }
