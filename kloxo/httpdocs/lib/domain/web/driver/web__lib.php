@@ -90,6 +90,11 @@ class web__ extends lxDriverClass
 					}
 				}
 
+				// MR -- some rpm not create this file
+				if (!file_exists("/etc/lighttpd/local.lighttpd.conf")) {
+					exec("echo '' > /etc/lighttpd/local.lighttpd.conf");
+				}
+
 				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
 				lxfile_unix_chown("/var/log/{$a}", "apache:apache");
 			} elseif ($a === 'nginx') {
@@ -477,12 +482,6 @@ class web__ extends lxDriverClass
 
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/home/{$l}/tpl", "{$conftpl}.conf.tpl");
-
-			if ($conftpl === 'defaults') {
-				if (file_exists("/home/{$l}/conf/{$conftpl}/cp_config.conf")) {
-					lxfile_rm("/home/{$l}/conf/{$conftpl}/cp_config.conf");
-				}
-			}
 
 			if ($conffile !== 'webmail.conf') {
 				$tpltarget = "/home/{$l}/conf/{$conftype}";
