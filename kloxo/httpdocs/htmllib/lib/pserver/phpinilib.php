@@ -220,8 +220,8 @@ class phpini extends lxdb
 		$adminList = $this->getAdminList();
 
 		foreach ($totallist as $l) {
-			if ((!$this->getParentO()->is__table('pserver') && 
-					array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
+			if ((!$this->getParentO()->is__table('pserver') && array_search_bool($l, $inheritedlist)) 
+					|| array_search_bool($l, $adminList)) {
 				$vlist["phpini_flag_b-$l"] = array('M', null);
 			} 
 			else {
@@ -297,7 +297,7 @@ class phpini extends lxdb
 
 		$phpver = getPhpVersion();
 
-		$srcpath = '/home/phpini/php.d';
+		$srcpath = '/home/phpini/etc/php.d';
 		$trgtpath = '/etc/php.d';
 
 		if ($var === 'enable_xcache_flag') {
