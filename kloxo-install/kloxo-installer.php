@@ -261,7 +261,8 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 		$httpdbranch = getApacheBranch();
 
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
-		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-imap", "{$phpbranch}-pear",
+		// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
+		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql {$phpbranch}-pdo", "{$phpbranch}-imap", "{$phpbranch}-pear",
 			"{$phpbranch}-devel", "which", "gcc-c++", "lxlighttpd", $httpdbranch, "mod_ssl",
 			"zip", "unzip", "lxphp", "mysql", "mysql-server", "curl",
 			"autoconf", "automake", "libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd",
