@@ -5614,10 +5614,99 @@ function isRpmInstalled($rpmname)
 	}
 }
 
-function setInitialApacheConfig($nolog = null)
+function isPhpModuleInstalled($module)
 {
-	setInitialWebConfig('apache', $nolog);
-	setWebDriverChownChmod('apache', $nolog);
+	$phpbranch = getPhpBranch();
+
+	$list = array("{$phpbranch}-{$module}", "php-{$module}");
+
+	foreach ($list as &$l) {
+		$ret = isRpmInstalled($i);
+
+		if (!$ret) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+function isPhpModuleActive($module, $ininamelist = null)
+{
+	$srcpath = '/home/phpini/etc/php.d';
+	$trgtpath = '/etc/php.d';
+
+	$ininamelist = ($ininamelist) ? $ininamelist : array($module);
+
+	$installed = isPhpModuleInstalled($module);
+
+	if ($installed) {
+		foreach ($ininamelist as &$i) {
+			if (file_exists("{$trgtpath}/{$i}.noini")) {
+				lxfile_rm("{$trgtpath}/{$i}.noini");
+			}
+
+			if (file_exists("{$trgtpath}/{$i}.ini")) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+function setPhpModuleActive($module, $ininamelist = null)
+{
+	$phpbranch = getPhpBranch();
+
+	$list = array("{$phpbranch}-{$module}", "php-{$module}");
+
+	$srcpath = '/home/phpini/etc/php.d';
+	$trgtpath = '/etc/php.d';
+
+	$ininamelist = ($ininamelist) ? $ininamelist : array($module);
+
+	$installed = isPhpModuleInstalled($module);
+
+	if (!$installed) {
+		foreach ($list as &$l) {
+			$f = "/home/rpms/{$l}-*.rpm";
+			$flist = glob($f);
+
+			$ret = true;
+
+			if ($flist) {
+				$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
+			} else {
+				$ret = lxshell_return("yum", "-y", "install", $l);
+			}
+
+			if ($ret) {
+				throw new lxException("install_{$l}_failed", 'parent');
+			}
+		}
+	}
+
+	foreach ($ininamelist as &$i) {
+		if (!file_exists("{$phpdpath}/{$i}.ini")) {
+			lxfile_cp(getLinkCustomfile("{$srcpath}", "{$i}.ini"), "{$trgtpath}/{$i}.ini");
+		}
+	}
+}
+
+function setPhpModuleInactive($module, $ininamelist = null)
+{
+	$srcpath = '/home/phpini/etc/php.d';
+	$trgtpath = '/etc/php.d';
+
+	$ininamelist = ($ininamelist) ? $ininamelist : array($module);
+
+	foreach ($ininamelist as &$i) {
+		if (file_exists("{$phpdpath}/{$i}.ini")) {
+			lxfile_mv("{$phpdpath}/{$i}.ini", "{$trgtpath}/{$i}.nonini");
+		}
+	}
 }
 
 function setInitialLighttpdConfig($nolog = null)
