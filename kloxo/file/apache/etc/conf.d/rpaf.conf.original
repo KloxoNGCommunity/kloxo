@@ -20,7 +20,7 @@ RPAFsethostname On
 # define which IP's are frontend proxies that sends the correct
 # X-Forwarded-For headers
 #
-RPAFproxy_ips 127.0.0.1:30080
+RPAFproxy_ips 127.0.0.1
 
 # RPAFheader      X-Forwarded-For
 RPAFheader      X-Real-IP
