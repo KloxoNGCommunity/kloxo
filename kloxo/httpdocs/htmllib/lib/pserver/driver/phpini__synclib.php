@@ -8,89 +8,23 @@ class phpini__sync extends Lxdriverclass
 
 		$this->main->fixphpIniFlag();
 
-		$this->setInitString();
+	//	$this->setInitString();
 
 	}
 
 	function setInitString()
 	{
-		$phpver = getPhpVersion();
-		$phpbranch = getPhpBranch();
+		$modulelist = array('xcache', 'suhosin', 'ioncube', 'zend');
 
-		// MR -- for zend
-		if (version_compare($phpver, "5.3.0", ">=")) {
-			$branchlist = array("{$phpbranch}-zend-guard-loader", "{$phpbranch}-zend-guard",
-				"php-zend-guard-loader", "php-zend-guard");
-		} else {
-			$branchlist = array("{$phpbranch}-zend-optimizer-loader", "{$phpbranch}-zend-optimizer",
-				"php-zend-optimizer", "php-zend");
-		}
+		foreach ($modulelist as &$m) {
+			if ($this->main->phpini_flag_b->isOn("enable_{$m}_flag")) {
+				$active = isPhpModuleActive($m);
 
-		$inilist = array('zend', 'zendoptimizer', 'zendguard');
-
-		$this->setPhpModule('zend', $branchlist, $inilist);
-
-		// MR -- for xcache
-		$branchlist = array("{$phpbranch}-xcache", "php-xcache");
-		$inilist = array('xcache');
-
-		$this->setPhpModule('xcache', $branchlist, $inilist);
-
-		// MR -- for ioncube
-		$branchlist = array("{$phpbranch}-ioncube-loader", "php-ioncube-loader", "php-ioncube");
-		$inilist = array('ioncube', 'ioncube-loader');
-
-		$this->setPhpModule('ioncube', $branchlist, $inilist);
-
-		// MR -- for suhosin
-		$branchlist = array("{$phpbranch}-suhosin", "php-suhosin");
-		$inilist = array('suhosin');
-
-		$this->setPhpModule('suhosin', $branchlist, $inilist);
-	}
-
-	function setPhpModule($module, $branchlist, $inilist)
-	{
-		$list = $branchlist;
-
-		$phpdpath = "/etc/php.d";
-
-		$installed = false;
-
-		foreach ($list as &$l) {
-			$installed = isRpmInstalled($l);
-
-			if ($installed) {
-				break;
-			}
-		}
-
-		if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enable_{$module}.flg")) {
-			if (!$installed) {
-				foreach ($list as &$l) {
-					$f = "/home/rpms/{$l}-*.rpm";
-					$flist = glob($f);
-
-					$ret = true;
-
-					if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
-					} else {
-						$ret = lxshell_return("yum", "-y", "install", $l);
-					}
-
-					if ($ret) {
-						throw new lxException("install_{$l}_failed", 'parent');
-					}
+				if ($active) {
+					setPhpModuleActive($m);
 				}
-			}
-		} else {
-			if ($installed) {
-				foreach ($inilist as &$i) {
-					if (file_exists("{$phpdpath}/{$i}.ini")) {
-						lxfile_mv("{$phpdpath}/{$i}.ini", "{$phpdpath}/{$i}.nonini");
-					}
-				}
+			} else {
+				setPhpModuleInactive($m);
 			}
 		}
 	}
@@ -186,21 +120,7 @@ class phpini__sync extends Lxdriverclass
 
 	function dbactionUpdate($subaction)
 	{
-		$mods = array('xcache', 'suhosin', 'ioncube', 'zend');
-/*
-		foreach ($mods as &$m) {
-			$v = "enable_{$m}_flag";
-			$f = "enable_{$m}.flg";
-
-			if ($this->main->phpini_flag_b->$v === 'on') {
-				exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/{$f}");
-			} else {
-				exec("rm -rf /usr/local/lxlabs/kloxo/etc/flag/{$f}");
-			}
-		}
-
-		$this->setInitString();
-*/
+	//	$this->setInitString();
 
 		$this->createIniFile();
 	}

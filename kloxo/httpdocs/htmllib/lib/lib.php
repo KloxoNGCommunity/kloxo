@@ -5709,6 +5709,12 @@ function setPhpModuleInactive($module, $ininamelist = null)
 	}
 }
 
+function setInitialApacheConfig($nolog = null)
+{
+	setInitialWebConfig('apache', $nolog);
+	setWebDriverChownChmod('apache', $nolog);
+}
+
 function setInitialLighttpdConfig($nolog = null)
 {
 	setInitialWebConfig('lighttpd', $nolog);

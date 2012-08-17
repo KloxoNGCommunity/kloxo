@@ -183,16 +183,36 @@ class phpini extends lxdb
 
 	function postUpdate()
 	{
+
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$this->setUpINitialValues();
+	//	$this->setUpINitialValues();
 
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
 
+		$this->setPhpModuleUpdate();
+
 		if ($this->getParentO()->is__table('pserver')) {
 			lxshell_return("__path_php_path", "../bin/fix/fixphpini.php", 
 				"--server={$this->getParentO()->nname}");
+		}
+	}
+
+	function setPhpModuleUpdate()
+	{
+		$modulelist = array('xcache', 'suhosin', 'ioncube', 'zend');
+
+		foreach ($modulelist as &$m) {
+			if ($this->phpini_flag_b->isOn("enable_{$m}_flag")) {
+				$active = isPhpModuleActive($m);
+
+				if (!$active) {
+					setPhpModuleActive($m);
+				}
+			} else {
+				setPhpModuleInactive($m);
+			}
 		}
 	}
 
@@ -293,125 +313,53 @@ class phpini extends lxdb
 
 	function initialValueRpmStatus($var)
 	{
-		$phpbranch = getPhpBranch();
-
 		$phpver = getPhpVersion();
 
 		$srcpath = '/home/phpini/etc/php.d';
 		$trgtpath = '/etc/php.d';
 
 		if ($var === 'enable_xcache_flag') {
-			$list = array("{$phpbranch}-xcache", "php-xcache");
-
-			$installed = false;
-
-			foreach ($list as &$l) {
-				$rpmexist = isRpmInstalled($l);
-
-				if ($rpmexist) {
-					$name = 'xcache';
-
-					if (file_exists("{$trgtpath}/{$name}.noini")) {
-						lxfile_rm("{$trgtpath}/{$name}.noini");
-					}
-
-					if ((!file_exists("{$trgtpath}/{$name}.ini")) || (!file_exists("{$trgtpath}/{$name}.nonini"))) {
-						lxfile_cp(getLinkCustomfile("{$srcpath}", "{$name}.ini"), "{$trgtpath}/{$name}.ini");
-					}
-
-					if (file_exists("{$trgtpath}/{$name}.ini")) {
-						$installed = true;
-						break;
-					}
-				}
-			}
-		} elseif ($var === 'enable_ioncube_flag') {
-			$list = array("{$phpbranch}-ioncube-loader", "php-ioncube-loader", "php-ioncube");
-
-			$installed = false;
-
-			foreach ($list as &$l) {
-				$rpmexist = isRpmInstalled($l);
-
-				if ($rpmexist) {
-					$name = str_replace("{$phpbranch}-", "", $l);
-					$name = str_replace("php-", "", $name);
-
-					if ((!file_exists("{$trgtpath}/{$name}.ini")) || (!file_exists("{$trgtpath}/{$name}.nonini"))) {
-						lxfile_cp(getLinkCustomfile("{$srcpath}", "{$name}.ini"), "{$trgtpath}/{$name}.ini");
-
-						$ver = explode(".", $phpver);
-						$mver = $ver[0] . "." . $ver[1];
-
-						exec("sed -i 's/5\.2/{$mver}/' {$trgtpath}/{$name}.ini");
-					}
-
-					if (file_exists("{$trgtpath}/{$name}.ini")) {
-						$installed = true;
-						break;
-					}
-				}
-			}
+			$module = "xcache";
+			$active = isPhpModuleActive($module);
 		} elseif ($var === 'enable_suhosin_flag') {
-			$list = array("{$phpbranch}-suhosin", "php-suhosin");
+			$module = "suhosin";
+			$active = isPhpModuleActive($module);
+		} elseif ($var === 'enable_ioncube_flag') {
+			$modulebase = "ioncube";
+			$modulelist = array($modulebase, "{$modulebase}-loader");
+			$ininamelist = $modulelist;
 
-			$installed = false;
+			foreach ($modulelist as &$m) {
+				$active = isPhpModuleActive($m, $ininamelist);
 
-			foreach ($list as &$l) {
-				$rpmexist = isRpmInstalled($l);
-
-				if ($rpmexist) {
-					$name = 'suhosin';
-
-					if ((!file_exists("{$trgtpath}/{$name}.ini")) || (!file_exists("{$trgtpath}/{$name}.nonini"))) {
-						lxfile_cp(getLinkCustomfile("{$srcpath}", "{$name}.ini"), "{$trgtpath}/{$name}.ini");
-					}
-
-					if (file_exists("{$trgtpath}/{$name}.ini")) {
-						$installed = true;
-						break;
-					}
-				}
+				if ($active) { break; }
 			}
 		} elseif ($var === 'enable_zend_flag') {
+			$modulebase = "zend";
+		
 			if (version_compare($phpver, "5.3.0", ">=")) {
-				$list = array("{$phpbranch}-zend-guard-loader", "{$phpbranch}-zend-guard",
-					"php-zend-guard-loader", "php-zend-guard");
+				$modulelist = array("{$modulebase}-guard-loader");
+				$ininamelist = array("zendguard");
 			} else {
-				$list = array("{$phpbranch}-zend-optimizer-loader", "{$phpbranch}-zend-optimizer",
-					"php-zend-optimizer", "php-zend");
+				$modulelist = array($modulebase, "{$modulebase}-guard-loader");
+				$ininamelist = array("zend", "zendoptimizer");
 			}
 
-			$installed = false;
+			foreach ($modulelist as &$m) {
+				$active = isPhpModuleActive($m, $ininamelist);
 
-			foreach ($list as &$l) {
-				$rpmexist = isRpmInstalled($l);
-
-				if ($rpmexist) {
-					$name = str_replace("{$phpbranch}-", "", $l);
-					$name = str_replace("php-", "", $name);
-					$name = str_replace("-", "", $name);
-
-					if ((!file_exists("{$trgtpath}/{$name}.ini")) || (!file_exists("{$trgtpath}/{$name}.nonini"))) {
-						lxfile_cp(getLinkCustomfile("{$srcpath}", "{$name}.ini"), "{$trgtpath}/{$name}.ini");
-					}
-
-					if (file_exists("{$trgtpath}/{$name}.ini")) {
-						$installed = true;
-						break;
-					}
-				}
+				if ($active) { break; }
 			}
 		}
 
 		$t = str_replace('_flag', '.flg', $var);
 
-		if ($installed) {
+		if ($active) {
 			$this->phpini_flag_b->$var = 'on';
-			exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/{$t}");
+		//	exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/{$t}");
 		} else {
 			$this->phpini_flag_b->$var = 'off';
-			exec("rm -rf /usr/local/lxlabs/kloxo/etc/flag/{$t}");
+		//	exec("rm -rf /usr/local/lxlabs/kloxo/etc/flag/{$t}");
 		}
 	}
 }
