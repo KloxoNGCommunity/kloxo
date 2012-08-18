@@ -68,6 +68,10 @@ function setFixUserlogoDomainPages()
 	$list = $login->getList('client');
 	
 	foreach($list as $c) {
+		$cinfo = posix_getpwnam($c->nname);
+
+		if (!$cinfo) { continue; }
+
 		$clname = $c->getPathFromName('nname');
 		$cdir = "/home/{$clname}";
 		$dlist = $c->getList('domaina');

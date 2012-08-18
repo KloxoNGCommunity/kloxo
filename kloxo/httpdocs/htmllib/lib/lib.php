@@ -5888,8 +5888,10 @@ function setClientChownChmod($list, $select = null, $nolog = null)
 				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$dom}/ AND INSIDE", $nolog);
 			}
 
-			exec("chown {$client}:apache {$cdir}/{$dom}/");
-			log_cleanup("- chown {$client}:apache FOR {$cdir}/{$dom}/", $nolog);
+		//	exec("chown {$client}:apache {$cdir}/{$dom}/");
+		//	log_cleanup("- chown {$client}:apache FOR {$cdir}/{$dom}/", $nolog);
+			exec("chown {$client}:{$client} {$cdir}/{$dom}/");
+			log_cleanup("- chown {$client}:{$client} FOR {$cdir}/{$dom}/", $nolog);
 
 			exec("chmod -R {$domdirchmod} {$cdir}/{$dom}/cgi-bin");
 			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$dom}/cgi-bin AND FILES", $nolog);
@@ -5965,8 +5967,10 @@ function setFixChownChmod($select, $nolog = null)
 				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
 			}
 
-			exec("chown {$clname}:apache {$cdir}/{$docroot}/");
-			log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$docroot}/", $nolog);
+		//	exec("chown {$clname}:apache {$cdir}/{$docroot}/");
+		//	log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$docroot}/", $nolog);
+			exec("chown {$clname}:{$clname} {$cdir}/{$docroot}/");
+			log_cleanup("- chown {$clname}:{$clname} FOR {$cdir}/{$docroot}/", $nolog);
 
 			exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
 			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);

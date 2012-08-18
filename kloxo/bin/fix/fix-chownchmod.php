@@ -22,6 +22,10 @@ $prevsyncserver = '';
 $currsyncserver = '';
 
 foreach($clist as $c) {
+	$cinfo = posix_getpwnam($c->nname);
+
+	if (!$cinfo) { continue; }
+
 	if ($server !== 'all') {
 		$sa = explode(",", $server);
 		if (!in_array($c->syncserver, $sa)) { continue; }
