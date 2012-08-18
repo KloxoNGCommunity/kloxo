@@ -124,8 +124,9 @@ $__information['vv_dns_rebuild_message'] = "Here you can rebuild your domain zon
 
 // Added Kloxo 6.1.7
 // $__information['vv_dns_template_message'] = "[b]Primary and Secondary DNS[/b]<br />Only Hostnames are allowed";
-$__information['vv_dns_template_message'] = "[b]Primary and Secondary DNS[/b] - Setting [b]ns1.default.dnst[/b] and [b]ns2.default.dnst[/b] " .
-	"for [b]default[/b] as 'DNS Template name' if want [b]ns1.domain.com[/b] and [b]ns2.domain.com[/b] for [b]domain.com[/b]";
+// Modified on 6.2.0
+$__information['vv_dns_template_message'] = "[b]Primary and Secondary DNS[/b] - 'default.dns' is 'symbolic' domain name if selecting 'default' for 'DNS Template Name'. " .
+	"[b]Example[/b] - 'ns1.default.dns' (on 'Primary DNS') will be converted to 'ns1.domain.com' for 'domain.com'";
 
 // Changed Kloxo Version 6.1.6
 $__information['vv_dns_blank_message'] = "<p>DNS Manager</p>";
