@@ -123,7 +123,9 @@ $__information['vv_dns_soa_message'] = "Here you can manage the SOA record.";
 $__information['vv_dns_rebuild_message'] = "Here you can rebuild your domain zone from a DNS Template.";
 
 // Added Kloxo 6.1.7
-$__information['vv_dns_template_message'] = "[b]Primary and Secondary DNS[/b]<br />Only Hostnames are allowed";
+// $__information['vv_dns_template_message'] = "[b]Primary and Secondary DNS[/b]<br />Only Hostnames are allowed";
+$__information['vv_dns_template_message'] = "[b]Primary and Secondary DNS[/b] - Setting [b]ns1.default.dnst[/b] and [b]ns2.default.dnst[/b] " .
+	"for [b]default[/b] as 'DNS Template name' if want [b]ns1.domain.com[/b] and [b]ns2.domain.com[/b] for [b]domain.com[/b]";
 
 // Changed Kloxo Version 6.1.6
 $__information['vv_dns_blank_message'] = "<p>DNS Manager</p>";

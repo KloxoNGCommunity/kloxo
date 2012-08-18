@@ -59,10 +59,12 @@ class phpini extends lxdb
 
 	function getInheritedList()
 	{
+	/*
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
 		$list[] = "enable_ioncube_flag";
 		$list[] = "enable_suhosin_flag";
+	*/
 		$list[] = 'safe_mode_flag';
 	//	$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
@@ -76,10 +78,12 @@ class phpini extends lxdb
 		$list[] = 'register_global_flag';
 		$list[] = 'log_errors_flag';
 	//	$list[] = 'output_compression_flag';
+	/*
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
 		$list[] = "enable_ioncube_flag";
 		$list[] = "enable_suhosin_flag";
+	*/
 
 		return $list;
 	}
@@ -259,10 +263,12 @@ class phpini extends lxdb
 
 	function setUpINitialValues()
 	{
+	/*
 		$this->initialValueRpmStatus('enable_xcache_flag');
 		$this->initialValueRpmStatus('enable_zend_flag');
 		$this->initialValueRpmStatus('enable_ioncube_flag');
 		$this->initialValueRpmStatus('enable_suhosin_flag');
+	*/
 
 	//	$this->initialValue('output_compression_flag', 'off');
 
