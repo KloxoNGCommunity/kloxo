@@ -265,7 +265,9 @@ class serverweb__ extends lxDriverClass
 			throw new lxexception('mod_fcgid_update_failed', 'parent');
 		}
 
-		$this->set_php_pure();
+		if (version_compare($ver, "5.3.0", "<")) {
+			$this->set_php_pure();
+		}
 
 		$this->rename_to_nonconf();
 

@@ -138,11 +138,11 @@ server {
     } else {
 ?>
 
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
+
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
-
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php 
     }
 ?>

@@ -5574,7 +5574,7 @@ function getPhpVersion()
 
 function getPhpBranch()
 {
-	$a = array('php', 'php52', 'php53', 'php53u', 'php54');
+	$a = array('php', 'php52', 'php52p', 'php53', 'php53u', 'php54');
 
 	foreach ($a as $k => $e) {
 		if (isRpmInstalled($e)) {

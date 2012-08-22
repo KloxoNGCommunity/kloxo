@@ -197,7 +197,7 @@ $__information['webserver_config'] =
 	"[b]PHP Branch[/b] - Branch-based Php version - ".
 		"Php-fpm for 'php52' may not work; ".
 		"test result with 'php -v' via ssh to find out error (usually incompatible modules)<br />".
-		"&nbsp;&nbsp;&nbsp;&nbsp;- Better reboot after change, espacially if using Lighttpd, Nginx or Apache with 'php-fpm' as 'php-type'<br />".
+		"&nbsp;&nbsp;&nbsp;&nbsp;- Better reboot after change, especially if using Lighttpd, Nginx or Apache with 'php-fpm' as 'php-type'<br />".
 	"[b]PHP Type[/b] - Process-based (httpd-prefork/-itk), thread-based (httpd-worker/-event) and ".
 		"secure environment (suphp/php-fpm/ruid2/itk/fcgid)<br />".
 	"[b]Apache Memory Optimize[/b] - Optimize memory usage - ".
