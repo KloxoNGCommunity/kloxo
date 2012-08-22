@@ -197,18 +197,18 @@ class serverweb__ extends lxDriverClass
 
 		$this->rename_to_nonconf();
 
-		if (version_compare($ver, "5.3.2", ">")) {
+		if (version_compare($ver, "5.3.0", ">")) {
 			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), "/etc/suphp.conf");
+			$this->remove_phpfpm();
 		} else {
-			lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), "/etc/suphp.conf");
+		//	lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), "/etc/suphp.conf");
+			$this->set_php_pure();
 		}
 
 		exec("sh /script/fixphp --nolog");
 
 		lxfile_rm("{$ehcdpath}/suphp.nonconf");
 		lxfile_cp(getLinkCustomfile($haecdpath, "suphp.conf"), $ehcdpath."/suphp.conf");
-
-		$this->remove_phpfpm();
 	}
 
 	function set_phpfpm()
@@ -267,13 +267,15 @@ class serverweb__ extends lxDriverClass
 
 		if (version_compare($ver, "5.3.0", "<")) {
 			$this->set_php_pure();
+		} else {
+			$this->remove_phpfpm();
 		}
 
 		$this->rename_to_nonconf();
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "fcgid.conf"), $ehcdpath."/fcgid.conf");
 
-		$this->remove_phpfpm();
+
 	}
 
 	function remove_phpfpm()
