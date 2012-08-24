@@ -53,7 +53,7 @@ if ($indexorder) {
 }
 
 if ($blockips) {
-    $blockips = str_replace(' ', ', ', $blockips);
+//    $blockips = str_replace(' ', ', ', $blockips);
 }
 
 $userinfo = posix_getpwnam($user);
@@ -225,8 +225,6 @@ server {
 
     access_log /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log main;
     error_log  /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log;
-
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
         if ($statsapp === 'awstats') {
 ?>
@@ -302,6 +300,8 @@ server {
 ?>
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
         }
     }
@@ -326,7 +326,13 @@ server {
 ?>
 
     location ^~ /(.*) {
-        deny   <?php echo $blockips; ?>;
+<?php
+        foreach ($blockips as &$bip) {
+?>
+        deny   <?php echo $bip; ?>;
+<?php
+        }
+?>
         allow  all;
     }
 <?php
@@ -367,11 +373,11 @@ server {
         } else {
 ?>
 
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
         }
 ?>
@@ -430,11 +436,11 @@ server {
             } else {
 ?>
 
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
             }
 ?>
@@ -488,11 +494,11 @@ server {
                 } else {
 ?>
 
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-
     set $fpmport <?php echo $fpmport; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                 }
 ?>
@@ -559,11 +565,11 @@ server {
                 } else {
 ?>
 
+    set $fpmport '<?php echo $fpmportapache; ?>';
+
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-
-    set $fpmport '<?php echo $fpmportapache; ?>';
 <?php
                 }
 ?>
@@ -625,11 +631,11 @@ server {
                         } else {
 ?>
 
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                         }
 ?>
@@ -689,11 +695,11 @@ server {
                 } else {
 ?>
 
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                 }
 ?>
@@ -754,11 +760,11 @@ server {
                         } else {
 ?>
 
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
                         }
 ?>
