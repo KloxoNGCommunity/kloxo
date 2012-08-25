@@ -5,11 +5,16 @@
 $port = '80';
 $portssl = '443';
 
+$iplist = array('*');
+
+/*
+// MR -- also no using specific ip:port but enough *:port for exclusive ip
 if (!$ipssllist) {
     $ipssllist = array('*');
 }
+*/
 
-$iplist = array('*');
+$ipssllist = $iplist;
 
 $statsapp = $stats['app'];
 $statsprotect = ($stats['protect']) ? true : false;

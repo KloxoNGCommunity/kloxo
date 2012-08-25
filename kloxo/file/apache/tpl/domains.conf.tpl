@@ -13,6 +13,7 @@ if ($reverseproxy) {
 }
 
 /*
+// MR -- no using specific ip:port but enough *:port for general
 foreach ($iplist as &$ip) {
     $ipports .= "    {$ip}:{$port} {$ip}:{$portssl}\\\n";
 }
@@ -22,6 +23,8 @@ $ipports .= "    127.0.0.1:{$port}";
 
 $ipports = "    *:{$port} *:{$portssl}";
 
+/*
+// MR -- also no using specific ip:port but enough *:port for exclusive ip
 if ($ipssllist) {
     foreach ($ipssllist as &$ipssl) {
         $ipsslports .= "    {$ipssl}:{$port} {$ipssl}:{$portssl}\\\n";
@@ -31,6 +34,9 @@ if ($ipssllist) {
 } else {
     $ipsslports = $ipports;
 }
+*/
+
+$ipsslports = $ipports;
 
 $statsapp = $stats['app'];
 $statsprotect = ($stats['protect']) ? true : false;
