@@ -5574,7 +5574,7 @@ function getPhpVersion()
 
 function getPhpBranch()
 {
-	$a = array('php', 'php52', 'php52p', 'php53', 'php53u', 'php54');
+	$a = getBranchList('php');
 
 	foreach ($a as $k => $e) {
 		if (isRpmInstalled($e)) {
@@ -5585,13 +5585,35 @@ function getPhpBranch()
 
 function getApacheBranch()
 {
-	$a = array('httpd', 'httpd24');
+	$a = getBranchList('httpd');
 
 	foreach ($a as $k => $e) {
 		if (isRpmInstalled($e)) {
 			return $e;
 		}
 	}	
+}
+
+function getNginxBranch()
+{
+	$a = getBranchList('nginx');
+
+	foreach ($a as $k => $e) {
+		if (isRpmInstalled($e)) {
+			return $e;
+		}
+	}	
+}
+
+function getBranchList($pname)
+{
+	$p = "/usr/local/lxlabs/kloxo/etc/list";
+	$f = getLinkCustomfile($p, "{$pname}.lst");
+	$c = trimSpaces(file_get_contents($f));
+
+	$a = explode(",", $c);
+
+	return $a;
 }
 
 function getRpmVersion($rpmname)

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-php -c /usr/local/lxlabs/ext/php/etc/php.ini $*
+/usr/local/lxlabs/ext/php/bin/php -c /usr/local/lxlabs/ext/php/etc/php.ini $*

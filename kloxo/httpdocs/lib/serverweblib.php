@@ -72,9 +72,8 @@ class serverweb extends lxdb
 				break;
 
 			case "php_branch":
-				$vlist['php_branch'] = array('s', array(
-						'php', 'php52', 'php53u', 'php54')
-				);
+				$a = getBranchList('php');
+				$vlist['php_branch'] = array('s', $a);
 
 				$this->setDefaultValue('php_branch', getPhpBranch());
 
