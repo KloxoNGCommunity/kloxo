@@ -990,10 +990,7 @@ static function continueForm($parent, $class, $param, $continueaction)
 
 	// also check if /home/<client> exists --> prevent use like 'httpd' as client
 
-	$reserved = array(
-		'apache', 'lighttpd', 'nginx', 'php-fpm', 'ipalloc',
-		'httpd', 'kloxo', 'lxadmin', 'lxlabs', 'lxcenter', 'nouser', 
-		'tinydns', 'axfrdns', 'dnscache', 'dnslog', 'bind', 'named', 'phpini', 'rpms');
+	$reserved = getBranchList('reserved');
 
 	foreach($reserved as $r) {
 		if ($param['nname'] === $r) {
