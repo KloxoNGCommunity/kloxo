@@ -106,7 +106,7 @@ yum -y install gcc automake autoconf libtool make
 make
 cd ../
 
-zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./RELEASEINFO ./src -x \
+zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./RELEASEINFO ./src ./etc/list -x \
 	"*httpdocs/commands.php" \
 	"*httpdocs/newpass" \
 	"*httpdocs/.php.err" \
