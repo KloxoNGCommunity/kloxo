@@ -46,30 +46,32 @@ done
 
 if [ "$1" == "--with-repofile" ] ; then
 
+RELEASEVER=$(rpm -q --qf "%{VERSION}" $(rpm -q --whatprovides redhat-release))
+
 echo "- Creating local-repo inside '/home/rpms' "
 echo "     with kloxo-local.repo inside '/etc/yum.repos.d'"
 
 echo "[kloxo-release-local-noarch]
 name=kloxo-release-local-noarch
-baseurl=file:///home/rpms/release/centos$releasever/noarch/
+baseurl=file:///home/rpms/release/centos$RELEASEVER/noarch/
 enabled=1
 gpgcheck=0
 
 [kloxo-release-local-arch]
 name=kloxo-release-local-\$basearch
-baseurl=file:///home/rpms/release/centos\$releasever/\$basearch/
+baseurl=file:///home/rpms/release/centos$RELEASEVER/\$basearch/
 enabled=1
 gpgcheck=0
 
 [kloxo-testing-local-noarch]
 name=kloxo-release-local-noarch
-baseurl=file:///home/rpms/testing/centos\$releasever/noarch/
+baseurl=file:///home/rpms/testing/centos$RELEASEVER/noarch/
 enabled=0
 gpgcheck=0
 
 [kloxo-testing-local-arch]
 name=kloxo-release-local-\$basearch
-baseurl=file:///home/rpms/testing/centos\$releasever/\$basearch/
+baseurl=file:///home/rpms/testing/centos$RELEASEVER/\$basearch/
 enabled=0
 gpgcheck=0" > /etc/yum.repos.d/kloxo-local.repo
 

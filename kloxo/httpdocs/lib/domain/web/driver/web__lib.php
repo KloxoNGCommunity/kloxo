@@ -61,13 +61,10 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "mod_ssl", "mod_rpaf");
 
 				foreach ($rlist as $k => $r) {
-					$f = "/home/rpms/{$r}-*.rpm";
-					$flist = glob($f);
+					$ret = setRpmInstallWithLocalFirst($r);
 
-					if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
-					} else {
-						$ret = lxshell_return("yum", "-y", "install", $r);
+					if ($ret) {
+						throw new lxException("install_{$r}_failed", 'parent');
 					}
 				}
 
@@ -79,14 +76,10 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "{$a}-fastcgi");
 
 				foreach ($rlist as $k => $r) {
-					$f = "/home/rpms/{$r}-*.rpm";
+					$ret = setRpmInstallWithLocalFirst($r);
 
-					$flist = glob($f);
-
-					if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
-					} else {
-						$ret = lxshell_return("yum", "-y", "install", $r);
+					if ($ret) {
+						throw new lxException("install_{$r}_failed", 'parent');
 					}
 				}
 
@@ -101,20 +94,12 @@ class web__ extends lxDriverClass
 				$rlist = array($a, "GeoIP");
 
 				foreach ($rlist as $k => $r) {
-					$f = "/home/rpms/{$r}-*.rpm";
+					$ret = setRpmInstallWithLocalFirst($r);
 
-					$flist = glob($f);
-
-					if ($flist) {
-						$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
-					} else {
-						$ret = lxshell_return("yum", "-y", "install", $a);
+					if ($ret) {
+						throw new lxException("install_{$r}_failed", 'parent');
 					}
 				}
-			}
-
-			if ($ret) {
-				throw new lxException("install {$a} failed", 'parent');
 			}
 
 			lxshell_return("chkconfig", $a, "on");

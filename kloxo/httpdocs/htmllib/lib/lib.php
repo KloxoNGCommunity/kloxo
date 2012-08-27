@@ -5618,11 +5618,26 @@ function getBranchList($pname)
 
 function getRpmVersion($rpmname)
 {
-//	exec("rpm -q {$rpmname}", $out, $ret);
 	$out = lxshell_output("rpm -q {$rpmname}");
 
 	return str_replace($rpmname.'-', '', $out[0]);
 
+}
+
+function setRpmInstallWithLocalFirst($rpmname)
+{
+	exec("yum -y install {$rpmname} --disablerepo=* --enablerepo=kloxo-local* | grep -i 'No package'", $out, $ret);
+
+	if ($ret === 0) {
+		exec("yum -y install {$rpmname} | grep -i 'No package'", $out, $ret);
+	}
+
+	if ($ret !== 0) {
+		return true;
+	} else {
+	//	throw new lxException("install_{$rpmname}_failed", 'parent');
+		return false;
+	}
 }
 
 function isRpmInstalled($rpmname)
@@ -5693,20 +5708,7 @@ function setPhpModuleActive($module, $ininamelist = null)
 
 	if (!$installed) {
 		foreach ($list as &$l) {
-			$f = "/home/rpms/{$l}-*.rpm";
-			$flist = glob($f);
-
-			$ret = true;
-
-			if ($flist) {
-				$ret = lxshell_return("rpm", "-ivh", "--replacefiles", $f);
-			} else {
-				$ret = lxshell_return("yum", "-y", "install", $l);
-			}
-
-			if ($ret) {
-				throw new lxException("install_{$l}_failed", 'parent');
-			}
+			setRpmInstallWithLocalFirst($l);
 		}
 	}
 
