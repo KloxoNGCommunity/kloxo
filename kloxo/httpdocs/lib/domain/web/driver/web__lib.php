@@ -63,7 +63,7 @@ class web__ extends lxDriverClass
 				foreach ($rlist as $k => $r) {
 					$ret = setRpmInstallWithLocalFirst($r);
 
-					if ($ret) {
+					if (!$ret) {
 						throw new lxException("install_{$r}_failed", 'parent');
 					}
 				}
@@ -78,7 +78,7 @@ class web__ extends lxDriverClass
 				foreach ($rlist as $k => $r) {
 					$ret = setRpmInstallWithLocalFirst($r);
 
-					if ($ret) {
+					if (!$ret) {
 						throw new lxException("install_{$r}_failed", 'parent');
 					}
 				}
@@ -96,7 +96,7 @@ class web__ extends lxDriverClass
 				foreach ($rlist as $k => $r) {
 					$ret = setRpmInstallWithLocalFirst($r);
 
-					if ($ret) {
+					if (!$ret) {
 						throw new lxException("install_{$r}_failed", 'parent');
 					}
 				}
