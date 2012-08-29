@@ -91,14 +91,31 @@ class web__ extends lxDriverClass
 				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
 				lxfile_unix_chown("/var/log/{$a}", "apache:apache");
 			} elseif ($a === 'nginx') {
-				$rlist = array($a, "GeoIP");
+				$ret = setRpmInstallWithLocalFirst("GeoIP");
 
-				foreach ($rlist as $k => $r) {
-					$ret = setRpmInstallWithLocalFirst($r);
+				if (!$ret) {
+					throw new lxException("install_GeoIP_failed", 'parent');
+				}
 
-					if (!$ret) {
-						throw new lxException("install_{$r}_failed", 'parent');
+				$blist = getBranchList('nginx');
+
+				foreach ($blist as $k => $b) {
+					exec("yum -y install {$b} --disablerepo=* --enablerepo=kloxo-local*" .
+						" | grep -i 'No package'", $out, $ret);
+
+					if ($ret !== 0) { break; }
+				}
+
+				if ($ret === 0) {
+					foreach ($blist as $k => $b) {
+						exec("yum -y install {$b} | grep -i 'No package'", $out, $ret);
+
+						if ($ret !== 0) { break; }
 					}
+				}
+
+				if ($ret === 0) {
+					throw new lxException("install_nginx_failed", 'parent');
 				}
 			}
 
