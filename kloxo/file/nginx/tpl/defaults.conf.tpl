@@ -74,9 +74,11 @@ server {
     return 403;
 }
 
-index <?php echo $indexorder; ?>;
 <?php 
     }
+?>
+index <?php echo $indexorder; ?>;
+<?php
 } elseif ($setdefaults === 'init') {
 /*
 ?>
