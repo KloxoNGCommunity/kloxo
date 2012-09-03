@@ -1,8 +1,8 @@
 ### begin content - please not remove this line
 <?php
 
-$port = '80';
-$portssl = '443';
+$ports[] = '80';
+$ports[] = '443';
 
 $iplist = array('*');
 
@@ -47,77 +47,65 @@ $fpmportapache = (50000 + $userinfoapache['uid']);
 
 ?>
 
-<?php 
+<?php
 if ($setdefaults === 'ssl') {
-    $counter = 0;
-
-    foreach ($certlist as &$cert) {
-        if ($counter === 0) { 
-            $ssltext = 'default ssl';
-        } else {
-            $ssltext = 'ssl';
-        }
-
-        $counter++;
-?> 
-server {
-    listen <?php echo $cert['ip']; ?>:443 <?php echo $ssltext; ?>;
-
-#    server_name _;
-
-    ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $cert['cert']; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $cert['cert']; ?>.key;
-    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-
-    return 403;
-}
-
-<?php 
-    }
 ?>
-index <?php echo $indexorder; ?>;
+
+### No needed declare here because certfile directly write to defaults and domains configs
+
 <?php
 } elseif ($setdefaults === 'init') {
-/*
 ?>
-server {
+
+## No needed declare here because certfile directly write to defaults and domains configs
+
 <?php
-    foreach ($iplist as &$ip) {
-?> 
-#    listen <?php echo $ip ?>:<?php echo $port ?>;
-#    listen <?php echo $ip ?>:<?php echo $portssl ?>;
-<?php 
-    }
-?>
-}
-<?php
-*/
 } else {
-?> 
+    foreach ($certnamelist as $ip => $certname) {
+        $count = 0;
+
+        foreach ($ports as &$port) {
+?>
+
+## '<?php echo $setdefaults; ?>' config
 server {
 <?php
-    foreach ($iplist as &$ip) {
-?>
-    listen <?php echo $ip ?>:<?php echo $port ?>;
-    listen <?php echo $ip ?>:<?php echo $portssl ?>;
 
-<?php 
-    }
-
-    if ($setdefaults === 'default') {
+            if ($setdefaults === 'default') {
+                $asdefault = ' default';
+            } else {
+                $asdefault = '';
+            }
 ?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+            if ($count !== 0) {
+?>
+
+    ssl on;
+    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
+    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+<?php
+            }
+
+
+            if ($setdefaults === 'default') {
+?>
+
     server_name _;
 
-    index <?php echo $indexorder; ?>;
-
-    location ~ ^/~(.+)/(.*)$ {
-        alias /home/$1/public_html/$2;
+    location ~ ^/~(.+?)(/.*)?$ {
+        alias /home/$1/public_html$2;
+        autoindex on;
     }
+
+    index <?php echo $indexorder; ?>;
 <?php
-    } else {
+            } else {
 ?>
+
     server_name <?php echo $setdefaults; ?>.*;
 
     index <?php echo $indexorder; ?>;
@@ -129,15 +117,15 @@ server {
     set $domain '';
 
     set $user 'apache';
-<?php 
-    }
+<?php
+            }
 
-    if ($reverseproxy) {
+            if ($reverseproxy) {
 ?>
 
     include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
-<?php 
-    } else {
+<?php
+            } else {
 ?>
 
     include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
@@ -145,13 +133,17 @@ server {
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
-<?php 
-    }
-?>
-}
 <?php
+
+            }
+            $count++;
+?>
+}
+
+<?php
+        }
+    }
 }
 ?>
-
 
 ### end content - please not remove this line

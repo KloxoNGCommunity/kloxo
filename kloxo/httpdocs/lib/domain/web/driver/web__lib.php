@@ -160,7 +160,7 @@ class web__ extends lxDriverClass
 		lxshell_return("chkconfig", "php-fpm", "on");
 	}
 
-	function createConffile()
+	function createConfFile()
 	{
 		$this->clearDomainIpAddress();
 
@@ -178,8 +178,13 @@ class web__ extends lxDriverClass
 		$input['parkdomains'] = $this->getParkDomains();
 		$input['serveraliases'] = $this->getServerAliases();
 		$input['dirprotect'] = $this->getDirprotect();
-		$input['iplist'] = $this->getAllIps();
-		$input['ipssllist'] = $this->getSslIpList();
+
+	//	$input['iplist'] = $this->getAllIps();
+	//	$input['ipssllist'] = $this->getDomainSslIpList();
+
+		$input['certnamelist'] = ($this->getSslCertNameList()) ?
+				$this->getSslCertNameList() : $this->getSslCertNameList('*');
+
 		$input['stats'] = $this->getStats();
 		$input['wwwredirect'] = $this->getWwwRedirect();
 		$input['domainredirect'] = $this->getRedirectDomains();
@@ -215,14 +220,14 @@ class web__ extends lxDriverClass
 
 // MR -- (1) related to create conf file
 
-	static function updateMainConfFile()
+	function updateMainConfFile()
 	{
 		$input = array();
 
 		$input['setdefaults'] = 'init';
-		$input['iplist'] = self::getAllIps();
-
+	//	$input['iplist'] = self::getAllIps();
 		$input['indexorder'] = self::getIndexFileOrderDefault();
+		$input['certnamelist'] = $this->getSslCertNameList('*');
 
 		self::setCreateConfFile($input);
 	}
@@ -231,27 +236,14 @@ class web__ extends lxDriverClass
 	{
 		$input = array();
 
-		$input['iplist'] = self::getAllIps();
+	//	$input['iplist'] = self::getAllIps();
+	//	$ipssllist = ($this->main->__var_ipssllist) ? $this->main->__var_ipssllist : null;
+		$input['certnamelist'] = $this->getSslCertNameList('*');
+		$input['setdefaults'] = 'ssl';
+		$input['indexorder'] = self::getIndexFileOrderDefault();		
+		$input['userlist'] = $this->getUserList();
 
-		$ipssllist = ($this->main->__var_ipssllist) ? $this->main->__var_ipssllist : null;
-
-		if ($ipssllist) {
-			$clist = null;
-
-			foreach ((array)$ipssllist as $ip) {
-				$clist[] = array('ip' => $ip['ipaddr'], 'cert' => sslcert::getSslCertnameFromIP($ip['nname']));
-			}
-
-			$input['certlist'] = $clist;
-
-			$input['setdefaults'] = 'ssl';
-
-			$input['indexorder'] = self::getIndexFileOrderDefault();
-			
-			$input['userlist'] = $this->getUserList();
-
-			self::setCreateConfFile($input);
-		}
+		self::setCreateConfFile($input);
 	}
 
 	function createCpConfig()
@@ -260,9 +252,9 @@ class web__ extends lxDriverClass
 
 		$input = array();
 		
-		$input['iplist'] = self::getAllIps();
-
+	//	$input['iplist'] = self::getAllIps();
 		$input['indexorder'] = self::getIndexFileOrderDefault();
+		$input['certnamelist'] = $this->getSslCertNameList('*');
 
 		foreach ($list as &$v) {
 			$input['setdefaults'] = $v;
@@ -275,16 +267,14 @@ class web__ extends lxDriverClass
 		}
 	}
 
-	static function createWebDefaultConfig()
+	function createWebDefaultConfig()
 	{
 		$input = array();
 
 		$input['setdefaults'] = 'webmail';
-
-		$input['iplist'] = self::getAllIps();
-
+	//	$input['iplist'] = self::getAllIps();
+		$input['certnamelist'] = $this->getSslCertNameList('*');
 		$input['webmailappdefault'] = self::getWebmailAppDefault();
-
 		$input['indexorder'] = self::getIndexFileOrderDefault();
 
 		self::setCreateConfFile($input);
@@ -455,7 +445,7 @@ class web__ extends lxDriverClass
 		$conffile = $conftpl = $conftype = null;
 
 		if (array_key_exists('setdefaults', $input)) {
-			$conftype = 'defaults';
+			$conftype = $conftpl = 'defaults';
 
 			if ($input['setdefaults'] === 'ssl') {
 				$conffile = '__ssl.conf';
@@ -464,8 +454,6 @@ class web__ extends lxDriverClass
 			} else {
 				$conffile = "{$input['setdefaults']}.conf";
 			}
-
-			$conftpl = 'defaults';
 		} else {
 			if (array_key_exists('setdomains', $input)) {
 				$conftype = 'domains';
@@ -511,12 +499,14 @@ class web__ extends lxDriverClass
 
 			createRestartFile($l);
 
-			if ($l === 'lighttpd') {
-				self::setLighttpdPerlSuexec($input);
-			}
+			if ($conftype === 'domains') {
+				if ($l === 'lighttpd') {
+					self::setLighttpdPerlSuexec($input);
+				}
 
-			if ($l === 'nginx') {
-				self::setNginxCgibinPhp();
+				if ($l === 'nginx') {
+					self::setNginxCgibinPhp();
+				}
 			}
 		}
 	}
@@ -589,7 +579,7 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
-	function getSslIpList()
+	function getDomainSslIpList()
 	{
 		$domainname = $this->getDomainname();
 
@@ -608,6 +598,100 @@ class web__ extends lxDriverClass
 			$ret = $list;
 		} else {
 			$ret = null;
+		}
+
+		return $ret;
+	}
+
+	function getSslCertName()
+	{
+		$ipssllist = ($this->main->__var_ipssllist) ? $this->main->__var_ipssllist : null;
+
+		$ips = $this->getDomainSslIpList();
+
+		$ret = null;
+
+		if ($ipssllist) {
+			foreach ((array)$ipssllist as $ipssl) {
+				foreach ($ips as &$ip) {
+					if ($ip === $ipssl['ipaddr']) {
+						$ret = sslcert::getSslCertnameFromIP($ipssl['nname']);
+						break;
+					}
+				}
+			}
+		}
+
+		if (!$ret) {
+			// MR -- that no exclusive IP address for this domain
+			// using the first ip certificate
+			if ($ipssllist) {
+				foreach ((array)$ipssllist as $ipssl) {
+					$ret = sslcert::getSslCertnameFromIP($ipssl['nname']);
+					break;
+				}
+			}
+		}
+
+		return $ret;
+	}
+
+	function getSslCertNameList($targetip = null)
+	{
+		$ipssllist = $this->main->__var_ipssllist;
+		$domipssllist = $this->getDomainSslIpList();
+
+		$ret = null;
+
+		if ($ipssllist) {
+			foreach ((array)$ipssllist as $ipssl) {
+				if ($targetip) {
+					if ($targetip === '*') {
+						$ipnonssllist = $this->getNonSslIpList();
+
+						// MR -- use first ip of non exclusive ip
+						if ($ipnonssllist[0] === $ipssl['ipaddr']) {
+							$ret['*'] = sslcert::getSslCertnameFromIP($ipssl['nname']);
+						}
+					} else {
+						if ($targetip === $ipssl['ipaddr']) {
+							$ret[$targetip] = sslcert::getSslCertnameFromIP($ipssl['nname']);
+						}
+					}
+
+				} else {
+					if ($domipssllist) {
+						foreach ($domipssllist as &$ip) {
+							if ($ip === $ipssl['ipaddr']) {
+								$ret[$ip] = sslcert::getSslCertnameFromIP($ipssl['nname']);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return $ret;
+	}
+
+	function getNonSslIpList() {
+		$ipssllist = $this->main->__var_ipssllist;
+		$domipssllist = $this->main->__var_domainipaddress;
+
+		$ret = null;
+
+		foreach ($ipssllist as $ipssl) {
+			// MR -- it's bug when only declate 'as' without =>
+			foreach ($domipssllist as $ip => $dom) {
+				if ($ipssl['ipaddr'] !== $ip) {
+					$ret[] = $ipssl['ipaddr'];
+				}
+			}
+		}
+
+		// MR -- usually happen when declare exclusive ip on 1 ip system
+		if (!$ret) {
+			$ret[] = $ipssl[0]['ipaddr'];
 		}
 
 		return $ret;
@@ -744,7 +828,7 @@ class web__ extends lxDriverClass
 
 		$prot = ($this->main->stats_password) ? $this->main->stats_password : null;
 
-		web::createstatsConf($this->main->nname, $this->main->stats_username, $this->main->stats_password);
+		web::createstatsConf($this->getDomainname(), $this->main->stats_username, $this->main->stats_password);
 
 		return array('app' => $prog, 'protect' => $prot);
 	}
@@ -835,9 +919,11 @@ class web__ extends lxDriverClass
 
 	static function setLighttpdPerlSuexec($input)
 	{
+		$domainname = $input['domainname'];
+
 		$tplsource = getLinkCustomfile("/home/lighttpd/tpl", "perlsuexec.sh.tpl");
 
-		$tpltarget = "/home/httpd/{$input['domainname']}/perlsuexec.sh";
+		$tpltarget = "/home/httpd/{$domainname}/perlsuexec.sh";
 
 		$tpl = file_get_contents($tplsource);
 
@@ -898,7 +984,7 @@ class web__ extends lxDriverClass
 	{
 		global $sgbl;
 
-		$domainname = $this->main->nname;
+		$domainname = $this->getDomainname();
 
 		$web_home = $sgbl->__path_httpd_root;
 		$log_path = "{$web_home}/{$domainname}/stats";
@@ -924,7 +1010,7 @@ class web__ extends lxDriverClass
 
 	function setPhpIni()
 	{
-		$domainname = $this->main->nname;
+		$domainname = $this->getDomainname();
 		$username = $this->main->username;
 
 		lxfile_unix_chown("/home/httpd/{$domainname}", "{$username}:apache");
@@ -980,7 +1066,7 @@ class web__ extends lxDriverClass
 			$string .= "\tRewriteCond %{HTTP_REFERER} !^https://.*{$al}.*$ [NC]\n";
 		}
 
-		$l = $this->main->nname;
+		$l = $this->getDomainname();
 
 		$string .= "\tRewriteCond %{HTTP_REFERER} !^http://.*{$l}.*$ [NC]\n";
 		$string .= "\tRewriteCond %{HTTP_REFERER} !^https://.*{$l}.*$ [NC]\n";
@@ -1033,7 +1119,7 @@ class web__ extends lxDriverClass
 	{
 		$this->main->createDir();
 
-		$this->createConffile();
+		$this->createConfFile();
 
 		$this->main->createPhpInfo();
 
@@ -1081,7 +1167,7 @@ class web__ extends lxDriverClass
 
 		//	$this->createSSlConf();
 
-		$this->createConffile();
+		$this->createConfFile();
 
 		lxfile_unix_chown_rec("{$droot}/", "{$uname}:{$uname}");
 		lxfile_unix_chmod("{$droot}/", "0755");
@@ -1109,12 +1195,12 @@ class web__ extends lxDriverClass
 
 				case "changeowner":
 					$this->main->webChangeOwner();
-					$this->createConffile();
+					$this->createConfFile();
 					break;
 
 				case "create_config":
 				case "addondomain":
-					$this->createConffile();
+					$this->createConfFile();
 					break;
 
 				case "add_delete_dirprotect":
@@ -1133,26 +1219,26 @@ class web__ extends lxDriverClass
 				case "add_server_alias_a" :
 				case "delete_server_alias_a" :
 				case "configure_misc":
-					$this->createConffile();
+					$this->createConfFile();
 					break;
 
 				case "redirect_domain" :
-					$this->createConffile();
+					$this->createConfFile();
 					break;
 
 				case "fixipdomain":
-					$this->createConffile();
-					self::updateMainConfFile();
+					$this->createConfFile();
+					$this->updateMainConfFile();
 					$this->createSSlConf();
 					break;
 
 				case "enable_php_manage_flag":
-					$this->createConffile();
-					self::updateMainConfFile();
+					$this->createConfFile();
+					$this->updateMainConfFile();
 					break;
 
 				case "toggle_status" :
-					$this->createConffile();
+					$this->createConfFile();
 					break;
 
 				case "hotlink_protection":
@@ -1163,12 +1249,12 @@ class web__ extends lxDriverClass
 				case "enable_cgi_flag":
 				case "enable_inc_flag":
 				case "enable_ssl_flag" :
-					$this->createConffile();
+					$this->createConfFile();
 					break;
 
 				case "stats_protect":
 					$this->main->doStatsPageProtection();
-					$this->createConffile();
+					$this->createConfFile();
 					break;
 
 				case "default_domain":
@@ -1176,7 +1262,7 @@ class web__ extends lxDriverClass
 					break;
 
 				case "graph_webtraffic":
-					return rrd_graph_single("webtraffic (bytes)", $this->main->nname,
+					return rrd_graph_single("webtraffic (bytes)", $this->getDomainname(),
 							$this->main->rrdtime);
 					break;
 
@@ -1185,10 +1271,11 @@ class web__ extends lxDriverClass
 					break;
 
 				case "static_config_update":
-					self::updateMainConfFile();
+					$this->updateMainConfFile();
 					$this->createSSlConf();
 					$this->createCpConfig();
-					self::createWebDefaultConfig();
+				//	self::createWebDefaultConfig();
+					$this->createWebDefaultConfig();
 					$this->createPhpFpmConfig();
 					break;
 

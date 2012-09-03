@@ -1,24 +1,12 @@
 ### begin content - please not remove this line
 <?php
-
-$ipports = '';
-
 if ($reverseproxy) {
-    $port = '30080';
-    $portssl = '30443';
+    $ports[] = '30080';
+    $ports[] = '30443';
 } else {
-    $port = '80';
-    $portssl = '443';
+    $ports[] = '80';
+    $ports[] = '443';
 }
-/*
-foreach ($iplist as &$ip) {
-    $ipports .= "    {$ip}:{$port} {$ip}:{$portssl}\\\n";
-}
-
-$ipports .= "    127.0.0.1:{$port}";
-*/
-
-$ipports = "    *:{$port} *:{$portssl}";
 
 if ($setdefaults === 'webmail') {
     if ($webmailappdefault) {
@@ -50,66 +38,35 @@ $fpmportapache = (50000 + $userinfoapache['uid']);
 if ($setdefaults === 'ssl') {
 ?>
 
-<IfModule mod_ssl.c>
-<?php
-    foreach ($certlist as &$cert) {
-?> 
-    <Virtualhost \
-        <?php echo $cert['ip']; ?>:<?php echo $portssl; ?>\
-            >
-
-        SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $cert['cert']; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $cert['cert']; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $cert['cert']; ?>.ca
-
-    </Virtualhost>
-<?php
-    }
-?>
-
-</IfModule>
-
-DirectoryIndex <?php echo $indexorder; ?> 
+## No needed declare here because certfile directly write to defaults and domains configs
 
 <?php
 } else {
     if ($setdefaults === 'init') {
-/*
-        foreach ($iplist as &$ip) {
-?> 
-Listen <?php echo $ip ?>:<?php echo $port ?> 
-Listen <?php echo $ip ?>:<?php echo $portssl ?> 
-<?php
-        }
-?> 
-Listen 127.0.0.1:<?php echo $port ?> 
-<?php
-        if (!$isVer24) {
-            foreach ($iplist as &$ip) {
-?> 
-NameVirtualHost <?php echo $ip ?>:<?php echo $port ?> 
-NameVirtualHost <?php echo $ip ?>:<?php echo $portssl ?> 
-<?php
-            }
-?> 
-NameVirtualHost 127.0.0.1:<?php echo $port ?> 
-
-<?php
-        }
-*/
+        foreach ($certnamelist as $ip => $certname) {
 ?>
-Listen *:<?php echo $port ?> 
-Listen *:<?php echo $portssl ?> 
 
-NameVirtualHost *:<?php echo $port ?> 
-NameVirtualHost *:<?php echo $portssl ?> 
+Listen <?php echo $ip; ?>:<?php echo $ports[0]; ?>
+
+Listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>
+
+
+NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[0]; ?>
+
+NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
+
+
 <?php
+        }
     } else {
-?> 
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+        foreach ($certnamelist as $ip => $certname) {
+            $count = 0;
+
+            foreach ($ports as &$port) {
+?>
+
+### '<?php echo $setdefaults; ?>' config
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName <?php echo $setdefaults; ?> 
     ServerAlias <?php echo $setdefaults; ?>.*
@@ -119,8 +76,21 @@ NameVirtualHost *:<?php echo $portssl ?>
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-        if ($setdefaults === 'default') {
-?> 
+                if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+                }
+
+            if ($setdefaults === 'default') {
+?>
+
     <Ifmodule mod_userdir.c>
         UserDir enabled
         UserDir "public_html"
@@ -140,11 +110,11 @@ NameVirtualHost *:<?php echo $portssl ?>
             </IfModule>
         </Location>
 <?php
-            }
+                }
 ?>
     </Ifmodule>
 <?php
-        }
+            }
 ?>
 
     <IfModule suexec.c>
@@ -169,14 +139,14 @@ NameVirtualHost *:<?php echo $portssl ?>
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /<?php echo $setdefaults; ?>.fake "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake"
-        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        Alias /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.fake
+        Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake
 
-        <Files "<?php echo $setdefaults; ?>.fake">
-            RewriteCond %{REQUEST_URI} !<?php echo $setdefaults; ?>.fake
+        <Files "<?php echo $setdefaults; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !<?php echo $setdefaults; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -204,6 +174,9 @@ NameVirtualHost *:<?php echo $portssl ?>
 </VirtualHost>
 
 <?php
+            $count++;
+            }
+        }
     }
 }
 ?>

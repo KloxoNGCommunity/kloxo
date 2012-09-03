@@ -2,41 +2,26 @@
 
 <?php
 
-$ipports = '';
+if ($reverseproxy) {
+    $ports[] = '30080';
+    $ports[] = '30443';
+} else {
+    $ports[] = '80';
+    $ports[] = '443';
+}
 
 if ($reverseproxy) {
-    $port = '30080';
-    $portssl = '30443';
-} else {
-    $port = '80';
-    $portssl = '443';
-}
+    $tmp_ip = '*';
 
-/*
-// MR -- no using specific ip:port but enough *:port for general
-foreach ($iplist as &$ip) {
-    $ipports .= "    {$ip}:{$port} {$ip}:{$portssl}\\\n";
-}
-
-$ipports .= "    127.0.0.1:{$port}";
-*/
-
-$ipports = "    *:{$port} *:{$portssl}";
-
-/*
-// MR -- also no using specific ip:port but enough *:port for exclusive ip
-if ($ipssllist) {
-    foreach ($ipssllist as &$ipssl) {
-        $ipsslports .= "    {$ipssl}:{$port} {$ipssl}:{$portssl}\\\n";
+    foreach ($certnamelist as $ip => $certname) {
+        $tmp_certname = $certname;
+        break;
     }
 
-    $ipsslports .= "    127.0.0.1:{$port}";
-} else {
-    $ipsslports = $ipports;
-}
-*/
+    $certnamelist = null;
 
-$ipsslports = $ipports;
+    $certnamelist[$tmp_ip] = $tmp_certname;
+}
 
 $statsapp = $stats['app'];
 $statsprotect = ($stats['protect']) ? true : false;
@@ -86,12 +71,30 @@ $userinfoapache = posix_getpwnam('apache');
 $fpmportapache = (50000 + $userinfoapache['uid']);
 
 $disablepath = "/home/kloxo/httpd/disable";
+
+if (!$reverseproxy) {
+    foreach ($certnamelist as $ip => $certname) {
+        if ($ip !== '*') {
+?>
+
+NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[0]; ?>
+
+NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
+
+
+<?php
+        }
+    }
+}
+
+foreach ($certnamelist as $ip => $certname) {
+    $count = 0;
+
+    foreach ($ports as &$port) {
 ?>
 
 ## web for '<?php echo $domainname; ?>'
-<VirtualHost \
-<?php echo $ipsslports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerAdmin webmaster@<?php echo $domainname; ?>
 
@@ -102,6 +105,18 @@ $disablepath = "/home/kloxo/httpd/disable";
     ServerAlias <?php echo $serveralias; ?>
 
 <?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+
     if ($wwwredirect) {
 ?>
 
@@ -180,14 +195,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /<?php echo $domainname; ?>.fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake"
-        FastCGIExternalServer <?php echo $rootpath; ?>/<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        Alias /<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /<?php echo $domainname; ?>.fake
+        Action application/x-httpd-fastphp /<?php echo $domainname; ?>.<?php echo $count; ?>fake
 
-        <Files "<?php echo $domainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !<?php echo $domainname; ?>.fake
+        <Files "<?php echo $domainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !<?php echo $domainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -350,9 +365,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $domainname; ?>
 
@@ -360,6 +373,20 @@ $disablepath = "/home/kloxo/httpd/disable";
     DocumentRoot "<?php echo $disablepath; ?>/"
 
     DirectoryIndex <?php echo $indexorder; ?>
+
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup lxlabs lxlabs
@@ -383,14 +410,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $domainname; ?>.fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.fake"
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
+        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
 
-        <Files "webmail.<?php echo $domainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
+        <Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -423,14 +450,26 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $domainname; ?>
 
 
     Redirect / "http://<?php echo $webmailremote; ?>"
+
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
 </VirtualHost>
 
@@ -439,9 +478,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $domainname; ?>
 
@@ -450,6 +487,19 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup lxlabs lxlabs
@@ -473,14 +523,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $domainname; ?>.fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.fake"
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.fake
+        Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
 
-        <Files "webmail.<?php echo $domainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.fake
+        <Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -534,9 +584,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName <?php echo $redirdomainname; ?>
 
@@ -545,6 +593,19 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup <?php echo $user; ?> <?php echo $user; ?>
@@ -577,14 +638,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /<?php echo $redirdomainname; ?>.fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.fake"
-        FastCGIExternalServer <?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.fake
+        Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 
-        <Files "<?php echo $redirdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !<?php echo $redirdomainname; ?>.fake
+        <Files "<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -617,14 +678,25 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName <?php echo $redirdomainname; ?>
 
 
     Redirect / "http://<?php echo $domainname; ?>/"
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
 </VirtualHost>
 
@@ -642,9 +714,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $parkdomainname; ?>
 
@@ -652,6 +722,20 @@ $disablepath = "/home/kloxo/httpd/disable";
     DocumentRoot "<?php echo $disablepath; ?>/"
 
     DirectoryIndex <?php echo $indexorder; ?>
+
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup lxlabs lxlabs
@@ -675,14 +759,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $parkdomainname; ?>.fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.fake"
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
+        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
 
-        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
+        <Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -715,14 +799,25 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $parkdomainname; ?>
 
 
     Redirect / "http://<?php echo $webmailremote; ?>"
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
 </VirtualHost>
 
@@ -732,9 +827,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $parkdomainname; ?>
 
@@ -742,6 +835,20 @@ $disablepath = "/home/kloxo/httpd/disable";
     DocumentRoot "<?php echo $webmaildocroot; ?>/"
 
     DirectoryIndex <?php echo $indexorder; ?>
+
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup lxlabs lxlabs
@@ -765,14 +872,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $parkdomainname; ?>.fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.fake"
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.fake
+        Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
 
-        <Files "webmail.<?php echo $parkdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.fake
+        <Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -827,9 +934,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $redirdomainname; ?>
 
@@ -838,6 +943,19 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup lxlabs lxlabs
@@ -861,14 +979,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $redirdomainname; ?>.fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.fake"
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
+        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 
-        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
+        <Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -901,14 +1019,25 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $redirdomainname; ?>
 
 
     Redirect / "http://<?php echo $webmailremote; ?>"
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
 </VirtualHost>
 
@@ -918,9 +1047,7 @@ $disablepath = "/home/kloxo/httpd/disable";
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost \
-<?php echo $ipports; ?>\
-        >
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
     ServerName webmail.<?php echo $redirdomainname; ?>
 
@@ -929,6 +1056,19 @@ $disablepath = "/home/kloxo/httpd/disable";
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+<?php
+    if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+    }
+?>
 
     <IfModule suexec.c>
         SuexecUserGroup lxlabs lxlabs
@@ -952,14 +1092,14 @@ $disablepath = "/home/kloxo/httpd/disable";
     </IfModule>
 
     <IfModule mod_fastcgi.c>
-        Alias /webmail.<?php echo $redirdomainname; ?>.fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.fake"
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
+        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.fake
+        Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 
-        <Files "webmail.<?php echo $redirdomainname; ?>.fake">
-            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.fake
+        <Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
 
@@ -1004,6 +1144,10 @@ $disablepath = "/home/kloxo/httpd/disable";
             }
         }
     }
+
+    $count++;
+}
+}
 ?>
 
 ### end content - please not remove this line
