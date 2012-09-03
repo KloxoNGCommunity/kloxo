@@ -48,13 +48,29 @@ function lxfile_dirsize($path, $byteflag = false)
 	$global_dontlogshell = true;
 
 	$path = expand_real_root($path);
+
 	if (!lxfile_exists($path)) {
 		return 0;
 	}
+/*
 	$rt = lxshell_output("du", "-sc", $path);
 	$os  = preg_replace("/\s+/", ":", $rt);
 	$ret = explode(":", $os);
 	$t = $ret[2];
+*/
+
+/*
+	exec("du -sc {$path}", $out);
+
+	$os  = preg_replace("/\s+/", ":", $out);
+	$ret = explode(":", $os[1]);
+
+	$t = $ret[0];
+*/
+
+	exec("du -sc {$path} | grep -i 'total'", $out);
+	$os  = preg_replace("/\s+/", ":", $out);
+	$t = str_replace(":total", "", $os);
 
 	$global_dontlogshell = $old;
 
