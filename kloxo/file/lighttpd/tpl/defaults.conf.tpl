@@ -11,8 +11,8 @@ if ($setdefaults === 'webmail') {
     $docroot = "/home/kloxo/httpd/{$setdefaults}";
 }
 
-$port = '80';
-$portssl = '443';
+$ports[] = '80';
+$ports[] = '443';
 
 if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
@@ -48,15 +48,16 @@ $fpmportapache = (50000 + $userinfoapache['uid']);
 
 <?php
 if ($setdefaults === 'ssl') {
-    foreach ($certlist as &$cert) {
+    foreach ($certnamelist as $ip => $certname) {
 ?>
 
-$SERVER["socket"] == "<?php echo $cert['ip']; ?>:<?php echo $portssl; ?>" {
+$SERVER["socket"] == "0.0.0.0:<?php echo $ports[1]; ?>" {
 
     ssl.engine = "enable"
 
-    ssl.pemfile = "/home/kloxo/httpd/ssl/<?php echo $cert['cert']; ?>.pem"
-    ssl.ca-file = "/home/kloxo/httpd/ssl/<?php echo $cert['cert']; ?>.ca"
+    ssl.pemfile = "/home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem"
+    ssl.ca-file = "/home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca"
+    #ssl.use-sslv2 = "disable"
 
 }
 <?php
@@ -65,6 +66,7 @@ $SERVER["socket"] == "<?php echo $cert['ip']; ?>:<?php echo $portssl; ?>" {
 ?>
 
 ## not needed
+
 <?php
 } else {
 ?>

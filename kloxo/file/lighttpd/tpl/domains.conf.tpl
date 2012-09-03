@@ -56,14 +56,6 @@ if ($blockips) {
     $blockips = str_replace(' ', ', ', $blockips);
 }
 
-$ipssls = '';
-
-if ($ipssllist) {
-    foreach ($ipssllist as &$ipssl) {
-        $ipssls .= '|' . $ipssl;
-    }
-}
-
 $userinfo = posix_getpwnam($user);
 
 if ($userinfo) {
@@ -128,7 +120,7 @@ if (file_exists("{$globalspath}/custom.suexec.conf")) {
 ?>
 
 ## web for '<?php echo $domainname; ?>'
-$HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssls; ?>" {
+$HTTP["host"] =~ "<?php echo $serveralias; ?><?php //echo $ipssls; ?>" {
 
     var.domain = "<?php echo $domainname; ?>"
 <?php
