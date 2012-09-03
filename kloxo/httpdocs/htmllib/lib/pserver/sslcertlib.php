@@ -305,7 +305,8 @@ function createNewcertificate()
 		$ltemp[$key] = $name;
 	}
 
-	$config['private_key_bits'] = 1024;
+//	$config['private_key_bits'] = 1024;
+	$config['private_key_bits'] = 2048;
 	$privkey = openssl_pkey_new($config);
 	openssl_pkey_export($privkey, $text_key_content);
 	$csr = openssl_csr_new($ltemp, $privkey);
