@@ -43,7 +43,7 @@ class serverweb__ extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$nolog = 'yes';
+		$nolog = '--nolog';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
 
@@ -62,7 +62,7 @@ class serverweb__ extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$nolog = 'yes';
+		$nolog = '--nolog';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
 
@@ -83,7 +83,7 @@ class serverweb__ extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$nolog = 'yes';
+		$nolog = '--nolog';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
 
@@ -102,7 +102,7 @@ class serverweb__ extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$nolog = 'yes';
+		$nolog = '--nolog';
 
 		$t = (isset($this->main->php_type)) ? $this->main->php_type : null;
 
@@ -193,7 +193,7 @@ class serverweb__ extends lxDriverClass
 
 		$phpbranch = getPhpBranch();
 
-		$this->set_php_pure();
+	//	$this->set_php_pure();
 
 		$this->rename_to_nonconf();
 
@@ -338,7 +338,7 @@ class serverweb__ extends lxDriverClass
 			}
 		}
 
-		$nolog = 'yes';
+		$nolog = '--nolog';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/php-branch.php';
 
