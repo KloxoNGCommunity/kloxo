@@ -688,10 +688,21 @@ class web__ extends lxDriverClass
 				}
 			}
 		}
-
+/*
 		// MR -- usually happen when declare exclusive ip on 1 ip system
 		if (!$ret) {
 			$ret[] = $ipssl[0]['ipaddr'];
+		}
+*/
+		$count = 0;
+		
+		foreach ($ipssllist as $ipssl) {
+			if ($count === 0) {
+				$ret[] = $ipssl['ipaddr'];
+				break;
+			}
+			
+			$count++;
 		}
 
 		return $ret;
