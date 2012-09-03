@@ -167,7 +167,9 @@ function dbactionAdd()
 	createRestartFile($this->main->__var_dnsdriver);
 	$result = self::getCurrentIps();
 //	web__apache::createWebmailConfig($result);
-	web__apache::createWebDefaultConfig($result);
+//	web__apache::createWebDefaultConfig($result);
+
+	exec("sh /script/fixweb --target=defaults --nolog");
 }
 
 function dbactionUpdate($subaction)

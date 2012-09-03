@@ -406,7 +406,6 @@ class Mmail extends Lxdb
 
 	function postUpdate()
 	{
-
 		// MR -- still have a problem - need click 2 times for 'update'/'update all' button
 		// just single make kloxo recreate webserver config with reference to 'old' state!
 
@@ -430,7 +429,7 @@ class Mmail extends Lxdb
 
 	function fixWebmailRedirect()
 	{
-
+/*
 	//	global $gbl, $sgbl, $login, $ghtml;
 
 		// the same trick with createListSlist()
@@ -442,6 +441,10 @@ class Mmail extends Lxdb
 		$web->setUpdateSubaction('full_update');
 
 	//	$web->setUpdateSubaction('addondomain');
+*/
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+
+		lxshell_return("lxphp.exe", $scripting, "--nolog");
 
 		// MR -- must be return null to prevent blank page
 		return null;
