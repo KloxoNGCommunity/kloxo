@@ -65,13 +65,6 @@ foreach($list as $c) {
 	}
 }
 
-/*
-if (filesize("/home/apache/conf/default/init.conf") === 0) {
-	// MR -- fix for init.conf when domain not already setup
-	web::updateMainConfFile();
-}
-*/
-
 // MR - fix for php-fpm and fastcgi session issue
 if (!file_exists("/var/log/php-fpm")) {
 	mkdir("/var/log/php-fpm",0755);
