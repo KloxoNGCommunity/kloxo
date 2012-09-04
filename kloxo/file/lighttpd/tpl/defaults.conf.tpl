@@ -51,13 +51,13 @@ if ($setdefaults === 'ssl') {
     foreach ($certnamelist as $ip => $certname) {
 ?>
 
-$SERVER["socket"] == "0.0.0.0:<?php echo $ports[1]; ?>" {
+$SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $ports[1]; ?>" {
 
     ssl.engine = "enable"
 
     ssl.pemfile = "/home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem"
     ssl.ca-file = "/home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca"
-    #ssl.use-sslv2 = "disable"
+    ssl.use-sslv2 = "disable"
 
 }
 <?php

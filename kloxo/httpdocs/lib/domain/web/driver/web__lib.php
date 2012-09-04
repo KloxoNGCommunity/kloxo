@@ -179,9 +179,6 @@ class web__ extends lxDriverClass
 		$input['serveraliases'] = $this->getServerAliases();
 		$input['dirprotect'] = $this->getDirprotect();
 
-	//	$input['iplist'] = $this->getAllIps();
-	//	$input['ipssllist'] = $this->getDomainSslIpList();
-
 		$input['certnamelist'] = ($this->getSslCertNameList()) ?
 				$this->getSslCertNameList() : $this->getSslCertNameList('*');
 
@@ -225,7 +222,6 @@ class web__ extends lxDriverClass
 		$input = array();
 
 		$input['setdefaults'] = 'init';
-	//	$input['iplist'] = self::getAllIps();
 		$input['indexorder'] = self::getIndexFileOrderDefault();
 		$input['certnamelist'] = $this->getSslCertNameList('*');
 
@@ -236,9 +232,7 @@ class web__ extends lxDriverClass
 	{
 		$input = array();
 
-	//	$input['iplist'] = self::getAllIps();
-	//	$ipssllist = ($this->main->__var_ipssllist) ? $this->main->__var_ipssllist : null;
-		$input['certnamelist'] = $this->getSslCertNameList('*');
+		$input['certnamelist'] = $this->getSslCertNameList('free');
 		$input['setdefaults'] = 'ssl';
 		$input['indexorder'] = self::getIndexFileOrderDefault();		
 		$input['userlist'] = $this->getUserList();
@@ -252,7 +246,6 @@ class web__ extends lxDriverClass
 
 		$input = array();
 		
-	//	$input['iplist'] = self::getAllIps();
 		$input['indexorder'] = self::getIndexFileOrderDefault();
 		$input['certnamelist'] = $this->getSslCertNameList('*');
 
@@ -272,7 +265,6 @@ class web__ extends lxDriverClass
 		$input = array();
 
 		$input['setdefaults'] = 'webmail';
-	//	$input['iplist'] = self::getAllIps();
 		$input['certnamelist'] = $this->getSslCertNameList('*');
 		$input['webmailappdefault'] = self::getWebmailAppDefault();
 		$input['indexorder'] = self::getIndexFileOrderDefault();
@@ -603,39 +595,6 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
-	function getSslCertName()
-	{
-		$ipssllist = ($this->main->__var_ipssllist) ? $this->main->__var_ipssllist : null;
-
-		$ips = $this->getDomainSslIpList();
-
-		$ret = null;
-
-		if ($ipssllist) {
-			foreach ((array)$ipssllist as $ipssl) {
-				foreach ($ips as &$ip) {
-					if ($ip === $ipssl['ipaddr']) {
-						$ret = sslcert::getSslCertnameFromIP($ipssl['nname']);
-						break;
-					}
-				}
-			}
-		}
-
-		if (!$ret) {
-			// MR -- that no exclusive IP address for this domain
-			// using the first ip certificate
-			if ($ipssllist) {
-				foreach ((array)$ipssllist as $ipssl) {
-					$ret = sslcert::getSslCertnameFromIP($ipssl['nname']);
-					break;
-				}
-			}
-		}
-
-		return $ret;
-	}
-
 	function getSslCertNameList($targetip = null)
 	{
 		$ipssllist = $this->main->__var_ipssllist;
@@ -646,19 +605,26 @@ class web__ extends lxDriverClass
 		if ($ipssllist) {
 			foreach ((array)$ipssllist as $ipssl) {
 				if ($targetip) {
-					if ($targetip === '*') {
+					if ($targetip === 'all') {
+						$ret[$ipssl['ipaddr']] = sslcert::getSslCertnameFromIP($ipssl['nname']);
+					} elseif ($targetip === '*') {
 						$ipnonssllist = $this->getNonSslIpList();
 
 						// MR -- use first ip of non exclusive ip
 						if ($ipnonssllist[0] === $ipssl['ipaddr']) {
 							$ret['*'] = sslcert::getSslCertnameFromIP($ipssl['nname']);
 						}
+					} elseif ($targetip === 'free') {
+						$ipnonssllist = $this->getNonSslIpList();
+
+						foreach ($ipnonssllist as &$ipnossl) {
+							$ret[$ipnossl] = sslcert::getSslCertnameFromIP($ipssl['nname']);
+						}
 					} else {
 						if ($targetip === $ipssl['ipaddr']) {
 							$ret[$targetip] = sslcert::getSslCertnameFromIP($ipssl['nname']);
 						}
 					}
-
 				} else {
 					if ($domipssllist) {
 						foreach ($domipssllist as &$ip) {
@@ -688,21 +654,10 @@ class web__ extends lxDriverClass
 				}
 			}
 		}
-/*
+
 		// MR -- usually happen when declare exclusive ip on 1 ip system
 		if (!$ret) {
 			$ret[] = $ipssl[0]['ipaddr'];
-		}
-*/
-		$count = 0;
-		
-		foreach ($ipssllist as $ipssl) {
-			if ($count === 0) {
-				$ret[] = $ipssl['ipaddr'];
-				break;
-			}
-			
-			$count++;
 		}
 
 		return $ret;

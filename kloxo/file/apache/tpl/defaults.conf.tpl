@@ -36,9 +36,25 @@ $fpmportapache = (50000 + $userinfoapache['uid']);
 
 <?php
 if ($setdefaults === 'ssl') {
+/*
+    foreach ($certnamelist as $ip => $certname) {
 ?>
 
-## No needed declare here because certfile directly write to defaults and domains configs
+<Virtualhost <?php echo $ip; ?>:<?php echo $ports[1]; ?>>
+
+    SSLEngine On
+    SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+    SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+    SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+
+</Virtualhost>
+
+<?php
+    }
+*/
+?>
+
+### No needed declare here because certfile directly write to defaults and domains configs
 
 <?php
 } else {

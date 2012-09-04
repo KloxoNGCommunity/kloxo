@@ -4,17 +4,19 @@
 	$phpver = $out[0];
 
 	if (version_compare($phpver, "5.4.0", ">=")) {
-		$php54mark = '';
+		$php54enable = '';
 		$php54disable = ';';
 	} else {
-		$php54mark = ';';
+		$php54enable = ';';
 		$php54disable = '';
 	}
 
 	if (version_compare($phpver, "5.3.0", ">=")) {
-		$php53mark = '';
+		$php53enable = '';
+		$php53disable = ';';
 	} else {
-		$php53mark = ';';
+		$php53enable = ';';
+		$php53disable = '';
 	}
 
 	if ($sendmail_from) {
@@ -41,7 +43,8 @@ safe_mode_allowed_env_vars = PHP_
 safe_mode_protected_env_vars = LD_LIBRARY_PATH
 disable_classes =
 expose_php = On
-error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+;error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+error_reporting = E_ALL
 display_startup_errors = On
 log_errors_max_len = 1024
 ignore_repeated_errors = Off
@@ -60,22 +63,22 @@ date.timezone = "Europe/London"
 cgi.fix_pathinfo=1
 
 ;### MR -- specific for php 5.3+
-<?php echo $php53mark; ?>auto_globals_jit = On
-<?php echo $php53mark; ?>zlib.output_compression = Off
-<?php echo $php53mark; ?>implicit_flush = Off
-<?php echo $php53mark; ?>unserialize_callback_func =
-<?php echo $php53mark; ?>serialize_precision = 17
-<?php echo $php53mark; ?>zend.enable_gc = On
-<?php echo $php53mark; ?>expose_php = On
-<?php echo $php53mark; ?>max_execution_time = 30
-<?php echo $php53mark; ?>max_input_time = 60
-<?php echo $php53mark; ?>unserialize_callback_func =
-<?php echo $php53mark; ?>output_buffering = 4096
-<?php echo $php53mark; ?>ignore_repeated_source = Off
-<?php echo $php53mark; ?>report_memleaks = On
-<?php echo $php53mark; ?>track_errors = Off
-<?php echo $php53mark; ?>html_errors = On
-<?php echo $php53mark; ?>auto_append_file =
+<?php echo $php53enable; ?>auto_globals_jit = On
+<?php echo $php53enable; ?>zlib.output_compression = Off
+<?php echo $php53enable; ?>implicit_flush = Off
+<?php echo $php53enable; ?>unserialize_callback_func =
+<?php echo $php53enable; ?>serialize_precision = 17
+<?php echo $php53enable; ?>zend.enable_gc = On
+<?php echo $php53enable; ?>expose_php = On
+<?php echo $php53enable; ?>max_execution_time = 30
+<?php echo $php53enable; ?>max_input_time = 60
+<?php echo $php53enable; ?>unserialize_callback_func =
+<?php echo $php53enable; ?>output_buffering = 4096
+<?php echo $php53enable; ?>ignore_repeated_source = Off
+<?php echo $php53enable; ?>report_memleaks = On
+<?php echo $php53enable; ?>track_errors = Off
+<?php echo $php53enable; ?>html_errors = On
+<?php echo $php53enable; ?>auto_append_file =
 
 ;### MR -- custom setting (handle by kloxo)
 disable_functions = <?php echo $disable_functions; ?>
@@ -126,8 +129,9 @@ safe_mode = <?php echo $safe_mode_flag; ?>
 
 enable_dl = <?php echo $enable_dl_flag; ?>
 
-;### MR -- not exist on php 5.4
-<?php echo $php54disable; ?>register_long_arrays = <?php echo $register_long_arrays_flag; ?>
+
+;### MR -- not exist on php 5.3
+<?php echo $php53disable; ?>register_long_arrays = <?php echo $register_long_arrays_flag; ?>
 
 
 [Syslog]
