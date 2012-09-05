@@ -77,11 +77,11 @@ function updateform($subaction, $param)
 		$vlist['text_key_content'] = null;
 	}
 
-	/*
+/*
 	if ($this->getParentO()->isAdmin()) {
 		$vlist['__m_message_pre'] = 'sslcert_updateform_update_pre_admin';
 	} else {
-		$vlist['__m_message_pre'] = 'sslcert_updateform_update_pre_client';
+		$vlist['__m_message_pre'] = 'sslcert_updateform_update_pre';
 	}
 */
 
@@ -276,6 +276,9 @@ static function addform($parent, $class, $typetd = null)
 		$vlist["ssl_data_b_s_organizationalUnitName_r"]  = null;
 		$vlist["ssl_data_b_s_emailAddress_r"]  = null;
 	}
+
+	// MR -- add 'message inbox'
+	$vlist['__m_message_pre'] = 'sslcert_updateform_update_pre';
 
 	$ret['action'] = 'add';
 	$ret['variable'] = $vlist;
