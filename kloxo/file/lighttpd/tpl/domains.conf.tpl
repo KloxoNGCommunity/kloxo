@@ -23,7 +23,11 @@ $serveralias = '';
 if ($wildcards) {
     $serveralias .= "(?:^|\.){$tmpdom}$";
 } else {
-    $serveralias .= "^(?:www\.|){$tmpdom}$";
+    if ($wwwredirect) {
+        $serveralias .= "^(?:www\.){$tmpdom}$";
+    } else {
+        $serveralias .= "^(?:www\.|){$tmpdom}$";
+    }
 }
 
 if ($serveraliases) {
@@ -129,11 +133,27 @@ foreach ($certnamelist as $ip => $certname) {
             } else {
                 $ipssl = "";
             }
+
+            if ($wwwredirect) {
+?>
+
+## web for '<?php echo $domainname; ?>'
+$HTTP["host"] =~ "<?php echo $domainname; ?><?php echo $ipssl; ?>" {
+
+    url.redirect = ( "^/(.*)" => "http://www.<?php echo $domainname; ?>/$1" )
+}
+
+
+## web for '<?php echo $domainname; ?>'
+$HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
+<?php
+            } else {
 ?>
 
 ## web for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 <?php
+            }
         } else {
             if ($ip !== '*') {
 ?>
@@ -155,13 +175,6 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
 
     var.domain = "<?php echo $domainname; ?>"
 <?php
-        if ($wwwredirect) {
-?>
-
-    url.redirect = ( "^/(.*)" => "http://www.<?php echo $domainname; ?>/$1" )
-<?php
-        }
-
         if ($disabled) {
 ?>
 
