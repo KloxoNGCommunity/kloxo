@@ -640,14 +640,16 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
-	function getNonSslIpList() {
+	function getNonSslIpList()
+	{
 		$ipssllist = $this->main->__var_ipssllist;
+
 		$domipssllist = $this->main->__var_domainipaddress;
 
 		$ret = null;
 
 		foreach ($ipssllist as $ipssl) {
-			// MR -- it's bug when only declate 'as' without =>
+			// MR -- it's bug when only declate 'as' without '=>'
 			foreach ($domipssllist as $ip => $dom) {
 				if ($ipssl['ipaddr'] !== $ip) {
 					$ret[] = $ipssl['ipaddr'];
@@ -657,7 +659,10 @@ class web__ extends lxDriverClass
 
 		// MR -- usually happen when declare exclusive ip on 1 ip system
 		if (!$ret) {
-			$ret[] = $ipssl[0]['ipaddr'];
+			foreach ($ipssllist as $ipssl) {
+				$ret[] = $ipssl['ipaddr'];
+				break;
+			}
 		}
 
 		return $ret;
