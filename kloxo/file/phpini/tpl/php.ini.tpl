@@ -1,4 +1,6 @@
 <?php
+	// can use $user and $domain vars
+
 	exec("php -r 'echo phpversion();'", $out, $ret);
 
 	$phpver = $out[0];

@@ -56,6 +56,11 @@ class phpini__sync extends Lxdriverclass
 			$input[$l] = ($v) ? $v : '';
 		}
 
+		// MR -- also carry user and domain on $input 
+		// to make .htaccess and php.ini more customizing
+		$input['user'] = $this->main->__var_customer_name;
+		$input['domain'] = $this->main->getParentName();
+
 		$stlist[] = "###Start Kloxo PHP config Area";
 		$stlist[] = "###Start Lxdmin Area";
 		$stlist[] = "###Start Kloxo Area";
