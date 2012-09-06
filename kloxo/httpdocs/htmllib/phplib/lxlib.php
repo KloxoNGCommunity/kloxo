@@ -756,7 +756,7 @@ function log_log($file, $mess, $id = null)
 	lfile_put_contents($rf, @ date("H:i M/d/Y") . ": $mess" . PHP_EOL, FILE_APPEND);
 }
 
-function log_cleanup($mess)
+function log_cleanup($mess, $nolog = null)
 {
 	// Function used in cleanup/upcp process
 	//
@@ -766,10 +766,13 @@ function log_cleanup($mess)
 		$mess = var_export($mess, true);
 	}
 	$mess = trim($mess);
-	$rf = "__path_program_root/log/update";
 
 	print( $mess . "\n" );
-	lfile_put_contents($rf, @ date("H:i M/d/Y") . ": $mess" . PHP_EOL, FILE_APPEND);
+
+	if (!$nolog) {
+		$rf = "__path_program_root/log/update";
+		lfile_put_contents($rf, @ date("H:i M/d/Y") . ": $mess" . PHP_EOL, FILE_APPEND);
+	}
 }
 
 function log_ajax($mess, $id = 1)

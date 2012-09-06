@@ -4731,35 +4731,24 @@ function install_xcache($nolog = null)
 {
 	//--- issue 547 - xcache failed to install
 
-	// MR -- exception for generic nolog; still need if
-	if (!$nolog) {
-		log_cleanup("Install xcache if is not enabled", $nolog);
-	}
+	log_cleanup("Install xcache if is not enabled", $nolog);
 
 	if (lxfile_exists("../etc/flag/xcache_enabled.flg")) {
-		if (!$nolog) {
-			log_cleanup("- Enabled status", $nolog);
-		}
+		log_cleanup("- Enabled status", $nolog);
 
 		exec("rpm -q php-xcache", $out, $ret);
 
 		if (stripos($out[0], 'not installed')) {
-			if (!$nolog) {
-				log_cleanup("- Installing", $nolog);
-			}
+			log_cleanup("- Installing", $nolog);
 			lxshell_return("yum", "-y", "install", "php-xcache");
 		} else {
-			if (!$nolog) {
-				log_cleanup("- Already installed", $nolog);
-			}
+			log_cleanup("- Already installed", $nolog);
 		}
 		// for customize?
 	//	lxfile_cp("../file/xcache.ini", "/etc/php.d/xcache.ini");
 	} else {
 		lxshell_return("yum", "-y", "remove", "php-xcache");
-		if (!$nolog) {
-			log_cleanup("- Disabled status", $nolog);
-		}
+		log_cleanup("- Disabled status", $nolog);
 	}
 }
 
@@ -5497,11 +5486,7 @@ function setFreshClam($nolog = null)
 		return;
 	}
 
-	// MR -- exception for generic nolog; still need if
-
-	if (!$nolog) {
-		log_cleanup("Checking freshclam (virus scanner)", $nolog);
-	}
+	log_cleanup("Checking freshclam (virus scanner)", $nolog);
 
 	$path = "/var/qmail/supervise/clamd";
 
@@ -5510,9 +5495,7 @@ function setFreshClam($nolog = null)
 		exec("chkconfig freshclam off > /dev/null 2>&1");
 		exec("/etc/init.d/freshclam stop >/dev/null 2>&1");
 
-		if (!$nolog) {
-			log_cleanup("- Disabled freshclam service", $nolog);
-		}
+		log_cleanup("- Disabled freshclam service", $nolog);
 
 		exec("svc -d {$path} {$path}/log > /dev/null 2>&1");
 
@@ -5529,9 +5512,7 @@ function setFreshClam($nolog = null)
 		exec("chkconfig freshclam on > /dev/null 2>&1");
 		exec("/etc/init.d/freshclam start >/dev/null 2>&1");
 
-		if (!$nolog) {
-			log_cleanup("- Enabled freshclam service", $nolog);
-		}
+		log_cleanup("- Enabled freshclam service", $nolog);
 
 		lxfile_mv("{$path}/down", "{$path}/run");
 		lxfile_mv("{$path}/log/down", "{$path}/log/run");
