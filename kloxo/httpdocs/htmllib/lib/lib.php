@@ -7150,6 +7150,8 @@ function getParseInlinePhp($template, $input)
 function setCopyWebConfFiles($webdriver)
 {
 	$aliasdriver = ($webdriver === 'apache') ? 'httpd' : $webdriver;
+	
+	$nolog = null;
 
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$webdriver}";
 	$pathdrv = "/home/{$webdriver}";

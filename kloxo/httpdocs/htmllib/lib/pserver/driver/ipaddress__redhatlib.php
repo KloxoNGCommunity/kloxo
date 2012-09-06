@@ -233,7 +233,9 @@ static function listSystemIps($machinename)
 	$result = self::getCurrentIps();
 	
 //	web__apache::createWebmailConfig($result);
-	web__apache::createWebDefaultConfig($result);
+//	web__apache::createWebDefaultConfig($result);
+
+	exec("sh /script/fixweb --target=defaults --nolog");
 	
 	$res =  ipaddress::fixstatus($result);
 	foreach($res as $r) {
