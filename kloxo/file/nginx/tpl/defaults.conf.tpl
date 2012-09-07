@@ -114,10 +114,7 @@ server {
 
     server_name _;
 
-    location ~ ^/~(.+?)(/.*)?$ {
-        alias /home/$1/public_html$2;
-        autoindex on;
-    }
+    set $domain '';
 
     index <?php echo $indexorder; ?>;
 <?php

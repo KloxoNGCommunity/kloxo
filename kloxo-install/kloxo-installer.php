@@ -265,7 +265,7 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
 			"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "lxlighttpd", $httpdbranch, "mod_ssl",
 			"zip", "unzip", "lxphp", "lxzend", "mysql", "mysql-server", "curl", "autoconf", "automake",
-			"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace"
+			"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs"
 		);
 
 		$list = implode(" ", $packages);

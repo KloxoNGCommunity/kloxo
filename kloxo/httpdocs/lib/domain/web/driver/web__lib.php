@@ -114,6 +114,16 @@ class web__ extends lxDriverClass
 					}
 				}
 
+				// MR -- nginx 1.3.5 from centalt also copy httpd ssl to /etc/nginx/conf.d
+				// it's make nginx not able started. Because nginx for kloxo don't need this file,
+				// and then this file deleted.
+
+				$nginxsslcfgfile = '/etc/nginx/conf.d/ssl.conf';
+
+				if (file_exists($nginxsslcfgfile)) {
+					exec("rm -rf {$nginxsslcfgfile}");
+				}
+
 				if ($ret === 0) {
 					throw new lxException("install_nginx_failed", 'parent');
 				}
