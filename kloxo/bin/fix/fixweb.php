@@ -70,6 +70,7 @@ if (!file_exists("/var/log/php-fpm")) {
 	mkdir("/var/log/php-fpm",0755);
 }
 chmod("/var/lib/php/session", 0777);
+chown("/var/lib/php/session", "apache");
 
 // MR - also fix for lighttpd
 if (!file_exists("/var/log/lighttpd")) {

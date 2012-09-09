@@ -1,26 +1,35 @@
+[kloxo-release-noarch]
+name=kloxo-release-noarch
+baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/centos5/noarch/
+enabled=1
+gpgcheck=0
+
+[kloxo-release-arch]
+name=kloxo-release-$basearch
+baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/centos5/$basearch/
+enabled=1
+gpgcheck=0
+
+[kloxo-testing-noarch]
+name=kloxo-testing-noarch
+baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/centos5/noarch/
+enabled=0
+gpgcheck=0
+
+[kloxo-testing-arch]
+name=kloxo-testing-$basearch
+baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/centos5/$basearch/
+enabled=0
+gpgcheck=0
+
+# ==================================
+
 [kloxo-centalt]
 name=kloxo-centalt - $basearch
 baseurl=http://centos.alt.ru/repository/centos/5/$basearch/
 enabled=1
 gpgcheck=0
-#protect=1
 exclude=openssh*
-
-[kloxo-rpmforge]
-name=kloxo-rpmforge - $basearch
-baseurl=http://apt.sw.be/redhat/el5/en/$basearch/rpmforge
-mirrorlist = http://apt.sw.be/redhat/el5/en/mirrors-rpmforge
-enabled=1
-gpgcheck=0
-includepkgs=mod_fastcgi*
-
-[kloxo-atomic]
-name=kloxo-custom-atomic - atomicrocketturtle.com
-baseurl=http://www.atomicorp.com/channels/atomic/centos/5/$basearch/
-mirrorlist=http://www.atomicorp.com/mirrorlist/atomic/centos-5-$basearch
-enabled=1
-gpgcheck=0
-includepkgs=mod_fcgid* mod_ruid* php-zend* php-ioncube*
 
 # ==================================
 
@@ -39,4 +48,3 @@ baseurl=http://download.fedoraproject.org/pub/epel/5/$basearch
 mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch
 enabled=1
 gpgcheck=0
-exclude=lighttpd* nginx*
