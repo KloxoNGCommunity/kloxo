@@ -82,6 +82,11 @@ static function getDir($domain)
 	$out = explode("\n", $out);
 	$out = $out[0];
 	$global_dontlogshell = $tmp;
+
+	if ($out === 'Invalid domain name') {
+		$out = false;
+	}
+
 	return $out;
 }
 
@@ -359,29 +364,40 @@ function changeOwner()
 {
 	$uid = os_get_uid_from_user($this->main->systemuser);
 	$gid = os_get_gid_from_user($this->main->systemuser);
-	//+docile.com-:docile.com:1376:1377:/home/lxadmin/mail/domains/docile.com:-::
+
 	$list = lfile("/var/qmail/users/assign");
+
 	foreach($list as &$__l) {
 		if ($__l === "\n") {
 			$__l = "";
 			continue;
 		}
-		$domainname = $this->main->nname;
 
+		if ($__l === ".") {
+			continue;
+		}
+
+		$domainname = $this->main->nname;
 		$path = self::getDir($domainname);
+
 		lxfile_unix_chown_rec($path, "$uid:$gid");
+
 		if (csb($__l, "+$domainname-")) {
 			$__l = "+$domainname-:$domainname:$uid:$gid:$path:-::\n";
 		}
 
 		$domainname = "lists.{$this->main->nname}";
 		$path = self::getDir($domainname);
+
 		if (!$path) { continue; }
+
 		lxfile_unix_chown_rec($path, "$uid:$gid");
+
 		if (csb($__l, "+$domainname-")) {
 			$__l = "+$domainname-:$domainname:$uid:$gid:$path:-::\n";
 		}
 	}
+
 	lfile_put_contents("/var/qmail/users/assign", implode("", $list));
 	lxshell_return("/var/qmail/bin/qmail-newu");
 
