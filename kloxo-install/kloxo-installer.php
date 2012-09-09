@@ -34,6 +34,8 @@ function lxins_main()
 	$osversion = find_os_version();
 	// $arch = trim( `arch` );
 
+	$licenseagree = $opt['license-agree'];
+
 	if (!char_search_beg($osversion, "centos") && !char_search_beg($osversion, "rhel")) {
 		print("Kloxo is only supported on CentOS 5 and RHEL 5\n");
 
@@ -71,16 +73,20 @@ function lxins_main()
 		system("mkdir -p /var/cache/kloxo/");
 		system("echo 1 > /var/cache/kloxo/kloxo-install-firsttime.flg");
 
-		//--- Ask License
-		if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
-			print("You did not agree to the AGPL-V3.0 license terms.\n");
-			print("Installation aborted.\n\n");
-			exit;
-		} else {
-			print("Installing Kloxo = YES\n\n");
+		if ($licenseagree === 'yes') {
+			//--- Ask License
+			if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
+				print("You did not agree to the AGPL-V3.0 license terms.\n");
+				print("Installation aborted.\n\n");
+				exit;
+			} else {
+				print("Installing Kloxo = YES\n\n");
+			}
 		}
 	}
 
+	// MR -- disable asking for installing installapp where installapp not installed now
+/*
 	//--- Ask for InstallApp
 	print("InstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
 	print("When you choose Yes, be aware of downloading about 350Mb of data!\n");
@@ -95,6 +101,8 @@ function lxins_main()
 		print("Installing InstallApp = YES\n\n");
 		$installappinst = true;
 	}
+*/
+	system("echo 1 > /var/cache/kloxo/kloxo-install-disableinstallapp.flg");
 
 	kloxo_install_step1($osversion, $installversion, $downloadserver);
 
@@ -382,6 +390,13 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 
 	system("chown -R lxlabs:lxlabs /usr/local/lxlabs/");
 	chdir("/usr/local/lxlabs/kloxo/httpdocs/");
+
+	// MR -- taken from mysql-convert.php with modified
+	// to make fresh install already use myisam as storage engine
+	// with purpose minimize memory usage (save around 100MB)
+
+	setUsingMyIsam();
+
 	system("service mysqld start");
 }
 
@@ -748,6 +763,34 @@ function isRpmInstalled($rpmname)
 		return true;
 	} else {
 		return false;
+	}
+}
+
+function setUsingMyIsam()
+{
+	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
+		$string = implode("", file("/etc/my.cnf"));
+		$file = fopen("/etc/my.cnf", "w");
+
+		$string_array = explode("\n", $string);
+
+		$string_collect = null;
+
+		foreach($string_array as $sa) {
+			if (stristr($sa, 'skip-innodb') !== FALSE) {
+				$string_collect .= "";
+				continue;
+			}
+
+			if (stristr($sa, 'default-storage-engine') !== FALSE) {
+				$string_collect .= "";
+				continue;
+			}
+			$string_collect .= $sa."\n";
+		}
+		
+		$string_source = "[mysqld]\n";
+		$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\n";
 	}
 }
 
