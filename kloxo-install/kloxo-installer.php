@@ -769,8 +769,6 @@ function isRpmInstalled($rpmname)
 	}
 }
 
-<?php
-
 function setUsingMyIsam()
 {
 	// MR -- taken from mysql-convert.php with modified
@@ -807,6 +805,7 @@ function setUsingMyIsam()
 		file_put_contents($file, $string_collect);
 	}
 }
+
 function isMysqlRunning()
 {
 	exec("service mysqld status|grep -i 'running'", $out, $ret);
