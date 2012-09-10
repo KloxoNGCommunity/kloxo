@@ -805,7 +805,7 @@ function isMysqlRunning()
 {
 	exec("service mysqld status|grep -i 'running'", $out, $ret);
 
-	if (strpos($out, "running") === false) {
+	if (strpos($out[0], "running") === false) {
 		return false;
 	} else {
 		return true;
