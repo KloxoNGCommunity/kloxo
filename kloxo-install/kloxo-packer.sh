@@ -157,50 +157,12 @@ fi
 
 cp -rf ./combo/kloxo-install/kloxo-installer.sh ./ > /dev/null 2>&1
 
-# Reads yes|no answer from the input 
-# 1 question text
-# 2 default answer, yes = 1 and no = 0
-function get_yes_no {
-    local question=
-    local input=
-    case $2 in 
-        1 ) question="$1 [Y/n]: "
-            ;;
-        0 ) question="$1 [y/N]: "
-            ;;
-        * ) question="$1 [y/n]: "
-    esac
-
-    while :
-    do
-        read -p "$question" input
-        input=$( echo $input | tr -s '[:upper:]' '[:lower:]' )
-        if [ "$input" = "" ] ; then
-            if [ "$2" == "1" ] ; then
-                return 1
-            elif [ "$2" == "0" ] ; then
-                return 0
-            fi
-        else
-            case $input in
-                y|yes) return 1
-                    ;;
-                n|no) return 0
-                    ;;
-            esac
-        fi
-    done
-}
-
-get_yes_no "Delete temporal dirs (patch, current and combo)?" 1
-if [ "$?" -eq "1" ] ; then
-	rm -rf ./patch > /dev/null 2>&1
-	rm -rf ./current > /dev/null 2>&1
-	rm -rf ./combo > /dev/null 2>&1
-fi
+# delete temporal directory
+rm -rf ./patch > /dev/null 2>&1
+rm -rf ./current > /dev/null 2>&1
+rm -rf ./combo > /dev/null 2>&1
 
 echo
 echo "Now you can run 'sh ./kloxo-installer.sh' for installing"
 echo
 echo "... the end"
-echo
