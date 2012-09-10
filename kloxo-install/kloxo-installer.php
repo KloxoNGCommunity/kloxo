@@ -73,7 +73,7 @@ function lxins_main()
 		system("mkdir -p /var/cache/kloxo/");
 		system("echo 1 > /var/cache/kloxo/kloxo-install-firsttime.flg");
 
-		if (!$licenseagree) {
+		if ((!$licenseagree) || ($licenseagree !== 'yes')) {
 			//--- Ask License
 			if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
 				print("You did not agree to the AGPL-V3.0 license terms.\n");
