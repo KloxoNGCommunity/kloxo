@@ -769,6 +769,8 @@ function isRpmInstalled($rpmname)
 	}
 }
 
+<?php
+
 function setUsingMyIsam()
 {
 	// MR -- taken from mysql-convert.php with modified
@@ -776,8 +778,9 @@ function setUsingMyIsam()
 	// with purpose minimize memory usage (save around 100MB)
 
 	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
-		$string = implode("", file("/etc/my.cnf"));
-		$file = fopen("/etc/my.cnf", "w");
+		$file = "/etc/my.cnf";
+
+		$string = file_get_contents($file);
 
 		$string_array = explode("\n", $string);
 
@@ -798,9 +801,12 @@ function setUsingMyIsam()
 		
 		$string_source = "[mysqld]\n";
 		$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\n";
+		
+		$string_collect = str_replace($string_source, $string_replace, $string_collect);
+
+		file_put_contents($file, $string_collect);
 	}
 }
-
 function isMysqlRunning()
 {
 	exec("service mysqld status|grep -i 'running'", $out, $ret);
