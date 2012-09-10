@@ -120,11 +120,11 @@ function lxins_main()
 
 		kloxo_install_step2($installtype, $dbroot, $dbpass);
 	}
-
+/*
 	if ($installappinst) {
 		kloxo_install_installapp();
 	}
-
+*/
 	kloxo_install_before_bye();
 
 	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
@@ -805,10 +805,10 @@ function isMysqlRunning()
 {
 	exec("service mysqld status|grep -i 'running'", $out, $ret);
 
-	if (strpos($out[0], "running") === false) {
-		return false;
-	} else {
+	if ($out) {
 		return true;
+	} else {
+		return false;
 	}
 }
 
