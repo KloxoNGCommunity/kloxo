@@ -391,13 +391,11 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 	system("chown -R lxlabs:lxlabs /usr/local/lxlabs/");
 	chdir("/usr/local/lxlabs/kloxo/httpdocs/");
 
-	// MR -- taken from mysql-convert.php with modified
-	// to make fresh install already use myisam as storage engine
-	// with purpose minimize memory usage (save around 100MB)
-
 	setUsingMyIsam();
 
-	system("service mysqld start");
+	if (!isMysqlRunning()) {
+		system("service mysqld start");
+	}
 }
 
 function kloxo_install_step2($installtype, $dbroot, $dbpass)
@@ -441,18 +439,21 @@ function kloxo_install_before_bye()
 	//--- Prevent mysql socket problem (especially on 64bit system)
 	if (!file_exists("/var/lib/mysql/mysql.sock")) {
 		print("Create mysql.sock...\n");
-		system("/etc/init.d/mysqld stop");
+		system("service mysqld stop");
 		system("mksock /var/lib/mysql/mysql.sock");
-		system("/etc/init.d/mysqld start");
+		system("service start");
 	}
 
 	//--- Set ownership for Kloxo httpdocs dir
 	system("chown -R lxlabs:lxlabs /usr/local/lxlabs/kloxo/httpdocs");
 
-	//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
-	print("Setting Mysql for always running after reboot and restart now...\n");
-	system("chkconfig mysqld on");
-	system("service mysqld restart");
+	if (!isMysqlRunning()) {
+		//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
+		print("Setting Mysql for always running after reboot and restart now...\n");
+
+		system("chkconfig mysqld on");
+		system("service mysqld start");
+	}
 
 	//--- Fix for old thirdparty version
 	if (!file_exists("/usr/local/lxlabs/kloxo/httpdocs/thirdparty")) {
@@ -524,7 +525,9 @@ function file_get_unserialize($file)
 
 function check_default_mysql($dbroot, $dbpass)
 {
-	system("service mysqld restart");
+	if (!isMysqlRunning()) {
+		system("service mysqld start");
+	}
 
 	if ($dbpass) {
 		exec("echo \"show tables\" | mysql -u $dbroot -p\"$dbpass\" mysql", $out, $ret);
@@ -768,6 +771,10 @@ function isRpmInstalled($rpmname)
 
 function setUsingMyIsam()
 {
+	// MR -- taken from mysql-convert.php with modified
+	// to make fresh install already use myisam as storage engine
+	// with purpose minimize memory usage (save around 100MB)
+
 	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
 		$string = implode("", file("/etc/my.cnf"));
 		$file = fopen("/etc/my.cnf", "w");
@@ -791,6 +798,17 @@ function setUsingMyIsam()
 		
 		$string_source = "[mysqld]\n";
 		$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\n";
+	}
+}
+
+function isMysqlRunning()
+{
+	exec("service mysqld status|grep -i 'running'", $out, $ret);
+
+	if (strpos($out, "running") === false) {
+		return false;
+	} else {
+		return true;
 	}
 }
 
