@@ -35,6 +35,7 @@ function lxins_main()
 	// $arch = trim( `arch` );
 
 	$licenseagree = $opt['license-agree'];
+	$noasking = $opt['no-asking'];
 
 	if (!char_search_beg($osversion, "centos") && !char_search_beg($osversion, "rhel")) {
 		print("Kloxo is only supported on CentOS 5 and RHEL 5\n");
@@ -53,11 +54,13 @@ function lxins_main()
 		system("mkdir -p /var/cache/kloxo/");
 		system("echo 1 > /var/cache/kloxo/kloxo-install-secondtime.flg");
 
-		//--- Ask Reinstall
-		if (get_yes_no("\nKloxo seems already installed do you wish to continue?") == 'n') {
-			print("Installation Aborted.\n");
+		if ($noasking !== 'yes') {
+			//--- Ask Reinstall
+			if (get_yes_no("\nKloxo seems already installed do you wish to continue?") == 'n') {
+				print("Installation Aborted.\n");
 
-			exit;
+				exit;
+			}
 		}
 
 		system("cp -rf {$kloxo_path} {$kloxo_path}." . date("Y-m-d-H-i-s"));
@@ -73,7 +76,7 @@ function lxins_main()
 		system("mkdir -p /var/cache/kloxo/");
 		system("echo 1 > /var/cache/kloxo/kloxo-install-firsttime.flg");
 
-		if ((!$licenseagree) || ($licenseagree !== 'yes')) {
+		if (($noasking !== 'yes') || ($licenseagree !== 'yes')) {
 			//--- Ask License
 			if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
 				print("You did not agree to the AGPL-V3.0 license terms.\n");
