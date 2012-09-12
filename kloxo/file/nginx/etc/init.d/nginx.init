@@ -59,13 +59,13 @@ stop() {
 }
 
 restart() {
-    configtest || return $?
+#    configtest || return $?
     stop
     start
 }
 
 reload() {
-    configtest || return $?
+#    configtest || return $?
     echo -n $"Reloading $prog: "
     killproc $nginx -HUP
     sleep 1
