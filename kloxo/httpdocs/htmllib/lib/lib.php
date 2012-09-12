@@ -5594,6 +5594,8 @@ function getBranchList($pname)
 
 	$a = explode(",", $c);
 
+	if (!$a) { $a = array($c); }
+
 	return $a;
 }
 

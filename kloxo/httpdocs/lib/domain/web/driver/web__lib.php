@@ -14,18 +14,24 @@ class web__ extends lxDriverClass
 
 		if ($l === 'apache') { $l = 'httpd'; }
 
+		$blist = getBranchList($l);
+
+		if (!$blist) { $blist = array($l); }
+
 		// MR -- for fixed an issue version conflict!
 		if ($l === 'httpd') {
-			$a = array ($l, "{$l}-tools");
+			$blist[] = "{$l}-tools";
+			$blist[] = "{$l}-devel";
 		} elseif ($l === 'lighttpd') {
-			$a = array ($l, "{$l}-fastcgi");		
+			$blist[] = "{$l}-fastcgi";
+			$blist[] = "{$l}-devel";
 		} elseif ($l === 'nginx') {
-			$a = array ($l);
+			$blist[] = "{$l}-devel";
 		}
 
 		lxshell_return("service", $l, "stop");
 
-		foreach ($a as $k => $v) {
+		foreach ($blist as $k => $v) {
 			lxshell_return("rpm", "-e", "--nodeps", $v);
 		}
 
@@ -58,14 +64,18 @@ class web__ extends lxDriverClass
 			$hawcdpath = "/home/{$l}/etc/conf.d";
 
 			if ($a === 'httpd') {
-				$rlist = array($a, "mod_ssl", "mod_rpaf");
+				self::setWebserverInstall($a);
 
-				foreach ($rlist as $k => $r) {
-					$ret = setRpmInstallWithLocalFirst($r);
+				$ret = setRpmInstallWithLocalFirst("mod_rpaf");
 
-					if (!$ret) {
-						throw new lxException("install_{$r}_failed", 'parent');
-					}
+				if (!$ret) {
+					throw new lxException("install_mod_rpaf_failed", 'parent');
+				}
+
+				$ret = setRpmInstallWithLocalFirst("mod_ssl");
+
+				if (!$ret) {
+					throw new lxException("install_mod_ssl_failed", 'parent');
 				}
 
 				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
@@ -73,14 +83,12 @@ class web__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
 						"/etc/httpd/conf.d/ssl.conf");
 			} elseif ($a === 'lighttpd') {
-				$rlist = array($a, "{$a}-fastcgi");
+				self::setWebserverInstall($a);
 
-				foreach ($rlist as $k => $r) {
-					$ret = setRpmInstallWithLocalFirst($r);
+				$ret = setRpmInstallWithLocalFirst("{$a}-fastcgi");
 
-					if (!$ret) {
-						throw new lxException("install_{$r}_failed", 'parent');
-					}
+				if (!$ret) {
+					throw new lxException("install_{$a}-fastcgi_failed", 'parent');
 				}
 
 				// MR -- some rpm not create this file
@@ -91,27 +99,12 @@ class web__ extends lxDriverClass
 				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
 				lxfile_unix_chown("/var/log/{$a}", "apache:apache");
 			} elseif ($a === 'nginx') {
+				self::setWebserverInstall($a);
+
 				$ret = setRpmInstallWithLocalFirst("GeoIP");
 
 				if (!$ret) {
 					throw new lxException("install_GeoIP_failed", 'parent');
-				}
-
-				$blist = getBranchList('nginx');
-
-				foreach ($blist as $k => $b) {
-					exec("yum -y install {$b} --disablerepo=* --enablerepo=kloxo-local*" .
-						" | grep -i 'No package'", $out, $ret);
-
-					if ($ret !== 0) { break; }
-				}
-
-				if ($ret === 0) {
-					foreach ($blist as $k => $b) {
-						exec("yum -y install {$b} | grep -i 'No package'", $out, $ret);
-
-						if ($ret !== 0) { break; }
-					}
 				}
 
 				// MR -- nginx 1.3.5 from centalt also copy httpd ssl to /etc/nginx/conf.d
@@ -123,10 +116,6 @@ class web__ extends lxDriverClass
 				if (file_exists($nginxsslcfgfile)) {
 					exec("rm -rf {$nginxsslcfgfile}");
 				}
-
-				if ($ret === 0) {
-					throw new lxException("install_nginx_failed", 'parent');
-				}
 			}
 
 			lxshell_return("chkconfig", $a, "on");
@@ -137,6 +126,23 @@ class web__ extends lxDriverClass
 		}
 
 		self::setInstallPhpfpm();
+	}
+
+	static function setWebserverInstall($webserver)
+	{
+		$blist = getBranchList($webserver);
+
+		if (!$blist) { $blist = array($webserver); }
+
+		foreach ($blist as $k => $b) {
+			$ret = setRpmInstallWithLocalFirst($b);
+
+			if ($ret) { break; }
+		}
+
+		if (!$ret) {
+			throw new lxException("install_{$webserver}_failed", 'parent');
+		}
 	}
 
 	static function setUnnstallPhpfpm()
