@@ -140,6 +140,13 @@ class web__ extends lxDriverClass
 			if ($ret) { break; }
 		}
 
+		// MR -- overwrite init
+
+		$altname = ($webserver === 'httpd') ? 'apache' : $webserver;
+
+		lxfile_cp(getLinkCustomfile("/home/{$altname}/etc/init.d", "{$webserver}.init"),
+				"/etc/rc.d/init.d/{$webserver}");
+
 		if (!$ret) {
 			throw new lxException("install_{$webserver}_failed", 'parent');
 		}
