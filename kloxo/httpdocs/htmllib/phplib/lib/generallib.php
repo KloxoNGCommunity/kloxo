@@ -218,7 +218,7 @@ class General extends Lxdb
 	function updateselfbackupconfig($param)
 	{
 		if (isOn($param['selfbackupparam_b-selfbackupflag'])) {
-			$fn = ftp_connect($param['selfbackupparam_b-ftp_server']);
+			$fn = lxftp_connect($param['selfbackupparam_b-ftp_server']);
 			$mylogin = ftp_login($fn, $param['selfbackupparam_b-rm_username'], $param['selfbackupparam_b-rm_password']);
 
 			if (!$mylogin) {

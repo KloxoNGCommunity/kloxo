@@ -2796,7 +2796,7 @@ function download_source($file)
 
 function download_from_ftp($ftp_server, $ftp_user, $ftp_pass, $file, $localfile)
 {
-	$fn = ftp_connect($ftp_server);
+	$fn = lxftp_connect($ftp_server);
 	$login = ftp_login($fn, $ftp_user, $ftp_pass);
 	if (!$login) {
 		throw new lxException('could_not_connect_to_ftp_server', 'download_ftp_f', $ftp_server);
