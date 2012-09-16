@@ -76,17 +76,20 @@ static function getDir($domain)
 	global $global_shell_error, $global_shell_ret, $global_shell_out;
 	global $global_dontlogshell;
 
+	// MR -- change again with using this function instead 'Invalid domain name'
+	if (!self::doesDomainExist($domain)) { return false; }
+
 	$tmp = $global_dontlogshell;
 	$global_dontlogshell = true;
 	$out = trim(lxshell_output("__path_mail_root/bin/vdominfo", "-d", $domain));
 	$out = explode("\n", $out);
 	$out = $out[0];
 	$global_dontlogshell = $tmp;
-
+/*
 	if ($out === 'Invalid domain name') {
 		$out = false;
 	}
-
+*/
 	return $out;
 }
 
@@ -94,12 +97,14 @@ static function doesDomainExist($domain)
 {
 	global $global_shell_error, $global_shell_ret, $global_shell_out;
 	global $global_dontlogshell;
+	
 	$tmp = $global_dontlogshell;
 	$global_dontlogshell = true;
 	$ret = lxshell_return("__path_mail_root/bin/vdominfo", "-d", $domain);
 	$global_dontlogshell = $tmp;
 
 	if ($ret) { return false; }
+
 	return true;
 }
 

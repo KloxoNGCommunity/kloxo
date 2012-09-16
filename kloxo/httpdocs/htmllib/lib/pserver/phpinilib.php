@@ -281,9 +281,11 @@ class phpini extends lxdb
 		//	$this->initialValue('disable_functions', 
 		//		'exec,passthru,shell_exec,system,proc_open,popen,curl_exec,'.
 		//		'curl_multi_exec,parse_ini_file,show_source');
+
+		// MR -- remove curl from disable_functions
 		$this->initialValue('disable_functions', 
-			'exec,passthru,shell_exec,system,proc_open,popen,curl_exec,' . 
-			'curl_multi_exec,show_source');
+			'exec,passthru,shell_exec,system,proc_open,popen,' . 
+			'show_source');
 
 		$this->initialValue('max_execution_time_flag', '30');
 		$this->initialValue('max_input_time_flag', '60');
