@@ -251,7 +251,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Location />
         <IfModule mod_php5.c>
-            php_admin_value open_basedir "/home/<?php echo $user; ?>:/home/<?php echo $user; ?>/kloxoscript:/home/<?php echo $domainname; ?>:/home/<?php echo $domainname; ?>/httpdocs:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script::/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
+            php_admin_value open_basedir "/home/<?php echo $user; ?>:/home/<?php echo $user; ?>/kloxoscript:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script::/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
         </IfModule>
     </Location>
 <?php
