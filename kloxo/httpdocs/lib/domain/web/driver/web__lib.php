@@ -1094,14 +1094,19 @@ class web__ extends lxDriverClass
 		$list = getWebDriverList();
 
 		foreach ($list as &$l) {
-			$p = "/home/{$l}/conf/domains";
+			$p = "/home/{$l}/conf";
 
-			lxfile_rm("{$p}/{$domainname}.conf");
+			lxfile_rm("{$p}/domains/{$domainname}.conf");
+
+			// MR -- for large amount domains, call function make slow process
+			// so, alternative use file detect
+			if (!file_exists("{$p}/defaults/init.conf")) {
+				$this->createSSlConf();
+				$this->updateMainConfFile();
+			}
 		}
 
 		$this->main->deleteDir();
-
-		$this->createSSlConf();
 
 		// MR -- relate to fixed ip/~client, but better on add/delete client process
 		// meanwhile enough in here
@@ -1117,7 +1122,22 @@ class web__ extends lxDriverClass
 
 		$this->main->createPhpInfo();
 
+		$this->updateMainConfFile();
 		$this->createSSlConf();
+
+		$list = getWebDriverList();
+
+		foreach ($list as &$l) {
+			$p = "/home/{$l}/conf";
+
+			// MR -- for large amount domains, call function make slow process
+			// so, alternative use file detect
+			if (!file_exists("{$p}/defaults/init.conf")) {
+				$this->createSSlConf();
+				$this->updateMainConfFile();
+			}
+		}
+
 
 		// MR -- relate to fixed ip/~client, but better on add/delete client process
 		// meanwhile enough in here
