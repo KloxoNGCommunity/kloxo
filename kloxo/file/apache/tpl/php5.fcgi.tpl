@@ -1,5 +1,6 @@
 <?php
-    $maxchildren = '5';
+	// MR -- reduce maxchildren from 5 to 2 because it's for domain (not for user)
+    $maxchildren = '2';
     $maxrequests = '500';
 ?>
 #!/bin/sh
