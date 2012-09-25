@@ -26,6 +26,8 @@
 		$sendmail_from = '';
 	}
 ?>
+### MR -- Remove # in front of 'Addhandler' if running php 5.2 code on php 5.3+ system
+#AddHandler x-httpd-php52 .php
 
 <Ifmodule mod_php5.c>
 	php_value upload_max_filesize <?php echo $upload_max_filesize; ?>
