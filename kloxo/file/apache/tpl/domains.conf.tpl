@@ -169,9 +169,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
@@ -251,7 +248,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Location />
         <IfModule mod_php5.c>
-            php_admin_value open_basedir "/home/<?php echo $user; ?>:/home/<?php echo $user; ?>/kloxoscript:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script::/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
+            php_admin_value open_basedir "/home/<?php echo $user; ?>:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script:/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
         </IfModule>
     </Location>
 <?php
@@ -392,9 +389,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
@@ -505,9 +499,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
@@ -612,9 +603,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
@@ -741,9 +729,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
@@ -854,9 +839,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
@@ -961,9 +943,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
@@ -1074,9 +1053,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 

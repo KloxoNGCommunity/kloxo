@@ -118,9 +118,6 @@ NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 ?>
         <Location /~<?php echo $user; ?>>
             <IfModule mod_suphp.c>
-                AddHandler x-httpd-php .php
-                AddHandler x-httpd-php .php .php4 .php3 .phtml
-                suPHP_AddHandler x-httpd-php
                 SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
             </IfModule>
@@ -138,9 +135,6 @@ NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
     </IfModule>
 
     <IfModule mod_suphp.c>
-        AddHandler x-httpd-php .php
-        AddHandler x-httpd-php .php .php4 .php3 .phtml
-        suPHP_AddHandler x-httpd-php
         SuPhp_UserGroup lxlabs lxlabs
     </IfModule>
 
