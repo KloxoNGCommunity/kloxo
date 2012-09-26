@@ -106,9 +106,7 @@ class serverweb__ extends lxDriverClass
 
 		$t = (isset($this->main->php_type)) ? $this->main->php_type : null;
 
-		if (((stripos($t, '_ruid2') !== false)) ||
-				(stripos($t, '_itk') !== false) ||
-				(stripos($t, 'suphp') !== false)) {
+		if (((stripos($t, '_ruid2') !== false)) || (stripos($t, '_itk') !== false)) {
 			if ($this->main->secondary_php === 'on') {
 				throw new lxexception('secondary_php_not_work_with_php-type_selected', 'parent');
 			}
@@ -398,8 +396,12 @@ class serverweb__ extends lxDriverClass
 		$haecdpath = '/home/apache/etc/conf.d';
 
 		if ($this->main->secondary_php === 'on') {
-			lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
-			lxfile_rm($ehcdpath."/suphp52.nonconf");
+			if (stripos($t, 'suphp') !== false) {
+				lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
+			} else {
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
+				lxfile_rm($ehcdpath."/suphp52.nonconf");
+			}
 		} else {
 			lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
 		}
