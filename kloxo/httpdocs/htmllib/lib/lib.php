@@ -5821,7 +5821,7 @@ function setInitialPhpFpmConfig($nolog = null)
 function setWebDriverChownChmod($type, $nolog = null)
 {
 	$webdirchmod = '755';
-	$webdirchown = "apache:apache";
+	$webdirchown = "root:root";
 
 	log_cleanup("- chown {$webdirchown} FOR /home/{$type}/ AND INSIDE", $nolog);
 	lxfile_unix_chown_rec("/home/{$type}/", $webdirchown);

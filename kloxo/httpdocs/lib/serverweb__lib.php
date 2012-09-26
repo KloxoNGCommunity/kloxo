@@ -355,12 +355,12 @@ class serverweb__ extends lxDriverClass
 		}
 
 		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", $nolog);
-
+/*
 		// MR -- to make sure this modules convert too
 		lxshell_return("yum", "install", "-y", "{$branchselect}-mbstring",
 				"{$branchselect}-mysql", "{$branchselect}-imap", "{$branchselect}-pear",
 				"{$branchselect}-devel", "{$branchselect}-fpm");
-
+*/
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 
 		lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
@@ -369,7 +369,7 @@ class serverweb__ extends lxDriverClass
 
 		if ($installed) {
 			lxshell_return("chkconfig", "php-fpm", "on");
-			createRestartFile('phpfpm');
+			createRestartFile('php-fpm');
 		}
 
 		if (stripos('mod_php', $this->main->php_type) === false) {
