@@ -1263,6 +1263,8 @@ $__description["referer"] = array("Referer");
 $__description["remote_host"] = array("Remote Host");
 $__description["webserver_config"] = array("Webserver Config");
 $__description["php_type"] = array("Php Type");
+$__description["secondary_php"] = array("Enable Php 5.2 (use lxphp) as secondary Php");
+
 $__description["config"] = array("Config");
 $__description["rails_app"] = array("Rails App");
 $__description["applicationname"] = array("Applicationname");

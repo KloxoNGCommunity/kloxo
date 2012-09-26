@@ -5,6 +5,8 @@ class serverweb extends lxdb
 	static $__desc = array("", "", "webserver_config");
 	static $__desc_nname = array("", "", "webserver_config");
 	static $__desc_php_type = array("", "", "php_type");
+	static $__desc_secondary_php = array("", "", "secondary_php");
+
 	static $__acdesc_update_edit = array("", "", "config");
 	static $__acdesc_show = array("", "", "webserver_config");
 
@@ -68,6 +70,12 @@ class serverweb extends lxdb
 				);
 
 				$this->setDefaultValue('php_type', 'mod_php');
+
+				$vlist['secondary_php'] = array('f', 'on', 'off');
+
+				if (file_exists("/etc/httpd/conf.d/suphp52.conf")) {
+					$this->setDefaultValue('secondary_php', 'on');
+				}
 
 				break;
 

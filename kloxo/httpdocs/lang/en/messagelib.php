@@ -212,7 +212,7 @@ $__information['webserver_config'] =
 	"[b]MySQL Convert[/b] - MyISAM (less memory usage; save 100-200 MB) and ".
 		"InnoDB (higher performance)<br />".
 	"[b]Fix 'Ownership' And 'Permissions'[/b] - Prevent '500 Internal server error' on secure environment ".
-	"";
+	"<br /><br />* Add '[b]AddHandler application/x-httpd-php52 .php[/b]' in .htaccess for using php 5.2 on dual-php with php 5.3/5.4 as primary php";
 // Language Content for #656
 // by Andrew Ying
 $__emessage['document_root_may_not_contain_spaces'] = "The document root may not contain any space at the end or before the slash. Please check and submit again.";

@@ -4894,7 +4894,7 @@ function fixdirprotectagain()
 
 function fixdomainhomepermission()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.ph", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
 }
 
 function installgroupwareagain()

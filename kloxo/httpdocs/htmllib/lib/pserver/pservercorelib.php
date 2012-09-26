@@ -562,8 +562,9 @@ class pservercore extends Lxclient
 		// then the actual was wouldn't happen.
 		$this->getandwriteipaddress();
 
+		// MR -- no need because execute on fixIpAddrss.php and execatinit.php
 		// MR -- fix issue when start/restart kloxo will be delete /home/<webserver>/conf/domains contents
-		lxshell_return("sh", "/script/fixweb", "--nolog");
+	//	lxshell_return("sh", "/script/fixweb", "--nolog");
 
 	}
 

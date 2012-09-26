@@ -106,6 +106,14 @@ class serverweb__ extends lxDriverClass
 
 		$t = (isset($this->main->php_type)) ? $this->main->php_type : null;
 
+		if (((stripos($t, '_ruid2') !== false)) ||
+				(stripos($t, '_itk') !== false) ||
+				(stripos($t, 'suphp') !== false)) {
+			if ($this->main->secondary_php === 'on') {
+				throw new lxexception('secondary_php_not_work_with_php-type_selected', 'parent');
+			}
+		}
+
 		$ullkfapath  = '/usr/local/lxlabs/kloxo/file/apache';
 		$ullkfpfpath = '/usr/local/lxlabs/kloxo/file/php-fpm';
 
@@ -147,6 +155,8 @@ class serverweb__ extends lxDriverClass
 
 			$this->set_mpm($t);
 		}
+
+		$this->set_secondary_php();
 	}
 
 	function set_modphp($type)
@@ -170,8 +180,8 @@ class serverweb__ extends lxDriverClass
 			exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
 		}
 
-		lxfile_rm("{$ehcdpath}/php.nonconf");
 		lxfile_cp(getLinkCustomfile($haecdpath, "php.conf"), $ehcdpath."/php.conf");
+		lxfile_rm($ehcdpath."/php.nonconf");
 
 		$this->remove_phpfpm();
 	}
@@ -193,22 +203,19 @@ class serverweb__ extends lxDriverClass
 
 		$phpbranch = getPhpBranch();
 
-	//	$this->set_php_pure();
-
 		$this->rename_to_nonconf();
 
 		if (version_compare($ver, "5.3.0", ">")) {
 			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), "/etc/suphp.conf");
 			$this->remove_phpfpm();
 		} else {
-		//	lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), "/etc/suphp.conf");
+			lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), "/etc/suphp.conf");
 			$this->set_php_pure();
 		}
 
 		exec("sh /script/fixphp --nolog");
 
-		lxfile_rm("{$ehcdpath}/suphp.nonconf");
-		lxfile_cp(getLinkCustomfile($haecdpath, "suphp.conf"), $ehcdpath."/suphp.conf");
+		lxfile_rm($ehcdpath."/suphp.nonconf");
 	}
 
 	function set_phpfpm()
@@ -274,8 +281,7 @@ class serverweb__ extends lxDriverClass
 		$this->rename_to_nonconf();
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "fcgid.conf"), $ehcdpath."/fcgid.conf");
-
-
+		lxfile_rm($ehcdpath."/fcgid.nonconf");
 	}
 
 	function remove_phpfpm()
@@ -381,7 +387,21 @@ class serverweb__ extends lxDriverClass
 			lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
 			lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
 
-			$this->set_phpbranch();
+			$this->set_phpbranch($phpbranch);
+		}
+
+	}
+
+	function set_secondary_php()
+	{
+		$ehcdpath = '/etc/httpd/conf.d';
+		$haecdpath = '/home/apache/etc/conf.d';
+
+		if ($this->main->secondary_php === 'on') {
+			lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
+			lxfile_rm($ehcdpath."/suphp52.nonconf");
+		} else {
+			lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
 		}
 
 	}

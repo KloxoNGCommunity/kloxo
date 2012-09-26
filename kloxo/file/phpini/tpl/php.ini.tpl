@@ -1,9 +1,13 @@
 <?php
 	// can use $user and $domain vars
 
-	exec("php -r 'echo phpversion();'", $out, $ret);
+	if ($setphp52ver) {
+		$phpver = '5.2';
+	} else {
+		exec("php -r 'echo phpversion();'", $out, $ret);
 
-	$phpver = $out[0];
+		$phpver = $out[0];
+	}
 
 	if (version_compare($phpver, "5.4.0", ">=")) {
 		$php54enable = '';

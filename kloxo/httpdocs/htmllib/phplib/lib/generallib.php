@@ -245,7 +245,7 @@ class General extends Lxdb
 
 			//	call_user_func("web__{$driverapp}::createWebDefaultConfig");
 
-			exec("sh /script/fixweb --server=all");
+			exec("sh /script/fixweb --target=defaults --server=all --nolog");
 
 			// MR --- new function handle installapp issue because built-in postUpdate no immediately process
 			if ($this->generalmisc_b->isOn('disableinstallapp')) {
