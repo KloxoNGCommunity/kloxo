@@ -395,16 +395,29 @@ class serverweb__ extends lxDriverClass
 		$ehcdpath = '/etc/httpd/conf.d';
 		$haecdpath = '/home/apache/etc/conf.d';
 
+		$epath = '/etc';
+		$haepath = '/home/apache/etc';
+
 		if ($this->main->secondary_php === 'on') {
-			if (stripos($t, 'suphp') !== false) {
+			if (stripos($this->main->php_type, 'suphp') !== false) {
 				lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
 			} else {
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
 				lxfile_rm($ehcdpath."/suphp52.nonconf");
+
+				$ret = lxshell_return("yum", "-y", "install", "mod_suphp");
+
+				if ($ret) {
+					throw new lxexception('install_mod_suphp_failed', 'parent');
+				}
 			}
+
+			lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
+
+			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath."/suphp.conf");
 		} else {
 			lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
 		}
-
+	
 	}
 }
