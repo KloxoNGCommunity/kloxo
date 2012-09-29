@@ -68,7 +68,13 @@ $globalspath = "/home/nginx/conf/globals";
 if (file_exists("{$globalspath}/custom.proxy.conf")) {
     $proxyconf = 'custom.proxy.conf';
 } else {
-    $proxyconf = 'proxy.conf';
+    $wppath = "{$rootpath}/_sitetype_/wordpress";
+
+    if (file_exists($wppath)) {
+        $proxyconf = 'wp-proxy.conf';
+    } else {
+        $proxyconf = 'proxy.conf';
+    }
 }
 
 if (file_exists("{$globalspath}/custom.phpfpm.conf")) {
