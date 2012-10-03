@@ -95,12 +95,13 @@ case "$1" in
 	RETVAL=$?
 	;;
   restart)
-	#stop
-	#start
-	$apachectl configtest
-	echo -e $"Gracefully restarting"
-	$apachectl graceful
-	status $httpd
+	stop
+	start
+	# MR -- back to original because gracefull have a trouble with 2.2.23 version
+	#$apachectl configtest
+	#echo -e $"Gracefully restarting"
+	#$apachectl graceful
+	#status $httpd
 	;;
   condrestart)
 	if [ -f ${pidfile} ] ; then

@@ -2045,6 +2045,20 @@ function check_raw_password($class, $client, $pass)
 		return false;
 	}
 
+	// MR -- sanitize input
+	if ((stripos($class, "'") !== false) || 
+			(stripos($client, "'") !== false) || 
+			(stripos($pass, "'") !== false)) {
+		return false;
+	}
+
+	// MR -- sanitize input
+	if ((stripos($class, "\"") !== false) || 
+			(stripos($client, "\"") !== false) || 
+			(stripos($pass, "\"") !== false)) {
+		return false;
+	}
+
 	$rawdb = new Sqlite(null, $class);
 	$password = $rawdb->rawquery("select password from $class where nname = '$client'");
 	$enp = $password[0]['password'];
