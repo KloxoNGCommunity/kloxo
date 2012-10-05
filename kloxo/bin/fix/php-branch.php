@@ -33,10 +33,34 @@ function setPhpBranch($select, $nolog = null)
 			}
 		}
 
+		// MR -- php54-mysqlnd may conflict with php54-mysql
+		if ($select === 'php54') {
+			$ret = lxshell_return("yum", "-y", "remove", "{$phpbranch}-mysql");
+
+			if ($ret) {
+				throw new lxException("remove_{$phpbranch}-mysql_failed", '', 'parent');
+			}
+			
+		}
+
 		$ret = lxshell_return("yum", "-y", "replace", $phpbranch, "--replace-with={$select}");
 
 		if ($ret) {
 			throw new lxException("change_to_{$select}_branch_failed", '', 'parent');
+		}
+
+		if ($select === 'php54') {
+			$ret = lxshell_return("yum", "-y", "remove", "{$select}-mysqlnd");
+
+			if ($ret) {
+				throw new lxException("remove_{$select}-mysqlnd_failed", '', 'parent');
+			}
+
+			$ret = lxshell_return("yum", "-y", "install", "{$select}-mysql");
+
+			if ($ret) {
+				throw new lxException("install_{$select}-mysql_failed", '', 'parent');
+			}		
 		}
 
 	}
