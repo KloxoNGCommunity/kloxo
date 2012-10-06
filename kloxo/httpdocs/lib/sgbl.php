@@ -201,6 +201,7 @@ class Sgbl
 
 	private function initLanguages()
 	{
+/*
 		$this->__var_language['tr'] = 'Turkish';
 		$this->__var_language['en'] = 'English';
 		$this->__var_language['cen'] = 'Custom English';
@@ -222,6 +223,19 @@ class Sgbl
 		$this->__var_language['ro'] = 'Romanian';
 		$this->__var_language['br'] = 'Brazilian Portuguese';
 		$this->__var_language['hu'] = 'Hungarian';
+*/
+		$file = getLinkCustomfile("/usr/local/lxlabs/kloxo/httpdocs/lang", "language.lst");
+
+		$list = file_get_contents($file);
+
+		$parts = explode("\n", $list);
+
+		foreach ($parts as &$v) {
+			if (stripos($v, '=') !== false) {
+				$lang = explode("=", $v);
+				$this->__var_language[trim($lang[0])] = trim($lang[1]);
+			}
+		}
 	}
 
 	private function initDeviceDescriptions()
