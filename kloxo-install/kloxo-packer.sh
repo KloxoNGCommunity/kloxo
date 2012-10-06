@@ -102,7 +102,7 @@ zip -r9y kloxo-install.zip ./kloxo-install > /dev/null 2>&1
 mv -f kloxo-install.zip ../ > /dev/null 2>&1
 
 cd ./kloxo/src
-yum -y install gcc automake autoconf libtool make
+yum -y install which cpp gcc gcc-c++ openssl-devel automake autoconf libtool make
 make
 cd ../
 
