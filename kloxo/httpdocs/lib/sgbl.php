@@ -224,16 +224,16 @@ class Sgbl
 		$this->__var_language['br'] = 'Brazilian Portuguese';
 		$this->__var_language['hu'] = 'Hungarian';
 */
-		$file = getLinkCustomfile("/usr/local/lxlabs/kloxo/httpdocs/lang", "language.lst");
+		// MR -- change reading language list
+		$path = "/usr/local/lxlabs/kloxo/httpdocs/lang";
 
-		$list = file_get_contents($file);
+		$dirs = scandir($path);
 
-		$parts = explode("\n", $list);
+		foreach ($dirs as &$dir) {
+			$file = "{$path}/{$dir}/language";
 
-		foreach ($parts as &$v) {
-			if (stripos($v, '=') !== false) {
-				$lang = explode("=", $v);
-				$this->__var_language[trim($lang[0])] = trim($lang[1]);
+			if (file_exists($file)) {
+				$this->__var_language[$dir] = trim(file_get_contents($file));
 			}
 		}
 	}

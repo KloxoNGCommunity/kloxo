@@ -1869,6 +1869,10 @@ function get_language()
 	} else {
 		$lan = 'en';
 	}
+
+	// MR -- change en to en-us
+	if ($lan === 'en') { $lan = 'en-us'; }
+
 	return $lan;
 }
 
