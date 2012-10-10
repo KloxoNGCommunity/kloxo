@@ -224,7 +224,7 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
             }
         }
 
-        if (!$reverseproxy) {
+//        if (!$reverseproxy) {
             if ($statsapp === 'awstats') {
 ?>
 
@@ -260,7 +260,7 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
 <?php
                 }
             }
-        }
+//        }
 
         if ($lighttpdextratext) {
 ?>

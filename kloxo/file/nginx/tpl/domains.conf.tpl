@@ -231,7 +231,7 @@ server {
 
     include '<?php echo $globalspath; ?>/<?php echo $genericconf; ?>';
 <?php
-        if (!$reverseproxy) {
+//        if (!$reverseproxy) {
 ?>
 
     access_log /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log main;
@@ -272,7 +272,7 @@ server {
 <?php
                 }
             }
-        }
+//        }
 
         if ($nginxextratext) {
 ?>
