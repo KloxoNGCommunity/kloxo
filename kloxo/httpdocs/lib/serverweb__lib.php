@@ -298,7 +298,7 @@ class serverweb__ extends lxDriverClass
 		$ehcdpath = '/etc/httpd/conf.d';
 
 		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
-		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastgi.nonconf");
+		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastcgi.nonconf");
 		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
 		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
 		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
@@ -410,14 +410,14 @@ class serverweb__ extends lxDriverClass
 				if ($ret) {
 					throw new lxexception('install_mod_suphp_failed', 'parent');
 				}
+
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
+
+				lxfile_mv($epath."/suphp.conf", $epath."/suphp.nonconf");
 			}
 
-			lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
-
-			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath."/suphp.conf");
 		} else {
 			lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
-		}
-	
+		}	
 	}
 }
