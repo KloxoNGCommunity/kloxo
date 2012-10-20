@@ -59,17 +59,8 @@ function lxfile_dirsize($path, $byteflag = false)
 	$t = $ret[2];
 */
 
-/*
-	exec("du -sc {$path}", $out);
-
-	$os  = preg_replace("/\s+/", ":", $out);
-	$ret = explode(":", $os[1]);
-
-	$t = $ret[0];
-*/
-
 	exec("du -sc {$path} | grep -i 'total'", $out);
-	$os  = preg_replace("/\s+/", ":", $out);
+	$os  = preg_replace("/\s+/", ":", $out[0]);
 	$t = str_replace(":total", "", $os);
 
 	$global_dontlogshell = $old;
@@ -77,7 +68,7 @@ function lxfile_dirsize($path, $byteflag = false)
 	if ($byteflag) {
 		return round($t * (1024), 1);
 	} else {
-		return round($t/(1024), 1);
+		return round($t / (1024), 1);
 	}
 }
 
