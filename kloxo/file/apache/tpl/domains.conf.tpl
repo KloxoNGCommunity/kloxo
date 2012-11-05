@@ -225,10 +225,6 @@ foreach ($certnamelist as $ip => $certname) {
 
     Redirect /webmail "http://webmail.<?php echo $domainname; ?>"
 
-    <Directory "/home/httpd/<?php echo $domainname; ?>/kloxoscript/">
-        AllowOverride All
-    </Directory>
-
     <IfModule mod_php5.c>
         php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
         php_admin_value sendmail_from "<?php echo $domainname; ?>"
