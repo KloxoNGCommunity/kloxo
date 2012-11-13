@@ -279,11 +279,11 @@ kloxo_begin
 
 kloxo_core_portion
 
-kloxo_thirdparty_portion
+#kloxo_thirdparty_portion
 
-kloxo_webmail_portion
+#kloxo_webmail_portion
 
-kloxo_awstats_portion
+#kloxo_awstats_portion
 
 kloxo_run_script
 

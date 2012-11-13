@@ -8,7 +8,7 @@ static $__desc = array("S", "",  "update");
 // Mysql
 static $__desc_nname =     array("n", "",  "_version", "a=show");
 static $__desc_state =     array("e", "",  "state", "a=show");
-static $__desc_schedule =     array("n", "",  "_schedule_updation_later", "a=show");
+static $__desc_schedule =     array("n", "",  "_schedule_update_later", "a=show");
 
 static $__desc_current_version_f = array("", "",  "current_version");
 static $__desc_latest_version_f = array("", "",  "latest_version");

@@ -48,8 +48,8 @@ static function run_awstats($statsprog, $list)
 			//system("rm /home/httpd/$p->nname/webstats/*");
 			if ($statsprog === 'webalizer') {
 				print("webalizer: $p->nname\n");
-				lxshell_return("nice", "-n", "15", "webalizer", "-n", $p->nname, "-t", $p->nname, "-c", "__path_real_etc_root/webalizer/webalizer.{$p->nname}.conf");
 
+				lxshell_return("nice", "-n", "15", "webalizer", "-n", $p->nname, "-t", $p->nname, "-c", "__path_real_etc_root/webalizer/webalizer.{$p->nname}.conf");
 			} else {
 				print("awstats: $p->nname\n");
 				putenv("GATEWAY_INTERFACE=");

@@ -62,15 +62,25 @@ class serverweb extends lxdb
 				break;
 
 			case "php_type":
+/*
 				$vlist['php_type'] = array('s', array(
 						'mod_php', 'mod_php_ruid2', 'mod_php_itk',
 						'suphp', 'suphp_event', 'suphp_worker',
 						'php-fpm_event', 'php-fpm_worker',
 						'fcgid_event', 'fcgid_worker')
 				);
+*/
 
-				$this->setDefaultValue('php_type', 'mod_php');
+				// MR -- remove mod_php on 'php-type' select
+				$vlist['php_type'] = array('s', array(
+						'mod_php_ruid2', 'mod_php_itk',
+						'suphp', 'suphp_event', 'suphp_worker',
+						'php-fpm_event', 'php-fpm_worker',
+						'fcgid_event', 'fcgid_worker')
+				);
 
+				$this->setDefaultValue('php_type', 'mod_php_ruid2');
+				
 				$vlist['secondary_php'] = array('f', 'on', 'off');
 
 				if (file_exists("/etc/httpd/conf.d/suphp52.conf")) {

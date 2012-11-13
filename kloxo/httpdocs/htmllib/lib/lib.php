@@ -5486,7 +5486,7 @@ function setFreshClam($nolog = null)
 		return;
 	}
 
-	log_cleanup("Checking freshclam (virus scanner)", $nolog);
+//	log_cleanup("Checking freshclam (virus scanner)", $nolog);
 
 	$path = "/var/qmail/supervise/clamd";
 
@@ -5495,7 +5495,7 @@ function setFreshClam($nolog = null)
 		exec("chkconfig freshclam off > /dev/null 2>&1");
 		exec("/etc/init.d/freshclam stop >/dev/null 2>&1");
 
-		log_cleanup("- Disabled freshclam service", $nolog);
+	//	log_cleanup("- Disabled freshclam service", $nolog);
 
 		exec("svc -d {$path} {$path}/log > /dev/null 2>&1");
 
@@ -5512,7 +5512,7 @@ function setFreshClam($nolog = null)
 		exec("chkconfig freshclam on > /dev/null 2>&1");
 		exec("/etc/init.d/freshclam start >/dev/null 2>&1");
 
-		log_cleanup("- Enabled freshclam service", $nolog);
+	//	log_cleanup("- Enabled freshclam service", $nolog);
 
 		lxfile_mv("{$path}/down", "{$path}/run");
 		lxfile_mv("{$path}/log/down", "{$path}/log/run");
@@ -6148,7 +6148,7 @@ function setInitialBinary($nolog = null)
 {
 
 	log_cleanup("Initialize Some Binary files", $nolog);
-
+/*
 	if (!lxfile_exists("/usr/sbin/lxrestart")) {
 		log_cleanup("- Install lxrestart binary", $nolog);
 		exec("cp ../cexe/lxrestart /usr/sbin/");
@@ -6156,6 +6156,9 @@ function setInitialBinary($nolog = null)
 		exec("chmod 755 /usr/sbin/lxrestart");
 		exec("chmod ug+s /usr/sbin/lxrestart");
 	}
+*/
+	// MR -- because no need lxrestart (also lxsuexec) so remove if exist
+	exec("rm -rf /usr/sbin/lxrestart");
 
 	// issue #637 - Webmail sending problem and possibility solution
 	// change from copy to symlink
@@ -6266,10 +6269,16 @@ function setSomePermissions($nolog = null)
 {
 	log_cleanup("Install/Fix Services/Permissions/Configfiles", $nolog);
 
-	if (!lxfile_exists("/usr/bin/lxphp.exe")) {
+//	if (!lxfile_exists("/usr/bin/lxphp.exe")) {
 		log_cleanup("- Create lxphp.exe Symlink", $nolog);
-		lxfile_symlink("__path_php_path", "/usr/bin/lxphp.exe");
-	}
+	//	lxfile_symlink("__path_php_path", "/usr/bin/lxphp.exe");
+
+		lxfile_rm("/usr/bin/lphp.exe");
+		lxfile_rm("/usr/bin/lxphp.exe");
+			
+		lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lphp.exe");
+		lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lxphp.exe");	
+//	}
 
 	log_cleanup("- Set permissions for /usr/bin/php-cgi", $nolog);
 	lxfile_unix_chmod("/usr/bin/php-cgi", "0755");
@@ -6566,7 +6575,7 @@ function fix_suexec($nolog = null)
 {
 	log_cleanup("Fix suexec", $nolog);
 	log_cleanup("- Fix process", $nolog);
-
+/*
 	lxfile_rm("/usr/bin/lxsuexec");
 	lxfile_rm("/usr/bin/lxexec");
 	lxfile_cp("../cexe/lxsuexec", "/usr/bin");
@@ -6574,6 +6583,9 @@ function fix_suexec($nolog = null)
 	lxshell_return("chmod", "755", "/usr/bin/lxsuexec");
 	lxshell_return("chmod", "755", "/usr/bin/lxexec");
 	lxshell_return("chmod", "ug+s", "/usr/bin/lxsuexec");
+*/
+	// MR -- because no need lxsuexec (also lxrestart) so remove if exist
+	exec("rm -rf /usr/bin/lxsuexec");
 }
 
 function enable_xinetd($nolog = null)
@@ -6876,7 +6888,7 @@ function updatecleanup($nolog = null)
 	setPrepareKloxo($nolog);
 
 	// Fixes #303 and #304
-	installThirdparty($nolog);
+//	installThirdparty($nolog);
 
 	install_gd($nolog);
 
@@ -6889,9 +6901,9 @@ function updatecleanup($nolog = null)
 	// MR -- no needed since 6.2.x
 //	setInitialKloxoPhp($nolog);
 
-	installWebmail($nolog);
+//	installWebmail($nolog);
 
-	installAwstats($nolog);
+//	installAwstats($nolog);
 
 	setRemoveOldDirs($nolog);
 

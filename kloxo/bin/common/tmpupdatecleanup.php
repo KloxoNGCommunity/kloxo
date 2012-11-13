@@ -25,6 +25,7 @@ function updatecleanup_main()
 	}
 
 	log_cleanup("*** Executing Update (cleanup) - BEGIN ***");
+/*
 //
 // Check for lxlabs yum repo file and if exists
 // Change to lxcenter repo file
@@ -39,6 +40,7 @@ function updatecleanup_main()
 		log_cleanup("- Installing yum-protectbase plugin");
 		exec("yum install -y -q yum-protectbase");
 	}
+*/
 
 // Fix #388 - phpMyAdmin config.inc.php permission
 
@@ -159,6 +161,7 @@ function updatecleanup_main()
 		"bind* djbdns* pure-ftpd*",
 		"*-toaster qmail* vpopmail*",
 		"spamassassin* bogofilter*",
+		"kloxo-*.noarch"
 	);
 
 	setUpdateServices($slist);

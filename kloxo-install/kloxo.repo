@@ -33,10 +33,18 @@ exclude=openssh*
 
 # ==================================
 
+[kloxo-utterramblings]
+name=kloxo - Jason's Utter Ramblings Repo
+baseurl=http://www.jasonlitka.com/media/EL$releasever/$basearch/
+enabled=0
+gpgcheck=0
+
+# ==================================
+
 [kloxo-ius]
 name=kloxo - IUS Community Packages for Enterprise Linux $releasever - $basearch
-baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/$releasever/$basearch
-mirrorlist=http://dmirr.iuscommunity.org/mirrorlist/?repo=ius-el5&arch=$basearch
+baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/$releasever/$basearch/
+mirrorlist=http://dmirr.iuscommunity.org/mirrorlist/?repo=ius-el$releasever&arch=$basearch
 enabled=1
 gpgcheck=0
 
@@ -44,7 +52,7 @@ gpgcheck=0
 
 [kloxo-epel]
 name=kloxo - Extra Packages for Enterprise Linux $releasever - $basearch
-baseurl=http://download.fedoraproject.org/pub/epel/$releasever/$basearch
-mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch
+baseurl=http://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-$releasever&arch=$basearch
 enabled=1
 gpgcheck=0

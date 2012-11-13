@@ -184,7 +184,7 @@ else
 fi
 
 if [ -f /usr/local/lxlabs/ext/php/php ] ; then
-	/usr/local/lxlabs/ext/php/php kloxo-installer.php --install-type=$APP_TYPE $* | tee kloxo_install.log
+	/usr/local/lxlabs/ext/php/bin/php kloxo-installer.php --install-type=$APP_TYPE $* | tee kloxo_install.log
 else
 	php kloxo-installer.php --install-type=$APP_TYPE $* | tee kloxo_install.log
 fi

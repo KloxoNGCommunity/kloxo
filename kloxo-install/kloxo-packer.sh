@@ -26,11 +26,11 @@
 if [ "$#" == 0 ] ; then
 	echo
 	echo " ----------------------------------------------------------------------"
-	echo "  format: sh $0 --fork=<> --branch=<> --part=<>"
+	echo "  format: sh $0 --fork=<> --branch=<>"
 	echo " ----------------------------------------------------------------------"
 	echo "  --fork - example: lxcenter or mustafaramadhan (for certain developer)"
 	echo "  --branch - example: master or dev"
-	echo "  --part - example: core or all (defaulting to all)"
+#	echo "  --part - example: core or all (defaulting to all)"
 	echo
 	echo "  * Pack main kloxo package from git"
 	echo "  * Thirdparty packages download directly for latest version"
@@ -120,13 +120,15 @@ zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./REL
 mv -f kloxo-current.zip ../../ > /dev/null 2>&1
 cd ../../
 
-if [ ! $kloxo_part == "core" ] ; then
+#if [ ! $kloxo_part == "core" ] ; then
 
-	thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
-	if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
-		echo ${thirdpartyver} > kloxo-thirdparty-version
-		wget http://download.lxcenter.org/download/kloxo-thirdparty.${thirdpartyver}.zip
-	fi
+## MR -- don't need download belows becouse change to rpm format install via yum
+
+#	thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
+#	if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
+#		echo ${thirdpartyver} > kloxo-thirdparty-version
+#		wget http://download.lxcenter.org/download/kloxo-thirdparty.${thirdpartyver}.zip
+#	fi
 
 	# no need kloxophp on 6.2.0
 #	kloxophpver=$(curl -L http://download.lxcenter.org/download/version/kloxophp)
@@ -142,18 +144,18 @@ if [ ! $kloxo_part == "core" ] ; then
 #		wget http://download.lxcenter.org/download/kloxophpsixfour${kloxophpsixfourver}.tar.gz
 #	fi
 
-	lxwebmailver=$(curl -L http://download.lxcenter.org/download/version/lxwebmail)
-	if [ ! -f lxwebmail${lxwebmailver}.tar.gz ] ; then
-		echo ${lxwebmailver} > lxwebmail-version
-		wget http://download.lxcenter.org/download/lxwebmail${lxwebmailver}.tar.gz
-	fi
+#	lxwebmailver=$(curl -L http://download.lxcenter.org/download/version/lxwebmail)
+#	if [ ! -f lxwebmail${lxwebmailver}.tar.gz ] ; then
+#		echo ${lxwebmailver} > lxwebmail-version
+#		wget http://download.lxcenter.org/download/lxwebmail${lxwebmailver}.tar.gz
+#	fi
 
-	lxawstatsver=$(curl -L http://download.lxcenter.org/download/version/lxawstats)
-	if [ ! -f lxawstats${lxawstatsver}.tar.gz ] ; then
-		echo ${lxawstatsver} > lxawstats-version
-		wget http://download.lxcenter.org/download/lxawstats${lxawstatsver}.tar.gz
-	fi
-fi
+#	lxawstatsver=$(curl -L http://download.lxcenter.org/download/version/lxawstats)
+#	if [ ! -f lxawstats${lxawstatsver}.tar.gz ] ; then
+#		echo ${lxawstatsver} > lxawstats-version
+#		wget http://download.lxcenter.org/download/lxawstats${lxawstatsver}.tar.gz
+#	fi
+#fi
 
 cp -rf ./combo/kloxo-install/kloxo-installer.sh ./ > /dev/null 2>&1
 

@@ -44,21 +44,21 @@ function update_main()
 			log_cleanup("- Kloxo is the latest version ($localversion)");
 		}
 
+/*
+		// Thirdparty/Webmail/AWstats checks
 
-	// Thirdparty/Webmail/AWstats checks
+		$verWM = getVersionNumber(get_package_version("lxwebmail"));
+		$verAW = getVersionNumber(get_package_version("lxawstats"));
+		$ver = file_get_contents("http://download.lxcenter.org/download/thirdparty/kloxo-version.list");
+		$verTP = getVersionNumber($ver);
 
-	$verWM = getVersionNumber(get_package_version("lxwebmail"));
-	$verAW = getVersionNumber(get_package_version("lxawstats"));
-	$ver = file_get_contents("http://download.lxcenter.org/download/thirdparty/kloxo-version.list");
-	$verTP = getVersionNumber($ver);
+		if ( !lxfile_exists("/var/cache/kloxo/lxwebmail$verWM.tar.gz" ) ) { $retWM = true; } else { $retWM = false; }
+		if ( !lxfile_exists("/var/cache/kloxo/lxawstats$verAW.tar.gz" ) ) { $retAW = true; } else { $retAW = false; }
+		if ( !lxfile_exists("/var/cache/kloxo/kloxo-thirdparty.$verTP.zip" ) ) { $retTP = true; } else { $retTP = false; }
 
-	if ( !lxfile_exists("/var/cache/kloxo/lxwebmail$verWM.tar.gz" ) ) { $retWM = true; } else { $retWM = false; }
-	if ( !lxfile_exists("/var/cache/kloxo/lxawstats$verAW.tar.gz" ) ) { $retAW = true; } else { $retAW = false; }
-	if ( !lxfile_exists("/var/cache/kloxo/kloxo-thirdparty.$verTP.zip" ) ) { $retTP = true; } else { $retTP = false; }
-
-	installThirdparty();
-	installWebmail();
-	installAwstats();
+		installThirdparty();
+		installWebmail();
+		installAwstats();
 
 		// Run cleanups or not
 		if ($retTP || $retWM || $retAW || $upversion) {
@@ -66,14 +66,15 @@ function update_main()
 		} else {
 			$DoUpdate = false;
 		}
-
+*/
+		$DoUpdate = true;
 	}
 
 	log_cleanup("*** Executing Update (upcp) - END ***");
 
 	if ( $DoUpdate == false ) {
 		log_cleanup("Run /script/cleanup if you want to fix/restore/(re)install non-working components.");
-			exit;
+		exit;
 	}
 
 	if (is_running_secondary()) {

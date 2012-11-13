@@ -34,8 +34,8 @@ function lxins_main()
 	$osversion = find_os_version();
 	// $arch = trim( `arch` );
 
-	$licenseagree = $opt['license-agree'];
-	$noasking = $opt['no-asking'];
+	$licenseagree = (isset($opt['license-agree'])) ? $opt['license-agree'] : null;
+	$noasking = (isset($opt['no-asking'])) ? $opt['no-asking'] : null;
 
 	if (!char_search_beg($osversion, "centos") && !char_search_beg($osversion, "rhel")) {
 		print("Kloxo is only supported on CentOS 5 and RHEL 5\n");
@@ -275,8 +275,9 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 		// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
 		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
 			"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "lxlighttpd", $httpdbranch, "mod_ssl",
-			"zip", "unzip", "lxphp", "lxzend", "mysql", "mysql-server", "curl", "autoconf", "automake",
-			"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs"
+			"zip", "unzip", "lxphp", "lxzend", "mysql", "mysql-server", "curl", "autoconf", "automake", "mod_ruid2",
+			"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
+			"kloxo-*.noarch"
 		);
 
 		$list = implode(" ", $packages);
@@ -325,7 +326,7 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 			print("Local copying Kloxo release\n");
 			system("mkdir -p /var/cache/kloxo");
 			system("cp -rf ../kloxo-current.zip /usr/local/lxlabs/kloxo");
-
+		/*
 			//--- The first step - Remove packages
 			system("rm -f /var/cache/kloxo/kloxo-thirdparty*.zip");
 			system("rm -f /var/cache/kloxo/lxawstats*.tar.gz");
@@ -340,7 +341,7 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 			system("cp -rf ../kloxo-thirdparty-version /var/cache/kloxo");
 			system("cp -rf ../lxawstats-version /var/cache/kloxo");
 			system("cp -rf ../lxwebmail-version /var/cache/kloxo");
-
+		*/
 			if (file_exists("/usr/lib64")) {
 				if (!is_link("/usr/lib/kloxophp")) {
 					// exec("rm -rf /usr/lib/kloxophp");
@@ -593,23 +594,25 @@ function install_yum_repo($osversion)
 
 		return;
 	}
-
+/*
 	$a = explode("-", $osversion);
 	$vernum = $a[1];
 
-	system("rm -f /etc/yum.repos.d/lxcenter.repo");
-
-	$cont = file_get_contents("lxcenter.repo.template");
+	$cont = file_get_contents("kloxo.repo.template");
 	$cont = str_replace("%distro%", $osversion, $cont);
 	$cont = str_replace("%distro_ver%", $vernum, $cont);
-	file_put_contents("/etc/yum.repos.d/lxcenter.repo", $cont);
+	file_put_contents("/etc/yum.repos.d/kloxo.repo", $cont);
+*/
+/*
+	// MR -- not using until moving repo from github
+	system("cp -rf ./kloxo.repo /etc/yum.repos.d/kloxo.repo");
 
+	// MR -- remove all repo
 	system("rm -f /etc/yum.repos.d/kloxo-custom.repo");
-
-	$cont = file_get_contents("kloxo-custom.repo.template");
-	$cont = str_replace("%distro%", $osversion, $cont);
-	$cont = str_replace("%distro_ver%", $vernum, $cont);
-	file_put_contents("/etc/yum.repos.d/kloxo-custom.repo", $cont);
+	system("rm -f /etc/yum.repos.d/lxcenter.repo");
+*/
+	system("cp -rf ./kloxo.repo /etc/yum.repos.d/kloxo-custom.repo");
+	system("cp -rf ./kloxo.repo /etc/yum.repos.d/lxcenter.repo");
 }
 
 function find_os_version()
