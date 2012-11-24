@@ -326,45 +326,6 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 			print("Local copying Kloxo release\n");
 			system("mkdir -p /var/cache/kloxo");
 			system("cp -rf ../kloxo-current.zip /usr/local/lxlabs/kloxo");
-		/*
-			//--- The first step - Remove packages
-			system("rm -f /var/cache/kloxo/kloxo-thirdparty*.zip");
-			system("rm -f /var/cache/kloxo/lxawstats*.tar.gz");
-			system("rm -f /var/cache/kloxo/lxwebmail*.tar.gz");
-			// system("rm -f /var/cache/kloxo/kloxophpsixfour*.tar.gz");
-			// system("rm -f /var/cache/kloxo/kloxophp*.tar.gz");
-			system("rm -f /var/cache/kloxo/*-version");
-			//--- The second step - copy from packer script if exist
-			system("cp -rf ../kloxo-thirdparty*.zip /var/cache/kloxo");
-			system("cp -rf ../lxawstats*.tar.gz /var/cache/kloxo");
-			system("cp -rf ../lxwebmail*.tar.gz /var/cache/kloxo");
-			system("cp -rf ../kloxo-thirdparty-version /var/cache/kloxo");
-			system("cp -rf ../lxawstats-version /var/cache/kloxo");
-			system("cp -rf ../lxwebmail-version /var/cache/kloxo");
-		*/
-			if (file_exists("/usr/lib64")) {
-				if (!is_link("/usr/lib/kloxophp")) {
-					// exec("rm -rf /usr/lib/kloxophp");
-				}
-
-				// system("cp -rf ../kloxophpsixfour*.tar.gz /var/cache/kloxo");
-				// system("cp -rf ../kloxophpsixfour-version /var/cache/kloxo");
-				// system("mkdir -p /usr/lib64/kloxophp");
-				// system("ln -s /usr/lib64/kloxophp /usr/lib/kloxophp");
-				system("mv -f /usr/lib/php /usr/lib/php.bck");
-				system("mkdir -p /usr/lib64/php");
-				system("ln -s /usr/lib64/php /usr/lib/php");
-				system("mkdir -p /usr/lib64/httpd");
-				system("ln -s /usr/lib64/httpd /usr/lib/httpd");
-				system("mkdir -p /usr/lib64/lighttpd");
-				system("ln -s /usr/lib64/lighttpd /usr/lib/lighttpd");
-			} else {
-				//--- Needs version checks in the future
-				// system("rename ../kloxophpsixfour ../_kloxophpsixfour ../kloxophpsixfour*");
-				// system("cp -rf ../kloxophp*.tar.gz /var/cache/kloxo");
-				// system("rename ../_kloxophpsixfour ../kloxophpsixfour ../_kloxophpsixfour*");
-				// system("cp -rf ../kloxophp-version /var/cache/kloxo");
-			}
 
 			chdir("/usr/local/lxlabs/kloxo");
 			system("mkdir -p /usr/local/lxlabs/kloxo/log");
@@ -377,6 +338,16 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 			print("Downloading latest Kloxo release\n");
 			system("wget {$downloadserver}download/kloxo/production/kloxo/kloxo-current.zip");
 		}
+	}
+	
+	if (file_exists("/usr/lib64")) {
+		system("mv -f /usr/lib/php /usr/lib/php.bck");
+		system("mkdir -p /usr/lib64/php");
+		system("ln -s /usr/lib64/php /usr/lib/php");
+		system("mkdir -p /usr/lib64/httpd");
+		system("ln -s /usr/lib64/httpd /usr/lib/httpd");
+		system("mkdir -p /usr/lib64/lighttpd");
+		system("ln -s /usr/lib64/lighttpd /usr/lib/lighttpd");
 	}
 
 	print("\n\nInstalling Kloxo.....\n\n");

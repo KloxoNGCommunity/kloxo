@@ -20,6 +20,9 @@ class Ssl_data_b  extends LxaClass {
 class SslCert extends Lxdb {
 
 static $__desc =  array("", "",  "ssl_certificate");
+
+static $__desc_key_bits_r =  array("", "",  "ssl_key_bits");
+
 static $__desc_nname =  array("n", "",  "ssl_certificate_name", URL_SHOW);
 static $__desc_certname =  array("n", "",  "ssl_certificate_name", URL_SHOW);
 static $__desc_syncserver =  array("", "",  "");
@@ -249,6 +252,7 @@ static function addform($parent, $class, $typetd = null)
 {
 
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	if ($typetd['val'] === 'uploadfile') {
 		$vlist['nname'] = null;
 		$vlist['ssl_key_file_f'] = null;
@@ -263,9 +267,15 @@ static function addform($parent, $class, $typetd = null)
 	} else {
 		include "htmllib/lib/countrycode.inc";
 
+	//	$temp[] = "-- Select One --";
+
 		foreach($gl_country_code as $key=>$name ){
 			$temp[] = "$key:$name";
 		}
+
+		// MR -- add key_bits options
+		$vlist['key_bits_r'] = array("s", array("2048", "1024", "512"));
+	//	$this->setDefaultValue('key_bits', '2048');
 
 		$vlist['nname'] = null;
 		$vlist["ssl_data_b_s_commonName_r"]  = null;
@@ -298,8 +308,17 @@ function createNewcertificate()
 		$temp[$nk]  = $value;
 	}
 
-	foreach($temp as $key=>$t) {
-		if($key=== "countryName") {
+/*
+	if ($temp("key_bits") === '-- Select One --') {
+		throw new lxexception('Need select key bits', 'parent');
+	}
+
+	if ($temp("countryName") === '-- Select One --') {
+		throw new lxexception('Need select countryname', 'parent');
+	}
+*/
+	foreach($temp as $key => $t) {
+		if($key === "countryName") {
 			$l = explode(":", $t);
 
 			$name = $l[0];
@@ -309,7 +328,7 @@ function createNewcertificate()
 	}
 
 //	$config['private_key_bits'] = 1024;
-	$config['private_key_bits'] = 2048;
+	$config['private_key_bits'] = (int) $temp["key_bits"];
 	$privkey = openssl_pkey_new($config);
 	openssl_pkey_export($privkey, $text_key_content);
 	$csr = openssl_csr_new($ltemp, $privkey);
