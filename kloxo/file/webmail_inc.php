@@ -5,5 +5,5 @@
 			<a href="/horde/"><img src=horde/themes/graphics/horde-power1.png></a>
 			<br>
 			<br>
-			<a href="/roundcube/"><img src=roundcube/skins/default/images/roundcube_logo.png></a>
+			<a href="/roundcube/"><img src=roundcube/skins/classic/images/roundcube_logo.png></a>
 		</div>
