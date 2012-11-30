@@ -583,7 +583,7 @@ function install_yum_repo($osversion)
 	system("rm -f /etc/yum.repos.d/lxcenter.repo");
 */
 	system("cp -rf ./kloxo.repo /etc/yum.repos.d/kloxo-custom.repo");
-	system("cp -rf ./kloxo.repo /etc/yum.repos.d/lxcenter.repo");
+	system("cp -rf ./lxcenter.repo /etc/yum.repos.d/lxcenter.repo");
 }
 
 function find_os_version()
