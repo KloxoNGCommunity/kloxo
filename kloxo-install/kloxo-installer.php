@@ -266,6 +266,9 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 		foreach ($packages as $package) {
 			system("rpm -e --nodeps $package > /dev/null 2>&1");
 		}
+		
+		// MR -- force remove old lxphp (from lxcenter.repo)
+		system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
 
 		// MR -- for accept for php and apache branch rpm
 		$phpbranch = getPhpBranch();
@@ -574,16 +577,12 @@ function install_yum_repo($osversion)
 	$cont = str_replace("%distro_ver%", $vernum, $cont);
 	file_put_contents("/etc/yum.repos.d/kloxo.repo", $cont);
 */
-/*
 	// MR -- not using until moving repo from github
-	system("cp -rf ./kloxo.repo /etc/yum.repos.d/kloxo.repo");
+	system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
 
 	// MR -- remove all repo
 	system("rm -f /etc/yum.repos.d/kloxo-custom.repo");
 	system("rm -f /etc/yum.repos.d/lxcenter.repo");
-*/
-	system("cp -rf ./kloxo.repo /etc/yum.repos.d/kloxo-custom.repo");
-	system("cp -rf ./lxcenter.repo /etc/yum.repos.d/lxcenter.repo");
 }
 
 function find_os_version()

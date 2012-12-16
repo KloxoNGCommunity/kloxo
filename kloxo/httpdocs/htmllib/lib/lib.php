@@ -6957,7 +6957,8 @@ function updatecleanup($nolog = null)
 
 	setExecuteCentos5Script($nolog);
 
-	fix_rhn_sources_file($nolog);
+	// MR -- no needed since 6.2.x for lxcenter.repo
+//	fix_rhn_sources_file($nolog);
 
 	setKloxoHttpdChownChmod($nolog);
 
