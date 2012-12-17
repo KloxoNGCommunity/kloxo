@@ -2711,6 +2711,8 @@ function curl_general_get($url)
 function getFullVersionList($till = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
+/*
 	$progname = $sgbl->__var_program_name;
 	static $nlist;
 
@@ -2746,6 +2748,10 @@ function getFullVersionList($till = null)
 	}
 
 	return $list;
+*/
+	// MR -- temporal solution before rpm-based kloxo-MR.
+	$ver = $sgbl->__ver_major_minor_release;
+	return array($ver);
 }
 
 function getVersionList($till = null)
