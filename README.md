@@ -33,43 +33,4 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 # How to install
 
-A. For Dev:
-
-A.1. pre-install -- better for fresh install
-
-*    cd /
-
-* # update centos to latest version
-* yum update -y
-* # install some packages like package-cleanup, etc
-* yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
-* yum install telnet -y
-* 
-* setenforce 0
-* echo 'SELINUX=disabled' > /etc/selinux/config
-* 
-* cd /
-
-A.2. Install/reinstall/upgrade -- data not destroyed with this fork - for existing kloxo (6.1.x), run 'sh /script/update' first.
-
-* # delete if exist
-* rm -rf /tmp/kloxo
-* 
-* # create kloxo temp dir
-* mkdir /tmp/kloxo ; cd /tmp/kloxo
-* 
-* # get kloxo packer from github
-* wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo-install/kloxo-packer.sh --no-check-certificate
-* 
-* # get kloxo fork from github
-* sh kloxo-packer.sh --fork=mustafaramadhan --branch=dev
-* 
-* # install kloxo
-* sh kloxo-installer.sh --type=master
-* 
-* # better reboot
-* reboot
-   
-B. For Final Release:
-
-* Coming soon...
+* Read https://github.com/mustafaramadhan/kloxo/blob/dev/how-to-install.txt
