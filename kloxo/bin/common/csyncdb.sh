@@ -8,7 +8,7 @@ else
 fi
 
 echo -n "Taking backup of the current databse...   "
-/usr/local/lxlabs/ext/php/php ../bin/common/mebackup.php >/dev/null
+lxphp.exe ../bin/common/mebackup.php >/dev/null
 echo "done.."
 
 if [ -z $1 ] ; then

@@ -14,7 +14,7 @@ class web__ extends lxDriverClass
 
 		if ($l === 'apache') { $l = 'httpd'; }
 
-		$blist = getBranchList($l);
+		$blist = getRpmBranchList($l);
 
 		if (!$blist) { $blist = array($l); }
 
@@ -66,30 +66,29 @@ class web__ extends lxDriverClass
 			if ($a === 'httpd') {
 				self::setWebserverInstall($a);
 
-				$ret = setRpmInstallWithLocalFirst("mod_rpaf");
+				setRpmInstalled("mod_rpaf");
 
-				if (!$ret) {
-					throw new lxException("install_mod_rpaf_failed", 'parent');
-				}
-
-				$ret = setRpmInstallWithLocalFirst("mod_ssl");
-
-				if (!$ret) {
-					throw new lxException("install_mod_ssl_failed", 'parent');
-				}
+				setRpmInstalled("mod_ssl");
 
 				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
 						"/etc/httpd/conf.d/rpaf.conf");
 				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
 						"/etc/httpd/conf.d/ssl.conf");
+
+				// MR -- this is from old Kloxo
+				if (file_exists("{$p}/defaults/stats.conf")) {
+						exec("rm -rf {$p}/defaults/stats.conf");
+				}
+
+				// MR -- this is from old Kloxo
+				if (file_exists("{$p}/defaults/mimetype.conf")) {
+						exec("rm -rf {$p}/defaults/mimetype.conf");
+				}
+
 			} elseif ($a === 'lighttpd') {
 				self::setWebserverInstall($a);
 
-				$ret = setRpmInstallWithLocalFirst("{$a}-fastcgi");
-
-				if (!$ret) {
-					throw new lxException("install_{$a}-fastcgi_failed", 'parent');
-				}
+				setRpmInstalled("{$a}-fastcgi");
 
 				// MR -- some rpm not create this file
 				if (!file_exists("/etc/lighttpd/local.lighttpd.conf")) {
@@ -101,11 +100,7 @@ class web__ extends lxDriverClass
 			} elseif ($a === 'nginx') {
 				self::setWebserverInstall($a);
 
-				$ret = setRpmInstallWithLocalFirst("GeoIP");
-
-				if (!$ret) {
-					throw new lxException("install_GeoIP_failed", 'parent');
-				}
+				setRpmInstalled("GeoIP");
 
 				// MR -- nginx 1.3.5 from centalt also copy httpd ssl to /etc/nginx/conf.d
 				// it's make nginx not able started. Because nginx for kloxo don't need this file,
@@ -130,15 +125,12 @@ class web__ extends lxDriverClass
 
 	static function setWebserverInstall($webserver)
 	{
-		$blist = getBranchList($webserver);
+		$l = getRpmBranchList($webserver);
 
-		if (!$blist) { $blist = array($webserver); }
-
-		foreach ($blist as $k => $b) {
-			$ret = setRpmInstallWithLocalFirst($b);
-
-			if ($ret) { break; }
-		}
+		if (!$l) { $l = array($webserver); }
+	
+		// MR -- priority for first data on list
+		setRpmInstalled($l[0]);
 
 		// MR -- overwrite init
 
@@ -146,15 +138,11 @@ class web__ extends lxDriverClass
 
 		lxfile_cp(getLinkCustomfile("/home/{$altname}/etc/init.d", "{$webserver}.init"),
 				"/etc/rc.d/init.d/{$webserver}");
-
-		if (!$ret) {
-			throw new lxException("install_{$webserver}_failed", 'parent');
-		}
 	}
 
 	static function setUnnstallPhpfpm()
 	{
-		$phpbranch = getPhpBranch();
+		$phpbranch = getRpmBranchList('php');
 
 		exec("yum remove {$phpbranch}-fpm -y");
 	}
@@ -163,7 +151,7 @@ class web__ extends lxDriverClass
 	{
 		exec("cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
 
-		$phpbranch = getPhpBranch();
+		$phpbranch = getRpmBranchList('php');
 
 		$out = isRpmInstalled("{$phpbranch}-fpm");
 
@@ -172,13 +160,20 @@ class web__ extends lxDriverClass
 		}
 
 		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
-			$fpmused = "php53";
+			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");
+
+			if (!file_exists("/etc/php-fpm.d/default.conf")) {
+				lxfile_cp("cp -rf /home/php-fpm/etc/php-fpm.d/default.conf /etc/php-fpm.d/default.conf");
+			}
 		} else {
-			$fpmused = "php";
+			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php-fpm.conf"), "/etc/php-fpm.conf");
 
+			// MR -- php 5.2 from centalt not create this pid but php-fpm installed!
+			if (!file_exists("/var/run/php-fpm/php-fpm.pid")) {
+				exec("mkdir -p /var/run/php-fpm/");
+				exec("echo '2265' > /var/run/php-fpm/php-fpm.pid");
+			}
 		}
-
-		lxfile_cp(getLinkCustomfile("/home/php-fpm/tpl", "{$fpmused}-fpm.conf"), "/etc/php-fpm.conf");
 
 		lxshell_return("chkconfig", "php-fpm", "on");
 	}
@@ -379,12 +374,12 @@ class web__ extends lxDriverClass
 		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', null);
 
 		foreach ($clist as &$n) {
-/*
+		/*
 			$userinfo = posix_getpwnam($n);
 			$fpmport = (50000 + $userinfo['uid']);
 
 			if ($fpmport === 50000) { continue; }
-*/
+		*/
 
 			$users[] = $n;
 		}
@@ -991,7 +986,7 @@ class web__ extends lxDriverClass
 		lxfile_unix_chown_rec("{$log_path}", "apache:apache");
 
 		// MR -- back to original!
-/*
+	/*
 		if (file_exists($cust_log)) {
 			lxfile_cp($cust_log, "{$log_path}/custom.log");
 		}
@@ -999,7 +994,7 @@ class web__ extends lxDriverClass
 		if (file_exists($err_log)) {
 			lxfile_cp($err_log, "{$log_path}/error.log");
 		}
-*/
+	*/
 	}
 
 	function setPhpIni()
@@ -1132,12 +1127,13 @@ class web__ extends lxDriverClass
 
 			// MR -- for large amount domains, call function make slow process
 			// so, alternative use file detect
-			if (!file_exists("{$p}/defaults/init.conf")) {
+			if (!file_exists("{$p}/webmails/webmail.conf")) {
+
 				$this->createSSlConf();
 				$this->updateMainConfFile();
+				$this->createWebDefaultConfig();
 			}
 		}
-
 
 		// MR -- relate to fixed ip/~client, but better on add/delete client process
 		// meanwhile enough in here
@@ -1160,7 +1156,7 @@ class web__ extends lxDriverClass
 	function dosyncToSystemPost()
 	{
 		if (!$this->isOn('norestart')) {
-			createRestartFile("apache");
+			createRestartFile("httpd");
 		}
 	}
 

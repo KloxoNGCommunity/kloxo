@@ -10,7 +10,7 @@ service smtp
 		env             = SENDER_NOCHECK=1 
 		instances       = UNLIMITED
 		server          = /usr/bin/lxredirecter.sh
-		server_args     = /var/qmail/bin/tcp-env -Rt0 /var/qmail/bin/qmail-smtpd /home/lxadmin/mail/bin/vchkpw    true
+		server_args     = /var/qmail/bin/tcp-env -Rt0 /var/qmail/bin/qmail-smtpd /home/lxadmin/mail/bin/vchkpw true
 }
 
 service smtp 
@@ -25,6 +25,6 @@ service smtp
 		env             = SENDER_NOCHECK=1 RELAYCLIENT=
 		instances       = UNLIMITED
 		server          = /usr/bin/lxredirecter.sh
-		server_args     = /var/qmail/bin/tcp-env -Rt0 /var/qmail/bin/qmail-smtpd /home/lxadmin/mail/bin/vchkpw    true
+		server_args     = /var/qmail/bin/tcp-env -Rt0 /var/qmail/bin/qmail-smtpd /home/lxadmin/mail/bin/vchkpw true
 }
 

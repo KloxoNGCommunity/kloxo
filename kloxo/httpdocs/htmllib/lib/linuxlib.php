@@ -255,7 +255,7 @@ function os_create_default_slave_driver_db()
 {
 	$a['web'] = "apache";
 	$a['dns'] = "bind";
-	$a['spam'] = "spamassassin";
+//	$a['spam'] = "spamassassin";
 	slave_save_db("driver", $a);
 }
 
@@ -270,10 +270,12 @@ function os_fix_lxlabs_permission()
 	lxfile_unix_chmod("__path_program_etc", "0700");
 	lxfile_unix_chmod("__path_program_root/log", "0700");
 	lxfile_unix_chmod("__path_program_root/session", "0700");
+/*
 	// prevent php warning when file exist - already since 6.1.7
 	if (!lxfile_exists("/usr/bin/lphp.exe")) {
 		lxfile_symlink("__path_php_path", "/usr/bin/lphp.exe");
 	}
+*/
 }
 
 
@@ -330,8 +332,8 @@ function os_create_program_service()
 		lxfile_cp("__path_program_htmlbase/htmllib/filecore/init.program", "/etc/init.d/$pgm");
 	}
 
-	lxfile_cp("__path_program_htmlbase/htmllib/filecore/php.ini", "__path_lxlabs_base/ext/php/etc/php.ini");
-	lxfile_unix_chmod("/etc/init.d/$pgm", "0755");
+//	lxfile_cp("__path_program_htmlbase/htmllib/filecore/php.ini", "__path_lxlabs_base/ext/php/etc/php.ini");
+//	lxfile_unix_chmod("/etc/init.d/$pgm", "0755");
 }
 
 

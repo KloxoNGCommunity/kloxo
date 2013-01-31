@@ -1,5 +1,5 @@
 #!/bin/sh
 . /script/directory
-lphp.exe ../bin/common/commandline.php "$@"
+lxphp.exe ../bin/common/commandline.php "$@"
 
 

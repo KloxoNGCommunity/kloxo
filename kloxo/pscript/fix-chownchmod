@@ -27,4 +27,4 @@ fi
 echo
 
 . /script/directory
-lphp.exe ../bin/fix/fix-chownchmod.php $*
+lxphp.exe ../bin/fix/fix-chownchmod.php $*

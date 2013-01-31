@@ -27,7 +27,7 @@
 
 # The following is a pointer to the MaraDNS program
 cd /usr/local/lxlabs/kloxo/httpdocs/
-/usr/local/lxlabs/ext/php/php ../bin/misc/marac_fix_iplist.php
+lxphp.exe ../bin/misc/marac_fix_iplist.php
 
 if [ -x "/usr/sbin/maradns" ] ; then
 	MARADNS="/usr/sbin/maradns"

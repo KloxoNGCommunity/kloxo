@@ -21,6 +21,7 @@
 # LxCenter - Kloxo Packer
 #
 # Version: 1.0 (2011-08-02 - by mustafa.ramadhan@lxcenter.org)
+# Version: 1.1 (2012-12-28 - by mustafa.ramadhan@lxcenter.org)
 #
 
 if [ "$#" == 0 ] ; then
@@ -76,28 +77,9 @@ cp -rf ./current/* ./combo > /dev/null 2>&1
 
 cp -rf ./patch/* ./combo > /dev/null 2>&1
 
-if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then
-
-	cd ./combo
-	
-	echo "Download kloxo-install.zip from http://download.lxcenter.org/download/"
-	wget http://download.lxcenter.org/download/kloxo-install.zip
-	unzip -oq kloxo-install.zip
-	rm -rf kloxo-install.zip > /dev/null 2>&1
-	
-	cd ..
-	
-	# check again
-	if [ ! -f ./combo/kloxo-install/kloxo-installer.php ] ; then		
-		echo "Download kloxo-installer.php from http://download.lxcenter.org/download/kloxo/production/"
-		wget http://download.lxcenter.org/download/kloxo/production/kloxo-installer.php
-		mv -f kloxo-installer.php ./combo/kloxo-install/kloxo-installer.php > /dev/null 2>&1
-	fi
-fi
-
 cd ./combo
 
-zip -r9y kloxo-install.zip ./kloxo-install > /dev/null 2>&1
+zip -r9y kloxo-install.zip ./kloxo-install -x "*/kloxo_install.log"
 
 mv -f kloxo-install.zip ../ > /dev/null 2>&1
 
@@ -106,56 +88,34 @@ yum -y install which cpp gcc gcc-c++ openssl-devel automake autoconf libtool mak
 make
 cd ../
 
-zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin ./RELEASEINFO ./src ./etc/list -x \
-	"*httpdocs/commands.php" \
-	"*httpdocs/newpass" \
-	"*httpdocs/.php.err" \
+cp -rf ./src/closeallinput ./cexe
+chmod -R 755 ./cexe
+
+zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin \
+	./RELEASEINFO ./src ./etc/list ./etc/process ./etc/config.ini -x \
+	"./httpdocs/commands.php" \
+	"./httpdocs/newpass" \
+	"./httpdocs/.php.err" \
 	"*/CVS/*" \
 	"*/.svn/*" \
-	"*httpdocs/thirdparty/*" \
-	"*httpdocs/htmllib/extjs/*" \
-	"*httpdocs/htmllib/fckeditor/*" \
-	"*httpdocs/htmllib/yui-dragdrop/*"
+	"./httpdocs/thirdparty/*" \
+	"./httpdocs/htmllib/extjs/*" \
+	"./httpdocs/htmllib/fckeditor/*" \
+	"./httpdocs/htmllib/yui-dragdrop/*" \
+	"./file/cache/*" \
+	"./serverfile/*" \
+	"./session/*" \
+	"./etc/.restart/*" \
+	"./etc/conf/*" \
+	"./etc/flag/*" \
+	"./etc/last_sisinfoc" \
+	"./etc/program.*" \
+	"./etc/slavedb/*" \
+	"./etc/watchdog.conf"
 
 mv -f kloxo-current.zip ../../ > /dev/null 2>&1
+
 cd ../../
-
-#if [ ! $kloxo_part == "core" ] ; then
-
-## MR -- don't need download belows becouse change to rpm format install via yum
-
-#	thirdpartyver=$(curl -L http://download.lxcenter.org/download/thirdparty/kloxo-version.list)
-#	if [ ! -f kloxo-thirdparty.$thirdpartyver.zip ] ; then
-#		echo ${thirdpartyver} > kloxo-thirdparty-version
-#		wget http://download.lxcenter.org/download/kloxo-thirdparty.${thirdpartyver}.zip
-#	fi
-
-	# no need kloxophp on 6.2.0
-#	kloxophpver=$(curl -L http://download.lxcenter.org/download/version/kloxophp)
-#	if [ ! -f kloxophp${kloxophpver}.tar.gz ] ; then
-#		echo ${kloxophpver} > kloxophp-version
-#		wget http://download.lxcenter.org/download/kloxophp${kloxophpver}.tar.gz
-#	fi
-
-	# no need kloxophp on 6.2.0
-#	kloxophpsixfourver=$(curl -L http://download.lxcenter.org/download/version/kloxophpsixfour)
-#	if [ ! -f kloxophpsixfour${kloxophpsixfourver}.tar.gz ] ; then
-#		echo ${kloxophpsixfourver} > kloxophpsixfour-version
-#		wget http://download.lxcenter.org/download/kloxophpsixfour${kloxophpsixfourver}.tar.gz
-#	fi
-
-#	lxwebmailver=$(curl -L http://download.lxcenter.org/download/version/lxwebmail)
-#	if [ ! -f lxwebmail${lxwebmailver}.tar.gz ] ; then
-#		echo ${lxwebmailver} > lxwebmail-version
-#		wget http://download.lxcenter.org/download/lxwebmail${lxwebmailver}.tar.gz
-#	fi
-
-#	lxawstatsver=$(curl -L http://download.lxcenter.org/download/version/lxawstats)
-#	if [ ! -f lxawstats${lxawstatsver}.tar.gz ] ; then
-#		echo ${lxawstatsver} > lxawstats-version
-#		wget http://download.lxcenter.org/download/lxawstats${lxawstatsver}.tar.gz
-#	fi
-#fi
 
 cp -rf ./combo/kloxo-install/kloxo-installer.sh ./ > /dev/null 2>&1
 

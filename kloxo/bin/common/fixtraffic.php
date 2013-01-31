@@ -57,8 +57,8 @@ if ($laccess->timestamp > $oldtime) {
 	$laccess->write();
 }
 
-system("lphp.exe ../bin/gettraffic.php");
-system("lphp.exe ../bin/collectquota.php");
+system("lxphp.exe ../bin/gettraffic.php");
+system("lxphp.exe ../bin/collectquota.php");
 
 
 

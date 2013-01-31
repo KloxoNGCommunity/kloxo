@@ -6,3 +6,6 @@ initProgram('admin');
 
 PrepareHordeDb();
 PrepareRoundCubeDb();
+PrepareTDahDb();
+PrepareAfterlogicDb();
+PrepareSquirrelmailDb();

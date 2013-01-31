@@ -36,7 +36,7 @@ function setupsecondary_main()
 	mysql_connect("localhost", "root", $pass);
 	mysql_query("stop slave");
 	print("Getting initial data from the master\n");
-	system("ssh -p $sshport $master \"(cd /usr/local/lxlabs/$prgm/httpdocs ; lphp.exe ../bin/common/setupprimarymaster.php --slavepass=$slavepass)\" | mysql -u root -p$pass $dbf");
+	system("ssh -p $sshport $master \"(cd /usr/local/lxlabs/$prgm/httpdocs ; lxphp.exe ../bin/common/setupprimarymaster.php --slavepass=$slavepass)\" | mysql -u root -p$pass $dbf");
 	print("starting mysql data getting process\n");
 	mysql_query("change master to master_host='$master', master_password='$slavepass'");
 	mysql_query("start slave");

@@ -134,11 +134,11 @@ function createTextAreaWithLines(id)
 	el.className      = 'textAreaWithLines';
 	//alert(ta.offsetHeight);
 	if (ta.offsetHeight) {
-		el.style.height   = (ta.offsetHeight-3) + "px";
+		el.style.height   = (ta.offsetHeight) + "px";
 	} else {
 		el.style.height = "200px";
 	}
-	el.style.width    = "25px";
+	el.style.width    = "35px";
 	el.style.position = "absolute";
 	el.style.overflow = 'hidden';
 	el.style.textAlign = 'right';
@@ -161,8 +161,8 @@ function createTextAreaWithLines(id)
 	function setLine(){
 		el.scrollTop   = ta.scrollTop;
 		el.style.top   = (ta.offsetTop) + "px";
-		el.style.left  = (ta.offsetLeft - 27) + "px";
-		el.style.right  = (ta.offsetLeft + 20) + "px";
+		el.style.left  = (ta.offsetLeft - 35) + "px";
+		el.style.right  = (ta.offsetLeft + 30) + "px";
 	}
 }
 

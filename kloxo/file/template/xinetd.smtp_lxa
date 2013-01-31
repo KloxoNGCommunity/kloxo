@@ -9,7 +9,7 @@ service %servicename%
 		env             = SENDER_NOCHECK=1 %domainkey% %virusscan%
 		instances       = %instance%
 		server          = /usr/bin/lxredirecter.sh
-		server_args     = /var/qmail/bin/tcp-env -Rt0 %spamdyke% /var/qmail/bin/qmail-smtpd /home/lxadmin/mail/bin/vchkpw    true
+		server_args     = /var/qmail/bin/tcp-env -Rt0 %spamdyke% /var/qmail/bin/qmail-smtpd /home/lxadmin/mail/bin/vchkpw true
 }
 
 

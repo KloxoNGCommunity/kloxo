@@ -12,7 +12,7 @@ $pass = $dbadmin->get();
 $rd = mysql_connect("localhost", "root", $pass);
 
 if (!$rd) {
-	system("lphp.exe ../bin/common/misc/reset-mysql-root-password.php newpass");
+	system("lxphp.exe ../bin/common/misc/reset-mysql-root-password.php newpass");
 }
 
 $rd = mysql_connect("localhost", "root", $pass);

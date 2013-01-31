@@ -185,14 +185,14 @@ foreach ($certnamelist as $ip => $certname) {
     <IfModule itk.c>
         AssignUserId <?php echo $user; ?> <?php echo $user; ?>
 
-        <Location /awstats/>
-            AssignUserId lxlabs lxlabs
+        <Location "/awstats/">
+            AssignUserId apache apache
         </Location>
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $domainname; ?>.<?php echo $count; ?>fake
@@ -203,7 +203,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $rootpath; ?>/>
+        <Directory "<?php echo $rootpath; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
@@ -267,14 +267,14 @@ foreach ($certnamelist as $ip => $certname) {
     Redirect /stats "http://<?php echo $domainname; ?>/awstats/awstats.pl?config=<?php echo $domainname; ?>"
     Redirect /stats/ "http://<?php echo $domainname; ?>/awstats/awstats.pl?config=<?php echo $domainname; ?>"
 
-    <Location /stats>
+    <Location "/stats/">
         Options +Indexes
     </Location>
 <?php
         if ($statsprotect) {
 ?>
 
-    <Location /stats>
+    <Location "/stats/">
         AuthType Basic
         AuthName "stats"
         AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
@@ -288,14 +288,14 @@ foreach ($certnamelist as $ip => $certname) {
 
     Alias /stats "/home/httpd/<?php echo $domainname; ?>/webstats/"
 
-    <Location /stats>
+    <Location "/stats/">
         Options +Indexes
     </Location>
 <?php
         if ($statsprotect) {
 ?>
 
-    <Location /awstats>
+    <Location "/awstats/">
         AuthType Basic
         AuthName "Awstats"
         AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
@@ -328,7 +328,7 @@ foreach ($certnamelist as $ip => $certname) {
             $protectfile = str_replace('/', '_', $protectpath) . '_';
 ?>
 
-    <Location /<?php echo $protectpath; ?>>
+    <Location "/<?php echo $protectpath; ?>/">
         AuthType Basic
         AuthName "<?php echo $protectauthname; ?>"
         AuthUserFile "/home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>"
@@ -381,26 +381,26 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup lxlabs lxlabs
+        SuexecUserGroup apache apache
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup lxlabs lxlabs
+        SuPhp_UserGroup apache apache
     </IfModule>
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid lxlabs lxlabs
-        RMinUidGid lxlabs lxlabs
+        RUidGid apache apache
+        RMinUidGid apache apache
     </IfModule>
 
     <IfModule itk.c>
-        AssignUserId lxlabs lxlabs
+        AssignUserId apache apache
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
@@ -411,7 +411,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $disablepath; ?>/>
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
@@ -491,26 +491,26 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup lxlabs lxlabs
+        SuexecUserGroup apache apache
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup lxlabs lxlabs
+        SuPhp_UserGroup apache apache
     </IfModule>
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid lxlabs lxlabs
-        RMinUidGid lxlabs lxlabs
+        RUidGid apache apache
+        RMinUidGid apache apache
     </IfModule>
 
     <IfModule itk.c>
-        AssignUserId lxlabs lxlabs
+        AssignUserId apache apache
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
@@ -521,7 +521,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $webmaildocroot; ?>/>
+        <Directory "<?php echo $webmaildocroot; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
@@ -615,14 +615,14 @@ foreach ($certnamelist as $ip => $certname) {
     <IfModule itk.c>
         AssignUserId <?php echo $user; ?> <?php echo $user; ?>
 
-        <Location /awstats/>
-            AssignUserId lxlabs lxlabs
+        <Location "/awstats/">
+            AssignUserId apache apache
         </Location>
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmport; ?>
+        FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
@@ -633,7 +633,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $webmaildocroot; ?>/>
+        <Directory "<?php echo $webmaildocroot; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
@@ -721,26 +721,26 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup lxlabs lxlabs
+        SuexecUserGroup apache apache
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup lxlabs lxlabs
+        SuPhp_UserGroup apache apache
     </IfModule>
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid lxlabs lxlabs
-        RMinUidGid lxlabs lxlabs
+        RUidGid apache apache
+        RMinUidGid apache apache
     </IfModule>
 
     <IfModule itk.c>
-        AssignUserId lxlabs lxlabs
+        AssignUserId apache apache
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
@@ -751,7 +751,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $disablepath; ?>/>
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
@@ -831,26 +831,26 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup lxlabs lxlabs
+        SuexecUserGroup apache apache
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup lxlabs lxlabs
+        SuPhp_UserGroup apache apache
     </IfModule>
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid lxlabs lxlabs
-        RMinUidGid lxlabs lxlabs
+        RUidGid apache apache
+        RMinUidGid apache apache
     </IfModule>
 
     <IfModule itk.c>
-        AssignUserId lxlabs lxlabs
+        AssignUserId apache apache
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
@@ -861,7 +861,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $disablepath; ?>/>
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
@@ -935,26 +935,26 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup lxlabs lxlabs
+        SuexecUserGroup apache apache
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup lxlabs lxlabs
+        SuPhp_UserGroup apache apache
     </IfModule>
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid lxlabs lxlabs
-        RMinUidGid lxlabs lxlabs
+        RUidGid apache apache
+        RMinUidGid apache apache
     </IfModule>
 
     <IfModule itk.c>
-        AssignUserId lxlabs lxlabs
+        AssignUserId apache apache
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
@@ -965,7 +965,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $disablepath; ?>/>
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
@@ -1045,26 +1045,26 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup lxlabs lxlabs
+        SuexecUserGroup apache apache
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup lxlabs lxlabs
+        SuPhp_UserGroup apache apache
     </IfModule>
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid lxlabs lxlabs
-        RMinUidGid lxlabs lxlabs
+        RUidGid apache apache
+        RMinUidGid apache apache
     </IfModule>
 
     <IfModule itk.c>
-        AssignUserId lxlabs lxlabs
+        AssignUserId apache apache
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
@@ -1075,7 +1075,7 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $disablepath; ?>/>
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php

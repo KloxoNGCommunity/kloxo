@@ -108,7 +108,7 @@ class serverweb__ extends lxDriverClass
 
 		if (((stripos($t, '_ruid2') !== false)) || (stripos($t, '_itk') !== false)) {
 			if ($this->main->secondary_php === 'on') {
-				throw new lxexception('secondary_php_not_work_with_php-type_selected', 'parent');
+				throw new lxexception("secondary_php_not_work_for_{$t}", 'parent');
 			}
 		}
 
@@ -199,7 +199,7 @@ class serverweb__ extends lxDriverClass
 
 		$ver = getPhpVersion();
 
-		$phpbranch = getPhpBranch();
+		$phpbranch = getRpmBranchInstalled('php');
 
 		$this->rename_to_nonconf();
 
@@ -230,7 +230,7 @@ class serverweb__ extends lxDriverClass
 			lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath."/proxy_fcgi.conf");
 			lxfile_rm($ehcdpath."/proxy_fcgi.nonconf");
 		} else {
-			$phpbranch = getPhpBranch();
+			$phpbranch = getRpmBranchInstalled('php');
 
 			lxshell_return("yum", "-y", "install", "mod_fastcgi");
 			$ret = lxshell_return("yum", "-y", "update", "mod_fastcgi");
@@ -251,7 +251,7 @@ class serverweb__ extends lxDriverClass
 		}
 
 		lxshell_return("chkconfig", "php-fpm", "on");
-		createRestartFile('phpfpm');
+		createRestartFile('php-fpm');
 	}
 
 	function set_fcgid()
@@ -284,7 +284,7 @@ class serverweb__ extends lxDriverClass
 
 	function remove_phpfpm()
 	{
-		$phpbranch = getPhpBranch();
+		$phpbranch = getRpmBranchInstalled('php');
 
 		$ret = lxshell_return("yum", "-y", "remove", "{$phpbranch}-fpm");
 
@@ -352,6 +352,8 @@ class serverweb__ extends lxDriverClass
 			$branchselect = $this->main->php_branch;
 		}
 
+		$branchselect = preg_replace('/(.*)\_\(as\_(.*)\)/' , '$1', $branchselect);
+
 		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", $nolog);
 /*
 		// MR -- to make sure this modules convert too
@@ -377,7 +379,7 @@ class serverweb__ extends lxDriverClass
 
 	function set_php_pure()
 	{
-		$phpbranch = getPhpBranch();
+		$phpbranch = getRpmBranchInstalled('php');
 
 		if (!file_exists('/usr/bin/php_pure')) {
 			$this->set_phpbranch('php52');

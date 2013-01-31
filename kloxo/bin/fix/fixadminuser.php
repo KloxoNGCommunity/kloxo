@@ -16,5 +16,5 @@ foreach($list as $l) {
 }
 
 lxfile_unix_chown_rec("/home/admin/domain/", "admin:admin");
-lxshell_return("lphp.exe", "../bin/misc/fixftpuserclient.phps");
+lxshell_return("lxphp.exe", "../bin/misc/fixftpuserclient.phps");
 

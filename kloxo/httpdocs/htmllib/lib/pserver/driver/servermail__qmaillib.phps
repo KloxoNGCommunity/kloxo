@@ -109,7 +109,7 @@ function save_xinetd_qmail()
             $spamdyke = "";
         $cont = str_replace("%spamdyke%", $spamdyke, $bcont);
  		$cont = str_replace("%servicename%", "kloxo_smtp", $cont);
-		lfile_put_contents("/etc/xinetd.d/kloxo_smtp_lxa", $cont);
+	//	lfile_put_contents("/etc/xinetd.d/kloxo_smtp_lxa", $cont);
 		remove_line("/etc/services", "kloxo_smtp");
 		add_line("/etc/services", "kloxo_smtp {$this->main->additional_smtp_port}/tcp\n");
  	} else {
@@ -118,7 +118,7 @@ function save_xinetd_qmail()
 	}
     $bcont = str_replace("%spamdyke%", $spamdyke, $bcont);
     $cont = str_replace("%servicename%", "smtp", $bcont);
-    lfile_put_contents("/etc/xinetd.d/smtp_lxa", $cont);
+//    lfile_put_contents("/etc/xinetd.d/smtp_lxa", $cont);
 
 	exec_with_all_closed("/etc/init.d/xinetd restart");
 }
@@ -188,10 +188,12 @@ function savespamdyke()
 
 function deleteQueue()
 {
+	global $gbl, $sgbl, $login, $ghtml;
+
 	foreach($list as &$__l) {
 		$__l = "-d$__l";
 	}
-	$arg = lx_merge_good(array("__path_program_root/bin/misc/qmHandle"), $list);
+	$arg = lx_merge_good(array("{$sgbl->__path_program_root}/bin/misc/qmHandle"), $list);
 	call_user_func_array("lxshell_return", $arg);
 }
 

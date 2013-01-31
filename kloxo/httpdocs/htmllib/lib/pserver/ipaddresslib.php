@@ -37,6 +37,9 @@ class Ipaddress extends Lxdb
 	static $__acdesc_update_update = array("", "", "edit");
 	static $__acdesc_update_exclusive = array("", "", "exclusive_client");
 
+	static $__desc_ipaddr_begin = Array("n", "", "ipaddress_begin", URL_SHOW);
+	static $__desc_ipaddr_end = Array("n", "", "ipaddress_end", URL_SHOW);
+
 //Objects
 
 	function display($var)
@@ -648,7 +651,10 @@ class Ipaddress extends Lxdb
 
 		$vlist['devname'] = array('s', $result);
 
-		$vlist['ipaddr'] = "";
+	//	$vlist['ipaddr'] = "";
+		$vlist['ipaddr_begin'] = "";
+		$vlist['ipaddr_end'] = "";
+
 		$vlist['netmask'] = array('m', '255.255.255.0');
 
 		$ret['variable'] = $vlist;

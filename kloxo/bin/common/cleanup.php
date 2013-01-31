@@ -12,7 +12,7 @@ if (lxfile_exists("__path_slave_db")) {
 }
 
 if ($nolog) {
-	system("/usr/local/lxlabs/ext/php/php ../bin/common/tmpupdatecleanup.php --type=$type --nolog");
+	system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type=$type --nolog");
 } else {
-	system("/usr/local/lxlabs/ext/php/php ../bin/common/tmpupdatecleanup.php --type=$type");
+	system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type=$type");
 }

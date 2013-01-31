@@ -15,13 +15,16 @@ function update_main()
 
 	log_cleanup("Kloxo Install/Update");
 	
-	if (lxfile_exists("/var/cache/kloxo/kloxo-install-firsttime.flg")) {
+//	if (lxfile_exists("/var/cache/kloxo/kloxo-install-first.flg")) {
+//	if (!file_exists("/var/lib/mysql/kloxo")) {
+	if (getKloxoType() === '') {
 		log_cleanup("- Installing Kloxo packages at the first time");
 		$DoUpdate = true;
-	} elseif (lxfile_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
-		log_cleanup("- Installing Kloxo packages at reinstall");
-		$DoUpdate = true;
+//	} elseif (lxfile_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
+//		log_cleanup("- Installing Kloxo packages at reinstall");
+//		$DoUpdate = true;
 	} else {
+/*
 		log_cleanup("- Getting Version Info from the LxCenter download Server");
 		$upversion = false;
 		if ((isset($opt['till-version']) && $opt['till-version']) || lxfile_exists("__path_slave_db")) {
@@ -44,6 +47,7 @@ function update_main()
 			log_cleanup("- Kloxo is the latest version ($localversion)");
 		}
 
+*/
 /*
 		// Thirdparty/Webmail/AWstats checks
 
@@ -85,11 +89,11 @@ function update_main()
 	//
 	// Executing update/cleanup process
 	//
-	lxfile_cp("htmllib/filecore/php.ini", "/usr/local/lxlabs/ext/php/etc/php.ini");
+//	lxfile_cp("htmllib/filecore/php.ini", "/usr/local/lxlabs/ext/php/etc/php.ini");
 	$res = pcntl_exec("/bin/sh", array("../bin/common/updatecleanup.sh", "--type=$type"));
 }
 
-function do_upgrade($upversion)
+function do_upgrade($upversion = null)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 	$program = $sgbl->__var_program_name;
@@ -232,4 +236,3 @@ function doUpdates()
 	fix_self_ssl();
 
 }
-

@@ -59,7 +59,7 @@ function create_dev()
 	if (lxfile_exists("/sbin/udevd")) {
 		lxfile_mv("/sbin/udevd", "/sbin/udevd.back");
 	}
-	lxshell_return('tar', '-C', '/dev', '-xzf', '../file/centos-5/vps-dev.tgz');
+	lxshell_return('tar', '-C', '/dev', '-xzf', '../openvz/vps-dev.tgz');
 	lxshell_return('/sbin/MAKEDEV', 'pty');
 	lxshell_return('/sbin/MAKEDEV', 'tty');
 	lxshell_return('/sbin/MAKEDEV', 'loop');

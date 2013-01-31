@@ -16,14 +16,11 @@ static function unInstallMe()
 
 function dbactionAdd()
 {
-	//
 	$this->syncSpamUserPref();
 }
 
 function dbactionDelete()
 {
-	//
-
 	$wname = fix_nname_to_be_variable($this->main->nname);
 	lxfile_rm("/var/bogofilter/$wname.wordlist.db");
 }
@@ -32,6 +29,7 @@ function dbactionDelete()
 function syncSpamUserPref()
 {
 	global $gbl, $sgbl, $ghtml; 
+
 	// The parent can be either a domain or a user. CHeck for the @ sign.
 	if (csa($this->main->nname, "@")) {
 		list($user, $domain) = explode("@", $this->main->nname);
@@ -43,11 +41,10 @@ function syncSpamUserPref()
 	$sysuser =  mmail__qmail::getUserGroup($domain);
 
 	// --- issue #578/#721 - missing in version 6.1.6
-//	$mailpath = "/home/lxadmin/mail";
 	$mailpath = mmail__qmail::getDir($domain);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
 
 	if ($user) {
-	//	$prefpath = "$mailpath/domains/{$domain}/{$user}/.bogopref.cf";
 		$prefpath = "{$mailpath}/{$user}/.bogopref.cf";
 	} else {
 		return;
@@ -69,6 +66,7 @@ function syncSpamUserPref()
 	$fdata .= "wordlist R,system,wordlist.db,2\n";
 	$fdata .= "wordlist R,system,kloxo.wordlist.db,3\n";
 	lxuser_put_contents($sysuser, $prefpath, $fdata);
+
 	if (!lxfile_real("/var/bogofilter/$wname.wordlist.db")) {
 		new_process_cmd($sysuser, null, "bogofilter -d /var/bogofilter/ --wordlist=R,user,$wname.wordlist.db,1  -n < /etc/my.cnf");
 	}
@@ -95,9 +93,6 @@ function dbactionUpdate($subaction)
 			$this->syncSpamUserPref();
 			break;
 	}
-
-
 }
-
 
 }

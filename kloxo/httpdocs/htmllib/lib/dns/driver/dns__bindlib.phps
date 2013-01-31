@@ -355,7 +355,7 @@ STR;
         global $sgbl;
 
         if ($this->main->isDeleted()) {
-            createRestartFile("bind");
+            createRestartFile("named");
             return;
         }
 
@@ -371,7 +371,7 @@ STR;
         if ($total) {
             $ret = lxshell_return("rndc", "reload");
             if ($ret) {
-                createRestartFile("bind");
+                createRestartFile("named");
             }
         }
     }

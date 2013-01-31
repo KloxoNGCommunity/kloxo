@@ -19,15 +19,14 @@ static function getMailContent($mailbox)
 	$maildir = "$path/$user/Maildir/.Spam/cur";
 	self::parseDir($ret, $maildir);
 
-
 	return $ret;
-
 }
 
 static function parseDir(&$ret, $maildir)
 {
 
 	$list = lscandir_without_dot_or_underscore($maildir);
+
 	foreach($list as $l) {
 		$ret[] = self::mail_parse("$maildir/$l");
 	}
@@ -42,8 +41,10 @@ static function mail_parse($file)
 	$name = str_replace(",", "_s_coma_s_", $file);
 	$name = str_replace(":", "_s_colon_s_", $name);
 	$ret['nname'] = $name;
+
 	while (!feof($fp)) {
 		$l = fgets($fp);
+
 		if ($l === "\n") {
 			fclose($fp);
 			break;
@@ -52,9 +53,11 @@ static function mail_parse($file)
 		if (csb($l, "From:")) {
 			$ret['from'] = strfrom($l, "From:");
 		}
+
 		if (csb($l, "Subject:")) {
 			$ret['subject'] = strfrom($l, "Subject:");
 		}
+
 		if (csb($l, "Date:")) {
 			$ret['date'] = strfrom($l, "Date:");
 		}
@@ -67,8 +70,8 @@ static function mail_parse($file)
 	if (!isset($ret['subject'])) {
 		$ret['subject'] = '[no subject]';
 	}
-	return $ret;
 
+	return $ret;
 }
 
 }

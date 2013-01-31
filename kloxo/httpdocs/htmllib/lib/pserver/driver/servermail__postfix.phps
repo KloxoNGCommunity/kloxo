@@ -180,10 +180,12 @@ function savespamdyke()
 
 function deleteQueue()
 {
+	global $gbl, $sgbl, $login, $ghtml; 
+
 	foreach($list as &$__l) {
 		$__l = "-d$__l";
 	}
-	$arg = lx_merge_good(array("__path_program_root/bin/misc/qmHandle"), $list);
+	$arg = lx_merge_good(array("{$sgbl->__path_program_root}/bin/misc/qmHandle"), $list);
 	call_user_func_array("lxshell_return", $arg);
 }
 

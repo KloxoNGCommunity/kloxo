@@ -1,5 +1,5 @@
 #!/bin/sh
 . /script/directory
-lphp.exe ../bin/common/cleanup.php
+lxphp.exe ../bin/common/cleanup.php
 
 

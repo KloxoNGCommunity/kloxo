@@ -1,4 +1,4 @@
 #!/bin/sh
 . /script/directory
-lphp.exe ../bin/common/allow-admin.php
+lxphp.exe ../bin/common/allow-admin.php
 

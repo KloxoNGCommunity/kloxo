@@ -78,13 +78,13 @@ function display($var)
 
 static function createListNlist($parent, $view)
 {
-	$nlist['nname'] = '10%';
-	$nlist['type'] = '10%';
-	$nlist['from'] = '100%';
-	$nlist['to'] = '10%';
+	$nlist['nname'] = '5%';
+	$nlist['type'] = '5%';
+	$nlist['from'] = '20%';
+	$nlist['to'] = '20%';
 	$nlist['subject'] = '100%';
-	$nlist['date'] = '10%';
-	$nlist['size'] = '10%';
+	$nlist['date'] = '20%';
+	$nlist['size'] = '5%';
 	return $nlist;
 }
 

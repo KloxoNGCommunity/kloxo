@@ -20,19 +20,29 @@
 
 // ==== kloxo_installer portion ===
 
-$downloadserver = "http://download.lxcenter.org/";
+$lxlabspath = "/usr/local/lxlabs";
+$kloxopath = "{$lxlabspath}/kloxo";
+$currentpath = realpath(dirname(__FILE__));
+
+date_default_timezone_set('UTC');
+$stamp = date("Y-m-d-H-i-s");
 
 function lxins_main()
 {
-	global $argv, $downloadserver;
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentpath, $stamp;
+
+	// MR -- for to make sure
+	exec("yum clean all");
+
 	$opt = parse_opt($argv);
 	$dir_name = dirname(__FILE__);
 	$installtype = $opt['install-type'];
-	$installversion = (isset($opt['version'])) ? $opt['version'] : null;
 	$dbroot = "root";
 	$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : "";
 	$osversion = find_os_version();
 	// $arch = trim( `arch` );
+ 	// $arch = php_uname('m');
 
 	$licenseagree = (isset($opt['license-agree'])) ? $opt['license-agree'] : null;
 	$noasking = (isset($opt['no-asking'])) ? $opt['no-asking'] : null;
@@ -46,13 +56,26 @@ function lxins_main()
 	print("Installing LxCenter yum repository for updates\n");
 	install_yum_repo($osversion);
 
-	$kloxo_path = "/usr/local/lxlabs/kloxo";
 	$mypass = password_gen();
 
-	if (file_exists("/usr/local/lxlabs/kloxo")) {
+	if (getKloxoType() !== '') {
+		// MR -- also issue on Centos 5.9 - prevent for update!
+		if (php_uname('m') === 'x86_64') {
+			system("yum remove mysql*.i386 -y");
+		}
+
+		// MR -- issue found on Centos 5.9 where have 'default' iptables config
+		$iptp = '/etc/sysconfig';
+		$ipts = array('iptables', 'ip6tables');
+
+		foreach ($ipts as &$ipt) {
+			if (file_exists("{$iptp}/{$ipt}")) {
+				system("mv -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
+			}
+		}
+
 		//--- Create temporary flags for install
 		system("mkdir -p /var/cache/kloxo/");
-		system("echo 1 > /var/cache/kloxo/kloxo-install-secondtime.flg");
 
 		if ($noasking !== 'yes') {
 			//--- Ask Reinstall
@@ -63,20 +86,39 @@ function lxins_main()
 			}
 		}
 
-		system("cp -rf {$kloxo_path} {$kloxo_path}." . date("Y-m-d-H-i-s"));
+		exec("cp -rf {$kloxopath} {$kloxopath}.{$stamp}");
+		exec("rm -rf {$kloxopath}/file/*");
+		exec("rm -rf {$kloxopath}/pscript/*");
+		exec("rm -rf {$kloxopath}/httpdocs/htmllib/script/*");
 
-		$a = array('bin', 'cexe', 'file', 'httpdocs', 'pscript', 'RELEASEINFO', 'sbin', 'src');
+		/*
+				// MR -- unwanted dirs/files
+				$a = array('bin', 'cexe', 'file', 'httpdocs', 'pscript', 'RELEASEINFO', 'sbin', 'src');
 
-		foreach ($a as &$v) {
-			system("rm -rf {$kloxo_path}/{$v}");
-		}
+				foreach ($a as &$v) {
+					exec("rm -rf {$kloxopath}/{$v}/*");
+				}
+
+
+				// MR -- copy-back certain dirs/files (thirdparty)
+				$tpath = "{$kloxopath}/httpdocs";
+				$spath = "{$kloxopath}.{$stamp}/httpdocs";
+
+				exec("cp -rf {$spath}/thirdparty/* {$tpath}");
+				exec("cp -rf {$spath}/htmllib/extjs/* {$tpath}/htmllib");
+				exec("cp -rf {$spath}/htmllib/fckeditor/* {$tpath}/htmllib");
+				exec("cp -rf {$spath}/htmllib/yui-dragdrop/* {$tpath}/htmllib");
+		*/
 
 	} else {
-		//--- Create temporary flags for install
-		system("mkdir -p /var/cache/kloxo/");
-		system("echo 1 > /var/cache/kloxo/kloxo-install-firsttime.flg");
+	//	system("mkdir -p /var/cache/kloxo/");
 
 		if (($noasking !== 'yes') || ($licenseagree !== 'yes')) {
+			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan ***\n");
+			print("- Better usinf backup-restore process for update from Kloxo 6.1.12+.\n");
+			print("  No guarantee always success update from Kloxo after 6.1.12 version\n\n");
+
+
 			//--- Ask License
 			if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
 				print("You did not agree to the AGPL-V3.0 license terms.\n");
@@ -89,45 +131,43 @@ function lxins_main()
 	}
 
 	// MR -- disable asking for installing installapp where installapp not installed now
-/*
-	//--- Ask for InstallApp
-	print("InstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
-	print("When you choose Yes, be aware of downloading about 350Mb of data!\n");
+	/*
+		//--- Ask for InstallApp
+		print("InstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
+		print("When you choose Yes, be aware of downloading about 350Mb of data!\n");
 
-	if (get_yes_no("Do you want to install the InstallAPP sotfware?") == 'n') {
-		print("Installing InstallApp = NO\n");
-		print("You can install it later with /script/installapp-update\n\n");
-		$installappinst = false;
-		//--- Temporary flag so InstallApp won't be installed
-		system("echo 1 > /var/cache/kloxo/kloxo-install-disableinstallapp.flg");
-	} else {
-		print("Installing InstallApp = YES\n\n");
-		$installappinst = true;
-	}
-*/
-	system("echo 1 > /var/cache/kloxo/kloxo-install-disableinstallapp.flg");
+		if (get_yes_no("Do you want to install the InstallAPP sotfware?") == 'n') {
+			print("Installing InstallApp = NO\n");
+			print("You can install it later with /script/installapp-update\n\n");
+			$installappinst = false;
+		} else {
+			print("Installing InstallApp = YES\n\n");
+			$installappinst = true;
+		}
+	*/
+//	system("echo 1 > /var/cache/kloxo/kloxo-install-disableinstallapp.flg");
 
-	kloxo_install_step1($osversion, $installversion, $downloadserver);
+	kloxo_install_step1();
 
 	if ($installtype !== 'slave') {
 		check_default_mysql($dbroot, $dbpass);
 	}
 
-	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
-		print("Prepare defaults and configurations...\n");
-		install_main();
+	print("Prepare defaults and configurations...\n");
+	install_main();
 
-		kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass);
+	kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass);
 
-		kloxo_prepare_kloxo_httpd_dir();
+	kloxo_prepare_kloxo_httpd_dir();
 
+	if (getKloxoType() === '') {
 		kloxo_install_step2($installtype, $dbroot, $dbpass);
 	}
-/*
-	if ($installappinst) {
-		kloxo_install_installapp();
-	}
-*/
+	/*
+		if ($installappinst) {
+			kloxo_install_installapp();
+		}
+	*/
 	kloxo_install_before_bye();
 
 	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
@@ -155,11 +195,36 @@ function installcomp_mail()
 
 function install_main()
 {
-	$installcomp['mail'] = array("vpopmail", "courier-imap-toaster", "courier-authlib-toaster", "qmail",
-		"httpd", "spamassassin", "ezmlm-toaster", "autorespond-toaster");
+/*
+	system("rpm -e vpopmail --nodeps");
+	system("rpm -e qmail --nodeps");
+
+	exec("rpm -qa | grep toaster", $out, $ret);
+
+	foreach ($out as $k => $v) {
+		$s = explode('-toaster-', $v);
+
+		$c = $s[0];
+
+		if ($c) {
+			system("rpm -e {$c}-toaster --nodeps");	
+		}
+	}
+*/
+
+	// MR -- need outside process for convert qmail-lxcenter to qmail-toaster
+	if (isRpmInstalled('qmail')) {
+		$installcomp['mail'] = array("httpd", "fetchmail");
+	} else {
+		$installcomp['mail'] = array("httpd", "autorespond-toaster", "courier-authlib-toaster",
+			"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
+			"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
+			"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail");
+	}
+
 	$installcomp['web'] = array("httpd", "pure-ftpd");
 	$installcomp['dns'] = array("bind", "bind-chroot");
-	$installcomp['database'] = array("mysql");
+	$installcomp['database'] = array(getMysqlBranch());
 
 	// global $argv;
 	$comp = array("web", "mail", "dns", "database");
@@ -181,6 +246,11 @@ function install_main()
 			install_general_mine($req);
 			print("\n");
 		}
+	}
+
+	// MR -- also issue on Centos 5.9 - prevent for update!
+	if (php_uname('m') === 'x86_64') {
+		system("yum remove mysql*.i386 -y");
 	}
 
 	$options_file = "/var/named/chroot/etc/global.options.named.conf";
@@ -232,142 +302,154 @@ function install_main()
 
 function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 {
-	file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u lxpopuser\"");
+	file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u vpopmail\"");
 
 	print("\nCreating Vpopmail database...\n");
-	system("sh $dir_name/kloxo-linux/vpop.sh $dbroot \"$dbpass\" lxpopuser $mypass");
+
+	system("sh $dir_name/kloxo-linux/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+
+	// MR -- until Kloxo-MR 6.5.1, still using the same mail path
+	system("mkdir -p /home/lxadmin/mail/domains");
+	system("chmod 755 /home/lxadmin");
+	system("chmod 755 /home/lxadmin/mail");
+	system("chmod 755 /home/lxadmin/mail/domains");
+
+	if (isRpmInstalled('qmail-toaster')) {
+		system("chmod 755 /home/vpopmail");
+		system("chmod 755 /home/vpopmail/domains");
+
+		system("rm -f /etc/rc.d/init.d/courier-imap");
+		system("rm -f /etc/rc.d/init.d/clamav");
+		system("rm -f /etc/xinetd.d/smtp_lxa");
+		system("rm -f /etc/xinetd.d/kloxo_smtp_lxa");
+	}
+
 	system("chmod -R 755 /var/log/httpd/");
 	system("chmod -R 755 /var/log/httpd/fpcgisock >/dev/null 2>&1");
 	system("mkdir -p /var/log/kloxo/");
 	system("mkdir -p /var/log/news");
-	system("ln -sf /var/qmail/bin/sendmail /usr/sbin/sendmail");
-	system("ln -sf /var/qmail/bin/sendmail /usr/lib/sendmail");
-	system("echo `hostname` > /var/qmail/control/me");
-	system("service qmail restart >/dev/null 2>&1 &");
-	system("service courier-imap restart >/dev/null 2>&1 &");
 }
 
-function kloxo_install_step1($osversion, $installversion, $downloadserver)
+function kloxo_install_step1()
 {
-	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
-		print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
-		system("groupadd nogroup");
-		system("useradd nouser -g nogroup -s '/sbin/nologin'");
-		system("groupadd lxlabs");
-		system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentpath, $stamp;
 
-		$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
-			"exim", "vsftpd", "postfix", "vpopmail", "qmail", "lxphp",
-			"lxzend", "pure-ftpd", "imap");
+//	if (getKloxoType() === '') {
+	print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
+	system("groupadd nogroup");
+	system("useradd nouser -g nogroup -s '/sbin/nologin'");
+	system("groupadd lxlabs");
+	system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
 
-		$list = implode(" ", $packages);
-		print("Removing packages $list...\n");
+/*
+	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
+		"exim", "vsftpd", "postfix", "vpopmail", "qmail", "ssmtp",
+		"lxzend", "pure-ftpd", "imap", "spamassassin", "courier-imap-toaster");
+*/
+	// MR -- remove qmail-lxcenter not here! - need outside script
+	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
+		"exim", "vsftpd", "postfix", "ssmtp",
+		"lxzend", "pure-ftpd");
 
-		foreach ($packages as $package) {
-			system("rpm -e --nodeps $package > /dev/null 2>&1");
-		}
-		
-		// MR -- force remove old lxphp (from lxcenter.repo)
-		system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
+	$list = implode(" ", $packages);
+	print("Removing packages $list...\n");
 
-		// MR -- for accept for php and apache branch rpm
-		$phpbranch = getPhpBranch();
-		$httpdbranch = getApacheBranch();
+	foreach ($packages as $package) {
+		system("rpm -e --nodeps $package > /dev/null 2>&1");
+	}
 
-		// MR -- xcache, zend, ioncube, suhosin and zts not default install
-		// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
-		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
-			"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "lxlighttpd", $httpdbranch, "mod_ssl",
-			"zip", "unzip", "lxphp", "lxzend", "mysql", "mysql-server", "curl", "autoconf", "automake", "mod_ruid2",
-			"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-			"kloxo-*.noarch"
-		);
+	// MR -- force remove old lxphp (from lxcenter.repo)
+	system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
 
-		$list = implode(" ", $packages);
+	if (isRpmInstalled('qmail-toaster')) {
+		// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
+		system("userdel vpopmail > /dev/null 2>&1");
+		system("userdel lxpopuser > /dev/null 2>&1");
+	}
 
-		while (true) {
-			print("Installing packages $list...\n");
-			system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+	// MR -- force remove postfix and their user
+	system("userdel postfix > /dev/null 2>&1");
 
-			if (file_exists("/usr/local/lxlabs/ext/php/php")) {
-				break;
-			} else {
-				print("YUM Gave Error... Trying Again...\n");
-				if (get_yes_no("Try again?") == 'n') {
-					print("- EXIT: Fix the problem and install Kloxo again.\n");
-					exit;
-				}
+	// MR -- for accept for php and apache branch rpm
+	$phpbranch = getPhpBranch();
+	$httpdbranch = getApacheBranch();
+	$mysqlbranch = getMysqlBranch();
+
+	// MR -- xcache, zend, ioncube, suhosin and zts not default install
+	// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
+	$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
+		"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "lxlighttpd", $httpdbranch, "mod_ssl",
+		"zip", "unzip", "lxphp", "lxzend", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
+		"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
+		"kloxo-*.noarch", "net-snmp", "tmpwatch"
+	);
+
+	$list = implode(" ", $packages);
+
+	while (true) {
+		print("Installing packages $list...\n");
+		system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+
+		if (file_exists("{$lxlabspath}/ext/php/php")) {
+			break;
+		} else {
+			print("YUM Gave Error... Trying Again...\n");
+			if (get_yes_no("Try again?") == 'n') {
+				print("- EXIT: Fix the problem and install Kloxo again.\n");
+				exit;
 			}
 		}
 	}
+//	}
 
 	print("Prepare installation directory\n");
 
-	system("mkdir -p /usr/local/lxlabs/kloxo");
+	system("mkdir -p {$kloxopath}");
 
-	if ($installversion) {
-		if (substr($installversion, 0, 4) == '6.0.') {
-			print("\n*** Need additional files installing $installversion (less then 6.1.0)***\n");
-			print("	  Run 'sh /script/kloxo-installer.sh' (without argument)\n\n");
+	if (file_exists("../kloxo-current.zip")) {
+		//--- Install from local file if exists
+		system("rm -f {$kloxopath}/kloxo-current.zip");
 
-			exit;
-		}
+		print("Local copying Kloxo release\n");
+		system("mkdir -p /var/cache/kloxo");
+		system("cp -rf ../kloxo-current.zip {$kloxopath}");
 
 		chdir("/usr/local/lxlabs/kloxo");
-		system("mkdir -p /usr/local/lxlabs/kloxo/log");
-
-		system("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
-
-		print("Downloading Kloxo {$installversion} release\n");
-		system("wget {$downloadserver}download/kloxo/production/kloxo/kloxo-{$installversion}.zip");
-		system("mv -f ./kloxo-{$installversion}.zip ./kloxo-current.zip");
+		system("mkdir -p {$kloxopath}/log");
 	} else {
-		if (file_exists("../kloxo-current.zip")) {
-			//--- Install from local file if exists
-			system("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
+		chdir("/usr/local/lxlabs/kloxo");
+		system("mkdir -p {$kloxopath}/log");
 
-			print("Local copying Kloxo release\n");
-			system("mkdir -p /var/cache/kloxo");
-			system("cp -rf ../kloxo-current.zip /usr/local/lxlabs/kloxo");
-
-			chdir("/usr/local/lxlabs/kloxo");
-			system("mkdir -p /usr/local/lxlabs/kloxo/log");
-		} else {
-			chdir("/usr/local/lxlabs/kloxo");
-			system("mkdir -p /usr/local/lxlabs/kloxo/log");
-
-			system("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
-
-			print("Downloading latest Kloxo release\n");
-			system("wget {$downloadserver}download/kloxo/production/kloxo/kloxo-current.zip");
-		}
+		system("rm -f {$kloxopath}/kloxo-current.zip");
 	}
-	
-	if (file_exists("/usr/lib64")) {
-		system("mv -f /usr/lib/php /usr/lib/php.bck");
+
+	if (php_uname('m') === 'x86_64') {
+		if (file_exists("/usr/lib/php")) {
+			system("mv -f /usr/lib/php /usr/lib/php.bck");
+		}
+
 		system("mkdir -p /usr/lib64/php");
 		system("ln -s /usr/lib64/php /usr/lib/php");
 		system("mkdir -p /usr/lib64/httpd");
 		system("ln -s /usr/lib64/httpd /usr/lib/httpd");
 		system("mkdir -p /usr/lib64/lighttpd");
 		system("ln -s /usr/lib64/lighttpd /usr/lib/lighttpd");
+		system("mkdir -p /usr/lib64/mysql");
+		system("ln -s /usr/lib64/mysql /usr/lib/mysql");
 	}
 
 	print("\n\nInstalling Kloxo.....\n\n");
 
 	system("unzip -oq kloxo-current.zip", $return);
+	system("chmod -R 755 {$kloxopath}/cexe");
 
-	if ($return) {
-		print("Unzipping the core Failed.. Most likely it is corrupted. " .
-			"Report it at http://forum.lxcenter.org/\n");
+	copy_script();
 
-		exit;
-	}
+	system("rm -f {$kloxopath}/kloxo-current.zip");
 
-	system("rm -f /usr/local/lxlabs/kloxo/kloxo-current.zip");
-
-	system("chown -R lxlabs:lxlabs /usr/local/lxlabs/");
-	chdir("/usr/local/lxlabs/kloxo/httpdocs/");
+	system("chown -R lxlabs:lxlabs {$lxlabspath}");
+	chdir("{$kloxopath}/httpdocs/");
 
 	setUsingMyIsam();
 
@@ -378,8 +460,11 @@ function kloxo_install_step1($osversion, $installversion, $downloadserver)
 
 function kloxo_install_step2($installtype, $dbroot, $dbpass)
 {
-	chdir("/usr/local/lxlabs/kloxo/httpdocs/");
-	system("/usr/local/lxlabs/ext/php/php /usr/local/lxlabs/kloxo/bin/install/create.php " .
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentpath, $stamp;
+
+	chdir("{$kloxopath}/httpdocs/");
+	system("{$lxlabspath}/ext/php/php {$kloxopath}/bin/install/create.php " .
 		"--install-type=$installtype --db-rootuser=$dbroot --db-rootpassword=$dbpass");
 }
 
@@ -402,17 +487,36 @@ function kloxo_prepare_kloxo_httpd_dir()
 
 function kloxo_install_before_bye()
 {
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentpath, $stamp;
 
-	if (file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
-		$reinst = true;
-	} else {
-		$reinst = false;
+	system("cp -rf {$currentpath}/kloxo-mr_lxcenter.repo {$kloxopath}/file");
+	system("cp -rf {$currentpath}/kloxo-mr_mratwork.repo {$kloxopath}/file");
+
+	// MR -- because php 5.2 have problem with php-fpm
+	if (version_compare(getPhpVersion(), "5.3.2", "<")) {
+		$phpbranch = getPhpBranch();
+		system("yum remove {$phpbranch}-fpm -y");
 	}
 
+	// MR -- ruid2 as default instead mod_php
+	if (file_exists("/etc/httpd/conf.d/php.conf")) {
+		system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
+		// MR -- because /home/apache no exist at this step
+		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
+	}
+
+	/*
+		if (getKloxoType() === 'master') {
+			$reinst = true;
+		} else {
+			$reinst = false;
+		}
+	*/
 	//--- Remove all temporary flags because the end of install
-	print("\nRemove Kloxo install flags...\n");
-	system("rm -rf /var/cache/kloxo/*-version");
-	system("rm -rf /var/cache/kloxo/kloxo-install-*.flg");
+//	print("\nRemove Kloxo install flags...\n");
+//	system("rm -rf /var/cache/kloxo/*-version");
+//	system("rm -rf /var/cache/kloxo/kloxo-install-*.flg");
 
 	//--- Prevent mysql socket problem (especially on 64bit system)
 	if (!file_exists("/var/lib/mysql/mysql.sock")) {
@@ -423,7 +527,7 @@ function kloxo_install_before_bye()
 	}
 
 	//--- Set ownership for Kloxo httpdocs dir
-	system("chown -R lxlabs:lxlabs /usr/local/lxlabs/kloxo/httpdocs");
+	system("chown -R lxlabs:lxlabs {$kloxopath}/httpdocs");
 
 	if (!isMysqlRunning()) {
 		//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
@@ -432,20 +536,13 @@ function kloxo_install_before_bye()
 		system("chkconfig mysqld on");
 		system("service mysqld start");
 	}
+	/*
+		if ($reinst) {
+			system("sh /script/cleanup");
+		}
+	*/
 
-	//--- Fix for old thirdparty version
-	if (!file_exists("/usr/local/lxlabs/kloxo/httpdocs/thirdparty")) {
-		system("cp -rf /var/cache/kloxo/kloxo-thirdparty*.zip /usr/local/lxlabs/kloxo");
-		system("cd /usr/local/lxlabs/kloxo; unzip -oq kloxo-thirdparty*.zip");
-		system("chown -R lxlabs:lxlabs /usr/local/lxlabs/kloxo/httpdocs/thirdparty");
-		system("chown -R lxlabs:lxlabs /usr/local/lxlabs/kloxo/httpdocs/htmllib");
-		system("rm -f /usr/local/lxlabs/kloxo/kloxo-thirdparty*.zip");
-	}
-
-	if ($reinst) {
-		system("sh /script/cleanup");
-	}
-		
+//	system("sh /script/cleanup");
 }
 
 function kloxo_install_bye($installtype)
@@ -458,11 +555,6 @@ function kloxo_install_bye($installtype)
 		print("The login and password are 'admin' 'admin' for new install.\n");
 		print("After Logging in, you will have to change your password to \n");
 		print("something more secure\n\n");
-		print("We hope you will find managing your hosting with Kloxo\n");
-		print("refreshingly pleasurable, and also we wish you all the success\n");
-		print("on your hosting venture\n\n");
-		print("Thanks for choosing Kloxo to manage your hosting, and allowing us to be of\n");
-		print("service\n");
 	} else {
 		print("You should open the port 7779 on this server, since this is used for\n");
 		print("the communication between master and slave\n\n");
@@ -474,16 +566,30 @@ function kloxo_install_bye($installtype)
 
 	print("\n");
 	print("---------------------------------------------\n");
+	print("\n");
+	print("- Better reboot!!!\n\n");
+
+	if (isRpmInstalled('qmail')) {
+		print("---------------------------------------------\n");
+		print("\n");
+		print("- Because still using qmail from lxcenter,\n");
+		print("- run 'sh /script/convert-to-qmailtoaster'\n\n");
+	}
 }
 
 // ==== kloxo_common portion ===
 
 // MR -- this class must be exist for slave_get_db_pass()
-class remote { }
+class remote
+{
+}
 
 function slave_get_db_pass()
 {
-	$rmt = file_get_unserialize("/usr/local/lxlabs/kloxo/etc/slavedb/dbadmin");
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentpath, $stamp;
+
+	$rmt = file_get_unserialize("{$kloxopath}/etc/slavedb/dbadmin");
 
 	if ($rmt) {
 		return $rmt->data['mysql']['dbpassword'];
@@ -558,7 +664,7 @@ function char_search_beg($haystack, $needle)
 	}
 }
 
-function install_yum_repo($osversion)
+function install_yum_repo()
 {
 
 	// global $dirpath;
@@ -568,19 +674,19 @@ function install_yum_repo($osversion)
 
 		return;
 	}
-/*
-	$a = explode("-", $osversion);
-	$vernum = $a[1];
 
-	$cont = file_get_contents("kloxo.repo.template");
-	$cont = str_replace("%distro%", $osversion, $cont);
-	$cont = str_replace("%distro_ver%", $vernum, $cont);
-	file_put_contents("/etc/yum.repos.d/kloxo.repo", $cont);
-*/
-	// MR -- not using until moving repo from github
-	system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
+	if (getKloxoType() !== '') {
+		if (isRpmInstalled('qmail-toaster')) {
+			system("cp -rf ./kloxo-mr_mratwork.repo /etc/yum.repos.d/kloxo-mr.repo");
+		} else {
+			system("cp -rf ./kloxo-mr_lxcenter.repo /etc/yum.repos.d/kloxo-mr.repo");
+		}
+	} else {
+		system("cp -rf ./kloxo-mr_mratwork.repo /etc/yum.repos.d/kloxo-mr.repo");
+	}
 
-	// MR -- remove all repo
+	// MR -- remove all old repos
+	system("rm -f /etc/yum.repos.d/kloxo.repo");
 	system("rm -f /etc/yum.repos.d/kloxo-custom.repo");
 	system("rm -f /etc/yum.repos.d/lxcenter.repo");
 }
@@ -622,15 +728,8 @@ function find_os_version()
 
 		exit;
 	}
-
 }
 
-/**
- * Get Yes/No answer from stdin
- * @param string $question question text
- * @param char $default default answer (optional)
- * @return char 'y' for Yes or 'n' for No
- */
 function get_yes_no($question, $default = 'n')
 {
 	if ($default != 'y') {
@@ -710,6 +809,8 @@ function getPhpBranch()
 			return $e;
 		}
 	}
+
+	return 'php';
 }
 
 // MR -- taken from lib.php
@@ -722,6 +823,22 @@ function getApacheBranch()
 			return $e;
 		}
 	}
+
+	return 'httpd';
+}
+
+// MR -- taken from lib.php
+function getMysqlBranch()
+{
+	$a = array('mysql', 'mysql50', 'mysql51', 'mysql53', 'mysql55');
+
+	foreach ($a as &$e) {
+		if (isRpmInstalled($e)) {
+			return $e;
+		}
+	}
+
+	return 'mysql';
 }
 
 // MR -- taken from lib.php
@@ -734,14 +851,25 @@ function getRpmVersion($rpmname)
 }
 
 // MR -- taken from lib.php
+function getPhpVersion()
+{
+	exec("php -r 'echo phpversion();'", $out, $ret);
+
+	return $out[0];
+}
+
+// MR -- taken from lib.php
 function isRpmInstalled($rpmname)
 {
-	exec("rpm -q {$rpmname} | grep -i 'not installed'", $out, $ret);
+	exec("rpm -q {$rpmname}", $out);
 
+	$ret = strpos($out[0], "{$rpmname}-");
+
+	// MR -- must be '!== 0' because no exist sometimes with value > 0; 0 because position in 0
 	if ($ret !== 0) {
-		return true;
-	} else {
 		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -751,7 +879,7 @@ function setUsingMyIsam()
 	// to make fresh install already use myisam as storage engine
 	// with purpose minimize memory usage (save around 100MB)
 
-	if (!file_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
+	if (getKloxoType() === '') {
 		$file = "/etc/my.cnf";
 
 		$string = file_get_contents($file);
@@ -760,7 +888,7 @@ function setUsingMyIsam()
 
 		$string_collect = null;
 
-		foreach($string_array as $sa) {
+		foreach ($string_array as $sa) {
 			if (stristr($sa, 'skip-innodb') !== FALSE) {
 				$string_collect .= "";
 				continue;
@@ -770,12 +898,12 @@ function setUsingMyIsam()
 				$string_collect .= "";
 				continue;
 			}
-			$string_collect .= $sa."\n";
+			$string_collect .= $sa . "\n";
 		}
-		
+
 		$string_source = "[mysqld]\n";
 		$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\n";
-		
+
 		$string_collect = str_replace($string_source, $string_replace, $string_collect);
 
 		file_put_contents($file, $string_collect);
@@ -790,6 +918,35 @@ function isMysqlRunning()
 		return true;
 	} else {
 		return false;
+	}
+}
+
+function copy_script()
+{
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentpath, $stamp;
+
+//	exec("rm -f /script");
+	exec("mkdir -p /script/filter");
+
+	exec("cp -rf {$kloxopath}/httpdocs/htmllib/script/* /script/");
+	exec("cp -rf {$kloxopath}/pscript/* /script/");
+
+	file_put_contents("/script/programname", 'kloxo');
+	exec("chmod 0775 /script");
+}
+
+function getKloxoType()
+{
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentpath, $stamp;
+
+	if (file_exists("/var/lib/mysql/kloxo")) {
+		return 'master';
+	} else if (file_exists("{$kloxopath}/etc/conf/slave-db.db")) {
+		return 'slave';
+	} else {
+		return '';
 	}
 }
 

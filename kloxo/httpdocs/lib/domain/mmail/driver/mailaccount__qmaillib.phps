@@ -6,15 +6,16 @@ class Mailaccount__Qmail  extends lxDriverClass {
 
 static function Mailaccdisk_usage($accname)
 {   
-    global $gbl, $sgbl, $login, $ghtml;
+	global $gbl, $sgbl, $login, $ghtml;
 
 	$name = explode('@', $accname);
+
 	$mailpath = mmail__qmail::getDir($name[1]);
-	//$mailpath = "/home/lxadmin/mail/domains/{$name[1]}";
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$path = "$mailpath/{$name[0]}";
 	dprint("Path of the File is :$path\n");
 	return lxfile_dirsize($path);
-
 }
 
 
@@ -53,7 +54,10 @@ function syncQmail()
 
 	$quser = explode("@", $this->main->nname);
 	$domain = $quser[1];
+
 	$mailpath = mmail__qmail::getDir($quser[1]);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$sysuser = mmail__qmail::getUserGroup($domain);
 
 //	$qmailfile = "$mailpath/". $quser[0] . "/.qmail";
@@ -110,15 +114,8 @@ function syncQmail()
 	}
 
 
-	/*
-	if (!lxfile_exists("$spamdir/maildirfolder")) {
-		exec("rmdir $spamdir >/dev/null 2>&1 ");
-		lxshell_return("maildirmake", "-f", "Spam", "$mailpath/$user/Maildir");
-		lxfile_unix_chown_rec($spamdir, mmail__qmail::getUserGroup($domain));
-	}
-*/
-
 	lxuser_return(mmail__qmail::getUserGroup($domain), "maildirmake", "-f", "Spam", "$mailpath/$user/Maildir");
+
 	$spamdirm = "$mailpath/$user/Maildir";
 	//lxfile_unix_chown_rec($spamdirm, mmail__qmail::getUserGroup($domain));
 
@@ -157,9 +154,12 @@ function syncQmail()
 
 function syncUserdel()
 {		
-    global $gbl, $sgbl, $ghtml; 
+	global $gbl, $sgbl, $ghtml; 
+
 	$quser = explode("@", $this->main->nname);
 	$mailpath = mmail__qmail::getDir($quser[1]);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$domain = $quser[1];
 
 	$sys_cmd =  "__path_mail_root/bin/vdeluser" ;
@@ -168,8 +168,13 @@ function syncUserdel()
 
 function createAutoResFile()
 {
+	global $gbl, $sgbl, $ghtml; 
+
 	$quser = explode("@", $this->main->nname);
+
 	$mailpath = mmail__qmail::getDir($quser[1]);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$domain = $quser[1];
 
 	if (csb($mailpath, "domain") && cse($mailpath, "exist")) {
@@ -181,10 +186,12 @@ function createAutoResFile()
 	$sys_path = "$mailpath/{$quser[0]}";
 	$sys_fpath = "$mailpath/{$quser[0]}/autorespond/message";
 	$sys_apath = "$mailpath/{$quser[0]}/autorespond";
+
 	if (!lxfile_exists($sys_apath)) {
 		lxuser_mkdir(mmail__qmail::getUserGroup($domain), $sys_apath);
 		lxfile_unix_chown_rec($sys_apath, mmail__qmail::getUserGroup($domain));
 	}
+
 	$sysuser = mmail__qmail::getUserGroup($domain);
 	lxuser_put_contents($sysuser, $sys_fpath, "From: {$this->main->nname}\nSubject: Response\n\n Message Received");
 }
@@ -193,7 +200,10 @@ function syncrealpass()
 {
 	global $gbl, $sgbl, $ghtml; 
 	$quser = explode("@", $this->main->nname);
+
 	$mailpath = mmail__qmail::getDir($quser[1]);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$domain = $quser[1];
 	$sysuser = mmail__qmail::getUserGroup($domain);
 
@@ -209,8 +219,12 @@ function syncrealpass()
 function syncQuota()
 {
 	global $gbl, $sgbl, $ghtml; 
+
 	$quser = explode("@", $this->main->nname);
+
 	$mailpath = mmail__qmail::getDir($quser[1]);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$domain = $quser[1];
 	$sysuser = mmail__qmail::getUserGroup($domain);
 
@@ -221,14 +235,17 @@ function syncQuota()
 	} 
 
 	$ret = lxuser_return($sysuser, "__path_mail_root/bin/vsetuserquota", $this->main->nname, $disksize);
-
 }
 
 function syncToggleUser()
 {
 	global $gbl, $sgbl, $login;
+
 	$quser = explode("@", $this->main->nname);
+
 	$mailpath = mmail__qmail::getDir($quser[1]);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$domain = $quser[1];
 	$sysuser = mmail__qmail::getUserGroup($domain);
 
@@ -242,20 +259,27 @@ function syncToggleUser()
 
 function syncAutoRes()
 {
+	global $gbl, $sgbl, $login;
+
 	$quser = explode("@", $this->main->nname);
+
 	$mailpath = mmail__qmail::getDir($quser[1]);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$domain = $quser[1];
 	$sysuser = mmail__qmail::getUserGroup($domain);
 
 	$autorespath = "$mailpath/{$quser[0]}/autorespond";
+
 	if (!lxfile_exists($autorespath)) {
 		lxuser_mkdir($sysuser, $autorespath);
 	}
+
 	$autoresfile = "$autorespath/message";
 	$mess = "From: {$this->main->nname}\nSubject: {$this->main->__var_autores_subject}\n\n";
 	$mess .= $this->main->__var_autores_message;
+
 	lxuser_put_contents($sysuser, $autoresfile, $mess);
-	
 }
 
 
@@ -275,8 +299,13 @@ function syncAutoRespond()
 
 function clearSpamDb()
 {
+	global $gbl, $sgbl, $login;
+
 	list($user, $domain) = explode("@", $this->main->nname);
+
 	$mailpath = mmail__qmail::getDir($domain);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$prefpath = "$mailpath/$user/.bogopref.cf";
 	$fname = fix_nname_to_be_variable($this->main->nname);
 	lunlink("/var/bogofilter/$fname.wordlist.db");

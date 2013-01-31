@@ -1,2 +1,2 @@
 . /script/directory
-lphp.exe ../bin/fix/fixclientquota.php
+lxphp.exe ../bin/fix/fixclientquota.php

@@ -5,7 +5,7 @@ class Spam__Spamassassin extends lxDriverClass
 	static function installMe()
 	{
 
-		$ret = lxshell_return("yum", "-y", "install", "spamassassin");
+		$ret = lxshell_return("yum", "-y", "install", "spamassassin-toaster");
 		if ($ret) {
 			throw new lxexception('install_spamassassin_failed', 'parent');
 		}
@@ -17,7 +17,7 @@ class Spam__Spamassassin extends lxDriverClass
 	static function uninstallMe()
 	{
 		lxshell_return("service", "spamassassin", "stop");
-		lxshell_return("rpm", "-e", "--nodeps", "spamassassin");
+		lxshell_return("rpm", "-e", "--nodeps", "spamassassin-toaster");
 	}
 
 	function dbactionAdd()
@@ -43,7 +43,6 @@ class Spam__Spamassassin extends lxDriverClass
 		}
 
 		// --- issue #578/#721 - missing in version 6.1.6
-	//	$mailpath = "/home/lxadmin/mail";
 		$mailpath = mmail__qmail::getDir($domain);
 
 		if ($user) {
@@ -55,7 +54,7 @@ class Spam__Spamassassin extends lxDriverClass
 
 		if (!lxfile_exists(dirname($prefpath))) {
 			lxfile_mkdir(dirname($prefpath));
-			lxfile_generic_chown(dirname($prefpath), "lxpopuser:lxpopgroup");
+			lxfile_generic_chown(dirname($prefpath), "vpopmail:vchkpw");
 		}
 
 		$fdata = null;
@@ -67,7 +66,7 @@ class Spam__Spamassassin extends lxDriverClass
 		foreach ((array) $this->main->blist_a as $blist) $fdata .= "blocklist_from   " . $blist->nname . "\n";
 
 		lxfile_rm($prefpath);
-		lfile_write_content($prefpath, $fdata, "lxpopuser:lxpopgroup");
+		lfile_write_content($prefpath, $fdata, "vpopmail:vchkpw");
 	}
 
 	function dbactionUpdate($subaction)

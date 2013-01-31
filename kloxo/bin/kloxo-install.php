@@ -36,14 +36,14 @@ if (!$sgbl->is_this_slave()) {
 	system("service mysqld start");
 	sleep(10);
 	chdir("/usr/local/lxlabs/lxadmin/httpdocs/");
-	passthru("lphp.exe ../bin/kloxo-db.php");
+	passthru("lxphp.exe ../bin/kloxo-db.php");
 }
 lxfile_cp("/usr/local/lxlabs/kloxo/httpdocs/htmllib/filecore/init.program", "/etc/init.d/kloxo");
 lxfile_cp("/usr/local/lxlabs/lxadmin/etc/conf/lxadmin.pass", "/usr/local/lxlabs/kloxo/etc/conf/kloxo.pass");
 lxfile_unix_chmod("/etc/init.d/kloxo", "0755");
 lxshell_return("chkconfig", "kloxo", "on");
 chdir("/usr/local/lxlabs/kloxo/httpdocs/");
-passthru("lphp.exe ../bin/kloxo-migrate.php");
+passthru("lxphp.exe ../bin/kloxo-migrate.php");
 
 print("\n\n\nMigration to Kloxo Succesful. Please reboot the server for everything to take effect.\n\n");
 

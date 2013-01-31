@@ -15,7 +15,6 @@ class phpconfig_b extends Lxaclass
 {
 	static $__desc_fcgi_num = array("", "", "number_of_fcgi_process");
 	static $__desc_exec_type = array("", "", "exec_type");
-
 }
 
 class webindexdir_a extends Lxaclass
@@ -56,7 +55,6 @@ class Redirect_a extends LxaClass
 		$alist['__v_dialog_aremote'] = "a=addform&&dta[var]=ttype&dta[val]=remote&c=$class";
 
 		return $alist;
-
 	}
 
 	function updateform($subaction, $param)
@@ -142,7 +140,6 @@ class Redirect_a extends LxaClass
 
 		return $ret;
 	}
-
 }
 
 class SubWeb_a extends LxaClass
@@ -182,8 +179,8 @@ class SubWeb_a extends LxaClass
 	{
 		$alist[] = "a=list&c=$class";
 		//	$alist[] = "n=web&a=addform&c=$class";
-		return $alist;
 
+		return $alist;
 	}
 
 	static function createListAddForm($parent, $class)
@@ -199,7 +196,6 @@ class SubWeb_a extends LxaClass
 
 		return $ret;
 	}
-
 }
 
 class Customerror_b extends lxaClass
@@ -406,6 +402,7 @@ class Web extends Lxdb
 		if (!isset($this->docroot)) {
 			$this->docroot = $this->nname;
 		}
+
 		if (!isset($this->corelocation)) {
 			$this->corelocation = "__path_customer_root";
 		}
@@ -624,6 +621,7 @@ class Web extends Lxdb
 		foreach ($list as $k => $d) {
 			$tlist[$k] = self::web_getdisk_usage($d['customer_name'], $d['nname']);
 		}
+
 		return $tlist;
 	}
 
@@ -659,13 +657,15 @@ class Web extends Lxdb
 		}
 
 		recursively_remove("$sgbl->__path_customer_root/{$this->customer_name}/__processed_stats/{$this->nname}");
-		recursively_remove("$sgbl->__path_program_home/domain/{$this->nname}");
+
+		// MR -- this for what?. So disable!
+	//	recursively_remove("$sgbl->__path_program_home/domain/{$this->nname}");
+
 		recursively_remove("$sgbl->__path_httpd_root/{$this->nname}");
 		recursively_remove("$sgbl->__path_kloxo_httpd_root/awstats/dirdata/{$this->nname}");
 		lxfile_rm("__path_real_etc_root/awstats/awstats.{$this->nname}.conf");
 		lxfile_rm_rec("/var/lib/webalizer/{$this->nname}");
 		lxfile_rm("/etc/webalizer/webalizer.{$this->nname}.conf");
-
 	}
 
 	function webChangeOwner()
@@ -677,7 +677,6 @@ class Web extends Lxdb
 		lxfile_unix_chown_rec("{$this->getFullDocRoot()}", "$this->username:$this->username");
 
 		lunlink("__path_httpd_root/$this->nname/httpdocs");
-
 	}
 
 	function getFullDocRoot()
@@ -960,11 +959,9 @@ class Web extends Lxdb
 
 	function createShowPropertyList(&$alist)
 	{
-
 		$alist['property'][] = 'a=show';
 		//	$alist['property'][] = "goback=1&o=mmail&a=list&c=mailaccount";
 		//	$alist['property'][] = 'goback=1&a=show&sa=config';
-
 	}
 
 	static function removeOtherDriver($driverapp)
@@ -1023,10 +1020,10 @@ class Web extends Lxdb
 
 		$alist[] = "a=show&k[class]=allinstallapp&k[nname]=installapp";
 
-		/*
+	/*
 		 $alist['action'][] = "a=update&sa=backup";
 		 $alist['action'][] = "a=updateform&sa=restore";
-	 */
+	*/
 		return $alist;
 	}
 
@@ -1053,7 +1050,7 @@ class Web extends Lxdb
 	function isQuotaVariableSpecific($var)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		/*
+	/*
 		 if ($var === 'frontpage_flag') {
 			 $v = db_get_value("pserver", $this->syncserver, "osversion");
 
@@ -1159,7 +1156,6 @@ class Web extends Lxdb
 		$driverapp = $gbl->getSyncClass(null, $this->__readserver, 'web');
 
 		switch ($subaction) {
-
 			case "run_stats":
 				$vlist['confirm_f'] = array('M', "");
 				$vlist['__v_updateall_button'] = array();
@@ -1323,7 +1319,6 @@ class Web extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		switch ($var) {
-
 			case "ipaddress":
 				$iplist = $parent->getIpaddress(array($param['web_s_syncserver']));
 				if (!$iplist) {
@@ -1404,7 +1399,6 @@ class Web extends Lxdb
 		}
 
 		return null;
-
 	}
 }
 

@@ -35,12 +35,12 @@ function create_main()
 		create_general();
 		init_main($admin_pass);
 		lxshell_return("__path_php_path", "../bin/collectquota.php");
-		print("This will take a long time... Please wait...\n");
-		system("/usr/local/lxlabs/ext/php/php ../bin/common/tmpupdatecleanup.php --type=master");
+		print("This will take a long time... Please wait...\n\n");
+		system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type=master");
 	} else if ($opt['install-type'] == 'slave') {
 		init_slave($admin_pass);
-		print("This will take a long time... Please wait...\n");
-		system("/usr/local/lxlabs/ext/php/php ../bin/common/tmpupdatecleanup.php --type=slave");
+		print("This will take a long time... Please wait...\n\n");
+		system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type=slave");
 	} else if ($opt['install-type'] == 'supernode'){
 		$sgbl->__path_sql_file = $sgbl->__path_sql_file_supernode;
 		$sgbl->__var_dbf = $sgbl->__path_supernode_db;

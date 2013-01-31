@@ -40,7 +40,7 @@ cp_rec_if_not_exists("/usr/local/lxlabs/lxadmin/httpdocs/img/logo", "/usr/local/
 change_http_dir();
 change_lighty();
 change_dns();
-passthru("lphp.exe ../bin/common/tmpupdatecleanup.php");
+passthru("lxphp.exe ../bin/common/tmpupdatecleanup.php");
 
 
 

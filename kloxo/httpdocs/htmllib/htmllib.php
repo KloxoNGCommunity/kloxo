@@ -7023,8 +7023,8 @@ class HtmlLib
 
 		print("$variable_description $myneedstring <br>  ");
 		print("$variable->pretext\n");
-		print("<input $blackstyle class=\"$variable->name textbox\" type=\"$texttype\"  width=60%  name=$variable->name value=\"$m_value\"  size=\"$tbsize\"> $variable->posttext");
-
+	//	print("<input $blackstyle class=\"$variable->name textbox\" type=\"$texttype\"  width=60%  name=$variable->name value=\"$m_value\"  size=\"$tbsize\"> $variable->posttext");
+		print("<input class=\"$variable->name textbox\" type=\"$texttype\"  style=\"width: 60%; border: 1px solid #aaaaaa; margin: 2px 0 2x 0;\"  name=$variable->name value=\"$m_value\"> $variable->posttext");
 
 		if ($variable->type === 'fileselect') {
 			?>
@@ -7084,13 +7084,14 @@ class HtmlLib
 
 			<?php
 
-			print("<input class=textbox type=button value=\"Generate Password\" onclick=\"javascript:generatePass('$form', '{$variable->name}');\" width=10>");
+			print("<input style=\"margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;\" class=textbox type=button value=\"Generate Password\" onclick=\"javascript:generatePass('$form', '{$variable->name}');\" width=10>");
 		}
 
 
 		$postvar = $variable->postvar;
 		if ($postvar) {
-			print("<select width=60%  name=$postvar->name value=\"\"  size=\"1\">");
+		//	print("<select width=60%  name=$postvar->name value=\"\"  size=\"1\">");
+			print("<select style=\"width: 60%; margin: 2px\"  name=$postvar->name value=\"\">");
 			foreach ($postvar->option as $vv) {
 				echo '<option value="' . $vv . '" >' . $vv . '</option>';
 			}
@@ -7231,7 +7232,8 @@ class HtmlLib
 					}
 				}
 
-				print(" $filteropacitystringspan <input $filteropacitystring $blackstyle type=checkbox name=\"$variable->name\" $checkv  value=\"$variable->value\"> $variable_description $filteropacitystringspanend");
+			//	print(" $filteropacitystringspan <input $filteropacitystring $blackstyle type=checkbox name=\"$variable->name\" $checkv  value=\"$variable->value\"> $variable_description $filteropacitystringspanend");
+				print(" $filteropacitystringspan <input style=\"border: 1px solid #aaaaaa;\" $filteropacitystring $blackstyle type=checkbox name=\"$variable->name\" $checkv  value=\"$variable->value\"> $variable_description $filteropacitystringspanend");
 				break;
 
 
@@ -7243,7 +7245,8 @@ class HtmlLib
 				}
 				print("$variable_description <br> ");
 				$v = $variable->name;
-				print("$filteropacitystringspan <select $filteropacitystring class=textbox  name=\"$v\">\n");
+			//	print("$filteropacitystringspan <select $filteropacitystring class=textbox  name=\"$v\">\n");
+				print("$filteropacitystringspan <select style=\"border: 1px solid #aaaaaa; margin: 2px\" $filteropacitystring class=textbox  name=\"$v\">\n");
 				foreach ($variable->option as $k => $option) {
 					$issel = false;
 					if (csb($k, "__v_selected_")) {
@@ -7364,7 +7367,7 @@ class HtmlLib
 				if ($variable->width != "") {
 					$cols = trim($variable->width);
 				} else {
-					$cols = "90%";
+					$cols = "85%";
 				}
 				if (trim($variable->readonly) === "yes") {
 					$readonly = " readonly ";
@@ -7382,7 +7385,8 @@ class HtmlLib
 					}
 				}
 
-				print("<textarea nowrap  id=textarea_{$variable->name} class=$rclass rows=$rows style='margin:0 0 0 50;width:$cols;height:200px;' name=\"$variable->name\" size=30 $readonly>$value</textarea>\n");
+			//	print("<textarea nowrap id=textarea_{$variable->name} class=$rclass rows=$rows style='margin:0 0 0 50;width:$cols;height:200px;' name=\"$variable->name\" size=30 $readonly>$value</textarea>\n");
+				print("<textarea nowrap id=textarea_{$variable->name} class=$rclass rows=$rows style='margin:2px 0 2px 50px;width:$cols;height:120px; border: 1px solid #aaaaaa; padding: 0px;' name=\"$variable->name\" size=30 $readonly>$value</textarea>\n");
 
 				print("<script type=\"text/javascript\">createTextAreaWithLines('textarea_$variable->name');</script>\n");
 
@@ -7392,10 +7396,11 @@ class HtmlLib
 					{
 						display: block;
 						margin: 0;
-						font-style: Helvetica;
-						border: 1px solid #666;
-						border-right: none;
-						background: #<?=$skincolor?> ;
+						font-style: arial;
+						font-size: 11px;
+						border: 1px solid #aaaaaa;
+						border-right: 1px solid #<?=$skincolor?>;
+						background: #<?=$skincolor?>;
 					}
 				</style>
 

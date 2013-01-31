@@ -27,22 +27,24 @@ static function getListVersion($syncserver, $list)
 
 	$list[]['componentname'] = 'mysql';
 	$list[]['componentname'] = 'perl';
-	//$list[]['componentname'] = 'postgresql';
+//	$list[]['componentname'] = 'postgresql';
 	$list[]['componentname'] = 'httpd';
 	$list[]['componentname'] = 'qmail';
-	$list[]['componentname'] = 'courier-imap-toaster';
+//	$list[]['componentname'] = 'courier-imap-toaster';
 	$list[]['componentname'] = 'php';
 	$list[]['componentname'] = 'lighttpd';
 	$list[]['componentname'] = 'djbdns';
 	$list[]['componentname'] = 'bind';
-	$list[]['componentname'] = 'spamassassin';
+//	$list[]['componentname'] = 'spamassassin';
 	$list[]['componentname'] = 'pure-ftpd';
 	$list[]['componentname'] = 'nginx';
 
 	foreach($list as $l) {
 		$nlist[] = $l['componentname'];
 	}
+
 	$complist = implode(" ", $nlist);
+
 	$file = fix_nname_to_be_variable("rpm -q $complist");
 	$file = "__path_program_root/cache/$file";
 

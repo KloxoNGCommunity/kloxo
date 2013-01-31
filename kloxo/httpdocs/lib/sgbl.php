@@ -90,7 +90,14 @@ class Sgbl
 
 		$this->__path_httpd_root = "/home/httpd";
 		$this->__path_client_root = "/home/kloxo/client";
-		$this->__path_mail_root = "/home/lxadmin/mail";
+
+		// MR -- don't use isRpmInstalled for identified!!!
+		exec("rpm -q qmail-toaster", $out, $ret);
+		$this->__path_mail_root = (strpos($out[0], "qmail-toaster-") !== 0) ? 
+			"/home/lxadmin/mail" : "/home/vpopmail";
+		// MR -- still using old kloxo mail path
+		$this->__path_mail_data = "/home/lxadmin/mail";
+
 		$this->__path_kloxo_httpd_root = "/home/kloxo/httpd";
 		$this->__path_lxlabs_base = "/usr/local/lxlabs";
 		$this->__path_program_etc = "/usr/local/lxlabs/kloxo/etc/";
@@ -113,7 +120,7 @@ class Sgbl
 		//$this->__var_programname_mysql = 'mysqld';
 		$this->__var_progservice_bind = 'named';
 		$this->__var_programname_mmail = 'qmail';
-		$this->__var_programname_imap = 'courier-imap';
+		//$this->__var_programname_imap = 'courier-imap';
 		$this->__var_programuser_dns = 'named';
 
 		$this->__var_no_sync = false;
@@ -248,12 +255,18 @@ class Sgbl
 
 		$this->__var_service_desc['php-fpm'] = "Php Fastcgi Process Manager";
 
-		$this->__var_service_desc['qmail'] = "Qmail Mail Server";
+		$this->__var_service_desc['qmail'] = "Qmail-toaster Mail Server";
+
 		$this->__var_service_desc['named'] = "Bind Dns Server";
 		$this->__var_service_desc['bind9'] = "Bind Dns Server";
+		$this->__var_service_desc['bind'] = "Bind Dns Server";
+
 		$this->__var_service_desc['pure-ftpd'] = "Pureftp Ftp Server";
-		$this->__var_service_desc['courier'] = "Courier Pop/Imap Server";
-		$this->__var_service_desc['courier-imap'] = "Courier Pop/Imap Server";
+	//	$this->__var_service_desc['courier'] = "Courier Pop/Imap Server";
+	//	$this->__var_service_desc['courier-imap'] = "Courier Pop/Imap Server";
+
+		$this->__var_service_desc['djbdns'] = "Djbdns Dns Server";
+		$this->__var_service_desc['iptables'] = "IPTables Firewall";
 	}
 
 	private function initLTypes()

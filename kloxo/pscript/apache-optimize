@@ -25,4 +25,4 @@ fi
 echo
 
 . /script/directory
-lphp.exe ../bin/fix/apache-optimize.php $*
+lxphp.exe ../bin/fix/apache-optimize.php $*

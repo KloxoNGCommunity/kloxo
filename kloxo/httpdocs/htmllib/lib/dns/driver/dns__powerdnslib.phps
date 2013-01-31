@@ -9,7 +9,7 @@
 *  Create your database and import powerdns schema..
 *  Let kloxo to use powerdns as default dns driver via
 *  cd /usr/local/lxlabs/kloxo/httpdocs/
-*  lphp.exe ../bin/common/setdriver.php --server=localhost --class=dns --driver=powerdns
+*  lxphp.exe ../bin/common/setdriver.php --server=localhost --class=dns --driver=powerdns
 *
 *  Changelog :
 *  01:07 AM 8/26/2007 Ahmet 

@@ -182,7 +182,7 @@ $rcmail_config['enable_installer'] = false;
 
 // provide an URL where a user can get support for this Roundcube installation
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
-$rcmail_config['support_url'] = 'forum.lxcenter.org';
+$rcmail_config['support_url'] = 'http://forum.mratwork.com/';
 
 // replace Roundcube logo with this image
 // specify an URL relative to the document root of this Roundcube installation

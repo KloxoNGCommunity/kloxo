@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# release on Kloxo 6.5.0
+# by mustafa.ramadhan@lxcenter.org
+
+if [ "$1" == "--help" ] ; then
+	echo
+	echo " ---------------------------------------------------------------------------"
+	echo "  format: sh $0 --select=<php/php52/php53/php53u/php54>"
+	echo " ---------------------------------------------------------------------------"
+	echo
+	echo
+	exit;
+fi
+
+echo
+echo "- For help, type '$0 --help'"
+
+if [ "$#" == 0 ] ; then
+	echo "- No argument supplied. Defaulting to optimize and 25% spare"
+fi
+
+echo
+
+. /script/directory
+lxphp.exe ../bin/fix/php-branch.php $*

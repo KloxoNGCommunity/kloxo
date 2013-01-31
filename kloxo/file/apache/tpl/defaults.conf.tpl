@@ -116,7 +116,7 @@ NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 
                 if (!$userinfo) { continue; }
 ?>
-        <Location /~<?php echo $user; ?>>
+        <Location "/~<?php echo $user; ?>">
             <IfModule mod_suphp.c>
                 SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
@@ -131,26 +131,26 @@ NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup lxlabs lxlabs
+        SuexecUserGroup apache apache
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup lxlabs lxlabs
+        SuPhp_UserGroup apache apache
     </IfModule>
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid lxlabs lxlabs
-        RMinUidGid lxlabs lxlabs
+        RUidGid apache apache
+        RMinUidGid apache apache
     </IfModule>
 
     <IfModule itk.c>
-        AssignUserId lxlabs lxlabs
+        AssignUserId apache apache
     </IfModule>
 
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer <?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake -host 127.0.0.1:<?php echo $fpmportapache; ?>
+        FastCGIExternalServer "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake
@@ -161,7 +161,7 @@ NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
     </IfModule>
 
     <IfModule mod_fcgid.c>
-        <Directory <?php echo $docroot; ?>/>
+        <Directory "<?php echo $docroot; ?>/">
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+list=(named djbdns httpd nginx lighttpd php-fpm qmail xinetd)
+
+for item in ${list[*]}
+do
+	/etc/init.d/$item restart
+done

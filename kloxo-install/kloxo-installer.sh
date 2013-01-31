@@ -27,23 +27,10 @@
 if [ "$#" == 0 ] ; then
 	echo
 	echo " -------------------------------------------------------------------------"
-	echo "  format: sh $0 --type=<master/slave> [--version=version]"
+	echo "  format: sh $0 --type=<master/slave>"
 	echo " -------------------------------------------------------------------------"
 	echo
 	echo " --type - compulsory, please choose between master or slave "
-    echo "   depending which you want to install"
-	echo " --version - optional; default: 'current', or any version number as "
-    echo "   listed in the archive (between 'kloxo-' and '. zip')"
-	echo "   An archive is available at 'http://download.lxcenter.org/download/archive/'"
-	echo
-	echo " We need additional files when installing 6.0.x version:"
-	echo "   1. all additional files must be in the same place of 'kloxo-installer.sh'"
-	echo "   2. download kloxo from archive and then change 'version' to 'current'"
-	echo "   3. check thirdparty <version> from:";
-	echo "      'http://download.lxcenter.org/download/thirdparty/kloxo-version.list'"
-	echo "   4. download thirdparty from:"
-	echo "      'http://download.lxlabs.com/download/kloxo-thirdparty.<version>.zip'"
-	echo "   5. rename kloxo-thirdparty.<version>.zip to kloxo-thirdparty.2012.zip"
 	echo
 	exit;
 fi
@@ -73,9 +60,9 @@ E_HASDB=54
 E_REBOOT=55
 E_NOTROOT=85
 
-C_OK='\E[47;34m'"\033[1m OK \033[0m\n"
-C_NO='\E[47;31m'"\033[1m NO \033[0m\n"
-C_MISS='\E[47;33m'"\033[1m UNDETERMINED \033[0m\n"
+C_OK=" OK \n"
+C_NO=" NO \n"
+C_MISS=" UNDETERMINED \n"
 
 # Reads yes|no answer from the input 
 # 1 question text
@@ -159,11 +146,16 @@ else
 fi
 
 echo
-echo -e '\E[37;44m'"\033[1m Ready to begin $APP_NAME ($APP_TYPE) install. \033[0m"
-echo -e "\n\n	Note some file downloads may not show a progress bar so please, do not interrupt the process."
-echo -e "	When it's finished, you will be presented with a welcome message and further instructions.\n\n"
-
+echo "*** Ready to begin $APP_NAME ($APP_TYPE) install. ***"
+echo
+echo "- Note some file downloads may not show a progress bar so please,"
+echo "  do not interrupt the process."
+echo
+echo "- When it's finished, you will be presented with a welcome message and"
+echo "  further instructions."
+echo
 read -n 1 -p "Press any key to continue ..."
+echo
 
 # Start install
 if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
@@ -171,10 +163,6 @@ if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
 fi
 
 export PATH=/usr/sbin:/sbin:$PATH
-
-if [ ! -f ./kloxo-install.zip ] ; then
-	wget http://download.lxcenter.org/download/kloxo-install.zip
-fi
 
 if [ -d kloxo-install ] ; then
 	cd kloxo-install

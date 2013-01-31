@@ -1,4 +1,7 @@
 <?php
+// MR -- disable warning when using php 5.3+
+ini_set( "display_errors", 0);
+
 /* CONFIG START. DO NOT CHANGE ANYTHING IN OR AFTER THIS LINE. */
 // $Horde: horde/config/conf.xml,v 1.74.2.39 2006/06/22 05:09:01 chuck Exp $
 $conf['debug_level'] = E_ALL;

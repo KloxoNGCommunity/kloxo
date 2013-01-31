@@ -27,7 +27,7 @@ class phpini_flag_b extends lxaclass
 	static $__desc_sendmail_from = array("", "", "sendmail_from");
 	static $__desc_cgi_force_redirect_flag = array("f", "", "cgi_force_redirect");
 	static $__desc_mysql_allow_persistent_flag = array("f", "", "mysql_allow_persistent_flag");
-	static $__desc_disable_functions = array("", "", "disable_functions");
+	static $__desc_disable_functions = array("t", "", "disable_functions");
 	static $__desc_max_execution_time_flag = array("", "", "max_execution_time");
 	static $__desc_max_input_time_flag = array("", "", "max_input_time");
 	static $__desc_memory_limit_flag = array("", "", "memory_limit");
@@ -283,9 +283,8 @@ class phpini extends lxdb
 		//		'curl_multi_exec,parse_ini_file,show_source');
 
 		// MR -- remove curl from disable_functions
-		$this->initialValue('disable_functions', 
-			'exec,passthru,shell_exec,system,proc_open,popen,' . 
-			'show_source');
+		$initial = 'exec,passthru,shell_exec,system,proc_open,popen,show_source';
+		$this->initialValue('disable_functions', $initial);
 
 		$this->initialValue('max_execution_time_flag', '30');
 		$this->initialValue('max_input_time_flag', '60');

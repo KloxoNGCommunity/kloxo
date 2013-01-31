@@ -14,7 +14,7 @@ class pserver__Linux extends lxDriverClass
 
 	static function mysqlPasswordReset($pass)
 	{
-		lxshell_return("lphp.exe", "../bin/common/misc/reset-mysql-root-password.phps", $pass);
+		lxshell_return("lxphp.exe", "../bin/common/misc/reset-mysql-root-password.phps", $pass);
 		sleep(20);
 		exec_with_all_closed("service mysqld restart");
 		sleep(50);

@@ -24,7 +24,8 @@ function dbactionUpdate($subaction)
 		case "fancyedit":
 		case "edit":
 			lxuser_put_contents($chownug, $this->main->getFullPath(), $this->main->content);
-			lxuser_return($chownug, "dos2unix", $this->main->getFullPath());
+		//	lxuser_return($chownug, "dos2unix", $this->main->getFullPath());
+			lxshell_return("dos2unix", $this->main->getFullPath());
 			lxuser_chmod($chownug, $this->main->getFullPath(), "0644");
 			break;
 

@@ -55,9 +55,9 @@ if (csa($lightout, "1.4.") && csa($out, "cgi-fcgi") && $sgbl->isKloxo() && trim(
 	$php_st .= "		 ))\n";
 	$php_st .= "		)\n";
 } else if ($sgbl->isKloxo() && !$sgbl->isDebug()) {
-	$php_st .= "cgi.assign	=						   (\".php\" => \"/usr/local/lxlabs/kloxo/file/phpsuexec.sh\" )\n";
+	$php_st .= "cgi.assign                     = ( \".php\" => \"/usr/local/lxlabs/kloxo/file/phpsuexec.sh\" )\n";
 } else {
-	$php_st .= "cgi.assign	=						   (\".php\" => \"/usr/local/lxlabs/ext/php/bin/php_cgi\" )\n";
+	$php_st .= "cgi.assign                     = ( \".php\" => \"/usr/local/lxlabs/ext/php/bin/php_cgi\" )\n";
 }
 
 foreach($list as &$l) {

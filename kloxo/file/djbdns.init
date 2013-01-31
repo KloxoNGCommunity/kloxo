@@ -21,7 +21,7 @@ RETVAL=0
 PATH=$PATH:/usr/local/bin
 
 # change for:
-## (cd /usr/local/lxlabs/kloxo/httpdocs/ ; lphp.exe ../bin/misc/djbdnsstart.php )
+## (cd /usr/local/lxlabs/kloxo/httpdocs/ ; lxphp.exe ../bin/misc/djbdnsstart.php )
 
 # begin change
 

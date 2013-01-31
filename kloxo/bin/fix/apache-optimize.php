@@ -23,15 +23,13 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 
 	$factor = (isWebProxy()) ? 0.5 : 1;
 
-	exec("/etc/init.d/httpd status", $out, $ret);
-
-	$status = implode("\n", $out);
-
 	if ($select === 'status') {
 		log_cleanup("- Status: $status", $nolog);
 	} else {
+		$status = isServiceRunning("httpd");
+
 		//--- stristr for Case-insensitive
-		if (stristr($status, 'running') !== FALSE) {
+		if ($status) {
 			log_cleanup("- Service stop", $nolog);
 
 			$ret = lxshell_return("service", "httpd", "stop");

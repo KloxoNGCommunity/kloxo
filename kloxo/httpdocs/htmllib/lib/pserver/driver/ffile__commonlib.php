@@ -116,7 +116,8 @@ function resizeImage()
 
 	$geom = "{$this->main->image_width}x{$this->main->image_height}";
 	lxfile_cp($this->main->getFullPath(), $tfile);
-	lxuser_return($this->main->__username_o, "convert", "-scale", $geom, $tfile, $this->main->getFullPath());
+//	lxuser_return($this->main->__username_o, "convert", "-scale", $geom, $tfile, $this->main->getFullPath());
+	lxshell_return("convert", "-scale", $geom, $tfile, $this->main->getFullPath());
 	lxfile_rm($tfile);
 }
 
@@ -133,7 +134,8 @@ function createThumbnail()
 			continue;
 		}
 		$newf = "$dir/thumbs/th_$l";
-		lxuser_return($this->main->__username_o, "convert", "-scale", $geom, "$dir/$l", $newf);
+	//	lxuser_return($this->main->__username_o, "convert", "-scale", $geom, "$dir/$l", $newf);
+		lxshell_return("convert", "-scale", $geom, "$dir/$l", $newf);
 	}
 }
 
@@ -143,7 +145,8 @@ function convertImage()
 	$fp = $this->main->getFullPath();
 	$file = coreFfile::getWithoutExtension($fp);
 	$newfile = "$file.{$this->main->new_format_f}";
-	lxuser_return($this->main->__username_o, "convert", $fp, $newfile);
+//	lxuser_return($this->main->__username_o, "convert", $fp, $newfile);
+	lxshell_return("convert", $fp, $newfile);
 }
 
 function restoreTrash()

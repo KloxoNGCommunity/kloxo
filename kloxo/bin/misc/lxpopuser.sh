@@ -3,5 +3,5 @@ if [ -z "`/usr/bin/id -g lxpopgroup 2>/dev/null`" ]; then
 fi
 
 if [ -z "`/usr/bin/id -u lxpopuser 2>/dev/null`" ]; then
-	/usr/sbin/useradd -u 1005 -r -M -d /home/kloxo/mail/  -s /sbin/nologin -c "Vpopmail User" -g lxpopgroup lxpopuser 2>&1 || :
+	/usr/sbin/useradd -u 1005 -r -M -d /home/lxadmin/mail/  -s /sbin/nologin -c "Vpopmail User" -g lxpopgroup lxpopuser 2>&1 || :
 fi

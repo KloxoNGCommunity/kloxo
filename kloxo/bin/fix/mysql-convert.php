@@ -34,6 +34,10 @@ function setMysqlConvert($engine, $database, $table, $config)
 
 	$pass = slave_get_db_pass();
 
+	// MR -- need if switch mysql from 5.0.x to higher but mysql.servers not created
+	log_cleanup("- Insert mysql.servers table if not exist");
+	exec("mysql -f -u root -p{$pass} mysql < /usr/local/lxlabs/kloxo/file/mysql.servers.sql");
+
 	//--- the first - to 'disable' skip- and restart mysql
 	system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
 	$ret = lxshell_return("service", "mysqld", "restart");
@@ -50,8 +54,10 @@ function setMysqlConvert($engine, $database, $table, $config)
 			log_cleanup("-- ".$db[0]." database converted");
 
 			if ($db[0] === 'mysql') {
+				// no processed.
 			}
 			else if ($db[0] === 'information_schema') {
+				log_cleanup("--- not converted");
 			}
 			else {
 				mysql_select_db($db[0]);

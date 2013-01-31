@@ -37,4 +37,4 @@ if [ $ENGINE == '' ] ; then
 fi
 
 . /script/directory
-lphp.exe ../bin/fix/mysql-convert.php $*
+lxphp.exe ../bin/fix/mysql-convert.php $*

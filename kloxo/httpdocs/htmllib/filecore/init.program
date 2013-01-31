@@ -54,7 +54,7 @@ start() {
         echo -n $"Starting $prog: "
 		cd $lxdir
 		if ! pgrep -f $__var_wrapper_name ; then
-			lphp.exe /usr/local/lxlabs/$prog/bin/common/misc/checktotalmemory.php
+			lxphp.exe /usr/local/lxlabs/$prog/bin/common/misc/checktotalmemory.php
 			RETVAL=$?
 			echo $RETVAL
 # temporarility disabling it. The actual value is 15. We need the backend for restarting teh services.
@@ -65,7 +65,7 @@ start() {
 			fi
 		fi
 
-		(cd /usr/local/lxlabs/$prog/httpdocs ; lphp.exe ../bin/common/misc/fixlighty.php $1 )
+		(cd /usr/local/lxlabs/$prog/httpdocs ; lxphp.exe ../bin/common/misc/fixlighty.php $1 )
 		cp /usr/local/lxlabs/ext/lxlighttpd/sbin/lighttpd /usr/local/lxlabs/ext/lxlighttpd/sbin/$prog.httpd 2>/dev/null
 		$httpd $OPTIONS &
 		if ! [ -f $__var_slave_db ] ; then
@@ -76,7 +76,7 @@ start() {
 			pkill -f php_cgi
 		fi
 
-		(cd /usr/local/lxlabs/$prog/httpdocs ; lphp.exe ../bin/execatinit.php)
+		(cd /usr/local/lxlabs/$prog/httpdocs ; lxphp.exe ../bin/execatinit.php)
 
 		echo "Started $prog"
         RETVAL=$?
@@ -156,7 +156,7 @@ lxstop() {
 }
 
 lxstart () {
-		(cd /usr/local/lxlabs/$prog/httpdocs ; lphp.exe ../bin/common/misc/fixlighty.php $1 )
+		(cd /usr/local/lxlabs/$prog/httpdocs ; lxphp.exe ../bin/common/misc/fixlighty.php $1 )
 		cp /usr/local/lxlabs/ext/lxlighttpd/sbin/lighttpd /usr/local/lxlabs/ext/lxlighttpd/sbin/$prog.httpd 2>/dev/null
 		$httpd $OPTIONS &
 }

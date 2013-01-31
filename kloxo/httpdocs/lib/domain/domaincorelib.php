@@ -13,8 +13,8 @@ abstract class DomainCore extends Lxclient
 //	static $__desc_cron_manage_flag = array("q", "",  "allow_scheduler_management");
 //	static $__desc_phpunsafe_flag = array("q", "",  "can_enable_php_unsafe_mode");
 	static $__desc_dotnet_flag = array("q", "", "enable_asp.net_(ignored_on_linux)");
-	static $__desc_phpfcgi_flag = array("q", "", "enable_php_fastcgi");
-	static $__desc_phpfcgiprocess_num = array("qh", "", "phpfcgi:number_of_fastcgi_process");
+//	static $__desc_phpfcgi_flag = array("q", "", "enable_php_fastcgi");
+//	static $__desc_phpfcgiprocess_num = array("qh", "", "phpfcgi:number_of_fastcgi_process");
 	static $__desc_rubyfcgiprocess_num = array("D", "", "rubyfcgi:number_of_ruby_process");
 	static $__desc_parent_name_change = array("", "", "owner");
 

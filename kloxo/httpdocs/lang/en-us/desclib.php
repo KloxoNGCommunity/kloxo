@@ -41,9 +41,13 @@ $__description["not_owner"] = array("Not Owner");
 $__description["real_owner"] = array("Real Owner");
 $__description["used"] = array("Used");
 $__description["not_used"] = array("Not Used");
+
 $__description["web_ipaddress"] = array("Web Ipaddress");
 $__description["mail_ipaddress"] = array("Mail Ipaddress");
 $__description["ipaddress"] = array("IP Address");
+$__description["ipaddress_begin"] = array("Begin IP Address");
+$__description["ipaddress_end"] = array("End IP Address");
+
 $__description["ttl_(seconds)"] = array("TTL (Seconds) Recommended is 14400");
 $__description["primary_dns"] = array("Primary DNS");
 $__description["ns_record"] = array("NS Record");

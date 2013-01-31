@@ -35,8 +35,12 @@ lxdir=/usr/local/lxlabs/$prog/httpdocs
 cd $lxdir
 pwd
 
-if ! [ -f /usr/bin/lphp.exe ] ; then 
-	ln -sf /usr/local/lxlabs/ext/php/php /usr/bin/lphp.exe
+if ! [ -f /usr/bin/lxphp.exe ] ; then 
+#	ln -sf /usr/local/lxlabs/ext/php/php /usr/bin/lxphp.exe
+#	ln -sf /usr/local/lxlabs/ext/php/php /usr/bin/lxphp.exe
+
+	ln -sf /usr/local/lxlabs/ext/php/etc/lxphpcli.sh /usr/bin/lxphp.exe
+	ln -sf /usr/local/lxlabs/ext/php/etc/lxphpcli.sh /usr/bin/lxphp.exe
 fi
 
 httpd=/usr/local/lxlabs/ext/lxlighttpd/sbin/$prog.httpd
@@ -57,7 +61,7 @@ start() {
         echo -n $"Starting $prog: "
 		cd $lxdir
 
-		if ! lphp.exe ../bin/common/misc/pgrep.php $__var_wrapper_name ; then
+		if ! lxphp.exe ../bin/common/misc/pgrep.php $__var_wrapper_name ; then
 			sh ../sbin/$__var_wrapper_name &
 		fi
 
@@ -69,9 +73,9 @@ start() {
 		fi
 
 		cp /usr/local/lxlabs/ext/lxlighttpd/sbin/lighttpd /usr/local/lxlabs/ext/lxlighttpd/sbin/$prog.httpd 2>/dev/null
-		(cd /usr/local/lxlabs/$prog/httpdocs ; lphp.exe ../bin/common/misc/fixlighty.php "$1" )
+		(cd /usr/local/lxlabs/$prog/httpdocs ; lxphp.exe ../bin/common/misc/fixlighty.php "$1" )
 		$httpd $OPTIONS &
-		(cd /usr/local/lxlabs/$prog/httpdocs ; lphp.exe ../bin/execatinit.php)
+		(cd /usr/local/lxlabs/$prog/httpdocs ; lxphp.exe ../bin/execatinit.php)
 
 		echo "Started $prog"
         RETVAL=$?
@@ -84,17 +88,17 @@ startdefaultport () {
 }
 
 lxstart () {
-		(cd /usr/local/lxlabs/$prog/httpdocs ; lphp.exe ../bin/common/misc/fixlighty.php )
+		(cd /usr/local/lxlabs/$prog/httpdocs ; lxphp.exe ../bin/common/misc/fixlighty.php )
 		$httpd $OPTIONS &
 }
 
 backendrestart () {
-	lphp.exe ../bin/common/misc/killproc.php $__var_server_name 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php $__var_server_exe 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php $__var_wrapper_name 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php $__var_server_name 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php $__var_server_exe 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php $__var_wrapper_name 2>/dev/null
 	while : ; do
 		echo "Waiting for the process to die....."
-			if ! lphp.exe ../bin/common/misc/pgrep.php $__var_wrapper_name ; then
+			if ! lxphp.exe ../bin/common/misc/pgrep.php $__var_wrapper_name ; then
 				break;
 			fi
 		sleep 1
@@ -105,27 +109,27 @@ backendrestart () {
 mystatus () {
 
 	local base=${1##*/}
-	if lphp.exe ../bin/common/misc/pgrep.php $base >/dev/null 2>&1; then
+	if lxphp.exe ../bin/common/misc/pgrep.php $base >/dev/null 2>&1; then
 		echo Process $base is running 
 	fi
 }
 
 stop() {
 	echo -n $"Stopping $prog: "
-	lphp.exe ../bin/common/misc/killproc.php $httpd
-	lphp.exe ../bin/common/misc/killproc.php $__var_server_name 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php $__var_server_exe 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php $__var_wrapper_name 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php lxportmonitor.php 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php lxhttpd 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php $httpd
+	lxphp.exe ../bin/common/misc/killproc.php $__var_server_name 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php $__var_server_exe 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php $__var_wrapper_name 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php lxportmonitor.php 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php lxhttpd 2>/dev/null
 
 	while : ; do
 		echo "Waiting for the process to die....."
-		if ! lphp.exe ../bin/common/misc/pgrep.php $__var_wrapper_name ; then
+		if ! lxphp.exe ../bin/common/misc/pgrep.php $__var_wrapper_name ; then
 			break;
 		fi
 		sleep 1
-		lphp.exe ../bin/common/misc/killproc.php $__var_wrapper_name 2>/dev/null
+		lxphp.exe ../bin/common/misc/killproc.php $__var_wrapper_name 2>/dev/null
 	done
 
 	RETVAL=$?
@@ -136,11 +140,11 @@ stop() {
 
 lxstop() {
 	echo -n $"Stopping $prog: "
-	lphp.exe ../bin/common/misc/killproc.php $__var_server_name 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php $__var_server_exe 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php lxhttpd 2>/dev/null
-	lphp.exe ../bin/common/misc/killproc.php lxphp 2>/dev/null
-#	lphp.exe ../bin/common/misc/killproc.php $httpd
+	lxphp.exe ../bin/common/misc/killproc.php $__var_server_name 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php $__var_server_exe 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php lxhttpd 2>/dev/null
+	lxphp.exe ../bin/common/misc/killproc.php lxphp 2>/dev/null
+#	lxphp.exe ../bin/common/misc/killproc.php $httpd
 	RETVAL=$?
 	echo
 	[ $RETVAL = 0 ] && rm -f /var/lock/subsys/lxhttpd /var/run/lxhttpd.pid

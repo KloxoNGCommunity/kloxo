@@ -281,8 +281,13 @@ function updateToggleForward($param)
 
 function getFfileFromVirtualList($name)
 {
+	global $gbl, $sgbl, $login, $ghtml; 
+
 	list($mailacc, $domain) = explode("@", $this->nname);
+
 	$mailpath = mmail__qmail::getDir($domain);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	$name = coreFfile::getRealpath($name);
 	$name = '/' . $name;
 	$ffile= new Ffile($this->__masterserver, $this->__readserver, "$mailpath/$mailacc", $name, mmail__qmail::getUserGroup($domain));

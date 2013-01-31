@@ -90,10 +90,10 @@ class serverweb extends lxdb
 				break;
 
 			case "php_branch":
-				$a = getBranchList('php');
+				$a = getRpmBranchListOnList('php');
 				$vlist['php_branch'] = array('s', $a);
 
-				$this->setDefaultValue('php_branch', getPhpBranch());
+				$this->setDefaultValue('php_branch', getRpmBranchInstalledOnList('php'));
 
 				break;
 

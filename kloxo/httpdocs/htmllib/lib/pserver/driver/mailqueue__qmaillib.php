@@ -16,13 +16,15 @@ static function QueueDelete($list)
 		$string[] = "-d$f";
 	}
 	$string = implode(" ", $string);
-	lxfile_unix_chmod("__path_program_root/bin/misc/qmHandle", "0755");
-	exec_with_all_closed("$sgbl->__path_program_root/bin/misc/qmHandle $string");
+	lxfile_unix_chmod("{$sgbl->__path_program_root}/bin/misc/qmHandle", "0755");
+	exec_with_all_closed("{$sgbl->__path_program_root}/bin/misc/qmHandle $string");
 }
 
 static function readSingleMail($name)
 {
-	$ret['message'] = lxshell_output("__path_program_root/bin/misc/qmHandle", "-m$name");
+	global $gbl, $sgbl, $login, $ghtml; 
+
+	$ret['message'] = lxshell_output("{$sgbl->__path_program_root}/bin/misc/qmHandle", "-m$name");
 	$oldtime = time() - 7200;
 	$newtime = time() - 500;
 	$fp = fopen("/var/log/kloxo/maillog", "r");
@@ -70,9 +72,10 @@ static function readSingleMail($name)
 
 static function readMailqueue()
 {
+	global $gbl, $sgbl, $login, $ghtml; 
 
-	lxfile_unix_chmod("__path_program_root/bin/misc/qmHandle", "0755");
-	$res = lxshell_output("__path_program_root/bin/misc/qmHandle", "-l");
+	lxfile_unix_chmod("{$sgbl->__path_program_root}/bin/misc/qmHandle", "0755");
+	$res = lxshell_output("{$sgbl->__path_program_root}/bin/misc/qmHandle", "-l");
 
 	$list = array('subject', 'to', 'from', 'date', 'size');
 

@@ -1,4 +1,4 @@
 #!/bin/sh
 . /script/directory
-lphp.exe ../bin/common/mebackup.php
+lxphp.exe ../bin/common/mebackup.php
 

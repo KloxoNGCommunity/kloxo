@@ -1,4 +1,4 @@
 #!/bin/sh
 . /script/directory
-lphp.exe ../bin/fix/fixssl.php
+lxphp.exe ../bin/fix/fixssl.php
 

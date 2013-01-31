@@ -30,4 +30,4 @@ if [ ! $SELECT == 'repair' ] && [ ! $SELECT == 'optimize' ] ; then
 fi
 
 . /script/directory
-lphp.exe ../bin/fix/mysql-optimize.php $*
+lxphp.exe ../bin/fix/mysql-optimize.php $*

@@ -16,16 +16,7 @@ $list = $login->getList('client');
 
 log_cleanup("Fixing Web server config", $nolog);
 
-$webdrvs = array('apache', 'lighttpd', 'nginx');
-
-foreach ($webdrvs as &$w) {
-	// MR -- delete all contents first for domains;
-	// for handling garbage files!
-	exec("rm -rf /home/{$w}/conf/domains/*.conf");
-}
-
-// MR -- also delete all contents first for php-fpm;
-exec("rm -rf /etc/php-fpm.d/*.conf");
+web__apache::setInstallPhpfpm();
 
 $slist = array();
 

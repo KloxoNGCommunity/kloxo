@@ -6,11 +6,15 @@ class Mailforward__Qmail  extends lxDriverClass {
 function dbactionAdd()
 {
 	global $gbl, $sgbl, $ghtml; 
+
 	//$domain = $this->main->getParentName();
 	list($account, $dm) = explode("@", $this->main->nname);
 	$domain = $dm;
 	if (!$account) { return; }
+
 	$mailpath = mmail__qmail::getDir($domain);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+
 	if (lxfile_exists("$mailpath/$account")) {
 		throw new lxException("mailaccount_exists", 'nname', $this->main->nname);
 	}
@@ -37,7 +41,9 @@ function dbactionDelete()
 	//$domain = $this->main->getParentName();
 	list($account, $dm) = explode("@", $this->main->nname);
 	$domain = $dm;
+
 	$mailpath = mmail__qmail::getDir($domain);
+	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
 
 	$name = $account;
 	$name = str_replace(".", ":", $name);

@@ -1,7 +1,7 @@
 <?php 
 
 if (!isset($argv[1])) {
-	print("Usage: lphp.exe $argv[0] lang \nEg   : lphp.exe $argv[0] fr \n\n");
+	print("Usage: lxphp.exe $argv[0] lang \nEg   : lxphp.exe $argv[0] fr \n\n");
 	print("The language you provide will be compared with the default English, and any missing values will be printed\n");
 	exit;
 }
