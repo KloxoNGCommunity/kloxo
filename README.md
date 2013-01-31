@@ -4,49 +4,72 @@ This is special edition (fork) of Kloxo with many features not existing on Kloxo
 
 This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
-# Kloxo
-From Kloxo HostInaBox, a light and efficient webhosting platform, to Kloxo Enterprise, a truly distributed hosting platform.
-Kloxo is a fully scriptable, distributed and a 100% object oriented hosting platform.
+# About and URL
 
-# Features
+1. More information about Kloxo (Official from LxCenter) - http://lxcenter.org/ and http://forum.lxcenter.org/
 
-* CentOS 5 Support
+2. More information about Kloxo-MR - http://mratwork.com/ and http://forum.mratwork.com/
+
+# Kloxo-MR Features
+
+* CentOS 5 and 6 (32bit and 64bit) Support
 * Integrates with billing software such as AWBS, WHMCS and HostBill
-* Kloxo HostinABox: Feature Complete web hosting platform that uses 10MB RSS.
-* Kloxo Enterprise: distributed hosting platform.
-* View, Search and Manage your entire hosting, and every domain from a single page.
-* Lxguard, advanced intrusion detection management interface.
-* Supports apache/lighttpd, djbdns/bind and pure-ftpd
-* On the fly Switch between applications
-* Scale to million hits per day, using fastcgi
-* Advanced Backup/Restore
-* Upgrade from HostInABox to Enterprise without re-installing
-* Parked/Redirected Domains
-* Integrated RoR
+* Web server: Nginx, Nginx-Proxy and Lighttpd-proxy beside Httpd and Lighttpd (in progress: Varnish, Hiawata, ATS and Httpd 2.4)
+* Php: Dual-php with php 5.3/5.4 as primary and php 5.2 as secondary (in progress: multiple-php)
+* PHP-type for Apache: php-fpm_worker/_event and fcgid_worker/_event beside mod_php/_ruid2/_itk and suphp/_worker/_event
+* Mail server: qmail-toaster instead special qmail (in progress: change from courier-imap to dovecot as imap/pop3)
+* FTP server: Pure-ftpd
+* DNS Server: Bind, Djbdns and Powerdns (in progress)
+* Fixed many bugs of Kloxo Official (including security issues)
 * And many more!
 
 # Contributing
 
-Please have a look at LxCenter's [Coding Standards](http://project.lxcenter.org/projects/kloxo/wiki/Coding_Standards) and [Issue Tracker](http://project.lxcenter.org).
-
-And don't forget our [forums](http://forum.lxcenter.org)!
+* Always invite for every as dev and tester. Go to http://mratwork.com/ and http://forum.mratwork.com/
 
 # Licensing - AGPLv3
 
-    Kloxo, Web Hosting Controlpanel
+* Like Kloxo Official, Kloxo-MR adopt AGPLv3 too.
 
-    Copyright (C) 2000-2009	LxLabs
-    Copyright (C) 2009-2012	LxCenter
+# How to install
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation, either version 3 of the
-    License, or (at your option) any later version.
+A. For Dev:
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+A.1. pre-install -- better for fresh install
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   cd /
+
+   # update centos to latest version
+   yum update -y
+   # install some packages like package-cleanup, etc
+   yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
+   yum install telnet -y
+
+   setenforce 0
+   echo 'SELINUX=disabled' > /etc/selinux/config
+   
+cd /
+
+A.2. Install/reinstall/upgrade -- data not destroyed with this fork - for existing kloxo (6.1.x), run 'sh /script/update' first.
+
+   # delete if exist
+   rm -rf /tmp/kloxo
+
+   # create kloxo temp dir
+   mkdir /tmp/kloxo ; cd /tmp/kloxo
+
+   # get kloxo packer from github
+   wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo-install/kloxo-packer.sh --no-check-certificate
+
+   # get kloxo fork from github
+   sh kloxo-packer.sh --fork=mustafaramadhan --branch=dev
+
+   # install kloxo
+   sh kloxo-installer.sh --type=master
+
+   # better reboot
+   reboot
+   
+B. For Final Release:
+
+* Coming soon...
