@@ -88,10 +88,10 @@ yum -y install which cpp gcc gcc-c++ openssl-devel automake autoconf libtool mak
 make
 cd ../
 
-cp -rf ./src/closeallinput ./cexe
-chmod -R 755 ./cexe
+# cp -rf ./src/closeallinput ./cexe
+# chmod -R 755 ./cexe
 
-zip -r9y kloxo-current.zip ./bin ./cexe ./file ./httpdocs ./pscript ./sbin \
+zip -r9y kloxo-current.zip ./bin ./cexe/closeallinput ./file ./httpdocs ./pscript ./sbin \
 	./RELEASEINFO ./src ./etc/list ./etc/process ./etc/config.ini -x \
 	"./httpdocs/commands.php" \
 	"./httpdocs/newpass" \
