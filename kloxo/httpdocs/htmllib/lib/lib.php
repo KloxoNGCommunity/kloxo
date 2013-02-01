@@ -6651,13 +6651,28 @@ function installChooser($nolog = null)
 //	lxfile_cp("../file/webmail-chooser/roundcube-config.phps",
 //			"/home/kloxo/httpd/webmail/roundcube/config/main.inc.php");
 
-	$list = array("horde", "roundcube", "t-dah", "afterlogic", "squirrelmail");
+//	$list = array("horde", "roundcube", "t-dah", "afterlogic", "squirrelmail");
 
+/*
 	foreach ($list as $l) {
 		lfile_put_contents("$path/redirect-to-$l.php", "<?php\nheader(\"Location: /$l\");\n");
 	}
 
 	lfile_put_contents("$path/disabled/index.html", "Disabled\n");
+*/
+
+	// MR -- make webmail redirect to 'universal'
+	exec("rm -f {$path}/redirect-to-*.php");
+	$dirs = glob("{$path}/*");
+	foreach ($dirs as $dir) {
+		$name = str_replace("{$path}/", "", $dir);
+		if ($name != "img" && $name != "images" && $name != "disabled"  && is_dir($dir)) {
+			lfile_put_contents("{$path}/redirect-to-{$name}.php", "<?php\nheader(\"Location: /{$name}\");\n");
+			
+		}
+	}
+
+	lxfile_unix_chown_rec($path, "apache:apache");
 }
 
 function installRoundCube($nolog = null)

@@ -9,3 +9,5 @@ PrepareRoundCubeDb();
 PrepareTDahDb();
 PrepareAfterlogicDb();
 PrepareSquirrelmailDb();
+
+installChooser();
