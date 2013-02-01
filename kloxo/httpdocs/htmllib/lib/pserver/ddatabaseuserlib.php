@@ -24,11 +24,13 @@ static $__acdesc_update_phpmyadmin = array("", "",  "phpmyadmin");
 function createExtraVariables()
 {
 	$parent = $this->getParentO();
+/*
 	if ($this->dbtype !== 'mssql') {
 		$ret = $parent->getDbAdminPass();
 		$this->__var_dbadmin = $ret['dbadmin'];
 		$this->__var_dbpassword = $ret['dbpassword'];
 	}
+*/
 	if (!isset($this->__var_enc_pass)) {
 		$this->__var_enc_pass = md5($this->dbpassword);
 	}

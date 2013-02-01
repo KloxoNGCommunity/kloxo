@@ -83,7 +83,7 @@ class Domaind extends DomainBase
 	static $__desc_addondomain_l = array("qdb", "", "");
 	static $__desc_domaintraffichistory_l = array("", "", "");
 	static $__desc_mysqldb_l = array("qdB", "", "");
-	static $__desc_mssqldb_l = array("qdB", "", "");
+//	static $__desc_mssqldb_l = array("qdB", "", "");
 
 	static $__acdesc_update_information = array("", "", "information");
 	static $__acdesc_update_view = array("", "", "view_site");

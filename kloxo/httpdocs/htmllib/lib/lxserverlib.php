@@ -32,11 +32,8 @@ function lxserver_main()
 	//set_exception_handler("lx_exception_handler");
 
 	set_time_limit(0);
-	if (WindowsOs()) {
-		some_server_windows();
-	} else {
-		some_server();
-	}
+
+	some_server();
 }
 
 function do_server_stuff()
@@ -187,9 +184,7 @@ function exec_openvz_tc()
 function special_bind_restart($cmd)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-	if (WindowsOs()) {
-		return;
-	}
+
 	if (myPcntl_fork() === 0) {
 		socket_close($sgbl->__local_socket);
 		exec("/etc/init.d/$cmd restart  </dev/null >/dev/null 2>&1 &");

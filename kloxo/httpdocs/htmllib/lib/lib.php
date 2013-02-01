@@ -269,11 +269,7 @@ function log_load()
 
 	//	$rf = "__path_program_root/log/$file";
 
-	if (WindowsOs()) {
-		$endstr = "\r\n";
-	} else {
-		$endstr = "\n";
-	}
+	$endstr = "\n";
 
 	lfile_put_contents("/var/log/loadvg.log", time() . ' ' . @ date("H:i:M/d/Y") . ": $mess$endstr", FILE_APPEND);
 }

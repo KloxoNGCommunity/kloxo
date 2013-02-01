@@ -1,12 +1,7 @@
 <?php
 
-if (windowsOs()) {
-	include_once "htmllib/lib/windowslib.php";
-	include_once "lib/windowsproglib.php";
-} else {
-	include_once "htmllib/lib/linuxlib.php";
-	include_once "lib/linuxproglib.php";
-}
+include_once "htmllib/lib/linuxlib.php";
+include_once "lib/linuxproglib.php";
 
 // Don't remove this. This is used for slave upgrade.
 function remotetestfunc()
@@ -136,24 +131,6 @@ function getAllOperatingSystemDetails()
 
 function findOperatingSystem($type = null)
 {
-	if (windowsOs()) {
-
-		$ret['os'] = 'windows';
-		try {
-			$obj = new COM("Winmgmts://./root/cimv2");
-		} catch (exception $e) {
-			//throw new lxException("com_failed", '');
-			return null;
-		}
-
-		$list = $obj->execQuery("select Caption from Win32_OperatingSystem");
-		foreach ($list as $l) {
-			$ret['version'] = $l->Caption;
-			$ret['pointversion'] = $l->Caption;
-		}
-		return $ret;
-	}
-
 	if (file_exists("/etc/fedora-release")) {
 		$ret['os'] = 'fedora';
 		$ret['version'] = file_get_contents("/etc/fedora-release");
@@ -728,20 +705,15 @@ function myPcntl_reaper()
 
 function myPcntl_wait()
 {
-	if (!WindowsOs()) {
-		pcntl_wait($status);
-	}
+	pcntl_wait($status);
 }
 
 function myPcntl_fork()
 {
 	global $gbl, $sgbl, $login, $ghtml;
-	if (!WindowsOs()) {
-		$pid = pcntl_fork();
-	} else {
-		// make it child
-		$pid = 0;
-	}
+
+	$pid = pcntl_fork();
+
 	return $pid;
 }
 

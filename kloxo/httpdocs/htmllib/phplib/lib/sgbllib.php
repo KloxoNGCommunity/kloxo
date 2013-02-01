@@ -17,22 +17,13 @@ function __construct()
 		';
 
 
-	if (windowsOs()) {
-	 	$this->__path_tmp = "c:/tmp";
-	 	$this->__path_slash = "c:/tmp";
-		$this->__path_user_root = "c:/usr";
-		$this->__path_var_root = "c:/var";
-		$this->__path_log = "d:/var/log";
-		$this->__path_root_base = "my_computer";
-	} else {
-	 	$this->__path_slash = "/";
-	 	$this->__path_tmp = "/tmp";
-		$this->__path_user_root = "/usr";
-		$this->__path_var_root = "/var";
-		$this->__path_real_etc_root = "/etc";
-		$this->__path_log = "/var/log";
-		$this->__path_root_base = "/";
-	}
+ 	$this->__path_slash = "/";
+ 	$this->__path_tmp = "/tmp";
+	$this->__path_user_root = "/usr";
+	$this->__path_var_root = "/var";
+	$this->__path_real_etc_root = "/etc";
+	$this->__path_log = "/var/log";
+	$this->__path_root_base = "/";
 
 	$this->__var_lxlabs_marker = "__lxlabs_marker";
 

@@ -128,7 +128,7 @@ class Sgbl
 		$this->__path_ssl_root = $this->__path_kloxo_httpd_root . "/ssl";
 		$this->__path_named_realpath = "$this->__path_named_chroot/$this->__path_named_path";
 
-		$this->__var_mssqlport = '7773';
+	//	$this->__var_mssqlport = '7773';
 		$this->__var_local_port = '7776';
 		$this->__var_remote_port = '7779';
 

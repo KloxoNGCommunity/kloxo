@@ -41,11 +41,11 @@ abstract class Resourcecore extends Lxclient
 //	static $__desc_ddatabase_usage = array("q", "",  "database_disk_usage_(MB)");
 	static $__desc_cron_manage_flag = array("q", "", "allow_scheduler_management");
 //	static $__desc_phpunsafe_flag = array("q", "",  "can_enable_php_unsafe_mode");
-	static $__desc_dotnet_flag = array("q", "", "enable_asp.net_(ignored_on_linux)");
+//	static $__desc_dotnet_flag = array("q", "", "enable_asp.net_(ignored_on_linux)");
 	static $__desc_parent_name_change = array("", "", "owner");
 
 	static $__desc_mysqldbpserver_list = array("Q", "", "mysql_database_server_pool");
-	static $__desc_mssqldbpserver_list = array("Q", "", "mssql_database_server_pool");
+//	static $__desc_mssqldbpserver_list = array("Q", "", "mssql_database_server_pool");
 	static $__acdesc_update_ddatabasepserver = array("", "", "database_server_pool");
 
 	static $__desc_ipaddress_list = array("Q", "", "ip_address_pool");

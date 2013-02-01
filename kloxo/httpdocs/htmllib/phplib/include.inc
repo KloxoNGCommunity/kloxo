@@ -1,5 +1,6 @@
 <?php 
 
+/*
 function windowsOs() 
 {
 	if (getOs() == "windows") {
@@ -7,6 +8,7 @@ function windowsOs()
 	}
 	return false;
 }
+*/
 
 function getOs()
 {

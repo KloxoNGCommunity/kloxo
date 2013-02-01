@@ -114,10 +114,12 @@ function createUsed()
 
 function getUsed()
 {
-	$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", 
-			"mysqldb" => 'mysqldb', 'mssqldb' => 'mssqldb');
+//	$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", "mysqldb" => 'mysqldb', 'mssqldb' => 'mssqldb');
+
+	$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", 	"mysqldb" => 'mysqldb');
 
 	$ret = null;
+
 	foreach($vlist as $k => $v) {
 		if (!is_array($v)) {
 			$db = $v;
@@ -145,12 +147,14 @@ function getUsed()
 function createUsedDomainList()
 {
 	$res = $this->getUsed();
+
 	foreach($res as $k => $v) {
 		$var = "used_domainlist_{$k}_f";
 		$this->$var = $v;
 	}
-	$serlist = array("mmail" => "mmail", "dns" => "dns", "web" => "web", 
-			"mysqldb" => 'mysqldb', 'mssqldb' => 'mssqldb');
+
+//	$serlist = array("mmail" => "mmail", "dns" => "dns", "web" => "web", "mysqldb" => 'mysqldb', 'mssqldb' => 'mssqldb');
+	$serlist = array("mmail" => "mmail", "dns" => "dns", "web" => "web", "mysqldb" => 'mysqldb');
 
 	return $serlist;
 

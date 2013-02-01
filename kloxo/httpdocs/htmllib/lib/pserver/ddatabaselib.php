@@ -12,8 +12,8 @@ static $__desc_dbpassword = array("n", "",  "password");
 static $__desc_installapp_flag = array("e", "",  "Used");
 static $__desc_installapp_flag_v_dull = array("", "",  "Not Used by Application");
 static $__desc_installapp_flag_v_on = array("", "",  "Used By Application");
-//static $__desc_mysqldb_usage = array("q", "",  "database_disk_usage_(mb)");
-//static $__desc_mssqldb_usage = array("q", "",  "database_disk_usage_(mb)");
+static $__desc_mysqldb_usage = array("q", "",  "database_disk_usage_(mb)");
+static $__desc_mssqldb_usage = array("q", "",  "database_disk_usage_(mb)");
 static $__desc_phpmyadmin_f  = array("b", "",  "", "__stub_phpmyadmin_url");
 
 static $__acdesc_update_update = array("", "",  "edit_db");

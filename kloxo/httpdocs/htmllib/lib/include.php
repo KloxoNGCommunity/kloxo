@@ -40,9 +40,4 @@ if (lxfile_exists("../etc/classdefine")) {
 	}
 }
 
-if (WindowsOs()) {
-	include_once "htmllib/lib/lxcomlib.php";
-}
-
-
 //print_time("include", "include");

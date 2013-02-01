@@ -26,6 +26,7 @@ function print_time($var, $mess = null, $dbg = 2)
 
 print_time('full');
 
+/*
 function windowsOs() 
 {
 	if (getOs() == "Windows") {
@@ -33,10 +34,11 @@ function windowsOs()
 	}
 	return false;
 }
+*/
 
 function getOs()
 {
-	return (substr(php_uname(), 0, 7) == "Windows")? "Windows": "Linux";
+	return "Linux";
 }
 
 if(!isset($_SERVER['DOCUMENT_ROOT'])) {
@@ -52,11 +54,7 @@ if (!$_SERVER['DOCUMENT_ROOT']) {
 	$_SERVER['DOCUMENT_ROOT'] = $dir;
 }
 
-if (WindowsOs()) {
-	//ini_set("include_path", ".;{$_SERVER['DOCUMENT_ROOT']}");
-} else {
-	ini_set("include_path", "{$_SERVER['DOCUMENT_ROOT']}");
-}
+ini_set("include_path", "{$_SERVER['DOCUMENT_ROOT']}");
 
 function getreal($vpath)
 {

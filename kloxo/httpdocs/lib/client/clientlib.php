@@ -4,7 +4,7 @@ class Client extends ClientBase {
 
 static $__table = "client";
 static $__desc_mysqldb_l = array("qdB", "",  "");
-static $__desc_mssqldb_l = array("qdB", "",  "");
+// static $__desc_mssqldb_l = array("qdB", "",  "");
 static $__desc_domain_l = array("RqdtB", "",  "");
 static $__desc_domaina_l = array("", "",  "");
 static $__desc_maindomain_l = array("", "",  "");
@@ -754,7 +754,9 @@ function getMultiUpload($var)
 
 static function getPserverListPriv()
 {
-	$array = array("webpserver", "mmailpserver", "dnspserver", "mysqldbpserver", "mssqldbpserver");
+//	$array = array("webpserver", "mmailpserver", "dnspserver", "mysqldbpserver", "mssqldbpserver");
+	$array = array("webpserver", "mmailpserver", "dnspserver", "mysqldbpserver");
+
 	return $array;
 }
 
