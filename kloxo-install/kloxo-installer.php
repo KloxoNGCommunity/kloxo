@@ -64,16 +64,6 @@ function lxins_main()
 			system("yum remove mysql*.i386 -y");
 		}
 
-		// MR -- issue found on Centos 5.9 where have 'default' iptables config
-		$iptp = '/etc/sysconfig';
-		$ipts = array('iptables', 'ip6tables');
-
-		foreach ($ipts as &$ipt) {
-			if (file_exists("{$iptp}/{$ipt}")) {
-				system("mv -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
-			}
-		}
-
 		//--- Create temporary flags for install
 		system("mkdir -p /var/cache/kloxo/");
 
@@ -111,6 +101,16 @@ function lxins_main()
 		*/
 
 	} else {
+		// MR -- issue found on Centos 5.9 where have 'default' iptables config
+		$iptp = '/etc/sysconfig';
+		$ipts = array('iptables', 'ip6tables');
+
+		foreach ($ipts as &$ipt) {
+			if (file_exists("{$iptp}/{$ipt}")) {
+				system("mv -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
+			}
+		}
+		
 	//	system("mkdir -p /var/cache/kloxo/");
 
 		if (($noasking !== 'yes') || ($licenseagree !== 'yes')) {
