@@ -547,7 +547,7 @@ function kloxo_install_before_bye()
 
 function kloxo_install_bye($installtype)
 {
-	print("\nCongratulations. Kloxo has been installed succesfully on your server as $installtype\n\n");
+	print("\nCongratulations. Kloxo-MR has been installed succesfully as $installtype\n\n");
 	if ($installtype === 'master') {
 		print("You can connect to the server at:\n");
 		print("	https://<ip-address>:7777 - secure ssl connection, or\n");
