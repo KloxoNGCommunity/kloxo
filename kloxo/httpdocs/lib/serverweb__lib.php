@@ -11,7 +11,7 @@ class serverweb__ extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		switch($subaction) {
+		switch ($subaction) {
 			case "apache_optimize":
 				$this->set_apacheoptimize();
 
@@ -47,7 +47,7 @@ class serverweb__ extends lxDriverClass
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
 
-		switch($this->main->apache_optimize) {
+		switch ($this->main->apache_optimize) {
 			case 'default':
 				lxshell_return("lxphp.exe", $scripting, "--select=default", $nolog);
 				break;
@@ -66,7 +66,7 @@ class serverweb__ extends lxDriverClass
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
 
-		switch($this->main->fix_chownchmod) {
+		switch ($this->main->fix_chownchmod) {
 			case 'fix-ownership':
 				lxshell_return("lxphp.exe", $scripting, "--select=chmod", $nolog);
 				break;
@@ -87,7 +87,7 @@ class serverweb__ extends lxDriverClass
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
 
-		switch($this->main->mysql_convert) {
+		switch ($this->main->mysql_convert) {
 			case 'to-myisam':
 				$t = 'myisam';
 				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $nolog);
@@ -112,16 +112,16 @@ class serverweb__ extends lxDriverClass
 			}
 		}
 
-		$ullkfapath  = '/usr/local/lxlabs/kloxo/file/apache';
+		$ullkfapath = '/usr/local/lxlabs/kloxo/file/apache';
 		$ullkfpfpath = '/usr/local/lxlabs/kloxo/file/php-fpm';
 
-		$ehcpath  = '/etc/httpd/conf';
+		$ehcpath = '/etc/httpd/conf';
 		$ehcdpath = '/etc/httpd/conf.d';
 		$ehckpath = '/etc/httpd/conf/kloxo';
 
 		$hhcpath = '/home/httpd/conf';
 
-		$hapath  = '/home/apache';
+		$hapath = '/home/apache';
 		$hacpath = '/home/apache/conf';
 		$haepath = '/home/apache/etc';
 		$haecpath = '/home/apache/etc/conf';
@@ -131,13 +131,13 @@ class serverweb__ extends lxDriverClass
 
 		if (isWebProxyOrApache()) {
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
-			lxshell_return("rm", "-f", $ehcdpath."/swtune.conf");
+			lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
 
 			exec("cp -rf {$ullkfapath} /home");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
-				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath."/~lxcenter.conf");
-				lxfile_cp(getLinkCustomfile($haecpath, "httpd.conf"), $ehcpath."/httpd.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath . "/~lxcenter.conf");
+				lxfile_cp(getLinkCustomfile($haecpath, "httpd.conf"), $ehcpath . "/httpd.conf");
 			}
 
 			//--- don't use '=== true' but '!== false'
@@ -172,14 +172,14 @@ class serverweb__ extends lxDriverClass
 		} elseif ($type === 'mod_php_ruid2') {
 			lxshell_return("yum", "-y", "install", "mod_ruid2");
 			lxshell_return("yum", "-y", "update", "mod_ruid2");
+			lxfile_cp(getLinkCustomfile($haecdpath, "ruid2.conf"), $ehcdpath . "/ruid2.conf");
 			lxfile_rm("{$ehcdpath}/ruid2.nonconf");
-			lxfile_cp(getLinkCustomfile($haecdpath, "ruid2.conf"), $ehcdpath."/ruid2.conf");
 		} elseif ($type === 'mod_php_itk') {
 			exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
 		}
 
-		lxfile_cp(getLinkCustomfile($haecdpath, "php.conf"), $ehcdpath."/php.conf");
-		lxfile_rm($ehcdpath."/php.nonconf");
+		lxfile_cp(getLinkCustomfile($haecdpath, "php.conf"), $ehcdpath . "/php.conf");
+		lxfile_rm($ehcdpath . "/php.nonconf");
 
 		$this->remove_phpfpm();
 	}
@@ -213,7 +213,7 @@ class serverweb__ extends lxDriverClass
 
 		exec("sh /script/fixphp --nolog");
 
-		lxfile_rm($ehcdpath."/suphp.nonconf");
+		lxfile_rm($ehcdpath . "/suphp.nonconf");
 	}
 
 	function set_phpfpm()
@@ -227,8 +227,8 @@ class serverweb__ extends lxDriverClass
 		$ver = getRpmVersion('httpd');
 
 		if (version_compare($ver, "2.4.0", ">=") !== false) {
-			lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath."/proxy_fcgi.conf");
-			lxfile_rm($ehcdpath."/proxy_fcgi.nonconf");
+			lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath . "/proxy_fcgi.conf");
+			lxfile_rm($ehcdpath . "/proxy_fcgi.nonconf");
 		} else {
 			$phpbranch = getRpmBranchInstalled('php');
 
@@ -246,8 +246,8 @@ class serverweb__ extends lxDriverClass
 				throw new lxexception('{$phpbranch}-fpm_update_failed', 'parent');
 			}
 
-			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath."/fastcgi.conf");
-			lxfile_rm($ehcdpath."/fastcgi.nonconf");
+			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath . "/fastcgi.conf");
+			lxfile_rm($ehcdpath . "/fastcgi.nonconf");
 		}
 
 		lxshell_return("chkconfig", "php-fpm", "on");
@@ -278,8 +278,8 @@ class serverweb__ extends lxDriverClass
 
 		$this->rename_to_nonconf();
 
-		lxfile_cp(getLinkCustomfile($haecdpath, "fcgid.conf"), $ehcdpath."/fcgid.conf");
-		lxfile_rm($ehcdpath."/fcgid.nonconf");
+		lxfile_cp(getLinkCustomfile($haecdpath, "fcgid.conf"), $ehcdpath . "/fcgid.conf");
+		lxfile_rm($ehcdpath . "/fcgid.nonconf");
 	}
 
 	function remove_phpfpm()
@@ -296,13 +296,25 @@ class serverweb__ extends lxDriverClass
 	function rename_to_nonconf()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-
+		$haecdpath = '/home/apache/etc/conf.d';
+	/*
 		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
 		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastcgi.nonconf");
 		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
 		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
 		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
 		lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
+	*/
+		// MR -- use overwrite with 'inactive' content instead rename
+		// minimize 'effect' when running 'yum update'
+		$list = array('php', 'fastcgi', 'fcgid', 'ruid2', 'suphp', 'proxy_fcgi');
+
+		$source = getLinkCustomfile($haecdpath, "_inactive_.conf");
+
+		foreach ($list as &$l) {
+			lxfile_cp($source, "{$ehcdpath}/{$l}.conf");
+			lxfile_rm("{$ehcdpath}/{$l}.nonconf");
+		}
 	}
 
 	function set_mpm($type)
@@ -316,7 +328,7 @@ class serverweb__ extends lxDriverClass
 		}
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
-			
+
 		lxshell_return("lxphp.exe", $scripting, "--select=all", "--nolog");
 
 		$ret = lxshell_return("service", "httpd", "restart");
@@ -331,6 +343,7 @@ class serverweb__ extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$ehcdpath = '/etc/httpd/conf.d';
+		$haecdpath = '/home/apache/etc/conf.d';
 
 		$installed = isRpmInstalled('yum-plugin-replace');
 
@@ -352,15 +365,15 @@ class serverweb__ extends lxDriverClass
 			$branchselect = $this->main->php_branch;
 		}
 
-		$branchselect = preg_replace('/(.*)\_\(as\_(.*)\)/' , '$1', $branchselect);
+		$branchselect = preg_replace('/(.*)\_\(as\_(.*)\)/', '$1', $branchselect);
 
 		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", $nolog);
-/*
+	/*
 		// MR -- to make sure this modules convert too
 		lxshell_return("yum", "install", "-y", "{$branchselect}-mbstring",
 				"{$branchselect}-mysql", "{$branchselect}-imap", "{$branchselect}-pear",
 				"{$branchselect}-devel", "{$branchselect}-fpm");
-*/
+	*/
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 
 		lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
@@ -373,7 +386,9 @@ class serverweb__ extends lxDriverClass
 		}
 
 		if (stripos('mod_php', $this->main->php_type) === false) {
-			lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
+		//	lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
+			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
+
 		}
 	}
 
@@ -402,10 +417,11 @@ class serverweb__ extends lxDriverClass
 
 		if ($this->main->secondary_php === 'on') {
 			if (stripos($this->main->php_type, 'suphp') !== false) {
-				lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
+			//	lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
+				lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
 			} else {
-				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
-				lxfile_rm($ehcdpath."/suphp52.nonconf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");
+				lxfile_rm($ehcdpath . "/suphp52.nonconf");
 
 				$ret = lxshell_return("yum", "-y", "install", "mod_suphp");
 
@@ -413,16 +429,17 @@ class serverweb__ extends lxDriverClass
 					throw new lxexception('install_mod_suphp_failed', 'parent');
 				}
 
-				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath."/suphp52.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");
 
-				lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
+			//	lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
+				lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
 			}
 
 		} else {
-			lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
+		//	lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
+			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
 		}
 
-		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath."/suphp.conf");
-
+		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
 	}
 }
