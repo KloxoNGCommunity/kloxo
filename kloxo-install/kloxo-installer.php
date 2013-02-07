@@ -382,7 +382,7 @@ function kloxo_install_step1()
 		"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "lxlighttpd", $httpdbranch, "mod_ssl",
 		"zip", "unzip", "lxphp", "lxzend", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
 		"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-		"kloxo-*.noarch", "net-snmp", "tmpwatch"
+		"kloxo-*.noarch", "net-snmp", "tmpwatch", "rkhunter"
 	);
 
 	$list = implode(" ", $packages);

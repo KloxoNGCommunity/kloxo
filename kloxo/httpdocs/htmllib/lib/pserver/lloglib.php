@@ -87,7 +87,8 @@ function createShowSclist()
 		'lighttpd/access.log' => 'Lighttpd Access', 'lighttpd/error.log' => 'Lighttpd Error', 
 		'php-fpm/error.log' => 'PHP-FPM Error', 'php-fpm/slow.log' => 'PHP-FPM Slow', 
 		'mysqld.log' => 'MySQL',
-		'pureftpd.log' => 'Pure-ftp');
+		'pureftpd.log' => 'Pure-ftp',
+		'rkhunter/rkhunter.log' => 'RKHunter');
 
 	return $sclist;
 }
