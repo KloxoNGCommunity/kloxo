@@ -1,0 +1,52 @@
+#!/bin/sh
+
+homepath=/home
+mysqlpath=/var/lib/mysql
+stamp=$(date +"%Y-%m-%d-%H-%M")
+zipfile=kloxo-mr_raw-backup_$stamp.zip
+
+echo
+echo "*** Kloxo-MR raw-backup - BEGIN ***"
+echo
+
+service mysqld stop
+
+cd /tmp
+
+echo "- Create zip file"
+
+if ! [ -d $mysqlpath/kloxo.bck ] ; then
+	cp -rf $mysqlpath/kloxo $mysqlpath/kloxo.bck
+fi
+
+zip -r9yq  $zipfile $homepath $mysqlpath \
+	-x \
+	"$homepath/vpopmail/*" \
+	"$homepath/lxadmin/bin/*" \
+	"$homepath/kloxo/httpd/*" \
+	"$homepath/kloxo/domain/*" \
+	"$homepath/kloxo/lxguard/*" \
+	"$homepath/kloxo/client/*/__backup/*" \
+	"$homepath/lxlabs/*" \
+	"$homepath/nouser/*" \
+	"$mysqlpath/mysql/*" \
+	"$mysqlpath/kloxo/*"
+
+service mysqld start
+
+echo
+echo "Attention:"
+echo "- Raw backup only work for Mysql with MyISAM storage engine."
+echo "  Run 'sh /script/mysql-convert' for convert to MyISAM"
+echo
+echo "- Your 'kloxo' database rename to 'kloxo.bck' inside zipfile"
+echo
+echo "- Your '$zipfile' move to: "
+echo "   '/home/kloxo/client/admin/__backup'"
+
+echo
+
+mv -f $zipfile /home/kloxo/client/admin/__backup
+echo
+echo "*** Kloxo-MR raw-backup - END ***"
+echo
