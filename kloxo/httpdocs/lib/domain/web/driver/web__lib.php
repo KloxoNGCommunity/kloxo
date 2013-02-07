@@ -1120,23 +1120,7 @@ class web__ extends lxDriverClass
 		$this->updateMainConfFile();
 		$this->createSSlConf();
 
-		$list = getWebDriverList();
-
-		foreach ($list as &$l) {
-			$p = "/home/{$l}/conf";
-
-			// MR -- for large amount domains, call function make slow process
-			// so, alternative use file detect
-			if (!file_exists("{$p}/webmails/webmail.conf")) {
-
-				$this->createSSlConf();
-				$this->updateMainConfFile();
-				$this->createWebDefaultConfig();
-			}
-		}
-
-		// MR -- relate to fixed ip/~client, but better on add/delete client process
-		// meanwhile enough in here
+		$this->createWebDefaultConfig();
 
 		$this->createCpConfig();
 	}
