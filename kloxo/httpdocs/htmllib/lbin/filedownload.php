@@ -17,7 +17,10 @@ $filepass = $info->filepass;
 $ip = $_SERVER['REMOTE_ADDR'];
 
 if ($res['ip'] !== $ip) {
-	print("You are trying to access this file from a different Ip, than the one you accessed the master with, which is prohibited <br> Possibly an attempt to hack. \n");
+	print("You are trying to access this file from a different Ip, " .
+		"than the one you accessed the master with, which is prohibited <br> " .
+		"Possibly an attempt to hack. \n");
+
 	exit;
 }
 */

@@ -149,16 +149,7 @@ static function restore_dump($dbname, $dbuser, $dbpass, $docf)
 	global $gbl, $sgbl, $login, $ghtml; 
 
 	self::drop_all_table($dbname, $dbuser, $dbpass);
-/*
-	// Issue #671 - how about for large data?
-	$cont = lfile_get_contents($docf);
 
-	if ($dbpass) {
-		$ret = lxshell_input($cont, "__path_mysqlclient_path", "-u", $dbuser, "-p$dbpass", $dbname);
-	} else {
-		$ret = lxshell_input($cont, "__path_mysqlclient_path", "-u", $dbuser, $dbname);
-	}
-*/
 	$arg[0] = $sgbl->__path_mysqlclient_path;
 	$arg[1] = "-u";
 	$arg[2] = $dbuser;
@@ -211,21 +202,7 @@ function do_backup()
 	$arg[5] = $this->main->dbname;
 
 	$cmd = implode(" ", $arg);
-/*
-	$output = null;
-	$ret = null;
-	if (!windowsos()) {
-		exec("exec $cmd > $docf", $output, $ret);
-	} else {
-		exec("$cmd", $output, $ret);
-		file_put_contents($docf, $output);
-	}
 
-	if ($ret) {
-		lxfile_tmp_rm_rec($vd);
-		throw new lxException('could_not_create_mysql_dump', 'nname', $this->main->dbname);
-	}
-*/
 	$link = mysql_connect('localhost', $dbadmin, $dbpass);
 	$result = mysql_query("CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
 
@@ -234,11 +211,11 @@ function do_backup()
 	}
 	catch (Exception $e) {
 		lxfile_tmp_rm_rec($vd);
-		throw new lxException('Error: ' . $e->getMessage(), $dbname);
+	//	throw new lxException('Error: ' . $e->getMessage(), $dbname);
+		log_log("backup", "- Error '{$e->getMessage()}' for '{$dbname}'");
 	}
 
 	return array($vd, array(basename($docf)));
-
 }
 
 function do_backup_cleanup($list)
@@ -260,6 +237,8 @@ function do_restore($docd)
 
 	global $gbl, $sgbl, $login, $ghtml; 
 
+	log_log("restore", "* MySQL database");
+
 	$dbadmin = $this->main->__var_dbadmin;
 	$dbpass = $this->main->__var_dbpassword;
 	$dbname = $this->main->dbname;
@@ -275,27 +254,10 @@ function do_restore($docd)
 	$ret = lxshell_unzip_with_throw($vd, $docd);
 
 	if (!lxfile_exists($docf)) {
-		throw new lxException('could_not_find_matching_dumpfile_for_db', '', '');
-	}
-/*
-	// Issue #671 - how about for large data?
-	$cont = lfile_get_contents($docf);
-
-	if ($this->main->dbpassword) {
-		$ret = lxshell_input($cont, "__path_mysqlclient_path", "-u", $this->main->username, "-p{$this->main->dbpassword}", $this->main->dbname);
-	} else {
-		$ret = lxshell_input($cont, "__path_mysqlclient_path", "-u", $this->main->username, $this->main->dbname);
+	//	throw new lxException('could_not_find_matching_dumpfile_for_db', '', '');
+		log_log("restore", "- Not match $docf file for database");
 	}
 
-	if ($ret) {
-		log_restore("Mysql restore failed.... Copying the mysqldump file $docf to $sgbl->__path_kloxo_httpd_root...");
-		lxfile_cp($docf, "__path_kloxo_httpd_root");
-		throw new lxException('mysql_error_could_not_restore_data', '', '');
-	}
-
-	lunlink($docf);
-	lxfile_tmp_rm_rec($vd);
-*/
 	$arg[0] = $sgbl->__path_mysqlclient_path;
 	$arg[1] = "-u";
 	$arg[2] = $dbadmin;

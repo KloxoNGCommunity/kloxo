@@ -1696,21 +1696,21 @@ function getOneIPForServer($v)
 	return null;
 }
 
-function zip_to_fileserv($dir, $fillist)
+function zip_to_fileserv($dir, $fillist, $logto = null)
 {
-	$file = do_zip_to_fileserv('zip', array($dir, $fillist));
+	$file = do_zip_to_fileserv('zip', array($dir, $fillist), $logto);
 	return cp_fileserv($file);
 }
 
-function tar_to_fileserv($dir, $fillist)
+function tar_to_fileserv($dir, $logto = null)
 {
-	$file = do_zip_to_fileserv('tar', array($dir, $fillist));
+	$file = do_zip_to_fileserv('tar', array($dir, $fillist), $logto);
 	return cp_fileserv($file);
 }
 
-function tgz_to_fileserv($dir, $fillist)
+function tgz_to_fileserv($dir, $logto = null)
 {
-	$file = do_zip_to_fileserv('tgz', array($dir, $fillist));
+	$file = do_zip_to_fileserv('tgz', array($dir, $fillist), $logto);
 	return cp_fileserv($file);
 }
 
@@ -1772,7 +1772,7 @@ function cp_fileserv($file)
 	return $res;
 }
 
-function do_zip_to_fileserv($type, $arg)
+function do_zip_to_fileserv($type, $arg, $logto = null)
 {
 	lxfile_mkdir("__path_serverfile/tmp");
 	lxfile_unix_chown_rec("__path_serverfile", "lxlabs");
@@ -1783,32 +1783,33 @@ function do_zip_to_fileserv($type, $arg)
 
 	// Create the pass file now itself so that it isn't unwittingly created again.
 
+	$vd = $arg[0];
+	$list = $arg[1];
+
 	if ($type === 'zip') {
-		$vd = $arg[0];
-		$list = $arg[1];
-		dprint("zipping $vd: " . implode(" ", $list) . " \n");
+		dprint("zipping $vd: " . $vd . " \n");
 		$ret = lxshell_zip($vd, "__path_serverfile/tmp/$base.tmp", $list);
 		lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
-	} else {
-		if ($type === 'tgz') {
-			$vd = $arg[0];
-			$list = $arg[1];
-			dprint("tarring $vd: " . implode(" ", $list) . " \n");
-			$ret = lxshell_tgz($vd, "__path_serverfile/tmp/$base.tmp", $list);
-			lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
-		} else {
-			if ($type === 'tar') {
-				$vd = $arg[0];
-				$list = $arg[1];
-				dprint("tarring $vd: " . implode(" ", $list) . " \n");
-				$ret = lxshell_tar($vd, "__path_serverfile/tmp/$base.tmp", $list);
-				lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
-			}
-		}
+	} elseif ($type === 'tgz') {
+		dprint("tarring $vd: " . $vd . " \n");
+		$ret = lxshell_tgz($vd, "__path_serverfile/tmp/$base.tmp", $list);
+		lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
+	} elseif ($type === 'tar') {
+		dprint("tarring $vd: " . $vd . " \n");
+		$ret = lxshell_tar($vd, "__path_serverfile/tmp/$base.tmp", $list);
+		lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
 	}
 
 	if ($ret) {
-		throw new lxException("could_not_zip_dir", '', $vd);
+		if ($logto) {
+			log_log($logto, "- Could not zip for '$vd'");
+		} else {
+		//	throw new lxException("could_not_zip_dir", '', $vd);
+		}
+	} else {
+		if ($logto) {
+			log_log("backup", "- Succeeded zip for '$vd'");
+		}
 	}
 
 	return "__path_serverfile/tmp/$base";
@@ -2836,6 +2837,7 @@ function getFullVersionList($till = null)
 			$upversion = strfrom($l, "$progname-");
 			$upversion = strtil($upversion, ".zip");
 			$list[] = $upversion;
+
 			if ($till) {
 				if ($upversion === $till) {
 					break;
@@ -2845,21 +2847,27 @@ function getFullVersionList($till = null)
 
 		return $list;
 	*/
+
 	// MR -- temporal solution before rpm-based kloxo-MR.
 	$ver = $sgbl->__ver_major_minor_release;
+
 	return array($ver);
 }
 
 function getVersionList($till = null)
 {
 	$list = getFullVersionList($till);
+
 	foreach ($list as $k => $l) {
 		if (preg_match("/2$/", $l) && ($k !== count($list) - 1)) {
 			continue;
 		}
+
 		$nnlist[] = $l;
 	}
+
 	$nlist = $nnlist;
+
 	return $nlist;
 }
 
@@ -2873,6 +2881,7 @@ function checkIfLatest()
 function getLatestVersion()
 {
 	$nlist = getVersionList();
+
 	return $nlist[count($nlist) - 1];
 
 }
@@ -2880,10 +2889,13 @@ function getLatestVersion()
 function getDownloadServer()
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
 	static $local;
 
 	$progname = $sgbl->__var_program_name;
+
 	$maj = $sgbl->__ver_major_minor;
+
 	$server = "http://download.lxcenter.org/download/$progname/$maj";
 
 	return $server;
@@ -2893,6 +2905,7 @@ function download_source($file)
 {
 
 	$server = getDownloadServer();
+
 	download_file("$server/$file");
 }
 

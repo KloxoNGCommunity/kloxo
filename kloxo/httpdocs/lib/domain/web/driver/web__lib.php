@@ -270,15 +270,15 @@ class web__ extends lxDriverClass
 		foreach ($list as &$v) {
 			$input['setdefaults'] = $v;
 			
-			if ($v === 'default') {
+		//	if ($v === 'default') {
 				$input['userlist'] = $this->getUserList();			
-			}
+		//	}
 
 			self::setCreateConfFile($input);
 		}
 	}
 
-	function createWebDefaultConfig()
+	function createWebmailDefaultConfig()
 	{
 		$input = array();
 
@@ -1120,9 +1120,9 @@ class web__ extends lxDriverClass
 		$this->updateMainConfFile();
 		$this->createSSlConf();
 
-		$this->createWebDefaultConfig();
-
-		$this->createCpConfig();
+		// MR -- no needed and have a trouble for userlist on __default.conf		
+	//	$this->createWebmailDefaultConfig();
+	//	$this->createCpConfig();
 	}
 
 	function dbactionAdd()
@@ -1268,14 +1268,13 @@ class web__ extends lxDriverClass
 					$this->updateMainConfFile();
 					$this->createSSlConf();
 					$this->createCpConfig();
-				//	self::createWebDefaultConfig();
-					$this->createWebDefaultConfig();
+					$this->createWebmailDefaultConfig();
 					$this->createPhpFpmConfig();
 					break;
 
-			//	case "fix_phpfpm":
-			//		$this->createPhpFpmConfig();
-			//		break;
+				case "fix_phpfpm":
+					$this->createPhpFpmConfig();
+					break;
 
 				case "fix_chownchmod_all":
 					setFixChownChmod('all');

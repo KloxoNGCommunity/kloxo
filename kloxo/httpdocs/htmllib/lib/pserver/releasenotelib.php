@@ -14,12 +14,11 @@ static $__desc_ttype =     array("", "",  "type");
 static $__desc_ttype_v_critical =     array("s", "",  "critical");
 static $__desc_ttype_v_feature =     array("s", "",  "enhancement");
 
-
-
 static function createListAlist($parent, $class)
 {
 	$alist[] = "a=show";
 	$alist[] = "a=list&c=$class";
+
 	return $alist;
 }
 
@@ -30,13 +29,16 @@ static function createListNlist($parent, $view)
 	$nlist['version'] = '5%';
 	$nlist['ttype'] = '5%';
 	$nlist['description'] = '100%';
+
 	return $nlist;
 }
 
 static function defaultSort() { return "version"; }
+
 static function defaultSortDir() { return "desc"; }
 
 static function perPage() {return 500; }
+
 function isSelect()
 {
 	return false;
@@ -46,58 +48,71 @@ static function createListBlist($parent, $class)
 	return null;
 }
 
-
 static function parseReleaseNote($list)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	$maj = $sgbl->__ver_major;
 	$ver = $sgbl->__ver_major_minor_release;
 	$detail = null;
 	$k = 0;
 	$list = array_reverse($list);
 	$mine = false;
+
 	foreach($list as $l) {
-		$dd = curl_get_file("releasenotes/release-$l.txt");
-		// We are going backwards, and when we reach our own version we get out. We need info only about versions greater than ourselves.
+	//	$dd = curl_get_file("releasenotes/release-$l.txt");
+
+		$dd = file_get_contents("/usr/local/lxlabs/kloxo/RELEASEINFO/RELEASE");
+/*
+		// We are going backwards, and when we reach our own version we get out. 
+		// We need info only about versions greater than ourselves.
 		if ($l === $ver) {
 			$mine = true;
 		}
+*/
 		foreach((array) $dd as $d) {
 			$d = trim($d);
+
 			if (!$d) {
 				continue;
 			}
+
 			$k++;
 			$v = explode(" ", $d);
 			$newvar['version'] = $l;
+
 			if ($mine) {
 				$newvar['over_r'] = 'dull';
 			} else {
 				$newvar['over_r'] = 'on';
 			}
+
 			$newvar['ttype'] = array_shift($v);
 			$newvar['description'] = implode(" ", $v);
 			$newvar['nname'] = $k;
+
 			$result[] = $newvar;
 		}
 	}
 
 	return $result;
-
 }
 
 static function initThisList($parent, $class)
 {
 
 	global $gbl, $sgbl, $login, $ghtml; 
-	$ret = null;
-	/*
+
+//	$ret = null;
+/*
 	if (checkIfLatest()) {
 		return $ret;
 	}
 */
 	$list = getFullVersionList();
+
 	$result = self::parseReleaseNote($list);
+
 	return $result;
 }
 

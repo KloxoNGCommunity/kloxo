@@ -752,7 +752,17 @@ class Web extends Lxdb
 		$name = $this->nname;
 		$fullpath = "$sgbl->__path_customer_root/{$this->customer_name}/$name/";
 		lxfile_mkdir($fullpath);
-		lxshell_unzip_with_throw($fullpath, $docd);
+
+	//	lxshell_unzip_with_throw($fullpath, $docd);
+
+		// MR -- idea taken from lxuser_unzip_with_throw()
+		$ret = lxshell_unzip($this->customer_name, $fullpath, $docd);
+
+		if ($ret) {
+			log_log("restore", "- Could not unzip on '{$fullpath}'");
+		} else {
+			log_log("restore", "- Succeeded unzip on '{$fullpath}'");
+		}
 	}
 
 	function makeDnsChanges($newserver)

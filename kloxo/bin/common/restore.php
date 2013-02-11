@@ -109,6 +109,7 @@ function backup_main()
 
 	//dprint($file);
 
+	log_log("restore", "*** Restore from '{$name}' user - BEGIN ***");
 
 	try {
 		$backup->doUpdateRestore($file, $param);
@@ -123,7 +124,7 @@ function backup_main()
 
 	clearLxbackup($backup);
 
-
+	log_log("restore", "*** Restore from '{$name}' user - END ***");
 }
 
 

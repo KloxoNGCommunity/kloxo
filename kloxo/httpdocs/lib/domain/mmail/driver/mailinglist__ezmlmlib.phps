@@ -302,5 +302,7 @@ HEAD;
 		}
 
 		lxfile_tmp_rm_rec($vd);
+
+		log_log("restore", "* Lists for '{$var[1]}' on '{$sgbl->__path_mail_data}'");
 	}
 }

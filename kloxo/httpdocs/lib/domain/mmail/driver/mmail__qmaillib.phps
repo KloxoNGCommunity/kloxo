@@ -13,12 +13,11 @@ class Mmail__Qmail extends lxDriverClass
 			$list[] = "$ac/Maildir";
 		}
 
-		return array($mailpath, $list);
+		return array($mailpath, $list, 'backup');
 	}
 
 	static function generateDKey($domain)
 	{
-
 		$pfile = "/var/qmail/control/domainkeys/$domain/public.txt";
 
 		if (!$domain) {
@@ -46,7 +45,8 @@ class Mmail__Qmail extends lxDriverClass
 
 		$tfile = lx_tmp_file("rsagen");
 
-		$out = lxshell_output("openssl", "rsa", "-in", "private", "-out", $tfile, "-pubout", "-outform", "PEM");
+		$out = lxshell_output("openssl", "rsa", "-in", "private", "-out", $tfile, "-pubout", 
+			"-outform", "PEM");
 
 		$list = lfile($tfile);
 		lunlink($tfile);
@@ -76,9 +76,20 @@ class Mmail__Qmail extends lxDriverClass
 		$mailpath = self::getDir($this->main->nname);
 		$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
 
-		lxshell_unzip_with_throw($mailpath, $docd);
+		log_log("restore", "* Mail for '{$this->main->nname}' on '{$sgbl->__path_mail_data}'");
+
+	//	lxshell_unzip_with_throw($mailpath, $docd);
+
+		$ret = lxshell_unzip($username, $dir, $file, $list);
+
+		if ($ret) {
+			log_log("restore", "- Could not unzip on '{$mailpath}'");
+		} else {
+			log_log("restore", "- Succeeded unzip for '{$mailpath}'");
+		}
 
 		lxfile_unix_chown_rec($mailpath, mmail__qmail::getUserGroup($this->main->nname));
+
 	}
 
 	static function getDir($domain)

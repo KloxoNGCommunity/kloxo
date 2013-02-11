@@ -805,7 +805,8 @@ class Domaind extends DomainBase
 		$spam->parent_clname = $mmail->getClName();
 		$mmail->addObject('spam', $spam);
 
-	/* Not needed, instead the admin can configure this after the domain is created.
+	/* 
+		// Not needed, instead the admin can configure this after the domain is created.
 		if ($maindomain) {
 			 $parked = new addondomain(null, null, "{$this->nname}.$maindomain");
 			$parked->initThisdef();
@@ -911,19 +912,19 @@ class Domaind extends DomainBase
 		$dname = $this->nname;
 		
 		foreach ((array)$dl as $d) {
-			$d->backMeUp($backupdir, $id);
+			$d->backMeUp($backupdir, $id, 'backup');
 		}
 
 		$web = $this->getObject('web');
-		$web->backMeUp($backupdir, $id);
+		$web->backMeUp($backupdir, $id, 'backup');
 
 		$mmail = $this->getObject('mmail');
-		$mmail->backMeUp($backupdir, $id);
+		$mmail->backMeUp($backupdir, $id, 'backup');
 
 		$mlist = $mmail->getList('mailinglist');
 
 		foreach ((array)$mlist as $ml) {
-			$ml->backMeUp($backupdir, $id);
+			$ml->backMeUp($backupdir, $id, 'backup');
 		}
 	}
 

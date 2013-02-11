@@ -27,8 +27,8 @@ $sendmail_from = '';
 }
 ?>
 ### MR -- attention
-### 1. Remove # in front of 'AddHandler x-httpd-php52' for activate secondary-php
-### 2. Or Remove # in front of 'AddHandler x-httpd-php' for activate primary-php
+### 1. Remove # in front of 'AddHandler x-httpd-php52' to activate secondary-php
+### 2. Or Remove # in front of 'AddHandler x-httpd-php' to activate primary-php
 ###    if select suphp_worker/_event for primary-php
 
 #AddHandler x-httpd-php52 .php

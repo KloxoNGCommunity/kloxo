@@ -3,7 +3,7 @@
 homepath=/home
 mysqlpath=/var/lib/mysql
 stamp=$(date +"%Y-%m-%d-%H-%M")
-zipfile=kloxo-mr_raw-backup_$stamp.zip
+zipfile=kloxo-mr_raw_$stamp.zip
 
 echo
 echo "*** Kloxo-MR raw-backup - BEGIN ***"
@@ -34,6 +34,16 @@ zip -r9yq  $zipfile $homepath $mysqlpath \
 
 service mysqld start
 
+mv -f $zipfile /home/kloxo/client/admin/__backup
+
+### MR -- also patch for lib.php to make backup process always finished
+sed -i 's:\t\tthrow new lxException("could_not_zip_dir:\t\/\/\tthrow new lxException("could_not_zip_dir:' \
+	/usr/local/lxlabs/kloxo/httpdocs/htmllib/lib/lib.php
+
+echo
+echo "- Patch for /usr/local/lxlabs/kloxo/httpdocs/htmllib/lib/lib.php "
+echo "  for backup without error"
+
 echo
 echo "Attention:"
 echo "- Raw backup only work for Mysql with MyISAM storage engine."
@@ -42,11 +52,7 @@ echo
 echo "- Your 'kloxo' database rename to 'kloxo.bck' inside zipfile"
 echo
 echo "- Your '$zipfile' move to: "
-echo "   '/home/kloxo/client/admin/__backup'"
-
-echo
-
-mv -f $zipfile /home/kloxo/client/admin/__backup
+echo "  '/home/kloxo/client/admin/__backup'"
 echo
 echo "*** Kloxo-MR raw-backup - END ***"
 echo

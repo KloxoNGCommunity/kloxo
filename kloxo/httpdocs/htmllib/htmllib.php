@@ -7655,7 +7655,7 @@ class HtmlLib
 		}
 
 		print("<div id=esmessage style='visibility:visible;position:absolute;width:95%;top:21%;left:2%'>");
-		print(" <table width=100%   style='$style'  cellpadding=4 cellspacing=5 > <tr height=10> <td nowrap>  <a href=javascript:hide_a_div_box('esmessage')><img src=/img/image/collage/button/close.gif> <font style=small>Press Esc to close </font> </a> </td> <td > </td>   </tr> <tr> <td ><img src=$imgfile><font style='$fontstyle'> $message $mess </font></td></tr> <tr height=10> <td > </td> </tr> </table><br>");
+		print(" <table width='600' style='$style' cellpadding='4' cellspacing='5'> <tr height='10'> <td nowrap> <a href=javascript:hide_a_div_box('esmessage')><img src=/img/image/collage/button/close.gif> <font style=small>Press Esc to close </font> </a> </td> <td > </td>   </tr> <tr> <td ><img src=$imgfile><font style='$fontstyle'> $message $mess </font></td></tr> <tr height=10> <td > </td> </tr> </table><br>");
 		print("</div> ");
 	}
 

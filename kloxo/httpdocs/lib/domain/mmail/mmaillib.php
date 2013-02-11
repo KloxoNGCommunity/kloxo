@@ -367,7 +367,7 @@ class Mmail extends Lxdb
 				return $vlist;
 		}
 
-		// MR -- this is for what?. Nothing useless?
+		// MR -- this is for what?. Useless?
 
 	//	return parent::updateform($subaction, $param);
 
@@ -429,9 +429,8 @@ class Mmail extends Lxdb
 
 	function fixWebmailRedirect()
 	{
+		global $gbl, $sgbl, $login, $ghtml;
 /*
-	//	global $gbl, $sgbl, $login, $ghtml;
-
 		// the same trick with createListSlist()
 		// on /usr/local/lxlabs/kloxo/httpdocs/lib/domain/addondomainlib.php
 
@@ -441,13 +440,15 @@ class Mmail extends Lxdb
 		$web->setUpdateSubaction('full_update');
 
 	//	$web->setUpdateSubaction('addondomain');
-*/
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
 
-		lxshell_return("lxphp.exe", $scripting, "--nolog");
+*/
+		$user = $this->getParentO()->getObject('web')->username;
+
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+		lxshell_return("lxphp.exe", $scripting, "--client={$user}", "--nolog");
 
 		// MR -- must be return null to prevent blank page
-		return null;
+	//	return null;
 
 	}
 

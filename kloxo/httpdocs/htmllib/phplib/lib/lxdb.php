@@ -229,7 +229,7 @@ function doupdateSwitchserver($param)
 
 	$this->__var_bc_backupextra_stopvpsflag = 'on';
 	if ($this->extraBackup()) {
-		$file = $this->backMeUpThere();
+		$file = $this->backMeUpThere('backup');
 		$this->subaction = null;
 	}
 

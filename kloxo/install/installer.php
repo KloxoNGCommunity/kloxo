@@ -115,7 +115,7 @@ function lxins_main()
 
 		if (($noasking !== 'yes') || ($licenseagree !== 'yes')) {
 			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan ***\n");
-			print("- Better usinf backup-restore process for update from Kloxo 6.1.12+.\n");
+			print("- Better using backup-restore process for update from Kloxo 6.1.12+.\n");
 			print("  No guarantee always success update from Kloxo after 6.1.12 version\n\n");
 
 
@@ -306,7 +306,11 @@ function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 
 	print("\nCreating Vpopmail database...\n");
 
-	system("sh $dir_name/kloxo-linux/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+	if (isRpmInstalled('qmail')) {
+		system("sh /usr/local/lxlabs/kloxo/bin/misc/lxpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+	} else {
+		system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+	}
 
 	// MR -- until Kloxo-MR 6.5.1, still using the same mail path
 	system("mkdir -p /home/lxadmin/mail/domains");
@@ -337,10 +341,10 @@ function kloxo_install_step1()
 
 //	if (getKloxoType() === '') {
 	print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
-	system("groupadd nogroup");
-	system("useradd nouser -g nogroup -s '/sbin/nologin'");
-	system("groupadd lxlabs");
-	system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
+//	system("groupadd nogroup");
+//	system("useradd nouser -g nogroup -s '/sbin/nologin'");
+//	system("groupadd lxlabs");
+	system("useradd lxlabs -g lxlabs -s '/sbin/nologin' -d /usr/local/lxlabs");
 
 /*
 	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
@@ -407,13 +411,14 @@ function kloxo_install_step1()
 
 	system("mkdir -p {$kloxopath}");
 
-	if (file_exists("../kloxo-current.zip")) {
+	if (file_exists("../kloxo-mr-latest.zip")) {
 		//--- Install from local file if exists
 		system("rm -f {$kloxopath}/kloxo-current.zip");
+		system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
 
 		print("Local copying Kloxo release\n");
 		system("mkdir -p /var/cache/kloxo");
-		system("cp -rf ../kloxo-current.zip {$kloxopath}");
+		system("cp -rf ../kloxo-mr-latest.zip {$kloxopath}");
 
 		chdir("/usr/local/lxlabs/kloxo");
 		system("mkdir -p {$kloxopath}/log");
@@ -422,6 +427,7 @@ function kloxo_install_step1()
 		system("mkdir -p {$kloxopath}/log");
 
 		system("rm -f {$kloxopath}/kloxo-current.zip");
+		system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
 	}
 
 	if (php_uname('m') === 'x86_64') {
@@ -441,12 +447,13 @@ function kloxo_install_step1()
 
 	print("\n\nInstalling Kloxo.....\n\n");
 
-	system("unzip -oq kloxo-current.zip", $return);
+	system("unzip -oq kloxo-mr-latest.zip -d ../");
+
 	system("chmod -R 755 {$kloxopath}/cexe");
 
 	copy_script();
 
-	system("rm -f {$kloxopath}/kloxo-current.zip");
+	system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
 
 	system("chown -R lxlabs:lxlabs {$lxlabspath}");
 	chdir("{$kloxopath}/httpdocs/");
@@ -567,7 +574,8 @@ function kloxo_install_bye($installtype)
 	print("\n");
 	print("---------------------------------------------\n");
 	print("\n");
-	print("- Better reboot!!!\n\n");
+	print("- Need running 'sh /script/cleanup' for update\n\n");
+	print("- Better reboot for fresh install\n\n");
 
 	if (isRpmInstalled('qmail')) {
 		print("---------------------------------------------\n");

@@ -11,13 +11,10 @@ function backup_main()
 
 	$progname = $sgbl->__var_program_name;
 
-
 	if ($argc === 1) {
 		print("Usage: $argv[0] --class= --name= --v-backup_file_name= \n");
 		exit;
 	}
-
-
 
 	//sleep(60);
 	$opt = parse_opt($argv);
@@ -80,6 +77,7 @@ function backup_main()
 		}
 	}
 
+	log_log("backup", "*** Backup from '{$name}' user - BEGIN ***");
 
 	try {
 		$backup->doupdateBackup($param);
@@ -94,7 +92,6 @@ function backup_main()
 
 	clearLxbackup($backup);
 
-
-
+	log_log("backup", "*** Backup from '{$name}' user - END ***");
 }
 

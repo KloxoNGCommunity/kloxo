@@ -90,14 +90,14 @@ function updateform($subaction, $param)
 			$vlist['myname'] = null;
 			//$vlist['enable_maps'] = null;
 			$vlist['spamdyke_flag'] = null;
-			if (csa($this->getParentO()->osversion, " 5")) {
+		//	if (csa($this->getParentO()->osversion, " 5")) {
 				$vlist['domainkey_flag'] = null;
 				$vlist['virus_scan_flag'] = null;
 				if (!$this->max_size) {
 					$this->max_size = "20971520";
 				}
 				$vlist['max_size'] = null;
-			}
+		//	}
 			$vlist['queuelifetime'] = null;
 			$vlist['smtp_instance'] = null;
 			$vlist['additional_smtp_port'] = null;
