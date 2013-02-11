@@ -39,6 +39,7 @@ unzip -oq kloxo-dev.zip > /dev/null 2>&1
 rm -rf kloxo-mr-dev.zip > /dev/null 2>&1
 
 mv -f ./kloxo-dev/kloxo ./
+rm -rf ./kloxo-dev
 
 ### 2. copy mr-installer.sh
 cp -rf ./kloxo/install/installer.sh ./

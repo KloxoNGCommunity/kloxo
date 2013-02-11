@@ -52,12 +52,15 @@ kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 yum install zip unzip -y
 
 if [ ! -d ./kloxo/httpdocs ] ; then
-	echo "Download kloxo git from "${kloxo_path}
+	echo "Download git from "${kloxo_path}
 	rm -rf ${kloxo_branch}* > /dev/null 2>&1
-	wget https://github.com/${kloxo_path} --no-check-certificate
-	mv -f ${kloxo_branch} kloxo-mr.zip > /dev/null 2>&1
-	unzip -oq kloxo-mr.zip > /dev/null 2>&1
-	yes | rm -rf kloxo-mr.zip > /dev/null 2>&1
+	wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip
+
+	mv -f ${kloxo_branch} kloxo-dev.zip > /dev/null 2>&1
+	unzip -oq kloxo-dev.zip > /dev/null 2>&1
+	rm -rf kloxo-mr-dev.zip > /dev/null 2>&1
+	mv -f ./kloxo-dev/kloxo ./
+	rm -rf ./kloxo-dev
 else
 	echo "No download and use local copy already exist"
 fi
