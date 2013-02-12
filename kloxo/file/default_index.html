@@ -1,21 +1,86 @@
 <html>
-<head><title>Kloxo : Default Page </title></head>
-<body topmargin=0 leftmargin=0 leftmargin=0>
-<table cellpadding=0 cellspacing=0 width=100% border=0 background="/images/dheadbg.gif" height=96>
-<tr><td>&nbsp;</td><td width=176><img src="./images/lxalogo_d.gif"></td></tr>
+
+<head>
+<title>Kloxo : Default Page</title>
+</head>
+
+<style>
+body {
+	font-family: Tahoma, Verdana, Arial, Helvertica, sans-serif;
+	font-size: 8pt;
+	font-weight: 100;
+	background-image:url('./images/abstract.jpg');
+	background-color:#cccccc;
+	margin: 0;
+}
+a {
+	text-decoration: none;
+}
+img {
+	border: 0;
+}
+
+img.logo {
+	margin: 5px;
+	padding: 0;
+}
+
+table.header {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	font-family: Tahoma, Verdana, Arial, Helvertica, sans-serif;
+	font-size: 8pt;
+	font-weight: 100;
+}
+
+table.content {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	/* height: 100%; */
+	font-family: Tahoma, Verdana, Arial, Helvertica, sans-serif;
+	font-size: 8pt;
+	font-weight: 100%;
+}
+
+table.content_body td {
+	border-collapse: collapse;
+	border: 1px dashed #cccccc;
+	font-family: Tahoma, Verdana, Arial, Helvertica, sans-serif;
+	font-size: 10pt;
+	color: #444444;
+	padding:10px;
+	spacing:0;
+}
+
+table.content_title td {
+	border-collapse: collapse;
+	border: 0;
+	font-family: Tahoma, Verdana, Arial, Helvertica, sans-serif;
+	font-size: 12pt;
+	color: #336699;
+}
+
+</style>
+
+<body>
+
+<table class="header">
+	<tr>
+		<td width="100%"><img class="logo" src="./images/logo.png" height="75" alt="hosting-logo"></td>
+		<td><a href="http://mratwork.com/work/" title="Go to Kloxo-MR website"><img class="logo" src="./images/kloxo-mr.png" alt="kloxo-mr-logo" height="75"></a></td>
+	</tr>
 </table>
-<br><br>
-<table width=100% height=300 cellpadding=0 cellspacing=0>
-<tr>
-<td width=50>&nbsp;</td>
-<td valign=top>
-<table  width=100%  cellpadding=0 cellspacing=0>
-<tr><td><br>
-<font face="arial" size="3" color="#336699"><b>
-This is the Kloxo Default Page</b></font>
-</td></tr></table><br>
-<table border="0" cellpadding="5" cellspacing="0" style="border-collapse: collapse; border: 1px dashed #cccccc" bordercolor="#111111" width="600">
-<tr><td width="100%" bgcolor="#F5F5F5"><font size=2 face=arial color="#444444"> If you are seeing this page, it means that web has not been configured for this domain on this server. <br> <br> 
+<table class="content">
+	<tr>
+		<td width="50">&nbsp;</td>
+		<td valign="middle" width="100%">
+<div align="center">
+		<table  class="content_body" width="640">
+			<tr>
+				<td width="100%" bgcolor="#eeeeee">
+If you are seeing this page, it means that web has not been configured for this domain on this server. <br> <br> 
 
 This could be due to the following causes: <br>  <br> 
 
@@ -27,11 +92,12 @@ This could be due to the following causes: <br>  <br>
 
 <li> Once you map an IP to a domain, then you have to make sure that the domain pings back to the same IP. Otherwise, if you try to access the domain, you will get this page. So IP -> domain.com should mean that domain.com pings to the same IP.
 
-<br> <br> 
-
-</font></td></tr>
- </table>
-</td><td width=280 valign=center ><img src="./images/disableskeletonbg.gif"></td></tr>
+		</table>
+</div>
+		</td>
+		<td width="50">&nbsp;</td>
+	</tr>
 </table>
-</html>
+</body>
 
+</html>
