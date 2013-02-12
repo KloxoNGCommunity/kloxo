@@ -31,6 +31,9 @@ kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 ### 1. download and unzip phase
 
 echo "Download Kloxo-MR Dev git from "${kloxo_path}
+
+cd /tmp
+rm -rf ./kloxo/*
 rm -rf ${kloxo_branch}* > /dev/null 2>&1
 wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip
 
