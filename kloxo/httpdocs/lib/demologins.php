@@ -15,6 +15,8 @@ $res['Mail Account'] = array('postmaster@example.com', 'mailaccount');
 $color = "style='border:1px solid black'";
 print("<table cellspacing=0 cellpadding=0> ");
 
+print(" <tr> <td colspan='2'>Demo:</td></tr>");
+
 foreach($res as $k => $v) {
 
 	$formname = $v[0] . "_" . $v[1];
@@ -41,13 +43,18 @@ foreach($res as $k => $v) {
 		$var = 'show';
 	}
 
-	$image = $ghtml->get_image("/img/image/collage/button/", $class, $var, ".gif");
+//	$image = $ghtml->get_image("/img/image/collage/button/", $class, $var, ".gif");
+//	print(" <img width='20' height='20' src='$image'>&nbsp;</td><td $color ><a href=javascript:document.$formname.submit()> Click here to Login as $k ($v[0])</a>");
 
-	print(" <img width=20 height=20 src=$image> </td> <td $color ><a href=javascript:document.$formname.submit()> Click here to Login as $k ($v[0])</a>");
+	print("&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;</td><td $color ><a href=javascript:document.$formname.submit()> Click here to Login as $k ($v[0])</a>");
 	print("</td></tr>");
 }
 
-	print(" <tr> <td ><img width=20 height=20 src=/img/general/button/on.gif> </td> <td ><a href=http://forum.lxcenter.org/ target='_blank'> Visit our forums.</a> </td></tr>");
-	print(" <tr> <td ><img width=20 height=20 src=/img/general/button/on.gif> </td> <td ><a href=http://www.lxcenter.org/ target='_blank'> LxCenter</a> </td></tr>");
-print("</table>");
+//	print(" <tr> <td ><img width=20 height=20 src=/img/general/button/on.gif> </td> <td ><a href=http://forum.mratwork.com/ target='_blank'> Visit our forums.</a> </td></tr>");
+//	print(" <tr> <td ><img width=20 height=20 src=/img/general/button/on.gif> </td> <td ><a href=http://mratwork.com/ target='_blank'> MRatWork</a> </td></tr>");
+	print(" <tr> <td colspan='2'>&nbsp;</td></tr>");
+	print(" <tr> <td colspan='2'>Links:</td></tr>");
+	print(" <tr> <td >&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;</td> <td ><a href=http://forum.mratwork.com/ target='_blank'> Visit our forums</a> </td></tr>");
+	print(" <tr> <td >&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;</td> <td ><a href=http://mratwork.com/ target='_blank'> MRatWork</a> </td></tr>");
+	print("</table>");
 
