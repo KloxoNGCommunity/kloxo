@@ -111,6 +111,8 @@ function updatecleanup_main()
 	exec("service xinetd restart");
 
 	log_cleanup("*** Executing Update (cleanup) - END ***");
+	
+	print("\nClick 'Enter' to finishing this process");
 }
 
 function cp_dbfile()
