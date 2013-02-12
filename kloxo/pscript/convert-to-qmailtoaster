@@ -1,5 +1,27 @@
 #!/bin/sh
 
-echo
-echo "Not implementing yet. Your Kloxo-MR still using old qmail-toaster"
+if rpm -q qmail-toaster 2>&1 > /dev/null ; then
+	echo
+	echo "Mail server already use qmail-toaster"
+	echo
+	exit
+else
+	echo
+	echo "Mail server already use qmail from LxCenter"
+	echo "Convert processing..."
+	echo
+fi
+
+yum remove qmail vpopmsil *-toaster -y
+cp -f /usr/local/lxlabs/kloxo/file/kloxo-mr_mratwork.repo /etc/yum.repos.d/kloxo-mr.repo
+yum clean all
+yum install *toaster -y
+sh /script/fix-qmail-assign
+rm -f /etc/xinetd.d/*_lxa
+chkconfig courier-imap off
+rm -f /etc/rd.d/init.d/courier-imap
+echo 'localhost' > /var/qmail/control/locals
+sh /script/cleanup
+
+echo "Need reboot!"
 echo
