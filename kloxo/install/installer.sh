@@ -53,7 +53,7 @@ if [ "$1" != "-y" ]; then
 				break
 				;;
    			"Quit")
-				break
+				exit
 				;;
 				*) echo "  * Invalid option!";;
 		esac
