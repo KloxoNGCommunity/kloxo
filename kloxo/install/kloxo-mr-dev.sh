@@ -88,6 +88,7 @@ zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe/closeallinput" "./kloxo
 rm -rf ./kloxo > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1
 rm -rf ./install > /dev/null 2>&1
+rm -rf ./kloxo-dev.zip
 
 sh installer.sh
 

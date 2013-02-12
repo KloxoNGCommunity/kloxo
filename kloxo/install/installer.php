@@ -341,10 +341,10 @@ function kloxo_install_step1()
 
 //	if (getKloxoType() === '') {
 	print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
-//	system("groupadd nogroup");
-//	system("useradd nouser -g nogroup -s '/sbin/nologin'");
-//	system("groupadd lxlabs");
-	system("useradd lxlabs -g lxlabs -s '/sbin/nologin' -d /usr/local/lxlabs");
+	system("groupadd nogroup");
+	system("useradd nouser -g nogroup -s '/sbin/nologin'");
+	system("groupadd lxlabs");
+//	system("useradd lxlabs -g lxlabs -s '/sbin/nologin' -d /usr/local/lxlabs");
 
 /*
 	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",

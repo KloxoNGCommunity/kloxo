@@ -97,7 +97,7 @@ if (!$cgi_forgotpwd) {
                     <div class="inputlabel">Email Id</div>
                     <input name="frm_email" type="text" class="passbox" size="30"/>
                     <br/>
-
+                    <input type="hidden" name="frm_forgotpwd" value="2"/>
                     <div align="left"><input type="submit" class="button" name="forgot" value="Send"/></div>
                 </div>
             </form>
@@ -109,10 +109,6 @@ if (!$cgi_forgotpwd) {
             <p>Use a valid username and email-id to get password.</p>
             <br/>
             <a class=forgotpwd href="javascript:history.go(-1);"><font color="black"><u>Back to login</u></a>
-
-            <form name="forgotpassword" method="post" action="/login/">
-                <input type="hidden" name="frm_forgotpwd" value="2"/>
-            </form>
         </div>
 
         <script> document.sendmail.frm_clientname.focus(); </script>
@@ -140,7 +136,6 @@ if (!$cgi_forgotpwd) {
 	if (!$classname) {
 		$classname = getClassFromName($cgi_clientname);
 	}
-
 
 	if ($cgi_clientname != "" && $cgi_email != "") {
 		$tablename = $classname;
