@@ -59,7 +59,7 @@ gpgcheck=0
 [kloxo-mr-lxcenter]
 name=Kloxo-MR - lxcenter - $basearch
 baseurl=http://download.lxcenter.org/download/update/centos-$releasever/$basearch/
-enabled=1
+enabled=0
 gpgcheck=0
 includepkgs=vpopmail qmail spamassasin *-toaster djbdns
 
