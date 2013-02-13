@@ -15,12 +15,13 @@ A.1. pre-install -- better for fresh install
 
     cd /
 
-A.2. Install/reinstall/upgrade -- data not destroyed with this fork - for existing kloxo (6.1.x), run 'sh /script/update' first.
+A.2. Install/reinstall/upgrade -- data not destroyed with this fork - 
+     for existing kloxo (6.1.x), run 'sh /script/update' first.
 
     # delete if exist, create kloxo temp dir
     rm -rf /tmp/kloxo; mkdir /tmp/kloxo ; cd /tmp/kloxo
 
-    # get kloxo packer from github
+    # get kloxo-mr-dev installer from github
     wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/install/kloxo-mr-dev.sh --no-check-certificate
 
     # install kloxo
