@@ -12,7 +12,7 @@ else
 	echo
 fi
 
-yum remove qmail vpopmsil *-toaster -y
+yum remove qmail vpopmail *-toaster -y
 cp -f /usr/local/lxlabs/kloxo/file/kloxo-mr_mratwork.repo /etc/yum.repos.d/kloxo-mr.repo
 yum clean all
 yum install *toaster -y
