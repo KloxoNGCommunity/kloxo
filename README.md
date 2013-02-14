@@ -21,6 +21,7 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 * Webmail: Afterlogic Webmail Lite, T-Dah and Squirrelmail; beside Roundcube and Horde
 * FTP server: Pure-ftpd
 * DNS Server: Bind, Djbdns and Powerdns (in progress)
+* Addons: ClamAV, Spamassassin/Bogofilter/Spamdyke and RKHunter
 * Fixed many bugs of Kloxo Official (including security issues)
 * And many more!
 

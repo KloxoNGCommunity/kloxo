@@ -345,6 +345,7 @@ function kloxo_install_step1()
 	system("useradd nouser -g nogroup -s '/sbin/nologin'");
 	system("groupadd lxlabs");
 //	system("useradd lxlabs -g lxlabs -s '/sbin/nologin' -d /usr/local/lxlabs");
+	system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
 
 /*
 	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",

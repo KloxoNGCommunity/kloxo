@@ -9,14 +9,14 @@ class Spam__Spamassassin extends lxDriverClass
 		if ($ret) {
 			throw new lxexception('install_spamassassin_failed', 'parent');
 		}
-		lxshell_return("chkconfig", "spamassassin", "on");
-		lxfile_cp("../file/sysconfig_spamassassin", "/etc/sysconfig/spamassassin");
-		createRestartFile("spamassassin");
+	//	lxshell_return("chkconfig", "spamassassin", "on");
+	//	lxfile_cp("../file/sysconfig_spamassassin", "/etc/sysconfig/spamassassin");
+	//	createRestartFile("spamassassin");
 	}
 
 	static function uninstallMe()
 	{
-		lxshell_return("service", "spamassassin", "stop");
+	//	lxshell_return("service", "spamassassin", "stop");
 		lxshell_return("rpm", "-e", "--nodeps", "spamassassin-toaster");
 	}
 

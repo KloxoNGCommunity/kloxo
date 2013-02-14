@@ -19,7 +19,9 @@ A.2. Install/reinstall/upgrade -- data not destroyed with this fork -
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
     # delete if exist, create kloxo temp dir
-    rm -rf /tmp/kloxo; mkdir /tmp/kloxo ; cd /tmp/kloxo
+    rm -rf /tmp/kloxo; mkdir /tmp/kloxo ; cd /tmp/kloxo; 
+	
+	rm -f ./kloxo-mr-dev.sh
 
     # get kloxo-mr-dev installer from github
     wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/install/kloxo-mr-dev.sh --no-check-certificate
