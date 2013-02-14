@@ -19,7 +19,7 @@ yum install *toaster -y
 sh /script/fix-qmail-assign
 rm -f /etc/xinetd.d/*_lxa
 chkconfig courier-imap off
-rm -f /etc/rd.d/init.d/courier-imap
+rm -f /etc/rc.d/init.d/courier-imap
 echo 'localhost' > /var/qmail/control/locals
 sh /script/cleanup
 
