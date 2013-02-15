@@ -575,6 +575,9 @@ foreach ($certnamelist as $ip => $certname) {
     ServerName <?php echo $redirdomainname; ?>
 
 
+    ServerAlias www.<?php echo $redirdomainname; ?>
+	
+	
     DocumentRoot "<?php echo $redirfullpath; ?>/"
 
     DirectoryIndex <?php echo $indexorder; ?>
@@ -666,6 +669,9 @@ foreach ($certnamelist as $ip => $certname) {
     ServerName <?php echo $redirdomainname; ?>
 
 
+    ServerAlias www.<?php echo $redirdomainname; ?>
+	
+	
     Redirect / "http://<?php echo $domainname; ?>/"
 <?php
     if ($count !== 0) {

@@ -321,6 +321,9 @@ class web__ extends lxDriverClass
 			$tplparse = getParseInlinePhp($tpl, $input);
 			file_put_contents($tpltarget, $tplparse);
 		} else {
+			// MR -- make simple, delete all .conf files first
+			exec("rm -f /etc/php-fpm.d/*.conf");
+
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf");
 			lxfile_cp($cfgmain, "/etc/php-fpm.conf");
@@ -333,9 +336,9 @@ class web__ extends lxDriverClass
 				$input['user'] = $user;
 				$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 				$tplparse = getParseInlinePhp($tpl, $input);
-				if ($tplparse) {
+			//	if ($tplparse) {
 					file_put_contents($tpltarget, $tplparse);	
-				}
+			//	}
 			}
 
 			// MR - for 'default' user
@@ -352,6 +355,7 @@ class web__ extends lxDriverClass
 
 		createRestartFile('php-fpm');
 	}
+
 
 // MR -- (2) call by 'related to create conf file' (1)
 
@@ -1107,6 +1111,10 @@ class web__ extends lxDriverClass
 		// meanwhile enough in here
 
 		$this->createCpConfig();
+
+		// createPhpFpmConfig not work; change to fixphpfpm
+	//	$this->createPhpFpmConfig();
+		lxshell_return("sh", "/script/fixphpfpm", "--nolog");
 	}
 
 	function addDomain()
@@ -1123,6 +1131,10 @@ class web__ extends lxDriverClass
 		// MR -- no needed and have a trouble for userlist on __default.conf		
 	//	$this->createWebmailDefaultConfig();
 	//	$this->createCpConfig();
+
+		// createPhpFpmConfig not work; change to fixphpfpm
+	//	$this->createPhpFpmConfig();
+		lxshell_return("sh", "/script/fixphpfpm", "--nolog");
 	}
 
 	function dbactionAdd()

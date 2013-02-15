@@ -508,7 +508,7 @@ server {
                     }
 ?>
 
-    server_name '<?php echo $redirdomainname; ?>';
+    server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
 
     index <?php echo $indexorder; ?>;
 
@@ -553,7 +553,7 @@ server {
                     }
 ?>
 
-    server_name '<?php echo $redirdomainname; ?>';
+    server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
 
     if ($host != '<?php echo $domainname; ?>') {
         rewrite ^/(.*) 'http://<?php echo $domainname; ?>/$1';
