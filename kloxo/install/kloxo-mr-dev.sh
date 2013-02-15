@@ -39,7 +39,7 @@ mkdir -p /tmp/kloxo
 cd ./kloxo
 wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip
 
-mv -f ${kloxo_branch} kloxo-dev.zip > /dev/null 2>&1
+mv -f ${kloxo_branch}* kloxo-dev.zip > /dev/null 2>&1
 unzip -oq kloxo-dev.zip > /dev/null 2>&1
 rm -rf kloxo-mr-dev.zip > /dev/null 2>&1
 

@@ -35,7 +35,7 @@ if [ "$#" == 0 ] ; then
 	echo "  * Thirdparty packages download directly for latest version"
 	echo "  * Then run kloxo-installer.sh which the same place with local copy"
 	echo
-	echo " - packer.sh detect './kloxo/httpdocs' and then used it as source" 
+	echo " - If packer.sh detect './kloxo/httpdocs' and then used it as source" 
 	exit;
 fi
 

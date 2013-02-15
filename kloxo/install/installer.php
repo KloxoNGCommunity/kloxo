@@ -295,9 +295,12 @@ function install_main()
 	$pattern = 'include "/etc/kloxo.named.conf";';
 	$file = "/var/named/chroot/etc/named.conf";
 	$comment = "//Kloxo";
-	addLineIfNotExist($file, $pattern, $comment);
-	touch("/var/named/chroot/etc/kloxo.named.conf");
-	chown("/var/named/chroot/etc/kloxo.named.conf", "named");
+	
+	if (!file_exists($file)) {
+		addLineIfNotExist($file, $pattern, $comment);
+		touch($file);
+		chown($file, "named");
+	}
 }
 
 function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
@@ -305,11 +308,19 @@ function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 	file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u vpopmail\"");
 
 	print("\nCreating Vpopmail database...\n");
-
+/*
 	if (isRpmInstalled('qmail')) {
 		system("sh /usr/local/lxlabs/kloxo/bin/misc/lxpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
-	} else {
+	} elseif (isRpmInstalled('qmail-toaster')) {
 		system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+	}
+*/
+	if (file_exists("/home/vpopmail/etc")) {
+		system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+	}
+	
+	if (file_exists("/home/lxadmin/mail/etc")) {
+		system("sh /usr/local/lxlabs/kloxo/bin/misc/lxpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
 	}
 
 	// MR -- until Kloxo-MR 6.5.1, still using the same mail path
