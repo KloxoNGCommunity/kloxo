@@ -47,3 +47,5 @@ foreach($list as $c) {
 		}
 	}
 }
+
+changeMailSoftlimit();

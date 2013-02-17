@@ -122,6 +122,8 @@ class Sgbl
 		$this->__var_progservice_bind = 'named';
 		$this->__var_programname_mmail = 'qmail';
 		//$this->__var_programname_imap = 'courier-imap';
+		$this->__var_programname_imap = 'dovecot';
+
 		$this->__var_programuser_dns = 'named';
 
 		$this->__var_no_sync = false;
@@ -257,6 +259,7 @@ class Sgbl
 		$this->__var_service_desc['php-fpm'] = "Php Fastcgi Process Manager";
 
 		$this->__var_service_desc['qmail'] = "Qmail-toaster Mail Server";
+		$this->__var_service_desc['dovecot'] = "Dovecot Pop3/IMAP Server";
 
 		$this->__var_service_desc['named'] = "Bind Dns Server";
 		$this->__var_service_desc['bind9'] = "Bind Dns Server";

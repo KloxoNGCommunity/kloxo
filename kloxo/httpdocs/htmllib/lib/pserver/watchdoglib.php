@@ -82,10 +82,18 @@ class watchdog extends lxdb
 
 		self::addOneWatchdog($pserver, "web", "80", "__driver_web");
 
-		self::addOneWatchdog($pserver, "smtp", "25", "/etc/init.d/xinetd restart");
+	//	self::addOneWatchdog($pserver, "smtp", "25", "/etc/init.d/xinetd restart");
+
+		// MR -- also pop3/imap when using courier-imap-toaster
+		self::addOneWatchdog($pserver, "smtp", "25", "/etc/init.d/qmail restart");
+
 		self::addOneWatchdog($pserver, "ftp", "21", "/etc/init.d/xinetd restart");
-		self::addOneWatchdog($pserver, "pop", "110", "/etc/init.d/courier-imap restart");
-		self::addOneWatchdog($pserver, "imap", "143", "/etc/init.d/courier-imap restart");
+	//	self::addOneWatchdog($pserver, "pop", "110", "/etc/init.d/courier-imap restart");
+	//	self::addOneWatchdog($pserver, "imap", "143", "/etc/init.d/courier-imap restart");
+
+		self::addOneWatchdog($pserver, "pop", "110", "/etc/init.d/dovecot restart");
+		self::addOneWatchdog($pserver, "imap", "143", "/etc/init.d/dovecot restart");
+
 		self::addOneWatchdog($pserver, "mysql", "3306", "/etc/init.d/mysqld restart");
 
 		// MR -- no need special handling for php-fpm but including in __driver_web

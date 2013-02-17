@@ -74,7 +74,9 @@ function updatecleanup_main()
 		"mod_* mysql* php* lx*",
 		"bind* djbdns* pure-ftpd*",
 		"*-toaster bogofilter",
-		"kloxo-*.noarch"
+		"kloxomr-webmail-*.noarch",
+		"kloxomr-addon-*.noarch",
+		"kloxomr-thirdparty-*.noarch"
 	);
 
 	setUpdateServices($slist);
