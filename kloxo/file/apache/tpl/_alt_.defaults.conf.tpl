@@ -162,8 +162,7 @@ if ($setdefaults === 'ssl') {
 
         <IfModule mod_fastcgi.c>
             Alias /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake"
-            FastCGIExternalServer "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
-
+            FastCGIExternalServer "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 180
             AddType application/x-httpd-fastphp .php
             Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake
 
@@ -184,8 +183,8 @@ if ($setdefaults === 'ssl') {
         </IfModule>
 
         <IfModule mod_proxy_fcgi.c>
-            ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-            ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+            ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=180
+            ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=180
         </IfModule>
 
         <Location/>
