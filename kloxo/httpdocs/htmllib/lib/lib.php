@@ -6124,10 +6124,10 @@ function setInitialPureftpConfig($nolog = null)
 	log_cleanup("Initialize PureFtp service", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
-	if (lxfile_exists("/etc/xinetd.d/pure-ftpd")) {
+//	if (lxfile_exists("/etc/xinetd.d/pure-ftpd")) {
 		log_cleanup("- Remove /etc/xinetd.d/pure-ftpd service file", $nolog);
 		@lxfile_rm("/etc/xinetd.d/pure-ftpd");
-	}
+//	}
 
 	if (!lxfile_exists("/etc/xinetd.d/pureftp")) {
 		log_cleanup("- Install /etc/xinetd.d/pureftp TCP Wrapper file", $nolog);
