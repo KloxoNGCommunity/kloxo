@@ -438,8 +438,12 @@ class serverweb__ extends lxDriverClass
 		} else {
 		//	lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
 			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
-		}
 
-		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
+			if (stripos($this->main->php_type, 'suphp') !== false) {
+				lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
+			} else {
+				lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
+			}
+		}
 	}
 }

@@ -203,7 +203,7 @@ server {
 ?>
 
     location ~ ^<?php echo $rl[0]; ?>/(.*)$ {
-            alias $rootdir<?php echo str_replace("//", "/", $rl[1]); ?>/$1;
+            alias $rootdir <?php echo str_replace("//", "/", $rl[1]); ?>/$1;
     }
 <?php
             }
@@ -524,7 +524,7 @@ server {
                     } else {
 ?>
 
-    set $fpmport <?php echo $fpmport; ?>';
+    set $fpmport '<?php echo $fpmport; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
 

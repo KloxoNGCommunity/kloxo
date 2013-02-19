@@ -39,7 +39,7 @@ echo
 
 if [ "$1" != "-y" ]; then
 	echo
-	echo "Select Master/Slave for Kloxo-MR"
+	echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
 	PS3='- Please enter your choice: '
 	options=("Master" "Slave")
 	select opt in "${options[@]}" "Quit"; do 
