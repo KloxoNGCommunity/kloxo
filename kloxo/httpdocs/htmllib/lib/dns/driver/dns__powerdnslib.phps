@@ -17,41 +17,40 @@
 *	
 */
 
+class dns__powerdns extends lxDriverClass
+{
+	function dbactionUpdate($subaction)
+	{
+		$this->dbactionDelete();
+		$this->dbactionAdd();
+	}
 
-class dns__powerdns extends lxDriverClass {
+	function dbConnect()
+	{
 
-    function dbactionUpdate($subaction) 
-    { 
-	$this->dbactionDelete();
-	$this->dbactionAdd();
-    }
+		include_once "/usr/local/lxlabs/kloxo/etc/powerdns.conf.inc";
+		mysql_connect($power_sql_host, $power_sql_user, $power_sql_pwd);
+		mysql_select_db($power_sql_db);
 
-    function dbConnect()
-    {
+	}
 
-	include_once "/usr/local/lxlabs/kloxo/etc/powerdns.conf.inc";
-	mysql_connect($power_sql_host,$power_sql_user,$power_sql_pwd);
-	mysql_select_db($power_sql_db);
+	function dbClose()
+	{
+		@mysql_close();
+	}
 
-    }
-
-    function dbClose() 
-    {
-	@mysql_close();
-    }
-
-    function dbactionAdd()
-    {
-	$this->dbConnect();
+	function dbactionAdd()
+	{
+		$this->dbConnect();
 
 		$domainname = $this->main->nname;
 		mysql_query("INSERT INTO domains (name,type) values('$domainname','NATIVE')");
 
-		if(mysql_affected_rows()) {
+		if (mysql_affected_rows()) {
 			$this_domain_id = mysql_insert_id();
 
-			foreach($this->main->dns_record_a as $k => $o) {
-				switch($o->ttype) {
+			foreach ($this->main->dns_record_a as $k => $o) {
+				switch ($o->ttype) {
 					case "ns":
 						mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$domainname','$o->param','NS','3600','NULL')");
 						break;
@@ -62,6 +61,7 @@ class dns__powerdns extends lxDriverClass {
 					case "a":
 						$key = $o->hostname;
 						$value = $o->param;
+						
 						if ($key === '*') {
 							$starvalue = "* IN A $value";
 							break;
@@ -91,9 +91,10 @@ class dns__powerdns extends lxDriverClass {
 							$starvalue = "*		IN CNAME $value\n";
 							break;
 						}
+					
 						mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','CNAME','3600','NULL')");
+	
 						break;
-
 					case "fcname":
 						$key = $o->hostname;
 						$value = $o->param;
@@ -108,12 +109,14 @@ class dns__powerdns extends lxDriverClass {
 						}
 
 						mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','CNAME','3600','NULL')");
+	
 						break;
-
 					case "txt":
 						$key = $o->hostname;
 						$value = $o->param;
-						if($o->param === null) continue;	
+						if ($o->param === null) {
+							continue;
+						}
 
 						if ($key !== "__base__") {
 							$key = "$key.$domainname.";
@@ -127,26 +130,24 @@ class dns__powerdns extends lxDriverClass {
 						break;
 				}
 			}
-			
 		}
-			
 
-	$this->dbClose();
-   }
-
+		$this->dbClose();
+	}
 
 	function dbactionDelete()
 	{
-		$this->dbConnect();		
-		$this_domain =  $this->main->nname;
-		$my_query = mysql_query("SELECT * FROM domains WHERE name='".$this_domain."'");
-		if (mysql_num_rows($my_query)){
+		$this->dbConnect();
+		$this_domain = $this->main->nname;
+		$my_query = mysql_query("SELECT * FROM domains WHERE name='" . $this_domain . "'");
+		
+		if (mysql_num_rows($my_query)) {
 			$this_row = mysql_fetch_object($my_query);
 			$this_domain_id = $this_row->id;
-		
-			@mysql_query("DELETE FROM domains WHERE id='".$this_domain_id."'");
-			@mysql_query("DELETE FROM records WHERE domain_id='".$this_domain_id."'");
-			
+
+			@mysql_query("DELETE FROM domains WHERE id='" . $this_domain_id . "'");
+			@mysql_query("DELETE FROM records WHERE domain_id='" . $this_domain_id . "'");
+
 		}
 
 		$this->dbClose();
@@ -155,8 +156,6 @@ class dns__powerdns extends lxDriverClass {
 	function dosyncToSystemPost()
 	{
 		global $sgbl;
-
 	}
-
 }
 

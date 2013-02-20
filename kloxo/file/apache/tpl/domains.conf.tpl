@@ -105,9 +105,6 @@ foreach ($certnamelist as $ip => $certname) {
 
     ServerName <?php echo $domainname; ?>
 
-
-    ServerAlias <?php echo $serveralias; ?>
-
 <?php
     if ($count !== 0) {
 ?>
@@ -139,6 +136,18 @@ foreach ($certnamelist as $ip => $certname) {
 
     DirectoryIndex <?php echo $indexorder; ?>
 
+
+    ServerAlias <?php echo $serveralias; ?>
+
+
+    Alias /__kloxo "/home/<?php echo $user; ?>/kloxoscript/"
+
+    Redirect /kloxo "https://cp.<?php echo $domainname; ?>:7777"
+    Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:7778"
+
+    Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
+
+    ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
 <?php
     if ($redirectionlocal) {
         foreach ($redirectionlocal as $rl) {
@@ -189,6 +198,7 @@ foreach ($certnamelist as $ip => $certname) {
     <IfModule itk.c>
         AssignUserId <?php echo $user; ?> <?php echo $user; ?>
 
+
         <Location "/awstats/">
             AssignUserId apache apache
         </Location>
@@ -221,19 +231,10 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/ timeout=180
     </IfModule>
 
-    Alias /__kloxo "/home/<?php echo $user; ?>/kloxoscript/"
-
-    Redirect /kloxo "https://cp.<?php echo $domainname; ?>:7777"
-    Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:7778"
-
-    Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
-
     <IfModule mod_php5.c>
         php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
         php_admin_value sendmail_from "<?php echo $domainname; ?>"
     </IfModule>
-
-    ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
 
     <Directory "<?php echo $rootpath; ?>/">
         AllowOverride All

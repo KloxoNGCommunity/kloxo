@@ -4,7 +4,9 @@ include_once "htmllib/lib/pserver/driver/service__linuxlib.php";
 
 class Service__Redhat extends lxDriverClass
 {
-	/// We need to properly port this system to debian. I tried using the chkconfig directly on debian, but it seems the individual scripts themselves have to support chkconfig if it has to work, and thus chkconfig fails to run. Now the only way is to use update-rc.d program on debain.
+	// We need to properly port this system to debian. I tried using the chkconfig directly on debian, 
+	// but it seems the individual scripts themselves have to support chkconfig if it has to work, 
+	// and thus chkconfig fails to run. Now the only way is to use update-rc.d program on debain.
 
 	function dbactionAdd()
 	{
@@ -29,7 +31,6 @@ class Service__Redhat extends lxDriverClass
 		foreach ($cmdlist as $key => $cmd) {
 			exec_with_all_closed("{$sgbl->__path_real_etc_root}/init.d/{$cmd} $act");
 		}
-
 	}
 
 	function dbactionUpdate($subaction)
@@ -37,16 +38,17 @@ class Service__Redhat extends lxDriverClass
 		switch ($subaction) {
 			case "start":
 				$this->startStopService("start");
-				break;
 
+				break;
 			case "stop":
 				$this->startStopService("stop");
-				break;
 
+				break;
 			case "restart":
 				$this->startStopService("stop");
 				sleep(2);
 				$this->startStopService("start");
+
 				break;
 
 			case "toggle_boot_state":
@@ -57,7 +59,6 @@ class Service__Redhat extends lxDriverClass
 				}
 				
 				break;
-
 			case "toggle_state":
 				if ($this->main->isOn('state')) {
 					$this->startStopService("start");

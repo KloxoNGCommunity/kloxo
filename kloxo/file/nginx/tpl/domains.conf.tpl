@@ -207,7 +207,7 @@ server {
 ?>
 
     location ~ ^<?php echo $rl[0]; ?>/(.*)$ {
-            alias $rootdir <?php echo str_replace("//", "/", $rl[1]); ?>/$1;
+        alias $rootdir <?php echo str_replace("//", "/", $rl[1]); ?>/$1;
     }
 <?php
             }

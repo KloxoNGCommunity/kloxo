@@ -7,6 +7,7 @@ $list = parse_opt($argv);
 
 $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $client = (isset($list['client'])) ? $list['client'] : null;
+$domain = (isset($list['domain'])) ? $list['domain'] : null;
 $nolog  = (isset($list['nolog'])) ? $list['nolog'] : null;
 
 $target = (isset($list['target'])) ? $list['target'] : 'all';
@@ -36,6 +37,11 @@ foreach($list as $c) {
 
 	foreach((array) $dlist as $l) {
 		$web = $l->getObject('web');
+
+		if ($domain) {
+			$da = explode(",", $domain);
+			if (!in_array($web->nname, $da)) { continue; }
+		}
 
 		if (!in_array($web->syncserver, $slist)) {
 			if (($target === 'all') || ($target === 'defaults')) {

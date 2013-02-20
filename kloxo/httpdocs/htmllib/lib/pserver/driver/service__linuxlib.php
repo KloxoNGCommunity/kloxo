@@ -30,12 +30,12 @@ class Service__Linux extends Lxlclass
 		$nval['php-fpm'] = 'php-fpm';
 
 		$nval['named'] = 'named';
-	//	$nval['djbdns'] = "tinydns";
-		$nval['djbdns'] = "djbdns";
+		$nval['djbdns'] = "tinydns";
 
 		$nval['qmail'] = 'qmail';
 	//	$nval['courier-imap'] = 'courier';
 	//	$nval['spamassassin'] = 'spamassassin';
+		$nval['dovecot'] = 'dovecot';
 
 		$nval['iptables'] = "iptables";
 
