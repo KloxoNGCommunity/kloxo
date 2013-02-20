@@ -2,12 +2,12 @@
 
 class Mmail extends Lxdb
 {
-// Core
+	// Core
 	static $__desc = array("", "", "mail_");
 
-//Data
+	//Data
 	static $__desc_catchall = array("", "", "catchall_account");
-//static $__desc_autoresponder_num  	 = array("q", "",  "number_of_autoresponders");
+//	static $__desc_autoresponder_num  	 = array("q", "",  "number_of_autoresponders");
 	static $__desc_mx_f = array("n", "", "MX_record");
 	static $__desc_syncserver = array("sd", "", "mail_server");
 	static $__desc_maildisk_usage = array("q", "", "mail_disk_usage");
@@ -30,11 +30,11 @@ class Mmail extends Lxdb
 	static $__desc_text_spf_domain = array("t", "", "additional_domain_(one_per_line)");
 	static $__desc_text_spf_ip = array("t", "", "additional_IP(one_per_line)");
 
-// Objects
+	// Objects
 	static $__desc_spam_o = array("db", "", "");
 	static $__desc_mailinglist_l = array("qdb", "", "");
 
-// Lists
+	// Lists
 	static $__desc_mailaccount_l = array("dqb", "", "");
 	static $__desc_mailforward_l = array("db", "", "");
 	static $__acdesc_update_spam = array("", "", "spam_config");
@@ -126,18 +126,18 @@ class Mmail extends Lxdb
 	function createShowClist($subaction)
 	{
 		if ($this->ttype === 'forward') {
-			//	return null;
+		//	return null;
 		}
 
 		if ($this->remotelocalflag === 'remote') {
-			//	return null;
+		//	return null;
 		}
 
 		return null;
 
-		//	$clist['mailaccount'] = null;
+	//	$clist['mailaccount'] = null;
 
-		//	return $clist;
+	//	return $clist;
 	}
 
 
@@ -145,8 +145,8 @@ class Mmail extends Lxdb
 	{
 		return null;
 
-		//	$rlist['priv'] = null;
-		//	return $rlist;
+	//	$rlist['priv'] = null;
+	//	return $rlist;
 
 	}
 
@@ -409,8 +409,14 @@ class Mmail extends Lxdb
 		// MR -- still have a problem - need click 2 times for 'update'/'update all' button
 		// just single make kloxo recreate webserver config with reference to 'old' state!
 
+	//	if ($this->subaction === 'remotelocalmail' || $this->subaction === 'webmail_select') {
+	//		$this->fixWebmailRedirect();
+	//	}
+
 		if ($this->subaction === 'remotelocalmail' || $this->subaction === 'webmail_select') {
-			$this->fixWebmailRedirect();
+			$web = $this->getParentO()->getObject('web');
+
+			$web->setUpdateSubaction('addondomain');
 		}
 	}
 
@@ -442,14 +448,17 @@ class Mmail extends Lxdb
 	//	$web->setUpdateSubaction('addondomain');
 
 */
-		$user = $this->getParentO()->getObject('web')->username;
+	//	$user = $this->getParentO()->getObject('web')->username;
 
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
-		lxshell_return("lxphp.exe", $scripting, "--client={$user}", "--nolog");
+	//	$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+	//	lxshell_return("lxphp.exe", $scripting, "--client={$user}", "--nolog");
 
 		// MR -- must be return null to prevent blank page
 	//	return null;
 
+		$web = $this->getParentO()->getObject('web');
+
+		$web->setUpdateSubaction('addondomain');
 	}
 
 

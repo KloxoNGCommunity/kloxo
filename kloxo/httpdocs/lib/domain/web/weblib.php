@@ -98,11 +98,11 @@ class Redirect_a extends LxaClass
 		$ttype = $param['ttype'];
 		$redirect = $param['redirect'];
 
-		if ($ttype == 'remote') {
-			if (!csb($redirect, "http")) {
-				$redirect = "http://" . $redirect;
-			}
+		if (csb($redirect, "http://") || csb($redirect, "https://")) {
+			throw new lxException("no_need_protocol_http_or_https_for_location", '', $ttype);
 		}
+
+		$redirect = str_replace("//", "/", $redirect);
 
 		$param['redirect'] = $redirect;
 
@@ -124,7 +124,6 @@ class Redirect_a extends LxaClass
 	static function addform($parent, $class, $typetd = null)
 	{
 		if ($typetd['val'] === 'remote') {
-			//$httporssl = array('var' => 'httporssl', 'val' => array('s', array('http', 'https', 'both')));
 			$vlist['httporssl'] = array('s', array('both', 'http', 'https'));
 		}
 
@@ -475,7 +474,7 @@ class Web extends Lxdb
 		}
 
 		$this->__var_vdomain_list = $mydb->getRowsWhere($string, array('nname', 'ipaddress'));
-/*
+
 		// MR -- calling this vars from web__lib look like not work
 
 	//	$mmaildb = new Sqlite($this->__masterserver, 'mmail');
@@ -485,7 +484,7 @@ class Web extends Lxdb
 	//	$clientdb = new Sqlite($this->__masterserver, 'client');
 		$clientdb = new Sqlite(null, 'client');
 		$this->__var_clientlist = $clientdb->getRowsWhere($string, array('nname', 'parent_clname'));
-*/
+
 	}
 	
 
@@ -1391,7 +1390,7 @@ class Web extends Lxdb
 		}
 	}
 
-// Please note that this function is executed in the backend and thus the parent is not available.
+	// Please note that this function is executed in the backend and thus the parent is not available.
 	function replaceVariables($filename)
 	{
 		$cont = lfile_get_contents($filename);

@@ -411,9 +411,10 @@ class web__ extends lxDriverClass
 		// MR -- look like not work calling $this->main->__var_mmaillist
 		// so, taken from database directly
 
-		$string = "syncserver = '{$this->main->__syncserver}'";
-		$mmaildb = new Sqlite(null, 'mmail');
-		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
+	//	$string = "syncserver = '{$this->main->__syncserver}'";
+	//	$mmaildb = new Sqlite(null, 'mmail');
+	//	$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
+		$mlist = $this->main->__var_mmaillist;
 
 		if ($mlist) {
 			foreach ($mlist as $m) {

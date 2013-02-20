@@ -42,6 +42,9 @@ if ($webmailapp) {
     $webmaildocroot = "/home/kloxo/httpd/webmail";
 }
 
+$webmailremote = str_replace("http://", "", $webmailremote);
+$webmailremote = str_replace("https://", "", $webmailremote);
+
 if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
@@ -119,6 +122,7 @@ foreach ($certnamelist as $ip => $certname) {
     $count = 0;
 
     foreach ($ports as &$port) {
+        $protocol = ($count === 0) ? "http://" : "https://";
 ?>
 
 ## web for '<?php echo $domainname; ?>'
@@ -147,7 +151,7 @@ server {
 ?>
 
     if ($host != 'www.<?php echo $domainname; ?>') {
-        rewrite ^/(.*) 'http://www.<?php echo $domainname; ?>/$1' permanent;
+        rewrite ^/(.*) '<?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1' permanent;
     }
 <?php
         }
@@ -175,7 +179,7 @@ server {
                     } else {
                         if($webmailremote) {
 ?>
-        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
+        rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
 <?php
                         } else {
 ?>
@@ -211,16 +215,17 @@ server {
 
         if ($redirectionremote) {
             foreach ($redirectionremote as $rr) {
+                if ($rr[0] === '/') { $rr[0] = ''; }
                 if ($rr[2] === 'both') {
 ?>
 
-    rewrite ^<?php echo $rr[0]; ?>/(.*) <?php echo $rr[1]; ?>/$1 permanent;
-    #rewrite ^<?php echo $rr[0]; ?>/(.*) <?php echo str_replace("http://", "https://", $rr[1]); ?>/$1 permanent;
+    rewrite ^<?php echo $rr[0]; ?>/(.*) '<?php echo $protocol; ?><?php echo $rr[1]; ?>/$1' permanent;
 <?php
                 } else {
+                    $protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
 ?>
 
-                rewrite ^<?php echo $rr[0]; ?>/(.*) <?php echo $rr[1]; ?>/$1 permanent;
+    rewrite ^<?php echo $rr[0]; ?>/(.*) '<?php echo $protocol2; ?><?php echo $rr[1]; ?>/$1' permanent;
 <?php
                 }
             }
@@ -234,8 +239,8 @@ server {
 //        if (!$reverseproxy) {
 ?>
 
-    access_log /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log main;
-    error_log  /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log;
+    access_log '/home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log' main;
+    error_log  '/home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log';
 <?php
             if ($statsapp === 'awstats') {
 ?>
@@ -251,7 +256,7 @@ server {
     set $protectauthname 'Awstats';
     set $protectfile     '__stats';
 
-                include '<?php echo $globalspath; ?>/<?php echo $dirprotectconf; ?>';
+    include '<?php echo $globalspath; ?>/<?php echo $dirprotectconf; ?>';
 <?php
                 }
             } elseif ($statsapp === 'webalizer') {
@@ -383,7 +388,7 @@ server {
                 if ($reverseproxy) {
 ?>
 
-                include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
+    include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
 <?php
                 } else {
 ?>
@@ -422,7 +427,7 @@ server {
     server_name webmail.<?php echo $domainname; ?>;
 
     if ($host != '<?php echo $webmailremote; ?>') {
-        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1' permanent;
+        rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
     }
 }
 <?php
@@ -556,7 +561,7 @@ server {
     server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
 
     if ($host != '<?php echo $domainname; ?>') {
-        rewrite ^/(.*) 'http://<?php echo $domainname; ?>/$1';
+        rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $domainname; ?>/$1';
     }
 }
 
@@ -639,7 +644,7 @@ server {
     server_name 'webmail.<?php echo $parkdomainname; ?>';
 
     if ($host != '<?php echo $webmailremote; ?>') {
-        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
+        rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
     }
 }
 
@@ -651,7 +656,7 @@ server {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
-     listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                             if ($count !== 0) {
 ?>
@@ -784,7 +789,7 @@ server {
     server_name 'webmail.<?php echo $redirdomainname; ?>';
 
     if ($host != '<?php echo $webmailremote; ?>') {
-        rewrite ^/(.*) 'http://<?php echo $webmailremote; ?>/$1';
+        rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
     }
 }
 

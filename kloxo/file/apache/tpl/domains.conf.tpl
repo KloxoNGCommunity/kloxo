@@ -55,6 +55,9 @@ if ($webmailapp === $webmailappdefault) {
     }
 }
 
+$webmailremote = str_replace("http://", "", $webmailremote);
+$webmailremote = str_replace("https://", "", $webmailremote);
+
 if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
@@ -91,6 +94,7 @@ foreach ($certnamelist as $ip => $certname) {
     $count = 0;
 
     foreach ($ports as &$port) {
+        $protocol = ($count === 0) ? "http://" : "https://";
 ?>
 
 ## web for '<?php echo $domainname; ?>'
@@ -122,7 +126,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     RewriteEngine On
     RewriteCond %{HTTP_HOST} ^<?php echo str_replace('.', '\.', $domainname); ?>$ [NC]
-    RewriteRule ^(.*)$ http://www.<?php echo $domainname; ?>$1 [R=301,L]
+    RewriteRule ^(.*)$ <?php echo $protocol; ?>www.<?php echo $domainname; ?>$1 [R=301,L]
 <?php
     }
 
@@ -147,16 +151,16 @@ foreach ($certnamelist as $ip => $certname) {
 
     if ($redirectionremote) {
         foreach ($redirectionremote as $rr) {
-            if ($rr[2] === 'both') {
+            if ($rr[2] === 'both') {              
 ?>
 
-    Redirect <?php echo $rr[0]; ?> "<?php echo $rr[1]; ?>"
-#    Redirect <?php echo $rr[0]; ?> "<?php echo str_replace("http://", "https://", $rr[1]); ?>"
+    Redirect <?php echo $rr[0]; ?> "<?php echo $protocol; ?><?php echo $rr[1]; ?>"
 <?php
             } else {
+                $protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
 ?>
 
-    Redirect <?php echo $rr[0]; ?> "<?php echo $rr[1]; ?>"
+    Redirect <?php echo $rr[0]; ?> "<?php echo $protocol2; ?><?php echo $rr[1]; ?>"
 <?php
             }
         }
@@ -222,7 +226,7 @@ foreach ($certnamelist as $ip => $certname) {
     Redirect /kloxo "https://cp.<?php echo $domainname; ?>:7777"
     Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:7778"
 
-    Redirect /webmail "http://webmail.<?php echo $domainname; ?>"
+    Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
 
     <IfModule mod_php5.c>
         php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
@@ -263,8 +267,8 @@ foreach ($certnamelist as $ip => $certname) {
     Alias /awstatscss "/home/kloxo/httpd/awstats/wwwroot/css/"
     Alias /awstatsicons "/home/kloxo/httpd/awstats/wwwroot/icon/"
 
-    Redirect /stats "http://<?php echo $domainname; ?>/awstats/awstats.pl?config=<?php echo $domainname; ?>"
-    Redirect /stats/ "http://<?php echo $domainname; ?>/awstats/awstats.pl?config=<?php echo $domainname; ?>"
+    Redirect /stats "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl?config=<?php echo $domainname; ?>"
+    Redirect /stats/ "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl?config=<?php echo $domainname; ?>"
 
     <Location "/stats/">
         Options +Indexes
@@ -442,8 +446,7 @@ foreach ($certnamelist as $ip => $certname) {
     ServerName webmail.<?php echo $domainname; ?>
 
 
-    Redirect / "http://<?php echo $webmailremote; ?>"
-
+    Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
     if ($count !== 0) {
 ?>
@@ -670,7 +673,7 @@ foreach ($certnamelist as $ip => $certname) {
     ServerAlias www.<?php echo $redirdomainname; ?>
 	
 	
-    Redirect / "http://<?php echo $domainname; ?>/"
+    Redirect / "<?php echo $protocol; ?><?php echo $domainname; ?>/"
 <?php
     if ($count !== 0) {
 ?>
@@ -788,7 +791,7 @@ foreach ($certnamelist as $ip => $certname) {
     ServerName webmail.<?php echo $parkdomainname; ?>
 
 
-    Redirect / "http://<?php echo $webmailremote; ?>"
+    Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
     if ($count !== 0) {
 ?>
@@ -1002,7 +1005,7 @@ foreach ($certnamelist as $ip => $certname) {
     ServerName webmail.<?php echo $redirdomainname; ?>
 
 
-    Redirect / "http://<?php echo $webmailremote; ?>"
+    Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
     if ($count !== 0) {
 ?>

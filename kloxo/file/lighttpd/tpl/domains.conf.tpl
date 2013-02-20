@@ -51,6 +51,9 @@ if ($webmailapp) {
     $webmaildocroot = "/home/kloxo/httpd/webmail";
 }
 
+$webmailremote = str_replace("http://", "", $webmailremote);
+$webmailremote = str_replace("https://", "", $webmailremote);
+
 if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
@@ -127,6 +130,8 @@ foreach ($certnamelist as $ip => $certname) {
     $count = 0;
 
     foreach ($ports as &$port) {
+        $protocol = ($count === 0) ? "http://" : "https://";
+
         if ($count === 0) {
             if ($ip !== '*') {
                 $ipssl = "|" . $ip;
@@ -140,7 +145,7 @@ foreach ($certnamelist as $ip => $certname) {
 ## web for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "<?php echo $domainname; ?><?php echo $ipssl; ?>" {
 
-    url.redirect = ( "^/(.*)" => "http://www.<?php echo $domainname; ?>/$1" )
+    url.redirect = ( "^/(.*)" => "<?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1" )
 }
 
 
@@ -209,16 +214,17 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
 
         if ($redirectionremote) {
             foreach ($redirectionremote as $rr) {
+                if ($rr[0] === '/') { $rr[0] = ''; }
                 if ($rr[2] === 'both') {
 ?>
 
-    url.redirect  += ( "^(<?php echo $rr[0]; ?>/|<?php echo $rr[0]; ?>$)" => "<?php echo $rr[1]; ?>" )
-    #url.redirect  += ( "^(<?php echo $rr[0]; ?>/|<?php echo $rr[0]; ?>$)" => "<?php echo str_replace("http://", "https://", $rr[1]); ?>" )
+    url.redirect  += ( "^(<?php echo $rr[0]; ?>/|<?php echo $rr[0]; ?>$)" => "<?php echo $protocol; ?><?php echo $rr[1]; ?>" )
 <?php
                 } else {
+                    $protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
 ?>
 
-    url.redirect  += ( "^(/<?php echo $rr[0]; ?>/|/<?php echo $rr[0]; ?>$)" => "<?php echo $rr[1]; ?>" )
+    url.redirect  += ( "^(/<?php echo $rr[0]; ?>/|/<?php echo $rr[0]; ?>$)" => "<?php echo $protocol2; ?><?php echo $rr[1]; ?>" )
 <?php
                 }
             }
@@ -368,9 +374,9 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
-    $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
+$HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
-    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>/" )
+    url.redirect = ( "/" =>  "<?php echo $protocol; ?><?php echo $webmailremote; ?>/" )
 
 }
 
@@ -468,7 +474,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 ## web for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
-    url.redirect = ( "/" =>  "http://<?php echo $domainname; ?>/" )
+    url.redirect = ( "/" =>  "<?php echo $protocol; ?><?php echo $domainname; ?>/" )
 
 }
 
@@ -519,7 +525,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
-    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>/" )
+    url.redirect = ( "/" =>  "<?php echo $protocol; ?><?php echo $webmailremote; ?>/" )
 
 }
 
@@ -616,7 +622,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
-    url.redirect = ( "/" =>  "<?php echo $webmailremote; ?>/" )
+    url.redirect = ( "/" =>  "<?php echo $protocol; ?><?php echo $webmailremote; ?>/" )
 
 }
 
