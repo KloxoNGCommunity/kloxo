@@ -233,8 +233,6 @@ server {
 ?>
 
     set $user '<?php echo $user; ?>';
-
-    include '<?php echo $globalspath; ?>/<?php echo $genericconf; ?>';
 <?php
 //        if (!$reverseproxy) {
 ?>
@@ -292,6 +290,8 @@ server {
         if (!$disablephp) {
             if ($reverseproxy) {
 ?>
+
+    set $fpmport '<?php echo $fpmport; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
 <?php
@@ -354,6 +354,8 @@ server {
 <?php
         }
 ?>
+
+    include '<?php echo $globalspath; ?>/<?php echo $genericconf; ?>';
 }
 
 <?php

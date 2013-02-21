@@ -200,8 +200,6 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
     index-file.names = ( <?php echo $indexorder; ?> )
 
     var.user = "<?php echo $user; ?>"
-
-    include "<?php echo $globalspath; ?>/<?php echo $genericconf; ?>"
 <?php
         if ($redirectionlocal) {
             foreach ($redirectionlocal as $rl) {
@@ -331,6 +329,7 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
         }
 ?>
 
+    include "<?php echo $globalspath; ?>/<?php echo $genericconf; ?>"
 }
 
 <?php
