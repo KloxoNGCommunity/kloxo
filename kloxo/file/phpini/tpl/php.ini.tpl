@@ -55,7 +55,7 @@ display_startup_errors = On
 log_errors_max_len = 1024
 ignore_repeated_errors = Off
 report_memleaks = On
-<?php echo $php53disable; ?>track_errors = Off
+track_errors = Off
 variables_order = "EGPCS"
 gpc_order = "GPC"
 include_path = ".:/usr/share/pear/"
@@ -82,7 +82,6 @@ cgi.fix_pathinfo=1
 <?php echo $php53enable; ?>output_buffering = 4096
 <?php echo $php53enable; ?>ignore_repeated_source = Off
 <?php echo $php53enable; ?>report_memleaks = On
-<?php echo $php53enable; ?>track_errors = Off
 <?php echo $php53enable; ?>html_errors = On
 <?php echo $php53enable; ?>auto_append_file =
 
@@ -136,7 +135,7 @@ safe_mode = <?php echo $safe_mode_flag; ?>
 enable_dl = <?php echo $enable_dl_flag; ?>
 
 
-;### MR -- not exist on php 5.3
+;### MR -- deprecated/disabled on php 5.3+
 <?php echo $php53disable; ?>register_long_arrays = <?php echo $register_long_arrays_flag; ?>
 
 

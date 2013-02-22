@@ -396,7 +396,7 @@ function kloxo_install_step1()
 	// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
 	$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
 		"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "lxlighttpd", $httpdbranch, "mod_ssl",
-		"zip", "unzip", "lxphp", "lxzend", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
+		"zip", "unzip", "lxphp", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
 		"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
 		"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "net-snmp", "tmpwatch", "rkhunter"
 	);
