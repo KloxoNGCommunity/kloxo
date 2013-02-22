@@ -1,8 +1,10 @@
 #!/bin/sh
 
-list=(named djbdns httpd nginx lighttpd php-fpm qmail dovecot xinetd mysqld)
+list=(named djbdns httpd nginx lighttpd php-fpm qmail dovecot xinetd mysqld mysql)
 
 for item in ${list[*]}
 do
-	/etc/init.d/$item restart
+	if [ -f /etc/init.d/$item ] ; then
+		/etc/init.d/$item restart
+	fi
 done
