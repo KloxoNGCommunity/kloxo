@@ -1702,13 +1702,13 @@ function zip_to_fileserv($dir, $fillist, $logto = null)
 	return cp_fileserv($file);
 }
 
-function tar_to_fileserv($dir, $logto = null)
+function tar_to_fileserv($dir, $fillist, $logto = null)
 {
 	$file = do_zip_to_fileserv('tar', array($dir, $fillist), $logto);
 	return cp_fileserv($file);
 }
 
-function tgz_to_fileserv($dir, $logto = null)
+function tgz_to_fileserv($dir, $fillist, $logto = null)
 {
 	$file = do_zip_to_fileserv('tgz', array($dir, $fillist), $logto);
 	return cp_fileserv($file);

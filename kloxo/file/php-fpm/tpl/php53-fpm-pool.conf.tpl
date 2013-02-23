@@ -1,10 +1,11 @@
 <?php
     $userinfo = posix_getpwnam($user);
 
-    if ($userinfo) {
-        $fpmport = (50000 + $userinfo['uid']);
+    if ($user === 'apache') {
+        $fpmport = 50000;
     } else {
-        return false;
+        $userinfo = posix_getpwnam($user);
+        $fpmport = (50000 + $userinfo['uid']);
     }
 
     if ($user == 'apache') {
@@ -13,8 +14,10 @@
         $pool = $user;
     }
 
+    $startserver = '2';
+    $minspareserver = '1';
+    $maxspareserver = '2';
     $maxchildren = '5';
-
 ?>
 [<?php echo $pool; ?>]
 listen = 127.0.0.1:<?php echo $fpmport; ?>
@@ -28,9 +31,12 @@ group = <?php echo $user; ?>
 pm = dynamic
 pm.max_children = <?php echo $maxchildren; ?>
 
-pm.start_servers = 1
-pm.min_spare_servers = 1
-pm.max_spare_servers = 2
+pm.start_servers = <?php echo $startserver; ?>
+
+pm.min_spare_servers = <?php echo $minspareserver; ?>
+
+pm.max_spare_servers = <?php echo $maxspareserver; ?>
+
 pm.max_requests = 1000
 ;pm.status_path = /status
 ;ping.path = /ping

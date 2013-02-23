@@ -15,14 +15,12 @@ name=Kloxo-MR - release-version-noarch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/centos$releasever/noarch/
 enabled=1
 gpgcheck=0
-#exclude=*-toaster djbdns
 
 [kloxo-mr-release-version-arch]
 name=Kloxo-MR - release-version-$basearch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/centos$releasever/$basearch/
 enabled=1
 gpgcheck=0
-#exclude=*-toaster djbdns
 
 [kloxo-mr-testing-neutral-noarch]
 name=Kloxo-MR - testing-neutral-noarch
@@ -53,15 +51,6 @@ name=Kloxo-MR - srpms
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/SRPMS/
 enabled=0
 gpgcheck=0
-
-# ==================================
-
-[kloxo-mr-lxcenter]
-name=Kloxo-MR - lxcenter - $basearch
-baseurl=http://download.lxcenter.org/download/update/centos-$releasever/$basearch/
-enabled=0
-gpgcheck=0
-includepkgs=vpopmail qmail spamassasin *-toaster djbdns
 
 # ==================================
 
@@ -116,3 +105,19 @@ name=Kloxo-MR - nginx repo
 baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
 gpgcheck=0
 enabled=1
+
+# ==================================
+
+# for mariadb
+[kloxo-mr-mariadb32]
+name=Kloxo-MR - mariadb32 repo
+baseurl=http://yum.mariadb.org/10.0/centos$releasever-x86
+enabled=1
+gpgcheck=0
+
+# for mariadb
+[kloxo-mr-mariadb64]
+name=Kloxo-MR - mariadb64 repo
+baseurl=http://yum.mariadb.org/10.0/centos$releasever-amd64
+enabled=1
+gpgcheck=0

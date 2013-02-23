@@ -73,7 +73,7 @@ class lxbackup extends Lxdb
 	function createShowShowlist()
 	{
 		$alist = null;
-		//  $alist['ffile'] = null;
+	//  $alist['ffile'] = null;
 
 		return $alist;
 	}
@@ -169,15 +169,15 @@ class lxbackup extends Lxdb
 			}
 		}
 
-		/*
-			ftp_pasv($fn, true);
-			$fp = lfopen($file, "r");
-			$ret = ftp_fput($fn, $uploadfilename, $fp, FTP_BINARY);
+	/*
+		ftp_pasv($fn, true);
+		$fp = lfopen($file, "r");
+		$ret = ftp_fput($fn, $uploadfilename, $fp, FTP_BINARY);
 
-			if (!$ret) {
-				throw new lxException('could_not_upload_file', '', $object->ftp_server);
-			}
-		*/
+		if (!$ret) {
+			throw new lxException('could_not_upload_file', '', $object->ftp_server);
+		}
+	*/
 		return $param;
 	}
 
@@ -240,7 +240,7 @@ class lxbackup extends Lxdb
 					$vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
 				}
 
-				//  $vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
+			//  $vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
 
 				$vlist['__v_param'] = $param;
 				$vlist['__v_button'] = 'Restore Now';
@@ -264,7 +264,7 @@ class lxbackup extends Lxdb
 					$vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
 				}
 
-				//$vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
+			//	$vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
 				$vlist['__v_showcheckboxflag'] = true;
 				$vlist['__v_param'] = $param;
 				$vlist['__v_button'] = 'Restore Now';
@@ -296,7 +296,7 @@ class lxbackup extends Lxdb
 
 			case "ftp_conf":
 				$vlist['ftp_server'] = null;
-				//  $vlist['ssh_server'] = null;
+			//  $vlist['ssh_server'] = null;
 				$vlist['rm_username'] = null;
 				$vlist['rm_password'] = array('m', get_star_password());
 				$vlist['rm_directory'] = null;
@@ -344,13 +344,13 @@ class lxbackup extends Lxdb
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = 'a=show';
-		//  $alist[] = 'a=updateform&sa=backup';
+	//  $alist[] = 'a=updateform&sa=backup';
 		$alist['property'][] = 'a=updateform&sa=ftp_conf';
 
 		$alist['property']['__var_backupschedule_flag'] = 'a=updateform&sa=schedule_conf';
 		$alist['property'][] = 'a=show&l[class]=ffile&l[nname]=/';
 		$alist['property'][] = "l[class]=ffile&l[nname]=/&a=updateform&sa=upload";
-		//  $alist['property'][] = "l[class]=ffile&l[nname]=/&a=updateform&sa=backupftpupload";
+	//  $alist['property'][] = "l[class]=ffile&l[nname]=/&a=updateform&sa=backupftpupload";
 
 		return $alist;
 	}
@@ -360,9 +360,9 @@ class lxbackup extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//  $alist['__title_main'] = $login->getKeywordUc('actions');
-		//  $alist[] = 'a=updateform&sa=restore_from_file';
-		//  $alist[] = 'a=updateform&sa=restore_from_ftp';
+	//  $alist['__title_main'] = $login->getKeywordUc('actions');
+	//  $alist[] = 'a=updateform&sa=restore_from_file';
+	//  $alist[] = 'a=updateform&sa=restore_from_ftp';
 
 		return $alist;
 	}
@@ -426,7 +426,9 @@ class lxbackup extends Lxdb
 			$fname = str_replace(";", "", $fname);
 			$fname = str_replace(" ", "", $fname);
 			$file = "$bpath/$fname";
+			
 			rl_exec_get(null, null, array("lxbackup", "execrestorephp"), array($this->getParentClass(), $this->getParentName(), $file, $param));
+
 			$url = $ghtml->getFullUrl('a=show');
 			$gbl->__this_redirect = "$url&frm_smessage=restore_started";
 			$this->write();
@@ -439,7 +441,7 @@ class lxbackup extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$bpath = "__path_program_home/{$this->getParentO()->get__table()}/{$this->getParentO()->nname}/__backup";
+		$bpath = "{$sgbl->__path_program_home}/{$this->getParentO()->get__table()}/{$this->getParentO()->nname}/__backup";
 		$bfile = "$bpath/{$this->createBackupFileName($param['backup_to_file_f'])}.tgz";
 
 		if (lxfile_exists($bfile)) {
@@ -457,13 +459,13 @@ class lxbackup extends Lxdb
 
 		$this->updateBackupRestore($param, "restore");
 
-		//  if (csa($file, "__lx_temperoryftp_file")) { unlink($file); }
+	//  if (csa($file, "__lx_temperoryftp_file")) { unlink($file); }
 	}
 
 	function construct_tarfilename($name)
 	{
-		//  $date = date("Y-m-d-H-i");
-		//  $tim = time();
+	//  $date = date("Y-m-d-H-i");
+	//  $tim = time();
 
 		$date = '';
 		$tim = '';
@@ -481,7 +483,7 @@ class lxbackup extends Lxdb
 		$val = $param['_accountselect'];
 		$res = implode($val, ",");
 		$res = str_replace("-", ":", $res);
-		//$res = str_replace("_s_vv_p_", ":", $res);
+	//$res = str_replace("_s_vv_p_", ":", $res);
 
 		lxshell_background("__path_php_path", "../bin/common/restore.php", "--class=$class",
 			"--name=$name", "--restore", "--accounts=$res", "--priority=low", $file);
@@ -526,7 +528,7 @@ class lxbackup extends Lxdb
 
 
 		$parent = $this->getParentO();
-		$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
+		$bpath = "{$sgbl->__path_program_home}/{$parent->get__table()}/{$parent->nname}/__backup";
 		$bfile = $bpath . "/" . $this->createBackupFileName($param['backup_to_file_f']) . "." . $parent->getZiptype();
 
 		if ($parent->isSimpleBackup()) {
@@ -564,8 +566,8 @@ class lxbackup extends Lxdb
 		lx_mail(null, $this->getParentO()->contactemail, $text1, $text2 . "\n");
 		log_log("backup", "* " . $text1 . " - " . $text2);
 
-		//  $gbl->__this_redirect = $ghtml->getFullUrl('a=show') . "&frm_smessage=backup_succeeded";
-		//  $ghtml->print_redirect($gbl->__this_redirect);
+	//  $gbl->__this_redirect = $ghtml->getFullUrl('a=show') . "&frm_smessage=backup_succeeded";
+	//  $ghtml->print_redirect($gbl->__this_redirect);
 	}
 
 	static function clear_extra_backups($class, $name, $object)

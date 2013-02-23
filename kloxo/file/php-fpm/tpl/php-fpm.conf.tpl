@@ -20,16 +20,12 @@
     <workers>
 <?php
     foreach ($userlist as &$user) {
-        $userinfo = posix_getpwnam($user);
-        if ($userinfo) {
-            $fpmport = (50000 + $userinfo['uid']);
-        } else {
-            continue;
-        }
-
         if ($user === 'apache') {
+            $fpmport = 50000;
             $pool = 'default';
         } else {
+            $userinfo = posix_getpwnam($user);
+            $fpmport = (50000 + $userinfo['uid']);
             $pool = $user;
         }
 ?>

@@ -509,8 +509,7 @@ function kloxo_install_before_bye()
 	global $argv;
 	global $lxlabspath, $kloxopath, $currentpath, $stamp;
 
-	system("cp -rf {$currentpath}/kloxo-mr_lxcenter.repo {$kloxopath}/file");
-	system("cp -rf {$currentpath}/kloxo-mr_mratwork.repo {$kloxopath}/file");
+	system("cp -rf {$currentpath}/kloxo-mr.repo {$kloxopath}/file");
 
 	// MR -- because php 5.2 have problem with php-fpm
 	if (version_compare(getPhpVersion(), "5.3.2", "<")) {
@@ -695,15 +694,7 @@ function install_yum_repo()
 		return;
 	}
 
-	if (getKloxoType() !== '') {
-		if (isRpmInstalled('qmail-toaster')) {
-			system("cp -rf ./kloxo-mr_mratwork.repo /etc/yum.repos.d/kloxo-mr.repo");
-		} else {
-			system("cp -rf ./kloxo-mr_lxcenter.repo /etc/yum.repos.d/kloxo-mr.repo");
-		}
-	} else {
-		system("cp -rf ./kloxo-mr_mratwork.repo /etc/yum.repos.d/kloxo-mr.repo");
-	}
+	system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
 
 	// MR -- remove all old repos
 	system("rm -f /etc/yum.repos.d/kloxo.repo");

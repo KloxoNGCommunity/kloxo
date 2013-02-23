@@ -16,27 +16,7 @@
 PATH=/usr/local/bin:/usr/bin:/bin
 export PATH
 
-if ! [ -f /etc/sysconfig/djbdns ]; then
-   exit 0
-fi
-
 # MR -- to make sure all set match - begin set 
-if ! [ id -u tinydns >/dev/null 2>&1 ] ; then
-	useradd tinydns
-fi
-
-if ! [ id -u dnslog >/dev/null 2>&1 ] ; then
-	useradd dnslog
-fi
-
-if ! [ id -u dnscache >/dev/null 2>&1 ] ; then
-	useradd dnscache
-fi
-
-if ! [ id -u axfrdns >/dev/null 2>&1 ] ; then
-	useradd axfrdns
-fi
-
 if ! [ -d /var/djbdns/tinydns ] ; then
 	tinydns-conf tinydns dnslog /var/djbdns/tinydns 127.0.0.1
 fi
