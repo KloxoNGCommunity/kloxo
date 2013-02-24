@@ -112,12 +112,12 @@ enabled=1
 [kloxo-mr-mariadb32]
 name=Kloxo-MR - mariadb32 repo
 baseurl=http://yum.mariadb.org/10.0/centos$releasever-x86
-enabled=1
+enabled=0
 gpgcheck=0
 
 # for mariadb
 [kloxo-mr-mariadb64]
 name=Kloxo-MR - mariadb64 repo
 baseurl=http://yum.mariadb.org/10.0/centos$releasever-amd64
-enabled=1
+enabled=0
 gpgcheck=0
