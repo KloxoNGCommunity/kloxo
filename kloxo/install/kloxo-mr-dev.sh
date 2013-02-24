@@ -50,28 +50,22 @@ rm -rf ./kloxo-dev
 cp -rf ./kloxo/install/installer.sh ./
 
 ### 3. create binary files
-cd ./kloxo/src
-yum -y install which cpp gcc gcc-c++ openssl-devel automake autoconf libtool make
+cd ./kloxo/cexe
+yum -y install which cpp gcc gcc-c++ glibc* openssl-devel automake autoconf libtool make
 make
 
 cd ../../
 
 ### 4. zipped process
-zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe/closeallinput" "./kloxo/file" \
+zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe" "./kloxo/file" \
 	"./kloxo/httpdocs" "./kloxo/pscript" "./kloxo/sbin" \
-	"./kloxo/RELEASEINFO" "./kloxo/src" "./kloxo/etc/list" "./kloxo/etc/process" \
+	"./kloxo/RELEASEINFO" "./kloxo/etc/list" "./kloxo/etc/process" \
 	"./kloxo/etc/config.ini" \
 	"./kloxo/install" \
 	-x \
 	"./kloxo/httpdocs/commands.php" \
 	"./kloxo/httpdocs/newpass" \
 	"./kloxo/httpdocs/.php.err" \
-	"./kloxo/CVS/*" \
-	"./kloxo/.svn/*" \
-	"./kloxo/httpdocs/thirdparty/*" \
-	"./kloxo/httpdocs/htmllib/extjs/*" \
-	"./kloxo/httpdocs/htmllib/fckeditor/*" \
-	"./kloxo/httpdocs/htmllib/yui-dragdrop/*" \
 	"./kloxo/file/cache/*" \
 	"./kloxo/serverfile/*" \
 	"./kloxo/session/*" \
@@ -90,5 +84,5 @@ rm -rf ./kloxo-install > /dev/null 2>&1
 rm -rf ./install > /dev/null 2>&1
 rm -rf ./kloxo-dev.zip
 
-sh installer.sh
+sh ./installer.sh
 

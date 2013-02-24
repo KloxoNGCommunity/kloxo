@@ -62,6 +62,8 @@ function lxins_main()
 		// MR -- also issue on Centos 5.9 - prevent for update!
 		if (php_uname('m') === 'x86_64') {
 			system("yum remove mysql*.i386 -y");
+			// MR -- also for centos 6
+			system("yum remove mysql*.i686 -y");
 		}
 
 		//--- Create temporary flags for install

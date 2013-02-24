@@ -67,27 +67,22 @@ fi
 
 cp -rf ./kloxo/install/installer.sh ./
 
-cd ./kloxo/src
-yum -y install which cpp gcc gcc-c++ openssl-devel automake autoconf libtool make
+cd ./kloxo/cexe
+yum -y install which cpp gcc gcc-c++ glibc* openssl-devel automake autoconf libtool make
 make
 
 cd ../../
 
-zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe/closeallinput" "./kloxo/file" \
+### 4. zipped process
+zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe" "./kloxo/file" \
 	"./kloxo/httpdocs" "./kloxo/pscript" "./kloxo/sbin" \
-	"./kloxo/RELEASEINFO" "./kloxo/src" "./kloxo/etc/list" "./kloxo/etc/process" \
+	"./kloxo/RELEASEINFO" "./kloxo/etc/list" "./kloxo/etc/process" \
 	"./kloxo/etc/config.ini" \
 	"./kloxo/install" \
 	-x \
 	"./kloxo/httpdocs/commands.php" \
 	"./kloxo/httpdocs/newpass" \
 	"./kloxo/httpdocs/.php.err" \
-	"./kloxo/CVS/*" \
-	"./kloxo/.svn/*" \
-	"./kloxo/httpdocs/thirdparty/*" \
-	"./kloxo/httpdocs/htmllib/extjs/*" \
-	"./kloxo/httpdocs/htmllib/fckeditor/*" \
-	"./kloxo/httpdocs/htmllib/yui-dragdrop/*" \
 	"./kloxo/file/cache/*" \
 	"./kloxo/serverfile/*" \
 	"./kloxo/session/*" \
@@ -99,6 +94,7 @@ zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe/closeallinput" "./kloxo
 	"./kloxo/etc/slavedb/*" \
 	"./kloxo/etc/watchdog.conf" \
 	"./kloxo/install/kloxo_install.log"
+
 
 rm -rf ./kloxo > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1
