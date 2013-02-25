@@ -69,8 +69,14 @@ start() {
 		cp /usr/local/lxlabs/ext/lxlighttpd/sbin/lighttpd /usr/local/lxlabs/ext/lxlighttpd/sbin/$prog.httpd 2>/dev/null
 		$httpd $OPTIONS &
 		if ! [ -f $__var_slave_db ] ; then
-			if ! /etc/init.d/mysqld status ; then
-				/etc/init.d/mysqld start
+			if [ -f /etc/initd/mysql ] ; then
+				if ! /etc/init.d/mysql status ; then
+					/etc/init.d/mysql start;
+				fi
+			elif [ -f /etc/initd/mysqld ] ; then
+				if ! /etc/init.d/mysqld status ; then
+					/etc/init.d/mysqld start;
+				fi
 			fi
 			sleep 1
 			pkill -f php_cgi

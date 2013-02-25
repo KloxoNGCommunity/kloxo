@@ -7220,6 +7220,10 @@ function updatecleanup($nolog = null)
 
 	setInitialLogrotate($nolog);
 
+	log_cleanup("Update Kloxo database", $nolog);
+	log_cleanup("- Updating process", $nolog);
+	update_database();
+
 	installRoundCube($nolog);
 	installHorde($nolog);
 	installTDah($nolog);

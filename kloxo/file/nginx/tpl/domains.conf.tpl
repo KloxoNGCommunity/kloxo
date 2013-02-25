@@ -61,8 +61,10 @@ if ($userinfo) {
     return false;
 }
 
-$userinfoapache = posix_getpwnam('apache');
-$fpmportapache = (50000 + $userinfoapache['uid']);
+// MR -- to make easy for watchdog, apache user have uid 50000
+//$userinfoapache = posix_getpwnam('apache');
+//$fpmportapache = (50000 + $userinfoapache['uid']);
+$fpmportapache = 50000;
 
 $disablepath = "/home/kloxo/httpd/disable";
 
@@ -207,7 +209,7 @@ server {
 ?>
 
     location ~ ^<?php echo $rl[0]; ?>/(.*)$ {
-        alias $rootdir <?php echo str_replace("//", "/", $rl[1]); ?>/$1;
+        alias <?php echo str_replace("//", "/", $rl[1]); ?>/$1;
     }
 <?php
             }

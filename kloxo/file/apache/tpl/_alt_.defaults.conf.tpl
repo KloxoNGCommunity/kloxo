@@ -29,8 +29,10 @@ if ($indexorder) {
 	$indexorder = implode(' ', $indexorder);
 }
 
-$userinfoapache = posix_getpwnam('apache');
-$fpmportapache = (50000 + $userinfoapache['uid']);
+// MR -- to make easy for watchdog, apache user have uid 50000
+//$userinfoapache = posix_getpwnam('apache');
+//$fpmportapache = (50000 + $userinfoapache['uid']);
+$fpmportapache = 50000;
 
 ?>
 

@@ -131,15 +131,15 @@ fi
 
 export PATH=/usr/sbin:/sbin:$PATH
 
-if [ -d install ] ; then
-	cd install
+if [ -d ./kloxo/install ] ; then
+	cd ./kloxo/install
 else
-	unzip -oq kloxo-mr-latest.zip kloxo/install/* -d ../
-	cd install
+	unzip -oq kloxo-mr-latest.zip kloxo/install/* -d ./
+	cd ./kloxo/install
 fi
 
 if [ -f /usr/local/lxlabs/ext/php/php ] ; then
-	/usr/local/lxlabs/ext/php/bin/php installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
+	lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 else
 	php installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 fi

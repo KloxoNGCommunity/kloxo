@@ -36,12 +36,12 @@ function setMysqlConvert($engine, $database, $table, $config)
 
 	// MR -- need if switch mysql from 5.0.x to higher but mysql.servers not created
 	log_cleanup("- Insert mysql.servers table if not exist");
-	exec("mysql -f -u root -p{$pass} mysql < /usr/local/lxlabs/kloxo/file/mysql.servers.sql");
+	exec("mysqld -f -u root -p{$pass} mysql < /usr/local/lxlabs/kloxo/file/mysql.servers.sql");
 
 	//--- the first - to 'disable' skip- and restart mysql
 	system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
-	$ret = lxshell_return("service", "mysqld", "restart");
-	if ($ret) { throw new lxexception('mysqld_restart_failed', 'parent'); }
+
+	restartMySql();
 
 	mysql_connect('localhost', 'root', $pass);
 
@@ -57,7 +57,10 @@ function setMysqlConvert($engine, $database, $table, $config)
 				// no processed.
 			}
 			else if ($db[0] === 'information_schema') {
-				log_cleanup("--- not converted");
+				log_cleanup("--- 'information_schema' not converted");
+			}
+			else if ($db[0] === 'performance_schema') {
+				log_cleanup("--- 'performance_schema not' converted");
 			}
 			else {
 				mysql_select_db($db[0]);
@@ -66,13 +69,13 @@ function setMysqlConvert($engine, $database, $table, $config)
 					$tbls = mysql_query('SHOW tables');
 
 					while ($tbl = mysql_fetch_array($tbls)) {
-						log_cleanup("--- ".$tbl[0]." table converted");
+						log_cleanup("--- '".$tbl[0]."' table converted");
 						mysql_query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
 					}
 				}
 				else {
 					mysql_query("ALTER TABLE {$table} ENGINE={$engine}");
-					log_cleanup("--- ".$table." table converted");
+					log_cleanup("--- '".$table."' table converted");
 				}
 			}
 		}
@@ -80,26 +83,26 @@ function setMysqlConvert($engine, $database, $table, $config)
 	else {
 		mysql_select_db($database);
 
-		log_cleanup("-- ".$database." database converted");
+		log_cleanup("-- '".$database."' database converted");
 
 		if ($table === '_all_') {
 			$tbls = mysql_query('SHOW tables');
 
 			while ($tbl = mysql_fetch_array($tbls)) {
-				log_cleanup("--- ".$tbl[0]." table converted");
+				log_cleanup("--- '".$tbl[0]."' table converted");
 				mysql_query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
 			}
 		}
 		else {
 			mysql_query("ALTER TABLE {$table} ENGINE={$engine}");
-			log_cleanup("--- ".$table." table");
+			log_cleanup("--- '".$table."' table");
 		}
 	}
 
 	//--- the second - back to 'original' config and restart mysql
 	system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf");
-	$ret = lxshell_return("service", "mysqld", "restart");
-	if ($ret) { throw new lxexception('mysqld_restart_failed', 'parent'); }
+
+	restartMySql();
 
 	if ($config === 'yes') {
 		if ($database === '_all_') {
@@ -143,8 +146,20 @@ function setMysqlConvert($engine, $database, $table, $config)
 	log_cleanup("- Convert of MySQL to ".$engine." engine finished");
 
 	log_cleanup("- MySQL Service restarted");
-	$ret = lxshell_return("service", "mysqld", "restart");
-	if ($ret) { throw new lxexception('mysqld_restart_failed', 'parent'); }
+	restartMySql();
+}
+
+function restartMySql() {
+	if (file_exists("/etc/rc.d/init.d/mysqld")) {
+		$ret = lxshell_return("service", "mysqld", "restart");
+		if ($ret) { throw new lxexception('mysqld_restart_failed', 'parent'); }
+	} elseif (file_exists("/etc/rc.d/init.d/mysql")) {
+		$ret = lxshell_return("service", "mysql", "restart");
+		if ($ret) { throw new lxexception('mysql_restart_failed', 'parent'); }
+	} else {
+		echo("No service of mysql/mysqld... exit!");
+	//	exit;
+	}
 }
 
 /* ****** END - setMysqlConvert ***** */

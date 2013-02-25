@@ -83,25 +83,6 @@ function lxins_main()
 		exec("rm -rf {$kloxopath}/pscript/*");
 		exec("rm -rf {$kloxopath}/httpdocs/htmllib/script/*");
 
-		/*
-				// MR -- unwanted dirs/files
-				$a = array('bin', 'cexe', 'file', 'httpdocs', 'pscript', 'RELEASEINFO', 'sbin', 'src');
-
-				foreach ($a as &$v) {
-					exec("rm -rf {$kloxopath}/{$v}/*");
-				}
-
-
-				// MR -- copy-back certain dirs/files (thirdparty)
-				$tpath = "{$kloxopath}/httpdocs";
-				$spath = "{$kloxopath}.{$stamp}/httpdocs";
-
-				exec("cp -rf {$spath}/thirdparty/* {$tpath}");
-				exec("cp -rf {$spath}/htmllib/extjs/* {$tpath}/htmllib");
-				exec("cp -rf {$spath}/htmllib/fckeditor/* {$tpath}/htmllib");
-				exec("cp -rf {$spath}/htmllib/yui-dragdrop/* {$tpath}/htmllib");
-		*/
-
 	} else {
 		// MR -- issue found on Centos 5.9 where have 'default' iptables config
 		$iptp = '/etc/sysconfig';
@@ -127,7 +108,7 @@ function lxins_main()
 				print("Installation aborted.\n\n");
 				exit;
 			} else {
-				print("Installing Kloxo = YES\n\n");
+				print("Installing Kloxo-MR = YES\n\n");
 			}
 		}
 	}
@@ -197,23 +178,6 @@ function installcomp_mail()
 
 function install_main()
 {
-/*
-	system("rpm -e vpopmail --nodeps");
-	system("rpm -e qmail --nodeps");
-
-	exec("rpm -qa | grep toaster", $out, $ret);
-
-	foreach ($out as $k => $v) {
-		$s = explode('-toaster-', $v);
-
-		$c = $s[0];
-
-		if ($c) {
-			system("rpm -e {$c}-toaster --nodeps");	
-		}
-	}
-*/
-
 	// MR -- need outside process for convert qmail-lxcenter to qmail-toaster
 	if (isRpmInstalled('qmail')) {
 		$installcomp['mail'] = array("httpd", "fetchmail");
@@ -310,13 +274,7 @@ function kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass)
 	file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u vpopmail\"");
 
 	print("\nCreating Vpopmail database...\n");
-/*
-	if (isRpmInstalled('qmail')) {
-		system("sh /usr/local/lxlabs/kloxo/bin/misc/lxpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
-	} elseif (isRpmInstalled('qmail-toaster')) {
-		system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
-	}
-*/
+
 	if (file_exists("/home/vpopmail/etc")) {
 		system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
 	}
@@ -357,14 +315,8 @@ function kloxo_install_step1()
 	system("groupadd nogroup");
 	system("useradd nouser -g nogroup -s '/sbin/nologin'");
 	system("groupadd lxlabs");
-//	system("useradd lxlabs -g lxlabs -s '/sbin/nologin' -d /usr/local/lxlabs");
 	system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
 
-/*
-	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
-		"exim", "vsftpd", "postfix", "vpopmail", "qmail", "ssmtp",
-		"lxzend", "pure-ftpd", "imap", "spamassassin", "courier-imap-toaster");
-*/
 	// MR -- remove qmail-lxcenter not here! - need outside script
 	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
 		"exim", "vsftpd", "postfix", "ssmtp",
@@ -382,8 +334,22 @@ function kloxo_install_step1()
 
 	if (isRpmInstalled('qmail-toaster')) {
 		// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
-		system("userdel vpopmail > /dev/null 2>&1");
 		system("userdel lxpopuser > /dev/null 2>&1");
+		system("groupdel lxpopgroup > /dev/null 2>&1");
+		
+		system("groupadd -g 89 vchkpw > /dev/null 2>&1");
+		system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' > /dev/null 2>&1");
+
+		system("groupmod -g 89 vchkpw > /dev/null 2>&1");
+		system("usermod -u 89 -G vchkpw vpopmail > /dev/null 2>&1");
+	}
+	
+	if (!file_exists("/etc/rc.d/init.d/djbdns")) {
+		$darr = array ('axfrdns', 'dnscache', 'dnslog', 'tinydns');
+		
+		foreach ($darr as &$d) {
+			system("rm -rf /home/{$d} > /dev/null 2>&1");
+		}
 	}
 
 	// MR -- force remove postfix and their user
@@ -425,14 +391,14 @@ function kloxo_install_step1()
 
 	system("mkdir -p {$kloxopath}");
 
-	if (file_exists("../kloxo-mr-latest.zip")) {
+	if (file_exists("../../kloxo-mr-latest.zip")) {
 		//--- Install from local file if exists
 		system("rm -f {$kloxopath}/kloxo-current.zip");
 		system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
 
 		print("Local copying Kloxo release\n");
 		system("mkdir -p /var/cache/kloxo");
-		system("cp -rf ../kloxo-mr-latest.zip {$kloxopath}");
+		system("cp -rf ../../kloxo-mr-latest.zip {$kloxopath}");
 
 		chdir("/usr/local/lxlabs/kloxo");
 		system("mkdir -p {$kloxopath}/log");
@@ -512,6 +478,7 @@ function kloxo_install_before_bye()
 	global $lxlabspath, $kloxopath, $currentpath, $stamp;
 
 	system("cp -rf {$currentpath}/kloxo-mr.repo {$kloxopath}/file");
+	system("yum clean all");
 
 	// MR -- because php 5.2 have problem with php-fpm
 	if (version_compare(getPhpVersion(), "5.3.2", "<")) {
@@ -587,14 +554,18 @@ function kloxo_install_bye($installtype)
 	print("\n");
 	print("---------------------------------------------\n");
 	print("\n");
-	print("- Need running 'sh /script/cleanup' for update\n\n");
+
+	if (getKloxoType() !== '') {
+		print("- Need running 'sh /script/cleanup' for update\n\n");
+	}
+	
 	print("- Better reboot for fresh install\n\n");
 
 	if (isRpmInstalled('qmail')) {
 		print("---------------------------------------------\n");
 		print("\n");
 		print("- Because still using qmail from lxcenter,\n");
-		print("- run 'sh /script/convert-to-qmailtoaster'\n\n");
+		print("  run 'sh /script/convert-to-qmailtoaster'\n\n");
 	}
 }
 

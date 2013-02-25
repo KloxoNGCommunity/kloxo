@@ -25,19 +25,7 @@ function updatecleanup_main()
 	}
 
 	log_cleanup("*** Executing Update (cleanup) - BEGIN ***");
-/*
-	$correct_perm = "0644";
-	$check_perm = substr(decoct( fileperms("/usr/local/lxlabs/$program/httpdocs/thirdparty/phpMyAdmin/config.inc.php") ), 2);
 
-	if ($check_perm != $correct_perm) {
-		lxfile_unix_chmod("/usr/local/lxlabs/$program/httpdocs/thirdparty/phpMyAdmin/config.inc.php","0644");
-	}
-
-	if (lxfile_exists(".svn")) {
-		log_cleanup("- SVN Found... Exiting");
-		exit;
-	}
-*/
 	if ($opt['type'] === 'master') {
 		$sgbl->slave = false;
 		if (!is_secondary_master()) {
@@ -84,10 +72,6 @@ function updatecleanup_main()
 	// MR -- use this trick for qmail non-daemontools based
 	log_cleanup("Preparing some services again");
 	
-//	log_cleanup("- courier-imap enabled and restart queue");
-//	exec("chkconfig courier-imap on");
-//	createRestartFile("courier-imap");
-	
 	log_cleanup("- qmail enabled and restart queue");
 	exec("chkconfig qmail on");
 	createRestartFile("qmail");
@@ -114,7 +98,7 @@ function updatecleanup_main()
 
 	log_cleanup("*** Executing Update (cleanup) - END ***");
 	
-	print("\nClick 'Enter' to finishing this process");
+	print("\nClick 'Enter' to finishing this process\n");
 }
 
 function cp_dbfile()

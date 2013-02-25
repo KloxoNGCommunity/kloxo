@@ -12,7 +12,10 @@ define('S_IFDIR', 00040000);
 define('S_ISUID', 00004000);
 define('S_ISGID', 00002000);
 
-// This is the only function that exectues during the initialization... The rest of the whle library exists as functions that can be called... Nothing gets executed on their own... Execept this.. So it makes this sort of special... very special..
+// This is the only function that exectues during the initialization... 
+// The rest of the whle library exists as functions that can be called... 
+// Nothing gets executed on their own... Execept this.. 
+// So it makes this sort of special... very special..
 
 init_global();
 
@@ -3124,12 +3127,6 @@ function create_database()
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-/*
-	$flist = parse_sql_data();
-	foreach ($flist as $k => $v) {
-		create_table_with_drop($k, $v);
-	}
-*/
 	// MR -- create kloxo database like horde or roundcube model
 	// no override when database exist --> possible reinstall kloxo without lossing kloxo setting
 
@@ -3141,15 +3138,26 @@ function create_database()
 		$pstring = "-p\"$pass\"";
 	}
 
-	$dbpath = '/usr/local/lxlabs/kloxo/httpdocs/sql';
+	$dbpath = '/usr/local/lxlabs/kloxo/file/sql';
 
 	system("mysql -f -u root $pstring < {$dbpath}/db-structure-base.sql >/dev/null 2>&1");
+}
 
-	// MR -- running update sql file exist
+function update_database()
+{
+	global $gbl, $sgbl, $login, $ghtml;
 
-	if (file_exists('/usr/local/lxlabs/kloxo/httpdocs/sql/db-structure-update.sql')) {
-		system("mysql -f -u root $pstring < {$dbpath}/db-structure-update.sql >/dev/null 2>&1");
+	$pass = slave_get_db_pass();
+
+	$pstring = null;
+
+	if ($pass) {
+		$pstring = "-p\"$pass\"";
 	}
+
+	$dbpath = '/usr/local/lxlabs/kloxo/file/sql';
+
+	system("mysql -f -u root $pstring < {$dbpath}/db-structure-update.sql >/dev/null 2>&1");
 }
 
 function get_default_fields()
@@ -3443,7 +3451,7 @@ function getClassFromName($cgi_clientname)
 	} elseif (csa($cgi_clientname, ".aux")) {
 		$classname = "auxiliary";
 	}
-	/*
+/*
 	 Domain user doesn't exist anymore....
 	 else if (csa($cgi_clientname, ".")) {
 		 $classname = "domain";

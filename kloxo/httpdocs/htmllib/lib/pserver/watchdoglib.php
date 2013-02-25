@@ -95,6 +95,9 @@ class watchdog extends lxdb
 		self::addOneWatchdog($pserver, "imap", "143", "/etc/init.d/dovecot restart");
 
 		self::addOneWatchdog($pserver, "mysql", "3306", "/etc/init.d/mysqld restart");
+		self::addOneWatchdog($pserver, "mariadb", "3306", "/etc/init.d/mysql restart");
+
+		self::addOneWatchdog($pserver, "php-fpm", "30080", "/etc/init.d/php-fpm restart");
 
 		// MR -- no need special handling for php-fpm but including in __driver_web
 		// on lxserverlib.php
