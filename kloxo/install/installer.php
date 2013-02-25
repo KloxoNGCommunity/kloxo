@@ -478,7 +478,6 @@ function kloxo_install_before_bye()
 	global $lxlabspath, $kloxopath, $currentpath, $stamp;
 
 	system("cp -rf {$currentpath}/kloxo-mr.repo {$kloxopath}/file");
-	system("yum clean all");
 
 	// MR -- because php 5.2 have problem with php-fpm
 	if (version_compare(getPhpVersion(), "5.3.2", "<")) {
@@ -673,6 +672,8 @@ function install_yum_repo()
 	system("rm -f /etc/yum.repos.d/kloxo.repo");
 	system("rm -f /etc/yum.repos.d/kloxo-custom.repo");
 	system("rm -f /etc/yum.repos.d/lxcenter.repo");
+	
+	system("yum clean all");
 }
 
 function find_os_version()

@@ -84,6 +84,7 @@ zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe" "./kloxo/file" \
 	"./kloxo/httpdocs/newpass" \
 	"./kloxo/httpdocs/.php.err" \
 	"./kloxo/file/cache/*" \
+	"./kloxo/file/*.repo" \
 	"./kloxo/serverfile/*" \
 	"./kloxo/session/*" \
 	"./kloxo/etc/.restart/*" \
