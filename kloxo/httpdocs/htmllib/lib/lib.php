@@ -1804,7 +1804,7 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 		if ($logto) {
 			log_log($logto, "- Could not zip for '$vd'");
 		} else {
-		//	throw new lxException("could_not_zip_dir", '', $vd);
+			throw new lxException("could_not_zip_dir", '', $vd);
 		}
 	} else {
 		if ($logto) {
@@ -7219,7 +7219,7 @@ function updatecleanup($nolog = null)
 	lxfile_mkdir("/home/kloxo/httpd/awstats/dirdata");
 
 	setInitialLogrotate($nolog);
-
+	
 	log_cleanup("Update Kloxo database", $nolog);
 	log_cleanup("- Updating process", $nolog);
 	update_database();
@@ -7413,10 +7413,10 @@ function setCopyWebConfFiles($webdriver)
 		lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
 	}
 
-	$t = getLinkCustomfile($pathdrv . "/etc/init.d", "{$aliasdriver}.conf");
+	$t = getLinkCustomfile($pathdrv . "/etc/init.d", "__version.conf");
 	if (file_exists($t)) {
-		log_cleanup("- Copy {$t} to {$pathinit}/{$aliasdriver}", $nolog);
-		lxfile_cp($t, "{$pathinit}/{$aliasdriver}");
+		log_cleanup("- Copy {$t} to {$pathinit}/__version.conf", $nolog);
+		lxfile_cp($t, "{$pathinit}/__version.conf");
 	}
 }
 

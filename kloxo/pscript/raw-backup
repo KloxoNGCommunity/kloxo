@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "still unfinish..."
+exit
+
 homepath=/home
 mysqlpath=/var/lib/mysql
 stamp=$(date +"%Y-%m-%d-%H-%M")

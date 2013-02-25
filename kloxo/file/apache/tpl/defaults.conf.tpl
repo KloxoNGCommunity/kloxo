@@ -18,21 +18,12 @@ if ($setdefaults === 'webmail') {
     $docroot = "/home/kloxo/httpd/{$setdefaults}";
 }
 
-// MR -- don't use $_SERVER[] or apache_get_version because not work
-exec("rpm -q httpd", $out, $ret);
-
-$webver = str_replace('httpd-', '', $out[0]);
-
-$isVer24 = (version_compare($webver, '2.4.0', '>=')) ? true : false;
-
 if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
 
-// MR -- to make easy for watchdog, apache user have uid 50000
-//$userinfoapache = posix_getpwnam('apache');
-//$fpmportapache = (50000 + $userinfoapache['uid']);
-$fpmportapache = 50000;
+$userinfoapache = posix_getpwnam('apache');
+$fpmportapache = (50000 + $userinfoapache['uid']);
 
 ?>
 
@@ -69,10 +60,12 @@ Listen <?php echo $ip; ?>:<?php echo $ports[0]; ?>
 Listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 
 
-NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[0]; ?>
+<IfVersion < 2.4>
+    NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[0]; ?>
 
-NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
+    NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 
+</IfVersion>
 
 <?php
         }
@@ -167,8 +160,13 @@ NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 

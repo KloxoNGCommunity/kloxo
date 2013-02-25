@@ -70,10 +70,8 @@ if ($userinfo) {
     return false;
 }
 
-// MR -- to make easy for watchdog, apache user have uid 50000
-//$userinfoapache = posix_getpwnam('apache');
-//$fpmportapache = (50000 + $userinfoapache['uid']);
-$fpmportapache = 50000;
+$userinfoapache = posix_getpwnam('apache');
+$fpmportapache = (50000 + $userinfoapache['uid']);
 
 $disablepath = "/home/kloxo/httpd/disable";
 
@@ -223,8 +221,13 @@ foreach ($certnamelist as $ip => $certname) {
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 
@@ -240,7 +243,13 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Directory "<?php echo $rootpath; ?>/">
         AllowOverride All
-        allow from all
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
         Options +Indexes +FollowSymlinks
     </Directory>
 
@@ -422,7 +431,13 @@ foreach ($certnamelist as $ip => $certname) {
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
             Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 
@@ -530,8 +545,13 @@ foreach ($certnamelist as $ip => $certname) {
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 
@@ -645,8 +665,13 @@ foreach ($certnamelist as $ip => $certname) {
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 
@@ -657,7 +682,13 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Directory "<?php echo $redirfullpath; ?>/">
         AllowOverride All
-        allow from all
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
         Options +Indexes +FollowSymlinks
     </Directory>
 
@@ -766,8 +797,13 @@ foreach ($certnamelist as $ip => $certname) {
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 
@@ -876,8 +912,13 @@ foreach ($certnamelist as $ip => $certname) {
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 
@@ -980,8 +1021,13 @@ foreach ($certnamelist as $ip => $certname) {
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 
@@ -1090,8 +1136,13 @@ foreach ($certnamelist as $ip => $certname) {
             AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
-            Order allow,deny
-            Allow from all
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
         </Directory>
     </IfModule>
 

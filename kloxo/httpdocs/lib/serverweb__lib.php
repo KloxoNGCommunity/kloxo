@@ -140,6 +140,10 @@ class serverweb__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile($haecpath, "httpd.conf"), $ehcpath . "/httpd.conf");
 			}
 
+			if (!lfile_exists("{$ehcdpath}/__version.conf")) {
+				lxfile_cp(getLinkCustomfile($haecdpath, "__version.conf"), $ehcdpath . "/__version.conf");
+			}
+
 			//--- don't use '=== true' but '!== false'
 			if (stripos($t, 'mod_php') !== false) {
 				$this->set_modphp($t);
