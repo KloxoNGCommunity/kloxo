@@ -363,7 +363,8 @@ function kloxo_install_step1()
 	// MR -- xcache, zend, ioncube, suhosin and zts not default install
 	// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
 	$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
-		"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "lxlighttpd", $httpdbranch, "mod_ssl",
+		"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "{$phpbranch}-pspell",
+		"tnef", "lxlighttpd", $httpdbranch, "mod_ssl",
 		"zip", "unzip", "lxphp", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
 		"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
 		"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "net-snmp", "tmpwatch", "rkhunter"
