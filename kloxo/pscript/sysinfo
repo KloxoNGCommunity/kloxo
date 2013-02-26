@@ -1,4 +1,6 @@
 #!/bin/sh
 
+sh /script/fix-service-list >/dev/null 2>&1
+
 . /script/directory
 lxphp.exe ../bin/fix/sysinfo.php $*

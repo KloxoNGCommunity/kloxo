@@ -44,8 +44,8 @@
                 <value name="style">static</value>
                 <value name="max_children"><?php echo $maxchildren; ?></value>
             </value>
-            <value name="request_terminate_timeout">0s</value>
-            <value name="request_slowlog_timeout">0s</value>
+            <value name="request_terminate_timeout">120s</value>
+            <value name="request_slowlog_timeout">30s</value>
             <value name="slowlog">/var/log/php-fpm/slow.log</value>
             <value name="rlimit_files">1024</value>
             <value name="rlimit_core">0</value>

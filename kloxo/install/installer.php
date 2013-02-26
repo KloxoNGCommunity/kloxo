@@ -508,9 +508,11 @@ function kloxo_install_before_bye()
 	//--- Prevent mysql socket problem (especially on 64bit system)
 	if (!file_exists("/var/lib/mysql/mysql.sock")) {
 		print("Create mysql.sock...\n");
-		system("service mysqld stop");
+	//	system("service mysqld stop");
+		actionMysql("stop");
 		system("mksock /var/lib/mysql/mysql.sock");
-		system("service start");
+	//	system("service mysqld start");
+		actionMysql('start');
 	}
 
 	//--- Set ownership for Kloxo httpdocs dir
@@ -520,8 +522,9 @@ function kloxo_install_before_bye()
 		//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
 		print("Setting Mysql for always running after reboot and restart now...\n");
 
-		system("chkconfig mysqld on");
-		system("service mysqld start");
+	//	system("chkconfig mysqld on");
+	//	system("service mysqld start");
+		actionMysql('start');
 	}
 	/*
 		if ($reinst) {
@@ -602,7 +605,7 @@ function file_get_unserialize($file)
 function check_default_mysql($dbroot, $dbpass)
 {
 	if (!isMysqlRunning()) {
-		system("service mysqld start");
+		actionMysql('restart');
 	}
 
 	if ($dbpass) {
@@ -742,28 +745,25 @@ function get_yes_no($question, $default = 'n')
 // --- taken from reset-mysql-root-password.phps
 function resetDBPassword($user, $pass)
 {
-	print("Stopping MySQL\n");
-	shell_exec("service mysqld stop");
-	print("Start MySQL with skip grant tables\n");
-	shell_exec("su mysql -c \"/usr/libexec/mysqld --skip-grant-tables\" >/dev/null 2>&1 &");
-	print("Using MySQL to flush privileges and reset password\n");
-	sleep(10);
-	exec("echo \"update user set password = Password('{$pass}') where User = '{$user}'\" |" .
-		" mysql -u [$user} mysql ", $return);
+	$text = "UPDATE mysql.user SET Password=PASSWORD('PASSWORD') WHERE User='USER';" .
+			"FLUSH PRIVILEGES;";
+	$text = str_replace("'USER'", "'root'", $text);
+	$text = str_replace("'PASSWORD'", "'{$pass}'", $text);
 
-	while ($return) {
-		print("MySQL could not connect, will sleep and try again\n");
-		sleep(10);
-		exec("echo \"update user set password = Password('{$pass}') where User = '{$user}'\" |" .
-			" mysql -u {$user} mysql", $return);
-	}
+	file_put_contents("/tmp/reset-mysql-password.sql", $text);
 
-	print("Password reset succesfully. Now killing MySQL softly\n");
-	shell_exec("killall mysqld");
-	print("Sleeping 10 seconds\n");
-	shell_exec("sleep 10");
-	print("Restarting the actual MySQL service\n");
-	shell_exec("service mysqld restart");
+	actionMysql('stop');
+
+	sleep(5);
+
+	print("Reset password in progress...\n");
+	system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
+	system("rm -f /tmp/reset-mysql-password.sql");
+
+	sleep(5);
+
+	actionMysql('start');
+
 	print("Password successfully reset to \"$pass\"\n");
 }
 
@@ -816,10 +816,10 @@ function getApacheBranch()
 // MR -- taken from lib.php
 function getMysqlBranch()
 {
-	$a = array('mysql', 'mysql50', 'mysql51', 'mysql53', 'mysql55');
+	$a = array('mysql', 'mysql50', 'mysql51', 'mysql53', 'mysql55', 'MariaDB');
 
 	foreach ($a as &$e) {
-		if (isRpmInstalled($e)) {
+		if (isRpmInstalled($e . '-server')) {
 			return $e;
 		}
 	}
@@ -898,12 +898,25 @@ function setUsingMyIsam()
 
 function isMysqlRunning()
 {
-	exec("service mysqld status|grep -i 'running'", $out, $ret);
+	if (file_exists("/etc/rc.d/init.d/mysql")) {
+		exec("service mysql status|grep -i 'running'", $out, $ret);
+	} else {
+		exec("service mysqld status|grep -i 'running'", $out, $ret);
+	}
 
 	if ($out) {
 		return true;
 	} else {
 		return false;
+	}
+}
+
+function actionMysql($action)
+{
+	if (file_exists("/etc/rc.d/init.d/mysql")) {
+		exec("service mysql {$action}");
+	} else {
+		exec("service mysqld {$action}");
 	}
 }
 

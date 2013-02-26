@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `servers` (
 	`Wrapper` char(64) NOT NULL,
 	`Owner` char(64) NOT NULL,
 	PRIMARY KEY (`Server_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='MySQL Foreign Servers table';
+) DEFAULT CHARSET=utf8 COMMENT='MySQL Foreign Servers table';
