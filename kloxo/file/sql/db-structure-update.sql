@@ -19,10 +19,9 @@ CREATE TABLE IF NOT EXISTS `watchdog` (
 
 INSERT INTO `watchdog` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`, `syncserver`, `port`, `action`, `status`, `added_by_system`, `oldsyncserver`, `olddeleteflag`) VALUES
 ('web___localhost', 'pserver-localhost', '', 'web', 'localhost', '80', '__driver_web', 'on', 'on', '', ''),
-('phpfpm___localhost', 'pserver-localhost', '', 'php-fpm', 'localhost', '50000', '/etc/init.d/php-fpm restart', 'on', 'on', '', ''),
 ('smtp___localhost', 'pserver-localhost', '', 'smtp', 'localhost', '25', '/etc/init.d/qmail restart', 'on', 'on', '', ''),
-('pop___localhost', 'pserver-localhost', '', 'pop3', 'localhost', '110', '/etc/init.d/dovecot restart', 'on', 'on', '', ''),
-('imap___localhost', 'pserver-localhost', '', 'imap4', 'localhost', '143', '/etc/init.d/dovecot restart', 'on', 'on', '', ''),
+('pop___localhost', 'pserver-localhost', '', 'pop', 'localhost', '110', '/etc/init.d/dovecot restart', 'on', 'on', '', ''),
+('imap___localhost', 'pserver-localhost', '', 'imap', 'localhost', '143', '/etc/init.d/dovecot restart', 'on', 'on', '', ''),
 ('mysql___localhost', 'pserver-localhost', '', 'mysql', 'localhost', '3306', '/etc/init.d/mysqld restart', 'on', 'on', '', ''),
 ('mariadb___localhost', 'pserver-localhost', '', 'mariadb', 'localhost', '3306', '/etc/init.d/mysql restart', 'on', 'on', '', ''),
 ('ftp___localhost', 'pserver-localhost', '', 'ftp', 'localhost', '21', '/etc/init.d/xinetd restart', 'on', 'on', '', '');
