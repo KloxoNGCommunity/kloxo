@@ -56,6 +56,14 @@ if ($qmailbranch) {
 	$appqmail = '--uninstalled--';
 }
 
+$dnsbranch = getRpmBranchInstalled('dns');
+if ($dnsbranch) {
+	exec("rpm -q {$dnsbranch}", $appdns);
+	$appdns = trim($appdns[0]);
+} else {
+	$appdns = '--uninstalled--';
+}
+
 $sq = new Sqlite(null, 'serverweb');
 $res = $sq->getRowsWhere("nname = 'pserver-localhost'", array('php_type'));
 $phptype = $res[0];
@@ -74,6 +82,7 @@ echo "   3. Httpd: " .  $apphttpd . "\n";
 echo "   4. Lighttpd: " .  $applighttpd . "\n";
 echo "   5. Nginx: " .  $appnginx . "\n";
 echo "   6. Qmail: " .  $appqmail . "\n";
+echo "   7. Dns: " .  $appdns . "\n";
 echo "\n";
 echo "D. Php-type (for Httpd/proxy): " . $phptype['php_type'] . "\n";
 echo "\n";
