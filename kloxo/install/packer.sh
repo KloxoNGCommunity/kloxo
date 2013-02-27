@@ -54,13 +54,12 @@ yum install zip unzip -y
 if [ ! -d ./kloxo/httpdocs ] ; then
 	echo "Download git from "${kloxo_path}
 	rm -rf ${kloxo_branch}* > /dev/null 2>&1
-	wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip
+	wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip -O kloxo-mr-${kloxo_branch}.zip
 
-	mv -f ${kloxo_branch} kloxo-dev.zip > /dev/null 2>&1
-	unzip -oq kloxo-dev.zip > /dev/null 2>&1
-	rm -rf kloxo-mr-dev.zip > /dev/null 2>&1
-	mv -f ./kloxo-dev/kloxo ./
-	rm -rf ./kloxo-dev
+	unzip -oq kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
+	rm -rf kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
+	mv -f ./kloxo*-${kloxo_branch}/kloxo ./
+	rm -rf ./kloxo*-${kloxo_branch}
 else
 	echo "No download and use local copy already exist"
 fi

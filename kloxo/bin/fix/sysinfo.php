@@ -56,6 +56,14 @@ if ($qmailbranch) {
 	$appqmail = '--uninstalled--';
 }
 
+$dovecotbranch = getRpmBranchInstalled('dovecot');
+if ($dovecotbranch) {
+	exec("rpm -q {$dovecotbranch}", $appdovecot);
+	$appdovecot = trim($appdovecot[0]);
+} else {
+	$appdovecot = '--uninstalled--';
+}
+
 $dnsbranch = getRpmBranchInstalled('dns');
 if ($dnsbranch) {
 	exec("rpm -q {$dnsbranch}", $appdns);
@@ -82,6 +90,11 @@ echo "   3. Httpd: " .  $apphttpd . "\n";
 echo "   4. Lighttpd: " .  $applighttpd . "\n";
 echo "   5. Nginx: " .  $appnginx . "\n";
 echo "   6. Qmail: " .  $appqmail . "\n";
+
+if ($appdovecot !== '--uninstalled--') {
+	echo "      with: " . $appdovecot  . "\n";
+}
+
 echo "   7. Dns: " .  $appdns . "\n";
 echo "\n";
 echo "D. Php-type (for Httpd/proxy): " . $phptype['php_type'] . "\n";

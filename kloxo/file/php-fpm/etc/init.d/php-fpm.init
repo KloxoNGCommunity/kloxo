@@ -44,9 +44,6 @@ stop () {
 
 restart () {
     stop
-    # MR -- need sleep 2 for guarantee restart sucessful
-    echo "Wait 2 seconds..."
-    sleep 2
     start
 }
 

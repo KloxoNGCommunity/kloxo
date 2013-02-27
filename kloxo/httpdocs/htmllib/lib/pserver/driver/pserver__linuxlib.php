@@ -20,8 +20,10 @@ class pserver__Linux extends lxDriverClass
 		exec_with_all_closed("service mysqld restart");
 		sleep(50);
 */
-		$text = "UPDATE mysql.user SET Password=PASSWORD('PASSWORD') WHERE User='USER';" .
-				"FLUSH PRIVILEGES;";
+		$text = <<<EOF
+UPDATE mysql.user SET Password=PASSWORD('PASSWORD') WHERE User='USER';
+FLUSH PRIVILEGES;
+EOF;
 		$text = str_replace("'USER'", "'root'", $text);
 		$text = str_replace("'PASSWORD'", "'{$pass}'", $text);
 
@@ -34,10 +36,7 @@ class pserver__Linux extends lxDriverClass
 		}
 
 		sleep(5);
-
 		system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
-		system("rm -f /tmp/reset-mysql-password.sql");
-
 		sleep(5);
 
 		if (file_exists("/etc/rc.d/init.d/mysql")) {
@@ -45,6 +44,8 @@ class pserver__Linux extends lxDriverClass
 		} else {
 			system("service mysqld start");
 		}
+
+		system("rm -f /tmp/reset-mysql-password.sql");
 
 		$a['mysql']['dbpassword'] = $pass;
 
