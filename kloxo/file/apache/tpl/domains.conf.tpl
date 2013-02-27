@@ -62,6 +62,10 @@ if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
 
+if ($blockips) {
+    $blockips = implode(', ', $blockips);
+}
+
 $userinfo = posix_getpwnam($user);
 
 if ($userinfo) {
@@ -70,7 +74,7 @@ if ($userinfo) {
     return false;
 }
 
-// MR -- for watchdog monitoring set fpmport for apache to 50000
+// MR -- for future purpose, apache user have uid 50000
 // $userinfoapache = posix_getpwnam('apache');
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
@@ -359,9 +363,10 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <Location />
-        Order allow,deny
-        deny from <?php echo $blockips; ?>
-        allow from all
+        Order deny,allow
+        Deny from <?php echo $blockips; ?>
+
+        Allow from all
     </Location>
 <?php
     }

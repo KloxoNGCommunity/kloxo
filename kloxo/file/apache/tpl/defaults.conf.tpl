@@ -22,7 +22,7 @@ if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
 
-// MR -- for watchdog monitoring set fpmport for apache to 50000
+// MR -- for future purpose, apache user have uid 50000
 // $userinfoapache = posix_getpwnam('apache');
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;

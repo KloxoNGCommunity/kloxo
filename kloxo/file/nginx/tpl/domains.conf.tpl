@@ -49,10 +49,6 @@ if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
 
-if ($blockips) {
-//    $blockips = str_replace(' ', ', ', $blockips);
-}
-
 $userinfo = posix_getpwnam($user);
 
 if ($userinfo) {
@@ -61,9 +57,9 @@ if ($userinfo) {
     return false;
 }
 
-// MR -- to make easy for watchdog, apache user have uid 50000
-//$userinfoapache = posix_getpwnam('apache');
-//$fpmportapache = (50000 + $userinfoapache['uid']);
+// MR -- for future purpose, apache user have uid 50000
+// $userinfoapache = posix_getpwnam('apache');
+// $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
 $disablepath = "/home/kloxo/httpd/disable";

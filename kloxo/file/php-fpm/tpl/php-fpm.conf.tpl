@@ -21,6 +21,7 @@
 <?php
     foreach ($userlist as &$user) {
         if ($user === 'apache') {
+            // MR -- for future purpose, apache user have uid 50000
             $fpmport = 50000;
             $pool = 'default';
         } else {
@@ -52,7 +53,7 @@
             <value name="chroot"></value>
             <value name="chdir"></value>
             <value name="catch_workers_output">yes</value>
-            <value name="max_requests">500</value>
+            <value name="max_requests">1000</value>
             <value name="allowed_clients">127.0.0.1</value>
             <value name="environment">
                 <value name="HOSTNAME">$HOSTNAME</value>

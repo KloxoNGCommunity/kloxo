@@ -2,6 +2,7 @@
     $userinfo = posix_getpwnam($user);
 
     if ($user === 'apache') {
+        // MR -- for future purpose, apache user have uid 50000
         $fpmport = 50000;
     } else {
         $userinfo = posix_getpwnam($user);
@@ -14,9 +15,9 @@
         $pool = $user;
     }
 
-    $startserver = '2';
-    $minspareserver = '1';
-    $maxspareserver = '2';
+    $startservers = '2';
+    $minspareservers = '1';
+    $maxspareservers = '2';
     $maxchildren = '5';
 ?>
 [<?php echo $pool; ?>]
@@ -31,11 +32,11 @@ group = <?php echo $user; ?>
 pm = dynamic
 pm.max_children = <?php echo $maxchildren; ?>
 
-pm.start_servers = <?php echo $startserver; ?>
+pm.start_servers = <?php echo $startservers; ?>
 
-pm.min_spare_servers = <?php echo $minspareserver; ?>
+pm.min_spare_servers = <?php echo $minspareservers; ?>
 
-pm.max_spare_servers = <?php echo $maxspareserver; ?>
+pm.max_spare_servers = <?php echo $maxspareservers; ?>
 
 pm.max_requests = 1000
 ;pm.status_path = /status
