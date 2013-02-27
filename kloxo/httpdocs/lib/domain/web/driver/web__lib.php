@@ -541,7 +541,7 @@ class web__ extends lxDriverClass
 		$t = trim($t);
 
 		if ($t) {
-			$t = str_replace(".*", "", $t);
+		//	$t = str_replace(".*", "", $t);
 			$t = explode(" ", $t);
 		} else {
 			$t = null;

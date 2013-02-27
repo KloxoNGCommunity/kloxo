@@ -49,6 +49,17 @@ if ($indexorder) {
     $indexorder = implode(' ', $indexorder);
 }
 
+if ($blockips) {
+    $biptemp = array();
+    foreach ($blockips as &$bip) {
+        if (strpos($bip, ".*.*.*") !== false) { $bip = str_replace(".*.*.*", ".0.0/8", $bip); }
+        if (strpos($bip, ".*.*") !== false) { $bip = str_replace(".*.*", ".0.0/16", $bip); }
+        if (strpos($bip, ".*") !== false)  { $bip = str_replace(".*", ".0/24", $bip); }
+        $biptemp[] = $bip;
+    }
+    $blockips = $biptemp;
+}
+
 $userinfo = posix_getpwnam($user);
 
 if ($userinfo) {
