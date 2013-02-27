@@ -72,7 +72,7 @@ if ($blockips) {
     }
     $blockips = $biptemp;
 
-    $blockips = implode(', ', $blockips);
+    $blockips = implode(' ', $blockips);
 }
 
 $userinfo = posix_getpwnam($user);
