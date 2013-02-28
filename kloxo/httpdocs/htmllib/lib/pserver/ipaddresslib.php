@@ -551,6 +551,9 @@ class Ipaddress extends Lxdb
 		if ($subaction === 'update') {
 			$vlist['devname'] = array("M", $this->devname);
 			$vlist['ipaddr'] = array('M', $this->ipaddr);
+			// MR -- range ip still not work
+		//	$vlist['ipaddr_begin'] = array('M', $this->ipaddr_begin);
+		//	$vlist['ipaddr_end'] = array('M', $this->ipaddr_end);
 			$vlist['netmask'] = array('M', $this->netmask);
 			$vlist['gateway'] = array('M', $this->gateway);
 			$vlist['__v_button'] = "";
@@ -591,6 +594,17 @@ class Ipaddress extends Lxdb
 			throw new lxexception("ipaddress_invalid", 'ipaddr');
 		}
 
+/*
+		// MR -- range ip still not work
+		if (!self::isValidIpaddress($param['ipaddr_begin'])) {
+			throw new lxexception("ipaddress_invalid", 'ipaddr_begin');
+		}
+
+		if (!self::isValidIpaddress($param['ipaddr_end'])) {
+			throw new lxexception("ipaddress_invalid", 'ipaddr_end');
+		}
+*/
+
 		if ($param['gateway']) {
 			if (!self::isValidIpaddress($param['gateway'])) {
 				throw new lxexception("gateway_invalid", 'gateway');
@@ -616,7 +630,16 @@ class Ipaddress extends Lxdb
 		if (!$ret) {
 			throw new lxexception("some_other_host_uses_this_ip", 'ipaddr');
 		}
+/*
+		// MR -- range ip still not work
+		for ($a = $param['ipaddr_begin']; $a <= $param['ipaddr_end']; &a++) {
+			$ret = lxshell_return("ping", "-n", "-c", "1", "-w", "5", $a);
 
+			if (!$ret) {
+				throw new lxexception("some_other_host_uses_this_ip", $a);
+			}
+		}
+*/
 	}
 
 	function postAdd()
@@ -651,9 +674,10 @@ class Ipaddress extends Lxdb
 
 		$vlist['devname'] = array('s', $result);
 
-	//	$vlist['ipaddr'] = "";
-		$vlist['ipaddr_begin'] = "";
-		$vlist['ipaddr_end'] = "";
+		$vlist['ipaddr'] = "";
+		// MR -- range ip still not work
+	//	$vlist['ipaddr_begin'] = "";
+	//	$vlist['ipaddr_end'] = "";
 
 		$vlist['netmask'] = array('m', '255.255.255.0');
 
