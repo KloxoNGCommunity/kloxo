@@ -159,6 +159,8 @@ class serverweb__ extends lxDriverClass
 		}
 
 		$this->set_secondary_php();
+
+		createRestartFile('httpd');
 	}
 
 	function set_modphp($type)
@@ -191,8 +193,10 @@ class serverweb__ extends lxDriverClass
 	function set_suphp()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haepath = '/home/apache/etc';
 		$haecdpath = '/home/apache/etc/conf.d';
+
+		$epath = '/etc';
+		$haepath = '/home/apache/etc';
 
 		lxshell_return("yum", "-y", "install", "mod_suphp");
 		$ret = lxshell_return("yum", "-y", "update", "mod_suphp");
@@ -208,10 +212,10 @@ class serverweb__ extends lxDriverClass
 		$this->rename_to_nonconf();
 
 		if (version_compare($ver, "5.3.0", ">")) {
-			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), "/etc/suphp.conf");
+			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
 			$this->remove_phpfpm();
 		} else {
-			lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), "/etc/suphp.conf");
+			lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), $epath . "/suphp.conf");
 			$this->set_php_pure();
 		}
 
@@ -421,10 +425,9 @@ class serverweb__ extends lxDriverClass
 
 		if ($this->main->secondary_php === 'on') {
 			if (stripos($this->main->php_type, 'suphp') !== false) {
-			//	lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
-				lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
 			} else {
-				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");
 				lxfile_rm($ehcdpath . "/suphp52.nonconf");
 
 				$ret = lxshell_return("yum", "-y", "install", "mod_suphp");
@@ -433,21 +436,21 @@ class serverweb__ extends lxDriverClass
 					throw new lxexception('install_mod_suphp_failed', 'parent');
 				}
 
+				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");
-
-			//	lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
-				lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
 			}
 
 		} else {
-		//	lxfile_mv($ehcdpath."/suphp52.conf", $ehcdpath."/suphp52.nonconf");
-			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
+			lxfile_rm($ehcdpath . "/suphp52.conf");
 
 			if (stripos($this->main->php_type, 'suphp') !== false) {
 				lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp.conf"), $ehcdpath . "/suphp.conf");
 			} else {
-				lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
 			}
 		}
+
+		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
 	}
 }
