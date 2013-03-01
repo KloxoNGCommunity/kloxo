@@ -1,0 +1,46 @@
+#!/bin/sh
+
+if [ "$#" == 0 ] ; then
+	echo
+	echo " ---------------------------------------------------------------------------"
+	echo "  format: sh $0 <module_name>"
+	echo " ---------------------------------------------------------------------------"
+	echo " - Because lxphp still in php 5.2.x, better use the same version/target for"
+	echo "   php 5.2.x too"
+	echo
+	echo " - If using Centos 6, add inside '/etc/yum.repos.d/kloxo-mr.repo' with:"
+	echo
+       echo "   [kloxo-mr-ius-centos5]"
+       echo "   name=Kloxo-MR - IUS Community Packages for Enterprise Linux \$releasever"
+       echo "   baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/5/\$basearch"
+       echo "   enabled=1"
+       echo "   gpgcheck=0"
+       echo "   includepkgs=php52*"
+	echo
+	echo " - Then update .ini file for inside '/usr/local/lxlabs/ext/php/etc/php.d':"
+	echo "   from 'extension=module_name.so'"
+	echo "   to 'extension=/usr/local/lxlabs/ext/php/lib/module_name.so'"
+	echo
+	exit;
+fi
+
+yum install yum-utils -y
+
+rm -rf /tmp/lxphp-module/*
+
+mkdir -p /tmp/lxphp-module
+
+cd /tmp/lxphp-module
+
+yumdownloader $1
+
+rpm2cpio *.rpm | cpio -idmv
+
+cp -f /tmp/lxphp-module/usr/lib64/php/modules/* /usr/local/lxlabs/ext/php/lib
+cp -f /tmp/lxphp-module/etc/php.d/* /usr/local/lxlabs/ext/php/etc/php.d
+
+chown lxlabs:lxlabs -R /usr/local/lxlabs
+
+
+
+
