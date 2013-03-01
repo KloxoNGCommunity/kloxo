@@ -21,6 +21,9 @@ if [ "$#" == 0 ] ; then
 	echo "   from 'extension=module_name.so'"
 	echo "   to 'extension=/usr/local/lxlabs/ext/php/lib/module_name.so'"
 	echo
+	echo " - Check '/usr/local/lxlabs/ext/php/error.log' after testing with"
+	echo "   'lxphp.exe -v'"
+	echo
 	exit;
 fi
 
