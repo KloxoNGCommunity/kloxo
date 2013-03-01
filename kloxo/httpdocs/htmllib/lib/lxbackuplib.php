@@ -483,7 +483,7 @@ class lxbackup extends Lxdb
 		$val = $param['_accountselect'];
 		$res = implode($val, ",");
 		$res = str_replace("-", ":", $res);
-	//$res = str_replace("_s_vv_p_", ":", $res);
+	//	$res = str_replace("_s_vv_p_", ":", $res);
 
 		lxshell_background("__path_php_path", "../bin/common/restore.php", "--class=$class",
 			"--name=$name", "--restore", "--accounts=$res", "--priority=low", $file);
@@ -519,7 +519,7 @@ class lxbackup extends Lxdb
 		return $bfile;
 	}
 
-	function doupdateBackup($param)
+	function doUpdateBackup($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
@@ -751,9 +751,10 @@ class lxbackup extends Lxdb
 		}
 
 		if (!$gbl->__var_list_flag) {
-			lx_mail(null, $this->getParentO()->contactemail, "$cprogname Restoration on " .
-				date('Y-M-d') . " at " . date('H') . " Hours",
-				"$cprogname Restoration Succeeded for {$parent->nname}\n");
+			$text1 = "$cprogname Restore on " . date('Y-M-d') . " at " . date('H') . " Hours";
+			$text2 = "$cprogname Restore Succeeded for '{$this->getParentO()->nname}'";
+			lx_mail(null, $this->getParentO()->contactemail, $text1, $text2 . "\n");
+			log_log("restore", "* " . $text1 . " - " . $text2);
 		}
 
 		if ($sgbl->isKloxo()) {

@@ -76,17 +76,7 @@ class Mmail__Qmail extends lxDriverClass
 		$mailpath = self::getDir($this->main->nname);
 		$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
 
-		log_log("restore", "* Mail for '{$this->main->nname}' on '{$sgbl->__path_mail_data}'");
-
-	//	lxshell_unzip_with_throw($mailpath, $docd);
-
-		$ret = lxshell_unzip($username, $dir, $file, $list);
-
-		if ($ret) {
-			log_log("restore", "- Could not unzip on '{$mailpath}'");
-		} else {
-			log_log("restore", "- Succeeded unzip for '{$mailpath}'");
-		}
+		lxshell_unzip_with_throw($mailpath, $docd);
 
 		lxfile_unix_chown_rec($mailpath, mmail__qmail::getUserGroup($this->main->nname));
 

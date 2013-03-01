@@ -237,8 +237,6 @@ function do_restore($docd)
 
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	log_log("restore", "* MySQL database");
-
 	$dbadmin = $this->main->__var_dbadmin;
 	$dbpass = $this->main->__var_dbpassword;
 	$dbname = $this->main->dbname;

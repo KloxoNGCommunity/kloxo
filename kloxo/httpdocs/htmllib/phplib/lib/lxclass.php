@@ -1333,6 +1333,7 @@ abstract class Lxclass
 		if ($this->inNoBackuplist()) {
 			return;
 		}
+
 		$list = $this->getBackupChildList();
 
 		//print("Loading {$this->get__table()} {$this->nname}\n");
@@ -1355,7 +1356,7 @@ abstract class Lxclass
 				foreach ((array)$clist as $ch) {
 					$ch->__parent_o = $this;
 					print("Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'\n");
-					log_log("backup", "Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'");
+				//	log_log("backup", "Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'");
 
 					if ($ch->parent_clname && !$ch->isRightParent()) {
 						unset($this->{$c}[$ch->nname]);
@@ -5675,11 +5676,7 @@ abstract class Lxclass
 			$ob = $rem->bobject;
 		}
 
-		//	dprint($ob->getClName()); dprint($this->getClName());
-
-		// Issue #671 - Fixed backup-restore issue
-		// forum http://forum.lxcenter.org/index.php?t=msg&th=16875
-		// TODO!
+	//	dprint($ob->getClName()); dprint($this->getClName());
 
 		if ($ob->getClName() !== $this->getClName()) {
 			throw new lxException('objectclassname_doesnt_match', '');
@@ -5718,12 +5715,16 @@ abstract class Lxclass
 			if (!$gbl->__var_list_flag) {
 				$ob->was();
 				foreach ($sgbl->__var_objectrestorelist as $d) {
+					print("Taking restore of '{$d->get__table()}:{$d->nname}'\n");
+					log_log("restore", "Taking restore of '{$d->get__table()}:{$d->nname}'");
 					$d->restoreMeUp($vd, $rem->ddate);
 				}
 			}
 		} catch (Exception $e) {
 			lxfile_tmp_rm_rec($vd);
-			throw $e;
+		//	throw $e;
+			print("Failed for taking restore of '{$d->get__table()}:{$d->nname}'\n");
+			log_log("restore", "- Alert: Failed restore of '{$d->get__table()}:{$d->nname}'\n");
 		}
 
 		lxfile_tmp_rm_rec($vd);
@@ -5773,7 +5774,7 @@ abstract class Lxclass
 			lxfile_tmp_rm_rec($vd);
 		//	throw $e;
 			print("Failed for taking backup of '{$d->get__table()}:{$d->nname}'\n");
-			log_log("backup", "Failed for taking backup of '{$d->get__table()}:{$d->nname}'\n");
+			log_log("backup", "- Alert: Failed backup of '{$d->get__table()}:{$d->nname}'\n");
 		}
 
 		$list = lscandir_without_dot($vd);

@@ -50,7 +50,7 @@ function schedulebackup_main()
 			$param['upload_to_ftp'] = $l->upload_to_ftp;
 			$backup = $l;
 			$object = $l->getParentO();
-			$backup->doupdateBackup($param);
+			$backup->doUpdateBackup($param);
 			$backup->backupstage = 'done';
 		} catch (exception $e) {
 			$mess = "{$e->__full_message}\n";

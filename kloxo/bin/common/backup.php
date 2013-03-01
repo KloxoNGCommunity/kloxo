@@ -80,7 +80,7 @@ function backup_main()
 	log_log("backup", "*** Backup from '{$name}' user - BEGIN ***");
 
 	try {
-		$backup->doupdateBackup($param);
+		$backup->doUpdateBackup($param);
 		$backup->backupstage = 'done';
 		print("Backup has been saved in $sgbl->__path_program_home/{$backup->getParentO()->get__table()}/{$backup->getParentO()->nname}/__backup/{$param['backup_to_file_f']}\n");
 	} catch (exception $e) {
