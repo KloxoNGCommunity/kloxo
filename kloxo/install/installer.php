@@ -864,6 +864,13 @@ function setUsingMyIsam()
 	// MR -- taken from mysql-convert.php with modified
 	// to make fresh install already use myisam as storage engine
 	// with purpose minimize memory usage (save around 100MB)
+	
+	$mysqlver = getRpmVersion('mysql');
+	
+	if (version_compare($mysqlver, '5.5.0', ">=")) {
+		// MR MySQL (also MariaDB) no permit 'skip-innodb'
+		return false;
+	}
 
 	if (getKloxoType() === '') {
 		$file = "/etc/my.cnf";
