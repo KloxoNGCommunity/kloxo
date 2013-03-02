@@ -1,7 +1,6 @@
 <?php 
 
-// release on Kloxo 6.1.7
-// by mustafa.ramadhan@lxcenter.org
+// by mustafa@bigraf.com for Kloxo-MR
 
 include_once "htmllib/lib/include.php"; 
 
@@ -149,7 +148,7 @@ function setMysqlConvert($engine, $database, $table, $config)
 		}
 	}
 
-	log_cleanup("- Convert of MySQL to ".$engine." engine finished");
+	log_cleanup("- Convert to '{$engine}' engine finished");
 
 	log_cleanup("- MySQL Service restarted");
 	restartMySql();
