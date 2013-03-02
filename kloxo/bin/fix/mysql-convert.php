@@ -36,10 +36,18 @@ function setMysqlConvert($engine, $database, $table, $config)
 
 	// MR -- need if switch mysql from 5.0.x to higher but mysql.servers not created
 	log_cleanup("- Insert mysql.servers table if not exist");
-	exec("mysqld -f -u root -p{$pass} mysql < /usr/local/lxlabs/kloxo/file/mysql.servers.sql");
+	exec("mysql -f -u root -p{$pass} mysql < /usr/local/lxlabs/kloxo/file/mysql.servers.sql");
+
+	$mysqlbranch = getRpmBranchInstalled('mysql');
+	
+	if (strpos($mysqlbranch, "MariaDB") !== false) {
+		$mycnfpath = "/etc/my.cnf.d/my.cnf";
+	} else {
+		$mycnfpath = "/etc/my.cnf";
+	}
 
 	//--- the first - to 'disable' skip- and restart mysql
-	system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
+	system("sed -i 's/skip/\;###123###skip/g' {$mycnfpath}");
 
 	restartMySql();
 
@@ -100,15 +108,13 @@ function setMysqlConvert($engine, $database, $table, $config)
 	}
 
 	//--- the second - back to 'original' config and restart mysql
-	system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf");
+	system("sed -i 's/\;###123###skip/skip/g' {$mycnfpath}");
 
 	restartMySql();
 
 	if ($config === 'yes') {
 		if ($database === '_all_') {
-			$file = "/etc/my.cnf";
-
-			$string = file_get_contents($file);
+			$string = file_get_contents($mycnfpath);
 
 			$string_array = explode("\n", $string);
 
@@ -129,17 +135,17 @@ function setMysqlConvert($engine, $database, $table, $config)
 			if ($engine === 'myisam') {
 				$string_source = "[mysqld]\n";
 				$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\n";
-				log_cleanup("- Added \"skip-innodb and default-storage-engine=".$engine."\" in /etc/my.cnf");
+				log_cleanup("- Added \"skip-innodb and default-storage-engine=".$engine."\" in {$mycnfpath}");
 			}
 			else {
 				$string_source = "[mysqld]\n";
 				$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\n";
-				log_cleanup("- Added \"default-storage-engine=".$engine."\" in /etc/my.cnf");
+				log_cleanup("- Added \"default-storage-engine=".$engine."\" in {$mycnfpath}");
 			}
 
 			$string_collect = str_replace($string_source, $string_replace, $string_collect);
 
-			file_put_contents($file, $string_collect);
+			file_put_contents($mycnfpath, $string_collect);
 		}
 	}
 
