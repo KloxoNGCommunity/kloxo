@@ -1,12 +1,12 @@
 all:
-	rm -f closeinput
+#	rm -f closeinput
 	rm -f kloxo.exe
 	rm -f kloxo.o
 
 	cc -static -o closeinput closeinput.c
 
-	chmod 755 closeinput
-	chmod ug+s closeinput
+#	chmod 755 closeinput
+#	chmod ug+s closeinput
 
 	gcc -o kloxo.exe kloxo.c -lssl
 	cp kloxo.exe ../sbin/kloxo.exe
