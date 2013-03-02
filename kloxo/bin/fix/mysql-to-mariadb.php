@@ -13,7 +13,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 	echo "- Already '{$mysqlbranch}' installed\n";
 } elseif (strpos($mysqlbranch, "mysql") !== false) {
 
-	exec("rpm -qa|grep MariaDB", $out, $ret);
+	exec("yum list|grep MariaDB", $out, $ret);
 	
 	if (!$out) {
 		echo "- No repo for MariaDB.\n";
@@ -33,7 +33,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		}
 
 		echo "- Install MariaDB\n";
-		exec("yum install MariaDB-server MariaDB-client -y >/dev/null 2>&1");
+		exec("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common -y >/dev/null 2>&1");
 
 		exec("cp -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf >/dev/null 2>&1");
 
