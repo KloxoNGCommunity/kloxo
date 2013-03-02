@@ -49,17 +49,27 @@ function updatecleanup_main()
 	}
 
 	// MR -- mysql not start after kloxo slave install
-	log_cleanup("Preparing MySQL service");
+	log_cleanup("Preparing MySQL/MariaDB service");
 
-	log_cleanup("- MySQL activated");
-	exec("chkconfig mysqld on");
+	if (file_exists("/etc/rc.d/init.d/mysqld")) {
+		log_cleanup("- MySQL activated");
+		exec("chkconfig mysql off >/dev/null 2>&1");
+		exec("chkconfig mysqld on");
 	
-	log_cleanup("- MySQL restarted");
-	exec("service mysqld restart");
+		log_cleanup("- MySQL restarted");
+		exec("service mysqld restart");
+	} elseif (file_exists("/etc/rc.d/init.d/mysql")) {
+		log_cleanup("- MariaDB activated");
+		exec("chkconfig mysqld off >/dev/null 2>&1");
+		exec("chkconfig mysql on");
 	
+		log_cleanup("- MariaDB restarted");
+		exec("service mysql restart");
+	}
+
 	$slist = array(
 		"httpd* lighttpd* nginx*",
-		"mod_* mysql* php* lx*",
+		"mod_* mysql* MariaDB* php* lx*",
 		"bind* djbdns* pure-ftpd*",
 		"*-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",

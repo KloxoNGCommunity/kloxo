@@ -1352,7 +1352,11 @@ function fix_vgname($vgname)
 
 function restart_mysql()
 {
-	exec_with_all_closed("service mysqld restart >/dev/null 2>&1");
+	if (file_exists("/etc/rc.d/init.d/mysqld")) {
+		exec_with_all_closed("service mysqld restart >/dev/null 2>&1");
+	} elseif (file_exists("/etc/rc.d/init.d/mysql")) {
+		exec_with_all_closed("service mysql restart >/dev/null 2>&1");
+	}
 }
 
 function restart_service($service)
