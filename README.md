@@ -18,6 +18,7 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 * Php: Dual-php with php 5.3/5.4 as primary and php 5.2 as secondary (in progress: multiple-php)
 * PHP-type for Apache: php-fpm_worker/_event and fcgid_worker/_event; beside mod_php/_ruid2/_itk and suphp/_worker/_event
 * Mail server: qmail-toaster instead special qmail (in progress: change from courier-imap to dovecot as imap/pop3)
+* Database: MySQL or MariaDB
 * Webmail: Afterlogic Webmail Lite, T-Dah and Squirrelmail; beside Roundcube and Horde
 * FTP server: Pure-ftpd
 * DNS Server: Bind, Djbdns and Powerdns (in progress)
