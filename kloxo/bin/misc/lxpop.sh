@@ -12,7 +12,7 @@ if [ ! -f "$MYSQLPR" ]; then
 	exit 1
 fi
 
-if [ -f /var/lock/subsys/mysqld ] ;then
+#if [ -f /var/lock/subsys/mysqld ] ;then
 	if [ -z $pass ] ; then
 		echo "CREATE DATABASE IF NOT EXISTS popuser; GRANT ALL PRIVILEGES ON popuser.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'" | "$MYSQLPR" -u"$name" 
 		#"$MYSQLPR" -u"$name"  < /home/lxadmin/mail/doc/finaldelivery-additions.sql
@@ -22,6 +22,6 @@ if [ -f /var/lock/subsys/mysqld ] ;then
 		# "$MYSQLPR" -u"$name" -p"$pass" < /home/lxadmin/mail/doc/finaldelivery-additions.sql
 		echo "CREATE DATABASE IF NOT EXISTS vpopmail;GRANT ALL PRIVILEGES ON vpopmail.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'" | "$MYSQLPR" -u"$name" -p"$pass"
 	fi
-fi
+#fi
  
 echo "localhost|0|$dbuser|$dbpass|vpopmail">/home/lxadmin/mail/etc/vpopmail.mysql
