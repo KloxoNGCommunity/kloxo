@@ -1,5 +1,5 @@
 <?php
-    $maxchildren = '5';
+    $maxchildren = '6';
 
     $userlist[] = 'apache';
 

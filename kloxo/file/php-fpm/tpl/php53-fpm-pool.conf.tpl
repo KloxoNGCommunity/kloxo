@@ -15,10 +15,10 @@
         $pool = $user;
     }
 
-    $startservers = '2';
-    $minspareservers = '1';
-    $maxspareservers = '2';
-    $maxchildren = '5';
+    $startservers = '4';
+    $minspareservers = '2';
+    $maxspareservers = '4';
+    $maxchildren = '6';
 ?>
 [<?php echo $pool; ?>]
 listen = 127.0.0.1:<?php echo $fpmport; ?>
