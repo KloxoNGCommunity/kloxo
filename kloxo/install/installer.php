@@ -58,14 +58,12 @@ function lxins_main()
 
 	$mypass = password_gen();
 
+	// MR -- also issue on Centos 5.9 - prevent for update!
+	if (php_uname('m') === 'x86_64') {
+		system("yum remove mysql*.i386 mysql*.i686 -y");
+	}
+		
 	if (getKloxoType() !== '') {
-		// MR -- also issue on Centos 5.9 - prevent for update!
-		if (php_uname('m') === 'x86_64') {
-			system("yum remove mysql*.i386 -y");
-			// MR -- also for centos 6
-			system("yum remove mysql*.i686 -y");
-		}
-
 		//--- Create temporary flags for install
 		system("mkdir -p /var/cache/kloxo/");
 
@@ -94,8 +92,6 @@ function lxins_main()
 			}
 		}
 		
-	//	system("mkdir -p /var/cache/kloxo/");
-
 		if (($noasking !== 'yes') || ($licenseagree !== 'yes')) {
 			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan ***\n");
 			print("- Better using backup-restore process for update from Kloxo 6.1.12+.\n");
@@ -128,7 +124,6 @@ function lxins_main()
 			$installappinst = true;
 		}
 	*/
-//	system("echo 1 > /var/cache/kloxo/kloxo-install-disableinstallapp.flg");
 
 	kloxo_install_step1();
 
@@ -146,11 +141,13 @@ function lxins_main()
 	if (getKloxoType() === '') {
 		kloxo_install_step2($installtype, $dbroot, $dbpass);
 	}
-	/*
-		if ($installappinst) {
-			kloxo_install_installapp();
-		}
-	*/
+	
+/*
+	if ($installappinst) {
+		kloxo_install_installapp();
+	}
+*/
+	
 	kloxo_install_before_bye();
 
 	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
@@ -185,7 +182,7 @@ function install_main()
 		$installcomp['mail'] = array("httpd", "autorespond-toaster", "courier-authlib-toaster",
 			"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 			"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
-			"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail");
+			"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter");
 	}
 
 	$installcomp['web'] = array("httpd", "pure-ftpd");
@@ -212,11 +209,6 @@ function install_main()
 			install_general_mine($req);
 			print("\n");
 		}
-	}
-
-	// MR -- also issue on Centos 5.9 - prevent for update!
-	if (php_uname('m') === 'x86_64') {
-		system("yum remove mysql*.i386 -y");
 	}
 
 	$options_file = "/var/named/chroot/etc/global.options.named.conf";
@@ -339,9 +331,6 @@ function kloxo_install_step1()
 		
 		system("groupadd -g 89 vchkpw > /dev/null 2>&1");
 		system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' > /dev/null 2>&1");
-
-		system("groupmod -g 89 vchkpw > /dev/null 2>&1");
-		system("usermod -u 89 -G vchkpw vpopmail > /dev/null 2>&1");
 	}
 	
 	if (!file_exists("/etc/rc.d/init.d/djbdns")) {
@@ -366,7 +355,7 @@ function kloxo_install_step1()
 		"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "{$phpbranch}-pspell",
 		"tnef", "lxlighttpd", $httpdbranch, "mod_ssl",
 		"zip", "unzip", "lxphp", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
-		"libtool", "bogofilter", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
+		"libtool", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
 		"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "net-snmp", "tmpwatch", "rkhunter"
 	);
 
@@ -500,18 +489,12 @@ function kloxo_install_before_bye()
 			$reinst = false;
 		}
 	*/
-	//--- Remove all temporary flags because the end of install
-//	print("\nRemove Kloxo install flags...\n");
-//	system("rm -rf /var/cache/kloxo/*-version");
-//	system("rm -rf /var/cache/kloxo/kloxo-install-*.flg");
 
 	//--- Prevent mysql socket problem (especially on 64bit system)
 	if (!file_exists("/var/lib/mysql/mysql.sock")) {
 		print("Create mysql.sock...\n");
-	//	system("service mysqld stop");
 		actionMysql("stop");
 		system("mksock /var/lib/mysql/mysql.sock");
-	//	system("service mysqld start");
 		actionMysql('start');
 	}
 
@@ -522,17 +505,8 @@ function kloxo_install_before_bye()
 		//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
 		print("Setting Mysql for always running after reboot and restart now...\n");
 
-	//	system("chkconfig mysqld on");
-	//	system("service mysqld start");
 		actionMysql('start');
 	}
-	/*
-		if ($reinst) {
-			system("sh /script/cleanup");
-		}
-	*/
-
-//	system("sh /script/cleanup");
 }
 
 function kloxo_install_bye($installtype)
@@ -932,7 +906,6 @@ function copy_script()
 	global $argv;
 	global $lxlabspath, $kloxopath, $currentpath, $stamp;
 
-//	exec("rm -f /script");
 	exec("mkdir -p /script/filter");
 
 	exec("cp -rf {$kloxopath}/httpdocs/htmllib/script/* /script/");

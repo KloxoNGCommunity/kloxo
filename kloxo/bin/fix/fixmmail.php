@@ -12,7 +12,7 @@ $nolog  = (isset($list['nolog'])) ? $list['nolog'] : null;
 $login->loadAllObjects('client');
 $list = $login->getList('client');
 
-log_cleanup("Fixing Mail accounts", $nolog);
+log_cleanup("Fixing Mail accounts (also 'lists' if exists)", $nolog);
 
 foreach($list as $c) {
 	if ($client) {
