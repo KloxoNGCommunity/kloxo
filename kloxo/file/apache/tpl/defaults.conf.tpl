@@ -147,7 +147,8 @@ Listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $docroot; ?>/<?php echo $setdefaults; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
+		
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $setdefaults; ?>.<?php echo $count; ?>fake
 
@@ -173,8 +174,8 @@ Listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />

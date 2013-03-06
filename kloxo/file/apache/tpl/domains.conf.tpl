@@ -221,7 +221,8 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?>
+		
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $domainname; ?>.<?php echo $count; ?>fake
 
@@ -247,8 +248,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
     </IfModule>
 
     <IfModule mod_php5.c>
@@ -431,7 +432,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
 
@@ -458,8 +459,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -545,7 +546,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
@@ -572,8 +573,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -665,7 +666,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
@@ -692,8 +693,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
     </IfModule>
 
     <Directory "<?php echo $redirfullpath; ?>/">
@@ -797,7 +798,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
@@ -824,8 +825,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -912,7 +913,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
@@ -939,8 +940,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -1021,7 +1022,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
@@ -1048,8 +1049,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
@@ -1136,7 +1137,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_fastcgi.c>
         Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120
+        FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?>
 
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
@@ -1163,8 +1164,8 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 
     <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/ timeout=120
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 
     <Location />
