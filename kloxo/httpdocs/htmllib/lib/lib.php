@@ -2292,44 +2292,6 @@ function parse_opt($argv)
 	return $ret;
 }
 
-function fix_rhn_sources_file($nolog = null)
-{
-
-	log_cleanup("Fixing RedHat NetWork Source", $nolog);
-	log_cleanup("- Fix processes", $nolog);
-
-	$os = findOperatingSystem('pointversion');
-	/*
-		// MR -- deprecated for this!
-		// info inside 'sources'
-		//     # CentOS NOTE: This file is deprecated and no longer used, all system management
-		//     # is now handled via yum, look at yum's configs to manage repositories etc
-
-		$list = lfile("/etc/sysconfig/rhn/sources");
-		foreach ($list as $k => $l) {
-			$l = trim($l);
-
-			if (!$l) {
-				continue;
-			}
-			if (csb($l, "yum lxcenter")) {
-				continue;
-			}
-			$outlist[$k] = $l;
-		}
-
-		$outlist[] = "\n";
-		$outlist[] = "yum lxcenter-updates http://download.lxcenter.org/download/update/$os/\$ARCH/";
-		$outlist[] = "yum lxcenter-lxupdates http://download.lxcenter.org/download/update/lxgeneral/";
-
-		lfile_put_contents("/etc/sysconfig/rhn/sources", implode("\n", $outlist) . "\n");
-	*/
-	$cont = lfile_get_contents("__path_program_htmlbase/htmllib/filecore/lxcenter.repo.template");
-
-	$cont = str_replace("%distro%", $os, $cont);
-	lfile_put_contents("/etc/yum.repos.d/lxcenter.repo", $cont);
-}
-
 function mkdir_ifnotExist($name)
 {
 }
@@ -4762,43 +4724,6 @@ function lxguard_save_hitlist($hl)
 
 // --- move from kloxo/httpdocs/htmllib/lib/updatelib.php
 
-function install_xcache($nolog = null)
-{
-	//--- issue 547 - xcache failed to install
-
-	log_cleanup("Install xcache if is not enabled", $nolog);
-
-	if (lxfile_exists("../etc/flag/xcache_enabled.flg")) {
-		log_cleanup("- Enabled status", $nolog);
-		/*
-			exec("rpm -q php-xcache", $out, $ret);
-
-			if (stripos($out[0], 'not installed')) {
-				log_cleanup("- Installing", $nolog);
-				lxshell_return("yum", "-y", "install", "php-xcache");
-			} else {
-				log_cleanup("- Already installed", $nolog);
-			}
-		*/
-		$phpbranch = getRpmBranchInstalled('php');
-
-		$ret = isRpmInstalled("{$phpbranch}-xcache");
-
-		if ($ret) {
-			log_cleanup("- Already installed", $nolog);
-		} else {
-			log_cleanup("- Installing", $nolog);
-			lxshell_return("yum", "-y", "install", "{$phpbranch}-xcache");
-		}
-
-		// for customize?
-		//	lxfile_cp("../file/xcache.ini", "/etc/php.d/xcache.ini");
-	} else {
-		lxshell_return("yum", "-y", "remove", "php-xcache");
-		log_cleanup("- Disabled status", $nolog);
-	}
-}
-
 function fix_domainkey($nolog = null)
 {
 	log_cleanup("Fix Domainkeys", $nolog);
@@ -4907,26 +4832,6 @@ function installSuphp()
 function fixadminuser()
 {
 	lxshell_return("__path_php_path", "../bin/fix/fixadminuser.php", "--nolog");
-}
-
-function install_gd($nolog = null)
-{
-	global $global_dontlogshell;
-
-	$phpbranch = getRpmBranchInstalled('php');
-
-	$global_dontlogshell = true;
-
-	log_cleanup("Check for {$phpbranch}-gd", $nolog);
-
-	if (!isRpmInstalled("{$phpbranch}-gd")) {
-		log_cleanup("- Install process", $nolog);
-		exec("yum -y install {$phpbranch}-gd");
-	} else {
-		log_cleanup("- Already installed. No need to install", $nolog);
-	}
-
-	$global_dontlogshell = false;
 }
 
 function fixphpinfo()
@@ -5241,190 +5146,6 @@ function installWithVersion($path, $file, $ver = null, $nolog = null)
 	}
 }
 
-//--- new function for replace download_thirdparty() in kloxo/httpdocs/htmllib/lib/lib.php
-function installThirdparty($ver = null, $nolog = null)
-{
-	global $sgbl;
-
-	$prgm = $sgbl->__var_program_name;
-
-	log_cleanup("ThirdParty Checks", $nolog);
-
-	if (!$ver) {
-		$ver = file_get_contents("http://download.lxcenter.org/download/thirdparty/$prgm-version.list");
-		$ver = getVersionNumber($ver);
-		log_cleanup("- $prgm-thirdparty version is $ver", $nolog);
-	}
-
-	$path = "/usr/local/lxlabs/$prgm";
-
-	/*
-	 // Fixes #303 and #304
-	 // the code deleted
- */
-	if (lxfile_exists("/var/cache/kloxo/kloxo-install-firsttime.flg")) {
-		$locverpath = "/var/cache/kloxo/$prgm-thirdparty-version";
-		$locver = getVersionNumber(file_get_contents($locverpath));
-		log_cleanup("- $prgm-thirdparty local copy version is $locver", $nolog);
-		if (lxfile_exists("/var/cache/kloxo/$prgm-thirdparty.$locver.zip")) {
-			log_cleanup("- Use $prgm-thirdparty version $locver local copy for installing", $nolog);
-			$ver = $locver;
-		} else {
-			log_cleanup("- Download and use version $ver for installing", $nolog);
-			exec("cd /var/cache/kloxo/ ; rm -f $prgm-thirdparty.*.zip ; " .
-				"wget download.lxcenter.org/download/$prgm-thirdparty.$ver.zip");
-		}
-		$DoUpdate = true;
-	} else {
-		if (!lxfile_exists("/var/cache/kloxo/$prgm-thirdparty.$ver.zip")) {
-			log_cleanup("- Download and use version $ver for updating", $nolog);
-			exec("cd /var/cache/kloxo/ ; rm -f $prgm-thirdparty.*.zip ; " .
-				"wget download.lxcenter.org/download/$prgm-thirdparty.$ver.zip");
-			$DoUpdate = true;
-		} else {
-			log_cleanup("- No update found.", $nolog);
-			$DoUpdate = false;
-		}
-	}
-
-	$ret = null;
-
-	if ($DoUpdate) {
-		//	core_installWithVersion($path, "$prgm-thirdparty", $string);
-		//	exec("cd $path ; unzip -oq /var/cache/kloxo/$prgm-thirdparty.$ver.zip");
-		$ret = lxshell_unzip("__system__", $path, "/var/cache/kloxo/$prgm-thirdparty.$ver.zip");
-		lxfile_unix_chmod("/usr/local/lxlabs/$prgm/httpdocs/thirdparty/phpMyAdmin/config.inc.php", "0644");
-	}
-
-	if (!$ret) {
-		return true;
-	}
-}
-
-function installWebmail($ver = null, $nolog = null)
-{
-	//	if (!is_numeric($ver)) { return; }
-
-	log_cleanup("Webmail Checks", $nolog);
-
-	$file = "lxwebmail";
-
-	if (!$ver) {
-		$ver = getVersionNumber(get_package_version($file));
-		log_cleanup("- $file version is $ver", $nolog);
-	}
-
-	lxfile_mkdir("/var/cache/kloxo");
-	$path = "/home/kloxo/httpd/webmail";
-	lxfile_mkdir($path);
-
-	if (lxfile_exists("/var/cache/kloxo/kloxo-install-firsttime.flg")) {
-		$locverpath = "/var/cache/kloxo/$file-version";
-		$locver = getVersionNumber(file_get_contents($locverpath));
-		log_cleanup("- local copy version is $locver", $nolog);
-		if (lxfile_exists("/var/cache/kloxo/$file$locver.tar.gz")) {
-			log_cleanup("- Use $file version $locver local copy for installing", $nolog);
-			$ver = $locver;
-		} else {
-			log_cleanup("- Download and use version $ver for installing", $nolog);
-			exec("cd /var/cache/kloxo/ ; rm -f $file*.tar.gz; " .
-				"wget download.lxcenter.org/download/$file$ver.tar.gz");
-		}
-		$DoUpdate = true;
-	} else {
-		if (!lxfile_exists("/var/cache/kloxo/$file$ver.tar.gz")) {
-			log_cleanup("- Download and use version $ver for updating", $nolog);
-			exec("cd /var/cache/kloxo/ ; rm -f $file*.tar.gz; " .
-				"wget download.lxcenter.org/download/$file$ver.tar.gz");
-			$DoUpdate = true;
-		} else {
-			log_cleanup("- No update found.", $nolog);
-			$DoUpdate = false;
-		}
-	}
-
-	$ret = null;
-
-	if ($DoUpdate) {
-		$tfile_h = lx_tmp_file("hordeconf");
-		$tfile_r = lx_tmp_file("roundcubeconf");
-		if (lxfile_exists("$path/horde/config/conf.php")) {
-			lxfile_cp("$path/horde/config/conf.php", $tfile_h);
-		}
-		if (lxfile_exists("$path/roundcube/config/db.inc.php")) {
-			lxfile_cp("$path/roundcube/config/db.inc.php", $tfile_r);
-		}
-		lxfile_rm_rec("$path/horde");
-		lxfile_rm_rec("$path/roundcube");
-		$ret = lxshell_unzip("__system__", $path, "/var/cache/kloxo/$file$ver.tar.gz");
-		lxfile_cp($tfile_h, "$path/horde/config/conf.php");
-		lxfile_cp($tfile_r, "$path/roundcube/config/db.inc.php");
-		lxfile_rm($tfile_h);
-		lxfile_rm($tfile_r);
-	}
-
-	if (!$ret) {
-		return true;
-	}
-}
-
-function installAwstats($ver = null, $nolog = null)
-{
-	//	if (!is_numeric($ver)) { return; }
-
-	$file = "lxawstats";
-
-	log_cleanup("Awstats Checks", $nolog);
-
-	if (!$ver) {
-		$ver = getVersionNumber(get_package_version($file));
-		log_cleanup("- $file version is $ver", $nolog);
-	}
-
-	lxfile_mkdir("/var/cache/kloxo");
-	lxfile_mkdir("/home/kloxo/httpd/awstats/");
-
-	$path = "/home/kloxo/httpd/awstats";
-
-	if (lxfile_exists("/var/cache/kloxo/kloxo-install-firsttime.flg")) {
-		$locverpath = "/var/cache/kloxo/$file-version";
-		$locver = getVersionNumber(file_get_contents($locverpath));
-		log_cleanup("- local copy version is $locver", $nolog);
-		if (lxfile_exists("/var/cache/kloxo/$file$locver.tar.gz")) {
-			log_cleanup("- Use version $locver local copy for installing", $nolog);
-			$ver = $locver;
-		} else {
-			log_cleanup("- Download and use version $ver for installing", $nolog);
-			exec("cd /var/cache/kloxo/ ; rm -f $file*.tar.gz; " .
-				"wget download.lxcenter.org/download/$file$ver.tar.gz");
-		}
-		$DoUpdate = true;
-	} else {
-		if (!lxfile_exists("/var/cache/kloxo/$file$ver.tar.gz")) {
-			log_cleanup("- Download and use version $ver for updating", $nolog);
-			exec("cd /var/cache/kloxo/ ; rm -f $file*.tar.gz; " .
-				"wget download.lxcenter.org/download/$file$ver.tar.gz");
-			$DoUpdate = true;
-		} else {
-			log_cleanup("- No update found.", $nolog);
-			$DoUpdate = false;
-		}
-	}
-
-	$ret = null;
-
-	if ($DoUpdate) {
-		lxfile_rm_rec("$path/tools/");
-		lxfile_rm_rec("$path/wwwroot/");
-		//	exec("cd $path ; tar -xzf /var/cache/kloxo/$file*.tar.gz tools wwwroot docs");
-		$ret = lxshell_unzip("__system__", $path, "/var/cache/kloxo/$file$ver.tar.gz");
-	}
-
-	if (!$ret) {
-		return true;
-	}
-}
-
 function setDefaultPages($nolog = null)
 {
 	log_cleanup("Initialize some skeletons", $nolog);
@@ -5522,55 +5243,6 @@ function setDefaultPages($nolog = null)
 	} else {
 		log_cleanup("- No exists user-logo", $nolog);
 	}
-}
-
-function setFreshClam($nolog = null)
-{
-	global $gbl, $sgbl, $login, $ghtml;
-	/*
-		// need this code until have kloxo database sync between master and slave
-		if ($sgbl->is_this_slave()) {
-			return;
-		}
-
-	//	log_cleanup("Checking freshclam (virus scanner)", $nolog);
-
-		$path = "/var/qmail/supervise/clamd";
-
-		if ((!isOn(db_get_value("servermail", "localhost", "virus_scan_flag"))) ||
-				(lxfile_exists("/var/cache/kloxo/kloxo-install-firsttime.flg"))) {
-			exec("chkconfig freshclam off > /dev/null 2>&1");
-			exec("/etc/init.d/freshclam stop >/dev/null 2>&1");
-
-		//	log_cleanup("- Disabled freshclam service", $nolog);
-
-			exec("svc -d {$path} {$path}/log > /dev/null 2>&1");
-
-			if (file_exists("{$path}/run.stop")) {
-				lxfile_mv("{$path}/run.stop", "{$path}/down");
-				lxfile_mv("{$path}/log/run.stop", "{$path}/log/down");
-			} else {
-				if (file_exists("{$path}/run")) {
-					lxfile_mv("{$path}/run", "{$path}/down");
-					lxfile_mv("{$path}/log/run", "{$path}/log/down");
-				}
-			}
-		} else {
-			exec("chkconfig freshclam on > /dev/null 2>&1");
-			exec("/etc/init.d/freshclam start >/dev/null 2>&1");
-
-		//	log_cleanup("- Enabled freshclam service", $nolog);
-
-			lxfile_mv("{$path}/down", "{$path}/run");
-			lxfile_mv("{$path}/log/down", "{$path}/log/run");
-			exec("svc -u {$path} {$path}/log > /dev/null 2>&1");
-		}
-
-		// Issue #658
-		if (lxfile_exists("/usr/share/clamav/main.cld")) {
-			lxfile_rm("/usr/share/clamav/main.cvd");
-		}
-	*/
 }
 
 function changeMailSoftlimit($nolog = null)
@@ -6197,39 +5869,6 @@ function setInitialPhpMyAdmin($nolog = null)
 
 }
 
-function setInitialKloxoPhp($nolog = null)
-{
-	/*
-		log_cleanup("Initialize kloxophp", $nolog);
-
-		if (file_exists("/usr/lib64")) {
-
-			log_cleanup("- Install kloxophp 64bit", $nolog);
-
-			if (!is_link("/usr/lib/kloxophp")) {
-				lxfile_rm_rec("/usr/lib/kloxophp");
-			}
-			installWithVersion("/usr/lib64/kloxophp", "kloxophpsixfour");
-			if (!lxfile_exists("/usr/lib/kloxophp")) {
-				lxfile_symlink("/usr/lib64/kloxophp", "/usr/lib/kloxophp");
-			}
-			if (!lxfile_exists("/usr/lib/php")) {
-				lxfile_symlink("/usr/lib64/php", "/usr/lib/php");
-			}
-			if (!lxfile_exists("/usr/lib/httpd")) {
-				lxfile_symlink("/usr/lib64/httpd", "/usr/lib/httpd");
-			}
-			if (!lxfile_exists("/usr/lib/lighttpd")) {
-				lxfile_symlink("/usr/lib64/lighttpd", "/usr/lib/lighttpd");
-			}
-		} else {
-
-			log_cleanup("- Install kloxophp 32bit", $nolog);
-			installWithVersion("/usr/lib/kloxophp", "kloxophp");
-		}
-	*/
-}
-
 function setRemoveOldDirs($nolog = null)
 {
 	log_cleanup("Remove Old dirs", $nolog);
@@ -6448,27 +6087,6 @@ function setInitialBind($nolog = null)
 	} else {
 		log_cleanup("- No need to initialize", $nolog);
 	}
-}
-
-function setExecuteCentos5Script($nolog = null)
-{
-	log_cleanup("Executing centos 5 script and remove epel repo", $nolog);
-
-	// MR -- it's not related to centos 5 but qmail; also implementing for centos 6
-	/*
-		if (is_centosfive()) {
-			log_cleanup("- Executing centos5-postpostupgrade script", $nolog);
-			lxshell_return("sh", "../pscript/centos5-postpostupgrade");
-			lxfile_cp("../file/centos-5/CentOS-Base.repo", "/etc/yum.repos.d/CentOS-Base.repo");
-			log_cleanup("- Remove epel.repo from system", $nolog);
-			lxfile_rm("/etc/yum.repos.d/epel.repo");
-		} else {
-			log_cleanup("- Not needed to execute", $nolog);
-		}
-	*/
-
-//	log_cleanup("- Executing centos5-postpostupgrade script", $nolog);
-//	lxshell_return("sh", "../pscript/centos5-postpostupgrade");
 }
 
 function setJailshellSystem($nolog = null)
@@ -7099,23 +6717,11 @@ function updatecleanup($nolog = null)
 
 	setPrepareKloxo($nolog);
 
-	// Fixes #303 and #304
-//	installThirdparty($nolog);
-
-	install_gd($nolog);
-
 	install_bogofilter($nolog);
 
 	setInitialPhpMyAdmin($nolog);
 
 	setInitialAdminAccount($nolog);
-
-	// MR -- no needed since 6.2.x
-//	setInitialKloxoPhp($nolog);
-
-//	installWebmail($nolog);
-
-//	installAwstats($nolog);
 
 	setRemoveOldDirs($nolog);
 
@@ -7155,9 +6761,6 @@ function updatecleanup($nolog = null)
 
 	copy_script($nolog);
 
-	// MR -- no needed since 6.2.x
-//	install_xcache($nolog);
-
 	log_cleanup("Install Kloxo service", $nolog);
 	log_cleanup("- Install process", $nolog);
 	lxfile_unix_chmod("/etc/init.d/kloxo", "0755");
@@ -7168,12 +6771,6 @@ function updatecleanup($nolog = null)
 	log_cleanup("Set /home permission to 0755", $nolog);
 	log_cleanup("- Set process", $nolog);
 	lxfile_unix_chmod("/home", "0755");
-
-	// MR -- not needed for qmail-toaster special 'treatment'
-//	setExecuteCentos5Script($nolog);
-
-	// MR -- no needed since 6.2.x for lxcenter.repo
-//	fix_rhn_sources_file($nolog);
 
 	setKloxoHttpdChownChmod($nolog);
 
@@ -7203,10 +6800,6 @@ function updatecleanup($nolog = null)
 	setInitialNobodyScript($nolog);
 
 	setSomeScript($nolog);
-
-//	log_cleanup("Install /etc/init.d/djbdns service file", $nolog);
-//	log_cleanup("- Install process", $nolog);
-//	lxfile_cp("../file/djbdns.init", "/etc/init.d/djbdns");
 
 	removeOtherDrivers($nolog);
 
@@ -7245,7 +6838,6 @@ function updatecleanup($nolog = null)
 	setDefaultPages($nolog);
 
 //	installInstallApp($nolog);
-//	setFreshClam($nolog);
 
 	// MR -- importance for Kloxo-MR becuase using standard qmail-toaster
 	changeMailSoftlimit($nolog);

@@ -419,6 +419,16 @@ class Mmail__Qmail extends lxDriverClass
 			if ($dir && lxfile_exists($dir)) {
 				lxfile_unix_chown_rec($dir, mmail__qmail::getUserGroup($this->main->nname));
 			}
+
+			// MR -- also for lists dir
+			$ldir = $dir;
+			$tldir = str_replace($sgbl->__path_mail_data . "/domains/" , '', $dir);
+			$tldir = 'lists.' . $tldir;
+			$ldir = $sgbl->__path_mail_data . "/domains/" . $tldir;
+
+			if ($ldir && lxfile_exists($ldir)) {
+				lxfile_unix_chown_rec($ldir, mmail__qmail::getUserGroup($this->main->nname));
+			}
 		}
 	}
 

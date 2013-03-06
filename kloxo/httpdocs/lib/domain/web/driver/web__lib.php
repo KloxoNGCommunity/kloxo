@@ -1129,9 +1129,15 @@ class web__ extends lxDriverClass
 		$this->updateMainConfFile();
 		$this->createSSlConf();
 
-		// MR -- no needed and have a trouble for userlist on __default.conf		
-	//	$this->createWebmailDefaultConfig();
-	//	$this->createCpConfig();
+		// MR -- only first domains need it
+		$db = new Sqlite($this->__masterserver, "domain");
+		$result = $db->getCountWhere("nname != ''");
+
+		if (!$result) {
+			$this->createWebmailDefaultConfig();
+			$this->createCpConfig();
+		}
+
 
 		// createPhpFpmConfig not work; change to fixphpfpm
 	//	$this->createPhpFpmConfig();

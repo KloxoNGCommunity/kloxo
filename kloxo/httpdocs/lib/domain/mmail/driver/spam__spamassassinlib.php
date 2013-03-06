@@ -6,9 +6,23 @@ class Spam__Spamassassin extends lxDriverClass
 	{
 
 		$ret = lxshell_return("yum", "-y", "install", "spamassassin-toaster");
+
 		if ($ret) {
 			throw new lxexception('install_spamassassin_failed', 'parent');
 		}
+
+		$ret2 = lxshell_return("yum", "-y", "install", "simscan-toaster");
+
+		if ($ret2) {
+			throw new lxexception('install_simscan_failed', 'parent');
+		}
+
+		$ret3 = lxshell_return("yum", "-y", "install", "ripmime-toaster");
+
+		if ($ret2) {
+			throw new lxexception('install_ripmime_failed', 'parent');
+		}
+
 	//	lxshell_return("chkconfig", "spamassassin", "on");
 	//	lxfile_cp("../file/sysconfig_spamassassin", "/etc/sysconfig/spamassassin");
 	//	createRestartFile("spamassassin");
@@ -18,6 +32,8 @@ class Spam__Spamassassin extends lxDriverClass
 	{
 	//	lxshell_return("service", "spamassassin", "stop");
 		lxshell_return("rpm", "-e", "--nodeps", "spamassassin-toaster");
+		lxshell_return("rpm", "-e", "--nodeps", "simscan-toaster");
+		lxshell_return("rpm", "-e", "--nodeps", "ripmime-toaster");
 	}
 
 	function dbactionAdd()
