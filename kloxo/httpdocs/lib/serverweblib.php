@@ -46,8 +46,12 @@ class serverweb extends lxdb
 				break;
 
 			case "mysql_convert":
-				$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb'));
-
+				if (getRpmBranchInstalled('mysql') === 'MariaDB-server') {
+					$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb', 'to-aria'));
+				} else {
+					$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb'));
+				}
+				
 				$this->setDefaultValue('mysql_convert', '--- none ---');
 
 				break;

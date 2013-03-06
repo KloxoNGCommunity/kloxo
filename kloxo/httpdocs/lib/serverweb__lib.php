@@ -95,6 +95,9 @@ class serverweb__ extends lxDriverClass
 			case 'to-innodb':
 				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $nolog);
 				break;
+			case 'to-aria':
+				lxshell_return("lxphp.exe", $scripting, "--engine=aria", $nolog);
+				break;
 		}
 	}
 
