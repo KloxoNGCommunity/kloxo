@@ -6,7 +6,7 @@ include_once "htmllib/lib/include.php";
 
 $mysqlbranch = getRpmBranchInstalled('mysql');
 
-echo "*** Change MySQL to MariaDB - end ***\n";
+echo "*** Change MySQL to MariaDB - begin ***\n";
 
 echo "- Fix Service List\n";
 exec("sh /script/fix-service-list >/dev/null 2>&1");

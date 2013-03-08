@@ -5587,6 +5587,15 @@ function setInitialPhpFpmConfig($nolog = null)
 	}
 }
 
+function setVarLogChownChmod($nolog = null)
+{
+	$webdirchmod = '755';
+	$varlogpath = '/var/log';
+
+	log_cleanup("- chmod {$webdirchmod} FOR {$varlogpath} AND INSIDE", $nolog);
+	lxfile_unix_chmod_rec("{$varlogpath}/", $webdirchmod);
+}
+
 function setKloxoCexeChownChmod($nolog = null)
 {
 	$webdirchmod = '755';
@@ -5712,6 +5721,7 @@ function setFixChownChmod($select, $nolog = null)
 
 //	log_cleanup("Fix file permission problems for defaults pages (chown/chmod files)", $nolog);
 
+	setVarLogChownChmod($nolog);
 	setKloxoCexeChownChmod($nolog);
 	setKloxoHttpdChownChmod($nolog);
 	setWebDriverChownChmod('apache', $nolog);
