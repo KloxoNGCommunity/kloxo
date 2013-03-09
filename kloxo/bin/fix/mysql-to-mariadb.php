@@ -23,12 +23,12 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		echo "  under [kloxo-mr-mariadb32] for 32bit OS or [kloxo-mr-mariadb64] for 64bit OS\n";
 	} else {
 		
-		exec("rpm -qa|grep {$mysqlbranch}", $out, $ret);
+		exec("rpm -qa|grep {$mysqlbranch}", $out2, $ret);
 
 		exec("cp -f /etc/my.cnf /etc/my.cnf._bck_ >/dev/null 2>&1");
 
 		echo "- Remove MySQL packages\n";
-		foreach ($out as &$o) {
+		foreach ($out2 as &$o) {
 			if (strpos($o, "-mysql") !== false) { continue; }
 			if (strpos($o, "mysqlclient") !== false) { continue; }
 			exec("rpm -e {$o} --nodeps >/dev/null 2>&1");
