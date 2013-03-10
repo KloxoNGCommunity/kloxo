@@ -5155,7 +5155,7 @@ function setDefaultPages($nolog = null)
 	$hdocspath = "/usr/local/lxlabs/kloxo/httpdocs";
 
 	$sourcezip = "{$filepath}/skeleton.zip";
-	$targetzip = "$httpdpath/skeleton.zip";
+	$targetzip = "{$httpdpath}/skeleton.zip";
 
 	$pages = array("default", "disable", "webmail", "cp");
 
@@ -5175,16 +5175,16 @@ function setDefaultPages($nolog = null)
 		}
 
 		log_cleanup("- Php files for {$p} web page", $nolog);
-		lxfile_cp("{$filepath}/{$p}_inc.php", "{$httpdpath}/{$p}/inc.php");
-		lxfile_cp("{$filepath}/default_index.php", "{$httpdpath}/{$p}/index.php");
+		lxfile_cp(getLinkCustomfile($filepath, "{$p}_inc.php"), "{$httpdpath}/{$p}/inc.php");
+		lxfile_cp(getLinkCustomfile($filepath, "default_index.php"), "{$httpdpath}/{$p}/index.php");
 
 		log_cleanup("- Skeleton for {$p} web page", $nolog);
 		lxshell_unzip("__system__", "{$httpdpath}/{$p}/", $targetzip);
-		/*
-				lxfile_unix_chown("{$httpdpath}/{$p}/", "lxlabs:lxlabs");
-				exec("find {$httpdpath}/{$p}/ -type f -name \"*.php*\" -exec chmod 644 {} \;");
-				exec("find {$httpdpath}/{$p}/ -type d -exec chmod 755 {} \;");
-		*/
+	/*
+		lxfile_unix_chown("{$httpdpath}/{$p}/", "lxlabs:lxlabs");
+		exec("find {$httpdpath}/{$p}/ -type f -name \"*.php*\" -exec chmod 644 {} \;");
+		exec("find {$httpdpath}/{$p}/ -type d -exec chmod 755 {} \;");
+	*/
 	}
 
 	setKloxoHttpdChownChmod($nolog);
@@ -5198,9 +5198,9 @@ function setDefaultPages($nolog = null)
 		lxfile_unix_chmod("{$hdocspath}/login", "0755");
 	}
 
-	lxfile_cp("{$filepath}/default_index.php", "{$hdocspath}/login/index.php");
-	lxfile_cp("{$filepath}/login_inc.php", "{$hdocspath}/login/inc.php");
-	lxfile_cp("{$filepath}/login_inc2.php", "{$hdocspath}/login/inc2.php");
+	lxfile_cp(getLinkCustomfile($filepath, "default_index.php"), "{$hdocspath}/login/index.php");
+	lxfile_cp(getLinkCustomfile($filepath, "login_inc.php"), "{$hdocspath}/login/inc.php");
+	lxfile_cp(getLinkCustomfile($filepath, "login_inc2.php"), "{$hdocspath}/login/inc2.php");
 
 	lxfile_unix_chown("{$hdocspath}/login/index.php", "lxlabs:lxlabs");
 	lxfile_unix_chmod("{$hdocspath}/login/index.php", "0644");
@@ -5243,6 +5243,11 @@ function setDefaultPages($nolog = null)
 	} else {
 		log_cleanup("- No exists user-logo", $nolog);
 	}
+}
+
+function setDomainPages($nolog = null)
+{
+	// MR -- TODO: on next version (6.5.1)
 }
 
 function changeMailSoftlimit($nolog = null)
@@ -5587,15 +5592,6 @@ function setInitialPhpFpmConfig($nolog = null)
 	}
 }
 
-function setVarLogChownChmod($nolog = null)
-{
-	$webdirchmod = '755';
-	$varlogpath = '/var/log';
-
-	log_cleanup("- chmod {$webdirchmod} FOR {$varlogpath} AND INSIDE", $nolog);
-	lxfile_unix_chmod_rec("{$varlogpath}/", $webdirchmod);
-}
-
 function setKloxoCexeChownChmod($nolog = null)
 {
 	$webdirchmod = '755';
@@ -5721,7 +5717,6 @@ function setFixChownChmod($select, $nolog = null)
 
 //	log_cleanup("Fix file permission problems for defaults pages (chown/chmod files)", $nolog);
 
-	setVarLogChownChmod($nolog);
 	setKloxoCexeChownChmod($nolog);
 	setKloxoHttpdChownChmod($nolog);
 	setWebDriverChownChmod('apache', $nolog);

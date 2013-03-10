@@ -356,7 +356,8 @@ function kloxo_install_step1()
 		"tnef", "lxlighttpd", $httpdbranch, "mod_ssl",
 		"zip", "unzip", "lxphp", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
 		"libtool", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-		"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "net-snmp", "tmpwatch", "rkhunter"
+		"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "net-snmp", "tmpwatch", "rkhunter",
+		"quota"
 	);
 
 	$list = implode(" ", $packages);
