@@ -228,14 +228,16 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 	}
 
 
+	// MR -- Use `--ignore-failed-read' to prevents tar from exitting with non-zero status on unreadable files
+	// http://fvue.nl/wiki/Tar:_file_changed_as_we_read_it
 	if ($updateflag === 'zipadd') {
 		$command = "zip -y -rq -u";
 	} else if ($updateflag === 'zip'){
 		$command = "zip -y -rq";
 	} else if ($updateflag === 'tar') {
-		$command = "tar -cf";
+		$command = "tar -cf --ignore-failed-read";
 	} else {
-		$command = "tar -czf";
+		$command = "tar -czf --ignore-failed-read";
 	}
 
 	if ($zipname[0] !== '/') {

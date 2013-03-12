@@ -726,8 +726,6 @@ abstract class Lxclass
 			if ($this->metadbaction !== "writeonly") {
 				try {
 					$res = $this->syncToSystem();
-
-
 				} catch (Exception $e) {
 					throw $e;
 				}
@@ -5693,8 +5691,11 @@ abstract class Lxclass
 		try {
 			$ob->checkForConsistency(null, $param['_accountselect'], true);
 		} catch (Exception $e) {
-			lxfile_tmp_rm_rec($vd);
-			throw $e;
+		//	lxfile_tmp_rm_rec($vd);
+		//	throw $e;
+			print("Error '{$e}'\n");
+			log_log("restore", "Error '{$e}");
+
 		}
 
 		// Restore the currenct client's quota. The person who is doing the restoring 
@@ -5721,7 +5722,7 @@ abstract class Lxclass
 				}
 			}
 		} catch (Exception $e) {
-			lxfile_tmp_rm_rec($vd);
+		//	lxfile_tmp_rm_rec($vd);
 		//	throw $e;
 			print("Failed for taking restore of '{$d->get__table()}:{$d->nname}'\n");
 			log_log("restore", "- Alert: Failed restore of '{$d->get__table()}:{$d->nname}'\n");
@@ -5771,7 +5772,7 @@ abstract class Lxclass
 				$d->backMeUp($vd, $rem->ddate);
 			}
 		} catch (Exception $e) {
-			lxfile_tmp_rm_rec($vd);
+		//	lxfile_tmp_rm_rec($vd);
 		//	throw $e;
 			print("Failed for taking backup of '{$d->get__table()}:{$d->nname}'\n");
 			log_log("backup", "- Alert: Failed backup of '{$d->get__table()}:{$d->nname}'\n");
