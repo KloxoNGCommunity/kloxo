@@ -232,12 +232,16 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 	// http://fvue.nl/wiki/Tar:_file_changed_as_we_read_it
 	if ($updateflag === 'zipadd') {
 		$command = "zip -y -rq -u";
+		$command2 = '';
 	} else if ($updateflag === 'zip'){
 		$command = "zip -y -rq";
+		$command2 = '';
 	} else if ($updateflag === 'tar') {
-		$command = "tar -cf --ignore-failed-read";
+		$command = "tar -cf";
+		$command2 = '--ignore-failed-read';
 	} else {
-		$command = "tar -czf --ignore-failed-read";
+		$command = "tar -czf";
+		$command2 = '--ignore-failed-read';
 	}
 
 	if ($zipname[0] !== '/') {
@@ -252,7 +256,7 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 	}
 
 	print_time("zipfile");
-	$fcmd = "$command $fullpath $files";
+	$fcmd = "$command $fullpath $files $command2";
 	$fcmd = str_replace(";", "", $fcmd);
 	do_exec_system("__system__", $dir, "nice -n 15 $fcmd", $out, $err, $ret, null);
 	print_time("zipfile", "Ziptook");
