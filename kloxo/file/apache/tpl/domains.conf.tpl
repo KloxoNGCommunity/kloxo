@@ -49,7 +49,11 @@ if ($webmailapp === $webmailappdefault) {
     $webmailapp = null;
 } else {
     if ($webmailapp) {
-        $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
+        if ($webmailapp === '--Disabled--') {
+            $webmaildocroot = "/home/kloxo/httpd/disable";
+        } else {
+            $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
+        }
     } else {
         $webmaildocroot = "/home/kloxo/httpd/webmail";
     }
