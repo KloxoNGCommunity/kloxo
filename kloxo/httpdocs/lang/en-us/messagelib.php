@@ -221,9 +221,7 @@ $__emessage['document_root_may_not_contain_spaces'] = "The document root may not
 // release on Kloxo 6.2.0
 // by mustafa.ramadhan@lxcenter.org
 
-$__information['php_config'] = "When enabled, Kloxo install xcache/ioncube/zend/suhosin rpm file inside /home/rpms first. " .
-	"If not exist than try install via yum. Installing this modules depend on php branch and version installed on system.<br />" .
-	"[b]Example[/b]: when system using php53u branch, Kloxo check php53u-xcache first and if not exist try check php-xcache. " .
-	"It's probable compatible issue. Try 'php -v' for to make sure";
+$__information['php_config'] = "Installing xcache/ioncube/zend/suhosin rpm via yum. Installing this modules depend on php branch and version installed on system. " .
+	"[b]Example[/b]: when using php53u branch, installing with 'yum install php53u-xcache'. Try 'php -m' for to make sure";
 
 $__information['reverse_dns'] = "Reverse dns only work for Class C (256 ips) or more";

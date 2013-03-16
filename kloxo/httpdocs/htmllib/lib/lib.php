@@ -5365,15 +5365,18 @@ function getRpmVersion($rpmname)
 
 function setRpmInstalled($rpmname)
 {
-//	$ret = isRpmInstalled($rpmname);
+/*
+	$ret = isRpmInstalled($rpmname);
 
-//	if (!$ret) {
+	if (!$ret) {
 		$ret = lxshell_return("yum", "-y", "install", $rpmname);
 
-	//	if (!$ret) {
-	//		throw new lxException("install_{$rpmname}_failed", '', 'parent');
-	//	}
-//	}
+		if (!$ret) {
+			throw new lxException("install_{$rpmname}_failed", '', 'parent');
+		}
+	}
+*/
+	lxshell_return("yum", "-y", "install", $rpmname);
 }
 
 function setRpmRemoved($rpmname)

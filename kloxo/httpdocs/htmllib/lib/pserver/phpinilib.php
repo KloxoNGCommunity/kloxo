@@ -84,7 +84,6 @@ class phpini extends lxdb
 		$list[] = "enable_ioncube_flag";
 		$list[] = "enable_suhosin_flag";
 	*/
-
 		return $list;
 	}
 
@@ -110,7 +109,7 @@ class phpini extends lxdb
 		$list[] = 'magic_quotes_sybase_flag';
 		$list[] = 'cgi_force_redirect_flag';
 		$list[] = 'safe_mode_flag';
-		//$list[] = 'session_autostart_flag' ;
+	//	$list[] = 'session_autostart_flag' ;
 		$list[] = 'session_save_path_flag';
 
 		return $list;
@@ -190,7 +189,7 @@ class phpini extends lxdb
 
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//	$this->setUpINitialValues();
+		$this->setUpINitialValues();
 
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
@@ -253,7 +252,7 @@ class phpini extends lxdb
 			}
 		}
 
-	//	$vlist['__m_message_pre'] = 'php_config';
+		$vlist['__m_message_pre'] = 'php_config';
 
 	//	$this->postUpdate();
 
@@ -263,16 +262,14 @@ class phpini extends lxdb
 
 	function setUpINitialValues()
 	{
-	/*
 		$this->initialValueRpmStatus('enable_xcache_flag');
 		$this->initialValueRpmStatus('enable_zend_flag');
 		$this->initialValueRpmStatus('enable_ioncube_flag');
 		$this->initialValueRpmStatus('enable_suhosin_flag');
-	*/
 
 	//	$this->initialValue('output_compression_flag', 'off');
 
-		$this->initialValue('upload_max_filesize', '2M');
+		$this->initialValue('upload_max_filesize', '16M');
 		$this->initialValue('register_global_flag', 'off');
 		$this->initialValue('mysql_allow_persistent_flag', 'off');
 		$this->initialValue('session_save_path_flag', '/var/lib/php/session');
@@ -288,7 +285,7 @@ class phpini extends lxdb
 
 		$this->initialValue('max_execution_time_flag', '30');
 		$this->initialValue('max_input_time_flag', '60');
-		$this->initialValue('memory_limit_flag', '32M');
+		$this->initialValue('memory_limit_flag', '64M');
 		$this->initialValue('allow_url_fopen_flag', 'on');
 		$this->initialValue('allow_url_include_flag', 'on');
 		$this->initialValue('display_error_flag', 'off');
@@ -301,7 +298,7 @@ class phpini extends lxdb
 		$this->initialValue('magic_quotes_gpc_flag', 'off');
 		$this->initialValue('gpc_order_flag', 'GPC');
 		$this->initialValue('variables_order_flag', 'EGPCS');
-		$this->initialValue('post_max_size_flag', '8M');
+		$this->initialValue('post_max_size_flag', '32M');
 		$this->initialValue('magic_quotes_runtime_flag', 'off');
 		$this->initialValue('magic_quotes_sybase_flag', 'off');
 		$this->initialValue('enable_dl_flag', 'on');

@@ -16,7 +16,7 @@ fi
 
 yum remove qmail vpopmail *-toaster -y
 rpm -e --noscripts vpopmail
-cp -f /usr/local/lxlabs/kloxo/file/kloxo-mr_mratwork.repo /etc/yum.repos.d/kloxo-mr.repo
+cp -f /usr/local/lxlabs/kloxo/file/kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo
 yum clean all
 yum install *toaster -y
 sh /script/fix-qmail-assign

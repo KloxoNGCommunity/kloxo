@@ -131,8 +131,9 @@ function lxins_main()
 		check_default_mysql($dbroot, $dbpass);
 	}
 
-	print("Prepare defaults and configurations...\n");
-	install_main();
+	if (getKloxoType() === '') {
+		install_main();
+	}
 
 	kloxo_vpopmail($dir_name, $dbroot, $dbpass, $mypass);
 
@@ -175,15 +176,12 @@ function installcomp_mail()
 
 function install_main()
 {
-	// MR -- need outside process for convert qmail-lxcenter to qmail-toaster
-	if (isRpmInstalled('qmail')) {
-		$installcomp['mail'] = array("httpd", "fetchmail");
-	} else {
-		$installcomp['mail'] = array("httpd", "autorespond-toaster", "courier-authlib-toaster",
-			"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
-			"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
-			"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter");
-	}
+	print("Prepare defaults and configurations...\n");
+
+	$installcomp['mail'] = array("autorespond-toaster", "courier-authlib-toaster",
+		"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
+		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
+		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter");
 
 	$installcomp['web'] = array("httpd", "pure-ftpd");
 	$installcomp['dns'] = array("bind", "bind-chroot");
@@ -302,81 +300,82 @@ function kloxo_install_step1()
 	global $argv;
 	global $lxlabspath, $kloxopath, $currentpath, $stamp;
 
-//	if (getKloxoType() === '') {
-	print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
-	system("groupadd nogroup");
-	system("useradd nouser -g nogroup -s '/sbin/nologin'");
-	system("groupadd lxlabs");
-	system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
+	if (getKloxoType() === '') {
+		print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
+		system("groupadd nogroup");
+		system("useradd nouser -g nogroup -s '/sbin/nologin'");
+		system("groupadd lxlabs");
+		system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
 
-	// MR -- remove qmail-lxcenter not here! - need outside script
-	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
-		"exim", "vsftpd", "postfix", "ssmtp",
-		"lxzend", "pure-ftpd");
+		// MR -- remove qmail-lxcenter not here! - need outside script
+		$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
+			"exim", "vsftpd", "postfix", "ssmtp",
+			"lxzend", "pure-ftpd");
 
-	$list = implode(" ", $packages);
-	print("Removing packages $list...\n");
+		$list = implode(" ", $packages);
+		print("Removing packages $list...\n");
 
-	foreach ($packages as $package) {
-		system("rpm -e --nodeps $package > /dev/null 2>&1");
-	}
-
-	// MR -- force remove old lxphp (from lxcenter.repo)
-	system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
-
-	if (isRpmInstalled('qmail-toaster')) {
-		// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
-		system("userdel lxpopuser > /dev/null 2>&1");
-		system("groupdel lxpopgroup > /dev/null 2>&1");
-		
-		system("groupadd -g 89 vchkpw > /dev/null 2>&1");
-		system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' > /dev/null 2>&1");
-	}
-	
-	if (!file_exists("/etc/rc.d/init.d/djbdns")) {
-		$darr = array ('axfrdns', 'dnscache', 'dnslog', 'tinydns');
-		
-		foreach ($darr as &$d) {
-			system("rm -rf /home/{$d} > /dev/null 2>&1");
+		foreach ($packages as $package) {
+			system("rpm -e --nodeps $package > /dev/null 2>&1");
 		}
-	}
 
-	// MR -- force remove postfix and their user
-	system("userdel postfix > /dev/null 2>&1");
+		// MR -- force remove old lxphp (from lxcenter.repo)
+		// No needed because install new lxphp already remove this version!
+		// system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
 
-	// MR -- for accept for php and apache branch rpm
-	$phpbranch = getPhpBranch();
-	$httpdbranch = getApacheBranch();
-	$mysqlbranch = getMysqlBranch();
+		if (isRpmInstalled('qmail-toaster')) {
+			// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
+			system("userdel lxpopuser > /dev/null 2>&1");
+			system("groupdel lxpopgroup > /dev/null 2>&1");
+		
+			system("groupadd -g 89 vchkpw > /dev/null 2>&1");
+			system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' > /dev/null 2>&1");
+		}
+	
+		if (!file_exists("/etc/rc.d/init.d/djbdns")) {
+			$darr = array ('axfrdns', 'dnscache', 'dnslog', 'tinydns');
+		
+			foreach ($darr as &$d) {
+				system("rm -rf /home/{$d} > /dev/null 2>&1");
+			}
+		}
 
-	// MR -- xcache, zend, ioncube, suhosin and zts not default install
-	// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
-	$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
-		"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "{$phpbranch}-pspell",
-		"tnef", "lxlighttpd", $httpdbranch, "mod_ssl",
-		"zip", "unzip", "lxphp", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
-		"libtool", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-		"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "net-snmp", "tmpwatch", "rkhunter",
-		"quota"
-	);
+		// MR -- force remove postfix and their user
+		system("userdel postfix > /dev/null 2>&1");
 
-	$list = implode(" ", $packages);
+		// MR -- for accept for php and apache branch rpm
+		$phpbranch = getPhpBranch();
+		$httpdbranch = getApacheBranch();
+		$mysqlbranch = getMysqlBranch();
 
-	while (true) {
-		print("Installing packages $list...\n");
-		system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+		// MR -- xcache, zend, ioncube, suhosin and zts not default install
+		// php from atomic may problem when install php-mysql without together with php-pdo (install php 5.2 on centos 6.x)
+		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo", "which", "gcc-c++",
+			"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-devel", "{$phpbranch}-pspell",
+			"tnef", "lxlighttpd", $httpdbranch, "mod_ssl",
+			"zip", "unzip", "lxphp", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
+			"libtool", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
+			"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "net-snmp", "tmpwatch", "rkhunter",
+			"quota"
+		);
 
-		if (file_exists("{$lxlabspath}/ext/php/php")) {
-			break;
-		} else {
-			print("YUM Gave Error... Trying Again...\n");
-			if (get_yes_no("Try again?") == 'n') {
-				print("- EXIT: Fix the problem and install Kloxo again.\n");
-				exit;
+		$list = implode(" ", $packages);
+
+		while (true) {
+			print("Installing packages $list...\n");
+			system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+
+			if (file_exists("{$lxlabspath}/ext/php/php")) {
+				break;
+			} else {
+				print("YUM Gave Error... Trying Again...\n");
+				if (get_yes_no("Try again?") == 'n') {
+					print("- EXIT: Fix the problem and install Kloxo again.\n");
+					exit;
+				}
 			}
 		}
 	}
-//	}
 
 	print("Prepare installation directory\n");
 
@@ -467,6 +466,10 @@ function kloxo_install_before_bye()
 {
 	global $argv;
 	global $lxlabspath, $kloxopath, $currentpath, $stamp;
+
+	if (!isRpmInstalled('fetchmail')) {
+		system("yum install fetchmail -y");
+	}
 
 	system("cp -rf {$currentpath}/kloxo-mr.repo {$kloxopath}/file");
 

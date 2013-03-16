@@ -93,9 +93,18 @@ zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe" "./kloxo/file" \
 	"./kloxo/etc/program.*" \
 	"./kloxo/etc/slavedb/*" \
 	"./kloxo/etc/watchdog.conf" \
-	"./kloxo/install/kloxo_install.log"
-
-
+	"./kloxo/install/kloxo-mr_install.log" \
+	"./kloxo/httpdocs/thirdparty/*" \
+	"./kloxo/httpdocs/htmllib/extjs/*" \
+	"./kloxo/httpdocs/htmllib/fckeditor/*" \
+	".kloxo/httpdocs/htmllib/yui-dragdrop/*" \
+	"./*.bck" \
+	"./*.old" \
+	"./*.pyc" \
+	"./*.pyo" \
+	"./kloxo.exe" \
+	"./kloxo.exe.core"
+	
 rm -rf ./kloxo > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1
 rm -rf ./install > /dev/null 2>&1
