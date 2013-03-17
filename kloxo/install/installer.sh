@@ -112,13 +112,13 @@ else
 fi
 
 # Check if OS is RHEL/CENTOS/FEDORA.
-if [ ! -f /etc/redhat-release ] ; then
-	echo -en "Operating System supported  " $C_NO
-	echo -e "\a\nSorry, only RedHat EL and CentOS are supported by $APP_NAME at this time.\n\nAborting ...\n"
-	exit $E_NOSUPPORT
-else
-	echo -en "Operating System supported  " $C_OK
-fi
+#if [ ! -f /etc/redhat-release ] ; then
+#	echo -en "Operating System supported  " $C_NO
+#	echo -e "\a\nSorry, only RedHat EL and CentOS are supported by $APP_NAME at this time.\n\nAborting ...\n"
+#	exit $E_NOSUPPORT
+#else
+#	echo -en "Operating System supported  " $C_OK
+#fi
 
 # Check if selinuxenabled exists
 if [ ! -f $SELINUX_CHECK ] ; then

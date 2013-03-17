@@ -47,11 +47,13 @@ function lxins_main()
 	$licenseagree = (isset($opt['license-agree'])) ? $opt['license-agree'] : null;
 	$noasking = (isset($opt['no-asking'])) ? $opt['no-asking'] : null;
 
+/*
 	if (!char_search_beg($osversion, "centos") && !char_search_beg($osversion, "rhel")) {
 		print("Kloxo is only supported on CentOS 5 and RHEL 5\n");
 
 		exit;
 	}
+*/
 
 	print("Installing LxCenter yum repository for updates\n");
 	install_yum_repo($osversion);
