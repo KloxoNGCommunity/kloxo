@@ -23,7 +23,21 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
-APP_NAME='Kloxo-MR'
+echo
+echo "This installer only for DEV installing"
+PS3='- Do you want continue? '
+options=("Yes" "No")
+select opt in "${options[@]}"; do 
+	case $opt in
+		"Yes")
+			break
+			;;
+		"No")
+			exit
+			;;
+		*) echo "  * Invalid option!";;
+	esac
+done
 
 echo
 echo "*** Ready to begin $APP_NAME install. ***"
@@ -37,29 +51,37 @@ echo
 read -n 1 -p "Press any key to continue ..."
 echo
 
-if [ "$1" != "-y" ]; then
-	echo
-	echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
-	PS3='- Please enter your choice: '
-	options=("Master" "Slave")
-	select opt in "${options[@]}" "Quit"; do 
-		case $opt in
-			"Master")
-				APP_TYPE='master'
-				break
-				;;
-			"Slave")
-				APP_TYPE='slave'
-				break
-				;;
-   			"Quit")
-				exit
-				;;
-				*) echo "  * Invalid option!";;
-		esac
-	done
-else
+APP_NAME='Kloxo-MR'
+
+if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
+	APP_TYPE='slave'
+elif [ -f /usr/local/lxlabs/kloxo/etc/conf/kloxo.pass ] ; then
 	APP_TYPE='master'
+else
+	if [ "$1" != "-y" ]; then
+		echo
+		echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
+		PS3='- Please enter your choice: '
+		options=("Master" "Slave")
+		select opt in "${options[@]}" "Quit"; do 
+			case $opt in
+				"Master")
+					APP_TYPE='master'
+					break
+					;;
+				"Slave")
+					APP_TYPE='slave'
+					break
+					;;
+   				"Quit")
+					exit
+					;;
+					*) echo "  * Invalid option!";;
+			esac
+		done
+	else
+		APP_TYPE='master'
+	fi
 fi
 
 SELINUX_CHECK=/usr/sbin/selinuxenabled
@@ -131,11 +153,14 @@ fi
 
 export PATH=/usr/sbin:/sbin:$PATH
 
-if [ -d ./kloxo/install ] ; then
-	cd ./kloxo/install
+if [ -d ./kloxomr/install ] ; then
+	cd ./kloxomr/install
 else
-	unzip -oq kloxo-mr-latest.zip kloxo/install/* -d ./
-	cd ./kloxo/install
+	mv -f ./kloxomr*.tar.gz ./_kloxomr.tar.gz
+	tar -xzf ./_kloxomr.tar.gz
+	mv ./kloxomr-* ./kloxomr
+	mv -f ./_kloxomr.tar.gz ./kloxomr.tar.gz
+	cd ./kloxomr/install
 fi
 
 if [ -f /usr/local/lxlabs/ext/php/php ] ; then

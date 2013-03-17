@@ -89,7 +89,7 @@ function lxins_main()
 		}
 		
 		if (($noasking !== 'yes') || ($licenseagree !== 'yes')) {
-			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan ***\n");
+			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan) ***\n");
 			print("- Better using backup-restore process for update from Kloxo 6.1.12+.\n");
 			print("  No guarantee always success update from Kloxo after 6.1.12 version\n\n");
 
@@ -377,14 +377,15 @@ function kloxo_install_step1()
 
 	system("mkdir -p {$kloxopath}");
 
-	if (file_exists("../../kloxo-mr-latest.zip")) {
+	if (file_exists("../../kloxomr.tar.gz")) {
 		//--- Install from local file if exists
 		system("rm -f {$kloxopath}/kloxo-current.zip");
 		system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
+		system("rm -f {$kloxopath}/kloxomr.tar.gz");
 
 		print("Local copying Kloxo release\n");
 		system("mkdir -p /var/cache/kloxo");
-		system("cp -rf ../../kloxo-mr-latest.zip {$kloxopath}");
+		system("cp -rf ../../kloxomr.tar.gz {$kloxopath}");
 
 		chdir("/usr/local/lxlabs/kloxo");
 		system("mkdir -p {$kloxopath}/log");
@@ -394,6 +395,7 @@ function kloxo_install_step1()
 
 		system("rm -f {$kloxopath}/kloxo-current.zip");
 		system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
+		system("rm -f {$kloxopath}/kloxomr.tar.gz");
 	}
 
 	if (php_uname('m') === 'x86_64') {
@@ -413,13 +415,19 @@ function kloxo_install_step1()
 
 	print("\n\nInstalling Kloxo.....\n\n");
 
-	system("unzip -oq kloxo-mr-latest.zip -d ../");
+//	system("unzip -oq kloxo-mr-latest.zip -d ../");
+	system("tar -xzf kloxomr.tar.gz -C ../");
+//	system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
+	system("rm -f {$kloxopath}/kloxomr.tar.gz");
+	system("mv -f ../kloxomr-* ../kloxomr");
+	system("cp -rf ../kloxomr/* ../kloxo");
+	system("rm -rf ../kloxomr");
 
+	system("chown -R lxlabs:lxlabs {$kloxopath}/cexe");
 	system("chmod -R 755 {$kloxopath}/cexe");
-
+	system("chmod -R ug+s {$kloxopath}/cexe");
+	
 	copy_script();
-
-	system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
 
 	system("chown -R lxlabs:lxlabs {$lxlabspath}");
 	chdir("{$kloxopath}/httpdocs/");

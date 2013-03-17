@@ -23,20 +23,22 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
-if [ "$#" == 0 ] ; then
-	echo
-	echo " ----------------------------------------------------------------------"
-	echo "  format: sh $0 --fork=<> --branch=<>"
-	echo " ----------------------------------------------------------------------"
-	echo "  --fork - example: lxcenter or mustafaramadhan (for certain developer)"
-	echo "  --branch - example: master or dev"
-	echo
-	echo "  * Pack main kloxo package from git"
-	echo "  * Thirdparty packages download directly for latest version"
-	echo "  * Then run kloxo-installer.sh which the same place with local copy"
-	echo
-	echo " - If packer.sh detect './kloxo/httpdocs' and then used it as source" 
-	exit;
+if ! [ -d ./kloxo/httpdocs ] ; then
+	if [ "$#" == 0 ] ; then
+		echo
+		echo " ----------------------------------------------------------------------"
+		echo "  format: sh $0 --fork=<> --branch=<>"
+		echo " ----------------------------------------------------------------------"
+		echo "  --fork - example: lxcenter or mustafaramadhan (for certain developer)"
+		echo "  --branch - example: master or dev"
+		echo
+		echo "  * Pack main kloxo package from git"
+		echo "  * Thirdparty packages download directly for latest version"
+		echo "  * Then run kloxo-installer.sh which the same place with local copy"
+		echo
+		echo " - If detect './kloxo/httpdocs' and then used it as source" 
+		exit;
+	fi
 fi
 
 echo "Start pack..."
@@ -47,7 +49,7 @@ kloxo_fork=${request1#--fork\=}
 request2=$2
 kloxo_branch=${request2#--branch\=}
 
-kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
+kloxo_path=${kloxo_fork}/kloxomr-$ver/zipball/${kloxo_branch}
 
 yum install zip unzip -y
 
@@ -66,46 +68,46 @@ fi
 
 cp -rf ./kloxo/install/installer.sh ./
 
-cd ./kloxo/cexe
-yum -y install which cpp gcc gcc-c++ glibc* openssl-devel automake autoconf libtool make
-make
+#cd ./kloxo/cexe
+#yum -y install which cpp gcc gcc-c++ glibc* openssl-devel automake autoconf libtool make
+#make
 
-cd ../../
+#cd ../../
+
+ver=`cat ./kloxo/bin/kloxoversion`
+
+mv ./kloxo ./kloxomr-$ver
 
 ### 4. zipped process
-zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe" "./kloxo/file" \
-	"./kloxo/httpdocs" "./kloxo/pscript" "./kloxo/sbin" \
-	"./kloxo/RELEASEINFO" "./kloxo/etc/list" "./kloxo/etc/process" \
-	"./kloxo/etc/config.ini" \
-	"./kloxo/install" \
-	-x \
-	"./kloxo/httpdocs/commands.php" \
-	"./kloxo/httpdocs/newpass" \
-	"./kloxo/httpdocs/.php.err" \
-	"./kloxo/file/cache/*" \
-	"./kloxo/file/*.repo" \
-	"./kloxo/serverfile/*" \
-	"./kloxo/session/*" \
-	"./kloxo/etc/.restart/*" \
-	"./kloxo/etc/conf/*" \
-	"./kloxo/etc/flag/*" \
-	"./kloxo/etc/last_sisinfoc" \
-	"./kloxo/etc/program.*" \
-	"./kloxo/etc/slavedb/*" \
-	"./kloxo/etc/watchdog.conf" \
-	"./kloxo/install/kloxo-mr_install.log" \
-	"./kloxo/httpdocs/thirdparty/*" \
-	"./kloxo/httpdocs/htmllib/extjs/*" \
-	"./kloxo/httpdocs/htmllib/fckeditor/*" \
-	".kloxo/httpdocs/htmllib/yui-dragdrop/*" \
-	"./*.bck" \
-	"./*.old" \
-	"./*.pyc" \
-	"./*.pyo" \
-	"./kloxo.exe" \
-	"./kloxo.exe.core"
-	
-rm -rf ./kloxo > /dev/null 2>&1
+tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxomr-$ver/file" \
+	"./kloxomr-$ver/httpdocs" "./kloxomr-$ver/pscript" "./kloxomr-$ver/sbin" \
+	"./kloxomr-$ver/RELEASEINFO" "./kloxomr-$ver/etc/process" \
+	"./kloxomr-$ver/etc/config.ini" \
+	"./kloxomr-$ver/install" \
+	"./kloxomr-$ver/etc/list" \
+	--exclude "./kloxomr-$ver/httpdocs/commands.php" \
+	--exclude "./kloxomr-$ver/httpdocs/newpass" \
+	--exclude "./kloxomr-$ver/httpdocs/.php.err" \
+	--exclude "./kloxomr-$ver/httpdocs/thirdparty" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/extjs" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/fckeditor" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/ckeditor" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/yui-dragdrop" \
+	--exclude "./kloxomr-$ver/file/cache" \
+	--exclude "./kloxomr-$ver/file/*.repo" \
+	--exclude "./kloxomr-$ver/serverfile" \
+	--exclude "./kloxomr-$ver/session" \
+	--exclude "./kloxomr-$ver/etc/.restart" \
+	--exclude "./kloxomr-$ver/etc/conf" \
+	--exclude "./kloxomr-$ver/etc/flag" \
+	--exclude "./kloxomr-$ver/etc/last_sisinfoc" \
+	--exclude "./kloxomr-$ver/etc/program.*" \
+	--exclude "./kloxomr-$ver/etc/slavedb" \
+	--exclude "./kloxomr-$ver/etc/watchdog.conf" \
+	--exclude "./kloxomr-$ver/install/kloxo-mr_install.log"
+
+
+rm -rf ./kloxomr-$ver > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1
 rm -rf ./install > /dev/null 2>&1
 
