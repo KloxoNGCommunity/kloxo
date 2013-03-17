@@ -77,10 +77,6 @@ function lxins_main()
 		}
 
 		exec("cp -rf {$kloxopath} {$kloxopath}.{$stamp}");
-		exec("rm -rf {$kloxopath}/file/*");
-		exec("rm -rf {$kloxopath}/pscript/*");
-		exec("rm -rf {$kloxopath}/httpdocs/htmllib/script/*");
-
 	} else {
 		// MR -- issue found on Centos 5.9 where have 'default' iptables config
 		$iptp = '/etc/sysconfig';
