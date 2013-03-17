@@ -30,59 +30,58 @@ kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 ## A. Packer portion
 ### 1. download and unzip phase
 
-echo "Download Kloxo-MR Dev git from "${kloxo_path}
-
 cd /tmp
 rm -rf ./kloxo/*
 rm -rf ${kloxo_branch}* > /dev/null 2>&1
 mkdir -p /tmp/kloxo
 cd ./kloxo
+
+echo "Download git from "${kloxo_path}
+rm -rf ${kloxo_branch}* > /dev/null 2>&1
 wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip -O kloxo-mr-${kloxo_branch}.zip
 
 unzip -oq kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
 rm -rf kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
-
 mv -f ./kloxo*-${kloxo_branch}/kloxo ./
 rm -rf ./kloxo*-${kloxo_branch}
 
-### 2. copy mr-installer.sh
 cp -rf ./kloxo/install/installer.sh ./
 
-### 3. create binary files
-cd ./kloxo/cexe
-yum -y install which cpp gcc gcc-c++ glibc* openssl-devel automake autoconf libtool make
-make
+ver=`cat ./kloxo/bin/kloxoversion`
 
-cd ../../
+mv ./kloxo ./kloxomr-$ver
 
 ### 4. zipped process
-zip -r9y kloxo-mr-latest.zip "./kloxo/bin" "./kloxo/cexe" "./kloxo/file" \
-	"./kloxo/httpdocs" "./kloxo/pscript" "./kloxo/sbin" \
-	"./kloxo/RELEASEINFO" "./kloxo/etc/list" "./kloxo/etc/process" \
-	"./kloxo/etc/config.ini" \
-	"./kloxo/install" \
-	-x \
-	"./kloxo/httpdocs/commands.php" \
-	"./kloxo/httpdocs/newpass" \
-	"./kloxo/httpdocs/.php.err" \
-	"./kloxo/file/cache/*" \
-	"./kloxo/file/*.repo" \
-	"./kloxo/serverfile/*" \
-	"./kloxo/session/*" \
-	"./kloxo/etc/.restart/*" \
-	"./kloxo/etc/conf/*" \
-	"./kloxo/etc/flag/*" \
-	"./kloxo/etc/last_sisinfoc" \
-	"./kloxo/etc/program.*" \
-	"./kloxo/etc/slavedb/*" \
-	"./kloxo/etc/watchdog.conf" \
-	"./kloxo/install/kloxo_install.log"
+tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxomr-$ver/file" \
+	"./kloxomr-$ver/httpdocs" "./kloxomr-$ver/pscript" "./kloxomr-$ver/sbin" \
+	"./kloxomr-$ver/RELEASEINFO" "./kloxomr-$ver/etc/process" \
+	"./kloxomr-$ver/etc/config.ini" \
+	"./kloxomr-$ver/install" \
+	"./kloxomr-$ver/etc/list" \
+	--exclude "./kloxomr-$ver/httpdocs/commands.php" \
+	--exclude "./kloxomr-$ver/httpdocs/newpass" \
+	--exclude "./kloxomr-$ver/httpdocs/.php.err" \
+	--exclude "./kloxomr-$ver/httpdocs/thirdparty" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/extjs" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/fckeditor" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/ckeditor" \
+	--exclude "./kloxomr-$ver/httpdocs/htmllib/yui-dragdrop" \
+	--exclude "./kloxomr-$ver/file/cache" \
+	--exclude "./kloxomr-$ver/file/*.repo" \
+	--exclude "./kloxomr-$ver/serverfile" \
+	--exclude "./kloxomr-$ver/session" \
+	--exclude "./kloxomr-$ver/etc/.restart" \
+	--exclude "./kloxomr-$ver/etc/conf" \
+	--exclude "./kloxomr-$ver/etc/flag" \
+	--exclude "./kloxomr-$ver/etc/last_sisinfoc" \
+	--exclude "./kloxomr-$ver/etc/program.*" \
+	--exclude "./kloxomr-$ver/etc/slavedb" \
+	--exclude "./kloxomr-$ver/etc/watchdog.conf" \
+	--exclude "./kloxomr-$ver/install/kloxo-mr_install.log"
 
-### 5. remove old dirs
-rm -rf ./kloxo > /dev/null 2>&1
+rm -rf ./kloxomr-$ver > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1
 rm -rf ./install > /dev/null 2>&1
-rm -rf ./kloxo-dev.zip
 
 sh ./installer.sh
 
