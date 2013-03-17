@@ -56,7 +56,7 @@ function lxins_main()
 */
 
 	print("Installing LxCenter yum repository for updates\n");
-	install_yum_repo($osversion);
+	install_yum_repo();
 
 	$mypass = password_gen();
 

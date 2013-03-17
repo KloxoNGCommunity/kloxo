@@ -12,8 +12,8 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 # Kloxo-MR Features
 
-* CentOS 5 and 6 (32bit and 64bit) Support
-* Integrates with billing software such as AWBS, WHMCS, HostBill, TheHostingTool and AccountLab Plus
+* OS: Redhat/CentOS 5 and 6 (32bit and 64bit) or their variants
+* Billing: AWBS, WHMCS, HostBill, TheHostingTool and AccountLab Plus
 * Web server: Nginx, Nginx-Proxy and Lighttpd-proxy; beside Httpd and Lighttpd (in progress: Varnish, Hiawata, ATS and Httpd 2.4)
 * Php: Dual-php with php 5.3/5.4 as primary and php 5.2 as secondary (in progress: multiple-php)
 * PHP-type for Apache: php-fpm_worker/_event and fcgid_worker/_event; beside mod_php/_ruid2/_itk and suphp/_worker/_event
