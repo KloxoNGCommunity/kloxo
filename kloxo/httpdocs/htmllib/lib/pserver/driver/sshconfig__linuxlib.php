@@ -18,11 +18,11 @@ function dbactionUpdate($subaction)
 		$port = $this->main->ssh_port;
 	}
 
-	if (lxfile_exists("/etc/fedora-release")) {
-		$str = lfile_get_contents("../file/template/sshd_config-fedora-2");
-	} else {
+//	if (lxfile_exists("/etc/fedora-release")) {
+//		$str = lfile_get_contents("../file/template/sshd_config-fedora-2");
+//	} else {
 		$str = lfile_get_contents("../file/template/sshd_config");
-	}
+//	}
 
 	$str = str_replace("%ssh_port%", $port, $str);
 	if ($this->main->isOn('without_password_flag')) {
