@@ -413,6 +413,8 @@ function kloxo_install_step1()
 		system("ln -s /usr/lib64/lighttpd /usr/lib/lighttpd");
 		system("mkdir -p /usr/lib64/mysql");
 		system("ln -s /usr/lib64/mysql /usr/lib/mysql");
+		system("mkdir -p /usr/lib64/perl5");
+		system("ln -s /usr/lib64/perl5 /usr/lib/perl5");
 	}
 
 	print("\n\nInstalling Kloxo.....\n\n");
