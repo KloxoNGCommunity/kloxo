@@ -47,15 +47,7 @@ function lxins_main()
 	$licenseagree = (isset($opt['license-agree'])) ? $opt['license-agree'] : null;
 	$noasking = (isset($opt['no-asking'])) ? $opt['no-asking'] : null;
 
-/*
-	if (!char_search_beg($osversion, "centos") && !char_search_beg($osversion, "rhel")) {
-		print("Kloxo is only supported on CentOS 5 and RHEL 5\n");
-
-		exit;
-	}
-*/
-
-	print("Installing LxCenter yum repository for updates\n");
+	print("Installing MRatWork yum repository for updates\n");
 	install_yum_repo();
 
 	$mypass = password_gen();
@@ -368,7 +360,7 @@ function kloxo_install_step1()
 			} else {
 				print("YUM Gave Error... Trying Again...\n");
 				if (get_yes_no("Try again?") == 'n') {
-					print("- EXIT: Fix the problem and install Kloxo again.\n");
+					print("- EXIT: Fix the problem and install Kloxo-MR again.\n");
 					exit;
 				}
 			}
@@ -385,7 +377,7 @@ function kloxo_install_step1()
 		system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
 		system("rm -f {$kloxopath}/kloxomr.tar.gz");
 
-		print("Local copying Kloxo release\n");
+		print("Local copying Kloxo-MR release\n");
 		system("mkdir -p /var/cache/kloxo");
 		system("cp -rf ../../kloxomr.tar.gz {$kloxopath}");
 
@@ -417,7 +409,7 @@ function kloxo_install_step1()
 		system("ln -s /usr/lib64/perl5 /usr/lib/perl5");
 	}
 
-	print("\n\nInstalling Kloxo.....\n\n");
+	print("\n\nInstalling Kloxo-MR.....\n\n");
 
 //	system("unzip -oq kloxo-mr-latest.zip -d ../");
 	system("tar -xzf kloxomr.tar.gz -C ../");
@@ -657,7 +649,16 @@ function install_yum_repo()
 	}
 
 	system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
-
+	
+	exec("yum list yum | grep @", $out, $ret);
+	
+	// MR -- need for OS (like fedora) where os version not the same with redhat/centos
+	if ($out) {
+		system("sed -i 's/\$releasever/6/' /etc/yum.repos.d/kloxo-mr.repo");
+	} else {
+		system("sed -i 's/\$releasever/5/' /etc/yum.repos.d/kloxo-mr.repo");
+	}
+	
 	// MR -- remove all old repos
 	system("rm -f /etc/yum.repos.d/kloxo.repo");
 	system("rm -f /etc/yum.repos.d/kloxo-custom.repo");

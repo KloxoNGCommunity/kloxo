@@ -1,76 +1,67 @@
-<?php 
-class ReleaseNote extends Lxlclass {
+<?php
 
-static $__desc = array("S", "",  "release_note");
-
-// Mysql
-static $__desc_nname =     array("n", "",  "note");
-static $__desc_version =     array("n", "",  "version");
-static $__desc_description =     array("n", "",  "description");
-static $__desc_over_r =     array("e", "",  "Past");
-static $__desc_over_r_v_dull =     array("", "",  "Old_version");
-static $__desc_over_r_v_on =     array("", "",  "Newer_Version");
-static $__desc_ttype =     array("", "",  "type");
-static $__desc_ttype_v_critical =     array("s", "",  "critical");
-static $__desc_ttype_v_feature =     array("s", "",  "enhancement");
-
-static function createListAlist($parent, $class)
+class ReleaseNote extends Lxlclass
 {
-	$alist[] = "a=show";
-	$alist[] = "a=list&c=$class";
+	static $__desc = array("S", "", "release_note");
 
-	return $alist;
-}
+	// Mysql
+	static $__desc_nname = array("n", "", "note");
+	static $__desc_version = array("n", "", "version");
+	static $__desc_description = array("n", "", "description");
+	static $__desc_over_r = array("e", "", "Past");
+	static $__desc_over_r_v_dull = array("", "", "Old_version");
+	static $__desc_over_r_v_on = array("", "", "Newer_Version");
+	static $__desc_ttype = array("", "", "type");
+	static $__desc_ttype_v_critical = array("s", "", "critical");
+	static $__desc_ttype_v_feature = array("s", "", "enhancement");
 
-static function createListNlist($parent, $view)
-{
+	static function createListAlist($parent, $class)
+	{
+		$alist[] = "a=show";
+		$alist[] = "a=list&c=$class";
 
-	$nlist['over_r'] = '5%';
-	$nlist['version'] = '5%';
-	$nlist['ttype'] = '5%';
-	$nlist['description'] = '100%';
+		return $alist;
+	}
 
-	return $nlist;
-}
+	static function createListNlist($parent, $view)
+	{
+		$nlist['over_r'] = '5%';
+		$nlist['version'] = '5%';
+		$nlist['ttype'] = '5%';
+		$nlist['description'] = '100%';
 
-static function defaultSort() { return "version"; }
+		return $nlist;
+	}
 
-static function defaultSortDir() { return "desc"; }
+	static function defaultSort() { return "version"; }
 
-static function perPage() {return 500; }
+	static function defaultSortDir() { return "desc"; }
 
-function isSelect()
-{
-	return false;
-}
-static function createListBlist($parent, $class)
-{
-	return null;
-}
+	static function perPage() { return 500; }
 
-static function parseReleaseNote($list)
-{
-	global $gbl, $sgbl, $login, $ghtml; 
+	function isSelect()
+	{
+		return false;
+	}
 
-	$maj = $sgbl->__ver_major;
-	$ver = $sgbl->__ver_major_minor_release;
-	$detail = null;
-	$k = 0;
-	$list = array_reverse($list);
-	$mine = false;
+	static function createListBlist($parent, $class)
+	{
+		return null;
+	}
 
-	foreach($list as $l) {
-	//	$dd = curl_get_file("releasenotes/release-$l.txt");
+	static function parseReleaseNote()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
 
-		$dd = file_get_contents("/usr/local/lxlabs/kloxo/RELEASEINFO/RELEASE");
-/*
-		// We are going backwards, and when we reach our own version we get out. 
-		// We need info only about versions greater than ourselves.
-		if ($l === $ver) {
-			$mine = true;
-		}
-*/
-		foreach((array) $dd as $d) {
+		$ver = $sgbl->__ver_major_minor_release;
+		
+		$dd = file_get_contents("/usr/local/lxlabs/kloxo/RELEASEINFO/Changelog");
+
+		$dd = explode("\n", $dd);
+
+		$k = 0;
+		
+		foreach ($dd as $d) {
 			$d = trim($d);
 
 			if (!$d) {
@@ -78,43 +69,36 @@ static function parseReleaseNote($list)
 			}
 
 			$k++;
-			$v = explode(" ", $d);
-			$newvar['version'] = $l;
 
-			if ($mine) {
+			$v = explode(";;", $d);
+			$newvar['version'] = $v[0];
+
+			if ($newvar['version'] !== $ver) {
 				$newvar['over_r'] = 'dull';
 			} else {
 				$newvar['over_r'] = 'on';
 			}
 
-			$newvar['ttype'] = array_shift($v);
-			$newvar['description'] = implode(" ", $v);
+			$newvar['ttype'] = $v[1];
+			$newvar['description'] = $v[2];
+
 			$newvar['nname'] = $k;
 
 			$result[] = $newvar;
 		}
+
+		return $result;
 	}
 
-	return $result;
-}
+	static function initThisList($parent, $class)
+	{
 
-static function initThisList($parent, $class)
-{
+		global $gbl, $sgbl, $login, $ghtml;
 
-	global $gbl, $sgbl, $login, $ghtml; 
+		$list = getFullVersionList();
 
-//	$ret = null;
-/*
-	if (checkIfLatest()) {
-		return $ret;
+		$result = self::parseReleaseNote($list);
+
+		return $result;
 	}
-*/
-	$list = getFullVersionList();
-
-	$result = self::parseReleaseNote($list);
-
-	return $result;
-}
-
-
 }

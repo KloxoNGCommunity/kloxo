@@ -7470,7 +7470,7 @@ dc.cssjs(action,o,dc.hoverClass)
 		if ($sgbl->isBlackBackground()) {
 			return;
 		}
-		print("<td style='background: url($a/dot.gif) 10% 0 repeat-y'></td></tr><tr><td width=$width align=right><img src='$a/bl.gif' align= center></td ><td style='background: url($a/dot.gif) 0 95% repeat-x'></td><td width=$width align=left><img src='$a/br.gif' align=center></td ></tr></table>");
+		print("<td style='background: url($a/dot.gif) 10% 0 repeat-y'></td></tr><tr><td width=$width align=right><img src='$a/bl.gif' align= center></td ><td style='background: url($a/dot.gif) 0 95% repeat-x'></td><td width=$width align=left><img src='$a/br.gif' align=center></td ></tr></table>&nbsp;");
 	}
 
 	function print_on_status_bar($message)

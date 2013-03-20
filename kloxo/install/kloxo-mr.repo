@@ -64,16 +64,25 @@ exclude=openssh* perl*
 # ==================================
 
 [kloxo-mr-ius]
-name=Kloxo-MR - IUS Community Packages for Enterprise Linux $releasever - $basearch
+name=Kloxo-MR - IUS Community Packages for EL $releasever - $basearch
 baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/$releasever/$basearch
 mirrorlist=http://dmirr.iuscommunity.org/mirrorlist/?repo=ius-el$releasever&arch=$basearch
 enabled=1
 gpgcheck=0
+exclude=php52*
+
+[kloxo-mr-ius-c5]
+name=Kloxo-MR - IUS Community Packages for EL 5 (special) - $basearch
+baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/5/$basearch
+mirrorlist=http://dmirr.iuscommunity.org/mirrorlist/?repo=ius-el5&arch=$basearch
+enabled=1
+gpgcheck=0
+includepkgs=php52*
 
 # ==================================
 
 [kloxo-mr-epel]
-name=Kloxo-MR - Extra Packages for Enterprise Linux $releasever - $basearch
+name=Kloxo-MR - Extra Packages for EL $releasever - $basearch
 baseurl=http://download.fedoraproject.org/pub/epel/$releasever/$basearch
 mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-$releasever&arch=$basearch
 enabled=1
@@ -83,7 +92,7 @@ gpgcheck=0
 
 # for varnish
 [kloxo-mr-varnish-3.0]
-name=Kloxo-MR - Varnish 3.0 for Enterprise Linux $releasever - $basearch
+name=Kloxo-MR - Varnish 3.0 for EL $releasever - $basearch
 baseurl=http://repo.varnish-cache.org/redhat/varnish-3.0/el$releasever/$basearch
 enabled=1
 gpgcheck=0
