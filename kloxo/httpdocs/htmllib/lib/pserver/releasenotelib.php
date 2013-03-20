@@ -68,10 +68,14 @@ class ReleaseNote extends Lxlclass
 				continue;
 			}
 
+			if (strpos($d, "#") !== 0) {
+				continue;
+			}
+
 			$k++;
 
 			$v = explode(";;", $d);
-			$newvar['version'] = $v[0];
+			$newvar['version'] = str_replace("#", "", $v[0]);
 
 			if ($newvar['version'] !== $ver) {
 				$newvar['over_r'] = 'dull';
