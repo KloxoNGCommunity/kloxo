@@ -252,7 +252,7 @@ class phpini extends lxdb
 			}
 		}
 
-		$vlist['__m_message_pre'] = 'php_config';
+	//	$vlist['__m_message_pre'] = 'php_config';
 
 	//	$this->postUpdate();
 

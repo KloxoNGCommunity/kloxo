@@ -18,31 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# MRatWork - Kloxo-MR dev Installer
+# MRatWork - Kloxo-MR Release Setup
 #
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
-if [ "$1" != "--release" ]; then
-	echo
-	echo "This installer only for DEV installing"
-	PS3='- Do you want continue? '
-	options=("Yes" "No")
-	select opt in "${options[@]}"; do 
-		case $opt in
-			"Yes")
-				break
-				;;
-			"No")
-				exit
-				;;
-			*) echo "  * Invalid option!";;
-		esac
-	done
-fi
-
 echo
-echo "*** Ready to begin $APP_NAME install. ***"
+echo "*** Ready to begin $APP_NAME setup. ***"
 echo
 echo "- Note some file downloads may not show a progress bar so please,"
 echo "  do not interrupt the process."
@@ -151,17 +133,11 @@ fi
 
 export PATH=/usr/sbin:/sbin:$PATH
 
-if [ -d ./kloxomr/install ] ; then
-	cd ./kloxomr/install
-else
-	tar -xzf ./kloxomr-latest.tar.gz >/dev/null 2>$1
-	mv ./kloxomr-6* ./kloxomr >/dev/null 2>$1
-	cd ./kloxomr/install >/dev/null 2>$1
-fi
+cd /usr/local/lxlabs/kloxo/install
 
 if [ -f /usr/local/lxlabs/ext/php/php ] ; then
-	lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
+	lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup $* | tee kloxo-mr_install.log
 else
-	php installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
+	php installer.php --install-type=$APP_TYPE --install-from=setup $* | tee kloxo-mr_install.log
 fi
 

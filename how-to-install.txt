@@ -34,4 +34,18 @@ A.2. Install/reinstall/upgrade -- data not destroyed with this fork -
    
 B. For Final Release:
 
-* Coming soon...
+    # move repo dir
+    cd /etc/yum.repos.d/
+	
+    # get repo file -- no need for 6.5.0.c and after
+    wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
+	
+    # move to /
+    cd /
+
+    # install
+    yum install kloxo-mr
+    
+    # better reboot
+    reboot
+
