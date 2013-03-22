@@ -44,7 +44,7 @@ B. For Final Release:
     cd /
 
     # install
-    yum install kloxo-mr
+    yum install kloxomr
     
     # better reboot
     reboot
