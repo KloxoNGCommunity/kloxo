@@ -322,12 +322,12 @@ function kloxo_install_step1($installfrom)
 		$mysqlbranch = getMysqlBranch();
 
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
-		$packages = array("{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-mysqli", "{$phpbranch}-pdo",
-			"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-pspell",
-			"tnef", "lxlighttpd", $httpdbranch, "mod_ssl", "which", "gcc-c++",
-			"zip", "unzip", "lxphp", "{$mysqlbranch}", "{$mysqlbranch}-server", "curl", "autoconf", "automake", "mod_ruid2",
-			"libtool", "gcc", "cpp", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
+		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip",  "curl", "autoconf", "automake",
+			"libtool", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
 			"net-snmp", "tmpwatch", "rkhunter",	"quota",
+			$httpdbranch, "mod_ssl", "mod_ruid2", "{$mysqlbranch}", "{$mysqlbranch}-server", "lxphp", "lxlighttpd",
+			"{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pdo",
+			"{$phpbranch}-imap", "{$phpbranch}-pear", "{$phpbranch}-gd", "{$phpbranch}-pspell",
 			"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-lang-*"
 		);
 
