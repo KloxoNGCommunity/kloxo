@@ -1,64 +1,66 @@
 Changelog
 
-#6.5.0;;00-00-001;;FIX: Security bug (possible sql-injection on login and switch 'safe' and 'unsafe' mode)
-#6.5.0;;00-00-002;;FIX: Backup and restore (no worry about 'could_not_zip' and 'could_not_unzip')
-#6.5.0;;00-00-003;;FIX: No password prompt when install spamdyke
-#6.5.0;;00-00-004;;FIX: Add missing fetchmail when install
+#6.5.0;;00-01-001;;FIX: Security bug (possible sql-injection on login and switch 'safe' and 'unsafe' mode)
+#6.5.0;;00-01-002;;FIX: Backup and restore (no worry about 'could_not_zip' and 'could_not_unzip')
+#6.5.0;;00-01-003;;FIX: No password prompt when install spamdyke
+#6.5.0;;00-01-004;;FIX: Add missing fetchmail when install
 
-#6.5.0;;00-01-001;;FEATURE: Add Nginx, Nginx-proxy and Lighttpd-proxy
-#6.5.0;;00-01-002;;FEATURE: Possible using different 'Php Branch' (for Php version 5.2, 5.3 and 5.4)
-#6.5.0;;00-01-003;;FEATURE: Possible enable/disable 'Secondary Php' (using lxphp and suphp)
-#6.5.0;;00-01-004;;FEATURE: More 'Php-type' (mod_php, suphp, fcgid and php-fpm) with different apache mpm
-#6.5.0;;00-01-005;;FEATURE: Template-based web, php and php-fpm configs (use 'inline-php') and possible to customize
-#6.5.0;;00-01-006;;FEATURE: Reverse DNS always appear
-#6.5.0;;00-01-007;;FEATURE: Add select 'Ssl Key Bits' (2048, 1024 and 512) for 'Add Ssl Certificate'
-#6.5.0;;00-01-008;;FEATURE: More logs on 'Log Manager'
-#6.5.0;;00-01-009;;FEATURE: Enable logrotate
-#6.5.0;;00-01-010;;FEATURE: Support for Centos 5 and 6 on 32bit or 64bit
-#6.5.0;;00-01-011;;FEATURE: Possible install on Yum-based Linux OS (Fedora, ScientificLinux, CloudLinux and etc)
-#6.5.0;;00-01-012;;FEATURE: Based-on multiple repo (Kloxo-MR owned, CentAlt, IUS, Epel and etc)
-#6.5.0;;00-01-013;;FEATURE: Support different 'Mysql Branch' and MariaDB
-#6.5.0;;00-01-014;;FEATURE: Add 'sysinfo' script to support purpose
-#6.5.0;;00-01-015;;FEATURE: Add 'lxphp-module-install' script for installing module for lxphp
-#6.5.0;;00-01-016;;FEATURE: Add and modified some scripts (convert-to-qmailtoaster, fix-qmail-assign, fixvpop and fixmail) for mail services
-#6.5.0;;00-01-017;;FEATURE: Faster and better change mysql root password
-#6.5.0;;00-01-018;;FEATURE: Add new webmail (afterlogic Webmail lite, T-Dah and Squirrelmail)
-#6.5.0;;00-01-019;;FEATURE: Automatic add webmail when directory create inside /home/kloxo/httpd/webmail
-#6.5.0;;00-01-020;;FEATURE: Change components to rpm format (addon, webmail, phpmyadmin and etc)
-#6.5.0;;00-01-021;;FEATURE: Possible access FTP via ssl port
-#6.5.0;;00-01-022;;FEATURE: Automatic install RKHunter and add log to 'Log Manager'
+#6.5.0;;00-02-001;;FEATURE: Add Nginx, Nginx-proxy and Lighttpd-proxy
+#6.5.0;;00-02-002;;FEATURE: Possible using different 'Php Branch' (for Php version 5.2, 5.3 and 5.4)
+#6.5.0;;00-02-003;;FEATURE: Possible enable/disable 'Secondary Php' (using lxphp and suphp)
+#6.5.0;;00-02-004;;FEATURE: More 'Php-type' (mod_php, suphp, fcgid and php-fpm) with different apache mpm
+#6.5.0;;00-02-005;;FEATURE: Template-based web, php and php-fpm configs (use 'inline-php') and possible to customize
+#6.5.0;;00-02-006;;FEATURE: Reverse DNS always appear
+#6.5.0;;00-02-007;;FEATURE: Add select 'Ssl Key Bits' (2048, 1024 and 512) for 'Add Ssl Certificate'
+#6.5.0;;00-02-008;;FEATURE: More logs on 'Log Manager'
+#6.5.0;;00-02-009;;FEATURE: Enable logrotate
+#6.5.0;;00-02-010;;FEATURE: Support for Centos 5 and 6 on 32bit or 64bit
+#6.5.0;;00-02-011;;FEATURE: Possible install on Yum-based Linux OS (Fedora, ScientificLinux, CloudLinux and etc)
+#6.5.0;;00-02-012;;FEATURE: Based-on multiple repo (Kloxo-MR owned, CentAlt, IUS, Epel and etc)
+#6.5.0;;00-02-013;;FEATURE: Support different 'Mysql Branch' and MariaDB
+#6.5.0;;00-02-014;;FEATURE: Add 'sysinfo' script to support purpose
+#6.5.0;;00-02-015;;FEATURE: Add 'lxphp-module-install' script for installing module for lxphp
+#6.5.0;;00-02-016;;FEATURE: Add and modified some scripts (convert-to-qmailtoaster, fix-qmail-assign, fixvpop and fixmail) for mail services
+#6.5.0;;00-02-017;;FEATURE: Faster and better change mysql root password
+#6.5.0;;00-02-018;;FEATURE: Add new webmail (afterlogic Webmail lite, T-Dah and Squirrelmail)
+#6.5.0;;00-02-019;;FEATURE: Automatic add webmail when directory create inside /home/kloxo/httpd/webmail
+#6.5.0;;00-02-020;;FEATURE: Change components to rpm format (addon, webmail, phpmyadmin and etc)
+#6.5.0;;00-02-021;;FEATURE: Possible access FTP via ssl port
+#6.5.0;;00-02-022;;FEATURE: Automatic install RKHunter and add log to 'Log Manager'
 
-#6.5.0;;00-02-001;;CHANGE: Use qmail-toaster instead qmail-lxcenter (with script for convert)
-#6.5.0;;00-02-002;;CHANGE: New interface for login and 'defaults' pages
-#6.5.0;;00-02-003;;CHANGE: Use Kloxo-MR logo instead Kloxo logo
-#6.5.0;;00-02-004;;CHANGE: Remove xcache, zend, ioncube and output compressed from 'Php Configs'
-#6.5.0;;00-02-005;;CHANGE: Use php-fpm instead fastcgi or spawn-cgi for Lighttpd
-#6.5.0;;00-02-006;;CHANGE: Use 'en-us' instead 'en' type for language
-#6.5.0;;00-02-007;;CHANGE: Remove unwanted files and or code for windows os target
-#6.5.0;;00-02-008;;CHANGE: Use '*' (wildcard) instead 'real' ip for web config and then no issue related to 'ip not found'
-#6.5.0;;00-02-008;;CHANGE: Use 'apache:apache' instead 'lxlabs:lxlabs' ownership for '/home/kloxo/httpd' ('defaults' page')
-#6.5.0;;00-02-009;;CHANGE: Use local data for 'Release Note' instead download
-#6.5.0;;00-02-009;;CHANGE: Use tar.gz instead zip for compressing Kloxo-MR
+#6.5.0;;00-03-001;;CHANGE: Use qmail-toaster instead qmail-lxcenter (with script for convert)
+#6.5.0;;00-03-002;;CHANGE: New interface for login and 'defaults' pages
+#6.5.0;;00-03-003;;CHANGE: Use Kloxo-MR logo instead Kloxo logo
+#6.5.0;;00-03-004;;CHANGE: Remove xcache, zend, ioncube and output compressed from 'Php Configs'
+#6.5.0;;00-03-005;;CHANGE: Use php-fpm instead fastcgi or spawn-cgi for Lighttpd
+#6.5.0;;00-03-006;;CHANGE: Use 'en-us' instead 'en' type for language
+#6.5.0;;00-03-007;;CHANGE: Remove unwanted files and or code for windows os target
+#6.5.0;;00-03-008;;CHANGE: Use '*' (wildcard) instead 'real' ip for web config and then no issue related to 'ip not found'
+#6.5.0;;00-03-008;;CHANGE: Use 'apache:apache' instead 'lxlabs:lxlabs' ownership for '/home/kloxo/httpd' ('defaults' page')
+#6.5.0;;00-03-009;;CHANGE: Use local data for 'Release Note' instead download
+#6.5.0;;00-03-009;;CHANGE: Use tar.gz instead zip for compressing Kloxo-MR
 
-#6.5.1;;00-02-001;;TODO: New Data path structure
-#6.5.1;;00-02-002;;TODO: Triple/Multiple Php
-#6.5.1;;00-02-003;;TODO: Change lxlighttpd to nginx
-#6.5.1;;00-02-004;;TODO: Change lxphp to php52/php53
-#6.5.1;;00-02-005;;TODO: Modified Kloxo-MR codes to accept php53 and MySQLi
-#6.5.1;;00-02-006;;TODO: Add new skin (simple like 'windows 8 metro')
-#6.5.1;;00-02-007;;TODO: Make possible icons/link to right-click
-#6.5.1;;00-02-008;;TODO: Possible add multiple ips
-#6.5.1;;00-02-009;;TODO: Possible use dovecot instead courier-imap for IMAP server
-#6.5.1;;00-02-010;;TODO: Change 'Advanced Php configs' also effect for php-fpm
-#6.5.1;;00-02-011;;TODO: Make possible using awstats for nginx/nginx-proxy
-#6.5.1;;00-02-012;;TODO: Change sqlite-based Kloxo-MR config to ini-based
-#6.5.1;;00-02-013;;TODO: IPv6 support
-#6.5.1;;00-02-014;;TODO: Automatic create drafts/trash/spam/sent folders for mail when create domain/mail account
-#6.5.1;;00-02-015;;TODO: Delete domain also delete their web root directory
-#6.5.1;;00-02-017;;TODO: Support to Httpd 2.4.x
-#6.5.1;;00-02-018;;TODO: Fix quota and traffic issue
-#6.5.1;;00-02-019;;TODO: Fix mail queue warning
-#6.5.1;;00-02-020;;TODO: Change using PowerDNS instead DJBDns
-#6.5.1;;00-02-021;;TODO: Add 'As Secondary DNS' option
-#6.5.1;;00-02-022;;TODO: Change filemanager or fix upload issue if access without from domain level
-#6.5.1;;00-02-023;;TODO: Set php-fpm per-client when add/remove domain and change webmail apps
+#6.5.0;;00-04-001;;PATCH: bug fix for installer.sh (installer.sh for 'dev' step and yum install/update + setup.sh for final step)
+
+#6.5.1;;00-00-001;;TODO: New Data path structure
+#6.5.1;;00-00-002;;TODO: Triple/Multiple Php
+#6.5.1;;00-00-003;;TODO: Change lxlighttpd to nginx
+#6.5.1;;00-00-004;;TODO: Change lxphp to php52/php53
+#6.5.1;;00-00-005;;TODO: Modified Kloxo-MR codes to accept php53 and MySQLi
+#6.5.1;;00-00-006;;TODO: Add new skin (simple like 'windows 8 metro')
+#6.5.1;;00-00-007;;TODO: Make possible icons/link to right-click
+#6.5.1;;00-00-008;;TODO: Possible add multiple ips
+#6.5.1;;00-00-009;;TODO: Possible use dovecot instead courier-imap for IMAP server
+#6.5.1;;00-00-010;;TODO: Change 'Advanced Php configs' also effect for php-fpm
+#6.5.1;;00-00-011;;TODO: Make possible using awstats for nginx/nginx-proxy
+#6.5.1;;00-00-012;;TODO: Change sqlite-based Kloxo-MR config to ini-based
+#6.5.1;;00-00-013;;TODO: IPv6 support
+#6.5.1;;00-00-014;;TODO: Automatic create drafts/trash/spam/sent folders for mail when create domain/mail account
+#6.5.1;;00-00-015;;TODO: Delete domain also delete their web root directory
+#6.5.1;;00-00-017;;TODO: Support to Httpd 2.4.x
+#6.5.1;;00-00-018;;TODO: Fix quota and traffic issue
+#6.5.1;;00-00-019;;TODO: Fix mail queue warning
+#6.5.1;;00-00-020;;TODO: Change using PowerDNS instead DJBDns
+#6.5.1;;00-00-021;;TODO: Add 'As Secondary DNS' option
+#6.5.1;;00-00-022;;TODO: Change filemanager or fix upload issue if access without from domain level
+#6.5.1;;00-00-023;;TODO: Set php-fpm per-client when add/remove domain and change webmail apps
