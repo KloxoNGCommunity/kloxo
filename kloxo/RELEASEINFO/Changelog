@@ -41,6 +41,7 @@ Changelog
 #6.5.0;;00-03-009;;CHANGE: Use tar.gz instead zip for compressing Kloxo-MR
 
 #6.5.0;;00-04-001;;PATCH: bug fix for installer.sh (installer.sh for 'dev' step and yum install/update + setup.sh for final step)
+#6.5.0;;00-04-002;;PATCH: remove php modules (except php-pear) because conflict between centos with other repos
 
 #6.5.1;;00-00-001;;TODO: New Data path structure
 #6.5.1;;00-00-002;;TODO: Triple/Multiple Php

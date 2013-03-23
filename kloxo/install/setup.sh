@@ -128,7 +128,7 @@ fi
 
 # Start install
 if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
-	yum -y install php php-mysql wget zip unzip
+	yum -y install php wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
 fi
 
 export PATH=/usr/sbin:/sbin:$PATH

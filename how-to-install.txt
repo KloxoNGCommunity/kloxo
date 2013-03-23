@@ -43,7 +43,7 @@ B. For Final Release:
     # move to /
     cd /
 
-    # install
+    # install (and then run 'setup.sh' instead 'installer.sh')
     yum install kloxomr
     
     # better reboot
