@@ -14,16 +14,16 @@ $user = "root";
 $host = "localhost";
 $dbname = "kloxo";
 
-$dbconn = mysqli_connect($host, $user, $pass, $dbname);
+$dbconn = mysql_connect($host, $user, $pass, $dbname);
 
 $string = "update dbadmin set dbpassword = '{$pass}' where syncserver = 'localhost'";
 
-if (mysqli_query($dbconn, $string) !== false) {
+if (mysql_query($dbconn, $string) !== false) {
 	print("Password successfully reset to \"$pass\"\n");
 } else {
 	print("Password unsuccessfully reset\n");
 }
 
-mysqli_close($dbconn);
+mysql_close($dbconn);
 
 

@@ -29,13 +29,13 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		$arr = explode("\n", $out2);
 
 		echo "- Remove MySQL packages\n";
+		exec("cp -f /etc/my.cnf /etc/my.cnf._bck_");
+		
 		foreach ($arr as &$o) {
 			if (strpos($o, "-mysql") !== false) { continue; }
 			if (strpos($o, "mysqlclient") !== false) { continue; }
 			system("rpm -e {$o} --nodeps");
 		}
-
-		exec("cp -f /etc/my.cnf /etc/my.cnf._bck_");
 
 		echo "- Install MariaDB\n";
 		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common -y");

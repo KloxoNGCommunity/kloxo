@@ -137,7 +137,7 @@ function lxins_main()
 	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
 
 	if ($kloxostate === 'none') {
-		system("sh /script/cleanup");
+	//	system("sh /script/cleanup");
 	}
 
 	if ($installtype === 'master') {
@@ -682,7 +682,7 @@ function char_search_beg($haystack, $needle)
 
 function install_yum_repo()
 {
-	print("\nInstalling/modified MRatWork yum repo\n\n");
+	print("\nModified MRatWork repos and then install some packages...\n\n");
 
 	if (!file_exists("/etc/yum.repos.d")) {
 		print("No yum.repos.d dir detected!\n");
