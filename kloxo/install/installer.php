@@ -14,8 +14,7 @@ $opt = parse_opt($argv);
 
 $installtype = (isset($opt['install-type'])) ? $opt['install-type'] : 'master';
 $installfrom = (isset($opt['install-from'])) ? $opt['install-from'] : 'install';
-
-$dir_name = dirname(__FILE__);
+$installstep = (isset($opt['install-step'])) ? $opt['install-step'] : '1';
 
 $mypass = password_gen();
 
@@ -27,12 +26,18 @@ $osversion = find_os_version();
 function lxins_main()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 //	$arch = trim( `arch` );
 //	$arch = php_uname('m');
+
+	if ($installstep === '2') {
+		kloxo_install_step2();
+		kloxo_install_bye();
+		exit;
+	}
 
 	install_yum_repo();
 
@@ -90,20 +95,20 @@ function lxins_main()
 	}
 
 	// MR -- disable asking for installing installapp where installapp not installed now
-	/*
-		//--- Ask for InstallApp
-		print("InstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
-		print("When you choose Yes, be aware of downloading about 350Mb of data!\n");
+/*
+	//--- Ask for InstallApp
+	print("InstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
+	print("When you choose Yes, be aware of downloading about 350Mb of data!\n");
 
-		if (get_yes_no("Do you want to install the InstallAPP sotfware?") == 'n') {
-			print("Installing InstallApp = NO\n");
-			print("You can install it later with /script/installapp-update\n\n");
-			$installappinst = false;
-		} else {
-			print("Installing InstallApp = YES\n\n");
-			$installappinst = true;
-		}
-	*/
+	if (get_yes_no("Do you want to install the InstallAPP sotfware?") == 'n') {
+		print("Installing InstallApp = NO\n");
+		print("You can install it later with /script/installapp-update\n\n");
+		$installappinst = false;
+	} else {
+		print("Installing InstallApp = YES\n\n");
+		$installappinst = true;
+	}
+*/
 
 	if ($installfrom === 'setup') {
 		system("cp -rf {$kloxopath}/httpdocs/htmllib/filecore/init.program /etc/init.d/kloxo");
@@ -114,9 +119,6 @@ function lxins_main()
 
 	if ($kloxostate === 'none') {
 		install_main();
-	}
-
-	if ($kloxostate === 'none') {
 		kloxo_install_step2();
 	}
 
@@ -138,7 +140,13 @@ function lxins_main()
 		system("sh /script/cleanup");
 	}
 
-	kloxo_install_bye();
+	if ($installtype === 'master') {
+		if (file_exists("/var/lib/mysql/kloxo")) {
+			kloxo_install_bye();
+		}
+	} else {
+		kloxo_install_bye();
+	}
 }
 
 // ==== kloxo_all portion ===
@@ -146,9 +154,9 @@ function lxins_main()
 function install_general_mine($value)
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	$value = implode(" ", $value);
 	print("Installing $value ....\n");
@@ -158,9 +166,9 @@ function install_general_mine($value)
 function installcomp_mail()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	system('pear channel-update "pear.php.net"'); // to remove old channel warning
 	system("pear upgrade --force pear"); // force is needed
@@ -172,9 +180,9 @@ function installcomp_mail()
 function install_main()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	print("Prepare defaults and configurations...\n");
 
@@ -210,43 +218,45 @@ function install_main()
 
 	$options_file = "/var/named/chroot/etc/global.options.named.conf";
 
-	$example_options = "acl \"lxcenter\" {\n";
-	$example_options .= "\tlocalhost;\n";
-	$example_options .= "};\n\n";
-	$example_options .= "options {\n";
-	$example_options .= "\tmax-transfer-time-in 60;\n";
-	$example_options .= "\ttransfer-format many-answers;\n";
-	$example_options .= "\ttransfers-in 60;\n";
-	$example_options .= "\tauth-nxdomain yes;\n";
-	$example_options .= "\tallow-transfer { \"lxcenter\"; };\n";
-	$example_options .= "\tallow-recursion { \"lxcenter\"; };\n";
-	$example_options .= "\trecursion no;\n";
-	$example_options .= "\tversion \"LxCenter-1.0\";\n";
-	$example_options .= "};\n\n";
-	$example_options .= "# Remove # to see all DNS queries\n";
-	$example_options .= "# logging {\n";
-	$example_options .= "#\t channel query_logging {\n";
-	$example_options .= "#\t\t file \"/var/log/named_query.log\";\n";
-	$example_options .= "#\t\t versions 3 size 100M;\n";
-	$example_options .= "#\t\t print-time yes;\n";
-	$example_options .= "#\t };\n\n";
-	$example_options .= "#\t category queries {\n";
-	$example_options .= "#\t\t query_logging;\n";
-	$example_options .= "#\t };\n";
-	$example_options .= "# };\n";
-
 	if (!file_exists($options_file)) {
-		touch($options_file);
-		chown($options_file, "named");
+		$example_options = "acl \"lxcenter\" {\n";
+		$example_options .= "\tlocalhost;\n";
+		$example_options .= "};\n\n";
+		$example_options .= "options {\n";
+		$example_options .= "\tmax-transfer-time-in 60;\n";
+		$example_options .= "\ttransfer-format many-answers;\n";
+		$example_options .= "\ttransfers-in 60;\n";
+		$example_options .= "\tauth-nxdomain yes;\n";
+		$example_options .= "\tallow-transfer { \"lxcenter\"; };\n";
+		$example_options .= "\tallow-recursion { \"lxcenter\"; };\n";
+		$example_options .= "\trecursion no;\n";
+		$example_options .= "\tversion \"LxCenter-1.0\";\n";
+		$example_options .= "};\n\n";
+		$example_options .= "# Remove # to see all DNS queries\n";
+		$example_options .= "# logging {\n";
+		$example_options .= "#\t channel query_logging {\n";
+		$example_options .= "#\t\t file \"/var/log/named_query.log\";\n";
+		$example_options .= "#\t\t versions 3 size 100M;\n";
+		$example_options .= "#\t\t print-time yes;\n";
+		$example_options .= "#\t };\n\n";
+		$example_options .= "#\t category queries {\n";
+		$example_options .= "#\t\t query_logging;\n";
+		$example_options .= "#\t };\n";
+		$example_options .= "# };\n";
+
+		if (!file_exists($options_file)) {
+			touch($options_file);
+			chown($options_file, "named");
+		}
+
+		$cont = file_get_contents($options_file);
+		$pattern = "options";
+
+		if (!preg_match("+$pattern+i", $cont)) {
+			file_put_contents($options_file, "$example_options\n");
+		}
 	}
-
-	$cont = file_get_contents($options_file);
-	$pattern = "options";
-
-	if (!preg_match("+$pattern+i", $cont)) {
-		file_put_contents($options_file, "$example_options\n");
-	}
-
+	
 	$pattern = 'include "/etc/kloxo.named.conf";';
 	$file = "/var/named/chroot/etc/named.conf";
 	$comment = "//Kloxo";
@@ -261,9 +271,9 @@ function install_main()
 function kloxo_vpopmail()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u vpopmail\"");
 
@@ -302,9 +312,9 @@ function kloxo_vpopmail()
 function kloxo_install_step1()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	if ($kloxostate === 'none') {
 		print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
@@ -339,7 +349,7 @@ function kloxo_install_step1()
 		}
 
 		if (!file_exists("/etc/rc.d/init.d/djbdns")) {
-			$darr = array ('axfrdns', 'dnscache', 'dnslog', 'tinydns');
+			$darr = array('axfrdns', 'dnscache', 'dnslog', 'tinydns');
 
 			foreach ($darr as &$d) {
 				system("rm -rf /home/{$d} > /dev/null 2>&1");
@@ -454,12 +464,10 @@ function kloxo_install_step1()
 function kloxo_install_step2()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
-	exec("sh /script/reset-mysql-root-password {$dbpass}");
-	
 	if (!file_exists("{$kloxopath}/etc/conf")) {
 		exec("mkdir -p {$kloxopath}/etc/conf");
 	}
@@ -471,7 +479,7 @@ function kloxo_install_step2()
 	if (!file_exists("{$kloxopath}/etc/slavedb")) {
 		exec("mkdir -p {$kloxopath}/etc/slavedb");
 	}
-	
+
 	if (!file_exists("{$kloxopath}/etc/slavedb/dbadmin")) {
 		if (strlen($dbpass) === 0) {
 			$dbpassins = '""';
@@ -481,14 +489,16 @@ function kloxo_install_step2()
 
 		$dbadmindata = 'O:6:"Remote":1:{s:4:"data";a:1:{s:5:"mysql";a:1:{s:10:"dbpassword";s:' .
 			strlen($dbpass) . ':"' . $dbpassins . '";}}}';
-		exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/{$kloxopath}/etc/slavedb/dbadmin");
+		exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
 	}
-	
+
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';
 		exec("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
 	}
+
+	check_default_mysql();
 
 	exec("cd {$kloxopath}/httpdocs/; lxphp.exe {$kloxopath}/bin/install/create.php " .
 		"--install-type={$installtype} --db-rootuser={$dbroot} --db-rootpassword={$dbpass}");
@@ -514,9 +524,9 @@ function kloxo_prepare_kloxo_httpd_dir()
 function kloxo_install_before_bye()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	if (!isRpmInstalled('fetchmail')) {
 		system("yum install fetchmail -y");
@@ -534,14 +544,6 @@ function kloxo_install_before_bye()
 		// MR -- because /home/apache no exist at this step
 		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
 	}
-
-	/*
-		if ($kloxostate === 'master') {
-			$reinst = true;
-		} else {
-			$reinst = false;
-		}
-	*/
 
 	//--- Prevent mysql socket problem (especially on 64bit system)
 	if (!file_exists("/var/lib/mysql/mysql.sock")) {
@@ -565,9 +567,9 @@ function kloxo_install_before_bye()
 function kloxo_install_bye()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	print("\nCongratulations. Kloxo-MR has been installed succesfully as $installtype\n\n");
 	if ($installtype === 'master') {
@@ -614,9 +616,9 @@ class remote
 function slave_get_db_pass()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	$rmt = file_get_unserialize("{$kloxopath}/etc/slavedb/dbadmin");
 
@@ -630,9 +632,9 @@ function slave_get_db_pass()
 function file_get_unserialize($file)
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	if (!file_exists($file)) {
 		return null;
@@ -680,7 +682,7 @@ function char_search_beg($haystack, $needle)
 
 function install_yum_repo()
 {
-	print("\nInstalling MRatWork yum repository\n\n");
+	print("\nInstalling/modified MRatWork yum repo\n\n");
 
 	if (!file_exists("/etc/yum.repos.d")) {
 		print("No yum.repos.d dir detected!\n");
@@ -864,9 +866,9 @@ function isRpmInstalled($rpmname)
 function setUsingMyIsam()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	// MR -- taken from mysql-convert.php with modified
 	// to make fresh install already use myisam as storage engine
@@ -937,9 +939,9 @@ function actionMysql($action)
 function copy_script()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	exec("mkdir -p /script/filter");
 
@@ -953,9 +955,9 @@ function copy_script()
 function getKloxoType()
 {
 	global $argv;
-	global $lxlabspath, $kloxopath, $currentpath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom;
-	global $dir_name, $dbroot, $dbpass, $mypass, $osversion;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	if (file_exists("{$kloxopath}/etc/conf/slave-db.db")) {
 		return 'slave';
@@ -968,15 +970,45 @@ function getKloxoType()
 	}
 }
 
+function check_default_mysql()
+{
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
+
+	system("service mysqld restart");
+
+	if ($dbpass !== '') {
+		exec("echo \"show tables\" | mysql -u {$dbroot} -p\"{$dbpass}\" mysql", $out, $return);
+	} else {
+		exec("echo \"show tables\" | mysql -u {$dbroot} mysql", $out, $return);
+	}
+
+	if ($return) {
+		resetDBPassword();
+	}
+}
+
+function resetDBPassword()
+{
+	global $argv;
+	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
+	global $installtype, $installfrom, $installstep;
+	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
+
+	exec("sh /script/reset-mysql-root-password {$dbpass}");
+}
+
 // taken from lxlib.php
 function randomString($length)
 {
 	$randstr = '';
 
-	$chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-		'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 
-		'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 
+	$chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+		'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
+		'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
 		'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 
 	for ($rand = 0; $rand <= $length; $rand++) {
