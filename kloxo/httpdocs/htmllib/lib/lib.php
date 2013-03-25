@@ -3095,6 +3095,7 @@ function getKloxoLicenseInfo($nolog = null)
 function createDatabaseInterfaceTemplate($nolog = null)
 {
 	log_cleanup("- Create database interface template (Forced)", $nolog);
+
 	exec("mysql -u kloxo -p`cat ../etc/conf/kloxo.pass` kloxo < ../file/interface/interface_template.dump");
 }
 
@@ -5590,8 +5591,11 @@ function setInitialPhpFpmConfig($nolog = null)
 
 	log_cleanup("- Copy php-fpm init to /etc/init.d dir", $nolog);
 	$t = getLinkCustomfile("{$fpmpath}/init.d", "php-fpm.init");
+
 	if (file_exists($t)) {
-		lxfile_cp($t, "/etc/init.d/php-fpm");
+		if (file_exists("/etc/init.d/php-fpm")) {
+			lxfile_cp($t, "/etc/init.d/php-fpm");
+		}
 	}
 }
 

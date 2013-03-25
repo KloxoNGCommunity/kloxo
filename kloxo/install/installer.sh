@@ -23,22 +23,33 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
-if [ "$1" != "--release" ]; then
-	echo
-	echo "This installer only for DEV installing"
-	PS3='- Do you want continue? '
-	options=("Yes" "No")
-	select opt in "${options[@]}"; do 
-		case $opt in
-			"Yes")
-				break
-				;;
-			"No")
-				exit
-				;;
-			*) echo "  * Invalid option!";;
-		esac
-	done
+if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
+	APP_TYPE='slave'
+else
+	if [ -d /var/lib/mysql/kloxo ] ; then
+		APP_TYPE='master'
+	else
+		echo
+		echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
+		PS3='- Please enter your choice: '
+		options=("Master" "Slave")
+		select opt in "${options[@]}" "Quit"; do 
+			case $opt in
+				"Master")
+					APP_TYPE='master'
+					break
+					;;
+				"Slave")
+					APP_TYPE='slave'
+					break
+					;;
+   				"Quit")
+					exit
+					;;
+					*) echo "  * Invalid option!";;
+			esac
+		done
+	fi
 fi
 
 echo
@@ -145,8 +156,14 @@ else
 fi
 
 # Start install
+yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
+
 if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
-	yum -y install php wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
+	if [ -f /usr/bin/php ] ; then
+		yum -y remove php*
+	fi
+
+	yum -y install php php-mysql
 fi
 
 export PATH=/usr/sbin:/sbin:$PATH
@@ -163,5 +180,12 @@ if [ -f /usr/local/lxlabs/ext/php/php ] ; then
 	lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 else
 	php installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
+fi
+
+# Fix issue because sometimes kloxo database not created
+if [ $APP_TYPE == 'master' ] ; then
+	if [ ! -d var/lib/mysql/kloxo ] ; then
+		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
+	fi
 fi
 

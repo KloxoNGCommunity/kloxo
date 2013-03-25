@@ -162,8 +162,10 @@ class web__ extends lxDriverClass
 		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
 			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");
 
-			if (!file_exists("/etc/php-fpm.d/default.conf")) {
-				lxfile_cp("cp -rf /home/php-fpm/etc/php-fpm.d/default.conf /etc/php-fpm.d/default.conf");
+			if (file_exists("/etc/php-fpm.d")) {
+				if (!file_exists("/etc/php-fpm.d/default.conf")) {
+					exec("cp -rf /home/php-fpm/etc/php-fpm.d/default.conf /etc/php-fpm.d/default.conf");
+				}
 			}
 		} else {
 			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php-fpm.conf"), "/etc/php-fpm.conf");

@@ -18,7 +18,7 @@ $dbconn = mysqli_connect($host, $user, $pass, $dbname);
 
 $string = "update dbadmin set dbpassword = '{$pass}' where syncserver = 'localhost'";
 
-if (mysqli_query($dbconn, $string) === true) {
+if (mysqli_query($dbconn, $string) !== false) {
 	print("Password successfully reset to \"$pass\"\n");
 } else {
 	print("Password unsuccessfully reset\n");

@@ -333,7 +333,7 @@ function os_create_program_service()
 	}
 
 //	lxfile_cp("__path_program_htmlbase/htmllib/filecore/php.ini", "__path_lxlabs_base/ext/php/etc/php.ini");
-//	lxfile_unix_chmod("/etc/init.d/$pgm", "0755");
+	lxfile_unix_chmod("/etc/init.d/$pgm", "0755");
 }
 
 

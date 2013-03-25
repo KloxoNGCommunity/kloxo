@@ -98,11 +98,11 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/serverfile" \
 	--exclude "./kloxomr-$ver/session" \
 	--exclude "./kloxomr-$ver/etc/.restart" \
-	--exclude "./kloxomr-$ver/etc/conf" \
-	--exclude "./kloxomr-$ver/etc/flag" \
+	--exclude "./kloxomr-$ver/etc/conf/*" \
+	--exclude "./kloxomr-$ver/etc/flag/*" \
+	--exclude "./kloxomr-$ver/etc/slavedb/*" \
 	--exclude "./kloxomr-$ver/etc/last_sisinfoc" \
 	--exclude "./kloxomr-$ver/etc/program.*" \
-	--exclude "./kloxomr-$ver/etc/slavedb" \
 	--exclude "./kloxomr-$ver/etc/watchdog.conf" \
 	--exclude "./kloxomr-$ver/install/kloxo-mr_install.log"
 
