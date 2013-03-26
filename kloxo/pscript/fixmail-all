@@ -1,0 +1,9 @@
+#!/bin/sh
+
+. /script/fix.inc
+
+. /script/directory
+lxphp.exe ../bin/fix/fixvpop $*
+lxphp.exe ../bin/fix/fix-qmail-assign $*
+lxphp.exe ../bin/fix/fixmmail.php $*
+lxphp.exe ../bin/fix/fixwebmail.php $*

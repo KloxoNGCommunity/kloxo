@@ -1,0 +1,5 @@
+#!/bin/sh
+. /script/directory
+lxphp.exe ../bin/common/cleanup.php --without-services
+
+

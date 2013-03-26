@@ -3,16 +3,23 @@ include_once "htmllib/lib/include.php";
 
 $list = parse_opt($argv);
 
-$nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
+if (isset($list['nolog'])) {
+	$nologtext = '--nolog';
+} else {
+	$nologtext = '';
+}
 
 if (lxfile_exists("__path_slave_db")) {
-	$type = 'slave';
+	$typetext = '--type=slave';
 } else {
-	$type = 'master';
+	$typetext = '--type=master';
 }
 
-if ($nolog) {
-	system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type=$type --nolog");
+if (isset($list['without-services'])) {
+	$withoutservices = '--without-services';
 } else {
-	system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type=$type");
+	$withoutservices = '';
 }
+
+system("lxphp.exe ../bin/common/tmpupdatecleanup.php {$typetext} {$withoutservices} {$nologtext}");
+

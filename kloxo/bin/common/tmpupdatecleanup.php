@@ -86,25 +86,29 @@ function updatecleanup_main()
 	exec("chkconfig qmail on");
 	createRestartFile("qmail");
 
-	$fixapps = array("dns", "web", "php", "mail", "ftpuser");
-	setUpdateConfigWithVersionCheck($fixapps, $opt['type']);
+	if (isset($opt['without-services'])) {
+		// no action
+	} else {
+		$fixapps = array("dns", "web", "php", "mail", "ftpuser");
+		setUpdateConfigWithVersionCheck($fixapps, $opt['type']);
 
-	log_cleanup("Fixing 'vpopmail' MySQL password");
-	exec("sh /script/fixvpop");
-	log_cleanup("- Fixing process");
+		log_cleanup("Fixing 'vpopmail' MySQL password");
+		exec("sh /script/fixvpop");
+		log_cleanup("- Fixing process");
 
-	log_cleanup("Fixing Qmail assign");
-	exec("sh /script/fix-qmail-assign");
-	log_cleanup("- Fixing process");
+		log_cleanup("Fixing Qmail assign");
+		exec("sh /script/fix-qmail-assign");
+		log_cleanup("- Fixing process");
 
-	if (file_exists("/var/qmail/supervise/smtp/supervise/ok")) {
-		log_cleanup("Restarting Qmail services");
-		exec("qmailctl restart");
-		log_cleanup("- Restarting process");
+		if (file_exists("/var/qmail/supervise/smtp/supervise/ok")) {
+			log_cleanup("Restarting Qmail services");
+			exec("qmailctl restart");
+			log_cleanup("- Restarting process");
+		}
+
+		// --- for anticipate change xinetd listing
+		exec("service xinetd restart");
 	}
-
-	// --- for anticipate change xinetd listing
-	exec("service xinetd restart");
 
 	log_cleanup("*** Executing Update (cleanup) - END ***");
 	

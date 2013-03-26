@@ -284,14 +284,7 @@ foreach ($certnamelist as $ip => $certname) {
     </Location>
 <?php
     if (!$reverseproxy) {
-?>
-
-    CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
-    ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
-<?php
-    }
-
-    if ($statsapp === 'awstats') {
+        if ($statsapp === 'awstats') {
 ?>
 
     ScriptAlias /awstats/ "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/"
@@ -306,7 +299,7 @@ foreach ($certnamelist as $ip => $certname) {
         Options +Indexes
     </Location>
 <?php
-        if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     <Location "/stats/">
@@ -316,10 +309,12 @@ foreach ($certnamelist as $ip => $certname) {
         require valid-user
     </Location>
 <?php
-        }
-
-    } elseif ($statsapp === 'webalizer') {
+            }
+        } elseif ($statsapp === 'webalizer') {
 ?>
+
+    CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
+    ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
 
     Alias /stats "/home/httpd/<?php echo $domainname; ?>/webstats/"
 
@@ -327,7 +322,7 @@ foreach ($certnamelist as $ip => $certname) {
         Options +Indexes
     </Location>
 <?php
-        if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     <Location "/awstats/">
@@ -337,6 +332,7 @@ foreach ($certnamelist as $ip => $certname) {
         require valid-user
     </Location>
 <?php
+            }
         }
     }
 

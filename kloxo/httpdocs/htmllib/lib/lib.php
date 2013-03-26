@@ -7134,7 +7134,11 @@ function resetQmailAssign()
 
 	$t = '';
 
+	log_cleanup("Reset Qmail Assign for domains");
+
 	foreach ($n as $k => $v) {
+		log_cleanup("- assign for '{$k}'");
+
 		$o = fileowner($v);
 		$t .= "+{$k}-:{$k}:{$o}:{$o}:{$v}:-::\n";
 
