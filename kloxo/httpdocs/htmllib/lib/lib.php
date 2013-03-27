@@ -4651,6 +4651,9 @@ function lxguard_main($clearflag = false)
 
 
 	$file = "/var/log/secure";
+
+	if (!file_exists($file)) { return; }
+
 	$fp = fopen($file, "r");
 	$fsize = filesize($file);
 	$newtime = time();

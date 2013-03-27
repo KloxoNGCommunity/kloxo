@@ -134,8 +134,6 @@ function lxins_main()
 
 	kloxo_install_before_bye();
 
-	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
-
 	if ($kloxostate === 'none') {
 	//	system("sh /script/cleanup");
 	}
@@ -147,6 +145,8 @@ function lxins_main()
 	} else {
 		kloxo_install_bye();
 	}
+
+	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
 }
 
 // ==== kloxo_all portion ===
