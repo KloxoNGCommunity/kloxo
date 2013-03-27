@@ -171,6 +171,7 @@ export PATH=/usr/sbin:/sbin:$PATH
 if [ -d ./kloxomr/install ] ; then
 	cd ./kloxomr/install
 else
+	mv ./kloxomr-*.tar.gz ./kloxomr-latest.tar.gz >/dev/null 2>&1
 	tar -xzf ./kloxomr-latest.tar.gz >/dev/null 2>&1
 	mv ./kloxomr-6* ./kloxomr >/dev/null 2>&1
 	cd ./kloxomr/install >/dev/null 2>&1

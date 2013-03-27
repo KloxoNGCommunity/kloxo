@@ -251,7 +251,12 @@ server {
 
     set $user '<?php echo $user; ?>';
 <?php
-//        if (!$reverseproxy) {
+        if (!$reverseproxy) {
+?>
+
+    access_log /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log main;
+    error_log  /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log;
+<?php
             if ($statsapp === 'awstats') {
 ?>
 
@@ -272,10 +277,6 @@ server {
             } elseif ($statsapp === 'webalizer') {
 ?>
 
-    ### not work when moving to webalizer.conf on globals!
-    access_log /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log main;
-    error_log  /home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log;
-
     set $statstype 'stats';
 
     include '<?php echo $globalspath; ?>/<?php echo $webalizerconf; ?>';
@@ -291,7 +292,7 @@ server {
 <?php
                 }
             }
-//        }
+        }
 
         if ($nginxextratext) {
 ?>

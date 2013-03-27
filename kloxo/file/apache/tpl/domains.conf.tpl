@@ -283,7 +283,12 @@ foreach ($certnamelist as $ip => $certname) {
         </IfModule>
     </Location>
 <?php
-    if (!$reverseproxy) {
+//    if (!$reverseproxy) {
+?>
+
+    CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
+    ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
+<?php
         if ($statsapp === 'awstats') {
 ?>
 
@@ -313,9 +318,6 @@ foreach ($certnamelist as $ip => $certname) {
         } elseif ($statsapp === 'webalizer') {
 ?>
 
-    CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
-    ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
-
     Alias /stats "/home/httpd/<?php echo $domainname; ?>/webstats/"
 
     <Location "/stats/">
@@ -334,7 +336,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
             }
         }
-    }
+//    }
 
     if ($apacheextratext) {
 ?>

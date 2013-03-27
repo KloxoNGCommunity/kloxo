@@ -365,13 +365,16 @@ function kloxo_install_step1()
 		$mysqlbranch = getMysqlBranch();
 
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
-		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf", "automake",
+		$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql",
+			"{$phpbranch}-pear", "{$phpbranch}-devel", 
+			"tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf", "automake",
 			"libtool", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
 			"net-snmp", "tmpwatch", "rkhunter", "quota",
-			"{$httpdbranch}", "mod_ssl", "mod_ruid2", "{$mysqlbranch}", "{$mysqlbranch}-server",
-			"{$phpbranch}", "{$phpbranch}-pear", "lxphp", "lxlighttpd",
+			"lxlighttpd", "lxphp", "{$httpdbranch}", "mod_ssl", "mod_ssl", "mod_ruid2",
+			"{$mysqlbranch}", "{$mysqlbranch}-server",
 			"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch"
 		);
+
 
 		$list = implode(" ", $packages);
 
@@ -596,7 +599,9 @@ function kloxo_install_bye()
 		print("- Need running 'sh /script/cleanup' for update\n\n");
 	}
 
-	print("- Better reboot for fresh install\n\n");
+	if ($installstep === '2') {
+		print("- Better reboot for fresh install\n\n");
+	}
 
 	if (isRpmInstalled('qmail')) {
 		print("---------------------------------------------\n");

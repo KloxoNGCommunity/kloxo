@@ -247,7 +247,12 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
             }
         }
 
-//        if (!$reverseproxy) {
+        if (!$reverseproxy) {
+?>
+
+    accesslog.filename = "/home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log"
+    server.errorlog    = "/home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log"
+<?php
             if ($statsapp === 'awstats') {
 ?>
 
@@ -283,7 +288,7 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
 <?php
                 }
             }
-//        }
+        }
 
         if ($lighttpdextratext) {
 ?>
