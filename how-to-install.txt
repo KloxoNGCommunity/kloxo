@@ -1,6 +1,4 @@
-A. For Dev:
-
-A.1. pre-install -- better for fresh install
+A. pre-install -- better for fresh install
 
     cd /
 
@@ -15,7 +13,10 @@ A.1. pre-install -- better for fresh install
 
     cd /
 
-A.2. Install/reinstall/upgrade -- data not destroyed with this fork - 
+B. Install Kloxo-MR
+
+B.1 For Dev (alpha, beta, candidate) Release:
+   - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
     # delete if exist, create kloxo temp dir
@@ -32,7 +33,9 @@ A.2. Install/reinstall/upgrade -- data not destroyed with this fork -
     # better reboot
     reboot
    
-B. For Final Release:
+B.2. For Final Release:
+   - Install/reinstall/upgrade -- data not destroyed with this fork
+     for existing kloxo (6.1.x), run 'sh /script/update' first.
 
     # move repo dir
     cd /etc/yum.repos.d/
