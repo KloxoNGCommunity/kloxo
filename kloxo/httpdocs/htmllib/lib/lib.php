@@ -4651,10 +4651,7 @@ function lxguard_main($clearflag = false)
 
 
 	$file = "/var/log/secure";
-
-	if (!file_exists($file)) { return; }
-
-	$fp = fopen($file, "r");
+	if (!file_exists($file)) { return; }	$fp = fopen($file, "r");
 	$fsize = filesize($file);
 	$newtime = time();
 	$oldtime = time() - 60 * 10;
@@ -6028,6 +6025,11 @@ function setInstallMailserver($nolog = null)
 		lxshell_return("ln", "-s", "/usr/local/bin/tcpserver", "/usr/bin/");
 		//	}
 	*/
+
+	if (!lxfile_exists("/etc/lxrestricted")) {
+		log_cleanup("- Install /etc/lxrestricted file (lxjailshell commands restrictions)", $nolog);
+		lxfile_cp("../file/lxrestricted", "/etc/lxrestricted");
+	}
 }
 
 function setInitialServer($nolog = null)

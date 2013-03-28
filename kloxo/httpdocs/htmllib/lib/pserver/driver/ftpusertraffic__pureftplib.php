@@ -9,9 +9,12 @@ static function findTotalQuota($list, $oldtime, $newtime)
 	if(!isset($oldtime)) {
 		return null;
 	}
-	$processfile =  '/var/log/kloxo/pureftpd.log';
-	$processedir = "/var/log/kloxo";
 
+//	$processfile =  '/var/log/kloxo/pureftpd.log';
+//	$processedir = "/var/log/kloxo";
+
+	$processfile =  '/var/log/pureftpd.log';
+	$processedir = "/var/log";
 
 	foreach($list as $d) {
 		$tlist[$d]  = self::getftp_usage($processfile, $d, $oldtime, $newtime);

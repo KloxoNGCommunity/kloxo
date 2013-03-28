@@ -9,7 +9,8 @@
 #
 # add and modified by Mustafa Ramadhan <mustafa.ramadhan@lxcenter.org>
 
-/var/log/kloxo/maillog /var/log/kloxo/courier /var/log/kloxo/smtp.log /var/log/kloxo/pureftpd.log {
+#/var/log/kloxo/maillog /var/log/kloxo/courier /var/log/qmail/*/current /var/log/pureftpd.log {
+/var/log/pureftpd.log {
         daily
         rotate 30
         create
@@ -34,15 +35,6 @@
         daily
         rotate 30
         create 0750 root root
-        compress
-        notifempty
-        missingok
-}
-
-/home/kloxo/httpd/lighttpd/*.log {
-        daily
-        rotate 30
-        create 0664 apache apache
         compress
         notifempty
         missingok

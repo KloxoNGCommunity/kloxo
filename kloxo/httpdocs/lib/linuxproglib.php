@@ -29,9 +29,10 @@ function os_createLowMem()
 			lxfile_cp("/etc/my.cnf", "/etc/lowmem.saved.my.cnf");
 			lxfile_cp("../file/lowmem/my.cnf.lowmem", "/etc/my.cnf");
 			createRestartFile('mysql');
-			createRestartFile('courier-imap');
+		//	createRestartFile('courier-imap');
 		}
-		//lxfile_cp("../file/lowmem/spamassassin.lowmem", "/etc/sysconfig/spamassassin");
+
+		lxfile_cp("../file/lowmem/spamassassin.lowmem", "/etc/sysconfig/spamassassin");
 	}
 }
 
