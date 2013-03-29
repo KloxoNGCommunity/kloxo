@@ -697,7 +697,8 @@ function install_yum_repo()
 
 	system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
 
-	exec("yum list kernel|grep @", $out, $ret);
+	// MR -- handling possibility vzkernel/kernel/kernel-xen
+	exec("yum list *kernel*|grep @", $out, $ret);
 
 	// MR -- need for OS (like fedora) where os version not the same with redhat/centos
 	if ($out) {

@@ -21,7 +21,7 @@ B.1 For Dev (alpha, beta, candidate) Release:
 
     # delete if exist, create kloxo temp dir
     rm -rf /tmp/kloxo; mkdir /tmp/kloxo ; cd /tmp/kloxo; 
-	
+
     rm -f ./kloxo-mr-dev.sh
 
     # get kloxo-mr-dev installer from github
@@ -39,10 +39,10 @@ B.2. For Final Release:
 
     # move repo dir
     cd /etc/yum.repos.d/
-	
+
     # get repo file -- no need for 6.5.0.c and after
     wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
-	
+
     # move to /
     cd /
 
@@ -51,4 +51,3 @@ B.2. For Final Release:
     
     # better reboot
     reboot
-
