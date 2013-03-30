@@ -701,8 +701,10 @@ function install_yum_repo()
 		return;
 	}
 
-	system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
-
+	if (!file_exists("/etc/yum.repos.d/kloxo-mr.repo")) {
+		system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
+	}
+	
 	// MR -- just to know @ exist or not because centos 6 change 'installed' to '@'
 	exec("yum list *yum*|grep @", $out, $ret);
 
