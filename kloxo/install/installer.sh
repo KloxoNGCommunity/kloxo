@@ -187,7 +187,7 @@ fi
 if [ $APP_TYPE == 'master' ] ; then
 	if [ ! -d var/lib/mysql/kloxo ] ; then
 		echo "Creating 'kloxo database'..."
-		sleep 10
+	#	sleep 10
 		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
 	fi
 fi

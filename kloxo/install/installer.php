@@ -19,7 +19,9 @@ $installstep = (isset($opt['install-step'])) ? $opt['install-step'] : '1';
 $mypass = password_gen();
 
 $dbroot = "root";
-$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : '';
+// MR -- always set to ''
+//$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : '';
+$dbpass = '';
 
 $osversion = find_os_version();
 
@@ -483,6 +485,7 @@ function kloxo_install_step2()
 		exec("mkdir -p {$kloxopath}/etc/slavedb");
 	}
 
+/*
 	if (!file_exists("{$kloxopath}/etc/slavedb/dbadmin")) {
 		if (strlen($dbpass) === 0) {
 			$dbpassins = '""';
@@ -494,7 +497,10 @@ function kloxo_install_step2()
 			strlen($dbpass) . ':"' . $dbpassins . '";}}}';
 		exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
 	}
-
+*/
+	$dbadmindata = 'O:6:"Remote":1:{s:4:"data";a:1:{s:5:"mysql";a:1:{s:10:"dbpassword";s:0:"";}}}';
+	exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
+		
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';
@@ -697,8 +703,8 @@ function install_yum_repo()
 
 	system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
 
-	// MR -- handling possibility vzkernel/kernel/kernel-xen
-	exec("yum list *kernel*|grep @", $out, $ret);
+	// MR -- just to know @ exist or not because centos 6 change 'installed' to '@'
+	exec("yum list *yum*|grep @", $out, $ret);
 
 	// MR -- need for OS (like fedora) where os version not the same with redhat/centos
 	if ($out) {
