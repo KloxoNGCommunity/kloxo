@@ -1,93 +1,144 @@
-#!/bin/sh
-# /etc/rc.d/init.d/djbdns
+#!/bin/bash
 #
-# chkconfig: 345 40 80
-# description: Start, stop, restart, reload, and otherwise signal djbdns
+# Startup script for the Qmail Mail Server
 #
-# Original script written by Vincent Danen <vdanen@mandrakesoft.com> Mar 10 2001
-#
-# Modified to work with QmailToaster by:
-#
-# Nick Hemmesch <nick@ndhsoft.com>
-# http://www.qmailtoaster.com
-# May 17 2006
-#
+# chkconfig: - 85 15
+# description: Qmail is a World Wide Mail server.  It runs mail qmail-send and qmail-pop servers .
+# processname: tcpserver
+# pidfile: /var/run/Qmail.pid
 
-PATH=/usr/local/bin:/usr/bin:/bin
-export PATH
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+
+# Path to the Qmailctl script, server binary, and short-form for messages.
+Qmailtcp=/usr/bin/tcpserver
+Qmailproc=/var/qmail/boot/proc
+prog=Djbdns
+RETVAL=0
+
+PATH=$PATH:/usr/local/bin
 
 # MR -- to make sure all set match - begin set 
-if ! [ -d /var/djbdns/tinydns ] ; then
-	tinydns-conf tinydns dnslog /var/djbdns/tinydns 127.0.0.1
+# original set for every ips except 127.0.0.1
+# change 0.0.0.0 that mean all ips
+
+if ! [ $(id -u tinydns) ] ; then
+	adduser tinydns
 fi
 
-if ! [ -d /var/djbdns/axfrdns ] ; then
-	# original set for every ips except 127.0.0.1
-	# change 0.0.0.0 that mean all ips
-	axfrdns-conf axfrdns dnslog /var/djbdns/axfrdns /var/djbdns/tinydns 0.0.0.0
+if ! [ $(id -u dnslog) ] ; then
+	adduser dnslog
 fi
 
-echo '0.0.0.0' > /var/djbdns/tinydns/env/IP
+if ! [ $(id -u dnscache) ] ; then
+	adduser dnscache
+fi
+
+if ! [ $(id -u axfrdns) ] ; then
+	adduser axfrdns
+fi
+
+if ! [ -d /var/tinydns ] ; then
+	tinydns-conf tinydns dnslog /var/tinydns 127.0.0.1
+fi
+
+if ! [ -d /var/axfrdns ] ; then
+	axfrdns-conf axfrdns dnslog /var/axfrdns /var/tinydns 0.0.0.0
+fi
+
+if ! [ -d /var/tinydns/env ] ; then
+	mkdir -p /var/tinydns/env
+fi
+
+echo '0.0.0.0' > /var/tinydns/env/IP
+
+if ! [ -d /var/dnscache ] ; then
+	dnscache-conf dnscache dnslog /var/dnscache 127.0.0.1
+fi
+
+/usr/bin/tcprules /var/axfrdns/tcp.cdb /var/axfrdns/tcp.tmp < /var/axfrdns/tcp
+
+if ! [ -d /var/dnscache/env ] ; then
+	mkdir -p /var/dnscache/env
+fi
+
+echo '127.0.0.1' > /var/dnscache/env/IP
 # MR -- end set
 
+# The semantics of these two functions differ from the way Qmailctl does
+# things -- attempting to start while running is a failure, and shutdown
+# when not running is also a failure.  So we just do it the way init scripts
+# are expected to behave here.
+start() {
+        echo -n $"Starting $prog: "
+		cd /var/tinydns/
+		./run > /dev/null 2>&1 &
+
+		if [ -f /var/dnscache/enable ] ; then 
+			cd /var/dnscache
+			./run > /dev/null 2>&1 &
+		else 
+			cd /var/axfrdns/
+			./run > /dev/null 2>&1 &
+		fi
+		RETVAL=$?
+        echo
+		[ $RETVAL = 0 ] && touch /var/lock/subsys/djbdns
+        exit $RETVAL
+}
+stop() {
+	echo -n $"Stopping $prog: "
+	pkill -x tinydns
+	sleep 1
+	pkill -x dnscache
+	sleep 1
+	pkill -f axfrdns
+	RETVAL=$?
+	echo
+	[ $RETVAL = 0 ] && rm -f /var/lock/subsys/djbdns /var/run/Qmail.pid
+}
+reload() {
+	echo -n $"Reloading $prog: "
+	killproc $Qmailtcp -HUP
+		RETVAL=$?
+		echo
+	[ $RETVAL = 0 ] && rm -f /var/lock/subsys/djbdns /var/run/Qmail.pid
+}
+
+# See how we were called.
 case "$1" in
   start)
-    # have a silent kill in case someone tries to start djbdns when
-    # it is already running . . .
-    $0 stop >/dev/null 2>&1
-    echo -n "Starting djbdns services: svscan"
-    cd /var/djbdns/service
-    env - PATH="$PATH" svscan &
-    echo $! > /var/run/djbdns-svscan.pid
-    touch /var/lock/subsys/djbdns
-    echo "."
-    ;;
+	start
+	;;
   stop)
-    echo -n "Stopping djbdns services: svscan"
-    kill `cat /var/run/djbdns-svscan.pid`
-    echo -n " djbdns"
-    svc -dx /var/djbdns/service/*
-    echo -n " logging"
-    svc -dx /var/djbdns/service/*/log
-    echo "."
-    rm -rf /var/run/djbdns-svscan.pid
-    rm -rf /var/lock/subsys/djbdns
-    ;;
-  stat|status)
-    cd /var/djbdns/service
-    svstat * */log
-    ;;
-  reload|hup)
-    echo "Sending HUP signal to djbdns services."
-    svc -h /var/djbdns/service/*
-    ;;
-  pause)
-    echo "Pausing djbdns services"
-    svc -p /var/djbdns/service/*
-    ;;
-  cont)
-    echo "Continuing djbdns services"
-    svc -c /var/djbdns/service/*
-    ;;
+	stop
+	;;
+  status)
+        status tinydns
+		RETVAL=$?
+		RETVAL=$?
+	;;
   restart)
-    echo "Restarting djbdns services:"
-    svc -d /var/djbdns/service/*
-    svc -u /var/djbdns/service/*
-    ;;
-  help)
-    cat <<HELP
-   stop -- stops DNS services
-  start -- starts DNS services
-  pause -- temporarily stops DNS services
-   cont -- continues paused DNS services
-   stat -- displays status of DNS services
-restart -- stops and restarts DNS services
-HELP
-    ;;
+	stop
+	start
+	;;
+  condrestart)
+	if [ -f /var/run/Qmail.pid ] ; then
+		stop
+		start
+	fi
+	;;
+  reload)
+        reload
+	;;
+  graceful|help|configtest|fullstatus)
+        $Qmailtcp $@ 
+	RETVAL=$?
+	;;
   *)
-    echo "Usage: $0 {start|stop|restart|reload|stat|status|pause|cont|help}"
-    exit 1
-    ;;
+	echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|graceful|help|configtest}"
+	exit 1
 esac
 
-exit 0
+exit $RETVAL

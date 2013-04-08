@@ -25,6 +25,8 @@ class Dns__Bind extends lxDriverClass
 		$example_options .= " transfer-format many-answers;\n";
 		$example_options .= " transfers-in 60;\n";
 		$example_options .= " auth-nxdomain yes;\n";
+		$example_options .= " allow-query { any; };\n";
+		$example_options .= " allow-query-cache { \"lxcenter\"; };\n";
 		$example_options .= " allow-transfer { \"lxcenter\"; };\n";
 		$example_options .= " allow-recursion { \"lxcenter\"; };\n";
 		$example_options .= " recursion no;\n";

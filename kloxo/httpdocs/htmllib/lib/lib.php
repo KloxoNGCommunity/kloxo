@@ -4651,14 +4651,19 @@ function lxguard_main($clearflag = false)
 
 
 	$file = "/var/log/secure";
-	if (!file_exists($file)) { return; }	$fp = fopen($file, "r");
+
+	if (!file_exists($file)) { return; }
+
+	$fp = fopen($file, "r");
 	$fsize = filesize($file);
 	$newtime = time();
 	$oldtime = time() - 60 * 10;
 	$rmt = lfile_get_unserialize("$lxgpath/hitlist.info");
+
 	if ($rmt) {
 		$oldtime = max((int)$oldtime, (int)$rmt->ddate);
 	}
+
 	$ret = FindRightPosition($fp, $fsize, $oldtime, $newtime, "getTimeFromSysLogString");
 
 	$list = lfile_get_unserialize("$lxgpath/access.info");
@@ -4677,10 +4682,12 @@ function lxguard_main($clearflag = false)
 	$hdn = lfile_get_unserialize("$lxgpath/hostdeny.info");
 	$deny = lx_array_merge(array($deny, $hdn));
 	$string = null;
+
 	foreach ($deny as $k => $v) {
 		if (csb($k, "127")) {
 			continue;
 		}
+
 		$string .= "ALL : $k\n";
 	}
 
@@ -5265,7 +5272,7 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("9000000", "54000000", $content);
+			$content = str_replace("-m 9000000", "-m 36000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}
@@ -5281,7 +5288,23 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("20000000", "120000000", $content);
+			$content = str_replace("-m 20000000", "-m 60000000", $content);
+			lfile_put_contents($file, $content);
+			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
+		}
+	}
+
+	$list = array("submission");
+
+	$path = "/var/qmail/supervise";
+
+	foreach ($list as $l) {
+		log_cleanup("- For {$l}", $nolog);
+		$file = "/var/qmail/supervise/{$l}/run";
+		if (file_exists($file)) {
+			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
+			$content = file_get_contents($file);
+			$content = str_replace("-m 12000000", "-m 60000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}

@@ -13,7 +13,6 @@ class Dns__djbdns extends lxDriverClass
 		
 		lxfile_rm_rec("/var/tinydns");
 		lxfile_rm_rec("/var/axfrdns");
-		lxshell_return("__path_php_path", "../bin/misc/djbdnsstart.php");
 		lxfile_cp("../file/djbdns.init", "/etc/init.d/djbdns");
 		lxfile_unix_chmod("/etc/init.d/djbdns", "0755");
 		lxshell_return("chkconfig", "djbdns", "on");

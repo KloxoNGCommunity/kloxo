@@ -1,6 +1,14 @@
 #!/bin/sh
 
+echo ""
+echo "Set '/var/qmail/control/locals' with 'localhost' only"
+echo 'localhost' > /var/qmail/control/locals
+echo "--------------------------"
 sh /script/fixvpop
+echo "--------------------------"
 sh /script/fix-qmail-assign
+echo "--------------------------"
 sh /script/fixmail
+echo "--------------------------"
 sh /script/fixwebmail
+echo ""

@@ -135,7 +135,6 @@ class Dns extends DnsBase
 			lxshell_return("service", "named", "stop");
 			lxfile_rm_rec("/var/djbdns/tinydns");
 			lxfile_rm_rec("/var/djbdns/axfrdns");
-			//    lxshell_return("__path_php_path", "../bin/misc/djbdnsstart.php");
 			lxshell_return("rpm", "-e", "--nodeps", "bind");
 			lxshell_return("rpm", "-e", "--nodeps", "bind-chroot");
 			lxfile_cp("../file/djbdns.init", "/etc/init.d/djbdns");

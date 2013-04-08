@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# release on Kloxo 6.5.0
+# by mustafa.ramadhan@lxcenter.org
+
+if [ "$#" == 0 ] ; then
+	echo
+	echo " ---------------------------------------------------------------------------"
+	echo "  format: sh $0 --select=<mysql/mysql51/mysql55>"
+	echo " ---------------------------------------------------------------------------"
+	echo
+	echo
+	exit;
+fi
+
+. /script/directory
+lxphp.exe ../bin/fix/mysql-branch.php $*
