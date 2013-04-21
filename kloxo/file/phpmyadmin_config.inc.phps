@@ -66,4 +66,8 @@ $cfg['Servers'][$i]['bs_temp_log_threshold'] = '32M';
 $cfg['UploadDir'] = '';
 $cfg['SaveDir'] = '';
 
+$cfg['ThemeManager'] = TRUE; 
+$cfg['ThemeDefault'] = 'pmahomme';
+$cfg['ThemePerServer'] = TRUE;
+
 ?>
