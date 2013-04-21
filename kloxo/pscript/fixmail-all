@@ -1,8 +1,11 @@
 #!/bin/sh
-
 echo ""
 echo "Set '/var/qmail/control/locals' with 'localhost' only"
 echo 'localhost' > /var/qmail/control/locals
+echo "--------------------------"
+echo "Modified MAXDAEMONS and MAXPERIP on '/etc/courier/imapd'"
+sed -i 's/MAXDAEMONS\=40/MAXDAEMONS\=60/' /etc/courier/imapd
+sed -i 's/MAXPERIP\=4/MAXPERIP\=20/' /etc/courier/imapd
 echo "--------------------------"
 sh /script/fixvpop
 echo "--------------------------"

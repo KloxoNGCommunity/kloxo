@@ -5658,6 +5658,9 @@ function setKloxoHttpdChownChmod($nolog = null)
 
 	exec("find {$hkhpath}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 	log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$hkhpath}/", $nolog);
+	
+	exec("find {$hkhpath}/ -type f -name \"*.pl*\" -exec chmod {$domdirchmod} \{\} \\;");
+	log_cleanup("- chmod {$domdirchmod} FOR *.pl* INSIDE {$hkhpath}/", $nolog);
 
 	exec("find {$hkhpath}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
 	log_cleanup("- chmod {$domdirchmod} FOR {$hkhpath}/ AND INSIDE", $nolog);
@@ -6061,9 +6064,12 @@ function setInitialServer($nolog = null)
 	log_cleanup("Initialize Server", $nolog);
 
 	if (lxfile_exists("/proc/user_beancounters")) {
-		log_cleanup("- Initialize OpenVZ", $nolog);
-		create_dev();
-		lxfile_cp("../file/openvz/inittab", "/etc/inittab");
+		// MR -- OpenVZ have '/etc/vz' but only host have '/etc/vz/version'
+		if (!lxfile_exists("/etc/vz/version")) {
+			log_cleanup("- Initialize OpenVZ", $nolog);
+			create_dev();
+			lxfile_cp("../file/openvz/inittab", "/etc/inittab");
+		}
 	} else {
 		log_cleanup("- Initialize non-OpenVZ", $nolog);
 		if (!lxfile_exists("/sbin/udevd")) {

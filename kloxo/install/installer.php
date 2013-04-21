@@ -374,7 +374,7 @@ function kloxo_install_step1()
 			"net-snmp", "tmpwatch", "rkhunter", "quota",
 			"lxlighttpd", "lxphp", "{$httpdbranch}", "mod_ssl", "mod_ssl", "mod_ruid2",
 			"{$mysqlbranch}", "{$mysqlbranch}-server",
-			"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch"
+			"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch"
 		);
 
 
