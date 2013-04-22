@@ -220,9 +220,7 @@ $__emessage['document_root_may_not_contain_spaces'] = "Ścieżka główna dokume
 // wydanie Kloxo 6.2.0
 // utworzone przez mustafa.ramadhan@lxcenter.org
 
-$__information['php_config'] = "Po aktywacji tej opcji, Kloxo zainstaluje najpierw plik rpm Xcache/Ioncube/Zend/Suhosin rpm wewnątrz katalogu /home/rpms " .
-	"Jeśli nie istnieją spróbuj zainstalować za pomocą yum. Instalacja tych modułów zależy od gałęzi PHP i wersji zainstalowanej w systemie.<br />" .
-	"[b]Przykład[/b]: jeśli system używa gałęzi php53u, Kloxo sprawdzi najpierw php53u-xcache i jeśli on nie istnieje to sprawdzi php-xcache. " .
-	"Jest ot najprawdopodobniej błąd kompatybilności. Spróbuj komendy 'php -v', aby się upewnić.";
-
+$__information['php_config'] = "Instaluje pakiet rpm Xcache/Ioncube/Zend/Suhosin rpm za pomocą yum. Instalacja tych modułów zależy od gałęzi PHP oraz wersji zainstalowanych w systemie. " .
+	"[b]Przykład[/b]: jeśli jest używana gałąź php53u to zostanie wykonana instalacja za pomocą 'yum install php53-xcache'. Sprawdź 'php -m', aby się upewnić.";
+	
 $__information['reverse_dns'] = "Odwrotne DNS działa tylko dla bloku klasy C (256 adresów IP) lub więcej.";
