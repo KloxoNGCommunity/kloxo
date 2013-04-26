@@ -78,6 +78,9 @@ ver=`cat ./kloxo/bin/kloxoversion`
 
 mv ./kloxo ./kloxomr-$ver
 
+# delete dirs except en-us
+find ./kloxomr-$ver/httpdocs/lang/* -type d ! -name 'en-us' -exec rm -R {} \;
+
 ### 4. zipped process
 tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxomr-$ver/file" \
 	"./kloxomr-$ver/httpdocs" "./kloxomr-$ver/pscript" "./kloxomr-$ver/sbin" \
