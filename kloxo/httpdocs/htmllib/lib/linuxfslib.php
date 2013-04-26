@@ -61,7 +61,7 @@ function lxfile_dirsize($path, $byteflag = false)
 */
 
 //	exec("du -sc {$path} | grep -i '{$path}'", $out);
-	exec("du -s {$path}", $out);
+	exec("ionice -c3 -n7 du -s {$path}", $out);
 	$os  = preg_replace("/\s+/", ":", $out[0]);
 	$t = str_replace(":{$path}", "", $os);
 
