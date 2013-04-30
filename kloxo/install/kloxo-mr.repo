@@ -94,7 +94,7 @@ gpgcheck=0
 [kloxo-mr-varnish-3.0]
 name=Kloxo-MR - Varnish 3.0 for EL $releasever - $basearch
 baseurl=http://repo.varnish-cache.org/redhat/varnish-3.0/el$releasever/$basearch
-enabled=1
+enabled=0
 gpgcheck=0
 
 # ==================================
@@ -103,7 +103,7 @@ gpgcheck=0
 [kloxo-mr-centosec]
 name=Kloxo-MR - CentOS $releasever Packages from CentOS.EC
 baseurl=http://centos$releasever.ecualinux.com/$basearch
-enabled=1
+enabled=0
 gpgcheck=0
 
 # ==================================
@@ -113,7 +113,7 @@ gpgcheck=0
 name=Kloxo-MR - nginx repo
 baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
 gpgcheck=0
-enabled=1
+enabled=0
 
 # ==================================
 

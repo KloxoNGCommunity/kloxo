@@ -338,8 +338,7 @@ function kloxo_install_step1()
 		}
 
 		// MR -- force remove old lxphp (from lxcenter.repo)
-		// No needed because install new lxphp already remove this version!
-		// system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
+		system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
 
 		if (isRpmInstalled('qmail-toaster')) {
 			// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)

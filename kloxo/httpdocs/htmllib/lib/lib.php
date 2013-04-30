@@ -60,7 +60,8 @@ function print_head_image()
 	}
 
 	?>
-<link href="/img/skin/kloxo/feather/default/feather.css" rel="stylesheet" type="text/css"/> <?php
+	<link href="/img/skin/kloxo/feather/default/feather.css" rel="stylesheet" type="text/css"/>
+<?php
 	print("<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style=\"background:url(/img/skin/kloxo/feather/default/invertfeather.jpg)\"> ");
 	print("<tr  ><td width=100% id='td1' > </td> ");
 
@@ -5407,7 +5408,7 @@ function setRpmRemoved($rpmname)
 {
 //	$ret = lxshell_return("yum", "-y", "remove", $rpmname);
 	$ret = lxshell_return("rpm", "-e", "--nodeps", $rpmname);
-	
+
 	if ($ret) {
 		throw new lxException("remove_{$rpmname}_failed", '', 'parent');
 	}
@@ -5645,7 +5646,7 @@ function setKloxoHttpdChownChmod($nolog = null)
 	$hkhpath = "/home/kloxo/httpd";
 
 //	log_cleanup("Set ownership and permissions for {$hkhpath} dir", $nolog);
-	
+
 	$httpddirchmod = '771'; // need to change to 771 for nginx-proxy
 	$phpfilechmod = '644';
 	$domdirchmod = '755';
@@ -5658,7 +5659,7 @@ function setKloxoHttpdChownChmod($nolog = null)
 
 	exec("find {$hkhpath}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 	log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$hkhpath}/", $nolog);
-	
+
 	exec("find {$hkhpath}/ -type f -name \"*.pl*\" -exec chmod {$domdirchmod} \{\} \\;");
 	log_cleanup("- chmod {$domdirchmod} FOR *.pl* INSIDE {$hkhpath}/", $nolog);
 
@@ -5989,11 +5990,13 @@ function setInitialBinary($nolog = null)
 
 function setCheckPackages($nolog = null)
 {
+	$phpbranch = getRpmBranchInstalled('php');
+
 	log_cleanup("Checking for rpm packages", $nolog);
 
 	$list = array("maildrop-toaster", "spamdyke", "spamdyke-utils", "pure-ftpd",
-		"webalizer", "php-mcrypt", "dos2unix", "rrdtool",
-		"xinetd", "lxjailshell", "php-xml", "libmhash", "lxphp");
+		"webalizer", "{$phpbranch}-mcrypt", "dos2unix", "rrdtool",
+		"xinetd", "lxjailshell", "{$phpbranch}-xml", "libmhash", "lxphp");
 
 	foreach ($list as $l) {
 		log_cleanup("- For {$l} package", $nolog);
@@ -6196,6 +6199,9 @@ function setInitialLogrotate($nolog = null)
 			lxfile_cp("../file/kloxo.logrotate", "/etc/logrotate.d/kloxo");
 		}
 	}
+
+	// MR -- sometimes this file corrupt and make high cpu usage
+	lxfile_rm("/var/lib/logrotate.status");
 }
 
 function restart_xinetd_for_pureftp($nolog = null)
@@ -6330,13 +6336,13 @@ function installChooser($nolog = null)
 
 //	$list = array("horde", "roundcube", "t-dah", "afterlogic", "squirrelmail");
 
-/*
-	foreach ($list as $l) {
-		lfile_put_contents("$path/redirect-to-$l.php", "<?php\nheader(\"Location: /$l\");\n");
-	}
+	/*
+		foreach ($list as $l) {
+			lfile_put_contents("$path/redirect-to-$l.php", "<?php\nheader(\"Location: /$l\");\n");
+		}
 
-	lfile_put_contents("$path/disabled/index.html", "Disabled\n");
-*/
+		lfile_put_contents("$path/disabled/index.html", "Disabled\n");
+	*/
 
 	// MR -- make webmail redirect to 'universal'
 	exec("rm -f {$path}/redirect-to-*.php");
@@ -6345,7 +6351,7 @@ function installChooser($nolog = null)
 		$name = str_replace("{$path}/", "", $dir);
 		if ($name != "img" && $name != "images" && $name != "disabled"  && is_dir($dir)) {
 			lfile_put_contents("{$path}/redirect-to-{$name}.php", "<?php\nheader(\"Location: /{$name}\");\n");
-			
+
 		}
 	}
 
@@ -6717,13 +6723,23 @@ function setUpdateServices($list, $nolog = null)
 	log_cleanup('Updating Core packages', $nolog);
 
 	foreach ($l as $k => $v) {
-		// MR -- fortunely, when package no install use 'yum update' no effect
-		exec("yum update {$v} -y | grep -i 'no packages'", $out, $ret);
+		/*
+			// MR -- fortunely, when package no install use 'yum update' no effect
+			exec("yum update {$v} -y | grep -i 'no packages'", $out, $ret);
 
-		$w = str_replace(" ", "/", $v);
+			$w = str_replace(" ", "/", $v);
 
-		// --- not work with !$ret
-		if ($ret !== 0) {
+			// --- not work with !$ret
+			if ($ret !== 0) {
+				log_cleanup("- New {$w} version installed", $nolog);
+			} else {
+				log_cleanup("- No '{$w}' update found/not installed", $nolog);
+			}
+		*/
+		exec("yum list installed {$v}", $out, $ret);
+
+		if ($out[0] !== false) {
+			exec("yum update {$v} -y");
 			log_cleanup("- New {$w} version installed", $nolog);
 		} else {
 			log_cleanup("- No '{$w}' update found/not installed", $nolog);
@@ -6765,10 +6781,6 @@ function updatecleanup($nolog = null)
 
 	install_bogofilter($nolog);
 
-	setInitialPhpMyAdmin($nolog);
-
-	setInitialAdminAccount($nolog);
-
 	setRemoveOldDirs($nolog);
 
 	setInitialBinary($nolog);
@@ -6797,8 +6809,6 @@ function updatecleanup($nolog = null)
 		lxfile_rm("phpinfo.php");
 	}
 
-	setInitialBind($nolog);
-
 	log_cleanup("Killing gettraffic system process", $nolog);
 	log_cleanup("- Killing process", $nolog);
 	lxshell_return("pkill", "-f", "gettraffic");
@@ -6820,15 +6830,6 @@ function updatecleanup($nolog = null)
 
 	setKloxoHttpdChownChmod($nolog);
 
-	setInitialApacheConfig($nolog);
-	setInitialLighttpdConfig($nolog);
-	setInitialNginxConfig($nolog);
-	setInitialPhpFpmConfig($nolog);
-
-	setInitialPureftpConfig($nolog);
-
-	setInstallMailserver($nolog);
-
 	log_cleanup("Enable xinetd service", $nolog);
 	log_cleanup("- Enable process", $nolog);
 	call_with_flag("enable_xinetd");
@@ -6842,8 +6843,6 @@ function updatecleanup($nolog = null)
 	}
 
 	setSomePermissions($nolog);
-
-	setInitialNobodyScript($nolog);
 
 	setSomeScript($nolog);
 
@@ -6861,11 +6860,52 @@ function updatecleanup($nolog = null)
 	log_cleanup("- Initialize process", $nolog);
 	lxfile_mkdir("/home/kloxo/httpd/awstats/dirdata");
 
-	setInitialLogrotate($nolog);
-	
 	log_cleanup("Update Kloxo database", $nolog);
 	log_cleanup("- Updating process", $nolog);
 	update_database();
+
+	log_cleanup("Remove old lxlabs ssh key", $nolog);
+	log_cleanup("- Remove process", $nolog);
+	remove_ssh_self_host_key();
+
+//	installInstallApp($nolog);
+
+	setRealServiceBranchList();
+}
+
+function setInitialServices($nolog = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	setInitialServer($nolog);
+
+	setDefaultPages($nolog);
+
+	setInitialPhpMyAdmin($nolog);
+
+	setInitialAdminAccount($nolog);
+
+	setInitialBind($nolog);
+
+	/*
+		$webdrvs = array('apache', 'lighttpd', 'nginx');
+
+		foreach ($webdrvs as &$w) {
+			// MR -- delete all contents first for domains;
+			// for handling garbage files!
+			exec("rm -rf /home/{$w}/conf/domains/*.conf");
+		}
+	*/
+	setInitialApacheConfig($nolog);
+	setInitialLighttpdConfig($nolog);
+	setInitialNginxConfig($nolog);
+	setInitialPhpFpmConfig($nolog);
+
+	setInitialPureftpConfig($nolog);
+
+	setInitialNobodyScript($nolog);
+
+	setInitialLogrotate($nolog);
 
 	installRoundCube($nolog);
 	installHorde($nolog);
@@ -6875,28 +6915,10 @@ function updatecleanup($nolog = null)
 
 	installChooser($nolog);
 
-	log_cleanup("Remove old lxlabs ssh key", $nolog);
-	log_cleanup("- Remove process", $nolog);
-	remove_ssh_self_host_key();
-
-	setInitialServer($nolog);
-
-	setDefaultPages($nolog);
-
-//	installInstallApp($nolog);
+	setInstallMailserver($nolog);
 
 	// MR -- importance for Kloxo-MR becuase using standard qmail-toaster
 	changeMailSoftlimit($nolog);
-
-	$webdrvs = array('apache', 'lighttpd', 'nginx');
-
-	foreach ($webdrvs as &$w) {
-		// MR -- delete all contents first for domains;
-		// for handling garbage files!
-		exec("rm -rf /home/{$w}/conf/domains/*.conf");
-	}
-
-	setRealServiceBranchList();
 }
 
 function setPrepareKloxo($nolog = null)
@@ -7183,7 +7205,7 @@ function resetQmailAssign()
 			$x = str_replace("/home/lxadmin/mail/bin", "/home/vpopmail/bin", $x);
 		}
 
-		file_put_contents($d, $x);	
+		file_put_contents($d, $x);
 	}
 
 	$t .= ".";
@@ -7237,7 +7259,7 @@ function setPhpBranch($select, $nolog = null)
 		if (!isRpmInstalled($yumreplace)) {
 			setRpmInstalled($yumreplace);
 		}
-		
+
 		if (isRpmInstalled("{$phpbranch}-fpm")) {
 			$phpfpmexist = true;
 		} else {
@@ -7250,12 +7272,12 @@ function setPhpBranch($select, $nolog = null)
 		}
 
 		setRpmReplaced($phpbranch, $select);
-		
+
 		if ($phpfpmexist) {
 			// MR -- anticipate for php54 not install php-fpm
 			setRpmInstalled("{$select}-fpm");
 		}
-	
+
 		if ($select === 'php54') {
 			setRpmRemoved("{$select}-mysqlnd");
 			setRpmInstalled("{$select}-mysql");
@@ -7272,10 +7294,11 @@ function getKloxoType()
 {
 	if (file_exists("/var/lib/mysql/kloxo")) {
 		return 'master';
-	} else if (file_exists("/usr/local/lxlabs/kloxo/etc/conf/slave-db.db")) {
+	} elseif (file_exists("/usr/local/lxlabs/kloxo/etc/conf/slave-db.db")) {
 		return 'slave';
 	} else {
 		return '';
 	}
 }
+
 
