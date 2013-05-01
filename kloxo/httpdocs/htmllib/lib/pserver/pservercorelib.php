@@ -456,7 +456,8 @@ class pservercore extends Lxclient
 			if (csa($c['nname'], "mapper")) {
 				$c['nname'] = strfrom($c['nname'], "/dev/mapper/");
 			}
-			$rlist[] = array('disk', "{$c['mountedon']} ({$c['nname']})", $c['used'], $c['kblock']);
+		//	$rlist[] = array('disk', "{$c['mountedon']} ({$c['nname']})", $c['used'], $c['kblock']);
+			$rlist[] = array('disk', "{$c['mountedon']}", $c['used'], $c['kblock']);
 		}
 
 		/// Rlist takes an array...
@@ -479,8 +480,9 @@ class pservercore extends Lxclient
 		$cpu = $l['cpu'];
 
 		foreach ($cpu as $k => $c) {
-			//$rlist[] = array('cpu', "CPU$k Model (speed)",  "{$c['used_s_cpumodel']} ({$c['used_s_cpuspeed']})", '-');
-			$rlist[] = array('cpu', "CPU$k speed", "{$c['used_s_cpuspeed']}", '-');
+		//	$rlist[] = array('cpu', "CPU$k Model (speed)",  "{$c['used_s_cpumodel']} ({$c['used_s_cpuspeed']})", '-');
+		//	$rlist[] = array('cpu', "CPU$k speed", "{$c['used_s_cpuspeed']}", '-');
+			$rlist[] = array('cpu', "CPU$k", "{$c['used_s_cpuspeed']}", '-');
 		}
 
 		return $rlist;
