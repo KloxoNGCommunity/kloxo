@@ -378,7 +378,7 @@ class Mmail__Qmail extends lxDriverClass
 			}
 		}
 		
-		lxfile_rm_rec("{$sgbl->__path_mail_root}/spamassassin/$this->nname");
+	//	lxfile_rm_rec("{$sgbl->__path_mail_root}/spamassassin/$this->nname");
 
 	}
 

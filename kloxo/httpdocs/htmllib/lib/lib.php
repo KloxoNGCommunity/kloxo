@@ -5730,8 +5730,10 @@ function setClientChownChmod($list, $select = null, $nolog = null)
 			exec("chown {$client}:{$client} {$cdir}/{$dom}/");
 			log_cleanup("- chown {$client}:{$client} FOR {$cdir}/{$dom}/", $nolog);
 
-			exec("chmod -R {$domdirchmod} {$cdir}/{$dom}/cgi-bin");
-			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$dom}/cgi-bin AND FILES", $nolog);
+			if (lxfile_exists("{$cdir}/{$dom}/cgi-bin")) {
+				exec("chmod -R {$domdirchmod} {$cdir}/{$dom}/cgi-bin");
+				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$dom}/cgi-bin AND FILES", $nolog);
+			}
 		}
 	}
 }
