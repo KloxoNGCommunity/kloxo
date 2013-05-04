@@ -5639,6 +5639,9 @@ function setWebDriverChownChmod($type, $nolog = null)
 
 	log_cleanup("- chown {$webdirchown} FOR /home/{$type}/ AND INSIDE", $nolog);
 	lxfile_unix_chown_rec("/home/{$type}/", $webdirchown);
+	
+	exec("find /home/{$type}/ -type f -name \"*.sh\" -exec chmod {$webdirchmod} \{\} \\;");
+	log_cleanup("- chmod {$webdirchmod} FOR *.sh INSIDE /home/{$type}/", $nolog);
 }
 
 function setKloxoHttpdChownChmod($nolog = null)
