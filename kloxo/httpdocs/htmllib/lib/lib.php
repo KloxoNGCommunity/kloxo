@@ -5074,7 +5074,7 @@ function installinstallapp($nolog = null)
 		return;
 	} else {
 		if (!lxfile_exists("__path_kloxo_httpd_root/installappdata")) {
-			log_cleanup("- Updating InstallApp data", $nolog);
+			log_cleanup("- Update InstallApp data", $nolog);
 			installapp_data_update();
 		}
 
@@ -5092,7 +5092,7 @@ function installinstallapp($nolog = null)
 		 lxfile_mkdir("__path_kloxo_httpd_root/installapp");
 
 		 if (!lxfile_exists("__path_kloxo_httpd_root/installapp/wordpress")) {
-			 log_cleanup("- Installing/Updating InstallApp", $nolog);
+			 log_cleanup("- Install/Update InstallApp", $nolog);
 			 lxshell_php("../bin/installapp-update.phps");
 		 }
 		 return;
@@ -6725,7 +6725,7 @@ function setUpdateServices($list, $nolog = null)
 		$l = $list;
 	}
 
-	log_cleanup('Updating Core packages', $nolog);
+	log_cleanup('Update Core packages', $nolog);
 
 	foreach ($l as $k => $v) {
 		/*
@@ -6745,9 +6745,9 @@ function setUpdateServices($list, $nolog = null)
 
 		if ($out[0] !== false) {
 			exec("yum update {$v} -y");
-			log_cleanup("- New {$w} version installed", $nolog);
+			log_cleanup("- New {$v} version installed", $nolog);
 		} else {
-			log_cleanup("- No '{$w}' update found/not installed", $nolog);
+			log_cleanup("- No '{$v}' update found/not installed", $nolog);
 		}
 	}
 }
