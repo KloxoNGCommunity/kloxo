@@ -5273,7 +5273,7 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("-m 9000000", "-m 36000000", $content);
+			$content = str_replace("-m 9000000", "-m 64000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}
@@ -5289,7 +5289,7 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("-m 20000000", "-m 60000000", $content);
+			$content = str_replace("-m 20000000", "-m 128000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}
@@ -5305,7 +5305,7 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("-m 12000000", "-m 60000000", $content);
+			$content = str_replace("-m 12000000", "-m 128000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}
