@@ -142,7 +142,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     RewriteEngine On
     RewriteCond %{HTTP_HOST} ^<?php echo str_replace('.', '\.', $domainname); ?>$ [NC]
-    RewriteRule ^(.*)$ <?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1 [R=301,L]
+    RewriteRule ^(.*)/$ <?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1 [R=301,L]
 <?php
     }
 
