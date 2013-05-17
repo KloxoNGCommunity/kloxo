@@ -46,7 +46,13 @@ if ($parkdomains) {
 }
 
 if ($webmailapp === $webmailappdefault) {
-    $webmailapp = null;
+    $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
+
+    if ($wildcards) {
+        $webmailapp = "*";
+    } else {
+        $webmailapp = null;
+    }
 } else {
     if ($webmailapp) {
         if ($webmailapp === '--Disabled--') {

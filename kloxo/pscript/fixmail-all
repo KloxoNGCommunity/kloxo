@@ -1,5 +1,12 @@
 #!/bin/sh
 echo ""
+echo "Change qmail.init"
+cp -rf /usr/local/lxlabs/kloxo/file/qmail.init /etc/rc.d/init.d/qmail
+chmod 755 /etc/rc.d/init.d/qmail
+echo "--------------------------"
+echo "Set '/home/vpopmail/bin/vchkpw' for 6751 permissions"
+chmod 6751 /home/vpopmail/bin/vchkpw
+echo "--------------------------"
 echo "Set '/var/qmail/control/locals' with 'localhost' only"
 echo 'localhost' > /var/qmail/control/locals
 echo "--------------------------"

@@ -37,6 +37,7 @@ if ($parkdomains) {
 }
 
 if ($webmailapp === $webmailappdefault) {
+    $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
     $webmailapp = null;
 } else {
     if ($webmailapp) {
@@ -191,7 +192,7 @@ server {
 <?php
                     if ($ed !== 'webmail') {
 ?>
-        set $rootdir '/home/kloxo/httpd/<?php echo $ed; ?>';
+        set $rootdir '/home/kloxo/httpd/<?php echo $ed; ?>/';
 <?php
                     } else {
                         if($webmailremote) {

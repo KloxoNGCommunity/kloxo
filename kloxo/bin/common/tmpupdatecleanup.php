@@ -71,7 +71,7 @@ function updatecleanup_main()
 
 	$slist = array(
 		"httpd* lighttpd* nginx*",
-		"mod_* mysql* MariaDB* php* lx*",
+		"mod_* mysql* mariadb* MariaDB* php* lx*",
 		"bind* djbdns* pure-ftpd*",
 		"*-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",
