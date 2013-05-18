@@ -66,33 +66,6 @@ echo
 
 APP_NAME='Kloxo-MR'
 
-if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
-	APP_TYPE='slave'
-elif [ -f /usr/local/lxlabs/kloxo/etc/conf/kloxo.pass ] ; then
-	APP_TYPE='master'
-else
-	echo
-	echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
-	PS3='- Please enter your choice: '
-	options=("Master" "Slave")
-	select opt in "${options[@]}" "Quit"; do 
-		case $opt in
-			"Master")
-				APP_TYPE='master'
-				break
-				;;
-			"Slave")
-				APP_TYPE='slave'
-				break
-				;;
-   			"Quit")
-				exit
-				;;
-				*) echo "  * Invalid option!";;
-		esac
-	done
-fi
-
 SELINUX_CHECK=/usr/sbin/selinuxenabled
 SELINUX_CFG=/etc/selinux/config
 ARCH_CHECK=$(eval uname -m)
@@ -119,15 +92,6 @@ if [ "$UID" -ne "0" ] ; then
 else
 	echo -en "Installing as \"root\"        " $C_OK
 fi
-
-# Check if OS is RHEL/CENTOS/FEDORA.
-#if [ ! -f /etc/redhat-release ] ; then
-#	echo -en "Operating System supported  " $C_NO
-#	echo -e "\a\nSorry, only RedHat EL and CentOS are supported by $APP_NAME at this time.\n\nAborting ...\n"
-#	exit $E_NOSUPPORT
-#else
-#	echo -en "Operating System supported  " $C_OK
-#fi
 
 # Check if selinuxenabled exists
 if [ ! -f $SELINUX_CHECK ] ; then
