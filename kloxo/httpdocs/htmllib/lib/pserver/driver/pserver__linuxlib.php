@@ -36,15 +36,14 @@ EOF;
 		}
 
 		sleep(10);
-		exec_with_all_closed("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
-		sleep(10);
+		system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
+		sleep(15);
 
 		if (file_exists("/etc/rc.d/init.d/mysql")) {
 			system("service mysql start");
 		} else {
 			system("service mysqld start");
 		}
-
 		system("rm -f /tmp/reset-mysql-password.sql");
 
 		$a['mysql']['dbpassword'] = $pass;
