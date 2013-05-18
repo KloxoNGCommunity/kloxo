@@ -35,9 +35,9 @@ EOF;
 			system("service mysqld stop");
 		}
 
-		sleep(5);
-		system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
-		sleep(5);
+		sleep(10);
+		exec_with_all_closed("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
+		sleep(10);
 
 		if (file_exists("/etc/rc.d/init.d/mysql")) {
 			system("service mysql start");
