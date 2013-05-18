@@ -29,3 +29,10 @@ if (mysql_query($string, $dbconn) !== false) {
 mysql_close($dbconn);
 
 */
+
+echo "Restart Mysql service again"
+if (file_exists("/etc/rc.d/init.d/mysql")) {
+	system("service mysql restart");
+} else {
+	system("service mysqld restart");
+}
