@@ -23,6 +23,18 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
+echo
+echo "*** Ready to begin $APP_NAME install. ***"
+echo
+echo "- Note some file downloads may not show a progress bar so please,"
+echo "  do not interrupt the process."
+echo
+echo "- When it's finished, you will be presented with a welcome message and"
+echo "  further instructions."
+echo
+read -n 1 -p "Press any key to continue ..."
+echo
+
 if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
 	APP_TYPE='slave'
 else
@@ -51,18 +63,6 @@ else
 		done
 	fi
 fi
-
-echo
-echo "*** Ready to begin $APP_NAME install. ***"
-echo
-echo "- Note some file downloads may not show a progress bar so please,"
-echo "  do not interrupt the process."
-echo
-echo "- When it's finished, you will be presented with a welcome message and"
-echo "  further instructions."
-echo
-read -n 1 -p "Press any key to continue ..."
-echo
 
 APP_NAME='Kloxo-MR'
 
