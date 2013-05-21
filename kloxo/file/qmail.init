@@ -23,7 +23,13 @@ export PATH
 startf() {
     # have a silent kill in case someone tries to start the service when it
     # is already running
-    $0 stop >/dev/null 2>&1
+#    $0 stop >/dev/null 2>&1
+    if [ -f /var/run/qmail-svscan.pid ] ; then
+        echo -n "Already running"
+        echo "."
+        stopf
+        sleep 5
+    fi
     echo -n "Starting qmail-toaster: svscan"
     cd /var/qmail/supervise
     env - PATH="$PATH" svscan &
@@ -33,15 +39,20 @@ startf() {
 }
 
 stopf() {
-    echo -n "Stopping qmail-toaster: svscan"
-    kill `cat /var/run/qmail-svscan.pid`
-    echo -n " qmail"
-    svc -dx /var/qmail/supervise/*
-    echo -n " logging"
-    svc -dx /var/qmail/supervise/*/log
-    echo "."
-    rm -rf /var/run/qmail-svscan.pid
-    rm -rf /var/lock/subsys/qmail
+    if [ -f /var/run/qmail-svscan.pid ] ; then
+        echo -n "Stopping qmail-toaster: svscan"
+        kill `cat /var/run/qmail-svscan.pid`
+        echo -n " qmail"
+        svc -dx /var/qmail/supervise/*
+        echo -n " logging"
+        svc -dx /var/qmail/supervise/*/log
+        echo "."
+        rm -rf /var/run/qmail-svscan.pid
+        rm -rf /var/lock/subsys/qmail
+    else 
+        echo -n "Already stopped"
+        echo "."
+    fi
 }
 
 restartf() {
@@ -91,7 +102,7 @@ case "$1" in
     ;;
   restart)
     stopf
-    sleep 2s
+    sleep 5
     startf
     ;;
   cdb)
