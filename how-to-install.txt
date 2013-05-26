@@ -13,7 +13,7 @@ A. pre-install -- better for fresh install
 
     cd /
 
-B. Install Kloxo-MR
+B. Install Kloxo-MR (select B.1 or B.2)
 
 B.1 For Dev (alpha, beta, candidate) Release:
    - Install/reinstall/upgrade -- data not destroyed with this fork
