@@ -23,7 +23,7 @@ export PATH
 startf() {
     # have a silent kill in case someone tries to start the service when it
     # is already running
-#    $0 stop >/dev/null 2>&1
+#   $0 stop >/dev/null 2>&1
     if [ -f /var/run/qmail-svscan.pid ] ; then
         echo -n "Already running"
         echo "."
