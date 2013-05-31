@@ -380,12 +380,10 @@ class web__ extends lxDriverClass
 		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', null);
 
 		foreach ($clist as &$n) {
-		/*
 			$userinfo = posix_getpwnam($n);
 			$fpmport = (50000 + $userinfo['uid']);
 
 			if ($fpmport === 50000) { continue; }
-		*/
 
 			$users[] = $n;
 		}
