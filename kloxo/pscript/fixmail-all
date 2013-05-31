@@ -18,6 +18,11 @@ cp -rf /usr/local/lxlabs/kloxo/file/submission_run /var/qmail/supervise/submissi
 chown -f qmaill:qmail /var/qmail/supervise/submission/run
 chmod 751 /var/qmail/supervise/submission/run
 echo "--------------------------"
+echo "Create qmail-smtp-ssl (port 465)"
+cp -rf /var/qmail/supervise/smtp /var/qmail/supervise/smtp-ssl
+cp -rf /usr/local/lxlabs/kloxo/file/smtp-ssl_run /var/qmail/supervise/smtp-ssl/run
+cp -rf /usr/local/lxlabs/kloxo/file/smtp-ssl_log_run /var/qmail/supervise/smtp-ssl/log/run
+echo "--------------------------"
 echo "Set '/var/qmail/control/locals' with 'localhost' only"
 echo 'localhost' > /var/qmail/control/locals
 echo "--------------------------"
