@@ -2,21 +2,21 @@
 echo ""
 echo "Change qmail.init"
 cp -rf /usr/local/lxlabs/kloxo/file/qmail.init /etc/rc.d/init.d/qmail
-chmod 755 /etc/rc.d/init.d/qmail
+chmod -f 0755 /etc/rc.d/init.d/qmail
 echo "--------------------------"
-echo "Set '/home/vpopmail/bin/vchkpw' for 4751 permissions"
-chmod 4755 /home/vpopmail/bin/vchkpw
 echo "Set '/home/vpopmail/bin/vchkpw' for root:root ownership"
-chown root:root /home/vpopmail/bin/vchkpw
+chown -f root:root /home/vpopmail/bin/vchkpw
+echo "Set '/home/vpopmail/bin/vchkpw' for 4751 permissions"
+chmod -f 4755 /home/vpopmail/bin/vchkpw
 echo "--------------------------"
 echo "Copy qmail-smtp run script"
 cp -rf /usr/local/lxlabs/kloxo/file/smtp_run /var/qmail/supervise/smtp/run
-chmod 751 /var/qmail/supervise/smtp/run
-chown qmaill:qmail /var/qmail/supervise/smtp/run
+chown -f qmaill:qmail /var/qmail/supervise/smtp/run
+chmod -f 0751 /var/qmail/supervise/smtp/run
 echo "Copy qmail-submission run script"
 cp -rf /usr/local/lxlabs/kloxo/file/submission_run /var/qmail/supervise/submission/run
+chown -f qmaill:qmail /var/qmail/supervise/submission/run
 chmod 751 /var/qmail/supervise/submission/run
-chown qmaill:qmail /var/qmail/supervise/submission/run
 echo "--------------------------"
 echo "Set '/var/qmail/control/locals' with 'localhost' only"
 echo 'localhost' > /var/qmail/control/locals
