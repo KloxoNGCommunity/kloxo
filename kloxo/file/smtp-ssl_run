@@ -10,7 +10,7 @@ HOSTNAME=`hostname`
 VCHKPW="/home/vpopmail/bin/vchkpw"
 
 IP=0
-PORT=25
+PORT=465
 
 RECORDIO="/usr/bin/recordio"
 
@@ -22,8 +22,7 @@ export SMTPAUTH="" \
     AUTH=1 \
     REQUIRE_AUTH=0 \
     ALLOW_INSECURE_AUTH=0
-
-
+	
 exec /usr/bin/softlimit -m 64000000 \
     /usr/bin/tcpserver -v -R -H -l $HOSTNAME -x $TCP_CDB -c "$MAXSMTPD" \
     -u "$QMAILDUID" -g "$NOFILESGID" $IP $PORT \

@@ -1,40 +1,91 @@
 #!/bin/sh
+
+ULLKFPATH="/usr/local/lxlabs/kloxo/file"
+VQSPATH="/var/qmail/supervise"
+ERIPATH="/etc/rc.d/init.d"
+HVBPATH="/home/vpopmail/bin"
+VQCPATH="/var/qmail/control"
+ECPATH="/etc/courier"
+
 echo ""
 echo "Change qmail.init"
-cp -rf /usr/local/lxlabs/kloxo/file/qmail.init /etc/rc.d/init.d/qmail
-chmod -f 0755 /etc/rc.d/init.d/qmail
+cp -rf $ULLKFPATH/qmail.init $ERIPATH/qmail
+chmod -f 0755 $ERIPATH/qmail
+
 echo "--------------------------"
-echo "Set '/home/vpopmail/bin/vchkpw' for root:root ownership"
-chown -f root:root /home/vpopmail/bin/vchkpw
-echo "Set '/home/vpopmail/bin/vchkpw' for 4751 permissions"
-chmod -f 4755 /home/vpopmail/bin/vchkpw
+
+echo "Set '$HVBPATH/vchkpw' for root:root ownership"
+chown -f root:root $HVBPATH/vchkpw
+
+echo "Set '$HVBPATH/vchkpw' for 4751 permissions"
+chmod -f 4755 $HVBPATH/vchkpw
+
 echo "--------------------------"
+
 echo "Copy qmail-smtp run script"
-cp -rf /usr/local/lxlabs/kloxo/file/smtp_run /var/qmail/supervise/smtp/run
-chown -f qmaill:qmail /var/qmail/supervise/smtp/run
-chmod -f 0751 /var/qmail/supervise/smtp/run
+
+if [ -f $ULLKFPATH/custom.smtp_run ] ; then
+	cp -rf $ULLKFPATH/custom.smtp_run $VQSPATH/smtp/run
+else
+	cp -rf $ULLKFPATH/smtp_run $VQSPATH/smtp/run
+fi
+
+chown -f qmaill:qmail $VQSPATH/smtp/run
+chmod -f 0751 $VQSPATH/smtp/run
+
 echo "Copy qmail-submission run script"
-cp -rf /usr/local/lxlabs/kloxo/file/submission_run /var/qmail/supervise/submission/run
-chown -f qmaill:qmail /var/qmail/supervise/submission/run
-chmod 751 /var/qmail/supervise/submission/run
+
+if [ -f $ULLKFPATH/custom.submission_run ] ; then
+	cp -rf $ULLKFPATH/custom.submission_run $VQSPATH/submission/run
+else
+	cp -rf $ULLKFPATH/submission_run $VQSPATH/submission/run
+fi
+
+chown -f qmaill:qmail $VQSPATH/submission/run
+chmod 0751 $VQSPATH/submission/run
+
 echo "--------------------------"
+
 echo "Create qmail-smtp-ssl (port 465)"
-cp -rf /var/qmail/supervise/smtp /var/qmail/supervise/smtp-ssl
-cp -rf /usr/local/lxlabs/kloxo/file/smtp-ssl_run /var/qmail/supervise/smtp-ssl/run
-cp -rf /usr/local/lxlabs/kloxo/file/smtp-ssl_log_run /var/qmail/supervise/smtp-ssl/log/run
+
+cp -rf $VQSPATH/smtp $VQSPATH/smtp-ssl
+
+if [ -f $ULLKFPATH/custom.smtp-ssl_run ] ; then
+	cp -rf $ULLKFPATH/custom.smtp-ssl_run $VQSPATH/smtp-ssl/run
+else
+	cp -rf $ULLKFPATH/smtp-ssl_run $VQSPATH/smtp-ssl/run
+fi
+
+if [ -f $ULLKFPATH/custom.smtp-ssl_log_run ] ; then
+	cp -rf $ULLKFPATH/custom.smtp-ssl_log_run $VQSPATH/smtp-ssl/log/run
+else
+	cp -rf $ULLKFPATH/smtp-ssl_log_run $VQSPATH/smtp-ssl/log/run
+fi
+
 echo "--------------------------"
-echo "Set '/var/qmail/control/locals' with 'localhost' only"
-echo 'localhost' > /var/qmail/control/locals
+echo "Set '$VQCPATH/locals' with 'localhost' only"
+echo 'localhost' > $VQCPATH/locals
+
 echo "--------------------------"
-echo "Modified MAXDAEMONS and MAXPERIP on '/etc/courier/imapd'"
-sed -i 's/MAXDAEMONS\=40/MAXDAEMONS\=60/' /etc/courier/imapd
-sed -i 's/MAXPERIP\=4/MAXPERIP\=20/' /etc/courier/imapd
+
+echo "Modified MAXDAEMONS and MAXPERIP on '$ECPATH/imapd'"
+sed -i 's/MAXDAEMONS\=40/MAXDAEMONS\=60/' $ECPATH/imapd
+sed -i 's/MAXPERIP\=4/MAXPERIP\=20/' $ECPATH/imapd
+
 echo "--------------------------"
+
 sh /script/fixvpop
+
 echo "--------------------------"
+
 sh /script/fix-qmail-assign
+
 echo "--------------------------"
+
 sh /script/fixmail
+
 echo "--------------------------"
+
 sh /script/fixwebmail
+
 echo ""
