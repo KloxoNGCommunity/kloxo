@@ -60,14 +60,13 @@ function syncQmail()
 
 	$sysuser = mmail__qmail::getUserGroup($domain);
 
-//	$qmailfile = "$mailpath/". $quser[0] . "/.qmail";
 	$qmailfile = "$mailpath/{$quser[0]}/.qmail";
 	$maildropfile = "$mailpath/{$quser[0]}/.maildroprc";
 	$user = $quser[0];
 
-	$fdata = null;
+	$maildirpath = "{$mailpath}/{$user}/Maildir";
 
-	//$fdata .= $this->getAutoresConf();
+	$fdata = null;
 
 	if ($this->main->isOn('autorespond_status')) {
 
@@ -77,54 +76,68 @@ function syncQmail()
 			lxuser_put_contents($sysuser, $mfile, "Autoresponder");
 		}
 		if ($this->main->__var_autores_driver === 'qmail') {
-			//$fdata .= "| autorespond 1000  5 autorespond/message autorespond 0 + &{$this->main->nname}\n";  
 			$fdata .= "| autorespond 100  100 autorespond/message autorespond 0\n";  
 		} else { 
 			$fdata .= "| $sgbl->__path_php_path $sgbl->__path_program_root/script/autorespond.php {$this->main->nname}\n";
 		}
 	}
 
-	$spamdir = "to $mailpath/$user/Maildir";
+	$dirsub = array('Draft', 'Sent', 'Trash', 'Spam');
+
+	$courierimapsub = $dovecotsub = '';
+
+	foreach ($dirsub as $k => $v) {
+		lxuser_return($sysuser, "maildirmake", "-f", $v, $maildirpath);
+		$courierimapsub .= "INBOX." . $v . "\n";
+		$dovecotsub .= $v . "\n";
+	}
+
+	lxuser_put_contents($sysuser, "{$maildirpath}/courierimapsubscribed", $courierimapsub);
+	lxuser_put_contents($sysuser, "{$maildirpath}/subscriptions", $dovecotsub);
+
+	$spamdir = "to {$maildirpath}";
+
 	if ($this->main->filter_spam_status === 'delete') {
 		$spamdir = "EXITCODE=0\nexit";
 	} else if ($this->main->filter_spam_status === 'spambox') {
-		$spamdir = "to $mailpath/$user/Maildir/.Spam/";
+		$spamdir = "to {$maildirpath}/.Spam/";
 	} else if ($this->main->filter_spam_status === 'mailbox') {
-		$spamdir = "to $mailpath/$user/Maildir";
+		$spamdir = "to {$maildirpath}/Maildir";
 	}
 
 	dprint("Spam status " . $this->main->__var_spam_status);
 	$addextraspamheader = null;
+
 	if ($this->main->isOn('__var_spam_status')) {
 		if ($this->main->__var_spam_driver === 'spamassassin') {
 			$maildropspam = "spamc -p 783 -u {$this->main->nname}";
 			$addextraspamheader = " if ( /^X-Spam-status: Yes/ ) \n {\n $spamdir\n} \n";
 		} else {
 			$bogconf = "$mailpath/$user/.bogopref.cf";
+
 			if (!lxfile_exists($bogconf)) {
 				lxfile_touch($bogconf);
 			}
+
 			$maildropspam = "bogofilter -d /var/bogofilter/ -ep -c $bogconf";
 			$addextraspamheader = "if ( /^X-Bogosity: Spam, tests=bogofilter/ ) \n{\n $spamdir\n }\n";
 		}
+
 		$fdata .= "| /var/qmail/bin/preline maildrop $maildropfile\n";
 	} else{
 		$fdata .= "|true\n";
 		$fdata .= "./Maildir/\n";
 	}
 
-
-	lxuser_return(mmail__qmail::getUserGroup($domain), "maildirmake", "-f", "Spam", "$mailpath/$user/Maildir");
-
 	$spamdirm = "$mailpath/$user/Maildir";
-	//lxfile_unix_chown_rec($spamdirm, mmail__qmail::getUserGroup($domain));
 
 	$maildropdata = "SHELL=/bin/sh\n\n";
+
 	if ($this->main->isOn('__var_spam_status')) {
 		$maildropdata .= "if ( \$SIZE < 96144 )\n{\nexception  {\nxfilter \"$maildropspam\" \n}\n}\n $addextraspamheader\n";
 	}
-	$maildropdata .= "to $mailpath/$user/Maildir/\n";
 
+	$maildropdata .= "to {$maildirpath}/\n";
 
 	if ($this->main->isOn('no_local_copy')) {
 		dprint("Setting to null\n");
@@ -134,6 +147,7 @@ function syncQmail()
 	if ($this->main->isOn('forward_status')) {
 		foreach($this->main->forward_a as $value) {
 			$value->nname = trim($value->nname);
+
 			if (csb($value->nname, "|")) {
 				$fdata .= "{$value->nname}\n";
 			} else if(csa($value->nname, "@")) {
@@ -145,10 +159,10 @@ function syncQmail()
 	} 
 
 	lxfile_rm($maildropfile);
-	lfile_write_content($maildropfile, $maildropdata, mmail__qmail::getUserGroup($domain));
+	lfile_write_content($maildropfile, $maildropdata, $sysuser);
 
 	lxfile_rm($qmailfile);
-	lfile_write_content($qmailfile, $fdata, mmail__qmail::getUserGroup($domain));
+	lfile_write_content($qmailfile, $fdata, $sysuser);
 	lxfile_unix_chmod($maildropfile, "700");
 }
 
