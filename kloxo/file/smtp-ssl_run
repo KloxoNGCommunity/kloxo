@@ -26,4 +26,4 @@ export SMTPAUTH="" \
 exec /usr/bin/softlimit -m 64000000 \
     /usr/bin/tcpserver -v -R -H -l $HOSTNAME -x $TCP_CDB -c "$MAXSMTPD" \
     -u "$QMAILDUID" -g "$NOFILESGID" $IP $PORT \
-    $BLACKLIST $SMTPD $VCHKPW /bin/true 2>&1
+    $SMTPD $VCHKPW /bin/true 2>&1

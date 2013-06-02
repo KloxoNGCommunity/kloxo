@@ -5829,7 +5829,7 @@ function getAllClientList()
 {
 	global $login;
 
-	$login->loadAllObjects('client');
+//	$login->loadAllObjects('client');
 	$clist = $login->getList('client');
 
 	foreach ($clist as $c) {
@@ -7249,13 +7249,19 @@ function getRpmVersionViaYum($rpm)
 
 function setPhpBranch($select, $nolog = null)
 {
+	log_cleanup("- Php Branch replace", $nolog);
+
 	$phpbranch = getRpmBranchInstalled('php');
 
+	if ($phpmodules[0] === $phpbranch) {
+		unset($phpmodules[0]);
+	}
+
 	if ($select === $phpbranch) {
-		print("\nIt's the same branch ({$select}); no changed.\n");
+		log_cleanup("-- It's the same branch ({$select}); no changed", $nolog);
 		return null;
 	} elseif ($select === '') {
-		print("\nIt's no select entry.\n");
+		log_cleanup("-- It's no select entry", $nolog);
 		return null;
 	} else {
 		// check 'yum-plugin-replace' installed or not
@@ -7265,29 +7271,26 @@ function setPhpBranch($select, $nolog = null)
 			setRpmInstalled($yumreplace);
 		}
 
-		if (isRpmInstalled("{$phpbranch}-fpm")) {
-			$phpfpmexist = true;
-		} else {
-			$phpfpmexist = false;
-		}
+		// MR -- reinstall php modules to make sure replace too; must execute before replace
+		exec("yum list installed php* |egrep -o 'php[a-zA-z0-9\-]+'", $phpmodules);
 
-		// MR -- php54-mysqlnd may conflict with php54-mysql
-		if ($select === 'php54') {
-			setRpmRemoved("{$phpbranch}-mysql");
-		}
-
+		log_cleanup("-- Replace using 'yum replace {$phpbranch} --replace-with={$select}'", $nolog);
 		setRpmReplaced($phpbranch, $select);
 
-		if ($phpfpmexist) {
-			// MR -- anticipate for php54 not install php-fpm
-			setRpmInstalled("{$select}-fpm");
+		if ($phpmodules[0] === $phpbranch) {
+			unset($phpmodules[0]);
 		}
 
-		if ($select === 'php54') {
-			setRpmRemoved("{$select}-mysqlnd");
-			setRpmInstalled("{$select}-mysql");
-		}
+		foreach ($phpmodules as $k => $v) {
+			$t = str_replace("{$phpbranch}-", "{$select}-", $v);
 
+			if (!isRpmInstalled($t)) {
+				log_cleanup("-- Install missing '{$t}' module if exists", $nolog);
+				exec("yum install {$t}");
+			} else {
+				log_cleanup("-- '{$t}' module already installed", $nolog);
+			}
+		}
 	}
 
 	exec("sh /script/fixphp");
@@ -7306,4 +7309,31 @@ function getKloxoType()
 	}
 }
 
+function lxlabs_get_via_json($protocol, $server, $port, $param)
+{
+	$param = "login-class=client&login-name=admin&login-password=pass&output-type=json&$param";
+
+	$url = "$protocol://$server:$port/webcommand.php";
+
+	$ch = curl_init($url);
+
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+
+	$totalout = curl_exec($ch);
+	$totalout = trim($totalout);
+	require_once('JSON.php');
+	$json = new Services_JSON();
+	$object = $json->decode($totalout);
+
+	if (!is_object($object)) {
+		print("Fatal Error. Got a non-object from the server: $totalout\n");
+		exit;
+	}
+
+	return $object;
+}
 

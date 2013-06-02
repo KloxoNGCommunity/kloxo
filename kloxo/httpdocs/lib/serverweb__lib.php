@@ -355,7 +355,7 @@ class serverweb__ extends lxDriverClass
 
 		$ehcdpath = '/etc/httpd/conf.d';
 		$haecdpath = '/home/apache/etc/conf.d';
-
+		
 		$installed = isRpmInstalled('yum-plugin-replace');
 
 		if (!$installed) {
