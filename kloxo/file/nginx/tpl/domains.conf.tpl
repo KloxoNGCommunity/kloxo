@@ -168,7 +168,7 @@ server {
         if ($wwwredirect) {
 ?>
 
-    if ($host != 'www.<?php echo $domainname; ?>') {
+    if ($host ~* ^(<?php echo $domainname; ?>)$) {
         rewrite ^/(.*) '<?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1' permanent;
     }
 <?php

@@ -5817,9 +5817,11 @@ function setFixChownChmod($select, $nolog = null)
 			exec("chown {$clname}:{$clname} {$cdir}/{$docroot}/");
 			log_cleanup("- chown {$clname}:{$clname} FOR {$cdir}/{$docroot}/", $nolog);
 
-			exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
-			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
-
+			if (lxfile_exists("{$cdir}/{$docroot}/cgi-bin")) {
+				exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
+				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
+			}
+			
 			$prevdir = $docroot;
 		}
 	}
