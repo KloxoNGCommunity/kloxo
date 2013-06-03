@@ -48,7 +48,8 @@ echo "--------------------------"
 
 echo "Create qmail-smtp-ssl (port 465)"
 
-cp -rf $VQSPATH/smtp $VQSPATH/smtp-ssl
+## MR -- must format like this to prevent if smtp-ssl dir exists
+cp -arf $VQSPATH/smtp/* $VQSPATH/smtp-ssl/
 
 if [ -f $ULLKFPATH/custom.smtp-ssl_run ] ; then
 	cp -rf $ULLKFPATH/custom.smtp-ssl_run $VQSPATH/smtp-ssl/run
