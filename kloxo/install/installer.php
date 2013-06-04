@@ -1,5 +1,10 @@
 <?php
 
+// MR -- to make sure no yum running in background
+exec("rm -f /var/run/yum.pid");
+
+// exec("yum-complete-transaction");
+ 
 $lxlabspath = "/usr/local/lxlabs";
 $kloxopath = "{$lxlabspath}/kloxo";
 $currentpath = realpath(dirname(__FILE__));
@@ -371,7 +376,6 @@ function kloxo_install_step1()
 			"net-snmp", "tmpwatch", "rkhunter", "quota",
 			"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear", "{$phpbranch}-devel", 
 			"{$httpdbranch}", "mod_ssl", "mod_ssl", "mod_ruid2", "{$mysqlbranch}", "{$mysqlbranch}-server",
-			"kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch",
 			"lxlighttpd", "lxphp"
 		);
 
@@ -379,7 +383,7 @@ function kloxo_install_step1()
 		$list = implode(" ", $packages);
 
 		while (true) {
-			print("Installing packages $list...\n");
+			print("Installing generic packages $list...\n");
 			system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
 
 			if (file_exists("{$lxlabspath}/ext/php/php")) {
@@ -392,6 +396,17 @@ function kloxo_install_step1()
 				}
 			}
 		}
+		
+		// MR -- install kloxomr specific rpms
+		$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
+			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch"
+		);
+		
+		$list = implode(" ", $packages);
+
+		print("Installing Kloxo-MR packages $list...\n");
+
+		system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
 	}
 
 	print("Prepare installation directory\n");
