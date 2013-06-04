@@ -66,6 +66,14 @@ if ($dovecotbranch) {
 	$appdovecot = '--uninstalled--';
 }
 
+$courierimapbranch = isRpmInstalled('courier-imap-toaster');
+if ($courierimapbranch) {
+	exec("rpm -q {$courierimapbranch}", $appcourierimap);
+	$appcourierimap = trim($appcourierimap[0]);
+} else {
+	$appcourierimap = '--uninstalled--';
+}
+
 $dnsbranch = getRpmBranchInstalled('dns');
 if ($dnsbranch) {
 	exec("rpm -q {$dnsbranch}", $appdns);
@@ -94,7 +102,10 @@ echo "   5. Nginx: " .  $appnginx . "\n";
 echo "   6. Qmail: " .  $appqmail . "\n";
 
 if ($appdovecot !== '--uninstalled--') {
-	echo "      with: " . $appdovecot  . "\n";
+	echo "      - with: " . $appdovecot  . "\n";
+}
+if ($appcourierimap !== '--uninstalled--') {
+	echo "      - with: " . $appcourierimap  . "\n";
 }
 
 echo "   7. Dns: " .  $appdns . "\n";
