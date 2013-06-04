@@ -66,8 +66,9 @@ if ($dovecotbranch) {
 	$appdovecot = '--uninstalled--';
 }
 
-$courierimapbranch = isRpmInstalled('courier-imap-toaster');
-if ($courierimapbranch) {
+$courierimapbranch = 'courier-imap-toaster';
+$isinstalled = isRpmInstalled($courierimapbranch);
+if ($isinstalled) {
 	exec("rpm -q {$courierimapbranch}", $appcourierimap);
 	$appcourierimap = trim($appcourierimap[0]);
 } else {

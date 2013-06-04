@@ -7339,3 +7339,23 @@ function lxlabs_get_via_json($protocol, $server, $port, $param)
 	return $object;
 }
 
+function lxlabs_get_and_print_select_variable($description, $remotevar, $localvar)
+{
+	// Send the remote variable to hypervm and get the result.
+
+	$json = lxlabs_get_via_json("http", $server, $port, "action=simplelist&resource=$remotevar");
+
+	if (lxlabs_if_error($json)) {
+		print("The server said, error. The message is: $json->message\n");
+		exit;
+	}
+
+	lxlabs_print_select($localvar, $description, $json->result);
+	
+	print("<br> ");
+}
+
+function lxlabs_if_error($json)
+{
+	return $json->return === 'error';
+}
