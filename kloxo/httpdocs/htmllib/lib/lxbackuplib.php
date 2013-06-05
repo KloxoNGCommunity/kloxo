@@ -35,17 +35,20 @@ class lxbackup extends Lxdb
 
 	function getFfileFromVirtualList($name)
 	{
-		/*
-		  $ffile= new Ffile($this->__masterserver, $this->syncserver,
-				"__path_httpd_root/{$this->getParentO()->nname}/{$this->getParentO()->nname}",
-				$name, $this->getParentO()->getObject('web')->username);
-		*/
+		$parent = $this->getParentO();
+
+	/*
+		$ffile= new Ffile($this->__masterserver, $this->syncserver,
+			"__path_httpd_root/{$parent->nname}/{$parent->nname}",
+			$name, $parent->getObject('web')->username);
+	*/
+
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$name = coreFfile::getRealpath($name);
 		$name = "/$name";
-		$parent = $this->getParentO();
-		$root = "__path_program_home/{$this->getParentO()->get__table()}/{$this->getParentO()->nname}/__backup/";
+	
+		$root = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup/";
 		$fullpath = "$root/$name";
 
 		if ($parent->isClient()) {
@@ -73,7 +76,7 @@ class lxbackup extends Lxdb
 	function createShowShowlist()
 	{
 		$alist = null;
-	//  $alist['ffile'] = null;
+	//	$alist['ffile'] = null;
 
 		return $alist;
 	}
@@ -82,7 +85,9 @@ class lxbackup extends Lxdb
 
 	function update($subaction, $param)
 	{
-		if (!$this->getParentO()->priv->isOn('backup_flag')) {
+		$parent = $this->getParentO();
+
+		if (!$parent->priv->isOn('backup_flag')) {
 			throw new lxException('no_premission_to_backup', '', '');
 		}
 
@@ -169,6 +174,8 @@ class lxbackup extends Lxdb
 			}
 		}
 
+		ftp_pasv($fn, true);
+
 	/*
 		ftp_pasv($fn, true);
 		$fp = lfopen($file, "r");
@@ -208,7 +215,7 @@ class lxbackup extends Lxdb
 					$vlist['upload_to_ftp'] = array('M', "Ftp Server Not Set");
 				}
 
-				if (!$this->getParentO()->checkIfLockedForAction('backup')) {
+				if (!$parent->checkIfLockedForAction('backup')) {
 					if ($this->backupstage === 'doing') {
 						$this->backupstage = 'program_interrupted';
 					}
@@ -296,7 +303,7 @@ class lxbackup extends Lxdb
 
 			case "ftp_conf":
 				$vlist['ftp_server'] = null;
-			//  $vlist['ssh_server'] = null;
+			//	$vlist['ssh_server'] = null;
 				$vlist['rm_username'] = null;
 				$vlist['rm_password'] = array('m', get_star_password());
 				$vlist['rm_directory'] = null;
@@ -324,7 +331,7 @@ class lxbackup extends Lxdb
 				break;
 
 			case "restore_from_file":
-				if (!$this->getParentO()->checkIfLockedForAction('restore')) {
+				if (!$parent->checkIfLockedForAction('restore')) {
 					if ($this->restorestage === 'doing') {
 						$this->restorestage = 'program_interrupted';
 					}
@@ -344,13 +351,13 @@ class lxbackup extends Lxdb
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = 'a=show';
-	//  $alist[] = 'a=updateform&sa=backup';
+	//	$alist[] = 'a=updateform&sa=backup';
 		$alist['property'][] = 'a=updateform&sa=ftp_conf';
 
 		$alist['property']['__var_backupschedule_flag'] = 'a=updateform&sa=schedule_conf';
 		$alist['property'][] = 'a=show&l[class]=ffile&l[nname]=/';
 		$alist['property'][] = "l[class]=ffile&l[nname]=/&a=updateform&sa=upload";
-	//  $alist['property'][] = "l[class]=ffile&l[nname]=/&a=updateform&sa=backupftpupload";
+	// 	$alist['property'][] = "l[class]=ffile&l[nname]=/&a=updateform&sa=backupftpupload";
 
 		return $alist;
 	}
@@ -386,15 +393,16 @@ class lxbackup extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$parent = $this->getParentO();
+
 		$stagevar = $type . "stage";
 
-		if ($this->getParentO()->checkIfLockedForAction($type)) {
+		if ($parent->checkIfLockedForAction($type)) {
 			$message = "{$type}_is_going_on";
 			throw new lxException($message, '');
 		}
 
-		$bpath = "__path_program_home/{$this->getParentO()->get__table()}/{$this->getParentO()->nname}/__backup";
-		$parent = $this->getParentO();
+		$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
 
 		if ($type === 'backup') {
 			if ($parent->get__table() === 'vps') {
@@ -420,7 +428,7 @@ class lxbackup extends Lxdb
 			$this->write();
 			throw new lxException("backup_has_been_scheduled", '');
 		} else {
-			$bpath = "__path_program_home/{$this->getParentO()->get__table()}/{$this->getParentO()->nname}/__backup";
+			$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
 			$fname = $param['backup_from_file_f'];
 			$fname = str_replace("/", "", $fname);
 			$fname = str_replace(";", "", $fname);
@@ -441,7 +449,9 @@ class lxbackup extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$bpath = "{$sgbl->__path_program_home}/{$this->getParentO()->get__table()}/{$this->getParentO()->nname}/__backup";
+		$parent = $this->getParentO();
+
+		$bpath = "{$sgbl->__path_program_home}/{$parent->get__table()}/{$parent->nname}/__backup";
 		$bfile = "$bpath/{$this->createBackupFileName($param['backup_to_file_f'])}.tgz";
 
 		if (lxfile_exists($bfile)) {
@@ -509,12 +519,14 @@ class lxbackup extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$parent = $this->getParentO();
+
 		$ver = $sgbl->__ver_major_minor;
 		$name = str_replace("/", "", $name);
 		$name = str_replace(";", "", $name);
 		$date = @ date('Y-M-d');
 		$time = time();
-		$bfile = "$name-{$ver}-{$this->getParentO()->nname}-$date-$time";
+		$bfile = "$name-{$ver}-{$parent->nname}-$date-$time";
 
 		return $bfile;
 	}
@@ -526,8 +538,8 @@ class lxbackup extends Lxdb
 		$progname = $sgbl->__var_program_name;
 		$cprogname = ucfirst($progname);
 
-
 		$parent = $this->getParentO();
+
 		$bpath = "{$sgbl->__path_program_home}/{$parent->get__table()}/{$parent->nname}/__backup";
 		$bfile = $bpath . "/" . $this->createBackupFileName($param['backup_to_file_f']) . "." . $parent->getZiptype();
 
@@ -550,7 +562,7 @@ class lxbackup extends Lxdb
 			} catch (Exception $e) {
 				$text1 = "$cprogname Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') . " Hours";
 				$text2 = "$cprogname Backup upload Failed due to '{$e->getMessage()}'";
-				lx_mail(null, $this->getParentO()->contactemail, $text . "\n");
+				lx_mail(null, $parent->contactemail, $text . "\n");
 				log_log("backup", "* " . $text1 . " - " . $text2);
 			}
 		}
@@ -562,12 +574,12 @@ class lxbackup extends Lxdb
 		}
 
 		$text1 = "$cprogname Backup on " . date('Y-M-d') . " at " . date('H') . " Hours";
-		$text2 = "$cprogname Backup Succeeded for '{$this->getParentO()->nname}'";
-		lx_mail(null, $this->getParentO()->contactemail, $text1, $text2 . "\n");
+		$text2 = "$cprogname Backup Succeeded for '{$parent->nname}' to '$parent->syncserver'";
+		lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
 		log_log("backup", "* " . $text1 . " - " . $text2);
 
-	//  $gbl->__this_redirect = $ghtml->getFullUrl('a=show') . "&frm_smessage=backup_succeeded";
-	//  $ghtml->print_redirect($gbl->__this_redirect);
+	//	$gbl->__this_redirect = $ghtml->getFullUrl('a=show') . "&frm_smessage=backup_succeeded";
+	//	$ghtml->print_redirect($gbl->__this_redirect);
 	}
 
 	static function clear_extra_backups($class, $name, $object)
@@ -684,6 +696,8 @@ class lxbackup extends Lxdb
 
 	function getFtpOrLocal($param)
 	{
+		$parent = $this->getParentO();
+
 		if (isset($param['backup_ftp_file_f'])) {
 			$file = tempnam("/tmp/", "__lx_temperoryftp_file");
 			lunlink($file);
@@ -691,7 +705,7 @@ class lxbackup extends Lxdb
 			$this->download_from_server($param['backup_ftp_file_f'], $file);
 			$ftp = true;
 		} else {
-			$bpath = "__path_program_home/{$this->getParentO()->get__table()}/{$this->getParentO()->nname}/__backup";
+			$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
 			$file = $param['backup_from_file_f'];
 			$file = str_replace(";", "", $file);
 			$file = str_replace("/", "", $file);
@@ -752,8 +766,8 @@ class lxbackup extends Lxdb
 
 		if (!$gbl->__var_list_flag) {
 			$text1 = "$cprogname Restore on " . date('Y-M-d') . " at " . date('H') . " Hours";
-			$text2 = "$cprogname Restore Succeeded for '{$this->getParentO()->nname}'";
-			lx_mail(null, $this->getParentO()->contactemail, $text1, $text2 . "\n");
+			$text2 = "$cprogname Restore Succeeded for '$parent->nname}'  to '$parent->syncserver'";
+			lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
 			log_log("restore", "* " . $text1 . " - " . $text2);
 		}
 
