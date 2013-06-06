@@ -5279,7 +5279,7 @@ function changeMailSoftlimit($nolog = null)
 		}
 	}
 
-	$list = array("smtp");
+	$list = array("smtp", "smtp-ssl");
 
 	$path = "/var/qmail/supervise";
 

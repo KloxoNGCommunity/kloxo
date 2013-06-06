@@ -178,6 +178,7 @@ class lxbackup extends Lxdb
 
 	/*
 		ftp_pasv($fn, true);
+
 		$fp = lfopen($file, "r");
 		$ret = ftp_fput($fn, $uploadfilename, $fp, FTP_BINARY);
 
@@ -573,8 +574,14 @@ class lxbackup extends Lxdb
 			rl_exec_get(null, $parent->syncserver, array('lxbackup', 'clear_extra_backups'), array($parent->get__table(), $parent->nname, $object));
 		}
 
+		if ($object->isOn('upload_to_ftp')) {
+			$tobackup = $object->ftp_server;
+		} else {
+			$tobackup = 'local backup';
+		}
+
 		$text1 = "$cprogname Backup on " . date('Y-M-d') . " at " . date('H') . " Hours";
-		$text2 = "$cprogname Backup Succeeded for '{$parent->nname}' to '$parent->syncserver'";
+		$text2 = "$cprogname Backup Succeeded for '{$parent->nname}' to '{$tobackup}'";
 		lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
 		log_log("backup", "* " . $text1 . " - " . $text2);
 
@@ -766,7 +773,7 @@ class lxbackup extends Lxdb
 
 		if (!$gbl->__var_list_flag) {
 			$text1 = "$cprogname Restore on " . date('Y-M-d') . " at " . date('H') . " Hours";
-			$text2 = "$cprogname Restore Succeeded for '$parent->nname}'  to '$parent->syncserver'";
+			$text2 = "$cprogname Restore Succeeded for '$parent->nname}'  on '$parent->syncserver'";
 			lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
 			log_log("restore", "* " . $text1 . " - " . $text2);
 		}
