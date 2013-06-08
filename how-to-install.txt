@@ -47,7 +47,7 @@ B.2. For Final Release:
     cd /
 
     # install (and then run 'setup.sh' instead 'installer.sh')
-    yum install kloxomr
+    yum install kloxomr -y
     
     # better reboot
     reboot
