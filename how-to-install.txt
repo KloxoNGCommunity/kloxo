@@ -6,7 +6,7 @@ A. pre-install -- better for fresh install
     yum update -y
     # install some packages like package-cleanup, etc
     yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
-    yum install telnet -y
+    yum install telnet wget -y
 
     setenforce 0
     echo 'SELINUX=disabled' > /etc/selinux/config
@@ -47,7 +47,7 @@ B.2. For Final Release:
     cd /
 
     # install (and then run 'setup.sh' instead 'installer.sh')
-    yum install kloxomr
+    yum install kloxomr -y
     
     # better reboot
     reboot
