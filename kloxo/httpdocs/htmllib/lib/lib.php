@@ -6070,6 +6070,9 @@ function setInstallMailserver($nolog = null)
 
 function setInitialServer($nolog = null)
 {
+	// MR -- try not use and what's effect for OpenVZ
+	return;
+
 	// Issue #450
 	log_cleanup("Initialize Server", $nolog);
 
@@ -6925,7 +6928,7 @@ function setInitialServices($nolog = null)
 	setInstallMailserver($nolog);
 
 	// MR -- importance for Kloxo-MR becuase using standard qmail-toaster
-	changeMailSoftlimit($nolog);
+//	changeMailSoftlimit($nolog);
 }
 
 function setPrepareKloxo($nolog = null)

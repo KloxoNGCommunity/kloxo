@@ -40,30 +40,30 @@ APP_NAME='Kloxo-MR'
 if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
 	APP_TYPE='slave'
 else
-	if [ -d /var/lib/mysql/kloxo ] ; then
+#	if [ -d /var/lib/mysql/kloxo ] ; then
 		APP_TYPE='master'
-	else
-		echo
-		echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
-		PS3='- Please enter your choice: '
-		options=("Master" "Slave")
-		select opt in "${options[@]}" "Quit"; do 
-			case $opt in
-				"Master")
-					APP_TYPE='master'
-					break
-					;;
-				"Slave")
-					APP_TYPE='slave'
-					break
-					;;
-   				"Quit")
-					exit
-					;;
-					*) echo "  * Invalid option!";;
-			esac
-		done
-	fi
+#	else
+#		echo
+#		echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
+#		PS3='- Please enter your choice: '
+#		options=("Master" "Slave")
+#		select opt in "${options[@]}" "Quit"; do 
+#			case $opt in
+#				"Master")
+#					APP_TYPE='master'
+#					break
+#					;;
+#				"Slave")
+#					APP_TYPE='slave'
+#					break
+#					;;
+#   				"Quit")
+#					exit
+#					;;
+#					*) echo "  * Invalid option!";;
+#			esac
+#		done
+#	fi
 fi
 
 SELINUX_CHECK=/usr/sbin/selinuxenabled

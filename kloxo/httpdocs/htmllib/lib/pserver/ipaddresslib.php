@@ -3,10 +3,10 @@
 class Ipaddress extends Lxdb
 {
 
-//Core
+	// Core
 	static $__desc = array("", "", "ipaddress");
 
-//Data
+	// Data
 	static $__desc_nname = Array("", "", "device_name");
 	static $__desc_devname = Array("s", "", "device_name", URL_SHOW);
 	static $__desc_ipaddr = Array("n", "", "ipaddress", URL_SHOW);
@@ -40,7 +40,7 @@ class Ipaddress extends Lxdb
 	static $__desc_ipaddr_begin = Array("n", "", "ipaddress_begin", URL_SHOW);
 	static $__desc_ipaddr_end = Array("n", "", "ipaddress_end", URL_SHOW);
 
-//Objects
+	// Objects
 
 	function display($var)
 	{
@@ -49,6 +49,7 @@ class Ipaddress extends Lxdb
 		if ($var === "devname") {
 			if (csa($this->$var, "-")) {
 				list($name, $num) = explode("-", $this->$var);
+
 				return "$name:$num";
 			}
 
@@ -72,7 +73,6 @@ class Ipaddress extends Lxdb
 		}
 
 		return parent::display($var);
-
 	}
 
 	function createExtraVariables()
@@ -147,7 +147,6 @@ class Ipaddress extends Lxdb
 
 		error_reporting(0);
 
-
 		$ipl = $parent->getList("ipaddress");
 
 		$i = 0;
@@ -176,12 +175,13 @@ class Ipaddress extends Lxdb
 
 		print(" this is the devname u passed -$devname ");
 
-		// I have removed the sorting from getlist, and here earlier, the result was sorted according to 'nname'.
+		// I have removed the sorting from getlist, and here earlier, 
+		// the result was sorted according to 'nname'.
 		// this is needed only when you add a new device, so ignoring now.
 		$list1 = $parent->getList("ipaddress");
 		$llist = get_namelist_from_objectlist($list1, "devname");
 
-		//	dprintr($llist);
+	//	dprintr($llist);
 
 		for ($i = 0; $i < 1000000; $i++) {
 			$name = "$devname:$i";
@@ -190,13 +190,10 @@ class Ipaddress extends Lxdb
 				return "$devname-$i";
 			}
 		}
-
-
 	}
 
 	function updateRecord($result)
 	{
-
 		$this->devname = $result['devname'];
 		$this->netmask = $result['netmask'];
 		$this->status = $result['status'];
@@ -221,7 +218,6 @@ class Ipaddress extends Lxdb
 			$this->userctl = $result['userctl'];
 		}
 
-
 		if (!isset($result['itype'])) {
 			$this->itype = null;
 		} else {
@@ -243,15 +239,15 @@ class Ipaddress extends Lxdb
 		$this->dbaction = "update";
 	}
 
-
 	static function isValidIpaddress($ip)
 	{
 		return validate_ipaddress($ip);
 	}
 
-// Temporary hack... Ipaddress doesn't contain a show at all. So just printing....
-// (Later...) this is not the actual hack. This is the normal way. If there is no other stuff in 'show',
-// we compeltely avoid the 'edit' link and directly do the editing in teh show page itself...
+	// Temporary hack... Ipaddress doesn't contain a show at all. So just printing....
+	// (Later...) this is not the actual hack. This is the normal way. 
+	// If there is no other stuff in 'show',
+	// we compeltely avoid the 'edit' link and directly do the editing in teh show page itself...
 
 	function createShowUpdateform()
 	{
@@ -263,6 +259,7 @@ class Ipaddress extends Lxdb
 	function createShowPropertyList(&$alist)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$alist['property'][] = 'a=show';
 
 		if ($sgbl->isKloxo() && !$this->getParentO()->isClass('pserver')) {
@@ -273,7 +270,7 @@ class Ipaddress extends Lxdb
 				$alist['property'][] = "a=updateform&sa=exclusive";
 			}
 
-			//$alist = null;
+		//	$alist = null;
 		}
 	}
 
@@ -300,11 +297,11 @@ class Ipaddress extends Lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		//$nlist["nname"] = "3%";
+	//	$nlist["nname"] = "3%";
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if ($sgbl->isKloxo()) {
-			//$nlist["used_f"] = "5%";
+		//	$nlist["used_f"] = "5%";
 		}
 
 		$nlist["ipaddr"] = "100%";
@@ -339,7 +336,6 @@ class Ipaddress extends Lxdb
 		self::VerifyString($this->getParentO(), $param);
 
 		return $param;
-
 	}
 
 	function isAction($var)
@@ -355,7 +351,6 @@ class Ipaddress extends Lxdb
 
 	static function chekWhetherToBlock($ip)
 	{
-
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$blockipl = $gbl->getList("blockidip");
@@ -425,7 +420,6 @@ class Ipaddress extends Lxdb
 			exec("cat {$ppath}/file/default.crt {$ppath}/file/default.key > {$ppath}/file/default.pem");
 
 			lxfile_cp("{$ppath}/file/default.pem", "{$spath}/$name.pem");
-
 		}
 	}
 
@@ -545,15 +539,16 @@ class Ipaddress extends Lxdb
 		return $v . "-" . $ipaddr . "-" . $num;
 	}
 
-
 	function updateform($subaction, $param)
 	{
 		if ($subaction === 'update') {
 			$vlist['devname'] = array("M", $this->devname);
 			$vlist['ipaddr'] = array('M', $this->ipaddr);
+
 			// MR -- range ip still not work
 		//	$vlist['ipaddr_begin'] = array('M', $this->ipaddr_begin);
 		//	$vlist['ipaddr_end'] = array('M', $this->ipaddr_end);
+
 			$vlist['netmask'] = array('M', $this->netmask);
 			$vlist['gateway'] = array('M', $this->gateway);
 			$vlist['__v_button'] = "";
@@ -594,16 +589,16 @@ class Ipaddress extends Lxdb
 			throw new lxexception("ipaddress_invalid", 'ipaddr');
 		}
 
-/*
+	/*
 		// MR -- range ip still not work
 		if (!self::isValidIpaddress($param['ipaddr_begin'])) {
 			throw new lxexception("ipaddress_invalid", 'ipaddr_begin');
 		}
-
+		
 		if (!self::isValidIpaddress($param['ipaddr_end'])) {
 			throw new lxexception("ipaddress_invalid", 'ipaddr_end');
 		}
-*/
+	*/
 
 		if ($param['gateway']) {
 			if (!self::isValidIpaddress($param['gateway'])) {
@@ -630,16 +625,16 @@ class Ipaddress extends Lxdb
 		if (!$ret) {
 			throw new lxexception("some_other_host_uses_this_ip", 'ipaddr');
 		}
-/*
+	/*
 		// MR -- range ip still not work
 		for ($a = $param['ipaddr_begin']; $a <= $param['ipaddr_end']; &a++) {
 			$ret = lxshell_return("ping", "-n", "-c", "1", "-w", "5", $a);
-
+		
 			if (!$ret) {
 				throw new lxexception("some_other_host_uses_this_ip", $a);
 			}
 		}
-*/
+	*/
 	}
 
 	function postAdd()
@@ -747,6 +742,3 @@ class Ipaddress extends Lxdb
 		return $res;
 	}
 }
-
-
-

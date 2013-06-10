@@ -620,6 +620,7 @@ function kloxo_install_bye()
 
 	if ($installstep === '2') {
 		print("- Better reboot for fresh install\n\n");
+		print("- Run 'sh /script/make-slave' for change to 'SLAVE'\n\n");
 	}
 
 	if (isRpmInstalled('qmail')) {

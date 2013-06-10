@@ -104,9 +104,9 @@ function updatecleanup_main()
 		exec("sh /script/fix-qmail-assign");
 		log_cleanup("- Fixing process");
 */
-		log_cleanup("Fixing Qmail");
+	//	log_cleanup("Fixing Qmail");
 		exec("sh /script/fixmail-all");
-		log_cleanup("- Fixing process");
+	//	log_cleanup("- Fixing process");
 		
 		if (file_exists("/var/qmail/supervise/smtp/supervise/ok")) {
 			log_cleanup("Restarting Qmail services");
