@@ -145,8 +145,17 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## web for '<?php echo $domainname; ?>'
 server {
+<?php
+            if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+            } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+            }
         if ($count !== 0) {
 ?>
 
@@ -383,8 +392,18 @@ server {
 
 ## webmail for '<?php echo $domainname; ?>'
 server {
+<?php
+                if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                }
+
                 if ($count !== 0) {
 ?>
 
@@ -430,8 +449,18 @@ server {
 
 ## webmail for '<?php echo $domainname; ?>'
 server {
+<?php
+                    if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                    }
+
                     if ($count !== 0) {
 ?>
 
@@ -456,8 +485,18 @@ server {
 
 ## webmail for '<?php echo $domainname; ?>'
 server {
+<?php
+                    if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                    }
+
                     if ($count !== 0) {
 ?>
 
@@ -519,8 +558,18 @@ server {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 server {
+<?php
+                    if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                    }
+
                     if ($count !== 0) {
 ?>
 
@@ -564,8 +613,18 @@ server {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 server {
+<?php
+                    if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                    }
+
                     if ($count !== 0) {
 ?>
 
@@ -600,8 +659,18 @@ server {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
+<?php
+                    if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                    }
+
                     if ($count !== 0) {
 ?>
 
@@ -647,8 +716,18 @@ server {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
+<?php
+                        if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                        } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                        }
+
                         if ($count !== 0) {
 ?>
 
@@ -676,8 +755,18 @@ server {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
+<?php
+                            if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                            } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                            }
+
                             if ($count !== 0) {
 ?>
 
@@ -745,8 +834,18 @@ server {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
+<?php
+                    if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                    }
+
                     if ($count !== 0) {
 ?>
 
@@ -792,8 +891,18 @@ server {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
+<?php
+                        if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                        } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                        }
+
                         if ($count !== 0) {
 ?>
 
@@ -820,8 +929,18 @@ server {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
+<?php
+                            if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                            } else {
+?>
     listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
+                            }
+
                             if ($count !== 0) {
 ?>
 

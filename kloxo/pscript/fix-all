@@ -1,0 +1,7 @@
+#!/bin/sh
+
+sh /script/fixdns
+sh /script/fixphp
+sh /script/fixweb
+sh /script/fixftp
+sh /script/fixmail-all

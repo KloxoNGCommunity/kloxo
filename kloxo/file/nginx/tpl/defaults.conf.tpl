@@ -96,9 +96,18 @@ server {
             } else {
                 $asdefault = '';
             }
+
+            if ($ip === '*') {
+?>
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+            } else {
 ?>
     listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+            }
+
             if ($count !== 0) {
 ?>
 

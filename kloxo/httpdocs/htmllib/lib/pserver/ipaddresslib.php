@@ -2,7 +2,6 @@
 
 class Ipaddress extends Lxdb
 {
-
 	// Core
 	static $__desc = array("", "", "ipaddress");
 
@@ -297,12 +296,13 @@ class Ipaddress extends Lxdb
 
 	static function createListNlist($parent, $view)
 	{
-	//	$nlist["nname"] = "3%";
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($sgbl->isKloxo()) {
-		//	$nlist["used_f"] = "5%";
-		}
+		$nlist["nname"] = "3%";
+
+	//	if ($sgbl->isKloxo()) {
+			$nlist["used_f"] = "5%";
+	//	}
 
 		$nlist["ipaddr"] = "100%";
 
@@ -669,7 +669,10 @@ class Ipaddress extends Lxdb
 
 		$vlist['devname'] = array('s', $result);
 
-		$vlist['ipaddr'] = "";
+		// MR -- enable gateway
+	//	$vlist['ipaddr'] = "";
+		$vlist['ipaddr'] = array('f', 'gateway');
+
 		// MR -- range ip still not work
 	//	$vlist['ipaddr_begin'] = "";
 	//	$vlist['ipaddr_end'] = "";
