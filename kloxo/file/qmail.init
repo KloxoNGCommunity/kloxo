@@ -101,9 +101,10 @@ case "$1" in
     svc -c /var/qmail/supervise/smtp
     ;;
   restart)
-    stopf
-    sleep 5
-    startf
+#    stopf
+#    sleep 5
+#    startf
+    restartf
     ;;
   cdb)
     tcprules /etc/tcprules.d/tcp.smtp.cdb /etc/tcprules.d/tcp.smtp.tmp < /etc/tcprules.d/tcp.smtp

@@ -18,6 +18,7 @@ kill_and_save_pid() {
 }
 
 save_pid() {
+	name=$1;
 	echo $$ > "$__path_program_root/pid/$name.pid";
 }
 
@@ -46,9 +47,9 @@ wrapper_main() {
 		if [ -f $__path_low_memory_file ] ; then
 			/bin/cp $__path_server_exe.core $__path_server_exe;
 			chmod 755 $__path_server_exe;
-			$__path_server_exe $string >/dev/null 2>&1;
+			exec $__path_server_exe $string >/dev/null 2>&1;
 		else 
-			$__path_php_path $__path_server_path $string >/dev/null 2>&1;
+			exec $__path_php_path $__path_server_path $string >/dev/null 2>&1;
 	 	fi
 			sleep 10;
 	done

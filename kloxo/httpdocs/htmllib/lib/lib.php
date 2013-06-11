@@ -6096,14 +6096,19 @@ function setSomePermissions($nolog = null)
 	log_cleanup("Install/Fix Services/Permissions/Configfiles", $nolog);
 
 //	if (!lxfile_exists("/usr/bin/lxphp.exe")) {
-	log_cleanup("- Create lxphp.exe Symlink", $nolog);
-	//	lxfile_symlink("__path_php_path", "/usr/bin/lxphp.exe");
+		log_cleanup("- Create lxphp.exe Symlink", $nolog);
 
-	lxfile_rm("/usr/bin/lphp.exe");
-	lxfile_rm("/usr/bin/lxphp.exe");
+		lxfile_rm("/usr/bin/lphp.exe");
+		lxfile_rm("/usr/bin/lxphp.exe");
 
-	lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lphp.exe");
-	lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lxphp.exe");
+		// MR -- running with lxphp.exe not work
+		exec("/usr/local/lxlabs/ext/php/php  -r 'echo phpversion();'", $lxphpver);
+
+		lxfile_cp("/usr/local/lxlabs/kloxo/file/lxphpcli.sh", "/usr/local/lxlabs/ext/php/etc/lxphpcli.sh");
+		lxfile_unix_chmod("/usr/local/lxlabs/kloxo/file/lxphpcli.sh", "0755");
+
+		lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lphp.exe");
+		lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lxphp.exe");
 //	}
 
 	log_cleanup("- Set permissions for /usr/bin/php-cgi", $nolog);

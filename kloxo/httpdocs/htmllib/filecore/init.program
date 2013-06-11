@@ -115,6 +115,7 @@ stop() {
 	pkill -f lxhttpd 2>/dev/null
 	pkill -f lxphp
 
+	echo " "
 
 	while : ; do
 		echo "Waiting for the process to die....."
