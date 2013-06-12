@@ -12,12 +12,15 @@
 
 # not exist in openvz vps
 # grubfile="/boot/grub/grub.conf"
-proc__user_beancounters="/proc/user_beancounters"
+
+#proc__user_beancounters="/proc/user_beancounters"
+file_grub_conf="/boot/grub/grub.conf"
 
 
 # if [ -f $grubfile ]; then
 
-if [ ! -f $proc__user_beancounters ]; then
+#if [ ! -f $proc__user_beancounters ]; then
+if [ ! -f $file_grub_conf ]; then
 	if [ "$1" == "--select=1" ]; then
 		sync; echo 1 > /proc/sys/vm/drop_caches
 	elif [ "$1" == "--select=2" ]; then

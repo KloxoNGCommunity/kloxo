@@ -6077,8 +6077,8 @@ function setInitialServer($nolog = null)
 	log_cleanup("Initialize Server", $nolog);
 
 	if (lxfile_exists("/proc/user_beancounters")) {
-		// MR -- OpenVZ have '/etc/vz' but only host have '/etc/vz/version'
-		if (!lxfile_exists("/etc/vz/version")) {
+		// MR -- OpenVZ have '/etc/vz' but only host have '/boot/grub/grub.conf' also
+		if (!lxfile_exists("/boot/grub/grub.conf")) {
 			log_cleanup("- Initialize OpenVZ", $nolog);
 			create_dev();
 			lxfile_cp("../file/openvz/inittab", "/etc/inittab");
