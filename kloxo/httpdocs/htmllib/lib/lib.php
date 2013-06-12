@@ -5261,6 +5261,11 @@ function setDomainPages($nolog = null)
 
 function changeMailSoftlimit($nolog = null)
 {
+	// MR -- adjustment with latest qmail-toaster
+	exec("uname -i", $out);
+	
+	if ($out[0] !== 'x86_64') { return; }
+	
 	log_cleanup("Changing softlimit for incoming/receive mailserver", $nolog);
 
 	$list = array("imap4", "imap4-ssl", "pop3", "pop3-ssl");
@@ -5273,7 +5278,7 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("-m 9000000", "-m 64000000", $content);
+			$content = str_replace("-m 9000000", "-m 48000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}
@@ -5289,7 +5294,7 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("-m 20000000", "-m 128000000", $content);
+			$content = str_replace("-m 20000000", "-m 64000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}
@@ -5305,7 +5310,7 @@ function changeMailSoftlimit($nolog = null)
 		if (file_exists($file)) {
 			exec("svc -d {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 			$content = file_get_contents($file);
-			$content = str_replace("-m 12000000", "-m 128000000", $content);
+			$content = str_replace("-m 12000000", "-m 48000000", $content);
 			lfile_put_contents($file, $content);
 			exec("svc -u {$path}/{$l} {$path}/{$l}/log > /dev/null 2>&1");
 		}
