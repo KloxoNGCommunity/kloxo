@@ -21,60 +21,8 @@ echo "Set '$HVBPATH/vchkpw' for 4751 permissions"
 chmod -f 4755 $HVBPATH/vchkpw
 
 echo "--------------------------"
-
-echo "Copy qmail-smtp run script"
-
-if [ -f $ULLKFPATH/custom.smtp_run ] ; then
-	cp -rf $ULLKFPATH/custom.smtp_run $VQSPATH/smtp/run
-else
-	cp -rf $ULLKFPATH/smtp_run $VQSPATH/smtp/run
-fi
-
-chown -f qmaill:qmail $VQSPATH/smtp/run
-chmod -f 0751 $VQSPATH/smtp/run
-
-echo "Copy qmail-submission run script"
-
-if [ -f $ULLKFPATH/custom.submission_run ] ; then
-	cp -rf $ULLKFPATH/custom.submission_run $VQSPATH/submission/run
-else
-	cp -rf $ULLKFPATH/submission_run $VQSPATH/submission/run
-fi
-
-chown -f qmaill:qmail $VQSPATH/submission/run
-chmod 0751 $VQSPATH/submission/run
-
-echo "--------------------------"
-
-echo "Create qmail-smtp-ssl (port 465)"
-
-## MR -- must format like this to prevent if smtp-ssl dir exists
-if ! [ -f $VQSPATH/smtp-ssl/supervise/status ] ; then
-	mkdir -p $VQSPATH/smtp-ssl
-	cp -arf $VQSPATH/smtp/* $VQSPATH/smtp-ssl/
-fi
-
-if [ -f $ULLKFPATH/custom.smtp-ssl_run ] ; then
-	cp -rf $ULLKFPATH/custom.smtp-ssl_run $VQSPATH/smtp-ssl/run
-else
-	cp -rf $ULLKFPATH/smtp-ssl_run $VQSPATH/smtp-ssl/run
-fi
-
-if [ -f $ULLKFPATH/custom.smtp-ssl_log_run ] ; then
-	cp -rf $ULLKFPATH/custom.smtp-ssl_log_run $VQSPATH/smtp-ssl/log/run
-else
-	cp -rf $ULLKFPATH/smtp-ssl_log_run $VQSPATH/smtp-ssl/log/run
-fi
-
-echo "--------------------------"
 echo "Set '$VQCPATH/locals' with 'localhost' only"
 echo 'localhost' > $VQCPATH/locals
-
-echo "--------------------------"
-
-echo "Modified MAXDAEMONS and MAXPERIP on '$ECPATH/imapd'"
-sed -i 's/MAXDAEMONS\=40/MAXDAEMONS\=60/' $ECPATH/imapd
-sed -i 's/MAXPERIP\=4/MAXPERIP\=20/' $ECPATH/imapd
 
 echo "--------------------------"
 
