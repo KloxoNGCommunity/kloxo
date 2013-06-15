@@ -848,7 +848,7 @@ function getApacheBranch()
 // MR -- taken from lib.php
 function getMysqlBranch()
 {
-	$a = array('mysql', 'mysql50', 'mysql51', 'mysql53', 'mysql55', 'MariaDB');
+	$a = array('mysql', 'mysql50', 'mysql51', 'mysql53', 'mysql55', 'mariadb', 'MariaDB');
 
 	foreach ($a as &$e) {
 		if (isRpmInstalled($e . '-server')) {

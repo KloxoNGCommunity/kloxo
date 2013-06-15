@@ -528,7 +528,8 @@ foreach ($certnamelist as $ip => $certname) {
     <Location "/stats/">
         AuthType Basic
         AuthName "stats"
-        AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
+        #AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
+        AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
         require valid-user
     </Location>
 <?php
@@ -548,7 +549,8 @@ foreach ($certnamelist as $ip => $certname) {
     <Location "/awstats/">
         AuthType Basic
         AuthName "Awstats"
-        AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
+        #AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
+        AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
         require valid-user
     </Location>
 <?php
