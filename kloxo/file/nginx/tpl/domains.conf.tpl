@@ -82,12 +82,12 @@ if ($userinfo) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
-exec("ip -6 addr show", $out, $reterr);
+exec("ip -6 addr show", $out);
 
-if ($reterr) {
-	$IPv6Enable = false;
-} else {
+if ($out[0]) {
 	$IPv6Enable = true;
+} else {
+	$IPv6Enable = false;
 }
 
 $disablepath = "/home/kloxo/httpd/disable";
