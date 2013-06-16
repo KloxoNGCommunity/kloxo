@@ -47,6 +47,14 @@ if (file_exists("{$globalspath}/custom.perl.conf")) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
+exec("ip -6 addr show", $out, $reterr);
+
+if ($reterr) {
+	$IPv6Enable = false;
+} else {
+	$IPv6Enable = true;
+}
+
 ?>
 
 <?php
@@ -98,10 +106,16 @@ server {
             }
 
             if ($ip === '*') {
+                if ($IPv6Enable) {
 ?>
     listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
     listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                }
             } else {
 ?>
     listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;

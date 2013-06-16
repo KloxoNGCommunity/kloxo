@@ -82,6 +82,14 @@ if ($userinfo) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
+exec("ip -6 addr show", $out, $reterr);
+
+if ($reterr) {
+	$IPv6Enable = false;
+} else {
+	$IPv6Enable = true;
+}
+
 $disablepath = "/home/kloxo/httpd/disable";
 
 $globalspath = "/home/nginx/conf/globals";
@@ -147,15 +155,22 @@ foreach ($certnamelist as $ip => $certname) {
 server {
 <?php
             if ($ip === '*') {
+                if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                }
             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
             }
+			
         if ($count !== 0) {
 ?>
 
@@ -394,13 +409,19 @@ server {
 server {
 <?php
                 if ($ip === '*') {
+                    if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                    } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                    }
                 } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                 }
 
@@ -451,13 +472,19 @@ server {
 server {
 <?php
                     if ($ip === '*') {
+                        if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                        }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                     }
 
@@ -487,13 +514,19 @@ server {
 server {
 <?php
                     if ($ip === '*') {
+                        if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                        }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                     }
 
@@ -560,13 +593,19 @@ server {
 server {
 <?php
                     if ($ip === '*') {
+                        if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                        }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                     }
 
@@ -615,13 +654,19 @@ server {
 server {
 <?php
                     if ($ip === '*') {
+                        if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                        }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                     }
 
@@ -661,13 +706,19 @@ server {
 server {
 <?php
                     if ($ip === '*') {
+                        if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                        }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                     }
 
@@ -718,13 +769,19 @@ server {
 server {
 <?php
                         if ($ip === '*') {
+                            if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                            } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                            }
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                         }
 
@@ -757,13 +814,19 @@ server {
 server {
 <?php
                             if ($ip === '*') {
+                                if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                                } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                                }
                             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                             }
 
@@ -836,13 +899,19 @@ server {
 server {
 <?php
                     if ($ip === '*') {
+                        if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                        }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                     }
 
@@ -893,13 +962,19 @@ server {
 server {
 <?php
                         if ($ip === '*') {
+                            if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                            } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                            }
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                         }
 
@@ -931,13 +1006,19 @@ server {
 server {
 <?php
                             if ($ip === '*') {
+                                if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?>;
-    listen [::]:<?php echo $port; ?>;
+    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
+                                } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+<?php
+                                }
                             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
 <?php
                             }
 
