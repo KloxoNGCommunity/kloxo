@@ -27,8 +27,8 @@ static function readSingleMail($name)
 	$ret['message'] = lxshell_output("{$sgbl->__path_program_root}/bin/misc/qmHandle", "-m$name");
 	$oldtime = time() - 7200;
 	$newtime = time() - 500;
-	$fp = fopen("/var/log/kloxo/maillog", "r");
-	$fsize = lxfile_size("/var/log/kloxo/maillog");
+	$fp = fopen("/var/log/maillog", "r");
+	$fsize = lxfile_size("/var/log/maillog");
 	$ot =  date("Y-m-d:H-i");
 	dprint("Start time: $ot\n");
 	$res = FindRightPosition($fp, $fsize, $oldtime, $newtime, array("mailtraffic", "getTimeFromOriginalQmailString"));

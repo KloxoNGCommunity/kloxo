@@ -26,6 +26,12 @@ static function parseDiskUsage($cont)
 		if (!$r[0]) {
 			continue;
 		}
+
+		// MR -- no display for bind dns server chroot
+		if (csa($r[5], "/var/named/")) {
+			continue;
+		}
+
 		$result[$i]['nname'] = $r[0];
 		$result[$i]['kblock'] = round($r[1]/1000);
 		$result[$i]['available'] = round($r[3]/1000);

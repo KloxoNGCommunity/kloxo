@@ -30,7 +30,8 @@ mysql_close($dbconn);
 
 */
 
-echo "Restart Mysql service again"
+print("Restart Mysql service again\n");
+
 if (file_exists("/etc/rc.d/init.d/mysql")) {
 	system("service mysql restart");
 } else {

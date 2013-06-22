@@ -3174,6 +3174,9 @@ function parse_sql_data()
 
 	$_return_value = null;
 
+	// MR -- no need because using .sql file
+	return $_return_value;
+
 	$majmin = $sgbl->__ver_major_minor;
 	$trel = $sgbl->__ver_release;
 
@@ -3293,7 +3296,6 @@ function parse_sql_data()
 
 	// MR -- no need for this!
 //	lfile_put_contents("__path_dbschema", serialize($var));
-	return $_return_value;
 }
 
 function mssql_do_create_table($__db, $tbl_name, $fields)

@@ -24,13 +24,13 @@ function do_remote($rmt)
 		dprint("Get Action: $f\n");
 	}
 
-	//	dprintr($rmt);
+//	dprintr($rmt);
 
 	$res = check_for_remote($rmt);
 	dprint("\nDone....\n-------------\n");
 	$res->message = "none";
 
-	//	dprintr($res);
+//	dprintr($res);
 	return $res;
 }
 
@@ -40,11 +40,11 @@ function update_from_master($rmt)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	$ver = $rmt->version;
-	//lxfile_rm("lib/gbl.php");
-	//lxshell_return("cvs", "up");
+//	lxfile_rm("lib/gbl.php");
+//	lxshell_return("cvs", "up");
 	if (!lx_core_lock_check_only('update.php')) {
 		exec_with_all_closed("$sgbl->__path_php_path ../bin/update.php --till-version=$ver");
-		//sleep(1);
+	//	sleep(1);
 	}
 
 }
@@ -58,7 +58,7 @@ function do_do_the_action($rmt)
 	if ($rmt->action == "set" || $rmt->action == 'get') {
 		if (isLocalhost($rmt->slaveserver)) {
 		} else {
-			//return rl_exec(null, $rmt->slaveserver, $rmt);
+		//	return rl_exec(null, $rmt->slaveserver, $rmt);
 		}
 	} else {
 		if ($rmt->action == 'dowas') {
@@ -75,8 +75,8 @@ function do_the_action($rmt, $res)
 {
 	try {
 		$ddata = do_do_the_action($rmt);
-		//fprint("in do the action");
-		//fprint($ddata);
+	//	fprint("in do the action");
+	//	fprint($ddata);
 		$res->ddata = $ddata;
 	} catch (Exception $e) {
 		if ($e instanceof lxexception) {
@@ -138,7 +138,7 @@ function check_for_remote($rmt)
 
 	//	dprintr($rmt);
 
-	/*
+/*
 	 // Even if it is demo, versions must be updated, otherwise, results are unpredictable.
 	 if (if_demo()) {
 		 do_the_action($rmt, $res);
@@ -147,7 +147,7 @@ function check_for_remote($rmt)
 
 		 return $res;
 	 }
- */
+*/
 
 	if ($vercmp < 0) {
 		$res->state = 'version_greater';
@@ -159,7 +159,7 @@ function check_for_remote($rmt)
 
 	if ($vercmp > 0) {
 		update_from_master($rmt);
-		//$res->state = 'upgrade';
+	//	$res->state = 'upgrade';
 		$res->exception = new lxException("slave_upgrading_please_try_after_a_few_minutes", 'machine', $rmt->machine);
 		print("Version Lesser <br> \n");
 
@@ -234,15 +234,15 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 		throw new lxException('could_not_connect_to_server', 'syncserver', $machine);
 	}
 
-	//	dprint($res->message);
+//	dprint($res->message);
 
 	if ($res->exception) {
 		throw $res->exception;
 	}
 
-	//	dprint($res->message);
+//	dprint($res->message);
 
-	//	print_time('server', "remote<b> $raddress</b>: $size KB", 2);
+//	print_time('server', "remote<b> $raddress</b>: $size KB", 2);
 
 	// We have only return values. The output of the command is discarded.
 	// This leads to tremendous savings of bandwidth; makes the communication almost one way.
@@ -253,10 +253,11 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 	$err = $res ? 3 : 2;
 
 	dprint("<br>  <table border=2> <tr> <td > Remote: $machine, $cmdtype, $nname, $dbaction<br> ", $err);
+
 	if (!$res) {
 		dprint("<b> <font color=red>Got Error: </b> </font> $res", $err);
-		//$ser = base64_decode($res);
-		//dprint($ser);
+	//	$ser = base64_decode($res);
+	//	dprint($ser);
 	} else {
 		dprint("Message: " . $res->message . "<br> ", $err);
 	}
@@ -326,14 +327,15 @@ function remote_exec($machine, $cmd)
 		$subaction = $cmd->robject->subaction;
 	}
 
-	print_time('remote_exec', "<b> Remote Exec $machine: type: $cmdtype, class: $class name: $nname action: $dbaction; subaction $subaction </b>");
+	print_time('remote_exec', "<b> Remote Exec $machine: type: $cmdtype, class: $class name: " .
+		"$nname action: $dbaction; subaction $subaction </b>");
 
 	if (!$rmt) {
 		return null;
 	}
 
 	// If the slave server is upgrading try once more. Don't!!!!!!!!!!!!!!
-	/*
+/*
 	 if ($rmt->state === 'upgrade') {
 		 print("Slave Server Upgraded. Trying Again....<br> ");
 		 flush();
@@ -349,13 +351,13 @@ function remote_exec($machine, $cmd)
 		 dprint("Slave Server Upgrade. Has failed...<br> ");
 		 throw new lxException("slave_server_upgrade_failed");
 	 }
- */
+*/
 
 	if ($rmt->exception) {
-		//$exc = new Exception("syncserver:$machine <br> " . $rmt->exception->getMessage());
+	//	$exc = new Exception("syncserver:$machine <br> " . $rmt->exception->getMessage());
 		$rmt->exception->syncserver = $machine;
 		throw $rmt->exception;
-		//throw $exc;
+	//	throw $exc;
 	}
 
 
@@ -391,10 +393,15 @@ function send_to_master($object)
 function send_to_some_server($raddress, $var)
 {
 	return send_to_some_stream_server("cmd", null, $raddress, $var, null);
-	//	return send_to_some_http_server($raddress, $socket_type, "7777", $rmt);
+//	return send_to_some_http_server($raddress, $socket_type, "7777", $rmt);
 }
 
-function send_to_some_stream_server($type, $size, $raddress, $var, $fd)
+function recall_send_to_some_stream_server($type, $size, $raddress, $var)
+{
+	send_to_some_stream_server($type, $size, $raddress, $var, $fd, true);
+}
+
+function send_to_some_stream_server($type, $size, $raddress, $var, $fd, $reexec = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
@@ -420,12 +427,14 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd)
 	}
 	$socket = stream_socket_client("$con://$rraddress:$port");
 
-	//	$socket =  fsockopen("$con://$raddress", $port);
+//	$socket =  fsockopen("$con://$raddress", $port);
 	print_time('serverstart', "Fsockopen");
 
 	if ($socket <= 0) {
 		if ($raddress === 'localhost' && !$sgbl->isDebug()) {
-			//	lxshell_background("/usr/sbin/lxrestart", $sgbl->__var_program_name);
+		//	lxshell_background("/usr/sbin/lxrestart", $sgbl->__var_program_name);
+
+			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('no_socket_connect_to_server', '', $raddress);
 			throw new lxException('restarting_backend', '', $raddress);
 		} else {
@@ -434,8 +443,9 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd)
 	}
 
 	stream_set_timeout($socket, 30000000000);
-	//	stream_context_set_option($socket, 'ssl', 'allow_self_signed', true);
-	//	stream_context_set_option($socket, 'ssl', 'verify_peer', false);
+//	stream_context_set_option($socket, 'ssl', 'allow_self_signed', true);
+//	stream_context_set_option($socket, 'ssl', 'verify_peer', false);
+
 	$in = $var;
 	fwrite($socket, $in);
 	$in = "\n";
@@ -483,7 +493,7 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd)
 				break;
 			}
 		} else {
-			//$out = trim($out);
+		//	$out = trim($out);
 			$totalout .= $out;
 
 			if (csa($totalout, $exitchar)) {
@@ -503,13 +513,13 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd)
 
 	dprint("Got this much:" . strlen($totalout));
 
-	//	dprint($totalout);
+//	dprint($totalout);
 
 	$totalout = trim($totalout);
 	$size = round(strlen($totalout) / 1024, 4);
 
-	//	dprint($totalout);
-	//	$ee = unserialize(base64_decode($totalout));
+//	dprint($totalout);
+//	$ee = unserialize(base64_decode($totalout));
 
 	return $totalout;
 
@@ -522,9 +532,9 @@ function createSslStream()
 	$sockr = stream_socket_server("ssl://0.0.0.0:{$sgbl->__var_remote_port}");
 
 	stream_context_set_option($sockr, 'ssl', 'verify_peer', false);
-	//	stream_set_timeout($sockr, 30000000);
+//	stream_set_timeout($sockr, 30000000);
 	stream_context_set_option($sockr, 'ssl', 'allow_self_signed', true);
-	//	stream_context_set_option($sock, 'ssl', 'cafile', "/etc/httpd/conf/ssl.crt/server.crt");
+//	stream_context_set_option($sock, 'ssl', 'cafile', "/etc/httpd/conf/ssl.crt/server.crt");
 	stream_context_set_option($sockr, 'ssl', 'local_cert', "$sgbl->__path_program_root/file/internal_program.key");
 
 	if (!$sockr) {
@@ -539,7 +549,7 @@ function createLocalStream()
 	global $gbl, $sgbl, $login, $ghtml;
 	$sockl = stream_socket_server("tcp://127.0.0.1:{$sgbl->__var_local_port}");
 
-	//	stream_set_timeout($sockl, 30000000);
+//	stream_set_timeout($sockl, 30000000);
 
 	if (!$sockl) {
 		die("Could not local bind address\n");
@@ -576,7 +586,7 @@ function do_local()
 
 function some_server()
 {
-	/*
+/*
 	 $pid = myPcntl_fork();
 
 	 if (!$pid) {
@@ -584,7 +594,7 @@ function some_server()
 	 } else {
 		 do_local();
 	 }
- */
+*/
 	$sockr = createSslStream();
 	$sockl = createLocalStream();
 
@@ -627,7 +637,7 @@ function do_socket($socklist, $processfunc)
 		// The other members of the read array
 		foreach ($socklist as $sock) {
 			if (in_array($sock, $read)) {
-				//	dprintr($sock);
+			//	dprintr($sock);
 				$pid = pcntl_fork();
 
 				if ($pid === 0) {
@@ -644,7 +654,8 @@ function do_socket($socklist, $processfunc)
 					exit;
 				} else {
 					usleep(100 * 1000);
-					//	fclose($c);
+				//	fclose($c);
+
 					// Parent...
 				}
 			}
@@ -667,12 +678,13 @@ function process_single_command($mchildsock, $processfunc)
 		$input = fgets($mchildsock, 10);
 
 		if ($input == null) {
-			//	fclose($mchildsock);
+		//	fclose($mchildsock);
 
 			break;
 		}
 
-		//	dprintr($input . "\n");
+	//	dprintr($input . "\n");
+
 		$total .= $input;
 
 		if (csa($total, $exitchar)) {
@@ -695,13 +707,14 @@ function process_single_command($mchildsock, $processfunc)
 					$ret = true;
 				}
 			}
+
 			// dummy read but only if there was something written to the socket.
 			if ($ret) {
 				stream_set_timeout($mchildsock, 15);
 				fgets($mchildsock, 200);
 			}
 
-			//	fclose($mchildsock);
+		//	fclose($mchildsock);
 
 			break;
 		}
@@ -780,7 +793,8 @@ function process_server_input($total)
 		$list = explode("\n", $total);
 		$remoteuser = base64_decode($list[1]);
 		$remotepass = base64_decode($list[2]);
-		//	dprintr("Remote Password: $remotepass\n");
+
+	//	dprintr("Remote Password: $remotepass\n");
 
 		reload_slave_password();
 
@@ -794,6 +808,7 @@ function process_server_input($total)
 			$res->exception = new lxException("remote_authentication_failed", '');
 			$res->ddata = null;
 			$out = base64_encode(serialize($res));
+
 			return $out;
 		}
 	} else {
@@ -877,11 +892,11 @@ function myclone($object)
 	$newobject = new $class($object->__masterserver, $object->__readserver, $object->nname);
 
 	foreach ($object as $k => $v) {
-		/*
+	/*
 		 if (is_object($v)) {
 			 continue;
 		 }
-	 */
+	*/
 		$newobject->$k = $v;
 	}
 
@@ -905,11 +920,11 @@ function rl_exec($masterserver, $slaveserver, $cmd)
 	if ($cmd->action === "set" || $cmd->action === 'dowas') {
 		$robject = $cmd->robject;
 		$clo = myclone($robject);
-		//dprint("Just before $robject {$robject->nname} " . $robject->domain_l . "<br> ");
+	//	dprint("Just before $robject {$robject->nname} " . $robject->domain_l . "<br> ");
 		lxclass::clearChildrenAndParent($clo);
 		$clo->syncserver = $slaveserver;
 		$clo->createSyncClass();
-		//dprint("Just after $robject {$robject->nname} " . $robject->domain_l . "<br> ");
+	//	dprint("Just after $robject {$robject->nname} " . $robject->domain_l . "<br> ");
 		$cmd->robject = $clo;
 	}
 
@@ -968,7 +983,7 @@ function remote_main()
 		$login->get();
 	} else {
 		$login = new Client(null, null, 'slave');
-		//$login->initThisDef();
+	//	$login->initThisDef();
 		$gbl->is_slave = true;
 		$rmt = unserialize(lfile_get_contents("__path_slave_db"));
 		$login->password = $rmt->password;
@@ -976,7 +991,8 @@ function remote_main()
 
 	$login->cttype = 'admin';
 
-	// This is to prevent the socket already used error. If use a strict single interface, the socket operations happen through our own functions, and we can set the reuse option.
+	// This is to prevent the socket already used error. If use a strict single interface, 
+	// the socket operations happen through our own functions, and we can set the reuse option.
 
 	$rmt = unserialize(base64_decode($ghtml->frm_rmt));
 

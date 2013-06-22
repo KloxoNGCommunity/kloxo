@@ -21,8 +21,8 @@ if ($sgbl->is_this_master()) {
 monitor_load();
 collect_traffic();
 lxguard_main();
-add_to_log("/var/log/kloxo/smtp.log");
-add_to_log("/var/log/kloxo/courier");
+//add_to_log("/var/log/kloxo/smtp.log");
+//add_to_log("/var/log/kloxo/courier");
 
 
 

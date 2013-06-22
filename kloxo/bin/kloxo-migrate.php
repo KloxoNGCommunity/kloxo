@@ -19,7 +19,7 @@ change_lxadmin_to_kloxo("/etc/httpd/conf/httpd.conf");
 change_lxadmin_to_kloxo("/etc/php.ini");
 cp_rec_if_not_exists("/usr/lib/lxadminphp/", "/usr/lib/kloxophp");
 cp_rec_if_not_exists("/var/tinydns/root/lxadmin", "/var/tinydns/root/kloxo");
-lxfile_mkdir("/var/log/kloxo");
+//lxfile_mkdir("/var/log/kloxo");
 change_lxadmin_to_kloxo("/etc/syslog.conf");
 change_lxadmin_to_kloxo("/etc/init.d/courier-imap");
 change_lxadmin_to_kloxo("/usr/bin/lxredirecter.sh");

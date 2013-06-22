@@ -69,8 +69,12 @@ function save_xinetd_qmail()
 	if ($this->main->smtp_instance > 0) {
 		$instance = $this->main->smtp_instance;
 	} else {
-		$instance = "UNLIMITED";
+	//	$instance = "UNLIMITED";
+		$instance = "100";
 	}
+
+	lfile_put_contents("/var/qmail/control/concurrencyincoming", $instance);
+
 
 	if ($this->main->isOn('virus_scan_flag')) {
 		$ret = lxshell_return("rpm", "-q", "simscan-toaster");
@@ -104,6 +108,8 @@ function save_xinetd_qmail()
 	$bcont = str_replace("%virusscan%", $virus, $bcont);
 	$bcont = str_replace("%instance%", $instance, $bcont);
 
+/*
+	// MR -- no need additional port because qmail-toaster have port 25, 465 and 587
 	if ($this->main->additional_smtp_port > 0) {
         if ( !$this->main->isOn('alt_smtp_sdyke_flag') )
             $spamdyke = "";
@@ -116,6 +122,8 @@ function save_xinetd_qmail()
 		lxfile_rm("/etc/xinetd.d/kloxo_smtp_lxa");
 		remove_line("/etc/services", "kloxo_smtp");
 	}
+*/
+
     $bcont = str_replace("%spamdyke%", $spamdyke, $bcont);
     $cont = str_replace("%servicename%", "smtp", $bcont);
 //    lfile_put_contents("/etc/xinetd.d/smtp_lxa", $cont);

@@ -197,6 +197,8 @@ EOF;
 
 		$ret['used_s_memcached'] = $res['cached'] / $unit;
 
+		$ret['used_s_realused'] = ($res['memtotal'] - $res['memfree'] - $res['buffers'] - $res['cached']) / $unit;
+
 		// This is a hack to show the actual non-kloxo memory on openvz.
 		if ($sgbl->isKloxo()) {
 			if (lxfile_exists("/proc/user_beancounters")) {

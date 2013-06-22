@@ -25,7 +25,7 @@ $mypass = password_gen();
 
 $dbroot = "root";
 // MR -- always set to ''
-$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : '';
+$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : '""';
 // $dbpass = '';
 
 $osversion = find_os_version();
@@ -36,6 +36,10 @@ function lxins_main()
 	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
+	
+	// MR -- yum remove for make conflict!
+	
+	exec("yum remove bind* mysql* -y");
 
 //	$arch = trim( `arch` );
 //	$arch = php_uname('m');
@@ -312,7 +316,7 @@ function kloxo_vpopmail()
 
 	system("chmod -R 755 /var/log/httpd/");
 	system("chmod -R 755 /var/log/httpd/fpcgisock >/dev/null 2>&1");
-	system("mkdir -p /var/log/kloxo/");
+//	system("mkdir -p /var/log/kloxo/");
 	system("mkdir -p /var/log/news");
 }
 
@@ -339,31 +343,31 @@ function kloxo_install_step1()
 		print("Removing packages $list...\n");
 
 		foreach ($packages as $package) {
-			system("rpm -e --nodeps $package > /dev/null 2>&1");
+			system("rpm -e --nodeps $package >/dev/null 2>&1");
 		}
 
 		// MR -- force remove old lxphp (from lxcenter.repo)
-		system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
+		system("rpm -e lxphp-5.2.1-400.i386 --nodeps >/dev/null 2>&1");
 
 		if (isRpmInstalled('qmail-toaster')) {
 			// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
-			system("userdel lxpopuser > /dev/null 2>&1");
-			system("groupdel lxpopgroup > /dev/null 2>&1");
+			system("userdel lxpopuser >/dev/null 2>&1");
+			system("groupdel lxpopgroup >/dev/null 2>&1");
 
-			system("groupadd -g 89 vchkpw > /dev/null 2>&1");
-			system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' > /dev/null 2>&1");
+			system("groupadd -g 89 vchkpw >/dev/null 2>&1");
+			system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' >/dev/null 2>&1");
 		}
 
 		if (!file_exists("/etc/rc.d/init.d/djbdns")) {
 			$darr = array('axfrdns', 'dnscache', 'dnslog', 'tinydns');
 
 			foreach ($darr as &$d) {
-				system("rm -rf /home/{$d} > /dev/null 2>&1");
+				system("rm -rf /home/{$d} >/dev/null 2>&1");
 			}
 		}
 
 		// MR -- force remove postfix and their user
-		system("userdel postfix > /dev/null 2>&1");
+		system("userdel postfix >/dev/null 2>&1");
 
 		// MR -- for accept for php and apache branch rpm
 		$phpbranch = getPhpBranch();
@@ -522,8 +526,8 @@ function kloxo_install_step2()
 
 	check_default_mysql();
 
-	exec("cd {$kloxopath}/httpdocs/; lxphp.exe {$kloxopath}/bin/install/create.php " .
-		"--install-type={$installtype} --db-rootuser={$dbroot} --db-rootpassword={$dbpass}");
+	exec("cd {$kloxopath}/httpdocs/; /usr/local/lxlabs/ext/php/php {$kloxopath}/bin/install/create.php " .
+		"--install-type={$installtype} --db-rootuser={$dbroot} --db-rootpassword={$dbpass} >/dev/null 2>&1");
 }
 
 function kloxo_install_installapp()

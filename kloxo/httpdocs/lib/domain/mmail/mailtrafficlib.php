@@ -28,7 +28,7 @@ static function generateGraph($oldtime, $newtime)
 static function convertfile($oldtime, $newtime)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
-	$file =  '/var/log/kloxo/maillog';
+	$file =  '/var/log/maillog';
 	if (!lxfile_real($file)) { return null; }
 	$fp = fopen($file, "r");
 
@@ -69,8 +69,8 @@ static function findTotalmailQuota($driver, $list, $oldtime, $newtime)
 	global $gbl, $sgbl, $login, $ghtml; 
 	if(!isset($oldtime)) { return null; }
 
-	$file =  '/var/log/kloxo/maillog';
-	$processedir = "/var/log/kloxo";
+	$file =  '/var/log/maillog';
+	$processedir = "/var/log";
 
 	$convertedfile = self::convertfile($oldtime, $newtime);
 
@@ -85,8 +85,8 @@ static function findTotalmailQuota($driver, $list, $oldtime, $newtime)
 	lunlink($convertedfile);
 
 	self::rotateLog($processedir, $file);
-	self::rotateLog("/var/log/kloxo/", "/var/log/kloxo/courier");
-	self::rotateLog("/var/log/kloxo/", "/var/log/kloxo/smtp.log");
+//	self::rotateLog("/var/log/kloxo/", "/var/log/kloxo/courier");
+//	self::rotateLog("/var/log/kloxo/", "/var/log/kloxo/smtp.log");
 	return $tlist;
 }
 

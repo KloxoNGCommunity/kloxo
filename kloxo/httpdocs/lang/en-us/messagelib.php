@@ -86,7 +86,14 @@ $__information['sslcert_updateform_update_pre'] = "To assign this ssl certificat
 $__information['domain_not_customer'] = "To add a domain, create a customer first, and you can add domains under him. To add a customer, <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>click here </url>";
 $__information['ipaddress_list__pre'] = "Exclusive IP will allow you to have dedicated control of a particular ipaddress. This is useful for setting up SSL and also for setting up an ip for a domain. That is, if you want a particular IP to resolve to a domain. For you to have an exclusive IPaddress, the administrator will have to set the exclusive client of a particular ipaddress. To setup ssl or to map an IP to a domain, click on an IPaddress, and then click on [b] configure ssl [/b] or [b] configure domain [/b] ";
 $__information['clientmail_list__pre'] = "This will list the number of mails sent out by your clients via the webserver or smtp auth relay in the last 2 days. If it is a full mailaccount like [b] user@domain.com [/b], then it represents mail sent via relay. If it is a simple username, then it represents mail sent via a form in the web server. If you use mod_php on apache, then all webapplications are run as user [b] apache [/b] , and only [b] apache [/b] will be displayed here. Use suPHP on apache, if you are planning on hosting for third parties. That way you will be able to identify each client using his system user.";
-$__information['servermail_updateform_update_pre'] = "It is very essential that you set the my name to a properly resolvable hostname, since otherwise, many public mailservers like hotmail will reject mails from your server. You can have the mail server running on additional port by specifying it here. Leave it blank to to disable additional smtp. The max smtp instances specifies the maximum number of smtp processes that are allowed. You should set it to some number, say 10, if you are getting spammed heavily. If you leave it blank, it will be set to UNLIMITED, which is the default.";
+
+$__information['servermail_updateform_update_pre'] = "It is very essential that you set the my name to " .
+	"a properly resolvable hostname, since otherwise, many public mailservers like hotmail will " .
+	"reject mails from your server. You can have the mail server running on additional port by " .
+	"specifying it here. Leave it blank to to disable additional smtp.<br /><br />The max smtp instances " .
+	"specifies the maximum number of smtp processes that are allowed. You should set it to some number, " .
+	"say 10, if you are getting spammed heavily. If you leave it blank, it will be set to UNLIMITED, which is the default.<br /><br />" .
+	"[b]REMARK[/b]: You can choose port 25, 465 or 587 for SMTP.";
 
 $__information['updateform_switchprogram_pre'] = "Switching Programs will take a while, since it needs to remove the old program from the system, " . 
 	"and install the new one using yum. The log for this will be available in the shell_exec file. " .

@@ -55,7 +55,7 @@ static function readsmtpLog()
 
 	$date = time() - 24 * 3600 * 2;
 
-	$logfile = "/var/log/kloxo/smtp.log";
+	$logfile = "/var/log/smtp.log";
 	$fp = fopen($logfile, "r");
 	$fsize = lxfile_size($logfile);
 
@@ -90,7 +90,7 @@ static function readMaillog()
 {
 	$date = time() - 24 * 3600 * 2;
 
-	$logfile = "/var/log/kloxo/maillog";
+	$logfile = "/var/log/maillog";
 	$fp = fopen($logfile, "r");
 	$fsize = lxfile_size($logfile);
 	FindRightPosition($fp, $fsize, $date, time(), array("mailtraffic", "getTimeFromOriginalQmailString"));

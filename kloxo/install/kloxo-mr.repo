@@ -73,11 +73,12 @@ exclude=php52*
 
 [kloxo-mr-ius-c5]
 name=Kloxo-MR - IUS Community Packages for EL 5 (special) - $basearch
-baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/5/$basearch
-mirrorlist=http://dmirr.iuscommunity.org/mirrorlist/?repo=ius-el5&arch=$basearch
+baseurl=http://dl.iuscommunity.org/pub/ius/archive/CentOS/5/$basearch
 enabled=1
 gpgcheck=0
 includepkgs=php52*
+
+http://dl.iuscommunity.org/pub/ius/archive/CentOS/5/$basearch
 
 # ==================================
 

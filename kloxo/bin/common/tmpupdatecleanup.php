@@ -30,7 +30,7 @@ function updatecleanup_main()
 		$sgbl->slave = false;
 		
 		if (!is_secondary_master()) {
-			updateDatabaseProperly();
+		//	updateDatabaseProperly();
 			fixDataBaseIssues();
 			doUpdates();
 			lxshell_return("__path_php_path", "../bin/common/driverload.php");
@@ -120,7 +120,7 @@ function updatecleanup_main()
 
 	log_cleanup("*** Executing Update (cleanup) - END ***");
 	
-	print("\nClick 'Enter' to finishing this process\n");
+//	print("\nClick 'Enter' to finishing this process\n");
 }
 
 function cp_dbfile()

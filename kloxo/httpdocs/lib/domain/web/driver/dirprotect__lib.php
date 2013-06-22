@@ -26,7 +26,9 @@ class dirprotect__ extends lxDriverClass
 		$dir = '__path_httpd_root/' . $this->main->getParentName() . '/__dirprotect';
 		$dirfile = $dir . '/' . $this->main->getFileName();
 
-		$chownug = $this->main->__var_username . ':apache';
+		// MR -- need apache:apache to able access
+	//	$chownug = $this->main->__var_username . ':apache';
+		$chownug = 'apache:apache';
 
 		if (!lxfile_exists($dir)) {
 			lxuser_mkdir($chownug, $dir);

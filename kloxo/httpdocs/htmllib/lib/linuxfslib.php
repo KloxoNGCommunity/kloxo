@@ -620,6 +620,10 @@ function lxfile_unix_chmod($file, $mod)
 
 function lxfile_unix_chown($file, $mod)
 {
+	if (!lxfile_exists($file)) {
+		return 0;
+	}
+
 	$file = expand_real_root($file);
 	log_filesys("Chown $file to $mod");
 

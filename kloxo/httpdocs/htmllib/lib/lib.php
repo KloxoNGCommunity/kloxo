@@ -864,9 +864,6 @@ function PrepareHordeDb($nolog = null)
 
 	$cfgfile = "{$hordepath}/config/conf.php";
 
-//	lxfile_cp("/usr/local/lxlabs/kloxo/file/horde.config.phps", $cfgfile);
-//	exec("chattr -i {$cfgfile}");
-
 	log_cleanup("- Generating password", $nolog);
 	$pass = randomString(8);
 	log_cleanup("- Add password to configuration file", $nolog);
@@ -945,11 +942,14 @@ function PrepareAfterlogicDb($nolog = null)
 
 	$content = lfile_get_contents($cfgfile);
 	$content = str_replace("<DBPassword>afterlogic</DBPassword>", "<DBPassword>{$pass}</DBPassword>", $content);
+	$content = str_replace("<AdminPassword>afterlogic</AdminPassword>", "<AdminPassword>{$pass}</AdminPassword>", $content);
 
 	lfile_put_contents($cfgfile, $content);
 
 	$result = mysql_query("GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'", $link);
 	mysql_query("flush privileges", $link);
+
+	lfile_put_contents($cfgfile, $content);
 
 	if (!$result) {
 		print("- Could not grant privileges. Script Abort");
@@ -2744,6 +2744,8 @@ function curl_get_file_contents($file)
 
 function install_if_package_not_exist($name)
 {
+	if ($name === '') { return; }
+
 	$ret = lxshell_return("rpm", "-q", $name);
 	if ($ret) {
 		lxshell_return("yum", "-y", "install", $name);
@@ -3892,6 +3894,9 @@ function getAllIpaddress()
 
 function updateDatabaseProperly()
 {
+	// MR -- no need because using .sql file
+	return;
+
 	$var = parse_sql_data();
 
 	foreach ($var as $table => $content) {
@@ -3911,6 +3916,9 @@ function updateDatabaseProperly()
 
 function dofixParentClname()
 {
+	// MR -- no need because using .sql file
+	return;
+
 	$var = parse_sql_data();
 
 	foreach ($var as $table => $content) {
@@ -6005,12 +6013,24 @@ function setCheckPackages($nolog = null)
 	$phpbranch = getRpmBranchInstalled('php');
 
 	log_cleanup("Checking for rpm packages", $nolog);
+	
+	if (isRpmInstalled("dovecot-toaster")) {
+		$imap_rpm = "";
+	} else {
+		$imap_rpm = "courier-imap-toaster";
+	}
 
-	$list = array("maildrop-toaster", "spamdyke", "spamdyke-utils", "pure-ftpd",
-		"webalizer", "{$phpbranch}-mcrypt", "dos2unix", "rrdtool",
-		"xinetd", "lxjailshell", "{$phpbranch}-xml", "libmhash", "lxphp");
+	$list = array("autorespond-toaster", "courier-authlib-toaster",
+		$imap_rpm, "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
+		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
+		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", 
+		"spamdyke", "spamdyke-utils", "pure-ftpd",
+		"php", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell",  "libmhash", "lxphp");
 
 	foreach ($list as $l) {
+		if ($l === '') { continue; }
+
 		log_cleanup("- For {$l} package", $nolog);
 		install_if_package_not_exist($l);
 	}
@@ -6122,10 +6142,10 @@ function setSomePermissions($nolog = null)
 	log_cleanup("- Set permissions for closeallinput binary", $nolog);
 	lxfile_unix_chmod("../cexe/closeallinput", "0755");
 
-	log_cleanup("- Set permissions for lxphpsu binary", $nolog);
-	lxfile_unix_chown("../cexe/lxphpsu", "root:root");
-	lxfile_unix_chmod("../cexe/lxphpsu", "0755");
-	lxfile_unix_chmod("../cexe/lxphpsu", "ug+s");
+//	log_cleanup("- Set permissions for lxphpsu binary", $nolog);
+//	lxfile_unix_chown("../cexe/lxphpsu", "root:root");
+//	lxfile_unix_chmod("../cexe/lxphpsu", "0755");
+//	lxfile_unix_chmod("../cexe/lxphpsu", "ug+s");
 
 	log_cleanup("- Set permissions for phpsuexec.sh script", $nolog);
 	lxfile_unix_chmod("../file/phpsuexec.sh", "0755");
@@ -6327,10 +6347,15 @@ function updateApplicableToSlaveToo()
 
 function fix_secure_log($nolog = null)
 {
+	if (!file_exists("var/log/secure")) { return; }
+	
 	log_cleanup("Fix secure log", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxfile_mv("/var/log/secure", "/var/log/secure.lxback");
+	if (file_exists("var/log/secure")) {
+		lxfile_mv("/var/log/secure", "/var/log/secure.lxback");
+	}
+	
 	lxfile_cp("../file/linux/syslog.conf", "/etc/syslog.conf");
 	createRestartFile('syslog');
 }

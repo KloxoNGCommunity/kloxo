@@ -68,6 +68,7 @@ function createShowSclist()
 		'php-fpm/error.log' => 'PHP-FPM Error', 'php-fpm/slow.log' => 'PHP-FPM Slow', 
 		'mysqld.log' => 'MySQL');
 */
+/*
 	$sclist['ffile'] = array(
 	//	'/usr/local/lxlabs/ext/php/error.log' => 'LxPhp Error',
 		'audit/audit.log' => 'Audit',
@@ -80,12 +81,31 @@ function createShowSclist()
 		'qmail/pop3-ssl/current' => 'Qmail-toaster POP3-SSL',
 		'qmail/send/current' => 'Qmail-toaster Send',
 		'qmail/smtp/current' => 'Qmail-toaster SMTP',
+		'qmail/smtp-ssl/current' => 'Qmail-toaster SMTP-SSL',
 		'qmail/spamd/current' => 'Qmail-toaster Spamd',
 		'qmail/submission/current' => 'Qmail-toaster Submission',
 		'httpd/access_log' => 'HTTP Access', 'httpd/error_log' => 'HTTP Error', 
 		'nginx/access.log' => 'Nginx Access', 'nginx/error.log' => 'Nginx Error', 
 		'lighttpd/access.log' => 'Lighttpd Access', 'lighttpd/error.log' => 'Lighttpd Error', 
 		'php-fpm/error.log' => 'PHP-FPM Error', 'php-fpm/slow.log' => 'PHP-FPM Slow', 
+		'mysqld.log' => 'MySQL',
+		'pureftpd.log' => 'Pure-ftp',
+		'rkhunter/rkhunter.log' => 'RKHunter');
+*/
+	// MR -- only list maillog because change multilog to splogger for qmail-toaster
+	$sclist['ffile'] = array(
+	//	'/usr/local/lxlabs/ext/php/error.log' => 'LxPhp Error',
+		'audit/audit.log' => 'Audit',
+		'clamav/freshclam.log' => 'Freshclam',
+		'maillog' => 'Mail log',
+		'httpd/access_log' => 'HTTP Access',
+		'httpd/error_log' => 'HTTP Error', 
+		'nginx/access.log' => 'Nginx Access',
+		'nginx/error.log' => 'Nginx Error', 
+		'lighttpd/access.log' => 'Lighttpd Access',
+		'lighttpd/error.log' => 'Lighttpd Error', 
+		'php-fpm/error.log' => 'PHP-FPM Error',
+		'php-fpm/slow.log' => 'PHP-FPM Slow', 
 		'mysqld.log' => 'MySQL',
 		'pureftpd.log' => 'Pure-ftp',
 		'rkhunter/rkhunter.log' => 'RKHunter');

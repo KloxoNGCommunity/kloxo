@@ -461,10 +461,12 @@ class pservercore extends Lxclient
 		}
 
 		/// Rlist takes an array...
-		$rlist[] = array('memory_usage', "Memory:Memory Usage (MB)", $l['used_s_memory'], $l['priv_s_memory']);
+		$rlist[] = array('memory_usage', "Total Mem:Memory Usage (MB)", $l['used_s_memory'], $l['priv_s_memory']);
 
-		$rlist[] = array('membuffers_usage', "Buffers:Memory Buffers Usage (MB)", $l['used_s_membuffers'] . ' MB', '-');
-		$rlist[] = array('memcached_usage', "Cached:Memory Cached Usage (MB)", $l['used_s_memcached'] . ' MB', '-');
+		$rlist[] = array('membuffers_usage', "Buffers:Memory Buffers Usage (MB)", $l['used_s_membuffers'] . ' MB', $l['priv_s_memory'] . ' MB');
+		$rlist[] = array('memcached_usage', "Cached:Memory Cached Usage (MB)", $l['used_s_memcached'] . ' MB', $l['priv_s_memory'] . ' MB');
+
+		$rlist[] = array('real_usage', "Real Mem:Real Usage (MB)", $l['used_s_realused'] . ' MB', $l['priv_s_memory'] . ' MB');
 
 		if (isset($l['used_s_swap'])) {
 			$rlist[] = array('swap_usage', "Swap:Swap Usage (MB)", $l['used_s_swap'], $l['priv_s_swap']);

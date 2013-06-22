@@ -9,8 +9,7 @@
 #
 # add and modified by Mustafa Ramadhan <mustafa.ramadhan@lxcenter.org>
 
-#/var/log/kloxo/maillog /var/log/kloxo/courier /var/log/qmail/*/current /var/log/pureftpd.log {
-/var/log/pureftpd.log {
+/var/log/qmail/*/current /var/log/pureftpd.log {
         daily
         rotate 30
         create

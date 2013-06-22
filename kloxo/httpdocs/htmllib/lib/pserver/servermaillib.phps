@@ -32,7 +32,7 @@ static $__desc_spamdyke_flag = array("f", "",  "enable_spamdyke");
 static $__desc_domainkey_flag = array("f", "",  "enable_domainkey");
 static $__desc_smtp_instance = array("", "",  "max_smtp_instances");
 static $__desc_max_size = array("", "",  "max_mail_attachment_size(bytes)");
-static $__desc_additional_smtp_port = array("", "",  "additional_smtp_port");
+//static $__desc_additional_smtp_port = array("", "",  "additional_smtp_port");
 static $__desc_virus_scan_flag = array("f", "",  "enable_virus_scan");
 static $__acdesc_update_update = array("", "",  "server_mail_settings");
 static $__acdesc_update_spamdyke = array("", "",  "spamdyke");
@@ -87,18 +87,28 @@ function updateform($subaction, $param)
 			$vlist['myname'] = null;
 			//$vlist['enable_maps'] = null;
 			$vlist['spamdyke_flag'] = null;
+
 		//	if (csa($this->getParentO()->osversion, " 5")) {
 				$vlist['domainkey_flag'] = null;
 				$vlist['virus_scan_flag'] = null;
+
 				if (!$this->max_size) {
 					$this->max_size = "20971520";
 				}
+
 				$vlist['max_size'] = null;
 		//	}
+
 			$vlist['queuelifetime'] = null;
+
+			if (!$this->smtp_instance) {
+				$this->smtp_instance = lfile_get_contents("/var/qmail/control/concurrencyincoming");
+			}
+			
 			$vlist['smtp_instance'] = null;
-			$vlist['additional_smtp_port'] = null;
-			$vlist['alt_smtp_sdyke_flag'] = null;
+
+		//	$vlist['additional_smtp_port'] = null;
+		//	$vlist['alt_smtp_sdyke_flag'] = null;
 
 			$this->postUpdate($subaction);
 
