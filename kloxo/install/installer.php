@@ -25,7 +25,7 @@ $mypass = password_gen();
 
 $dbroot = "root";
 // MR -- always set to ''
-$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : '""';
+$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : '';
 // $dbpass = '';
 
 $osversion = find_os_version();
@@ -36,10 +36,6 @@ function lxins_main()
 	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
-	
-	// MR -- yum remove for make conflict!
-	
-	exec("yum remove bind* mysql* -y");
 
 //	$arch = trim( `arch` );
 //	$arch = php_uname('m');
@@ -316,7 +312,7 @@ function kloxo_vpopmail()
 
 	system("chmod -R 755 /var/log/httpd/");
 	system("chmod -R 755 /var/log/httpd/fpcgisock >/dev/null 2>&1");
-//	system("mkdir -p /var/log/kloxo/");
+	system("mkdir -p /var/log/kloxo/");
 	system("mkdir -p /var/log/news");
 }
 
@@ -343,31 +339,31 @@ function kloxo_install_step1()
 		print("Removing packages $list...\n");
 
 		foreach ($packages as $package) {
-			system("rpm -e --nodeps $package >/dev/null 2>&1");
+			system("rpm -e --nodeps $package > /dev/null 2>&1");
 		}
 
 		// MR -- force remove old lxphp (from lxcenter.repo)
-		system("rpm -e lxphp-5.2.1-400.i386 --nodeps >/dev/null 2>&1");
+		system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
 
 		if (isRpmInstalled('qmail-toaster')) {
 			// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
-			system("userdel lxpopuser >/dev/null 2>&1");
-			system("groupdel lxpopgroup >/dev/null 2>&1");
+			system("userdel lxpopuser > /dev/null 2>&1");
+			system("groupdel lxpopgroup > /dev/null 2>&1");
 
-			system("groupadd -g 89 vchkpw >/dev/null 2>&1");
-			system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' >/dev/null 2>&1");
+			system("groupadd -g 89 vchkpw > /dev/null 2>&1");
+			system("useradd -u 89 -G vchkpw vpopmail -s '/sbin/nologin' > /dev/null 2>&1");
 		}
 
 		if (!file_exists("/etc/rc.d/init.d/djbdns")) {
 			$darr = array('axfrdns', 'dnscache', 'dnslog', 'tinydns');
 
 			foreach ($darr as &$d) {
-				system("rm -rf /home/{$d} >/dev/null 2>&1");
+				system("rm -rf /home/{$d} > /dev/null 2>&1");
 			}
 		}
 
 		// MR -- force remove postfix and their user
-		system("userdel postfix >/dev/null 2>&1");
+		system("userdel postfix > /dev/null 2>&1");
 
 		// MR -- for accept for php and apache branch rpm
 		$phpbranch = getPhpBranch();
@@ -479,7 +475,7 @@ function kloxo_install_step1()
 	setUsingMyIsam();
 
 	if (!isMysqlRunning()) {
-		system("service mysqld start");
+		actionMySql('start');
 	}
 }
 
@@ -502,7 +498,6 @@ function kloxo_install_step2()
 		exec("mkdir -p {$kloxopath}/etc/slavedb");
 	}
 
-/*
 	if (!file_exists("{$kloxopath}/etc/slavedb/dbadmin")) {
 		if (strlen($dbpass) === 0) {
 			$dbpassins = '""';
@@ -514,9 +509,9 @@ function kloxo_install_step2()
 			strlen($dbpass) . ':"' . $dbpassins . '";}}}';
 		exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
 	}
-*/
-	$dbadmindata = 'O:6:"Remote":1:{s:4:"data";a:1:{s:5:"mysql";a:1:{s:10:"dbpassword";s:0:"";}}}';
-	exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
+
+//	$dbadmindata = 'O:6:"Remote":1:{s:4:"data";a:1:{s:5:"mysql";a:1:{s:10:"dbpassword";s:0:"";}}}';
+//	exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
 		
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
@@ -525,9 +520,11 @@ function kloxo_install_step2()
 	}
 
 	check_default_mysql();
+	
+	chdir("{$kloxopath}/httpdocs/");
 
-	exec("cd {$kloxopath}/httpdocs/; /usr/local/lxlabs/ext/php/php {$kloxopath}/bin/install/create.php " .
-		"--install-type={$installtype} --db-rootuser={$dbroot} --db-rootpassword={$dbpass} >/dev/null 2>&1");
+	exec("lxphp.exe {$kloxopath}/bin/install/create.php " .
+		"--install-type={$installtype} --db-rootuser={$dbroot} --db-rootpassword={$dbpass}");
 }
 
 function kloxo_install_installapp()
@@ -574,7 +571,7 @@ function kloxo_install_before_bye()
 	//--- Prevent mysql socket problem (especially on 64bit system)
 	if (!file_exists("/var/lib/mysql/mysql.sock")) {
 		print("Create mysql.sock...\n");
-		actionMysql("stop");
+		actionMysql('stop');
 		system("mksock /var/lib/mysql/mysql.sock");
 		actionMysql('start');
 	}
@@ -597,42 +594,50 @@ function kloxo_install_bye()
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
-	print("\nCongratulations. Kloxo-MR has been installed succesfully as $installtype\n\n");
+		$t  = "\n";
+		$t .= " _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ "."\n";
+		$t .= " _/                                                                          _/ "."\n";
+		$t .= " _/ Congratulations. Kloxo-MR has been installed succesfully as 'MASTER'     _/ "."\n";
+		$t .= " _/                                                                          _/ "."\n";
+
 	if ($installtype === 'master') {
-		print("You can connect to the server at:\n");
-		print("	https://<ip-address>:7777 - secure ssl connection, or\n");
-		print("	http://<ip-address>:7778 - normal one.\n\n");
-		print("The login and password are 'admin' 'admin' for new install.\n");
-		print("After Logging in, you will have to change your password to \n");
-		print("something more secure\n\n");
+		$t .= " _/ You can connect to the server at:                                        _/ "."\n";
+		$t .= " _/ https://<ip-address>:7777 - secure ssl connection, or                    _/ "."\n";
+		$t .= " _/ http://<ip-address>:7778 - normal one.                                   _/ "."\n";
+		$t .= " _/                                                                          _/ "."\n";
+		$t .= " _/ The login and password are 'admin' and 'admin' for new install.          _/ "."\n";
+		$t .= " _/ After Logging in, you will have to change your password to               _/ "."\n";
+		$t .= " _/ something more secure.                                                   _/ "."\n";
+		$t .= " _/                                                                          _/ "."\n";
 	} else {
-		print("You should open the port 7779 on this server, since this is used for\n");
-		print("the communication between master and slave\n\n");
-		print("To access this slave, to go admin->servers->add server,\n");
-		print("give the ip/machine name of this server. The password is 'admin'.\n\n");
-		print("The slave will appear in the list of slaves, and you can access it\n");
-		print("just like you access localhost\n\n");
+		$t .= " _/ You should open the port 7779 on this server, since this is used for     _/ "."\n";
+		$t .= " _/ the communication between master and slave                               _/ "."\n";
+		$t .= " _/                                                                          _/ "."\n";
+		$t .= " _/ To access this slave, to go admin->servers->add server,                  _/ "."\n";
+		$t .= " _/ give the ip/machine name of this server. The password is 'admin'.        _/ "."\n";
+		$t .= " _/                                                                          _/ "."\n";
+		$t .= " _/ The slave will appear in the list of slaves, and you can access it       _/ "."\n";
+		$t .= " _/ just like you access localhost                                           _/ "."\n";
+		$t .= " _/                                                                          _/ "."\n";
 	}
 
-	print("\n");
-	print("---------------------------------------------\n");
-	print("\n");
-
 	if ($kloxostate !== 'none') {
-		print("- Need running 'sh /script/cleanup' for update\n\n");
+		$t .= " _/ - Need running 'sh /script/cleanup' for update                           _/ "."\n";
 	}
 
 	if ($installstep === '2') {
-		print("- Better reboot for fresh install\n\n");
-		print("- Run 'sh /script/make-slave' for change to 'SLAVE'\n\n");
+		$t .= " _/ - Better reboot for fresh install                                        _/ "."\n";
+		$t .= " _/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/ "."\n";
 	}
 
 	if (isRpmInstalled('qmail')) {
-		print("---------------------------------------------\n");
-		print("\n");
-		print("- Because still using qmail from lxcenter,\n");
-		print("  run 'sh /script/convert-to-qmailtoaster'\n\n");
+		$t .= " _/ - Run 'sh /script/convert-to-qmailtoaster' to convert qmail-toaster      _/ "."\n";
 	}
+
+		$t .= " _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ "."\n";
+		$t .= "\n";
+
+	print($t);
 }
 
 // ==== kloxo_common portion ===
@@ -909,7 +914,7 @@ function setUsingMyIsam()
 	$mysqlver = getRpmVersion('mysql');
 
 	if (version_compare($mysqlver, '5.5.0', ">=")) {
-		// MR MySQL (also MariaDB) no permit 'skip-innodb'
+		// MR -- MySQL (also MariaDB) no permit 'skip-innodb'
 		return false;
 	}
 
@@ -947,9 +952,9 @@ function setUsingMyIsam()
 function isMysqlRunning()
 {
 	if (file_exists("/etc/rc.d/init.d/mysql")) {
-		exec("service mysql status|grep -i 'running'", $out, $ret);
+		exec("service mysql status|grep -i '(pid'", $out);
 	} else {
-		exec("service mysqld status|grep -i 'running'", $out, $ret);
+		exec("service mysqld status|grep -i '(pid'", $out);
 	}
 
 	if ($out) {
@@ -1009,7 +1014,9 @@ function check_default_mysql()
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
-	system("service mysqld restart");
+	if (!isMysqlRunning()) {
+		actionMySql('start');
+	}
 
 	if ($dbpass !== '') {
 		exec("echo \"show tables\" | mysql -u {$dbroot} -p\"{$dbpass}\" mysql", $out, $return);

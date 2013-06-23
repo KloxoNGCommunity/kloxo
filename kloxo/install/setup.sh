@@ -129,7 +129,10 @@ else
 fi
 
 # Start install
+
 yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
+
+yum remove bind* mysql* -y
 
 if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
 	if [ -f /usr/bin/php ] ; then
@@ -152,8 +155,9 @@ fi
 # Fix issue because sometimes kloxo database not created
 if [ $APP_TYPE == 'master' ] ; then
 	if [ ! -d /var/lib/mysql/kloxo ] ; then
-		echo "Creating 'kloxo database'..."
-	#	sleep 10
+		echo ""
+		echo "Wait for final process..."
+		echo ""
 		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
 	fi
 fi
