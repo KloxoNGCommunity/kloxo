@@ -1,0 +1,7 @@
+#!/bin/sh
+rm -rf ./env/*;
+
+cat /etc/courier/authlib/authdaemonrc | /usr/bin/envconv
+
+exec /usr/bin/envdir ./env/ \
+	/usr/libexec/courier-authlib/authdaemond 2>&1

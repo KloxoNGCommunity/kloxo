@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec /usr/bin/setuidgid clamav /usr/sbin/clamd 2>&1

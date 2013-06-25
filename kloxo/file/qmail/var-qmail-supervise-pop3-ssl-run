@@ -1,0 +1,24 @@
+#!/bin/sh
+
+HOSTNAME=`hostname --fqdn`
+
+rm -rf "./env/*";
+cat /etc/courier/pop3d-ssl | /usr/bin/envconv
+
+### MR -- incresing SOFTLIMITVAR if not enough (example: because 'login fail')
+if [ `uname -m` = 'x86_64' ] ; then
+	SOFTLIMITVAR="64000000"
+else
+	SOFTLIMITVAR="16000000"
+fi
+
+IP=0
+PORT=995
+
+exec /usr/bin/envdir ./env/ \
+	/usr/bin/softlimit -m $SOFTLIMITVAR \
+	/usr/bin/tcpserver -v -R -H -l $HOSTNAME $IP $PORT \
+	/usr/bin/couriertls -server -tcpd \
+	/usr/sbin/pop3login \
+	/usr/bin/pop3d Maildir 2>&1
+

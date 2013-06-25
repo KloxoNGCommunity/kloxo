@@ -1,0 +1,41 @@
+#!/bin/sh
+
+QMAILDUID=`id -u qmaild`
+NOFILESGID=`id -g qmaild`
+MAXSMTPD=`cat /var/qmail/control/concurrencyincoming`
+BLACKLIST=`cat /var/qmail/control/blacklists`
+SMTPD="/var/qmail/bin/qmail-smtpd"
+TCP_CDB="/etc/tcprules.d/tcp.smtp.cdb"
+RBLSMTPD="/usr/bin/rblsmtpd"
+HOSTNAME=`hostname`
+VCHKPW="/home/vpopmail/bin/vchkpw"
+RECORDIO="/usr/bin/recordio"
+
+### MR -- incresing SOFTLIMITVAR if not enough (example: because 'login fail')
+if [ `uname -m` = 'x86_64' ] ; then
+	SOFTLIMITVAR="72000000"
+else
+	SOFTLIMITVAR="18000000"
+fi
+
+IP=0
+PORT=465
+
+### MR -- SSL must using SMTPS=1 and SSL=1 but non-SSL only SSL=0 (without SMTPS=0)
+export SMTPAUTH="!" \
+	SMTPS=1 \
+	SSL=1 \
+	REQUIRE_AUTH=0 \
+	FORCE_TLS=0 \
+	DENY_TLS=0 \
+	AUTH=1 \
+	REQUIRE_AUTH=0 \
+	ALLOW_INSECURE_AUTH=0
+
+### MR -- spamhaus.org recommended for not using $RBLSMTPD $BLACKLIST entry before $SMTPD
+exec /usr/bin/softlimit -m $SOFTLIMITVAR \
+	/usr/bin/tcpserver -v -R -H -l $HOSTNAME -x $TCP_CDB -c "$MAXSMTPD" \
+	-u "$QMAILDUID" -g "$NOFILESGID" $IP $PORT $RECORDIO \
+	$SMTPD $VCHKPW /bin/true 2>&1
+
+

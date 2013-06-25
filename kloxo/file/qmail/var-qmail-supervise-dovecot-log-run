@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#VQ="/var/qmail"
+
+#exec env - PATH="$VQ/bin:/usr/local/bin:/usr/bin:/bin" \
+#	multilog t n1024 s1048576 /var/log/dovecot
+
+exec /usr/bin/setuidgid qmaill \
+	/var/qmail/bin/splogger dovecot 2>&1
