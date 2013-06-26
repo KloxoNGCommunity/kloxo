@@ -42,6 +42,7 @@ function application_update()
 	$rmt = unserialize($string);
 
 	if (!$rmt) { 
+		exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 		throw new lxexception(" could_not_get_application_version_list", '', "");
 	}
 

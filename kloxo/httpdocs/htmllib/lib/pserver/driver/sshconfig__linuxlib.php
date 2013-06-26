@@ -40,11 +40,13 @@ function dbactionUpdate($subaction)
 	$str = str_replace("%permit_root_login%", $wt , $str);
 	$str = str_replace("%permit_password%", $pwa , $str);
 	$ret = lfile_put_contents("/etc/ssh/sshd_config", $str);
+
 	if (!$ret) {
+		exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 		throw new lxException('could_not_write_config_file', '', '');
 	}
-	exec_with_all_closed("/etc/init.d/sshd restart");
 
+	exec_with_all_closed("/etc/init.d/sshd restart");
 }
 
 

@@ -53,6 +53,7 @@ function dbactionAdd()
 	if ($this->main->dbname) {
 		$__tmpr = mysql_connect($this->main->realhost, $this->main->dbuser, $this->main->dbpass);
 		if (!$__tmpr) {
+			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('could_not_connect_to_mysql_server_from_the_web_server', '', '' );
 		}
 	}
@@ -70,6 +71,7 @@ function dbactionAdd()
 		$type = os_getZipType($tf);
 		if ($type !== "zip") {
 			lxfile_rm($tf);
+			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('could_not_download_application_archive', '', '');
 		}
 
@@ -90,6 +92,7 @@ function dbactionAdd()
 
 	if (!lxfile_exists("$dompath/{$res['installdir']}/__kloxo/lxinstaller.inc")) {
 		if (!lxfile_exists("$dompath/{$res['installdir']}/lxinstaller.inc")) {
+			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('could_not_copy_to_domain_root', '', '' );
 		} else {
 			$file = "$dompath/{$res['installdir']}/lxinstaller.inc";
@@ -103,6 +106,7 @@ function dbactionAdd()
 	}
 
 	if (!function_exists("__lxinstaller_{$this->main->appname}")) {
+		exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 		throw new lxException('could_not_copy_document_root', '', '' );
 	}
 

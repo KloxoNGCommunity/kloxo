@@ -169,6 +169,7 @@ class Mmail__Qmail extends lxDriverClass
 		$ret = lxshell_return($sys_cmd, $this->main->nname);
 
 		if (!$ret) {
+			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException("could_not_delete_domain", '');
 		}
 
@@ -224,6 +225,7 @@ class Mmail__Qmail extends lxDriverClass
 		$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
 
 		if ($ret) {
+			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException("could_not_add_mail", 'mailpserver', $global_shell_error);
 		}
 

@@ -231,6 +231,8 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 	$res = unserialize(base64_decode($totalout));
 
 	if (!$res) {
+	
+		exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 		throw new lxException('could_not_connect_to_server', 'syncserver', $machine);
 	}
 

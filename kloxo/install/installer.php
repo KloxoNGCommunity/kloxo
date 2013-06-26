@@ -165,9 +165,11 @@ function install_general_mine($value)
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
-	$value = implode(" ", $value);
-	print("Installing $value ....\n");
-	system("PATH=\$PATH:/usr/sbin yum -y install $value");
+	if (!isRpmInstalled($value)) {
+		$value = implode(" ", $value);
+		print("Installing $value ....\n");
+		system("PATH=\$PATH:/usr/sbin yum -y install $value");
+	}
 }
 
 function installcomp_mail()

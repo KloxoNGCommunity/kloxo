@@ -47,6 +47,8 @@ function lx_mysql_connect($server, $dbadmin, $dbpass)
 	$rdb = mysql_connect('localhost', $dbadmin, $dbpass);
 	if (!$rdb) {
 		log_error(mysql_error());
+		
+		exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 		throw new lxException('could_not_connect_to_db_admin', '', '');
 	}
 	return $rdb;
