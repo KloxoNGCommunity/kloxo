@@ -969,6 +969,20 @@ function PrepareSquirrelmailDb($nolog = null)
 	log_cleanup("- No need database", $nolog);
 }
 
+function PrepareTelaenDb($nolog = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	log_cleanup("Preparing Telaen Database", $nolog);
+	log_cleanup("- No need database", $nolog);
+
+	$tdahpath = "/home/kloxo/httpd/webmail/telaen";
+
+	lxfile_cp("{$tdahpath}/inc/config/telaen_config.php", "{$tdahpath}/inc/config/config.php");
+	lxfile_cp("{$tdahpath}/inc/config/telaen_config.languages.php", "{$tdahpath}/inc/config/config.languages.php");
+	lxfile_cp("{$tdahpath}/inc/config/telaen_config.security.php", "{$tdahpath}/inc/config/config.security.php");
+}
+
 function run_mail_to_ticket()
 {
 	global $gbl, $sgbl, $login, $ghtml;
@@ -6408,7 +6422,12 @@ function installRoundCube($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_roundcube = "$sgbl->__path_kloxo_httpd_root/webmail/roundcube";
+	$path_roundcube = "$path_webmail/roundcube";
+	
+	if (!file_exists($path_roundcube)) {
+		log_cleanup("RoundCube webmail no exists", $nolog);
+		return;
+	}
 
 	PrepareRoundCubeDb($nolog);
 
@@ -6427,7 +6446,12 @@ function installHorde($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_horde = "$sgbl->__path_kloxo_httpd_root/webmail/horde";
+	$path_horde = "$path_webmail/webmail/horde";
+
+	if (!file_exists($path_horde)) {
+		log_cleanup("Horde webmail no exists", $nolog);
+		return;
+	}
 
 	PrepareHordeDb($nolog);
 
@@ -6446,7 +6470,12 @@ function installTDah($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_tdah = "$sgbl->__path_kloxo_httpd_root/webmail/t-dah";
+	$path_tdah = "$path_webmail/webmail/t-dah";
+	
+	if (!file_exists($path_tdah)) {
+		log_cleanup("T-Dah webmail no exists", $nolog);
+		return;
+	}
 
 	PrepareTDahDb($nolog);
 
@@ -6465,7 +6494,12 @@ function installAfterlogic($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_afterlogic = "$sgbl->__path_kloxo_httpd_root/webmail/afterlogic";
+	$path_afterlogic = "$path_webmail/afterlogic";
+	
+	if (!file_exists($path_afterlogic)) {
+		log_cleanup("Afterlogic webmail no exists", $nolog);
+		return;
+	}
 
 	PrepareAfterlogicDb($nolog);
 
@@ -6483,7 +6517,12 @@ function installSquirrelmail($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_squirrelmail = "$sgbl->__path_kloxo_httpd_root/webmail/squirrelmail";
+	$path_squirrelmail = "$path_webmail/squirrelmail";
+	
+	if (!file_exists($path_squirrelmail)) {
+		log_cleanup("Squirrelmail webmail no exists", $nolog);
+		return;
+	}
 
 	PrepareSquirrelmailDb($nolog);
 
@@ -6494,6 +6533,30 @@ function installSquirrelmail($nolog = null)
 		lxfile_generic_chown_rec($path_webmail, 'apache:apache');
 		lxfile_rm('/var/cache/kloxo/squirrelmail.log');
 	}
+}
+
+function installTelaen($nolog = null)
+{
+	global $sgbl;
+
+	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
+	$path_telaen = "$path_webmail/webmail/telaen";
+	
+	if (!file_exists($path_telaen)) {
+		log_cleanup("Telaen webmail no exists", $nolog);
+		return;
+	}
+
+	PrepareTelaenDb($nolog);
+
+	log_cleanup("Initialize Telaen files", $nolog);
+	log_cleanup("- Initialize process", $nolog);
+
+	if (lxfile_exists($path_webmail)) {
+		lxfile_generic_chown_rec($path_webmail, 'apache:apache');
+		lxfile_rm('/var/cache/kloxo/telaen.log');
+	}
+
 }
 
 function fix_suexec($nolog = null)
@@ -6957,6 +7020,7 @@ function setInitialServices($nolog = null)
 	installTDah($nolog);
 	installAfterlogic($nolog);
 	installSquirrelmail($nolog);
+	installTelaen($nolog);
 
 	installChooser($nolog);
 

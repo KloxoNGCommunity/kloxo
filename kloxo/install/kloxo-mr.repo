@@ -1,54 +1,63 @@
 [kloxo-mr-release-neutral-noarch]
 name=Kloxo-MR - release-neutral-noarch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-release-neutral-noarch-mirrors.txt
 enabled=1
 gpgcheck=0
 
 [kloxo-mr-release-neutral-arch]
 name=Kloxo-MR - release-neutral-$basearch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/$basearch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-release-neutral-$basearch-mirrors.txt
 enabled=1
 gpgcheck=0
 
 [kloxo-mr-release-version-noarch]
 name=Kloxo-MR - release-version-noarch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/centos$releasever/noarch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-release-centos$releasever-noarch-mirrors.txt
 enabled=1
 gpgcheck=0
 
 [kloxo-mr-release-version-arch]
 name=Kloxo-MR - release-version-$basearch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/release/centos$releasever/$basearch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-release-centos$releasever-$basearch-mirrors.txt
 enabled=1
 gpgcheck=0
 
 [kloxo-mr-testing-neutral-noarch]
 name=Kloxo-MR - testing-neutral-noarch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
 enabled=0
 gpgcheck=0
 
 [kloxo-mr-testing-neutral-arch]
 name=Kloxo-MR - testing-neutral-$basearch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/$basearch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-$basearch-mirrors.txt
 enabled=0
 gpgcheck=0
 
 [kloxo-mr-testing-version-noarch]
 name=Kloxo-MR - testing-version-noarch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/centos$releasever/noarch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-centos$releasever-noarch-mirrors.txt
 enabled=0
 gpgcheck=0
 
 [kloxo-mr-testing-version-arch]
 name=Kloxo-MR - testing-version-$basearch
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/centos$releasever/$basearch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-centos$releasever-i386-mirrors.txt
 enabled=0
 gpgcheck=0
 
 [kloxo-mr-srpms]
 name=Kloxo-MR - srpms
 baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/SRPMS/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-SRPMS-mirrors.txt
 enabled=0
 gpgcheck=0
 
@@ -57,6 +66,7 @@ gpgcheck=0
 [kloxo-mr-centalt]
 name=Kloxo-MR - centalt - $basearch
 baseurl=http://centos.alt.ru/repository/centos/$releasever/$basearch/
+mirrorlist=http://rpms.potissima.com/repo/mirrors/centalt-centos-$releasever-$basearch-mirrors.txt
 enabled=1
 gpgcheck=0
 exclude=openssh* perl* mariadb*
