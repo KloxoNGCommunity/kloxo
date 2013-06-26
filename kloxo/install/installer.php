@@ -165,11 +165,9 @@ function install_general_mine($value)
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
-	if (!isRpmInstalled($value)) {
-		$value = implode(" ", $value);
-		print("Installing $value ....\n");
-		system("PATH=\$PATH:/usr/sbin yum -y install $value");
-	}
+	$value = implode(" ", $value);
+	print("Installing $value ....\n");
+	system("yum -y install $value");
 }
 
 function installcomp_mail()
@@ -200,11 +198,14 @@ function install_main()
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter");
 
-	$installcomp['web'] = array("httpd", "pure-ftpd");
-	$installcomp['dns'] = array("bind", "bind-chroot");
-	$installcomp['database'] = array(getMysqlBranch());
 
-	$comp = array("web", "mail", "dns", "database");
+	$installcomp['web'] = array(getApacheBranch(), "mod_ssl", "mod_ssl", "mod_ruid2", "pure-ftpd");
+	$installcomp['dns'] = array("bind", "bind-chroot");
+
+	$mysqltmp = getMysqlBranch();
+	$installcomp['database'] = array($mysqltmp, $mysqltmp."-server", $mysqltmp."-libs");
+
+	$comp = array("web", "database", "dns", "mail");
 
 	$serverlist = $comp;
 
@@ -369,24 +370,20 @@ function kloxo_install_step1()
 
 		// MR -- for accept for php and apache branch rpm
 		$phpbranch = getPhpBranch();
-		$httpdbranch = getApacheBranch();
-		$mysqlbranch = getMysqlBranch();
 
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
 		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf", "automake",
 			"libtool", "openssl", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
 			"net-snmp", "tmpwatch", "rkhunter", "quota",
 			"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear", "{$phpbranch}-devel", 
-			"{$httpdbranch}", "mod_ssl", "mod_ssl", "mod_ruid2", "{$mysqlbranch}", "{$mysqlbranch}-server",
 			"lxlighttpd", "lxphp"
 		);
-
 
 		$list = implode(" ", $packages);
 
 		while (true) {
 			print("Installing generic packages $list...\n");
-			system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+			system("yum -y install $list", $return_value);
 
 			if (file_exists("{$lxlabspath}/ext/php/php")) {
 				break;
@@ -408,7 +405,7 @@ function kloxo_install_step1()
 
 		print("Installing Kloxo-MR packages $list...\n");
 
-		system("PATH=\$PATH:/usr/sbin yum -y install $list", $return_value);
+		system("yum -y install $list", $return_value);
 	}
 
 	print("Prepare installation directory\n");
@@ -1058,6 +1055,22 @@ function randomString($length)
 	}
 
 	return $randstr;
+}
+
+function getRpmVersionViaYum($rpm)
+{
+	// MR -- don't use 'grep -i' because need real 'Version' word
+	exec("yum info {$rpm} | grep 'Version'", $out, $ret);
+
+	if ($out[0] !== false) {
+		$ver = str_replace('Version', '', $out[0]);
+		$ver = str_replace(':', '', $ver);
+		$ver = str_replace(' ', '', $ver);
+	} else {
+		$ver = '';
+	}
+
+	return $ver;
 }
 
 lxins_main();

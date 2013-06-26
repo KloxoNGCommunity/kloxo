@@ -122,12 +122,20 @@ fi
 # Start install
 yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
 
+yum remove bind* mysql* -y
+
 if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
 	if [ -f /usr/bin/php ] ; then
 		yum -y remove php*
 	fi
 
-	yum -y install php php-mysql
+	if yum list mysql51 >/dev/null 2>&1 ; then
+		yum -y install mysql51 mysql51-server mysql51-libs
+	else
+		yum -y install mysql55 mysql55-server mysql55-libs
+	fi
+
+	yum -y install php53u php53u-mysql
 fi
 
 export PATH=/usr/sbin:/sbin:$PATH

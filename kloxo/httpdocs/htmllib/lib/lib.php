@@ -6035,16 +6035,18 @@ function setCheckPackages($nolog = null)
 	
 	if (isRpmInstalled("dovecot-toaster")) {
 		$imap_rpm = "";
+		$authlib_rpm = "";
 	} else {
 		$imap_rpm = "courier-imap-toaster";
+		$authlib_rpm = "courier-authlib-toaster";
 	}
 
-	$list = array("autorespond-toaster", "courier-authlib-toaster",
-		$imap_rpm, "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
+	$list = array("autorespond-toaster", $authlib_rpm,	$imap_rpm,
+		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", 
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
-		"php", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+		"{$phpbranch}", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
 		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell",  "libmhash", "lxphp");
 
 	foreach ($list as $l) {
@@ -6451,7 +6453,7 @@ function installHorde($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_horde = "$path_webmail/webmail/horde";
+	$path_horde = "$path_webmail/horde";
 
 	if (!file_exists($path_horde)) {
 		log_cleanup("Horde webmail no exists", $nolog);
@@ -6475,7 +6477,7 @@ function installTDah($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_tdah = "$path_webmail/webmail/t-dah";
+	$path_tdah = "$path_webmail/t-dah";
 	
 	if (!file_exists($path_tdah)) {
 		log_cleanup("T-Dah webmail no exists", $nolog);
@@ -6545,7 +6547,7 @@ function installTelaen($nolog = null)
 	global $sgbl;
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
-	$path_telaen = "$path_webmail/webmail/telaen";
+	$path_telaen = "$path_webmail/telaen";
 	
 	if (!file_exists($path_telaen)) {
 		log_cleanup("Telaen webmail no exists", $nolog);
