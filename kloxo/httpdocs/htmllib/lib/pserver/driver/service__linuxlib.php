@@ -35,7 +35,7 @@ class Service__Linux extends Lxlclass
 		$nval['qmail'] = 'qmail';
 	//	$nval['courier-imap'] = 'courier';
 	//	$nval['spamassassin'] = 'spamassassin';
-		$nval['dovecot'] = 'dovecot';
+	//	$nval['dovecot'] = 'dovecot';
 
 		$nval['iptables'] = "iptables";
 
@@ -46,7 +46,12 @@ class Service__Linux extends Lxlclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$ret = lxshell_return("{$sgbl->__path_real_etc_root}/init.d/{$name}", "status");
+		if ($name === 'qmail') {
+			$ret = lxshell_return("qmailctl", "stat");
+		} else {
+			$ret = lxshell_return("{$sgbl->__path_real_etc_root}/init.d/{$name}", "status");
+		}
+
 		$state = ($ret) ? "off" : "on";
 
 		return $state;

@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `service` (
 ) DEFAULT CHARSET=latin1;
 
 INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`, `description`, `grepstring`, `syncserver`, `oldsyncserver`, `olddeleteflag`) VALUES
-('dovecot___localhost', 'pserver-localhost', '', 'dovecot', 'Dovecot Pop3/IMAP Server', 'dovecot', 'localhost', '', ''),
 ('qmail___localhost', 'pserver-localhost', '', 'qmail', 'Qmail-toaster Mail Server', 'qmail', 'localhost', '', ''),
 ('djbdns___localhost', 'pserver-localhost', '', 'djbdns', 'Djbdns Dns Server', 'tinydns', 'localhost', '', ''),
 ('named___localhost', 'pserver-localhost', '', 'named', 'Bind Dns Server', 'named', 'localhost', '', ''),
