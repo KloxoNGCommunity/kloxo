@@ -25,7 +25,7 @@ B.1 For Dev (alpha, beta, candidate) Release:
     rm -f ./kloxo-mr-dev.sh
 
     # get kloxo-mr-dev installer from github
-    wget -r https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/install/kloxo-mr-dev.sh --no-check-certificate
+    wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/install/kloxo-mr-dev.sh --no-check-certificate
 
     # install kloxo
     sh ./kloxo-mr-dev.sh
@@ -41,7 +41,7 @@ B.2. For Final Release:
     cd /etc/yum.repos.d/
 
     # get repo file -- no need for 6.5.0.c and after
-    wget -r https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
+    wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
 
     # move to /
     cd /
