@@ -60,7 +60,7 @@ class SpecialPlay_b extends Lxaclass
 			return true;
 		}
 
-		return ($this->language === 'en');
+		return ($this->language === 'en-us');
 	}
 
 	function defaultValue($var)
@@ -92,7 +92,7 @@ class SpecialPlay_b extends Lxaclass
 		}
 
 		if ($var === 'language') {
-			return 'en';
+			return 'en-us';
 		}
 
 		return null;

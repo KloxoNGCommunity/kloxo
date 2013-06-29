@@ -161,6 +161,7 @@ if [ $APP_TYPE == 'master' ] ; then
 		echo ""
 		echo "Wait for final process..."
 		echo ""
+		cd /usr/local/lxlabs/kloxo/install
 		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
 	fi
 fi

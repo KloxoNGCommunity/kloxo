@@ -22,6 +22,8 @@ function createShowUpdateform()
 function updateform($subaction, $param)
 {
 	$vlist['ssh_port'] = null;
+	$this->setDefaultValue("ssh_port", "22");
+
 	$vlist['without_password_flag'] = null;
 	$vlist['disable_password_flag'] = null;
 	$vlist['config_flag'] = null;

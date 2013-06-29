@@ -6510,7 +6510,7 @@ function installAfterlogic($nolog = null)
 
 	PrepareAfterlogicDb($nolog);
 
-	log_cleanup("Initialize T-Dah files", $nolog);
+	log_cleanup("Initialize Afterlogic files", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
 	if (lxfile_exists($path_webmail)) {
@@ -7436,8 +7436,8 @@ function lxlabs_get_via_json($protocol, $server, $port, $param)
 
 	$totalout = curl_exec($ch);
 	$totalout = trim($totalout);
-	require_once('JSON.php');
-	$json = new Services_JSON();
+//	require_once('JSON.php');
+//	$json = new Services_JSON();
 	$object = $json->decode($totalout);
 
 	if (!is_object($object)) {

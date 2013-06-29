@@ -25,8 +25,7 @@ $mypass = password_gen();
 
 $dbroot = "root";
 // MR -- always set to ''
-$dbpass = (slave_get_db_pass()) ? slave_get_db_pass() : '';
-// $dbpass = '';
+$dbpass = '';
 
 $osversion = find_os_version();
 
@@ -192,11 +191,27 @@ function install_main()
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	print("Prepare defaults and configurations...\n");
+	
+	// MR -- remove qmail-lxcenter not here! - need outside script
+	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
+		"vsftpd", "postfix", "ssmtp", "lxzend", "pure-ftpd");
 
+	$list = implode(" ", $packages);
+	print("Removing packages $list...\n");
+
+	foreach ($packages as $package) {
+		system("rpm -e --nodeps $package > /dev/null 2>&1");
+	}
+
+	// MR -- use 'rpm -e' not work perfectly; use 'yum remove' and also install depedencies again
+	// (webalizer, cronie, cronie-anacron and crontabs)
+	exec("yum -y remove exim");
+	
 	$installcomp['mail'] = array("autorespond-toaster", "courier-authlib-toaster",
 		"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
-		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter");
+		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", "webalizer",
+		"cronie", "cronie-anacron", "crontabs");
 
 
 	$installcomp['web'] = array(getApacheBranch(), "mod_ssl", "mod_ssl", "mod_ruid2", "pure-ftpd");
@@ -332,18 +347,6 @@ function kloxo_install_step1()
 		system("useradd nouser -g nogroup -s '/sbin/nologin'");
 		system("groupadd lxlabs");
 		system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
-
-		// MR -- remove qmail-lxcenter not here! - need outside script
-		$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
-			"exim", "vsftpd", "postfix", "ssmtp",
-			"lxzend", "pure-ftpd");
-
-		$list = implode(" ", $packages);
-		print("Removing packages $list...\n");
-
-		foreach ($packages as $package) {
-			system("rpm -e --nodeps $package > /dev/null 2>&1");
-		}
 
 		// MR -- force remove old lxphp (from lxcenter.repo)
 		system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
@@ -499,7 +502,7 @@ function kloxo_install_step2()
 
 	if (!file_exists("{$kloxopath}/etc/slavedb/dbadmin")) {
 		if (strlen($dbpass) === 0) {
-			$dbpassins = '""';
+			$dbpassins = '';
 		} else {
 			$dbpassins = $dbpass;
 		}
@@ -509,9 +512,6 @@ function kloxo_install_step2()
 		exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
 	}
 
-//	$dbadmindata = 'O:6:"Remote":1:{s:4:"data";a:1:{s:5:"mysql";a:1:{s:10:"dbpassword";s:0:"";}}}';
-//	exec("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
-		
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';
@@ -644,36 +644,6 @@ function kloxo_install_bye()
 // MR -- this class must be exist for slave_get_db_pass()
 class remote
 {
-}
-
-function slave_get_db_pass()
-{
-	global $argv;
-	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom, $installstep;
-	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
-
-	$rmt = file_get_unserialize("{$kloxopath}/etc/slavedb/dbadmin");
-
-	if ($rmt) {
-		return $rmt->data['mysql']['dbpassword'];
-	} else {
-		return false;
-	}
-}
-
-function file_get_unserialize($file)
-{
-	global $argv;
-	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
-	global $installtype, $installfrom, $installstep;
-	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
-
-	if (!file_exists($file)) {
-		return null;
-	}
-
-	return unserialize(file_get_contents($file));
 }
 
 function parse_opt($argv)
