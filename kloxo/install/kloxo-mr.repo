@@ -88,8 +88,6 @@ enabled=1
 gpgcheck=0
 includepkgs=php52*
 
-http://dl.iuscommunity.org/pub/ius/archive/CentOS/5/$basearch
-
 # ==================================
 
 [kloxo-mr-epel]
