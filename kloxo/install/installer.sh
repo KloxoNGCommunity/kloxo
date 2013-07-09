@@ -129,16 +129,13 @@ if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
 		yum -y remove php*
 	fi
 
-	### MR -- 5.0.x is too old (exist in centos 5) and change to mysql51 branch from ius
-    if yum list mysql-5.0* >/dev/null 2>&1 ; then
-        if yum list mysql51 >/dev/null 2>&1 ; then
-            yum -y install mysql51 mysql51-server mysql51-libs
-        else
-            yum -y install mysql55 mysql55-server mysql55-libs
-        fi
-	else
-        yum -y install mysql mysql-server mysql-libs
-	fi
+#	if yum list mysql51 >/dev/null 2>&1 ; then
+#		yum -y install mysql51 mysql51-server mysql51-libs
+#	else
+#		yum -y install mysql55 mysql55-server mysql55-libs
+#	fi
+
+	yum -y install mysql mysql-server mysql-libs
 
 	yum -y install php53u php53u-mysql
 fi

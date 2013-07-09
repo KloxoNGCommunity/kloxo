@@ -307,7 +307,34 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
-	function createPhpFpmConfig()
+	static function addPhpFpmConfig($user)
+	{
+		// MR -- that mean 'ini' type config
+		$cfgmain = getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf");
+		lxfile_cp($cfgmain, "/etc/php-fpm.conf");
+
+		$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm-pool.conf.tpl");
+		$tpl = file_get_contents($tplsource);
+
+		$input['user'] = $user;
+		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
+		$tplparse = getParseInlinePhp($tpl, $input);
+
+		if (!file_exists($tpltarget)) {
+			file_put_contents($tpltarget, $tplparse);	
+		}
+	}
+
+	static function delPhpFpmConfig($user)
+	{
+		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
+
+		if (file_exists($tpltarget)) {
+			lxfile_rm($tpltarget);
+		}
+	}
+
+	function createPhpFpmConfig($forwhat = null, $foruser = null)
 	{
 		$input = array();
 		
@@ -323,6 +350,18 @@ class web__ extends lxDriverClass
 			$tplparse = getParseInlinePhp($tpl, $input);
 			file_put_contents($tpltarget, $tplparse);
 		} else {
+			if ($forwhat === 'add') {
+				self::addPhpFpmConfig($foruser);
+
+				return;
+			}
+
+			if ($forwhat === 'delete') {
+				self::delPhpFpmConfig($foruser);
+
+				return;
+			}
+
 			// MR -- make simple, delete all .conf files first
 			exec("rm -f /etc/php-fpm.d/*.conf");
 
@@ -338,9 +377,8 @@ class web__ extends lxDriverClass
 				$input['user'] = $user;
 				$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 				$tplparse = getParseInlinePhp($tpl, $input);
-			//	if ($tplparse) {
-					file_put_contents($tpltarget, $tplparse);	
-			//	}
+
+				file_put_contents($tpltarget, $tplparse);	
 			}
 
 			// MR - for 'default' user
@@ -352,10 +390,9 @@ class web__ extends lxDriverClass
 			if (file_exists("/etc/php-fpm.d/www.conf")) {
 				lxfile_mv("/etc/php-fpm.d/www.conf", "/etc/php-fpm.d/www.nonconf");
 			}
-
 		}
 
-		createRestartFile('php-fpm');
+	//	createRestartFile('php-fpm');
 	}
 
 
@@ -1086,11 +1123,13 @@ class web__ extends lxDriverClass
 	{
 		$domainname = $this->getDomainname();
 
+		$user = $this->getUser();
+
 		// Very important. If the nname is null,
 		// then the 'rm - rf' command will delete all the domains.
 		// So please be careful here. Must find a better way to delete stuff.
 		if (!$domainname) {	return null;	}
-
+/*
 		$list = getWebDriverList();
 
 		foreach ($list as &$l) {
@@ -1103,19 +1142,21 @@ class web__ extends lxDriverClass
 			if (!file_exists("{$p}/defaults/init.conf")) {
 				$this->createSSlConf();
 				$this->updateMainConfFile();
+				$this->createWebmailDefaultConfig();
+				$this->createCpConfig();
+
+			//	exec("sh /script/fixweb --select=static --nolog");
 			}
 		}
+*/
+		$this->createSSlConf();
 
 		$this->main->deleteDir();
 
 		// MR -- relate to fixed ip/~client, but better on add/delete client process
 		// meanwhile enough in here
 
-		$this->createCpConfig();
-
-		// createPhpFpmConfig not work; change to fixphpfpm
-	//	$this->createPhpFpmConfig();
-		lxshell_return("sh", "/script/fixphpfpm", "--nolog");
+	//	$this->createCpConfig();
 	}
 
 	function addDomain()
@@ -1125,23 +1166,30 @@ class web__ extends lxDriverClass
 		$this->createConfFile();
 
 		$this->main->createPhpInfo();
+	/*
+		$list = getWebDriverList();
 
-		$this->updateMainConfFile();
-		$this->createSSlConf();
+		foreach ($list as &$l) {
+			$p = "/home/{$l}/conf";
 
-		// MR -- only first domains need it
-		$db = new Sqlite($this->__masterserver, "domain");
-		$result = $db->getCountWhere("nname != ''");
+			lxfile_rm("{$p}/domains/{$domainname}.conf");
 
-		if (!$result) {
-			$this->createWebmailDefaultConfig();
-			$this->createCpConfig();
+			// MR -- for large amount domains, call function make slow process
+			// so, alternative use file detect
+			if (!file_exists("{$p}/defaults/init.conf")) {
+				$this->createSSlConf();
+				$this->updateMainConfFile();
+				$this->createWebmailDefaultConfig();
+				$this->createCpConfig();
+
+			//	exec("sh /script/fixweb --select=static --nolog");
+			}
 		}
+	*/
+		// MR -- relate to fixed ip/~client, but better on add/delete client process
+		// meanwhile enough in here
 
-
-		// createPhpFpmConfig not work; change to fixphpfpm
-	//	$this->createPhpFpmConfig();
-		lxshell_return("sh", "/script/fixphpfpm", "--nolog");
+	//	$this->createCpConfig();
 	}
 
 	function dbactionAdd()
@@ -1149,17 +1197,41 @@ class web__ extends lxDriverClass
 		$this->addDomain();
 
 		$this->main->doStatsPageProtection();
+
+	//	lxshell_return("sh", "/script/fixphpfpm", "--nolog");
+		$this->createPhpFpmConfig('add', $this->getUser());
+		createRestartFile('php-fpm');
 	}
 
 	function dbactionDelete()
 	{
 		$this->delDomain();
+
+		lxshell_return("sh", "/script/fixphpfpm", "--nolog");
+	//	$this->createPhpFpmConfig('delete', $this->getUser());
+	//	createRestartFile('php-fpm');
 	}
 
 	function dosyncToSystemPost()
 	{
 		if (!$this->isOn('norestart')) {
-			createRestartFile("httpd");
+		//	createRestartFile("httpd");
+
+			if (file_exists("/etc/rc.d/init.d/nginx")) {
+				createRestartFile("nginx");
+			}
+
+			if (file_exists("/etc/rc.d/init.d/httpd")) {
+				createRestartFile("httpd");
+			}
+
+			if (file_exists("/etc/rc.d/init.d/lighttpd")) {
+				createRestartFile("lighttpd");
+			}
+
+			if (file_exists("/etc/rc.d/init.d/php-fpm")) {
+				createRestartFile("php-fpm");
+			}
 		}
 	}
 
@@ -1225,7 +1297,6 @@ class web__ extends lxDriverClass
 				case "ipaddress":
 				case "blockip";
 				case "add_redirect_a":
-				case "delete_redirect_a":
 				case "delete_redirect_a":
 				case "add_webindexdir_a":
 				case "delete_webindexdir_a":

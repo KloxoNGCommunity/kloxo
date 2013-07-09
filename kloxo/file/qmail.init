@@ -59,19 +59,23 @@ stopf() {
     rm -rf /var/qmail/supervise/*/supervise/*
     rm -rf /var/qmail/supervise/*/log/supervise/*
 	
-	killall -9 qmail-send
-	#killall -9 qmail-remote
-	#killall -9 qmail-local 
+    killall -9 qmail-send
+    #killall -9 qmail-remote
+    #killall -9 qmail-local 
 }
 
 restartf() {
-    echo "Restarting qmail:"
-    echo "* Stopping qmail-smtpd."
-    svc -d /var/qmail/supervise/smtp
-    echo "* Sending qmail-send SIGTERM and restarting."
-    svc -t /var/qmail/supervise/send
-    echo "* Restarting qmail-smtpd."
-    svc -u /var/qmail/supervise/smtp
+    if [ -f /var/run/qmail-svscan.pid ] ; then
+        echo "Restarting qmail:"
+        echo "* Stopping qmail-smtpd."
+        svc -d /var/qmail/supervise/smtp
+        echo "* Sending qmail-send SIGTERM and restarting."
+        svc -t /var/qmail/supervise/send
+        echo "* Restarting qmail-smtpd."
+        svc -u /var/qmail/supervise/smtp
+    else
+        startf
+    fi
 }
 
 case "$1" in

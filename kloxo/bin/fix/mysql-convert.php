@@ -59,9 +59,9 @@ function setMysqlConvert($engine, $database, $table, $config)
 
 		while ($db = mysql_fetch_array($dbs)) {
 			log_cleanup("-- ".$db[0]." database converted");
-
+		/*
 			if ($db[0] === 'mysql') {
-				// no processed.
+				log_cleanup("--- 'mysql' not converted");
 			}
 			else if ($db[0] === 'information_schema') {
 				log_cleanup("--- 'information_schema' not converted");
@@ -70,6 +70,7 @@ function setMysqlConvert($engine, $database, $table, $config)
 				log_cleanup("--- 'performance_schema not' converted");
 			}
 			else {
+		*/
 				mysql_select_db($db[0]);
 
 				if ($table === '_all_') {
@@ -84,7 +85,7 @@ function setMysqlConvert($engine, $database, $table, $config)
 					mysql_query("ALTER TABLE {$table} ENGINE={$engine}");
 					log_cleanup("--- '".$table."' table converted");
 				}
-			}
+		//	}
 		}
 	}
 	else {
