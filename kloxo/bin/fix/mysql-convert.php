@@ -132,9 +132,9 @@ function setMysqlConvert($engine, $database, $table, $config)
 				$string_collect .= $sa."\n";
 			}
 		
-			if ($engine === 'myisam') {
+			if ($engine !== 'innodb') {
 				$string_source = "[mysqld]\n";
-				$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\n";
+				$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine={$engine}\n";
 				log_cleanup("- Added \"skip-innodb and default-storage-engine=".$engine."\" in {$mycnfpath}");
 			}
 			else {

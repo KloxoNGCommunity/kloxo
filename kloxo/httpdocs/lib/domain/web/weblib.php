@@ -229,7 +229,7 @@ class Server_Alias_a extends Lxaclass
 		try {
 			$dns->was();
 		} catch (exception $e) {
-			throw new lxException("alis_not_added_due_to_dns_conflict", 'nname', $this->nname);
+			throw new lxException("alias_not_added_due_to_dns_conflict", 'nname', $this->nname);
 		}
 	}
 
@@ -665,6 +665,10 @@ class Web extends Lxdb
 		lxfile_rm("__path_real_etc_root/awstats/awstats.{$this->nname}.conf");
 		lxfile_rm_rec("/var/lib/webalizer/{$this->nname}");
 		lxfile_rm("/etc/webalizer/webalizer.{$this->nname}.conf");
+
+
+		// MR -- this is dangerously because possible domains pointing to the same docroot!
+	//	recursively_remove($this->getFullDocRoot());
 	}
 
 	function webChangeOwner()
@@ -672,6 +676,14 @@ class Web extends Lxdb
 		if (!lxfile_exists("{$this->getFullDocRoot()}")) {
 			lxfile_cp_rec("__path_customer_root/$this->__var_oldcustomer_name/$this->docroot", "{$this->getFullDocRoot()}");
 		}
+	/*
+		if (!lxfile_exists("{$this->getFullDocRoot()}")) {
+		//	lxfile_cp_rec("__path_customer_root/$this->__var_oldcustomer_name/$this->docroot", "{$this->getFullDocRoot()}");
+			lxfile_mv_rec("__path_customer_root/$this->__var_oldcustomer_name/$this->docroot", "{$this->getFullDocRoot()}");
+		} else {
+			throw new lxException("target_docroot_need_to_renamed", '', $this->getFullDocRoot());
+		}
+	*/
 
 		lxfile_unix_chown_rec("{$this->getFullDocRoot()}", "$this->username:$this->username");
 
@@ -1309,8 +1321,7 @@ class Web extends Lxdb
 				return $vlist;
 		}
 
-		// MR -- this is for what?. Nothing useless?
-
+		// MR -- this is for what?
 	//	return parent::updateform($subaction, $param);
 	}
 

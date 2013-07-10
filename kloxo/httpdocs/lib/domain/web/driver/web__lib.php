@@ -142,7 +142,7 @@ class web__ extends lxDriverClass
 
 	static function setUnnstallPhpfpm()
 	{
-		$phpbranch = getRpmBranchList('php');
+		$phpbranch = getRpmBranchInstalled('php');
 
 		exec("yum remove {$phpbranch}-fpm -y");
 	}
@@ -151,7 +151,7 @@ class web__ extends lxDriverClass
 	{
 		exec("cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
 
-		$phpbranch = getRpmBranchList('php');
+		$phpbranch = getRpmBranchInstalled('php');
 
 		$out = isRpmInstalled("{$phpbranch}-fpm");
 
@@ -1129,7 +1129,7 @@ class web__ extends lxDriverClass
 		// then the 'rm - rf' command will delete all the domains.
 		// So please be careful here. Must find a better way to delete stuff.
 		if (!$domainname) {	return null;	}
-/*
+
 		$list = getWebDriverList();
 
 		foreach ($list as &$l) {
@@ -1140,7 +1140,6 @@ class web__ extends lxDriverClass
 			// MR -- for large amount domains, call function make slow process
 			// so, alternative use file detect
 			if (!file_exists("{$p}/defaults/init.conf")) {
-				$this->createSSlConf();
 				$this->updateMainConfFile();
 				$this->createWebmailDefaultConfig();
 				$this->createCpConfig();
@@ -1148,15 +1147,10 @@ class web__ extends lxDriverClass
 			//	exec("sh /script/fixweb --select=static --nolog");
 			}
 		}
-*/
+
 		$this->createSSlConf();
 
 		$this->main->deleteDir();
-
-		// MR -- relate to fixed ip/~client, but better on add/delete client process
-		// meanwhile enough in here
-
-	//	$this->createCpConfig();
 	}
 
 	function addDomain()
@@ -1166,18 +1160,15 @@ class web__ extends lxDriverClass
 		$this->createConfFile();
 
 		$this->main->createPhpInfo();
-	/*
+
 		$list = getWebDriverList();
 
 		foreach ($list as &$l) {
 			$p = "/home/{$l}/conf";
 
-			lxfile_rm("{$p}/domains/{$domainname}.conf");
-
 			// MR -- for large amount domains, call function make slow process
 			// so, alternative use file detect
 			if (!file_exists("{$p}/defaults/init.conf")) {
-				$this->createSSlConf();
 				$this->updateMainConfFile();
 				$this->createWebmailDefaultConfig();
 				$this->createCpConfig();
@@ -1185,11 +1176,8 @@ class web__ extends lxDriverClass
 			//	exec("sh /script/fixweb --select=static --nolog");
 			}
 		}
-	*/
-		// MR -- relate to fixed ip/~client, but better on add/delete client process
-		// meanwhile enough in here
 
-	//	$this->createCpConfig();
+		$this->createSSlConf();
 	}
 
 	function dbactionAdd()
@@ -1280,6 +1268,7 @@ class web__ extends lxDriverClass
 
 				case "changeowner":
 					$this->main->webChangeOwner();
+				//	$this->main->ftpChangeOwner();
 					$this->createConfFile();
 					break;
 
