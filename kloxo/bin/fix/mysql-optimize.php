@@ -20,11 +20,22 @@ function setMysqlOptimize($select, $database = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	log_cleanup("Mysql Optimization");
+	log_cleanup("Mysql Check/Repair/Optimize");
 
 	$database = ($database) ? $database : "_all_";
 
 	$pass = slave_get_db_pass();
+
+	if ($select === 'check') {
+		log_cleanup("- Checking database");
+
+		if ($database === '_all_') {
+			system("mysqlcheck --user=root --password=\"{$pass}\" --check --all-databases");
+		}
+		else {
+			system("mysqlcheck --user=root --password=\"{$pass}\" --check --databases {$dbname}");
+		}
+	}
 
 	if ($select === 'repair') {
 		log_cleanup("- Repairing database");

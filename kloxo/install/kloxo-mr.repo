@@ -79,7 +79,7 @@ baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/$releasever/$basearch
 mirrorlist=http://dmirr.iuscommunity.org/mirrorlist/?repo=ius-el$releasever&arch=$basearch
 enabled=1
 gpgcheck=0
-exclude=php52* mysql*
+exclude=php52* mysql51*  mysql55*
 
 [kloxo-mr-ius-c5]
 name=Kloxo-MR - IUS Community Packages for EL 5 (special) - $basearch

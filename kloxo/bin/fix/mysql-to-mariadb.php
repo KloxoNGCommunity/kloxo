@@ -23,6 +23,12 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		echo "  Open '/etc/yum.repos.d/kloxo-mr.repo and change 'enable=0' to 'enable=1'\n";
 		echo "  under [kloxo-mr-mariadb32] for 32bit OS or [kloxo-mr-mariadb64] for 64bit OS\n";
 	} else {
+		// MR -- also issue on Centos 5.9 - prevent for update!
+		if (php_uname('m') === 'x86_64') {
+			system("yum remove mysql*.i386 -y");
+
+			system("yum remove mysql*.i686 -y");
+		}
 		
 		$out2 = shell_exec("rpm -qa|grep {$mysqlbranch}");
 
@@ -33,12 +39,12 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		
 		foreach ($arr as &$o) {
 			if (strpos($o, "-mysql") !== false) { continue; }
-			if (strpos($o, "mysqlclient") !== false) { continue; }
+		//	if (strpos($o, "mysqlclient") !== false) { continue; }
 			system("rpm -e {$o} --nodeps");
 		}
 
 		echo "- Install MariaDB\n";
-		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common -y");
+		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common MariaDB-shared -y");
 
 		system("cp -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf");
 
