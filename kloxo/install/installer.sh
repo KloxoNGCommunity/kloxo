@@ -157,14 +157,17 @@ else
 	php installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 fi
 
-# Fix issue because sometimes kloxo database not created
-if [ $APP_TYPE == 'master' ] ; then
-	if [ ! -d /var/lib/mysql/kloxo ] ; then
-		echo ""
-		echo "Wait for final process..."
-		echo ""
-		cd /usr/local/lxlabs/kloxo/install
-		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
+for (( a=1; a<=2; a++ ))
+do
+	# Fix issue because sometimes kloxo database not created
+	if [ $APP_TYPE == 'master' ] ; then
+		if [ ! -d /var/lib/mysql/kloxo ] ; then
+			echo ""
+			echo "Wait for final process... ($a)"
+			echo ""
+			cd /usr/local/lxlabs/kloxo/install
+			lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
+		fi
 	fi
-fi
+done
 

@@ -134,15 +134,16 @@ function setMysqlConvert($engine, $database, $table, $config)
 		
 			if ($engine !== 'innodb') {
 				$string_source = "[mysqld]\n";
-				$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine={$engine}\n";
-				log_cleanup("- Added \"skip-innodb and default-storage-engine=".$engine."\" in {$mycnfpath}");
+			//	$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine={$engine}\n";
+				$string_replace = "[mysqld]\n#skip-innodb\ndefault-storage-engine={$engine}\n";
+				log_cleanup("- Added 'default-storage-engine={$engine}' in {$mycnfpath}");
 			}
 			else {
 				$string_source = "[mysqld]\n";
 				$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\n";
-				log_cleanup("- Added \"default-storage-engine=".$engine."\" in {$mycnfpath}");
+				log_cleanup("- Added 'default-storage-engine={$engine}' in {$mycnfpath}");
 			}
-
+		
 			$string_collect = str_replace($string_source, $string_replace, $string_collect);
 
 			file_put_contents($mycnfpath, $string_collect);

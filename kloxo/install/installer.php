@@ -41,7 +41,13 @@ function lxins_main()
 
 	if ($installstep === '2') {
 		kloxo_install_step2();
-		kloxo_install_bye();
+
+		if ($installtype === 'master') {
+			if (file_exists("/var/lib/mysql/kloxo")) {
+				kloxo_install_bye();
+			}
+		}
+
 		exit;
 	}
 
