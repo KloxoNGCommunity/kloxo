@@ -5520,7 +5520,7 @@ abstract class Lxclass
 		$fname = $_FILES['restore_file_f']['tmp_name'];
 
 		if (!lxfile_exists($fname)) {
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('could_not_get_file', 'dbname', '');
 		}
 
@@ -5557,7 +5557,7 @@ abstract class Lxclass
 		$fname = $_FILES['restore_file_f']['tmp_name'];
 
 		if (!lxfile_exists($fname)) {
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('could_not_get_file', 'dbname', '');
 		}
 

@@ -687,7 +687,8 @@ function lxshell_background($cmd)
 		log_log("other_cmd", "Background: ($pwd) $cmd");
 	}
 
-	exec($cmd);
+//	exec($cmd);
+	exec("ionice -c3 -n7 " . $cmd);
 
 	return true;
 }

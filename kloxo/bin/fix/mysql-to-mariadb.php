@@ -23,6 +23,8 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		echo "  Open '/etc/yum.repos.d/kloxo-mr.repo and change 'enable=0' to 'enable=1'\n";
 		echo "  under [kloxo-mr-mariadb32] for 32bit OS or [kloxo-mr-mariadb64] for 64bit OS\n";
 	} else {
+		system("yum clean all");
+
 		// MR -- also issue on Centos 5.9 - prevent for update!
 		if (php_uname('m') === 'x86_64') {
 			system("yum remove mysql*.i386 -y");

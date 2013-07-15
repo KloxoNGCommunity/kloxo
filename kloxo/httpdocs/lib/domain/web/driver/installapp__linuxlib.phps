@@ -19,7 +19,7 @@ function dbactionAdd()
 
 	$res['src'] = "$sgbl->__path_kloxo_httpd_root/installapp/{$this->main->appname}";
 
-	/*
+/*
 	if (!lxfile_exists($res['src'])) {
 		throw new lxException('cannot_access_application_directory', '', '' );
 	}
@@ -53,7 +53,7 @@ function dbactionAdd()
 	if ($this->main->dbname) {
 		$__tmpr = mysql_connect($this->main->realhost, $this->main->dbuser, $this->main->dbpass);
 		if (!$__tmpr) {
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('could_not_connect_to_mysql_server_from_the_web_server', '', '' );
 		}
 	}
@@ -63,6 +63,7 @@ function dbactionAdd()
 	$source =  $res['src'];
 	dprint("Copying ... $source to $dompath/$dir...\n");
 	lxfile_rm_rec("$dompath/$dir/__kloxo");
+
 	if (lxfile_exists("../etc/remote_installapp")) {
 		$url = lfile_get_contents("../etc/remote_installapp");
 		$url = trim($url);
@@ -71,7 +72,7 @@ function dbactionAdd()
 		$type = os_getZipType($tf);
 		if ($type !== "zip") {
 			lxfile_rm($tf);
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
 			throw new lxException('could_not_download_application_archive', '', '');
 		}
 
@@ -114,8 +115,8 @@ function dbactionAdd()
 	chdir("$dompath/{$res['installdir']}");
 
 
-	//lxfile_unix_chown_rec("$dompath/$dir", $this->main->__var_username);
-	//lxfile_unix_chmod_rec("$dompath/$dir", "0775");
+//	lxfile_unix_chown_rec("$dompath/$dir", $this->main->__var_username);
+//	lxfile_unix_chmod_rec("$dompath/$dir", "0775");
 
 	$func="__lxinstaller_{$this->main->appname}";
 
@@ -126,28 +127,32 @@ function dbactionAdd()
 		throw $e;
 	}
 
-	//lxfile_unix_chown_rec("$dompath/$dir", $this->main->__var_username);
+//	lxfile_unix_chown_rec("$dompath/$dir", $this->main->__var_username);
 	lxfile_unix_chown_rec("$dompath/$dir", "{$this->main->__var_username}:{$this->main->__var_username}");
-	//lxfile_unix_chmod("$dompath/$dir", "0775");
+//	lxfile_unix_chmod("$dompath/$dir", "0775");
 	chdir($olddir);
 
 }
 
 function dbactionDelete()
 {
-
 	$dir = trim($this->main->installdir, "/");
+
 	if (!$this->main->customer_name) {
 		return;
 	}
+
 	$path = "{$this->main->__var_full_documentroot}/$dir";
+
 	if ($dir) {
 		lxfile_rm_rec($path);
 		return;
 	}
+
 	dprint("Installed in Document root.. Getting directory content\n");
 	$list = lfile_get_unserialize("$path/__kloxo_directory_list");
 	lunlink("$path/__kloxo_directory_list");
+
 	if ($list) {
 		$out = implode(" ", $list);
 		dprint("Got directory content $out\n");
@@ -157,9 +162,8 @@ function dbactionDelete()
 		}
 	} else {
 		dprint("No directory content removing everything\n");
-		//lxfile_rm_rec_content($path);
+	//	lxfile_rm_rec_content($path);
 	}
-
 }
 
 
@@ -187,7 +191,6 @@ function do_update()
 
 function do_snapshot()
 {
-
 	$path = $this->main->__var_snapbase;
 
 	$ddate = time();
@@ -206,6 +209,7 @@ function do_snapshot()
 		lxfile_cp($tfile, "$path/$name/database.dump");
 		lxfile_rm($tfile);
 	}
+
 	$object = clone ($this->main);
 	lxclass::clearChildrenAndParent($object);
 	$rmt = new Remote();
@@ -235,7 +239,6 @@ function do_revert()
 
 function dbactionUpdate($subaction)
 {
-
 	switch($subaction) {
 		case "snapshot":
 			$this->do_snapshot();
@@ -250,7 +253,6 @@ function dbactionUpdate($subaction)
 			$this->do_update();
 			break;
 	}
-
 }
 
 }

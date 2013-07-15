@@ -142,9 +142,11 @@ class web__ extends lxDriverClass
 
 	static function setUnnstallPhpfpm()
 	{
-		$phpbranch = getRpmBranchInstalled('php');
+	//	$phpbranch = getRpmBranchInstalled('php');
+	//	exec("yum remove {$phpbranch}-fpm -y");
 
-		exec("yum remove {$phpbranch}-fpm -y");
+		// MR -- change to it for speedup process
+		exec("yum remove php*-fpm -y");
 	}
 
 	static function setInstallPhpfpm()
@@ -1139,7 +1141,8 @@ class web__ extends lxDriverClass
 
 			// MR -- for large amount domains, call function make slow process
 			// so, alternative use file detect
-			if (!file_exists("{$p}/defaults/init.conf")) {
+		//	if (!file_exists("{$p}/defaults/init.conf")) {
+			if (!file_exists("{$p}/defaults/_default.conf")) {
 				$this->updateMainConfFile();
 				$this->createWebmailDefaultConfig();
 				$this->createCpConfig();
@@ -1168,7 +1171,8 @@ class web__ extends lxDriverClass
 
 			// MR -- for large amount domains, call function make slow process
 			// so, alternative use file detect
-			if (!file_exists("{$p}/defaults/init.conf")) {
+		//	if (!file_exists("{$p}/defaults/init.conf")) {
+			if (!file_exists("{$p}/defaults/_default.conf")) {
 				$this->updateMainConfFile();
 				$this->createWebmailDefaultConfig();
 				$this->createCpConfig();
@@ -1187,17 +1191,20 @@ class web__ extends lxDriverClass
 		$this->main->doStatsPageProtection();
 
 	//	lxshell_return("sh", "/script/fixphpfpm", "--nolog");
-		$this->createPhpFpmConfig('add', $this->getUser());
-		createRestartFile('php-fpm');
+	
+		$user = $this->getUser();
+		
+		if (!file_exists("/etc/php-fpm.d/{$user}.conf")) {
+			$this->createPhpFpmConfig('add', $user);
+			createRestartFile('php-fpm');
+		}
 	}
 
 	function dbactionDelete()
 	{
 		$this->delDomain();
 
-		lxshell_return("sh", "/script/fixphpfpm", "--nolog");
-	//	$this->createPhpFpmConfig('delete', $this->getUser());
-	//	createRestartFile('php-fpm');
+	//	lxshell_return("sh", "/script/fixphpfpm", "--nolog");
 	}
 
 	function dosyncToSystemPost()
