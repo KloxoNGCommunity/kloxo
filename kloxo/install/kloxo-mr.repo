@@ -84,6 +84,7 @@ exclude=php52* mysql51*  mysql55*
 [kloxo-mr-ius-c5]
 name=Kloxo-MR - IUS Community Packages for EL 5 (special) - $basearch
 baseurl=http://dl.iuscommunity.org/pub/ius/archive/CentOS/5/$basearch
+#mirrorlist=http://rpms.potissima.com/repo/mirrors/ius-centos-5-$basearch-mirrors.txt
 enabled=1
 gpgcheck=0
 includepkgs=php52*

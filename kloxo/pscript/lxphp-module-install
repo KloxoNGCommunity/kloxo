@@ -8,14 +8,14 @@ if [ "$#" == 0 ] ; then
 	echo " - Because lxphp still in php 5.2.x, better use the same version"
 	echo "   Example: echo 'sh $0 php52-xcache'"
 	echo
-	echo " - If using Centos 6, add inside '/etc/yum.repos.d/kloxo-mr.repo' with:"
-       echo "     [kloxo-mr-ius-centos5]"
-       echo "     name=Kloxo-MR - IUS Community Packages for Enterprise Linux 5"
-       echo "     baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/5/\$basearch"
-       echo "     enabled=1"
-       echo "     gpgcheck=0"
-       echo "     includepkgs=php52*"
-	echo
+#	echo " - If using Centos 6, add inside '/etc/yum.repos.d/kloxo-mr.repo' with:"
+#	echo "     [kloxo-mr-ius-centos5]"
+#	echo "     name=Kloxo-MR - IUS Community Packages for Enterprise Linux 5"
+#	echo "     baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/5/\$basearch"
+#	echo "     enabled=1"
+#	echo "     gpgcheck=0"
+#	echo "     includepkgs=php52*"
+#	echo
 	echo " - Certain modules need 'extension=/usr/local/lxlabs/ext/php/lib/xxx.so'"
 	echo "   rather than 'extension=xxx.so' inside their ini file on"
 	echo "   '/usr/local/lxlabs/ext/php/etc/php.d')"
