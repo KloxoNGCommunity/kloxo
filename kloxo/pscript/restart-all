@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/etc/init.d/`cat /script/programname` restart
+/etc/init.d/`cat /script/programname` backendrestart
 
 list=(named djbdns httpd nginx lighttpd php-fpm qmail dovecot xinetd mysqld mysql)
 

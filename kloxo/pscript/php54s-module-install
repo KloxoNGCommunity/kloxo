@@ -1,0 +1,42 @@
+#!/bin/sh
+
+if [ "$#" == 0 ] ; then
+	echo
+	echo " ---------------------------------------------------------------------------"
+	echo "  format: sh $0 <module_name>"
+	echo " ---------------------------------------------------------------------------"
+	echo " - Because php54s using php 5.3.x, better use the same version"
+	echo "   Example: echo 'sh $0 php53-xcache'"
+	echo
+	echo " - Certain modules need 'extension=/opt/php54s/lib/xxx.so'"
+	echo "   rather than 'extension=xxx.so' inside their ini file on"
+	echo "   '/opt/php54s/etc/php.d')"
+	echo
+	echo " - Check '/opt/php54s/error.log' after testing with 'php54s -m'"
+	echo
+	exit;
+fi
+
+yum install yum-utils -y
+
+rm -rf /tmp/php54s-module/* >/dev/null 2>$1
+
+mkdir -p /tmp/php54s-module >/dev/null 2>$1
+
+cd /tmp/php54s-module >/dev/null 2>$1
+
+yumdownloader $1
+
+rpm2cpio *.rpm | cpio -idmv
+
+cp -rf /tmp/php54s-module/usr/lib/php/modules/* /opt/php54s/lib >/dev/null 2>$1
+cp -rf /tmp/php54s-module/usr/lib64/php/modules/* /opt/php54s/lib >/dev/null 2>$1
+
+cp -rf /tmp/php54s-module/usr/lib/php/zend/* /opt/php54s/zend >/dev/null 2>$1
+cp -rf /tmp/php54s-module/usr/lib64/php/zend/* /opt/php54s/zend >/dev/null 2>$1
+
+cp -rf /tmp/php54s-module/etc/php.d/* /opt/php54s/etc/php.d >/dev/null 2>$1
+
+
+
+

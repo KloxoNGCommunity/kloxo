@@ -1,17 +1,23 @@
 #!/bin/sh
 
-for phpver in php52 php53u php54 ; do
-	mkdir -p /opt/$phpver
-	cd /opt/$phpver
+yum install php52s -y
 
-	yumdownloader $phpver*
+for phpver in php53 php54 ; do
+	mkdir -p /opt/$phpvers
+	cd /opt/$phpvers
 
+	if [ $phpver == 'php53' ] ; then
+		yumdownloader php53u*
+	else
+		yumdownloader $phpver*
+	fi
+	
 	for rpmfile in $(dir -x *.rpm) ; do
 		rpm2cpio $rpmfile | cpio -idmv
 		rm -rf $rpmfile
 	done
 
-	cd /opt/$phpver/etc/php.d/
+	cd /opt/$phpvers/etc/php.d/
 
 	for inifile in eaccelerator memcache memcached xdebug \
 			mysqlnd mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli \
@@ -21,26 +27,26 @@ for phpver in php52 php53u php54 ; do
 		fi
 	done
 
-	echo '' > /opt/$phpver/etc/modules.ini
+#	echo '' > /opt/$phpvers/etc/modules.ini
 
-	cd /opt/$phpver/etc/php.d/
+#	cd /opt/$phpvers/etc/php.d/
 
-	for modinifile in $(dir -x *.ini) ; do
-		cat $modinifile >> /opt/$phpver/etc/modules.ini
-	done
+#	for modinifile in $(dir -x *.ini) ; do
+#		cat $modinifile >> /opt/$phpvers/etc/modules.ini
+#	done
 
-	cd /opt/$phpver/etc/
+	cd /opt/$phpvers/etc/
 
 	if [ ! -f php.ini.original ] ; then
 		cp -rf php.ini php.ini.original
 	fi
 
-	cat /opt/$phpver/etc/modules.ini >> /opt/$phpver/etc/php.ini
+#	cat /opt/$phpvers/etc/modules.ini >> /opt/$phpvers/etc/php.ini
 
-	if [ -d /opt/$phpver/usr/lib64 ] ; then
-		mv -f /opt/$phpver/usr/lib /opt/$phpver/usr/lib.bck
-		ln -s /opt/$phpver/usr/lib64 /opt/$phpver/usr/lib
-		cp -rf /opt/$phpver/usr/lib.bck/* /opt/$phpver/usr/lib64/
+	if [ -d /opt/$phpvers/usr/lib64 ] ; then
+		mv -f /opt/$phpvers/usr/lib /opt/$phpvers/usr/lib.bck
+		ln -s /opt/$phpvers/usr/lib64 /opt/$phpvers/usr/lib
+		cp -rf /opt/$phpvers/usr/lib.bck/* /opt/$phpvers/usr/lib64/
 	fi
 
 done

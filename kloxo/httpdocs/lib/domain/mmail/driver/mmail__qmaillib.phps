@@ -41,7 +41,8 @@ class Mmail__Qmail extends lxDriverClass
 			return null;
 		}
 
-		lxshell_return("openssl", "genrsa", "-out", "private", 384);
+		// MR -- change from 384 to 1024 bit
+		lxshell_return("openssl", "genrsa", "-out", "private", 1024);
 
 		$tfile = lx_tmp_file("rsagen");
 
@@ -169,7 +170,7 @@ class Mmail__Qmail extends lxDriverClass
 		$ret = lxshell_return($sys_cmd, $this->main->nname);
 
 		if (!$ret) {
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/backendrestart >/dev/null 2>&1 &");
 			throw new lxException("could_not_delete_domain", '');
 		}
 
@@ -225,7 +226,7 @@ class Mmail__Qmail extends lxDriverClass
 		$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
 
 		if ($ret) {
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/backendrestart >/dev/null 2>&1 &");
 			throw new lxException("could_not_add_mail", 'mailpserver', $global_shell_error);
 		}
 
