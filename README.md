@@ -1,3 +1,5 @@
+![Kloxo-MR logo](http://mratwork.com/images/kloxo-mr.png)
+
 # Kloxo-MR
 
 This is special edition (fork) of Kloxo with many features not existing on Kloxo official release (6.1.12+).
