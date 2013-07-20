@@ -4,13 +4,13 @@ This is special edition (fork) of Kloxo with many features not existing on Kloxo
 
 This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
-# URL
+### URL
 
 1. More information about Kloxo (Official from LxCenter) - http://lxcenter.org/ and http://forum.lxcenter.org/
 
 2. More information about Kloxo-MR - http://mratwork.com/ and http://forum.mratwork.com/
 
-# Kloxo-MR Features
+### Kloxo-MR Features
 
 * OS: Redhat/CentOS 5 and 6 (32bit and 64bit) or their variants
 * Billing: AWBS, WHMCS, HostBill, TheHostingTool, AccountLab Plus and Blesta (note: claim by billing's author)
@@ -26,14 +26,14 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 * Fixed many bugs of Kloxo Official (including security issues)
 * And many more!
 
-# Contributing
+### Contributing
 
 * Always invite for devs and testers. Go to http://mratwork.com/ and http://forum.mratwork.com/
 
-# Licensing - AGPLv3
+### Licensing - AGPLv3
 
 * Like Kloxo Official, Kloxo-MR adopt AGPLv3 too.
 
-# How to install
+### How to install
 
 * Read https://github.com/mustafaramadhan/kloxo/blob/release/how-to-install.txt
