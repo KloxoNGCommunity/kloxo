@@ -384,6 +384,7 @@ class Ipaddress extends Lxdb
 
 		$ppath = $sgbl->__path_program_root;
 		$spath = $sgbl->__path_ssl_root;
+		$epath = $sgbl->__path_program_root . "/etc";
 
 		$name = $devname . "___" . $machinename;
 
@@ -407,19 +408,26 @@ class Ipaddress extends Lxdb
 
 		// MR -- add for missing (lighttpd error when select because need .pem file
 		if (!lxfile_exists("{$spath}/$name.pem")) {
-		//	if (!lxfile_exists("{$ppath}/file/default.pem")) {
-			/*
-				// MR -- look like not work!
-				$contentscer = lfile_get_contents("__path_program_root/file/default.crt");
-				$contentskeyl = file_get_contents("__path_program_root/file/default.key");
-				$contentpem = "$contentscer\n$contentskey";
-				lfile_put_contents("__path_program_root/file/default.pem");
-			*/
-		//	}
-
 			exec("cat {$ppath}/file/default.crt {$ppath}/file/default.key > {$ppath}/file/default.pem");
-
 			lxfile_cp("{$ppath}/file/default.pem", "{$spath}/$name.pem");
+		}
+
+		// MR -- nginx for Kloxo using .crt and key; lxlighttpd using .ca and .pem
+
+		if (!lxfile_exists("{$epath}/program.crt")) {
+			lxfile_cp("{$spath}/$name.crt", "{$epath}/program.crt");
+		}
+
+		if (!lxfile_exists("{$epath}/program.key")) {
+			lxfile_cp("{$spath}/$name.key", "{$epath}/program.key");
+		}
+
+		if (!lxfile_exists("{$epath}/program.ca")) {
+			lxfile_cp("{$spath}/$name.ca", "{$epath}/program.ca");
+		}
+
+		if (!lxfile_exists("{$epath}/program.pem")) {
+			lxfile_cp("{$spath}/$name.pem", "{$epath}/program.pem");
 		}
 	}
 
@@ -669,9 +677,10 @@ class Ipaddress extends Lxdb
 
 		$vlist['devname'] = array('s', $result);
 
+		$vlist['ipaddr'] = "";
+
 		// MR -- enable gateway
-	//	$vlist['ipaddr'] = "";
-		$vlist['ipaddr'] = array('f', 'gateway');
+	//	$vlist['gateway'] = "";
 
 		// MR -- range ip still not work
 	//	$vlist['ipaddr_begin'] = "";
