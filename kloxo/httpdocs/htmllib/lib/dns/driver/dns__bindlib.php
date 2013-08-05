@@ -2,7 +2,7 @@
 
 include_once("dns__lib.php");
 
-class dns__djbdns extends dns__
+class dns__bind extends dns__
 {
 	function __construct()
 	{
@@ -11,11 +11,11 @@ class dns__djbdns extends dns__
 
 	static function uninstallMe()
 	{
-		parent::uninstallMeTrue('djbdns');
+		parent::uninstallMeTrue('bind');
 	}
 
 	static function installMe()
 	{
-		parent::installMeTrue('djbdns');
+		parent::installMeTrue('bind');
 	}
 }

@@ -117,10 +117,15 @@ class Dns extends DnsBase
 			}
 
 			lxshell_return("chkconfig", "named", "on");
-			$pattern = 'include "/etc/kloxo.named.conf";';
-			$file = "/var/named/chroot/etc/named.conf";
+
+			$pattern = 'include "/var/named/chroot/etc/kloxo.named.conf";';
+			$file1 = "/var/named/chroot/etc/named.conf";
+			$file2 = "/etc/named.conf";		
 			$comment = "//Kloxo";
-			addLineIfNotExistInside($file, $pattern, $comment);
+			addLineIfNotExistInside($file2, $pattern, $comment);
+
+			lxfile_cp($file2, $file1);
+
 			touch("/var/named/chroot/etc/kloxo.named.conf");
 			chown("/var/named/chroot/etc/kloxo.named.conf", "named");
 			lxshell_return("rpm", "-e", "djbdns");
@@ -195,13 +200,17 @@ class Dns extends DnsBase
 			$pattern = "options";
 
 			if (!preg_match("+$pattern+i", $cont)) {
-				file_put_contents($options_file, "$example_options\n");
+			//	file_put_contents($options_file, "$example_options\n");
 			}
 
-			$pattern = 'include "/etc/kloxo.named.conf";';
-			$file = "/var/named/chroot/etc/named.conf";
+			$pattern = 'include "/var/named/chroot/etc/kloxo.named.conf";';
+			$file1 = "/var/named/chroot/etc/named.conf";
+			$file2 = "/etc/named.conf";		
 			$comment = "//Kloxo";
-			addLineIfNotExistInside($file, $pattern, $comment);
+			addLineIfNotExistInside($file2, $pattern, $comment);
+
+			lxfile_cp($file2, $file1);
+
 			touch("/var/named/chroot/etc/kloxo.named.conf");
 			chown("/var/named/chroot/etc/kloxo.named.conf", "named");
 			lxshell_return("rpm", "-e", "djbdns");
