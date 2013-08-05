@@ -40,15 +40,11 @@ function lxins_main()
 //	$arch = php_uname('m');
 
 	// MR -- modified sysctl.conf because using socket instead port for php-fpm
-
 	$pattern = "fs.file-max";
-
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
 
-
-
 	if (!strpos($sysctlconf, $pattern)) {
-	//	system("echo '\nfs.file-max = 209708' >> /etc/sysctl.conf; sysctl -e -p");
+		system("echo '\nfs.file-max = 209708' >> /etc/sysctl.conf; sysctl -e -p");
 	}
 
 	if ($installstep === '2') {

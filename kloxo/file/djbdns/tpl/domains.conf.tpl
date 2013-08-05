@@ -16,6 +16,7 @@ Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?p
 foreach ($dns_records as $k => $o) {
     switch ($o->ttype) {
         case "ns":
+            $nameserver = $o->param;
 ?>
 &<?php echo $domainname; ?>::<?php echo $nameserver; ?>:<?php echo $ttl; ?>
 
@@ -60,7 +61,7 @@ foreach ($dns_records as $k => $o) {
                 $key = $param. '.' . $domainname;
             }
 ?>
-C<?php echo $hostname; ?>:<?php echo $key; ?>:<?php echo $ttl; ?>
+C<?php echo $hostname; ?>.<?php echo $domainname; ?>:<?php echo $key; ?>:<?php echo $ttl; ?>
 
 <?php
             break;

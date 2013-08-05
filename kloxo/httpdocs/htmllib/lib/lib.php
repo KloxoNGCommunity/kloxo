@@ -6139,6 +6139,13 @@ function setInitialServer($nolog = null)
 		}
 	}
 */
+	// MR -- modified sysctl.conf because using socket instead port for php-fpm
+	$pattern = "fs.file-max";
+	$sysctlconf = file_get_contents("/etc/sysctl.conf");
+
+	if (!strpos($sysctlconf, $pattern)) {
+		exec("echo '\nfs.file-max = 209708' >> /etc/sysctl.conf; sysctl -e -p");
+	}
 
 	// MR - Change to different purpose
 	// install php52s + hiawatha (also kloxomr specific component) and their setting for Kloxo-MR

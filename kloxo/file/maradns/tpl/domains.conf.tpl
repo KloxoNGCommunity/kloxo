@@ -14,6 +14,7 @@ Z<?php echo $domainname; ?>.|<?php echo $ttl; ?>|<?php echo $nameserver; ?>.|<?p
 foreach ($dns_records as $k => $o) {
     switch ($o->ttype) {
         case "ns":
+            $nameserver = $o->param;
 ?>
 N<?php echo $domainname; ?>.|<?php echo $ttl; ?>|<?php echo $nameserver; ?>.
 <?php
@@ -55,7 +56,7 @@ A<?php echo $key; ?>.|<?php echo $ttl; ?>|<?php echo $param; ?>.
                 $key = $param. '.' . $domainname;
             }
 ?>
-C<?php echo $hostname; ?>.|<?php echo $domainname; ?>.|<?php echo $ttl; ?>|<?php echo $key; ?>.
+C<?php echo $hostname; ?>..<?php echo $domainname; ?>.|<?php echo $domainname; ?>.|<?php echo $ttl; ?>|<?php echo $key; ?>.
 <?php
             break;
         case "fcname":

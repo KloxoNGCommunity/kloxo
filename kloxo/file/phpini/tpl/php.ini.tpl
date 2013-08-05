@@ -1,3 +1,5 @@
+;;; begin content - please not remove this line
+
 <?php
 	// can use $user and $domain vars
 
@@ -363,4 +365,4 @@ ldap.max_links = -1
 
 [dba]
 
-
+;;; end content - please not remove this line

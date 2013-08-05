@@ -1,3 +1,5 @@
+### begin content - please not remove this line
+
 <?php
 	// can use $user and $domain vars
 
@@ -81,3 +83,5 @@ $sendmail_from = '';
     php_flag enable_dl <?php echo $enable_dl_flag; ?>
 
 </Ifmodule>
+
+### end content - please not remove this line

@@ -23,6 +23,7 @@ $TTL <?php echo $ttl; ?>
 foreach ($dns_records as $k => $o) {
     switch ($o->ttype) {
         case "ns":
+            $nameserver = $o->param;
 ?>
 <?php echo $domainname; ?>. IN NS <?php echo $nameserver; ?>. 
 <?php
@@ -66,7 +67,7 @@ foreach ($dns_records as $k => $o) {
                 $key = $param. '.' . $domainname;
             }
 ?>
-<?php echo $hostname; ?> IN CNAME <?php echo $key; ?>. 
+<?php echo $hostname; ?>.<?php echo $domainname; ?>. IN CNAME <?php echo $key; ?>. 
 <?php
             break;
         case "fcname":
