@@ -453,6 +453,7 @@ server {
                 } else {
 ?>
 
+    set $user 'apache';
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
@@ -558,6 +559,7 @@ server {
                     } else {
 ?>
 
+    set $user 'apache';
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
@@ -637,6 +639,7 @@ server {
                     } else {
 ?>
 
+    set $user '<?php echo $user; ?>';
     set $fpmport '<?php echo $fpmport; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
@@ -750,6 +753,7 @@ server {
                     } else {
 ?>
 
+    set $user 'apache';
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
@@ -858,6 +862,7 @@ server {
                             } else {
 ?>
 
+    set $user 'apache';
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
@@ -943,6 +948,7 @@ server {
                     } else {
 ?>
 
+    set $user 'apache';
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
@@ -1050,6 +1056,7 @@ server {
                             } else {
 ?>
 
+    set $user 'apache';
     set $fpmport '<?php echo $fpmportapache; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';

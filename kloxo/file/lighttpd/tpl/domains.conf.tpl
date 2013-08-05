@@ -388,6 +388,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
     } else {
 ?>
 
+    var.user = "apache"
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
@@ -430,6 +431,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
         } else {
 ?>
 
+    var.user = "apache"
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
@@ -537,6 +539,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
             } else {
 ?>
 
+    var.user = "apache"
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
@@ -581,6 +584,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
                     } else {
 ?>
 
+    var.user = "apache"
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
@@ -634,6 +638,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
             } else {
 ?>
 
+    var.user = "apache"
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
@@ -677,6 +682,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
                     } else {
 ?>
 
+    var.user = "apache"
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"

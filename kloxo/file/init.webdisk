@@ -26,7 +26,7 @@ INITLOG_ARGS=""
 
 
 
-server=/usr/local/lxlabs/ext/webdisk.httpd
+server=/opt/webdisk.httpd
 OPTIONS="-f /usr/local/lxlabs/kloxo/file/webdisk.conf"
 
 

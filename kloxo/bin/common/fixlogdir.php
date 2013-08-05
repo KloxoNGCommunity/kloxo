@@ -13,7 +13,7 @@ function fixlogdir_main()
 	$logl = lscandir_without_dot("../log");
 	lxfile_mkdir("../processed_log");
 	@ lunlink("../log/access_log");
-	@ lunlink("/usr/local/lxlabs/ext/php/error.log");
+	@ lunlink("/opt/php52s/error.log");
 	$dir = getNotexistingFile("../processed_log", "proccessed");
 	system("mv ../log ../processed_log/$dir");
 	mkdir("../log");
@@ -26,6 +26,7 @@ function fixlogdir_main()
 		lxfile_touch("../log/$l");
 	}
 	lxfile_generic_chown_rec("../log", "lxlabs:lxlabs");
+/*
 	//
 	// Related to Issue #15
 	//
@@ -38,5 +39,6 @@ function fixlogdir_main()
 	lxfile_generic_chown("../log/lighttpd_error.log", "lxlabs:root");
 	lxfile_generic_chown("../log/access_log", "lxlabs:root");
 	//
+*/
 	os_restart_program();
 }

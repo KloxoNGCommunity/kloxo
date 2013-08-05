@@ -89,6 +89,7 @@ $HTTP["host"] =~ "^<?php echo $setdefaults; ?>\.*" {
     } else {
 ?>
 
+    var.user = "apache"
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"

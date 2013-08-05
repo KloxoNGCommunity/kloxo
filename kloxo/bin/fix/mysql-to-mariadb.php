@@ -16,7 +16,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 	echo "* Already '{$mysqlbranch}' installed\n";
 } elseif (strpos($mysqlbranch, "mysql") !== false) {
 
-	exec("yum list|grep MariaDB", $out, $ret);
+	system("yum list|grep MariaDB", $out, $ret);
 	
 	if ($ret) {
 		echo "- No repo for MariaDB.\n";
@@ -32,12 +32,12 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 			system("yum remove mysql*.i686 -y");
 		}
 		
-		$out2 = shell_exec("rpm -qa|grep {$mysqlbranch}");
+		$out2 = shell_system("rpm -qa|grep {$mysqlbranch}");
 
 		$arr = explode("\n", $out2);
 
 		echo "- Remove MySQL packages\n";
-		exec("cp -f /etc/my.cnf /etc/my.cnf._bck_");
+		system("\cp -f /etc/my.cnf /etc/my.cnf._bck_");
 		
 		foreach ($arr as &$o) {
 			if (strpos($o, "-mysql") !== false) { continue; }
@@ -48,7 +48,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		echo "- Install MariaDB\n";
 		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common MariaDB-shared -y");
 
-		system("cp -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf");
+		system("\cp -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf");
 
 		echo "- Restart MariaDB\n";
 		system("chkconfig mysql on");

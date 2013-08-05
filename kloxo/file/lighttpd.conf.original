@@ -218,7 +218,7 @@ compress.filetype          = ("text/plain", "text/css", "text/javascript")
 #### CGI module
 #cgi.assign                 = ( ".pl"  => "/usr/bin/perl" ,
 #                               ".cgi" => "/usr/bin/perl" , 
-#							   ".php" => "/usr/local/lxlabs/ext/php/bin/php_cgi" )
+#							   ".php" => "/opt/php52s/bin/php-cgi" )
 #
 
 cgi.assign	=						   (".php" => "/usr/local/lxlabs/kloxo/file/phpsuexec.sh" )

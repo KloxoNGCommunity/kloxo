@@ -32,7 +32,8 @@
 ?>
         <section name="pool">
             <value name="name"><?php echo $pool; ?></value>
-            <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value>
+        <!--    <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value> -->
+            <value name="listen_address">/home/php-fpm/sock/<?php echo $user; ?>.sock</value>
             <value name="listen_options">
                 <value name="backlog">-1</value>
                 <value name="owner"></value>
