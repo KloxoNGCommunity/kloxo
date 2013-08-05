@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /usr/local/lxlabs/kloxo/httpdocs
+
+sh ../sbin/kloxo-wrapper.sh &

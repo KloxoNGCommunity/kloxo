@@ -172,8 +172,8 @@ function createHeaderData()
 	} else {
 		$ticket_url = "/display.php?frm_action=list&frm_o_cname=ticket";
 	}
-	$helpurl = "http://wiki.lxcenter.org";
-
+//	$helpurl = "http://wiki.lxcenter.org";
+	$helpurl = "http://forum.mratwork.com";
 
 	$gdata = array(
 		"desktop" => array($deskdesc, "/display.php?frm_action=desktop", "client_list.gif"),

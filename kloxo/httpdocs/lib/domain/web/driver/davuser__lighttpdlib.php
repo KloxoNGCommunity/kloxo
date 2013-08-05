@@ -73,11 +73,11 @@ function createDavSuexec()
 	$string .= "#!/bin/sh\n";
 	$string .= "export MUID=$uid\n";
 	$string .= "export GID=$gid\n";
-	$string .= " export PHPRC=/usr/local/lxlabs/ext/php/etc/php.ini\n";
+	$string .= " export PHPRC=/opt/php52s/etc/php.ini\n";
 	$string .= "export TARGET=<%program%>\n";
 	$string .= "export NON_RESIDENT=1\n";
 	$string .= "exec lxsuexec $*\n";
-	$st = str_replace("<%program%>", "/usr/local/lxlabs/ext/php/bin/php_cgi", $string);
+	$st = str_replace("<%program%>", "/opt/php52s/bin/php-cgi", $string);
 	lfile_put_contents("__path_httpd_root/{$this->main->getParentName()}/davsuexec.sh", $st);
 	lxfile_unix_chmod("__path_httpd_root/{$this->main->getParentName()}/davsuexec.sh", "0755");
 }

@@ -76,7 +76,7 @@ class phpini__sync extends Lxdriverclass
 		$fpath = "/usr/local/lxlabs/kloxo/file";
 		$tpath = "/home/phpini/tpl";
 
-		exec("cp -rf {$fpath}/phpini /home");
+		exec("\cp -rf {$fpath}/phpini /home");
 
 		$pcont = file_get_contents(getLinkCustomfile($tpath, "php.ini.tpl"));
 		$hcont = file_get_contents(getLinkCustomfile($tpath, "htaccess.tpl"));

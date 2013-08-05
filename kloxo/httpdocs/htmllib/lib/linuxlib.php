@@ -324,15 +324,8 @@ function os_create_program_service()
 	global $gbl, $sgbl, $login, $ghtml; 
 	$pgm = $sgbl->__var_program_name;
 
-	$pgminit = "__path_program_htmlbase/htmllib/filecore/$pgm.init.program";
-
-	if (lxfile_exists($pgminit)) {
-		lxfile_cp($pgminit, "/etc/init.d/$pgm");
-	} else {
-		lxfile_cp("__path_program_htmlbase/htmllib/filecore/init.program", "/etc/init.d/$pgm");
-	}
-
-//	lxfile_cp("__path_program_htmlbase/htmllib/filecore/php.ini", "__path_lxlabs_base/ext/php/etc/php.ini");
+	$pgminit = "__path_program_root/init/$pgm.init";
+	
 	lxfile_unix_chmod("/etc/init.d/$pgm", "0755");
 }
 

@@ -1,0 +1,181 @@
+#!/bin/bash
+#
+# Startup script for the DJBDns DNS Server
+#
+# chkconfig: - 85 15
+# description: DJBDns is a World Wide DNS server.
+# processname: tcpserver
+# pidfile: /var/run/djbdns.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+TCPserv="/usr/bin/tcpserver"
+Bootproc="/var/qmail/boot/proc"
+prog="Djbdns"
+
+ppath="/home/djbdns"
+
+PATH=$PATH:/bin:/usr/bin:/usr/local/bin
+
+start() {
+	echo $"Starting $prog for: "
+
+	if [ -f ${ppath}/dnscache/enable ] ; then 
+		cd ${ppath}/dnscache
+		./run > /dev/null 2>&1 &
+		echo -n '  - dnscache   '
+
+		if $(ps aux|grep [d]nscache >/dev/null 2>&1) ; then
+			echo '[  OK  ]'
+		else
+			echo '[FAILED]'
+		fi
+	else 
+		cd ${ppath}/axfrdns
+		./run > /dev/null 2>&1 &
+		echo -n '  - axfrdns    '
+
+		if $(ps aux|grep [a]xfrdns >/dev/null 2>&1) ; then
+			echo '[  OK  ]'
+		else
+			echo '[FAILED]'
+		fi
+	fi
+
+	cd ${ppath}/tinydns
+	./run > /dev/null 2>&1 &
+
+	echo -n '  - tinydns    '
+
+	if $(ps aux|grep [t]inydns >/dev/null 2>&1) ; then
+		echo '[  OK  ]'
+	else
+		echo '[FAILED]'
+	fi
+}
+
+stop() {
+	echo $"Stopping $prog for: "
+
+	if [ -f ${ppath}/dnscache/enable ] ; then 
+		pkill -x dnscache
+		echo -n '  - dnscache   '
+
+		if ! $(ps aux|grep [d]nscache >/dev/null 2>&1) ; then
+			echo '[  OK  ]'
+		else
+			echo '[FAILED]'
+		fi
+	else 
+		pkill -f axfrdns
+		echo -n '  - axfrdns    '
+
+		if ! $(ps aux|grep [a]xfrdns >/dev/null 2>&1) ; then
+			echo '[  OK  ]'
+		else
+			echo '[FAILED]'
+		fi
+	fi
+
+	pkill -x tinydns
+	echo -n '  - tinydns    '
+
+	if ! $(ps aux|grep [t]inydns >/dev/null 2>&1) ; then
+		echo '[  OK  ]'
+	else
+		echo '[FAILED]'
+	fi
+}
+
+status() {
+	echo $"$prog status for: "
+
+	if [ -f ${ppath}/dnscache/enable ] ; then 
+		if $(ps aux|grep [d]nscache >/dev/null 2>&1) ; then
+			echo '  - dnscache -> started'
+		else
+			echo '  - dnscache -> stopped'
+		fi
+	else 
+		if $(ps aux|grep [a]xfrdns >/dev/null 2>&1) ; then
+			echo '  - axfrdns  -> started'
+		else
+			echo '  - axfrdns  -> stopped'
+		fi
+	fi
+	
+
+	if $(ps aux|grep [t]inydns >/dev/null 2>&1) ; then
+		echo '  - tinydns  -> started'
+	else
+		echo '  - tinydns  -> stopped'
+	fi
+}
+
+setup() {
+	### MR - use 0.0.0.0 (that mean all ips) instead current IPs
+
+	for a in dnslog dnscache tinydns axfrdns ; do
+		if ! [ $(id -u ${a}) ] ; then
+			/usr/sbin/useradd -r ${a}
+		else
+			/usr/sbin/userdel ${a}
+			/usr/sbin/useradd -r ${a}
+		fi
+	done
+
+	echo $"$prog setup for: "
+
+	echo '  - tinydns setup finished'
+	if [ -d ${ppath}/tinydns/env ] ; then
+		rm -rf ${ppath}/tinydns
+	fi
+
+	tinydns-conf tinydns dnslog ${ppath}/tinydns 127.0.0.1
+	mkdir -p ${ppath}/tinydns/env
+	echo '0.0.0.0' > ${ppath}/tinydns/env/IP
+
+	echo '  - axfrdns setup finished'
+
+	if [ -d ${ppath}/axfrdns/env ] ; then
+		rm -rf ${ppath}/axfrdns
+	fi
+
+	axfrdns-conf axfrdns dnslog ${ppath}/axfrdns ${ppath}/tinydns 0.0.0.0
+	/usr/bin/tcprules ${ppath}/axfrdns/tcp.cdb ${ppath}/axfrdns/tcp.tmp \
+		< ${ppath}/axfrdns/tcp
+
+	if [ -d ${ppath}/dnscache/env ] ; then
+		rm -rf ${ppath}/dnscache
+	fi
+
+	echo '  - dnscache setup finished'
+	dnscache-conf dnscache dnslog ${ppath}/dnscache 127.0.0.1
+	mkdir -p ${ppath}/dnscache/env
+	echo '127.0.0.1' > ${ppath}/dnscache/env/IP
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	status)
+		status
+		;;
+	restart|reload)
+		stop
+		start
+		;;
+	setup)
+		stop
+		setup
+		start
+		;;
+	*)
+		echo $"Usage: $prog {start|stop|restart|reload|status|setup}"
+		exit 1
+esac

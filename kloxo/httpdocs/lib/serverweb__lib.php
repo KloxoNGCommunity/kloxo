@@ -136,7 +136,7 @@ class serverweb__ extends lxDriverClass
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
 			lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
 
-			exec("cp -rf {$ullkfapath} /home");
+			exec("\cp -rf {$ullkfapath} /home");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
 				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath . "/~lxcenter.conf");

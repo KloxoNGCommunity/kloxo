@@ -69,7 +69,7 @@ baseurl=http://centos.alt.ru/repository/centos/$releasever/$basearch/
 #mirrorlist=http://rpms.potissima.com/repo/mirrors/centalt-centos-$releasever-$basearch-mirrors.txt
 enabled=1
 gpgcheck=0
-exclude=openssh* perl* mariadb*
+exclude=openssh* perl* mariadb* bind*
 
 # ==================================
 
@@ -79,7 +79,7 @@ baseurl=http://dl.iuscommunity.org/pub/ius/stable/Redhat/$releasever/$basearch
 mirrorlist=http://dmirr.iuscommunity.org/mirrorlist/?repo=ius-el$releasever&arch=$basearch
 enabled=1
 gpgcheck=0
-exclude=php52* mysql51*  mysql55*
+exclude=php52* mysql5*
 
 [kloxo-mr-ius-c5]
 name=Kloxo-MR - IUS Community Packages for EL 5 (special) - $basearch
@@ -113,8 +113,9 @@ gpgcheck=0
 [kloxo-mr-centosec]
 name=Kloxo-MR - CentOS $releasever Packages from CentOS.EC
 baseurl=http://centos$releasever.ecualinux.com/$basearch
-enabled=0
+enabled=1
 gpgcheck=0
+exclude=cairo*
 
 # ==================================
 
@@ -140,3 +141,12 @@ name=Kloxo-MR - mariadb64 repo
 baseurl=http://yum.mariadb.org/5.5/centos$releasever-amd64
 enabled=0
 gpgcheck=0
+
+# ==================================
+
+# for atrpms
+[kloxo-mr-atrpms]
+name=Kloxo-MR - Fedora Core $releasever - $basearch - ATrpms
+baseurl=http://dl.atrpms.net/el$releasever-$basearch/atrpms/stable
+gpgcheck=0
+enable=0

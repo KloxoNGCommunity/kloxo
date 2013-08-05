@@ -15,62 +15,10 @@ function update_main()
 
 	log_cleanup("Kloxo Install/Update");
 	
-//	if (lxfile_exists("/var/cache/kloxo/kloxo-install-first.flg")) {
-//	if (!file_exists("/var/lib/mysql/kloxo")) {
 	if (getKloxoType() === '') {
 		log_cleanup("- Installing Kloxo packages at the first time");
 		$DoUpdate = true;
-//	} elseif (lxfile_exists("/var/cache/kloxo/kloxo-install-secondtime.flg")) {
-//		log_cleanup("- Installing Kloxo packages at reinstall");
-//		$DoUpdate = true;
 	} else {
-/*
-		log_cleanup("- Getting Version Info from the LxCenter download Server");
-		$upversion = false;
-		if ((isset($opt['till-version']) && $opt['till-version']) || lxfile_exists("__path_slave_db")) {
-			$sgbl->slave = true;
-			$upversion = findNextVersion($opt['till-version']);
-			$type = 'slave';
-		} else {
-			$sgbl->slave = false;
-			$upversion = findNextVersion();
-			$type = 'master';
-		}
-
-		if ($upversion) {
-			log_cleanup("- Connecting LxCenter download server");
-			do_upgrade($upversion);
-			log_cleanup("- Upgrade Done. Cleanup....");
-			flush();
-		} else {
-			$localversion = $sgbl->__ver_major_minor_release;
-			log_cleanup("- Kloxo is the latest version ($localversion)");
-		}
-
-*/
-/*
-		// Thirdparty/Webmail/AWstats checks
-
-		$verWM = getVersionNumber(get_package_version("lxwebmail"));
-		$verAW = getVersionNumber(get_package_version("lxawstats"));
-		$ver = file_get_contents("http://download.lxcenter.org/download/thirdparty/kloxo-version.list");
-		$verTP = getVersionNumber($ver);
-
-		if ( !lxfile_exists("/var/cache/kloxo/lxwebmail$verWM.tar.gz" ) ) { $retWM = true; } else { $retWM = false; }
-		if ( !lxfile_exists("/var/cache/kloxo/lxawstats$verAW.tar.gz" ) ) { $retAW = true; } else { $retAW = false; }
-		if ( !lxfile_exists("/var/cache/kloxo/kloxo-thirdparty.$verTP.zip" ) ) { $retTP = true; } else { $retTP = false; }
-
-		installThirdparty();
-		installWebmail();
-		installAwstats();
-
-		// Run cleanups or not
-		if ($retTP || $retWM || $retAW || $upversion) {
-			$DoUpdate = true;
-		} else {
-			$DoUpdate = false;
-		}
-*/
 		$DoUpdate = true;
 	}
 
@@ -86,10 +34,6 @@ function update_main()
 		exit;
 	}
 	
-	//
-	// Executing update/cleanup process
-	//
-//	lxfile_cp("htmllib/filecore/php.ini", "/usr/local/lxlabs/ext/php/etc/php.ini");
 	$res = pcntl_exec("/bin/sh", array("../bin/common/updatecleanup.sh", "--type=$type"));
 }
 

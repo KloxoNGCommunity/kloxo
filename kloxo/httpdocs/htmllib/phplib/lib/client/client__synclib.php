@@ -175,32 +175,36 @@ function setupDefaultDomain()
 function changeAdminPass()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+	
 	$username = $sgbl->__var_program_name;
+	
 	if ($this->main->nname === 'admin') {
 		dprint($this->main->realpass);
 		$newp = client::createDbPass($this->main->realpass);
 		$oldpass = lfile_get_contents("__path_admin_pass");
 		$sql = new Sqlite(null, "client");
-		//$sql->rawQuery("grant all on kloxo.* to kloxo@'localhost' identified by $newp");
-		//$sql->rawQuery("grant all on kloxo.* to kloxo@'%' identified by $newp");
-		//$return = $sql->setPassword($newp);
-		//exec("mysqladmin -u $username -p$oldpass password $newp 2>&1", $out, $return);
+	//	$sql->rawQuery("grant all on kloxo.* to kloxo@'localhost' identified by $newp");
+	//	$sql->rawQuery("grant all on kloxo.* to kloxo@'%' identified by $newp");
+	//	$return = $sql->setPassword($newp);
+	//	exec("mysqladmin -u $username -p$oldpass password $newp 2>&1", $out, $return);
 		exec("echo 'set Password=Password(\"$newp\")' | mysql -u $username -p$oldpass 2>&1", $out, $return);
+		
 		if ($return) {
 			$out = implode(" ", $out);
 			log_log("admin_error", "mysql change password Failed $out");
 
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException ("could_not_change_admin_pass", '', $out);
 		}
+		
 		$return = lfile_put_contents("__path_admin_pass", $newp);
+		
 		if (!$return) {
 			log_log("admin_error", "Admin pass change failed  $last_error");
 			
-			exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException ("could_not_change_admin_pass", '', $last_error);
 		}
-
 	}
 }
 

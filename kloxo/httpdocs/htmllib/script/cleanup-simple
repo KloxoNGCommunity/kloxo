@@ -1,4 +1,15 @@
 #!/bin/sh
+
+if $(rpm -qa|grep lxphp >/dev/null 2>&1) ; then
+	rpm -e lxphp >/dev/null 2>&1
+	rpm -e lxlighttpd >/dev/null 2>&1
+	rpm -e lxzend >/dev/null 2>&1
+	
+	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
+	
+	yum install php52s -y >/dev/null 2>&1
+fi
+
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php --without-services
 

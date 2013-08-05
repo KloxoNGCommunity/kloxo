@@ -56,7 +56,7 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	"./kloxomr-$ver/httpdocs" "./kloxomr-$ver/pscript" "./kloxomr-$ver/sbin" \
 	"./kloxomr-$ver/RELEASEINFO" "./kloxomr-$ver/etc/process" \
 	"./kloxomr-$ver/etc/config.ini" \
-	"./kloxomr-$ver/install" \
+	"./kloxomr-$ver/install" "./kloxomr-$ver/init" \
 	"./kloxomr-$ver/etc/list" \
 	--exclude "./kloxomr-$ver/httpdocs/commands.php" \
 	--exclude "./kloxomr-$ver/httpdocs/newpass" \

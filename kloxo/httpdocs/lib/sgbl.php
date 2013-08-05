@@ -108,8 +108,7 @@ class Sgbl
 		$this->__path_program_etc = "/usr/local/lxlabs/kloxo/etc/";
 		$this->__path_program_root = "/usr/local/lxlabs/kloxo";
 		$this->__path_program_htmlbase = "/usr/local/lxlabs/kloxo/httpdocs";
-	//	$this->__path_php_path = $this->__path_lxlabs_base . "/ext/php/php";
-		$this->__path_php_path = $this->__path_lxlabs_base . "/ext/php/etc/lxphpcli.sh";
+		$this->__path_php_path = "/opt/php52s/bin/php";
 
 		$this->__path_serverfile = $this->__path_lxlabs_base . "/kloxo/serverfile";
 		$this->__path_download_dir = $this->__path_lxlabs_base . "/kloxo/download";
@@ -139,7 +138,7 @@ class Sgbl
 	//	$this->__var_mssqlport = '7773';
 		$this->__var_local_port = '7776';
 		$this->__var_remote_port = '7779';
-
+	/*
 		$conffile = "$this->__path_program_root/file/conf/os.conf";
 
 		if (!file_exists($conffile)) {
@@ -149,11 +148,12 @@ class Sgbl
 
 			copy("$this->__path_program_root/file/conf/$os.conf", $conffile);
 		}
-
+	*/
 		$this->__var_exit_char = "___...___";
 		$this->__var_remote_char = "_._";
 
 		$this->__var_connection_type = "tcp";
+	/*
 		include_once $conffile;
 
 		if (!$conf) {
@@ -173,7 +173,7 @@ class Sgbl
 				$this->$vvar = $nv;
 			}
 		}
-
+	*/
 		$this->__path_dbschema = "$this->__path_program_root/file/.db_schema";
 
 		if ($this->__var_database_type === "sqlite") {

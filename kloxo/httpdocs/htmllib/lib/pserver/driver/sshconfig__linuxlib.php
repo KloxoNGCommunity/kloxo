@@ -42,7 +42,7 @@ function dbactionUpdate($subaction)
 	$ret = lfile_put_contents("/etc/ssh/sshd_config", $str);
 
 	if (!$ret) {
-	//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxException('could_not_write_config_file', '', '');
 	}
 

@@ -1,0 +1,52 @@
+#!/bin/sh
+
+yum install php52s -y
+
+for phpver in php53 php54 ; do
+	mkdir -p /opt/$phpvers
+	cd /opt/$phpvers
+
+	if [ $phpver == 'php53' ] ; then
+		yumdownloader php53u*
+	else
+		yumdownloader $phpver*
+	fi
+	
+	for rpmfile in $(dir -x *.rpm) ; do
+		rpm2cpio $rpmfile | cpio -idmv
+		rm -rf $rpmfile
+	done
+
+	cd /opt/$phpvers/etc/php.d/
+
+	for inifile in eaccelerator memcache memcached xdebug \
+			mysqlnd mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli \
+			interbase pdo_firebird pgsql pdo_pgsql pdo_mysqlnd ; do
+		if [ -f $inifile.ini ] ; then
+			mv -f $inifile.ini $inifile.nonini
+		fi
+	done
+
+#	echo '' > /opt/$phpvers/etc/modules.ini
+
+#	cd /opt/$phpvers/etc/php.d/
+
+#	for modinifile in $(dir -x *.ini) ; do
+#		cat $modinifile >> /opt/$phpvers/etc/modules.ini
+#	done
+
+	cd /opt/$phpvers/etc/
+
+	if [ ! -f php.ini.original ] ; then
+		cp -rf php.ini php.ini.original
+	fi
+
+#	cat /opt/$phpvers/etc/modules.ini >> /opt/$phpvers/etc/php.ini
+
+	if [ -d /opt/$phpvers/usr/lib64 ] ; then
+		mv -f /opt/$phpvers/usr/lib /opt/$phpvers/usr/lib.bck
+		ln -s /opt/$phpvers/usr/lib64 /opt/$phpvers/usr/lib
+		cp -rf /opt/$phpvers/usr/lib.bck/* /opt/$phpvers/usr/lib64/
+	fi
+
+done

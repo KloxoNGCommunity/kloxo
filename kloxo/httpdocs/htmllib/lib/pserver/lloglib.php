@@ -70,7 +70,6 @@ function createShowSclist()
 */
 /*
 	$sclist['ffile'] = array(
-	//	'/usr/local/lxlabs/ext/php/error.log' => 'LxPhp Error',
 		'audit/audit.log' => 'Audit',
 		'clamav/freshclam.log' => 'Freshclam',
 		'qmail/authlib/current' => 'Qmail-toaster Authlib',
@@ -94,7 +93,6 @@ function createShowSclist()
 */
 	// MR -- only list maillog because change multilog to splogger for qmail-toaster
 	$sclist['ffile'] = array(
-	//	'/usr/local/lxlabs/ext/php/error.log' => 'LxPhp Error',
 		'audit/audit.log' => 'Audit',
 		'clamav/freshclam.log' => 'Freshclam',
 		'maillog' => 'Mail log',

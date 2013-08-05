@@ -48,7 +48,8 @@ function createOldHeaderData()
 	} else {
 		$ticket_url = "/display.php?frm_action=list&frm_o_cname=ticket";
 	}
-	$helpurl = "http://wiki.lxcenter.org";
+//	$helpurl = "http://wiki.lxcenter.org";
+	$helpurl = "http://forum.mratwork.com";
 
 
 	$gdata = array(
@@ -165,7 +166,7 @@ function changeLogo(flag)
 </script>
 <body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 border=0>
 <table width=100% height="59" border="0" valign=top align="center" cellpadding="0" cellspacing="0" >
-<tr> <td width=100% style='background:url(<?php echo $login->getSkinDir() ?>/header_top_bg.gif)'> </td> <td width=326 style='background:url(<?php echo $login->getSkinDir() ?>/header_top_rt.gif);background-repeat:no-repeat'><table width=326> <tr align=right><td width=200> &nbsp; &nbsp; </td> <td align=right> <img id=main_logo width=84 height=23 src="<?php echo $logo_loading?>"></td> <td width=10%> &nbsp; &nbsp; </td></tr></table> </td> </tr>
+<tr> <td width=100% style='background:url(<?php echo $login->getSkinDir() ?>/header_top_bg.gif)'> </td> <td width=322 style='background:url(<?php echo $login->getSkinDir() ?>/header_top_rt.gif);background-repeat:no-repeat'><table width=322> <tr align=right><td width=200> &nbsp; &nbsp; </td> <td align=right> <!-- <img id=main_logo width=84 height=23 src="<?php echo $logo_loading?>"> --></td> <td width=10%> &nbsp; &nbsp; </td></tr></table> </td> </tr>
 </table>
 <TABLE border="0" width=100%  cellspacing=0 cellpadding=0 background="<?php echo $login->getSkinDir() ?>/header_panel_bg.gif">
  <TBODY>

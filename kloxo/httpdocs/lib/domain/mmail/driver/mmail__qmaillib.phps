@@ -170,7 +170,7 @@ class Mmail__Qmail extends lxDriverClass
 		$ret = lxshell_return($sys_cmd, $this->main->nname);
 
 		if (!$ret) {
-			exec_with_all_closed("sh /script/backendrestart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException("could_not_delete_domain", '');
 		}
 
@@ -226,20 +226,20 @@ class Mmail__Qmail extends lxDriverClass
 		$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
 
 		if ($ret) {
-			exec_with_all_closed("sh /script/backendrestart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/laod-wrapper >/dev/null 2>&1 &");
 			throw new lxException("could_not_add_mail", 'mailpserver', $global_shell_error);
 		}
 
-		/*
-			$listdom = "lists.{$this->main->nname}";
-			lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $listdom, $password);
-			//lxshell_return($sys_cmd, $listdom, $password);
-			$mailpath = self::getDir($listdom);
-			$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
-			$qmailfile = "$mailpath/.qmail-default";
-		
-			lxfile_unix_chown($qmailfile, mmail__qmail::getUserGroup($this->main->nname));
-		*/
+	/*
+		$listdom = "lists.{$this->main->nname}";
+		lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $listdom, $password);
+	//	lxshell_return($sys_cmd, $listdom, $password);
+		$mailpath = self::getDir($listdom);
+		$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
+		$qmailfile = "$mailpath/.qmail-default";
+	
+		lxfile_unix_chown($qmailfile, mmail__qmail::getUserGroup($this->main->nname));
+	*/
 
 		$this->updateQmaildefault();
 		//createRestartFile('courier-imap');

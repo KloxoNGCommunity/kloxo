@@ -28,18 +28,26 @@ class web__ extends lxDriverClass
 		} elseif ($l === 'nginx') {
 			$blist[] = "{$l}-devel";
 		}
+		
+		// MR -- because nginx using for execute Kloxo, uninstall mean remove ~lxcenter.conf only
+	/*
+		if ($l === 'nginx') {
+			lxfile_rm("/etc/nginx/conf.d/~lxcenter.conf");
+			createRestartFile($l);
+		} else {
+	*/
+			lxshell_return("service", $l, "stop");
 
-		lxshell_return("service", $l, "stop");
+			foreach ($blist as $k => $v) {
+				lxshell_return("rpm", "-e", "--nodeps", $v);
+			}
 
-		foreach ($blist as $k => $v) {
-			lxshell_return("rpm", "-e", "--nodeps", $v);
-		}
+			lxshell_return("chkconfig", $l, "off");
 
-		lxshell_return("chkconfig", $l, "off");
-
-		if (file_exists("/etc/init.d/{$l}")) {
-			lunlink("/etc/init.d/{$l}");
-		}
+			if (file_exists("/etc/init.d/{$l}")) {
+				lunlink("/etc/init.d/{$l}");
+			}
+	//	}
 	}
 
 	static function installMeTrue($drivertype = null)
@@ -64,54 +72,15 @@ class web__ extends lxDriverClass
 			$hawcdpath = "/home/{$l}/etc/conf.d";
 
 			if ($a === 'httpd') {
-				self::setWebserverInstall($a);
-
-				setRpmInstalled("mod_rpaf");
-
 				setRpmInstalled("mod_ssl");
-
-				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
-						"/etc/httpd/conf.d/rpaf.conf");
-				lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
-						"/etc/httpd/conf.d/ssl.conf");
-
-				// MR -- this is from old Kloxo
-				if (file_exists("{$p}/defaults/stats.conf")) {
-						exec("rm -rf {$p}/defaults/stats.conf");
-				}
-
-				// MR -- this is from old Kloxo
-				if (file_exists("{$p}/defaults/mimetype.conf")) {
-						exec("rm -rf {$p}/defaults/mimetype.conf");
-				}
-
 			} elseif ($a === 'lighttpd') {
-				self::setWebserverInstall($a);
-
 				setRpmInstalled("{$a}-fastcgi");
-
-				// MR -- some rpm not create this file
-				if (!file_exists("/etc/lighttpd/local.lighttpd.conf")) {
-					exec("echo '' > /etc/lighttpd/local.lighttpd.conf");
-				}
-
-				// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
-				lxfile_unix_chown("/var/log/{$a}", "apache:apache");
 			} elseif ($a === 'nginx') {
-				self::setWebserverInstall($a);
-
 				setRpmInstalled("GeoIP");
-
-				// MR -- nginx 1.3.5 from centalt also copy httpd ssl to /etc/nginx/conf.d
-				// it's make nginx not able started. Because nginx for kloxo don't need this file,
-				// and then this file deleted.
-
-				$nginxsslcfgfile = '/etc/nginx/conf.d/ssl.conf';
-
-				if (file_exists($nginxsslcfgfile)) {
-					exec("rm -rf {$nginxsslcfgfile}");
-				}
 			}
+
+			self::setWebserverInstall($a);
+			self::setBaseWebConfig($a);
 
 			lxshell_return("chkconfig", $a, "on");
 
@@ -121,6 +90,48 @@ class web__ extends lxDriverClass
 		}
 
 		self::setInstallPhpfpm();
+	}
+
+	static function setBaseWebConfig($drivertype = null)
+	{
+		$a = $drivertype;
+
+		$hwcpath = "/home/{$l}/conf";
+
+		if ($a === 'httpd') {
+			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
+				"/etc/httpd/conf.d/rpaf.conf");
+			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
+				"/etc/httpd/conf.d/ssl.conf");
+
+			// MR -- this is from old Kloxo
+			if (file_exists("{$hwcpath}/defaults/stats.conf")) {
+				lxfile_rm("{$hwcpath}/defaults/stats.conf");
+			}
+
+			// MR -- this is from old Kloxo
+			if (file_exists("{$hwcpath}/defaults/mimetype.conf")) {
+				lxfile_rm("{$hwcpath}/defaults/mimetype.conf");
+			}
+		} elseif ($a === 'lighttpd') {
+			// MR -- some rpm not create this file
+			if (!file_exists("/etc/lighttpd/local.lighttpd.conf")) {
+				exec("echo '' > /etc/lighttpd/local.lighttpd.conf");
+			}
+
+			// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
+			lxfile_unix_chown("/var/log/{$a}", "apache:apache");
+		} elseif ($a === 'nginx') {
+			// MR -- nginx 1.3.5 from centalt also copy httpd ssl to /etc/nginx/conf.d
+			// it's make nginx not able started. Because nginx for kloxo don't need this file,
+			// and then this file deleted.
+
+			$nginxsslcfgfile = '/etc/nginx/conf.d/ssl.conf';
+
+			if (file_exists($nginxsslcfgfile)) {
+				lxfile_rm("{$nginxsslcfgfile}");
+			}
+		}
 	}
 
 	static function setWebserverInstall($webserver)
@@ -142,16 +153,13 @@ class web__ extends lxDriverClass
 
 	static function setUnnstallPhpfpm()
 	{
-	//	$phpbranch = getRpmBranchInstalled('php');
-	//	exec("yum remove {$phpbranch}-fpm -y");
-
 		// MR -- change to it for speedup process
 		exec("yum remove php*-fpm -y");
 	}
 
 	static function setInstallPhpfpm()
 	{
-		exec("cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /home");
+		lxfile_cp_rec("/usr/local/lxlabs/kloxo/file/php-fpm", "/home");
 
 		$phpbranch = getRpmBranchInstalled('php');
 
@@ -166,7 +174,7 @@ class web__ extends lxDriverClass
 
 			if (file_exists("/etc/php-fpm.d")) {
 				if (!file_exists("/etc/php-fpm.d/default.conf")) {
-					exec("cp -rf /home/php-fpm/etc/php-fpm.d/default.conf /etc/php-fpm.d/default.conf");
+					lxfile_cp("/home/php-fpm/etc/php-fpm.d/default.conf", "/etc/php-fpm.d/default.conf");
 				}
 			}
 		} else {
@@ -332,7 +340,7 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-			lxfile_rm($tpltarget);
+			lxshell_return("rm", "-rf", $tpltarget);
 		}
 	}
 
@@ -365,7 +373,7 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-			exec("rm -f /etc/php-fpm.d/*.conf");
+			lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
 
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf");
@@ -1044,7 +1052,7 @@ class web__ extends lxDriverClass
 	function setPhpIni()
 	{
 		$domainname = $this->getDomainname();
-		$username = $this->main->username;
+		$username = $this->getUser();
 
 		lxfile_unix_chown("/home/httpd/{$domainname}", "{$username}:apache");
 		lxfile_unix_chmod("/home/httpd/{$domainname}", "0775");
@@ -1125,31 +1133,10 @@ class web__ extends lxDriverClass
 	{
 		$domainname = $this->getDomainname();
 
-		$user = $this->getUser();
-
 		// Very important. If the nname is null,
 		// then the 'rm - rf' command will delete all the domains.
 		// So please be careful here. Must find a better way to delete stuff.
 		if (!$domainname) {	return null;	}
-
-		$list = getWebDriverList();
-
-		foreach ($list as &$l) {
-			$p = "/home/{$l}/conf";
-
-			lxfile_rm("{$p}/domains/{$domainname}.conf");
-
-			// MR -- for large amount domains, call function make slow process
-			// so, alternative use file detect
-		//	if (!file_exists("{$p}/defaults/init.conf")) {
-			if (!file_exists("{$p}/defaults/_default.conf")) {
-				$this->updateMainConfFile();
-				$this->createWebmailDefaultConfig();
-				$this->createCpConfig();
-
-			//	exec("sh /script/fixweb --select=static --nolog");
-			}
-		}
 
 		$this->createSSlConf();
 
@@ -1164,23 +1151,6 @@ class web__ extends lxDriverClass
 
 		$this->main->createPhpInfo();
 
-		$list = getWebDriverList();
-
-		foreach ($list as &$l) {
-			$p = "/home/{$l}/conf";
-
-			// MR -- for large amount domains, call function make slow process
-			// so, alternative use file detect
-		//	if (!file_exists("{$p}/defaults/init.conf")) {
-			if (!file_exists("{$p}/defaults/_default.conf")) {
-				$this->updateMainConfFile();
-				$this->createWebmailDefaultConfig();
-				$this->createCpConfig();
-
-			//	exec("sh /script/fixweb --select=static --nolog");
-			}
-		}
-
 		$this->createSSlConf();
 	}
 
@@ -1190,13 +1160,11 @@ class web__ extends lxDriverClass
 
 		$this->main->doStatsPageProtection();
 
-	//	lxshell_return("sh", "/script/fixphpfpm", "--nolog");
-	
 		$user = $this->getUser();
-		
-		if (!file_exists("/etc/php-fpm.d/{$user}.conf")) {
-			$this->createPhpFpmConfig('add', $user);
-			createRestartFile('php-fpm');
+
+		if (!file_exists("/etc/php-fpm/{$user}")) {
+			$this->dbactionUpdate("static_config_update");
+		//	self::addPhpFpmConfig($user);
 		}
 	}
 
@@ -1204,7 +1172,16 @@ class web__ extends lxDriverClass
 	{
 		$this->delDomain();
 
-	//	lxshell_return("sh", "/script/fixphpfpm", "--nolog");
+		// MR -- include fix_phpfpm
+		$this->dbactionUpdate("static_config_update");
+
+		$domainname = $this->getDomainname();
+
+		$list = getWebDriverList();
+
+		foreach ($list as &$l) {
+			unlink("/home/{$l}/conf/domains/{$domainname}.conf");
+		}
 	}
 
 	function dosyncToSystemPost()

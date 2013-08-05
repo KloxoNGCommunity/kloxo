@@ -79,13 +79,13 @@ restartf() {
 }
 
 case "$1" in
-  start)
+  start|force-restart)
     startf
     ;;
   stop)
     stopf
     ;;
-  stat)
+  stat|status)
     cd /var/qmail/supervise
     svstat * */log
     ;;
@@ -114,9 +114,6 @@ case "$1" in
     svc -c /var/qmail/supervise/smtp
     ;;
   restart)
-#    stopf
-#    sleep 5
-#    startf
     restartf
     ;;
   cdb)

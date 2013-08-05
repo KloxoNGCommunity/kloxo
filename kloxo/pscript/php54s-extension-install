@@ -1,0 +1,52 @@
+#!/bin/sh
+
+if [ "$#" == 0 ] ; then
+	echo
+	echo " ---------------------------------------------------------------------------"
+	echo "  format: sh $0 <extension_name>"
+	echo " ---------------------------------------------------------------------------"
+	echo " - Because php54s using php 5.4.x, better use the same version"
+	echo "   Example: 'sh $0 php54-xcache'"
+	echo
+	echo " - Certain extension need 'extension=/opt/php54s/lib/xxx.so'"
+	echo "   rather than 'extension=xxx.so' inside their ini file on"
+	echo "   '/opt/php54s/etc/php.d')"
+	echo
+	echo " - Check '/opt/php54s/error.log' after testing with 'php54s -m'"
+	echo
+	exit;
+fi
+
+yum install yum-utils -y
+
+mkdir -p /tmp/php54s-module
+
+cd /tmp/php54s-module
+
+yumdownloader $1
+
+rpm2cpio *.rpm | cpio -idmv >/dev/null 2>$1
+
+for a in lib lib64 ; do
+	b="/tmp/php54s-module/usr/$a/php/modules"
+	if [ -d $b ] ; then
+		echo "- copy extension .so to /opt/php54s/lib"
+		cp -rf $b/* /opt/php54s/lib
+	fi
+done
+
+for a in lib lib64 ; do
+	b="/tmp/php54s-module/usr/$a/php/zend"
+	if [ -d $b ] ; then
+		echo "- copy zend extension .so to /opt/php54s/zend"
+		cp -rf $b/* /opt/php54s/zend
+	fi
+done
+
+b="/tmp/php54s-module/etc/php.d"
+if [ -d $b ] ; then
+	echo "- copy extension .ini to /opt/php54s/etc/php.d"
+	cp -rf $b/* /opt/php54s/etc/php.d
+fi
+
+rm -rf /tmp/php54s-module/*

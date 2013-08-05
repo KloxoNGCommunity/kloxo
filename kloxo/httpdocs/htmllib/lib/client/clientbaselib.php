@@ -1105,7 +1105,7 @@ class ClientBase extends ClientCore
 		$vlist['nname'] = "";
 
 		if ($sgbl->isKloxo()) {
-		//	/*
+			/*
 				$dlist = domainbase::getDnsTemplateList($parent);
 
 				// MR -- don't know what a problem where including domain make unfinish looping
@@ -1118,7 +1118,7 @@ class ClientBase extends ClientCore
 				//	$list = lx_merge_good('--leave--', $list);
 				//	$vlist['installapp_app'] = array('s', $list);
 				}
-		//	*/
+			*/
 		}
 
 		$vlist['password'] = "";

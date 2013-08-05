@@ -554,16 +554,6 @@ function removeFromEtcHost($request)
 
 function find_php_version()
 {
-	/*
-		global $global_dontlogshell;
-
-		$global_dontlogshell = true;
-		$ret = lxshell_output("rpm", "-q", "php");
-		$ver = substr($ret, strlen("php-"), 3);
-		$global_dontlogshell = false;
-
-		return $ver;
-	*/
 	$s = getPhpVersion();
 	$t = explode(".", $s);
 	$ret = $t[0] . "." . $t[1];
@@ -1472,18 +1462,28 @@ function exec_with_all_closed($cmd)
 
 	$string = null;
 
-	log_shell("Closed Exec $sgbl->__path_program_root/cexe/closeallinput '$cmd' >/dev/null 2>&1 &");
-	chmod("$sgbl->__path_program_root/cexe/closeallinput", 0755);
-	exec("$sgbl->__path_program_root/cexe/closeallinput '$cmd' >/dev/null 2>&1 &");
+//	log_shell("Closed Exec $sgbl->__path_program_root/cexe/closeallinput '$cmd' >/dev/null 2>&1 &");
+//	chmod("$sgbl->__path_program_root/cexe/closeallinput", 0755);
+//	exec("$sgbl->__path_program_root/cexe/closeallinput '$cmd' >/dev/null 2>&1 &");
+
+	log_shell("Closed Exec $sgbl->__path_program_root/cexe/closeinput '$cmd' >/dev/null 2>&1 &");
+	chmod("$sgbl->__path_program_root/cexe/closeinput", 0755);
+	exec("$sgbl->__path_program_root/cexe/closeinput '$cmd' >/dev/null 2>&1 &");
 }
 
 
 function exec_with_all_closed_output($cmd)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-	chmod("$sgbl->__path_program_root/cexe/closeallinput", 0755);
-	$res = shell_exec("$sgbl->__path_program_root/cexe/closeallinput '$cmd' 2>/dev/null");
-	log_shell("Closed Exec output: $res :  $sgbl->__path_program_root/cexe/closeallinput '$cmd'");
+
+//	chmod("$sgbl->__path_program_root/cexe/closeallinput", 0755);
+//	$res = shell_exec("$sgbl->__path_program_root/cexe/closeallinput '$cmd' 2>/dev/null");
+//	log_shell("Closed Exec output: $res :  $sgbl->__path_program_root/cexe/closeallinput '$cmd'");
+
+	chmod("$sgbl->__path_program_root/cexe/closeinput", 0755);
+	$res = shell_exec("$sgbl->__path_program_root/cexe/closeinput '$cmd' 2>/dev/null");
+	log_shell("Closed Exec output: $res :  $sgbl->__path_program_root/cexe/closeinput '$cmd'");
+
 	return trim($res);
 }
 
@@ -1823,7 +1823,7 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 		if ($logto) {
 			log_log($logto, "- Could not zip for '$vd'");
 		} else {	
-		//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException("could_not_zip_dir", '', $vd);
 		}
 	} else {
@@ -2084,7 +2084,7 @@ function rrd_graph_single($type, $file, $time)
 		"LINE1:dss1#FF0000:$dir\\r");
 
 	if ($ret) {
-	//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxexception("could_not_get_graph_data", '', $global_shell_error);
 	}
 
@@ -2236,7 +2236,7 @@ function createTempDir($dir, $name)
 	$dir = expand_real_root($dir);
 	$vd = tempnam($dir, $name);
 	if (!$vd) {
-	//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxException('could_not_create_tmp_dir', '');
 	}
 	unlink($vd);
@@ -2903,7 +2903,7 @@ function download_from_ftp($ftp_server, $ftp_user, $ftp_pass, $file, $localfile)
 	$login = ftp_login($fn, $ftp_user, $ftp_pass);
 	
 	if (!$login) {
-	//	exec_with_all_closed("sh /script/restart >/dev/null 2>&1 &");
+		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxException('could_not_connect_to_ftp_server', 'download_ftp_f', $ftp_server);
 	}
 	
@@ -5205,7 +5205,7 @@ function setDefaultPages($nolog = null)
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
-			exec("cp -rf $sourcezip $targetzip");
+			exec("\cp -rf $sourcezip $targetzip");
 			$newer = true;
 		}
 	}
@@ -5259,7 +5259,7 @@ function setDefaultPages($nolog = null)
 	if (lxfile_exists($usersourcezip)) {
 		if (!checkIdenticalFile($usersourcezip, $usertargetzip)) {
 			log_cleanup("- Copy $usersourcezip to $usertargetzip", $nolog);
-			exec("cp -rf $usersourcezip $usertargetzip");
+			exec("\cp -rf $usersourcezip $usertargetzip");
 		} else {
 			log_cleanup("- No new user-skeleton", $nolog);
 		}
@@ -5443,6 +5443,8 @@ function setRpmInstalled($rpmname)
 
 function setRpmRemoved($rpmname)
 {
+	if (!isRpmInstalled($rpmname)) { return; }
+
 //	$ret = lxshell_return("yum", "-y", "remove", $rpmname);
 	$ret = lxshell_return("rpm", "-e", "--nodeps", $rpmname);
 
@@ -5553,6 +5555,16 @@ function setPhpModuleInactive($module, $ininamelist = null)
 	}
 }
 
+function setInitialBindConfig($nolog = null)
+{
+	setInitialDnsConfig('bind', $nolog);
+}
+
+function setInitialDjbdnsConfig($nolog = null)
+{
+	setInitialDnsConfig('djbdns', $nolog);
+}
+
 function setInitialApacheConfig($nolog = null)
 {
 	setInitialWebConfig('apache', $nolog);
@@ -5569,6 +5581,11 @@ function setInitialNginxConfig($nolog = null)
 {
 	setInitialWebConfig('nginx', $nolog);
 	setWebDriverChownChmod('nginx', $nolog);
+}
+
+function setInitialDnsConfig($type, $nolog = null)
+{
+	setCopyDnsConfFiles($type);
 }
 
 function setInitialWebConfig($type, $nolog = null)
@@ -5632,7 +5649,7 @@ function setInitialPhpFpmConfig($nolog = null)
 	$fpath = "/usr/local/lxlabs/kloxo/file";
 	$fpmpath = "/home/php-fpm/etc";
 
-	exec("cp -rf {$fpath}/php-fpm /home");
+	exec("\cp -rf {$fpath}/php-fpm /home");
 
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
@@ -5991,31 +6008,9 @@ function setInitialBinary($nolog = null)
 {
 
 	log_cleanup("Initialize Some Binary files", $nolog);
-	/*
-		if (!lxfile_exists("/usr/sbin/lxrestart")) {
-			log_cleanup("- Install lxrestart binary", $nolog);
-			exec("cp ../cexe/lxrestart /usr/sbin/");
-			exec("chown root:root /usr/sbin/lxrestart");
-			exec("chmod 755 /usr/sbin/lxrestart");
-			exec("chmod ug+s /usr/sbin/lxrestart");
-		}
-	*/
+
 	// MR -- because no need lxrestart (also lxsuexec) so remove if exist
 	exec("rm -rf /usr/sbin/lxrestart");
-	/*
-		// issue #637 - Webmail sending problem and possibility solution
-		// change from copy to symlink
-		log_cleanup("- Add symlink for qmail-sendmail", $nolog);
-		exec("ln -sf /var/qmail/bin/sendmail /usr/sbin/sendmail");
-		exec("ln -sf /var/qmail/bin/sendmail /usr/lib/sendmail");
-	*/
-	/*
-		if (!lxfile_exists("/usr/bin/lxredirecter.sh")) {
-			log_cleanup("- Install lxredirector binary", $nolog);
-			exec("cp ../file/linux/lxredirecter.sh /usr/bin/");
-			exec("chmod 755 /usr/bin/lxredirecter.sh");
-		}
-	*/
 
 	if (!lxfile_exists("/usr/bin/php-cgi")) {
 		log_cleanup("- Install php-cgi binary", $nolog);
@@ -6046,13 +6041,15 @@ function setCheckPackages($nolog = null)
 		$authlib_rpm = "courier-authlib-toaster";
 	}
 
-	$list = array("autorespond-toaster", $authlib_rpm,	$imap_rpm,
+	$list = array("autorespond-toaster", $authlib_rpm, $imap_rpm,
 		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", 
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
-		"{$phpbranch}", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
-		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell",  "libmhash", "lxphp");
+		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
+		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
+		"{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell", "libmhash");
 
 	foreach ($list as $l) {
 		if ($l === '') { continue; }
@@ -6121,6 +6118,7 @@ function setInstallMailserver($nolog = null)
 
 function setInitialServer($nolog = null)
 {
+/*
 	// MR -- try not use and what's effect for OpenVZ
 	return;
 
@@ -6140,33 +6138,47 @@ function setInitialServer($nolog = null)
 			lxfile_mv("/sbin/udevd.back", "/sbin/udevd");
 		}
 	}
+*/
+
+	// MR - Change to different purpose
+	// install php52s + hiawatha (also kloxomr specific component) and their setting for Kloxo-MR
+
+	// MR -- remove old Kloxo ext
+	$packages = array("lxphp", "lxzend", "lxlighttpd");
+
+	$list = implode(" ", $packages);
+
+	exec("yum -y remove $list");
+
+	// MR -- install new Kloxo-MR component; not including php52s because used by this script!
+	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
+		"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "hiawatha"
+	);
+		
+	$list = implode(" ", $packages);
+
+	exec("yum -y install $list");
+
+	lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/init", "kloxo.init"),
+		"/etc/init.d/kloxo");
+
+	exec("chkconfig hiawatha off; service hiawatha stop");
+	exec("chown root:root /etc/init.d/kloxo; chmod 755 /etc/init.d/kloxo");
+	exec("chkconfig kloxo on");
 }
 
 function setSomePermissions($nolog = null)
 {
 	log_cleanup("Install/Fix Services/Permissions/Configfiles", $nolog);
 
-//	if (!lxfile_exists("/usr/bin/lxphp.exe")) {
-		log_cleanup("- Create lxphp.exe Symlink", $nolog);
-
-		lxfile_rm("/usr/bin/lphp.exe");
-		lxfile_rm("/usr/bin/lxphp.exe");
-
-		// MR -- running with lxphp.exe not work
-		exec("/usr/local/lxlabs/ext/php/php  -r 'echo phpversion();'", $lxphpver);
-
-		lxfile_cp("/usr/local/lxlabs/kloxo/file/lxphpcli.sh", "/usr/local/lxlabs/ext/php/etc/lxphpcli.sh");
-		lxfile_unix_chmod("/usr/local/lxlabs/kloxo/file/lxphpcli.sh", "0755");
-
-		lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lphp.exe");
-		lxfile_symlink("/usr/local/lxlabs/ext/php/etc/lxphpcli.sh", "/usr/bin/lxphp.exe");
-//	}
-
 	log_cleanup("- Set permissions for /usr/bin/php-cgi", $nolog);
 	lxfile_unix_chmod("/usr/bin/php-cgi", "0755");
 
-	log_cleanup("- Set permissions for closeallinput binary", $nolog);
-	lxfile_unix_chmod("../cexe/closeallinput", "0755");
+//	log_cleanup("- Set permissions for closeallinput binary", $nolog);
+//	lxfile_unix_chmod("../cexe/closeallinput", "0755");
+
+	log_cleanup("- Set permissions for closeinput binary", $nolog);
+	lxfile_unix_chmod("../cexe/closeinput", "0755");
 
 //	log_cleanup("- Set permissions for lxphpsu binary", $nolog);
 //	lxfile_unix_chown("../cexe/lxphpsu", "root:root");
@@ -6933,6 +6945,8 @@ function updatecleanup($nolog = null)
 	log_cleanup("- Killing process", $nolog);
 	lxshell_return("pkill", "-f", "gettraffic");
 
+	setRealServiceBranchList();
+
 	setCheckPackages($nolog);
 
 	copy_script($nolog);
@@ -6989,8 +7003,6 @@ function updatecleanup($nolog = null)
 	remove_ssh_self_host_key();
 
 //	installInstallApp($nolog);
-
-	setRealServiceBranchList();
 }
 
 function setInitialServices($nolog = null)
@@ -7007,15 +7019,9 @@ function setInitialServices($nolog = null)
 
 	setInitialBind($nolog);
 
-	/*
-		$webdrvs = array('apache', 'lighttpd', 'nginx');
+	setInitialBindConfig($nolog);
+	setInitialDjbdnsConfig($nolog);
 
-		foreach ($webdrvs as &$w) {
-			// MR -- delete all contents first for domains;
-			// for handling garbage files!
-			exec("rm -rf /home/{$w}/conf/domains/*.conf");
-		}
-	*/
 	setInitialApacheConfig($nolog);
 	setInitialLighttpdConfig($nolog);
 	setInitialNginxConfig($nolog);
@@ -7023,7 +7029,7 @@ function setInitialServices($nolog = null)
 
 	setInitialPureftpConfig($nolog);
 
-	setInitialNobodyScript($nolog);
+//	setInitialNobodyScript($nolog);
 
 	setInitialLogrotate($nolog);
 
@@ -7046,7 +7052,7 @@ function setPrepareKloxo($nolog = null)
 {
 	log_cleanup("Prepare for Kloxo", $nolog);
 
-	log_cleanup("- OS Create Kloxo init.d service file and copy core php.ini (lxphp)", $nolog);
+	log_cleanup("- OS Create Kloxo init.d service file", $nolog);
 	os_create_program_service();
 
 	log_cleanup("- OS Fix programroot path permissions", $nolog);
@@ -7152,11 +7158,36 @@ function getParseInlinePhp($template, $input)
 
 	ob_end_clean();
 
-	$splitter = explode('### begin content', $ret);
-
-	$ret = (count($splitter) === 2) ? '### begin content' . $splitter[1] : $ret;
+	// MR -- important because process on panel include html code!
+	$splitter = explode('### begin', $ret);
+	$ret = (count($splitter) === 2) ? '### begin' . $splitter[1] : $ret;
+	$splitter = explode(';;; begin', $ret);
+	$ret = (count($splitter) === 2) ? ';;; begin' . $splitter[1] : $ret;
 
 	return $ret;
+}
+
+function setCopyDnsConfFiles($dnsdriver)
+{
+	$aliasdriver = ($dnsdriver === 'bind') ? 'named' : $dnsdriver;
+
+	$nolog = null;
+
+	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$dnsdriver}";
+	$pathdrv = "/home/{$dnsdriver}";
+	$pathetc = "/etc/";
+
+	log_cleanup("Copy all contents of $dnsdriver", $nolog);
+
+	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+	exec("\cp -rf {$pathsrc} /home");
+
+	if ($aliasdriver === 'named') {
+		$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
+
+		log_cleanup("- Copy {$t} to {$pathetc}/{$aliasdriver}.conf", $nolog);
+		lxfile_cp($t, "{$pathetc}/{$aliasdriver}.conf");
+	}
 }
 
 function setCopyWebConfFiles($webdriver)
@@ -7178,31 +7209,43 @@ function setCopyWebConfFiles($webdriver)
 	log_cleanup("Copy all contents of $webdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /home");
+	exec("\cp -rf {$pathsrc} /home");
 
-	$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "~lxcenter.conf");
-	if (file_exists($t)) {
-		log_cleanup("- Copy {$t} to {$pathconfd}/~lxcenter.conf", $nolog);
-		lxfile_cp($t, "{$pathconfd}/~lxcenter.conf");
-	}
+	$dirs = array($pathconf, $pathconfd);
 
-	$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "ssl.conf");
-	if (file_exists($t)) {
-		log_cleanup("- Copy {$t} to {$pathconfd}/ssl.conf", $nolog);
-		lxfile_cp($t, "{$pathconfd}/ssl.conf");
+	foreach ($dirs as &$d) {
+		if (!file_exists($d)) {
+			exec("mkdir -p {$d}");
+		}
 	}
 
 	$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
-	if (file_exists($t)) {
-		log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
-		lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
+
+	log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
+	lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
+
+	$confs = array("~lxcenter", "ssl", "__version");
+
+	foreach ($confs as &$c) {
+		$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "{$c}.conf");
+
+		if (file_exists($t)) {
+			log_cleanup("- Copy {$t} to {$pathconfd}/{$c}.conf", $nolog);
+			lxfile_cp($t, "{$pathconfd}/{$c}.conf");
+		}
 	}
 
-	$t = getLinkCustomfile($pathdrv . "/etc/init.d", "__version.conf");
-	if (file_exists($t)) {
-		log_cleanup("- Copy {$t} to {$pathinit}/__version.conf", $nolog);
-		lxfile_cp($t, "{$pathinit}/__version.conf");
+/*
+	// MR -- if nginx not as server
+	if ($webdriver === 'nginx') {
+		$drvs = getWebDriverList();	
+
+ 		if ($drvs[0] !== 'nginx') {
+			log_cleanup("- Remove {$pathconfd}/~lxcenter.conf", $nolog);
+			exec("rm -rf {$pathconfd}/~lxcenter.conf");
+		}
 	}
+*/
 }
 
 function isWebProxy($drivertype = null)

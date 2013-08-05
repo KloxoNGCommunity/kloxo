@@ -231,7 +231,7 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 	$res = unserialize(base64_decode($totalout));
 
 	if (!$res) {
-		exec_with_all_closed("sh /script/backendrestart >/dev/null 2>&1 &");
+		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxException('could_not_connect_to_server', 'syncserver', $machine);
 	}
 
@@ -435,7 +435,7 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd, $reexec 
 		if ($raddress === 'localhost' && !$sgbl->isDebug()) {
 		//	lxshell_background("/usr/sbin/lxrestart", $sgbl->__var_program_name);
 
-			exec_with_all_closed("sh /script/backendrestart >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException('no_socket_connect_to_server', '', $raddress);
 			throw new lxException('restarting_backend', '', $raddress);
 		} else {

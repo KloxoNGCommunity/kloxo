@@ -283,8 +283,8 @@ class phpini extends lxdb
 		$initial = 'exec,passthru,shell_exec,system,proc_open,popen,show_source';
 		$this->initialValue('disable_functions', $initial);
 
-		$this->initialValue('max_execution_time_flag', '30');
-		$this->initialValue('max_input_time_flag', '60');
+		$this->initialValue('max_execution_time_flag', '180');
+		$this->initialValue('max_input_time_flag', '180');
 		$this->initialValue('memory_limit_flag', '64M');
 		$this->initialValue('allow_url_fopen_flag', 'on');
 		$this->initialValue('allow_url_include_flag', 'on');

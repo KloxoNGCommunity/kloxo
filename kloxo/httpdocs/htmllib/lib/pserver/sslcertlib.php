@@ -173,20 +173,25 @@ class SslCert extends Lxdb
 		// MR -- make the same as program.pem; like inside lighttpd.conf example inside
 		$contentpem = "$contentskey\n$contentscer";
 
-		rl_exec_get(null, $param['slave_id'], array("sslcert", "setProgramSsl"), array($contentpem, $contentsca));
+		rl_exec_get(null, $param['slave_id'], array("sslcert", "setProgramSsl"), array($contentpem, $contentsca, $contentscer, $contentskey));
 	}
 
 
-	static function setProgramSsl($contentpem, $contentsca)
+	static function setProgramSsl($contentpem, $contentsca, $contentscer, $contentskey)
 	{
 		lfile_put_contents("../etc/program.pem", $contentpem);
 
 		if ($contentsca) {
 			lfile_put_contents("../etc/program.ca", $contentsca);
 		}
+		
+		lfile_put_contents("../etc/program.crt", $contentscer);
+		lfile_put_contents("../etc/program.key", $contentskey);
 
 		lxfile_unix_chown("../etc/program.pem", "lxlabs:lxlabs");
 		lxfile_unix_chown("../etc/program.ca", "lxlabs:lxlabs");
+		lxfile_unix_chown("../etc/program.crt", "lxlabs:lxlabs");
+		lxfile_unix_chown("../etc/program.key", "lxlabs:lxlabs");
 	}
 
 	function updatessl_hypervm($param)

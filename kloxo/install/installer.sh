@@ -142,6 +142,14 @@ fi
 
 export PATH=/usr/sbin:/sbin:$PATH
 
+## increasing max file access (important for php-fpm via socket)
+if grep -Fxq "fs.file-max" /etc/sysctl.conf ; then
+	sed -i 's/fs.file-max/#fs.file-max/' /etc/sysctl.conf
+fi
+
+echo "fs.file-max = 209708" >> /etc/sysctl.conf
+sysctl -p
+
 if [ -d ./kloxomr/install ] ; then
 	cd ./kloxomr/install
 else
@@ -162,9 +170,9 @@ do
 	# Fix issue because sometimes kloxo database not created
 	if [ $APP_TYPE == 'master' ] ; then
 		if [ ! -d /var/lib/mysql/kloxo ] ; then
-			echo ""
-			echo "Wait for final process... ($a)"
-			echo ""
+		#	echo ""
+		#	echo "Wait for final process... ($a)"
+		#	echo ""
 			cd /usr/local/lxlabs/kloxo/install
 			lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
 		fi
