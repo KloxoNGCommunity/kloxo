@@ -5661,6 +5661,12 @@ function setInitialPhpFpmConfig($nolog = null)
 
 	exec("\cp -rf {$fpath}/php-fpm /home");
 
+	$sockpath = "/home/php-fpm/sock";
+	
+	if (!file_exists($sockpath)) {
+		exec("mkdir -p {$sockpath}");
+	}
+	
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
 	$phpver = getPhpVersion();
