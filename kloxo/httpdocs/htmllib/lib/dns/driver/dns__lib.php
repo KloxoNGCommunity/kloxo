@@ -133,7 +133,7 @@ class dns__ extends lxDriverClass
 			lxshell_directory($dir, "make");
 
 			// also for axfrdns
-			$dir = "/home/djbdns/axfrdns/root";
+			$dir = "/home/djbdns/axfrdns";
 			$nameduser = "axfrdns";
 
 			lxfile_unix_chown("{$dir}/data", $nameduser);

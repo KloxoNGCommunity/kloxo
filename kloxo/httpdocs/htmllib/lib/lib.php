@@ -5586,6 +5586,16 @@ function setInitialNginxConfig($nolog = null)
 function setInitialDnsConfig($type, $nolog = null)
 {
 	setCopyDnsConfFiles($type);
+	
+	$newlist = array("defaults", "master", "slave", "reverse");
+
+	$path = "/home/{$type}/conf";
+	
+	foreach ($newlist as &$n) {
+		if (!file_exists("{$path}/{$n}")) {
+			lxfile_mkdir("{$path}/{$n}");
+		}
+	}
 }
 
 function setInitialWebConfig($type, $nolog = null)
