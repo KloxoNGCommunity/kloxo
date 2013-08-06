@@ -1,4 +1,4 @@
-### begin content - please not remove this line
+### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line
 
 <?php
 
@@ -1091,4 +1091,4 @@ server {
 }
 ?>
 
-### end content - please not remove this line
+### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line

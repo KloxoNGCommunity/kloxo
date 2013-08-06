@@ -1,114 +1,151 @@
-### begin content - please not remove this line
-<?php
-    if ($soanameserver !== '') {
-        $nameserver = $soanameserver;
-    } else {
-        foreach ($dns_records as $dns) {
-            if ($dns->ttype === "ns") {
+### begin - dns of '<?php echo $domainname; ?>' - do not remove/modify this line
+
+<?php 
+    foreach($dns_records as $dns) {
+        if ($dns->ttype === "ns") {
+            if (!$nameserver) {
                 $nameserver = $dns->param;
             }
         }
+
+        if ($dns->ttype === 'a') {
+            $arecord[$dns->hostname] = $dns->param;
+        }
+    }
+
+    if ($soanameserver) {
+        $nameserver = $soanameserver;
     }
 ?>
 Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?php echo $serial; ?>:::::<?php echo $ttl; ?>
 
-<?php
-foreach ($dns_records as $k => $o) {
-    switch ($o->ttype) {
-        case "ns":
-            $nameserver = $o->param;
+.<?php echo $domainname; ?>::<?php echo $nameserver; ?>:<?php echo $ttl; ?>
+
+<?php    
+    foreach($dns_records as $k => $o) {
+        switch($o->ttype) {
+            case "ns":
+                $value = $o->param;
+                if ($value !== $nameserver) {
 ?>
-&<?php echo $domainname; ?>::<?php echo $nameserver; ?>:<?php echo $ttl; ?>
+&<?php echo $domainname; ?>::<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
-            break;
-        case "a":
-            $hostname = $o->hostname;
-            $param = $o->param;
+                }
 
-            if ($hostname === '__base__') {
-                $key = $domainname;
-            } else {
-                $key = $hostname. '.' . $domainname;
-            }
+                break;
+            case "mx":
+                $value = $o->param;
+                $priority = $o->priority;
 ?>
-+<?php echo $key; ?>:<?php echo $param; ?>:<?php echo $ttl; ?>
+@<?php echo $domainname; ?>::<?php echo $value; ?>:<?php echo $priority; ?>:<?php echo $ttl; ?>
 
 <?php
-            break;
-        case "aaa":
-            $hostname = $o->hostname;
-            $param = $o->param;
+                break;
+            case "a":
+                $key = $o->hostname;
+                $value = $o->param;
 
-            if ($hostname === '__base__') {
-                $key = $domainname;
-            } else {
-                $key = $hostname. '.' . $domainname;
-            }
+                if ($key === '*') {
 ?>
-+<?php echo $key; ?>:<?php echo $param; ?>:<?php echo $ttl; ?>
++*.<?php echo $domainname; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
-            break;
-        case "cn":
-        case "cname":
-            $hostname = $o->hostname;
-            $param = $o->param;
+                    break;
+                }
 
-            if ($param === '__base__') {
-                $key = $domainname;
-            } else {
-                $key = $param. '.' . $domainname;
-            }
+                if ($key !== "__base__") {
+                    $key = "{$key}.{$domainname}";
+                } else {
+                    $key = $domainname;
+                }
 ?>
-C<?php echo $hostname; ?>.<?php echo $domainname; ?>:<?php echo $key; ?>:<?php echo $ttl; ?>
++<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
-            break;
-        case "fcname":
-            $hostname = $o->hostname;
-            $param = $o->param;
+                break;
+            case "cn":
+            case "cname":
+                $key = $o->hostname;
+                $value = $o->param;
 
-            if ($param === '__base__') {
-                $key = $domainname;
-            } else {
-                $key = $param. '.' . $domainname;
-            }
+                if (isset($arecord[$value])) {
+                    $rvalue = $arecord[$value];
+
+                    if ($key === '*') {
 ?>
-C<?php echo $hostname; ?>.<?php echo $domainname; ?>:<?php echo $key; ?>:<?php echo $ttl; ?>
++*.<?php echo $domainname; ?>:<?php echo $rvalue; ?>:<?php echo $ttl; ?>
 
 <?php
-            break;
-        case "mx":
-            $priority = $o->priority;
-            $param = $o->param;
+                        break;
+                    }
+
+                    $key .= ".$domainname";
 ?>
-@<?php echo $domainname; ?>::<?php echo $param; ?>:<?php echo $priority; ?>:<?php echo $ttl; ?>
++<?php echo $key; ?>:<?php echo $rvalue; ?>:<?php echo $ttl; ?>
 
 <?php
-            break;
-        case "txt":
-            $hostname = $o->hostname;
-            $param = $o->param;
+                    break;
+                }
 
-            if ($param === null) { continue; }
+                if ($value !== "__base__") {
+                    $value = "{$value}.{$domainname}";
+                } else {
+                    $value = $domainname;
+                }
 
-            $param = str_replace("<%domain>", $domainname, $param);
-
-            if ($hostname === '__base__') {
-                $key = $domainname;
-            } else {
-                $key = $hostname. '.' . $domainname;
-            }
-
-            $param = str_replace(":", "\\072", $param);
+                if ($key === '*') {
 ?>
-'<?php echo $key; ?>:<?php echo $param; ?>:<?php echo $ttl; ?>
+C*.<?php echo $domainname; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
-            break;
+                    break;
+                }
+
+                $key .= ".{$domainname}";
+?>
+C<?php echo $key; ?>:<?php echo $value; ?>::<?php echo $ttl; ?>
+                
+<?php
+                break;
+            case "fcname":
+                $key = $o->hostname;
+                $value = $o->param;
+
+                if ($value !== "__base__") {
+                    $value = $value;
+                } else {
+                    $value = "$domainname";
+                }
+
+                $key .= ".{$domainname}";
+?>
+C<?php echo $key; ?>:<?php echo $value; ?>::<?php echo $ttl; ?>
+
+<?php
+                break;
+            case "txt":
+                $key = $o->hostname;
+                $value = $o->param;
+
+                if($o->param === null) continue;
+
+                if ($key !== "__base__") {
+                    $key = "$key.$domainname";
+                } else {
+                    $key = "$domainname";
+                }
+
+                $value = str_replace("<%domain>", $domainname, $value);
+                $value = str_replace(":", "\\072", $value);
+?>
+'<?php echo $key; ?>:<?php echo $value; ?>::<?php echo $ttl; ?>
+
+<?php
+                break;
+        }
     }
-}
 ?>
-### end content - please not remove this line
+
+### end - dns of '<?php echo $domainname; ?>' - do not remove/modify this line
 

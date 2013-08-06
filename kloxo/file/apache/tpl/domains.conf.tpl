@@ -1,4 +1,4 @@
-### begin content - please not remove this line
+### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line
 
 <?php
 
@@ -1220,4 +1220,4 @@ foreach ($certnamelist as $ip => $certname) {
 }
 ?>
 
-### end content - please not remove this line
+### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line

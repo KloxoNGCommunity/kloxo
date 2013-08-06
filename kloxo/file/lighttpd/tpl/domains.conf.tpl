@@ -1,4 +1,4 @@
-### begin content - please not remove this line
+### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line
 
 <?php
 
@@ -712,4 +712,4 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 }
 ?>
 
-### end content - please not remove this line
+### end - web of '<?php echo $domainname; ?>' - do not remove/modify this line

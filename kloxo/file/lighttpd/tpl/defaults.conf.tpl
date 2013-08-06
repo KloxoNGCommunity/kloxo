@@ -1,4 +1,5 @@
-### begin content - please not remove this line
+### begin - web of '<?php echo $setdefaults; ?>.*' - do not remove/modify this line
+
 <?php
 
 if ($setdefaults === 'webmail') {
@@ -104,5 +105,4 @@ $HTTP["host"] =~ "^<?php echo $setdefaults; ?>\.*" {
 }
 ?>
 
-
-### end content - please not remove this line
+### end - web of '<?php echo $setdefaults; ?>.*' - do not remove/modify this line

@@ -21,6 +21,10 @@ class dns__ extends lxDriverClass
 
 		lxshell_return("chkconfig", $altname, "on");
 
+		if ($altname === 'djbdns') {
+			lxshell_return("/etc/init.d/djbdns", "setup");
+		}
+
 		setCopyDnsConfFiles($drivertype);
 
 		createRestartFile($altname);
@@ -127,7 +131,13 @@ class dns__ extends lxDriverClass
 
 			lxfile_unix_chown("{$dir}/data", $nameduser);
 			lxshell_directory($dir, "make");
-		//	lxshell_directory($dir, "tinydns-data");
+
+			// also for axfrdns
+			$dir = "/home/djbdns/axfrdns/root";
+			$nameduser = "axfrdns";
+
+			lxfile_unix_chown("{$dir}/data", $nameduser);
+			lxshell_directory($dir, "make");
 		}
 	}
 
