@@ -6159,7 +6159,9 @@ function setInitialServer($nolog = null)
 	$pattern = "fs.file-max";
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
 
-	if (!strpos($sysctlconf, $pattern)) {
+	if (strpos($sysctlconf, $pattern) !== false) {
+		//
+	} else {
 		exec("echo '\nfs.file-max = 209708' >> /etc/sysctl.conf; sysctl -e -p");
 	}
 

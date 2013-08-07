@@ -2,6 +2,12 @@
 
 <?php
     foreach($dns_records as $dns) {
+        if ($dns->ttype === "ns") {
+            if (!$nameserver) {
+                $nameserver = $dns->param;
+            }
+        }
+
         if ($dns->ttype === 'a') {
             $arecord[$dns->hostname] = $dns->param;
         }

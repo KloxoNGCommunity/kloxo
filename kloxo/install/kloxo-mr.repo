@@ -69,7 +69,7 @@ baseurl=http://centos.alt.ru/repository/centos/$releasever/$basearch/
 #mirrorlist=http://rpms.potissima.com/repo/mirrors/centalt-centos-$releasever-$basearch-mirrors.txt
 enabled=1
 gpgcheck=0
-exclude=openssh* perl* mariadb* bind*
+exclude=openssh* perl* mariadb*
 
 # ==================================
 
