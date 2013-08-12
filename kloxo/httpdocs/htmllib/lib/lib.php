@@ -1822,7 +1822,7 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 	if ($ret) {
 		if ($logto) {
 			log_log($logto, "- Could not zip for '$vd'");
-		} else {	
+		} else {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException("could_not_zip_dir", '', $vd);
 		}
@@ -2901,19 +2901,19 @@ function download_from_ftp($ftp_server, $ftp_user, $ftp_pass, $file, $localfile)
 {
 	$fn = lxftp_connect($ftp_server);
 	$login = ftp_login($fn, $ftp_user, $ftp_pass);
-	
+
 	if (!$login) {
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxException('could_not_connect_to_ftp_server', 'download_ftp_f', $ftp_server);
 	}
-	
+
 	ftp_pasv($fn, true);
 	$fp = lfopen($localfile, "w");
-	
+
 	if (!ftp_fget($fn, $fp, $file, FTP_BINARY)) {
 		throw new lxException('file_download_failed', '', $file);
 	}
-	
+
 	fclose($fp);
 }
 
@@ -3217,6 +3217,7 @@ function copy_image()
 {
 	// Not needed anymore - LxCenter
 	return;
+/*
 	global $gbl, $sgbl, $login, $ghtml;
 	$prgm = $sgbl->__var_program_name;
 
@@ -3225,6 +3226,7 @@ function copy_image()
 	foreach ($list as $l) {
 		lxfile_cp_content("tmpskin/", "img/skin/$prgm/feather/$l");
 	}
+*/
 }
 
 function getAdminDbPass()
@@ -3921,6 +3923,7 @@ function updateDatabaseProperly()
 	// MR -- no need because using .sql file
 	return;
 
+/*
 	$var = parse_sql_data();
 
 	foreach ($var as $table => $content) {
@@ -3934,8 +3937,7 @@ function updateDatabaseProperly()
 			create_table($__db, $table, $var[$table]);
 		}
 	}
-
-
+*/
 }
 
 function dofixParentClname()
@@ -3943,6 +3945,7 @@ function dofixParentClname()
 	// MR -- no need because using .sql file
 	return;
 
+/*
 	$var = parse_sql_data();
 
 	foreach ($var as $table => $content) {
@@ -3994,6 +3997,7 @@ function dofixParentClname()
 			}
 		}
 	}
+*/
 }
 
 function fix_getParentNameAndClass($v)
@@ -4996,7 +5000,7 @@ function fix_dns_zones()
 	global $gbl, $sgbl, $login, $ghtml;
 
 	return;
-
+/*
 	initProgram('admin');
 
 	$flag = "__path_program_root/etc/flag/dns_zone_fix.flag";
@@ -5020,6 +5024,7 @@ function fix_dns_zones()
 	foreach ($list as $l) {
 		fixupDnsRec($l);
 	}
+*/
 }
 
 function fixupDnsRec($l)
@@ -5155,14 +5160,14 @@ function installWithVersion($path, $file, $ver = null, $nolog = null)
 		} else {
 			log_cleanup("- Download and use $file version $ver for installing", $nolog);
 			exec("cd /var/cache/kloxo/ ; rm -f $file*.tar.gz ; " .
-				"wget download.lxcenter.org/download/$file$ver.tar.gz");
+			"wget download.lxcenter.org/download/$file$ver.tar.gz");
 		}
 		$DoUpdate = true;
 	} else {
 		if (!lxfile_exists("/var/cache/kloxo/$file$ver.tar.gz")) {
 			log_cleanup("- Download and use $file version $ver for updating", $nolog);
 			exec("cd /var/cache/kloxo/ ; rm -f $file*.tar.gz ; " .
-				"wget download.lxcenter.org/download/$file$ver.tar.gz");
+			"wget download.lxcenter.org/download/$file$ver.tar.gz");
 			$DoUpdate = true;
 		} else {
 			log_cleanup("- No update found. $file is at version $ver", $nolog);
@@ -5221,11 +5226,11 @@ function setDefaultPages($nolog = null)
 
 		log_cleanup("- Skeleton for {$p} web page", $nolog);
 		lxshell_unzip("__system__", "{$httpdpath}/{$p}/", $targetzip);
-	/*
-		lxfile_unix_chown("{$httpdpath}/{$p}/", "lxlabs:lxlabs");
-		exec("find {$httpdpath}/{$p}/ -type f -name \"*.php*\" -exec chmod 644 {} \;");
-		exec("find {$httpdpath}/{$p}/ -type d -exec chmod 755 {} \;");
-	*/
+		/*
+			lxfile_unix_chown("{$httpdpath}/{$p}/", "lxlabs:lxlabs");
+			exec("find {$httpdpath}/{$p}/ -type f -name \"*.php*\" -exec chmod 644 {} \;");
+			exec("find {$httpdpath}/{$p}/ -type d -exec chmod 755 {} \;");
+		*/
 	}
 
 	setKloxoHttpdChownChmod($nolog);
@@ -5295,9 +5300,9 @@ function changeMailSoftlimit($nolog = null)
 {
 	// MR -- adjustment with latest qmail-toaster
 	exec("uname -i", $out);
-	
+
 	if ($out[0] !== 'x86_64') { return; }
-	
+
 	log_cleanup("Changing softlimit for incoming/receive mailserver", $nolog);
 
 	$list = array("imap4", "imap4-ssl", "pop3", "pop3-ssl");
@@ -5427,17 +5432,17 @@ function getRpmVersion($rpmname)
 
 function setRpmInstalled($rpmname)
 {
-/*
-	$ret = isRpmInstalled($rpmname);
-
-	if (!$ret) {
-		$ret = lxshell_return("yum", "-y", "install", $rpmname);
+	/*
+		$ret = isRpmInstalled($rpmname);
 
 		if (!$ret) {
-			throw new lxException("install_{$rpmname}_failed", '', 'parent');
+			$ret = lxshell_return("yum", "-y", "install", $rpmname);
+
+			if (!$ret) {
+				throw new lxException("install_{$rpmname}_failed", '', 'parent');
+			}
 		}
-	}
-*/
+	*/
 	lxshell_return("yum", "-y", "install", $rpmname);
 }
 
@@ -5586,11 +5591,11 @@ function setInitialNginxConfig($nolog = null)
 function setInitialDnsConfig($type, $nolog = null)
 {
 	setCopyDnsConfFiles($type);
-	
+
 	$newlist = array("defaults", "master", "slave", "reverse");
 
 	$path = "/home/{$type}/conf";
-	
+
 	foreach ($newlist as &$n) {
 		if (!file_exists("{$path}/{$n}")) {
 			lxfile_mkdir("{$path}/{$n}");
@@ -5662,11 +5667,11 @@ function setInitialPhpFpmConfig($nolog = null)
 	exec("\cp -rf {$fpath}/php-fpm /home");
 
 	$sockpath = "/home/php-fpm/sock";
-	
+
 	if (!file_exists($sockpath)) {
 		exec("mkdir -p {$sockpath}");
 	}
-	
+
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
 	$phpver = getPhpVersion();
@@ -5709,7 +5714,7 @@ function setWebDriverChownChmod($type, $nolog = null)
 
 	log_cleanup("- chown {$webdirchown} FOR /home/{$type}/ AND INSIDE", $nolog);
 	lxfile_unix_chown_rec("/home/{$type}/", $webdirchown);
-	
+
 	exec("find /home/{$type}/ -type f -name \"*.sh\" -exec chmod {$webdirchmod} \{\} \\;");
 	log_cleanup("- chmod {$webdirchmod} FOR *.sh INSIDE /home/{$type}/", $nolog);
 }
@@ -5891,7 +5896,7 @@ function setFixChownChmod($select, $nolog = null)
 				exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
 				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
 			}
-			
+
 			$prevdir = $docroot;
 		}
 	}
@@ -5909,6 +5914,34 @@ function getAllClientList()
 	}
 
 	return $users;
+}
+
+function getIpfromDns()
+{
+	global $login;
+
+	$login->loadAllObjects('client');
+	$list = $login->getList('client');
+
+	$ip = array();
+
+	foreach($list as $c) {
+		$dlist = $c->getList('domaina');
+
+		if (!$dlist) { continue; }
+
+		foreach($dlist as $l) {
+			$dns = $l->getObject('dns');
+
+			foreach($dns->dns_record_a as $k => $o) {
+				if (($o->ttype === 'aaa') || ($o->ttype === 'a')) {
+					$ip[] = $o->param;
+				}
+			}
+		}
+	}
+
+	return array_unique($ip);
 }
 
 function setInitialPureftpConfig($nolog = null)
@@ -6048,7 +6081,7 @@ function setCheckPackages($nolog = null)
 	$phpbranch = getRpmBranchInstalled('php');
 
 	log_cleanup("Checking for rpm packages", $nolog);
-	
+
 	if (isRpmInstalled("dovecot-toaster")) {
 		$imap_rpm = "";
 		$authlib_rpm = "";
@@ -6060,7 +6093,7 @@ function setCheckPackages($nolog = null)
 	$list = array("autorespond-toaster", $authlib_rpm, $imap_rpm,
 		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
-		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", 
+		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
 		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
 		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
@@ -6134,27 +6167,27 @@ function setInstallMailserver($nolog = null)
 
 function setInitialServer($nolog = null)
 {
-/*
-	// MR -- try not use and what's effect for OpenVZ
-	return;
+	/*
+		// MR -- try not use and what's effect for OpenVZ
+		return;
 
-	// Issue #450
-	log_cleanup("Initialize Server", $nolog);
+		// Issue #450
+		log_cleanup("Initialize Server", $nolog);
 
-	if (lxfile_exists("/proc/user_beancounters")) {
-		// MR -- OpenVZ have '/etc/vz' but only host have '/boot/grub/grub.conf' also
-		if (!lxfile_exists("/boot/grub/grub.conf")) {
-			log_cleanup("- Initialize OpenVZ", $nolog);
-			create_dev();
-			lxfile_cp("../file/openvz/inittab", "/etc/inittab");
+		if (lxfile_exists("/proc/user_beancounters")) {
+			// MR -- OpenVZ have '/etc/vz' but only host have '/boot/grub/grub.conf' also
+			if (!lxfile_exists("/boot/grub/grub.conf")) {
+				log_cleanup("- Initialize OpenVZ", $nolog);
+				create_dev();
+				lxfile_cp("../file/openvz/inittab", "/etc/inittab");
+			}
+		} else {
+			log_cleanup("- Initialize non-OpenVZ", $nolog);
+			if (!lxfile_exists("/sbin/udevd")) {
+				lxfile_mv("/sbin/udevd.back", "/sbin/udevd");
+			}
 		}
-	} else {
-		log_cleanup("- Initialize non-OpenVZ", $nolog);
-		if (!lxfile_exists("/sbin/udevd")) {
-			lxfile_mv("/sbin/udevd.back", "/sbin/udevd");
-		}
-	}
-*/
+	*/
 	// MR -- modified sysctl.conf because using socket instead port for php-fpm
 	$pattern = "fs.file-max";
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
@@ -6179,7 +6212,7 @@ function setInitialServer($nolog = null)
 	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
 		"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "hiawatha"
 	);
-		
+
 	$list = implode(" ", $packages);
 
 	exec("yum -y install $list");
@@ -6390,6 +6423,22 @@ function removeWebOtherDriver($driverapp = null, $nolog = null)
 	}
 }
 
+function removeDnsOtherDriver($driverapp = null, $nolog = null)
+{
+	$actives = getDnsDriverList($driverapp);
+
+	$avails = array('djbdns', 'bind', 'mardns', 'powerdns');
+
+	// array_diff return values of $avails that not present on $actives
+	$diffs = array_diff($avails, $actives);
+	$diffs = array_merge($diffs);
+
+	foreach ($diffs as &$d) {
+		exec_class_method("dns__{$d}", "uninstallMe");
+		log_cleanup("- Uninstall dns__{$d}", $nolog);
+	}
+}
+
 function setInitialAdminAccount($nolog = null)
 {
 	log_cleanup("Initialize OS admin account description", $nolog);
@@ -6411,14 +6460,14 @@ function updateApplicableToSlaveToo()
 function fix_secure_log($nolog = null)
 {
 	if (!file_exists("var/log/secure")) { return; }
-	
+
 	log_cleanup("Fix secure log", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
 	if (file_exists("var/log/secure")) {
 		lxfile_mv("/var/log/secure", "/var/log/secure.lxback");
 	}
-	
+
 	lxfile_cp("../file/linux/syslog.conf", "/etc/syslog.conf");
 	createRestartFile('syslog');
 }
@@ -6472,7 +6521,7 @@ function installRoundCube($nolog = null)
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
 	$path_roundcube = "$path_webmail/roundcube";
-	
+
 	if (!file_exists($path_roundcube)) {
 		log_cleanup("RoundCube webmail no exists", $nolog);
 		return;
@@ -6520,7 +6569,7 @@ function installTDah($nolog = null)
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
 	$path_tdah = "$path_webmail/t-dah";
-	
+
 	if (!file_exists($path_tdah)) {
 		log_cleanup("T-Dah webmail no exists", $nolog);
 		return;
@@ -6544,7 +6593,7 @@ function installAfterlogic($nolog = null)
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
 	$path_afterlogic = "$path_webmail/afterlogic";
-	
+
 	if (!file_exists($path_afterlogic)) {
 		log_cleanup("Afterlogic webmail no exists", $nolog);
 		return;
@@ -6567,7 +6616,7 @@ function installSquirrelmail($nolog = null)
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
 	$path_squirrelmail = "$path_webmail/squirrelmail";
-	
+
 	if (!file_exists($path_squirrelmail)) {
 		log_cleanup("Squirrelmail webmail no exists", $nolog);
 		return;
@@ -6590,7 +6639,7 @@ function installTelaen($nolog = null)
 
 	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
 	$path_telaen = "$path_webmail/telaen";
-	
+
 	if (!file_exists($path_telaen)) {
 		log_cleanup("Telaen webmail no exists", $nolog);
 		return;
@@ -7260,17 +7309,17 @@ function setCopyWebConfFiles($webdriver)
 		}
 	}
 
-/*
-	// MR -- if nginx not as server
-	if ($webdriver === 'nginx') {
-		$drvs = getWebDriverList();	
+	/*
+		// MR -- if nginx not as server
+		if ($webdriver === 'nginx') {
+			$drvs = getWebDriverList();
 
- 		if ($drvs[0] !== 'nginx') {
-			log_cleanup("- Remove {$pathconfd}/~lxcenter.conf", $nolog);
-			exec("rm -rf {$pathconfd}/~lxcenter.conf");
+			 if ($drvs[0] !== 'nginx') {
+				log_cleanup("- Remove {$pathconfd}/~lxcenter.conf", $nolog);
+				exec("rm -rf {$pathconfd}/~lxcenter.conf");
+			}
 		}
-	}
-*/
+	*/
 }
 
 function isWebProxy($drivertype = null)
@@ -7308,6 +7357,13 @@ function getWebDriverList($drivertype = null)
 	}
 
 	return $list;
+}
+
+function getDnsDriverList($drivertype = null)
+{
+	$driverapp = ($drivertype) ? $drivertype : slave_get_driver('dns');
+
+	return array($driverapp);
 }
 
 function setRealServiceBranchList($nolog = null)
@@ -7533,7 +7589,7 @@ function lxlabs_get_and_print_select_variable($description, $remotevar, $localva
 	}
 
 	lxlabs_print_select($localvar, $description, $json->result);
-	
+
 	print("<br> ");
 }
 

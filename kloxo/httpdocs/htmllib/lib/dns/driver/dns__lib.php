@@ -107,7 +107,6 @@ class dns__ extends lxDriverClass
 		createRestartFile($altname);
 	}
 
-
 	function syncCreateConf()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -124,21 +123,28 @@ class dns__ extends lxDriverClass
 
 		// MR -- no need file_input_contents because this process inside tplsource
 		$tplparse = getParseInlinePhp($tpl, $input);
+	
 
-		if ($driverapp === 'djbdns') {
-			$dir = "/home/djbdns/tinydns/root";
-			$nameduser = "tinydns";
+	function getIpfromDns()
+	{
+	}
 
-			lxfile_unix_chown("{$dir}/data", $nameduser);
-			lxshell_directory($dir, "make");
+	function createAllowTransferIps()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
 
-			// also for axfrdns
-			$dir = "/home/djbdns/axfrdns";
-			$nameduser = "axfrdns";
+		$driverapp = slave_get_driver('dns');
 
-			lxfile_unix_chown("{$dir}/data", $nameduser);
-			lxshell_directory($dir, "make");
-		}
+		$input = array();
+
+		$input['ip'] = $this->getIpfromDns();
+
+		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "list.transfered.conf.tpl");
+
+		$tpl = file_get_contents($tplsource);
+
+		// MR -- no need file_input_contents because this process inside tplsource
+		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 
 	function dbactionAdd()
@@ -177,10 +183,11 @@ class dns__ extends lxDriverClass
 	{
 		global $sgbl;
 
+	//	$this->createAllowTransferIps();
+
 		$driverapp = slave_get_driver('dns');
 
 		if ($driverapp === 'bind') {
-
 			if ($this->main->isDeleted()) {
 				createRestartFile("named");
 
@@ -209,9 +216,8 @@ class dns__ extends lxDriverClass
 					createRestartFile("named");
 				}
 			}
-		} elseif ($driverapp === 'djbdns) {
+		} elseif ($driverapp === 'djbdns') {
 			createRestartFile("djbdns");
 		}
 	}
 }
-

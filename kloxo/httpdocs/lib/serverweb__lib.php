@@ -201,12 +201,7 @@ class serverweb__ extends lxDriverClass
 		$epath = '/etc';
 		$haepath = '/home/apache/etc';
 
-		lxshell_return("yum", "-y", "install", "mod_suphp");
-		$ret = lxshell_return("yum", "-y", "update", "mod_suphp");
-
-		if ($ret) {
-			throw new lxexception('mod_suphp_update_failed', 'parent');
-		}
+		setRpmInstalled("mod_suphp");
 
 		$ver = getPhpVersion();
 
@@ -243,19 +238,8 @@ class serverweb__ extends lxDriverClass
 		} else {
 			$phpbranch = getRpmBranchInstalled('php');
 
-			lxshell_return("yum", "-y", "install", "mod_fastcgi");
-			$ret = lxshell_return("yum", "-y", "update", "mod_fastcgi");
-
-			if ($ret) {
-				throw new lxexception('mod_fastcgi_update_failed', 'parent');
-			}
-
-			lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
-			$ret = lxshell_return("yum", "-y", "update", "{$phpbranch}-fpm");
-
-			if ($ret) {
-				throw new lxexception('{$phpbranch}-fpm_update_failed', 'parent');
-			}
+			setRpmInstalled("mod_fastcgi");
+			setRpmInstalled("{$phpbranch}-fpm");
 
 			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath . "/fastcgi.conf");
 			lxfile_rm($ehcdpath . "/fastcgi.nonconf");
@@ -273,13 +257,7 @@ class serverweb__ extends lxDriverClass
 
 		$ver = getPhpVersion();
 
-
-		lxshell_return("yum", "-y", "install", "mod_fcgid");
-		$ret = lxshell_return("yum", "-y", "update", "mod_fcgid");
-
-		if ($ret) {
-			throw new lxexception('mod_fcgid_update_failed', 'parent');
-		}
+		setRpmInstalled("mod_fcgid");
 
 		if (version_compare($ver, "5.3.0", "<")) {
 			$this->set_php_pure();
@@ -297,11 +275,7 @@ class serverweb__ extends lxDriverClass
 	{
 		$phpbranch = getRpmBranchInstalled('php');
 
-		$ret = lxshell_return("yum", "-y", "remove", "{$phpbranch}-fpm");
-
-		if ($ret) {
-			throw new lxexception('{$phpbranch}-fpm_update_failed', 'parent');
-		}
+		setRpmRemoved("{$phpbranch}-fpm");
 	}
 
 	function rename_to_nonconf()
@@ -342,11 +316,7 @@ class serverweb__ extends lxDriverClass
 
 		lxshell_return("lxphp.exe", $scripting, "--select=all", "--nolog");
 
-		$ret = lxshell_return("service", "httpd", "restart");
-
-		if ($ret) {
-			throw new lxexception('httpd_restart_failed', 'parent');
-		}
+		setRpmInstalled("httpd");
 	}
 
 	function set_phpbranch($branch = null)
@@ -359,11 +329,7 @@ class serverweb__ extends lxDriverClass
 		$installed = isRpmInstalled('yum-plugin-replace');
 
 		if (!$installed) {
-			$ret = lxshell_return("yum", "-y", "install", "yum-plugin-replace");
-
-			if ($ret) {
-				throw new lxexception('yum-plugin-replace_update_failed', 'parent');
-			}
+			setRpmInstalled("yum-plugin-replace");
 		}
 
 		$nolog = '--nolog';
@@ -433,11 +399,7 @@ class serverweb__ extends lxDriverClass
 			} else {
 				lxfile_rm($ehcdpath . "/suphp52.nonconf");
 
-				$ret = lxshell_return("yum", "-y", "install", "mod_suphp");
-
-				if ($ret) {
-					throw new lxexception('install_mod_suphp_failed', 'parent');
-				}
+				setRpmInstalled("mod_suphp");
 
 				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");

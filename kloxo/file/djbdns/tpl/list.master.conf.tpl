@@ -3,7 +3,8 @@
 	$dirs = glob("{$path}/*");
 
 	$file = "/home/djbdns/tinydns/root/data";
-	unlink($file);
+//	unlink($file);
+	exec("echo '' > {$file}");
 
 	foreach ($dirs as $d) {
 	//	$data = file_get_contents($d);

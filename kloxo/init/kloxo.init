@@ -45,6 +45,7 @@ phpcgi_file="/opt/php52s/bin/php-cgi"
 phpcgi_symlink="/opt/php52s/bin/kloxo-phpcgi"
 phpcgi_user="lxlabs"
 phpcgi_child="4"
+phpcgi_max_req="10000"
 
 phpcgi_name=$(basename ${phpcgi_symlink})
 
@@ -61,7 +62,7 @@ phpcgi_spawn="env -i PHP_FCGI_CHILDREN=${phpcgi_child} \
 	-b ${phpcgi_sockfile} &"
 
 function phpcgi_start() {
-	phpcgi_load_wrapper
+	phpcli_load_wrapper
 
 	if ! [ -L ${phpcgi_symlink} ] ; then
 		ln -s ${phpcgi_file} ${phpcgi_symlink}
@@ -110,7 +111,7 @@ function phpcgi_reload() {
 	also_mysql
 }
 
-function phpcgi_load_wrapper() {
+function phpcli_load_wrapper() {
 	cd /usr/local/lxlabs/kloxo/httpdocs
 	sh ../sbin/kloxo-wrapper.sh &
 }
@@ -266,7 +267,7 @@ case "$1" in
 		${WEBUSED}_$1
 		;;
 	wrapper)
-		phpcgi_load_wrapper
+		phpcli_load_wrapper
 		;;
 	update)
 		reinstall_${WEBUSED}

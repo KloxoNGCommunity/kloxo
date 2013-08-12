@@ -108,44 +108,11 @@ class Dns extends DnsBase
 
 	static function switchProgramPre($old, $new)
 	{
-		if ($new === 'bind') {
-			lxshell_return("service", "djbdns", "stop");
-			$ret = lxshell_return("yum", "-y", "install", "bind", "bind-chroot");
+		// issue #589 - Change httpd config structure
 
-			if ($ret) {
-				throw new lxexception('install_bind_failed', 'parent');
-			}
-
-			lxshell_return("chkconfig", "named", "on");
-
-			$pattern = 'include "/var/named/chroot/etc/kloxo.named.conf";';
-			$file1 = "/var/named/chroot/etc/named.conf";
-			$file2 = "/etc/named.conf";		
-			$comment = "//Kloxo";
-			addLineIfNotExistInside($file2, $pattern, $comment);
-
-			lxfile_cp($file2, $file1);
-
-			touch("/var/named/chroot/etc/kloxo.named.conf");
-			chown("/var/named/chroot/etc/kloxo.named.conf", "named");
-			lxshell_return("rpm", "-e", "djbdns");
-			lunlink("/etc/init.d/djbdns");
-		} else {
-			lxshell_return("yum", "-y", "install", "djbdns", "daemontools");
-
-			if ($ret) {
-				throw new lxexception('install_djbdns_failed', 'parent');
-			}
-
-			lxshell_return("service", "named", "stop");
-			lxfile_rm_rec("/var/djbdns/tinydns");
-			lxfile_rm_rec("/var/djbdns/axfrdns");
-			lxshell_return("rpm", "-e", "--nodeps", "bind");
-			lxshell_return("rpm", "-e", "--nodeps", "bind-chroot");
-			lxfile_cp("../file/djbdns.init", "/etc/init.d/djbdns");
-			lxfile_unix_chmod("/etc/init.d/djbdns", "0755");
-			lxshell_return("chkconfig", "djbdns", "on");
-		}
+		// MR -- and then make a simple
+		exec_class_method("dns__{$old}", "uninstallMe");
+		exec_class_method("dns__{$new}", "installMe");
 	}
 
 	static function switchProgramPost($old, $new)
@@ -157,70 +124,8 @@ class Dns extends DnsBase
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($driverapp === 'bind') {
-			lxshell_return("service", "djbdns", "stop");
-			lxshell_return("chkconfig", "named", "on");
-			$pattern = 'include "/etc/global.options.named.conf";';
-			$file = "/var/named/chroot/etc/named.conf";
-			$comment = "//Global_options_file";
-			addLineIfNotExist($file, $pattern, $comment);
-			$options_file = "/var/named/chroot/etc/global.options.named.conf";
-
-			$example_options = "acl \"lxcenter\" {\n";
-			$example_options .= " localhost;\n";
-			$example_options .= "};\n\n";
-			$example_options .= "options {\n";
-			$example_options .= " max-transfer-time-in 60;\n";
-			$example_options .= " transfer-format many-answers;\n";
-			$example_options .= " transfers-in 60;\n";
-			$example_options .= " auth-nxdomain yes;\n";
-			$example_options .= " allow-transfer { \"lxcenter\"; };\n";
-			$example_options .= " allow-recursion { \"lxcenter\"; };\n";
-			$example_options .= " recursion no;\n";
-			$example_options .= " version \"LxCenter - 1.0\";\n";
-			$example_options .= "};\n\n";
-			$example_options .= "# Remove # to see all DNS queries\n";
-			$example_options .= "#logging {\n";
-			$example_options .= "# channel query_logging {\n";
-			$example_options .= "# file \" /var/log / named_query . log\";\n";
-			$example_options .= "# versions 3 size 100M;\n";
-			$example_options .= "# print-time yes;\n";
-			$example_options .= "# };\n\n";
-			$example_options .= "# category queries {\n";
-			$example_options .= "# query_logging;\n";
-			$example_options .= "# };\n";
-			$example_options .= "#};\n";
-
-			if (!lfile_exists($options_file)) {
-				touch($options_file);
-				chown($options_file, "named");
-			}
-
-			$cont = lfile_get_contents($options_file);
-			$pattern = "options";
-
-			if (!preg_match("+$pattern+i", $cont)) {
-			//	file_put_contents($options_file, "$example_options\n");
-			}
-
-			$pattern = 'include "/var/named/chroot/etc/kloxo.named.conf";';
-			$file1 = "/var/named/chroot/etc/named.conf";
-			$file2 = "/etc/named.conf";		
-			$comment = "//Kloxo";
-			addLineIfNotExistInside($file2, $pattern, $comment);
-
-			lxfile_cp($file2, $file1);
-
-			touch("/var/named/chroot/etc/kloxo.named.conf");
-			chown("/var/named/chroot/etc/kloxo.named.conf", "named");
-			lxshell_return("rpm", "-e", "djbdns");
-			lunlink("/etc/init.d/djbdns");
-		} else {
-			lxshell_return("service", "named", "stop");
-			lxshell_return("rpm", "-e", "--nodeps", "bind");
-			lxshell_return("rpm", "-e", "--nodeps", "bind-chroot");
-			lxshell_return("chkconfig", "djbdns", "on");
-		}
+		// MR -- and then make a simple
+		removeDnsOtherDriver($driverapp, $nolog = true);
 	}
 
 	function inheritSynserverFromParent() { return false; }
