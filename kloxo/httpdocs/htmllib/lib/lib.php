@@ -5397,7 +5397,7 @@ function setDefaultPages($nolog = null)
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
-			exec("\cp -rf $sourcezip $targetzip");
+			exec("cp -rf $sourcezip $targetzip");
 			$newer = true;
 		}
 	}
@@ -5451,7 +5451,7 @@ function setDefaultPages($nolog = null)
 	if (lxfile_exists($usersourcezip)) {
 		if (!checkIdenticalFile($usersourcezip, $usertargetzip)) {
 			log_cleanup("- Copy $usersourcezip to $usertargetzip", $nolog);
-			exec("\cp -rf $usersourcezip $usertargetzip");
+			exec("cp -rf $usersourcezip $usertargetzip");
 		} else {
 			log_cleanup("- No new user-skeleton", $nolog);
 		}
@@ -5851,7 +5851,7 @@ function setInitialPhpFpmConfig($nolog = null)
 	$fpath = "/usr/local/lxlabs/kloxo/file";
 	$fpmpath = "/home/php-fpm/etc";
 
-	exec("\cp -rf {$fpath}/php-fpm /home");
+	exec("cp -rf {$fpath}/php-fpm /home");
 
 	$sockpath = "/home/php-fpm/sock";
 
@@ -7445,7 +7445,7 @@ function setCopyDnsConfFiles($dnsdriver)
 	log_cleanup("Copy all contents of $dnsdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("\cp -rf {$pathsrc} /home");
+	exec("cp -rf {$pathsrc} /home");
 
 	if ($aliasdriver === 'named') {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
@@ -7474,7 +7474,7 @@ function setCopyWebConfFiles($webdriver)
 	log_cleanup("Copy all contents of $webdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("\cp -rf {$pathsrc} /home");
+	exec("cp -rf {$pathsrc} /home");
 
 	$dirs = array($pathconf, $pathconfd);
 

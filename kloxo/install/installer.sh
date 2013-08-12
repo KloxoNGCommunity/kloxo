@@ -143,12 +143,12 @@ fi
 export PATH=/usr/sbin:/sbin:$PATH
 
 ## increasing max file access (important for php-fpm via socket)
-if grep -Fxq "fs.file-max" /etc/sysctl.conf ; then
-	sed -i 's/fs.file-max/#fs.file-max/' /etc/sysctl.conf
-fi
+#if $(cat /etc/sysctl.conf|grep -i 'fs.file-max' >/dev/null 2>&1) ; then
+#	sed -i 's/fs.file-max/#fs.file-max/' /etc/sysctl.conf
+#fi
 
-echo "fs.file-max = 209708" >> /etc/sysctl.conf
-sysctl -p
+#echo "fs.file-max = 209708" >> /etc/sysctl.conf
+#sysctl -p
 
 if [ -d ./kloxomr/install ] ; then
 	cd ./kloxomr/install

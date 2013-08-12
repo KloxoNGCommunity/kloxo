@@ -43,7 +43,9 @@ function lxins_main()
 	$pattern = "fs.file-max";
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
 
-	if (!strpos($sysctlconf, $pattern)) {
+	if (strpos($sysctlconf, $pattern) !== false) {
+		//
+	} else {
 		system("echo '\nfs.file-max = 209708' >> /etc/sysctl.conf; sysctl -e -p");
 	}
 
@@ -85,7 +87,7 @@ function lxins_main()
 			}
 		}
 
-		system("\cp -rf {$kloxopath} {$kloxopath}.{$currentstamp}");
+		system("cp -rf {$kloxopath} {$kloxopath}.{$currentstamp}");
 	} else {
 		// MR -- issue found on Centos 5.9 where have 'default' iptables config
 		$iptp = '/etc/sysconfig';
@@ -257,7 +259,7 @@ function install_main()
 
 	// MR -- use \cp for temporary cp without prompt
 	// because 'cp' as alias as 'cp -i' with 'alias -p' info
-	system("\cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
+	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
 }
 
 function kloxo_vpopmail()
@@ -407,7 +409,7 @@ function kloxo_install_step1()
 
 			print("Local copying Kloxo-MR release\n");
 			system("mkdir -p /var/cache/kloxo");
-			system("\cp -rf ../../kloxomr-latest.tar.gz {$kloxopath}");
+			system("cp -rf ../../kloxomr-latest.tar.gz {$kloxopath}");
 
 			chdir("/usr/local/lxlabs/kloxo");
 			system("mkdir -p {$kloxopath}/log");
@@ -445,7 +447,7 @@ function kloxo_install_step1()
 		system("tar -xzf kloxomr-latest.tar.gz -C ../");
 		system("rm -f {$kloxopath}/kloxomr-latest.tar.gz");
 		system("mv -f ../kloxomr-* ../kloxomr");
-		system("\cp -rf ../kloxomr/* ../kloxo");
+		system("cp -rf ../kloxomr/* ../kloxo");
 		system("rm -rf ../kloxomr");
 	}
 
@@ -547,7 +549,7 @@ function kloxo_install_before_bye()
 	if (file_exists("/etc/httpd/conf.d/php.conf")) {
 		system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
 		// MR -- because /home/apache no exist at this step
-		system("\cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
+		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
 	}
 
 	//--- Prevent mysql socket problem (especially on 64bit system)
@@ -677,7 +679,7 @@ function install_yum_repo()
 	}
 
 	if (!file_exists("/etc/yum.repos.d/kloxo-mr.repo")) {
-		system("\cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
+		system("cp -rf ./kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.repo");
 	}
 	
 	// MR -- just to know @ exist or not because centos 6 change 'installed' to '@'
@@ -934,8 +936,8 @@ function copy_script()
 
 	system("mkdir -p /script/filter");
 
-	system("\cp -rf {$kloxopath}/httpdocs/htmllib/script/* /script/");
-	system("\cp -rf {$kloxopath}/pscript/* /script/");
+	system("cp -rf {$kloxopath}/httpdocs/htmllib/script/* /script/");
+	system("cp -rf {$kloxopath}/pscript/* /script/");
 
 	file_put_contents("/script/programname", 'kloxo');
 	system("chmod 0775 /script");
