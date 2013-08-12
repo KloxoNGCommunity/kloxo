@@ -1,5 +1,5 @@
 <?php
-	if (isset($ip)) {
+	if (array_keys($ip)) {
 		$file = "/home/djbdns/axfrdns/tcp";
 
 		$text = implode(":allow\n", $ip);

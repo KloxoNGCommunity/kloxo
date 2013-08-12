@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# release on Kloxo-MR 6.5.0.f
+# by mustafa.ramadhan@lxcenter.org
+
+echo "Execute..."
+sync; echo 3 > /proc/sys/vm/drop_caches
+

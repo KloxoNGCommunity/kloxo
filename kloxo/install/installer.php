@@ -1,7 +1,7 @@
 <?php
 
 // MR -- to make sure no yum running in background
-system("\rm -f /var/run/yum.pid");
+system("rm -f /var/run/yum.pid");
 
 // system("yum-complete-transaction");
  
@@ -95,7 +95,7 @@ function lxins_main()
 
 		foreach ($ipts as &$ipt) {
 			if (file_exists("{$iptp}/{$ipt}")) {
-				system("\mv -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
+				system("mv -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
 			}
 		}
 
@@ -693,9 +693,9 @@ function install_yum_repo()
 	}
 
 	// MR -- remove all old repos
-	system("\rm -f /etc/yum.repos.d/kloxo.repo");
-	system("\rm -f /etc/yum.repos.d/kloxo-custom.repo");
-	system("\rm -f /etc/yum.repos.d/lxcenter.repo");
+	system("rm -f /etc/yum.repos.d/kloxo.repo");
+	system("rm -f /etc/yum.repos.d/kloxo-custom.repo");
+	system("rm -f /etc/yum.repos.d/lxcenter.repo");
 
 	system("yum clean all");
 }
