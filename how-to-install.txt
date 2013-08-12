@@ -46,7 +46,7 @@ B.2. For Final Release:
     # move to /
     cd /
 
-    # install (and then run 'setup.sh' instead 'installer.sh')
+    # install (and then run 'sh /usr/local/lxlabs/kloxo/install/setup.sh')
     yum install kloxomr -y
     
     # better reboot
