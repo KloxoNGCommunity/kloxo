@@ -123,10 +123,6 @@ class dns__ extends lxDriverClass
 
 		// MR -- no need file_input_contents because this process inside tplsource
 		$tplparse = getParseInlinePhp($tpl, $input);
-	
-
-	function getIpfromDns()
-	{
 	}
 
 	function createAllowTransferIps()
@@ -137,7 +133,7 @@ class dns__ extends lxDriverClass
 
 		$input = array();
 
-		$input['ip'] = $this->getIpfromDns();
+		$input['ip'] = getIpfromDns();
 
 		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "list.transfered.conf.tpl");
 
@@ -151,12 +147,17 @@ class dns__ extends lxDriverClass
 	{
 		$this->createConfFile();
 		$this->syncCreateConf();
+	//	$this->createAllowTransferIps();
 	}
 
 	function dbactionUpdate($subaction)
 	{
-		$this->createConfFile();
-		$this->syncCreateConf();
+		if ($subaction === 'allowed_transfer') {
+			exec("sh /script/fixdns --action=allowed_transfer");
+		} else {
+			$this->createConfFile();
+			$this->syncCreateConf();
+		}
 	}
 
 	function dbactionDelete()
@@ -177,13 +178,14 @@ class dns__ extends lxDriverClass
 		}
 
 		$this->syncCreateConf();
+	//	$this->createAllowTransferIps();
 	}
 
 	function dosyncToSystemPost()
 	{
-		global $sgbl;
+		global $gbl, $sgbl, $login, $ghtml;
 
-	//	$this->createAllowTransferIps();
+		$this->createAllowTransferIps();
 
 		$driverapp = slave_get_driver('dns');
 

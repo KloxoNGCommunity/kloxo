@@ -19,19 +19,15 @@
 ?>
 Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?php echo $serial; ?>:::::<?php echo $ttl; ?>
 
-.<?php echo $domainname; ?>::<?php echo $nameserver; ?>:<?php echo $ttl; ?>
-
 <?php    
     foreach($dns_records as $k => $o) {
         switch($o->ttype) {
             case "ns":
                 $value = $o->param;
-                if ($value !== $nameserver) {
 ?>
 &<?php echo $domainname; ?>::<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
-                }
 
                 break;
             case "mx":

@@ -1161,19 +1161,11 @@ class web__ extends lxDriverClass
 		$this->main->doStatsPageProtection();
 
 		$user = $this->getUser();
-
-		if (!file_exists("/etc/php-fpm/{$user}")) {
-			$this->dbactionUpdate("static_config_update");
-		//	self::addPhpFpmConfig($user);
-		}
 	}
 
 	function dbactionDelete()
 	{
 		$this->delDomain();
-
-		// MR -- include fix_phpfpm
-		$this->dbactionUpdate("static_config_update");
 
 		$domainname = $this->getDomainname();
 
@@ -1186,6 +1178,10 @@ class web__ extends lxDriverClass
 
 	function dosyncToSystemPost()
 	{
+		// MR -- to make sure after domain config process
+		// also update static config
+		$this->dbactionUpdate("static_config_update");
+
 		if (!$this->isOn('norestart')) {
 		//	createRestartFile("httpd");
 

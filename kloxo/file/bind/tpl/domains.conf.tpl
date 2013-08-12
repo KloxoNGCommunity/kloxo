@@ -40,7 +40,7 @@ $TTL <?php echo $ttl; ?>
             case "ns":
                 $value = $o->param;
 ?>
-<?php echo $domainname; ?>. IN  NS <?php echo $value; ?>.
+<?php echo $domainname; ?>. IN NS <?php echo $value; ?>.
 <?php
                 break;
             case "mx":
