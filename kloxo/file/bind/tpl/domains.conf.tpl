@@ -101,7 +101,7 @@ $TTL <?php echo $ttl; ?>
             case "cname":
                 $key = $o->hostname;
                 $value = $o->param;
-
+/*
                 if (isset($arecord[$value])) {
                     $rvalue = $arecord[$value];
 
@@ -120,7 +120,7 @@ $TTL <?php echo $ttl; ?>
 <?php
                     break;
                 }
-
+*/
                 $key .= ".$domainname.";
 
                 if ($value !== "__base__") {

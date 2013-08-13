@@ -64,7 +64,7 @@ Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?p
             case "cname":
                 $key = $o->hostname;
                 $value = $o->param;
-
+/*
                 if (isset($arecord[$value])) {
                     $rvalue = $arecord[$value];
 
@@ -83,7 +83,7 @@ Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?p
 <?php
                     break;
                 }
-
+*/
                 if ($value !== "__base__") {
                     $value = "{$value}.{$domainname}";
                 } else {
