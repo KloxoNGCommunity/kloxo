@@ -1,10 +1,10 @@
 #!/bin/sh
 
-list=(named djbdns httpd nginx lighttpd hiawatha php-fpm qmail xinetd mysqld mysql kloxo)
+list=(named djbdns maradns httpd nginx lighttpd hiawatha php-fpm qmail xinetd mysqld mysql kloxo)
 
 for item in ${list[*]}
 do
-	if [ -f /etc/init.d/$item ] ; then
+	if $(chkconfig --list|grep $item|grep -i ':on' >/dev/null 2>&1) && [ -f /etc/init.d/$item ] ; then
 		if [ $item == 'qmail' ] ; then
 			/etc/init.d/$item stop
 			/etc/init.d/$item start

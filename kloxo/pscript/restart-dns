@@ -1,10 +1,15 @@
 #!/bin/sh
 
-list=(named djbdns)
+list=(named djbdns maradns)
 
 for item in ${list[*]}
 do
-	if [ -f /etc/init.d/$item ] ; then
-		/etc/init.d/$item restart
+	if $(chkconfig --list|grep $item|grep -i ':on' >/dev/null 2>&1) && [ -f /etc/init.d/$item ] ; then
+		if [ $item == 'qmail' ] ; then
+			/etc/init.d/$item stop
+			/etc/init.d/$item start
+		else
+			/etc/init.d/$item restart
+		fi
 	fi
 done

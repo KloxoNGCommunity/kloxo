@@ -1,6 +1,6 @@
 #!/bin/sh
 
-list=(qmail)
+list=(mysqld mysql)
 
 for item in ${list[*]}
 do
