@@ -53,8 +53,8 @@ class dns__ extends lxDriverClass
 
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
 
-		lxfile_cp(getLinkCustomfile("/home/{$altname}/etc/init.d", "$altname.init"),
-			"/etc/rc.d/init.d/{$altname}");
+		lxfile_cp(getLinkCustomfile("/home/{$drivertype}/etc/init.d", "$altname.init"),
+			"/etc/init.d/{$altname}");
 	}
 
 	static function setBaseDnsConfig($drivertype = null)
