@@ -1,5 +1,16 @@
 ![Kloxo-MR logo](http://mratwork.com/images/kloxo-mr.png)
 
+===================
+
+Branch:
+- master - original code from lxcenter
+- dev - branch for next release
+- bugfix-6.5.0 - branch for bugfix for 6.5.0.f
+- release - branch for release in zip format
+- rpms - branch for rpms
+
+===================
+
 # Kloxo-MR
 
 This is special edition (fork) of Kloxo with many features not existing on Kloxo official release (6.1.12+).
