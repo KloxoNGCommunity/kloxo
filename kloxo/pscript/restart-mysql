@@ -2,14 +2,19 @@
 
 list=(mysqld mysql)
 
-for item in ${list[*]}
-do
-	if $(chkconfig --list|grep $item|grep -i ':on' >/dev/null 2>&1) && [ -f /etc/init.d/$item ] ; then
-		if [ $item == 'qmail' ] ; then
-			/etc/init.d/$item stop
-			/etc/init.d/$item start
-		else
-			/etc/init.d/$item restart
-		fi
+for item in ${list[*]} ; do
+	if [ -f /etc/init.d/${item} ] ; then
+		for num in 0 1 2 3 4 5 6 ; do
+			if $(dir /etc/rc.d/rc${num}.d|grep ${item} >/dev/null 2>&1) ; then
+				if [ $item == 'qmail' ] ; then
+					/etc/init.d/${item} stop
+					/etc/init.d/${item} start
+				else
+					/etc/init.d/${item} restart
+				fi
+
+				break
+			fi
+		done
 	fi
 done

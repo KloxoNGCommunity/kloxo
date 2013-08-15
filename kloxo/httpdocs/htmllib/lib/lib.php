@@ -6282,8 +6282,8 @@ function setCheckPackages($nolog = null)
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
 		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
-		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
-		"{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick", "{$phpbranch}-pdo",
+		"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "{$phpbranch}-gd",
 		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell", "libmhash");
 
 	foreach ($list as $l) {
