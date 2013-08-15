@@ -6282,8 +6282,8 @@ function setCheckPackages($nolog = null)
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
 		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
-		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick", "{$phpbranch}-pdo",
-		"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "{$phpbranch}-gd",
+		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
+		"{$phpbranch}-mcrypt", "{$phpbranch}-xml",
 		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell", "libmhash");
 
 	foreach ($list as $l) {
@@ -6655,7 +6655,13 @@ function fix_secure_log($nolog = null)
 	}
 
 	lxfile_cp("../file/linux/syslog.conf", "/etc/syslog.conf");
-	createRestartFile('syslog');
+	lxfile_cp("../file/linux/rsyslog.conf", "/etc/rsyslog.conf");
+
+	if (file_exists("/etc/init.d/syslog")) {
+		createRestartFile('syslog');
+	} else {
+		createRestartFile('rsyslog');
+	}
 }
 
 function fix_cname($nolog = null)
