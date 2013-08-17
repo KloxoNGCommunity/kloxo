@@ -24,7 +24,7 @@ static function getVersion($list, $name)
 
 static function getListVersion($syncserver, $list)
 {
-
+/*
 	$list[]['componentname'] = 'mysql';
 	$list[]['componentname'] = 'perl';
 //	$list[]['componentname'] = 'postgresql';
@@ -38,6 +38,20 @@ static function getListVersion($syncserver, $list)
 //	$list[]['componentname'] = 'spamassassin';
 	$list[]['componentname'] = 'pure-ftpd';
 	$list[]['componentname'] = 'nginx';
+*/
+
+	$comps = array('mysql', 'postgresql', 'httpd', 'lighttpd', 'nginx', 'hiawatha',
+			'php', 'perl', 'mono', 'ruby', 'djbdns', 'bind', 'maradns', 'powerdns',
+			'qmail', 'pure-ftpd');
+
+	foreach ($comps as $k => $c) {
+	//	$list[]['componentname'] = $c;
+		if (getRpmBranchInstalled($c)) {
+			$list[]['componentname'] = getRpmBranchInstalled($c);
+		} else {
+			$list[]['componentname'] = $c;
+		}
+	}
 
 	foreach($list as $l) {
 		$nlist[] = $l['componentname'];

@@ -24,13 +24,16 @@ class Service__Linux extends Lxlclass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$nval['httpd'] = 'httpd';
-		$nval['nginx'] = 'nginx';
 		$nval['lighttpd'] = 'lighttpd';
+		$nval['nginx'] = 'nginx';
+		$nval['hiawatha'] = 'hiawatha';
 
 		$nval['php-fpm'] = 'php-fpm';
 
 		$nval['named'] = 'named';
 		$nval['djbdns'] = "tinydns";
+		$nval['maradns'] = "maradns";
+		$nval['powerdns'] = "powerdns";
 
 		$nval['qmail'] = 'qmail';
 	//	$nval['courier-imap'] = 'courier';

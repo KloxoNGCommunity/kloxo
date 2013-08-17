@@ -52,10 +52,12 @@ class Service__Redhat extends lxDriverClass
 				break;
 
 			case "toggle_boot_state":
-				if ($this->main->isOn('boot_state')) {
-					lxshell_return("chkconfig", $this->main->servicename, 'on');
-				} else {
-					lxshell_return("chkconfig", $this->main->servicename, 'off');
+				if ($this->main->servicename !== 'hiawatha') {
+					if ($this->main->isOn('boot_state')) {
+						lxshell_return("chkconfig", $this->main->servicename, 'on');
+					} else {
+						lxshell_return("chkconfig", $this->main->servicename, 'off');
+					}
 				}
 				
 				break;

@@ -6392,7 +6392,7 @@ function setInitialServer($nolog = null)
 
 	$list = implode(" ", $packages);
 
-	exec("yum -y remove $list");
+	exec("yum -y remove $list >/dev/null 2>&1");
 
 	// MR -- install new Kloxo-MR component; not including php52s because used by this script!
 	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
@@ -6401,7 +6401,7 @@ function setInitialServer($nolog = null)
 
 	$list = implode(" ", $packages);
 
-	exec("yum -y install $list");
+	exec("yum -y install $list >/dev/null 2>&1");
 
 	lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/init", "kloxo.init"),
 		"/etc/init.d/kloxo");
@@ -7123,12 +7123,12 @@ function setUpdateServices($list, $nolog = null)
 		$l = $list;
 	}
 
-	log_cleanup('Update Core packages', $nolog);
+	log_cleanup('Updating Core packages', $nolog);
 
 	foreach ($l as $k => $v) {
 		/*
 			// MR -- fortunely, when package no install use 'yum update' no effect
-			exec("yum update {$v} -y | grep -i 'no packages'", $out, $ret);
+			exec("yum update {$v} -y | grep -i 'no packages' >/dev/null 2>&1", $out, $ret);
 
 			$w = str_replace(" ", "/", $v);
 
@@ -7142,7 +7142,7 @@ function setUpdateServices($list, $nolog = null)
 		exec("yum list installed {$v}", $out, $ret);
 
 		if ($out[0] !== false) {
-			exec("yum update {$v} -y");
+			exec("yum update {$v} -y >/dev/null 2>&1");
 			log_cleanup("- New {$v} version installed", $nolog);
 		} else {
 			log_cleanup("- No '{$v}' update found/not installed", $nolog);
@@ -7723,7 +7723,7 @@ function setPhpBranch($select, $nolog = null)
 
 			if (!isRpmInstalled($t)) {
 				log_cleanup("-- Install missing '{$t}' module if exists", $nolog);
-				exec("yum install {$t}");
+				exec("yum install {$t} >/dev/null 2>&1");
 			} else {
 				log_cleanup("-- '{$t}' module already installed", $nolog);
 			}
