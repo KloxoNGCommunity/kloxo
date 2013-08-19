@@ -342,6 +342,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     ServerName <?php echo $domainname; ?>
 
+
+    ServerAlias <?php echo $serveralias; ?>
+
 <?php
         if ($count !== 0) {
 ?>
@@ -372,9 +375,6 @@ foreach ($certnamelist as $ip => $certname) {
     DocumentRoot "<?php echo $rootpath; ?>/"
 
     DirectoryIndex <?php echo $indexorder; ?>
-
-
-    ServerAlias <?php echo $serveralias; ?>
 
 
     Alias /__kloxo "/home/<?php echo $user; ?>/kloxoscript/"

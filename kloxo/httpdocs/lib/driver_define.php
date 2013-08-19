@@ -12,8 +12,11 @@ $gl_class_array['listsubscribe__mailman'] = "lib/domain/mmail/driver/listsubscri
 $gl_class_array['web__apache'] = "lib/domain/web/driver/web__apachelib.php";
 $gl_class_array['web__lighttpd'] = "lib/domain/web/driver/web__lighttpdlib.php";
 $gl_class_array['web__nginx'] = "lib/domain/web/driver/web__nginxlib.php";
+$gl_class_array['web__hiawatha'] = "lib/domain/web/driver/web__hiawathalib.php";
+
 $gl_class_array['web__lighttpdproxy'] = "lib/domain/web/driver/web__lighttpdproxylib.php";
 $gl_class_array['web__nginxproxy'] = "lib/domain/web/driver/web__nginxproxylib.php";
+$gl_class_array['web__hiawathaproxy'] = "lib/domain/web/driver/web__hiawathaproxylib.php";
 
 $gl_class_array['webtraffic__apache'] = "lib/domain/web/driver/webtraffic__apachelib.php";
 $gl_class_array['webtraffic__lighttpd'] = "lib/domain/web/driver/webtraffic__lighttpdlib.php";
@@ -54,8 +57,11 @@ $gl_class_array['mailqueue__qmail'] = "htmllib/lib/pserver/driver/mailqueue__qma
 $gl_class_array['serverweb__apache'] = "lib/serverweb__apachelib.php";
 $gl_class_array['serverweb__lighttpd'] = "lib/serverweb__lighttpdlib.php";
 $gl_class_array['serverweb__nginx'] = "lib/serverweb__nginxlib.php";
+$gl_class_array['serverweb__hiawatha'] = "lib/serverweb__hiawathalib.php";
+
 $gl_class_array['serverweb__lighttpdproxy'] = "lib/serverweb__lighttpdproxylib.php";
 $gl_class_array['serverweb__nginxproxy'] = "lib/serverweb__nginxproxylib.php";
+$gl_class_array['serverweb__hiawathaproxy'] = "lib/serverweb__hiawathaproxylib.php";
 
 $gl_class_array['rubyrails__linux'] = "lib/domain/web/driver/rubyrails__linuxlib.php";
 

@@ -29,7 +29,6 @@ if ($indexorder) {
 $fpmportapache = 50000;
 
 ?>
-
 <?php
 if ($setdefaults === 'ssl') {
 /*
@@ -82,7 +81,9 @@ Listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 ### '<?php echo $setdefaults; ?>' config
 <VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
-    ServerName <?php echo $setdefaults; ?> 
+    ServerName <?php echo $setdefaults; ?>
+
+
     ServerAlias <?php echo $setdefaults; ?>.*
 
     DocumentRoot "<?php echo $docroot; ?>/"
