@@ -57,27 +57,8 @@ if ($out[0]) {
 }
 
 ?>
-
 <?php
 if ($setdefaults === 'ssl') {
-/*
-    foreach ($certnamelist as $ip => $certname) {
-?>
-
-## '<?php echo $setdefaults; ?>' for '<?php echo $ip; ?>' config
-server {
-    listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>;
-
-    ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
-    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-}
-
-<?php
-    }
-*/
 ?>
 
 ## No needed declare here because certfile directly write to defaults and domains configs

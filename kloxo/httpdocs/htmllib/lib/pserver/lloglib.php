@@ -56,57 +56,44 @@ function getFfileFromVirtualList($name)
 
 function createShowSclist()
 {
-
-//	$sclist['ffile'] = array('kloxo/maillog' => 'Maillog', "kloxo/smtp.log" => "SMTP.log", 'httpd/access_log' => 'Http Log', 'mysqld.log' => 'Mysql Log');
-/*
-	$sclist['ffile'] = array(
-		'kloxo/courier' => 'Courier', 'kloxo/maillog' => 'Mail', "kloxo/smtp.log" => "SMTP", 
-		'clamav/freshclam.log' => 'Freshclam', 'audit/audit.log' => 'Audit', "kloxo/smtp.log" => "SMTP", 
-		'httpd/access_log' => 'HTTP Access', 'httpd/error_log' => 'HTTP Error', 
-		'nginx/access.log' => 'Nginx Access', 'nginx/error.log' => 'Nginx Error', 
-		'lighttpd/access.log' => 'Lighttpd Access', 'lighttpd/error.log' => 'Lighttpd Error', 
-		'php-fpm/error.log' => 'PHP-FPM Error', 'php-fpm/slow.log' => 'PHP-FPM Slow', 
-		'mysqld.log' => 'MySQL');
-*/
-/*
-	$sclist['ffile'] = array(
-		'audit/audit.log' => 'Audit',
-		'clamav/freshclam.log' => 'Freshclam',
-		'qmail/authlib/current' => 'Qmail-toaster Authlib',
-		'qmail/clamd/current' => 'Qmail-toaster Clamd',
-		'qmail/imap4/current' => 'Qmail-toaster IMAP4',
-		'qmail/imap4-ssl/current' => 'Qmail-toaster IMAP4-SSL',
-		'qmail/pop3/current' => 'Qmail-toaster POP3',
-		'qmail/pop3-ssl/current' => 'Qmail-toaster POP3-SSL',
-		'qmail/send/current' => 'Qmail-toaster Send',
-		'qmail/smtp/current' => 'Qmail-toaster SMTP',
-		'qmail/smtp-ssl/current' => 'Qmail-toaster SMTP-SSL',
-		'qmail/spamd/current' => 'Qmail-toaster Spamd',
-		'qmail/submission/current' => 'Qmail-toaster Submission',
-		'httpd/access_log' => 'HTTP Access', 'httpd/error_log' => 'HTTP Error', 
-		'nginx/access.log' => 'Nginx Access', 'nginx/error.log' => 'Nginx Error', 
-		'lighttpd/access.log' => 'Lighttpd Access', 'lighttpd/error.log' => 'Lighttpd Error', 
-		'php-fpm/error.log' => 'PHP-FPM Error', 'php-fpm/slow.log' => 'PHP-FPM Slow', 
-		'mysqld.log' => 'MySQL',
-		'pureftpd.log' => 'Pure-ftp',
-		'rkhunter/rkhunter.log' => 'RKHunter');
-*/
 	// MR -- only list maillog because change multilog to splogger for qmail-toaster
 	$sclist['ffile'] = array(
 		'audit/audit.log' => 'Audit',
+
+		'messages' => 'Messages',
+
+		'cron' => 'Cron',
+
+		'secure' => 'Secure',
+
 		'clamav/freshclam.log' => 'Freshclam',
 		'maillog' => 'Mail log',
+
 		'httpd/access_log' => 'HTTP Access',
 		'httpd/error_log' => 'HTTP Error', 
-		'nginx/access.log' => 'Nginx Access',
-		'nginx/error.log' => 'Nginx Error', 
+
 		'lighttpd/access.log' => 'Lighttpd Access',
 		'lighttpd/error.log' => 'Lighttpd Error', 
+
+		'nginx/access.log' => 'Nginx Access',
+		'nginx/error.log' => 'Nginx Error', 
+
+		'hiawatha/system.log' => 'Hiawatha System',
+		'hiawatha/garbage.log' => 'Hiawatha Garbage', 
+		'hiawatha/access.log' => 'Hiawatha Access',
+		'hiawatha/error.log' => 'Hiawatha Error', 
+		'hiawatha/exploit.log' => 'Hiawatha Exploit',
+
 		'php-fpm/error.log' => 'PHP-FPM Error',
 		'php-fpm/slow.log' => 'PHP-FPM Slow', 
+
 		'mysqld.log' => 'MySQL',
+
 		'pureftpd.log' => 'Pure-ftp',
-		'rkhunter/rkhunter.log' => 'RKHunter');
+
+		'rkhunter/rkhunter.log' => 'RKHunter',
+
+		'yum.log' => 'Yum log');
 
 	return $sclist;
 }
