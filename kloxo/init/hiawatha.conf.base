@@ -35,7 +35,7 @@ MimetypeConfig = hiawatha-mimetype.conf
 
 Binding {
 	BindingId = port_nonssl
-	Port = 37778
+	Port = __nonssl_port__
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600
@@ -46,7 +46,7 @@ Binding {
 
 Binding {
 	BindingId = port_ssl
-	Port = 37777
+	Port = __ssl_port__
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600

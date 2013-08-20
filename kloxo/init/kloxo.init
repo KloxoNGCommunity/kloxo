@@ -38,6 +38,10 @@ fi
 
 WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
+### 0. Change Kloxo-MR port
+cd /usr/local/lxlabs/kloxo/httpdocs
+lxphp.exe -f ../init/changeport.php
+
 ### 1. PHP-CGI portion
 
 phpcgi_pidfile="/var/run/kloxo-phpcgi.pid"
