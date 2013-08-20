@@ -5436,10 +5436,20 @@ function getRpmBranchListOnList($pname)
 
 function getRpmVersion($rpmname)
 {
+/*
 	$out = lxshell_output("rpm -q {$rpmname}");
 
 	return str_replace($rpmname . '-', '', $out[0]);
+*/
+	exec("rpm -q --qf '%{VERSION}\n' {$rpm}", $out, $ret);
 
+	if ($out[0] !== false) {
+		$ver = $out[0];
+	} else {
+		$ver = '';
+	}
+
+	return $ver;
 }
 
 function setRpmInstalled($rpmname)

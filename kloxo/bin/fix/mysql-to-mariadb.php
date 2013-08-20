@@ -32,7 +32,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 			system("yum remove mysql*.i686 -y");
 		}
 		
-		$out2 = shell_system("rpm -qa|grep {$mysqlbranch}");
+		$out2 = shell_exec("rpm -qa|grep {$mysqlbranch}");
 
 		$arr = explode("\n", $out2);
 

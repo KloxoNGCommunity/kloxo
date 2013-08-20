@@ -825,10 +825,13 @@ function getMysqlBranch()
 // MR -- taken from lib.php
 function getRpmVersion($rpmname)
 {
-	exec("rpm -q {$rpmname}", $out, $ret);
+	if ($out[0] !== false) {
+		$ver = $out[0];
+	} else {
+		$ver = '';
+	}
 
-	return str_replace($rpmname . '-', '', $out[0]);
-
+	return $ver;
 }
 
 // MR -- taken from lib.php
@@ -1010,22 +1013,6 @@ function randomString($length)
 	}
 
 	return $randstr;
-}
-
-function getRpmVersionViaYum($rpm)
-{
-	// MR -- don't use 'grep -i' because need real 'Version' word
-	exec("yum info {$rpm} | grep 'Version'", $out, $ret);
-
-	if ($out[0] !== false) {
-		$ver = str_replace('Version', '', $out[0]);
-		$ver = str_replace(':', '', $ver);
-		$ver = str_replace(' ', '', $ver);
-	} else {
-		$ver = '';
-	}
-
-	return $ver;
 }
 
 lxins_main();
