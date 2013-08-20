@@ -7334,6 +7334,7 @@ function isServiceRunning($srvc)
 
 function getRpmVersionViaYum($rpm)
 {
+/*
 	// MR -- don't use 'grep -i' because need real 'Version' word
 	exec("yum info {$rpm} | grep 'Version'", $out, $ret);
 
@@ -7344,8 +7345,12 @@ function getRpmVersionViaYum($rpm)
 	} else {
 		$ver = '';
 	}
-
+	
 	return $ver;
+*/
+	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
+
+	return $out[0];
 }
 
 function setPhpBranch($select, $nolog = null)
