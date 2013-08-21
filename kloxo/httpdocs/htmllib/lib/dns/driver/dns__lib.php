@@ -66,11 +66,14 @@ class dns__ extends lxDriverClass
 
 	function createConfFile()
 	{
-		$this->syncAddFile($this->main->nname);
+		global $gbl, $sgbl, $login, $ghtml;
 
+		$this->syncAddFile($this->main->nname);
+	
 		foreach ((array)$this->main->__var_addonlist as $d) {
 			$this->syncAddFile($d->nname);
 		}
+	
 	}
 
 	function syncAddFile($domainname)
@@ -106,8 +109,6 @@ class dns__ extends lxDriverClass
 		if ($tplparse) {
 			file_put_contents($tpltarget, $tplparse);
 		}
-
-		createRestartFile($altname);
 	}
 
 	function syncCreateConf()
@@ -118,13 +119,10 @@ class dns__ extends lxDriverClass
 
 		$input = array();
 
-		$input['domainname'] = $this->main->nname;
-
 		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "list.master.conf.tpl");
 
 		$tpl = file_get_contents($tplsource);
 
-		// MR -- no need file_input_contents because this process inside tplsource
 		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 
@@ -136,13 +134,12 @@ class dns__ extends lxDriverClass
 
 		$input = array();
 
-		$input['ip'] = getIpfromDns();
+		$input['ip'] = $this->main->getIpfromARecord();
 
 		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "list.transfered.conf.tpl");
 
 		$tpl = file_get_contents($tplsource);
 
-		// MR -- no need file_input_contents because this process inside tplsource
 		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 
@@ -150,16 +147,27 @@ class dns__ extends lxDriverClass
 	{
 		$this->createConfFile();
 		$this->syncCreateConf();
-	//	$this->createAllowTransferIps();
+		$this->createAllowTransferIps();
 	}
 
 	function dbactionUpdate($subaction)
 	{
-		if ($subaction === 'allowed_transfer') {
-			exec("sh /script/fixdns --action=allowed_transfer");
-		} else {
-			$this->createConfFile();
-			$this->syncCreateConf();
+		switch ($subaction) {
+			case "allowed_transfer":
+				$this->createAllowTransferIps();
+				break;
+			case "synchronize":
+				$this->syncCreateConf();
+				break;
+			case "domain":
+				$this->createConfFile();
+				break;
+			case "full_update":
+			default:
+				$this->createAllowTransferIps();
+				$this->createAllowTransferIps();
+				$this->syncCreateConf();
+				break;
 		}
 	}
 
@@ -181,46 +189,19 @@ class dns__ extends lxDriverClass
 		}
 
 		$this->syncCreateConf();
-	//	$this->createAllowTransferIps();
+		$this->createAllowTransferIps();
 	}
 
 	function dosyncToSystemPost()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$this->createAllowTransferIps();
+	//	$this->createAllowTransferIps();
 
 		$driverapp = slave_get_driver('dns');
 
 		if ($driverapp === 'bind') {
-			if ($this->main->isDeleted()) {
-				createRestartFile("named");
-
-				return;
-			}
-
-			$total = false;
-			$ret = lxshell_return("rndc", "reload", $this->main->nname);
-
-			if ($ret) {
-				$total = true;
-			}
-
-			foreach ((array)$this->main->__var_addonlist as $d) {
-				$ret = lxshell_return("rndc", "reload", $d->nname);
-
-				if ($ret) {
-					$total = true;
-				}
-			}
-
-			if ($total) {
-				$ret = lxshell_return("rndc", "reload");
-
-				if ($ret) {
-					createRestartFile("named");
-				}
-			}
+			createRestartFile("named");
 		} elseif ($driverapp === 'djbdns') {
 			createRestartFile("djbdns");
 		}

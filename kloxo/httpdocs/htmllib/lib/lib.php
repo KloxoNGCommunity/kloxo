@@ -5912,34 +5912,6 @@ function getAllClientList()
 	return $users;
 }
 
-function getIpfromDns()
-{
-	global $gbl, $sgbl, $login, $ghtml;
-
-	$login->loadAllObjects('client');
-	$list = $login->getList('client');
-
-	$ip = array();
-
-	foreach($list as $c) {
-		$dlist = $c->getList('domaina');
-
-		if (!$dlist) { continue; }
-
-		foreach($dlist as $l) {
-			$dns = $l->getObject('dns');
-
-			foreach($dns->dns_record_a as $k => $o) {
-				if (($o->ttype === 'aaa') || ($o->ttype === 'a')) {
-					$ip[] = $o->param;
-				}
-			}
-		}
-	}
-
-	return array_unique($ip);
-}
-
 function setInitialPureftpConfig($nolog = null)
 {
 	log_cleanup("Initialize PureFtp service", $nolog);
@@ -7095,9 +7067,9 @@ function getParseInlinePhp($template, $input)
 
 	$ret = null;
 
-	if (!ob_get_status()) {
+//	if (!ob_get_status()) {
 		ob_start();
-	}
+//	}
 
 	eval('?>' . $template);
 
@@ -7110,6 +7082,8 @@ function getParseInlinePhp($template, $input)
 	$ret = (count($splitter) === 2) ? '### begin' . $splitter[1] : $ret;
 	$splitter = explode(';;; begin', $ret);
 	$ret = (count($splitter) === 2) ? ';;; begin' . $splitter[1] : $ret;
+	$splitter = explode('/// begin', $ret);
+	$ret = (count($splitter) === 2) ? '/// begin' . $splitter[1] : $ret;
 
 	return $ret;
 }
@@ -7345,8 +7319,6 @@ function getRpmVersionViaYum($rpm)
 	} else {
 		$ver = '';
 	}
-	
-	return $ver;
 */
 	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
 

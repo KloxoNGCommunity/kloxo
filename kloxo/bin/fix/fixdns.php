@@ -21,18 +21,16 @@ if (isset($list['new_dnstemplate'])) {
 }
 
 $login->loadAllObjects('client');
-$list = $login->getList('client');
+$clist = $login->getList('client');
 
-foreach($list as $c) {
+foreach($clist as $c) {
 	if ($client) {
-	//	if ($client !== $c->nname) { continue; }
 		$ca = explode(",", $client);
 		if (!in_array($c->nname, $ca)) { continue; }
 		$server = 'all';
 	}
 
 	if ($server !== 'all') {
-	//	if ($c->syncserver !== $server) { continue; }
 		$sa = explode(",", $server);
 		if (!in_array($c->syncserver, $sa)) { continue; }
 	}
@@ -44,15 +42,17 @@ foreach($list as $c) {
 	foreach($dlist as $l) {
 		$dns = $l->getObject('dns');
 
-		if ($dnst) {
+		if (isset($dnst)) {
 			$dns->dns_record_a = null;
 			$dns->copyObject($dnst);
 		}
 
-		$dns->setUpdateSubaction('full_update');
-		$dns->was();
-
 		log_cleanup("- '{$dns->nname}'('{$c->nname}') at '{$dns->syncserver}'", $nolog);
+		$dns->setUpdateSubaction('full_update');
+	//	$dns->setUpdateSubaction('domain');
+	//	$dns->setUpdateSubaction('synchronize');
+	//	$dns->setUpdateSubaction('allowed_transfer');
+
+		$dns->was();
 	}
 }
-
