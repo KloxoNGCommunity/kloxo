@@ -28,7 +28,7 @@ class clientmail extends lxclass {
 
 	static function initThisList($parent, $class)
 	{
-		$res = rl_exec_get(null, $parent->syncserver,  array("clientmail", "readtotallog"), array())
+		$res = rl_exec_get(null, $parent->syncserver,  array("clientmail", "readtotallog"), array());
 
 		return $res;
 	}
