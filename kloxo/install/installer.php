@@ -939,7 +939,7 @@ function copy_script()
 
 	system("mkdir -p /script/filter");
 
-	system("cp -rf {$kloxopath}/httpdocs/htmllib/script/* /script/");
+//	system("cp -rf {$kloxopath}/httpdocs/htmllib/script/* /script/");
 	system("cp -rf {$kloxopath}/pscript/* /script/");
 
 	file_put_contents("/script/programname", 'kloxo');

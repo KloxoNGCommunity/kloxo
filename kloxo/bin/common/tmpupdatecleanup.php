@@ -30,7 +30,6 @@ function updatecleanup_main()
 		$sgbl->slave = false;
 		
 		if (!is_secondary_master()) {
-		//	updateDatabaseProperly();
 			fixDataBaseIssues();
 			doUpdates();
 			lxshell_return("__path_php_path", "../bin/common/driverload.php");
@@ -95,18 +94,8 @@ function updatecleanup_main()
 
 		$fixapps = array("dns", "web", "php", "mail", "ftpuser");
 		setUpdateConfigWithVersionCheck($fixapps, $opt['type']);
-/*
-		log_cleanup("Fixing 'vpopmail' MySQL password");
-		exec("sh /script/fixvpop");
-		log_cleanup("- Fixing process");
 
-		log_cleanup("Fixing Qmail assign");
-		exec("sh /script/fix-qmail-assign");
-		log_cleanup("- Fixing process");
-*/
-	//	log_cleanup("Fixing Qmail");
 		exec("sh /script/fixmail-all");
-	//	log_cleanup("- Fixing process");
 		
 		if (file_exists("/var/qmail/supervise/smtp/supervise/ok")) {
 			log_cleanup("Restarting Qmail services");
@@ -118,9 +107,13 @@ function updatecleanup_main()
 		exec("service xinetd restart");
 	}
 
-	log_cleanup("*** Executing Update (cleanup) - END ***");
-	
-//	print("\nClick 'Enter' to finishing this process\n");
+	// MR -- installatron need ownership as root:root
+	if (is_link("/usr/local/lxlabs/kloxo/httpdocs/installatron")) {
+		unlink("/usr/local/lxlabs/kloxo/httpdocs/installatron");
+		symlink("/var/installatron/frontend", "/usr/local/lxlabs/kloxo/httpdocs/installatron");
+	}
+
+	log_cleanup("*** Executing Update (cleanup) - END ***");	
 }
 
 function cp_dbfile()

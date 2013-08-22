@@ -1,5 +1,7 @@
 #!/bin/sh
 
+T="$(date +%s%N)"
+
 #if $(rpm -qa|grep lxphp >/dev/null 2>&1) ; then
 if $(ls -al /usr/bin/lxphp.exe|grep /usr/local/lxlabs >/dev/null 2>&1) ; then
 	yum remove lxphp lxlighttpd lxzend >/dev/null 2>&1
@@ -13,5 +15,17 @@ fi
 
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php
+
+echo
+
+# Time interval in nanoseconds
+T="$(($(date +%s%N)-T))"
+# Seconds
+S="$((T/1000000000))"
+# Milliseconds
+M="$((T/1000000))"
+
+printf "Process Time: %02d:%02d:%02d:%02d.%03d (dd:hh:mm:ss:xxxxxx)\n" \
+	"$((S/86400))" "$((S/3600%24))" "$((S/60%60))" "$((S%60))" "${M}"
 
 

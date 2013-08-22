@@ -15,10 +15,12 @@ function dbactionAdd()
 	$mailpath = mmail__qmail::getDir($domain);
 	$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
 
+
+/*	// MR -- why using this trap?.
 	if (lxfile_exists("$mailpath/$account")) {
 		throw new lxException("mailaccount_exists", 'nname', $this->main->nname);
 	}
-
+*/
 	$name = $account;
 	$name = str_replace(".", ":", $name);
 

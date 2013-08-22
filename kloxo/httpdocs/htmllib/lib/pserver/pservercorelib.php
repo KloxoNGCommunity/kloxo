@@ -476,16 +476,23 @@ class pservercore extends Lxclient
 			$rlist[] = array('Virtual Memory', "Virtual:Virtual Memory Usage (MB)", $l['used_s_virtual'], $l['priv_s_virtual']);
 		}
 
-		$rlist[] = array('Server Traffic', "Traffic:Server Traffic", $this->used->server_traffic_usage, '-');
-		$rlist[] = array('Server Traffic', "Traffic:Server Traffic For Last Month", $this->used->server_traffic_last_usage, '-');
+		$rlist[] = array('Server Traffic', "Traffic:Server Traffic For Current Month", $this->used->server_traffic_usage, '-');
+		$rlist[] = array('Server Traffic', "Last Traffic:Server Traffic For Last Month", $this->used->server_traffic_last_usage, '-');
 
 		$cpu = $l['cpu'];
 
 		foreach ($cpu as $k => $c) {
 		//	$rlist[] = array('cpu', "CPU$k Model (speed)",  "{$c['used_s_cpumodel']} ({$c['used_s_cpuspeed']})", '-');
 		//	$rlist[] = array('cpu', "CPU$k speed", "{$c['used_s_cpuspeed']}", '-');
-			$rlist[] = array('cpu', "CPU$k", "{$c['used_s_cpuspeed']}", '-');
+			$rlist[] = array('cpu', "CPU$k:CPU processor/core $k", "{$c['used_s_cpuspeed']}", '-');
 		}
+
+		$loadavg = sys_getloadavg();
+
+		$rlist[] = array('loadavg', "LoadAvg1:Load Average in 1 minutes", "{$loadavg['0']} %", '100 %');
+		$rlist[] = array('loadavg', "LoadAvg5:Load Average in 5 minutes", "{$loadavg['1']} %", '100 %');
+		$rlist[] = array('loadavg', "LoadAvg15:Load Average in 15 minutes", "{$loadavg['2']} %", '100 %');
+		
 
 		return $rlist;
 	}

@@ -10,9 +10,9 @@ $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $client = (isset($list['client'])) ? $list['client'] : null;
 $nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
 
-//lxfile_mv("/etc/pure-ftpd/pureftpd.passwd", "/etc/pure-ftpd/pureftpd.passwd.oldsaved");
-//lunlink("/etc/pure-ftpd/pureftpd.pdb");
-//lunlink("/etc/pure-ftpd/pureftpd.passwd.tmp");
+lxfile_mv("/etc/pure-ftpd/pureftpd.passwd", "/etc/pure-ftpd/pureftpd.passwd.oldsaved");
+lunlink("/etc/pure-ftpd/pureftpd.pdb");
+lunlink("/etc/pure-ftpd/pureftpd.passwd.tmp");
 
 $login->loadAllObjects('client');
 $list = $login->getList('client');

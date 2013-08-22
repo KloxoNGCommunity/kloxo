@@ -51,7 +51,7 @@ function do_upgrade($upversion = null)
 
 	lxfile_rm_rec("__path_program_htmlbase/help");
 	lxfile_mkdir("help");
-	lxfile_rm_rec("__path_program_htmlbase/htmllib/script");
+//	lxfile_rm_rec("__path_program_htmlbase/htmllib/script");
 	lxfile_rm_rec("__path_program_root/pscript");
 
 	$saveddir = getcwd();
@@ -64,6 +64,7 @@ function do_upgrade($upversion = null)
 	exec("cd ../../ ; unzip -o httpdocs/download/$programfile");
 	// issue #710 - Make sure the files are owned by lxlabs UID/GID
 	exec("chown -R lxlabs:lxlabs /usr/local/lxlabs/");
+
 	chdir($saveddir);
 }
 

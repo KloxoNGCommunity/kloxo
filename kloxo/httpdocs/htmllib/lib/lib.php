@@ -1742,8 +1742,13 @@ function cp_fileserv_list($root, $list)
 
 function cp_fileserv($file)
 {
-	lxfile_mkdir("__path_serverfile");
-	lxfile_generic_chown("__path_serverfile", "lxlabs:lxlabs");
+	global $gbl, $sgbl, $login, $ghtml;
+
+	$path = __path_serverfile;
+
+	lxfile_mkdir($path);
+	lxfile_generic_chown($path, "lxlabs:lxlabs");
+
 	$file = expand_real_root($file);
 	dprint("Fileserv copying file $file\n");
 
@@ -1761,11 +1766,11 @@ function cp_fileserv($file)
 	$base = basename(ltempnam("__path_serverfile", $basebase));
 	$pass = md5($file . time());
 	$ar = array('filename' => $file, 'password' => $pass);
-	lfile_put_serialize("__path_serverfile/$base", $ar);
-	lxfile_generic_chown("__path_serverfile/$base", "lxlabs");
+	lfile_put_serialize("{$path}/$base", $ar);
+	lxfile_generic_chown("{$path}/$base", "lxlabs");
 	$res['file'] = $base;
 	$res['pass'] = $pass;
-//	$stat = llstat("__path_serverfile/$base");
+//	$stat = llstat("{$path}/$base");
 	$res['size'] = lxfile_size($file);
 
 	return $res;
@@ -1773,8 +1778,10 @@ function cp_fileserv($file)
 
 function do_zip_to_fileserv($type, $arg, $logto = null)
 {
-	lxfile_mkdir("__path_serverfile/tmp");
-	lxfile_unix_chown_rec("__path_serverfile", "lxlabs");
+	$path = __path_serverfile;
+
+	lxfile_mkdir("{$path}/tmp");
+	lxfile_unix_chown_rec("{$path}", "lxlabs");
 
 	$basebase = basename($arg[0]);
 
@@ -3250,7 +3257,7 @@ function copy_script($nolog = null)
 	lxfile_mkdir("/script");
 	lxfile_mkdir("/script/filter");
 
-	lxfile_cp_content_file("htmllib/script/", "/script/");
+//	lxfile_cp_content_file("htmllib/script/", "/script/");
 	lxfile_cp_content_file("../pscript", "/script/");
 
 	if (lxfile_exists("../pscript/vps/")) {
@@ -5296,11 +5303,6 @@ function setDefaultPages($nolog = null)
 
 		log_cleanup("- Skeleton for {$p} web page", $nolog);
 		lxshell_unzip("__system__", "{$httpdpath}/{$p}/", $targetzip);
-	/*
-		lxfile_unix_chown("{$httpdpath}/{$p}/", "lxlabs:lxlabs");
-		exec("find {$httpdpath}/{$p}/ -type f -name \"*.php*\" -exec chmod 644 {} \;");
-		exec("find {$httpdpath}/{$p}/ -type d -exec chmod 755 {} \;");
-	*/
 	}
 
 	setKloxoHttpdChownChmod($nolog);
@@ -5615,7 +5617,7 @@ function setInitialWebConfig($type, $nolog = null)
 
 	log_cleanup("Initialize {$type} config", $nolog);
 
-	$newlist = array("{$hkhpath}/{$type}", "{$eatpath}/conf.d", "{$htpath}/tpl",
+	$newlist = array("{$eatpath}/conf.d", "{$htpath}/tpl",
 		"{$htpath}/conf", "{$htpath}/etc", "{$htpath}/etc/conf", "{$htpath}/etc/conf.d");
 
 	foreach ($newlist as &$n) {
@@ -5902,14 +5904,58 @@ function getAllClientList()
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+/*
 	$login->loadAllObjects('client');
 	$clist = $login->getList('client');
+
+	$users = array();
 
 	foreach ($clist as $c) {
 		$users[] = $c->nname;
 	}
 
+*/
+	$clientdb = new Sqlite(null, 'client');
+	$sync = "syncserver = 'localhost'";
+
+	$cdb = $clientdb->getRowsWhere($sync, array('nname', 'cttype'));
+
+	$users = array();
+
+	foreach($cdb as $k => $v) {
+		$users[] = $v['nname'];
+	}
+
+	$users = array_unique($users);
+
 	return $users;
+}
+
+function getIpfromARecord()
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	$dnsdb = new Sqlite(null, 'dns');
+	$sync = "syncserver = 'localhost'";
+
+	$d = $dnsdb->getRowsWhere($sync, array('nname', 'zone_type', 'ser_dns_record_a'));
+
+	$z = array();
+
+	foreach($d as $dk => $dv) {
+		$w = unserialize(base64_decode($dv['ser_dns_record_a']));
+
+		foreach($w as $wk => $wv) {
+			if ((strpos($wv->nname, "a_") !== false) ||
+					(strpos($wv->nname, "aaa_") !== false)) {
+				$z[] = $wv->param;
+			}
+		}
+	}
+
+	$z = array_unique($z);
+
+	return $z;
 }
 
 function setInitialPureftpConfig($nolog = null)

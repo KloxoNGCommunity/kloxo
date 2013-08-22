@@ -134,13 +134,20 @@ class dns__ extends lxDriverClass
 
 		$input = array();
 
-		$input['ip'] = $this->main->getIpfromARecord();
+		$input['ip'] = $this->getIps();
 
 		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "list.transfered.conf.tpl");
 
 		$tpl = file_get_contents($tplsource);
 
 		$tplparse = getParseInlinePhp($tpl, $input);
+	}
+
+	function getIps()
+	{
+		$iplist = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', null);
+
+		return $iplist;
 	}
 
 	function dbactionAdd()
@@ -152,6 +159,19 @@ class dns__ extends lxDriverClass
 
 	function dbactionUpdate($subaction)
 	{
+	/*
+		if ($subaction === 'allowed_transfer') {
+			$this->createAllowTransferIps();
+		} elseif ($subaction === 'synchronize') {
+			$this->syncCreateConf();
+		} elseif ($subaction === 'domain') {
+			$this->createConfFile();
+		} else {
+			$this->createConfFile();
+			$this->createAllowTransferIps();
+			$this->syncCreateConf();
+		}
+	*/
 		switch ($subaction) {
 			case "allowed_transfer":
 				$this->createAllowTransferIps();
@@ -164,9 +184,9 @@ class dns__ extends lxDriverClass
 				break;
 			case "full_update":
 			default:
-				$this->createAllowTransferIps();
-				$this->createAllowTransferIps();
+				$this->createConfFile();
 				$this->syncCreateConf();
+				$this->createAllowTransferIps();
 				break;
 		}
 	}
