@@ -2365,7 +2365,7 @@ class HtmlLib
 			}
 		</script>
 
-		<form name="frmsendchmod" action="display.php" accept-charset="utf-8">
+		<form name="frmsendchmod" action="/display.php" accept-charset="utf-8">
 			<input type="hidden" name="frm_ffile_c_file_permission_f">
 			<?php
 			$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
@@ -3875,7 +3875,7 @@ class HtmlLib
 			$help .= "Go To " . ucfirst($name) . " Page.";
 		}
 
-		$link = "<a  onmouseover=\"javascript:changeContent('help','$help')\" onmouseout=\"changeContent('help','helparea')\" href=javascript:document.form{$name}_page_$place.submit()><img src=$iconpath/{$name}_page.gif align=absbottom ></a> ";
+		$link = "<a onmouseover=\"javascript:changeContent('help','$help')\" onmouseout=\"changeContent('help','helparea')\" href=javascript:document.form{$name}_page_$place.submit()><img src=$iconpath/{$name}_page.gif align=absbottom ></a> ";
 		return $link;
 	}
 
@@ -3990,14 +3990,12 @@ class HtmlLib
 		{
 			if (0 && !$sellist && $class !== 'permission' && $class !== 'resource' && $class !== 'information') {
 				?>
-
 			<table cellpadding=0 width=100% cellspacing=0 border=0 height=27>
-
 				<tr width=20% nowrap valign=top>
 					<td><img src="<?=$imgheadleft?>"></td>
 					<td nowrap valign=middle background="<?=$imgheadbg?>"><b><span 
 						style="color:#234355; font-weight: bold"><?=get_plural($classdesc[2])?> <?=$showvar?> 
-						<?=$login->getKeyword('under')?> <?="{$parent->getId()} $filterundermes"?>
+						<?=$login->getKeyword('under')?> <?=$parent->getId()?> <?=$filterundermes?>
 					</b> <?=$this->print_machine($parent)?> <b> (<?=$total_num?>)</b></span></td>
 					<td><img src="<?=$imgheadright?>"></td>
 
@@ -4915,7 +4913,7 @@ if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 		<table width=95%>
 			<tr align=center>
 				<td width=100%>
-					<b>  <?=$login->getKeyword('no')?> <?=get_plural($classdesc[2])?>   <?=$login->getKeyword('under')?> <?="{$parent->getId()}"?>   </b>
+					<b>  <?=$login->getKeyword('no')?> <?=get_plural($classdesc[2])?>   <?=$login->getKeyword('under')?> <?=$parent->getId()?>   </b>
 				</td>
 			</tr>
 		</table>
@@ -4941,8 +4939,8 @@ if ($this->frm_action === 'selectshow') {
 	<?php
 	if ($sellist) {
 		?>
-		<table <?=$blackstyle?>> <tr> <td>;
-		<form method="<?=$sgbl->method?>" action="<?=$_SERVER["PHP_SELF"]?>"> accept-charset="utf-8">
+		<table <?=$blackstyle?>> <tr> <td>
+		<form method="<?=$sgbl->method?>" action="<?=$_SERVER["PHP_SELF"]?>" accept-charset="utf-8">
 		<?php
 		$ghtml->print_current_input_vars(array("frm_confirmed"));
 		$ghtml->print_input("hidden", "frm_confirmed", "yes");
@@ -5143,7 +5141,7 @@ function print_list_submit_start()
 		$imgbtnsep = $login->getSkinDir() . "/btn_sep.gif";
 
 		?>
-		<form name=form<?=$form_name?>" action="<?=$path?>">
+		<form name="form<?=$form_name?>" action="<?=$path?>">
 		<?php
 
 		$this->print_input_vars($post);
@@ -5838,12 +5836,7 @@ function print_table_header($heading)
 				<td nowrap><span <?=$forecolorstring?> style='font-weight:bold'> Switch To Another </span></td>
 				</td>
 				<td align=center>
-
-
-					<form name=topjumpselect method=<?=$sgbl->method?> action=
-					'display.php' accept-charset="utf-8">
-
-
+					<form name="topjumpselect" method="<?=$sgbl->method?>" action='/display.php' accept-charset="utf-8">
 					<?php
 					foreach ($cgi_o_o as $k => $v) {
 						?>
@@ -6633,10 +6626,10 @@ function print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkf
 						</tr>
 						<tr height=20 valign=middle>
 
-							<form name=<?=$form?> action=/display.php accept-charset="utf-8">
-								<input type=hidden name=<?=trim($variablename)?>>
-								<input type=hidden name=frm_action value=update>
-								<input type=hidden name=frm_subaction value=update>
+							<form name="<?=$form?>" action="/display.php" accept-charset="utf-8">
+								<input type=hidden name="<?=trim($variablename)?>">
+								<input type=hidden name=frm_action value="update">
+								<input type=hidden name=frm_subaction value="update">
 								<?=$this->html_variable_inherit("frm_o_o")?>
 
 
@@ -6859,7 +6852,7 @@ function print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkf
 			</tr>
 			<tr>
 				<td>
-					<input type=hidden name=<?=$variable->name?>>
+					<input type=hidden name="<?=$variable->name?>">
 					<select class=textbox id=<?=$ts_name?>  multiple size=5 class=textbox name=<?=$variable1->name?>>
 						<?php
 						foreach ($variable1->option as $k => $option) {
@@ -7226,7 +7219,7 @@ function print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkf
 				</table>
 			</div>
 			<input style="margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;" 
-				class=textbox type=button value="Generate Password" onclick="javascript:generatePass('$form', '{$variable->name}');" width="10">
+				class=textbox type=button value="Generate Password" onclick="javascript:generatePass('<?=$form?>', '<?=$variable->name?>');" width="10">
 			<?php
 		}
 
@@ -7908,7 +7901,7 @@ function print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkf
 					</td>
 				</tr>
 				</table>
-			<br>");
+			<br>
 		</div>
 		<?php
 	}
@@ -9228,7 +9221,7 @@ function print_end()
 												<?=$this->print_current_input_vars(array("frm_hpfilter"))?>
 
 												<input <?=$blackstyle?> type="text"
-												                        name='frm_hpfilter[<?=$filtername?>][searchstring]'
+												                        name="frm_hpfilter[<?=$filtername?>][searchstring]"
 												                        value="<?=$value?>" class=searchbox size="18">
 										</td>
 										<td width=10 height=22></td>
@@ -9240,7 +9233,7 @@ function print_end()
 													onMouseOut="changeContent('help','helparea');"></a></form></td>
 										<td width=10 height=22></td>
 										<td height=22 width=70>
-											<form name=lpform_showall method=<?=$sgbl->method?>  action=<?=$url?> accept-charset="utf-8">
+											<form name=lpform_showall method=<?=$sgbl->method?> action=<?=$url?> accept-charset="utf-8">
 
 												<?=$this->print_current_input_vars(array("frm_hpfilter"))?>
 												<input type=hidden name=frm_clear_filter value=true>

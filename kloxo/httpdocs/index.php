@@ -54,6 +54,8 @@ function domainshow()
 	?> 
 	<head>
 	<title> <?php echo $title ?> </title>
+	<meta http-equiv="Content-Language" content="en-us">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		
 	<?php $ghtml->print_refresh_key();
 

@@ -334,7 +334,7 @@ class ClientBase extends ClientCore
 		return $alist;
 	}
 
-	function createShowAlistConfig(&$alist)
+	function createShowAlistConfig(&$alist, $subaction = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 

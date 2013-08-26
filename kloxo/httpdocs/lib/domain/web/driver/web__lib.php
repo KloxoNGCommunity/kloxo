@@ -375,7 +375,8 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-			lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
+		//	lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
+			exec("rm -rf /etc/php-fpm.d/*.conf");
 
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf");
@@ -1220,7 +1221,7 @@ class web__ extends lxDriverClass
 		$this->main->createPhpInfo();
 		web::createstatsConf($domname, $this->main->stats_username, $this->main->stats_password);
 
-		//	$this->createSSlConf();
+	//	$this->createSSlConf();
 
 		$this->createConfFile();
 

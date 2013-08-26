@@ -825,6 +825,8 @@ function getMysqlBranch()
 // MR -- taken from lib.php
 function getRpmVersion($rpmname)
 {
+	exec("rpm -q --qf '%{VERSION}\n' {$rpm}", $out, $ret);
+
 	if ($out[0] !== false) {
 		$ver = $out[0];
 	} else {

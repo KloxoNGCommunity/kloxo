@@ -5,7 +5,7 @@ class helpdeskcategory_a extends Lxaclass
 	static $__desc = array("", "", "helpdesk_category");
 	static $__desc_nname = array("", "", "category");
 
-	static function createListAlist($parent)
+	static function createListAlist($parent, $class)
 	{
 		$nalist = ticket::createListAlist($parent, 'ticket');
 

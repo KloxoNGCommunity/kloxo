@@ -21,6 +21,8 @@ web__apache::setInstallPhpfpm();
 
 $slist = array();
 
+$counter = 0;
+
 foreach($list as $c) {
 	if ($client) {
 		$ca = explode(",", $client);
@@ -36,6 +38,8 @@ foreach($list as $c) {
 	$dlist = $c->getList('domaina');
 
 	foreach((array) $dlist as $l) {
+		$counter++;
+
 		$web = $l->getObject('web');
 
 		if ($domain) {
@@ -43,15 +47,17 @@ foreach($list as $c) {
 			if (!in_array($web->nname, $da)) { continue; }
 		}
 
-		if (!in_array($web->syncserver, $slist)) {
-			if (($target === 'all') || ($target === 'defaults')) {
-				log_cleanup("- 'defaults' and 'php-fpm' at '{$web->syncserver}'", $nolog);
-				$web->setUpdateSubaction('static_config_update');
-			}
+	//	if (!in_array($web->syncserver, $slist)) {
+			if (sizeof($dlist) === $counter) {
+				if (($target === 'all') || ($target === 'defaults')) {
+					log_cleanup("- 'defaults' and 'php-fpm' at '{$web->syncserver}'", $nolog);
+					$web->setUpdateSubaction('static_config_update');
+				}
 
-			$slist[] = $web->syncserver;
-			array_unique($slist);
-		}
+				$slist[] = $web->syncserver;
+				array_unique($slist);
+			}
+	//	}
 
 		if (($target === 'all') || ($target === 'domains')) {
 			log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);

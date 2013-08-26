@@ -104,8 +104,7 @@ class Cron extends Lxdb
 		$this->__var_user_list = $userlist[0];
 	}
 
-
-	static function  createListNlist($parent)
+	static function  createListNlist($parent, $view)
 	{
 		//$nlist["nname"] = "5%";
 		//$nlist["minute"] = "5%";

@@ -26,9 +26,8 @@
 
 <head>
 	<title>Kloxo Control Panel</title>
-
 	<meta http-equiv="Content-Language" content="en-us">
-	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <?php if(isset($incfile2)) { include_once $incfile2 ; } ?>
 

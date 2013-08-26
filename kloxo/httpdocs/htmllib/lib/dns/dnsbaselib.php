@@ -41,7 +41,7 @@ class dns_record_a extends LxDnsClass
 		return $vlist;
 	}
 
-	function isAction()
+	function isAction($var)
 	{
 		if ($this->ttype === 'ns') {
 			return false;

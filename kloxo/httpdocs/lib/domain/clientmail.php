@@ -13,7 +13,7 @@ class clientmail extends lxclass {
 
 	function doSyncToSystem() {}
 
-	static function createListNlist($parent)
+	static function createListNlist($parent, $view)
 	{
 		$nlist['clientname'] = '100%';
 		$nlist['mailnum'] = '10%';

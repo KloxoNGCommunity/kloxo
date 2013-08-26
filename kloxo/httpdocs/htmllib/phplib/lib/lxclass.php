@@ -3939,7 +3939,7 @@ abstract class Lxclass
 
 	function createShowIlist() { return null; }
 
-	static function AddListForm() { return null; }
+	static function AddListForm($parent, $class) { return null; }
 
 	function createShowPropertyList(&$alist) { $alist['property'][] = 'a=show'; }
 
