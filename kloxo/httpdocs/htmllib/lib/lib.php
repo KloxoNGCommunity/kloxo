@@ -3267,7 +3267,7 @@ function copy_script($nolog = null)
 
 
 	lxfile_cp_content_file("../pscript/filter/", "/script/filter/");
-	lxfile_cp_content_file("htmllib/script/filter/", "/script/filter/");
+//	lxfile_cp_content_file("htmllib/script/filter/", "/script/filter/");
 
 	lfile_put_contents("/script/programname", $sgbl->__var_program_name);
 	lxfile_unix_chmod_rec("/script", "0755");
@@ -5586,6 +5586,10 @@ function setPhpModuleInactive($module, $ininamelist = null)
 
 function setInitialDnsConfig($type, $nolog = null)
 {
+	$fpath = "/usr/local/lxlabs/kloxo/file";
+
+	if (!file_exists("{$fpath}/{$type}")) { return; }
+
 	setCopyDnsConfFiles($type);
 
 	$newlist = array("defaults", "master", "slave", "reverse");
@@ -5602,6 +5606,9 @@ function setInitialDnsConfig($type, $nolog = null)
 function setInitialWebConfig($type, $nolog = null)
 {
 	$fpath = "/usr/local/lxlabs/kloxo/file";
+
+	if (!file_exists("{$fpath}/{$type}")) { return; }
+
 	$hkhpath = "/home/kloxo/httpd";
 
 	if ($type === 'apache') {
@@ -5705,6 +5712,8 @@ function setKloxoCexeChownChmod($nolog = null)
 
 function setWebDriverChownChmod($type, $nolog = null)
 {
+	if (!file_exists("/home/{$type}")) { return; }
+
 	$webdirchmod = '755';
 	$webdirchown = "root:root";
 
@@ -5833,6 +5842,7 @@ function setFixChownChmod($select, $nolog = null)
 	setWebDriverChownChmod('apache', $nolog);
 	setWebDriverChownChmod('lighttpd', $nolog);
 	setWebDriverChownChmod('nginx', $nolog);
+	setWebDriverChownChmod('hiawatha', $nolog);
 
 	$prevdir = '';
 
@@ -6985,6 +6995,7 @@ function setInitialServices($nolog = null)
 	setInitialDnsConfig('bind', $nolog);
 	setInitialDnsConfig('djbdns', $nolog);
 	setInitialDnsConfig('maradns', $nolog);
+	setInitialDnsConfig('powerdns', $nolog);
 
 	setInitialWebConfig('apache', $nolog);
 	setWebDriverChownChmod('apache', $nolog);
