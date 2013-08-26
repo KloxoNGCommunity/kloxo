@@ -16,6 +16,8 @@ fi
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php
 
+sh /script/restart-all
+
 echo
 
 # Time interval in nanoseconds

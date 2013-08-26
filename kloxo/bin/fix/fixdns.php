@@ -39,7 +39,13 @@ foreach($clist as $c) {
 
 	if (!$dlist) { continue; }
 	
+	$cc = $c;
+
+	$counter = 0;
+
 	foreach($dlist as $l) {
+		$counter++;
+
 		$dns = $l->getObject('dns');
 
 		if (isset($dnst)) {
@@ -48,10 +54,14 @@ foreach($clist as $c) {
 		}
 
 		log_cleanup("- '{$dns->nname}'('{$c->nname}') at '{$dns->syncserver}'", $nolog);
-		$dns->setUpdateSubaction('full_update');
-	//	$dns->setUpdateSubaction('domain');
-	//	$dns->setUpdateSubaction('synchronize');
-	//	$dns->setUpdateSubaction('allowed_transfer');
+	//	$dns->setUpdateSubaction('full_update');
+		$dns->setUpdateSubaction('domain');
+
+		// MR -- only after latest domains per-client; faster process!
+		if (sizeof($dlist) === $counter) {
+			$dns->setUpdateSubaction('synchronize');
+			$dns->setUpdateSubaction('allowed_transfer');
+		}
 
 		$dns->was();
 	}

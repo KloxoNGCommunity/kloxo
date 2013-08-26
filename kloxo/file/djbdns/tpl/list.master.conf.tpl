@@ -2,15 +2,15 @@
 	$path = "/home/djbdns/conf/master";
 	$dirs = glob("{$path}/*");
 
-	$file = "/home/djbdns/tinydns/root/data";
-//	unlink($file);
-	exec("echo '' > {$file}");
+	$datadir = "/home/djbdns/tinydns/root";
+	$datafile = "/home/djbdns/tinydns/root/data";
+
+	exec("echo '' > {$datafile}");
 
 	foreach ($dirs as $d) {
-	//	$data = file_get_contents($d);
-	//	file_put_contents($file, $data, FILE_APPEND);
-
-		exec("cat {$d} >> {$file}");
+		exec("cat {$d} >> {$datafile}");
 	}
+
+	exec("cd {$datadir}; make");
 ?>
 
