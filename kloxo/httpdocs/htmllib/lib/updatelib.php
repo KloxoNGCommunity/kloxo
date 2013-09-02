@@ -5,7 +5,7 @@ function update_main()
 	global $argc, $argv;
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	log_cleanup("*** Executing Update (upcp) - BEGIN ***");
+	log_cleanup("*** Executing Install/Update (upcp) - BEGIN ***");
 
 	debug_for_backend();
 	$login = new Client(null, null, 'upgrade');
@@ -13,28 +13,28 @@ function update_main()
 
 	$opt = parse_opt($argv);
 
-	log_cleanup("Kloxo Install/Update");
+//	log_cleanup("- Kloxo Install/Update");
 	
-	if (getKloxoType() === '') {
+	$type = getKloxoType();
+
+	if ($type === '') {
 		log_cleanup("- Installing Kloxo packages at the first time");
 		$DoUpdate = true;
 	} else {
-		$DoUpdate = true;
-	}
-
-	log_cleanup("*** Executing Update (upcp) - END ***");
-
-	if ( $DoUpdate == false ) {
-		log_cleanup("Run /script/cleanup if you want to fix/restore/(re)install non-working components.");
-		exit;
+		$DoUpdate = false;
 	}
 
 	if (is_running_secondary()) {
-		log_cleanup("Not running Update cleanup, because this is running as secondary\n");
-		exit;
+		log_cleanup("- Not running Update cleanup, because this is running as secondary\n");
 	}
-	
-	$res = pcntl_exec("/bin/sh", array("../bin/common/updatecleanup.sh", "--type=$type"));
+
+	if ( $DoUpdate === false ) {
+		log_cleanup("- Run '/script/cleanup' if you want to fix/restore non-working components.");
+	} else {
+		system("/usr/local/lxlabs/kloxo/install/setup.sh");
+	}
+
+	log_cleanup("*** Executing Install/Update (upcp) - END ***");
 }
 
 function do_upgrade($upversion = null)
