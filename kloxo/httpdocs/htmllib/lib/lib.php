@@ -702,8 +702,8 @@ function PrepareRoundCubeDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysqli_query($link, "GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '{$pass}'", $link);
-	mysqli_query($link, "flush privileges", $link);
+	$result = mysqli_query($link, "GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '{$pass}'");
+	mysqli_query($link, "flush privileges");
 
 	if (!$result) {
 		print("- Could not grant privileges. Script Abort");
@@ -769,8 +769,8 @@ function PrepareHordeDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysqli_query($link, "GRANT ALL ON horde_groupware.* TO horde_groupware@localhost IDENTIFIED BY '{$pass}'", $link);
-	mysqli_query($link, "flush privileges", $link);
+	$result = mysqli_query($link, "GRANT ALL ON horde_groupware.* TO horde_groupware@localhost IDENTIFIED BY '{$pass}'");
+	mysqli_query($link, "flush privileges");
 
 	if (!$result) {
 		log_cleanup("Could not grant privileges. Script Aborted", $nolog);
@@ -842,8 +842,8 @@ function PrepareAfterlogicDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysqli_query($link, "GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'", $link);
-	mysqli_query($link, "flush privileges", $link);
+	$result = mysqli_query($link, "GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'");
+	mysqli_query($link, "flush privileges");
 
 	lfile_put_contents($cfgfile, $content);
 
