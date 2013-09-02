@@ -127,7 +127,13 @@ function setMysqlConvert($engine, $database, $table, $config)
 
 	if ($config === 'yes') {
 		if ($database === '_all_') {
-			$string = file_get_contents("/etc/my.cnf");
+			if (file_exists("/etc/my.cnf.d/my.cnf")) {
+				$mycnf = "/etc/my.cnf.d/my.cnf";
+			} else {
+				$mycnf = "/etc/my.cnf";
+			}
+
+			$string = file_get_contents($mycnf);
 
 			$string_array = explode("\n", $string);
 
@@ -149,21 +155,21 @@ function setMysqlConvert($engine, $database, $table, $config)
 
 			if ($engine === 'myisam') {
 				$string_source = "[mysqld]\n";
-				$string_replace = "[mysqld]\nskip - innodb\ndefault - storage - engine = myisam\n";
-				log_cleanup(" - Added \"skip-innodb and default-storage-engine=" . $engine . "\" in /etc/my.cnf");
+				$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine={$engine}\n";
+				log_cleanup(" - Added 'skip-innodb' and 'default-storage-engine={$engine}' in '{$mycnf}'");
 			} else {
 				$string_source = "[mysqld]\n";
-				$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\n";
-				log_cleanup("- Added \"default-storage-engine=" . $engine . "\" in /etc/my.cnf");
+				$string_replace = "[mysqld]\n#skip-innodb\ndefault-storage-engine={$engine}\n";
+				log_cleanup("- Added 'default-storage-engine={$engine}' in '{$mycnf}'");
 			}
 
 			$string_collect = str_replace($string_source, $string_replace, $string_collect);
 
-			file_put_contents("/etc/my.cnf", $string_collect);
+			file_put_contents($mycnf, $string_collect);
 		}
 	}
 
-	log_cleanup("- Convert of MySQL to " . $engine . " engine finished");
+	log_cleanup("- Convert of MySQL to '{$engine}' engine finished");
 
 	log_cleanup("- MySQL Service restarted");
 

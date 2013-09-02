@@ -29,22 +29,23 @@ EOF;
 
 		file_put_contents("/tmp/reset-mysql-password.sql", $text);
 
-		if (file_exists("/etc/rc.d/init.d/mysql")) {
-			system("service mysql stop");
+		if (file_exists("/etc/init.d/mysql")) {
+			exec("service mysql stop");
 		} else {
-			system("service mysqld stop");
+			exec("service mysqld stop");
 		}
 
 		sleep(10);
 		system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
 		sleep(15);
 
-		if (file_exists("/etc/rc.d/init.d/mysql")) {
-			system("service mysql start");
+		if (file_exists("/etc/init.d/mysql")) {
+			exec("service mysql start");
 		} else {
-			system("service mysqld start");
+			exec("service mysqld start");
 		}
-		system("rm -f /tmp/reset-mysql-password.sql");
+
+		exec("rm -f /tmp/reset-mysql-password.sql");
 
 		$a['mysql']['dbpassword'] = $pass;
 
@@ -58,12 +59,13 @@ EOF;
 
 	static function execCommand($iid, $command)
 	{
+		global $global_shell_error, $global_shell_ret;
+		$global_shell_error = null;
+
 		if (if_demo()) {
 			throw new lxException ("not_allowed_in_demo");
 		}
 		
-		global $global_shell_error, $global_shell_ret;
-		$global_shell_error = null;
 		$out = shell_exec("$command 2>&1");
 
 		return array('output' => $out, 'error' => $global_shell_error);
@@ -72,8 +74,10 @@ EOF;
 	function information()
 	{
 		$rmt = new Remote();
+
 		$rmt->load_threshold = $this->main->load_threshold;
 		lxfile_mkdir("../etc/data");
+
 		lfile_put_serialize("../etc/data/loadmonitor", $rmt);
 	}
 
@@ -146,7 +150,6 @@ EOF;
 		return $vpsdata;
 	}
 
-
 	function createShowAlist(&$alist, $subaction = null)
 	{
 
@@ -172,7 +175,6 @@ EOF;
 		
 		return $res['memtotal'] / (1024);
 	}
-
 
 	static function pserverInfo()
 	{
@@ -251,7 +253,6 @@ EOF;
 		return $ret;
 	}
 
-
 	function importVps()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -304,6 +305,4 @@ EOF;
 		
 		return $objlist;
 	}
-
-
 }

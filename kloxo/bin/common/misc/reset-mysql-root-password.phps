@@ -10,9 +10,9 @@ if (isset($argv[1])) {
 
 pserver__Linux::mysqlPasswordReset($pass);
 
-print("Restart Mysql service again\n");
+// print("Restart Mysql service again\n");
 
-if (file_exists("/etc/rc.d/init.d/mysql")) {
+if (file_exists("/etc/init.d/mysql")) {
 	system("service mysql restart");
 } else {
 	system("service mysqld restart");
