@@ -86,9 +86,9 @@ function os_updateApplicableToSlaveToo()
 function remove_test_root()
 {
 	$pass = slave_get_db_pass();
-	$__tr = mysql_connect("localhost", "root", $pass);
-	mysql_select_db("mysql", $__tr);
-	mysql_query("delete from user where Host = 'test.lxlabs.com' and User = 'root'", $__tr);
+	$__tr = mysqli_connect("localhost", "root", $pass);
+	mysqli_select_db($__tr, "mysql");
+	mysqli_query($__tr, "delete from user where Host = 'test.lxlabs.com' and User = 'root'");
 }
 
 function remove_ssh_self_host_key()

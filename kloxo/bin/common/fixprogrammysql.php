@@ -13,10 +13,15 @@ $username = $sgbl->__var_program_name;
 $program = $username;
 $newpass = randomString(9);
 $newpass = client::createDbPass($newpass);
-mysql_connect("localhost", "root", $mysqlpass);
+
+$conn = mysqli_connect("localhost", "root", $mysqlpass);
+
 $cmd = "grant all on $db.* to $username@localhost identified by '$newpass'";
+
 print("$cmd\n");
-mysql_query($cmd);
+
+mysqli_query($conn, $cmd);
+
 lfile_put_contents("../etc/conf/$program.pass", $newpass);
 
 

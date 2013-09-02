@@ -8,6 +8,7 @@ sleep($v);
 print_time("start");
 
 display_init();
+
 print_time("start", "Start");
 
 //dprint($gbl->__c_object->username);
@@ -17,3 +18,4 @@ print_time("start", "Start");
 //dprintr($gbl->__c_object->priv);
 display_exec();
 echo '<br />';
+display_end();

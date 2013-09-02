@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include_once "htmllib/lib/displayinclude.php";
 
@@ -6,22 +6,19 @@ redirect_to_https();
 main_main();
 
 function domainshow()
-{   
-	global $gbl, $sgbl, $login, $ghtml; 
+{
+	global $gbl, $sgbl, $login, $ghtml;
 
 	if ($login->isAdmin()) {
 		$doctype = "admin";
 		$domainclass = "all_domaina";
-	} else  {
+	} else {
 		$doctype = "client";
 		$domainclass = "domaina";
 	}
 
-
-	//$url = $login->getUrlFromLoginTo();
 	$url = "a=show";
 	$url = $ghtml->getFullUrl($url);
-
 
 	if (lxfile_exists("lbin/header_vendor.php")) {
 		$file = "/lbin/header_vendor.php";
@@ -33,6 +30,7 @@ function domainshow()
 	if ($login->isAdmin()) {
 		//$url = '/display.php?frm_action=list&frm_o_cname=client';
 	}
+
 	$sp = $login->getSpecialObject('sp_specialplay');
 
 	if ($sp->isOn('lpanel_scrollbar')) {
@@ -48,29 +46,30 @@ function domainshow()
 		$scrollstring = "scrolling=$lpscroll";
 		$width = $sgbl->__var_lpanelwidth;
 	}
-
-
-    $title = get_title();
-	?> 
+	?>
 	<head>
-	<title> <?php echo $title ?> </title>
-	<meta http-equiv="Content-Language" content="en-us">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		
-	<?php $ghtml->print_refresh_key();
+		<title> <?=get_title()?> </title>
+		<meta http-equiv="Content-Language" content="en-us">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
+		<?php
+		$ghtml->print_refresh_key();
+		?>
+	</head>
+	<?php
 
 	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
-	//	print("<FRAMESET frameborder=\"0\" rows=\"96%,*\"  border=\"0\">\n");
-		print("<FRAMESET frameborder=\"0\" rows=\"*,16\"  border=\"0\">\n");
-		print("<FRAME name=\"mainframe\" src=\"$url\" >\n");
-		print("<FRAME name=\"bottomframe\" src=\"htmllib/lbin/bottom.php\">\n");
+		?>
+		<FRAMESET frameborder="0" rows="*,16"  border="0">
+		<FRAME name="mainframe" src="<?= $url ?>">
+		<FRAME name="bottomframe" src="htmllib/lbin/bottom.php">
+		<?php
 		return;
 	}
 
 	if ($login->isDefaultSkin()) {
 		$headerheight = 93;
-	} else  {
+	} else {
 		if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
 			$headerheight = 29;
 		} else {
@@ -79,53 +78,44 @@ function domainshow()
 		}
 	}
 
-	print("<FRAMESET frameborder=\"0\" rows=\"$headerheight,*\" border=\"0\">\n");
-
-	print("<FRAME name=\"topframe\" src=\"$file\" scrolling=\"no\">\n");
-
-	if (!$sp->isOn('split_frame')) { 
-		print("<FRAMESET frameborder=\"0\" cols=\"$width,*\" border=\"0\">\n");
-		print("<FRAME name=leftframe src='/htmllib/lbin/lpanel.php?lpanel_type=tree' $scrollstring border=0>\n");
-	}
-
-	if ($sp->isOn('split_frame')) {
-		print("<FRAMESET frameborder=\"0\" cols=\"50%,*\" border=\"0\">\n");
-	}
-//	print("<FRAMESET frameborder=\"0\" rows=\"96%,*\" border=\"0\">\n");
-	print("<FRAMESET frameborder=\"0\" rows=\"*,16\" border=\"0\">\n");
-	// style='overflow-x:hidden;'
-	print("<FRAME name=\"mainframe\" src=\"$url\">\n");
-	print("<FRAME name=\"bottomframe\" src=\"htmllib/lbin/bottom.php\">\n");
-
-	if ($sp->isOn('split_frame')) {
-		print("<FRAME name=\"rightframe\" src=\"$url\">\n");
-	}
-	print("</FRAMESET>\n");
-	print("</FRAMESET>\n");
-
-	?> 
-	</head>
+	?>
+<FRAMESET frameborder="0" rows="<?= $headerheight ?>,*" border="0">
+	<FRAME name="topframe" src="<?= $file ?>" scrolling="no">
 	<?php
-	//<FRAME name="bottomframe" src="/bin/bottom.php">
+
+if (!$sp->isOn('split_frame')) {
+	?>
+	<FRAMESET frameborder="0" cols="<?= $width ?>,*" border="0">
+	<FRAME name=leftframe src="/htmllib/lbin/lpanel.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
+<?php
 }
 
+if ($sp->isOn('split_frame')) {
+	?>
+	<FRAMESET frameborder="0" cols="50%,*" border="0">
+<?php
+}
+	?>
+	<FRAMESET frameborder="0" rows="*,16" border="0">
+		<FRAME name="mainframe" src="<?= $url ?>">
+		<FRAME name="bottomframe" src="htmllib/lbin/bottom.php">
+		<?php
+		if ($sp->isOn('split_frame')) {
+			?>
+			<FRAME name="rightframe" src="<?= $url ?>">
+		<?php
+		}
+		?>
+	</FRAMESET>
+	</FRAMESET>
+<?php
+}
 
 function main_main()
 {
-	global $gbl, $login, $ghtml; 
+	global $gbl, $login, $ghtml;
 
-   	initProgram();
+	initProgram();
 
 	domainshow();
-	/*
-	if ($gbl->isOn('split_frame')) {
-		$gbl->setSessionV('split_frame', 'off');
-	} else {
-		$gbl->setSessionV('split_frame', 'on');
-	}
-	$gbl->c_session->write();
-	*/
-
 }
-
-

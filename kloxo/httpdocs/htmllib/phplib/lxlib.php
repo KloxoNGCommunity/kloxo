@@ -1865,11 +1865,11 @@ function print_meta_lan()
 	$lan = get_language();
 	$charset = @ lfile_get_contents("lang/$lan/charset");
 	$charset = trim($charset);
-	print("<head>");
+//	print("<head>");
 	if ($charset) {
-		print("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\"  />");
+		print("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\" />");
 	} else {
-		print("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"  />");
+		print("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
 	}
 }
 

@@ -1,18 +1,21 @@
 <?php 
+
 chdir("../../");
 include_once "htmllib/lib/include.php"; 
-
 
 function parse_etc_mime()
 {
 	$list = lfile_trim("/etc/mime.types");
+
 	foreach($list as $s) {
 		if (!$s) {
 			continue;
 		}
+
 		if ($s[0] === '#') {
 			continue;
 		}
+
 		$s = trimSpaces($s);
 		$s = explode(" ", $s);
 		$type = array_shift($s);
@@ -20,6 +23,7 @@ function parse_etc_mime()
 			$res[$ss] = $type;
 		}
 	}
+
 	return $res;
 }
 
@@ -31,6 +35,7 @@ $request = $_SERVER['REQUEST_URI'];
 if (!csa($request, "sitepreview/")) {
 	header("HTTP/1.0 404 Not Found");
 	print("404--- <br> ");
+
 	exit;
 }
 
@@ -55,14 +60,13 @@ $file = curl_general_get("http://$request");
 
 $pinfo = pathinfo($request);
 $ext = $pinfo['extension'];
+
 if (isset($res[$ext]) && $res[$ext] !== 'text/html' && $res[$ext] !== 'text/css') {
 	header("Content-Type  $res[$ext]");
 	print($file);
+
 	exit;
 }
-
-
-
 
 rl_exec_get(null, 'localhost', 'removeFromEtcHost', array($domain));
 

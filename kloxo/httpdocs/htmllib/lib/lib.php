@@ -663,7 +663,8 @@ function PrepareRoundCubeDb($nolog = null)
 	$pass = slave_get_db_pass();
 	$user = "root";
 	$host = "localhost";
-	$link = mysql_connect($host, $user, $pass);
+
+	$link = mysqli_connect($host, $user, $pass);
 
 	if (!$link) {
 		log_cleanup("- Mysql root password incorrect", $nolog);
@@ -701,8 +702,8 @@ function PrepareRoundCubeDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysql_query("GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '{$pass}'", $link);
-	mysql_query("flush privileges", $link);
+	$result = mysqli_query($link, "GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '{$pass}'", $link);
+	mysqli_query($link, "flush privileges", $link);
 
 	if (!$result) {
 		print("- Could not grant privileges. Script Abort");
@@ -730,7 +731,7 @@ function PrepareHordeDb($nolog = null)
 	$pass = slave_get_db_pass();
 	$user = "root";
 	$host = "localhost";
-	$link = mysql_connect($host, $user, $pass);
+	$link = mysqli_connect($host, $user, $pass);
 
 	if (!$link) {
 		log_cleanup("- Mysql root password incorrect", $nolog);
@@ -743,7 +744,7 @@ function PrepareHordeDb($nolog = null)
 		$pstring = "-p\"$pass\"";
 	}
 
-	$result = mysql_select_db('horde_groupware', $link);
+	$result = mysqli_select_db($link, 'horde_groupware');
 
 	log_cleanup("- Fix MySQL commands in import files of Horde", $nolog);
 
@@ -768,8 +769,8 @@ function PrepareHordeDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysql_query("GRANT ALL ON horde_groupware.* TO horde_groupware@localhost IDENTIFIED BY '{$pass}'", $link);
-	mysql_query("flush privileges", $link);
+	$result = mysqli_query($link, "GRANT ALL ON horde_groupware.* TO horde_groupware@localhost IDENTIFIED BY '{$pass}'", $link);
+	mysqli_query($link, "flush privileges", $link);
 
 	if (!$result) {
 		log_cleanup("Could not grant privileges. Script Aborted", $nolog);
@@ -808,7 +809,7 @@ function PrepareAfterlogicDb($nolog = null)
 	$pass = slave_get_db_pass();
 	$user = "root";
 	$host = "localhost";
-	$link = mysql_connect($host, $user, $pass);
+	$link = mysqli_connect($host, $user, $pass);
 
 	if (!$link) {
 		log_cleanup("- Mysql root password incorrect", $nolog);
@@ -841,8 +842,8 @@ function PrepareAfterlogicDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysql_query("GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'", $link);
-	mysql_query("flush privileges", $link);
+	$result = mysqli_query($link, "GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'", $link);
+	mysqli_query($link, "flush privileges", $link);
 
 	lfile_put_contents($cfgfile, $content);
 
@@ -1329,7 +1330,7 @@ function fix_flag_variable($table, $flagvariable)
 
 function upload_file_to_db($dbtype, $dbhost, $dbuser, $dbpassword, $dbname, $file)
 {
-	mysql_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file);
+	mysqli_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file);
 }
 
 function calculateRealTotal($inout)
@@ -1349,17 +1350,17 @@ function calculateRealTotal($inout)
 
 function mysql_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file)
 {
-	$rs = mysql_connect($dbhost, $dbuser, $dbpassword);
+	$rs = mysqli_connect($dbhost, $dbuser, $dbpassword);
 
 	if (!$rs) {
 		throw new lxException('no_mysql_connection_while_uploading_file,', '');
 	}
 
-	mysql_select_db($dbname);
+	mysqli_select_db($link, $dbname);
 
 	$res = lfile_get_contents($file);
 
-	$res = mysql_query($res);
+	$res = mysqli_query($link, $res);
 
 	if (!$res) {
 		throw new lxException('no_mysql_connection_while_uploading_file,', '');
@@ -2913,9 +2914,15 @@ function checkIfLatest()
 
 function getLatestVersion()
 {
-	$nlist = getVersionList();
+//	$nlist = getVersionList();
+//	return $nlist[count($nlist) - 1];
 
-	return $nlist[count($nlist) - 1];
+	$ver = getRpmVersionViaYum("kloxomr");
+
+	$rel = getRpmReleaseViaYum("kloxomr");
+	$rel = explode(".", $rel);
+
+	return $ver.'-'.$rel[0];
 }
 
 function getDownloadServer()
@@ -7307,23 +7314,23 @@ function resetQmailAssign()
 {
 	$pass = slave_get_db_pass();
 
-	$con = mysql_connect("localhost", "root", $pass);
+	$con = mysqli_connect("localhost", "root", $pass);
 
 	if (!$con) {
-		die('Could not connect: ' . mysql_error());
+		die('Could not connect: ' . mysqli_error($con));
 	}
 
-	mysql_select_db("vpopmail", $con);
+	mysqli_select_db($con, "vpopmail");
 
-	$result = mysql_query("SELECT * FROM vpopmail");
+	$result = mysqli_query($con, "SELECT * FROM vpopmail");
 
 	$n = array();
 
-	while($row = mysql_fetch_array($result)) {
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		$n[$row['pw_domain']] = str_replace("/" . $row['pw_name'], '', $row['pw_dir']);
 	}
 
-	mysql_close($con);
+	mysqli_close($con);
 
 	$t = '';
 
@@ -7378,6 +7385,14 @@ function getRpmVersionViaYum($rpm)
 	}
 */
 	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
+
+	return $out[0];
+}
+
+function getRpmReleaseViaYum($rpm)
+{
+
+	exec("yum info {$rpm} | grep 'Release' | awk '{print $3}'", $out, $ret);
 
 	return $out[0];
 }

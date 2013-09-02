@@ -26,14 +26,14 @@ class ReleaseNote extends Lxlclass
 	static function createListNlist($parent, $view)
 	{
 		$nlist['over_r'] = '5%';
-		$nlist['version'] = '5%';
+		$nlist['version'] = '10%';
 		$nlist['ttype'] = '5%';
 		$nlist['description'] = '100%';
 
 		return $nlist;
 	}
 
-	static function defaultSort() { return "version"; }
+	static function defaultSort() { return "nname"; }
 
 	static function defaultSortDir() { return "desc"; }
 
@@ -53,40 +53,35 @@ class ReleaseNote extends Lxlclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$ver = $sgbl->__ver_major_minor_release;
-		
-		$dd = file_get_contents("/usr/local/lxlabs/kloxo/RELEASEINFO/Changelog");
+		exec("sh /script/version --vertype=full", $out1);
 
-		$dd = explode("\n", $dd);
+		$ver = $out1[0];
 
-		$k = 0;
-		
-		foreach ($dd as $d) {
-			$d = trim($d);
+		exec("rpm -q --changelog kloxomr | less", $out2);
 
-			if (!$d) {
-				continue;
-			}
+		$result = array();
 
-			if (strpos($d, "#") !== 0) {
-				continue;
-			}
+		$ol = strlen(sizeof($out2));
 
-			$k++;
+		$m = str_repeat('0', $ol);
 
-			$v = explode(";;", $d);
-			$newvar['version'] = str_replace("#", "", $v[0]);
+		$c = 0;
 
-			if ($newvar['version'] !== $ver) {
-				$newvar['over_r'] = 'dull';
-			} else {
-				$newvar['over_r'] = 'on';
-			}
+		foreach ($out2 as $k => $v) {
+			if ($v === '') { continue; }
 
-			$newvar['ttype'] = $v[1];
-			$newvar['description'] = $v[2];
+			$c++;
 
-			$newvar['nname'] = $k;
+			$b = strlen($c);
+			$d = substr_replace($m, $c, -$b);
+
+			$newvar['version'] = $ver;
+
+			$newvar['over_r'] = 'on';
+			$newvar['ttype'] = $d;
+			$newvar['nname'] = $d;
+
+			$newvar['description'] = $v;
 
 			$result[] = $newvar;
 		}

@@ -91,6 +91,8 @@ table.content_title td {
 
 </style>
 
+</head>
+
 <body>
 
 <table class="header">

@@ -1270,7 +1270,7 @@ $__description["referer"] = array("Referer");
 $__description["remote_host"] = array("Host Remoto");
 $__description["webserver_config"] = array("Webserver Config");
 $__description["php_type"] = array("Tipo Php ");
-$__description["secondary_php"] = array("Abilita Php 5.2 (usa lxphp) come Php Secondario");
+$__description["secondary_php"] = array("Abilita Php 5.2 (usa php52s) come Php Secondario");
 
 $__description["config"] = array("Config");
 $__description["rails_app"] = array("Rails App");

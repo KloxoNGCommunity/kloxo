@@ -66,12 +66,15 @@ function updateform($subaction, $param)
 
 				$vlist['current_version_f'] = array('M', $sgbl->__ver_full);
 
+				$vlist['latest_version_f'] = array('M', getLatestVersion());
+
 			//	$vlist['current_version_f'] = array('M', $sgbl->__ver_major_minor_release);
 			//	$vlist['latest_version_f'] = array('M', getLatestVersion());
 			//	$vlist['stamp_f'] = array('M', $sgbl->__ver_stamp);
 			//	$vlist['step_f'] = array('M', $sgbl->__ver_extra);
 
-				if ($sgbl->__ver_major_minor_release === getLatestVersion()) {
+			//	if ($sgbl->__ver_major_minor_release === getLatestVersion()) {
+				if ($vlist['current_version_f'] === $vlist['latest_version_f']) {
 					$vlist['__v_button'] = array();
 				} else {
 					$vlist['__v_button'] = "Update Now";
@@ -98,10 +101,12 @@ function updateform($subaction, $param)
 function updateLxupdateInfo()
 {
 	if_demo_throw_exception();
+
 	if (isUpdating()) {
 		throw new lxException("program_is_already_updating");
 	} else {
 		rl_exec_get($this->__masterserver, 'localhost', array('lxupdate', 'execUpdate'), null);
+
 		throw new lxException("update_scheduled");
 	}
 }
@@ -114,7 +119,7 @@ static function execUpdate()
 static function initThisObjectRule($parent, $class, $name = null)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
-	/*
+/*
 	if (!$parent->isLocalhost('nname')) {
 		throw new lxException("slave_is_automatically_updated", $parent->nname);
 	}

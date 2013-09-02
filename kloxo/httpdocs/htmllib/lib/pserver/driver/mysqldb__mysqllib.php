@@ -1,312 +1,333 @@
-<?php 
+<?php
 
 class Mysqldb__mysql extends lxDriverClass {
 
 
-function lx_mysql_connect($server, $dbadmin, $dbpass) 
-{
-	$rdb = mysql_connect('localhost', $dbadmin, $dbpass);
-	if (!$rdb) {
-		log_error(mysql_error());
+	function lx_mysql_connect($server, $dbadmin, $dbpass)
+	{
+		$rdb = mysqli_connect('localhost', $dbadmin, $dbpass);
 
-		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxException('could_not_connect_to_db', '', '');
-	}
-	return $rdb;
-}
+		if (!$rdb) {
+			log_error(mysql_error());
 
-function createDatabase()
-{
-	dprint("here\n");
-	$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
-	mysql_query("use mysql");
-	$res = mysql_query("select * from user where User = '{$this->main->username}'");
-	$ret = null;
-	if ($res) {
-		$ret = mysql_fetch_row($res);
+			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
+			throw new lxException('could_not_connect_to_db', '', '');
+		}
+
+		return $rdb;
 	}
 
+	function createDatabase()
+	{
+	//	dprint("here\n");
 
-	if ($ret) {
-		throw new lxException("database_user_already_exists__{$this->main->username}", 'username', '');
+		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
+
+		mysqli_query($rdb, "use mysql");
+
+		$res = mysqli_query($rdb, "select * from user where User = '{$this->main->username}'");
+
+		$ret = null;
+
+		if ($res) {
+			$ret = mysqli_fetch_row($res, MYSQLI_NUM);
+		}
+
+		if ($ret) {
+			throw new lxException("database_user_already_exists__{$this->main->username}", 'username', '');
+		}
+
+		mysqli_query($rdb, "create database {$this->main->dbname};");
+		$this->log_error_messages();
+
+		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
+		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+
+		if ($this->main->__var_primary_user) {
+			$parentname = $this->main->__var_primary_user;
+
+			mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$parentname}'@'localhost';");
+			mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$parentname}'@'%';");
+		}
+
+		$this->log_error_messages(false);
+		mysqli_query($rdb, "flush privileges;");
 	}
 
-	mysql_query("create database {$this->main->dbname};");
-	$this->log_error_messages();
+	function extraGrant()
+	{
+	//	$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-	mysql_query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
-	mysql_query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+	//	mysqli_query($rdb, "revoke show databases on *.* from '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
+		$this->log_error_messages(false);
 
-	if ($this->main->__var_primary_user) {
-		$parentname = $this->main->__var_primary_user;
-		mysql_query("grant all on {$this->main->dbname}.* to '{$parentname}'@'localhost';");
-		mysql_query("grant all on {$this->main->dbname}.* to '{$parentname}'@'%';");
+	//	mysqli_query($rdb, "grant SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+		$this->log_error_messages(false);
+	//	mysqli_query($rdb, "revoke show databases on *.* from '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+		$this->log_error_messages(false);
 	}
 
-	$this->log_error_messages(false);
-	mysql_query("flush privileges;");
-}
+	function deleteDatabase()
+	{
+		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-function extraGrant()
-{
-	//mysql_query("revoke show databases on *.* from '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
-	$this->log_error_messages(false);
-	//mysql_query("grant SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
-	$this->log_error_messages(false);
-	//mysql_query("revoke show databases on *.* from '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
-	$this->log_error_messages(false);
-}
+		mysqli_query($rdb, "drop database {$this->main->dbname};");
+		$this->log_error_messages(false);
 
-function deleteDatabase()
-{
-	$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
-	mysql_query("drop database {$this->main->dbname};");
-	$this->log_error_messages(false);
-	mysql_query("delete from mysql.user where user = '{$this->main->username}';");
-	$this->log_error_messages(false);
-	mysql_query("flush privileges;");
-}
+		mysqli_query($rdb, "delete from mysql.user where user = '{$this->main->username}';");
+		$this->log_error_messages(false);
 
-function updateDatabase()
-{
-	$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
-	mysql_query("update mysql.user set password = PASSWORD('{$this->main->dbpassword}') where user = '{$this->main->username}';");
-	$this->log_error_messages();
-	mysql_query("flush privileges;");
+		mysqli_query($rdb, "flush privileges;");
+	}
 
-}
+	function updateDatabase()
+	{
+		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-function log_error_messages($throwflag = true)
-{
-	if (mysql_errno()) {
-		dprint(mysql_error());
-		log_error(mysql_error());
-		if ($throwflag) {
-			throw new lxException('mysql_error', '', mysql_error());
+		mysqli_query($rdb, "update mysql.user set password = PASSWORD('{$this->main->dbpassword}') where user = '{$this->main->username}';");
+		$this->log_error_messages();
+
+		mysqli_query($rdb, "flush privileges;");
+
+	}
+
+	function log_error_messages($throwflag = true)
+	{
+		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
+
+		if (mysqli_errno(mysqli_errno)) {
+			dprint(mysqli_error($rdb));
+
+			log_error(mysqli_error($rdb));
+
+			if ($throwflag) {
+				throw new lxException('mysql_error', '', mysqli_error($rdb));
+			}
 		}
 	}
-}
 
-static function take_dump($dbname, $dbuser, $dbpass, $docf)
-{
-	// Issue #671 - Fixed backup-restore issue
+	static function take_dump($dbname, $dbuser, $dbpass, $docf)
+	{
+		// Issue #671 - Fixed backup-restore issue
 
-	global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login, $ghtml;
 
-	$arg[0] = $sgbl->__path_mysqldump_path;
-	$arg[1] = "--add-drop-table";
-	$arg[2] = "-u";
-	$arg[3] = $dbuser;
-	$arg[4] = $dbname;
+		$arg[0] = $sgbl->__path_mysqldump_path;
+		$arg[1] = "--add-drop-table";
+		$arg[2] = "-u";
+		$arg[3] = $dbuser;
+		$arg[4] = $dbname;
 
-	if ($dbpass) {
-		$arg[5] = "-p'{$dbpass}'";
-	}
-	else {
-		$arg[5] = "";
-	}
+		if ($dbpass) {
+			$arg[5] = "-p'{$dbpass}'";
+		} else {
+			$arg[5] = "";
+		}
 
-	$cmd = implode(" ", $arg);
-/*
-	$output = null;
-	$ret = null;
-	if (!windowsos()) {
-		exec("exec $cmd > $docf", $output, $ret);
-	} else {
-		exec("$cmd", $output, $ret);
-		file_put_contents($docf, $output);
-	}
-*/
-	$link = mysql_connect('localhost', $dbadmin, $dbpass);
-	$result = mysql_query("CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
+		$cmd = implode(" ", $arg);
+		/*
+			$output = null;
+			$ret = null;
+			if (!windowsos()) {
+				exec("exec $cmd > $docf", $output, $ret);
+			} else {
+				exec("$cmd", $output, $ret);
+				file_put_contents($docf, $output);
+			}
+		*/
+		$link = mysqli_connect('localhost', $dbadmin, $dbpass);
+		$result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
 
-	try {
-		system("{$cmd} > {$docf}");
-	}
-	catch (Exception $e) {
-		throw new lxException('Error: ' . $e->getMessage(), $dbname);
-	}
+		try {
+			system("{$cmd} > {$docf}");
+		} catch (Exception $e) {
+			throw new lxException('Error: ' . $e->getMessage(), $dbname);
+		}
 
-}
-
-
-static function drop_all_table($dbname, $dbuser, $dbpass)
-{
-	$con = mysql_connect("localhost", $dbuser, $dbpass);
-	mysql_select_db($dbname);
-	$query = mysql_query("show tables");
-	while($res = mysql_fetch_array($query, MYSQL_ASSOC)) {
-		$total[] = getFirstFromList($res);
-	}
-	foreach($total as $k => $v) {
-		mysql_query("drop table $v");
-	}
-	mysql_close($con);
-}
-
-static function restore_dump($dbname, $dbuser, $dbpass, $docf)
-{
-	// Issue #671 - Fixed backup-restore issue
-
-	global $gbl, $sgbl, $login, $ghtml; 
-
-	self::drop_all_table($dbname, $dbuser, $dbpass);
-
-	$arg[0] = $sgbl->__path_mysqlclient_path;
-	$arg[1] = "-u";
-	$arg[2] = $dbuser;
-
-	if ($dbpass) {
-		$arg[3] = "-p'{$dbpass}'";
-	}
-	else {
-		$arg[3] = "";
 	}
 
-	$arg[4] = $dbname;
 
-	try {
-		system("{$cmd} < {$docf}");
-	}
-	catch (Exception $e) {
-		throw new lxException('Error: ' . $e->getMessage(), $dbname);
-	}
-}
+	static function drop_all_table($dbname, $dbuser, $dbpass)
+	{
+		$con = mysqli_connect("localhost", $dbuser, $dbpass);
 
-function do_backup()
-{
-	// Issue #671 - Fixed backup-restore issue
+		mysqli_select_db($link, $dbname);
 
-	global $gbl, $sgbl, $login, $ghtml; 
+		$query = mysqli_query($link, "show tables");
 
-	$dbadmin = $this->main->__var_dbadmin;
-	$dbpass = $this->main->__var_dbpassword;
-	$dbname = $this->main->dbname;
+		while($res = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+			$total[] = getFirstFromList($res);
+		}
 
-	$vd = tempnam("/tmp", "mysqldump");
-	lunlink($vd);
-	mkdir($vd);
+		foreach($total as $k => $v) {
+			mysqli_query($link, "drop table $v");
+		}
 
-	$docf = "$vd/mysql-{$dbname}.dump";
-
-	$arg[0] = $sgbl->__path_mysqldump_path;
-	$arg[1] = "--add-drop-table";
-	$arg[2] = "-u";
-	$arg[3] = $dbadmin;
-
-	if ($dbpass) {
-		$arg[4] = "-p'{$dbpass}'";
-	}
-	else {
-		$arg[4] = "";
+		mysqli_close($con);
 	}
 
-	$arg[5] = $this->main->dbname;
+	static function restore_dump($dbname, $dbuser, $dbpass, $docf)
+	{
+		// Issue #671 - Fixed backup-restore issue
 
-	$cmd = implode(" ", $arg);
+		global $gbl, $sgbl, $login, $ghtml;
 
-	$link = mysql_connect('localhost', $dbadmin, $dbpass);
-	$result = mysql_query("CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
+		self::drop_all_table($dbname, $dbuser, $dbpass);
 
-	try {
-		system("{$cmd} > {$docf}");
-	}
-	catch (Exception $e) {
-		lxfile_tmp_rm_rec($vd);
-	//	throw new lxException('Error: ' . $e->getMessage(), $dbname);
-		log_log("backup", "- Error '{$e->getMessage()}' for '{$dbname}'");
-	}
+		$arg[0] = $sgbl->__path_mysqlclient_path;
+		$arg[1] = "-u";
+		$arg[2] = $dbuser;
 
-	return array($vd, array(basename($docf)));
-}
+		if ($dbpass) {
+			$arg[3] = "-p'{$dbpass}'";
+		} else {
+			$arg[3] = "";
+		}
 
-function do_backup_cleanup($list)
-{
-	lxfile_tmp_rm_rec($list[0]);
-}
+		$arg[4] = $dbname;
 
+		// MR -- missing this!
+		$cmd = implode(" ", $arg);
 
-function fix_grant_all()
-{
-	$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
-	mysql_query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%'");
-	mysql_query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost'");
-}
-
-function do_restore($docd)
-{
-	// Issue #671 - Fixed backup-restore issue
-
-	global $gbl, $sgbl, $login, $ghtml; 
-
-	$dbadmin = $this->main->__var_dbadmin;
-	$dbpass = $this->main->__var_dbpassword;
-	$dbname = $this->main->dbname;
-
-	$vd = tempnam("/tmp", "mysqldump");
-
-	lunlink($vd);
-	mkdir($vd);
-
-//	$docf = "$vd/mysql-{$this->main->dbname}.dump";
-	$docf = "$vd/mysql-{$dbname}.dump";
-
-	$ret = lxshell_unzip_with_throw($vd, $docd);
-
-	if (!lxfile_exists($docf)) {
-	//	throw new lxException('could_not_find_matching_dumpfile_for_db', '', '');
-		log_log("restore", "- Not match $docf file for database");
+		try {
+			system("{$cmd} < {$docf}");
+		} catch (Exception $e) {
+			throw new lxException('Error: ' . $e->getMessage(), $dbname);
+		}
 	}
 
-	$arg[0] = $sgbl->__path_mysqlclient_path;
-	$arg[1] = "-u";
-	$arg[2] = $dbadmin;
+	function do_backup()
+	{
+		// Issue #671 - Fixed backup-restore issue
 
-	if ($dbpass) {
-		$arg[3] = "-p'{$dbpass}'";
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$dbadmin = $this->main->__var_dbadmin;
+		$dbpass = $this->main->__var_dbpassword;
+		$dbname = $this->main->dbname;
+
+		$vd = tempnam("/tmp", "mysqldump");
+		lunlink($vd);
+		mkdir($vd);
+
+		$docf = "$vd/mysql-{$dbname}.dump";
+
+		$arg[0] = $sgbl->__path_mysqldump_path;
+		$arg[1] = "--add-drop-table";
+		$arg[2] = "-u";
+		$arg[3] = $dbadmin;
+
+		if ($dbpass) {
+			$arg[4] = "-p'{$dbpass}'";
+		} else {
+			$arg[4] = "";
+		}
+
+		$arg[5] = $this->main->dbname;
+
+		$cmd = implode(" ", $arg);
+
+		$link = mysqli_connect('localhost', $dbadmin, $dbpass);
+
+		$result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
+
+		try {
+			system("{$cmd} > {$docf}");
+		} catch (Exception $e) {
+			lxfile_tmp_rm_rec($vd);
+		//	throw new lxException('Error: ' . $e->getMessage(), $dbname);
+			log_log("backup", "- Error '{$e->getMessage()}' for '{$dbname}'");
+		}
+
+		return array($vd, array(basename($docf)));
 	}
-	else {
-		$arg[3] = "";
+
+	function do_backup_cleanup($list)
+	{
+		lxfile_tmp_rm_rec($list[0]);
 	}
 
-	$arg[4] = $dbname;
+	function fix_grant_all()
+	{
+		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-	$cmd = implode(" ", $arg);
-
-	$link = mysql_connect('localhost', $dbadmin, $dbpass);
-	$result = mysql_query("CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
-
-	try {
-		system("{$cmd} < {$docf}");
-		lunlink($docf);
-		lxfile_tmp_rm_rec($vd);
+		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%'");
+		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost'");
 	}
-	catch (Exception $e) {
-		throw new lxException('Error: ' . $e->getMessage(), $dbname);
+
+	function do_restore($docd)
+	{
+		// Issue #671 - Fixed backup-restore issue
+
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$dbadmin = $this->main->__var_dbadmin;
+		$dbpass = $this->main->__var_dbpassword;
+		$dbname = $this->main->dbname;
+
+		$vd = tempnam("/tmp", "mysqldump");
+
+		lunlink($vd);
+		mkdir($vd);
+
+	//	$docf = "$vd/mysql-{$this->main->dbname}.dump";
+		$docf = "$vd/mysql-{$dbname}.dump";
+
+		$ret = lxshell_unzip_with_throw($vd, $docd);
+
+		if (!lxfile_exists($docf)) {
+			//	throw new lxException('could_not_find_matching_dumpfile_for_db', '', '');
+			log_log("restore", "- Not match $docf file for database");
+		}
+
+		$arg[0] = $sgbl->__path_mysqlclient_path;
+		$arg[1] = "-u";
+		$arg[2] = $dbadmin;
+
+		if ($dbpass) {
+			$arg[3] = "-p'{$dbpass}'";
+		} else {
+			$arg[3] = "";
+		}
+
+		$arg[4] = $dbname;
+
+		$cmd = implode(" ", $arg);
+
+		$link = mysqli_connect('localhost', $dbadmin, $dbpass);
+
+		$result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
+
+		try {
+			system("{$cmd} < {$docf}");
+
+			lunlink($docf);
+			lxfile_tmp_rm_rec($vd);
+		} catch (Exception $e) {
+			throw new lxException('Error: ' . $e->getMessage(), $dbname);
+		}
 	}
-}
 
+	function doSyncToSystemPre()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
 
-function doSyncToSystemPre()
-{
-	global $gbl, $sgbl, $login, $ghtml; 
-	databasecore::loadExtension('mysql');
-}
+		databasecore::loadExtension('mysql');
+	}
 
-function dbactionAdd()
-{
-	$this->createDatabase();
-}
+	function dbactionAdd()
+	{
+		$this->createDatabase();
+	}
 
-function dbactionDelete()
-{
-	$this->deleteDatabase();
-}
+	function dbactionDelete()
+	{
+		$this->deleteDatabase();
+	}
 
-function dbactionUpdate($subaction)
-{
-	$this->fix_grant_all();
-	$this->updateDatabase();
-}
-
+	function dbactionUpdate($subaction)
+	{
+		$this->fix_grant_all();
+		$this->updateDatabase();
+	}
 }

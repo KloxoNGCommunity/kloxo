@@ -51,7 +51,7 @@ function dbactionAdd()
 	$res['src'] = "$sgbl->__path_kloxo_httpd_root/installapp/{$this->main->appname}";
 
 	if ($this->main->dbname) {
-		$__tmpr = mysql_connect($this->main->realhost, $this->main->dbuser, $this->main->dbpass);
+		$__tmpr = mysqli_connect($this->main->realhost, $this->main->dbuser, $this->main->dbpass);
 	
 		if (!$__tmpr) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
