@@ -523,7 +523,7 @@ function kloxo_prepare_kloxo_httpd_dir()
 	print("Prepare /home/kloxo/httpd...\n");
 	system("mkdir -p /home/kloxo/httpd");
 
-	system("rm -rf /home/kloxo/httpd/skeleton-disable.zip");
+	system("rm -f /home/kloxo/httpd/skeleton-disable.zip");
 
 	system("chown -R lxlabs:lxlabs /home/kloxo/httpd");
 }

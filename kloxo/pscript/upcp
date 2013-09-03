@@ -1,3 +1,13 @@
 #!/bin/sh
-. /script/directory
-lxphp.exe ../bin/update.php
+
+if [ $1 != "-y" ]; then
+	if $(lxphp.exe -v) ; then
+		. /script/directory
+		lxphp.exe ../bin/update.php
+	else
+		sh /usr/local/lxlabs/kloxo/install/setup.sh $*
+	fi
+else
+	sh /usr/local/lxlabs/kloxo/install/setup.sh $*
+fi
+

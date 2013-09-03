@@ -14,9 +14,10 @@ echo "\n";
 
 if (strpos($mysqlbranch, "MariaDB") !== false) {
 	echo "* Already '{$mysqlbranch}' installed\n";
-} elseif (strpos($mysqlbranch, "mysql") !== false) {
-
-	system("yum list|grep MariaDB", $out, $ret);
+} elseif (strpos($mysqlbranch, "mariadb") !== false) {
+	echo "* Already '{$mysqlbranch}' installed\n";
+} else {
+	exec("yum list|grep MariaDB", $out, $ret);
 	
 	if ($ret) {
 		echo "- No repo for MariaDB.\n";
@@ -54,8 +55,6 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		system("chkconfig mysql on");
 		system("service mysql restart");
 	}
-} else {
-	echo "- No MySQL or MariaDB installed\n";
 }
 
 echo "\n";

@@ -23,6 +23,18 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
+if [ $1 != "-y" ]; then
+	if [ -f /var/lib/mysql/kloxo ] ; then
+			echo "Your server already Kloxo-MR installed as 'master'"
+			echo "- Use 'sh /script/upcp -y' to 'reinstall'"
+			exit
+	elif [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
+			echo "Your server already Kloxo-MR installed as 'slave'"
+			echo "- Use 'sh /script/upcp -y' to 'reinstall'"
+			exit
+	else
+fi
+
 echo
 echo "*** Ready to begin $APP_NAME setup. ***"
 echo
