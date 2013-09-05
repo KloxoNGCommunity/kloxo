@@ -874,7 +874,10 @@ class Domaind extends DomainBase
 		if ($dontwasflag) {
 			return;
 		}
-		$dns->setUpdateSubaction('full_update');
+
+	//	$dns->setUpdateSubaction('full_update');
+		$dns->setUpdateSubaction('domain');
+
 		$dns->was();
 	}
 

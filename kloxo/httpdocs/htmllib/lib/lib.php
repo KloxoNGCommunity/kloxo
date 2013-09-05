@@ -5686,9 +5686,9 @@ function setInitialPhpFpmConfig($nolog = null)
 
 	$phpver = getPhpVersion();
 
-	$phptype = version_compare($phpver, "5.3.2", ">") ? "php53" : "php";
+	$phpchoose = version_compare($phpver, "5.3.2", ">") ? "php53" : "php";
 
-	$t = getLinkCustomfile("{$fpmpath}", "{$phptype}-fpm.conf");
+	$t = getLinkCustomfile("{$fpmpath}", "{$phpchoose}-fpm.conf");
 	if (file_exists($t)) {
 		lxfile_cp($t, "/etc/php-fpm.conf");
 	}
