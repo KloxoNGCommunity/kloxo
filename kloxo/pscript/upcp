@@ -5,7 +5,7 @@ if [ ! -f /script/programname ] ; then
 fi
 
 if [ "$1" != "-y" ] ; then
-	if $(lxphp.exe -v) ; then
+	if $(lxphp.exe -v >/dev/null 2>&1) ; then
 		. /script/directory
 		lxphp.exe ../bin/update.php
 	else

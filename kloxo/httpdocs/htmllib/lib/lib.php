@@ -4264,12 +4264,12 @@ function fix_self_ssl($nolog = null)
 	log_cleanup("Fix Self SSL", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	$pgm = $sgbl->__var_program_name;
-	$ret = lxshell_return("diff", "../etc/program.pem", "htmllib/filecore/old.program.pem");
+//	$pgm = $sgbl->__var_program_name;
+//	$ret = lxshell_return("diff", "../etc/program.pem", "htmllib/filecore/old.program.pem");
 
-	if (!$ret) {
+//	if (!$ret) {
 		lxfile_cp("htmllib/filecore/program.pem", "../etc/program.pem");
-	}
+//	}
 
 //	exec("/etc/init.d/$pgm restart");
 }
@@ -6128,7 +6128,7 @@ function setCheckPackages($nolog = null)
 		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
 		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick", "{$phpbranch}-gd",
 		"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "{$phpbranch}-bcmath", "{$phpbranch}-pgsql",
-		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell", "libmhash");
+		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell");
 
 	foreach ($list as $l) {
 		if ($l === '') { continue; }
@@ -6201,8 +6201,8 @@ function setSomePermissions($nolog = null)
 	log_cleanup("- Set permissions for phpsuexec.sh script", $nolog);
 	lxfile_unix_chmod("../file/phpsuexec.sh", "0755");
 
-	log_cleanup("- Set permissions for /home/kloxo/httpd/lighttpd/ dir", $nolog);
-	lxfile_unix_chown_rec("/home/kloxo/httpd/lighttpd/", "apache:apache");
+//	log_cleanup("- Set permissions for /home/kloxo/httpd/lighttpd/ dir", $nolog);
+//	lxfile_unix_chown_rec("/home/kloxo/httpd/lighttpd/", "apache:apache");
 
 	log_cleanup("- Set permissions for /var/lib/php/session/ dir", $nolog);
 	lxfile_unix_chmod("/var/lib/php/session/", "777");
