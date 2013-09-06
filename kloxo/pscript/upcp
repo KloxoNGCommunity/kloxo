@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ ! - /script/programname ] ; then
+	echo 'kloxo' > /script/programname
+fi
+
 if [ $1 != "-y" ]; then
 	if $(lxphp.exe -v) ; then
 		. /script/directory
