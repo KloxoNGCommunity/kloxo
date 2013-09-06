@@ -523,7 +523,7 @@ function kloxo_prepare_kloxo_httpd_dir()
 	print("Prepare /home/kloxo/httpd...\n");
 	system("mkdir -p /home/kloxo/httpd");
 
-	system("rm -f /home/kloxo/httpd/skeleton-disable.zip");
+	system("rm -rf /home/kloxo/httpd/skeleton-disable.zip");
 
 	system("chown -R lxlabs:lxlabs /home/kloxo/httpd");
 }
@@ -547,7 +547,8 @@ function kloxo_install_before_bye()
 
 	// MR -- ruid2 as default instead mod_php
 	if (file_exists("/etc/httpd/conf.d/php.conf")) {
-		system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
+		// ruid2 nees php.conf enable!
+	//	system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
 		// MR -- because /home/apache no exist at this step
 		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
 	}
