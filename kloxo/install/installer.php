@@ -36,6 +36,8 @@ function lxins_main()
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
+	checkHostsAndHostname();
+
 //	$arch = trim( `arch` );
 //	$arch = php_uname('m');
 
@@ -523,7 +525,7 @@ function kloxo_prepare_kloxo_httpd_dir()
 	print("Prepare /home/kloxo/httpd...\n");
 	system("mkdir -p /home/kloxo/httpd");
 
-	system("rm -rf /home/kloxo/httpd/skeleton-disable.zip");
+	system("rm -f /home/kloxo/httpd/skeleton-disable.zip");
 
 	system("chown -R lxlabs:lxlabs /home/kloxo/httpd");
 }
@@ -547,8 +549,7 @@ function kloxo_install_before_bye()
 
 	// MR -- ruid2 as default instead mod_php
 	if (file_exists("/etc/httpd/conf.d/php.conf")) {
-		// ruid2 nees php.conf enable!
-	//	system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
+		system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
 		// MR -- because /home/apache no exist at this step
 		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
 	}
@@ -1016,6 +1017,36 @@ function randomString($length)
 	}
 
 	return $randstr;
+}
+
+function checkHostsAndHostname()
+{
+	exec("hostname -s", $out1);
+	exec("hostname -f", $out2);
+
+	if ($out1[0] === $out2[0]) {
+		print("*** Kloxo-MR warning ***\n");
+		print("* Your server have wrong hostname. Modified '/etc/sysconfig/network' with:\n");
+		print("  - 'HOSTNAME=subdom.dom.tld' format (qualified as FQDN) for Dedicated Server\n");
+		print("  - Or, set the same FQDN in VPS control panel for VPS server\n");
+
+		exit;
+	}
+
+	$hostscontent = file_get_contents("/etc/hosts");
+
+	if (strpos($hostscontent, $out2[0]) !== false) {
+		//
+	} else {
+		print("*** Kloxo-MR warning ***\n");
+		print("* Need add line with content '123.123.123.123 subdom.dom.com subdom'\n");
+		print("  inside '/etc/hosts' file, where:\n");
+		print("  - '123.123.123.123' = primary IP (run 'ifconfig' to know this IP)\n");
+		print("  - 'subdom.dom.com' = taken from 'hostname -f'\n");
+		print("  - 'subdom' = taken from 'hostname -s'\n");
+
+		exit;
+	}
 }
 
 lxins_main();
