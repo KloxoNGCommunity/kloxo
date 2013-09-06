@@ -23,6 +23,30 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
+if [ "$(hostname -s)" == "$(hostname -f)" ] ; then
+	echo "*** Kloxo-MR warning ***"
+	echo "* Your server have wrong hostname. Modified '/etc/sysconfig/network' with:"
+	echo "  - 'HOSTNAME=subdom.dom.tld' format (qualified as FQDN) for Dedicated Server"
+	echo "  - Or, set the same FQDN in VPS control panel for VPS server"
+
+	exit
+else
+	val1="$(hostname -f)"
+fi
+
+val2=$(grep -R "$val1" "/etc/hosts")
+
+if [ "$val2" == "" ]  ; then
+	echo "*** Kloxo-MR warning ***"
+	echo "* Need add line with content '123.123.123.123 subdom.dom.com subdom'"
+	echo "  inside '/etc/hosts' file, where:"
+	echo "  - '123.123.123.123' = primary IP (run 'ifconfig' to know this IP)"
+	echo "  - 'subdom.dom.com' = taken from 'hostname -f'"
+	echo "  - 'subdom' = taken from 'hostname -s'"
+
+	exit
+fi
+
 if [ "$1" != "-y" ]; then
 	if [ -f /var/lib/mysql/kloxo ] ; then
 			echo "Your server already Kloxo-MR installed as 'master'"
