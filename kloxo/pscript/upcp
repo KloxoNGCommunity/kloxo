@@ -1,10 +1,10 @@
 #!/bin/sh
 
-if [ ! - /script/programname ] ; then
+if [ ! -f /script/programname ] ; then
 	echo 'kloxo' > /script/programname
 fi
 
-if [ $1 != "-y" ]; then
+if [ "$1" != "-y" ] ; then
 	if $(lxphp.exe -v) ; then
 		. /script/directory
 		lxphp.exe ../bin/update.php
