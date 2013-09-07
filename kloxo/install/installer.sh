@@ -149,6 +149,8 @@ if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
 		yum -y remove php*
 	fi
 
+	yum -y install php52s
+
 	yum -y install mysql mysql-server mysql-libs
 
 	yum -y install php53u php53u-mysql
@@ -165,11 +167,7 @@ else
 	cd ./kloxomr/install >/dev/null 2>&1
 fi
 
-if [ -f /usr/local/lxlabs/ext/php/php ] ; then
-	lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
-else
-	php installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
-fi
+lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 
 for (( a=1; a<=2; a++ ))
 do

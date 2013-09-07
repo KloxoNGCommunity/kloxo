@@ -260,6 +260,9 @@ function install_main()
 	// MR -- use \cp for temporary cp without prompt
 	// because 'cp' as alias as 'cp -i' with 'alias -p' info
 	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
+
+	// MR -- because using ruid2 as default php-type, disable php-fpm
+	system("chkconfig php-fpm off; service php-fpm stop");
 }
 
 function kloxo_vpopmail()
@@ -358,6 +361,7 @@ function kloxo_install_step1()
 
 		$list = implode(" ", $packages);
 
+	/*
 		while (true) {
 			print("Installing generic packages $list...\n");
 			system("yum -y install $list", $return_value);
@@ -372,6 +376,8 @@ function kloxo_install_step1()
 				}
 			}
 		}
+	*/
+		system("yum -y install $list");
 
 		$php52modinst = "/usr/local/lxlabs/kloxo/pscript/php52s-extension-install";
 
@@ -826,7 +832,7 @@ function getMysqlBranch()
 // MR -- taken from lib.php
 function getRpmVersion($rpmname)
 {
-	exec("rpm -q --qf '%{VERSION}\n' {$rpm}", $out, $ret);
+	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
 	if ($out[0] !== false) {
 		$ver = $out[0];

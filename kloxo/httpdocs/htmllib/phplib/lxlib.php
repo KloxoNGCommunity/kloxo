@@ -3132,15 +3132,15 @@ function create_database()
 
 	$pass = slave_get_db_pass();
 
-	$pstring = null;
+	$pstring = '';
 
-	if ($pass) {
+	if ($pass !== '') {
 		$pstring = "-p\"$pass\"";
 	}
 
 	$dbpath = '/usr/local/lxlabs/kloxo/file/sql';
 
-	system("mysql -f -u root $pstring < {$dbpath}/db-structure-base.sql >/dev/null 2>&1");
+	system("mysql -f -u root $pstring < {$dbpath}/db-structure-base.sql & >/dev/null 2>&1");
 }
 
 function update_database()

@@ -6235,11 +6235,11 @@ function setSomeScript($nolog = null)
 	log_cleanup("Execute/remove/initialize/install script", $nolog);
 
 	if (isRpmInstalled('qmail-toaster')) {
-		log_cleanup("- Execute lxpopuser.sh", $nolog);
-		exec("sh ../bin/misc/lxpopuser.sh");
-	} else {
 		log_cleanup("- Execute vpopmail.sh", $nolog);
 		exec("sh ../bin/misc/vpopmail.sh");
+	} else {
+		log_cleanup("- Execute lxpopuser.sh", $nolog);
+		exec("sh ../bin/misc/lxpopuser.sh");
 	}
 
 	log_cleanup("- Remove /home/kloxo/httpd/script dir", $nolog);
