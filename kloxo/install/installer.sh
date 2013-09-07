@@ -23,25 +23,30 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
-if [ "$(hostname -s)" == "$(hostname -f)" ] ; then
+hnshort=$(hostname -s)
+### MR - don't use 'hostname -f'
+hnfull=$(hostname)
+
+if [ "$hnshort" == "$hnfull" ] ; then
 	echo "*** Kloxo-MR warning ***"
 	echo "* Your server have wrong hostname. Modified '/etc/sysconfig/network' with:"
 	echo "  - 'HOSTNAME=subdom.dom.tld' format (qualified as FQDN) for Dedicated Server"
 	echo "  - Or, set the same FQDN in VPS control panel for VPS server"
+	echo
+	echo "* Need reboot"
 
 	exit
-else
-	val1="$(hostname -f)"
 fi
 
-val2=$(grep -R "$val1" "/etc/hosts")
+### MR - use "" instead ''
+val=$(cat /etc/hosts|grep -i "$hnfull")
 
-if [ "$val2" == "" ]  ; then
+if [ "$val" == "" ] ; then
 	echo "*** Kloxo-MR warning ***"
 	echo "* Need add line with content '123.123.123.123 subdom.dom.com subdom'"
 	echo "  inside '/etc/hosts' file, where:"
 	echo "  - '123.123.123.123' = primary IP (run 'ifconfig' to know this IP)"
-	echo "  - 'subdom.dom.com' = taken from 'hostname -f'"
+	echo "  - 'subdom.dom.com' = taken from 'hostname'"
 	echo "  - 'subdom' = taken from 'hostname -s'"
 
 	exit
@@ -76,30 +81,7 @@ echo
 if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
 	APP_TYPE='slave'
 else
-#	if [ -d /var/lib/mysql/kloxo ] ; then
-		APP_TYPE='master'
-#	else
-#		echo
-#		echo "Select Master/Slave for Kloxo-MR - choose Master for single server"
-#		PS3='- Please enter your choice: '
-#		options=("Master" "Slave")
-#		select opt in "${options[@]}" "Quit"; do 
-#			case $opt in
-#				"Master")
-#					APP_TYPE='master'
-#					break
-#					;;
-#				"Slave")
-#					APP_TYPE='slave'
-#					break
-#					;;
-#   				"Quit")
-#					exit
-#					;;
-#					*) echo "  * Invalid option!";;
-#			esac
-#		done
-#	fi
+	APP_TYPE='master'
 fi
 
 APP_NAME='Kloxo-MR'
@@ -167,26 +149,12 @@ if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
 		yum -y remove php*
 	fi
 
-#	if yum list mysql51 >/dev/null 2>&1 ; then
-#		yum -y install mysql51 mysql51-server mysql51-libs
-#	else
-#		yum -y install mysql55 mysql55-server mysql55-libs
-#	fi
-
 	yum -y install mysql mysql-server mysql-libs
 
 	yum -y install php53u php53u-mysql
 fi
 
 export PATH=/usr/sbin:/sbin:$PATH
-
-## increasing max file access (important for php-fpm via socket)
-#if $(cat /etc/sysctl.conf|grep -i 'fs.file-max' >/dev/null 2>&1) ; then
-#	sed -i 's/fs.file-max/#fs.file-max/' /etc/sysctl.conf
-#fi
-
-#echo "fs.file-max = 209708" >> /etc/sysctl.conf
-#sysctl -p
 
 if [ -d ./kloxomr/install ] ; then
 	cd ./kloxomr/install
@@ -207,13 +175,13 @@ for (( a=1; a<=2; a++ ))
 do
 	# Fix issue because sometimes kloxo database not created
 	if [ $APP_TYPE == 'master' ] ; then
-		if [ ! -d /var/lib/mysql/kloxo ] ; then
-		#	echo ""
-		#	echo "Wait for final process... ($a)"
-		#	echo ""
 			cd /usr/local/lxlabs/kloxo/install
 			lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
 		fi
 	fi
 done
+
+echo
+echo "Run 'sh /script/restart-all' to make sure all services running well"
+echo
 

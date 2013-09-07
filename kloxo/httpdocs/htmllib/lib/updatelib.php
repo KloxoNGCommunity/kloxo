@@ -31,7 +31,7 @@ function update_main()
 	if ( $DoUpdate === false ) {
 		log_cleanup("- Run '/script/cleanup' if you want to fix/restore non-working components.");
 	} else {
-		system("/usr/local/lxlabs/kloxo/install/setup.sh");
+		system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type={$type}");
 	}
 
 	log_cleanup("*** Executing Install/Update (upcp) - END ***");
