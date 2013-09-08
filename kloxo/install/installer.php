@@ -43,10 +43,16 @@ function lxins_main()
 	$pattern = "fs.file-max";
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
 
+	// MR - https://bbs.archlinux.org/viewtopic.php?pid=1002264
+	$patch = "\### MR -- add for Kloxo-MR\nfs.file-max = 209708\nvm.swappiness = 10\nvm.vfs_cache_pressure = 50\n" .
+		"vm.dirty_background_ratio = 15\nvm.dirty_ratio = 5";
+
+	// MR -- also patch 'alias verynice="ionice -c3 nice -n 15"' to '~/.bashrc'
+
 	if (strpos($sysctlconf, $pattern) !== false) {
 		//
 	} else {
-		system("echo '\nfs.file-max = 209708' >> /etc/sysctl.conf; sysctl -e -p");
+		system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
 	}
 
 	if ($installstep === '2') {

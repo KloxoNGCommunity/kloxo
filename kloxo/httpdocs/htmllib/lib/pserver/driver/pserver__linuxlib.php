@@ -14,42 +14,7 @@ class pserver__Linux extends lxDriverClass
 
 	static function mysqlPasswordReset($pass)
 	{
-/*
 		lxshell_return("lxphp.exe", "../bin/common/misc/reset-mysql-root-password.phps", $pass);
-		sleep(20);
-		exec_with_all_closed("service mysqld restart");
-		sleep(50);
-*/
-		$text = <<<EOF
-UPDATE mysql.user SET Password=PASSWORD('PASSWORD') WHERE User='USER';
-FLUSH PRIVILEGES;
-EOF;
-		$text = str_replace("'USER'", "'root'", $text);
-		$text = str_replace("'PASSWORD'", "'{$pass}'", $text);
-
-		file_put_contents("/tmp/reset-mysql-password.sql", $text);
-
-		if (file_exists("/etc/init.d/mysql")) {
-			exec("service mysql stop");
-		} else {
-			exec("service mysqld stop");
-		}
-
-		sleep(10);
-		system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
-		sleep(15);
-
-		if (file_exists("/etc/init.d/mysql")) {
-			exec("service mysql start");
-		} else {
-			exec("service mysqld start");
-		}
-
-		exec("rm -f /tmp/reset-mysql-password.sql");
-
-		$a['mysql']['dbpassword'] = $pass;
-
-		slave_save_db("dbadmin", $a);
 	}
 
 	function setTimeZone()

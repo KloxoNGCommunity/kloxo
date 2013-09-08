@@ -6155,10 +6155,13 @@ function setInitialServer($nolog = null)
 	$pattern = "fs.file-max";
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
 
+	$patch = "\nfs.file-max = 209708\nvm.swappiness = 10\nvm.vfs_cache_pressure = 50\n" .
+		"vm.dirty_background_ratio = 15\nvm.dirty_ratio = 5";
+
 	if (strpos($sysctlconf, $pattern) !== false) {
 		//
 	} else {
-		exec("echo '\nfs.file-max = 209708' >> /etc/sysctl.conf; sysctl -e -p");
+		exec("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
 	}
 
 	// MR - Change to different purpose

@@ -45,6 +45,8 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		//	if (strpos($o, "mysqlclient") !== false) { continue; }
 			system("rpm -e {$o} --nodeps");
 		}
+		
+	//	system("yum install mysqlclient*-devel -y");
 
 		echo "- Install MariaDB\n";
 		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common MariaDB-shared -y");

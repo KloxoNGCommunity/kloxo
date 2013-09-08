@@ -4031,7 +4031,7 @@ class HtmlLib
 			$help .= "Go To " . ucfirst($name) . " Page.";
 		}
 
-		$link = "<a onmouseover=\"javascript:changeContent('help','$help')\" " .
+		$link = "<a onmouseover=\"changeContent('help','$help')\" " .
 			"onmouseout=\"changeContent('help','helparea')\" href=javascript:document.form{$name}_page_$place.submit()>" .
 			"<img src=$iconpath/{$name}_page.gif align=absbottom ></a> ";
 
@@ -4893,7 +4893,8 @@ class HtmlLib
 			}
 
 			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
-				$checked = "checked disabled";
+			//	$checked = "checked disabled";
+				$checked = "";
 ?>
 
 				<td width=10 background=<?= $imgtablerowhead ?>>
@@ -4901,7 +4902,7 @@ class HtmlLib
 					      accept-charset="utf-8"> <?= $filteropacitystringspan ?>
 						<input <?= $filteropacitystring ?> type=checkbox name="selectall<?= $unique_name ?>"
 						                                   value=on <?= $checked ?>
-						                                   onclick="javascript:calljselectall<?= $unique_name ?> ()"> <?= $filteropacitystringspanend ?>
+						                                   onclick="calljselectall<?= $unique_name ?> ()"> <?= $filteropacitystringspanend ?>
 					</form>
 				</td>
 <?php
@@ -6431,7 +6432,7 @@ class HtmlLib
 
 		if ($linkflag) {
 			$displayvar = "<span style='$forecolorstring' class=icontextlink id=aaid_$formname href=\"javascript:document.form_$formname.submit()\" onmouseover=\" style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\"> $descr[2] </span> </span>";
-			$onclickvar = "onClick=\"javascript:document.form_$formname.submit()\"";
+			$onclickvar = "onClick=\"document.form_$formname.submit()\"";
 			$alt = $help;
 		} else {
 			$displayvar = "<span title=\"You don't have permission\" class=icontextlink>{$descr[2]} (disabled)</span>";
@@ -6653,9 +6654,9 @@ class HtmlLib
 				$onclickvar = "onClick=\"$formname\"";
 			} else {
 				if ($target == 'mainframe') {
-					$onclickvar = "onClick=\"javascript:top.mainframe.window.location='$url'\"";
+					$onclickvar = "onClick=\"top.mainframe.window.location='$url'\"";
 				} else {
-					$onclickvar = "onClick=\"javascript:top.window.open('$url')\"";
+					$onclickvar = "onClick=\"top.window.open('$url')\"";
 				}
 			}
 
@@ -7508,7 +7509,7 @@ class HtmlLib
 ?>
 
 			<a href="javascript:void(0);"
-			   onclick="javascript:selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img
+			   onclick="selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img
 					width=15 height=15 src="img/image/collage/button/ffile_ttype_v_directory.gif" border="0"
 					alt="Select Folder" align="absmiddle"></a>
 <?php
@@ -7558,7 +7559,7 @@ class HtmlLib
 			</div>
 			<input style="margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;"
 			       class=textbox type=button value="Generate Password"
-			       onclick="javascript:generatePass('<?= $form ?>', '<?= $variable->name ?>');" width="10">
+			       onclick="generatePass('<?= $form ?>', '<?= $variable->name ?>');" width="10">
 <?php
 		}
 
@@ -9649,7 +9650,7 @@ function print_end()
 				<table cellpadding=0 cellspacing=0 border=0 align=center>
 					<tr align=center>
 						<td><img id=helppic name=namepic src="<?= $helpimg ?>/help_head.gif" style="cursor:pointer"
-						         onclick="javascript:window.open('<?= $this->get_help_url() ?>')"></td>
+						         onclick="window.open('<?= $this->get_help_url() ?>')"></td>
 					</tr>
 				</table>
 			</td>
