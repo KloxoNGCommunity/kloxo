@@ -49,7 +49,7 @@ function lxins_main()
 		"vm.swappiness = 10\n" .
 		"vm.vfs_cache_pressure = 50\n" .
 		"vm.dirty_background_ratio = 15\n" .
-		"vm.dirty_ratio = 5\n"
+		"vm.dirty_ratio = 5\n" .
 		"### end -- add by Kloxo-MR\n";
 
 	// MR -- TODO: also patch 'alias verynice="ionice -c3 nice -n 15"' to '~/.bashrc'
