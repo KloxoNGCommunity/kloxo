@@ -129,7 +129,7 @@ if [ ! -f /opt/php52s/bin/php ] ; then
 		yum -y remove php*
 	fi
 
-	yum -y install php52s
+	yum -y install net-snmp php52s
 
 	yum -y install mysql mysql-server mysql-libs
 

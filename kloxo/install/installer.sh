@@ -45,20 +45,6 @@ if [ "$val1" == "" ] ; then
 	echo -e $inserter >> /etc/hosts
 fi
 
-if [ "$1" != "-y" ]; then
-	if [ -f /var/lib/mysql/kloxo ] ; then
-			echo "Your server already Kloxo-MR installed as 'master'"
-			echo "- Use 'sh /script/upcp -y' to 'reinstall'"
-
-			exit
-	elif [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
-			echo "Your server already Kloxo-MR installed as 'slave'"
-			echo "- Use 'sh /script/upcp -y' to 'reinstall'"
-
-			exit
-	fi
-fi
-
 echo
 echo "*** Ready to begin $APP_NAME install. ***"
 echo
@@ -142,7 +128,7 @@ if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
 		yum -y remove php*
 	fi
 
-	yum -y install php52s
+	yum -y install net-snmp php52s
 
 	yum -y install mysql mysql-server mysql-libs
 
