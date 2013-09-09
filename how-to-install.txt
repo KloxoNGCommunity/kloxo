@@ -46,7 +46,7 @@ B.2. For Final Release:
     # move to /
     cd /
 
-    # install (and then run 'sh /usr/local/lxlabs/kloxo/install/setup.sh')
+    # install (and then run 'sh /script/upcp')
     yum install kloxomr -y
     
     # better reboot
