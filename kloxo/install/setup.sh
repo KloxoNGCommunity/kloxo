@@ -27,43 +27,22 @@ hnshort=$(hostname -s)
 ### MR - don't use 'hostname -f'
 hnfull=$(hostname)
 
-if [ "$hnshort" == "$hnfull" ] ; then
-	echo "*** Kloxo-MR warning ***"
-	echo "* Your server have wrong hostname. Modified '/etc/sysconfig/network' with:"
-	echo "  - 'HOSTNAME=subdom.dom.tld' format (qualified as FQDN) for Dedicated Server"
-	echo "  - Or, set the same FQDN in VPS control panel for VPS server"
-	echo
-	echo "* Need reboot"
-
-	exit
-fi
-
 ### MR - use "" instead ''
-val=$(cat /etc/hosts|grep -i "$hnfull")
+val1=$(cat /etc/hosts|grep -i "$hnfull")
+val2=$(cat /etc/hosts|grep -i "::1")
 
-if [ "$val" == "" ] ; then
-	echo "*** Kloxo-MR warning ***"
-	echo "* Need add line with content '123.123.123.123 subdom.dom.com subdom'"
-	echo "  inside '/etc/hosts' file, where:"
-	echo "  - '123.123.123.123' = primary IP (run 'ifconfig' to know this IP)"
-	echo "  - 'subdom.dom.com' = taken from 'hostname'"
-	echo "  - 'subdom' = taken from 'hostname -s'"
 
-	exit
-fi
+if [ "$val1" == "" ] ; then
+	inserter="### begin - add by Kloxo-MR\n"
+	inserter="${inserter}0.0.0.0 ${hnfull} ${hnfull}\n"
 
-if [ "$1" != "-y" ]; then
-	if [ -f /var/lib/mysql/kloxo ] ; then
-			echo "Your server already Kloxo-MR installed as 'master'"
-			echo "- Use 'sh /script/upcp -y' to 'reinstall'"
-
-			exit
-	elif [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
-			echo "Your server already Kloxo-MR installed as 'slave'"
-			echo "- Use 'sh /script/upcp -y' to 'reinstall'"
-
-			exit
+	if [ "$val2" != "" ] ; then
+		inserter="${inserter}:: ${hnfull} ${hnfull}\n"
 	fi
+
+	inserter="${inserter}### end - add by Kloxo-MR\n"
+
+	echo -e $inserter >> /etc/hosts
 fi
 
 echo
