@@ -39,6 +39,15 @@ if (file_exists("/etc/init.d/mysql")) {
 
 exec("rm -f /tmp/reset-mysql-password.sql");
 
+$conn = mysqli_connect('localhost', 'root', $pass, 'mysql');
+
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
+
+mysqli_close($conn);
+
 $a['mysql']['dbpassword'] = $pass;
 
 slave_save_db("dbadmin", $a);

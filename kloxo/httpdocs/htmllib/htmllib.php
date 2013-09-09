@@ -305,8 +305,7 @@ class HtmlLib
 					$descr[2] = getNthToken($descr[2], 1);
 ?>
 					<td width="16%" align="left">
-					<span style="color: #bb3333;">
-						<b><?= $descr[2] ?>: <?= $obj->display($i) ?></b>
+					<span style="color: #bb3333;"><b><?= $descr[2] ?>: <?= $obj->display($i) ?></b>
 					</span>
 					</td>
 <?php
@@ -461,11 +460,11 @@ class HtmlLib
 
 		if ($check) {
 ?>
-						<td><img src=<?= $imgrt ?> width=2 height=38></td>
+						<td><img src="<?= $imgrt ?>" width="2" height="38"></td>
 <?php
 		} else {
 ?>
-						<td><img src=<?= $imgrt ?> width=3 height=<?= $height ?>></td>
+						<td><img src="<?= $imgrt ?>" width="3 height="<?= $height ?>"></td>
 <?php
 		}
 ?>
@@ -533,19 +532,13 @@ class HtmlLib
 
 		if ($check) {
 ?>
-			<td height="34" wrap class="alink"
-			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="height" nowrap class="alink"
-			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span
-					size=-1><?= $displaystring ?></td>
+			<td height="34" wrap class="alink" style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="height" nowrap class="alink" style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?></td>
 <?
 		} else {
 ?>
-			<td height=34 wrap class=alink
-			    style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height=height nowrap class=alink
-			    style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span
-					size=-1><?= $displaystring ?></td>
+			<td height=34 wrap class=alink style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height=height nowrap class=alink style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?></td>
 <?php
 		}
 	}
@@ -672,8 +665,7 @@ class HtmlLib
 					<table cellpadding=0 cellspacing=0 border=1>
 						<tr>
 							<td>
-								<table cellpadding=0 cellspacing=0 border=0 height=13 width=98%
-								       style="background:url(<?= $getskin ?>/bar.gif)">
+								<table cellpadding=0 cellspacing=0 border=0 height=13 width=98% style="background:url(<?= $getskin ?>/bar.gif)">
 									<tr>
 										<td> <?= $title ?>  </td>
 								</table>
@@ -716,8 +708,7 @@ class HtmlLib
 					<table cellpadding=0 cellspacing=0 border=1>
 						<tr>
 							<td>
-								<table cellpadding=2 cellspacing=2 border=0 height=13 width=98%
-								       style="background:url(<?= $getskin ?>/bar.gif)">
+								<table cellpadding=2 cellspacing=2 border=0 height=13 width=98% style="background:url(<?= $getskin ?>/bar.gif)">
 									<tr>
 										<td> <?= $u ?>  </td>
 								</table>
@@ -1353,11 +1344,9 @@ class HtmlLib
 			</div>
 			<div class="x-dlg-ft">
 				<div id="dlg-msg">
-				<span id="post-error" class="posting-msg"><img src="/img/extjs/warning.gif" width="16" height="16"
-				                                               align="absmiddle"/>&nbsp;<span
+				<span id="post-error" class="posting-msg"><img src="/img/extjs/warning.gif" width="16" height="16" align="absmiddle"/>&nbsp;<span
 						id="post-error-msg"></span></span>
-				<span id="post-wait" class="posting-msg"><img src="/img/extjs/default/grid/loading.gif" width="16"
-				                                              height="16" align="absmiddle"/>&nbsp;Updating...</span>
+				<span id="post-wait" class="posting-msg"><img src="/img/extjs/default/grid/loading.gif" width="16" height="16" align="absmiddle"/>&nbsp;Updating...</span>
 				</div>
 			</div>
 		</div>
@@ -1864,8 +1853,7 @@ class HtmlLib
 
 		<td valign="middle" align="left" width=5>
 			<div id="<?= $dividentity ?>" style="visibility:visible;display:block">
-				<form method="<?= $formmethod ?>" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?>
-				      accept-charset="utf-8">
+				<form method="<?= $formmethod ?>" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8">
 <?php
 					$this->print_input_vars($post);
 					$this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
@@ -1994,17 +1982,11 @@ class HtmlLib
 
 				<div id="item_<?= $nametitle ?>" class="section">
 					<table cellpadding=0 cellspacing=0>
-						<tr class=handle id="handle_<?= $nametitle ?>" style="background:url(<?= $backgimage ?>)"
-						    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='url<?= $backgimage ?>()'"
-						    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='url(<?= $backgimage ?>)'">
-							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>
-									&nbsp;<?= $dragstring ?> </span></td>
-							<td width=100% style="cursor: move; " align=center><span
-									style='font-weight: bold'><?= $a[$title] ?></span></td>
-							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>
-									&nbsp;<?= $dragstring ?> </span></td>
-							<td class=handle style='cursor: pointer'
-							    onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
+						<tr class=handle id="handle_<?= $nametitle ?>" style="background:url(<?= $backgimage ?>)" onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='url<?= $backgimage ?>()'" onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='url(<?= $backgimage ?>)'">
+							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?> </span></td>
+							<td width=100% style="cursor: move; " align=center><span style='font-weight: bold'><?= $a[$title] ?></span></td>
+							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'> &nbsp;<?= $dragstring ?> </span></td>
+							<td class=handle style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
 								<img id=img_<?= $nametitle ?> name=img_<?= $nametitle ?> src=<?= $minus ?>></td>
 						</tr>
 					</table>
@@ -2483,8 +2465,7 @@ class HtmlLib
 								<img src="<?= $imgheadleft ?>">
 							</td>
 							<td nowrap width="100%" background="<?= $imgheadbg ?>">
-								<b><span style="color:"#ffffff">Change
-									Permissions</span></b><? // [FIXME] Harcode translation string?>
+								<b><span style="color:"#ffffff">Change Permissions</span></b><? // [FIXME] Harcode translation string?>
 							</td>
 							<td>
 								<img src="<?= $imgheadright ?>">
@@ -2572,8 +2553,7 @@ class HtmlLib
 		            </td>
 	            </tr>
 	            <tr>
-		            <td colspan="3">
-			            &nbsp; <b>Change Permssion Recursively</b> <? // [FIXME] Harcode translation string?>
+		            <td colspan="3">&nbsp; <b>Change Permssion Recursively</b> <? // [FIXME] Harcode translation string?>
 		            </td>
 		            <td>
 			            <input type="checkbox" name="frm_ffile_c_recursive_f">
@@ -2585,8 +2565,7 @@ class HtmlLib
 	            </tr>
 	            <tr>
 		            <td colspan="4" align="right">
-			            <input type="button" onclick="sendchmode(document.chmod,document.frmsendchmod)"
-			                   class="submitbutton" name="change" value="Change">
+			            <input type="button" onclick="sendchmode(document.chmod,document.frmsendchmod)" class="submitbutton" name="change" value="Change">
 		            </td>
 	            </tr>
 	            <tr>
@@ -2607,7 +2586,7 @@ class HtmlLib
 	    setpermission(document.chmod, 'group', <?=$group?>);
 	    setpermission(document.chmod, 'other', <?=$other?>);
     </script>
-    <?php
+<?php
 	}
 
 	function object_variable_file($stuff, $variable)
@@ -3963,8 +3942,7 @@ class HtmlLib
 ?>
 
 					</form>
-			<a class=insidelist
-			   href="javascript:document.form<?= $colcount ?>.submit()" <?= $urlhelp ?> > <?= $pname ?>   </a>  </span>
+			<a class=insidelist href="javascript:document.form<?= $colcount ?>.submit()" <?= $urlhelp ?> > <?= $pname ?>   </a>  </span>
 			</td>
 <?php
 
@@ -4013,8 +3991,7 @@ class HtmlLib
 		$filtername = $object->getFilterVariableForThis($class);
 ?>
 
-		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>"
-		      action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
 			$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 			$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4077,8 +4054,7 @@ class HtmlLib
 
 ?>
 
-					<?= $first_link ?> &nbsp; <?= $rewind_link ?> &nbsp; <?= $prev_link ?> <b><span class=pagetext>&nbsp;Page <?= $cgi_pagenum ?>
-								(of <?= $$page ?>)</span></b> <?= $next_link ?> <?= $forward_link ?> <?= $last_link ?>
+					<?= $first_link ?> &nbsp; <?= $rewind_link ?> &nbsp; <?= $prev_link ?> <b><span class=pagetext>&nbsp;Page <?= $cgi_pagenum ?> (of <?= $$page ?>)</span></b> <?= $next_link ?> <?= $forward_link ?> <?= $last_link ?>
 <?php
 			$search_brack_o = "  &nbsp;  (";
 			$search_brack_c = ") ";
@@ -4203,9 +4179,7 @@ class HtmlLib
 <?php
 			if (isset($v[0]) && $v[0] === 's') {
 ?>
-							<select name="frm_<?= $class ?>_c_<?= $k ?>"
-							        style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2; background-color:#ffffff;"
-							        value="">
+							<select name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2; background-color:#ffffff;" value="">
 <?php
 				foreach ($v[1] as $kk => $vv) {
 ?>
@@ -4230,9 +4204,7 @@ class HtmlLib
 <?php
 					} else {
 ?>
-								<input type="text" name="frm_<?= $class ?>_c_<?= $k ?>"
-								       style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff; margin:1px;  background:10px; background-position:1% 1%; vertical-align:middle;"
-								       value="">
+								<input type="text" name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff; margin:1px;  background:10px; background-position:1% 1%; vertical-align:middle;" value="">
 <?php
 					}
 				}
@@ -4302,9 +4274,7 @@ class HtmlLib
 			<tr>
 				<td>
 					<span align=left style='color:<?= $fontcolor; ?>;font-weight:bold'>
-						<a style='color:<?= $fontcolor ?> ;font-weight:bold'
-						   href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> &nbsp; &nbsp; Click
-							Here to Add <?= $cdesc ?> (<?= $showstring ?>) </a> <?= $show_all_string ?>
+						<a style='color:<?= $fontcolor ?> ;font-weight:bold' href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> &nbsp; &nbsp; Click Here to Add <?= $cdesc ?> (<?= $showstring ?>) </a> <?= $show_all_string ?>
 					</span> &nbsp; &nbsp; &nbsp;
 				</td>
 			</tr>
@@ -4318,7 +4288,7 @@ class HtmlLib
 						<table cellpadding=0 align=center cellspacing=0 width=90%>
 							<tr>
 								<td>
-<?= do_addform($parent, $class, null, true) ?>
+								<?= do_addform($parent, $class, null, true) ?>
 								</td>
 							</tr>
 						</table>
@@ -4392,8 +4362,7 @@ class HtmlLib
 ?>
 
 		<fieldset style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0px; border-top: 1px solid <?= $bordertop ?>'>
-			<legend><span style='font-weight:bold'>Advanced Search <a
-				href="javascript:toggleVisibility('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>
+			<legend><span style='font-weight:bold'>Advanced Search <a href="javascript:toggleVisibility('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>
 				</span></legend>
 		</fieldset>
 
@@ -4401,11 +4370,8 @@ class HtmlLib
 			<tr>
 				<td><span style='font-weight:bold'>
 						<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>'>
-							<form name="lpfform_rsearch" method="<?= $sgbl->method ?>"
-							      action="<?= $url ?>"
-							      onsubmit="return true;" accept-charset="utf-8">
-								<table width=100% border=0 align=left cellpadding=0
-								       style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
+							<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
+								<table width=100% border=0 align=left cellpadding=0 style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
 									<tr>
 										<td><img width=26 height=26 src=<?= $img ?>></td>
 									</tr>
@@ -4446,8 +4412,7 @@ class HtmlLib
 				}
 			}
 ?>
-												<td nowrap align="right"><span
-														style="font-weight: bold"><?= $descr[$name][2] ?> </span> &nbsp;
+												<td nowrap align="right"><span style="font-weight: bold"><?= $descr[$name][2] ?> </span> &nbsp;
 												</td>
 												<td>
 <?php
@@ -4466,19 +4431,16 @@ class HtmlLib
 				if ($width[0] === 's') {
 ?>
 
-															<select
-																name="frm_hpfilter[<?= $filtername ?>][<?= $name ?>_o_cont]"
-																class="searchbox" size="1" width="10" maxlength="30">
+															<select name="frm_hpfilter[<?= $filtername ?>][<?= $name ?>_o_cont]"	class="searchbox" size="1" width="10" maxlength="30">
 <?php
 					foreach ($width[1] as $v) {
-						$sel = null;
+						$sel = '';
 
 						if ($v === $value) {
-								$sel = "SELECTED";
+							$sel = 'SELECTED';
 						}
 ?>
-																	<option <?= $sel ?>
-																		value="<?= $v ?>"><?= $v ?></option>';
+																	<option <?= $sel ?>	value="<?= $v ?>"><?= $v ?></option>';
 <?php
 					}
 ?>
@@ -4487,10 +4449,7 @@ class HtmlLib
 				}
 			} else {
 ?>
-														<input type="text"
-														       name="frm_hpfilter[<?= $filtername ?>][<?= $name ?>_o_cont]"
-														       value="<?= $value ?>" class="searchbox" size="11"
-														       maxlength="30">
+														<input type="text" name="frm_hpfilter[<?= $filtername ?>][<?= $name ?>_o_cont]" value="<?= $value ?>" class="searchbox" size="11" maxlength="30">
 <?php
 			}
 ?>
@@ -4731,11 +4690,9 @@ class HtmlLib
 		if (!$sellist && !$this->isResourceClass($class)) {
 ?>
 
-			<fieldset
-				style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0px; border-top: 1px solid <?= $bordertop ?>">
+			<fieldset style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0px; border-top: 1px solid <?= $bordertop ?>">
 				<legend>
-			<span
-				style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
+				<span style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
 				<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?>
 				(<?= $perpageof ?><?= $total_num ?>)</span></legend>
 			</fieldset>
@@ -4752,8 +4709,7 @@ class HtmlLib
 				<tr>
 					<td width="10"> &nbsp;  </td>
 					<td><?= $this->print_list_submit($class, $blist, $unique_name) ?></td>
-					<td> <?= $this->print_search($parent, $class) ?> </td width=10>
-					&nbsp;  </td> </tr>
+					<td> <?= $this->print_search($parent, $class) ?> </td width=10>&nbsp;  </td> </tr>
 				<tr>
 					<td height="10"> &nbsp; </td>
 				</tr>
@@ -4805,8 +4761,7 @@ class HtmlLib
 				}
 ?>
 
-						<form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action=""
-						      accept-charset="utf-8">
+						<form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 							<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
 <?php
 								$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
@@ -4853,17 +4808,14 @@ class HtmlLib
 					}
 ?>
 							<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-								<form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>"
-								      action="/display.php" accept-charset="utf-8">
+								<form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
 <?php
 									$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
 									$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
-									<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagesize]"
-									       value="<?= $l ?>">
+									<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $l ?>">
 								</form>
-								<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>
-									&nbsp;</a>
+								<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>&nbsp;</a>
 							</td>
 <?php
 					}
@@ -4898,11 +4850,11 @@ class HtmlLib
 ?>
 
 				<td width=10 background=<?= $imgtablerowhead ?>>
-					<form name="formselectall<?= $unique_name ?>" value=hello
+					<form name="formselectall<?= $unique_name ?>" value="hello"
 					      accept-charset="utf-8"> <?= $filteropacitystringspan ?>
 						<input <?= $filteropacitystring ?> type=checkbox name="selectall<?= $unique_name ?>"
-						                                   value=on <?= $checked ?>
-						                                   onclick="calljselectall<?= $unique_name ?> ()"> <?= $filteropacitystringspanend ?>
+							value=on <?= $checked ?> onclick="calljselectall<?= $unique_name ?> ()">
+						<?= $filteropacitystringspanend ?>
 					</form>
 				</td>
 <?php
@@ -5030,17 +4982,13 @@ class HtmlLib
 			<script> loadImage('<?=$imgpointer?>') </script>
 			<script> loadImage('<?=$imgblank?>') </script>
 
-			<tr height=22 id=<?= $rowuniqueid ?>  class=tablerow<?= $count ?>
-			    onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';"
-			    onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')">
+			<tr height=22 id=<?= $rowuniqueid ?>  class=tablerow<?= $count ?> onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';" onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')">
 <?php
 
 			if (!$sgbl->isBlackBackground()) {
 ?>
 
-					<td <?= $stylebackgroundstring ?> id="td<?= $unique_name ?>.<?= $rowcount ?>" width="5"
-					                                  class="rowpoint"><img name="imgpoint<?= $rowcount ?>"
-					                                                        src="<?= $imgblank ?>"></td>
+					<td <?= $stylebackgroundstring ?> id="td<?= $unique_name ?>.<?= $rowcount ?>" width="5" class="rowpoint"><img name="imgpoint<?= $rowcount ?>" src="<?= $imgblank ?>"></td>
 <?php
 			}
 
@@ -5048,10 +4996,7 @@ class HtmlLib
 ?>
 
 					<td width=10 style='<?= $backgroundstring ?>'> <?= $filteropacitystringspan ?>
-						<input <?= $filteropacitystring ?> id="ckbox<?= $unique_name ?><?= $rowcount ?>" class="ch1"
-						                                   type="checkbox" <?= $checked ?> name="frm_accountselect"
-						                                   onclick="hiliteRowColor('tr<?= $unique_name ?><?= $rowcount ?>','tablerow<?= $count ?>',document.formselectall<?= $unique_name ?>.selectall<?= $unique_name ?>)";
-						value="<?= $obj->nname ?>"> <?= $filteropacitystringspanend ?> </td>
+						<input <?= $filteropacitystring ?> id="ckbox<?= $unique_name ?><?= $rowcount ?>" class="ch1" type="checkbox" <?= $checked ?> name="frm_accountselect" onclick="hiliteRowColor('tr<?= $unique_name ?><?= $rowcount ?>','tablerow<?= $count ?>',document.formselectall<?= $unique_name ?>.selectall<?= $unique_name ?>)" value="<?= $obj->nname ?>"> <?= $filteropacitystringspanend ?> </td>
 <?php
 			}
 
@@ -5189,6 +5134,7 @@ class HtmlLib
 			</table>
 <?php
 		}
+
 		if ($sgbl->isBlackBackground()) {
 ?>
 
@@ -5238,18 +5184,15 @@ class HtmlLib
 			if ($rpagesize < 1000) {
 ?>
 
-												<select class="textbox"
-												        onchange="document.perpage_<?= $unique_name ?>.submit()"
-												        style="width:40"
-												        name="frm_hpfilter[<?= $filtername ?>][pagesize]">
+												<select class="textbox" onchange="document.perpage_<?= $unique_name ?>.submit()" style="width:40" name="frm_hpfilter[<?= $filtername ?>][pagesize]">
 <?php
 				$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
 
 				foreach ($list as $l) {
-					$sel = null;
+					$sel = '';
 
 					if ($l == $f_page) {
-						$sel = "SELECTED";
+						$sel = 'SELECTED';
 					}
 ?>
 
@@ -5264,9 +5207,7 @@ class HtmlLib
 			} else {
 ?>
 
-												<input type="text" class="textbox" style="width:25"
-												       name="frm_hpfilter[<?= $filtername ?>][pagesize]"
-												       value="<?= $f_page ?>">
+												<input type="text" class="textbox" style="width:25" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $f_page ?>">
 <?php
 			}
 ?>
@@ -5426,8 +5367,7 @@ class HtmlLib
 
 		if (!$button[2]) {
 ?>
-			<span title="<?= $help ?>"> <a class=button
-			                               href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
+			<span title="<?= $help ?>"> <a class=button href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
 <?php
 
 		}
@@ -5665,6 +5605,7 @@ class HtmlLib
 				function program_help() {
 					window.open(top.mainframe.jsFindHelpUrl());
 				}
+
 				function lxCallEnd() {
 				}
 
@@ -5982,19 +5923,18 @@ class HtmlLib
 			<tr>
 				<td width=10></td>
 				<td align=left>
-					<form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php"
-					      accept-charset="utf-8">
+					<form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8">
 
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
 
-							<input type=hidden name='frm_o_o[<?= $k ?>][class]' value=<?= $v['class'] ?>>
+						<input type=hidden name='frm_o_o[<?= $k ?>][class]' value=<?= $v['class'] ?>>
 <?php
 			if (isset($v['nname'])) {
 ?>
 
-								<input type=hidden name='frm_o_o[<?= $k ?>][nname]' value=<?= $v['nname'] ?>>
+						<input type=hidden name='frm_o_o[<?= $k ?>][nname]' value=<?= $v['nname'] ?>>
 <?php
 			}
 		}
@@ -6005,18 +5945,17 @@ class HtmlLib
 						<?= $cnamestr ?>
 						<?= $dttypestr ?>
 						<?= $this->print_input_vars($filter) ?>
-						Period <select class=textbox onChange='document.graphselectjump.submit()'
-						               name='frm_c_graph_time'>
+						Period <select class=textbox onChange='document.graphselectjump.submit()' name='frm_c_graph_time'>
 <?php
 		foreach ($list as $k => $l) {
-			$sssl = null;
+			$sssl = '';
 
 			if ($k == $oldname) {
-				$sssl = " SELECTED ";
+				$sssl = 'SELECTED';
 			}
 
 ?>
-								<option <?= $sssl ?> value="<?= $k ?>"><?= $l ?></option>
+						<option <?= $sssl ?> value="<?= $k ?>"><?= $l ?></option>
 <?php
 		}
 ?>
@@ -6129,34 +6068,35 @@ class HtmlLib
 				<td nowrap><span <?= $forecolorstring ?> style='font-weight:bold'> Switch To Another </span></td>
 				</td>
 				<td align=center>
-					<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php'
-					      accept-charset="utf-8">
+					<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
 
-							<input type=hidden name='frm_o_o[<?= $k ?>][class]' value=<?= $v['class'] ?>>
+						<input type="hidden" name="frm_o_o[<?= $k ?>][class]" value="<?= $v['class'] ?>">
 <?php
 			if ($k != $num && isset($v['nname'])) {
 ?>
 
-								<input type=hidden name='frm_o_o[<?= $k ?>][nname]' value=<?= $v['nname'] ?>>
+						<input "type=hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>">
 <?php
 
 			}
 		}
 ?>
 
-						<input type=hidden name=frm_action value=<?= $frm_action ?>>
+						<input type="hidden" name="frm_action" value="<?= $frm_action ?>">
 						<?= $subactionstr ?>
+
 						<?= $cnamestr ?>
+
 						<?= $dttypestr ?>
+
 						<?= $this->print_input_vars($filter) ?>
 
 						<?= $filteropacitystringspan ?>
-						<select <?= $filteropacitystring ?> <?= $ststring ?> class=textbox
-						                                                      onChange='document.topjumpselect.submit()'
-						                                                      name='frm_o_o[<?= $num ?>][nname]'>
+
+						<select <?= $filteropacitystring ?> <?= $ststring ?> class="textbox" onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
 
 <?php
 		foreach ($list as $k => $l) {
@@ -6166,12 +6106,14 @@ class HtmlLib
 				$tdisp = $l->getClName();
 			}
 
+			$selected = '';
+
 			if ($k == $oldname) {
-				$selected = ' SELECTED ';
+				$selected = 'SELECTED';
 			}
 ?>
 
-								<option <?= $selected ?> value="<?= $k ?>"><?= $tdisp ?></option>
+							<option <?= $selected ?> value="<?= $k ?>"><?= $tdisp ?></option>
 <?php
 		}
 ?>
@@ -6460,10 +6402,7 @@ class HtmlLib
 
 ?>
 
-		<table <?= $idvar ?> style='border: 1px solid <?= $blackbordercolor ?> ; cursor: pointer' <?= $onclickvar ?>
-		                     onmouseover=" getElementById('aaid_<?= $formname ?>').style.textDecoration='none' ; this.style.backgroundColor='<?= $selectcolor ?>' ; this.style.border='1px solid #<?= $skincolor ?>';"
-		                     onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';"
-		                     cellpadding=3 cellspacing=3 height=80 width=60 valign=top>
+		<table <?= $idvar ?> style='border: 1px solid <?= $blackbordercolor ?> ; cursor: pointer' <?= $onclickvar ?> onmouseover=" getElementById('aaid_<?= $formname ?>').style.textDecoration='none' ; this.style.backgroundColor='<?= $selectcolor ?>' ; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" cellpadding=3 cellspacing=3 height=80 width=60 valign=top>
 			<tr>
 				<td valign=top align=center><span title='<?= $alt ?>'> <?= $imgvar ?></td>
 			</tr>
@@ -6684,10 +6623,7 @@ class HtmlLib
 ?>
 
 		<span title='<?= $alt ?>'>
-		<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' <?= $onclickvar ?>
-		                     onmouseover=" getElementById('aaid_<?= $formname ?>').style.textDecoration='none' ; this.style.backgroundColor='#fff' ; this.style.border='1px solid #<?= $skincolor ?>';"
-		                     onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';"
-		                     cellpadding=3 cellspacing=3 height=10 width=10 valign=top>
+		<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' <?= $onclickvar ?> onmouseover=" getElementById('aaid_<?= $formname ?>').style.textDecoration='none' ; this.style.backgroundColor='#fff' ; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" cellpadding=3 cellspacing=3 height=10 width=10 valign=top>
 			<tr>
 				<td valign=top align=center> <?= $imgvar ?> </td>
 			</tr>
@@ -6860,8 +6796,7 @@ class HtmlLib
 					<table cellpadding=0 cellspacing=0 border=0 width=100%>
 						<tr>
 							<td><img src="<?= $imgheadleft ?>"></td>
-							<td nowrap width=100% background="<?= $imgheadbg ?>"><b><span
-										style="color:#ffffff"><?= $title ?></span></b></td>
+							<td nowrap width=100% background="<?= $imgheadbg ?>"><b><span style="color:#ffffff"><?= $title ?></span></b></td>
 							<td><img src="<?= $imgheadright ?>"></td>
 						</tr>
 					</table>
@@ -6958,8 +6893,7 @@ class HtmlLib
 											}
 ?>
 
-											<option value="<?= $key ?>"
-											        style="valign:middle;padding:0 0 0 25; width:300;height:20; background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+											<option value="<?= $key ?>" style="valign:middle;padding:0 0 0 25; width:300;height:20; background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 										}
 ?>
@@ -6970,17 +6904,13 @@ class HtmlLib
 								<td class=col width=15% align=center>
 									<table align=center>
 										<tr>
-											<td><INPUT TYPE=button class=submitbutton
-											           onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variablename) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')"
-											           VALUE=">>">
+											<td><INPUT TYPE=button class=submitbutton onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variablename) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')" VALUE=">>">
 
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<INPUT TYPE=button class=submitbutton
-												       onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variablename) ?>', '<?= $ts_name2 ?>')"
-												       VALUE="<<">
+												<INPUT TYPE=button class=submitbutton onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variablename) ?>', '<?= $ts_name2 ?>')" VALUE="<<">
 
 											</td>
 										</tr>
@@ -6990,8 +6920,7 @@ class HtmlLib
 								</td>
 
 								<td class=col align=center width=30%>
-									<select id=<?= $ts_name2 ?> <?= $stylestring ?> class=textbox multiple
-									        name=<?= trim($dstname) ?>>
+									<select id="<?= $ts_name2 ?>" <?= $stylestring ?> class="textbox" multiple name="<?= trim($dstname) ?>">
 <?php
 
 										foreach ($dst as $k => $d) {
@@ -7010,8 +6939,7 @@ class HtmlLib
 
 ?>
 
-											<option value="<?= $d ?>"
-											        style="valign:middle;padding:0 0 0 25;width:300;height:20;background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+											<option value="<?= $d ?>" style="valign:middle;padding:0 0 0 25;width:300;height:20;background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 										}
 ?>
@@ -7022,10 +6950,8 @@ class HtmlLib
 									</script>
 
 								</td>
-								<td><input type="button" class=submitbutton value="Up"
-								           onclick="shiftOptionUp('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
-									<input type="button" class=submitbutton value="Down"
-									       onclick="shiftOptionDown('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
+								<td><input type="button" class=submitbutton value="Up" onclick="shiftOptionUp('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
+									<input type="button" class=submitbutton value="Down" onclick="shiftOptionDown('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
 								</td>
 						</tr>
 
@@ -7122,9 +7048,7 @@ class HtmlLib
 						</tr>
 						<tr>
 							<td>
-								<textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<? $rows ?>"
-								          style="margin:0 0 0 0;width:<?= $cols ?>;height:100px;"
-								          name="<?= $variable ?>" size="30"><?= $value ?></textarea>
+								<textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<? $rows ?>" style="margin:0 0 0 0;width:<?= $cols ?>;height:100px;" name="<?= $variable ?>" size="30"><?= $value ?></textarea>
 							</td>
 						</tr>
 					</table>
@@ -7167,8 +7091,7 @@ class HtmlLib
 			<tr>
 				<td>
 					<input type=hidden name="<?= $variable->name ?>">
-					<select class=textbox id=<?= $ts_name ?>  multiple size=5 class=textbox
-					        name=<?= $variable1->name ?>>
+					<select class=textbox id=<?= $ts_name ?>  multiple size=5 class=textbox name=<?= $variable1->name ?>>
 <?php
 						foreach ($variable1->option as $k => $option) {
 ?>
@@ -7181,12 +7104,8 @@ class HtmlLib
 					</select>
 				</td>
 				<td>
-					<INPUT TYPE=button class=submitbutton
-					       onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variable->name) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')"
-					       VALUE=">>">
-					<INPUT TYPE=button class=submitbutton
-					       onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variable->name) ?>', '<?= $ts_name2 ?>')"
-					       VALUE="<<">
+					<INPUT TYPE=button class=submitbutton onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variable->name) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')" VALUE=">>">
+					<INPUT TYPE=button class=submitbutton onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variable->name) ?>', '<?= $ts_name2 ?>')" VALUE="<<">
 				</td>
 				<td>
 					<select id=<?= $ts_name2 ?> class=textbox size=5 multiple name=<?= trim($variable2->name) ?>>
@@ -7218,10 +7137,8 @@ class HtmlLib
 					</script>
 				</td>
 				<td>
-					<input type="button" name=upbotton class=submitbutton value="Up"
-					       onclick="shiftOptionUp('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
-					<input type="button" name=downbutton class=submitbutton value="Down"
-					       onclick="shiftOptionDown('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
+					<input type="button" name=upbotton class=submitbutton value="Up" onclick="shiftOptionUp('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
+					<input type="button" name=downbutton class=submitbutton value="Down" onclick="shiftOptionDown('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
 
 				</td>
 			</tr>
@@ -7275,13 +7192,10 @@ class HtmlLib
 
 		<?= $variable_description ?> <br/>
 
-		<input class=<?= $tclass ?> <?= $tdisabled ?> type=text
-		       name=<?= $variable->text->name ?> value="<?=$variable->text->value?>" size="20">
+		<input class=<?= $tclass ?> <?= $tdisabled ?> type=text name=<?= $variable->text->name ?> value="<?=$variable->text->value?>" size="20">
 				<span class="small"><?= $variable->text->text ?></span>
 				<?=$variable->checkbox->desc?>
-				<input class="<?= $ckclass ?>" type="checkbox" name="<?= $variable->checkbox->name ?>"
-		               value="<?= trim($variable->checkbox->value) ?>" <?= $checked ?>
-		               onclick="<?= "checkBoxTextToggle('$form', '{$variable->checkbox->name}', '{$variable->text->name}', '{$variable->checkbox->value}', '{$variable->text->value}');" ?>">
+				<input class="<?= $ckclass ?>" type="checkbox" name="<?= $variable->checkbox->name ?>" value="<?= trim($variable->checkbox->value) ?>" <?= $checked ?> onclick="<?= "checkBoxTextToggle('$form', '{$variable->checkbox->name}', '{$variable->text->name}', '{$variable->checkbox->value}', '{$variable->text->value}');" ?>">
      <?php
 }
 
@@ -7347,10 +7261,8 @@ class HtmlLib
 			if ($block->title) {
 ?>
 
-				<fieldset width="90%"
-				          style="background-color:<?= $backgroundcolor ?>; border: 0px; padding: 10px; border-top: 1px solid #<?= $bordertop ?>">
-					<legend style='font-weight:normal;border:0px'><span
-							style='color: #303030; font-weight:bold'><?= $block->title ?></span></legend>
+				<fieldset width="90%" style="background-color:<?= $backgroundcolor ?>; border: 0px; padding: 10px; border-top: 1px solid #<?= $bordertop ?>">
+					<legend style='font-weight:normal;border:0px'><span style='color: #303030; font-weight:bold'><?= $block->title ?></span></legend>
 				</fieldset>
 <?php
 			}
@@ -7418,7 +7330,8 @@ class HtmlLib
 						} else {
 ?>
 
-							<script> global_match_list['<?=$variable->name?>'] = '<?=$variable->match?>';
+							<script>
+								global_match_list['<?=$variable->name?>'] = '<?=$variable->match?>';
 								global_desc_list['<?=$variable->name?>'] = '<?=$variable->desc?>';
 								global_desc_list['<?=$variable->match?>'] = '<?=$variable->matchdesc?>';
 							</script>
@@ -7499,19 +7412,14 @@ class HtmlLib
 
 		<?= $variable_description ?> <?= $myneedstring ?> <br/>
 		<?= $variable->pretext ?>
-		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>"
-		       style="width: 60%; border: 1px solid #aaaaaa; margin: 2px 0 2x 0;"
-		       name="<?= $variable->name ?>" value="<?= $m_value ?>"> <?= $variable->posttext ?>
+		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>" style="width: 60%; border: 1px solid #aaaaaa; margin: 2px 0 2x 0;" name="<?= $variable->name ?>" value="<?= $m_value ?>"> <?= $variable->posttext ?>
 <?php
 
 		if ($variable->type === 'fileselect') {
 			/*--- issue #609 - "'<?=$url?>';);"><img" to "'<?=$url?>');"><img;" ---*/
 ?>
 
-			<a href="javascript:void(0);"
-			   onclick="selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img
-					width=15 height=15 src="img/image/collage/button/ffile_ttype_v_directory.gif" border="0"
-					alt="Select Folder" align="absmiddle"></a>
+			<a href="javascript:void(0);" onclick="selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img width=15 height=15 src="img/image/collage/button/ffile_ttype_v_directory.gif" border="0" alt="Select Folder" align="absmiddle"></a>
 <?php
 		}
 
@@ -7525,19 +7433,13 @@ class HtmlLib
 						<td width="100%">
 							<table border="0" width="100%" cellspacing="0" cellpadding="2" height="36px">
 								<tr>
-									<td id="dragbar" style="cursor:hand; cursor:pointer" width="100%"
-									    onMousedown="password_initializedrag(event)">
+									<td id="dragbar" style="cursor:hand; cursor:pointer" width="100%" onMousedown="password_initializedrag(event)">
 										<ilayer width="100%" onSelectStart="return false">
-											<layer width="100%" onMouseover="dragswitch=1;"
-											       onMouseout="dragswitch=0"><span
-													style="font-family: Arial, sans-serif; color:#FFFFFF">Password Box
-													</strong></span></layer>
+											<layer width="100%" onMouseover="dragswitch=1;" onMouseout="dragswitch=0"><span style="font-family: Arial, sans-serif; color:#FFFFFF">Password Box</strong></span></layer>
 										</ilayer>
 									</td>
-									<td style="cursor:hand"><a href="#"
-									                           onClick="password_hidebox('showimage');return false">
-											<span
-												style="font-family:Arial, sans-serif; color:#FFFFFF; padding:2px">X</span></a>
+									<td style="cursor:hand"><a href="#" onClick="password_hidebox('showimage');return false">
+											<span style="font-family:Arial, sans-serif; color:#FFFFFF; padding:2px">X</span></a>
 									</td>
 								</tr>
 								<tr>
@@ -7557,9 +7459,7 @@ class HtmlLib
 					</tr>
 				</table>
 			</div>
-			<input style="margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;"
-			       class=textbox type=button value="Generate Password"
-			       onclick="generatePass('<?= $form ?>', '<?= $variable->name ?>');" width="10">
+			<input style="margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;" class=textbox type=button value="Generate Password" onclick="generatePass('<?= $form ?>', '<?= $variable->name ?>');" width="10">
 <?php
 		}
 
@@ -7733,8 +7633,7 @@ class HtmlLib
 
 				<?= $filteropacitystringspan ?>
 
-				<input style="border: 1px solid #aaaaaa;" <?= $filteropacitystring ?> <?= $blackstyle ?>
-				       type=checkbox name="<?= $variable->name ?>" <?= $checkv ?> value="<?= $variable->value ?>">
+				<input style="border: 1px solid #aaaaaa;" <?= $filteropacitystring ?> <?= $blackstyle ?> type=checkbox name="<?= $variable->name ?>" <?= $checkv ?> value="<?= $variable->value ?>">
 				<?= $variable_description ?> <?= $filteropacitystringspanend ?>
 <?php
 
@@ -7750,9 +7649,7 @@ class HtmlLib
 				$v = $variable->name;
 ?>
 				<?= $variable_description ?> <br/>
-				<?= $filteropacitystringspan ?> <select
-				style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> class="textbox"
-				name="<?= $v ?>">
+				<?= $filteropacitystringspan ?> <select style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> class="textbox" name="<?= $v ?>">
 <?php
 				foreach ($variable->option as $k => $option) {
 					$issel = false;
@@ -7762,14 +7659,14 @@ class HtmlLib
 						$issel = true;
 					}
 
-					$sel = null;
+					$sel = '';
 
 					if ($issel && !$m_value) {
-						$sel = "SELECTED";
+						$sel = 'SELECTED';
 					}
 
 					if ($k === $m_value) {
-						$sel = "SELECTED";
+						$sel = 'SELECTED';
 					}
 
 ?>
@@ -7917,9 +7814,7 @@ class HtmlLib
 
 ?>
 
-				<textarea nowrap id="textarea_<?= $variable->name ?>" class="<?= $rclass ?>" rows="<?= $rows ?>"
-				          style="margin:2px 0 2px 50px;width:<?= $cols ?>;height:120px; border: 1px solid #aaaaaa; padding: 0;"
-				          name="<?= $variable->name ?>" <?= $readonly ?> size="30"><?= $value ?></textarea>
+				<textarea nowrap id="textarea_<?= $variable->name ?>" class="<?= $rclass ?>" rows="<?= $rows ?>" style="margin:2px 0 2px 50px;width:<?= $cols ?>;height:120px; border: 1px solid #aaaaaa; padding: 0;" name="<?= $variable->name ?>" <?= $readonly ?> size="30"><?= $value ?></textarea>
 
 				<script type="text/javascript">createTextAreaWithLines('textarea_<?=$variable->name?>');</script>
 
@@ -7950,8 +7845,7 @@ class HtmlLib
 ?>
 
 				<?= $string ?>
-				<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?>
-				                          name="<? $variable->name ?>" value="<?= $variable->value ?>">
+				<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?> name="<? $variable->name ?>" value="<?= $variable->value ?>">
 <?php
 
 				break;
@@ -8156,13 +8050,11 @@ function print_curvy_table_end($width = "100")
 	</td>
 	</tr>
 	<tr>
-		<td width="<?= $width ?>" align="right"><img
-				src="<?= $a ?>/bl.gif" align="center">
+		<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/bl.gif" align="center">
 		</td>
 		<td style="background: url(<?= $a ?>/dot.gif) 0 95% repeat-x">
 		</td>
-		<td width="<?= $width ?>" align="left"><img
-				src="<?= $a ?>/br.gif" align="center">
+		<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/br.gif" align="center">
 		</td>
 	</tr>
 </table>&nbsp;
@@ -8258,9 +8150,7 @@ function print_curvy_table_end($width = "100")
 		<div id="esmessage" style="visibility:visible;position:absolute;width:95%;top:21%;left:2%">
 			<table width='600' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
 				<tr height='10'>
-					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img
-								src="/img/image/collage/button/close.gif"> <span
-								style='small'>Press Esc to close </span>
+					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img src="/img/image/collage/button/close.gif"> <span style='small'>Press Esc to close </span>
 						</a>
 					</td>
 					<td>
@@ -8379,15 +8269,12 @@ function print_curvy_table_end($width = "100")
 		<script type='text/javascript' src='/htmllib/js/tabs-example.js'></script>
 
 		<div style='background-color:#ffffff' id="tabs1">
-			<div id="script"
-			     style="overflow:no; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;"
-			     class="tab-content">
+			<div id="script" style="overflow:no; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;" class="tab-content">
 				<br/>
 				<? $ghtml->xp_panel($login); ?>
 			</div>
 			<div id="markup" class="tab-content">
-				<div id="tree-div"
-				     style="overflow:auto; height:100%;width:218px;;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;">
+				<div id="tree-div" style="overflow:auto; height:100%;width:218px;;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;">
 				</div>
 			</div>
 		</div>
@@ -9230,15 +9117,13 @@ function print_real_beginning()
 	}
 
 ?>
-<body leftmargin="0" rightmargin="0" <?= $func ?> align="center" topmargin="0" bottommargin="0"
-      bgcolor="#<?= $bodycolor ?>">
+<body leftmargin="0" rightmargin="0" <?= $func ?> align="center" topmargin="0" bottommargin="0" bgcolor="#<?= $bodycolor ?>">
 <?php
 
 if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
 
-<div id="mmm" leftmargin="0" rightmargin="0" <?= $func ?> height="100%" align="center"
-     style='background:#<?= $lightskincolor ?>'>
+<div id="mmm" leftmargin="0" rightmargin="0" <?= $func ?> height="100%" align="center" style='background:#<?= $lightskincolor ?>'>
 	<table cellpadding="0" cellspacing="0" height="10">
 		<tr>
 			<td></td>
@@ -9387,10 +9272,8 @@ function print_start()
 					<td width=10> &nbsp; </td>
 					<td><a href="/display.php?frm_action=show"> Home </a></td>
 					<td><a href="/display.php?frm_action=list&frm_o_cname=domain"> Domain </a></td>
-					<td><a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=localhost">
-							System </a></td>
+					<td><a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=localhost"> System </a></td>
 					<td><a href="/display.php?frm_action=list&frm_o_cname=client"> Client </a></td>
-					</td>
 					<td><a href="/display.php?frm_action=list&frm_o_cname=pserver"> Server </a></td>
 					<td><a href="/display.php?frm_action=list&frm_o_cname=ticket"> Tickets </a></td>
 					<td><a href="/display.php?frm_action=list&frm_o_cname=ssession"> Session</a></td>
@@ -9493,9 +9376,7 @@ function print_end()
 
 ?>
 
-			<span class="tableheadtext"
-			      onmouseover="changeContent('help','<b>Message </b>: <br/> <br/> <?= $help ?>')"
-			      onmouseout="changeContent('help','helparea')"> <?= $d ?> </span>
+			<span class="tableheadtext" onmouseover="changeContent('help','<b>Message </b>: <br/> <br/> <?= $help ?>')" onmouseout="changeContent('help','helparea')"> <?= $d ?> </span>
 <?php
 
 			return;
@@ -9521,13 +9402,13 @@ function print_end()
 ?>
 
 		<form name=<?= $formname ?> method=<?= $sgbl->method ?> action=<?= $url ?> accept-charset="utf-8">
+
 			<?=$this->print_current_input_vars(array('frm_hpfilter'))?>
  		      <input name=frm_hpfilter[<?= $filtername ?>][sortby] type=hidden value="<?= $sortby ?>">
   		      <input name=frm_hpfilter[<?= $filtername ?>][sortdir] type=hidden value="<?= $sortdir ?>">
 		</form>
 
-    <span title='<?= $alt ?>'><a
-		    class=tableheadtext href="javascript:document.<?= $formname ?>.submit()"><?= $desc ?> </a> </span>
+    <span title='<?= $alt ?>'><a class=tableheadtext href="javascript:document.<?= $formname ?>.submit()"><?= $desc ?> </a> </span>
 <?php
 	}
 
@@ -9573,24 +9454,16 @@ function print_end()
 									<tr>
 										<td width=10 height=22></td>
 										<td height=22>
-											<form name=lpform_search method=<?= $sgbl->method ?>  action=<?= $url ?>
-											      onsubmit="return checksearch(this,1);" accept-charset="utf-8">
+											<form name=lpform_search method=<?= $sgbl->method ?>  action=<?= $url ?> onsubmit="return checksearch(this,1);" accept-charset="utf-8">
 
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
-												<input <?= $blackstyle ?> type="text"
-												                          name="frm_hpfilter[<?= $filtername ?>][searchstring]"
-												                          value="<?= $value ?>" class=searchbox
-												                          size="18">
+												<input <?= $blackstyle ?> type="text" name="frm_hpfilter[<?= $filtername ?>][searchstring]" value="<?= $value ?>" class=searchbox size="18">
 										</td>
 										<td width=10 height=22></td>
 										</form>
-										<td height=22 width=20><a href='javascript:document.lpform_search.submit()'><img
-													border=0 alt="Search" title="Search" name=search
-													src="<?= $searchimg ?>" height=15 width=15
-													onMouseOver="changeContent('help','search');"
-													onMouseOut="changeContent('help','helparea');"></a></form></td>
+										<td height=22 width=20><a href='javascript:document.lpform_search.submit()'><img border=0 alt="Search" title="Search" name=search src="<?= $searchimg ?>" height=15 width=15 onMouseOver="changeContent('help','search');" onMouseOut="changeContent('help','helparea');"></a></form></td>
 										<td width=10 height=22></td>
 										<td height=22 width=70>
 											<form name=lpform_showall method=<?= $sgbl->method ?> action=<?= $url ?>
@@ -9601,18 +9474,9 @@ function print_end()
 
 												<table cellpadding=0 cellspacing=0 border=0 width=100% height=22>
 													<tr>
-														<td height=22 width=31% align=center nowrap><a
-																href="javascript:document.lpform_showall.submit();"><img
-																	alt="Show All" title="Show all" name=showall
-																	src="<?= $showallimg ?>"
-																	onMouseOver="changeContent('help','showall');"
-																	onMouseOut="changeContent('help','helparea');"></a>
+														<td height=22 width=31% align=center nowrap><a href="javascript:document.lpform_showall.submit();"><img alt="Show All" title="Show all" name=showall src="<?= $showallimg ?>" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"></a>
 														</td>
-														<td width=69% height=22 nowrap><a
-																href="javascript:document.lpform_showall.submit();"
-																onMouseOver="changeContent('help','showall');"
-																onMouseOut="changeContent('help','helparea');"><span
-																	class=small>Show All</span></a></td>
+														<td width=69% height=22 nowrap><a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class=small>Show All</span></a></td>
 													</tr>
 												</table>
 										</td>
@@ -9649,8 +9513,7 @@ function print_end()
 			<td align=center><br/>
 				<table cellpadding=0 cellspacing=0 border=0 align=center>
 					<tr align=center>
-						<td><img id=helppic name=namepic src="<?= $helpimg ?>/help_head.gif" style="cursor:pointer"
-						         onclick="window.open('<?= $this->get_help_url() ?>')"></td>
+						<td><img id=helppic name=namepic src="<?= $helpimg ?>/help_head.gif" style="cursor:pointer" onclick="window.open('<?= $this->get_help_url() ?>')"></td>
 					</tr>
 				</table>
 			</td>
@@ -9686,8 +9549,7 @@ function print_end()
 				<td align=center>
 					<table>
 						<tr align=center>
-							<td align=center nowrap><a href=/live target=_blank class=tableheadtext>Click Here for Live
-									Support.</a></td>
+							<td align=center nowrap><a href=/live target=_blank class=tableheadtext>Click Here for Live Support.</a></td>
 						</tr>
 					</table>
 				</td>

@@ -55,9 +55,7 @@ function __ac_desc_desktop($object)
 				<div id="debug"></div>
 				<div id="boundary">
 					<div id="content">
-						<h2 class="expanded" align="center"
-						    onMouseover="this.style.background='url(<?= $skindir ?>/onexpand.gif)'"
-						    onMouseout="this.style.background='url(<?= $skindir ?>/expand.gif)'"><code>History</code>
+						<h2 class="expanded" align="center" onMouseover="this.style.background='url(<?= $skindir ?>/onexpand.gif)'" onMouseout="this.style.background='url(<?= $skindir ?>/expand.gif)'"><code>History</code>
 						</h2>
 						<table cellpadding="0" cellspacing="0" style="background:#f0f0f0;">
 <?php
@@ -75,11 +73,8 @@ function __ac_desc_desktop($object)
 								$des = "$ac_descr[2] for $__t_identity ($h)";
 ?>
 
-								<tr valign="center" style="background:#f0f0f0;height:25px"
-								    onMouseover="this.style.background='url(<?= $skindir ?>/a.gif)'"
-								    onMouseout="this.style.background='url(<?= $skindir ?>/b.gif)'">
-									<td style="padding:0 0 0 20px;" nowrap><a href="<?= $k ?>"><img
-												src="<?= $_t_image ?>" width="20" height="20"></td>
+								<tr valign="center" style="background:#f0f0f0;height:25px" onMouseover="this.style.background='url(<?= $skindir ?>/a.gif)'" onMouseout="this.style.background='url(<?= $skindir ?>/b.gif)'">
+									<td style="padding:0 0 0 20px;" nowrap><a href="<?= $k ?>"><img src="<?= $_t_image ?>" width="20" height="20"></td>
 									<td width="100%" nowrap><a href="<?= $k ?>">&nbsp; <?= $des ?></td>
 								</tr>
 								<tr style="background:#ffffff;">
@@ -652,8 +647,7 @@ function __ac_desc_delete($object)
 			<table width="100%">
 				<tr>
 					<td width="10"></td>
-					<td align="left"> These Objects Under these <?= get_plural($object->getClass()) ?> will also be
-						Deleted.<br/> <br/></td>
+					<td align="left"> These Objects Under these <?= get_plural($object->getClass()) ?> will also be Deleted.<br/> <br/></td>
 				</tr>
 			</table>
 <?php
@@ -1771,8 +1765,7 @@ function print_navigation($navig)
 
 ?>
 
-													<td> &nbsp;<a href='<?= $url ?>'><b><span <?= $forecolorstring ?>
-																	style='font-size:8pt'> <?= $desc['desc'] ?>
+													<td> &nbsp;<a href='<?= $url ?>'><b><span <?= $forecolorstring ?> style='font-size:8pt'> <?= $desc['desc'] ?>
 															</b><?= $bracketedname ?></span></a> &nbsp;
 													</td> <?= $sep ?>
 <?php
@@ -1841,10 +1834,7 @@ function print_navigation($navig)
 ?>
 
 								<tr valign="middle">
-									<td valign="middle" id="tnavig<?= $k ?>"
-									    onMouseOut="changeContent('help', 'helparea');"><span
-												style='font-size:10pt'>&nbsp; <?= $name ?>
-												{<b><?= $clienttype ?><?= trim($description['desc']) ?></b>} <?= $fullimgstr ?></span></td>
+									<td valign="middle" id="tnavig<?= $k ?>" onMouseOut="changeContent('help', 'helparea');"><span style='font-size:10pt'>&nbsp; <?= $name ?> {<b><?= $clienttype ?><?= trim($description['desc']) ?></b>} <?= $fullimgstr ?></span></td>
 								</tr>
 <?php
 
@@ -1929,8 +1919,7 @@ function __ac_desc_resource($object)
 		<tr align=left>
 			<td width=10><input class=submitbutton onClick='<?= $treename ?>.closeAll();' type=button value="Close">
 			</td>
-			<td align=left width=10><input class=submitbutton onClick='<?= $treename ?>.openAll();' type=button
-			                               value="Open"></td>
+			<td align=left width=10><input class=submitbutton onClick='<?= $treename ?>.openAll();' type=button value="Open"></td>
 			<td width=100%></td>
 		</tr>
 	</table>

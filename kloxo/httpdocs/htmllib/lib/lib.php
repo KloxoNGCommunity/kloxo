@@ -5450,7 +5450,7 @@ function getRpmVersion($rpmname)
 
 	return str_replace($rpmname . '-', '', $out[0]);
 */
-	exec("rpm -q --qf '%{VERSION}\n' {$rpm}", $out, $ret);
+	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
 	if ($out[0] !== false) {
 		$ver = $out[0];

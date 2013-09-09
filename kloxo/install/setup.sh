@@ -37,7 +37,7 @@ if [ "$val1" == "" ] ; then
 	inserter="${inserter}0.0.0.0 ${hnfull} ${hnfull}\n"
 
 	if [ "$val2" != "" ] ; then
-		inserter="${inserter}:: ${hnfull} ${hnfull}\n"
+		inserter="${inserter}:: ${hnfull} ${hnshort}\n"
 	fi
 
 	inserter="${inserter}### end - add by Kloxo-MR\n"
@@ -122,7 +122,7 @@ fi
 
 yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
 
-yum remove bind* mysql* -y
+yum remove bind* mysql* mariadb* -y
 
 if [ ! -f /opt/php52s/bin/php ] ; then
 	if [ -f /usr/bin/php ] ; then
@@ -131,7 +131,11 @@ if [ ! -f /opt/php52s/bin/php ] ; then
 
 	yum -y install net-snmp php52s
 
-	yum -y install mysql55 mysql55-server mysql55-libs
+	if $(yum list mariadb) ; then
+		yum -y install mysql55 mysql55-server mysql55-libs
+	else
+		yum -y install mariadb mariadb-server mariadb-libs
+	fi
 
 	yum -y install php53u php53u-mysql
 fi
