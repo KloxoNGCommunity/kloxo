@@ -273,7 +273,7 @@ function install_main()
 	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
 
 	// MR -- because using ruid2 as default php-type, disable php-fpm
-	system("chkconfig php-fpm off; service php-fpm stop");
+//	system("chkconfig php-fpm off; service php-fpm stop");
 }
 
 function kloxo_vpopmail()
@@ -542,7 +542,7 @@ function kloxo_prepare_kloxo_httpd_dir()
 
 	system("rm -f /home/kloxo/httpd/skeleton-disable.zip");
 
-	system("chown -R lxlabs:lxlabs /home/kloxo/httpd");
+	system("chown -R apache:apache /home/kloxo/httpd");
 }
 
 function kloxo_install_before_bye()

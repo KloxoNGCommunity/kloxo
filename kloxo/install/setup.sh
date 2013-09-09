@@ -131,7 +131,7 @@ if [ ! -f /opt/php52s/bin/php ] ; then
 
 	yum -y install net-snmp php52s
 
-	yum -y install mysql mysql-server mysql-libs
+	yum -y install mysql55 mysql55-server mysql55-libs
 
 	yum -y install php53u php53u-mysql
 fi
@@ -142,16 +142,13 @@ cd /usr/local/lxlabs/kloxo/install
 
 lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup $* | tee kloxo-mr_install.log
 
-for (( a=1; a<=2; a++ ))
-do
-	# Fix issue because sometimes kloxo database not created
-	if [ $APP_TYPE == 'master' ] ; then
-		if [ ! -d /var/lib/mysql/kloxo ] ; then
-			cd /usr/local/lxlabs/kloxo/install
-			lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
-		fi
+# Fix issue because sometimes kloxo database not created
+if [ $APP_TYPE == 'master' ] ; then
+	if [ ! -d /var/lib/mysql/kloxo ] ; then
+		cd /usr/local/lxlabs/kloxo/install
+		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2 $* | tee kloxo-mr_install.log
 	fi
-done
+fi
 
 echo
 echo "Run 'sh /script/restart-all' to make sure all services running well"

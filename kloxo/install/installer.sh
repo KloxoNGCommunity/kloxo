@@ -57,13 +57,13 @@ echo
 read -n 1 -p "Press any key to continue ..."
 echo
 
+APP_NAME='Kloxo-MR'
+
 if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
 	APP_TYPE='slave'
 else
 	APP_TYPE='master'
 fi
-
-APP_NAME='Kloxo-MR'
 
 SELINUX_CHECK=/usr/sbin/selinuxenabled
 SELINUX_CFG=/etc/selinux/config
@@ -123,16 +123,17 @@ yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion cu
 
 yum remove bind* mysql* -y
 
-if [ ! -f /usr/local/lxlabs/ext/php/php ] ; then
+if [ ! -f /opt/php52s/bin/php ] ; then
 	if [ -f /usr/bin/php ] ; then
 		yum -y remove php*
 	fi
 
-	yum -y install net-snmp php52s
-
-	yum -y install mysql mysql-server mysql-libs
+	yum -y install mysql55 mysql55-server mysql55-libs
 
 	yum -y install php53u php53u-mysql
+
+	## install after mysql55 and php53u because if mysql not exist will install 'old' mysql
+	yum -y install net-snmp php52s
 fi
 
 export PATH=/usr/sbin:/sbin:$PATH
@@ -148,17 +149,14 @@ fi
 
 lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 
-for (( a=1; a<=2; a++ ))
-do
-	# Fix issue because sometimes kloxo database not created
-	if [ $APP_TYPE == 'master' ] ; then
-			cd /usr/local/lxlabs/kloxo/install
-			lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2  $* | tee kloxo-mr_install.log
-		fi
+# Fix issue because sometimes kloxo database not created
+if [ $APP_TYPE == 'master' ] ; then
+	if [ ! -d /var/lib/mysql/kloxo ] ; then
+		cd /usr/local/lxlabs/kloxo/install
+		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2 $* | tee kloxo-mr_install.log
 	fi
-done
+fi
 
 echo
 echo "Run 'sh /script/restart-all' to make sure all services running well"
 echo
-
