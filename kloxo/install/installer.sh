@@ -31,7 +31,6 @@ hnfull=$(hostname)
 val1=$(cat /etc/hosts|grep -i "$hnfull")
 val2=$(cat /etc/hosts|grep -i "::1")
 
-
 if [ "$val1" == "" ] ; then
 	inserter="### begin - add by Kloxo-MR\n"
 	inserter="${inserter}0.0.0.0 ${hnfull} ${hnfull}\n"
@@ -119,25 +118,25 @@ else
 fi
 
 # Start install
+
+yum clean all
+
 yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
 
-yum remove bind* mysql* mariadb* -y
+yum remove bind* mysql* mariadb* MariaDB* php* -y
 
-if [ ! -f /opt/php52s/bin/php ] ; then
-	if [ -f /usr/bin/php ] ; then
-		yum -y remove php*
-	fi
+#if [ ! -f /opt/php52s/bin/php ] ; then
+#	if [ -f /usr/bin/php ] ; then
+#		yum -y remove php*
+#	fi
 
-	yum -y install net-snmp php52s
-
-	if $(yum list mariadb) ; then
-		yum -y install mysql55 mysql55-server mysql55-libs
-	else
-		yum -y install mariadb mariadb-server mariadb-libs
-	fi
+	yum -y install mysql55 mysql55-server mysql55-libs
 
 	yum -y install php53u php53u-mysql
-fi
+
+	## install after mysql55 and php53u because if mysql not exist will install 'old' mysql
+	yum -y install net-snmp php52s
+#fi
 
 export PATH=/usr/sbin:/sbin:$PATH
 

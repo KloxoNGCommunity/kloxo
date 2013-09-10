@@ -247,6 +247,8 @@ function install_main()
 	$mysqltmp = getMysqlBranch();
 	$installcomp['database'] = array($mysqltmp, $mysqltmp."-server", $mysqltmp."-libs");
 
+//	system("yum replace $mysqltmp --replace-with=mysql55 -y");
+
 	$comp = array("web", "database", "dns", "mail");
 
 	$serverlist = $comp;
