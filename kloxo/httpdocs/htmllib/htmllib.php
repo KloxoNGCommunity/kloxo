@@ -1281,7 +1281,7 @@ class HtmlLib
 							o.className = o.className.replace(rep, '');
 							break;
 						case 'check':
-							return new RegExp("(^|\\s)" + c1 + "(\\s|$)").test(o.className)
+							return new RegExp("(^|\\s)" + c1 + "(\\s|$)").test(o.className);
 							break;
 					}
 				}
@@ -1905,7 +1905,7 @@ class HtmlLib
 				border: 1px solid #<?=$col?>;
 				margin: 9px 5px;
 				padding: 0 0 10px 0;
-				width: 520;
+				width: 520px;
 			}
 
 			div#createNew input {
@@ -1928,8 +1928,7 @@ class HtmlLib
 			}
 
 			div.demo div.example span {
-				margin: 0px;
-				margin-bottom: 0px;
+				margin: 0;
 				padding: 0;
 				font-size: 1.0em;
 				text-align: center;
@@ -1937,7 +1936,7 @@ class HtmlLib
 			}
 
 			div.demo {
-				margin: 0px;
+				margin: 0;
 				overflow: visible;
 				position: relative;
 				width: 100%;
@@ -2078,7 +2077,7 @@ class HtmlLib
 
 ?>
 
-		<fieldset width=100% style='border: 0px; border-top: 1px solid #d0d0d0'>
+		<fieldset width=100% style='border: 0; border-top: 1px solid #d0d0d0'>
 		<legend style='font-weight:normal;border:0px'><b><span style='color:#303030; font-weight:normal'><?= $title ?></span></b></legend>
 		<table cellpadding="2" cellspacing="7" border="0" width="95%">
 			<tr align=left>
@@ -2110,7 +2109,7 @@ class HtmlLib
 			</tr>
 		</table>
 
-		</fieldset><fieldset style='font-weight:normal;border: 0px; border-top: 1px solid #d0d0d0'>
+		</fieldset><fieldset style='font-weight:normal;border: 0; border-top: 1px solid #d0d0d0'>
 		<legend style='font-weight:normal'><b><span style='color:#303030; font-weight:normal'><?= $u ?></span></b></legend>
 		<table cellspacing=7 width=95% border=0> <tr align=left> <td align=left>
 <?php
@@ -4179,7 +4178,7 @@ class HtmlLib
 <?php
 			if (isset($v[0]) && $v[0] === 's') {
 ?>
-							<select name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2; background-color:#ffffff;" value="">
+							<select name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff;" value="">
 <?php
 				foreach ($v[1] as $kk => $vv) {
 ?>
@@ -4204,7 +4203,7 @@ class HtmlLib
 <?php
 					} else {
 ?>
-								<input type="text" name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff; margin:1px;  background:10px; background-position:1% 1%; vertical-align:middle;" value="">
+								<input type="text" name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff; margin:1px;  background-size:10px; background-position:1% 1%; vertical-align:middle;" value="">
 <?php
 					}
 				}
@@ -4281,7 +4280,7 @@ class HtmlLib
 		</table>
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>">
-			<table width="100%" border="0" cellpadding=0 style=' border: 0px solid '>
+			<table width="100%" border="0" cellpadding=0 style="border: 0 solid">
 				<tr>
 					<td width="10"></td>
 					<td>
@@ -4361,7 +4360,7 @@ class HtmlLib
 		}
 ?>
 
-		<fieldset style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0px; border-top: 1px solid <?= $bordertop ?>'>
+		<fieldset style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
 			<legend><span style='font-weight:bold'>Advanced Search <a href="javascript:toggleVisibility('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>
 				</span></legend>
 		</fieldset>
@@ -4690,7 +4689,7 @@ class HtmlLib
 		if (!$sellist && !$this->isResourceClass($class)) {
 ?>
 
-			<fieldset style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0px; border-top: 1px solid <?= $bordertop ?>">
+			<fieldset style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
 				<legend>
 				<span style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
 				<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?>
@@ -5184,7 +5183,7 @@ class HtmlLib
 			if ($rpagesize < 1000) {
 ?>
 
-												<select class="textbox" onchange="document.perpage_<?= $unique_name ?>.submit()" style="width:40" name="frm_hpfilter[<?= $filtername ?>][pagesize]">
+												<select class="textbox" onchange="document.perpage_<?= $unique_name ?>.submit()" style="width:40px" name="frm_hpfilter[<?= $filtername ?>][pagesize]">
 <?php
 				$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
 
@@ -5207,7 +5206,7 @@ class HtmlLib
 			} else {
 ?>
 
-												<input type="text" class="textbox" style="width:25" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $f_page ?>">
+												<input type="text" class="textbox" style="width:25px" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $f_page ?>">
 <?php
 			}
 ?>
@@ -6078,7 +6077,7 @@ class HtmlLib
 			if ($k != $num && isset($v['nname'])) {
 ?>
 
-						<input "type=hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>">
+						<input type="hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>">
 <?php
 
 			}
@@ -6893,7 +6892,7 @@ class HtmlLib
 											}
 ?>
 
-											<option value="<?= $key ?>" style="valign:middle;padding:0 0 0 25; width:300;height:20; background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+											<option value="<?= $key ?>" style="valign:middle;padding:0 0 0 25px; width:300px; height:20px; background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 										}
 ?>
@@ -6939,7 +6938,7 @@ class HtmlLib
 
 ?>
 
-											<option value="<?= $d ?>" style="valign:middle;padding:0 0 0 25;width:300;height:20;background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+											<option value="<?= $d ?>" style="valign:middle; padding:0 0 0 25px; width:300; height:20; background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 										}
 ?>
@@ -7261,7 +7260,7 @@ class HtmlLib
 			if ($block->title) {
 ?>
 
-				<fieldset width="90%" style="background-color:<?= $backgroundcolor ?>; border: 0px; padding: 10px; border-top: 1px solid #<?= $bordertop ?>">
+				<fieldset width="90%" style="background-color:<?= $backgroundcolor ?>; border: 0; padding: 10px; border-top: 1px solid #<?= $bordertop ?>">
 					<legend style='font-weight:normal;border:0px'><span style='color: #303030; font-weight:bold'><?= $block->title ?></span></legend>
 				</fieldset>
 <?php
@@ -7412,7 +7411,7 @@ class HtmlLib
 
 		<?= $variable_description ?> <?= $myneedstring ?> <br/>
 		<?= $variable->pretext ?>
-		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>" style="width: 60%; border: 1px solid #aaaaaa; margin: 2px 0 2x 0;" name="<?= $variable->name ?>" value="<?= $m_value ?>"> <?= $variable->posttext ?>
+		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>" style="width: 60%; border: 1px solid #aaaaaa; margin: 2px 0 2px 0;" name="<?= $variable->name ?>" value="<?= $m_value ?>"> <?= $variable->posttext ?>
 <?php
 
 		if ($variable->type === 'fileselect') {
@@ -8269,7 +8268,7 @@ function print_curvy_table_end($width = "100")
 		<script type='text/javascript' src='/htmllib/js/tabs-example.js'></script>
 
 		<div style='background-color:#ffffff' id="tabs1">
-			<div id="script" style="overflow:no; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;" class="tab-content">
+			<div id="script" style="overflow:hidden; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;" class="tab-content">
 				<br/>
 				<? $ghtml->xp_panel($login); ?>
 			</div>
@@ -9129,7 +9128,7 @@ if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 			<td></td>
 		</tr>
 	</table>
-<div id="mainbodyd" style='padding:4px; background:#fff; width:861; border:1px solid #000'>
+<div id="mainbodyd" style='padding:4px; background:#fff; width:861px; border:1px solid #000'>
 <div id="mainbodynext" style='background:#fff;border:1px solid #000'>
 <?php
 }

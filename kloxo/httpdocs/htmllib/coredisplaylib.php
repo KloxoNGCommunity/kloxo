@@ -40,11 +40,11 @@ function __ac_desc_desktop($object)
 
 				</form>
 			</td>
-			<td><a href="javascript:document.desktopsearch.submit()>" <img src="img/general/icon/search_b.gif">
+			<td><a href="javascript:document.desktopsearch.submit()"> <img src="img/general/icon/search_b.gif">
 				Search </a> </td>
 		</tr>
 	</table>
-	</td> </tr> </table>
+	<!-- </td> </tr> </table> -->
 	<table width="90%" cellpadding="0" valign="top" cellspacing="20" height="200">
 		<tr>
 			<td valign=top>
@@ -87,7 +87,7 @@ function __ac_desc_desktop($object)
 
 						</table>
 			</td>
-			</div></div>
+			<!-- </div></div> -->
 		</tr>
 	</table>
 <?php
@@ -1773,7 +1773,7 @@ function print_navigation($navig)
 
 ?>
 
-												</td>  </tr>
+												<!-- </td> -->  </tr>
 										</table>
 									</td>
 								</tr>
@@ -2089,7 +2089,7 @@ function do_display_init()
 		$parent = $gbl->c_session->ssl_param['parent_clname'];
 ?>
 
-		<table cellpadding=0 height=26 cellspacing=0 background="<?= $skindir ?>/expand.gif>"
+		<table cellpadding=0 height=26 cellspacing=0 background="<?= $skindir ?>/expand.gif">
 			<tr>
 				<td nowrap><a href="<?= $url ?>"> Back to HyperVM ($parent) </a></td>
 				<td width=10>&nbsp;|&nbsp;</td>
@@ -2110,7 +2110,7 @@ function do_display_init()
 	if ($gbl->c_session->consuming_parent) {
 ?>
 	
-	<table cellpadding=0 cellspacing=0 bgcolor="<? $col ?>">
+	<table cellpadding=0 cellspacing=0 bgcolor="<?= $col ?>">
 			<tr>
 				<td nowrap> Consumed Login</td>
 				<td><a href="/display.php?frm_consumedlogin=true&frm_action=desktop">Desktop </a></td>
