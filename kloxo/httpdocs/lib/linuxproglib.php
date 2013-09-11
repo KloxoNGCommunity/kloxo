@@ -2,7 +2,7 @@
 
 function os_doUpdateExtraStuff()
 {
-// TODO: Remove empty Function
+	// TODO: Remove empty Function
 }
 
 function os_update_server()
@@ -49,6 +49,7 @@ function remove_lighttpd_error_log()
 {
 	$f = "/home/kloxo/httpd/lighttpd/error.log";
 	$s = lxfile_size($f);
+
 	if ($s > 50 * 1024 * 1024) {
 		lunlink($f);
 		createRestartFile("lighttpd");
@@ -60,6 +61,7 @@ function create_dev()
 	if (lxfile_exists("/sbin/udevd")) {
 		lxfile_mv("/sbin/udevd", "/sbin/udevd.back");
 	}
+
 	lxshell_return('tar', '-C', '/dev', '-xzf', '../openvz/vps-dev.tgz');
 	lxshell_return('/sbin/MAKEDEV', 'pty');
 	lxshell_return('/sbin/MAKEDEV', 'tty');
@@ -86,9 +88,8 @@ function os_updateApplicableToSlaveToo()
 function remove_test_root()
 {
 	$pass = slave_get_db_pass();
-	$__tr = mysqli_connect("localhost", "root", $pass);
-	mysqli_select_db($__tr, "mysql");
-	mysqli_query($__tr, "delete from user where Host = 'test.lxlabs.com' and User = 'root'");
+	$__tr = new mysqli("localhost", "root", $pass, "mysql");
+	$__tr->query("delete from user where Host = 'test.lxlabs.com' and User = 'root'");
 }
 
 function remove_ssh_self_host_key()
@@ -97,7 +98,8 @@ function remove_ssh_self_host_key()
 	if (lxfile_exists("/root/.ssh/authorized_keys")) {
  		remove_line("/root/.ssh/authorized_keys", "root@self.lxlabs.com");
 	}
-        if (lxfile_exists("/root/.ssh/authorized_keys2")) {
+
+	if (lxfile_exists("/root/.ssh/authorized_keys2")) {
 		remove_line("/root/.ssh/authorized_keys2", "root@self.lxlabs.com");
 	}
 }

@@ -29,16 +29,14 @@ class dns__powerdns extends lxDriverClass
 	{
 		include_once "/usr/local/lxlabs/kloxo/etc/powerdns.conf.inc";
 
-		$ret = mysqli_connect($power_sql_host, $power_sql_user, $power_sql_pwd);
-
-		mysqli_select_db($power_sql_db);
+		$ret = new mysqli($power_sql_host, $power_sql_user, $power_sql_pwd, $power_sql_db);
 
 		return $ret;
 	}
 
 	function dbClose($conn)
 	{
-		mysqli_close($conn);
+		$conn->close();
 	}
 
 	function dbactionAdd()
@@ -47,20 +45,20 @@ class dns__powerdns extends lxDriverClass
 
 		$domainname = $this->main->nname;
 
-		$query = mysqli_query($conn, "INSERT INTO domains (name,type) values('$domainname','NATIVE')");
+		$query = $conn->query("INSERT INTO domains (name,type) values('$domainname','NATIVE')");
 
-		if (mysqli_affected_rows($conn)) {
-			$this_domain_id = mysqli_insert_id($conn);
+		if ($conn->affected_rows()) {
+			$this_domain_id = $conn->insert_id();
 
 			foreach ($this->main->dns_record_a as $k => $o) {
 				switch ($o->ttype) {
 					case "ns":
-						mysqli_query($conn, "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$domainname','$o->param','NS','3600','NULL')");
+						$conn->query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$domainname','$o->param','NS','3600','NULL')");
 
 						break;
 					case "mx":
 						$v = $o->priority;
-						mysqli_query($conn, "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$domainname','$o->param','MX','3600','$v')");
+						$conn->query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$domainname','$o->param','MX','3600','$v')");
 
 						break;
 					case "a":
@@ -77,7 +75,7 @@ class dns__powerdns extends lxDriverClass
 							$key = "$domainname";
 						}
 
-						mysqli_query($conn, "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','A','3600','NULL')");
+						$conn->query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','A','3600','NULL')");
 
 						break;
 					case "cn":
@@ -97,7 +95,7 @@ class dns__powerdns extends lxDriverClass
 							break;
 						}
 					
-						mysqli_query($conn, "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','CNAME','3600','NULL')");
+						$conn->query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','CNAME','3600','NULL')");
 	
 						break;
 					case "fcname":
@@ -113,12 +111,13 @@ class dns__powerdns extends lxDriverClass
 							$value = "$domainname";
 						}
 
-						mysqli_query($conn, "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','CNAME','3600','NULL')");
+						$conn->query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','CNAME','3600','NULL')");
 	
 						break;
 					case "txt":
 						$key = $o->hostname;
 						$value = $o->param;
+
 						if ($o->param === null) {
 							continue;
 						}
@@ -130,7 +129,8 @@ class dns__powerdns extends lxDriverClass
 						}
 
 						$value = str_replace("<%domain>", $domainname, $value);
-						mysqli_query($conn, "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','TXT','3600','NULL')");
+
+						$conn->query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ('$this_domain_id','$key','$value','TXT','3600','NULL')");
 
 						break;
 				}
@@ -145,15 +145,16 @@ class dns__powerdns extends lxDriverClass
 		$conn = $this->dbConnect();
 
 		$this_domain = $this->main->nname;
-		$my_query = mysqli_query($conn, "SELECT * FROM domains WHERE name='" . $this_domain . "'");
+
+		$my_query = $conn->query("SELECT * FROM domains WHERE name='" . $this_domain . "'");
 		
-		if (mysqli_num_rows($my_query)) {
-			$this_row = mysqli_fetch_object($my_query);
+		if ($my_query->num_rows()) {
+			$this_row = $my_query->fetch_object();
+
 			$this_domain_id = $this_row->id;
 
-			mysqli_query($conn, "DELETE FROM domains WHERE id='" . $this_domain_id . "'");
-			mysqli_query($conn, "DELETE FROM records WHERE domain_id='" . $this_domain_id . "'");
-
+			$conn->query("DELETE FROM domains WHERE id='" . $this_domain_id . "'");
+			$conn->query("DELETE FROM records WHERE domain_id='" . $this_domain_id . "'");
 		}
 
 		$this->dbClose($conn);

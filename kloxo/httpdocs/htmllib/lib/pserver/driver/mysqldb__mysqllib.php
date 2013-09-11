@@ -1,14 +1,13 @@
 <?php
 
-class Mysqldb__mysql extends lxDriverClass {
-
-
+class Mysqldb__mysql extends lxDriverClass
+{
 	function lx_mysql_connect($server, $dbadmin, $dbpass)
 	{
-		$rdb = mysqli_connect('localhost', $dbadmin, $dbpass);
+		$rdb = new mysqli('localhost', $dbadmin, $dbpass);
 
 		if (!$rdb) {
-			log_error(mysql_error());
+			log_error($rdb->connect_error);
 
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException('could_not_connect_to_db', '', '');
@@ -19,51 +18,53 @@ class Mysqldb__mysql extends lxDriverClass {
 
 	function createDatabase()
 	{
-	//	dprint("here\n");
-
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-		mysqli_query($rdb, "use mysql");
-
-		$res = mysqli_query($rdb, "select * from user where User = '{$this->main->username}'");
+		$rdb->query("use mysql");
+		$res = $rdb->query("select * from user where User = '{$this->main->username}'");
 
 		$ret = null;
 
 		if ($res) {
-			$ret = mysqli_fetch_row($res, MYSQLI_NUM);
+			$ret = $res->fetch_row();
 		}
 
 		if ($ret) {
 			throw new lxException("database_user_already_exists__{$this->main->username}", 'username', '');
 		}
 
-		mysqli_query($rdb, "create database {$this->main->dbname};");
+		$rdb->query("create database {$this->main->dbname};");
 		$this->log_error_messages();
 
-		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
-		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+		$rdb->query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
+		$rdb->query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
 
-		if ($this->main->__var_primary_user) {
+		if (isset($this->main->__var_primary_user)) {
 			$parentname = $this->main->__var_primary_user;
 
-			mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$parentname}'@'localhost';");
-			mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$parentname}'@'%';");
+			$rdb->query("grant all on {$this->main->dbname}.* to '{$parentname}'@'localhost';");
+			$rdb->query("grant all on {$this->main->dbname}.* to '{$parentname}'@'%';");
 		}
 
 		$this->log_error_messages(false);
-		mysqli_query($rdb, "flush privileges;");
+
+		$rdb->query("flush privileges;");
 	}
 
 	function extraGrant()
 	{
-	//	$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
+		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-	//	mysqli_query($rdb, "revoke show databases on *.* from '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
+		$rdb->query("revoke show databases on *.* from '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");
+
 		$this->log_error_messages(false);
 
-	//	mysqli_query($rdb, "grant SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+		$rdb->query("grant SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER on {$this->main->dbname}.* to '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+
 		$this->log_error_messages(false);
-	//	mysqli_query($rdb, "revoke show databases on *.* from '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+
+		$rdb->query("revoke show databases on *.* from '{$this->main->username}'@'localhost' identified by '{$this->main->dbpassword}';");
+
 		$this->log_error_messages(false);
 	}
 
@@ -71,37 +72,39 @@ class Mysqldb__mysql extends lxDriverClass {
 	{
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-		mysqli_query($rdb, "drop database {$this->main->dbname};");
+		$rdb->query("drop database {$this->main->dbname};");
+
 		$this->log_error_messages(false);
 
-		mysqli_query($rdb, "delete from mysql.user where user = '{$this->main->username}';");
+		$rdb->query("delete from mysql.user where user = '{$this->main->username}';");
+
 		$this->log_error_messages(false);
 
-		mysqli_query($rdb, "flush privileges;");
+		$rdb->query("flush privileges;");
 	}
 
 	function updateDatabase()
 	{
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-		mysqli_query($rdb, "update mysql.user set password = PASSWORD('{$this->main->dbpassword}') where user = '{$this->main->username}';");
+		$rdb->query("update mysql.user set password = PASSWORD('{$this->main->dbpassword}') where user = '{$this->main->username}';");
+
 		$this->log_error_messages();
 
-		mysqli_query($rdb, "flush privileges;");
-
+		$rdb->query("flush privileges;");
 	}
 
 	function log_error_messages($throwflag = true)
 	{
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-		if (mysqli_errno(mysqli_errno)) {
-			dprint(mysqli_error($rdb));
+		if ($rdb->connect_errno) {
+			dprint($rdb->connect_error);
 
-			log_error(mysqli_error($rdb));
+			log_error($rdb->connect_error);
 
 			if ($throwflag) {
-				throw new lxException('mysql_error', '', mysqli_error($rdb));
+				throw new lxException('mysql_error', '', $rdb->connect_error);
 			}
 		}
 	}
@@ -125,18 +128,15 @@ class Mysqldb__mysql extends lxDriverClass {
 		}
 
 		$cmd = implode(" ", $arg);
-		/*
-			$output = null;
-			$ret = null;
-			if (!windowsos()) {
-				exec("exec $cmd > $docf", $output, $ret);
-			} else {
-				exec("$cmd", $output, $ret);
-				file_put_contents($docf, $output);
-			}
-		*/
-		$link = mysqli_connect('localhost', $dbadmin, $dbpass);
-		$result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
+	/*
+		$output = null;
+		$ret = null;
+
+		exec("exec $cmd > $docf", $output, $ret);
+	*/
+
+		$link = new mysqli('localhost', $dbadmin, $dbpass);
+		$result = $link->query("CREATE DATABASE IF NOT EXISTS {$dbname}");
 
 		try {
 			system("{$cmd} > {$docf}");
@@ -149,21 +149,18 @@ class Mysqldb__mysql extends lxDriverClass {
 
 	static function drop_all_table($dbname, $dbuser, $dbpass)
 	{
-		$con = mysqli_connect("localhost", $dbuser, $dbpass);
+		$con = new mysqli("localhost", $dbuser, $dbpass, $dbname);
+		$query = $con->query($con, "show tables");
 
-		mysqli_select_db($link, $dbname);
-
-		$query = mysqli_query($link, "show tables");
-
-		while($res = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+		while($res = $query->fetch_array(MYSQLI_ASSOC)) {
 			$total[] = getFirstFromList($res);
 		}
 
 		foreach($total as $k => $v) {
-			mysqli_query($link, "drop table $v");
+			$con->query("drop table $v");
 		}
 
-		mysqli_close($con);
+		$con->close();
 	}
 
 	static function restore_dump($dbname, $dbuser, $dbpass, $docf)
@@ -227,14 +224,14 @@ class Mysqldb__mysql extends lxDriverClass {
 
 		$cmd = implode(" ", $arg);
 
-		$link = mysqli_connect('localhost', $dbadmin, $dbpass);
-
-		$result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
+		$link = new mysqli('localhost', $dbadmin, $dbpass);
+		$result = $link->query("CREATE DATABASE IF NOT EXISTS {$dbname}");
 
 		try {
 			system("{$cmd} > {$docf}");
 		} catch (Exception $e) {
 			lxfile_tmp_rm_rec($vd);
+
 		//	throw new lxException('Error: ' . $e->getMessage(), $dbname);
 			log_log("backup", "- Error '{$e->getMessage()}' for '{$dbname}'");
 		}
@@ -251,8 +248,8 @@ class Mysqldb__mysql extends lxDriverClass {
 	{
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
-		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%'");
-		mysqli_query($rdb, "grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost'");
+		$rdb->query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%'");
+		$rdb->query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'localhost'");
 	}
 
 	function do_restore($docd)
@@ -276,7 +273,7 @@ class Mysqldb__mysql extends lxDriverClass {
 		$ret = lxshell_unzip_with_throw($vd, $docd);
 
 		if (!lxfile_exists($docf)) {
-			//	throw new lxException('could_not_find_matching_dumpfile_for_db', '', '');
+		//	throw new lxException('could_not_find_matching_dumpfile_for_db', '', '');
 			log_log("restore", "- Not match $docf file for database");
 		}
 
@@ -294,9 +291,8 @@ class Mysqldb__mysql extends lxDriverClass {
 
 		$cmd = implode(" ", $arg);
 
-		$link = mysqli_connect('localhost', $dbadmin, $dbpass);
-
-		$result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS {$dbname}", $link);
+		$link = new mysqli('localhost', $dbadmin, $dbpass);
+		$result = $link->query("CREATE DATABASE IF NOT EXISTS {$dbname}");
 
 		try {
 			system("{$cmd} < {$docf}");

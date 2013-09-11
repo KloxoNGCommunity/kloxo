@@ -664,7 +664,7 @@ function PrepareRoundCubeDb($nolog = null)
 	$user = "root";
 	$host = "localhost";
 
-	$link = mysqli_connect($host, $user, $pass);
+	$link = new mysqli($host, $user, $pass);
 
 	if (!$link) {
 		log_cleanup("- Mysql root password incorrect", $nolog);
@@ -702,11 +702,12 @@ function PrepareRoundCubeDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysqli_query($link, "GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '{$pass}'");
-	mysqli_query($link, "flush privileges");
+	$result = $link->query("GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '{$pass}'");
+	$link->query("flush privileges");
 
 	if (!$result) {
 		print("- Could not grant privileges. Script Abort");
+
 		exit;
 	}
 
@@ -731,10 +732,12 @@ function PrepareHordeDb($nolog = null)
 	$pass = slave_get_db_pass();
 	$user = "root";
 	$host = "localhost";
-	$link = mysqli_connect($host, $user, $pass);
+
+	$link = new mysqli($host, $user, $pass);
 
 	if (!$link) {
 		log_cleanup("- Mysql root password incorrect", $nolog);
+
 		exit;
 	}
 
@@ -744,7 +747,7 @@ function PrepareHordeDb($nolog = null)
 		$pstring = "-p\"$pass\"";
 	}
 
-	$result = mysqli_select_db($link, 'horde_groupware');
+	$result = $link->select_db('horde_groupware');
 
 	log_cleanup("- Fix MySQL commands in import files of Horde", $nolog);
 
@@ -769,8 +772,8 @@ function PrepareHordeDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysqli_query($link, "GRANT ALL ON horde_groupware.* TO horde_groupware@localhost IDENTIFIED BY '{$pass}'");
-	mysqli_query($link, "flush privileges");
+	$result = $link->query("GRANT ALL ON horde_groupware.* TO horde_groupware@localhost IDENTIFIED BY '{$pass}'");
+	$link->query("flush privileges");
 
 	if (!$result) {
 		log_cleanup("Could not grant privileges. Script Aborted", $nolog);
@@ -809,7 +812,8 @@ function PrepareAfterlogicDb($nolog = null)
 	$pass = slave_get_db_pass();
 	$user = "root";
 	$host = "localhost";
-	$link = mysqli_connect($host, $user, $pass);
+
+	$link = new mysqli($host, $user, $pass);
 
 	if (!$link) {
 		log_cleanup("- Mysql root password incorrect", $nolog);
@@ -842,8 +846,8 @@ function PrepareAfterlogicDb($nolog = null)
 
 	lfile_put_contents($cfgfile, $content);
 
-	$result = mysqli_query($link, "GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'");
-	mysqli_query($link, "flush privileges");
+	$result = $link->query("GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'");
+	$link->query("flush privileges");
 
 	lfile_put_contents($cfgfile, $content);
 
@@ -1330,7 +1334,7 @@ function fix_flag_variable($table, $flagvariable)
 
 function upload_file_to_db($dbtype, $dbhost, $dbuser, $dbpassword, $dbname, $file)
 {
-	mysqli_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file);
+	mysql_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file);
 }
 
 function calculateRealTotal($inout)
@@ -1350,17 +1354,17 @@ function calculateRealTotal($inout)
 
 function mysql_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file)
 {
-	$rs = mysqli_connect($dbhost, $dbuser, $dbpassword);
+	$rs = new mysqli($dbhost, $dbuser, $dbpassword);
 
 	if (!$rs) {
 		throw new lxException('no_mysql_connection_while_uploading_file,', '');
 	}
 
-	mysqli_select_db($link, $dbname);
+	$rs->select_db($dbname);
 
 	$res = lfile_get_contents($file);
 
-	$res = mysqli_query($link, $res);
+	$res = $rs->query($res);
 
 	if (!$res) {
 		throw new lxException('no_mysql_connection_while_uploading_file,', '');
@@ -7325,23 +7329,23 @@ function resetQmailAssign()
 {
 	$pass = slave_get_db_pass();
 
-	$con = mysqli_connect("localhost", "root", $pass);
+	$con = new mysqli("localhost", "root", $pass);
 
 	if (!$con) {
-		die('Could not connect: ' . mysqli_error($con));
+		die('Could not connect: ' . $con->connect_error);
 	}
 
-	mysqli_select_db($con, "vpopmail");
+	$con->select_db("vpopmail");
 
-	$result = mysqli_query($con, "SELECT * FROM vpopmail");
+	$result = $con->query("SELECT * FROM vpopmail");
 
 	$n = array();
 
-	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+	while($row = $result->fetch_array(MYSQLI_ASSOC)) {
 		$n[$row['pw_domain']] = str_replace("/" . $row['pw_name'], '', $row['pw_dir']);
 	}
 
-	mysqli_close($con);
+	$con->close();
 
 	$t = '';
 

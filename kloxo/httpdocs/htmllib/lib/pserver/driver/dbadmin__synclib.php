@@ -2,7 +2,6 @@
 
 class Dbadmin__sync extends lxDriverClass
 {
-
 	function dbactionUpdate($subaction)
 	{
 		switch ($this->main->dbtype) {
@@ -18,10 +17,11 @@ class Dbadmin__sync extends lxDriverClass
 	{
 		$dbadmin = $this->main->dbadmin_name;
 		$dbpass = $this->main->dbpassword;
-		$rdb = mysqli_connect('localhost', $dbadmin, $dbpass);
+
+		$rdb = new mysqli('localhost', $dbadmin, $dbpass);
 
 		if (!$rdb) {
-			log_error(mysqli_error($rdb));
+			log_error($rdb->connect_error);
 
 			throw new lxException('the_mysql_admin_password_is_not_correct', '', '');
 		}
@@ -39,7 +39,8 @@ class Dbadmin__sync extends lxDriverClass
 	function mysql_reset_pass()
 	{
 		$rdb = $this->lx_mysql_connect("localhost", $this->main->dbadmin_name, $this->main->old_db_password);
-		$res = mysqli_query($rdb, "set password=Password('{$this->main->dbpassword}');");
+
+		$res = $rdb->query("set password=Password('{$this->main->dbpassword}');");
 
 		if (!$res) {
 			throw new lxException('mysql_password_reset_failed', '', '');
@@ -48,10 +49,10 @@ class Dbadmin__sync extends lxDriverClass
 
 	function lx_mysql_connect($server, $dbadmin, $dbpass)
 	{
-		$rdb = mysqli_connect('localhost', $dbadmin, $dbpass);
+		$rdb = new mysqli('localhost', $dbadmin, $dbpass);
 
 		if (!$rdb) {
-			log_error(mysqli_error($rdb));
+			log_error($rdb->connect_error);
 
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 

@@ -13,7 +13,8 @@ function create_mysql_db($type, $opt, $admin_pass)
 	}
 
 	if ($sgbl->__var_database_type === 'mysql') {
-		$req = mysqli_connect('localhost', $opt['db-rootuser'], $opt['db-rootpassword']);
+		$req = new mysqli('localhost', $opt['db-rootuser'], $opt['db-rootpassword']);
+
 	} else {
 		$req = new PDO("sqlite:$sgbl->__var_dbf");
 	}
@@ -30,8 +31,8 @@ function create_mysql_db($type, $opt, $admin_pass)
 	$pguser = $sgbl->__var_admin_user;
 
 	if ($sgbl->__var_database_type === 'mysql') {
-		mysqli_query($req, "create database $dbname");
-		mysqli_query($req, "grant all on $dbname.* to '$pguser'@'localhost' identified by '$dbadminpass';");
+		$req->query("create database $dbname");
+		$req->query("grant all on $dbname.* to '$pguser'@'localhost' identified by '$dbadminpass';");
 	} else {
 		//
 	}
@@ -39,7 +40,6 @@ function create_mysql_db($type, $opt, $admin_pass)
 	lfile_put_contents("__path_admin_pass", $dbadminpass);
 	lxfile_generic_chown("__path_admin_pass", "lxlabs");
 }
-
 
 function add_admin($pass)
 {
@@ -138,8 +138,5 @@ function create_servername()
 
 	return;
 }
-
-
-
 
 

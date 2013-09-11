@@ -9,13 +9,13 @@ $dbadmin->get();
 
 $pass = $dbadmin->get();
 
-$rd = mysqli_connect("localhost", "root", $pass);
+$rd = new mysqli("localhost", "root", $pass);
 
 if (!$rd) {
 	system("lxphp.exe ../bin/common/misc/reset-mysql-root-password.php {$pass}");
 }
 
-$rd = mysqli_connect("localhost", "root", $pass);
+$rd =  new mysqli("localhost", "root", $pass);
 
 
 

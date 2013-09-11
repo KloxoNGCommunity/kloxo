@@ -48,8 +48,7 @@ class Sqlite
 		$pass = getAdminDbPass();
 
 		if ($sgbl->__var_database_type === 'mysql') {
-			$gbl->$fdbvar = mysqli_connect($this->__readserver, $user, $pass) or dprint("Could not connect to the MySql server.\n");
-			mysqli_select_db($gbl->$fdbvar, $db) or dprint("Could not select $db MySQL database.\n");
+			$gbl->$fdbvar = new mysqli($this->__readserver, $user, $pass, $db) or dprint("Could not connect and select select $db MySQL database.\n");
 			self::$__database = 'mysql';
 		} else {
 			try {
@@ -103,10 +102,10 @@ class Sqlite
 	
 		if (self::$__database == 'mysql') {
 			// the old behavior was to reconnect. Not needed anymore.
-			$result = mysqli_query($res, $string);
+			$result = $res->query($string);
 
 			if (!$result) {
-				$error_message = mysqli_connect_errno();
+				$error_message = $res->connect_errno;
 			}
 
 			return $result;
@@ -132,20 +131,20 @@ class Sqlite
 	function database_fetch_array($query)
 	{
 		if (self::$__database == 'mysql') {
-			return mysqli_fetch_array($query, MYSQLI_ASSOC);
+			return $query->fetch_array(MYSQLI_ASSOC);
 		} else {
 			return $query->fetch(PDO::FETCH_ASSOC);
 		}
 	}
 
-	static function close()
+	function close()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$fdbvar = "__fdb_" . $this->__readserver;
 
 		if (self::$__database == 'mysql') {
-			mysqli_close($gbl->$fdbvar);
+			$gbl->$fdbvar->close();
 		} else {
 			//
 		}
@@ -205,7 +204,7 @@ class Sqlite
 		$query = "select $select from $this->__sqtable $string;";
 		$fulresult = $this->rl_query($query);
 
-		/// The ser varialbles are now handled in the setfromarray, and this saves us a lot time.
+		// The ser varialbles are now handled in the setfromarray, and this saves us a lot time.
 
 		return $fulresult;
 	}
@@ -278,7 +277,7 @@ class Sqlite
 			$res = NULL;
 		
 			if ($sgbl->__var_database_type === 'mysql') {
-				while (($row = mysqli_fetch_assoc($result))) {
+				while ($row = $result->fetch_assoc()) {
 					$res[$row['Field']] = $row['Field'];
 				}
 			} else {
@@ -516,11 +515,12 @@ class Sqlite
 		} else {
 			log_database("DbError: Insert Failed for {$this->__sqtable}:{$array['nname']}");
 			log_bdatabase("DbError: Insert Failed for {$this->__sqtable}:{$array['nname']} $insert");
+
 			// Not imporant... I think.. This happens mostly when they try add something twice.
 			// Let us just ignore the second time, but log it properly.
 
 			if ($sgbl->dbg > 0) {
-				//throw new lxException("db_add_failed", "{$this->__sqtable}:{$array['nname']}");
+			//	throw new lxException("db_add_failed", "{$this->__sqtable}:{$array['nname']}");
 			}
 
 			return true;

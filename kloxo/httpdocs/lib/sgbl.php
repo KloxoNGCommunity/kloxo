@@ -2,10 +2,8 @@
 
 class Sgbl
 {
-
 	function __construct()
 	{
-
 		$this->arg_getting_string = '
 		$arglist = array();
 		for ($i = $start; $i < func_num_args(); $i++) {
@@ -22,11 +20,7 @@ class Sgbl
 		$this->initCtTypes();
 
 		$this->__var_program_name = 'kloxo';
-/*
-		$this->__ver_major = "6";
-		$this->__ver_minor = "2";
-		$this->__ver_release = "0";
-*/
+
 		$t = file_get_contents('/usr/local/lxlabs/kloxo/bin/kloxoversion');
 		$a = explode('.', $t);
 
@@ -49,7 +43,7 @@ class Sgbl
 
 		$this->__ver_enterprise = "Single Server Edition";
 		$this->__ver_type = "production";
-//		$this->__ver_extra = "Beta";
+	//	$this->__ver_extra = "Beta";
 		$this->__ver_major_minor = $this->__ver_major . "." . $this->__ver_minor;
 		$this->__ver_major_minor_release = $this->__ver_major_minor . "." . $this->__ver_release;
 		$this->__ver_full = $t;
@@ -98,8 +92,7 @@ class Sgbl
 
 		// MR -- don't use isRpmInstalled for identified!!!
 		exec("rpm -q qmail-toaster", $out, $ret);
-		$this->__path_mail_root = (strpos($out[0], "qmail-toaster-") !== 0) ? 
-			"/home/lxadmin/mail" : "/home/vpopmail";
+		$this->__path_mail_root = (strpos($out[0], "qmail-toaster-") !== 0) ? "/home/lxadmin/mail" : "/home/vpopmail";
 		// MR -- still using old kloxo mail path
 		$this->__path_mail_data = "/home/lxadmin/mail";
 
@@ -117,15 +110,15 @@ class Sgbl
 
 		$this->__path_installapp_servervar = $this->__path_kloxo_httpd_root . "/installappdata/lx_template.servervars.phps";
 
-		//Default Values that will be overrriden in the kloxoconf file.
+		// Default Values that will be overrriden in the kloxoconf file.
 		$this->__path_named_chroot = "/var/named/chroot/";
 		$this->__var_progservice_apache = 'httpd';
 		$this->__var_programname_ftp = 'pure-ftpd';
 		$this->__var_programname_syslog = 'syslog';
-		//$this->__var_programname_mysql = 'mysqld';
+	//	$this->__var_programname_mysql = 'mysqld';
 		$this->__var_progservice_bind = 'named';
 		$this->__var_programname_mmail = 'qmail';
-		//$this->__var_programname_imap = 'courier-imap';
+	//	$this->__var_programname_imap = 'courier-imap';
 		$this->__var_programname_imap = 'dovecot';
 
 		$this->__var_programuser_dns = 'named';
@@ -135,45 +128,14 @@ class Sgbl
 		$this->__path_ssl_root = $this->__path_kloxo_httpd_root . "/ssl";
 		$this->__path_named_realpath = "$this->__path_named_chroot/$this->__path_named_path";
 
-	//	$this->__var_mssqlport = '7773';
 		$this->__var_local_port = '7776';
 		$this->__var_remote_port = '7779';
-	/*
-		$conffile = "$this->__path_program_root/file/conf/os.conf";
 
-		if (!file_exists($conffile)) {
-
-			$ret = findOperatingSystem();
-			$os = $ret['os'];
-
-			copy("$this->__path_program_root/file/conf/$os.conf", $conffile);
-		}
-	*/
 		$this->__var_exit_char = "___...___";
 		$this->__var_remote_char = "_._";
 
 		$this->__var_connection_type = "tcp";
-	/*
-		include_once $conffile;
 
-		if (!$conf) {
-			print("Error Reading Config File...\n");
-			exit;
-		}
-
-		foreach($conf as $k => $v) {
-			if (!is_array($v)) {
-				print("Error in Config File Syntax...\n");
-				exit;
-			}
-
-			$vvarcore = "__{$k}_";
-			foreach($v as $nk => $nv) {
-				$vvar =  $vvarcore . $nk;
-				$this->$vvar = $nv;
-			}
-		}
-	*/
 		$this->__path_dbschema = "$this->__path_program_root/file/.db_schema";
 
 		if ($this->__var_database_type === "sqlite") {
@@ -216,29 +178,6 @@ class Sgbl
 
 	private function initLanguages()
 	{
-/*
-		$this->__var_language['tr'] = 'Turkish';
-		$this->__var_language['en'] = 'English';
-		$this->__var_language['cen'] = 'Custom English';
-		$this->__var_language['cn'] = 'Chinese';
-		$this->__var_language['es'] = 'Spanish';
-		$this->__var_language['de'] = 'German';
-		$this->__var_language['it'] = 'Italian';
-		$this->__var_language['fr'] = 'French';
-		$this->__var_language['cz'] = 'Czech';
-		$this->__var_language['nl'] = 'Dutch';
-		$this->__var_language['pt'] = 'Portuguese';
-		$this->__var_language['pl'] = 'Polish';
-		$this->__var_language['lt'] = 'Lithuanian';
-		$this->__var_language['bg'] = 'Bulgarian';
-		$this->__var_language['jp'] = 'Japanese';
-		$this->__var_language['kr'] = 'Korean';
-		$this->__var_language['ru'] = 'Russian';
-		$this->__var_language['se'] = 'Swedish';
-		$this->__var_language['ro'] = 'Romanian';
-		$this->__var_language['br'] = 'Brazilian Portuguese';
-		$this->__var_language['hu'] = 'Hungarian';
-*/
 		// MR -- change reading language list
 		$path = "/usr/local/lxlabs/kloxo/httpdocs/lang";
 
@@ -271,8 +210,6 @@ class Sgbl
 		$this->__var_service_desc['bind'] = "Bind Dns Server";
 
 		$this->__var_service_desc['pure-ftpd'] = "Pureftp Ftp Server";
-	//	$this->__var_service_desc['courier'] = "Courier Pop/Imap Server";
-	//	$this->__var_service_desc['courier-imap'] = "Courier Pop/Imap Server";
 
 		$this->__var_service_desc['djbdns'] = "Djbdns Dns Server";
 		$this->__var_service_desc['iptables'] = "IPTables Firewall";
@@ -356,5 +293,4 @@ class Sgbl
 	{
 		return lxfile_exists("__path_slave_db");
 	}
-
 }

@@ -43,77 +43,61 @@ function setMysqlConvert($engine, $database, $table, $config)
 		exec("service mysqld restart");
 	}
 
-	$conn = mysqli_connect('localhost', 'root', $pass);
+	$conn = new mysqli('localhost', 'root', $pass);
 
-	mysqli_select_db($conn, 'mysql');
+	$conn->select_db('mysql');
 
 	log_cleanup("- Converting to " . $engine . " engine");
 
-	if ($database === '_all_') {
-		try {
-			$dbs = mysqli_query($conn, 'SHOW databases');
+	try {
+		if ($database === '_all_') {
 
-			while ($db = mysqli_fetch_array($dbs, MYSQLI_NUM)) {
+			$dbs = $conn->query('SHOW databases');
+
+			while ($db = $dbs->fetch_array(MYSQLI_NUM)) {
 				log_cleanup("-- " . $db[0] . " database converted");
 
-				mysqli_select_db($conn, $db[0]);
+				$conn->select_db($db[0]);
 
 				if ($table === '_all_') {
-					try {
-						$tbls = mysqli_query($conn, 'SHOW tables');
-					} catch (Exception $e) {
-						echo 'Message: ' . $e->getMessage();
-					}
+					$tbls = $conn->query('SHOW tables');
 
-					while ($tbl = mysqli_fetch_array($tbls, MYSQLI_NUM)) {
+					while ($tbl = $tbls->fetch_array(MYSQLI_NUM)) {
 						log_cleanup("--- " . $tbl[0] . " table converted");
 
 						if (!$tbl[0]) {
 							print("convert_{$tbl[0]}_table_failed");
 						}
 
-						mysqli_query($conn, "ALTER TABLE {$tbl[0]} ENGINE={$engine}");
+						$conn->query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
 					}
 				} else {
 					log_cleanup("--- " . $table . " table converted");
 
-					try {
-						mysqli_query($conn, "ALTER TABLE {$table} ENGINE ={$engine}");
-					} catch (Exception $e) {
-						echo 'Message: ' . $e->getMessage();
-					}
+					$conn->query("ALTER TABLE {$table} ENGINE ={$engine}");
 				}
-			}
-		} catch (Exception $e) {
-			echo 'Message: ' . $e->getMessage();
-		}
-
-	} else {
-		mysqli_select_db($conn, $database);
-
-		log_cleanup("-- " . $database . " database converted");
-
-		if ($table === '_all_') {
-			try {
-				$tbls = mysqli_query($conn, 'show tables');
-
-				while ($tbl = mysqli_fetch_array($tbls, MYSQLI_NUM)) {
-					log_cleanup("--- " . $tbl[0] . " table converted");
-
-					mysqli_query($conn, "ALTER TABLE {$tbl[0]} ENGINE={$engine}");
-				}
-			} catch (Exception $e) {
-				echo 'Message: ' . $e->getMessage();
 			}
 		} else {
-			log_cleanup("--- " . $table . " table");
+			$conn->select_db($database);
 
-			try {
-				mysqli_query($conn, "ALTER TABLE {$table} ENGINE={$engine}");
-			} catch (Exception $e) {
-				echo 'Message: ' . $e->getMessage();
+			log_cleanup("-- " . $database . " database converted");
+
+			if ($table === '_all_') {
+				$tbls = $conn->query('show tables');
+
+				while ($tbl = $tbls->fetch_array(MYSQLI_NUM)) {
+					log_cleanup("--- " . $tbl[0] . " table converted");
+
+					$conn->query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
+				}
+			} else {
+				log_cleanup("--- " . $table . " table");
+
+				$conn->query("ALTER TABLE {$table} ENGINE={$engine}");
 			}
 		}
+	} catch	(Exception $e) {
+		echo 'Message: ' . $e->getMessage();
 	}
 
 	//--- the second - back to 'original' config and restart mysql
@@ -140,12 +124,12 @@ function setMysqlConvert($engine, $database, $table, $config)
 			$string_collect = null;
 
 			foreach ($string_array as $sa) {
-				if (stristr($sa, 'skip-innodb') !== FALSE) {
+				if (stristr($sa, 'skip-innodb') !== false) {
 					$string_collect .= "";
 					continue;
 				}
 
-				if (stristr($sa, 'default-storage-engine') !== FALSE) {
+				if (stristr($sa, 'default-storage-engine') !== false) {
 					$string_collect .= "";
 					continue;
 				}
