@@ -1,5 +1,13 @@
 #!/bin/sh
 
+t=$(mysql -V|awk '{print $5}')
+u=$(echo $t|grep -i '5.0.')
+
+if [ "$u" != "" ] ; then
+	echo "Need update mysql first..."
+	echo "- Run 'yum replace mysql --replace-with=mysql55'" 
+fi
+
 T="$(date +%s%N)"
 
 #if $(rpm -qa|grep lxphp >/dev/null 2>&1) ; then
