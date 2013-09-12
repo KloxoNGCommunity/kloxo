@@ -21,7 +21,7 @@
     $maxchildren = '6';
 ?>
 [<?php echo $pool; ?>]
-#listen = 127.0.0.1:<?php echo $fpmport; ?>
+;listen = 127.0.0.1:<?php echo $fpmport; ?>
 
 listen = /home/php-fpm/sock/<?php echo $user; ?>.sock
 

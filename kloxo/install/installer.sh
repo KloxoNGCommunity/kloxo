@@ -123,14 +123,21 @@ yum clean all
 
 yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
 
-yum remove bind* mysql* mariadb* MariaDB* php* -y
+yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* -y
 
 #if [ ! -f /opt/php52s/bin/php ] ; then
 #	if [ -f /usr/bin/php ] ; then
 #		yum -y remove php*
 #	fi
 
-	yum -y install mysql55 mysql55-server mysql55-libs
+	osverid=$(yum list yum*|grep -i "@")
+
+	## it's mean centos 6 or equal
+	if [ "${osverid}" != "" ]  ; then
+		yum -y install mysql mysql-server mysql-libs
+	else
+		yum -y install mysql55 mysql55-server mysql55-libs
+	fi
 
 	yum -y install php53u php53u-mysql
 
@@ -152,12 +159,14 @@ fi
 lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 
 # Fix issue because sometimes kloxo database not created
-if [ $APP_TYPE == 'master' ] ; then
-	if [ ! -d /var/lib/mysql/kloxo ] ; then
-		cd /usr/local/lxlabs/kloxo/install
-		lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2 $* | tee kloxo-mr_install.log
+for (( a=1; a<=2; a++ )) ; do
+	if [ $APP_TYPE == 'master' ] ; then
+		if [ ! -d /var/lib/mysql/kloxo ] ; then
+			cd /usr/local/lxlabs/kloxo/install
+			lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2 $* | tee kloxo-mr_install.log
+		fi
 	fi
-fi
+done
 
 echo
 echo "Run 'sh /script/restart-all' to make sure all services running well"
