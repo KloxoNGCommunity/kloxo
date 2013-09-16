@@ -7550,7 +7550,12 @@ function setHostsFile($nolog = null)
 
 	exec("hostname -s", $hnshort);
 	exec("hostname", $hnfull);
-	exec("hostname -i", $hnip);
+//	exec("hostname -i", $hnip);
+
+	// MR -- something trouble for centos 6 and then use it!
+//	if ($hnip[0] === '') {
+		exec("ifconfig |grep -i 'inet addr:'|grep -v '127.0.0.1'|awk '{print $2}'|sed 's/addr\://'", $hnip);
+//	}
 
 	$content = "{$hnip[0]} {$hnfull[0]} {$hnshort[0]}";
 
