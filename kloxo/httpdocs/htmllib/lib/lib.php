@@ -119,7 +119,7 @@ function csainlist($string, $ssl)
 	return false;
 }
 
-function file_put_between_comments($username, $stlist, $endlist, $startstring, $endstring, $file, $string)
+function file_put_between_comments($username, $stlist, $endlist, $startstring, $endstring, $file, $string, $nowarning = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
@@ -130,7 +130,13 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 
 	$prgm = $sgbl->__var_program_name;
 
-	$startcomment = "###Please Don't edit these comments or the content in between. $prgm uses this to recognize the lines it writes to the the file. If the above line is corrupted, it may fail to recognize them, leading to multiple lines.";
+	$startcomment = '';
+
+	if ($nowarning !== true) {
+		$startcomment = "\n### Please Don't edit these comments or the content in between. ".
+			"$prgm uses this to recognize the lines it writes to the the file. ".
+			"If the above line is corrupted, it may fail to recognize them, leading to multiple lines.";
+	}
 
 	$outlist = null;
 	$afterlist = null;
@@ -169,7 +175,7 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 	}
 
 	$afterstring = implode("\n", $afterlist);
-	$outstring = "{$outstring}\n{$startstring}\n{$startcomment}\n{$string}\n{$endstring}\n$afterstring\n";
+	$outstring = "{$outstring}\n{$startstring}{$startcomment}\n{$string}\n{$endstring}\n$afterstring\n";
 
 	lxuser_put_contents($username, $file, $outstring);
 }
@@ -7067,6 +7073,8 @@ function setInitialServices($nolog = null)
 
 	setInitialServer($nolog);
 
+	setHostsFile($nolog);
+
 	setDefaultPages($nolog);
 
 	setInitialPhpMyAdmin($nolog);
@@ -7533,3 +7541,25 @@ function getKloxoType()
 	}
 }
 
+function setHostsFile($nolog = null)
+{
+	log_cleanup("Add 'hostname' information to '/etc/hosts'", $nolog);
+
+	$begincomment[] = "### begin - add by Kloxo-MR";
+	$endcomment[] = "### end - add by Kloxo-MR";
+
+	exec("hostname -s", $hnshort);
+	exec("hostname", $hnfull);
+	exec("hostname -i", $hnip);
+
+	$content = "{$hnip[0]} {$hnfull[0]} {$hnshort[0]}";
+
+	$hnfile = '/etc/hosts';
+
+	$scontent = file_get_contents($hnfile);
+
+	log_cleanup("- Add ip, short and full name of 'hostname'", $nolog);
+
+	file_put_between_comments("root:root", $begincomment, $endcomment, 
+		$begincomment[0], $endcomment[0], $hnfile, $content, $nowarning=true);
+}

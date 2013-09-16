@@ -23,28 +23,6 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
-hnshort=$(hostname -s)
-## don't use 'hostname -f'
-hnfull=$(hostname)
-
-## use "" instead ''
-val1=$(cat /etc/hosts|grep -i "$hnfull")
-val2=$(cat /etc/hosts|grep -i "::1")
-
-
-if [ "$val1" == "" ] ; then
-	inserter="### begin - add by Kloxo-MR\n"
-	inserter="${inserter}0.0.0.0 ${hnfull} ${hnfull}\n"
-
-	if [ "$val2" != "" ] ; then
-		inserter="${inserter}:: ${hnfull} ${hnshort}\n"
-	fi
-
-	inserter="${inserter}### end - add by Kloxo-MR\n"
-
-	echo -e $inserter >> /etc/hosts
-fi
-
 echo
 echo "*** Ready to begin $APP_NAME setup. ***"
 echo
