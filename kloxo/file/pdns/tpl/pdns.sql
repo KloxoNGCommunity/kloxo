@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS `powerdns`;
+USE `powerdns`;
+
 CREATE TABLE IF NOT EXISTS `cryptokeys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain_id` int(11) NOT NULL,

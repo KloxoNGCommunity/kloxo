@@ -3,7 +3,7 @@
 $gl_class_array['dns__bind'] =  "htmllib/lib/dns/driver/dns__bindlib.php";
 $gl_class_array['dns__maradns'] =  "htmllib/lib/dns/driver/dns__maradnslib.php";
 $gl_class_array['dns__djbdns'] =  "htmllib/lib/dns/driver/dns__djbdnslib.php";
-$gl_class_array['dns__powerdns'] =  "htmllib/lib/dns/driver/dns__powerdnslib.php";
+$gl_class_array['dns__pdns'] =  "htmllib/lib/dns/driver/dns__pdnslib.php";
 //--// $gl_class_array['dns__nsd'] =  "htmllib/lib/dns/driver/dns__nsdlib.php";
 //--// $gl_class_array['dns__msdns'] =  "htmllib/lib/dns/driver/dns__msdnslib.php";
 $gl_class_array['anonftpipaddress__pureftp'] =  "htmllib/lib/pserver/driver/anonftpipaddress__pureftplib.php";

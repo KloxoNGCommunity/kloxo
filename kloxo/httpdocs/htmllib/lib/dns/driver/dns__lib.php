@@ -55,6 +55,14 @@ class dns__ extends lxDriverClass
 	{
 		setRpmInstalled($drivertype);
 
+		if ($driverapp === 'bind') {
+			setRpmInstalled($drivertype . "-utils");
+		} elseif ($driverapp === 'pdns') {
+			setRpmInstalled($drivertype . "-backend-mysql");
+		} elseif ($driverapp === 'maradns') {
+			// TODO!
+		}
+
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
 
 		$initfile = getLinkCustomfile("/home/{$drivertype}/etc/init.d", "$altname.init");
