@@ -94,17 +94,6 @@ function updatecleanup_main()
 
 		$fixapps = array("dns", "web", "php", "mail", "ftpuser");
 		setUpdateConfigWithVersionCheck($fixapps, $opt['type']);
-
-		exec("sh /script/fixmail-all");
-		
-		if (file_exists("/var/qmail/supervise/smtp/supervise/ok")) {
-			log_cleanup("Restarting Qmail services");
-			exec("qmailctl restart");
-			log_cleanup("- Restarting process");
-		}
-
-		// --- for anticipate change xinetd listing
-		exec("service xinetd restart");
 	}
 
 	// MR -- installatron need ownership as root:root

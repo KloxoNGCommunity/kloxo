@@ -649,6 +649,58 @@ function slave_get_driver($class)
 	return $rmt->data[$class];
 }
 
+function PreparePowerdnsDb($nolog = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	log_cleanup("Preparing PowerDNS database", $nolog);
+
+//	if (!isRpmInstalled('pdns')) { return; }
+
+//	if (!file_exists("/etc/pdns")) { return; }
+
+	$pass = slave_get_db_pass();
+	$user = "root";
+	$host = "localhost";
+
+	$link = new mysqli($host, $user, $pass);
+
+	if (!$link) {
+		log_cleanup("- Mysql root password incorrect", $nolog);
+
+		exit;
+	}
+
+	$pstring = null;
+
+	if ($pass) {
+		$pstring = "-p\"$pass\"";
+	}
+
+	log_cleanup("- Fixing MySQL commands in import files", $nolog);
+
+	$pdnspath = "/home/pdns";
+
+	exec("mysql -f -u root {$pstring} < {$pdnspath}/tpl/pdns.sql >/dev/null 2>&1");
+
+	$sfile = getLinkCustomfile("{$pdnspath}/etc/conf", "pdns.conf");
+	$tfile = "/etc/pdns/pdns.conf";
+
+	$content = file_get_contents($sfile);
+
+	log_cleanup("- Generating password", $nolog);
+	$pass = randomString(8);
+
+	$result = $link->query("GRANT ALL ON powerdns.* TO powerdns@localhost IDENTIFIED BY '{$pass}'");
+	$link->query("flush privileges");
+
+	$content = str_replace("gmysql-password=powerdns", "gmysql-password={$pass}", $content);
+
+	log_cleanup("- Add Password to configuration file", $nolog);
+
+	file_put_contents($tfile, $content);
+}
+
 function PrepareRoundCubeDb($nolog = null)
 {
 	// MR -- because Roundcube use rpm on Kloxo-MR,
@@ -5603,15 +5655,17 @@ function setInitialDnsConfig($type, $nolog = null)
 
 	setCopyDnsConfFiles($type);
 
-	if ($type === 'pdns') { return; }
+	if ($type === 'pdns') { 
+		PreparePowerdnsDb($nolog);
+	} else {
+		$newlist = array("defaults", "master", "slave", "reverse");
 
-	$newlist = array("defaults", "master", "slave", "reverse");
+		$path = "/home/{$type}/conf";
 
-	$path = "/home/{$type}/conf";
-
-	foreach ($newlist as &$n) {
-		if (!file_exists("{$path}/{$n}")) {
-			lxfile_mkdir("{$path}/{$n}");
+		foreach ($newlist as &$n) {
+			if (!file_exists("{$path}/{$n}")) {
+				lxfile_mkdir("{$path}/{$n}");
+			}
 		}
 	}
 }
@@ -6200,7 +6254,10 @@ function setInitialServer($nolog = null)
 	lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/init", "kloxo.init"),
 		"/etc/init.d/kloxo");
 
-	exec("chkconfig hiawatha off; service hiawatha stop");
+	if (file_exists("/etc/init.d/hiawatha")) {
+		exec("chkconfig hiawatha off; service hiawatha stop");
+	}
+
 	exec("chown root:root /etc/init.d/kloxo; chmod 755 /etc/init.d/kloxo");
 	exec("chkconfig kloxo on");
 }

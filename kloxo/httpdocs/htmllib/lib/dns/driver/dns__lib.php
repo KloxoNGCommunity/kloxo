@@ -27,6 +27,10 @@ class dns__ extends lxDriverClass
 
 		setCopyDnsConfFiles($drivertype);
 
+		if ($drivertype === 'pdns') {
+			PreparePowerdnsDb($nolog);
+		}
+
 		createRestartFile($altname);
 	}
 
