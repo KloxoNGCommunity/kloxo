@@ -1,6 +1,6 @@
 #!/bin/sh
 
-list=(named djbdns maradns)
+list=(named djbdns maradns pdns)
 
 for item in ${list[*]} ; do
 	if [ -f /etc/init.d/${item} ] ; then

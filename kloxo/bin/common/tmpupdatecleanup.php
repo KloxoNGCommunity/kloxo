@@ -57,21 +57,21 @@ function updatecleanup_main()
 		exec("chkconfig mysql off >/dev/null 2>&1");
 		exec("chkconfig mysqld on");
 	
-		log_cleanup("- MySQL restarted");
-		exec("service mysqld restart");
+	//	log_cleanup("- MySQL restarted");
+	//	exec("service mysqld restart");
 	} elseif (file_exists("/etc/rc.d/init.d/mysql")) {
 		log_cleanup("- MariaDB activated");
 		exec("chkconfig mysqld off >/dev/null 2>&1");
 		exec("chkconfig mysql on");
 	
-		log_cleanup("- MariaDB restarted");
-		exec("service mysql restart");
+	//	log_cleanup("- MariaDB restarted");
+	//	exec("service mysql restart");
 	}
 
 	$slist = array(
 		"httpd* lighttpd* nginx* hiawatha*",
 		"mod_* mysql* mariadb* MariaDB* php*",
-		"bind* djbdns* maradns* powerdns",
+		"bind* djbdns* maradns* pdns",
 		"pure-ftpd* *-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",
 		"kloxomr-addon-*.noarch",

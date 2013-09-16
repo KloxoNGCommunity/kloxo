@@ -64,23 +64,26 @@ class dns__ extends lxDriverClass
 	{
 	}
 
-	function createConfFile()
+	function createConfFile($action = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$this->syncAddFile($this->main->nname);
+		$this->syncAddFile($this->main->nname, $action);
 	
 		foreach ((array)$this->main->__var_addonlist as $d) {
-			$this->syncAddFile($d->nname);
+			$this->syncAddFile($d->nname, $action);
 		}
 	
 	}
 
-	function syncAddFile($domainname)
+	function syncAddFile($domainname, $action = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$input = array();
+
+		// MR -- for powerdns
+		$input['rootpass'] = slave_get_db_pass();
 
 		$input['domainname'] = $domainname;
 		$input['ttl'] = $this->main->ttl;
@@ -89,6 +92,10 @@ class dns__ extends lxDriverClass
 		$input['email'] = $this->main->__var_email;
 		$input['serial'] = $this->main->__var_ddate;
 		$input['dns_records'] = $this->main->dns_record_a;
+
+		if ($action) {
+			$input['action'] = $action;
+		}
 
 		self::setCreateConfFile($input);
 	}
@@ -99,15 +106,27 @@ class dns__ extends lxDriverClass
 
 		$altname = ($driverapp === 'bind') ? 'named' : $driverapp;
 
-		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "domains.conf.tpl");
-		$tpltarget = "/home/{$driverapp}/conf/master/" . $input['domainname'];
+		if ($driverapp !== 'pdns') {
+			$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "domains.conf.tpl");
+			$tpltarget = "/home/{$driverapp}/conf/master/" . $input['domainname'];
 
-		$tpl = file_get_contents($tplsource);
+			$tpl = file_get_contents($tplsource);
 
-		$tplparse = getParseInlinePhp($tpl, $input);
+			$tplparse = getParseInlinePhp($tpl, $input);
 
-		if ($tplparse) {
-			file_put_contents($tpltarget, $tplparse);
+			if ($tplparse) {
+				file_put_contents($tpltarget, $tplparse);
+			}
+		} else {
+			if (!isset($input['action'])) {
+				$input['action'] = 'add';
+			}
+
+			$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "domains.conf.tpl");
+
+			$tpl = file_get_contents($tplsource);
+
+			$tplparse = getParseInlinePhp($tpl, $input);
 		}
 	}
 
@@ -116,6 +135,11 @@ class dns__ extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$driverapp = slave_get_driver('dns');
+
+		$altname = ($driverapp === 'bind') ? 'named' : $driverapp;
+
+		// MR -- powerdns no need it
+		if ($driverapp === 'pdns') { return; }
 
 		$input = array();
 
@@ -131,6 +155,11 @@ class dns__ extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$driverapp = slave_get_driver('dns');
+
+		$altname = ($driverapp === 'bind') ? 'named' : $driverapp;
+
+		// MR -- powerdns no need it
+		if ($driverapp === 'pdns') { return; }
 
 		$input = array();
 
@@ -159,35 +188,36 @@ class dns__ extends lxDriverClass
 
 	function dbactionUpdate($subaction)
 	{
-	/*
-		if ($subaction === 'allowed_transfer') {
-			$this->createAllowTransferIps();
-		} elseif ($subaction === 'synchronize') {
-			$this->syncCreateConf();
-		} elseif ($subaction === 'domain') {
-			$this->createConfFile();
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$driverapp = slave_get_driver('dns');
+
+		$altname = ($driverapp === 'bind') ? 'named' : $driverapp;
+
+		if ($driverapp === 'pdns') {
+			$this->createConfFile('update');
 		} else {
-			$this->createConfFile();
-			$this->createAllowTransferIps();
-			$this->syncCreateConf();
-		}
-	*/
-		switch ($subaction) {
-			case "allowed_transfer":
-				$this->createAllowTransferIps();
-				break;
-			case "synchronize":
-				$this->syncCreateConf();
-				break;
-			case "domain":
-				$this->createConfFile();
-				break;
-			case "full_update":
-			default:
-				$this->createConfFile();
-				$this->syncCreateConf();
-				$this->createAllowTransferIps();
-				break;
+			switch ($subaction) {
+				case "allowed_transfer":
+					$this->createAllowTransferIps();
+
+					break;
+				case "synchronize":
+					$this->syncCreateConf();
+
+					break;
+				case "domain":
+					$this->createConfFile();
+
+					break;
+				case "full_update":
+				default:
+					$this->createConfFile();
+					$this->syncCreateConf();
+					$this->createAllowTransferIps();
+
+					break;
+			}
 		}
 	}
 
@@ -197,19 +227,38 @@ class dns__ extends lxDriverClass
 
 		$driverapp = slave_get_driver('dns');
 
+		$altname = ($driverapp === 'bind') ? 'named' : $driverapp;
+
 		$domainname = $this->main->nname;
 
-		$dnsfile = "/home/{$driverapp}/conf/master/{$domainname}";
-		lxfile_rm($dnsfile);
-
-		foreach ((array)$this->main->__var_addonlist as $d) {
-			$addondomain = $d->nname;
-			$dnsfile = "/home/{$driverapp}/conf/master/{$addondomain}";
+		if ($driverapp !== 'pdns') {
+			$dnsfile = "/home/{$driverapp}/conf/master/{$domainname}";
 			lxfile_rm($dnsfile);
-		}
 
-		$this->syncCreateConf();
-		$this->createAllowTransferIps();
+			foreach ((array)$this->main->__var_addonlist as $d) {
+				$addondomain = $d->nname;
+				$dnsfile = "/home/{$driverapp}/conf/master/{$addondomain}";
+				lxfile_rm($dnsfile);
+			}
+
+			$this->syncCreateConf();
+			$this->createAllowTransferIps();
+		} else {
+			$input = array();
+
+			// MR -- for powerdns
+			$input['rootpass'] = slave_get_db_pass();
+
+			$input['domainname'] = $domainname;
+
+			$input['action'] = 'delete';
+
+			$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "domains.conf.tpl");
+
+			$tpl = file_get_contents($tplsource);
+
+			$tplparse = getParseInlinePhp($tpl, $input);
+		}
 	}
 
 	function dosyncToSystemPost()
@@ -224,6 +273,10 @@ class dns__ extends lxDriverClass
 			createRestartFile("named");
 		} elseif ($driverapp === 'djbdns') {
 			createRestartFile("djbdns");
+		} elseif ($driverapp === 'pdns') {
+			// no need restart!
+		} elseif ($driverapp === 'maradns') {
+			createRestartFile("maradns");
 		}
 	}
 }

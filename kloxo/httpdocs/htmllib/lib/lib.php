@@ -5521,7 +5521,7 @@ function isPhpModuleInstalled($module)
 	$list = array("{$phpbranch}-{$module}", "php-{$module}");
 
 	foreach ($list as &$l) {
-		$ret = isRpmInstalled($i);
+		$ret = isRpmInstalled($l);
 
 		if (!$ret) {
 			return true;
@@ -5602,6 +5602,8 @@ function setInitialDnsConfig($type, $nolog = null)
 	if (!file_exists("{$fpath}/{$type}")) { return; }
 
 	setCopyDnsConfFiles($type);
+
+	if ($type === 'pdns') { return; }
 
 	$newlist = array("defaults", "master", "slave", "reverse");
 
@@ -6373,7 +6375,7 @@ function removeDnsOtherDriver($driverapp = null, $nolog = null)
 {
 	$actives = getDnsDriverList($driverapp);
 
-	$avails = array('djbdns', 'bind', 'mardns', 'powerdns');
+	$avails = array('djbdns', 'bind', 'maradns', 'pdns');
 
 	// array_diff return values of $avails that not present on $actives
 	$diffs = array_diff($avails, $actives);
@@ -7017,7 +7019,7 @@ function setInitialServices($nolog = null)
 	setInitialDnsConfig('bind', $nolog);
 	setInitialDnsConfig('djbdns', $nolog);
 	setInitialDnsConfig('maradns', $nolog);
-	setInitialDnsConfig('powerdns', $nolog);
+	setInitialDnsConfig('pdns', $nolog);
 
 	setInitialWebConfig('apache', $nolog);
 	setWebDriverChownChmod('apache', $nolog);

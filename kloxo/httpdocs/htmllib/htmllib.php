@@ -464,7 +464,7 @@ class HtmlLib
 <?php
 		} else {
 ?>
-						<td><img src="<?= $imgrt ?>" width="3 height="<?= $height ?>"></td>
+						<td><img src="<?= $imgrt ?>" width="3" height="<?= $height ?>"></td>
 <?php
 		}
 ?>
@@ -532,13 +532,15 @@ class HtmlLib
 
 		if ($check) {
 ?>
+
 			<td height="34" wrap class="alink" style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="height" nowrap class="alink" style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?></td>
-<?
+			<td height="<?= $height ?>" nowrap class="alink" style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?></td>
+<?php
 		} else {
 ?>
-			<td height=34 wrap class=alink style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height=height nowrap class=alink style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?></td>
+
+			<td height="34" wrap class=alink style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class=alink style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?></td>
 <?php
 		}
 	}
@@ -3873,7 +3875,7 @@ class HtmlLib
 			$align = "center onmouseover=\"changeContent('help',' $help')\" onmouseout=\"changeContent('help','helparea')\"";
 
 			if (!$sgbl->isBlackBackground()) {
-				$pname = " <span title='$alt'><img src=$image width=16 height=16 >";
+				$pname = " <span title='$alt'><img src=$image width=16 height=16>";
 			}
 
 			$this->save_non_existant_image($image);
@@ -4009,7 +4011,7 @@ class HtmlLib
 
 		$link = "<a onmouseover=\"changeContent('help','$help')\" " .
 			"onmouseout=\"changeContent('help','helparea')\" href=javascript:document.form{$name}_page_$place.submit()>" .
-			"<img src=$iconpath/{$name}_page.gif align=absbottom ></a> ";
+			"<img src=$iconpath/{$name}_page.gif align=absbottom></a> ";
 
 		return $link;
 	}
@@ -4372,7 +4374,7 @@ class HtmlLib
 							<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
 								<table width=100% border=0 align=left cellpadding=0 style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
 									<tr>
-										<td><img width=26 height=26 src=<?= $img ?>></td>
+										<td><img width=26 height=26 src="<?= $img ?>"></td>
 									</tr>
 									<tr>
 										<td width=10> &nbsp; </td>
@@ -8016,17 +8018,15 @@ function print_curvy_table_start($width = "100")
 
 <table cellpadding="0" align="center" cellspacing="0" width="100%">
 	<tr>
-		<td width="<?= $width ?>" align="right"><img
-				src="<?= $a ?>/tl.gif" align="center">
+		<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/tl.gif" align="center">
 		</td>
 		<td style="background: url(<?= $a ?>/dot.gif) 0 0 repeat-x">
 		</td>
-		<td width="<?= $width ?>" align="left"><img
-				src="<?= $a ?>/tr.gif" align="center">
+		<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/tr.gif" align="center">
 		</td>
 	</tr>
 	<tr>
-	<td height="50px" style="background: url(<?= $a ?>/dot.gif) 90% 0 repeat-y;">
+	<td height="50" style="background: url(<?= $a ?>/dot.gif) 90% 0 repeat-y;">
 	</td>
 	<td align="left">
 <?php

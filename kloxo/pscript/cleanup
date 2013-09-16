@@ -24,8 +24,10 @@ fi
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php
 
+echo
+echo "*** Restart services - BEGIN ***"
 sh /script/restart-all
-
+echo "*** Restart services - END ***"
 echo
 
 # Time interval in nanoseconds
