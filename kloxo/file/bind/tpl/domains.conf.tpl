@@ -178,6 +178,12 @@ $TTL <?php echo $ttl; ?>
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> IN TXT "<?php echo $value; ?>"
 <?php
+                if (strpos($value, "v=spf1") !== false) {
+?>
+<?php echo $key; ?> <?php echo $ttl; ?> IN SPF "<?php echo $value; ?>"
+<?php
+                }
+
                 break;
         case "srv":
             $key = $o->hostname;

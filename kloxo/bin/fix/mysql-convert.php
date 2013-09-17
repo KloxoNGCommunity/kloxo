@@ -13,14 +13,15 @@ $engine = ($list['engine']) ? $list['engine'] : 'MyISAM';
 $database = (isset($list['database'])) ? $list['database'] : null;
 $table = (isset($list['table'])) ? $list['table'] : null;
 $config = (isset($list['config'])) ? $list['config'] : null;
+$utf8 = (isset($list['utf8'])) ? $list['utf8'] : null;
 
-setMysqlConvert($engine, $database, $table, $config);
+setMysqlConvert($engine, $database, $table, $config, $utf8);
 
 /* ****** BEGIN - setMysqlConvert ***** */
 
 /* move from mysql-convert.php */
 
-function setMysqlConvert($engine, $database, $table, $config)
+function setMysqlConvert($engine, $database, $table, $config, $utf8)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
@@ -31,6 +32,7 @@ function setMysqlConvert($engine, $database, $table, $config)
 	$database = ($database) ? $database : '_all_';
 	$table = ($table) ? $table : '_all_';
 	$config = ($config) ? $config : 'yes';
+	$utf8 = ($utf8) ? $utf8 : 'no';
 
 	$pass = slave_get_db_pass();
 
@@ -55,45 +57,66 @@ function setMysqlConvert($engine, $database, $table, $config)
 			$dbs = $conn->query('SHOW databases');
 
 			while ($db = $dbs->fetch_array(MYSQLI_NUM)) {
-				log_cleanup("-- " . $db[0] . " database converted");
+				log_cleanup("-- {$db[0]} database to '{$engine}' storage-engine");
 
 				$conn->select_db($db[0]);
+
+				if ($utf8 === 'yes') {
+					log_cleanup("-- {$db[0]} database to 'utf-8' charset");
+					$conn->query("ALTER DATABASE {$db[0]} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
+				}
 
 				if ($table === '_all_') {
 					$tbls = $conn->query('SHOW tables');
 
 					while ($tbl = $tbls->fetch_array(MYSQLI_NUM)) {
-						log_cleanup("--- " . $tbl[0] . " table converted");
-
-						if (!$tbl[0]) {
-							print("convert_{$tbl[0]}_table_failed");
-						}
+						log_cleanup("--- {$tbl[0]} table to '{$engine}' storage-engine");
 
 						$conn->query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
+
+						if ($utf8 === 'yes') {
+							log_cleanup("--- {$tbl[0]} table to 'utf-8' charset");
+							$conn->query("ALTER TABLE {$tbl[0]} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
+						}
 					}
 				} else {
-					log_cleanup("--- " . $table . " table converted");
+					log_cleanup("--- {$table} table to '{$engine}' storage-engine");
 
 					$conn->query("ALTER TABLE {$table} ENGINE ={$engine}");
+
+					if ($utf8 === 'yes') {
+						log_cleanup("--- {$table} table to 'utf-8' charset");
+						$conn->query("ALTER TABLE {$table} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
+					}
 				}
 			}
 		} else {
 			$conn->select_db($database);
 
-			log_cleanup("-- " . $database . " database converted");
+			log_cleanup("-- {$database} database to '{$engine}' storage-engine");
 
 			if ($table === '_all_') {
 				$tbls = $conn->query('show tables');
 
 				while ($tbl = $tbls->fetch_array(MYSQLI_NUM)) {
-					log_cleanup("--- " . $tbl[0] . " table converted");
+					log_cleanup("--- {$tbl[0]} table to '{$engine}' storage-engine");
 
 					$conn->query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
+
+					if ($utf8 === 'yes') {
+						log_cleanup("--- {$tbl[0]} table to 'utf-8' charset");
+						$conn->query("ALTER TABLE {$tbl[0]} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
+					}
 				}
 			} else {
-				log_cleanup("--- " . $table . " table");
+				log_cleanup("--- {$table} table to '{$engine}' storage-engine");
 
 				$conn->query("ALTER TABLE {$table} ENGINE={$engine}");
+
+				if ($utf8 === 'yes') {
+					log_cleanup("--- {$table} table to 'utf-8' charset");
+					$conn->query("ALTER TABLE {$table} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
+				}
 			}
 		}
 	} catch	(Exception $e) {

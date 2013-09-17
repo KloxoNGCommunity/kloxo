@@ -94,9 +94,6 @@ class dns__ extends lxDriverClass
 
 		$input = array();
 
-		// MR -- for powerdns
-		$input['rootpass'] = slave_get_db_pass();
-
 		$input['domainname'] = $domainname;
 		$input['ttl'] = $this->main->ttl;
 		$input['nameduser'] = $sgbl->__var_programuser_dns;
@@ -134,11 +131,7 @@ class dns__ extends lxDriverClass
 				$input['action'] = 'add';
 			}
 
-			$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "domains.conf.tpl");
-
-			$tpl = file_get_contents($tplsource);
-
-			$tplparse = getParseInlinePhp($tpl, $input);
+			self::setPdnsSpecific($input);
 		}
 	}
 
@@ -258,19 +251,35 @@ class dns__ extends lxDriverClass
 		} else {
 			$input = array();
 
-			// MR -- for powerdns
-			$input['rootpass'] = slave_get_db_pass();
-
 			$input['domainname'] = $domainname;
 
 			$input['action'] = 'delete';
 
-			$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "domains.conf.tpl");
+			self::setPdnsSpecific($input);
 
-			$tpl = file_get_contents($tplsource);
+			foreach ((array)$this->main->__var_addonlist as $d) {
+				$input = array();
 
-			$tplparse = getParseInlinePhp($tpl, $input);
+				$input['domainname'] = $d->nname;
+
+				$input['action'] = 'delete';
+
+				self::setPdnsSpecific($input);
+			}
 		}
+	}
+
+	static function setPdnsSpecific($input)
+	{
+		$driverapp = slave_get_driver('dns');
+
+		$input['rootpass'] = slave_get_db_pass();
+
+		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "domains.conf.tpl");
+
+		$tpl = file_get_contents($tplsource);
+
+		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 
 	function dosyncToSystemPost()
