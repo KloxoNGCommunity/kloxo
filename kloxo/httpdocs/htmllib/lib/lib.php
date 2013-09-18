@@ -5556,6 +5556,17 @@ function setRpmRemoved($rpmname)
 	}
 }
 
+function setRpmRemovedViaYum($rpmname)
+{
+	if (!isRpmInstalled($rpmname)) { return; }
+
+	$ret = lxshell_return("yum", "-y", "remove", $rpmname);
+
+	if ($ret) {
+		throw new lxException("remove_{$rpmname}_failed", '', 'parent');
+	}
+}
+
 function setRpmReplaced($rpmname, $replacewith)
 {
 	$ret = lxshell_return("yum", "-y", "replace", $rpmname, "--replace-with={$replacewith}");

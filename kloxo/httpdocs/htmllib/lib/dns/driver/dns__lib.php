@@ -30,7 +30,17 @@ class dns__ extends lxDriverClass
 
 	static function unInstallMeTrue($drivertype = null)
 	{
-		setRpmRemoved($drivertype);
+	//	setRpmRemoved($drivertype);
+
+		setRpmRemovedViaYum($drivertype);
+
+		if ($drivertype === 'bind') {
+			setRpmRemovedViaYum($drivertype . "-libs");
+		} elseif ($drivertype === 'pdns') {
+			// MR -- look not work; backup via cleanup process
+			setRpmRemovedViaYum($drivertype . "-backend-mysql");
+			setRpmRemovedViaYum($drivertype . "-backend-geo");
+		}
 
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
 
@@ -43,10 +53,10 @@ class dns__ extends lxDriverClass
 	{
 		setRpmInstalled($drivertype);
 
-		if ($driverapp === 'bind') {
+		if ($drivertype === 'bind') {
 			setRpmInstalled($drivertype . "-utils");
 			setRpmRemoved("{$drivertype}-chroot");
-		} elseif ($driverapp === 'pdns') {
+		} elseif ($drivertype === 'pdns') {
 			// MR -- look not work; backup via cleanup process
 			setRpmInstalled($drivertype . "-backend-mysql");
 			setRpmInstalled($drivertype . "-backend-geo");

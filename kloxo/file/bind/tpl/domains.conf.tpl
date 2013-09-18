@@ -68,7 +68,7 @@ $TTL <?php echo $ttl; ?>
                     $key = "$domainname.";
                 }
 ?>
-<?php echo $key; ?> IN <?php echo $ttl; ?> AAAA <?php echo $value; ?>
+<?php echo $key; ?> <?php echo $ttl; ?> IN AAAA <?php echo $value; ?>
 
 <?php
                 break;
