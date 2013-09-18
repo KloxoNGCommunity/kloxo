@@ -1,4 +1,4 @@
 csv2 = {}
-chroot_dir = "/home/mardns/conf/master"
-ipv4_bind_addresses="178.32.23.43,127.0.0.1"
+chroot_dir = "/home/maradns/conf/master"
+ipv4_bind_addresses="0.0.0.0"
 recursive_acl="0.0.0.0/0"

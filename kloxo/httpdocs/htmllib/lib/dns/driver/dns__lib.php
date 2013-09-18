@@ -165,6 +165,9 @@ class dns__ extends lxDriverClass
 		// MR -- powerdns no need it
 		if ($driverapp === 'pdns') { return; }
 
+		// MR -- maradns still using generic ('0.0.0.0')
+		if ($driverapp === 'maradns') { return; }
+
 		$input = array();
 
 		$input['ip'] = $this->getIps();

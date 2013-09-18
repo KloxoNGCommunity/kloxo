@@ -23,7 +23,7 @@
     $expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
     $minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
 ?>
-<?php echo $nameserver; ?>. SOA <?php echo $email; ?> <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> ~
+<?php echo $nameserver; ?>. SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> ~
 <?php
     foreach($dns_records as $k => $o) {
         $ttl = isset($o->ttl) && strlen($o->ttl) ? $o->ttl : $ttl;
