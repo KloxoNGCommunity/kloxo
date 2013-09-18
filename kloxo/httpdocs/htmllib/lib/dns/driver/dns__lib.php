@@ -8,12 +8,6 @@ class dns__ extends lxDriverClass
 
 	static function installMeTrue($drivertype = null)
 	{
-		if ($drivertype === 'bind') {
-			setRpmInstalled($drivertype . '-utils');
-
-			setRpmRemoved($drivertype . '-chroot');
-		}
-
 		self::setDnsserverInstall($drivertype);
 		self::setBaseDnsConfig($drivertype);
 
@@ -38,12 +32,6 @@ class dns__ extends lxDriverClass
 	{
 		setRpmRemoved($drivertype);
 
-		if ($drivertype === 'bind') {
-			setRpmRemoved($drivertype . '-utils');
-
-			setRpmRemoved($drivertype . '-chroot');
-		}
-
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
 
 		if (file_exists("/etc/init.d/{$altname}")) {
@@ -57,10 +45,11 @@ class dns__ extends lxDriverClass
 
 		if ($driverapp === 'bind') {
 			setRpmInstalled($drivertype . "-utils");
+			setRpmRemoved("{$drivertype}-chroot");
 		} elseif ($driverapp === 'pdns') {
+			// MR -- look not work; backup via cleanup process
 			setRpmInstalled($drivertype . "-backend-mysql");
-		} elseif ($driverapp === 'maradns') {
-			// TODO!
+			setRpmInstalled($drivertype . "-backend-geo");
 		}
 
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;

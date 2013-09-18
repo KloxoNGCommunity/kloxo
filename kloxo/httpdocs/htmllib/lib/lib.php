@@ -661,9 +661,14 @@ function PreparePowerdnsDb($nolog = null)
 
 	log_cleanup("Preparing PowerDNS database", $nolog);
 
-//	if (!isRpmInstalled('pdns')) { return; }
+	log_cleanup("- Install MySQL and Geo Backend", $nolog);
 
-//	if (!file_exists("/etc/pdns")) { return; }
+	// MR -- something trouble with pdns install via switch application
+	// so, fix here
+	if (isRpmInstalled('pdns')) {
+		setRpmInstalled("pdns-backend-mysql");
+		setRpmInstalled("pdns-backend-geo");
+	}
 
 	$pass = slave_get_db_pass();
 	$user = "root";

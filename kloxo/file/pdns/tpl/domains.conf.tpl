@@ -123,7 +123,7 @@ if (($action === 'add') || ($action === 'update')) {
 					$key = "$domainname.";
 				}
 
-				$value = str_replace("<%domain>", $domainname, $value);
+				$value = '"' . str_replace("<%domain>", $domainname, $value) . '"';
 
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
 					"VALUES ('$domain_id', '$key', '$value', 'TXT', '$ttl', 'NULL');");
