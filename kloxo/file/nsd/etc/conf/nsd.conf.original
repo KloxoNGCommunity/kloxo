@@ -1,0 +1,101 @@
+#
+# nsd.conf -- the NSD(8) configuration file, nsd.conf(5).
+#
+# Copyright (c) 2001-2011, NLnet Labs. All rights reserved.
+#
+# See LICENSE for the license.
+#
+
+# This is a comment.
+# Adapted for Fedora/RHEL settings
+
+# options for the nsd server
+server:
+	# uncomment to specify specific interfaces to bind (default wildcard
+	# interface).
+	# ip-address: 1.2.3.4
+	# ip-address: 1.2.3.4@5678
+	# ip-address: 12fe::8ef0
+
+	# don't answer VERSION.BIND and VERSION.SERVER CHAOS class queries
+	# hide-version: no
+
+	# enable debug mode, does not fork daemon process into the background.
+	# debug-mode: no
+
+	# listen only on IPv4 connections
+	# ip4-only: no
+
+	# listen only on IPv6 connections
+	# ip6-only: no
+	
+	# the database to use
+	# database: "/var/lib/nsd/nsd.db"
+
+	# identify the server (CH TXT ID.SERVER entry).
+	# identity: "unidentified server"
+
+	# NSID identity (hex string). default disabled.
+	# nsid: "aabbccdd"
+
+	# log messages to file. Default to stderr and syslog (with facility
+	# LOG_DAEMON).
+	# logfile: "/var/log/nsd.log"
+
+	# Number of NSD servers to fork.
+	# server-count: 1
+
+	# Maximum number of concurrent TCP connections per server.
+	# This option should have a value below 1000.
+	# tcp-count: 10
+
+	# Maximum number of queries served on a single TCP connection.
+	# By default 0, which means no maximum.
+	# tcp-query-count: 0
+
+	# Override the default (120 seconds) TCP timeout.
+	# tcp-timeout: 120
+
+	# Preferred EDNS buffer size for IPv4.
+	# ipv4-edns-size: 4096
+
+	# Preferred EDNS buffer size for IPv6.
+	# ipv6-edns-size: 4096
+
+	# File to store pid for nsd in.
+	# pidfile: "/var/run/nsd/nsd.pid"
+
+	# port to answer queries on. default is 53.
+	# port: 53
+
+	# statistics are produced every number of seconds.
+	# statistics: 3600
+
+	# Run NSD in a chroot-jail.
+	# make sure to have pidfile and database reachable from there.
+	# by default, no chroot-jail is used.
+	# chroot: "/etc/nsd"
+
+	# After binding socket, drop user privileges.
+	# can be a username, id or id.gid.
+	# username: nsd
+
+	# The directory for zonefile: files.
+	# zonesdir: "/etc/nsd"
+
+	# The file where incoming zone transfers are stored.
+	# run nsd-patch to update zone files, then you can safely delete it.
+	# difffile: "/var/lib/nsd/ixfr.db"
+
+	# The file where secondary zone refresh and expire timeouts are kept.
+	# If you delete this file, all secondary zones are forced to be 
+	# 'refreshing' (as if nsd got a notify).
+	# xfrdfile: "/var/lib/nsd/ixfr.state"
+
+	# Number of seconds between reloads triggered by xfrd.
+	# xfrd-reload-timeout: 10
+
+	# Verbosity level.
+	# verbosity: 0
+
+# include: "/etc/nsd/other.conf"

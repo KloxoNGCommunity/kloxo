@@ -1,1 +1,1 @@
-bind,djbdns,pdns,maradns
+bind,djbdns,pdns,maradns,nsd

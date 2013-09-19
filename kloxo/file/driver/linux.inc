@@ -1,7 +1,7 @@
 <?php 
 
 $driver['hostdeny'] = "linux";
-$driver['dns'] = array("bind", "djbdns", "maradns", "pdns");
+$driver['dns'] = array("bind", "djbdns", "maradns", "pdns", "nsd");
 $driver['spam'] = array("bogofilter", "spamassassin");
 $driver['mailinglist'] = "ezmlm";
 $driver['ffile'] = "linux";

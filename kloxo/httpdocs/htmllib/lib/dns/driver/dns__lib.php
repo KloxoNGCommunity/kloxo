@@ -162,8 +162,9 @@ class dns__ extends lxDriverClass
 
 		$altname = ($driverapp === 'bind') ? 'named' : $driverapp;
 
-		// MR -- powerdns no need it
+		// MR -- powerdns also nsd no need it
 		if ($driverapp === 'pdns') { return; }
+		if ($driverapp === 'nsd') { return; }
 
 		// MR -- maradns still using generic ('0.0.0.0')
 		if ($driverapp === 'maradns') { return; }

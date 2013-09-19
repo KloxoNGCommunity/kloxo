@@ -1,0 +1,3 @@
+#!/bin/sh
+. /script/directory
+lxphp.exe ../bin//common/misc/changedriver.php "$@"
