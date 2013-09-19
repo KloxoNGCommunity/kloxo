@@ -82,14 +82,21 @@ if (($action === 'add') || ($action === 'update')) {
 				$value = $o->param;
 				$key .= ".$domainname";
 
-				if ($value !== "__base__") {
-					$value = "$value.$domainname";
-				} else {
-					$value = "$domainname";
-				}
+				if (isset($arecord[$value])) {
+					$rvalue = $arecord[$value];
 
-				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
-					"VALUES ('$domain_id', '$key', '$value', 'CNAME', '$ttl', 'NULL');");
+					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
+						"VALUES ('$domain_id', '$key', '$rvalue', 'A', '$ttl', 'NULL');");
+				} else {
+					if ($value !== "__base__") {
+						$value = "$value.$domainname";
+					} else {
+						$value = "$domainname";
+					}
+
+					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
+						"VALUES ('$domain_id', '$key', '$value', 'CNAME', '$ttl', 'NULL');");
+				}
 
 				break;
 			case "fcname":

@@ -79,32 +79,35 @@ class watchdog extends lxdb
 
 			return;
 		}
-
-		self::addOneWatchdog($pserver, "web", "80", "__driver_web");
-
-	//	self::addOneWatchdog($pserver, "smtp", "25", "/etc/init.d/xinetd restart");
-
-		// MR -- also pop3/imap when using courier-imap-toaster
+	/*
+		self::addOneWatchdog($pserver, "smtp", "25", "/etc/init.d/xinetd restart");
 		self::addOneWatchdog($pserver, "smtp", "25", "/etc/init.d/qmail restart");
-
 		self::addOneWatchdog($pserver, "ftp", "21", "/etc/init.d/xinetd restart");
-	//	self::addOneWatchdog($pserver, "pop", "110", "/etc/init.d/courier-imap restart");
-	//	self::addOneWatchdog($pserver, "imap", "143", "/etc/init.d/courier-imap restart");
-
+		self::addOneWatchdog($pserver, "pop", "110", "/etc/init.d/courier-imap restart");
+		self::addOneWatchdog($pserver, "imap", "143", "/etc/init.d/courier-imap restart");
 		self::addOneWatchdog($pserver, "pop", "110", "/etc/init.d/dovecot restart");
 		self::addOneWatchdog($pserver, "imap", "143", "/etc/init.d/dovecot restart");
-
 		self::addOneWatchdog($pserver, "mysql", "3306", "/etc/init.d/mysqld restart");
 		self::addOneWatchdog($pserver, "mariadb", "3306", "/etc/init.d/mysql restart");
 
 		// MR -- no need special handling for php-fpm but including in __driver_web
 		// on lxserverlib.php
-	/*
+	
 		// MR -- watchdog for php-fpm for listening 'apache' user port
 		$userinfo = posix_getpwnam('apache');
 		$fpmport = (50000 + $userinfo['uid']);
 		self::addOneWatchdog($pserver, "php-fpm", $fpmport, "/etc/init.d/php-fpm restart");
 	*/
+
+		self::addOneWatchdog($pserver, "dns", "53", "__driver_dns");
+		self::addOneWatchdog($pserver, "web", "80", "__driver_web");
+		self::addOneWatchdog($pserver, "mail", "25", "/etc/init.d/qmail restart");
+	//	self::addOneWatchdog($pserver, "mysql", "3306", "__driver_mysql");
+		self::addOneWatchdog($pserver, "mysql", "3306", "/etc/init.d/mysqld restart");
+		self::addOneWatchdog($pserver, "mariadb", "3306", "/etc/init.d/mysql restart");
+		self::addOneWatchdog($pserver, "ftp", "21", "/etc/init.d/xinetd restart");
+
+
 	}
 
 	static function addOneWatchdog($pserver, $service, $port, $command)

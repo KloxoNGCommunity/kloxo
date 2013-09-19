@@ -23,6 +23,7 @@
     $expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
     $minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
 ?>
+$ORIGIN <?php echo $domainname; ?>.
 $TTL <?php echo $ttl; ?>
 
 @ IN SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. (
@@ -40,32 +41,24 @@ $TTL <?php echo $ttl; ?>
             case "ns":
                 $value = $o->param;
 ?>
-<?php echo $domainname; ?>. IN NS <?php echo $value; ?>.
+@ IN NS <?php echo $value; ?>.
 <?php
                 break;
             case "mx":
                 $v = $o->priority;
                 $value = $o->param;
 ?>
-<?php echo $domainname; ?>. <?php echo $ttl; ?> IN MX <?php echo $v; ?> <?php echo $value; ?>.
+@ <?php echo $ttl; ?> IN MX <?php echo $v; ?> <?php echo $value; ?>.
 <?php
                 break;
             case "aaaa":
                 $key = $o->hostname;
                 $value = $o->param;
 
-                if ($key === '*') {
-?>
-* <?php echo $ttl; ?> IN AAAA <?php echo $value; ?>
-
-<?php
-                    break;
-                }
-
                 if ($key !== "__base__") {
-                    $key = "$key.$domainname.";
+                    $key = "$key";
                 } else {
-                    $key = "$domainname.";
+                    $key = "@";
                 }
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> IN AAAA <?php echo $value; ?>
@@ -79,18 +72,10 @@ $TTL <?php echo $ttl; ?>
                 $key = $o->hostname;
                 $value = $o->param;
 
-                if ($key === '*') {
-?>
-* <?php echo $ttl; ?> IN A <?php echo $value; ?>
-
-<?php
-                    break;
-                }
-
                 if ($key !== "__base__") {
-                    $key = "$key.$domainname.";
+                    $key = "$key";
                 } else {
-                    $key = "$domainname.";
+                    $key = "@";
                 }
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> IN A <?php echo $value; ?>
@@ -101,53 +86,37 @@ $TTL <?php echo $ttl; ?>
             case "cname":
                 $key = $o->hostname;
                 $value = $o->param;
-/*
+
                 if (isset($arecord[$value])) {
                     $rvalue = $arecord[$value];
-
-                    if ($key === '*') {
-?>
-* <?php echo $ttl; ?> IN A <?php echo $rvalue; ?>
-
-<?php
-                        break;
-                    }
-
-                    $key .= ".$domainname.";
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> IN A <?php echo $rvalue; ?>
 
 <?php
-                    break;
-                }
-*/
-                $key .= ".$domainname.";
-
-                if ($value !== "__base__") {
-                    $value = "$value.$domainname.";
                 } else {
-                    $value = "$domainname.";
-                }
+                    if ($value !== "__base__") {
+                        $value = "$value";
+                    } else {
+                        $value = "@";
+                    }
 
-            /*
-                if ($key === '*') {
-?>
-* IN CNAME <?php echo $value; ?>
-
-<?php
-                    break;
-                }
-            */
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> IN CNAME <?php echo $value; ?>
 
 <?php
+                }
+
                 break;
 
             case "fcname":
                 $key = $o->hostname;
                 $value = $o->param;
-                $key .= ".$domainname.";
+
+                if ($key !== "__base__") {
+                    $key = "$key";
+                } else {
+                    $key = "@";
+                }
 
                 if ($value !== "__base__") {
                     if (!cse($value, ".")) {
@@ -169,9 +138,9 @@ $TTL <?php echo $ttl; ?>
                 if($value === null) {continue; }    
 
                 if ($key !== "__base__") {
-                    $key = "$key.$domainname.";
+                    $key = "$key";
                 } else {
-                    $key = "$domainname.";
+                    $key = "@";
                 }
 
                 $value = str_replace("<%domain>", $domainname, $value);

@@ -73,38 +73,36 @@ Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?p
 +*.<?php echo $domainname; ?>:<?php echo $rvalue; ?>:<?php echo $ttl; ?>
 
 <?php
-                        break;
-                    }
-
-                    $key .= ".$domainname";
+                    } else {
+                        $key .= ".$domainname";
 ?>
 +<?php echo $key; ?>:<?php echo $rvalue; ?>:<?php echo $ttl; ?>
 
 <?php
-                    break;
-                }
-/*
-                if ($value !== "__base__") {
-                    $value = "{$value}.{$domainname}";
+                    }
                 } else {
-                    $value = $domainname;
-                }
+                    if ($value !== "__base__") {
+                        $value = "{$value}.{$domainname}";
+                    } else {
+                        $value = $domainname;
+                    }
 
-                if ($key === '*') {
+                    if ($key === '*') {
 ?>
 C*.<?php echo $domainname; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
-                    break;
-                }
-
-                $key .= ".{$domainname}";
+                    } else {
+                        $key .= ".{$domainname}";
 ?>
 C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
                 
 <?php
+                   }
+                }
+
                 break;
-*/
+
             case "fcname":
                 $key = $o->hostname;
                 $value = $o->param;
@@ -135,6 +133,7 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 
                 $value = str_replace("<%domain>", $domainname, $value);
                 $value = str_replace(":", "\\072", $value);
+                $value = str_replace(" ", "\\040", $value);
 ?>
 '<?php echo $key; ?>:<?php echo $value; ?>::<?php echo $ttl; ?>
 

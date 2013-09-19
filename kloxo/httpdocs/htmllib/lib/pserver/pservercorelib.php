@@ -1197,7 +1197,7 @@ STRIN;
 
 				$vlist['web_driver'] = array('s', array('apache', 'lighttpd', 'nginx', 'hiawatha', 
 					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy'));
-				$vlist['dns_driver'] = array('s', array('bind', 'djbdns', 'maradns', 'pdns'));
+				$vlist['dns_driver'] = array('s', array('bind', 'djbdns', 'maradns', 'pdns', 'nsd'));
 				$vlist['spam_driver'] = array('s', array('spamassassin', 'bogofilter'));
 
 				$vlist['no_fix_config'] = array('f', 'on', 'off');

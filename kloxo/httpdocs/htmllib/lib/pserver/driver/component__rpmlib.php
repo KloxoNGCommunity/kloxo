@@ -23,7 +23,7 @@ class Component__rpm extends lxDriverClass
 	static function getListVersion($syncserver, $list)
 	{
 		$comps = array('mysql', 'postgresql', 'httpd', 'lighttpd', 'nginx', 'hiawatha',
-			'php', 'perl', 'mono', 'ruby', 'djbdns', 'bind', 'maradns', 'pdns',
+			'php', 'perl', 'mono', 'ruby', 'bind', 'djbdns', 'maradns', 'pdns', 'nsd',
 			'qmail', 'pure-ftpd');
 
 		foreach ($comps as $k => $c) {

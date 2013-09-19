@@ -6454,7 +6454,7 @@ function removeDnsOtherDriver($driverapp = null, $nolog = null)
 {
 	$actives = getDnsDriverList($driverapp);
 
-	$avails = array('djbdns', 'bind', 'maradns', 'pdns');
+	$avails = array('djbdns', 'bind', 'maradns', 'pdns', 'nsd');
 
 	// array_diff return values of $avails that not present on $actives
 	$diffs = array_diff($avails, $actives);
@@ -7101,6 +7101,7 @@ function setInitialServices($nolog = null)
 	setInitialDnsConfig('djbdns', $nolog);
 	setInitialDnsConfig('maradns', $nolog);
 	setInitialDnsConfig('pdns', $nolog);
+	setInitialDnsConfig('nsd', $nolog);
 
 	setInitialWebConfig('apache', $nolog);
 	setWebDriverChownChmod('apache', $nolog);

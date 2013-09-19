@@ -1,4 +1,4 @@
 csv2 = {}
+ipv4_bind_addresses = "127.0.0.1"
 chroot_dir = "/home/maradns/conf/master"
-ipv4_bind_addresses="0.0.0.0"
-recursive_acl="0.0.0.0/0"
+zone_transfer_acl = "0.0.0.0/0"
