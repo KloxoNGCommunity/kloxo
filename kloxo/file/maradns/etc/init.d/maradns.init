@@ -37,6 +37,17 @@
 # This software is provided 'as is' with no guarantees of correctness or
 # fitness for purpose.
 
+### MR -- process to change listen IP in /etc/mararc
+hostip=$(hostname -i)
+
+if [ "${hostip}" != "" ] ; then
+	oldtxt="ipv4_bind_addresses = \"127.0.0.1\""
+	newtxt="ipv4_bind_addresses = \"$hostip\""
+	sed -i "s/$oldtxt/$newtxt/g" /etc/mararc
+else
+	echo "Fail for detect hostname IP..."
+fi
+
 # This is a script which stops and starts the MaraDNS process
 # The first line points to bash because I don't have a true Solaris /bin/sh
 # to test this against.
