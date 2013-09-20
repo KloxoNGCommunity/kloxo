@@ -6,7 +6,7 @@
 
 	foreach ($dirs as $d) {
 		$d = str_replace("{$path}/", "", $d);
-		$zone = "csv2[\"{$d}.\"] = \"master/{$d}\"\n";
+		$zone = "csv2[\"{$d}.\"] = \{$d}\"\n";
 		$str .= $zone;
 	}
 
