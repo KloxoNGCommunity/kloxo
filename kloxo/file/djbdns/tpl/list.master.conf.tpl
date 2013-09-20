@@ -1,16 +1,26 @@
 <?php
-	$path = "/home/djbdns/conf/master";
+	$path = "/home/bind/conf/master";
 	$dirs = glob("{$path}/*");
 
-	$datadir = "/home/djbdns/tinydns/root";
-	$datafile = "/home/djbdns/tinydns/root/data";
-
-	exec("echo '' > {$datafile}");
+	$str = '';
 
 	foreach ($dirs as $d) {
-		exec("cat {$d} >> {$datafile}");
+		$d = str_replace("{$path}/", "", $d);
+		$zone = "zone \"{$d}\" { type master; file \"master/{$d}\"; };\n";
+		$str .= $zone;
 	}
 
-	exec("cd {$datadir}; make");
-?>
+	$file = "/home/bind/conf/defaults/named.master.conf";
 
+	file_put_contents($file, $str);
+
+	if ($action !== 'fix') {
+		if (array_keys($domains)) {
+			foreach ($domains as $k => $v) {
+				exec("rndc reload {$v}; rndc notify {$v}");
+			}
+		} else {
+			exec("rndc reconfig");
+		}
+	}
+?>

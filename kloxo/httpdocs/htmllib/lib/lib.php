@@ -6030,7 +6030,7 @@ function getAllClientList()
 	return $users;
 }
 
-function getIpfromARecord()
+function getIpfromARecord($nobase = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
@@ -6044,10 +6044,26 @@ function getIpfromARecord()
 	foreach($d as $dk => $dv) {
 		$w = unserialize(base64_decode($dv['ser_dns_record_a']));
 
+		if ($nobase) {
+			foreach($w as $wk => $wv) {
+				if (($wv->ttype === 'a') || ($wv->ttype === 'aaa')) {
+					if ($wv->hostname ===  '__base__') {
+						$base = $wv->param;
+						break;
+					}
+				}
+			}
+		}
+
 		foreach($w as $wk => $wv) {
-			if ((strpos($wv->nname, "a_") !== false) ||
-					(strpos($wv->nname, "aaa_") !== false)) {
-				$z[] = $wv->param;
+			if (($wv->ttype === 'a') || ($wv->ttype === 'aaa')) {
+				if ($nobase) {
+					if ($wv->param !==  $base) {
+						$z[] = $wv->param;
+					}
+				} else {
+					$z[] = $wv->param;
+				}
 			}
 		}
 	}
@@ -7266,11 +7282,23 @@ function setCopyDnsConfFiles($dnsdriver)
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
 	exec("cp -rf {$pathsrc} /home");
 
-	if ($aliasdriver === 'named') {
+	if ($aliasdriver === 'djbdns') { return; }
+
+	if ($aliasdriver === 'maradns') {
+		$t = getLinkCustomfile($pathdrv . "/etc", "mararc");
+
+		log_cleanup("- Copy {$t} to {$pathetc}/mararc", $nolog);
+		lxfile_cp($t, "{$pathetc}/mararc");
+	} elseif ($aliasdriver === 'named') {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
 
 		log_cleanup("- Copy {$t} to {$pathetc}/{$aliasdriver}.conf", $nolog);
 		lxfile_cp($t, "{$pathetc}/{$aliasdriver}.conf");
+	} else {
+		$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
+
+		log_cleanup("- Copy {$t} to {$pathetc}/{$aliasdriver}/{$aliasdriver}.conf", $nolog);
+		lxfile_cp($t, "{$pathetc}/{$aliasdriver}/{$aliasdriver}.conf");
 	}
 }
 

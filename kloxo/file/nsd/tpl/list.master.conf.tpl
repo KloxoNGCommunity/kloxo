@@ -1,6 +1,4 @@
 <?php
-
-
 	$path = "/home/nsd/conf/master";
 	$dirs = glob("{$path}/*");
 
@@ -18,7 +16,9 @@
 		}
 	*/
 
-		$zone .= "    notify: 0.0.0.0 NOKEY\n    provide-xfr: 0.0.0.0 NOKEY\n";
+	//	$zone .= "    notify: 0.0.0.0 NOKEY\n    provide-xfr: 0.0.0.0 NOKEY\n";
+
+		$zone .= "    include: \"/home/nsd/conf/defaults/nsd.acl.conf\"\n";
 		
 		$str .= $zone . "\n";
 	}
@@ -27,8 +27,9 @@
 
 	file_put_contents($file, $str);
 
-//	exec("nsdc rebuild; nsdc notify");
-	exec("nsdc rebuild");
-
+	if ($action !== 'fix') {
+		exec("nsdc rebuild; nsdc notify");
+	//	exec("nsdc rebuild");
+	}
 ?>
 

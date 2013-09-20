@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `perm_items` (
   `name` varchar(64) NOT NULL,
   `descr` text NOT NULL,
   PRIMARY KEY (`id`)
-) AUTO_INCREMENT=62 ;
+) AUTO_INCREMENT=1 ;
 
 INSERT IGNORE INTO `perm_items` SET `id` = 41,`name` = 'zone_master_add',`descr` = 'User is allowed to add new master zones.';
 INSERT IGNORE INTO `perm_items` SET `id` = 42,`name` = 'zone_slave_add',`descr` = 'User is allowed to add new slave zones.';
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `perm_templ` (
   `name` varchar(128) NOT NULL,
   `descr` text NOT NULL,
   PRIMARY KEY (`id`)
-) AUTO_INCREMENT=2 ;
+) AUTO_INCREMENT=1 ;
 
 INSERT IGNORE INTO `perm_templ` SET `id` = 1,`name` = 'Administrator',`descr` = 'Administrator template with full rights.';
 
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `perm_templ_items` (
   `templ_id` int(11) NOT NULL,
   `perm_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) AUTO_INCREMENT=2 ;
+) AUTO_INCREMENT=1 ;
 
 INSERT IGNORE INTO `perm_templ_items` SET `id` = 1,`templ_id` = 1,`perm_id` = 53;
 
@@ -99,8 +99,9 @@ CREATE TABLE IF NOT EXISTS `records` (
 CREATE TABLE IF NOT EXISTS `supermasters` (
   `ip` varchar(64) NOT NULL,
   `nameserver` varchar(255) NOT NULL,
-  `account` varchar(40) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `account` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`nameserver`)
+) AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `tsigkeys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -121,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `perm_templ` tinyint(11) NOT NULL DEFAULT '0',
   `active` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) AUTO_INCREMENT=2 ;
+) AUTO_INCREMENT=1 ;
 
 INSERT IGNORE INTO `users` SET `id` = 1,`username` = 'admin',`password` = '21232f297a57a5a743894a0e4a801fc3',`fullname` = 'Administrator',`email` = 'admin@example.net',`description` = 'Administrator with full rights.',`perm_templ` = 1,`active` = 1;
 

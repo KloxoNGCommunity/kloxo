@@ -6,7 +6,7 @@
 
 	foreach ($dirs as $d) {
 		$d = str_replace("{$path}/", "", $d);
-		$zone = "csv2[\"{$d}.\"] = \"{$d}\"\n";
+		$zone = "csv2[\"{$d}.\"] = \"master/{$d}\"\n";
 		$str .= $zone;
 	}
 
@@ -22,4 +22,8 @@
 	$content = $srctxt . $startin . $str . $endin;
 
 	file_put_contents("/etc/mararc", $content);
+
+	if ($action !== 'fix') {
+		exec("service maradns restart");
+	}
 ?>

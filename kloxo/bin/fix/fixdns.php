@@ -59,8 +59,8 @@ foreach($clist as $c) {
 
 		// MR -- only after latest domains per-client; faster process!
 		if (sizeof($dlist) === $counter) {
-			$dns->setUpdateSubaction('synchronize');
 			$dns->setUpdateSubaction('allowed_transfer');
+			$dns->setUpdateSubaction('synchronize_fix');
 		}
 
 		$dns->was();

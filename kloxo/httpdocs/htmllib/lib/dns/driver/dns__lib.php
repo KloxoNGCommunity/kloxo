@@ -134,7 +134,7 @@ class dns__ extends lxDriverClass
 		}
 	}
 
-	function syncCreateConf()
+	function syncCreateConf($action = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
@@ -146,6 +146,20 @@ class dns__ extends lxDriverClass
 		if ($driverapp === 'pdns') { return; }
 
 		$input = array();
+
+		$input['action'] = $action;
+
+		$domains = array();
+
+		if ($action === 'update') {
+			$domains[] = $this->main->nname;
+	
+			foreach ((array)$this->main->__var_addonlist as $d) {
+				$domains[] = $d->nname;
+			}
+
+			$input['domains'] = $domains;
+		}
 
 		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "list.master.conf.tpl");
 
@@ -164,7 +178,6 @@ class dns__ extends lxDriverClass
 
 		// MR -- powerdns also nsd no need it
 		if ($driverapp === 'pdns') { return; }
-		if ($driverapp === 'nsd') { return; }
 
 		// MR -- maradns still using generic ('0.0.0.0')
 		if ($driverapp === 'maradns') { return; }
@@ -182,16 +195,21 @@ class dns__ extends lxDriverClass
 
 	function getIps()
 	{
-		$iplist = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', null);
+		$nobase = true;
+
+		$iplist = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($nobase));
 
 		return $iplist;
 	}
 
 	function dbactionAdd()
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
 		$this->createConfFile();
-		$this->syncCreateConf();
 		$this->createAllowTransferIps();
+		$this->syncCreateConf();
+
 	}
 
 	function dbactionUpdate($subaction)
@@ -211,7 +229,11 @@ class dns__ extends lxDriverClass
 
 					break;
 				case "synchronize":
-					$this->syncCreateConf();
+					$this->syncCreateConf('update');
+
+					break;
+				case "synchronize_fix":
+					$this->syncCreateConf('fix');
 
 					break;
 				case "domain":
@@ -221,8 +243,8 @@ class dns__ extends lxDriverClass
 				case "full_update":
 				default:
 					$this->createConfFile();
-					$this->syncCreateConf();
 					$this->createAllowTransferIps();
+					$this->syncCreateConf('update');
 
 					break;
 			}
@@ -249,8 +271,16 @@ class dns__ extends lxDriverClass
 				lxfile_rm($dnsfile);
 			}
 
-			$this->syncCreateConf();
 			$this->createAllowTransferIps();
+			$this->syncCreateConf();
+
+			if ($driverapp === 'bind') {
+				exec("rndc reconfig");
+			} elseif ($driverapp === 'nsd') {
+				exec("nsdc rebuild");
+			} else {
+				exec("service {$driverapp} restart");
+			}
 		} else {
 			$input = array();
 
@@ -266,6 +296,20 @@ class dns__ extends lxDriverClass
 				$input['domainname'] = $d->nname;
 
 				$input['action'] = 'delete';
+
+				foreach($this->main->dns_record_a as $dns) {
+					if ($dns->ttype === "ns") {
+						if (!$nameserver) {
+							$nameserver = $dns->param;
+						}
+					}
+				}
+
+				if ($this->main->soanameserver) {
+					$nameserver = $this->main->soanameserver;
+				}
+
+				$input['nameserver'] = $nameserver;
 
 				self::setPdnsSpecific($input);
 			}
@@ -294,13 +338,17 @@ class dns__ extends lxDriverClass
 		$driverapp = slave_get_driver('dns');
 
 		if ($driverapp === 'bind') {
-			createRestartFile("named");
+			// MR -- use 'rndc reconfig' for add/delete and 'rnd reload zone' for update
+			// instead service restart; move to list.master.conf.tpl
+		//	createRestartFile("named");
 		} elseif ($driverapp === 'djbdns') {
 			createRestartFile("djbdns");
-		} elseif ($driverapp === 'pdns') {
-			// no need restart!
 		} elseif ($driverapp === 'maradns') {
 			createRestartFile("maradns");
+		} elseif ($driverapp === 'pdns') {
+			// no need restart!
+		} elseif ($driverapp === 'nsd') {
+			// no need restart!
 		}
 	}
 }

@@ -32,7 +32,6 @@ $TTL <?php echo $ttl; ?>
     <?php echo $retry; ?>    ; Retry
     <?php echo $expire; ?>  ; Expire
     <?php echo $minimum; ?> ) ; Minimum
-
 <?php
     foreach($dns_records as $k => $o) {
         $ttl = isset($o->ttl) && strlen($o->ttl) ? $o->ttl : $ttl;

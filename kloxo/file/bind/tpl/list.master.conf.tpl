@@ -13,4 +13,14 @@
 	$file = "/home/bind/conf/defaults/named.master.conf";
 
 	file_put_contents($file, $str);
+
+	if ($action !== 'fix') {
+		if (array_keys($domains)) {
+			foreach ($domains as $k => $v) {
+				exec("rndc reload {$v}; rndc notify {$v}");
+			}
+		} else {
+			exec("rndc reconfig");
+		}
+	}
 ?>

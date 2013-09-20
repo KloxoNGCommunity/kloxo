@@ -46,7 +46,7 @@ if (($action === 'add') || ($action === 'update')) {
 	$soa = "{$nameserver} {$email} {$serial} {$refresh} {$retry} {$expire} {$minimum}";
 
 	$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-	"VALUES ('$domain_id', '$domainname', '$soa', 'SOA', '$ttl', 'NULL');");
+		"VALUES ('$domain_id', '$domainname', '$soa', 'SOA', '$ttl', 'NULL');");
 
 	foreach($dns_records as $k => $o) {
 		switch ($o->ttype) {
