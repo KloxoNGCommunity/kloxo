@@ -479,7 +479,7 @@ class Web extends Lxdb
 
 	//	$mmaildb = new Sqlite($this->__masterserver, 'mmail');
 		$mmaildb = new Sqlite(null, 'mmail');
-		$this->__var_mmaillist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
+	//	$this->__var_mmaillist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
 
 	//	$clientdb = new Sqlite($this->__masterserver, 'client');
 		$clientdb = new Sqlite(null, 'client');

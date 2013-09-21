@@ -1,5 +1,12 @@
 csv2 = {}
-# this ip must be change to real public ip
 ipv4_bind_addresses = "127.0.0.1"
 chroot_dir = "/home/maradns/conf/master"
-zone_transfer_acl = "0.0.0.0/0"
+
+### begin - acl - do not remove/modify this line
+# No acl
+### end - acl - do not remove/modify this line
+
+### begin - zone - do not remove/modify this line
+# No zone
+### end - zone - do not remove/modify this line
+

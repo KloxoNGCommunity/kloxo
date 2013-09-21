@@ -8,16 +8,6 @@
 		$d = str_replace("{$path}/", "", $d);
 		$zone  = "zone:\n    name: {$d}\n    zonefile: master/{$d}\n";
 
-	/*
-		if (array_keys($ip)) {
-			foreach ($ip as $k => $v) {
-				$zone .= "    notify: {$v} NOKEY\n    provide-xfr: {$v} NOKEY\n";
-			}
-		}
-	*/
-
-	//	$zone .= "    notify: 0.0.0.0 NOKEY\n    provide-xfr: 0.0.0.0 NOKEY\n";
-
 		$zone .= "    include: \"/home/nsd/conf/defaults/nsd.acl.conf\"\n";
 		
 		$str .= $zone . "\n";
@@ -27,9 +17,8 @@
 
 	file_put_contents($file, $str);
 
-	if ($action !== 'fix') {
-		exec("nsdc rebuild; nsdc notify");
-	//	exec("nsdc rebuild");
+	if ($action === 'fix') {
+		exec_with_all_closed("nsdc rebuild; nsdc notify >/dev/null 2>&1 &");
 	}
 ?>
 

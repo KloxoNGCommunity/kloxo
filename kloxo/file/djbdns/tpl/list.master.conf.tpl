@@ -13,8 +13,10 @@
 
 	exec("cd {$datadir}; make");
 
-	if ($action !== 'fix') {
-		exec("service djbdns restart");
+	if ($action === 'fix') {
+	//	exec("/etc/init.d/djbdns restart");
+	//	exec_with_all_closed("/etc/init.d/djbdns restart >/dev/null 2>&1 &");
+		createRestartFile("djbdns");
 	}
 ?>
 

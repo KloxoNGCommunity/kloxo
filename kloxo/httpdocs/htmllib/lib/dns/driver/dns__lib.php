@@ -30,16 +30,17 @@ class dns__ extends lxDriverClass
 
 	static function unInstallMeTrue($drivertype = null)
 	{
-	//	setRpmRemoved($drivertype);
-
-		setRpmRemovedViaYum($drivertype);
+		exec("/etc/init.d/{$driver} stop");
 
 		if ($drivertype === 'bind') {
+			setRpmRemoved($drivertype);
 			setRpmRemovedViaYum($drivertype . "-libs");
 		} elseif ($drivertype === 'pdns') {
-			// MR -- look not work; backup via cleanup process
+			setRpmRemovedViaYum($drivertype);
 			setRpmRemovedViaYum($drivertype . "-backend-mysql");
 			setRpmRemovedViaYum($drivertype . "-backend-geo");
+		} else {
+			setRpmRemovedViaYum($drivertype);
 		}
 
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
@@ -179,9 +180,6 @@ class dns__ extends lxDriverClass
 		// MR -- powerdns also nsd no need it
 		if ($driverapp === 'pdns') { return; }
 
-		// MR -- maradns still using generic ('0.0.0.0')
-		if ($driverapp === 'maradns') { return; }
-
 		$input = array();
 
 		$input['ip'] = $this->getIps();
@@ -278,8 +276,6 @@ class dns__ extends lxDriverClass
 				exec("rndc reconfig");
 			} elseif ($driverapp === 'nsd') {
 				exec("nsdc rebuild");
-			} else {
-				exec("service {$driverapp} restart");
 			}
 		} else {
 			$input = array();
@@ -342,9 +338,9 @@ class dns__ extends lxDriverClass
 			// instead service restart; move to list.master.conf.tpl
 		//	createRestartFile("named");
 		} elseif ($driverapp === 'djbdns') {
-			createRestartFile("djbdns");
+		//	createRestartFile("djbdns");
 		} elseif ($driverapp === 'maradns') {
-			createRestartFile("maradns");
+		//	createRestartFile("maradns");
 		} elseif ($driverapp === 'pdns') {
 			// no need restart!
 		} elseif ($driverapp === 'nsd') {

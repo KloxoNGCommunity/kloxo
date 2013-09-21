@@ -28,7 +28,6 @@ Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?p
 &<?php echo $domainname; ?>::<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
-
                 break;
             case "mx":
                 $value = $o->param;
@@ -102,7 +101,6 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
                 }
 
                 break;
-
             case "fcname":
                 $key = $o->hostname;
                 $value = $o->param;
@@ -135,10 +133,31 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
                 $value = str_replace(":", "\\072", $value);
                 $value = str_replace(" ", "\\040", $value);
 ?>
-'<?php echo $key; ?>:<?php echo $value; ?>::<?php echo $ttl; ?>
+'<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
                 break;
+        case "srv":
+            $key = $o->hostname;
+            $param = $o->param;
+            $proto = $o->proto;
+            $priority = $o->priority;
+            $service = $o->service;
+            $port = $o->port;
+
+            if($o->param === null) { continue; }    
+
+            if ($key !== "__base__") {
+                $key = "$key.$domainname";
+            } else {
+                $key = "$domainname";
+            }
+
+            $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
+?>
+### no implementing yet for SRV record
+<?php
+            break;
         }
     }
 ?>

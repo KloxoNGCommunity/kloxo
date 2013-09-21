@@ -26,12 +26,7 @@
 $ORIGIN <?php echo $domainname; ?>.
 $TTL <?php echo $ttl; ?>
 
-@ IN SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. (
-    <?php echo $serial; ?> ; Serial
-    <?php echo $refresh; ?>   ; Refresh
-    <?php echo $retry; ?>    ; Retry
-    <?php echo $expire; ?>  ; Expire
-    <?php echo $minimum; ?> ) ; Minimum
+@ IN SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. ( <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> )
 <?php
     foreach($dns_records as $k => $o) {
         $ttl = isset($o->ttl) && strlen($o->ttl) ? $o->ttl : $ttl;
@@ -47,7 +42,7 @@ $TTL <?php echo $ttl; ?>
                 $v = $o->priority;
                 $value = $o->param;
 ?>
-@ <?php echo $ttl; ?> IN MX <?php echo $v; ?> <?php echo $value; ?>.
+@ IN MX <?php echo $v; ?> <?php echo $value; ?>.
 <?php
                 break;
             case "aaaa":
@@ -60,7 +55,7 @@ $TTL <?php echo $ttl; ?>
                     $key = "@";
                 }
 ?>
-<?php echo $key; ?> <?php echo $ttl; ?> IN AAAA <?php echo $value; ?>
+<?php echo $key; ?> IN AAAA <?php echo $value; ?>
 
 <?php
                 break;
@@ -77,7 +72,7 @@ $TTL <?php echo $ttl; ?>
                     $key = "@";
                 }
 ?>
-<?php echo $key; ?> <?php echo $ttl; ?> IN A <?php echo $value; ?>
+<?php echo $key; ?> IN A <?php echo $value; ?>
 
 <?php
                 break;
@@ -89,7 +84,7 @@ $TTL <?php echo $ttl; ?>
                 if (isset($arecord[$value])) {
                     $rvalue = $arecord[$value];
 ?>
-<?php echo $key; ?> <?php echo $ttl; ?> IN A <?php echo $rvalue; ?>
+<?php echo $key; ?> IN A <?php echo $rvalue; ?>
 
 <?php
                 } else {
@@ -100,7 +95,7 @@ $TTL <?php echo $ttl; ?>
                     }
 
 ?>
-<?php echo $key; ?> <?php echo $ttl; ?> IN CNAME <?php echo $value; ?>
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>
 
 <?php
                 }
@@ -125,14 +120,14 @@ $TTL <?php echo $ttl; ?>
                     $value = "$domainname.";
                 }
 ?>
-<?php echo $key; ?> <?php echo $ttl; ?> IN CNAME <?php echo $value; ?>
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>
 
 <?php
                 break;
 
             case "txt":
                 $key = $o->hostname;
-                $value = $o->param;
+                $value = str_replace("  ", " ", $o->param);
 
                 if($value === null) {continue; }    
 
@@ -144,11 +139,11 @@ $TTL <?php echo $ttl; ?>
 
                 $value = str_replace("<%domain>", $domainname, $value);
 ?>
-<?php echo $key; ?> <?php echo $ttl; ?> IN TXT "<?php echo $value; ?>"
+<?php echo $key; ?> IN TXT "<?php echo $value; ?>"
 <?php
                 if (strpos($value, "v=spf1") !== false) {
 ?>
-<?php echo $key; ?> <?php echo $ttl; ?> IN SPF "<?php echo $value; ?>"
+<?php echo $key; ?> IN SPF "<?php echo $value; ?>"
 <?php
                 }
 
@@ -171,7 +166,7 @@ $TTL <?php echo $ttl; ?>
 
             $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
 ?>
-_<?php echo $service; ?>._<?php echo $proto; ?>.<?php echo $key; ?>. <?php echo $ttl; ?> IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>.
+_<?php echo $service; ?>._<?php echo $proto; ?>.<?php echo $key; ?>. IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>.
 
 <?php
             break;

@@ -14,13 +14,13 @@
 
 	file_put_contents($file, $str);
 
-	if ($action !== 'fix') {
+	if ($action === 'fix') {
 		if (array_keys($domains)) {
 			foreach ($domains as $k => $v) {
-				exec("rndc reload {$v}; rndc notify {$v}");
+				exec_with_all_closed("rndc reload {$v}; rndc notify {$v} >/dev/null 2>&1 &");
 			}
 		} else {
-			exec("rndc reconfig");
+			exec_with_all_closed("rndc reconfig >/dev/null 2>&1 &");
 		}
 	}
 ?>

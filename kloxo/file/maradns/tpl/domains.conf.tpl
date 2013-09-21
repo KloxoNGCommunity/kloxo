@@ -17,13 +17,14 @@
         $nameserver = $soanameserver;
     }
 
-    $email = str_replace("@", ".", $email);
+//    $email = str_replace("@", ".", $email);
     $refresh = isset($refresh) && strlen($refresh) > 0 ? $refresh : 3600;
     $retry = isset($retry) && strlen($retry) > 0 ? $retry : 1800;
     $expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
     $minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
 ?>
-<?php echo $domainname; ?>. SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> ~
+/origin <?php echo $domainname; ?>. ~
+% SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> ~
 <?php
     foreach($dns_records as $k => $o) {
         $ttl = isset($o->ttl) && strlen($o->ttl) ? $o->ttl : $ttl;
@@ -32,31 +33,24 @@
             case "ns":
                 $value = $o->param;
 ?>
-<?php echo $domainname; ?>. NS <?php echo $value; ?>. ~
+% NS <?php echo $value; ?>. ~
 <?php
                 break;
             case "mx":
                 $v = $o->priority;
                 $value = $o->param;
 ?>
-<?php echo $domainname; ?>. <?php echo $ttl; ?> MX <?php echo $v; ?> <?php echo $value; ?>. ~
+% <?php echo $ttl; ?> MX <?php echo $v; ?> <?php echo $value; ?>. ~
 <?php
                 break;
             case "aaaa":
                 $key = $o->hostname;
                 $value = $o->param;
 
-                if ($key === '*') {
-?>
-* <?php echo $ttl; ?> AAAA <?php echo $value; ?> ~
-<?php
-                    break;
-                }
-
                 if ($key !== "__base__") {
-                    $key = "$key.$domainname.";
+                    $key = "$key.%";
                 } else {
-                    $key = "$domainname.";
+                    $key = "%";
                 }
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> AAAA <?php echo $value; ?> ~
@@ -69,17 +63,10 @@
                 $key = $o->hostname;
                 $value = $o->param;
 
-                if ($key === '*') {
-?>
-* <?php echo $ttl; ?> A <?php echo $value; ?> ~
-<?php
-                    break;
-                }
-
                 if ($key !== "__base__") {
-                    $key = "$key.$domainname.";
+                    $key = "$key.%";
                 } else {
-                    $key = "$domainname.";
+                    $key = "%";
                 }
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> A <?php echo $value; ?> ~
@@ -89,72 +76,53 @@
             case "cname":
                 $key = $o->hostname;
                 $value = $o->param;
-/*
                 if (isset($arecord[$value])) {
                     $rvalue = $arecord[$value];
-
-                    if ($key === '*') {
-?>
-* <?php echo $ttl; ?> A <?php echo $rvalue; ?> ~
-<?php
-                        break;
-                    }
-
-                    $key .= ".$domainname.";
+                    $key .= ".%";
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> A <?php echo $rvalue; ?> ~
 <?php
-                    break;
-                }
-*/
-                $key .= ".$domainname.";
-
-                if ($value !== "__base__") {
-                    $value = "$value.$domainname.";
                 } else {
-                    $value = "$domainname.";
-                }
+                    $key .= ".%";
 
-            /*
-                if ($key === '*') {
-?>
-* CNAME <?php echo $value; ?> ~
-<?php
-                    break;
-                }
-            */
+                    if ($value !== "__base__") {
+                        $value = "$value.%";
+                    } else {
+                        $value = "%";
+                    }
+
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> CNAME <?php echo $value; ?> ~
 <?php
-                break;
+                }
 
+                break;
             case "fcname":
                 $key = $o->hostname;
                 $value = $o->param;
-                $key .= ".$domainname.";
+                $key .= ".%";
 
                 if ($value !== "__base__") {
                     if (!cse($value, ".")) {
                         $value = "$value.";
                     }
                 } else {
-                    $value = "$domainname.";
+                    $value = "%";
                 }
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> CNAME <?php echo $value; ?> ~
 <?php
                 break;
-
             case "txt":
                 $key = $o->hostname;
-                $value = $o->param;
+                $value = str_replace("  ", " ", $o->param);
 
-                if($value === null) {continue; }    
+                if($value === null) { continue; }    
 
                 if ($key !== "__base__") {
-                    $key = "$key.$domainname.";
+                    $key = "$key.%";
                 } else {
-                    $key = "$domainname.";
+                    $key = "%";
                 }
 
                 $value = str_replace("<%domain>", $domainname, $value);
@@ -179,14 +147,14 @@
             if($o->param === null) { continue; }    
 
             if ($key !== "__base__") {
-                $key = "$key.$domainname";
+                $key = "$key.%";
             } else {
-                $key = "$domainname";
+                $key = "%";
             }
 
             $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
 ?>
-_<?php echo $service; ?>._<?php echo $proto; ?>.<?php echo $key; ?>. <?php echo $ttl; ?> IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>. ~
+_<?php echo $service; ?>._<?php echo $proto; ?>.% <?php echo $ttl; ?> IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>. ~
 <?php
             break;
         }

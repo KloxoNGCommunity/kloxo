@@ -12,7 +12,8 @@
 		$nameduser = "axfrdns";
 
 		chown("{$dir}/data", $nameduser);
-		exec("cd {$dir}; make");
+
+		exec_with_all_closed("cd {$dir}; make");
 	}
 ?>
 

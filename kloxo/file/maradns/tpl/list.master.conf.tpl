@@ -6,24 +6,26 @@
 
 	foreach ($dirs as $d) {
 		$d = str_replace("{$path}/", "", $d);
-		$zone = "csv2[\"{$d}.\"] = \{$d}\"\n";
+		$zone = "csv2[\"{$d}.\"] = \"{$d}\"\n";
 		$str .= $zone;
 	}
 
-	if (file_exists("/home/maradns/etc/custom.mararc")) {
-		$srctxt = file_get_contents("/home/maradns/etc/custom.mararc");
-	} else {
-		$srctxt = file_get_contents("/home/maradns/etc/mararc");
-	}
+	$file = "/etc/mararc";
 
-	$startin = "\n### begin - zone list - do not remove/modify this line\n";
-	$endin = "### end - zone list - do not remove/modify this line\n";
+	$srctxt = file_get_contents($file);
 
-	$content = $srctxt . $startin . $str . $endin;
+	$startin = "### begin - zone - do not remove/modify this line\n";
+	$endin = "### end - zone - do not remove/modify this line";
 
-	file_put_contents("/etc/mararc", $content);
+	// MR -- calling function in lib.php
+	$content = replace_between($srctxt, $startin, $endin, $str);
 
-	if ($action !== 'fix') {
-		exec("service maradns restart");
+	file_put_contents($file, $content);
+
+	if ($action === 'fix') {
+		// MR -- execute here becuase very slow!
+	//	exec("/etc/init.d/maradns restart");
+	//	exec_with_all_closed("/etc/init.d/maradns restart >/dev/null 2>&1 &");
+		createRestartFile("maradns");
 	}
 ?>
