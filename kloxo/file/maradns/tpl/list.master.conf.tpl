@@ -28,4 +28,10 @@
 	//	exec_with_all_closed("/etc/init.d/maradns restart >/dev/null 2>&1 &");
 		createRestartFile("maradns");
 	}
+
+	if ($action === 'update') {
+		foreach ($domains as $k => $v) {
+			exec_with_all_closed("sh /script/dnsnotify {$v}");
+		}
+	}
 ?>

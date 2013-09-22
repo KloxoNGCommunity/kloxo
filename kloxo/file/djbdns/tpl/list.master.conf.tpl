@@ -18,5 +18,11 @@
 	//	exec_with_all_closed("/etc/init.d/djbdns restart >/dev/null 2>&1 &");
 		createRestartFile("djbdns");
 	}
+
+	if ($action === 'update') {
+		foreach ($domains as $k => $v) {
+			exec_with_all_closed("sh /script/dnsnotify {$v}");
+		}
+	}
 ?>
 

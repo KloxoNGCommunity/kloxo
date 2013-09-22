@@ -30,11 +30,13 @@ class dns__ extends lxDriverClass
 
 	static function unInstallMeTrue($drivertype = null)
 	{
-		exec("/etc/init.d/{$driver} stop");
+		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
+
+		exec("/etc/init.d/{$altname} stop");
 
 		if ($drivertype === 'bind') {
+			// using it because need bind-utils still exists
 			setRpmRemoved($drivertype);
-			setRpmRemovedViaYum($drivertype . "-libs");
 		} elseif ($drivertype === 'pdns') {
 			setRpmRemovedViaYum($drivertype);
 			setRpmRemovedViaYum($drivertype . "-backend-mysql");
@@ -42,8 +44,6 @@ class dns__ extends lxDriverClass
 		} else {
 			setRpmRemovedViaYum($drivertype);
 		}
-
-		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
 
 		if (file_exists("/etc/init.d/{$altname}")) {
 			lunlink("/etc/init.d/{$altname}");
@@ -101,6 +101,9 @@ class dns__ extends lxDriverClass
 		$input['email'] = $this->main->__var_email;
 		$input['serial'] = $this->main->__var_ddate;
 		$input['dns_records'] = $this->main->dns_record_a;
+
+		// MR -- not work and not implementing yet!
+	//	$input['account'] = $this->parent->getRealClientParentO()->getPathFromName();
 
 		if ($action) {
 			$input['action'] = $action;

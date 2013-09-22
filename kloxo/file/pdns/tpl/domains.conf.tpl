@@ -12,6 +12,10 @@ if (($action === 'delete') || ($action === 'update')) {
 			$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
 		}
 	}
+
+	if ($action === 'delete') {
+		$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
+	}
 }
 
 if (($action === 'add') || ($action === 'update')) {
@@ -24,6 +28,10 @@ if (($action === 'add') || ($action === 'update')) {
 
 		if ($dns->ttype === 'a') {
 			$arecord[$dns->hostname] = $dns->param;
+
+			if ($dns->hostname === '__base__') {
+				$baseip = $dns->param;
+			}
 		}
 	}
 
@@ -130,6 +138,7 @@ if (($action === 'add') || ($action === 'update')) {
 					$key = "$domainname.";
 				}
 
+			//	$value = str_replace("<%domain>", $domainname, $value);
 				$value = '"' . str_replace("<%domain>", $domainname, $value) . '"';
 
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
@@ -146,6 +155,12 @@ if (($action === 'add') || ($action === 'update')) {
 
 	$conn->query("INSERT INTO domainmetadata (domain_id, kind, content) " .
 		"VALUES ('{$domain_id}','ALLOW-AXFR-FROM','AUTO-NS');");
+
+	// MR -- account not implementing yet; importance for poweradmin to multiple use!
+	$account = 'admin';
+
+	$conn->query("INSERT INTO supermasters (ip, nameserver, account) " .
+		"VALUES ('{$baseip}','{$nameserver}','{$account}');");
 }
 
 $conn->close();

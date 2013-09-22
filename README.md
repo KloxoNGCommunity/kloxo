@@ -27,15 +27,15 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 * OS: Redhat/CentOS 5 and 6 (32bit and 64bit) or their variants
 * Billing: AWBS, WHMCS, HostBill, TheHostingTool, AccountLab Plus and Blesta (note: claim by billing's author)
-* Web server: Nginx, Nginx-Proxy and Lighttpd-proxy; beside Httpd and Lighttpd (in progress: Varnish, Hiawata, ATS and Httpd 2.4)
-* Php: Dual-php with php 5.3/5.4 as primary and php 5.2 as secondary (in progress: multiple-php)
+* Web server: Nginx, Nginx-Proxy and Lighttpd-proxy; beside Httpd and Lighttpd (in progress: Varnish, Hiawatha, ATS and Httpd 2.4) *)
+* Php: Dual-php with php 5.3/5.4 as primary and php 5.2 as secondary (in progress: multiple-php) *)
 * PHP-type for Apache: php-fpm_worker/_event and fcgid_worker/_event; beside mod_php/_ruid2/_itk and suphp/_worker/_event
-* Mail server: qmail-toaster instead special qmail (in progress: change from courier-imap to dovecot as imap/pop3)
+* Mail server: qmail-toaster instead special qmail (in progress: change from courier-imap to dovecot as imap/pop3) *)
 * Database: MySQL or MariaDB
-* Database Manager: PHPMyAdmin; Adminer, MyWebSql and SqlBuddy as additional
+* Database Manager: PHPMyAdmin; Adminer, MyWebSql and SqlBuddy as additional **)
 * Webmail: Afterlogic Webmail Lite, Telaen, Squirrelmail and Roundcube; Horde and T-Dah dropped
 * FTP server: Pure-ftpd
-* DNS Server: Bind, Djbdns and Powerdns (in progress)
+* DNS Server: Bind and Djbdns; ready testing for Powerdns, MaraDNS and NSD *)
 * Addons: ClamAV, Spamassassin/Bogofilter/Spamdyke and RKHunter
 * Fixed many bugs of Kloxo Official (including security issues)
 * And many more!
@@ -51,3 +51,17 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 ### How to install
 
 * Read https://github.com/mustafaramadhan/kloxo/blob/release/how-to-install.txt
+
+
+### Notes
+*) New features in Kloxo-MR 6.5.1 (Final version Dec 2013 - Jan 2014)
+
+- Web: Varnish, Hiawatha, ATS (Apache Traffic Server) and Httpd 2.4
+- DNS: Powerdns, MaraDNS and NSD (ready for testing since 16 Sep 2013)
+- Mail: Dovecot
+- Php: multiple Php versions running together (php-fpm/spawning base)
+
+**) New features in Kloxo-MR 6.5.0 after released
+- Panel: Adminer, MyWebSql and SqlBuddy as alternative for Database management
+- Core: change to use Hiawatha + php52s from lxphp + lxlighttpd for handling
+

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+rpm -qa | grep -q perl-Net-DNS || yum -y install perl-Net-DNS
+rpm -qa | grep -q bind-utils || yum -y install bind-utils
+
+. /script/directory
+
+dom=$1
+
+soarec=$(dig $dom SOA|grep -v '<<>>'|grep -v ';'|grep -i $dom|awk '{print $5}')
+
+nsrec=$(dig $dom NS|grep -v '<<>>'|grep -v ';'|grep -i $dom|awk '{print $5}')
+
+for i in $nsrec
+do
+	if [ "$i" != "$soarec" ] ; then
+		arec=$(dig $i A|grep -v '<<>>'|grep -v ';'|grep -i $i|awk '{print $5}')
+
+		for j in $arec
+		do
+			perl ../bin/misc/dnsnotify.pl $i $j
+		done
+	fi
+done
+
