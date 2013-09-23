@@ -240,7 +240,7 @@ function install_main()
 		"cronie", "cronie-anacron", "crontabs");
 
 
-	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_ruid2", "pure-ftpd");
+	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_fastcgi", "pure-ftpd");
 //	$installcomp['dns'] = array("bind", "bind-chroot");
 	$installcomp['dns'] = array("bind", "bind-utils");
 
@@ -564,12 +564,16 @@ function kloxo_install_before_bye()
 		system("yum remove {$phpbranch}-fpm -y");
 	}
 
-	// MR -- ruid2 as default instead mod_php
+	// MR -- use fastcgi instead ruid2 or mod_php as default
 	if (file_exists("/etc/httpd/conf.d/php.conf")) {
+		// MR -- because /home/apache no exist at this step
 		// MR -- ruid2 need php.conf!
 	//	system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
-		// MR -- because /home/apache no exist at this step
-		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
+	//	system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
+		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/fastcgi.conf /etc/httpd/conf.d/fastcgi.conf");
+		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/_inactive_.conf.conf /etc/httpd/conf.d/php.conf");
+		exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
+
 	}
 
 	//--- Prevent mysql socket problem (especially on 64bit system)

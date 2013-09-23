@@ -83,7 +83,8 @@ class serverweb extends lxdb
 						'fcgid_event', 'fcgid_worker')
 				);
 
-				$this->setDefaultValue('php_type', 'mod_php_ruid2');
+			//	$this->setDefaultValue('php_type', 'mod_php_ruid2');
+				$this->setDefaultValue('php_type', 'php-fpm_event');
 				
 				$vlist['secondary_php'] = array('f', 'on', 'off');
 
