@@ -5377,6 +5377,9 @@ function setDefaultPages($nolog = null)
 
 		log_cleanup("- Skeleton for {$p} web page", $nolog);
 		lxshell_unzip("__system__", "{$httpdpath}/{$p}/", $targetzip);
+
+		log_cleanup("- robots.txt for {$p} web page", $nolog);
+		lxfile_cp(getLinkCustomfile($filepath, "default_robots.txt"), "{$httpdpath}/{$p}/robots.txt");
 	}
 
 	setKloxoHttpdChownChmod($nolog);
