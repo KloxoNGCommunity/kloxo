@@ -7613,3 +7613,14 @@ function setHostsFile($nolog = null)
 	file_put_between_comments("root:root", $begincomment, $endcomment, 
 		$begincomment[0], $endcomment[0], $hnfile, $content, $nowarning=true);
 }
+
+// MR -- taken http://stackoverflow.com/questions/6875913/simple-how-to-replace-all-between-with-php
+function replace_between($str, $needle_start, $needle_end, $replacement) {
+    $pos = strpos($str, $needle_start);
+    $start = $pos === false ? 0 : $pos + strlen($needle_start);
+
+    $pos = strpos($str, $needle_end, $start);
+    $end = $pos === false ? strlen($str) : $pos;
+
+    return substr_replace($str, $replacement, $start, $end - $start);
+}
