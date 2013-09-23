@@ -85,7 +85,7 @@ function updatecleanup_main()
 	
 	log_cleanup("- qmail enabled and restart queue");
 	exec("chkconfig qmail on");
-	createRestartFile("qmail");
+//	createRestartFile("qmail");
 
 	if (isset($opt['without-services'])) {
 		// no action
