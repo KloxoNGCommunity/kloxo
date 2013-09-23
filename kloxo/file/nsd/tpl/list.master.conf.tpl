@@ -18,7 +18,9 @@
 	file_put_contents($file, $str);
 
 	if ($action === 'fix') {
-		exec_with_all_closed("nsdc rebuild; nsdc notify >/dev/null 2>&1 &");
+		exec_with_all_closed("nsdc rebuild; nsdc reload; nsdc notify");
+	} elseif ($action === 'update') {
+		exec_with_all_closed("nsdc rebuild; nsdc reload; nsdc notify");
 	}
 ?>
 

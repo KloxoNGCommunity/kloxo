@@ -19,6 +19,8 @@ if (($action === 'delete') || ($action === 'update')) {
 }
 
 if (($action === 'add') || ($action === 'update')) {
+	$nameserver = null;
+
 	foreach($dns_records as $dns) {
 		if ($dns->ttype === "ns") {
 			if (!$nameserver) {

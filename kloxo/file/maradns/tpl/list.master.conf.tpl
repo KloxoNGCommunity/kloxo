@@ -23,15 +23,14 @@
 	file_put_contents($file, $content);
 
 	if ($action === 'fix') {
-		// MR -- execute here becuase very slow!
-	//	exec("/etc/init.d/maradns restart");
-	//	exec_with_all_closed("/etc/init.d/maradns restart >/dev/null 2>&1 &");
-		createRestartFile("maradns");
-	}
+		if (array_keys($domains)) {
+			exec_with_all_closed("/etc/init.d/maradns reload");
 
-	if ($action === 'update') {
-		foreach ($domains as $k => $v) {
-			exec_with_all_closed("sh /script/dnsnotify {$v}");
+			foreach ($domains as $k => $v) {
+				exec_with_all_closed("sh /script/dnsnotify {$v}");
+			}
 		}
+	} elseif ($action === 'update') {
+		exec_with_all_closed("/etc/init.d/maradns reload; sh /script/dnsnotify {$domain}");
 	}
 ?>

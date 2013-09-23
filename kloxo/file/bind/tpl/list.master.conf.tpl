@@ -17,10 +17,12 @@
 	if ($action === 'fix') {
 		if (array_keys($domains)) {
 			foreach ($domains as $k => $v) {
-				exec_with_all_closed("rndc reload {$v}; rndc notify {$v} >/dev/null 2>&1 &");
+				exec_with_all_closed("rndc reload {$v}; rndc notify {$v}");
 			}
 		} else {
-			exec_with_all_closed("rndc reconfig >/dev/null 2>&1 &");
+			exec_with_all_closed("rndc reconfig");
 		}
+	} elseif ($action === 'update') {
+		exec_with_all_closed("rndc reload {$domain}; rndc notify {$domain}");
 	}
 ?>

@@ -1,6 +1,8 @@
 ### begin - dns of '<?php echo $domainname; ?>' - do not remove/modify this line
 
 <?php 
+    $nameserver = null;
+
     foreach($dns_records as $dns) {
         if ($dns->ttype === "ns") {
             if (!$nameserver) {
