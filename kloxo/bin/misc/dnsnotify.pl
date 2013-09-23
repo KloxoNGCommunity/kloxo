@@ -53,7 +53,7 @@ for my $slave (@ARGV) {
 			$reply->print;
 		}
 
-		print "Received NOTIFY answer from " . $reply->answerfrom . "\n";
+		print "Received NOTIFY answer from " . $reply->answerfrom . " for " . $zone ."\n";
 
 	} else {
 		print "TIMED OUT\n" if $DEBUG;

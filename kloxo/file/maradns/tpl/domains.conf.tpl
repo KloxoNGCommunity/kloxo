@@ -126,6 +126,8 @@
                 }
 
                 $value = str_replace("<%domain>", $domainname, $value);
+                $value = str_replace("|", "\\x7c", $value);
+                $value = str_replace("#", "\\x23", $value);
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> TXT '<?php echo $value; ?>' ~
 <?php
