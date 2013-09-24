@@ -5380,6 +5380,7 @@ function setDefaultPages($nolog = null)
 
 		log_cleanup("- robots.txt for {$p} web page", $nolog);
 		lxfile_cp(getLinkCustomfile($filepath, "default_robots.txt"), "{$httpdpath}/{$p}/robots.txt");
+
 	}
 
 	setKloxoHttpdChownChmod($nolog);
@@ -6457,15 +6458,20 @@ function removeWebOtherDriver($driverapp = null, $nolog = null)
 {
 	$actives = getWebDriverList($driverapp);
 
-	$avails = array('apache', 'lighttpd', 'nginx');
+	$avails = array('apache', 'lighttpd', 'nginx', 'hiawatha');
 
 	// array_diff return values of $avails that not present on $actives
 	$diffs = array_diff($avails, $actives);
 	$diffs = array_merge($diffs);
 
 	foreach ($diffs as &$d) {
-		exec_class_method("web__{$d}", "uninstallMe");
-		log_cleanup("- Uninstall web__{$d}", $nolog);
+		if ($d === 'hiawatha') {
+			exec_with_all_closed("chkconfig hiawatha off; /etc/init.d/hiawatha stop");
+			log_cleanup("- Uninstall web__{$d}", $nolog);
+		} else {
+			exec_class_method("web__{$d}", "uninstallMe");
+			log_cleanup("- Uninstall web__{$d}", $nolog);
+		}
 	}
 }
 
@@ -7320,6 +7326,7 @@ function setCopyWebConfFiles($webdriver)
 	$pathinit = "/etc/init.d";
 	$pathconfd = "{$pathetc}/conf.d";
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
+	$pathconf = ($webdriver === 'hiawatha') ? "{$pathetc}/conf" : "{$pathconf}";
 
 	log_cleanup("Copy all contents of $webdriver", $nolog);
 

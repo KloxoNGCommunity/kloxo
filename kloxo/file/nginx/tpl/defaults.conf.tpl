@@ -67,7 +67,7 @@ if ($setdefaults === 'ssl') {
 } elseif ($setdefaults === 'init') {
 ?>
 
-## No needed declare here because certfile directly write to defaults and domains configs
+## No needed declare initial here
 
 <?php
 } else {

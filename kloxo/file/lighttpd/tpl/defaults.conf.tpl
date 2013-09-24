@@ -68,7 +68,7 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $ports[1]; ?>" {
 } elseif ($setdefaults === 'init') {
 ?>
 
-## not needed
+## No needed declare initial here
 
 <?php
 } else {

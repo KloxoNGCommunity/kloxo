@@ -256,6 +256,7 @@ class web__ extends lxDriverClass
 		$input['setdefaults'] = 'init';
 		$input['indexorder'] = self::getIndexFileOrderDefault();
 		$input['certnamelist'] = $this->getSslCertNameList('*');
+		$input['userlist'] = $this->getUserList();
 
 		self::setCreateConfFile($input);
 	}
