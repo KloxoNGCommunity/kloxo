@@ -33,6 +33,24 @@ if ($setdefaults === 'init') {
         if ($ip === '*') {
 ?>
 
+UrlToolkit {
+    ToolkitID = findindexfile
+    Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
+    RequestURI isfile Return
+    Match ^([^?]*)/index\.php(\?.*)?$ Rewrite $1/index.html$2 Continue
+    RequestURI isfile Return
+    Match ^([^?]*)/index\.html(\?.*)?$ Rewrite $1/index.htm$2 Continue
+    RequestURI isfile Return
+    Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
+}
+
+UrlToolkit {
+    ToolkitID = permalink
+    RequestURI exists Return
+    Match .*\?(.*) Rewrite /index.php?$1
+    Match .* Rewrite /index.php
+}
+
 Binding {
     BindingId = port_nonssl
     Port = 80
@@ -53,20 +71,14 @@ Binding {
     MaxRequestSize = 102400
     ## not able more than 100MB
     MaxUploadSize = 100
+
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
 }
 <?php
         }
     }
-?>
 
-FastCGIserver {
-    FastCGIid = php_for_apache
-    ConnectTo = /home/php-fpm/sock/apache.sock
-    Extension = php
-}
-<?php
     foreach ($userlist as &$user) {
         $userinfo = posix_getpwnam($user);
 
@@ -81,6 +93,15 @@ FastCGIserver {
 }
 <?php
     }
+?>
+
+FastCGIserver {
+    FastCGIid = php_for_apache
+    ConnectTo = /home/php-fpm/sock/apache.sock
+    Extension = php
+}
+
+<?php
 } elseif ($setdefaults === 'ssl') {
 ?>
 
@@ -97,16 +118,34 @@ FastCGIserver {
 
 ### '<?php echo $setdefaults; ?>' config
 Hostname = 0.0.0.0
+
 WebsiteRoot = <?php echo $docroot; ?>
 
-#StartFile = <?php echo $indexorder; ?>
 
-StartFile = index.php
+#StartFile = index.php
+UseToolkit = findindexfile
+UseToolkit = permalink
+
+EnablePathInfo = yes
+
+TimeForCGI = 3600
+<?php
+                if ($reverseproxy) {
+?>
+
+ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+
+## MR -- only permit/need declare here
+CacheRProxyExtensions = css, gif, html, jpg, js, png
+CacheSize = 100 
+CacheMaxFilesize = 256
+<?php
+                } else {
+?>
 
 UseFastCGI = php_for_apache
-TimeForCGI = 3600
-
 <?php
+                }
             } else {
 ?>
 
@@ -124,11 +163,15 @@ VirtualHost {
 <?php
                 }
 ?>
+
     WebsiteRoot = <?php echo $docroot; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 <?php
             }
 
@@ -142,8 +185,21 @@ VirtualHost {
 
             if (($setdefaults !== 'default') || ($count !== 0)) {
 ?>
-    UseFastCGI = php_for_apache
+
     TimeForCGI = 3600
+<?php
+                if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                }
+?>
 }
 
 <?php

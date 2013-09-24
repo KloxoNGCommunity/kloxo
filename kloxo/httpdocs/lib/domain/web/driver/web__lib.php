@@ -94,7 +94,7 @@ class web__ extends lxDriverClass
 	{
 		$a = $drivertype;
 
-		$hwcpath = "/home/{$l}/conf";
+		$hwcpath = "/home/{$a}/conf";
 
 		if ($a === 'httpd') {
 			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
@@ -130,7 +130,13 @@ class web__ extends lxDriverClass
 				lxfile_rm("{$nginxsslcfgfile}");
 			}
 		} elseif ($a === 'hiawatha') {
-			// no action
+			$x = array('defaults/disable', '/defaults/cp', '/webmails/webmail');
+
+			foreach ($x as $k => $v) {
+				if (!file_exists("{$hwcpath}/{$v}.conf")) {
+					lxfile_rm("{$hwcpath}/{$v}.conf");
+				}
+			}
 		}
 	}
 
@@ -275,7 +281,15 @@ class web__ extends lxDriverClass
 
 	function createCpConfig()
 	{
-		$list = array('default', 'cp', 'disable');
+		$list = getWebDriverList();
+
+		$l = $list[0];
+
+		if ($l === 'hiawatha') {
+			$list = array('default');
+		} else {
+			$list = array('default', 'cp', 'disable');
+		}
 
 		$input = array();
 		
@@ -295,6 +309,13 @@ class web__ extends lxDriverClass
 
 	function createWebmailDefaultConfig()
 	{
+		$list = getWebDriverList();
+
+		$l = $list[0];
+
+		// MR -- hiawatha have a problem like with cp.*, so create directly in domain config
+		if ($l === 'hiawatha') { return; }
+
 		$input = array();
 
 		$input['setdefaults'] = 'webmail';

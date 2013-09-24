@@ -46,7 +46,12 @@ if ($parkdomains) {
 }
 
 if ($webmailapp === $webmailappdefault) {
-    $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
+
+    if ($webmailapp === '') {
+        $webmaildocroot = "/home/kloxo/httpd/webmail";
+    } else {
+        $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
+    }
 
     if ($wildcards) {
         $webmailapp = "*";
@@ -54,7 +59,7 @@ if ($webmailapp === $webmailappdefault) {
         $webmailapp = null;
     }
 } else {
-    if ($webmailapp) {
+    if ($webmailapp !== '') {
         if ($webmailapp === '--Disabled--') {
             $webmaildocroot = "/home/kloxo/httpd/disable";
         } else {
@@ -67,6 +72,8 @@ if ($webmailapp === $webmailappdefault) {
 
 $webmailremote = str_replace("http://", "", $webmailremote);
 $webmailremote = str_replace("https://", "", $webmailremote);
+
+$cpdocroot = "/home/kloxo/httpd/cp";
 
 if ($indexorder) {
     $indexorder = implode(', ', $indexorder);
@@ -158,11 +165,15 @@ foreach ($certnamelist as $ip => $certname) {
 VirtualHost {
     Hostname = webmail.<?php echo $domainname; ?>
 
+
     WebsiteRoot = <?php echo $disablepath; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 <?php
             if ($count !== 0) {
 ?>
@@ -170,9 +181,55 @@ VirtualHost {
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
 <?php
+                if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                }
             }
 ?>
+}
+
+## cp for '<?php echo $domainname; ?>'
+VirtualHost {
+    Hostname = cp.<?php echo $domainname; ?>
+
+
+    WebsiteRoot = <?php echo $disablepath; ?>
+
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
+<?php
+            if ($count !== 0) {
+?>
+
+    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
+<?php
+                if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                }
             }
+?>
+}
 
 <?php
         } else {
@@ -183,6 +240,7 @@ VirtualHost {
 VirtualHost {
     Hostname = webmail.<?php echo $domainname; ?>
 
+
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
 <?php
@@ -191,39 +249,109 @@ VirtualHost {
 
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
+
+    TimeForCGI = 3600
+<?php
+                }
+
+                if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                } else {
+?>
+
+    UseFastCGI = php_for_apache
 <?php
                 }
 ?>
-    UseFastCGI = php_for_apache
-    TimeForCGI = 3600
 }
 <?php
-            } elseif ($webmailapp) {
+            //  } elseif ($webmailapp) {
+            } else {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
     Hostname = webmail.<?php echo $domainname; ?>
 
+
     WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 <?php
                 if ($count !== 0) {
 ?>
 
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
+
+    TimeForCGI = 3600
+<?php
+                }
+
+                if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                } else {
+?>
+
+    UseFastCGI = php_for_apache
 <?php
                 }
 ?>
-    UseFastCGI = php_for_apache
+}
+
+
+## cp for '<?php echo $domainname; ?>'
+VirtualHost {
+    Hostname = cp.<?php echo $domainname; ?>
+
+
+    WebsiteRoot = <?php echo $cpdocroot; ?>
+
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
+<?php
+                if ($count !== 0) {
+?>
+
+    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
+
     TimeForCGI = 3600
+<?php
+                }
+
+                if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                }
+?>
 }
 
 <?php
+            }
+        /*
             } else {
 ?>
 
@@ -231,6 +359,7 @@ VirtualHost {
 
 <?php
             }
+        */
         }
 ?>
 
@@ -277,9 +406,12 @@ VirtualHost {
 
     WebsiteRoot = <?php echo $rootpath; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 
     Alias = /__kloxo:/home/<?php echo $user; ?>/kloxoscript
 
@@ -321,7 +453,7 @@ VirtualHost {
 ?>
 
     AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log
-    AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log
+    ErrorLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log
 <?php
         if ($statsapp === 'awstats') {
 ?>
@@ -362,16 +494,6 @@ VirtualHost {
             }
         }
 
-        if ($hiawathaextratext) {
-?>
-
-    # Extra Tags - begin
-    # <?php echo $hiawathaextratext; ?>
-
-    # Extra Tags - end
-<?php
-        }
-
         if ($disablephp) {
 ?>
     # AddType application/x-httpd-php-source .php
@@ -405,9 +527,20 @@ VirtualHost {
 ?>
 
     UserWebsites = yes
-    UseFastCGI = php_for_<?php echo $user; ?>
-
     TimeForCGI = 3600
+<?php
+        if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+        } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+        }
+?>
 }
 
 <?php
@@ -431,11 +564,14 @@ VirtualHost {
 VirtualHost {
     Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 
+
     WebsiteRoot = <?php echo $redirfullpath; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+
+    EnablePathInfo = yes
 <?php
                     if ($count !== 0) {
                         if ($ip !== '*') {
@@ -469,9 +605,20 @@ VirtualHost {
 ?>
 
     UserWebsites = yes
-    UseFastCGI = php_for_<?php echo $user; ?>
-
     TimeForCGI = 3600
+<?php
+                    if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                    } else {
+?>
+
+    UseFastCGI = php_for_<?php echo $user; ?>
+<?php
+                    }
+?>    
 }
 
 <?php
@@ -481,6 +628,7 @@ VirtualHost {
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
     Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
+
 
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $domainname; ?>/$1
 
@@ -511,9 +659,20 @@ VirtualHost {
 ?>
 
     UserWebsites = yes
-    UseFastCGI = php_for_<?php echo $user; ?>
-
     TimeForCGI = 3600
+<?php
+                    if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                    } else {
+?>
+
+    UseFastCGI = php_for_<?php echo $user; ?>
+<?php
+                    }
+?>    
 }
 
 <?php
@@ -533,11 +692,15 @@ VirtualHost {
 VirtualHost {
     Hostname = webmail.<?php echo $parkdomainname; ?>
 
+
     WebsiteRoot = <?php echo $disablepath; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 <?php
                     if ($count !== 0) {
 ?>
@@ -569,24 +732,40 @@ VirtualHost {
 <?php
                         }
 ?>
-    UseFastCGI = php_for_apache
     TimeForCGI = 3600
+<?php
+                        if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                        } else {
+?>
+
+    UseFastCGI = php_for_<?php echo $user; ?>
+<?php
+                        }
+?>    
 }
 
 <?php
                     } elseif ($webmailmap) {
-                        if ($webmailapp) {
+                    //  if ($webmailapp) {
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
     Hostname = webmail.<?php echo $parkdomainname; ?>
 
+
     WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 <?php
                             if ($count !== 0) {
 ?>
@@ -599,6 +778,7 @@ VirtualHost {
 }
 
 <?php
+                    /*
                         } else {
 ?>
 
@@ -606,6 +786,7 @@ VirtualHost {
 
 <?php
                         }
+                    */
                     } else {
 ?>
 
@@ -629,11 +810,15 @@ VirtualHost {
 VirtualHost {
     Hostname = webmail.<?php echo $redirdomainname; ?>
 
+
     WebsiteRoot = <?php echo $disablepath; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 <?php
                     if ($count !== 0) {
 ?>
@@ -643,8 +828,20 @@ VirtualHost {
 <?php
                     }
 ?>
-    UseFastCGI = php_for_apache
     TimeForCGI = 3600
+<?php
+                    if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                    } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                    }
+?>    
 }
 
 <?php
@@ -655,6 +852,7 @@ VirtualHost {
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
     Hostname = webmail.<?php echo $redirdomainname; ?>
+
 
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
@@ -667,24 +865,40 @@ VirtualHost {
 <?php
                         }
 ?>
-    UseFastCGI = php_for_apache
     TimeForCGI = 3600
+<?php
+                        if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                        } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                        }
+?> 
 }
 
 <?php
                     } elseif ($webmailmap) {
-                        if ($webmailapp) {
+                    //  if ($webmailapp) {
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
     Hostname = webmail.<?php echo $redirdomainname; ?>
 
+
     WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-    #StartFile = <?php echo $indexorder; ?>
 
-    StartFile = index.php
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+
+    EnablePathInfo = yes
 <?php
                             if ($count !== 0) {
 ?>
@@ -694,11 +908,24 @@ VirtualHost {
 <?php
                             }
 ?>
-    UseFastCGI = php_for_apache
     TimeForCGI = 3600
+<?php
+                            if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                            } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                            }
+?> 
 }
 
 <?php
+                    /*
                         } else {
 ?>
 
@@ -706,6 +933,7 @@ VirtualHost {
 
 <?php
                         }
+                    */
                     } else {
 ?>
 
