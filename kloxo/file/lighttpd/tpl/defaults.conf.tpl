@@ -37,7 +37,7 @@ if (file_exists("{$globalspath}/custom.nobody.conf")) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
-foreach ($certnamelist as $ip => $certname) {
+foreach ($certnamelistfree as $ip => $certname) {
 ?>
 
 $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $ports[1]; ?>" {
