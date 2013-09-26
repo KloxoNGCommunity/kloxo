@@ -6429,7 +6429,7 @@ function removeOtherDrivers($nolog = null)
 {
 	log_cleanup("Enable the correct drivers (Service daemons)", $nolog);
 
-	$list = array("spam", "dns");
+	$list = array("dns");
 
 	foreach ($list as $l) {
 		$driverapp = slave_get_driver($l);
@@ -6450,7 +6450,8 @@ function removeOtherDrivers($nolog = null)
 		}
 	}
 
-	// MR -- for web driver
+	// MR -- for dns and web driver
+	removeDnsOtherDriver(null, $nolog);
 	removeWebOtherDriver(null, $nolog);
 }
 

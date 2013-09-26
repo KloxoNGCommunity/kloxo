@@ -32,7 +32,7 @@ class dns__ extends lxDriverClass
 	{
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
 
-		exec("/etc/init.d/{$altname} stop");
+		lxshell_return("service", $altname, "stop");
 
 		if ($drivertype === 'bind') {
 			// using it because need bind-utils still exists
@@ -155,7 +155,7 @@ class dns__ extends lxDriverClass
 
 		$domains = array();
 
-		if ($action === 'update') {
+		if ($action === 'fix') {
 			$domains[] = $this->main->nname;
 	
 			foreach ((array)$this->main->__var_addonlist as $d) {
@@ -163,6 +163,8 @@ class dns__ extends lxDriverClass
 			}
 
 			$input['domains'] = $domains;
+		} elseif ($action === 'update') {
+			$input['domain'] = $this->main->nname;
 		}
 
 		$tplsource = getLinkCustomfile("/home/{$driverapp}/tpl", "list.master.conf.tpl");
@@ -295,6 +297,8 @@ class dns__ extends lxDriverClass
 				$input['domainname'] = $d->nname;
 
 				$input['action'] = 'delete';
+
+				$nameserver = null;
 
 				foreach($this->main->dns_record_a as $dns) {
 					if ($dns->ttype === "ns") {
