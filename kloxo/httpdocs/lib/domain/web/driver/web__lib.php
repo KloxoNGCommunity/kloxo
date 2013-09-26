@@ -584,7 +584,7 @@ class web__ extends lxDriverClass
 					lxfile_rm("/home/{$l}/conf/{$conftpl}/cp_config.conf");
 				}
 			*/
-				lxfile_rm_rec("/home/{$l}/conf/{$conftpl}/");
+				exec(" rm -rf /home/{$l}/conf/{$conftpl}/*.conf");
 			}
 
 		/*
