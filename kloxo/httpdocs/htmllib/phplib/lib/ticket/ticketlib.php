@@ -241,7 +241,7 @@ function postAdd()
 	$this->cpstatus = 'on';
 	$this->escalate = 'dull';
 	list($sec, $usec) = explode(" ", microtime());
-	$this->mail_messageid = "<$sec$usec.GA8614@lxlabs.com>";
+	$this->mail_messageid = "<$sec$usec.GA8614@lmratwork.com>";
 
 	ticketHistory::getObjectsTosend($this, $rhis, "ticketadd");
 }

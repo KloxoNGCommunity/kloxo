@@ -111,7 +111,7 @@ if ($userinfo) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
-$disablepath = "/home/kloxo/httpd/disable";
+$disabledocroot = "/home/kloxo/httpd/disable";
 
 if (!$reverseproxy) {
     foreach ($certnamelist as $ip => $certname) {
@@ -161,17 +161,13 @@ foreach ($certnamelist as $ip => $certname) {
         if ($disabled) {
 ?>
 
-## webmail for '<?php echo $domainname; ?>'
+## cp for '<?php echo $domainname; ?>'
 VirtualHost {
-    Hostname = webmail.<?php echo $domainname; ?>
+    Hostname = cp.<?php echo $domainname; ?>
 
 
-    WebsiteRoot = <?php echo $disablepath; ?>
+    WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
 
     EnablePathInfo = yes
 <?php
@@ -194,19 +190,59 @@ VirtualHost {
                 }
             }
 ?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
+
+
+## webmail for '<?php echo $domainname; ?>'
+VirtualHost {
+    Hostname = webmail.<?php echo $domainname; ?>
+
+
+    WebsiteRoot = <?php echo $disabledocroot; ?>
+
+
+    EnablePathInfo = yes
+<?php
+            if ($count !== 0) {
+?>
+
+    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
+<?php
+                if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
+                } else {
+?>
+
+    UseFastCGI = php_for_apache
+<?php
+                }
+            }
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+}
+
+<?php
+        } else {
+?>
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
     Hostname = cp.<?php echo $domainname; ?>
 
 
-    WebsiteRoot = <?php echo $disablepath; ?>
+    WebsiteRoot = <?php echo $cpdocroot; ?>
 
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
 
     EnablePathInfo = yes
 <?php
@@ -216,24 +252,42 @@ VirtualHost {
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
 <?php
-                if ($reverseproxy) {
+            }
+?>
+
+    TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
+<?php
+
+            if ($reverseproxy) {
 ?>
 
     ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
 <?php
-                } else {
+            } else {
 ?>
 
     UseFastCGI = php_for_apache
 <?php
-                }
             }
 ?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
-        } else {
-            if ($webmailremote) {
+
+        if ($webmailremote) {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
@@ -243,33 +297,48 @@ VirtualHost {
 
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
+    EnablePathInfo = yes
 <?php
-                if ($count !== 0) {
+            if ($count !== 0) {
 ?>
 
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
+<?php
+            }
+?>
 
     TimeForCGI = 3600
-<?php
-                }
 
-                if ($reverseproxy) {
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
+<?php
+
+            if ($reverseproxy) {
 ?>
 
     ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
 <?php
-                } else {
+            } else {
 ?>
 
     UseFastCGI = php_for_apache
 <?php
-                }
+            }
 ?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 <?php
-            //  } elseif ($webmailapp) {
-            } else {
+        } else {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
@@ -280,87 +349,49 @@ VirtualHost {
     WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
-
     EnablePathInfo = yes
 <?php
-                if ($count !== 0) {
+            if ($count !== 0) {
 ?>
 
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
-
-    TimeForCGI = 3600
-<?php
-                }
-
-                if ($reverseproxy) {
-?>
-
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
-<?php
-                } else {
-?>
-
-    UseFastCGI = php_for_apache
-<?php
-                }
-?>
-}
-
-
-## cp for '<?php echo $domainname; ?>'
-VirtualHost {
-    Hostname = cp.<?php echo $domainname; ?>
-
-
-    WebsiteRoot = <?php echo $cpdocroot; ?>
-
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
-
-    EnablePathInfo = yes
-<?php
-                if ($count !== 0) {
-?>
-
-    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
-    SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
-
-    TimeForCGI = 3600
-<?php
-                }
-
-                if ($reverseproxy) {
-?>
-
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
-<?php
-                } else {
-?>
-
-    UseFastCGI = php_for_apache
-<?php
-                }
-?>
-}
-
 <?php
             }
-        /*
+?>
+
+    TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
+<?php
+            if ($reverseproxy) {
+?>
+
+    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+<?php
             } else {
 ?>
 
-## webmail for '<?php echo $domainname; ?>' handled by ../defaults/webmail.conf
-
+    UseFastCGI = php_for_apache
 <?php
             }
-        */
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+}
+
+<?php
         }
+    }
 ?>
 
 ## web for '<?php echo $domainname; ?>'
@@ -400,16 +431,12 @@ VirtualHost {
         }
 
         if ($disabled) {
-            $rootpath = $disablepath;
+            $rootpath = $disabledocroot;
         }
 ?>
 
     WebsiteRoot = <?php echo $rootpath; ?>
 
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
 
     EnablePathInfo = yes
 
@@ -527,7 +554,17 @@ VirtualHost {
 ?>
 
     UserWebsites = yes
+
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
         if ($reverseproxy) {
 ?>
@@ -541,6 +578,10 @@ VirtualHost {
 <?php
         }
 ?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
@@ -554,7 +595,7 @@ VirtualHost {
 
                 if ($redirpath) {
                     if ($disabled) {
-                        $$redirfullpath = $disablepath;
+                        $$redirfullpath = $disabledocroot;
                     } else {
                         $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
                     }
@@ -567,9 +608,6 @@ VirtualHost {
 
     WebsiteRoot = <?php echo $redirfullpath; ?>
 
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
 
     EnablePathInfo = yes
 <?php
@@ -605,7 +643,17 @@ VirtualHost {
 ?>
 
     UserWebsites = yes
+
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
                     if ($reverseproxy) {
 ?>
@@ -618,7 +666,11 @@ VirtualHost {
     UseFastCGI = php_for_<?php echo $user; ?>
 <?php
                     }
-?>    
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
@@ -632,6 +684,7 @@ VirtualHost {
 
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $domainname; ?>/$1
 
+    EnablePathInfo = yes
 <?php
                     if ($count !== 0) {
                         if ($ip !== '*') {
@@ -659,7 +712,17 @@ VirtualHost {
 ?>
 
     UserWebsites = yes
+
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
                     if ($reverseproxy) {
 ?>
@@ -672,7 +735,11 @@ VirtualHost {
     UseFastCGI = php_for_<?php echo $user; ?>
 <?php
                     }
-?>    
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink  
 }
 
 <?php
@@ -693,12 +760,8 @@ VirtualHost {
     Hostname = webmail.<?php echo $parkdomainname; ?>
 
 
-    WebsiteRoot = <?php echo $disablepath; ?>
+    WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
 
     EnablePathInfo = yes
 <?php
@@ -710,6 +773,10 @@ VirtualHost {
 <?php
                     }
 ?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
@@ -733,6 +800,15 @@ VirtualHost {
                         }
 ?>
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
                         if ($reverseproxy) {
 ?>
@@ -745,12 +821,15 @@ VirtualHost {
     UseFastCGI = php_for_<?php echo $user; ?>
 <?php
                         }
-?>    
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
                     } elseif ($webmailmap) {
-                    //  if ($webmailapp) {
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
@@ -761,32 +840,34 @@ VirtualHost {
     WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
-
     EnablePathInfo = yes
+
+    TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
-                            if ($count !== 0) {
+                        if ($count !== 0) {
 ?>
 
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
 <?php
-                            }
+                        }
 ?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
-                    /*
-                        } else {
-?>
-
-## webmail for parked '<?php echo $parkdomainname; ?>' handled by ../defaults/webmail.conf
-
-<?php
-                        }
-                    */
                     } else {
 ?>
 
@@ -811,12 +892,8 @@ VirtualHost {
     Hostname = webmail.<?php echo $redirdomainname; ?>
 
 
-    WebsiteRoot = <?php echo $disablepath; ?>
+    WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
 
     EnablePathInfo = yes
 <?php
@@ -829,6 +906,15 @@ VirtualHost {
                     }
 ?>
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
                     if ($reverseproxy) {
 ?>
@@ -841,7 +927,11 @@ VirtualHost {
     UseFastCGI = php_for_apache
 <?php
                     }
-?>    
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
@@ -856,6 +946,7 @@ VirtualHost {
 
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
+    EnablePathInfo = yes
 <?php
                         if ($count !== 0) {
 ?>
@@ -866,6 +957,15 @@ VirtualHost {
                         }
 ?>
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
                         if ($reverseproxy) {
 ?>
@@ -878,12 +978,15 @@ VirtualHost {
     UseFastCGI = php_for_apache
 <?php
                         }
-?> 
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
                     } elseif ($webmailmap) {
-                    //  if ($webmailapp) {
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
@@ -893,10 +996,6 @@ VirtualHost {
 
     WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
 
     EnablePathInfo = yes
 <?php
@@ -909,6 +1008,15 @@ VirtualHost {
                             }
 ?>
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
+
+    ExecuteCGI = yes
 <?php
                             if ($reverseproxy) {
 ?>
@@ -921,19 +1029,14 @@ VirtualHost {
     UseFastCGI = php_for_apache
 <?php
                             }
-?> 
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
 }
 
 <?php
-                    /*
-                        } else {
-?>
-
-## webmail for redirect '<?php echo $redirdomainname; ?>' handled by ../defaults/webmail.conf
-
-<?php
-                        }
-                    */
                     } else {
 ?>
 

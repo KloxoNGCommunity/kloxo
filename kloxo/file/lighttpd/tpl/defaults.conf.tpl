@@ -1,16 +1,6 @@
-### begin - web of '<?php echo $setdefaults; ?>.*' - do not remove/modify this line
+### begin - web of initial - do not remove/modify this line
 
 <?php
-
-if ($setdefaults === 'webmail') {
-    if ($webmailappdefault) {
-        $docroot = "/home/kloxo/httpd/webmail/{$webmailappdefault}";
-    } else {
-        $docroot = "/home/kloxo/httpd/webmail";
-    }
-} else {
-    $docroot = "/home/kloxo/httpd/{$setdefaults}";
-}
 
 $ports[] = '80';
 $ports[] = '443';
@@ -47,11 +37,7 @@ if (file_exists("{$globalspath}/custom.nobody.conf")) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
-?>
-
-<?php
-if ($setdefaults === 'ssl') {
-    foreach ($certnamelist as $ip => $certname) {
+foreach ($certnamelist as $ip => $certname) {
 ?>
 
 $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $ports[1]; ?>" {
@@ -63,20 +49,14 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $ports[1]; ?>" {
     ssl.use-sslv2 = "disable"
 
 }
-<?php
-    }
-} elseif ($setdefaults === 'init') {
-?>
-
-## No needed declare initial here
 
 <?php
-} else {
+}
 ?>
 
-$HTTP["host"] =~ "^<?php echo $setdefaults; ?>\.*" { 
+$HTTP["host"] =~ "^cp\.*" { 
 
-    var.rootdir = "/home/kloxo/httpd/<?php echo $setdefaults; ?>/"
+    var.rootdir = "/home/kloxo/httpd/cp/"
 
     server.document-root = var.rootdir
 
@@ -94,15 +74,38 @@ $HTTP["host"] =~ "^<?php echo $setdefaults; ?>\.*" {
     var.fpmport = "<?php echo $fpmportapache; ?>"
 
     include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-
-#    include "<?php echo $globalspath; ?>/<?php echo $nobodyconf; ?>"
 <?php
     }
 ?>
 
 }
+
+
+$HTTP["host"] =~ "^default\.*" { 
+
+    var.rootdir = "/home/kloxo/httpd/default/"
+
+    server.document-root = var.rootdir
+
+    index-file.names = ( <?php echo $indexorder; ?> )
 <?php
-}
+    if ($reverseproxy) {
 ?>
 
-### end - web of '<?php echo $setdefaults; ?>.*' - do not remove/modify this line
+    include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
+<?php
+    } else {
+?>
+
+    var.user = "apache"
+    var.fpmport = "<?php echo $fpmportapache; ?>"
+
+    include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
+<?php
+    }
+?>
+
+}
+
+
+### end - web of initial - do not remove/modify this line

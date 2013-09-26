@@ -12,8 +12,6 @@ $serveralias = "{$domainname} www.{$domainname}";
 
 $excludedomains = array(
     "cp",
-    "disable",
-    "default",
     "webmail"
 );
 
@@ -37,10 +35,20 @@ if ($parkdomains) {
 }
 
 if ($webmailapp === $webmailappdefault) {
-    $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
-    $webmailapp = null;
+
+    if ($webmailapp === '') {
+        $webmaildocroot = "/home/kloxo/httpd/webmail";
+    } else {
+        $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
+    }
+
+    if ($wildcards) {
+        $webmailapp = "*";
+    } else {
+        $webmailapp = null;
+    }
 } else {
-    if ($webmailapp) {
+    if ($webmailapp !== '') {
         if ($webmailapp === '--Disabled--') {
             $webmaildocroot = "/home/kloxo/httpd/disable";
         } else {
@@ -61,9 +69,15 @@ if ($indexorder) {
 if ($blockips) {
     $biptemp = array();
     foreach ($blockips as &$bip) {
-        if (strpos($bip, ".*.*.*") !== false) { $bip = str_replace(".*.*.*", ".0.0/8", $bip); }
-        if (strpos($bip, ".*.*") !== false) { $bip = str_replace(".*.*", ".0.0/16", $bip); }
-        if (strpos($bip, ".*") !== false)  { $bip = str_replace(".*", ".0/24", $bip); }
+        if (strpos($bip, ".*.*.*") !== false) {
+            $bip = str_replace(".*.*.*", ".0.0/8", $bip);
+        }
+        if (strpos($bip, ".*.*") !== false) {
+            $bip = str_replace(".*.*", ".0.0/16", $bip);
+        }
+        if (strpos($bip, ".*") !== false) {
+            $bip = str_replace(".*", ".0/24", $bip);
+        }
         $biptemp[] = $bip;
     }
     $blockips = $biptemp;
@@ -85,12 +99,12 @@ $fpmportapache = 50000;
 exec("ip -6 addr show", $out);
 
 if ($out[0]) {
-	$IPv6Enable = true;
+    $IPv6Enable = true;
 } else {
-	$IPv6Enable = false;
+    $IPv6Enable = false;
 }
 
-$disablepath = "/home/kloxo/httpd/disable";
+$disabledocroot = "/home/kloxo/httpd/disable";
 
 $globalspath = "/home/nginx/conf/globals";
 
@@ -149,31 +163,206 @@ foreach ($certnamelist as $ip => $certname) {
 
     foreach ($ports as &$port) {
         $protocol = ($count === 0) ? "http://" : "https://";
+
+
+        if ($disabled) {
 ?>
 
-## web for '<?php echo $domainname; ?>'
+## webmail for '<?php echo $domainname; ?>'
 server {
 <?php
             if ($ip === '*') {
                 if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
                 } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                 }
             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
             }
-			
+
+            if ($count !== 0) {
+?>
+
+    ssl on;
+    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
+    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+<?php
+            }
+?>
+
+    server_name webmail.<?php echo $domainname; ?>;
+
+    index <?php echo $indexorder; ?>;
+
+    set $rootdir '<?php echo $disabledocroot; ?>';
+
+    root $rootdir;
+<?php
+            if ($reverseproxy) {
+?>
+
+    include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
+<?php
+            } else {
+?>
+
+    set $user 'apache';
+    set $fpmport '<?php echo $fpmportapache; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
+<?php
+            }
+?>
+}
+
+<?php
+        } else {
+            if ($webmailremote) {
+?>
+
+## webmail for '<?php echo $domainname; ?>'
+server {
+<?php
+                if ($ip === '*') {
+                    if ($IPv6Enable) {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+                    }
+                } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+                }
+
+                if ($count !== 0) {
+?>
+
+    ssl on;
+    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
+    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+<?php
+                }
+?>
+
+    server_name webmail.<?php echo $domainname; ?>;
+
+    if ($host != '<?php echo $webmailremote; ?>') {
+        rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
+    }
+}
+
+<?php
+            } else {
+?>
+
+## webmail for '<?php echo $domainname; ?>'
+server {
+<?php
+                if ($ip === '*') {
+                    if ($IPv6Enable) {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+                    } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+                    }
+                } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+                }
+
+                if ($count !== 0) {
+?>
+
+    ssl on;
+    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
+    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+<?php
+                }
+?>
+
+    server_name webmail.<?php echo $domainname; ?>;
+
+    index <?php echo $indexorder; ?>;
+
+    set $rootdir '<?php echo $webmaildocroot; ?>';
+
+    root $rootdir;
+<?php
+                if ($reverseproxy) {
+?>
+
+    include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
+<?php
+                } else {
+?>
+
+    set $user 'apache';
+    set $fpmport '<?php echo $fpmportapache; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
+
+    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
+<?php
+                }
+?>
+}
+
+<?php
+            }
+        }
+?>
+
+## web for '<?php echo $domainname; ?>'
+server {
+<?php
+        if ($ip === '*') {
+            if ($IPv6Enable) {
+?>
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
+<?php
+            } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+            }
+        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+        }
+
         if ($count !== 0) {
 ?>
 
+#xxx
     ssl on;
     ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
     ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
@@ -201,7 +390,7 @@ server {
         if ($disabled) {
 ?>
 
-    set $rootdir '<?php echo $disablepath; ?>';
+    set $rootdir '<?php echo $disabledocroot; ?>';
 <?php
         } else {
             if ($wildcards) {
@@ -219,7 +408,7 @@ server {
         set $rootdir '/home/kloxo/httpd/<?php echo $ed; ?>/';
 <?php
                     } else {
-                        if($webmailremote) {
+                        if ($webmailremote) {
 ?>
         rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
 <?php
@@ -257,7 +446,9 @@ server {
 
         if ($redirectionremote) {
             foreach ($redirectionremote as $rr) {
-                if ($rr[0] === '/') { $rr[0] = ''; }
+                if ($rr[0] === '/') {
+                    $rr[0] = '';
+                }
                 if ($rr[2] === 'both') {
 ?>
 
@@ -323,7 +514,7 @@ server {
 ?>
 
     # Extra Tags - begin
-<?php echo $nginxextratext; ?>
+    <?php echo $nginxextratext; ?>
 
     # Extra Tags - end
 <?php
@@ -401,185 +592,6 @@ server {
 }
 
 <?php
-        if (!$wildcards) {
-            if ($disabled) {
-?>
-
-## webmail for '<?php echo $domainname; ?>'
-server {
-<?php
-                if ($ip === '*') {
-                    if ($IPv6Enable) {
-?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                    } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                    }
-                } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                }
-
-                if ($count !== 0) {
-?>
-
-    ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
-    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-<?php
-                }
-?>
-
-    server_name webmail.<?php echo $domainname; ?>;
-
-    index <?php echo $indexorder; ?>;
-
-    set $rootdir '<?php echo $disablepath; ?>';
-
-    root $rootdir;
-<?php
-                if ($reverseproxy) {
-?>
-
-    include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
-<?php
-                } else {
-?>
-
-    set $user 'apache';
-    set $fpmport '<?php echo $fpmportapache; ?>';
-
-    include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
-
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-<?php
-                }
-?>
-}
-
-<?php
-            } else {
-                if ($webmailremote) {
-?>
-
-## webmail for '<?php echo $domainname; ?>'
-server {
-<?php
-                    if ($ip === '*') {
-                        if ($IPv6Enable) {
-?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                        } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                        }
-                    } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                    }
-
-                    if ($count !== 0) {
-?>
-
-    ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
-    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-<?php
-                    }
-?>
-
-    server_name webmail.<?php echo $domainname; ?>;
-
-    if ($host != '<?php echo $webmailremote; ?>') {
-        rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
-    }
-}
-<?php
-                } elseif ($webmailapp) {
-?>
-
-## webmail for '<?php echo $domainname; ?>'
-server {
-<?php
-                    if ($ip === '*') {
-                        if ($IPv6Enable) {
-?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                        } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                        }
-                    } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                    }
-
-                    if ($count !== 0) {
-?>
-
-    ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
-    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-<?php
-                    }
-?>
-
-    server_name webmail.<?php echo $domainname; ?>;
-
-    index <?php echo $indexorder; ?>;
-
-    set $rootdir '<?php echo $webmaildocroot; ?>';
-
-    root $rootdir;
-<?php
-                    if ($reverseproxy) {
-?>
-
-    include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
-<?php
-                    } else {
-?>
-
-    set $user 'apache';
-    set $fpmport '<?php echo $fpmportapache; ?>';
-
-    include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';
-
-    include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
-<?php
-                    }
-?>
-}
-
-<?php
-                } else {
-?>
-
-## webmail for '<?php echo $domainname; ?>' handled by ../webmails/webmail.conf
-
-<?php
-                }
-            }
-        }
 
         if ($domainredirect) {
             foreach ($domainredirect as $domredir) {
@@ -597,17 +609,17 @@ server {
                     if ($ip === '*') {
                         if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                         }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                     }
 
@@ -649,6 +661,7 @@ server {
                     }
 ?>
 }
+
 <?php
                 } else {
 ?>
@@ -659,17 +672,17 @@ server {
                     if ($ip === '*') {
                         if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                         }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                     }
 
@@ -711,17 +724,17 @@ server {
                     if ($ip === '*') {
                         if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                         }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                     }
 
@@ -741,7 +754,7 @@ server {
 
     index <?php echo $indexorder; ?>;
 
-    set $rootdir '<?php echo $disablepath; ?>';
+    set $rootdir '<?php echo $disabledocroot; ?>';
 
     root $rootdir;
 <?php
@@ -775,17 +788,17 @@ server {
                         if ($ip === '*') {
                             if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
                             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                             }
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                         }
 
@@ -811,30 +824,30 @@ server {
 <?php
 
                     } elseif ($webmailmap) {
-                        if ($webmailapp) {
+
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
 <?php
-                            if ($ip === '*') {
-                                if ($IPv6Enable) {
+                        if ($ip === '*') {
+                            if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
-                                } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                                }
                             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                             }
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+                        }
 
-                            if ($count !== 0) {
+                        if ($count !== 0) {
 ?>
 
     ssl on;
@@ -843,7 +856,7 @@ server {
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
-                            }
+                        }
 ?>
 
     server_name 'webmail.<?php echo $parkdomainname; ?>';
@@ -854,12 +867,12 @@ server {
 
     root $rootdir;
 <?php
-                            if ($reverseproxy) {
+                        if ($reverseproxy) {
 ?>
 
     include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
 <?php
-                            } else {
+                        } else {
 ?>
 
     set $user 'apache';
@@ -869,18 +882,12 @@ server {
 
     include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
-                            }
+                        }
 ?>
 }
 
 <?php
-                        } else {
-?>
 
-## webmail for parked '<?php echo $parkdomainname; ?>' handled by ../webmails/webmail.conf
-
-<?php
-                        }
                     } else {
 ?>
 
@@ -906,17 +913,17 @@ server {
                     if ($ip === '*') {
                         if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                         }
                     } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                     }
 
@@ -936,7 +943,7 @@ server {
 
     index <?php echo $indexorder; ?>;
 
-    set $rootdir '<?php echo $disablepath; ?>';
+    set $rootdir '<?php echo $disabledocroot; ?>';
 
     root $rootdir;
 <?php
@@ -970,17 +977,17 @@ server {
                         if ($ip === '*') {
                             if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
                             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                             }
                         } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                         }
 
@@ -1005,30 +1012,29 @@ server {
 
 <?php
                     } elseif ($webmailmap) {
-                        if ($webmailapp) {
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
 <?php
-                            if ($ip === '*') {
-                                if ($IPv6Enable) {
+                        if ($ip === '*') {
+                            if ($IPv6Enable) {
 ?>
-    listen 0.0.0.0:<?php echo $port; ?><?php echo $asdefault; ?>;
-    listen [::]:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen 0.0.0.0:<?php echo $port; ?>;
+    listen [::]:<?php echo $port; ?>;
 <?php
-                                } else {
-?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
-<?php
-                                }
                             } else {
 ?>
-    listen <?php echo $ip; ?>:<?php echo $port; ?><?php echo $asdefault; ?>;
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
 <?php
                             }
+                        } else {
+?>
+    listen <?php echo $ip; ?>:<?php echo $port; ?>;
+<?php
+                        }
 
-                            if ($count !== 0) {
+                        if ($count !== 0) {
 ?>
 
     ssl on;
@@ -1037,7 +1043,7 @@ server {
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
-                            }
+                        }
 ?>
 
     server_name 'webmail.<?php echo $redirdomainname; ?>';
@@ -1048,12 +1054,12 @@ server {
 
     root $rootdir;
 <?php
-                            if ($reverseproxy) {
+                        if ($reverseproxy) {
 ?>
 
     include '<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>';
 <?php
-                            } else {
+                        } else {
 ?>
 
     set $user 'apache';
@@ -1063,18 +1069,11 @@ server {
 
     include '<?php echo $globalspath; ?>/<?php echo $perlconf; ?>';
 <?php
-                            }
+                        }
 ?>
 }
 
 <?php
-                        } else {
-?>
-
-## webmail for redirect '<?php echo $redirdomainname; ?>' handled by ../webmails/webmail.conf
-
-<?php
-                        }
                     } else {
 ?>
 

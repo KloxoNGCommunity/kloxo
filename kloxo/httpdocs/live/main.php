@@ -199,7 +199,7 @@ while($socket > 0) {
 			//print($gl_timer);
 			irc_write($socket, "PRIVMSG $channel :lxclmsg3 No response for $gl_timer/20 sec\r\n");
 			if (!$gl_nonavailable_printed) {
-				print("It appears there's no one in the channel. Please leave your message here, or please contact lxhelp@lxlabs.com. We apologize for the inconvenience <br> \n");
+				print("It appears there's no one in the channel. Please leave your message here, or please contact forum@mratwork.com. We apologize for the inconvenience <br> \n");
 				$gl_nonavailable_printed = true;
 			} else {
 				print("...");

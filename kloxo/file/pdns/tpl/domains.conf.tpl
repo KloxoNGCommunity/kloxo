@@ -135,9 +135,9 @@ if (($action === 'add') || ($action === 'update')) {
 				}
 
 				if ($key !== "__base__") {
-					$key = "$key.$domainname.";
+					$key = "$key.$domainname";
 				} else {
-					$key = "$domainname.";
+					$key = "$domainname";
 				}
 
 			//	$value = str_replace("<%domain>", $domainname, $value);

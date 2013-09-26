@@ -1,23 +1,11 @@
-### begin - web of '<?php echo $setdefaults; ?>.*' - do not remove/modify this line
+### begin - web of initial - do not remove/modify this line
 
 <?php
-if ($reverseproxy) {
-    $ports[] = '30080';
-    $ports[] = '30443';
-} else {
-    $ports[] = '80';
-    $ports[] = '443';
-}
 
-if ($setdefaults === 'webmail') {
-    if ($webmailappdefault) {
-        $docroot = "/home/kloxo/httpd/webmail/{$webmailappdefault}";
-    } else {
-        $docroot = "/home/kloxo/httpd/webmail";
-    }
-} else {
-    $docroot = "/home/kloxo/httpd/{$setdefaults}";
-}
+$ports[] = '80';
+$ports[] = '443';
+
+$defaultdocroot = "/home/kloxo/httpd/default";
 
 if ($indexorder) {
     $indexorder = implode(', ', $indexorder);
@@ -27,10 +15,6 @@ if ($indexorder) {
 // $userinfoapache = posix_getpwnam('apache');
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
-
-if ($setdefaults === 'init') {
-    foreach ($certnamelist as $ip => $certname) {
-        if ($ip === '*') {
 ?>
 
 UrlToolkit {
@@ -47,38 +31,17 @@ UrlToolkit {
 UrlToolkit {
     ToolkitID = permalink
     RequestURI exists Return
+    ## process for 'special dirs' of Kloxo-MR
+    Match ^/(stats|awstats|awstatscss|awstats)(/|$) Return
+    ## process for 'special dirs' of Kloxo-MR
+    Match ^/(cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
+    Match ^/(css|files|images|js)(/|$) Return
+    Match ^/(favicon.ico|robots.txt|sitemap.xml)$ Return
+    Match /(.*)\?(.*) Rewrite /index.php?path=$1&$2
     Match .*\?(.*) Rewrite /index.php?$1
     Match .* Rewrite /index.php
 }
-
-Binding {
-    BindingId = port_nonssl
-    Port = 80
-    #Interface = 0.0.0.0
-    MaxKeepAlive = 3600
-    TimeForRequest = 3600
-    MaxRequestSize = 102400
-    ## not able more than 100MB
-    MaxUploadSize = 100
-}
-
-Binding {
-    BindingId = port_ssl
-    Port = 443
-    #Interface = 0.0.0.0
-    MaxKeepAlive = 3600
-    TimeForRequest = 3600
-    MaxRequestSize = 102400
-    ## not able more than 100MB
-    MaxUploadSize = 100
-
-    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
-    SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
-}
 <?php
-        }
-    }
-
     foreach ($userlist as &$user) {
         $userinfo = posix_getpwnam($user);
 
@@ -101,114 +64,108 @@ FastCGIserver {
     Extension = php
 }
 
+#CGIhandler = /usr/bin/perl:pl
+CGIhandler = /usr/bin/php-cgi:php
+#CGIhandler = /usr/bin/python:py
+#CGIhandler = /usr/bin/ruby:rb
+#CGIhandler = /usr/bin/ssi-cgi:shtml
+CGIextension = php
 <?php
-} elseif ($setdefaults === 'ssl') {
+foreach ($certnamelist as $ip => $certname) {
+    $count = 0;
+
+    foreach ($ports as &$port) {
 ?>
 
-### No needed declare here because certfile directly write to defaults and domains configs
+Binding {
+    BindingId = port_<?php echo $ports[$count]; ?>
 
+    Port = <?php echo $ports[$count]; ?>
+
+    #Interface = 0.0.0.0
+    MaxKeepAlive = 3600
+    TimeForRequest = 3600
+    MaxRequestSize = 102400
+    ## not able more than 100MB
+    MaxUploadSize = 100
 <?php
-} else {
-    foreach ($certnamelist as $ip => $certname) {
-        $count = 0;
-
-        foreach ($ports as &$port) {
-            if (($setdefaults === 'default') && ($count === 0)) {
-?>
-
-### '<?php echo $setdefaults; ?>' config
-Hostname = 0.0.0.0
-
-WebsiteRoot = <?php echo $docroot; ?>
-
-
-#StartFile = index.php
-UseToolkit = findindexfile
-UseToolkit = permalink
-
-EnablePathInfo = yes
-
-TimeForCGI = 3600
-<?php
-                if ($reverseproxy) {
-?>
-
-ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
-
-## MR -- only permit/need declare here
-CacheRProxyExtensions = css, gif, html, jpg, js, png
-CacheSize = 100 
-CacheMaxFilesize = 256
-<?php
-                } else {
-?>
-
-UseFastCGI = php_for_apache
-<?php
-                }
-            } else {
-?>
-
-### '<?php echo $setdefaults; ?>' config
-VirtualHost {
-<?php
-                if (($setdefaults === 'default') && ($count !== 0)) {
-?>
-    Hostname = 0.0.0.0
-<?php
-                } else {
-?>
-    Hostname = <?php echo $setdefaults; ?>
-
-<?php
-                }
-?>
-
-    WebsiteRoot = <?php echo $docroot; ?>
-
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
-
-    EnablePathInfo = yes
-<?php
-            }
-
-            if ($count !== 0) {
+        if ($count !== 0) {
 ?>
 
     #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
 <?php
-            }
+        }
+?>
+}
 
-            if (($setdefaults !== 'default') || ($count !== 0)) {
+### 'default' config
+<?php
+        if ($count === 0) {
+?>
+#VirtualHost {
+<?php
+        } else {
+?>
+VirtualHost {
+<?php
+        }
+?>
+    Hostname = 0.0.0.0
+
+    WebsiteRoot = <?php echo $defaultdocroot; ?>
+
+
+    EnablePathInfo = yes
+<?php
+        if ($count !== 0) {
+?>
+
+    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
+<?php
+        }
 ?>
 
     TimeForCGI = 3600
+
+    Alias = /error:/home/kloxo/httpd/error
+    ErrorHandler = 401:/error/401.html
+    ErrorHandler = 403:/error/403.html
+    ErrorHandler = 404:/error/404.html
+    ErrorHandler = 501:/error/501.html
+    ErrorHandler = 503:/error/503.html
 <?php
-                if ($reverseproxy) {
+        if ($reverseproxy) {
 ?>
 
     ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
 <?php
-                } else {
+        } else {
 ?>
 
     UseFastCGI = php_for_apache
 <?php
-                }
+        }
+?>
+
+    #StartFile = index.php
+    UseToolkit = findindexfile
+    UseToolkit = permalink
+<?php
+        if ($count === 0) {
+?>
+#}
+<?php
+        } else {
 ?>
 }
-
 <?php
-            }
-
-            $count++;
         }
+
+        $count++;
     }
 }
 ?>
 
-### end - web of '<?php echo $setdefaults; ?>.*' - do not remove/modify this line
+### end - web of initial - do not remove/modify this line

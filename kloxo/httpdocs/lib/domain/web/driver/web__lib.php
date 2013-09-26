@@ -248,6 +248,8 @@ class web__ extends lxDriverClass
 		$input['redirectionlocal'] = $this->getRedirectionLocal();
 		$input['redirectionremote'] = $this->getRedirectionRemote();
 
+		$input['phptype'] = $this->getPhptype();
+
 		self::setCreateConfFile($input);
 
 		$this->setLogfile();
@@ -264,11 +266,15 @@ class web__ extends lxDriverClass
 		$input['certnamelist'] = $this->getSslCertNameList('*');
 		$input['userlist'] = $this->getUserList();
 
+		$input['phptype'] = $this->getPhptype();
+
 		self::setCreateConfFile($input);
 	}
 
 	function createSSlConf()
 	{
+		return;
+
 		$input = array();
 
 		$input['certnamelist'] = $this->getSslCertNameList('free');
@@ -276,32 +282,30 @@ class web__ extends lxDriverClass
 		$input['indexorder'] = self::getIndexFileOrderDefault();		
 		$input['userlist'] = $this->getUserList();
 
+		$input['phptype'] = $this->getPhptype();
+
 		self::setCreateConfFile($input);
 	}
 
 	function createCpConfig()
 	{
-		$list = getWebDriverList();
+		return;
 
-		$l = $list[0];
-
-		if ($l === 'hiawatha') {
-			$list = array('default');
-		} else {
-			$list = array('default', 'cp', 'disable');
-		}
+		$list = array('default', 'cp', 'disable');
 
 		$input = array();
 		
 		$input['indexorder'] = self::getIndexFileOrderDefault();
 		$input['certnamelist'] = $this->getSslCertNameList('*');
 
-		foreach ($list as &$v) {
+		foreach ($list as $k => $v) {
 			$input['setdefaults'] = $v;
 			
 		//	if ($v === 'default') {
 				$input['userlist'] = $this->getUserList();			
 		//	}
+
+			$input['phptype'] = $this->getPhptype();
 
 			self::setCreateConfFile($input);
 		}
@@ -309,6 +313,8 @@ class web__ extends lxDriverClass
 
 	function createWebmailDefaultConfig()
 	{
+		return;
+
 		$list = getWebDriverList();
 
 		$l = $list[0];
@@ -322,6 +328,8 @@ class web__ extends lxDriverClass
 		$input['certnamelist'] = $this->getSslCertNameList('*');
 		$input['webmailappdefault'] = self::getWebmailAppDefault();
 		$input['indexorder'] = self::getIndexFileOrderDefault();
+
+		$input['phptype'] = $this->getPhptype();
 
 		self::setCreateConfFile($input);
 	}
@@ -433,6 +441,15 @@ class web__ extends lxDriverClass
 
 // MR -- (2) call by 'related to create conf file' (1)
 
+	function getPhptype()
+	{
+		$sq = new Sqlite(null, 'serverweb');
+		$res = $sq->getRowsWhere("nname = 'pserver-localhost'", array('php_type'));
+		$ret = $res[0];
+
+		return $ret['php_type'];
+	}
+
 	function getDomainname()
 	{
 		$ret = (isset($this->main->nname)) ? $this->main->nname : null;
@@ -535,7 +552,8 @@ class web__ extends lxDriverClass
 			$conftype = $conftpl = 'defaults';
 
 			if ($input['setdefaults'] === 'ssl') {
-				$conffile = '__ssl.conf';
+			//	$conffile = '__ssl.conf';
+				return;
 			} elseif ($input['setdefaults'] === 'default') {
 				$conffile = '_default.conf';
 			} else {
@@ -561,11 +579,15 @@ class web__ extends lxDriverClass
 			$tplsource = getLinkCustomfile("/home/{$l}/tpl", "{$conftpl}.conf.tpl");
 
 			if ($conftpl === 'defaults') {
-				 if (file_exists("/home/{$l}/conf/{$conftpl}/cp_config.conf")) {
+			/*
+				if (file_exists("/home/{$l}/conf/{$conftpl}/cp_config.conf")) {
 					lxfile_rm("/home/{$l}/conf/{$conftpl}/cp_config.conf");
 				}
+			*/
+				lxfile_rm_rec("/home/{$l}/conf/{$conftpl}/");
 			}
 
+		/*
 			if ($conffile !== 'webmail.conf') {
 				$tpltarget = "/home/{$l}/conf/{$conftype}";
 			} else {
@@ -575,7 +597,7 @@ class web__ extends lxDriverClass
 			if (file_exists("/home/{$l}/conf/{$conftype}/webmail.conf")) {
 				lxfile_rm("/home/{$l}/conf/{$conftype}/webmail.conf");
 			}
-
+		*/
 			$tpl = file_get_contents($tplsource);
 
 			$tplparse = getParseInlinePhp($tpl, $input);
@@ -1176,7 +1198,7 @@ class web__ extends lxDriverClass
 
 		$this->main->createPhpInfo();
 
-		$this->createSSlConf();
+	//	$this->createSSlConf();
 	}
 
 	function dbactionAdd()
@@ -1273,7 +1295,7 @@ class web__ extends lxDriverClass
 
 				case "changeowner":
 					$this->main->webChangeOwner();
-				//	$this->main->ftpChangeOwner();
+					$this->main->ftpChangeOwner();
 					$this->createConfFile();
 					break;
 
@@ -1307,7 +1329,7 @@ class web__ extends lxDriverClass
 				case "fixipdomain":
 					$this->createConfFile();
 					$this->updateMainConfFile();
-					$this->createSSlConf();
+				//	$this->createSSlConf();
 					break;
 
 				case "enable_php_manage_flag":
@@ -1340,8 +1362,7 @@ class web__ extends lxDriverClass
 					break;
 
 				case "graph_webtraffic":
-					return rrd_graph_single("webtraffic (bytes)", $this->getDomainname(),
-							$this->main->rrdtime);
+					return rrd_graph_single("webtraffic (bytes)", $this->getDomainname(), $this->main->rrdtime);
 					break;
 
 				case "run_stats":
@@ -1350,9 +1371,9 @@ class web__ extends lxDriverClass
 
 				case "static_config_update":
 					$this->updateMainConfFile();
-					$this->createSSlConf();
-					$this->createCpConfig();
-					$this->createWebmailDefaultConfig();
+				//	$this->createSSlConf();
+				//	$this->createCpConfig();
+				//	$this->createWebmailDefaultConfig();
 					$this->createPhpFpmConfig();
 					break;
 
