@@ -5730,7 +5730,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	$list = array("defaults", "domains", "globals", "webmails");
+	$list = array("defaults", "domains", "globals");
 
 	foreach ($list as $k => $l) {
 		if (!lxfile_exists("{$htcpath}/{$l}")) {
@@ -5741,7 +5741,7 @@ function setInitialWebConfig($type, $nolog = null)
 	}
 
 	$oldlist = array("{$htcpath}/redirects", "{$htcpath}/exclusive", "{$htcpath}/wildcards",
-		"{$htpath}/sock", "{$htpath}/socks", "{$eatpath}/conf/kloxo",
+		"{$htcpath}/webmails", "{$htpath}/sock", "{$htpath}/socks", "{$eatpath}/conf/kloxo",
 		"{$htpath}/tmp", "{$htpath}/logs", "{$htpath}/cache");
 
 	foreach ($oldlist as &$l) {
