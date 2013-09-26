@@ -16,6 +16,8 @@ A. pre-install -- better for fresh install
 B. Install Kloxo-MR (select B.1 or B.2)
 
 B.1 For Dev (alpha, beta, candidate) Release:
+
+B.1.1. via non-RPM
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
@@ -32,6 +34,35 @@ B.1 For Dev (alpha, beta, candidate) Release:
     
     # better reboot
     reboot
+
+B.1.2. via RPM
+
+    # get repo file -- no need for 6.5.0.c and after
+    wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
+
+    # move to /
+    cd /
+
+    # edit /etc/yum.repos.d/kloxo-mr.repo
+	
+	from:
+        [kloxo-mr-testing-neutral-noarch]
+        name=Kloxo-MR - testing-neutral-noarch
+        baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
+        #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
+        enabled=0
+        gpgcheck=0
+	to:
+        [kloxo-mr-testing-neutral-noarch]
+        name=Kloxo-MR - testing-neutral-noarch
+        baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
+        #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
+        enabled=1
+        gpgcheck=0
+		includepkgs=kloxomr
+	
+	yum clean all
+	yum install kloxomr
    
 B.2. For Final Release:
    - Install/reinstall/upgrade -- data not destroyed with this fork
