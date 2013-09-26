@@ -271,69 +271,6 @@ class web__ extends lxDriverClass
 		self::setCreateConfFile($input);
 	}
 
-	function createSSlConf()
-	{
-		return;
-
-		$input = array();
-
-		$input['certnamelist'] = $this->getSslCertNameList('free');
-		$input['setdefaults'] = 'ssl';
-		$input['indexorder'] = self::getIndexFileOrderDefault();		
-		$input['userlist'] = $this->getUserList();
-
-		$input['phptype'] = $this->getPhptype();
-
-		self::setCreateConfFile($input);
-	}
-
-	function createCpConfig()
-	{
-		return;
-
-		$list = array('default', 'cp', 'disable');
-
-		$input = array();
-		
-		$input['indexorder'] = self::getIndexFileOrderDefault();
-		$input['certnamelist'] = $this->getSslCertNameList('*');
-
-		foreach ($list as $k => $v) {
-			$input['setdefaults'] = $v;
-			
-		//	if ($v === 'default') {
-				$input['userlist'] = $this->getUserList();			
-		//	}
-
-			$input['phptype'] = $this->getPhptype();
-
-			self::setCreateConfFile($input);
-		}
-	}
-
-	function createWebmailDefaultConfig()
-	{
-		return;
-
-		$list = getWebDriverList();
-
-		$l = $list[0];
-
-		// MR -- hiawatha have a problem like with cp.*, so create directly in domain config
-		if ($l === 'hiawatha') { return; }
-
-		$input = array();
-
-		$input['setdefaults'] = 'webmail';
-		$input['certnamelist'] = $this->getSslCertNameList('*');
-		$input['webmailappdefault'] = self::getWebmailAppDefault();
-		$input['indexorder'] = self::getIndexFileOrderDefault();
-
-		$input['phptype'] = $this->getPhptype();
-
-		self::setCreateConfFile($input);
-	}
-
 	static function getWebmailAppDefault()
 	{
 		global $login;
@@ -550,23 +487,12 @@ class web__ extends lxDriverClass
 
 		if (array_key_exists('setdefaults', $input)) {
 			$conftype = $conftpl = 'defaults';
-
-			if ($input['setdefaults'] === 'ssl') {
-			//	$conffile = '__ssl.conf';
-				return;
-			} elseif ($input['setdefaults'] === 'default') {
-				$conffile = '_default.conf';
-			} else {
-				$conffile = "{$input['setdefaults']}.conf";
-			}
+			$conffile = "{$input['setdefaults']}.conf";
 		} else {
 			if (array_key_exists('setdomains', $input)) {
 				$conftype = 'domains';
-
 				$conftpl = 'domains';
-
 				$conffile = $input['domainname'] . '.conf';
-
 				self::setHttpdFcgid($input);
 			}
 		}
@@ -578,26 +504,12 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/home/{$l}/tpl", "{$conftpl}.conf.tpl");
 
-			if ($conftpl === 'defaults') {
-			/*
-				if (file_exists("/home/{$l}/conf/{$conftpl}/cp_config.conf")) {
-					lxfile_rm("/home/{$l}/conf/{$conftpl}/cp_config.conf");
-				}
-			*/
-				exec(" rm -rf /home/{$l}/conf/{$conftpl}/*.conf");
+			if ($conftype === 'defaults') {
+				exec("rm -rf /home/{$l}/conf/{$conftpl}/*.conf");
 			}
 
-		/*
-			if ($conffile !== 'webmail.conf') {
-				$tpltarget = "/home/{$l}/conf/{$conftype}";
-			} else {
-				$tpltarget = "/home/{$l}/conf/webmails";
-			}
-
-			if (file_exists("/home/{$l}/conf/{$conftype}/webmail.conf")) {
-				lxfile_rm("/home/{$l}/conf/{$conftype}/webmail.conf");
-			}
-		*/
+			$tpltarget = "/home/{$l}/conf/{$conftype}";
+				
 			$tpl = file_get_contents($tplsource);
 
 			$tplparse = getParseInlinePhp($tpl, $input);
@@ -635,7 +547,6 @@ class web__ extends lxDriverClass
 		$t = trim($t);
 
 		if ($t) {
-		//	$t = str_replace(".*", "", $t);
 			$t = explode(" ", $t);
 		} else {
 			$t = null;
@@ -662,8 +573,7 @@ class web__ extends lxDriverClass
 
 	function getFastcgiMaxProcs()
 	{
-		$n = ($this->main->priv->phpfcgiprocess_num) ?
-				$this->main->priv->phpfcgiprocess_num : "0";
+		$n = ($this->main->priv->phpfcgiprocess_num) ?	$this->main->priv->phpfcgiprocess_num : "0";
 
 		if (($n === 'Unlimited') || ($n === '-')) {
 			$n = '0';
@@ -848,8 +758,7 @@ class web__ extends lxDriverClass
 
 	function getServerAliases()
 	{
-		$serveralias = (isset($this->main->server_alias_a)) ?
-				$this->main->server_alias_a : null;
+		$serveralias = (isset($this->main->server_alias_a)) ?	$this->main->server_alias_a : null;
 
 		if ($serveralias) {
 			$list = array();
@@ -1051,19 +960,17 @@ class web__ extends lxDriverClass
 			lxfile_generic_chmod($tpltarget, "755");
 		}
 
-	//	if (!file_exists("/home/httpd/php5.fcgi")) {
-			$input['phpinipath'] = "/etc";
+		$input['phpinipath'] = "/etc";
 
-			$tpltarget = "/home/httpd/php5.fcgi";
+		$tpltarget = "/home/httpd/php5.fcgi";
 
-			$tpl = file_get_contents($tplsource);
+		$tpl = file_get_contents($tplsource);
 
-			$tplparse = getParseInlinePhp($tpl, $input);
+		$tplparse = getParseInlinePhp($tpl, $input);
 
-			file_put_contents($tpltarget, $tplparse);
+		file_put_contents($tpltarget, $tplparse);
 
-			lxfile_generic_chmod($tpltarget, "755");
-	//	}
+		lxfile_generic_chmod($tpltarget, "755");
 	}
 
 // MR -- (3) target to .httaccess or php.ini or log
@@ -1083,17 +990,6 @@ class web__ extends lxDriverClass
 		// where lighttpd not running if ownership not apache
 
 		lxfile_unix_chown_rec("{$log_path}", "apache:apache");
-
-		// MR -- back to original!
-	/*
-		if (file_exists($cust_log)) {
-			lxfile_cp($cust_log, "{$log_path}/custom.log");
-		}
-
-		if (file_exists($err_log)) {
-			lxfile_cp($err_log, "{$log_path}/error.log");
-		}
-	*/
 	}
 
 	function setPhpIni()
@@ -1122,8 +1018,6 @@ class web__ extends lxDriverClass
 
 		file_put_between_comments($this->getUser(), $stlist, $endlist,
 				$startstring, $endstring, $htfile, $string);
-
-		//	$this->norestart = 'on';
 	}
 
 	function hotlink_protection()
@@ -1185,8 +1079,6 @@ class web__ extends lxDriverClass
 		// So please be careful here. Must find a better way to delete stuff.
 		if (!$domainname) {	return null;	}
 
-		$this->createSSlConf();
-
 		$this->main->deleteDir();
 	}
 
@@ -1197,8 +1089,6 @@ class web__ extends lxDriverClass
 		$this->createConfFile();
 
 		$this->main->createPhpInfo();
-
-	//	$this->createSSlConf();
 	}
 
 	function dbactionAdd()
@@ -1230,8 +1120,6 @@ class web__ extends lxDriverClass
 		$this->dbactionUpdate("static_config_update");
 
 		if (!$this->isOn('norestart')) {
-		//	createRestartFile("httpd");
-
 			if (file_exists("/etc/rc.d/init.d/nginx")) {
 				createRestartFile("nginx");
 			}
@@ -1264,8 +1152,6 @@ class web__ extends lxDriverClass
 
 		$this->main->createPhpInfo();
 		web::createstatsConf($domname, $this->main->stats_username, $this->main->stats_password);
-
-	//	$this->createSSlConf();
 
 		$this->createConfFile();
 
@@ -1329,7 +1215,6 @@ class web__ extends lxDriverClass
 				case "fixipdomain":
 					$this->createConfFile();
 					$this->updateMainConfFile();
-				//	$this->createSSlConf();
 					break;
 
 				case "enable_php_manage_flag":
@@ -1371,9 +1256,6 @@ class web__ extends lxDriverClass
 
 				case "static_config_update":
 					$this->updateMainConfFile();
-				//	$this->createSSlConf();
-				//	$this->createCpConfig();
-				//	$this->createWebmailDefaultConfig();
 					$this->createPhpFpmConfig();
 					break;
 
