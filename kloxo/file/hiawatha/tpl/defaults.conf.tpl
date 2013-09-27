@@ -150,8 +150,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 <?php
         if ($count === 0) {
 ?>

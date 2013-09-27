@@ -184,9 +184,10 @@ if ($redirectionremote) {
     }
 }
 ?>
-    Match ^/kloxo(/|$) Redirect https://cp.<?php echo $domainname; ?>:7777/$1
-    Match ^/kloxononssl(/|$) Redirect http://cp.<?php echo $domainname; ?>:7778/$1
+    Match ^/kloxo(/|$) Redirect https://<?php echo $domainname; ?>:7777/$1
+    Match ^/kloxononssl(/|$) Redirect http://<?php echo $domainname; ?>:7778/$1
     Match ^/webmail(/|$) Redirect http://webmail.<?php echo $domainname; ?>/$1
+    Match ^/cp(/|$) Redirect http://cp.<?php echo $domainname; ?>/$1
 <?php
 if ($statsapp === 'awstats') {
 ?>
@@ -244,8 +245,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 
@@ -280,8 +280,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -333,8 +332,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -399,8 +397,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -556,11 +553,8 @@ VirtualHost {
         }
 ?>
 
-    UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>
-
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>,findindexfile,permalink
 }
 
 <?php
@@ -646,14 +640,11 @@ VirtualHost {
     UseFastCGI = php_for_<?php echo $user; ?>
 <?php
                         }
-
-<?php
                     }
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -721,8 +712,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink  
+    UseToolkit = findindexfile,permalink  
 }
 
 <?php
@@ -758,8 +748,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -807,8 +796,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -846,8 +834,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -913,8 +900,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -964,8 +950,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
@@ -1015,8 +1000,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
+    UseToolkit = findindexfile,permalink
 }
 
 <?php
