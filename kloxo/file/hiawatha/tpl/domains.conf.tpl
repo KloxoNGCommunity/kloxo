@@ -152,6 +152,58 @@ Binding {
     }
 }
 
+if ($webmailremote) {
+?>
+UrlToolkit {
+    ToolkitID = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
+
+    RequestURI exists Return
+    Match ^/(.*) Redirect http://<?php echo $webmailremote; ?>/$1
+}
+<?php
+}
+?>
+
+UrlToolkit {
+    ToolkitID = redirect_<?php echo str_replace('.', '_', $domainname); ?>
+	
+    RequestURI exists Return
+<?php
+if ($redirectionremote) {
+    foreach ($redirectionremote as $rr) {
+        if ($rr[2] === 'both') {
+?>
+    Match /^<?php echo $rr[0]; ?>/(.*) Redirect <?php echo $protocol; ?><?php echo $rr[1]; ?>/$1
+<?php
+        } else {
+            $protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
+?>
+    Match ^/<?php echo $rr[0]; ?>/(.*) Redirect <?php echo $protocol2; ?><?php echo $rr[1]; ?>/$1
+<?php
+        }
+    }
+}
+?>
+    Match ^/kloxo(/|$) Redirect https://cp.<?php echo $domainname; ?>:7777/$1
+    Match ^/kloxononssl(/|$) Redirect http://cp.<?php echo $domainname; ?>:7778/$1
+    Match ^/webmail(/|$) Redirect http://webmail.<?php echo $domainname; ?>/$1
+<?php
+if ($statsapp === 'awstats') {
+?>
+    Match ^/stats(/|$) Redirect http://<?php echo $domainname; ?>/awstats/awstats.pl
+<?php
+}
+
+if ($wwwredirect) {
+?>
+
+    Match ^/(.*) Redirect http://www.<?php echo $domainname; ?>/$1
+<?php
+}
+?>
+}
+
+<?php
 foreach ($certnamelist as $ip => $certname) {
     $count = 0;
 
@@ -295,48 +347,10 @@ VirtualHost {
     Hostname = webmail.<?php echo $domainname; ?>
 
 
-    #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
+    usrToolkit = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
-    EnablePathInfo = yes
-<?php
-            if ($count !== 0) {
-?>
-
-    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
-    SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
-<?php
-            }
-?>
-
-    TimeForCGI = 3600
-
-    Alias = /error:/home/kloxo/httpd/error
-    ErrorHandler = 401:/error/401.html
-    ErrorHandler = 403:/error/403.html
-    ErrorHandler = 404:/error/404.html
-    ErrorHandler = 501:/error/501.html
-    ErrorHandler = 503:/error/503.html
-
-    ExecuteCGI = yes
-<?php
-
-            if ($reverseproxy) {
-?>
-
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
-<?php
-            } else {
-?>
-
-    UseFastCGI = php_for_apache
-<?php
-            }
-?>
-
-    #StartFile = index.php
-    UseToolkit = findindexfile
-    UseToolkit = permalink
 }
+
 <?php
         } else {
 ?>
@@ -423,13 +437,6 @@ VirtualHost {
             }
         }
 
-        if ($wwwredirect) {
-?>
-
-    #Match ^/(.*) Redirect <?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1
-<?php
-        }
-
         if ($disabled) {
             $rootpath = $disabledocroot;
         }
@@ -441,11 +448,6 @@ VirtualHost {
     EnablePathInfo = yes
 
     Alias = /__kloxo:/home/<?php echo $user; ?>/kloxoscript
-
-    #Match ^/kloxo/(.*) Redirect https://cp.<?php echo $domainname; ?>:7777/$1
-    #Match ^/kloxononssl/(.*) Redirect http://cp.<?php echo $domainname; ?>:7778/$1
-
-    #Match ^/webmail/(.*) Redirect <?php echo $protocol; ?>webmail.<?php echo $domainname; ?>/$1
 
     Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
@@ -459,24 +461,6 @@ VirtualHost {
             }
         }
 
-        if ($redirectionremote) {
-            foreach ($redirectionremote as $rr) {
-                if ($rr[2] === 'both') {
-?>
-
-    #Match /^<?php echo $rr[0]; ?>/(.*) Redirect <?php echo $protocol; ?><?php echo $rr[1]; ?>/$1
-
-<?php
-                } else {
-                    $protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
-?>
-
-    #Match ^/<?php echo $rr[0]; ?>/(.*) Redirect <?php echo $protocol2; ?><?php echo $rr[1]; ?>/$1
-
-<?php
-                }
-            }
-        }
 ?>
 
     AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log
@@ -490,7 +474,6 @@ VirtualHost {
     Alias = /awstatscss:/home/kloxo/httpd/awstats/wwwroot/css
     Alias = /awstatsicons:/home/kloxo/httpd/awstats/wwwroot/icon
 
-    #Match ^/stats/(.*) Redirect <?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl
 <?php
             if ($statsprotect) {
 ?>
@@ -505,10 +488,10 @@ VirtualHost {
 
     Alias = /stats:/home/httpd/<?php echo $domainname; ?>/webstats
 
-    Directory {
-        Path = /stats
-        ShowIndex = yes
-    }
+    #Directory {
+    #    Path = /stats
+    #    ShowIndex = yes
+    #}
 <?php
             if ($statsprotect) {
 ?>
@@ -519,12 +502,6 @@ VirtualHost {
     }
 <?php
             }
-        }
-
-        if ($disablephp) {
-?>
-    # AddType application/x-httpd-php-source .php
-<?php
         }
 
         if ($dirprotect) {
@@ -578,6 +555,8 @@ VirtualHost {
 <?php
         }
 ?>
+
+    UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>
 
     #StartFile = index.php
     UseToolkit = findindexfile
@@ -661,9 +640,13 @@ VirtualHost {
     ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
 <?php
                     } else {
+                        if (!$disablephp) {
 ?>
 
     UseFastCGI = php_for_<?php echo $user; ?>
+<?php
+                        }
+
 <?php
                     }
 ?>
