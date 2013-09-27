@@ -34,29 +34,14 @@ if ($parkdomains) {
     }
 }
 
-if ($webmailapp === $webmailappdefault) {
-
-    if ($webmailapp === '') {
-        $webmaildocroot = "/home/kloxo/httpd/webmail";
+if ($webmailapp !== '') {
+    if ($webmailapp === '--Disabled--') {
+        $webmaildocroot = "/home/kloxo/httpd/disable";
     } else {
         $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
     }
-
-    if ($wildcards) {
-        $webmailapp = "*";
-    } else {
-        $webmailapp = null;
-    }
 } else {
-    if ($webmailapp !== '') {
-        if ($webmailapp === '--Disabled--') {
-            $webmaildocroot = "/home/kloxo/httpd/disable";
-        } else {
-            $webmaildocroot = "/home/kloxo/httpd/webmail/{$webmailapp}";
-        }
-    } else {
-        $webmaildocroot = "/home/kloxo/httpd/webmail";
-    }
+    $webmaildocroot = "/home/kloxo/httpd/webmail";
 }
 
 $webmailremote = str_replace("http://", "", $webmailremote);
@@ -362,7 +347,6 @@ server {
         if ($count !== 0) {
 ?>
 
-#xxx
     ssl on;
     ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
     ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
