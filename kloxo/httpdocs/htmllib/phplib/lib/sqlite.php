@@ -508,11 +508,15 @@ class Sqlite
 
 		$string = $this->createQueryStringAdd($array);
 
-		$insert = "insert into $this->__sqtable $string ;";
+	//	$insert = "insert into $this->__sqtable $string ;";
+		$insert = "insert ignore into $this->__sqtable $string ;";
 
 		if ($ins = $this->database_query($gbl->$fdbvar, $insert)) {
 			dprint("Record inserted in $this->__sqtable for {$array['nname']}\n", 1);
 		} else {
+			// MR -- the problem is delete domain not delete sp_childspecialplay and sp_specialplay
+			// that why this error happen... use 'insert ignore into' instead 'insert into'
+
 			log_database("DbError: Insert Failed for {$this->__sqtable}:{$array['nname']}");
 			log_bdatabase("DbError: Insert Failed for {$this->__sqtable}:{$array['nname']} $insert");
 

@@ -34,7 +34,7 @@ if ($parkdomains) {
     }
 }
 
-if ($webmailapp !== '') {
+if ($webmailapp) {
     if ($webmailapp === '--Disabled--') {
         $webmaildocroot = "/home/kloxo/httpd/disable";
     } else {
