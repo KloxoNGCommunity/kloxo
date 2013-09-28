@@ -59,22 +59,24 @@ function print_head_image()
 		return;
 	}
 
-	?>
+?>
 	<link href="/img/skin/kloxo/feather/default/feather.css" rel="stylesheet" type="text/css"/>
+	<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(/img/skin/kloxo/feather/default/invertfeather.jpg)">
+		<tr>
+			<td width=100% id='td1'></td>
 <?php
-	print("<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style=\"background:url(/img/skin/kloxo/feather/default/invertfeather.jpg)\"> ");
-	print("<tr  ><td width=100% id='td1' > </td> ");
-
 	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
-	//	$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
-		print("<td valign=top>");
-		print("<a href=javascript:top.mainframe.logOut()>Logout </a>");
-	//	$ghtml->print_div_button_on_header(null, true, 0, $v);
-		print("</td>");
+?>
+			<td valign='top'><a href='javascript:top.mainframe.logOut()'>Logout</a></td>
+<?php
 	}
-	print("</tr>");
-	print("<tr><td colspan=3 class='bg2'></td></tr>");
-	print("</table> ");
+?>
+		</tr>
+		<tr>
+			<td colspan='3' class='bg2'></td>
+		</tr>
+	</table>
+<?php
 }
 
 function getIncrementedValueFromTable($table, $column)
@@ -2064,6 +2066,7 @@ function redirect_to_https()
 
 	if ($sgbl->is_this_slave()) {
 		print("This is a Slave Server\n");
+
 		exit;
 	}
 
@@ -4094,88 +4097,6 @@ function getAllIpaddress()
 	}
 
 	return $list;
-}
-
-function updateDatabaseProperly()
-{
-	// MR -- no need because using .sql file
-	return;
-
-/*
-	$var = parse_sql_data();
-
-	foreach ($var as $table => $content) {
-		$__db = new Sqlite(null, $table);
-		$res = $__db->getColumnTypes();
-		if ($res) {
-			//dprint("Table $table Already exists\n");
-			updateTableProperly($__db, $table, $res, $content);
-		} else {
-			dprint("Adding table $table \n");
-			create_table($__db, $table, $var[$table]);
-		}
-	}
-*/
-}
-
-function dofixParentClname()
-{
-	// MR -- no need because using .sql file
-	return;
-
-/*
-	$var = parse_sql_data();
-
-	foreach ($var as $table => $content) {
-		$__db = new Sqlite(null, $table);
-		if ($table === 'ticket') {
-			$list = array("parent_clname", "made_by", "sent_to");
-		} else {
-			if ($table === 'smessage') {
-				$list = array("parent_clname", "made_by");
-			} else {
-				if ($table === 'kloxolicense') {
-					$list = array("parent_clname", "created_by");
-				} else {
-					if ($table === 'hypervmlicense') {
-						$list = array("parent_clname", "created_by");
-					} else {
-						$list = array("parent_clname");
-					}
-				}
-			}
-		}
-		$get = lx_array_merge(array(array('nname'), $list));
-		$res = $__db->getTable($get);
-
-		if (!$res) {
-			continue;
-		}
-		foreach ($res as $r) {
-
-			foreach ($list as $l) {
-				$v = fix_getParentNameAndClass($r[$l]);
-				if (!$v) {
-					continue;
-				}
-				list($parentclass, $parentname) = $v;
-				$npcl = "$parentclass-$parentname";
-				$__db->rawQuery("update $table set $l = '$npcl' where nname = '{$r['nname']}'");
-			}
-
-			$spl = array('notification', 'serverweb', 'lxbackup', 'phpini');
-			if (csb($table, "sp_") || array_search_bool($table, $spl)) {
-				$v = fix_getParentNameAndClass($r['nname']);
-				if (!$v) {
-					continue;
-				}
-				list($parentclass, $parentname) = $v;
-				$npcl = "$parentclass-$parentname";
-				$__db->rawQuery("update $table set nname = '$npcl' where nname = '{$r['nname']}'");
-			}
-		}
-	}
-*/
 }
 
 function fix_getParentNameAndClass($v)
