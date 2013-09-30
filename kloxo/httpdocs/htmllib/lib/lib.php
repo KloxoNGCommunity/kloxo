@@ -7241,7 +7241,7 @@ function setCopyWebCacheConfFiles($cachedriver)
 
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$cachedriver}";
 	$pathdrv = "/home/{$cachedriver}";
-	$pathetc = "/etc/";
+	$pathetc = "/etc";
 
 	log_cleanup("Copy all contents of $cachedriver", $nolog);
 
