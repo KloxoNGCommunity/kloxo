@@ -49,7 +49,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 
 	$conn->select_db('mysql');
 
-	log_cleanup("- Converting to " . $engine . " engine");
+	log_cleanup("- Converting to {$engine} engine");
 
 	try {
 		if ($database === '_all_') {
@@ -57,12 +57,12 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 			$dbs = $conn->query('SHOW databases');
 
 			while ($db = $dbs->fetch_array(MYSQLI_NUM)) {
-				log_cleanup("-- {$db[0]} database to '{$engine}' storage-engine");
+				log_cleanup("-- '{$db[0]}' database to '{$engine}' storage-engine");
 
 				$conn->select_db($db[0]);
 
 				if ($utf8 === 'yes') {
-					log_cleanup("-- {$db[0]} database to 'utf-8' charset");
+					log_cleanup("-- '{$db[0]}' database to 'utf-8' charset");
 					$conn->query("ALTER DATABASE {$db[0]} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
 				}
 
@@ -70,22 +70,22 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 					$tbls = $conn->query('SHOW tables');
 
 					while ($tbl = $tbls->fetch_array(MYSQLI_NUM)) {
-						log_cleanup("--- {$tbl[0]} table to '{$engine}' storage-engine");
+						log_cleanup("--- '{$tbl[0]}' table to '{$engine}' storage-engine");
 
 						$conn->query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
 
 						if ($utf8 === 'yes') {
-							log_cleanup("--- {$tbl[0]} table to 'utf-8' charset");
+							log_cleanup("--- '{$tbl[0]}' table to 'utf-8' charset");
 							$conn->query("ALTER TABLE {$tbl[0]} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
 						}
 					}
 				} else {
-					log_cleanup("--- {$table} table to '{$engine}' storage-engine");
+					log_cleanup("--- '{$table}' table to '{$engine}' storage-engine");
 
 					$conn->query("ALTER TABLE {$table} ENGINE ={$engine}");
 
 					if ($utf8 === 'yes') {
-						log_cleanup("--- {$table} table to 'utf-8' charset");
+						log_cleanup("--- '{$table}' table to 'utf-8' charset");
 						$conn->query("ALTER TABLE {$table} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
 					}
 				}
@@ -93,29 +93,29 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 		} else {
 			$conn->select_db($database);
 
-			log_cleanup("-- {$database} database to '{$engine}' storage-engine");
+			log_cleanup("-- '{$database}' database to '{$engine}' storage-engine");
 
 			if ($table === '_all_') {
 				$tbls = $conn->query('show tables');
 
 				while ($tbl = $tbls->fetch_array(MYSQLI_NUM)) {
-					log_cleanup("--- {$tbl[0]} table to '{$engine}' storage-engine");
+					log_cleanup("--- '{$tbl[0]}' table to '{$engine}' storage-engine");
 
 					$conn->query("ALTER TABLE {$tbl[0]} ENGINE={$engine}");
 
 					if ($utf8 === 'yes') {
-						log_cleanup("--- {$tbl[0]} table to 'utf-8' charset");
+						log_cleanup("--- '{$tbl[0]}' table to 'utf-8' charset");
 						$conn->query("ALTER TABLE {$tbl[0]} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
 					}
 				}
 			} else {
-				log_cleanup("--- {$table} table to '{$engine}' storage-engine");
+				log_cleanup("--- '{$table}' table to '{$engine}' storage-engine");
 
 				$conn->query("ALTER TABLE {$table} ENGINE={$engine}");
 
 				if ($utf8 === 'yes') {
-					log_cleanup("--- {$table} table to 'utf-8' charset");
-					$conn->query("ALTER TABLE {$table} DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
+					log_cleanup("--- '{$table}' table to 'utf-8' charset");
+					$conn->query("ALTER TABLE '{$table}' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;");
 				}
 			}
 		}
