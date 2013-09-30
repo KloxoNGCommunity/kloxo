@@ -2,8 +2,13 @@
 
 <?php
 
-$ports[] = '80';
-$ports[] = '443';
+if (($webcache === 'none') || (!$webcache)) {
+    $ports[] = '80';
+    $ports[] = '443';
+} else {
+    $ports[] = '8080';
+    $ports[] = '8443';
+}
 
 if ($reverseproxy) {
     $tmp_ip = '*';
@@ -224,7 +229,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 
@@ -259,7 +264,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -311,7 +316,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -376,7 +381,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -533,7 +538,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>,findindexfile,permalink
+    UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>, findindexfile, permalink
 }
 
 <?php
@@ -623,7 +628,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -691,7 +696,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink  
+    UseToolkit = findindexfile, permalink  
 }
 
 <?php
@@ -727,7 +732,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -775,7 +780,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -813,7 +818,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -879,7 +884,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -929,7 +934,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php
@@ -979,7 +984,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 }
 
 <?php

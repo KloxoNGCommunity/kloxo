@@ -23,6 +23,11 @@ class dns__ extends lxDriverClass
 
 		if ($drivertype === 'pdns') {
 			PreparePowerdnsDb($nolog);
+		} else {
+			$hwcpath = "/home/{$drivertype}/conf";
+
+			exec("rm -rf $hwcpath/defaults/*; rm -rf $hwcpath/master/*; " .
+				"rm -rf $hwcpath/reverse/*; rm -rf $hwcpath/slave/*");
 		}
 
 		createRestartFile($altname);
@@ -58,7 +63,6 @@ class dns__ extends lxDriverClass
 			setRpmInstalled($drivertype . "-utils");
 			setRpmRemoved("{$drivertype}-chroot");
 		} elseif ($drivertype === 'pdns') {
-			// MR -- look not work; backup via cleanup process
 			setRpmInstalled($drivertype . "-backend-mysql");
 			setRpmInstalled($drivertype . "-backend-geo");
 		}

@@ -50,6 +50,14 @@ if ($nginxbranch) {
 	$appnginx = '--uninstalled--';
 }
 
+$cachebranch = getRpmBranchInstalled('webcache');
+if ($cachebranch) {
+	exec("rpm -q {$cachebranch}", $appcache);
+	$appcache = trim($appcache[0]);
+} else {
+	$appcache = '--uninstalled--';
+}
+
 $qmailbranch = getRpmBranchInstalled('qmail');
 if ($qmailbranch) {
 	exec("rpm -q {$qmailbranch}", $appqmail);
@@ -100,7 +108,8 @@ echo "   2. PHP: " .  $appphp . "\n";
 echo "   3. Httpd: " .  $apphttpd . "\n";
 echo "   4. Lighttpd: " .  $applighttpd . "\n";
 echo "   5. Nginx: " .  $appnginx . "\n";
-echo "   6. Qmail: " .  $appqmail . "\n";
+echo "   6. Cache: " .  $appcache . "\n";
+echo "   7. Qmail: " .  $appqmail . "\n";
 
 if ($appdovecot !== '--uninstalled--') {
 	echo "      - with: " . $appdovecot  . "\n";

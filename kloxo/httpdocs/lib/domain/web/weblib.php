@@ -976,12 +976,12 @@ class Web extends Lxdb
 		//	$alist['property'][] = 'goback=1&a=show&sa=config';
 	}
 
-	static function removeOtherDriver($driverapp)
+	static function removeOtherDriver()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// MR -- and then make a simple
-		removeWebOtherDriver($driverapp, $nolog = true);
+		removeOtherDrivers($class = 'web', $nolog = true);
 	}
 
 	static function switchProgramPre($old, $new)

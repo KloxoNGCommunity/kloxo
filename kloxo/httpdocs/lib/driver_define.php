@@ -18,6 +18,9 @@ $gl_class_array['web__lighttpdproxy'] = "lib/domain/web/driver/web__lighttpdprox
 $gl_class_array['web__nginxproxy'] = "lib/domain/web/driver/web__nginxproxylib.php";
 $gl_class_array['web__hiawathaproxy'] = "lib/domain/web/driver/web__hiawathaproxylib.php";
 
+$gl_class_array['webcache__varnish'] =  "lib/domain/webcache/driver/webcache__varnishlib.php";
+$gl_class_array['webcache__trafficserver'] =  "lib/domain/webcache/driver/webcache__trafficserver.php";
+
 $gl_class_array['webtraffic__apache'] = "lib/domain/web/driver/webtraffic__apachelib.php";
 $gl_class_array['webtraffic__lighttpd'] = "lib/domain/web/driver/webtraffic__lighttpdlib.php";
 $gl_class_array['webtraffic__nginx'] = "lib/domain/web/driver/webtraffic__nginxlib.php";

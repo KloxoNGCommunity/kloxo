@@ -297,9 +297,9 @@ abstract class Lxclass
 		return $this->isSync();
 	}
 
-// This should work for all normal purposes., 
-// If there is some multi server syncing for a single object like that what happens in dns and domainbackup, 
-// you can redefine sysnctosyste. Just call the common function at the beginning.
+	// This should work for all normal purposes., 
+	// If there is some multi server syncing for a single object like that what happens in dns and domainbackup, 
+	// you can redefine sysnctosyste. Just call the common function at the beginning.
 	function syncToSystem()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -2751,6 +2751,13 @@ abstract class Lxclass
 			if (array_search_bool($this->websyncserver, array_keys($gbl->__var_serverlist))) {
 				print("Changing webserver for {$this->get__table()}:{$this->nname}  from {$this->websyncserver} to {$gbl->__var_serverlist[$this->websyncserver]}\n");
 				$this->websyncserver = $gbl->__var_serverlist[$this->websyncserver];
+			}
+		}
+
+		if (isset($this->webcachesyncserver)) {
+			if (array_search_bool($this->webcachesyncserver, array_keys($gbl->__var_serverlist))) {
+				print("Changing webcachesyncserver for {$this->get__table()}:{$this->nname}  from {$this->webcachesyncserver} to {$gbl->__var_serverlist[$this->webcachesyncserver]}\n");
+				$this->webcachesyncserver = $gbl->__var_serverlist[$this->webcachesyncserver];
 			}
 		}
 

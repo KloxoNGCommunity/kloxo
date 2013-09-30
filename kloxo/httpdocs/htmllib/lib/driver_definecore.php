@@ -1,5 +1,4 @@
 <?php 
-
 $gl_class_array['dns__bind'] =  "htmllib/lib/dns/driver/dns__bindlib.php";
 $gl_class_array['dns__djbdns'] =  "htmllib/lib/dns/driver/dns__djbdnslib.php";
 $gl_class_array['dns__pdns'] =  "htmllib/lib/dns/driver/dns__pdnslib.php";

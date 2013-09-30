@@ -12,6 +12,7 @@ $driver['rubyrails'] = "linux";
 $driver['uuser'] = "linux";
 $driver['ftpuser'] = "pureftp";
 $driver['web'] = array("apache", "lighttpd", "nginx", "hiawatha", "lighttpdproxy", "nginxproxy", "hiawathaproxy");
+$driver['webcache'] = array("none", "varnish", "trafficserver");
 $driver['mmail'] = array("qmail");
 $driver['cron'] = "linux";
 $driver['llog'] = "linux";

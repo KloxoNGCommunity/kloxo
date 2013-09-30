@@ -34,6 +34,7 @@ $gl_class_array["spam"] = "lib/domain/mmail/spamlib.php";
 $gl_class_array["webmimetype"] = "lib/domain/web/mimehandler.php";
 $gl_class_array["webhandler"] = "lib/domain/web/mimehandler.php";
 $gl_class_array["web"] = "lib/domain/web/weblib.php";
+$gl_class_array["webcache"] = "lib/domain/webcache/webcachelib.php";
 $gl_class_array["dirprotect"] = "lib/domain/web/dirprotectlib.php";
 //$gl_class_array["clientskel"] = "lib/client/clientskellib.php";
 $gl_class_array["resourcecore"] = "lib/resourcecorelib.php";

@@ -5,6 +5,7 @@ class pserver extends pservercore {
 	static $__desc_mailqueue_l = array('', '', '', '');
 	static $__desc_clientmail_l = array('', '', '', '');
 	static $__desc_web_driver = array('', '', 'web', '');
+	static $__desc_webcache_driver = array('', '', 'webcache', '');
 	static $__desc_dns_driver = array('', '', 'dns', '');
 	static $__desc_spam_driver = array('', '', 'spam', '');
 	static $__acdesc_update_switchprogram = array('', '', 'switch_program', '');
@@ -35,16 +36,9 @@ class pserver extends pservercore {
 		if_demo_throw_exception('switchprog');
 
 		// MR -- change and add nofixconfig
-	/*
-		$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'web');
-		$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'dns');
-			$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
-		
-		$a['web'] = $this->web_driver;
-		$a['dns'] = $this->dns_driver;
-		$a['spam'] = $this->spam_driver;
-	*/
+
 		$a['web'] = $param['web_driver'];
+		$a['webcache'] = $param['webcache_driver'];
 		$a['dns'] = $param['dns_driver'];
 		$a['spam'] = $param['spam_driver'];
 
@@ -62,7 +56,7 @@ class pserver extends pservercore {
 			} else {
 				$t = str_replace("proxy", "", $v);
 
-				if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver')) {
+				if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver') && ($t !== 'none')) {
 					throw new lxException("{$v}_not_ready_to_use", 'nname');
 				} else {
 					dprint("Change for $k: $v\n");
@@ -82,8 +76,11 @@ class pserver extends pservercore {
 					rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
 
 					// MR -- original code not work, so change to, also must be the last process!
-				//	lxshell_return("__path_php_path", "../bin/fix/fix$fixc.php", "--server=$this->nname");
-					lxshell_return("lxphp.exe", "../bin/fix/fix$fixc.php", "--server=$this->nname", "--nolog");
+					if ($fixc === 'webcache') {
+						lxshell_return("lxphp.exe", "../bin/fix/fixweb.php", "--server=$this->nname", "--nolog");
+					} else {
+						lxshell_return("lxphp.exe", "../bin/fix/fix$fixc.php", "--server=$this->nname", "--nolog");
+					}
 				}
 			}
 		}
@@ -123,7 +120,7 @@ class pserver extends pservercore {
 	{
 	//	$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", "mysqldb" => 'mysqldb', 'mssqldb' => 'mssqldb');
 
-		$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", 	"mysqldb" => 'mysqldb');
+		$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", 	"mysqldb" => 'mysqldb', "webcache" => 'webcache');
 
 		$ret = null;
 
@@ -161,7 +158,7 @@ class pserver extends pservercore {
 		}
 
 	//	$serlist = array("mmail" => "mmail", "dns" => "dns", "web" => "web", "mysqldb" => 'mysqldb', 'mssqldb' => 'mssqldb');
-		$serlist = array("mmail" => "mmail", "dns" => "dns", "web" => "web", "mysqldb" => 'mysqldb');
+		$serlist = array("mmail" => "mmail", "dns" => "dns", "web" => "web", "mysqldb" => 'mysqldb', "webcache" => 'webcache');
 
 		return $serlist;
 

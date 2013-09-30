@@ -160,7 +160,12 @@ function checkRestart()
 
 				foreach ($cmdlist as $key => $cmd) {
 					$l = getLinkCustomfile("{$sgbl->__path_program_etc}/process", $cmd);
-					$c = file_get_contents($l);
+					
+					$c = null;
+					
+					if (file_exists($l)) {
+						$c = file_get_contents($l);
+					}
 
 					if ($c) {
 					//	exec("echo 'custom: $c' >> /tmp/process.txt");

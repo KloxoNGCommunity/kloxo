@@ -2,8 +2,13 @@
 
 <?php
 
-$ports[] = '80';
-$ports[] = '443';
+if (($webcache === 'none') || (!$webcache)) {
+    $ports[] = '80';
+    $ports[] = '443';
+} else {
+    $ports[] = '8080';
+    $ports[] = '8443';
+}
 
 $defaultdocroot = "/home/kloxo/httpd/default";
 
@@ -150,7 +155,7 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile,permalink
+    UseToolkit = findindexfile, permalink
 <?php
         if ($count === 0) {
 ?>

@@ -98,11 +98,14 @@ function createShowClist($subaction)
 static function removeOtherDriver($driverapp)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+/*
 	if ($driverapp === 'bogofilter') {
 		@ exec("rpm -e --nodeps spamassassin 2>/dev/null");
 	} else if ($driverapp === 'spamassassin') {
 		@ exec("rpm -e --nodeps bogofilter 2>/dev/null");
 	}
+*/
+	removeOtherDrivers($class = 'spam', $nolog = true);
 }
 
 static function switchProgramPost($old, $new)

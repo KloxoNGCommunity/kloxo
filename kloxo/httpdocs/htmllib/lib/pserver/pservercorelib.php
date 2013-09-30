@@ -1192,17 +1192,21 @@ STRIN;
 
 			case "switchprogram":
 				$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'web');
+				$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'webcache');
 				$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'dns');
 				$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
+				$this->no_fix_config = 'off';
 
 				$vlist['web_driver'] = array('s', array('apache', 'lighttpd', 'nginx', 'hiawatha', 
 					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy'));
+
+				$vlist['webcache_driver'] = array('s', array('none', 'varnish', 'trafficserver'));
+
 				$vlist['dns_driver'] = array('s', array('bind', 'djbdns', 'maradns', 'pdns', 'nsd'));
+
 				$vlist['spam_driver'] = array('s', array('spamassassin', 'bogofilter'));
 
 				$vlist['no_fix_config'] = array('f', 'on', 'off');
-
-				$this->setDefaultValue('no_fix_config', 'off');
 
 				return $vlist;
 

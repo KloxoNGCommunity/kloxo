@@ -612,11 +612,12 @@ function changeDriverFunc($server, $class, $pgm)
 
 	$server = $login->getFromList('pserver', $server);
 
-	$os = $server->ostype;
+//	$os = $server->ostype;
+//	include "../file/driver/$os.inc";
 
-	include "../file/driver/$os.inc";
+	include "../file/driver/rhel.inc";
 
-	dprintr($driver[$class]);
+//	dprintr($driver[$class]);
 
 	if (is_array($driver[$class])) {
 		if (!array_search_bool($pgm, $driver[$class])) {
@@ -5051,6 +5052,8 @@ function setWatchdogDefaults($nolog = null)
 	$a['spam'] = $driverapp;
 	$driverapp = $gbl->getSyncClass(null, 'localhost', 'dns');
 	$a['dns'] = $driverapp;
+	$driverapp = $gbl->getSyncClass(null, 'localhost', 'webcache');
+	$a['webcache'] = $driverapp;
 
 	slave_save_db("driver", $a);
 }
@@ -5676,6 +5679,11 @@ function setInitialWebConfig($type, $nolog = null)
 	setCopyWebConfFiles($type);
 }
 
+function setInitialWebCacheConfig($nolog = null)
+{
+	setCopyWebCacheConfFiles($nolog);
+}
+
 function setInitialPhpFpmConfig($nolog = null)
 {
 	$fpath = "/usr/local/lxlabs/kloxo/file";
@@ -6218,7 +6226,13 @@ function setInitialServer($nolog = null)
 		"/etc/init.d/kloxo");
 
 	if (file_exists("/etc/init.d/hiawatha")) {
-		exec("chkconfig hiawatha off; service hiawatha stop");
+		$webdrv = slave_get_driver('web');
+
+		if (strpos($webdrv, 'hiawatha')) {
+			exec("chkconfig hiawatha off; service hiawatha stop");
+		} else {
+			exec("chkconfig hiawatha on");
+		}
 	}
 
 	exec("chown root:root /etc/init.d/kloxo; chmod 755 /etc/init.d/kloxo");
@@ -6346,71 +6360,56 @@ function install_bogofilter($nolog = null)
 	lxfile_cp($wordlist, $kloxo_wordlist);
 }
 
-function removeOtherDrivers($nolog = null)
+function removeOtherDrivers($class = null, $nolog = null)
 {
 	log_cleanup("Enable the correct drivers (Service daemons)", $nolog);
 
-	$list = array("dns");
+	include "../file/driver/rhel.inc";
 
-	foreach ($list as $l) {
-		$driverapp = slave_get_driver($l);
+	if ($class) {
+		$list[$class] = $driver[$class];
+	} else {
+		$list = $driver;
+	}
 
-		if (!$driverapp) {
-			continue;
-		}
+	foreach ($list as $k => $v) {
+		if (count($list[$k] === 1)) { continue; }
 
-		$otherlist = get_other_driver($l, $driverapp);
+		$driverapp = slave_get_driver($k);
+
+		if (!$driverapp) { continue; }
+
+		$otherlist = get_other_driver($k, $driverapp);
 
 		if ($otherlist) {
 			foreach ($otherlist as $o) {
-				if (class_exists("{$l}__{$o}")) {
-					log_cleanup("- Uninstall {$l}__{$o}", $nolog);
-					exec_class_method("{$l}__{$o}", "uninstallMe");
+				if (class_exists("{$k}__{$o}")) {
+					if ($o === 'hiawatha') {
+						exec_with_all_closed("chkconfig hiawatha off; /etc/init.d/hiawatha stop");
+						log_cleanup("- Deactivated {$k}__{$o}", $nolog);
+					} else {
+						log_cleanup("- Uninstall {$k}__{$o}", $nolog);
+						exec_class_method("{$k}__{$o}", "uninstallMe");
+					}
 				}
 			}
 		}
 	}
-
-	// MR -- for dns and web driver
-	removeDnsOtherDriver(null, $nolog);
-	removeWebOtherDriver(null, $nolog);
 }
 
-function removeWebOtherDriver($driverapp = null, $nolog = null)
+function removeWebOtherDriver($nolog = null)
 {
-	$actives = getWebDriverList($driverapp);
-
-	$avails = array('apache', 'lighttpd', 'nginx', 'hiawatha');
-
-	// array_diff return values of $avails that not present on $actives
-	$diffs = array_diff($avails, $actives);
-	$diffs = array_merge($diffs);
-
-	foreach ($diffs as &$d) {
-		if ($d === 'hiawatha') {
-			exec_with_all_closed("chkconfig hiawatha off; /etc/init.d/hiawatha stop");
-			log_cleanup("- Uninstall web__{$d}", $nolog);
-		} else {
-			exec_class_method("web__{$d}", "uninstallMe");
-			log_cleanup("- Uninstall web__{$d}", $nolog);
-		}
-	}
+	removeOtherDrivers($class = 'web', $nolog = 'true');
 }
 
-function removeDnsOtherDriver($driverapp = null, $nolog = null)
+function removeWebCacheOtherDriver($nolog = null)
 {
-	$actives = getDnsDriverList($driverapp);
+	removeOtherDrivers($class = 'webcache', $nolog = 'true');
+}
 
-	$avails = array('djbdns', 'bind', 'maradns', 'pdns', 'nsd');
-
-	// array_diff return values of $avails that not present on $actives
-	$diffs = array_diff($avails, $actives);
-	$diffs = array_merge($diffs);
-
-	foreach ($diffs as &$d) {
-		exec_class_method("dns__{$d}", "uninstallMe");
-		log_cleanup("- Uninstall dns__{$d}", $nolog);
-	}
+function removeDnsOtherDriver($nolog = null)
+{
+	removeOtherDrivers($class = 'dns', $nolog = 'true');
 }
 
 function setInitialAdminAccount($nolog = null)
@@ -7005,7 +7004,7 @@ function updatecleanup($nolog = null)
 
 	setSomeScript($nolog);
 
-	removeOtherDrivers($nolog);
+	removeOtherDrivers($class = null, $nolog);
 
 	log_cleanup("Remove cache dir", $nolog);
 	log_cleanup("- Remove process", $nolog);
@@ -7058,6 +7057,9 @@ function setInitialServices($nolog = null)
 	setWebDriverChownChmod('nginx', $nolog);
 	setInitialWebConfig('hiawatha', $nolog);
 	setWebDriverChownChmod('hiawatha', $nolog);
+
+	setInitialWebCacheConfig('varnish', $nolog);
+	setInitialWebCacheConfig('trafficserver', $nolog);
 
 	setInitialPhpFpmConfig($nolog);
 
@@ -7233,6 +7235,31 @@ function setCopyDnsConfFiles($dnsdriver)
 	}
 }
 
+function setCopyWebCacheConfFiles($cachedriver)
+{
+	$nolog = null;
+
+	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$cachedriver}";
+	$pathdrv = "/home/{$cachedriver}";
+	$pathetc = "/etc/";
+
+	log_cleanup("Copy all contents of $cachedriver", $nolog);
+
+	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+	exec("cp -rf {$pathsrc} /home");
+
+	if ($cachedriver === 'varnish') {
+		$t = getLinkCustomfile($pathdrv . "/etc/conf", "default.vcl");
+		lxfile_cp($t, "$pathetc/{$cachedriver}/default.vcl");
+
+		$t = getLinkCustomfile($pathdrv . "/etc/sysconfig", "varnish");
+		lxfile_cp($t, "$pathetc/sysconfig/varnish");
+	} else {
+		// MR -- TODO!
+	}
+}
+
+
 function setCopyWebConfFiles($webdriver)
 {
 	$aliasdriver = ($webdriver === 'apache') ? 'httpd' : $webdriver;
@@ -7248,18 +7275,19 @@ function setCopyWebConfFiles($webdriver)
 	$pathinit = "/etc/init.d";
 	$pathconfd = "{$pathetc}/conf.d";
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
-	$pathconf = ($webdriver === 'hiawatha') ? "{$pathetc}/conf" : "{$pathconf}";
 
 	log_cleanup("Copy all contents of $webdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
 	exec("cp -rf {$pathsrc} /home");
 
-	$dirs = array($pathconf, $pathconfd);
+	if ($webdriver !== 'hiawatha') {
+		$dirs = array($pathconf, $pathconfd);
 
-	foreach ($dirs as &$d) {
-		if (!file_exists($d)) {
-			exec("mkdir -p {$d}");
+		foreach ($dirs as &$d) {
+			if (!file_exists($d)) {
+				exec("mkdir -p {$d}");
+			}
 		}
 	}
 
@@ -7315,6 +7343,13 @@ function getWebDriverList($drivertype = null)
 	}
 
 	return $list;
+}
+
+function getWebCacheDriverList($drivertype = null)
+{
+	$driverapp = ($drivertype) ? $drivertype : slave_get_driver('webcache');
+
+	return array($driverapp);
 }
 
 function getDnsDriverList($drivertype = null)

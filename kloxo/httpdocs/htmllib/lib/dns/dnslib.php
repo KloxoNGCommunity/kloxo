@@ -120,12 +120,12 @@ class Dns extends DnsBase
 		createRestartFile($new);
 	}
 
-	static function removeOtherDriver($driverapp)
+	static function removeOtherDriver()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// MR -- and then make a simple
-		removeDnsOtherDriver($driverapp, $nolog = true);
+		removeOtherDrivers($class = 'dns', $nolog = true);
 	}
 
 	function inheritSynserverFromParent() { return false; }

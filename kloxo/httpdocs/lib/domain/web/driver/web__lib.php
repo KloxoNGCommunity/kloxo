@@ -84,6 +84,9 @@ class web__ extends lxDriverClass
 
 			setCopyWebConfFiles($l);
 
+			// MR -- to make sure no 'old' config
+			exec("rm -rf $hwcpath/defaults/*; rm -rf $hwcpath/domains/*");
+
 			createRestartFile($l);
 		}
 
@@ -234,7 +237,7 @@ class web__ extends lxDriverClass
 
 		$input['webmailremote'] = $this->getWebmailInfo('remote');
 		$input['webmailapp'] = $this->getWebmailInfo('app');
-		$input['webmailappdefault'] = self::getWebmailAppDefault();
+	//	$input['webmailappdefault'] = self::getWebmailAppDefault();
 
 		$input['rootpath'] = $this->main->getFullDocRoot();
 		$input['disablephp'] = $this->disablePhp();
@@ -249,6 +252,8 @@ class web__ extends lxDriverClass
 		$input['redirectionremote'] = $this->getRedirectionRemote();
 
 		$input['phptype'] = $this->getPhptype();
+
+		$input['webcache'] = slave_get_driver('webcache');
 
 		self::setCreateConfFile($input);
 
@@ -268,6 +273,8 @@ class web__ extends lxDriverClass
 		$input['userlist'] = $this->getUserList();
 
 		$input['phptype'] = $this->getPhptype();
+
+		$input['webcache'] = slave_get_driver('webcache');
 
 		self::setCreateConfFile($input);
 	}
