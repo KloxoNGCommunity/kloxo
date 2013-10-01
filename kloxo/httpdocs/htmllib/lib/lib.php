@@ -7254,8 +7254,13 @@ function setCopyWebCacheConfFiles($cachedriver)
 
 		$t = getLinkCustomfile($pathdrv . "/etc/sysconfig", "varnish");
 		lxfile_cp($t, "$pathetc/sysconfig/varnish");
-	} else {
-		// MR -- TODO!
+	} elseif ($cachedriver === 'trafficserver') {
+		$a = array("records.config", "remap.config", "storage.config");
+
+		foreach ($a as $k => $v) {
+			$t = getLinkCustomfile($pathdrv . "/etc/conf", $v);
+			lxfile_cp($t, "$pathetc/{$cachedriver}/{$v}");
+		}
 	}
 }
 

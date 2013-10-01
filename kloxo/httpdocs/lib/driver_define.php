@@ -19,7 +19,7 @@ $gl_class_array['web__nginxproxy'] = "lib/domain/web/driver/web__nginxproxylib.p
 $gl_class_array['web__hiawathaproxy'] = "lib/domain/web/driver/web__hiawathaproxylib.php";
 
 $gl_class_array['webcache__varnish'] =  "lib/domain/webcache/driver/webcache__varnishlib.php";
-$gl_class_array['webcache__trafficserver'] =  "lib/domain/webcache/driver/webcache__trafficserver.php";
+$gl_class_array['webcache__trafficserver'] =  "lib/domain/webcache/driver/webcache__trafficserverlib.php";
 
 $gl_class_array['webtraffic__apache'] = "lib/domain/web/driver/webtraffic__apachelib.php";
 $gl_class_array['webtraffic__lighttpd'] = "lib/domain/web/driver/webtraffic__lighttpdlib.php";

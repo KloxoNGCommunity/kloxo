@@ -53,4 +53,4 @@ INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`,
 ('hiawatha___localhost', 'pserver-localhost', '', 'hiawatha', 'Hiawatha Web Server (also use by Kloxo-MR)', 'hiawatha', 'localhost', '', ''),
 ('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', ''),
 ('varnish___localhost', 'pserver-localhost', '', 'varnish', 'Varnish Cache Server', 'varnish', 'localhost', '', ''),
-('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server', 'trafficserver', 'localhost', '', '');
+('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server', 'traffic_cop', 'localhost', '', '');

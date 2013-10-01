@@ -1,0 +1,593 @@
+#
+#
+# Process Records Config File
+#
+# <RECORD-TYPE> <NAME> <TYPE> <VALUE (till end of line)>
+#
+#	RECORD-TYPE:	CONFIG, LOCAL
+#	NAME:		name of variable
+#	TYPE:		INT, STRING, FLOAT
+#	VALUE:		Initial value for record
+#
+#
+# *NOTE*: All options covered in this file should be documented in the
+#         administration guide or the addendum:
+#
+#
+##############################################################################
+#
+# System Variables
+#
+##############################################################################
+CONFIG proxy.config.proxy_name STRING FIXME.example.com
+CONFIG proxy.config.config_dir STRING /etc/trafficserver
+CONFIG proxy.config.proxy_binary_opts STRING -M
+CONFIG proxy.config.env_prep STRING example_prep.sh
+CONFIG proxy.config.temp_dir STRING /tmp
+CONFIG proxy.config.alarm_email STRING ats
+CONFIG proxy.config.syslog_facility STRING LOG_DAEMON
+CONFIG proxy.config.output.logfile STRING traffic.out
+CONFIG proxy.config.snapshot_dir STRING snapshots
+CONFIG proxy.config.system.mmap_max INT 2097152
+##############################################################################
+#
+# Main threads configuration (worker threads). Also see configurations for
+# SSL threads, disk I/O threads and task threads in their respective areas.
+#
+##############################################################################
+CONFIG proxy.config.exec_thread.autoconfig INT 1
+CONFIG proxy.config.exec_thread.autoconfig.scale FLOAT 1.5
+CONFIG proxy.config.exec_thread.limit INT 2
+CONFIG proxy.config.accept_threads INT 1
+##############################################################################
+#
+# Local Manager
+#
+##############################################################################
+CONFIG proxy.config.admin.admin_user STRING admin
+CONFIG proxy.config.admin.number_config_bak INT 3
+CONFIG proxy.config.admin.user_id STRING ats
+##############################################################################
+#
+# Process Manager
+#
+##############################################################################
+CONFIG proxy.config.admin.autoconf_port INT 8083
+CONFIG proxy.config.process_manager.mgmt_port INT 8084
+##############################################################################
+#
+# In order to only bind a specific IP, use the following config, as in 
+# the example below. Note
+#
+##############################################################################
+#LOCAL proxy.local.incoming_ip_to_bind STRING 192.168.101.17
+##############################################################################
+#
+# Alarm Configuration
+#
+##############################################################################
+   # execute alarm as "<abs_path>/<bin> "<MSG_STRING_FROM_PROXY>""
+CONFIG proxy.config.alarm.bin STRING example_alarm_bin.sh
+CONFIG proxy.config.alarm.abs_path STRING NULL
+##############################################################################
+#
+# HTTP Engine
+#
+##############################################################################
+   ##########
+   # basics #
+   ##########
+   # The main server_port is listed here, other server ports is a
+   # string of ports, separated by whitespace.  The port attributes
+   # should be set to X(default behavior). For example...
+   # server_other_ports STRING 1234:X 12345:X
+CONFIG proxy.config.http.server_port INT 8080
+CONFIG proxy.config.http.server_port_attr STRING X
+# to enable IPv6 listening on port 8080:
+# CONFIG proxy.config.http.server_other_ports STRING 8080:X6
+CONFIG proxy.config.http.server_other_ports STRING NULL
+CONFIG proxy.config.http.connect_ports STRING 443 563
+CONFIG proxy.config.http.insert_request_via_str INT 1
+CONFIG proxy.config.http.insert_response_via_str INT 0
+CONFIG proxy.config.http.verbose_via_str INT 2
+CONFIG proxy.config.http.response_server_enabled INT 1
+CONFIG proxy.config.http.enable_url_expandomatic INT 0
+CONFIG proxy.config.http.no_dns_just_forward_to_parent INT 0
+CONFIG proxy.config.http.uncacheable_requests_bypass_parent INT 1
+CONFIG proxy.config.http.keep_alive_enabled_in INT 1
+CONFIG proxy.config.http.keep_alive_enabled_out INT 1
+CONFIG proxy.config.http.chunking_enabled INT 1
+   # send http11 requests:
+   #   0 - Never
+   #   1 - Always
+   #   2 - if the server has returned http1.1 before
+   #   3 - if the client request is 1.1 & the server
+   #         has returned 1.1 before
+CONFIG proxy.config.http.send_http11_requests INT 1
+CONFIG proxy.config.http.share_server_sessions INT 1
+CONFIG proxy.config.http.origin_server_pipeline INT 1
+CONFIG proxy.config.http.user_agent_pipeline INT 8
+   ##########################
+   # HTTP referer filtering #
+   ##########################
+CONFIG proxy.config.http.referer_filter INT 0
+CONFIG proxy.config.http.referer_format_redirect INT 0
+CONFIG proxy.config.http.referer_default_redirect STRING http://www.example.com/
+   ##############################
+   # parent proxy configuration #
+   ##############################
+CONFIG proxy.config.http.parent_proxy_routing_enable INT 0
+CONFIG proxy.config.http.parent_proxy.retry_time INT 300
+   # Parent fail threshold is the number of request that must
+   # fail within the retry window for the parent to be marked
+   # down
+CONFIG proxy.config.http.parent_proxy.fail_threshold INT 10
+CONFIG proxy.config.http.parent_proxy.total_connect_attempts INT 4
+CONFIG proxy.config.http.parent_proxy.per_parent_connect_attempts INT 2
+CONFIG proxy.config.http.parent_proxy.connect_attempts_timeout INT 30
+CONFIG proxy.config.http.forward.proxy_auth_to_parent INT 0
+   ###################################
+   # HTTP connection timeouts (secs) #
+   ###################################
+   # out: proxy -> origin server connection
+   # in : ua -> proxy connection
+CONFIG proxy.config.http.keep_alive_no_activity_timeout_in INT 115
+CONFIG proxy.config.http.keep_alive_no_activity_timeout_out INT 120
+CONFIG proxy.config.http.transaction_no_activity_timeout_in INT 30
+CONFIG proxy.config.http.transaction_no_activity_timeout_out INT 30
+CONFIG proxy.config.http.transaction_active_timeout_in INT 900
+CONFIG proxy.config.http.transaction_active_timeout_out INT 0
+CONFIG proxy.config.http.accept_no_activity_timeout INT 120
+CONFIG proxy.config.http.background_fill_active_timeout INT 60
+CONFIG proxy.config.http.background_fill_completed_threshold FLOAT 0.5
+   ##################################
+   # origin server connect attempts #
+   ##################################
+CONFIG proxy.config.http.connect_attempts_max_retries INT 6
+CONFIG proxy.config.http.connect_attempts_max_retries_dead_server INT 3
+CONFIG proxy.config.http.connect_attempts_rr_retries INT 3
+CONFIG proxy.config.http.connect_attempts_timeout INT 30
+CONFIG proxy.config.http.post_connect_attempts_timeout INT 1800
+CONFIG proxy.config.http.down_server.cache_time INT 300
+CONFIG proxy.config.http.down_server.abort_threshold INT 10
+   ##################################
+   # congestion control             #
+   ##################################
+CONFIG proxy.config.http.congestion_control.enabled INT 0
+   #############################
+   # negative response caching #
+   #############################
+CONFIG proxy.config.http.negative_caching_enabled INT 0
+CONFIG proxy.config.http.negative_caching_lifetime INT 1800
+   #########################
+   # proxy users variables #
+   #########################
+CONFIG proxy.config.http.anonymize_remove_from INT 0
+CONFIG proxy.config.http.anonymize_remove_referer INT 0
+CONFIG proxy.config.http.anonymize_remove_user_agent INT 0
+CONFIG proxy.config.http.anonymize_remove_cookie INT 0
+CONFIG proxy.config.http.anonymize_remove_client_ip INT 0
+CONFIG proxy.config.http.anonymize_insert_client_ip INT 1
+CONFIG proxy.config.http.anonymize_other_header_list STRING NULL
+CONFIG proxy.config.http.append_xforwards_header INT 0
+CONFIG proxy.config.http.insert_squid_x_forwarded_for INT 1
+   ############
+   # security #
+   ############
+CONFIG proxy.config.http.push_method_enabled INT 0
+
+#  ###################################
+#  # HTTP Quick filtering (security) #
+#  ###################################
+#  This is dedicated and very specific 'HTTP method' filter.
+#  Note: If method does not match, filtering will be skipped.
+#  bits 15-0 - HTTP method mask
+#       0x0000 - Any possible HTTP method (or you can use 0xFFFF)
+#       0x0001 - CONNECT
+#       0x0002 - DELETE
+#       0x0004 - GET
+#       0x0008 - HEAD
+#       0x0010 - ICP_QUERY
+#       0x0020 - OPTIONS
+#       0x0040 - POST
+#       0x0080 - PURGE
+#       0x0100 - PUT
+#       0x0200 - TRACE
+#       0x0400 - PUSH
+#  bits 18-16 - IP address type
+#       reserved
+#  bits 30-19 - reserved
+#  bit 31 - Action (allow=1, deny=0), leave at zero
+#  Note: if 'proxy.config.http.quick_filter.mask' is equal 0, there is no 'quick http filtering' at all
+#
+# The default (0x482 or 1154) denies all PUSH, PURGE and DELETE requests (except from 127.0.0.1)
+CONFIG proxy.config.http.quick_filter.mask INT 0x482
+
+   #################
+   # cache control #
+   #################
+CONFIG proxy.config.http.cache.http INT 1
+CONFIG proxy.config.http.cache.ignore_client_no_cache INT 1
+CONFIG proxy.config.http.cache.ims_on_client_no_cache INT 1
+CONFIG proxy.config.http.cache.ignore_server_no_cache INT 0
+CONFIG proxy.config.http.cache.ignore_client_cc_max_age INT 0
+CONFIG proxy.config.http.normalize_ae_gzip INT 0       
+   # cache responses to cookies has 5 options:
+   #   0 - do not cache any responses to cookies
+   #   1 - cache for any content-type
+   #   2 - cache only for image types
+   #   3 - cache for all but text content-types
+   #   4 - cache for all but text content-types except OS response
+   #       without "Set-Cookie" or with "Cache-Control: public"
+CONFIG proxy.config.http.cache.cache_responses_to_cookies INT 1
+CONFIG proxy.config.http.cache.ignore_authentication INT 0
+CONFIG proxy.config.http.cache.cache_urls_that_look_dynamic INT 1
+CONFIG proxy.config.http.cache.enable_default_vary_headers INT 0
+   #  when_to_revalidate has 5 options:
+   #    0 - default. use use cache directives or heuristic
+   #    1 - stale if heuristic
+   #    2 - always stale (always revalidate)
+   #    3 - never stale
+   #    4 - always revalidate if request is conditional, else default is used
+CONFIG proxy.config.http.cache.when_to_revalidate INT 0
+   # Some old MSIE browsers don't send no-cache headers to
+   # reverse proxies or transparent caches, this variable controls
+   # when to add no-cache headers to MSIE requests:
+   #  -1 - no-cache is never added, stats are not updated
+   #   0 - default; no-cache not added to MSIE requests
+   #   1 - no-cache added to IMS MSIE requests
+   #   2 - no-cache added to all MSIE requests
+CONFIG proxy.config.http.cache.when_to_add_no_cache_to_msie_requests INT -1
+   # required headers: three options:
+   #   0 - No required headers to make document cachable
+   #   1 - "Last-Modified:", "Expires:", or "Cache-Control: max-age" required
+   #   2 - explicit lifetime required, "Expires:" or "Cache-Control: max-age"
+CONFIG proxy.config.http.cache.required_headers INT 2
+CONFIG proxy.config.http.cache.max_stale_age INT 604800
+CONFIG proxy.config.http.cache.range.lookup INT 1
+   ########################
+   # heuristic expiration #
+   ########################
+CONFIG proxy.config.http.cache.heuristic_min_lifetime INT 3600
+CONFIG proxy.config.http.cache.heuristic_max_lifetime INT 86400
+CONFIG proxy.config.http.cache.heuristic_lm_factor FLOAT 0.10
+CONFIG proxy.config.http.cache.fuzz.time INT 240
+CONFIG proxy.config.http.cache.fuzz.probability FLOAT 0.005
+   #########################################
+   # dynamic content & content negotiation #
+   #########################################
+CONFIG proxy.config.http.cache.vary_default_text STRING NULL
+CONFIG proxy.config.http.cache.vary_default_images STRING NULL
+CONFIG proxy.config.http.cache.vary_default_other STRING NULL
+   ##############################################################
+   # The HTTP stats are expensive, turn off you don't need them #
+   ##############################################################
+CONFIG proxy.config.http.enable_http_stats INT 1
+
+##############################################################################
+#
+# Customizable User Response Pages
+#
+##############################################################################
+   # 0 - turn off customizable user response pages
+   # 1 - enable customizable user response pages in only the "default" directory
+   # 2 - enable language-targeted user response pages
+CONFIG proxy.config.body_factory.enable_customizations INT 0
+CONFIG proxy.config.body_factory.enable_logging INT 0
+   # 0 - never suppress generated responses
+   # 1 - always suppress generated responses
+   # 2 - suppress responses for intercepted traffic
+CONFIG proxy.config.body_factory.response_suppression_mode INT 0
+##############################################################################
+#
+# Net Subsystem
+#
+##############################################################################
+CONFIG proxy.config.net.connections_throttle INT 30000
+   # Enable defer accept / accept filtering. On Linux, this is a timeout, sec.
+CONFIG proxy.config.net.defer_accept INT 45
+##############################################################################
+#
+# Cluster Subsystem
+#
+##############################################################################
+   # cluster type requires restart to change
+   # 1 is full clustering, 2 is mgmt only, 3 is no clustering
+LOCAL proxy.local.cluster.type INT 3
+CONFIG proxy.config.cluster.cluster_port INT 8086
+CONFIG proxy.config.cluster.rsport INT 8088
+CONFIG proxy.config.cluster.mcport INT 8089
+CONFIG proxy.config.cluster.mc_group_addr STRING 224.0.1.37
+CONFIG proxy.config.cluster.mc_ttl INT 1
+CONFIG proxy.config.cluster.log_bogus_mc_msgs INT 1
+CONFIG proxy.config.cluster.ethernet_interface STRING lo
+##############################################################################
+#
+# Cache
+#
+##############################################################################
+CONFIG proxy.config.cache.permit.pinning INT 0
+   # default the ram cache size to AUTO_SIZE (-1) based on cache size
+   #   (approximately 1 MB of RAM cache per GB of disk cache)
+   # alternatively, set to a fixed value such as 20971520 (20MB)
+CONFIG proxy.config.cache.ram_cache.size INT -1
+CONFIG proxy.config.cache.ram_cache_cutoff INT 4194304
+   # Replacement algorithm
+   #  0 : Clocked Least Frequently Used by Size (CLFUS) w/optional compression
+   #  1 : LRU w/o optional compression - trivially simple
+CONFIG proxy.config.cache.ram_cache.algorithm INT 0
+   # Compress the content of the ram cache:
+   #  0 : no compression
+   #  1 : fastlz (extremely fast, relatively low compression)
+   #  2 : libz (moderate speed, reasonable compression)
+   #  3 : liblzma (very slow, high compression)
+   #  NOTE: compression runs on task threads.  To use more cores for
+   #  compression, increase proxy.config.task_threads.
+CONFIG proxy.config.cache.ram_cache.compress INT 0
+   # The maximum number of alternates that are allowed for any given URL.
+   # It is not possible to strictly enforce this if the variable
+   #   'proxy.config.cache.vary_on_user_agent' is set to 1.
+   # The default value for 'proxy.config.cache.vary_on_user_agent' is 0.
+   # (0 disables the maximum number of alts check)
+CONFIG proxy.config.cache.limits.http.max_alts INT 5
+   # The target size of a contiguous fragment on disk.
+   # Acceptable values are powers of 2, e.g. 65536, 131072, 262144, 524288, 1048576, 2097152.
+   # Larger could waste memory on slow connections, smaller could waste seeks.
+CONFIG proxy.config.cache.target_fragment_size INT 1048576
+   # The maximum size of a document that will be stored in the cache.
+   # (0 disables the maximum document size check)
+CONFIG proxy.config.cache.max_doc_size INT 0
+   # enable the cache to read from an object while it is being added to the cache
+CONFIG proxy.config.cache.enable_read_while_writer INT 0
+   # This controls how many objects (average) the disk caches can hold, and
+   # how much memory it'll consume for the directory structure.
+CONFIG proxy.config.cache.min_average_object_size INT 8000
+   # How many I/O threads to allocate per disk (spindle). Be aware that RAID
+   # disks would show up to TS as a single spindle.
+CONFIG proxy.config.cache.threads_per_disk INT 8
+   # Time (in ms) to delay until retrying to acquire a cache lock. Setting
+   # this low can reduce latencies in some cases, but can consume more CPU.
+   # If you experience CPU spinning, try increasing this setting.
+CONFIG proxy.config.cache.mutex_retry_delay INT 2
+##############################################################################
+#
+# DNS
+#
+##############################################################################
+CONFIG proxy.config.dns.search_default_domains INT 1
+CONFIG proxy.config.dns.splitDNS.enabled INT 0
+CONFIG proxy.config.dns.max_dns_in_flight INT 2048
+   # Additional URL expansions for http DNS lookup
+CONFIG proxy.config.dns.url_expansions STRING NULL
+CONFIG proxy.config.dns.round_robin_nameservers INT 0
+CONFIG proxy.config.dns.nameservers STRING NULL
+CONFIG proxy.config.dns.resolv_conf STRING /etc/resolv.conf
+   # This provides additional resilience against DNS forgery, particularly in
+   # forward or transparent proxies, but requires that the resolver populates
+   # the queries section of the response properly.
+CONFIG proxy.config.dns.validate_query_name INT 0
+##############################################################################
+#
+# HostDB
+#
+##############################################################################
+   # in entries, may not be changed while running
+   # note that in order to increase hostdb.size, hostdb.storage_size should
+   # also be increase. These are best guesses, you will have to monitor this.
+CONFIG proxy.config.hostdb.size INT 120000
+CONFIG proxy.config.hostdb.storage_size INT 32M
+   # ttl modes:
+   #   0 = obey
+   #   1 = ignore
+   #   2 = min(X,ttl)
+   #   3 = max(X,ttl)
+CONFIG proxy.config.hostdb.ttl_mode INT 0
+   # in minutes...
+CONFIG proxy.config.hostdb.timeout INT 1440
+   # round-robin addresses for single clients
+   # (can cause authentication problems)
+CONFIG proxy.config.hostdb.strict_round_robin INT 0
+##############################################################################
+#
+# Logging Config
+#
+##############################################################################
+   # possible values for logging_enabled:
+   #   0: no logging at all
+   #   1: log errors only
+   #   2: log transactions only
+   #   3: full logging (errors + transactions)
+CONFIG proxy.config.log.logging_enabled INT 3
+CONFIG proxy.config.log.max_secs_per_buffer INT 5
+CONFIG proxy.config.log.max_space_mb_for_logs INT 25000
+CONFIG proxy.config.log.max_space_mb_for_orphan_logs INT 25
+CONFIG proxy.config.log.max_space_mb_headroom INT 1000
+CONFIG proxy.config.log.hostname STRING localhost
+CONFIG proxy.config.log.logfile_dir STRING /var/log/trafficserver
+CONFIG proxy.config.log.logfile_perm STRING rw-r--r--
+CONFIG proxy.config.log.custom_logs_enabled INT 0
+CONFIG proxy.config.log.squid_log_enabled INT 1
+CONFIG proxy.config.log.squid_log_is_ascii INT 0
+CONFIG proxy.config.log.squid_log_name STRING squid
+CONFIG proxy.config.log.squid_log_header STRING NULL
+CONFIG proxy.config.log.common_log_enabled INT 0
+CONFIG proxy.config.log.common_log_is_ascii INT 1
+CONFIG proxy.config.log.common_log_name STRING common
+CONFIG proxy.config.log.common_log_header STRING NULL
+CONFIG proxy.config.log.extended_log_enabled INT 0
+CONFIG proxy.config.log.extended_log_is_ascii INT 0
+CONFIG proxy.config.log.extended_log_name STRING extended
+CONFIG proxy.config.log.extended_log_header STRING NULL
+CONFIG proxy.config.log.extended2_log_enabled INT 0
+CONFIG proxy.config.log.extended2_log_is_ascii INT 1
+CONFIG proxy.config.log.extended2_log_name STRING extended2
+CONFIG proxy.config.log.extended2_log_header STRING NULL
+CONFIG proxy.config.log.separate_icp_logs INT 0
+CONFIG proxy.config.log.separate_host_logs INT 0
+   # Log collation allows you to do "remote logging"
+LOCAL proxy.local.log.collation_mode INT 0
+CONFIG proxy.config.log.collation_host STRING NULL
+CONFIG proxy.config.log.collation_port INT 8085
+CONFIG proxy.config.log.collation_secret STRING foobar
+CONFIG proxy.config.log.collation_host_tagged INT 0
+CONFIG proxy.config.log.collation_retry_sec INT 5
+CONFIG proxy.config.log.rolling_enabled INT 1
+CONFIG proxy.config.log.rolling_interval_sec INT 86400
+CONFIG proxy.config.log.rolling_offset_hr INT 0
+CONFIG proxy.config.log.rolling_size_mb INT 10
+CONFIG proxy.config.log.auto_delete_rolled_files INT 1
+CONFIG proxy.config.log.sampling_frequency INT 1
+##############################################################################
+#
+# Reverse Proxy
+#
+##############################################################################
+CONFIG proxy.config.reverse_proxy.enabled INT 1
+CONFIG proxy.config.header.parse.no_host_url_redirect STRING NULL
+##############################################################################
+#
+# URL Remap Rules
+#
+##############################################################################
+CONFIG proxy.config.url_remap.default_to_server_pac INT 0
+CONFIG proxy.config.url_remap.default_to_server_pac_port INT -1
+   # To enable forward proxy, you must turn off remap_required
+CONFIG proxy.config.url_remap.remap_required INT 1
+   # Pristine host header is the "original" (request) header. Make sure your
+   # origin expects them in reverse proxy.
+CONFIG proxy.config.url_remap.pristine_host_hdr INT 1
+##############################################################################
+#
+# SSL Termination
+#
+##############################################################################
+   # proxy.config.ssl.enabled should be:
+   #   0 - none
+   #   1 - SSL enabled
+CONFIG proxy.config.ssl.enabled INT 0
+   # The number of SSL threads is a multiplier of number of CPUs and
+   # proxy.config.exec_thread.autoconfig.scale by default. You can
+   # override that here (set it to a non-zero value).
+CONFIG proxy.config.ssl.number.threads INT 0
+   # The following three variables can be
+   # set to 0 to disable SSLv2, SSLv3, and/or TLSv1.
+   # SSLv2 is disabled by default for security concern.
+CONFIG proxy.config.ssl.SSLv2 INT 0
+CONFIG proxy.config.ssl.SSLv3 INT 1
+CONFIG proxy.config.ssl.TLSv1 INT 1
+   # The following two variables control the Cipher Suite traffic Server
+   # uses for HTTPS connnections and whether to prefer the client
+   # selected (default) or the server selected
+   # Our default SSL Cipher Suite tries to be reasonably fast and strong.
+CONFIG proxy.config.ssl.server.cipher_suite STRING RC4-SHA:AES128-SHA:DES-CBC3-SHA:AES256-SHA:ALL:!aNULL:!EXP:!LOW:!MD5:!SSLV2:!NULL
+CONFIG proxy.config.ssl.server.honor_cipher_order INT 0
+CONFIG proxy.config.ssl.server_port INT 443
+   # Client certification level should be:
+   # 0 no client certificates
+   # 1 client certificates optional
+   # 2 client certificates required
+CONFIG proxy.config.ssl.client.certification_level INT 0
+   # Server cert filename is the name of the cert file
+   # for a single cert system and the default cert name
+   # for a multiple cert system.
+CONFIG proxy.config.ssl.server.cert.filename STRING server.pem
+   # Server cert chain filename is the name of the cert chain file
+   # for a single cert system.
+CONFIG proxy.config.ssl.server.cert_chain.filename STRING NULL
+   # This is the path that will be used for both single and
+   # multi cert systems.
+CONFIG proxy.config.ssl.server.cert.path STRING /etc/pki/tls/certs/
+   # Fill in private key file and path only if the server's
+   # private key is not contained in the server certificate file.
+   # For multiple cert systems, if any private key is not contained
+   # in the cert file, you must fill in the private key path.
+CONFIG proxy.config.ssl.server.private_key.filename STRING NULL
+CONFIG proxy.config.ssl.server.private_key.path STRING /etc/pki/tls/private/
+   # The CA file name and path are the
+   # certificate authority certificate that
+   # client certificates will be verified against.
+CONFIG proxy.config.ssl.CA.cert.filename STRING NULL
+CONFIG proxy.config.ssl.CA.cert.path STRING /etc/trafficserver
+   ################################
+   # client related configuration #
+   ################################
+CONFIG proxy.config.ssl.client.verify.server INT 0
+CONFIG proxy.config.ssl.client.cert.filename STRING NULL
+CONFIG proxy.config.ssl.client.cert.path STRING /etc/trafficserver
+   # Fill in private key file and path only if the client's
+   # private key is not contained in the client certificate file.
+CONFIG proxy.config.ssl.client.private_key.filename STRING NULL
+CONFIG proxy.config.ssl.client.private_key.path STRING /etc/trafficserver
+   # The CA file name and path are the
+   # certificate authority certificate that
+   # server certificates will be verified against.
+CONFIG proxy.config.ssl.client.CA.cert.filename STRING NULL
+CONFIG proxy.config.ssl.client.CA.cert.path STRING /etc/trafficserver
+##############################################################################
+#
+# ICP Configuration. NOTE! ICP is currently broken NOTE!
+#
+##############################################################################
+   # icp modes
+   #   enabled=0 ICP disabled
+   #   enabled=1 Allow receive of ICP queries
+   #   enabled=2 Allow send/receive of ICP queries
+CONFIG proxy.config.icp.enabled INT 0
+CONFIG proxy.config.icp.icp_interface STRING NULL
+CONFIG proxy.config.icp.icp_port INT 3130
+CONFIG proxy.config.icp.multicast_enabled INT 0
+CONFIG proxy.config.icp.query_timeout INT 2
+##############################################################################
+#
+# Scheduled Update Configuration
+#
+##############################################################################
+CONFIG proxy.config.update.enabled INT 0
+CONFIG proxy.config.update.force INT 0
+CONFIG proxy.config.update.retry_count INT 10
+CONFIG proxy.config.update.retry_interval INT 2
+CONFIG proxy.config.update.concurrent_updates INT 100
+##############################################################################
+#
+# Socket send/recv buffer sizes (0 == don't call setsockopt() )
+#
+##############################################################################
+   # out: proxy -> os connection
+   # in : ua -> proxy connection
+CONFIG proxy.config.net.sock_send_buffer_size_in INT 262144
+CONFIG proxy.config.net.sock_recv_buffer_size_in INT 0
+CONFIG proxy.config.net.sock_send_buffer_size_out INT 0
+CONFIG proxy.config.net.sock_recv_buffer_size_out INT 0
+##############################################################################
+#
+# User Overridden Configurations Below
+#
+##############################################################################
+CONFIG proxy.config.core_limit INT -1
+##############################################################################
+#
+# Debugging
+#
+##############################################################################
+  # Uses a regular expression to match the debugging topic name, performance
+  # will be affected!
+CONFIG proxy.config.diags.debug.enabled INT 0
+CONFIG proxy.config.diags.debug.tags STRING http.*|dns.*
+  # Great for tracking down memory leaks, but you need to use the
+  # ink allocators
+CONFIG proxy.config.dump_mem_info_frequency INT 0
+
+##############################################################################
+#
+# Slow Log
+#
+##############################################################################
+  # Log any request that takes more then x number of milliseconds, needs
+  # to be > 0 to be enabled
+CONFIG proxy.config.http.slow.log.threshold INT 0
+##############################################################################
+#
+# Thread pool for "misc" tasks, plugins etc. 2 is a good minimum.
+#
+##############################################################################
+CONFIG proxy.config.task_threads INT 2
