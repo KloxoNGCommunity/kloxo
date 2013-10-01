@@ -76,7 +76,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-            if ($count !== 0) {
+        if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -86,9 +86,9 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-            }
+        }
 
-            if (strpos($phptype, '_suphp') !== false) {
+        if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -99,7 +99,7 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-            } elseif (strpos($phptype, '_ruid2') !== false) {
+        } elseif (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -108,14 +108,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-            } elseif (strpos($phptype, '_itk') !== false) {
+        } elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'php-fpm_') !== false) {
+        } elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -130,7 +130,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'fcgid_') !== false) {
+       } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
@@ -149,7 +149,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Directory>
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -157,7 +157,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-            }
+        }
 ?>
 
     <Location />
@@ -180,7 +180,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-            if ($count !== 0) {
+        if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -190,19 +190,19 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-            }
+        }
 ?>
 
     <Ifmodule mod_userdir.c>
         UserDir enabled
         UserDir "public_html"
 <?php
-                foreach ($userlist as &$user) {
-                $userinfo = posix_getpwnam($user);
+        foreach ($userlist as &$user) {
+            $userinfo = posix_getpwnam($user);
 
-                if (!$userinfo) {
-                    continue;
-                }
+            if (!$userinfo) {
+                continue;
+            }
 ?>
         <Location "/~<?php echo $user; ?>">
             <IfModule mod_suphp.c>
@@ -210,10 +210,11 @@ foreach ($certnamelist as $ip => $certname) {
 
             </IfModule>
         </Location>
-    </Ifmodule>
 <?php
         }
-
+?>
+    </Ifmodule>
+<?php
         if (strpos($phptype, '_suphp') !== false) {
 ?>
 
