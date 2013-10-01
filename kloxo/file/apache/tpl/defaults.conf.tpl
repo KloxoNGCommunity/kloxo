@@ -1,12 +1,18 @@
 ### begin - web of initial - do not remove/modify this line
 
 <?php
+
 if ($reverseproxy) {
     $ports[] = '30080';
     $ports[] = '30443';
 } else {
-    $ports[] = '80';
-    $ports[] = '443';
+    if (($webcache === 'none') || (!$webcache)) {
+        $ports[] = '80';
+        $ports[] = '443';
+    } else {
+        $ports[] = '8080';
+        $ports[] = '8443';
+    }
 }
 
 if ($reverseproxy) {

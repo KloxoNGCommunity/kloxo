@@ -8,6 +8,8 @@ class webcache__ extends lxDriverClass
 
 	static function uninstallMeTrue($drivertype = null)
 	{
+		if ($drivertype === 'none') { return; }
+
 		lxshell_return("service", $drivertype, "stop");
 
 		lxshell_return("chkconfig", $drivertype, "off");
@@ -21,9 +23,11 @@ class webcache__ extends lxDriverClass
 
 	static function installMeTrue($drivertype = null)
 	{
-		setCopyWebCacheConfFiles($drivertype);
+		if ($drivertype === 'none') { return; }
 
 		setRpmInstalled($drivertype);
+
+		setCopyWebCacheConfFiles($drivertype);
 
 		lxshell_return("chkconfig", $drivertype, "on");
 
