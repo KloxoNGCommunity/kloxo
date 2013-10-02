@@ -161,7 +161,7 @@ class web__ extends lxDriverClass
 		lxfile_cp(getLinkCustomfile("/home/{$altname}/etc/init.d", "{$webserver}.init"),
 				"/etc/rc.d/init.d/{$webserver}");
 
-		exec("chmod 755:755 /etc/rc.d/init.d/{$webserver}");
+		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
 	}
 
 	static function setUnnstallPhpfpm()

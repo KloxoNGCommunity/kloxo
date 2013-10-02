@@ -26,8 +26,7 @@ class dns__ extends lxDriverClass
 		} else {
 			$hwcpath = "/home/{$drivertype}/conf";
 
-			exec("rm -rf $hwcpath/defaults/*; rm -rf $hwcpath/master/*; " .
-				"rm -rf $hwcpath/reverse/*; rm -rf $hwcpath/slave/*");
+			exec("rm -rf $hwcpath/master/*; rm -rf $hwcpath/reverse/*; rm -rf $hwcpath/slave/*");
 		}
 
 		createRestartFile($altname);
