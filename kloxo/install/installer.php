@@ -571,7 +571,7 @@ function kloxo_install_before_bye()
 	//	system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
 	//	system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
 		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/fastcgi.conf /etc/httpd/conf.d/fastcgi.conf");
-		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/_inactive_.conf.conf /etc/httpd/conf.d/php.conf");
+		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/_inactive_.conf /etc/httpd/conf.d/php.conf");
 		exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
 
 	}

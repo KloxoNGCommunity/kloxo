@@ -7248,6 +7248,8 @@ function setCopyWebCacheConfFiles($cachedriver)
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
 	exec("cp -rf {$pathsrc} /home");
 
+	if (!file_exists("/etc/{$cachedriver}")) { return; }
+
 	if ($cachedriver === 'varnish') {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "default.vcl");
 		lxfile_cp($t, "$pathetc/{$cachedriver}/default.vcl");
