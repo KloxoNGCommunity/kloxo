@@ -368,8 +368,7 @@ function kloxo_install_step1()
 			"libtool", "openssl-devel", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
 			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota",
 			"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
-			"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
-			"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha", "php52s"
+			"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha", "php52s"
 		);
 
 		$list = implode(" ", $packages);

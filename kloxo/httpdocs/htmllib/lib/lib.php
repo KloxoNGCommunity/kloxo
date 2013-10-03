@@ -6157,7 +6157,7 @@ function setCheckPackages($nolog = null)
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
 		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
-		"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick", "{$phpbranch}-gd",
+		"{$phpbranch}-pecl-geoip", "{$phpbranch}-gd",
 		"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "{$phpbranch}-bcmath", "{$phpbranch}-pgsql",
 		"webalizer",  "dos2unix", "rrdtool", "xinetd", "lxjailshell");
 
@@ -7228,10 +7228,14 @@ function setCopyDnsConfFiles($dnsdriver)
 		log_cleanup("- Copy {$t} to {$pathetc}/{$aliasdriver}.conf", $nolog);
 		lxfile_cp($t, "{$pathetc}/{$aliasdriver}.conf");
 	} else {
+		$pathtarget = "{$pathetc}/{$aliasdriver}";
+
+		exec("mkdir -p {$pathtarget}");
+
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
 
-		log_cleanup("- Copy {$t} to {$pathetc}/{$aliasdriver}/{$aliasdriver}.conf", $nolog);
-		lxfile_cp($t, "{$pathetc}/{$aliasdriver}/{$aliasdriver}.conf");
+		log_cleanup("- Copy {$t} to {$pathtarget}/{$aliasdriver}.conf", $nolog);
+		lxfile_cp($t, "{$pathtarget}/{$aliasdriver}.conf");
 	}
 }
 
