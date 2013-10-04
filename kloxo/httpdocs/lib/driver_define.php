@@ -13,10 +13,12 @@ $gl_class_array['web__apache'] = "lib/domain/web/driver/web__apachelib.php";
 $gl_class_array['web__lighttpd'] = "lib/domain/web/driver/web__lighttpdlib.php";
 $gl_class_array['web__nginx'] = "lib/domain/web/driver/web__nginxlib.php";
 $gl_class_array['web__hiawatha'] = "lib/domain/web/driver/web__hiawathalib.php";
+$gl_class_array['web__openlitespeed'] = "lib/domain/web/driver/web__openlitespeedlib.php";
 
 $gl_class_array['web__lighttpdproxy'] = "lib/domain/web/driver/web__lighttpdproxylib.php";
 $gl_class_array['web__nginxproxy'] = "lib/domain/web/driver/web__nginxproxylib.php";
 $gl_class_array['web__hiawathaproxy'] = "lib/domain/web/driver/web__hiawathaproxylib.php";
+$gl_class_array['web__openlitespeedproxy'] = "lib/domain/web/driver/web__openlitespeedproxylib.php";
 
 $gl_class_array['webcache__varnish'] =  "lib/domain/webcache/driver/webcache__varnishlib.php";
 $gl_class_array['webcache__trafficserver'] =  "lib/domain/webcache/driver/webcache__trafficserverlib.php";

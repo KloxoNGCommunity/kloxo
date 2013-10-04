@@ -8,6 +8,8 @@ class dns__ extends lxDriverClass
 
 	static function installMeTrue($drivertype = null)
 	{
+		if ($drivertype === 'none') { return; }
+
 		self::setDnsserverInstall($drivertype);
 		self::setBaseDnsConfig($drivertype);
 
@@ -34,6 +36,8 @@ class dns__ extends lxDriverClass
 
 	static function unInstallMeTrue($drivertype = null)
 	{
+		if ($drivertype === 'none') { return; }
+
 		$altname = ($drivertype === 'bind') ? 'named' : $drivertype;
 
 		lxshell_return("service", $altname, "stop");

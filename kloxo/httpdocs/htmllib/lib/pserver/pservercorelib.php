@@ -1197,14 +1197,14 @@ STRIN;
 				$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
 				$this->no_fix_config = 'off';
 
-				$vlist['web_driver'] = array('s', array('apache', 'lighttpd', 'nginx', 'hiawatha', 
-					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy'));
+				$vlist['web_driver'] = array('s', array('none', 'apache', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed',
+					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy', 'openlitespeedproxy'));
 
 				$vlist['webcache_driver'] = array('s', array('none', 'varnish', 'trafficserver'));
 
-				$vlist['dns_driver'] = array('s', array('bind', 'djbdns', 'maradns', 'pdns', 'nsd'));
+				$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'maradns', 'pdns', 'nsd'));
 
-				$vlist['spam_driver'] = array('s', array('spamassassin', 'bogofilter'));
+				$vlist['spam_driver'] = array('s', array('none', 'spamassassin', 'bogofilter'));
 
 				$vlist['no_fix_config'] = array('f', 'on', 'off');
 

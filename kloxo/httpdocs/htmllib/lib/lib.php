@@ -7057,6 +7057,8 @@ function setInitialServices($nolog = null)
 	setWebDriverChownChmod('nginx', $nolog);
 	setInitialWebConfig('hiawatha', $nolog);
 	setWebDriverChownChmod('hiawatha', $nolog);
+	setInitialWebConfig('openlitespeed', $nolog);
+	setWebDriverChownChmod('openlitespeed', $nolog);
 
 	setInitialWebCacheConfig('varnish', $nolog);
 	setInitialWebCacheConfig('trafficserver', $nolog);

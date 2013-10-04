@@ -4,6 +4,7 @@ $gl_class_array['dns__djbdns'] =  "htmllib/lib/dns/driver/dns__djbdnslib.php";
 $gl_class_array['dns__pdns'] =  "htmllib/lib/dns/driver/dns__pdnslib.php";
 $gl_class_array['dns__maradns'] =  "htmllib/lib/dns/driver/dns__maradnslib.php";
 $gl_class_array['dns__nsd'] =  "htmllib/lib/dns/driver/dns__nsdlib.php";
+$gl_class_array['dns__none'] =  "htmllib/lib/dns/driver/dns__nonelib.php";
 //--// $gl_class_array['dns__msdns'] =  "htmllib/lib/dns/driver/dns__msdnslib.php";
 $gl_class_array['anonftpipaddress__pureftp'] =  "htmllib/lib/pserver/driver/anonftpipaddress__pureftplib.php";
 $gl_class_array['service__linux'] =  "htmllib/lib/pserver/driver/service__linuxlib.php";

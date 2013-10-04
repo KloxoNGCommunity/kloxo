@@ -27,6 +27,7 @@ class Service__Linux extends Lxlclass
 		$nval['lighttpd'] = 'lighttpd';
 		$nval['nginx'] = 'nginx';
 		$nval['hiawatha'] = 'hiawatha';
+		$nval['openlitespeed'] = 'lsws';
 
 		$nval['php-fpm'] = 'php-fpm';
 

@@ -8,6 +8,8 @@ class web__ extends lxDriverClass
 
 	static function uninstallMeTrue($drivertype = null)
 	{
+		if ($drivertype === 'none') { return; }
+
 		$list = getWebDriverList($drivertype);
 
 		$l = $list[0];
@@ -48,6 +50,8 @@ class web__ extends lxDriverClass
 
 	static function installMeTrue($drivertype = null)
 	{
+		if ($drivertype === 'none') { return; }
+
 		$list = getWebDriverList($drivertype);
 
 		$isproxyorapache = isWebProxyOrApache($drivertype);
@@ -476,7 +480,7 @@ class web__ extends lxDriverClass
 
 		} elseif ($for === 'app') {
 			if ($list['remotelocalflag'] !== 'remote') {
-				if ($list['webmailprog'] === '--system-default--') {
+				if (($list['webmailprog'] === '--system-default--') || ($list['webmailprog'] === '')) {
 					$r = self::getWebmailAppDefault();
 				} else {
 					if ($list['webmailprog'] === '--chooser--') {

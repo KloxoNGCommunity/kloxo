@@ -1,8 +1,8 @@
 <?php 
 
 $driver['hostdeny'] = "linux";
-$driver['dns'] = array("bind", "djbdns", "maradns", "pdns", "nsd");
-$driver['spam'] = array("bogofilter", "spamassassin");
+$driver['dns'] = array("none", "bind", "djbdns", "maradns", "pdns", "nsd");
+$driver['spam'] = array("none", "bogofilter", "spamassassin");
 $driver['mailinglist'] = "ezmlm";
 $driver['ffile'] = "linux";
 $driver['installapp'] = "linux";
@@ -11,7 +11,7 @@ $driver['pserver'] = "linux";
 $driver['rubyrails'] = "linux";
 $driver['uuser'] = "linux";
 $driver['ftpuser'] = "pureftp";
-$driver['web'] = array("apache", "lighttpd", "nginx", "hiawatha", "lighttpdproxy", "nginxproxy", "hiawathaproxy");
+$driver['web'] = array("none", "apache", "lighttpd", "nginx", "hiawatha", "openlitespeed", "lighttpdproxy", "nginxproxy", "hiawathaproxy", "openlitespeedproxy");
 $driver['webcache'] = array("none", "varnish", "trafficserver");
 $driver['mmail'] = array("qmail");
 $driver['cron'] = "linux";
