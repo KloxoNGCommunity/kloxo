@@ -14,6 +14,7 @@ $gl_class_array['web__lighttpd'] = "lib/domain/web/driver/web__lighttpdlib.php";
 $gl_class_array['web__nginx'] = "lib/domain/web/driver/web__nginxlib.php";
 $gl_class_array['web__hiawatha'] = "lib/domain/web/driver/web__hiawathalib.php";
 $gl_class_array['web__openlitespeed'] = "lib/domain/web/driver/web__openlitespeedlib.php";
+$gl_class_array['web__gwan'] = "lib/domain/web/driver/web__gwanlib.php";
 
 $gl_class_array['web__lighttpdproxy'] = "lib/domain/web/driver/web__lighttpdproxylib.php";
 $gl_class_array['web__nginxproxy'] = "lib/domain/web/driver/web__nginxproxylib.php";
@@ -39,6 +40,9 @@ $gl_class_array['dirprotect__lighttpd'] = "lib/domain/web/driver/dirprotect__lig
 $gl_class_array['dirprotect__nginx'] = "lib/domain/web/driver/dirprotect__nginxlib.php";
 $gl_class_array['dirprotect__lighttpdproxy'] = "lib/domain/web/driver/dirprotect__lighttpdproxylib.php";
 $gl_class_array['dirprotect__nginxproxy'] = "lib/domain/web/driver/dirprotect__nginxproxylib.php";
+$gl_class_array['dirprotect__openlitespeed'] = "lib/domain/web/driver/dirprotect__openlitespeedlib.php";
+$gl_class_array['dirprotect__openlitespeedproxy'] = "lib/domain/web/driver/dirprotect__openlitespeedproxylib.php";
+$gl_class_array['dirprotect__gwan'] = "lib/domain/web/driver/dirprotect__gwanlib.php";
 
 $gl_class_array['mmail__qmail'] = "lib/domain/mmail/driver/mmail__qmaillib.phps";
 //--// $gl_class_array['mmail__mailenable'] = "lib/domain/mmail/driver/mmail__mailenablelib.php";
@@ -64,10 +68,13 @@ $gl_class_array['serverweb__apache'] = "lib/serverweb__apachelib.php";
 $gl_class_array['serverweb__lighttpd'] = "lib/serverweb__lighttpdlib.php";
 $gl_class_array['serverweb__nginx'] = "lib/serverweb__nginxlib.php";
 $gl_class_array['serverweb__hiawatha'] = "lib/serverweb__hiawathalib.php";
+$gl_class_array['serverweb__openlitespeed'] = "lib/serverweb__openlitespeedlib.php";
+$gl_class_array['serverweb__gwan'] = "lib/serverweb__gwanlib.php";
 
 $gl_class_array['serverweb__lighttpdproxy'] = "lib/serverweb__lighttpdproxylib.php";
 $gl_class_array['serverweb__nginxproxy'] = "lib/serverweb__nginxproxylib.php";
 $gl_class_array['serverweb__hiawathaproxy'] = "lib/serverweb__hiawathaproxylib.php";
+$gl_class_array['serverweb__openlitespeedproxy'] = "lib/serverweb__openlitespeedproxylib.php";
 
 $gl_class_array['rubyrails__linux'] = "lib/domain/web/driver/rubyrails__linuxlib.php";
 

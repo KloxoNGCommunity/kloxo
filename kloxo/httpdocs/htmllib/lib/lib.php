@@ -7059,6 +7059,8 @@ function setInitialServices($nolog = null)
 	setWebDriverChownChmod('hiawatha', $nolog);
 	setInitialWebConfig('openlitespeed', $nolog);
 	setWebDriverChownChmod('openlitespeed', $nolog);
+	setInitialWebConfig('gwan', $nolog);
+	setWebDriverChownChmod('gwan', $nolog);
 
 	setInitialWebCacheConfig('varnish', $nolog);
 	setInitialWebCacheConfig('trafficserver', $nolog);

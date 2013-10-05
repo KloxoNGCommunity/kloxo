@@ -50,6 +50,14 @@ if ($nginxbranch) {
 	$appnginx = '--uninstalled--';
 }
 
+$hiawathabranch = getRpmBranchInstalled('hiawatha');
+if ($hiawathabranch) {
+	exec("rpm -q {$hiawathabranch}", $appnhiawatha);
+	$apphiawatha = trim($apphiawatha[0]);
+} else {
+	$apphiawatha = '--uninstalled--';
+}
+
 $cachebranch = getRpmBranchInstalled('webcache');
 if ($cachebranch) {
 	exec("rpm -q {$cachebranch}", $appcache);
@@ -107,9 +115,11 @@ echo "   1. MySQL: " .  $appmysql . "\n";
 echo "   2. PHP: " .  $appphp . "\n";
 echo "   3. Httpd: " .  $apphttpd . "\n";
 echo "   4. Lighttpd: " .  $applighttpd . "\n";
-echo "   5. Nginx: " .  $appnginx . "\n";
-echo "   6. Cache: " .  $appcache . "\n";
-echo "   7. Qmail: " .  $appqmail . "\n";
+echo "   5. Hiawatha: " .  $apphiawatha . "\n";
+echo "   6. Nginx: " .  $appnginx . "\n";
+echo "   7. Cache: " .  $appcache . "\n";
+echo "   8. Dns: " .  $appdns . "\n";
+echo "   9. Qmail: " .  $appqmail . "\n";
 
 if ($appdovecot !== '--uninstalled--') {
 	echo "      - with: " . $appdovecot  . "\n";
@@ -118,7 +128,6 @@ if ($appcourierimap !== '--uninstalled--') {
 	echo "      - with: " . $appcourierimap  . "\n";
 }
 
-echo "   7. Dns: " .  $appdns . "\n";
 echo "\n";
 echo "D. Php-type (for Httpd/proxy): " . $phptype['php_type'] . "\n";
 echo "\n";

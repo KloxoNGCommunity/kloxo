@@ -69,7 +69,7 @@ function updatecleanup_main()
 	}
 
 	$slist = array(
-		"httpd* lighttpd* nginx* hiawatha*",
+		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
 		"mod_* mysql* mariadb* MariaDB* php*",
 		"bind* djbdns* maradns* pdns* nsd*",
 		"varnish* trafficserver*",

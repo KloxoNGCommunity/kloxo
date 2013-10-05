@@ -52,6 +52,7 @@ INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`,
 ('nginx___localhost', 'pserver-localhost', '', 'nginx', 'Nginx Web Server', 'nginx', 'localhost', '', ''),
 ('hiawatha___localhost', 'pserver-localhost', '', 'hiawatha', 'Hiawatha Web Server (also use by Kloxo-MR)', 'hiawatha', 'localhost', '', ''),
 ('openlitespeed___localhost', 'pserver-localhost', '', 'openlitespeed', 'OpenLitespeed Web Server', 'lsws', 'localhost', '', ''),
+('gwan___localhost', 'pserver-localhost', '', 'gwan', 'G-WAN Web Server', 'gwan', 'localhost', '', ''),
 ('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', ''),
 ('varnish___localhost', 'pserver-localhost', '', 'varnish', 'Varnish Cache Server', 'varnish', 'localhost', '', ''),
 ('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server', 'traffic_cop', 'localhost', '', '');
