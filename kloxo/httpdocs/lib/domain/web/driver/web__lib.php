@@ -396,7 +396,7 @@ class web__ extends lxDriverClass
 	{
 		$sq = new Sqlite(null, 'serverweb');
 		$res = $sq->getRowsWhere("nname = 'pserver-localhost'", array('php_type'));
-		$ret = $res[0];
+		$ret = ($res[0]) ? $res[0] : array('php_type' => 'php-fpm_event');
 
 		return $ret['php_type'];
 	}

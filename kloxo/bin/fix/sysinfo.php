@@ -52,7 +52,7 @@ if ($nginxbranch) {
 
 $hiawathabranch = getRpmBranchInstalled('hiawatha');
 if ($hiawathabranch) {
-	exec("rpm -q {$hiawathabranch}", $appnhiawatha);
+	exec("rpm -q {$hiawathabranch}", $apphiawatha);
 	$apphiawatha = trim($apphiawatha[0]);
 } else {
 	$apphiawatha = '--uninstalled--';

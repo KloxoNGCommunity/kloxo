@@ -679,12 +679,6 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
 ?>
 
     include "<?php echo $globalspath; ?>/<?php echo $genericconf; ?>"
-
-    ## simple permalink
-    url.rewrite = (
-        "^/(.*)\.(.+)$" => "$0",
-        "^/(.+)/?$" => "/index.php/$1"
-    )
 }
 
 <?php

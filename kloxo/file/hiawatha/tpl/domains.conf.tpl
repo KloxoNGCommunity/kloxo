@@ -217,7 +217,7 @@ VirtualHost {
                 if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                 } else {
 ?>
@@ -252,7 +252,7 @@ VirtualHost {
                 if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                 } else {
 ?>
@@ -305,7 +305,7 @@ VirtualHost {
             if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
             } else {
 ?>
@@ -370,7 +370,7 @@ VirtualHost {
             if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
             } else {
 ?>
@@ -527,7 +527,7 @@ VirtualHost {
         if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
         } else {
 ?>
@@ -615,7 +615,7 @@ VirtualHost {
                     if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                     } else {
                         if (!$disablephp) {
@@ -685,7 +685,7 @@ VirtualHost {
                     if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                     } else {
 ?>
@@ -769,7 +769,7 @@ VirtualHost {
                         if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                         } else {
 ?>
@@ -873,7 +873,7 @@ VirtualHost {
                     if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                     } else {
 ?>
@@ -923,7 +923,7 @@ VirtualHost {
                         if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                         } else {
 ?>
@@ -973,7 +973,7 @@ VirtualHost {
                             if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:<?php echo $ports[0]; ?>/
+    ReverseProxy ^/.* http://127.0.0.1:30080/
 <?php
                             } else {
 ?>
