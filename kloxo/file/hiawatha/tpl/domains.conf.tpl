@@ -217,7 +217,8 @@ VirtualHost {
                 if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                 } else {
 ?>
@@ -230,6 +231,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 
@@ -252,7 +257,8 @@ VirtualHost {
                 if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                 } else {
 ?>
@@ -265,6 +271,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -305,7 +315,8 @@ VirtualHost {
             if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
             } else {
 ?>
@@ -317,6 +328,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -370,7 +385,8 @@ VirtualHost {
             if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
             } else {
 ?>
@@ -382,6 +398,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -527,7 +547,8 @@ VirtualHost {
         if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
         } else {
 ?>
@@ -539,6 +560,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>, findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -615,7 +640,8 @@ VirtualHost {
                     if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                     } else {
                         if (!$disablephp) {
@@ -629,6 +655,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -685,7 +715,8 @@ VirtualHost {
                     if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                     } else {
 ?>
@@ -696,7 +727,11 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
-    UseToolkit = findindexfile, permalink  
+    UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -733,6 +768,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -769,7 +808,8 @@ VirtualHost {
                         if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                         } else {
 ?>
@@ -781,6 +821,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -819,6 +863,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -873,7 +921,8 @@ VirtualHost {
                     if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                     } else {
 ?>
@@ -885,6 +934,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -923,7 +976,8 @@ VirtualHost {
                         if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                         } else {
 ?>
@@ -935,6 +989,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -973,7 +1031,8 @@ VirtualHost {
                             if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                             } else {
 ?>
@@ -985,6 +1044,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php

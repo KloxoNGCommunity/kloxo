@@ -88,8 +88,8 @@ Binding {
     Port = <?php echo $ports[$count]; ?>
 
     #Interface = 0.0.0.0
-    MaxKeepAlive = 3600
-    TimeForRequest = 3600
+    MaxKeepAlive = 120
+    TimeForRequest = 480
     MaxRequestSize = 102400
     ## not able more than 100MB
     MaxUploadSize = 100
@@ -144,7 +144,8 @@ VirtualHost {
         if ($reverseproxy) {
 ?>
 
-    ReverseProxy ^/.* http://127.0.0.1:30080/
+    #ReverseProxy ^/.* http://127.0.0.1:30080/
+    ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
         } else {
 ?>
@@ -156,6 +157,10 @@ VirtualHost {
 
     #StartFile = index.php
     UseToolkit = findindexfile, permalink
+
+    ## still not work for 'microcache'
+    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    #CustomHeader = X-Hiawatha-Cache:10
 <?php
         if ($count === 0) {
 ?>
