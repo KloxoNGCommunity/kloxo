@@ -7064,6 +7064,7 @@ function setInitialServices($nolog = null)
 
 	setInitialWebCacheConfig('varnish', $nolog);
 	setInitialWebCacheConfig('trafficserver', $nolog);
+	setInitialWebCacheConfig('squid', $nolog);
 
 	setInitialPhpFpmConfig($nolog);
 
@@ -7271,6 +7272,8 @@ function setCopyWebCacheConfFiles($cachedriver)
 			$t = getLinkCustomfile($pathdrv . "/etc/conf", $v);
 			lxfile_cp($t, "$pathetc/{$cachedriver}/{$v}");
 		}
+	} elseif ($cachedriver === 'squid') {
+		// TODO
 	}
 }
 

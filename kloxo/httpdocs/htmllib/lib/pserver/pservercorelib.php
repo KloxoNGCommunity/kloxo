@@ -1205,7 +1205,7 @@ STRIN;
 					'hiawatha', 'openlitespeed', 'gwan',
 					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy', 'openlitespeedproxy'));
 
-				$vlist['webcache_driver'] = array('s', array('none', 'varnish', 'trafficserver'));
+				$vlist['webcache_driver'] = array('s', array('none', 'varnish', 'trafficserver', 'squid'));
 
 				$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'maradns', 'pdns', 'nsd'));
 

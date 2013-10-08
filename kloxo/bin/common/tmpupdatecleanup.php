@@ -72,7 +72,7 @@ function updatecleanup_main()
 		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
 		"mod_* mysql* mariadb* MariaDB* php*",
 		"bind* djbdns* maradns* pdns* nsd*",
-		"varnish* trafficserver*",
+		"varnish* trafficserver* squid",
 		"pure-ftpd* *-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",
 		"kloxomr-addon-*.noarch",

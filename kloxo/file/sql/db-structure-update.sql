@@ -55,4 +55,5 @@ INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`,
 ('gwan___localhost', 'pserver-localhost', '', 'gwan', 'G-WAN Web Server', 'gwan', 'localhost', '', ''),
 ('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', ''),
 ('varnish___localhost', 'pserver-localhost', '', 'varnish', 'Varnish Cache Server', 'varnish', 'localhost', '', ''),
-('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server', 'traffic_cop', 'localhost', '', '');
+('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server', 'traffic_cop', 'localhost', '', ''),
+('squid___localhost', 'pserver-localhost', '', 'squid', 'Squid Proxy Server', 'squid', 'localhost', '', '');
