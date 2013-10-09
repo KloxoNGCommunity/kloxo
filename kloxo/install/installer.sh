@@ -25,13 +25,12 @@
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
 
-if [ "${checktmpfs}" !- "" ] ; then
+if [ "${checktmpfs}" != "" ] ; then
     echo "This server have '/tmp' with 'tmpfs' detect."
 	echo "Modified '/etc/fstab' where remove 'tmpfs' in '/tmp' line and then reboot."
 	echo "Without remove, backup/restore may have a trouble."
-	exit;
+	exit
 fi
-
 
 echo
 echo "*** Ready to begin $APP_NAME install. ***"
