@@ -159,7 +159,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 <?php
         if ($count === 0) {

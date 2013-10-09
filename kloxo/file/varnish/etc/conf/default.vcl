@@ -3,14 +3,11 @@ backend default {
   .port = "8080";
 }
 
-acl purge {
-        "localhost";
-}
-
 sub vcl_recv {
     if (req.restarts == 0) {
 	if (req.http.x-forwarded-for) {
-	    set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
+	    set req.http.X-Forwarded-For =
+		req.http.X-Forwarded-For + ", " + client.ip;
 	} else {
 	    set req.http.X-Forwarded-For = client.ip;
 	}
@@ -37,14 +34,6 @@ sub vcl_recv {
         return (pass);
     }
 
-    if (req.method == "PURGE") {
-        if (!client.ip ~ purge) {
-            error 405 "Not allowed.";
-        }
-
-        return (lookup);
-    }
-
     return (lookup);
 }
 
@@ -69,20 +58,10 @@ sub vcl_hash {
 }
 
 sub vcl_hit {
-    if (req.method == "PURGE") {
-        purge;
-        error 200 "Purged.";
-    }
-
     return (deliver);
 }
 
 sub vcl_miss {
-    if (req.method == "PURGE") {
-        purge;
-        error 200 "Purged.";
-    }
-
     return (fetch);
 }
 
@@ -90,7 +69,9 @@ sub vcl_fetch {
     if (beresp.ttl <= 0s ||
         beresp.http.Set-Cookie ||
         beresp.http.Vary == "*") {
-		set beresp.ttl = 120 s;
+		set beresp.ttl = 120s;
+		set req.grace = 30s;
+		set beresp.grace = 1h;
 		return (hit_for_pass);
     }
 

@@ -233,7 +233,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -273,7 +273,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -330,7 +330,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -400,7 +400,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -562,7 +562,7 @@ VirtualHost {
     UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>, findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -657,7 +657,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -730,7 +730,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -770,7 +770,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -823,7 +823,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -865,7 +865,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -936,7 +936,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -991,7 +991,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 
@@ -1046,7 +1046,7 @@ VirtualHost {
     UseToolkit = findindexfile, permalink
 
     ## still not work for 'microcache'
-    ## add '<?php header("X-Hiawatha-Cache: 10"); ?>' to index.php
+    ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
 }
 

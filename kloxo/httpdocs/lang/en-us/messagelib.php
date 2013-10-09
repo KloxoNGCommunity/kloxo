@@ -96,11 +96,14 @@ $__information['servermail_updateform_update_pre'] = "It is very essential that 
 	"[b]REMARK[/b]: You can choose port 25, 465 or 587 for SMTP.";
 
 $__information['updateform_switchprogram_pre'] = "Switching Programs will take a while, since it needs to remove the old program from the system, " . 
-	"and install the new one using yum. The log for this will be available in the shell_exec file. " .
-	"All your information will be transparently migrated. " .
-	"You will need to wait one minute before the new service properly restarts.<br />" .
-	"Note: Enable 'No fix config' will perform no action to fix configuration - important for huge amount for domains; " .
-	"then you must run 'sh /script/fixweb; sh /script/fixdns ; sh /script/fixmail' from ssh manually.";
+	"and install the new one using yum. The log for this will be available in the 'shell_exec' file. " .
+	"All your information will be transparently migrated.<br /><br />" .
+	"You will need to wait one minute before the new service properly restarts.<br /><br />" .
+	"[b]Note[/b]:<br />" .
+	"- Add '&lt;?php header(\"X-Hiawatha-Cache: 10\"); ?&gt;' in top of index.php to boosting Hiawatha/Hiawatha performance; " .
+	"Only Nginx and Hiawatha able to use 'microcache' at this moment<br />" .
+	"- Enable 'No fix config' will perform no action to fix configuration where important for huge amount for domains; " .
+	"you must run 'sh /script/fixweb; sh /script/fixdns ; sh /script/fixmail' from ssh manually.";
 
 $__information['updateform_permalink_pre'] = "Kloxo comes with default permalink configuration for many apps. Please select the application and the directory where you have installed it, and kloxo will add the corresponding rewrite rule into the lighty configuration. Please note that for some applications, permalinks are achieved via setting the 404 error handler, for instance wordpress.";
 $__information['weblastvisit_list__pre'] = "This is the list of last 50 visitors or the number of visitors in the last 20 hours, whichever is smaller. Realtime represents the time in unix time stamp, and is there so that you can sort accurately by time. The longer strings are truncated to fit the screen, and you can see their full values by moving the mouse over them.";
