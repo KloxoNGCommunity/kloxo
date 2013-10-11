@@ -72,17 +72,24 @@ B.2. For Final Release:
     cd /etc/yum.repos.d/
 
     # get repo file -- no need for 6.5.0.c and after
+    rm -rf kloxo-mr.repo
     wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
 
     # move to /
     cd /
 
+    # need update mysql because need mysql/mariadb version 5.1++
+    yum clean all
+    yum install yum-plugin-replace -y
+    yum replace mysql --replace-with=mysql55 -y
+    chkconfig mysqld on
+
     # install (and then run 'sh /script/upcp')
     yum install kloxomr -y
-    
+    sh /script/upcp
+
     # better reboot
     reboot
-
 WARNING:
 
 1. Need running 'sh /script/backup-patch' in Kloxo Official (6.1.12) before backup data.
