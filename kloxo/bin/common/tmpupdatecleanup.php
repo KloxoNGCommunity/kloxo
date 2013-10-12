@@ -67,7 +67,7 @@ function updatecleanup_main()
 	//	log_cleanup("- MariaDB restarted");
 	//	exec("service mysql restart");
 	}
-
+/*
 	$slist = array(
 		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
 		"mod_* mysql* mariadb* MariaDB* php*",
@@ -76,6 +76,16 @@ function updatecleanup_main()
 		"pure-ftpd* *-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",
 		"kloxomr-addon-*.noarch",
+		"kloxomr-thirdparty-*.noarch"
+	);
+*/
+	$slist = array(
+		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
+		"mod_* mysql* mariadb* MariaDB* php*",
+		"bind* djbdns* maradns* pdns* nsd*",
+		"varnish* trafficserver* squid",
+		"pure-ftpd* *-toaster bogofilter",
+		"kloxomr-webmail-*.noarch",
 		"kloxomr-thirdparty-*.noarch"
 	);
 
