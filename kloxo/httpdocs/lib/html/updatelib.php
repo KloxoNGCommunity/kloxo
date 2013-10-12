@@ -51,7 +51,7 @@ function do_upgrade($upversion = null)
 
 	lxfile_rm_rec("__path_program_htmlbase/help");
 	lxfile_mkdir("help");
-//	lxfile_rm_rec("__path_program_htmlbase/htmllib/script");
+
 	lxfile_rm_rec("__path_program_root/pscript");
 
 	$saveddir = getcwd();

@@ -1,6 +1,6 @@
 <?php
 
-include_once "htmllib/htmllib.php";
+include_once "panel/htmllib.php";
 
 class Html extends Htmllib
 {

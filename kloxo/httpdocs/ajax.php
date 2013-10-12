@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/coredisplaylib.php";
+include_once "panel/coredisplaylib.php";
 
 log_log("ajax", var_export($_REQUEST, true));
 

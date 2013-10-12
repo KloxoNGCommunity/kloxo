@@ -788,7 +788,7 @@ class Web extends Lxdb
 
 		if (!lxfile_exists("__path_customer_root/{$this->username}/kloxoscript")) {
 			lxfile_mkdir("__path_customer_root/{$this->username}/kloxoscript/");
-			lxfile_cp("../file/script/phpinfo.phps", "__path_customer_root/{$this->username}/kloxoscript/phpinfo.php");
+			lxfile_cp("../file/script/phpinfo.php", "__path_customer_root/{$this->username}/kloxoscript/phpinfo.php");
 			lxfile_unix_chown_rec("__path_customer_root/$this->username/kloxoscript", "{$this->username}:{$this->username}");
 		}
 	}

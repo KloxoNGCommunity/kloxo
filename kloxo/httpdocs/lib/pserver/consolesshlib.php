@@ -24,7 +24,7 @@ function showRawPrint($subaction = null)
 	$sshport = db_get_value("sshconfig", $parent->syncserver, "ssh_port");
 	if (!$sshport) { $sshport = "22"; }
 
-	$v = lfile_get_contents("htmllib/filecore/sshterm-applet.htm");
+	$v = lfile_get_contents("panel/filecore/sshterm-applet.htm");
 
 	$ip = $lgg[1];
 

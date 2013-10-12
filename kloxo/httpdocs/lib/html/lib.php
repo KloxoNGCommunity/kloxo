@@ -451,7 +451,7 @@ function print_quick_action($class)
 
 	$res = null;
 	$res .= " <tr style=\"background:#d6dff7\"> <td >";
-	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/htmllib/lbin/redirect.php\">";
+	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/panel/lbin/redirect.php\">";
 
 	$desc = $ghtml->get_class_description($class);
 //	$res .= "$desc[2] <br> ";
@@ -755,9 +755,6 @@ function PrepareRoundCubeDb($nolog = null)
 	lxfile_cp("{$roundcubepath}/config/roundcube_db.inc.php", "{$roundcubepath}/config/db.inc.php");
 
 	$cfgfile = "{$roundcubepath}/config/db.inc.php";
-
-//	lxfile_cp("/usr/local/lxlabs/kloxo/file/webmail-chooser/db.inc.phps", $cfgfile);
-//	exec("chattr -i {$cfgfile}");
 
 	log_cleanup("- Generating password", $nolog);
 	$pass = randomString(8);
@@ -3251,7 +3248,7 @@ function getKloxoLicenseInfo($nolog = null)
 	log_cleanup("Get Kloxo License info", $nolog);
 	log_cleanup("- Get process", $nolog);
 
-	lxshell_php("htmllib/lbin/getlicense.php");
+	lxshell_php("panel/lbin/getlicense.php");
 }
 
 function createDatabaseInterfaceTemplate($nolog = null)
@@ -3335,7 +3332,6 @@ function copy_script($nolog = null)
 	lxfile_mkdir("/script");
 	lxfile_mkdir("/script/filter");
 
-//	lxfile_cp_content_file("htmllib/script/", "/script/");
 	lxfile_cp_content_file("../pscript", "/script/");
 
 	if (lxfile_exists("../pscript/vps/")) {
@@ -3345,7 +3341,6 @@ function copy_script($nolog = null)
 
 
 	lxfile_cp_content_file("../pscript/filter/", "/script/filter/");
-//	lxfile_cp_content_file("htmllib/script/filter/", "/script/filter/");
 
 	lfile_put_contents("/script/programname", $sgbl->__var_program_name);
 	lxfile_unix_chmod_rec("/script", "0755");
@@ -4253,14 +4248,7 @@ function fix_self_ssl($nolog = null)
 	log_cleanup("Fix Self SSL", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-//	$pgm = $sgbl->__var_program_name;
-//	$ret = lxshell_return("diff", "../etc/program.pem", "htmllib/filecore/old.program.pem");
-
-//	if (!$ret) {
-		lxfile_cp("htmllib/filecore/program.pem", "../etc/program.pem");
-//	}
-
-//	exec("/etc/init.d/$pgm restart");
+	lxfile_cp("panel/filecore/program.pem", "../etc/program.pem");
 }
 
 function remove_line($filename, $pattern)
@@ -4416,6 +4404,7 @@ function find_closest_mirror()
 {
 	// TODO LxCenter: No call to this function found.
 	dprint("find_closest_mirror htmllib>lib>lib.php\n");
+
 	$v = curl_general_get("lxlabs.com/mirrorlist/");
 	$v = trim($v);
 	$vv = explode("\n", $v);
@@ -5117,8 +5106,8 @@ function changetoclient()
 	global $gbl, $sgbl, $login, $ghtml;
 
 	exec("service xinetd stop");
-	lxshell_return("__path_php_path", "../bin/changetoclientlogin.phps", "--nolog");
-	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.phps", "--nolog");
+	lxshell_return("__path_php_path", "../bin/changetoclientlogin.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
 	restart_service("xinetd");
 	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
 	createRestartFile($driverapp);
@@ -5260,7 +5249,7 @@ function installinstallapp($nolog = null)
 
 		 if (!lxfile_exists("__path_kloxo_httpd_root/installapp/wordpress")) {
 			 log_cleanup("- Install/Update InstallApp", $nolog);
-			 lxshell_php("../bin/installapp-update.phps");
+			 lxshell_php("../bin/installapp-update.php");
 		 }
 		 return;
 	 */
@@ -6060,7 +6049,7 @@ function setInitialPhpMyAdmin($nolog = null)
 	}
 
 	log_cleanup("Initialize phpMyAdmin configfile", $nolog);
-	lxfile_cp("../file/phpmyadmin_config.inc.phps", "thirdparty/phpMyAdmin/config.inc.php");
+	lxfile_cp("../file/phpmyadmin_config.inc.php", "thirdparty/phpMyAdmin/config.inc.php");
 
 	log_cleanup("- phpMyAdmin: Set db password in configfile", $nolog);
 	$DbPass = file_get_contents("/usr/local/lxlabs/kloxo/etc/conf/kloxo.pass");
@@ -6274,7 +6263,7 @@ function setJailshellSystem($nolog = null)
 	if (!lxfile_exists("/usr/bin/execzsh.sh")) {
 		log_cleanup("- Installing process", $nolog);
 		addLineIfNotExistInside("/etc/shells", "/usr/bin/lxjailshell", "");
-		lxfile_cp("htmllib/filecore/execzsh.sh", "/usr/bin/execzsh.sh");
+		lxfile_cp("panel/filecore/execzsh.sh", "/usr/bin/execzsh.sh");
 		lxfile_unix_chmod("/usr/bin/execzsh.sh", "0755");
 	} else {
 		log_cleanup("- Already exists", $nolog);
@@ -6303,7 +6292,7 @@ function setSomeScript($nolog = null)
 	lxfile_unix_chown_rec("/home/kloxo/httpd/script", "apache:apache");
 
 	log_cleanup("- Install phpinfo.php into /home/kloxo/httpd/script dir", $nolog);
-	lxfile_cp("../file/script/phpinfo.phps", "/home/kloxo/httpd/script/phpinfo.php");
+	lxfile_cp("../file/script/phpinfo.php", "/home/kloxo/httpd/script/phpinfo.php");
 }
 
 function setInitialLogrotate($nolog = null)

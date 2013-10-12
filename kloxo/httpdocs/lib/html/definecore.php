@@ -33,7 +33,7 @@ $gl_class_array["sshclient"] = "lib/pserver/sshclientlib.php";
 $gl_class_array["consolessh"] = "lib/pserver/consolesshlib.php";
 $gl_class_array["traffichistory"] = "lib/html/traffichistorylib.php";
 
-$gl_class_array["htmllib"] = "htmllib/htmllib.php";
+$gl_class_array["htmllib"] = "panel/htmllib.php";
 
 $gl_class_array["sshauthorizedkey"] = "lib/pserver/sshauthorizedkeylib.php";
 $gl_class_array["sshauthorizedkey__sync"] = "lib/pserver/driver/sshauthorizedkey__synclib.php";
@@ -96,8 +96,8 @@ $gl_class_array["resourceplan"] = "lib/html/resourceplanlib.php";
 $gl_class_array["ippool"] = "lib/html/ippoollib.php";
 $gl_class_array["mssqldbuser"] = "lib/pserver/ddatabaseuserlib.php";
 $gl_class_array["exclusiveip"] = "lib/pserver/exclusiveiplib.php";
-$gl_class_array["servermail"] = "lib/pserver/servermaillib.phps";
-$gl_class_array["serverftp"] = "lib/pserver/serverftplib.phps";
+$gl_class_array["servermail"] = "lib/pserver/servermaillib.php";
+$gl_class_array["serverftp"] = "lib/pserver/serverftplib.php";
 $gl_class_array["mimetype"] = "lib/pserver/mimetypelib.php";
 $gl_class_array["monitorserver"] = "lib/html/monitor/monitorserverlib.php";
 

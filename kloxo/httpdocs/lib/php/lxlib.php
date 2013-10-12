@@ -2063,7 +2063,7 @@ function check_if_disabled_and_exit()
 
 	if (!$login->isOn('cpstatus')) {
 		Utmp::updateUtmp($gbl->c_session->nname, $login, 'disabled');
-		$ghtml->print_css_source("/htmllib/css/common.css");
+		$ghtml->print_css_source("/panel/css/common.css");
 
 		if ($sgbl->isLxlabsClient()) {
 			$ghtml->__http_vars['frm_emessage'] = "This login has been Disabled due to non-payment. Please pay the invoice below, and your account will automatically get enabled.";

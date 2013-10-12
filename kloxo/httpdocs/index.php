@@ -62,7 +62,7 @@ function domainshow()
 		?>
 		<FRAMESET frameborder="0" rows="*,16"  border="0">
 		<FRAME name="mainframe" src="<?= $url ?>">
-		<FRAME name="bottomframe" src="htmllib/lbin/bottom.php">
+		<FRAME name="bottomframe" src="/panel/lbin/bottom.php">
 		<?php
 		return;
 	}
@@ -86,7 +86,7 @@ function domainshow()
 if (!$sp->isOn('split_frame')) {
 	?>
 	<FRAMESET frameborder="0" cols="<?= $width ?>,*" border="0">
-	<FRAME name=leftframe src="/htmllib/lbin/lpanel.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
+	<FRAME name=leftframe src="/panel/lbin/lpanel.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
 <?php
 }
 
@@ -98,7 +98,7 @@ if ($sp->isOn('split_frame')) {
 	?>
 	<FRAMESET frameborder="0" rows="*,16" border="0">
 		<FRAME name="mainframe" src="<?= $url ?>">
-		<FRAME name="bottomframe" src="htmllib/lbin/bottom.php">
+		<FRAME name="bottomframe" src="/panel/lbin/bottom.php">
 		<?php
 		if ($sp->isOn('split_frame')) {
 			?>

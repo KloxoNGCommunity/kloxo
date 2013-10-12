@@ -1,6 +1,6 @@
 <?php 
 
-include "lib/html/apilib.phps";
+include "lib/html/apilib.php";
 
 api_main();
 

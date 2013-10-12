@@ -13,5 +13,5 @@ if (!$list) {
 	lxfile_generic_chmod("/home/admin", "0770");
 
 	lxshell_return("__path_php_path", "../bin/misc/fixwebdnsfullupdate.php");
-	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.phps");
+	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php");
 }

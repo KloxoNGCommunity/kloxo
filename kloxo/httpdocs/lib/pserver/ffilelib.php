@@ -319,7 +319,7 @@ class Ffile extends Lxclass
 			$ob = new Remote();
 			$ob->filepass = $ret;
 			$var = base64_encode(serialize($ob));
-			$url = "http://$url:{$sgbl->__var_prog_port}/htmllib/lbin/filedownload.php?frm_info=$var";
+			$url = "http://$url:{$sgbl->__var_prog_port}/panel/lbin/filedownload.php?frm_info=$var";
 			header("Location: $url");
 		//	$ghtml->print_redirect($url);
 

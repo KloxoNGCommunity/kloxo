@@ -92,10 +92,6 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/httpdocs/newpass" \
 	--exclude "./kloxomr-$ver/httpdocs/.php.err" \
 	--exclude "./kloxomr-$ver/httpdocs/thirdparty" \
-	--exclude "./kloxomr-$ver/httpdocs/htmllib/extjs" \
-	--exclude "./kloxomr-$ver/httpdocs/htmllib/fckeditor" \
-	--exclude "./kloxomr-$ver/httpdocs/htmllib/ckeditor" \
-	--exclude "./kloxomr-$ver/httpdocs/htmllib/yui-dragdrop" \
 	--exclude "./kloxomr-$ver/file/cache" \
 	--exclude "./kloxomr-$ver/file/*.repo" \
 	--exclude "./kloxomr-$ver/serverfile" \
@@ -107,8 +103,14 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/etc/last_sisinfoc" \
 	--exclude "./kloxomr-$ver/etc/program.*" \
 	--exclude "./kloxomr-$ver/etc/watchdog.conf" \
-	--exclude "./kloxomr-$ver/install/kloxo-mr_install.log"
-
+	--exclude "./kloxomr-$ver/install/kloxo-mr_install.log" \
+	--exclude "./kloxomr-$ver/log" \
+	--exclude "./kloxomr-$ver/pid" \
+	--exclude "./kloxomr-$ver/init/*.sock" \
+	--exclude "./kloxomr-$ver/httpdocs/panel/fckeditor/editor/_source" \
+	--exclude "./kloxomr-$ver/httpdocs/panel/extjs/docs" \
+	--exclude "./kloxomr-$ver/httpdocs/panel/extjs/examples" \
+	--exclude "./kloxomr-$ver/httpdocs/panel/extjs/source"
 
 rm -rf ./kloxomr-$ver > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1

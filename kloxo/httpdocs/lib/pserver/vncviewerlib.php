@@ -20,7 +20,7 @@ function showRawPrint($subaction = null)
 
 	$lgg = $parent->getVncLogin();
 
-	$v = lfile_get_contents("htmllib/filecore/vncviewer-applet.html");
+	$v = lfile_get_contents("panel/filecore/vncviewer-applet.html");
 
 
 	$port = 5900 + $lgg[0];

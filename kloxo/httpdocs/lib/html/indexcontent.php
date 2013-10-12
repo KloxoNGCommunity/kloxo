@@ -10,7 +10,7 @@ if (lxfile_exists("__path_program_htmlbase/lib/indexheader_vendor.html")) {
 }
 */
 
-$ghtml->print_jscript_source("/htmllib/js/lxa.js");
+$ghtml->print_jscript_source("panel/js/lxa.js");
 if ($sgbl->is_this_slave()) { print("Slave Server\n"); exit; }
 
 $logfo = db_get_value("general",  "admin", "login_pre");
@@ -26,7 +26,7 @@ $logfo = str_replace("<%programname%>", $sgbl->__var_program_name, $logfo);
 ?>
 
 <style type="text/css">
-	@import url("lib/html/admin_login.css");
+	@import url("/panel/css/admin_login.css");
 </style>
 
 <div id="ctr" align="center">
@@ -70,7 +70,7 @@ elseif ($cgi_forgotpwd == 1) {
 ?>
 
 <style type="text/css">
-	@import url(lib/html/admin_login.css);
+	@import url(/panel/css/admin_login.css);
 </style>
 
 <div id="ctr" align="center">

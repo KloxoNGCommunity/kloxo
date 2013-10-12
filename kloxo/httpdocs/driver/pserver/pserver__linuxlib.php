@@ -14,7 +14,7 @@ class pserver__Linux extends lxDriverClass
 
 	static function mysqlPasswordReset($pass)
 	{
-		lxshell_return("lxphp.exe", "../bin/common/misc/reset-mysql-root-password.phps", $pass);
+		lxshell_return("lxphp.exe", "../bin/common/misc/reset-mysql-root-password.php", $pass);
 	}
 
 	function setTimeZone()
