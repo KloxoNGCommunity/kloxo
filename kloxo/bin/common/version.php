@@ -1,6 +1,6 @@
 <?php 
 
-include "htmllib/lib/include.php";
+include "lib/html/include.php";
 
 $list = parse_opt($argv);
 $version = $sgbl->__ver_major_minor_release;

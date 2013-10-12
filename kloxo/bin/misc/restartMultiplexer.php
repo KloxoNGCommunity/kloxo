@@ -1,6 +1,6 @@
 <?php 
 
-include "lib/include.php";
+include "lib/html/include.php";
 
 
 	$objWMIService=new COM("winmgmts:{impersonationLevel=impersonate}//./root/cimv2");

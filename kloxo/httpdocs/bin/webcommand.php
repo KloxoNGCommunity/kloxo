@@ -1,5 +1,5 @@
 <?php 
 chdir("..");
-include_once "htmllib/lib/include.php";
+include_once "lib/html/include.php";
 
 webcommandline_main();

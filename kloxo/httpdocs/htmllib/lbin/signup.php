@@ -1,8 +1,8 @@
 <?php 
 
 chdir("../..");
-include_once "htmllib/lib/include.php"; 
-include_once "htmllib/phplib/display.php";
+include_once "lib/html/include.php"; 
+include_once "lib/php/display.php";
 
 initProgram('admin');
 do_addform($login, "client", array('var' => 'cttype', 'val' => "customer"));

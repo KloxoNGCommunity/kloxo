@@ -1,6 +1,6 @@
 <?php
 
-include_once "htmllib/lib/displayinclude.php";
+include_once "lib/html/displayinclude.php";
 
 redirect_to_https();
 main_main();

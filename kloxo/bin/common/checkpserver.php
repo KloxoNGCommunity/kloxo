@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/lib/include.php"; 
+include_once "lib/html/include.php"; 
 initProgram('admin');
 
 $list = $login->getList('pserver');

@@ -1,6 +1,6 @@
 <?php 
-include_once "htmllib/lib/include.php"; 
-include_once "htmllib/lib/lxguardincludelib.php";
+include_once "lib/html/include.php"; 
+include_once "lib/html/lxguardincludelib.php";
 
 debug_for_backend();
 lxguard_main();

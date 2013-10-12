@@ -49,10 +49,10 @@ mv -f $zipfile /home/kloxo/client/admin/__backup
 
 ### MR -- also patch for lib.php to make backup process always finished
 #sed -i 's:\t\tthrow new lxException("could_not_zip_dir:\t\/\/\tthrow new lxException("could_not_zip_dir:' \
-#	/usr/local/lxlabs/kloxo/httpdocs/htmllib/lib/lib.php
+#	/usr/local/lxlabs/kloxo/httpdocs/lib/html/lib.php
 
 echo
-echo "- Patch for /usr/local/lxlabs/kloxo/httpdocs/htmllib/lib/lib.php "
+echo "- Patch for /usr/local/lxlabs/kloxo/httpdocs/lib/html/lib.php "
 echo "  for backup without error"
 
 echo

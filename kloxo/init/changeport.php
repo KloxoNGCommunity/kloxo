@@ -2,7 +2,7 @@
 
 $kpath = "/usr/local/lxlabs/kloxo";
 
-include_once "{$kpath}/httpdocs/htmllib/lib/include.php";
+include_once "{$kpath}/httpdocs/lib/html/include.php";
 
 initProgram('admin');
 

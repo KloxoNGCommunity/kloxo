@@ -1,6 +1,6 @@
 <?php
-include_once "htmllib/lib/include.php";
-include_once "htmllib/lib/lxserverlib.php";
+include_once "lib/html/include.php";
+include_once "lib/html/lxserverlib.php";
 
 kill_and_save_pid('lxserver');
 debug_for_backend();

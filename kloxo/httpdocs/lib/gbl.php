@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/phplib/lib/gbllib.php";
+include_once "lib/php/gbllib.php";
 
 class Gbl extends Gbllib {
 

@@ -1,6 +1,6 @@
 <?php 
-include_once "htmllib/lib/include.php";
-include_once "htmllib/lib/initlib.php";
+include_once "lib/html/include.php";
+include_once "lib/html/initlib.php";
 include_once "../bin/install/sql.php";
 include_once "../bin/install/init.php";
 

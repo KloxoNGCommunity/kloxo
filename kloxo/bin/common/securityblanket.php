@@ -1,6 +1,6 @@
 <?php 
 
-include "htmllib/lib/include.php";
+include "lib/html/include.php";
 
 security_blanket_main();
 

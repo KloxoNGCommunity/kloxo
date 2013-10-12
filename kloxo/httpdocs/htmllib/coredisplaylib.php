@@ -1,8 +1,8 @@
 <?php
 ignore_user_abort(true);
 
-include_once "htmllib/lib/displayinclude.php";
-include_once "htmllib/lib/include.php";
+include_once "lib/html/displayinclude.php";
+include_once "lib/html/include.php";
 
 function __ac_desc_desktop($object)
 {
@@ -95,7 +95,7 @@ function __ac_desc_desktop($object)
 
 function __ac_desc_logout($object)
 {
-	include "htmllib/phplib/logout.php";
+	include "lib/php/logout.php";
 }
 
 function __ac_desc_updateshow($object)
@@ -2101,7 +2101,7 @@ function do_display_init()
 				<td width=10>&nbsp;|&nbsp;</td>
 				<td><a href="/display.php?frm_action=list&frm_o_cname=client">Clients</a></td>
 				<td width="100%"></td>
-				<td><a href="/htmllib/phplib/logout.php"> Logout </a></td>
+				<td><a href="/lib/php/logout.php"> Logout </a></td>
 			</tr>
 		</table>
 <?php
@@ -2115,7 +2115,7 @@ function do_display_init()
 				<td nowrap> Consumed Login</td>
 				<td><a href="/display.php?frm_consumedlogin=true&frm_action=desktop">Desktop </a></td>
 				<td width=100%></td>
-				<td><a href="/htmllib/phplib/logout.php?frm_consumedlogin=true"> Logout </a></td>
+				<td><a href="/lib/php/logout.php?frm_consumedlogin=true"> Logout </a></td>
 			</tr>
 		</table>
 <?php

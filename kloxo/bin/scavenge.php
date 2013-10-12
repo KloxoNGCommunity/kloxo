@@ -21,7 +21,7 @@
 //  This is the scavenge file. It is a master cronjob that runs once every 24h (default at 3:57 AM)
 //
 
-include_once "htmllib/lib/displayinclude.php";
+include_once "lib/html/displayinclude.php";
 
 exit_if_secondary_master();
 exit_if_another_instance_running();

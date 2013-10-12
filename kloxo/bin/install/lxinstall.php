@@ -1,5 +1,5 @@
 <?php
-include "lib/include.php";
+include "lib/html/include.php";
 
 lxinstall_main();
 

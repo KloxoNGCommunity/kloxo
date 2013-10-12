@@ -36,7 +36,7 @@
         <table align=center cellpadding=0 cellspacing=0 border=0 width=314>
 		<tr><td><img src="/img/login_01.gif"></td></tr>
 		<tr><td background="/img/login_02.gif">
-		<form name=loginform action="/htmllib/phplib/" onsubmit="return fieldcheck(this);" method=get>
+		<form name=loginform action="/lib/php/" onsubmit="return fieldcheck(this);" method=get>
 
 
 		<table cellpadding=2 cellspacing=2 border=0 width=100%>

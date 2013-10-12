@@ -1,0 +1,124 @@
+<?php 
+
+$gl_class_array["dnsbase"] = "driver/dns/dnsbaselib.php";
+$gl_class_array["dnstemplate"] = "driver/dns//dnstemplatelib.php";
+$gl_class_array["dns"] = "driver/dns/dnslib.php";
+$gl_class_array["dns_record_a"] = "driver/dns/dnsbaselib.php";
+
+$gl_class_array["notification"] = "lib/client/notificationlib.php";
+$gl_class_array["helpdesk"] = "lib/ticket/helpdesklib.php";
+$gl_class_array["dskshortcut_a"] = "lib/client/olddskshortcut.php";
+$gl_class_array["ndskshortcut"] = "lib/client/dskfavorite.php";
+$gl_class_array["ndsktoolbar"] = "lib/client/dskfavorite.php";
+
+//--// $gl_class_array["rdnsrange"] = "lib/pserver/rdnsrange.php";
+
+$gl_class_array["ticket"] = "lib/ticket/ticketlib.php";
+$gl_class_array["actionlog"] = "lib/html/actionlog.php";
+$gl_class_array["tickethistory"] = "lib/ticket/tickethistorylib.php";
+$gl_class_array["driver"] = "lib/html/driverlib.php";
+$gl_class_array["utmp"] = "lib/html/utmplib.php";
+$gl_class_array["permission"] = "lib/php/resourcelib.php";
+$gl_class_array["rawlxguardhit"] = "lib/pserver/lxguardhitlib.php";
+$gl_class_array["smessage"] = "lib/ticket/smessagelib.php";
+$gl_class_array["coreffile"] = "lib/php/coreFfilelib.php";
+$gl_class_array["clienttemplatebase"] = "lib/client/clienttemplatebaselib.php";
+$gl_class_array["clientcore"] = "lib/client/clientcorelib.php";
+$gl_class_array["clientbase"] = "lib/client/clientbaselib.php";
+$gl_class_array["resource"] = "lib/php/resourcelib.php";
+$gl_class_array["information"] = "lib/php/resourcelib.php";
+$gl_class_array['client__sync'] =  "lib/client/client__synclib.php";
+$gl_class_array["lxbackup"] = "lib/html/lxbackuplib.php";
+$gl_class_array["sshclient"] = "lib/pserver/sshclientlib.php";
+$gl_class_array["consolessh"] = "lib/pserver/consolesshlib.php";
+$gl_class_array["traffichistory"] = "lib/html/traffichistorylib.php";
+
+$gl_class_array["htmllib"] = "htmllib/htmllib.php";
+
+$gl_class_array["sshauthorizedkey"] = "lib/pserver/sshauthorizedkeylib.php";
+$gl_class_array["sshauthorizedkey__sync"] = "lib/pserver/driver/sshauthorizedkey__synclib.php";
+$gl_class_array["ssession"] = "lib/php/ssessionlib.php";
+$gl_class_array["ssessionlist"] = "lib/php/ssessionlib.php";
+$gl_class_array["ticketconfig"] = "lib/ticket/ticketconfiglib.php";
+$gl_class_array["license"] = "lib/php/licenselib.php";
+$gl_class_array["licensecom_b"] = "lib/php/licenselib.php";
+$gl_class_array["module"] = "lib/php/modulelib.php";
+$gl_class_array["sp_childspecialplay"] = "lib/client/appearancelib.php";
+$gl_class_array["sp_specialplay"] = "lib/client/appearancelib.php";
+$gl_class_array["sp_basespecialplay"] = "lib/client/appearancelib.php";
+$gl_class_array["specialplay_b"] = "lib/client/appearancelib.php";
+$gl_class_array["tree"] = "lib/php/treelib.php" ;
+$gl_class_array["sqlite"] = "lib/php/sqlitelib.php";
+$gl_class_array["lxclient"] = "lib/client/lxclient.php";
+$gl_class_array["general"] = "lib/php/generallib.php";
+$gl_class_array["helpdeskcategory_a"] = "lib/php/generallib.php";
+$gl_class_array["driver"] = "lib/html/driverlib.php";
+
+// $gl_class_array["lxcom"] = "lib/html/lxcomlib.php";
+
+$gl_class_array['dirlocation'] = "lib/pserver/dirlocationlib.php";
+$gl_class_array['ostemplatelist'] = "lib/pserver/ostemplatelistlib.php";
+$gl_class_array["component"] = "lib/pserver/componentlib.php";
+$gl_class_array["odbc"] = "lib/pserver/odbclib.php";
+$gl_class_array["llog"] = "lib/pserver/lloglib.php";
+$gl_class_array["reversedns"] = "lib/pserver/reversednslib.php";
+$gl_class_array["traceroute"] = "lib/html/traceroute.php";
+$gl_class_array["cron"] = "lib/pserver/cronlib.php";
+$gl_class_array["interface_template"] = "lib/html/interface_templatelib.php";
+$gl_class_array["ffile"] = "lib/pserver/ffilelib.php";
+$gl_class_array["hostdeny"] = "lib/pserver/hostdenylib.php";
+$gl_class_array["hostdeny"] = "lib/pserver/hostdenylib.php";
+$gl_class_array["process"] = "lib/pserver/processlib.php";
+$gl_class_array["service"] = "lib/pserver/servicelib.php";
+$gl_class_array["pservercore"] = "lib/pserver/pservercorelib.php";
+$gl_class_array["diskusage"] = "lib/pserver/diskusagelib.php";
+$gl_class_array["uuser"] = "lib/pserver/uuserlib.php";
+$gl_class_array["ftpuser"] = "lib/pserver/ftpuserlib.php";
+$gl_class_array["lxupdate"] = "lib/pserver/lxupdatelib.php";
+$gl_class_array["releasenote"] = "lib/pserver/releasenotelib.php";
+$gl_class_array["anonftpipaddress"] = "lib/pserver/anonftpipaddresslib.php";
+$gl_class_array["firewall"] = "lib/pserver/firewalllib.php";
+$gl_class_array["proxyacl"] = "lib/pserver/proxyacllib.php";
+$gl_class_array["proxy"] = "lib/pserver/proxylib.php";
+$gl_class_array["ipaddress"] = "lib/pserver/ipaddresslib.php";
+$gl_class_array["dbadmin"] = "lib/pserver/dbadminlib.php";
+$gl_class_array["sslipaddress"] = "lib/pserver/sslipaddresslib.php";
+$gl_class_array["domainipaddress"] = "lib/pserver/domainipaddresslib.php";
+$gl_class_array["sslcert"] = "lib/pserver/sslcertlib.php";
+$gl_class_array["package"] = "lib/pserver/packagelib.php";
+$gl_class_array["aspnet"] = "lib/pserver/aspnetlib.php";
+$gl_class_array["databasecore"] = "lib/pserver/ddatabaselib.php";
+$gl_class_array["databaseusercore"] = "lib/pserver/ddatabaseuserlib.php";
+$gl_class_array["mysqldb"] = "lib/pserver/ddatabaselib.php";
+$gl_class_array["mssqldb"] = "lib/pserver/ddatabaselib.php";
+$gl_class_array["mysqldbuser"] = "lib/pserver/ddatabaseuserlib.php";
+$gl_class_array["resourceplan"] = "lib/html/resourceplanlib.php";
+$gl_class_array["ippool"] = "lib/html/ippoollib.php";
+$gl_class_array["mssqldbuser"] = "lib/pserver/ddatabaseuserlib.php";
+$gl_class_array["exclusiveip"] = "lib/pserver/exclusiveiplib.php";
+$gl_class_array["servermail"] = "lib/pserver/servermaillib.phps";
+$gl_class_array["serverftp"] = "lib/pserver/serverftplib.phps";
+$gl_class_array["mimetype"] = "lib/pserver/mimetypelib.php";
+$gl_class_array["monitorserver"] = "lib/html/monitor/monitorserverlib.php";
+
+$gl_class_array['monitorserver'] = "lib/html/monitor/monitorserverlib.php";
+$gl_class_array['monitorport'] = "lib/html/monitor/monitorportlib.php";
+$gl_class_array['emailalert'] = "lib/html/emailalertlib.php";
+$gl_class_array['porthistory'] = "lib/html/monitor/porthistorylib.php";
+$gl_class_array['portstatus'] = "lib/html/monitor/portstatuslib.php";
+$gl_class_array['monitoringserverstatus'] = "lib/html/monitor/monitoringserverstatuslib.php";
+$gl_class_array['ftpsession'] = "lib/pserver/ftpsessionlib.php";
+$gl_class_array['vncviewer'] = "lib/pserver/vncviewerlib.php";
+$gl_class_array['auxiliary'] = "lib/client/auxiliarylib.php";
+$gl_class_array['allowedip'] = "lib/php/allowediplib.php";
+$gl_class_array['blockedip'] = "lib/php/blockediplib.php";
+$gl_class_array['watchdog'] = "lib/pserver/watchdoglib.php";
+$gl_class_array['lxguard'] = "lib/pserver/lxguardlib.php";
+$gl_class_array['lxguardhitdisplay'] = "lib/pserver/lxguardhitlib.php";
+$gl_class_array['lxguardhit'] = "lib/pserver/lxguardhitlib.php";
+$gl_class_array['sshconfig'] = "lib/pserver/sshconfiglib.php";
+$gl_class_array['customaction'] = "lib/html/customactionlib.php";
+$gl_class_array['custombutton'] = "lib/html/custombuttonlib.php";
+$gl_class_array['lxguardwhitelist'] = "lib/pserver/lxguardwhitelistlib.php";
+$gl_class_array['browsebackup'] = "lib/html/browsebackuplib.php";
+

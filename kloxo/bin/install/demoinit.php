@@ -4,13 +4,13 @@
 //
 
 // This include stops with lxexception
-include_once "htmllib/lib/include.php";
+include_once "lib/html/include.php";
 
 // This is a proper one
 // remove the above one if u need this demoinit to run
 // run it within httpdocs as
 // lxphp.exe /usr/local/lxlabs/kloxo/bin/install/demoinit.php
-include_once "htmllib/lib/displayinclude.php";
+include_once "lib/html/displayinclude.php";
 
 // Not everything is working. Need to be sorted out.
 

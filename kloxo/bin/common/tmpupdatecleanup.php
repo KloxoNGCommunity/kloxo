@@ -1,6 +1,6 @@
 <?php 
-include_once "htmllib/lib/include.php";
-include_once "htmllib/lib/updatelib.php";
+include_once "lib/html/include.php";
+include_once "lib/html/updatelib.php";
 
 exit_if_another_instance_running();
 debug_for_backend();

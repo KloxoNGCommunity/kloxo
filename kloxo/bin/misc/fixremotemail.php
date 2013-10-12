@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/lib/include.php"; 
+include_once "lib/html/include.php"; 
 $sq = new Sqlite(null, 'mmail');
 
 $list = $sq->getRowsWhere("remotelocalflag != 'remote'");

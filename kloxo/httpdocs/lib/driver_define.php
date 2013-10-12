@@ -1,81 +1,84 @@
 <?php
 
-include_once "htmllib/lib/driver_definecore.php";
-$gl_class_array['autoresponder__qmail'] = "lib/domain/mmail/driver/autoresponder__qmaillib.phps";
-//--// $gl_class_array['autoresponder__mailenable'] = "lib/domain/mmail/driver/autoresponder__mailenablelib.php";
+include_once "lib/html/driver_definecore.php";
 
-$gl_class_array['domaintraffichistory__apache'] = "lib/domain//driver/domaintraffichistory__apachelib.php";
+$gl_class_array['autoresponder__qmail'] = "driver/mmail/autoresponder__qmaillib.php";
+//--// $gl_class_array['autoresponder__mailenable'] = "driver/mmail/autoresponder__mailenablelib.php";
 
-$gl_class_array['mailinglist__mailman'] = "lib/domain/mmail/driver/mailinglist__mailmanlib.php";
-$gl_class_array['listsubscribe__mailman'] = "lib/domain/mmail/driver/listsubscribe__mailmanlib.php";
+//--// $gl_class_array['domaintraffichistory__apache'] = "driver/web/domaintraffichistory__apachelib.php";
 
-$gl_class_array['web__apache'] = "lib/domain/web/driver/web__apachelib.php";
-$gl_class_array['web__lighttpd'] = "lib/domain/web/driver/web__lighttpdlib.php";
-$gl_class_array['web__nginx'] = "lib/domain/web/driver/web__nginxlib.php";
-$gl_class_array['web__hiawatha'] = "lib/domain/web/driver/web__hiawathalib.php";
-$gl_class_array['web__openlitespeed'] = "lib/domain/web/driver/web__openlitespeedlib.php";
-$gl_class_array['web__gwan'] = "lib/domain/web/driver/web__gwanlib.php";
+$gl_class_array['mailinglist__mailman'] = "driver/mmail/mailinglist__mailmanlib.php";
+$gl_class_array['listsubscribe__mailman'] = "driver/mmail/listsubscribe__mailmanlib.php";
 
-$gl_class_array['web__lighttpdproxy'] = "lib/domain/web/driver/web__lighttpdproxylib.php";
-$gl_class_array['web__nginxproxy'] = "lib/domain/web/driver/web__nginxproxylib.php";
-$gl_class_array['web__hiawathaproxy'] = "lib/domain/web/driver/web__hiawathaproxylib.php";
-$gl_class_array['web__openlitespeedproxy'] = "lib/domain/web/driver/web__openlitespeedproxylib.php";
+$gl_class_array['web__apache'] = "driver/web/web__apachelib.php";
+$gl_class_array['web__lighttpd'] = "driver/web/web__lighttpdlib.php";
+$gl_class_array['web__nginx'] = "driver/web/web__nginxlib.php";
+$gl_class_array['web__hiawatha'] = "driver/web/web__hiawathalib.php";
+$gl_class_array['web__openlitespeed'] = "driver/web/web__openlitespeedlib.php";
+$gl_class_array['web__gwan'] = "driver/web/web__gwanlib.php";
 
-$gl_class_array['webcache__varnish'] =  "lib/domain/webcache/driver/webcache__varnishlib.php";
-$gl_class_array['webcache__trafficserver'] =  "lib/domain/webcache/driver/webcache__trafficserverlib.php";
-$gl_class_array['webcache__none'] =  "lib/domain/webcache/driver/webcache__nonelib.php";
-$gl_class_array['webcache__squid'] =  "lib/domain/webcache/driver/webcache__squidlib.php";
+$gl_class_array['web__lighttpdproxy'] = "driver/web/web__lighttpdproxylib.php";
+$gl_class_array['web__nginxproxy'] = "driver/web/web__nginxproxylib.php";
+$gl_class_array['web__hiawathaproxy'] = "driver/web/web__hiawathaproxylib.php";
+$gl_class_array['web__openlitespeedproxy'] = "driver/web/web__openlitespeedproxylib.php";
 
-$gl_class_array['webtraffic__apache'] = "lib/domain/web/driver/webtraffic__apachelib.php";
-$gl_class_array['webtraffic__lighttpd'] = "lib/domain/web/driver/webtraffic__lighttpdlib.php";
-$gl_class_array['webtraffic__nginx'] = "lib/domain/web/driver/webtraffic__nginxlib.php";
+$gl_class_array['webcache__varnish'] =  "driver/web/webcache__varnishlib.php";
+$gl_class_array['webcache__trafficserver'] =  "driver/web/webcache__trafficserverlib.php";
+$gl_class_array['webcache__none'] =  "driver/web/webcache__nonelib.php";
+$gl_class_array['webcache__squid'] =  "driver/web/webcache__squidlib.php";
 
-$gl_class_array['mailtraffic__qmail'] = "lib/domain/mmail/driver/mailtraffic__qmaillib.php";
+$gl_class_array['webtraffic__apache'] = "driver/web/webtraffic__apachelib.php";
+$gl_class_array['webtraffic__lighttpd'] = "driver/web/webtraffic__lighttpdlib.php";
+$gl_class_array['webtraffic__nginx'] = "driver/web/webtraffic__nginxlib.php";
 
-$gl_class_array['installappsnapshot__sync'] = "lib/domain/web/driver/installappsnapshot__sync.phps";
-$gl_class_array['davuser__lighttpd'] = "lib/domain/web/driver/davuser__lighttpdlib.php";
+$gl_class_array['mailtraffic__qmail'] = "driver/mmail/mailtraffic__qmaillib.php";
 
-$gl_class_array['dirprotect__apache'] = "lib/domain/web/driver/dirprotect__apachelib.php";
-$gl_class_array['dirprotect__lighttpd'] = "lib/domain/web/driver/dirprotect__lighttpdlib.php";
-//--// $gl_class_array['dirprotect__iis'] = "lib/domain/web/driver/dirprotect__iislib.php";
-$gl_class_array['dirprotect__nginx'] = "lib/domain/web/driver/dirprotect__nginxlib.php";
-$gl_class_array['dirprotect__lighttpdproxy'] = "lib/domain/web/driver/dirprotect__lighttpdproxylib.php";
-$gl_class_array['dirprotect__nginxproxy'] = "lib/domain/web/driver/dirprotect__nginxproxylib.php";
-$gl_class_array['dirprotect__openlitespeed'] = "lib/domain/web/driver/dirprotect__openlitespeedlib.php";
-$gl_class_array['dirprotect__openlitespeedproxy'] = "lib/domain/web/driver/dirprotect__openlitespeedproxylib.php";
-$gl_class_array['dirprotect__gwan'] = "lib/domain/web/driver/dirprotect__gwanlib.php";
+$gl_class_array['installappsnapshot__sync'] = "driver/web/installappsnapshot__synclib.php";
+$gl_class_array['davuser__lighttpd'] = "driver/web/davuser__lighttpdlib.php";
 
-$gl_class_array['mmail__qmail'] = "lib/domain/mmail/driver/mmail__qmaillib.phps";
-//--// $gl_class_array['mmail__mailenable'] = "lib/domain/mmail/driver/mmail__mailenablelib.php";
-$gl_class_array['webmimetype__apache'] = "lib/domain/web/driver/mimehandler__apache.php";
-$gl_class_array['webhandler__apache'] = "lib/domain/web/driver/mimehandler__apache.php";
-$gl_class_array['mailaccount__qmail'] = "lib/domain/mmail/driver/mailaccount__qmaillib.phps";
-$gl_class_array['mailforward__qmail'] = "lib/domain/mmail/driver/mailforward__qmaillib.phps";
+$gl_class_array['dirprotect__apache'] = "driver/web/dirprotect__apachelib.php";
+$gl_class_array['dirprotect__lighttpd'] = "driver/web/dirprotect__lighttpdlib.php";
+//--// $gl_class_array['dirprotect__iis'] = "driver/web/dirprotect__iislib.php";
+$gl_class_array['dirprotect__nginx'] = "driver/web/dirprotect__nginxlib.php";
+$gl_class_array['dirprotect__lighttpdproxy'] = "driver/web/dirprotect__lighttpdproxylib.php";
+$gl_class_array['dirprotect__nginxproxy'] = "driver/web/dirprotect__nginxproxylib.php";
+$gl_class_array['dirprotect__openlitespeed'] = "driver/web/dirprotect__openlitespeedlib.php";
+$gl_class_array['dirprotect__openlitespeedproxy'] = "driver/web/dirprotect__openlitespeedproxylib.php";
+$gl_class_array['dirprotect__gwan'] = "driver/web/dirprotect__gwanlib.php";
 
-$gl_class_array['installapp__linux'] = "lib/domain/web/driver/installapp__linuxlib.phps";
-$gl_class_array['allinstallapp__linux'] = "lib/domain/web/driver/allinstallapp__linuxlib.phps";
-//--// $gl_class_array['autoresponder__mailenable'] = "lib/domain/mmail/driver/autoresponder__mailenable.php";
-//--// $gl_class_array['mailinglist__mailenable'] = "lib/domain/mmail/driver/mailinglist__mailenablelib.php";
-//--// $gl_class_array['mailaccount__mailenable'] = "lib/domain/mmail/driver/mailaccount__mailenablelib.php";
-$gl_class_array['mailinglist__ezmlm'] = "lib/domain/mmail/driver/mailinglist__ezmlmlib.phps";
-$gl_class_array['listsubscribe__ezmlm'] = "lib/domain/mmail/driver/listsubscribe__ezmlmlib.php";
-//--// $gl_class_array['listsubscribe__mailenable'] = "lib/domain/mmail/driver/listsubscribe__mailenablelib.php";
-$gl_class_array['spam__spamassassin'] = "lib/domain/mmail/driver/spam__spamassassinlib.php";
-$gl_class_array['spam__bogofilter'] = "lib/domain/mmail/driver/spam__bogofilterlib.php";
-$gl_class_array['mailcontent__qmail'] = "lib/domain/mmail/driver/mailcontent__qmaillib.php";
-$gl_class_array['mailqueue__qmail'] = "htmllib/lib/pserver/driver/mailqueue__qmaillib.php";
+$gl_class_array['mmail__qmail'] = "driver/mmail/mmail__qmaillib.php";
+//--// $gl_class_array['mmail__mailenable'] = "driver/mmail/mmail__mailenablelib.php";
 
-$gl_class_array['serverweb__apache'] = "lib/serverweb__apachelib.php";
-$gl_class_array['serverweb__lighttpd'] = "lib/serverweb__lighttpdlib.php";
-$gl_class_array['serverweb__nginx'] = "lib/serverweb__nginxlib.php";
-$gl_class_array['serverweb__hiawatha'] = "lib/serverweb__hiawathalib.php";
-$gl_class_array['serverweb__openlitespeed'] = "lib/serverweb__openlitespeedlib.php";
-$gl_class_array['serverweb__gwan'] = "lib/serverweb__gwanlib.php";
+$gl_class_array['webmimetype__apache'] = "driver/web/mimehandler__apachelib.php";
+$gl_class_array['webhandler__apache'] = "driver/web/mimehandler__apachelib.php";
 
-$gl_class_array['serverweb__lighttpdproxy'] = "lib/serverweb__lighttpdproxylib.php";
-$gl_class_array['serverweb__nginxproxy'] = "lib/serverweb__nginxproxylib.php";
-$gl_class_array['serverweb__hiawathaproxy'] = "lib/serverweb__hiawathaproxylib.php";
-$gl_class_array['serverweb__openlitespeedproxy'] = "lib/serverweb__openlitespeedproxylib.php";
+$gl_class_array['mailaccount__qmail'] = "driver/mmail/mailaccount__qmaillib.php";
+$gl_class_array['mailforward__qmail'] = "driver/mmail/mailforward__qmaillib.php";
 
-$gl_class_array['rubyrails__linux'] = "lib/domain/web/driver/rubyrails__linuxlib.php";
+$gl_class_array['installapp__linux'] = "driver/web/installapp__linuxlib.php";
+$gl_class_array['allinstallapp__linux'] = "driver/web/allinstallapp__linuxlib.php";
+//--// $gl_class_array['autoresponder__mailenable'] = "driver/mmail/autoresponder__mailenable.php";
+//--// $gl_class_array['mailinglist__mailenable'] = "driver/mmail/mailinglist__mailenablelib.php";
+//--// $gl_class_array['mailaccount__mailenable'] = "driver/mmail/mailaccount__mailenablelib.php";
+$gl_class_array['mailinglist__ezmlm'] = "driver/mmail/mailinglist__ezmlmlib.php";
+$gl_class_array['listsubscribe__ezmlm'] = "driver/mmail/listsubscribe__ezmlmlib.php";
+//--// $gl_class_array['listsubscribe__mailenable'] = "driver/mmail/listsubscribe__mailenablelib.php";
+$gl_class_array['spam__spamassassin'] = "driver/mmail/spam__spamassassinlib.php";
+$gl_class_array['spam__bogofilter'] = "driver/mmail/spam__bogofilterlib.php";
+$gl_class_array['mailcontent__qmail'] = "driver/mmail/mailcontent__qmaillib.php";
+$gl_class_array['mailqueue__qmail'] = "driver/pserver/mailqueue__qmaillib.php";
+
+$gl_class_array['serverweb__apache'] = "driver/web/serverweb__apachelib.php";
+$gl_class_array['serverweb__lighttpd'] = "driver/web/serverweb__lighttpdlib.php";
+$gl_class_array['serverweb__nginx'] = "driver/web/serverweb__nginxlib.php";
+$gl_class_array['serverweb__hiawatha'] = "driver/web/serverweb__hiawathalib.php";
+$gl_class_array['serverweb__openlitespeed'] = "driver/web/serverweb__openlitespeedlib.php";
+$gl_class_array['serverweb__gwan'] = "driver/web/serverweb__gwanlib.php";
+
+$gl_class_array['serverweb__lighttpdproxy'] = "driver/web/serverweb__lighttpdproxylib.php";
+$gl_class_array['serverweb__nginxproxy'] = "driver/web/serverweb__nginxproxylib.php";
+$gl_class_array['serverweb__hiawathaproxy'] = "driver/web/serverweb__hiawathaproxylib.php";
+$gl_class_array['serverweb__openlitespeedproxy'] = "driver/web/serverweb__openlitespeedproxylib.php";
+
+$gl_class_array['rubyrails__linux'] = "driver/web/rubyrails__linuxlib.php";
 

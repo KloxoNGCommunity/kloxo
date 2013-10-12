@@ -1,5 +1,5 @@
 <?php 
-include_once "htmllib/lib/include.php";
+include_once "lib/html/include.php";
 
 
 //array('add-under-class', 'add-under-name', 'subaction');

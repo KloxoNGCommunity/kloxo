@@ -1,0 +1,84 @@
+<?php
+
+class Sgbllib
+{
+
+	function __construct()
+	{
+
+		$this->arg_getting_string = '
+	$arglist = array();
+	for ($i = $start; $i < func_num_args(); $i++) {
+		if (isset($transforming_func)) {
+			$arglist[] = $transforming_func(func_get_arg($i));
+		} else {
+			$arglist[] = func_get_arg($i);
+	}
+}
+		';
+
+		$this->__path_slash = "/";
+		$this->__path_tmp = "/tmp";
+		$this->__path_user_root = "/usr";
+		$this->__path_var_root = "/var";
+		$this->__path_real_etc_root = "/etc";
+		$this->__path_log = "/var/log";
+		$this->__path_root_base = "/";
+
+		$this->__var_lxlabs_marker = "__lxlabs_marker";
+
+		$this->__var_lpanelwidth = "220";
+
+		$path = "/usr/local/lxlabs/kloxo/httpdocs/lang";
+
+		$dirs = scandir($path);
+
+		foreach ($dirs as &$dir) {
+			$file = "{$path}/{$dir}/language";
+
+			if (file_exists($file)) {
+				$this->__var_language[$dir] = trim(file_get_contents($file));
+			}
+		}
+
+	}
+
+	function isLxlabsClient()
+	{
+		return ($this->__var_program_name === 'lxlabsclient');
+	}
+
+	function isBlackBackground()
+	{
+		return false;
+		
+	//	return $this->isDebug();
+	}
+	function isKloxo()
+	{
+		return ($this->__var_program_name === 'kloxo');
+	}
+
+	function isKloxoForRestore()
+	{
+		return $this->isKloxo();
+	}
+
+	function isLive() { return false ; }
+
+	function isHyperVm()
+	{
+		return ($this->__var_program_name === 'hypervm');
+	}
+
+	function is_this_master()
+	{
+		return !$this->is_this_slave();
+	}
+
+	function is_this_slave()
+	{
+		return lxfile_exists("__path_slave_db");
+
+	}
+}

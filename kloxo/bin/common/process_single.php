@@ -1,7 +1,7 @@
 <?php 
 
 ob_start();
-include_once "htmllib/lib/include.php";
+include_once "lib/html/include.php";
 
 process_main();
 

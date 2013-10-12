@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/lib/include.php";
+include_once "lib/html/include.php";
 
 $ghtml = new HtmlLib();
 
@@ -29,7 +29,7 @@ foreach($res as $k => $v) {
 	}
 	$formname = str_replace(array('@', '.'), "", $formname);
 	print("<tr > <td $color>");
-	print("<form name=$formname method=$sgbl->method action='/htmllib/phplib/'>") ;
+	print("<form name=$formname method=$sgbl->method action='/lib/php/'>") ;
 
 	print("<input type=hidden name=frm_clientname value={$v[0]}>");
 	print("<input type=hidden name=frm_class value={$v[1]}>");

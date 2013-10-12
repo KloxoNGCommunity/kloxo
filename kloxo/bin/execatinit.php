@@ -1,5 +1,5 @@
 <?php 
-include_once "htmllib/lib/include.php"; 
+include_once "lib/html/include.php"; 
 exit_if_secondary_master();
 
 // MR -- disable this process from kloxo start becuase make /home/<webserver>/conf/domains removed!

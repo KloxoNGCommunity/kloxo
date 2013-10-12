@@ -1,7 +1,7 @@
 <?php 
 
-include_once "htmllib/lib/include.php"; 
-include_once "htmllib/lib/parsemail/parseMail.php";
+include_once "lib/html/include.php"; 
+include_once "lib/parsemail/parseMail.php";
 
 initProgram('admin');
 

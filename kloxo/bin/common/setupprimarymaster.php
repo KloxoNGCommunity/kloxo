@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/lib/include.php"; 
+include_once "lib/html/include.php"; 
 
 error_reporting(0);
 pmaster_main();

@@ -1,6 +1,6 @@
 <?php 
-include_once "htmllib/lib/include.php";
-include_once "htmllib/lib/updatelib.php";
+include_once "lib/html/include.php";
+include_once "lib/html/updatelib.php";
 
 print("Getting Version list\n");
 $v = getVersionList();

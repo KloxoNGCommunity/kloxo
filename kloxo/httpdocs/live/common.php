@@ -11,7 +11,7 @@ if (file_exists("conf.real.php")) {
 	include("conf.php");
 }
 
-include_once "../htmllib/lib/displayinclude.php";
+include_once "../lib/html/displayinclude.php";
 
 
 if (!$redirect) {

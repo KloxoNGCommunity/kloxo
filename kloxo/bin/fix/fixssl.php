@@ -1,6 +1,6 @@
 <?php 
 
-include_once "htmllib/lib/include.php"; 
+include_once "lib/html/include.php"; 
 
 $list = lscandir_without_dot_or_underscore("/home/kloxo/httpd/ssl/");
 

@@ -3,7 +3,7 @@ include("common.php");
 
 if ($g_login) {
 	include_once "lib/define.php";
-	include_once "htmllib/phplib/common.inc";
+	include_once "lib/php/common.inc";
 	include_once "lib/common.inc";
 	initprogram();
 	if (!$login->isAdmin()) {

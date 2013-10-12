@@ -1,5 +1,5 @@
 <?php 
-include_once "htmllib/lib/displayinclude.php";
+include_once "lib/html/displayinclude.php";
 
 print_time("gettraffic");
 gettraffic_main();

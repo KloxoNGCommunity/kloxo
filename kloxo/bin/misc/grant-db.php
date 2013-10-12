@@ -1,6 +1,6 @@
 <?php 
 
-include_once "lib/include.php";
+include_once "lib/html/include.php";
 
 error_reporting(E_ALL);
 initProgram('admin');

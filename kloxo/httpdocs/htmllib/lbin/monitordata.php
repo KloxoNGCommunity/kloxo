@@ -1,8 +1,8 @@
 <?php 
 chdir("../../");
 
-include_once "htmllib/lib/displayinclude.php";
-include_once "htmllib/lib/portmonitorlib.php";
+include_once "lib/html/displayinclude.php";
+include_once "lib/html/portmonitorlib.php";
 
 
 monitor_remote_main();

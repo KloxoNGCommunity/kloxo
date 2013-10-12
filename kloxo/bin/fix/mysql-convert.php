@@ -3,7 +3,7 @@
 // release on Kloxo 6.1.7
 // by mustafa.ramadhan@lxcenter.org
 
-include_once "htmllib/lib/include.php";
+include_once "lib/html/include.php";
 
 // initProgram('admin');
 

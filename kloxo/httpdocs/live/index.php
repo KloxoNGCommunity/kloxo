@@ -19,7 +19,7 @@ if (isset($_REQUEST['identity'])) {
 
 
 if ($g_login) {
-	include_once "../htmllib/lib/include.php";
+	include_once "../lib/html/include.php";
 	initProgram();
 
 	if ($sgbl->isLxlabsClient()) {

@@ -449,12 +449,12 @@ class HtmlLib
 			<table cellspacing=0 cellpadding=0  <?= $idstring ?> <?= $borderbottom ?> valign=bottom>
 				<tr valign=bottom>
 					<td valign=middle wrap><img src="<?= $imglt ?>" height="<?= $height ?>" width="<?= $width ?>"></td>
-					<form method="get" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?>
-					      accept-charset="utf-8">
+					<!-- <form method="get" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?>
+					      accept-charset="utf-8"> -->	<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
 <?php
-						$this->print_input_vars($post);
+					//	$this->print_input_vars($post);
 ?>
-					</form>
+					</a> <!-- </form> -->
 <?php
 		$this->printTabForTabButton($key, $linkflag, $height + 2, $imageheight, $sel, $imgbg, $form_name, $name, $image, $descr, $check);
 
@@ -1855,12 +1855,14 @@ class HtmlLib
 
 		<td valign="middle" align="left" width=5>
 			<div id="<?= $dividentity ?>" style="visibility:visible;display:block">
-				<form method="<?= $formmethod ?>" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8">
+				<!-- <form method="<?= $formmethod ?>" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8"> -->
+				<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
 <?php
-					$this->print_input_vars($post);
+				//	$this->print_input_vars($post);
 					$this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
 ?>
-				</form>
+				</a>
+				<!-- </form> -->
 			</div>
 		</td>
 <?php
@@ -3931,19 +3933,27 @@ class HtmlLib
 			$method = ($__external) ? "get" : $sgbl->method;
 ?>
 
-					<form name="form<?= $colcount ?>" method="<?= $method ?>" action="<?= $path ?>" <?= $target ?>
-					      accept-charset="utf-8">
+					<!-- <form name="form<?= $colcount ?>" method="<?= $method ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8"> -->
 <?php
 			if ($this->frm_action === 'selectshow') {
 				$post['frm_action'] = 'selectshow';
 				$post['frm_selectshowbase'] = $this->frm_selectshowbase;
+
 			}
 
-				$this->print_input_vars($post);
+			$this->print_input_vars($post);
+
+			// MR -- need extra this code for non '/display.php'
+			// use 'selectshow' not work for filemanager
+		//	if ($this->frm_action === 'selectshow') {
+			if (strpos($path, "display.php") !== false) {
+				$path = $path . "?" . $this->get_get_from_post(null, $post);
+			}
 ?>
 
-					</form>
-			<a class=insidelist href="javascript:document.form<?= $colcount ?>.submit()" <?= $urlhelp ?> > <?= $pname ?>   </a>  </span>
+					<!-- </form> -->
+			<!-- <a class="insidelist" href="javascript:document.form<?= $colcount ?>.submit()" <?= $urlhelp ?> > <?= $pname ?> </a> -->
+			<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $path ?>"> <?= $pname ?> </a> </span>
 			</td>
 <?php
 
@@ -6374,7 +6384,7 @@ class HtmlLib
 		}
 
 		if ($linkflag) {
-			$displayvar = "<span style='$forecolorstring' class=icontextlink id=aaid_$formname href=\"javascript:document.form_$formname.submit()\" onmouseover=\" style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\"> $descr[2] </span> </span>";
+			$displayvar = "<span style='$forecolorstring' class=icontextlink id=aaid_$formname href=\"javascript:document.form_$formname.submit()\" onmouseover=\" style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\"> $descr[2] </span>";
 			$onclickvar = "onClick=\"document.form_$formname.submit()\"";
 			$alt = $help;
 		} else {
@@ -6403,7 +6413,10 @@ class HtmlLib
 
 ?>
 
-		<table <?= $idvar ?> style='border: 1px solid <?= $blackbordercolor ?> ; cursor: pointer' <?= $onclickvar ?> onmouseover=" getElementById('aaid_<?= $formname ?>').style.textDecoration='none' ; this.style.backgroundColor='<?= $selectcolor ?>' ; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" cellpadding=3 cellspacing=3 height=80 width=60 valign=top>
+		<table <?= $idvar ?> style='border: 1px solid <?= $blackbordercolor ?> ; cursor: pointer' <?= $onclickvar ?> 
+			onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';" 
+			onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" 
+			cellpadding=3 cellspacing=3 height=80 width=60 valign=top>
 			<tr>
 				<td valign=top align=center><span title='<?= $alt ?>'> <?= $imgvar ?></td>
 			</tr>
@@ -6555,17 +6568,17 @@ class HtmlLib
 ?>
 
 		<td valign="middle" align="left" width=5>
-			<form accept-charset="utf-8">
+			<!-- <form accept-charset="utf-8"> -->
 <?php
-		$this->print_input_vars($post);
+	//	$this->print_input_vars($post);
 
 		if (csa($url, "javascript")) {
 			$form_name = $url;
 		}
 
-				$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
+		$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
 ?>
-			</form>
+			<!-- </form> -->
 		</td>
 <?php
 	}
@@ -6585,8 +6598,12 @@ class HtmlLib
 		$help = $descr['desc'];
 
 		if ($linkflag) {
-			$displayvar = "<span style='color:#002244' class=icontextlink " .
-				"id=aaid_$formname href=\"javascript:document.form_$formname.submit()\" " .
+		//	$displayvar = "<span style='color:#002244' class=icontextlink " .
+		//		"id=aaid_$formname href=\"javascript:document.form_$formname.submit()\" " .
+		//		"onmouseover=\"style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\">" .
+		//		"</span>";
+
+			$displayvar = "<span style='color:#002244' class=icontextlink id=aaid_$formname " .
 				"onmouseover=\"style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\">" .
 				"</span>";
 
@@ -6622,9 +6639,13 @@ class HtmlLib
 			$imgvar = null;
 		}
 ?>
-
 		<span title='<?= $alt ?>'>
-		<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' <?= $onclickvar ?> onmouseover=" getElementById('aaid_<?= $formname ?>').style.textDecoration='none' ; this.style.backgroundColor='#fff' ; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" cellpadding=3 cellspacing=3 height=10 width=10 valign=top>
+		<a target="<?= $target ?>" href="<?= $url ?>">
+		<!-- <table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' <?= $onclickvar ?> -->
+		<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' <?= $onclickvar ?> 
+			onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='#fff'; this.style.border='1px solid #<?= $skincolor ?>';" 
+			onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" 
+			cellpadding=3 cellspacing=3 height=10 width=10 valign=top>
 			<tr>
 				<td valign=top align=center> <?= $imgvar ?> </td>
 			</tr>
@@ -6633,6 +6654,7 @@ class HtmlLib
 				</td>
 			</tr>
 		</table>
+		</a>
 <?php
 	}
 
@@ -8504,7 +8526,7 @@ function print_curvy_table_end($width = "100")
 			<tr>
 				<td valign=top align=left>
 <?php
-					if ($complex) {
+		if ($complex) {
 ?>
 
 					<div class='dtree'>
@@ -8512,40 +8534,37 @@ function print_curvy_table_end($width = "100")
 							<?=$treename?> = new dTree('<?=$treename?>');
 						</script>
 <?php
-						}
+		}
 
-						$val = -1;
+		$val = -1;
 
-						if (!$tree) {
-							$tree = $this->print_resource(null, $object, $ghtml->frm_o_o, $object, $depth, $alistflag, $func, false, $showurlflag);
-						}
+		if (!$tree) {
+			$tree = $this->print_resource(null, $object, $ghtml->frm_o_o, $object, $depth, $alistflag, $func, false, $showurlflag);
+		}
 
-						if ($complex) {
+		if ($complex) {
 ?>
 
 						<script>
 <?php
-	
-							if (isset($gbl->__tmp_checkbox_value)) {
+			if (isset($gbl->__tmp_checkbox_value)) {
 ?>
-
 							var __treecheckboxcount = <?=$gbl->__tmp_checkbox_value?>;
 <?php
-						}
-					}
+			}
+		}
 	
-					$total = -1;
-					print_time('tree');
-					$this->print_tree($treename, $tree, $total, $val, $complex);
+		$total = -1;
+		print_time('tree');
+		$this->print_tree($treename, $tree, $total, $val, $complex);
 	
-					if ($complex) {
+		if ($complex) {
 ?>
-
 							document.write(<?=$treename?>);
 						</script>
 					</div>
 <?php
-				}
+		}
 
 				print_time('tree', "Tree", 2);
 ?>
@@ -8553,34 +8572,34 @@ function print_curvy_table_end($width = "100")
 				</td>
 			</tr>
 		</table>
-		<form name=__treeForm id=__treeForm method=<?= "get" ?> action="/display.php" accept-charset="utf-8">
-    <input type=hidden name=frm_accountselect value="">
+	<form name="__treeForm" id="__treeForm" method="get" action="/display.php" accept-charset="utf-8">
+	<input type="hidden" name="frm_accountselect" value="">
 <?php
-    $this->print_current_input_vars(array('frm_action', 'frm_subaction'));
+		$this->print_current_input_vars(array('frm_action', 'frm_subaction'));
 
-    if (cse($ghtml->frm_subaction, "confirm_confirm")) {
-	    $this->print_input("hidden", "frm_action", "update");
-	    $sub = $this->frm_subaction;
-	    $actionimg = "finish.gif";
-    } else {
-	    $this->print_input("hidden", "frm_action", "updateform");
-	    $sub = $this->frm_subaction . "_confirm";
-	    $actionimg = "next.gif";
-    }
+		if (cse($ghtml->frm_subaction, "confirm_confirm")) {
+			$this->print_input("hidden", "frm_action", "update");
+			$sub = $this->frm_subaction;
+			$actionimg = "finish.gif";
+		} else {
+			$this->print_input("hidden", "frm_action", "updateform");
+			$sub = $this->frm_subaction . "_confirm";
+			$actionimg = "next.gif";
+		}
 
-    $this->print_input("hidden", "frm_subaction", "$sub");
+		$this->print_input("hidden", "frm_subaction", "$sub");
 
-    if (isset($gbl->__tmp_checkbox_value)) {
+		if (isset($gbl->__tmp_checkbox_value)) {
 ?>
 
 	    <a href="javascript:treeStoreValue()"> <img src="/img/general/button/<?= $actionimg ?>"> </a>
     <?php
-    }
+		}
 
 ?>
     </form>
 <?php
-}
+	}
 
 	function print_tree($treename, $tree, &$total, $level, $complex = true)
 	{
@@ -9276,7 +9295,7 @@ function print_start()
 					<td><a href="/display.php?frm_action=list&frm_o_cname=pserver"> Server </a></td>
 					<td><a href="/display.php?frm_action=list&frm_o_cname=ticket"> Tickets </a></td>
 					<td><a href="/display.php?frm_action=list&frm_o_cname=ssession"> Session</a></td>
-					<td><a href="/htmllib/phplib/logout.php"> Logout </a></td>
+					<td><a href="/lib/php/logout.php"> Logout </a></td>
 					<td width=5%></td>
 				</tr>
 			</table>

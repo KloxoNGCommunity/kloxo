@@ -1,6 +1,6 @@
 <?php 
-include_once "htmllib/lib/include.php"; 
-include_once "htmllib/lib/lxguardincludelib.php";
+include_once "lib/html/include.php"; 
+include_once "lib/html/lxguardincludelib.php";
 $global_dontlogshell = true;
 exit_if_secondary_master();
 exit_if_another_instance_running();

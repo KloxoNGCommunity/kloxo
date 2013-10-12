@@ -1,7 +1,7 @@
 <?php
 
 chdir("..");
-include_once "htmllib/lib/displayinclude.php";
+include_once "lib/html/displayinclude.php";
 
 $kloxo_mr_version = $sgbl->__ver_full;
 
@@ -40,7 +40,7 @@ if (!$cgi_forgotpwd) {
             <div align="center"><font size="5" color="red"><b> Login </b></font></div>
             <br/>
 
-            <form name="loginform" action="/htmllib/phplib/" onsubmit="encode_url(loginform) ; return fieldcheck(this);"
+            <form name="loginform" action="/lib/php/" onsubmit="encode_url(loginform) ; return fieldcheck(this);"
                   method="post">
                 <div class="form-block">
                     <div class="inputlabel">Username</div>

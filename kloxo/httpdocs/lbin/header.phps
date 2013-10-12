@@ -1,6 +1,6 @@
 <?php
 chdir("..");
-include_once "htmllib/lib/displayinclude.php";
+include_once "lib/html/displayinclude.php";
 include_once "lib/oldheader.php";
 
 

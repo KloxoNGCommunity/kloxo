@@ -1075,7 +1075,7 @@ function logOut()
 	}
 
 	if (confirm("Do You Really Want To Logout?")) {
-		top.mainframe.location = '/htmllib/phplib/logout.php';
+		top.mainframe.location = '/lib/php/logout.php';
 	} else {
 		if (window.coverScreen) {
 			coverScreen(0);
