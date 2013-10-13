@@ -450,11 +450,12 @@ class HtmlLib
 				<tr valign=bottom>
 					<td valign=middle wrap><img src="<?= $imglt ?>" height="<?= $height ?>" width="<?= $width ?>"></td>
 					<!-- <form method="get" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?>
-					      accept-charset="utf-8"> -->	<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
+					      accept-charset="utf-8">
 <?php
-					//	$this->print_input_vars($post);
+						$this->print_input_vars($post);
 ?>
-					</a> <!-- </form> -->
+					</a> </form> -->
+					<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
 <?php
 		$this->printTabForTabButton($key, $linkflag, $height + 2, $imageheight, $sel, $imgbg, $form_name, $name, $image, $descr, $check);
 
@@ -1855,14 +1856,15 @@ class HtmlLib
 
 		<td valign="middle" align="left" width=5>
 			<div id="<?= $dividentity ?>" style="visibility:visible;display:block">
-				<!-- <form method="<?= $formmethod ?>" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8"> -->
-				<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
+				<!-- <form method="<?= $formmethod ?>" name="form_<?= $form_name ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8">
 <?php
-				//	$this->print_input_vars($post);
+					$this->print_input_vars($post);
 					$this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
 ?>
 				</a>
-				<!-- </form> -->
+				</form> -->
+				<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>"> 
+					<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?> </a>
 			</div>
 		</td>
 <?php
@@ -3400,12 +3402,15 @@ class HtmlLib
 		if (!isset($this->__http_vars['frm_hpfilter'])) {
 			return;
 		}
+
 		$post['frm_hpfilter'] = $this->__http_vars['frm_hpfilter'];
+
 		foreach ($arr as $key2) {
 			if (isset($post['frm_hpfilter'][$key1][$key2])) {
 				unset($post['frm_hpfilter'][$key1][$key2]);
 			}
 		}
+
 		$this->print_input_vars($post);
 	}
 
@@ -3933,7 +3938,7 @@ class HtmlLib
 			$method = ($__external) ? "get" : $sgbl->method;
 ?>
 
-					<!-- <form name="form<?= $colcount ?>" method="<?= $method ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8"> -->
+					<!-- <form name="form<?= $colcount ?>" method="<?= $method ?>" action="<?= $path ?>" <?= $target ?> accept-charset="utf-8">
 <?php
 			if ($this->frm_action === 'selectshow') {
 				$post['frm_action'] = 'selectshow';
@@ -3951,8 +3956,8 @@ class HtmlLib
 			}
 ?>
 
-					<!-- </form> -->
-			<!-- <a class="insidelist" href="javascript:document.form<?= $colcount ?>.submit()" <?= $urlhelp ?> > <?= $pname ?> </a> -->
+					</form>
+			<a class="insidelist" href="javascript:document.form<?= $colcount ?>.submit()" <?= $urlhelp ?> > <?= $pname ?> </a> -->
 			<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $path ?>"> <?= $pname ?> </a> </span>
 			</td>
 <?php
@@ -4819,14 +4824,20 @@ class HtmlLib
 					}
 ?>
 							<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-								<form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
+								<!-- <form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
 <?php
 									$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
 									$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
 									<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $l ?>">
 								</form>
-								<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>&nbsp;</a>
+								<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>&nbsp;</a> -->
+<?php
+					$post["frm_hpfilter[{$filtername}][pagesize]"] = $l;
+					$post['frm_action'] = 'list';
+					$post['frm_o_cname'] = $class;
+?>
+								<a href="/display.php?<?= $this->get_get_from_post(null, $post) ?>">&nbsp;<?= $l ?>&nbsp;</a>
 							</td>
 <?php
 					}
@@ -6568,7 +6579,7 @@ class HtmlLib
 ?>
 
 		<td valign="middle" align="left" width=5>
-			<!-- <form accept-charset="utf-8"> -->
+			<!-- <form accept-charset="utf-8">
 <?php
 	//	$this->print_input_vars($post);
 
@@ -6578,7 +6589,10 @@ class HtmlLib
 
 		$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
 ?>
-			<!-- </form> -->
+			</form> -->
+<?php
+		$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
+?>
 		</td>
 <?php
 	}
