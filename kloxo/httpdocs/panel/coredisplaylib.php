@@ -44,7 +44,7 @@ function __ac_desc_desktop($object)
 				Search </a> </td>
 		</tr>
 	</table>
-	<!-- </td> </tr> </table> -->
+
 	<table width="90%" cellpadding="0" valign="top" cellspacing="20" height="200">
 		<tr>
 			<td valign=top>
@@ -87,7 +87,7 @@ function __ac_desc_desktop($object)
 
 						</table>
 			</td>
-			<!-- </div></div> -->
+			</div></div>
 		</tr>
 	</table>
 <?php
@@ -155,8 +155,7 @@ function print_customer_mode($object)
 			<td>
 				<table align="left" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
-						<td nowrap><a	href="<?= $url ?>">>>>> Switch To <?= $mode ?> Mode </a> </td>
-						<td width="100%"> &nbsp; </td>
+						<td nowrap align="center"><a href="<?= $url ?>"> >>>> Switch To <?= $mode ?> Mode <<<< </a></td>
 					</tr>
 				</table>
 			</td>
@@ -362,12 +361,12 @@ function __ac_desc_show($object)
 	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
 
-		<table cellpadding="0" cellspacing="0" valign="top" align="left">
+		<table cellpadding="0" cellspacing="0" valign="top" align="center">
 			<tr valign="top">
-				<td valign="top">
+				<td valign="top" align="center">
 					<table cellpadding="0" cellspacing="0" valign="top">
 						<tr valign="top">
-							<td valign="top" align="left">
+							<td valign="top">
 <?php
 								$ghtml->print_find($object);
 
@@ -390,29 +389,16 @@ function __ac_desc_show($object)
 							</td>
 						</tr>
 					</table>
-					<table cellpadding="0" cellspacing="0" height="650">
-						<tr>
-							<td></td>
-						</tr>
-					</table>
-				</td>
-				<td valign="top" width="100%">
-					<table cellpadding="0" cellspacing="0" width="100%">
+				</td><td width="25">&nbsp;</td>
+				<td valign="top">
+					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td>
 <?php
 								if (isset($nalist)) {
 									$ghtml->print_object_action_block($object, $nalist, 8);
 								}
-?>
 
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-<?php
 	} else {
 		if (isset($nalist)) {
 ?>
@@ -1752,7 +1738,7 @@ function print_navigation($navig)
 													$image = $ghtml->get_image($buttonpath, $class, $var, ".gif");
 													$desc['help'] = $ghtml->get_action_or_display_help($desc['help'], 'action');
 													$sep = null;
-													$sep = "<td > |</td> ";
+													$sep = "<td> |</td> ";
 													$nname = substr($name, 0, 19);
 
 													$bracketedname = null;
@@ -1773,7 +1759,7 @@ function print_navigation($navig)
 
 ?>
 
-												<!-- </td> -->  </tr>
+												</tr>
 										</table>
 									</td>
 								</tr>
@@ -2068,9 +2054,9 @@ function do_display_init()
 
 	createPrincipleObject();
 ?>
-
+<html>
 	<head>
-		<title> Display frame </title>
+		<title> Kloxo-MR Display Page </title>
 <?php
 		print_meta_lan();
 ?>
@@ -2222,8 +2208,24 @@ function display_init()
 
 function display_end()
 {
-?>
+	global $gbl, $sgbl, $login, $ghtml;
 
+?>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+<?php
+	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+?>
+				</div>
+			</div>
+		</div>
+<?php
+	}
+?>
 	</body>
 </html>
 <?php

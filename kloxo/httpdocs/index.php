@@ -46,24 +46,25 @@ function domainshow()
 		$scrollstring = "scrolling=$lpscroll";
 		$width = $sgbl->__var_lpanelwidth;
 	}
-	?>
+?>
 	<head>
 		<title> <?=get_title()?> </title>
 		<meta http-equiv="Content-Language" content="en-us">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-		<?php
+<?php
 		$ghtml->print_refresh_key();
-		?>
+?>
 	</head>
-	<?php
+<?php
 
 	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
-		?>
+?>
 		<FRAMESET frameborder="0" rows="*,16"  border="0">
 		<FRAME name="mainframe" src="<?= $url ?>">
 		<FRAME name="bottomframe" src="/panel/lbin/bottom.php">
-		<?php
+<?php
+
 		return;
 	}
 
@@ -78,34 +79,34 @@ function domainshow()
 		}
 	}
 
-	?>
+?>
 <FRAMESET frameborder="0" rows="<?= $headerheight ?>,*" border="0">
 	<FRAME name="topframe" src="<?= $file ?>" scrolling="no">
-	<?php
+<?php
 
 if (!$sp->isOn('split_frame')) {
-	?>
+?>
 	<FRAMESET frameborder="0" cols="<?= $width ?>,*" border="0">
 	<FRAME name=leftframe src="/panel/lbin/lpanel.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
 <?php
 }
 
 if ($sp->isOn('split_frame')) {
-	?>
+?>
 	<FRAMESET frameborder="0" cols="50%,*" border="0">
 <?php
 }
-	?>
+?>
 	<FRAMESET frameborder="0" rows="*,16" border="0">
 		<FRAME name="mainframe" src="<?= $url ?>">
 		<FRAME name="bottomframe" src="/panel/lbin/bottom.php">
-		<?php
+<?php
 		if ($sp->isOn('split_frame')) {
-			?>
+?>
 			<FRAME name="rightframe" src="<?= $url ?>">
-		<?php
+<?php
 		}
-		?>
+?>
 	</FRAMESET>
 	</FRAMESET>
 <?php
@@ -117,5 +118,10 @@ function main_main()
 
 	initProgram();
 
-	domainshow();
+	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+	//	include_once "./display.php";
+		header( 'Location: /display.php?frm_action=show' ) ;
+	} else {
+		domainshow();
+	}
 }

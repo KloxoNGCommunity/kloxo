@@ -18,62 +18,60 @@ function print_tab_for_feather($alist)
 		$ghtml->print_dialog($alist, $gbl->__c_object);
 	}
 
-	?> <link href="/img/skin/kloxo/feather/default/feather.css" rel="stylesheet" type="text/css" /> <?php 
-
-
-	?> 
-
+?>
+<link href="/img/skin/kloxo/feather/default/feather.css" rel="stylesheet" type="text/css" />
 	<br> 
 <table width=100% cellpadding="0" cellspacing="0" border="0" style="vertical-align:top;  "><tr><td  colspan="2" >
 <table  cellpadding="0"  cellspacing="0" border="0"><tr>
 <?php 
-
-
 if (!$sgbl->isBlackBackground()) {
-	print("<td width=20 class=tabcomplete nowrap> <div class=tabcompletediv> &nbsp; &nbsp;  </div> </td>");
+?>
+<td width="20" class="tabcomplete" nowrap> <div class="tabcompletediv"> &nbsp; &nbsp; </div> </td>
+<?php
 }
 
-	// This gives a list of key value pair, which shows which of the tab is selected. For instance, if the fifth tab is the selected on, then $list[5] will be true, while all the others will be false. This is necessary because, printing will need to know if the next tab is the selected one.
+	// This gives a list of key value pair, which shows which of the tab is selected. 
+	// For instance, if the fifth tab is the selected on, then $list[5] will be true, 
+	// while all the others will be false. This is necessary because, printing will need to 
+	// know if the next tab is the selected one.
 
 	$list = $ghtml->whichTabSelect($alist);
 	$list[-1] = false;
 	$list[count($list) - 1] = false;
-	//dprintr($list);
+
+//	dprintr($list);
+
 	foreach($alist as $k => $a) {
 		print_tab_button_for_feather($k, $a, $list);
 	}
 
-	/*
+/*
+?>
 <td class="ver"><div><img src="/img/skin/kloxo/feather/default/images/menulft21.jpg" border="0" /></div></td><td class="new2"><div class="verb">Home</div></td> <td class="ver"><img src="/img/skin/kloxo/feather/default/images/menulft20.jpg" border="0" /></td>
 <td class="new"><div class="verb3">Domains</div></td><td class="ver"><img src="/img/skin/kloxo/feather/default/images/menurit20.jpg" border="0" /></td>
 <td class="new1"><div class="verb2" >Sub Domains</div></td><td class="ver"><img src="/img/skin/kloxo/feather/default/images/menurit21.jpg" border="0" /></td><td class="ver"><img src="/img/skin/kloxo/feather/default/images/menulft21.jpg" border="0" /></td><td class="new1"><div class="verb" >Mail Accounts</div></td><td class="ver"><img src="/img/skin/kloxo/feather/default/images/menurit21.jpg" border="0" /></td><td class="ver"><img src="/img/skin/kloxo/feather/default/images/menulft21.jpg" border="0" /></td><td class="new1"><div class="verb" >Appearance</div></td> 
 <td class="ver"><img src="/img/skin/kloxo/feather/default/images/menurit21.jpg" border="0" /></td>
 <td class="ver"><div style="margin-bottom:0px"><img src="/img/skin/kloxo/feather/default/images/menulft21.jpg" border="0" /></div></td><td class="new1"><div class="verb" >Advanced</div></td><td class="ver"><img src="/img/skin/kloxo/feather/default/images/menurit21.jpg" border="0" /></td>
+<?php
 */
-
-
 	if (!$sgbl->isBlackBackground()) {
-		print("<td width=100%  class=tabcomplete> <div class=tabcompletediv> &nbsp; </div> </td>");
+?>
+<td width="100%"  class="tabcomplete"> <div class="tabcompletediv"> &nbsp; </div> </td>
+<?php
 	}
 ?> 
 
-
-</tr>
-</table> 
-<br> 
-
-</td> </tr> 
-
-</table>
-</div>
+								</tr>
+							</table>
+						</td>
+					</tr> 
+				</table>
+				<br>
 <?php 
-
 }
-
 
 function print_tab_button_for_feather($key, $url, $list)
 {
-
 	global $gbl, $sgbl, $login, $ghtml; 
 
 	$cobject = $gbl->__c_object;
@@ -95,43 +93,48 @@ function print_tab_button_for_feather($key, $url, $list)
 
 	$targetstring = $target;
 
-	//$ghtml->save_non_existant_image($image);
+//	$ghtml->save_non_existant_image($image);
 
 	$form_name = $ghtml->createEncForm_name($file . "_" . $name);
-	//$bgcolorstring = null;
-	//$sel = null;
-	//$borderbottom = "style='border-bottom:1px solid black;'";
+//	$bgcolorstring = null;
+//	$sel = null;
+//	$borderbottom = "style='border-bottom:1px solid black;'";
 
 	$borderbottom = "style =\"border-bottom:2px solid #$bdpath;\"";
 	$borderbot = "style =\"background:url($bpath/tab_select_bg2.gif) 0 0 repeat-x;\"";
 	$check = $ghtml->compare_urls("display.php?{$ghtml->get_get_from_current_post(null)}", $url);
+
 	if ($check) {
-		//$bgcolorstring = "style=\"background:url('$button');\"";
+	//	$bgcolorstring = "style=\"background:url('$button');\"";
 		$bgcolorstring = "bgcolor=#99aaff";
 		$sel = "_select";
 		$borderbottom = $borderbot;
 	} else { 
 		$sel = "_select";
 		$bgcolorstring = "bgcolor=#99aaff";
-		//$image = null;
+	//	$image = null;
 	}
 
 	$imageheight = 24;
 	$height = 34;
+
 	$imgp = $login->getSkinDir();
 	$imglt = $imgp . "/tab{$sel}_lt.gif";
 	$imgbg = $imgp . "/tab{$sel}_bg.gif";
 	$imgrt = $imgp . "/tab{$sel}_rt.gif";
 
 	$linkflag = true;
+
 	if (csa($key, "__var_")) {
 		$privar = strfrom($key, "__var_");
+
 		if (!$cobject->checkButton($privar)) {
 			$linkflag = false;
 		}
 	}
 
 	$idstring = null;
+
 	if ($login->getSpecialObject('sp_specialplay')->isOn('enable_ajax') && csb($key, "__v_dialog")) {
 		$idstring = "id=$key-comment";
 	}
@@ -145,39 +148,56 @@ function print_tab_button_for_feather($key, $url, $list)
 		} else {
 			$stylestring = "style='font-weight:normal'";
 		}
+
 		$fcolor = "#999999";
-		print("<a href=\"$url\" $targetstring><font $stylestring color=$fcolor>$descstring</font> </a>");
+?>
+		<a <?= $targetstring ?> href="<?= $url ?>"><font <?= $stylestring ?> color="<?= $fcolor ?>"><?= $descstring ?></font> </a>
+<?php
 		return;
 	}
 		
-
 	$lastkey = count($list);
+
 	if ($check) {
 		if ($key === 0) {
-			print("<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menufirstlft20.jpg' border='0' /></td>");
+?>
+		<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menufirstlft20.jpg' border='0' /></td>
+<?php
 		} else {
-			print("<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulft20.jpg' border='0' /></td>");
+?>
+		<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulft20.jpg' border='0' /></td>
+<?php
 		}
-		print("<td class='tabnew'><div class='verb3'><a href=\"$url\" $targetstring>$descstring</a> </div></td>");
+?>
+		<td class='tabnew'><div class='verb3'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a> </div></td>
+<?php
+	//	dprint("hello $lastkey $key hello");
+	//	dprintr($list);
 
-		//dprint("hello $lastkey $key hello");
-		//dprintr($list);
 		if ($key === $lastkey - 3 ) {
-			print("<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulastrit20.jpg' border='0' /></td>");
+?>
+		<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulastrit20.jpg' border='0' /></td>
+<?php
 		} else {
-			print("<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menurit20.jpg' border='0' /></td>");
+?>
+		<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menurit20.jpg' border='0' /></td>
+<?php
 		}
 	} else {
 		if (!$list[$key - 1]) {
-			print("<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulft21.jpg' border='0' /></td>");
+?>
+		<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulft21.jpg' border='0' /></td>
+<?php
 		}
-		
-		print("<td class='tabnew1' ><div nowrap class='verb'><a href=\"$url\" $targetstring>$descstring</a></div></td>");
+?>		
+		<td class='tabnew1' ><div nowrap class='verb'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div></td>
+<?php
 		if ($key === $lastkey - 3 ) {
-			print("<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulft21.jpg' border='0' /></td>");
+?>
+		<td class='tabver'><img src='/img/skin/kloxo/feather/default/images/menulft21.jpg' border='0' /></td>
+<?php
 		}
 	}
-
 
 	return $check;
 }
