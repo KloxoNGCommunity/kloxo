@@ -1,7 +1,7 @@
 
 
 body {
- scrollbar-face-background		: url('img/skin/new/button/top_line.gif');
+ scrollbar-face-background		: url('/theme/skin/new/button/top_line.gif');
  scrollbar-shadow-color		: #ffffff;
  scrollbar-highlight-color	: #ffffff;
  scrollbar-3dlight-color	: #336699;

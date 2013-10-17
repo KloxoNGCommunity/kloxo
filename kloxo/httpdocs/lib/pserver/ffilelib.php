@@ -511,8 +511,8 @@ class Ffile extends Lxclass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// Hack hack
-		print("<table width='90%'> <tr align='left' > <td ><img width='29' height='29' src='img/image/collage/button/ffile_show.gif'> </td>" .
-				"<td nowrap style='background:url(img/general/button/fnav_02.gif)'> ");
+		print("<table width='90%'> <tr align='left' > <td ><img width='29' height='29' src='theme/image/collage/button/ffile_show.gif'> </td>" .
+				"<td nowrap style='background:url(theme/general/button/fnav_02.gif)'> ");
 
 		$base = $ghtml->frm_selectshowbase;
 		

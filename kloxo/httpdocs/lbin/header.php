@@ -8,10 +8,11 @@ header_main();
 
 function header_main()
 {
-
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	initProgram();
 	init_language();
+
 	print_meta_lan();
 
 	if ($login->isDefaultSkin()) {
@@ -19,29 +20,33 @@ function header_main()
 	} else {
 		print_header();
 	}
-
 }
-
 
 function print_one_link($name)
 {
 	global $gdata;
+
 	$s = $gdata[$name];
 	$desc = $s[0];
 	$url = $s[1];
 	$img = $s[2];
 	$target = null;
+
 	if (!csa($url, "javascript")) {
 		$onclickstring = "onClick=\"top.mainframe.location='$url';\";";
 	} else {
 		$onclickstring = "onClick=\"$url\"";
 	}
-	print("<td ><span title='$desc' OnMouseOver=\"style.cursor='pointer'\" $onclickstring><img src=/img/skin/kloxo/feather/default/images/$img></span> </td> ");
+?>
+	<td ><span title='<?= $desc ?>' <?= $onclickstring ?> OnMouseOver="style.cursor='pointer'"><img src="/theme/skin/feather/default/images/<?= $img ?>"></span> </td>
+<?php
 }
 
 function print_logout()
 {
-	print("<td OnMouseOver=\"style.cursor='pointer'\" onClick=\"javascript:top.mainframe.logOut();\"> <span title=Logout> <img width=15 height=14 src=/img/skin/kloxo/feather/default/images/logout.png> Logout </span> </td> ");
+?>
+<td OnMouseOver="style.cursor='pointer'" onClick="javascript:top.mainframe.logOut();"> <span title=Logout> <img width=15 height=14 src="/theme/skin/feather/default/images/logout.png"> Logout </span> </td>
+<?php
 }
 
 function print_header()
@@ -49,9 +54,10 @@ function print_header()
 	global $gbl, $sgbl, $login, $ghtml; 
 	$lightskincolor = $login->getLightSkinColor();
 	createHeaderData();
-print("<body topmargin=\"0\" leftmargin=\"0\" bottommargin=\"0\" rightmargin=\"0\"> ");
-print("<div id=statusbar  style='background:#$lightskincolor;scroll:auto;height:26;width:100%;border-bottom:4px solid #b1cfed;margin:2 2 2 2:vertical-align:top;text-align:top'>");
-
+?>
+<body topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0">
+<div id=statusbar style='background: #<?= $lightskincolor ?>; scroll: auto; height: 26px; width:100%; border-bottom:4px solid #b1cfed; margin: 2px: vertical-align: top; text-align: top'>
+<?php
 $alist[] = "a=show";
 $alist = $login->createShowAlist($alist);
 /*
@@ -63,46 +69,58 @@ $alist[] = "a=show&k[class]=ffile&k[nname]=/";
 $alist[] = "a=updateform&sa=password";
 */
 $gbl->__c_object = $login;
-print("<table cellpadding=0 cellspacing=0 > <tr> ");
+?>
+<table cellpadding="0" cellspacing="0"> <tr>
+<?php
 $count = 0;
 $icount = 0;
+
 foreach($alist as $k => $v) {
 	if (csa($k, "__title")) { $count++ ; continue; }
-	//if ($count >= 2) { break; }
+
+//	if ($count >= 2) { break; }
+
 	$icount++;
+
 	if ($icount > 8) { continue; }
+
 	$v = $ghtml->getFullUrl($v);
 	$ghtml->print_div_button_on_header(null, true, $k, $v);
 }
-print("<td nowrap style='width:40px'></td> ");
+?>
+<td nowrap style='width:40px'></td>
+<?php
 $v = "a=list&c=ndskshortcut";
 $v = $ghtml->getFullUrl($v);
+
 $ghtml->print_div_button_on_header(null, true, 0, $v);
 $ghtml->print_toolbar();
-
-print("<td width=100%> </td> ");
+?>
+<td width="100%"> </td>
+<?php
 $v =  $ghtml->getFullUrl("a=list&c=ssessionlist");
 $ghtml->print_div_button_on_header(null, true, $k, $v);
 $v =  create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
 $ghtml->print_div_button_on_header(null, true, $k, $v);
-print("</tr> </table> ");
-print("</div> </body> ");
+?>
+</tr> </table>
+</div> </body>
+<?php
 return;
-
-	?> 
+?> 
 <body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 class="bdy1" onload="foc()">
 	<link href="/panel/css/header_new.css" rel="stylesheet" type="text/css" />
 <table id="tab1" border="0" cellpadding="0" cellspacing="0">
 <tr><td class="top2"><div class="menuover" style="margin-top:2px;margin-left:0%">
 
-
 <?php 
-
 	$list[] = "a=show";
+
 	if ($login->isLte('reseller')) {
 		$list[] = "a=list&c=all_domain";
 		$list[] = "a=list&c=client";
 	} 
+
 	$list[] = "k[class]=ffile&k[nname]=/&a=show";
 	$list[] = "a=list&c=ticket";
 
@@ -114,21 +132,23 @@ return;
 	foreach($list as $k) {
 		print_one_link($k);
 	}
-
-	print("<span style='margin-left:39%;'> </span> \n");
-
+?>
+	<span style='margin-left:39%;'> </span>
+<?php
 	foreach(array("ssession", "help", "logout") as $k) {
 		print_one_link($k);
 	}
-	print("</div></td></tr>");
-	print("</table> ");
-
+?>
+	</div></td></tr>
+	</table>
+<?php
 }
 
 function createHeaderData()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 	global $gdata;
+
 	$homedesc = $login->getKeywordUc('home');
 	$deskdesc = $login->getKeywordUc('desktop');
 	$aboutdesc = $login->getKeywordUc('about');
@@ -172,6 +192,7 @@ function createHeaderData()
 	} else {
 		$ticket_url = "/display.php?frm_action=list&frm_o_cname=ticket";
 	}
+
 //	$helpurl = "http://wiki.lxcenter.org";
 	$helpurl = "http://forum.mratwork.com";
 

@@ -11,15 +11,15 @@ $accountlist = array('client' => "Kloxo Account", 'pserver' => "Server Admin", '
 		<center>
 <table width=100%  height=" 64" border="0" valign="top" align="center" cellpadding="0" cellspacing="0">
 <tr>
-<td height="64" width="100%" background="/img/header/header_01.gif">
+<td height="64" width="100%" background="/theme/header/header_01.gif">
 <table cellpadding=0 cellspacing=0 border=0>
 <tr><td height=20 colspan=2></td></tr>
 <tr><td width=15></td><td></td></tr>
 </table>
 </td>
-<td height="64" width="20%"><img src="/img/header/header_02.gif" width="194" height="64"></td>
-<td width="20%" height="64"><img src="/img/header/header_03.gif" width="238" height="64"></td>
-<td width="20%" height="64"><img src="/img/header/header_04.gif" width="10" height="64"></td></tr>
+<td height="64" width="20%"><img src="/theme/header/header_02.gif" width="194" height="64"></td>
+<td width="20%" height="64"><img src="/theme/header/header_03.gif" width="238" height="64"></td>
+<td width="20%" height="64"><img src="/theme/header/header_04.gif" width="10" height="64"></td></tr>
 <tr><td width="100%" colspan=5 bgcolor="#003366" width="10" height="2"></td></tr>
 </table>
 
@@ -35,8 +35,8 @@ $accountlist = array('client' => "Kloxo Account", 'pserver' => "Server Admin", '
 	} else {
 ?>
         <table align=center cellpadding=0 cellspacing=0 border=0 width=314>
-		<tr><td><img src="/img/login_01.gif"></td></tr>
-		<tr><td background="/img/login_02.gif">
+		<tr><td><img src="/theme/login_01.gif"></td></tr>
+		<tr><td background="/theme/login_02.gif">
 		<form name=loginform action="/lib/php/" onsubmit="return fieldcheck(this);" method=get>
 
 
@@ -75,11 +75,11 @@ $accountlist = array('client' => "Kloxo Account", 'pserver' => "Server Admin", '
 		<tr><td width=20></td><td >  </td><td ></td> </tr>  
 		</table>
 		<table cellpadding=0 cellspacing=0 border=0 bgcolor=#ddf2fb width=100%>
-		<tr><td width=30 ></td><td width=150><a class=forgotpwd  href="javascript:document.forgotpassword.submit()">Forgot Password?</a></td><td align=right ><input name=login type=image src="/img/loginbtn.gif"  onMouseOver="swapImage('login','','/img/loginbtn_1.gif',1);"  onMouseOut="swapImgRestore();" ></td><td width=20></td></tr>
+		<tr><td width=30 ></td><td width=150><a class=forgotpwd  href="javascript:document.forgotpassword.submit()">Forgot Password?</a></td><td align=right ><input name=login type=image src="/theme/loginbtn.gif"  onMouseOver="swapImage('login','','/theme/loginbtn_1.gif',1);"  onMouseOut="swapImgRestore();" ></td><td width=20></td></tr>
 		</table>
 		</form>
 		</td></tr>
-		<tr><td><img src="img/login_03.gif"></td></tr>
+		<tr><td><img src="theme/login_03.gif"></td></tr>
 		</table>
 		<form name="forgotpassword" method="post"  action="/">
 		<input type="hidden" name=frm_forgotpwd value="1">
@@ -99,8 +99,8 @@ $accountlist = array('client' => "Kloxo Account", 'pserver' => "Server Admin", '
 elseif ($cgi_forgotpwd == 1) {
 ?>
         <table align=center cellpadding=0 cellspacing=0 border=0 width=314>
-		<tr><td><img src="/img/forgot_01.gif"></td></tr>
-		<tr><td background="/img/forgot_02.gif">
+		<tr><td><img src="/theme/forgot_01.gif"></td></tr>
+		<tr><td background="/theme/forgot_02.gif">
 <form name=sendmail action="<?php echo $_SERVER['PHP_SELF']; ?>"  method="post">
 		<table cellpadding=2 cellspacing=2 border=0 width=100%>
 		<tr><td width=20 height=10 ></td><td ></td></tr>    
@@ -131,12 +131,12 @@ elseif ($cgi_forgotpwd == 1) {
 		<tr><td width=20></td><td >  </td><td ></td> </tr>  
 		</table>
 		<table cellpadding=0 cellspacing=0 border=0 width=100%>
-		<tr><td width=30 ></td><td width=150><a class=forgotpwd href="javascript:history.go(-1);">Back to login</a></td><td align=right ><input name=forgot type=image src="/img/forgotbtn.gif"  onMouseOver="swapImage('forgot','','/img/forgotbtn_1.gif',1);"  onMouseOut="swapImgRestore();" ></td><td width=20></td></tr>
+		<tr><td width=30 ></td><td width=150><a class=forgotpwd href="javascript:history.go(-1);">Back to login</a></td><td align=right ><input name=forgot type=image src="/theme/forgotbtn.gif"  onMouseOver="swapImage('forgot','','/theme/forgotbtn_1.gif',1);"  onMouseOut="swapImgRestore();" ></td><td width=20></td></tr>
 		</table>
           <input type="hidden" name="frm_forgotpwd" value="2">    
 	</form>
 		</td></tr>
-		<tr><td><img src="img/forgot_03.gif"></td></tr>
+		<tr><td><img src="theme/forgot_03.gif"></td></tr>
 		</table>
 
 

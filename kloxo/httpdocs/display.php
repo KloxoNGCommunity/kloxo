@@ -17,5 +17,4 @@ print_time("start", "Start");
 //dprintr($gbl->__c_object->ls);
 //dprintr($gbl->__c_object->priv);
 display_exec();
-echo '<br />';
 display_end();

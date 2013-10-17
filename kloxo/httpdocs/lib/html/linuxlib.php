@@ -266,7 +266,7 @@ function os_fix_lxlabs_permission()
 	lxfile_mkdir("__path_program_root/session");
 	lxfile_unix_chown_rec("__path_program_root", "lxlabs");
 	lxfile_unix_chmod_rec("__path_program_root/sbin/", "0755");
-	lxfile_unix_chmod_rec("__path_program_root/httpdocs/img/", "0755");
+	lxfile_unix_chmod_rec("__path_program_root/httpdocs/theme/", "0755");
 	lxfile_unix_chmod("__path_program_etc", "0700");
 	lxfile_unix_chmod("__path_program_root/log", "0700");
 	lxfile_unix_chmod("__path_program_root/session", "0700");

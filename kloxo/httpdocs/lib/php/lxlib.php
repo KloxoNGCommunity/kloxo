@@ -1630,7 +1630,7 @@ function array_flatten($a, $pref = null)
 function get_general_image_path($v = null)
 {
 
-	return add_http_host("/img/general/$v");
+	return add_http_host("/theme/general/$v");
 }
 
 /**
@@ -1659,7 +1659,7 @@ function get_image_path($path = null)
 
 	//Return path of the encrypted images in the deployment version.
 
-	return "/img/image/{$login->getSpecialObject('sp_specialplay')->icon_name}/$path";
+	return "/theme/image/{$login->getSpecialObject('sp_specialplay')->icon_name}/$path";
 }
 
 function randomString($length)

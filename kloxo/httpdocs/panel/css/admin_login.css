@@ -1,18 +1,18 @@
 body {
- 	margin: 0px;
-	padding: 0px;
+ 	margin: 0;
+	padding: 0;
 	color : #333;
 	background-color : #FFF;
 	font-size : 11px;
-	font-family : Arial, Helvetica, sans-serif;
-		 }
+	font-family : Tahoma, Verdana, Arial, sans-serif;
+}
 
 #wrapper {
-    border: 0px;
-    margin: 0px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0px;
+	border: 0;
+	margin: 0;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
 }
 
 #break {
@@ -73,38 +73,38 @@ form {
 }
 
 .inputbox {
-	COLOR: #000000;
-	FONT-FAMILY: Verdana, Tahoma;
-	FONT-SIZE: 11px;
-	BORDER: 1px SOLID #666666;
-	WIDTH: 190px;
-	PADDING: 2px 2px 3px 2px;
-	MARGIN: 0px;
-	BACKGROUND: URL(/img/login/user.gif) no-repeat;
-	BACKGROUND-POSITION: 1px 1px;
-	BACKGROUND-COLOR: #FFFFFF;
-	PADDING-LEFT: 18px;
-	VERTICAL-ALIGN: middle;
+	color: #000000;
+	font-family: Verdana, Tahoma;
+	font-size: 11px;
+	border: 1px solid #666666;
+	width: 190px;
+	padding: 2px 2px 3px 2px;
+	margin: 0px;
+	background: URL(/theme/login/user.gif) no-repeat;
+	background-position: 1px 1px;
+	background-color: #FFFFFF;
+	padding-left: 18px;
+	vertical-align: middle;
 	margin: 0 0 1em 0;
 	border: 1px solid #cccccc;
 }
 .passbox {
-	COLOR: #000000;
-	FONT-FAMILY: Verdana, Tahoma;
-	FONT-SIZE: 11px;
-	BORDER: 1px SOLID #666666;
-	WIDTH: 190px;
-	PADDING: 2px 2px 3px 2px;
-	MARGIN: 0px;
-	BACKGROUND-POSITION: 1px 1px;
-	BACKGROUND-COLOR: #FFFFFF;
-	VERTICAL-ALIGN: middle;
+	color: #000000;
+	font-family: Verdana, Tahoma;
+	font-size: 11px;
+	border: 1px solid #666666;
+	width: 190px;
+	padding: 2px 2px 3px 2px;
+	margin: 0px;
+	background-position: 1px 1px;
+	background-color: #FFFFFF;
+	vertical-align: middle;
 	margin: 0 0 1em 0;
 	border: 1px solid #cccccc;
 }
 
 .clr {
-    clear:both;
+	clear:both;
 }
 
 .ctr {

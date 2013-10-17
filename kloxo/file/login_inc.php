@@ -56,7 +56,7 @@ if (!$cgi_forgotpwd) {
             </form>
         </div>
         <div class="login-text">
-            <div class="ctr"><img src="/img/login/icon.gif" width="64" height="64" alt="security"/></div>
+            <div class="ctr"><img src="/theme/login/icon.gif" width="64" height="64" alt="security"/></div>
 			<?=$logfo?>
             <a class="forgotpwd" href="javascript:document.forgotpassword.submit()"><font color="black"><u>Forgot
                 Password?</u></a>
@@ -103,7 +103,7 @@ if (!$cgi_forgotpwd) {
             </form>
         </div>
         <div class="login-text">
-            <div class="ctr"><img src="/img/login/icon1.gif" width="64" height="64" alt="security"/></div>
+            <div class="ctr"><img src="/theme/login/icon1.gif" width="64" height="64" alt="security"/></div>
             <p>Welcome to <?php echo  $sgbl->__var_program_name; ?></p>
 
             <p>Use a valid username and email-id to get password.</p>

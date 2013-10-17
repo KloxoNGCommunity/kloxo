@@ -60,8 +60,8 @@ function print_head_image()
 	}
 
 ?>
-	<link href="/img/skin/kloxo/feather/default/feather.css" rel="stylesheet" type="text/css"/>
-	<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(/img/skin/kloxo/feather/default/invertfeather.jpg)">
+	<link href="/theme/skin/simplicity/default/style.css" rel="stylesheet" type="text/css" />
+	<!-- <table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(/theme/skin/feather/default/invertfeather.jpg)">
 		<tr>
 			<td width=100% id='td1'></td>
 <?php
@@ -75,7 +75,7 @@ function print_head_image()
 		<tr>
 			<td colspan='3' class='bg2'></td>
 		</tr>
-	</table>
+	</table> -->
 <?php
 }
 
@@ -2058,6 +2058,27 @@ function set_login_skin_to_feather()
 	$obj->write();
 }
 
+function set_login_skin_to_simplicity()
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	if (!$sgbl->isKloxo()) {
+		return;
+	}
+
+	$obj = $login->getObject('sp_specialplay');
+	$obj->specialplay_b->skin_name = 'simplicity';
+	$obj->specialplay_b->skin_color = 'default';
+	$obj->setUpdateSubaction();
+	$obj->write();
+
+	$obj = $login->getObject('sp_childspecialplay');
+	$obj->specialplay_b->skin_name = 'simplicity';
+	$obj->specialplay_b->skin_color = 'default';
+	$obj->setUpdateSubaction();
+	$obj->write();
+}
+
 function redirect_to_https()
 {
 	global $gbl, $sgbl, $login, $ghtml;
@@ -3354,10 +3375,11 @@ function copy_image()
 	global $gbl, $sgbl, $login, $ghtml;
 	$prgm = $sgbl->__var_program_name;
 
-	lxfile_cp_content("tmpimg/", "img/image/collage/button/");
-	$list = lscandir_without_dot("img/skin/$prgm/feather/");
+	lxfile_cp_content("tmpimg/", "theme/image/collage/button/");
+	$list = lscandir_without_dot("theme/skin/feather/");
+
 	foreach ($list as $l) {
-		lxfile_cp_content("tmpskin/", "img/skin/$prgm/feather/$l");
+		lxfile_cp_content("tmpskin/", "theme/skin/feather/$l");
 	}
 */
 }

@@ -340,142 +340,9 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($login->isDefaultSkin()) {
-			$this->print_tab_block_old($alist);
-		} else {
-			include_once "lib/print_tab.php";
-			print_tab_for_feather($alist);
-		}
-	}
-
-	function print_tab_block_old($alist)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$img_path = $login->getSkinDir();
-		$imgtop = $img_path . "/top_line.gif";
-
-		foreach ($alist as $k => $a) {
-			$alist[$k] = $ghtml->getFullUrl($a);
-		}
-
-		if ($login->getSpecialObject('sp_specialplay')->isOn('enable_ajax')) {
-			$this->print_dialog($alist, $gbl->__c_object);
-		}
-
-?>
-		<br/>
-		<table cellspacing=0 cellpadding=0 width=100% border=0>
-			<tr align=left valign=bottom>
-				<td width=10>
-					<img src='<?= $imgtop ?>' width='10' height='2'></td>
-				<td>
-					<table cellspacing='0' cellspacing='0'>
-						<tr valign=bottom>
-<?php
-		foreach ($alist as $k => $a) {
-			$sel = $this->printTabButtonOld($k, $a);
-		}
-?>
-						</tr>
-					</table>
-				</td>
-				<td width='100%'><img src='<?= $imgtop ?>' width='100%' height='2'></td>
-			</tr>
-		</table> <br/> <br/>
-<?php
-	}
-
-	function printTabButtonOld($key, $url)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$cobject = $gbl->__c_object;
-		static $after_sel = false;
-		$psuedourl = null;
-		$target = null;
-		$img_path = $login->getSkinDir();
-		$imgtop = $img_path . '/top_line.gif';
-
-		$buttonpath = get_image_path() . '/button/';
-		$bpath = $login->getSkinDir();
-		$bdpath = $login->getSkinColor();
-		$button = $bpath . '/top_line_medium.gif';
-
-		$descr = $this->getActionDetails($url, $psuedourl, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
-
-		$form_name = $this->createEncForm_name($file . "_" . $name);
-
-		$borderbottom = "style =\"border-bottom:2px solid #$bdpath;\"";
-		$borderbot = "style =\"background:url($bpath/tab_select_bg2.gif) 0 0 repeat-x;\"";
-
-		if ($check = $this->compare_urls("display.php?{$this->get_get_from_current_post(null)}", $url)) {
-			$bgcolorstring = "bgcolor=#99aaff";
-			$sel = "_select";
-			$borderbottom = $borderbot;
-		} else {
-			$sel = "_select";
-			$bgcolorstring = "bgcolor=#99aaff";
-		}
-
-		$imageheight = 24;
-		$height = 34;
-		$imgp = $login->getSkinDir();
-		$imglt = $imgp . "/tab{$sel}_lt.gif";
-		$imgbg = $imgp . "/tab{$sel}_bg.gif";
-		$imgrt = $imgp . "/tab{$sel}_rt.gif";
-
-		$linkflag = true;
-
-		if (csa($key, "__var_")) {
-			$privar = strfrom($key, "__var_");
-			if (!$cobject->checkButton($privar)) {
-				$linkflag = false;
-			}
-		}
-
-		$idstring = null;
-
-		if ($login->getSpecialObject('sp_specialplay')->isOn('enable_ajax') && csb($key, "__v_dialog")) {
-			$idstring = "id=$key-comment";
-		}
-
-		if ($check) {
-			$height = "38";
-			$width = "2";
-		} else {
-			$width = "3";
-		}
-
-?>
-		<td>
-			<table cellspacing=0 cellpadding=0  <?= $idstring ?> <?= $borderbottom ?> valign=bottom>
-				<tr valign=bottom>
-					<td valign=middle wrap><img src="<?= $imglt ?>" height="<?= $height ?>" width="<?= $width ?>">
-					<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
-<?php
-		$this->printTabForTabButton($key, $linkflag, $height + 2, $imageheight, $sel, $imgbg, $url, $name, $image, $descr, $check);
-
-?>
-					</a>
-		</td>
-<?php
-		if ($check) {
-?>
-		<td><img src="<?= $imgrt ?>" width="2" height="38"></td>
-<?php
-		} else {
-?>
-		<td><img src="<?= $imgrt ?>" width="3" height="<?= $height ?>"></td>
-<?php
-		}
-?>
-				</tr>
-			</table>
-		</td>
-<?php
-
-		return $sel;
+		$skin = $login->getSpecialObject('sp_specialplay')->skin_name;
+		include_once "theme/print_tab_{$skin}.php";
+		print_tab_block_start($alist);
 	}
 
 	function compare_urls($a, $b)
@@ -510,50 +377,8 @@ class HtmlLib
 		return true;
 	}
 
-//	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $formname, $name, $imagesrc, $descr, $check)
-	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $url, $name, $imagesrc, $descr, $check)
-	{
-		global $gbl, $sgbl, $login;
 
-		$help = $descr['help'];
-		$imgstr = null;
 
-		if ($imagesrc) {
-			$imgstr = "<img width='$imageheight' height='$imageheight' src='$imagesrc'>";
-		}
-
-		if ($linkflag) {
-			if ($login->getSpecialObject('sp_specialplay')->isOn('enable_ajax') && csb($key, "__v_dialog")) {
-				$displaystring = "<span title='$help'>  $descr[2] </span>";
-			} else {
-			//	$displaystring = "<span title='$help'> <a href=\"javascript:document.form_{$formname}.submit()\"> $descr[2]</a> </span>";
-				$displaystring = "<span title='$help'> <a href=\"$url\"> $descr[2]</a> </span>";
-			}
-
-		} else {
-			$displaystring = "<span title=\"You don't have permission\">$descr[2] </span>";
-		}
-
-		if ($check) {
-?>
-
-			<td height="34" wrap class="alink"
-			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="<?= $height ?>" nowrap class="alink"
-			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?>
-			</td>
-<?php
-		} else {
-?>
-
-			<td height="34" wrap class=alink
-			    style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="<?= $height ?>" nowrap class=alink
-			    style='cursor:pointer;background:url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span
-					size=-1><?= $displaystring ?></td>
-<?php
-		}
-	}
 
 	function print_object_action_block($obj, $alist, $num)
 	{
@@ -675,7 +500,7 @@ class HtmlLib
 						<tr>
 							<td>
 								<table cellpadding=0 cellspacing=0 border=0 height=13 width=98%
-								       style="background:url(<?= $getskin ?>/bar.gif)">
+								       style="background:#efe8e0 url(<?= $getskin ?>/bar.gif)">
 									<tr>
 										<td> <?= $title ?>  </td>
 								</table>
@@ -719,7 +544,7 @@ class HtmlLib
 						<tr>
 							<td>
 								<table cellpadding=2 cellspacing=2 border=0 height=13 width=98%
-								       style="background:url(<?= $getskin ?>/bar.gif)">
+								       style="background:#efe8e0 url(<?= $getskin ?>/bar.gif)">
 									<tr>
 										<td> <?= $u ?>  </td>
 								</table>
@@ -816,13 +641,15 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: url(<?=$skindir?>/expand.gif);
+				background:#efe8e0 url(<?=$skindir?>expand.gif);
+				
 				border: 1px solid #<?=$col?>;
 			}
 
 			.expanded {
 				cursor: pointer;
-				background: url(<?=$skindir?>/expand.gif);
+				background:#efe8e0 url(<?=$skindir?>expand.gif);
+				
 				border: 1px solid #<?=$col?>;
 			}
 
@@ -864,7 +691,8 @@ class HtmlLib
 				font-family: Arial, sans-serif;
 				font-size: 130%;
 				color: #003360;
-				background: url(<?=$skindir?>/expand.gif);
+				background:#efe8e0 url(<?=$skindir?>expand.gif);
+				
 				margin-bottom: 0
 			}
 
@@ -961,14 +789,16 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: url(<?=$skindir?>/expand.gif);
+				background:#efe8e0 url(<?=$skindir?>expand.gif);
+				
 				border: 1px solid #<?=$col?>;
 				height: 25px;
 			}
 
 			.expanded {
 				cursor: pointer;
-				background: url(<?=$skindir?>/expand.gif);
+				background:#efe8e0 url(<?=$skindir?>expand.gif);
+				
 				border: 1px solid #<?=$col?>;
 				height: 25px;
 			}
@@ -1015,7 +845,8 @@ class HtmlLib
 				font-family: Arial, sans-serif;
 				font-size: 130%;
 				color: #003370;
-				background: url(<?=$skindir?>/expand.gif);
+				background:#efe8e0 url(<?=$skindir?>expand.gif);
+				
 				margin-bottom: 10px;
 				margin-top: 10px
 			}
@@ -1358,17 +1189,17 @@ class HtmlLib
 			</div>
 			<div class="x-dlg-ft">
 				<div id="dlg-msg">
-				<span id="post-error" class="posting-msg"><img src="/img/extjs/warning.gif" width="16" height="16"
+				<span id="post-error" class="posting-msg"><img src="/theme/extjs/warning.gif" width="16" height="16"
 				                                               align="absmiddle"/>&nbsp;<span
 						id="post-error-msg"></span></span>
-					<span id="post-wait" class="posting-msg"><img src="/img/extjs/default/grid/loading.gif" width="16"
+					<span id="post-wait" class="posting-msg"><img src="/theme/extjs/default/grid/loading.gif" width="16"
 					                                              height="16"
 					                                              align="absmiddle"/>&nbsp;Updating...</span>
 				</div>
 			</div>
 		</div>
 
-		<link rel="stylesheet" type="text/css" href="/panel/extjs/examples/dialog/post.css"/>
+		<link rel="stylesheet" type="text/css" href="/theme/extjs/css/post.css"/>
 
 		<script>
 			var global_formname;
@@ -1637,8 +1468,8 @@ class HtmlLib
 		$lclass = $login->get__table();
 		$skindir = $login->getSkinDir();
 		$col = $login->getSkinColor();
-		$plus = "$skindir/plus.gif";
-		$minus = "$skindir/minus.gif";
+		$plus = "{$skindir}plus.gif";
+		$minus = "{$skindir}minus.gif";
 		$buttonpath = get_image_path() . "/button/";
 ?>
 
@@ -1827,10 +1658,10 @@ class HtmlLib
 			$descr['desc'] = $complete['name'];
 			$file = $class;
 
-			if (lxfile_exists("img/custom/$bname.gif")) {
-				$image = "/img/custom/$bname.gif";
+			if (lxfile_exists("theme/custom/$bname.gif")) {
+				$image = "/theme/custom/$bname.gif";
 			} else {
-				$image = "/img/image/collage/button/custom_button.gif";
+				$image = "/theme/image/collage/button/custom_button.gif";
 			}
 
 			$__t_identity = $identity;
@@ -1888,9 +1719,12 @@ class HtmlLib
 		$skindir = $login->getSkinDir();
 		$talist = $alist;
 		$ret = $this->create_action_block($class, $alist);
-		$col = $login->getSkinColor();
-		$plus = "$skindir/plus.gif";
-		$minus = "$skindir/minus.gif";
+
+		// $col = $login->getSkinColor();
+		$col = 'ddd';
+
+		$plus = "{$skindir}plus.gif";
+		$minus = "{$skindir}minus.gif";
 		$buttonpath = get_image_path() . "/button/";
 
 		if ($sgbl->isDebug()) {
@@ -1905,12 +1739,12 @@ class HtmlLib
 		}
 
 		if ($sgbl->isBlackBackground()) {
-			$backgimage = "$skindir/black.gif";
-			$minus = "$skindir/black.gif";
-			$plus = "$skindir/black.gif";
+			$backgimage = "{$skindir}black.gif";
+			$minus = "{$skindir}black.gif";
+			$plus = "{$skindir}black.gif";
 			$col = "333";
 		} else {
-			$backgimage = "$skindir/expand.gif";
+			$backgimage = "{$skindir}expand.gif";
 		}
 ?>
 
@@ -1933,7 +1767,7 @@ class HtmlLib
 				display: block;
 				font-family: Arial, sans-serif;
 				color: #003360;
-				background: url(<?=$skindir?>/expand.gif);
+				background:#efe8e0 url(<?=$skindir?>expand.gif);
 				border-bottom: 1px solid #<?=$col?>;
 			}
 
@@ -1995,9 +1829,9 @@ class HtmlLib
 
 				<div id="item_<?= $nametitle ?>" class="section">
 					<table cellpadding=0 cellspacing=0>
-						<tr class=handle id="handle_<?= $nametitle ?>" style="background:url(<?= $backgimage ?>)"
-						    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='url<?= $backgimage ?>()'"
-						    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='url(<?= $backgimage ?>)'">
+						<tr class=handle id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)"
+						    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'"
+						    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'">
 							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?> </span>
 							</td>
 							<td width=100% style="cursor: move; " align=center><span
@@ -2197,7 +2031,7 @@ class HtmlLib
 		$val = 0;
 
 		if ($sgbl->isKloxo()) {
-			return '/img/general/default/default.gif';
+			return '/theme/general/default/default.gif';
 		}
 
 		for ($i = 0; $i < strlen($name); $i++) {
@@ -2206,7 +2040,7 @@ class HtmlLib
 
 		$val = $val % 10;
 
-		return "/img/general/default/default_$val.gif";
+		return "/theme/general/default/default_$val.gif";
 	}
 
 	function get_image_without_host($path, $class, $variable, $extension)
@@ -2507,13 +2341,13 @@ class HtmlLib
 
 		<form name="chmod" method=<?= $sgbl->method ?> action="" accept-charset="utf-8">
             <table cellpadding="0" cellspacing="0" border="0" width="325">
-	            <tr style="background:url(<?= $tablerow_head ?>)">
+	            <tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
 		            <td width="100" class="col"></td>
 		            <td width=75 align=center>User</td><? // [FIXME] Harcode translation string?>
 		            <td width=75 align=center>Group</td><? // [FIXME] Harcode translation string?>
 		            <td align=center width=75>Others</td><? // [FIXME] Harcode translation string?>
 	            </tr>
-	            <tr style="background:url(<?= $tablerow_head ?>)">
+	            <tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
 		            <td width=100 class="col"></td>
 		            <td align="center">
 			            <input type="checkbox" name="userall" onclick="allrights(document.chmod,this,'user');">
@@ -2596,14 +2430,14 @@ class HtmlLib
 	            <tr>
 		            <td colspan="4" align="right">
 			            <input type="button" onclick="sendchmode(document.chmod,document.frmsendchmod)"
-			                   class="submitbutton" name="change" value="Change">
+			                   class="submitbutton" name="change" value="&nbsp;&nbsp;Change&nbsp;&nbsp;">
 		            </td>
 	            </tr>
 	            <tr>
 		            <td colspan="2" bgcolor="#ffffff" height="4"></td>
 	            </tr>
 	            <tr>
-		            <td colspan="4" style="background:url(<?= $imgtopline ?>)" height="1"></td>
+		            <td colspan="4" style="background:#efe8e0 url(<?= $imgtopline ?>)" height="1"></td>
 	            </tr>
             </table>
     </form>
@@ -4279,7 +4113,7 @@ class HtmlLib
 ?>
 
 					</td>
-					<td><input type="submit" class=submitbutton name=Search value="Quick Add <?= $desc ?>"></td>
+					<td><input type="submit" class=submitbutton name=Search value="&nbsp;&nbsp;Quick Add <?= $desc ?>&nbsp;&nbsp;"></td>
 
 					</td>
 					<td width="100%"></td>
@@ -4540,7 +4374,7 @@ class HtmlLib
 
 									</td>
 									<td>
-										<input type=submit class=submitbutton name=Search value=Search>
+										<input type=submit class=submitbutton name=Search value="&nbsp;&nbsp;Search&nbsp;&nbsp;">
 
 									</td>
 								</tr>
@@ -4933,14 +4767,14 @@ class HtmlLib
 			<td class="rowpoint"></td>
 		</tr>
 		<tr height="25" valign="middle">
-			<td class="rowpoint"><img src="/img/general/button/blank.gif" width="20" /></td>
+			<td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20" /></td>
 <?php
 		if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 			//	$checked = "checked disabled";
 				$checked = "";
 ?>
 
-				<td width=10 background=<?= $imgtablerowhead ?>>
+				<td width=10 style="background:#cde url(<?= $imgtablerowhead ?>)">
 					<form name="formselectall<?= $unique_name ?>" value="hello"
 					      accept-charset="utf-8"> <?= $filteropacitystringspan ?>
 						<input <?= $filteropacitystring ?> type=checkbox name="selectall<?= $unique_name ?>"
@@ -4998,7 +4832,7 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$wrapstr .= " style='background:gray'";
 				} else {
-					$wrapstr .= " style='background:url($skindir/listsort.gif)'";
+					$wrapstr .= " style='background:#efe8e0 url({$skindir}listsort.gif)'";
 				}
 ?>
 
@@ -5006,9 +4840,9 @@ class HtmlLib
 <?php
 			} else {
 				if ($sgbl->isBlackBackground()) {
-					$wrapstr .= " style='background:gray'";
+					$wrapstr .= " style='background:#efe8e0'";
 				} else {
-					$wrapstr .= " style='background:url($skindir/expand.gif)'";
+					$wrapstr .= " style='background:#efe8e0 url({$skindir}expand.gif)'";
 				}
 ?>
 
@@ -5039,7 +4873,7 @@ class HtmlLib
 		$count = 0;
 		$rowcount = 0;
 ?>
-			<td class="rowpoint"><img src="/img/general/button/blank.gif" width="20" /></td>
+			<td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20" /></td>
 		</tr>
 <?php
 		print_time('loop');
@@ -5186,7 +5020,7 @@ class HtmlLib
 		<td class="rowpoint"></td>
 	<td colspan="<?= $nlcount ?>">
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
-		<tr height="1" style="background:url(<?= $imgtopline ?>)">
+		<tr height="1" style="background:#efe8e0 url(<?= $imgtopline ?>)">
 			<td class="rowpoint"></td>
 		</tr>
 		<tr>
@@ -5476,8 +5310,7 @@ class HtmlLib
 
 		if (!$button[2]) {
 ?>
-			<span title="<?= $help ?>"> <a class=button
-			                               href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
+			<span title="<?= $help ?>"> <a class=button href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
 <?php
 
 		}
@@ -5667,10 +5500,10 @@ class HtmlLib
 		if (!$login->getSpecialObject('sp_specialplay')->isOn('enable_ajax') && ($header !== 'left_panel')) {
 			//
 		} else {
-			$this->print_jscript_source("/panel/extjs/adapter/yui/yui-utilities.js");
-			$this->print_jscript_source("/panel/extjs/adapter/yui/ext-yui-adapter.js");
-			$this->print_jscript_source("/panel/extjs/ext-all.js");
-			$this->print_jscript_source("/panel/yui-dragdrop/dragdrop.js");
+			$this->print_jscript_source("/theme/extjs/js/yui-utilities.js");
+			$this->print_jscript_source("/theme/extjs/js/ext-yui-adapter.js");
+			$this->print_jscript_source("/theme/extjs/js/ext-all.js");
+			$this->print_jscript_source("/theme/yum-dragdrop/dragdrop.js");
 		}
 
 		$this->print_jscript_source("/panel/js/drag.js");
@@ -5689,10 +5522,10 @@ class HtmlLib
 		}
 
 		$skin = $login->getSkinDir();
-		$css = "$skin/css.css";
+		$css = "{$skin}style.css";
 
 		if (!lfile_exists(getreal($css))) {
-			$css = "/panel/css/skin/base.css";
+			$css = "/panel/css/{skin}/base.css";
 		}
 
 		$this->print_css_source("/panel/css/common.css");
@@ -6172,15 +6005,13 @@ class HtmlLib
 			$ststring = "style='background:black;color:gray'";
 		}
 
-		if ($sgbl->isBlackBackground()) {
-			//
-		} else {
-			$col = "$skindir/expand.gif";
+		if (!$sgbl->isBlackBackground()) {
+			$col = "{$skindir}expand.gif";
 		}
 ?>
 
 		<table cellspacing=0 cellpadding=0 width=100%>
-			<tr style="background:url(<?= $col ?>)">
+			<tr style="background:#efe8e0 url(<?= $col ?>)">
 				<td nowrap><span <?= $forecolorstring ?> style='font-weight:bold'> Switch To Another </span></td>
 				</td>
 				<td align=center>
@@ -6652,10 +6483,10 @@ class HtmlLib
 
 			$file = $class;
 
-			if (lxfile_exists("img/custom/$bname.gif")) {
-				$image = "/img/custom/$bname.gif";
+			if (lxfile_exists("theme/custom/$bname.gif")) {
+				$image = "/theme/custom/$bname.gif";
 			} else {
-				$image = "/img/image/collage/button/custom_button.gif";
+				$image = "/theme/image/collage/button/custom_button.gif";
 			}
 
 			$__t_identity = $identity;
@@ -6758,8 +6589,7 @@ class HtmlLib
 					<td valign=top align=center> <?= $imgvar ?> </td>
 				</tr>
 				<tr valign=top height=100%>
-					<!-- <td width=10 align=center> <span title='<?= $alt ?>'><?= $displayvar ?></span></td> -->
-					<td width=10 align=center><?= $displayvar ?></td>
+					<td width=10 align=center> <span title='<?= $alt ?>'><?= $displayvar ?></span></td>
 				</tr>
 			</table>
 		</a>
@@ -7027,7 +6857,7 @@ class HtmlLib
 ?>
 
 											<option value="<?= $key ?>"
-											        style="valign:middle;padding:0 0 0 25px; width:300px; height:20px; background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+											        style="valign:middle;padding:0 0 0 25px; width:300px; height:20px; background:#efe8e0 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 		}
 ?>
@@ -7040,7 +6870,7 @@ class HtmlLib
 										<tr>
 											<td><INPUT TYPE=button class=submitbutton
 											           onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variablename) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')"
-											           VALUE=">>">
+											           VALUE="&nbsp;&nbsp;>>&nbsp;&nbsp;">
 
 											</td>
 										</tr>
@@ -7048,7 +6878,7 @@ class HtmlLib
 											<td>
 												<INPUT TYPE=button class=submitbutton
 												       onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variablename) ?>', '<?= $ts_name2 ?>')"
-												       VALUE="<<">
+												       VALUE="&nbsp;&nbsp;<<&nbsp;&nbsp;">
 
 											</td>
 										</tr>
@@ -7079,7 +6909,7 @@ class HtmlLib
 ?>
 
 											<option value="<?= $d ?>"
-											        style="valign:middle; padding:0 0 0 25px; width:300px; height:20px; background:url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+											        style="valign:middle; padding:0 0 0 25px; width:300px; height:20px; background:#efe8e0 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 		}
 ?>
@@ -7090,9 +6920,9 @@ class HtmlLib
 									</script>
 
 								</td>
-								<td><input type="button" class=submitbutton value="Up"
+								<td><input type="button" class=submitbutton value="&nbsp;&nbsp;Up&nbsp;&nbsp;"
 								           onclick="shiftOptionUp('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
-									<input type="button" class=submitbutton value="Down"
+									<input type="button" class=submitbutton value="&nbsp;&nbsp;Down&nbsp;&nbsp;"
 									       onclick="shiftOptionDown('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
 								</td>
 							</tr>
@@ -7102,7 +6932,7 @@ class HtmlLib
 				</tr>
 
 				<tr>
-					<td colspan=100 align=right><input type=submit class=submitbutton value=Update></td>
+					<td colspan=100 align=right><input type="submit" class="submitbutton" value="&nbsp;&nbsp;Update&nbsp;&nbsp;"></td>
 				</tr>
 			</table>
 		</form>
@@ -7137,7 +6967,7 @@ class HtmlLib
 				<td width='100%'>
 					<table align='center' cellpadding='0' cellspacing='0' style="border: 1px solid #ccc">
 						<tr height='23' width=100%>
-							<td align='center' style="background:url(<?= $skindir ?>/expand.gif)">
+							<td align='center' style="background:#efe8e0 url(<?= $skindir ?>expand.gif)">
 								<span style="font-weight:bold">&nbsp;Find</span>
 							</td>
 						</tr>
@@ -7177,12 +7007,12 @@ class HtmlLib
 		$url = $ghtml->getFullUrl("a=updateform&sa=information");
 		$variable = "frm_{$object->getClass()}_c_text_comment";
 ?>
-		<table <?= $blackstyle ?> cellpadding="0" cellspacing="3" align="center">
-			<tr align="center">
-				<td>
+		<table <?= $blackstyle ?> cellpadding="0" cellspacing="3" align="center" width="100%">
+			<tr>
+				<td align="center">
 					<table align="center" cellpadding="0" cellspacing="0">
 						<tr height="23">
-							<td style='background:url("<?= $skindir ?>/expand.gif")'>
+							<td style='background:#efe8e0 url("<?= $skindir ?>expand.gif")'>
 								<span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a> </span>
 							</td>
 						</tr>
@@ -7247,12 +7077,12 @@ class HtmlLib
 					</select>
 				</td>
 				<td>
-					<INPUT TYPE=button class=submitbutton
+					<INPUT TYPE="button" class="submitbutton"
 					       onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variable->name) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')"
-					       VALUE=">>">
-					<INPUT TYPE=button class=submitbutton
+					       VALUE="&nbsp;&nbsp;>>&nbsp;&nbsp;">
+					<INPUT TYPE="button" class="submitbutton"
 					       onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variable->name) ?>', '<?= $ts_name2 ?>')"
-					       VALUE="<<">
+					       VALUE="&nbsp;&nbsp;<<&nbsp;&nbsp;">
 				</td>
 				<td>
 					<select id=<?= $ts_name2 ?> class=textbox size=5 multiple name=<?= trim($variable2->name) ?>>
@@ -7284,9 +7114,9 @@ class HtmlLib
 					</script>
 				</td>
 				<td>
-					<input type="button" name=upbotton class=submitbutton value="Up"
+					<input type="button" name="upbotton" class="submitbutton" value="&nbsp;&nbsp;Up&nbsp;&nbsp;"
 					       onclick="shiftOptionUp('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
-					<input type="button" name=downbutton class=submitbutton value="Down"
+					<input type="button" name="downbutton" class=submitbutton value="&nbsp;&nbsp;Down&nbsp;&nbsp;"
 					       onclick="shiftOptionDown('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
 
 				</td>
@@ -7589,7 +7419,7 @@ class HtmlLib
 			<a href="javascript:void(0);"
 			   onclick="selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img width=15
 			                                                                                                    height=15
-			                                                                                                    src="img/image/collage/button/ffile_ttype_v_directory.gif"
+			                                                                                                    src="theme/image/collage/button/ffile_ttype_v_directory.gif"
 			                                                                                                    border="0"
 			                                                                                                    alt="Select Folder"
 			                                                                                                    align="absmiddle"></a>
@@ -7775,7 +7605,7 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$divstyle = "text-align:right;";
 				} else {
-					$divstyle = "text-align:right;$borb background:url($skindir/expand.gif)";
+					$divstyle = "text-align:right;$borb background:#eef url({$skindir}expand.gif)";
 				}
 			}
 
@@ -8032,7 +7862,7 @@ class HtmlLib
 
 					<?= $string ?>
 					<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?>
-					                          name="<? $variable->name ?>" value="<?= $variable->value ?>">
+					                          name="<? $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
 <?php
 
 				break;
@@ -8188,7 +8018,7 @@ class HtmlLib
 	}
 
 	// function print_curvy_table_start($width = "100")
-	function print_curvy_table_start($width = "0")
+	function print_curvy_table_start($width = "11")
 	{
 		global $gbl, $sgbl, $login;
 
@@ -8214,7 +8044,7 @@ class HtmlLib
 	}
 
 	// function print_curvy_table_end($width = "100")
-	function print_curvy_table_end($width = "0")
+	function print_curvy_table_end($width = "11")
 	{
 		global $gbl, $sgbl, $login;
 
@@ -8318,18 +8148,19 @@ class HtmlLib
 			$img_path = get_general_image_path();
 			$imgfile = $img_path . "/button/warningpic.gif";
 			$color = 'brown';
-			$message = "<span style='color:red'><b> Error: </b></span> ";
+			$message = "<span style='color:red'><b> Error: </b></span>";
 			$style = 'border: 1px solid red; background:#ffd7d7;';
 			$fontstyle = 'color: #000';
 		}
 
 ?>
 
-		<div id="esmessage" style="visibility:visible;position:absolute;width:95%;top:21%;left:2%">
-			<table width='600' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
+		<!-- <div id="esmessage" style="visibility:visible;position:absolute;width:100%;top:21%;left:2%"> -->
+		<div id="esmessage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin-left:auto; margin-right:auto;">
+			<table width='400' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
 				<tr height='10'>
 					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img
-								src="/img/image/collage/button/close.gif"> <span
+								src="/theme/image/collage/button/close.gif"> <span
 								style='small'>Press Esc to close </span>
 						</a>
 					</td>
@@ -8392,7 +8223,7 @@ class HtmlLib
 		<tr>
 			<td colspan=3 height=2></td>
 		</tr>
-		<tr style="background:url(<?= $imgdark ?>)" height="1">
+		<tr style="background:#efe8e0 url(<?= $imgdark ?>)" height="1">
 			<td colspan=3 height=1></td>
 		</tr>
 		<tr>
@@ -8495,15 +8326,17 @@ class HtmlLib
 					disp = 'block';
 					menuclass = "menuHeaderExpanded";
 					image = '<?=$skinget?>/minus.gif';
+					text = '-';
 				} else {
 					visib = 'hidden';
 					disp = 'none';
 					menuclass = "menuHeaderCollapsed";
 					image = '<?=$skinget?>/plus.gif';
+					text = '+';
 				}
 
 				document.write("<table  border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"padding:0 0 0 0;\" width=\"100%\">");
-				document.write("<tr style=\"background:url(<?=$skinget?>/expand.gif)\" onMouseover=\"this.style.background='url(<?=$skinget?>/onexpand.gif)'\" onMouseout=\"this.style.background='url(<?=$skinget?>/expand.gif)'\"><td style=\"width:180px;vertical-align: center; \"><span style='font-weight:bold'>&nbsp;" + this.label + "</span></td><td class=" + menuclass + " id=\"" + this.id + "\"" + "onclick=\"toggle(this)\">");
+				document.write("<tr style=\"background:#efe8e0 url(<?=$skinget?>/expand.gif)\" onMouseover=\"this.style.background='#efe8e0 url(<?=$skinget?>/onexpand.gif)'\" onMouseout=\"this.style.background='#efe8e0 url(<?=$skinget?>/expand.gif)'\"><td style=\"width:180px;vertical-align: center; \"><span style='font-weight:bold'>&nbsp;" + this.label + "</span></td><td class=" + menuclass + " id=\"" + this.id + "\"" + "onclick=\"toggle(this)\">");
 				document.write("&nbsp;<img id=" + this.id + "_image src=" + image + "></td></tr>");
 				document.write("</table>");
 				document.write("<div style=\"display: " + disp + "; visibility: " + visib + ";\"" + " class=\"menuItems\" id=\"" + this.id + "_child" + "\">");
@@ -8597,8 +8430,8 @@ class HtmlLib
 					continue;
 				}
 
-				$rdesc .= "<tr align=left style=\"border-width:1 ;background:url($skinget/a.gif)\"> <td> " .
-					"<img width=15 height=15 src=\"/img/image/collage/button/state_v_{$or->display('state')}.gif\"> {$or->shortdescr} </td> " .
+				$rdesc .= "<tr align=left style=\"border-width:1 ;background:#efe8e0 url($skinget/a.gif)\"> <td> " .
+					"<img width=15 height=15 src=\"/theme/image/collage/button/state_v_{$or->display('state')}.gif\"> {$or->shortdescr} </td> " .
 					"<td nowrap> {$or->display('resourceused')} </td> <td align=left> $limit&nbsp;</td> </tr>";
 			}
 
@@ -8608,7 +8441,8 @@ class HtmlLib
 <?php
 		}
 
-		$forumurl = "http://forum.lxcenter.org";
+	//	$forumurl = "http://forum.lxcenter.org";
+		$forumurl = "http://forum.mratwork.com";
 
 		if (!$login->isAdmin() && isset($login->getObject('general')->generalmisc_b->forumurl)) {
 			$forumurl = $login->getObject('general')->generalmisc_b->forumurl;
@@ -8625,11 +8459,11 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
-		$img_path = $login->getSkinDir();
-		$tbg = $img_path . "/lp_bg.gif";
-		$hpic = $img_path . "/lp_head.gif";
-		$imgleftpoint = "$img_path/left_point.gif";
-		$imgrightpoint = "$img_path/right_point.gif";
+		$skindir = $login->getSkinDir();
+		$tbg = $skindir . "/lp_bg.gif";
+		$hpic = $skindir . "/lp_head.gif";
+		$imgleftpoint = "{$skindir}left_point.gif";
+		$imgrightpoint = "{$skindir}right_point.gif";
 		$navtxt = "Navigation";
 		$histxt = "History";
 		$imgpoint = $imgleftpoint;
@@ -8639,10 +8473,9 @@ class HtmlLib
 
 		$l = getdate($gbl->c_session->logintime);
 		$login_time = $l['hours'] . ":" . $l['minutes'] . ":" . $l['seconds'];
-		$skin_name = $login->getSkinDir();
 
-		if (csa($skin_name, "_")) {
-			$skin_name = substr($skin_name, 0, strrpos($skin_name, "_"));
+		if (csa($skindir, "_")) {
+			$skin_name = substr($skindir, 0, strrpos($skindir, "_"));
 		}
 
 		$skin_name = str_replace("_", " ", $skin_name);
@@ -8753,7 +8586,7 @@ class HtmlLib
 		if (isset($gbl->__tmp_checkbox_value)) {
 ?>
 
-				<a href="javascript:treeStoreValue()"> <img src="/img/general/button/<?= $actionimg ?>"> </a>
+				<a href="javascript:treeStoreValue()"> <img src="/theme/general/button/<?= $actionimg ?>"> </a>
 <?php
 		}
 
@@ -9072,8 +8905,8 @@ class HtmlLib
 				}
 
 				$desc = get_plural($k);
-				$image = "/img/image/" . $login->getSpecialObject('sp_specialplay')->icon_name . "/button/browse.gif";
-				$endimg = "/img/right_point.gif";
+				$image = "/theme/image/" . $login->getSpecialObject('sp_specialplay')->icon_name . "/button/browse.gif";
+				$endimg = "/theme/right_point.gif";
 				$desc = "$desc";
 				$open = 'false';
 				$help = $desc;
@@ -9169,8 +9002,8 @@ class HtmlLib
 				}
 
 				$desc = get_plural($k);
-				$menuimg = "/img/image/" . $login->getSpecialObject('sp_specialplay')->icon_name . "/button/browse.gif";
-				$endimg = "/img/right_point.gif";
+				$menuimg = "/theme/image/" . $login->getSpecialObject('sp_specialplay')->icon_name . "/button/browse.gif";
+				$endimg = "/theme/right_point.gif";
 				$desc = "<span style=font-weight:bold>$desc</span>";
 				$mnu = $this->getMenuDescrString($menuimg, $desc, $endimg);
 
@@ -9297,23 +9130,37 @@ class HtmlLib
 			$bodycolor = "000";
 		}
 
-		if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
-		//	$bodycolor = $lightskincolor;
-			$bodybackground = "background-image:url('/login/images/abstract.jpg');";
+		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+			$bodybackground = "url(/login/images/abstract.jpg)";
+		} else {
+			$bodybackground = "";
 		}
 
 ?>
 <body leftmargin="0" rightmargin="0" <?= $func ?> align="center" topmargin="0" bottommargin="0"
-      bgcolor="#<?= $bodycolor ?>" style="background:#<?= $bodycolor ?>; <?= $bodybackground ?>">
+      bgcolor="#<?= $bodycolor ?>" style="background:#<?= $bodycolor ?> <?= $bodybackground ?>">
+<?php
+		if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
+				($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')){
+?>
+<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38;">
+<div style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:35px; padding:4px 4px 0 4px; vertical-align:middle"><? include_once "theme/menu/purecss/menu.php" ?></div>
+</div>
+<div style="position:fixed; right:10px; top:40px;"><img src="/login/images/kloxo-mr.png" height="75"></div>
 
 <?php
+		}
 
-		if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+		if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
+				($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')) {
 ?>
 
-<div id="mmm" leftmargin="0" rightmargin="0" <?= $func ?> height="100%" align="center">
+<!-- <div id="mmm" leftmargin="0" rightmargin="0" <?= $func ?> height="100%" align="center">
 	<div id="mainbodyd" style='padding:0; width:960px;'>
-		<div id="mainbodynext" style='background:#fff;border:1px solid #B6DEF8; margin:10px'>
+		<div id="mainbodynext" style='border:1px solid #B6DEF8; margin:10px; width:960px;'> -->
+
+<div id="mmm" style="padding:0; width:960px; margin:36px auto 10px auto">
+
 <?php
 		}
 
@@ -9429,9 +9276,9 @@ class HtmlLib
 		$this->print_include_jscript();
 ?>
 
-	<table id=tblmain cellpadding=0 cellspacing=0 border=0 width=100% height=100%>
-	<tr>
-	<td width=100% align=center valign=top>
+	<table id="tbltop" cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<td width="100%" align="center" valign="top">
 <?php
 	}
 
@@ -9510,7 +9357,7 @@ class HtmlLib
 
 		<table cellpadding=0 cellspacing=0>
 			<tr>
-				<td><img src='/img/aboutus.jpg'></td>
+				<td><img src='/theme/aboutus.jpg'></td>
 			</tr>
 		</table>
 <?php
@@ -9761,5 +9608,50 @@ class HtmlLib
 		}
 
 		return;
+	}
+
+//	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $formname, $name, $imagesrc, $descr, $check)
+	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $url, $name, $imagesrc, $descr, $check)
+	{
+		global $gbl, $sgbl, $login;
+
+		$help = $descr['help'];
+		$imgstr = null;
+
+		if ($imagesrc) {
+			$imgstr = "<img width='$imageheight' height='$imageheight' src='$imagesrc'>";
+		}
+
+		if ($linkflag) {
+			if ($login->getSpecialObject('sp_specialplay')->isOn('enable_ajax') && csb($key, "__v_dialog")) {
+				$displaystring = "<span title='$help'>  $descr[2] </span>";
+			} else {
+			//	$displaystring = "<span title='$help'> <a href=\"javascript:document.form_{$formname}.submit()\"> $descr[2]</a> </span>";
+				$displaystring = "<span title='$help'> <a href=\"$url\"> $descr[2]</a> </span>";
+			}
+
+		} else {
+			$displaystring = "<span title=\"You don't have permission\">$descr[2] </span>";
+		}
+
+		if ($check) {
+?>
+
+			<td height="34" wrap class="alink"
+			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class="alink"
+			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?>
+			</td>
+<?php
+		} else {
+?>
+
+			<td height="34" wrap class=alink
+			    style='cursor:pointer;background:#efe8e0 url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class=alink
+			    style='cursor:pointer;background:#efe8e0 url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span
+					size=-1><?= $displaystring ?></td>
+<?php
+		}
 	}
 }

@@ -1,7 +1,8 @@
 <?php 
 
-// chdir("../../");
-include_once "lib/html/include.php"; 
+$path = __FILE__;
+$dir = dirname(dirname(dirname($path)));
+include_once "$dir/lib/html/include.php"; 
 
 function parse_etc_mime()
 {

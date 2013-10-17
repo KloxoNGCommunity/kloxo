@@ -1,22 +1,21 @@
 .menus { 
-        color: #336699; 
-	    font-family: arial;
-		font-weight: bold;
-		font-size: 10px;
-		text-decoration: none ;
+	color: #336699; 
+	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-weight: bold;
+	font-size: 10px;
+	text-decoration: none;
 }
 
 .menus:hover { 
-        color: #0066FF;
+	color: #0066FF;
 } 
 
 .forgotpwd { 
-        color: #0066CC; 
-	    font-family: arial; 
-		font-weight: bold;
-		font-size: 8pt;
-		text-decoration: none;
-		
+	color: #0066CC; 
+	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-weight: bold;
+	font-size: 8pt;
+	text-decoration: none;	
 }
 
 .forgotpwd:hover { 
@@ -28,25 +27,24 @@
 }
 .loginbox{
 	border:1px solid #aaaaaa; 
-	font-family: arial; 
+	font-family: Tahoma, Verdana, Arial, sans-serif;
 	font-size: 10px; 
 	font-weight: normal; 
 	padding-left: 2; 
 	background-color: #fff;
 }
 
-
 .icontextlink { 
-        color: #000000; 
-	    font-family: arial;
-		font-weight: bold;
-		font-size: 9px;
-		text-decoration: none ;
+	color: #000000; 
+	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-weight: bold;
+	font-size: 9px;
+	text-decoration: none ;
 }
 
 .icontextlink:hover {
 	text-decoration:underline;
-    cursor:pointer;
+	cursor:pointer;
 }
 
 .searchtext {

@@ -55,8 +55,8 @@ class Html extends Htmllib
 		this.menuHiliteBgColor = "#e6eaed";
 		this.menuContainerBgColor = "#dbeefd";
 
-		//this.childMenuIcon = "/img/bullet.gif";
-		//this.childMenuIconHilite = "/img/bullet.gif";
+		//this.childMenuIcon = "/theme/bullet.gif";
+		//this.childMenuIconHilite = "/theme/bullet.gif";
 		this.items = new Array();
 		this.actions = new Array();
 		this.colors = new Array();

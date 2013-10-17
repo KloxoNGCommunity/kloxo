@@ -43,15 +43,15 @@ foreach($res as $k => $v) {
 		$var = 'show';
 	}
 
-//	$image = $ghtml->get_image("/img/image/collage/button/", $class, $var, ".gif");
+//	$image = $ghtml->get_image("/theme/image/collage/button/", $class, $var, ".gif");
 //	print(" <img width='20' height='20' src='$image'>&nbsp;</td><td $color ><a href=javascript:document.$formname.submit()> Click here to Login as $k ($v[0])</a>");
 
 	print("&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;</td><td $color ><a href=javascript:document.$formname.submit()> Click here to Login as $k ($v[0])</a>");
 	print("</td></tr>");
 }
 
-//	print(" <tr> <td ><img width=20 height=20 src=/img/general/button/on.gif> </td> <td ><a href=http://forum.mratwork.com/ target='_blank'> Visit our forums.</a> </td></tr>");
-//	print(" <tr> <td ><img width=20 height=20 src=/img/general/button/on.gif> </td> <td ><a href=http://mratwork.com/ target='_blank'> MRatWork</a> </td></tr>");
+//	print(" <tr> <td ><img width=20 height=20 src=/theme/general/button/on.gif> </td> <td ><a href=http://forum.mratwork.com/ target='_blank'> Visit our forums.</a> </td></tr>");
+//	print(" <tr> <td ><img width=20 height=20 src=/theme/general/button/on.gif> </td> <td ><a href=http://mratwork.com/ target='_blank'> MRatWork</a> </td></tr>");
 	print(" <tr> <td colspan='2'>&nbsp;</td></tr>");
 	print(" <tr> <td colspan='2'>Links:</td></tr>");
 	print(" <tr> <td >&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;</td> <td ><a href=http://forum.mratwork.com/ target='_blank'> Visit our forums</a> </td></tr>");

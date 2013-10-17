@@ -70,19 +70,13 @@ class SpecialPlay_b extends Lxaclass
 		$progname = $sgbl->__var_program_name;
 
 		if ($var === 'logo_image') {
-			return "/img/$progname-logo.gif";
+			return "/theme/kloxo-logo.gif";
 		}
 
 		if ($var === 'logo_image_loading') {
-			return "/img/$progname-splash.gif";
+			return "/theme/kloxo-splash.gif";
 		}
 
-		/*
-				// temporary only for admin - 6.1.7
-				if ($var === 'logo_image') {
-					return "/img/user-logo.png";
-				}
-			 */
 		if ($var === 'ssession_timeout') {
 			return 18000;
 		}
@@ -165,10 +159,10 @@ class sp_basespecialplay extends LxspecialClass
 				}
 
 				//	$vlist['specialplay_b-interface_template'] = array('s', $list);
-				$vlist['specialplay_b-skin_name'] = array('s', lscandir_without_dot(getreal("/img/skin/$progname")));
+				$vlist['specialplay_b-skin_name'] = array('s', lscandir_without_dot(getreal("/theme/skin")));
 
 
-				$vlist['specialplay_b-skin_color'] = array('s', lscandir_without_dot(getreal("/img/skin/$progname/" . $this->specialplay_b->skin_name)));
+				$vlist['specialplay_b-skin_color'] = array('s', lscandir_without_dot(getreal("/theme/skin/" . $this->specialplay_b->skin_name)));
 				$vlist['specialplay_b-icon_name'] = array('s', array('collage'));
 				$vlist['specialplay_b-language'] = array('A', $this->getLanguage());
 				//	$vlist['specialplay_b-login_page'] =array('s', $this->getParentO()->getLoginTo());
@@ -186,13 +180,6 @@ class sp_basespecialplay extends LxspecialClass
 					$vlist['specialplay_b-logo_image_loading'] = null;
 				}
 
-				/*
-				  if ($sgbl->isKloxo()) {
-					  if (!$this->getParentO()->isLogin()) {
-						  $vlist['specialplay_b-disable_docroot'] = null;
-					  }
-				  }
-			 */
 
 				//	$vlist['specialplay_b_s_show_add_buttons'] =null;
 				//	$vlist['specialplay_b-lpanel_scrollbar'] = null;
@@ -211,7 +198,7 @@ class sp_basespecialplay extends LxspecialClass
 					//	$vlist['specialplay_b-logo_image'] =array('I', array("width" => 20, "height" => 20,
 					//		"value" => $this->specialplay_b->logo_image));
 					// trick use 'null' for guarantee 100% size of img (not 100% size div container)
-					$vlist['specialplay_b-logo_image'] = array('I', array("width" => "null", "height" => "null", "value" => "/img/user-logo.png"));
+					$vlist['specialplay_b-logo_image'] = array('I', array("width" => "null", "height" => "null", "value" => "/theme/user-logo.png"));
 					$vlist['logo_image_f'] = null;
 					//	$vlist['specialplay_b-logo_image_loading'] =array('I', array("width" => 20, "height" => 20,
 					//		"value" => $this->specialplay_b->logo_image_loading));
@@ -275,11 +262,8 @@ class sp_basespecialplay extends LxspecialClass
 		$progname = $sgbl->__var_program_name;
 		$parent = $this->getParentO();
 		$imgname = $parent->getClName();
-		//	$param['specialplay_b-logo_image'] = "/img/logo/$imgname.gif";
-		//	$param['specialplay_b-logo_image_loading'] = "/img/logo/$imgname-loading.gif";
-		//	make_sure_directory_is_lxlabs("__path_program_htmlbase/img/logo");
 
-		$param['specialplay_b-logo_image'] = "/img/user-logo.png";
+		$param['specialplay_b-logo_image'] = "/user-logo.png";
 
 		$fullpath_logo_image = __path_program_htmlbase . $param['specialplay_b-logo_image'];
 
@@ -287,25 +271,12 @@ class sp_basespecialplay extends LxspecialClass
 		if ($_FILES['logo_image_f']['tmp_name']) {
 			lxfile_mv($_FILES['logo_image_f']['tmp_name'], $fullpath_logo_image);
 		}
-		/*
-		 else {
-			 lxfile_cp("__path_program_htmlbase/img/$progname-logo.gif", "__path_program_htmlbase" . $param['specialplay_b-logo_image']);
-		 }
-	 */
+
 		lxfile_cp($fullpath_logo_image, "/usr/local/lxlabs/kloxo/file/user-logo.png");
 		// must chown to lxlabs for successful display on 'Upload Logo'
 		lxfile_unix_chown($fullpath_logo_image, "lxlabs");
 		exec("lxphp.exe /usr/local/lxlabs/kloxo/bin/fix/fix-userlogo.php --select=all");
 
-		/*
-		 if ($_FILES['logo_image_loading_f']['tmp_name']) {
-			 lxfile_mv($_FILES['logo_image_loading_f']['tmp_name'],
-				  "__path_program_htmlbase" .$param['specialplay_b-logo_image_loading']);
-		 } else {
-			 lxfile_cp("__path_program_htmlbase/img/$progname-splash.gif",
-				 "__path_program_htmlbase" . $param['specialplay_b-logo_image_loading']);
-		 }
-	 */
 		$tsp = $parent->getObject("sp_childspecialplay");
 		$tsp->specialplay_b->logo_image = $param['specialplay_b-logo_image'];
 		//	$tsp->specialplay_b->logo_image_loading = $param['specialplay_b-logo_image_loading'];
@@ -349,7 +320,7 @@ class sp_basespecialplay extends LxspecialClass
 		$sk = $param['specialplay_b-skin_name'];
 		$skc = $param['specialplay_b-skin_color'];
 
-		if (!lxfile_exists("img/skin/$progname/$sk/$skc")) {
+		if (!lxfile_exists("theme/skin/$sk/$skc")) {
 			$param['specialplay_b-skin_color'] = 'default';
 		}
 

@@ -18,7 +18,7 @@ function updatecleanup_main()
 		initProgram('admin');
 		$flg = "__path_program_start_vps_flag";
 		if (!lxfile_exists($flg)) {
-			set_login_skin_to_feather();
+			set_login_skin_to_simplicity();
 		}
 	} else {
 		$login = new Client(null, null, 'update');

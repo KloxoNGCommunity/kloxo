@@ -40,7 +40,7 @@ function __ac_desc_desktop($object)
 
 				</form>
 			</td>
-			<td><a href="javascript:document.desktopsearch.submit()"> <img src="img/general/icon/search_b.gif">
+			<td><a href="javascript:document.desktopsearch.submit()"> <img src="theme/general/icon/search_b.gif">
 				Search </a> </td>
 		</tr>
 	</table>
@@ -241,7 +241,7 @@ function __ac_desc_show($object)
 					<td align="center">
 						<table cellpadding="4" width="80%" cellspacing="13" border="1" height="80">
 							<tr>
-								<td> &nbsp; &nbsp; <img src="img/general/button/warningpic.gif">
+								<td> &nbsp; &nbsp; <img src="theme/general/button/warningpic.gif">
 									&nbsp; <?= $showalist['__v_message'] ?> </td>
 							</tr>
 						</table>
@@ -1699,7 +1699,7 @@ function print_navigation($navig)
 
 	if ($sgbl->isBlackBackground()) {
 		$imgstr = null;
-		$image = "/img/black.gif";
+		$image = "/theme/black.gif";
 	}
 ?>
 
@@ -1838,14 +1838,18 @@ function print_navigation($navig)
 			</td>
 <?php
 
-			if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+			if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) &&
+					($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity')) {
 				if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
-				//	$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
-					$v = create_simpleObject(array('url' => "javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }", 'purl' => '&a=updateform&sa=logout', 'target' => null));
-					$ghtml->print_div_button_on_header(null, true, $k, $v);
+					$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
+				//	$v = create_simpleObject(array('url' => "javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }", 'purl' => '&a=updateform&sa=logout', 'target' => null));
+					$ghtml->print_div_button_on_header(null, true, $k, '');
 				}
+
+			} elseif ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+				//
 			} else {
-				$imgstring = "<img width=18 height=18 src=/img/general/button/star.gif>";
+				$imgstring = "<img width=18 height=18 src=/theme/general/button/star.gif>";
 
 				if ($sgbl->isBlackBackground()) {
 					$imgstring = null;
@@ -1855,7 +1859,7 @@ function print_navigation($navig)
 
 				<td></td>
 				<td width="10">&nbsp;</td>
-				<td align="right" nowrap><a href="<?= $shurl ?>"> Add to <?= $hypervm ?> Favorites </a> &nbsp; </td>
+				<td align="right" nowrap><a href="<?= $shurl ?>"> Add to Favorites </a> &nbsp; </td>
 <?php
 			}
 
@@ -2219,11 +2223,12 @@ function display_end()
 		</tr>
 	</table>
 <?php
-	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+	if ( ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
+			($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')) {
 ?>
 				</div>
-			</div>
-		</div>
+			<!-- </div>
+		</div> -->
 <?php
 	}
 ?>

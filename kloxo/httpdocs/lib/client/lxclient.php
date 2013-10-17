@@ -408,7 +408,7 @@ abstract class Lxclient extends Lxdb
 			return $dir;
 		}
 		
-		$dir = "/img/skin/{$sgbl->__var_program_name}/{$this->getSpecialObject('sp_specialplay')->skin_name}/{$this->getSpecialObject('sp_specialplay')->skin_color}/";
+		$dir = "/theme/skin/{$this->getSpecialObject('sp_specialplay')->skin_name}/{$this->getSpecialObject('sp_specialplay')->skin_color}/";
 
 		return $dir;
 	}

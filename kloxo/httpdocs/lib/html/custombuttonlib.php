@@ -32,12 +32,12 @@ static function createListNlist($parent, $view)
 
 function updateUpdate($param)
 {
-	lxfile_mkdir("img/custom");
+	lxfile_mkdir("theme/custom");
 
 	if ($_FILES['upload']['tmp_name']) {
-		lxfile_rm("img/custom/{$this->nname}.gif");
-		lxfile_mv($_FILES['upload']['tmp_name'], "img/custom/{$this->nname}.gif");
-		lxfile_generic_chmod("img/custom/{$this->nname}.gif", "0755");
+		lxfile_rm("theme/custom/{$this->nname}.gif");
+		lxfile_mv($_FILES['upload']['tmp_name'], "theme/custom/{$this->nname}.gif");
+		lxfile_generic_chmod("theme/custom/{$this->nname}.gif", "0755");
 	}
 	return $param;
 }
@@ -49,7 +49,7 @@ function updateform($subaction, $param)
 	$vlist['class'] = array('s', $list);
 	$vlist['description'] = null;
 	$vlist['url'] = null;
-	$ipt = "img/custom/{$this->nname}.gif";
+	$ipt = "theme/custom/{$this->nname}.gif";
 	if (lxfile_exists($ipt)) {
 		$vlist['image'] = array('I', array('width' => 20, 'height' => 20, 'value' => $ipt));
 	} else {

@@ -85,7 +85,7 @@ function print_a_right_button($something, $ttype, $id, $pos)
 	$skindir = $login->getSkinDir();
 	?> 
 	
-	<table border="0" cellspacing=0 cellpadding=0 style='font-size:11;color:#004466;height:34;width:73;background:url(<?php echo $skindir ?>/right_btn.gif);' OnMouseOver="style.cursor='pointer'; top.mainframe.changeContent('help','<?php echo $name?>');"  <?php echo $onclickstring ?> onmouseout="changeContent('help','helparea')"><tr><td valign=bottom width=17 height=34 align=left style='padding-bottom:5;padding-left:6'><img height=8 width=8 src='/img/image/<?php echo $login->getSpecialObject('sp_specialplay')->icon_name ?>/button/<?php echo $icon ?>'></td><td valign=bottom width=53 style='padding-left:3;padding-bottom:3;' align=left><b><?php echo  $name ?> </font> </b></td></tr></table>
+	<table border="0" cellspacing=0 cellpadding=0 style='font-size:11;color:#004466;height:34;width:73;background:url(<?php echo $skindir ?>/right_btn.gif);' OnMouseOver="style.cursor='pointer'; top.mainframe.changeContent('help','<?php echo $name?>');"  <?php echo $onclickstring ?> onmouseout="changeContent('help','helparea')"><tr><td valign=bottom width=17 height=34 align=left style='padding-bottom:5;padding-left:6'><img height=8 width=8 src='/theme/image/<?php echo $login->getSpecialObject('sp_specialplay')->icon_name ?>/button/<?php echo $icon ?>'></td><td valign=bottom width=53 style='padding-left:3;padding-bottom:3;' align=left><b><?php echo  $name ?> </font> </b></td></tr></table>
 	<?php 
 }
 
@@ -120,7 +120,7 @@ function print_a_button($side, $ttype, $id, $pos, $menupos = 0)
 //	$pos = 1;
 
 	?> 
-			<table width=85 cellspacing=0 cellpadding=0 border=0 style='font-size:11;color:#004466;height:34;margin:0 0 0 0;background:url(<?php echo $login->getSkinDir() ?>/<?php echo $bgimg ?>)' OnMouseOver="style.cursor='pointer' ;  top.mainframe.changeContent('help','<?php echo $name?>');" onClick="top.mainframe.location='<?php echo $url ?>';" onmouseout="top.mainframe.changeContent('help','helparea')"><tr><td <?php echo $imgtdprop ?>  align=center <?php echo $tdstyle ?>'><img <?php echo $imgprop ?>  src='/img/image/<?php echo $login->getSpecialObject('sp_specialplay')->icon_name ?>/button/<?php echo $icon ?>'></td><td  <?php $tdstyle ?> valign=middle align=center><b><?php echo $name ?>&nbsp;</b></td> </tr></table>
+			<table width=85 cellspacing=0 cellpadding=0 border=0 style='font-size:11;color:#004466;height:34;margin:0 0 0 0;background:url(<?php echo $login->getSkinDir() ?>/<?php echo $bgimg ?>)' OnMouseOver="style.cursor='pointer' ;  top.mainframe.changeContent('help','<?php echo $name?>');" onClick="top.mainframe.location='<?php echo $url ?>';" onmouseout="top.mainframe.changeContent('help','helparea')"><tr><td <?php echo $imgtdprop ?>  align=center <?php echo $tdstyle ?>'><img <?php echo $imgprop ?>  src='/theme/image/<?php echo $login->getSpecialObject('sp_specialplay')->icon_name ?>/button/<?php echo $icon ?>'></td><td  <?php $tdstyle ?> valign=middle align=center><b><?php echo $name ?>&nbsp;</b></td> </tr></table>
 			<?php 
 }
 
@@ -142,8 +142,8 @@ function print_header_old_default()
 	$skin = $login->getSkinDir();
 //	$logo = $login->getSpecialObject('sp_specialplay')->logo_image;
 //	$logo_loading = $login->getSpecialObject('sp_specialplay')->logo_image_loading;
-	$logo = "/img/kloxo-logo.gif";
-	$logo_loading = "/img/kloxo-splash.gif";
+	$logo = "/theme/kloxo-logo.gif";
+	$logo_loading = "/theme/kloxo-splash.gif";
 ?>
 <script>
 if (document.captureEvents) {

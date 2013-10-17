@@ -16,7 +16,7 @@ var _arrMenus     = new Array;	//Holds top level menus
 var _mnuIndex     = 0;			//Total number of menus.
 var _themeFolder  = "/panel/css/xpmenu/";
 var _themeFile    = "XPBlue.css";
-var _imageFolder  = "/img/xpmenu/";
+var _imageFolder  = "/theme/xpmenu/";
 var _browser      = -1;
 var _strCtxt      = "";
 

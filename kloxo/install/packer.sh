@@ -108,9 +108,10 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/pid" \
 	--exclude "./kloxomr-$ver/init/*.sock" \
 	--exclude "./kloxomr-$ver/httpdocs/panel/fckeditor/editor/_source" \
-	--exclude "./kloxomr-$ver/httpdocs/panel/extjs/docs" \
-	--exclude "./kloxomr-$ver/httpdocs/panel/extjs/examples" \
-	--exclude "./kloxomr-$ver/httpdocs/panel/extjs/source"
+	--exclude "./kloxomr-$ver/httpdocs/panel/extjs" \
+	--exclude "./kloxomr-$ver/httpdocs/panel/yui-dragdrop" \
+	--exclude "./kloxomr-$ver/httpdocs/panel/*.old" \
+	--exclude "./kloxomr-$ver/httpdocs/panel/*.bck"
 
 rm -rf ./kloxomr-$ver > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1

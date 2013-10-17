@@ -184,12 +184,12 @@ static function showDescription($object, $name)
 		if ($searchstring && !csa($small, $searchstring)) {
 			continue;
 		}
-		$icon = "/img/installapp/icon_$small.gif";
+		$icon = "/theme/installapp/icon_$small.gif";
 		$count++;
 		$bgcolorvar = null;
 
 		if ($small === $lowername) {
-			$pointericon = "<img width=5 height=5 src=img/image/collage/button/on.gif>";
+			$pointericon = "<img width=5 height=5 src=theme/image/collage/button/on.gif>";
 			$bgcolorvar = "bgcolor=$color";
 		} 
 		if (csa($l, "__title")) {
@@ -272,7 +272,7 @@ static function showDescription($object, $name)
 <table cellpadding=0 width=100% cellspacing=15> <tr> <td colspan=3 valign=top>
 <?php	
 	$pimg = "$lowername.gif";
-	print "<img src=/img/installapp/$pimg>";
+	print "<img src=/theme/installapp/$pimg>";
 	?> 
 	</td>
 	</tr> 
