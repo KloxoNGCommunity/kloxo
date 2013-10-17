@@ -118,7 +118,8 @@ function main_main()
 
 	initProgram();
 
-	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+	if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
+			($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')) {
 	//	include_once "./display.php";
 		header( 'Location: /display.php?frm_action=show' ) ;
 	} else {
