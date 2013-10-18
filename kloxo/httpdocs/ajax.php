@@ -1,6 +1,6 @@
 <?php 
 
-include_once "panel/coredisplaylib.php";
+include_once "theme/coredisplaylib.php";
 
 log_log("ajax", var_export($_REQUEST, true));
 

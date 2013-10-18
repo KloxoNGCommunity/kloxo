@@ -109,7 +109,7 @@ $ghtml->print_div_button_on_header(null, true, $k, $v);
 return;
 ?> 
 <body topmargin=0 bottommargin=0 leftmargin=0 rightmargin=0 class="bdy1" onload="foc()">
-	<link href="/panel/css/header_new.css" rel="stylesheet" type="text/css" />
+	<link href="/theme/css/header_new.css" rel="stylesheet" type="text/css" />
 <table id="tab1" border="0" cellpadding="0" cellspacing="0">
 <tr><td class="top2"><div class="menuover" style="margin-top:2px;margin-left:0%">
 

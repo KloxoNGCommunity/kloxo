@@ -69,7 +69,7 @@ function print_tab_block_start($alist)
 	<table id="tblmain" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%" style="<?= $bordering ?>; background-color: #fff">
 	<tr>
 	<td width="100%" align="center" valign="top">
-	<br>
+	<!-- <br> -->
 <?php
 }
 

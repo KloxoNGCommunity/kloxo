@@ -330,6 +330,13 @@
 </td>
 <td>
 <ul class="pureCssMenu pureCssMenum">
+	<li class="pureCssMenui0"><a class="pureCssMenui0" href="javascript://" onMouseOver="document.getElementById('infomsg').style.display='inline';" 
+		onMouseOut="document.getElementById('infomsg').style.display='none';">Help</a></li>
+</ul>
+</td>
+<td>&nbsp;</td>
+<td>
+<ul class="pureCssMenu pureCssMenum">
 	<li class="pureCssMenui0"><a class="pureCssMenui0" href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }">Logout</a></li>
 </ul>
 </td></tr></table>

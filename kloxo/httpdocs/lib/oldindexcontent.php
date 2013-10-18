@@ -3,9 +3,9 @@ $accountlist = array('client' => "Kloxo Account", 'pserver' => "Server Admin", '
 ?> 
 <head> 
 		<title> <?php echo get_title() ?> </title> 
-    	<link href=/panel/css/common.css rel=stylesheet type=text/css>
-		<script language=javascript src="/panel/js/login.js"></script>
-		<script language=javascript src="/panel/js/preop.js"></script>
+    	<link href=/theme/css/common.css rel=stylesheet type=text/css>
+		<script language=javascript src="/theme/js/login.js"></script>
+		<script language=javascript src="/theme/js/preop.js"></script>
 		</head>
 		<body leftmargin=0 rightmargin=0 topmargin=0 bottommargin=0>
 		<center>

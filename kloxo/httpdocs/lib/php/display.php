@@ -1,3 +1,3 @@
 <?php 
 
-include_once "panel/coredisplaylib.php";
+include_once "theme/coredisplaylib.php";

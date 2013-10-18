@@ -29,7 +29,7 @@ function dbactionUpdate($subaction)
 	if ($contentsca) {
 		lfile_put_contents("$path/$name.ca", $contentsca);
 	} else {
-		lxfile_cp("panel/filecore/program.ca", "$path/$name.ca");
+		lxfile_cp("theme/filecore/program.ca", "$path/$name.ca");
 	}
 
 	createRestartFile($this->main->__var_webdriver);

@@ -20,7 +20,7 @@ function showRawPrint($subaction = null)
 
 
 
-	$v = lfile_get_contents("panel/filecore/sshterm-applet.htm");
+	$v = lfile_get_contents("theme/filecore/sshterm-applet.htm");
 
 
 	if ($parent->is__table('pserver')) {

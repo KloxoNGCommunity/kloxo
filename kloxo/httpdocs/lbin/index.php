@@ -52,7 +52,7 @@ function domainshow()
 
 	<FRAME name=topframe src="/lbin/header.php" scrolling=no>
 		<FRAMESET frameborder=0 cols="<?php echo $width?>,*" border=0>
-		<FRAME name=leftframe src='/panel/lbin/lpanel.php' <?php echo $scrollstring ?>  border=0>
+		<FRAME name=leftframe src='/theme/lbin/lpanel.php' <?php echo $scrollstring ?>  border=0>
 	<FRAME name=mainframe src="<?php echo $url ?>">
 	</FRAMESET>
 	</FRAMESET>

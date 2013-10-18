@@ -22,7 +22,7 @@ include_once "lib/sgbl.php";
 include_once "lib/common.inc";
 //include_once "lib/html/xmlinclude.php";
 // This is the program specific common lib. There is no need dump everything lib/html/lib.php which has become too large.
-include_once "lib/programlib.php";
+// include_once "lib/programlib.php";
 
 // that mean no Localize before 6.2.x
 if (file_exists("$dir/l18n/l18n.php")) {

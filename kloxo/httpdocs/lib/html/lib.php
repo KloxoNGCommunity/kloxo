@@ -455,7 +455,7 @@ function print_quick_action($class)
 
 	$res = null;
 	$res .= " <tr style=\"background:#d6dff7\"> <td >";
-	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/panel/lbin/redirect.php\">";
+	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/theme/lbin/redirect.php\">";
 
 	$desc = $ghtml->get_class_description($class);
 //	$res .= "$desc[2] <br> ";
@@ -3273,7 +3273,7 @@ function getKloxoLicenseInfo($nolog = null)
 	log_cleanup("Get Kloxo License info", $nolog);
 	log_cleanup("- Get process", $nolog);
 
-	lxshell_php("panel/lbin/getlicense.php");
+	lxshell_php("theme/lbin/getlicense.php");
 }
 
 function createDatabaseInterfaceTemplate($nolog = null)
@@ -4274,7 +4274,7 @@ function fix_self_ssl($nolog = null)
 	log_cleanup("Fix Self SSL", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxfile_cp("panel/filecore/program.pem", "../etc/program.pem");
+	lxfile_cp("theme/filecore/program.pem", "../etc/program.pem");
 }
 
 function remove_line($filename, $pattern)
@@ -6291,7 +6291,7 @@ function setJailshellSystem($nolog = null)
 	if (!lxfile_exists("/usr/bin/execzsh.sh")) {
 		log_cleanup("- Installing process", $nolog);
 		addLineIfNotExistInside("/etc/shells", "/usr/bin/lxjailshell", "");
-		lxfile_cp("panel/filecore/execzsh.sh", "/usr/bin/execzsh.sh");
+		lxfile_cp("theme/filecore/execzsh.sh", "/usr/bin/execzsh.sh");
 		lxfile_unix_chmod("/usr/bin/execzsh.sh", "0755");
 	} else {
 		log_cleanup("- Already exists", $nolog);

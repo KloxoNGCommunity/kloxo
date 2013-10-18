@@ -142,8 +142,8 @@ function print_header_old_default()
 	$skin = $login->getSkinDir();
 //	$logo = $login->getSpecialObject('sp_specialplay')->logo_image;
 //	$logo_loading = $login->getSpecialObject('sp_specialplay')->logo_image_loading;
-	$logo = "/theme/kloxo-logo.gif";
-	$logo_loading = "/theme/kloxo-splash.gif";
+	$logo = "/theme/image/kloxo-logo.gif";
+	$logo_loading = "/theme/image/kloxo-splash.gif";
 ?>
 <script>
 if (document.captureEvents) {

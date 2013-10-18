@@ -33,7 +33,7 @@ $gl_class_array["sshclient"] = "lib/pserver/sshclientlib.php";
 $gl_class_array["consolessh"] = "lib/pserver/consolesshlib.php";
 $gl_class_array["traffichistory"] = "lib/html/traffichistorylib.php";
 
-$gl_class_array["htmllib"] = "panel/htmllib.php";
+$gl_class_array["htmllib"] = "theme/htmllib.php";
 
 $gl_class_array["sshauthorizedkey"] = "lib/pserver/sshauthorizedkeylib.php";
 $gl_class_array["sshauthorizedkey__sync"] = "lib/pserver/driver/sshauthorizedkey__synclib.php";

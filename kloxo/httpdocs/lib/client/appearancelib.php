@@ -70,11 +70,11 @@ class SpecialPlay_b extends Lxaclass
 		$progname = $sgbl->__var_program_name;
 
 		if ($var === 'logo_image') {
-			return "/theme/kloxo-logo.gif";
+			return "/theme/image/kloxo-logo.gif";
 		}
 
 		if ($var === 'logo_image_loading') {
-			return "/theme/kloxo-splash.gif";
+			return "/theme/image/kloxo-splash.gif";
 		}
 
 		if ($var === 'ssession_timeout') {
