@@ -54,12 +54,14 @@ function print_tab_block_start($alist)
 							</td>
 <?php
 						}
-
+					/*
 						if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 							$bordering = "border:1px solid #ddd; border-top:0";
 						} else {
 							$bordering = "border:0";
 						}
+					*/
+						$bordering = "border:0";
 ?>
 
 					</tr>

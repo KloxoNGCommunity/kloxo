@@ -247,7 +247,7 @@ body {
 .verb3{white-space:nowrap;margin-bottom:1px;}
 .tabnew{white-space:nowrap;height:28px;width:75px;background-image:url(/theme/skin/feather/default/images/60.jpg);background-repeat:repeat-x;text-align:center;border-bottom:4px #ffffff solid;vertical-align:bottom;background-position:0px 0px}
 .tabcomplete { border-bottom:1px #ddd solid; }
-.tabcompletediv { border-bottom:1px #fff solid; }
+.tabcompletediv { /* border-bottom:1px #fff solid; */ }
 .tabnew1{white-space:nowrap;height:28px;width:85px;background-image:url(/theme/skin/feather/default/images/70.jpg);background-repeat:repeat-x;text-align:center;background-position:0px 5px;vertical-align:bottom;border-bottom:1px #ddd solid}
 .new2{height:22px;width:60px;background-image:url(/theme/skin/feather/default/images/70.jpg);background-repeat:repeat-x;text-align:center;background-position:0px 5px;vertical-align:bottom;border-bottom:2px #b6def8 solid}
 

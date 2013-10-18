@@ -1841,9 +1841,11 @@ function print_navigation($navig)
 			if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) &&
 					($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity')) {
 				if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
-					$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
-				//	$v = create_simpleObject(array('url' => "javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }", 'purl' => '&a=updateform&sa=logout', 'target' => null));
-					$ghtml->print_div_button_on_header(null, true, $k, '');
+				//	$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
+				//	$ghtml->print_div_button_on_header(null, true, $k, '');
+?>
+				<td><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" />&nbsp;</td>
+<?php					
 				}
 
 			} elseif ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {

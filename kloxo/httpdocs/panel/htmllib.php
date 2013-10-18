@@ -9121,27 +9121,34 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$lightskincolor = $login->getSkinColor();
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
+		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
+
+	//	$lightskincolor = $login->getSkinColor();
 		$lightskincolor = "818fb0";
+
 		$func = "onLoad='lxLoadBody();'";
-		$bodycolor = "ffffff";
 
 		if ($sgbl->isBlackBackground()) {
 			$bodycolor = "000";
 		}
 
-		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+		if ($skin_name === 'simplicity') {
 			$bodybackground = "url(/login/images/abstract.jpg)";
+			$bodycolor = "ffffff";
 		} else {
 			$bodybackground = "";
+			$bodycolor = $lightskincolor;
 		}
 
 ?>
-<body leftmargin="0" rightmargin="0" <?= $func ?> align="center" topmargin="0" bottommargin="0"
-      bgcolor="#<?= $bodycolor ?>" style="background:#<?= $bodycolor ?> <?= $bodybackground ?>">
+<body style="border:0; margin:0; padding:0; background:#<?= $bodycolor ?> <?= $bodybackground ?>">
 <?php
-		if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
-				($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')){
+/*
+		if (($as_simple_skin) || ($skin_name === 'simplicity')) {
+*/
+		if ($skin_name === 'simplicity') {
 ?>
 <div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38;">
 <div style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:35px; padding:4px 4px 0 4px; vertical-align:middle"><? include_once "theme/menu/purecss/menu.php" ?></div>
@@ -9151,15 +9158,23 @@ class HtmlLib
 <?php
 		}
 
-		if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
-				($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')) {
+		if (($as_simple_skin) || ($skin_name === 'simplicity')) {
+			if ($skin_name === 'simplicity') {
+				$margin_top = '36';
+				$border = '0';
+				$bgcolor = "";
+			} else {
+				$margin_top = '10';
+				$border = '4px double #ddd';
+				$bgcolor = "background-color:#ffffff";
+			}
 ?>
 
 <!-- <div id="mmm" leftmargin="0" rightmargin="0" <?= $func ?> height="100%" align="center">
 	<div id="mainbodyd" style='padding:0; width:960px;'>
 		<div id="mainbodynext" style='border:1px solid #B6DEF8; margin:10px; width:960px;'> -->
 
-<div id="mmm" style="padding:0; width:960px; margin:36px auto 10px auto">
+<div id="mmm" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; border: <?= $border ?>; <?= $bgcolor ?>">
 
 <?php
 		}
@@ -9274,9 +9289,15 @@ class HtmlLib
 		$imgbordermain = $login->getSkinDir() . "/top_line_medium.gif";
 
 		$this->print_include_jscript();
+
+		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
+			$bgcolor = "bgcolor=#fff";
+		} else {
+			$bgcolor = "";
+		}
 ?>
 
-	<table id="tbltop" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<table id="tbltop" cellpadding="0" cellspacing="0" border="0" <?= $bgcolor ?> width="100%">
 		<tr>
 			<td width="100%" align="center" valign="top">
 <?php

@@ -378,7 +378,7 @@
 	}
 
 	.tabcompletediv {
-		border-bottom: 1px solid #fff;
+		/* border-bottom: 1px solid #fff; */
 	}
 
 	.tabnew1 {
@@ -386,7 +386,7 @@
 		height: 28px;
 		width: 85px;
 		/* background-color: #edf; */
-		background-color: #f8f0ff;
+		background-color: #bdf;
 		background-repeat: repeat-x;
 		text-align: center;
 		background-position: 0px 5px;

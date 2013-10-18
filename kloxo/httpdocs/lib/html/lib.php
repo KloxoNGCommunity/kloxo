@@ -59,15 +59,19 @@ function print_head_image()
 		return;
 	}
 
+	$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
+	if ($skin_name !== 'feather') { return; }
 ?>
-	<link href="/theme/skin/simplicity/default/style.css" rel="stylesheet" type="text/css" />
-	<!-- <table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(/theme/skin/feather/default/invertfeather.jpg)">
+	<link href="/theme/skin/<?= $skin_name ?>/default/style.css" rel="stylesheet" type="text/css" />
+	<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(/theme/skin/<?= $skin_name ?>/default/completefeather.jpg)">
 		<tr>
 			<td width=100% id='td1'></td>
 <?php
 	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
-			<td valign='top'><a href='javascript:top.mainframe.logOut()'>Logout</a></td>
+			<!-- <td valign='top'><a href='javascript:top.mainframe.logOut()'>Logout</a></td> -->
+			<td valign='top'><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
 <?php
 	}
 ?>
@@ -75,7 +79,7 @@ function print_head_image()
 		<tr>
 			<td colspan='3' class='bg2'></td>
 		</tr>
-	</table> -->
+	</table>
 <?php
 }
 
