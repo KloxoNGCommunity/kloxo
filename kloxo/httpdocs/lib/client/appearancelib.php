@@ -9,6 +9,9 @@ class SpecialPlay_b extends Lxaclass
 	static $__desc_skin_name_v_default = array("", "", "skin");
 	static $__desc_skin_color = array("", "", "skin_color");
 	static $__desc_skin_color_v_default = array("", "", "skin");
+
+	static $__desc_skin_background = array("", "", "background");
+
 	static $__desc_icon_name = array("", "", "icon_name");
 	static $__desc_logo_image = array("", "", "current_logo_url");
 	static $__desc_login_page = array("", "", "login_to");
@@ -158,22 +161,22 @@ class sp_basespecialplay extends LxspecialClass
 					$list = lx_array_merge(array(array("--$progname-default--"), $list));
 				}
 
-				//	$vlist['specialplay_b-interface_template'] = array('s', $list);
 				$vlist['specialplay_b-skin_name'] = array('s', lscandir_without_dot(getreal("/theme/skin")));
 
 
 				$vlist['specialplay_b-skin_color'] = array('s', lscandir_without_dot(getreal("/theme/skin/" . $this->specialplay_b->skin_name)));
 				$vlist['specialplay_b-icon_name'] = array('s', array('collage'));
+
+				if ($this->specialplay_b->skin_name === 'simplicity') {
+					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/image/background")));
+				}
+
 				$vlist['specialplay_b-language'] = array('A', $this->getLanguage());
-				//	$vlist['specialplay_b-login_page'] =array('s', $this->getParentO()->getLoginTo());
-				//	$vlist['specialplay_b-split_frame'] = null;
-				//	$vlist['specialplay_b-show_help'] =null;
 
 				if ($this->getParentO()->isLte('reseller') && $sgbl->isKloxo()) {
 					$vlist['specialplay_b-customermode_flag'] = null;
 				}
 
-				//	$vlist['specialplay_b-disable_quickaction'] = null;
 
 				if (!$this->getParentO()->isLogin()) {
 					$vlist['specialplay_b-logo_image'] = null;
@@ -181,15 +184,7 @@ class sp_basespecialplay extends LxspecialClass
 				}
 
 
-				//	$vlist['specialplay_b_s_show_add_buttons'] =null;
-				//	$vlist['specialplay_b-lpanel_scrollbar'] = null;
-				//	$vlist['specialplay_b-resource_bottom'] =null;
-				//	$vlist['specialplay_b_s_show_brethren_list'] = array('s', array('off', 'top', 'left'));
-				//	$vlist['specialplay_b_s_lpanel_group_resource'] =null;
-				//	$vlist['specialplay_b_s_ultra_navig'] =null;
-				//	$vlist['specialplay_b-lpanel_depth'] = null;
 				$vlist['__v_updateall_button'] = array();
-				//	$vlist['specialplay_b_s_per_page'] = null;
 
 				break;
 

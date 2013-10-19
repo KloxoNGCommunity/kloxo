@@ -255,6 +255,7 @@ function os_create_default_slave_driver_db()
 {
 	$a['web'] = "apache";
 	$a['dns'] = "bind";
+	$a['webcache'] = "none";
 //	$a['spam'] = "spamassassin";
 	slave_save_db("driver", $a);
 }

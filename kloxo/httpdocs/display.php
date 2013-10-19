@@ -16,5 +16,5 @@ print_time("start", "Start");
 //$gbl->__c_object->__parent_o = null;
 //dprintr($gbl->__c_object->ls);
 //dprintr($gbl->__c_object->priv);
-display_exec();
-display_end();
+// display_exec();
+// display_end();

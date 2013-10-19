@@ -371,6 +371,7 @@
 		vertical-align: bottom;
 		border: 1px solid #aaa;
 		border-bottom: 0;
+		background-color: #fff;
 	}
 
 	.tabcomplete {
@@ -386,7 +387,7 @@
 		height: 28px;
 		width: 85px;
 		/* background-color: #edf; */
-		background-color: #bdf;
+		background-color: #dec;
 		background-repeat: repeat-x;
 		text-align: center;
 		background-position: 0px 5px;

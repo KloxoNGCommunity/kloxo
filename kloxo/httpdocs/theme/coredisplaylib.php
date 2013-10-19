@@ -2125,6 +2125,30 @@ function do_display_init()
 	$ghtml->print_start();
 
 	$gbl->__this_redirect = null;
+
+	try {
+		main_system_lock();
+		print_navigation($gbl->__navig);
+		print_warning();
+		password_contact_check();
+	} catch (Exception $e) {
+		log_log("redirect_error", "exception");
+		$gbl->setSessionV('__tmp_redirect_var', $ghtml->__http_vars);
+		$gbl->c_session->write();
+
+		if (is_array($e->variable)) {
+			$evlist = implode(",", $e->variable);
+		} else {
+			$evlist = $e->variable;
+		}
+
+		$ghtml->print_redirect_back($e->getMessage(), $evlist, $e->value);
+
+		exit;
+	}
+
+	display_exec();
+	display_end();
 }
 
 function __ac_desc_about()
@@ -2180,10 +2204,13 @@ function display_init()
 
 	try {
 		do_display_init();
-		main_system_lock();
-		print_navigation($gbl->__navig);
-		print_warning();
-		password_contact_check();
+	//	main_system_lock();
+	//	print_navigation($gbl->__navig);
+	//	print_warning();
+	//	password_contact_check();
+
+	//	display_exec();
+	//	display_end();
 
 	} catch (Exception $e) {
 		log_log("redirect_error", "exception");
@@ -2219,19 +2246,20 @@ function display_end()
 	global $gbl, $sgbl, $login, $ghtml;
 
 ?>
-						</td>
+						<!-- </td>
 					</tr>
-				</table>
-			</td>
+				</table> -->
+<!-- "END CONTENT" -->
+			<!-- </td>
 		</tr>
-	</table>
+	</table> -->
+<!-- "END TAB + CONTENT" -->
 <?php
 	if ( ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
 			($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')) {
 ?>
-				</div>
-			<!-- </div>
-		</div> -->
+				<!-- </div>
+			</div> -->
 <?php
 	}
 ?>

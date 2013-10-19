@@ -297,8 +297,12 @@ $__description["license_update"] = array("License Update");
 $__description["module"] = array("Module");
 $__description["module_name"] = array("Module Name");
 $__description["module_information"] = array("Module Information");
+
 $__description["skin"] = array("Skin");
 $__description["skin_color"] = array("Skin Color");
+
+$__description["background"] = array("Background");
+
 $__description["icon_name"] = array("Icon Name");
 $__description["current_logo_url"] = array("Current Logo Url");
 $__description["login_to"] = array("Login To");

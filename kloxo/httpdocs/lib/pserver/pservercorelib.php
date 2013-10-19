@@ -1191,10 +1191,17 @@ STRIN;
 
 
 			case "switchprogram":
+			/*
 				$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'web');
 				$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'webcache');
 				$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'dns');
 				$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
+			*/
+
+				$this->web_driver = slave_get_driver('web');
+				$this->webcache_driver = slave_get_driver('webcache');
+				$this->dns_driver = slave_get_driver('dns');
+				$this->spam_driver = slave_get_driver('spam');
 
 				$this->no_fix_config = 'off';
 

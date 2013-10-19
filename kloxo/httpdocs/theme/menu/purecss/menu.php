@@ -5,7 +5,8 @@
 
 <link rel="stylesheet" href="/theme/menu/purecss/css/style.css" type="text/css" />
 
-<table width="100%" style="border:0; margin:0; padding:0"><tr><td width="100%">
+<div>
+	<div style="float:left">
 
 <ul class="pureCssMenu pureCssMenum">
 	<li class="pureCssMenui0"><a class="pureCssMenui0" href="/display.php?frm_action=show">Home</a></li>
@@ -326,17 +327,18 @@
 		<li class="pureCssMenui"><a class="pureCssMenui" href="/display.php?frm_action=updateform&frm_subaction=skin&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $userid ?>&frm_o_o[1][class]=sp_specialplay">Appearance</a></li>
 	</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>
 </ul>
-
-</td>
-<td>
-<ul class="pureCssMenu pureCssMenum">
-	<li class="pureCssMenui0"><a class="pureCssMenui0" href="javascript://" onMouseOver="document.getElementById('infomsg').style.display='inline';" 
-		onMouseOut="document.getElementById('infomsg').style.display='none';">Help</a></li>
-</ul>
-</td>
-<td>&nbsp;</td>
-<td>
-<ul class="pureCssMenu pureCssMenum">
-	<li class="pureCssMenui0"><a class="pureCssMenui0" href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }">Logout</a></li>
-</ul>
-</td></tr></table>
+	</div>
+	<div style="float:right">
+		<div style="float:left">
+			<ul class="pureCssMenu pureCssMenum">
+				<li class="pureCssMenui0"><a class="pureCssMenui0" href="javascript://" onMouseOver="document.getElementById('infomsg').style.display='inline';" 
+					onMouseOut="document.getElementById('infomsg').style.display='none';">Help</a></li>
+			</ul>
+		</div>
+		<div style="float:right">
+			<ul class="pureCssMenu pureCssMenum">
+				<li class="pureCssMenui0"><a class="pureCssMenui0" href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
