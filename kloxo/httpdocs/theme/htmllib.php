@@ -8875,7 +8875,12 @@ class HtmlLib
 
 		if ($skin_name === 'simplicity') {
 			$skin_background = $login->getSpecialObject('sp_specialplay')->skin_background;
-			$bodybackground = "url(/theme/image/background/{$skin_background})";
+
+			if (!$skin_background) {
+				$skin_background = "nature_001.jpg";
+			}
+
+			$bodybackground = "center url(/theme/image/background/{$skin_background})";
 			$bodycolor = "ffffff";
 		} else {
 			$bodybackground = "";
@@ -9411,7 +9416,7 @@ class HtmlLib
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
 
-		$bordering = "border: 1px solid #ddd; border-top:0";
+		$bordering = "border: 1px double #ddd; border-top:0";
 
 		if ($skin_name !== 'simplicity') {
 			if (!$$as_simple_skin) {

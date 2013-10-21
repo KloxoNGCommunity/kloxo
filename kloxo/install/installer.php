@@ -249,7 +249,10 @@ function install_main()
 
 //	system("yum replace $mysqltmp --replace-with=mysql55 -y");
 
-	$comp = array("web", "database", "dns", "mail");
+//	$comp = array("web", "database", "dns", "mail");
+
+	// MR -- new install always 'none' for web and dns
+	$comp = array("database", "mail");
 
 	$serverlist = $comp;
 
@@ -272,10 +275,13 @@ function install_main()
 
 	// MR -- use \cp for temporary cp without prompt
 	// because 'cp' as alias as 'cp -i' with 'alias -p' info
-	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
+//	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
 
 	// MR -- because using ruid2 as default php-type, disable php-fpm
 //	system("chkconfig php-fpm off; service php-fpm stop");
+
+	// MR because no need web server installed
+	system("rpm -e httpd --nodeps");
 }
 
 function kloxo_vpopmail()
@@ -518,9 +524,15 @@ function kloxo_install_step2()
 	}
 
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
+/*
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:4:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";s:8:"webcache";s:4:"none";}}';
 		system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
+*/
+		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:4:{s:3:"web";s:4:"none";' .
+			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"none";s:8:"webcache";s:4:"none";}}';
+		system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
+
 	}
 
 	check_default_mysql();
