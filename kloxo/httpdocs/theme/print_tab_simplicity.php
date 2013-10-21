@@ -44,12 +44,13 @@ function print_tab_block_start($alist)
 						}
 
 						if (!$sgbl->isBlackBackground()) {
+/*
 ?>
 <script type="text/javascript">
 <!--
-	function toggle_wrapper() {
-		var e = document.getElementById('content_wrapper');
-		if(e.style.display == 'block') {
+	function toggle_wrapper(id) {
+		var e = document.getElementById(id);
+		if(e.style.display != 'none') {
 			e.style.display = 'none';
 		} else {
 			e.style.display = 'block';
@@ -58,9 +59,10 @@ function print_tab_block_start($alist)
 //-->
 </script>
 
-	<div class="tabcompleteright"><div style="float:right"><input type="button" value="Show/Hide" style="margin: 0 10px 4px" onClick="toggle_wrapper();" /></div></div>
+	<div class="tabcompleteright"><div style="float:right"><input type="button" value="Show/Hide" style="margin-right: 10px; padding: 0; border: 1px solid #ddd" onClick="toggle_wrapper('content_wrapper');" /></div></div>
 
 <?php
+*/
 						}
 ?>
 		

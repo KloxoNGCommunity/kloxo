@@ -7689,12 +7689,13 @@ class HtmlLib
 <?php
 		if ($skin_name !== 'simplicity') {
 ?>
+		<div style="width:600; margin: 0 auto 0 auto; border:0; padding:0;">
 			<table align="center" width="600"><tr><td>
 <?php
 			$this->print_curvy_table_start();
 		} else {
 ?>
-			<div id="infomsg" style="display:none; position:fixed; width:600px; top:45px; margin: 0 auto 0 auto; padding:15px; background-color:#f0fff8; border:3px double #e22; text-align:left">
+			<div id="infomsg" style="display:none; position:fixed; width:600px; top:45px; right: 200px; margin: 0 auto 0 auto; padding:15px; background-color:#f0fff8; border:3px double #e22; text-align:left">
 <?php
 
 		}
@@ -7731,7 +7732,7 @@ class HtmlLib
 		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
 			$this->print_curvy_table_end();
 ?>
-			</td></tr></table>
+			</td></tr></table></div>
 <?php
 		} else {
 ?>
@@ -8893,6 +8894,22 @@ class HtmlLib
 ?>
 		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38;">
 			<div style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:40px; padding:10px 10px 0 10px; vertical-align:middle"><? include_once "theme/menu/purecss/menu.php" ?></div>
+
+<script type="text/javascript">
+<!--
+	function toggle_wrapper(id) {
+		var e = document.getElementById(id);
+		if(e.style.display != 'none') {
+			e.style.display = 'none';
+		} else {
+			e.style.display = 'block';
+		}
+	}
+//-->
+</script>
+
+	<div style="position:fixed; top: 3px; right: 3px"><input type="button" value="Show/Hide" style="padding: 0; border: 1px solid #ddd; height: 20px" onClick="toggle_wrapper('mmm');" /></div>
+
 		</div>
 
 		<div style="position:fixed; right:10px; top:40px;"><img src="/login/images/kloxo-mr.png" height="75"></div>
