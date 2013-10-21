@@ -348,43 +348,83 @@
 	}
 
 	.verb {
+		display: block;
 		white-space: nowrap;
-		margin-bottom: 6px;
+		/* margin-bottom: 6px; */
+		height: 22px;
+		float: left;
+		border: 1px solid #ddd;
+		background-color: #aec;
+		padding-top: 6px;
+	}
+
+	.verb:hover {
+		background-color: #ccc;
 	}
 
 	.verb2 {
 		white-space: nowrap;
-		margin-bottom: 3px;
+		/* margin-bottom: 6px; */
 		text-align: left;
+		height: 22px;
+		float: left;
+		border: 1px solid #ddd;
+		background-color: #ccc;
+		padding-top: 6px;
+	}
+
+	.verb2:hover {
+		background-color: #ccc;
 	}
 
 	.verb3 {
+		display: block;
 		white-space: nowrap;
-		margin-bottom: 6px;
+		height: 22px;
+		float: left;
+		border: 1px solid #ddd;
+		border-bottom: 1px solid #fff;
+		background-color: #fff;
+		padding-top: 6px;
+	}
+
+	.verb3:hover {
+		background-color: #ccc;
 	}
 
 	.tabnew {
 		white-space: nowrap;
-		height: 28px;
+		height: 22px;
 		width: 75px;
 		text-align: center;
 		vertical-align: bottom;
 		border: 1px solid #aaa;
 		border-bottom: 0;
 		background-color: #fff;
+		float: left;
 	}
 
-	.tabcomplete {
+	.tabcompleteleft {
+		display: block;
+		height: 22px;
 		border-bottom: 1px solid #ddd;
+		float: left;
+		/* verb padding + 1 */
+		padding-top: 7px;
 	}
 
-	.tabcompletediv {
-		/* border-bottom: 1px solid #fff; */
+	.tabcompleteright {
+		display: block;
+		height: 22px;
+		border-bottom: 1px solid #ddd;
+		/* verb padding + 1 */
+		padding-top: 7px;
+		overflow: hidden;
 	}
 
 	.tabnew1 {
 		white-space: nowrap;
-		height: 28px;
+		height: 22px;
 		width: 85px;
 		/* background-color: #edf; */
 		background-color: #dec;
@@ -393,6 +433,7 @@
 		background-position: 0px 5px;
 		vertical-align: bottom;
 		border: 1px solid #aaa;
+		float: left;
 	}
 
 	.new2 {

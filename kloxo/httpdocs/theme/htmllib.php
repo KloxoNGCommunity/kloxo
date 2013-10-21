@@ -287,7 +287,7 @@ class HtmlLib
 	function print_info_block($obj, $ilist)
 	{
 ?>
-<!-- "START print_info_block" -->
+
 		<table class="tableheader" width="95%">
 			<tr align="right">
 				<td>
@@ -316,7 +316,7 @@ class HtmlLib
 ?>
 			</tr>
 		</table>
-<!-- "END print_info_block" -->
+
 <?php
 	}
 
@@ -341,15 +341,10 @@ class HtmlLib
 	function print_tab_block($alist)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "START print_tab_block" -->
-<?php
+
 		$skin = $login->getSpecialObject('sp_specialplay')->skin_name;
 		include_once "theme/print_tab_{$skin}.php";
 		print_tab_block_start($alist);
-?>
-<!-- "END print_tab_block" -->
-<?php
 	}
 
 	function compare_urls($a, $b)
@@ -393,205 +388,6 @@ class HtmlLib
 		$buttonpath = get_image_path() . "/button/";
 		$image = $ghtml->get_image($buttonpath, '', 'resource', '.gif');
 		$this->print_action_block($obj, $obj->get__table(), $alist, $num);
-	}
-
-	function print_action_block_old($title, $alist)
-	{
-		$i = 0;
-
-		/* This is a mighty hack... The first element of $alist is
-			supposed to be the main title. You use it as the first title and
-			unset the variable. This is a hack from the previous code where
-			the first title was preset here itself. */
-
-		if (!$title) {
-			$title = $alist['__title_main'];
-			unset($alist['__title_main']);
-		}
-?>
-<!-- "START print_action_block_old" -->
-		<table cellpadding="0" width="100%" cellspacing="0" border="1">
-			<tr>
-				<td>
-					<table cellpadding="2" cellspacing="7" border="0" width="25%">
-						<tr align="left">
-							<td align="left">
-<?php
-								$t = 2;
-
-								foreach ($alist as $k => $u) {
-								$i++;
-
-								if (csb($k, "__title")) {
-								$i = 0;
-								$t++;
-?>
-							</td>
-						</tr>
-					</table>
-				</td>
-				<td>
-					<table cellpadding='0' border='0' cellspacing='0'>
-						<tr>
-							<td>
-<?php
-								continue;
-								}
-
-								if ($t % 4 === 1) {
-?>
-							</td>
-						</tr>
-					</table>
-					<table cellpadding='0' cellspacing='0' border='2'>
-						<tr>
-							<td>
-<?php
-
-								}
-
-								if ($i % 2) {
-?>
-							</td>
-						</tr>
-						<tr>
-							<td>
-<?php
-								}
-
-								$this->print_div_button(null, "block", false, $k, $u);
-								}
-
-								if ($i <= 7) {
-								for (;
-								i <= 7;
-								$i++) {
-?>
-							</td>
-							<td width=40>&nbsp;
-<?php
-								}
-								}
-?>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-		<br/>
-		<br/>
-<!-- "END print_action_block_old" -->
-<?php
-	}
-
-	function print_action_block_dumb($title, $alist)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$getskin = $login->getSkinDir();
-		$i = 0;
-
-		/// This is a mighty hack... The first element of $alist is supposed to be the main title.
-		// You use it as the first title and unset the variable. This is a hack from the previous code
-		// where the first title was preset here itself.
-
-		if (!$title) {
-			$title = $alist['__title_main'];
-			unset($alist['__title_main']);
-		}
-
-?>
-<!-- "START print_action_block_dumb" -->
-		<table valign=top cellpadding=3 cellspacing=3>
-			<tr>
-				<td valign=top width=33%>
-					<table cellpadding=0 cellspacing=0 border=1>
-						<tr>
-							<td>
-								<table cellpadding=0 cellspacing=0 border=0 height=13 width=98%
-								       style="background:#efe8e0 url(<?= $getskin ?>/bar.gif)">
-									<tr>
-										<td> <?= $title ?>  </td>
-								</table>
-								<table cellpadding="2" cellspacing="7" border="0" height="100%" width="100%">
-									<tr align=left>
-										<td align=left>
-<?php
-											$n = 1;
-
-											foreach ($alist as $k => $u) {
-											$i++;
-
-											if ($i % 3 === 1) {
-?>
-										</td>
-									</tr>
-									<tr align=left>
-										<td align=left>
-<?php
-											}
-
-											if (csb($k, "__title")) {
-											$i = 0;
-											$n++;
-
-											$tr = null;
-
-											if ($n % 3 == 1) {
-												$tr = "</tr> <tr> ";
-											}
-?>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</td> <?= $tr ?>
-				<td width=33% valign=top>
-					<table cellpadding=0 cellspacing=0 border=1>
-						<tr>
-							<td>
-								<table cellpadding=2 cellspacing=2 border=0 height=13 width=98%
-								       style="background:#efe8e0 url(<?= $getskin ?>/bar.gif)">
-									<tr>
-										<td> <?= $u ?>  </td>
-								</table>
-								<table cellspacing="7" width="100%" border="0">
-									<tr align="left">
-										<td align="left">
-<?php
-											continue;
-											}
-
-											$this->print_div_button(null, "block", true, $k, $u);
-											}
-
-											if ($i <= 7) {
-											for (;
-											$i <= 7;
-											$i++) {
-?>
-										</td>
-										<td width="40">&nbsp;
-<?php
-											}
-											}
-?>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-		</fieldset>
-		<br/> <br/>
-<!-- "END print_action_block_dumb" -->
-<?php
 	}
 
 	function create_action_block($class, $alist)
@@ -643,7 +439,7 @@ class HtmlLib
 		$col = $login->getSkinColor();
 		// [FIXME] Put this css code on a file, NOT inline
 ?>
-<!-- "START print_style_desktop" -->
+
 		<style type="text/css">
 			.expanded a:hover {
 				cursor: pointer;
@@ -781,7 +577,7 @@ class HtmlLib
 				border: 0;
 			}
 		</style>
-<!-- "END print_style_desktop" -->
+
 <?php
 	}
 
@@ -793,7 +589,7 @@ class HtmlLib
 		$col = $login->getSkinColor();
 		// [FIXME] Put this css code on a file, NOT inline
 ?>
-<!-- "START print_style_home" -->
+
 		<style type="text/css">
 			.expanded a:hover {
 				cursor: pointer;
@@ -941,7 +737,7 @@ class HtmlLib
 				padding: 5px 1em;
 			}
 		</style>
-<!-- "END print_style_home" -->
+
 <?php
 	}
 
@@ -959,7 +755,7 @@ class HtmlLib
 			$style = $ghtml->print_style_home();
 		}
 ?>
-<!-- "START print_domcollapse" -->
+
 		<script type="text/javascript">
 			dc = {
 				triggerElements: '*', // elements to trigger the effect
@@ -1147,7 +943,7 @@ class HtmlLib
 			};
 			dc.addEvent(window, 'load', dc.init, false);
 		</script>
-<!-- "END print_domcollapse" -->
+
 <?php
 	}
 
@@ -1179,7 +975,7 @@ class HtmlLib
 
 		$buttonpath = get_image_path("/button");
 ?>
-<!-- "START print_dialog" -->
+
 		<div id="comments-dlg" style="visibility:hidden;">
 			<div class="x-dlg-hd"><?= $obj->getId() ?></div>
 			<div class="x-dlg-bd">
@@ -1476,7 +1272,7 @@ class HtmlLib
 
 			Ext.EventManager.onDocumentReady(Comments.init, Comments, true);
 		</script>
-<!-- "END print_dialog" -->
+
 <?php
 	}
 
@@ -1491,7 +1287,7 @@ class HtmlLib
 		$minus = "{$skindir}minus.gif";
 		$buttonpath = get_image_path() . "/button/";
 ?>
-<!-- "START print_drag_drop" -->
+
 		<script>
 			(function () {
 
@@ -1641,7 +1437,7 @@ class HtmlLib
 			})();
 
 		</script>
-<!-- "END print_drag_drop" -->
+
 <?php
 	}
 
@@ -1719,14 +1515,14 @@ class HtmlLib
 			$dividentity = "{$dividentity}$i";
 		}
 ?>
-<!-- "START print_div_button" -->
-		<td valign="middle" align="left" width=5>
-			<div id="<?= $dividentity ?>" style="visibility:visible;display:block">
+
+		<!-- <td valign="middle" align="left" width=5> -->
+			<div id="<?= $dividentity ?>" style="visibility:visible;float:left; margin: 2px">
 				<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
 					<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?> </a>
 			</div>
-		</td>
-<!-- "END print_div_button" -->
+		<!-- </td> -->
+
 <?php
 
 		return $dividentity;
@@ -1768,13 +1564,17 @@ class HtmlLib
 			$backgimage = "{$skindir}expand.gif";
 		}
 ?>
-<!-- "START print_action_block" -->
+
 		<style>
 			div.section, div#createNew {
 				border: 1px solid #<?=$col?>;
-				margin: 9px 5px;
-				padding: 0 0 10px 0;
-				width: 520px;
+				/* margin: 9px 5px; */
+				margin: 0 0 10px 0;
+				padding: 0;
+				/* width: 520px; */
+				width: 600px;
+				resize:both;
+				overflow:auto;
 			}
 
 			div#createNew input {
@@ -1817,38 +1617,38 @@ class HtmlLib
 			}
 		</style>
 
-		<div id="show_page">
+		<div id="show_page" style="width: 600px">
 <?php
 
-			if (!$login->getSpecialObject('sp_specialplay')->isOn('enable_ajax')) {
-				$dragstring = "Enable Ajax to Drag";
-			} else {
-				$dragstring = "Drag";
+		if (!$login->getSpecialObject('sp_specialplay')->isOn('enable_ajax')) {
+			$dragstring = "Enable Ajax to Drag";
+		} else {
+			$dragstring = "Drag";
+		}
+
+		$div_id_list = null;
+		$completedivlist = null;
+
+		$count = 1;
+
+		foreach ($ret as $title => $a) {
+			$count++;
+
+			if (!isset($a[$title])) {
+				continue;
 			}
 
-			$div_id_list = null;
-			$completedivlist = null;
+			$dispstring = "display:none";
 
-			$count = 1;
+			if ($a['open']) {
+				$dispstring = "";
+			}
 
-			foreach ($ret as $title => $a) {
-				$count++;
-
-				if (!isset($a[$title])) {
-					continue;
-				}
-
-				$dispstring = "display:none";
-
-				if ($a['open']) {
-					$dispstring = "";
-				}
-
-				unset($a['open']);
-				$nametitle = strfrom($title, "__title_");
+			unset($a['open']);
+			$nametitle = strfrom($title, "__title_");
 ?>
 
-				<div id="item_<?= $nametitle ?>" class="section">
+				<div id="item_<?= $nametitle ?>" class="section" style="overflow: hidden">
 					<table cellpadding=0 cellspacing=0>
 						<tr class=handle id="handle_<?= $nametitle ?>"
 						    style="background:#efe8e0 url(<?= $backgimage ?>)"
@@ -1865,32 +1665,34 @@ class HtmlLib
 								<img id=img_<?= $nametitle ?> name=img_<?= $nametitle ?> src=<?= $minus ?>></td>
 						</tr>
 					</table>
-					<div style="<?= $dispstring ?>;" id="internal_<?= $nametitle ?>">
-						<table cellpadding="10" cellspacing="4" style="padding:1px 2px 1px 1px">
-							<tr>
+					<div style="<?= $dispstring ?>" id="internal_<?= $nametitle ?>">
+						<!-- <table cellpadding="10" cellspacing="4" style="padding:1px 2px 1px 1px">
+							<tr> -->
 <?php
-								array_shift($a);
-								$n = 0;
+			array_shift($a);
+			$n = 0;
 
-								foreach ($a as $k => $u) {
-								$n++;
+			foreach ($a as $k => $u) {
+				$n++;
 
-								if ($n === $num) {
+				if ($n === $num) {
 ?>
-							</tr>
-							<tr>
+						
+							<!-- </tr>
+							<tr> -->
+
 <?php
-								$n = 1;
-								}
+						$n = 1;
+					}
 
-								$ret = $this->print_div_button($completedivlist, "block", true, $k, $u);
-								$completedivlist[$ret] = $ret;
-								$div_id_list[$nametitle][$ret] = $ret;
+					$ret = $this->print_div_button($completedivlist, "block", true, $k, $u);
+					$completedivlist[$ret] = $ret;
+					$div_id_list[$nametitle][$ret] = $ret;
 
-								}
+				}
 ?>
-							</tr>
-						</table>
+							<!-- </tr>
+						</table> -->
 					</div>
 				</div>
 <?php
@@ -1899,117 +1701,34 @@ class HtmlLib
 		</div>
 		<script>
 <?php
-					$count = 0;
+			$count = 0;
 ?>
 
 			global_action_box = new Array();
 <?php
-					foreach ($div_id_list as $k => $v) {
+			foreach ($div_id_list as $k => $v) {
 ?>
 
 			global_action_box[<?=$count?>] = new Array();
 			global_action_box[<?=$count?>][0] = '<?=$k?>';
 <?php
-						$j = 1;
+			$j = 1;
 
-						foreach ($v as $kk => $vv) {
+			foreach ($v as $kk => $vv) {
 ?>
 
 			global_action_box[<?=$count?>][<?=$j?>] = '<?=$vv?>';
 <?php
-							$j++;
-						}
+				$j++;
+			}
 
-						$count++;
-					}
+			$count++;
+		}
 ?>
 		</script>
-<!-- "END print_action_block" -->
-<?php
-	}
 
-	function print_action_blockold($title, $alist, $num)
-	{
-		$i = 0;
-		$total = $num;
+		<!-- <div style="clear:boot"></div> -->
 
-		// This is a mighty hack... The first element of $alist is supposed to be the main title.
-		// You use it as the first title and unset the variable.
-		// This is a hack from the previous code where the first title was preset here itself.
-
-		foreach ($alist as $k => $a) {
-			if (csb($k, "__title")) {
-				$title = $a;
-				unset($alist[$k]);
-				break;
-			}
-		}
-
-?>
-<!-- "START print_action_blockold" -->
-		<fieldset width=100% style='border: 0; border-top: 1px solid #d0d0d0'>
-		<legend style='font-weight:normal; border:0'><b><span
-					style='color:#303030; font-weight:normal'><?= $title ?></span></b></legend>
-		<table cellpadding="2" cellspacing="7" border="0" width="95%">
-		<tr align=left>
-		<td align=left>
-<?php
-		foreach ($alist as $k => $u) {
-			$i++;
-
-			if ($i % $total === 1) {
-?>
-
-				</td> </tr> <tr align=left> <td align=left>
-<?php
-			}
-
-			if (csb($k, "__title")) {
-				if ($i <= $total) {
-					for (; $i <= $total; $i++) {
-?>
-
-						</td><td width=60>&nbsp;
-<?php
-					}
-				}
-
-				$i = 0;
-?>
-
-				</td>
-				</tr>
-				</table>
-
-				</fieldset><fieldset style='font-weight:normal;border: 0; border-top: 1px solid #d0d0d0'>
-				<legend style='font-weight:normal'><b><span
-							style='color:#303030; font-weight:normal'><?= $u ?></span></b></legend>
-				<table cellspacing=7 width="100%" border=0> <tr align=left> <td align=left>
-<?php
-				continue;
-			}
-
-			$this->print_div_button(null, "block", true, $k, $u);
-		}
-
-	if ($i <= $total) {
-	for (;
-		$i <= $total;
-		$i++) {
-?>
-
-		</td>
-		<td width="40">&nbsp;
-<?php
-	}
-	}
-?>
-
-		</td> </tr>
-		</table>
-		</fieldset>
-		<br/> <br/>
-<!-- "END print_action_blockold" -->
 <?php
 	}
 
@@ -2295,9 +2014,9 @@ class HtmlLib
 		$imgtopline = $login->getSkinDir() . '/top_line.gif';
 		$tablerow_head = $login->getSkinDir() . '/tablerow_head.gif';
 ?>
-<!-- "START print_file_permissions" -->
-		<br/>
-		<br/>
+
+		<!-- <br />
+		<br /> -->
 
 		<script>
 			function sendchmode(a, b) {
@@ -2467,7 +2186,7 @@ class HtmlLib
 	    setpermission(document.chmod, 'group', <?=$group?>);
 	    setpermission(document.chmod, 'other', <?=$other?>);
     </script>
-<!-- "END print_file_permissions" -->
+
 <?php
 	}
 
@@ -3189,15 +2908,6 @@ class HtmlLib
 		return $rvr;
 	}
 
-	function printbr($val = 2)
-	{
-		for ($i = 0; $i < $val; $i++) {
-?>
-			<br/>
-<?php
-		}
-	}
-
 	function object_variable_password($class, $var)
 	{
 		$desc = get_classvar_description($class, $var);
@@ -3824,22 +3534,22 @@ class HtmlLib
 
 			<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist"> <span title='<?= $alt ?>'>
 <?php
-$method = ($__external) ? "get" : $sgbl->method;
+			$method = ($__external) ? "get" : $sgbl->method;
 
-if ($this->frm_action === 'selectshow') {
-	$post['frm_action'] = 'selectshow';
-	$post['frm_selectshowbase'] = $this->frm_selectshowbase;
+			if ($this->frm_action === 'selectshow') {
+				$post['frm_action'] = 'selectshow';
+				$post['frm_selectshowbase'] = $this->frm_selectshowbase;
 
-}
+			}
 
-$this->print_input_vars($post);
+			$this->print_input_vars($post);
 
-// MR -- need extra this code for non '/display.php'
-// use 'selectshow' not work for filemanager
-//	if ($this->frm_action === 'selectshow') {
-if (strpos($path, "display.php") !== false) {
-	$path = $path . "?" . $this->get_get_from_post(null, $post);
-}
+			// MR -- need extra this code for non '/display.php'
+			// use 'selectshow' not work for filemanager
+		//	if ($this->frm_action === 'selectshow') {
+			if (strpos($path, "display.php") !== false) {
+				$path = $path . "?" . $this->get_get_from_post(null, $post);
+			}
 ?>
 
 					<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $path ?>"> <?= $pname ?> </a> </span>
@@ -3890,7 +3600,7 @@ if (strpos($path, "display.php") !== false) {
 
 		$filtername = $object->getFilterVariableForThis($class);
 ?>
-<!-- "START print_next_previous_link" -->
+
 		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>"
 		      action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
@@ -3900,7 +3610,7 @@ if (strpos($path, "display.php") !== false) {
 ?>
 
 		</form>
-<!-- "END print_next_previous_link" -->
+
 <?php
 		$help = "<span class=bold> Action: </span> <br /> <br /> ";
 
@@ -3930,7 +3640,7 @@ if (strpos($path, "display.php") !== false) {
 		$first_link = null;
 		$rewind_link = null;
 ?>
-<!-- "START next_previous" -->
+
 		<table width="10">
 			<tr>
 				<td bgcolor="#ffffff" nowrap>
@@ -3966,7 +3676,7 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END next_previous" -->
+
 <?php
 	}
 
@@ -4031,123 +3741,6 @@ if (strpos($path, "display.php") !== false) {
 		return $n;
 	}
 
-	function printListAddFormBad($parent, $class)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$col = $login->getSkinColor();
-		$rclass = $class;
-		$vlist = exec_class_method($rclass, "addListForm", $parent, $class);
-
-		if (!$vlist) {
-			return;
-		}
-
-		$buttonpath = get_image_path() . "/button/";
-?>
-<!-- "START printListAddFormBad" -->
-		<form name="addlist" method="get" action="/display.php" accept-charset="utf-8">
-			<table cellpadding="0" width="100%" cellspacing="1"
-			       style="border: 1px solid #<?= $col ?>; background:#fffafa;">
-				<tr>
-					<td height="10" colspan="10"> &nbsp;</td>
-				</tr>
-				<tr>
-					<td width="20" color="#fffafa"> &nbsp; </td>
-					<td></td>
-
-<?php
-					foreach ($vlist as $k => $v) {
-						if (isset($v[0]) && $v[0] === 'h') {
-							continue;
-						}
-
-						$k = get_classvar_description($rclass, $k);
-?>
-
-						<td nowrap> <?= $k[2] ?> </td>
-<?php
-					}
-?>
-
-					<td></td>
-					<td width="10"> &nbsp; </td>
-				</tr>
-				<tr>
-					<td width="10"> &nbsp; </td>
-					<td><img src="<?= $buttonpath ?>/<?= $class ?>_list.gif" height="20" width="20"></td>
-<?php
-					foreach ($vlist as $k => $v) {
-?>
-
-						<td>
-<?php
-							if (isset($v[0]) && $v[0] === 's') {
-?>
-								<select name="frm_<?= $class ?>_c_<?= $k ?>"
-								        style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff;"
-								        value="">
-<?php
-									foreach ($v[1] as $kk => $vv) {
-?>
-
-										<option value="<?= $vv ?>"><?= $vv ?></option>
-<?php
-									}
-?>
-
-								</select>
-<?php
-							} else {
-								if (isset($v[0]) && $v[0] === 'M') {
-?>
-
-									<?= $v[1] ?>
-<?php
-								} else {
-									if (isset($v[0]) && $v[0] === 'h') {
-?>
-										<input type="hidden" name="frm_<?= $class ?>_c_<?= $k ?>" value="<?= $v[1] ?>">
-<?php
-									} else {
-?>
-										<input type="text" name="frm_<?= $class ?>_c_<?= $k ?>"
-										       style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff; margin:1px;  background-size:10px; background-position:1% 1%; vertical-align:middle;"
-										       value="">
-<?php
-									}
-								}
-							}
-?>
-
-						</td>
-<?php
-					}
-?>
-
-					<input type="hidden" name="frm_action" value="add">
-<?php
-					$this->print_current_input_vars(array('frm_action'));
-					$desc = $this->get_class_description($rclass);
-					$desc = $desc[2];
-?>
-
-					</td>
-					<td><input type="submit" class=submitbutton name=Search
-					           value="&nbsp;&nbsp;Quick Add <?= $desc ?>&nbsp;&nbsp;"></td>
-
-					</td>
-					<td width="100%"></td>
-				</tr>
-				<tr>
-					<td height="10" colspan="10"></td>
-				</tr>
-			</table>
-		</form>
-<!-- "END printListAddFormBad" -->
-<?php
-	}
-
 	function printListAddForm($parent, $class)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -4181,34 +3774,34 @@ if (strpos($path, "display.php") !== false) {
 			$bordertop = "#444444";
 		}
 ?>
-<!-- "START printListAddForm" -->
-		<table cellpadding="4" cellspacing="4">
+
+		<!-- <table cellpadding="4" cellspacing="4">
 			<tr>
-				<td>
-					>>>> <a href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> Click Here to
-						Add <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<
-				</td>
+				<td> -->
+					<div style="background: #efe8e0 url(<?= $col ?>); height: 24px; padding-top: 4px">&nbsp;>>>> <a href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> Click Here to
+						Add <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<&nbsp;</div>
+				<!-- </td>
 			</tr>
-		</table>
+		</table> -->
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>">
-			<table width="100%" border="0" cellpadding=0 style="border: 0 solid">
+			<!-- <table width="100%" border="0" cellpadding=0 style="border: 0 solid">
 				<tr>
 					<td width="10"> &nbsp; </td>
 					<td>
 						<table cellpadding="0" align="center" cellspacing="0" width="100%">
 							<tr>
-								<td>
-									<?= do_addform($parent, $class, null, true) ?>
+								<td> -->
+									<div><?= do_addform($parent, $class, null, true) ?></div>
 								</td>
-							</tr>
+							<!-- </tr>
 						</table>
 					</td>
 					<td width="10"> &nbsp; </td>
 				</tr>
-			</table>
+			</table> -->
 		</div>
-<!-- "END printListAddForm" -->
+
 <?php
 
 	}
@@ -4273,13 +3866,16 @@ if (strpos($path, "display.php") !== false) {
 			$bordertop = "#333";
 		}
 ?>
-<!-- "START print_real_search" -->
-		<fieldset
-			style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
-			<legend><span style='font-weight:bold'>Advanced Search <a
+
+		<div style="width: 100%; margin: 0 25px 0 25px;">
+			<fieldset
+				style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
+				<legend><span style='font-weight:bold'>Advanced Search <a
 						href="javascript:toggleVisibility('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>
-				</span></legend>
-		</fieldset>
+					</span>
+				</legend>
+			</fieldset>
+		</div>
 
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
@@ -4411,7 +4007,7 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END print_real_search" -->
+
 <?php
 
 	}
@@ -4520,8 +4116,8 @@ if (strpos($path, "display.php") !== false) {
 
 		$unique_name = fix_nname_to_be_variable($unique_name);
 ?>
-<!-- "START printObjectTable" -->
-		<br/>
+
+
 		<script> var ckcount<?=$unique_name?>; </script>
 <?php
 		if (!$sortby) {
@@ -4617,7 +4213,9 @@ if (strpos($path, "display.php") !== false) {
 
 		if (!$sellist && !$this->isResourceClass($class)) {
 ?>
-
+<!-- "I am here 4" -->
+<br />
+		<div style="width: 100%; margin: 0 25px 0 25px;">
 			<fieldset
 				style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
 				<legend>
@@ -4626,12 +4224,13 @@ if (strpos($path, "display.php") !== false) {
 					<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?>
 					(<?= $perpageof ?><?= $total_num ?>)</span></legend>
 			</fieldset>
+		</div>
 <?php
 		}
 
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 ?>
-
+<!-- "I am here 5" -->
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tr>
 					<td width="25"> &nbsp; </td>
@@ -4779,19 +4378,26 @@ if (strpos($path, "display.php") !== false) {
 
 <?php
 		}
+
+		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
+			$divwidth = "910";
+		} else {
+			$divwidth = "240";
+		}
 ?>
 
-		<table width="100%">
-		<tr>
-		<td align="center" style='border: 0'>
+<!-- <table width="100%">
+	<tr>
+	<td align="center" style='border: 0'> -->
+<div style="width: <?= $divwidth ?>px; margin: 0 auto 0 auto">
 		<table cellspacing="1" cellpadding="3" width="100%" align="center">
-		<tr>
-			<td class="rowpoint"></td>
-			<td colspan="<?= $nlcount ?>"></td>
-			<td class="rowpoint"></td>
-		</tr>
-		<tr height="25" valign="middle">
-			<td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td>
+			<tr>
+				<!-- <td class="rowpoint"></td> -->
+				<td colspan="<?= $nlcount ?>"></td>
+				<!-- <td class="rowpoint"></td> -->
+			</tr>
+			<tr height="25" valign="middle">
+				<!--<td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td> -->
 <?php
 			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 				//	$checked = "checked disabled";
@@ -4860,7 +4466,8 @@ if (strpos($path, "display.php") !== false) {
 					}
 ?>
 
-					<td <?= $wrapstr ?> width="<?= $width ?>"><table cellspacing="0" cellpadding="2"  border="0"> <tr> <td class="collist" <?= $wrapstr ?> rowspan="2">
+					<td <?= $wrapstr ?> width="<?= $width ?>"><table cellspacing="0" cellpadding="2"  border="0">  
+					<td class="collist" <?= $wrapstr ?> rowspan="2">
 <?php
 				} else {
 					if ($sgbl->isBlackBackground()) {
@@ -4897,7 +4504,7 @@ if (strpos($path, "display.php") !== false) {
 			$count = 0;
 			$rowcount = 0;
 ?>
-			<td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td>
+			<!-- <td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td> -->
 		</tr>
 <?php
 		print_time('loop');
@@ -4929,11 +4536,15 @@ if (strpos($path, "display.php") !== false) {
 			$imgblank = get_general_image_path() . "/button/blank.gif";
 
 			$rowuniqueid = "tr$unique_name$rowcount";
+/*
+	// MR -- don't know for what, so disable it.
 ?>
 
 			<script> loadImage('<?=$imgpointer?>') </script>
 			<script> loadImage('<?=$imgblank?>') </script>
-
+<?php
+*/
+?>
 			<tr height=22 id=<?= $rowuniqueid ?>  class=tablerow<?= $count ?>
 
 			    onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';"
@@ -4943,7 +4554,7 @@ if (strpos($path, "display.php") !== false) {
 				if (!$sgbl->isBlackBackground()) {
 ?>
 
-					<td class="rowpoint"></td>
+					<!-- <td class="rowpoint"></td> -->
 <?php
 				}
 
@@ -4971,7 +4582,7 @@ if (strpos($path, "display.php") !== false) {
 					$colcount++;
 				}
 ?>
-				<td class="rowpoint"></td>
+				<!-- <td class="rowpoint"></td> -->
 			</tr>
 <?php
 
@@ -4994,7 +4605,7 @@ if (strpos($path, "display.php") !== false) {
 ?>
 
 		<tr>
-			<td class="rowpoint"></td>
+			<!-- <td class="rowpoint"></td> -->
 			<td colspan="<?= $nlcount ?>">
 <?php
 				if (!$rowcount) {
@@ -5041,14 +4652,14 @@ if (strpos($path, "display.php") !== false) {
 			</td>
 		</tr>
 		<tr>
-		<td class="rowpoint"></td>
+		<!-- <td class="rowpoint"></td> -->
 	<td colspan="<?= $nlcount ?>">
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
-		<tr height="1" style="background:#efe8e0 url(<?= $imgtopline ?>)">
-			<td class="rowpoint"></td>
-		</tr>
-		<tr>
-		<td>
+			<tr height="1" style="background:#efe8e0 url(<?= $imgtopline ?>)">
+				<!-- <td class="rowpoint"></td> -->
+			</tr>
+			<tr>
+				<td>
 <?php
 
 		if ($this->frm_action === 'selectshow') {
@@ -5213,11 +4824,14 @@ if (strpos($path, "display.php") !== false) {
 		}
 
 ?>
+
 		</td>
 		</tr></table>
 		</td></tr></table>
-		</td></tr></table>
-<!-- "END printObjectTable" -->
+		<br />
+</div>
+		<!-- </td></tr></table> -->
+
 <?php
 	}
 
@@ -5244,7 +4858,13 @@ if (strpos($path, "display.php") !== false) {
 	function print_list_submit($class, $blist, $uniquename)
 	{
 		$rclass = $class;
-		$this->print_list_submit_start();
+
+?>
+
+		<table height="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+		<tr align="left">
+
+<?php
 
 		foreach ((array)$blist as $b) {
 			$this->print_list_submit_middle($b, $uniquename);
@@ -5263,18 +4883,11 @@ if (strpos($path, "display.php") !== false) {
 			$this->print_list_submit_middle(array($hardrefresh, 1), $uniquename);
 		}
 
-		$this->print_list_submit_end();
-	}
-
-	function print_list_submit_start()
-	{
 ?>
-<!-- "START print_list_submit_start" -->
-		<table height="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
-		<tr align="left">
-<!-- "END print_list_submit_start" -->
-<?php
 
+		</tr></table>
+
+<?php
 	}
 
 	function print_list_submit_middle($button, $uniquename)
@@ -5313,7 +4926,7 @@ if (strpos($path, "display.php") !== false) {
 		$imgbtnsep = $login->getSkinDir() . "/btn_sep.gif";
 
 ?>
-<!-- "START print_list_submit_middle" -->
+
 		<form name="form<?= $form_name ?>" action="<?= $path ?>">
 <?php
 
@@ -5353,7 +4966,7 @@ if (strpos($path, "display.php") !== false) {
 						$colorstring = "color=#999999";
 					}
 ?>
-					<br/> <span <?= $colorstring ?> class="lightandthin"><?= $name ?></span>
+					<br /> <span <?= $colorstring ?> class="lightandthin"><?= $name ?></span>
 <?php
 					if (!$button[2]) {
 ?>
@@ -5363,16 +4976,7 @@ if (strpos($path, "display.php") !== false) {
 ?>
 		</td>
 		<td width="10"> &nbsp; </td>
-<!-- "END print_list_submit_middle" -->
-<?php
-	}
 
-	function print_list_submit_end()
-	{
-?>
-<!-- "START print_list_submit_end" -->
-		</tr></table>
-<!-- "END print_list_submit_end" -->
 <?php
 	}
 
@@ -5411,18 +5015,18 @@ if (strpos($path, "display.php") !== false) {
 	function print_jscript_source($jsource)
 	{
 ?>
-<!-- "START print_jscript_source" -->
+
 		<script language="javascript" src="<?= $jsource ?>"></script>
-<!-- "END print_jscript_source" -->
+
 <?php
 	}
 
 	function print_css_source($csource)
 	{
 ?>
-<!-- "START print_css_source" -->
+
 		<link href="<?= $csource ?>" rel="stylesheet" type="text/css">
-<!-- "END print_css_source" -->
+
 <?php
 	}
 
@@ -5442,7 +5046,7 @@ if (strpos($path, "display.php") !== false) {
 		global $gbl, $sgbl, $login, $ghtml;
 
 ?>
-<!-- "START printNavHistMenu" -->
+
 		<script>
 <?php
 
@@ -5472,7 +5076,7 @@ if (strpos($path, "display.php") !== false) {
 ?>
 
 		</script>
-<!-- "END printNavHistMenu" -->
+
 <?php
 	}
 
@@ -5481,7 +5085,7 @@ if (strpos($path, "display.php") !== false) {
 		global $gbl, $sgbl, $login, $ghtml;
 
 ?>
-<!-- "START print_refresh_key" -->
+
 		<script>
 			document.onkeydown = function (e) {
 				e = e || window.event;
@@ -5503,7 +5107,7 @@ if (strpos($path, "display.php") !== false) {
 				return true;
 			}
 		</script>
-<!-- "END print_refresh_key" -->
+
 <?php
 		if ($sgbl->dbg <= 0) {
 			return;
@@ -5521,7 +5125,7 @@ if (strpos($path, "display.php") !== false) {
 				return true;
 			}
 		</script>
-<!-- "END print_refresh_key" -->
+
 <?php
 	}
 
@@ -5543,7 +5147,7 @@ if (strpos($path, "display.php") !== false) {
 			$this->print_jscript_source("/theme/extjs/js/yui-utilities.js");
 			$this->print_jscript_source("/theme/extjs/js/ext-yui-adapter.js");
 			$this->print_jscript_source("/theme/extjs/js/ext-all.js");
-			$this->print_jscript_source("/theme/yum-dragdrop/dragdrop.js");
+			$this->print_jscript_source("/theme/js/dragdrop.js");
 		}
 
 		$this->print_jscript_source("/theme/js/drag.js");
@@ -5576,7 +5180,7 @@ if (strpos($path, "display.php") !== false) {
 		$hours = $l['hours'];
 		$minutes = $l['minutes'];
 ?>
-<!-- "START print_include_jscript" -->
+
 <?php
 
 		if ($header === 'left_panel') {
@@ -5595,7 +5199,6 @@ if (strpos($path, "display.php") !== false) {
 				}
 
 			</script>
-			<!-- </head> -->
 <?php
 		}
 ?>
@@ -5634,7 +5237,7 @@ if (strpos($path, "display.php") !== false) {
 <?php
 		} // [FIXME] This call a lxCallEnd a empty function
 ?>
-<!-- "END print_include_jscript" -->
+
 <?php
 	}
 
@@ -5771,16 +5374,16 @@ if (strpos($path, "display.php") !== false) {
 				print_time('full', "Page Generation Took: ");
 ?>
 
-				<b><br/> <br/> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
-					<br/>
+				<b><br /> <br /> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
+					<br />
 					Click <a href="<?= $redirect_url ?>"> xHere to go there Anyways.</b>
 <?php
 			} else {
 				print_time('full', "Page Generation Took: ");
 ?>
 
-				<b><br/> <br/> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
-					<br/>
+				<b><br /> <br /> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
+					<br />
 					Click <a href="<?= $redirect_url ?>"> xHere to go there Anyways.</b>
 <?php
 			}
@@ -5822,8 +5425,8 @@ if (strpos($path, "display.php") !== false) {
 		global $gbl, $sgbl, $login;
 
 ?>
-<!-- "START print_table_header" -->
-		<br/><br/>
+
+		<br /><br />
 		<table cellpadding="0" cellspacing="0" border="0" width="20%">
 			<tr>
 				<td bgcolor="<?= $login->skin->table_title_color ?>"><b><?= $heading ?></b>
@@ -5833,7 +5436,7 @@ if (strpos($path, "display.php") !== false) {
 				<td bgcolor="#A5C7E7"></td>
 			</tr>
 		</table>
-<!-- "END print_table_header" -->
+
 <?php
 	}
 
@@ -5910,7 +5513,7 @@ if (strpos($path, "display.php") !== false) {
 		}
 
 ?>
-<!-- "START printGraphSelect" -->
+
 		<table width=100%>
 			<tr>
 				<td width=10></td>
@@ -5961,9 +5564,8 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END printGraphSelect" -->
-<?php
 
+<?php
 	}
 
 	function printShowSelectBox($list)
@@ -6054,32 +5656,33 @@ if (strpos($path, "display.php") !== false) {
 			$col = "{$skindir}expand.gif";
 		}
 ?>
-<!-- "START printShowSelectBox" -->
-		<br />
+		<!-- <br />
 		<table cellspacing=0 cellpadding=0 width=100%>
 			<tr style="background:#efe8e0 url(<?= $col ?>)">
 				<td nowrap><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span>
 				</td>
-				<td align=center>
-					<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php'
-					      accept-charset="utf-8">
+				<td align=center> -->
+<div style="background: #efe8e0 url(<?= $col ?>); height: 24px">
+	<div style="float:left; padding-top: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span></div>
+	<div style="float:left;">
+					<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
 <?php
 						foreach ($cgi_o_o as $k => $v) {
 ?>
 
-							<input type="hidden" name="frm_o_o[<?= $k ?>][class]" value="<?= $v['class'] ?>">
+							<input type="hidden" name="frm_o_o[<?= $k ?>][class]" value="<?= $v['class'] ?>" />
 <?php
 							if ($k != $num && isset($v['nname'])) {
 ?>
 
-								<input type="hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>">
+								<input type="hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>" />
 <?php
 
 							}
 						}
 ?>
 
-						<input type="hidden" name="frm_action" value="<?= $frm_action ?>">
+						<input type="hidden" name="frm_action" value="<?= $frm_action ?>" />
 						<?= $subactionstr ?>
 
 						<?= $cnamestr ?>
@@ -6091,10 +5694,8 @@ if (strpos($path, "display.php") !== false) {
 						<?= $filteropacitystringspan ?>
 
 						<select
-							style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?>
-							class="textbox"
-							onChange='document.topjumpselect.submit()'
-							name='frm_o_o[<?= $num ?>][nname]'>
+							style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?> class="textbox"
+							onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
 
 <?php
 							foreach ($list as $k => $l) {
@@ -6118,14 +5719,12 @@ if (strpos($path, "display.php") !== false) {
 
 						</select> <?= $filteropacitystringspan ?>
 					</form>
-				</td>
+</div></div>
+				<!-- </td>
 				<td width=100%></td>
 			</tr>
-			<tr height=10>
-				<td></td>
-				<td></td>
-		</table>
-<!-- "END printShowSelectBox" -->
+		</table> -->
+<br />
 <?php
 
 	}
@@ -6401,11 +6000,11 @@ if (strpos($path, "display.php") !== false) {
 		}
 
 ?>
-<!-- "START print_div_for_divbutton" -->
+
 		<table <?= $idvar ?> style='border: 1px solid <?= $blackbordercolor ?> ; cursor: pointer' <?= $onclickvar ?>
 		                     onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';"
 		                     onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';"
-		                     cellpadding=3 cellspacing=3 height=80 width=60 valign=top>
+		                     cellpadding=1 cellspacing=2 height=85 width=70 valign=top>
 			<tr>
 				<td valign=top align=center><span title='<?= $alt ?>'> <?= $imgvar ?></td>
 			</tr>
@@ -6414,7 +6013,7 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END print_div_for_divbutton" -->
+
 <?php
 
 	}
@@ -6479,7 +6078,7 @@ if (strpos($path, "display.php") !== false) {
 			}
 
 ?>
-<!-- "START print_toolbar" -->
+
 			<td valign="middle" align="left" width="5">
 				<form>
 <?php
@@ -6490,7 +6089,7 @@ if (strpos($path, "display.php") !== false) {
 
 				</form>
 			</td>
-<!-- "END print_toolbar" -->
+
 <?php
 		}
 	}
@@ -6558,7 +6157,7 @@ if (strpos($path, "display.php") !== false) {
 		// Use get always. Only in forms should post be used.
 		$formmethod = 'get';
 ?>
-<!-- "START print_div_button_on_header" -->
+
 		<td valign="middle" align="left" width=5>
 <?php
 
@@ -6569,7 +6168,7 @@ if (strpos($path, "display.php") !== false) {
 			$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
 ?>
 		</td>
-<!-- "END print_div_button_on_header" -->
+
 <?php
 	}
 
@@ -6588,11 +6187,6 @@ if (strpos($path, "display.php") !== false) {
 		$help = $descr['desc'];
 
 		if ($linkflag) {
-			//	$displayvar = "<span style='color:#002244' class=icontextlink " .
-			//		"id=aaid_$formname href=\"javascript:document.form_$formname.submit()\" " .
-			//		"onmouseover=\"style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\">" .
-			//		"</span>";
-
 			$displayvar = "<span style='color:#002244' class=icontextlink id=aaid_$formname " .
 				"onmouseover=\"style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\">" .
 				"</span>";
@@ -6629,7 +6223,7 @@ if (strpos($path, "display.php") !== false) {
 			$imgvar = null;
 		}
 ?>
-<!-- "START print_div_for_divbutton_on_header" -->
+
 		<span title='<?= $alt ?>'>
 		<a target="<?= $target ?>" href="<?= $url ?>">
 			<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer'
@@ -6645,7 +6239,7 @@ if (strpos($path, "display.php") !== false) {
 			</table>
 		</a>
 	</span>
-<!-- "END print_div_for_divbutton_on_header" -->
+
 <?php
 	}
 
@@ -6744,17 +6338,20 @@ if (strpos($path, "display.php") !== false) {
 
 		if ($info != null) {
 ?>
-			<table cellpadding=0 cellspacing=0 width=<?= $width + 50 ?>>
+			<!-- <table cellpadding=0 cellspacing=0 width=<?= $width + 50 ?>>
 			<tr>
 			<td class=collist width=50><b><?= $info ?></b></td>
-			<td>
+			<td> -->
+			<div style="width:50px; float:left">><b><?= $info ?></b></div>
 <?php
 		}
 ?>
-<!-- "START show_graph" -->
+<!--
 		<table cellpadding=0 cellspacing=0 border=0 width=<?= $width ?>>
 			<tr>
 				<td <?= $help ?>>
+-->
+<div <?= $help ?> style="float: left">
 					<div id="quotameter" class="smallroundedmodule lowquota">
 						<div class="first">
 							<span class="first"></span>
@@ -6773,20 +6370,21 @@ if (strpos($path, "display.php") !== false) {
 							<span class="last"></span>
 						</div>
 					</div>
+</div>
+<!--
 				</td>
 			</tr>
 		</table>
+-->
+
 <?php
 		if ($info != null) {
 ?>
 
-			</td></tr></table>
+			<!-- </td></tr></table> -->
 <?php
 
 		}
-?>
-<!-- "END show_graph" -->
-<?php
 	}
 
 
@@ -6800,7 +6398,7 @@ if (strpos($path, "display.php") !== false) {
 		$imgtopline = $login->getSkinDir() . "/top_line.gif";
 
 ?>
-<!-- "START form_header" -->
+
 		<table cellpadding=0 cellspacing=0 border=0 width=100%>
 			<tr>
 				<td width=60% valign=bottom>
@@ -6822,20 +6420,20 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END form_header" -->
+
 <?php
 	}
 
 	function form_footer()
 	{
 ?>
-<!-- "START form_footer" -->
+
 		<table cellpadding=0 cellspacing=0 border=0 width=100%>
 			<tr>
 				<td height=2 bgcolor="#a5c7e7"></td>
 			</tr>
 		</table>
-<!-- "END form_footer" -->
+
 <?php
 	}
 
@@ -6871,7 +6469,7 @@ if (strpos($path, "display.php") !== false) {
 		$stylestring = "style='width: 300;' size=20";
 		$iconpath = get_image_path() . "/button";
 ?>
-<!-- "START print_fancy_select" -->
+
 		<form name="<?= $form ?>" action="/display.php" accept-charset="utf-8">
 			<table cellpadding=0 cellspacing=0>
 				<tr>
@@ -6979,9 +6577,9 @@ if (strpos($path, "display.php") !== false) {
 
 								</td>
 								<td><input type="button" class=submitbutton value="&nbsp;&nbsp;Up&nbsp;&nbsp;"
-								           onclick="shiftOptionUp('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
+								           onclick="shiftOptionUp('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br /><br />
 									<input type="button" class=submitbutton value="&nbsp;&nbsp;Down&nbsp;&nbsp;"
-									       onclick="shiftOptionDown('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
+									       onclick="shiftOptionDown('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br /><br />
 								</td>
 							</tr>
 
@@ -6995,7 +6593,7 @@ if (strpos($path, "display.php") !== false) {
 				</tr>
 			</table>
 		</form>
-<!-- "END print_fancy_select" -->
+
 <?php
 	}
 
@@ -7021,7 +6619,7 @@ if (strpos($path, "display.php") !== false) {
 		$rclass = "frmtextarea";
 		$variable = "frm_{$object->getClass()}_c_text_comment";
 ?>
-<!-- "START print_find" -->
+<!--
 		<table cellpadding="0" cellspacing="3" align="center" width="100%" style="margin-top: 8px">
 			<tr align='center'>
 				<td width='100%'>
@@ -7041,7 +6639,14 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END print_find" -->
+-->
+
+		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
+			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>expand.gif)"><span style="font-weight:bold">&nbsp;Find</span></div>
+			<div><input style="width: 200px; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)"></div>
+		</div>
+
+		<br />
 <?php
 	}
 
@@ -7069,7 +6674,7 @@ if (strpos($path, "display.php") !== false) {
 		$url = $ghtml->getFullUrl("a=updateform&sa=information");
 		$variable = "frm_{$object->getClass()}_c_text_comment";
 ?>
-<!-- "START print_note" -->
+<!--
 		<table <?= $blackstyle ?> cellpadding="0" cellspacing="3" align="center" width="100%">
 			<tr>
 				<td align="center">
@@ -7090,7 +6695,15 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END print_note" -->
+-->
+
+		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
+			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>expand.gif)"><span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a></div>
+			<div><textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<?= $rows ?>"
+					style="border: 0; margin: 0; width: <?= $cols ?>; height: 100px;"
+					name="<?= $variable ?>" size="30"><?= $value ?></textarea></div>
+		</div>
+		<br />
 <?php
 	}
 
@@ -7114,7 +6727,7 @@ if (strpos($path, "display.php") !== false) {
 			$v2 = explode(",", $v2);
 		}
 ?>
-<!-- "START print_multiselect" -->
+
 		<?= $variable->desc ?>
 
 		<table width=100% cellpadding=0 cellspacing=0>
@@ -7186,7 +6799,7 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END print_multiselect" -->
+
 <?php
 	}
 
@@ -7233,8 +6846,8 @@ if (strpos($path, "display.php") !== false) {
 			$checked = " CHECKED  ";
 		}
 ?>
-<!-- "START print_checkboxwithtext" -->
-		<?= $variable_description ?> <br/>
+
+		<?= $variable_description ?> <br />
 
 		<input class=<?= $tclass ?> <?= $tdisabled ?> type=text
 		       name=<?= $variable->text->name ?> value="<?=$variable->text->value?>" size="20">
@@ -7243,7 +6856,7 @@ if (strpos($path, "display.php") !== false) {
 				<input class="<?= $ckclass ?>" type="checkbox" name="<?= $variable->checkbox->name ?>"
 				       value="<?= trim($variable->checkbox->value) ?>" <?= $checked ?>
 				       onclick="<?= "checkBoxTextToggle('$form', '{$variable->checkbox->name}', '{$variable->text->name}', '{$variable->checkbox->value}', '{$variable->text->value}');" ?>">
-<!-- "END print_checkboxwithtext" -->
+
 <?php
 	}
 
@@ -7280,18 +6893,23 @@ if (strpos($path, "display.php") !== false) {
 
 ?>
 
-			<script> global_need_list = new Array(); </script>
-			<script> global_match_list = new Array(); </script>
-			<script> global_desc_list = new Array(); </script>
+			<script>
+				global_need_list = new Array();
+				global_match_list = new Array();
+				global_desc_list = new Array();
+			</script>
 <?php
 		}
 
 ?>
-<!-- "START xml_print_page" -->
-		<table width="600">
+
+		<!-- <table width="600">
 			<tr>
 				<td>&nbsp;</td>
-				<td>
+				<td> -->
+		<div style="width: 600px; margin: 0 auto 0 auto;">
+			<div>&nbsp;</div>
+			<div>
 					<form name="<?= $block->form ?>" id="<?= $block->form ?>"
 					      action="<?= $block->url ?>" <?= $block->formtype ?>
 					      method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8">
@@ -7314,11 +6932,14 @@ if (strpos($path, "display.php") !== false) {
 						if ($block->title) {
 ?>
 
+						<div style="width: 100%; margin: 0">
 							<fieldset
 								style="background-color:<?= $backgroundcolor ?>; border: 0; padding: 10px 0 10px 0; border-top: 1px solid #<?= $bordertop ?>">
 								<legend style='font-weight:normal; border: 0'><span
-										style='color: #303030; font-weight:bold'><?= $block->title ?></span></legend>
+										style='color: #303030; font-weight:bold'><?= $block->title ?></span>
+								</legend>
 							</fieldset>
+						</div>
 <?php
 						}
 
@@ -7404,11 +7025,14 @@ if (strpos($path, "display.php") !== false) {
 							</div>
 						</div>
 					</form>
-				</td>
+				</div>
+				<div>&nbsp;</div>
+			</div>
+				<!-- </td>
 				<td>&nbsp;</td>
 			</tr>
-		</table>
-<!-- "END xml_print_page" -->
+		</table> -->
+
 <?php
 	}
 
@@ -7472,8 +7096,8 @@ if (strpos($path, "display.php") !== false) {
 		}
 
 ?>
-<!-- "START print_modify" -->
-		<?= $variable_description ?> <?= $myneedstring ?> <br/>
+
+		<?= $variable_description ?> <?= $myneedstring ?> <br />
 		<?= $variable->pretext ?>
 		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>"
 		       style="width: 45%; border: 1px solid #aaaaaa; margin: 2px 0 2px 0; padding: 2px 0 2px 0"
@@ -7562,26 +7186,26 @@ if (strpos($path, "display.php") !== false) {
 <?php
 		}
 ?>
-<!-- "END print_modify" -->
+
 <?php
 	}
 
 	function print_radio($form, $variable, $list, $rowuniqueid, $rowclass, $rowcount)
 	{
 ?>
-<!-- "START print_radio" -->
+
 <?php
 		foreach ($list as $k => $l) {
 ?>
 
-			<input type="radio" name="radio_<?= $variable ?>" value="<?= $k ?>"> <?= $l ?> <br/>
+			<input type="radio" name="radio_<?= $variable ?>" value="<?= $k ?>"> <?= $l ?> <br />
 <?php
 		}
 ?>
 
 		<input type="radio" name="radio_<?= $variable ?>" value="__provide__"> Provide
 		<input type="textbox" name="<?= $variable ?> value="">
-<!-- "END print_radio" -->
+
 <?php
 	}
 
@@ -7692,7 +7316,7 @@ if (strpos($path, "display.php") !== false) {
 		$rowcount++;
 
 ?>
-<!-- "START print_variable" -->
+
 		<div align="left" style="padding:10px; <?= $divstyle ?>; display:block">
 <?php
 
@@ -7737,7 +7361,7 @@ if (strpos($path, "display.php") !== false) {
 
 					$v = $variable->name;
 ?>
-					<?= $variable_description ?> <br/>
+					<?= $variable_description ?> <br />
 					<?= $filteropacitystringspan ?> <select
 					style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> class="textbox"
 					name="<?= $v ?>">
@@ -7803,7 +7427,7 @@ if (strpos($path, "display.php") !== false) {
 					$height = trim($variable->height);
 ?>
 
-					<?= $variable_description ?> <br/>
+					<?= $variable_description ?> <br />
 					<img src="<?= $variable->value ?>" width="<?= $width ?>" height="<?= $height ?>">
 <?php
 
@@ -7816,7 +7440,7 @@ if (strpos($path, "display.php") !== false) {
 				case "file":
 ?>
 
-					<?= $variable_description ?> <?= $myneedstring ?> <br/>
+					<?= $variable_description ?> <?= $myneedstring ?> <br />
 					<input class="filebox" type="file" name="<?= $variable->name ?>" size="30">
 <?php
 
@@ -7872,7 +7496,7 @@ if (strpos($path, "display.php") !== false) {
 				case "textarea":
 ?>
 
-					<?= $variable_description ?> <?= $myneedstring ?> <br/>
+					<?= $variable_description ?> <?= $myneedstring ?> <br />
 <?php
 
 					if ($variable->height != "") {
@@ -7949,7 +7573,7 @@ if (strpos($path, "display.php") !== false) {
 ?>
 
 		</div>
-<!-- "END print_variable" -->
+
 <?php
 	}
 
@@ -8061,7 +7685,7 @@ if (strpos($path, "display.php") !== false) {
 			$fontcolor = "#999999";
 		}
 ?>
-<!-- "START print_information" -->
+
 <?php
 		if ($skin_name !== 'simplicity') {
 ?>
@@ -8115,7 +7739,7 @@ if (strpos($path, "display.php") !== false) {
 <?php
 		}
 ?>
-<!-- "END print_information" -->
+
 <?php
 	}
 
@@ -8131,7 +7755,7 @@ if (strpos($path, "display.php") !== false) {
 		}
 
 ?>
-<!-- "START print_curvy_table_start" -->
+
 		<table cellpadding="0" align="center" cellspacing="0" width="100%">
 		<tr>
 			<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/tl.gif" align="center"></td>
@@ -8142,7 +7766,7 @@ if (strpos($path, "display.php") !== false) {
 		<td style="background: url(<?= $a ?>/dot.gif) 0 0 repeat-y">
 		</td>
 		<td align="left">
-<!-- "END print_curvy_table_start" -->
+
 <?php
 	}
 
@@ -8158,7 +7782,7 @@ if (strpos($path, "display.php") !== false) {
 		}
 
 ?>
-<!-- "START print_curvy_table_end" -->
+
 		</td>
 		<td style="background: url(<?= $a ?>/dot.gif) 100% 0 repeat-y">
 		</td>
@@ -8169,7 +7793,7 @@ if (strpos($path, "display.php") !== false) {
 			<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/br.gif" align="center"></td>
 		</tr>
 		</table>&nbsp;
-<!-- "END print_curvy_table_end" -->
+
 <?php
 	}
 
@@ -8258,8 +7882,7 @@ if (strpos($path, "display.php") !== false) {
 		}
 
 ?>
-<!-- "START show_error_message" -->
-		<!-- <div id="esmessage" style="visibility:visible;position:absolute;width:100%;top:21%;left:2%"> -->
+
 		<div id="esmessage"
 		     style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin-left:auto; margin-right:auto;">
 			<table width='400' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
@@ -8279,9 +7902,9 @@ if (strpos($path, "display.php") !== false) {
 					<td></td>
 				</tr>
 			</table>
-			<br/>
+			<br />
 		</div>
-<!-- "END show_error_message" -->
+
 <?php
 	}
 
@@ -8325,7 +7948,7 @@ if (strpos($path, "display.php") !== false) {
 		global $gbl, $sgbl, $login, $ghtml;
 
 ?>
-<!-- "START print_lpanel_start_separator" -->
+
 		<tr>
 			<td colspan=3 height=2></td>
 		</tr>
@@ -8335,7 +7958,7 @@ if (strpos($path, "display.php") !== false) {
 		<tr>
 			<td colspan=3 height=2></td>
 		</tr>
-<!-- "END print_lpanel_start_separator" -->
+
 <?php
 	}
 
@@ -8366,10 +7989,10 @@ if (strpos($path, "display.php") !== false) {
 		$name = $file . "_" . $name;
 
 ?>
-<!-- "START print_xpsingle" -->
+
 		createSubMenu(<?= $treename ?>, '<span
 		style="text-decoration: underline;"><?= $desc ?></span>', '<?= $url ?>', '', '', '<?= $image ?>', 'mainframe');
-<!-- "END print_xpsingle" -->
+
 <?php
 	}
 
@@ -8383,14 +8006,14 @@ if (strpos($path, "display.php") !== false) {
 		print_ext_tree($login);
 
 ?>
-<!-- "START tab_vheight" -->
+
 		<script type='text/javascript' src='/theme/js/tabs-example.js'></script>
 
 		<div style='background-color:#ffffff' id="tabs1">
 			<div id="script"
 			     style="overflow:hidden; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;"
 			     class="tab-content">
-				<br/>
+				<br />
 				<? $ghtml->xp_panel($login); ?>
 			</div>
 			<div id="markup" class="tab-content">
@@ -8399,7 +8022,7 @@ if (strpos($path, "display.php") !== false) {
 				</div>
 			</div>
 		</div>
-<!-- "END tab_vheight" -->
+
 <?php
 	}
 
@@ -8421,7 +8044,7 @@ if (strpos($path, "display.php") !== false) {
 		$skinget = $login->getSkinDir();
 
 ?>
-<!-- "START xp_panel" -->
+
 		<script language="javascript" type="text/javascript" src="/theme/js/xpmenu/ua.js"></script>
 		<script language="javascript" type="text/javascript" src="/theme/js/xpmenu/PanelBarOrig.js"></script>
 		<script language="javascript" type="text/javascript">
@@ -8561,7 +8184,7 @@ if (strpos($path, "display.php") !== false) {
 			setTheme("XPClassic.css", null, null);
 			initialize(<?=($sgbl->__var_lpanelwidth - 20)?>);
 		</script>
-<!-- "END xp_panel" -->
+
 <?php
 	}
 
@@ -8591,13 +8214,13 @@ if (strpos($path, "display.php") !== false) {
 		$skin_name = str_replace("_", " ", $skin_name);
 		$name = substr($login->nname, 0, 12);
 ?>
-<!-- "START lpanel_start" -->
+
 		<table>
 			<tr>
 				<td height=215></td>
 			</tr>
 		</table>
-<!-- "END lpanel_start" -->
+
 <?php
 
 		$this->lpanel_help();
@@ -8626,9 +8249,10 @@ if (strpos($path, "display.php") !== false) {
 
 		$treename = "_" . fix_nname_to_be_variable($object->nname);
 ?>
-		<table width="100%" cellpadding="0" cellspacing="0" valign="top">
+		<!-- <table width="100%" cellpadding="0" cellspacing="0" valign="top">
 			<tr>
-				<td valign=top align=left>
+				<td valign=top align=left> -->
+<div>
 <?php
 					if ($complex) {
 ?>
@@ -8673,10 +8297,11 @@ if (strpos($path, "display.php") !== false) {
 
 				print_time('tree', "Tree", 2);
 ?>
+</div>
 
-				</td>
+				<!-- </td>
 			</tr>
-		</table>
+		</table> -->
 		<form name="__treeForm" id="__treeForm" method="get" action="/display.php" accept-charset="utf-8">
 			<input type="hidden" name="frm_accountselect" value="">
 <?php
@@ -8703,7 +8328,7 @@ if (strpos($path, "display.php") !== false) {
 
 ?>
 		</form>
-<!-- "END lpanel_start" -->
+
 <?php
 	}
 
@@ -8712,9 +8337,7 @@ if (strpos($path, "display.php") !== false) {
 		$tlist = $tree->getList('tree');
 		$open = $tree->open ? $tree->open : 'false';
 		$open = 'false';
-?>
-<!-- "START print_tree" -->
-<?php
+
 		if ($tree->imgstr) {
 			$total++;
 
@@ -8729,7 +8352,7 @@ if (strpos($path, "display.php") !== false) {
 ?>
 
 					&nbsp;
-					<?= $imgstr ?> <br/>
+					<?= $imgstr ?> <br />
 <?php
 				}
 			}
@@ -8742,9 +8365,7 @@ if (strpos($path, "display.php") !== false) {
 				$this->print_tree($treename, $t, $total, $level, $complex);
 			}
 		}
-?>
-<!-- "END print_tree" -->
-<?php
+
 	}
 
 	function print_resource($tree, $object, $cgi_o_o, $toplevelobject, $depth, $alistflag, $func, $childobjectflag = false, $showurlflag = true)
@@ -9242,7 +8863,7 @@ if (strpos($path, "display.php") !== false) {
 
 		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
 
-		//	$lightskincolor = $login->getSkinColor();
+	//	$lightskincolor = $login->getSkinColor();
 		$lightskincolor = "818fb0";
 
 		$func = "onLoad='lxLoadBody();'";
@@ -9257,30 +8878,31 @@ if (strpos($path, "display.php") !== false) {
 			$bodycolor = "ffffff";
 		} else {
 			$bodybackground = "";
-			$bodycolor = $lightskincolor;
+			if ($as_simple_skin) {
+				$bodycolor = $lightskincolor;
+			} else {
+				$bodycolor = "fff";
+			}
 		}
-
-
-
 ?>
-<!-- "START print_real_beginning" -->
-		<body style="border:0; margin:0; padding:0; background:#<?= $bodycolor ?> <?= $bodybackground ?>; background-attachment: fixed;">
+
+		<body <?= $func ?> style="border:0; margin:0; padding:0; background:#<?= $bodycolor ?> <?= $bodybackground ?>; background-attachment: fixed;">
 		<!-- "START TOP MENU + LOGO" -->
 <?php
 		if ($skin_name === 'simplicity') {
 ?>
-		<div style="position:fixed; width:100%; top:0; height:40px; margin:0; padding:0; background-color: #c38;">
+		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38;">
 			<div style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:40px; padding:10px 10px 0 10px; vertical-align:middle"><? include_once "theme/menu/purecss/menu.php" ?></div>
 		</div>
 
-		<div style="position:fixed; right:10px; top:50px;"><img src="/login/images/kloxo-mr.png" height="75"></div>
+		<div style="position:fixed; right:10px; top:40px;"><img src="/login/images/kloxo-mr.png" height="75"></div>
 		<!-- "END TOP MENU + LOGO" -->
 <?php
 		}
 
 		if (($as_simple_skin) || ($skin_name === 'simplicity')) {
 			if ($skin_name === 'simplicity') {
-				$margin_top = '50';
+				$margin_top = '60';
 				$border = '0';
 				$bgcolor = "";
 			} else {
@@ -9291,21 +8913,17 @@ if (strpos($path, "display.php") !== false) {
 ?>
 
 			<!-- "START TAB + CONTENT" -->
-			<div id="mmm"
-			style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; border: <?= $border ?>; <?= $bgcolor ?>">
-
+			<div id="mmm" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; border: <?= $border ?>; <?= $bgcolor ?>">
 <?php
 		}
-?>
-<!-- "END print_real_beginning" -->
-<?php
+
 		return;
 	}
 
 	function print_splash_js_function()
 	{
 ?>
-<!-- "START print_splash_js_function" -->
+
 		<script>
 			function coverScreen(flag) {
 				var coverob = document.getElementById('coverscreen');
@@ -9385,20 +9003,20 @@ if (strpos($path, "display.php") !== false) {
 				splashob.style.position = 'absolute';
 			}
 		</script>
-<!-- "END print_splash_js_function" -->
+
 <?php
 	}
 
 	function print_splash()
 	{
 ?>
-<!-- "START print_splash" -->
+
 		<script>
 			if (top.topframe && typeof top.topframe.changeLogo == 'function') {
 				top.topframe.changeLogo(1);
 			}
 		</script>
-<!-- "END print_splash" -->
+
 <?php
 	}
 
@@ -9417,13 +9035,6 @@ if (strpos($path, "display.php") !== false) {
 		} else {
 			$bgcolor = "";
 		}
-?>
-<!-- "START print_start" -->
-	<table id="tbltop" cellpadding="0" cellspacing="0" border="0" <?= $bgcolor ?> width="100%">
-	<tr>
-	<td width="100%" align="center" valign="top">
-<!-- "END print_start" -->
-<?php
 	}
 
 	function fix_post_pre_stuff($key)
@@ -9466,13 +9077,13 @@ if (strpos($path, "display.php") !== false) {
 		$imgbordermain = $login->getSkinDir() . "/top_line.gif";
 
 ?>
-<!-- "START print_about" -->
+
 		<table cellpadding=0 cellspacing=0>
 			<tr>
 				<td><img src='/theme/aboutus.jpg'></td>
 			</tr>
 		</table>
-<!-- "END print_about" -->
+
 <?php
 	}
 
@@ -9494,7 +9105,7 @@ if (strpos($path, "display.php") !== false) {
 
 		$filtername = $parent->getFilterVariableForThis($class);
 ?>
-<!-- "START print_sortby" -->
+
 <?php
 		$desc = $descr[2];
 
@@ -9523,7 +9134,7 @@ if (strpos($path, "display.php") !== false) {
 			<span class="tableheadtext"
 			      onmouseover="changeContent('help','<b>Message </b>: <br /> <br /> <?= $help ?>')"
 			      onmouseout="changeContent('help','helparea')"> <?= $d ?> </span>
-<!-- "END print_sortby" -->
+
 <?php
 
 			return;
@@ -9557,7 +9168,7 @@ if (strpos($path, "display.php") !== false) {
 
     <span title='<?= $alt ?>'><a class=tableheadtext
                                  href="javascript:document.<?= $formname ?>.submit()"><?= $desc ?> </a> </span>
-<!-- "END print_sortby" -->
+
 <?php
 	}
 
@@ -9590,7 +9201,7 @@ if (strpos($path, "display.php") !== false) {
 			$searchimg = null;
 		}
 ?>
-<!-- "START print_search" -->
+
 		<table width="100%" border="0" cellpadding="0">
 			<tr>
 				<td>
@@ -9655,7 +9266,7 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 		</table>
-<!-- "END print_search" -->
+
 <?php
 	}
 
@@ -9673,11 +9284,11 @@ if (strpos($path, "display.php") !== false) {
 
 		$helpimg = $img_path . "/";
 ?>
-<!-- "START oldlpanel_help" -->
+
 		<table cellpadding="0" width=100% cellspacing="0" border="0" align=center>
 
 		<tr>
-			<td align=center><br/>
+			<td align=center><br />
 				<table cellpadding=0 cellspacing=0 border=0 align=center>
 					<tr align=center>
 						<td><img id=helppic name=namepic src="<?= $helpimg ?>/help_head.gif" style="cursor:pointer"
@@ -9723,7 +9334,7 @@ if (strpos($path, "display.php") !== false) {
 				</td>
 			</tr>
 			</table>
-<!-- "END oldlpanel_help" -->
+
 <?php
 		}
 
@@ -9734,9 +9345,7 @@ if (strpos($path, "display.php") !== false) {
 	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $url, $name, $imagesrc, $descr, $check)
 	{
 		global $gbl, $sgbl, $login;
-?>
-<!-- "START printTabForTabButton" -->
-<?php
+
 		$help = $descr['help'];
 		$imgstr = null;
 
@@ -9775,8 +9384,51 @@ if (strpos($path, "display.php") !== false) {
 					size=-1><?= $displaystring ?></td>
 <?php
 		}
+
+	}
+
+	function print_content_begin()
+	{
+		global $gbl, $sgbl, $login;
+
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
+
+		$bordering = "border: 1px solid #ddd; border-top:0";
+
+		if ($skin_name !== 'simplicity') {
+			if (!$$as_simple_skin) {
+				$bordering = "border: 0";
+			}
+		}
+
 ?>
-<!-- "START printTabForTabButton" -->
+<!-- "START CONTENT" -->
+<!--
+	<table id="tblmain" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%" style="<?= $bordering ?>; background-color: #fff">
+	<tr>
+	<td width="100%" align="center" valign="top">
+	<br>
+-->
+<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden;">
+	<div style="text-align:center; width:100%; height: 100%; min-height: 100%; height: auto !important;<?= $bordering ?>; background-color: #fff">
+<br />
 <?php
 	}
+
+	function print_content_end()
+	{
+?>
+	</div>
+</div>
+<!--
+			</td>
+		</tr>
+	</table>
+-->
+<!-- "END CONTENT" -->
+<?php
+
+	}
 }
+

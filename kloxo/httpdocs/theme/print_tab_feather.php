@@ -19,12 +19,13 @@ function print_tab_block_start($alist)
 	$skin_color = $login->getSpecialObject('sp_specialplay')->skin_color;
 
 ?>
-	<br>
+	<br />
 	<table width="100%" cellpadding="0" cellspacing="0" border="0" style="vertical-align:top;">
 		<tr>
 			<td colspan="2">
 				<table cellpadding="0" cellspacing="0" border="0">
 					<tr>
+
 <?php
 						if (!$sgbl->isBlackBackground()) {
 ?>
@@ -69,13 +70,6 @@ function print_tab_block_start($alist)
 			</td>
 		</tr>
 	</table>
-	</td>
-	</tr>
-	</table>
-	<table id="tblmain" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%" style="<?= $bordering ?>; background-color: #fff">
-	<tr>
-	<td width="100%" align="center" valign="top">
-	<br>
 <?php
 }
 

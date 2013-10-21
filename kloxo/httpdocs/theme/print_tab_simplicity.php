@@ -20,18 +20,13 @@ function print_tab_block_start($alist)
 
 ?>
 	<br>
-<!-- "START TAB" -->
-	<table width="100%" cellpadding="0" cellspacing="0" border="0" style="vertical-align:top;">
-		<tr>
-			<td colspan="2">
-				<table cellpadding="0" cellspacing="0" border="0">
-					<tr>
+	<div>
 <?php
 						if (!$sgbl->isBlackBackground()) {
 ?>
-							<td width="20" class="tabcomplete" nowrap>
-								<div class="tabcompletediv"> &nbsp; &nbsp; </div>
-							</td>
+
+								<div class="tabcompleteleft"> &nbsp; &nbsp; </div>
+
 <?php
 						}
 
@@ -50,29 +45,27 @@ function print_tab_block_start($alist)
 
 						if (!$sgbl->isBlackBackground()) {
 ?>
-							<td width="100%" class="tabcomplete">
-								<div class="tabcompletediv"> &nbsp; </div>
-							</td>
+<script type="text/javascript">
+<!--
+	function toggle_wrapper() {
+		var e = document.getElementById('content_wrapper');
+		if(e.style.display == 'block') {
+			e.style.display = 'none';
+		} else {
+			e.style.display = 'block';
+		}
+	}
+//-->
+</script>
+
+	<div class="tabcompleteright"><div style="float:right"><input type="button" value="Show/Hide" style="margin: 0 10px 4px" onClick="toggle_wrapper();" /></div></div>
+
 <?php
 						}
-
-						$bordering = "border:1px solid #ddd; border-top:0";
 ?>
-
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-	</td>
-	</tr>
-	</table>
+		
+	</div>
 <!-- "END TAB" -->
-<!-- "START CONTENT -->
-	<table id="tblmain" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%" style="<?= $bordering ?>; background-color: #fff">
-	<tr>
-	<td width="100%" align="center" valign="top">
-	<br>
 <?php
 }
 
@@ -126,11 +119,6 @@ function print_tab_button($key, $url, $list)
 	$imageheight = 24;
 	$height = 34;
 
-	$imgp = $login->getSkinDir();
-	$imglt = $imgp . "/tab{$sel}_lt.gif";
-	$imgbg = $imgp . "/tab{$sel}_bg.gif";
-	$imgrt = $imgp . "/tab{$sel}_rt.gif";
-
 	$linkflag = true;
 
 	if (csa($key, "__var_")) {
@@ -169,15 +157,15 @@ function print_tab_button($key, $url, $list)
 
 	if ($check) {
 ?>
-		<td class='tabnew'>
+		<!-- <td class='tabnew'> -->
 			<div class='verb3'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
-		</td>
+		<!-- </td> -->
 <?php
 	} else {
 ?>
-		<td class='tabnew1'>
+		<!-- <td class='tabnew1'> -->
 			<div nowrap class='verb'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
-		</td>
+		<!-- </td> -->
 <?php
 	}
 

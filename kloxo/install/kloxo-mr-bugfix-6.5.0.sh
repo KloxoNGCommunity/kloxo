@@ -57,7 +57,9 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	"./kloxomr-$ver/RELEASEINFO" "./kloxomr-$ver/etc/process" \
 	"./kloxomr-$ver/etc/config.ini" \
 	"./kloxomr-$ver/install" "./kloxomr-$ver/init" \
-	"./kloxomr-$ver/etc/list" \
+	"./kloxomr-$ver/etc/list/set.*.lst" \
+	"./kloxomr-$ver/etc/list/reserved.lst" \
+	"./kloxomr-$ver/etc/list/webcache.lst" \
 	--exclude "./kloxomr-$ver/httpdocs/commands.php" \
 	--exclude "./kloxomr-$ver/httpdocs/newpass" \
 	--exclude "./kloxomr-$ver/httpdocs/.php.err" \
@@ -79,12 +81,11 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/init/*.sock" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/editor/_source" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/_samples" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/extjs" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/yui-dragdrop" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/*.old" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/*.bck" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/*.pyo" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/*.pyc"
+	--exclude "./kloxomr-$ver/*.old" \
+	--exclude "./kloxomr-$ver/*.bck" \
+	--exclude "./kloxomr-$ver/*.pyo" \
+	--exclude "./kloxomr-$ver/*.pyc"
 
 rm -rf ./kloxomr-$ver > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1

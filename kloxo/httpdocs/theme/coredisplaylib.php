@@ -150,17 +150,21 @@ function print_customer_mode($object)
 
 ?>
 
-	<table cellpadding="0" width="100%" cellspacing="0" border="0">
+	<!-- <table cellpadding="0" width="100%" cellspacing="0" border="0">
 		<tr>
 			<td>
 				<table align="left" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
-						<td nowrap align="center"><a href="<?= $url ?>"> >>>> Switch To <?= $mode ?> Mode <<<< </a></td>
+						<td nowrap align="center"> -->
+							<div style="background: #efe8e0 url(<?= $col ?>); height: 20px; padding-top: 4px">
+							<a href="<?= $url ?>">&nbsp;>>>> Switch To <?= $mode ?> Mode <<<<&nbsp;</a>
+							</div>
+						<!-- </td>
 					</tr>
 				</table>
 			</td>
 		</tr>
-	</table>
+	</table> -->
 <?php
 }
 
@@ -195,6 +199,8 @@ function __ac_desc_show($object)
 	}
 
 	$ghtml->print_tab_block($prlist['property']);
+
+	$ghtml->print_content_begin();
 
 	if ($sgbl->isKloxo() && $object->isLogin() && $object->isLte('reseller')) {
 		print_customer_mode($object);
@@ -357,16 +363,21 @@ function __ac_desc_show($object)
 			}
 		}
 	}
-
+?>
+<!-- "I am here 1" -->
+<?php
 	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
-
+<!--
 		<table cellpadding="0" cellspacing="0" valign="top" align="center">
 			<tr valign="top">
 				<td valign="top" align="center">
 					<table cellpadding="0" cellspacing="0" valign="top">
 						<tr valign="top">
-							<td valign="top">
+							<td valign="top"> -->
+<table style="border: 0; margin: 0; padding: 0; margin: 0 auto"><tr><td>
+<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 870px">
+	<div style="float:left">
 <?php
 								$ghtml->print_find($object);
 
@@ -385,19 +396,25 @@ function __ac_desc_show($object)
 									$ghtml->printObjectTable(null, $object, 'permission');
 								}
 ?>
-
+<!--
 							</td>
 						</tr>
 					</table>
-				</td><td width="25">&nbsp;</td>
+				</td> -->
+	</div>
+<!-- "I am here 2" -->
+<div style="width:25px; float:left">&nbsp;</div>
+<!--
+<td width="25">&nbsp;</td>
 				<td valign="top">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
-							<td>
+							<td> -->
+	<div style="float:left">
 <?php
-								if (isset($nalist)) {
-									$ghtml->print_object_action_block($object, $nalist, 8);
-								}
+		if (isset($nalist)) {
+			$ghtml->print_object_action_block($object, $nalist, 8);
+		}
 
 	} else {
 		if (isset($nalist)) {
@@ -442,6 +459,13 @@ function __ac_desc_show($object)
 	}
 
 	$ghtml->print_information('post', 'show', $cname, $subaction, "");
+?>
+<!-- "I am here 3" -->
+	</div>
+</div>
+</td></tr></table>
+<?php
+	$ghtml->print_content_end();
 }
 
 function search_url_in_array($url, $alist)
@@ -523,6 +547,8 @@ function __ac_desc_graph($object)
 
 	$ghtml->print_tab_block($nalist);
 
+	$ghtml->print_content_begin();
+
 	if ($selflist) {
 		$ghtml->printShowSelectBox($selflist);
 	}
@@ -533,7 +559,9 @@ function __ac_desc_graph($object)
 	}
 
 	$galist = $object->createGraphList();
+
 	$ghtml->print_tab_block($galist);
+
 	$graphtlist = array('1h' => '1h', '12h' => '12h', '1d' => '1d', '2d' => '2d', '1week' => '1week', '1month' => '1month');
 	$gtlistsec = array('1h' => 3600, '12h' => 12 * 3600, '1d' => 24 * 3600, '2d' => 2 * 24 * 3600, '1week' => 7 * 24 * 3600, '1month' => 30 * 24 * 3600, '1year' => 365 * 24 * 3600);
 	$ghtml->printGraphSelect($graphtlist);
@@ -570,6 +598,7 @@ function __ac_desc_graph($object)
 
 	<img src="/tmp/<?= $tmpgraph ?>">
 <?php
+	$ghtml->print_content_end();
 }
 
 function showParentProperty($object)
@@ -735,6 +764,8 @@ function __ac_desc_list($object, $cname = null)
 		$ghtml->print_tab_block($alist);
 	}
 
+	$ghtml->print_content_begin();
+
 	if ($selflist) $ghtml->printShowSelectBox($selflist);
 
 	$ghtml->print_message();
@@ -766,10 +797,13 @@ function __ac_desc_list($object, $cname = null)
 	}
 
 	$ghtml->print_information('pre', 'list', $cname, "", $pre);
+
 	do_search($object, $cname);
 
 	$ghtml->printListAddForm($object, $cname);
 	do_list_class($object, $cname);
+
+	$ghtml->print_content_end();
 }
 
 function make_show_all($object, $cname)
@@ -984,6 +1018,8 @@ function __ac_desc_UpdateForm($object)
 		$ghtml->print_tab_block($nalist);
 	}
 
+	$ghtml->print_content_begin();
+
 	$object->showRawPrint();
 
 	$ghtml->print_message();
@@ -1005,6 +1041,8 @@ function __ac_desc_UpdateForm($object)
 	} else {
 		do_updateform($object, $sublist);
 	}
+
+	$ghtml->print_content_end();
 }
 
 function do_updateform($object, $subaction)
@@ -1110,6 +1148,7 @@ function do_updateform($object, $subaction)
 		}
 
 		$ghtml->print_information('pre', 'updateform', $class, $subaction, $pre);
+
 		$ghtml->xml_print_page($string);
 		$ghtml->print_information('post', 'updateform', $class, $subaction, $post);
 	}
@@ -1189,6 +1228,11 @@ function __ac_desc_continue($object)
 		$ghtml->print_tab_block($alist);
 	}
 
+?>
+<?php
+
+	$ghtml->print_content_begin();
+
 	$ghtml->print_message();
 
 	$string[] = $ghtml->object_variable_startblock($object, $cname, "Continue Add $cname");
@@ -1225,6 +1269,8 @@ function __ac_desc_continue($object)
 	$ghtml->print_information('pre', 'continueform', "", $continueaction, $pre);
 	$ghtml->xml_print_page($string);
 	$ghtml->print_information('post', 'continueform', "", $continueaction, $post);
+
+	$ghtml->print_content_end();
 }
 
 function __ac_desc_addform($object)
@@ -1255,6 +1301,8 @@ function __ac_desc_addform($object)
 		$ghtml->printShowSelectBox($selflist);
 	}
 
+	$ghtml->print_content_begin();
+
 	$ghtml->print_message();
 
 	do_addform($object, $cname, $dttype);
@@ -1262,6 +1310,8 @@ function __ac_desc_addform($object)
 	if (exec_class_method($cname, "createAddformList", $object, $cname)) {
 		do_list_class($object, $cname);
 	}
+
+	$ghtml->print_content_end();
 }
 
 function do_addform($object, $class, $dttype = null, $notitleflag = false)
@@ -1703,26 +1753,12 @@ function print_navigation($navig)
 		$image = "/theme/black.gif";
 	}
 ?>
-
 	<script>
 		var gl_imgrightpoint = '<?=$imgleftpoint?>';
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
-	<br />
-	<table width=100% cellspacing=0 cellpadding=0 border=0>
-		<tr>
-			<td width=100%>
-				<table border=0 cellspacing=0>
-					<tr>
-						<td> &nbsp; &nbsp; </td>
-						<td>  <?= "$imgstr $demoimg" ?><img width=35 height=35 src=<?= $image ?>></td>
-						<td>
-							<table cellspacing=0>
-								<tr>
-									<td>
-
-										<table height=10 align=left border=0>
-											<tr>
+						<div style="height: 40px; padding: 2px; text-shadow: 1px 1px #fff;">
+							<div style="float:left"><?= "$imgstr $demoimg" ?><img height="35" src="<?= $image ?>"></div>
 <?php
 
 												$forecolorstring = null;
@@ -1738,8 +1774,6 @@ function print_navigation($navig)
 													$desc = $ghtml->getActionDescr('', $h, $class, $var, $name);
 													$image = $ghtml->get_image($buttonpath, $class, $var, ".gif");
 													$desc['help'] = $ghtml->get_action_or_display_help($desc['help'], 'action');
-													$sep = null;
-													$sep = "<td> |</td> ";
 													$nname = substr($name, 0, 19);
 
 													$bracketedname = null;
@@ -1752,19 +1786,10 @@ function print_navigation($navig)
 
 ?>
 
-													<td> &nbsp;<a href='<?= $url ?>'><b><span <?= $forecolorstring ?> style='font-size:8pt'> <?= $desc['desc'] ?>
-															</b><?= $bracketedname ?></span></a> &nbsp;
-													</td> <?= $sep ?>
+													<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?= $url ?>'><b><?= $desc['desc'] ?><?= $bracketedname ?></b></a> &nbsp;|</div>
 <?php
 												}
 
-?>
-
-												</tr>
-										</table>
-									</td>
-								</tr>
-<?php
 
 								$ob = $gbl->__c_object;
 								$name = $ob->getId();
@@ -1820,9 +1845,7 @@ function print_navigation($navig)
 								$fullimgstr = implode(" ", $imgstr);
 ?>
 
-								<tr valign="middle">
-									<td valign="middle" id="tnavig<?= $k ?>" onMouseOut="changeContent('help', 'helparea');"><span style='font-size:10pt'>&nbsp; <?= $name ?> {<b><?= $clienttype ?><?= trim($description['desc']) ?></b>} <?= $fullimgstr ?></span></td>
-								</tr>
+								<div style="float:left; padding-top: 10px;" id="tnavig<?= $k ?>" onMouseOut="changeContent('help', 'helparea');">&nbsp; <?= $name ?> {<b><?= $clienttype ?><?= trim($description['desc']) ?></b>} <?= $fullimgstr ?></div>
 <?php
 
 								$hypervm = null;
@@ -1830,14 +1853,6 @@ function print_navigation($navig)
 								if ($sgbl->isKloxo() && $gbl->c_session->ssl_param) {
 									$hypervm = "HyperVM";
 								}
-?>
-
-							</table>
-						</td>
-					</tr>
-				</table>
-			</td>
-<?php
 
 			if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) &&
 					($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity')) {
@@ -1845,7 +1860,7 @@ function print_navigation($navig)
 				//	$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
 				//	$ghtml->print_div_button_on_header(null, true, $k, '');
 ?>
-				<td><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" />&nbsp;</td>
+				<div style="float:right; padding-top: 10px;"><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" />&nbsp;</div>
 <?php					
 				}
 
@@ -1860,16 +1875,13 @@ function print_navigation($navig)
 
 ?>
 
-				<td></td>
-				<td width="10">&nbsp;</td>
-				<td align="right" nowrap><a href="<?= $shurl ?>"> Add to Favorites </a> &nbsp; </td>
+				<div style="float: right; padding-top: 10px;"><a href="<?= $shurl ?>"> Add to Favorites </a> &nbsp; </div>
 <?php
 			}
 
 ?>
-
-		</tr>
-	</table>
+</div>
+<br />
 <?php
 }
 
@@ -2148,7 +2160,15 @@ function do_display_init()
 	}
 
 	display_exec();
-	display_end();
+
+?>
+
+<!-- "END TAB + CONTENT" -->
+
+		</div>
+	</body>
+</html>
+<?php
 }
 
 function __ac_desc_about()
@@ -2204,13 +2224,6 @@ function display_init()
 
 	try {
 		do_display_init();
-	//	main_system_lock();
-	//	print_navigation($gbl->__navig);
-	//	print_warning();
-	//	password_contact_check();
-
-	//	display_exec();
-	//	display_end();
 
 	} catch (Exception $e) {
 		log_log("redirect_error", "exception");
@@ -2239,33 +2252,6 @@ function display_init()
 		$login->setupHpFilter($ghtml->frm_hpfilter);
 		$login->setUpdateSubaction();
 	}
-}
-
-function display_end()
-{
-	global $gbl, $sgbl, $login, $ghtml;
-
-?>
-						<!-- </td>
-					</tr>
-				</table> -->
-<!-- "END CONTENT" -->
-			<!-- </td>
-		</tr>
-	</table> -->
-<!-- "END TAB + CONTENT" -->
-<?php
-	if ( ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
-			($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')) {
-?>
-				<!-- </div>
-			</div> -->
-<?php
-	}
-?>
-	</body>
-</html>
-<?php
 }
 
 function lx_frm_inc()
