@@ -140,7 +140,7 @@ cd /usr/local/lxlabs/kloxo/install
 lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup $* | tee kloxo-mr_install.log
 
 # Fix issue because sometimes kloxo database not created
-for (( a=1; a<=3; a++ )) ; do
+for (( a=1; a<=2; a++ )) ; do
 	if [ $APP_TYPE == 'master' ] ; then
 		if [ ! -d /var/lib/mysql/kloxo ] ; then
 			cd /usr/local/lxlabs/kloxo/install

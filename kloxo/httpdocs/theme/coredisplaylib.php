@@ -139,6 +139,8 @@ function __ac_desc_updateshow($object)
 function print_customer_mode($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
+	$skin_color = $login->getSkinColor();
 	
 	$url = $ghtml->getFullUrl('a=update&sa=customermode');
 
@@ -156,7 +158,7 @@ function print_customer_mode($object)
 				<table align="left" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td nowrap align="center"> -->
-							<div style="background: #efe8e0 url(<?= $col ?>); height: 20px; padding-top: 4px">
+							<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 20px; padding-top: 4px">
 							<a href="<?= $url ?>">&nbsp;>>>> Switch To <?= $mode ?> Mode <<<<&nbsp;</a>
 							</div>
 						<!-- </td>
@@ -1679,8 +1681,8 @@ function print_navigation($navig)
 	}
 
 	$img_path = $login->getSkinDir();
-	$imgleftpoint = "$img_path/left_point.gif";
-	$imgrightpoint = "$img_path/right_point.gif";
+	$imgleftpoint = "$img_path/images/left_point.gif";
+	$imgrightpoint = "$img_path/images/right_point.gif";
 	$xpos = 0;
 	$navigmenu = $gbl->__navigmenu;
 
@@ -2390,3 +2392,148 @@ function display_exec()
 		print("\n");
 	}
 }
+
+function print_head_image()
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	if ($sgbl->isBlackBackground()) {
+		return;
+	}
+
+	if ($sgbl->isKloxo() && $gbl->c_session->ssl_param) {
+		return;
+	}
+
+	if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
+		return;
+	}
+
+	$skin_col_dir = $login->getSpecialObject('sp_specialplay')->skin_color;
+
+	$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
+	$skindir = $login->getSkinDir();
+
+	// MR -- to minimize space; use from default
+	$skindir_default = str_replace($skin_col_dir, 'default', $skindir);
+
+	if ($skin_name !== 'feather') { return; }
+?>
+	<link href="<?= $skindir ?>/css/style.css" rel="stylesheet" type="text/css" />
+	<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(<?= $skindir_default ?>/images/completefeather.jpg)">
+		<tr>
+			<td width=100% id='td1'></td>
+<?php
+	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+?>
+			<!-- <td valign='top'><a href='javascript:top.mainframe.logOut()'>Logout</a></td> -->
+			<td valign='top'><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
+<?php
+	}
+?>
+		</tr>
+		<tr>
+			<td colspan='3' class='bg2'></td>
+		</tr>
+	</table>
+<?php
+}
+
+function print_favorites()
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	$back = $login->getSkinDir();
+	$list = get_favorite("ndskshortcut");
+
+	$vvar_list = array('ttype', '_t_image', 'url', 'target', '__t_identity', 'ac_descr', 'str', 'tag');
+
+	$res = null;
+
+	foreach ((array)$list as $l) {
+		foreach ($vvar_list as $vvar) {
+			$$vvar = isset($l[$vvar]) ? $l[$vvar] : '';
+		}
+
+		if ($ttype == 'separator') {
+			$res .= "<tr valign=top style=\"border-width:1; background:url($back/a.gif);\"> <td ></td> </tr>";
+		} else {
+			$res .= "<tr valign=top style=\"border-width:1; background:url($back/a.gif);\"> <td > <span title=\"$ac_descr[2] for $__t_identity\"> <img width=16 height=16 src=$_t_image> <a href=$url target=$target>  $str $tag</a></span></td> </tr>";
+		}
+	}
+
+	return $res;
+}
+
+function print_quick_action($class)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	$iconpath = get_image_path() . "/button/";
+
+	if ($class === 'self') {
+		$object = $login;
+		$class = $login->getClass();
+	} else {
+		$list = $login->getVirtualList($class, $count);
+		$object = getFirstFromList($list);
+	}
+
+	if (!$object) {
+		return "No Object";
+	}
+
+	$namelist = get_namelist_from_objectlist($list);
+
+	$alist = get_quick_action_list($object);
+
+	foreach ($alist as $a) {
+		$ac_descr = $ghtml->getActionDetails($a, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+	}
+
+	$stylestr = "style=\"font-size: 10px\"";
+
+	$res = null;
+	$res .= " <tr style=\"background:#d6dff7\"> <td >";
+	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/theme/lbin/redirect.php\">";
+
+	$desc = $ghtml->get_class_description($class);
+//	$res .= "$desc[2] <br> ";
+
+	if (!$object->isLogin()) {
+		$res .= "<select $stylestr name=frm_redirectname>";
+
+		foreach ($namelist as $l) {
+			$pl = substr($l, 0, 26);
+			$res .= '<option ' . $stylestr . ' value="' . $l . '" >' . $pl . '</option>';
+		}
+
+		$res .= "</select> </td> </tr>  ";
+	}
+
+	$res .= " <tr style=\"background:#d6dff7\"> <td ><select $stylestr name=frm_redirectaction>";
+
+	foreach ($alist as $k => $a) {
+		if (csb($k, "__title")) {
+			$res .= '<option value="" >------' . $a . '----</option>';
+
+			continue;
+		}
+
+		$ac_descr = $ghtml->getActionDetails($a, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+
+		$a = base64_encode($a);
+	//	$res .= "<option value=$a style='background-image: url($_t_image); background-repeat:no-repeat; ";
+	//	$res .= "left-padding: 35px; text-align:right'>  $ac_descr[2] </option>";
+
+		$desc = substr($ac_descr[2], 0, 20);
+		$res .= '<option ' . $stylestr . ' value="' . $a . '" >' . $desc . '</option>';
+	}
+
+	$res .= "</select> </td> </tr> ";
+	$res .= "</form> <tr > <td align=right> <a href=javascript:quickaction.submit() > Go </a> </td> </tr> ";
+
+	return $res;
+}
+

@@ -430,7 +430,7 @@ abstract class Lxclient extends Lxdb
 		if (lxfile_exists("__path_program_htmlbase/$dir/base_color")) {
 			$col = trim(lfile_get_contents("__path_program_htmlbase/$dir/base_color"));
 		} else {
-			$col = "b1c0f0";
+			$col = "EFE8E0";
 		}
 
 		return "$col";

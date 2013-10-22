@@ -327,7 +327,7 @@ class HtmlLib
 		$psuedourl = null;
 		$target = null;
 		$img_path = $login->getSkinDir();
-		$imgtop = $img_path . '/top_line.gif';
+		$imgtop = $img_path . '/images/top_line.gif';
 		$buttonpath = get_image_path() . 'button/';
 
 		foreach ($alist as $key => $url) {
@@ -342,8 +342,10 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$skin = $login->getSpecialObject('sp_specialplay')->skin_name;
-		include_once "theme/print_tab_{$skin}.php";
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
+		include_once "theme/tab_{$skin_name}.php";
+
 		print_tab_block_start($alist);
 	}
 
@@ -386,7 +388,7 @@ class HtmlLib
 
 		$syncserver = $this->get_server_string($obj);
 		$buttonpath = get_image_path() . "/button/";
-		$image = $ghtml->get_image($buttonpath, '', 'resource', '.gif');
+		$image = $this->get_image($buttonpath, '', 'resource', '.gif');
 		$this->print_action_block($obj, $obj->get__table(), $alist, $num);
 	}
 
@@ -451,14 +453,14 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>expand.gif);
+				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 			}
 
 			.expanded {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>expand.gif);
+				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 			}
@@ -501,7 +503,7 @@ class HtmlLib
 				font-family: Arial, sans-serif;
 				font-size: 130%;
 				color: #003360;
-				background: #efe8e0 url(<?=$skindir?>expand.gif);
+				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 
 				margin-bottom: 0
 			}
@@ -601,7 +603,7 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>expand.gif);
+				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 				height: 25px;
@@ -609,7 +611,7 @@ class HtmlLib
 
 			.expanded {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>expand.gif);
+				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 				height: 25px;
@@ -657,7 +659,7 @@ class HtmlLib
 				font-family: Arial, sans-serif;
 				font-size: 130%;
 				color: #003370;
-				background: #efe8e0 url(<?=$skindir?>expand.gif);
+				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 
 				margin-bottom: 10px;
 				margin-top: 10px
@@ -748,11 +750,11 @@ class HtmlLib
 		$skinget = $login->getSkinDir();
 
 		if ($sel == "des") {
-			$style = $ghtml->print_style_desktop();
+			$style = $this->print_style_desktop();
 		}
 
 		if ($sel == "hom") {
-			$style = $ghtml->print_style_home();
+			$style = $this->print_style_home();
 		}
 ?>
 
@@ -768,9 +770,9 @@ class HtmlLib
 				hideClass: 'hide',
 				showClass: 'show',
 				// pictures and text alternatives
-				closedPic: '<?=$skinget?>/plus.gif',
+				closedPic: '<?=$skinget?>/images/plus.gif',
 				closedAlt: 'expand section',
-				openPic: '<?=$skinget?>/minus.gif',
+				openPic: '<?=$skinget?>/images/minus.gif',
 				openAlt: 'collapse section',
 				right: 'right',
 				center: 'center',
@@ -1278,13 +1280,13 @@ class HtmlLib
 
 	function print_drag_drop($obj, $ret, $class)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$lclass = $login->get__table();
 		$skindir = $login->getSkinDir();
 		$col = $login->getSkinColor();
-		$plus = "{$skindir}plus.gif";
-		$minus = "{$skindir}minus.gif";
+		$plus = "{$skindir}/images/plus.gif";
+		$minus = "{$skindir}/images/minus.gif";
 		$buttonpath = get_image_path() . "/button/";
 ?>
 
@@ -1443,7 +1445,7 @@ class HtmlLib
 
 	function print_div_button($actionlist, $type, $imgflag, $key, $url, $ddate = null)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$obj = $gbl->__c_object;
 		$psuedourl = null;
@@ -1530,7 +1532,7 @@ class HtmlLib
 
 	function print_action_block($obj, $class, $alist, $num)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$lclass = $login->get__table();
 		$skindir = $login->getSkinDir();
@@ -1540,8 +1542,8 @@ class HtmlLib
 		// $col = $login->getSkinColor();
 		$col = 'ddd';
 
-		$plus = "{$skindir}plus.gif";
-		$minus = "{$skindir}minus.gif";
+		$plus = "{$skindir}/images/plus.gif";
+		$minus = "{$skindir}/images/minus.gif";
 		$buttonpath = get_image_path() . "/button/";
 
 		if ($sgbl->isDebug()) {
@@ -1556,12 +1558,12 @@ class HtmlLib
 		}
 
 		if ($sgbl->isBlackBackground()) {
-			$backgimage = "{$skindir}black.gif";
-			$minus = "{$skindir}black.gif";
-			$plus = "{$skindir}black.gif";
+			$backgimage = "{$skindir}/images/black.gif";
+			$minus = "{$skindir}/images/black.gif";
+			$plus = "{$skindir}/images/black.gif";
 			$col = "333";
 		} else {
-			$backgimage = "{$skindir}expand.gif";
+			$backgimage = "{$skindir}/images/expand.gif";
 		}
 ?>
 
@@ -1588,7 +1590,7 @@ class HtmlLib
 				display: block;
 				font-family: Arial, sans-serif;
 				color: #003360;
-				background: #efe8e0 url(<?=$skindir?>expand.gif);
+				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 				border-bottom: 1px solid #<?=$col?>;
 			}
 
@@ -1761,7 +1763,7 @@ class HtmlLib
 
 	function createMissingName($name)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$val = 0;
 
@@ -1780,7 +1782,7 @@ class HtmlLib
 
 	function get_image_without_host($path, $class, $variable, $extension)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$variable = strtolower($variable);
 		$class = strtolower($class);
@@ -1857,7 +1859,7 @@ class HtmlLib
 
 	function save_non_existant_image($path)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		return; // [FIXME]
 
@@ -1986,7 +1988,7 @@ class HtmlLib
 
 	function print_file_permissions($ffile)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$ffile->getPermissions($perm);
 
@@ -2008,11 +2010,11 @@ class HtmlLib
 			$other = $perm[2];
 		}
 
-		$imgheadleft = $login->getSkinDir() . '/top_lt.gif';
-		$imgheadright = $login->getSkinDir() . '/top_rt.gif';
+		$imgheadleft = $login->getSkinDir() . '/images/top_lt.gif';
+		$imgheadright = $login->getSkinDir() . '/images/top_rt.gif';
 		$imgheadbg = $login->getSkinDir() . 'top_bg.gif';
-		$imgtopline = $login->getSkinDir() . '/top_line.gif';
-		$tablerow_head = $login->getSkinDir() . '/tablerow_head.gif';
+		$imgtopline = $login->getSkinDir() . '/images/top_line.gif';
+		$tablerow_head = $login->getSkinDir() . '/images/tablerow_head.gif';
 ?>
 
 		<!-- <br />
@@ -2039,7 +2041,7 @@ class HtmlLib
 			<input type="hidden" name="frm_ffile_c_file_permission_f">
 <?php
 			$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
-			$ghtml->print_input_vars($post);
+			$this->print_input_vars($post);
 ?>
 			<input type="hidden" name="frm_ffile_c_recursive_f" value="Off">
 			<input type="hidden" name="frm_action" value="update">
@@ -3596,7 +3598,7 @@ class HtmlLib
 
 	function print_next_previous_link($object, $class, $place, $iconpath, $name, $page_value)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$filtername = $object->getFilterVariableForThis($class);
 ?>
@@ -3629,7 +3631,7 @@ class HtmlLib
 
 	function print_next_previous($object, $class, $place, $cgi_pagenum, $total_num, $pagesize)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$iconpath = get_general_image_path() . "/icon";
 
@@ -3691,7 +3693,7 @@ class HtmlLib
 
 	function printSearchTable($name_list, $parent, $class)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$this->print_real_search($name_list, $parent, $class);
 	}
@@ -3713,7 +3715,7 @@ class HtmlLib
 
 	function display_count(&$obj_list, $disp)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$n = 0;
 
@@ -3723,7 +3725,7 @@ class HtmlLib
 
 		$filter = $this->frm_filter;
 
-		if (!$filter && !$ghtml->frm_searchstring) {
+		if (!$filter && !$this->frm_searchstring) {
 			return count($obj_list);
 		}
 
@@ -3743,7 +3745,7 @@ class HtmlLib
 
 	function printListAddForm($parent, $class)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$vlist = exec_class_method($class, "addListForm", $parent, $class);
 
@@ -3808,7 +3810,7 @@ class HtmlLib
 
 	function print_real_search($name_list, $parent, $class)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$col = $login->getSkinColor();
 
@@ -3948,7 +3950,7 @@ class HtmlLib
 														<select
 															name="frm_hpfilter[<?= $filtername ?>][<?= $name ?>_o_cont]"
 															class="searchbox" size="1" width="10" maxlength="30">
-		<?php
+<?php
 															foreach ($width[1] as $v) {
 																$sel = '';
 
@@ -3958,7 +3960,7 @@ class HtmlLib
 ?>
 																<option <?= $sel ?>
 																	value="<?= $v ?>"><?= $v ?></option>';
-		<?php
+<?php
 															}
 ?>
 														</select>
@@ -4030,15 +4032,17 @@ class HtmlLib
 
 	function printObjectTable($name_list, $parent, $class, $blist = array(), $display = null)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl, $sgbl, $login;
 
 		$col = $login->getSkinColor();
+
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 
 		$view = null;
 
 		if (exec_class_method($class, "hasViews")) {
-			$blist[] = array($ghtml->getFullUrl("a=list&c=$class&frm_filter[view]=quota"), 1);
-			$blist[] = array($ghtml->getFullUrl("a=list&c=$class&frm_filter[view]=normal"), 1);
+			$blist[] = array($this->getFullUrl("a=list&c=$class&frm_filter[view]=quota"), 1);
+			$blist[] = array($this->getFullUrl("a=list&c=$class&frm_filter[view]=normal"), 1);
 		}
 
 		print_time("$class.objecttable");
@@ -4098,16 +4102,16 @@ class HtmlLib
 
 		$buttonpath = get_image_path() . "/button/";
 		$nlcount = count($name_list) + 1;
-		$imgheadleft = $login->getSkinDir() . "/top_lt.gif";
-		$imgheadleft = $login->getSkinDir() . "/top_lt.gif";
-		$imgheadleft2 = $login->getSkinDir() . "/top_lt.gif";
-		$imgheadright = $login->getSkinDir() . "/top_slope_rt.gif";
-		$imgheadbg = $login->getSkinDir() . "/top_bg.gif";
-		$imgbtnbg = $login->getSkinDir() . "/btn_bg.gif";
-		$imgtablerowhead = $login->getSkinDir() . "/tablerow_head.gif";
-		$imgtablerowheadselect = $login->getSkinDir() . "/top_line_medium.gif";
-		$imgbtncrv = $login->getSkinDir() . "/btn_crv_right.gif";
-		$imgtopline = $login->getSkinDir() . "/top_line.gif";
+		$imgheadleft = $login->getSkinDir() . "/images/top_lt.gif";
+		$imgheadleft = $login->getSkinDir() . "/images/top_lt.gif";
+		$imgheadleft2 = $login->getSkinDir() . "/images/top_lt.gif";
+		$imgheadright = $login->getSkinDir() . "/images/top_slope_rt.gif";
+		$imgheadbg = $login->getSkinDir() . "/images/top_bg.gif";
+		$imgbtnbg = $login->getSkinDir() . "/images/btn_bg.gif";
+		$imgtablerowhead = $login->getSkinDir() . "/images/tablerow_head.gif";
+		$imgtablerowheadselect = $login->getSkinDir() . "/images/top_line_medium.gif";
+		$imgbtncrv = $login->getSkinDir() . "/images/btn_crv_right.gif";
+		$imgtopline = $login->getSkinDir() . "/images/top_line.gif";
 		$skindir = $login->getSkinDir();
 
 		$classdesc = $this->get_class_description($rclass, $display);
@@ -4194,7 +4198,7 @@ class HtmlLib
 			$filteropacitystringspanend = "</span>";
 
 			$backgroundcolorstring = "#000000";
-			$imgtopline = $login->getSkinDir() . "/black.gif";
+			$imgtopline = $login->getSkinDir() . "/images/black.gif";
 			$blackstyle = "style='background:black;color:gray;border:1px solid gray;'";
 			$imgtablerowhead = null;
 			$col = "333";
@@ -4397,7 +4401,7 @@ class HtmlLib
 				<!-- <td class="rowpoint"></td> -->
 			</tr>
 			<tr height="25" valign="middle">
-				<!--<td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td> -->
+				<!-- <td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td> -->
 <?php
 			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 				//	$checked = "checked disabled";
@@ -4462,22 +4466,25 @@ class HtmlLib
 					if ($sgbl->isBlackBackground()) {
 						$wrapstr .= " style='background:gray'";
 					} else {
-						$wrapstr .= " style='background:#efe8e0 url({$skindir}listsort.gif)'";
+						$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/listsort.gif)'";
 					}
 ?>
 
-					<td <?= $wrapstr ?> width="<?= $width ?>"><table cellspacing="0" cellpadding="2"  border="0">  
-					<td class="collist" <?= $wrapstr ?> rowspan="2">
+					<td <?= $wrapstr ?> width="<?= $width ?>">
+						<table cellspacing="0" cellpadding="2"  border="0"><tr>
+							<td class="collist" <?= $wrapstr ?> rowspan="2">
+
 <?php
 				} else {
 					if ($sgbl->isBlackBackground()) {
 						$wrapstr .= " style='background:#efe8e0'";
 					} else {
-						$wrapstr .= " style='background:#efe8e0 url({$skindir}expand.gif)'";
+						$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/expand.gif)'";
 					}
 ?>
 
 					<td width="<?= $width ?>" <?= $wrapstr ?> class="collist">
+					
 <?php
 				}
 ?>
@@ -4563,9 +4570,9 @@ class HtmlLib
 
 					<td width=10 style='<?= $backgroundstring ?>'> <?= $filteropacitystringspan ?>
 						<input <?= $filteropacitystring ?> id="ckbox<?= $unique_name ?><?= $rowcount ?>" class="ch1"
-						                                   type="checkbox" <?= $checked ?> name="frm_accountselect"
-						                                   onclick="hiliteRowColor('tr<?= $unique_name ?><?= $rowcount ?>','tablerow<?= $count ?>',document.formselectall<?= $unique_name ?>.selectall<?= $unique_name ?>)"
-						                                   value="<?= $obj->nname ?>"> <?= $filteropacitystringspanend ?>
+							type="checkbox" <?= $checked ?> name="frm_accountselect"
+						       onclick="hiliteRowColor('tr<?= $unique_name ?><?= $rowcount ?>','tablerow<?= $count ?>',document.formselectall<?= $unique_name ?>.selectall<?= $unique_name ?>)"
+						       value="<?= $obj->nname ?>"> <?= $filteropacitystringspanend ?>
 					</td>
 <?php
 				}
@@ -4582,7 +4589,7 @@ class HtmlLib
 					$colcount++;
 				}
 ?>
-				<!-- <td class="rowpoint"></td> -->
+				<td class="rowpoint"></td>
 			</tr>
 <?php
 
@@ -4611,12 +4618,12 @@ class HtmlLib
 				if (!$rowcount) {
 					if ($login->issetHpFilter($filtername, 'searchstring') && $login->getHPFilter($filtername, 'searchstring')) {
 ?>
-
-						<table width=95%>
+						<!-- <table width=95%>
 							<tr align=center>
 								<td width=100%><b><?= $login->getKeyword('no_matches_found') ?></b></td>
 							</tr>
-						</table>
+						</table> -->
+						<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no_matches_found') ?></b></div>
 <?php
 
 					} else {
@@ -4626,22 +4633,25 @@ class HtmlLib
 							$filtermessagstring = $login->getKeyword('search_note');
 ?>
 
-							<table width=95%>
+							<!-- <table width=95%>
 								<tr align=center>
 									<td width=100%><b><?= $filtermessagstring ?></b></td>
 								</tr>
-							</table>
+							</table> -->
+						<div style="width: 100%; text-align: center"><b><?= $filtermessagstring ?></b></div>
 <?php
 						} else {
 ?>
 
-							<table width=95%>
+							<!-- <table width=95%>
 								<tr align=center>
 									<td width=100%>
 										<b><?= $login->getKeyword('no') ?> <?= get_plural($classdesc[2]) ?><?= $login->getKeyword('under') ?> <?= $parent->getId() ?></b>
 									</td>
 								</tr>
-							</table>
+							</table> -->
+						<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no') ?> <?= get_plural($classdesc[2]) ?><?= $login->getKeyword('under') ?> <?= $parent->getId() ?></b></div>
+
 <?php
 
 						}
@@ -4649,11 +4659,12 @@ class HtmlLib
 				}
 ?>
 
+			</div>
 			</td>
 		</tr>
 		<tr>
 		<!-- <td class="rowpoint"></td> -->
-	<td colspan="<?= $nlcount ?>">
+		<td colspan="<?= $nlcount ?>">
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 			<tr height="1" style="background:#efe8e0 url(<?= $imgtopline ?>)">
 				<!-- <td class="rowpoint"></td> -->
@@ -4681,9 +4692,9 @@ class HtmlLib
 					<td>
 						<form method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
-							$ghtml->print_current_input_vars(array("frm_confirmed"));
-							$ghtml->print_input("hidden", "frm_confirmed", "yes");
-							$ghtml->print_input("submit", "Confrm", "Confirm", "class=submitbutton");
+							$this->print_current_input_vars(array("frm_confirmed"));
+							$this->print_input("hidden", "frm_confirmed", "yes");
+							$this->print_input("submit", "Confrm", "Confirm", "class=submitbutton");
 ?>
 						</form>
 
@@ -4693,8 +4704,8 @@ class HtmlLib
 						<form method="<? $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
 <?php
 							$this->print_current_input_vars(array("frm_action", "frm_accountselect"));
-							$ghtml->print_input("hidden", "frm_action", "list");
-							$ghtml->print_input("submit", "Cancel", "Cancel", "class=submitbutton");
+							$this->print_input("hidden", "frm_action", "list");
+							$this->print_input("submit", "Cancel", "Cancel", "class=submitbutton");
 ?>
 						</form>
 
@@ -4722,16 +4733,25 @@ class HtmlLib
 			$imgshow = get_general_image_path() . "/button/btn_show.gif";
 
 ?>
-			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid #ddd">
 			<tr>
-			<td>
+				<td>
 				<form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action=""
 				      accept-charset="utf-8">
 					<table cellpadding="0" cellspacing="0" border="0">
 						<tr>
+<?php
+		if ($skin_name !== 'simplicity') {
+?>
 							<td><img src="<?= $imgbtm1 ?>"></td>
 							<td background="<?= $imgbtm2 ?>">
 <?php
+		} else {
+?>
+							<td style="background: #eee;">
+<?php
+		}
+
 								$rpagesize = exec_class_method($rclass, "perPage");
 
 								if ($rpagesize > 1000) {
@@ -4743,9 +4763,18 @@ class HtmlLib
 
 								<table width="100%" cellpadding="0" cellspacing="0">
 									<tr>
-										<td width="40"><b>Show</b></td>
+<?php
+		if ($skin_name !== 'simplicity') {
+?>
+										<td width="40">&nbsp;<b>Show</b>&nbsp;</td>
 										<td width="<?= $width ?>">
 <?php
+		} else {
+?>
+										<td>&nbsp;<b>Show</b>&nbsp;</td>
+										<td>
+<?php
+		}
 											$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
 											$this->print_current_input_vars(array('frm_hpfilter'));
 											$f_page = (int)$login->issetHpFilter($filtername, 'pagesize') ? $login->getHPFilter($filtername, 'pagesize') : $pagesize;
@@ -4755,7 +4784,7 @@ class HtmlLib
 
 												<select class="textbox"
 												        onchange="document.perpage_<?= $unique_name ?>.submit()"
-												        style="width:40px"
+												        style="width:40px; border: 1px solid #888"
 												        name="frm_hpfilter[<?= $filtername ?>][pagesize]">
 <?php
 													$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
@@ -4784,14 +4813,32 @@ class HtmlLib
 												       value="<?= $f_page ?>">
 <?php
 											}
+		if ($skin_name !== 'simplicity') {
 ?>
 
-											<input type="image" src="<?= $imgshow ?>">
+											</td><td><input type="image" src="<?= $imgshow ?>">
+<?php
+		} else {
+?>
+											</td><td><input type="button" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
+<?php
+		}
+?>
 										</td>
 									</tr>
 								</table>
 							</td>
+<?php
+		if ($skin_name !== 'simplicity') {
+?>
 							<td><img src="<?= $imgbtm3 ?>"></td>
+<?php
+		} else {
+?>
+							<td>&nbsp;</td>
+<?php
+		}
+?>
 						</tr>
 					</table>
 				</form>
@@ -4805,17 +4852,27 @@ class HtmlLib
 				<form method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 					<table cellpadding="0" cellspacing="0" border="0" valign="middle">
 						<tr valign="middle">
-							<td><b>Page</b>
+							<td style="background: #eee;">&nbsp;<b>Page</b>
 <?php
 								$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 								$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
-								<input class="textbox" style="width:25px"
+								<input class="textbox" style="width:25px; border: 1px solid #888"
 								       name="frm_hpfilter[<?= $filtername ?>][pagenum]" type="text"
 								       value="<?= $cgi_pagenum ?>" class="small"></td>
+<?php
+		if ($skin_name !== 'simplicity') {
+?>
 							<td>
 								<input type="image" src="<?= $imgshow ?>"></td>
-
+<?php
+		} else {
+?>
+							<td style="background: #eee;">
+								<input type="button" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced"></td>
+<?php
+		}
+?>
 						</tr>
 					</table>
 				</form>
@@ -4923,7 +4980,7 @@ class HtmlLib
 
 		$noselect = (isset($button[1]) && $button[1]) ? 1 : 0;
 		$doconfirm = (isset($button[3]) && $button[3]) ? 1 : 0;
-		$imgbtnsep = $login->getSkinDir() . "/btn_sep.gif";
+		$imgbtnsep = $login->getSkinDir() . "/images/btn_sep.gif";
 
 ?>
 
@@ -5062,15 +5119,15 @@ class HtmlLib
 
 					if (isset($gbl->__histlist)) {
 						end($gbl->__histlist);
-						$ghtml->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
+						$this->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
 
 						while (($val = prev($gbl->__histlist))) {
-							$ghtml->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
+							$this->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
 						}
 
 						reset($gbl->__histlist);
 					} else {
-						$ghtml->print_pmenu('histlist', '__blank|No History');
+						$this->print_pmenu('histlist', '__blank|No History');
 					}
 
 ?>
@@ -5166,10 +5223,10 @@ class HtmlLib
 		}
 
 		$skin = $login->getSkinDir();
-		$css = "{$skin}style.css";
+		$css = "{$skin}/css/style.css";
 
 		if (!lfile_exists(getreal($css))) {
-			$css = "/theme/css/{skin}/base.css";
+			$css = "/theme/css/base.css";
 		}
 
 		$this->print_css_source("/theme/css/common.css");
@@ -5482,29 +5539,29 @@ class HtmlLib
 
 		$cgi_o_o = $this->frm_o_o;
 
-		$oldname = $ghtml->frm_c_graph_time;
+		$oldname = $this->frm_c_graph_time;
 
 		$subactionstr = null;
 
-		if ($ghtml->frm_subaction) {
-			$subactionstr = "<input type=hidden name=frm_subaction value={$ghtml->frm_subaction}>";
+		if ($this->frm_subaction) {
+			$subactionstr = "<input type=hidden name=frm_subaction value={$this->frm_subaction}>";
 		}
 
 		$cnamestr = null;
 
-		if ($ghtml->frm_o_cname) {
-			$cnamestr = "<input type=hidden name=frm_o_cname value={$ghtml->frm_o_cname}>";
+		if ($this->frm_o_cname) {
+			$cnamestr = "<input type=hidden name=frm_o_cname value={$this->frm_o_cname}>";
 		}
 
 		$dttypestr = null;
 
 		// This needs to be an array.
-		if ($ghtml->frm_dttype) {
-			$dttypestr = "<input type=hidden name=frm_dttype[val] value={$ghtml->frm_dttype['val']}>";
-			$dttypestr = "<input type=hidden name=frm_dttype[var] value={$ghtml->frm_dttype['var']}>";
+		if ($this->frm_dttype) {
+			$dttypestr = "<input type=hidden name=frm_dttype[val] value={$this->frm_dttype['val']}>";
+			$dttypestr = "<input type=hidden name=frm_dttype[var] value={$this->frm_dttype['var']}>";
 		}
 
-		$frm_action = $ghtml->frm_action;
+		$frm_action = $this->frm_action;
 		$filter = null;
 		$hpfilter = $login->getHPFilter();
 
@@ -5593,7 +5650,7 @@ class HtmlLib
 
 		while ($num >= 0) {
 			$class = $cgi_o_o[$num]['class'];
-			$desc = $ghtml->get_class_description($class);
+			$desc = $this->get_class_description($class);
 			if (isset($cgi_o_o[$num]['nname']) && !csa($desc[0], 'P')) {
 				break;
 			}
@@ -5608,29 +5665,29 @@ class HtmlLib
 
 		$subactionstr = null;
 
-		if ($ghtml->frm_subaction) {
-			$subactionstr = "<input type=hidden name=frm_subaction value={$ghtml->frm_subaction}>\n";
+		if ($this->frm_subaction) {
+			$subactionstr = "<input type=hidden name=frm_subaction value={$this->frm_subaction}>\n";
 		}
 
-		if ($ghtml->frm_consumedlogin) {
-			$subactionstr .= "<input type=hidden name=frm_consumedlogin value={$ghtml->frm_consumedlogin}>";
+		if ($this->frm_consumedlogin) {
+			$subactionstr .= "<input type=hidden name=frm_consumedlogin value={$this->frm_consumedlogin}>";
 		}
 
 		$cnamestr = null;
 
-		if ($ghtml->frm_o_cname) {
-			$cnamestr = "<input type=hidden name=frm_o_cname value={$ghtml->frm_o_cname}>";
+		if ($this->frm_o_cname) {
+			$cnamestr = "<input type=hidden name=frm_o_cname value={$this->frm_o_cname}>";
 		}
 
 		$dttypestr = null;
 
 		// This needs to be an array.
-		if ($ghtml->frm_dttype) {
-			$dttypestr = "<input type=hidden name=frm_dttype[val] value={$ghtml->frm_dttype['val']}>";
-			$dttypestr .= "<input type=hidden name=frm_dttype[var] value={$ghtml->frm_dttype['var']}>";
+		if ($this->frm_dttype) {
+			$dttypestr = "<input type=hidden name=frm_dttype[val] value={$this->frm_dttype['val']}>";
+			$dttypestr .= "<input type=hidden name=frm_dttype[var] value={$this->frm_dttype['var']}>";
 		}
 
-		$frm_action = $ghtml->frm_action;
+		$frm_action = $this->frm_action;
 		$filter = null;
 
 		$hpfilter = $login->getHPFilter();
@@ -5653,7 +5710,7 @@ class HtmlLib
 		}
 
 		if (!$sgbl->isBlackBackground()) {
-			$col = "{$skindir}expand.gif";
+			$col = "{$skindir}/images/expand.gif";
 		}
 ?>
 		<!-- <br />
@@ -5948,7 +6005,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$skincolor = $login->getSkinColor();
-		$shevron = "{$login->getSkinDir()}/shevron_line.gif";
+		$shevron = "{$login->getSkinDir()}/images/shevron_line.gif";
 
 		$help = $this->get_full_help($descr[2]);
 		$help = $this->get_action_or_display_help($help, "action");
@@ -6000,7 +6057,7 @@ class HtmlLib
 		}
 
 ?>
-
+<!--
 		<table <?= $idvar ?> style='border: 1px solid <?= $blackbordercolor ?> ; cursor: pointer' <?= $onclickvar ?>
 		                     onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';"
 		                     onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';"
@@ -6013,7 +6070,14 @@ class HtmlLib
 				</td>
 			</tr>
 		</table>
+-->
+<div <?= $idvar ?>  <?= $onclickvar ?> style='border: 1px solid <?= $blackbordercolor ?>; cursor: pointer; width: 65px; height: 85px; padding: 1px; margin: 1px;'
+	onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';"
+	onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none'">
 
+	<div style="margin: 1px auto; height: 40px; text-align: center;"><span title='<?= $alt ?>'><?= $imgvar ?></div>
+	<div style="margin: 1px auto; height: 100%; text-align: center; vertical-align: bottom;"><span title='<?= $alt ?>'><?= $displayvar ?></div>
+</div>
 <?php
 
 	}
@@ -6066,7 +6130,7 @@ class HtmlLib
 
 	function print_toolbar()
 	{
-		$list = get_favorite("ndskshortcut");
+		$list = $this->get_favorite("ndskshortcut");
 
 		foreach ((array)$list as $l) {
 			if ($l['ttype'] === 'separator') {
@@ -6177,7 +6241,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$skincolor = $login->getSkinColor();
-		$shevron = "{$login->getSkinDir()}/shevron_line.gif";
+		$shevron = "{$login->getSkinDir()}/images/shevron_line.gif";
 
 		$help = $this->get_full_help($descr[2]);
 		$help = $this->get_action_or_display_help($help, "action");
@@ -6392,10 +6456,10 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$imgheadleft = $login->getSkinDir() . "/top_lt.gif";
-		$imgheadright = $login->getSkinDir() . "/top_rt.gif";
-		$imgheadbg = $login->getSkinDir() . "/top_bg.gif";
-		$imgtopline = $login->getSkinDir() . "/top_line.gif";
+		$imgheadleft = $login->getSkinDir() . "/images/top_lt.gif";
+		$imgheadright = $login->getSkinDir() . "/images/top_rt.gif";
+		$imgheadbg = $login->getSkinDir() . "/images/top_bg.gif";
+		$imgtopline = $login->getSkinDir() . "/images/top_line.gif";
 
 ?>
 
@@ -6625,7 +6689,7 @@ class HtmlLib
 				<td width='100%'>
 					<table align='center' cellpadding='0' cellspacing='0' style="border: 1px solid #ccc">
 						<tr height='23' width=100%>
-							<td align='center' style="background:#efe8e0 url(<?= $skindir ?>expand.gif)">
+							<td align='center' style="background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)">
 								<span style="font-weight:bold">&nbsp;Find</span>
 							</td>
 						</tr>
@@ -6642,7 +6706,7 @@ class HtmlLib
 -->
 
 		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>expand.gif)"><span style="font-weight:bold">&nbsp;Find</span></div>
+			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)"><span style="font-weight:bold">&nbsp;Find</span></div>
 			<div><input style="width: 200px; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)"></div>
 		</div>
 
@@ -6671,7 +6735,7 @@ class HtmlLib
 		$skindir = $login->getSkinDir();
 		$value = $object->text_comment;
 		$rclass = "frmtextarea";
-		$url = $ghtml->getFullUrl("a=updateform&sa=information");
+		$url = $this->getFullUrl("a=updateform&sa=information");
 		$variable = "frm_{$object->getClass()}_c_text_comment";
 ?>
 <!--
@@ -6680,7 +6744,7 @@ class HtmlLib
 				<td align="center">
 					<table align="center" cellpadding="0" cellspacing="0">
 						<tr height="23">
-							<td style='background:#efe8e0 url("<?= $skindir ?>expand.gif")'>
+							<td style='background:#efe8e0 url("<?= $skindir ?>/images/expand.gif")'>
 								<span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a> </span>
 							</td>
 						</tr>
@@ -6698,7 +6762,7 @@ class HtmlLib
 -->
 
 		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>expand.gif)"><span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a></div>
+			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)"><span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a></div>
 			<div><textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<?= $rows ?>"
 					style="border: 0; margin: 0; width: <?= $cols ?>; height: 100px;"
 					name="<?= $variable ?>" size="30"><?= $value ?></textarea></div>
@@ -7227,15 +7291,15 @@ class HtmlLib
 
 		$skindir = $login->getSkinDir();
 
-		$imgheadleft = "{$login->getSkinDir()}top_lt.gif";
-		$imgheadright = "{$login->getSkinDir()}top_rt.gif";
-		$imgheadleft = "{$login->getSkinDir()}top_lt.gif";
-		$imgtablerowhead = "{$login->getSkinDir()}tablerow_head.gif";
-		$imgheadbg = "{$login->getSkinDir()}top_bg.gif";
-		$imgtopline = "{$login->getSkinDir()}top_line.gif";
-		$imgsubtitle1 = "{$login->getSkinDir()}subtitle1.gif";
-		$imgsubtitle2 = "{$login->getSkinDir()}subtitle2.gif";
-		$imgsubtitle3 = "{$login->getSkinDir()}subtitle3.gif";
+		$imgheadleft = "{$skindir}/images/top_lt.gif";
+		$imgheadright = "{$skindir}/images/top_rt.gif";
+		$imgheadleft = "{$skindir}/images/top_lt.gif";
+		$imgtablerowhead = "{$skindir}/images/tablerow_head.gif";
+		$imgheadbg = "{$skindir}/images/top_bg.gif";
+		$imgtopline = "{$skindir}/images/top_line.gif";
+		$imgsubtitle1 = "{$skindir}/images/subtitle1.gif";
+		$imgsubtitle2 = "{$skindir}/images/subtitle2.gif";
+		$imgsubtitle3 = "{$skindir}/images/subtitle3.gif";
 		$imgpointer = get_general_image_path("/button/pointer.gif");
 		$imgblank = get_general_image_path("/button/blank.gif");
 
@@ -7305,7 +7369,7 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$divstyle = "text-align:right;";
 				} else {
-					$divstyle = "text-align:right;$borb background:#eef url({$skindir}expand.gif)";
+					$divstyle = "text-align:right;$borb background:#eef url({$skindir}/images/expand.gif)";
 				}
 			}
 
@@ -7751,6 +7815,12 @@ class HtmlLib
 
 		$a = $login->getSkinDir();
 
+		$skin_col_dir = $login->getSpecialObject('sp_specialplay')->skin_color;
+
+		// MR -- to minimize space, use default
+
+		$a = str_replace($skin_col_dir, 'default', $a);
+
 		if ($sgbl->isBlackBackground()) {
 			return;
 		}
@@ -7759,12 +7829,12 @@ class HtmlLib
 
 		<table cellpadding="0" align="center" cellspacing="0" width="100%">
 		<tr>
-			<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/tl.gif" align="center"></td>
-			<td style="background: url(<?= $a ?>/dot.gif) 0 0 repeat-x"></td>
-			<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/tr.gif" align="center"></td>
+			<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/images/tl.gif" align="center"></td>
+			<td style="background: url(<?= $a ?>/images/dot.gif) 0 0 repeat-x"></td>
+			<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/images/tr.gif" align="center"></td>
 		</tr>
 		<tr>
-		<td style="background: url(<?= $a ?>/dot.gif) 0 0 repeat-y">
+		<td style="background: url(<?= $a ?>/images/dot.gif) 0 0 repeat-y">
 		</td>
 		<td align="left">
 
@@ -7778,6 +7848,12 @@ class HtmlLib
 
 		$a = $login->getSkinDir();
 
+		$skin_col_dir = $login->getSpecialObject('sp_specialplay')->skin_color;
+
+		// MR -- to minimize space, use default
+
+		$a = str_replace($skin_col_dir, 'default', $a);
+
 		if ($sgbl->isBlackBackground()) {
 			return;
 		}
@@ -7785,13 +7861,13 @@ class HtmlLib
 ?>
 
 		</td>
-		<td style="background: url(<?= $a ?>/dot.gif) 100% 0 repeat-y">
+		<td style="background: url(<?= $a ?>/images/dot.gif) 100% 0 repeat-y">
 		</td>
 		</tr>
 		<tr>
-			<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/bl.gif" align="center"></td>
-			<td style="background: url(<?= $a ?>/dot.gif) 0 95% repeat-x"></td>
-			<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/br.gif" align="center"></td>
+			<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/images/bl.gif" align="center"></td>
+			<td style="background: url(<?= $a ?>/images/dot.gif) 0 95% repeat-x"></td>
+			<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/images/br.gif" align="center"></td>
 		</tr>
 		</table>&nbsp;
 
@@ -8015,7 +8091,7 @@ class HtmlLib
 			     style="overflow:hidden; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;"
 			     class="tab-content">
 				<br />
-				<? $ghtml->xp_panel($login); ?>
+				<? $this->xp_panel($login); ?>
 			</div>
 			<div id="markup" class="tab-content">
 				<div id="tree-div"
@@ -8058,18 +8134,18 @@ class HtmlLib
 					visib = 'visibile';
 					disp = 'block';
 					menuclass = "menuHeaderExpanded";
-					image = '<?=$skinget?>/minus.gif';
+					image = '<?=$skinget?>/images/minus.gif';
 					text = '-';
 				} else {
 					visib = 'hidden';
 					disp = 'none';
 					menuclass = "menuHeaderCollapsed";
-					image = '<?=$skinget?>/plus.gif';
+					image = '<?=$skinget?>/images/plus.gif';
 					text = '+';
 				}
 
 				document.write("<table  border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"padding:0 0 0 0;\" width=\"100%\">");
-				document.write("<tr style=\"background:#efe8e0 url(<?=$skinget?>/expand.gif)\" onMouseover=\"this.style.background='#efe8e0 url(<?=$skinget?>/onexpand.gif)'\" onMouseout=\"this.style.background='#efe8e0 url(<?=$skinget?>/expand.gif)'\"><td style=\"width:180px;vertical-align: center; \"><span style='font-weight:bold'>&nbsp;" + this.label + "</span></td><td class=" + menuclass + " id=\"" + this.id + "\"" + "onclick=\"toggle(this)\">");
+				document.write("<tr style=\"background:#efe8e0 url(<?=$skinget?>/images/expand.gif)\" onMouseover=\"this.style.background='#efe8e0 url(<?=$skinget?>/images/onexpand.gif)'\" onMouseout=\"this.style.background='#efe8e0 url(<?=$skinget?>/images/expand.gif)'\"><td style=\"width:180px;vertical-align: center; \"><span style='font-weight:bold'>&nbsp;" + this.label + "</span></td><td class=" + menuclass + " id=\"" + this.id + "\"" + "onclick=\"toggle(this)\">");
 				document.write("&nbsp;<img id=" + this.id + "_image src=" + image + "></td></tr>");
 				document.write("</table>");
 				document.write("<div style=\"display: " + disp + "; visibility: " + visib + ";\"" + " class=\"menuItems\" id=\"" + this.id + "_child" + "\">");
@@ -8098,12 +8174,12 @@ class HtmlLib
 					pobjSrc.className = "menuHeaderExpanded";
 					child.style.visibility = "visible";
 					child.style.display = "block";
-					ichild.src = "<?=$skinget?>/minus.gif";
+					ichild.src = "<?=$skinget?>/images/minus.gif";
 				} else {
 					pobjSrc.className = "menuHeaderCollapsed";
 					child.style.visibility = "hidden";
 					child.style.display = "none";
-					ichild.src = "<?=$skinget?>/plus.gif";
+					ichild.src = "<?=$skinget?>/images/plus.gif";
 				}
 
 				_currMenu = pobjSrc.id;
@@ -8128,7 +8204,7 @@ class HtmlLib
 					}
 
 					$url = $this->getFullUrl("a=list&c=ndskshortcut");
-					$rdesc = print_favorites();
+					$rdesc = $this->print_favorites();
 ?>
 
 			xxpFav = createMenu('<span style="color:#003360">Favorites<a href="<?=$url?>" target="mainframe"> [edit] </a></span>', '', true);
@@ -8163,7 +8239,7 @@ class HtmlLib
 								continue;
 							}
 
-							$rdesc .= "<tr align=left style=\"border-width:1 ;background:#efe8e0 url($skinget/a.gif)\"> <td> " .
+							$rdesc .= "<tr align=left style=\"border-width:1 ;background:#efe8e0 url($skinget/images/a.gif)\"> <td> " .
 								"<img width=15 height=15 src=\"/theme/image/collage/button/state_v_{$or->display('state')}.gif\"> {$or->shortdescr} </td> " .
 								"<td nowrap> {$or->display('resourceused')} </td> <td align=left> $limit&nbsp;</td> </tr>";
 						}
@@ -8194,10 +8270,10 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$skindir = $login->getSkinDir();
-		$tbg = $skindir . "/lp_bg.gif";
-		$hpic = $skindir . "/lp_head.gif";
-		$imgleftpoint = "{$skindir}left_point.gif";
-		$imgrightpoint = "{$skindir}right_point.gif";
+		$tbg = $skindir . "/images/lp_bg.gif";
+		$hpic = $skindir . "/images/lp_head.gif";
+		$imgleftpoint = "{$skindir}/images/left_point.gif";
+		$imgrightpoint = "{$skindir}/images/right_point.gif";
 		$navtxt = "Navigation";
 		$histxt = "History";
 		$imgpoint = $imgleftpoint;
@@ -8244,7 +8320,7 @@ class HtmlLib
 
 			<link href="/theme/js/tree/dtree.css" rel="stylesheet" type="text/css"/>
 <?php
-			$ghtml->print_jscript_source("/theme/js/tree/dtree.js");
+			$this->print_jscript_source("/theme/js/tree/dtree.js");
 			$scriptdone = true;
 		}
 
@@ -8269,7 +8345,7 @@ class HtmlLib
 						$val = -1;
 
 						if (!$tree) {
-							$tree = $this->print_resource(null, $object, $ghtml->frm_o_o, $object, $depth, $alistflag, $func, false, $showurlflag);
+							$tree = $this->print_resource(null, $object, $this->frm_o_o, $object, $depth, $alistflag, $func, false, $showurlflag);
 						}
 
 						if ($complex) {
@@ -8308,7 +8384,7 @@ class HtmlLib
 <?php
 			$this->print_current_input_vars(array('frm_action', 'frm_subaction'));
 
-			if (cse($ghtml->frm_subaction, "confirm_confirm")) {
+			if (cse($this->frm_subaction, "confirm_confirm")) {
 				$this->print_input("hidden", "frm_action", "update");
 				$sub = $this->frm_subaction;
 				$actionimg = "finish.gif";
@@ -8442,7 +8518,7 @@ class HtmlLib
 		$homeimg = $this->get_image($path, $class, "show", ".gif");
 
 		if ($childobjectflag) {
-			$name = $ghtml->get_class_description($class);
+			$name = $this->get_class_description($class);
 			$name = $name[2];
 		} else {
 			$name = $object->getId();
@@ -8584,7 +8660,7 @@ class HtmlLib
 				}
 
 				if ($halfflag && $count > $pagesize) {
-					$url = $ghtml->getFullUrl("a=list&c=$name", $cgi_o_o);
+					$url = $this->getFullUrl("a=list&c=$name", $cgi_o_o);
 					$ttr = createTreeObject($name, $homeimg, "More (Showing $pagesize of $count)", $url, $open, $help, $alt);
 					$npttr->addToList('tree', $ttr);
 				}
@@ -8856,6 +8932,13 @@ class HtmlLib
 		}
 	}
 
+	function getUrl() {
+		$url  = @( $_SERVER["HTTPS"] != 'on' ) ? 'http://'.$_SERVER["SERVER_HOST"] :  'https://'.$_SERVER["SERVER_HOST"];
+		$url .= ( $_SERVER["SERVER_PORT"] !== 80 ) ? ":".$_SERVER["SERVER_PORT"] : "";
+	//	$url .= $_SERVER["REQUEST_URI"];
+		return $url;
+	}
+
 	function print_real_beginning()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -8864,10 +8947,21 @@ class HtmlLib
 
 		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
 
+		$skin_color = $login->getSkinColor();
+
+		$skin_dir = $login->getSkinDir();
+
 	//	$lightskincolor = $login->getSkinColor();
 		$lightskincolor = "818fb0";
 
-		$func = "onLoad='lxLoadBody();'";
+		$syncserver = $login->syncserver;
+		$userid = $login->getId();
+
+		if ($skin_name !== 'simplicity') {
+			$func = "onLoad=\"lxLoadBody();\"";
+		} else {
+			$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/purecss/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
+		}
 
 		if ($sgbl->isBlackBackground()) {
 			$bodycolor = "000";
@@ -8875,12 +8969,7 @@ class HtmlLib
 
 		if ($skin_name === 'simplicity') {
 			$skin_background = $login->getSpecialObject('sp_specialplay')->skin_background;
-
-			if (!$skin_background) {
-				$skin_background = "nature_001.jpg";
-			}
-
-			$bodybackground = "center url(/theme/image/background/{$skin_background})";
+			$bodybackground = "url(/theme/image/background/{$skin_background})";
 			$bodycolor = "ffffff";
 		} else {
 			$bodybackground = "";
@@ -8896,9 +8985,48 @@ class HtmlLib
 		<!-- "START TOP MENU + LOGO" -->
 <?php
 		if ($skin_name === 'simplicity') {
+			// MR -- mod from http://www.daniweb.com/web-development/javascript-dhtml-ajax/threads/184021/loading-an-html-file-into-a-div-from-a-link
 ?>
-		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38;">
-			<div style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:40px; padding:10px 10px 0 10px; vertical-align:middle"><? include_once "theme/menu/purecss/menu.php" ?></div>
+<script type="text/javascript">
+<!--
+//	menu_load('/theme/menu/purecss/menu.php', 'menu_div');
+
+	function load_process(path, query, target) {
+		url = window.location.protocol + "//" + window.location.host + path + query;
+
+		document.getElementById(target).innerHTML = ' Fetching data...';
+
+		if (window.XMLHttpRequest) {
+			req = new XMLHttpRequest();
+		} else if (window.ActiveXObject) {
+			req = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		if (req != undefined) {
+			req.onreadystatechange = function() {load_done(url, target);};
+			req.open("GET", url, true);
+			req.send("");
+		}
+	}
+
+	function load_done(url, target) {
+		if (req.readyState == 4) { // only if req is "loaded"
+			if (req.status == 200) { // only if "OK"
+				document.getElementById(target).innerHTML = req.responseText;
+			} else {
+				document.getElementById(target).innerHTML="Error: " + req.status + req.statusText + " " + url;
+			}
+		}
+	}
+
+	function menu_load(path, query, div) {
+		load_process(path, query, div);
+		return false;
+	}
+</script>
+
+		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38; box-shadow: 0 4px 4px 4px #cba">
+			<div id="menu_div" style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:40px; padding:10px 10px 0 10px; vertical-align:middle; box-shadow: 0 4px 4px 4px #cba"><? // include_once "theme/menu/purecss/menu.php" ?></div>
 
 <script type="text/javascript">
 <!--
@@ -9047,8 +9175,8 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$img_path = $login->getSkinDir();
-		$tbg = $img_path . "/lp_bg.gif";
-		$imgbordermain = $login->getSkinDir() . "/top_line_medium.gif";
+		$tbg = $img_path . "/images/lp_bg.gif";
+		$imgbordermain = $img_path . "/images/top_line_medium.gif";
 
 		$this->print_include_jscript();
 
@@ -9094,9 +9222,9 @@ class HtmlLib
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$img_path = $login->getSkinDir();
-		$tbg = $img_path . "/lp_bg.gif";
+		$tbg = $img_path . "/images/lp_bg.gif";
 
-		$imgbordermain = $login->getSkinDir() . "/top_line.gif";
+		$imgbordermain = $img_path . "/images/top_line.gif";
 
 ?>
 
@@ -9114,9 +9242,9 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$img_path = $login->getSkinDir();
-		$tbg = $img_path . "/lp_bg.gif";
+		$tbg = $img_path . "/images/lp_bg.gif";
 
-		$imgbordermain = $login->getSkinDir() . "/top_line.gif";
+		$imgbordermain = $img_path . "/images/top_line.gif";
 
 		return;
 	}
@@ -9302,7 +9430,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$img_path = $login->getSkinDir();
-		$tbg = $img_path . "/lp_bg.gif";
+		$tbg = $img_path . "/images/lp_bg.gif";
 
 		$helpimg = $img_path . "/";
 ?>
@@ -9313,7 +9441,7 @@ class HtmlLib
 			<td align=center><br />
 				<table cellpadding=0 cellspacing=0 border=0 align=center>
 					<tr align=center>
-						<td><img id=helppic name=namepic src="<?= $helpimg ?>/help_head.gif" style="cursor:pointer"
+						<td><img id=helppic name=namepic src="<?= $helpimg ?>/images/help_head.gif" style="cursor:pointer"
 						         onclick="window.open('<?= $this->get_help_url() ?>')"></td>
 					</tr>
 				</table>
@@ -9324,8 +9452,8 @@ class HtmlLib
 			<td align=center>
 				<table cellpadding=0 cellspacing=0 border=0 align=center>
 					<tr>
-						<td><img src="<?= $helpimg ?>/help_edge.gif"></td>
-						<td background="<?= $helpimg ?>/help_bg.gif" width=170>
+						<td><img src="<?= $helpimg ?>/images/help_edge.gif"></td>
+						<td background="<?= $helpimg ?>/images/help_bg.gif" width=170>
 							<table cellpadding=0 cellspacing=0 border=0>
 								<tr>
 									<td width=10></td>
@@ -9337,7 +9465,7 @@ class HtmlLib
 								</tr>
 							</table>
 						</td>
-						<td><img src="<?= $helpimg ?>/help_edge.gif"></td>
+						<td><img src="<?= $helpimg ?>/images/help_edge.gif"></td>
 					</tr>
 				</table>
 			</td>
@@ -9416,7 +9544,7 @@ class HtmlLib
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
 
-		$bordering = "border: 1px double #ddd; border-top:0";
+		$bordering = "border: 1px solid #ddd; border-top:0";
 
 		if ($skin_name !== 'simplicity') {
 			if (!$$as_simple_skin) {
@@ -9432,7 +9560,7 @@ class HtmlLib
 	<td width="100%" align="center" valign="top">
 	<br>
 -->
-<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden;">
+<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden">
 	<div style="text-align:center; width:100%; height: 100%; min-height: 100%; height: auto !important;<?= $bordering ?>; background-color: #fff">
 <br />
 <?php
@@ -9451,6 +9579,205 @@ class HtmlLib
 <!-- "END CONTENT" -->
 <?php
 
+	}
+
+	function print_favorites()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$back = $login->getSkinDir();
+		$list = $this->get_favorite("ndskshortcut");
+
+		$vvar_list = array('ttype', '_t_image', 'url', 'target', '__t_identity', 'ac_descr', 'str', 'tag');
+
+		$res = null;
+
+		foreach ((array)$list as $l) {
+			foreach ($vvar_list as $vvar) {
+				$$vvar = isset($l[$vvar]) ? $l[$vvar] : '';
+			}
+
+			if ($ttype == 'separator') {
+				$res .= "<tr valign=top style=\"border-width:1; background:url($back/a.gif);\"> <td ></td> </tr>";
+			} else {
+				$res .= "<tr valign=top style=\"border-width:1; background:url($back/a.gif);\"> <td > <span title=\"$ac_descr[2] for $__t_identity\"> <img width=16 height=16 src=$_t_image> <a href=$url target=$target>  $str $tag</a></span></td> </tr>";
+			}
+		}
+
+		return $res;
+	}
+
+	function print_quick_action($class)
+	{
+		global $gbl, $sgbl, $login;
+
+		$iconpath = get_image_path() . "/button/";
+
+		if ($class === 'self') {
+			$object = $login;
+			$class = $login->getClass();
+		} else {
+			$list = $login->getVirtualList($class, $count);
+			$object = getFirstFromList($list);
+		}
+
+		if (!$object) {
+			return "No Object";
+		}
+
+		$namelist = get_namelist_from_objectlist($list);
+
+		$alist = $this->get_quick_action_list($object);
+
+		foreach ($alist as $a) {
+			$ac_descr = $this->getActionDetails($a, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+		}
+
+		$stylestr = "style=\"font-size: 10px\"";
+
+		$res = null;
+		$res .= " <tr style=\"background:#d6dff7\"> <td >";
+		$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/theme/lbin/redirect.php\">";
+
+		$desc = $this->get_class_description($class);
+	//	$res .= "$desc[2] <br> ";
+
+		if (!$object->isLogin()) {
+			$res .= "<select $stylestr name=frm_redirectname>";
+
+			foreach ($namelist as $l) {
+				$pl = substr($l, 0, 26);
+				$res .= '<option ' . $stylestr . ' value="' . $l . '" >' . $pl . '</option>';
+			}
+
+			$res .= "</select> </td> </tr>  ";
+		}
+
+		$res .= " <tr style=\"background:#d6dff7\"> <td ><select $stylestr name=frm_redirectaction>";
+
+		foreach ($alist as $k => $a) {
+			if (csb($k, "__title")) {
+				$res .= '<option value="" >------' . $a . '----</option>';
+
+				continue;
+			}
+
+			$ac_descr = $this->getActionDetails($a, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+
+			$a = base64_encode($a);
+		//	$res .= "<option value=$a style='background-image: url($_t_image); background-repeat:no-repeat; ";
+		//	$res .= "left-padding: 35px; text-align:right'>  $ac_descr[2] </option>";
+
+			$desc = substr($ac_descr[2], 0, 20);
+			$res .= '<option ' . $stylestr . ' value="' . $a . '" >' . $desc . '</option>';
+		}
+
+		$res .= "</select> </td> </tr> ";
+		$res .= "</form> <tr > <td align=right> <a href=javascript:quickaction.submit() > Go </a> </td> </tr> ";
+
+		return $res;
+	}
+
+
+	function get_favorite($class)
+	{
+		global $gbl, $sgbl, $login;
+
+		$shortcut = $login->getVirtualList($class, $count);
+	//	$back = $login->getSkinDir();
+		$res = null;
+		$ret = null;
+		$iconpath = get_image_path() . "/button/";
+
+		if ($shortcut) {
+			foreach ($shortcut as $k => $h) {
+				if (!is_object($h)) {
+					continue;
+				}
+
+				if ($h->isSeparator()) {
+					$res['ttype'] = 'separator';
+					$ret[] = $res;
+					continue;
+				}
+
+				$res['ttype'] = 'favorite';
+
+				$url = base64_decode($h->url);
+
+				// If the link is from kloxo, it shouldn't throw up a lot of errors. Needs to fix this properly..
+				$ac_descr = $this->getActionDetails($url, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+
+				if ($sgbl->isHyperVM() && $h->vpsparent_clname) {
+					$url = kloxo::generateKloxoUrl($h->vpsparent_clname, null, $url);
+					$tag = "(l)";
+				} else {
+					$tag = null;
+				}
+
+				if (isset($h->description)) {
+				$str = $h->description;
+				} else {
+					$str = "$ac_descr[2] $__t_identity";
+				}
+
+				$fullstr = $str;
+
+				if (strlen($str) > 18) {
+					$str = substr($str, 0, 18);
+					$str .= "..";
+				}
+
+				$str = htmlspecialchars($str);
+				$target = "mainframe";
+
+				if (is_object($h) && $h->isOn('external')) {
+					$target = "_blank";
+				}
+
+				$vvar_list = array('_t_image', 'url', 'target', '__t_identity', 'ac_descr', 'str', 'tag', 'fullstr');
+
+				foreach ($vvar_list as $vvar) {
+					$res[$vvar] = $$vvar;
+				}
+
+				$ret[] = $res;
+			}
+		}
+
+		return $ret;
+	}
+
+	function get_quick_action_list($object)
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$class = $object->getClass();
+
+		$object->createShowAlist($alist);
+
+		foreach ($alist as $k => $v) {
+			if (csb($k, "__title")) {
+				$nalist[$k] = $v;
+				continue;
+			}
+
+			if ($this->is_special_url($v)) {
+				continue;
+			}
+
+			if (csa($v, "a=update&")) {
+				continue;
+			}
+
+			if ($object->isLogin()) {
+				$nalist[$k] = $this->getFullUrl($v);
+			} else {
+				$nalist[$k] = $this->getFullUrl("j[class]=$class&j[nname]=__tmp_lx_name__&$v");
+			}
+		}
+
+		return $nalist;
 	}
 }
 
