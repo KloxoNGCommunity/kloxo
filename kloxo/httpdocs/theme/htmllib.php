@@ -7753,7 +7753,7 @@ class HtmlLib
 <?php
 		if ($skin_name !== 'simplicity') {
 ?>
-		<div style="width:600; margin: 0 auto 0 auto; border:0; padding:0;">
+		<div style="width:600px; margin: 0 auto 0 auto; border:0; padding:0;">
 			<table align="center" width="600"><tr><td>
 <?php
 			$this->print_curvy_table_start();

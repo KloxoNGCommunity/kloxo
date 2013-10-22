@@ -68,16 +68,16 @@ function domainshow()
 		return;
 	}
 
-	if ($login->isDefaultSkin()) {
-		$headerheight = 93;
-	} else {
+//	if ($login->isDefaultSkin()) {
+//		$headerheight = 93;
+//	} else {
 		if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
 			$headerheight = 29;
 		} else {
 			$headerheight = 132;
 			$headerheight = 29;
 		}
-	}
+//	}
 
 ?>
 <FRAMESET frameborder="0" rows="<?= $headerheight ?>,*" border="0">
@@ -117,6 +117,10 @@ function main_main()
 	global $gbl, $login, $ghtml;
 
 	initProgram();
+
+	if ($login->getSpecialObject('sp_specialplay')->skin_name === 'default') {
+		set_login_skin_to_simplicity();
+	}
 
 	if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) || 
 			($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity')) {

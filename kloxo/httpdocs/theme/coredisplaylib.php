@@ -2036,6 +2036,7 @@ function password_contact_check()
 ?>
 
 		<br/> <br/> <br/>
+<div style="width:640px; background-color: #fff; margin: 0 auto 0 auto; border: 1px solid #ddd;">
 <?php
 
 		if (!isset($ghtml->__http_vars['frm_emessage'])) {
@@ -2045,7 +2046,9 @@ function password_contact_check()
 		$ghtml->print_message();
 		$gbl->frm_ev_list = "old_password_f";
 		do_updateform($login, 'password');
-
+?>
+</div>
+<?php
 		exit;
 	}
 }
