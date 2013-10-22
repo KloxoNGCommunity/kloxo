@@ -273,12 +273,9 @@ function install_main()
 		}
 	}
 
-	// MR -- use \cp for temporary cp without prompt
-	// because 'cp' as alias as 'cp -i' with 'alias -p' info
-	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
-
-	// MR -- because using ruid2 as default php-type, disable php-fpm
-//	system("chkconfig php-fpm off; service php-fpm stop");
+	// MR -- remove httpd because need 'none' driver for web
+	// httpd always installed when install php!
+	system("rpm -e httpd --nodeps");
 }
 
 function kloxo_vpopmail()
