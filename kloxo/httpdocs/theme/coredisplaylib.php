@@ -425,21 +425,21 @@ function __ac_desc_show($object)
 		if (isset($nalist)) {
 ?>
 
-			<table cellpadding="0" cellspacing="0" height="10">
+			<!-- <table cellpadding="0" cellspacing="0" height="10">
 				<tr>
-					<td>
+					<td> -->
 <?php
 						$ghtml->print_object_action_block($object, $nalist, 8);
 ?>
 
-					</td>
+					<!-- </td>
 				</tr>
 			</table>
 			<table class="mediumtableheader" width="100%">
 				<tr>
 					<td></td>
 				</tr>
-			</table>
+			</table> -->
 			<br />
 <?php
 		}
