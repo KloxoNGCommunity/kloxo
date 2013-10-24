@@ -1659,7 +1659,7 @@ function get_image_path($path = null)
 
 	//Return path of the encrypted images in the deployment version.
 
-	return "/theme/image/{$login->getSpecialObject('sp_specialplay')->icon_name}/$path";
+	return "/theme/icon/{$login->getSpecialObject('sp_specialplay')->icon_name}/$path";
 }
 
 function randomString($length)

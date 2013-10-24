@@ -23,6 +23,18 @@ class dns__nsd extends dns__
 			lxfile_cp($initfile, "/etc/init.d/nsd");
 		}
 
+		$path = "/home/nsd/conf/defaults";
+
+		if (!file_exists("{$path}/nsd.master.conf") {
+			touch("{$path}/nsd.master.conf");
+			
+		}
+
+		if (!file_exists("{$path}/nsd.slave.conf") {
+			touch("{$path}/nsd.slave.conf");
+			
+		}
+
 		lxshell_return("chkconfig", "nsd", "on");
 
 		createRestartFile("nsd");

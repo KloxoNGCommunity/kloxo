@@ -72,14 +72,6 @@ class SpecialPlay_b extends Lxaclass
 
 		$progname = $sgbl->__var_program_name;
 
-		if ($var === 'logo_image') {
-			return "/theme/image/kloxo-logo.gif";
-		}
-
-		if ($var === 'logo_image_loading') {
-			return "/theme/image/kloxo-splash.gif";
-		}
-
 		if ($var === 'ssession_timeout') {
 			return 18000;
 		}
@@ -165,10 +157,12 @@ class sp_basespecialplay extends LxspecialClass
 
 
 				$vlist['specialplay_b-skin_color'] = array('s', lscandir_without_dot(getreal("/theme/skin/" . $this->specialplay_b->skin_name)));
-				$vlist['specialplay_b-icon_name'] = array('s', array('collage'));
+			//	$vlist['specialplay_b-icon_name'] = array('s', array('collage'));
+				$vlist['specialplay_b-icon_name'] = array('s', lscandir_without_dot(getreal("/theme/icon/")));
+
 
 				if ($this->specialplay_b->skin_name === 'simplicity') {
-					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/image/background")));
+					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));
 				}
 
 				$vlist['specialplay_b-language'] = array('A', $this->getLanguage());

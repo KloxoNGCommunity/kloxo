@@ -3138,23 +3138,6 @@ function copy_script($nolog = null)
 	lxfile_unix_chmod_rec("/script", "0755");
 }
 
-function copy_image()
-{
-	// Not needed anymore - LxCenter
-	return;
-/*
-	global $gbl, $sgbl, $login, $ghtml;
-	$prgm = $sgbl->__var_program_name;
-
-	lxfile_cp_content("tmpimg/", "theme/image/collage/button/");
-	$list = lscandir_without_dot("theme/skin/feather/");
-
-	foreach ($list as $l) {
-		lxfile_cp_content("tmpskin/", "theme/skin/feather/$l");
-	}
-*/
-}
-
 function getAdminDbPass()
 {
 	$pass = lfile_get_contents("__path_admin_pass");

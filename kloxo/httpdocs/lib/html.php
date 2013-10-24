@@ -152,8 +152,6 @@ class Html extends Htmllib
 
 		$pagesize = '99999';
 
-		$iconpath = get_image_path() . "/button";
-
 		$nlcount = count($name_list) + 1;
 		$imgheadleft = $login->getSkinDir() . "/top_lt.gif";
 		$imgheadleft2 = $login->getSkinDir() . "/top_lt.gif";

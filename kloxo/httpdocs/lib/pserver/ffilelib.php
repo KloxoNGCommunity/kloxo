@@ -510,9 +510,24 @@ class Ffile extends Lxclass
 		// Big freeking hack.
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$genimgpath = get_general_image_path();
+
+		$iconpath = get_image_path();
+
+		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
+			$background = "url({$genimgpath}/button/fnav_02.gif)";
+		} else {
+			$background = "#ffffff";
+		}
+
 		// Hack hack
-		print("<table width='90%'> <tr align='left' > <td ><img width='29' height='29' src='theme/image/collage/button/ffile_show.gif'> </td>" .
-				"<td nowrap style='background:url(theme/general/button/fnav_02.gif)'> ");
+?>
+
+<table width='90%'>
+	<tr>
+		<td>&nbsp;&nbsp;<img width='29' height='29' src='<?= $iconpath ?>/ffile_show.gif'> </td>
+		<td nowrap style='background <?= $background ?>'>
+<?php
 
 		$base = $ghtml->frm_selectshowbase;
 		
@@ -530,9 +545,9 @@ class Ffile extends Lxclass
 		
 		$parent = $this->getParentO();
 		$desc = get_classvar_description($parent->getClass());
-		
-		print("<a class=insidelist href=\"$url\">Address: $desc[2] {$parent->getId()}<b></b></a>");
-
+?>
+		<a class=insidelist href="<?= $url ?>">Address: <?= $desc[2] ?> <?= $parent->getId() ?></a>
+<?php
 		$list = explode('/', $this->nname);
 	//	implode('/', $list);
 		
@@ -541,8 +556,6 @@ class Ffile extends Lxclass
 			$newname = implode('/', $nlist);
 			
 			if ($base) {
-				//dprint("NewName: ");
-				//dprintr($newname);
 				if (strlen($newname) < strlen($base)) {
 					continue;
 				}
@@ -560,14 +573,24 @@ class Ffile extends Lxclass
 				$url .= "&frm_selectshowbase=$base";
 			}
 			if ($j === count($list) - 1) {
-				print("/ $list[$j] ");
+?>
+<span>/ <?= $list[$j] ?></span>
+
+<?php
 			} else {
-				print("/<a class=insidelist href=$url>$list[$j]</a> ");
+				if ($list[$j] !== '') {
+?>
+<span>/ <a #ff0000" class="insidelist" href="<?= $url ?>"><?= $list[$j] ?></a></span>
+<?php
+				}
 			}
 		}
-
-		print("</b> </td> <td width=100%> </td> </tr> </table> ");
-		
+?>
+		</td>
+		<td width="100%"></td>
+	</tr>
+</table>
+<?php		
 		$list = $gbl->getSessionV("frm_clip_list");
 
 		if ($list) {
@@ -576,9 +599,14 @@ class Ffile extends Lxclass
 			if (strlen($file) > 30) {
 				$file = substr($file, 0, 30) . " ...";
 			}
-			
-			print("<table cellpadding=0 cellspacing=0 width=90%> <tr> <td > </td> <td width=100%> Global ClipBoard: " .
-					"({$gbl->getSessionV("frm_clip_rootname")}):$file </td> </tr></table>  ");
+?>
+	<table cellpadding="0" cellspacing="0" width="90%">
+		<tr>
+			<td> </td>
+			<td width="100%"> Global ClipBoard: (<?= $gbl->getSessionV("frm_clip_rootname") ?>):<?= $file ?></td>
+		</tr>
+	</table>
+<?php
 		}
 	}
 
@@ -698,7 +726,7 @@ class Ffile extends Lxclass
 				break;
 
 			case "zip_file":
-				dprintr($param);
+			//	dprintr($param);
 				$vlist['zip_file_f'] = null;
 				
 				break;
@@ -743,7 +771,7 @@ class Ffile extends Lxclass
 				break;
 
 			case "zipextract":
-				dprint($this->nname);
+			//	dprint($this->nname);
 				$this->getContent();
 				$vlist['zipcontent'] = null;
 				$vlist['zip_extract_dir_f'] = array('m', dirname($this->nname));
@@ -794,7 +822,7 @@ class Ffile extends Lxclass
 				return $vlist;
 		}
 		
-		dprint($subaction);
+	//	dprint($subaction);
 		
 		return $vlist;
 	}
@@ -1326,7 +1354,9 @@ class Ffile extends Lxclass
 		}
 		
 		if ($st > 0) {
-			print("Called more than once\n");
+?>
+	Called more than once
+<?php
 		}
 		$st++;
 

@@ -10,6 +10,9 @@ function __ac_desc_desktop($object)
 	
 	$skindir = $login->getSkinDir();
 	$col = $login->getSkinColor();
+
+	$imgpath = get_image_path();
+
 	$sel = "des";
 	$a = $ghtml->print_domcollapse($sel);
 	$history = $login->dskhistory;
@@ -49,7 +52,7 @@ function __ac_desc_desktop($object)
 		<tr>
 			<td valign=top>
 <?php
-				$iconpath = get_image_path() . "/button/";
+				$iconpath = get_image_path();
 ?>
 
 				<div id="debug"></div>
@@ -1686,6 +1689,8 @@ function print_navigation($navig)
 	$xpos = 0;
 	$navigmenu = $gbl->__navigmenu;
 
+	$icondir = get_image_path();
+
 	if ($login->getSpecialObject('sp_specialplay')->isOn('show_navig')) {
 		$vis = 'visible';
 		$imgpoint = $imgleftpoint;
@@ -1705,7 +1710,7 @@ function print_navigation($navig)
 	$navtxt = null;
 	$navigpoint = null;
 
-	$buttonpath = get_image_path() . "/button/";
+	$buttonpath = get_image_path();
 
 	$url = $ghtml->get_get_from_current_post(null);
 
@@ -1752,7 +1757,7 @@ function print_navigation($navig)
 
 	if ($sgbl->isBlackBackground()) {
 		$imgstr = null;
-		$image = "/theme/black.gif";
+		$image = "$icondir/black.gif";
 	}
 ?>
 	<script>
@@ -1829,7 +1834,7 @@ function print_navigation($navig)
 									$kloxourl = null;
 								}
 
-								$iconpath = get_image_path() . "/button/";
+								$iconpath = get_image_path();
 								$ac_descr = $ghtml->getActionDetails($curl, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
 								$curl = base64_encode($curl);
 								$desc = "{$ac_descr['desc']} $__t_identity";
@@ -2473,7 +2478,7 @@ function print_quick_action($class)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	$iconpath = get_image_path() . "/button/";
+	$iconpath = get_image_path();
 
 	if ($class === 'self') {
 		$object = $login;

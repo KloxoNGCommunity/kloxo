@@ -327,8 +327,10 @@ class HtmlLib
 		$psuedourl = null;
 		$target = null;
 		$img_path = $login->getSkinDir();
+
 		$imgtop = $img_path . '/images/top_line.gif';
-		$buttonpath = get_image_path() . 'button/';
+
+		$buttonpath = get_image_path();
 
 		foreach ($alist as $key => $url) {
 			$check = $this->compare_urls("display.php?{$this->get_get_from_current_post(null)}", $url);
@@ -387,7 +389,9 @@ class HtmlLib
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$syncserver = $this->get_server_string($obj);
-		$buttonpath = get_image_path() . "/button/";
+
+		$buttonpath = get_image_path();
+
 		$image = $this->get_image($buttonpath, '', 'resource', '.gif');
 		$this->print_action_block($obj, $obj->get__table(), $alist, $num);
 	}
@@ -953,7 +957,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$buttonpath = get_image_path("/button");
+		$buttonpath = get_image_path();
+
 		$lclass = $login->get__table();
 		$talist = null;
 
@@ -975,7 +980,7 @@ class HtmlLib
 			return;
 		}
 
-		$buttonpath = get_image_path("/button");
+		$buttonpath = get_image_path();
 ?>
 
 		<div id="comments-dlg" style="visibility:hidden;">
@@ -1287,7 +1292,8 @@ class HtmlLib
 		$col = $login->getSkinColor();
 		$plus = "{$skindir}/images/plus.gif";
 		$minus = "{$skindir}/images/minus.gif";
-		$buttonpath = get_image_path() . "/button/";
+
+		$buttonpath = get_image_path();
 ?>
 
 		<script>
@@ -1447,11 +1453,13 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		$icondir = get_image_path();
+
 		$obj = $gbl->__c_object;
 		$psuedourl = null;
 		$target = null;
 
-		$buttonpath = get_image_path() . "/button/";
+		$buttonpath = get_image_path();
 
 		$linkflag = true;
 
@@ -1479,7 +1487,7 @@ class HtmlLib
 			if (lxfile_exists("theme/custom/$bname.gif")) {
 				$image = "/theme/custom/$bname.gif";
 			} else {
-				$image = "/theme/image/collage/button/custom_button.gif";
+				$image = "$icondir/custom_button.gif";
 			}
 
 			$__t_identity = $identity;
@@ -1544,7 +1552,8 @@ class HtmlLib
 
 		$plus = "{$skindir}/images/plus.gif";
 		$minus = "{$skindir}/images/minus.gif";
-		$buttonpath = get_image_path() . "/button/";
+
+		$buttonpath = get_image_path();
 
 		if ($sgbl->isDebug()) {
 			$outputdisplay = 'inline';
@@ -1706,12 +1715,12 @@ class HtmlLib
 			$count = 0;
 ?>
 
-			global_action_box = new Array();
+			// global_action_box = new Array();
 <?php
 			foreach ($div_id_list as $k => $v) {
 ?>
 
-			global_action_box[<?=$count?>] = new Array();
+			// global_action_box[<?=$count?>] = new Array();
 			global_action_box[<?=$count?>][0] = '<?=$k?>';
 <?php
 			$j = 1;
@@ -1877,6 +1886,7 @@ class HtmlLib
 		}
 
 		$cont = null;
+
 		$icon = $login->getSpecialObject('sp_specialplay')->icon_name;
 
 		$file = "__path_program_htmlbase/$icon.missing_image.txt";
@@ -3338,7 +3348,8 @@ class HtmlLib
 		}
 
 		$__external = 0;
-		$iconpath = get_image_path() . "/button/";
+
+		$iconpath = get_image_path();
 
 		if (isset($descr[$name]) && (csa($descr[$name][0], 'q') || csa($descr[$name][0], "D"))) {
 			// For hard quota you need priv. For soft quota, you use used.
@@ -3818,8 +3829,8 @@ class HtmlLib
 		$filtername = $parent->getFilterVariableForThis($class);
 		$url = $_SERVER['PHP_SELF'];
 		$gen_image_path = get_general_image_path();
+
 		$btnpath = $gen_image_path . "/icon/";
-		$imgpath = $gen_image_path . "/button/";
 
 		$classdesc = $this->get_class_description($rclass);
 
@@ -3827,7 +3838,8 @@ class HtmlLib
 		$unique_name = fix_nname_to_be_variable($unique_name);
 
 		$imgpath = $login->getSkinDir();
-		$buttonpath = get_image_path() . "/button/";
+		$buttonpath = get_image_path();
+
 		$img = $this->get_image($buttonpath, $rclass, "list", ".gif");
 
 		$global_visible = false;
@@ -4098,9 +4110,10 @@ class HtmlLib
 			}
 		}
 
-		$iconpath = get_image_path() . "/button";
+		$iconpath = get_image_path();
 
-		$buttonpath = get_image_path() . "/button/";
+		$buttonpath = get_image_path();
+
 		$nlcount = count($name_list) + 1;
 		$imgheadleft = $login->getSkinDir() . "/images/top_lt.gif";
 		$imgheadleft = $login->getSkinDir() . "/images/top_lt.gif";
@@ -4219,12 +4232,11 @@ class HtmlLib
 ?>
 <!-- "I am here 4" -->
 <br />
-		<div style="width: 100%; margin: 0 25px 0 25px;">
+		<div style="width: 910px; margin: 0 auto 0 auto;">
 			<fieldset
 				style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
 				<legend>
-				<span
-					style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
+				<span	style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
 					<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?>
 					(<?= $perpageof ?><?= $total_num ?>)</span></legend>
 			</fieldset>
@@ -4235,10 +4247,11 @@ class HtmlLib
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 ?>
 <!-- "I am here 5" -->
-			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<!-- <table cellpadding="0" cellspacing="0" border="0" width="100%">
 				<tr>
 					<td width="25"> &nbsp; </td>
-					<td>
+					<td> -->
+					<div style="width: 910px; margin: 0 auto 0 auto">
 						<table width="100%" cellpadding="0" cellspacing="0" border="0"
 						       style="<?= $backgroundstring ?>  border: 1px solid #<?= $col ?>;">
 							<tr>
@@ -4254,19 +4267,22 @@ class HtmlLib
 								<td height="10" colspan="4"> &nbsp; </td>
 							</tr>
 						</table>
+					</div>
+					<!-- </td>
 					<td width="25"> &nbsp; </td>
 				</tr>
-			</table>
+			</table> -->
 <?php
 		}
 
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 			$imgshow = get_general_image_path() . "/button/btn_show.gif";
 ?>
-			<table cellpadding="0" cellspacing="0" width="100%" border=0>
+			<!-- <table cellpadding="0" cellspacing="0" width="100%" border=0>
 				<tr>
 					<td width="25"> &nbsp; </td>
-					<td>
+					<td> -->
+					<div style="width: 910px; margin: 0 auto 0 auto">
 						<table cellpadding="0" cellspacing="0" width="100%" border=0 valign="middle">
 							<tr>
 								<td colspan="100" height="6"></td>
@@ -4318,14 +4334,12 @@ class HtmlLib
 ?>
 
 												<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]"
-												       type="text"
 												       value="<?= $total_page ?> class=" small">
 			<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">...Last&nbsp; </a>
 <?php
 				} else {
 ?>
 												<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]"
-												       type="text"
 												       value=<?= $i ?> class="small">
 			<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()"> &nbsp;<?= $i ?>&nbsp; </a>
 <?php
@@ -4343,42 +4357,46 @@ class HtmlLib
 								<td nowrap><b>Show</b>&nbsp;</td>
 <?php
 								$f_page = (int)$login->issetHpFilter($filtername, 'pagesize') ? $login->getHPFilter($filtername, 'pagesize') : $pagesize;
+exec("echo '$f_page\n' > /tmp/f_page");
 
 								if ($rpagesize < 1000) {
 									$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
 									$i = 0;
 
 									foreach ($list as $l) {
+exec("echo '$l\n' >> /tmp/f_page");
+
 										$i++;
 
-										if ($l == $f_page) {
+										if ($l === $f_page) {
 											$bgcolorstring = "background: #$col";
 										} else {
 											$bgcolorstring = "";
 										}
 ?>
 
-										<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
+							<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
+								<form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
 <?php
-											$post['frm_action'] = 'list';
-											$post['frm_o_cname'] = $class;
-											$post["frm_hpfilter[{$filtername}][pagesize]"] = $l;
-
+									$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
+									$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
-
-											<a href="/display.php?<?= $this->get_get_from_post(null, $post) ?>">
-												&nbsp;<?= $l ?>&nbsp;</a>
-										</td>
+									<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $l ?>">
+								</form>
+								<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>&nbsp;</a>
+							</td>
 <?php
+
 									}
 								}
 ?>
 							</tr>
 						</table>
-					</td>
+					</div>
+					<!-- </td>
 					<td width="25"> &nbsp; </td>
 				</tr>
-			</table>
+			</table> -->
 
 <?php
 		}
@@ -4589,7 +4607,7 @@ class HtmlLib
 					$colcount++;
 				}
 ?>
-				<td class="rowpoint"></td>
+				<!-- <td class="rowpoint"></td> -->
 			</tr>
 <?php
 
@@ -4659,7 +4677,6 @@ class HtmlLib
 				}
 ?>
 
-			</div>
 			</td>
 		</tr>
 		<tr>
@@ -4857,9 +4874,9 @@ class HtmlLib
 								$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 								$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
-								<input class="textbox" style="width:25px; border: 1px solid #888"
+								<input class="textbox small" style="width:25px; border: 1px solid #888"
 								       name="frm_hpfilter[<?= $filtername ?>][pagenum]" type="text"
-								       value="<?= $cgi_pagenum ?>" class="small"></td>
+								       value="<?= $cgi_pagenum ?>"></td>
 <?php
 		if ($skin_name !== 'simplicity') {
 ?>
@@ -4951,7 +4968,7 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$iconpath = get_image_path() . "/button";
+		$iconpath = get_image_path();
 
 		$url = $button[0];
 		$purl = null;
@@ -4984,6 +5001,9 @@ class HtmlLib
 
 ?>
 
+		<td width=10></td>
+		<td align=center valign=bottom>
+
 		<form name="form<?= $form_name ?>" action="<?= $path ?>">
 <?php
 
@@ -4996,11 +5016,7 @@ class HtmlLib
 			}
 
 ?>
-		</form>
-<?php
-?>
-		<td width=10></td>
-		<td align=center valign=bottom>
+
 <?php
 			if (!isset($button[2])) {
 				$button[2] = null;
@@ -5008,8 +5024,7 @@ class HtmlLib
 
 			if (!$button[2]) {
 ?>
-			<span title="<?= $help ?>"> <a class=button
-			                               href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
+			<span title="<?= $help ?>"> <a class=button href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
 <?php
 
 					}
@@ -5031,6 +5046,7 @@ class HtmlLib
 <?php
 		}
 ?>
+		</form>
 		</td>
 		<td width="10"> &nbsp; </td>
 
@@ -5154,10 +5170,10 @@ class HtmlLib
 						b.style.visibility = 'hidden';
 					}
 
-					var b = document.getElementById('esmessage');
+					var c = document.getElementById('esmessage');
 
-					if (b) {
-						b.style.visibility = 'hidden';
+					if (c) {
+						c.style.visibility = 'hidden';
 					}
 				}
 
@@ -6010,7 +6026,7 @@ class HtmlLib
 		$help = $this->get_full_help($descr[2]);
 		$help = $this->get_action_or_display_help($help, "action");
 
-		$dummyimg = get_image_path() . "/button/untitled.gif";
+		$dummyimg = get_image_path() . "/untitled.gif";
 
 		$help = $descr['help'];
 
@@ -6162,11 +6178,13 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$icondir = get_image_path();
+
 		$obj = $gbl->__c_object;
 		$psuedourl = null;
 		$target = null;
 
-		$buttonpath = get_image_path() . "/button/";
+		$buttonpath = get_image_path();
 
 		$linkflag = true;
 
@@ -6198,7 +6216,7 @@ class HtmlLib
 			if (lxfile_exists("theme/custom/$bname.gif")) {
 				$image = "/theme/custom/$bname.gif";
 			} else {
-				$image = "/theme/image/collage/button/custom_button.gif";
+				$image = "$icondir/custom_button.gif";
 			}
 
 			$__t_identity = $identity;
@@ -6246,7 +6264,7 @@ class HtmlLib
 		$help = $this->get_full_help($descr[2]);
 		$help = $this->get_action_or_display_help($help, "action");
 
-		$dummyimg = get_image_path() . "/button/untitled.gif";
+		$dummyimg = get_image_path() . "/untitled.gif";
 
 		$help = $descr['desc'];
 
@@ -6309,7 +6327,7 @@ class HtmlLib
 
 	function getUrlInfo($url)
 	{
-		$buttonpath = get_image_path() . "/button/";
+		$buttonpath = get_image_path();
 
 		if ($this->is_special_url($url)) {
 			$psuedourl = $url->purl;
@@ -6531,7 +6549,8 @@ class HtmlLib
 		$form = "fancy_select";
 
 		$stylestring = "style='width: 300;' size=20";
-		$iconpath = get_image_path() . "/button";
+	//	$iconpath = get_image_path() . "/button";
+		$iconpath = get_image_path();
 ?>
 
 		<form name="<?= $form ?>" action="/display.php" accept-charset="utf-8">
@@ -6913,8 +6932,8 @@ class HtmlLib
 
 		<?= $variable_description ?> <br />
 
-		<input class=<?= $tclass ?> <?= $tdisabled ?> type=text
-		       name=<?= $variable->text->name ?> value="<?=$variable->text->value?>" size="20">
+		<input class="<?= $tclass ?>" <?= $tdisabled ?> type="text"
+		       name="<?= $variable->text->name ?>" value="<?=$variable->text->value?>" size="20">
 				<span class="small"><?= $variable->text->text ?></span>
 				<?=$variable->checkbox->desc?>
 				<input class="<?= $ckclass ?>" type="checkbox" name="<?= $variable->checkbox->name ?>"
@@ -6997,10 +7016,8 @@ class HtmlLib
 ?>
 
 						<div style="width: 100%; margin: 0">
-							<fieldset
-								style="background-color:<?= $backgroundcolor ?>; border: 0; padding: 10px 0 10px 0; border-top: 1px solid #<?= $bordertop ?>">
-								<legend style='font-weight:normal; border: 0'><span
-										style='color: #303030; font-weight:bold'><?= $block->title ?></span>
+							<fieldset style="background-color:<?= $backgroundcolor ?>; border: 0; padding: 10px 0 10px 0; border-top: 1px solid #<?= $bordertop ?>">
+								<legend style='font-weight:normal; border: 0'><span style='color: #303030; font-weight:bold'><?= $block->title ?></span>
 								</legend>
 							</fieldset>
 						</div>
@@ -7104,6 +7121,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$icondir = get_image_path();
+
 		$prevvar = $gbl->getSessionV('__tmp_redirect_var');
 
 		$myneedstring = null;
@@ -7174,56 +7193,60 @@ class HtmlLib
 ?>
 
 			<a href="javascript:void(0);"
-			   onclick="selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img width=15
-			                                                                                                    height=15
-			                                                                                                    src="theme/image/collage/button/ffile_ttype_v_directory.gif"
-			                                                                                                    border="0"
-			                                                                                                    alt="Select Folder"
-			                                                                                                    align="absmiddle"></a>
+				onclick="selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img 
+				width="15" height="15" src="<?= $icondir ?>/ffile_ttype_v_directory.gif" border="0" alt="Select Folder" align="absmiddle"></a>
 <?php
 		}
 
 		if (isset($variable->confirm_password) && $variable->confirm_password) {
 ?>
 
-			<script language=Javascript src=/theme/js/divpop.js></script>
-			<div id="showimage" style="visibility:hidden;position:absolute;width:250px;left:250px;top:250px">
-				<table border="1" width="250" bgcolor="#4488CC" cellspacing="0" cellpadding="2">
+			<script language="javascript" src="/theme/js/divpop.js"></script>
+
+			<!-- <div id="showimage" style="visibility: hidden; position: absolute; width: 250px; left: 400px; top: 300px;"> -->
+			<div id="showimage" style="visibility: hidden; position: absolute; width: 250px; left: 50%; top: 300px; margin: 0 auto 0 -125px">
+				<!-- <table border="1" width="250" bgcolor="#4488CC" cellspacing="0" cellpadding="2">
 					<tr>
 						<td width="100%">
 							<table border="0" width="100%" cellspacing="0" cellpadding="2" height="36px">
 								<tr>
 									<td id="dragbar" style="cursor:hand; cursor:pointer" width="100%"
-									    onMousedown="password_initializedrag(event)">
-										<ilayer width="100%" onSelectStart="return false">
-											<layer width="100%" onMouseover="dragswitch=1;" onMouseout="dragswitch=0">
-												<span
-													style="font-family: Arial, sans-serif; color:#FFFFFF">Password Box</strong></span>
-											</layer>
-										</ilayer>
-									</td>
-									<td style="cursor:hand"><a href="#"
-									                           onClick="password_hidebox('showimage');return false">
-											<span
-												style="font-family:Arial, sans-serif; color:#FFFFFF; padding:2px">X</span></a>
-									</td>
+									    onMousedown="password_initializedrag(event)"> -->
+				<div style="background-color: #4488CC; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
+					<div style="height: 16px">
+						<div id="dragbar" style="float:left; width: 200px">
+										<div onSelectStart="return false">
+											<div onMouseover="dragswitch=1;" onMouseout="dragswitch=0">
+												<span style="color:#FFFFFF">&nbsp;Password Box</span>
+											</div>
+										</div>
+						</div>
+									<!-- </td>
+									<td style="cursor:hand"> -->
+						<div style="float:right">
+											<a href="#" onClick="password_hidebox('showimage');return false">
+											<span style="color:#FFFFFF; padding:2px">X</span></a>
+						</div>
+					</div>
+									<!-- </td>
 								</tr>
 								<tr>
-									<td width="100%" bgcolor="#FFEEDD" style="padding:4px" colspan="2">
+									<td width="100%" bgcolor="#FFEEDD" style="padding:4px" colspan="2"> -->
 
 										<!-- PUT YOUR CONTENT BETWEEN HERE -->
-
+					<div style="background-color: #FFEEDD; padding: 4px">
 										<div id="password_container">
 										</div>
 
 										<!-- END YOUR CONTENT HERE -->
-
-									</td>
+					</div>
+				</div>
+									<!-- </td>
 								</tr>
 							</table>
 						</td>
 					</tr>
-				</table>
+				</table> -->
 			</div>
 			<input style="margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;"
 			       class=textbox type=button value="Generate Password"
@@ -7759,7 +7782,7 @@ class HtmlLib
 			$this->print_curvy_table_start();
 		} else {
 ?>
-			<div id="infomsg" style="display:none; position:fixed; width:600px; top:45px; right: 200px; margin: 0 auto 0 auto; padding:15px; background-color:#f0fff8; border:3px double #e22; text-align:left">
+			<div id="infomsg" style="display:none; position:fixed; width: 600px; top:45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#f0fff8; border:3px double #e22; text-align:left">
 <?php
 
 		}
@@ -7904,7 +7927,7 @@ class HtmlLib
 				$mess = $cgi_frm_smessage;
 			}
 
-			$imgfile = $img_path . "/button/okpic.gif";
+			$imgfile = $img_path . "/okpic.gif";
 
 			unset($this->__http_vars['frm_smessage']);
 			unset($this->__http_vars['frm_m_smessage_data']);
@@ -7932,7 +7955,7 @@ class HtmlLib
 			unset($this->__http_vars['frm_emessage']);
 			unset($this->__http_vars['frm_m_emessage_data']);
 
-			$imgfile = $img_path . "/button/warningpic.gif";
+			$imgfile = $img_path . "/warningpic.gif";
 			$color = 'brown';
 			$message = "<span style='color:red'><b>Alert: </b></span> ";
 			$style = 'border: 1px solid red; background:#ffd7d7;';
@@ -7951,12 +7974,14 @@ class HtmlLib
 	{
 		if (!$imgfile) {
 			$img_path = get_general_image_path();
-			$imgfile = $img_path . "/button/warningpic.gif";
+			$imgfile = $img_path . "/warningpic.gif";
 			$color = 'brown';
 			$message = "<span style='color:red'><b> Error: </b></span>";
 			$style = 'border: 1px solid red; background:#ffd7d7;';
 			$fontstyle = 'color: #000';
 		}
+
+		$icondir = get_image_path();
 
 ?>
 
@@ -7965,7 +7990,7 @@ class HtmlLib
 			<table width='400' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
 				<tr height='10'>
 					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img
-								src="/theme/image/collage/button/close.gif"> <span
+								src="$icondir/close.gif"> <span
 								style='small'>Press Esc to close </span>
 						</a>
 					</td>
@@ -8046,8 +8071,8 @@ class HtmlLib
 		}
 
 		$img_path = get_image_path();
-		$buttonpath = $img_path . "/button";
-		$iconpath = $img_path . "/button";
+
+		$buttonpath = $iconpath = $img_path;
 
 		$descr = $this->getActionDetails($url, $psuedourl, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
 
@@ -8115,7 +8140,9 @@ class HtmlLib
 		}
 
 		$skin_name = str_replace("_", " ", $skin_name);
-		$icon_name = $login->getSpecialObject('sp_specialplay')->icon_name;
+
+		$icondir = get_image_path();
+
 		$cl = $login->getResourceChildList();
 		$qlist = $object->getList('resource');
 		$skinget = $login->getSkinDir();
@@ -8240,7 +8267,7 @@ class HtmlLib
 							}
 
 							$rdesc .= "<tr align=left style=\"border-width:1 ;background:#efe8e0 url($skinget/images/a.gif)\"> <td> " .
-								"<img width=15 height=15 src=\"/theme/image/collage/button/state_v_{$or->display('state')}.gif\"> {$or->shortdescr} </td> " .
+								"<img width=15 height=15 src=\"/$icondir/state_v_{$or->display('state')}.gif\"> {$or->shortdescr} </td> " .
 								"<td nowrap> {$or->display('resourceused')} </td> <td align=left> $limit&nbsp;</td> </tr>";
 						}
 
@@ -8270,10 +8297,13 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$skindir = $login->getSkinDir();
+
 		$tbg = $skindir . "/images/lp_bg.gif";
 		$hpic = $skindir . "/images/lp_head.gif";
+
 		$imgleftpoint = "{$skindir}/images/left_point.gif";
 		$imgrightpoint = "{$skindir}/images/right_point.gif";
+
 		$navtxt = "Navigation";
 		$histxt = "History";
 		$imgpoint = $imgleftpoint;
@@ -8450,8 +8480,9 @@ class HtmlLib
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$bgcolor = null;
-		$path = get_image_path() . "/button/";
-		$bpath = get_image_path() . "/button/";
+
+		$path = $bpath = get_image_path();
+
 		$class = $object->getClass();
 
 		if (!$tree) {
@@ -8698,6 +8729,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$skindir = $login->getSkinDir();
+
 		$image = null;
 		$open = 'false';
 		$help = null;
@@ -8720,8 +8753,9 @@ class HtmlLib
 				}
 
 				$desc = get_plural($k);
-				$image = "/theme/image/" . $login->getSpecialObject('sp_specialplay')->icon_name . "/button/browse.gif";
-				$endimg = "/theme/right_point.gif";
+				$image = "$skindir/browse.gif";
+				$endimg = "$skindir/right_point.gif";
+
 				$desc = "$desc";
 				$open = 'false';
 				$help = $desc;
@@ -8772,8 +8806,7 @@ class HtmlLib
 	function print_ressingle($tree, $url, $psuedourl = null, $target = null, $nameflag = false)
 	{
 		$img_path = get_image_path();
-		$buttonpath = $img_path . "/button";
-		$iconpath = $img_path . "/button";
+		$buttonpath = $iconpath = $img_path;
 
 		$descr = $this->getActionDetails($url, $psuedourl, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
 
@@ -8800,6 +8833,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$skindir = $login->getSkinDir();
+
 		foreach ((array)$alist as $k => $a) {
 			if (is_array($a)) {
 				continue;
@@ -8817,8 +8852,9 @@ class HtmlLib
 				}
 
 				$desc = get_plural($k);
-				$menuimg = "/theme/image/" . $login->getSpecialObject('sp_specialplay')->icon_name . "/button/browse.gif";
-				$endimg = "/theme/right_point.gif";
+				$menuimg = "$skindir/browse.gif";
+				$endimg = "$skindir/right_point.gif";
+
 				$desc = "<span style=font-weight:bold>$desc</span>";
 				$mnu = $this->getMenuDescrString($menuimg, $desc, $endimg);
 
@@ -8885,8 +8921,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$img_path = get_image_path();
-		$buttonpath = $img_path . "/button";
-		$iconpath = $img_path . "/button";
+		$buttonpath = $iconpath = $img_path;
 
 		if (csb($url, "__blank|")) {
 			$url = substr($url, 8);
@@ -8969,7 +9004,7 @@ class HtmlLib
 
 		if ($skin_name === 'simplicity') {
 			$skin_background = $login->getSpecialObject('sp_specialplay')->skin_background;
-			$bodybackground = "url(/theme/image/background/{$skin_background})";
+			$bodybackground = "url(/theme/background/{$skin_background}) center ; background-size: cover;";
 			$bodycolor = "ffffff";
 		} else {
 			$bodybackground = "";
@@ -9023,6 +9058,7 @@ class HtmlLib
 		load_process(path, query, div);
 		return false;
 	}
+//-->
 </script>
 
 		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38; box-shadow: 0 4px 4px 4px #cba">
@@ -9159,6 +9195,8 @@ class HtmlLib
 
 	function print_splash()
 	{
+	/*
+		// MR -- it's only for 'default' skin
 ?>
 
 		<script>
@@ -9168,6 +9206,7 @@ class HtmlLib
 		</script>
 
 <?php
+	*/
 	}
 
 	function print_start()
@@ -9222,15 +9261,17 @@ class HtmlLib
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$img_path = $login->getSkinDir();
+
 		$tbg = $img_path . "/images/lp_bg.gif";
 
 		$imgbordermain = $img_path . "/images/top_line.gif";
 
+		$icondir = get_image_path();
 ?>
 
 		<table cellpadding=0 cellspacing=0>
 			<tr>
-				<td><img src='/theme/aboutus.jpg'></td>
+				<td><img src='<?= $icondir ?>/aboutus.jpg'></td>
 			</tr>
 		</table>
 
@@ -9359,12 +9400,12 @@ class HtmlLib
 						<tr>
 							<td width=60%>
 							</td>
-							<td height=22 width=40% align=right>
-								<table cellpadding=0 cellspacing=0 border=0 width=200>
+							<td height="22" width="40%" align="right">
+								<table cellpadding="0" cellspacing="0" border="0" width="200">
 									<tr>
-										<td width=10 height=22></td>
-										<td height=22>
-											<form name=lpform_search method=<?= $sgbl->method ?>  action=<?= $url ?>
+										<td width="10" height="22"></td>
+										<td height="22">
+											<form name="lpform_search" method="<?= $sgbl->method ?>"  action="<?= $url ?>"
 											      onsubmit="return checksearch(this,1);" accept-charset="utf-8">
 
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
@@ -9374,40 +9415,41 @@ class HtmlLib
 												                          name="frm_hpfilter[<?= $filtername ?>][searchstring]"
 												                          value="<?= $value ?>" class=searchbox
 												                          size="18">
+											</form>
 										</td>
-										<td width=10 height=22></td>
-										</form>
-										<td height=22 width=20><a href='javascript:document.lpform_search.submit()'><img
-													border=0 alt="Search" title="Search" name=search
-													src="<?= $searchimg ?>" height=15 width=15
+										<td width="10" height="22"></td>
+										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img
+													border="0" alt="Search" title="Search" name=search
+													src="<?= $searchimg ?>" height="15" width="15"
 													onMouseOver="changeContent('help','search');"
-													onMouseOut="changeContent('help','helparea');"></a></form></td>
-										<td width=10 height=22></td>
-										<td height=22 width=70>
-											<form name=lpform_showall method=<?= $sgbl->method ?> action=<?= $url ?>
+													onMouseOut="changeContent('help','helparea');"></a></td>
+										<td width="10" height="22"></td>
+										<td height="22" width="70">
+											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>"
 											      accept-charset="utf-8">
 
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
-												<input type=hidden name=frm_clear_filter value=true>
+												<input type="hidden" name="frm_clear_filter" value="true">
 
-												<table cellpadding=0 cellspacing=0 border=0 width=100% height=22>
+												<table cellpadding="0" cellspacing="0" border="0" width="100%" height="22">
 													<tr>
-														<td height=22 width=31% align=center nowrap><a
+														<td height="22" width="31%" align="center" nowrap><a
 																href="javascript:document.lpform_showall.submit();"><img
-																	alt="Show All" title="Show all" name=showall
+																	alt="Show All" title="Show all" name="showall"
 																	src="<?= $showallimg ?>"
 																	onMouseOver="changeContent('help','showall');"
 																	onMouseOut="changeContent('help','helparea');"></a>
 														</td>
-														<td width=69% height=22 nowrap><a
+														<td width="69%" height="22" nowrap><a
 																href="javascript:document.lpform_showall.submit();"
 																onMouseOver="changeContent('help','showall');"
 																onMouseOut="changeContent('help','helparea');"><span
-																	class=small>Show All</span></a></td>
+																	class="small">Show All</span></a></td>
 													</tr>
 												</table>
+											</form>
 										</td>
-										</form></tr>
+									</tr>
 								</table>
 							</td>
 						</tr>
@@ -9569,7 +9611,7 @@ class HtmlLib
 	function print_content_end()
 	{
 ?>
-	</div>
+	<!-- </div> -->
 </div>
 <!--
 			</td>
@@ -9611,7 +9653,7 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
-		$iconpath = get_image_path() . "/button/";
+		$iconpath = get_image_path();
 
 		if ($class === 'self') {
 			$object = $login;
@@ -9684,10 +9726,10 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$shortcut = $login->getVirtualList($class, $count);
-	//	$back = $login->getSkinDir();
+
 		$res = null;
 		$ret = null;
-		$iconpath = get_image_path() . "/button/";
+		$iconpath = get_image_path();
 
 		if ($shortcut) {
 			foreach ($shortcut as $k => $h) {

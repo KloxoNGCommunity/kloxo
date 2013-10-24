@@ -131,7 +131,7 @@ function print_tab_button($key, $url, $list)
 	} else {
 ?>
 		<!-- <td class='tabnew1'> -->
-			<div nowrap class='verb'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
+			<div class='verb'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
 		<!-- </td> -->
 <?php
 	}

@@ -65,7 +65,9 @@ function __ajax_desc_tree()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 	$object = $gbl->__c_object;
-	$icondir = get_image_path('/button/');
+
+	$icondir = get_image_path();
+
 	$rclist = $object->getResourceChildList();
 	$cid = htmlspecialchars($ghtml->node);
 	$cid = str_replace('&amp;', '&', $cid);

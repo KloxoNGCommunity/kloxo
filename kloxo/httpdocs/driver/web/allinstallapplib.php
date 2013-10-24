@@ -132,7 +132,11 @@ static function getAllInformation($name)
 static function showDescription($object, $name)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	$col = $login->getSkinColor();
+
+	$icondir = get_image_path();
+
 	$list = $object->getParentO()->getList('allinstallapp');
 
 	$list = get_namelist_from_objectlist($list);
@@ -189,7 +193,7 @@ static function showDescription($object, $name)
 		$bgcolorvar = null;
 
 		if ($small === $lowername) {
-			$pointericon = "<img width=5 height=5 src=theme/image/collage/button/on.gif>";
+			$pointericon = "<img width='5' height='5' src='$icondir/on.gif'>";
 			$bgcolorvar = "bgcolor=$color";
 		} 
 		if (csa($l, "__title")) {

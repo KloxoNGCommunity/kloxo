@@ -253,10 +253,18 @@ function os_kill_process_user($username)
 
 function os_create_default_slave_driver_db()
 {
+/*
 	$a['web'] = "apache";
 	$a['dns'] = "bind";
 	$a['webcache'] = "none";
 //	$a['spam'] = "spamassassin";
+	slave_save_db("driver", $a);
+*/
+	// MR -- most driver as 'none' state
+	$a['web'] = "none";
+	$a['dns'] = "none";
+	$a['webcache'] = "none";
+	$a['spam'] = "bogofilter";
 	slave_save_db("driver", $a);
 }
 
