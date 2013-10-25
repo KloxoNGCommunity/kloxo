@@ -59,7 +59,6 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	"./kloxomr-$ver/install" "./kloxomr-$ver/init" \
 	"./kloxomr-$ver/etc/list/set.*.lst" \
 	"./kloxomr-$ver/etc/list/reserved.lst" \
-	"./kloxomr-$ver/etc/list/webcache.lst" \
 	--exclude "./kloxomr-$ver/httpdocs/commands.php" \
 	--exclude "./kloxomr-$ver/httpdocs/newpass" \
 	--exclude "./kloxomr-$ver/httpdocs/.php.err" \
