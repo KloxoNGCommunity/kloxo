@@ -1628,7 +1628,7 @@ class HtmlLib
 			}
 		</style>
 
-		<div id="show_page" style="width: 600px">
+		<div id="show_page" style="width: 600px; margin: 0 auto 0 auto">
 <?php
 
 		if (!$login->getSpecialObject('sp_specialplay')->isOn('enable_ajax')) {
@@ -3494,7 +3494,8 @@ class HtmlLib
 			$align = "center onmouseover=\"changeContent('help',' $help')\" onmouseout=\"changeContent('help','helparea')\"";
 
 			if (!$sgbl->isBlackBackground()) {
-				$pname = " <span title='$alt'><img src=$image width=16 height=16></span>";
+			//	$pname = " <span title='$alt'><img src=$image width=16 height=16></span>";
+				$pname = " <span title='$alt'><span style='font-size: 16px'>&equiv;</span></span>";
 			}
 
 			$this->save_non_existant_image($image);
@@ -4357,15 +4358,12 @@ class HtmlLib
 								<td nowrap><b>Show</b>&nbsp;</td>
 <?php
 								$f_page = (int)$login->issetHpFilter($filtername, 'pagesize') ? $login->getHPFilter($filtername, 'pagesize') : $pagesize;
-exec("echo '$f_page\n' > /tmp/f_page");
 
 								if ($rpagesize < 1000) {
 									$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
 									$i = 0;
 
 									foreach ($list as $l) {
-exec("echo '$l\n' >> /tmp/f_page");
-
 										$i++;
 
 										if ($l === $f_page) {
@@ -5101,17 +5099,6 @@ exec("echo '$l\n' >> /tmp/f_page");
 		<link href="<?= $csource ?>" rel="stylesheet" type="text/css">
 
 <?php
-	}
-
-	function get_lpanel_file()
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$fpath = get_image_path() . "/";
-		$path = getreal($fpath);
-		$val = lscandir($path);
-
-		return $val;
 	}
 
 	function printNavHistMenu()
@@ -8045,25 +8032,6 @@ exec("echo '$l\n' >> /tmp/f_page");
 		return $mess;
 	}
 
-	function print_lpanel_start_separator()
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-?>
-
-		<tr>
-			<td colspan=3 height=2></td>
-		</tr>
-		<tr style="background:#efe8e0 url(<?= $imgdark ?>)" height="1">
-			<td colspan=3 height=1></td>
-		</tr>
-		<tr>
-			<td colspan=3 height=2></td>
-		</tr>
-
-<?php
-	}
-
 	function print_xpsingle($treename, $url, $psuedourl = null, $target = null, $nameflag = false)
 	{
 		if ($url === 'a=show') {
@@ -8096,241 +8064,6 @@ exec("echo '$l\n' >> /tmp/f_page");
 		style="text-decoration: underline;"><?= $desc ?></span>', '<?= $url ?>', '', '', '<?= $image ?>', 'mainframe');
 
 <?php
-	}
-
-	function tab_vheight()
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$skincolor = $login->getSkinColor();
-
-		$this->print_css_source("/theme/css/examples.css");
-		print_ext_tree($login);
-
-?>
-
-		<script type='text/javascript' src='/theme/js/tabs-example.js'></script>
-
-		<div style='background-color:#ffffff' id="tabs1">
-			<div id="script"
-			     style="overflow:hidden; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;"
-			     class="tab-content">
-				<br />
-				<? $this->xp_panel($login); ?>
-			</div>
-			<div id="markup" class="tab-content">
-				<div id="tree-div"
-				     style="overflow:auto; height:100%;width:218px;;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;">
-				</div>
-			</div>
-		</div>
-
-<?php
-	}
-
-	function xp_panel($object)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$skincolor = $login->getSkinColor();
-		$skin_name = basename($login->getSkinDir());
-
-		if (csa($skin_name, "_")) {
-			$skin_name = substr($skin_name, 0, strrpos($skin_name, "_"));
-		}
-
-		$skin_name = str_replace("_", " ", $skin_name);
-
-		$icondir = get_image_path();
-
-		$cl = $login->getResourceChildList();
-		$qlist = $object->getList('resource');
-		$skinget = $login->getSkinDir();
-
-?>
-
-		<script language="javascript" type="text/javascript" src="/theme/js/xpmenu/ua.js"></script>
-		<script language="javascript" type="text/javascript" src="/theme/js/xpmenu/PanelBarOrig.js"></script>
-		<script language="javascript" type="text/javascript">
-			function drawMenu() {
-				var iCntr = 0;
-				var objMenu;
-				var strId, strLbl;
-
-				if (this.open) {
-					visib = 'visibile';
-					disp = 'block';
-					menuclass = "menuHeaderExpanded";
-					image = '<?=$skinget?>/images/minus.gif';
-					text = '-';
-				} else {
-					visib = 'hidden';
-					disp = 'none';
-					menuclass = "menuHeaderCollapsed";
-					image = '<?=$skinget?>/images/plus.gif';
-					text = '+';
-				}
-
-				document.write("<table  border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"padding:0 0 0 0;\" width=\"100%\">");
-				document.write("<tr style=\"background:#efe8e0 url(<?=$skinget?>/images/expand.gif)\" onMouseover=\"this.style.background='#efe8e0 url(<?=$skinget?>/images/onexpand.gif)'\" onMouseout=\"this.style.background='#efe8e0 url(<?=$skinget?>/images/expand.gif)'\"><td style=\"width:180px;vertical-align: center; \"><span style='font-weight:bold'>&nbsp;" + this.label + "</span></td><td class=" + menuclass + " id=\"" + this.id + "\"" + "onclick=\"toggle(this)\">");
-				document.write("&nbsp;<img id=" + this.id + "_image src=" + image + "></td></tr>");
-				document.write("</table>");
-				document.write("<div style=\"display: " + disp + "; visibility: " + visib + ";\"" + " class=\"menuItems\" id=\"" + this.id + "_child" + "\">");
-				document.write("<table border='0' style='background:white' border='0' cellspacing='1' cellpadding='0' width='100%'>");
-
-				for (iCntr = 0; iCntr < this.smcount; iCntr++) {
-					this.submenu[iCntr].render();
-				}
-
-				document.write("</table></div>");
-			}
-
-			function toggle(pobjSrc) {
-				var strCls = pobjSrc.className;
-				var strId = pobjSrc.id;
-				var objTmp, child;
-
-				if (pobjSrc.id != _currMenu) {
-					objTmp = document.getElementById(_currMenu);
-				}
-
-				child = document.getElementById(strId + "_child");
-				ichild = document.getElementById(strId + "_image");
-
-				if (child.style.visibility == "hidden") {
-					pobjSrc.className = "menuHeaderExpanded";
-					child.style.visibility = "visible";
-					child.style.display = "block";
-					ichild.src = "<?=$skinget?>/images/minus.gif";
-				} else {
-					pobjSrc.className = "menuHeaderCollapsed";
-					child.style.visibility = "hidden";
-					child.style.display = "none";
-					ichild.src = "<?=$skinget?>/images/plus.gif";
-				}
-
-				_currMenu = pobjSrc.id;
-			}
-		</script>
-
-		<script language="javascript">
-			var objTmp;
-<?php
-
-					if (!$login->getSpecialObject('sp_specialplay')->isOn('disable_quickaction')) {
-						$class = $login->getQuickClass();
-
-						if ($class) {
-							$rdesc = print_quick_action($class);
-?>
-
-			xpreso = createMenu('Quick Actions', '', true);
-			createSubMenu(xpreso, '<?=$rdesc?>', '', '', '', '', '');
-<?php
-						}
-					}
-
-					$url = $this->getFullUrl("a=list&c=ndskshortcut");
-					$rdesc = $this->print_favorites();
-?>
-
-			xxpFav = createMenu('<span style="color:#003360">Favorites<a href="<?=$url?>" target="mainframe"> [edit] </a></span>', '', true);
-			createSubMenu(xxpFav, '<?=$rdesc?>', '', '', '', '', '');
-<?php
-
-					if ($login->isLte('reseller')) {
-?>
-
-			xxpDescr = createMenu('<span style="color:#003360">Usage', '', true);
-<?php
-						$rdesc = null;
-
-						foreach ((array)$qlist as $or) {
-							if (!cse($or->vv, "usage") && !cse($or->vv, "_num")) {
-								continue;
-							}
-
-							if (cse($or->vv, "last_usage")) {
-								continue;
-							}
-
-							if (is_unlimited($or->resourcepriv)) {
-								$limit = "&#8734;";
-							} else {
-								$limit = $or->display('resourcepriv');
-							}
-
-							$array = array("traffic_usage", "totaldisk_usage", "client_num", "maindomain_num", "vps_num");
-
-							if (!array_search_bool($or->vv, $array)) {
-								continue;
-							}
-
-							$rdesc .= "<tr align=left style=\"border-width:1 ;background:#efe8e0 url($skinget/images/a.gif)\"> <td> " .
-								"<img width=15 height=15 src=\"/$icondir/state_v_{$or->display('state')}.gif\"> {$or->shortdescr} </td> " .
-								"<td nowrap> {$or->display('resourceused')} </td> <td align=left> $limit&nbsp;</td> </tr>";
-						}
-
-?>
-
-			createSubMenu(xxpDescr, '<?=$rdesc?>', '', '', '', '', '');
-<?php
-					}
-
-				//	$forumurl = "http://forum.lxcenter.org";
-					$forumurl = "http://forum.mratwork.com";
-
-					if (!$login->isAdmin() && isset($login->getObject('general')->generalmisc_b->forumurl)) {
-						$forumurl = $login->getObject('general')->generalmisc_b->forumurl;
-					}
-?>
-
-			setTheme("XPClassic.css", null, null);
-			initialize(<?=($sgbl->__var_lpanelwidth - 20)?>);
-		</script>
-
-<?php
-	}
-
-	function lpanel_start($help = null)
-	{
-		global $gbl, $sgbl, $login;
-
-		$skindir = $login->getSkinDir();
-
-		$tbg = $skindir . "/images/lp_bg.gif";
-		$hpic = $skindir . "/images/lp_head.gif";
-
-		$imgleftpoint = "{$skindir}/images/left_point.gif";
-		$imgrightpoint = "{$skindir}/images/right_point.gif";
-
-		$navtxt = "Navigation";
-		$histxt = "History";
-		$imgpoint = $imgleftpoint;
-		$width = "198";
-		$width = "100%";
-		$xpos = 196;
-
-		$l = getdate($gbl->c_session->logintime);
-		$login_time = $l['hours'] . ":" . $l['minutes'] . ":" . $l['seconds'];
-
-		if (csa($skindir, "_")) {
-			$skin_name = substr($skindir, 0, strrpos($skindir, "_"));
-		}
-
-		$skin_name = str_replace("_", " ", $skin_name);
-		$name = substr($login->nname, 0, 12);
-?>
-
-		<table>
-			<tr>
-				<td height=215></td>
-			</tr>
-		</table>
-
-<?php
-
-		$this->lpanel_help();
 	}
 
 	function do_full_resource($object, $depth, $alistflag)
@@ -9465,72 +9198,6 @@ exec("echo '$l\n' >> /tmp/f_page");
 	function getClass()
 	{
 		return 'Html';
-	}
-
-	function oldlpanel_help()
-	{
-		global $gbl, $sgbl, $login;
-
-		$img_path = $login->getSkinDir();
-		$tbg = $img_path . "/images/lp_bg.gif";
-
-		$helpimg = $img_path . "/";
-?>
-
-		<table cellpadding="0" width=100% cellspacing="0" border="0" align=center>
-
-		<tr>
-			<td align=center><br />
-				<table cellpadding=0 cellspacing=0 border=0 align=center>
-					<tr align=center>
-						<td><img id=helppic name=namepic src="<?= $helpimg ?>/images/help_head.gif" style="cursor:pointer"
-						         onclick="window.open('<?= $this->get_help_url() ?>')"></td>
-					</tr>
-				</table>
-			</td>
-			</td></tr>
-
-		<tr align=center>
-			<td align=center>
-				<table cellpadding=0 cellspacing=0 border=0 align=center>
-					<tr>
-						<td><img src="<?= $helpimg ?>/images/help_edge.gif"></td>
-						<td background="<?= $helpimg ?>/images/help_bg.gif" width=170>
-							<table cellpadding=0 cellspacing=0 border=0>
-								<tr>
-									<td width=10></td>
-									<td>
-										<div id=help class=helparea>
-											<script> document.write(help_data['helparea']) </script>
-										</div>
-									</td>
-								</tr>
-							</table>
-						</td>
-						<td><img src="<?= $helpimg ?>/images/help_edge.gif"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-<?php
-		if (if_demo()) {
-?>
-			<tr>
-				<td align=center>
-					<table>
-						<tr align=center>
-							<td align=center nowrap><a href=/live target=_blank class=tableheadtext>Click Here for Live
-									Support.</a></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			</table>
-
-<?php
-		}
-
-		return;
 	}
 
 //	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $formname, $name, $imagesrc, $descr, $check)

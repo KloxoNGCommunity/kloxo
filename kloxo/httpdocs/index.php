@@ -20,10 +20,10 @@ function domainshow()
 	$url = "a=show";
 	$url = $ghtml->getFullUrl($url);
 
-	if (lxfile_exists("lbin/header_vendor.php")) {
-		$file = "/lbin/header_vendor.php";
+	if (lxfile_exists("theme/frame_header_vendor.php")) {
+		$file = "/theme/frame_header_vendor.php";
 	} else {
-		$file = "/lbin/header.php";
+		$file = "/theme/frame_header.php";
 	}
 
 
@@ -62,7 +62,7 @@ function domainshow()
 ?>
 		<FRAMESET frameborder="0" rows="*,16"  border="0">
 		<FRAME name="mainframe" src="<?= $url ?>">
-		<FRAME name="bottomframe" src="/theme/lbin/bottom.php">
+		<FRAME name="bottomframe" src="/theme/frame_bottom.php">
 <?php
 
 		return;
@@ -87,7 +87,7 @@ function domainshow()
 if (!$sp->isOn('split_frame')) {
 ?>
 	<FRAMESET frameborder="0" cols="<?= $width ?>,*" border="0">
-	<FRAME name=leftframe src="/theme/lbin/lpanel.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
+	<FRAME name=leftframe src="/theme/frame_lpanel.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
 <?php
 }
 
@@ -99,7 +99,7 @@ if ($sp->isOn('split_frame')) {
 ?>
 	<FRAMESET frameborder="0" rows="*,16" border="0">
 		<FRAME name="mainframe" src="<?= $url ?>">
-		<FRAME name="bottomframe" src="/theme/lbin/bottom.php">
+		<FRAME name="bottomframe" src="/theme/frame_bottom.php">
 <?php
 		if ($sp->isOn('split_frame')) {
 ?>

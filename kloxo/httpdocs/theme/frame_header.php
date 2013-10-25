@@ -1,7 +1,9 @@
 <?php
-chdir("..");
+
+chdir("../");
+
 include_once "lib/html/displayinclude.php";
-include_once "lib/oldheader.php";
+// include_once "lib/oldheader.php";
 
 
 header_main();
@@ -56,7 +58,8 @@ function print_header()
 	createHeaderData();
 ?>
 <body topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0">
-<div id=statusbar style='background: #<?= $lightskincolor ?>; scroll: auto; height: 26px; width:100%; border-bottom:4px solid #b1cfed; margin: 2px: vertical-align: top; text-align: top'>
+<!-- <div id=statusbar style='background: #<?= $lightskincolor ?>; scroll: auto; height: 26px; width:100%; border-bottom:4px solid #b1cfed; margin: 2px; vertical-align: top; text-align: top'> -->
+<div id=statusbar style='background: #<?= $lightskincolor ?>; scroll: auto; height: 26px; width:100%; border-bottom:4px solid #ddddff; vertical-align: top; text-align: top'>
 <?php
 $alist[] = "a=show";
 $alist = $login->createShowAlist($alist);

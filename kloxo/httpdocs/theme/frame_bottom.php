@@ -1,6 +1,6 @@
 <?php
 
-chdir("../../");
+chdir("../");
 
 include_once "lib/html/displayinclude.php";
 // initProgram();
