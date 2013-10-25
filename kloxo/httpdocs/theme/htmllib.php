@@ -7942,7 +7942,7 @@ class HtmlLib
 			unset($this->__http_vars['frm_emessage']);
 			unset($this->__http_vars['frm_m_emessage_data']);
 
-			$imgfile = $img_path . "/warningpic.gif";
+			$imgfile = $img_path . "/button/warningpic.gif";
 			$color = 'brown';
 			$message = "<span style='color:red'><b>Alert: </b></span> ";
 			$style = 'border: 1px solid red; background:#ffd7d7;';
@@ -7977,7 +7977,7 @@ class HtmlLib
 			<table width='400' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
 				<tr height='10'>
 					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img
-								src="$icondir/close.gif"> <span
+								src="<?= $icondir ?>/close.gif"> <span
 								style='small'>Press Esc to close </span>
 						</a>
 					</td>

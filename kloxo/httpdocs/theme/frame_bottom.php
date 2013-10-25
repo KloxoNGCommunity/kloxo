@@ -10,7 +10,7 @@ include_once "lib/html/displayinclude.php";
 	<title> bottom frame </title>
 	<meta http-equiv="Content-Language" content="en-us">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<link href="/theme/css/header_new.css" rel="stylesheet" type="text/css"/>
+	<link href="/theme/css/header.css" rel="stylesheet" type="text/css"/>
 	<link href="/theme/css/common.css" rel="stylesheet" type="text/css"/>
 
 	<?php

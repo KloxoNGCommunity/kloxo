@@ -22,11 +22,6 @@ function lpanel_main()
 
 	$skincolor = $login->getSkinColor();
 
-	// This should be called only in display.php, and not anywhere else. 
-	// It doesn't matter anyway, since both lpanel.php, AND header.php never allows any modification to be carried out. 
-	// Also, the display.php automatically deletes the login info, so if you click on any link on the header or the lpanel, 
-	// you will automatically logged out. check_if_disabled_and_exit();
-
 	$imgbordermain = "{$login->getSkinDir()}/top_line_medium.gif";
 	
 	if ($gbl->isOn('show_help')) {

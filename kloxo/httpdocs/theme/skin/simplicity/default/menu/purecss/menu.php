@@ -4,29 +4,8 @@
 //	$syncserver = $login->syncserver;
 //	$userid = $login->getId();
 
-	function parse_opt($argv)
-	{
-		unset($argv[0]);
-
-		if (!$argv) {	return null; }
-
-		$ret = null;
-
-		foreach ($argv as $v) {
-			if (strstr($v, "=") === false || strstr($v, "--") === false) { continue; }
-
-			$opt = explode("=", $v);
-			$opt[0] = substr($opt[0], 2);
-			$ret[$opt[0]] = $opt[1];
-		}
-
-		return $ret;
-	}
-
-	$opt = parse_opt($argv);
-
-	$syncserver = $opt['s'];
-	$userid = $opt['u'];
+	$syncserver = $_GET['s'];
+	$userid = $_GET['u'];
 ?>
 
 <link rel="stylesheet" href="/theme/skin/simplicity/default/menu/purecss/css/style.css" type="text/css" />

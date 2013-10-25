@@ -50,9 +50,9 @@ function domainshow()
 
 	<FRAMESET frameborder=0 rows="93,*"  border=0>
 
-	<FRAME name=topframe src="/lbin/header.php" scrolling=no>
+	<FRAME name=topframe src="/theme/frame_top.php" scrolling=no>
 		<FRAMESET frameborder=0 cols="<?php echo $width?>,*" border=0>
-		<FRAME name=leftframe src='/theme/lbin/lpanel.php' <?php echo $scrollstring ?>  border=0>
+		<FRAME name=leftframe src='/theme/frame_left.php' <?php echo $scrollstring ?>  border=0>
 	<FRAME name=mainframe src="<?php echo $url ?>">
 	</FRAMESET>
 	</FRAMESET>
@@ -73,7 +73,7 @@ function generalshow()
 	<head>
 	<title> <?php echo $title ?> </title>
 	<FRAMESET frameborder=0 rows="98,*" border=0>
-	<FRAME name=top src="/header.php" scrolling=no border=0> 
+	<FRAME name=top src="/theme/frame_top.php" scrolling=no border=0> 
 	<FRAME name=mainframe src="/display.php?frm_action=update&frm_subaction=general&frm_ev_list=frm_emailid&frm_emessage=set_emailid">
 	</FRAMESET>
 	</head>

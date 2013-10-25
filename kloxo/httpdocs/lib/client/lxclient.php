@@ -524,7 +524,7 @@ abstract class Lxclient extends Lxdb
 		$special->setUpdateSubaction('switchhelp');
 		$login->was();
 		save_login();
-		$ghtml->print_redirect_left_panel("/theme/lbin/lpanel.php");
+		$ghtml->print_redirect_left_panel("/theme/frame_left.php");
 
 		return null;
 	}

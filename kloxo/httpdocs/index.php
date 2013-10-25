@@ -20,10 +20,10 @@ function domainshow()
 	$url = "a=show";
 	$url = $ghtml->getFullUrl($url);
 
-	if (lxfile_exists("theme/frame_header_vendor.php")) {
-		$file = "/theme/frame_header_vendor.php";
+	if (lxfile_exists("theme/frame_top_vendor.php")) {
+		$file = "/theme/frame_top_vendor.php";
 	} else {
-		$file = "/theme/frame_header.php";
+		$file = "/theme/frame_top.php";
 	}
 
 
@@ -87,7 +87,7 @@ function domainshow()
 if (!$sp->isOn('split_frame')) {
 ?>
 	<FRAMESET frameborder="0" cols="<?= $width ?>,*" border="0">
-	<FRAME name=leftframe src="/theme/frame_lpanel.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
+	<FRAME name=leftframe src="/theme/frame_left.php?lpanel_type=tree" <?= $scrollstring ?> border="0">
 <?php
 }
 
