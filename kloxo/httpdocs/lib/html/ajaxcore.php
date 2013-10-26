@@ -159,7 +159,7 @@ function __ajax_desc_list()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	$buttonpath = get_image_path("/button");
+	$buttonpath = get_image_path();
 
 	$object = $gbl->__c_object;
 	$description = $ghtml->getActionDetails("/display.php?{$ghtml->get_get_from_current_post(null)}", null, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
@@ -177,7 +177,7 @@ function __ajax_desc_addform()
 	global $gbl, $sgbl, $login, $ghtml; 
 	$object = $gbl->__c_object;
 	$ghtml->print_message();
-	$buttonpath = get_image_path("/button");
+	$buttonpath = get_image_path();
 	$description = $ghtml->getActionDetails("/display.php?{$ghtml->get_get_from_current_post(null)}", null, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
 	$img = "<img src={$image}>";
 	$class = $ghtml->frm_o_cname;
@@ -196,7 +196,7 @@ function __ajax_desc_updateform()
 	global $gbl, $sgbl, $login, $ghtml; 
 	$object = $gbl->__c_object;
 	$ghtml->print_message();
-	$buttonpath = get_image_path("/button");
+	$buttonpath = get_image_path();
 	$description = $ghtml->getActionDetails("/display.php?{$ghtml->get_get_from_current_post(null)}", null, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
 	$img = "<img src=$image>";
 	do_updateform($object, $ghtml->frm_subaction);

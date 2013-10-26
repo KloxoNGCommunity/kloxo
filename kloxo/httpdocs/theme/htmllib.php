@@ -3882,7 +3882,7 @@ class HtmlLib
 		}
 ?>
 
-		<div style="width: 100%; margin: 0 25px 0 25px;">
+		<div style="width: 910px; margin: 0 auto 0 auto;">
 			<fieldset
 				style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
 				<legend><span style='font-weight:bold'>Advanced Search <a
@@ -8728,7 +8728,9 @@ class HtmlLib
 		if ($skin_name !== 'simplicity') {
 			$func = "onLoad=\"lxLoadBody();\"";
 		} else {
-			$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/purecss/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
+		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/purecss/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
+		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/prodropdown/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
+			$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/menutemplate2/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
 		}
 
 		if ($sgbl->isBlackBackground()) {
@@ -8757,7 +8759,6 @@ class HtmlLib
 ?>
 <script type="text/javascript">
 <!--
-//	menu_load('/theme/menu/purecss/menu.php', 'menu_div');
 
 	function load_process(path, query, target) {
 		url = window.location.protocol + "//" + window.location.host + path + query;
@@ -8795,7 +8796,7 @@ class HtmlLib
 </script>
 
 		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38; box-shadow: 0 4px 4px 4px #cba">
-			<div id="menu_div" style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:40px; padding:10px 10px 0 10px; vertical-align:middle; box-shadow: 0 4px 4px 4px #cba"><? // include_once "theme/menu/purecss/menu.php" ?></div>
+			<div id="menu_div" style="width:960px; background-color: #38c; border: 0; margin:0px auto 0px auto; height:40px; padding:5px; vertical-align:middle; box-shadow: 0 4px 4px 4px #cba"><? // include_once "theme/menu/purecss/menu.php" ?></div>
 
 <script type="text/javascript">
 <!--
@@ -8810,7 +8811,10 @@ class HtmlLib
 //-->
 </script>
 
-	<div style="position:fixed; top: 3px; right: 3px"><input type="button" value="Show/Hide" style="padding: 0; border: 1px solid #ddd; height: 20px" onClick="toggle_wrapper('mmm');" /></div>
+	<div style="position:fixed; top: 3px; right: 3px"><!-- <input type="button" value="Show/Hide" style="padding: 0; border: 1px solid #ddd; height: 20px" onClick="toggle_wrapper('mmm');" /> -->
+			<a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 2px" 
+			onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" 
+			onMouseOut="this.style.backgroundColor='#c38'; this.style.color='#fff';">&nbsp;Show/Hide&nbsp;</div></a></div>
 
 		</div>
 

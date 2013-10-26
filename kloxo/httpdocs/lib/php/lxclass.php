@@ -94,6 +94,7 @@ abstract class Lxclass
 		if (!$readserver) {
 			$readserver = 'localhost';
 		}
+
 		$this->cttype = strtolower(get_class($this));
 		$this->nname = $key;
 		$this->__masterserver = $masterserver;
@@ -158,6 +159,7 @@ abstract class Lxclass
 		if ($syncclass) {
 			$this->__driverappclass = $syncclass;
 			$syncclass = $class . "__" . $syncclass;
+
 			if (class_exists($syncclass)) {
 				$this->driverApp = new $syncclass(null, null, $this->nname);
 				$this->driverApp->main = $this;
@@ -340,9 +342,6 @@ abstract class Lxclass
 
 	static function switchDriver($class, $old, $new)
 	{
-		//	exec_class_method("{$class}__$new", "installMe");
-		//	exec_class_method("{$class}__$old", "uninstallMe");
-
 		//MR -- must be change because problem with template-based web config
 		exec_class_method("{$class}__$old", "uninstallMe");
 		exec_class_method("{$class}__$new", "installMe");
@@ -545,6 +544,7 @@ abstract class Lxclass
 	{
 		$class = lget_class($this);
 		$r = new ReflectionClass($class);
+
 		// First pass to isolate teh _v_ variable
 		$ret = null;
 
@@ -570,6 +570,7 @@ abstract class Lxclass
 	final function initThisDef()
 	{
 		$class = lget_class($this);
+
 		// First pass to isolate teh _v_ variable
 		$list = $this->getVarDescrList();
 		$this->dbaction = 'add';
@@ -666,7 +667,7 @@ abstract class Lxclass
 			}
 		}
 
-		//print_time($this->get__table(), $this->get__table() . "jdflk");
+	//	print_time($this->get__table(), $this->get__table() . "jdflk");
 	}
 
 	final function isLocalhost($var = "syncserver")
@@ -745,7 +746,8 @@ abstract class Lxclass
 		foreach ((array)$this->__object_list as $variable) {
 			$objname = "{$variable}_o";
 			$obj = $this->$objname;
-			//  dprint("my parent: {$this->__parent_o->nname}\n");
+
+		//	dprint("my parent: {$this->__parent_o->nname}\n");
 
 			// Big hack. When restoring parent_o is getting lost...
 
@@ -904,7 +906,7 @@ abstract class Lxclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//dprint($this->cttype.  ' <br> ' . $type);
+	//	dprint($this->cttype.  ' <br> ' . $type);
 
 		if (!isset($sgbl->__var_cttype[$this->cttype])) {
 			return true;
@@ -924,7 +926,7 @@ abstract class Lxclass
 		}
 	}
 
-// Less than or equal to Admin...
+	// Less than or equal to Admin...
 
 	function isLteAdmin()
 	{
@@ -1334,8 +1336,6 @@ abstract class Lxclass
 
 		$list = $this->getBackupChildList();
 
-		//print("Loading {$this->get__table()} {$this->nname}\n");
-
 		dprint("I am : {$this->get__table()} {$this->nname}\n");
 
 		if ($this->extraBackup()) {
@@ -1354,6 +1354,7 @@ abstract class Lxclass
 				foreach ((array)$clist as $ch) {
 					$ch->__parent_o = $this;
 					print("Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'\n");
+
 				//	log_log("backup", "Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'");
 
 					if ($ch->parent_clname && !$ch->isRightParent()) {
@@ -1365,6 +1366,7 @@ abstract class Lxclass
 					$ch->loadBackupAll();
 				}
 			}
+
 			if (cse($c, "_o")) {
 				$cn = $this->getChildNameFromDes($c);
 
@@ -1414,7 +1416,8 @@ abstract class Lxclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//list($iclass, $mclass, $rclass) = get_composite($class);
+	//	list($iclass, $mclass, $rclass) = get_composite($class);
+
 		$rclass = $class;
 		$filtervar = "__hfilter_{$class}";
 
@@ -1430,7 +1433,7 @@ abstract class Lxclass
 			$filter = $login->getHPFilter($filtername);
 		}
 
-		//  dprint("hello: " . $filtername);
+	//	dprint("hello: " . $filtername);
 
 		if (!isset($filter['sortby'])) {
 			$filter['sortby'] = exec_class_method($rclass, "defaultSort");
@@ -1485,6 +1488,7 @@ abstract class Lxclass
 
 			return;
 		}
+
 		$this->hpfilter = $hpfilter;
 	}
 
@@ -1545,7 +1549,8 @@ abstract class Lxclass
 
 		$list = "{$class}_l";
 
-		//list($iclass, $mclass, $rclass) = get_composite($class);
+	//	list($iclass, $mclass, $rclass) = get_composite($class);
+
 		$rclass = $class;
 		$this->__list_list = array_push_unique($this->__list_list, $class);
 
@@ -1564,7 +1569,9 @@ abstract class Lxclass
 
 		if (($rule = exec_class_method($rclass, 'initThisListRule', $this, $class))) {
 			$query = $this->getDefaultQuery($class, $rule);
-			//  dprint(' <br> ' .$query . "<br> \n");
+
+		//	dprint(' <br> ' .$query . "<br> \n");
+
 			$filter = $this->getFilterForThis($class);
 			$string = exec_class_method($rclass, "getdbFilter", $filter, $class);
 
@@ -1583,7 +1590,9 @@ abstract class Lxclass
 			$table = $this->getTheTable($rclass);
 
 			print_time('count');
-			//$db->rawquery("begin;");
+
+		//	$db->rawquery("begin;");
+
 			$countres = $db->rawquery("select count(*) from {$table} {$countquery}");
 			if ($sgbl->__var_database_type === 'mysql') {
 				$countres = $countres[0]['count(*)'];
@@ -1619,15 +1628,15 @@ abstract class Lxclass
 			}
 
 			$res = $db->rawQuery($query);
-			//$db->rawquery("commit;");
-			//print_time('getdb', 'GetResult');
+		//	$db->rawquery("commit;");
+		//	print_time('getdb', 'GetResult');
 
 		} else {
 			$res = exec_class_method($rclass, 'initThisList', $this, $class);
 			$countres = count($res);
 		}
 
-		//  $this->ApplyFilter($res);
+	//	$this->ApplyFilter($res);
 
 		$this->setListFromArray($this->__masterserver, $this->__readserver, $class, $res);
 
@@ -1679,66 +1688,8 @@ abstract class Lxclass
 
 	function getClName()
 	{
-		//return "{$this->get__table()}_s_vv_p_{$this->nname}";
 		return "{$this->get__table()}-{$this->nname}";
 	}
-
-	/*
-	function __get($var)
-	{
-		global $gbl, $sgbl, $login, $ghtml; 
-	
-		 This is absurd. At least set also should trigger it. Otherwise variables will get overwritten after they are set. What the fuck....
-		if (isset($this->__dbvar)) {
-			$this->setFromArray($this->__dbvar);
-			unset($this->__dbvar);
-		}
-	
-		if (isset($this->$var)) {
-			return $this->$var;
-		}
-		if ($var === 'cttype') {
-			return lget_class($this);
-		}
-	
-		$string = backtrace_once();
-		if ($string) {
-			dprint("\n\n<br> <br> <b> Non Existent: </b> {$this->get__table()}:$this->nname $var ");
-			dprintr("Backtrace: $string<br><br>\n \n");
-		} else {
-			dprint(" Non Existent: {$this->get__table()}:$this->nname $var <br> ");
-		}
-	
-		//debugBacktrace();
-		return null;
-	}
-	*/
-	/*
-	
-	function __set($var, $val)
-	{
-		print("$var $val");
-		$this->$var = $val;
-	}
-	
-	function __get($var)
-	{
-		if (preg_match("/_o$/i", $var)) {
-			$class = preg_replace("/_o$/i", "", $var);
-			dprint("Class: $class", 2);
-		$this->initObjectIfUndef($class);
-		return $this->$var;
-	}
-	if (preg_match("/_l$/i", $var)) {
-		$class = preg_replace("/_l$/i", "", $var);
-		$this->initListIfUndef($class);
-		return $this->$var;
-	}
-	
-	return $this->$var;
-	}
-	
-	*/
 
 	final protected function setListFromArray($masterserver, $readserver, $class, $result, $force = false)
 	{
@@ -1891,7 +1842,7 @@ abstract class Lxclass
 
 		$list = "{$class}_l";
 
-		//  $this->initListIfUndef($class);
+	//	$this->initListIfUndef($class);
 
 		if (!isset($this->$list)) {
 			$this->$list = null;
@@ -2067,7 +2018,7 @@ abstract class Lxclass
 
 	function getTrueParentO()
 	{
-		//  dprint("Class: . " . $this->get__table() . "<br> ");
+	//	dprint("Class: . " . $this->get__table() . "<br> ");
 
 		// DOn't pointlessly load objects from the db.
 		if ($this->__parent_o && is_object($this->__parent_o) && ($this->__parent_o->getClName() === $this->parent_clname)) {
@@ -2119,7 +2070,7 @@ abstract class Lxclass
 
 		if (!$this->parent_clname) {
 			dprint("$this->nname doesn't have parent_clname\n");
-			//dprintr($this);
+
 			return null;
 		}
 
@@ -2195,7 +2146,10 @@ abstract class Lxclass
 			return $this->{$class}[$name];
 		}
 
-		// A small hack.. If asked for the same object, return ourselves. This is the best way to do it.. I think this does not really break teh conceptual integrity. Every object must have itself as a virtual entity. Even if it is not there in the list, it should be gettable.... The only question is the uniqueness. BUt our model of unique nname makes sure of that too...
+		// A small hack.. If asked for the same object, return ourselves. This is the best way to do it.. 
+		// I think this does not really break teh conceptual integrity. Every object must have itself as a virtual entity. 
+		// Even if it is not there in the list, it should be gettable.... The only question is the uniqueness. 
+		// BUt our model of unique nname makes sure of that too...
 		if (($class === lget_class($this)) && $name === $this->nname) {
 			return $this;
 		}
@@ -2217,7 +2171,7 @@ abstract class Lxclass
 
 		if (!isset($this->$list)) {
 			$this->$list = null;
-			//throw new lxexception ("The " . get_class($this) . ":$list is NULL ");
+		//	throw new lxexception ("The " . get_class($this) . ":$list is NULL ");
 		}
 
 		// Very important. If it is already set, then don't ever load it from the database.
@@ -2262,7 +2216,7 @@ abstract class Lxclass
 
 			if (!$this->$list) {
 				$this->$list = null;
-				//throw new lxexception ("The " . get_class($this) . ":$list is NULL ");
+			//	throw new lxexception ("The " . get_class($this) . ":$list is NULL ");
 			}
 		}
 
@@ -2281,7 +2235,6 @@ abstract class Lxclass
 
 	final function hasExceededQuota($var)
 	{
-
 		if ($this->priv->$var === "Unlimited" || $this->used->$var < $this->priv->$var) {
 			return false;
 		} else {
@@ -2333,7 +2286,6 @@ abstract class Lxclass
 		return $planlist;
 	}
 
-
 	static function canGetSingle()
 	{
 		return false;
@@ -2342,6 +2294,7 @@ abstract class Lxclass
 	function isSingleObject($class)
 	{
 		$v = "__desc_{$class}_o";
+
 		return get_class_variable($this->getClass(), $v);
 	}
 
@@ -2375,7 +2328,6 @@ abstract class Lxclass
 		$desc = "{$class}_{$type}";
 
 		if (!get_classvar_description($this->get__table(), $desc)) {
-			dprint("\n");
 			dprint("<b> Trying to init a nondescribed Class {$class} as {$type} in {$this->get__table()}: {$this->nname} <br> ");
 		}
 	}
@@ -2386,7 +2338,7 @@ abstract class Lxclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//list($iclass, $mclass, $rclass) = get_composite($class);
+	//	list($iclass, $mclass, $rclass) = get_composite($class);
 		$rclass = $class;
 
 		if (!cse($class, "_a")) {
@@ -3146,17 +3098,6 @@ abstract class Lxclass
 			}
 		}
 
-		/*
-			// It is very wrong to play with nname. Instead you shoudl just use some other variable.
-			if ($var === "nname") {
-				if (csa($this->nname, "_s_vv_p_")) {
-					return strfrom($this->nname, "_s_vv_p_");
-				} else {
-					return $this->nname;
-				}
-			}
-		*/
-
 		if ($var === "ddate" || $var === 'date_modified') {
 			return " " . lxgettime($this->$var) . "";
 		}
@@ -3464,15 +3405,6 @@ abstract class Lxclass
 
 	final protected function writeAndSyncChildren()
 	{
-		/*
-			dprint("In Write Children: ", 2);
-			dprint_r($this->__object_list, 2);
-			dprint_r($this->__list_list, 2);
-			dprint("Class: " . get_class($this) . " Object: " . $this->nname . " Dbaction:" . $this->dbaction, 2);
-			dprint("<br> ", 2);
-			flush();
-		*/
-
 		foreach ((array)$this->__list_list as $variable) {
 			$this->writeAChildList($variable, 1);
 		}
@@ -3714,11 +3646,6 @@ abstract class Lxclass
 
 		$newparent = getFromAny($rparent, 'client', $param['parent_name_change']);
 
-		/*
-			if (!$this->checkIfEnoughParentQuotaAll($newparent)) {
-				throw new lxexception('not_enough_quota_in_parent', 'quota');
-			}
-		*/
 		// Get the objectlist BEFORE you change the parent.
 
 		$this->__old_parent_name = $this->parent_clname;
@@ -4101,39 +4028,14 @@ abstract class Lxclass
 			return null;
 		}
 
-		// the variable below is created inside the navigation creation system. We have the whole parent list, so no need to find it using the reverse walk from the child.
+		// the variable below is created inside the navigation creation system. We have the whole parent list, 
+		// so no need to find it using the reverse walk from the child.
 		if (!isset($gbl->__self_list_parent)) {
 			return;
 		}
 
 		$parent = $gbl->__self_list_parent;
 		$class = $gbl->__self_list_class;
-
-		/// The below method is wrong. It goes back from the child to find the parent, and get the list of its siblings. The correct way is to get the parent from the url. The reason is that there are virtual objects, which have a different parent than the one who is holding it now.
-		/*
-			`$object = $this;
-			while (1) {
-				$class = $object->get__table();
-				$listvar = $class . "_l";
-				$parent =  $object->getParentO();
-	
-				if (!$parent) {
-					$parent = $object;
-					return null;
-				}
-	
-				$list = $parent->getVarDescrList(0);
-	
-				if (isset($list[$listvar])) {
-					break;
-				}
-		
-				if ($parent->isLogin()) {
-					return null;
-				}
-				$object = $parent;
-			}
-		*/
 
 		if (!$parent) {
 			return null;
@@ -4222,8 +4124,8 @@ abstract class Lxclass
 			$vlist['cpstatus'] = 1;
 		}
 
-		//  $vlist['status'] = 1;
-		//  $vlist['state'] = 1;
+	//	$vlist['status'] = 1;
+	//	$vlist['state'] = 1;
 		return $vlist;
 	}
 
@@ -4422,21 +4324,13 @@ abstract class Lxclass
 		if (!$qp->getParentO()) {
 			return;
 		}
-		/*	
-			  $qv = $this->getQuotaVariableList();
-			
-			  if (!$qv) {
-				  return;
-			  }
-			
-			dprint(" <b> Before Mailaccount Num: {$login->used->mailaccount_num} </b> <br> \n");
-		*/
+
 		while (($qp = $qp->getParentO())) {
 			dprint(" Changin {$this->get__table()}: {$this->nname}... {$qp->get__table()} {$qp->nname} </b><br> ");
 			$this->changeUsedFromParent($qp, $flag);
 		}
 
-		//  dprint(" <b> After  Mailaccount Num: {$login->used->mailaccount_num} </b> <br> \n");
+	//	dprint(" <b> After  Mailaccount Num: {$login->used->mailaccount_num} </b> <br> \n");
 	}
 
 	function getResourceIdentity() { return $this->getClass(); }
@@ -4460,39 +4354,6 @@ abstract class Lxclass
 			dprint("<b> IN change used ... quota variable specific {$qp->getClname()} {$class} {$this->nname} <br> </b><br>\n ");
 			//dprintr($qp->used);
 		}
-
-		/*
-			$list = $qp->getQuotaVariableList();
-	
-			foreach($list as $l => $v) {
-				if (csb($l, "{$class}_m_")) {
-					$license = strtil(strfrom($l, "_n_"), "_num");
-					$licvar = strtil(strfrom($l, "_m_"), "_n_");
-		
-					if ($this->$licvar === $license) {
-						$qp->used->$l += $val;
-						$doupdate = true;
-					}
-				}
-			}
-		*/
-
-		// This is not needed. When you add or delete something, just remove its number from the parent. 
-		// Reducing the usages seem to cause lots of problem.
-		/*
-			$qv = $this->getQuotaVariableList();
-			foreach((array) $qv as $k => $v) {
-				if (cse($k, "_time") || cse($k, "_flag") || cse($k, "_num")) {
-					continue;
-				}
-		
-				if (isset($this->used)) {
-					$rv = $flag * $this->used->$k;
-					$qp->used->$k += $rv;
-					$doupdate = true;
-				}
-			}
-		*/
 
 		if ($doupdate) {
 			dprint("<b> Warning Change Used From Parent... {$qp->getClname()} {$class} {$this->nname} <br> </b><br>\n ");
@@ -4568,6 +4429,7 @@ abstract class Lxclass
 	function updateLimit($param)
 	{
 		if_demo_throw_exception('limit');
+
 		log_log("ajax", var_export($param, true));
 
 		global $gbl, $sgbl, $login, $ghtml;
@@ -4611,6 +4473,7 @@ abstract class Lxclass
 	function updateEnable($param, $reason = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		// property access.... 
 
 		if (!isset($this->disable_reason)) {
@@ -4681,15 +4544,6 @@ abstract class Lxclass
 		}
 
 		$res = $this->collectVariableQuota($vlist);
-
-		/*
-			foreach($res as $k => $v) {
-				if (!cse($k, "_flag")) {
-					$this->used->$k = $res[$k];
-				}
-			}
-		*/
-		//  dprintr($this->used . "\n");
 
 		$this->setUpdateSubaction('collectquotaupdate');
 
@@ -4767,8 +4621,6 @@ abstract class Lxclass
 
 		$totalchildlist = $this->getChildList();
 
-		//  dprintr($cnlist);
-
 		foreach ($vlist as $var => $val) {
 			if (!$this->isQuotaVariable($var)) {
 				continue;
@@ -4787,14 +4639,11 @@ abstract class Lxclass
 				$cvar = strtil($var, "_num");
 				$listvar = $cvar . "_l";
 
-				//  dprint(" before {$this->nname} {$var} \n");
-
 				if (array_search_bool($listvar, $totalchildlist)) {
 					$childlist = $this->getList($cvar);
 
 					if (!$this->isVirtual($cvar)) {
 						$num = $this->countRightParent($childlist);
-						//  dprint(" {$this->nname}  {$var}  {$num} \n");
 						$fv[$var] = $num;
 					}
 				}
@@ -4817,14 +4666,16 @@ abstract class Lxclass
 			} else if (cse($c, "_l")) {
 				$name = $this->getChildNameFromDes($c);
 				$list = $this->getList($name);
+
 				if (!$this->isVirtual($name)) {
 					foreach ((array)$list as $l) {
 						$res = $l->collectVariableQuota($vlist);
+
 						foreach ($res as $var => $v) {
 							if (cse($var, "_flag")) {
 								continue;
 							}
-							//dprint("Collected  {$this->nname}   {$var}  {$v} \n");
+
 							$fv[$var] += $v;
 						}
 					}
@@ -4848,7 +4699,7 @@ abstract class Lxclass
 		}
 
 		if ($this->isClass('domaina') && $this->nname === 'boxtrapper.com') {
-			//dprintr($fv);
+			//
 		}
 
 		$rexceeded = false;
@@ -4867,19 +4718,6 @@ abstract class Lxclass
 				continue;
 			}
 
-			/* 
-				// never Happens. Only Priv is no checked for flag...
-				if (cse($var, "_flag")) {
-					// Thi is also done in distributeChildQuota.
-					if (!$this->priv->isOn($var) && $this->used->isOn($var)) {
-						print("In {$this->nname} {$var} is enabled and limit is disabled , Disabling.\n");
-						$this->used->$var = 'off';
-						$this->setUpdateSubaction("enable_{$var}");
-					}
-			
-					continue;
-				}
-			*/
 			print("In {$this->getClName()} {$var} equals {$v} and limit is {$this->priv->$var}\n");
 
 			if ($this->used->$var != $v) {
@@ -4896,8 +4734,6 @@ abstract class Lxclass
 				} else {
 					$exce = 95;
 				}
-
-				//  dprint("In {$this->nname} per is {$per}... {$general->dpercentage}\n");
 
 				if ($per > $exce) {
 					$this->state = 'exceed';
@@ -5293,7 +5129,8 @@ abstract class Lxclass
 			//if ($gbl) { $gbl->c_session->write(); }
 
 			$driverapp = $gbl->getSyncClass(null, $this->syncserver, $this->get__table());
-			$res = rl_exec_get($this->__masterserver, $this->syncserver, array("{$this->get__table()}__{$driverapp}", "execCommand"), array($this->iid, $this->ccenter_command));
+			$res = rl_exec_get($this->__masterserver, $this->syncserver, array("{$this->get__table()}__{$driverapp}", 
+				"execCommand"), array($this->iid, $this->ccenter_command));
 
 			$this->ccenter_output = $res['output'];
 			$this->ccenter_error = $res['error'];
@@ -5335,7 +5172,6 @@ abstract class Lxclass
 		$obj = new $class($this->__masterserver, null, $this->getClName());
 		$obj->get();
 
-		//$this->addObject($class, $obj);
 		$this->$objectname = $obj;
 		$obj->$bname->__parent_o = $this;
 
@@ -5512,7 +5348,7 @@ abstract class Lxclass
 		slow_print($bfile);
 		flush();
 
-		@ lunlink($bfile);
+		lunlink($bfile);
 
 		exit;
 	}
@@ -5682,8 +5518,6 @@ abstract class Lxclass
 			$rem = getObjectFromFileWithThrow($file);
 			$ob = $rem->bobject;
 		}
-
-	//	dprint($ob->getClName()); dprint($this->getClName());
 
 		if ($ob->getClName() !== $this->getClName()) {
 			throw new lxException('objectclassname_doesnt_match', '');
@@ -5993,7 +5827,8 @@ abstract class Lxclass
 
 		foreach ((array)$vl as $k => $v) {
 			if ($this->isQuotaVariable($k)) {
-				// Need to put all the flag variables, which are actually checkboxes at the end. Mixing them up seem to screw up Ie, especially when adding domains.
+				// Need to put all the flag variables, which are actually checkboxes at the end. Mixing them up seem to screw up Ie, 
+				// especially when adding domains.
 				if (cse($k, "_flag")) {
 					$vlist_flag[$k] = array();
 				} else {
@@ -6001,8 +5836,6 @@ abstract class Lxclass
 				}
 			}
 		}
-
-		//  dprintr($vlist);
 
 		if (isset($vlist_flag)) {
 			$vlist = lx_array_merge(array($vlist, $vlist_flag));
@@ -6029,8 +5862,6 @@ abstract class Lxclass
 				}
 			}
 		}
-
-		//  dprintr($vlist);
 
 		return $vlist;
 	}

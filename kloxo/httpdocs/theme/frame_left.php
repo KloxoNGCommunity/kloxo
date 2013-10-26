@@ -53,7 +53,7 @@ function print_ext_tree($object)
 	$icondir = get_image_path();
 	$icon = "$icondir/{$object->getClass()}_list.gif";
 
-	?>
+?>
 	<script>
 		Ext.onReady(function () {
 			// shorthand
@@ -267,7 +267,6 @@ function print_ext_tree($object)
 <?php
 					}
 
-				//	$forumurl = "http://forum.lxcenter.org";
 					$forumurl = "http://forum.mratwork.com";
 
 					if (!$login->isAdmin() && isset($login->getObject('general')->generalmisc_b->forumurl)) {

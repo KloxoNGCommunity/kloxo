@@ -28,9 +28,9 @@ ul.pureCssMenu,ul.pureCssMenu ul {
 	padding:0 1px 1px 0;
 	background-color:#aaa;
 	background-repeat:repeat;
-	/* border-color:#eff;
+	border-color:#eff;
 	border-width:0;
-	border-style:solid; */
+	border-style:solid;
 }
 
 ul.pureCssMenu table {
@@ -66,7 +66,6 @@ ul.pureCssMenu a,ul.pureCssMenu li.dis a:hover,ul.pureCssMenu li.sep a:hover {
 	padding:5px;
 	_padding-left:0;
 	color:#000;
-	text-decoration:none;
 	cursor:pointer;
 }
 
@@ -100,8 +99,8 @@ ul.pureCssMenu li.sep span {
 	width:3;
 	height:100%;
 	display:inline-block;
-	/* background-color:#aaa;
-	background-image:none; */
+	background-color:#aaa;
+	background-image:none;
 }
 
 ul.pureCssMenu ul li.sep span {
@@ -115,8 +114,8 @@ ul.pureCssMenu li:hover {
 
 ul.pureCssMenu li:hover >a {
 	background-color:#f22;
-	/* border-color:#eff;
-	border-style:solid; */
+	border-color:#eff;
+	border-style:solid;
 	color:#fff;
 	text-decoration:none;
 }
@@ -124,14 +123,14 @@ ul.pureCssMenu li:hover >a {
 ul.pureCssMenu li a:hover {
 	position:relative;
 	background-color:#f22;
-	/* border-color:#eff;
-	border-style:solid; */
+	border-color:#eff;
+	border-style:solid;
 	color:#fff;
 	text-decoration:none;
 }
 
 ul.pureCssMenu li.dis a {
-	color:#ccc !important;
+	/* color:#ccc !important; */
 }
 
 ul.pureCssMenu img {
