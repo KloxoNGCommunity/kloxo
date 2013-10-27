@@ -236,7 +236,8 @@ class all_mailinglist extends mailinglist
 
 	static function createListAlist($parent, $class)
 	{
-		return all_mailaccount::createListAlist($parent, $class);
+	//	return all_mailaccount::createListAlist($parent, $class);
+		return all_domain::createListAlist($parent, $class);
 	}
 
 	static function initThisListRule($parent, $class)

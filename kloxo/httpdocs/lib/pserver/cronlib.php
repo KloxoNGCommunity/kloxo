@@ -104,7 +104,7 @@ class Cron extends Lxdb
 		$this->__var_user_list = $userlist[0];
 	}
 
-	static function  createListNlist($parent, $view)
+	static function createListNlist($parent, $view)
 	{
 		//$nlist["nname"] = "5%";
 		//$nlist["minute"] = "5%";
@@ -413,7 +413,8 @@ class all_cron extends cron
 
 	static function createListAlist($parent, $class)
 	{
-		return all_mailaccount::createListAlist($parent, $class);
+	//	return all_mailaccount::createListAlist($parent, $class);
+		return all_domain::createListAlist($parent, $class);
 	}
 
 	static function initThisListRule($parent, $class)

@@ -39,7 +39,8 @@
 {
 	border-color:#DDD;
 	border-top:2px solid #B00;
-	border-bottom:1px solid #DDD;
+	/* border-bottom:1px solid #DDD; */
+	border-bottom:2px solid #B00;
 }
 .menuTemplate2 a
 {
@@ -96,6 +97,7 @@
 	text-align: left;
 	padding: 20px;  
 	top:31px;
+	border-top:2px solid #B00;
 }
 
 .menuTemplate2 .drop a

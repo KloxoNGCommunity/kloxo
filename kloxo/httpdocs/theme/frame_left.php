@@ -102,15 +102,12 @@ function print_ext_tree($object)
 		<script type='text/javascript' src='/theme/js/tabs-example.js'></script>
 
 		<div style='background-color:#ffffff' id="tabs1">
-			<div id="script"
-			     style="overflow:hidden; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;"
-			     class="tab-content">
+			<div id="script" style="overflow:hidden; height:100%;width:218px;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;" class="tab-content">
 				<br />
 				<?= xp_panel($login); ?>
 			</div>
 			<div id="markup" class="tab-content">
-				<div id="tree-div"
-				     style="overflow:auto; height:100%;width:218px;;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;">
+				<div id="tree-div" style="overflow:auto; height:100%;width:218px;;border-bottom:1px solid #c3daf9; border-right:1px solid #c3daf9;">
 				</div>
 			</div>
 		</div>

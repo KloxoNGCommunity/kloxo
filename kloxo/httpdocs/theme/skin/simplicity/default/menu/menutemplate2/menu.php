@@ -38,32 +38,34 @@
 				<b>Help Desk</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=ticket">Tickets</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=ticket">Add Ticket</a>
+					<a href="/display.php?frm_action=addform&frm_o_cname=ticket">Add Ticket</a><br/>
+					<a href="/display.php?frm_action=updateform&frm_subaction=ticketconfig&frm_o_o[0][class]=ticketconfig">Configuration</a><br/>
+					<a href="/display.php?frm_action=list&frm_o_o[0][class]=general&frm_o_cname=helpdeskcategory_a">Category</a>
 				</div>
+			</div>
+			<div class='left rightborder'>
 				<b>Message</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=smessage">Messages</a><br/>
 					<a href="/display.php?frm_action=addform&frm_o_cname=smessage">Add Message</a>
 				</div>
-			</div>
-			<div class='left rightborder'>
 				<b>Custom Button</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=custombutton">Custom Buttons</a><br/>
 					<a href="/display.php?frm_action=addform&frm_o_cname=custombutton">Add Custom Button</a>
 				</div>
-				<b>Dns</b>
+				<b>Reverse Dns</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=reversedns">Reverse Dns</a><br/>
 					<a href="/display.php?frm_action=updateform&frm_subaction=reversedns&frm_o_o[0][class]=general">Dns Config</a>
 				</div>
+			</div>
+			<div class='left'>
 				<b>Update</b>
 				<div>
 					<a href="/display.php?frm_action=show&frm_o_o[0][class]=lxupdate">Update Home</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_o[0][class]=lxupdate&frm_o_cname=releasenote">Release Notes</a>
 				</div>
-			</div>
-			<div class='left'>
 				<b>Other</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=actionlog">Action Log</a><br/>
@@ -268,9 +270,9 @@
 			<div class='left rightborder'>
 				<b>Domain</b>
 				<div>
-					<a href="/display.php?frm_action=show&frm_o_o[0][class]=ffile&frm_o_o[0][nname]=/">Default Domain</a><br/>
-					<a href="/display.php?frm_action=list&frm_o_cname=domain">Add Domain</a><br/>
-					<a href="/display.php?frm_action=list&frm_o_cname=subdomain">Add Subdomain</a><br/>
+					<a href="/display.php?frm_action=list&frm_o_cname=domain">Domains</a><br/>
+					<a href="/display.php?frm_action=list&frm_o_cname=subdomain">Subdomains</a><br/>
+					<a href="/display.php?frm_action=updateform&frm_subaction=default_domain">Default Domain</a><br/>
 				</div>
 				<b>Ftp User</b>
 				<div>
@@ -285,7 +287,7 @@
 			<div class='left rightborder'>
 				<b>Database</b>
 				<div>
-					<a href="/display.php?frm_action=list&frm_o_cname=ftpuser">MySQL Databases</a><br/>
+					<a href="/display.php?frm_action=list&frm_o_cname=mysqldb">MySQL Databases</a><br/>
 					<a href="/display.php?frm_action=addform&frm_o_cname=mysqldb">Add MySQL Database</a><br/>
 				</div>
 				<b>Client</b>

@@ -423,12 +423,15 @@ class HtmlLib
 				if (!isset($ret[$k])) {
 					continue;
 				}
+
 				$nret[$k] = $ret[$k];
 				$nret[$k]['open'] = $v;
 			}
 
-			foreach ($ret as $k => $v) if (!isset($nret[$k])) {
-				$nret[$k] = $ret[$k];
+			foreach ($ret as $k => $v) {
+				if (!isset($nret[$k])) {
+					$nret[$k] = $ret[$k];
+				}
 			}
 		} else {
 			$nret = $ret;
@@ -1661,18 +1664,13 @@ class HtmlLib
 
 				<div id="item_<?= $nametitle ?>" class="section" style="overflow: hidden">
 					<table cellpadding=0 cellspacing=0>
-						<tr class=handle id="handle_<?= $nametitle ?>"
-						    style="background:#efe8e0 url(<?= $backgimage ?>)"
+						<tr class=handle id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)"
 						    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'"
 						    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'">
-							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?> </span>
-							</td>
-							<td width=100% style="cursor: move; " align=center><span
-									style='font-weight: bold'><?= $a[$title] ?></span></td>
-							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'> &nbsp;<?= $dragstring ?> </span>
-							</td>
-							<td class=handle style='cursor: pointer'
-							    onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
+							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?> </span></td>
+							<td width=100% style="cursor: move; " align=center><span style='font-weight: bold'><?= $a[$title] ?></span></td>
+							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'> &nbsp;<?= $dragstring ?> </span>	</td>
+							<td class=handle style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
 								<img id=img_<?= $nametitle ?> name=img_<?= $nametitle ?> src=<?= $minus ?>></td>
 						</tr>
 					</table>
@@ -3561,12 +3559,12 @@ class HtmlLib
 			// MR -- need extra this code for non '/display.php'
 			// use 'selectshow' not work for filemanager
 		//	if ($this->frm_action === 'selectshow') {
-			if (strpos($path, "display.php") !== false) {
-				$path = $path . "?" . $this->get_get_from_post(null, $post);
+			if (strpos($url, "display.php") !== false) {
+				$url = $url . "?" . $this->get_get_from_post(null, $post);
 			}
 ?>
 
-					<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $path ?>"> <?= $pname ?> </a> </span>
+					<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $url ?>"> <?= $pname ?> </a> </span>
 			</td>
 <?php
 
@@ -3798,7 +3796,7 @@ class HtmlLib
 			</tr>
 		</table> -->
 
-		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>">
+		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
 			<!-- <table width="100%" border="0" cellpadding=0 style="border: 0 solid">
 				<tr>
 					<td width="10"> &nbsp; </td>
@@ -3892,10 +3890,10 @@ class HtmlLib
 			</fieldset>
 		</div>
 
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<!-- <table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td>
-					<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>'>
+				<td> -->
+					<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto'>
 						<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>"
 						      onsubmit="return true;" accept-charset="utf-8">
 							<table width=100% border=0 align="center" cellpadding=0
@@ -4019,9 +4017,9 @@ class HtmlLib
 							</table>
 						</form>
 					</div>
-				</td>
+				<!-- </td>
 			</tr>
-		</table>
+		</table> -->
 
 <?php
 
@@ -8759,11 +8757,11 @@ class HtmlLib
 ?>
 <script type="text/javascript">
 <!--
-
 	function load_process(path, query, target) {
 		url = window.location.protocol + "//" + window.location.host + path + query;
 
-		document.getElementById(target).innerHTML = ' Fetching data...';
+	//	document.getElementById(target).innerHTML = ' Fetching data...';
+		document.getElementById(target).innerHTML = '<span style="color:#fff;">Wait for menu loading...</span>';
 
 		if (window.XMLHttpRequest) {
 			req = new XMLHttpRequest();
@@ -8796,7 +8794,7 @@ class HtmlLib
 </script>
 
 		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38; box-shadow: 0 4px 4px 4px #cba">
-			<div id="menu_div" style="width:960px; background-color: #38c; border: 0; margin:0px auto 0px auto; height:40px; padding:5px; vertical-align:middle; box-shadow: 0 4px 4px 4px #cba"><? // include_once "theme/menu/purecss/menu.php" ?></div>
+			<div id="menu_div" style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:40px; padding:5px; vertical-align:middle; box-shadow: 0 4px 4px 4px #cba"><? // include_once "theme/menu/purecss/menu.php" ?></div>
 
 <script type="text/javascript">
 <!--
@@ -8811,8 +8809,7 @@ class HtmlLib
 //-->
 </script>
 
-	<div style="position:fixed; top: 3px; right: 3px"><!-- <input type="button" value="Show/Hide" style="padding: 0; border: 1px solid #ddd; height: 20px" onClick="toggle_wrapper('mmm');" /> -->
-			<a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 2px" 
+	<div style="position:fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 2px" 
 			onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" 
 			onMouseOut="this.style.backgroundColor='#c38'; this.style.color='#fff';">&nbsp;Show/Hide&nbsp;</div></a></div>
 

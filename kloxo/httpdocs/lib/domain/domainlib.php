@@ -1,12 +1,11 @@
 <?php
 
-
 class Domaind extends DomainBase
 {
-// Core
+	// Core
 	static $__table = "domain";
 
-// Mysql
+	// Mysql
 	static $__desc_status = array("e", "", "s:status");
 	static $__desc_status_v_on = array("", "", "enabled");
 	static $__desc_status_v_off = array("", "", "disabled");
@@ -45,7 +44,7 @@ class Domaind extends DomainBase
 	static $__desc_dnspserver = array("", "", "dns_server");
 	static $__desc_secdnspserver = array("", "", "sec_dns_server");
 
-/// Fake Variables
+	// Fake Variables
 	static $__desc_send_welcome_f = array("f", "", "send_welcome_message");
 	static $__desc_use_resourceplan_f = array("f", "", "use_template");
 	static $__desc_resourceplan_f = array("s", "", "plan_name");
@@ -71,13 +70,13 @@ class Domaind extends DomainBase
 	static $__acdesc_show = array("", "", "domain_home");
 	static $__acdesc_update_show_stats = array("", "", "show_stats");
 
-// Objects
+	// Objects
 	static $__desc_web_o = array('qdtb', '', '', '');
 	static $__desc_dns_o = array('qdb', '', '', '');
 	static $__desc_mmail_o = array('qdtb', '', '', '');
 //	static $__desc_lxbackup_o = array('d', '', '', '');
 
-// Lists
+	// Lists
 //	static $__desc_domain_l = array("qvd", "",  "virtual_object");
 	static $__desc_domaintraffic_l = array("d", "", "");
 	static $__desc_addondomain_l = array("qdb", "", "");
@@ -237,33 +236,27 @@ class Domaind extends DomainBase
 	function getStubUrl($name)
 	{
 		if ($name == '__stub_domain_view_url') {
-			return create_simpleObject(array('url' => "http://[%s]", 'purl' => 'c=domain&a=updateform&sa=view', 
-					'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "http://[%s]", 'purl' => 'c=domain&a=updateform&sa=view', 'target' => "target=_blank"));
 		}
 
 		if ($name === '__stub_domain_preview_url') {
-			return create_simpleObject(array('url' => "/sitepreview/[%s]", 
-					'purl' => 'c=domain&a=updateform&sa=site_preview', 'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "/sitepreview/[%s]", 'purl' => 'c=domain&a=updateform&sa=site_preview', 'target' => "target=_blank"));
 		}
 
 		if ($name === '__stub_domain_webmail') {
-			return create_simpleObject(array('url' => "http://webmail.[%s]", 
-					'purl' => 'c=mailaccount&a=updateform&sa=webmail', 'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "http://webmail.[%s]", 'purl' => 'c=mailaccount&a=updateform&sa=webmail', 'target' => "target=_blank"));
 		}
 		
 		if ($name === '__stub_domain_stats') {
-			return create_simpleObject(array('url' => "http://[%s]/stats/", 
-					'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "http://[%s]/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target=_blank"));
 		}
 
 		if ($name === '__stub_domain_awstats') {
-			return create_simpleObject(array('url' => "http://[%s]/awstats/awstats.pl?config=[%s]", 
-					'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "http://[%s]/awstats/awstats.pl?config=[%s]", 'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target=_blank"));
 		}
 		
 		if ($name === '__stub_check_dns') {
-			return create_simpleObject(array('url' => "http://intodns.com/[%s]", 
-					'purl' => 'c=domain&a=updateform&sa=check_dns', 'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "http://intodns.com/[%s]", 'purl' => 'c=domain&a=updateform&sa=check_dns', 'target' => "target=_blank"));
 		}
 	}
 
@@ -297,8 +290,9 @@ class Domaind extends DomainBase
 
 	function deleteSpecific()
 	{
-		//$this->notifyObjects('delete');
-		//lxfile_rm_rec("__path_program_home/domain/$this->nname/");
+	//	$this->notifyObjects('delete');
+	//	lxfile_rm_rec("__path_program_home/domain/$this->nname/");
+
 		$ftplist = $this->getParentO()->getList('ftpuser');
 
 		foreach ($ftplist as $k => $v) {
@@ -340,7 +334,12 @@ class Domaind extends DomainBase
 
 		$alist[] = "a=list&c=domain";
 		$alist[] = "a=list&c=subdomain";
+
+		// MR -- just try add this!
+	//	$alist[] = "a=updateform&sa=default_domain";
+
 		$alist[] = "a=list&c=mailaccount";
+
 		$alist[] = "o=sp_specialplay&a=updateform&sa=skin";
 		
 		return $alist;
@@ -386,8 +385,8 @@ class Domaind extends DomainBase
 
 
 /*
-// This is needed only for subdomains... 
-// For subdomains, the parent would be domain while for the normal domains, the parent is client.
+	// This is needed only for subdomains... 
+	// For subdomains, the parent would be domain while for the normal domains, the parent is client.
 
 	static function initThisList($parent, $class)
 	{
@@ -443,14 +442,13 @@ class Domaind extends DomainBase
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//$name_list["state"] = "3%";
+	//	$name_list["state"] = "3%";
 		$name_list["status"] = "3%";
 		$name_list["dtype"] = "3%";
 
 		if ($login->isAdmin() || $login->priv->isON('can_manage_dns')) {
 			$name_list["abutton_show_s_dns"] = "3%";
 		}
-
 
 		$name_list["abutton_list_s_domaintraffichistory"] = "3%";
 
@@ -483,8 +481,8 @@ class Domaind extends DomainBase
 		$name_list["ddate"] = "20%";
 		$name_list["docroot"] = "20%";
 		$name_list["traffic_usage"] = "5%";
-		//$name_list["totaldisk_usage"] = "5%";
-		//$name_list["domain_num"] = "3%";
+	//	$name_list["totaldisk_usage"] = "5%";
+	//	$name_list["domain_num"] = "3%";
 		
 		return $name_list;
 	}
@@ -508,6 +506,7 @@ class Domaind extends DomainBase
 	function getQuotatraffic_usage()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		if (isset($sgbl->__var_trafficusage)) {
 			return $sgbl->__var_trafficusage[$this->nname];
 		} else {
@@ -518,6 +517,7 @@ class Domaind extends DomainBase
 	function getQuotatraffic_last_usage()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		if (isset($sgbl->__var_traffic_last_usage)) {
 			return $sgbl->__var_traffic_last_usage[$this->nname];
 		} else {
@@ -548,7 +548,7 @@ class Domaind extends DomainBase
 	function getMultiUpload($var)
 	{
 		if ($var === 'limit') {
-			//return array('limit_s', 'change_plan');
+		//	return array('limit_s', 'change_plan');
 			return "limit";
 		}
 		
@@ -808,7 +808,7 @@ class Domaind extends DomainBase
 	/* 
 		// Not needed, instead the admin can configure this after the domain is created.
 		if ($maindomain) {
-			 $parked = new addondomain(null, null, "{$this->nname}.$maindomain");
+			$parked = new addondomain(null, null, "{$this->nname}.$maindomain");
 			$parked->initThisdef();
 			$res['mail_flag'] = 'off';
 			$parked->create($res);
@@ -838,7 +838,6 @@ class Domaind extends DomainBase
 		$this->lxclientpostAdd();
 
 		$this->generateDomainKey(true);
-
 	}
 
 	function generateDomainKey($dontwasflag)
@@ -1090,7 +1089,7 @@ class Domaind extends DomainBase
 
 		$param['nname'] = strtolower($param['nname']);
 		$param['ttype'] = 'virtual';
-		//$param['password'] = $p['v-password'];
+	//	$param['password'] = $p['v-password'];
 		$param['use_resourceplan_f'] = 'on';
 		$param['simple_add_f'] = 'on';
 		
@@ -1213,6 +1212,7 @@ class Domaind extends DomainBase
 	function updatePhpInfo($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$ar['ip_address'] = $gbl->c_session->ip_address;
 		$ar['session'] = $gbl->c_session->tsessionid;
 		rl_exec_get(null, $this->getObject('web')->syncserver, array("web", "createSession"), array($ar));
@@ -1224,14 +1224,13 @@ class Domaind extends DomainBase
 
 	function updateShow($subaction, $param)
 	{
-
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$out = $this->getTrafficInfo();
 		$ret['out'] = $out;
 		$ret['url'] = $ghtml->getFullUrl("a=show");
 		
 		return $ret;
-
 	}
 
 	function createShowPropertyList(&$alist)
@@ -1310,28 +1309,24 @@ class Domaind extends DomainBase
 		if ($login->isLteAdmin() || $login->priv->isOn('dns_manage_flag')) {
 			$alist[] = 'a=show&o=dns';
 		}
+
 	//	$alist['__title_web'] = $this->getTitleWithSync('web');
 
 		$alist['__title_domain_log'] = $login->getKeywordUc('trafficandlog');
 		$alist['__v_dialog_stat'] = "n=web&a=updateform&sa=stats_protect";
 		$tmpurl = "n=web&a=show&l[class]=ffile&l[nname]=__lx_error_log";
-		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=error_log", 
-				'target' => "", '__internal' => true));
+		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=error_log", 'target' => "", '__internal' => true));
 		$tmpurl = "n=web&a=show&l[class]=ffile&l[nname]=__lx_access_log";
-		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=access_log", 
-				'target' => "", '__internal' => true));
+		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=access_log", 'target' => "", '__internal' => true));
 
 		$tmpurl = "n=web&a=show&l[class]=ffile&l[nname]=__lx_php_log";
-		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=php_log", 
-				'target' => "", '__internal' => true));
+		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=php_log", 'target' => "", '__internal' => true));
 
 		if ($webstatsprog === 'awstats') {
-			$alist[] = create_simpleObject(array('url' => "http://$this->nname/awstats/awstats.pl?config=$this->nname", 
-					'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target='_blank'"));
+			$alist[] = create_simpleObject(array('url' => "http://$this->nname/awstats/awstats.pl?config=$this->nname", 'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target='_blank'"));
 		} else {
 			if ($webstatsprog === 'webalizer') {
-				$alist[] = create_simpleObject(array('url' => "http://$this->nname/stats/", 
-					'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));
+				$alist[] = create_simpleObject(array('url' => "http://$this->nname/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));
 			}
 		}
 
@@ -1377,8 +1372,7 @@ class Domaind extends DomainBase
 		$alist['__title_script'] = $login->getKeywordUc('script');
 
 
-	//	$alist[] = create_simpleObject(array('url' => "http://$this->nname/__kloxo/phpinfo.php?session=$servar", 
-	//		'purl' => 'n=web&a=updateform&sa=phpinfo', 'target' => "target='_blank'")); 
+	//	$alist[] = create_simpleObject(array('url' => "http://$this->nname/__kloxo/phpinfo.php?session=$servar", 'purl' => 'n=web&a=updateform&sa=phpinfo', 'target' => "target='_blank'")); 
 		
 		$alist[] = "n=web&a=update&sa=phpinfo";
 
@@ -1397,8 +1391,7 @@ class Domaind extends DomainBase
 
 	/*
 		// MR -- permalink and rewrite rule disabling on 6.2.x because wrong code will be make webserver
-		// can't start ; just enough modified custom template by admin
-		// also fcgi_config
+		// can't start ; just enough modified custom template by admin also fcgi_config
 
 		if ($web->__driverappclass === 'lighttpd') {
 			$alist['__v_dialog_perma'] = "n=web&a=updateform&sa=permalink";
@@ -1565,6 +1558,7 @@ class Domaind extends DomainBase
 	function createShowAlistConfig(&$alist, $subaction = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$alist['__title_advanced'] = $login->getKeywordUc('advanced');
 
 		if (!$this->isLogin()) {
@@ -1584,7 +1578,7 @@ class Domaind extends DomainBase
 		}
 
 		if ($login->isAdmin()) {
-			//$alist[] = "a=updateform&sa=fix_openbasedir";
+		//	$alist[] = "a=updateform&sa=fix_openbasedir";
 		}
 
 		return $alist;
@@ -1593,6 +1587,7 @@ class Domaind extends DomainBase
 	function getResourceChildList()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$list = $this->getChildListFilter('R');
 		
 		if (!$this->isDomainVirtual()) {
@@ -1644,7 +1639,7 @@ class subdomain extends Domaind
 		return lxclass::addCommand($parent, $class, $p);
 	}
 
-
+/*
 	static function AddListForm($parent, $class)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -1666,7 +1661,7 @@ class subdomain extends Domaind
 		
 		return $vlist;
 	}
-
+*/
 	static function initThisListRule($parent, $class)
 	{
 		$rule[] = array("parent_clname", "=", "'{$parent->getClName()}'");
@@ -1677,7 +1672,8 @@ class subdomain extends Domaind
 	}
 }
 
-// The table should be the class that encompasses all its variations. This is a must. Otherwise, it leads to headaches.
+// The table should be the class that encompasses all its variations. 
+// This is a must. Otherwise, it leads to headaches.
 class domain extends Domaind
 {
 	static $__desc = array("", "", "Domain");
@@ -1688,6 +1684,7 @@ class domain extends Domaind
 		if ($this->dtype && $this->dtype === 'subdomain') {
 			return 'subdomain';
 		}
+
 		return 'maindomain';
 	}
 
@@ -1708,6 +1705,7 @@ class domaina extends Domaind
 		if ($this->dtype && $this->dtype === 'subdomain') {
 			return 'subdomain';
 		}
+
 		return 'domain';
 	}
 

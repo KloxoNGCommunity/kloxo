@@ -74,6 +74,7 @@ abstract class DomainCore extends Lxclient
 	function updateDdatabasepserver($param)
 	{
 		$this->fixpserver_list($param);
+
 		return $param;
 	}
 }
