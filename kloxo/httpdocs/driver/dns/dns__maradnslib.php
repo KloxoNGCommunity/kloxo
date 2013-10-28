@@ -52,32 +52,32 @@ class dns__maradns extends dns__
 
 	function createConfFile($action = null)
 	{
-		parent::createConfFileTrue($action);
+		parent::createConfFileTrue('maradns', $action);
 	}
 
 	function syncCreateConf($action = null)
 	{
-		parent::syncCreateConfTrue($action);
+		parent::syncCreateConfTrue('maradns', $action);
 	}
 
 	function createAllowTransferIps()
 	{
-		parent::createAllowTransferIpsTrue();
+		parent::createAllowTransferIpsTrue('maradns');
 	}
 
 	function dbactionAdd()
 	{
-		parent::dbactionAddTrue();
+		parent::dbactionAddTrue('maradns');
 	}
 
 	function dbactionUpdate($subaction)
 	{
-		parent::dbactionUpdateTrue($subaction);
+		parent::dbactionUpdateTrue('maradns', $subaction);
 	}
 
 	function dbactionDelete()
 	{
-		parent::dbactionDeleteTrue();
+		parent::dbactionDeleteTrue('maradns');
 	}
 
 	function dosyncToSystemPost()

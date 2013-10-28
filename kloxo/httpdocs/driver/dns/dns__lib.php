@@ -15,18 +15,16 @@ class dns__ extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$this->syncAddFileTrue($this->main->nname, $action);
+		$this->syncAddFileTrue($drivertype, $this->main->nname, $action);
 	
 		foreach ((array)$this->main->__var_addonlist as $d) {
-			$this->syncAddFileTrue($d->nname, $action);
+			$this->syncAddFileTrue($drivertype, $d->nname, $action);
 		}
 	}
 
-	function syncAddFileTrue($domainname, $action = null)
+	function syncAddFileTrue($drivertype, $domainname, $action = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-		$drivertype = self::getActiveDriver();
 
 		$input = array();
 
@@ -57,11 +55,9 @@ class dns__ extends lxDriverClass
 		}
 	}
 
-	function syncCreateConfTrue($action = null)
+	function syncCreateConfTrue($drivertype, $action = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-		$drivertype = self::getActiveDriver();
 
 		$input = array();
 
@@ -88,15 +84,13 @@ class dns__ extends lxDriverClass
 		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 
-	function createAllowTransferIpsTrue()
+	function createAllowTransferIpsTrue($drivertype)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$drivertype = self::getActiveDriver();
-
 		$input = array();
 
-		$input['ip'] = $this->getIpsTrue();
+		$input['ip'] = $this->getIps();
 
 		$tplsource = getLinkCustomfile("/home/{$drivertype}/tpl", "list.transfered.conf.tpl");
 
@@ -105,7 +99,7 @@ class dns__ extends lxDriverClass
 		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 
-	function getIpsTrue()
+	function getIps()
 	{
 		$nobase = true;
 
@@ -114,49 +108,47 @@ class dns__ extends lxDriverClass
 		return $iplist;
 	}
 
-	function dbactionAddTrue()
+	function dbactionAddTrue($drivertype)
 	{
-		$this->createConfFileTrue();
-		$this->createAllowTransferIpsTrue();
-		$this->syncCreateConfTrue();
+		$this->createConfFileTrue($drivertype);
+		$this->createAllowTransferIpsTrue($drivertype);
+		$this->syncCreateConfTrue($drivertype);
 	}
 
-	function dbactionUpdateTrue($subaction)
+	function dbactionUpdateTrue($drivertype, $subaction)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
 		switch ($subaction) {
 			case "allowed_transfer":
-				$this->createAllowTransferIpsTrue();
+				$this->createAllowTransferIpsTrue($drivertype);
 
 				break;
 			case "synchronize":
-				$this->syncCreateConfTrue('update');
+				$this->syncCreateConfTrue($drivertype, 'update');
 
 				break;
 			case "synchronize_fix":
-				$this->syncCreateConfTrue('fix');
+				$this->syncCreateConfTrue($drivertype, 'fix');
 
 				break;
 			case "domain":
-				$this->createConfFileTrue();
+				$this->createConfFileTrue($drivertype);
 
 				break;
 			case "full_update":
 			default:
-				$this->createConfFileTrue();
-				$this->createAllowTransferIpsTrue();
-				$this->syncCreateConfTrue('update');
+				$this->createConfFileTrue($drivertype);
+				$this->createAllowTransferIpsTrue($drivertype);
+				$this->syncCreateConfTrue($drivertype, 'update');
 
 				break;
 		}
 	}
 
-	function dbactionDeleteTrue()
+	function dbactionDeleteTrue($drivertype)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-		$drivertype = self::getActiveDriver();
 
 		$domainname = $this->main->nname;
 
@@ -169,11 +161,11 @@ class dns__ extends lxDriverClass
 			lxfile_rm($dnsfile);
 		}
 
-		$this->createAllowTransferIpsTrue();
-		$this->syncCreateConfTrue();
+		$this->createAllowTransferIpsTrue($drivertype);
+		$this->syncCreateConfTrue($drivertype);
 	}
 
-	function dosyncToSystemPostTrue()
+	function dosyncToSystemPostTrue($drivertype)
 	{
 		// MR -- no need action
 	}

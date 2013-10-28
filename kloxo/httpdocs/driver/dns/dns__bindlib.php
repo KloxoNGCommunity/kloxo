@@ -57,32 +57,32 @@ class dns__bind extends dns__
 
 	function createConfFile($action = null)
 	{
-		parent::createConfFileTrue($action);
+		parent::createConfFileTrue('bind', $action);
 	}
 
 	function syncCreateConf($action = null)
 	{
-		parent::syncCreateConfTrue($action);
+		parent::syncCreateConfTrue('bind', $action);
 	}
 
 	function createAllowTransferIps()
 	{
-		parent::createAllowTransferIpsTrue();
+		parent::createAllowTransferIpsTrue('bind');
 	}
 
 	function dbactionAdd()
 	{
-		parent::dbactionAddTrue();
+		parent::dbactionAddTrue('bind');
 	}
 
 	function dbactionUpdate($subaction)
 	{
-		parent::dbactionUpdateTrue($subaction);
+		parent::dbactionUpdateTrue('bind', $subaction);
 	}
 
 	function dbactionDelete()
 	{
-		parent::dbactionDeleteTrue();
+		parent::dbactionDeleteTrue('bind');
 		exec("rndc reconfig");
 	}
 

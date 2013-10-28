@@ -40,32 +40,32 @@ class dns__djbdns extends dns__
 
 	function createConfFile($action = null)
 	{
-		parent::createConfFileTrue($action);
+		parent::createConfFileTrue('djbdns', $action);
 	}
 
 	function syncCreateConf($action = null)
 	{
-		parent::syncCreateConfTrue($action);
+		parent::syncCreateConfTrue('djbdns', $action);
 	}
 
 	function createAllowTransferIps()
 	{
-		parent::createAllowTransferIpsTrue();
+		parent::createAllowTransferIpsTrue('djbdns');
 	}
 
 	function dbactionAdd()
 	{
-		parent::dbactionAddTrue();
+		parent::dbactionAddTrue('djbdns');
 	}
 
 	function dbactionUpdate($subaction)
 	{
-		parent::dbactionUpdateTrue($subaction);
+		parent::dbactionUpdateTrue('djbdns', $subaction);
 	}
 
 	function dbactionDelete()
 	{
-		parent::dbactionDeleteTrue();
+		parent::dbactionDeleteTrue('djbdns');
 	}
 
 	function dosyncToSystemPost()

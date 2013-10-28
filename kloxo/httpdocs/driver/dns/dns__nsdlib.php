@@ -25,12 +25,12 @@ class dns__nsd extends dns__
 
 		$path = "/home/nsd/conf/defaults";
 
-		if (!file_exists("{$path}/nsd.master.conf") {
+		if (!file_exists("{$path}/nsd.master.conf")) {
 			touch("{$path}/nsd.master.conf");
 			
 		}
 
-		if (!file_exists("{$path}/nsd.slave.conf") {
+		if (!file_exists("{$path}/nsd.slave.conf")) {
 			touch("{$path}/nsd.slave.conf");
 			
 		}
@@ -68,27 +68,27 @@ class dns__nsd extends dns__
 
 	function createConfFile($action = null)
 	{
-		parent::createConfFileTrue($action);
+		parent::createConfFileTrue('nsd', $action);
 	}
 
 	function syncCreateConf($action = null)
 	{
-		parent::syncCreateConfTrue($action);
+		parent::syncCreateConfTrue('nsd', $action);
 	}
 
 	function createAllowTransferIps()
 	{
-		parent::createAllowTransferIpsTrue();
+		parent::createAllowTransferIpsTrue('nsd');
 	}
 
 	function dbactionAdd()
 	{
-		parent::dbactionAddTrue();
+		parent::dbactionAddTrue('nsd');
 	}
 
 	function dbactionUpdate($subaction)
 	{
-		parent::dbactionUpdateTrue($subaction);
+		parent::dbactionUpdateTrue('nsd', $subaction);
 	}
 
 	function dbactionDelete()
