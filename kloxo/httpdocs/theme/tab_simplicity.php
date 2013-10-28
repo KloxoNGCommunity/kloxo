@@ -19,13 +19,15 @@ function print_tab_block_start($alist)
 
 ?>
 	<br>
+<!-- "START TAB" -->
 	<div>
 <?php
 	if (!$sgbl->isBlackBackground()) {
 ?>
 
-	<div class="tabcompleteleft">&nbsp;&nbsp;</div>
+		<div class="tabcompleteleft">&nbsp;&nbsp;</div>
 
+		<div class="shadow_nonbottom">
 <?php
 	}
 
@@ -43,7 +45,7 @@ function print_tab_block_start($alist)
 	}
 
 ?>
-		
+		</div>	
 	</div>
 <!-- "END TAB" -->
 <?php

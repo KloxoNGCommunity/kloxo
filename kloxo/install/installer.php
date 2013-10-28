@@ -44,8 +44,10 @@ function lxins_main()
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
 
 	// MR - https://bbs.archlinux.org/viewtopic.php?pid=1002264
+	// also add 'fs.aio-max-nr' for mysql 5.5 innodb aio issue
 	$patch = "\n### begin -- add by Kloxo-MR\n" .
-		"fs.file-max = 209708\n" .
+		"fs.aio-max-nr = 1048576\n" .
+		"fs.file-max = 1048576\n" .
 		"vm.swappiness = 10\n" .
 		"vm.vfs_cache_pressure = 50\n" .
 		"vm.dirty_background_ratio = 15\n" .
