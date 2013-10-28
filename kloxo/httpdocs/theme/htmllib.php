@@ -1713,12 +1713,12 @@ class HtmlLib
 			$count = 0;
 ?>
 
-			// global_action_box = new Array();
+			global_action_box = new Array();
 <?php
 			foreach ($div_id_list as $k => $v) {
 ?>
 
-			// global_action_box[<?=$count?>] = new Array();
+			global_action_box[<?=$count?>] = new Array();
 			global_action_box[<?=$count?>][0] = '<?=$k?>';
 <?php
 			$j = 1;
@@ -4391,16 +4391,16 @@ class HtmlLib
 		}
 
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
-			$divwidth = "910";
+			$divwidth = "910px";
 		} else {
-			$divwidth = "240";
+			$divwidth = "100%";
 		}
 ?>
 
 <!-- <table width="100%">
 	<tr>
 	<td align="center" style='border: 0'> -->
-<div style="width: <?= $divwidth ?>px; margin: 0 auto 0 auto">
+<div style="width: <?= $divwidth ?>; margin: 0 auto 0 auto; background-color:#fff">
 		<table cellspacing="1" cellpadding="3" width="100%" align="center">
 			<tr>
 				<!-- <td class="rowpoint"></td> -->
@@ -6954,9 +6954,9 @@ class HtmlLib
 ?>
 
 			<script>
-			//	global_need_list = new Array();
-			//	global_match_list = new Array();
-			//	global_desc_list = new Array();
+				global_need_list = new Array();
+				global_match_list = new Array();
+				global_desc_list = new Array();
 			</script>
 <?php
 		}
@@ -7192,11 +7192,11 @@ class HtmlLib
 				<div style="background-color: #4488CC; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
 					<div style="height: 16px">
 						<div id="dragbar" style="float:left; width: 200px">
-										<ilayer style="width:100%" onSelectStart="return false">
-											<layer style="width:100%" onMouseover="dragswitch=1;" onMouseout="dragswitch=0">
+										<div style="width:100%" onSelectStart="return false">
+											<div style="width:100%" onMouseover="dragswitch=1;" onMouseout="dragswitch=0">
 												<span style="color:#FFFFFF">&nbsp;Password Box</span>
-											</layer>
-										</ilayer>
+											</div>
+										</div>
 						</div>
 									<!-- </td>
 									<td style="cursor:hand"> -->

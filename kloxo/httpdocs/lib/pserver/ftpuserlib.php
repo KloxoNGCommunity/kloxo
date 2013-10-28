@@ -27,6 +27,7 @@ class ftpuser extends Lxclient
 		}
 	}
 
+
 	static function createListAlist($parent, $class)
 	{
 		$alist[] = "a=list&c=$class";
@@ -70,6 +71,11 @@ class ftpuser extends Lxclient
 		$nlist['directory'] = '10%';
 
 		return $nlist;
+	}
+
+	static function AddListForm($parent, $class)
+	{
+		return self::addform($parent, $class);
 	}
 
 	static function addform($parent, $class, $typetd = null)

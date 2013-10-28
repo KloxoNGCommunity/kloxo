@@ -222,7 +222,7 @@ class databasecore extends Lxdb {
 	static function createListAlist($parent, $class)
 	{
 		$alist[] = "a=list&c=$class";
-		$alist['__v_dialog_add'] = "a=addform&c=$class";
+	//	$alist['__v_dialog_add'] = "a=addform&c=$class";
 	//	$alist[] = create_simpleObject(array('url' => "/thirdparty/phpMyAdmin/", 'purl' => "c=ddatabase&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 
 		return $alist;
@@ -280,6 +280,11 @@ class databasecore extends Lxdb {
 		$dbprefix .= "_";
 		
 		return $dbprefix;
+	}
+
+	static function AddListForm($parent, $class)
+	{
+		return self::addform($parent, $class);
 	}
 
 	static function addform($parent, $class, $typetd = null)

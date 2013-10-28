@@ -33,12 +33,12 @@
 				<b>Resource Plan</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=resourceplan">Resource Plans</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=resourceplan">Add Resource Plan</a>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=resourceplan">Add Resource Plan</a> -->
 				</div>
 				<b>Help Desk</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=ticket">Tickets</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=ticket">Add Ticket</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=ticket">Add Ticket</a><br/> -->
 					<a href="/display.php?frm_action=updateform&frm_subaction=ticketconfig&frm_o_o[0][class]=ticketconfig">Configuration</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_o[0][class]=general&frm_o_cname=helpdeskcategory_a">Category</a>
 				</div>
@@ -47,12 +47,12 @@
 				<b>Message</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=smessage">Messages</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=smessage">Add Message</a>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=smessage">Add Message</a> -->
 				</div>
 				<b>Custom Button</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=custombutton">Custom Buttons</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=custombutton">Add Custom Button</a>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=custombutton">Add Custom Button</a> -->
 				</div>
 				<b>Reverse Dns</b>
 				<div>
@@ -84,13 +84,13 @@
 				<b>Auxiliary</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=auxiliary">Auxiliary Logins</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=auxiliary">Add Auxiliary Login</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=auxiliary">Add Auxiliary Login</a><br/> -->
 					<a href="/display.php?frm_action=list&frm_o_cname=all_auxiliary">All Auxiliaries</a>
 				</div>
 				<b>DNS Template</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=dnstemplate">DNS Templates</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=dnstemplate">Add DNS Template</a>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=dnstemplate">Add DNS Template</a> -->
 				</div>
 			</div>
 			<div class='left rightborder'>
@@ -137,12 +137,12 @@
 				</div>
 			</div>
 			<div class='left rightborder'>
-				<b>Blocked/Allowed</b>
+				<b>Blocked/Allowed IPs</b>
 				<div>
-					<a href="/display.php?frm_action=list&frm_o_cname=blockedip">Blockeds</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=blockedip">Add Blocked</a><br/>
-					<a href="/display.php?frm_action=list&frm_o_cname=allowedip">Alloweds</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=allowedip">Add Allowed</a><br/>
+					<a href="/display.php?frm_action=list&frm_o_cname=allowedip">Allowed IPs</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=allowedip">Add Allowed IP</a><br/> -->
+					<a href="/display.php?frm_action=list&frm_o_cname=blockedip">Blocked IPs</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=blockedip">Add Blocked IP</a><br/> -->
 				</div>
 				<b>Maintenance</b>
 				<div>
@@ -168,7 +168,7 @@
 
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=pserver">Servers</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=pserver">Add Server</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=pserver">Add Server</a><br/> -->
 					<a href="/display.php?frm_action=updateform&frm_subaction=forcedeletepserver">Force Delete Server</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_cname=psrole_a">Server Roles</a><br/>
 					<a href="/display.php?frm_action=updateForm&frm_subaction=reboot&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>">Reboot</a><br/>
@@ -256,9 +256,9 @@
 			<div class='left'>
 				<b>Database</b>
 				<div>
-					<a href="/display.php?frm_action=updateform&frm_subaction=mysqlpasswordreset&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>">Mysql Password Reset</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_cname=dbadmin">Database Admins</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_cname=dbadmin">Add Database Admin</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_cname=dbadmin">Add Database Admin</a><br/> -->
+					<a href="/display.php?frm_action=updateform&frm_subaction=mysqlpasswordreset&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>">Mysql Password Reset</a><br/>
 				</div>
 			</div>
 			<div style='clear: both;'></div>
@@ -277,18 +277,18 @@
 				<b>Ftp User</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=ftpuser">Ftp Users</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=ftpuser">Add Ftp User</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=ftpuser">Add Ftp User</a><br/> -->
 				</div>
 				<b>Mail</b>
 				<div>
-					<a href="/display.php?frm_action=list&frm_o_cname=mailaccount">Add Mail Account</a><br/>
+					<a href="/display.php?frm_action=list&frm_o_cname=mailaccount">Mail Accounts</a><br/>
 				</div>
 			</div>
 			<div class='left rightborder'>
 				<b>Database</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=mysqldb">MySQL Databases</a><br/>
-					<a href="/display.php?frm_action=addform&frm_o_cname=mysqldb">Add MySQL Database</a><br/>
+					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=mysqldb">Add MySQL Database</a><br/> -->
 				</div>
 				<b>Client</b>
 				<div>

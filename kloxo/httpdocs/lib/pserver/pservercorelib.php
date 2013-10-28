@@ -213,9 +213,11 @@ class pservercore extends Lxclient
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$alist[] = "a=list&c=$class";
+
 		if ($parent->isAdmin()) {
-			$alist[] = "a=addform&c=$class";
+		//	$alist[] = "a=addform&c=$class";
 		}
+
 		$alist[] = "a=updateform&sa=forcedeletepserver";
 
 		return $alist;
@@ -676,6 +678,11 @@ class pservercore extends Lxclient
 			$this->vpstype_f = $result['vpstype'];
 			$this->xenlocation = $result['xenlocation'];
 		}
+	}
+
+	static function AddListForm($parent, $class)
+	{
+		return self::addform($parent, $class);
 	}
 
 	static function addform($parent, $class, $typetd = null)

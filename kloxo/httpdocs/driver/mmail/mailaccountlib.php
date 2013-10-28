@@ -421,6 +421,7 @@ class Mailaccount extends Lxclient
 
 	static function AddListForm($parent, $class)
 	{
+	/*
 		$vlist['nname'] = null;
 
 		if ($parent->isClient()) {
@@ -434,6 +435,8 @@ class Mailaccount extends Lxclient
 		$vlist['simple_add_f'] = array('h', 'on');
 
 		return $vlist;
+	*/
+		return self::addform($parent, $class);
 	}
 
 	function getSpecialParentClass()

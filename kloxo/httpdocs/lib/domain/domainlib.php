@@ -215,8 +215,10 @@ class Domaind extends DomainBase
 		return true;
 	}
 
+
 	static function AddListForm($parent, $class)
 	{
+	/*
 		if ($parent->isLogin() && !$parent->priv->isOn('domain_add_flag')) {
 			return false;
 		}
@@ -226,6 +228,8 @@ class Domaind extends DomainBase
 		$vlist['simple_add_f'] = array('h', 'on');
 		
 		return $vlist;
+	*/
+		return self::addform($parent, $class);
 	}
 
 	function isTreeSelect()
@@ -1203,7 +1207,6 @@ class Domaind extends DomainBase
 
 	function createShowIlist()
 	{
-
 		$ilist[] = "ddate";
 		
 		return $ilist;
@@ -1639,9 +1642,9 @@ class subdomain extends Domaind
 		return lxclass::addCommand($parent, $class, $p);
 	}
 
-/*
 	static function AddListForm($parent, $class)
 	{
+	/*
 		global $gbl, $sgbl, $login, $ghtml;
 
 
@@ -1660,8 +1663,10 @@ class subdomain extends Domaind
 		}
 		
 		return $vlist;
+	*/
+		return self::addform($parent, $class);
 	}
-*/
+
 	static function initThisListRule($parent, $class)
 	{
 		$rule[] = array("parent_clname", "=", "'{$parent->getClName()}'");
