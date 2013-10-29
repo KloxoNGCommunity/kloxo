@@ -8814,7 +8814,7 @@ class HtmlLib
 
 		</div>
 
-		<div style="position:fixed; right:10px; top:40px;"><img src="/login/images/kloxo-mr.png" height="75"></div>
+		<div style="position:fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="75" /></a></div>
 		<!-- "END TOP MENU + LOGO" -->
 <?php
 		}

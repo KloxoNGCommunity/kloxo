@@ -49,6 +49,7 @@ class Client extends ClientBase
 	static $__desc_all_cron_l = array("", "", "");
 	static $__desc_all_ftpuser_l = array("", "", "");
 	static $__desc_all_mailinglist_l = array("", "", "");
+	static $__desc_all_client_l = array("", "", "");
 
 	function isSync()
 	{

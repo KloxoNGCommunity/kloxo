@@ -248,7 +248,7 @@
 	// if you don't want register specific scripts, this mut be FALSE.
 	// otherwise it must be an array with scriptnames:
 	// the scripts must defined as absolute URIs:
-	// e.g. '/hn_urlrewrite_example/example1.php'
+	// e.g. '/urlrewrite/example1.php'
 	// NOTE: this array can be overwritten by an array directly passed
 	// to the class when instantiating!
 	// (passing an empty array suppresses rewriting!)

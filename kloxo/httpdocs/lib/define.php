@@ -77,7 +77,7 @@ $gl_class_array["domaincore"] = "lib/domain/domaincorelib.php";
 $gl_class_array["blockedip"] = "lib/php/blockediplib.php";
 $gl_class_array["mailcontent"] = "driver/mmail/mailcontentlib.php";
 
-$gl_class_array["mailqueue"] = "lib/pserver/mailqueuelib.php";
+$gl_class_array["mailqueue"] = "driver/mmail/mailqueuelib.php";
 $gl_class_array["addondomain"] = "lib/domain/addondomainlib.php";
 
 $gl_class_array["all_addondomain"] = "lib/domain/addondomainlib.php";

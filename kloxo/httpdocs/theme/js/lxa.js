@@ -138,7 +138,7 @@ function createTextAreaWithLines(id)
 	} else {
 		el.style.height = "200px";
 	}
-	el.style.width    = "35px";
+	el.style.width    = "40px";
 	el.style.position = "absolute";
 	el.style.overflow = 'hidden';
 	el.style.textAlign = 'right';
@@ -161,7 +161,7 @@ function createTextAreaWithLines(id)
 	function setLine(){
 		el.scrollTop   = ta.scrollTop;
 		el.style.top   = (ta.offsetTop) + "px";
-		el.style.left  = (ta.offsetLeft - 35) + "px";
+		el.style.left  = (ta.offsetLeft - 45) + "px";
 		el.style.right  = (ta.offsetLeft + 30) + "px";
 	}
 }
