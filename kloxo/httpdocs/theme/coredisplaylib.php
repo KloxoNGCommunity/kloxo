@@ -803,9 +803,10 @@ function __ac_desc_list($object, $cname = null)
 
 	$ghtml->print_information('pre', 'list', $cname, "", $pre);
 
+	$ghtml->printListAddForm($object, $cname);
+
 	do_search($object, $cname);
 
-	$ghtml->printListAddForm($object, $cname);
 	do_list_class($object, $cname);
 
 	$ghtml->print_content_end();
@@ -1302,11 +1303,11 @@ function __ac_desc_addform($object)
 		$ghtml->print_tab_block($nalist);
 	}
 
+	$ghtml->print_content_begin();
+
 	if ($selflist) {
 		$ghtml->printShowSelectBox($selflist);
 	}
-
-	$ghtml->print_content_begin();
 
 	$ghtml->print_message();
 

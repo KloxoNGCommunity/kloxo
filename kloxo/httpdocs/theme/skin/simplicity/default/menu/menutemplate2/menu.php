@@ -194,7 +194,6 @@
 					<a href="/display.php?frm_action=updateform&frm_subaction=timezone&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>">Timezone</a><br/>
 					<a href="/display.php?frm_action=updateform&frm_subaction=commandcenter&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>">Command Center</a><br/>
 					<a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_o[1][class]=sshclient">SSH Terminal</a><br/>
-					<a href="/display.php?frm_action=show&frm_o_o[0][class]=sshclient">SSH Terminal</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_cname=traceroute">Traceroute</a><br/>
 				</div>
 			</div>

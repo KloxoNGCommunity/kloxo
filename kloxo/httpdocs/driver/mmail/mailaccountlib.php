@@ -574,7 +574,10 @@ class all_mailaccount extends mailaccount
 	static $__desc_parent_name_f = array("n", "", "domain");
 	static $__desc_parent_clname = array("n", "", "domain");
 
-	function isSelect() { return false; }
+	function isSelect()
+	{
+		return false;
+	}
 
 	static function initThisListRule($parent, $class)
 	{
@@ -592,12 +595,23 @@ class all_mailaccount extends mailaccount
 
 		return $nlist;
 	}
-
-	static function AddListForm($parent, $class) { return null; }
-
+/*
+	static function AddListForm($parent, $class)
+	{
+		return null;
+	}
+*/
 	static function createListAlist($parent, $class)
 	{
 		return all_domain::createListAlist($parent, $class);
+	}
+
+	static function createListNlist($parent, $view)
+	{
+		$nlist['nname'] = '100%';
+		$nlist['parent_name_f'] = '100%';
+		
+		return $nlist;
 	}
 }
 

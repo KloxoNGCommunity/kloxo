@@ -205,6 +205,11 @@ class Mailinglist extends Lxdb
 		return lxdb::initThisListRule($parent, $class);
 	}
 
+	static function AddListForm($parent, $class)
+	{
+		return self::addform($parent, $class);
+	}
+
 	static function addform($parent, $class, $typetd = null)
 	{
 		if ($parent->isClient()) {

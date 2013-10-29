@@ -456,14 +456,8 @@ class all_mysqldb extends mysqldb {
 	static $__desc_parent_clname =  array("n", "",  "owner");
 
 	function isSelect()
-	{ 
-		return false ;
-	}
-	
-	static function createListAlist($parent, $class)
 	{
-	//	return all_mailaccount::createListAlist($parent, $class);
-		return all_domain::createListAlist($parent, $class);
+		return false;
 	}
 
 	static function initThisListRule($parent, $class)
@@ -479,8 +473,18 @@ class all_mysqldb extends mysqldb {
 	{
 		$nlist['nname'] = null;
 		$nlist['parent_clname'] = null;
-		
+
 		return $nlist;
+	}
+/*
+	static function AddListForm($parent, $class)
+	{
+		return null;
+	}
+*/
+	static function createListAlist($parent, $class)
+	{
+		return all_domain::createListAlist($parent, $class);
 	}
 
 	static function createListNlist($parent, $view)
@@ -489,5 +493,10 @@ class all_mysqldb extends mysqldb {
 		$nlist['parent_name_f'] = '100%';
 		
 		return $nlist;
+	}
+
+	static function createListUpdateForm($object, $class)
+	{
+		return null;
 	}
 }

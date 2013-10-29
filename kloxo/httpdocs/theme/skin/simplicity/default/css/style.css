@@ -101,15 +101,15 @@
 	.buttonunselect {
 		color: #fff;
 		font-weight: bold;
-		font-size: 12px;
-		font-family: Arial, Helvetica, sans-serifs;
+		font-size: 1.2em;
+		font-family: Tahoma, Verdana Arial, Helvetica, sans-serifs;
 	}
 
 	.buttonselect {
 		color: #369;
 		font-weight: bold;
-		font-size: 12px;
-		font-family: arial;
+		font-size: 1.2em;
+		font-family: Tahoma, Verdana Arial, Helvetica, sans-serifs;
 		background-color: #fff;
 		cursor: pointer;
 	}
@@ -198,9 +198,9 @@
 	}
 
 	.filebox {
-		font-family: arial;
+		font-family: Tahoma, Verdana Arial, Helvetica, sans-serifs;
 		color: #000000;
-		font-size: 9px;
+		font-size: .9em;
 		font-weight: normal;
 		background-color: #FFF;
 
@@ -273,13 +273,13 @@
 	.menu {
 		text-decoration: none;
 		color: #333333;
-		font-size: 10px;
+		font-size: 1.0em;
 	}
 
 	.menu1 {
 		text-decoration: none;
 		color: #333333;
-		font-size: 9px;
+		font-size: 0.9em;
 		font-weight: bold;
 	}
 
@@ -538,14 +538,14 @@
 		height: 20px;
 		background-color: #eee;
 		vertical-align: middle;
-		font-size: 11px;
+		font-size: 1.1em;
 	}
 
 	.td11 {
 		height: 20px;
 		background-color: #eee;
 		vertical-align: middle;
-		font-size: 11px;
+		font-size: 1.1em;
 	}
 
 	.td9 {
@@ -556,18 +556,18 @@
 	.ovr {
 		background-color: #bbb;
 		height: 20px;
-		font-size: 11px;
+		font-size: 1.1em;
 	}
 
 	.a1 {
 		text-decoration: none;
-		font-size: 10px;
+		font-size: 1.0em;
 		color: #069;
 	}
 
 	.c1 {
 		text-decoration: none;
-		font-size: 11px;
+		font-size: 1.1em;
 		color: #000;
 	}
 
