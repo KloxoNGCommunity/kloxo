@@ -147,12 +147,12 @@ class all_mailforward extends mailforward
 
 		return $nlist;
 	}
-/*
+
 	static function AddListForm($parent, $class)
 	{
 		return null;
 	}
-*/
+
 	static function createListAlist($parent, $class)
 	{
 		return all_domain::createListAlist($parent, $class);

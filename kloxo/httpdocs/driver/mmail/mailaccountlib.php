@@ -595,12 +595,12 @@ class all_mailaccount extends mailaccount
 
 		return $nlist;
 	}
-/*
+
 	static function AddListForm($parent, $class)
 	{
 		return null;
 	}
-*/
+
 	static function createListAlist($parent, $class)
 	{
 		return all_domain::createListAlist($parent, $class);

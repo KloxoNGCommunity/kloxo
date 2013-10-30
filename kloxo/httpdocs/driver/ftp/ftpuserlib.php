@@ -189,12 +189,12 @@ class all_ftpuser extends ftpuser
 
 		return $nlist;
 	}
-/*
+
 	static function AddListForm($parent, $class)
 	{
 		return null;
 	}
-*/
+
 	static function createListAlist($parent, $class)
 	{
 		return all_domain::createListAlist($parent, $class);

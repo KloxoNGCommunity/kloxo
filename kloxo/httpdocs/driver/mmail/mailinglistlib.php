@@ -239,6 +239,11 @@ class all_mailinglist extends mailinglist
 		return false;
 	}
 
+	static function AddListForm($parent, $class)
+	{
+		return null;
+	}
+
 	static function createListAlist($parent, $class)
 	{
 	//	return all_mailaccount::createListAlist($parent, $class);

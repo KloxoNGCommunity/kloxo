@@ -368,9 +368,9 @@ class lxbackup extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//  $alist['__title_main'] = $login->getKeywordUc('actions');
-	//  $alist[] = 'a=updateform&sa=restore_from_file';
-	//  $alist[] = 'a=updateform&sa=restore_from_ftp';
+	//	$alist['__title_main'] = $login->getKeywordUc('actions');
+	//	$alist[] = 'a=updateform&sa=restore_from_file';
+	//	$alist[] = 'a=updateform&sa=restore_from_ftp';
 
 		return $alist;
 	}

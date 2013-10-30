@@ -15,7 +15,7 @@ class SpecialPlay_b extends Lxaclass
 	static $__desc_icon_name = array("", "", "icon_name");
 	static $__desc_logo_image = array("", "", "current_logo_url");
 	static $__desc_login_page = array("", "", "login_to");
-//	static $__desc_logo_image_loading = array("", "",  "current_logo_url_shown_while_loading");
+	static $__desc_logo_image_loading = array("", "",  "current_logo_url_shown_while_loading");
 	static $__desc_show_quickaction = array("f", "", "show_quickaction");
 	static $__desc_disable_quickaction = array("f", "", "disable_quickaction");
 	static $__desc_icon_name_v_collage = array("", "", "skin");
