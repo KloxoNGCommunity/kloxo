@@ -1,7 +1,7 @@
 <?php 
 include_once "lib/html/definecore.php";
 
-$gl_class_array["pserver"] = "lib/pserver/pserverlib.php";
+$gl_class_array["pserver"] = "driver/pserver/pserverlib.php";
 
 $gl_class_array["domaind"] = "lib/domain/domainlib.php";
 $gl_class_array["subdomain"] = "lib/domain/domainlib.php";
@@ -17,7 +17,7 @@ $gl_class_array["all_domain"] = "lib/domain/domainlib.php";
 $gl_class_array["maindomain"] = "lib/domain/domainlib.php";
 $gl_class_array["all_mailaccount"] = "driver/mmail/mailaccountlib.php";
 
-$gl_class_array["all_cron"] = "lib/pserver/ddatabaselib.php";
+$gl_class_array["all_cron"] = "driver/pserver/ddatabaselib.php";
 
 $gl_class_array["mailaccountd"] = "driver/mmail/mailaccountlib.php";
 
@@ -59,7 +59,7 @@ $gl_class_array["resourcecore"] = "lib/resourcecorelib.php";
 $gl_class_array["client"] = "lib/client/clientlib.php";
 $gl_class_array["clienttemplate"] = "lib/client/clienttemplatelib.php";
 
-$gl_class_array["phpini"] = "lib/pserver/phpinilib.php";
+$gl_class_array["phpini"] = "driver/pserver/phpinilib.php";
 
 $gl_class_array["phpini__sync"] = "driver/pserver/phpini__synclib.php";
 

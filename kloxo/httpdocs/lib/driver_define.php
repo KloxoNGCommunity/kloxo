@@ -66,7 +66,7 @@ $gl_class_array['listsubscribe__ezmlm'] = "driver/mmail/listsubscribe__ezmlmlib.
 $gl_class_array['spam__spamassassin'] = "driver/mmail/spam__spamassassinlib.php";
 $gl_class_array['spam__bogofilter'] = "driver/mmail/spam__bogofilterlib.php";
 $gl_class_array['mailcontent__qmail'] = "driver/mmail/mailcontent__qmaillib.php";
-$gl_class_array['mailqueue__qmail'] = "driver/pserver/mailqueue__qmaillib.php";
+$gl_class_array['mailqueue__qmail'] = "driver/mmail/mailqueue__qmaillib.php";
 
 $gl_class_array['serverweb__apache'] = "driver/web/serverweb__apachelib.php";
 $gl_class_array['serverweb__lighttpd'] = "driver/web/serverweb__lighttpdlib.php";

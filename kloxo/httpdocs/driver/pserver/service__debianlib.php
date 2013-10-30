@@ -1,6 +1,6 @@
 <?php 
 
-include_once "lib/pserver/driver/service__linuxlib.php";
+include_once "driver/pserver/service__linuxlib.php";
 
 class Service__Debian extends lxDriverClass {
 
