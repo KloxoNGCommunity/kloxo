@@ -660,26 +660,36 @@ function __ac_desc_delete($object)
 		}
 	} else {
 		$gbl->setSessionV("lx_delete_return_url", $gbl->getHttpReferer());
-
-		if (exec_class_method($cname, 'isTreeForDelete')) {
 ?>
 
-			<br />
-			<table width="100%">
+			<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
+<?php
+		if (exec_class_method($cname, 'isTreeForDelete')) {
+?>
+			<!-- <table width="100%">
 				<tr>
 					<td width="10"></td>
-					<td align="left"> These Objects Under these <?= get_plural($object->getClass()) ?> will also be Deleted.<br/> <br/></td>
+					<td align="left"> -->
+				<div>These Objects Under these <?= get_plural($object->getClass()) ?> will also be Deleted.<br/> <br/></div>
+					<!-- </td>
 				</tr>
-			</table>
+			</table> -->
 <?php
 
 			foreach ($ll as $l) {
 				$o = $object->getFromList($cname, $l);
 				$ghtml->do_resource(null, $o, 6, false, "getResourceChildList", true, false);
 			}
+?>
+			<br />
+<?php
 		}
 
 		do_list_class($object, $cname);
+?>
+
+			</div>
+<?php
 	}
 }
 
