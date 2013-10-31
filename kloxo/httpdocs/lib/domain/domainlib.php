@@ -11,7 +11,6 @@ class Domaind extends DomainBase
 	static $__desc_status_v_off = array("", "", "disabled");
 	static $__desc_disable_reason = array("", "", "st", 'a=updateForm&sa=limit');
 
-
 	static $__desc_ttype = array("e", "", "t:type_of_hosting", URL_SHOW);
 //	static $__desc_ttype_v_dedicated  = array("", "",  "s");
 	static $__desc_ttype_v_virtual = array("", "", "virtual_domain");
@@ -92,6 +91,8 @@ class Domaind extends DomainBase
 	static $__acdesc_update_limit = array("", "", "domain_features");
 	static $__acdesc_update_show_awstats = array("", "", "awstats");
 	static $__acdesc_update_check_dns = array("", "", "check_dns");
+
+
 
 	function getDomainRoot()
 	{
@@ -1282,7 +1283,9 @@ class Domaind extends DomainBase
 		//	$alist['__title_admin'] = $login->getKeywordUc('administrative_actions');
 		}
 	*/
-		$alist['__title_domain_administer'] = $login->getKeywordUc('Domain Adm');
+	//	$alist['__title_domain_administer'] = $login->getKeywordUc('Domain Adm');
+
+		$alist['__title_domain_administer'] = $login->getKeywordUc('Administer');
 
 	//	$this->getLxclientActions($alist);
 

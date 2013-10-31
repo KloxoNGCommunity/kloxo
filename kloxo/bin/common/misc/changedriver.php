@@ -24,15 +24,17 @@ $pgm = $argv[2];
 
 $server = $login->getFromList('pserver', 'localhost');
 
-$os = $server->ostype;
-include "../file/driver/$os.inc";
+// $os = $server->ostype;
+// include "../file/driver/$os.inc";
+
+include "../file/driver/rhel.inc";
 
 
 $dr = $server->getObject('driver');
 
 if (!array_search_bool($pgm, $driver[$class])) {
 	$str = implode(" ", $driver[$class]);
-	print("The driver name isn't correct: Available drivers for '$class': '$str'\n");
+	print("- The driver name isn't correct.\n  Available drivers for '$class': $str\n");
 	exit;
 }
 

@@ -1,18 +1,17 @@
 <?php
 
-
 define('URL_SHOW', 'a=show');
 define('URL_TOGGLE_STATUS', 'a=update&sa=toggle_status');
 define('URL_TOGGLE_STATE', 'a=update&sa=toggle_state');
 define('URL_UPDATE', 'a=updateform&sa=update');
 
-
 function __autoload($class)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	global $gl_class_array;
 
-//	dprint("Searching for class: $class  <br> \n");
+	// dprint("Searching for class: $class  <br> \n");
 
 	$class = strtolower($class);
 

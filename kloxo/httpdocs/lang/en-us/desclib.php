@@ -1039,8 +1039,8 @@ $__description["subject_of_reply"] = array("Subject Of Reply");
 $__description["request_text:request_text_in_subject_(blank_for_always_respond)"] = array("Request Text:Request Text In Subject (blank For Always Respond)");
 $__description["title"] = array("Title");
 $__description["admin_username"] = array("Admin Username");
-$__description["adminarea"] = array("Adminarea");
-$__description["admin_email_will_be_login_id"] = array("Admin Email Will Be Login Id");
+$__description["adminarea"] = array("Admin Area");
+$__description["admin_email_will_be_login_id"] = array("Admin Email Will Be Login ID");
 $__description["admin_company"] = array("Admin Company");
 $__description["installed_application"] = array("Installed Application");
 $__description["Application"] = array("Application");
@@ -1296,3 +1296,5 @@ $__description["no_fix_config"] = array("No fix config");
 
 // MR -- in 'webservr config'
 $__description["php_branch"] = array("PHP Branch");
+
+$__description["domain_administer"] = array("Domain Administer");

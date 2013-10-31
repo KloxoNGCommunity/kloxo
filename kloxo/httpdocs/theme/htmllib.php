@@ -3393,7 +3393,8 @@ class HtmlLib
 			}
 		}
 
-		$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
+	//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
+		$wrapstr = ($width === "100%") ? "" : "nowrap";
 
 		$target = null;
 		$purl = null;
@@ -3492,8 +3493,16 @@ class HtmlLib
 			$align = "center onmouseover=\"changeContent('help',' $help')\" onmouseout=\"changeContent('help','helparea')\"";
 
 			if (!$sgbl->isBlackBackground()) {
-			//	$pname = " <span title='$alt'><img src=$image width=16 height=16></span>";
-				$pname = " <span title='$alt'><span style='font-size: 16px'>&equiv;</span></span>";
+			//	$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
+
+				if ($pname === 'on') { $spancolor = '#2d2'; }
+				if ($pname === 'off') { $spancolor = '#d22'; }
+				if ($pname === 'dull') { $spancolor = '#aaa'; }
+
+				if ($pname === 'ok') { $spancolor = '#2d2'; }
+				if ($pname === 'exceed') { $spancolor = '#d82'; }
+
+				$pname = "<span title='$alt'><span style='font-size: 1.5em; color:{$spancolor}'>&#x2739;</span></span>";
 			}
 
 			$this->save_non_existant_image($image);
@@ -3533,7 +3542,19 @@ class HtmlLib
 						if ($sgbl->isBlackBackground()) {
 							$pname = "b";
 						} else {
-							$pname = " <span title='$alt'><img src='$_t_image' height=15 width=15></span>";
+						//	$pname = " <span title='$alt'><img src='$_t_image' height=15 width=15></span>";
+
+						//	if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x21E7;</span>'; }
+						//	if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x21E9;</span>'; }
+						//	if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x21F3;</span>'; }
+
+						//	if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x25C9;</span>'; }
+						//	if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x25CE;</span>'; }
+						//	if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x262A;</span>'; }
+
+						//	$pname = "<span title='$alt'>{$txt}</span>";
+
+							$pname = "<span title='$alt' style='font-size:1.5em; color:#68a'>&#x25C9;</span>";
 						}
 
 						$align = "center";
@@ -3583,9 +3604,11 @@ class HtmlLib
 					$pname = str_replace("[/quote]", "</div>", $pname);
 					$pname = "<table width='100%' style='background:white;padding:20px; margin-top: 8px; border: 1px solid grey;' cellpadding='0' cellspacing='0'> <tr> <td> $pname </td> </tr> </table>  ";
 				}
+
+				$pname = str_replace("Unlimited", "&#x221E;", $pname);
 ?>
 
-				<td <?= $bgcolorstring ?>  <?= $wrapstr ?> <?= $align ?> class="collist">  <?= $pname ?>  </td>
+				<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist"> <?= $pname ?> </td>
 <?php
 			}
 		}
@@ -4390,11 +4413,20 @@ class HtmlLib
 <?php
 		}
 
+	/*
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 			$divwidth = "910px";
 		} else {
-			$divwidth = "100%";
+			$divwidth = "240px";
 		}
+	*/
+
+		if ($this->isResourceClass($class)) {
+			$divwidth = "240px";
+		} else {
+			$divwidth = "910px";
+		}
+
 ?>
 
 <!-- <table width="100%">
@@ -4464,7 +4496,8 @@ class HtmlLib
 				}
 
 				if ($width === "100%") {
-					$wrapstr = "wrap";
+				//	$wrapstr = "wrap";
+					$wrapstr = "";
 				} else {
 					$wrapstr = "nowrap";
 				}
@@ -4559,7 +4592,7 @@ class HtmlLib
 <?php
 */
 ?>
-			<tr height=22 id=<?= $rowuniqueid ?>  class=tablerow<?= $count ?>
+			<tr height=22 id=<?= $rowuniqueid ?> class=tablerow<?= $count ?>
 
 			    onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';"
 			    onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')">
@@ -4650,9 +4683,9 @@ class HtmlLib
 						} else {
 ?>
 
-							<!-- <table width=95%>
-								<tr align=center>
-									<td width=100%>
+							<!-- <table width='95%'>
+								<tr align='center'>
+									<td width='100%'>
 										<b><?= $login->getKeyword('no') ?> <?= get_plural($classdesc[2]) ?><?= $login->getKeyword('under') ?> <?= $parent->getId() ?></b>
 									</td>
 								</tr>
@@ -6402,9 +6435,12 @@ class HtmlLib
 			<tr>
 			<td class=collist width=50><b><?= $info ?></b></td>
 			<td> -->
-			<div style="width:50px; float:left">><b><?= $info ?></b></div>
+			<div style="width:50px; float:left"><b><?= $info ?></b></div>
 <?php
 		}
+
+		// MR -- also need this process to fix title
+		$alt = preg_replace("/_lxspan:([^:]*):([^:]*):/", "$2", $alt);
 ?>
 <!--
 		<table cellpadding=0 cellspacing=0 border=0 width=<?= $width ?>>
@@ -6419,8 +6455,7 @@ class HtmlLib
 						</div>
 						<div>
 							<span id="quotausagebar" title='<?= $alt ?>'>
-								<span class="first"
-								      style="background-image: url(<?= $quotaimg ?>); width:<?= $usedval ?>%;">
+								<span class="first" style="background-image: url(<?= $quotaimg ?>); width:<?= $usedval ?>%;">
 									<?= $text; ?>
 								</span>
 							</span>
@@ -6527,7 +6562,6 @@ class HtmlLib
 		$form = "fancy_select";
 
 		$stylestring = "style='width: 300;' size=20";
-	//	$iconpath = get_image_path() . "/button";
 		$iconpath = get_image_path();
 ?>
 
@@ -9055,9 +9089,7 @@ class HtmlLib
 
 ?>
 
-			<span class="tableheadtext"
-			      onmouseover="changeContent('help','<b>Message </b>: <br /> <br /> <?=$help?>')"
-			      onmouseout="changeContent('help','helparea')"> <?=$d?> </span>
+			<span class="tableheadtext" onmouseover="changeContent('help','<b>Message </b>: <br /> <br /> <?=$help?>')" onmouseout="changeContent('help','helparea')"> <?=$d?> </span>
 
 <?php
 
@@ -9090,8 +9122,7 @@ class HtmlLib
   		      <input name=frm_hpfilter[<?=$filtername?>][sortdir] type=hidden value="<?=$sortdir?>">
 		</form>
 
-    <span title='<?=$alt?>'><a class=tableheadtext
-                                 href="javascript:document.<?=$formname?>.submit()"><?=$desc?> </a> </span>
+    <span title='<?=$alt?>'><a class='tableheadtext' href="javascript:document.<?=$formname?>.submit()"><?=$desc?> </a> </span>
 
 <?php
 	}

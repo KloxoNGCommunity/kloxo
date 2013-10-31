@@ -1,6 +1,7 @@
 <?php
 
-class driver_b extends Lxaclass {
+class driver_b extends Lxaclass
+{
 
 	static $__desc =  array("", "",  "database_types");
 	static $__desc_nname =  array("", "",  "database_types");
@@ -9,7 +10,8 @@ class driver_b extends Lxaclass {
 }
 
 
-class Driver extends Lxdb {
+class Driver extends Lxdb
+{
 
 	static $__desc =  array("", "",  "driver");
 	static $__desc_driver_b =  array("", "",  "driver");
@@ -78,9 +80,10 @@ class Driver extends Lxdb {
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$os = $this->getParentO()->ostype;
-		
-		include "../file/driver/$os.inc";
+	//	$os = $this->getParentO()->ostype;
+	//	include "../file/driver/$os.inc";
+
+		include "../file/driver/rhel.inc";
 
 		$vlist = null;
 

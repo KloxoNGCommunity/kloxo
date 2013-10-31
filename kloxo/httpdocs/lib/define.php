@@ -50,7 +50,7 @@ $gl_class_array["webmimetype"] = "driver/web/mimehandlerlib.php";
 $gl_class_array["webhandler"] = "driver/web/mimehandlerlib.php";
 
 $gl_class_array["web"] = "driver/web/weblib.php";
-$gl_class_array["webcache"] = "driver/webcache/webcachelib.php";
+$gl_class_array["webcache"] = "driver/web/webcachelib.php";
 $gl_class_array["dirprotect"] = "driver/web/dirprotectlib.php";
 
 //$gl_class_array["clientskel"] = "lib/client/clientskellib.php";
