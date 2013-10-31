@@ -486,7 +486,7 @@ class HtmlLib
 			}
 
 			body {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				color: #333;
 			}
 
@@ -501,14 +501,14 @@ class HtmlLib
 			}
 
 			h1 {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 130%;
 				border-bottom: 1px solid #999;
 			}
 
 			h2 {
-				font-family: Arial, sans-serif;
-				font-size: 130%;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
+				font-size: 115%;
 				color: #003360;
 				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 
@@ -516,7 +516,7 @@ class HtmlLib
 			}
 
 			h3 {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 100%;
 			}
 
@@ -533,11 +533,11 @@ class HtmlLib
 			}
 
 			h1 code, h2 code, h3 code {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 			}
 
 			h1 code {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 			}
 
 			#header {
@@ -638,7 +638,7 @@ class HtmlLib
 			}
 
 			body {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				color: #333;
 				margin: 0;
 				padding: 0;
@@ -657,13 +657,13 @@ class HtmlLib
 			}
 
 			h1 {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 130%;
 				border-bottom: 1px solid #999;
 			}
 
 			h2 {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 130%;
 				color: #003370;
 				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
@@ -673,7 +673,7 @@ class HtmlLib
 			}
 
 			h3 {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 100%;
 			}
 
@@ -690,11 +690,11 @@ class HtmlLib
 			}
 
 			h1 code, h2 code, h3 code {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 			}
 
 			h1 code {
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 			}
 
 			#header {
@@ -1600,7 +1600,7 @@ class HtmlLib
 				padding: 2px 5px;
 				margin: 0 0 10px 0;
 				display: block;
-				font-family: Arial, sans-serif;
+				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				color: #003360;
 				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
 				border-bottom: 1px solid #<?=$col?>;
@@ -7628,16 +7628,16 @@ class HtmlLib
 ?>
 
 					<textarea nowrap id="textarea_<?=$variable->name?>" class="<?=$rclass?>" rows="<?=$rows?>"
-					          style="margin:2px 0 2px 50px;width:<?=$cols?>;height:120px; border: 1px solid #aaaaaa; padding: 0;"
+					          style="margin:2px 0 2px 0;width:<?=$cols?>;height:120px; border: 1px solid #aaa; padding: 2px;"
 					          name="<?=$variable->name?>" <?=$readonly?> size="30"><?=$value?></textarea>
 
-					<script type="text/javascript">createTextAreaWithLines('textarea_<?=$variable->name?>');</script>
+					<script type="text/javascript"> // createTextAreaWithLines('textarea_<?=$variable->name?>');</script>
 
 					<style>
 						.textAreaWithLines {
 							display: block;
 							margin: 0;
-							font-family: Arial, sans-serif;
+							font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 							font-size: 11px;
 							border: 1px solid #aaaaaa;
 							border-right: 1px solid #<?=$skincolor?>;
@@ -7779,6 +7779,17 @@ class HtmlLib
 
 		$fontcolor = "#000000";
 
+		$pinfo = str_replace("\n", "<br />", $pinfo);
+		$pinfo = str_replace("[b]", "<span style='font-weight: bold'>", $pinfo);
+		$pinfo = str_replace("[/b]", "</span>", $pinfo);
+
+		$ret = preg_match("/<url:([^>]*)>([^<]*)<\/url>/", $pinfo, $matches);
+
+		if ($ret) {
+			$fullurl = $this->getFullUrl(trim($matches[1]));
+			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href='$fullurl'> $matches[2] </a>", $pinfo);
+		}
+
 		if ($sgbl->isBlackBackground()) {
 			$fontcolor = "#999999";
 		}
@@ -7792,40 +7803,32 @@ class HtmlLib
 <?php
 			$this->print_curvy_table_start();
 		} else {
+			if ($pinfo !== '') {
 ?>
-			<div id="infomsg" style="display:none; position:fixed; width: 600px; top:45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#f0fff8; border:3px double #e22; text-align:left">
+
+			<div id="infomsg" style="display:none; position:fixed; width: 600px; top:45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#dfe; border:3px double #e22; text-align:left">
 <?php
+			}
 
 		}
 
-		$pinfo = str_replace("\n", "<br />", $pinfo);
-		$pinfo = str_replace("[b]", "<span style='font-weight: bold'>", $pinfo);
-		$pinfo = str_replace("[/b]", "</span>", $pinfo);
-
-		$ret = preg_match("/<url:([^>]*)>([^<]*)<\/url>/", $pinfo, $matches);
-
-		if ($ret) {
-			$fullurl = $this->getFullUrl(trim($matches[1]));
-			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href='$fullurl'> $matches[2] </a>", $pinfo);
-		}
-
-	if ($sgbl->isBlackBackground()) {
+		if ($sgbl->isBlackBackground()) {
 ?>
 
 		<span style="color:#999999">
 <?php
-	}
+		}
 ?>
 
-		<?=$pinfo?>&nbsp;
+		&nbsp;<?=$pinfo?>&nbsp;
 <?php
 
-	if ($sgbl->isBlackBackground()) {
+		if ($sgbl->isBlackBackground()) {
 ?>
 
 		</span>;
 <?php
-	}
+		}
 
 		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
 			$this->print_curvy_table_end();
@@ -7833,9 +7836,11 @@ class HtmlLib
 			</td></tr></table></div>
 <?php
 		} else {
+			if ($pinfo !== '') {
 ?>
 			</div>
 <?php
+			}
 		}
 ?>
 

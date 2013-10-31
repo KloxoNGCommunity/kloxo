@@ -1,3 +1,7 @@
+/*
+	// MR -- size: 1em=12pt=16px=100%
+*/
+
 	body {
 		scrollbar-face-color: #bce;
 		scrollbar-shadow-color: #fff;
@@ -6,6 +10,7 @@
 		scrollbar-track-color: #eff;
 		scrollbar-darkshadow-color: #369;
 		scrollbar-arrow-color: #fff;
+		font-size: 100%;
 	}
 
 	.menus {
@@ -101,15 +106,15 @@
 	.buttonunselect {
 		color: #fff;
 		font-weight: bold;
-		font-size: 1.2em;
-		font-family: Tahoma, Verdana Arial, Helvetica, sans-serifs;
+		font-size: 85%;
+		font-family: Tahoma, Verdana, Arial, Helvetica, sans-serifs;
 	}
 
 	.buttonselect {
 		color: #369;
 		font-weight: bold;
-		font-size: 1.2em;
-		font-family: Tahoma, Verdana Arial, Helvetica, sans-serifs;
+		font-size: 85%;
+		font-family: Tahoma, Verdana, Arial, Helvetica, sans-serifs;
 		background-color: #fff;
 		cursor: pointer;
 	}
@@ -198,9 +203,9 @@
 	}
 
 	.filebox {
-		font-family: Tahoma, Verdana Arial, Helvetica, sans-serifs;
+		font-family: Tahoma, Verdana, Arial, Helvetica, sans-serifs;
 		color: #000000;
-		font-size: .9em;
+		font-size: 62.5%;
 		font-weight: normal;
 		background-color: #FFF;
 
@@ -273,13 +278,13 @@
 	.menu {
 		text-decoration: none;
 		color: #333333;
-		font-size: 1.0em;
+		font-size: 75%;
 	}
 
 	.menu1 {
 		text-decoration: none;
 		color: #333333;
-		font-size: 0.9em;
+		font-size: 62.5%;
 		font-weight: bold;
 	}
 
@@ -538,14 +543,14 @@
 		height: 20px;
 		background-color: #eee;
 		vertical-align: middle;
-		font-size: 1.1em;
+		font-size: 75%;
 	}
 
 	.td11 {
 		height: 20px;
 		background-color: #eee;
 		vertical-align: middle;
-		font-size: 1.1em;
+		font-size: 75%;
 	}
 
 	.td9 {
@@ -556,18 +561,18 @@
 	.ovr {
 		background-color: #bbb;
 		height: 20px;
-		font-size: 1.1em;
+		font-size: 75%;
 	}
 
 	.a1 {
 		text-decoration: none;
-		font-size: 1.0em;
+		font-size: 75%;
 		color: #069;
 	}
 
 	.c1 {
 		text-decoration: none;
-		font-size: 1.1em;
+		font-size: 75%;
 		color: #000;
 	}
 

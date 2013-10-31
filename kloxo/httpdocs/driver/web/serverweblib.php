@@ -38,13 +38,11 @@ class serverweb extends lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		switch($subaction) {
-
 			case "apache_optimize":
 				$vlist['apache_optimize'] = array('s', array('--- none ---', 'default', 'optimize'));
 				$this->setDefaultValue('apache_optimize', '--- none ---');
 
 				break;
-
 			case "mysql_convert":
 				if (getRpmBranchInstalled('mysql') === 'MariaDB-server') {
 					$vlist['mysql_convert'] = array('s', array('--- none ---', 'to-myisam', 'to-innodb', 'to-aria'));
@@ -55,7 +53,6 @@ class serverweb extends lxdb
 				$this->setDefaultValue('mysql_convert', '--- none ---');
 
 				break;
-
 			case "fix_chownchmod":
 				$vlist['fix_chownchmod'] = array('s', array(
 						'--- none ---', 'fix-ownership', 'fix-permissions', 'fix-ALL')
@@ -64,16 +61,15 @@ class serverweb extends lxdb
 				$this->setDefaultValue('fix_chownchmod', '--- none ---');
 
 				break;
-
 			case "php_type":
-/*
+			/*
 				$vlist['php_type'] = array('s', array(
 						'mod_php', 'mod_php_ruid2', 'mod_php_itk',
 						'suphp', 'suphp_event', 'suphp_worker',
 						'php-fpm_event', 'php-fpm_worker',
 						'fcgid_event', 'fcgid_worker')
 				);
-*/
+			*/
 
 				// MR -- remove mod_php on 'php-type' select
 				$vlist['php_type'] = array('s', array(
@@ -93,17 +89,16 @@ class serverweb extends lxdb
 				}
 
 				break;
-
 			case "php_branch":
 				$a = getRpmBranchListOnList('php');
 				$vlist['php_branch'] = array('s', $a);
 
 				$this->setDefaultValue('php_branch', getRpmBranchInstalledOnList('php'));
 
-				break;
-
-			default:
 				$vlist['__m_message_pre'] = 'webserver_config';
+
+				break;
+			default:
 				$vlist['__v_button'] = array();
 
 				break;

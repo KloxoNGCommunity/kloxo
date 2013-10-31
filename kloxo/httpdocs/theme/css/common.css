@@ -29,7 +29,7 @@ table  {
 	padding: 0;
 	font-size: 8pt;
 	font-weight: 100;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	border-width: 0;
 	border-bottom: nil;
 }
@@ -54,7 +54,7 @@ a  {
 	padding: 0;
 	font-size: 8pt;
 	font-weight: 100;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	border-width: 0;
 	text-decoration: none;
 }
@@ -103,7 +103,7 @@ img  {
 	padding: 0;
 	font-size: 8pt;
 	font-weight: 100;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	border-width: 0;
 }
 
@@ -112,7 +112,7 @@ div  {
 	padding: 0;
 	font-size: 8pt;
 	font-weight: 100;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 
@@ -133,7 +133,7 @@ div.mainButton {
 
 .forgotpwd { 
 	color: #3992de; 
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: 8pt;
 	text-decoration: none;	
@@ -144,8 +144,8 @@ div.mainButton {
 }
 
 .small {
-	font-size: 9px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 7pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	letter-spacing: 1px;
 }
 
@@ -160,8 +160,8 @@ input.verysmall {
 }
 
 .lightandthin {
-	font-family: Tahoma, Verdana, Arial, sans-serif;
-	font-size: 9px;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
 	font-weight: normal;
 	letter-spacing: 0;
 }
@@ -173,7 +173,7 @@ abbr {
 
 .logintextbox {
 	border: 1px solid #9dddff; 
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10pt; 
 	font-weight: bold; 
 	color: #666666;  
@@ -183,7 +183,7 @@ abbr {
 
 .forgottextbox {
 	border: 1px solid #9dddff; 
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10pt; 
 	font-weight: bold; 
 	color: #666666;  
@@ -193,7 +193,7 @@ abbr {
 
 .submitbox {
 	border: 1px solid #A5C7E7; 
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10pt; 
 	font-weight: bold; 
 	color: #FFFFFF;  
@@ -210,16 +210,16 @@ fieldset {
 }
 
 .menus { 
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 8pt;
 	text-decoration: none;
 }
 
 .helparea {
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: normal; 
-	font-size: 10px; 
+	font-size: 8pt; 
 	height: 85px; 
 	width: 140px; 
 	border-style: groove;
@@ -229,17 +229,17 @@ fieldset {
 }
 
 .button { 
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 8pt;
 	text-decoration: none;
 }
 
 .searchbox {
 	border: 1px solid #b0c0f0;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	color: #000000;
-	font-size: 10px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #ffffff;
@@ -247,9 +247,9 @@ fieldset {
 
 .seabox {
 	border: 1px solid #000000;
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 10px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #ffffff;
@@ -262,9 +262,9 @@ fieldset {
 }
 .seabox1 {
 	border: 1px solid #000000;
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 10px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #ffffff;
@@ -275,9 +275,9 @@ fieldset {
 }
 
 .textdisable {
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 11px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #eeeeee;
@@ -298,9 +298,9 @@ fieldset {
 
 .textarea {
 	color: #000000; 
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 11px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #ffffff;
@@ -309,9 +309,9 @@ fieldset {
 
 .frmtextarea {
 	color: #000000; 
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 11px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #ffffff;
@@ -320,17 +320,17 @@ fieldset {
 
 .frmtextareadisable {
 	color: #000000; 
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
-	font-size: 11px; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	border: 1px solid #dddddd;
 }
 
 .textchmoddisable {
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 11px; 
+	font-size: 8pt; 
 	font-weight: bold; 
 	padding-left: 12px; 
 	background-color: #ffffff;
@@ -338,9 +338,9 @@ fieldset {
 }
 
 .textenable {
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 11px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #ffffff;
@@ -349,9 +349,9 @@ fieldset {
 
 
 .textbox {
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 11px; 
+	font-size: 8pt; 
 	font-weight: normal; 
 	padding-left: 2px; 
 	background-color: #FFFFFF;
@@ -368,15 +368,15 @@ fieldset {
 .buttonunselect {
 	color: #ffffff;
 	font-weight: bold;
-	font-size: 11px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 .buttonselect {
 	color: #336699;
 	font-weight: bold;
-	font-size: 11px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	background-color: #f5f5f5;
 	cursor: pointer;
 }
@@ -396,13 +396,13 @@ fieldset {
 	font-size: 8pt;
 	font-weight: normal;
 	color: #000000;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }	
 
 .helparea {
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: normal; 
-	font-size: 10px; 
+	font-size: 8pt; 
 	height: 85px; 
 	width: 140px; 
 	border-style: groove;
@@ -411,9 +411,9 @@ fieldset {
 }
 .icontextlink { 
 	color: #000000; 
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: normal;
-	font-size: 10px;
+	font-size: 8pt;
 	cursor: pointer;
 	text-decoration: none;
 }
@@ -424,14 +424,14 @@ fieldset {
 }
 
 .searchtext {
-	font-family: arial, verdana;
-	font-size: 12px;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9pt;
 	color: #000000;
 }
 
 .pagetext {
-	font-family: Tahoma, Verdana, Arial, sans-serif;
-	font-size: 10px;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
 	color: #000000;
 	font-weight: bold;
 }
@@ -441,7 +441,7 @@ fieldset {
 }
 
 .submitbutton {
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	font-size: 8pt; 
 	font-weight: bold; 
 	color: #000000;  
@@ -450,7 +450,7 @@ fieldset {
 
 .submitupdatebutton {
 	padding: 0 5px 0 20px;
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	font-size: 8pt; 
 	font-weight: bold; 
 	padding: 0;
@@ -458,7 +458,7 @@ fieldset {
 }
 
 .submitbuttonlogout {
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	font-size: 8pt; 
 	font-weight: bold; 
 	color: #bb3333;  
@@ -466,8 +466,8 @@ fieldset {
 }
 
 .tableheadtext {
-	font-size: 11px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -482,8 +482,8 @@ fieldset {
 }
 
 .detailtablehead {
-	font-size: 11px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -510,8 +510,8 @@ fieldset {
 
 .tablerowdetail0 {
 	font-weight: normal;
-	font-size: 11px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	color: #000000;
 }
 
@@ -521,15 +521,15 @@ fieldset {
 
 .tablerowdetail1 {
 	font-weight: normal;
-	font-size: 11px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	color: #000000;
 }
 
 .hiliterowdetail {
 	font-weight: normal;
-	font-size: 11px;
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 .detailother {
@@ -549,9 +549,9 @@ fieldset {
 }
 
 .filebox {
-	font-family: Tahoma, Verdana, Arial, sans-serif; 
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 9px; 
+	font-size: 7pt; 
 	font-weight: normal; 
 	background-color: #FFFFFF;
 }
@@ -565,7 +565,7 @@ fieldset {
 }
 
 .copyright {
-	font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: normal;
 	padding-left: 20px;
 }

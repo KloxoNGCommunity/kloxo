@@ -12,8 +12,8 @@
 .bgtop2{background-image:url(/theme/skin/feather/default/images/bgbutter.jpg);background-repeat:repeat-x;height:130px;}
 .bgtop3{background-repeat:repeat-x;height:92px;background-color:#87cafe}
 .idbtm1{height:20px;}
-.menu{text-decoration:none;color:#333333;font-size:10px}
-.menu1{text-decoration:none;color:#333333;font-size:9px;font-weight:bold}
+.menu{text-decoration:none;color:#333333;font-size:8pt}
+.menu1{text-decoration:none;color:#333333;font-size:7pt;font-weight:bold}
 .box{height:25px;background-color:#CCCCCC};
 .box1{height:22px;width:120px;background-image:url(/theme/skin/feather/default/images/11.jpg);background-repeat:repeat-x;text-align:center;}
 .box2{height:22px;width:120px;background-image:url(/theme/skin/feather/default/images/12.jpg);background-repeat:repeat-x;text-align:center;color:#000000;};
@@ -46,12 +46,12 @@
 .bg2{background-image:url(/theme/skin/feather/default/images/bg22.jpg);background-repeat:repeat-x;height:13px;}
 .bgsid{background-image:url(/theme/skin/feather/default/images/bg10.jpg);height:20px;background-repeat:repeat-y;vertical-align:middle;font-weight:bold;color:#FFFFFF}
 .bgsidm{background-color:#eeeeef;height:30px;margin:3px 25px 1px 1px;} 
-.td10{height:20px;background-color:#e3e3e4;vertical-align:middle;font-size:11px}
-.td11{height:20px;background-color:#f1f1f1;vertical-align:middle;font-size:11px;}
+.td10{height:20px;background-color:#e3e3e4;vertical-align:middle;font-size:8pt}
+.td11{height:20px;background-color:#f1f1f1;vertical-align:middle;font-size:8pt}
 .td9{background-image:url(/theme/skin/feather/default/images/2.gif);background-repeat:repeat-x;height:22px;font-weight:bold;}
-.ovr{background-color:#b8b8b8;height:20px;font-size:11px}
-.a1{text-decoration:none;font-size:10px;color:#006699}
-.c1{text-decoration:none;font-size:11px;color:#000000}
+.ovr{background-color:#b8b8b8;height:20px;font-size:8pt}
+.a1{text-decoration:none;font-size:8px;color:#006699}
+.c1{text-decoration:none;font-size:8pt;color:#000000}
 .c2 a:hover{color:#469de0}
 .menubtm{border-bottom:2px #dbdbe5 solid}
 

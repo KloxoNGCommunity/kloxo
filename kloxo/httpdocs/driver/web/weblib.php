@@ -177,7 +177,7 @@ class SubWeb_a extends LxaClass
 	static function createListAlist($parent, $class)
 	{
 		$alist[] = "a=list&c=$class";
-		//	$alist[] = "n=web&a=addform&c=$class";
+	//	$alist[] = "n=web&a=addform&c=$class";
 
 		return $alist;
 	}
@@ -262,10 +262,10 @@ class Server_Alias_a extends Lxaclass
 
 class Web extends Lxdb
 {
-// Core
+	// Core
 	static $__desc = array("S", "", "web");
 
-//Mysql
+	// Mysql
 //	static $__desc_ddate = array("", "",  "date");
 //	static $__desc_nname	 = array("", "",  "[%s]_name", URL_SHOW);
 //	static $__desc_subdomain_name= array("", "",  "sub_domain");
@@ -418,7 +418,7 @@ class Web extends Lxdb
 			}
 		}
 
-		//	$dvlist = $this->getList('davuser');
+	//	$dvlist = $this->getList('davuser');
 
 		$dvlist = null;
 
@@ -426,7 +426,7 @@ class Web extends Lxdb
 			$ndvlist[$v->directory][] = null;
 		}
 
-		//	$this->__var_davuser = $ndvlist;
+	//	$this->__var_davuser = $ndvlist;
 
 		$this->__var_davuser = null;
 
@@ -484,10 +484,8 @@ class Web extends Lxdb
 	//	$clientdb = new Sqlite($this->__masterserver, 'client');
 		$clientdb = new Sqlite(null, 'client');
 		$this->__var_clientlist = $clientdb->getRowsWhere($string, array('nname', 'parent_clname'));
-
 	}
 	
-
 	function getQuotaNeedVar()
 	{
 		return array("nname" => $this->nname, "customer_name" => $this->getRealClientParentO()->getPathFromName());
@@ -630,10 +628,10 @@ class Web extends Lxdb
 
 		return;
 
-		//	$path[] = "__path_customer_root/$customer_name/$domainname";
+	//	$path[] = "__path_customer_root/$customer_name/$domainname";
 		$path[] = "__path_customer_root/$customer_name/__processed_stats/$domainname";
 		$path[] = "__path_program_home/domain/$domainname/__backup/";
-		//	$path[] = "__path_httpd_root/$domainname";
+	//	$path[] = "__path_httpd_root/$domainname";
 
 		$t = 0;
 		foreach ($path as $p) {
@@ -862,10 +860,10 @@ class Web extends Lxdb
 		lxfile_generic_chown("{$web_home}/{$this->nname}", "{$this->username}:apache");
 
 		if (!lxfile_exists("{$web_home}/{$this->nname}/httpdocs")) {
-			//lxfile_mkdir("{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}");
-			//lxfile_symlink("{$this->getFullDocRoot()}", "{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}/www");
+		//	lxfile_mkdir("{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}");
+		//	lxfile_symlink("{$this->getFullDocRoot()}", "{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}/www");
 			lxfile_symlink("{$this->getFullDocRoot()}", "{$web_home}/{$this->nname}/httpdocs");
-			//lxfile_symlink("{$web_home}/{$this->nname}/httpdocs", "{$web_home}/{$this->nname}/{$this->nname}");
+		//	lxfile_symlink("{$web_home}/{$this->nname}/httpdocs", "{$web_home}/{$this->nname}/{$this->nname}");
 		}
 
 		$this->createstatsConf($this->nname, $this->stats_username, $this->stats_password);
@@ -885,8 +883,7 @@ class Web extends Lxdb
 		$inp = "__path_program_root/file/awstats.model.conf";
 		$outp = "__path_real_etc_root/awstats/awstats.$domname.conf";
 		self::docreatestatsConf($inp, $outp, $domname, $stats_name, $stats_password);
-		//	lxfile_cp("__path_real_etc_root/awstats/awstats.$domname.conf",
-		//		"__path_real_etc_root/awstats/awstats.www.$domname.conf");
+	//	lxfile_cp("__path_real_etc_root/awstats/awstats.$domname.conf", "__path_real_etc_root/awstats/awstats.www.$domname.conf");
 		lxfile_mkdir("/home/kloxo/httpd/awstats/dirdata/$domname");
 	}
 
@@ -972,8 +969,8 @@ class Web extends Lxdb
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = 'a=show';
-		//	$alist['property'][] = "goback=1&o=mmail&a=list&c=mailaccount";
-		//	$alist['property'][] = 'goback=1&a=show&sa=config';
+	//	$alist['property'][] = "goback=1&o=mmail&a=list&c=mailaccount";
+	//	$alist['property'][] = 'goback=1&a=show&sa=config';
 	}
 
 	static function removeOtherDriver()
@@ -1009,16 +1006,16 @@ class Web extends Lxdb
 	{
 		$alist['__title_class_web'] = '__title_class_web';
 
-		//	$alist[] = "a=list&c=webindexdir_a";
+	//	$alist[] = "a=list&c=webindexdir_a";
 
 		$alist[] = "a=list&c=dirprotect";
 		$alist[] = "a=show&l[class]=ffile&l[nname]=/";
 		$alist[] = "a=list&c=ftpuser";
 		$alist[] = 'a=list&c=ftpsession';
 
-		//	$this->getSwitchServerUrl($alist);
+	//	$this->getSwitchServerUrl($alist);
 
-		//	$alist[] = "a=updateForm&sa=ipaddress";
+	//	$alist[] = "a=updateForm&sa=ipaddress";
 
 		$alist['__title_script'] = 'script';
 		$alist[] = create_simpleObject(array('url' => "http://nname/__kloxo/phpinfo.php", 
@@ -1033,8 +1030,8 @@ class Web extends Lxdb
 		$alist[] = "a=show&k[class]=allinstallapp&k[nname]=installapp";
 
 	/*
-		 $alist['action'][] = "a=update&sa=backup";
-		 $alist['action'][] = "a=updateform&sa=restore";
+		$alist['action'][] = "a=update&sa=backup";
+		$alist['action'][] = "a=updateform&sa=restore";
 	*/
 		return $alist;
 	}
@@ -1079,7 +1076,7 @@ class Web extends Lxdb
 
 	function updatepermalink($param)
 	{
-/*
+	/*
 		// MR -- for future (permalink for lighttpd and nginx)
 
 		if (isset($param['lighty_pretty_app_f'])) {
@@ -1093,7 +1090,7 @@ class Web extends Lxdb
 		}
 
 		$list = lfile("../file/prettyurl/{$name}.{$web}");
-*/
+	*/
 		$name = $param['lighty_pretty_app_f'];
 		$path = $param['lighty_pretty_path_f'];
 

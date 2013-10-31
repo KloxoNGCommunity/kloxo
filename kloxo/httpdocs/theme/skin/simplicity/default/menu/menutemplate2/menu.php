@@ -322,9 +322,8 @@
 </div>
 <div style="float:right">
 	<ul class="menuTemplate2 decor2_1">
-		<li><a class="pureCssMenu" href="javascript://" onMouseOver="document.getElementById('infomsg').style.display='inline';"
-		       onMouseOut="document.getElementById('infomsg').style.display='none';">Help</a></li>
+		<li><a href="#" onMouseOver="document.getElementById('infomsg').style.display='inline';" onMouseOut="document.getElementById('infomsg').style.display='none';">Help</a></li>
 		<li class="separator"></li>
-		<li><a class="pureCssMenu" href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }">Logout</a></li>
+		<li><a href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }">Logout</a></li>
 	</ul>
 </div>

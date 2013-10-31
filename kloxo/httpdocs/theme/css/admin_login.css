@@ -1,10 +1,10 @@
 body {
  	margin: 0;
 	padding: 0;
-	color : #333;
-	background-color : #FFF;
-	font-size : 11px;
-	font-family : Tahoma, Verdana, Arial, sans-serif;
+	color: #333;
+	background-color: #FFF;
+	font-size: 8pt;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 #wrapper {
@@ -24,11 +24,11 @@ form {
 }
 
 .button {
-	border : solid 1px #cccccc;
+	border: solid 1px #cccccc;
 	background: #E9ECEF;
-	color : #666666;
-	font-weight : bold;
-	font-size : 11px;
+	color: #666666;
+	font-weight: bold;
+	font-size: 8pt;
 	padding: 4px;
 }
 
@@ -74,8 +74,8 @@ form {
 
 .inputbox {
 	color: #000000;
-	font-family: Verdana, Tahoma;
-	font-size: 11px;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
 	border: 1px solid #666666;
 	width: 190px;
 	padding: 2px 2px 3px 2px;
@@ -90,8 +90,8 @@ form {
 }
 .passbox {
 	color: #000000;
-	font-family: Verdana, Tahoma;
-	font-size: 11px;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
 	border: 1px solid #666666;
 	width: 190px;
 	padding: 2px 2px 3px 2px;
@@ -112,7 +112,7 @@ form {
 }
 
 .version {
-	font-size: 0.8em;
+	font-size: 10pt;
 }
 
 .message {
@@ -123,6 +123,6 @@ form {
 	background: #F1F3F5;
 	color: #B22222;	
 	font-weight: bold;
-	font-size: 13px;
+	font-size: 10pt;
 }
 

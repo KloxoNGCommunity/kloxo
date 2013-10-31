@@ -161,7 +161,7 @@ function createTextAreaWithLines(id)
 	function setLine(){
 		el.scrollTop   = ta.scrollTop;
 		el.style.top   = (ta.offsetTop) + "px";
-		el.style.left  = (ta.offsetLeft - 45) + "px";
+		el.style.left  = (ta.offsetLeft - 50) + "px";
 		el.style.right  = (ta.offsetLeft + 30) + "px";
 	}
 }

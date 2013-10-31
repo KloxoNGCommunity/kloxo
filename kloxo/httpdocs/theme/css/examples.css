@@ -21,7 +21,7 @@ h1 {
 	border-top: 1px solid #DCEAFB;
 	border-left: 1px solid #DCEAFB;
 	background: #ecf5fe url(info-bg.gif) repeat-x;
-	font-size: 10px;
+	font-size: 8pt;
 	padding: 0;
 }
 
@@ -31,12 +31,12 @@ pre.code{
 	padding: 0;
 	margin: 0;
 	border-left: 0px solid #e8e8e8;
-	font-size: 12px !important;
-	line-height: 10px !important;
+	font-size: 10pt !important;
+	line-height: 12px !important;
 }
 
 .msg .x-box-mc {
-	font-size: 14px;
+	font-size: 11pt;
 }
 
 #msg-div {
