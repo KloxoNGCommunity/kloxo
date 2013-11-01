@@ -3495,14 +3495,20 @@ class HtmlLib
 			if (!$sgbl->isBlackBackground()) {
 			//	$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
 
-				if ($pname === 'on') { $spancolor = '#2d2'; }
-				if ($pname === 'off') { $spancolor = '#d22'; }
-				if ($pname === 'dull') { $spancolor = '#aaa'; }
+				$spancolor = '#ddd'; $spanchar = '&#x2739;';
 
-				if ($pname === 'ok') { $spancolor = '#2d2'; }
-				if ($pname === 'exceed') { $spancolor = '#d82'; }
+				if ($pname === 'on') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
+				if ($pname === 'off') { $spancolor = '#d22'; $spanchar = '&#x2739;'; }
+				if ($pname === 'dull') { $spancolor = '#aaa'; $spanchar = '&#x2739;'; }
 
-				$pname = "<span title='$alt'><span style='font-size: 1.5em; color:{$spancolor}'>&#x2739;</span></span>";
+				if ($pname === 'ok') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
+				if ($pname === 'exceed') { $spancolor = '#d82'; $spanchar = '&#x2739;'; }
+
+			//	if (strpos($pname, 'customer') !== false) { $spancolor = '#22d'; $spanchar = '&#x263A'; }
+				if ($pname === 'customer') { $spancolor = '#22d'; $spanchar = '&#x263A'; }
+
+
+				$pname = "<span title='$alt'><span style='font-size: 1.5em; color:{$spancolor}'>{$spanchar}</span></span>";
 			}
 
 			$this->save_non_existant_image($image);
@@ -7943,7 +7949,7 @@ class HtmlLib
 				$mess = $cgi_frm_smessage;
 			}
 
-			$imgfile = $img_path . "/okpic.gif";
+			$imgfile = $img_path . "/button/okpic.gif";
 
 			unset($this->__http_vars['frm_smessage']);
 			unset($this->__http_vars['frm_m_smessage_data']);
@@ -7968,6 +7974,7 @@ class HtmlLib
 				}
 			}
 
+
 			unset($this->__http_vars['frm_emessage']);
 			unset($this->__http_vars['frm_m_emessage_data']);
 
@@ -7980,6 +7987,7 @@ class HtmlLib
 			// In the status bar, you should print with mainframe. But in the main page, it should be simple url.
 			$pmess = $this->format_message($mess, $value, false);
 			$this->show_error_message($pmess, $message, $imgfile, $color, $style, $fontstyle);
+
 			$pmess = $this->format_message($mess, $value, true);
 			$pmess = substr($pmess, 0, 270);
 			$this->print_on_status_bar("$message $pmess...");
@@ -7990,26 +7998,23 @@ class HtmlLib
 	{
 		if (!$imgfile) {
 			$img_path = get_general_image_path();
-			$imgfile = $img_path . "/warningpic.gif";
+			$imgfile = $img_path . "/button/warningpic.gif";
 			$color = 'brown';
 			$message = "<span style='color:red'><b> Error: </b></span>";
 			$style = 'border: 1px solid red; background:#ffd7d7;';
 			$fontstyle = 'color: #000';
 		}
 
-		$icondir = get_image_path();
+		// MR -- impossible for login page with get_image_path()
+	//	$icondir = get_image_path();
+		$icondir = "/theme/icon/collage";
 
 ?>
 
-		<div id="esmessage"
-		     style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin-left:auto; margin-right:auto;">
+		<div id="esmessage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin-left:auto; margin-right:auto;">
 			<table width='400' style='<?=$style?>' cellpadding='4' cellspacing='5'>
 				<tr height='10'>
-					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img
-								src="<?=$icondir?>/close.gif"> <span
-								style='small'>Press Esc to close </span>
-						</a>
-					</td>
+					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img src="<?=$icondir?>/close.gif"> <span style='small'>Press Esc to close </span></a></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -8831,8 +8836,9 @@ class HtmlLib
 //-->
 </script>
 
-		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #c38;" class="shadow_all">
-			<div id="menu_div" style="width:960px; background-color: #38c; border: 0; margin:0 auto 0 auto; height:40px; padding:5px; vertical-align:middle" class="shadow_all"><? // include_once "theme/menu/purecss/menu.php"?></div>
+		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
+		<!-- <div style="width:960px; background-color: #3498db; border: 0; margin:0 auto 0 auto; height:10px; padding:5px; vertical-align:middle" class="shadow_all"></div> -->
+			<div id="menu_div" style="width:720px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:40px; padding:5px; vertical-align:middle" class="shadow_all"><? // include_once "theme/menu/purecss/menu.php"?></div>
 
 <script type="text/javascript">
 <!--
@@ -8847,9 +8853,9 @@ class HtmlLib
 //-->
 </script>
 
-	<div style="position:fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 2px" 
+	<div style="position:fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" 
 			onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" 
-			onMouseOut="this.style.backgroundColor='#c38'; this.style.color='#fff';">&nbsp;Show/Hide&nbsp;</div></a></div>
+			onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;Show/Hide&nbsp;</div></a></div>
 
 		</div>
 

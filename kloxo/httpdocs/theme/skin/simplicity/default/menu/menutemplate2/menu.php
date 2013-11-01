@@ -15,7 +15,7 @@
 	<li class="separator"></li>
 	<li><a href="#" class="arrow">Administration</a>
 
-		<div class="drop decor2_2" style="width: 560px;">
+		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>All List</b>
 				<div style="list-style:disc">
@@ -42,13 +42,13 @@
 					<a href="/display.php?frm_action=updateform&frm_subaction=ticketconfig&frm_o_o[0][class]=ticketconfig">Configuration</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_o[0][class]=general&frm_o_cname=helpdeskcategory_a">Category</a>
 				</div>
-			</div>
-			<div class='left rightborder'>
 				<b>Message</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=smessage">Messages</a><br/>
 					<!-- <a href="/display.php?frm_action=addform&frm_o_cname=smessage">Add Message</a> -->
 				</div>
+			</div>
+			<div class='left rightborder'>
 				<b>Custom Button</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=custombutton">Custom Buttons</a><br/>
@@ -59,13 +59,13 @@
 					<a href="/display.php?frm_action=list&frm_o_cname=reversedns">Reverse Dns</a><br/>
 					<a href="/display.php?frm_action=updateform&frm_subaction=reversedns&frm_o_o[0][class]=general">Dns Config</a>
 				</div>
-			</div>
-			<div class='left'>
 				<b>Update</b>
 				<div>
 					<a href="/display.php?frm_action=show&frm_o_o[0][class]=lxupdate">Update Home</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_o[0][class]=lxupdate&frm_o_cname=releasenote">Release Notes</a>
 				</div>
+			</div>
+			<div class='left'>
 				<b>Other</b>
 				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=actionlog">Action Log</a><br/>
@@ -79,7 +79,7 @@
 	</li>
 	<li class="separator"></li>
 	<li><a href="#" class="arrow">Resources</a>
-		<div class="drop decor2_2" style="width: 480px;">
+		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>Auxiliary</b>
 				<div>
@@ -120,7 +120,7 @@
 	</li>
 	<li class="separator"></li>
 	<li><a href="#">Advanced</a>
-		<div class="drop decor2_2" style="width: 480px;">
+		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>Customize</b>
 				<div>
@@ -162,7 +162,7 @@
 	</li>
 	<li class="separator"></li>
 	<li><a href="#">Servers</a>
-		<div class="drop decor2_2" style="width: 480px;">
+		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>Server</b>
 
@@ -202,7 +202,7 @@
 	</li>
 	<li class="separator"></li>
 	<li><a href="#">Security</a>
-		<div class="drop decor2_2" style="width: 360px;">
+		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>LxGuard</b>
 				<div>
@@ -226,7 +226,7 @@
 	</li>
 	<li class="separator"></li>
 	<li><a href="#">Hosting</a>
-		<div class="drop decor2_2" style="width: 560px;">
+		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>PHP</b>
 				<div>
@@ -265,7 +265,7 @@
 	</li>
 	<li class="separator"></li>
 	<li><a href="#">Task</a>
-		<div class="drop decor2_2" style="width: 560px;">
+		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>Domain</b>
 				<div>

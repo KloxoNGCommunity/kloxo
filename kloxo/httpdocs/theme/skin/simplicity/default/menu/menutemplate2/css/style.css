@@ -2,16 +2,19 @@
 --------------------------------------------*/
 .menuTemplate2
 {
-	margin: 0 auto; width: auto;float:left;
-	behavior: url("cssmenu.htc");
+	margin: 0 auto;
+	width: auto;
+	float:left;
 	position:relative;
 	z-index:4;
 	height: 36px;
 	background: none;
 	border: none;
-	font-family: Tahoma, Verdana Arial, Helvetica, sans-serifs;
+	font-family: Tahoma, Verdana Arial, Helvetica, sans-serif;
 	list-style: none;
 	padding: 0;
+
+	behavior: url("cssmenu.htc");
 }
 
 .menuTemplate2 li
@@ -55,13 +58,13 @@
 	position: relative;
 }
 
-
 .menuTemplate2 li:hover a, .menuTemplate2 li.onhover a
 {
 	background-color: #EEE;
 	color: #000;
 	z-index: 9; 
 }
+
 .menuTemplate2 a.arrow
 {
 	/* background: url(arrow.gif) no-repeat right center; */
@@ -84,12 +87,11 @@
 		
 /* sub level
 --------------------------------------------*/
-		
-.menuTemplate2 .drop
+
+.menuTemplate2 div.drop
 {
 	position: absolute;
 	z-index:5;
-	left: -9999px;
 	border: 1px solid #DDD;
 	border-bottom:2px solid #B00;
 	/* background: #FFF url(bg_grad.gif) repeat-x 0 0; */
@@ -98,9 +100,11 @@
 	padding: 20px;  
 	top:31px;
 	border-top:2px solid #B00;
+	left: -9999px;
+	width: 500px; /* MR -- set fix width */
 }
 
-.menuTemplate2 .drop a
+.menuTemplate2 div.drop a
 {
 	padding-left: 0;
 	padding-right: 0;
@@ -114,21 +118,24 @@
 	z-index: 0;
 }
 
-.menuTemplate2 .drop b
+.menuTemplate2 div.drop b
 {
 	font-weight:bold;
 }
 	
-.menuTemplate2 li:hover .drop, .menuTemplate2 li.onhover .drop
+.menuTemplate2 li:hover div.drop, .menuTemplate2 li.onhover div.drop
 {
-	left: -1px;/*Use this property to change offset of the dropdown*/
+	/* left: -1px; */ /*Use this property to change offset of the dropdown*/
+	left: -200px; /* MR -- set 'centered' drop */
 }
-.menuTemplate2 li:hover .dropToLeft, .menuTemplate2 li.onhover .dropToLeft
+
+.menuTemplate2 li:hover div.dropToLeft, .menuTemplate2 li.onhover div.dropToLeft
 {
 	left: auto;
 	right: -1px;
 }
-.menuTemplate2 li:hover .dropToLeft2, .menuTemplate2 li.onhover .dropToLeft2
+
+.menuTemplate2 li:hover div.dropToLeft2, .menuTemplate2 li.onhover div.dropToLeft2
 {
 	left: auto;
 	right: -60px;
@@ -141,7 +148,7 @@
 {
 	padding-left:12px;
 }
-.menuTemplate1 li:hover .drop a, .menuTemplate1 li.onhover .drop a
+.menuTemplate1 li:hover div.drop a, .menuTemplate1 li.onhover div.drop a
 {
 	background: none;
 	background-image:none;

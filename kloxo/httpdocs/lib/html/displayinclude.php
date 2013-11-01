@@ -17,9 +17,10 @@
 //
 //    You should have received a copy of the GNU Affero General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 $path = __FILE__;
 $dir = dirname(dirname(dirname($path)));
 include_once "$dir/lib/html/includecore.php";
-include_once "lib/html.php";
-include_once "lib/html/include.php";
+include_once "$dir/lib/html.php";
+include_once "$dir/lib/html/include.php";
 $ghtml = new Html();

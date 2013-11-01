@@ -135,7 +135,7 @@ class sp_basespecialplay extends LxspecialClass
 				// So all the skins should have the same color sets, which is not very practical,
 				// so this should be changed in the future.
 
-				if (!$this->getParentO()->isLogin() || $this->isClass('sp_childspecialplay')) {
+				if (!$this->getParentO()->isLogin() || $login->isClass('sp_childspecialplay')) {
 					$vlist['specialplay_b-dont_show_disabled_permission'] = null;
 				}
 
@@ -148,7 +148,7 @@ class sp_basespecialplay extends LxspecialClass
 
 				$vlist['specialplay_b-close_add_form'] = null;
 
-				if (!$this->isAdmin()) {
+				if (!$login->isAdmin()) {
 					$list = get_namelist_from_objectlist($login->getList('interface_template'));
 					$list = lx_array_merge(array(array("--$progname-default--"), $list));
 				}
@@ -171,14 +171,16 @@ class sp_basespecialplay extends LxspecialClass
 					$vlist['specialplay_b-customermode_flag'] = null;
 				}
 
-
+			/*
 				if (!$this->getParentO()->isLogin()) {
 					$vlist['specialplay_b-logo_image'] = null;
 					$vlist['specialplay_b-logo_image_loading'] = null;
 				}
 
-
-				$vlist['__v_updateall_button'] = array();
+			*/
+				if (!$login->isCustomer()) {
+					$vlist['__v_updateall_button'] = array();
+				}
 
 				break;
 
@@ -289,7 +291,7 @@ class sp_basespecialplay extends LxspecialClass
 			throw new lxexception('not_allowed_in_demo', '');
 		}
 
-		if ($this->subaction === 'skin' && !$this->isClass('sp_childspecialplay')) {
+		if ($this->subaction === 'skin' && !$login->isClass('sp_childspecialplay')) {
 			if ($sgbl->dbg < 0 && $this->getParentO()->isLogin()) {
 				$login->was();
 				if ($ghtml->frm_consumedlogin !== 'true') {
@@ -308,9 +310,14 @@ class sp_basespecialplay extends LxspecialClass
 
 		$sk = $param['specialplay_b-skin_name'];
 		$skc = $param['specialplay_b-skin_color'];
+		$skb = $param['specialplay_b-skin_background'];
 
 		if (!lxfile_exists("theme/skin/$sk/$skc")) {
 			$param['specialplay_b-skin_color'] = 'default';
+		}
+
+		if (!lxfile_exists("theme/background/$skb")) {
+			$param['specialplay_b-skin_background'] = 'abstract_003.jpg';
 		}
 
 		return $param;
