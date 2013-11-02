@@ -1,14 +1,15 @@
 <?php
 //	header("X-Hiawatha-Cache: 60");
 
-//	$syncserver = $login->syncserver;
-//	$userid = $login->getId();
+	$syncserver = $login->syncserver;
+	$userid = $login->getId();
 
-	$syncserver = $_GET['s'];
-	$userid = $_GET['u'];
+//	$syncserver = $_GET['s'];
+//	$userid = $_GET['u'];
 ?>
 
 <link rel="stylesheet" type="text/css" href="/theme/skin/simplicity/default/menu/menutemplate2/css/style.css"/>
+
 <div style="float:left">
 <ul class="menuTemplate2 decor2_1">
 	<li><a href="/display.php?frm_action=show">Home</a></li>
@@ -18,7 +19,7 @@
 		<div class="drop decor2_2">
 			<div class='left rightborder'>
 				<b>All List</b>
-				<div style="list-style:disc">
+				<div>
 					<a href="/display.php?frm_action=list&frm_o_cname=all_domain">Domains</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_cname=all_addondomain">Pointer Domains</a><br/>
 					<a href="/display.php?frm_action=list&frm_o_cname=all_mailaccount">Mailaccounts</a><br/>

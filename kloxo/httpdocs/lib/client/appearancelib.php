@@ -315,11 +315,11 @@ class sp_basespecialplay extends LxspecialClass
 		if (!lxfile_exists("theme/skin/$sk/$skc")) {
 			$param['specialplay_b-skin_color'] = 'default';
 		}
-
+	/*
 		if (!lxfile_exists("theme/background/$skb")) {
 			$param['specialplay_b-skin_background'] = 'abstract_003.jpg';
 		}
-
+	*/
 		return $param;
 	}
 }

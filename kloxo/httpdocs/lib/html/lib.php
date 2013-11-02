@@ -7376,3 +7376,102 @@ function replace_between($str, $needle_start, $needle_end, $replacement) {
 
     return substr_replace($str, $replacement, $start, $end - $start);
 }
+
+// MR -- taken from http://www.webmasterworld.com/forum88/9769.htm
+function get_brightness($hex) {
+	// returns brightness value from 0 to 255
+
+	// strip off any leading #
+	$hex = str_replace('#', '', $hex);
+
+	$c_r = hexdec(substr($hex, 0, 2));
+	$c_g = hexdec(substr($hex, 2, 2));
+	$c_b = hexdec(substr($hex, 4, 2));
+
+	return (($c_r * 299) + ($c_g * 587) + ($c_b * 114)) / 1000;
+}
+
+// MR -- taken from http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
+function adjust_brightness($hex, $steps) {
+	// Steps should be between -255 and 255. Negative = darker, positive = lighter
+	$steps = max(-255, min(255, $steps));
+
+	// Format the hex color string
+	$hex = str_replace('#', '', $hex);
+
+	if (strlen($hex) == 3) {
+		$hex = str_repeat(substr($hex,0,1), 2).str_repeat(substr($hex,1,1), 2).str_repeat(substr($hex,2,1), 2);
+	}
+
+	// Get decimal values
+	$r = hexdec(substr($hex,0,2));
+	$g = hexdec(substr($hex,2,2));
+	$b = hexdec(substr($hex,4,2));
+
+	// Adjust number of steps and keep it inside 0 to 255
+	$r = max(0,min(255,$r + $steps));
+	$g = max(0,min(255,$g + $steps));  
+	$b = max(0,min(255,$b + $steps));
+
+	$r_hex = str_pad(dechex($r), 2, '0', STR_PAD_LEFT);
+	$g_hex = str_pad(dechex($g), 2, '0', STR_PAD_LEFT);
+	$b_hex = str_pad(dechex($b), 2, '0', STR_PAD_LEFT);
+
+	return '#'.$r_hex.$g_hex.$b_hex;
+}
+
+// MR -- taken from http://lab.clearpixel.com.au/2008/06/darken-or-lighten-colours-dynamically-using-php/
+function colourBrightness($hex, $percent) {
+	// Work out if hash given
+	$hash = '';
+
+	if (stristr($hex,'#')) {
+		$hex = str_replace('#','',$hex);
+		$hash = '#';
+	}
+
+	// Check if shorthand hex value given (eg. #FFF instead of #FFFFFF)
+	if(strlen($hex) == 3) {
+		$hex = str_repeat(substr($hex,0,1), 2) . str_repeat(substr($hex,1,1), 2) . str_repeat(substr($hex,2,1), 2);
+	}
+
+	/// HEX TO RGB
+	$rgb = array(hexdec(substr($hex,0,2)), hexdec(substr($hex,2,2)), hexdec(substr($hex,4,2)));
+	//// CALCULATE 
+
+	for ($i=0; $i<3; $i++) {
+		// See if brighter or darker
+		if ($percent > 0) {
+			// Lighter
+			$rgb[$i] = round($rgb[$i] * $percent) + round(255 * (1-$percent));
+		} else {
+			// Darker
+			$positivePercent = $percent - ($percent*2);
+			$rgb[$i] = round($rgb[$i] * $positivePercent) + round(0 * (1-$positivePercent));
+		}
+
+		// In case rounding up causes us to go to 256
+		if ($rgb[$i] > 255) {
+			$rgb[$i] = 255;
+		}
+	}
+
+	//// RBG to Hex
+	$hex = '';
+
+	for($i=0; $i < 3; $i++) {
+		// Convert the decimal digit to hex
+		$hexDigit = dechex($rgb[$i]);
+		// Add a leading zero if necessary
+
+		if(strlen($hexDigit) == 1) {
+		$hexDigit = "0" . $hexDigit;
+		}
+
+		// Append to the hex string
+		$hex .= $hexDigit;
+	}
+
+	return $hash.$hex;
+}
+

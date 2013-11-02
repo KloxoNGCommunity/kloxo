@@ -4,10 +4,10 @@
 {
 	margin: 0 auto;
 	width: auto;
-	float:left;
-	position:relative;
-	z-index:4;
-	height: 36px;
+	float: left;
+	position: relative;
+	z-index: 4;
+	height: 28px;
 	background: none;
 	border: none;
 	font-family: Tahoma, Verdana Arial, Helvetica, sans-serif;
@@ -21,34 +21,32 @@
 {
 	padding: 0;
 	float: left;
-	height: 34px;
-	_height:36px;/*IE6 Hack*/
+	height: 26px;
+	_height: 28px;/*IE6 Hack*/
 	position: relative;/*delete it if you want submenu to be positioned relative to the whole menu instead of this li element*/
-	z-index:5;
+	z-index: 5;
 	
-	border-left:1px solid;
-	border-right:1px solid;
-	border-top:2px solid;
-	border-color:transparent;
-	_border-color:#FFF;/*IE6 Hack*/
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-top: 1px solid;
+	border-color: transparent;
+	_border-color: #FFF;/*IE6 Hack*/
 }
 
 .menuTemplate2 li a
 {
-	color:#fff;
+	color: #fff;
 }
 
 .menuTemplate2 li:hover, .menuTemplate2 li.onhover
 {
-	border-color:#DDD;
-	border-top:2px solid #B00;
-	/* border-bottom:1px solid #DDD; */
-	border-bottom:2px solid #B00;
+	border: 1px solid #B00;
 }
+
 .menuTemplate2 a
 {
-	padding: 0 10px;
-	line-height: 34px; /*Note: keep this value the same as the height of .menuTemplate2 li */
+	padding: 0 6px;
+	line-height: 26px; /*Note: keep this value the same as the height of .menuTemplate2 li */
 	font-size: 1.2em;
 	font-weight: normal;
 	display: inline-block;
@@ -60,7 +58,7 @@
 
 .menuTemplate2 li:hover a, .menuTemplate2 li.onhover a
 {
-	background-color: #EEE;
+	background-color: #F8F8FF;
 	color: #000;
 	z-index: 9; 
 }
@@ -81,25 +79,23 @@
 /*for the top-level separators*/
 .menuTemplate2 li.separator
 {
-	display:none;
+	display: none;
 }
-	   		
-		
+
 /* sub level
 --------------------------------------------*/
 
 .menuTemplate2 div.drop
 {
 	position: absolute;
-	z-index:5;
-	border: 1px solid #DDD;
-	border-bottom:2px solid #B00;
-	/* background: #FFF url(bg_grad.gif) repeat-x 0 0; */
-	background: #FFF;
+	z-index: 5;
+
+	border: 1px solid #B00;
+	background-color: #F8F8FF;
 	text-align: left;
-	padding: 20px;  
-	top:31px;
-	border-top:2px solid #B00;
+	padding: 15px;  
+	top: 25px;
+
 	left: -9999px;
 	width: 500px; /* MR -- set fix width */
 }
@@ -120,7 +116,7 @@
 
 .menuTemplate2 div.drop b
 {
-	font-weight:bold;
+	font-weight: bold;
 }
 	
 .menuTemplate2 li:hover div.drop, .menuTemplate2 li.onhover div.drop
@@ -129,47 +125,35 @@
 	left: -200px; /* MR -- set 'centered' drop */
 }
 
-.menuTemplate2 li:hover div.dropToLeft, .menuTemplate2 li.onhover div.dropToLeft
-{
-	left: auto;
-	right: -1px;
-}
-
-.menuTemplate2 li:hover div.dropToLeft2, .menuTemplate2 li.onhover div.dropToLeft2
-{
-	left: auto;
-	right: -60px;
-}
-
 /* Elements within the drop down sub-menu
 --------------------------------------------*/
 
 .menuTemplate2 div.drop div div
 {
-	padding-left:12px;
+	padding-left: 12px;
 }
 .menuTemplate1 li:hover div.drop a, .menuTemplate1 li.onhover div.drop a
 {
 	background: none;
-	background-image:none;
-	padding:0 0;
+	background-image: none;
+	padding: 0 0;
 }
 .menuTemplate2 div.drop div a
 {
 	line-height: 20px;  
 	color: #048;
-	background:none;
+	background: none;
 }
 .menuTemplate2 div.drop div a:hover
 {
-	text-decoration:underline;
-	cursor:pointer;
-	color:#f00;
+	text-decoration: underline;
+	cursor: pointer;
+	color: #f00;
 }
 
 .menuTemplate2 div.left
 {
-	float:left;
+	float: left;
 	padding-right: 6px;
 	margin-left: 6px;
 }
@@ -181,7 +165,7 @@
 
 .menuTemplate2 div.left div
 {
-	padding-bottom:6px;
+	padding-bottom: 6px;
 }
 	 
 /* CSS3 effects
@@ -195,10 +179,6 @@
 /*for submenu.*/
 .decor2_2 
 {
-	/* -moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px; */
-
 	-moz-box-shadow: 0 0 14px #AAA;
 	-webkit-box-shadow: 0 0 14px #AAA;
 	box-shadow: 0 0 14px #AAA;  

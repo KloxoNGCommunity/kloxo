@@ -23,7 +23,7 @@ function __ac_desc_desktop($object)
 
 ?>
 
-	<table cellpadding="0" width="90%" cellspacing="1" style='border:1px solid #<?= $col ?>; background:#fffafa;'>
+	<table cellpadding="0" width="90%" cellspacing="1" style='border:1px solid #<?=$col?>; background:#fffafa;'>
 		<tr></tr>
 		<tr height="50">
 			<td align="center">
@@ -58,7 +58,7 @@ function __ac_desc_desktop($object)
 				<div id="debug"></div>
 				<div id="boundary">
 					<div id="content">
-						<h2 class="expanded" align="center" onMouseover="this.style.background='url(<?= $skindir ?>/onexpand.gif)'" onMouseout="this.style.background='url(<?= $skindir ?>/expand.gif)'"><code>History</code>
+						<h2 class="expanded" align="center" onMouseover="this.style.background='url(<?=$skindir?>/onexpand.gif)'" onMouseout="this.style.background='url(<?=$skindir?>/expand.gif)'"><code>History</code>
 						</h2>
 						<table cellpadding="0" cellspacing="0" style="background:#f0f0f0;">
 <?php
@@ -76,9 +76,9 @@ function __ac_desc_desktop($object)
 								$des = "$ac_descr[2] for $__t_identity ($h)";
 ?>
 
-								<tr valign="center" style="background:#f0f0f0;height:25px" onMouseover="this.style.background='url(<?= $skindir ?>/a.gif)'" onMouseout="this.style.background='url(<?= $skindir ?>/b.gif)'">
-									<td style="padding:0 0 0 20px;" nowrap><a href="<?= $k ?>"><img src="<?= $_t_image ?>" width="20" height="20"></td>
-									<td width="100%" nowrap><a href="<?= $k ?>">&nbsp; <?= $des ?></td>
+								<tr valign="center" style="background:#f0f0f0;height:25px" onMouseover="this.style.background='url(<?=$skindir?>/a.gif)'" onMouseout="this.style.background='url(<?=$skindir?>/b.gif)'">
+									<td style="padding:0 0 0 20px;" nowrap><a href="<?=$k?>"><img src="<?=$_t_image?>" width="20" height="20"></td>
+									<td width="100%" nowrap><a href="<?=$k?>">&nbsp; <?=$des?></td>
 								</tr>
 								<tr style="background:#ffffff;">
 									<td></td>
@@ -128,12 +128,12 @@ function __ac_desc_updateshow($object)
 
 	<table cellpadding="0" cellspacing="0" width="90%">
 		<tr>
-			<td> <?= $out ?> </td>
+			<td> <?=$out?> </td>
 		</tr>
 	</table>
 	<table cellpadding="0" cellspacing="0">
 		<tr>
-			<td> [<a href="<?= $url ?>"> Go Back </a>]</td>
+			<td> [<a href="<?=$url?>"> Go Back </a>]</td>
 		</tr>
 	</table>
 <?php
@@ -161,8 +161,8 @@ function print_customer_mode($object)
 				<table align="left" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td nowrap align="center"> -->
-							<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 20px; padding-top: 4px">
-							<a href="<?= $url ?>">&nbsp;>>>> Switch To <?= $mode ?> Mode <<<<&nbsp;</a>
+							<div style="background: #<?=$skin_color?> url(<?=$col?>); height: 20px; padding-top: 4px">
+							<a href="<?=$url?>">&nbsp;>>>> Switch To <?=$mode?> Mode <<<<&nbsp;</a>
 							</div>
 						<!-- </td>
 					</tr>
@@ -253,7 +253,7 @@ function __ac_desc_show($object)
 						<table cellpadding="4" width="80%" cellspacing="13" border="1" height="80">
 							<tr>
 								<td> &nbsp; &nbsp; <img src="theme/general/button/warningpic.gif">
-									&nbsp; <?= $showalist['__v_message'] ?> </td>
+									&nbsp; <?=$showalist['__v_message']?> </td>
 							</tr>
 						</table>
 					</td>
@@ -585,7 +585,7 @@ function __ac_desc_graph($object)
 		$ghtml->print_curvy_table_start();
 ?>
 
-		Graph Failed due to <?= $e->getMessage() ?> <?= $e->value ?>
+		Graph Failed due to <?=$e->getMessage()?> <?=$e->value?>
 <?php
 		$ghtml->print_curvy_table_end();
 		$object->dbaction = 'clean';
@@ -601,7 +601,7 @@ function __ac_desc_graph($object)
 
 ?>
 
-	<img src="/tmp/<?= $tmpgraph ?>">
+	<img src="/tmp/<?=$tmpgraph?>">
 <?php
 	$ghtml->print_content_end();
 }
@@ -670,7 +670,7 @@ function __ac_desc_delete($object)
 				<tr>
 					<td width="10"></td>
 					<td align="left"> -->
-				<div>These Objects Under these <?= get_plural($object->getClass()) ?> will also be Deleted.<br/> <br/></div>
+				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br/> <br/></div>
 					<!-- </td>
 				</tr>
 			</table> -->
@@ -1747,12 +1747,12 @@ function print_navigation($navig)
 			if ($v) {
 				if (isset($ob->$k)) {
 					$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->$k, ".gif");
-					$imgstr[] = "<span title='$k is {$ob->$k}'> <img src=$img width=30 height=30> </span>";
+					$imgstr[] = "<span title='$k is {$ob->$k}'><img src=$img width=30 height=30></span>";
 				}
 			} else {
 				$v = $ob->display($k);
 				$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->display($k), ".gif");
-				$imgstr[] = "<span title='$k is " . $ob->display($k) . "'> <img src=$img width=30 height=30> </span>";
+				$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src='$img' width='30' height='30'></span>";
 			}
 		}
 	}
@@ -1763,7 +1763,7 @@ function print_navigation($navig)
 
 	if ($ob->isLxclient() && $ob->getSpecialObject('sp_specialplay') && $ob->getSpecialObject('sp_specialplay')->isOn('demo_status')) {
 		$_timg = $ghtml->get_image($buttonpath, $ob->getClass(), "updateform_demo_status", ".gif");
-		$demoimg = "<span title='Account is Demo'> <img src=$_timg> </span>";
+		$demoimg = "<span title='Account is Demo'><img src='$_timg'></span>";
 	}
 
 	if ($sgbl->isBlackBackground()) {
@@ -1775,9 +1775,17 @@ function print_navigation($navig)
 		var gl_imgrightpoint = '<?=$imgleftpoint?>';
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
-						<div style="height: 40px; padding: 2px; text-shadow: 1px 1px #fff;">
-							<div style="float:left"><?= "$imgstr $demoimg" ?><img height="35" src="<?= $image ?>"></div>
+						<div style="height: 40px; padding: 2px; text-shadow: 1px 1px #fff; background-color: #fff; opacity: .6; border: 1px solid #ddd;" class="shadow_all">
 <?php
+	if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+?>
+							<div style="float: left;margin-top: -4px">&nbsp;<span style="font-size: 32px; color: #22e">&#x2318;</span>&nbsp;</div>
+<?php
+	} else {
+?>
+							<div style="float: left"><?="$imgstr $demoimg"?><img height="35" src="<?=$image?>"></div>
+<?php
+	}
 
 												$forecolorstring = null;
 
@@ -1797,14 +1805,14 @@ function print_navigation($navig)
 													$bracketedname = null;
 
 													if ($navigmenu[$k][0] != 'list') {
-														$bracketedname = "($nname)";
+														$bracketedname = "&nbsp;($nname)";
 													}
 
 													$menustring = null;
 
 ?>
 
-													<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?= $url ?>'><b><?= $desc['desc'] ?><?= $bracketedname ?></b></a> &nbsp;|</div>
+													<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;&#x2794;</div>
 <?php
 												}
 
@@ -1821,12 +1829,12 @@ function print_navigation($navig)
 										if ($v) {
 											if (isset($ob->$k)) {
 												$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->$k, ".gif");
-												$imgstr[] = "<span title='$k is {$ob->$k}'> <img src=$img width=9 height=9> </span>";
+												$imgstr[] = "<span title='$k is {$ob->$k}'><img src=$img width=9 height=9></span>";
 											}
 										} else {
 											$v = $ob->display($k);
 											$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_{$ob->display($k)}", ".gif");
-											$imgstr[] = "<span title='$k is " . $ob->display($k) . "'> <img src=$img width=9 height=9> </span>";
+											$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src=$img width=9 height=9></span>";
 										}
 									}
 								}
@@ -1863,7 +1871,7 @@ function print_navigation($navig)
 								$fullimgstr = implode(" ", $imgstr);
 ?>
 
-								<div style="float:left; padding-top: 10px;" id="tnavig<?= $k ?>" onMouseOut="changeContent('help', 'helparea');">&nbsp; <?= $name ?> {<b><?= $clienttype ?><?= trim($description['desc']) ?></b>} <?= $fullimgstr ?></div>
+								<div style="float:left; padding-top: 10px;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;<?=$name?>&nbsp;{<b><?=$clienttype?><?=trim($description['desc'])?></b>}<?=$fullimgstr?></div>
 <?php
 
 								$hypervm = null;
@@ -1893,7 +1901,7 @@ function print_navigation($navig)
 
 ?>
 
-				<div style="float: right; padding-top: 10px;"><a href="<?= $shurl ?>"> Add to Favorites </a> &nbsp; </div>
+				<div style="float: right; padding-top: 10px;">&nbsp;<a href="<?=$shurl?>">Add to Favorites</a>&nbsp;</div>
 <?php
 			}
 
@@ -1941,9 +1949,9 @@ function __ac_desc_resource($object)
 
 	<table valign=top>
 		<tr align=left>
-			<td width=10><input class=submitbutton onClick='<?= $treename ?>.closeAll();' type=button value="Close">
+			<td width=10><input class=submitbutton onClick='<?=$treename?>.closeAll();' type=button value="Close">
 			</td>
-			<td align=left width=10><input class=submitbutton onClick='<?= $treename ?>.openAll();' type=button value="Open"></td>
+			<td align=left width=10><input class=submitbutton onClick='<?=$treename?>.openAll();' type=button value="Open"></td>
 			<td width=100%></td>
 		</tr>
 	</table>
@@ -2005,7 +2013,7 @@ function license_check()
 ?>
 
 		<br/> <br/> <br/> <br/> <br/>
-		<?= $mess ?>
+		<?=$mess?>
 <?php
 
 		if ($login->isAdmin()) {
@@ -2116,9 +2124,9 @@ function do_display_init()
 		$parent = $gbl->c_session->ssl_param['parent_clname'];
 ?>
 
-		<table cellpadding=0 height=26 cellspacing=0 background="<?= $skindir ?>/expand.gif">
+		<table cellpadding=0 height=26 cellspacing=0 background="<?=$skindir?>/expand.gif">
 			<tr>
-				<td nowrap><a href="<?= $url ?>"> Back to HyperVM ($parent) </a></td>
+				<td nowrap><a href="<?=$url?>"> Back to HyperVM ($parent) </a></td>
 				<td width=10>&nbsp;|&nbsp;</td>
 				<td> Kloxo</td>
 				<td width=10>&nbsp;|&nbsp;</td>
@@ -2137,7 +2145,7 @@ function do_display_init()
 	if ($gbl->c_session->consuming_parent) {
 ?>
 	
-	<table cellpadding=0 cellspacing=0 bgcolor="<?= $col ?>">
+	<table cellpadding=0 cellspacing=0 bgcolor="<?=$col?>">
 			<tr>
 				<td nowrap> Consumed Login</td>
 				<td><a href="/display.php?frm_consumedlogin=true&frm_action=desktop">Desktop </a></td>
@@ -2390,7 +2398,7 @@ function exit_if_under_maintenance()
 	if ($gen->isOn("maintenance_flag")) {
 ?>
 
-		<?= $g->text_maintenance_message ?>
+		<?=$g->text_maintenance_message?>
 <?php
 
 		exit;
@@ -2439,8 +2447,8 @@ function print_head_image()
 
 	if ($skin_name !== 'feather') { return; }
 ?>
-	<link href="<?= $skindir ?>/css/style.css" rel="stylesheet" type="text/css" />
-	<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(<?= $skindir_default ?>/images/completefeather.jpg)">
+	<link href="<?=$skindir?>/css/style.css" rel="stylesheet" type="text/css" />
+	<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(<?=$skindir_default?>/images/completefeather.jpg)">
 		<tr>
 			<td width=100% id='td1'></td>
 <?php

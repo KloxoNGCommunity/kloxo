@@ -3337,6 +3337,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
 		$rclass = $class;
 
 		list($graphtype, $graphwidth) = exec_class_method($rclass, "getGraphType");
@@ -3493,22 +3495,24 @@ class HtmlLib
 			$align = "center onmouseover=\"changeContent('help',' $help')\" onmouseout=\"changeContent('help','helparea')\"";
 
 			if (!$sgbl->isBlackBackground()) {
-			//	$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
+				if ($skin_name !== 'simplicity') {
+					$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
+				} else {
+					$spancolor = '#ddd'; $spanchar = '&#x2739;';
 
-				$spancolor = '#ddd'; $spanchar = '&#x2739;';
+					if ($pname === 'on') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
+					if ($pname === 'off') { $spancolor = '#d22'; $spanchar = '&#x2739;'; }
+					if ($pname === 'dull') { $spancolor = '#aaa'; $spanchar = '&#x2739;'; }
 
-				if ($pname === 'on') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
-				if ($pname === 'off') { $spancolor = '#d22'; $spanchar = '&#x2739;'; }
-				if ($pname === 'dull') { $spancolor = '#aaa'; $spanchar = '&#x2739;'; }
+					if ($pname === 'ok') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
+					if ($pname === 'exceed') { $spancolor = '#d82'; $spanchar = '&#x2739;'; }
 
-				if ($pname === 'ok') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
-				if ($pname === 'exceed') { $spancolor = '#d82'; $spanchar = '&#x2739;'; }
-
-			//	if (strpos($pname, 'customer') !== false) { $spancolor = '#22d'; $spanchar = '&#x263A'; }
-				if ($pname === 'customer') { $spancolor = '#22d'; $spanchar = '&#x263A'; }
+				//	if (strpos($pname, 'customer') !== false) { $spancolor = '#22d'; $spanchar = '&#x263A'; }
+					if ($pname === 'customer') { $spancolor = '#22d'; $spanchar = '&#x263A'; }
 
 
-				$pname = "<span title='$alt'><span style='font-size: 1.5em; color:{$spancolor}'>{$spanchar}</span></span>";
+					$pname = "<span title='$alt'><span style='font-size: 1.5em; color:{$spancolor}'>{$spanchar}</span></span>";
+				}
 			}
 
 			$this->save_non_existant_image($image);
@@ -3548,19 +3552,24 @@ class HtmlLib
 						if ($sgbl->isBlackBackground()) {
 							$pname = "b";
 						} else {
-						//	$pname = " <span title='$alt'><img src='$_t_image' height=15 width=15></span>";
+							if ($skin_name !== 'simplicity') {
+								$pname = " <span title='$alt'><img src='$_t_image' height=15 width=15></span>";
+							} else {
+								$txt = '<span style="font-size:1.5em">&#x25C9;</span>';
 
-						//	if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x21E7;</span>'; }
-						//	if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x21E9;</span>'; }
-						//	if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x21F3;</span>'; }
+								if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x21E7;</span>'; }
+								if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x21E9;</span>'; }
+								if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x21F3;</span>'; }
 
-						//	if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x25C9;</span>'; }
-						//	if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x25CE;</span>'; }
-						//	if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x262A;</span>'; }
 
-						//	$pname = "<span title='$alt'>{$txt}</span>";
+							//	if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x25C9;</span>'; }
+							//	if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x25CE;</span>'; }
+							//	if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x262A;</span>'; }
 
-							$pname = "<span title='$alt' style='font-size:1.5em; color:#68a'>&#x25C9;</span>";
+								$pname = "<span title='$alt'>{$txt}</span>";
+
+							//	$pname = "<span title='$alt' style='font-size:1.5em; color:#68a'>&#x25C9;</span>";
+							}
 						}
 
 						$align = "center";
@@ -8768,7 +8777,8 @@ class HtmlLib
 		} else {
 		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/purecss/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
 		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/prodropdown/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
-			$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/menutemplate2/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
+		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/menutemplate2/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
+			$func = "onLoad=\"lxLoadBody();\"";
 		}
 
 		if ($sgbl->isBlackBackground()) {
@@ -8836,9 +8846,12 @@ class HtmlLib
 //-->
 </script>
 
-		<div style="position:fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
-		<!-- <div style="width:960px; background-color: #3498db; border: 0; margin:0 auto 0 auto; height:10px; padding:5px; vertical-align:middle" class="shadow_all"></div> -->
-			<div id="menu_div" style="width:720px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:40px; padding:5px; vertical-align:middle" class="shadow_all"><? // include_once "theme/menu/purecss/menu.php"?></div>
+		<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
+			<div style="position: fixed; top: 3px; left: 3px"><div style="color: #fff; margin:2px; padding: 3px; border:0;">Login as: <?=$login->nname?> (<?=$login->cttype?>)</div></div>
+			<div id="menu_div" style="width:720px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/menutemplate2/menu.php"?></div>
+<?php
+	/*
+?>
 
 <script type="text/javascript">
 <!--
@@ -8853,13 +8866,17 @@ class HtmlLib
 //-->
 </script>
 
-	<div style="position:fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" 
+<?php
+	*/
+?>
+
+	<div style="position: fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" 
 			onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" 
 			onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;Show/Hide&nbsp;</div></a></div>
 
 		</div>
 
-		<div style="position:fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="75" /></a></div>
+		<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60" /></a></div>
 		<!-- "END TOP MENU + LOGO" -->
 <?php
 		}
