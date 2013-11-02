@@ -18,7 +18,7 @@ function print_tab_block_start($alist)
 	$skin_color = $login->getSpecialObject('sp_specialplay')->skin_color;
 
 ?>
-	<br>
+	<!-- <br /> -->
 <!-- "START TAB" -->
 	<div>
 <?php
@@ -46,6 +46,7 @@ function print_tab_block_start($alist)
 
 ?>
 		</div>	
+		<div class="tabcompleteright">&nbsp;&nbsp;</div>
 	</div>
 <!-- "END TAB" -->
 <?php

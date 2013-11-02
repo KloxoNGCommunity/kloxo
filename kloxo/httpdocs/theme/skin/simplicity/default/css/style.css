@@ -420,6 +420,7 @@
 		float: left;
 		/* verb padding + 1 */
 		padding-top: 7px;
+		width: 10px;
 	}
 
 	.tabcompleteright {

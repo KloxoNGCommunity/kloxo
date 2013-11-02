@@ -670,7 +670,7 @@ function __ac_desc_delete($object)
 				<tr>
 					<td width="10"></td>
 					<td align="left"> -->
-				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br/> <br/></div>
+				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br /> <br /></div>
 					<!-- </td>
 				</tr>
 			</table> -->
@@ -851,8 +851,8 @@ function __ac_desc_selectShow($object)
 
 ?>
 
-	<br/>
-	<br/>
+	<br />
+	<br />
 <?php
 
 	$object->showRawPrint();
@@ -918,7 +918,7 @@ function __ac_desc_Update($object)
 			$ret = do_update($object, $subaction, $list);
 		} else {
 			if (!$list) {
-				print("List not set for Multiple Update <br/> ");
+				print("List not set for Multiple Update <br /> ");
 				exit;
 			}
 			foreach ($list as $l) {
@@ -1051,7 +1051,7 @@ function __ac_desc_UpdateForm($object)
 			do_updateform($object, $subaction);
 ?>
 
-			<br/> <br/> <br/>
+			<br /> <br /> <br />
 <?php
 		}
 	} else {
@@ -1410,7 +1410,7 @@ function create_xml($object, $stuff, $ret)
 				$descr = $ghtml->get_classvar_description_after_overload($class, $k);
 
 				if (count($descr) < 3) {
-					dprint("Variable $k in $class Not Defined... <br/> \n");
+					dprint("Variable $k in $class Not Defined... <br /> \n");
 					$descr = array($class, $k, "Not Defined");
 				}
 			}
@@ -1775,7 +1775,7 @@ function print_navigation($navig)
 		var gl_imgrightpoint = '<?=$imgleftpoint?>';
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
-						<div style="height: 40px; padding: 2px; text-shadow: 1px 1px #fff; background-color: #fff; opacity: .6; border: 1px solid #ddd;" class="shadow_all">
+						<div style="height: 40px; padding: 2px">
 <?php
 	if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
@@ -2012,7 +2012,7 @@ function license_check()
 		$mess = "License Expired";
 ?>
 
-		<br/> <br/> <br/> <br/> <br/>
+		<br /> <br /> <br /> <br /> <br />
 		<?=$mess?>
 <?php
 
@@ -2059,7 +2059,7 @@ function password_contact_check()
 	if (check_raw_password('client', 'admin', 'admin')) {
 ?>
 
-		<br/> <br/> <br/>
+		<br /> <br /> <br />
 <div style="width:640px; background-color: #fff; margin: 0 auto 0 auto; border: 1px solid #ddd;">
 <?php
 
@@ -2288,7 +2288,7 @@ function lx_frm_inc()
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!$ghtml->iset("frm_action")) {
-		die("Action Not set <br/> ");
+		die("Action Not set <br /> ");
 	}
 
 	$caction = $ghtml->frm_action;
@@ -2368,7 +2368,7 @@ function lx_frm_inc()
 	}
 
 	if (isset($gbl->__this_function)) {
-		dprint("Calling $gbl->__this_function <br/> <br/> ");
+		dprint("Calling $gbl->__this_function <br /> <br /> ");
 
 		// workaround for the following php bug:
 		//   http://bugs.php.net/bug.php?id=47948
@@ -2526,7 +2526,7 @@ function print_quick_action($class)
 	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/theme/lbin/redirect.php\">";
 
 	$desc = $ghtml->get_class_description($class);
-//	$res .= "$desc[2] <br> ";
+//	$res .= "$desc[2] <br /> ";
 
 	if (!$object->isLogin()) {
 		$res .= "<select $stylestr name=frm_redirectname>";

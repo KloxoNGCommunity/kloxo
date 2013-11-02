@@ -8778,7 +8778,7 @@ class HtmlLib
 		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/purecss/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
 		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/prodropdown/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
 		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/menutemplate2/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
-			$func = "onLoad=\"lxLoadBody();\"";
+			$func = "";
 		}
 
 		if ($sgbl->isBlackBackground()) {
@@ -8804,6 +8804,7 @@ class HtmlLib
 <?php
 		if ($skin_name === 'simplicity') {
 			// MR -- mod from http://www.daniweb.com/web-development/javascript-dhtml-ajax/threads/184021/loading-an-html-file-into-a-div-from-a-link
+	/*
 ?>
 <script type="text/javascript">
 <!--
@@ -8845,13 +8846,12 @@ class HtmlLib
 	}
 //-->
 </script>
+<?php
+	*/
+?>
 
 		<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
-			<div style="position: fixed; top: 3px; left: 3px"><div style="color: #fff; margin:2px; padding: 3px; border:0;">Login as: <?=$login->nname?> (<?=$login->cttype?>)</div></div>
 			<div id="menu_div" style="width:720px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/menutemplate2/menu.php"?></div>
-<?php
-	/*
-?>
 
 <script type="text/javascript">
 <!--
@@ -8865,10 +8865,6 @@ class HtmlLib
 	}
 //-->
 </script>
-
-<?php
-	*/
-?>
 
 	<div style="position: fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" 
 			onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" 
@@ -8886,15 +8882,16 @@ class HtmlLib
 				$margin_top = '60';
 				$border = '0';
 				$bgcolor = "";
+				$bgcolor = "background-color:#f0f8ff";
 			} else {
 				$margin_top = '10';
 				$border = '4px double #ddd';
-				$bgcolor = "background-color:#ffffff";
+				$bgcolor = "background-color:#fff";
 			}
 ?>
 
 			<!-- "START TAB + CONTENT" -->
-			<div id="mmm" style="padding:0; width:960px; margin:<?=$margin_top?>px auto 10px auto; border: <?=$border?>; <?=$bgcolor?>">
+			<div class="shadow_all" id="mmm" style="padding:0; width:960px; margin:<?=$margin_top?>px auto 10px auto; border: <?=$border?>; <?=$bgcolor?>">
 <?php
 		}
 
@@ -9326,9 +9323,9 @@ class HtmlLib
 	<table id="tblmain" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%" style="<?=$bordering?>; background-color: #fff">
 	<tr>
 	<td width="100%" align="center" valign="top">
-	<br>
+	<br />
 -->
-<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden" class="shadow_all">
+<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden">
 	<div style="text-align:center; width:100%; height: 100%; min-height: 100%; height: auto !important;<?=$bordering?>; background-color: #fff">
 <br />
 <?php
@@ -9408,7 +9405,7 @@ class HtmlLib
 		$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/theme/lbin/redirect.php\">";
 
 		$desc = $this->get_class_description($class);
-	//	$res .= "$desc[2] <br> ";
+	//	$res .= "$desc[2] <br /> ";
 
 		if (!$object->isLogin()) {
 			$res .= "<select $stylestr name=frm_redirectname>";
