@@ -368,7 +368,7 @@ function kloxo_install_step1()
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
 		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf", "automake", "make",
 			"libtool", "openssl-devel", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota",
+			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota", "traceroute", "util-linux",
 			"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
 			"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha", "php52s"
 		);
