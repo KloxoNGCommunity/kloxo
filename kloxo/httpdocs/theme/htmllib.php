@@ -1545,6 +1545,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
 		$lclass = $login->get__table();
 		$skindir = $login->getSkinDir();
 		$talist = $alist;
@@ -1577,18 +1579,33 @@ class HtmlLib
 		} else {
 			$backgimage = "{$skindir}/images/expand.gif";
 		}
+
+		if ($skin_name === 'feather') {
+			$sectionwidth = "640px";
+			$sectionfloat = "inherit";
+			$sectionheight = "auto";
+		} else {
+			$sectionwidth = "300px";
+			$sectionfloat = "left";
+			$sectionheight = "400px";
+		}
+
+		$showpagewidth = "615px";
 ?>
 
 		<style>
 			div.section, div#createNew {
 				border: 1px solid #<?=$col?>;
+				background-color: #fff;
 				/* margin: 9px 5px; */
-				margin: 0 0 10px 0;
+				margin: 0 10px 10px 0;
 				padding: 0;
 				/* width: 520px; */
-				width: 600px;
+				width: <?=$sectionwidth?>;
 				resize:both;
-				overflow:auto;
+				overflow:hidden;
+				float:left;
+				height:<?=$sectionheight?>;
 			}
 
 			div#createNew input {
@@ -1631,8 +1648,18 @@ class HtmlLib
 			}
 		</style>
 
-		<div id="show_page" style="width: 600px; margin: 0 auto 0 auto">
+	<div style="float:left; margin-left: 15px">
 <?php
+		if ($skin_name === 'feather') {
+?>
+		<div id="show_page" style="float:left; width: <?=$showpagewidth?>; margin: 0 auto 0 auto">
+<?php
+		} else {
+?>
+		<div id="show_page" style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?=$showpagewidth?>; height: 420px; overflow-x: scroll; overflow-y: hidden; white-space: nowarp; margin: 0 auto 0 auto">
+			<div style="width: 4000px">
+<?php
+		}
 
 		if (!$login->getSpecialObject('sp_specialplay')->isOn('enable_ajax')) {
 			$dragstring = "Enable Ajax to Drag";
@@ -1667,9 +1694,9 @@ class HtmlLib
 						<tr class=handle id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)"
 						    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'"
 						    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'">
-							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?> </span></td>
-							<td width=100% style="cursor: move; " align=center><span style='font-weight: bold'><?= $a[$title] ?></span></td>
-							<td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'> &nbsp;<?= $dragstring ?> </span>	</td>
+							<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?></span></td> -->
+							<td width=100% style="cursor: move; " align=center><span style='font-weight: bold' title='$dragstring'><?= $a[$title] ?></span></td>
+							<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'> &nbsp;<?= $dragstring ?></span></td> -->
 							<td class=handle style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
 								<img id=img_<?= $nametitle ?> name=img_<?= $nametitle ?> src=<?= $minus ?>></td>
 						</tr>
@@ -1706,8 +1733,18 @@ class HtmlLib
 				</div>
 <?php
 			}
+
+		if ($skin_name === 'feather') {
+?>
+			</div>
+		</div>
+<?php
+		} else {
 ?>
 		</div>
+<?php
+		}
+?>
 		<script>
 <?php
 			$count = 0;
@@ -3470,8 +3507,8 @@ class HtmlLib
 
 		}
 
-		$align = 'left';
-		$valign = 'middle';
+		$align = "align='left'";
+		$valign = "valign='middle'";
 		$image = 0;
 
 		if (csa($descr[$name][0], "e")) {
@@ -4524,7 +4561,7 @@ class HtmlLib
 						$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/listsort.gif)'";
 					}
 ?>
-
+<!-- "I am here 8" -->
 					<td <?= $wrapstr ?> width="<?= $width ?>">
 						<table cellspacing="0" cellpadding="2"  border="0"><tr>
 							<td class="collist" <?= $wrapstr ?> rowspan="2">
@@ -4537,7 +4574,7 @@ class HtmlLib
 						$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/expand.gif)'";
 					}
 ?>
-
+<!-- "I am here 9" -->
 					<td width="<?= $width ?>" <?= $wrapstr ?> class="collist">
 					
 <?php
@@ -9140,11 +9177,11 @@ class HtmlLib
 		$formname = 'lpform_' . $unique_name . $sortby;
 ?>
 
-		<form name=<?=$formname?> method=<?=$sgbl->method?> action=<?=$url?> accept-charset="utf-8">
-
+		<form name="<?=$formname?>" method="<?=$sgbl->method?>" action="<?=$url?>" accept-charset="utf-8">
 			<?=$this->print_current_input_vars(array('frm_hpfilter'))?>
- 		      <input name=frm_hpfilter[<?=$filtername?>][sortby] type=hidden value="<?=$sortby?>">
-  		      <input name=frm_hpfilter[<?=$filtername?>][sortdir] type=hidden value="<?=$sortdir?>">
+
+			<input name="frm_hpfilter[<?=$filtername?>][sortby]" type="hidden" value="<?=$sortby?>">
+			<input name="frm_hpfilter[<?=$filtername?>][sortdir]" type="hidden" value="<?=$sortdir?>">
 		</form>
 
     <span title='<?=$alt?>'><a class='tableheadtext' href="javascript:document.<?=$formname?>.submit()"><?=$desc?> </a> </span>
@@ -9185,10 +9222,9 @@ class HtmlLib
 		<table width="100%" border="0" cellpadding="0">
 			<tr>
 				<td>
-					<table width=100% cellpadding=0 cellspacing=0 border=0>
+					<table width="100%" cellpadding="0" cellspacing="0" border="0">
 						<tr>
-							<td width=60%>
-							</td>
+							<td width="60%">&nbsp;</td>
 							<td height="22" width="40%" align="right">
 								<table cellpadding="0" cellspacing="0" border="0" width="200">
 									<tr>
@@ -9200,40 +9236,21 @@ class HtmlLib
 												<?=$this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum'))?>
 												<?=$this->print_current_input_vars(array("frm_hpfilter"))?>
 
-												<input <?=$blackstyle?> type="text"
-												                          name="frm_hpfilter[<?=$filtername?>][searchstring]"
-												                          value="<?=$value?>" class=searchbox
-												                          size="18">
+												<input <?=$blackstyle?> type="text" name="frm_hpfilter[<?=$filtername?>][searchstring]" value="<?=$value?>" class=searchbox size="18">
 											</form>
 										</td>
-										<td width="10" height="22"></td>
-										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img
-													border="0" alt="Search" title="Search" name=search
-													src="<?=$searchimg?>" height="15" width="15"
-													onMouseOver="changeContent('help','search');"
-													onMouseOut="changeContent('help','helparea');"></a></td>
-										<td width="10" height="22"></td>
+										<td width="10" height="22">&nbsp;</td>
+										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img border="0" alt="Search" title="Search" name="search" src="<?=$searchimg?>" height="15" width="15" onMouseOver="changeContent('help','search');" onMouseOut="changeContent('help','helparea');"></a></td>
+										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td height="22" width="70">
-											<form name="lpform_showall" method="<?=$sgbl->method?>" action="<?=$url?>"
-											      accept-charset="utf-8">
-
+											<form name="lpform_showall" method="<?=$sgbl->method?>" action="<?=$url?>" accept-charset="utf-8">
 												<?=$this->print_current_input_vars(array("frm_hpfilter"))?>
-												<input type="hidden" name="frm_clear_filter" value="true">
 
+												<input type="hidden" name="frm_clear_filter" value="true">
 												<table cellpadding="0" cellspacing="0" border="0" width="100%" height="22">
 													<tr>
-														<td height="22" width="31%" align="center" nowrap><a
-																href="javascript:document.lpform_showall.submit();"><img
-																	alt="Show All" title="Show all" name="showall"
-																	src="<?=$showallimg?>"
-																	onMouseOver="changeContent('help','showall');"
-																	onMouseOut="changeContent('help','helparea');"></a>
-														</td>
-														<td width="69%" height="22" nowrap><a
-																href="javascript:document.lpform_showall.submit();"
-																onMouseOver="changeContent('help','showall');"
-																onMouseOut="changeContent('help','helparea');"><span
-																	class="small">Show All</span></a></td>
+														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><img alt="Show All" title="Show all" name="showall" src="<?=$showallimg?>" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"></a></td>
+														<td width="69%" height="22" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class="small">Show All</span></a></td>
 													</tr>
 												</table>
 											</form>

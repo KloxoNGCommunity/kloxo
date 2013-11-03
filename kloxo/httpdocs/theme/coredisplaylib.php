@@ -381,7 +381,7 @@ function __ac_desc_show($object)
 						<tr valign="top">
 							<td valign="top"> -->
 <table style="border: 0; margin: 0; padding: 0; margin: 0 auto"><tr><td>
-<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 870px">
+<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 900px">
 	<div style="float:left">
 <?php
 								$ghtml->print_find($object);
@@ -408,14 +408,14 @@ function __ac_desc_show($object)
 				</td> -->
 	</div>
 <!-- "I am here 2" -->
-<div style="width:25px; float:left">&nbsp;</div>
+<!-- <div style="width:25px; float:left">&nbsp;</div> -->
 <!--
 <td width="25">&nbsp;</td>
 				<td valign="top">
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td> -->
-	<div style="float:left">
+	<!-- <div style="float:left"> -->
 <?php
 		if (isset($nalist)) {
 			$ghtml->print_object_action_block($object, $nalist, 8);

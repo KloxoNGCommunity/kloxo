@@ -66,7 +66,7 @@ class phpini extends lxdb
 		$list[] = "enable_suhosin_flag";
 	*/
 		$list[] = 'safe_mode_flag';
-	//	$list[] = 'output_compression_flag';
+		$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
 
 		return $list;
@@ -77,7 +77,7 @@ class phpini extends lxdb
 		$list[] = 'display_error_flag';
 		$list[] = 'register_global_flag';
 		$list[] = 'log_errors_flag';
-	//	$list[] = 'output_compression_flag';
+		$list[] = 'output_compression_flag';
 	/*
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
@@ -267,7 +267,7 @@ class phpini extends lxdb
 		$this->initialValueRpmStatus('enable_ioncube_flag');
 		$this->initialValueRpmStatus('enable_suhosin_flag');
 
-	//	$this->initialValue('output_compression_flag', 'off');
+		$this->initialValue('output_compression_flag', 'off');
 
 		$this->initialValue('upload_max_filesize', '16M');
 		$this->initialValue('register_global_flag', 'off');

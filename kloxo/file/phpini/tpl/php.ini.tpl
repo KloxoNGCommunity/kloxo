@@ -69,10 +69,13 @@ default_socket_timeout = 60
 date.timezone = "Europe/London"
 
 cgi.fix_pathinfo=1
+cgi.rfc2616_headers = 1
 
 ;### MR -- specific for php 5.3+
 <?php echo $php53enable; ?>auto_globals_jit = On
-<?php echo $php53enable; ?>zlib.output_compression = Off
+zlib.output_compression = <?php echo $output_compression_flag; ?>
+
+<?php echo $php53enable; ?>zlib.output_compression_level = 6
 <?php echo $php53enable; ?>implicit_flush = Off
 <?php echo $php53enable; ?>unserialize_callback_func =
 <?php echo $php53enable; ?>serialize_precision = 17
