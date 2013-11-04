@@ -1546,6 +1546,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+		$show_direction = $login->getSpecialObject('sp_specialplay')->show_direction;
 
 		$lclass = $login->get__table();
 		$skindir = $login->getSkinDir();
@@ -1580,17 +1581,17 @@ class HtmlLib
 			$backgimage = "{$skindir}/images/expand.gif";
 		}
 
-		if ($skin_name === 'feather') {
+		if ($show_direction !== 'horizontal') {
 			$sectionwidth = "640px";
 			$sectionfloat = "inherit";
 			$sectionheight = "auto";
+			$showpagewidth = "640px";
 		} else {
 			$sectionwidth = "300px";
 			$sectionfloat = "left";
 			$sectionheight = "400px";
+			$showpagewidth = "615px";
 		}
-
-		$showpagewidth = "615px";
 ?>
 
 		<style>
@@ -1650,7 +1651,7 @@ class HtmlLib
 
 	<div style="float:left; margin: 0 0 20px 15px">
 <?php
-		if ($skin_name === 'feather') {
+		if ($show_direction !== 'horizontal') {
 ?>
 		<div id="show_page" style="float:left; width: <?=$showpagewidth?>; margin: 0 auto 0 auto">
 <?php
@@ -1692,7 +1693,7 @@ class HtmlLib
 				<div id="item_<?= $nametitle ?>" class="section" style="overflow: hidden">
 					<table cellpadding=0 cellspacing=0>
 <?php
-	if ($skin_name === 'feather') {
+	if ($show_direction !== 'horizontal') {
 ?>
 						<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)"
 						    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'"
@@ -1709,7 +1710,7 @@ class HtmlLib
 							<td width='100%' style="cursor: move;" align='center'><span style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>&nbsp;</span></td>
 							<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?>&nbsp;</span></td> -->
 <?php
-	if ($skin_name === 'feather') {
+	if ($show_direction !== 'horizontal') {
 ?>
 							<td class='handle' style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
 								<img id="img_<?= $nametitle ?>" name="img_<?= $nametitle ?>" src="<?= $minus ?>"></td>
@@ -1755,7 +1756,7 @@ class HtmlLib
 <?php
 			}
 
-		if ($skin_name === 'feather') {
+		if ($show_direction !== 'horizontal') {
 ?>
 			</div>
 		</div>
