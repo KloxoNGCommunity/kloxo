@@ -3885,6 +3885,7 @@ class HtmlLib
 				<!-- </td>
 			</tr>
 		</table> -->
+		<br />
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
 			<!-- <table width="100%" border="0" cellpadding=0 style="border: 0 solid">
@@ -5882,7 +5883,7 @@ class HtmlLib
 				<td width=100%></td>
 			</tr>
 		</table> -->
-<!-- <br /> -->
+<br />
 <?php
 
 	}
@@ -7900,10 +7901,13 @@ class HtmlLib
 		<span style="color:#999999">
 <?php
 		}
+
+		if ($pinfo !== '') {
 ?>
 
-		&nbsp;<?=$pinfo?>&nbsp;
+		<?=$pinfo?><br />
 <?php
+		}
 
 		if ($sgbl->isBlackBackground()) {
 ?>
