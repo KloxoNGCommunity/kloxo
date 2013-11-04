@@ -300,7 +300,7 @@ $__description["module_information"] = array("Module Information");
 
 $__description["skin"] = array("Skin");
 $__description["skin_color"] = array("Skin Color");
-
+$__description["show_direction"] = array("Show Direction");
 $__description["background"] = array("Background");
 
 $__description["icon_name"] = array("Icon Name");

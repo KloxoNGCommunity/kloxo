@@ -11,6 +11,7 @@ class SpecialPlay_b extends Lxaclass
 	static $__desc_skin_color_v_default = array("", "", "skin");
 
 	static $__desc_skin_background = array("", "", "background");
+	static $__desc_show_direction = array("", "", "show_direction");
 
 	static $__desc_icon_name = array("", "", "icon_name");
 	static $__desc_logo_image = array("", "", "current_logo_url");
@@ -160,6 +161,8 @@ class sp_basespecialplay extends LxspecialClass
 			//	$vlist['specialplay_b-icon_name'] = array('s', array('collage'));
 				$vlist['specialplay_b-icon_name'] = array('s', lscandir_without_dot(getreal("/theme/icon/")));
 
+				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "horizontal"));
+				$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
 
 				if ($this->specialplay_b->skin_name === 'simplicity') {
 					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));

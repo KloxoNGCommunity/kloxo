@@ -1,185 +1,620 @@
-/* top level
---------------------------------------------*/
-.menuTemplate2
-{
-	margin: 0 auto;
-	width: auto;
-	float: left;
-	position: relative;
-	z-index: 4;
-	height: 28px;
-	background: none;
-	border: none;
-	font-family: Tahoma, Verdana Arial, Helvetica, sans-serif;
-	list-style: none;
-	padding: 0;
+/*
+	// MR -- size: 1em=12pt=16px=100%
+*/
 
-	behavior: url("cssmenu.htc");
-}
+	body {
+		scrollbar-face-color: #bce;
+		scrollbar-shadow-color: #fff;
+		scrollbar-highlight-color: #fff;
+		scrollbar-3dlight-color: #369;
+		scrollbar-track-color: #eff;
+		scrollbar-darkshadow-color: #369;
+		scrollbar-arrow-color: #fff;
+		font-size: 8pt;
+	}
 
-.menuTemplate2 li
-{
-	padding: 0;
-	float: left;
-	height: 26px;
-	_height: 28px;/*IE6 Hack*/
-	position: relative;/*delete it if you want submenu to be positioned relative to the whole menu instead of this li element*/
-	z-index: 5;
-	
-	border-left: 1px solid;
-	border-right: 1px solid;
-	border-top: 1px solid;
-	border-color: transparent;
-	_border-color: #FFF;/*IE6 Hack*/
-}
+	.menus {
+		color: #336699;
+	}
 
-.menuTemplate2 li a
-{
-	color: #fff;
-}
+	.menuimage {
+		background-color: #bce;
+	}
 
-.menuTemplate2 li:hover, .menuTemplate2 li.onhover
-{
-	border: 1px solid #B00;
-}
+	.menubgclass {
+		background-color: #fff;
+	}
 
-.menuTemplate2 a
-{
-	padding: 0 6px;
-	line-height: 26px; /*Note: keep this value the same as the height of .menuTemplate2 li */
-	font-size: 1.2em;
-	font-weight: normal;
-	display: inline-block;
-	outline: 0;
-	text-decoration: none;
-	color: #000;
-	position: relative;
-}
+	.menuhilite {
+		background-color: #aef;
+	}
 
-.menuTemplate2 li:hover a, .menuTemplate2 li.onhover a
-{
-	background-color: #F8F8FF;
-	color: #000;
-	z-index: 9; 
-}
+	.dtree a.nodeSel {
+		background-color: #def;
+	}
 
-.menuTemplate2 a.arrow
-{
-	/* background: url(arrow.gif) no-repeat right center; */
-}
- 
-		
-/*Used to align a top-level item to the right*/		
-.menuTemplate2 li.menuRight
-{
-	float: right;
-	margin-right: 0;
-}
-		
-/*for the top-level separators*/
-.menuTemplate2 li.separator
-{
-	display: none;
-}
+	.button {
+		color: #369;
+	}
 
-/* sub level
---------------------------------------------*/
+	.button:hover {
+		color: #06f;
+	}
 
-.menuTemplate2 div.drop
-{
-	position: absolute;
-	z-index: 5;
+	.bordermain {
+		background-color: #5ae;
+	}
 
-	border: 1px solid #B00;
-	background-color: #F8F8FF;
-	text-align: left;
-	padding: 15px;  
-	top: 25px;
+	.mediumtableheader {
+		border-bottom: 1px solid #bce;
+	}
 
-	left: -9999px;
-	width: 500px; /* MR -- set fix width */
-}
+	.darktableheader {
+		border-bottom: 2px solid #9cf;
+	}
 
-.menuTemplate2 div.drop a
-{
-	padding-left: 0;
-	padding-right: 0;
-	/* line-height: 2.0em; */
-	font-size: 1.2em;
-	font-weight: normal;
-	display: inline;
-	text-align: left;
-	
-	position: static;
-	z-index: 0;
-}
+	.darktableheader1 {
+		background-color: #fff;
+	}
 
-.menuTemplate2 div.drop b
-{
-	font-weight: bold;
-}
-	
-.menuTemplate2 li:hover div.drop, .menuTemplate2 li.onhover div.drop
-{
-	/* left: -1px; */ /*Use this property to change offset of the dropdown*/
-	left: -200px; /* MR -- set 'centered' drop */
-}
+	.tableheader {
+		border-bottom: 1px solid #479;
+	}
 
-/* Elements within the drop down sub-menu
---------------------------------------------*/
+	.tableleftpanel {
+		border: 1px solid #7ac;
+		border-top:0;
+	}
 
-.menuTemplate2 div.drop div div
-{
-	padding-left: 12px;
-}
-.menuTemplate1 li:hover div.drop a, .menuTemplate1 li.onhover div.drop a
-{
-	background: none;
-	background-image: none;
-	padding: 0 0;
-}
-.menuTemplate2 div.drop div a
-{
-	line-height: 20px;  
-	color: #048;
-	background: none;
-}
-.menuTemplate2 div.drop div a:hover
-{
-	text-decoration: underline;
-	cursor: pointer;
-	color: #f00;
-}
+	.textdisable {
+	}
 
-.menuTemplate2 div.left
-{
-	float: left;
-	padding-right: 6px;
-	margin-left: 6px;
-}
+	.legend {
+		color: #3ff;
+	}
 
-.menuTemplate2 div.rightborder
-{
-	border-right: 1px dashed #ccc;
-}
+	.textchmoddisable {
+	}
 
-.menuTemplate2 div.left div
-{
-	padding-bottom: 6px;
-}
-	 
-/* CSS3 effects
---------------------------------------------*/
+	.textenable {
+	}
 
-/*for top-level*/
-.decor2_1 
-{
-}
+	.textbox {
+	}
 
-/*for submenu.*/
-.decor2_2 
-{
-	-moz-box-shadow: 0 0 14px #AAA;
-	-webkit-box-shadow: 0 0 14px #AAA;
-	box-shadow: 0 0 14px #AAA;  
-}
+	.textarea {
+	}
+
+	.frmtextarea {
+	}
+
+	.frmtextareadisable {
+	}
+
+	.frmline {
+		background-color: #bce;
+	}
+
+	.lpanelbuttonrow1 {
+		color: #369;
+	}
+
+	.lpanelbuttonrow2 {
+		color: #06f;
+	}
+
+	.buttonunselect {
+		color: #fff;
+		font-weight: bold;
+		font-size: 85%;
+		font-family: Tahoma, Verdana, Arial, Helvetica, sans-serifs;
+	}
+
+	.buttonselect {
+		color: #369;
+		font-weight: bold;
+		font-size: 85%;
+		font-family: Tahoma, Verdana, Arial, Helvetica, sans-serifs;
+		background-color: #fff;
+		cursor: pointer;
+	}
+
+	.helparea {
+		border-color: #39c;
+	}
+
+	.lpanelbutton {
+		color: #06f;
+	}
+
+	.formtablerow0 {
+		background-color: #fff;
+	}
+
+	.formtablerow1 {
+		background-color: #fff;
+	}
+
+	.formtablerow2 {
+		background-color: #fdd;
+	}
+
+	.submitbutton {
+		border: 1px solid #666;
+	}
+
+	.submitbutton:hover {
+		border: 1px solid #666;
+		background: #fff;
+	}
+
+	.tableheadtext {
+		color: #000;
+	}
+
+	.sortby {
+		background-color: #acf;
+	}
+
+	.tablerowhead {
+		background-color: #eef;
+	}
+
+	.detailtablehead {
+		color: #003366;
+		background-color: #7de;
+	}
+
+	.detailleft {
+		color: #003366;
+		background-color: #aec;
+	}
+
+	.tablerow0 {
+		background-color: #f8f8f8;
+		border: 1px solid red;
+	}
+
+	.tablerow1 {
+		background-color: #efefef;
+		border: 1px solid red;
+	}
+
+	.tablerow2 {
+		background-color: #e8e8e8;
+		border: 1px solid red;
+	}
+
+	.hiliterow {
+		background-color: #ddd;
+	}
+
+	.tablerowdetail0 {
+		background-color: #eee;
+	}
+
+	.tablerowdetail1 {
+		background-color: #eee;
+	}
+
+	.hiliterowdetail {
+		color: #369;
+		background-color: #ddd;
+	}
+
+	.filebox {
+		font-family: Tahoma, Verdana, Arial, Helvetica, sans-serifs;
+		color: #000000;
+		font-size: 62.5%;
+		font-weight: normal;
+		background-color: #FFF;
+
+	}
+
+	.colHighLight {
+		color: #f66;
+	}
+
+	.copyright {
+		color: #369;
+	}
+
+
+	.bdy1 {
+		background-repeat: repeat-x;
+	}
+
+	#tab1 {
+		width: 100%;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: #FFF;
+	}
+
+	#tabsub {
+		width: 775px;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: #FFF;
+	}
+
+	.top {
+		height: 24px;
+		text-align: center;
+	}
+
+	.top2 {
+		height: 28px;
+		text-align: center;
+	}
+
+	.bgtop {
+		background-repeat: no-repeat;
+		height: 130px;
+		background-position: right;
+		background-color: #ec1;
+	}
+
+	.bgtop1 {
+		height: 130px;
+	}
+
+	.bgtop2 {
+		height: 130px;
+	}
+
+	.bgtop3 {
+		background-repeat: repeat-x;
+		height: 92px;
+		background-color: #8cf;
+	}
+
+	.idbtm1 {
+		height: 20px;
+	}
+
+	.menu {
+		text-decoration: none;
+		color: #333333;
+		font-size: 75%;
+	}
+
+	.menu1 {
+		text-decoration: none;
+		color: #333333;
+		font-size: 62.5%;
+		font-weight: bold;
+	}
+
+	.box {
+		height: 25px;
+		background-color: #CCC;
+	}
+
+	.box1 {
+		height: 22px;
+		width: 120px;
+		text-align: center;
+	}
+
+	.box2 {
+		height: 22px;
+		width: 120px;
+		text-align: center;
+		color: #000;
+	}
+
+	.boxhom {
+		height: 22px;
+		width: 55px;
+		text-align: center;
+	}
+
+	.boxhom1 {
+		height: 22px;
+		width: 55px;
+		text-align: center;
+		color: #000;
+		border-bottom: 2px solid #fff;
+	}
+
+	.boxdom {
+		height: 22px;
+		width: 70px;
+		text-align: center;
+	}
+
+	.boxdom1 {
+		height: 22px;
+		width: 70px;
+		text-align: center;
+		color: #000;
+	}
+
+	.boxsdom {
+		height: 22px;
+		width: 85px;
+		text-align: center;
+	}
+
+	.boxsdom1 {
+		height: 22px;
+		width: 85px;
+		text-align: center;
+		color: #000;
+	}
+
+	.tabver {
+		white-space: nowrap;
+		vertical-align: bottom;
+		background-color: #ddd;
+	}
+
+	.verb {
+		display: block;
+		white-space: nowrap;
+		/* margin-bottom: 6px; */
+		height: 22px;
+		float: left;
+		border: 1px solid #ddd;
+		background-color: #efe8e0;
+		padding-top: 6px;
+	}
+
+	.verb:hover {
+		background-color: #ccc;
+	}
+
+	.verb2 {
+		white-space: nowrap;
+		/* margin-bottom: 6px; */
+		text-align: left;
+		height: 22px;
+		float: left;
+		border: 1px solid #ddd;
+		background-color: #ccc;
+		padding-top: 6px;
+	}
+
+	.verb2:hover {
+		background-color: #ccc;
+	}
+
+	.verb3 {
+		display: block;
+		white-space: nowrap;
+		height: 22px;
+		float: left;
+		border: 1px solid #ddd;
+		border-bottom: 1px solid #fff;
+		background-color: #fff;
+		padding-top: 6px;
+	}
+
+	.verb_all {
+		float: left;
+	}
+
+	.verb3:hover {
+		background-color: #ccc;
+	}
+
+	.tabnew {
+		white-space: nowrap;
+		height: 22px;
+		width: 75px;
+		text-align: center;
+		vertical-align: bottom;
+		border: 1px solid #aaa;
+		border-bottom: 0;
+		background-color: #fff;
+		float: left;
+	}
+
+	.tabcompleteleft {
+		display: block;
+		height: 22px;
+		border-bottom: 1px solid #ddd;
+		float: left;
+		/* verb padding + 1 */
+		padding-top: 7px;
+		width: 10px;
+	}
+
+	.tabcompleteright {
+		display: block;
+		height: 22px;
+		border-bottom: 1px solid #ddd;
+		/* verb padding + 1 */
+		padding-top: 7px;
+		overflow: hidden;
+	}
+
+	.tabnew1 {
+		white-space: nowrap;
+		height: 22px;
+		width: 85px;
+		/* background-color: #edf; */
+		background-color: #dec;
+		background-repeat: repeat-x;
+		text-align: center;
+		background-position: 0px 5px;
+		vertical-align: bottom;
+		border: 1px solid #aaa;
+		float: left;
+	}
+
+	.new2 {
+		height: 22px;
+		width: 60px;
+		text-align: center;
+		background-position: 0px 5px;
+		vertical-align: bottom;
+		border-bottom: 2px solid #bdf;
+	}
+
+	.menuover a:hover {
+		color: #FFF;
+	}
+
+	.menuover1 a:hover {
+		color: #16f;
+	}
+
+	.di {
+		margin-left: 15px;
+		margin-right: 15px;
+	}
+
+	.divcom {
+		margin-left: 40px;
+	}
+
+	.div1 {
+		width: 450px;
+		height: 16px;
+		border: 1px #d0d0d0 solid;
+		margin-top: 20px;
+		text-align: right;
+		vertical-align: middle;
+		background-color: #000;
+		color: #FFF;
+	}
+
+	.div3 {
+		width: 450px;
+		height: 16px;
+		border: 1px solid #ddd;
+		margin-top: 20px;
+		text-align: right;
+		vertical-align: middle;
+	}
+
+	.div4 {
+		width: 450px;
+		height: 15px;
+		border: 1px solid #ddd;
+		margin-top: 20px;
+		text-align: right;
+		vertical-align: middle;
+		color: #000000;
+	}
+
+	.div2 {
+		width: 450px;
+		height: 110px;
+		border: 1px solid #ddd;
+		border-top-width: 0px;
+		background-color: #FFF;
+	}
+
+	.div10 {
+		width: 450px;
+		height: 190px;
+		border: 1px solid #ddd;
+		border-top-width: 0px;
+		background-color: #FFF;
+	}
+
+	.imb {
+		border: 0;
+		margin: 0;
+	}
+
+	.bg2 {
+		height: 13px;
+	}
+
+	.bgsid {
+		height: 20px;
+		vertical-align: middle;
+		font-weight: bold;
+		color: #FFF;
+	}
+
+	.bgsidm {
+		background-color: #eee;
+		height: 30px;
+		margin: 3px 25px 1px 1px;
+	}
+
+	.td10 {
+		height: 20px;
+		background-color: #eee;
+		vertical-align: middle;
+		font-size: 75%;
+	}
+
+	.td11 {
+		height: 20px;
+		background-color: #eee;
+		vertical-align: middle;
+		font-size: 75%;
+	}
+
+	.td9 {
+		height: 22px;
+		font-weight: bold;
+	}
+
+	.ovr {
+		background-color: #bbb;
+		height: 20px;
+		font-size: 75%;
+	}
+
+	.a1 {
+		text-decoration: none;
+		font-size: 75%;
+		color: #069;
+	}
+
+	.c1 {
+		text-decoration: none;
+		font-size: 75%;
+		color: #000;
+	}
+
+	.c2 a:hover {
+		color: #49e;
+	}
+
+	.menubtm {
+		border-bottom: 2px #dbdbe5 solid;
+	}
+
+	#menubg {
+		width: 779px;
+		height: 26px;
+	}
+
+	#menubg1 {
+		width: 779px;
+		height: 3px;
+	}
+
+	.shadow_top {
+		box-shadow: 0 -4px 4px -4px #cba;
+	}
+
+	.shadow_right {
+		box-shadow: -4px 0 4px -4px #cba;
+	}
+
+	.shadow_bottom {
+		box-shadow: 0 4px 4px -4px #cba;
+	}
+
+	.shadow_left {
+		box-shadow: 4px 0 4px -4px #cba;
+	}
+
+	.shadow_nonbottom {
+		box-shadow: 0 -4px 4px -4px #cba,	-4px 0 4px -4px #cba, 4px 0 4px -4px #cba;
+	}
+
+	.shadow_all {
+		box-shadow: 0 0 4px #cba;
+	}
