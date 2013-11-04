@@ -1779,7 +1779,7 @@ function print_navigation($navig)
 <?php
 	if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
-							<div style="float: left;margin-top: -4px">&nbsp;<span style="font-size: 32px; color: #22e">&#x2318;</span>&nbsp;</div>
+							<div style="float: left;margin-top: -4px">&nbsp;<span style="font-size: 32px; color: #22e">&#x2756;</span>&nbsp;</div>
 <?php
 	} else {
 ?>

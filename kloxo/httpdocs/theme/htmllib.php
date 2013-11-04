@@ -1648,7 +1648,7 @@ class HtmlLib
 			}
 		</style>
 
-	<div style="float:left; margin-left: 15px">
+	<div style="float:left; margin: 0 0 20px 15px">
 <?php
 		if ($skin_name === 'feather') {
 ?>
@@ -1691,14 +1691,35 @@ class HtmlLib
 
 				<div id="item_<?= $nametitle ?>" class="section" style="overflow: hidden">
 					<table cellpadding=0 cellspacing=0>
-						<tr class=handle id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)"
+<?php
+	if ($skin_name === 'feather') {
+?>
+						<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)"
 						    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'"
 						    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'">
-							<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?></span></td> -->
-							<td width=100% style="cursor: move; " align=center><span style='font-weight: bold' title='$dragstring'><?= $a[$title] ?></span></td>
-							<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'> &nbsp;<?= $dragstring ?></span></td> -->
-							<td class=handle style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
-								<img id=img_<?= $nametitle ?> name=img_<?= $nametitle ?> src=<?= $minus ?>></td>
+<?php
+	} else {
+?>
+						<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)">
+
+<?php
+	}
+?>
+							<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?>&nbsp;</span></td> -->
+							<td width='100%' style="cursor: move;" align='center'><span style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>&nbsp;</span></td>
+							<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?>&nbsp;</span></td> -->
+<?php
+	if ($skin_name === 'feather') {
+?>
+							<td class='handle' style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
+								<img id="img_<?= $nametitle ?>" name="img_<?= $nametitle ?>" src="<?= $minus ?>"></td>
+<?php
+	} else {
+?>
+							<td class='handle'>&nbsp;</td>
+<?php
+	}
+?>
 						</tr>
 					</table>
 					<div style="<?= $dispstring ?>" id="internal_<?= $nametitle ?>">
@@ -3423,7 +3444,7 @@ class HtmlLib
 					$url = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "$1", $pname);
 					$url = $this->getFullUrl($url);
 					$url = "\"$url\"";
-					$pname = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "<a class='insidelist' href='$url'> $2 </a>", $pname);
+					$pname = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "<a class='insidelist' href=$url> $2 </a>", $pname);
 				}
 
 				if ($name === 'syncserver') {
@@ -3532,7 +3553,7 @@ class HtmlLib
 			$align = "center onmouseover=\"changeContent('help',' $help')\" onmouseout=\"changeContent('help','helparea')\"";
 
 			if (!$sgbl->isBlackBackground()) {
-				if ($skin_name !== 'simplicity') {
+				if ($skin_name === 'feather') {
 					$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
 				} else {
 					$spancolor = '#ddd'; $spanchar = '&#x2739;';
@@ -3589,7 +3610,7 @@ class HtmlLib
 						if ($sgbl->isBlackBackground()) {
 							$pname = "b";
 						} else {
-							if ($skin_name !== 'simplicity') {
+							if ($skin_name === 'feather') {
 								$pname = " <span title='$alt'><img src='$_t_image' height=15 width=15></span>";
 							} else {
 								$txt = '<span style="font-size:1.5em">&#x25C9;</span>';
@@ -3630,7 +3651,7 @@ class HtmlLib
 			$this->print_input_vars($post);
 ?>
 
-			<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $url ?>"> <?= $pname ?> </a> </span>
+			<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $url ?>"> <?= $pname ?> </a>
 			</td>
 <?php
 
@@ -4832,7 +4853,7 @@ class HtmlLib
 					<table cellpadding="0" cellspacing="0" border="0">
 						<tr>
 <?php
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 ?>
 							<td><img src="<?= $imgbtm1 ?>"></td>
 							<td background="<?= $imgbtm2 ?>">
@@ -4855,7 +4876,7 @@ class HtmlLib
 								<table width="100%" cellpadding="0" cellspacing="0">
 									<tr>
 <?php
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 ?>
 										<td width="40">&nbsp;<b>Show</b>&nbsp;</td>
 										<td width="<?= $width ?>">
@@ -4904,7 +4925,7 @@ class HtmlLib
 												       value="<?= $f_page ?>">
 <?php
 											}
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 ?>
 
 											</td><td><input type="image" src="<?= $imgshow ?>">
@@ -4920,7 +4941,7 @@ class HtmlLib
 								</table>
 							</td>
 <?php
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 ?>
 							<td><img src="<?= $imgbtm3 ?>"></td>
 <?php
@@ -4952,7 +4973,7 @@ class HtmlLib
 								       name="frm_hpfilter[<?= $filtername ?>][pagenum]" type="text"
 								       value="<?= $cgi_pagenum ?>"></td>
 <?php
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 ?>
 							<td>
 								<input type="image" src="<?= $imgshow ?>"></td>
@@ -5860,7 +5881,7 @@ class HtmlLib
 				<td width=100%></td>
 			</tr>
 		</table> -->
-<br />
+<!-- <br /> -->
 <?php
 
 	}
@@ -7054,7 +7075,7 @@ class HtmlLib
 				<td>&nbsp;</td>
 				<td> -->
 		<div style="width: 600px; margin: 0 auto 0 auto;">
-			<div>&nbsp;</div>
+			<!-- <div>&nbsp;</div> -->
 			<div>
 					<form name="<?=$block->form?>" id="<?=$block->form?>"
 					      action="<?=$block->url?>" <?=$block->formtype?>
@@ -7063,7 +7084,7 @@ class HtmlLib
 						dprint($block->form);
 
 						$full = array_flatten($full);
-						//	dprintr($full);
+						dprintr($full);
 
 						$totalwidth = '600';
 
@@ -7087,6 +7108,14 @@ class HtmlLib
 <?php
 						}
 
+						$buttonexist = false;
+
+						foreach ($full as $variable) {
+							if ($variable->type === 'button') { $buttonexist = true; }
+						}
+
+						if (!$buttonexist) { return; }
+
 ?>
 
 						<div align=left style="background-color:<?=$backgroundcolor?>; width:100%">
@@ -7095,7 +7124,7 @@ class HtmlLib
 								$total = count($full);
 								$count = 0;
 
-								foreach ($full as $variable) {
+							foreach ($full as $variable) {
 								if ($variable->type == "subtitle") {
 ?>
 
@@ -7162,7 +7191,7 @@ class HtmlLib
 
 								$this->print_variable($block, $variable, $count);
 								$count++;
-								}
+							}
 
 ?>
 
@@ -7773,7 +7802,7 @@ class HtmlLib
 			}
 		}
 
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 			if (!$pinfo) {
 				return;
 			}
@@ -7839,7 +7868,7 @@ class HtmlLib
 
 		if ($ret) {
 			$fullurl = $this->getFullUrl(trim($matches[1]));
-			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href='$fullurl'> $matches[2] </a>", $pinfo);
+			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href=$fullurl> $matches[2] </a>", $pinfo);
 		}
 
 		if ($sgbl->isBlackBackground()) {
@@ -7848,7 +7877,7 @@ class HtmlLib
 ?>
 
 <?php
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 ?>
 		<div style="width:600px; margin: 0 auto 0 auto; border:0; padding:0;">
 			<table align="center" width="600"><tr><td>
@@ -7882,7 +7911,7 @@ class HtmlLib
 <?php
 		}
 
-		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
+		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'feather') {
 			$this->print_curvy_table_end();
 ?>
 			</td></tr></table></div>
@@ -8809,7 +8838,7 @@ class HtmlLib
 		$syncserver = $login->syncserver;
 		$userid = $login->getId();
 
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 			$func = "onLoad=\"lxLoadBody();\"";
 		} else {
 		//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/purecss/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
@@ -9048,7 +9077,7 @@ class HtmlLib
 
 		$this->print_include_jscript();
 
-		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
+		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'feather') {
 			$bgcolor = "bgcolor=#fff";
 		} else {
 			$bgcolor = "";
@@ -9328,7 +9357,7 @@ class HtmlLib
 
 		$bordering = "border: 1px solid #ddd; border-top:0";
 
-		if ($skin_name !== 'simplicity') {
+		if ($skin_name === 'feather') {
 			if (!$$as_simple_skin) {
 				$bordering = "border: 0";
 			}
