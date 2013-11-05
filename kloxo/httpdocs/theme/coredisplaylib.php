@@ -161,7 +161,7 @@ function print_customer_mode($object)
 				<table align="left" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td nowrap align="center"> -->
-	<div style="background: #<?=$skin_color?> url(<?=$col?>); height: 20px; padding-top: 4px">
+	<div style="background: #<?=$skin_color?> url(<?=$col?>); padding: 4px; margin: 0 25px">
 		<a href="<?=$url?>">&nbsp;>>>> Switch To <?=$mode?> Mode <<<<&nbsp;</a>
 	</div>
 	<!-- </td>

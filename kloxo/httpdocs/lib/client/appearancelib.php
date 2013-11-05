@@ -161,7 +161,7 @@ class sp_basespecialplay extends LxspecialClass
 			//	$vlist['specialplay_b-icon_name'] = array('s', array('collage'));
 				$vlist['specialplay_b-icon_name'] = array('s', lscandir_without_dot(getreal("/theme/icon/")));
 
-				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "horizontal"));
+				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "vertical 2", "horizontal"));
 				$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
 
 				if ($this->specialplay_b->skin_name === 'simplicity') {
@@ -320,7 +320,7 @@ class sp_basespecialplay extends LxspecialClass
 		}
 	/*
 		if (!lxfile_exists("theme/background/$skb")) {
-			$param['specialplay_b-skin_background'] = 'abstract_003.jpg';
+			$param['specialplay_b-skin_background'] = 'abstract_012.jpg';
 		}
 	*/
 		return $param;

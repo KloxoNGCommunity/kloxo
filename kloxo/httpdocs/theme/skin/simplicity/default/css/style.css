@@ -360,7 +360,7 @@
 		float: left;
 		border: 1px solid #ddd;
 		background-color: #efe8e0;
-		padding-top: 6px;
+		padding: 5px 5px 0 5px;
 	}
 
 	.verb:hover {
@@ -375,7 +375,7 @@
 		float: left;
 		border: 1px solid #ddd;
 		background-color: #ccc;
-		padding-top: 6px;
+		padding: 5px 5px 0 5px;
 	}
 
 	.verb2:hover {
@@ -390,7 +390,7 @@
 		border: 1px solid #ddd;
 		border-bottom: 1px solid #fff;
 		background-color: #fff;
-		padding-top: 6px;
+		padding: 5px 5px 0 5px;
 	}
 
 	.verb_all {
@@ -419,8 +419,8 @@
 		border-bottom: 1px solid #ddd;
 		float: left;
 		/* verb padding + 1 */
-		padding-top: 7px;
-		width: 10px;
+		padding: 5px 5px 0 5px;
+		width: 5px;
 	}
 
 	.tabcompleteright {
@@ -428,7 +428,7 @@
 		height: 22px;
 		border-bottom: 1px solid #ddd;
 		/* verb padding + 1 */
-		padding-top: 7px;
+		padding: 5px 5px 0 5px;
 		overflow: hidden;
 	}
 

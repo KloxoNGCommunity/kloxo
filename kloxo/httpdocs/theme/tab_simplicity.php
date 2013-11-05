@@ -27,7 +27,6 @@ function print_tab_block_start($alist)
 
 		<div class="tabcompleteleft">&nbsp;&nbsp;</div>
 
-		<div class="shadow_nonbottom">
 <?php
 	}
 
@@ -45,8 +44,7 @@ function print_tab_block_start($alist)
 	}
 
 ?>
-		</div>	
-		<div class="tabcompleteright">&nbsp;&nbsp;</div>
+		<div class="tabcompleteright">&nbsp;</div>
 	</div>
 <!-- "END TAB" -->
 <?php
@@ -82,7 +80,7 @@ function print_tab_button($key, $url, $list)
 	$check = $ghtml->compare_urls("display.php?{$ghtml->get_get_from_current_post(null)}", $url);
 
 	$help = $descr['help'];
-	$descstring = "<span title='$help'> &nbsp; &nbsp; $descr[2] &nbsp; &nbsp;</span>";
+	$descstring = "<span title='$help'>{$descr[2]}</span>";
 
 	if ($sgbl->isBlackBackground()) {
 		if ($check) {

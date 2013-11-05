@@ -39,6 +39,7 @@ class addondomain extends Lxdb
 		$nlist['nname'] = '100%';
 		$nlist['mail_flag'] = '10%';
 		$nlist['destinationdir'] = '10%';
+
 		return $nlist;
 	}
 
@@ -60,7 +61,6 @@ class addondomain extends Lxdb
 		return $param;
 	}
 
-
 	static function initThisListRule($parent, $class)
 	{
 		if ($parent->isClient()) {
@@ -70,7 +70,6 @@ class addondomain extends Lxdb
 		}
 
 		return lxdb::initThisListRule($parent, $class);
-
 	}
 
 	function isSync()
@@ -94,8 +93,7 @@ class addondomain extends Lxdb
 		return false;
 	}
 
-//	function postAdd()
-	function postUpdate()
+	function postAdd()
 	{
 		$parent = $this->getParentO();
 
@@ -149,12 +147,6 @@ class addondomain extends Lxdb
 		return "domain";
 	}
 
-/*
-	static function AddListForm($parent, $class)
-	{
-		return null;
-	}
-*/
 	static function addform($parent, $class, $typetd = null)
 	{
 		$vlist['nname'] = null;
@@ -177,7 +169,6 @@ class addondomain extends Lxdb
 
 		return $ret;
 	}
-
 
 	static function createListSlist($parent)
 	{
@@ -204,52 +195,11 @@ class addondomain extends Lxdb
 
 		return $nlist;
 	}
-
-	static function AddListForm($parent, $class)
-	{
-		$uflist['parked'] = null;
-		$uflist['redirect'] = null;
-
-		return $uflist;
-	}
-
-	function updateform($subaction, $param)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$vlist['nname'] = null;
-
-		if ($login->isClient()) {
-			$list = get_namelist_from_objectlist($login->getList('domain'));
-			$vv = array('var' => 'real_clparent_f', 'val' => array('s', $list));
-			$vlist['nname'] = array('m', array('posttext' => "=>", 'postvar' => $vv));
-		} else {
-			$vlist['nname'] = array('m', array('posttext' => "=>$login->nname"));
-		}
-
-		$vlist['mail_flag'] = null;
-
-		switch($subaction) {
-			case "parked":
-				break;
-			case "redirect":
-				$vlist['destinationdir'] = array('m', null);
-				break;
-		}
-
-		$ret['variable'] = $vlist;
-		$ret['action'] = 'add';
-
-		return $ret;
-	}
 }
-
 
 class all_addondomain extends addondomain
 {
 	static $__desc = array("n", "", "all_pointer_domain");
-	static $__desc_parent_name_f =  array("n", "",  "domain");
-	static $__desc_parent_clname =  array("n", "",  "domain");
 
 	function isSelect()
 	{
@@ -265,36 +215,9 @@ class all_addondomain extends addondomain
 		return "__v_table";
 	}
 
-	static function createListSlist($parent)
-	{
-		$nlist['nname'] = null;
-		$nlist['parent_clname'] = null;
-
-		return $nlist;
-	}
-
-	static function AddListForm($parent, $class)
-	{
-		return null;
-	}
-
 	static function createListAlist($parent, $class)
 	{
 		return all_domain::createListAlist($parent, $class);
 	}
 
-	static function createListNlist($parent, $view)
-	{
-		$nlist['nname'] = '100%';
-		$nlist['parent_name_f'] = '100%';
-
-		return $nlist;
-	}
-
-	static function createListUpdateForm($object, $class)
-	{
-		return null;
-	}
 }
-
-

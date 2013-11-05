@@ -1551,9 +1551,12 @@ class HtmlLib
 		$lclass = $login->get__table();
 		$skindir = $login->getSkinDir();
 		$talist = $alist;
+
 		$ret = $this->create_action_block($class, $alist);
 
-		//	$col = $login->getSkinColor();
+		$retcount = count($ret);
+
+	//	$col = $login->getSkinColor();
 		$col = 'ddd';
 
 		$plus = "{$skindir}/images/plus.gif";
@@ -1581,16 +1584,24 @@ class HtmlLib
 			$backgimage = "{$skindir}/images/expand.gif";
 		}
 
-		if ($show_direction !== 'horizontal') {
-			$sectionwidth = "640px";
+		if ($show_direction === 'vertical') {
+			$sectionwidth = "640";
 			$sectionfloat = "inherit";
 			$sectionheight = "auto";
 			$showpagewidth = "640px";
-		} else {
-			$sectionwidth = "300px";
+			$sectionmargin = "0 10px 10px 0";
+		} elseif ($show_direction === 'vertical 2') {
+			$sectionwidth = "300";
+			$sectionfloat = "inherit";
+			$sectionheight = "400px";
+			$showpagewidth = "640px";
+			$sectionmargin = "0 0 10px 15px";
+		} elseif ($show_direction === 'horizontal') {
+			$sectionwidth = "300";
 			$sectionfloat = "left";
 			$sectionheight = "400px";
 			$showpagewidth = "615px";
+			$sectionmargin = "0 10px 10px 0";
 		}
 ?>
 
@@ -1599,10 +1610,10 @@ class HtmlLib
 				border: 1px solid #<?=$col?>;
 				background-color: #fff;
 				/* margin: 9px 5px; */
-				margin: 0 10px 10px 0;
+				margin: <?=$sectionmargin?>;
 				padding: 0;
 				/* width: 520px; */
-				width: <?=$sectionwidth?>;
+				width: <?=$sectionwidth?>px;
 				resize:both;
 				overflow:hidden;
 				float:left;
@@ -1655,11 +1666,13 @@ class HtmlLib
 ?>
 			<div id="show_page" style="float:left; width: <?=$showpagewidth?>; margin: 0 auto 0 auto">
 <?php
+
 		} else {
+			$horiz_width = 15 + ($retcount * ($sectionwidth + 10)) + 15;
 ?>
 
-			<div id="show_page" style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?=$showpagewidth?>; height: 420px; overflow: scroll; white-space: nowarp; margin: 0 auto 0 auto">
-			<div id='horiz_scroll' style="width: 4000px">
+			<div id="show_page" style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?=$showpagewidth?>; height: 420px; overflow: auto; white-space: nowarp; margin: 0 auto 0 auto">
+			<div id='horiz_scroll' style="width: <?=$horiz_width?>px">
 <?php
 		}
 
@@ -3781,7 +3794,7 @@ $this->print_input_vars($post);
 ?>
 
 						<?= $first_link ?> &nbsp; <?= $rewind_link ?> &nbsp; <?= $prev_link ?> <b><span class=pagetext>&nbsp;Page <?= $cgi_pagenum ?>
-								(of <?= $$page ?>)</span></b> <?= $next_link ?> <?= $forward_link ?> <?= $last_link ?>
+								(of <?= $page ?>)</span></b> <?= $next_link ?> <?= $forward_link ?> <?= $last_link ?>
 <?php
 						$search_brack_o = "  &nbsp;  (";
 						$search_brack_c = ") ";
@@ -3892,7 +3905,7 @@ $this->print_input_vars($post);
 		<!-- <table cellpadding="4" cellspacing="4">
 			<tr>
 				<td> -->
-		<div style="background: #efe8e0 url(<?= $col ?>); height: 24px; padding-top: 4px">&nbsp;>>>> <a href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> Click Here to
+		<div style="background: #efe8e0 url(<?= $col ?>); padding: 4px; margin: 0 25px;">&nbsp;>>>> <a href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> Click Here to
 				Add <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<&nbsp;</div>
 		<!-- </td>
 	</tr>
@@ -4774,11 +4787,11 @@ $this->print_input_vars($post);
 									<!-- <table width='95%'>
 								<tr align='center'>
 									<td width='100%'>
-										<b><?= $login->getKeyword('no') ?> <?= get_plural($classdesc[2]) ?><?= $login->getKeyword('under') ?> <?= $parent->getId() ?></b>
+										<b><?= $login->getKeyword('no') ?> <?= get_plural($classdesc[2]) ?>&nbsp;<?= $login->getKeyword('under') ?>&nbsp;<?= $parent->getId() ?></b>
 									</td>
 								</tr>
 							</table> -->
-									<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no') ?> <?= get_plural($classdesc[2]) ?><?= $login->getKeyword('under') ?> <?= $parent->getId() ?></b></div>
+									<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no') ?>&nbsp;<?= get_plural($classdesc[2]) ?>&nbsp;<?= $login->getKeyword('under') ?>&nbsp;<?= $parent->getId() ?></b></div>
 
 <?php
 
@@ -5834,8 +5847,8 @@ $this->print_input_vars($post);
 				<td nowrap><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span>
 				</td>
 				<td align=center> -->
-		<div style="background: #efe8e0 url(<?= $col ?>); height: 24px">
-			<div style="float:left; padding-top: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span></div>
+		<div style="background: #efe8e0 url(<?= $col ?>); height: 24px; margin: 0 25px;">
+			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span></div>
 			<div style="float:left;">
 				<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
 <?php
@@ -7096,10 +7109,10 @@ $this->print_input_vars($post);
 				      action="<?=$block->url?>" <?=$block->formtype?>
 				      method="<?=$sgbl->method?>" <?=$onsubmit?> accept-charset="utf-8">
 <?php
-					dprint($block->form);
+				//	dprint($block->form);
 
 					$full = array_flatten($full);
-					dprintr($full);
+				//	dprintr($full);
 
 					$totalwidth = '600';
 
@@ -7134,7 +7147,7 @@ $this->print_input_vars($post);
 ?>
 
 					<div align=left style="background-color:<?=$backgroundcolor?>; width:100%">
-						<div align=left style="width:<?=$totalwidth?>; border: 1px solid #<?=$skincolor?>;">
+						<div align=left style="width:<?=$totalwidth?>px; border: 1px solid #<?=$skincolor?>;">
 <?php
 							$total = count($full);
 							$count = 0;
@@ -8871,7 +8884,7 @@ $this->print_input_vars($post);
 
 		if ($skin_name === 'simplicity') {
 			$skin_background = $login->getSpecialObject('sp_specialplay')->skin_background;
-			$bodybackground = "url(/theme/background/{$skin_background}) center ; background-size: cover;";
+			$bodybackground = "url(/theme/background/{$skin_background}) center; background-size: cover; background-attachment: fixed";
 			$bodycolor = "ffffff";
 		} else {
 			$bodybackground = "";
@@ -8883,7 +8896,7 @@ $this->print_input_vars($post);
 		}
 ?>
 
-		<body <?=$func?> style="border:0; margin:0; padding:0; background:#<?=$bodycolor?> <?=$bodybackground?>; background-attachment: fixed;">
+		<body <?=$func?> style="border:0; margin:0; padding:0; background:#<?=$bodycolor?> <?=$bodybackground?>;">
 		<!-- "START TOP MENU + LOGO" -->
 <?php
 		if ($skin_name === 'simplicity') {
@@ -9376,7 +9389,7 @@ function print_content_begin()
 	$bordering = "border: 1px solid #ddd; border-top:0";
 
 	if ($skin_name === 'feather') {
-		if (!$$as_simple_skin) {
+		if (!$as_simple_skin) {
 			$bordering = "border: 0";
 		}
 	}
@@ -9423,7 +9436,7 @@ function print_content_begin()
 
 		foreach ((array)$list as $l) {
 			foreach ($vvar_list as $vvar) {
-				$$vvar = isset($l[$vvar]) ? $l[$vvar] : '';
+				$vvar = isset($l[$vvar]) ? $l[$vvar] : '';
 			}
 
 			if ($ttype == 'separator') {
@@ -9567,7 +9580,7 @@ function print_content_begin()
 				$vvar_list = array('_t_image', 'url', 'target', '__t_identity', 'ac_descr', 'str', 'tag', 'fullstr');
 
 				foreach ($vvar_list as $vvar) {
-					$res[$vvar] = $$vvar;
+					$res[$vvar] = $vvar;
 				}
 
 				$ret[] = $res;
