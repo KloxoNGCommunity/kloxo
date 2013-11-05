@@ -55,7 +55,8 @@ static function createListNlist($parent, $view)
 	$nlist['resourceused'] = '10%';
 	if ($parent->isLxclient()) {
 		$nlist['resourcepriv'] = '10%';
-		$nlist['resourceusedper'] = '40%';
+		// MR -- disable graph image
+	//	$nlist['resourceusedper'] = '40%';
 	}
 	return $nlist;
 

@@ -7,7 +7,7 @@ include_once "lib/html/include.php";
 function __ac_desc_desktop($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-	
+
 	$skindir = $login->getSkinDir();
 	$col = $login->getSkinColor();
 
@@ -44,7 +44,7 @@ function __ac_desc_desktop($object)
 				</form>
 			</td>
 			<td><a href="javascript:document.desktopsearch.submit()"> <img src="theme/general/icon/search_b.gif">
-				Search </a> </td>
+					Search </a> </td>
 		</tr>
 	</table>
 
@@ -144,7 +144,7 @@ function print_customer_mode($object)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	$skin_color = $login->getSkinColor();
-	
+
 	$url = $ghtml->getFullUrl('a=update&sa=customermode');
 
 	if ($object->isDomainOwnerMode()) {
@@ -161,15 +161,15 @@ function print_customer_mode($object)
 				<table align="left" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td nowrap align="center"> -->
-							<div style="background: #<?=$skin_color?> url(<?=$col?>); height: 20px; padding-top: 4px">
-							<a href="<?=$url?>">&nbsp;>>>> Switch To <?=$mode?> Mode <<<<&nbsp;</a>
-							</div>
-						<!-- </td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table> -->
+	<div style="background: #<?=$skin_color?> url(<?=$col?>); height: 20px; padding-top: 4px">
+		<a href="<?=$url?>">&nbsp;>>>> Switch To <?=$mode?> Mode <<<<&nbsp;</a>
+	</div>
+	<!-- </td>
+</tr>
+</table>
+</td>
+</tr>
+</table> -->
 <?php
 }
 
@@ -369,53 +369,53 @@ function __ac_desc_show($object)
 		}
 	}
 ?>
-<!-- "I am here 1" -->
+	<!-- "I am here 1" -->
 <?php
 	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
-<!--
-		<table cellpadding="0" cellspacing="0" valign="top" align="center">
-			<tr valign="top">
-				<td valign="top" align="center">
-					<table cellpadding="0" cellspacing="0" valign="top">
-						<tr valign="top">
-							<td valign="top"> -->
-<table style="border: 0; margin: 0; padding: 0; margin: 0 auto"><tr><td>
-<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 900px">
-	<div style="float:left">
+		<!--
+				<table cellpadding="0" cellspacing="0" valign="top" align="center">
+					<tr valign="top">
+						<td valign="top" align="center">
+							<table cellpadding="0" cellspacing="0" valign="top">
+								<tr valign="top">
+									<td valign="top"> -->
+		<table style="border: 0; margin: 0; padding: 0; margin: 0 auto"><tr><td>
+		<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 900px">
+		<div style="float:left">
 <?php
-								$ghtml->print_find($object);
+			$ghtml->print_find($object);
 
-								if ($ilist) {
-									$ghtml->printObjectTable(null, $object, 'information');
-								}
-								if ($object->createShowNote()) {
-									$ghtml->print_note($object);
-								}
+			if ($ilist) {
+				$ghtml->printObjectTable(null, $object, 'information');
+			}
+			if ($object->createShowNote()) {
+				$ghtml->print_note($object);
+			}
 
-								if ($rlist) {
-									$ghtml->printObjectTable(null, $object, 'resource');
-								}
+			if ($rlist) {
+				$ghtml->printObjectTable(null, $object, 'resource');
+			}
 
-								if ($plist) {
-									$ghtml->printObjectTable(null, $object, 'permission');
-								}
+			if ($plist) {
+				$ghtml->printObjectTable(null, $object, 'permission');
+			}
 ?>
-<!--
-							</td>
-						</tr>
-					</table>
-				</td> -->
-	</div>
-<!-- "I am here 2" -->
-<!-- <div style="width:25px; float:left">&nbsp;</div> -->
-<!--
-<td width="25">&nbsp;</td>
-				<td valign="top">
-					<table cellpadding="0" cellspacing="0">
-						<tr>
-							<td> -->
-	<!-- <div style="float:left"> -->
+			<!--
+										</td>
+									</tr>
+								</table>
+							</td> -->
+		</div>
+		<!-- "I am here 2" -->
+		<!-- <div style="width:25px; float:left">&nbsp;</div> -->
+		<!--
+		<td width="25">&nbsp;</td>
+						<td valign="top">
+							<table cellpadding="0" cellspacing="0">
+								<tr>
+									<td> -->
+		<!-- <div style="float:left"> -->
 <?php
 		if (isset($nalist)) {
 			$ghtml->print_object_action_block($object, $nalist, 8);
@@ -429,17 +429,17 @@ function __ac_desc_show($object)
 				<tr>
 					<td> -->
 <?php
-						$ghtml->print_object_action_block($object, $nalist, 8);
+			$ghtml->print_object_action_block($object, $nalist, 8);
 ?>
 
-					<!-- </td>
-				</tr>
-			</table>
-			<table class="mediumtableheader" width="100%">
-				<tr>
-					<td></td>
-				</tr>
-			</table> -->
+			<!-- </td>
+		</tr>
+	</table>
+	<table class="mediumtableheader" width="100%">
+		<tr>
+			<td></td>
+		</tr>
+	</table> -->
 			<br />
 <?php
 		}
@@ -465,10 +465,10 @@ function __ac_desc_show($object)
 
 	$ghtml->print_information('post', 'show', $cname, $subaction, "");
 ?>
-<!-- "I am here 3" -->
+	<!-- "I am here 3" -->
 	</div>
-</div>
-</td></tr></table>
+	</div>
+	</td></tr></table>
 <?php
 	$ghtml->print_content_end();
 }
@@ -662,33 +662,33 @@ function __ac_desc_delete($object)
 		$gbl->setSessionV("lx_delete_return_url", $gbl->getHttpReferer());
 ?>
 
-			<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
+		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
 <?php
-		if (exec_class_method($cname, 'isTreeForDelete')) {
+			if (exec_class_method($cname, 'isTreeForDelete')) {
 ?>
-			<!-- <table width="100%">
-				<tr>
-					<td width="10"></td>
-					<td align="left"> -->
+				<!-- <table width="100%">
+					<tr>
+						<td width="10"></td>
+						<td align="left"> -->
 				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br /> <br /></div>
-					<!-- </td>
-				</tr>
-			</table> -->
+				<!-- </td>
+			</tr>
+		</table> -->
 <?php
 
-			foreach ($ll as $l) {
-				$o = $object->getFromList($cname, $l);
-				$ghtml->do_resource(null, $o, 6, false, "getResourceChildList", true, false);
+				foreach ($ll as $l) {
+					$o = $object->getFromList($cname, $l);
+					$ghtml->do_resource(null, $o, 6, false, "getResourceChildList", true, false);
+				}
+?>
+				<br />
+<?php
 			}
-?>
-			<br />
-<?php
-		}
 
-		do_list_class($object, $cname);
+			do_list_class($object, $cname);
 ?>
 
-			</div>
+		</div>
 <?php
 	}
 }
@@ -742,11 +742,11 @@ function check_for_license()
 		if ($l > $lic->$licv) {
 			if ($login->isAdmin()) {
 				$mess = $ghtml->show_error_message("The system is not at present working because there is not enough license for $res. " .
-				"Please go to [b]  admin home -> advanced -> license update [/b]  and click on [b] get license from lxlabs [/b]. " .
-				"You will have to first create a valid license at client.lxlabs.com.");
+					"Please go to [b]  admin home -> advanced -> license update [/b]  and click on [b] get license from lxlabs [/b]. " .
+					"You will have to first create a valid license at client.lxlabs.com.");
 			} else {
 				$mess = $ghtml->show_error_message("The system is not at present working because there is not enough license for $res. " .
-				"Please contact your administrator.");
+					"Please contact your administrator.");
 			}
 
 			exit;
@@ -1775,139 +1775,139 @@ function print_navigation($navig)
 		var gl_imgrightpoint = '<?=$imgleftpoint?>';
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
-						<div style="height: 40px; padding: 2px">
+	<div style="height: 40px; padding: 2px">
 <?php
-	if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
-							<div style="float: left;margin-top: -4px">&nbsp;<span style="font-size: 32px; color: #22e">&#x2756;</span>&nbsp;</div>
+			<div style="float: left;margin-top: -4px">&nbsp;<span style="font-size: 32px; color: #22e">&#x2756;</span>&nbsp;</div>
 <?php
-	} else {
+		} else {
 ?>
-							<div style="float: left"><?="$imgstr $demoimg"?><img height="35" src="<?=$image?>"></div>
+			<div style="float: left"><?="$imgstr $demoimg"?><img height="35" src="<?=$image?>"></div>
 <?php
-	}
+		}
 
-												$forecolorstring = null;
+		$forecolorstring = null;
 
-												if ($sgbl->isBlackBackground()) {
-													$forecolorstring = "style='color:gray'";
-												}
+		if ($sgbl->isBlackBackground()) {
+			$forecolorstring = "style='color:gray'";
+		}
 
-												foreach ((array)$navig as $k => $h) {
-													//You have to actually get only the filters of the parents of this object. But let us just print all the filters anyway.
-													$url = $ghtml->get_get_from_post(null, $h);
-													$url = "/display.php?$url";
-													$desc = $ghtml->getActionDescr('', $h, $class, $var, $name);
-													$image = $ghtml->get_image($buttonpath, $class, $var, ".gif");
-													$desc['help'] = $ghtml->get_action_or_display_help($desc['help'], 'action');
-													$nname = substr($name, 0, 19);
+		foreach ((array)$navig as $k => $h) {
+			//You have to actually get only the filters of the parents of this object. But let us just print all the filters anyway.
+			$url = $ghtml->get_get_from_post(null, $h);
+			$url = "/display.php?$url";
+			$desc = $ghtml->getActionDescr('', $h, $class, $var, $name);
+			$image = $ghtml->get_image($buttonpath, $class, $var, ".gif");
+			$desc['help'] = $ghtml->get_action_or_display_help($desc['help'], 'action');
+			$nname = substr($name, 0, 19);
 
-													$bracketedname = null;
+			$bracketedname = null;
 
-													if ($navigmenu[$k][0] != 'list') {
-														$bracketedname = "&nbsp;($nname)";
-													}
+			if ($navigmenu[$k][0] != 'list') {
+				$bracketedname = "&nbsp;($nname)";
+			}
 
-													$menustring = null;
+			$menustring = null;
 
-?>
-
-													<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;&#x2794;</div>
-<?php
-												}
-
-
-								$ob = $gbl->__c_object;
-								$name = $ob->getId();
-								$imgstr = array();
-
-								if ($ghtml->frm_action === 'show') {
-
-									$list = $ob->createShowImageList();
-
-									foreach ((array)$list as $k => $v) {
-										if ($v) {
-											if (isset($ob->$k)) {
-												$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->$k, ".gif");
-												$imgstr[] = "<span title='$k is {$ob->$k}'><img src=$img width=9 height=9></span>";
-											}
-										} else {
-											$v = $ob->display($k);
-											$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_{$ob->display($k)}", ".gif");
-											$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src=$img width=9 height=9></span>";
-										}
-									}
-								}
-
-								if ($sgbl->isKloxo() && $gbl->c_session->ssl_param['backbase']) {
-									$s = $gbl->c_session->ssl_param;
-									$v = $s['backbase'];
-									$pcl = $s['parent_clname'];
-									$selfip = $_SERVER['SERVER_NAME'];
-									$curl = "/display.php?{$ghtml->get_get_from_current_post(array('frm_emessage', 'frm_ssl'))}";
-									$kloxourl = "&frm_ndskshortcut_c_vpsparent_clname=$pcl";
-
-								} else {
-									$v = "/display.php";
-									$curl = "/display.php?{$ghtml->get_get_from_current_post(null)}";
-									$kloxourl = null;
-								}
-
-								$iconpath = get_image_path();
-								$ac_descr = $ghtml->getActionDetails($curl, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
-								$curl = base64_encode($curl);
-								$desc = "{$ac_descr['desc']} $__t_identity";
-								$desc = urlencode($desc);
-
-								$shurl = "$v?frm_o_cname=ndskshortcut&frm_ndskshortcut_c_ttype=favorite&frm_ndskshortcut_c_url=$curl&frm_action=add&frm_ndskshortcut_c_description=$desc$kloxourl";
-
-								$clienttype = null;
-
-								if ($ob->isClient() && $ghtml->frm_action === 'show') {
-									$clienttype = ucfirst($ob->cttype);
-									$clienttype = "$clienttype ";
-								}
-
-								$fullimgstr = implode(" ", $imgstr);
 ?>
 
-								<div style="float:left; padding-top: 10px;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;<?=$name?>&nbsp;{<b><?=$clienttype?><?=trim($description['desc'])?></b>}<?=$fullimgstr?></div>
+			<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;&#x2794;</div>
+<?php
+		}
+
+
+		$ob = $gbl->__c_object;
+		$name = $ob->getId();
+		$imgstr = array();
+
+		if ($ghtml->frm_action === 'show') {
+
+			$list = $ob->createShowImageList();
+
+			foreach ((array)$list as $k => $v) {
+				if ($v) {
+					if (isset($ob->$k)) {
+						$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->$k, ".gif");
+						$imgstr[] = "<span title='$k is {$ob->$k}'><img src=$img width=9 height=9></span>";
+					}
+				} else {
+					$v = $ob->display($k);
+					$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_{$ob->display($k)}", ".gif");
+					$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src=$img width=9 height=9></span>";
+				}
+			}
+		}
+
+		if ($sgbl->isKloxo() && $gbl->c_session->ssl_param['backbase']) {
+			$s = $gbl->c_session->ssl_param;
+			$v = $s['backbase'];
+			$pcl = $s['parent_clname'];
+			$selfip = $_SERVER['SERVER_NAME'];
+			$curl = "/display.php?{$ghtml->get_get_from_current_post(array('frm_emessage', 'frm_ssl'))}";
+			$kloxourl = "&frm_ndskshortcut_c_vpsparent_clname=$pcl";
+
+		} else {
+			$v = "/display.php";
+			$curl = "/display.php?{$ghtml->get_get_from_current_post(null)}";
+			$kloxourl = null;
+		}
+
+		$iconpath = get_image_path();
+		$ac_descr = $ghtml->getActionDetails($curl, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+		$curl = base64_encode($curl);
+		$desc = "{$ac_descr['desc']} $__t_identity";
+		$desc = urlencode($desc);
+
+		$shurl = "$v?frm_o_cname=ndskshortcut&frm_ndskshortcut_c_ttype=favorite&frm_ndskshortcut_c_url=$curl&frm_action=add&frm_ndskshortcut_c_description=$desc$kloxourl";
+
+		$clienttype = null;
+
+		if ($ob->isClient() && $ghtml->frm_action === 'show') {
+			$clienttype = ucfirst($ob->cttype);
+			$clienttype = "$clienttype ";
+		}
+
+		$fullimgstr = implode(" ", $imgstr);
+?>
+
+		<div style="float:left; padding-top: 10px;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;<?=$name?>&nbsp;{<b><?=$clienttype?><?=trim($description['desc'])?></b>}<?=$fullimgstr?></div>
 <?php
 
-								$hypervm = null;
+		$hypervm = null;
 
-								if ($sgbl->isKloxo() && $gbl->c_session->ssl_param) {
-									$hypervm = "HyperVM";
-								}
+		if ($sgbl->isKloxo() && $gbl->c_session->ssl_param) {
+			$hypervm = "HyperVM";
+		}
 
-			if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) &&
-					($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity')) {
-				if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
+		if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) &&
+			($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity')) {
+			if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
 				//	$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
 				//	$ghtml->print_div_button_on_header(null, true, $k, '');
 ?>
 				<div style="float:right; padding-top: 10px;"><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" />&nbsp;</div>
-<?php					
-				}
-
-			} elseif ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
-				//
-			} else {
-				$imgstring = "<img width=18 height=18 src=/theme/general/button/star.gif>";
-
-				if ($sgbl->isBlackBackground()) {
-					$imgstring = null;
-				}
-
-?>
-
-				<div style="float: right; padding-top: 10px;">&nbsp;<a href="<?=$shurl?>">Add to Favorites</a>&nbsp;</div>
 <?php
 			}
 
+		} elseif ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+			//
+		} else {
+			$imgstring = "<img width=18 height=18 src=/theme/general/button/star.gif>";
+
+			if ($sgbl->isBlackBackground()) {
+				$imgstring = null;
+			}
+
 ?>
-</div>
-<br />
+
+			<div style="float: right; padding-top: 10px;">&nbsp;<a href="<?=$shurl?>">Add to Favorites</a>&nbsp;</div>
+<?php
+		}
+
+?>
+	</div>
+	<br />
 <?php
 }
 
@@ -2060,18 +2060,18 @@ function password_contact_check()
 ?>
 
 		<br /> <br /> <br />
-<div style="width:640px; background-color: #fff; margin: 0 auto 0 auto; border: 1px solid #ddd;">
+		<div style="width:640px; background-color: #fff; margin: 0 auto 0 auto; border: 1px solid #ddd;">
 <?php
 
-		if (!isset($ghtml->__http_vars['frm_emessage'])) {
-			$ghtml->__http_vars['frm_emessage'] = 'security_warning';
-		}
+			if (!isset($ghtml->__http_vars['frm_emessage'])) {
+				$ghtml->__http_vars['frm_emessage'] = 'security_warning';
+			}
 
-		$ghtml->print_message();
-		$gbl->frm_ev_list = "old_password_f";
-		do_updateform($login, 'password');
+			$ghtml->print_message();
+			$gbl->frm_ev_list = "old_password_f";
+			do_updateform($login, 'password');
 ?>
-</div>
+		</div>
 <?php
 		exit;
 	}
@@ -2103,7 +2103,7 @@ function do_display_init()
 
 	createPrincipleObject();
 ?>
-<html>
+	<html>
 	<head>
 		<title> Kloxo-MR Display Page </title>
 <?php
@@ -2140,12 +2140,12 @@ function do_display_init()
 			</tr>
 		</table>
 <?php
-       }
+	}
 
 	if ($gbl->c_session->consuming_parent) {
 ?>
-	
-	<table cellpadding=0 cellspacing=0 bgcolor="<?=$col?>">
+
+		<table cellpadding=0 cellspacing=0 bgcolor="<?=$col?>">
 			<tr>
 				<td nowrap> Consumed Login</td>
 				<td><a href="/display.php?frm_consumedlogin=true&frm_action=desktop">Desktop </a></td>
@@ -2192,11 +2192,11 @@ function do_display_init()
 
 ?>
 
-<!-- "END TAB + CONTENT" -->
+	<!-- "END TAB + CONTENT" -->
 
-		</div>
+	</div>
 	</body>
-</html>
+	</html>
 <?php
 }
 
@@ -2452,12 +2452,12 @@ function print_head_image()
 		<tr>
 			<td width=100% id='td1'></td>
 <?php
-	if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
+			if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
-			<!-- <td valign='top'><a href='javascript:top.mainframe.logOut()'>Logout</a></td> -->
-			<td valign='top'><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
+				<!-- <td valign='top'><a href='javascript:top.mainframe.logOut()'>Logout</a></td> -->
+				<td valign='top'><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
 <?php
-	}
+			}
 ?>
 		</tr>
 		<tr>
@@ -2551,8 +2551,8 @@ function print_quick_action($class)
 		$ac_descr = $ghtml->getActionDetails($a, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
 
 		$a = base64_encode($a);
-	//	$res .= "<option value=$a style='background-image: url($_t_image); background-repeat:no-repeat; ";
-	//	$res .= "left-padding: 35px; text-align:right'>  $ac_descr[2] </option>";
+		//	$res .= "<option value=$a style='background-image: url($_t_image); background-repeat:no-repeat; ";
+		//	$res .= "left-padding: 35px; text-align:right'>  $ac_descr[2] </option>";
 
 		$desc = substr($ac_descr[2], 0, 20);
 		$res .= '<option ' . $stylestr . ' value="' . $a . '" >' . $desc . '</option>';
