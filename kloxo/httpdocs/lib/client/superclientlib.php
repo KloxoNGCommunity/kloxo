@@ -34,7 +34,7 @@ function createShowAlist(&$alist, $subaction = null)
 	$alist['__title_main'] = $login->getKeywordUc('resource');
 	$alist[] = 'a=list&c=node';
 	$this->getLxclientActions($alist);
-	$alist[] = 'a=updateform&sa=license';
+//	$alist[] = 'a=updateform&sa=license';
 	$alist[] = 'a=resource';
 	$alist[] = 'a=update&sa=collectusage';
 	return $alist;

@@ -426,7 +426,7 @@ class ClientBase extends ClientCore
 		}
 
 		if ($this->isAdmin()) {
-			$alist[] = "a=updateform&sa=license&o=license";
+		//	$alist[] = "a=updateform&sa=license&o=license";
 		}
 
 		return $alist;

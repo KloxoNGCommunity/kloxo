@@ -299,20 +299,19 @@ class HtmlLib
 		<table cellpadding="0" cellspacing="0" border="0" width="70%" align="center">
 			<tr height="20">
 <?php
-				$class = get_class($obj);
+		$class = get_class($obj);
 
-				foreach ($ilist as $i) {
-					$desc = "__desc_$i";
-					$descr = get_classvar_description($class, $desc);
-					$descr[2] = getNthToken($descr[2], 1);
+		foreach ($ilist as $i) {
+			$desc = "__desc_$i";
+			$descr = get_classvar_description($class, $desc);
+			$descr[2] = getNthToken($descr[2], 1);
 ?>
-					<td width="16%" align="left">
-					<span style="color: #bb3333;"><b><?= $descr[2] ?>: <?= $obj->display($i) ?></b>
-					</span>
-					</td>
+				<td width="16%" align="left">
+					<span style="color: #bb3333;"><b><?= $descr[2] ?>: <?= $obj->display($i) ?></b></span>
+				</td>
 <?php
 
-				}
+		}
 ?>
 			</tr>
 		</table>
@@ -382,7 +381,6 @@ class HtmlLib
 
 		return true;
 	}
-
 
 	function print_object_action_block($obj, $alist, $num)
 	{
@@ -455,7 +453,7 @@ class HtmlLib
 			}
 
 			.trigger a:hover {
-				cursor: poiner;
+				cursor: pointer;
 			}
 
 			.trigger {
@@ -845,13 +843,7 @@ class HtmlLib
 						return false;
 					}
 				},
-				/* Doesn't work with Safari
-				 hover:function(e){
-				 var o=dc.getTarget(e);
-				 var action=dc.cssjs('check',o,dc.hoverClass)?'remove':'add';
-				 dc.cssjs(action,o,dc.hoverClass)
-				 },
-				 */
+
 				addCollapse: function (e) {
 					var action, pic;
 					// hack to fix safari's redraw bug
@@ -906,7 +898,7 @@ class HtmlLib
 					while (!target.tohide && target.nodeName.toLowerCase() != 'body') {
 						target = target.parentNode;
 					}
-					// if(target.nodeName.toLowerCase() != 'a'){target = target.parentNode;} Safari fix not needed here
+
 					return target;
 				},
 				cancelClick: function (e) {
@@ -991,23 +983,23 @@ class HtmlLib
 			<div class="x-dlg-bd">
 <?php
 
-				$count = 0;
-				$first_tab = null;
+		$count = 0;
+		$first_tab = null;
 
-				foreach ($talist as $k => $a) {
-					$descr = $this->getActionDetails($a, null, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
+		foreach ($talist as $k => $a) {
+			$descr = $this->getActionDetails($a, null, $buttonpath, $path, $post, $file, $name, $image, $__t_identity);
 
-					if ($count === 0) {
-						$first_tab = $k;
-					}
+			if ($count === 0) {
+				$first_tab = $k;
+			}
 
-					$count++;
+			$count++;
 ?>
 					<div id="<?= $k ?>-tab" class="x-dlg-tab" title="<?= $descr[2] ?>">
 						<div id="<?= $k ?>-list" class="inner-tab"></div>
 					</div>
 <?php
-				}
+		}
 ?>
 
 			</div>
@@ -1047,8 +1039,8 @@ class HtmlLib
 						this.createDialog();
 
 <?php
-														foreach ($talist as $k => $a) {
-															$na = str_replace("display.php", "ajax.php", $a);
+		foreach ($talist as $k => $a) {
+			$na = str_replace("display.php", "ajax.php", $a);
 ?>
 						<?=$k?>Link = Ext.get('<?=$k?>-comment');
 						<?=$k?>Link.on('click', function (e) {
@@ -1068,7 +1060,7 @@ class HtmlLib
 							dialog.show(<?=$k?>Link);
 						});
 <?php
-														}
+		}
 ?>
 
 					},
@@ -1196,12 +1188,12 @@ class HtmlLib
 						});
 
 <?php
-														foreach ($talist as $k => $a) {
-															if (!csb($k, "__v_dialog")) {
-																continue;
-															}
+		foreach ($talist as $k => $a) {
+			if (!csb($k, "__v_dialog")) {
+				continue;
+			}
 
-															$na = str_replace("display.php", "ajax.php", $a);
+			$na = str_replace("display.php", "ajax.php", $a);
 ?>
 						<?=$k?>List = Ext.get('<?=$k?>-list');
 						// set up the comment renderer, all ajax requests for commentsList
@@ -1215,7 +1207,7 @@ class HtmlLib
 							<?=$k?>um.update('<?=$na?>&r=' + Math.random());
 						});
 <?php
-														}
+		}
 ?>
 
 					}
@@ -1316,14 +1308,14 @@ class HtmlLib
 						dd = new YAHOO.util.DDTarget("mainbody");
 
 <?php
-														foreach ($ret as $title => $a) {
-															$nametitle = strfrom($title, "__title_");
+		foreach ($ret as $title => $a) {
+			$nametitle = strfrom($title, "__title_");
 ?>
 						dd = new YAHOO.example.DDList('item_<?=$nametitle?>');
 						dd.setXConstraint(0, 0, 0);
 						dd.setHandleElId('handle_<?=$nametitle?>');
 <?php
-														}
+		}
 ?>
 
 						//Event.on("showButton", "click", this.showOrder);
@@ -1529,12 +1521,10 @@ class HtmlLib
 		}
 ?>
 
-		<!-- <td valign="middle" align="left" width=5> -->
 		<div id="<?= $dividentity ?>" style="visibility:visible;float:left; margin: 2px">
 			<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
 				<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?> </a>
 		</div>
-		<!-- </td> -->
 
 <?php
 
@@ -1556,7 +1546,7 @@ class HtmlLib
 
 		$retcount = count($ret);
 
-	//	$col = $login->getSkinColor();
+		//	$col = $login->getSkinColor();
 		$col = 'ddd';
 
 		$plus = "{$skindir}/images/plus.gif";
@@ -1584,12 +1574,17 @@ class HtmlLib
 			$backgimage = "{$skindir}/images/expand.gif";
 		}
 
-		if ($show_direction === 'vertical') {
-			$sectionwidth = "640";
+		if (($show_direction === 'vertical') || ($retcount === 1)) {
 			$sectionfloat = "inherit";
 			$sectionheight = "auto";
 			$showpagewidth = "640";
-			$sectionmargin = "0 10px 10px 0";
+			if ($retcount === 1) {
+				$sectionmargin = "0 auto 10px auto";
+				$sectionwidth = "800";
+			} else {
+				$sectionmargin = "0 10px 10px 0";
+				$sectionwidth = "640";
+			}
 		} elseif ($show_direction === 'vertical 2') {
 			$sectionwidth = "300";
 			$sectionfloat = "inherit";
@@ -1603,6 +1598,12 @@ class HtmlLib
 			$showpagewidth = "615";
 			$sectionmargin = "0 10px 10px 0";
 		}
+
+		if ($retcount === 1) {
+			$wrapstyle = "width: 800px; margin: 0 auto 20px auto";
+		} else {
+			$wrapstyle = "float:left; margin: 0 0 20px 15px";
+		}
 ?>
 
 		<style>
@@ -1614,7 +1615,7 @@ class HtmlLib
 				padding: 0;
 				/* width: 520px; */
 				width: <?=$sectionwidth?>px;
-				resize:both;
+				resize: both;
 				overflow: hidden;
 				float: left;
 				height: <?=$sectionheight?>;
@@ -1660,19 +1661,20 @@ class HtmlLib
 			}
 		</style>
 
-		<div style="float:left; margin: 0 0 20px 15px">
+		<div style="<?= $wrapstyle; ?>">
 <?php
-		if ($show_direction !== 'horizontal') {
+		if (($show_direction !== 'horizontal') || ($retcount === 1)) {
 ?>
-			<div id="show_page" style="float:left; width: <?=$showpagewidth?>px; margin: 0 auto 0 auto">
+		<div id="show_page" style="float:left; width: <?= $showpagewidth ?>px; margin: 0 auto 0 auto">
 <?php
 
 		} else {
 			$horiz_width = 15 + ($retcount * ($sectionwidth + 10)) + 15;
 ?>
 
-			<div id="show_page" style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?=$showpagewidth?>px; height: <?= $sectionheight + 20; ?>px; overflow: auto; white-space: nowarp; margin: 0 auto 0 auto">
-			<div id='horiz_scroll' style="width: <?=$horiz_width?>px">
+			<div id="show_page"
+			     style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?= $showpagewidth ?>px; height: <?= $sectionheight + 20; ?>px; overflow: auto; white-space: nowarp; margin: 0 auto 0 auto">
+				<div id='horiz_scroll' style="width: <?= $horiz_width ?>px">
 <?php
 		}
 
@@ -1703,99 +1705,90 @@ class HtmlLib
 			unset($a['open']);
 			$nametitle = strfrom($title, "__title_");
 
-			if (($count%2 === 0) && ($show_direction === 'vertical 2')) {
+			if (($count % 2 === 0) && ($show_direction === 'vertical 2')) {
 ?>
-		<div id="XYZ" style="float:inherit">
+							<div id="XYZ" style="float:inherit">
 <?php
 			}
 ?>
-			<div id="item_<?= $nametitle ?>" class="section">
-				<table cellpadding='0' cellspacing='0'>
+						<div id="item_<?= $nametitle ?>" class="section">
+							<table cellpadding='0' cellspacing='0'>
 <?php
-					if ($show_direction !== 'horizontal') {
+			if ($show_direction !== 'horizontal') {
 ?>
-					<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)"
-					    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'"
-					    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'">
+								<tr class='handle' id="handle_<?= $nametitle ?>"
+								    style="background:#efe8e0 url(<?= $backgimage ?>)"
+								    onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'"
+								    onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'">
 <?php
-						} else {
+			} else {
 ?>
-					<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)">
+								<tr class='handle' id="handle_<?= $nametitle ?>"
+								    style="background:#efe8e0 url(<?= $backgimage ?>)">
 
 <?php
-						}
+			}
 ?>
-						<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?>&nbsp;</span></td> -->
-						<td width='100%' style="cursor: move;" align='center'><span style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>&nbsp;</span></td>
-						<!-- <td nowrap style='cursor: move'><span id=font_<?= $nametitle ?> style='visibility:hidden'>&nbsp;<?= $dragstring ?>&nbsp;</span></td> -->
+									<td width='100%' style="cursor: move;" align='center'><span
+											style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>
+											&nbsp;</span></td>
 <?php
-						if ($show_direction !== 'horizontal') {
+		if (($show_direction !== 'horizontal') || ($retcount === 1)) {
 ?>
-							<td class='handle' style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
-								<img id="img_<?= $nametitle ?>" name="img_<?= $nametitle ?>" src="<?= $minus ?>"></td>
+										<td class='handle' style='cursor: pointer'
+										    onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
+											<img id="img_<?= $nametitle ?>" name="img_<?= $nametitle ?>"
+											     src="<?= $minus ?>"></td>
 <?php
-						} else {
+			} else {
 ?>
-							<td class='handle'>&nbsp;</td>
+										<td class='handle'>&nbsp;</td>
 <?php
-						}
+			}
 ?>
-					</tr>
-				</table>
-				<div style="<?= $dispstring ?>" id="internal_<?= $nametitle ?>">
-					<!-- <table cellpadding="10" cellspacing="4" style="padding:1px 2px 1px 1px">
-						<tr> -->
-<?php
-					array_shift($a);
-					$n = 0;
-
-					foreach ($a as $k => $u) {
-						$n++;
-
-						if ($n === $num) {
-?>
-
-							<!-- </tr>
-							<tr> -->
+								</tr>
+							</table>
+							<div style="<?= $dispstring ?>" id="internal_<?= $nametitle ?>">
 
 <?php
-							$n = 1;
-						}
+			array_shift($a);
+			$n = 0;
 
-						$ret = $this->print_div_button($completedivlist, "block", true, $k, $u);
-						$completedivlist[$ret] = $ret;
-						$div_id_list[$nametitle][$ret] = $ret;
+			foreach ($a as $k => $u) {
+				$n++;
 
-					}
+				$ret = $this->print_div_button($completedivlist, "block", true, $k, $u);
+				$completedivlist[$ret] = $ret;
+				$div_id_list[$nametitle][$ret] = $ret;
+			}
 ?>
-					<!-- </tr>
-				</table> -->
-				</div>
-			</div>
+
+							</div>
+						</div>
 <?php
-			if (($count%2 !== 0) && ($show_direction === 'vertical 2')) {
+			if (($count % 2 !== 0) && ($show_direction === 'vertical 2')) {
 ?>
-</div>
+							</div>
 <?php
 			}
 		}
 
-		if ($show_direction !== 'horizontal') {
+		if (($show_direction !== 'horizontal') || ($retcount === 1)) {
 ?>
-			</div>
+				</div>
 			</div>
 <?php
 		} else {
 ?>
-			</div>
+		</div>
 
-			<script type='text/javascript' src='/theme/js/dragdivscroll.js'></script>
+		<script type='text/javascript' src='/theme/js/dragdivscroll.js'></script>
 
-			<script type='text/javascript'>
+		<script type='text/javascript'>
 
-				new DragDivScroll( 'show_page', 'mouseWheelX noStatus noXBarHide' );
+			new DragDivScroll('show_page', 'mouseWheelX noStatus noXBarHide');
 
-			</script>
+		</script>
 
 <?php
 		}
@@ -1803,33 +1796,31 @@ class HtmlLib
 
 		<script>
 <?php
-						$count = 0;
+		$count = 0;
 ?>
 
 			global_action_box = new Array();
 <?php
-						foreach ($div_id_list as $k => $v) {
+		foreach ($div_id_list as $k => $v) {
 ?>
 
 			global_action_box[<?=$count?>] = new Array();
 			global_action_box[<?=$count?>][0] = '<?=$k?>';
 <?php
-						$j = 1;
-
-						foreach ($v as $kk => $vv) {
+			$j = 1;
+			
+			foreach ($v as $kk => $vv) {
 ?>
 
 			global_action_box[<?=$count?>][<?=$j?>] = '<?=$vv?>';
 <?php
-							$j++;
-						}
-
-						$count++;
-					}
+				$j++;
+			}
+			
+			$count++;
+		}
 ?>
 		</script>
-
-		<!-- <div style="clear:boot"></div> -->
 
 <?php
 	}
@@ -2118,9 +2109,6 @@ class HtmlLib
 		$tablerow_head = $login->getSkinDir() . '/images/tablerow_head.gif';
 ?>
 
-		<!-- <br />
-		<br /> -->
-
 		<script>
 			function sendchmode(a, b) {
 				b.frm_ffile_c_file_permission_f.value = a.user.value + a.group.value + a.other.value;
@@ -2141,8 +2129,8 @@ class HtmlLib
 		<form name="frmsendchmod" action="/display.php" accept-charset="utf-8">
 			<input type="hidden" name="frm_ffile_c_file_permission_f">
 <?php
-			$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
-			$this->print_input_vars($post);
+		$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
+		$this->print_input_vars($post);
 ?>
 			<input type="hidden" name="frm_ffile_c_recursive_f" value="Off">
 			<input type="hidden" name="frm_action" value="update">
@@ -2804,7 +2792,6 @@ class HtmlLib
 		return $ret;
 	}
 
-
 	function object_variable_listquota($parent, $stuff, $variable, $list = null)
 	{
 		global $gbl, $sgbl, $ghtml;
@@ -2837,7 +2824,6 @@ class HtmlLib
 
 		return $string;
 	}
-
 
 	function object_variable_quota($parent, $stuff, $variable)
 	{
@@ -3151,6 +3137,7 @@ class HtmlLib
 			if ($ignore && array_search_bool($key, $ignore)) {
 				continue;
 			}
+			
 			if (is_array($value)) {
 				foreach ($value as $k => $v) {
 					if (is_array($v)) {
@@ -3591,18 +3578,36 @@ class HtmlLib
 				if ($skin_name === 'feather') {
 					$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
 				} else {
-					$spancolor = '#ddd'; $spanchar = '&#x2739;';
+					$spancolor = '#ddd';
+					$spanchar = '&#x2739;';
 
-					if ($pname === 'on') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
-					if ($pname === 'off') { $spancolor = '#d22'; $spanchar = '&#x2739;'; }
-					if ($pname === 'dull') { $spancolor = '#aaa'; $spanchar = '&#x2739;'; }
+					if ($pname === 'on') {
+						$spancolor = '#2d2';
+						$spanchar = '&#x2739;';
+					}
+					if ($pname === 'off') {
+						$spancolor = '#d22';
+						$spanchar = '&#x2739;';
+					}
+					if ($pname === 'dull') {
+						$spancolor = '#aaa';
+						$spanchar = '&#x2739;';
+					}
 
-					if ($pname === 'ok') { $spancolor = '#2d2'; $spanchar = '&#x2739;'; }
-					if ($pname === 'exceed') { $spancolor = '#d82'; $spanchar = '&#x2739;'; }
+					if ($pname === 'ok') {
+						$spancolor = '#2d2';
+						$spanchar = '&#x2739;';
+					}
+					if ($pname === 'exceed') {
+						$spancolor = '#d82';
+						$spanchar = '&#x2739;';
+					}
 
 					//	if (strpos($pname, 'customer') !== false) { $spancolor = '#22d'; $spanchar = '&#x263A'; }
-					if ($pname === 'customer') { $spancolor = '#22d'; $spanchar = '&#x263A'; }
-
+					if ($pname === 'customer') {
+						$spancolor = '#22d';
+						$spanchar = '&#x263A';
+					}
 
 					$pname = "<span title='$alt'><span style='font-size: 1.5em; color:{$spancolor}'>{$spanchar}</span></span>";
 				}
@@ -3650,9 +3655,15 @@ class HtmlLib
 							} else {
 								$txt = '<span style="font-size:1.5em">&#x25C9;</span>';
 
-								if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x21E7;</span>'; }
-								if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x21E9;</span>'; }
-								if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x21F3;</span>'; }
+								if (strpos($_t_image, '/start.gif')) {
+									$txt = '<span style="font-size:1.5em">&#x21E7;</span>';
+								}
+								if (strpos($_t_image, '/stop.gif')) {
+									$txt = '<span style="font-size:1.5em">&#x21E9;</span>';
+								}
+								if (strpos($_t_image, '/restart.gif')) {
+									$txt = '<span style="font-size:1.5em">&#x21F3;</span>';
+								}
 
 
 								//	if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x25C9;</span>'; }
@@ -3675,15 +3686,15 @@ class HtmlLib
 
 			<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist"> <span title='<?= $alt ?>'>
 <?php
-$method = ($__external) ? "get" : $sgbl->method;
+			$method = ($__external) ? "get" : $sgbl->method;
 
-if ($this->frm_action === 'selectshow') {
-	$post['frm_action'] = 'selectshow';
-	$post['frm_selectshowbase'] = $this->frm_selectshowbase;
+			if ($this->frm_action === 'selectshow') {
+				$post['frm_action'] = 'selectshow';
+				$post['frm_selectshowbase'] = $this->frm_selectshowbase;
 
-}
+			}
 
-$this->print_input_vars($post);
+			$this->print_input_vars($post);
 ?>
 
 					<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $url ?>"> <?= $pname ?> </a>
@@ -3783,33 +3794,33 @@ $this->print_input_vars($post);
 			<tr>
 				<td bgcolor="#ffffff" nowrap>
 <?php
-					$first_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "first", 1);
+		$first_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "first", 1);
 
-					$rewind_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "rewind", ($cgi_pagenum + $cgi_pagenum % 2) / 2);
-					$prev_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "prev", max(1, ($cgi_pagenum - 1)));
+		$rewind_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "rewind", ($cgi_pagenum + $cgi_pagenum % 2) / 2);
+		$prev_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "prev", max(1, ($cgi_pagenum - 1)));
 
-					$next_link = null;
-					$forward_link = null;
-					$last_link = null;
+		$next_link = null;
+		$forward_link = null;
+		$last_link = null;
 
-					if ($total_num > $pagesize) {
-						$page = $total_num / $pagesize;
-						$page = explode('.', $page);
-						$page = (isset($page[1])) ? $page[0] + 1 : $page[0];
+		if ($total_num > $pagesize) {
+			$page = $total_num / $pagesize;
+			$page = explode('.', $page);
+			$page = (isset($page[1])) ? $page[0] + 1 : $page[0];
 
-						$left = $page - $cgi_pagenum;
-						$next_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "next", min(($cgi_pagenum + 1), $page));
-						$forward_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "forward", min($cgi_pagenum + ($left + ($left % 2)) / 2, $page));
-						$last_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "last", $page);
+			$left = $page - $cgi_pagenum;
+			$next_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "next", min(($cgi_pagenum + 1), $page));
+			$forward_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "forward", min($cgi_pagenum + ($left + ($left % 2)) / 2, $page));
+			$last_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "last", $page);
 
 ?>
 
 						<?= $first_link ?> &nbsp; <?= $rewind_link ?> &nbsp; <?= $prev_link ?> <b><span class=pagetext>&nbsp;Page <?= $cgi_pagenum ?>
 								(of <?= $page ?>)</span></b> <?= $next_link ?> <?= $forward_link ?> <?= $last_link ?>
 <?php
-						$search_brack_o = "  &nbsp;  (";
-						$search_brack_c = ") ";
-					}
+			$search_brack_o = "  &nbsp;  (";
+			$search_brack_c = ") ";
+		}
 ?>
 				</td>
 			</tr>
@@ -3885,6 +3896,8 @@ $this->print_input_vars($post);
 
 		$vlist = exec_class_method($class, "addListForm", $parent, $class);
 
+		$skin_color = $login->getSkinColor();
+
 		if (!$vlist) {
 			return;
 		}
@@ -3913,36 +3926,17 @@ $this->print_input_vars($post);
 		}
 ?>
 
-		<!-- <table cellpadding="4" cellspacing="4">
-			<tr>
-				<td> -->
-		<div style="background: #efe8e0 url(<?= $col ?>); padding: 4px; margin: 0 25px;">&nbsp;>>>> <a href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> Click Here to
+		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); padding: 4px; margin: 0 25px;">&nbsp;>>>> <a
+				href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> Click Here to
 				Add <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<&nbsp;</div>
-		<!-- </td>
-	</tr>
-</table> -->
-		<br />
+
+		<br/>
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
-			<!-- <table width="100%" border="0" cellpadding=0 style="border: 0 solid">
-				<tr>
-					<td width="10"> &nbsp; </td>
-					<td>
-						<table cellpadding="0" align="center" cellspacing="0" width="100%">
-							<tr>
-								<td> -->
 			<div><?= do_addform($parent, $class, null, true) ?></div>
-			</td>
-			<!-- </tr>
-		</table>
-	</td>
-	<td width="10"> &nbsp; </td>
-</tr>
-</table> -->
 		</div>
 
 <?php
-
 	}
 
 	function print_real_search($name_list, $parent, $class)
@@ -4017,9 +4011,6 @@ $this->print_input_vars($post);
 			</fieldset>
 		</div>
 
-		<!-- <table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td> -->
 		<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto'>
 			<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>"
 			      onsubmit="return true;" accept-charset="utf-8">
@@ -4034,95 +4025,95 @@ $this->print_input_vars($post);
 							<table width="100%" height="100%" cellpadding="0" cellspacing="0">
 
 <?php
-								$filarr[] = 'pagenum';
-								$count = 0;
+		$filarr[] = 'pagenum';
+		$count = 0;
 
-								foreach ($name_list as $name => $width) {
-								$count++;
-								$desc = "__desc_{$name}";
-								$descr[$name] = get_classvar_description($rclass, $desc);
+		foreach ($name_list as $name => $width) {
+			$count++;
+			$desc = "__desc_{$name}";
+			$descr[$name] = get_classvar_description($rclass, $desc);
 
-								if (!$descr[$name]) {
+			if (!$descr[$name]) {
 ?>
 									Cannot access static variable <?= $rclass ?>::<?= $desc ?>
 <?php
 
-									exit(0);
-								}
+				exit(0);
+			}
 
-								if (csa($descr[$name][2], ':')) {
-									$_tlist = explode(':', $descr[$name][2]);
-									$descr[$name][2] = $_tlist[1];
-								}
+			if (csa($descr[$name][2], ':')) {
+				$_tlist = explode(':', $descr[$name][2]);
+				$descr[$name][2] = $_tlist[1];
+			}
 
-								foreach ($descr[$name] as &$d) {
-									if ($this->is_special_url($d)) {
-										continue;
-									}
+			foreach ($descr[$name] as &$d) {
+				if ($this->is_special_url($d)) {
+					continue;
+				}
 
-									if (strstr($d, "%v") !== false) {
-										$d = str_replace("[%v]", $classdesc[2], $d);
-									}
-								}
+				if (strstr($d, "%v") !== false) {
+					$d = str_replace("[%v]", $classdesc[2], $d);
+				}
+			}
 ?>
 								<td nowrap align="right"><span
 										style="font-weight: bold"><?= $descr[$name][2] ?> </span> &nbsp;
 								</td>
 								<td>
 <?php
-									$filarr[] = "{$name}_o_cont";
-									$value = null;
+			$filarr[] = "{$name}_o_cont";
+			$value = null;
 
-									if (isset($this->frm_hpfilter[$filtername]["{$name}_o_cont"])) {
-										$value = $this->frm_hpfilter[$filtername]["{$name}_o_cont"];
-									} else {
-										if ($login->issetHpFilter($filtername, "{$name}_o_cont")) {
-											$value = $login->getHPFilter($filtername, "{$name}_o_cont");
-										}
-									}
+			if (isset($this->frm_hpfilter[$filtername]["{$name}_o_cont"])) {
+				$value = $this->frm_hpfilter[$filtername]["{$name}_o_cont"];
+			} else {
+				if ($login->issetHpFilter($filtername, "{$name}_o_cont")) {
+					$value = $login->getHPFilter($filtername, "{$name}_o_cont");
+				}
+			}
 
-									if ($width) {
-										if ($width[0] === 's') {
+			if ($width) {
+				if ($width[0] === 's') {
 ?>
 
 											<select
 												name="frm_hpfilter[<?= $filtername ?>][<?= $name ?>_o_cont]"
 												class="searchbox" size="1" width="10" maxlength="30">
 <?php
-												foreach ($width[1] as $v) {
-													$sel = '';
+					foreach ($width[1] as $v) {
+						$sel = '';
 
-													if ($v === $value) {
-														$sel = 'SELECTED';
-													}
+						if ($v === $value) {
+							$sel = 'SELECTED';
+						}
 ?>
 													<option <?= $sel ?>
 														value="<?= $v ?>"><?= $v ?></option>';
 <?php
-												}
+					}
 ?>
 											</select>
 <?php
 										}
-									} else {
+			} else {
 ?>
 										<input type="text"
 										       name="frm_hpfilter[<?= $filtername ?>][<?= $name ?>_o_cont]"
 										       value="<?= $value ?>" class="searchbox" size="11"
 										       maxlength="30">
 <?php
-									}
+			}
 ?>
 								</td>
 <?php
-								if ($count === 3) {
-								$count = 0;
+			if ($count === 3) {
+				$count = 0;
 ?>
 								</tr>
 								<tr>
 <?php
-									}
-									}
+			}
+		}
 
 									$this->print_current_input_var_unset_filter($filtername, $filarr);
 									$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4144,12 +4135,8 @@ $this->print_input_vars($post);
 				</table>
 			</form>
 		</div>
-		<!-- </td>
-	</tr>
-</table> -->
 
 <?php
-
 	}
 
 	function isResourceClass($class)
@@ -4260,7 +4247,6 @@ $this->print_input_vars($post);
 		$unique_name = fix_nname_to_be_variable($unique_name);
 ?>
 
-
 		<script> var ckcount<?=$unique_name?>; </script>
 <?php
 		if (!$sortby) {
@@ -4357,12 +4343,13 @@ $this->print_input_vars($post);
 		if (!$sellist && !$this->isResourceClass($class)) {
 ?>
 			<!-- "I am here 4" -->
-			<br />
+			<br/>
 			<div style="width: 910px; margin: 0 auto 0 auto;">
 				<fieldset
 					style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
 					<legend>
-				<span	style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
+				<span
+					style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
 					<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?>
 					(<?= $perpageof ?><?= $total_num ?>)</span></legend>
 				</fieldset>
@@ -4373,10 +4360,6 @@ $this->print_input_vars($post);
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 ?>
 			<!-- "I am here 5" -->
-			<!-- <table cellpadding="0" cellspacing="0" border="0" width="100%">
-				<tr>
-					<td width="25"> &nbsp; </td>
-					<td> -->
 			<div style="width: 910px; margin: 0 auto 0 auto">
 				<table width="100%" cellpadding="0" cellspacing="0" border="0"
 				       style="<?= $backgroundstring ?>  border: 1px solid #<?= $col ?>;">
@@ -4394,20 +4377,12 @@ $this->print_input_vars($post);
 					</tr>
 				</table>
 			</div>
-			<!-- </td>
-			<td width="25"> &nbsp; </td>
-		</tr>
-	</table> -->
 <?php
 		}
 
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 			$imgshow = get_general_image_path() . "/button/btn_show.gif";
 ?>
-			<!-- <table cellpadding="0" cellspacing="0" width="100%" border=0>
-				<tr>
-					<td width="25"> &nbsp; </td>
-					<td> -->
 			<div style="width: 910px; margin: 0 auto 0 auto">
 				<table cellpadding="0" cellspacing="0" width="100%" border=0 valign="middle">
 					<tr>
@@ -4415,94 +4390,95 @@ $this->print_input_vars($post);
 					</tr>
 					<tr valign="middle">
 <?php
-						$imgbtm1 = get_general_image_path() . "/button/btm_01.gif";
-						$imgbtm2 = get_general_image_path() . "/button/btm_02.gif";
-						$imgbtm3 = get_general_image_path() . "/button/btm_03.gif";
-						$imgshow = get_general_image_path() . "/button/btn_show.gif";
+			$imgbtm1 = get_general_image_path() . "/button/btm_01.gif";
+			$imgbtm2 = get_general_image_path() . "/button/btm_02.gif";
+			$imgbtm3 = get_general_image_path() . "/button/btm_03.gif";
+			$imgshow = get_general_image_path() . "/button/btn_show.gif";
 
 						$rpagesize = exec_class_method($rclass, "perPage");
 
-						if ($rpagesize > 1000) {
-							$width = 50;
-						} else {
-							$width = 70;
-						}
+			if ($rpagesize > 1000) {
+				$width = 50;
+			} else {
+				$width = 70;
+			}
 ?>
 
 						<td><b>Page</b>&nbsp;</td>
 <?php
-						$last = false;
+			$last = false;
 
-						foreach (range(1, $total_page) as $i) {
-							if ($i > 6) {
-								$last = true;
-							}
+			foreach (range(1, $total_page) as $i) {
+				if ($i > 6) {
+					$last = true;
+				}
 
-							if ($sgbl->isBlackBackground()) {
-								$col = "333";
-							}
+				if ($sgbl->isBlackBackground()) {
+					$col = "333";
+				}
 
-							if ($i == $cgi_pagenum) {
-								$bgcolorstring = "background: #$col";
-							} else {
-								$bgcolorstring = "";
-							}
+				if ($i == $cgi_pagenum) {
+					$bgcolorstring = "background: #$col";
+				} else {
+					$bgcolorstring = "";
+				}
 ?>
 
 							<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
 								<form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>"
 								      action="" accept-charset="utf-8">
 <?php
-									$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
-									$this->print_current_input_vars(array('frm_hpfilter'));
+				$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
+				$this->print_current_input_vars(array('frm_hpfilter'));
 
-									if ($last) {
+				if ($last) {
 ?>
 
 										<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]"
-										       value="<?= $total_page ?> class=" small">
-			<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">...Last&nbsp; </a>
+										       value="<?= $total_page ?> class="small">
+			<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">...Last&nbsp;</a>
 <?php
 				} else {
 ?>
 										<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]"
 										       value=<?= $i ?> class="small">
-										<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()"> &nbsp;<?= $i ?>&nbsp; </a>
+										<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">&nbsp;<?= $i ?>&nbsp;</a>
 <?php
-									}
+				}
 ?>
 								</form>
 							</td>
 <?php
-							if ($last) {
-								break;
-							}
-						}
+				if ($last) {
+					break;
+				}
+			}
 ?>
 						<td width="100%"></td>
 						<td nowrap><b>Show</b>&nbsp;</td>
 <?php
-						$f_page = (int)$login->issetHpFilter($filtername, 'pagesize') ? $login->getHPFilter($filtername, 'pagesize') : $pagesize;
+			$f_page = (int)$login->issetHpFilter($filtername, 'pagesize') ? $login->getHPFilter($filtername, 'pagesize') : $pagesize;
 
-						if ($rpagesize < 1000) {
-							$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
-							$i = 0;
+			if ($rpagesize < 1000) {
+				$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
+				$i = 0;
 
-							foreach ($list as $l) {
-								$i++;
+				foreach ($list as $l) {
+					$i++;
 
-								if ($l === $f_page) {
-									$bgcolorstring = "background: #$col";
-								} else {
-									$bgcolorstring = "";
-								}
+					if ($l === $f_page) {
+						$bgcolorstring = "background: #$col";
+					} else {
+						$bgcolorstring = "";
+					}
 ?>
 
 								<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-									<form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
+									<form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>"
+									      action="/display.php" accept-charset="utf-8">
 <?php
-										$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
-										$this->print_current_input_vars(array('frm_hpfilter'));
+					$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
+					$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
 										<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $l ?>">
 									</form>
@@ -4510,52 +4486,33 @@ $this->print_input_vars($post);
 								</td>
 <?php
 
-							}
-						}
+				}
+			}
 ?>
 					</tr>
 				</table>
 			</div>
-			<!-- </td>
-			<td width="25"> &nbsp; </td>
-		</tr>
-	</table> -->
 
 <?php
 		}
-
-		/*
-			if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
-				$divwidth = "910px";
-			} else {
-				$divwidth = "240px";
-			}
-		*/
 
 		if ($this->isResourceClass($class)) {
 			$divwidth = "240px";
 		} else {
 			$divwidth = "910px";
 		}
-
 ?>
 
-		<!-- <table width="100%">
-			<tr>
-			<td align="center" style='border: 0'> -->
 		<div style="width: <?= $divwidth ?>; margin: 0 auto 0 auto; background-color:#fff">
 			<table cellspacing="1" cellpadding="3" width="100%" align="center">
 				<tr>
-					<!-- <td class="rowpoint"></td> -->
 					<td colspan="<?= $nlcount ?>"></td>
-					<!-- <td class="rowpoint"></td> -->
 				</tr>
 				<tr height="25" valign="middle">
-					<!-- <td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td> -->
 <?php
-					if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
-						//	$checked = "checked disabled";
-						$checked = "";
+		if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
+			//	$checked = "checked disabled";
+			$checked = "";
 ?>
 
 						<td width=10 style="background:#cde url(<?= $imgtablerowhead ?>)">
@@ -4568,57 +4525,57 @@ $this->print_input_vars($post);
 							</form>
 						</td>
 <?php
-					}
+		}
 
-					$imguparrow = get_general_image_path() . '/button/uparrow.gif';
-					$imgdownarrow = get_general_image_path() . '/button/downarrow.gif';
+		$imguparrow = get_general_image_path() . '/button/uparrow.gif';
+		$imgdownarrow = get_general_image_path() . '/button/downarrow.gif';
 
-					foreach ($name_list as $name => $width) {
-						$desc = "__desc_{$name}";
+		foreach ($name_list as $name => $width) {
+			$desc = "__desc_{$name}";
 
-						if (csa($name, "abutton")) {
-							$descr[$name] = array("b", "", "", "", 'help' => "");
-						} else {
-							$descr[$name] = get_classvar_description($rclass, $desc);
-						}
+			if (csa($name, "abutton")) {
+				$descr[$name] = array("b", "", "", "", 'help' => "");
+			} else {
+				$descr[$name] = get_classvar_description($rclass, $desc);
+			}
 
-						if (!$descr[$name]) {
+			if (!$descr[$name]) {
 ?>
 
 							Cannot access static variable <?= $rclass ?>::<?= $desc ?>
 <?php
 
-							exit(0);
-						}
+				exit(0);
+			}
 
-						if (csa($descr[$name][2], ':')) {
-							$_tlist = explode(':', $descr[$name][2]);
-							$descr[$name][2] = $_tlist[0];
-						}
+			if (csa($descr[$name][2], ':')) {
+				$_tlist = explode(':', $descr[$name][2]);
+				$descr[$name][2] = $_tlist[0];
+			}
 
-						foreach ($descr[$name] as &$d) {
-							if ($this->is_special_url($d)) {
-								continue;
-							}
+			foreach ($descr[$name] as &$d) {
+				if ($this->is_special_url($d)) {
+					continue;
+				}
 
-							if (strstr($d, "%v") !== false) {
-								$d = str_replace("[%v]", $classdesc[2], $d);
-							}
-						}
+				if (strstr($d, "%v") !== false) {
+					$d = str_replace("[%v]", $classdesc[2], $d);
+				}
+			}
 
-						if ($width === "100%") {
-							//	$wrapstr = "wrap";
-							$wrapstr = "";
-						} else {
-							$wrapstr = "nowrap";
-						}
+			if ($width === "100%") {
+				//	$wrapstr = "wrap";
+				$wrapstr = "";
+			} else {
+				$wrapstr = "nowrap";
+			}
 
-						if ($sortby && $sortby === $name) {
-							if ($sgbl->isBlackBackground()) {
-								$wrapstr .= " style='background:gray'";
-							} else {
-								$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/listsort.gif)'";
-							}
+			if ($sortby && $sortby === $name) {
+				if ($sgbl->isBlackBackground()) {
+					$wrapstr .= " style='background:gray'";
+				} else {
+					$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/listsort.gif)'";
+				}
 ?>
 							<!-- "I am here 8" -->
 							<td <?= $wrapstr ?> width="<?= $width ?>">
@@ -4626,82 +4583,82 @@ $this->print_input_vars($post);
 							<td class="collist" <?= $wrapstr ?> rowspan="2">
 
 <?php
-						} else {
-							if ($sgbl->isBlackBackground()) {
-								$wrapstr .= " style='background:#efe8e0'";
-							} else {
-								$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/expand.gif)'";
-							}
+			} else {
+				if ($sgbl->isBlackBackground()) {
+					$wrapstr .= " style='background:#efe8e0'";
+				} else {
+					$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/expand.gif)'";
+				}
 ?>
 							<!-- "I am here 9" -->
 							<td width="<?= $width ?>" <?= $wrapstr ?> class="collist">
 
 <?php
-						}
+			}
 ?>
 
 						<b><?= $this->print_sortby($parent, $class, $unique_name, $name, $descr[$name]) ?></b>
 <?php
-						$imgarrow = ($sortdir === "desc") ? $imgdownarrow : $imguparrow;
+			$imgarrow = ($sortdir === "desc") ? $imgdownarrow : $imguparrow;
 
-						if ($sortby && $sortby === $name) {
+			if ($sortby && $sortby === $name) {
 ?>
 
 							</td>
 							<td width="15"><img src="<?= $imgarrow ?>"></td>
 							<td></td></tr></table>
 <?php
-						} else {
+			} else {
 ?>
 							</td>
 
 <?php
-						}
-					}
+			}
+		}
 
 					$count = 0;
 					$rowcount = 0;
 ?>
-					<!-- <td class="rowpoint"><img src="/theme/general/button/blank.gif" width="20"/></td> -->
+
 				</tr>
 <?php
-				print_time('loop');
+		print_time('loop');
 
-				$n = 1;
+		$n = 1;
 
-				foreach ((array)$obj_list as $okey => $obj) {
-					if (!$obj) {
-						continue;
-					}
+		foreach ((array)$obj_list as $okey => $obj) {
+			if (!$obj) {
+				continue;
+			}
 
-					// Admin object should not be listed ever.
-					if ($obj->isAdmin() && $obj->isClient()) {
-						continue;
-					}
+			// Admin object should not be listed ever.
+			if ($obj->isAdmin() && $obj->isClient()) {
+				continue;
+			}
 
-					$checked = $obj->isSelect() ? "" : "disabled";
+			$checked = $obj->isSelect() ? "" : "disabled";
 
-					// Fix This.
-					if ($sellist) {
-						$checked = "checked disabled";
+			// Fix This.
+			if ($sellist) {
+				$checked = "checked disabled";
 
-						if (!array_search_bool($obj->nname, $sellist)) {
-							continue;
-						}
-					}
+				if (!array_search_bool($obj->nname, $sellist)) {
+					continue;
+				}
+			}
 
-					$imgpointer = get_general_image_path() . "/button/pointer.gif";
-					$imgblank = get_general_image_path() . "/button/blank.gif";
+			$imgpointer = get_general_image_path() . "/button/pointer.gif";
+			$imgblank = get_general_image_path() . "/button/blank.gif";
 
-					$rowuniqueid = "tr$unique_name$rowcount";
-					/*
-						// MR -- don't know for what, so disable it.
+			$rowuniqueid = "tr$unique_name$rowcount";
+		/*
+			// MR -- don't know for what, so disable it.
 ?>
 
 								<script> loadImage('<?=$imgpointer?>') </script>
 								<script> loadImage('<?=$imgblank?>') </script>
 <?php
-					*/
+		*/
 ?>
 					<tr height=22 id=<?= $rowuniqueid ?> class=tablerow<?= $count ?>
 
@@ -4709,124 +4666,103 @@ $this->print_input_vars($post);
 					    onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')">
 <?php
 
-						if (!$sgbl->isBlackBackground()) {
-?>
-
-							<!-- <td class="rowpoint"></td> -->
-<?php
-						}
-
-						if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
+			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 ?>
 
 							<td width=10 style='<?= $backgroundstring ?>'> <?= $filteropacitystringspan ?>
-								<input <?= $filteropacitystring ?> id="ckbox<?= $unique_name ?><?= $rowcount ?>" class="ch1"
-								                                   type="checkbox" <?= $checked ?> name="frm_accountselect"
+								<input <?= $filteropacitystring ?> id="ckbox<?= $unique_name ?><?= $rowcount ?>"
+								                                   class="ch1"
+								                                   type="checkbox" <?= $checked ?>
+								                                   name="frm_accountselect"
 								                                   onclick="hiliteRowColor('tr<?= $unique_name ?><?= $rowcount ?>','tablerow<?= $count ?>',document.formselectall<?= $unique_name ?>.selectall<?= $unique_name ?>)"
 								                                   value="<?= $obj->nname ?>"> <?= $filteropacitystringspanend ?>
 							</td>
 <?php
-						}
+			}
 
-						$colcount = 1;
+			$colcount = 1;
 
-						foreach ($name_list as $name => $width) {
-							try {
-								$this->printObjectElement($parent, $class, $classdesc, $obj, $name, $width, $descr, $colcount . "_" . $rowcount);
-							} catch (exception $e) {
-								break;
-							}
+			foreach ($name_list as $name => $width) {
+				try {
+					$this->printObjectElement($parent, $class, $classdesc, $obj, $name, $width, $descr, $colcount . "_" . $rowcount);
+				} catch (exception $e) {
+					break;
+				}
 
-							$colcount++;
-						}
+				$colcount++;
+			}
 ?>
 
-						<!-- <td class="rowpoint"></td> -->
 					</tr>
 <?php
 
-					if ($count === 0) {
-						$count = 1;
-					} else {
-						$count = 0;
-					}
+			if ($count === 0) {
+				$count = 1;
+			} else {
+				$count = 0;
+			}
 
-					$rowcount++;
+			$rowcount++;
 
-					if (!$sellist) {
-						if ($n === ($pagesize * $cgi_pagenum)) {
-							break;
-						}
-					}
-
-					$n++;
+			if (!$sellist) {
+				if ($n === ($pagesize * $cgi_pagenum)) {
+					break;
 				}
+			}
+
+			$n++;
+		}
 ?>
 
 				<tr>
-					<!-- <td class="rowpoint"></td> -->
 					<td colspan="<?= $nlcount ?>">
 <?php
-						if (!$rowcount) {
-							if ($login->issetHpFilter($filtername, 'searchstring') && $login->getHPFilter($filtername, 'searchstring')) {
+		if (!$rowcount) {
+			if ($login->issetHpFilter($filtername, 'searchstring') && $login->getHPFilter($filtername, 'searchstring')) {
 ?>
-								<!-- <table width=95%>
-							<tr align=center>
-								<td width=100%><b><?= $login->getKeyword('no_matches_found') ?></b></td>
-							</tr>
-						</table> -->
-								<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no_matches_found') ?></b></div>
+
+								<div style="width: 100%; text-align: center">
+									<b><?= $login->getKeyword('no_matches_found') ?></b></div>
 <?php
 
-							} else {
-								$filtermessagstring = null;
+			} else {
+				$filtermessagstring = null;
 
-								if ($login->issetHpFilter($filtername)) {
-									$filtermessagstring = $login->getKeyword('search_note');
+				if ($login->issetHpFilter($filtername)) {
+					$filtermessagstring = $login->getKeyword('search_note');
 ?>
 
-									<!-- <table width=95%>
-								<tr align=center>
-									<td width=100%><b><?= $filtermessagstring ?></b></td>
-								</tr>
-							</table> -->
 									<div style="width: 100%; text-align: center"><b><?= $filtermessagstring ?></b></div>
 <?php
-								} else {
+				} else {
 ?>
 
-									<!-- <table width='95%'>
-								<tr align='center'>
-									<td width='100%'>
-										<b><?= $login->getKeyword('no') ?> <?= get_plural($classdesc[2]) ?>&nbsp;<?= $login->getKeyword('under') ?>&nbsp;<?= $parent->getId() ?></b>
-									</td>
-								</tr>
-							</table> -->
-									<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no') ?>&nbsp;<?= get_plural($classdesc[2]) ?>&nbsp;<?= $login->getKeyword('under') ?>&nbsp;<?= $parent->getId() ?></b></div>
+									<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no') ?>
+											&nbsp;<?= get_plural($classdesc[2]) ?>
+											&nbsp;<?= $login->getKeyword('under') ?>&nbsp;<?= $parent->getId() ?></b>
+									</div>
 
 <?php
 
-								}
-							}
-						}
+				}
+			}
+		}
 ?>
 
 					</td>
 				</tr>
 				<tr>
-					<!-- <td class="rowpoint"></td> -->
 					<td colspan="<?= $nlcount ?>">
 						<table cellpadding="0" cellspacing="0" border="0" width="100%">
 							<tr height="1" style="background:#efe8e0 url(<?= $imgtopline ?>)">
-								<!-- <td class="rowpoint"></td> -->
 							</tr>
 							<tr>
 								<td>
 <?php
 
-									if ($this->frm_action === 'selectshow') {
-										return;
-									}
+		if ($this->frm_action === 'selectshow') {
+			return;
+		}
 ?>
 
 									<script>ckcount<?=$unique_name;?> = <?=$rowcount . ";  ";?>
@@ -4835,28 +4771,30 @@ $this->print_input_vars($post);
 											}
 									</script>
 <?php
-									if ($sellist) {
+		if ($sellist) {
 ?>
 
 										<table <?= $blackstyle ?>>
 											<tr>
 												<td>
-													<form method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+													<form method="<?= $sgbl->method ?>"
+													      action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
-														$this->print_current_input_vars(array("frm_confirmed"));
-														$this->print_input("hidden", "frm_confirmed", "yes");
-														$this->print_input("submit", "Confrm", "Confirm", "class=submitbutton");
+				$this->print_current_input_vars(array("frm_confirmed"));
+				$this->print_input("hidden", "frm_confirmed", "yes");
+				$this->print_input("submit", "Confrm", "Confirm", "class=submitbutton");
 ?>
 													</form>
 
 												</td>
 												<td width="30"> &nbsp; </td>
 												<td>
-													<form method="<? $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
+													<form method="<? $sgbl->method ?>" action="/display.php"
+													      accept-charset="utf-8">
 <?php
-														$this->print_current_input_vars(array("frm_action", "frm_accountselect"));
-														$this->print_input("hidden", "frm_action", "list");
-														$this->print_input("submit", "Cancel", "Cancel", "class=submitbutton");
+				$this->print_current_input_vars(array("frm_action", "frm_accountselect"));
+				$this->print_input("hidden", "frm_action", "list");
+				$this->print_input("submit", "Cancel", "Cancel", "class=submitbutton");
 ?>
 													</form>
 
@@ -4864,25 +4802,26 @@ $this->print_input_vars($post);
 											</tr>
 										</table>
 <?php
-									}
+		}
 
-									if ($sgbl->isBlackBackground()) {
+		if ($sgbl->isBlackBackground()) {
 ?>
 								</td>
-							</tr></table>
-					</td></tr></table>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
 			</td></tr></table>
 <?php
-
 			return;
-			}
+		}
 
-			if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
+		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 			$imgbtm1 = get_general_image_path() . "/button/btm_01.gif";
 			$imgbtm2 = get_general_image_path() . "/button/btm_02.gif";
 			$imgbtm3 = get_general_image_path() . "/button/btm_03.gif";
 			$imgshow = get_general_image_path() . "/button/btn_show.gif";
-
 ?>
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid #ddd">
 				<tr>
@@ -4892,45 +4831,45 @@ $this->print_input_vars($post);
 							<table cellpadding="0" cellspacing="0" border="0">
 								<tr>
 <?php
-									if ($skin_name === 'feather') {
+			if ($skin_name === 'feather') {
 ?>
 									<td><img src="<?= $imgbtm1 ?>"></td>
 								<td background="<?= $imgbtm2 ?>">
 <?php
-								} else {
+			} else {
 ?>
 									<td style="background: #eee;">
 <?php
-										}
+			}
 
 										$rpagesize = exec_class_method($rclass, "perPage");
 
-										if ($rpagesize > 1000) {
-											$width = 50;
-										} else {
-											$width = 70;
-										}
+			if ($rpagesize > 1000) {
+				$width = 50;
+			} else {
+				$width = 70;
+			}
 ?>
 
 										<table width="100%" cellpadding="0" cellspacing="0">
 											<tr>
 <?php
-												if ($skin_name === 'feather') {
+			if ($skin_name === 'feather') {
 ?>
 												<td width="40">&nbsp;<b>Show</b>&nbsp;</td>
 												<td width="<?= $width ?>">
 <?php
-													} else {
+			} else {
 ?>
 												<td>&nbsp;<b>Show</b>&nbsp;</td>
 												<td>
 <?php
-													}
+			}
 													$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
 													$this->print_current_input_vars(array('frm_hpfilter'));
 													$f_page = (int)$login->issetHpFilter($filtername, 'pagesize') ? $login->getHPFilter($filtername, 'pagesize') : $pagesize;
 
-													if ($rpagesize < 1000) {
+			if ($rpagesize < 1000) {
 ?>
 
 														<select class="textbox"
@@ -4938,57 +4877,61 @@ $this->print_input_vars($post);
 														        style="width:40px; border: 1px solid #888"
 														        name="frm_hpfilter[<?= $filtername ?>][pagesize]">
 <?php
-															$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
+				$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
 
-															foreach ($list as $l) {
-																$sel = '';
+				foreach ($list as $l) {
+					$sel = '';
 
-																if ($l == $f_page) {
-																	$sel = 'SELECTED';
-																}
+					if ($l == $f_page) {
+						$sel = 'SELECTED';
+					}
 ?>
 
 																<option <?= $sel ?> value="<?= $l ?>"><?= $l ?></option>
 <?php
-															}
+				}
 
 ?>
 
 														</select>
 <?php
-													} else {
+			} else {
 ?>
 
 														<input type="text" class="textbox" style="width:25px"
 														       name="frm_hpfilter[<?= $filtername ?>][pagesize]"
 														       value="<?= $f_page ?>">
 <?php
-													}
-													if ($skin_name === 'feather') {
+			}
+				
+			if ($skin_name === 'feather') {
 ?>
 
-												</td><td><input type="image" src="<?= $imgshow ?>">
+												</td>
+												<td><input type="image" src="<?= $imgshow ?>">
 <?php
-													} else {
+			} else {
 ?>
-												</td><td><input type="button" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
+												</td>
+												<td><input type="button" value="Go"
+												           style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
 <?php
-													}
+			}
 ?>
 												</td>
 											</tr>
 										</table>
 									</td>
 <?php
-									if ($skin_name === 'feather') {
+			if ($skin_name === 'feather') {
 ?>
 										<td><img src="<?= $imgbtm3 ?>"></td>
 <?php
-									} else {
+			} else {
 ?>
 										<td>&nbsp;</td>
 <?php
-									}
+			}
 ?>
 								</tr>
 							</table>
@@ -4997,7 +4940,7 @@ $this->print_input_vars($post);
 					<td align="right">
 <?php
 
-						if ($rpagesize < 1000) {
+			if ($rpagesize < 1000) {
 ?>
 
 							<form method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
@@ -5012,34 +4955,35 @@ $this->print_input_vars($post);
 											       name="frm_hpfilter[<?= $filtername ?>][pagenum]" type="text"
 											       value="<?= $cgi_pagenum ?>"></td>
 <?php
-										if ($skin_name === 'feather') {
+				if ($skin_name === 'feather') {
 ?>
 											<td>
 												<input type="image" src="<?= $imgshow ?>"></td>
 <?php
-										} else {
+				} else {
 ?>
 											<td style="background: #eee;">
-												<input type="button" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced"></td>
+												<input type="button" value="Go"
+												       style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
+											</td>
 <?php
-										}
+				}
 ?>
 									</tr>
 								</table>
 							</form>
 <?php
-						}
-						}
+			}
+		}
 
 ?>
 
 					</td>
-				</tr></table>
+				</tr>
+			</table>
 			</td></tr></table>
-			<br />
+			<br/>
 		</div>
-		<!-- </td></tr></table> -->
-
 <?php
 	}
 
@@ -5073,27 +5017,26 @@ $this->print_input_vars($post);
 			<tr align="left">
 
 <?php
+		foreach ((array)$blist as $b) {
+			$this->print_list_submit_middle($b, $uniquename);
+		}
 
-				foreach ((array)$blist as $b) {
-					$this->print_list_submit_middle($b, $uniquename);
-				}
+		$refreshpost = $this->getCurrentInheritVar();
+		$refreshpost['frm_list_refresh'] = 'yes';
+		$url = $this->get_get_from_post(null, $refreshpost);
 
-				$refreshpost = $this->getCurrentInheritVar();
-				$refreshpost['frm_list_refresh'] = 'yes';
-				$url = $this->get_get_from_post(null, $refreshpost);
+		$refresh = create_simpleObject(array('url' => "display.php?$url", 'purl' => "/display.php?frm_action=refresh&frm_o_cname=ffile", 'target' => ''));
 
-				$refresh = create_simpleObject(array('url' => "display.php?$url", 'purl' => "/display.php?frm_action=refresh&frm_o_cname=ffile", 'target' => ''));
+		$this->print_list_submit_middle(array($refresh, 1), $uniquename);
 
-				$this->print_list_submit_middle(array($refresh, 1), $uniquename);
-
-				if (exec_class_method($rclass, "isHardRefresh")) {
-					$hardrefresh = create_simpleObject(array('url' => "display.php?$url&frm_hardrefresh=yes", 'purl' => "/display.php?frm_action=hardrefresh&frm_o_cname=ffile", 'target' => ''));
-					$this->print_list_submit_middle(array($hardrefresh, 1), $uniquename);
-				}
-
+		if (exec_class_method($rclass, "isHardRefresh")) {
+			$hardrefresh = create_simpleObject(array('url' => "display.php?$url&frm_hardrefresh=yes", 'purl' => "/display.php?frm_action=hardrefresh&frm_o_cname=ffile", 'target' => ''));
+			$this->print_list_submit_middle(array($hardrefresh, 1), $uniquename);
+		}
 ?>
 
-			</tr></table>
+			</tr>
+		</table>
 
 <?php
 	}
@@ -5141,44 +5084,42 @@ $this->print_input_vars($post);
 			<form name="form<?= $form_name ?>" action="<?= $path ?>">
 <?php
 
-				$this->print_input_vars($post);
+		$this->print_input_vars($post);
 
-				if (!$noselect) {
+		if (!$noselect) {
 ?>
 					<input id="accountsel" name="frm_accountselect" type="hidden">
 <?php
-				}
+		}
 
+		if (!isset($button[2])) {
+			$button[2] = null;
+		}
+
+		if (!$button[2]) {
 ?>
-
-<?php
-				if (!isset($button[2])) {
-					$button[2] = null;
-				}
-
-				if (!$button[2]) {
-?>
-				<span title="<?= $help ?>"> <a class=button href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
+				<span title="<?= $help ?>"> <a class=button
+				                               href="javascript:storevalue(document.form<?= $form_name ?>,'accountsel','ckbox<?= $uniquename ?>',ckcount<?= $uniquename ?>, <?= $noselect ?>, <?= $doconfirm ?>)">
 <?php
 
-						}
+		}
 
-						if (!$sgbl->isBlackBackground()) {
+		if (!$sgbl->isBlackBackground()) {
 ?>
 							<img height="15" width="15" src="<?= $image ?>">
 <?php
-							$colorstring = null;
-						} else {
-							$colorstring = "color=#999999";
-						}
+			$colorstring = null;
+		} else {
+			$colorstring = "color=#999999";
+		}
 ?>
-						<br /> <span <?= $colorstring ?> class="lightandthin"><?= $name ?></span>
+						<br/> <span <?= $colorstring ?> class="lightandthin"><?= $name ?></span>
 <?php
-						if (!$button[2]) {
+		if (!$button[2]) {
 ?>
 					</a> </span>
 <?php
-			}
+		}
 ?>
 			</form>
 		</td>
@@ -5245,34 +5186,32 @@ $this->print_input_vars($post);
 
 		<script>
 <?php
-
-								if ($login->getSpecialObject('sp_specialplay')->isOn('ultra_navig')) {
-									foreach ((array)$gbl->__navigmenu as $n => $v) {
-										create_navmenu($n, $v[0], $v[1]);
-									}
-								}
-
+			
+			if ($login->getSpecialObject('sp_specialplay')->isOn('ultra_navig')) {
+				foreach ((array)$gbl->__navigmenu as $n => $v) {
+					create_navmenu($n, $v[0], $v[1]);
+				}
+			}
 ?>
+
 			window.histlist = new Menu('histlist', 210);
 <?php
-
-								if (isset($gbl->__histlist)) {
-									end($gbl->__histlist);
-									$this->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
-
-									while (($val = prev($gbl->__histlist))) {
-										$this->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
-									}
-
-									reset($gbl->__histlist);
-								} else {
-									$this->print_pmenu('histlist', '__blank|No History');
-								}
-
+			
+			if (isset($gbl->__histlist)) {
+				end($gbl->__histlist);
+				$this->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
+			
+				while (($val = prev($gbl->__histlist))) {
+					$this->print_pmenu('histlist', key($gbl->__histlist), null, null, true);
+				}
+			
+				reset($gbl->__histlist);
+			} else {
+				$this->print_pmenu('histlist', '__blank|No History');
+			}
 ?>
 
 		</script>
-
 <?php
 	}
 
@@ -5305,9 +5244,9 @@ $this->print_input_vars($post);
 		</script>
 
 <?php
-	if ($sgbl->dbg <= 0) {
-		return;
-	}
+		if ($sgbl->dbg <= 0) {
+			return;
+		}
 ?>
 
 		<script>
@@ -5321,7 +5260,6 @@ $this->print_input_vars($post);
 				return true;
 			}
 		</script>
-
 <?php
 	}
 
@@ -5375,11 +5313,8 @@ $this->print_input_vars($post);
 		$l = @ getdate();
 		$hours = $l['hours'];
 		$minutes = $l['minutes'];
-?>
 
-<?php
-
-	if ($header === 'left_panel') {
+		if ($header === 'left_panel') {
 ?>
 		<script type="text/javascript">
 			var gl_helpUrl;
@@ -5396,7 +5331,7 @@ $this->print_input_vars($post);
 
 		</script>
 <?php
-	}
+		}
 ?>
 		<script>
 			function jsFindFilterVar() {
@@ -5426,12 +5361,12 @@ $this->print_input_vars($post);
 			var gl_skin_directory = '<?=$login->getSkinDir();?>';
 		</script>
 <?php
-	if ($header === 'left_panel') {
+		if ($header === 'left_panel') {
 ?>
 
 		<script>lxCallEnd();</script>
 <?php
-	} // [FIXME] This call a lxCallEnd a empty function
+		} // [FIXME] This call a lxCallEnd a empty function
 ?>
 
 <?php
@@ -5541,23 +5476,23 @@ $this->print_input_vars($post);
 				<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
 				<META HTTP-EQUIV="Refresh" CONTENT="0;URL=<?= $redirect_url ?>">
 <?php
-			if ($windowurl) {
+				if ($windowurl) {
 ?>
 				<script>
 					window.open('<?=$windowurl?>');
 				</script>
 				</head>
 <?php
-			}
+				}
 			} else {
-			if ($windowurl) {
+				if ($windowurl) {
 ?>
 				<script>
 					window.open('<?=$windowurl?>');
 				</script>
 
 <?php
-			}
+				}
 			}
 
 			exit(0);
@@ -5570,16 +5505,16 @@ $this->print_input_vars($post);
 				print_time('full', "Page Generation Took: ");
 ?>
 
-				<b><br /> <br /> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
-					<br />
+				<b><br/> <br/> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
+					<br/>
 					Click <a href="<?= $redirect_url ?>"> xHere to go there Anyways.</b>
 <?php
 			} else {
 				print_time('full', "Page Generation Took: ");
 ?>
 
-				<b><br /> <br /> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
-					<br />
+				<b><br/> <br/> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
+					<br/>
 					Click <a href="<?= $redirect_url ?>"> xHere to go there Anyways.</b>
 <?php
 			}
@@ -5622,7 +5557,7 @@ $this->print_input_vars($post);
 
 ?>
 
-		<br /><br />
+		<br/><br/>
 		<table cellpadding="0" cellspacing="0" border="0" width="20%">
 			<tr>
 				<td bgcolor="<?= $login->skin->table_title_color ?>"><b><?= $heading ?></b>
@@ -5707,7 +5642,6 @@ $this->print_input_vars($post);
 		if ($hpfilter) {
 			$filter['frm_hpfilter'] = $hpfilter;
 		}
-
 ?>
 
 		<table width=100%>
@@ -5718,18 +5652,18 @@ $this->print_input_vars($post);
 					      accept-charset="utf-8">
 
 <?php
-						foreach ($cgi_o_o as $k => $v) {
+		foreach ($cgi_o_o as $k => $v) {
 ?>
 
 							<input type=hidden name='frm_o_o[<?= $k ?>][class]' value=<?= $v['class'] ?>>
 <?php
-							if (isset($v['nname'])) {
+			if (isset($v['nname'])) {
 ?>
 
 								<input type=hidden name='frm_o_o[<?= $k ?>][nname]' value=<?= $v['nname'] ?>>
 <?php
-							}
-						}
+			}
+		}
 ?>
 
 						<input type=hidden name=frm_action value=<?= $frm_action ?>>
@@ -5740,33 +5674,32 @@ $this->print_input_vars($post);
 						Period <select class=textbox onChange='document.graphselectjump.submit()'
 						               name='frm_c_graph_time'>
 <?php
-							foreach ($list as $k => $l) {
-								$sssl = '';
+		foreach ($list as $k => $l) {
+			$sssl = '';
 
-								if ($k == $oldname) {
-									$sssl = 'SELECTED';
-								}
+			if ($k == $oldname) {
+				$sssl = 'SELECTED';
+			}
 
 ?>
 								<option <?= $sssl ?> value="<?= $k ?>"><?= $l ?></option>
 <?php
-							}
+		}
 ?>
 
 						</select>
-
-
 					</form>
 				</td>
 			</tr>
 		</table>
-
 <?php
 	}
 
 	function printShowSelectBox($list)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		$skin_color = $login->getSkinColor();
 
 		if (!$list) {
 			return;
@@ -5852,33 +5785,28 @@ $this->print_input_vars($post);
 			$col = "{$skindir}/images/expand.gif";
 		}
 ?>
-		<!-- <br />
-		<table cellspacing=0 cellpadding=0 width=100%>
-			<tr style="background:#efe8e0 url(<?= $col ?>)">
-				<td nowrap><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span>
-				</td>
-				<td align=center> -->
-		<div style="background: #efe8e0 url(<?= $col ?>); height: 24px; margin: 0 25px;">
-			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span></div>
+		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 24px; margin: 0 25px;">
+			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;Switch To Another&nbsp;</span>
+			</div>
 			<div style="float:left;">
 				<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
 <?php
-					foreach ($cgi_o_o as $k => $v) {
+		foreach ($cgi_o_o as $k => $v) {
 ?>
 
-						<input type="hidden" name="frm_o_o[<?= $k ?>][class]" value="<?= $v['class'] ?>" />
+						<input type="hidden" name="frm_o_o[<?= $k ?>][class]" value="<?= $v['class'] ?>"/>
 <?php
-						if ($k != $num && isset($v['nname'])) {
+			if ($k != $num && isset($v['nname'])) {
 ?>
 
-							<input type="hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>" />
+							<input type="hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>"/>
 <?php
 
-						}
-					}
+			}
+		}
 ?>
 
-					<input type="hidden" name="frm_action" value="<?= $frm_action ?>" />
+					<input type="hidden" name="frm_action" value="<?= $frm_action ?>"/>
 					<?= $subactionstr ?>
 
 					<?= $cnamestr ?>
@@ -5890,39 +5818,36 @@ $this->print_input_vars($post);
 					<?= $filteropacitystringspan ?>
 
 					<select
-						style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?> class="textbox"
+						style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?>
+						class="textbox"
 						onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
 
 <?php
-						foreach ($list as $k => $l) {
-							$tdisp = $l->getId();
+		foreach ($list as $k => $l) {
+			$tdisp = $l->getId();
 
-							if ($sgbl->isDebug()) {
-								$tdisp = $l->getClName();
-							}
+			if ($sgbl->isDebug()) {
+				$tdisp = $l->getClName();
+			}
 
-							$selected = '';
+			$selected = '';
 
-							if ($k == $oldname) {
-								$selected = 'SELECTED';
-							}
+			if ($k == $oldname) {
+				$selected = 'SELECTED';
+			}
 ?>
 
 							<option <?= $selected ?> value="<?= $k ?>"><?= $tdisp ?></option>
 <?php
-						}
+		}
 ?>
 
 					</select> <?= $filteropacitystringspan ?>
 				</form>
-			</div></div>
-		<!-- </td>
-		<td width=100%></td>
-	</tr>
-</table> -->
-		<br />
+			</div>
+		</div>
+		<br/>
 <?php
-
 	}
 
 	function getActionDescr($path, $post, &$class, &$var, &$nname)
@@ -6168,7 +6093,9 @@ $this->print_input_vars($post);
 		}
 
 		if ($linkflag) {
-			$displayvar = "<span style='$forecolorstring' class=icontextlink id=aaid_$formname href=\"javascript:document.form_$formname.submit()\" onmouseover=\" style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\"> $descr[2] </span>";
+			$displayvar = "<span style='$forecolorstring' class='icontextlink' id='aaid_$formname' " .
+				"href=\"javascript:document.form_$formname.submit()\" onmouseover=\" style.textDecoration='underline';\" " .
+				"onmouseout=\"style.textDecoration='none'\"> $descr[2] </span>";
 			$onclickvar = "onClick=\"document.form_$formname.submit()\"";
 			$alt = $help;
 		} else {
@@ -6186,7 +6113,9 @@ $this->print_input_vars($post);
 
 		if ($imgflag) {
 			if ($linkflag) {
-				$imgvar = "<img width=32 height=32 class=icontextlink onMouseOver=\"getElementById('aaid_$formname').style.textDecoration='underline'; \" onMouseOut=\"getElementById('aaid_$formname').style.textDecoration='none'; \" src=\"$imagesrc\">";
+				$imgvar = "<img width='32' height='32' class='icontextlink' " .
+					"onMouseOver=\"getElementById('aaid_$formname').style.textDecoration='underline'; \" " .
+					"onMouseOut=\"getElementById('aaid_$formname').style.textDecoration='none'; \" src=\"$imagesrc\">";
 			} else {
 				$imgvar = "<img width=32 height=32 class=icontextlink src=\"$imagesrc\">";
 			}
@@ -6196,29 +6125,18 @@ $this->print_input_vars($post);
 		}
 
 ?>
-		<!--
-		<table <?= $idvar ?> style='border: 1px solid <?= $blackbordercolor ?> ; cursor: pointer' <?= $onclickvar ?>
-		                     onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';"
-		                     onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';"
-		                     cellpadding=1 cellspacing=2 height=85 width=70 valign=top>
-			<tr>
-				<td valign=top align=center><span title='<?= $alt ?>'> <?= $imgvar ?></td>
-			</tr>
-			<tr valign=top height=100%>
-				<td width=60 align=center><span title='<?= $alt ?>'> <?= $displayvar ?> </span>
-				</td>
-			</tr>
-		</table>
--->
-		<div <?= $idvar ?>  <?= $onclickvar ?> style='border: 1px solid <?= $blackbordercolor ?>; cursor: pointer; width: 90px; height: 90px; padding: 1px; margin: 1px;'
-		                                       onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';"
-		                                       onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none'">
 
-			<div style="margin: 1px auto; height: 40px; text-align: center;"><span title='<?= $alt ?>'><?= $imgvar ?></div>
-			<div style="margin: 1px auto; height: 100%; text-align: center; vertical-align: bottom;"><span title='<?= $alt ?>'><?= $displayvar ?></div>
+		<div <?= $idvar ?>  <?= $onclickvar ?>
+			style='border: 1px solid <?= $blackbordercolor ?>; cursor: pointer; width: 90px; height: 90px; padding: 1px; margin: 1px;'
+			onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';"
+			onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none'">
+
+			<div style="margin: 1px auto; height: 40px; text-align: center;"><span title='<?= $alt ?>'><?= $imgvar ?>
+			</div>
+			<div style="margin: 1px auto; height: 100%; text-align: center; vertical-align: bottom;"><span
+					title='<?= $alt ?>'><?= $displayvar ?></div>
 		</div>
 <?php
-
 	}
 
 	function createEncForm_name($name)
@@ -6285,14 +6203,12 @@ $this->print_input_vars($post);
 			<td valign="middle" align="left" width="5">
 				<form>
 <?php
-					$l['ac_descr']['desc'] = "{$l['fullstr']} {$l['tag']}";
-					$this->print_div_for_divbutton_on_header($l['url'], $l['target'], null, true, true, $l['url'], $l['__t_identity'], $l['_t_image'], $l['ac_descr']);
-
+			$l['ac_descr']['desc'] = "{$l['fullstr']} {$l['tag']}";
+			$this->print_div_for_divbutton_on_header($l['url'], $l['target'], null, true, true, $l['url'], $l['__t_identity'], $l['_t_image'], $l['ac_descr']);
 ?>
 
 				</form>
 			</td>
-
 <?php
 		}
 	}
@@ -6366,14 +6282,14 @@ $this->print_input_vars($post);
 		<td valign="middle" align="left" width=5>
 <?php
 
-			if (csa($url, "javascript")) {
-				$form_name = $url;
-			}
+		if (csa($url, "javascript")) {
+			$form_name = $url;
+		}
 
 			$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
 ?>
-		</td>
 
+		</td>
 <?php
 	}
 
@@ -6543,10 +6459,7 @@ $this->print_input_vars($post);
 
 		if ($info != null) {
 ?>
-			<!-- <table cellpadding=0 cellspacing=0 width=<?= $width + 50 ?>>
-			<tr>
-			<td class=collist width=50><b><?= $info ?></b></td>
-			<td> -->
+
 			<div style="width:50px; float:left"><b><?= $info ?></b></div>
 <?php
 		}
@@ -6554,11 +6467,7 @@ $this->print_input_vars($post);
 		// MR -- also need this process to fix title
 		$alt = preg_replace("/_lxspan:([^:]*):([^:]*):/", "$2", $alt);
 ?>
-		<!--
-		<table cellpadding=0 cellspacing=0 border=0 width=<?= $width ?>>
-			<tr>
-				<td <?= $help ?>>
--->
+
 		<div <?= $help ?> style="float: left">
 			<div id="quotameter" class="smallroundedmodule lowquota">
 				<div class="first">
@@ -6567,7 +6476,8 @@ $this->print_input_vars($post);
 				</div>
 				<div>
 							<span id="quotausagebar" title='<?= $alt ?>'>
-								<span class="first" style="background-image: url(<?= $quotaimg ?>); width:<?= $usedval ?>%;">
+								<span class="first"
+								      style="background-image: url(<?= $quotaimg ?>); width:<?= $usedval ?>%;">
 									<?= $text; ?>
 								</span>
 							</span>
@@ -6578,22 +6488,9 @@ $this->print_input_vars($post);
 				</div>
 			</div>
 		</div>
-		<!--
-						</td>
-					</tr>
-				</table>
-		-->
 
 <?php
-		if ($info != null) {
-?>
-
-			<!-- </td></tr></table> -->
-<?php
-
-		}
 	}
-
 
 	function form_header($title)
 	{
@@ -6704,25 +6601,25 @@ $this->print_input_vars($post);
 										class=textbox
 										name=<?= trim($srcname) ?>>
 <?php
-										foreach ($src as $k => $s) {
-											if (csb($k, "__title")) {
-												$desc = "----$k-----";
-												$_t_image = null;
-												$key = $k;
-											} else {
-												$key = base64_encode($s);
-												$s = "j[class]=$class&$j[nname]=name&$s";
-												$s = $this->getFullUrl($s, null);
-												$ac_descr = $this->getActionDetails($s, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
-												$desc = $ac_descr[2];
-												$_t_image = dirname($_t_image) . "/small/" . basename($_t_image);
-											}
+		foreach ($src as $k => $s) {
+			if (csb($k, "__title")) {
+				$desc = "----$k-----";
+				$_t_image = null;
+				$key = $k;
+			} else {
+				$key = base64_encode($s);
+				$s = "j[class]=$class&$j[nname]=name&$s";
+				$s = $this->getFullUrl($s, null);
+				$ac_descr = $this->getActionDetails($s, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+				$desc = $ac_descr[2];
+				$_t_image = dirname($_t_image) . "/small/" . basename($_t_image);
+			}
 ?>
 
 											<option value="<?= $key ?>"
 											        style="vertical-align:middle;padding:0 0 0 25px; width:300px; height:20px; background:#efe8e0 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
-										}
+		}
 ?>
 
 									</select>
@@ -6755,26 +6652,24 @@ $this->print_input_vars($post);
 									        name="<?= trim($dstname) ?>">
 <?php
 
-										foreach ($dst as $k => $d) {
-											if (csb($d, "__title")) {
-												$desc = $d;
-												$_t_image = null;
-											} else {
-
-												$s = "j[class]=$class&$j[nname]=name&$d";
-												$s = $this->getFullUrl($s, null);
-												$ac_descr = $this->getActionDetails($s, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
-												$d = base64_encode($d);
-												$_t_image = dirname($_t_image) . "/small/" . basename($_t_image);
-												$desc = $ac_descr[2];
-											}
-
+		foreach ($dst as $k => $d) {
+			if (csb($d, "__title")) {
+				$desc = $d;
+				$_t_image = null;
+			} else {
+				$s = "j[class]=$class&$j[nname]=name&$d";
+				$s = $this->getFullUrl($s, null);
+				$ac_descr = $this->getActionDetails($s, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
+				$d = base64_encode($d);
+				$_t_image = dirname($_t_image) . "/small/" . basename($_t_image);
+				$desc = $ac_descr[2];
+			}
 ?>
 
 											<option value="<?= $d ?>"
 											        style="vertical-align:middle; padding:0 0 0 25px; width:300px; height:20px; background:#efe8e0 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
-										}
+		}
 ?>
 
 									</select>
@@ -6784,9 +6679,9 @@ $this->print_input_vars($post);
 
 								</td>
 								<td><input type="button" class=submitbutton value="&nbsp;&nbsp;Up&nbsp;&nbsp;"
-								           onclick="shiftOptionUp('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br /><br />
+								           onclick="shiftOptionUp('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
 									<input type="button" class=submitbutton value="&nbsp;&nbsp;Down&nbsp;&nbsp;"
-									       onclick="shiftOptionDown('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br /><br />
+									       onclick="shiftOptionDown('<?= $form ?>', '<?= $variablename ?>', <?= $dstname ?>)"/><br/><br/>
 								</td>
 							</tr>
 
@@ -6800,7 +6695,6 @@ $this->print_input_vars($post);
 				</tr>
 			</table>
 		</form>
-
 <?php
 	}
 
@@ -6826,33 +6720,15 @@ $this->print_input_vars($post);
 		$rclass = "frmtextarea";
 		$variable = "frm_{$object->getClass()}_c_text_comment";
 ?>
-		<!--
-		<table cellpadding="0" cellspacing="3" align="center" width="100%" style="margin-top: 8px">
-			<tr align='center'>
-				<td width='100%'>
-					<table align='center' cellpadding='0' cellspacing='0' style="border: 1px solid #ccc">
-						<tr height='23' width=100%>
-							<td align='center' style="background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)">
-								<span style="font-weight:bold">&nbsp;Find</span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<input style="width: 100%; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)">
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
--->
 
 		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)"><span style="font-weight:bold">&nbsp;Find</span></div>
-			<div><input style="width: 100%; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)"></div>
+			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)">
+				<span style="font-weight:bold">&nbsp;Find</span></div>
+			<div><input style="width: 100%; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)">
+			</div>
 		</div>
 
-		<br />
+		<br/>
 <?php
 	}
 
@@ -6880,36 +6756,15 @@ $this->print_input_vars($post);
 		$url = $this->getFullUrl("a=updateform&sa=information");
 		$variable = "frm_{$object->getClass()}_c_text_comment";
 ?>
-		<!--
-		<table <?= $blackstyle ?> cellpadding="0" cellspacing="3" align="center" width="100%">
-			<tr>
-				<td align="center">
-					<table align="center" cellpadding="0" cellspacing="0">
-						<tr height="23">
-							<td style='background:#efe8e0 url("<?= $skindir ?>/images/expand.gif")'>
-								<span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a> </span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<?= $rows ?>"
-								          style="margin:0 0 0 0;width:<?= $cols ?>;height:100px;"
-								          name="<?= $variable ?>" size="30"><?= $value ?></textarea>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
--->
 
 		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)"><span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a></div>
+			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)">
+				<span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a></div>
 			<div><textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<?= $rows ?>"
 			               style="border: 0; margin: 0; width: <?= $cols ?>; height: 100px;"
 			               name="<?= $variable ?>" size="30"><?= $value ?></textarea></div>
 		</div>
-		<br />
+		<br/>
 <?php
 	}
 
@@ -6949,12 +6804,12 @@ $this->print_input_vars($post);
 					<select class=textbox id=<?= $ts_name ?>  multiple size=5 class=textbox
 					        name=<?= $variable1->name ?>>
 <?php
-						foreach ($variable1->option as $k => $option) {
+		foreach ($variable1->option as $k => $option) {
 ?>
 
 							<option value="<?= $k ?>"><?= $option ?></option>
 <?php
-						}
+		}
 ?>
 
 					</select>
@@ -6970,25 +6825,25 @@ $this->print_input_vars($post);
 				<td>
 					<select id=<?= $ts_name2 ?> class=textbox size=5 multiple name=<?= trim($variable2->name) ?>>
 <?php
-						$v2count = 0;
+		$v2count = 0;
 
-						foreach ($v2 as $k => $option) {
-							$v2count++;
+		foreach ($v2 as $k => $option) {
+			$v2count++;
 
 ?>
 
 							<option value="<?= $option ?>"><?= $option ?></option>
 <?php
-						}
+		}
 
-						if (!$v2count) {
-							foreach ((array)$variable2->option as $k => $option) {
+		if (!$v2count) {
+			foreach ((array)$variable2->option as $k => $option) {
 ?>
 
 								<option value="<?= $option ?>"><?= $option ?></option>
 <?php
-							}
-						}
+			}
+		}
 ?>
 
 					</select>
@@ -7053,12 +6908,12 @@ $this->print_input_vars($post);
 		}
 ?>
 
-		<?= $variable_description ?> <br />
+		<?= $variable_description ?> <br/>
 
 		<input class="<?= $tclass ?>" <?= $tdisabled ?> type="text"
-		       name="<?= $variable->text->name ?>" value="<?=$variable->text->value?>" size="20">
+		       name="<?= $variable->text->name ?>" value="<?= $variable->text->value ?>" size="20">
 		<span class="small"><?= $variable->text->text ?></span>
-		<?=$variable->checkbox->desc?>
+		<?= $variable->checkbox->desc ?>
 		<input class="<?= $ckclass ?>" type="checkbox" name="<?= $variable->checkbox->name ?>"
 		       value="<?= trim($variable->checkbox->value) ?>" <?= $checked ?>
 		       onclick="<?= "checkBoxTextToggle('$form', '{$variable->checkbox->name}', '{$variable->text->name}', '{$variable->checkbox->value}', '{$variable->text->value}');" ?>">
@@ -7096,7 +6951,6 @@ $this->print_input_vars($post);
 			$gbl->__ajax_form_name = $block->form;
 		} else {
 			$onsubmit = "onsubmit=\"return check_for_needed_variables('$block->form');\"";
-
 ?>
 
 			<script>
@@ -7106,117 +6960,116 @@ $this->print_input_vars($post);
 			</script>
 <?php
 		}
-
 ?>
 
-		<!-- <table width="600">
-			<tr>
-				<td>&nbsp;</td>
-				<td> -->
 		<div style="width: 600px; margin: 0 auto 0 auto;">
-			<!-- <div>&nbsp;</div> -->
 			<div>
-				<form name="<?=$block->form?>" id="<?=$block->form?>"
-				      action="<?=$block->url?>" <?=$block->formtype?>
-				      method="<?=$sgbl->method?>" <?=$onsubmit?> accept-charset="utf-8">
+				<form name="<?= $block->form ?>" id="<?= $block->form ?>"
+				      action="<?= $block->url ?>" <?= $block->formtype ?>
+				      method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8">
 <?php
-				//	dprint($block->form);
+		//	dprint($block->form);
 
-					$full = array_flatten($full);
-				//	dprintr($full);
+		$full = array_flatten($full);
+		//	dprintr($full);
 
-					$totalwidth = '600';
+		$totalwidth = '600';
 
-					foreach ($full as $variable) {
-						if ($variable->type === 'textarea' && $variable->width === '90%') {
-							$totalwidth = '100%';
+		foreach ($full as $variable) {
+			if ($variable->type === 'textarea' && $variable->width === '90%') {
+				$totalwidth = '100%';
 
-							break;
-						}
-					}
+				break;
+			}
+		}
 
-					if ($block->title) {
+		if ($block->title) {
 ?>
 
 						<div style="width: 100%; margin: 0">
-							<fieldset style="background-color:<?=$backgroundcolor?>; border: 0; padding: 10px 0 10px 0; border-top: 1px solid #<?=$bordertop?>">
-								<legend style='font-weight:normal; border: 0'><span style='color: #303030; font-weight:bold'><?=$block->title?></span>
+							<fieldset
+								style="background-color:<?= $backgroundcolor ?>; border: 0; padding: 10px 0 10px 0; border-top: 1px solid #<?= $bordertop ?>">
+								<legend style='font-weight:normal; border: 0'><span
+										style='color: #303030; font-weight:bold'><?= $block->title ?></span>
 								</legend>
 							</fieldset>
 						</div>
 <?php
-					}
+		}
 
-					$buttonexist = false;
+		$buttonexist = false;
 
-					foreach ($full as $variable) {
-						if ($variable->type === 'button') { $buttonexist = true; }
-					}
+		foreach ($full as $variable) {
+			if ($variable->type === 'button') {
+				$buttonexist = true;
+			}
+		}
 
-					if (!$buttonexist) { return; }
-
+		if (!$buttonexist) {
+			return;
+		}
 ?>
 
-					<div align=left style="background-color:<?=$backgroundcolor?>; width:100%">
-						<div align=left style="width:<?=$totalwidth?>px; border: 1px solid #<?=$skincolor?>;">
+					<div align=left style="background-color:<?= $backgroundcolor ?>; width:100%">
+						<div align=left style="width:<?= $totalwidth ?>px; border: 1px solid #<?= $skincolor ?>;">
 <?php
-							$total = count($full);
-							$count = 0;
+		$total = count($full);
+		$count = 0;
 
-							foreach ($full as $variable) {
-							if ($variable->type == "subtitle") {
+		foreach ($full as $variable) {
+			if ($variable->type == "subtitle") {
 ?>
 
 						</div>
-						<div style='padding: 10px'><span style='font-weight:bold'><?=$variable->desc?></span>
+						<div style='padding: 10px'><span style='font-weight:bold'><?= $variable->desc ?></span>
 						</div>
 						<div align=left
-						     style='display:hidden; width:<?=$totalwidth?>; border: 1px solid #<?=$skincolor?>'>
+						     style='display:hidden; width:<?= $totalwidth ?>; border: 1px solid #<?= $skincolor ?>'>
 <?php
-							$count = 0;
+				$count = 0;
 
-							continue;
-							}
+				continue;
+			}
 
-							if ($variable->type === 'hidden') {
+			if ($variable->type === 'hidden') {
 ?>
 
-								<input type="hidden" name="<?=$variable->name?>" value="<?=$variable->value?>">
+								<input type="hidden" name="<?= $variable->name ?>" value="<?= $variable->value ?>">
 <?php
 
-								continue;
-							}
+				continue;
+			}
 
-							if ($variable->need === 'yes') {
-								if ($gbl->__inside_ajax) {
-									if (!isset($gbl->__ajax_need_var)) {
-										$gbl->__ajax_need_var = array();
-									}
+			if ($variable->need === 'yes') {
+				if ($gbl->__inside_ajax) {
+					if (!isset($gbl->__ajax_need_var)) {
+						$gbl->__ajax_need_var = array();
+					}
 
-									$gbl->__ajax_need_var[$variable->name] = $variable->desc;
-								} else {
+					$gbl->__ajax_need_var[$variable->name] = $variable->desc;
+				} else {
 ?>
 
 									<script> global_need_list['<?=$variable->name?>'] = '<?=$variable->desc?>'; </script>
 <?php
-								}
+				}
 
-							}
+			}
 
-							if (isset($variable->match)) {
-								if ($gbl->__inside_ajax) {
-									if (!isset($gbl->__ajax_match_var)) {
-										$gbl->__ajax_match_var = array();
-									}
+			if (isset($variable->match)) {
+				if ($gbl->__inside_ajax) {
+					if (!isset($gbl->__ajax_match_var)) {
+						$gbl->__ajax_match_var = array();
+					}
 
-									if (!isset($gbl->__ajax_desc_var)) {
-										$gbl->__ajax_desc_var = array();
-									}
+					if (!isset($gbl->__ajax_desc_var)) {
+						$gbl->__ajax_desc_var = array();
+					}
 
-									$gbl->__ajax_match_var[$variable->name] = $variable->match;
-									$gbl->__ajax_desc_var[$variable->name] = $variable->desc;
-									$gbl->__ajax_desc_var[$variable->match] = $variable->matchdesc;
-								} else {
+					$gbl->__ajax_match_var[$variable->name] = $variable->match;
+					$gbl->__ajax_desc_var[$variable->name] = $variable->desc;
+					$gbl->__ajax_desc_var[$variable->match] = $variable->matchdesc;
+				} else {
 ?>
 
 									<script>
@@ -7225,13 +7078,12 @@ $this->print_input_vars($post);
 										global_desc_list['<?=$variable->match?>'] = '<?=$variable->matchdesc?>';
 									</script>
 <?php
-								}
-							}
+				}
+			}
 
-							$this->print_variable($block, $variable, $count);
-							$count++;
-							}
-
+			$this->print_variable($block, $variable, $count);
+			$count++;
+		}
 ?>
 
 						</div>
@@ -7240,10 +7092,6 @@ $this->print_input_vars($post);
 			</div>
 			<div>&nbsp;</div>
 		</div>
-		<!-- </td>
-		<td>&nbsp;</td>
-	</tr>
-</table> -->
 
 <?php
 	}
@@ -7311,12 +7159,12 @@ $this->print_input_vars($post);
 
 ?>
 
-		<?=$variable_description?> <?=$myneedstring?> <br />
-		<?=$variable->pretext?>
-		<input class="<?=$variable->name?> textbox" type="<?=$texttype?>"
+		<?= $variable_description ?> <?= $myneedstring ?> <br/>
+		<?= $variable->pretext ?>
+		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>"
 		       style="width: 45%; border: 1px solid #aaaaaa; margin: 2px 0 2px 0; padding: 2px 0 2px 0"
-		       name="<?=$variable->name?>"
-		       value="<?=$m_value?>"> <?=$variable->posttext?>
+		       name="<?= $variable->name ?>"
+		       value="<?= $m_value ?>"> <?= $variable->posttext ?>
 <?php
 
 		if ($variable->type === 'fileselect') {
@@ -7324,8 +7172,9 @@ $this->print_input_vars($post);
 ?>
 
 			<a href="javascript:void(0);"
-			   onclick="selectFolder(<?=trim($form)?>.<?=trim($variable->name)?>, '', '<?=$url?>');"><img
-					width="15" height="15" src="<?=$icondir?>/ffile_ttype_v_directory.gif" border="0" alt="Select Folder" align="absmiddle"></a>
+			   onclick="selectFolder(<?= trim($form) ?>.<?= trim($variable->name) ?>, '', '<?= $url ?>');"><img
+					width="15" height="15" src="<?= $icondir ?>/ffile_ttype_v_directory.gif" border="0"
+					alt="Select Folder" align="absmiddle"></a>
 <?php
 		}
 
@@ -7334,16 +7183,10 @@ $this->print_input_vars($post);
 
 			<script language="javascript" src="/theme/js/divpop.js"></script>
 
-			<!-- <div id="showimage" style="visibility: hidden; position: absolute; width: 250px; left: 400px; top: 300px;"> -->
-			<div id="showimage" style="visibility: hidden; position: absolute; width: 250px; left: 50%; top: 300px; margin: 0 auto 0 -125px">
-				<!-- <table border="1" width="250" bgcolor="#4488CC" cellspacing="0" cellpadding="2">
-					<tr>
-						<td width="100%">
-							<table border="0" width="100%" cellspacing="0" cellpadding="2" height="36px">
-								<tr>
-									<td id="dragbar" style="cursor:pointer" width="100%"
-									    onMousedown="password_initializedrag(event)"> -->
-				<div style="background-color: #4488CC; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
+			<div id="showimage"
+			     style="visibility: hidden; position: absolute; width: 250px; left: 50%; top: 300px; margin: 0 auto 0 -125px">
+				<div style="background-color: #4488CC; border: 1px solid #ddd; cursor:hand; cursor:pointer"
+				     onMousedown="password_initializedrag(event)">
 					<div style="height: 16px">
 						<div id="dragbar" style="float:left; width: 200px">
 							<div style="width:100%" onSelectStart="return false">
@@ -7352,36 +7195,23 @@ $this->print_input_vars($post);
 								</div>
 							</div>
 						</div>
-						<!-- </td>
-						<td style="cursor:hand"> -->
 						<div style="float:right">
 							<a href="#" onClick="password_hidebox('showimage');return false">
 								<span style="color:#FFFFFF; padding:2px">X</span></a>
 						</div>
 					</div>
-					<!-- </td>
-				</tr>
-				<tr>
-					<td width="100%" bgcolor="#FFEEDD" style="padding:4px" colspan="2"> -->
 
 					<!-- PUT YOUR CONTENT BETWEEN HERE -->
 					<div style="background-color: #FFEEDD; padding: 4px">
-						<div id="password_container">
-						</div>
-
-						<!-- END YOUR CONTENT HERE -->
+						<div id="password_container"></div>
 					</div>
+					<!-- END YOUR CONTENT HERE -->
 				</div>
-				<!-- </td>
-			</tr>
-		</table>
-	</td>
-</tr>
-</table> -->
+
 			</div>
 			<input style="margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;"
 			       class=textbox type=button value="Generate Password"
-			       onclick="generatePass('<?=$form?>', '<?=$variable->name?>');" width="10">
+			       onclick="generatePass('<?= $form ?>', '<?= $variable->name ?>');" width="10">
 <?php
 		}
 
@@ -7390,12 +7220,12 @@ $this->print_input_vars($post);
 		if ($postvar) {
 ?>
 
-			<select style="width: 45%; margin: 2px" name="<?=$postvar->name?>" value="">
+			<select style="width: 45%; margin: 2px" name="<?= $postvar->name ?>" value="">
 <?php
 				foreach ($postvar->option as $vv) {
 ?>
 
-					<option value="<?=$vv?>"><?=$vv?></option>
+					<option value="<?= $vv ?>"><?= $vv ?></option>
 <?php
 				}
 ?>
@@ -7416,13 +7246,13 @@ $this->print_input_vars($post);
 		foreach ($list as $k => $l) {
 ?>
 
-			<input type="radio" name="radio_<?=$variable?>" value="<?=$k?>"> <?=$l?> <br />
+			<input type="radio" name="radio_<?= $variable ?>" value="<?= $k ?>"> <?= $l ?> <br/>
 <?php
 		}
 ?>
 
-		<input type="radio" name="radio_<?=$variable?>" value="__provide__"> Provide
-		<input type="textbox" name="<?=$variable?> value="">
+		<input type="radio" name="radio_<?= $variable ?>" value="__provide__"> Provide
+		<input type="textbox" name="<?= $variable ?> value="">
 
 <?php
 	}
@@ -7535,223 +7365,223 @@ $this->print_input_vars($post);
 
 ?>
 
-		<div align="left" style="padding:10px; <?=$divstyle?>; display:block">
+		<div align="left" style="padding:10px; <?= $divstyle ?>; display:block">
 <?php
 
-			$variable_description = ucwords($variable_description);
+		$variable_description = ucwords($variable_description);
 
-			switch ($variable->type) {
-				case "checkbox":
-					$m_value = null;
+		switch ($variable->type) {
+			case "checkbox":
+				$m_value = null;
 
-					if (isset($prevvar[trim($variable->name)])) {
-						$this->checkForScript($prevvar[trim($variable->name)]);
-						$m_value = $prevvar[trim($variable->name)];
+				if (isset($prevvar[trim($variable->name)])) {
+					$this->checkForScript($prevvar[trim($variable->name)]);
+					$m_value = $prevvar[trim($variable->name)];
+				}
+
+				$checkedvalue = trim($variable->checked);
+				$checkv = null;
+
+				if ($checkedvalue === "yes") {
+					$checkv = " CHECKED ";
+				} else {
+					if ($checkedvalue === 'disabled') {
+						$checkv = " DISABLED";
+					}
+				}
+?>
+
+					<?= $filteropacitystringspan ?>
+
+					<input style="border: 1px solid #aaaaaa;" <?= $filteropacitystring ?> <?= $blackstyle ?>
+					       type=checkbox name="<?= $variable->name ?>" <?= $checkv ?> value="<?= $variable->value ?>">
+					<?= $variable_description ?> <?= $filteropacitystringspanend ?>
+<?php
+
+				break;
+			case "select":
+				$m_value = null;
+
+				if (isset($prevvar[trim($variable->name)])) {
+					$this->checkForScript($prevvar[trim($variable->name)]);
+					$m_value = $prevvar[trim($variable->name)];
+				}
+
+				$v = $variable->name;
+?>
+					<?= $variable_description ?> <br/>
+					<?= $filteropacitystringspan ?> <select
+					style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> class="textbox"
+					name="<?= $v ?>">
+<?php
+				foreach ($variable->option as $k => $option) {
+					$issel = false;
+
+					if (csb($k, "__v_selected_")) {
+						$k = strfrom($k, "__v_selected_");
+						$issel = true;
 					}
 
-					$checkedvalue = trim($variable->checked);
-					$checkv = null;
+					$sel = '';
 
-					if ($checkedvalue === "yes") {
-						$checkv = " CHECKED ";
-					} else {
-						if ($checkedvalue === 'disabled') {
-							$checkv = " DISABLED";
-						}
-					}
-?>
-
-					<?=$filteropacitystringspan?>
-
-					<input style="border: 1px solid #aaaaaa;" <?=$filteropacitystring?> <?=$blackstyle?>
-					       type=checkbox name="<?=$variable->name?>" <?=$checkv?> value="<?=$variable->value?>">
-					<?=$variable_description?> <?=$filteropacitystringspanend?>
-<?php
-
-					break;
-				case "select":
-					$m_value = null;
-
-					if (isset($prevvar[trim($variable->name)])) {
-						$this->checkForScript($prevvar[trim($variable->name)]);
-						$m_value = $prevvar[trim($variable->name)];
+					if ($issel && !$m_value) {
+						$sel = 'SELECTED';
 					}
 
-					$v = $variable->name;
-?>
-					<?=$variable_description?> <br />
-					<?=$filteropacitystringspan?> <select
-					style="border: 1px solid #aaaaaa; margin: 2px" <?=$filteropacitystring?> class="textbox"
-					name="<?=$v?>">
-<?php
-					foreach ($variable->option as $k => $option) {
-						$issel = false;
-
-						if (csb($k, "__v_selected_")) {
-							$k = strfrom($k, "__v_selected_");
-							$issel = true;
-						}
-
-						$sel = '';
-
-						if ($issel && !$m_value) {
-							$sel = 'SELECTED';
-						}
-
-						if ($k === $m_value) {
-							$sel = 'SELECTED';
-						}
-
-?>
-
-						<option <?=$sel?> value="<?=$k?>"><?=$option?></option>
-<?php
-					}
-?>
-
-				</select> <?=$filteropacitystringspanend?>
-<?php
-
-					break;
-				case "multiselect":
-					$this->print_multiselect($block->form, $variable, $rowuniqueid, $rowclass, $rowcount);
-
-					break;
-				case "checkboxwithtext":
-					$this->print_checkboxwithtext($block->form, $variable, $rowuniqueid, $rowclass, $rowcount);
-
-					break;
-				default:
-				case "nomodify" :
-					$value = $variable->value;
-					$value = self::fix_lt_gt($value);
-
-					if ($sgbl->isLxlabsClient()) {
-						$value = preg_replace("+(https://[^ \n]*)+", "<a href=$1 target=_blank style='text-decoration:underline'> Click Here </a>", $value);
+					if ($k === $m_value) {
+						$sel = 'SELECTED';
 					}
 
-					$value = str_replace("\n", "\n<br /> ", $value);
-					$ttname = $variable->name;
-
-					// Don't ever make this hidden. It is absolutely not necessary. The value is available directly itself.
-?>
-					<?=$variable_description?>: &nbsp;
-					<?=$value?>
-
-<?php
-					break;
-				case "image" :
-					$width = trim($variable->width);
-					$height = trim($variable->height);
 ?>
 
-					<?=$variable_description?> <br />
-					<img src="<?=$variable->value?>" width="<?=$width?>" height="<?=$height?>">
+						<option <?= $sel ?> value="<?= $k ?>"><?= $option ?></option>
 <?php
-
-					break;
-				case "fileselect":
-				case "modify":
-					$this->print_modify($block->form, $variable, $rowuniqueid, $rowclass, $rowcount);
-
-					break;
-				case "file":
+				}
 ?>
 
-					<?=$variable_description?> <?=$myneedstring?> <br />
-					<input class="filebox" type="file" name="<?=$variable->name?>" size="30">
+				</select> <?= $filteropacitystringspanend ?>
 <?php
 
-					break;
-				case "htmltextarea":
+				break;
+			case "multiselect":
+				$this->print_multiselect($block->form, $variable, $rowuniqueid, $rowclass, $rowcount);
+
+				break;
+			case "checkboxwithtext":
+				$this->print_checkboxwithtext($block->form, $variable, $rowuniqueid, $rowclass, $rowcount);
+
+				break;
+			default:
+			case "nomodify" :
+				$value = $variable->value;
+				$value = self::fix_lt_gt($value);
+
+				if ($sgbl->isLxlabsClient()) {
+					$value = preg_replace("+(https://[^ \n]*)+", "<a href=$1 target=_blank style='text-decoration:underline'> Click Here </a>", $value);
+				}
+
+				$value = str_replace("\n", "\n<br /> ", $value);
+				$ttname = $variable->name;
+
+				// Don't ever make this hidden. It is absolutely not necessary. The value is available directly itself.
+?>
+					<?= $variable_description ?>: &nbsp;
+					<?= $value ?>
+
+<?php
+				break;
+			case "image" :
+				$width = trim($variable->width);
+				$height = trim($variable->height);
+?>
+
+					<?= $variable_description ?> <br/>
+					<img src="<?= $variable->value ?>" width="<?= $width ?>" height="<?= $height ?>">
+<?php
+
+				break;
+			case "fileselect":
+			case "modify":
+				$this->print_modify($block->form, $variable, $rowuniqueid, $rowclass, $rowcount);
+
+				break;
+			case "file":
+?>
+
+					<?= $variable_description ?> <?= $myneedstring ?> <br/>
+					<input class="filebox" type="file" name="<?= $variable->name ?>" size="30">
+<?php
+
+				break;
+			case "htmltextarea":
 ?>
 
 					<tr>
 						<td colspan="1000">
 <?php
-							if ($variable->height != "") {
-								$rows = $variable->height;
-							} else {
-								$rows = "5";
-							}
+				if ($variable->height != "") {
+					$rows = $variable->height;
+				} else {
+					$rows = "5";
+				}
 
-							if ($variable->width != "") {
-								$cols = $variable->width;
-							} else {
-								$cols = "90%";
-							}
+				if ($variable->width != "") {
+					$cols = $variable->width;
+				} else {
+					$cols = "90%";
+				}
 
-							if (trim($variable->readonly) === "yes") {
-								$readonly = " readonly ";
-								$rclass = "frmtextareadisable";
-							} else {
-								$readonly = " ";
-								$rclass = "frmtextarea";
-							}
+				if (trim($variable->readonly) === "yes") {
+					$readonly = " readonly ";
+					$rclass = "frmtextareadisable";
+				} else {
+					$readonly = " ";
+					$rclass = "frmtextarea";
+				}
 
-							$value = "$variable->value";
+				$value = "$variable->value";
 
-							if (!$value) {
-								if (isset($prevvar[trim($variable->name)])) {
-									$value = $prevvar[trim($variable->name)];
-								}
-							}
+				if (!$value) {
+					if (isset($prevvar[trim($variable->name)])) {
+						$value = $prevvar[trim($variable->name)];
+					}
+				}
 
-							include("theme/fckeditor/fckeditor_php5.php");
+				include("theme/fckeditor/fckeditor_php5.php");
 
 
-							$oFCKeditor = new FCKeditor($variable->name);
-							$oFCKeditor->BasePath = '/theme/fckeditor/';
-							$oFCKeditor->Value = $value;
-							$oFCKeditor->Create();
+				$oFCKeditor = new FCKeditor($variable->name);
+				$oFCKeditor->BasePath = '/theme/fckeditor/';
+				$oFCKeditor->Value = $value;
+				$oFCKeditor->Create();
 ?>
 
 						</td>
 					</tr>
 <?php
 
-					break;
-				case "textarea":
+				break;
+			case "textarea":
 ?>
 
-					<?=$variable_description?> <?=$myneedstring?> <br />
+					<?= $variable_description ?> <?= $myneedstring ?> <br/>
 <?php
 
-					if ($variable->height != "") {
-						$rows = trim($variable->height);
-					} else {
-						$rows = "5";
+				if ($variable->height != "") {
+					$rows = trim($variable->height);
+				} else {
+					$rows = "5";
+				}
+
+				if ($variable->width != "") {
+					$cols = trim($variable->width);
+				} else {
+					$cols = "85%";
+				}
+
+				if (trim($variable->readonly) === "yes") {
+					$readonly = " readonly ";
+					$rclass = "frmtextareadisable";
+				} else {
+					$readonly = " ";
+					$rclass = "frmtextarea";
+				}
+
+				$value = "$variable->value";
+
+				if (!$value) {
+					if (isset($prevvar[$variable->name])) {
+						$value = $prevvar[$variable->name];
 					}
-
-					if ($variable->width != "") {
-						$cols = trim($variable->width);
-					} else {
-						$cols = "85%";
-					}
-
-					if (trim($variable->readonly) === "yes") {
-						$readonly = " readonly ";
-						$rclass = "frmtextareadisable";
-					} else {
-						$readonly = " ";
-						$rclass = "frmtextarea";
-					}
-
-					$value = "$variable->value";
-
-					if (!$value) {
-						if (isset($prevvar[$variable->name])) {
-							$value = $prevvar[$variable->name];
-						}
-					}
-
+				}
 ?>
 
-					<textarea nowrap id="textarea_<?=$variable->name?>" class="<?=$rclass?>" rows="<?=$rows?>"
-					          style="margin:2px 0 2px 0;width:<?=$cols?>;height:120px; border: 1px solid #aaa; padding: 2px;"
-					          name="<?=$variable->name?>" <?=$readonly?> size="30"><?=$value?></textarea>
+					<textarea nowrap id="textarea_<?= $variable->name ?>" class="<?= $rclass ?>" rows="<?= $rows ?>"
+					          style="margin:2px 0 2px 0;width:<?= $cols ?>;height:120px; border: 1px solid #aaa; padding: 2px;"
+					          name="<?= $variable->name ?>" <?= $readonly ?> size="30"><?= $value ?></textarea>
 
-					<script type="text/javascript"> // createTextAreaWithLines('textarea_<?=$variable->name?>');</script>
+					<script type="text/javascript"> // createTextAreaWithLines('textarea_
+						<?=$variable->name?>');</script>
 
 					<style>
 						.textAreaWithLines {
@@ -7766,28 +7596,27 @@ $this->print_input_vars($post);
 					</style>
 <?php
 
-					break;
-				case "button":
-					$string = null;
-					$bgcolor = null;
-					$onclick = null;
+				break;
+			case "button":
+				$string = null;
+				$bgcolor = null;
+				$onclick = null;
 
-					if (strtolower($variable->value) === 'updateall') {
-						$string = "Click Here to Update all the objects that appear in the top selectbox with the above values";
-						$bgcolor = "bgcolor=$skincolor";
-						$onclick = "onclick='return updateallWarning();'";
-					}
+				if (strtolower($variable->value) === 'updateall') {
+					$string = "Click Here to Update all the objects that appear in the top selectbox with the above values";
+					$bgcolor = "bgcolor=$skincolor";
+					$onclick = "onclick='return updateallWarning();'";
+				}
 ?>
 
-					<?=$string?>
-					<input <?=$blackstyle?> class="submitbutton" type="submit" <?=$onclick?>
-					                        name="<? $variable->name?>"
-					                        value="&nbsp;&nbsp;<?=$variable->value?>&nbsp;&nbsp;">
+					<?= $string ?>
+					<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?>
+					                          name="<? $variable->name ?>"
+					                          value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
 <?php
 
-					break;
-			}
-
+				break;
+		}
 ?>
 
 		</div>
@@ -7932,26 +7761,26 @@ $this->print_input_vars($post);
 
 		}
 
-	if ($sgbl->isBlackBackground()) {
+		if ($sgbl->isBlackBackground()) {
 ?>
 
 		<span style="color:#999999">
 <?php
-	}
+		}
 
 		if ($pinfo !== '') {
 ?>
 
-			<?=$pinfo?><br />
+			<?= $pinfo ?><br/>
 <?php
 		}
 
-	if ($sgbl->isBlackBackground()) {
+		if ($sgbl->isBlackBackground()) {
 ?>
 
 		</span>;
 <?php
-	}
+		}
 
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'feather') {
 			$this->print_curvy_table_end();
@@ -7965,9 +7794,6 @@ $this->print_input_vars($post);
 <?php
 			}
 		}
-?>
-
-<?php
 	}
 
 	// function print_curvy_table_start($width = "100")
@@ -7986,17 +7812,16 @@ $this->print_input_vars($post);
 		if ($sgbl->isBlackBackground()) {
 			return;
 		}
-
 ?>
 
 		<table cellpadding="0" align="center" cellspacing="0" width="100%">
 		<tr>
-			<td width="<?=$width?>" align="right"><img src="<?=$a?>/images/tl.gif" align="center"></td>
-			<td style="background: url(<?=$a?>/images/dot.gif) 0 0 repeat-x"></td>
-			<td width="<?=$width?>" align="left"><img src="<?=$a?>/images/tr.gif" align="center"></td>
+			<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/images/tl.gif" align="center"></td>
+			<td style="background: url(<?= $a ?>/images/dot.gif) 0 0 repeat-x"></td>
+			<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/images/tr.gif" align="center"></td>
 		</tr>
 		<tr>
-		<td style="background: url(<?=$a?>/images/dot.gif) 0 0 repeat-y">
+		<td style="background: url(<?= $a ?>/images/dot.gif) 0 0 repeat-y">
 		</td>
 		<td align="left">
 
@@ -8019,17 +7844,16 @@ $this->print_input_vars($post);
 		if ($sgbl->isBlackBackground()) {
 			return;
 		}
-
 ?>
 
 		</td>
-		<td style="background: url(<?=$a?>/images/dot.gif) 100% 0 repeat-y">
+		<td style="background: url(<?= $a ?>/images/dot.gif) 100% 0 repeat-y">
 		</td>
 		</tr>
 		<tr>
-			<td width="<?=$width?>" align="right"><img src="<?=$a?>/images/bl.gif" align="center"></td>
-			<td style="background: url(<?=$a?>/images/dot.gif) 0 95% repeat-x"></td>
-			<td width="<?=$width?>" align="left"><img src="<?=$a?>/images/br.gif" align="center"></td>
+			<td width="<?= $width ?>" align="right"><img src="<?= $a ?>/images/bl.gif" align="center"></td>
+			<td style="background: url(<?= $a ?>/images/dot.gif) 0 95% repeat-x"></td>
+			<td width="<?= $width ?>" align="left"><img src="<?= $a ?>/images/br.gif" align="center"></td>
 		</tr>
 		</table>&nbsp;
 
@@ -8091,7 +7915,6 @@ $this->print_input_vars($post);
 				}
 			}
 
-
 			unset($this->__http_vars['frm_emessage']);
 			unset($this->__http_vars['frm_m_emessage_data']);
 
@@ -8125,24 +7948,25 @@ $this->print_input_vars($post);
 		// MR -- impossible for login page with get_image_path()
 		//	$icondir = get_image_path();
 		$icondir = "/theme/icon/collage";
-
 ?>
 
-		<div id="esmessage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin-left:auto; margin-right:auto;">
-			<table width='400' style='<?=$style?>' cellpadding='4' cellspacing='5'>
+		<div id="esmessage"
+		     style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin-left:auto; margin-right:auto;">
+			<table width='400' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
 				<tr height='10'>
-					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img src="<?=$icondir?>/close.gif"> <span style='small'>Press Esc to close </span></a></td>
+					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img src="<?= $icondir ?>/close.gif">
+							<span style='small'>Press Esc to close </span></a></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td><img src="<?=$imgfile?>"><span style='<?=$fontstyle?>'><?=$message?> <?=$mess?></span>
+					<td><img src="<?= $imgfile ?>"><span style='<?= $fontstyle ?>'><?= $message ?> <?= $mess ?></span>
 					</td>
 				</tr>
 				<tr height="10">
 					<td></td>
 				</tr>
 			</table>
-			<br />
+			<br/>
 		</div>
 
 <?php
@@ -8208,11 +8032,10 @@ $this->print_input_vars($post);
 		$desc = trim($desc);
 		$open = 'false';
 		$name = $file . "_" . $name;
-
 ?>
 
-		createSubMenu(<?=$treename?>, '<span
-		style="text-decoration: underline;"><?=$desc?></span>', '<?=$url?>', '', '', '<?=$image?>', 'mainframe');
+		createSubMenu(<?= $treename ?>, '<span
+		style="text-decoration: underline;"><?= $desc ?></span>', '<?= $url ?>', '', '', '<?= $image ?>', 'mainframe');
 
 <?php
 	}
@@ -8240,12 +8063,10 @@ $this->print_input_vars($post);
 
 		$treename = "_" . fix_nname_to_be_variable($object->nname);
 ?>
-		<!-- <table width="100%" cellpadding="0" cellspacing="0" valign="top">
-			<tr>
-				<td valign=top align=left> -->
+
 		<div>
 <?php
-			if ($complex) {
+		if ($complex) {
 ?>
 
 			<div class='dtree'>
@@ -8254,31 +8075,31 @@ $this->print_input_vars($post);
 					= new dTree('<?=$treename?>');
 				</script>
 <?php
-				}
+		}
 
-				$val = -1;
+		$val = -1;
 
-				if (!$tree) {
-					$tree = $this->print_resource(null, $object, $this->frm_o_o, $object, $depth, $alistflag, $func, false, $showurlflag);
-				}
+		if (!$tree) {
+			$tree = $this->print_resource(null, $object, $this->frm_o_o, $object, $depth, $alistflag, $func, false, $showurlflag);
+		}
 
-				if ($complex) {
+		if ($complex) {
 ?>
 
 				<script>
 <?php
-															if (isset($gbl->__tmp_checkbox_value)) {
+			if (isset($gbl->__tmp_checkbox_value)) {
 ?>
 					var __treecheckboxcount = <?=$gbl->__tmp_checkbox_value?>;
 <?php
-															}
-														}
-
-														$total = -1;
-														print_time('tree');
-														$this->print_tree($treename, $tree, $total, $val, $complex);
-
-														if ($complex) {
+			}
+		}
+					
+		$total = -1;
+		print_time('tree');
+		$this->print_tree($treename, $tree, $total, $val, $complex);
+					
+		if ($complex) {
 ?>
 					document.write(<?=$treename?>);
 				</script>
@@ -8290,36 +8111,32 @@ $this->print_input_vars($post);
 ?>
 		</div>
 
-		<!-- </td>
-	</tr>
-</table> -->
 		<form name="__treeForm" id="__treeForm" method="get" action="/display.php" accept-charset="utf-8">
 			<input type="hidden" name="frm_accountselect" value="">
 <?php
-			$this->print_current_input_vars(array('frm_action', 'frm_subaction'));
+		$this->print_current_input_vars(array('frm_action', 'frm_subaction'));
 
-			if (cse($this->frm_subaction, "confirm_confirm")) {
-				$this->print_input("hidden", "frm_action", "update");
-				$sub = $this->frm_subaction;
-				$actionimg = "finish.gif";
-			} else {
-				$this->print_input("hidden", "frm_action", "updateform");
-				$sub = $this->frm_subaction . "_confirm";
-				$actionimg = "next.gif";
-			}
+		if (cse($this->frm_subaction, "confirm_confirm")) {
+			$this->print_input("hidden", "frm_action", "update");
+			$sub = $this->frm_subaction;
+			$actionimg = "finish.gif";
+		} else {
+			$this->print_input("hidden", "frm_action", "updateform");
+			$sub = $this->frm_subaction . "_confirm";
+			$actionimg = "next.gif";
+		}
 
-			$this->print_input("hidden", "frm_subaction", "$sub");
+		$this->print_input("hidden", "frm_subaction", "$sub");
 
-			if (isset($gbl->__tmp_checkbox_value)) {
+		if (isset($gbl->__tmp_checkbox_value)) {
 ?>
 
-				<a href="javascript:treeStoreValue()"> <img src="/theme/general/button/<?=$actionimg?>"> </a>
+				<a href="javascript:treeStoreValue()"> <img src="/theme/general/button/<?= $actionimg ?>"> </a>
 <?php
-			}
-
+		}
 ?>
-		</form>
 
+		</form>
 <?php
 	}
 
@@ -8335,7 +8152,7 @@ $this->print_input_vars($post);
 			if ($complex) {
 ?>
 
-				<?=$treename?>.add(<?=$total?>, <?=$level?>, '<?=$tree->imgstr?>', '<?=$tree->url?>', '', 'mainframe', '<?=$tree->img?>', '<?=$tree->img?>', <?=$open?>, '<?=$tree->help?>', '<?=$tree->alt?>');
+				<?= $treename ?>.add(<?= $total ?>, <?= $level ?>, '<?= $tree->imgstr ?>', '<?= $tree->url ?>', '', 'mainframe', '<?= $tree->img ?>', '<?= $tree->img ?>', <?= $open ?>, '<?= $tree->help ?>', '<?= $tree->alt ?>');
 <?php
 			} else {
 				for ($i = 0; $i < $level; $i++) {
@@ -8343,7 +8160,7 @@ $this->print_input_vars($post);
 ?>
 
 					&nbsp;
-					<?=$imgstr?> <br />
+					<?= $imgstr ?> <br/>
 <?php
 				}
 			}
@@ -8356,7 +8173,6 @@ $this->print_input_vars($post);
 				$this->print_tree($treename, $t, $total, $level, $complex);
 			}
 		}
-
 	}
 
 	function print_resource($tree, $object, $cgi_o_o, $toplevelobject, $depth, $alistflag, $func, $childobjectflag = false, $showurlflag = true)
@@ -8746,7 +8562,7 @@ $this->print_input_vars($post);
 
 ?>
 
-				window.<?=$name?><?=$k?> = new Menu("<?=$mnu?>", 100);
+				window.<?= $name ?><?= $k ?> = new Menu("<?= $mnu ?>", 100);
 <?php
 
 				foreach ($a as $nk => $nv) {
@@ -8758,7 +8574,7 @@ $this->print_input_vars($post);
 
 ?>
 
-		window.<?=$name?> = new Menu('<?=$name?>',130);
+		window.<?= $name ?> = new Menu('<?= $name ?>',130);
 <?php
 
 		if ($type === 'slist') {
@@ -8786,7 +8602,7 @@ $this->print_input_vars($post);
 				$aa = $this->getFullUrl($a[0], $base);
 ?>
 
-				<?=$name?>.addMenuItem(<?=$name?><?=$k?>, frame1+"<?=$aa?>", 'Properties', 'mainframe');
+				<?= $name ?>.addMenuItem(<?= $name ?><?= $k ?>, frame1+"<?= $aa ?>", 'Properties', 'mainframe');
 <?php
 			} else {
 				// Hack hack...  NOt showing addforms in the top Menu... Also not showing in the tree view..
@@ -8815,7 +8631,7 @@ $this->print_input_vars($post);
 			$string = $this->getMenuDescrString($image, $url);
 ?>
 
-			<?=$menu?>.addMenuItem("<?=$string?>", "", "0", "There is No History at this Point.", "0");
+			<?= $menu ?>.addMenuItem("<?= $string ?>", "", "0", "There is No History at this Point.", "0");
 <?php
 
 			return;
@@ -8843,20 +8659,21 @@ $this->print_input_vars($post);
 		if (csb($menu, 'navig') || csb($menu, 'hist')) {
 ?>
 
-			<?=$menu?>.addMenuItem("<?=$string?>", "window.location='<?=$url?>';", "0", "<?=$help?>", "0");
+			<?= $menu ?>.addMenuItem("<?= $string ?>", "window.location='<?= $url ?>';", "0", "<?= $help ?>", "0");
 <?php
 		} else {
 ?>
 
-			<?=$menu?>.addMenuItem("<?=$string?>", frame1+"'<?=$url?>';", "0", "<?=$help?>", "0");
+			<?= $menu ?>.addMenuItem("<?= $string ?>", frame1+"'<?= $url ?>';", "0", "<?= $help ?>", "0");
 <?php
 		}
 	}
 
 	function getUrl()
 	{
-		$url  = ( $_SERVER["HTTPS"] != 'on' ) ? 'http://'.$_SERVER["SERVER_HOST"] :  'https://'.$_SERVER["SERVER_HOST"];
-		$url .= ( $_SERVER["SERVER_PORT"] !== 80 ) ? ":".$_SERVER["SERVER_PORT"] : "";
+		$url = ($_SERVER["HTTPS"] != 'on') ? 'http://' . $_SERVER["SERVER_HOST"] : 'https://' . $_SERVER["SERVER_HOST"];
+		$url .= ($_SERVER["SERVER_PORT"] !== 80) ? ":" . $_SERVER["SERVER_PORT"] : "";
+
 		//	$url .= $_SERVER["REQUEST_URI"];
 
 		return $url;
@@ -8907,12 +8724,12 @@ $this->print_input_vars($post);
 		}
 ?>
 
-		<body <?=$func?> style="border:0; margin:0; padding:0; background:#<?=$bodycolor?> <?=$bodybackground?>;">
+		<body <?= $func ?> style="border:0; margin:0; padding:0; background:#<?= $bodycolor ?> <?= $bodybackground ?>;">
 		<!-- "START TOP MENU + LOGO" -->
 <?php
 		if ($skin_name === 'simplicity') {
 			// MR -- mod from http://www.daniweb.com/web-development/javascript-dhtml-ajax/threads/184021/loading-an-html-file-into-a-div-from-a-link
-			/*
+		/*
 ?>
 		<script type="text/javascript">
 		<!--
@@ -8955,17 +8772,21 @@ $this->print_input_vars($post);
 		//-->
 		</script>
 <?php
-			*/
+		*/
 ?>
 
-			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
-				<div id="menu_div" style="width:720px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/menutemplate2/menu.php"?></div>
+			<div
+				style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;"
+				class="shadow_all">
+				<div id="menu_div"
+				     style="width:720px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle"
+				     class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/menutemplate2/menu.php" ?></div>
 
 				<script type="text/javascript">
 					<!--
 					function toggle_wrapper(id) {
 						var e = document.getElementById(id);
-						if(e.style.display != 'none') {
+						if (e.style.display != 'none') {
 							e.style.display = 'none';
 						} else {
 							e.style.display = 'block';
@@ -8974,13 +8795,17 @@ $this->print_input_vars($post);
 					//-->
 				</script>
 
-				<div style="position: fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');"><div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;"
-				                                                                                                                onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';"
-				                                                                                                                onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;Show/Hide&nbsp;</div></a></div>
+				<div style="position: fixed; top: 3px; right: 3px"><a href="#"
+				                                                      onClick="javascript:toggle_wrapper('mmm');">
+						<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;"
+						     onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';"
+						     onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;Show/Hide&nbsp;</div>
+					</a></div>
 
 			</div>
 
-			<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60" /></a></div>
+			<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img
+						src="/login/images/kloxo-mr.png" height="60"/></a></div>
 			<!-- "END TOP MENU + LOGO" -->
 <?php
 		}
@@ -8999,7 +8824,7 @@ $this->print_input_vars($post);
 ?>
 
 			<!-- "START TAB + CONTENT" -->
-			<div class="shadow_all" id="mmm" style="padding:0; width:960px; margin:<?=$margin_top?>px auto 10px auto; border: <?=$border?>; <?=$bgcolor?>">
+			<div class="shadow_all" id="mmm" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; border: <?= $border ?>; <?= $bgcolor ?>">
 <?php
 		}
 
@@ -9089,13 +8914,12 @@ $this->print_input_vars($post);
 				splashob.style.position = 'absolute';
 			}
 		</script>
-
 <?php
 	}
 
 	function print_splash()
 	{
-		/*
+	/*
 			// MR -- it's only for 'default' skin
 ?>
 
@@ -9106,7 +8930,7 @@ $this->print_input_vars($post);
 			</script>
 
 <?php
-		*/
+	*/
 	}
 
 	function print_start()
@@ -9171,10 +8995,9 @@ $this->print_input_vars($post);
 
 		<table cellpadding=0 cellspacing=0>
 			<tr>
-				<td><img src='<?=$icondir?>/aboutus.jpg'></td>
+				<td><img src='<?= $icondir ?>/aboutus.jpg'></td>
 			</tr>
 		</table>
-
 <?php
 	}
 
@@ -9195,9 +9018,7 @@ $this->print_input_vars($post);
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$filtername = $parent->getFilterVariableForThis($class);
-?>
 
-<?php
 		$desc = $descr[2];
 
 		$help = $descr['help'];
@@ -9222,7 +9043,9 @@ $this->print_input_vars($post);
 
 ?>
 
-			<span class="tableheadtext" onmouseover="changeContent('help','<b>Message </b>: <br /> <br /> <?=$help?>')" onmouseout="changeContent('help','helparea')"> <?=$d?> </span>
+			<span class="tableheadtext"
+			      onmouseover="changeContent('help','<b>Message </b>: <br /> <br /> <?= $help ?>')"
+			      onmouseout="changeContent('help','helparea')"> <?= $d ?> </span>
 
 <?php
 
@@ -9248,14 +9071,15 @@ $this->print_input_vars($post);
 		$formname = 'lpform_' . $unique_name . $sortby;
 ?>
 
-		<form name="<?=$formname?>" method="<?=$sgbl->method?>" action="<?=$url?>" accept-charset="utf-8">
-			<?=$this->print_current_input_vars(array('frm_hpfilter'))?>
+		<form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
+			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
-			<input name="frm_hpfilter[<?=$filtername?>][sortby]" type="hidden" value="<?=$sortby?>">
-			<input name="frm_hpfilter[<?=$filtername?>][sortdir]" type="hidden" value="<?=$sortdir?>">
+			<input name="frm_hpfilter[<?= $filtername ?>][sortby]" type="hidden" value="<?= $sortby ?>">
+			<input name="frm_hpfilter[<?= $filtername ?>][sortdir]" type="hidden" value="<?= $sortdir ?>">
 		</form>
 
-		<span title='<?=$alt?>'><a class='tableheadtext' href="javascript:document.<?=$formname?>.submit()"><?=$desc?> </a> </span>
+		<span title='<?= $alt ?>'><a class='tableheadtext'
+		                             href="javascript:document.<?= $formname ?>.submit()"><?= $desc ?> </a> </span>
 
 <?php
 	}
@@ -9301,27 +9125,47 @@ $this->print_input_vars($post);
 									<tr>
 										<td width="10" height="22"></td>
 										<td height="22">
-											<form name="lpform_search" method="<?=$sgbl->method?>"  action="<?=$url?>"
+											<form name="lpform_search" method="<?= $sgbl->method ?>"
+											      action="<?= $url ?>"
 											      onsubmit="return checksearch(this,1);" accept-charset="utf-8">
 
-												<?=$this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum'))?>
-												<?=$this->print_current_input_vars(array("frm_hpfilter"))?>
+												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
+												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
-												<input <?=$blackstyle?> type="text" name="frm_hpfilter[<?=$filtername?>][searchstring]" value="<?=$value?>" class=searchbox size="18">
+												<input <?= $blackstyle ?> type="text"
+												                          name="frm_hpfilter[<?= $filtername ?>][searchstring]"
+												                          value="<?= $value ?>" class=searchbox
+												                          size="18">
 											</form>
 										</td>
 										<td width="10" height="22">&nbsp;</td>
-										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img border="0" alt="Search" title="Search" name="search" src="<?=$searchimg?>" height="15" width="15" onMouseOver="changeContent('help','search');" onMouseOut="changeContent('help','helparea');"></a></td>
+										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img
+													border="0" alt="Search" title="Search" name="search"
+													src="<?= $searchimg ?>" height="15" width="15"
+													onMouseOver="changeContent('help','search');"
+													onMouseOut="changeContent('help','helparea');"></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td height="22" width="70">
-											<form name="lpform_showall" method="<?=$sgbl->method?>" action="<?=$url?>" accept-charset="utf-8">
-												<?=$this->print_current_input_vars(array("frm_hpfilter"))?>
+											<form name="lpform_showall" method="<?= $sgbl->method ?>"
+											      action="<?= $url ?>" accept-charset="utf-8">
+												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" name="frm_clear_filter" value="true">
-												<table cellpadding="0" cellspacing="0" border="0" width="100%" height="22">
+												<table cellpadding="0" cellspacing="0" border="0" width="100%"
+												       height="22">
 													<tr>
-														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><img alt="Show All" title="Show all" name="showall" src="<?=$showallimg?>" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"></a></td>
-														<td width="69%" height="22" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class="small">Show All</span></a></td>
+														<td height="22" width="31%" align="center" nowrap>&nbsp;<a
+																href="javascript:document.lpform_showall.submit();"><img
+																	alt="Show All" title="Show all" name="showall"
+																	src="<?= $showallimg ?>"
+																	onMouseOver="changeContent('help','showall');"
+																	onMouseOut="changeContent('help','helparea');"></a>
+														</td>
+														<td width="69%" height="22" nowrap>&nbsp;<a
+																href="javascript:document.lpform_showall.submit();"
+																onMouseOver="changeContent('help','showall');"
+																onMouseOut="changeContent('help','helparea');"><span
+																	class="small">Show All</span></a></td>
 													</tr>
 												</table>
 											</form>
@@ -9372,64 +9216,50 @@ $this->print_input_vars($post);
 ?>
 
 			<td height="34" wrap class="alink"
-			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?=$imgstr?> </td>
-			<td height="<?=$height?>" nowrap class="alink"
-			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?=$displaystring?>
+			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class="alink"
+			    style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?>
 			</td>
 <?php
 		} else {
 ?>
 
 			<td height="34" wrap class=alink
-			    style='cursor:pointer;background:#efe8e0 url(<?=$imgbg?>); padding:3px 0 0 0; vertical-align:middle'><?=$imgstr?> </td>
-			<td height="<?=$height?>" nowrap class=alink
-			    style='cursor:pointer;background:#efe8e0 url(<?=$imgbg?>); padding:3px 0 0 0; vertical-align:middle'><span
-					size=-1><?=$displaystring?></td>
+			    style='cursor:pointer;background:#efe8e0 url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class=alink
+			    style='cursor:pointer;background:#efe8e0 url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span
+					size=-1><?= $displaystring ?></td>
 <?php
 		}
-
 	}
 
-function print_content_begin()
-{
-	global $gbl, $sgbl, $login;
+	function print_content_begin()
+	{
+		global $gbl, $sgbl, $login;
 
-	$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
-	$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
 
-	$bordering = "border: 1px solid #ddd; border-top:0";
+		$bordering = "border: 1px solid #ddd; border-top:0";
 
-	if ($skin_name === 'feather') {
-		if (!$as_simple_skin) {
-			$bordering = "border: 0";
+		if ($skin_name === 'feather') {
+			if (!$as_simple_skin) {
+				$bordering = "border: 0";
+			}
 		}
-	}
-
 ?>
+
 	<!-- "START CONTENT" -->
-	<!--
-	<table id="tblmain" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%" style="<?=$bordering?>; background-color: #fff">
-	<tr>
-	<td width="100%" align="center" valign="top">
-	<br />
--->
-	<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden">
-	<div style="text-align:center; width:100%; height: 100%; min-height: 100%; height: auto !important;<?=$bordering?>; background-color: #fff">
-	<br />
+	<div id="content_wrapper" style="width: 100%; height: auto; overflow:hidden">
+	<div style="text-align:center; width:100%;; height: auto; min-height: 400px; <?= $bordering ?>; background-color: #fff">
+	<br/>
 <?php
-}
+	}
 
 	function print_content_end()
 	{
 ?>
-		<!-- </div> -->
 		</div>
-		<!--
-					</td>
-				</tr>
-			</table>
-		-->
-		<!-- "END CONTENT" -->
 <?php
 
 	}
@@ -9530,7 +9360,6 @@ function print_content_begin()
 
 		return $res;
 	}
-
 
 	function get_favorite($class)
 	{

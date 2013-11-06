@@ -155,21 +155,9 @@ function print_customer_mode($object)
 
 ?>
 
-	<!-- <table cellpadding="0" width="100%" cellspacing="0" border="0">
-		<tr>
-			<td>
-				<table align="left" width="100%" cellpadding="0" cellspacing="0">
-					<tr>
-						<td nowrap align="center"> -->
 	<div style="background: #<?=$skin_color?> url(<?=$col?>); padding: 4px; margin: 0 25px">
 		<a href="<?=$url?>">&nbsp;>>>> Switch To <?=$mode?> Mode <<<<&nbsp;</a>
 	</div>
-	<!-- </td>
-</tr>
-</table>
-</td>
-</tr>
-</table> -->
 <?php
 }
 
@@ -369,17 +357,13 @@ function __ac_desc_show($object)
 		}
 	}
 ?>
+	
 	<!-- "I am here 1" -->
+	
 <?php
 	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
-		<!--
-				<table cellpadding="0" cellspacing="0" valign="top" align="center">
-					<tr valign="top">
-						<td valign="top" align="center">
-							<table cellpadding="0" cellspacing="0" valign="top">
-								<tr valign="top">
-									<td valign="top"> -->
+
 		<table style="border: 0; margin: 0; padding: 0; margin: 0 auto"><tr><td>
 		<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 900px">
 		<div style="float:left; height: 100%">
@@ -401,21 +385,11 @@ function __ac_desc_show($object)
 				$ghtml->printObjectTable(null, $object, 'permission');
 			}
 ?>
-			<!--
-										</td>
-									</tr>
-								</table>
-							</td> -->
+
 		</div>
+		
 		<!-- "I am here 2" -->
-		<!-- <div style="width:25px; float:left">&nbsp;</div> -->
-		<!--
-		<td width="25">&nbsp;</td>
-						<td valign="top">
-							<table cellpadding="0" cellspacing="0">
-								<tr>
-									<td> -->
-		<!-- <div style="float:left"> -->
+
 <?php
 		if (isset($nalist)) {
 			$ghtml->print_object_action_block($object, $nalist, 8);
@@ -423,23 +397,9 @@ function __ac_desc_show($object)
 
 	} else {
 		if (isset($nalist)) {
-?>
-
-			<!-- <table cellpadding="0" cellspacing="0" height="10">
-				<tr>
-					<td> -->
-<?php
 			$ghtml->print_object_action_block($object, $nalist, 8);
 ?>
 
-			<!-- </td>
-		</tr>
-	</table>
-	<table class="mediumtableheader" width="100%">
-		<tr>
-			<td></td>
-		</tr>
-	</table> -->
 			<br />
 <?php
 		}
@@ -465,7 +425,9 @@ function __ac_desc_show($object)
 
 	$ghtml->print_information('post', 'show', $cname, $subaction, "");
 ?>
+	
 	<!-- "I am here 3" -->
+	
 	</div>
 	</div>
 	</td></tr></table>
@@ -666,14 +628,9 @@ function __ac_desc_delete($object)
 <?php
 			if (exec_class_method($cname, 'isTreeForDelete')) {
 ?>
-				<!-- <table width="100%">
-					<tr>
-						<td width="10"></td>
-						<td align="left"> -->
+
 				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br /> <br /></div>
-				<!-- </td>
-			</tr>
-		</table> -->
+
 <?php
 
 				foreach ($ll as $l) {
@@ -869,17 +826,6 @@ function get_return_url($action)
 	$url = $gbl->getSessionV("lx_http_referer");
 
 	return $url;
-	/*
-		if ($gbl->isetSessionV($var)) {
-			$url = $gbl->getSessionV($var);
-			$gbl->unsetSessionV($var);
-		} else {
-			$url = $gbl->getSessionV("lx_http_referer");
-			$gbl->unsetSessionV($var);
-		}
-
-		return $url;
-	*/
 }
 
 function __ac_desc_showform($object)
@@ -2244,7 +2190,8 @@ function display_init()
 		exit;
 	}
 
-	// The only thing that gets modified when the dbaction is not a modify action, is the ssession table. Other tables should get modified only inside non-form actions.
+	// The only thing that gets modified when the dbaction is not a modify action, is the ssession table. 
+	// Other tables should get modified only inside non-form actions.
 	if (isModifyAction() && isUpdating()) {
 		$ghtml->print_redirect_back('system_is_updating_itself', '');
 
@@ -2454,7 +2401,7 @@ function print_head_image()
 <?php
 			if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
-				<!-- <td valign='top'><a href='javascript:top.mainframe.logOut()'>Logout</a></td> -->
+
 				<td valign='top'><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
 <?php
 			}
@@ -2526,7 +2473,6 @@ function print_quick_action($class)
 	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/theme/lbin/redirect.php\">";
 
 	$desc = $ghtml->get_class_description($class);
-//	$res .= "$desc[2] <br /> ";
 
 	if (!$object->isLogin()) {
 		$res .= "<select $stylestr name=frm_redirectname>";
@@ -2551,8 +2497,6 @@ function print_quick_action($class)
 		$ac_descr = $ghtml->getActionDetails($a, null, $iconpath, $path, $post, $_t_file, $_t_name, $_t_image, $__t_identity);
 
 		$a = base64_encode($a);
-		//	$res .= "<option value=$a style='background-image: url($_t_image); background-repeat:no-repeat; ";
-		//	$res .= "left-padding: 35px; text-align:right'>  $ac_descr[2] </option>";
 
 		$desc = substr($ac_descr[2], 0, 20);
 		$res .= '<option ' . $stylestr . ' value="' . $a . '" >' . $desc . '</option>';

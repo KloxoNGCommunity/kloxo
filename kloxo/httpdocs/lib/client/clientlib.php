@@ -476,7 +476,7 @@ class Client extends ClientBase
 			}
 			
 			if ($login->priv->isOn('domain_add_flag')) {
-				$alist[] = "a=addform&c=domain";
+			//	$alist[] = "a=addform&c=domain";
 			}
 		}
 
@@ -596,7 +596,7 @@ class Client extends ClientBase
 		}
 
 		if ($this->isAdmin()) {
-			$alist[] = "a=updateform&sa=license&o=license";
+		//	$alist[] = "a=updateform&sa=license&o=license";
 		}
 
 		return $alist;
