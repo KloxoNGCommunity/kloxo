@@ -172,24 +172,7 @@ class addondomain extends Lxdb
 
 	static function createListSlist($parent)
 	{
-		// relate to bug #50 - trick for process add/delete parked/redirect domains
-		// because after add/delete always back to list!
-		
-		// Bug #863 - MR - but look like not need!
-
-		// $web = $parent->getObject('web');
-		// have trouble when use addondomain, so use full_update
-		//	$web->setUpdateSubaction('full_update');
-		//	$web->setUpdateSubaction('addondomain');
-
-		// original code...
-
-		//$sq = new Sqlite(null, 'domain');
-		//$s = $sq->getTable(array('nname'));
-		//$s = get_namelist_from_arraylist($s);
-		//$s = lx_array_merge(array(array('--any--'), $s));
 		$nlist['nname'] = null;
-		//$nlist['parent_clname'] = array('s', $s);
 		$nlist['ttype'] = array('s', array('--any--', 'parked', 'redirect'));
 		$nlist['parent_clname'] = null;
 

@@ -1588,19 +1588,19 @@ class HtmlLib
 			$sectionwidth = "640";
 			$sectionfloat = "inherit";
 			$sectionheight = "auto";
-			$showpagewidth = "640px";
+			$showpagewidth = "640";
 			$sectionmargin = "0 10px 10px 0";
 		} elseif ($show_direction === 'vertical 2') {
 			$sectionwidth = "300";
 			$sectionfloat = "inherit";
-			$sectionheight = "400px";
-			$showpagewidth = "640px";
+			$sectionheight = "auto";
+			$showpagewidth = "640";
 			$sectionmargin = "0 0 10px 15px";
 		} elseif ($show_direction === 'horizontal') {
-			$sectionwidth = "300";
+			$sectionwidth = "400";
 			$sectionfloat = "left";
-			$sectionheight = "400px";
-			$showpagewidth = "615px";
+			$sectionheight = "415";
+			$showpagewidth = "615";
 			$sectionmargin = "0 10px 10px 0";
 		}
 ?>
@@ -1615,9 +1615,9 @@ class HtmlLib
 				/* width: 520px; */
 				width: <?=$sectionwidth?>px;
 				resize:both;
-				overflow:hidden;
-				float:left;
-				height:<?=$sectionheight?>;
+				overflow: hidden;
+				float: left;
+				height: <?=$sectionheight?>;
 			}
 
 			div#createNew input {
@@ -1664,14 +1664,14 @@ class HtmlLib
 <?php
 		if ($show_direction !== 'horizontal') {
 ?>
-			<div id="show_page" style="float:left; width: <?=$showpagewidth?>; margin: 0 auto 0 auto">
+			<div id="show_page" style="float:left; width: <?=$showpagewidth?>px; margin: 0 auto 0 auto">
 <?php
 
 		} else {
 			$horiz_width = 15 + ($retcount * ($sectionwidth + 10)) + 15;
 ?>
 
-			<div id="show_page" style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?=$showpagewidth?>; height: 420px; overflow: auto; white-space: nowarp; margin: 0 auto 0 auto">
+			<div id="show_page" style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?=$showpagewidth?>px; height: <?= $sectionheight + 20; ?>px; overflow: auto; white-space: nowarp; margin: 0 auto 0 auto">
 			<div id='horiz_scroll' style="width: <?=$horiz_width?>px">
 <?php
 		}
@@ -1702,10 +1702,15 @@ class HtmlLib
 
 			unset($a['open']);
 			$nametitle = strfrom($title, "__title_");
-?>
 
-			<div id="item_<?= $nametitle ?>" class="section" style="overflow: hidden">
-				<table cellpadding=0 cellspacing=0>
+			if (($count%2 === 0) && ($show_direction === 'vertical 2')) {
+?>
+		<div id="XYZ" style="float:inherit">
+<?php
+			}
+?>
+			<div id="item_<?= $nametitle ?>" class="section">
+				<table cellpadding='0' cellspacing='0'>
 <?php
 					if ($show_direction !== 'horizontal') {
 ?>
@@ -1768,6 +1773,11 @@ class HtmlLib
 				</div>
 			</div>
 <?php
+			if (($count%2 !== 0) && ($show_direction === 'vertical 2')) {
+?>
+</div>
+<?php
+			}
 		}
 
 		if ($show_direction !== 'horizontal') {
@@ -1790,6 +1800,7 @@ class HtmlLib
 <?php
 		}
 ?>
+
 		<script>
 <?php
 						$count = 0;
@@ -6199,7 +6210,7 @@ $this->print_input_vars($post);
 			</tr>
 		</table>
 -->
-		<div <?= $idvar ?>  <?= $onclickvar ?> style='border: 1px solid <?= $blackbordercolor ?>; cursor: pointer; width: 65px; height: 85px; padding: 1px; margin: 1px;'
+		<div <?= $idvar ?>  <?= $onclickvar ?> style='border: 1px solid <?= $blackbordercolor ?>; cursor: pointer; width: 90px; height: 90px; padding: 1px; margin: 1px;'
 		                                       onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>'; this.style.border='1px solid #<?= $skincolor ?>';"
 		                                       onmouseout="this.style.border='1px solid <?= $blackbordercolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none'">
 

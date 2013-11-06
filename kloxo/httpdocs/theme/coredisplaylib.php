@@ -382,7 +382,7 @@ function __ac_desc_show($object)
 									<td valign="top"> -->
 		<table style="border: 0; margin: 0; padding: 0; margin: 0 auto"><tr><td>
 		<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 900px">
-		<div style="float:left">
+		<div style="float:left; height: 100%">
 <?php
 			$ghtml->print_find($object);
 
