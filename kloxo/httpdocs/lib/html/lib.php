@@ -839,6 +839,10 @@ function validate_domain_name($name)
 	if (strlen($name) > 255) {
 		throw new lxException('invalid_domain_name', 'nname');
 	}
+
+	if (checkdnsrr($name, "MX")) {
+		throw new lxException('domain_is_already_owned', 'nname');	
+	}
 }
 
 function execinstallappPhp($domain, $appname, $cmd)

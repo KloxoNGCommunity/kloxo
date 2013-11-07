@@ -39,6 +39,9 @@ function lxins_main()
 //	$arch = trim( `arch` );
 //	$arch = php_uname('m');
 
+	// MR -- to make sure /tmp ready for all; found mysql not start not 1777
+	system("chmod 1777 /tmp");
+
 	// MR -- modified sysctl.conf because using socket instead port for php-fpm
 	$pattern = "fs.file-max";
 	$sysctlconf = file_get_contents("/etc/sysctl.conf");
