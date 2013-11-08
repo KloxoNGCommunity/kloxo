@@ -130,7 +130,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-                if ($count !== 0) {
+            if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -140,9 +140,9 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                }
+            }
 
-                if (strpos($phptype, '_suphp') !== false) {
+            if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -153,7 +153,7 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_ruid2') !== false) {
+            } elseif (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -162,14 +162,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_itk') !== false) {
+            } elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'php-fpm_') !== false) {
+            } elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -184,7 +184,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'fcgid_') !== false) {
+            } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
@@ -203,7 +203,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Directory>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+            } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -211,7 +211,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                }
+            }
 ?>
 
     <Location />
@@ -234,7 +234,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
-                    if ($count !== 0) {
+                if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -244,7 +244,7 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                    }
+                }
 ?>
 
 </VirtualHost>
@@ -264,7 +264,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-                    if ($count !== 0) {
+                if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -274,7 +274,8 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                    }
+                }
+
                 if (strpos($phptype, '_suphp') !== false) {
 ?>
 
@@ -371,7 +372,7 @@ foreach ($certnamelist as $ip => $certname) {
     ServerAlias <?php echo $serveralias; ?>
 
 <?php
-            if ($count !== 0) {
+        if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -381,20 +382,20 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-            }
+        }
 
-            if ($wwwredirect) {
+        if ($wwwredirect) {
 ?>
 
     RewriteEngine On
     RewriteCond %{HTTP_HOST} ^<?php echo str_replace('.', '\.', $domainname); ?>$ [NC]
     RewriteRule ^(.*)/$ <?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1 [R=301,L]
 <?php
-            }
+        }
 
-            if ($disabled) {
+        if ($disabled) {
                 $rootpath = $disablepath;
-            }
+        }
 ?>
 
     DocumentRoot "<?php echo $rootpath; ?>"
@@ -411,33 +412,33 @@ foreach ($certnamelist as $ip => $certname) {
 
     ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
 <?php
-            if ($redirectionlocal) {
-                foreach ($redirectionlocal as $rl) {
+        if ($redirectionlocal) {
+            foreach ($redirectionlocal as $rl) {
 ?>
 
     Alias <?php echo $rl[0]; ?> "<?php echo $rootpath; ?><?php echo $rl[1]; ?>/"
 <?php
-                }
             }
+        }
 
-            if ($redirectionremote) {
-                foreach ($redirectionremote as $rr) {
-                    if ($rr[2] === 'both') {
+        if ($redirectionremote) {
+            foreach ($redirectionremote as $rr) {
+                if ($rr[2] === 'both') {
 ?>
 
                         Redirect <?php echo $rr[0]; ?> "<?php echo $protocol; ?><?php echo $rr[1]; ?>"
 <?php
-                    } else {
+                } else {
                         $protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
 ?>
 
-                        Redirect <?php echo $rr[0]; ?> "<?php echo $protocol2; ?><?php echo $rr[1]; ?>"
+                    Redirect <?php echo $rr[0]; ?> "<?php echo $protocol2; ?><?php echo $rr[1]; ?>"
 <?php
-                    }
                 }
             }
+        }
 
-            if (strpos($phptype, '_suphp') !== false) {
+        if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -451,7 +452,7 @@ foreach ($certnamelist as $ip => $certname) {
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
 <?php
-            } elseif (strpos($phptype, '_ruid2') !== false) {
+        } elseif (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -462,7 +463,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     </IfModule>
 <?php
-            } elseif (strpos($phptype, '_itk') !== false) {
+        } elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
@@ -474,7 +475,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Location>
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'php-fpm_') !== false) {
+        } elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -489,7 +490,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'fcgid_') !== false) {
+        } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
@@ -508,7 +509,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Directory>
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -516,7 +517,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
     </IfModule>
 <?php
-            }
+        }
 ?>
 
     <IfModule mod_php5.c>
@@ -549,7 +550,7 @@ foreach ($certnamelist as $ip => $certname) {
     CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
     ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
 <?php
-            if ($statsapp === 'awstats') {
+        if ($statsapp === 'awstats') {
 ?>
 
     ScriptAlias /awstats/ "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/"
@@ -564,7 +565,7 @@ foreach ($certnamelist as $ip => $certname) {
         Options +Indexes
     </Location>
 <?php
-                if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     <Location "/awstats/">
@@ -575,8 +576,8 @@ foreach ($certnamelist as $ip => $certname) {
         require valid-user
     </Location>
 <?php
-                }
-            } elseif ($statsapp === 'webalizer') {
+            }
+        } elseif ($statsapp === 'webalizer') {
 ?>
 
     Alias /stats "/home/httpd/<?php echo $domainname; ?>/webstats/"
@@ -585,7 +586,7 @@ foreach ($certnamelist as $ip => $certname) {
         Options +Indexes
     </Location>
 <?php
-                if ($statsprotect) {
+            if ($statsprotect) {
 ?>
 
     <Location "/stats/">
@@ -596,10 +597,10 @@ foreach ($certnamelist as $ip => $certname) {
         require valid-user
     </Location>
 <?php
-                }
             }
+        }
 
-            if ($apacheextratext) {
+        if ($apacheextratext) {
 ?>
 
     # Extra Tags - begin
@@ -607,19 +608,19 @@ foreach ($certnamelist as $ip => $certname) {
 
     # Extra Tags - end
 <?php
-            }
+        }
 
-            if ($disablephp) {
+        if ($disablephp) {
 ?>
     AddType application/x-httpd-php-source .php
 <?php
-            }
+        }
 
-            if ($dirprotect) {
-                foreach ($dirprotect as $k) {
-                    $protectpath = $k['path'];
-                    $protectauthname = $k['authname'];
-                    $protectfile = str_replace('/', '_', $protectpath) . '_';
+        if ($dirprotect) {
+            foreach ($dirprotect as $k) {
+                $protectpath = $k['path'];
+                $protectauthname = $k['authname'];
+                $protectfile = str_replace('/', '_', $protectpath) . '_';
 ?>
 
     <Location "/<?php echo $protectpath; ?>/">
@@ -629,10 +630,10 @@ foreach ($certnamelist as $ip => $certname) {
         require valid-user
     </Location>
 <?php
-                }
             }
+        }
 
-            if ($blockips) {
+        if ($blockips) {
 ?>
 
     <Location />
@@ -642,7 +643,7 @@ foreach ($certnamelist as $ip => $certname) {
         Allow from all
     </Location>
 <?php
-            }
+        }
 ?>
 
 </VirtualHost>
@@ -678,7 +679,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-                        if ($count !== 0) {
+                    if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -688,7 +689,9 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                        }
+                    }
+
+                    if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -701,6 +704,9 @@ foreach ($certnamelist as $ip => $certname) {
 
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
+<?php
+                    } elseif (strpos($phptype, '_ruid2') !== false) {
+?>
 
     <IfModule mod_ruid2.c>
         RMode config
@@ -709,6 +715,9 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid <?php echo $user; ?> <?php echo $user; ?>
 
     </IfModule>
+<?php
+                    } elseif (strpos($phptype, '_itk') !== false) {
+?>
 
     <IfModule itk.c>
         AssignUserId <?php echo $user; ?> <?php echo $user; ?>
@@ -717,6 +726,9 @@ foreach ($certnamelist as $ip => $certname) {
             AssignUserId apache apache
         </Location>
     </IfModule>
+<?php
+                    } elseif (strpos($phptype, 'php-fpm_') !== false) {
+?>
 
     <IfModule mod_fastcgi.c>
         Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
@@ -729,6 +741,9 @@ foreach ($certnamelist as $ip => $certname) {
             RewriteCond %{REQUEST_URI} !<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
         </Files>
     </IfModule>
+<?php
+                    } elseif (strpos($phptype, 'fcgid_') !== false) {
+?>
 
     <IfModule mod_fcgid.c>
         <Directory "<?php echo $webmaildocroot; ?>/">
@@ -745,11 +760,17 @@ foreach ($certnamelist as $ip => $certname) {
             </IfVersion>
         </Directory>
     </IfModule>
+<?php
+                    } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+?>
 
     <IfModule mod_proxy_fcgi.c>
         ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
     </IfModule>
+<?php
+                    }
+?>
 
     <Directory "<?php echo $redirfullpath; ?>/">
         AllowOverride All
@@ -780,7 +801,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     Redirect / "<?php echo $protocol; ?><?php echo $domainname; ?>/"
 <?php
-                        if ($count !== 0) {
+                    if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -790,7 +811,7 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                        }
+                    }
 ?>
 
 </VirtualHost>
@@ -819,7 +840,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-                        if ($count !== 0) {
+                    if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -829,8 +850,9 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                        }
-                if (strpos($phptype, '_suphp') !== false) {
+                    }
+
+                    if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -841,7 +863,7 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_ruid2') !== false) {
+                        } elseif (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -850,14 +872,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_itk') !== false) {
+                    } elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                    } elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -872,7 +894,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'fcgid_') !== false) {
+                    } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
@@ -891,7 +913,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Directory>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                    } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -899,7 +921,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                }
+                    }
 ?>
 
     <Location />
@@ -922,7 +944,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
-                            if ($count !== 0) {
+                        if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -932,7 +954,7 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                            }
+                        }
 ?>
 
 </VirtualHost>
@@ -952,7 +974,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-                                if ($count !== 0) {
+                        if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -962,8 +984,9 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                                }
-                if (strpos($phptype, '_suphp') !== false) {
+                        }
+
+                        if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -974,7 +997,7 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_ruid2') !== false) {
+                        } elseif (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -983,14 +1006,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_itk') !== false) {
+                        } elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                        } elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -1005,7 +1028,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'fcgid_') !== false) {
+                        } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
@@ -1024,7 +1047,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Directory>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -1032,7 +1055,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                }
+                        }
 ?>
 
     <Location />
@@ -1073,7 +1096,7 @@ foreach ($certnamelist as $ip => $certname) {
     DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-                        if ($count !== 0) {
+                    if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -1083,8 +1106,9 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                        }
-                if (strpos($phptype, '_suphp') !== false) {
+                    }
+
+                    if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -1095,7 +1119,7 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_ruid2') !== false) {
+                    } elseif (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -1104,14 +1128,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_itk') !== false) {
+                    } elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                    } elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -1126,7 +1150,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'fcgid_') !== false) {
+                    } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
@@ -1145,7 +1169,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Directory>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                    } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -1153,7 +1177,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                }
+                    }
 ?>
 
     <Location />
@@ -1176,7 +1200,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
-                            if ($count !== 0) {
+                        if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -1186,7 +1210,7 @@ foreach ($certnamelist as $ip => $certname) {
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                            }
+                        }
 ?>
 
 </VirtualHost>
@@ -1206,7 +1230,7 @@ DocumentRoot "<?php echo $webmaildocroot; ?>"
 DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
-                                if ($count !== 0) {
+                        if ($count !== 0) {
 ?>
 
     <IfModule mod_ssl.c>
@@ -1216,8 +1240,9 @@ DirectoryIndex <?php echo $indexorder; ?>
         SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     </IfModule>
 <?php
-                                }
-                if (strpos($phptype, '_suphp') !== false) {
+                        }
+
+                        if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -1228,7 +1253,7 @@ DirectoryIndex <?php echo $indexorder; ?>
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_ruid2') !== false) {
+                        } elseif (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -1237,14 +1262,14 @@ DirectoryIndex <?php echo $indexorder; ?>
         RMinUidGid apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_itk') !== false) {
+                        } elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                        } elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -1259,7 +1284,7 @@ DirectoryIndex <?php echo $indexorder; ?>
         </Files>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'fcgid_') !== false) {
+                        } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
@@ -1278,7 +1303,7 @@ DirectoryIndex <?php echo $indexorder; ?>
         </Directory>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -1286,7 +1311,7 @@ DirectoryIndex <?php echo $indexorder; ?>
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                }
+                        }
 ?>
 
     <Location />

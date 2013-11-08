@@ -68,8 +68,9 @@ upload_tmp_dir = /tmp/
 default_socket_timeout = 60
 date.timezone = "Europe/London"
 
-cgi.fix_pathinfo=1
-cgi.rfc2616_headers = 1
+cgi.fix_pathinfo = 1
+; trouble with apache fastcgi if 1 and then
+cgi.rfc2616_headers = 0
 
 ;### MR -- specific for php 5.3+
 <?php echo $php53enable; ?>auto_globals_jit = On

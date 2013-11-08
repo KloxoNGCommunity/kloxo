@@ -839,11 +839,19 @@ function validate_domain_name($name)
 	if (strlen($name) > 255) {
 		throw new lxException('invalid_domain_name', 'nname');
 	}
+}
 
+function validate_domain_owned($name)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	// MR -- idn_to_ascii only work in php 5.3.0+
+//	if (checkdnsrr(idn_to_ascii($name), "MX")) {
 	if (checkdnsrr($name, "MX")) {
 		throw new lxException('domain_is_already_owned', 'nname');	
 	}
 }
+
 
 function execinstallappPhp($domain, $appname, $cmd)
 {

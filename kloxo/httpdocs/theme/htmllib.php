@@ -7747,15 +7747,15 @@ class HtmlLib
 <?php
 		if ($skin_name === 'feather') {
 ?>
-			<div style="width:600px; margin: 0 auto 0 auto; border:0; padding:0;">
-			<table align="center" width="600"><tr><td>
+		<div style="width: 600px; margin: 0 180px; border: 0; padding: 0;">
+			<div id="infomsg" style="display: none;">
 <?php
 			$this->print_curvy_table_start();
 		} else {
 			if ($pinfo !== '') {
 ?>
 
-				<div id="infomsg" style="display:none; position:fixed; width: 600px; top:45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#dfe; border:3px double #e22; text-align:left">
+		<div id="infomsg" style="display:none; position:fixed; width: 600px; top: 45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#dfe; border:3px double #e22; text-align:left">
 <?php
 			}
 
@@ -7785,12 +7785,13 @@ class HtmlLib
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'feather') {
 			$this->print_curvy_table_end();
 ?>
-			</td></tr></table></div>
+			</div>
+		</div>
 <?php
 		} else {
 			if ($pinfo !== '') {
 ?>
-				</div>
+		</div>
 <?php
 			}
 		}

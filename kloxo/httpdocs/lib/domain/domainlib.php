@@ -38,6 +38,8 @@ class Domaind extends DomainBase
 	static $__desc_redirect_to_flag_v_dull = array("", "", "free");
 	static $__desc_docroot = array("S", "", "document_root");
 
+	static $__desc_domain_owned_flag = array("f", "", "domain_owned");
+
 	static $__desc_webpserver = array("", "", "web_server");
 	static $__desc_mmailpserver = array("", "", "mail_server");
 	static $__desc_dnspserver = array("", "", "dns_server");
@@ -952,9 +954,15 @@ class Domaind extends DomainBase
 
 		validate_domain_name($param['nname']);
 
+	//	if ($this->isOn('domain_owned_flag')) {
+		if ($param['domain_owned_flag'] !== 'on') {
+			validate_domain_owned($param['nname']);
+		}
+
 		lxclient::fixpserver_list($param);
 
 		$param['nname'] = strtolower($param['nname']);
+
 		if (exists_in_db(null, 'addondomain', $param['nname'])) {
 			throw new lxException('domain_already_exists_as_pointer', 'parent');
 		}
@@ -1127,6 +1135,9 @@ class Domaind extends DomainBase
 
 		$res = DomainBase::getDnsTemplateList($parent);
 		$vlist['nname'] = "";
+
+		$vlist['domain_owned_flag'] = null;
+
 		$dir = "__path_customer_root/{$parent->getPathFromName()}";
 		$dir = expand_real_root($dir);
 		

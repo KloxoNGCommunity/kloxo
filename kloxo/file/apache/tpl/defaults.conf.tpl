@@ -143,7 +143,7 @@ foreach ($certnamelist as $ip => $certname) {
                 Order allow,deny
                 Allow from all
             </IfVersion>
-            <IfVersion>= 2.4>
+            <IfVersion >= 2.4>
                 Require all granted
             </IfVersion>
         </Directory>

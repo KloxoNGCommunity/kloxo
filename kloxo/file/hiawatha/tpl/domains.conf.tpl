@@ -230,8 +230,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+            if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+            } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+            }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -270,8 +279,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+            if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+            } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+            }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -327,8 +345,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+            if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+            } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+            }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -397,8 +424,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+            if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+            } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+            }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -559,8 +595,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+        if ($reverseproxy) {
+?>
+    UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>, findindexfile
+<?php
+        } else {
+?>
     UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>, findindexfile, permalink
-
+<?php
+        }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -654,8 +699,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                    if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                    } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+                    }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -727,7 +781,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                    if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                    } else {
+?>
     UseToolkit = findindexfile, permalink
+<?php
+                    }
+?>
 
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
@@ -767,8 +831,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                    if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                    } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+                    }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -820,8 +893,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                        if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                        } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+                        }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -862,8 +944,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                        if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                        } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+                        }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -933,8 +1024,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                    if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                    } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+                    }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -988,8 +1088,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                        if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                        } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+                        }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
@@ -1043,8 +1152,17 @@ VirtualHost {
 ?>
 
     #StartFile = index.php
+<?php
+                            if ($reverseproxy) {
+?>
+    UseToolkit = findindexfile
+<?php
+                            } else {
+?>
     UseToolkit = findindexfile, permalink
-
+<?php
+                            }
+?>
     ## still not work for 'microcache'
     ## add 'header("X-Hiawatha-Cache: 10");' to index.php
     #CustomHeader = X-Hiawatha-Cache:10
