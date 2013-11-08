@@ -302,6 +302,7 @@ $__description["skin"] = array("Skin");
 $__description["skin_color"] = array("Skin Color");
 $__description["show_direction"] = array("Show Direction");
 $__description["background"] = array("Background");
+$__description["button_type"] = array("Button Type");
 
 $__description["icon_name"] = array("Icon Name");
 $__description["current_logo_url"] = array("Current Logo URL");
@@ -1299,3 +1300,5 @@ $__description["no_fix_config"] = array("No fix config");
 $__description["php_branch"] = array("PHP Branch");
 
 $__description["domain_administer"] = array("Domain Administer");
+
+$__description["domain_owned"] = array("As Domain Owner");

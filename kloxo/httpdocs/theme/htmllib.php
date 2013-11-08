@@ -3926,7 +3926,7 @@ class HtmlLib
 		}
 ?>
 
-		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); padding: 4px; margin: 0 25px;">&nbsp;>>>> <a
+		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a
 				href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> Click Here to
 				Add <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<&nbsp;</div>
 
@@ -6068,6 +6068,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
+
 		$skincolor = $login->getSkinColor();
 		$shevron = "{$login->getSkinDir()}/images/shevron_line.gif";
 
@@ -6099,7 +6101,7 @@ class HtmlLib
 			$onclickvar = "onClick=\"document.form_$formname.submit()\"";
 			$alt = $help;
 		} else {
-			$displayvar = "<span title=\"You don't have permission\" class=icontextlink>{$descr[2]} (disabled)</span>";
+			$displayvar = "<span title=\"You don't have permission\" class='icontextlink'>{$descr[2]} (disabled)</span>";
 			$alt = "You dont have permission";
 			$onclickvar = null;
 		}
@@ -6112,14 +6114,181 @@ class HtmlLib
 		}
 
 		if ($imgflag) {
-			if ($linkflag) {
-				$imgvar = "<img width='32' height='32' class='icontextlink' " .
-					"onMouseOver=\"getElementById('aaid_$formname').style.textDecoration='underline'; \" " .
-					"onMouseOut=\"getElementById('aaid_$formname').style.textDecoration='none'; \" src=\"$imagesrc\">";
+			if ($button_type === 'image') {
+				if ($linkflag) {
+					$imgvar = "<img width='32' height='32' class='icontextlink' " .
+						"onMouseOver=\"getElementById('aaid_$formname').style.textDecoration='underline'; \" " .
+						"onMouseOut=\"getElementById('aaid_$formname').style.textDecoration='none'; \" src=\"$imagesrc\">";
+				} else {
+					$imgvar = "<img width='32' height='32' class='icontextlink' src=\"$imagesrc\">";
+				}
 			} else {
-				$imgvar = "<img width=32 height=32 class=icontextlink src=\"$imagesrc\">";
-			}
 
+				// MR -- metro color from http://flatuicolors.com/
+			/*
+				$c = array('#1abc9c', '#40d47e', '#3498db', '#9b59b6', '#34495e',
+					'#16a085', '#27ae60', '#2980b9', '#8e44ad', '#2c3e50',
+					'#f1c40f', '#e67e22', '#e74c3c', '#ecf0f1', '#95a5a6',
+					'#f39c12', '#d35400', '#c0392b', '#bdc3c7', '#7f8c8d');
+			*/
+				$c = array('#1abc9c', '#40d47e', '#3498db', '#9b59b6', '#34495e',
+					'#16a085', '#27ae60', '#2980b9', '#8e44ad', '#2c3e50',
+					'#f1c40f', '#e67e22', '#e74c3c', '#95a5a6',
+					'#f39c12', '#d35400', '#c0392b', '#bdc3c7', '#7f8c8d');
+
+				$i = count($c) - 1;
+				$r = rand(0, $i);
+				$b = $c[$r];
+
+				$a = explode("_", $formname);
+
+				if (strpos($a[0], 'client') !== false) {
+					if ($a[2] === 'all') {
+						$imgvar = "<span class='if32' style='color: $b'>&#xf134;</span>";
+					} elseif ($a[2] === 'disable') {
+						$imgvar = "<span class='if32' style='color: $b'>&#xf5d1;</span>";
+					} else {
+						$imgvar = "<span class='if32' style='color: $b'>&#xf161;</span>";
+					}
+				} elseif ($a[0] === 'auxiliary') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf133;</span>";
+
+				} elseif ($a[0] === 'resourceplan') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf4c1;</span>";
+
+				} elseif ($a[0] === 'custombutton') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf43d;</span>";
+
+				} elseif ($a[0] === 'cron') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf0a1;</span>";
+
+				} elseif ($a[0] === 'traceroute') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf0c5;</span>";
+
+				} elseif ($a[0] === 'watchdog') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf67f;</span>";
+
+				} elseif ($a[0] === 'lxguard') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf02e;</span>";
+
+				} elseif ($a[0] === 'driver') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf09a;</span>";
+
+				} elseif (strpos($a[0], 'server') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf027;</span>";
+				} elseif ($a[0] === 'service') {
+					$imgvar = "<span class='if32' style='color: $b'>&#x1F4BB;</span>";
+				} elseif ($a[0] === 'process') {
+					$imgvar = "<span class='if32' style='color: $b'>&#x1F4BB;</span>";
+				} elseif ($a[0] === 'component') {
+					$imgvar = "<span class='if32' style='color: $b'>&#x1F4BB;</span>";
+
+				} elseif ($a[0] === 'general') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf781;</span>";
+
+				} elseif ($a[0] === 'genlist') {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf781;</span>";
+
+				} elseif (strpos($a[0], 'sp') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf159;</span>";
+
+				} elseif (strpos($a[0], 'domain') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf052;</span>";
+
+				} elseif (strpos($a[0], 'web') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf01c;</span>";
+
+				} elseif (strpos($a[0], 'ftp') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf029;</span>";
+
+				} elseif (strpos($a[0], 'php') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf09c;</span>";
+
+				} elseif (strpos($a[0], 'mysql') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf5fc;</span>";
+
+				} elseif (strpos($a[0], 'db') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf00b;</span>";
+
+				} elseif (strpos($a[0], 'ffile') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf095;</span>";
+
+				} elseif (strpos($a[0], 'ipaddr') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf08b;</span>";
+
+				} elseif (strpos($a[0], 'ssl') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf04f;</span>";
+
+				} elseif (strpos($a[0], 'ticket') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf3dc;</span>";
+
+				} elseif (strpos($a[0], 'message') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf676;</span>";
+
+				} elseif (strpos($a[0], 'notification') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf145;</span>";
+
+				} elseif (strpos($a[0], 'dirindexlist') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf41a;</span>";
+
+				} elseif (strpos($a[0], 'dirprotect') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf04d;</span>";
+
+				} elseif (strpos($a[0], 'redirect') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf054;</span>";
+
+				} elseif (strpos($a[0], 'dns') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf409;</span>";
+
+				} elseif (strpos($a[0], 'backup') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf05f;</span>";
+
+				} elseif (strpos($a[0], 'ssh') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf04e;</span>";
+
+				} elseif (strpos($a[0], 'block') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf313;</span>";
+
+				} elseif (strpos($a[0], 'hostdeny') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf313;</span>";
+
+				} elseif (strpos($a[0], 'log') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf0c1;</span>";
+
+				} elseif (strpos($a[0], 'utmp') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf765;</span>";
+
+				} elseif (strpos($a[0], 'mail') !== false) {
+					$imgvar = "<span class='if32' style='color: $b'>&#xf136;</span>";
+				} elseif ($a[0] === 'autoresponder') {
+					$imgvar = "<span class='if32' style='color: $b'>&#x2709;</span>";
+				} elseif ($a[0] === 'forward') {
+					$imgvar = "<span class='if32' style='color: $b'>&#x2709;</span>";
+
+				} elseif ($a[0] === 'general') {
+					$imgvar = "<span class='if32' style='color: $b'>&#x2353;</span>";
+				} else {
+					$imgvar = "<span class='if32' style='color: $b'>&#x1F4D6;</span>";
+				}
+
+				$d = $r + 2;
+
+				if ($d > $i) { $d = $d - $i; }
+
+				$b = $c[$r + 2];
+
+				if ($a[1] === 'show') {
+					$imgvar .= "<span title='$a[1]' class='if16' style='margin-left: 1px; color: $b'>&#xf0d5;</span>";
+				} elseif ($a[1] === 'list') {
+					$imgvar .= "<span title='$a[1]' class='if16' style='margin-left: 1px; color: $b'>&#xf111;</span>";
+				} elseif ($a[1] === 'updateform') {
+					$imgvar .= "<span title='$a[1]' class='if16' style='margin-left: 1px; color: $b'>&#xf47c;</span>";
+				} elseif ($a[1] === 'addform') {
+					$imgvar .= "<span title='$a[1]' class='if16' style='margin-left: 1px; color: $b'>&#xf1b2;</span>";
+				} else {
+					$imgvar .= "<span title='$a[1]' class='if16' style='margin-left: 1px; color: $b'>&#xf04a;</span>";
+				}
+			}
 		} else {
 			$imgvar = null;
 		}
@@ -6286,7 +6455,7 @@ class HtmlLib
 			$form_name = $url;
 		}
 
-			$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
+		$this->print_div_for_divbutton_on_header($url, $target, $key, $imgflag, $linkflag, $form_name, $name, $image, $descr);
 ?>
 
 		</td>
@@ -9248,19 +9417,25 @@ class HtmlLib
 				$bordering = "border: 0";
 			}
 		}
+
+		// MR -- trouble for height if using div-div; so change to div-table
 ?>
 
 	<!-- "START CONTENT" -->
-	<div id="content_wrapper" style="width: 100%; height: auto; overflow:hidden">
-	<div style="text-align:center; width:100%;; height: auto; min-height: 400px; <?= $bordering ?>; background-color: #fff">
-	<br/>
+	<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden">
+		<!-- <div style="text-align:center; width:100%; height: 100%; min-height: 100%; height: auto !important;<?= $bordering ?>; background-color: #fff"> -->
+		<table style="width: 100%; height: 100%; border: 0; margin: 0; padding: 0; <?= $bordering ?>; background-color: #fff"><tr><td style="vertical-align:top;">
+		<br/>
 <?php
 	}
 
 	function print_content_end()
 	{
 ?>
-		</div>
+			</td>
+		</tr>
+	</table>
+		<!-- </div> -->
 <?php
 
 	}

@@ -12,6 +12,7 @@ class SpecialPlay_b extends Lxaclass
 
 	static $__desc_skin_background = array("", "", "background");
 	static $__desc_show_direction = array("", "", "show_direction");
+	static $__desc_button_type = array("", "", "button_type");
 
 	static $__desc_icon_name = array("", "", "icon_name");
 	static $__desc_logo_image = array("", "", "current_logo_url");
@@ -163,6 +164,9 @@ class sp_basespecialplay extends LxspecialClass
 
 				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "vertical 2", "horizontal"));
 				$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
+
+				$vlist['specialplay_b-button_type'] = array('s', array("font", "image"));
+				$this->setDefaultValue('specialplay_b-button_type', 'font');
 
 				if ($this->specialplay_b->skin_name === 'simplicity') {
 					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));

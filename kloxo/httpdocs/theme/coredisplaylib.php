@@ -155,7 +155,7 @@ function print_customer_mode($object)
 
 ?>
 
-	<div style="background: #<?=$skin_color?> url(<?=$col?>); padding: 4px; margin: 0 25px">
+	<div style="background: #<?=$skin_color?> url(<?=$col?>); padding: 4px; margin: 0 25px; text-align: center">
 		<a href="<?=$url?>">&nbsp;>>>> Switch To <?=$mode?> Mode <<<<&nbsp;</a>
 	</div>
 <?php
@@ -234,7 +234,6 @@ function __ac_desc_show($object)
 
 		if (isset($showalist['__v_message'])) {
 ?>
-
 			<table cellpadding="16" width="100%" cellspacing="0" border="0">
 				<tr>
 					<td align="center">
@@ -364,9 +363,9 @@ function __ac_desc_show($object)
 	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
 
-		<table style="border: 0; margin: 0; padding: 0; margin: 0 auto"><tr><td>
+	<div>
 		<div style="background-color: #fff; margin: 10px auto; height: 100%; width: 900px">
-		<div style="float:left; height: 100%">
+			<div style="float:left; height: 100%">
 <?php
 			$ghtml->print_find($object);
 
@@ -428,9 +427,9 @@ function __ac_desc_show($object)
 	
 	<!-- "I am here 3" -->
 	
+			</div>
+		</div>
 	</div>
-	</div>
-	</td></tr></table>
 <?php
 	$ghtml->print_content_end();
 }
@@ -2031,6 +2030,8 @@ function do_display_init()
 	$col = $login->getSkinColor();
 	check_if_disabled_and_exit();
 
+	$buttontype = $skin_name = $login->getSpecialObject('sp_specialplay')->button_type;
+
 	if (!ifSplashScreen()) {
 		ob_start();
 	}
@@ -2057,6 +2058,13 @@ function do_display_init()
 ?>
 
 		<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+<?php
+	if ($buttontype === 'font') {
+?>
+	 <link rel="stylesheet" type="text/css" media="all" href="/theme/fonts/font.css" />
+<?php
+	}
+?>
 	</head>
 <?php
 	$ghtml->print_real_beginning();
