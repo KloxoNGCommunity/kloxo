@@ -2059,7 +2059,7 @@ function do_display_init()
 
 		<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
 <?php
-	if ($buttontype === 'font') {
+	if ($buttontype !== 'image') {
 ?>
 	 <link rel="stylesheet" type="text/css" media="all" href="/theme/fonts/font.css" />
 <?php

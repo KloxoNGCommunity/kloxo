@@ -165,7 +165,7 @@ class sp_basespecialplay extends LxspecialClass
 				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "vertical 2", "horizontal"));
 				$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
 
-				$vlist['specialplay_b-button_type'] = array('s', array("font", "image"));
+				$vlist['specialplay_b-button_type'] = array('s', array("font", "reverse-font", "image"));
 				$this->setDefaultValue('specialplay_b-button_type', 'font');
 
 				if ($this->specialplay_b->skin_name === 'simplicity') {
