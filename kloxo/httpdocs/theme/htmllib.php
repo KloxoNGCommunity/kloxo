@@ -6337,11 +6337,14 @@ class HtmlLib
 
 	function resolve_int_ext(&$url, &$psuedourl, &$target)
 	{
-		if ($this->is_special_url($url)) {
-			if (isset($url->custom) && $url->custom) {
+		if($this->is_special_url($url)) {
+			if(isset($url->custom) && $url->custom) {
 				$complete['url'] = $url->url;
 				$complete['name'] = $url->name;
 				$complete['bname'] = $url->bname;
+				$target = $url->target;
+
+				$url = $url->url;
 
 				return $complete;
 			} else {
@@ -6350,7 +6353,7 @@ class HtmlLib
 				$target = $url->target;
 				$psuedourl = $this->getFullUrl($psuedourl);
 
-				if (isset($url->__internal)) {
+				if(isset($url->__internal)) {
 					$nurl = $this->getFullUrl($nurl);
 				}
 
@@ -6358,6 +6361,7 @@ class HtmlLib
 			}
 		}
 	}
+
 
 	function print_toolbar()
 	{
