@@ -88,7 +88,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
         }
 
-        if (strpos($phptype, '_suphp') !== false) {
+        // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -99,7 +99,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-        } elseif (strpos($phptype, '_ruid2') !== false) {
+        // } elseif (strpos($phptype, '_ruid2') !== false) {
+        if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -215,7 +216,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
     </Ifmodule>
 <?php
-        if (strpos($phptype, '_suphp') !== false) {
+        // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -226,7 +227,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-        } elseif (strpos($phptype, '_ruid2') !== false) {
+        // } elseif (strpos($phptype, '_ruid2') !== false) {
+        if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>

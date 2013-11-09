@@ -142,7 +142,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
             }
 
-            if (strpos($phptype, '_suphp') !== false) {
+            // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -153,7 +153,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-            } elseif (strpos($phptype, '_ruid2') !== false) {
+             // } elseif (strpos($phptype, '_ruid2') !== false) {
+             if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -276,7 +277,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                 }
 
-                if (strpos($phptype, '_suphp') !== false) {
+                // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -287,7 +288,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_ruid2') !== false) {
+                // } elseif (strpos($phptype, '_ruid2') !== false) {
+                if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -438,7 +440,7 @@ foreach ($certnamelist as $ip => $certname) {
             }
         }
 
-        if (strpos($phptype, '_suphp') !== false) {
+        // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -452,7 +454,8 @@ foreach ($certnamelist as $ip => $certname) {
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
 <?php
-        } elseif (strpos($phptype, '_ruid2') !== false) {
+         // } elseif (strpos($phptype, '_ruid2') !== false) {
+         if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -691,7 +694,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                     }
 
-                    if (strpos($phptype, '_suphp') !== false) {
+                    // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -705,7 +708,8 @@ foreach ($certnamelist as $ip => $certname) {
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, '_ruid2') !== false) {
+                     // } elseif (strpos($phptype, '_ruid2') !== false) {
+                     if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -852,7 +856,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                     }
 
-                    if (strpos($phptype, '_suphp') !== false) {
+                    // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -863,7 +867,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, '_ruid2') !== false) {
+                     // } elseif (strpos($phptype, '_ruid2') !== false) {
+                     if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -986,7 +991,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                         }
 
-                        if (strpos($phptype, '_suphp') !== false) {
+                        // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -997,7 +1002,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, '_ruid2') !== false) {
+                         // } elseif (strpos($phptype, '_ruid2') !== false) {
+                         if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -1108,7 +1114,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                     }
 
-                    if (strpos($phptype, '_suphp') !== false) {
+                    // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -1119,7 +1125,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, '_ruid2') !== false) {
+                     // } elseif (strpos($phptype, '_ruid2') !== false) {
+                     if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -1242,7 +1249,7 @@ DirectoryIndex <?php echo $indexorder; ?>
 <?php
                         }
 
-                        if (strpos($phptype, '_suphp') !== false) {
+                        // if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -1253,7 +1260,8 @@ DirectoryIndex <?php echo $indexorder; ?>
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, '_ruid2') !== false) {
+                         // } elseif (strpos($phptype, '_ruid2') !== false) {
+                         if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
