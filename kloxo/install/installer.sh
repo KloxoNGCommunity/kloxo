@@ -41,7 +41,7 @@ echo
 echo "- When it's finished, you will be presented with a welcome message and"
 echo "  further instructions."
 echo
-read -n 1 -p "Press any key to continue ..."
+#read -n 1 -p "Press any key to continue ..."
 echo
 
 APP_NAME='Kloxo-MR'
@@ -159,3 +159,5 @@ done
 #echo
 #echo "Run 'sh /script/restart-all' to make sure all services running well"
 #echo
+
+sh /script/restart-all >/dev/null 2>&1

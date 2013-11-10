@@ -166,6 +166,24 @@ function lxins_main()
 */
 
 	kloxo_install_before_bye();
+
+	if ($kloxostate === 'none') {
+	//	system("sh /script/cleanup");
+	}
+
+	if ($installtype === 'master') {
+		if (file_exists("/var/lib/mysql/kloxo")) {
+			kloxo_install_bye();
+		}
+	} else {
+		kloxo_install_bye();
+	}
+
+	system("chkconfig hiawatha off; hiawatha stop; rm -f /etc/init.d/hiawatha");
+	copy("{$kloxopath}/init/kloxo.init", "/etc/init.d/kloxo");
+	system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
+
+	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
 }
 
 // ==== kloxo_all portion ===
@@ -300,7 +318,7 @@ function kloxo_vpopmail()
 		system("rm -f /etc/xinetd.d/kloxo_smtp_lxa");
 	}
 
-	system("chmod -R 755 /var/log/httpd/");
+	system("chmod -R 755 /var/log/httpd/ >/dev/null 2>&1");
 	system("chmod -R 755 /var/log/httpd/fpcgisock >/dev/null 2>&1");
 	system("mkdir -p /var/log/kloxo/");
 	system("mkdir -p /var/log/news");
@@ -581,6 +599,7 @@ function kloxo_install_before_bye()
 	//--- Set ownership for Kloxo httpdocs dir
 	system("chown -R lxlabs:lxlabs {$kloxopath}/httpdocs");
 
+	// must be start status for guarantee next process running well
 	if (!isMysqlRunning()) {
 		//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
 		print("Setting Mysql for always running after reboot and restart now...\n");
@@ -595,7 +614,7 @@ function kloxo_install_bye()
 	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
-
+	
 		$t  = "\n";
 		$t .= " _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ "."\n";
 		$t .= " _/                                                                          _/ "."\n";
@@ -640,25 +659,6 @@ function kloxo_install_bye()
 		$t .= "\n";
 
 	print($t);
-
-	if ($kloxostate === 'none') {
-	//	system("sh /script/cleanup");
-	}
-
-	if ($installtype === 'master') {
-		if (file_exists("/var/lib/mysql/kloxo")) {
-			kloxo_install_bye();
-		}
-	} else {
-		kloxo_install_bye();
-	}
-
-	system("chkconfig hiawatha off; hiawatha stop; rm -f /etc/init.d/hiawatha");
-	copy("{$kloxopath}/init/kloxo.init", "/etc/init.d/kloxo");
-	system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
-
-//	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
-	system("sh /script/restart-all");
 }
 
 // ==== kloxo_common portion ===
