@@ -84,11 +84,7 @@ class custombutton extends lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 		
-		$list = array("client");
-
-		if ($sgbl->isHyperVm()) {
-			$list = lx_array_merge(array($list, array("vps")));
-		}
+		$list = array("client"); if ($sgbl->isHyperVm()) { $list = lx_array_merge(array($list, array("vps"))); }
 
 		$vlist['nname'] = null;
 		$vlist['description'] = null;

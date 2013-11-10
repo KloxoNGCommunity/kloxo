@@ -3709,7 +3709,7 @@ class HtmlLib
 			$this->print_input_vars($post);
 ?>
 
-					<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $url ?>"> <?= $pname ?> </a>
+				<a class="insidelist" <?= $target ?> <?= $urlhelp ?> href="<?= $url ?>"> <?= $pname ?> </a></span>
 			</td>
 <?php
 
@@ -6259,7 +6259,7 @@ class HtmlLib
 				}
 
 				if ($button_type === 'reverse-font') {
-					$imgvar .= "<span title='{$a[1]}' class='if16' style='color: #ccc'>&#x{$x};</span>";
+					$imgvar .= "<span title='{$a[1]}' class='if16' style='color: #ddd'>&#x{$x};</span>";
 					$txtalign = "display: table-cell; vertical-align: bottom; padding-bottom: 3px;";
 				} else {
 					$imgvar .= "<span title='{$a[1]}' class='if16' style='color: {$b[1]};'>&#x{$x};</span>";
@@ -6306,7 +6306,7 @@ class HtmlLib
 
 		if ($d > $i) { $d = $d - $i; }
 
-		$b = $c[$r + 2];
+		$b = $c[$d];
 
 		$ret[1] = $b;
 

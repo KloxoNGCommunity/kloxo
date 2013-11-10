@@ -156,6 +156,6 @@ for (( a=1; a<=3; a++ )) ; do
 	fi
 done
 
-echo
-echo "Run 'sh /script/restart-all' to make sure all services running well"
-echo
+#echo
+#echo "Run 'sh /script/restart-all' to make sure all services running well"
+#echo

@@ -5,14 +5,21 @@ class SpecialPlay_b extends Lxaclass
 	static $__desc_demo_status = array("ef", "", "demo_status");
 	static $__desc_demo_status_off = array("", "", "demo_status");
 	static $__desc_demo_status_on = array("", "", "password");
+
 	static $__desc_skin_name = array("", "", "skin");
 	static $__desc_skin_name_v_default = array("", "", "skin");
+
 	static $__desc_skin_color = array("", "", "skin_color");
 	static $__desc_skin_color_v_default = array("", "", "skin");
 
 	static $__desc_skin_background = array("", "", "background");
+	static $__desc_skin_background_v_default = array("", "", "background");
+
 	static $__desc_show_direction = array("", "", "show_direction");
+	static $__desc_show_direction_v_default = array("", "", "show_direction");
+
 	static $__desc_button_type = array("", "", "button_type");
+	static $__desc_button_type_v_default = array("", "", "button_type");
 
 	static $__desc_icon_name = array("", "", "icon_name");
 	static $__desc_logo_image = array("", "", "current_logo_url");
@@ -157,16 +164,14 @@ class sp_basespecialplay extends LxspecialClass
 
 				$vlist['specialplay_b-skin_name'] = array('s', lscandir_without_dot(getreal("/theme/skin")));
 
-
 				$vlist['specialplay_b-skin_color'] = array('s', lscandir_without_dot(getreal("/theme/skin/" . $this->specialplay_b->skin_name)));
-			//	$vlist['specialplay_b-icon_name'] = array('s', array('collage'));
 				$vlist['specialplay_b-icon_name'] = array('s', lscandir_without_dot(getreal("/theme/icon/")));
 
 				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "vertical 2", "horizontal"));
-				$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
+			//	$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
 
 				$vlist['specialplay_b-button_type'] = array('s', array("font", "reverse-font", "image"));
-				$this->setDefaultValue('specialplay_b-button_type', 'font');
+			//	$this->setDefaultValue('specialplay_b-button_type', 'font');
 
 				if ($this->specialplay_b->skin_name === 'simplicity') {
 					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));
@@ -178,13 +183,6 @@ class sp_basespecialplay extends LxspecialClass
 					$vlist['specialplay_b-customermode_flag'] = null;
 				}
 
-			/*
-				if (!$this->getParentO()->isLogin()) {
-					$vlist['specialplay_b-logo_image'] = null;
-					$vlist['specialplay_b-logo_image_loading'] = null;
-				}
-
-			*/
 				if (!$login->isCustomer()) {
 					$vlist['__v_updateall_button'] = array();
 				}
@@ -301,8 +299,10 @@ class sp_basespecialplay extends LxspecialClass
 		if ($this->subaction === 'skin' && !$login->isClass('sp_childspecialplay')) {
 			if ($sgbl->dbg < 0 && $this->getParentO()->isLogin()) {
 				$login->was();
+
 				if ($ghtml->frm_consumedlogin !== 'true') {
 					$ghtml->print_redirect_self("/");
+
 					exit;
 				}
 			}
@@ -318,19 +318,16 @@ class sp_basespecialplay extends LxspecialClass
 		$sk = $param['specialplay_b-skin_name'];
 		$skc = $param['specialplay_b-skin_color'];
 		$skb = $param['specialplay_b-skin_background'];
+		$skd = $param['specialplay_b-show_direction'];
+		$skt = $param['specialplay_b-button_type'];
 
 		if (!lxfile_exists("theme/skin/$sk/$skc")) {
 			$param['specialplay_b-skin_color'] = 'default';
 		}
-	/*
-		if (!lxfile_exists("theme/background/$skb")) {
-			$param['specialplay_b-skin_background'] = 'abstract_012.jpg';
-		}
-	*/
+
 		return $param;
 	}
 }
-
 
 class sp_childSpecialPlay extends sp_basespecialplay
 {

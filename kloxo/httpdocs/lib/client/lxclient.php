@@ -304,7 +304,7 @@ abstract class Lxclient extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 		
-		return ($login->getSpecialObject('sp_specialplay')->skin_name === 'default');
+		return ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity');
 	}
 
 	function replace_keywords($text, $object)

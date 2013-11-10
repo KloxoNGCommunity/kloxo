@@ -166,24 +166,6 @@ function lxins_main()
 */
 
 	kloxo_install_before_bye();
-
-	if ($kloxostate === 'none') {
-	//	system("sh /script/cleanup");
-	}
-
-	if ($installtype === 'master') {
-		if (file_exists("/var/lib/mysql/kloxo")) {
-			kloxo_install_bye();
-		}
-	} else {
-		kloxo_install_bye();
-	}
-
-	system("chkconfig hiawatha off; hiawatha stop; rm -f /etc/init.d/hiawatha");
-	copy("{$kloxopath}/init/kloxo.init", "/etc/init.d/kloxo");
-	system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
-
-	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
 }
 
 // ==== kloxo_all portion ===
@@ -658,6 +640,25 @@ function kloxo_install_bye()
 		$t .= "\n";
 
 	print($t);
+
+	if ($kloxostate === 'none') {
+	//	system("sh /script/cleanup");
+	}
+
+	if ($installtype === 'master') {
+		if (file_exists("/var/lib/mysql/kloxo")) {
+			kloxo_install_bye();
+		}
+	} else {
+		kloxo_install_bye();
+	}
+
+	system("chkconfig hiawatha off; hiawatha stop; rm -f /etc/init.d/hiawatha");
+	copy("{$kloxopath}/init/kloxo.init", "/etc/init.d/kloxo");
+	system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
+
+//	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
+	system("sh /script/restart-all");
 }
 
 // ==== kloxo_common portion ===

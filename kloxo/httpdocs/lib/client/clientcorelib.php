@@ -524,7 +524,7 @@ abstract class ClientCore extends Resourcecore {
 				return $vlist;
 
 			case "license":
-			{
+
 				$lic = $login->getObject('license')->licensecom_b;
 
 				if ($login->isAdmin()) {
@@ -542,8 +542,6 @@ abstract class ClientCore extends Resourcecore {
 				$vlist['license_upload_f'] = null;
 
 				return $vlist;
-
-			}
 
 			case "ipaddress":
 				$parent = $this->getParentO();

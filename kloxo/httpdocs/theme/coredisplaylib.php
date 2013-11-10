@@ -2030,7 +2030,7 @@ function do_display_init()
 	$col = $login->getSkinColor();
 	check_if_disabled_and_exit();
 
-	$buttontype = $skin_name = $login->getSpecialObject('sp_specialplay')->button_type;
+	$buttontype = $login->getSpecialObject('sp_specialplay')->button_type;
 
 	if (!ifSplashScreen()) {
 		ob_start();

@@ -2986,8 +2986,8 @@ abstract class Lxclass
 		$v = $gbl->__tmp_checkbox_value;
 		$gbl->__tmp_checkbox_value++;
 
-		$inputstr = "<input type=checkbox id=treecheckbox{$v} {$checked} {$disabled}  name=treecheckbox{$v} " .
-			"value={$this->getClName()} class=verysmall>";
+		$inputstr = "<input type='checkbox' id='treecheckbox{$v}' {$checked} {$disabled}  name='treecheckbox{$v}' " .
+			"value='{$this->getClName()}' class='verysmall'>";
 
 		$img = null;
 		$imgstr = $inputstr . $imgstr;
