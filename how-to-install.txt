@@ -17,7 +17,7 @@ B. Install Kloxo-MR (select B.1 or B.2)
 
 B.1 For Dev (alpha, beta, candidate) Release:
 
-B.1.1. via non-RPM
+B.1.1. via non-RPM (not recommended for dev)
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
@@ -35,7 +35,7 @@ B.1.1. via non-RPM
     # better reboot
     reboot
 
-B.1.2. via RPM
+B.1.2. via RPM (recommended for dev)
 
     # get repo file -- no need for 6.5.0.c and after
     wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
