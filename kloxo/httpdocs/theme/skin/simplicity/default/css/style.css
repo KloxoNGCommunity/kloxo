@@ -294,26 +294,26 @@
 	}
 
 	.box1 {
-		height: 22px;
+		height: 24px;
 		width: 120px;
 		text-align: center;
 	}
 
 	.box2 {
-		height: 22px;
+		height: 24px;
 		width: 120px;
 		text-align: center;
 		color: #000;
 	}
 
 	.boxhom {
-		height: 22px;
+		height: 24px;
 		width: 55px;
 		text-align: center;
 	}
 
 	.boxhom1 {
-		height: 22px;
+		height: 24px;
 		width: 55px;
 		text-align: center;
 		color: #000;
@@ -321,26 +321,26 @@
 	}
 
 	.boxdom {
-		height: 22px;
+		height: 24px;
 		width: 70px;
 		text-align: center;
 	}
 
 	.boxdom1 {
-		height: 22px;
+		height: 24px;
 		width: 70px;
 		text-align: center;
 		color: #000;
 	}
 
 	.boxsdom {
-		height: 22px;
+		height: 24px;
 		width: 85px;
 		text-align: center;
 	}
 
 	.boxsdom1 {
-		height: 22px;
+		height: 24px;
 		width: 85px;
 		text-align: center;
 		color: #000;
@@ -356,11 +356,11 @@
 		display: block;
 		white-space: nowrap;
 		/* margin-bottom: 6px; */
-		height: 22px;
+		height: 24px;
 		float: left;
 		border: 1px solid #ddd;
 		background-color: #efe8e0;
-		padding: 5px 5px 0 5px;
+		padding: 8px 8px 0 8px;
 	}
 
 	.verb:hover {
@@ -371,11 +371,11 @@
 		white-space: nowrap;
 		/* margin-bottom: 6px; */
 		text-align: left;
-		height: 22px;
+		height: 24px;
 		float: left;
 		border: 1px solid #ddd;
 		background-color: #ccc;
-		padding: 5px 5px 0 5px;
+		padding: 8px 8px 0 8px;
 	}
 
 	.verb2:hover {
@@ -385,12 +385,12 @@
 	.verb3 {
 		display: block;
 		white-space: nowrap;
-		height: 22px;
+		height: 24px;
 		float: left;
 		border: 1px solid #ddd;
 		border-bottom: 1px solid #fff;
 		background-color: #fff;
-		padding: 5px 5px 0 5px;
+		padding: 8px 8px 0 8px;
 	}
 
 	.verb_all {
@@ -403,7 +403,7 @@
 
 	.tabnew {
 		white-space: nowrap;
-		height: 22px;
+		height: 24px;
 		width: 75px;
 		text-align: center;
 		vertical-align: bottom;
@@ -415,26 +415,26 @@
 
 	.tabcompleteleft {
 		display: block;
-		height: 22px;
+		height: 24px;
 		border-bottom: 1px solid #ddd;
 		float: left;
 		/* verb padding + 1 */
-		padding: 5px 5px 0 5px;
+		padding: 9px 4px 0 4px;
 		width: 5px;
 	}
 
 	.tabcompleteright {
 		display: block;
-		height: 22px;
+		height: 24px;
 		border-bottom: 1px solid #ddd;
 		/* verb padding + 1 */
-		padding: 5px 5px 0 5px;
+		padding: 9px 4px 0 4px;
 		overflow: hidden;
 	}
 
 	.tabnew1 {
 		white-space: nowrap;
-		height: 22px;
+		height: 24px;
 		width: 85px;
 		/* background-color: #edf; */
 		background-color: #dec;
@@ -447,7 +447,7 @@
 	}
 
 	.new2 {
-		height: 22px;
+		height: 24px;
 		width: 60px;
 		text-align: center;
 		background-position: 0px 5px;
@@ -555,7 +555,7 @@
 	}
 
 	.td9 {
-		height: 22px;
+		height: 24px;
 		font-weight: bold;
 	}
 

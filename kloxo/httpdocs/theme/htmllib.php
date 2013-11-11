@@ -1723,7 +1723,7 @@ class HtmlLib
 			}
 ?>
 						<div id="item_<?= $nametitle ?>" class="section">
-							<table cellpadding='0' cellspacing='0'>
+							<table cellpadding='2' cellspacing='0'>
 <?php
 			if ($show_direction !== 'horizontal') {
 ?>
@@ -1744,18 +1744,18 @@ class HtmlLib
 											style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>
 											&nbsp;</span></td>
 <?php
-		if (($show_direction !== 'horizontal') || ($retcount === 1)) {
+	//	if (($show_direction !== 'horizontal') || ($retcount === 1)) {
 ?>
 										<td class='handle' style='cursor: pointer'
 										    onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
-											<img id="img_<?= $nametitle ?>" name="img_<?= $nametitle ?>"
-											     src="<?= $minus ?>"></td>
+											<!-- <img id="img_<?= $nametitle ?>" name="img_<?= $nametitle ?>"
+											     src="<?= $minus ?>"> -->&nbsp;&#x00b1;&nbsp;</td>
 <?php
-			} else {
+	//		} else {
 ?>
-										<td class='handle'>&nbsp;</td>
+										<!-- <td class='handle'>&nbsp;</td> -->
 <?php
-			}
+	//		}
 ?>
 								</tr>
 							</table>
@@ -3590,35 +3590,33 @@ class HtmlLib
 				if ($skin_name === 'feather') {
 					$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
 				} else {
+					// MR -- change char number < 00ff
 					$spancolor = '#ddd';
-					$spanchar = '&#x2739;';
+				//	$spanchar = '&#x2739;';
+					$spanchar = '&#x00bb;';
 
 					if ($pname === 'on') {
 						$spancolor = '#2d2';
-						$spanchar = '&#x2739;';
 					}
 					if ($pname === 'off') {
 						$spancolor = '#d22';
-						$spanchar = '&#x2739;';
 					}
 					if ($pname === 'dull') {
 						$spancolor = '#aaa';
-						$spanchar = '&#x2739;';
 					}
 
 					if ($pname === 'ok') {
 						$spancolor = '#2d2';
-						$spanchar = '&#x2739;';
 					}
 					if ($pname === 'exceed') {
 						$spancolor = '#d82';
-						$spanchar = '&#x2739;';
 					}
 
-					//	if (strpos($pname, 'customer') !== false) { $spancolor = '#22d'; $spanchar = '&#x263A'; }
+				//	if (strpos($pname, 'customer') !== false) { $spancolor = '#22d'; $spanchar = '&#x263A'; }
 					if ($pname === 'customer') {
 						$spancolor = '#22d';
-						$spanchar = '&#x263A';
+					//	$spanchar = '&#x263A';
+						$spanchar = '&#x00a4';
 					}
 
 					$pname = "<span title='$alt'><span style='font-size: 1.5em; color:{$spancolor}'>{$spanchar}</span></span>";
@@ -3665,26 +3663,23 @@ class HtmlLib
 							if ($skin_name === 'feather') {
 								$pname = " <span title='$alt'><img src='$_t_image' height=15 width=15></span>";
 							} else {
-								$txt = '<span style="font-size:1.5em">&#x25C9;</span>';
+							//	$txt = '<span style="font-size:1.5em">&#x25C9;</span>';
+								$txt = '<span style="font-size:1.5em; color:#222">&#x006f;</span>';
+
 
 								if (strpos($_t_image, '/start.gif')) {
-									$txt = '<span style="font-size:1.5em">&#x21E7;</span>';
+								//	$txt = '<span style="font-size:1.5em">&#x21E7;</span>';
+									$txt = '<span style="font-size:1.5em; color:#2d2">&#x006f;</span>';
 								}
 								if (strpos($_t_image, '/stop.gif')) {
-									$txt = '<span style="font-size:1.5em">&#x21E9;</span>';
+									$txt = '<span style="font-size:1.5em; color:#d22">&#x006f;</span>';
 								}
 								if (strpos($_t_image, '/restart.gif')) {
-									$txt = '<span style="font-size:1.5em">&#x21F3;</span>';
+									$txt = '<span style="font-size:1.5em; color:#22d">&#x006f;</span>';
 								}
 
 
-								//	if (strpos($_t_image, '/start.gif')) { $txt = '<span style="font-size:1.5em">&#x25C9;</span>'; }
-								//	if (strpos($_t_image, '/stop.gif')) { $txt = '<span style="font-size:1.5em">&#x25CE;</span>'; }
-								//	if (strpos($_t_image, '/restart.gif')) { $txt = '<span style="font-size:1.5em">&#x262A;</span>'; }
-
 								$pname = "<span title='$alt'>{$txt}</span>";
-
-								//	$pname = "<span title='$alt' style='font-size:1.5em; color:#68a'>&#x25C9;</span>";
 							}
 						}
 
@@ -3739,6 +3734,7 @@ class HtmlLib
 				}
 
 				$pname = str_replace("Unlimited", "&#x221E;", $pname);
+			//	$pname = str_replace("Unlimited", "&#x007e;", $pname);
 ?>
 
 				<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist"> <?= $pname ?> </td>
@@ -4014,12 +4010,8 @@ class HtmlLib
 ?>
 
 		<div style="width: 910px; margin: 0 auto 0 auto;">
-			<fieldset
-				style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
-				<legend><span style='font-weight:bold'>Advanced Search <a
-							href="javascript:toggleVisibility('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>
-					</span>
-				</legend>
+			<fieldset style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
+				<legend><span style='font-weight:bold'>Advanced Search <a href="javascript:toggleVisibility('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>	</span></legend>
 			</fieldset>
 		</div>
 
@@ -4357,11 +4349,8 @@ class HtmlLib
 			<!-- "I am here 4" -->
 			<br/>
 			<div style="width: 910px; margin: 0 auto 0 auto;">
-				<fieldset
-					style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
-					<legend>
-				<span
-					style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
+				<fieldset style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>"><legend>
+				<span style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
 					<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?>
 					(<?= $perpageof ?><?= $total_num ?>)</span></legend>
 				</fieldset>
@@ -6092,8 +6081,13 @@ class HtmlLib
 
 		$help = $descr['help'];
 
-		$selectcolor = '#abc';
-		$blackbordercolor = 'white';
+		if ($button_type === 'reverse-font') {
+			$selectcolor = '#abc';
+		} else {
+			$selectcolor = '#def';
+		}
+
+		$blackbordercolor = '#fff';
 		$bgcolorstring = null;
 		
 		if ($button_type === 'reverse-font') {
@@ -7140,8 +7134,10 @@ class HtmlLib
 		}
 ?>
 
-		<div style="width: 600px; margin: 0 auto 0 auto;">
-			<div>
+		<!-- <div style="width: 600px; margin: 0 auto 0 auto;"> -->
+		<!-- <div style="padding: 10px"> -->
+			<!-- <div style="width: 600px; margin: 0 auto 0 auto;">-->
+			<div style="margin: 0 auto">
 				<form name="<?= $block->form ?>" id="<?= $block->form ?>"
 				      action="<?= $block->url ?>" <?= $block->formtype ?>
 				      method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8">
@@ -7151,10 +7147,11 @@ class HtmlLib
 		$full = array_flatten($full);
 		//	dprintr($full);
 
-		$totalwidth = '600';
+		$totalwidth = '600px';
 
 		foreach ($full as $variable) {
-			if ($variable->type === 'textarea' && $variable->width === '90%') {
+		//	if ($variable->type === 'textarea' && $variable->width === '90%') {
+			if ($variable->type === 'textarea') {
 				$totalwidth = '100%';
 
 				break;
@@ -7164,13 +7161,9 @@ class HtmlLib
 		if ($block->title) {
 ?>
 
-						<div style="width: 100%; margin: 0">
-							<fieldset
-								style="background-color:<?= $backgroundcolor ?>; border: 0; padding: 10px 0 10px 0; border-top: 1px solid #<?= $bordertop ?>">
-								<legend style='font-weight:normal; border: 0'><span
-										style='color: #303030; font-weight:bold'><?= $block->title ?></span>
-								</legend>
-							</fieldset>
+						<div style="width: 400px; margin: 0 auto 10px auto; text-align:center; background-color:<?= $backgroundcolor ?>; border: 0; padding: 5px 0; border-top: 1px solid <?= $bordertop ?>;  border-bottom: 1px solid <?= $bordertop ?>">
+								<span style='color: #303030; font-weight:bold'><?= $block->title ?></span>
+							
 						</div>
 <?php
 		}
@@ -7188,8 +7181,8 @@ class HtmlLib
 		}
 ?>
 
-					<div align=left style="background-color:<?= $backgroundcolor ?>; width:100%">
-						<div align=left style="width:<?= $totalwidth ?>px; border: 1px solid #<?= $skincolor ?>;">
+					<div align="center" style="background-color:<?= $backgroundcolor ?>; width:100%">
+						<div align=left style="width:<?= $totalwidth ?>; border: 1px solid #<?= $skincolor ?>;">
 <?php
 		$total = count($full);
 		$count = 0;
@@ -7269,7 +7262,7 @@ class HtmlLib
 				</form>
 			</div>
 			<div>&nbsp;</div>
-		</div>
+		<!-- </div> -->
 
 <?php
 	}

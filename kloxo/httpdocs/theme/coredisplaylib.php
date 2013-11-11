@@ -1724,7 +1724,7 @@ function print_navigation($navig)
 <?php
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
-			<div style="float: left;margin-top: -4px">&nbsp;<span style="font-size: 32px; color: #22e">&#x2756;</span>&nbsp;</div>
+			<div style="float: left;margin-top: -0px">&nbsp;<span style="font-size: 24px; color: #22e"><!-- &#x2756; -->&#x00a7;</span>&nbsp;</div>
 <?php
 		} else {
 ?>
@@ -1757,7 +1757,7 @@ function print_navigation($navig)
 
 ?>
 
-			<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;&#x2794;</div>
+			<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;<!-- &#x2794;-->&#x0097;</div>
 <?php
 		}
 

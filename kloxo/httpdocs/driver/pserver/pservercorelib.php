@@ -32,9 +32,9 @@ class psrole_a extends LxaClass
 		$alist[] = 'a=show';
 		$alist[] = "a=updateform&sa=information";
 
-		if (!$parent->isLocalhost()) {
+	//	if (!$parent->isLocalhost()) {
 			$alist[] = "a=updateform&sa=password";
-		}
+	//	}
 
 		if ($sgbl->isHyperVm()) {
 			$alist[] = "a=graph&sa=vpsbase";
