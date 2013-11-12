@@ -1734,15 +1734,12 @@ class HtmlLib
 <?php
 			} else {
 ?>
-								<tr class='handle' id="handle_<?= $nametitle ?>"
-								    style="background:#efe8e0 url(<?= $backgimage ?>)">
+								<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)">
 
 <?php
 			}
 ?>
-									<td width='100%' style="cursor: move;" align='center'><span
-											style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>
-											&nbsp;</span></td>
+									<td width='100%' style="cursor: move;" align='center'><span style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>&nbsp;</span></td>
 <?php
 	//	if (($show_direction !== 'horizontal') || ($retcount === 1)) {
 ?>

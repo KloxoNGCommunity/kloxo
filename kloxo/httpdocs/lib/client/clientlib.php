@@ -650,7 +650,10 @@ class Client extends ClientBase
 			return;
 		}
 
-		$alist['__title_mailaccount'] = "Mailaccount $m->nname";
+	//	$alist['__title_mailaccount'] = "Mailaccount &#x00bb; $m->nname";
+		// MR -- no include mail account because only postmaster for first domain!
+		$alist['__title_mailaccount'] = "Mailaccount";
+
 		$malist = $m->createShowAlist($rslist);
 		
 		foreach ($malist as $k => $a) {

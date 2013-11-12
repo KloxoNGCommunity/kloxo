@@ -387,7 +387,7 @@ class Mailaccount extends Lxclient
 
 	//	$alist[] = "a=show&o=notification";
 
-		$alist['__title_mailaccount'] = "Mailaccount $this->nname";
+		$alist['__title_mailaccount'] = "Mailaccount &#x00bb; $this->nname";
 
 	//	$this->getCPToggleUrl($alist);
 

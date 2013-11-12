@@ -1017,7 +1017,7 @@ class Web extends Lxdb
 
 	//	$alist[] = "a=updateForm&sa=ipaddress";
 
-		$alist['__title_script'] = 'script';
+	//	$alist['__title_script'] = 'script';
 		$alist[] = create_simpleObject(array('url' => "http://nname/__kloxo/phpinfo.php", 
 				'purl' => 'a=updateform&sa=phpinfo', 'target' => "target='_blank'"));
 

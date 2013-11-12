@@ -342,9 +342,6 @@ class Domaind extends DomainBase
 		$alist[] = "a=list&c=domain";
 		$alist[] = "a=list&c=subdomain";
 
-		// MR -- just try add this!
-	//	$alist[] = "a=updateform&sa=default_domain";
-
 		$alist[] = "a=list&c=mailaccount";
 
 		$alist[] = "o=sp_specialplay&a=updateform&sa=skin";
