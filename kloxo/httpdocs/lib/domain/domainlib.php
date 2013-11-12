@@ -1294,9 +1294,8 @@ class Domaind extends DomainBase
 		//	$alist['__title_admin'] = $login->getKeywordUc('administrative_actions');
 		}
 	*/
+		// MR -- disable because want combine 'domain' and 'domain adm'
 	//	$alist['__title_domain_administer'] = $login->getKeywordUc('Domain Adm');
-
-		$alist['__title_domain_administer'] = $login->getKeywordUc('Administer');
 
 	//	$this->getLxclientActions($alist);
 
@@ -1386,7 +1385,8 @@ class Domaind extends DomainBase
 
 	//	$alist[] = "a=updateForm&sa=ipaddress";
 
-		$alist['__title_script'] = $login->getKeywordUc('script');
+		// MR -- disable because want combine 'domain' and 'domain adm'
+	//	$alist['__title_script'] = $login->getKeywordUc('script');
 
 
 	//	$alist[] = create_simpleObject(array('url' => "http://$this->nname/__kloxo/phpinfo.php?session=$servar", 'purl' => 'n=web&a=updateform&sa=phpinfo', 'target' => "target='_blank'")); 
@@ -1397,11 +1397,11 @@ class Domaind extends DomainBase
 		$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=updateform&sa=edit";
 
 		if ($login->isAdmin()) {
-			if ($web->__driverappclass === 'lighttpd') {
-				if (is_centosfive()) {
+		//	if ($web->__driverappclass === 'lighttpd') {
+			//	if (is_centosfive()) {
 					$alist[] = "n=web&a=list&c=rubyrails";
-				}
-			}
+			//	}
+		//	}
 		}
 
 		$alist['__v_dialog_phpiniadv'] = "n=web&o=phpini&a=updateform&sa=extraedit";
@@ -1444,10 +1444,10 @@ class Domaind extends DomainBase
 
 		$alist[] = "n=web&a=list&c=server_alias_a";
 		
-		if ($web->__driverappclass !== 'lighttpd') {
+	//	if ($web->__driverappclass !== 'lighttpd') {
 			$alist[] = "n=web&a=list&c=webhandler";
 			$alist[] = "n=web&a=list&c=webmimetype";
-		}
+	//	}
 		
 		$alist[] = "n=web&a=list&c=redirect_a";
 		$alist['__v_dialog_error'] = "n=web&a=updateform&sa=custom_error";

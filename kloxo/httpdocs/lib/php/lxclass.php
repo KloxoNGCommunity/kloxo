@@ -255,7 +255,7 @@ abstract class Lxclass
 
 		//<img src={$img} width=14 height=14> 
 		// Don't need this. Ruins the appearance <b> [</b>{$obj->getShowInfo()}<b>] </b>
-		return "{$desc}  <span title=\"{$desc} is Configured {$descr} on {$obj->__driverappclass}\">  {$str} {$switch}: {$obj->__driverappclass}  </span>";
+		return "{$desc}  <span title=\"{$desc} is Configured {$descr} on {$obj->__driverappclass}\"> {$str} {$switch} &#x00bb; <span style='font-weight: normal'>{$obj->__driverappclass}<span> </span>";
 
 	}
 

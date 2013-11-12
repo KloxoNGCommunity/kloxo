@@ -248,6 +248,9 @@ class pserver extends pservercore {
 		$alist[] = "a=show&o=sshclient";
 		$alist[] = "a=show&o=llog";
 		$alist[] = "a=show&l[class]=ffile&l[nname]=";
+		$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
+		$alist[] = "a=updateForm&sa=reboot";
+		$alist[] = "a=updateForm&sa=poweroff";
 
 		$alist['__title_webmailanddb'] = $login->getKeywordUc('webmailanddb');
 		$alist[] = "o=servermail&a=updateform&sa=update";
@@ -261,12 +264,14 @@ class pserver extends pservercore {
 		$alist[] = "a=updateform&sa=mysqlpasswordreset";
 		$alist[] = "a=list&c=dbadmin";
 
-
-		$alist['__title_nnn'] = 'Machine';
+	/*
+		
+	//	$alist['__title_nnn'] = 'Machine';
+		// MR -- move to under pserver
 		$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
 		$alist[] = "a=updateForm&sa=reboot";
 		$alist[] = "a=updateForm&sa=poweroff";
-
+	*/
 		return $alist;
 	}
 }

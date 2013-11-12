@@ -472,7 +472,7 @@ class Mmail extends Lxdb
 
 		$alist['__title_classmmail'] = $this->getTitleWithSync();
 
-		/*
+	/*
 		  if ($this->remotelocalflag === 'remote') {
 			  $alist[] =  "a=updateform&sa=remotelocalmail";
 			  $url = $this->webmail_url;
@@ -480,18 +480,17 @@ class Mmail extends Lxdb
 			  $alist[] = create_simpleObject(array( 'url' => $url, 'purl' => "a=updateform&sa=webmail&c=mailaccount", "target"=> 'target=_blank'));
 			  return $alist;
 		  } else {
-		  }
-	 */
-		//	$alist[] =  "a=show&o=spam";
+	*/
+	//	$alist[] =  "a=show&o=spam";
 
-		/*
-		  $alist['action'][] = "a=update&sa=backup";
-		  $alist['action'][] = "a=updateform&sa=restore";
-	 */
+	/*
+		$alist['action'][] = "a=update&sa=backup";
+		$alist['action'][] = "a=updateform&sa=restore";
+	*/
 		$alist[] = "a=list&c=mailforward";
 		$alist['__v_dialog_ct'] = "a=updateform&sa=catchall";
 		$alist['__v_dialog_remote'] = "a=updateform&sa=remotelocalmail";
-		//	$alist[] =  "a=show&l[class]=ffile&l[nname]=/";
+	//	$alist[] =  "a=show&l[class]=ffile&l[nname]=/";
 		$alist[] = "a=list&c=mailinglist";
 		$alist['__v_dialog_spam'] = "o=spam&a=updateform&sa=update";
 
@@ -500,8 +499,8 @@ class Mmail extends Lxdb
 		}
 
 		$alist['__v_dialog_auth'] = "a=updateform&sa=authentication";
-		//	$alist[] = "a=graph&sa=mailtraffic";
-		//	$alist[] = create_simpleObject(array( 'url' => "http://webmail.$this->nname", 'purl' => "a=updateform&sa=webmail&c=mailaccount", "target"=> 'target=_blank'));
+	//	$alist[] = "a=graph&sa=mailtraffic";
+	//	$alist[] = create_simpleObject(array( 'url' => "http://webmail.$this->nname", 'purl' => "a=updateform&sa=webmail&c=mailaccount", "target"=> 'target=_blank'));
 		$alist['__v_dialog_webm'] = "a=updateform&sa=webmail_select";
 		$alist[] = "a=list&c=mailaccount";
 		$alist[] = "a=addform&c=mailaccount";
