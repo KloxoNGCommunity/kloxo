@@ -756,9 +756,9 @@ class pservercore extends Lxclient
 		$alist['__title_nnn'] = 'Machine';
 		$alist[] = "a=show&o=driver";
 	//	$alist[] = "a=update&sa=loaddriverinfo";
-		$alist[] = "a=updateForm&sa=reboot";
+		$alist[] = "a=updateform&sa=reboot";
 
-		$alist[] = "a=updateForm&sa=poweroff";
+		$alist[] = "a=updateform&sa=poweroff";
 
 		return $alist;
 	}
@@ -872,7 +872,7 @@ class pservercore extends Lxclient
 		$ob = new Driver($this->__masterserver, null, $this->nname);
 		$ob->get();
 
-	//	$os = $this->ostype;
+		$os = $this->ostype;
 	//	include "../file/driver/$os.inc";
 		include "../file/driver/rhel.inc";
 
@@ -1107,6 +1107,7 @@ STRIN;
 				$ip->write();
 				$ip->dbaction = 'clean';
 			}
+
 			//$this->was();
 		}
 
@@ -1176,7 +1177,7 @@ STRIN;
 				$vlist['centralbackupserver'] = array('s', add_disabled($list));
 				$vlist['internalnetworkip'] = null;
 				$vlist['tmpdir'] = null;
-				//$vlist['__v_updateall_button'] = array();
+			//	$vlist['__v_updateall_button'] = array();
 
 				return $vlist;
 
@@ -1334,14 +1335,14 @@ STRIN;
 
 			case "poweroff" :
 				// --- issue 612 - Hide password in reboot / shutdown server
-				//	$vlist['retype_admin_p_f'] = null;
+			//	$vlist['retype_admin_p_f'] = null;
 				$vlist['__v_button'] = 'Poweroff';
 
 				return $vlist;
 
 			case "reboot":
 				// --- issue 612 - Hide password in reboot / shutdown server
-				//	$vlist['retype_admin_p_f'] = null;
+			//	$vlist['retype_admin_p_f'] = null;
 				$vlist['__v_button'] = 'Reboot';
 				return $vlist;
 

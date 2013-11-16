@@ -23,6 +23,8 @@ function __ac_desc_desktop($object)
 
 ?>
 
+<!-- "ac-desc-desktop" -->
+
 	<table cellpadding="0" width="90%" cellspacing="1" style='border:1px solid #<?=$col?>; background:#fffafa;'>
 		<tr></tr>
 		<tr height="50">
@@ -126,6 +128,8 @@ function __ac_desc_updateshow($object)
 
 ?>
 
+<!-- "ac-desc-updateshow" -->
+
 	<table cellpadding="0" cellspacing="0" width="90%">
 		<tr>
 			<td> <?=$out?> </td>
@@ -150,13 +154,13 @@ function print_customer_mode($object)
 	if ($object->isDomainOwnerMode()) {
 		$mode = ucfirst($object->cttype);
 	} else {
-		$mode = "Domain Owner";
+		$mode = $login->getKeywordUc('domainowner');
 	}
 
 ?>
 
 	<div style="background: #<?=$skin_color?> url(<?=$col?>); padding: 4px; margin: 0 25px; text-align: center">
-		<a href="<?=$url?>">&nbsp;>>>> Switch To <?=$mode?> Mode <<<<&nbsp;</a>
+		<a href="<?=$url?>">&nbsp;>>>> <?= $login->getKeywordUc('switchto') ?> <?=$mode?> <?= $login->getKeywordUc('mode') ?> <<<<&nbsp;</a>
 	</div>
 <?php
 }
@@ -234,6 +238,9 @@ function __ac_desc_show($object)
 
 		if (isset($showalist['__v_message'])) {
 ?>
+
+<!-- "ac-desc-show" -->
+
 			<table cellpadding="16" width="100%" cellspacing="0" border="0">
 				<tr>
 					<td align="center">
@@ -623,6 +630,8 @@ function __ac_desc_delete($object)
 		$gbl->setSessionV("lx_delete_return_url", $gbl->getHttpReferer());
 ?>
 
+<!-- "ac-desc-delete" -->
+
 		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
 <?php
 			if (exec_class_method($cname, 'isTreeForDelete')) {
@@ -735,6 +744,11 @@ function __ac_desc_list($object, $cname = null)
 		$ghtml->print_tab_block($alist);
 	}
 
+?>
+
+<!-- "ac-desc-list" -->
+<?php
+
 	$ghtml->print_content_begin();
 
 	if ($selflist) $ghtml->printShowSelectBox($selflist);
@@ -807,6 +821,8 @@ function __ac_desc_selectShow($object)
 
 ?>
 
+<!-- "ac-desc-selectShow" -->
+
 	<br />
 	<br />
 <?php
@@ -837,6 +853,11 @@ function __ac_desc_Update($object)
 
 	$subaction = $ghtml->frm_subaction;
 	$class = $ghtml->frm_o_cname;
+
+?>
+
+<!-- "ac-desc-Update" -->
+<?php
 
 	$list = null;
 
@@ -956,6 +977,10 @@ function __ac_desc_UpdateForm($object)
 		return;
 	}
 
+?>
+
+<!-- "ac-desc-UpdateForm" -->
+<?php
 	$selflist = $object->getSelfList();
 	$subaction = $ghtml->frm_subaction;
 
@@ -1119,6 +1144,11 @@ function __ac_desc_add($object, $param = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+?>
+
+<!-- "ac-desc-add" -->
+<?php
+
 	$class = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
@@ -1162,6 +1192,11 @@ function __ac_desc_continue($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+?>
+
+<!-- "ac-desc-continue" -->
+<?php
+
 	$cname = $ghtml->frm_o_cname;
 
 	$numvar = $cname . "_num";
@@ -1188,9 +1223,6 @@ function __ac_desc_continue($object)
 	if ($alist) {
 		$ghtml->print_tab_block($alist);
 	}
-
-?>
-<?php
 
 	$ghtml->print_content_begin();
 
@@ -1237,6 +1269,10 @@ function __ac_desc_continue($object)
 function __ac_desc_addform($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+?>
+
+<!-- "ac-desc-addform" -->
+<?php
 
 	$cname = $ghtml->frm_o_cname;
 	$dttype = $ghtml->frm_dttype;
@@ -1892,6 +1928,7 @@ function __ac_desc_resource($object)
 	$treename = fix_nname_to_be_variable($object->nname);
 ?>
 
+<!-- "ac-desc-resource" -->
 	<table valign=top>
 		<tr align=left>
 			<td width=10><input class=submitbutton onClick='<?=$treename?>.closeAll();' type=button value="Close">
@@ -2427,7 +2464,7 @@ function print_favorites()
 	global $gbl, $sgbl, $login, $ghtml;
 
 	$back = $login->getSkinDir();
-	$list = get_favorite("ndskshortcut");
+	$list = $ghtml->get_favorite("ndskshortcut");
 
 	$vvar_list = array('ttype', '_t_image', 'url', 'target', '__t_identity', 'ac_descr', 'str', 'tag');
 
@@ -2511,7 +2548,7 @@ function print_quick_action($class)
 	}
 
 	$res .= "</select> </td> </tr> ";
-	$res .= "</form> <tr > <td align=right> <a href=javascript:quickaction.submit() > Go </a> </td> </tr> ";
+	$res .= "</form> <tr> <td align='right'> <a href='javascript:quickaction.submit()'> Go </a> </td> </tr> ";
 
 	return $res;
 }

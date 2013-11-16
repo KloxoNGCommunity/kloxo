@@ -235,3 +235,8 @@ $__information['php_config'] = "Installing xcache/ioncube/zend/suhosin rpm via y
 	"[b]Example[/b]: when using php53u branch, installing with 'yum install php53u-xcache'. Try 'php -m' for to make sure";
 
 $__information['reverse_dns'] = "Reverse dns only work for Class C (256 ips) or more";
+
+$__information['domain_msg'] = "No information...";
+$__information['subdomain_msg'] = "No information...";
+$__information['mailaccount_msg'] = "No information...";
+$__information['appearance_msg'] = "No information...";

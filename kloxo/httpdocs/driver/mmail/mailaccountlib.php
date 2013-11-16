@@ -561,6 +561,8 @@ class Mailaccount extends Lxclient
 		$qvlist = getQuotaListForClass('mailaccount', array());
 		$vlist = lx_array_merge(array($vlist, $qvlist));
 
+		$vlist['__m_message_pre'] = 'mailaccount_msg';
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = "add";
 

@@ -1427,18 +1427,17 @@ class Domaind extends DomainBase
 
 	//	$this->getChildShowActions($alist);
 
-		$this->getShowActions($alist, 'mmail');
-
 		$alist['__title_domain_extra'] = $login->getKeywordUc('extra');
 
 		$tmpurl = "n=web&a=show&l[class]=ffile&l[nname]=/";
 		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=image_manager", 
 				'target' => "", '__internal' => true));
-		
+	/*
+		// MR -- no need/conflict for template-based config	
 		if ($login->isAdmin()) {
 			$alist[] = "n=web&a=updateform&sa=extra_tag";
 		}
-
+	*/
 		$alist[] = "n=web&a=list&c=server_alias_a";
 		
 	//	if ($web->__driverappclass !== 'lighttpd') {
@@ -1484,6 +1483,9 @@ class Domaind extends DomainBase
 		$this->getListActions($alist, 'ticket');
 		$alist[] = "a=list&c=smessage";
 	*/
+
+		$this->getShowActions($alist, 'mmail');
+
 		return $alist;
 	}
 

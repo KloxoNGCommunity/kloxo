@@ -5,6 +5,8 @@ function print_tab_block_start($alist)
 	global $gbl, $sgbl, $login, $ghtml;
 	$img_path = $login->getSkinDir();
 
+	if (!$alist) { return; }
+
 	foreach ($alist as $k => $a) {
 		$nalist[] = $ghtml->getFullUrl($a);
 	}
@@ -80,7 +82,8 @@ function print_tab_button($key, $url, $list)
 	$check = $ghtml->compare_urls("display.php?{$ghtml->get_get_from_current_post(null)}", $url);
 
 	$help = $descr['help'];
-	$descstring = "<span title='$help'>{$descr[2]}</span>";
+	$str = $descr[2];
+	$descstring = "<span title='{$help}'>{$str}</span>";
 
 	if ($sgbl->isBlackBackground()) {
 		if ($check) {

@@ -51,6 +51,7 @@ class Client extends ClientBase
 	static $__desc_all_mailinglist_l = array("", "", "");
 	static $__desc_all_client_l = array("", "", "");
 	static $__desc_addondomain_l = array("", "", "");
+	static $__desc_reversedns_l = array("", "", "");
 
 	function isSync()
 	{
@@ -372,6 +373,7 @@ class Client extends ClientBase
 			}
 		}
 
+
 		if ($this->isAdmin()) {
 			$alist[] = "a=list&c=custombutton";
 		}
@@ -392,7 +394,7 @@ class Client extends ClientBase
 		// MR -- don't care vps or dedi, reversedns always appear
 		// just need 'message box' warning
 		//	if ($this->isAdmin() && !lxfile_exists("/proc/user_beancounters") && !lxfile_exists("/proc/xen")) {
-			$alist[] = "a=list&c=reversedns";
+				$alist[] = "a=list&c=reversedns";
 		//	}
 
 		if (!$this->isAdmin()) {
@@ -405,6 +407,10 @@ class Client extends ClientBase
 					$alist[] = "a=updateForm&sa=pserver_s";
 				}
 			}
+		}
+
+		if ($this->isAdmin()) {
+			$alist[] = 'o=lxupdate&a=show';
 		}
 
 		if (!$this->isLogin()) {
@@ -480,6 +486,8 @@ class Client extends ClientBase
 			}
 		}
 
+		$this->getCustomButton($alist);
+
 		if ($this->isNotCustomer()) {
 			$alist['__title_domain_rec'] = $login->getKeywordUc('domain');
 			$alist[] = "a=list&c=ftpuser";
@@ -511,8 +519,6 @@ class Client extends ClientBase
 				$this->getDomainAlist($alist);
 			}
 		}
-
-		$this->getCustomButton($alist);
 
 		$alist['__title_advanced'] = $login->getKeywordUc('advanced');
 		if ($this->isAdmin()) {
@@ -554,7 +560,6 @@ class Client extends ClientBase
 			}
 		}
 
-		$alist['__v_dialog_misc'] = "a=updateform&sa=miscinfo";
 		if ($this->isAdmin()) {
 			$alist[] = "o=general&a=updateform&sa=portconfig";
 		}
@@ -644,6 +649,9 @@ class Client extends ClientBase
 
 		$this->getAlistFromChild($rd, $alist);
 
+		$alist[] = "a=list&c=mailaccount";
+
+	/*
 		try {
 			$m = $this->getFromList('mailaccount', "postmaster@{$rd->nname}");
 		} catch (exception $e) {
@@ -670,6 +678,8 @@ class Client extends ClientBase
 				}
 			}
 		}
+	*/
+
 	}
 
 	function isCoreBackup() 

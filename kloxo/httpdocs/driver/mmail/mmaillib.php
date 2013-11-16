@@ -502,8 +502,9 @@ class Mmail extends Lxdb
 	//	$alist[] = "a=graph&sa=mailtraffic";
 	//	$alist[] = create_simpleObject(array( 'url' => "http://webmail.$this->nname", 'purl' => "a=updateform&sa=webmail&c=mailaccount", "target"=> 'target=_blank'));
 		$alist['__v_dialog_webm'] = "a=updateform&sa=webmail_select";
+
 		$alist[] = "a=list&c=mailaccount";
-		$alist[] = "a=addform&c=mailaccount";
+	//	$alist[] = "a=addform&c=mailaccount";
 
 		return $alist;
 	}

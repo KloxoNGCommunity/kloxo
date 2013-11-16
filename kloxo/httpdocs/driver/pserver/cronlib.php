@@ -106,15 +106,16 @@ class Cron extends Lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		//$nlist["nname"] = "5%";
-		//$nlist["minute"] = "5%";
-		//$nlist["hour"] = "5%";
-		//$nlist["ddate"] = "5%";
-		//$nlist["weekday"] = "5%";
-		//$nlist["month"] = "5%";
-		//$nlist["syncserver"] = "5%";
+	//	$nlist["nname"] = "5%";
 		$nlist["username"] = "10%";
 		$nlist["command"] = "100%";
+		$nlist["syncserver"] = "5%";
+
+	//	$nlist["minute"] = "5%";
+	//	$nlist["hour"] = "5%";
+	//	$nlist["ddate"] = "5%";
+	//	$nlist["weekday"] = "5%";
+	//	$nlist["month"] = "5%";
 
 		return $nlist;
 	}
@@ -188,6 +189,7 @@ class Cron extends Lxdb
 			if ($parent->isClass('pserver') || $parent->priv->isOn('cron_minute_flag')) {
 				$list['every-minute'] = 'Every Minute';
 			}
+
 			$list['every-hour'] = 'Every Hour';
 			$list['every-day'] = 'Every Day';
 			$vlist['simple_cron'] = array('A', $list);
@@ -217,37 +219,28 @@ class Cron extends Lxdb
 		}
 
 		$vlist["hour"] = array($str, cron::$hourlist);
-	/*
-		if ($driverapp === 'linux') {
-		} else {
-			$hourlist = cron::$hourlist;
-			unset($hourlist[0]);
-			$vlist["hour"] = array('s', $hourlist);
-		}
-	*/
 
 		$vlist["ddate"] = array($str, cron::$ddatelist);
 		$vlist["weekday"] = array($str, cron::$weekdaylist);
 		$vlist["month"] = array($str, cron::$monthlist);
-	/*
-		if ($driverapp === 'linux') {
-			$vlist["month"] =  array($str, cron::$monthlist);
-		}
-	*/
+
 		$vlist["command"] = null;
 		
 		if ($driverapp === 'windows') {
 			$vlist["argument"] = null;
 		}
 
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
+
 		return $ret;
 	}
 
 	function createShowUpdateform()
 	{
 		$ulist['update'] = null;
+
 		return $ulist;
 	}
 

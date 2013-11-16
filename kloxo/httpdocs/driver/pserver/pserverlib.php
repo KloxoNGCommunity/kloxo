@@ -229,13 +229,6 @@ class pserver extends pservercore {
 		// LxCenter:
 		// No menu structures for Domain and Advanced here?
 
-		$alist['__title_security'] = "Security";
-		$alist[] = "a=show&o=sshconfig";
-		$alist[] = "a=list&c=watchdog";
-		$alist[] = "a=show&o=lxguard";
-		$alist[] = "a=list&c=hostdeny";
-		$alist[] = "a=list&c=sshauthorizedkey";
-
 		$alist['__title_main_pserver'] = $this->getTitleWithSync();
 		$alist[] = "a=list&c=service";
 		$alist[] = "a=list&c=cron";
@@ -249,8 +242,15 @@ class pserver extends pservercore {
 		$alist[] = "a=show&o=llog";
 		$alist[] = "a=show&l[class]=ffile&l[nname]=";
 		$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
-		$alist[] = "a=updateForm&sa=reboot";
-		$alist[] = "a=updateForm&sa=poweroff";
+		$alist[] = "a=updateform&sa=reboot";
+		$alist[] = "a=updateform&sa=poweroff";
+
+	//	$alist['__title_security'] = "Security";
+		$alist[] = "a=show&o=sshconfig";
+		$alist[] = "a=list&c=watchdog";
+		$alist[] = "a=show&o=lxguard";
+		$alist[] = "a=list&c=hostdeny";
+		$alist[] = "a=list&c=sshauthorizedkey";
 
 		$alist['__title_webmailanddb'] = $login->getKeywordUc('webmailanddb');
 		$alist[] = "o=servermail&a=updateform&sa=update";
@@ -264,13 +264,14 @@ class pserver extends pservercore {
 		$alist[] = "a=updateform&sa=mysqlpasswordreset";
 		$alist[] = "a=list&c=dbadmin";
 
+
 	/*
 		
 	//	$alist['__title_nnn'] = 'Machine';
 		// MR -- move to under pserver
 		$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
-		$alist[] = "a=updateForm&sa=reboot";
-		$alist[] = "a=updateForm&sa=poweroff";
+		$alist[] = "a=updateform&sa=reboot";
+		$alist[] = "a=updateform&sa=poweroff";
 	*/
 		return $alist;
 	}

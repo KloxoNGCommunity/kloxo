@@ -25,11 +25,10 @@ class ReleaseNote extends Lxlclass
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['over_r'] = '5%';
+	//	$nlist['over_r'] = '5%';
 		$nlist['version'] = '10%';
-		$nlist['ttype'] = '5%';
+	//	$nlist['ttype'] = '5%';
 		$nlist['description'] = '100%';
-
 		return $nlist;
 	}
 
@@ -61,27 +60,38 @@ class ReleaseNote extends Lxlclass
 
 		$result = array();
 
-		$ol = strlen(sizeof($out2));
+		$x = implode("\n", $out2);
+
+		$y = explode("* ", $x);
+
+		$ol = strlen(sizeof($y));
 
 		$m = str_repeat('0', $ol);
 
 		$c = 0;
 
-		foreach ($out2 as $k => $v) {
+		foreach ($y as $k => $v) {
 			if ($v === '') { continue; }
 
 			$c++;
 
-			$b = strlen($c);
-			$d = substr_replace($m, $c, -$b);
+			$e = abs($c - count($y));
+			$b = strlen($e);
+			$d = substr_replace($m, $e, -$b);
 
-			$newvar['version'] = $ver;
+		//	$newvar['version'] = $ver;
+			$newvar['version'] = $d;
 
 			$newvar['over_r'] = 'on';
-			$newvar['ttype'] = $d;
-			$newvar['nname'] = $d;
 
-			$newvar['description'] = $v;
+			$newvar['ttype'] = $d;
+			$newvar['nname'] = $c;
+
+			$v = str_replace("\n\n", "\n", $v);
+
+			$v = str_replace(".mr", ".mr ----------", $v);
+
+			$newvar['description'] = "---------- * " . str_replace("\n", "<br />", $v);
 
 			$result[] = $newvar;
 		}

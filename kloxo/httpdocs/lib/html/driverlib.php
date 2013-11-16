@@ -80,23 +80,21 @@ class Driver extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//	$os = $this->getParentO()->ostype;
+		$os = $this->getParentO()->ostype;
 	//	include "../file/driver/$os.inc";
-
 		include "../file/driver/rhel.inc";
 
 		$vlist = null;
 
 		$this->createVlistDriver($vlist, $driver);
-	/*	
+	
 		$list = module::getModuleList();
 
 		$driver = null;
 		
 		foreach((array) $list as $l) {
-			$mod = getreal("/module/") . "/$l";
-			
-			include_once "$mod/lib/driver.inc";
+		//	$mod = getreal("/module/") . "/$l";
+		//	include_once "$mod/lib/driver.inc";
 			
 			$dlist = $driver[$os];
 			
@@ -106,7 +104,7 @@ class Driver extends Lxdb
 			
 			$this->createVlistDriver($vlist, $dlist);
 		}
-	*/		
+	
 		return $vlist;
 	}
 }

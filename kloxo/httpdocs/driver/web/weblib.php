@@ -370,6 +370,9 @@ class Web extends Lxdb
 	static $__acdesc_update_image_manager = array("", "", "image_manager");
 	static $__desc_logo_manage_flag = array("q", "", "can_change_logo");
 
+	static $__desc_webmimetype_l = array("", "", "mimetype");
+	static $__desc_webhandler_l = array("", "", "handler");
+
 	function createExtraVariables()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -1022,12 +1025,12 @@ class Web extends Lxdb
 				'purl' => 'a=updateform&sa=phpinfo', 'target' => "target='_blank'"));
 
 		$alist[] = "a=show&o=phpini";
-		$alist[] = "a=updateform&sa=lighty_rewrite";
+	//	$alist[] = "a=updateform&sa=lighty_rewrite";
 		$alist[] = "a=list&c=component";
 
 		$alist[] = "a=updateform&sa=permalink";
 
-		$alist[] = "a=show&k[class]=allinstallapp&k[nname]=installapp";
+	//	$alist[] = "a=show&k[class]=allinstallapp&k[nname]=installapp";
 
 	/*
 		$alist['action'][] = "a=update&sa=backup";
