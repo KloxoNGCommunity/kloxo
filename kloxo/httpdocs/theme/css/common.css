@@ -551,7 +551,7 @@ fieldset {
 .filebox {
 	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	color: #000000;
-	font-size: 8pt; 
+	font-size: 9pt; 
 	font-weight: normal; 
 	background-color: #FFFFFF;
 }
@@ -660,7 +660,7 @@ div#quotameter div {
 	width: 100%;
 	text-align: center;
 	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 8pt; 
+	font-size: 9pt; 
 }
 
 html>body #quotausagebar span.last {

@@ -2101,6 +2101,8 @@ function do_display_init()
 	 <link rel="stylesheet" type="text/css" media="all" href="/theme/fonts/font.css" />
 <?php
 	}
+
+	$ghtml->print_include_jscript();
 ?>
 	</head>
 <?php

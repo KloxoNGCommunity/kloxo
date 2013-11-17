@@ -22,8 +22,8 @@
 {
 	padding: 0;
 	float: left;
-	height: 26px;
-	_height: 28px;/*IE6 Hack*/
+	height: 32px;
+	_height: 34px;/*IE6 Hack*/
 	position: relative;/*delete it if you want submenu to be positioned relative to the whole menu instead of this li element*/
 	z-index: 5;
 	
@@ -46,8 +46,8 @@
 
 .menuTemplate2 a
 {
-	padding: 0 6px;
-	line-height: 26px; /*Note: keep this value the same as the height of .menuTemplate2 li */
+	padding: 0 10px;
+	line-height: 32px; /*Note: keep this value the same as the height of .menuTemplate2 li */
 	font-size: 9pt;
 	font-weight: normal;
 	display: inline-block;
@@ -95,16 +95,15 @@
 	background-color: #F8F8FF;
 	text-align: left;
 	padding: 15px;  
-	top: 25px;
+	top: 31px;
 
 	left: -9999px;
-	width: 500px; /* MR -- set fix width */
+	width: 600px; /* MR -- set fix width */
 }
 
 .menuTemplate2 div.drop a
 {
-	padding-left: 0;
-	padding-right: 0;
+	padding: 0;
 	/* line-height: 2.0em; */
 	font-size: 9pt;
 	font-weight: normal;
@@ -118,12 +117,13 @@
 .menuTemplate2 div.drop b
 {
 	font-weight: bold;
+	line-height: 25px;
 }
 	
 .menuTemplate2 li:hover div.drop, .menuTemplate2 li.onhover div.drop
 {
 	/* left: -1px; */ /*Use this property to change offset of the dropdown*/
-	left: -175px; /* MR -- set 'centered' drop */
+	left: -200px; /* MR -- set 'centered' drop */
 }
 
 /* Elements within the drop down sub-menu
@@ -131,17 +131,17 @@
 
 .menuTemplate2 div.drop div div
 {
-	padding-left: 12px;
+	padding: 0 0 15px 15px;
 }
 .menuTemplate1 li:hover div.drop a, .menuTemplate1 li.onhover div.drop a
 {
 	background: none;
 	background-image: none;
-	padding: 0 0;
+	padding: 0;
 }
 .menuTemplate2 div.drop div a
 {
-	line-height: 20px;  
+	line-height: 25px;  
 	color: #048;
 	background: none;
 }
@@ -155,8 +155,8 @@
 .menuTemplate2 div.left
 {
 	float: left;
-	padding-right: 6px;
-	margin-left: 6px;
+	padding-right: 10px;
+	margin-left: 10px;
 }
 
 .menuTemplate2 div.rightborder

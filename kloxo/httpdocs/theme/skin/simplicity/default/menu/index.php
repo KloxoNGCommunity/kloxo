@@ -1,6 +1,11 @@
 <?php
 //	header("X-Hiawatha-Cache: 60");
 
+if (strpos("/display.php", $_SERVER["SCRIPT_NAME"]) === false) {
+	print("No permit access directly");
+	return;
+}
+
 $syncserver = $login->syncserver;
 $userid = $login->getId();
 
@@ -31,12 +36,13 @@ $userid = $login->getId();
 						<a href="<?= $ghtml->getFullUrl("a=list&c=all_ftpuser") ?>"><?= $ghtml->getTitleOnly("a=list&c=all_ftpuser") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=all_mailinglist") ?>"><?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?></a><br/>
 					</div>
-				</div>
-				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('resourceplan') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=resourceplan") ?>"><?= $ghtml->getTitleOnly("a=list&c=resourceplan") ?></a><br/>
 					</div>
+				</div>
+				<div class='left rightborder'>
+
 					<b><?= $login->getKeywordUc('support') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=ticket") ?>"><?= $ghtml->getTitleOnly("a=list&c=ticket") ?></a><br/>
@@ -47,8 +53,6 @@ $userid = $login->getId();
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=smessage") ?>"><?= $ghtml->getTitleOnly("a=list&c=smessage") ?></a><br/>
 					</div>
-				</div>
-				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('custombutton') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=custombutton") ?>"><?= $ghtml->getTitleOnly("a=list&c=custombutton") ?></a><br/>
@@ -58,13 +62,14 @@ $userid = $login->getId();
 						<a href="<?= $ghtml->getFullUrl("a=list&c=reversedns") ?>"><?= $ghtml->getTitleOnly("a=list&c=reversedns") ?></a><br/>
 						<!-- <a href="/display.php?frm_action=updateform&frm_subaction=reversedns&frm_o_o[0][class]=general"><?= $ghtml->getTitleOnly("o=general&a=list&sa=reversedns") ?></a><br/> -->
 					</div>
+				</div>
+				<div class='left'>
+
 					<b><?= $login->getKeywordUc('update') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("o=lxupdate&a=show") ?>"><?= $ghtml->getTitleOnly("o=lxupdate&a=show") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("o=lxupdate&c=releasenote&a=list") ?>"><?= $ghtml->getTitleOnly("o=lxupdate&c=releasenote&a=list") ?></a><br/>
 					</div>
-				</div>
-				<div class='left'>
 					<b><?= $login->getKeywordUc('other') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=actionlog") ?>"><?= $ghtml->getTitleOnly("a=list&c=actionlog") ?></a><br/>
@@ -131,7 +136,7 @@ $userid = $login->getId();
 						<!-- <a href="<?= $ghtml->getFullUrl("a=updateform&sa=license&o=license") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=license&o=license") ?></a><br /> -->
 					</div>
 				</div>
-				<div class='left rightborder'>
+				<div class='left'>
 					<b><?= $login->getKeywordUc('blockedallowedips') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=allowedip") ?>"><?= $ghtml->getTitleOnly("a=list&c=allowedip") ?></a><br/>
@@ -142,8 +147,6 @@ $userid = $login->getId();
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=maintenance&o=general") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=maintenance&o=general") ?></a><br/>
 
 					</div>
-				</div>
-				<div class='left'>
 					<b><?= $login->getKeywordUc('other') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=miscinfo") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=miscinfo") ?></a><br/>
@@ -217,17 +220,11 @@ $userid = $login->getId();
 		<li><a href="#"><?= $login->getKeywordUc('webmailanddb') ?></a>
 			<div class="drop decor2_2">
 				<div class='left rightborder'>
-					<b><?= $login->getKeywordUc('php') ?></b>
+					<b><?= $login->getKeywordUc('configure') ?></b>
 					<div>
 						<a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_o[1][class]=phpini"><?= $ghtml->getTitleOnly("a=show&o=phpini") ?></a><br/>
 						<a href="/display.php?frm_action=updateform&frm_subaction=extraedit&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_o[1][class]=phpini"><?= $ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini") ?></a><br/>
-					</div>
-					<b><?= $login->getKeywordUc('web') ?></b>
-					<div>
 						<a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_o[1][class]=serverweb"><?= $ghtml->getTitleOnly("a=show&o=serverweb") ?></a><br/>
-					</div>
-					<b><?= $login->getKeywordUc('ftp') ?></b>
-					<div>
 						<a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_o[1][class]=serverftp"><?= $ghtml->getTitleOnly("a=show&o=serverftp") ?></a><br/>
 					</div>
 				</div>
@@ -265,16 +262,10 @@ $userid = $login->getId();
 						<a href="<?= $ghtml->getFullUrl("a=list&c=subdomain") ?>"><?= $ghtml->getTitleOnly("a=list&c=subdomain") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=default_domain") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=default_domain") ?></a><br/>
 					</div>
-					<b><?= $login->getKeywordUc('ftpuser') ?></b>
+					<b><?= $login->getKeywordUc('ftpmaildatabase') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=ftpuser") ?>"><?= $ghtml->getTitleOnly("a=list&c=ftpuser") ?></a><br/>
-					</div>
-					<b><?= $login->getKeywordUc('mail') ?></b>
-					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=mailaccount") ?>"><?= $ghtml->getTitleOnly("a=list&c=mailaccount") ?></a><br/>
-					</div>
-					<b><?= $login->getKeywordUc('database') ?></b>
-					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=mysqldb") ?>"><?= $ghtml->getTitleOnly("a=list&c=mysqldb") ?></a><br/>
 					</div>
 				</div>
@@ -290,11 +281,11 @@ $userid = $login->getId();
 <?php
 	if ($login->isAdmin()) {
 ?>
-						<a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_o[1][class]=ffile&frm_o_o[1][nname]="><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> (Root)</a><br/>
+						<a href="/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_o[1][class]=ffile&frm_o_o[1][nname]="><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> (<?= $login->getKeywordUc('root') ?>)</a><br/>
 <?php
 	}
 ?>
-						<a href="/display.php?frm_action=show&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $userid ?>&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> (User)</a></a><br/>
+						<a href="/display.php?frm_action=show&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $userid ?>&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> (<?= $login->getKeywordUc('user') ?>)</a></a><br/>
 					</div>
 				</div>
 				<div class='left'>
@@ -303,11 +294,11 @@ $userid = $login->getId();
 ?>
 					<b><?= $login->getKeywordUc('client') ?></b>
 					<div>
-						<a href="<?= $ghtml->getFullUrl("a=list&c=client") ?>"><?= $ghtml->getTitleOnly("a=list&c=client") ?></a><br/>
+						<a href="/display.php?frm_action=list&frm_o_cname=client"><?= $ghtml->getTitleOnly("a=list&c=client") ?></a><br/>
 <?php
 		if ($login->isAdmin()) {
 ?>
-						<a href="<?= $ghtml->getFullUrl("a=list&c=all_client") ?>"><?= $ghtml->getTitleOnly("a=list&c=all_client") ?></a><br/>
+						<a href="/display.php?frm_action=list&frm_o_cname=all_client"><?= $ghtml->getTitleOnly("a=list&c=all_client") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=addform&dta[var]=cttype&dta[val]=wholesale&c=client") ?>"><?= $ghtml->getTitleOnly("a=addform&dta[var]=cttype&dta[val]=wholesale&c=client") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=addform&dta[var]=cttype&dta[val]=reseller&c=client") ?>"><?= $ghtml->getTitleOnly("a=addform&dta[var]=cttype&dta[val]=reseller&c=client") ?></a><br/>
 <?php
@@ -325,10 +316,10 @@ $userid = $login->getId();
 <?php
 	}
 ?>
-					<b><?= $login->getKeywordUc('other') ?></b>
+					<!-- <b><?= $login->getKeywordUc('other') ?></b>
 					<div>
 						<a href="/display.php?frm_action=updateform&frm_subaction=skin&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $userid ?>&frm_o_o[1][class]=sp_specialplay"><?= $ghtml->getTitleOnly("a=updateform&sa=skin&o=sp_specialplay") ?></a><br/>
-					</div>
+					</div> -->
 <?php
 	if (!$login->isCustomer()) {
 ?>

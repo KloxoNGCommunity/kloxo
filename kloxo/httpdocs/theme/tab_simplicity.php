@@ -102,15 +102,13 @@ function print_tab_button($key, $url, $list)
 
 	if ($check) {
 ?>
-		<!-- <td class='tabnew'> -->
-			<div class='verb3'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
-		<!-- </td> -->
+
+		<div class='verb3'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
 <?php
 	} else {
 ?>
-		<!-- <td class='tabnew1'> -->
-			<div class='verb'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
-		<!-- </td> -->
+
+		<div class='verb'><a <?= $targetstring ?> href="<?= $url ?>"><?= $descstring ?></a></div>
 <?php
 	}
 

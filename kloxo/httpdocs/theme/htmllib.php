@@ -4152,13 +4152,13 @@ class HtmlLib
 			if (csa($class, "all_")) {
 				$__tcl = strfrom($class, "all_");
 				$name_list = exec_class_method($__tcl, "createListNlist", $parent, $view);
-
+			
 				foreach ($name_list as $k => $v) {
 					if (csa($k, "abutton")) {
 						unset($name_list[$k]);
 					}
 				}
-
+			
 				$name_list = lx_merge_good(array('parent_name_f' => '10%'), $name_list);
 			} else {
 				$name_list = exec_class_method($class, "createListNlist", $parent, $view);
@@ -6021,7 +6021,7 @@ class HtmlLib
 
 		$ret = $this->getActionDetails($url, '', '', &$path, &$post, &$class, &$name, &$image, &$identity);
 
-		return $ret[2];
+		return "&#x00bb;&nbsp;" . $ret[2];
 	}
 
 	function print_div_for_divbutton($key, $imgflag, $linkflag, $formname, $name, $imagesrc, $descr)
@@ -8839,7 +8839,7 @@ class HtmlLib
 ?>
 
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
-				<div id="menu_div" style="width:800px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/index.php" ?></div>
+				<div id="menu_div" style="width:800px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/index.php" ?></div>
 
 				<script type="text/javascript">
 					<!--
@@ -8854,7 +8854,7 @@ class HtmlLib
 					//-->
 				</script>
 
-				<div style="position: fixed; top: 3px; right: 3px"><a href="#" onClick="javascript:toggle_wrapper('mmm');">
+				<div style="position: fixed; top: 2px; right: 2px"><a href="#" onClick="javascript:toggle_wrapper('mmm');">
 					<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
 				</div>
 
@@ -8997,7 +8997,8 @@ class HtmlLib
 		$tbg = $img_path . "/images/lp_bg.gif";
 		$imgbordermain = $img_path . "/images/top_line_medium.gif";
 
-		$this->print_include_jscript();
+		// MR -- move to <head>
+	//	$this->print_include_jscript();
 
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'feather') {
 			$bgcolor = "bgcolor=#fff";

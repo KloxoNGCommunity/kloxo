@@ -86,8 +86,14 @@ $__keyword['web'] = 'Web';
 $__keyword['ftp'] = 'FTP';
 $__keyword['mail'] = 'Mail';
 $__keyword['database'] = 'Database';
-
 $__keyword['ftpuser'] = 'FTP User';
+
+$__keyword['ftpmaildatabase'] = 'FTP/Mail/Database';
+$__keyword['configure'] = 'Configure';
+
 $__keyword['crontask'] = 'Cron Task';
 $__keyword['filemanager'] = 'File Manager';
 $__keyword['client'] = 'Client';
+
+$__keyword['root'] = 'Root';
+$__keyword['user'] = 'User';
