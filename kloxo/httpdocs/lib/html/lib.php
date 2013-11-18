@@ -2799,14 +2799,46 @@ function getLatestVersion()
 {
 //	$nlist = getVersionList();
 //	return $nlist[count($nlist) - 1];
-
+/*
 	$ver = getRpmVersionViaYum("kloxomr");
 
 	$rel = getRpmReleaseViaYum("kloxomr");
 	$rel = explode(".", $rel);
 
 	return $ver.'-'.$rel[0];
+*/
+
+	exec("yum check-update kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
+
+	if (!$out) {
+		$ver = getInstalledVersion();
+	} else {
+		$ver = str_replace(".mr", "", $out[0]);
+	}
+
+	return $ver;
+
 }
+
+function getInstalledVersion()
+{
+//	$nlist = getVersionList();
+//	return $nlist[count($nlist) - 1];
+/*
+	$ver = getRpmVersionViaYum("kloxomr");
+
+	$rel = getRpmReleaseViaYum("kloxomr");
+	$rel = explode(".", $rel);
+
+	return $ver.'-'.$rel[0];
+*/
+	exec("yum list installed kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
+
+	$ver = str_replace(".mr", "", $out[0]);
+
+	return $ver;
+}
+
 
 function getDownloadServer()
 {
@@ -7286,7 +7318,7 @@ function getRpmVersionViaYum($rpm)
 		$ver = '';
 	}
 */
-	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
+//	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
 
 	return $out[0];
 }

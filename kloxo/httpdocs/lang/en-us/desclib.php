@@ -590,8 +590,10 @@ $__description["all_ftpuser"] = array("All FTP User");
 $__description["update"] = array("Update");
 $__description["version"] = array("Version");
 $__description["schedule_updation_later"] = array(" Schedule Updation Later");
-$__description["current_version"] = array("Current Version");
-$__description["latest_version"] = array("Latest Version");
+
+$__description["detected_version"] = array("Detected Version");
+$__description["installed_rpm_version"] = array("Installed RPM Version");
+$__description["latest_rpm_version"] = array("Latest RPM Version");
 
 //ReleaseNotes tab
 $__description["bugs_in_this_version"] = array("Bugs In This Version");

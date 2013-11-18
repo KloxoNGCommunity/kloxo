@@ -11,8 +11,10 @@ class Lxupdate extends lxClass
 	static $__desc_state =     array("e", "",  "state", "a=show");
 	static $__desc_schedule =     array("n", "",  "_schedule_update_later", "a=show");
 
-	static $__desc_current_version_f = array("", "",  "current_version");
-	static $__desc_latest_version_f = array("", "",  "latest_version");
+	static $__desc_detected_version_f = array("", "",  "detected_version");
+	static $__desc_installed_rpm_version_f = array("", "",  "installed_rpm_version");
+	static $__desc_latest_rpm_version_f = array("", "",  "latest_rpm_version");
+
 	static $__desc_buglist_f = array("T", "",  "bugs_in_this_version");
 
 	// MR -- add new var
@@ -64,17 +66,11 @@ class Lxupdate extends lxClass
 				$vlist['name_f'] = array('M', $sgbl->__ver_name);
 				$vlist['note_f'] = array('M', $sgbl->__ver_note);
 
-				$vlist['current_version_f'] = array('M', $sgbl->__ver_full);
+				$vlist['detected_version_f'] = array('M', $sgbl->__ver_full);
+				$vlist['installed_rpm_version_f'] = array('M', getInstalledVersion());
+				$vlist['latest_rpm_version_f'] = array('M', getLatestVersion());
 
-				$vlist['latest_version_f'] = array('M', getLatestVersion());
-
-				//	$vlist['current_version_f'] = array('M', $sgbl->__ver_major_minor_release);
-				//	$vlist['latest_version_f'] = array('M', getLatestVersion());
-				//	$vlist['stamp_f'] = array('M', $sgbl->__ver_stamp);
-				//	$vlist['step_f'] = array('M', $sgbl->__ver_extra);
-
-				//	if ($sgbl->__ver_major_minor_release === getLatestVersion()) {
-				if ($vlist['current_version_f'] === $vlist['latest_version_f']) {
+				if ($vlist['installed_rpm_version_f'] === $vlist['latest_rpm_version_f']) {
 					$vlist['__v_button'] = array();
 				} else {
 					$vlist['__v_button'] = "Update Now";
