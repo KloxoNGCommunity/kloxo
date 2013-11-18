@@ -218,7 +218,7 @@ class pservercore extends Lxclient
 		//	$alist[] = "a=addform&c=$class";
 		}
 
-		$alist[] = "a=updateform&sa=forcedeletepserver";
+		$alist[] = "a=updateform&sa=forcedeletepserver&c=client";
 
 		return $alist;
 	}

@@ -527,7 +527,7 @@ class Client extends ClientBase
 			$alist['__v_dialog_main'] = "o=general&a=updateform&sa=maintenance";
 			$alist['__v_dialog_self'] = "o=general&a=updateform&sa=selfbackupconfig";
 			$alist['__v_dialog_download'] = "o=general&a=updateform&sa=download_config";
-			$alist['__v_dialog_forc'] = "a=updateform&sa=forcedeletepserver";
+			$alist['__v_dialog_forc'] = "a=updateform&sa=forcedeletepserver&c=client";
 
 			if ($sgbl->isHyperVm()) {
 				$alist['__v_dialog_hack'] = "o=general&a=updateform&sa=hackbuttonconfig";

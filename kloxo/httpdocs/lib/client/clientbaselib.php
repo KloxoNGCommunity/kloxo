@@ -354,7 +354,7 @@ class ClientBase extends ClientCore
 			//$alist['__v_dialog_ssh'] = "o=general&a=updateform&sa=ssh_config";
 			//$alist['__v_dialog_ipcheck'] = "o=general&a=updateform&sa=session_config";
 			$alist['__v_dialog_download'] = "o=general&a=updateform&sa=download_config";
-			$alist['__v_dialog_forc'] = "a=updateform&sa=forcedeletepserver";
+			$alist['__v_dialog_forc'] = "a=updateform&sa=forcedeletepserver&c=client";
 
 			if ($sgbl->isHyperVm()) {
 				$alist['__v_dialog_hack'] = "o=general&a=updateform&sa=hackbuttonconfig";

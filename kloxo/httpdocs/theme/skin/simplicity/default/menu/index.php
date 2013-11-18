@@ -46,8 +46,8 @@ $userid = $login->getId();
 					<b><?= $login->getKeywordUc('support') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=ticket") ?>"><?= $ghtml->getTitleOnly("a=list&c=ticket") ?></a><br/>
-						<a href="<?= $ghtml->getFullUrl("o=ticketconfig&a=updateform&sa=ticketconfig") ?>"><?= $ghtml->getTitleOnly("o=ticketconfig&a=updateform&sa=ticketconfig") ?></a><br/>
-						<a href="<?= $ghtml->getFullUrl("o=general&c=helpdeskcategory_a&a=list") ?>"><?= $ghtml->getTitleOnly("o=general&c=helpdeskcategory_a&a=list") ?></a><br/>
+						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=ticketconfig&o=ticketconfig") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=ticketconfig&o=ticketconfig") ?></a><br/>
+						<a href="<?= $ghtml->getFullUrl("a=list&c=helpdeskcategory_a&o=general") ?>"><?= $ghtml->getTitleOnly("a=list&c=helpdeskcategory_a&o=general") ?></a><br/>
 					</div>
 					<b><?= $login->getKeywordUc('message') ?></b>
 					<div>
@@ -60,7 +60,7 @@ $userid = $login->getId();
 					<b><?= $login->getKeywordUc('reversedns') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=reversedns") ?>"><?= $ghtml->getTitleOnly("a=list&c=reversedns") ?></a><br/>
-						<!-- <a href="/display.php?frm_action=updateform&frm_subaction=reversedns&frm_o_o[0][class]=general"><?= $ghtml->getTitleOnly("o=general&a=list&sa=reversedns") ?></a><br/> -->
+						<!-- <a href="/display.php?frm_action=updateform&frm_subaction=reversedns&frm_o_o[0][class]=general"><?= $ghtml->getTitleOnly("a=list&sa=reversedns&o=general") ?></a><br/> -->
 					</div>
 				</div>
 				<div class='left'>
@@ -73,7 +73,7 @@ $userid = $login->getId();
 					<b><?= $login->getKeywordUc('other') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=actionlog") ?>"><?= $ghtml->getTitleOnly("a=list&c=actionlog") ?></a><br/>
-						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=password") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=password") ?></a><br/>
+						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=password") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=password&o=client") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=skin&o=sp_specialplay") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=skin&o=sp_specialplay") ?></a><br/>
 					</div>
 				</div>
@@ -111,7 +111,7 @@ $userid = $login->getId();
 							<a href="<?= $ghtml->getFullUrl("a=updateform&sa=update&o=domaindefault") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=update&o=domaindefault") ?></a><br/>
 							<a href="<?= $ghtml->getFullUrl("a=list&c=utmp") ?>"><?= $ghtml->getTitleOnly("a=list&c=utmp") ?></a><br/>
 							<a href="<?= $ghtml->getFullUrl("a=list&c=ftpsession") ?>"><?= $ghtml->getTitleOnly("a=list&c=ftpsession") ?></a><br/>
-							<a href="<?= $ghtml->getFullUrl("a=updateform&sa=shell_access") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=shell_access") ?></a>
+							<a href="<?= $ghtml->getFullUrl("a=updateform&sa=shell_access") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=shell_access&o=client") ?></a>
 						</div>
 					</div>
 				</div>
@@ -128,9 +128,9 @@ $userid = $login->getId();
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=generalsetting&o=general") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=generalsetting&o=general") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=selfbackupconfig&o=general") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=selfbackupconfig&o=general") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=list&o=genlist&c=dirindexlist_a") ?>"><?= $ghtml->getTitleOnly("a=list&o=genlist&c=dirindexlist_a") ?></a><br/>
-						<a href="<?= $ghtml->getFullUrl("a=updateForm&sa=upload_logo&o=sp_specialplay") ?>"><?= $ghtml->getTitleOnly("a=updateForm&sa=upload_logo&o=sp_specialplay") ?></a><br/>
+						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=upload_logo&o=sp_specialplay") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=upload_logo&o=sp_specialplay") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=portconfig&o=general") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=portconfig&o=general") ?></a><br/>
-						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=disable_skeleton") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=disable_skeleton") ?></a><br/>
+						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=disable_skeleton") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=disable_skeleton&c=client") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=show&o=notification") ?>"><?= $ghtml->getTitleOnly("a=show&o=notification") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=login_options&o=sp_specialplay") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=login_options&o=sp_specialplay") ?></a><br/>
 						<!-- <a href="<?= $ghtml->getFullUrl("a=updateform&sa=license&o=license") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=license&o=license") ?></a><br /> -->
@@ -149,7 +149,7 @@ $userid = $login->getId();
 					</div>
 					<b><?= $login->getKeywordUc('other') ?></b>
 					<div>
-						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=miscinfo") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=miscinfo") ?></a><br/>
+						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=miscinfo") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=miscinfo&o=pserver") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=skin&o=sp_childspecialplay") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=skin&o=sp_childspecialplay") ?></a><br/>
 					</div>
 				</div>
@@ -163,7 +163,7 @@ $userid = $login->getId();
 					<b><?= $login->getKeywordUc('server') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=pserver") ?>"><?= $ghtml->getTitleOnly("a=list&c=pserver") ?></a><br/>
-						<!-- <a href="<?= $ghtml->getFullUrl("a=updateform&sa=forcedeletepserver") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=forcedeletepserver") ?></a><br/> -->
+						<!-- <a href="<?= $ghtml->getFullUrl("a=updateform&sa=forcedeletepserver&c=client") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=forcedeletepserver&c=client") ?></a><br/> -->
 						<a href="<?= $ghtml->getFullUrl("a=list&c=psrole_a") ?>"><?= $ghtml->getTitleOnly("a=list&c=psrole_a") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=reboot&l[class]=pserver&l[nname]={$syncserver}") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=reboot&l[class]=pserver&l[nname]={$syncserver}") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=poweroff&l[class]=pserver&l[nname]={$syncserver}") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=poweroff&l[class]=pserver&l[nname]={$syncserver}") ?></a><br/>
