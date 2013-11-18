@@ -4565,8 +4565,8 @@ class HtmlLib
 			}
 		}
 
-					$count = 0;
-					$rowcount = 0;
+		$count = 0;
+		$rowcount = 0;
 ?>
 
 					</tr>
@@ -4615,11 +4615,11 @@ class HtmlLib
 					<tr height='22' id='<?= $rowuniqueid ?>' class='tablerow<?= $count ?>' onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';" onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')">
 <?php
 
-			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
+			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax ) {
 ?>
 
 						<!-- <td width=10 style='<?= $backgroundstring ?>'> <?= $filteropacitystringspan ?> -->
-						<td width=10 class="collist"> <?= $filteropacitystringspan ?>
+						<td width='10' class="collist"> <?= $filteropacitystringspan ?>
 <?php
 				if ($checked !== 'disabled') {
 ?>

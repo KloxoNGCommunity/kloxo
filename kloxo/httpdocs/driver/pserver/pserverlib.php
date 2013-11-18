@@ -12,6 +12,8 @@ class pserver extends pservercore {
 	static $__acdesc_update_mailqueuedelete = array('', '', 'delete', '');
 	static $__acdesc_update_mailqueueflush = array('', '', 'flush', '');
 
+	static $__desc_sshconfig_l = array('', '', '', '');
+
 	Function display($var)
 	{
 		if ($var === "rolelist") {
@@ -168,9 +170,10 @@ class pserver extends pservercore {
 	function getMysqlDbAdmin(&$alist)
 	{
 
+	/*
 		if (!$this->isLocalhost('nname')) {
 			$fqdn = getFQDNforServer($this->nname);
-			//$dbadminUrl =  "http://$fqdn:7778/thirdparty/phpMyAdmin/";
+
 			if (http_is_self_ssl()) {
 				$dbadminUrl =  "https://$fqdn:7777/thirdparty/phpMyAdmin/";
 			} else {
@@ -180,8 +183,9 @@ class pserver extends pservercore {
 		} else {
 			$dbadminUrl =  "/thirdparty/phpMyAdmin/";
 		}
+	*/
 
-	//	$pass = urlencode($pass);
+		$dbadminUrl =  "/thirdparty/phpMyAdmin/";
 
 		$server = $_SERVER['SERVER_NAME'];
 

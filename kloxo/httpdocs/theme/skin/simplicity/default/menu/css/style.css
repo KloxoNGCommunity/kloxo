@@ -131,7 +131,7 @@
 
 .menuTemplate2 div.drop div div
 {
-	padding: 0 0 15px 15px;
+	padding: 0 0 15px 10px;
 }
 .menuTemplate1 li:hover div.drop a, .menuTemplate1 li.onhover div.drop a
 {

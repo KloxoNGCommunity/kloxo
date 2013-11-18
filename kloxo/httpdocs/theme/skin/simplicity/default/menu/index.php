@@ -163,7 +163,7 @@ $userid = $login->getId();
 					<b><?= $login->getKeywordUc('server') ?></b>
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=pserver") ?>"><?= $ghtml->getTitleOnly("a=list&c=pserver") ?></a><br/>
-						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=forcedeletepserver") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=forcedeletepserver") ?></a><br/>
+						<!-- <a href="<?= $ghtml->getFullUrl("a=updateform&sa=forcedeletepserver") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=forcedeletepserver") ?></a><br/> -->
 						<a href="<?= $ghtml->getFullUrl("a=list&c=psrole_a") ?>"><?= $ghtml->getTitleOnly("a=list&c=psrole_a") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=reboot&l[class]=pserver&l[nname]={$syncserver}") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=reboot&l[class]=pserver&l[nname]={$syncserver}") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=poweroff&l[class]=pserver&l[nname]={$syncserver}") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=poweroff&l[class]=pserver&l[nname]={$syncserver}") ?></a><br/>
@@ -242,7 +242,7 @@ $userid = $login->getId();
 					<b><?= $login->getKeywordUc('database') ?></b>
 					<div>
 						<a href="/display.php?frm_action=list&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>&frm_o_cname=dbadmin"><?= $ghtml->getTitleOnly("a=list&c=dbadmin") ?></a><br/>
-						<a href="/display.php?frm_action=updateform&frm_subaction=mysqlpasswordreset&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=mysqlpasswordreset&l[class]=pserver") ?></a><br/>
+						<a href="/display.php?frm_action=updateform&frm_subaction=mysqlpasswordreset&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=<?= $syncserver ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=mysqlpasswordreset&l[class]=pserver&l[nname]=<?= $syncserver ?>") ?></a><br/>
 					</div>
 				</div>
 				<div style='clear: both;'></div>
@@ -260,7 +260,7 @@ $userid = $login->getId();
 					<div>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=domain") ?>"><?= $ghtml->getTitleOnly("a=list&c=domain") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=list&c=subdomain") ?>"><?= $ghtml->getTitleOnly("a=list&c=subdomain") ?></a><br/>
-						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=default_domain") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=default_domain") ?></a><br/>
+						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=default_domain") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=default_domain&o=client") ?></a><br/>
 					</div>
 					<b><?= $login->getKeywordUc('ftpmaildatabase') ?></b>
 					<div>
