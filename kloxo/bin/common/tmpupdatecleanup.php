@@ -69,10 +69,11 @@ function updatecleanup_main()
 	}
 
 	$slist = array(
+		"kloxomr",
 		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
 		"mod_* mysql* mariadb* MariaDB* php*",
 		"bind* djbdns* maradns* pdns* nsd*",
-		"varnish* trafficserver* squid",
+		"varnish* trafficserver* squid*",
 		"pure-ftpd* *-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",
 		"kloxomr-thirdparty-*.noarch"

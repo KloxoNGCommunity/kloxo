@@ -8,7 +8,9 @@ function update_main()
 	log_cleanup("*** Executing Install/Update (upcp) - BEGIN ***");
 
 	debug_for_backend();
+
 	$login = new Client(null, null, 'upgrade');
+
 	$DoUpdate = false;
 
 	$opt = parse_opt($argv);
@@ -35,37 +37,6 @@ function update_main()
 	}
 
 	log_cleanup("*** Executing Install/Update (upcp) - END ***");
-}
-
-function do_upgrade($upversion = null)
-{
-	global $gbl, $sgbl, $login, $ghtml; 
-	$program = $sgbl->__var_program_name;
-
-	if (file_exists(".svn") || file_exists(".git")) {
-		log_cleanup("BREAK -> Development version found");
-		exit;
-	}
-
-	$programfile = "$program-" . $upversion . ".zip";
-
-	lxfile_rm_rec("__path_program_htmlbase/help");
-	lxfile_mkdir("help");
-
-	lxfile_rm_rec("__path_program_root/pscript");
-
-	$saveddir = getcwd();
-	lxfile_rm_rec("__path_program_htmlbase/download");
-	lxfile_mkdir("download");
-	chdir("download");
-	log_cleanup("Downloading $programfile");
-	download_source("/$program/$programfile");
-	log_cleanup("Download Done!... Start unzip");
-	exec("cd ../../ ; unzip -o httpdocs/download/$programfile");
-	// issue #710 - Make sure the files are owned by lxlabs UID/GID
-	exec("chown -R lxlabs:lxlabs /usr/local/lxlabs/");
-
-	chdir($saveddir);
 }
 
 function fixDataBaseIssues()
