@@ -213,6 +213,10 @@ class Domaind extends DomainBase
 			if ($this->nname === 'admind.com') {
 				return false;
 			}
+
+			if ($this->nname === 'mratwork.com') {
+				return false;
+			}
 		}
 		
 		return true;
@@ -951,8 +955,8 @@ class Domaind extends DomainBase
 
 		validate_domain_name($param['nname']);
 
-	//	if ($this->isOn('domain_owned_flag')) {
-		if ($param['domain_owned_flag'] !== 'on') {
+		// MR -- no need domain_owned with /script/add
+		if (($param['domain_owned_flag'] !== 'on') && ($param['domain_owned_flag'])) {
 			validate_domain_owned($param['nname']);
 		}
 
@@ -1133,7 +1137,8 @@ class Domaind extends DomainBase
 		$res = DomainBase::getDnsTemplateList($parent);
 		$vlist['nname'] = "";
 
-		$vlist['domain_owned_flag'] = null;
+		$vlist['domain_owned_flag'] = array('f', 'on', 'off');
+	//	$vlist['domain_owned_flag'] = null;
 
 		$dir = "__path_customer_root/{$parent->getPathFromName()}";
 		$dir = expand_real_root($dir);

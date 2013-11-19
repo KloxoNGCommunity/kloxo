@@ -6566,10 +6566,17 @@ class HtmlLib
 			$quotaimg = $ggreen;
 		}
 
-		$text = "<span class=last><span size=1></span></span>";
+		$text = "<span class='last'><span size=1></span></span>";
 		$help = null;
 		$alt = null;
 		$maxval = Resource::privdisplay($varname, null, $maxval);
+
+		if ($maxval === 'Unlimited') {
+			$maxval = str_replace("Unlimited", "&#x221E;", $maxval);
+		}
+
+		if (!$unit) { $unit = 'MB'; }
+
 		$val = Resource::privdisplay($varname, null, $val);
 
 		if ($type === "small") {
@@ -6584,7 +6591,7 @@ class HtmlLib
 		if ($info != null) {
 ?>
 
-			<div style="width:50px; float:left"><b><?= $info ?></b></div>
+			<!-- <div style="width:50px; float:left"><b><?= $info ?></b></div> -->
 <?php
 		}
 
@@ -6593,7 +6600,7 @@ class HtmlLib
 ?>
 
 		<div <?= $help ?> style="float: left">
-			<div id="quotameter" class="smallroundedmodule lowquota">
+			<!-- <div id="quotameter" class="smallroundedmodule lowquota">
 				<div class="first">
 					<span class="first"></span>
 					<span class="last"></span>
@@ -6607,7 +6614,8 @@ class HtmlLib
 					<span class="first"></span>
 					<span class="last"></span>
 				</div>
-			</div>
+			</div> --><?= $val ?> <?= $unit ?> (<?= $realval?>%) / <?= $maxval ?>
+
 		</div>
 <?php
 	}
