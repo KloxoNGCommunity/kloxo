@@ -2807,6 +2807,9 @@ function getLatestVersion()
 
 	return $ver.'-'.$rel[0];
 */
+	// MR -- need 'yum clean all' to make sure latest version
+	// slowly and then disable
+//	exec("yum clean all");
 
 	exec("yum check-update kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
 
