@@ -953,6 +953,7 @@ class Web extends Lxdb
 	function updatePhpInfo($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$ar['ip_address'] = $gbl->c_session->ip_address;
 		$ar['session'] = $gbl->c_session->tsessionid;
 		rl_exec_get(null, $this->syncserver, array("web", "createSession"), array($ar));

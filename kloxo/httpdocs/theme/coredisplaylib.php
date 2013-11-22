@@ -995,11 +995,11 @@ function __ac_desc_UpdateForm($object)
 		$alist['property'] = null;
 		$object->getParentO()->createShowPropertyList($alist);
 		$nalist = null;
-
+	/*
 		foreach ($alist['property'] as &$a) {
 			$a .= '&goback=1';
 		}
-
+	*/
 		$nalist = lx_merge_good($nalist, $alist['property']);
 		$ghtml->print_tab_block($nalist);
 	}

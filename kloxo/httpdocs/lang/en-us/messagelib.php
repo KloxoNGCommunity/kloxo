@@ -366,3 +366,8 @@ $__information['client_addform_wholesale_pre'] = "No information...";
 $__information['client_addform_reseller_pre'] = "No information...";
 $__information['client_addform_customer_pre'] = "No information...";
 $__information['client_addform_customer_pre'] = "No information...";
+
+$__information['domain_updateform_limit_pre'] = "No information...";
+
+$__information['addondomain_addform_parked_pre'] = "No information...";
+$__information['addondomain_addform_redirect_pre'] = "No information...";

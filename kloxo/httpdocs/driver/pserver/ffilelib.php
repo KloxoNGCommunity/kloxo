@@ -878,7 +878,7 @@ class Ffile extends Lxclass
 
 	function getContent()
 	{
-		$stat['mode'] = $this->mode;
+	//	$stat['mode'] = $this->mode;
 		$stat['ttype'] = $this->ttype;
 
 		$stat = rl_exec_get(null, $this->__readserver, array("coreFfile", "getContent"), array($this->__username_o, $this->root, $this->getFullPath(), $stat, $this->numlines));
