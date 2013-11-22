@@ -28,7 +28,7 @@ $userid = $login->getId();
 					<b><?= $login->getKeywordUc('alllist') ?></b>
 					<div>
 						<a href="/display.php?frm_action=list&frm_o_cname=all_domain"><?= $ghtml->getTitleOnly("a=list&c=all_domain") ?></a><br/>
-						<a href="/display.php?frm_action=list&frm_o_cname=all_addondomain") ?>"><?= $ghtml->getTitleOnly("a=list&c=all_addondomain") ?></a><br/>
+						<a href="/display.php?frm_action=list&frm_o_cname=all_addondomain"><?= $ghtml->getTitleOnly("a=list&c=all_addondomain") ?></a><br/>
 						<a href="/display.php?frm_action=list&frm_o_cname=all_mailaccount"><?= $ghtml->getTitleOnly("a=list&c=all_mailaccount") ?></a><br/>
 						<a href="/display.php?frm_action=list&frm_o_cname=all_mailforward"><?= $ghtml->getTitleOnly("a=list&c=all_mailforward") ?></a><br/>
 						<a href="/display.php?frm_action=list&frm_o_cname=all_mysqldb"><?= $ghtml->getTitleOnly("a=list&c=all_mysqldb") ?></a><br/>
@@ -122,7 +122,7 @@ $userid = $login->getId();
 		<li><a href="#"><?= $login->getKeywordUc('advanced') ?></a>
 			<div class="drop decor2_2">
 				<div class='left rightborder'>
-					<b><?= $login->getKeywordUc('customize') ?></b>
+					<b><?= $login->getKeywordUc('general') ?></b>
 					<div>
 						<a href="/display.php?frm_action=updateform&frm_subaction=scavengetime&frm_o_o[0][class]=general"><?= $ghtml->getTitleOnly("a=updateform&sa=scavengetime&o=general") ?></a><br/>
 						<a href="/display.php?frm_action=updateform&frm_subaction=generalsetting&frm_o_o[0][class]=general"><?= $ghtml->getTitleOnly("a=updateform&sa=generalsetting&o=general") ?></a><br/>
@@ -299,7 +299,13 @@ $userid = $login->getId();
 		if ($login->isAdmin()) {
 ?>
 						<a href="/display.php?frm_action=list&frm_o_cname=all_client"><?= $ghtml->getTitleOnly("a=list&c=all_client") ?></a><br/>
+<?php
+			if (check_if_many_server()) {
+?>
 						<a href="/display.php?frm_action=addform&frm_dttype[var]=cttype&frm_dttype[val]=wholesale&frm_o_cname=client"><?= $ghtml->getTitleOnly("a=addform&dta[var]=cttype&dta[val]=wholesale&c=client") ?></a><br/>
+<?php
+			}
+?>
 						<a href="/display.php?frm_action=addform&frm_dttype[var]=cttype&frm_dttype[val]=reseller&frm_o_cname=client"><?= $ghtml->getTitleOnly("a=addform&dta[var]=cttype&dta[val]=reseller&c=client") ?></a><br/>
 <?php
 		}
@@ -308,7 +314,7 @@ $userid = $login->getId();
 <?php
 		if ($login->isAdmin()) {
 ?>
-						<a href="/display.php?frm_action=list&frm_o_cname=all_client"><?= $ghtml->getTitleOnly("a=list&c=all_client&frm_filter[view]=quota") ?></a><br/>
+						<!-- <a href="/display.php?frm_action=list&frm_o_cname=all_client&frm_filter[view]=quota"><?= $ghtml->getTitleOnly("a=list&c=all_client&frm_filter[view]=quota") ?></a><br/> -->
 <?php
 		}
 ?>
@@ -334,7 +340,8 @@ $userid = $login->getId();
 </div>
 <div style="float:right">
 	<ul class="menuTemplate2 decor2_1">
-		<li><a href="#" onMouseOver="document.getElementById('infomsg').style.display='inline';" onMouseOut="document.getElementById('infomsg').style.display='none';"><?= $login->getKeywordUc('help') ?></a></li>
+		<!-- <li><a href="#" onMouseOver="document.getElementById('infomsg').style.display='inline';" onMouseOut="document.getElementById('infomsg').style.display='none';"><?= $login->getKeywordUc('help') ?></a></li> -->
+		<li><a href="#" onClick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
 		<li class="separator"></li>
 		<li><a href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a>
 		</li>

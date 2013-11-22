@@ -104,8 +104,9 @@ class Ticket extends Lxclient
 
 	function createShowAddform()
 	{
-	//  $aflist['tickethistory'] = null;
-	//  return $aflist;
+		$aflist['tickethistory'] = null;
+
+		return $aflist;
 	}
 
 	function createShowPropertyList(&$alist)
@@ -115,7 +116,8 @@ class Ticket extends Lxclient
 		$alist['property'][] = "a=show";
 		$alist['property'][] = "a=addform&c=tickethistory";
 		
-		if ($login->isAdmin() && ($sgbl->isLxlabsClient() || $sgbl->isdebug())) {
+	//	if ($login->isAdmin() && ($sgbl->isLxlabsClient() || $sgbl->isdebug())) {
+		if ($login->isAdmin() || $sgbl->isdebug()) {
 			$alist['property'][] = "a=updateform&sa=escalate";
 		}
 		
@@ -128,7 +130,8 @@ class Ticket extends Lxclient
 		$nlist['nname'] = "1%";
 	//	$nlist['priority'] = '3%';
 		
-		if ($login->isAdmin() && ($sgbl->isLxlabsClient() || $sgbl->isdebug())) {
+	//	if ($login->isAdmin() && ($sgbl->isLxlabsClient() || $sgbl->isdebug())) {
+		if ($login->isAdmin() || $sgbl->isdebug()) {
 			$nlist['escalate'] = '3%';
 		}
 		
@@ -251,7 +254,9 @@ class Ticket extends Lxclient
 		
 		list($sec, $usec) = explode(" ", microtime());
 		
-		$this->mail_messageid = "<$sec$usec.GA8614@lmratwork.com>";
+	//	$this->mail_messageid = "<$sec$usec.GA8614@mratwork.com>";
+
+		$this->mail_messageid = "<$sec$usec.GA8614@localhost>";
 
 		ticketHistory::getObjectsTosend($this, $rhis, "ticketadd");
 	}
@@ -268,7 +273,6 @@ class Ticket extends Lxclient
 			throw new lxexception('select_one_child', 'sent_to');
 		}
 
-	//	$param['parent_clname'] = "client_s_vv_p_admin";
 		$param['parent_clname'] = "client-admin";
 		$param['nname'] = getIncrementedValueFromTable("ticket", "nname");
 		$param['made_by'] = $parent->getClName();
@@ -364,11 +368,7 @@ class Ticket extends Lxclient
 		$vlist['subject'] = null;
 		$vlist['priority'] = array('s', array('low', 'medium', 'high', 'urgent'));
 		$vlist['descr_f'] = null;
-		
-		if ($sgbl->isLxlabsClient()) {
-			$vlist['__m_message_pre'] = "lxlabsclient_ticket_forum";
-		}
-		
+	
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
 		

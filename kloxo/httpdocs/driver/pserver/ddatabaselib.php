@@ -4,7 +4,8 @@ class userlist_a
 {
 }
 
-class databasecore extends Lxdb {
+class databasecore extends Lxdb
+{
 
 	static $__desc_username = array("n", "",  "user_name", "a=show");
 	static $__desc_dbtype = array("", "",  "database_type");
@@ -316,6 +317,7 @@ class databasecore extends Lxdb {
 
 	//	$vlist['username'] = array('m', array('pretext' => $dbprefix));
 		$vlist['dbpassword'] = null;
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
 		

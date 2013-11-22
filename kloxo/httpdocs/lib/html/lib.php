@@ -7321,7 +7321,7 @@ function getRpmVersionViaYum($rpm)
 		$ver = '';
 	}
 */
-//	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
+	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
 
 	return $out[0];
 }

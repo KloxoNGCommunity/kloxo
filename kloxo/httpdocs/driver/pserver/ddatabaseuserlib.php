@@ -1,14 +1,17 @@
 <?php
 
-class dbpermission_b extends Lxaclass {
+class dbpermission_b extends Lxaclass
+{
 	static $__desc_nname =  array("n", "",  "client_name", "a=show");
 
 }
 
-class dbhostlist_a extends Lxaclass {
+class dbhostlist_a extends Lxaclass
+{
 }
 
-class databaseusercorelib extends lxdb {
+class databaseusercorelib extends lxdb
+{
 
 	static $__desc = array("", "",  "database_user");
 	static $__desc_nname =  array("n", "",  "database_user_name", "a=show");
@@ -92,6 +95,7 @@ class databaseusercorelib extends lxdb {
 		$vlist['dbtype'] === 'mysql';
 		$vlist['nname'] = array('m', array('pretext' => $dbprefix));
 		$vlist['dbpassword'] = null;
+
 		$res['variable'] = $vlist;
 		$res['action'] = 'add';
 		

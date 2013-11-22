@@ -94,8 +94,6 @@ class Domaind extends DomainBase
 	static $__acdesc_update_show_awstats = array("", "", "awstats");
 	static $__acdesc_update_check_dns = array("", "", "check_dns");
 
-
-
 	function getDomainRoot()
 	{
 		global $gbl, $sgbl, $login;
@@ -985,8 +983,6 @@ class Domaind extends DomainBase
 
 	static function continueFormFinish($parent, $class, $param, $continueaction)
 	{
-	//	$vlist['__m_message_pre'] = 'make_sure_ipaddress_template';
-
 		global $gbl, $sgbl, $login, $ghtml;
 		
 		// For IE.. too many variables won't work in get mode.
@@ -1126,7 +1122,6 @@ class Domaind extends DomainBase
 	{
 	/*
 		if ($parent->isNotCustomer()) {
-			$vlist['__m_message_pre'] = "domain_not_customer";
 			$ret['variable'] = $vlist;
 			$ret['action'] = '';
 	
@@ -1157,6 +1152,7 @@ class Domaind extends DomainBase
 	//	$vlist['__c_subtitle_quota'] = 'Features';
 		$qvlist = getQuotaListForClass('domain', array('ttype' => 'virtual', 'webpserver' => $parent->websyncserver));
 		$vlist = lx_array_merge(array($vlist, $qvlist));
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = "add";
 
@@ -1293,11 +1289,16 @@ class Domaind extends DomainBase
 		}
 	/*
 		if (!$this->isLogin()) {
-		//	$alist['__title_admin'] = $login->getKeywordUc('administrative_actions');
+			$alist['__title_admin'] = $login->getKeywordUc('administrative_actions');
 		}
+	
 	*/
-		// MR -- disable because want combine 'domain' and 'domain adm'
-	//	$alist['__title_domain_administer'] = $login->getKeywordUc('Domain Adm');
+
+		// MR -- just a trick to find out not access to 'home' because need title for domain
+		if ($login->getUrlIdentity()) {
+			// MR -- disable because want combine 'domain' and 'domain adm'
+			$alist['__title_domain_administer'] = $login->getKeywordUc('domain');
+		}
 
 	//	$this->getLxclientActions($alist);
 
@@ -1642,14 +1643,15 @@ class subdomain extends Domaind
 
 	static function addform($parent, $class, $typetd = null)
 	{
-
 		$dir = "__path_customer_root/{$parent->getPathFromName()}";
 		$dir = expand_real_root($dir);
 		$vv = array('var' => "subdomain_parent", 'val' => array('s', get_namelist_from_objectlist($parent->getList('domain'))));
 		$vlist['nname'] = array('m', array('posttext' => ".", 'postvar' => $vv));
+
 		if ($parent->priv->isOn('document_root_flag')) {
 			$vlist['docroot'] = array('m', array('pretext' => "$dir/"));
 		}
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
 		return $ret;

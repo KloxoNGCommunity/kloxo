@@ -208,32 +208,31 @@ class resourceplan extends resourcecore
 				$vlist['copy_clientname_f'] = array('s', $clist);
 				$vlist['realname_f'] = array('m', $this->realname);
 
-				return $vlist;
+				break;
 			case "account":
 				$total = $this->getAccountList();
 				$total = lx_array_merge($total);
 				$vlist['account'] = array('M', implode(" ", $total));
 
 				$vlist['__v_button'] = array();
-				return $vlist;
+
+				break;
 			case "limit_s":
 			case "limit":
 				$vlist = getQuotaListForClass('client');
-				$vlist['__m_message_pre'] = "resourceplan_change_pre";
 
 				// This is patently wrong. In update, the object is inititialized properly and 
 				// we are suppsed to get the quota for the specific type of object and not for 
 				// the class.... Changing it to $this.
 				$sgbl->method = 'post';
 
-				return $vlist;
-
+				break;
 			case "dnstemplatelist":
 				$parent = $this->getParentO();
 				$nlist = domainBase::getDnsTemplateList($parent);
 				$vlist['dnstemplate_list'] = array('U', $nlist);
 
-				return $vlist;
+				break;
 			case "pserver_s":
 				$parent = $this->getParentO();
 				$list = null;
@@ -247,8 +246,6 @@ class resourceplan extends resourcecore
 
 					$vlist['__v_button'] = array();
 				//	$vlist['dbtype_list'] = array('M', $this->listpriv->dbtype_list);
-
-					return $vlist;
 				} else {
 					$vlist['server_detail_f'] = null;
 
@@ -270,9 +267,9 @@ class resourceplan extends resourcecore
 					$vlist['server_detail_f'] = array('M', pservercore::createServerInfo($list));
 				//	$vlist['dbtype_list'] = null;
 
-					return $vlist;
 				}
 
+				break;
 			case "ipaddress":
 				dprintr($this->listpriv->ipaddress_list);
 				$parent = $this->getParentO();
@@ -292,7 +289,7 @@ class resourceplan extends resourcecore
 					$vlist['ipaddress_list'] = array('Q', $iplist);
 				}
 
-				return $vlist;
+				break;
 
 			case "description":
 				if ($this->islogin()) { throw new lxException('you_cannot_set_your_own_limit', ''); }
@@ -310,19 +307,21 @@ class resourceplan extends resourcecore
 					$this->convertToUnmodifiable($vlist);
 				}
 
-				return $vlist;
+				break;
 
 			case "changerealname":
 				$vlist['realname'] = null;
-				return $vlist;
 
+				break;
 			case "ostemplatelist":
 				getResourceOstemplate($vlist);
-				return $vlist;
 
+				break;
 		}
 
-		return parent::updateform($subaction, $param);
+		return $vlist;
+
+	//	return parent::updateform($subaction, $param);
 	}
 
 	static function createListNlist($parent, $view)
@@ -409,12 +408,10 @@ class resourceplan extends resourcecore
 	{
 		$vlist['realname'] = "";
 		$vlist['description'] = null;
-		//$vlist['share_status'] = null;
-
+	//	$vlist['share_status'] = null;
 
 		$qvlist = getQuotaListForClass('client', array());
 		$vlist = lx_array_merge(array($vlist, $qvlist));
-
 
 		$ret['variable'] = $vlist;
 		$ret['action'] = "add";

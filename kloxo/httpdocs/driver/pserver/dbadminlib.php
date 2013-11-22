@@ -50,7 +50,7 @@ class Dbadmin extends Lxdb
 		$vlist['dbtype'] = array('M', $this->dbtype);
 		$vlist['dbadmin_name'] = array('M', $this->dbadmin_name);
 		$vlist['dbpassword'] = null;
-		
+
 		return $vlist;
 	}
 
@@ -84,6 +84,7 @@ class Dbadmin extends Lxdb
 		$vlist['dbtype'] = array('s', $sgbl->__var_dblist);
 		$vlist['dbadmin_name'] = null;
 		$vlist['dbpassword'] = null;
+
 		$ret['action'] = 'add';
 		$ret['variable'] = $vlist;
 		

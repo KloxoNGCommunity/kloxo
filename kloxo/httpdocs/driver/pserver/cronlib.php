@@ -111,11 +111,11 @@ class Cron extends Lxdb
 		$nlist["command"] = "100%";
 		$nlist["syncserver"] = "5%";
 
-	//	$nlist["minute"] = "5%";
-	//	$nlist["hour"] = "5%";
-	//	$nlist["ddate"] = "5%";
-	//	$nlist["weekday"] = "5%";
-	//	$nlist["month"] = "5%";
+		$nlist["minute"] = "5%";
+		$nlist["hour"] = "5%";
+		$nlist["ddate"] = "5%";
+		$nlist["weekday"] = "5%";
+		$nlist["month"] = "5%";
 
 		return $nlist;
 	}
@@ -148,9 +148,11 @@ class Cron extends Lxdb
 
 		if ($this->isSimple()) {
 			$vlist['simple_cron'] = array('M', $this->simple_cron);
+
 			if ($this->simple_cron === 'every-day') {
 				$vlist['cron_day_hour'] = array('M', $this->cron_day_hour);
 			}
+
 			return $vlist;
 		}
 
@@ -168,12 +170,7 @@ class Cron extends Lxdb
 		$vlist["weekday"] = array('U', cron::$weekdaylist);
 		$vlist["month"] = array('U', cron::$monthlist);
 		$vlist["command"] = null;
-		$driverapp = $gbl->getSyncClass($this->__masterserver, $this->__readserver, 'cron');
-		
-		if ($driverapp === 'windows') {
-			$vlist["argument"] = array('M', null);
-		}
-		
+
 		return $vlist;
 	}
 
@@ -196,43 +193,26 @@ class Cron extends Lxdb
 			$v = self::$hourlist;
 			unset($v[0]);
 			$vlist['cron_day_hour'] = array('s', $v);
-			$vlist['command'] = null;
-			$ret['action'] = 'add';
-			$ret['variable'] = $vlist;
-			return $ret;
-		}
-
-		$driverapp = $gbl->getSyncClass($parent->__masterserver, $parent->__readserver, 'cron');
-
-		if ($driverapp === 'windows') {
-			$str = "s";
 		} else {
-			$str = "U";
+			$vlist["username"] = array('M', $parent->username);
+
+			if ($parent->isClass('pserver') || $parent->priv->isOn('cron_minute_flag')) {
+				$vlist['minute'] = array($str, cron::$minutelist);
+			} else {
+				$vlist['minute'] = array('m', 0);
+			}
+
+			$vlist["hour"] = array($str, cron::$hourlist);
+
+			$vlist["ddate"] = array($str, cron::$ddatelist);
+			$vlist["weekday"] = array($str, cron::$weekdaylist);
+			$vlist["month"] = array($str, cron::$monthlist);
 		}
-
-		$vlist["username"] = array('M', $parent->username);
-
-		if ($parent->isClass('pserver') || $parent->priv->isOn('cron_minute_flag')) {
-			$vlist['minute'] = array($str, cron::$minutelist);
-		} else {
-			$vlist['minute'] = array('m', 0);
-		}
-
-		$vlist["hour"] = array($str, cron::$hourlist);
-
-		$vlist["ddate"] = array($str, cron::$ddatelist);
-		$vlist["weekday"] = array($str, cron::$weekdaylist);
-		$vlist["month"] = array($str, cron::$monthlist);
 
 		$vlist["command"] = null;
-		
-		if ($driverapp === 'windows') {
-			$vlist["argument"] = null;
-		}
 
-
-		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
+		$ret['variable'] = $vlist;
 
 		return $ret;
 	}
@@ -300,6 +280,7 @@ class Cron extends Lxdb
 				$nel[] = '--all--';
 				break;
 			}
+
 			if ($staticlist) {
 				$nel[] = array_search($l, $staticlist);
 			} else {
@@ -309,7 +290,6 @@ class Cron extends Lxdb
 		
 		return $nel;
 	}
-
 
 	static function add($parent, $class, $param)
 	{
@@ -331,7 +311,6 @@ class Cron extends Lxdb
 		$parambase = fix_nname_to_be_variable($parambase);
 		$cronlist = $parent->getList('cron');
 		$count = 0;
-
 
 		while (isset($cronlist[$parambase . "_" . $count])) {
 			$count++;
@@ -369,13 +348,11 @@ class Cron extends Lxdb
 		}
 	}
 
-
 	static function createListUpdateForm($object, $class)
 	{
 		$update[] = 'cron_mailto';
 		
 		return $update;
-
 	}
 
 	static function initThisListRule($parent, $class)
@@ -394,7 +371,6 @@ class Cron extends Lxdb
 
 class all_cron extends cron
 {
-
 	static $__desc = array("", "", "all_scheduled_task");
 	static $__desc_parent_name_f = array("n", "", "owner");
 	static $__desc_parent_clname = array("n", "", "owner");

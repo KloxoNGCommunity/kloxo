@@ -8,6 +8,7 @@ logout_main();
 function logout_main()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	initProgram();
 
 	clear_all_cookie();
@@ -17,6 +18,7 @@ function logout_main()
 
 	$gbl->c_session->delete();
 	$gbl->c_session->was();
+
 	if ($gbl->c_session->ssl_param) {
 		$ghtml->print_redirect($gbl->c_session->ssl_param['backurl']);
 	} else if ($gbl->c_session->consuming_parent) {

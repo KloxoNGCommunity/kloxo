@@ -82,10 +82,6 @@ class ftpuser extends Lxclient
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($login->isAdmin()) {
-			$vlist['__m_message_pre'] = "ftpuser_admin";
-		}
-
 		$char = "@";
 		$dlist = get_namelist_from_objectlist($parent->getList('domain'));
 

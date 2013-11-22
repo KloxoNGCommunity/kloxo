@@ -1,7 +1,5 @@
 <?php 
 
-
-class ActionDesc {
-
-
+class ActionDesc
+{
 }

@@ -61,7 +61,6 @@ class Domaintemplate extends DomainBase
 	// in domain it will call the complex finish, and in templates it will call the simple one.
 	static function continueFormFinish($parent, $class, $param, $continueaction)
 	{
-	//	$vlist['__m_message_pre'] = 'make_sure_ipaddress_template';
 		$iplist = $parent->getIpaddress(array($param['listpriv_s_webpserver_sing']));
 
 		if (!$iplist) {

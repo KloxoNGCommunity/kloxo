@@ -85,7 +85,8 @@ class auxiliary extends Lxclient
 	}
 }
 
-class all_auxiliary extends auxiliary {
+class all_auxiliary extends auxiliary
+{
 	static $__desc = array("", "", "all_auxiliary");
 	static $__desc_parent_name_f = array("", "", "parent");
 
@@ -96,5 +97,10 @@ class all_auxiliary extends auxiliary {
 		}
 
 		return "__v_table";
+	}
+
+	static function AddListForm($parent, $class)
+	{
+		return false;
 	}
 }

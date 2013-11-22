@@ -2,7 +2,6 @@
 
 class Lxupdate extends lxClass
 {
-
 	static $__ttype = "permanent";
 	static $__desc = array("S", "",  "update");
 
@@ -114,11 +113,11 @@ class Lxupdate extends lxClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 		
-		/*
-			if (!$parent->isLocalhost('nname')) {
-				throw new lxException("slave_is_automatically_updated", $parent->nname);
-			}
-		*/
+	/*
+		if (!$parent->isLocalhost('nname')) {
+			throw new lxException("slave_is_automatically_updated", $parent->nname);
+		}
+	*/
 		
 		$thisversion = $sgbl->__ver_major_minor_release;
 		$upversion = getLatestVersion();

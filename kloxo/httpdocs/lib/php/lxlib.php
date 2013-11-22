@@ -1718,12 +1718,10 @@ function DBG_GetBacktrace($traceArr)
 				}
 			}
 		}
-		$s .= $arr['function'] . '(' . implode(',
-        ', $args) . ')</font>';
+		$s .= $arr['function'] . '(' . implode(',', $args) . ')</font>';
 		$Line = (isset($arr['line']) ? $arr['line'] : "unknown");
 		$File = (isset($arr['file']) ? $arr['file'] : "unknown");
-		$s .= sprintf("<font color=#808080 size=-1> # line
-        %4d, file: <a href=\"file:/%s\">%s</a></font>", $Line, $File, $File);
+		$s .= sprintf("<font color=#808080 size=-1> # line %4d, file: <a href=\"file:/%s\">%s</a></font>", $Line, $File, $File);
 		$s .= "\n";
 	}
 	$s .= '</pre>';
@@ -1880,31 +1878,29 @@ function init_language()
 
 	$language = get_language();
 
-		if (lxfile_exists("lang/$language/messagelib.php")) {
-			include_once("lang/$language/messagelib.php");
-		} else {
-			include_once("lang/en/messagelib.php");
-		}
+	if (lxfile_exists("lang/$language/messagelib.php")) {
+		include_once("lang/$language/messagelib.php");
+	} else {
+		include_once("lang/en/messagelib.php");
+	}
 
-		if (lxfile_exists("lang/$language/langfunctionlib.php")) {
-			include_once("lang/$language/langfunctionlib.php");
-		} else {
-			include_once("lang/en/langfunctionlib.php");
-		}
+	if (lxfile_exists("lang/$language/langfunctionlib.php")) {
+		include_once("lang/$language/langfunctionlib.php");
+	} else {
+		include_once("lang/en/langfunctionlib.php");
+	}
 
-		if (lxfile_exists("lang/$language/langkeywordlib.php")) {
-			include_once("lang/$language/langkeywordlib.php");
-		} else {
-			include_once("lang/en/langkeywordlib.php");
-		}
+	if (lxfile_exists("lang/$language/langkeywordlib.php")) {
+		include_once("lang/$language/langkeywordlib.php");
+	} else {
+		include_once("lang/en/langkeywordlib.php");
+	}
 
-		if (lxfile_exists("lang/$language/desclib.php")) {
-			include_once("lang/$language/desclib.php");
-		} else {
-			include_once("lang/en/desclib.php");
-		}
-
-	include_once("lib/html/commonmessagelib.php");
+	if (lxfile_exists("lang/$language/desclib.php")) {
+		include_once("lang/$language/desclib.php");
+	} else {
+		include_once("lang/en/desclib.php");
+	}
 
 	$g_language_mes = new Language_Mes();
 	$g_language_mes->__information = $__information;
@@ -1917,8 +1913,6 @@ function init_language()
 	// __help and __helpvar until 6.1.6 doesn't exist, so make choice
 	$g_language_mes->__help = (isset($__help)) ? $__help : '';
 	$g_language_mes->__helpvar = (isset($__helpvar)) ? $__helpvar : '';
-
-	$g_language_mes->__commonhelp = $g_commonhelp;
 
 	$g_language_desc = new Remote();
 	$g_language_desc->__description = $__description;

@@ -95,8 +95,6 @@ class serverweb extends lxdb
 
 				$this->setDefaultValue('php_branch', getRpmBranchInstalledOnList('php'));
 
-				$vlist['__m_message_pre'] = 'webserver_config';
-
 				break;
 			default:
 				$vlist['__v_button'] = array();

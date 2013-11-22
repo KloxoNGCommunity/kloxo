@@ -1867,7 +1867,9 @@ function print_navigation($navig)
 				//	$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
 				//	$ghtml->print_div_button_on_header(null, true, $k, '');
 ?>
-				<div style="float:right; padding: 2px;"><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" /></div>
+
+				<!-- <div style="float:right; padding: 2px;"><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" /></div> -->
+				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" /></div>
 <?php
 			}
 
@@ -2449,7 +2451,8 @@ function print_head_image()
 			if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
 
-				<td nowrap valign='top'><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
+				<!-- <td nowrap valign='top'><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td> -->
+				<td nowrap valign='top'><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
 <?php
 			}
 ?>

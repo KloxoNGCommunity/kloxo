@@ -171,15 +171,12 @@ class dns_record_a extends LxDnsClass
 		} else if ($typetd['val'] === 'cname') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('m', array('posttext' => ".$parent->nname."));
-			$vlist['__m_message_pre'] = 'vv_dns_blank_message';
 		} else if ($typetd['val'] === 'fcname') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('m', array('posttext' => ""));
-			$vlist['__m_message_pre'] = 'vv_dns_blank_message';
 		} else {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = null;
-			$vlist['__m_message_pre'] = 'vv_dns_blank_message';
 		}
 
 		$ret['variable'] = $vlist;

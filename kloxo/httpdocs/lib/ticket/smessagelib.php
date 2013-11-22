@@ -60,6 +60,7 @@ class Smessage extends Lxdb
 		$vlist['send_mail_f'] = null;
 		$vlist['subject'] = null;
 		$vlist['text_description'] = null;
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
 

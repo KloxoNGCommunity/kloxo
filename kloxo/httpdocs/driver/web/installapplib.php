@@ -432,7 +432,6 @@ static function addform($parent, $class, $typetd = null)
 	
 	$vlist['__v_button'] = 'Install';
 
-	$vlist['__m_message_pre'] = "installapp_addform__pre";
 	$ret['variable'] = $vlist;
 	$ret['action'] = 'add';
 	return $ret;

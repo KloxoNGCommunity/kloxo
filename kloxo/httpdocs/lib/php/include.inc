@@ -14,6 +14,7 @@ function getOs()
 {
 	// A bug... Php crashes whern php_uname is called. Man!!!!!!
 	return false;
+
 	return (substr(php_uname(), 0, 7) == "Windows")? "windows": "linux";
 }
 
@@ -29,14 +30,15 @@ if (!$_SERVER['DOCUMENT_ROOT']) {
 	$_SERVER['DOCUMENT_ROOT'] = getcwd();
 }
 
-if (WindowsOs()) {
-	ini_set("include_path", ".;{$_SERVER['DOCUMENT_ROOT']}");
-} else {
+
+// if (WindowsOs()) {
+//	ini_set("include_path", ".;{$_SERVER['DOCUMENT_ROOT']}");
+// } else {
 	ini_set("include_path", ".:{$_SERVER['DOCUMENT_ROOT']}");
-}
+// }
 
 
-//include_once "lib/php/common.inc";
+// include_once "lib/php/common.inc";
 
 //This is needed for the stupid zend debugger to work. the aim is to automatically reach the point below the common.inc; common.inc is where all the different classes are loaded, and without the class first getting loaded, the breakpoint set inside a class will not work. So I wrote a Vim function that will automatically send the set of functions that will take you to this point.
 
@@ -44,6 +46,7 @@ function dummy_debug_function()
 {
 	$var = 9;
 }
+
 dummy_debug_function();
 
 function getreal($vpath)

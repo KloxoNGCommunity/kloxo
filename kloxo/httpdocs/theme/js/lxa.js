@@ -103,17 +103,28 @@ function updateallWarning()
 	return false;
 }
 
+function toggleVisibilityByClass(className)
+{
+	elements = document.getElementsByClassName(className);
 
-function toggleVisibility(id)
+	for (var i = 0; i <= elements.length; i++) {
+ 		elements[i].style.display = elements[i].style.display == 'block' ? 'none' : 'block';
+	}
+}
+
+function toggleVisibilitybyId(id)
 {
 	var el = document.getElementById(id);
-	if ( el.style.visibility == 'visible') {
+
+	// if ( el.style.visibility == 'visible') {
+	if (el.style.display != 'none') {
 		el.style.visibility = 'hidden';
 		//el.style.position = 'absolute';
 		el.style.display = 'none';
 	} else {
 		el.style.visibility = 'visible';
 		//el.style.position = 'relative';
+		// MR -- don't use 'inline' because trouble with simplicity skin
 		el.style.display = 'block';
 	}
 }

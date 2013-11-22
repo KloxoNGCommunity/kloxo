@@ -14,9 +14,15 @@ class mail_graylist_wlist_a extends lxaclass {
 
 	static function createListAlist($object, $class)
 	{
-		$alist = servermail::createShowPropertyList($alist);
+	//	$alist = servermail::createShowPropertyList($alist);
 		
-		return $alist['property'];
+	//	return $alist['property'];
+
+		$alist[] = 'a=updateform&sa=update';
+		$alist[] = 'a=updateform&sa=spamdyke';
+		$alist[] = "a=list&c=mail_graylist_wlist_a";
+
+		return $alist;
 	}
 }
 

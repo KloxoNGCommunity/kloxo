@@ -252,10 +252,6 @@ class phpini extends lxdb
 			}
 		}
 
-	//	$vlist['__m_message_pre'] = 'php_config';
-
-	//	$this->postUpdate();
-
 		return $vlist;
 	}
 
@@ -306,6 +302,8 @@ class phpini extends lxdb
 		$this->initialValue('extension_dir_flag', '/usr/lib/php/modules');
 		$this->initialValue('upload_tmp_dir_flag', '/tmp');
 		$this->initialValue('safe_mode_flag', 'off');
+
+		$this->initialValue('sendmail_from', null);
 	}
 
 	function initialValue($var, $val)

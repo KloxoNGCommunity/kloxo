@@ -50,7 +50,6 @@ abstract class Lxdb extends Lxclass
 		return $name;
 	}
 
-
 	function checkChildExists($class)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -215,6 +214,7 @@ abstract class Lxdb extends Lxclass
 		}
 
 		$this->__var_bc_backupextra_stopvpsflag = 'on';
+
 		if ($this->extraBackup()) {
 			$file = $this->backMeUpThere('backup');
 			$this->subaction = null;

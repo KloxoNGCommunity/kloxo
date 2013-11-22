@@ -3885,7 +3885,7 @@ class HtmlLib
 		}
 ?>
 
-		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a href="javascript:toggleVisibility('listaddform_<?= $unique_name ?>');"> <?= $login->getKeywordUc('clickheretoadd') ?> <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<&nbsp;</div>
+		<div style="background: #<?= $skin_color ?>; padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a href="javascript:toggleVisibilityById('listaddform_<?= $unique_name ?>');"> <?= $login->getKeywordUc('clickheretoadd') ?> <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<&nbsp;</div>
 		<br/>
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
@@ -3958,7 +3958,7 @@ class HtmlLib
 
 		<div style="width: 910px; margin: 0 auto 0 auto;">
 			<fieldset style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
-				<legend><span style='font-weight:bold'>Advanced Search <a href="javascript:toggleVisibility('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>	</span></legend>
+				<legend><span style='font-weight:bold'>Advanced Search <a href="javascript:toggleVisibilityById('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>	</span></legend>
 			</fieldset>
 		</div>
 
@@ -7704,27 +7704,20 @@ class HtmlLib
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 
 		$pinfo = null;
-
+	/*
 		if ($vlist) {
 			$info = $vlist;
 		} else {
 			$info = implode("_", array($class, $type, $extr, $place));
 		}
+	*/
 
-		if (isset($g_language_mes->__commonhelp[$info])) {
-			$info = $g_language_mes->__commonhelp[$info];
-		}
+		$info = implode("_", array($class, $type, $extr, $place));
 
-		if ($place !== 'post') {
-			if (isset($g_language_mes->__information[$info])) {
-				$pinfo = $g_language_mes->__information[$info];
-			}
-		} else {
-		//	dprint($info);
+dprint($info);
 
-			if (isset($g_language_mes->__information[$info])) {
-				$pinfo = $g_language_mes->__information[$info];
-			}
+		if (isset($g_language_mes->__information[$info])) {
+			$pinfo = $g_language_mes->__information[$info];
 		}
 
 		if (!$pinfo) {
@@ -7734,17 +7727,6 @@ class HtmlLib
 				if (isset($g_language_mes->__information[$info])) {
 					$pinfo = $g_language_mes->__information[$info];
 				}
-			} else {
-			//	dprint($info);
-				if (lxfile_exists("__path_program_htmlbase/help/$info.dart")) {
-					$pinfo = lfile_get_contents("__path_program_htmlbase/help/$info.dart");
-				}
-			}
-		}
-
-		if ($skin_name === 'feather') {
-			if (!$pinfo) {
-				return;
 			}
 		}
 
@@ -7817,21 +7799,26 @@ class HtmlLib
 ?>
 
 <?php
-		if ($skin_name === 'feather') {
+	//	if ($skin_name === 'feather') {
+			if ($pinfo !== '') {
 ?>
-		<div style="width: 600px; margin: 0 180px; border: 0; padding: 0;">
-			<div id="infomsg" style="display: none;">
+		<div style="width: 600px; margin: 0 auto; border: 0; padding: 0;">
+			<div class="infomsg" style="display: none; background-color: #efe; border: 3px double #f88; padding: 10px; margin: 0 0 10px 0;">
 <?php
-			$this->print_curvy_table_start();
+
+		//	$this->print_curvy_table_start();
+			}
+	/*
 		} else {
 			if ($pinfo !== '') {
 ?>
 
-		<div id="infomsg" style="display:none; position:fixed; width: 600px; top: 45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#dfe; border:3px double #e22; text-align:left">
+		<div class="infomsg" style="display:none; position:fixed; width: 600px; top: 45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#dfe; border:3px double #e22; text-align:left">
 <?php
 			}
 
 		}
+	*/
 
 		if ($sgbl->isBlackBackground()) {
 ?>
@@ -7840,12 +7827,12 @@ class HtmlLib
 <?php
 		}
 
-		if ($pinfo !== '') {
+	//	if ($pinfo !== '') {
+			dprint($info . "<br/><br/>");
 ?>
-
 			<?= $pinfo ?><br/>
 <?php
-		}
+	//	}
 
 		if ($sgbl->isBlackBackground()) {
 ?>
@@ -7854,12 +7841,15 @@ class HtmlLib
 <?php
 		}
 
-		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'feather') {
-			$this->print_curvy_table_end();
+	//	if ($skin_name === 'feather') {
+		if ($pinfo !== '') {
+		//	$this->print_curvy_table_end();
 ?>
 			</div>
 		</div>
 <?php
+		}
+	/*
 		} else {
 			if ($pinfo !== '') {
 ?>
@@ -7867,6 +7857,7 @@ class HtmlLib
 <?php
 			}
 		}
+	*/
 	}
 
 	// function print_curvy_table_start($width = "100")
@@ -8848,21 +8839,7 @@ class HtmlLib
 
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
 				<div id="menu_div" style="width:800px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/index.php" ?></div>
-
-				<script type="text/javascript">
-					<!--
-					function toggle_wrapper(id) {
-						var e = document.getElementById(id);
-						if (e.style.display != 'none') {
-							e.style.display = 'none';
-						} else {
-							e.style.display = 'block';
-						}
-					}
-					//-->
-				</script>
-
-				<div style="position: fixed; top: 2px; right: 2px"><a href="#" onClick="javascript:toggle_wrapper('mmm');">
+				<div style="position: fixed; top: 2px; right: 2px"><a href="#" onClick="toggleVisibilityByClass('mmm');">
 					<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
 				</div>
 
@@ -8888,7 +8865,7 @@ class HtmlLib
 ?>
 
 			<!-- "START TAB + CONTENT" -->
-			<div class="shadow_all" id="mmm" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; border: <?= $border ?>; <?= $bgcolor ?>">
+			<div class="shadow_all mmm" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; border: <?= $border ?>; <?= $bgcolor ?>">
 <?php
 		}
 

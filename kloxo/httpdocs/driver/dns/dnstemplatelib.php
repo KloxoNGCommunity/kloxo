@@ -121,7 +121,6 @@ class Dnstemplate extends DnsBase
 			throw new lxexception('no_ip_address', 'parent');
 		}
 
-		$vlist['__m_message_pre'] = 'vv_dns_template_message';
 		$vlist['nname'] = null;
 		$vlist['webipaddress'] = array('s', $res);
 		$vlist['mmailipaddress'] = array('s', $res);

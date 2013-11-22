@@ -73,7 +73,7 @@ $__keyword['auxiliary'] = 'Auxiliary';
 $__keyword['dnstemplate'] = 'DNS Template';
 $__keyword['backuprestore'] = 'Backup/Restore';
 
-$__keyword['customize'] = 'Customize';
+$__keyword['general'] = 'General';
 $__keyword['blockedallowedips'] = 'Blocked/Allowed IPs';
 $__keyword['maintenance'] = 'Maintenance';
 
@@ -97,3 +97,6 @@ $__keyword['client'] = 'Client';
 
 $__keyword['root'] = 'Root';
 $__keyword['user'] = 'User';
+
+$__keyword['domain'] = 'Domain';
+$__keyword['domain_extra'] = 'Domain Extra';

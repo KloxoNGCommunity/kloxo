@@ -187,8 +187,6 @@ class sp_basespecialplay extends LxspecialClass
 					$vlist['__v_updateall_button'] = array();
 				}
 
-				$vlist['__m_message_pre'] = 'appearance_msg';
-
 				break;
 
 			case "upload_logo":

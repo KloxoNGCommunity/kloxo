@@ -208,11 +208,23 @@ class General extends Lxdb
 		if ($ghtml->frm_subaction === 'reversedns') {
 			$alist['property'][] = 'goback=1&a=list&c=reversedns';
 			$alist['property'][] = 'a=updateform&sa=reversedns';
-			if ($sgbl->isHyperVM()) {
+
+		//	if ($sgbl->isHyperVM()) {
 				$alist['property'][] = 'goback=1&a=list&c=all_dns';
 				$alist['property'][] = 'goback=1&a=list&c=all_reversedns';
-			}
+		//	}
 		}
+
+		return $alist;
+	}
+
+	// MR -- still not work!
+	static function createListAlist($parent, $class)
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$alist[] = "o=general&a=updateform&sa=portconfig";
+		$alist[] = "o=general&a=updateform&sa=scavengetime";
 
 		return $alist;
 	}
@@ -240,7 +252,7 @@ class General extends Lxdb
 
 	function postUpdate($subaction = null)
 	{
-		//	if ($this->subaction === 'generalsetting') {
+	//	if ($this->subaction === 'generalsetting') {
 		if ($subaction === 'generalsetting') {
 			// MR --- update for /webmails/webmail.conf
 			//	$driverapp = slave_get_driver('web');
@@ -310,7 +322,7 @@ class General extends Lxdb
 				$this->portconfig_b->setDefaultValue('nonsslport', $sgbl->__var_prog_port);
 				$vlist['portconfig_b-sslport'] = null;
 				$vlist['portconfig_b-nonsslport'] = null;
-				//	$vlist['portconfig_b-nonsslportdisable_flag'] = null;
+			//	$vlist['portconfig_b-nonsslportdisable_flag'] = null;
 				$vlist['portconfig_b-redirectnonssl_flag'] = null;
 
 				break;
@@ -386,8 +398,6 @@ class General extends Lxdb
 				$vlist['reversedns_b-secondarydns'] = null;
 				$serverlist = get_namelist_from_objectlist($login->getRealPserverList('dns'));
 				$vlist['dns_slave_list'] = array('U', $serverlist);
-
-			//	$vlist['__m_message_pre'] = 'reverse_dns';
 
 				break;
 

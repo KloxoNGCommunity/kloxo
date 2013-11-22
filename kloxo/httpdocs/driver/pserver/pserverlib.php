@@ -277,6 +277,7 @@ class pserver extends pservercore {
 		$alist[] = "a=updateform&sa=reboot";
 		$alist[] = "a=updateform&sa=poweroff";
 	*/
+
 		return $alist;
 	}
 }
