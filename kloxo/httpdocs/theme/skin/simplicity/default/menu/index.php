@@ -441,9 +441,9 @@ $userid = $login->getId();
 <div style="float:right">
 	<ul class="menuTemplate2 decor2_1">
 		<!-- <li><a href="#" onMouseOver="document.getElementById('infomsg').style.display='inline';" onMouseOut="document.getElementById('infomsg').style.display='none';"><?= $login->getKeywordUc('help') ?></a></li> -->
-		<li><a href="#" onClick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
+		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('help') ?>" href="#" onClick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
 		<li class="separator"></li>
-		<li><a href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a>
+		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('logout') ?>"  href="javascript:if (confirm('Do You Really Want To Logout?')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a>
 		</li>
 	</ul>
 </div>

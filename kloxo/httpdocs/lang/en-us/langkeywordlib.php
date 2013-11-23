@@ -100,3 +100,7 @@ $__keyword['user'] = 'User';
 
 $__keyword['domain'] = 'Domain';
 $__keyword['domain_extra'] = 'Domain Extra';
+
+$__keyword['click_here_for'] = 'Click Here for';
+
+
