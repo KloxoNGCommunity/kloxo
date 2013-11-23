@@ -6023,7 +6023,7 @@ function setInitialServer($nolog = null)
 		"vm.dirty_ratio = 5\n" .
 		"### end -- add by Kloxo-MR\n";
 
-	// MR -- TODO: also patch 'alias verynice="ionice -c3 nice -n 15"' to '~/.bashrc'
+	// MR -- TODO: also patch 'alias verynice="ionice -c2 nice -n 15"' to '~/.bashrc'
 
 	if (strpos($sysctlconf, $pattern) !== false) {
 		//
