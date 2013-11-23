@@ -112,7 +112,7 @@ function toggleVisibilityByClass(className)
 	}
 }
 
-function toggleVisibilitybyId(id)
+function toggleVisibilityById(id)
 {
 	var el = document.getElementById(id);
 
