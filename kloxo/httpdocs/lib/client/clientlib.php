@@ -374,7 +374,6 @@ class Client extends ClientBase
 			}
 		}
 
-
 		if ($this->isAdmin()) {
 			$alist[] = "a=list&c=custombutton";
 		}
@@ -429,7 +428,6 @@ class Client extends ClientBase
 		if ($login->isAdmin()) {
 			$alist['__v_dialog_shell'] = "a=updateform&sa=shell_access";
 		}
-
 
 		if (check_if_many_server()) {
 			if (!$this->isLogin() && !$this->isAdmin()) {
@@ -486,8 +484,6 @@ class Client extends ClientBase
 			//	$alist[] = "a=addform&c=domain";
 			}
 		}
-
-		$this->getCustomButton($alist);
 
 		if ($this->isNotCustomer()) {
 			$alist['__title_domain_rec'] = $login->getKeywordUc('domain');
@@ -604,6 +600,8 @@ class Client extends ClientBase
 		if ($this->isAdmin()) {
 		//	$alist[] = "a=updateform&sa=license&o=license";
 		}
+
+		$this->getCustomButton($alist);
 
 		return $alist;
 	}

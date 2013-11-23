@@ -156,7 +156,6 @@ function print_customer_mode($object)
 	} else {
 		$mode = $login->getKeywordUc('domainowner');
 	}
-
 ?>
 
 	<div style="background: #<?=$skin_color?> url(<?=$col?>); padding: 4px; margin: 0 25px; text-align: center">
@@ -2137,6 +2136,7 @@ function do_display_init()
 <?php
 	}
 
+/*
 	if ($gbl->c_session->consuming_parent) {
 ?>
 
@@ -2150,7 +2150,7 @@ function do_display_init()
 		</table>
 <?php
 	}
-
+*/
 	$ghtml->print_splash();
 
 	if (ifSplashScreen()) {

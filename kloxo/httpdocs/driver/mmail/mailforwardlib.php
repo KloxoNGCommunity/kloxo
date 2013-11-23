@@ -14,7 +14,7 @@ class MailForward extends Lxdb
 
 	static function AddListForm($parent, $class)
 	{
-		return self::addform($parent, $class);
+	//	return self::addform($parent, $class);
 	}
 
 	static function addform($parent, $class, $typetd = null)
@@ -58,7 +58,6 @@ class MailForward extends Lxdb
 
 	function updateform($subaction, $param)
 	{
-
 		$vlist['nname'] = array('M', $this->nname);
 		$vlist['forwardaddress'] = null;
 		return $vlist;
@@ -105,18 +104,15 @@ class MailForward extends Lxdb
 		return $nlist;
 	}
 
-
 	static function initThisListRule($parent, $class)
 	{
 		if ($parent->isClient()) {
 			$ret = lxdb::initThisOutOfBand($parent, 'domain', 'mmail', $class);
 
 			return $ret;
-
 		}
 
 		return lxdb::initThisListRule($parent, $class);
-
 	}
 }
 

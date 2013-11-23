@@ -221,9 +221,9 @@ class pserver extends pservercore {
 			$alist['property'][] = "a=updateform&sa=password";
 	//	}
 
-	//	if (check_if_many_server()) {
+		if (check_if_many_server()) {
 			$alist['property'][] = "a=list&c=psrole_a";
-	//	}
+		}
 	}
 
 	function createShowAlist(&$alist, $subaction = null)

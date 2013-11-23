@@ -29,7 +29,7 @@ abstract class ClientCore extends Resourcecore {
 
 	static $__acdesc_update_ostemplatelist  =  array("","",  "ostemplate_list");
 
-//  Objects
+	//  Objects
 	static $__acdesc_update_pserver  =  array("","",  "server_pool");
 	static $__acdesc_update_ipaddress  =  array("","",  "ip_pool");
 	static $__acdesc_update_changeowner = array("", "",  "change_owner");
@@ -100,7 +100,7 @@ abstract class ClientCore extends Resourcecore {
 			$ret["param"] = $param;
 			$ret["variable"] = $vlist;
 			$ret["action"] = "add";
-			//$ret["continueaction"] = "clientfinish";
+		//	$ret["continueaction"] = "clientfinish";
 		} else {
 			// All are $singstringle arrays, so just implode with "". the actually arrays are indexed u$singstring the name itself.
 			foreach($array as $a) {
@@ -112,8 +112,8 @@ abstract class ClientCore extends Resourcecore {
 
 				$param["listpriv_s_{$a}_list"] = implode("", $parent->listpriv->$v);
 			}
-			//$param['listpriv_s_dbtype_list'] = implode($parent->listpriv->dbtype_list);
 
+		//	$param['listpriv_s_dbtype_list'] = implode($parent->listpriv->dbtype_list);
 		}
 
 		return $ret;
@@ -185,7 +185,9 @@ abstract class ClientCore extends Resourcecore {
 
 		foreach($ftplist as $ftp) {
 			$nparam['syncserver'] = $param['websyncserver'];
+
 			if ($ftp->syncserver === $nparam['syncserver']) { continue; }
+
 			$ftp->doupdateSwitchserver($nparam);
 		}
 
@@ -265,7 +267,7 @@ abstract class ClientCore extends Resourcecore {
 			"emailAddress" => $param['ssl_data_b_s_emailAddress_r']
 		);
 
-		//$fp=@fopen("/home/root/nag.txt","w");
+	//	$fp=@fopen("/home/root/nag.txt","w");
 
 		$privkey = openssl_pkey_new();
 		$csr = openssl_csr_new($dn, $privkey);
@@ -426,7 +428,6 @@ abstract class ClientCore extends Resourcecore {
 				return $vlist;
 
 			case "multivpscreate":
-
 				$vlist['vps_basename_f'] = null;
 				$vlist['vps_admin_password_f'] = null;
 				$vlist['vps_count_f'] = null;
@@ -457,8 +458,8 @@ abstract class ClientCore extends Resourcecore {
 			case "wall":
 				$vlist['wall_from_f'] = array('M', $this->nname);
 
-				//Can't do this. If he has 10000 client, this itelf will hang the machine.
-				//$vlist['send_to_f'] = array('M', $namlist);
+				// Can't do this. If he has 10000 client, this itelf will hang the machine.
+			//	$vlist['send_to_f'] = array('M', $namlist);
 				$vlist['wall_subject_f'] = null;
 				$vlist['wall_message_f'] = null;
 				$vlist['__v_button'] = 'Send';
@@ -474,7 +475,6 @@ abstract class ClientCore extends Resourcecore {
 				return $vlist;
 
 			case "information":
-
 				$vlist['nname'] = array('M', $this->nname);
 
 				if ($this->isAdmin()) {
@@ -603,7 +603,7 @@ abstract class ClientCore extends Resourcecore {
 
 			case "description":
 				$vlist['description'] = null;
-				//$vlist['share_status'] = null;
+			//	$vlist['share_status'] = null;
 
 				if (!$this->isRightParent()) {
 					$this->convertToUnmodifiable($vlist);
@@ -660,10 +660,10 @@ abstract class ClientCore extends Resourcecore {
 			throw new lxException ("not_admin", '');
 		}
 
-		//$this->license_upload_f =  $param['license_upload_f'];
+	//	$this->license_upload_f =  $param['license_upload_f'];
 		$fname = $_FILES["license_upload_f"]["tmp_name"];
-		//$val = str_replace(" ", "", $this->license_upload_f);
-		//lfile_put_contents("__path_program_etc/license.txt", $val);
+	//	$val = str_replace(" ", "", $this->license_upload_f);
+	//	lfile_put_contents("__path_program_etc/license.txt", $val);
 
 		if (!lcopy($fname, "__path_program_etc/license.txt")) {
 			throw new lxException ("failed_to_copy_license_file_permission_error", 'licence');
@@ -671,12 +671,12 @@ abstract class ClientCore extends Resourcecore {
 
 		decodeAndStoreLicense();
 
-		// This is set so that the license alone feature - happens when the license expires - will properly redirect back to the original page. 
+		// This is set so that the license alone feature - happens when the license expires - 
+		// will properly redirect back to the original page. 
 		$gbl->__this_redirect = '/display.php?frm_action=show';
 
 		return null;
 	}
-
 
 	final function updatepserver_s($param)
 	{
@@ -684,14 +684,12 @@ abstract class ClientCore extends Resourcecore {
 		return $param;
 	}
 
-
 	final function updateIpaddress($param)
 	{
 		$this->fixpserver_list($param);
 
 		return $param;
 	}
-
 
 	function createShowRlist($subaction)
 	{
@@ -743,7 +741,7 @@ abstract class ClientCore extends Resourcecore {
 
 	}
 
-/// THis function is supposed to return the ipaddress of the client.
+	// This function is supposed to return the ipaddress of the client.
 	function getIpaddress($list = null)
 	{
 		$retlist = null;
@@ -752,7 +750,9 @@ abstract class ClientCore extends Resourcecore {
 			$list = null;
 		}
 
-		// If the list is null then return nothing. The list is supposed to be the quota of the web servers configured. So if it doesn't exist, then we need to return nothing. Make sure we don't call it without anything.
+		// If the list is null then return nothing. The list is supposed to be the quota of 
+		// the web servers configured. So if it doesn't exist, then we need to return nothing. 
+		// Make sure we don't call it without anything.
 		if (!$list) {
 			return null;
 		}
@@ -800,6 +800,7 @@ abstract class ClientCore extends Resourcecore {
 				}
 			}
 		}
+
 		if ($retlist) {
 			$retlist = array_unique($retlist);
 		}
@@ -820,7 +821,7 @@ abstract class ClientCore extends Resourcecore {
 				$iplist = null;
 
 				if (!$iplist) {
-					//dprintr($parent->__parent_o);
+				//	dprintr($parent->__parent_o);
 					throw new lxException("no_ipaddress", 'ipaddresslist');
 				}
 

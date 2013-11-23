@@ -3427,7 +3427,7 @@ class HtmlLib
 			}
 		}
 
-		//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
+	//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
 		$wrapstr = ($width === "100%") ? "" : "nowrap";
 
 		$target = null;

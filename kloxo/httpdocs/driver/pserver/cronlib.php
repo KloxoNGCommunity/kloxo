@@ -108,7 +108,7 @@ class Cron extends Lxdb
 	{
 	//	$nlist["nname"] = "5%";
 		$nlist["username"] = "10%";
-		$nlist["command"] = "100%";
+		$nlist["command"] = "60%";
 		$nlist["syncserver"] = "5%";
 
 		$nlist["minute"] = "5%";
@@ -197,16 +197,16 @@ class Cron extends Lxdb
 			$vlist["username"] = array('M', $parent->username);
 
 			if ($parent->isClass('pserver') || $parent->priv->isOn('cron_minute_flag')) {
-				$vlist['minute'] = array($str, cron::$minutelist);
+				$vlist['minute'] = array('U', cron::$minutelist);
 			} else {
 				$vlist['minute'] = array('m', 0);
 			}
 
-			$vlist["hour"] = array($str, cron::$hourlist);
+			$vlist["hour"] = array('U', cron::$hourlist);
 
-			$vlist["ddate"] = array($str, cron::$ddatelist);
-			$vlist["weekday"] = array($str, cron::$weekdaylist);
-			$vlist["month"] = array($str, cron::$monthlist);
+			$vlist["ddate"] = array('U', cron::$ddatelist);
+			$vlist["weekday"] = array('U', cron::$weekdaylist);
+			$vlist["month"] = array('U', cron::$monthlist);
 		}
 
 		$vlist["command"] = null;

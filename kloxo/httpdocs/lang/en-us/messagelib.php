@@ -340,7 +340,8 @@ $__information['pserver_updateform_commandcenter_pre'] = "No information...";
 $__information['sshclient_show__pre'] = "No information...";
 $__information['traceroute_list__pre'] = "No information...";
 
-$__information['phpini_show__pre'] = $__information['php_config'];
+// $__information['phpini_show__pre'] = $__information['php_config'];
+$__information['phpini_updateform_edit_pre'] = $__information['phpini_updateform_edit_admin_pre'];
 $__information['phpini_updateform_extraedit_pre'] = "No information...";
 
 $__information['mysqldb_list__pre'] = "No information...";
@@ -371,3 +372,39 @@ $__information['domain_updateform_limit_pre'] = "No information...";
 
 $__information['addondomain_addform_parked_pre'] = "No information...";
 $__information['addondomain_addform_redirect_pre'] = "No information...";
+
+$__information['dirprotect_addform__pre'] = "No information...";
+
+$__information['web_updateform_docroot_pre'] = "No information...";
+$__information['web_updateform_configure_misc_pre'] = "No information...";
+
+$__information['webhandler_addform__pre'] = "No information...";
+$__information['webmimetype_addform__pre'] = "No information...";
+
+$__information['redirect_a_addform_local_pre'] = "No information...";
+$__information['redirect_a_addform_remote_pre'] = "No information...";
+
+$__information['web_updateform_custom_error_pre'] = "No information...";
+
+$__information['domain_updateform_changeowner_pre'] = "No information...";
+
+$__information['mailforward_list__pre'] = "No information...";
+$__information['mailforward_addform_forward_pre'] = "No information...";
+$__information['mailforward_addform_alias_pre'] = "No information...";
+$__information['mmail_updateform_catchall_pre'] = "No information...";
+$__information['mmail_updateform_remotelocalmail_pre'] = "No information...";
+
+$__information['mailinglist_list__pre'] = "No information...";
+$__information['mailinglist_addform__pre'] = "No information...";
+$__information['mailinglist_show__pre'] = "No information...";
+$__information['mailinglist_updateform_update_pre'] = "No information...";
+$__information['mailinglist_mod_a_addform__pre'] = "No information...";
+$__information['mailinglist_updateform_editfile_pre'] = "No information...";
+$__information['listsubscribe_addform__pre'] = "No information...";
+
+$__information['client_updateform_cron_mailto_pre'] = "No information...";
+$__information['cron_addform_simple_pre'] = "No information...";
+$__information['cron_addform_complex_pre'] = "No information...";
+
+
+

@@ -60,7 +60,7 @@ class Mailinglist extends Lxdb
 	static function createListAlist($parent, $class)
 	{
 		$alist[] = "a=list&c=$class";
-		$alist['__v_dialog_add'] = "a=addform&c=$class";
+	//	$alist['__v_dialog_add'] = "a=addform&c=$class";
 		
 		return $alist;
 	}

@@ -6,10 +6,10 @@
 
 class Diruser_a extends Lxaclass
 {
-	static $__desc = array("", "", "dirprotect_user");
-	static $__desc_nname = array("", "", "user_name", 'a=updateform&sa=update');
-	static $__desc_param = array("", "", "password");
-	static $__acdesc_update_update =  array("", "", "change_password");
+	static $__desc = array("", "",  "dirprotect_user");
+	static $__desc_nname = array("", "",  "user_name", 'a=updateform&sa=update');
+	static $__desc_param = array("", "",  "password");
+	static $__acdesc_update_update =  array("", "",  "change_password");
 
 	static function addform($parent, $class, $typetd = null)
 	{
@@ -34,20 +34,20 @@ class Diruser_a extends Lxaclass
 class Dirprotect extends Lxdb
 {
 	// Core
-	static $__desc = array("", "", "protected_directory");
+	static $__desc = array("", "",  "protected_directory");
 
 	// Data
-	static $__desc_nname = array("", "", "virtual_directory");
-	static $__desc_path = array("", "", "virtual_directory", URL_SHOW);
-	static $__desc_subweb = array("", "", "subdomain");
-	static $__desc_diruser_a = array("", "", "list_of_users");
-	static $__desc_parent_name = array("", "", "domain");
-	static $__desc_authname = array("n", "", "auth_name", URL_SHOW);
-	static $__desc_status  = array("e", "", "s:status", URL_TOGGLE_STATUS);
-	static $__desc_status_v_on  = array("", "", "enabled");
-	static $__desc_status_v_off  = array("", "", "disabled");
+	static $__desc_nname = array("", "",  "virtual_directory");
+	static $__desc_path = array("", "",  "virtual_directory", URL_SHOW);
+	static $__desc_subweb = array("", "",  "subdomain");
+	static $__desc_diruser_a = array("", "",  "list_of_users");
+	static $__desc_parent_name = array("", "",  "domain");
+	static $__desc_authname = array("n", "",  "auth_name", URL_SHOW);
+	static $__desc_status  = array("e", "",  "s:status", URL_TOGGLE_STATUS);
+	static $__desc_status_v_on  = array("", "",  "enabled");
+	static $__desc_status_v_off  = array("", "",  "disabled");
 
-	static $__acdesc_update_add =  array("", "", "add_protection");
+	static $__acdesc_update_add =  array("", "",  "add_protection");
 
 	function createExtraVariables()
 	{

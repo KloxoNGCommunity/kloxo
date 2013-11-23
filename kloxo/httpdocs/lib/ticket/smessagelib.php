@@ -34,7 +34,9 @@ class Smessage extends Lxdb
 
 	static function AddListForm($parent, $class)
 	{
-		return self::addform($parent, $class);
+		if ($parent->canHaveChild()) {
+			return self::addform($parent, $class);
+		}
 	}
 
 	static function addform($parent, $class, $typetd = null)

@@ -1295,7 +1295,7 @@ class Domaind extends DomainBase
 	*/
 
 		// MR -- just a trick to find out not access to 'home' because need title for domain
-		if ($login->getUrlIdentity()) {
+		if ($login->getUrlIdentity() || !$login->isAdmin()) {
 			// MR -- disable because want combine 'domain' and 'domain adm'
 			$alist['__title_domain_administer'] = $login->getKeywordUc('domain');
 		}
@@ -1399,6 +1399,8 @@ class Domaind extends DomainBase
 
 		$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=updateform&sa=edit";
 
+		$alist['__v_dialog_phpiniadv'] = "n=web&o=phpini&a=updateform&sa=extraedit";
+
 		if ($login->isAdmin()) {
 		//	if ($web->__driverappclass === 'lighttpd') {
 			//	if (is_centosfive()) {
@@ -1406,8 +1408,6 @@ class Domaind extends DomainBase
 			//	}
 		//	}
 		}
-
-		$alist['__v_dialog_phpiniadv'] = "n=web&o=phpini&a=updateform&sa=extraedit";
 
 	/*
 		// MR -- permalink and rewrite rule disabling on 6.2.x because wrong code will be make webserver
