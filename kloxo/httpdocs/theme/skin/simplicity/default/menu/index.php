@@ -1,5 +1,4 @@
 <?php
-//	header("X-Hiawatha-Cache: 60");
 
 if (strpos("/display.php", $_SERVER["SCRIPT_NAME"]) === false) {
 	print("No permit access directly");
@@ -7,10 +6,16 @@ if (strpos("/display.php", $_SERVER["SCRIPT_NAME"]) === false) {
 }
 
 $syncserver = $login->syncserver;
-$userid = $login->getId();
+$clientid = $login->getId();
 
-//	$syncserver = $_GET['s'];
-//	$userid = $_GET['u'];
+$dologin = null;
+
+foreach($_GET as $key => $val) {
+	if ($key === 'frm_consumedlogin') {
+		$dologin = $val;
+	}	
+}
+
 ?>
 
 <link rel="stylesheet" type="text/css" href="/theme/skin/simplicity/default/menu/css/style.css"/>
@@ -18,13 +23,13 @@ $userid = $login->getId();
 <div style="float:left">
 	<ul class="menuTemplate2 decor2_1">
 <?php
-	if ($login->isAdmin()) {
+	if ($dologin === 'true') {
 ?>
-		<li><a href="/display.php?frm_action=show"><?= $login->getKeywordUc('home') ?></a></li>
+		<li><a href="/display.php?frm_action=show&frm_consumedlogin=true"><?= $login->getKeywordUc('home') ?></a></li>
 <?php
 	} else {
 ?>
-		<li><a href="<?= $ghtml->getFullUrl("a=show") ?>"><?= $login->getKeywordUc('home') ?></a></li>
+		<li><a href="/display.php?frm_action=show"><?= $login->getKeywordUc('home') ?></a></li>
 <?php
 	}
 ?>
@@ -111,6 +116,13 @@ $userid = $login->getId();
 						<a href="<?= $ghtml->getFullUrl("a=list&c=actionlog") ?>"><?= $ghtml->getTitleOnly("a=list&c=actionlog") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=password") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=password&o=client") ?></a><br/>
 						<a href="<?= $ghtml->getFullUrl("a=updateform&sa=skin&o=sp_specialplay") ?>"><?= $ghtml->getTitleOnly("a=updateform&sa=skin&o=sp_specialplay") ?></a><br/>
+<?php
+	if ($dologin === 'true') {
+?>
+						<a href="/display.php?frm_action=show&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $clientid ?>"><?= $ghtml->getTitleOnly("a=update&sa=dologin") ?> (<?= $login->getKeywordUc('cancel') ?>)</a><br/>
+<?php
+	}
+?>
 					</div>
 				</div>
 				<div style='clear: both;'></div>
@@ -385,7 +397,7 @@ $userid = $login->getId();
 <?php
 	}
 ?>
-						<a href="/display.php?frm_action=show&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $userid ?>&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> (<?= $login->getKeywordUc('user') ?>)</a></a><br/>
+						<a href="/display.php?frm_action=show&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $clientid ?>&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> (<?= $login->getKeywordUc('user') ?>)</a></a><br/>
 					</div>
 				</div>
 				<div class='left'>

@@ -103,4 +103,6 @@ $__keyword['domain_extra'] = 'Domain Extra';
 
 $__keyword['click_here_for'] = 'Click Here for';
 
+$__keyword["cancel"] = "Cancel";
+
 

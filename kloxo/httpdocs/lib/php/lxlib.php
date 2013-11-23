@@ -2617,11 +2617,11 @@ function get_classvar_description($class, $var = null)
 		return $ret;
 	}
 
-	/*
+/*
 	 if ($login->getSpecialObject('sp_specialplay')->isCoreLanguage()) {
 		 return $ret;
 	 }
- */
+*/
 
 	$k = trim($ret[2], "_\n ");
 	if (isset($g_language_desc->__description[$k])) {

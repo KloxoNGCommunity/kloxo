@@ -5971,7 +5971,11 @@ class HtmlLib
 					$count = count($post['frm_o_o']) - 1;
 					$var .= "_nn_" . fix_nname_to_be_variable($post['frm_o_o'][$count]['nname']);
 				}
-				$descr = "{$desc[2]} {$login->getKeywordUc('home')} ";
+
+				// MR -- without 'Home' in case of 'Backup/Restore Home' and 'Update Home'
+			//	$descr = "{$desc[2]} {$login->getKeywordUc('home')} ";
+				$descr = $desc[2];
+
 				$help = "{$login->getKeywordUc('show')} {$desc[2]} details";
 			} else {
 				$descr = $desc[2];
@@ -6005,6 +6009,7 @@ class HtmlLib
 		$this->get_post_from_get($psuedourl, $path, $post);
 
 		$descr = $this->getActionDescr($path, $post, $class, $name, $identity);
+
 		$descr['desc'] = $descr[2];
 		$image = $this->get_image($buttonpath, $class, $name, ".gif");
 
