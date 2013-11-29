@@ -60,31 +60,32 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 			if ($clientquery2 === "") {
 ?>
 					&#x00bb;&nbsp;<?= $login->getKeywordUc('home') ?>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 <?php
 			} else {
 ?>
 					&#x00bb;&nbsp;<?= $login->getKeywordUc('home') ?>
+
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?>"><?= $clientid ?></a>
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?><?= $clientquery2 ?>"><?= $clientid2 ?></a><br/>
-
 <?php
 			}
 		}
 ?>
 <?php
-		if ($consumedlogin === '') {
+		if ($consumedlogin !== '') {
 		// MR -- don't include $consumedlogin here!
 ?>
 					&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=dologin&o=client") ?>
+
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?>"><?= $clientid ?> (<?= $login->getKeywordUc('cancel') ?>)</a><br/>
 <?php
 		} else {
 ?>
 					&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=dologin&o=client") ?>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=dologin&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=dologin&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 <?php
 		}
 ?>
@@ -122,31 +123,38 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_domain") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_domain"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_domain"><?= $clientid ?></a><br/>
 
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_addondomain") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_addondomain"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_addondomain"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailaccount") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailaccount"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mailaccount"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailforward") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailforward"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mailforward"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mysqldb") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mysqldb"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mysqldb"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_cron") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_cron"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_cron"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_ftpuser") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_ftpuser"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_ftpuser"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_maillinglist"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_maillinglist"><?= $clientid ?></a><br/>
-
 <?php
 	}
 ?>					</div>
@@ -157,6 +165,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ($clientquery !== '') {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=change_plan") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=change_plan&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 <?php
 		}
@@ -180,6 +189,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ticket") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=ticket"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=ticket"><?= $clientid ?></a><br/>
 <?php
@@ -187,8 +197,8 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 
 		if ($login->isAdmin()) {
 ?>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=updateform&frm_subaction=ticketconfig&frm_o_o[0][class]=ticketconfig"><?= $ghtml->getTitleOnly("a=updateform&sa=ticketconfig&o=ticketconfig") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_o[0][class]=general&frm_o_cname=helpdeskcategory_a"><?= $ghtml->getTitleOnly("a=list&o=general&c=helpdeskcategory_a") ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?frm_action=updateform&frm_subaction=ticketconfig&frm_o_o[0][class]=ticketconfig"><?= $ghtml->getTitleOnly("a=updateform&sa=ticketconfig&o=ticketconfig") ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_o[0][class]=general&frm_o_cname=helpdeskcategory_a"><?= $ghtml->getTitleOnly("a=list&o=general&c=helpdeskcategory_a") ?></a><br/>
 <?php
 		}
 ?>
@@ -260,19 +270,22 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=information&o=client") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=information"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=information&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=actionlog") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=actionlog"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=actionlog"><?= $clientid ?></a><br/>
 
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=password&o=client") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=password"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=password&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=skin&o=sp_specialplay") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_o_o[0][class]=sp_specialplay"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&<?= $clientquery ?>frm_o_o[1][class]=sp_specialplay"><?= $clientid ?></a><br/>
-
 <?php
 	}
 ?>
@@ -295,6 +308,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=auxiliary") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=auxiliary"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=auxiliary"><?= $clientid ?></a><br/>
 <?php
@@ -311,6 +325,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_auxiliary") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_auxiliary"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_auxiliary"><?= $clientid ?></a><br/>
 <?php
@@ -342,6 +357,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=ipaddress"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=ipaddress"><?= $clientid ?></a><br/>
 <?php
@@ -353,12 +369,15 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $localhostquery ?>frm_o_cname=service"> &#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $serverquery ?>frm_o_cname=service"><?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=addform&c=ipaddress") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $localhostquery ?>frm_o_cname=ipaddress"> &#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=readipaddress&o=pserver") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=readipaddress&<?= $localhostquery ?>"> &#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=readipaddress&<?= $serverquery ?>"><?= $syncserver ?></a><br/>
 
@@ -374,10 +393,9 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 ?>
 					</div>
 <?php
+
 	if ($login->isAdmin()) {
 ?>
-				</div>
-				<div class='left'>
 					<b><?= $login->getKeywordUc('dnstemplate') ?></b>
 					<div class="dropmenu">
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=dnstemplate"><?= $ghtml->getTitleOnly("a=list&c=dnstemplate") ?></a><br/>
@@ -386,12 +404,23 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ($clientquery !== "") {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=dnstemplatelist") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=updateform&frm_subaction=dnstemplatelist&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 <?php
 		}
-	}
 ?>
 					</div>
+<?php
+	}
+
+	if ($login->isAdmin()) {
+?>
+
+				</div>
+				<div class='left'>
+<?php
+	}
+?>
 					<b><?= $login->getKeywordUc('backuprestore') ?></b>
 					<div class="dropmenu">
 <?php
@@ -402,23 +431,27 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=schedule_conf&frm_o_o[0][class]=lxbackup"><?= $ghtml->getTitleOnly("a=updateform&sa=schedule_conf&o=lxbackup") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&frm_o_o[0][class]=lxbackup&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $ghtml->getTitleOnly("a=show&o=lxbackup&l[class]=ffile&l[nname]=/") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=upload&frm_o_o[0][class]=lxbackup&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $ghtml->getTitleOnly("a=updateform&sa=upload&o=lxbackup&l[class]=ffile&l[nname]=/") ?></a><br>
-
 <?php
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=lxbackup") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&frm_o_o[0][class]=lxbackup"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $clientquery ?>frm_o_o[1][class]=lxbackup"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=ftp_conf&o=lxbackup") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=ftp_conf&frm_o_o[0][class]=lxbackup"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=ftp_conf&<?= $clientquery ?>frm_o_o[1][class]=lxbackup"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=schedule_conf&o=lxbackup") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=schedule_conf&frm_o_o[0][class]=lxbackup"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=schedule_conf&<?= $clientquery ?>frm_o_o[1][class]=lxbackup"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=lxbackup&l[class]=ffile&l[nname]=/") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&frm_o_o[0][class]=lxbackup&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $clientquery ?>frm_o_o[1][class]=lxbackup&frm_o_o[2][class]=ffile&frm_o_o[2][nname]=/"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=upload&o=lxbackup&l[class]=ffile&l[nname]=/") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=upload&frm_o_o[0][class]=lxbackup&frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=upload&<?= $clientquery ?>frm_o_o[1][class]=lxbackup&frm_o_o[2][class]=ffile&frm_o_o[2][nname]=/"><?= $clientid ?></a><br/>
 
@@ -427,6 +460,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 ?>
 					</div>
 <?php
+
 	if (!$login->isAdmin()) {
 ?>
 				</div>
@@ -446,12 +480,15 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=update&o=domaindefault") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=update&frm_o_o[0][class]=domaindefault"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=update&<?= $clientquery ?>frm_o_o[1][class]=domaindefault"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ftpsession") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=ftpsession"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=ftpsession"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=shell_access&o=client") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=shell_access"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=shell_access&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 
@@ -487,14 +524,15 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 ?>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&frm_o_o[0][class]=notification"><?= $ghtml->getTitleOnly("a=show&o=notification") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=login_options&frm_o_o[0][class]=sp_specialplay"><?= $ghtml->getTitleOnly("a=updateform&sa=login_options&o=sp_specialplay") ?></a><br/>
-
 <?php
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=notification") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&frm_o_o[0][class]=notification"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $clientquery ?>frm_o_o[1][class]=notification"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=login_options&o=sp_specialplay") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_o_o[0][class]=sp_specialplay"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&<?= $clientquery ?>frm_o_o[1][class]=sp_specialplay"><?= $clientid ?></a><br/>
 <?php
@@ -520,9 +558,11 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=allowedip") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=allowedip"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientid ?>frm_o_cname=allowedip"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=blockedip") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=blockedip"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientid ?>frm_o_cname=blockedip"><?= $clientid ?></a><br/>
 
@@ -557,6 +597,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=miscinfo&o=pserver") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=miscinfo"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&<?= $clientquery ?>frm_subaction=miscinfo"><?= $clientid ?></a><br/>
 <?php
@@ -595,9 +636,11 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=reboot&l[class]=pserver&l[nname]={$syncserver}") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=reboot&<?= $localhostquery ?>">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=reboot&<?= $serverquery ?>">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=reboot&l[class]=pserver&l[nname]={$syncserver}") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=poweroff&<?= $localhostquery ?>">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=poweroff&<?= $serverquery ?>">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 <?php
@@ -615,18 +658,23 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=service") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=service">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=service">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=process") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=process">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=process">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=component") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=component">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=component">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=llog") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=llog">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=llog">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=update&o=driver") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=update&<?= $localhostquery ?>frm_o_o[1][class]=driver">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=update&<?= $serverquery ?>frm_o_o[1][class]=driver">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -651,15 +699,19 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=switchprogram&l[class]=pserver&l[nname]={$syncserver}") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=switchprogram&<?= $localhostquery ?>">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=switchprogram&<?= $serverquery ?>">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=timezone&l[class]=pserver&l[nname]={$syncserver}") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=timezone&<?= $localhostquery ?>">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=timezone&<?= $serverquery ?>">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=commandcenter") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=commandcenter&<?= $localhostquery ?>">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=commandcenter&<?= $serverquery ?>">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=sshclient") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=sshclient">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=sshclient">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -680,6 +732,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=traceroute") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=traceroute"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=traceroute"><?= $clientid ?></a><br/>
 <?php
@@ -699,15 +752,19 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=lxguard") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=lxguard">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=lxguard">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&o=lxguard&c=lxguardhitdisplay") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_o[1][class]=lxguard&frm_o_cname=lxguardhitdisplay">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_o[1][class]=lxguard&frm_o_cname=lxguardhitdisplay">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&o=lxguard&c=rawlxguardhit") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_o[1][class]=lxguard&frm_o_cname=rawlxguardhit">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_o[1][class]=lxguard&frm_o_cname=rawlxguardhit">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&o=lxguard&c=lxguardwhitelist") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_o[1][class]=lxguard&frm_o_cname=lxguardwhitelist">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_o[1][class]=lxguard&frm_o_cname=lxguardwhitelist">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -729,15 +786,19 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=sshconfig") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=sshconfig">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=sshconfig">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=watchdog") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=watchdog">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=watchdog">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=hostdeny") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=hostdeny">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=hostdeny">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=sshauthorizedkey") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=sshauthorizedkey">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=sshauthorizedkey">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -772,15 +833,19 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=phpini") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=phpini">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=phpini">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=extraedit&<?= $localhostquery ?>frm_o_o[1][class]=phpini">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=extraedit&<?= $serverquery ?>frm_o_o[1][class]=phpini">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=serverweb") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=serverweb">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=serverweb">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=serverftp") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=serverftp">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=serverftp">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -802,6 +867,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=mysqlpasswordreset&o=pserver") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=mysqlpasswordreset&<?= $localhostquery ?>">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=mysqlpasswordreset&<?= $serverquery ?>">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -821,18 +887,23 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=update&o=servermail") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=update&<?= $localhostquery ?>frm_o_o[1][class]=servermail">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=update&<?= $serverquery ?>frm_o_o[1][class]=servermail">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=update&o=spamdyke") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=spamdyke&<?= $localhostquery ?>frm_o_o[1][class]=servermail">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=spamdyke&<?= $serverquery ?>frm_o_o[1][class]=servermail">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=mail_graylist_wlist_a") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_o[1][class]=servermail&frm_o_cname=mail_graylist_wlist_a">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_o[1][class]=servermail&frm_o_cname=mail_graylist_wlist_a">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=mailqueue") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=mailqueue">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=mailqueue">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=clientmail") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=clientmail">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=clientmail">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -872,15 +943,19 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=domain") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=domain"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=domain"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=subdomain") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=subdomain"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=subdomain"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=addondomain") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=addondomain"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=addondomain"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=default_domain&o=client") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=default_domain"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=default_domain&<?= $clientquery ?>"><?= $clientid ?></a><br/>
 
@@ -899,12 +974,15 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ftpuser") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=ftpuser"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=ftpuser"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=mailaccount") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=mailaccount"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=mailaccount"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=mysqldb") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=mysqldb"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=mysqldb"><?= $clientid ?></a><br/>
 <?php
@@ -919,6 +997,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=ffile") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=ffile&frm_o_o[1][nname]=">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=ffile&frm_o_o[1][nname]=">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
 
@@ -940,6 +1019,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=ffile") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&frm_o_o[0][class]=ffile&frm_o_o[1][nname]=/"><?= $loginas ?></a></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $clientquery ?>frm_o_o[1][class]=ffile&frm_o_o[1][nname]=/"><?= $clientid ?></a></a>
 <?php
@@ -960,12 +1040,15 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=cron") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=cron"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=cron"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=addform&c=cron&dta[var]=ttype&dta[val]=simple") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=addform&frm_dttype[var]=ttype&frm_dttype[val]=simple&frm_o_cname=cron"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=addform&<?= $clientquery ?>frm_dttype[var]=ttype&frm_dttype[val]=simple&frm_o_cname=cron"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=addform&c=cron&dta[var]=ttype&dta[val]=complex") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=addform&frm_dttype[var]=ttype&frm_dttype[val]=complex&frm_o_cname=cron"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=addform&<?= $clientquery ?>frm_dttype[var]=ttype&frm_dttype[val]=complex&frm_o_cname=cron"><?= $clientid ?></a><br/>
 
@@ -973,8 +1056,6 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	}
 ?>
 					</div>
-
-
 <?php
 	if (!$login->isCustomer()) {
 ?>
@@ -988,6 +1069,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=client") ?>
+
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=client"><?= $loginas ?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=client"><?= $clientid ?></a><br/>
 
