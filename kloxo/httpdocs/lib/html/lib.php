@@ -777,14 +777,27 @@ function send_system_monitor_message_to_admin($prog)
 
 function check_if_port_on($port)
 {
+/*
 	$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 //	socket_set_nonblock($socket);
 	$ret = socket_connect($socket, "127.0.0.1", $port);
 	socket_close($socket);
+
 	if (!$ret) {
 		return false;
 	}
+
 	return true;
+*/
+	$socket = fsockopen('127.0.0.1', $port, $errno, $errstr, 5);
+
+	if($socket) {
+		fclose($socket);
+
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function installAppPHP($var, $cmd)

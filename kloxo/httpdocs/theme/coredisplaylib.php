@@ -2,7 +2,7 @@
 ignore_user_abort(true);
 
 include_once "lib/html/displayinclude.php";
-include_once "lib/html/include.php";
+// include_once "lib/html/include.php";
 
 function __ac_desc_desktop($object)
 {
@@ -156,6 +156,7 @@ function print_customer_mode($object)
 	} else {
 		$mode = $login->getKeywordUc('domainowner');
 	}
+
 ?>
 
 	<div style="background: #<?=$skin_color?> url(<?=$col?>); padding: 4px; margin: 0 25px; text-align: center">
@@ -175,11 +176,12 @@ function __ac_desc_show($object)
 	}
 
 	$selflist = $object->getSelfList();
+
 	$class = lget_class($object);
 	$subaction = $ghtml->frm_subaction;
 
 	if (!$login->isAdmin()) {
-		check_for_license();
+	//	check_for_license();
 	}
 
 	$object->getAnyErrorMessage();
@@ -730,7 +732,7 @@ function __ac_desc_list($object, $cname = null)
 
 	$selflist = $object->getSelfList();
 
-	check_for_license();
+//	check_for_license();
 	$refresh = $ghtml->frm_list_refresh;
 
 	if ($refresh === 'yes') {
@@ -750,7 +752,9 @@ function __ac_desc_list($object, $cname = null)
 
 	$ghtml->print_content_begin();
 
-	if ($selflist) $ghtml->printShowSelectBox($selflist);
+	if ($selflist) {
+		$ghtml->printShowSelectBox($selflist);
+	}
 
 	$ghtml->print_message();
 
@@ -866,6 +870,7 @@ function __ac_desc_Update($object)
 
 	if (strtolower($ghtml->frm_change) === 'updateall') {
 		$selflist = $object->getSelfList();
+
 		foreach ($selflist as $l) {
 			do_update($l, $subaction, null);
 		}
@@ -877,7 +882,8 @@ function __ac_desc_Update($object)
 		$desc = get_classvar_description($class);
 
 		if (csa($desc[0], "P")) {
-			//Special object... UPdation Happens only to the parent and not to the select ed children. Example is the ffile class...
+			// Special object... UPdation Happens only to the parent and not to the select ed children. 
+			// Example is the ffile class...
 
 			$subaction = "{$class}_$subaction";
 			$ret = do_update($object, $subaction, $list);
@@ -895,7 +901,8 @@ function __ac_desc_Update($object)
 
 	if (!isset($gbl->__this_redirect)) {
 		if ($ret) {
-			$gbl->__this_redirect = get_return_url("update") . "&frm_smessage=[b]{$subaction}[/b]+successfully+updated+for+{$object->nname}";
+			$gbl->__this_redirect = get_return_url("update") . 
+				"&frm_smessage=[b]{$subaction}[/b]+successfully+updated+for+{$object->nname}";
 		} else {
 			$gbl->__this_redirect = get_return_url("update");
 		}
@@ -915,7 +922,8 @@ function security_check($oldvlist, $param)
 			continue;
 		}
 
-		// Php treats null variables as unset. So we need to forcibly create a value for the variables that has been defined in the updateform. Stupdi php.
+		// Php treats null variables as unset. So we need to forcibly create a value for the variables 
+		// that has been defined in the updateform. Stupdi php.
 		$tmpvlist[$k] = 'newval';
 	}
 
@@ -994,11 +1002,11 @@ function __ac_desc_UpdateForm($object)
 		$alist['property'] = null;
 		$object->getParentO()->createShowPropertyList($alist);
 		$nalist = null;
-	/*
+
 		foreach ($alist['property'] as &$a) {
 			$a .= '&goback=1';
 		}
-	*/
+
 		$nalist = lx_merge_good($nalist, $alist['property']);
 		$ghtml->print_tab_block($nalist);
 	}
@@ -1382,7 +1390,8 @@ function create_xml($object, $stuff, $ret)
 			continue;
 		}
 
-		// Hack hack:: used_s is handled separately.. There is no other way, since without any other way to recognize it, quota variables  defaults to priv...
+		// Hack hack:: used_s is handled separately.. There is no other way, since without any other way to recognize it, 
+		// quota variables  defaults to priv...
 		if (!csb($k, "used_s")) {
 			if ($v && $ghtml->is_special_variable($v[1])) {
 				//
@@ -1727,7 +1736,7 @@ function print_navigation($navig)
 			if ($v) {
 				if (isset($ob->$k)) {
 					$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->$k, ".gif");
-					$imgstr[] = "<span title='$k is {$ob->$k}'><img src=$img width=30 height=30></span>";
+					$imgstr[] = "<span title='$k is {$ob->$k}'><img src='$img' width='30' height='30'></span>";
 				}
 			} else {
 				$v = $ob->display($k);
@@ -1759,7 +1768,7 @@ function print_navigation($navig)
 <?php
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
-			<div style="float: left;margin-top: -0px">&nbsp;<span style="font-size: 24px; color: #22e"><!-- &#x2756; -->&#x00a7;</span>&nbsp;</div>
+			<div style="float: left;margin-top: -0px">&nbsp;<span style="font-size: 24px; color: #22e">&#x00a7;</span>&nbsp;</div>
 <?php
 		} else {
 ?>
@@ -1792,7 +1801,7 @@ function print_navigation($navig)
 
 ?>
 
-			<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;<!-- &#x2794;-->&#x0097;</div>
+			<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;&#x0097;</div>
 <?php
 		}
 
@@ -1809,12 +1818,12 @@ function print_navigation($navig)
 				if ($v) {
 					if (isset($ob->$k)) {
 						$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->$k, ".gif");
-						$imgstr[] = "<span title='$k is {$ob->$k}'><img src=$img width=9 height=9></span>";
+						$imgstr[] = "<span title='$k is {$ob->$k}'><img src='$img' width='9' height='9'></span>";
 					}
 				} else {
 					$v = $ob->display($k);
 					$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_{$ob->display($k)}", ".gif");
-					$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src=$img width=9 height=9></span>";
+					$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src='$img' width='9' height='9'></span>";
 				}
 			}
 		}
@@ -1868,14 +1877,14 @@ function print_navigation($navig)
 ?>
 
 				<!-- <div style="float:right; padding: 2px;"><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" /></div> -->
-				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" /></div>
+				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) {top.location = '/lib/php/logout.php';}" /></div>
 <?php
 			}
 
 		} elseif ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 			//
 		} else {
-			$imgstring = "<img width=18 height=18 src=/theme/general/button/star.gif>";
+			$imgstring = "<img width='18' height='18' src='/theme/general/button/star.gif'>";
 
 			if ($sgbl->isBlackBackground()) {
 				$imgstring = null;
@@ -1883,7 +1892,7 @@ function print_navigation($navig)
 
 ?>
 
-			<div style="float: right; padding-top: 10px;">&nbsp;<a href="<?=$shurl?>">Add to Favorites</a>&nbsp;</div>
+			<div style="float: right; padding-top: 10px;">&nbsp;<a href="<?=$shurl?>"><?= $login->getKeywordUc('add_to_favorites') ?></a>&nbsp;</div>
 <?php
 		}
 
@@ -1932,10 +1941,10 @@ function __ac_desc_resource($object)
 <!-- "ac-desc-resource" -->
 	<table valign=top>
 		<tr align=left>
-			<td width=10><input class=submitbutton onClick='<?=$treename?>.closeAll();' type=button value="Close">
+			<td width='10'><input class='submitbutton' onClick='<?=$treename?>.closeAll();' type='button' value="Close">
 			</td>
-			<td align=left width=10><input class=submitbutton onClick='<?=$treename?>.openAll();' type=button value="Open"></td>
-			<td width=100%></td>
+			<td align='left' width='10'><input class='submitbutton' onClick='<?=$treename?>.openAll();' type='button' value="Open"></td>
+			<td width='100%'></td>
 		</tr>
 	</table>
 <?php
@@ -2118,16 +2127,16 @@ function do_display_init()
 		$parent = $gbl->c_session->ssl_param['parent_clname'];
 ?>
 
-		<table cellpadding=0 height=26 cellspacing=0 background="<?=$skindir?>/expand.gif">
+		<table cellpadding='0' height='26' cellspacing='0' background="<?=$skindir?>/expand.gif">
 			<tr>
 				<td nowrap><a href="<?=$url?>"> Back to HyperVM ($parent) </a></td>
-				<td width=10>&nbsp;|&nbsp;</td>
+				<td width='10'>&nbsp;|&nbsp;</td>
 				<td> Kloxo</td>
-				<td width=10>&nbsp;|&nbsp;</td>
+				<td width='10'>&nbsp;|&nbsp;</td>
 				<td><a href="/display.php?frm_action=show">Home</a></td>
-				<td width=10>&nbsp;|&nbsp;</td>
+				<td width='10'>&nbsp;|&nbsp;</td>
 				<td><a href="/display.php?frm_action=list&frm_o_cname=all_domain">All </a></td>
-				<td width=10>&nbsp;|&nbsp;</td>
+				<td width='10'>&nbsp;|&nbsp;</td>
 				<td><a href="/display.php?frm_action=list&frm_o_cname=client">Clients</a></td>
 				<td width="100%"></td>
 				<td><a href="/lib/php/logout.php"> Logout </a></td>
@@ -2136,21 +2145,22 @@ function do_display_init()
 <?php
 	}
 
-/*
 	if ($gbl->c_session->consuming_parent) {
+	/*
 ?>
 
 		<table cellpadding=0 cellspacing=0 bgcolor="<?=$col?>">
 			<tr>
 				<td nowrap> Consumed Login</td>
 				<td><a href="/display.php?frm_consumedlogin=true&frm_action=desktop">Desktop </a></td>
-				<td width=100%></td>
+				<td width='100%'></td>
 				<td><a href="/lib/php/logout.php?frm_consumedlogin=true"> Logout </a></td>
 			</tr>
 		</table>
 <?php
+	*/
 	}
-*/
+
 	$ghtml->print_splash();
 
 	if (ifSplashScreen()) {
@@ -2288,7 +2298,8 @@ function lx_frm_inc()
 	}
 
 	$caction = $ghtml->frm_action;
-	$cgi_action = "__ac_desc_{$ghtml->frm_action}";
+//	$cgi_action = "__ac_desc_{$ghtml->frm_action}";
+	$cgi_action = "__ac_desc_{$caction}";
 
 	if (!function_exists($cgi_action)) {
 		die("Action not supported..\n");
@@ -2444,9 +2455,9 @@ function print_head_image()
 	if ($skin_name !== 'feather') { return; }
 ?>
 	<link href="<?=$skindir?>/css/style.css" rel="stylesheet" type="text/css" />
-	<table class='bgtop3' width=100% cellpadding=0 cellspacing=0 style="background:url(<?=$skindir_default?>/images/completefeather.jpg)">
+	<table class='bgtop3' style="width:100%; border-spacing:0; border-collapse:collapse; padding:0; margin:0; border:0; background:url(<?=$skindir_default?>/images/completefeather.jpg)">
 		<tr>
-			<td width=100% id='td1'></td>
+			<td width='100%' id='td1'></td>
 <?php
 			if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
@@ -2481,9 +2492,9 @@ function print_favorites()
 		}
 
 		if ($ttype == 'separator') {
-			$res .= "<tr valign=top style=\"border-width:1; background:url($back/a.gif);\"> <td ></td> </tr>";
+			$res .= "<tr valign='top' style=\"border-width:1px; background:url($back/a.gif);\"> <td ></td> </tr>";
 		} else {
-			$res .= "<tr valign=top style=\"border-width:1; background:url($back/a.gif);\"> <td > <span title=\"$ac_descr[2] for $__t_identity\"> <img width=16 height=16 src=$_t_image> <a href=$url target=$target>  $str $tag</a></span></td> </tr>";
+			$res .= "<tr valign='top' style=\"border-width:1px; background:url($back/a.gif);\"> <td > <span title=\"$ac_descr[2] for $__t_identity\"> <img width=16 height=16 src=$_t_image> <a href=$url target=$target>  $str $tag</a></span></td> </tr>";
 		}
 	}
 
@@ -2520,7 +2531,8 @@ function print_quick_action($class)
 
 	$res = null;
 	$res .= " <tr style=\"background:#d6dff7\"> <td >";
-	$res .= "<form name=quickaction method={$sgbl->method} target=mainframe action=\"/theme/lbin/redirect.php\">";
+//	$res .= "<form name='quickaction' method='{$sgbl->method}' target='mainframe' action=\"/theme/lbin/redirect.php\">";
+	$res .= "<form name='quickaction' method='get' target='mainframe' action=\"/theme/lbin/redirect.php\">";
 
 	$desc = $ghtml->get_class_description($class);
 
@@ -2535,7 +2547,7 @@ function print_quick_action($class)
 		$res .= "</select> </td> </tr>  ";
 	}
 
-	$res .= " <tr style=\"background:#d6dff7\"> <td ><select $stylestr name=frm_redirectaction>";
+	$res .= " <tr style=\"background:#d6dff7\"> <td ><select $stylestr name='frm_redirectaction'>";
 
 	foreach ($alist as $k => $a) {
 		if (csb($k, "__title")) {

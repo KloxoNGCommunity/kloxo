@@ -24,11 +24,11 @@ $fpmportapache = 50000;
 
 UrlToolkit {
     ToolkitID = findindexfile
-    Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
+    Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.html$2 Continue
     RequestURI isfile Return
-    Match ^([^?]*)/index\.php(\?.*)?$ Rewrite $1/index.html$2 Continue
+    Match ^([^?]*)/index\.html(\?.*)?$ Rewrite $1/index.php$2 Continue
     RequestURI isfile Return
-    Match ^([^?]*)/index\.html(\?.*)?$ Rewrite $1/index.htm$2 Continue
+    Match ^([^?]*)/index\.php(\?.*)?$ Rewrite $1/index.htm$2 Continue
     RequestURI isfile Return
     Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
 }

@@ -102,7 +102,18 @@ $__keyword['domain'] = 'Domain';
 $__keyword['domain_extra'] = 'Domain Extra';
 
 $__keyword['click_here_for'] = 'Click Here for';
+$__keyword["is_want_logout"] = "Do You Really Want To Logout?";
 
 $__keyword["cancel"] = "Cancel";
+
+$__keyword["ssl"] = "SSL";
+
+$__keyword["update_all"] = "Click Here to Update all objects";
+$__keyword["click_to_show"] = "Click to Show";
+$__keyword["click_on_showall_to_hide"] = "(Click on show-all to hide)";
+$__keyword["click_on_showall_to_see_all_objects"] = "Click on show all to see all objects";
+$__keyword["click_here"] = "Click here";
+
+$__keyword["add_to_favorites"] = "Add to Favorites";
 
 

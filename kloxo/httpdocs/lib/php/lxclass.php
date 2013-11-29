@@ -1583,6 +1583,8 @@ abstract class Lxclass
 				}
 			}
 
+		//	dprint(' <br> ' .$string . "<br> \n");
+
 			$db = new Sqlite($this->__masterserver, $this->getTheTable($rclass));
 
 			$countquery = $query;
@@ -1616,9 +1618,11 @@ abstract class Lxclass
 
 			if ($sgbl->__var_database_type === 'mysql') {
 				$desc = get_classvar_description($class, $sortby);
+
 				if (csa($desc[0], "q")) {
 					$sortby = "(used_q_{$sortby} + 0)";
 				}
+
 				$query = "select * from {$table} {$countquery} order by {$sortby} {$sortdir} limit {$skiprows}, {$pagesize}";
 			} else if ($sgbl->__var_database_type === 'mssql') {
 				$tot = $pagesize + $skiprows;
@@ -2401,6 +2405,7 @@ abstract class Lxclass
 			}
 
 			$count = count($res);
+
 			$n = 0;
 
 			foreach ((array)$res as $row) {
@@ -4093,6 +4098,7 @@ abstract class Lxclass
 
 			$ret[$k] = $nob;
 		}
+
 		return $ret;
 	}
 

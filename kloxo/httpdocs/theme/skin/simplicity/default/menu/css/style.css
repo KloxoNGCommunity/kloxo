@@ -86,7 +86,8 @@
 /* sub level
 --------------------------------------------*/
 
-.menuTemplate2 div.drop
+.menuTemplate2 div.drop,
+.menuTemplate2 div.drop2
 {
 	position: absolute;
 	z-index: 5;
@@ -101,7 +102,8 @@
 	width: 600px; /* MR -- set fix width */
 }
 
-.menuTemplate2 div.drop a
+.menuTemplate2 div.drop a,
+.menuTemplate2 div.drop2 a
 {
 	padding: 0;
 	/* line-height: 2.0em; */
@@ -114,7 +116,8 @@
 	z-index: 0;
 }
 
-.menuTemplate2 div.drop b
+.menuTemplate2 div.drop b,
+.menuTemplate2 div.drop2 b
 {
 	font-weight: bold;
 	line-height: 25px;
@@ -126,26 +129,36 @@
 	left: -200px; /* MR -- set 'centered' drop */
 }
 
+.menuTemplate2 li:hover div.drop2, .menuTemplate2 li.onhover div.drop2
+{
+	/* left: -1px; */ /*Use this property to change offset of the dropdown*/
+	left: -1px; /* MR -- set 'centered' drop */
+}
+
 /* Elements within the drop down sub-menu
 --------------------------------------------*/
 
-.menuTemplate2 div.drop div div
+.menuTemplate2 div.drop div div.dropmenu,
+.menuTemplate2 div.drop2 div div.dropmenu
 {
 	padding: 0 0 15px 10px;
 }
-.menuTemplate1 li:hover div.drop a, .menuTemplate1 li.onhover div.drop a
+.menuTemplate1 li:hover div.drop a, .menuTemplate1 li.onhover div.drop a,
+.menuTemplate1 li:hover div.drop2 a, .menuTemplate1 li.onhover div.drop2 a
 {
 	background: none;
 	background-image: none;
 	padding: 0;
 }
-.menuTemplate2 div.drop div a
+.menuTemplate2 div.drop div a,
+.menuTemplate2 div.drop2 div a
 {
 	line-height: 25px;  
 	color: #048;
 	background: none;
 }
-.menuTemplate2 div.drop div a:hover
+.menuTemplate2 div.drop div a:hover,
+.menuTemplate2 div.drop2 div a:hover
 {
 	text-decoration: underline;
 	cursor: pointer;

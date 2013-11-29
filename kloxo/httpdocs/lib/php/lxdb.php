@@ -9,11 +9,15 @@ abstract class Lxdb extends Lxclass
 
 	public function __construct($masterserver, $readserver, $nname)
 	{
+		//if (!$this->__table) {
+		//$this->__table = lget_class($this);
+		//}
+
 		parent::__construct($masterserver, $readserver, $nname);
 	}
 
-	// This should ideally be final, but I need to override this in superadmin, which inherits from lxclient. 
-	// Ok later made final again.... Redesigned supernode stuff.
+	// This should ideally be final, but I need to override this in superadmin, 
+	// which inherits from lxclient. Ok later made final again.... Redesigned supernode stuff.
 	final public function write()
 	{
 		return $this->writeToDb();
@@ -32,7 +36,6 @@ abstract class Lxdb extends Lxclass
 
 		$objectname = $class . "_o";
 		$desc = get_classvar_description(get_class($parent),  $objectname);
-		
 		if (!$desc) {
 			if ($login->isAdmin()) {
 				print("<h1> Trying to init and non described  object $objectname in " . get_class($parent) . "...</h1>  <br> \n");
@@ -40,22 +43,22 @@ abstract class Lxdb extends Lxclass
 			} else {
 				dprint("<h1> Trying to init and non described  object $objectame in " . get_class($parent) . "... </h1> <br> \n");
 				print("Attempt to Hack.... <br> ");
+				//exit(0);
 			}
 		}
 
 		if (!$name) {
 			$name = $parent->nname;
 		}
-		
 		return $name;
 	}
 
+
 	function checkChildExists($class)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		$listvar = $class . "_l";
-		
+
+		global $gbl, $sgbl, $login, $ghtml;
 		$desc = get_classvar_description(get_class($this),  $listvar);
 
 		if (!$desc) {
@@ -67,6 +70,7 @@ abstract class Lxdb extends Lxclass
 			} else {
 				dprint("<h1> Trying to init and non described list $class in " . get_class($this) . "... </h1> <br> \n");
 				print("Attempt to Hack.... <br> ");
+				//exit;
 			}
 		}
 	}
@@ -82,8 +86,8 @@ abstract class Lxdb extends Lxclass
 
 		$parent->checkChildExists($class);
 
+
 		$ret[] = array('parent_clname', '=', "'{$parent->getClName()}'");
-		
 		return $ret;
 	}
 
@@ -93,43 +97,47 @@ abstract class Lxdb extends Lxclass
 		$res = $sq->getRowsWhere("parent_clname = '{$parent->getClName()}'", array("nname"));
 		$res = get_namelist_from_arraylist($res);
 		$ret = null;
-		
+
 		foreach($res as $r) {
 			$ret[] = "or";
 			$ret[] = array('parent_clname', '=', "'$mclass-$r'");
 		}
-		
+
 		unset($ret[0]);
-		
+
 		return $ret;
 	}
 
 	function updateform($subaction, $param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
+
 		switch($subaction) {
 			case "switchserver":
 				$serverlist = $login->getServerList($this->get__table());
+
 				if (!$this->checkIfLockedForAction('switchserver')) {
 					if ($this->olddeleteflag === 'doing') {
 						$this->olddeleteflag = 'program_interrupted';
 					}
 				}
+
 				$vlist['olddeleteflag'] = array('M', null);
 				$psi = pserver::createServerInfo($serverlist, $this->get__table());
 				$psi = get_warning_for_server_info($login, $psi);
 				$vlist['server_detail_f'] = array('M', $psi);
 				$vlist['syncserver'] = array('s', $serverlist);
+
 				return $vlist;
 
 			case "restore":
 				$vlist['restore_file_f'] = null;
 				$sgbl->method = 'post';
-				return $vlist;
 
+				return $vlist;
 			case "restore_from_http":
 				$vlist['restore_url_f'] = null;
+
 				return $vlist;
 		}
 
@@ -156,13 +164,12 @@ abstract class Lxdb extends Lxclass
 
 		$this->setUpdateSubaction();
 		$this->write();
-		
-		rl_exec_get($this->__masterserver, 'localhost', array($this->get__table(), "exec_switchserver"), 
-			array($this->get__table(), $this->nname, $param));
+		rl_exec_get($this->__masterserver, 'localhost', array($this->get__table(), "exec_switchserver"), array($this->get__table(), $this->nname, $param));
 
 		$ghtml->print_redirect_back_success("switch_done", null);
-		
+
 		exit;
+
 	}
 
 	function updateLiveMigrate($param)
@@ -178,28 +185,21 @@ abstract class Lxdb extends Lxclass
 
 		$this->setUpdateSubaction();
 		$this->write();
-		
-		rl_exec_get($this->__masterserver, 'localhost', array($this->get__table(), "exec_livemigrate"), 
-			array($this->get__table(), $this->nname, $param));
-
-		// Needs this because the nname can change when the syncserver is changed. 
-		// Nname never changes when you switch server. Need to make sure of that.
+		rl_exec_get($this->__masterserver, 'localhost', array($this->get__table(), "exec_livemigrate"), array($this->get__table(), $this->nname, $param));
 
 		$ghtml->print_redirect_back_success("switch_done", null);
-		
 		exit;
+
 	}
 
 	static function exec_switchserver($class, $name, $param)
 	{
-		lxshell_background("__path_php_path", "../bin/common/switchserver.php", "--priority=low", "--class=$class", 
-			"--name=$name", "--v-syncserver={$param['syncserver']}");
+		lxshell_background("__path_php_path", "../bin/common/switchserver.php", "--priority=low", "--class=$class", "--name=$name", "--v-syncserver={$param['syncserver']}");
 	}
 
 	static function exec_livemigrate($class, $name, $param)
 	{
-		lxshell_background("__path_php_path", "../bin/common/livemigrate.php", "--priority=low", "--class=$class", 
-			"--name=$name", "--v-syncserver={$param['syncserver']}");
+		lxshell_background("__path_php_path", "../bin/common/livemigrate.php", "--priority=low", "--class=$class", "--name=$name", "--v-syncserver={$param['syncserver']}");
 
 	}
 
@@ -228,7 +228,7 @@ abstract class Lxdb extends Lxclass
 			$cloned  = clone($this);
 			$this->AddToThere($param['syncserver']);
 			$this->was();
-			
+
 			if ($this->extraBackup()) {
 				dprint("Got the backed up file...\n");
 				dprint("$oldsyncserver\n");
@@ -236,11 +236,10 @@ abstract class Lxdb extends Lxclass
 				$this->restoreMeUpThere($oldsyncserver, $file);
 			}
 
+			//$this->makeDnsChanges($param['syncserver']);
 			$this->UpdateHeirarchy();
 			$this->was();
-			
-			// There is a problem here. Teh __list_list will get cleared with one was. 
-			// Then it is the getlist called from inside the deletefromhere that should fill it up again.
+			// There is a problem here. Teh __list_list will get cleared with one was. Then it is the getlist called from inside the deletefromhere that should fill it up again.
 
 			$cloned->DeleteFromHere($oldsyncserver);
 			$cloned->was();
@@ -256,7 +255,6 @@ abstract class Lxdb extends Lxclass
 
 		$result = $dbacc->getRows("nname", $this->nname);
 
-
 		if (!$result) {
 			$this->initThisDef();
 			$this->dbaction = "add" ;
@@ -268,17 +266,21 @@ abstract class Lxdb extends Lxclass
 		return 1;
 	}
 
+
 	final function writeToDb()
 	{
 		$dbupdate =new Sqlite($this->__masterserver, $this->get__table());
 
 		switch($this->dbaction) {
+
 			case "delete":
 				$dbupdate->delRow("nname", $this->nname);
+
 				break;
 
 			case "add" :
 				$dbupdate->addRowObject($this);
+
 				break;
 
 			case "update":
@@ -289,7 +291,6 @@ abstract class Lxdb extends Lxclass
 				}
 
 				break;
-
 		}
 
 		return 1;

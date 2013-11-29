@@ -309,7 +309,8 @@ function createPrincipleObject()
 	$navigmenu = null;
 	$n = 0;
 
-	// no cgi_o_o shows that the object being shown is the current object, so don't show anything, if the object is the current object.
+	// no cgi_o_o shows that the object being shown is the current object, so don't show anything,
+	// if the object is the current object.
 	if ($ghtml->frm_o_o || ($ghtml->frm_action != 'show')) {
 		if ($ghtml->frm_consumedlogin === 'true') {
 			$navig[$n]['frm_consumedlogin'] = 'true';
@@ -340,12 +341,22 @@ function createPrincipleObject()
 			}
 
 			if (!$object->isLogin() && !is_object($object->getParentO())) {
-				dprint("<br> <h1>... Parent got currupted for " . $object->getClass() . ":$object->nname with parent " . $__tparent->getClass() . ":$__tparent->nname $object->__parent_o <br> \n");
+				dprint("<br> <h1>... Parent got currupted for " . 
+					$object->getClass() . ":$object->nname with parent " . 
+					$__tparent->getClass() . 
+					":$__tparent->nname $object->__parent_o <br> \n");
 				dprintr($object->getParentO());
 			}
 
 			$desc = $ghtml->get_class_description($object->getClass());
-			// Three conditions needed for listing. One, it should contain nname - this is the basic criteria. Second, the parent should contain the list as a child - this isn't as important actually.... (i removed the parent-containing-list-as child criteria, since it is absurdly wrong. The list is the child not of the _tparent, but a child of one of its child objects.) The third is that the child shouldn't be P object. P object is a virtual list object, where the whole list is virtually present, but you can't really list them, but can get any object as if the list was present.
+
+			// Three conditions needed for listing. 
+			// One, it should contain nname - this is the basic criteria. 
+			// Second, the parent should contain the list as a child - 
+			// this isn't as important actually.... (i removed the parent-containing-list-as child criteria, since it is absurdly wrong. 
+			// The list is the child not of the _tparent, but a child of one of its child objects.) 
+			// The third is that the child shouldn't be P object. P object is a virtual list object, where the whole list is virtually present, 
+			// but you can't really list them, but can get any object as if the list was present.
 			if (!$sing && isset($p[$k]['nname']) && !csa($desc[0], 'P')) {
 				// Sort of a hack job... i am setting the self list parent and child here itself.
 				$gbl->__self_list_parent = $__tparent;
@@ -363,6 +374,7 @@ function createPrincipleObject()
 				}
 
 				$navig[$n]['frm_o_cname'] = $object->getClass();
+
 				// Hack bloody hack.. This should be done the other way. getFiltervariable needs the navig to be set.
 				$gbl->__navig = $navig;
 				$gbl->__navigmenu = $navigmenu;
@@ -370,8 +382,10 @@ function createPrincipleObject()
 				$n++;
 			}
 
-			if (!$sing && ($object->createShowAlist($alist) || $object->createShowPropertyList($alist) || $object->createShowClist("") || $object->createShowSclist())) {
-				// Skip the last one, but only if it is a 'show'. If 'show', the last object is the object that is being displayed, and shouldn't appear in history.
+			if (!$sing && ($object->createShowAlist($alist) || $object->createShowPropertyList($alist) || 
+					$object->createShowClist("") || $object->createShowSclist())) {
+				// Skip the last one, but only if it is a 'show'. If 'show', the last object is the object that is 
+				// being displayed, and shouldn't appear in history.
 				if (($k === count($p) - 1) && ($ghtml->frm_action === 'show')) {
 					break;
 				}
@@ -417,7 +431,7 @@ function createPrincipleObject()
 	$gbl->__c_object = $object;
 	$gbl->__histlist = $gbl->getSessionV("lx_history_var");
 
-	//dprintr($ghtml->__http_vars['frm_hpfilter']);
+//	dprint_r($ghtml->__http_vars['frm_hpfilter']);
 }
 
 function do_desc_update($object, $subaction, $param)

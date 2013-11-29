@@ -2,7 +2,7 @@
 
 class addondomain extends Lxdb
 {
-	static $__desc = array("n", "", "parked / redirected_domain");
+	static $__desc = array("n", "", "parked_redirected_domain");
 	static $__table = 'addondomain';
 
 	static $__desc_nname = array("n", "", "pointer_domain");

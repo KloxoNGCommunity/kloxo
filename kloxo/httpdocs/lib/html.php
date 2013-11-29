@@ -127,10 +127,10 @@ class Html extends Htmllib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		print_time("$class.objecttable");
+
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 		$skin_color = $login->getSkinColor();
-
-		print_time("$class.objecttable");
 
 		if ($this->frm_accountselect !== null) {
 			$sellist = explode(',', $this->frm_accountselect);
@@ -349,7 +349,6 @@ class Html extends Htmllib
 		$imgdownarrow = get_general_image_path() . "/button/downarrow.gif";
 
 		foreach ($name_list as $name => $width) {
-
 			$desc = "__desc_{$name}";
 
 			$descr[$name] = get_classvar_description($class, $desc);
@@ -407,7 +406,9 @@ class Html extends Htmllib
 ?>
 				</td>
 				<td width='15'><img src="<?= $imgarrow ?>"></td>
-				<td></td></tr></table>
+				<td></td>
+			</tr>
+		</table>
 <?php
 			} else {
 ?>
@@ -420,10 +421,16 @@ class Html extends Htmllib
 			$count = 0;
 			$rowcount = 0;
 
+			if ($sellist) {
+				$checked = "checked disabled";
+			} else {
+				$checked = "";
+			}
+
 ?>
 			<td background='<?= $imgtablerowhead ?>' style="width: 10px; text-align: center">
 				<form name="formselectall<?= $unique_name; ?>" value='hello'>
-					<input type='checkbox' name="selectall<?= $unique_name; ?>" value='on' <?php if ($sellist) echo "checked disabled"; ?> onclick="javascript:calljselectall<?= $unique_name; ?>()">
+					<input type='checkbox' name="selectall<?= $unique_name; ?>" value='on' <?= $checked; ?> onclick="javascript:calljselectall<?= $unique_name; ?>()">
 				</form>
 			</td>
 		</tr>
@@ -439,8 +446,10 @@ class Html extends Htmllib
 			// Fix This.
 			if ($sellist) {
 				$checked = "checked disabled";
-				if (!array_search_bool($obj->nname, $sellist))
+
+				if (!array_search_bool($obj->nname, $sellist)) {
 					continue;
+				}
 			}
 
 			$imgpointer = get_general_image_path() . "/button/pointer.gif";
@@ -452,7 +461,7 @@ class Html extends Htmllib
 				loadImage('<?= $imgblank?>');
 			</script>
 
-			<tr id='tr<?= $unique_name . $rowcount; ?>' class='tablerow<?= $count; ?>' onmouseover=" swapImage('imgpoint<?= $rowcount; ?>','','<?= $imgpointer; ?>',1);" onmouseout="swapImgRestore();">
+			<tr id='tr<?= $unique_name . $rowcount; ?>' class='tablerow<?= $count; ?>' onmouseover="swapImage('imgpoint<?= $rowcount; ?>','','<?= $imgpointer; ?>',1);" onmouseout="swapImgRestore();">
 				<!-- <td id='td<?= $unique_name . $rowcount; ?>' width='5' class='rowpoint'><img name=imgpoint<?= $rowcount; ?> src="<?= $imgblank; ?>"></td> -->
 <?php
 			$colcount = 1;
@@ -477,7 +486,12 @@ class Html extends Htmllib
 				<td width='10'>&nbsp;<a class='button' href="javascript:callSetSelectFolder('<?= $ret ?>')">Select</a>&nbsp;</td>
 			</tr>
 <?php
-			if ($count === 0) $count = 1; else $count = 0;
+			if ($count === 0) {
+				$count = 1; 
+			} else {
+				$count = 0;
+			}
+
 			$rowcount++;
 
 			if (!$sellist) {
@@ -539,7 +553,7 @@ class Html extends Htmllib
 							<table>
 								<tr>
 									<td>
-										<a class=button href="javascript:window.close()">&nbsp;Cancel&nbsp;</a>
+										<a class='button' href="javascript:window.close()">&nbsp;Cancel&nbsp;</a>
 									</td>
 									<td width='30'>&nbsp;</td>
 									<td></td>

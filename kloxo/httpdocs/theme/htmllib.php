@@ -829,10 +829,10 @@ class HtmlLib
 					o.insertBefore(tl, o.firstChild);
 					dc.addEvent(tl, 'click', dc.addCollapse, false);
 					// Safari hacks
-					tl.onclick = function () {
+					tl.onclick = function() {
 						return false;
 					};
-					o.onclick = function () {
+					o.onclick = function() {
 						return false;
 					}
 				},
@@ -1003,7 +1003,7 @@ class HtmlLib
 		<script>
 			var global_formname;
 			
-			var Comments = function () {
+			var Comments = function() {
 				var dialog, postLink, viewLink, txtComment;
 				var tabs, commentsList, renderer;
 				var wait, error, errorMsg;
@@ -1013,7 +1013,7 @@ class HtmlLib
 
 				return {
 
-					init: function () {
+					init: function() {
 						// cache some elements for quick access
 						// txtComment = Ext.get('comment');
 						wait = Ext.get('post-wait');
@@ -1049,11 +1049,11 @@ class HtmlLib
 
 					},
 
-					okComment: function () {
+					okComment: function() {
 						this.submitComment('ok');
 					},
 
-					allComment: function () {
+					allComment: function() {
 						if (confirm("Do you really want to apply the above settings to all the objects visible in the top right selectbox?")) {
 							this.submitComment('all');
 						} else {
@@ -1126,7 +1126,7 @@ class HtmlLib
 						Ext.lib.Ajax.formRequest(global_formname, ur, {success: commentSuccess, failure: commentFailure});
 					},
 
-					createDialog: function () {
+					createDialog: function() {
 						dialog = new Ext.BasicDialog("comments-dlg", {
 							autoTabs: true,
 							width:<?=$dwidth?>,
@@ -1143,7 +1143,7 @@ class HtmlLib
 
 
 						// clear any messages and indicators when the dialog is closed
-						dialog.on('hide', function () {
+						dialog.on('hide', function() {
 							wait.removeClass('active-msg');
 							error.removeClass('active-msg');
 							//txtComment.dom.value = '';
@@ -1187,7 +1187,7 @@ class HtmlLib
 						<?=$k?>um.setRenderer(renderer);
 
 						// lazy load the comments when the view tab is activated
-						tabs.getTab('<?=$k?>-tab').on('activate', function () {
+						tabs.getTab('<?=$k?>-tab').on('activate', function() {
 							<?=$k?>um.update('<?=$na?>&r=' + Math.random());
 						});
 <?php
@@ -1275,7 +1275,7 @@ class HtmlLib
 ?>
 
 		<script>
-			(function () {
+			(function() {
 
 				var Dom = YAHOO.util.Dom;
 				var Event = YAHOO.util.Event;
@@ -1285,7 +1285,7 @@ class HtmlLib
 				// example app
 				//////////////////////////////////////////////////////////////////////////////
 				YAHOO.example.DDApp = {
-					init: function () {
+					init: function() {
 						var dd;
 
 						dd = new YAHOO.util.DDTarget("mainbody");
@@ -1305,10 +1305,10 @@ class HtmlLib
 						//Event.on("switchButton", "click", this.switchStyles);
 					},
 
-					showOrder: function () {
+					showOrder: function() {
 					},
 
-					switchStyles: function () {
+					switchStyles: function() {
 					}
 				};
 
@@ -1359,7 +1359,7 @@ class HtmlLib
 						var thisid = this.id;
 
 						// Hide the proxy and show the source element when finished with the animation
-						a.onComplete.subscribe(function () {
+						a.onComplete.subscribe(function() {
 							Dom.setStyle(proxyid, "visibility", "hidden");
 							Dom.setStyle(thisid, "visibility", "");
 						});
@@ -1481,13 +1481,13 @@ class HtmlLib
 		$str = randomString(8);
 		$form_name = $this->createEncForm_name("{$file}_{$name}_$str");
 		$form_name = fix_nname_to_be_variable($form_name);
-
+	/*
 		if (csb($url, "http:/")) {
 			$formmethod = "get";
 		} else {
 			$formmethod = $sgbl->method;
 		}
-
+	*/
 		// Use get always. Only in forms should post be used.
 		$formmethod = 'get';
 
@@ -2151,7 +2151,8 @@ class HtmlLib
 			</tr>
 		</table>
 
-		<form name="chmod" method=<?= $sgbl->method ?> action="" accept-charset="utf-8">
+		<!-- <form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
+		<form name="chmod" method="get" action="" accept-charset="utf-8">
 			<table cellpadding="0" cellspacing="0" border="0" width="325">
 				<tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
 					<td width="100" class="col"></td>
@@ -2233,7 +2234,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$sgbl->method = 'post';
+	//	$sgbl->method = 'post';
+		$sgbl->method = 'get';
 
 		$this->fix_stuff_or_class($stuff, $variable, $class, $value);
 		$descr = $this->get_classvar_description_after_overload($class, $variable);
@@ -3240,16 +3242,15 @@ class HtmlLib
 			return $url;
 		}
 
+		$k = 0;
+
 		if ($p === "default") {
 			$p = $this->frm_o_o;
 		}
 
-		$np = array();
-
 		$url = "display.php?" . $url;
 		$this->get_post_from_get($url, $path, $post);
 
-		$k = 0;
 		$k = count($p);
 
 		if (isset($post['goback'])) {
@@ -3278,6 +3279,7 @@ class HtmlLib
 
 			if (csa($obj, "_s_")) {
 				$l = explode("_s_", $obj);
+
 				foreach ($l as $o) {
 					$p[$k++]['class'] = $o;
 				}
@@ -3298,6 +3300,7 @@ class HtmlLib
 
 			$p[$k]['class'] = $post['k']['class'];
 			$p[$k]['nname'] = $post['k']['nname'];
+
 			$k++;
 		}
 
@@ -3306,6 +3309,7 @@ class HtmlLib
 
 			if (csa($obj, "_s_")) {
 				$l = explode("_s_", $obj);
+
 				foreach ($l as $o) {
 					$p[$k++]['class'] = $o;
 				}
@@ -3427,7 +3431,7 @@ class HtmlLib
 			}
 		}
 
-	//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
+		//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
 		$wrapstr = ($width === "100%") ? "" : "nowrap";
 
 		$target = null;
@@ -3642,7 +3646,8 @@ class HtmlLib
 
 			<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist"> <span title='<?= $alt ?>'>
 <?php
-			$method = ($__external) ? "get" : $sgbl->method;
+		//	$method = ($__external) ? "get" : $sgbl->method;
+			$method = "get";
 
 			if ($this->frm_action === 'selectshow') {
 				$post['frm_action'] = 'selectshow';
@@ -3711,8 +3716,8 @@ class HtmlLib
 		$filtername = $object->getFilterVariableForThis($class);
 ?>
 
-		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>"
-		      action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+		<!-- <form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8"> -->
+		<form name="form<?= $name ?>_page_<?= $place ?>" method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
 			$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 			$this->print_current_input_vars(array('frm_hpfilter'));
@@ -3849,6 +3854,114 @@ class HtmlLib
 		return $n;
 	}
 
+	function printListAddFormBad($parent, $class)
+	{
+		global $gbl, $sgbl, $login;
+
+		$col = $login->getSkinColor();
+		$rclass = $class;
+		$vlist = exec_class_method($rclass, "addListForm", $parent, $class);
+
+		if (!$vlist) {
+			return;
+		}
+
+		$buttonpath = get_image_path();
+?>
+
+		<table cellpadding="0" width="90%" cellspacing="1" style="border: 1px solid #<?= $col ?>; background:#fffafa;">
+			<tr>
+				<td height="10" colspan="10"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td width="20" color="#fffafa"> &nbsp; </td>
+				<td></td>
+				<form name="addlist" method="get" action="/display.php" accept-charset="utf-8">
+<?php
+		foreach ($vlist as $k => $v) {
+			if (isset($v[0]) && $v[0] === 'h') {
+				continue;
+			}
+
+			$k = get_classvar_description($rclass, $k);
+?>
+
+						<td nowrap> <?= $k[2] ?> </td>
+<?php
+		}
+?>
+
+					<td></td>
+					<td width="10"> &nbsp; </td>
+			</tr>
+			<tr>
+				<td width="10"></td>
+				<td><img src="<?= $buttonpath ?>/<?= $class ?>_list.gif" height="20" width="20"></td>
+<?php
+		foreach ($vlist as $k => $v) {
+?>
+
+					<td>
+<?php
+			if (isset($v[0]) && $v[0] === 's') {
+?>
+							<select name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff;" value="">
+<?php
+				foreach ($v[1] as $kk => $vv) {
+?>
+
+								<option value="<?= $vv ?>"><?= $vv ?></option>
+<?php
+				}
+?>
+
+							</select>
+<?php
+			} else {
+				if (isset($v[0]) && $v[0] === 'M') {
+?>
+
+<?= $v[1] ?>
+<?php
+				} else {
+					if (isset($v[0]) && $v[0] === 'h') {
+?>
+								<input type="hidden" name="frm_<?= $class ?>_c_<?= $k ?>" value="<?= $v[1] ?>">
+<?php
+					} else {
+?>
+								<input type="text" name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff; margin:1px;  background-size:10px; background-position:1% 1%; vertical-align:middle;" value="">
+<?php
+					}
+				}
+			}
+?>
+
+					</td>
+<?php
+		}
+?>
+
+				<input type="hidden" name="frm_action" value="add">
+<?php
+				$this->print_current_input_vars(array('frm_action'));
+				$desc = $this->get_class_description($rclass);
+				$desc = $desc[2];
+?>
+
+				</td>
+				<td><input type="submit" class=submitbutton name=Search value="Quick Add <?= $desc ?>"></td>
+				</form>
+				</td>
+				<td width="100%"></td>
+			</tr>
+			<tr>
+				<td height="10" colspan="10"></td>
+			</tr>
+		</table>
+<?php
+	}
+
 	function printListAddForm($parent, $class)
 	{
 		global $gbl, $sgbl, $login;
@@ -3938,7 +4051,8 @@ class HtmlLib
 		if ($global_visible) {
 			$visiblity = "visibility:visible;display:block";
 			$showstring = null;
-			$show_all_string = "(Click on show-all to hide)";
+		//	$show_all_string = "(Click on show-all to hide)";
+			$show_all_string = $login->getKeywordUc('click_on_showall_to_hide');
 		} else {
 			$showstring = $login->getKeywordUc('showhide');
 			$show_all_string = null;
@@ -3963,7 +4077,8 @@ class HtmlLib
 		</div>
 
 		<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto'>
-			<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
+			<!-- <form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8"> -->
+			<form name="lpfform_rsearch" method="get" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
 				<table width=100% border=0 align="center" cellpadding=0
 				       style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
 					<tr>
@@ -3973,6 +4088,7 @@ class HtmlLib
 						<td width=10> &nbsp; </td>
 						<td>
 							<table width="100%" height="100%" cellpadding="0" cellspacing="0">
+								<tr>
 
 <?php
 		$filarr[] = 'pagenum';
@@ -4058,6 +4174,7 @@ class HtmlLib
 ?>
 							</tr>
 							<tr>
+								<td>
 <?php
 			}
 		}
@@ -4123,6 +4240,7 @@ class HtmlLib
 		}
 
 		$filtername = $parent->getFilterVariableForThis($class);
+
 		$sortdir = null;
 		$sortby = null;
 		$fil = $login->getHPFilter();
@@ -4236,7 +4354,8 @@ class HtmlLib
 			$filterundermes = "({$login->getKeywordUc('search_on')}";
 
 			if ($total_num == 0) {
-				$filterundermes .= ". Click on show all to see all the objects";
+			//	$filterundermes .= ". Click on show all to see all the objects";
+				$filterundermes .= ". " . $login->getKeywordUc('click_on_showall_to_see_all_objects');
 			}
 
 			$filterundermes .= ")";
@@ -4369,7 +4488,8 @@ class HtmlLib
 ?>
 
 					<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-						<form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+						<!-- <form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
+						<form name="page<?= $unique_name ?><?= $i ?>" method="get" action="" accept-charset="utf-8">
 <?php
 				$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 				$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4377,13 +4497,13 @@ class HtmlLib
 				if ($last) {
 ?>
 
-							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value="<?= $total_page ?> class="small">
+							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value="<?= $total_page ?>" class="small">
 							<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">...Last&nbsp;</a>
 <?php
 				} else {
 ?>
 
-							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value=<?= $i ?> class="small">
+							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value="<?= $i ?>" class="small">
 							<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">&nbsp;<?= $i ?>&nbsp;</a>
 <?php
 				}
@@ -4418,7 +4538,8 @@ class HtmlLib
 ?>
 
 					<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-						<!-- <form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
+						<!-- <form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8"> -->
+						<form name="perpage_<?= $i ?><?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8">
 <?php
 					$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
 					$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4426,9 +4547,7 @@ class HtmlLib
 
 							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $l ?>">
 						</form>
-						<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>&nbsp;</a> -->
-
-						<a href="/display.php?frm_action=list&frm_o_cname=<?= $el[count($el) - 1] ?>&frm_hpfilter[<?= $filtername ?>][pagesize]=<?= $l ?>&frm_hpfilter[<?= $filtername ?>][pagenum]=<?= $cgi_pagenum ?>">&nbsp;<?= $l ?>&nbsp;</a>
+						<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>&nbsp;</a>
 					</td>
 <?php
 
@@ -4457,14 +4576,17 @@ class HtmlLib
 				<tr height="25" valign="middle">
 <?php
 		if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
-			//	$checked = "checked disabled";
+		//	$checked = "checked disabled";
 			$checked = "";
 ?>
 
 					<td style="width: 10px; text-align: center; background:#cde url(<?= $imgtablerowhead ?>)">
-						<form name="formselectall<?= $unique_name ?>" value="hello" accept-charset="utf-8"> <?= $filteropacitystringspan ?>
-							<input <?= $filteropacitystring ?> type=checkbox name="selectall<?= $unique_name ?>" value='on' <?= $checked ?> onclick="calljselectall<?= $unique_name ?> ()">
+						<form name="formselectall<?= $unique_name ?>" value="hello" accept-charset="utf-8">
+							<?= $filteropacitystringspan ?>
+
+							<input <?= $filteropacitystring ?> type=checkbox name="selectall<?= $unique_name ?>" value='on' <?= $checked ?> onclick="calljselectall<?= $unique_name ?>()">
 							<?= $filteropacitystringspanend ?>
+
 						</form>
 					</td>
 <?php
@@ -4507,7 +4629,7 @@ class HtmlLib
 			}
 
 			if ($width === "100%") {
-				//	$wrapstr = "wrap";
+			//	$wrapstr = "wrap";
 				$wrapstr = "";
 			} else {
 				$wrapstr = "nowrap";
@@ -4615,7 +4737,7 @@ class HtmlLib
 					<tr height='22' id='<?= $rowuniqueid ?>' class='tablerow<?= $count ?>' onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';" onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')">
 <?php
 
-			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax ) {
+			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 ?>
 
 						<!-- <td width=10 style='<?= $backgroundstring ?>'> <?= $filteropacitystringspan ?> -->
@@ -4725,7 +4847,8 @@ class HtmlLib
 									<table <?= $blackstyle ?>>
 										<tr>
 											<td>
-												<form method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+												<!-- <form method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8"> -->
+												<form method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
 				$this->print_current_input_vars(array("frm_confirmed"));
 				$this->print_input("hidden", "frm_confirmed", "yes");
@@ -4736,7 +4859,8 @@ class HtmlLib
 											</td>
 											<td width="30"> &nbsp; </td>
 											<td>
-												<form method="<? $sgbl->method ?>" action="/display.php" accept-charset="utf-8">
+												<!-- <form method="<? $sgbl->method ?>" action="/display.php" accept-charset="utf-8"> -->
+												<form method="get" action="/display.php" accept-charset="utf-8">
 <?php
 				$this->print_current_input_vars(array("frm_action", "frm_accountselect"));
 				$this->print_input("hidden", "frm_action", "list");
@@ -4774,7 +4898,8 @@ class HtmlLib
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid #ddd">
 				<tr>
 					<td>
-						<form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+						<!-- <form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
+						<form name="perpage_<?= $unique_name ?>" method="get" action="" accept-charset="utf-8">
 							<table cellpadding="0" cellspacing="0" border="0">
 								<tr>
 <?php
@@ -4884,7 +5009,8 @@ class HtmlLib
 			if ($rpagesize < 1000) {
 ?>
 
-							<form method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+							<!-- <form method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
+							<form method="get" action="" accept-charset="utf-8">
 								<table cellpadding="0" cellspacing="0" border="0" valign="middle">
 									<tr valign="middle">
 										<td style="background: #eee;">&nbsp;<b>Page</b>
@@ -5416,7 +5542,7 @@ class HtmlLib
 
 		if (ifSplashScreen() || $windowurl) {
 			dprint("<br /> <br /> Redirect called with splash <br /> ");
-			dprint(" <b><br /> <br />  Click <a href=\"$redirect_url\"><b> xhere to go Continue. </a> </b> \n");
+			dprint(" <b><br /> <br />  Click <a href=\"$redirect_url\"><b> here to go to Continue. </a> </b> \n");
 
 			if ($sgbl->dbg < 0 || (isset($gbl->__no_debug_redirect) && $gbl->__no_debug_redirect)) {
 ?>
@@ -5601,8 +5727,8 @@ class HtmlLib
 			<tr>
 				<td width='10'></td>
 				<td align='left'>
-					<form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8">
-
+					<!-- <form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8"> -->
+					<form name="graphselectjump" method="get" action="display.php" accept-charset="utf-8">
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
@@ -5689,25 +5815,25 @@ class HtmlLib
 		$subactionstr = null;
 
 		if ($this->frm_subaction) {
-			$subactionstr = "<input type=hidden name=frm_subaction value={$this->frm_subaction}>\n";
+			$subactionstr = "<input type='hidden' name='frm_subaction' value='{$this->frm_subaction}'>\n";
 		}
 
 		if ($this->frm_consumedlogin) {
-			$subactionstr .= "<input type=hidden name=frm_consumedlogin value={$this->frm_consumedlogin}>";
+			$subactionstr .= "<input type='hidden' name='frm_consumedlogin' value='{$this->frm_consumedlogin}'>";
 		}
 
 		$cnamestr = null;
 
 		if ($this->frm_o_cname) {
-			$cnamestr = "<input type=hidden name=frm_o_cname value={$this->frm_o_cname}>";
+			$cnamestr = "<input type='hidden' name='frm_o_cname' value='{$this->frm_o_cname}'>";
 		}
 
 		$dttypestr = null;
 
 		// This needs to be an array.
 		if ($this->frm_dttype) {
-			$dttypestr = "<input type=hidden name=frm_dttype[val] value={$this->frm_dttype['val']}>";
-			$dttypestr .= "<input type=hidden name=frm_dttype[var] value={$this->frm_dttype['var']}>";
+			$dttypestr = "<input type='hidden' name='frm_dttype[val]' value='{$this->frm_dttype['val']}'>";
+			$dttypestr .= "<input type='hidden' name='frm_dttype[var]' value='{$this->frm_dttype['var']}'>";
 		}
 
 		$frm_action = $this->frm_action;
@@ -5738,10 +5864,10 @@ class HtmlLib
 ?>
 
 		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 24px; margin: 0 25px;">
-			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;<?= $login->getKeywordUc('switchtoanother') ?>&nbsp;</span>
-			</div>
+			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;<?= $login->getKeywordUc('switchtoanother') ?>&nbsp;</span></div>
 			<div style="float:left;">
-				<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
+				<!-- <form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8"> -->
+				<form name="topjumpselect" method="get" action='/display.php' accept-charset="utf-8">
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
@@ -5915,7 +6041,10 @@ class HtmlLib
 
 			$descr = $desc[2];
 
-			return array("", "", "Add $descr", 'desc' => "Add $descr", 'help' => "{$login->getKeywordUc('add')} $descr", "{$login->getKeywordUc('add')} $descr");
+			$add = $login->getKeywordUc('add');
+
+//			return array("", "", "Add $descr", 'desc' => "Add $descr", 'help' => "$add $descr", "$add $descr");
+			return array("", "", "$add $descr", 'desc' => "$add $descr", 'help' => "$add $descr", "$add $descr");
 		}
 
 		if ($var === "updateform" || $var === "update") {
@@ -5972,11 +6101,10 @@ class HtmlLib
 					$var .= "_nn_" . fix_nname_to_be_variable($post['frm_o_o'][$count]['nname']);
 				}
 
-				// MR -- without 'Home' in case of 'Backup/Restore Home' and 'Update Home'
 			//	$descr = "{$desc[2]} {$login->getKeywordUc('home')} ";
 				$descr = $desc[2];
-
-				$help = "{$login->getKeywordUc('show')} {$desc[2]} details";
+			//	$help = "{$login->getKeywordUc('show')} {$desc[2]} details";
+				$help = "{$login->getKeywordUc('show')} {$desc[2]}";
 			} else {
 				$descr = $desc[2];
 				$help = $desc[2];
@@ -6009,7 +6137,6 @@ class HtmlLib
 		$this->get_post_from_get($psuedourl, $path, $post);
 
 		$descr = $this->getActionDescr($path, $post, $class, $name, $identity);
-
 		$descr['desc'] = $descr[2];
 		$image = $this->get_image($buttonpath, $class, $name, ".gif");
 
@@ -6024,9 +6151,9 @@ class HtmlLib
 
 		$url = $ghtml->getFullUrl($url);
 
-		$ret = $this->getActionDetails($url, '', '', &$path, &$post, &$class, &$name, &$image, &$identity);
+		$ret = $this->getActionDetails($url, '', '', $path, $post, $class, $name, $image, $identity);
 
-		return "&#x00bb;&nbsp;" . $ret[2];
+		return $ret[2];
 	}
 
 	function print_div_for_divbutton($key, $imgflag, $linkflag, $formname, $name, $imagesrc, $descr)
@@ -6401,11 +6528,13 @@ class HtmlLib
 		$form_name = $this->createEncForm_name("{$file}_{$name}_$str");
 		$form_name = fix_nname_to_be_variable($form_name);
 
+	/*
 		if (csb($url, "http:/")) {
 			$formmethod = "get";
 		} else {
 			$formmethod = $sgbl->method;
 		}
+	*/
 
 		// Use get always. Only in forms should post be used.
 		$formmethod = 'get';
@@ -7059,12 +7188,13 @@ class HtmlLib
 		<!-- <div style="padding: 10px"> -->
 			<!-- <div style="width: 600px; margin: 0 auto 0 auto;"> -->
 			<div style="margin: 0 auto">
-				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8">
+				<!-- <form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8"> -->
+				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="get" <?= $onsubmit ?> accept-charset="utf-8">
 <?php
-		//	dprint($block->form);
+	//	dprint($block->form);
 
 		$full = array_flatten($full);
-		//	dprintr($full);
+	//	dprintr($full);
 
 		$totalwidth = '600px';
 /*
@@ -7098,14 +7228,19 @@ class HtmlLib
 			// MR -- make without button (like 'update home') not appear; so, disabled
 		//	return;
 		}
+
+
+		$total = count($full);
+
+		$count = 0;
+
+		// MR if only have hidden component of form
+		if ($total === 5) { return; }
 ?>
 
 					<div align="center" style="background-color:<?= $backgroundcolor ?>; width:100%">
 						<div align=left style="width:<?= $totalwidth ?>; border: 1px solid #<?= $skincolor ?>;">
 <?php
-		$total = count($full);
-		$count = 0;
-
 		foreach ($full as $variable) {
 			if ($variable->type == "subtitle") {
 ?>
@@ -7180,7 +7315,7 @@ class HtmlLib
 					</div>
 				</form>
 			</div>
-			<div>&nbsp;</div>
+			<!-- <div>&nbsp;</div> -->
 		<!-- </div> -->
 
 <?php
@@ -7536,9 +7671,9 @@ class HtmlLib
 				$value = $variable->value;
 				$value = self::fix_lt_gt($value);
 
-				if ($sgbl->isLxlabsClient()) {
-					$value = preg_replace("+(https://[^ \n]*)+", "<a href=$1 target=_blank style='text-decoration:underline'> Click Here </a>", $value);
-				}
+			//	if ($sgbl->isLxlabsClient()) {
+					$value = preg_replace("+(https://[^ \n]*)+", "<a href=$1 target=_blank style='text-decoration:underline'> " . $login->getKeywordUc('click_here') . " </a>", $value);
+			//	}
 
 				$value = str_replace("\n", "\n<br /> ", $value);
 				$ttname = $variable->name;
@@ -7683,7 +7818,8 @@ class HtmlLib
 				$onclick = null;
 
 				if (strtolower($variable->value) === 'updateall') {
-					$string = "Click Here to Update all the objects that appear in the top selectbox with the above values";
+				//	$string = "Click Here to Update all the objects that appear in the top selectbox with the above values";
+					$string = $login->getKeywordUc("update_all");
 					$bgcolor = "bgcolor=$skincolor";
 					$onclick = "onclick='return updateallWarning();'";
 				}
@@ -8388,7 +8524,8 @@ dprint($info);
 			$url = $this->getFullUrl("a=list&c=$name");
 			$desc = $this->get_class_description($name);
 			$printname = get_plural($desc[2]);
-			$help = "Click to Show $printname";
+		//	$help = "Click to Show $printname";
+			$help = $login->getKeywordUc('click_to_show') . " $printname";
 			$alt = $help;
 			$npttr = $pttr;
 
@@ -8767,9 +8904,6 @@ dprint($info);
 		if ($skin_name === 'feather') {
 			$func = "onLoad=\"lxLoadBody();\"";
 		} else {
-			//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/purecss/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
-			//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/prodropdown/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
-			//	$func = "onLoad=\"lxLoadBody(); menu_load('{$skin_dir}/menu/menutemplate2/menu.php' , '?s={$syncserver}&u={$userid}', 'menu_div');\"";
 			$func = "";
 		}
 
@@ -8795,51 +8929,6 @@ dprint($info);
 		<!-- "START TOP MENU + LOGO" -->
 <?php
 		if ($skin_name === 'simplicity') {
-			// MR -- mod from http://www.daniweb.com/web-development/javascript-dhtml-ajax/threads/184021/loading-an-html-file-into-a-div-from-a-link
-		/*
-?>
-		<script type="text/javascript">
-		<!--
-			function load_process(path, query, target) {
-				url = window.location.protocol + "//" + window.location.host + path + query;
-
-			//	document.getElementById(target).innerHTML = ' Fetching data...';
-				document.getElementById(target).innerHTML = '<span style="color:#fff;">Wait for menu loading...</span>';
-
-				if (window.XMLHttpRequest) {
-					req = new XMLHttpRequest();
-				} else if (window.ActiveXObject) {
-					req = new ActiveXObject("Microsoft.XMLHTTP");
-				}
-
-				if (req != undefined) {
-					req.onreadystatechange = function() {
-						load_done(url, target);
-					};
-
-					req.open("GET", url, true);
-					req.send("");
-				}
-			}
-
-			function load_done(url, target) {
-				if (req.readyState == 4) { // only if req is "loaded"
-					if (req.status == 200) { // only if "OK"
-						document.getElementById(target).innerHTML = req.responseText;
-					} else {
-						document.getElementById(target).innerHTML = "Error: " + req.status + req.statusText + " " + url;
-					}
-				}
-			}
-
-			function menu_load(path, query, div) {
-				load_process(path, query, div);
-				return false;
-			}
-		//-->
-		</script>
-<?php
-		*/
 ?>
 
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
@@ -8847,11 +8936,9 @@ dprint($info);
 				<div style="position: fixed; top: 2px; right: 2px"><a href="#" onClick="toggleVisibilityByClass('mmm');">
 					<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
 				</div>
-
 			</div>
 
-			<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img
-						src="/login/images/kloxo-mr.png" height="60"/></a></div>
+			<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60"/></a></div>
 			<!-- "END TOP MENU + LOGO" -->
 <?php
 		}
@@ -9087,11 +9174,9 @@ dprint($info);
 			} else {
 				$d = $desc;
 			}
-
 ?>
 
 			<span class="tableheadtext" onmouseover="changeContent('help','<b>Message </b>: <br /> <br /> <?= $help ?>')" onmouseout="changeContent('help','helparea')"> <?= $d ?> </span>
-
 <?php
 			return;
 		}
@@ -9115,7 +9200,8 @@ dprint($info);
 		$formname = 'lpform_' . $unique_name . $sortby;
 ?>
 
-		<form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
+		<!-- <form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8"> -->
+		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input name="frm_hpfilter[<?= $filtername ?>][sortby]" type="hidden" value="<?= $sortby ?>">
@@ -9167,19 +9253,21 @@ dprint($info);
 									<tr>
 										<td width="10" height="22"></td>
 										<td height="22">
-											<form name="lpform_search" method="<?= $sgbl->method ?>"action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
+											<!-- <form name="lpform_search" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8"> -->
+											<form name="lpform_search" method="get" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
 
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
-												<input <?= $blackstyle ?> type="text name="frm_hpfilter[<?= $filtername ?>][searchstring]" value="<?= $value ?>" class='searchbox' size="18">
+												<input <?= $blackstyle ?> type="text" name="frm_hpfilter[<?= $filtername ?>][searchstring]" value="<?= $value ?>" class='searchbox' size="18">
 											</form>
 										</td>
 										<td width="10" height="22">&nbsp;</td>
 										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img border="0" alt="Search" title="Search" name="search" src="<?= $searchimg ?>" height="15" width="15" onMouseOver="changeContent('help','search');" onMouseOut="changeContent('help','helparea');"></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td height="22" width="70">
-											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
+											<!-- <form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8"> -->
+											<form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8">
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" name="frm_clear_filter" value="true">
@@ -9208,8 +9296,8 @@ dprint($info);
 		return 'Html';
 	}
 
-	// function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $formname, $name, $imagesrc, $descr, $check)
-	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $url, $name, $imagesrc, $descr, $check)
+	// function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $url, $name, $imagesrc, $descr, $check)
+	function printTabForTabButton($key, $linkflag, $height, $imageheight, $sel, $imgbg, $formname, $name, $imagesrc, $descr, $check)
 	{
 		global $gbl, $sgbl, $login;
 
