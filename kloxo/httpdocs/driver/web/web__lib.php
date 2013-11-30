@@ -74,6 +74,14 @@ class web__ extends lxDriverClass
 			if ($a === 'httpd') {
 				setRpmInstalled("mod_ssl");
 				setRpmInstalled("mod_rpaf");
+
+				// MR -- this is for the first time to select apache
+				// where 'php-fpm_event' as default
+				$phptype = self::getPhptype();
+
+				if ($phptype === '') {
+					setRpmInstalled("mod_fastcgi");
+				}
 			} elseif ($a === 'lighttpd') {
 				setRpmInstalled("{$a}-fastcgi");
 			} elseif ($a === 'nginx') {
@@ -258,7 +266,7 @@ class web__ extends lxDriverClass
 		$input['redirectionlocal'] = $this->getRedirectionLocal();
 		$input['redirectionremote'] = $this->getRedirectionRemote();
 
-		$input['phptype'] = $this->getPhptype();
+		$input['phptype'] = self::getPhptype();
 
 		$input['webcache'] = slave_get_driver('webcache');
 
@@ -279,7 +287,7 @@ class web__ extends lxDriverClass
 		$input['certnamelistfree'] = $this->getSslCertNameList('free');
 		$input['userlist'] = $this->getUserList();
 
-		$input['phptype'] = $this->getPhptype();
+		$input['phptype'] = self::getPhptype();
 
 		$input['webcache'] = slave_get_driver('webcache');
 
@@ -393,11 +401,12 @@ class web__ extends lxDriverClass
 
 // MR -- (2) call by 'related to create conf file' (1)
 
-	function getPhptype()
+	static function getPhptype()
 	{
 		$sq = new Sqlite(null, 'serverweb');
 		$res = $sq->getRowsWhere("nname = 'pserver-localhost'", array('php_type'));
-		$ret = ($res[0]) ? $res[0] : array('php_type' => 'php-fpm_event');
+	//	$ret = ($res[0]) ? $res[0] : array('php_type' => 'php-fpm_event');
+		$ret = $res[0];
 
 		return $ret['php_type'];
 	}
