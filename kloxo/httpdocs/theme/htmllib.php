@@ -2152,7 +2152,7 @@ class HtmlLib
 		</table>
 
 		<!-- <form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
-		<form name="chmod" method="get" action="" accept-charset="utf-8">
+		<form name="chmod" method="get" action="/display.php" accept-charset="utf-8">
 			<table cellpadding="0" cellspacing="0" border="0" width="325">
 				<tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
 					<td width="100" class="col"></td>
@@ -4489,7 +4489,7 @@ class HtmlLib
 
 					<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
 						<!-- <form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
-						<form name="page<?= $unique_name ?><?= $i ?>" method="get" action="" accept-charset="utf-8">
+						<form name="page<?= $unique_name ?><?= $i ?>" method="get" action="/display.php" accept-charset="utf-8">
 <?php
 				$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 				$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4899,7 +4899,7 @@ class HtmlLib
 				<tr>
 					<td>
 						<!-- <form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
-						<form name="perpage_<?= $unique_name ?>" method="get" action="" accept-charset="utf-8">
+						<form name="perpage_<?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8">
 							<table cellpadding="0" cellspacing="0" border="0">
 								<tr>
 <?php
@@ -5010,7 +5010,7 @@ class HtmlLib
 ?>
 
 							<!-- <form method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
-							<form method="get" action="" accept-charset="utf-8">
+							<form method="get" action="/display.php" accept-charset="utf-8">
 								<table cellpadding="0" cellspacing="0" border="0" valign="middle">
 									<tr valign="middle">
 										<td style="background: #eee;">&nbsp;<b>Page</b>

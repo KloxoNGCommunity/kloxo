@@ -18,6 +18,8 @@ if (isset($_GET['frm_consumedlogin'])) {
 	}
 }
 
+$loginquery = "frm_o_o[0][class]=client&frm_o_o[0][nname]={$loginas}&";
+
 if (isset($_GET['frm_o_o'][0]['class']) && ($_GET['frm_o_o'][0]['class'] === 'client')) {
 	$clientid = $_GET['frm_o_o'][0]['nname'];
 
@@ -79,7 +81,8 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 ?>
 					&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=dologin&o=client") ?>
 
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?>"><?= $clientid ?> (<?= $login->getKeywordUc('cancel') ?>)</a><br/>
+						<!-- &#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?>"><?= $clientid ?> (<?= $login->getKeywordUc('cancel') ?>)</a><br/> -->
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $loginquery ?>"><?= $loginas ?> (<?= $login->getKeywordUc('cancel') ?>)</a><br/>
 <?php
 		} else {
 ?>

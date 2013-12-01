@@ -613,7 +613,7 @@ class hn_urlRewrite
 		{
 			$a = array();
 			$newpage = '';
-			//				1		  2		3		 4			 <5>		  6		 7
+			//             1    2		 3    4                   <5>        6       7
 			$pattern = '=^(.*?)(<area|<a|<img)(.*?)(href\=|src\=)["|\'](.*?)["|\']([^>]*?)(>.*$|>.*?</a>.*$)=msi';
 			while(preg_match($pattern, $page, $a)) {
 				if(count($a)>1) {
@@ -633,6 +633,7 @@ class hn_urlRewrite
 					}
 				}
 			}
+
 			return $newpage.$page;
 		}
 
@@ -646,14 +647,24 @@ class hn_urlRewrite
 			if (csa($url, "sitepreview")) {
 				return $url;
 			}
+
 			$url = str_replace("../", "", $url);
 
+			if (substr($url, -4, 4) === ".php") {
+				// MR -- hiawatha have a trouble if .php without add / at the end
+				$url = $url . "/";
+			}
+
 			if (csa($url, "http://$domain")) {
-				$url = preg_replace("+http://$domain+", "/sitepreview/$domain/", $url);
+				// MR -- make sure no // at the end
+			//	$url = preg_replace("+http://$domain+", "/sitepreview/$domain/", $url);
+				$url = preg_replace("+http://$domain+", "/sitepreview/$domain", $url);
 				return $url;
 			}
 			if (csa($url, "http://www.$domain")) {
-				$url = preg_replace("+http://www.$domain+", "/sitepreview/$domain/", $url);
+				// MR -- make sure no // at the end
+			//	$url = preg_replace("+http://www.$domain+", "/sitepreview/$domain/", $url);
+				$url = preg_replace("+http://www.$domain+", "/sitepreview/$domain", $url);
 				return $url;
 			}
 

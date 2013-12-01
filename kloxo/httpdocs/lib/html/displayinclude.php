@@ -21,6 +21,6 @@
 $path = __FILE__;
 $dir = dirname(dirname(dirname($path)));
 include_once "$dir/lib/html/includecore.php";
-include_once "$dir/lib/html.php";
+include_once "$dir/theme/html.php";
 include_once "$dir/lib/html/include.php";
 $ghtml = new Html();

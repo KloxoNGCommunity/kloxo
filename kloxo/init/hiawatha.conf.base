@@ -33,6 +33,17 @@ FastCGIserver {
 
 MimetypeConfig = hiawatha-mimetype.conf
 
+UrlToolkit {
+    ToolkitID = findindexfile
+    Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
+    RequestURI isfile Return
+    Match ^([^?]*)/index\.php(\?.*)?$ Rewrite $1/index.html$2 Continue
+    RequestURI isfile Return
+    Match ^([^?]*)/index\.html(\?.*)?$ Rewrite $1/index.htm$2 Continue
+    RequestURI isfile Return
+    Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
+}
+
 Binding {
 	BindingId = port_nonssl
 	Port = __nonssl_port__
@@ -65,6 +76,8 @@ ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
 
 UseFastCGI = PHP5
 
+UseToolkit = findindexfile
+
 TimeForCGI = 3600
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html
@@ -84,6 +97,8 @@ VirtualHost {
 	ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
 
 	UseFastCGI = PHP5
+
+	UseToolkit = findindexfile
 
 	TimeForCGI = 3600
 	ErrorHandler = 401:/error/401.html
