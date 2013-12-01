@@ -209,14 +209,18 @@ class resourceplan extends resourcecore
 				$vlist['realname_f'] = array('m', $this->realname);
 
 				break;
+		/*
 			case "account":
 				$total = $this->getAccountList();
 				$total = lx_array_merge($total);
+
 				$vlist['account'] = array('M', implode(" ", $total));
 
-				$vlist['__v_button'] = array();
+				// MR -- not appear with it!
+			//	$vlist['__v_button'] = array();
 
 				break;
+		*/
 			case "limit_s":
 			case "limit":
 				$vlist = getQuotaListForClass('client');
@@ -303,6 +307,11 @@ class resourceplan extends resourcecore
 				$vlist['description'] = null;
 			//	$vlist['share_status'] = null;
 
+				$total = $this->getAccountList();
+				$total = lx_array_merge($total);
+
+				$vlist['account'] = array('M', implode(" ", $total));
+
 				if (!$this->isRightParent()) {
 					$this->convertToUnmodifiable($vlist);
 				}
@@ -342,7 +351,8 @@ class resourceplan extends resourcecore
 		
 		$alist['property'][] = 'a=show';
 		$alist['property'][] = "a=updateForm&sa=description";
-		$alist['property'][] = "a=updateForm&sa=account";
+		// MR -- merge to description
+	//	$alist['property'][] = "a=updateForm&sa=account";
 
 		if ($sgbl->isKloxo() && $this->getParentO()->isLte('reseller')) {
 			$alist['property'][] = "a=updateform&sa=dnstemplatelist";
