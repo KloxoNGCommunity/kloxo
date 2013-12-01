@@ -6988,10 +6988,11 @@ class HtmlLib
 
 		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
 			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)">
-				<span style='font-weight:bold'>&nbsp;Comments<a href="<?= $url ?>"> [edit] </a></div>
-			<div>
-				<textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<?= $rows ?>" style="border: 0; margin: 0; width: <?= $cols ?>; height: 100px;" name="<?= $variable ?>" size="30"><?= $value ?></textarea>
+				<span style='font-weight:bold'>&nbsp;<?= $login->getDescriptionUc('comments') ?>&nbsp;[<a href="<?= $url ?>"><?= $login->getDescriptionUc('edit') ?></a>]
 			</div>
+			<!-- <div>
+				<textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<?= $rows ?>" style="border: 0; margin: 0; width: <?= $cols ?>; height: 100px;" name="<?= $variable ?>" size="30"><?= $value ?></textarea>
+			</div> -->
 		</div>
 		<br/>
 <?php

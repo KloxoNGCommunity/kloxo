@@ -18,7 +18,7 @@ class Miscinfo_b extends Lxaclass
 class sp_Miscinfo extends LxSpecialClass
 {
 	static $__desc  = array("","", "miscinfo"); 
-	static $__desc_nname = array("", "", "name"  );
+	static $__desc_nname = array("", "", "name");
 	static $__desc_miscinfo_b =  array("", "", "personal_info_of_client");
 	static $__acdesc_update_miscinfo =  array("","", "details"); 
 

@@ -125,6 +125,23 @@ abstract class Lxclient extends Lxdb
 		return ucfirst($this->getKeyword($var));
 	}
 
+	function getDescription($var)
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+		global $g_language_mes;
+
+		if (isset($g_language_mes->__description[$var])) {
+			return $g_language_mes->__description[$var];
+		}
+		
+		return $var;
+	}
+
+	function getDescriptionUc($var)
+	{
+		return ucfirst($this->getDescription($var));
+	}
+
 	function createShowMainImageList()
 	{
 		if (cse($this->get__table(), "template")) {
