@@ -1,4 +1,5 @@
 <?php
+
 ignore_user_abort(true);
 
 include_once "lib/html/displayinclude.php";
@@ -7,6 +8,9 @@ include_once "lib/html/displayinclude.php";
 function __ac_desc_desktop($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+?>
+<!-- "ac-desc-desktop" -->
+<?php
 
 	$skindir = $login->getSkinDir();
 	$col = $login->getSkinColor();
@@ -22,8 +26,6 @@ function __ac_desc_desktop($object)
 	$ghtml->print_message();
 
 ?>
-
-<!-- "ac-desc-desktop" -->
 
 	<table cellpadding="0" width="90%" cellspacing="1" style='border:1px solid #<?=$col?>; background:#fffafa;'>
 		<tr></tr>
@@ -106,7 +108,9 @@ function __ac_desc_logout($object)
 function __ac_desc_updateshow($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
+?>
+<!-- "ac-desc-updateshow" -->
+<?php
 	$subaction = $ghtml->frm_subaction;
 	$post = $ghtml->__http_vars;
 
@@ -127,8 +131,6 @@ function __ac_desc_updateshow($object)
 	}
 
 ?>
-
-<!-- "ac-desc-updateshow" -->
 
 	<table cellpadding="0" cellspacing="0" width="90%">
 		<tr>
@@ -168,7 +170,9 @@ function print_customer_mode($object)
 function __ac_desc_show($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
+?>
+<!-- "ac-desc-show" -->
+<?php
 	print_time("show_select");
 
 	if (!$object) {
@@ -239,8 +243,6 @@ function __ac_desc_show($object)
 
 		if (isset($showalist['__v_message'])) {
 ?>
-
-<!-- "ac-desc-show" -->
 
 			<table cellpadding="16" width="100%" cellspacing="0" border="0">
 				<tr>
@@ -407,7 +409,7 @@ function __ac_desc_show($object)
 			$ghtml->print_object_action_block($object, $nalist, 8);
 ?>
 
-			<br />
+			<br/>
 <?php
 		}
 	}
@@ -608,7 +610,9 @@ function do_select_list($object, $sclist)
 function __ac_desc_delete($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
+?>
+<!-- "ac-desc-delete" -->
+<?php
 	$cname = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
@@ -631,14 +635,12 @@ function __ac_desc_delete($object)
 		$gbl->setSessionV("lx_delete_return_url", $gbl->getHttpReferer());
 ?>
 
-<!-- "ac-desc-delete" -->
-
 		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
 <?php
 			if (exec_class_method($cname, 'isTreeForDelete')) {
 ?>
 
-				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br /> <br /></div>
+				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br/> <br/></div>
 
 <?php
 
@@ -647,7 +649,7 @@ function __ac_desc_delete($object)
 					$ghtml->do_resource(null, $o, 6, false, "getResourceChildList", true, false);
 				}
 ?>
-				<br />
+				<br/>
 <?php
 			}
 
@@ -723,7 +725,9 @@ function check_for_license()
 function __ac_desc_list($object, $cname = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
+?>
+<!-- "ac-desc-list" -->
+<?php
 	if (!$cname) {
 		$cname = $ghtml->frm_o_cname;
 	}
@@ -744,11 +748,6 @@ function __ac_desc_list($object, $cname = null)
 	if ($alist) {
 		$ghtml->print_tab_block($alist);
 	}
-
-?>
-
-<!-- "ac-desc-list" -->
-<?php
 
 	$ghtml->print_content_begin();
 
@@ -812,7 +811,9 @@ function make_show_all($object, $cname)
 function __ac_desc_selectShow($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
+?>
+<!-- "ac-desc-selectShow" -->
+<?php
 	$cnamelist = $object->createShowClist("");
 	$cname = "ffile";
 
@@ -824,10 +825,8 @@ function __ac_desc_selectShow($object)
 
 ?>
 
-<!-- "ac-desc-selectShow" -->
-
-	<br />
-	<br />
+	<br/>
+	<br/>
 <?php
 
 	$object->showRawPrint();
@@ -853,14 +852,11 @@ function __ac_desc_showform($object)
 function __ac_desc_Update($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
-	$subaction = $ghtml->frm_subaction;
-	$class = $ghtml->frm_o_cname;
-
 ?>
-
 <!-- "ac-desc-Update" -->
 <?php
+	$subaction = $ghtml->frm_subaction;
+	$class = $ghtml->frm_o_cname;
 
 	$list = null;
 
@@ -889,7 +885,7 @@ function __ac_desc_Update($object)
 			$ret = do_update($object, $subaction, $list);
 		} else {
 			if (!$list) {
-				print("List not set for Multiple Update <br /> ");
+				print("List not set for Multiple Update <br/> ");
 				exit;
 			}
 			foreach ($list as $l) {
@@ -979,15 +975,13 @@ function do_search($object, $cname)
 function __ac_desc_UpdateForm($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
+?>
+<!-- "ac-desc-UpdateForm" -->
+<?php
 	if (!$object) {
 		return;
 	}
 
-?>
-
-<!-- "ac-desc-UpdateForm" -->
-<?php
 	$selflist = $object->getSelfList();
 	$subaction = $ghtml->frm_subaction;
 
@@ -1028,7 +1022,7 @@ function __ac_desc_UpdateForm($object)
 			do_updateform($object, $subaction);
 ?>
 
-			<br /> <br /> <br />
+			<br/> <br/> <br/>
 <?php
 		}
 	} else {
@@ -1152,7 +1146,6 @@ function __ac_desc_add($object, $param = null)
 	global $gbl, $sgbl, $login, $ghtml;
 
 ?>
-
 <!-- "ac-desc-add" -->
 <?php
 
@@ -1198,9 +1191,7 @@ function check_for_select_one($param)
 function __ac_desc_continue($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
 ?>
-
 <!-- "ac-desc-continue" -->
 <?php
 
@@ -1277,7 +1268,6 @@ function __ac_desc_addform($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 ?>
-
 <!-- "ac-desc-addform" -->
 <?php
 
@@ -1399,7 +1389,7 @@ function create_xml($object, $stuff, $ret)
 				$descr = $ghtml->get_classvar_description_after_overload($class, $k);
 
 				if (count($descr) < 3) {
-					dprint("Variable $k in $class Not Defined... <br /> \n");
+					dprint("Variable $k in $class Not Defined... <br/> \n");
 					$descr = array($class, $k, "Not Defined");
 				}
 			}
@@ -1898,7 +1888,7 @@ function print_navigation($navig)
 
 ?>
 	</div>
-	<br />
+	<br/>
 <?php
 }
 
@@ -1932,13 +1922,14 @@ function create_navmenu($n, $action, $stuff)
 function __ac_desc_resource($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
+?>
+<!-- "ac-desc-resource" -->
+<?php
 	$sgbl->__var_main_resource = true;
 
 	$treename = fix_nname_to_be_variable($object->nname);
 ?>
 
-<!-- "ac-desc-resource" -->
 	<table valign=top>
 		<tr align=left>
 			<td width='10'><input class='submitbutton' onClick='<?=$treename?>.closeAll();' type='button' value="Close">
@@ -2004,7 +1995,7 @@ function license_check()
 		$mess = "License Expired";
 ?>
 
-		<br /> <br /> <br /> <br /> <br />
+		<br/> <br/> <br/> <br/> <br/>
 		<?=$mess?>
 <?php
 
@@ -2051,7 +2042,7 @@ function password_contact_check()
 	if (check_raw_password('client', 'admin', 'admin')) {
 ?>
 
-		<br /> <br /> <br />
+		<br/> <br/> <br/>
 		<div style="width:640px; background-color: #fff; margin: 0 auto 0 auto; border: 1px solid #ddd;">
 <?php
 
@@ -2294,7 +2285,7 @@ function lx_frm_inc()
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!$ghtml->iset("frm_action")) {
-		die("Action Not set <br /> ");
+		die("Action Not set <br/> ");
 	}
 
 	$caction = $ghtml->frm_action;
@@ -2375,7 +2366,7 @@ function lx_frm_inc()
 	}
 
 	if (isset($gbl->__this_function)) {
-		dprint("Calling $gbl->__this_function <br /> <br /> ");
+		dprint("Calling $gbl->__this_function <br/> <br/> ");
 
 		// workaround for the following php bug:
 		//   http://bugs.php.net/bug.php?id=47948

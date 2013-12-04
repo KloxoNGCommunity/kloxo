@@ -4628,7 +4628,10 @@ class HtmlLib
 				}
 			}
 
-			if ($width === "100%") {
+			$numwidth = intval(str_replace("%", "", $width));
+
+		//	if ($width === "100%") {
+			if ($numwidth >= 25) {
 			//	$wrapstr = "wrap";
 				$wrapstr = "";
 			} else {

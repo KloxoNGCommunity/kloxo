@@ -3,7 +3,7 @@
 $__emessage['blocked'] = "Your address is blocked";
 $__emessage['no_server'] = "Could not connect to the Server.";
 $__emessage['set_emailid'] = "Please Set Your EmailId Properly ";
-$__emessage['no_socket_connect_to_server'] = "Could not Connect to the server [%s]. This is most likely due to underlying network problem. Make sure that the server is accessible from this particular node by running <b> telnet slave-id 7779 </b>   ";
+$__emessage['no_socket_connect_to_server'] = "Could not Connect to the server [%s]. This is most likely due to underlying network problem. Make sure that the server is accessible from this particular node by running <b>telnet slave-id 7779</b>   ";
 $__emessage['restarting_backend'] = "Restarting the backend. Please try again after 30 seconds.";
 $__emessage['quota_exceeded'] = "Quota Exceeded for [%s]";
 $__emessage['license_no_ipaddress'] = "The public ipaddress [%s] of this server was not found in in the license repository. Please contact Lxlabs sales or your reseller to create a license for this server. </a> ";
@@ -11,7 +11,7 @@ $__emessage['ssh_root_password_access'] = "You have not disabled password based 
 $__emessage['already_exists'] = "The resource of name [%s] already exists.";
 $__emessage['lxguard_not_configured'] = "Lxguard for this server is not configured. Please <url:k[class]=pserver&k[nname]=localhost&a=show&o=lxguard>Click here to configure Lxguard </url> since it is very important that you understand what it does. Lxguard is critical for the security of your server, at the same time, it can block your own IPaddress from accessing the server, which can be frustrating if you don't know what's happening.";
 $__emessage['root_cannot_extract_to_existing_dir'] = "Directory you provided already exists. Root user cannot extract archive into an existing directory. Please provide the name of a directory that doesn't exist in the system.";
-$__emessage['no_imagemagick'] = "There is no imagemagick in the system. You can install imagemagick by running <b> yum -y install imagemagick </b>.";
+$__emessage['no_imagemagick'] = "There is no imagemagick in the system. You can install imagemagick by running <b>yum -y install imagemagick</b>.";
 $__emessage['warn_license_limit'] = "You are very close to your license limit for [%s]. If the system goes over limit for [%s] the interface will stop working and you won't be able to manage your system. Please increase your license at client.lxlabs.com and update by <url:o=license&a=show> clicking here </url>";
 $__emessage['file_already_exists'] = "The file [%s] already exists.";
 $__emessage['contact_set_but_not_correct'] = "Your Contact Information doesn't appear to be a valid email address. Click <url:a=updateform&sa=information> here to fix it.</url> ";
@@ -47,7 +47,7 @@ $__emessage['user_exists'] = "User [%s] already exists.";
 $__emessage['mysql_error'] = "Mysql Error, Database Said: [%s]";
 $__emessage['this_domain_does_not_resolve_to_this_ip'] = "To map an IP to a domain, the domain must ping to the same IP, otherwise, the domain will stop working. The domain you are trying to map this IP to, doesn't resolve back to the IP, and so it cannot be set as the default domain for the IP.";
 $__emessage['dns_conflict'] = "The domain was not added due to an error in the dns settings. Please check your dns template and verify. The message from the dns server was [%s]";
-$__emessage['add_without_www'] = "You should add only the main domain in the form of domain.com. The <b> www </b> subdomain will be automatically added to it. You shouldn't add <b> www </b> when creating a domain.";
+$__emessage['add_without_www'] = "You should add only the main domain in the form of domain.com. The <b>www</b> subdomain will be automatically added to it. You shouldn't add <b>www</b> when creating a domain.";
 $__emessage['could_not_connect_to_db'] = "Could Not Connect to Database: The error has been logged. Please contact the administrator.";
 $__emessage['e_no_dbadmin_entries'] = "There are no Database administrator entries configured for this particular server. Please contact your admin to set them.";
 $__emessage['please_add_one_domain_for_owner_mode'] = "You will need to have at least one domain if you want to switch to domain owner mode. You can add a domain by <url:a=addform&c=domain>clicking here </url>.";
@@ -58,23 +58,41 @@ $__emessage['adding_cron_failed'] = "Adding crontab has failed due to [%s]. Plea
 $__emessage['se_submit_running_background'] = "Search Engine Submission is running in the background. You will be sent a message to your contact email when it is done.";
 $__emessage['err_no_dns_template'] = "There are no Dns Templates in the System. You have to have at least one Dns Template to add a domain/client. Click <url:a=addform&c=dnstemplate> here  to add a dnstemplate. </url></p> ";
 $__emessage['certificate_key_file_empty'] = "The certificate and the Key file you have chosen are empty. You have to first create or upload them before enabling ssl";
-
-// Language Content for #656
-// by Andrew Ying
 $__emessage['document_root_may_not_contain_spaces'] = "The document root may not contain any space at the end or before the slash. Please check and submit again.";
 
-$__information['ndskshortcut_list__pre'] = "<p>You can add a page in kloxo to the favorites, by clicking on the <b> add to favorites </b>link on <b> that particular page</b>.</p>".
-	"<p>Each shortcut has a parameter called <b> Sort Id </b>.</p>".
-	"<p>By setting a suitable <b> sort id </b> to each of the link and then sorting the entire list by <b> sort id </b>, you can arrange the list in any manner you want.</p>".
+// ------------------------ //
+
+$__information['ndskshortcut_list__pre'] = "<p>You can add a page in kloxo to the favorites, by clicking on the <b>add to favorites</b>link on <b>that particular page</b>.</p>".
+	"<p>Each shortcut has a parameter called <b>Sort Id</b>.</p>".
+	"<p>By setting a suitable <b>sort id</b> to each of the link and then sorting the entire list by <b>sort id</b>, you can arrange the list in any manner you want.</p>".
 	"<p>The tool bar list on the top will reflect the exact way in which this particular list is sorted.<p>";
 
-$__information['sshauthorizedkey_addform_lxlabs_pre'] = "This will add lxlabs ssh key to your authorized keys, which will allow lxlabs support personnel to login to your server without password. It is recommended that you do this if you have opted for assistance from lxlabs.";
+$__information['sshauthorizedkey_addform_lxlabs_pre'] = "<p>This will add lxlabs ssh key to your authorized keys, which will allow support personnel ".
+	"to login to your server without password.</p>".
+	"<p>It is recommended that you do this if you have opted for assistance from your provider.</p>";
 
-$__information['rawlxguardhit_list__pre'] = "This is the list of raw connections. This is primarily useful to trace an IP if you know the user account. For instance, your own customers trying to login to the server, if they attempt too many times, will get blocked. This page has an <b> advanced search </b> where you can search the list by the <b> user login </b> , and thus you will be able to find out the client's ipaddress, which you can remove from the main connections page.";
-$__information['login_pre'] = "<p> Welcome to <%programname%>  </p><p>Use a valid username and password to gain access to the console. </p> ";
-$__information['tickethistory_addform__pre'] = "You can use &#91quote&#93 &#91/quote &#93 to quote some text, which will shown properly formatted. You can also use &#91code&#93 &#91/code&#93 for code snippets, and &#91b&#93 &#91/b&#93 for bold.";
-$__information['lxguardwhitelist_addform__pre'] = "It is recommended that you use the <b> whitelist </b> button on top of the <url:a=list&c=lxguardhitdisplay>Connections Page</url>, to whitelist an Ipaddress. Manually entering the IP is bound to lead to spelling mistakes, and you will be left confused. If you are entering your IP here, please double check that it is correct.";
-$__information['sshconfig_updateform_update_pre'] = "It is recommended that you completely disable password based access to this server, and instead use the  <url:goback=1&a=list&c=sshauthorizedkey>ssh authorization key manager </url> to allow specific people to access without password. If this is hyperVM, and you are intending to sell VPSes to other people, you won't be able to completely disable ssh password access, since vps-owners will need to login the node to access their consoles. In any case, make sure you disable password based root access to this server. So as a rule of thumb, on kloxo, disable password access to everything, while on hyperVM, disable password access to root alone.";
+$__information['lxguardhitdisplay_list__pre'] = "<p>This is the list of blocked/allowed connections.</p>";
+
+$__information['rawlxguardhit_list__pre'] = "<p>This is the list of raw connections. ".
+	"This is primarily useful to trace an IP if you know the user account.</p>".
+	"<p>For instance, your own customers trying to login to the server, if they attempt too many times, will get blocked.</p>".
+	"<p>This page has an <b>advanced search</b> where you can search the list by the <b>user login</b>, ".
+	"and thus you will be able to find out the client's ipaddress, which you can remove from the main connections page.</p>";
+
+$__information['lxguardwhitelist_addform__pre'] = "<p>It is recommended that you use the <b>whitelist</b> button on top of ".
+	"the <url:a=list&c=lxguardhitdisplay>Connections Page</url>, to whitelist an Ipaddress.</p>".
+	"<p>Manually entering the IP is bound to lead to spelling mistakes, and you will be left confused.</p>".
+	"<p>If you are entering your IP here, please double check that it is correct.</p>";
+
+$__information['login_pre'] = "<p>Welcome to Kloxo-MR</p>".
+	"<p>Use a valid username and password to gain access to the console.</p>";
+
+$__information['tickethistory_addform__pre'] = "<p>You can use &#91quote&#93 &#91/quote &#93 to quote some text, which will shown properly formatted.</p>".
+	"<p>You can also use &#91code&#93 &#91/code&#93 for code snippets, and &#91b&#93 &#91/b&#93 for bold.</p>";
+
+$__information['sshconfig_updateform_update_pre'] = "<p>It is recommended that you completely disable password based access to this server, ".
+	"and instead use the <url:goback=1&a=list&c=sshauthorizedkey>ssh authorization key manager</url> to allow specific people to access without password.</p>".
+	"<p>In any case, make sure you disable password based root access to this server.</p>";
 
 $__information['all_dns_list__pre'] = "<p>This is the list of every dns created by your VPS owners.</p>".
 	"<p>Click <url:o=general&a=updateform&sa=reversedns>here</url> to configure DNS servers so that all your customers can use it.</p>".
@@ -89,13 +107,15 @@ $__information['sshauthorizedkey_list__pre'] = "<p>Please note, the ~/.ssh/autho
 	"and so only the ~/.ssh/authorized_keys file is managed.</p>".
 	"<p>These are the ssh keys from the machines which can login to this server without providing password. Make sure you keep this list trimmed.</p>";
 
-$__information['updateform_forcedeletepserver_pre'] = "Force delete Server just removes the server from Kloxo-MR's database. This is useful if the server has been completely removed is no longer accessible.";
+$__information['updateform_forcedeletepserver_pre'] = "<p>Force delete Server just removes the server from Kloxo-MR's database.</p>".
+	"<p>This is useful if the server has been completely removed is no longer accessible.</p>";
 
 $__information['allowedip_addform__pre'] = "<p>This is only meant for blocking access to the control panel, and will not block access to the actual resource. ".
-	"You can add an IP of the form <b> 192.168.1.*</b>  denote a range.</p>".
-	"<p>That is, instead of providing a number, you can use <b> * </b>  to represent the entire range. You can also add individual IPs of the form 192.168.1.2.</p>".
+	"You can add an IP of the form <b>192.168.1.*</b>  denote a range.</p>".
+	"<p>That is, instead of providing a number, you can use <b>*</b>  to represent the entire range. ".
+	"You can also add individual IPs of the form 192.168.1.2.</p>".
 	"<p>Please note that the dotted notation is necessary, and you have to provide all the 4 fields. ".
-	"If you want to allow everyone, remove all the allowed IPs, or provide <b> *.*.*.* </b>.</p>".
+	"If you want to allow everyone, remove all the allowed IPs, or provide <b>*.*.*.*</b>.</p>".
 	"<p>Other IP notations are not supported at this point.</p>";
 
 $__information['blockedip_addform__pre'] = "<p>This is only meant for blocking access to the control panel, and will not block access to the actual resource.".
@@ -109,24 +129,47 @@ $__information['general_updateform_portconfig_pre'] = "<p>This page is primarily
 	"<p>Run this command '<b>sh /script/defaultport</b>' and the ports will be reset to the default. You can then restart Kloxo-MR.</p>".
 	"<p>Leave the fields blank to revert to default ports.</p>";
 
-$__information['updateform_schedule_conf_pre'] = "Please note that only the scheduled backups, that is, backups that start with the name <%program%>-scheduled-, will be rotated. If you create your own backup with your own name, they won't be rotated. So if you want a manually created backup to be rotated, provide the initial string as <b> <%program%>-scheduled- </b>";
-$__information['updateform_ssl_kloxo_pre'] = "This will set the ssl certificate for <%program%> as this particular certificate. Make sure you restart <%program%> after you set it here.";
-$__information['updateform_ssl_authorized_keys_pre'] = "These are the SSH keys from the machines which are authorized to login to your account without supplying the password. They are kept as 1 per line. You can add the keys to the machines you want to have password-less access to this machine. You should also keep this file trimmed so as to reduce the chances of unwanted people logging in";
-$__information['updateform_ssl_hypervm_pre'] = "This will set the ssl certificate for <%program%> as this particular certificate. Make sure you restart <%program%> after you set it here.";
+$__information['lxbackup_updateform_schedule_conf_pre'] = "<p>Please note that only the scheduled backups, that is, ".
+	"backups that start with the name Kloxo-MR-scheduled-, will be rotated.</p>".
+	"<p>If you create your own backup with your own name, they won't be rotated.</p>".
+	"<p>So if you want a manually created backup to be rotated, provide the initial string as <b>Kloxo-MR-scheduled-</b>.</p>";
 
-$__information['general_updateform_selfbackupconfig_pre'] = "<p>This is primarily meant to configure the remote backup of the master database and nothing else.</p>".
+$__information['updateform_ssl_kloxo_pre'] = "<p>This will set the ssl certificate for Kloxo-MR as this particular certificate.</p>".
+	"<p>Make sure you restart Kloxo-MR after you set it here.</p>";
+
+$__information['updateform_ssl_hypervm_pre'] = "<p>This will set the ssl certificate for Kloxo-MR as this particular certificate.</p>".
+	"<p>Make sure you restart Kloxo-MR after you set it here.</p>";
+
+$__information['updateform_ssl_authorized_keys_pre'] = "<p>These are the SSH keys from the machines which are authorized to login to ".
+	"your account without supplying the password.</p>".
+	"They are kept as 1 per line. You can add the keys to the machines you want to have password-less access to this machine.</p>".
+	"<p>You should also keep this file trimmed so as to reduce the chances of unwanted people logging in.</p>";
+
+$__information['general_updateform_selfbackupconfig_pre'] = "<p>This is primarily meant to configure the remote backup of ".
+	"the master database and nothing else.</p>".
 	"<p>The database dump is taken everyday and is saved in a local folder in this machine. ".
 	"If an ftp account is configured here, the file will be uploaded to the machine.</p>".
 	"<p>This is mainly useful in large cluster setup where the failure of master can have much larger impacts.</p>";
 
-$__information['lxguard_updateform_update_pre'] = " Lxguard protects you against brute force attacks by monitoring the ssh and ftp log messages, and blocking ipaddresses that have too many failed attempts at logging into the server. Lxguard is default turned on, and will automatically block hosts, and cannot be turned off. You can configure Lxguard by specifying the <b> threshold of failed attempts </b> or by adding certain ipaddresses to the whitelist. If an IP is found in the whitelist, it won't be blocked, even if it has crossed the threshold of failed attempts. To remove the warnings you get about Lxguard please click on the agreement checkbox below";
+$__information['lxguard_updateform_update_pre'] = "<p>Lxguard protects you against brute force attacks by monitoring the ssh and ftp log messages, ".
+	"and blocking ipaddresses that have too many failed attempts at logging into the server.</p>".
+	"<p>Lxguard is <b>default turned on</b>, and will automatically block hosts, and <b>cannot be turned off</b>.</p>".
+	"<p>You can configure Lxguard by specifying the <b>threshold of failed attempts</b> or by adding certain ipaddresses to the whitelist.</p>".
+	"<p>If an IP is found in the whitelist, it won't be blocked, even if it has crossed the threshold of failed attempts.</p>".
+	"<p>To remove the warnings you get about Lxguard please click on the agreement checkbox below. </p>";
 
 $__information['general_updateform_generalsetting_pre'] = "<p>The 'HelpDesk URL' is a link to your HelpDesk, ".
 	"which will be used in place of the default help desk built into the software.</p>".
 	"<p>Community URL is the link the client will see on his left page, and in normal cases can point to your forum.</p>";
 
-$__information['custombutton_addform__pre'] = " In the url, you can use %nname%, which will be substituted with the name of the client. For Kloxo-MR only, you can use %default_domain% for the default domain of the client.";
-$__information['updateform_download_config_pre'] = "Normally, when downloading files, the master creates a temporary session, and then redirects the browser directly to the slave. This is to save the bandwidth, since otherwise, the files are pointlessly have to go through the master. If you enable this, hyperVM will instead route the file via the master itself. This is useful if you have given private ips for slaves, and the slaves are not accessible from the outside world.";
+$__information['custombutton_addform__pre'] = "<p>In 'URL', you can use %nname%, which will be substituted with the name of the client.</p>".
+	"<p>For Kloxo-MR, you can use %default_domain% for the default domain of the client.</p>";
+
+$__information['updateform_download_config_pre'] = "<p>Normally, when downloading files, the master creates a temporary session, ".
+	"and then redirects the browser directly to the slave.</p>".
+	"<p>This is to save the bandwidth, since otherwise, the files are pointlessly have to go through the master.</p>".
+	"<p>If you enable this, Kloxo-MR will instead route the file via the master itself.</p>".
+	"<p>This is useful if you have given private ips for slaves, and the slaves are not accessible from the outside world.</p>";
 
 $__information['updateform_login_options_pre'] = "<p><b>Note:</b> session timeout cannot be less than 100 and if less, will be automatically set to 100.</p>";
 
@@ -134,20 +177,40 @@ $__information['resourceplan_show__pre'] = "<p><b>Note:</b> ".
 	"If you change the values here, every account that uses this plan will be updated with the new values.</p>".
 	"<p>Click <url:a=updateForm&sa=description>here</url> to see the accounts configured on this plan.</p>";
 
-$__information['resourceplan_addform__pre'] = "No...";
+$__information['resourceplan_addform__pre'] = "No information...";
 
-$__information['lxbackup_updateform_backup_pre'] = " The backup file will appear in the __backup directory of your client area. You can access it by clicking on the 'File Manager' Tab. To restore a backup, you can first upload it to the server using the <b> upload </b> tab. You can upload directly or from an http url or an ftp server. Then come here, and click on <b> directory </b> icon on the right in the <b> restore </b> form, and it will allow you to select the particular file. Then click on <b> start restore process </b>. Please note that <%program%> backup is heirarchical. If you take backup of a particular resource, everything under it is automatically included. Thus if you take backup of admin, then you need not take backups of clients under you separately.";
+$__information['lxbackup_updateform_backup_pre'] = "<p>The backup file will appear in the __backup directory of your client area. ".
+	"You can access it by clicking on the 'File Manager' Tab.</p>".
+	"<p>To restore a backup, you can first upload it to the server using the <b>upload</b> tab.</p>".
+	"<p>You can upload directly or from an http url or an ftp server. Then come here, and click on <b>directory</b> icon on the right in the <b>restore</b> form, ".
+	"and it will allow you to select the particular file. Then click on <b>start restore process</b>.</p>".
+	"<p>Please note that Kloxo-MR backup is heirarchical. ".
+	"If you take backup of a particular resource, everything under it is automatically included. ".
+	"Thus if you take backup of admin, then you need not take backups of clients under you separately.</p>";
 
-$__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the <b> Manage Php Configuration </b> flag to let Kloxo-MR manage your php.ini completely.</p>".
-	"<p>Please note that your old php.ini will be overwritten. To restore your old php.ini, just disable <b> Manage Php Configuration </b> and update.</p>".
+$__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the <b>Manage Php Configuration</b> flag to let Kloxo-MR manage your php.ini completely.</p>".
+	"<p>Please note that your old php.ini will be overwritten. To restore your old php.ini, just disable <b>Manage Php Configuration</b> and update.</p>".
 	"<p>It is recommended that you let Kloxo-MR completely handle your php configuration, and ask in our forum if you need special features.</p>".
 	"<p>Installing PHP modules (like xcache/ioncube/zend/suhosin) rpm via yum. Installing this modules depend on php branch and version installed on system. " .
 	"<b>Example</b>: when using php53u branch, installing with 'yum install php53u-xcache'. Try 'php -m' for to make sure</p>";
 
-$__information['client_updateform_wall_pre'] = " Note: The Message will only be sent to your direct children (one level, including this account) who has a contact email set. ";
-$__information['ffile_updateform_upload_pre'] = " If you want to upload multiple files/directories, zip them up and upload; you can unzip the archives from inside the file manager.  ";
-$__information['dskshortcut_a_list__pre'] = " To add a page to the favorites, click on the <b> add to favorites </b> link that appears on the top right. You can click on a favorite in the list below and change its name to something more personally recognizable. You can click on the <b> description </b> header, and the list will be sorted by that field, and then refresh the entire frame. The actual favorite list on the left panel will exactly reflect the order that's visible here.";
-$__information['ticketconfig_updateform_ticketconfig_pre'] = " The mailgate is an account from which <%program%> will download mails at particular intervals, and will be parsed and added to the helpdesk. When sending out mails, <%program%> will send the mails as originating from the address you configure. The address is of the form <b> account@domain.com </b>. Server is the pop server from which to download the mails. <b> server.com </b> . If you check the <b> use ssl </b> box, then the mail will be downloaded over pop3-ssl, at port 995. It is always recommended that you use ssl, but you will need to make sure that the remote mail serer does support pop3-ssl service at port 995. ";
+$__information['client_updateform_wall_pre'] = "<p><b>Note:</b> The Message will only be sent to your direct children (one level, ".
+	"including this account) who has a contact email set.</p>";
+
+$__information['ffile_updateform_upload_pre'] = "<p>If you want to upload multiple files/directories, zip them up and upload; ".
+	"you can unzip the archives from inside the file manager.</p>";
+
+$__information['dskshortcut_a_list__pre'] = "<p>To add a page to the favorites, click on the <b>add to favorites</b> link that appears on the top right.</p>".
+	"<p>You can click on a favorite in the list below and change its name to something more personally recognizable.</p>".
+	"<p>You can click on the <b>description</b> header, and the list will be sorted by that field, and then refresh the entire frame.</p>".
+	"<p>The actual favorite list on the left panel will exactly reflect the order that's visible here.</p>";
+
+$__information['ticketconfig_updateform_ticketconfig_pre'] = "<p>The mailgate is an account from which Kloxo-MR will download mails at particular intervals, ".
+	"and will be parsed and added to the helpdesk.</p>".
+	"<p>When sending out mails, Kloxo-MR will send the mails as originating from the address you configure. ".
+	"The address is of the form <b>account@domain.com</b>. Server is the pop server from which to download the mails.<b>server.com</b>.</p>".
+	"<p>If you check the <b>use ssl</b> box, then the mail will be downloaded over pop3-ssl, at port 995. ".
+	"It is always recommended that you use ssl, but you will need to make sure that the remote mail serer does support pop3-ssl service at port 995.</p>";
 
 $__information['updateform_mysqlpasswordreset_pre'] = "<p>This should only be used if you have lost the root password.</p>".
 	"<p>In normal circumstances, you can change the password by clicking <url:a=list&c=dbadmin>here</url> (database admin).</p>".
@@ -161,15 +224,24 @@ $__information['updateform_pserver_s_pre'] = "<p>This is the Server Pool for thi
 $__information['general_updateform_disableper_pre'] = "<p>This is the percentage of usage at which the account will be disabled.</p>".
 	"<p>The normal value is 110%. You will be given warnings when the quota reaches 90,100,110%.</p>";
 
-$__information['updateform_ftp_conf_pre'] = "- If you enable <b> dont keep local copy </b>, the local file be deleted. " .
-	"You can use this if you want to save space in your account.<br>" .
-	"- You can write full format like <b>  ftps://1.2.3.4:21001 </b> (for example) on 'FTP Server'";
+$__information['lxbackup_updateform_ftp_conf_pre'] = "<p>If you enable <b>dont keep local copy</b>, the local file be deleted. " .
+	"You can use this if you want to save space in your account.</p>" .
+	"<p>You can write full format like <b>ftps://1.2.3.4:21001</b> (for example) on 'FTP Server'</p>";
 
-$__information['vv_updateform_skin_logo_pre'] = " To enforce your logo on your children, just disable their 'can Manage logo' in the permission settings. ";
-$__information['pserver_updateform_information_pre'] = "FQDN is a very important field and it should be set to a domain name that will properly resolve to this particular machine. Once you set the FQDN, hyperVM will use that value for all further network communication, and if the FQDN set here is wrong, then network communication between the master/slave would fail. If you leave it blank, hyperVM will use the first ipaddress on this server for communication. Set FQDN to a hostname using which you can access this machine from everywhere.";
-$__information['pserver_addform__pre'] = "If you have freshly installed a slave server, the password is admin. It is strongly recommended that you add servers by their name rather than by their IP. The Server Should be accessible from the master using the particular name you supply here, for instance, server.domain.com. The verbose-identifier is a string that can be used to describe this server, and will be visible in chooser boxes.";
+$__information['vv_updateform_skin_logo_pre'] = "<p>To enforce your logo on your children, just disable their 'can Manage logo' in the permission settings.</p>";
 
-// MR -- modified
+$__information['pserver_updateform_information_pre'] = "<p>FQDN is a very important field and it should be set to a domain name ".
+	"that will properly resolve to this particular machine.</p>".
+	"<p>Once you set the FQDN, Kloxo-MR will use that value for all further network communication, ".
+	"and if the FQDN set here is wrong, then network communication between the master/slave would fail.</p>".
+	"<p>If you leave it blank, Kloxo-MR will use the first ipaddress on this server for communication.</p>".
+	"<p>Set FQDN to a hostname using which you can access this machine from everywhere.</p>";
+
+$__information['pserver_addform__pre'] = "<p>If you have freshly installed a slave server, the password is admin.</p>".
+	"<p>It is strongly recommended that you add servers by their name rather than by their IP.</p>".
+	"<p>The Server should be accessible from the master using the particular name you supply here, for instance, server.domain.com.</p>".
+	"<p>The verbose-identifier is a string that can be used to describe this server, and will be visible in chooser boxes.</p>";
+
 $__information['sp_specialplay_updateform_upload_logo_pre'] = "<p><b>Note:</b>".
 	"<ul>".
 		"<li>Leave the fields blank to reset the logos to default images</li>".
@@ -177,35 +249,108 @@ $__information['sp_specialplay_updateform_upload_logo_pre'] = "<p><b>Note:</b>".
 		"<li>Upload logo image (example: appear on top-left cp page) should be in PNG format with optimal height 75 pixels, while width is up to user's choice</li>".
 	"</ul></p>";
 
-$__information['web_updateform_extra_tag_pre'] = " <b><font color=red> Warning!!!!! </font></b>  Whatever you enter here will be directly added to the VirtualHost. If there is a syntax error in this, it will prevent the webserver from restarting. This option is available only for the admin user. After Saving here, make sure that the server is running. ";
-$__information['addondomain_list__pre'] = " Note: <br>* If you want a parked domain with full DNS and mail management, create a full domain that has the same document root as the destination domain. <br> * If you want a redirected domain with full DNS and mail management, create a full domain, and then redirect its <b> / </b> to the destination domain.";
-$__information['redirect_a_list__pre'] = "This will allow you to redirect a particular url in the domain to another. <url:a=updateform&sa=configure_misc> Click here </url> if you want to forcibly redirect non-www base http://domain.com to http://www.domain.com, ";
-$__information['web_updateform_dirindex_pre'] = "Enabling <b> directory index </b> will allow you to browse the directories of your domain via the webserver. If directory index is disabled, and if an index.xxx file is not found inside the directory, a forbidden error message will be raised.";
-$__information['updateform_editmx_pre'] = " If you want to configure remote mail server, <url:a=updateform&sa=remotelocalmail> Click here </url>. You can tell kloxo that the mail server is configured remotely, so that all local generated mails will be sent to that server. If you don't configure remote mail, then all mails to this domain will delivered locally itself, without doing any DNS lookup. ";
-$__information['web_updateform_run_stats_pre'] = "This will allow you to forcibly run the stats program, so that you can see your latest statistics in the web statistics page. Use <b> update all </b> to run it on all the domains visible in the top pull down menu.";
+$__information['web_updateform_extra_tag_pre'] = "<p><b><span style='color=red'>Warning!!!!!</span></b>  Whatever you enter here will be directly added to the VirtualHost.</p>".
+	"<p>If there is a syntax error in this, it will prevent the webserver from restarting.</p>".
+	"<p>This option is available only for the admin user. After Saving here, make sure that the server is running.</p>";
 
-$__information['server_alias_a_addform__pre'] = "- You can add wildcards (*) as an alias so that all the subdomains are automatically directed to this domain. ".
-	"Kloxo-MR will also automatically add a DNS entry for the alias.<br />".
-	"- Once you configure the catchall subdomain with wildcards (*), you can add the proper logic in your script to detect the correct subdomain and do accordingly.<br />".
-	"- Lighttpd may be confused with selected wildcards (*). Access to defaults (default, cp, disable and 'customize') pages will be lead to the domain page";
+$__information['addondomain_list__pre'] = "<p><b>Note:</b>".
+	"<ul>".
+		"<li>If you want a parked domain with full DNS and mail management, create a full domain that has the same document root as the destination domain.</li>".
+		"<li>If you want a redirected domain with full DNS and mail management, create a full domain, and then redirect its <b>/</b> to the destination domain.</li>".
+	"</ul></p>";
 
-$__information['updateform_sesubmit_pre'] = "Your domain will be submitted to all the searchengines listed below. The email should be an address that's not used often, since you are very highly likely to get Spammed on the email you enter here";
-$__information['mmail_updateform_authentication_pre'] = "Your primary mx server is automatically included in the SPF, and you need not add it separately. You can use <b> update all </b> to impress these values on all the domains visible on the top pull down list.";
-$__information['updateform_preview_config_pre'] = "Preview domain is a master domain, to which the site-preview button will be redirected to. You have to manually add a parked domain called domain.com.previewdomain.com to this domain, and then add the previewdomain.com here. Then the <b> dns less preview </b> will be redirected to domain.com.previewdomain.com. If unsure, please leave this blank.";
-$__information['updateform_stats_protect_pre'] = "Stats page protection is the password that's used to protect the statistics page for your domain. If set to null password, protection will be disabled, and you will be able to access the stats directly.";
-$__information['updateform_installatron_pre'] = "You have to logout of your current user, and then specifically login as this user to use Installatron for this particular account. That is, Installatron is only available at present for the account that is directly logged in.";
-$__information['ftpuser_admin'] = "Use <b> --direct-- </b> to add an ftpuser that does not contain domain name.";
-$__information['updateform_default_domain_pre'] = " This will set the domain that's considered as the primary domain for this particular account. You can access this domain's document root by going to http://IP/~clientname. To map an ipaddress to a domain, you have to <url: a=list&c=ipaddress> click here </url>, go inside an ipaddress and click on 'configure domain' tab there. If you want to view a domain before the dns is setup, the best way is to create an entry for the domain in your local etc/hosts file. The path for the file on windows is c:/windows/system32/drivers/etc/hosts . Just add an entry like this: <b> 192.168.1.32 domain.com </b> on a separete line, and then you will be able to access the domain by typing it in your browser's url box.";
-$__information['updateform_blockip_pre'] = " Add one IP per line. If you want to add an IP range use the .*.* notation. For instance, 192.168.*.*. Please note, this is the only notation supported for ip ranges. The standard ip notation is not supported. ";
-$__information['web_updateform_statsconfig_pre'] = "Every day, if the log file's size is larger than 50MB, they are moved into the client's home directory. If you set the remove_processed_logs as true, then instead of moving, they will be deleted. Your main statistics calculation will not be affected at all.";
-$__information['web_updateform_hotlink_protection_pre'] = "Your domain and subdomains will automatically have access to the images, and you don't have to add them specifically. a *.domain.com is automatically added to the list of allowed domains you supply here. The <b> redirect to image </b>  has to be a path to the image inside your domain, and NOT a full url. It should be of the form (/img/noaccess.gif). You have to enter domains as simple names without any wild-characters. For example, domain.com, mydomain.com, mysdomain.com";
-$__information['mailqueue_list__pre'] = "It will take a little bit more time for the queue to actually disappear. So after clicking on delete, the mails will appear in the queue for some more time. Just refresh the page after around a minute to verify if the mails are actually deleted or not.";
-$__information['mailqueue_updateform_update_pre'] = "To see the log for the mail, please go back to the listing, and flush the mailqueue once, since only the log for the past hour is parsed.";
-$__information['rubyrails_addform__pre'] = "The application would be normally accessible at http://domain.com/applicationname. The path would be /home/client/ror/domain.com/applicationname. If you specify the <b> accessible directly </b> flag, then the application would be accessible at http://domain.com itself.";
-$__information['installapp_addform__pre'] = "To install an application in the document root, please leave the <b> Location </b> blank. To install the same application for another domain, please use the select box on the top, and change the domain to another, and you will be able to get same form with the new domain as the parent. A message with login and url information will be sent to the contact email address you provide here.";
-$__information['mysqldb_updateform_restore_pre'] = "You can use this only to restore the backups that were explicitly taken in Kloxo-MR itself using the <b> Get Backup </b> tab. To restore normal mysql dump file, please use phpMyAdmin.";
-$__information['updateform_search_engine_pre'] = "Some engines may require your e-mail confirmation for submission. Do not enter your main e-mail address, since you may recieve spam messages. For a better ranking repeat the operation every 3-4 weeks but not sooner, since you may get banned";
-$__information['updateform_domainpserver_pre'] = "These are the servers on which the domains under this client will be configured on. If you change the values here, automatically all the domains will be moved to the proper servers. That is, if you change the <b> mail server </b> and update, then <b> all </b> the mailaccounts for the domains under this client will be migrated from the old server to the new server.  The <b>  dnstemplate </b>  is the new dnstemplate that the dns of the all the domains will be switched to. So you have to make sure that you first create a dnstemplate that reflects the new configuration, then provide that to kloxo here. See bottom for more help on server move. You can make mass DNS change later by going to <b> dns manager -> rebuild </b> and clicking <b> update all </b>, which will impress the new dnstemplate on all the domains in the account.";
+$__information['redirect_a_list__pre'] = "<p>This will allow you to redirect a particular url in the domain to another.</p>".
+	"<p>Click <url:a=updateform&sa=configure_misc>here</url> if you want to forcibly redirect non-www base <b>domain.com</b> to <b>www.domain.com</b>.</p>";
+
+$__information['web_updateform_dirindex_pre'] = "<p>Enabling <b>directory index</b> will allow you to browse the directories of your domain via the webserver.</p>".
+	"<p>If directory index is disabled, and if an index.xxx file is not found inside the directory, a forbidden error message will be raised.</p>";
+
+$__information['updateform_editmx_pre'] = "<p>If you want to configure remote mail server, click <url:a=updateform&sa=remotelocalmail>here</url>.</p>".
+	"<p>You can tell Kloxo-MR that the mail server is configured remotely, so that all local generated mails will be sent to that server.</p>".
+	"<p>If you don't configure remote mail, then all mails to this domain will delivered locally itself, without doing any DNS lookup.</p>";
+
+$__information['web_updateform_run_stats_pre'] = "<p>This will allow you to forcibly run the stats program, ".
+	"so that you can see your latest statistics in the web statistics page.</p>".
+	"<p>Use <b>update all</b> to run it on all the domains visible in the top pull down menu.</p>";
+
+$__information['server_alias_a_addform__pre'] = "<p>You can add wildcards (*) as an alias so that all the subdomains are automatically directed to this domain. ".
+	"Kloxo-MR will also automatically add a DNS entry for the alias.</p>".
+	"<p>Once you configure the catchall subdomain with wildcards (*), you can add the proper logic in your script to detect the correct subdomain and do accordingly.</p>".
+	"<p>Lighttpd may be confused with selected wildcards (*). Access to defaults (default, cp, disable and 'customize') pages will be lead to the domain page.</p>";
+
+$__information['updateform_sesubmit_pre'] = "<p>Your domain will be submitted to all the searchengines listed below.</p>".
+	"<p>The email should be an address that's not used often, since you are very highly likely to get Spammed on the email you enter here.</p>";
+
+$__information['mmail_updateform_authentication_pre'] = "<p>Your primary MX server is automatically included in the SPF, and you need not add it separately.</p>".
+	"<p>You can use <b>update all</b> to impress these values on all the domains visible on the top pull down list.</p>";
+
+$__information['updateform_preview_config_pre'] = "<p>Preview domain is a master domain, to which the site-preview button will be redirected to.</p>".
+	"<p>You have to manually add a parked domain called domain.com.previewdomain.com to this domain, and then add the previewdomain.com here.</p>".
+	"<p>Then the <b>DNSless preview</b> will be redirected to domain.com.previewdomain.com.</p>".
+	"<p>If unsure, please leave this blank.</p>";
+
+$__information['updateform_stats_protect_pre'] = "<p>Stats page protection is the password that's used to protect the statistics page for your domain.</p>".
+	"<p>If set to null password, protection will be disabled, and you will be able to access the stats directly.</p>";
+
+$__information['updateform_installatron_pre'] = "<p>You have to logout of your current user, and then specifically login as this user ".
+	"to use Installatron for this particular account.</p>".
+	"<p>That is, Installatron is only available at present for the account that is directly logged in.</p>";
+
+$__information['ftpuser_admin'] = "<p>Use <b>--direct--</b> to add an ftpuser that does not contain domain name.</p>";
+
+$__information['updateform_default_domain_pre'] = "<p>This will set the domain that's considered as the primary domain for this particular account.</p>".
+	"<p>You can access this domain's document root by going to http://IP/~clientname.</p>".
+	"<p>To map an ipaddress to a domain, you have to click <url: a=list&c=ipaddress>here</url>, go inside an ipaddress and click on 'configure domain' tab there.</p>".
+	"<p>If you want to view a domain before the dns is setup, the best way is to create an entry for the domain in your local etc/hosts file.</p>".
+	"<p>Just add an entry like this: <b>192.168.1.32 domain.com</b> on a separete line, ".
+	"and then you will be able to access the domain by typing it in your browser's url box.</p>";
+
+$__information['web_updateform_blockip_pre'] = "<p>Add one IP per line. If you want to add an IP range use the .*.* notation. For instance, 192.168.*.*.</p>".
+	"<p>Please note, this is the only notation supported for ip ranges. The standard ip notation is not supported.</p>";
+
+$__information['web_updateform_statsconfig_pre'] = "<p>Every day, if the log file's size is larger than 50MB, they are moved into the client's home directory.</p>".
+	"<p>If you set the remove_processed_logs as true, then instead of moving, they will be deleted. ".
+	"Your main statistics calculation will not be affected at all.</p>";
+
+$__information['web_updateform_hotlink_protection_pre'] = "<p>Your domain and subdomains will automatically have access to the images, "
+	"and you don't have to add them specifically.</p>".
+	"<p>A *.domain.com is automatically added to the list of allowed domains you supply here.</p>".
+	"<p>The <b>redirect to image</b>  has to be a path to the image inside your domain, and NOT a full url. It should be of the form (/img/noaccess.gif).</p>".
+	"<p>You have to enter domains as simple names without any wild-characters. For example, domain.com, mydomain.com, mysdomain.com</p>";
+
+$__information['mailqueue_list__pre'] = "<p>It will take a little bit more time for the queue to actually disappear.</p>".
+	"<p>So after clicking on delete, the mails will appear in the queue for some more time. Just refresh the page after around a minute to ".
+	"verify if the mails are actually deleted or not.</p>";
+
+$__information['mailqueue_updateform_update_pre'] = "<p>To see the log for the mail, please go back to the listing, and flush the mailqueue once, ".
+	"since only the log for the past hour is parsed.</p>";
+
+$__information['rubyrails_addform__pre'] = "<p>The application would be normally accessible at http://domain.com/applicationname.</p>".
+	"<p>The path would be /home/client/ror/domain.com/applicationname. If you specify the <b>accessible directly</b> flag, ".
+	"then the application would be accessible at http://domain.com itself.</p>";
+
+$__information['installapp_addform__pre'] = "<p>To install an application in the document root, please leave the <b>Location</b> blank.</p>".
+	"<p>To install the same application for another domain, please use the select box on the top, and change the domain to another, ".
+	"and you will be able to get same form with the new domain as the parent.</p>".
+	"<p>A message with login and url information will be sent to the contact email address you provide here.</p>".
+	"<p><b><span style="color: red;">WARNING:</span></b> InstallApp is deprecated. Use Installatron or SpectrApps.";
+
+$__information['mysqldb_updateform_restore_pre'] = "<p>You can use this only to restore the backups that were explicitly taken in Kloxo-MR ".
+	"itself using the <b>Get Backup</b> tab.</p>".
+	"<p>To restore normal mysql dump file, please use phpMyAdmin.</p>";
+
+$__information['updateform_search_engine_pre'] = "<p>Some engines may require your e-mail confirmation for submission.</p>".
+	"<p>Do not enter your main e-mail address, since you may recieve spam messages.</p>".
+	"<p>For a better ranking repeat the operation every 3-4 weeks but not sooner, since you may get banned.</p>";
+
+$__information['updateform_domainpserver_pre'] = "<p>These are the servers on which the domains under this client will be configured on.</p>".
+	"<p>If you change the values here, automatically all the domains will be moved to the proper servers. ".
+	"That is, if you change the <b>mail server</b> and update, then <b>all</b> the mailaccounts for the domains under this client ".
+	"will be migrated from the old server to the new server.</p>".
+	"<p>The <b>dnstemplate</b>  is the new dnstemplate that the dns of the all the domains will be switched to. ".
+	"So you have to make sure that you first create a dnstemplate that reflects the new configuration, then provide that to kloxo here.</p>".
+	"<p>See bottom for more help on server move. You can make mass DNS change later by going to <b>dns manager -> rebuild</b> and clicking <b>update all</b>, ".
+	"which will impress the new dnstemplate on all the domains in the account.</p>";
 
 $__information['updateform_exclusive_pre'] = "<p>IP able assign to to certain Client exclusively.</p>";
 
@@ -217,7 +362,7 @@ $__information['sslipaddress_updateform_update_pre'] = "<p>To setup an ssl for a
 
 $__information['sslcert_updateform_update_pre'] = "<p>To assign this ssl certificate to a particular ipaddress, ".
 	"<url:goback=2&a=list&c=ipaddress> click here</url> and then go into an ipaddress, ".
-	"and click on <b> ssl certificate </b> tab, and you can set one of these certificates to a particular ipaddress.</p>".
+	"and click on <b>ssl certificate</b> tab, and you can set one of these certificates to a particular ipaddress.</p>".
 	"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p>".
 	"<p>For client, the admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p>";
 
@@ -228,71 +373,94 @@ $__information['ipaddress_list__pre'] = "<p>Exclusive IP will allow you to have 
 	"This is useful for setting up SSL and also for setting up an ip for a domain.</p>".
 	"<p>That is, if you want a particular IP to resolve to a domain.</p>".
 	"<p>For you to have an exclusive IPaddress, the administrator will have to set the exclusive client of a particular ipaddress.</p>".
-	"<p>To setup ssl or to map an IP to a domain, click on an IPaddress, and then click on <b> configure ssl </b> or <b> configure domain </b></p>";
+	"<p>To setup ssl or to map an IP to a domain, click on an IPaddress, and then click on <b>configure ssl</b> or <b>configure domain</b></p>";
 
 $__information['clientmail_list__pre'] = "<p>This will list the number of mails sent out by your clients via ".
 	"the webserver or smtp auth relay in the last 2 days.</p>".
-	"<p>If it is a full mailaccount like <b> user@domain.com </b>, then it represents mail sent via relay.</p>".
+	"<p>If it is a full mailaccount like <b>user@domain.com</b>, then it represents mail sent via relay.</p>".
 	"<p>If it is a simple username, then it represents mail sent via a form in the web server.</p>";
 
-$__information['servermail_updateform_update_pre'] = "It is very essential that you set the my name to " .
-	"a properly resolvable hostname, since otherwise, many public mailservers like hotmail will " .
-	"reject mails from your server. You can have the mail server running on additional port by " .
-	"specifying it here. Leave it blank to to disable additional smtp.<br /><br />The max smtp instances " .
-	"specifies the maximum number of smtp processes that are allowed. You should set it to some number, " .
-	"say 10, if you are getting spammed heavily. If you leave it blank, it will be set to UNLIMITED, which is the default.<br /><br />" .
-	"<b>REMARK</b>: You can choose port 25, 465 or 587 for SMTP.";
+$__information['servermail_updateform_update_pre'] = "<p>It is very essential that you set the my name to " .
+	"a properly resolvable hostname, since otherwise, many public mailservers like hotmail will reject mails from your server.</p>".
+	"<p>You can have the mail server running on additional port by " .
+	"specifying it here. Leave it blank to to disable additional smtp.</p>".
+	"<p>The max smtp instances specifies the maximum number of smtp processes that are allowed. You should set it to some number, " .
+	"say 10, if you are getting spammed heavily.</p>".
+	"<p>If you leave it blank, it will be set to UNLIMITED, which is the default.</p>" .
+	"<p><b>REMARK</b>: You can choose port 25, 465 or 587 for SMTP.</p>";
 
-$__information['updateform_switchprogram_pre'] = "Switching Programs will take a while, since it needs to remove the old program from the system, " . 
-	"and install the new one using yum. The log for this will be available in the 'shell_exec' file. " .
-	"All your information will be transparently migrated.<br /><br />" .
-	"You will need to wait one minute before the new service properly restarts.<br /><br />" .
-	"<b>Note</b>:<br />" .
-	"- Add '&lt;?php header(\"X-Hiawatha-Cache: 10\"); ?&gt;' in top of index.php to boosting Hiawatha/Hiawatha performance; " .
-	"Only Nginx and Hiawatha able to use 'microcache' at this moment<br />" .
-	"- Enable 'No fix config' will perform no action to fix configuration where important for huge amount for domains; " .
-	"you must run 'sh /script/fixweb; sh /script/fixdns ; sh /script/fixmail' from ssh manually.";
+$__information['updateform_switchprogram_pre'] = "<p>Switching Programs will take a while, since it needs to remove the old program from the system, ". 
+	"and install the new one using yum.</p>".
+	"<p>The log for this will be available in the 'shell_exec' file. All your information will be transparently migrated.</p>".
+	"<p>You will need to wait one minute before the new service properly restarts.</p>".
+	"<p>Add '<b>&lt;?php header(\"X-Hiawatha-Cache: 10\"); ?&gt;</b>' in top of index.php to boosting Hiawatha performance. ".
+	"Only Nginx and Hiawatha able to use 'microcache' at this moment.</p>".
+	"<p>Enable '<b>No fix config</b>' will perform no action to fix configuration where important for huge amount for domains; ".
+	"you must run '<b>sh /script/fix-all; sh /script/restart-all</b>' from ssh manually.</p>";
 
-$__information['updateform_permalink_pre'] = "Kloxo-MR comes with default permalink configuration for many apps. Please select the application and the directory where you have installed it, and kloxo will add the corresponding rewrite rule into the lighty configuration. Please note that for some applications, permalinks are achieved via setting the 404 error handler, for instance wordpress.";
-$__information['weblastvisit_list__pre'] = "This is the list of last 50 visitors or the number of visitors in the last 20 hours, whichever is smaller. Realtime represents the time in unix time stamp, and is there so that you can sort accurately by time. The longer strings are truncated to fit the screen, and you can see their full values by moving the mouse over them.";
-$__information['subweb_a_addform__pre'] = "This is a simple subdomain. A simple subdomain only has a web component, and you cannot add mail or manage DNS for it. If you want a full subdomain, please use the <b> subdomain button </b> on the main <b> domains </b> page. The simple subdomain's path is /home/clientname/domain/domain.com/subdomains/subdomainname";
-$__information['updateform_lighty_rewrite_pre'] = "This is the custom lighttpd rewrite rule that will directly appended to the configuration file without any change. It will be of the form <b> url.rewrite = ( ... </b>.  ";
-$__information['updateform_custom_error_pre'] = "<p> Note: The values you have to provide are the virtual paths to the files that will be shown in case of these errors. Example: /error_files/404.html.</p>";
-$__information['domain_updateform_ipaddress_pre'] = "<p> Note: Make sure that you make the requisite changes to nameserver configuration too.  </p>";
-$__information['client_updateform_ipaddress_pre'] = "<p> Note: The available ip pool is selected from the machines in the web server pool. </p>";
-$__information['domaintemplate_addform__pre'] = "<p> Note: The Max Value on the right shows your current quota limit. You can create a Template with values more than your quota, but you won't be able to use them to create Domains/Clients. </p>";
-$__information['spam_updateform_update_pre'] = "<p> The 'score'--which can be 1-10--is the value at which a mail is marked as SPAM. So if you set it to lower values, more mail will be marked as spam. Too low values might lead to genuine mails getting classified as spam. Too high values will lead to high amount of spam getting through the filter. </p>";
-$__information['web_updateform_enable_frontpage_flag_pre'] = "<p> The front page password will be the same as that of the system user (main ftp user).  </p>";
-$__information['ffile_show___lx_error_log_pre'] = "This is the error log for your domain. The contents of this will help you trouble shoot if you are having any problems regarding the domain.";
-$__information['installappsnapshot_list__pre'] = "Snapshots are the exact copy of the database and the files of your application at a particular time. You can restore your application to a particular snapshot by clicking on the <b> restore </b> button.";
-$__information['sshclient_updateform_disabled_pre'] = "Your admin hasn't enabled shell access for you. Please open a support ticket if you need ssh access. ";
-$__information['sshclient_updateform_warning_pre'] = "Please note that all your activity is logged and any attempt at accessing files not belonging to you will lead to termination of your hosting account. So please act responsibly.";
-$__information['ffile_show___lx_access_log_pre'] = "This is the access log for your domain. You can download this by clicking on the <b> download </b> tab at the right. This file contains information about every single hit that is made to to your website";
-$__information['updateform_dnstemplatelist_pre'] = "Allocate only a single dns template to your customer. This would mean that kloxo will not show the dns template select box while adding a domain, which will make it less confusing to your customer.";
-$__information['forward_a_addform__pre'] = "The forward addresses are a list of email addresses to which the mail is forwarded to. One copy of the mail gets saved to the actual mailaccount too. You can disable local storage by <url:a=updateform&sa=configuration>clicking here </url>.";
+$__information['updateform_permalink_pre'] = "<p>Kloxo-MR comes with default permalink configuration for many apps.</p>".
+	"<p>Please select the application and the directory where you have installed it, ".
+	"and kloxo will add the corresponding rewrite rule into the lighty configuration.</p>".
+	"<p>Please note that for some applications, permalinks are achieved via setting the 404 error handler, for instance wordpress.</p>";
 
-// Added Kloxo version 6.1.6 TODO !! Give proper information.
-$__information['vv_dns_srv_message'] = "Here you can manage the SRV record.";
-$__information['vv_dns_ddns_message'] = "Here you can manage DDNS.";
-$__information['vv_dns_mx_message'] = "Here you can manage the MX record. Enter '__base__', if you want to get the base domain.";
-$__information['vv_dns_ns_message'] = "Here you can manage the NS record.";
-$__information['vv_dns_aaaa_message'] = "Here you can manage the IPv6 record. Enter '__base__', if you want to get the base domain.";
-$__information['vv_dns_txt_message'] = "Use &lt;%domain&gt; if you want the domain name inside a TXT record. For instance, 'v=spf1 include: &lt;%domain &gt;'.";
-$__information['vv_dns_cname_message'] = "Here you can manage the CNAME record.";
-$__information['vv_dns_fcname_message'] = "Here you can manage the FCNAME record. <b>FCNAME</b> stands for full cname and will allow you to point a subdomain to an external domain.";
-$__information['vv_dns_a_message'] = "Here you can manage the A record. Enter '__base__', if you want to get the base domain.";
-$__information['vv_dns_soa_message'] = "Here you can manage the SOA record.";
-$__information['vv_dns_rebuild_message'] = "Here you can rebuild your domain zone from a DNS Template.";
+$__information['weblastvisit_list__pre'] = "<p>This is the list of last 50 visitors or the number of visitors in ".
+	"the last 20 hours, whichever is smaller.</p>".
+	"<p>Realtime represents the time in unix time stamp, and is there so that you can sort accurately by time.</p>".
+	"<p>The longer strings are truncated to fit the screen, and you can see their full values by moving the mouse over them.</p>";
 
-// Modified on 6.2.0
-$__information['vv_dns_template_message'] = "<b>Primary and Secondary DNS</b> - 'default.dns' is 'symbolic' domain name if selecting 'default' for 'DNS Template Name'. " .
-	"<b>Example</b> - 'ns1.default.dnst' (on 'Primary DNS') will be converted to 'ns1.domain.com' for 'domain.com'";
+$__information['subweb_a_addform__pre'] = "<p>This is a simple subdomain. A simple subdomain only has a web component, ".
+	"and you cannot add mail or manage DNS for it.</p>".
+	"<p>If you want a full subdomain, please use the <b>subdomain button</b> on the main <b>domains</b> page.</p>".
+	"<p>The simple subdomain's path is /home/clientname/domain/domain.com/subdomains/subdomainname.</p>";
 
-// Changed Kloxo Version 6.1.6
-$__information['vv_dns_blank_message'] = "<p>DNS Manager</p>";
+$__information['updateform_lighty_rewrite_pre'] = "<p>This is the custom lighttpd rewrite rule that will directly appended to the configuration file ".
+	"without any change. It will be of the form <b>url.rewrite = ( ...</b>.</p>";
 
-// release on Kloxo 6.1.7
-// by mustafa.ramadhan@lxcenter.org
+$__information['updateform_custom_error_pre'] = "<p><b>Note:<b></p>".
+	"<p>The values you have to provide are the virtual paths to the files that will be shown in case of these errors.</p>".
+	"<p>Example: /error_files/404.html.</p>";
+
+$__information['domain_updateform_ipaddress_pre'] = "<p><b>Note:<b></p>".
+	"<p>Make sure that you make the requisite changes to nameserver configuration too.</p>";
+
+$__information['client_updateform_ipaddress_pre'] = "<p><b>Note:<b></p>".
+	"<p>The available ip pool is selected from the machines in the web server pool.</p>";
+
+$__information['domaintemplate_addform__pre'] = "<p><b>Note:<b></p>".
+	"<p>The Max Value on the right shows your current quota limit.</p>".
+	"<p>You can create a Template with values more than your quota, but you won't be able to use them to create Domains/Clients.</p>";
+
+$__information['spam_updateform_update_pre'] = "<p>The 'score'--which can be 1-10--is the value at which a mail is marked as SPAM.</p>".
+	"<p>So if you set it to lower values, more mail will be marked as spam.</p>".
+	"<p>Too low values might lead to genuine mails getting classified as spam. ".
+	"Too high values will lead to high amount of spam getting through the filter.</p>";
+
+$__information['web_updateform_enable_frontpage_flag_pre'] = "<p>The front page password will be the same as that of the system user (main ftp user).</p>";
+
+$__information['installappsnapshot_list__pre'] = "<p>Snapshots are the exact copy of the database and the files of your application at a particular time.</p>".
+	"<p>You can restore your application to a particular snapshot by clicking on the <b>restore</b> button.</p>";
+
+$__information['sshclient_updateform_disabled_pre'] = "<p>Your admin hasn't enabled shell access for you.</p>".
+	"Please open a support ticket if you need ssh access.</p>";
+
+$__information['sshclient_updateform_warning_pre'] = "<p>Please note that all your activity is logged and any attempt at accessing files ".
+	"not belonging to you will lead to termination of your hosting account.</p>".
+	"<p>So please act responsibly.</p>";
+
+$__information['ffile_show___lx_error_log_pre'] = "<p>This is the error log for your domain.</p>".
+	"<p>The contents of this will help you trouble shoot if you are having any problems regarding the domain.</p>";
+
+$__information['ffile_show___lx_access_log_pre'] = "<p>This is the access log for your domain.</p>".
+	"<p>You can download this by clicking on the <b>download</b> tab at the right. ".
+	"This file contains information about every single hit that is made to to your website.</p>";
+
+$__information['updateform_dnstemplatelist_pre'] = "<p>Allocate only a single dns template to your customer.</p>".
+	"<p>This would mean that kloxo will not show the dns template select box while adding a domain, ".
+	"which will make it less confusing to your customer.</p>";
+
+$__information['forward_a_addform__pre'] = "<p>The forward addresses are a list of email addresses to which the mail is forwarded to. ".
+	"One copy of the mail gets saved to the actual mailaccount too.</p>".
+	"<p>You can disable local storage by clicking <url:a=updateform&sa=configuration>here</url>.</p>";
 
 $__information['webserver_config'] = 
 	"<p><b>PHP Branch</b>".
@@ -331,57 +499,72 @@ $__information['webserver_config'] =
 		"<li>If select <b>suphp/suphp_worker/suphp_event</b> and then select 'fix-ALL' to prevent '500 Internal server error'</li>".
 	"</ul></p>";
 
-// release on Kloxo 6.2.0
-// by mustafa.ramadhan@lxcenter.org
-
-
-// MR -- since 6.5.1
-
-$__information['client_show__pre'] = "<p>No information...</p>";
-$__information['domain_show__pre'] = "<p>No information...</p>";
-$__information['pserver_show__pre'] = "<p>No information...</p>";
-$__information['mailaccount_show__pre'] = "<p>No information...</p>";
+// $__information['client_show__pre'] = "<p>No information...</p>";
+// $__information['domain_show__pre'] = "<p>No information...</p>";
+// $__information['pserver_show__pre'] = "<p>No information...</p>";
+// $__information['mailaccount_show__pre'] = "<p>No information...</p>";
 
 $__information['smessage_addform__pre'] = "<p>No information...</p>";
 
-$__information['ticket_addform__pre'] = "<p>No information...</p>";
-$__information['helpdeskcategory_a_addform__pre'] = "<p>No information...</p>";
+$__information['ticket_addform__pre'] = "<p>You can make a ticket here. Previous tickets will be listing here.</p>";
 
-$__information['all_domain_list__pre'] = "<p>No information...</p>";
-$__information['all_addondomain_list__pre'] = "<p>No information...</p>";
-$__information['all_mailaccount_list__pre'] = "<p>No information...</p>";
-$__information['all_mailforward_list__pre'] = "<p>No information...</p>";
-$__information['all_mysqldb_list__pre'] = "<p>No information...</p>";
-$__information['all_cron_list__pre'] = "<p>No information...</p>";
-$__information['all_ftpuser_list__pre'] = "<p>No information...</p>";
-$__information['all_mailinglist_list__pre'] = "<p>No information...</p>";
+$__information['helpdeskcategory_a_addform__pre'] = "<p>You can add/delete 'HelpDesk' category here.</p>";
 
-$__information['reversedns_addform__pre'] = "Reverse dns only work for Class C (256 ips) or more";
+// $__information['all_domain_list__pre'] = "<p>No information...</p>";
+// $__information['all_addondomain_list__pre'] = "<p>No information...</p>";
+// $__information['all_mailaccount_list__pre'] = "<p>No information...</p>";
+// $__information['all_mailforward_list__pre'] = "<p>No information...</p>";
+// $__information['all_mysqldb_list__pre'] = "<p>No information...</p>";
+// $__information['all_cron_list__pre'] = "<p>No information...</p>";
+// $__information['all_ftpuser_list__pre'] = "<p>No information...</p>";
+// $__information['all_mailinglist_list__pre'] = "<p>No information...</p>";
+
+$__information['reversedns_addform__pre'] = "<p>Reverse dns only work for Class C (256 ips) or more.</p>";
+
 $__information['general_updateform_reversedns_pre'] = "<p>No information...</p>";
+
 $__information['all_reversedns_list__pre'] = "<p>No information...</p>";
 
-$__information['dnstemplate_addform__pre'] = $__information['vv_dns_template_message'];
-$__information['dnstemplate_show__pre'] = "<p>No information...</p>";
+$__information['vv_dns_blank_message'] = "<p>DNS Manager</p>";
 
-$__information['dns_show__pre'] = $__information['vv_dns_ddns_message'];
-$__information['dns_updateform_rebuild_pre'] = $__information['vv_dns_rebuild_message'];
-$__information['dns_record_a_addform_ns_pre'] = $__information['vv_dns_a_message'];
-$__information['dns_record_a_addform_a_pre'] = $__information['vv_dns_ns_message'];
-$__information['dns_record_a_addform_cname_pre'] = $__information['vv_dns_cname_message'];
-$__information['dns_record_a_addform_fcname_pre'] = $__information['vv_dns_fcname_message'];
-$__information['dns_record_a_addform_mx_pre'] = $__information['vv_dns_mx_message'];
-$__information['dns_record_a_addform_aaaa_pre'] = $__information['vv_dns_aaaa_message'];
-$__information['dns_record_a_addform_txt_pre'] = $__information['vv_dns_txt_message'];
-$__information['dns_updateform_parameter_pre'] = $__information['vv_dns_soa_message'];
+$__information['dnstemplate_addform__pre'] = "<p><b>Primary and Secondary DNS</b></p>".
+	"<p>If selecting 'default' in 'DNS Template Name', 'default.dnst' is 'symbolic' domain name.</p>".
+	"<p><b>Example</b> - 'ns1.default.dnst' (on 'Primary DNS') will be converted to 'ns1.domain.com' for 'domain.com'.</p>";
+
+$__information['dns_show__pre'] = "<p>Here you can manage DDNS.</p>";
+
+$__information['dns_updateform_rebuild_pre'] = "<p>Here you can rebuild your domain zone from a DNS Template.</p>";
+
+$__information['dns_record_a_addform_ns_pre'] = "<p>Here you can manage the 'NS record'.</p>";
+
+$__information['dns_record_a_addform_a_pre'] = "<p>Here you can manage the 'A record'. Enter '__base__', if you want to get the base domain.</p>";
+
+$__information['dns_record_a_addform_cname_pre'] = "<p>Here you can manage the 'CNAME record'.</p>";
+
+$__information['dns_record_a_addform_fcname_pre'] = "<p>Here you can manage the 'FCNAME record'. <b>FCNAME</b> stands for full cname and ".
+	"will allow you to point a subdomain to an external domain.</p>";
+
+$__information['dns_record_a_addform_mx_pre'] = "<p>Here you can manage the 'MX record'. Enter '__base__', if you want to get the base domain.</p>";
+
+$__information['dns_record_a_addform_aaaa_pre'] = "<p>Here you can manage the 'AAAA record' (the same as 'A record' but for IPv6). ".
+	"Enter '__base__', if you want to get the base domain.</p>";
+
+$__information['dns_record_a_addform_txt_pre'] = "<p>Use &lt;%domain%&gt; if you want the domain name inside a TXT record. ".
+	"For instance, 'v=spf1 include: &lt;%domain%&gt;'.</p>".
+	"<p>Also, automatically create 'SRV record' with the same contents</p>";
+
+$__information['dns_updateform_parameter_pre'] = "<p>Here you can manage the SOA record.</p>";
 
 $__information['dns_record_a_updateform_edit_pre'] = "<p>No information...</p>";
 
 $__information['domain_addform__pre'] = "<p>Better use lowercase for 'Domain Name' and 'Document Root' to minimize compatiblity issue.</p>".
 	"<p>Subdomain like 'subdom.domain.com' consider as domain.</p>".
-	"<p>Leave the document root blank and Kloxo-MR will automatically use domain from 'Domain Name' as the docroot.</p>";
+	"<p>Leave the document root blank and Kloxo-MR will automatically use domain from 'Domain Name' as the docroot.</p>".
+	"<p>The document root may not contain any space at the end or before the slash. Please check and submit again.</p>";
 
 $__information['subdomain_addform__pre'] = "<p>Better use lowercase for 'Domain Name' and 'Document Root' to minimize compatiblity issue.</p>".
-	"<p>Leave the document root blank and Kloxo-MR will automatically use domain from 'Subdomain Name' + selected domain as the docroot.</p>";
+	"<p>Leave the document root blank and Kloxo-MR will automatically use domain from 'Subdomain Name' + selected domain as the docroot.</p>".
+	"<p>The document root may not contain any space at the end or before the slash. Please check and submit again.</p>";
 
 $__information['mailaccount_addform__pre'] = "<p>Kloxo-MR automatically add <b>postmaster</b> if you add domain/subdomain.</p>".
 	"<p>You can add another mail account if you needed.</p>";
@@ -390,26 +573,32 @@ $__information['sp_specialplay_updateform_skin_pre'] = "<p>Base 'Appearance' is 
 	"<p><b>Example:</b> 'Feather' skin doesn't have 'background image' feature.</p>";
 
 $__information['lxupdate_updateform_lxupdateinfo_pre'] = "<p>No information...</p>";
+
 $__information['releasenote_list__pre'] = "<p>No information...</p>";
 
 $__information['client_updateform_password_pre'] = "<p>No information...</p>";
 
-$__information['auxiliary_addform__pre'] = "<p>No information...</p>";
-$__information['all_auxiliary_list__pre'] = "<p>No information...</p>";
+$__information['auxiliary_addform__pre'] = "<p>You can add/delete 'auxiliary login' (always with '.aux' postfix) as alternative id to login.</p>".
+	"<p>Don't give main account to anyone, instead 'auxiliary login'.</p>";
 
-$__information['lxbackup_show__pre'] = "<p>No information...</p>";
+$__information['all_auxiliary_list__pre'] = "<p>List all auxiliary login which you and your customer owned.</p>";
+
 $__information['lxbackup_updateform_restore_from_file_pre'] = "<p>No information...</p>";
-$__information['lxbackup_updateform_ftp_conf_pre'] = "<p>No information...</p>";
 
 $__information['ffile_updateform_upload_s_pre'] = "<p>No information...</p>";
+
 $__information['ffile_updateform_download_from_http_pre'] = "<p>No information...</p>";
+
 $__information['ffile_updateform_download_from_ftp_pre'] = "<p>No information...</p>";
 
 $__information['ffile_show__pre'] = "<p>No information...</p>";
 
 $__information['domaindefault_updateform_update_pre'] = "<p>No information...</p>";
+
 $__information['utmp_list__pre'] = "<p>No information...</p>";
+
 $__information['ftpsession_list__pre'] = "<p>No information...</p>";
+
 $__information['client_updateform_shell_access_pre'] = "<p>No information...</p>";
 
 $__information['general_updateform_scavengetime_pre'] = "<p>The purpose of this feature is 'book keeping jobs' for disk/traffic/etc.</p>";
@@ -426,73 +615,97 @@ $__information['client_updateform_disable_url_pre'] = "<p>All your children will
 
 $__information['client_updateform_skeleton_pre'] = "<p>This is the archive of the skeleton directory which will be copied to ".
 	"your domain home directory when it is created. The archive will be unzipped into a newly created domain's home directory.</p>".
-	"<p>You can use <b> &lt;%domainname%&gt; , &lt;%clientname%&gt; </b>  inside the index.html file, ".
+	"<p>You can use <b>&lt;%domainname%&gt; , &lt;%clientname%&gt;</b>  inside the index.html file, ".
 	"and the variables will be replaced properly with the correct values.</p>";
-
 
 $__information['notification_updateform_update_pre'] = "<p>Set 'notification' configure here.</p>";
 
 $__information['client_updateform_miscinfo_pre'] = "<p>No information...</p>";
+
 $__information['sp_childspecialplay_updateform_skin_pre'] = "<p>No information...</p>";
 
 $__information['psrole_a_addform__pre'] = "<p>No information...</p>";
 
 $__information['pserver_updateform_reboot_pre'] = "<p>No information...</p>";
+
 $__information['pserver_updateform_poweroff_pre'] = "<p>No information...</p>";
 
 $__information['service_list__pre'] = "<p>No information...</p>";
+
 $__information['process_list__pre'] = "<p>No information...</p>";
+
 $__information['component_list__pre'] = "<p>No information...</p>";
+
 $__information['llog_show__pre'] = "<p>No information...</p>";
+
 $__information['ffile_updateform_content_pre'] = "<p>No information...</p>";
+
 $__information['driver_updateform_update_pre'] = "<p>No information...</p>";
 
 $__information['pserver_updateform_timezone_pre'] = "<p>No information...</p>";
+
 $__information['pserver_updateform_commandcenter_pre'] = "<p>No information...</p>";
+
 $__information['sshclient_show__pre'] = "<p>No information...</p>";
+
 $__information['traceroute_list__pre'] = "<p>No information...</p>";
 
-// $__information['phpini_show__pre'] = $__information['php_config'];
 $__information['phpini_updateform_edit_pre'] = $__information['phpini_updateform_edit_admin_pre'];
+
 $__information['phpini_updateform_extraedit_pre'] = "<p>Setting 'advanced' PHP here.</p>";
 
-$__information['mysqldb_list__pre'] = "<p>No information...</p>";
+$__information['mysqldb_addform__pre'] = "<p>No information...</p>";
+
 $__information['dbadmin_addform__pre'] = "<p>". $__emessage['e_no_dbadmin_entries'] . "</p>";
 
-$__information['sslcert_list__pre'] = "<p>No information...</p>";
+$__information['sslcert_list__pre'] = "<p>List certificate which you able to use/modificition/delete.</p>";
+
 $__information['sslcert_addform__pre'] = $__information['sslcert_updateform_update_pre'];
-$__information['sslcert_addform_uploadfile_pre'] = "<p>No information...</p>";
-$__information['sslcert_addform_uploadtxt_pre'] = "<p>No information...</p>";
+
+$__information['sslcert_addform_uploadfile_pre'] = "<p>You can upload your certificate here.</p>".
+	"<p>As alternative, you can use 'Add Upload Txt' to copy-paste certificate contents.</p>";
+
+$__information['sslcert_addform_uploadtxt_pre'] = "<p>You can copy-paste your certificate contents here.</p>".
+	"<p>As alternative, you can use 'Add Upload File' to upload certificate files.</p>";
 
 $__information['serverweb_updateform_edit_pre'] = $__information['webserver_config'];
 
 $__information['ftpuser_addform__pre'] = $__information['ftpuser_admin'];
 
-$__information['servermail_updateform_update_pre'] = "<p>No information...</p>";
 $__information['servermail_updateform_spamdyke_pre'] = "<p>No information...</p>";
+
 $__information['mail_graylist_wlist_a_addform__pre'] = "<p>No information...</p>";
 
 $__information['client_list__pre'] = "<p>No information...</p>";
+
 $__information['all_client_list__pre'] = "<p>No information...</p>";
+
 $__information['client_addform_wholesale_pre'] = "<p>No information...</p>";
+
 $__information['client_addform_reseller_pre'] = "<p>No information...</p>";
+
 $__information['client_addform_customer_pre'] = "<p>No information...</p>";
+
 $__information['client_addform_customer_pre'] = "<p>No information...</p>";
 
 $__information['domain_updateform_limit_pre'] = "<p>No information...</p>";
 
 $__information['addondomain_addform_parked_pre'] = "<p>No information...</p>";
+
 $__information['addondomain_addform_redirect_pre'] = "<p>No information...</p>";
 
 $__information['dirprotect_addform__pre'] = "<p>No information...</p>";
 
 $__information['web_updateform_docroot_pre'] = "<p>No information...</p>";
+
 $__information['web_updateform_configure_misc_pre'] = "<p>No information...</p>";
 
 $__information['webhandler_addform__pre'] = "<p>No information...</p>";
+
 $__information['webmimetype_addform__pre'] = "<p>No information...</p>";
 
 $__information['redirect_a_addform_local_pre'] = "<p>No information...</p>";
+
 $__information['redirect_a_addform_remote_pre'] = "<p>No information...</p>";
 
 $__information['web_updateform_custom_error_pre'] = "<p>No information...</p>";
@@ -500,17 +713,27 @@ $__information['web_updateform_custom_error_pre'] = "<p>No information...</p>";
 $__information['domain_updateform_changeowner_pre'] = "<p>No information...</p>";
 
 $__information['mailforward_list__pre'] = "<p>No information...</p>";
+
 $__information['mailforward_addform_forward_pre'] = "<p>No information...</p>";
+
 $__information['mailforward_addform_alias_pre'] = "<p>No information...</p>";
+
 $__information['mmail_updateform_catchall_pre'] = "<p>No information...</p>";
+
 $__information['mmail_updateform_remotelocalmail_pre'] = "<p>No information...</p>";
 
 $__information['mailinglist_list__pre'] = "<p>No information...</p>";
+
 $__information['mailinglist_addform__pre'] = "<p>No information...</p>";
+
 $__information['mailinglist_show__pre'] = "<p>No information...</p>";
+
 $__information['mailinglist_updateform_update_pre'] = "<p>No information...</p>";
+
 $__information['mailinglist_mod_a_addform__pre'] = "<p>No information...</p>";
+
 $__information['mailinglist_updateform_editfile_pre'] = "<p>No information...</p>";
+
 $__information['listsubscribe_addform__pre'] = "<p>No information...</p>";
 
 $__information['updateform_cron_mailto_pre'] = "<p>Cron task will reported to 'Mail To'</p>";
@@ -521,4 +744,6 @@ $__information['cron_addform_simple_pre'] = "<p>Add something like 'sh /script/r
 $__information['cron_addform_complex_pre'] = $__information['cron_addform_simple_pre'];
 
 $__information['serverftp_updateform_update_pre'] =  "<p>Basic setting for FTP server.</p>";
+
+$__information['client_updateform_information_pre'] =  "<p>No information...</p>";
 
