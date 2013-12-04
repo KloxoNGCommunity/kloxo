@@ -312,7 +312,7 @@ $__information['web_updateform_statsconfig_pre'] = "<p>Every day, if the log fil
 	"<p>If you set the remove_processed_logs as true, then instead of moving, they will be deleted. ".
 	"Your main statistics calculation will not be affected at all.</p>";
 
-$__information['web_updateform_hotlink_protection_pre'] = "<p>Your domain and subdomains will automatically have access to the images, "
+$__information['web_updateform_hotlink_protection_pre'] = "<p>Your domain and subdomains will automatically have access to the images, ".
 	"and you don't have to add them specifically.</p>".
 	"<p>A *.domain.com is automatically added to the list of allowed domains you supply here.</p>".
 	"<p>The <b>redirect to image</b>  has to be a path to the image inside your domain, and NOT a full url. It should be of the form (/img/noaccess.gif).</p>".
@@ -333,7 +333,7 @@ $__information['installapp_addform__pre'] = "<p>To install an application in the
 	"<p>To install the same application for another domain, please use the select box on the top, and change the domain to another, ".
 	"and you will be able to get same form with the new domain as the parent.</p>".
 	"<p>A message with login and url information will be sent to the contact email address you provide here.</p>".
-	"<p><b><span style="color: red;">WARNING:</span></b> InstallApp is deprecated. Use Installatron or SpectrApps.";
+	"<p><b><span style='color: red;'>WARNING:</span></b> InstallApp is deprecated. Use Installatron or SpectrApps.</p>";
 
 $__information['mysqldb_updateform_restore_pre'] = "<p>You can use this only to restore the backups that were explicitly taken in Kloxo-MR ".
 	"itself using the <b>Get Backup</b> tab.</p>".
