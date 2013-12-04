@@ -36,9 +36,9 @@ class addondomain extends Lxdb
 	static function createListNlist($parent, $view)
 	{
 		$nlist['ttype'] = '5%';
-		$nlist['nname'] = '100%';
+		$nlist['nname'] = '30%';
 		$nlist['mail_flag'] = '10%';
-		$nlist['destinationdir'] = '10%';
+		$nlist['destinationdir'] = '70%';
 
 		return $nlist;
 	}

@@ -36,6 +36,7 @@ abstract class ClientCore extends Resourcecore {
 	static $__acdesc_update_description = array("", "",  "information");
 	static $__acdesc_update_license  =  array("","",  "license");
 	static $__acdesc_update_disable_url  =  array("","",  "disable_url");
+	static $__acdesc_update_skeleton  =  array("","",  "skeleton");
 	static $__acdesc_update_forcedeletepserver  =  array("","",  "force_delete_server");
 	static $__acdesc_update_generate_csr  =  array("","",  "generate_csr");
 	static $__acdesc_update_deleteorphanedvps  =  array("","",  "delete_orphaned_VM");

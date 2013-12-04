@@ -961,6 +961,8 @@ $__description["subdomain_name"] = array("Subdomain Name");
 $__description["Domain"] = array("Domain");
 $__description["maindomain"] = array("Maindomain");
 $__description["all_domain"] = array("All Domain");
+$__description["all_dns"] = array("All DNS");
+
 $__description["directory_index"] = array("Directory Index");
 $__description["directory_index_list"] = array("Directory Index List");
 $__description["domain_default"] = array("Domain Default");
@@ -1306,3 +1308,5 @@ $__description["domain_administer"] = array("Domain Administer");
 $__description["domain_owned"] = array("I confirm that I am the owner of domain");
 
 $__description["updateall"] = array("Update All");
+
+$__description["skeleton"] = array("Skeleton");

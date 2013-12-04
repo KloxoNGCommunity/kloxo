@@ -20,6 +20,8 @@ class ClientBase extends ClientCore
 	static $__desc_parent_name = array("", "", "parent");
 	static $__desc_contactemail = array("", "", "email_address");
 	static $__desc_disable_url = array("", "", "url_to_show_when_domain_is_disabled.");
+
+	static $__desc_skeleton = array("", "", "skeleton");
 	static $__desc_skeletonarchive = array("", "", "current_skeleton");
 	static $__desc_skeletonarchive_f = array("F", "", "upload_archive_of_skeleton_(zip_file)");
 

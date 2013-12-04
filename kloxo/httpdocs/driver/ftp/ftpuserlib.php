@@ -67,8 +67,8 @@ class ftpuser extends Lxclient
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$nlist['status'] = '3%';
-		$nlist['nname'] = '100%';
-		$nlist['directory'] = '10%';
+		$nlist['nname'] = '30%';
+		$nlist['directory'] = '70%';
 
 		return $nlist;
 	}

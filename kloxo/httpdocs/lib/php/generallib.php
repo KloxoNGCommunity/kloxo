@@ -209,10 +209,10 @@ class General extends Lxdb
 			$alist['property'][] = 'goback=1&a=list&c=reversedns';
 			$alist['property'][] = 'a=updateform&sa=reversedns';
 
-		//	if ($sgbl->isHyperVM()) {
+			if ($sgbl->isHyperVM()) {
 				$alist['property'][] = 'goback=1&a=list&c=all_dns';
 				$alist['property'][] = 'goback=1&a=list&c=all_reversedns';
-		//	}
+			}
 		}
 
 		return $alist;

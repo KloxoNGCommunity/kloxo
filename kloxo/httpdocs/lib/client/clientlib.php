@@ -53,6 +53,7 @@ class Client extends ClientBase
 	static $__desc_addondomain_l = array("", "", "");
 	static $__desc_reversedns_l = array("", "", "");
 	static $__desc_ftpsession_l = array("", "", "");
+	static $__desc_dbadmin_l = array("", "", "");
 
 	function isSync()
 	{

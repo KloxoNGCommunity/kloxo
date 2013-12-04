@@ -7235,8 +7235,8 @@ class HtmlLib
 
 		$count = 0;
 
-		// MR if only have hidden component of form
-		if ($total === 5) { return; }
+		// MR if only have hidden component of form; disabled because make trouble in disable_skeleton
+	//	if ($total === 5) { return; }
 ?>
 
 					<div align="center" style="background-color:<?= $backgroundcolor ?>; width:100%">
@@ -7856,8 +7856,6 @@ class HtmlLib
 
 		$info = implode("_", array($class, $type, $extr, $place));
 
-dprint($info);
-
 		if (isset($g_language_mes->__information[$info])) {
 			$pinfo = $g_language_mes->__information[$info];
 		}
@@ -7924,30 +7922,39 @@ dprint($info);
 
 		$fontcolor = "#000000";
 
-		$pinfo = str_replace("\n", "<br />", $pinfo);
-		$pinfo = str_replace("[b]", "<span style='font-weight: bold'>", $pinfo);
-		$pinfo = str_replace("[/b]", "</span>", $pinfo);
+	//	$pinfo = str_replace("\n", "<br />", $pinfo);
+		$pinfo = str_replace("<b>", "<span style='font-weight: bold'>", $pinfo);
+		$pinfo = str_replace("</b>", "</span>", $pinfo);
 
 		$ret = preg_match("/<url:([^>]*)>([^<]*)<\/url>/", $pinfo, $matches);
 
 		if ($ret) {
 			$fullurl = $this->getFullUrl(trim($matches[1]));
-			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href='$fullurl'> $matches[2] </a>", $pinfo);
+			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href='$fullurl'>$matches[2]</a>", $pinfo);
 		}
 
 		if ($sgbl->isBlackBackground()) {
 			$fontcolor = "#999999";
 		}
 ?>
-
+<!-- <?= $info ?> -->
 <?php
 	//	if ($skin_name === 'feather') {
 			if ($pinfo !== '') {
+				$baselink = "a=" . $type;
+				if ($extr !== '') { $baselink .= "&sa=" . $extr; }
+				if ($class !== '') {
+					if ($type === 'show') {
+						$baselink .= "&o=" . $class;
+					} else {
+						$baselink .= "&c=" . $class;
+					}
+				}
 ?>
-		<div style="width: 600px; margin: 0 auto; border: 0; padding: 0;">
-			<div class="infomsg" style="display: none; background-color: #efe; border: 3px double #f88; padding: 10px; margin: 0 0 10px 0;">
+		<div class="infomsg" style="display: none; width: 600px; margin: 10px auto">
+			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <?= $info ?></div>
+			<div  style="padding: 0 10px; background-color: #efe; border: 1px solid #f88">
 <?php
-
 		//	$this->print_curvy_table_start();
 			}
 	/*
@@ -7970,9 +7977,8 @@ dprint($info);
 		}
 
 	//	if ($pinfo !== '') {
-			dprint($info . "<br/><br/>");
 ?>
-			<?= $pinfo ?><br/>
+			<?= $pinfo ?>
 <?php
 	//	}
 

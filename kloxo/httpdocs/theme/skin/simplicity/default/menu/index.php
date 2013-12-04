@@ -373,8 +373,8 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>
 
-							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $localhostquery ?>frm_o_cname=service"> &#x00bb; localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $serverquery ?>frm_o_cname=service"><?= $syncserver ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $localhostquery ?>frm_o_cname=ipaddress"> &#x00bb; localhost</a>
+							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=addform&c=ipaddress") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $localhostquery ?>frm_o_cname=ipaddress"> &#x00bb; localhost</a>
@@ -387,9 +387,9 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 <?php
 		} else {
 ?>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $serverquery ?>frm_o_cname=service"><?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?> &#x00bb;&nbsp;<?= $syncserver ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $ghtml->getTitleOnly("a=addform&c=ipaddress") ?> &#x00bb;&nbsp;<?= $syncserver ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=readipaddress&<?= $serverquery ?>"><?= $ghtml->getTitleOnly("a=update&sa=readipaddress&o=pserver") ?> &#x00bb;&nbsp;<?= $syncserver ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=addform&c=ipaddress") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=readipaddress&o=pserver") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=readipaddress&<?= $serverquery ?>"><?= $syncserver ?></a><br/>
 <?php
 		}
 	}
@@ -518,7 +518,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_o[0][class]=genlist&frm_o_cname=dirindexlist_a"><?= $ghtml->getTitleOnly("a=list&o=genlist&c=dirindexlist_a") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=updateform&frm_subaction=portconfig&frm_o_o[0][class]=general"><?= $ghtml->getTitleOnly("a=updateform&sa=portconfig&o=general") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=updateform&frm_subaction=disable_skeleton"><?= $ghtml->getTitleOnly("a=updateform&sa=disable_skeleton&c=client") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=updateform&frm_subaction=login_options&frm_o_o[0][class]=sp_specialplay"><?= $ghtml->getTitleOnly("a=updateform&sa=upload_logo&o=sp_specialplay") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=updateform&frm_subaction=upload_logo&frm_o_o[0][class]=sp_specialplay"><?= $ghtml->getTitleOnly("a=updateform&sa=upload_logo&o=sp_specialplay") ?></a><br/>
 <?php
 	}
 ?>
@@ -1007,7 +1007,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 <?php
 		} else {
 ?>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=ffile&frm_o_o[1][nname]="><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> &#x00bb;&nbsp;<?= $syncserver ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=ffile") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=ffile&frm_o_o[1][nname]="><?= $syncserver ?></a><br/>
 <?php
 		}
 ?><?php
@@ -1017,7 +1017,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 <?php
 	if ($clientquery === "") {
 ?>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&frm_o_o[0][class]=ffile&frm_o_o[0][nname]=/"><?= $ghtml->getTitleOnly("a=show&o=ffile") ?> &#x00bb;&nbsp;<?= $clientid ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=ffile") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=show&frm_o_o[0][class]=ffile&frm_o_o[0][nname]=/"><?= $clientid ?></a><br/>
 <?php
 	} else {
 ?>

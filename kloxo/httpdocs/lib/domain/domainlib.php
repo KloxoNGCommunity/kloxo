@@ -482,10 +482,10 @@ class Domaind extends DomainBase
 			}
 		}
 
-		$name_list["nname"] = "100%";
+		$name_list["nname"] = "30%";
 
-		$name_list["ddate"] = "20%";
-		$name_list["docroot"] = "20%";
+		$name_list["ddate"] = "10%";
+		$name_list["docroot"] = "50%";
 		$name_list["traffic_usage"] = "5%";
 	//	$name_list["totaldisk_usage"] = "5%";
 	//	$name_list["domain_num"] = "3%";
