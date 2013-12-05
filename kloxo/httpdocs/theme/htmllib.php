@@ -7151,6 +7151,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $ghtml, $login;
 
+		$method = $sgbl->method;
+
 		$frmvalidcount = -1;
 
 		$skincolor = $login->getSkinColor();
@@ -7186,13 +7188,18 @@ class HtmlLib
 			</script>
 <?php
 		}
+
+		// MR -- impossible enctype="" with 'get'; so force to 'post' to make sure
+		if (strpos($block->formtype, "multipart/form-data") !== false) {
+			$method = 'post';
+		}
 ?>
 
 		<!-- <div style="width: 600px; margin: 0 auto 0 auto;"> -->
 		<!-- <div style="padding: 10px"> -->
 			<!-- <div style="width: 600px; margin: 0 auto 0 auto;"> -->
 			<div style="margin: 0 auto">
-				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8">
+				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $method ?>" <?= $onsubmit ?> accept-charset="utf-8">
 				<!-- <form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="get" <?= $onsubmit ?> accept-charset="utf-8"> -->
 <?php
 	//	dprint($block->form);
