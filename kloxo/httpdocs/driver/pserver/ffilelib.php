@@ -1140,9 +1140,11 @@ class Ffile extends Lxclass
 				if ($this->size < 1024) {
 					return $this->size . 'B';
 				}
+
 				if ($this->size < 1024 * 1024) {
 					return round($this->size / (1024), 0) . "K";
 				}
+
 				if ($this->size < 1024 * 1024 * 1024) {
 					return round($this->size / (1024 * 1024), 1) . "M";
 				}

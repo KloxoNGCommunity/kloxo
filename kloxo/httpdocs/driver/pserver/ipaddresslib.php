@@ -287,7 +287,7 @@ class Ipaddress extends Lxdb
 		$alist[] = "a=list&c=$class";
 
 		if ($parent->isClass('pserver')) {
-			$alist[] = "a=addform&c=$class";
+		//	$alist[] = "a=addform&c=$class";
 			$alist[] = "a=update&sa=readipaddress";
 		}
 
@@ -650,6 +650,11 @@ class Ipaddress extends Lxdb
 		$domainip = new DomainIpaddress(null, $this->syncserver, $this->nname);
 		$domainip->get();
 		$this->addObject('domainipaddress', $domainip);
+	}
+
+	static function AddListForm($parent, $class)
+	{
+		return self::addform($parent, $class);
 	}
 
 	static function add($parent, $class, $param)

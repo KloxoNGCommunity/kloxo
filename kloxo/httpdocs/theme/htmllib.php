@@ -7955,7 +7955,7 @@ class HtmlLib
 				}
 ?>
 		<div class="infomsg" style="display: none; width: 600px; margin: 10px auto">
-			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <?= $info ?></div>
+			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span></div>
 			<div  style="padding: 0 10px; background-color: #efe; border: 1px solid #f88">
 <?php
 		//	$this->print_curvy_table_start();
@@ -8942,7 +8942,10 @@ class HtmlLib
 ?>
 
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
-				<div id="menu_div" style="width:800px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all"><? include_once "theme/skin/simplicity/default/menu/index.php" ?></div>
+				<div id="menu_div" style="width:800px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all">
+<? include_once "theme/skin/simplicity/default/menu/index.php" ?>
+
+				</div>
 				<div style="position: fixed; top: 2px; right: 2px"><a href="#" onClick="toggleVisibilityByClass('mmm');">
 					<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
 				</div>

@@ -369,7 +369,9 @@ $__information['sslcert_updateform_update_pre'] = "<p>To assign this ssl certifi
 $__information['domain_not_customer'] = "<p>To add a domain, create a customer first, and you can add domains under him.</p>".
 	"<p>To add a customer, <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>click here </url></p>";
 
-$__information['ipaddress_list__pre'] = "<p>Exclusive IP will allow you to have dedicated control of a particular ipaddress. ".
+$__information['ipaddress_addform__pre'] = "<p>IP must assign to detectable 'Device Name'.</p>";
+
+$__information['ipaddress_updateform_update_pre'] = "<p>Exclusive IP will allow you to have dedicated control of a particular ipaddress. ".
 	"This is useful for setting up SSL and also for setting up an ip for a domain.</p>".
 	"<p>That is, if you want a particular IP to resolve to a domain.</p>".
 	"<p>For you to have an exclusive IPaddress, the administrator will have to set the exclusive client of a particular ipaddress.</p>".

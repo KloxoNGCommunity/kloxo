@@ -46,6 +46,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 }
 
 ?>
+<!-- 'BEGIN: Simplicity menu' -->
 
 <link rel="stylesheet" type="text/css" href="/theme/skin/simplicity/default/menu/css/style.css"/>
 
@@ -74,14 +75,12 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 <?php
 			}
 		}
-?>
-<?php
+
 		if ($consumedlogin !== '') {
 		// MR -- don't include $consumedlogin here!
 ?>
 					&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=dologin&o=client") ?>
 
-						<!-- &#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $clientquery ?>"><?= $clientid ?> (<?= $login->getKeywordUc('cancel') ?>)</a><br/> -->
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $loginquery ?>"><?= $loginas ?> (<?= $login->getKeywordUc('cancel') ?>)</a><br/>
 <?php
 		} else {
@@ -247,8 +246,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 					</div>
 <?php
 	}
-?>
-<?php
+
 	if ($login->isAdmin()) {
 ?>
 					<b><?= $login->getKeywordUc('update') ?></b>
@@ -316,11 +314,8 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=auxiliary"><?= $clientid ?></a><br/>
 <?php
 	}
-?>
-<?php
+
 	if ($login->isAdmin()) {
-?>
-<?php
 		if ($clientquery === "") {
 ?>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_auxiliary"><?= $ghtml->getTitleOnly("a=list&c=all_auxiliary") ?></a><br/>
@@ -333,7 +328,6 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_auxiliary"><?= $clientid ?></a><br/>
 <?php
 		}
-?><?php
 	}
 ?>
 					</div>
@@ -353,32 +347,15 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 					<b><?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?></b>
 					<div class="dropmenu">
 <?php
-	if ($clientquery === "") {
-?>
-						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=ipaddress"><?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?></a><br/>
-<?php
-	} else {
-?>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>
-
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=ipaddress"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=ipaddress"><?= $clientid ?></a><br/>
-<?php
-	}
 
 	if ($login->isAdmin()) {
-?>
-<?php
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $localhostquery ?>frm_o_cname=ipaddress"> &#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=addform&c=ipaddress") ?>
 
-							&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $localhostquery ?>frm_o_cname=ipaddress"> &#x00bb; localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=readipaddress&o=pserver") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=readipaddress&<?= $localhostquery ?>"> &#x00bb; localhost</a>
@@ -387,8 +364,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 <?php
 		} else {
 ?>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=list&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=addform&c=ipaddress") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&<?= $serverquery ?>frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=ipaddress"><?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=update&sa=readipaddress&o=pserver") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=update&frm_subaction=readipaddress&<?= $serverquery ?>"><?= $syncserver ?></a><br/>
 <?php
 		}
@@ -571,7 +547,8 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 
 <?php
 	}
-?>					</div>
+?>
+					</div>
 <?php
 	if ($login->isAdmin()) {
 ?>
@@ -634,8 +611,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=psrole_a"><?= $ghtml->getTitleOnly("a=list&c=psrole_a") ?></a><br/>
 <?php
 		}
-?>
-<?php
+
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=reboot&l[class]=pserver&l[nname]={$syncserver}") ?>
@@ -822,8 +798,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		</li>
 <?php
 	}
-?>
-<?php
+
 	if ($login->isAdmin()) {
 ?>
 		<li class="separator"></li>
@@ -995,8 +970,6 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 					<div class="dropmenu">
 <?php
 	if ($login->isAdmin()) {
-?>
-<?php
 		if ((check_if_many_server()) && ($syncserver !== 'localhost')) {	
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=ffile") ?>
@@ -1010,7 +983,6 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=ffile") ?>&nbsp;&#x00bb;&nbsp;<a href="/display.php?frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=ffile&frm_o_o[1][nname]="><?= $syncserver ?></a><br/>
 <?php
 		}
-?><?php
 	}
 ?>
 
@@ -1106,10 +1078,12 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 </div>
 <div style="float:right">
 	<ul class="menuTemplate2 decor2_1">
-		<!-- <li><a href="#" onMouseOver="document.getElementById('infomsg').style.display='inline';" onMouseOut="document.getElementById('infomsg').style.display='none';"><?= $login->getKeywordUc('help') ?></a></li> -->
 		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('help') ?>" href="#" onClick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
 		<li class="separator"></li>
-		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('logout') ?>"  href="javascript:if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a>
-		</li>
+		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('logout') ?>"  href="javascript:if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a></li>
 	</ul>
 </div>
+
+<!-- 'END - Simplicity menu' -->
+
+
