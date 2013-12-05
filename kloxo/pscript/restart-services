@@ -1,6 +1,6 @@
 #!/bin/sh
 
-list=(named djbdns maradns httpd nginx lighttpd hiawatha php-fpm qmail xinetd mysqld mysql)
+list=(mysqld mysql named djbdns maradns pdns nsd varnish trafficserver squid httpd nginx lighttpd hiawatha qmail xinetd php-fpm)
 
 for item in ${list[*]} ; do
 	if [ -f /etc/init.d/${item} ] ; then

@@ -9,7 +9,8 @@
 // update_main();
 
 // MR -- just enough running cleanup!
-exec("sh /script/cleanup");
+// have a problem if restart kloxo service and then bypass it.
+exec("sh /script/cleanup-nokloxorestart");
 
 
 

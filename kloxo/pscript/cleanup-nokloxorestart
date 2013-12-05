@@ -1,0 +1,43 @@
+#!/bin/sh
+
+t=$(mysql -V|awk '{print $5}')
+u=$(echo $t|grep -i '5.0.')
+
+if [ "$u" != "" ] ; then
+	echo "Need update mysql first..."
+	echo "- Run 'yum replace mysql --replace-with=mysql55'" 
+fi
+
+T="$(date +%s%N)"
+
+#if $(rpm -qa|grep lxphp >/dev/null 2>&1) ; then
+if $(ls -al /usr/bin/lxphp.exe|grep /usr/local/lxlabs >/dev/null 2>&1) ; then
+	yum remove lxphp lxlighttpd lxzend >/dev/null 2>&1
+	
+	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
+	
+	rm -rf /usr/bin/lxphp.exe
+	
+	yum install php52s -y >/dev/null 2>&1
+fi
+
+. /script/directory
+lxphp.exe ../bin/common/cleanup.php
+
+echo
+echo "*** Restart services - BEGIN ***"
+sh /script/restart-services
+echo "*** Restart services - END ***"
+echo
+
+# Time interval in nanoseconds
+T="$(($(date +%s%N)-T))"
+# Seconds
+S="$((T/1000000000))"
+# Milliseconds
+M="$((T/1000000))"
+
+printf "Process Time: %02d:%02d:%02d:%02d.%03d (dd:hh:mm:ss:xxxxxx)\n" \
+	"$((S/86400))" "$((S/3600%24))" "$((S/60%60))" "$((S%60))" "${M}"
+
+

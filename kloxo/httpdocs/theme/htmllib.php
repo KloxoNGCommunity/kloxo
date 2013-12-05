@@ -2151,8 +2151,8 @@ class HtmlLib
 			</tr>
 		</table>
 
-		<!-- <form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
-		<form name="chmod" method="get" action="/display.php" accept-charset="utf-8">
+		<form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+		<!-- <form name="chmod" method="get" action="/display.php" accept-charset="utf-8"> -->
 			<table cellpadding="0" cellspacing="0" border="0" width="325">
 				<tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
 					<td width="100" class="col"></td>
@@ -3716,8 +3716,8 @@ class HtmlLib
 		$filtername = $object->getFilterVariableForThis($class);
 ?>
 
-		<!-- <form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8"> -->
-		<form name="form<?= $name ?>_page_<?= $place ?>" method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+		<!-- <form name="form<?= $name ?>_page_<?= $place ?>" method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8"> -->
 <?php
 			$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 			$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4077,8 +4077,8 @@ class HtmlLib
 		</div>
 
 		<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto'>
-			<!-- <form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8"> -->
-			<form name="lpfform_rsearch" method="get" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
+			<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
+			<!-- <form name="lpfform_rsearch" method="get" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8"> -->
 				<table width=100% border=0 align="center" cellpadding=0
 				       style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
 					<tr>
@@ -4488,8 +4488,8 @@ class HtmlLib
 ?>
 
 					<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-						<!-- <form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
-						<form name="page<?= $unique_name ?><?= $i ?>" method="get" action="/display.php" accept-charset="utf-8">
+						<form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+						<!-- <form name="page<?= $unique_name ?><?= $i ?>" method="get" action="/display.php" accept-charset="utf-8"> -->
 <?php
 				$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 				$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4901,8 +4901,8 @@ class HtmlLib
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid #ddd">
 				<tr>
 					<td>
-						<!-- <form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
-						<form name="perpage_<?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8">
+						<form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+						<!-- <form name="perpage_<?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8"> -->
 							<table cellpadding="0" cellspacing="0" border="0">
 								<tr>
 <?php
@@ -5730,8 +5730,8 @@ class HtmlLib
 			<tr>
 				<td width='10'></td>
 				<td align='left'>
-					<!-- <form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8"> -->
-					<form name="graphselectjump" method="get" action="display.php" accept-charset="utf-8">
+					<form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8">
+					<!-- <form name="graphselectjump" method="get" action="display.php" accept-charset="utf-8"> -->
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
@@ -5869,8 +5869,8 @@ class HtmlLib
 		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 24px; margin: 0 25px;">
 			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;<?= $login->getKeywordUc('switchtoanother') ?>&nbsp;</span></div>
 			<div style="float:left;">
-				<!-- <form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8"> -->
-				<form name="topjumpselect" method="get" action='/display.php' accept-charset="utf-8">
+				<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
+				<!-- <form name="topjumpselect" method="get" action='/display.php' accept-charset="utf-8"> -->
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
@@ -7192,8 +7192,8 @@ class HtmlLib
 		<!-- <div style="padding: 10px"> -->
 			<!-- <div style="width: 600px; margin: 0 auto 0 auto;"> -->
 			<div style="margin: 0 auto">
-				<!-- <form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8"> -->
-				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="get" <?= $onsubmit ?> accept-charset="utf-8">
+				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $sgbl->method ?>" <?= $onsubmit ?> accept-charset="utf-8">
+				<!-- <form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="get" <?= $onsubmit ?> accept-charset="utf-8"> -->
 <?php
 	//	dprint($block->form);
 
@@ -7875,6 +7875,22 @@ class HtmlLib
 
 		$pinfo = str_replace("<%program%>", $sgbl->__var_program_name, $pinfo);
 
+		if ($this->frm_o_o[0]['class'] === 'mailaccount') {
+			$pinfo = str_replace("<%mailaccount%>", $this->frm_o_o[0]['nname'], $pinfo);
+		} else {
+			$pinfo = str_replace("<%mailaccount%>", 'mailaccount@domain.com', $pinfo);
+		}
+
+		$pinfo = str_replace("<%server%>", $login->syncserver, $pinfo);
+		$pinfo = str_replace("<%client%>", $login->nname, $pinfo);
+		$pinfo = str_replace("<%programname%>", 'Kloxo-MR', $pinfo);
+
+		if ($this->frm_o_o[0]['class'] === 'domain') {
+			$pinfo = str_replace("<%domain%>", $this->frm_o_o[0]['nname'], $pinfo);
+		} else {
+			$pinfo = str_replace("<%domain%>", 'domain.com', $pinfo);
+		}
+
 		$pinfo = explode("\n", $pinfo);
 		$skip = false;
 
@@ -7955,7 +7971,7 @@ class HtmlLib
 				}
 ?>
 		<div class="infomsg" style="display: none; width: 600px; margin: 10px auto">
-			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span></div>
+			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <!-- <?= $info ?> --></div>
 			<div  style="padding: 0 10px; background-color: #efe; border: 1px solid #f88">
 <?php
 		//	$this->print_curvy_table_start();
@@ -9213,8 +9229,8 @@ class HtmlLib
 		$formname = 'lpform_' . $unique_name . $sortby;
 ?>
 
-		<!-- <form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8"> -->
-		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
+		<form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
+		<!-- <form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input name="frm_hpfilter[<?= $filtername ?>][sortby]" type="hidden" value="<?= $sortby ?>">
@@ -9266,8 +9282,8 @@ class HtmlLib
 									<tr>
 										<td width="10" height="22"></td>
 										<td height="22">
-											<!-- <form name="lpform_search" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8"> -->
-											<form name="lpform_search" method="get" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
+											<form name="lpform_search" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
+											<!-- <form name="lpform_search" method="get" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8"> -->
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
 
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
@@ -9279,8 +9295,8 @@ class HtmlLib
 										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img border="0" alt="Search" title="Search" name="search" src="<?= $searchimg ?>" height="15" width="15" onMouseOver="changeContent('help','search');" onMouseOut="changeContent('help','helparea');"></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td height="22" width="70">
-											<!-- <form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8"> -->
-											<form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8">
+											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
+											<!-- <form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" name="frm_clear_filter" value="true">

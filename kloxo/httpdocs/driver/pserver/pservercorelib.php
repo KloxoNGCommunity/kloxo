@@ -350,8 +350,8 @@ class pservercore extends Lxclient
 	//	$nlist['cpstatus'] = '3%';
 		$nlist['ostype'] = '3%';
 		$nlist['used_f'] = '3%';
-		$nlist['nname'] = '100%';
-		$nlist['osversion'] = '3%';
+		$nlist['nname'] = '50%';
+		$nlist['osversion'] = '50%';
 		//$nlist['button_showused_f'] = '5%';
 		$nlist['button_password_f'] = '5%';
 		$nlist['button_list_process_f'] = '5%';

@@ -1,5 +1,15 @@
 <?php
 
+/*
+	REMARK:
+	- <%server%> - translate to current server (example: localhost)
+	- <%client%> - translate to current user login (example: admin)
+	- <%mailaccount%> - translate to current user login (example: admin@domain.com)
+	- <%program%> - translate kloxo
+	- <%programname%> - translate Kloxo-MR
+	- <%domain%> - translate to current domain (example: domain.com)
+*/
+
 $__emessage['blocked'] = "Your address is blocked";
 $__emessage['no_server'] = "Could not connect to the Server.";
 $__emessage['set_emailid'] = "Please Set Your EmailId Properly ";
@@ -504,7 +514,8 @@ $__information['webserver_config'] =
 // $__information['client_show__pre'] = "<p>No information...</p>";
 // $__information['domain_show__pre'] = "<p>No information...</p>";
 // $__information['pserver_show__pre'] = "<p>No information...</p>";
-// $__information['mailaccount_show__pre'] = "<p>No information...</p>";
+
+$__information['mailaccount_show__pre'] = "<p>Login in Kloxo-MR panel with <b><%mailaccount%></b> will be going to this page directly.</p>";
 
 $__information['smessage_addform__pre'] = "<p>No information...</p>";
 

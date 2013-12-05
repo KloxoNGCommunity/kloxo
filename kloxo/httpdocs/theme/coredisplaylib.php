@@ -2522,8 +2522,8 @@ function print_quick_action($class)
 
 	$res = null;
 	$res .= " <tr style=\"background:#d6dff7\"> <td >";
-//	$res .= "<form name='quickaction' method='{$sgbl->method}' target='mainframe' action=\"/theme/lbin/redirect.php\">";
-	$res .= "<form name='quickaction' method='get' target='mainframe' action=\"/theme/lbin/redirect.php\">";
+	$res .= "<form name='quickaction' method='{$sgbl->method}' target='mainframe' action=\"/theme/lbin/redirect.php\">";
+//	$res .= "<form name='quickaction' method='get' target='mainframe' action=\"/theme/lbin/redirect.php\">";
 
 	$desc = $ghtml->get_class_description($class);
 
