@@ -7210,21 +7210,12 @@ class HtmlLib
 		$full = array_flatten($full);
 	//	dprintr($full);
 
-		if (strpos($block->form, "html_edit") !== false) {
+		if ((strpos($block->form, "html_edit") !== false) || (strpos($block->form, "edit") !== false)) {
 			$totalwidth = '900px';
 		} else {
 			$totalwidth = '600px';
 		}
-/*
-		foreach ($full as $variable) {
-		//	if ($variable->type === 'textarea' && $variable->width === '90%') {
-			if ($variable->type === 'textarea') {
-				$totalwidth = '100%';
 
-				break;
-			}
-		}
-*/
 		if ($block->title) {
 ?>
 
@@ -7742,7 +7733,7 @@ class HtmlLib
 				if ($variable->width != "") {
 					$cols = $variable->width;
 				} else {
-					$cols = "90%";
+					$cols = "100%";
 				}
 
 				if (trim($variable->readonly) === "yes") {
