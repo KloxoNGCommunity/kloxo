@@ -3950,7 +3950,7 @@ class HtmlLib
 ?>
 
 				</td>
-				<td><input type="submit" class=submitbutton name=Search value="Quick Add <?= $desc ?>"></td>
+				<td><input type="submit" class='submitbutton' name='Search' value="<?= $login->getKeywordUc('quickadd') ?> <?= $desc ?>"></td>
 				</form>
 				</td>
 				<td width="100%"></td>
@@ -4287,18 +4287,21 @@ class HtmlLib
 
 		$buttonpath = get_image_path();
 
-		$nlcount = count($name_list) + 1;
-		$imgheadleft = $login->getSkinDir() . "/images/top_lt.gif";
-		$imgheadleft = $login->getSkinDir() . "/images/top_lt.gif";
-		$imgheadleft2 = $login->getSkinDir() . "/images/top_lt.gif";
-		$imgheadright = $login->getSkinDir() . "/images/top_slope_rt.gif";
-		$imgheadbg = $login->getSkinDir() . "/images/top_bg.gif";
-		$imgbtnbg = $login->getSkinDir() . "/images/btn_bg.gif";
-		$imgtablerowhead = $login->getSkinDir() . "/images/tablerow_head.gif";
-		$imgtablerowheadselect = $login->getSkinDir() . "/images/top_line_medium.gif";
-		$imgbtncrv = $login->getSkinDir() . "/images/btn_crv_right.gif";
-		$imgtopline = $login->getSkinDir() . "/images/top_line.gif";
+		$genimagepath = get_general_image_path();
+
 		$skindir = $login->getSkinDir();
+
+		$nlcount = count($name_list) + 1;
+		$imgheadleft = $skindir . "/images/top_lt.gif";
+		$imgheadleft = $skindir . "/images/top_lt.gif";
+		$imgheadleft2 = $skindir . "/images/top_lt.gif";
+		$imgheadright = $skindir . "/images/top_slope_rt.gif";
+		$imgheadbg = $skindir . "/images/top_bg.gif";
+		$imgbtnbg = $skindir . "/images/btn_bg.gif";
+		$imgtablerowhead = $skindir . "/images/tablerow_head.gif";
+		$imgtablerowheadselect = $skindir . "/images/top_line_medium.gif";
+		$imgbtncrv = $skindir . "/images/btn_crv_right.gif";
+		$imgtopline = $skindir . "/images/top_line.gif";
 
 		$classdesc = $this->get_class_description($rclass, $display);
 
@@ -4453,10 +4456,10 @@ class HtmlLib
 				</tr>
 				<tr valign="middle">
 <?php
-			$imgbtm1 = get_general_image_path() . "/button/btm_01.gif";
-			$imgbtm2 = get_general_image_path() . "/button/btm_02.gif";
-			$imgbtm3 = get_general_image_path() . "/button/btm_03.gif";
-			$imgshow = get_general_image_path() . "/button/btn_show.gif";
+			$imgbtm1 = $genimagepath . "/button/btm_01.gif";
+			$imgbtm2 = $genimagepath . "/button/btm_02.gif";
+			$imgbtm3 = $genimagepath . "/button/btm_03.gif";
+			$imgshow = $genimagepath . "/button/btn_show.gif";
 
 			$rpagesize = exec_class_method($rclass, "perPage");
 
@@ -4488,8 +4491,8 @@ class HtmlLib
 ?>
 
 					<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-						<form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
-						<!-- <form name="page<?= $unique_name ?><?= $i ?>" method="get" action="/display.php" accept-charset="utf-8"> -->
+						<!-- <form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
+						<form name="page<?= $unique_name ?><?= $i ?>" method="get" action="/display.php" accept-charset="utf-8">
 <?php
 				$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 				$this->print_current_input_vars(array('frm_hpfilter'));
@@ -4517,7 +4520,7 @@ class HtmlLib
 			}
 ?>
 					<td width="100%"></td>
-					<td nowrap><b>Show</b>&nbsp;</td>
+					<td nowrap><b><?= $login->getKeywordUc('show') ?></b>&nbsp;</td>
 <?php
 			$f_page = (int)$login->issetHpFilter($filtername, 'pagesize') ? $login->getHPFilter($filtername, 'pagesize') : $pagesize;
 
@@ -4592,8 +4595,8 @@ class HtmlLib
 <?php
 		}
 
-		$imguparrow = get_general_image_path() . '/button/uparrow.gif';
-		$imgdownarrow = get_general_image_path() . '/button/downarrow.gif';
+		$imguparrow = $genimagepath . '/button/uparrow.gif';
+		$imgdownarrow = $genimagepath . '/button/downarrow.gif';
 
 		foreach ($name_list as $name => $width) {
 			$desc = "__desc_{$name}";
@@ -4721,8 +4724,8 @@ class HtmlLib
 				}
 			}
 
-			$imgpointer = get_general_image_path() . "/button/pointer.gif";
-			$imgblank = get_general_image_path() . "/button/blank.gif";
+			$imgpointer = $genimagepath . "/button/pointer.gif";
+			$imgblank = $genimagepath . "/button/blank.gif";
 
 			$rowuniqueid = "tr$unique_name$rowcount";
 		/*
@@ -4931,12 +4934,12 @@ class HtmlLib
 <?php
 			if ($skin_name === 'feather') {
 ?>
-												<td width="40">&nbsp;<b>Show</b>&nbsp;</td>
+												<td width="40">&nbsp;<b><?= $login->getKeywordUc('show') ?></b>&nbsp;</td>
 												<td width="<?= $width ?>">
 <?php
 			} else {
 ?>
-												<td>&nbsp;<b>Show</b>&nbsp;</td>
+												<td>&nbsp;<b><?= $login->getKeywordUc('show') ?></b>&nbsp;</td>
 												<td>
 <?php
 			}
@@ -5045,13 +5048,13 @@ class HtmlLib
 
 ?>
 
-					</td>
-				</tr>
-			</table>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 	</table>
-	<br/>
+<br/>
 </div>
 <?php
 	}
@@ -6077,7 +6080,7 @@ class HtmlLib
 
 				return $desc;
 			} else {
-				$descr = "Update $sub";
+				$descr = $login->getKeywordUc('update') . " $sub";
 			}
 
 			return array("", '', $descr, 'desc' => $descr, 'help' => $desc['help']);
@@ -7207,7 +7210,11 @@ class HtmlLib
 		$full = array_flatten($full);
 	//	dprintr($full);
 
-		$totalwidth = '600px';
+		if (strpos($block->form, "html_edit") !== false) {
+			$totalwidth = '900px';
+		} else {
+			$totalwidth = '600px';
+		}
 /*
 		foreach ($full as $variable) {
 		//	if ($variable->type === 'textarea' && $variable->width === '90%') {
@@ -7723,8 +7730,8 @@ class HtmlLib
 			case "htmltextarea":
 ?>
 
-					<tr>
-						<td colspan="1000">
+					<!-- <tr>
+						<td colspan="1000"> -->
 <?php
 				if ($variable->height != "") {
 					$rows = $variable->height;
@@ -7763,8 +7770,8 @@ class HtmlLib
 				$oFCKeditor->Create();
 ?>
 
-						</td>
-					</tr>
+						<!-- </td>
+					</tr> -->
 <?php
 
 				break;
@@ -9309,8 +9316,8 @@ class HtmlLib
 												<input type="hidden" name="frm_clear_filter" value="true">
 												<table cellpadding="0" cellspacing="0" border="0" width="100%" height="22">
 													<tr>
-														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><img alt="Show All" title="Show all" name="showall" src="<?= $showallimg ?>" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"></a></td>
-														<td width="69%" height="22" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class="small">Show All</span></a></td>
+														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><img alt="<?= $login->getKeywordUc('showall') ?>" title="<?= $login->getKeywordUc('showall') ?>" name="showall" src="<?= $showallimg ?>" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"></a></td>
+														<td width="69%" height="22" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class="small"><?= $login->getKeywordUc('showall') ?></span></a></td>
 													</tr>
 												</table>
 											</form>

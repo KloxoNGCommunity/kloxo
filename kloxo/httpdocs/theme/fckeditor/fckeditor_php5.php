@@ -132,7 +132,7 @@ class FCKeditor
 		$this->InstanceName	= $instanceName ;
 		$this->BasePath		= '/fckeditor/' ;
 		$this->Width		= '100%' ;
-		$this->Height		= '200' ;
+		$this->Height		= '500' ;
 		$this->ToolbarSet	= 'Default' ;
 		$this->Value		= '' ;
 
