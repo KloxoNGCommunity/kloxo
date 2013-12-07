@@ -15,7 +15,7 @@
 	list-style: none;
 	padding: 0;
 
-	behavior: url("cssmenu.htc");
+	behavior: url("/theme/skin/simplicity/default/menu/css/cssmenu.htc");
 }
 
 .menuTemplate2 li

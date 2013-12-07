@@ -17,7 +17,7 @@ $__emessage['no_socket_connect_to_server'] = "Could not Connect to the server [%
 $__emessage['restarting_backend'] = "Restarting the backend. Please try again after 30 seconds.";
 $__emessage['quota_exceeded'] = "Quota Exceeded for [%s]";
 $__emessage['license_no_ipaddress'] = "The public ipaddress [%s] of this server was not found in in the license repository. Please contact Lxlabs sales or your reseller to create a license for this server. </a> ";
-$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via hypervm itself. <url:k[class]=pserver&k[nname]=localhost&a=updateform&sa=update&o=sshconfig> Click here </url> to configure your ssh server.";
+$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via Kloxo-MR itself. <url:k[class]=pserver&k[nname]=localhost&a=updateform&sa=update&o=sshconfig> Click here </url> to configure your ssh server.";
 $__emessage['already_exists'] = "The resource of name [%s] already exists.";
 $__emessage['lxguard_not_configured'] = "Lxguard for this server is not configured. Please <url:k[class]=pserver&k[nname]=localhost&a=show&o=lxguard>Click here to configure Lxguard </url> since it is very important that you understand what it does. Lxguard is critical for the security of your server, at the same time, it can block your own IPaddress from accessing the server, which can be frustrating if you don't know what's happening.";
 $__emessage['root_cannot_extract_to_existing_dir'] = "Directory you provided already exists. Root user cannot extract archive into an existing directory. Please provide the name of a directory that doesn't exist in the system.";
@@ -33,7 +33,7 @@ $__emessage['ssh_port_not_configured'] = "The ssh port for this server is not se
 $__emessage['system_is_updating_itself'] = "The system at this point is upgrading itself, and thus you won't be able to make any changes for a few minutes. All read actions work normally though.";
 $__emessage['system_is_locked'] = "Someone has initiated system-modification-action on this particular object which is still going on. You wont be able to make any changes till it is finished. All read actions work normally though.";
 $__emessage['system_is_locked_by_u'] = "You have initiated a system-modification-action which is still going on. You wont be able to make any changes till it is finished. All read actions work normally though.";
-$__emessage['smtp_server_not_running'] = "hyperVM could not connect to an smtp server on this server. That means that hyperVM will not able to send out any mails. This is very critical since hyperVM monitors the health of the entire cluster and sends email to the admin if there is any problem. You should make sure that the smtp service is running on this server. Once you restart the SMTP service, please wait 5 minutes for this error message to disappear, since hyperVM checks for the service availability only once every 5 minutes.";
+$__emessage['smtp_server_not_running'] = "Kloxo-MR could not connect to an smtp server on this server. That means that Kloxo-MR will not able to send out any mails. This is very critical since Kloxo-MR monitors the health of the entire cluster and sends email to the admin if there is any problem. You should make sure that the smtp service is running on this server. Once you restart the SMTP service, please wait 5 minutes for this error message to disappear, since Kloxo-MR checks for the service availability only once every 5 minutes.";
 $__emessage['template_not_owner'] = "You are not the Owner of this Template";
 $__emessage['ipaddress_changed_amidst_session'] = "IP Address Changed Amidst Session. Possible Session Hijacking.";
 $__emessage['more_than_one_user'] = "More than one user is logged in this account. Click <burl:a=list&c=ssession>here to see list of logins. </burl> ";
@@ -106,7 +106,7 @@ $__information['sshconfig_updateform_update_pre'] = "<p>It is recommended that y
 
 $__information['all_dns_list__pre'] = "<p>This is the list of every dns created by your VPS owners.</p>".
 	"<p>Click <url:o=general&a=updateform&sa=reversedns>here</url> to configure DNS servers so that all your customers can use it.</p>".
-	"<p>HyperVM's DNS manager allows a VPS owner to create DNS directly in hyperVM itself, and the data will be saved on the VPS vendor's servers.</p>".
+	"<p>Kloxo-MR's DNS manager allows a VPS owner to create DNS directly in Kloxo-MR itself, and the data will be saved on the VPS vendor's servers.</p>".
 	"<p>In other words, it allows you to host your vps customer's DNS on your servers.</p>";
 
 $__information['actionlog_list__pre'] = "<p>Action log records all the actions executed on a client or a vps. ".
@@ -140,14 +140,11 @@ $__information['general_updateform_portconfig_pre'] = "<p>This page is primarily
 	"<p>Leave the fields blank to revert to default ports.</p>";
 
 $__information['lxbackup_updateform_schedule_conf_pre'] = "<p>Please note that only the scheduled backups, that is, ".
-	"backups that start with the name Kloxo-MR-scheduled-, will be rotated.</p>".
+	"backups that start with the name <b>kloxo-scheduled-</b>, will be rotated.</p>".
 	"<p>If you create your own backup with your own name, they won't be rotated.</p>".
-	"<p>So if you want a manually created backup to be rotated, provide the initial string as <b>Kloxo-MR-scheduled-</b>.</p>";
+	"<p>So if you want a manually created backup to be rotated, provide the initial string as <b>kloxo-scheduled-</b>.</p>";
 
 $__information['updateform_ssl_kloxo_pre'] = "<p>This will set the ssl certificate for Kloxo-MR as this particular certificate.</p>".
-	"<p>Make sure you restart Kloxo-MR after you set it here.</p>";
-
-$__information['updateform_ssl_hypervm_pre'] = "<p>This will set the ssl certificate for Kloxo-MR as this particular certificate.</p>".
 	"<p>Make sure you restart Kloxo-MR after you set it here.</p>";
 
 $__information['updateform_ssl_authorized_keys_pre'] = "<p>These are the SSH keys from the machines which are authorized to login to ".
@@ -173,7 +170,7 @@ $__information['general_updateform_generalsetting_pre'] = "<p>The 'HelpDesk URL'
 	"<p>Community URL is the link the client will see on his left page, and in normal cases can point to your forum.</p>";
 
 $__information['custombutton_addform__pre'] = "<p>In 'URL', you can use %nname%, which will be substituted with the name of the client.</p>".
-	"<p>For Kloxo-MR, you can use %default_domain% for the default domain of the client.</p>";
+	"<p>You can use %default_domain% for the default domain of the client.</p>";
 
 $__information['updateform_download_config_pre'] = "<p>Normally, when downloading files, the master creates a temporary session, ".
 	"and then redirects the browser directly to the slave.</p>".
@@ -187,16 +184,18 @@ $__information['resourceplan_show__pre'] = "<p><b>Note:</b> ".
 	"If you change the values here, every account that uses this plan will be updated with the new values.</p>".
 	"<p>Click <url:a=updateForm&sa=description>here</url> to see the accounts configured on this plan.</p>";
 
-$__information['resourceplan_addform__pre'] = "No information...";
+$__information['resourceplan_addform__pre'] = "<p>You can set 'Resource Plan' here and then create client based on it.</p>";
 
 $__information['lxbackup_updateform_backup_pre'] = "<p>The backup file will appear in the __backup directory of your client area. ".
 	"You can access it by clicking on the 'File Manager' Tab.</p>".
 	"<p>To restore a backup, you can first upload it to the server using the <b>upload</b> tab.</p>".
-	"<p>You can upload directly or from an http url or an ftp server. Then come here, and click on <b>directory</b> icon on the right in the <b>restore</b> form, ".
-	"and it will allow you to select the particular file. Then click on <b>start restore process</b>.</p>".
 	"<p>Please note that Kloxo-MR backup is heirarchical. ".
 	"If you take backup of a particular resource, everything under it is automatically included. ".
 	"Thus if you take backup of admin, then you need not take backups of clients under you separately.</p>";
+
+$__information['lxbackup_updateform_restore_from_file_pre'] =	"<p>You can upload directly or from an http url or an ftp server. ".
+	"Then come here, and click on <b>directory</b> icon on the right in the <b>restore</b> form, ".
+	"and it will allow you to select the particular file. Then click on <b>start restore process</b>.</p>";
 
 $__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the <b>Manage Php Configuration</b> flag to let Kloxo-MR manage your php.ini completely.</p>".
 	"<p>Please note that your old php.ini will be overwritten. To restore your old php.ini, just disable <b>Manage Php Configuration</b> and update.</p>".
@@ -583,7 +582,8 @@ $__information['mailaccount_addform__pre'] = "<p>Kloxo-MR automatically add <b>p
 	"<p>You can add another mail account if you needed.</p>";
 
 $__information['sp_specialplay_updateform_skin_pre'] = "<p>Base 'Appearance' is 'Skin'. Different skin have different features.</p>".
-	"<p><b>Example:</b> 'Feather' skin doesn't have 'background image' feature.</p>";
+	"<p><b>Example:</b> 'Feather' skin doesn't have 'background image' feature.</p>".
+	"<p><b>Note:</b> Simplicity skin may not work in old browser version. Found 'menu' problem in IE 8 or less version.</p>";
 
 $__information['lxupdate_updateform_lxupdateinfo_pre'] = "<p>No information...</p>";
 
@@ -596,15 +596,13 @@ $__information['auxiliary_addform__pre'] = "<p>You can add/delete 'auxiliary log
 
 $__information['all_auxiliary_list__pre'] = "<p>List all auxiliary login which you and your customer owned.</p>";
 
-$__information['lxbackup_updateform_restore_from_file_pre'] = "<p>No information...</p>";
+$__information['ffile_updateform_upload_s_pre'] = "<p>You can upload backup file from your 'local pc'.</p>";
 
-$__information['ffile_updateform_upload_s_pre'] = "<p>No information...</p>";
+$__information['ffile_updateform_download_from_http_pre'] = "<p>You can upload backup file via FTP from other remote server.</p>";
 
-$__information['ffile_updateform_download_from_http_pre'] = "<p>No information...</p>";
+$__information['ffile_updateform_download_from_ftp_pre'] = "<p>Setup for remote ftp server.</p>";
 
-$__information['ffile_updateform_download_from_ftp_pre'] = "<p>No information...</p>";
-
-$__information['ffile_show__pre'] = "<p>No information...</p>";
+// $__information['ffile_show__pre'] = "<p>No information...</p>";
 
 $__information['domaindefault_updateform_update_pre'] = "<p>No information...</p>";
 
@@ -635,7 +633,7 @@ $__information['notification_updateform_update_pre'] = "<p>Set 'notification' co
 
 $__information['client_updateform_miscinfo_pre'] = "<p>No information...</p>";
 
-$__information['sp_childspecialplay_updateform_skin_pre'] = "<p>No information...</p>";
+$__information['sp_childspecialplay_updateform_skin_pre'] = $__information['sp_specialplay_updateform_skin_pre'];
 
 $__information['psrole_a_addform__pre'] = "<p>No information...</p>";
 
