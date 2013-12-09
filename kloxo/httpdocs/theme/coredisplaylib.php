@@ -2248,9 +2248,9 @@ function display_init()
 		exit;
 	}
 
+/*
 	try {
 		do_display_init();
-
 	} catch (Exception $e) {
 		log_log("redirect_error", "exception");
 		$gbl->setSessionV('__tmp_redirect_var', $ghtml->__http_vars);
@@ -2266,6 +2266,7 @@ function display_init()
 
 		exit;
 	}
+*/
 
 	if ($ghtml->frm_filter) {
 		$filtername = $gbl->__c_object->getFilterVariableForThis($ghtml->frm_o_cname);
@@ -2278,6 +2279,8 @@ function display_init()
 		$login->setupHpFilter($ghtml->frm_hpfilter);
 		$login->setUpdateSubaction();
 	}
+
+	do_display_init();
 }
 
 function lx_frm_inc()
@@ -2292,6 +2295,8 @@ function lx_frm_inc()
 //	$cgi_action = "__ac_desc_{$ghtml->frm_action}";
 	$cgi_action = "__ac_desc_{$caction}";
 
+	$cobject = $gbl->__c_object;
+
 	if (!function_exists($cgi_action)) {
 		die("Action not supported..\n");
 	}
@@ -2299,19 +2304,19 @@ function lx_frm_inc()
 	try {
 		switch ($caction) {
 			case "add":
-				__ac_desc_add($gbl->__c_object);
+				__ac_desc_add($cobject);
 				break;
 			case "addform":
-				__ac_desc_addform($gbl->__c_object);
+				__ac_desc_addform($cobject);
 				break;
 			case "update":
-				__ac_desc_update($gbl->__c_object);
+				__ac_desc_update($cobject);
 				break;
 			case "delete":
-				__ac_desc_delete($gbl->__c_object);
+				__ac_desc_delete($cobject);
 				break;
 			default:
-				$cgi_action($gbl->__c_object);
+				$cgi_action($cobject);
 				break;
 		}
 
@@ -2413,8 +2418,10 @@ function display_exec()
 		lx_frm_inc();
 	} catch (Exception $e) {
 		log_redirect("Caught except");
-		print("The resource you requested could not be retrieved..." . $e->getMessage());
-		print("\n");
+?>
+		The resource you requested could not be retrieved... <?= $e->getMessage() ?>
+
+<?php
 	}
 }
 

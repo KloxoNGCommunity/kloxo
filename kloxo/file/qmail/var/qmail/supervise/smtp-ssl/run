@@ -1,15 +1,32 @@
 #!/bin/sh
 
-QMAILDUID=`id -u qmaild`
-NOFILESGID=`id -g qmaild`
-MAXSMTPD=`cat /var/qmail/control/concurrencyincoming`
-BLACKLIST=`cat /var/qmail/control/blacklists`
+QMAILDUID=$(id -u qmaild)
+NOFILESGID=$(id -g qmaild)
+MAXSMTPD=$(cat /var/qmail/control/concurrencyincoming)
 SMTPD="/var/qmail/bin/qmail-smtpd"
 TCP_CDB="/etc/tcprules.d/tcp.smtp.cdb"
-RBLSMTPD="/usr/bin/rblsmtpd"
-HOSTNAME=`hostname`
+HOSTNAME=$(hostname)
 VCHKPW="/home/vpopmail/bin/vchkpw"
 RECORDIO="/usr/bin/recordio"
+
+#BLACKLIST=`cat /var/qmail/control/blacklists`
+#RBLSMTPD="/usr/bin/rblsmtpd"
+
+if [ -f /var/qmail/control/rblsmtpd ] ; then
+	### MR -- content of RBLSMTPD is '/usr/bin/rblsmtpd'
+	RBLSMTPD=$(cat /var/qmail/control/rblsmtpd)
+	BLACKLIST=$(cat /var/qmail/control/blacklists)
+else
+	RBLSMTPD=""
+	BLACKLIST=""
+fi
+
+if [ -f /var/qmail/control/spamdyke ] ; then
+	### MR -- content of SPAMDYKE is '/usr/bin/spamdyke -f /etc/spamdyke.conf'
+	SPAMDYKE=$(cat /var/qmail/control/spamdyke)
+else
+	SPAMDYKE=""
+fi
 
 ### MR -- incresing SOFTLIMITVAR if not enough (example: because 'login fail')
 if [ `uname -m` = 'x86_64' ] ; then
@@ -36,6 +53,6 @@ export SMTPAUTH="!" \
 exec /usr/bin/softlimit -m $SOFTLIMITVAR \
 	/usr/bin/tcpserver -v -R -H -l $HOSTNAME -x $TCP_CDB -c "$MAXSMTPD" \
 	-u "$QMAILDUID" -g "$NOFILESGID" $IP $PORT $RECORDIO \
-	$SMTPD $VCHKPW /bin/true 2>&1
+	$SPAMDYKE $RBLSMTPD $SMTPD $VCHKPW /bin/true 2>&1
 
 

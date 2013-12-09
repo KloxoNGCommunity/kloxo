@@ -7976,7 +7976,7 @@ class HtmlLib
 				}
 ?>
 		<div class="infomsg" style="display: none; width: 600px; margin: 10px auto">
-			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <!-- <?= $info ?> --></div>
+			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold; color: #ffc"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <!-- <?= $info ?> --></div>
 			<div  style="padding: 0 10px; background-color: #efe; border: 1px solid #f88">
 <?php
 		//	$this->print_curvy_table_start();
