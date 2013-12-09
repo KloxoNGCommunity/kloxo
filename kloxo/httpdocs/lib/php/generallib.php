@@ -245,19 +245,29 @@ class General extends Lxdb
 
 	function updatePortConfig($param)
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
 		if_demo_throw_exception('port');
+
+		$sslport = $param['portconfig_b-sslport'];
+		$nonsslport = $param['portconfig_b-nonsslport'];
+
+		exec("echo '$sslport' > /home/kloxo/httpd/cp/.ssl.port");
+		exec("echo '$nonsslport' > /home/kloxo/httpd/cp/.nonssl.port");
 
 		return $param;
 	}
 
 	function postUpdate($subaction = null)
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
 	//	if ($this->subaction === 'generalsetting') {
 		if ($subaction === 'generalsetting') {
 			// MR --- update for /webmails/webmail.conf
-			//	$driverapp = slave_get_driver('web');
+		//	$driverapp = slave_get_driver('web');
 
-			//	call_user_func("web__{$driverapp}::createWebDefaultConfig");
+		//	call_user_func("web__{$driverapp}::createWebDefaultConfig");
 
 			exec("sh /script/fixweb --target=defaults --server=all --nolog");
 

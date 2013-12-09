@@ -1,5 +1,18 @@
 <?php
 	$ha = str_replace('cp.', '', $_SERVER["HTTP_HOST"]);
+
+	if (file_exists("nonssl.port")) {
+		$nonsslport = file_get_contents(".nonssl.port");
+	} else {
+		$nonsslport = "7778";
+	}
+
+	if (file_exists("ssl.port")) {
+		$sslport = file_get_contents(".ssl.port");
+	} else {
+		$sslport = "7777";
+	}
+
 ?>
 		<br><br>
 		<div align="center">
@@ -10,8 +23,8 @@
 				</tr>
 				<tr>
 					<td nowrap bgcolor="#eeeeee">&nbsp; Kloxo</td>
-					<td nowrap align="center" bgcolor="#FFFFCC"><a href="http://<?php echo $ha; ?>:7778/">http</a></td>
-					<td nowrap align="center" bgcolor="#FFFFCC"><a href="https://<?php echo $ha; ?>:7777/">https</a></td>
+					<td nowrap align="center" bgcolor="#FFFFCC"><a href="http://<?php echo $ha; ?>:<?php echo $nonsslport; ?>/">http</a></td>
+					<td nowrap align="center" bgcolor="#FFFFCC"><a href="https://<?php echo $ha; ?>:<?php echo $sslport; ?>/">https</a></td>
 				</tr>
 				<tr>
 					<td nowrap bgcolor="#eeeeee">&nbsp; Webmail</td>
@@ -21,10 +34,10 @@
 				<tr>
 					<td nowrap bgcolor="#eeeeee" width="140">&nbsp; PHPMyAdmin</td>
 					<td nowrap align="center" width="80" bgcolor="#FFFFCC">
-					<a href="http://<?php echo $ha; ?>:7778/thirdparty/phpMyAdmin/">
+					<a href="http://<?php echo $ha; ?>:<?php echo $nonsslport; ?>/thirdparty/phpMyAdmin/">
 					http</a></td>
 					<td nowrap align="center" width="80" bgcolor="#FFFFCC">
-					<a href="https://<?php echo $ha; ?>:7777/thirdparty/phpMyAdmin/">
+					<a href="https://<?php echo $ha; ?>:<?php echo $sslport; ?>/thirdparty/phpMyAdmin/">
 					https</a></td>
 				</tr>
 			</table>
