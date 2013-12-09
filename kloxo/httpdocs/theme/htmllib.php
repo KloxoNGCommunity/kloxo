@@ -62,8 +62,12 @@ class HtmlLib
 		}
 
 		if (isset($tmp['frm_hpfilter'])) {
-			foreach ($tmp['frm_hpfilter'] as $k => $v) if (is_array($v)) {
-				foreach ($v as $kk => $vv) self::checkForScript($vv);
+			foreach ($tmp['frm_hpfilter'] as $k => $v) {
+				if (is_array($v)) {
+					foreach ($v as $kk => $vv) {
+						self::checkForScript($vv);
+					}
+				}
 			}
 		}
 
@@ -4531,7 +4535,8 @@ class HtmlLib
 				foreach ($list as $l) {
 					$i++;
 
-					if ($l === $f_page) {
+					// MR -- make sure compare the same datatype
+					if ((int)$l === (int)$f_page) {
 						$bgcolorstring = "background: #$col";
 					} else {
 						$bgcolorstring = "";
@@ -7977,7 +7982,7 @@ class HtmlLib
 ?>
 		<div class="infomsg" style="display: none; width: 600px; margin: 10px auto">
 			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold; color: #ffc"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <!-- <?= $info ?> --></div>
-			<div  style="padding: 0 10px; background-color: #efe; border: 1px solid #f88">
+			<div  style="padding: 0 10px; background-color: #cff; border: 1px solid #f88">
 <?php
 		//	$this->print_curvy_table_start();
 			}

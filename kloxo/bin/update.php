@@ -12,5 +12,7 @@
 // have a problem if restart kloxo service and then bypass it.
 exec("sh /script/cleanup-nokloxorestart");
 
+createRestartFile('kloxo');
+
 
 
