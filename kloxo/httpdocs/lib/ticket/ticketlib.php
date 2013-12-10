@@ -137,7 +137,7 @@ class Ticket extends Lxclient
 		
 		$nlist['unread_flag'] = '3%';
 		$nlist['made_by'] = '10%';
-		$nlist['subject'] = '100%';
+		$nlist['subject'] = '60%';
 		$nlist['state'] = '3%';
 
 		if ($sgbl->__var_ticket_subcategory) {
@@ -148,7 +148,7 @@ class Ticket extends Lxclient
 		$nlist['date_modified'] = '3%';
 		$nlist['history_num'] = '3%';
 	//	$nlist['responsible'] = '10%';
-		$nlist['sent_to'] = '10%';
+		$nlist['sent_to'] = '25%';
 		
 		return $nlist;
 	}

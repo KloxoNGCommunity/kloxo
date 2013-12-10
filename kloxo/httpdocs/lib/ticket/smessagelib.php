@@ -75,11 +75,11 @@ class Smessage extends Lxdb
 
 		$nlist['nname'] = "1%";
 		$nlist['unread_flag_f'] = '3%';
-		$nlist['subject'] = '100%';
+		$nlist['subject'] = '60%';
 		$nlist['ddate'] = '3%';
 	//	$nlist['responsible'] = '10%';
 		$nlist['made_by'] = '10%';
-		$nlist['text_sent_to_cmlist'] = '10%';
+		$nlist['text_sent_to_cmlist'] = '30%';
 	//	$nlist['text_readby_cmlist'] = '10%';
 
 		return $nlist;
@@ -122,8 +122,8 @@ class Smessage extends Lxdb
 			if ($this->getParentO()->getClName() === $this->made_by) {
 				$v = $this->convertClCmToNameCm($this->text_sent_to_cmlist);
 
-				if (strlen($v) > 25) {
-					$v = substr($v, 0, 25);
+				if (strlen($v) > 50) {
+					$v = substr($v, 0, 50);
 					$v .= "...";
 				}
 

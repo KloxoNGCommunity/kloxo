@@ -7329,6 +7329,7 @@ class HtmlLib
 					</div>
 				</form>
 			</div>
+			<br/>
 			<!-- <div>&nbsp;</div> -->
 		<!-- </div> -->
 
