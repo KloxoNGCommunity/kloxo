@@ -8,11 +8,11 @@ class DomaintrafficHistory extends TrafficHistory
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['month']             = '100%';
-		$nlist['ftptraffic_usage']  = '50%';
-		$nlist['mailtraffic_usage'] = '50%';
-		$nlist['webtraffic_usage']  = '50%';
-		$nlist['traffic_usage']     = '50%';
+		$nlist['month']             = '20%';
+		$nlist['ftptraffic_usage']  = '20%';
+		$nlist['mailtraffic_usage'] = '20%';
+		$nlist['webtraffic_usage']  = '20%';
+		$nlist['traffic_usage']     = '20%';
 		return $nlist;
 	}
 

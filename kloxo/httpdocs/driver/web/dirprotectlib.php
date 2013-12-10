@@ -110,7 +110,7 @@ class Dirprotect extends Lxdb
 		$nlist['status'] = '4%';
 	//	$nlist['nname'] = '50%';
 		$nlist['authname'] = '30%';
-		$nlist['path'] = '100%';
+		$nlist['path'] = '70%';
 
 		return $nlist;
 	}

@@ -69,7 +69,7 @@ class Service extends Lxdb
 		$nlist["button_start_f"] = '5%';
 		$nlist["button_stop_f"] = '5%';
 		$nlist["button_restart_f"] = '5%';
-		$nlist["description"] = "100%";
+		$nlist["description"] = "60%";
 
 		return $nlist;
 	}

@@ -44,8 +44,8 @@ static function createListAlist($parent, $class)
 static function createListNlist($parent, $view)
 {
 	//$nlist['status'] = '5%';
-	$nlist['autores_name'] = '100%';
-	//$nlist['rule'] = '100%';
+	$nlist['autores_name'] = '50%';
+	//$nlist['rule'] = '50%';
 	return $nlist;
 }
 

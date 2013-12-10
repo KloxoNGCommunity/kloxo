@@ -8,8 +8,8 @@ static $__desc_extension	 = array("n", "",  "extension(s)");
 
 static function createListNlist($parent, $view)
 {
-	$nlist['mimehandler'] = '100%';
-	$nlist['extension'] = '10%';
+	$nlist['mimehandler'] = '70%';
+	$nlist['extension'] = '20%';
 	return $nlist;
 }
 

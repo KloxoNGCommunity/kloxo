@@ -66,7 +66,7 @@ static function createListNlist($parent, $view)
 	$nlist['location'] = '10%';
 	$nlist['from'] = '10%';
 	$nlist['date'] = '10%';
-	$nlist['subject'] = '100%';
+	$nlist['subject'] = '70%';
 	return $nlist;
 }
 

@@ -26,10 +26,11 @@ class ftpsession extends Lxclass
 
 		$nlist['pid'] = '10%';
 		$nlist['state'] = '10%';
-		$nlist['account'] = '100%';
-	//	$nlist['time'] = '10%';
-	//	$nlist['file'] = '10%';
-	//	$nlist['host'] = '10%';
+		$nlist['account'] = '50%';
+		$nlist['time'] = '10%';
+		$nlist['file'] = '10%';
+		$nlist['host'] = '10%';
+
 		return $nlist;
 	}
 

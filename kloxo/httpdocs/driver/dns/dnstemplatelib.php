@@ -38,8 +38,8 @@ class Dnstemplate extends DnsBase
 	{
 	//	$nlist['used_f'] = '5%';
 	//	$nlist['owner_f'] = '5%';
-		$nlist['nname'] = '100%';
-	//	$nlist['parent_clname'] = '10%';
+		$nlist['nname'] = '80%';
+		$nlist['parent_clname'] = '20%';
 	//	$nlist['ipaddress'] = '10%';
 		
 		return $nlist;

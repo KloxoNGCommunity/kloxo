@@ -32,7 +32,7 @@ class reversedns extends Lxdb
 	static function createListNlist($parent, $view)
 	{
 		$nlist['nname'] = '40%';
-		$nlist['reversename'] = '100%';
+		$nlist['reversename'] = '60%';
 
 		return $nlist;
 	}

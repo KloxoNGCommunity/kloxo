@@ -112,8 +112,8 @@ class SslCert extends Lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['nname'] = '100%';
-		$nlist['certname'] = '10%';
+		$nlist['nname'] = '80%';
+		$nlist['syncserver'] = '20%';
 
 		return $nlist;
 	}

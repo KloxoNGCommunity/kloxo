@@ -38,6 +38,10 @@ sh /script/fixmail
 
 echo "--------------------------"
 
+sh /script/fixdomainkey
+
+echo "--------------------------"
+
 sh /script/fixwebmail
 
 echo ""

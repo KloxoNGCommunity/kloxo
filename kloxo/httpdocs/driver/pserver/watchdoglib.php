@@ -55,10 +55,10 @@ class watchdog extends lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['status'] = '4%';
+		$nlist['status'] = '5%';
 		$nlist['servicename'] = '20%';
 		$nlist['port'] = '10%';
-		$nlist['action'] = '100%';
+		$nlist['action'] = '65%';
 
 		return $nlist;
 	}
@@ -106,8 +106,6 @@ class watchdog extends lxdb
 		self::addOneWatchdog($pserver, "mysql", "3306", "/etc/init.d/mysqld restart");
 		self::addOneWatchdog($pserver, "mariadb", "3306", "/etc/init.d/mysql restart");
 		self::addOneWatchdog($pserver, "ftp", "21", "/etc/init.d/xinetd restart");
-
-
 	}
 
 	static function addOneWatchdog($pserver, $service, $port, $command)

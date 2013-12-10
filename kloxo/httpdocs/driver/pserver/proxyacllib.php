@@ -34,7 +34,7 @@ static function createListNlist($parent, $view)
 	$nlist['id'] = '5%';
 	$nlist['classid'] = '30%';
 	$nlist['extensions'] = '5%';
-	$nlist['description'] = '100%';
+	$nlist['description'] = '50%';
 	return $nlist;
 }
 

@@ -250,8 +250,8 @@ class all_dns extends dns
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['nname'] = '100%';
-		$nlist['parent_name_f'] = '100%';
+		$nlist['nname'] = '50%';
+		$nlist['parent_name_f'] = '50%';
 
 		return $nlist;
 	}

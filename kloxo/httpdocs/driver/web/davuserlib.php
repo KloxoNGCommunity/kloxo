@@ -46,8 +46,8 @@ static function add($parent, $class, $param)
 static function createListNlist($parent, $view)
 {
 	$nlist['status'] = '3%';
-	$nlist['username'] = '100%';
-	$nlist['directory'] = '10%';
+	$nlist['username'] = '50%';
+	$nlist['directory'] = '50%';
 	return $nlist;
 }
 

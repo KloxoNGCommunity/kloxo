@@ -30,10 +30,11 @@ function get()
 static function createListNlist($parent, $view)
 {
 	$nlist["nname"] = "5%";
-	$nlist["state"] = "3%";
+	$nlist["state"] = "5%";
 	$nlist["memory"] = "10%";
 	$nlist["username"] = "10%";
-	$nlist["command"] = "100%";
+	$nlist["command"] = "70%";
+
 	return $nlist;
 }
 

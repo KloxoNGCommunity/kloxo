@@ -29,8 +29,8 @@ class Dbadmin extends Lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['dbtype'] = '10%';
-		$nlist['dbadmin_name'] = '100%';
+		$nlist['dbtype'] = '20%';
+		$nlist['dbadmin_name'] = '80%';
 		
 		return $nlist;
 	}

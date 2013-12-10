@@ -1448,7 +1448,7 @@ class Ffile extends Lxclass
 	static function createSelectListNlist($parent)
 	{
 		$nlist['ttype'] = '2%';
-		$nlist['nname'] = '100%';
+		$nlist['nname'] = '80%';
 		$nlist["size"] = "10%";
 		$nlist["mtime"] = "10%";
 		
@@ -1463,7 +1463,7 @@ class Ffile extends Lxclass
 
 		$duflag = $parent->duflag;
 
-		$nlist["ttype"] = "2%";
+		$nlist["ttype"] = "3%";
 
 		if ($duflag) {
 			$nlist["size"] = "10%";
@@ -1472,21 +1472,14 @@ class Ffile extends Lxclass
 			$nlist["size"] = "10%";
 		}
 		
-		$nlist["nname"] = "100%";
+		$nlist["nname"] = "70%";
 		
 		if ($parent->getParentO()->is__table('web')) {
 			$nlist["protect"] = "3%";
 		}
 
-		if ($driverapp !== 'windows') {
-			$nlist["other_username"] = "12%";
-		}
-
 		$nlist["mtime"] = "10%";
 
-		if ($driverapp !== 'windows') {
-			$nlist["mode"] = "10%";
-		}
 		$nlist["pvrename"] = "3%";
 		$nlist["pvdownload"] = "3%";
 		

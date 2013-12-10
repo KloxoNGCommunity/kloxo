@@ -15,8 +15,9 @@ static function getExtraParameters($parent, $list)
 
 static function createListNlist($parent, $view)
 {
-	$nlist['nname'] = '100%';
+	$nlist['nname'] = '50%';
 	$nlist['diskfree'] = '50%';
+
 	return $nlist;
 }
 static function createListAlist($parent, $class)

@@ -35,8 +35,8 @@ class databaseusercorelib extends lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['nname'] = '10%';
-		$nlist['username'] = '100%';
+		$nlist['nname'] = '20%';
+		$nlist['username'] = '80%';
 		
 		return $nlist;
 	}

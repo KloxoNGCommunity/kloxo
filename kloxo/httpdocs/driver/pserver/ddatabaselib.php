@@ -248,7 +248,7 @@ class databasecore extends Lxdb
 		$nlist['phpmyadmin_f'] = '5%';
 		$nlist['syncserver'] = '5%';
 		$nlist['username'] =  '10%';
-		$nlist['nname'] =  '100%';
+		$nlist['nname'] =  '70%';
 		$nlist['dbtype'] = '5%';
 		
 		return $nlist;
@@ -491,8 +491,8 @@ class all_mysqldb extends mysqldb {
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['nname'] = '100%';
-		$nlist['parent_name_f'] = '100%';
+		$nlist['nname'] = '50%';
+		$nlist['parent_name_f'] = '50%';
 		
 		return $nlist;
 	}

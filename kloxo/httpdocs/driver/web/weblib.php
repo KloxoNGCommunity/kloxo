@@ -79,7 +79,7 @@ class Redirect_a extends LxaClass
 	{
 		$nlist['httporssl'] = '5%';
 		$nlist['ttype'] = '5%';
-		$nlist['nname'] = '100%';
+		$nlist['nname'] = '50%';
 		$nlist['redirect'] = '40%';
 
 		return $nlist;

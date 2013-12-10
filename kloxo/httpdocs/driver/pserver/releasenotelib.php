@@ -28,7 +28,7 @@ class ReleaseNote extends Lxlclass
 	//	$nlist['over_r'] = '5%';
 		$nlist['version'] = '10%';
 	//	$nlist['ttype'] = '5%';
-		$nlist['description'] = '100%';
+		$nlist['description'] = '90%';
 		return $nlist;
 	}
 

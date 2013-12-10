@@ -161,8 +161,8 @@ class Mailaccount extends Lxclient
 		$nlist['abutton_updateform_s_configuration'] = '4%';
 	//	$nlist['button_spam_f'] = '4%';
 		$nlist['button_webmail_f'] = '4%';
-		$nlist['nname'] = '100%';
-		$nlist['maildisk_usage_per_f'] = '4%';
+		$nlist['nname'] = '40%';
+		$nlist['maildisk_usage_per_f'] = '25%';
 
 		return $nlist;
 	}
@@ -608,8 +608,8 @@ class all_mailaccount extends mailaccount
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['nname'] = '100%';
-		$nlist['parent_name_f'] = '100%';
+		$nlist['nname'] = '50%';
+		$nlist['parent_name_f'] = '50%';
 		
 		return $nlist;
 	}

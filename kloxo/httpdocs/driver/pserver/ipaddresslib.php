@@ -304,16 +304,16 @@ class Ipaddress extends Lxdb
 			$nlist["used_f"] = "5%";
 	//	}
 
-		$nlist["ipaddr"] = "100%";
+		$nlist["ipaddr"] = "70%";
 
 		if (!$parent->isClass('pserver')) {
 			$nlist['syncserver'] = '10%';
 		}
 
-		$nlist["devname"] = "30%";
+		$nlist["devname"] = "20%";
 
 		if ($sgbl->isKloxo() && $parent->isAdmin()) {
-			$nlist["clientname"] = "30%";
+			$nlist["clientname"] = "20%";
 		}
 
 		return $nlist;

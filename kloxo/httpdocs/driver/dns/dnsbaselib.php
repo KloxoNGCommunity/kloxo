@@ -53,10 +53,10 @@ class dns_record_a extends LxDnsClass
 	static function createListNlist($parent, $view)
 	{
 	//	$nlist['nname'] = '10%';
-		$nlist['hostname'] = '10%';
-		$nlist['ttype'] = '10%';
-		$nlist['priority'] = '10%';
-		$nlist['param'] = '100%';
+		$nlist['hostname'] = '25%';
+		$nlist['ttype'] = '5%';
+		$nlist['priority'] = '5%';
+		$nlist['param'] = '65%';
 
 		return $nlist;
 	}

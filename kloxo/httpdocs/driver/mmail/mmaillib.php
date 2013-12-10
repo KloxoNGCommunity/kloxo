@@ -152,8 +152,8 @@ class Mmail extends Lxdb
 
 	static function createListIlist()
 	{
-		$ilist["nname"] = "100%";
-		$ilist["quota"] = "7%";
+		$ilist["nname"] = "80%";
+		$ilist["quota"] = "20%";
 
 		return $ilist;
 	}

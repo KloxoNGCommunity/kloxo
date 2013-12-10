@@ -62,7 +62,7 @@ class sshauthorizedkey extends lxclass
 		
 		$nlist['hostname'] = '20%';
 		$nlist['type'] = '10%';
-		$nlist['key'] = '100%';
+		$nlist['key'] = '70%';
 		
 		return $nlist;
 	}
