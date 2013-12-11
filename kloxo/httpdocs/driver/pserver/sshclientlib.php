@@ -16,6 +16,7 @@ class sshclient extends lxclass
 
 		$parent = $this->getParentO();
 
+	/*
 		$v = lfile_get_contents("theme/filecore/sshterm-applet.htm");
 
 		if ($parent->is__table('pserver')) {
@@ -63,6 +64,49 @@ class sshclient extends lxclass
 		}
 		
 		print($v);
+	*/
+
+		if ($parent->is__table('pserver')) {
+			$username = "root";
+			$ip = getFQDNforServer($parent->nname);
+
+			$sshport = db_get_value("sshconfig", $parent->nname, "ssh_port");
+
+			if (!$sshport) { $sshport = "22"; }
+		} else if ($parent->is__table('client')) {
+			if ($parent->isDisabled('shell') || !$parent->shell) {
+				exit;
+			}
+
+			$username = $parent->username;
+			$ip = getFQDNforServer("localhost");
+
+			$sshport = db_get_value("sshconfig", $parent->websyncserver, "ssh_port");
+
+			if (!$sshport) { $sshport = "22"; }
+		} else {
+			$username = "root";
+			$ip = $parent->getOneIP();
+			$sshport = db_get_value("sshconfig", $parent->syncserver, "ssh_port");
+
+			if (!$ip) {
+				throw new lxException("need_to_add_at_least_one_ip_to_the_vps_for_logging_in");
+			}
+
+			if (!$sshport) { $sshport = "22"; }
+		}
+?>
+
+<div style="text-align:center">
+<applet code="com.jcraft.jcterm.JCTermApplet.class" archive="jcterm-0.0.10.jar?167,jsch-0.1.50.jar?835,jzlib-1.1.1.jar?742" codebase="thirdparty/jcterm/" height="480" width="650">   
+    <param name="jcterm.font_size" value="13">
+    <param name="jcterm.fg_bg" value="#000000:#ffffff,#ffffff:#000000,#00ff00:#000000">
+    <!-- <param name="jcterm.config.repository" value="com.jcraft.jcterm.ConfigurationRepositoryFS"> -->
+    <param name="jcterm.destinations" value="<?= $parent->username ?>@<?= $ip ?>:<?= $sshport ?>">
+</applet>
+</div>
+
+<?php
 	}
 
 	static function initThisObjectRule($parent, $class) { return "sshclient"; }

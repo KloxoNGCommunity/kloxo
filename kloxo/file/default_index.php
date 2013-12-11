@@ -29,14 +29,37 @@
 	<meta http-equiv="Content-Language" content="en-us" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<?php if(isset($incfile2)) { include_once $incfile2 ; } ?>
+<?php
+
+if(isset($incfile2)) { include_once $incfile2 ; }
+
+$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
+
+$path = "../theme/background";
+
+// MR -- trick to make random background for login
+if ((file_exists($path)) && (!file_exists("./.norandomimage"))) {
+	$dirs = glob("{$path}/*");
+
+	$count = count($dirs);
+	$selnum = rand(1, $count);
+
+	$selimg = $dirs[$selnum];
+
+	$bckgrnd = "\tbackground-image: url({$selimg});\n".
+		"\tbackground-size: cover;\n".
+		"\tbackground-attachment: fixed;";
+}
+
+?>
 
 <style>
 body {
 	font-family: Tahoma, Verdana, Arial, Helvertica, sans-serif;
 	font-size: 8pt;
 	font-weight: 100;
-	background-image:url('./images/abstract.jpg');
+<?= $bckgrnd ?>
+
 	background-color:#cccccc;
 	margin: 0;
 }

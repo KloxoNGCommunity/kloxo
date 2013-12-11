@@ -30,7 +30,7 @@ $gl_class_array["information"] = "lib/php/resourcelib.php";
 $gl_class_array['client__sync'] =  "lib/client/client__synclib.php";
 $gl_class_array["lxbackup"] = "lib/html/lxbackuplib.php";
 $gl_class_array["sshclient"] = "driver/pserver/sshclientlib.php";
-$gl_class_array["consolessh"] = "driver/pserver/consolesshlib.php";
+// $gl_class_array["consolessh"] = "driver/pserver/consolesshlib.php";
 $gl_class_array["traffichistory"] = "lib/html/traffichistorylib.php";
 
 $gl_class_array["htmllib"] = "theme/htmllib.php";
