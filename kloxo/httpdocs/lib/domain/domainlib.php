@@ -662,6 +662,9 @@ class Domaind extends DomainBase
 		$web->ipaddress = $dnstemplate->getIpForBaseDomain();
 		$web->docroot = $this->docroot;
 
+		$web->docroot = trim($web->docroot, "/");
+
+	/*
 		///#656 When adding a subdomain, the Document Root field is not being validated
 		if (csa($web->docroot, " /")) {
 			throw new lxexception("document_root_may_not_contain_spaces", 'docroot', "");
@@ -674,11 +677,24 @@ class Domaind extends DomainBase
 			}
 
 			if (strpos("..", $web->docroot) !== false) {
-				throw new lxexception("document_root_may_not_contain_double_dots", 'docroot', "");
-			}		
+				throw new lxexception("document_root_may_not_contain_doubledots", 'docroot', "");
+			}
+
+			if (strpos("./", $web->docroot) !== false) {
+				throw new lxexception("document_root_may_not_contain_dotslash", 'docroot', "");
+			}
+
+			if (strpos("/.", $web->docroot) !== false) {
+				throw new lxexception("document_root_may_not_contain_slashdot", 'docroot', "");
+			}
+
+			if (strpos("~", $web->docroot) !== false) {
+				throw new lxexception("document_root_may_not_contain_tilde", 'docroot', "");
+			}
 		}
 
-		$web->docroot = trim($web->docroot, "/");
+	*/
+		validate_docroot($web->docroot);
 
 		$dns->copyObject($dnstemplate);
 		$dns->dbaction = 'add';
@@ -760,7 +776,6 @@ class Domaind extends DomainBase
 		$web->customer_name = $rp->getPathFromName('nname');
 
 		$mmail->systemuser = $web->username;
-
 
 		$this->mmailpserver = $mmail->syncserver;
 		$this->webpserver = $web->syncserver;
@@ -968,10 +983,6 @@ class Domaind extends DomainBase
 
 		if (exists_in_db(null, 'addondomain', $param['nname'])) {
 			throw new lxException('domain_already_exists_as_pointer', 'parent');
-		}
-
-		if (strpos($param['docroot'], "..") !== false) {
-			throw new lxException('no_permit_documentroot_with_doubledots', 'parent');
 		}
 
 		$param['web-nname'] = $param['nname'];
@@ -1319,10 +1330,8 @@ class Domaind extends DomainBase
 	//	$alist['__v_dialog_info'] = 'a=updateform&sa=information';
 	//	$alist['__v_dialog_pass'] = 'a=updateform&sa=password';
 
-
 		$web = $this->getObject('web');
 		$alist[] = 'a=list&c=addondomain';
-
 
 	//	$alist['__var_backup_flag'] = "a=show&o=lxbackup";
 	//	$alist[] = "a=list&c=mysqldb";
