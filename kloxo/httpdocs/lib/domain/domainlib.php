@@ -672,6 +672,10 @@ class Domaind extends DomainBase
 			if ($domain_validation[$domain_validation_num] == " ") {
 				throw new lxexception("document_root_may_not_contain_spaces", 'docroot', "");
 			}
+
+			if (strpos("..", $web->docroot) !== false) {
+				throw new lxexception("document_root_may_not_contain_double_dots", 'docroot', "");
+			}		
 		}
 
 		$web->docroot = trim($web->docroot, "/");
@@ -965,6 +969,11 @@ class Domaind extends DomainBase
 		if (exists_in_db(null, 'addondomain', $param['nname'])) {
 			throw new lxException('domain_already_exists_as_pointer', 'parent');
 		}
+
+		if (strpos($param['docroot'], "..") !== false) {
+			throw new lxException('no_permit_documentroot_with_doubledots', 'parent');
+		}
+
 		$param['web-nname'] = $param['nname'];
 		$param['dns-nname'] = $param['nname'];
 		$param['dns-zone_type'] = 'master';

@@ -69,7 +69,7 @@ if (!$cgi_forgotpwd) {
 		</div>
 		<div class="clr"></div>
 	</div>
-	<span align="right">Kloxo-MR <?php echo $kloxo_mr_version ?></span>
+	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">Kloxo-MR <?php echo $kloxo_mr_version ?></div>
 </div>
 
 <div id="break"></div>
@@ -116,7 +116,7 @@ if (!$cgi_forgotpwd) {
 
 		<div class="clr"></div>
 	</div>
-	<span align="right">Kloxo-MR <?php echo $kloxo_mr_version ?></span>
+	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">Kloxo-MR <?php echo $kloxo_mr_version ?></div>
 </div>
 
 <div id="break"></div>
