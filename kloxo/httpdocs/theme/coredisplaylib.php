@@ -1867,7 +1867,7 @@ function print_navigation($navig)
 ?>
 
 				<!-- <div style="float:right; padding: 2px;"><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" /></div> -->
-				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) {top.location = '/lib/php/logout.php';}" /></div>
+				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityByClass('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) {top.location = '/lib/php/logout.php';}" /></div>
 <?php
 			}
 
@@ -2461,7 +2461,7 @@ function print_head_image()
 ?>
 
 				<!-- <td nowrap valign='top'><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td> -->
-				<td nowrap valign='top'><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
+				<td nowrap valign='top'><input type="button" value="Help" onClick="toggleVisibilityByClass('infomsg');" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
 <?php
 			}
 ?>
