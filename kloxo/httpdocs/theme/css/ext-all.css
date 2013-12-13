@@ -8,310 +8,310 @@
 
 /* html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{ */
 html,body,div,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,blockquote,th,td{
-    margin:0;
-    padding:0;
+	margin:0;
+	padding:0;
 }
 img,body,html{
-    border:0;
+	border:0;
 }
 address,caption,cite,code,dfn,em,strong,th,var{
-    font-style:normal;
-    font-weight:normal;
+	font-style:normal;
+	font-weight:normal;
 }
 ol,ul {
-    /* list-style:none; */
+	/* list-style:none; */
 }
 caption,th {
-    text-align:left;
+	text-align:left;
 }
 h1,h2,h3,h4,h5,h6{
-    /* font-size:100%; */
+	/* font-size:100%; */
 }
 q:before,q:after{
-    content:'';
+	content:'';
 }
 .ext-el-mask {
-    z-index: 20000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    -moz-opacity: 0.5;
-    opacity: .50;
-    filter: alpha(opacity=50);
-    background-color: #CCC;
-    width: 100%;
-    height: 100%;
-    zoom: 1;
+	z-index: 20000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-moz-opacity: 0.5;
+	opacity: .50;
+	filter: alpha(opacity=50);
+	background-color: #CCC;
+	width: 100%;
+	height: 100%;
+	zoom: 1;
 }
 .ext-el-mask-msg {
-    z-index: 20001;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border:1px solid #6593cf;
-    background: #c3daf9 url(/theme/extjs/default/box/tb-blue.gif) repeat-x 0 -16px;
-    padding:2px;
+	z-index: 20001;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border:1px solid #6593cf;
+	background: #c3daf9 url(/theme/extjs/default/box/tb-blue.gif) repeat-x 0 -16px;
+	padding:2px;
 }
 .ext-el-mask-msg div {
-    padding:5px 10px 5px 10px;
-    background: #eee;
-    border:1px solid #a3bad9;
-    color:#333;
-    font:normal 12px tahoma, arial, helvetica, sans-serif;
-    cursor:wait;
+	padding:5px 10px 5px 10px;
+	background: #eee;
+	border:1px solid #a3bad9;
+	color:#333;
+	font:normal 12px tahoma, arial, helvetica, sans-serif;
+	cursor:wait;
 }
 
 .ext-shim {
-    position:absolute;
-    visibility:hidden;
-    left:0;
-    top:0;
-    overflow:hidden;
+	position:absolute;
+	visibility:hidden;
+	left:0;
+	top:0;
+	overflow:hidden;
 }
 .ext-ie .ext-shim {
-    filter: alpha(opacity=0);
+	filter: alpha(opacity=0);
 }
 
 .x-mask-loading div {
-    padding:5px 10px 5px 25px;
-    background: #eee url( '../images/default/grid/loading.gif' ) no-repeat 5px 5px;
-    line-height: 16px;
+	padding:5px 10px 5px 25px;
+	background: #eee url( '../images/default/grid/loading.gif' ) no-repeat 5px 5px;
+	line-height: 16px;
 }
 
 
 .x-hidden {
-    position:absolute;
-    left:-10000px;
-    top:-10000px;
+	position:absolute;
+	left:-10000px;
+	top:-10000px;
 }
 
 .x-masked {
-    overflow: hidden !important;
+	overflow: hidden !important;
 }
 
 .x-masked select, .x-masked object, .x-masked embed {
-    visibility: hidden;
+	visibility: hidden;
 }
 
 .x-layer {
-    visibility: hidden;
+	visibility: hidden;
 }
 
 .x-unselectable, .x-unselectable * {
-    -moz-user-select: none;
-    -khtml-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
 }
 
 .x-repaint {
-    zoom: 1;
-    background-color: transparent;
-    -moz-outline: none;
+	zoom: 1;
+	background-color: transparent;
+	-moz-outline: none;
 }
 
 .x-item-disabled {
-    color: gray;
-    cursor: default;
-    opacity: .6;
-    -moz-opacity: .6;
-    filter: alpha(opacity=60);
+	color: gray;
+	cursor: default;
+	opacity: .6;
+	-moz-opacity: .6;
+	filter: alpha(opacity=60);
 }
 
 .x-item-disabled * {
-    color: gray;
-    cursor: default !important;
+	color: gray;
+	cursor: default !important;
 }
 
 .x-splitbar-proxy {
-    position: absolute;
-    visibility: hidden;
-    z-index: 20001;
-    background: #aaa;
-    zoom: 1;
-    line-height: 1px;
-    font-size: 1px;
-    overflow: hidden;
+	position: absolute;
+	visibility: hidden;
+	z-index: 20001;
+	background: #aaa;
+	zoom: 1;
+	line-height: 1px;
+	font-size: 1px;
+	overflow: hidden;
 }
 
 .x-splitbar-h, .x-splitbar-proxy-h {
-    cursor: e-resize;
-    cursor: col-resize;
+	cursor: e-resize;
+	cursor: col-resize;
 }
 
 .x-splitbar-v, .x-splitbar-proxy-v {
-    cursor: s-resize;
-    cursor: row-resize;
+	cursor: s-resize;
+	cursor: row-resize;
 }
 
 .x-color-palette {
-    width: 150px;
-    height: 92px;
-    cursor: pointer;
+	width: 150px;
+	height: 92px;
+	cursor: pointer;
 }
 
 .x-color-palette a {
-    border: 1px solid #fff;
-    float: left;
-    padding: 2px;
-    text-decoration: none;
-    -moz-outline: 0 none;
-    outline: 0 none;
-    cursor: pointer;
+	border: 1px solid #fff;
+	float: left;
+	padding: 2px;
+	text-decoration: none;
+	-moz-outline: 0 none;
+	outline: 0 none;
+	cursor: pointer;
 }
 
 .x-color-palette a:hover, .x-color-palette a.x-color-palette-sel {
-    border: 1px solid #8BB8F3;
-    background: #deecfd;
+	border: 1px solid #8BB8F3;
+	background: #deecfd;
 }
 
 .x-color-palette em {
-    display: block;
-    border: 1px solid #ACA899;
+	display: block;
+	border: 1px solid #ACA899;
 }
 
 .x-color-palette em span {
-    cursor: pointer;
-    display: block;
-    height: 10px;
-    line-height: 10px;
-    width: 10px;
+	cursor: pointer;
+	display: block;
+	height: 10px;
+	line-height: 10px;
+	width: 10px;
 }
 
 .x-ie-shadow {
-    display: none;
-    position: absolute;
-    overflow: hidden;
-    left:0;
-    top:0;
-    background:#777;
-    zoom:1;
+	display: none;
+	position: absolute;
+	overflow: hidden;
+	left:0;
+	top:0;
+	background:#777;
+	zoom:1;
 }
 
 .x-shadow {
-    display: none;
-    position: absolute;
-    overflow: hidden;
-    left:0;
-    top:0;
+	display: none;
+	position: absolute;
+	overflow: hidden;
+	left:0;
+	top:0;
 }
 
 .x-shadow * {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .x-shadow * {
-    padding: 0;
-    border: 0;
-    margin: 0;
-    clear: none;
-    zoom: 1;
+	padding: 0;
+	border: 0;
+	margin: 0;
+	clear: none;
+	zoom: 1;
 }
 
 
 .x-shadow .xstc, .x-shadow .xsbc {
-    height: 6px;
-    float: left;
+	height: 6px;
+	float: left;
 }
 
 
 .x-shadow .xstl, .x-shadow .xstr, .x-shadow .xsbl, .x-shadow .xsbr {
-    width: 6px;
-    height: 6px;
-    float: left;
+	width: 6px;
+	height: 6px;
+	float: left;
 }
 
 
 .x-shadow .xsc {
-    width: 100%;
+	width: 100%;
 }
 
 .x-shadow .xsml, .x-shadow .xsmr {
-    width: 6px;
-    float: left;
-    height: 100%;
+	width: 6px;
+	float: left;
+	height: 100%;
 }
 
 .x-shadow .xsmc {
-    float: left;
-    height: 100%;
-    background: transparent url( ../images/default/shadow-c.png );
+	float: left;
+	height: 100%;
+	background: transparent url( ../images/default/shadow-c.png );
 }
 
 .x-shadow .xst, .x-shadow .xsb {
-    height: 6px;
-    overflow: hidden;
-    width: 100%;
+	height: 6px;
+	overflow: hidden;
+	width: 100%;
 }
 
 .x-shadow .xsml {
-    background: transparent url( ../images/default/shadow-lr.png ) repeat-y 0 0;
+	background: transparent url( ../images/default/shadow-lr.png ) repeat-y 0 0;
 }
 
 .x-shadow .xsmr {
-    background: transparent url( ../images/default/shadow-lr.png ) repeat-y -6px 0;
+	background: transparent url( ../images/default/shadow-lr.png ) repeat-y -6px 0;
 }
 
 .x-shadow .xstl {
-    background: transparent url( ../images/default/shadow.png ) no-repeat 0 0;
+	background: transparent url( ../images/default/shadow.png ) no-repeat 0 0;
 }
 
 .x-shadow .xstc {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -30px;
+	background: transparent url( ../images/default/shadow.png ) repeat-x 0 -30px;
 }
 
 .x-shadow .xstr {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -18px;
+	background: transparent url( ../images/default/shadow.png ) repeat-x 0 -18px;
 }
 
 .x-shadow .xsbl {
-    background: transparent url( ../images/default/shadow.png ) no-repeat 0 -12px;
+	background: transparent url( ../images/default/shadow.png ) no-repeat 0 -12px;
 }
 
 .x-shadow .xsbc {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -36px;
+	background: transparent url( ../images/default/shadow.png ) repeat-x 0 -36px;
 }
 
 .x-shadow .xsbr {
-    background: transparent url( ../images/default/shadow.png ) repeat-x 0 -6px;
+	background: transparent url( ../images/default/shadow.png ) repeat-x 0 -6px;
 }
 
 .loading-indicator {
-    font-size: 11px;
-    background-image: url( '../images/default/grid/loading.gif' );
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left: 20px;
-    line-height: 16px;
-    margin: 3px;
+	font-size: 11px;
+	background-image: url( '../images/default/grid/loading.gif' );
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left: 20px;
+	line-height: 16px;
+	margin: 3px;
 }
 
 .x-text-resize {
-    position: absolute;
-    left: -1000px;
-    top: -1000px;
-    visibility: hidden;
-    zoom: 1;
+	position: absolute;
+	left: -1000px;
+	top: -1000px;
+	visibility: hidden;
+	zoom: 1;
 }
 
 .x-drag-overlay {
-    width: 100%;
-    height: 100%;
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: white;
-    z-index: 20000;
-    -moz-opacity: 0;
-    opacity: 0;
-    filter: alpha(opacity=0);
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: white;
+	z-index: 20000;
+	-moz-opacity: 0;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 
 .x-clear {
-    clear:both;
-    height:0;
-    overflow:hidden;
-    line-height:0;
-    font-size:0;
+	clear:both;
+	height:0;
+	overflow:hidden;
+	line-height:0;
+	font-size:0;
 }
 
 .x-tabs-wrap {
@@ -355,23 +355,23 @@ q:before,q:after{
 	color:#aaaaaa;
 }
 .x-tabs-strip .x-tabs-inner {
-	 padding:4px 10px;	
+	padding:4px 10px;	
 }
 
 .x-tabs-strip .on .x-tabs-right {
-	 background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat right 0;
+	background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat right 0;
 }
 .x-tabs-strip .on .x-tabs-left {
-	 background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat 0 -100px;
+	background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat 0 -100px;
 }
 .x-tabs-strip .x-tabs-right {
-	 background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat right -50px;
+	background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat right -50px;
 }
 .x-tabs-strip .x-tabs-left {
-	 background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat 0 -150px;
+	background: url(/theme/extjs/default/tabs/tab-sprite.gif) no-repeat 0 -150px;
 }
 
-.x-tabs-strip  a {
+.x-tabs-strip	a {
 	position:relative;
 	top:1px; left:0;
 }
@@ -403,8 +403,8 @@ q:before,q:after{
 	background-image:url(/theme/extjs/default/layout/tab-close-on.gif);
 }
 .x-tabs-body {
-    border:0px solid #6593cf;
-    border-top:0 none;
+	border:0px solid #6593cf;
+	border-top:0 none;
 	margin-top:0;
 }
 .x-tabs-bottom .x-tabs-wrap {
@@ -414,18 +414,18 @@ q:before,q:after{
 	padding-bottom:0px;
 }
 .x-tabs-bottom .x-tabs-strip .x-tabs-right {
-	 background: url(/theme/extjs/default/tabs/tab-btm-inactive-right-bg.gif) no-repeat bottom left;
+	background: url(/theme/extjs/default/tabs/tab-btm-inactive-right-bg.gif) no-repeat bottom left;
 }
 .x-tabs-bottom .x-tabs-strip .x-tabs-left {
-	 background: url(/theme/extjs/default/tabs/tab-btm-inactive-left-bg.gif) no-repeat bottom right;
+	background: url(/theme/extjs/default/tabs/tab-btm-inactive-left-bg.gif) no-repeat bottom right;
 }
 .x-tabs-bottom .x-tabs-strip .on .x-tabs-right {
-	 background: url(/theme/extjs/default/tabs/tab-btm-right-bg.gif) no-repeat bottom left;
+	background: url(/theme/extjs/default/tabs/tab-btm-right-bg.gif) no-repeat bottom left;
 }
 .x-tabs-bottom .x-tabs-strip .on .x-tabs-left {
-	 background: url(/theme/extjs/default/tabs/tab-btm-left-bg.gif) no-repeat bottom right;
+	background: url(/theme/extjs/default/tabs/tab-btm-left-bg.gif) no-repeat bottom right;
 }
-.x-tabs-bottom .x-tabs-strip  a {
+.x-tabs-bottom .x-tabs-strip	a {
 	position:relative;
 	top:0; left:0;
 }
@@ -437,52 +437,52 @@ q:before,q:after{
 }
 
 .x-tabs-bottom .x-tabs-body {
-    border:1px solid #6593cf;
-    border-bottom:0 none;
+	border:1px solid #6593cf;
+	border-bottom:0 none;
 }
 
 
 
 .x-form-field{
-    margin: 0 0 0 0;
-    font:normal 12px tahoma, arial, helvetica, sans-serif;
+	margin: 0 0 0 0;
+	font:normal 12px tahoma, arial, helvetica, sans-serif;
 }
 
 
 .x-form-text, textarea.x-form-field{
-    padding: 1px 3px;
-    background:#fff url(/theme/extjs/default/form/text-bg.gif) repeat-x 0 0;
-    border: 1px solid #B5B8C8;
+	padding: 1px 3px;
+	background:#fff url(/theme/extjs/default/form/text-bg.gif) repeat-x 0 0;
+	border: 1px solid #B5B8C8;
 }
 .x-form-text {
-    height:22px;
-    line-height:18px;
-    vertical-align:middle;
+	height:22px;
+	line-height:18px;
+	vertical-align:middle;
 }
 .ext-ie .x-form-text {
-    margin-top:-1px; 
-    margin-bottom:-1px;
-    height:22px; 
-    line-height:18px;
+	margin-top:-1px; 
+	margin-bottom:-1px;
+	height:22px; 
+	line-height:18px;
 }
 .ext-strict .x-form-text {
-    height:18px;
+	height:18px;
 }
 .ext-safari .x-form-text {
-    height:20px; 
+	height:20px; 
 }
 .ext-gecko .x-form-text {
-    padding-top:2px; 
-    padding-bottom:0;
+	padding-top:2px; 
+	padding-bottom:0;
 }
 
 
 .x-form-select-one {
-    height:20px;
-    line-height:18px;
-    vertical-align:middle;
-    background-color:#fff; 
-    border: 1px solid #B5B8C8;
+	height:20px;
+	line-height:18px;
+	vertical-align:middle;
+	background-color:#fff; 
+	border: 1px solid #B5B8C8;
 }
 
 
@@ -501,80 +501,80 @@ q:before,q:after{
 
 
 .x-form-field-wrap {
-    position:relative;
-    zoom:1;
-    white-space: nowrap;
+	position:relative;
+	zoom:1;
+	white-space: nowrap;
 }
 
 .x-editor .x-form-check-wrap {
-    background:#fff;
+	background:#fff;
 }
 .x-form-field-wrap .x-form-trigger{
-    width:17px;
-    height:21px;
-    border:0;
-    background:transparent url(/theme/extjs/default/form/trigger.gif) no-repeat 0 0;
-    cursor:pointer;
-    border-bottom: 1px solid #B5B8C8;
-    position:absolute;
-    top:0;
+	width:17px;
+	height:21px;
+	border:0;
+	background:transparent url(/theme/extjs/default/form/trigger.gif) no-repeat 0 0;
+	cursor:pointer;
+	border-bottom: 1px solid #B5B8C8;
+	position:absolute;
+	top:0;
 }
 .ext-safari .x-form-field-wrap .x-form-trigger{
-    height:19px; 
+	height:19px; 
 }
 
 .x-form-field-wrap .x-form-date-trigger{
-    background-image: url(/theme/extjs/default/form/date-trigger.gif);
-    cursor:pointer;
+	background-image: url(/theme/extjs/default/form/date-trigger.gif);
+	cursor:pointer;
 }
 .x-form-field-wrap .x-form-clear-trigger{
-    background-image: url(/theme/extjs/default/form/clear-trigger.gif);
-    cursor:pointer;
+	background-image: url(/theme/extjs/default/form/clear-trigger.gif);
+	cursor:pointer;
 }
 .x-form-field-wrap .x-form-search-trigger{
-    background-image: url(/theme/extjs/default/form/search-trigger.gif);
-    cursor:pointer;
+	background-image: url(/theme/extjs/default/form/search-trigger.gif);
+	cursor:pointer;
 }
 .ext-safari .x-form-field-wrap .x-form-trigger{
-    right:0;
+	right:0;
 }
 .x-form-field-wrap .x-form-twin-triggers{
-    
+	
 }
 .x-form-field-wrap .x-form-twin-triggers .x-form-trigger{
-    position:static;
-    top:auto;
-    vertical-align:top;
+	position:static;
+	top:auto;
+	vertical-align:top;
 }
 
 
 .x-form-field-wrap .x-form-trigger-over{
-    background-position:-17px 0;
+	background-position:-17px 0;
 }
 .x-form-field-wrap .x-form-trigger-click{
-    background-position:-34px 0;
+	background-position:-34px 0;
 }
 
 .x-trigger-wrap-focus .x-form-trigger{
-    background-position:-51px 0;
+	background-position:-51px 0;
 }
 .x-trigger-wrap-focus .x-form-trigger-over{
-    background-position:-68px 0;
+	background-position:-68px 0;
 }
 .x-trigger-wrap-focus .x-form-trigger-click{
-    background-position:-85px 0;
+	background-position:-85px 0;
 }
 .x-trigger-wrap-focus .x-form-trigger{
-    border-bottom: 1px solid #7eadd9;
+	border-bottom: 1px solid #7eadd9;
 }
 
 .x-item-disabled .x-form-trigger-over{
-    background-position:0 0 !important;
-    border-bottom: 1px solid #B5B8C8;
+	background-position:0 0 !important;
+	border-bottom: 1px solid #B5B8C8;
 }
 .x-item-disabled .x-form-trigger-click{
-    background-position:0 0 !important;
-    border-bottom: 1px solid #B5B8C8;
+	background-position:0 0 !important;
+	border-bottom: 1px solid #B5B8C8;
 }
 
 
@@ -595,188 +595,188 @@ q:before,q:after{
 
 
 .x-editor {
-    visibility:hidden;
-    padding:0;
-    margin:0;
+	visibility:hidden;
+	padding:0;
+	margin:0;
 }
 .x-form-check-wrap {
-    line-height:18px;
+	line-height:18px;
 }
 .ext-ie .x-form-check-wrap input {
-    width:15px;
-    height:15px;
+	width:15px;
+	height:15px;
 }
 .x-editor .x-form-check-wrap {
-    padding:3px;
+	padding:3px;
 }
 .x-editor .x-form-checkbox {
-    height:13px;
-    border: 0 none;
+	height:13px;
+	border: 0 none;
 }
 
 .x-form-grow-sizer {
 	font:normal 12px tahoma, arial, helvetica, sans-serif;
-    left: -10000px;
+	left: -10000px;
 	padding: 8px 3px;
-    position: absolute;
-    visibility:hidden;
-    top: -10000px;
+	position: absolute;
+	visibility:hidden;
+	top: -10000px;
 	white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
-    zoom:1;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	zoom:1;
 }
 .x-form-grow-sizer p {
-    margin:0 !important;
-    border:0 none !important;
-    padding:0 !important;
+	margin:0 !important;
+	border:0 none !important;
+	padding:0 !important;
 }
 
 
 .x-form-item {
-    font:normal 12px tahoma, arial, helvetica, sans-serif;
-    display:block;
-    margin-bottom:4px;
+	font:normal 12px tahoma, arial, helvetica, sans-serif;
+	display:block;
+	margin-bottom:4px;
 }
 
 .x-form-item label {
-    display:block;
-    float:left;
-    width:100px;
-    padding:3px;
-    padding-left:0;
-    clear:left;
-    z-index:2;
-    position:relative;
+	display:block;
+	float:left;
+	width:100px;
+	padding:3px;
+	padding-left:0;
+	clear:left;
+	z-index:2;
+	position:relative;
 }
 
 .x-form-element {
-    padding-left:105px;
-    position:relative;
+	padding-left:105px;
+	position:relative;
 }
 
 .x-form-invalid-msg {
-    color:#ee0000;
-    padding:2px;
-    padding-left:18px;
-    font:normal 11px tahoma, arial, helvetica, sans-serif;
-    background: transparent url(/theme/extjs/default/shared/warning.gif) no-repeat 0 2px;
-    line-height:16px;
-    width:200px;
+	color:#ee0000;
+	padding:2px;
+	padding-left:18px;
+	font:normal 11px tahoma, arial, helvetica, sans-serif;
+	background: transparent url(/theme/extjs/default/shared/warning.gif) no-repeat 0 2px;
+	line-height:16px;
+	width:200px;
 }
 
 .x-form-label-right label {
-   text-align:right;
+	text-align:right;
 }
 
 .x-form-label-top .x-form-item label {
-    width:auto;
-    float:none;
-    clear:none;
-    display:inline;
-    margin-bottom:4px;
-    position:static;
+	width:auto;
+	float:none;
+	clear:none;
+	display:inline;
+	margin-bottom:4px;
+	position:static;
 }
 .x-form-label-top .x-form-element {
-    padding-left:0;
-    padding-top:4px;
+	padding-left:0;
+	padding-top:4px;
 }
 .x-form-label-top .x-form-item {
-    padding-bottom:4px;
+	padding-bottom:4px;
 }
 .x-form fieldset {
-    border:1px solid #B5B8C8;
-    padding:10px 10px 5px 10px;
-    margin-bottom:10px;
+	border:1px solid #B5B8C8;
+	padding:10px 10px 5px 10px;
+	margin-bottom:10px;
 }
 .x-form fieldset legend {
-    font:bold 11px tahoma, arial, helvetica, sans-serif;
-    color:#15428b;
+	font:bold 11px tahoma, arial, helvetica, sans-serif;
+	color:#15428b;
 }
 .ext-ie .x-form fieldset legend {
-    margin-bottom:10px;
+	margin-bottom:10px;
 }
 .ext-ie .x-form fieldset {
-    padding-top: 0;
+	padding-top: 0;
 }
 .x-form-empty-field {
-    color:gray;
+	color:gray;
 }
 
 .x-small-editor .x-form-field {
-    font:normal 11px arial, tahoma, helvetica, sans-serif;
+	font:normal 11px arial, tahoma, helvetica, sans-serif;
 }
 .x-small-editor .x-form-text {
-    height:20px;
-    line-height:16px;
-    vertical-align:middle;
+	height:20px;
+	line-height:16px;
+	vertical-align:middle;
 }
 .ext-ie .x-small-editor .x-form-text {
-    margin-top:-1px !important; 
-    margin-bottom:-1px !important;
-    height:20px !important; 
-    line-height:16px !important;
+	margin-top:-1px !important; 
+	margin-bottom:-1px !important;
+	height:20px !important; 
+	line-height:16px !important;
 }
 .ext-strict .x-small-editor .x-form-text {
-    height:16px !important;
+	height:16px !important;
 }
 .ext-safari .x-small-editor .x-form-field {
-    
-    font:normal 12px arial, tahoma, helvetica, sans-serif;
+	
+	 font:normal 12px arial, tahoma, helvetica, sans-serif;
 }
 .ext-ie .x-small-editor .x-form-text {
-    height:20px;
-    line-height:16px;
+	height:20px;
+	line-height:16px;
 }
 .ext-border-box .x-small-editor .x-form-text {
-    height:20px;
+	height:20px;
 }
 
 .x-small-editor .x-form-select-one {
-    height:20px;
-    line-height:16px;
-    vertical-align:middle;
+	height:20px;
+	line-height:16px;
+	vertical-align:middle;
 }
 .x-small-editor .x-form-num-field {
-    text-align:right;
+	text-align:right;
 }
 .x-small-editor .x-form-field-wrap .x-form-trigger{
-    height:19px;
+	height:19px;
 }
 
 
 .x-form-clear {
-    clear:both;
-    height:0;
-    overflow:hidden;
-    line-height:0;
-    font-size:0;
+	clear:both;
+	height:0;
+	overflow:hidden;
+	line-height:0;
+	font-size:0;
 }
 .x-form-clear-left {
-    clear:left;
-    height:0;
-    overflow:hidden;
-    line-height:0;
-    font-size:0;
+	clear:left;
+	height:0;
+	overflow:hidden;
+	line-height:0;
+	font-size:0;
 }
 
 .x-form-cb-label {
-    width:'auto' !important;
-    float:none !important;
-    clear:none !important;
-    display:inline !important;
-    margin-left:4px;
+	width:'auto' !important;
+	float:none !important;
+	clear:none !important;
+	display:inline !important;
+	margin-left:4px;
 }
 
 .x-form-column {
-    float:left;
-    padding:0;
-    margin:0;
-    width:48%;
-    overflow:hidden;
-    zoom:1;
+	float:left;
+	padding:0;
+	margin:0;
+	width:48%;
+	overflow:hidden;
+	zoom:1;
 }
 
 
@@ -819,21 +819,21 @@ q:before,q:after{
 .x-form .x-form-btns-ct .x-btn-click .x-btn-center{
 	background-position:0 -126px;
 }
-.x-form .x-form-btns-ct .x-btn-click  .x-btn-right{
+.x-form .x-form-btns-ct .x-btn-click	.x-btn-right{
 	background-position:0 -84px;
 }
 .x-form .x-form-btns-ct .x-btn-click .x-btn-left{
 	background-position:0 -63px;
 }
 .x-form-invalid-icon {
-    width:16px;
-    height:18px;
-    visibility:hidden;
-    position:absolute;
-    left:0;
-    top:0;
-    display:block;
-    background:transparent url(/theme/extjs/default/form/exclamation.gif) no-repeat 0 2px;
+	width:16px;
+	height:18px;
+	visibility:hidden;
+	position:absolute;
+	left:0;
+	top:0;
+	display:block;
+	background:transparent url(/theme/extjs/default/form/exclamation.gif) no-repeat 0 2px;
 }
 .x-btn{
 	font:normal 11px tahoma, verdana, helvetica;
@@ -841,27 +841,27 @@ q:before,q:after{
 	white-space: nowrap;
 }
 .x-btn button{
-    border:0 none;
-    background:transparent;
-    font:normal 11px tahoma,verdana,helvetica;
-    padding-left:3px;
-    padding-right:3px;
-    cursor:pointer;
-    margin:0;
-    overflow:visible;
-    width:auto;
-    -moz-outline:0 none;
-    outline:0 none;
+	border:0 none;
+	background:transparent;
+	font:normal 11px tahoma,verdana,helvetica;
+	padding-left:3px;
+	padding-right:3px;
+	cursor:pointer;
+	margin:0;
+	overflow:visible;
+	width:auto;
+	-moz-outline:0 none;
+	outline:0 none;
 }
 * html .ext-ie .x-btn button {
-    width:1px;
+	width:1px;
 }
 .ext-gecko .x-btn button {
-    padding-left:0;
-    padding-right:0;
+	padding-left:0;
+	padding-right:0;
 }
 .ext-ie .x-btn button {
-    padding-top:2px;
+	padding-top:2px;
 }
 
  
@@ -872,14 +872,14 @@ q:before,q:after{
 	width: 16px;
 	cursor:pointer;
 	white-space: nowrap;
-    padding:0;
+	padding:0;
 }
 .x-btn-icon .x-btn-center{
 	padding:1px;
 }
 .x-btn em {
-    font-style:normal;
-    font-weight:normal;
+	font-style:normal;
+	font-weight:normal;
 }
 
 
@@ -889,12 +889,12 @@ q:before,q:after{
 	padding-left:18px;
 	padding-top:3px;
 	padding-bottom:2px;
-    padding-right:0;
+	padding-right:0;
 }
 
 .x-btn-left, .x-btn-right{
 	font-size:1px;
-    line-height:1px;
+	line-height:1px;
 }
 .x-btn-left{
 	width:3px;
@@ -908,10 +908,10 @@ q:before,q:after{
 }
 .x-btn-left i, .x-btn-right i{
 	display:block;
-    width:3px;
-    overflow:hidden;
-    font-size:1px;
-    line-height:1px;
+	width:3px;
+	overflow:hidden;
+	font-size:1px;
+	line-height:1px;
 }
 .x-btn-center{
 	background:url(/theme/extjs/default/basic-dialog/btn-sprite.gif) repeat-x 0 -42px;
@@ -944,42 +944,42 @@ q:before,q:after{
 	padding:0 1px;
 }
 .x-btn-menu-arrow-wrap .x-btn-center {
-    padding:0;
+	padding:0;
 }
 .x-btn-menu-arrow-wrap .x-btn-center button {
 	width:12px !important;
-    height:21px;
-    padding:0 !important;
-    display:block;
-    background:transparent url(/theme/extjs/default/basic-dialog/btn-arrow.gif) no-repeat left 3px;
+	height:21px;
+	padding:0 !important;
+	display:block;
+	background:transparent url(/theme/extjs/default/basic-dialog/btn-arrow.gif) no-repeat left 3px;
 }
-.x-btn-with-menu  .x-btn-center {
-    padding-right:2px !important;
+.x-btn-with-menu	.x-btn-center {
+	padding-right:2px !important;
 }
-.x-btn-with-menu  .x-btn-center em {
-    display:block;
-    background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat right 0;
+.x-btn-with-menu	.x-btn-center em {
+	display:block;
+	background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat right 0;
 	padding-right:10px;
 }
 
 .x-btn-text-icon .x-btn-with-menu .x-btn-center em {
-    display:block;
-    background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat right 3px;
+	display:block;
+	background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat right 3px;
 	padding-right:10px;
 }
 .x-toolbar{
 	border-top: 1px solid #eaf0f7;
-    border-bottom: 1px solid #a9bfd3;
-    display: block;
+	border-bottom: 1px solid #a9bfd3;
+	display: block;
 	padding:2px;
-    background:#d0def0 url(/theme/extjs/default/layout/panel-title-light-bg.gif) repeat-x;
-    position:relative;
-    zoom:1;
+	background:#d0def0 url(/theme/extjs/default/layout/panel-title-light-bg.gif) repeat-x;
+	position:relative;
+	zoom:1;
 }
 .x-toolbar .x-item-disabled .x-btn-icon {
-    opacity: .35;
-    -moz-opacity: .35;
-    filter: alpha(opacity=35);
+	opacity: .35;
+	-moz-opacity: .35;
+	filter: alpha(opacity=35);
 }
 .x-toolbar td {
 	vertical-align:middle;
@@ -990,7 +990,7 @@ q:before,q:after{
 }
 .x-toolbar td, .x-toolbar span, .x-toolbar input, .x-toolbar div, .x-toolbar select, .x-toolbar label{
 	white-space: nowrap;
-    font:normal 11px tahoma, arial, helvetica, sans-serif;
+	font:normal 11px tahoma, arial, helvetica, sans-serif;
 }
 .x-toolbar .x-item-disabled {
 	color:gray;
@@ -1024,12 +1024,12 @@ q:before,q:after{
 	padding:0 2px;
 }
 .x-toolbar .x-btn-menu-arrow-wrap .x-btn-center button {
-    width:12px;
-    background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat 0 3px;
+	width:12px;
+	background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat 0 3px;
 }
 .x-toolbar .x-btn-text-icon .x-btn-menu-arrow-wrap .x-btn-center button {
-    width:12px;
-    background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat 0 3px;
+	width:12px;
+	background:transparent url(/theme/extjs/default/toolbar/btn-arrow.gif) no-repeat 0 3px;
 }
 .x-toolbar .x-btn-over .x-btn-menu-arrow-wrap .x-btn-center button {
 	background-position: 0 -47px;
@@ -1059,7 +1059,7 @@ q:before,q:after{
 }
 
 .x-toolbar .ytb-text{
-   padding:2px;
+	padding:2px;
 }
 .x-toolbar .ytb-sep {
 	background-image: url(/theme/extjs/default/grid/grid-split.gif);
@@ -1075,7 +1075,7 @@ q:before,q:after{
 	border:0;
 }
 .x-toolbar .ytb-spacer {
-    width:2px;
+	width:2px;
 }
 .mso .x-toolbar .ytb-sep, .x-grid-mso .x-toolbar .ytb-sep{
 	background-image: url(/theme/extjs/default/grid/grid-blue-split.gif);
@@ -1129,153 +1129,153 @@ q:before,q:after{
 	background-image: url(/theme/extjs/default/grid/page-prev-disabled.gif);
 }
 .x-paging-info {
-    position:absolute;
-    top:8px;
-    right: 8px;
-    color:#15428b;
+	position:absolute;
+	top:8px;
+	right: 8px;
+	color:#15428b;
 }
 
 .x-resizable-handle {
-    position:absolute;
-    z-index:100;
-    
-    font-size:1px;
-    line-height:6px;
-    overflow:hidden;
-	 background:white;
-	 filter:alpha(opacity=0);
-	 opacity:0;
-	 zoom:1;
+	position:absolute;
+	z-index:100;
+	
+	 font-size:1px;
+	line-height:6px;
+	overflow:hidden;
+	background:white;
+	filter:alpha(opacity=0);
+	opacity:0;
+	zoom:1;
 }
 .x-resizable-handle-east{
-    width:6px;
-    cursor:e-resize;
-    right:0;
-    top:0;
-    height:100%;
+	width:6px;
+	cursor:e-resize;
+	right:0;
+	top:0;
+	height:100%;
 }
 .ext-ie .x-resizable-handle-east {
-      margin-right:-1px; 
+		margin-right:-1px; 
 }
 .x-resizable-handle-south{
-    width:100%;
-    cursor:s-resize;
-    left:0;
-    bottom:0;
-    height:6px;
+	width:100%;
+	cursor:s-resize;
+	left:0;
+	bottom:0;
+	height:6px;
 }
 .ext-ie .x-resizable-handle-south {
-     margin-bottom:-1px; 
+	margin-bottom:-1px; 
 }
 .x-resizable-handle-west{
-    width:6px;
-    cursor:w-resize;
-    left:0;
-    top:0;
-    height:100%;
+	width:6px;
+	cursor:w-resize;
+	left:0;
+	top:0;
+	height:100%;
 }
 .x-resizable-handle-north{
-    width:100%;
-    cursor:n-resize;
-    left:0;
-    top:0;
-    height:6px;
+	width:100%;
+	cursor:n-resize;
+	left:0;
+	top:0;
+	height:6px;
 }
 .x-resizable-handle-southeast{
-    width:6px;
-    cursor:se-resize;
-    right:0;
-    bottom:0;
-    height:6px;
-    z-index:101;
+	width:6px;
+	cursor:se-resize;
+	right:0;
+	bottom:0;
+	height:6px;
+	z-index:101;
 }
 .x-resizable-handle-northwest{
-    width:6px;
-    cursor:nw-resize;
-    left:0;
-    top:0;
-    height:6px;
-    z-index:101;
+	width:6px;
+	cursor:nw-resize;
+	left:0;
+	top:0;
+	height:6px;
+	z-index:101;
 }
 .x-resizable-handle-northeast{
-    width:6px;
-    cursor:ne-resize;
-    right:0;
-    top:0;
-    height:6px;
-    z-index:101;
+	width:6px;
+	cursor:ne-resize;
+	right:0;
+	top:0;
+	height:6px;
+	z-index:101;
 }
 .x-resizable-handle-southwest{
-    width:6px;
-    cursor:sw-resize;
-    left:0;
-    bottom:0;
-    height:6px;
-    z-index:101;
+	width:6px;
+	cursor:sw-resize;
+	left:0;
+	bottom:0;
+	height:6px;
+	z-index:101;
 }
 .x-resizable-over .x-resizable-handle, .x-resizable-pinned .x-resizable-handle{
-    filter:alpha(opacity=100);
-	 opacity:1;
+	filter:alpha(opacity=100);
+	opacity:1;
 }
 .x-resizable-over .x-resizable-handle-east, .x-resizable-pinned .x-resizable-handle-east{
-    background:url(/theme/extjs/default/sizer/e-handle.gif);
-	 background-position: left;
+	background:url(/theme/extjs/default/sizer/e-handle.gif);
+	background-position: left;
 }
 .x-resizable-over .x-resizable-handle-west, .x-resizable-pinned .x-resizable-handle-west{
-    background:url(/theme/extjs/default/sizer/e-handle.gif);
-	 background-position: left;
+	background:url(/theme/extjs/default/sizer/e-handle.gif);
+	background-position: left;
 }
 .x-resizable-over .x-resizable-handle-south, .x-resizable-pinned .x-resizable-handle-south{
-    background:url(/theme/extjs/default/sizer/s-handle.gif);
-    background-position: top;
+	background:url(/theme/extjs/default/sizer/s-handle.gif);
+	background-position: top;
 }
 .x-resizable-over .x-resizable-handle-north, .x-resizable-pinned .x-resizable-handle-north{
-    background:url(/theme/extjs/default/sizer/s-handle.gif);
-    background-position: top;
+	background:url(/theme/extjs/default/sizer/s-handle.gif);
+	background-position: top;
 }
 .x-resizable-over .x-resizable-handle-southeast, .x-resizable-pinned .x-resizable-handle-southeast{
-    background:url(/theme/extjs/default/sizer/se-handle.gif);
-    background-position: top left;
+	background:url(/theme/extjs/default/sizer/se-handle.gif);
+	background-position: top left;
 }
 .x-resizable-over .x-resizable-handle-northwest, .x-resizable-pinned .x-resizable-handle-northwest{
-    background:url(/theme/extjs/default/sizer/nw-handle.gif);
-    background-position:bottom right;
+	background:url(/theme/extjs/default/sizer/nw-handle.gif);
+	background-position:bottom right;
 }
 .x-resizable-over .x-resizable-handle-northeast, .x-resizable-pinned .x-resizable-handle-northeast{
-    background:url(/theme/extjs/default/sizer/ne-handle.gif);
-    background-position: bottom left;
+	background:url(/theme/extjs/default/sizer/ne-handle.gif);
+	background-position: bottom left;
 }
 .x-resizable-over .x-resizable-handle-southwest, .x-resizable-pinned .x-resizable-handle-southwest{
-    background:url(/theme/extjs/default/sizer/sw-handle.gif);
-    background-position: top right;
+	background:url(/theme/extjs/default/sizer/sw-handle.gif);
+	background-position: top right;
 }
 .x-resizable-proxy{
-    border: 1px dashed #6593cf;
-    position:absolute;
-    overflow:hidden;
-    display:none;
-	 left:0;top:0;
-    z-index:50000;
+	border: 1px dashed #6593cf;
+	position:absolute;
+	overflow:hidden;
+	display:none;
+	left:0;top:0;
+	z-index:50000;
 }
 .x-resizable-overlay{
-    width:100%;
-	 height:100%;
-	 display:none;
-	 position:absolute;
-	 left:0;
-	 top:0;
-	 background:white;
-	 z-index:200000;
-	 -moz-opacity: 0;
-    opacity:0;
-    filter: alpha(opacity=0);
+	width:100%;
+	height:100%;
+	display:none;
+	position:absolute;
+	left:0;
+	top:0;
+	background:white;
+	z-index:200000;
+	-moz-opacity: 0;
+	opacity:0;
+	filter: alpha(opacity=0);
 }
 
 
 .x-grid {
 	position:relative;
 	overflow:hidden;
-    background-color:#fff;
+	background-color:#fff;
 }
 .x-grid-scroller {
 	overflow:auto;
@@ -1294,14 +1294,14 @@ q:before,q:after{
 }
 .x-grid-hd-row td, .x-grid-row td{
 	font:normal 11px arial, tahoma, helvetica, sans-serif;
-    line-height:13px;
-    white-space: nowrap;
+	line-height:13px;
+	white-space: nowrap;
 	vertical-align: top;
 	-moz-outline: none;
 	-moz-user-focus: normal;
 }
 .x-grid-hd-row td {
-    line-height:14px;
+	line-height:14px;
 }
 .x-grid-col {
 	border-right: 1px solid #ebebeb;
@@ -1322,10 +1322,10 @@ q:before,q:after{
 }
 
 .x-grid-locked .x-grid-header table{
-    border-right:1px solid transparent;
+	border-right:1px solid transparent;
 }
 .x-grid-locked .x-grid-body table{
-    border-right:1px solid #c3daf9;
+	border-right:1px solid #c3daf9;
 }
 
 .x-grid-locked .x-grid-body td .x-grid-cell-inner {
@@ -1357,9 +1357,9 @@ q:before,q:after{
 	position:absolute;
 	top:0;
 	-moz-outline:0 none;
-    outline:0 none;
-    -moz-user-select: normal;
-    -khtml-user-select: normal;
+	outline:0 none;
+	-moz-user-select: normal;
+	-khtml-user-select: normal;
 }
 
 
@@ -1382,7 +1382,7 @@ q:before,q:after{
 .x-grid-hd-over .x-grid-hd-text {
 	background: #fafafa url(/theme/extjs/default/grid/grid-hrow.gif) repeat-x 0 1px;
 	padding-bottom:1px;
-    border-bottom: 1px solid #b3cae9;
+	border-bottom: 1px solid #b3cae9;
 }
 .x-grid-sort-icon{
 	background-repeat: no-repeat;
@@ -1417,7 +1417,7 @@ q:before,q:after{
 	color:black;
 }
 .x-grid-hd-text {
-    padding-top:4px;
+	padding-top:4px;
 }
 .x-grid-split {
 	background-image: url(/theme/extjs/default/grid/grid-split.gif);
@@ -1486,24 +1486,24 @@ q:before,q:after{
 }
 
 .x-grid-locked td.x-grid-row-marker, .x-grid-locked .x-grid-row-selected td.x-grid-row-marker{
-    background: #ebeadb url(/theme/extjs/default/grid/grid-hrow.gif) repeat-x 0 bottom !important;
-    vertical-align:middle !important;
-    color:black;
-    padding:0;
-    border-top:1px solid white;
-    border-bottom:none !important;
-    border-right:1px solid #6fa0df !important;
-    text-align:center;
+	background: #ebeadb url(/theme/extjs/default/grid/grid-hrow.gif) repeat-x 0 bottom !important;
+	vertical-align:middle !important;
+	color:black;
+	padding:0;
+	border-top:1px solid white;
+	border-bottom:none !important;
+	border-right:1px solid #6fa0df !important;
+	text-align:center;
 }
 .x-grid-locked td.x-grid-row-marker div, .x-grid-locked .x-grid-row-selected td.x-grid-row-marker div{
-    padding:0 4px;
-    color:#15428b !important;
-    text-align:center;
+	padding:0 4px;
+	color:#15428b !important;
+	text-align:center;
 }
 
 
 .x-grid-dirty-cell {
-    background: transparent url(/theme/extjs/default/grid/dirty.gif) no-repeat 0 0;
+	background: transparent url(/theme/extjs/default/grid/dirty.gif) no-repeat 0 0;
 }
 
 .x-grid-row-alt .x-grid-dirty-cell{
@@ -1512,10 +1512,10 @@ q:before,q:after{
 
 .x-grid-topbar, .x-grid-bottombar{
 	font:normal 11px arial, tahoma, helvetica, sans-serif;
-    overflow:hidden;
+	overflow:hidden;
 	display:none;
 	zoom:1;
-    position:relative;
+	position:relative;
 }
 .x-grid-topbar .x-toolbar{
 	border-right:0 none;
@@ -1527,20 +1527,20 @@ q:before,q:after{
 }
 
 .x-props-grid .x-grid-cell-selected .x-grid-cell-text{
-	 background-color: #316ac5 !important;
+	background-color: #316ac5 !important;
 }
 .x-props-grid .x-grid-col-value .x-grid-cell-text{
 	background-color: white;
 }
 .x-props-grid .x-grid-col-name{
-	 background-color: #c3daf9;
+	background-color: #c3daf9;
 }
 .x-props-grid .x-grid-col-name .x-grid-cell-text{
 	background-color: white;
-    margin-left:10px;
+	margin-left:10px;
 }
 .x-props-grid .x-grid-split-value {
-    visibility:hidden;
+	visibility:hidden;
 }
 
 
@@ -1559,189 +1559,189 @@ q:before,q:after{
 
 
 .x-dd-drag-ghost .x-grid-dd-wrap {
-    padding:1px 3px 3px 1px;
+	padding:1px 3px 3px 1px;
 }
 .x-layout-container{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-	 background-color:#c3daf9;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	background-color:#c3daf9;
 }
 .x-layout-container .x-layout-tabs-body{
 	border:0 none;
 }
 .x-layout-collapsed{
-    position:absolute;
-    left:-10000px;
-    top:-10000px;
-    visibility:hidden;
-    background-color:#c3daf9;
-    width:20px;
-    height:20px;
-    overflow:hidden;
+	position:absolute;
+	left:-10000px;
+	top:-10000px;
+	visibility:hidden;
+	background-color:#c3daf9;
+	width:20px;
+	height:20px;
+	overflow:hidden;
 	border:1px solid #98c0f4;
 	z-index:20;
 }
 .ext-border-box .x-layout-collapsed{
-    width:22px;
-    height:22px;
+	width:22px;
+	height:22px;
 }
 .x-layout-collapsed-over{
-    cursor:pointer;
-	 background-color:#d9e8fb;
+	cursor:pointer;
+	background-color:#d9e8fb;
 }
 .x-layout-collapsed-west .x-layout-collapsed-tools, .x-layout-collapsed-east .x-layout-collapsed-tools{
 	position:absolute;
-    top:0;
-    left:0;
-    width:20px;
-    height:20px;
+	top:0;
+	left:0;
+	width:20px;
+	height:20px;
 }
 .x-layout-collapsed-north .x-layout-collapsed-tools, .x-layout-collapsed-south .x-layout-collapsed-tools{
 	position:absolute;
-    top:0;
-    right:0;
-    width:20px;
-    height:20px;
+	top:0;
+	right:0;
+	width:20px;
+	height:20px;
 }
 .x-layout-collapsed .x-layout-tools-button{
-    margin:0;
+	margin:0;
 }
 .x-layout-collapsed .x-layout-tools-button-inner{
-    width:16px;
-    height:16px;
+	width:16px;
+	height:16px;
 }
 .x-layout-inactive-content{
-    position:absolute;
-    left:-10000px;
-    top:-10000px;
-    visibility:hidden;
+	position:absolute;
+	left:-10000px;
+	top:-10000px;
+	visibility:hidden;
 }
 .x-layout-active-content{
-    visibility:visible;
+	visibility:visible;
 }
 .x-layout-panel{
-    position:absolute;border:1px solid #98c0f4;overflow:hidden;background-color:white;
+	position:absolute;border:1px solid #98c0f4;overflow:hidden;background-color:white;
 }
 .x-layout-panel-east, .x-layout-panel-west {
-    z-index:10;
+	z-index:10;
 }
 .x-layout-panel-north, .x-layout-panel-south {
-    z-index:11;
+	z-index:11;
 }
 .x-layout-collapsed-north, .x-layout-collapsed-south, .x-layout-collapsed-east, .x-layout-collapsed-west {
-    z-index:12;
+	z-index:12;
 }
 .x-layout-panel-body{
-    overflow:hidden;
+	overflow:hidden;
 }
 .x-layout-grid-wrapper{
 
 }
 .x-layout-split{
-    position:absolute;
-    height:5px;
-    width:5px;
-    line-height:1px;
-    font-size:1px;
-    z-index:3;
-    background-color:#c3daf9;
+	position:absolute;
+	height:5px;
+	width:5px;
+	line-height:1px;
+	font-size:1px;
+	z-index:3;
+	background-color:#c3daf9;
 }
 .x-layout-panel-hd{
-    background-image: url(/theme/extjs/default/layout/panel-title-light-bg.gif);
-    color: black;
-    border-bottom:1px solid #98c0f4;
-    position:relative;
+	background-image: url(/theme/extjs/default/layout/panel-title-light-bg.gif);
+	color: black;
+	border-bottom:1px solid #98c0f4;
+	position:relative;
 }
 .x-layout-panel-hd-text{
-    font:normal 11px tahoma, verdana, helvetica;
-    padding: 4px;
-    padding-left: 4px;
-    display:block;
-	 white-space:nowrap;
+	font:normal 11px tahoma, verdana, helvetica;
+	padding: 4px;
+	padding-left: 4px;
+	display:block;
+	white-space:nowrap;
 }
 .x-layout-panel-hd-tools{
-    position:absolute;
-    right:0;
-    top:0;
-    text-align:right;
-    padding-top:2px;
-    padding-right:2px;
-    width:60px;
+	position:absolute;
+	right:0;
+	top:0;
+	text-align:right;
+	padding-top:2px;
+	padding-right:2px;
+	width:60px;
 }
 .x-layout-tools-button{
-    z-index:6;
-    padding:2px;
-    cursor:pointer;
-    float:right;
+	z-index:6;
+	padding:2px;
+	cursor:pointer;
+	float:right;
 }
 .x-layout-tools-button-over{
-    padding:1px;
-    border:1px solid #98c0f4;
-    background-color:white;
+	padding:1px;
+	border:1px solid #98c0f4;
+	background-color:white;
 }
 .x-layout-tools-button-inner{
-    height:12px;
-    width:12px;
-    line-height:1px;
-    font-size:1px;
-    background-repeat:no-repeat;
-    background-position:center;
+	height:12px;
+	width:12px;
+	line-height:1px;
+	font-size:1px;
+	background-repeat:no-repeat;
+	background-position:center;
 }
 .x-layout-close{
-    background-image:url(/theme/extjs/default/layout/panel-close.gif);
+	background-image:url(/theme/extjs/default/layout/panel-close.gif);
 }
 .x-layout-stick{
-    background-image:url(/theme/extjs/default/layout/stick.gif);
+	background-image:url(/theme/extjs/default/layout/stick.gif);
 }
 .x-layout-collapse-west,.x-layout-expand-east{
-    background-image:url(/theme/extjs/default/layout/collapse.gif);
+	background-image:url(/theme/extjs/default/layout/collapse.gif);
 }
 .x-layout-expand-west,.x-layout-collapse-east{
-    background-image:url(/theme/extjs/default/layout/expand.gif);
+	background-image:url(/theme/extjs/default/layout/expand.gif);
 }
 .x-layout-collapse-north,.x-layout-expand-south{
-    background-image:url(/theme/extjs/default/layout/ns-collapse.gif);
+	background-image:url(/theme/extjs/default/layout/ns-collapse.gif);
 }
 .x-layout-expand-north,.x-layout-collapse-south{
-    background-image:url(/theme/extjs/default/layout/ns-expand.gif);
+	background-image:url(/theme/extjs/default/layout/ns-expand.gif);
 }
 .x-layout-split-h{
-    background-image:url(/theme/extjs/default/sizer/e-handle.gif);
-    background-position: left;
+	background-image:url(/theme/extjs/default/sizer/e-handle.gif);
+	background-position: left;
 }
 .x-layout-split-v{
-    background-image:url(/theme/extjs/default/sizer/s-handle.gif);
-    background-position: top;
+	background-image:url(/theme/extjs/default/sizer/s-handle.gif);
+	background-position: top;
 }
 .x-layout-panel .x-tabs-wrap{
-    background:url(/theme/extjs/default/layout/gradient-bg.gif);
+	background:url(/theme/extjs/default/layout/gradient-bg.gif);
 }
 .x-layout-panel .x-tabs-body {
-    background-color:white;
-    overflow:auto;height:100%;
+	background-color:white;
+	overflow:auto;height:100%;
 }
 .x-layout-component-panel, .x-layout-nested-layout {
 	position:relative;
-   padding:0;
+	padding:0;
 	overflow:hidden;
 	width:200px;
 	height:200px;
 }
 .x-layout-nested-layout .x-layout-panel {
-	  border:0 none;
+		border:0 none;
 }
 .x-layout-nested-layout .x-layout-panel-north {
-	  border-bottom:1px solid #98c0f4;
+		border-bottom:1px solid #98c0f4;
 }
 .x-layout-nested-layout .x-layout-panel-south {
-	  border-top:1px solid #98c0f4;
+		border-top:1px solid #98c0f4;
 }
 .x-layout-nested-layout .x-layout-panel-east {
-	  border-left:1px solid #98c0f4;
+		border-left:1px solid #98c0f4;
 }
 .x-layout-nested-layout .x-layout-panel-west {
-	  border-right:1px solid #98c0f4;
+		border-right:1px solid #98c0f4;
 }
 
 .x-layout-panel-dragover {
@@ -1786,24 +1786,24 @@ q:before,q:after{
 	cursor:default;
 	background-color: #c3daf9;
 	-moz-opacity: 0.3;
-   opacity:.30;
-   filter: alpha(opacity=30);
+	opacity:.30;
+	filter: alpha(opacity=30);
 }
 
 
 
 .x-reader .x-layout-panel-north {
-    border:0 none;
+	border:0 none;
 }
 .x-reader .x-layout-panel-center{
-    border:0 none;
+	border:0 none;
 }
 .x-reader .x-layout-nested-layout .x-layout-panel-center{
-    border:1px solid #99bbe8;
-    border-top:0 none;
+	border:1px solid #99bbe8;
+	border-top:0 none;
 }
 .x-reader .x-layout-nested-layout .x-layout-panel-south{
-    border:1px solid #99bbe8;
+	border:1px solid #99bbe8;
 }
 .x-dlg-proxy {
 	background-image: url(/theme/extjs/default/gradient-bg.gif);
@@ -1830,15 +1830,15 @@ q:before,q:after{
 	left:0;
 }
 .x-dlg-mask{
-	z-index:10000;   
-   display:none;
-   position:absolute;
-   top:0;
-   left:0;
-   -moz-opacity: 0.5;
-   opacity:.50;
-   filter: alpha(opacity=50);
-   background-color:#CCC;
+	z-index:10000;	
+	display:none;
+	position:absolute;
+	top:0;
+	left:0;
+	-moz-opacity: 0.5;
+	opacity:.50;
+	filter: alpha(opacity=50);
+	background-color:#CCC;
 }
 body.x-body-masked select {
 	visibility:hidden;
@@ -1859,7 +1859,7 @@ body.x-body-masked .x-dlg select {
 	font:bold 12px "sans serif", tahoma, verdana, helvetica;
 	overflow:hidden;
 	padding:5px;
-    white-space: nowrap;
+	white-space: nowrap;
 }
 .x-dlg .x-dlg-hd-left {
 	background: url(/theme/extjs/default/basic-dialog/hd-sprite.gif) no-repeat 0 -41px;
@@ -1881,7 +1881,7 @@ body.x-body-masked .x-dlg select {
 	overflow:hidden;
 }
 .x-dlg-collapsed .x-resizable-handle{
-    display:none;
+	display:none;
 }
 .x-dlg .x-dlg-bd{
 	overflow:hidden;
@@ -1904,7 +1904,7 @@ body.x-body-masked .x-dlg select {
 	border:1px solid #6593cf;
 	border-bottom:0 none;
 }
-.x-dlg .x-layout-container  .x-tabs-body{
+.x-dlg .x-layout-container	.x-tabs-body{
 	border:0 none;
 }
 .x-dlg .inner-tab{
@@ -1962,22 +1962,22 @@ body.x-body-masked .x-dlg select {
 	padding-right:22px;
 }
 .x-dlg-toolbox {
-    position:absolute;
+	position:absolute;
 	top:4px;
 	right:4px;
 	z-index:6;
-    width:40px;
-    cursor:default;
-    height:15px;
-    background:transparent;
+	width:40px;
+	cursor:default;
+	height:15px;
+	background:transparent;
 }
 .x-dlg .x-dlg-close, .x-dlg .x-dlg-collapse {
-    float:right;
-    height:15px;
+	float:right;
+	height:15px;
 	width:15px;
 	margin:0;
-    margin-left:2px;
-    padding:0;
+	margin-left:2px;
+	padding:0;
 	line-height:1px;
 	font-size:1px;
 	background-repeat:no-repeat;
@@ -1985,16 +1985,16 @@ body.x-body-masked .x-dlg select {
 	visibility:inherit;
 }
 .x-dlg .x-dlg-close {
-    background-image:url(/theme/extjs/default/basic-dialog/close.gif);
+	background-image:url(/theme/extjs/default/basic-dialog/close.gif);
 }
 .x-dlg .x-dlg-collapse {
-    background-image:url(/theme/extjs/default/basic-dialog/collapse.gif);
+	background-image:url(/theme/extjs/default/basic-dialog/collapse.gif);
 }
 .x-dlg-collapsed .x-dlg-collapse {
-    background-image:url(/theme/extjs/default/basic-dialog/expand.gif);
+	background-image:url(/theme/extjs/default/basic-dialog/expand.gif);
 }
 .x-dlg .x-dlg-close-over, .x-dlg .x-dlg-collapse-over {
-    
+	
 }
 .x-dlg div.x-resizable-handle-east{
 	background-image:url(/theme/extjs/default/basic-dialog/e-handle.gif);
@@ -2078,10 +2078,10 @@ body.x-body-masked .x-dlg select {
 
 #x-msg-box .x-msg-box-wait {
 	background: transparent url(/theme/extjs/default/grid/loading.gif) no-repeat left;
-    display:block;
-    width:300px;
-    padding-left:18px;
-    line-height:18px;
+	display:block;
+	width:300px;
+	padding-left:18px;
+	line-height:18px;
 }
 .x-dd-drag-proxy{
 	position:absolute;
@@ -2093,8 +2093,8 @@ body.x-body-masked .x-dlg select {
 	color: black;
 	font: normal 11px arial, helvetica, sans-serif;
 	-moz-opacity: 0.85;
-   opacity:.85;
-   filter: alpha(opacity=85);
+	opacity:.85;
+	filter: alpha(opacity=85);
 	border-top:1px solid #dddddd;
 	border-left:1px solid #dddddd;
 	border-right:1px solid #bbbbbb;
@@ -2106,8 +2106,8 @@ body.x-body-masked .x-dlg select {
 }
 .x-dd-drag-repair .x-dd-drag-ghost{
 	-moz-opacity: 0.4;
-   opacity:.4;
-   filter: alpha(opacity=40);
+	opacity:.4;
+	filter: alpha(opacity=40);
 	border:0 none;
 	padding:0;
 	background-color:transparent;
@@ -2116,7 +2116,7 @@ body.x-body-masked .x-dlg select {
 	visibility:hidden;
 }
 .x-dd-drop-icon{
-  position:absolute;
+	position:absolute;
 	top:3px;
 	left:3px;
 	display:block;
@@ -2128,13 +2128,13 @@ body.x-body-masked .x-dlg select {
 	z-index:1;
 }
 .x-dd-drop-nodrop .x-dd-drop-icon{
-  background-image: url(/theme/extjs/default/dd/drop-no.gif);
+	background-image: url(/theme/extjs/default/dd/drop-no.gif);
 }
 .x-dd-drop-ok .x-dd-drop-icon{
-  background-image: url(/theme/extjs/default/dd/drop-yes.gif);
+	background-image: url(/theme/extjs/default/dd/drop-yes.gif);
 }
 .x-dd-drop-ok-add .x-dd-drop-icon{
-  background-image: url(/theme/extjs/default/dd/drop-add.gif);
+	background-image: url(/theme/extjs/default/dd/drop-add.gif);
 }
 .x-tree-icon, .x-tree-ec-icon, .x-tree-elbow-line, .x-tree-elbow, .x-tree-elbow-end, .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus{
 	border: 0 none;
@@ -2143,7 +2143,7 @@ body.x-body-masked .x-dlg select {
 	padding: 0;
 	vertical-align: middle;
 	width: 16px;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 }
 .x-tree-node-collapsed .x-tree-node-icon, .x-tree-node-expanded .x-tree-node-icon, .x-tree-node-leaf .x-tree-node-icon{
 	border: 0 none;
@@ -2153,7 +2153,7 @@ body.x-body-masked .x-dlg select {
 	vertical-align: middle;
 	width: 16px;
 	background-position:center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 }
 
 
@@ -2167,16 +2167,15 @@ body.x-body-masked .x-dlg select {
 	background-image:url(/theme/extjs/default/tree/leaf.gif);
 }
 
-
 .ext-ie input.x-tree-node-cb {
-    width:15px;
-    height:15px;
+	width:15px;
+	height:15px;
 }
 input.x-tree-node-cb {
-    margin-left:1px;
+	margin-left:1px;
 }
 .ext-ie input.x-tree-node-cb {
-    margin-left:0;
+	margin-left:0;
 }
 
 
@@ -2188,8 +2187,8 @@ input.x-tree-node-cb {
 	background-image:url(/theme/extjs/default/tree/loading.gif) !important;
 }
 .x-tree-node-loading a span{
-	 font-style: italic;
-	 color:#444444;
+	font-style: italic;
+	color:#444444;
 }
 
 
@@ -2241,163 +2240,197 @@ input.x-tree-node-cb {
 .x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus{
 	cursor:pointer;
 }
-.ext-ie ul.x-tree-node-ct{
-    font-size:0;
-    line-height:0;
+
+.ext-ie ul.x-tree-node-ct, ul.x-tree-node-ct, .ext-ie ul.x-tree-root-ct, ul.x-tree-root-ct{
+	font-size:0;
+	line-height:0;
+	margin: 0;
+	padding:0;
+	list-style:none;
 }
+
 .x-tree-node{
 	color: black;
 	font: normal 11px arial, tahoma, helvetica, sans-serif;
 	white-space: nowrap;
 }
+
 .x-tree-node a, .x-dd-drag-ghost a{
 	text-decoration:none;
 	color:black;
 	-khtml-user-select:none;
 	-moz-user-select:none;
-    -kthml-user-focus:normal;
-    -moz-user-focus:normal;
-    -moz-outline: 0 none;
-    outline:0 none;
+	-kthml-user-focus:normal;
+	-moz-user-focus:normal;
+	-moz-outline: 0 none;
+	outline:0 none;
 }
+
 .x-tree-node a span, .x-dd-drag-ghost a span{
 	text-decoration:none;
 	color:black;
 	padding:1px 3px 1px 2px;
 }
+
 .x-tree-node .x-tree-node-disabled a span{
 	color:gray !important;
 }
+
 .x-tree-node .x-tree-node-disabled .x-tree-node-icon{
 	-moz-opacity: 0.5;
-   opacity:.5;
-   filter: alpha(opacity=50);
+	opacity:.5;
+	filter: alpha(opacity=50);
 }
+
 .x-tree-node .x-tree-node-inline-icon{
 	background:transparent;
 }
+
 .x-tree-node a:hover, .x-dd-drag-ghost a:hover{
 	text-decoration:none;
 }
+
 .x-tree-node div.x-tree-drag-insert-below{
- 	 border-bottom:1px dotted #3366cc;
+ 	border-bottom:1px dotted #3366cc;
 }
+
 .x-tree-node div.x-tree-drag-insert-above{
-	 border-top:1px dotted #3366cc;
+	border-top:1px dotted #3366cc;
 }
+
 .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-below{
- 	 border-bottom:0 none;
+ 	border-bottom:0 none;
 }
+
 .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-above{
-	 border-top:0 none;
+	border-top:0 none;
 }
+
 .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-below a{
- 	 border-bottom:2px solid #3366cc;
+ 	border-bottom:2px solid #3366cc;
 }
+
 .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-above a{
-	 border-top:2px solid #3366cc;
+	border-top:2px solid #3366cc;
 }
+
 .x-tree-node .x-tree-drag-append a span{
-	 background:#dddddd;
-	 border:1px dotted gray;
+	background:#dddddd;
+	border:1px dotted gray;
 }
+
 .x-tree-node .x-tree-selected a span{
 	background:#3366cc;
 	color:white;
 }
+
 .x-dd-drag-ghost .x-tree-node-indent, .x-dd-drag-ghost .x-tree-ec-icon{
 	display:none !important;
 }
+
 .x-tree-drop-ok-append .x-dd-drop-icon{
-  background-image: url(/theme/extjs/default/tree/drop-add.gif);
+	background-image: url(/theme/extjs/default/tree/drop-add.gif);
 }
+
 .x-tree-drop-ok-above .x-dd-drop-icon{
-  background-image: url(/theme/extjs/default/tree/drop-over.gif);
+	background-image: url(/theme/extjs/default/tree/drop-over.gif);
 }
+
 .x-tree-drop-ok-below .x-dd-drop-icon{
-  background-image: url(/theme/extjs/default/tree/drop-under.gif);
+	background-image: url(/theme/extjs/default/tree/drop-under.gif);
 }
+
 .x-tree-drop-ok-between .x-dd-drop-icon{
-  background-image: url(/theme/extjs/default/tree/drop-between.gif);
+	background-image: url(/theme/extjs/default/tree/drop-between.gif);
 }
 
 .x-tip{
 	position: absolute;
 	top: 0;
-    left:0;
-    visibility: hidden;
+	left:0;
+	visibility: hidden;
 	z-index: 20000;
-    border:0 none;
+	border:0 none;
 }
+
 .x-tip .x-tip-close{
 	background-image: url(/theme/extjs/default/qtip/close.gif);
 	height: 15px;
 	float:right;
 	width: 15px;
-    margin:0 0 2px 2px;
-    cursor:pointer;
-    display:none;
+	margin:0 0 2px 2px;
+	cursor:pointer;
+	display:none;
 }
+
 .x-tip .x-tip-top {
 	background: transparent url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat 0 -12px;
 	height:6px;
-    overflow:hidden;
+	overflow:hidden;
 }
+
 .x-tip .x-tip-top-left {
 	background: transparent url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat 0 0;
 	padding-left:6px;
-    zoom:1;
+	zoom:1;
 }
+
 .x-tip .x-tip-top-right {
 	background: transparent url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat right 0;
 	padding-right:6px;
-    zoom:1;
+	zoom:1;
 }
+
 .x-tip .x-tip-ft {
 	background: transparent url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat 0 -18px;
 	height:6px;
-    overflow:hidden;
+	overflow:hidden;
 }
+
 .x-tip .x-tip-ft-left {
 	background: transparent url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat 0 -6px;
 	padding-left:6px;
-    zoom:1;
+	zoom:1;
 }
+
 .x-tip .x-tip-ft-right {
 	background: transparent url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat right -6px;
 	padding-right:6px;
-    zoom:1;
+	zoom:1;
 }
+
 .x-tip .x-tip-bd {
-    border:0 none;
-    font: normal 11px tahoma,arial,helvetica,sans-serif;
+	border:0 none;
+	font: normal 11px tahoma,arial,helvetica,sans-serif;
 }
+
 .x-tip .x-tip-bd-left {
 	background: #fff url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat 0 -24px;
 	padding-left:6px;
-    zoom:1;
+	zoom:1;
 }
+
 .x-tip .x-tip-bd-right {
 	background: transparent url(/theme/extjs/default/qtip/tip-sprite.gif) no-repeat right -24px;
 	padding-right:6px;
-    zoom:1;
+	zoom:1;
 }
 
 .x-tip h3 {
-    font: bold 11px tahoma,arial,helvetica,sans-serif;
-    margin:0;
-    padding:2px 0;
-    color:#444;
-}
-.x-tip .x-tip-bd-inner {
-    font: normal 11px tahoma,arial,helvetica,sans-serif;
-    margin:0 !important;
-    line-height:14px;
-    color:#444;
-    padding:0;
-    float:left;
+	font: bold 11px tahoma,arial,helvetica,sans-serif;
+	margin:0;
+	padding:2px 0;
+	color:#444;
 }
 
+.x-tip .x-tip-bd-inner {
+	font: normal 11px tahoma,arial,helvetica,sans-serif;
+	margin:0 !important;
+	line-height:14px;
+	color:#444;
+	padding:0;
+	float:left;
+}
 
 .x-form-invalid-tip {
 }
@@ -2427,24 +2460,24 @@ input.x-tree-node-cb {
 	background-image: url(/theme/extjs/default/form/error-tip-corners.gif);
 }
 .x-form-invalid-tip .x-tip-bd .x-tip-bd-inner {
-    padding-left:24px;
-    background:transparent url(/theme/extjs/default/form/exclamation.gif) no-repeat 2px 2px;
+	padding-left:24px;
+	background:transparent url(/theme/extjs/default/form/exclamation.gif) no-repeat 2px 2px;
 }
 .x-form-invalid-tip .x-tip-bd-inner {
-    padding:2px;
+	padding:2px;
 }
 .x-date-picker {
-    border: 1px solid #1b376c;
-    border-top:0 none;
-    background:#fff;
-	 position:relative;
+	border: 1px solid #1b376c;
+	border-top:0 none;
+	background:#fff;
+	position:relative;
 }
 .x-date-picker a {
-    -moz-outline:0 none;
-    outline:0 none;
+	-moz-outline:0 none;
+	outline:0 none;
 }
 .x-date-inner, .x-date-inner td, .x-date-inner th{
-    border-collapse:separate;
+	border-collapse:separate;
 }
 .x-date-middle,.x-date-left,.x-date-right {
 	background: url(/theme/extjs/default/basic-dialog/hd-sprite.gif) repeat-x 0 -83px;
@@ -2455,84 +2488,84 @@ input.x-tree-node-cb {
 
 .x-date-middle .x-btn-left,.x-date-middle .x-btn-center,.x-date-middle .x-btn-right{
 	background:transparent !important;
-    vertical-align:middle;
+	vertical-align:middle;
 }
 .x-date-middle .x-btn .x-btn-text {
-    color:#fff;
+	color:#fff;
 }
-.x-date-middle .x-btn-with-menu  .x-btn-center em {
-    background:transparent url(/theme/extjs/default/toolbar/btn-arrow-light.gif) no-repeat right 0;
+.x-date-middle .x-btn-with-menu	.x-btn-center em {
+	background:transparent url(/theme/extjs/default/toolbar/btn-arrow-light.gif) no-repeat right 0;
 }
 .x-date-right, .x-date-left {
-    width:18px;
+	width:18px;
 }
 .x-date-right{
-    text-align:right;
+	text-align:right;
 }
 .x-date-middle {
-    padding-top:2px;padding-bottom:2px;
+	padding-top:2px;padding-bottom:2px;
 }
 .x-date-right a, .x-date-left a{
-    display:block;
-    width:16px;
+	display:block;
+	width:16px;
 	height:16px;
 	background-position: center;
 	background-repeat: no-repeat;
 	cursor:pointer;
-    -moz-opacity: 0.6;
-    opacity:.6;
-    filter: alpha(opacity=60);
+	-moz-opacity: 0.6;
+	opacity:.6;
+	filter: alpha(opacity=60);
 }
 .x-date-right a:hover, .x-date-left a:hover{
-    -moz-opacity: 1;
-    opacity:1;
-    filter: alpha(opacity=100);
+	-moz-opacity: 1;
+	opacity:1;
+	filter: alpha(opacity=100);
 }
 .x-date-right a {
-    background-image: url(/theme/extjs/default/shared/right-btn.gif);
-    margin-right:2px;
-    text-decoration:none !important;
+	background-image: url(/theme/extjs/default/shared/right-btn.gif);
+	margin-right:2px;
+	text-decoration:none !important;
 }
 .x-date-left a{
 	background-image: url(/theme/extjs/default/shared/left-btn.gif);
-    margin-left:2px;
-    text-decoration:none !important;
+	margin-left:2px;
+	text-decoration:none !important;
 }
 table.x-date-inner {
-    width:100%;
-    table-layout:fixed;
+	width:100%;
+	table-layout:fixed;
 }
 .x-date-inner th {
-    width:25px;
+	width:25px;
 }
 .x-date-inner th {
-    background: #dfecfb url(/theme/extjs/default/shared/glass-bg.gif) repeat-x left top;
-    text-align:right !important;
+	background: #dfecfb url(/theme/extjs/default/shared/glass-bg.gif) repeat-x left top;
+	text-align:right !important;
 	border-bottom: 1px solid #a3bad9;
-    font:normal 10px arial, helvetica,tahoma,sans-serif;
+	font:normal 10px arial, helvetica,tahoma,sans-serif;
 	color:#233d6d;
 	cursor:default;
-    padding:0;
-    border-collapse:separate;
+	padding:0;
+	border-collapse:separate;
 }
 .x-date-inner th span {
-    display:block;
-    padding:2px;
-    padding-right:7px;
+	display:block;
+	padding:2px;
+	padding-right:7px;
 }
 .x-date-inner td {
-    border: 1px solid #fff;
+	border: 1px solid #fff;
 	text-align:right;
-    padding:0;
+	padding:0;
 }
 .x-date-inner a {
-    padding:2px 5px;
-    display:block;
-    font:normal 11px arial, helvetica,tahoma,sans-serif;
+	padding:2px 5px;
+	display:block;
+	font:normal 11px arial, helvetica,tahoma,sans-serif;
 	text-decoration:none;
-    color:black;
-    text-align:right;
-    zoom:1;
+	color:black;
+	text-align:right;
+	zoom:1;
 }
 .x-date-inner .x-date-active{
 	cursor:pointer;
@@ -2541,29 +2574,29 @@ table.x-date-inner {
 .x-date-inner .x-date-selected a{
 	background: #dfecfb url(/theme/extjs/default/shared/glass-bg.gif) repeat-x left top;
 	border:1px solid #8db2e3;
-   padding:1px 4px;
+	padding:1px 4px;
 }
 .x-date-inner .x-date-today a{
 	border: 1px solid darkred;
-    padding:1px 4px;
+	padding:1px 4px;
 }
 .x-date-inner .x-date-selected span{
-    font-weight:bold;
+	font-weight:bold;
 }
 .x-date-inner .x-date-prevday a,.x-date-inner .x-date-nextday a {
 	color:#aaaaaa;
-    text-decoration:none !important;
+	text-decoration:none !important;
 }
 .x-date-bottom {
-    padding:4px;
-    border-top: 1px solid #a3bad9;
-    background: #dfecfb url(/theme/extjs/default/shared/glass-bg.gif) repeat-x left top;
+	padding:4px;
+	border-top: 1px solid #a3bad9;
+	background: #dfecfb url(/theme/extjs/default/shared/glass-bg.gif) repeat-x left top;
 }
 
 .x-date-inner a:hover, .x-date-inner .x-date-disabled a:hover{
-    text-decoration:none !important;
-    color:black;
-    background: #ddecfe;
+	text-decoration:none !important;
+	color:black;
+	background: #ddecfe;
 }
 
 .x-date-inner .x-date-disabled a {
@@ -2572,7 +2605,7 @@ table.x-date-inner {
 	color:#bbbbbb;
 }
 .x-date-mmenu{
-    background:#eeeeee !important;
+	background:#eeeeee !important;
 }
 .x-date-mmenu .x-menu-item {
 	font-size:10px;
@@ -2581,8 +2614,8 @@ table.x-date-inner {
 	color:#000;
 }
 .x-date-mmenu .x-menu-item .x-menu-item-icon {
-    width:10px;height:10px;margin-right:5px;
-    background-position:center -4px !important;
+	width:10px;height:10px;margin-right:5px;
+	background-position:center -4px !important;
 }
 
 .x-date-mp {
@@ -2593,11 +2626,11 @@ table.x-date-inner {
 	display:none;
 }
 .x-date-mp td {
-    padding:2px;
+	padding:2px;
 	font:normal 11px arial, helvetica,tahoma,sans-serif;
 }
 td.x-date-mp-month,td.x-date-mp-year,td.x-date-mp-ybtn {
-   border: 0 none;
+	border: 0 none;
 	text-align:center;
 	vertical-align: middle;
 	width:25%;
@@ -2622,7 +2655,7 @@ td.x-date-mp-month,td.x-date-mp-year,td.x-date-mp-ybtn {
 }
 .x-date-mp-btns td {
 	border-top: 1px solid #c5d2df;
-   text-align:center;
+	text-align:center;
 }
 td.x-date-mp-month a,td.x-date-mp-year a {
 	display:block;
@@ -2645,43 +2678,43 @@ td.x-date-mp-sel a {
 	border:1px solid #8db2e3;
 }
 .x-date-mp-ybtn a {
-    overflow:hidden;
-    width:15px;
-    height:15px;
-    cursor:pointer;
-    background:transparent url(/theme/extjs/default/panel/tool-sprites.gif) no-repeat;
-    display:block;
-    margin:0 auto;
+	overflow:hidden;
+	width:15px;
+	height:15px;
+	cursor:pointer;
+	background:transparent url(/theme/extjs/default/panel/tool-sprites.gif) no-repeat;
+	display:block;
+	margin:0 auto;
 }
 .x-date-mp-ybtn a.x-date-mp-next {
-    background-position:0 -120px;
+	background-position:0 -120px;
 }
 .x-date-mp-ybtn a.x-date-mp-next:hover {
-    background-position:-15px -120px;
+	background-position:-15px -120px;
 }
 .x-date-mp-ybtn a.x-date-mp-prev {
-    background-position:0 -105px;
+	background-position:0 -105px;
 }
 .x-date-mp-ybtn a.x-date-mp-prev:hover {
-    background-position:-15px -105px;
+	background-position:-15px -105px;
 }
 .x-date-mp-ybtn {
-   text-align:center;
+	text-align:center;
 }
 td.x-date-mp-sep {
-   border-right:1px solid #c5d2df;
+	border-right:1px solid #c5d2df;
 }
 .x-menu {
 	border:1px solid #718bb7;
-    z-index: 15000;
+	z-index: 15000;
 	background: #fff url(/theme/extjs/default/menu/menu.gif) repeat-y;
 }
 .ext-ie .x-menu {
-    zoom:1;
-    overflow:hidden;
+	zoom:1;
+	overflow:hidden;
 }
 .x-menu-list{
-    border:1px solid #fff;
+	border:1px solid #fff;
 }
 .x-menu li{
 	line-height:100%;
@@ -2692,8 +2725,8 @@ td.x-date-mp-sep {
 }
 .x-menu-list-item{
 	font:normal 11px tahoma,arial, sans-serif;
-    white-space: nowrap;
-    -moz-user-select: none;
+	white-space: nowrap;
+	-moz-user-select: none;
 	-khtml-user-select: none;
 	display:block;
 	padding:1px;
@@ -2705,8 +2738,8 @@ td.x-date-mp-sep {
 	display:block;
 	font-size:1px;
 	line-height:1px;
-    height:1px;
-    background:#c3daf9;
+	height:1px;
+	background:#c3daf9;
 	margin: 3px 3px 3px 32px;
 }
 .x-menu-focus {
@@ -2715,7 +2748,7 @@ td.x-date-mp-sep {
 	top:-5px;
 	width:0;
 	height:0;
-    line-height:1px;
+	line-height:1px;
 }
 .x-menu-item {
 	display:block;
@@ -2741,7 +2774,7 @@ td.x-date-mp-sep {
 	vertical-align: middle;
 	width: 16px;
 	margin: 0 11px 0 0;
-    background-position:center;
+	background-position:center;
 }
 
 .x-menu-check-item .x-menu-item-icon{
@@ -2756,7 +2789,7 @@ td.x-date-mp-sep {
 }
 
 .x-menu-item-checked .x-menu-group-item .x-menu-item-icon{
-    background: transparent url(/theme/extjs/default/menu/group-checked.gif) no-repeat center;
+	background: transparent url(/theme/extjs/default/menu/group-checked.gif) no-repeat center;
 }
 
 .x-menu-plain {
@@ -2767,27 +2800,27 @@ td.x-date-mp-sep {
 }
 
 .x-menu .x-color-palette, .x-menu .x-date-picker{
-    margin-left:32px;
+	margin-left:32px;
 	margin-right:4px;
 }
 .x-menu .x-date-picker{
-    border:1px solid #a3bad9;
-    margin-top:2px;
-    margin-bottom:2px;
+	border:1px solid #a3bad9;
+	margin-top:2px;
+	margin-bottom:2px;
 }
 .x-menu-plain .x-color-palette, .x-menu-plain .x-date-picker{
 	margin:0;
-    border:0 none;
+	border:0 none;
 }
 .x-date-menu {
-   padding:0 !important;
+	padding:0 !important;
 }
 
 
 
 .x-box-tl {
 	background: transparent url(/theme/extjs/default/box/corners.gif) no-repeat 0 0;
-    zoom:1;
+	zoom:1;
 }
 
 .x-box-tc {
@@ -2804,7 +2837,7 @@ td.x-date-mp-sep {
 	background: transparent url(/theme/extjs/default/box/l.gif) repeat-y 0;
 	padding-left: 4px;
 	overflow: hidden;
-    zoom:1;
+	zoom:1;
 }
 
 .x-box-mc {
@@ -2819,7 +2852,7 @@ td.x-date-mp-sep {
 	font-size: 14px;
 	font-weight: bold;
 	margin: 0 0 4 0;
-    zoom:1;
+	zoom:1;
 }
 
 .x-box-mr {
@@ -2830,7 +2863,7 @@ td.x-date-mp-sep {
 
 .x-box-bl {
 	background: transparent url(/theme/extjs/default/box/corners.gif) no-repeat 0 -16px;
-    zoom:1;
+	zoom:1;
 }
 
 .x-box-bc {
@@ -2876,146 +2909,180 @@ td.x-date-mp-sep {
 .x-box-blue .x-box-mr {
 	background-image: url(/theme/extjs/default/box/r-blue.gif);
 }
+
 #x-debug-browser .x-tree .x-tree-node a span {
-    color:#222297;
-    font-size:12px;
-    padding-top:2px;
-    font-family:"courier","courier new";
-    line-height:18px;
+	color:#222297;
+	font-size:12px;
+	padding-top:2px;
+	font-family:"courier","courier new";
+	line-height:18px;
 }
+
 #x-debug-browser .x-tree a i {
-    color:#FF4545;
-    font-style:normal;
+	color:#FF4545;
+	font-style:normal;
 }
+
 #x-debug-browser .x-tree a em {
-    color:#999;
+	color:#999;
 }
+
 #x-debug-browser .x-tree .x-tree-node .x-tree-selected a span{
-    background:#c3daf9;
+	background:#c3daf9;
 }
+
 #x-debug-browser pre, .x-debug-browser pre xmp {
-    font:normal 11px tahoma, arial, helvetica, sans-serif !important;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
+	font:normal 11px tahoma, arial, helvetica, sans-serif !important;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
 }
+
 #x-debug-browser pre {
-    display:block;
-    padding:5px !important;
-    border-bottom:1px solid #eeeeee !important;
+	display:block;
+	padding:5px !important;
+	border-bottom:1px solid #eeeeee !important;
 }
+
 #x-debug-browser pre xmp {
-    padding:0 !important;
-    margin:0 !important;
+	padding:0 !important;
+	margin:0 !important;
 }
+
 #x-debug-console .x-layout-panel-center, #x-debug-inspector .x-layout-panel-center {
-      border-right:1px solid #98c0f4;
+		border-right:1px solid #98c0f4;
 }
+
 #x-debug-console textarea {
-    border: 0 none;
-    font-size:12px;
-    font-family:"courier","courier new";
-    padding-top:4px;
-    padding-left:4px;
+	border: 0 none;
+	font-size:12px;
+	font-family:"courier","courier new";
+	padding-top:4px;
+	padding-left:4px;
 }
+
 .x-debug-frame {
-    background:#eeeeee;
-    border:1px dashed #aaaaaa;
+	background:#eeeeee;
+	border:1px dashed #aaaaaa;
 }
+
 .x-combo-list {
-    border:1px solid #98c0f4;
-    background:#ddecfe;
-    zoom:1;
-    overflow:hidden;
+	border:1px solid #98c0f4;
+	background:#ddecfe;
+	zoom:1;
+	overflow:hidden;
 }
+
 .x-combo-list-inner {
-    overflow:auto;
-    background:white;
-    position:relative; 
-    zoom:1;
-    overflow-x:hidden;
+	overflow:auto;
+	background:white;
+	position:relative; 
+	zoom:1;
+	overflow-x:hidden;
 }
+
 .x-combo-list-hd {
-    font:bold 11px tahoma, arial, helvetica, sans-serif;
-    color:#15428b;
-    background-image: url(/theme/extjs/default/layout/panel-title-light-bg.gif);
-    border-bottom:1px solid #98c0f4;
-    padding:3px;
+	font:bold 11px tahoma, arial, helvetica, sans-serif;
+	color:#15428b;
+	background-image: url(/theme/extjs/default/layout/panel-title-light-bg.gif);
+	border-bottom:1px solid #98c0f4;
+	padding:3px;
 }
+
 .x-resizable-pinned .x-combo-list-inner {
-    border-bottom:1px solid #98c0f4;
+	border-bottom:1px solid #98c0f4;
 }
+
 .x-combo-list-item {
-    font:normal 12px tahoma, arial, helvetica, sans-serif;
-    padding:2px;
-    border:1px solid #fff;
-    white-space: nowrap;
-    overflow:hidden;
-    text-overflow: ellipsis;
+	font:normal 12px tahoma, arial, helvetica, sans-serif;
+	padding:2px;
+	border:1px solid #fff;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
 }
+
 .x-combo-list .x-combo-selected{
 	background-color: #c3daf9 !important;
-    cursor:pointer;
-    border:1px solid #336699;
+	cursor:pointer;
+	border:1px solid #336699;
 }
+
 .x-combo-noedit{
-    cursor:pointer;
+	cursor:pointer;
 }
+
 .x-combo-list-small .x-combo-list-item {
-    font:normal 11px tahoma, arial, helvetica, sans-serif;
+	font:normal 11px tahoma, arial, helvetica, sans-serif;
 }
+
 .x-html-editor-wrap {
-    border:1px solid #a9bfd3;
-    background:white;
+	border:1px solid #a9bfd3;
+	background:white;
 }
+
 .x-html-editor-tb .x-btn-text {
-    background:transparent url(/theme/extjs/default/editor/tb-sprite.gif) no-repeat;
+	background:transparent url(/theme/extjs/default/editor/tb-sprite.gif) no-repeat;
 }
+
 .x-html-editor-tb .x-edit-bold .x-btn-text {
-    background-position:0 0;
+	background-position:0 0;
 }
+
 .x-html-editor-tb .x-edit-italic .x-btn-text {
-    background-position:-16px 0;
+	background-position:-16px 0;
 }
+
 .x-html-editor-tb .x-edit-underline .x-btn-text {
-    background-position:-32px 0;
+	background-position:-32px 0;
 }
+
 .x-html-editor-tb .x-edit-forecolor .x-btn-text {
-    background-position:-160px 0;
+	background-position:-160px 0;
 }
+
 .x-html-editor-tb .x-edit-backcolor .x-btn-text {
-    background-position:-176px 0;
+	background-position:-176px 0;
 }
+
 .x-html-editor-tb .x-edit-justifyleft .x-btn-text {
-    background-position:-112px 0;
+	background-position:-112px 0;
 }
+
 .x-html-editor-tb .x-edit-justifycenter .x-btn-text {
-    background-position:-128px 0;
+	background-position:-128px 0;
 }
+
 .x-html-editor-tb .x-edit-justifyright .x-btn-text {
-    background-position:-144px 0;
+	background-position:-144px 0;
 }
+
 .x-html-editor-tb .x-edit-insertorderedlist .x-btn-text {
-    background-position:-80px 0;
+	background-position:-80px 0;
 }
+
 .x-html-editor-tb .x-edit-insertunorderedlist .x-btn-text {
-    background-position:-96px 0;
+	background-position:-96px 0;
 }
+
 .x-html-editor-tb .x-edit-increasefontsize .x-btn-text {
-    background-position:-48px 0;
+	background-position:-48px 0;
 }
+
 .x-html-editor-tb .x-edit-decreasefontsize .x-btn-text {
-    background-position:-64px 0;
+	background-position:-64px 0;
 }
+
 .x-html-editor-tb .x-edit-sourceedit .x-btn-text {
-    background-position:-192px 0;
+	background-position:-192px 0;
 }
+
 .x-html-editor-tb .x-edit-createlink .x-btn-text {
-    background-position:-208px 0;
+	background-position:-208px 0;
 }
 
 .x-html-editor-tip .x-tip-bd .x-tip-bd-inner {
-    padding:5px;
-    padding-bottom:1px;
+	padding:5px;
+	padding-bottom:1px;
 }
