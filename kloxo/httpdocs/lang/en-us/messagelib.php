@@ -200,7 +200,7 @@ $__information['lxbackup_updateform_restore_from_file_pre'] =	"<p>You can upload
 $__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the <b>Manage Php Configuration</b> flag to let Kloxo-MR manage your php.ini completely.</p>".
 	"<p>Please note that your old php.ini will be overwritten. To restore your old php.ini, just disable <b>Manage Php Configuration</b> and update.</p>".
 	"<p>It is recommended that you let Kloxo-MR completely handle your php configuration, and ask in our forum if you need special features.</p>".
-	"<p>Installing PHP modules (like xcache/ioncube/zend/suhosin) rpm via yum. Installing this modules depend on php branch and version installed on system. " .
+	"<p>Installing PHP modules (like xcache/ioncube/zend/suhosin) rpm via yum. Installing these modules depend on php branch and version installed on system. " .
 	"<b>Example</b>: when using php53u branch, installing with 'yum install php53u-xcache'. Try 'php -m' for to make sure</p>";
 
 $__information['client_updateform_wall_pre'] = "<p><b>Note:</b> The Message will only be sent to your direct children (one level, ".
@@ -217,11 +217,11 @@ $__information['dskshortcut_a_list__pre'] = "<p>To add a page to the favorites, 
 $__information['ticketconfig_updateform_ticketconfig_pre'] = "<p>The mailgate is an account from which Kloxo-MR will download mails at particular intervals, ".
 	"and will be parsed and added to the helpdesk.</p>".
 	"<p>When sending out mails, Kloxo-MR will send the mails as originating from the address you configure. ".
-	"The address is of the form <b>account@domain.com</b>. Server is the pop server from which to download the mails.<b>server.com</b>.</p>".
+	"The address is of the form <b>account@domain.com</b>. Server is the pop server from which to download the mail.<b>server.com</b>.</p>".
 	"<p>If you check the <b>use ssl</b> box, then the mail will be downloaded over pop3-ssl, at port 995. ".
 	"It is always recommended that you use ssl, but you will need to make sure that the remote mail serer does support pop3-ssl service at port 995.</p>";
 
-$__information['updateform_mysqlpasswordreset_pre'] = "<p>This should only be used if you have lost the root password.</p>".
+$__information['updateform_mysqlpasswordreset_pre'] = "<p>This should only be used if you have lost the MySQL database root password.</p>".
 	"<p>In normal circumstances, you can change the password by clicking <url:a=list&c=dbadmin>here</url> (database admin).</p>".
 	"<p>Please be patient as this will take a while to finish. This will reset the mysql root password by running it with the skip-grant-tables option.</p>".
 	"<p>If this doesn't work, please login through ssh and run '<b>sh /script/reset-mysql-root-password</b>'.</p>";
@@ -342,7 +342,7 @@ $__information['installapp_addform__pre'] = "<p>To install an application in the
 	"<p>To install the same application for another domain, please use the select box on the top, and change the domain to another, ".
 	"and you will be able to get same form with the new domain as the parent.</p>".
 	"<p>A message with login and url information will be sent to the contact email address you provide here.</p>".
-	"<p><b><span style='color: red;'>WARNING:</span></b> InstallApp is deprecated. Use Installatron or SpectrApps.</p>";
+	"<p><b><span style='color: red;'>WARNING:</span></b> InstallApp is deprecated. Use Installatron or SpectrApps instead.</p>";
 
 $__information['mysqldb_updateform_restore_pre'] = "<p>You can use this only to restore the backups that were explicitly taken in Kloxo-MR ".
 	"itself using the <b>Get Backup</b> tab.</p>".
@@ -756,5 +756,5 @@ $__information['cron_addform_complex_pre'] = $__information['cron_addform_simple
 
 $__information['serverftp_updateform_update_pre'] =  "<p>Basic setting for FTP server.</p>";
 
-$__information['client_updateform_information_pre'] =  "<p>No information...</p>";
+$__information['client_updateform_information_pre'] =  "<p>As admin, if you have <url:a=list&c=auxiliary>auxillary login</url> for admin, you can set 'Disable Admin Login' and use auxillary login for login purpose.</p>";
 

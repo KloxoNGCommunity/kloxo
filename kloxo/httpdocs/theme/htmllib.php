@@ -1719,20 +1719,7 @@ class HtmlLib
 			}
 ?>
 										<td width='100%' style="cursor: move;" align='center'><span style='font-weight: bold' title='<?= $dragstring ?>'>&nbsp;<?= $a[$title] ?>&nbsp;</span></td>
-<?php
-	//	if (($show_direction !== 'horizontal') || ($retcount === 1)) {
-?>
-										<td class='handle' style='cursor: pointer'
-										    onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">
-											<!-- <img id="img_<?= $nametitle ?>" name="img_<?= $nametitle ?>"
-											     src="<?= $minus ?>"> -->&nbsp;&#x00b1;&nbsp;</td>
-<?php
-	//		} else {
-?>
-										<!-- <td class='handle'>&nbsp;</td> -->
-<?php
-	//		}
-?>
+										<td class='handle' style='cursor: pointer' onclick="blindUpOrDown('<?= $lclass ?>', '<?= $class ?>', '<?= $skindir ?>', '<?= $nametitle ?>')">&nbsp;&#x00b1;&nbsp;</td>
 									</tr>
 								</table>
 
@@ -3425,7 +3412,6 @@ class HtmlLib
 				if (csa($pname, "_lxinurl:")) {
 					$url = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "$1", $pname);
 					$url = $this->getFullUrl($url);
-					$url = "\"$url\"";
 					$pname = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "<a class='insidelist' href='$url'> $2 </a>", $pname);
 				}
 
@@ -4751,7 +4737,6 @@ class HtmlLib
 			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 ?>
 
-						<!-- <td width=10 style='<?= $backgroundstring ?>'> <?= $filteropacitystringspan ?> -->
 						<td width='10' class="collist"> <?= $filteropacitystringspan ?>
 <?php
 				if ($checked !== 'disabled') {
@@ -6733,13 +6718,6 @@ class HtmlLib
 			$text = "<span class=last> <span size=1>$realval%</span></span>";
 		}
 
-		if ($info != null) {
-?>
-
-			<!-- <div style="width:50px; float:left"><b><?= $info ?></b></div> -->
-<?php
-		}
-
 		// MR -- also need this process to fix title
 		$alt = preg_replace("/_lxspan:([^:]*):([^:]*):/", "$2", $alt);
 ?>
@@ -7001,9 +6979,6 @@ class HtmlLib
 			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)">
 				<span style='font-weight:bold'>&nbsp;<?= $login->getDescriptionUc('comments') ?>&nbsp;[<a href="<?= $url ?>"><?= $login->getDescriptionUc('edit') ?></a>]
 			</div>
-			<!-- <div>
-				<textarea nowrap id="textarea" class="<?= $rclass ?>" rows="<?= $rows ?>" style="border: 0; margin: 0; width: <?= $cols ?>; height: 100px;" name="<?= $variable ?>" size="30"><?= $value ?></textarea>
-			</div> -->
 		</div>
 		<br/>
 <?php
@@ -7203,9 +7178,6 @@ class HtmlLib
 		}
 ?>
 
-		<!-- <div style="width: 600px; margin: 0 auto 0 auto;"> -->
-		<!-- <div style="padding: 10px"> -->
-			<!-- <div style="width: 600px; margin: 0 auto 0 auto;"> -->
 			<div style="margin: 0 auto">
 				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $method ?>" <?= $onsubmit ?> accept-charset="utf-8">
 				<!-- <form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="get" <?= $onsubmit ?> accept-charset="utf-8"> -->
@@ -7330,9 +7302,6 @@ class HtmlLib
 				</form>
 			</div>
 			<br/>
-			<!-- <div>&nbsp;</div> -->
-		<!-- </div> -->
-
 <?php
 	}
 
@@ -7725,11 +7694,6 @@ class HtmlLib
 
 				break;
 			case "htmltextarea":
-?>
-
-					<!-- <tr>
-						<td colspan="1000"> -->
-<?php
 				if ($variable->height != "") {
 					$rows = $variable->height;
 				} else {
@@ -7765,11 +7729,6 @@ class HtmlLib
 				$oFCKeditor->BasePath = '/theme/fckeditor/';
 				$oFCKeditor->Value = $value;
 				$oFCKeditor->Create();
-?>
-
-						<!-- </td>
-					</tr> -->
-<?php
 
 				break;
 			case "textarea":
@@ -7966,38 +7925,26 @@ class HtmlLib
 		if ($sgbl->isBlackBackground()) {
 			$fontcolor = "#999999";
 		}
-?>
-<!-- <?= $info ?> -->
-<?php
-	//	if ($skin_name === 'feather') {
-			if ($pinfo !== '') {
-				$baselink = "a=" . $type;
-				if ($extr !== '') { $baselink .= "&sa=" . $extr; }
-				if ($class !== '') {
-					if ($type === 'show') {
-						$baselink .= "&o=" . $class;
-					} else {
-						$baselink .= "&c=" . $class;
-					}
+
+		if ($pinfo !== '') {
+			$baselink = "a=" . $type;
+
+			if ($extr !== '') { $baselink .= "&sa=" . $extr; }
+
+			if ($class !== '') {
+				if ($type === 'show') {
+					$baselink .= "&o=" . $class;
+				} else {
+					$baselink .= "&c=" . $class;
 				}
+			}
 ?>
 		<div class="infomsg" style="display: none; width: 600px; margin: 10px auto">
 			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold; color: #ffc"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <!-- <?= $info ?> --></div>
 			<div  style="padding: 0 10px; background-color: #cff; border: 1px solid #f88">
 <?php
 		//	$this->print_curvy_table_start();
-			}
-	/*
-		} else {
-			if ($pinfo !== '') {
-?>
-
-		<div class="infomsg" style="display:none; position:fixed; width: 600px; top: 45px; left: 50%; margin: 0 auto 0 -300px; padding:15px; background-color:#dfe; border:3px double #e22; text-align:left">
-<?php
-			}
-
 		}
-	*/
 
 		if ($sgbl->isBlackBackground()) {
 ?>
@@ -8006,11 +7953,9 @@ class HtmlLib
 <?php
 		}
 
-	//	if ($pinfo !== '') {
 ?>
 			<?= $pinfo ?>
 <?php
-	//	}
 
 		if ($sgbl->isBlackBackground()) {
 ?>
@@ -8019,7 +7964,6 @@ class HtmlLib
 <?php
 		}
 
-	//	if ($skin_name === 'feather') {
 		if ($pinfo !== '') {
 		//	$this->print_curvy_table_end();
 ?>
@@ -8027,15 +7971,6 @@ class HtmlLib
 		</div>
 <?php
 		}
-	/*
-		} else {
-			if ($pinfo !== '') {
-?>
-		</div>
-<?php
-			}
-		}
-	*/
 	}
 
 	// function print_curvy_table_start($width = "100")
@@ -9396,7 +9331,6 @@ class HtmlLib
 
 	<!-- "START CONTENT" -->
 	<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden">
-		<!-- <div style="text-align:center; width:100%; height: 100%; min-height: 100%; height: auto !important;<?= $bordering ?>; background-color: #fff"> -->
 		<table style="width: 100%; height: 100%; border: 0; margin: 0; padding: 0; <?= $bordering ?>; background-color: #fff"><tr><td style="vertical-align:top;">
 		<br/>
 <?php
@@ -9408,7 +9342,6 @@ class HtmlLib
 			</td>
 		</tr>
 	</table>
-		<!-- </div> -->
 <?php
 
 	}

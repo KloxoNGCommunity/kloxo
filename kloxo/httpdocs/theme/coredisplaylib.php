@@ -226,6 +226,7 @@ function __ac_desc_show($object)
 
 	$cname = $object->getClass();
 	$extra = $object->getExtraId();
+
 	$ghtml->print_information('pre', 'show', $cname, $extra, "");
 
 	$ilist = $object->createShowInfolist($subaction);
@@ -249,8 +250,7 @@ function __ac_desc_show($object)
 					<td align="center">
 						<table cellpadding="4" width="80%" cellspacing="13" border="1" height="80">
 							<tr>
-								<td> &nbsp; &nbsp; <img src="theme/general/button/warningpic.gif">
-									&nbsp; <?=$showalist['__v_message']?> </td>
+								<td>&nbsp;&nbsp;<img src="theme/general/button/warningpic.gif">&nbsp;<?=$showalist['__v_message']?></td>
 							</tr>
 						</table>
 					</td>
@@ -433,6 +433,8 @@ function __ac_desc_show($object)
 	}
 
 	$ghtml->print_information('post', 'show', $cname, $subaction, "");
+
+	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
 	
 	<!-- "I am here 3" -->
@@ -441,6 +443,8 @@ function __ac_desc_show($object)
 		</div>
 	</div>
 <?php
+	}
+
 	$ghtml->print_content_end();
 }
 
@@ -1866,7 +1870,6 @@ function print_navigation($navig)
 				//	$ghtml->print_div_button_on_header(null, true, $k, '');
 ?>
 
-				<!-- <div style="float:right; padding: 2px;"><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')) {top.location = '/lib/php/logout.php';}" /></div> -->
 				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityByClass('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) {top.location = '/lib/php/logout.php';}" /></div>
 <?php
 			}
@@ -2460,7 +2463,6 @@ function print_head_image()
 			if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
 
-				<!-- <td nowrap valign='top'><input type="button" value="Help" onmouseout="document.getElementById('infomsg').style.display='none';" onmouseover="document.getElementById('infomsg').style.display='inline';" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td> -->
 				<td nowrap valign='top'><input type="button" value="Help" onClick="toggleVisibilityByClass('infomsg');" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
 <?php
 			}

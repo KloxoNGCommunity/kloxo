@@ -204,15 +204,11 @@ class Html extends Htmllib
 		}
 ?>
 
-	<!-- <table width='100%'>
-		<tr>
-			<td align='center'> -->
 		<div style="background-color: #fff; border-top: 1px solid #ddd">
 			<br />
 			<div style="width:910px; margin: 0 20px">
 				<table cellspacing='2' cellpadding='2' width='100%' align='center'>
 					<tr>
-						<!-- <td class='rowpoint'></td> -->
 						<td colspan="<?= $nlcount; ?>">
 							<table style="padding: 0; margin: 0; border: 0; border-collapse: collapse; width:100%">
 								<tr>
@@ -342,7 +338,6 @@ class Html extends Htmllib
 ?>
 
 		<tr>
-			<!-- <td bgcolor="#ffffff"></td> -->
 <?php
 
 		$imguparrow = get_general_image_path() . "/button/uparrow.gif";
@@ -462,7 +457,6 @@ class Html extends Htmllib
 			</script>
 
 			<tr id='tr<?= $unique_name . $rowcount; ?>' class='tablerow<?= $count; ?>' onmouseover="swapImage('imgpoint<?= $rowcount; ?>','','<?= $imgpointer; ?>',1);" onmouseout="swapImgRestore();">
-				<!-- <td id='td<?= $unique_name . $rowcount; ?>' width='5' class='rowpoint'><img name=imgpoint<?= $rowcount; ?> src="<?= $imgblank; ?>"></td> -->
 <?php
 			$colcount = 1;
 
@@ -533,7 +527,6 @@ class Html extends Htmllib
 			</td>
 		</tr>
 		<tr>
-			<!-- <td class='rowpoint'></td> -->
 			<td colspan="<?=$nlcount ?>">
 				<table cellpadding='0' cellspacing='0' border=0 width='100%'>
 					<tr height='1' style='background:url(<?=$imgtopline ?>)'>
@@ -567,7 +560,6 @@ class Html extends Htmllib
 	</div>
 	<br />
 </div>
-<!-- </td> </tr> </table> -->
 <?php
 
 		exit;
