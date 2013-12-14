@@ -3,7 +3,8 @@
 /*
 	REMARK:
 	- <%server%> - translate to current server (example: localhost)
-	- <%client%> - translate to current user login (example: admin)
+	- <%loginas%> - translate to current user login (example: admin)
+	- <%client%> - translate to current client of user login (example: tester)
 	- <%mailaccount%> - translate to current user login (example: admin@domain.com)
 	- <%program%> - translate kloxo
 	- <%programname%> - translate Kloxo-MR
@@ -516,7 +517,7 @@ $__information['webserver_config'] =
 
 $__information['mailaccount_show__pre'] = "<p>Login in Kloxo-MR panel with <b><%mailaccount%></b> will be going to this page directly.</p>";
 
-$__information['smessage_addform__pre'] = "<p>No information...</p>";
+$__information['smessage_addform__pre'] = "<p>You can send a message your client.</p>";
 
 $__information['ticket_addform__pre'] = "<p>You can make a ticket here. Previous tickets will be listing here.</p>";
 
@@ -533,9 +534,9 @@ $__information['helpdeskcategory_a_addform__pre'] = "<p>You can add/delete 'Help
 
 $__information['reversedns_addform__pre'] = "<p>Reverse dns only work for Class C (256 ips) or more.</p>";
 
-$__information['general_updateform_reversedns_pre'] = "<p>No information...</p>";
+$__information['general_updateform_reversedns_pre'] = "<p>Setting up basic Reverse/Forward DNS here.</p>";
 
-$__information['all_reversedns_list__pre'] = "<p>No information...</p>";
+// $__information['all_reversedns_list__pre'] = "<p>No information...</p>";
 
 $__information['vv_dns_blank_message'] = "<p>DNS Manager</p>";
 
@@ -543,31 +544,33 @@ $__information['dnstemplate_addform__pre'] = "<p><b>Primary and Secondary DNS</b
 	"<p>If selecting 'default' in 'DNS Template Name', 'default.dnst' is 'symbolic' domain name.</p>".
 	"<p><b>Example</b> - 'ns1.default.dnst' (on 'Primary DNS') will be converted to 'ns1.domain.com' for 'domain.com'.</p>";
 
-$__information['dns_show__pre'] = "<p>Here you can manage DDNS.</p>";
+$__information['dns_show__pre'] = "<p>Here you can manage DNS.</p>";
 
 $__information['dns_updateform_rebuild_pre'] = "<p>Here you can rebuild your domain zone from a DNS Template.</p>";
 
 $__information['dns_record_a_addform_ns_pre'] = "<p>Here you can manage the 'NS record'.</p>";
 
-$__information['dns_record_a_addform_a_pre'] = "<p>Here you can manage the 'A record'. Enter '__base__', if you want to get the base domain.</p>";
+$__information['dns_record_a_addform_a_pre'] = "<p>Here you can manage the 'A record'.</p>".
+	"<p>Enter '__base__', if you want to get the base domain.</p>";
 
 $__information['dns_record_a_addform_cname_pre'] = "<p>Here you can manage the 'CNAME record'.</p>";
 
 $__information['dns_record_a_addform_fcname_pre'] = "<p>Here you can manage the 'FCNAME record'. <b>FCNAME</b> stands for full cname and ".
 	"will allow you to point a subdomain to an external domain.</p>";
 
-$__information['dns_record_a_addform_mx_pre'] = "<p>Here you can manage the 'MX record'. Enter '__base__', if you want to get the base domain.</p>";
+$__information['dns_record_a_addform_mx_pre'] = "<p>Here you can manage the 'MX record'.</p>".
+	"<p>Enter '__base__', if you want to get the base domain.</p>";
 
-$__information['dns_record_a_addform_aaaa_pre'] = "<p>Here you can manage the 'AAAA record' (the same as 'A record' but for IPv6). ".
-	"Enter '__base__', if you want to get the base domain.</p>";
+$__information['dns_record_a_addform_aaaa_pre'] = "<p>Here you can manage the 'AAAA record' (the same as 'A record' but for IPv6).</p>".
+	"<p>Enter '__base__', if you want to get the base domain.</p>";
 
 $__information['dns_record_a_addform_txt_pre'] = "<p>Use &lt;%domain%&gt; if you want the domain name inside a TXT record. ".
 	"For instance, 'v=spf1 include: &lt;%domain%&gt;'.</p>".
-	"<p>Also, automatically create 'SRV record' with the same contents</p>";
+	"<p>Automatically create 'SRV record' with the same contents.</p>";
 
 $__information['dns_updateform_parameter_pre'] = "<p>Here you can manage the SOA record.</p>";
 
-$__information['dns_record_a_updateform_edit_pre'] = "<p>No information...</p>";
+// $__information['dns_record_a_updateform_edit_pre'] = "<p>No information...</p>";
 
 $__information['domain_addform__pre'] = "<p>Better use lowercase for 'Domain Name' and 'Document Root' to minimize compatiblity issue.</p>".
 	"<p>Subdomain like 'subdom.domain.com' consider as domain.</p>".
@@ -585,18 +588,22 @@ $__information['sp_specialplay_updateform_skin_pre'] = "<p>Base 'Appearance' is 
 	"<p><b>Example:</b> 'Feather' skin doesn't have 'background image' feature.</p>".
 	"<p><b>Note:</b> Simplicity skin may not work in old browser version. Found 'menu' problem in IE 8 or less version.</p>";
 
-$__information['lxupdate_updateform_lxupdateinfo_pre'] = "<p>No information...</p>";
+$__information['lxupdate_updateform_lxupdateinfo_pre'] = "<p>Click 'Update Now' for update. Update process will be run in background. The same way with <b>'sh /script/cleanup'</b>.</p>".
+	"<p>If Kloxo-MR panel not able to access after update, need running 'sh /script/restart' from ssh.</p>";
 
-$__information['releasenote_list__pre'] = "<p>No information...</p>";
+$__information['releasenote_list__pre'] = "<p>Information about Kloxo-MR release since first release.</p>";
 
-$__information['client_updateform_password_pre'] = "<p>No information...</p>";
+$__information['client_updateform_password_pre'] = "<p>Update password for <b><%client%></b>.</p>".
+	"<p>Better 8 character or more with combination of uppercase, lowercase and numeric.</p>".
+	"<p>Click 'Generate Password' if you want Kloxo-MR generating password for you.</p>";
 
 $__information['auxiliary_addform__pre'] = "<p>You can add/delete 'auxiliary login' (always with '.aux' postfix) as alternative id to login.</p>".
 	"<p>Don't give main account to anyone, instead 'auxiliary login'.</p>";
 
 $__information['all_auxiliary_list__pre'] = "<p>List all auxiliary login which you and your customer owned.</p>";
 
-$__information['ffile_updateform_upload_s_pre'] = "<p>You can upload backup file from your 'local pc'.</p>";
+$__information['ffile_updateform_upload_s_pre'] = "<p>You can upload backup file from your 'local pc'.</p>".
+	"<p>Maximum upload size is 2000MB (2GB - 48MB).</p>";
 
 $__information['ffile_updateform_download_from_http_pre'] = "<p>You can upload backup file via FTP from other remote server.</p>";
 
@@ -604,17 +611,18 @@ $__information['ffile_updateform_download_from_ftp_pre'] = "<p>Setup for remote 
 
 // $__information['ffile_show__pre'] = "<p>No information...</p>";
 
-$__information['domaindefault_updateform_update_pre'] = "<p>No information...</p>";
+// MR -- it's for 'processed log'
+$__information['domaindefault_updateform_update_pre'] = "<p>Click 'Update' to remove log in <b>'/home/<%client%>/__processed_stats/'</b>.</p>";
 
-$__information['utmp_list__pre'] = "<p>No information...</p>";
+// $__information['utmp_list__pre'] = "<p>No information...</p>";
 
-$__information['ftpsession_list__pre'] = "<p>No information...</p>";
+// $__information['ftpsession_list__pre'] = "<p>No information...</p>";
 
-$__information['client_updateform_shell_access_pre'] = "<p>No information...</p>";
+$__information['client_updateform_shell_access_pre'] = "<p>You can limiting SSH access for <b><%client%></b>.</p>";
 
 $__information['general_updateform_scavengetime_pre'] = "<p>The purpose of this feature is 'book keeping jobs' for disk/traffic/etc.</p>";
 
-$__information['general_updateform_maintenance_pre'] = "<p>No information...</p>";
+$__information['general_updateform_maintenance_pre'] = "<p>Send message 'System Under Maintenance' to your client.</p>";
 
 $__information['dirindexlist_a_addform__pre'] = "<p>By default, ".
 	"'index.php, index.html, index.shtml, index.htm, default.htm, Default.aspx, Default.asp, index.pl' already setup.</p>".
@@ -631,41 +639,43 @@ $__information['client_updateform_skeleton_pre'] = "<p>This is the archive of th
 
 $__information['notification_updateform_update_pre'] = "<p>Set 'notification' configure here.</p>";
 
-$__information['client_updateform_miscinfo_pre'] = "<p>No information...</p>";
+$__information['client_updateform_miscinfo_pre'] = "<p>Add 'miscellaneous information' for <b><%client%></b>.</p>";
 
 $__information['sp_childspecialplay_updateform_skin_pre'] = $__information['sp_specialplay_updateform_skin_pre'];
 
 $__information['psrole_a_addform__pre'] = "<p>No information...</p>";
 
-$__information['pserver_updateform_reboot_pre'] = "<p>No information...</p>";
+$__information['pserver_updateform_reboot_pre'] = "<p>Click 'Reboot' to reboot your <b><%server%></b>.</p>";
 
-$__information['pserver_updateform_poweroff_pre'] = "<p>No information...</p>";
+$__information['pserver_updateform_poweroff_pre'] = "<p>Click 'Poweroff' to poweroff/shutdown your <b><%server%></b>.</p>";
 
-$__information['service_list__pre'] = "<p>No information...</p>";
+$__information['service_list__pre'] = "<p>Click 'SB' for start/stop service when reboot server. Click 'State' for start/stop service.</p>".
+	"<p>Kloxo-MR always monitor services with green 'SB' and try to start if red 'State' periodically.</p>";
 
-$__information['process_list__pre'] = "<p>No information...</p>";
+// $__information['process_list__pre'] = "<p>No information...</p>";
 
-$__information['component_list__pre'] = "<p>No information...</p>";
+// $__information['component_list__pre'] = "<p>No information...</p>";
 
-$__information['llog_show__pre'] = "<p>No information...</p>";
+// $__information['llog_show__pre'] = "<p>No information...</p>";
 
-$__information['ffile_updateform_content_pre'] = "<p>No information...</p>";
+// $__information['ffile_updateform_content_pre'] = "<p>No information...</p>";
 
-$__information['driver_updateform_update_pre'] = "<p>No information...</p>";
+// $__information['driver_updateform_update_pre'] = "<p>No information...</p>";
 
-$__information['pserver_updateform_timezone_pre'] = "<p>No information...</p>";
+$__information['pserver_updateform_timezone_pre'] = "<p>Choose 'timezone' for your <b><%server%></b>. Default is 'Europe/London'.</p>";
 
-$__information['pserver_updateform_commandcenter_pre'] = "<p>No information...</p>";
+$__information['pserver_updateform_commandcenter_pre'] = "<p>You can execute ssh command here. Example: 'sh /script/sysinfo'.</p>";
 
-$__information['sshclient_show__pre'] = "<p>No information...</p>";
+$__information['sshclient_show__pre'] = "<p>SSH access here (using java-based ssh emulator) for your <b><%server%></b>.</p>".
+	"<p>Need java-enabled in your browser.</p>";
 
-$__information['traceroute_list__pre'] = "<p>No information...</p>";
+// $__information['traceroute_list__pre'] = "<p>No information...</p>";
 
 $__information['phpini_updateform_edit_pre'] = $__information['phpini_updateform_edit_admin_pre'];
 
 $__information['phpini_updateform_extraedit_pre'] = "<p>Setting 'advanced' PHP here.</p>";
 
-$__information['mysqldb_addform__pre'] = "<p>No information...</p>";
+$__information['mysqldb_addform__pre'] = "<p>Add your MySQL database here. 'User Name' is the same as 'DB Name' automatically.</p>";
 
 $__information['dbadmin_addform__pre'] = "<p>". $__emessage['e_no_dbadmin_entries'] . "</p>";
 
@@ -687,19 +697,18 @@ $__information['servermail_updateform_spamdyke_pre'] = "<p>No information...</p>
 
 $__information['mail_graylist_wlist_a_addform__pre'] = "<p>No information...</p>";
 
-$__information['client_list__pre'] = "<p>No information...</p>";
+// $__information['client_list__pre'] = "<p>No information...</p>";
 
-$__information['all_client_list__pre'] = "<p>No information...</p>";
+// $__information['all_client_list__pre'] = "<p>No information...</p>";
 
-$__information['client_addform_wholesale_pre'] = "<p>No information...</p>";
+$__information['client_addform_wholesale_pre'] = "<p>Add 'Wholesale Reseller' if you want your Client able to resell their plan.<p>".
+	"<p>Different between 'Wholesale' and 'regualar' Reseller is 'Wholesale' able to resell their plan in master/slave server.</p>";
 
-$__information['client_addform_reseller_pre'] = "<p>No information...</p>";
+$__information['client_addform_reseller_pre'] = "<p>Add 'Reseller' if you want your Client able to resell their plan.</p>";
 
-$__information['client_addform_customer_pre'] = "<p>No information...</p>";
+$__information['client_addform_customer_pre'] = "<p>Add 'Customer' if you don't want your Client not able to resell their plan.</p>";
 
-$__information['client_addform_customer_pre'] = "<p>No information...</p>";
-
-$__information['domain_updateform_limit_pre'] = "<p>No information...</p>";
+$__information['domain_updateform_limit_pre'] = "<p>You can setting up <b><%domain%></b> limiting here.</p>";
 
 $__information['addondomain_addform_parked_pre'] = "<p>No information...</p>";
 
@@ -707,7 +716,8 @@ $__information['addondomain_addform_redirect_pre'] = "<p>No information...</p>";
 
 $__information['dirprotect_addform__pre'] = "<p>No information...</p>";
 
-$__information['web_updateform_docroot_pre'] = "<p>No information...</p>";
+$__information['web_updateform_docroot_pre'] = "<p>Default directory structure is '/home/<%client%>/<%domain%>'.</p>".
+	"<p>You can change to other but better using default. Left blank if you want to use default.</p>";
 
 $__information['web_updateform_configure_misc_pre'] = "<p>No information...</p>";
 

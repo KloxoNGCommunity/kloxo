@@ -7852,13 +7852,21 @@ class HtmlLib
 		}
 
 		$pinfo = str_replace("<%server%>", $login->syncserver, $pinfo);
-		$pinfo = str_replace("<%client%>", $login->nname, $pinfo);
+		$pinfo = str_replace("<%loginas%>", $login->nname, $pinfo);
 		$pinfo = str_replace("<%programname%>", 'Kloxo-MR', $pinfo);
 
 		if ($this->frm_o_o[0]['class'] === 'domain') {
 			$pinfo = str_replace("<%domain%>", $this->frm_o_o[0]['nname'], $pinfo);
 		} else {
 			$pinfo = str_replace("<%domain%>", 'domain.com', $pinfo);
+		}
+
+		if (isset($_GET['frm_o_o'][0]['class']) && ($_GET['frm_o_o'][0]['class'] === 'client')) {
+			$pinfo = str_replace("<%client%>", $_GET['frm_o_o'][0]['nname'], $pinfo);
+		} elseif (isset($_GET['frm_o_o'][1]['class']) && ($_GET['frm_o_o'][1]['class'] === 'client')) {
+			$pinfo = str_replace("<%client%>", $_GET['frm_o_o'][1]['nname'], $pinfo);
+		} else {
+			$pinfo = str_replace("<%client%>", $login->nname, $pinfo);
 		}
 
 		$pinfo = explode("\n", $pinfo);
