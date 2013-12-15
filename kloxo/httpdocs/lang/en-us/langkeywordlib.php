@@ -1,4 +1,5 @@
 <?php 
+
 $__keyword['under'] = 'Under';
 $__keyword['filtered'] = 'Filtered';
 $__keyword['no'] = 'No';
@@ -116,5 +117,29 @@ $__keyword["click_here"] = "Click here";
 
 $__keyword["add_to_favorites"] = "Add to Favorites";
 
+$__keyword["press_esc_to_close"] = "Press Esc to close";
 
+$__keyword["password_box"] = "Password Box";
+$__keyword["error_box"] = "Error Box";
 
+$__throw["domain_is_already_owned"] = "domain already owned";
+$__throw["invalid_domain_name"] = "invalid domain name";
+$__throw["add_without_www"] = "add without www";
+$__throw["cannot_be_added"] = "can not be added";
+$__throw["no_mysql_connection_while_uploading_file"] = "no mysql connection while uploading file";
+$__throw["invalid_ipaddress"] = "invalid ipaddress";
+$__throw["some_other_host_uses_this_ip"] = "some other host uses this IP";
+$__throw["could_not_zip_dir"] = "could not zip directory";
+$__throw["no_graph_data"] = "no graph data";
+$__throw["could_not_get_graph_data"] = "could not get graph data";
+$__throw["no_traffic_data"] = "no traffic data";
+$__throw["couldnt_get_traffic_data"] = "could not get traffic data";
+$__throw["graph_generation_failed"] = "graph generation failed";
+$__throw["could_not_create_tmp_dir"] = "could not create tmp dir";
+$__throw["corrupted_file"] = "corrupted file";
+$__throw["need"] = "need";
+$__throw["could_not_connect_to_ftp_server"] = "could not connect to FTP server";
+$__throw["file_download_failed"] = "file download failed";
+$__throw["install_failed"] = "install failed";
+$__throw["remove_failed"] = "remove failed";
+$__throw["replace_failed"] = "replace failed";

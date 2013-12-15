@@ -4404,7 +4404,7 @@ class HtmlLib
 		<div style="width: 910px; margin: 0 auto 0 auto;">
 			<fieldset style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
 				<legend>
-					<span style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeyword('under') ?> <?= $parent->getId() ?>
+					<span style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeywordUc('under') ?> <?= $parent->getId() ?>
 					<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?> (<?= $perpageof ?><?= $total_num ?>)</span>
 				</legend>
 			</fieldset>
@@ -4790,14 +4790,14 @@ class HtmlLib
 			if ($login->issetHpFilter($filtername, 'searchstring') && $login->getHPFilter($filtername, 'searchstring')) {
 ?>
 
-						<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no_matches_found') ?></b></div>
+						<div style="width: 100%; text-align: center"><b><?= $login->getKeywordUc('no_matches_found') ?></b></div>
 <?php
 
 			} else {
 				$filtermessagstring = null;
 
 				if ($login->issetHpFilter($filtername)) {
-					$filtermessagstring = $login->getKeyword('search_note');
+					$filtermessagstring = $login->getKeywordUc('search_note');
 ?>
 
 						<div style="width: 100%; text-align: center"><b><?= $filtermessagstring ?></b></div>
@@ -4805,7 +4805,7 @@ class HtmlLib
 				} else {
 ?>
 
-						<div style="width: 100%; text-align: center"><b><?= $login->getKeyword('no') ?>&nbsp;<?= get_plural($classdesc[2]) ?>&nbsp;<?= $login->getKeyword('under') ?>&nbsp;<?= $parent->getId() ?></b></div>
+						<div style="width: 100%; text-align: center"><b><?= $login->getKeywordUc('no') ?>&nbsp;<?= get_plural($classdesc[2]) ?>&nbsp;<?= $login->getKeywordUc('under') ?>&nbsp;<?= $parent->getId() ?></b></div>
 <?php
 
 				}
@@ -7388,24 +7388,15 @@ class HtmlLib
 
 			<script language="javascript" src="/theme/js/divpop.js"></script>
 
-			<div id="showimage" style="visibility: hidden; position: absolute; width: 250px; left: 50%; top: 300px; margin: 0 auto 0 -125px">
-				<div style="background-color: #4488CC; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
-					<div style="height: 16px">
-						<div id="dragbar" style="float:left; width: 200px">
-							<div style="width:100%" onSelectStart="return false">
-								<div style="width:100%" onMouseover="dragswitch=1;" onMouseout="dragswitch=0">
-									<span style="color:#FFFFFF">&nbsp;Password Box</span>
-								</div>
-							</div>
-						</div>
-						<div style="float:right">
-							<a href="#" onClick="password_hidebox('showimage');return false">
-								<span style="color:#FFFFFF; padding:2px">X</span></a>
-						</div>
+			<div id="showimage" style="visibility: hidden; position: absolute; width: 320px; left: 0; top: 300px; right: 0; margin: 0 auto">
+				<div style="background-color: #48c; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
+					<div id="dragbar" style="padding: 2px; height: 18px">
+						<div style="float:left"><span style="color:#fff"><?= $login->getKeywordUc('password_box') ?>&nbsp;-&nbsp;<?= $login->getKeywordUc('press_esc_to_close') ?></span></div>
+						<div style="float:right"><a href="#" onClick="password_hidebox('showimage')"><span style="color:#fff; padding:2px">X</span></a></div>
 					</div>
 
 					<!-- PUT YOUR CONTENT BETWEEN HERE -->
-					<div style="background-color: #FFEEDD; padding: 4px">
+					<div style="background-color: #fed; padding: 10px">
 						<div id="password_container"></div>
 					</div>
 					<!-- END YOUR CONTENT HERE -->
@@ -8121,12 +8112,14 @@ class HtmlLib
 
 	function show_error_message($mess, $message = null, $imgfile = null, $color = null, $style = null, $fontstyle = null)
 	{
+		global $gbl, $sgbl, $login;
+
 		if (!$imgfile) {
 			$img_path = get_general_image_path();
 			$imgfile = $img_path . "/button/warningpic.gif";
 			$color = 'brown';
 			$message = "<span style='color:red'><b> Error: </b></span>";
-			$style = 'border: 1px solid red; background:#ffd7d7;';
+			$style = 'border: 1px solid #f00; background:#fdd;';
 			$fontstyle = 'color: #000';
 		}
 
@@ -8135,20 +8128,16 @@ class HtmlLib
 		$icondir = "/theme/icon/collage";
 ?>
 
-		<div id="esmessage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin-left:auto; margin-right:auto;">
-			<table width='400' style='<?= $style ?>' cellpadding='4' cellspacing='5'>
-				<tr height='10'>
-					<td nowrap><a href="javascript:hide_a_div_box('esmessage')"><img src="<?= $icondir ?>/close.gif"><span style='small'>Press Esc to close </span></a></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td><img src="<?= $imgfile ?>"><span style='<?= $fontstyle ?>'><?= $message ?> <?= $mess ?></span></td>
-				</tr>
-				<tr height="10">
-					<td></td>
-				</tr>
-			</table>
-			<br/>
+		<script language="javascript" src="/theme/js/divpop.js"></script>
+
+		<div id="showimage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin: 0 auto;">
+			<div style="<?= $style ?>">
+				<div id="dragbar" onmousedown="password_initializedrag(event)" style="background-color: #ec8; text-align: right; padding: 2px; height: 18px; border-bottom: 1px solid red; cursor:hand; cursor:pointer">
+					<div style="float:left"><?= $login->getKeywordUc('error_box') ?>&nbsp;-&nbsp;<?= $login->getKeywordUc('press_esc_to_close') ?></div>
+					<div style="float:right"><a href="javascript:hide_a_div_box('showimage')"><!-- <img src="<?= $icondir ?>/close.gif"> -->X</a></div>
+				</div>
+				<div style="padding: 10px"><span style='<?= $fontstyle ?>; padding: 10px'><!-- <img src="<?= $imgfile ?>"> --><?= $message ?> <?= $mess ?></div>
+			</div>
 		</div>
 <?php
 	}

@@ -88,6 +88,7 @@ crossobj.style.visibility="hidden";
 function password_showbox(fulltext){
 crossobj=ns6? document.getElementById("showimage") : document.all.showimage
 crossobj.style.visibility="visible";
-document.getElementById('password_container').innerHTML = "Password: Press Escape to Close. \n<br> <br> <br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; " +  fulltext;
+/* document.getElementById('password_container').innerHTML = "Password: Press Escape to Close. \n<br> <br> <br> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; " +  fulltext; */
+document.getElementById('password_container').innerHTML = "Password: " +  fulltext;
 }
 
