@@ -4,11 +4,12 @@
     if ($user === 'apache') {
         // MR -- for future purpose, apache user have uid 50000
         $fpmport = 50000;
-        $openbasedir = "/home/kloxo/httpd";
+        $openbasedir = "/home/kloxo/httpd/:/tmp/:/usr/share/pear/:/var/lib/php/session/";
     } else {
         $userinfo = posix_getpwnam($user);
         $fpmport = (50000 + $userinfo['uid']);
-        $openbasedir = "/httpd/$user";
+        $openbasedir = "/home/$user/:/tmp/:/usr/share/pear/:/var/lib/php/session/:".
+		"/home/kloxo/httpd/script/:/home/kloxo/httpd/disable/";
     }
 
     if ($user == 'apache') {
