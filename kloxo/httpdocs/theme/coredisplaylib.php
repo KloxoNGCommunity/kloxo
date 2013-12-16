@@ -996,13 +996,16 @@ function __ac_desc_UpdateForm($object)
 		$nalist = null;
 		$nalist = lx_merge_good($nalist, $alist['property']);
 		$ghtml->print_tab_block($nalist);
-	} else if ($object->getParentO()) {
+	} elseif ($object->getParentO()) {
 		$alist['property'] = null;
 		$object->getParentO()->createShowPropertyList($alist);
 		$nalist = null;
-
-		foreach ($alist['property'] as &$a) {
-			$a .= '&goback=1';
+	
+		// MR -- need if here because error in debug mode
+		if (isset($alist['property'])) {
+			foreach ($alist['property'] as &$a) {
+				$a .= '&goback=1';
+			}
 		}
 
 		$nalist = lx_merge_good($nalist, $alist['property']);

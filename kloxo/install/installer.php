@@ -77,7 +77,8 @@ function lxins_main()
 		exit;
 	}
 
-	install_yum_repo();
+	// MR -- no needed because using mratwork-release.rpm
+//	install_yum_repo();
 
 	// MR -- also issue on Centos 5.9 - prevent for update!
 	if (php_uname('m') === 'x86_64') {

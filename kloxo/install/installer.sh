@@ -23,6 +23,19 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
+if [ -f /etc/yum.repos.d/kloxo-mr.repo ] ; then
+    rm -rf /etc/yum.repos.d/kloxo-mr.repo
+fi
+
+if [ "$(rpm -q mratwork-release)" == "" ] ; then
+    cd /tmp
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+    yum update mratwork-release
+else
+    yum update mratwork-release
+fi
+
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
 
 if [ "${checktmpfs}" != "" ] ; then
