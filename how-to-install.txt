@@ -38,29 +38,31 @@ B.1.1. via non-RPM (not recommended for dev)
 B.1.2. via RPM (recommended for dev)
 
     # get repo file -- no need for 6.5.0.c and after
-    wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+    yum update mratwork-release
 
     # move to /
     cd /
 
-    # edit /etc/yum.repos.d/kloxo-mr.repo
-	
-	from:
-        [kloxo-mr-testing-neutral-noarch]
-        name=Kloxo-MR - testing-neutral-noarch
-        baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
-        #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
-        enabled=0
-        gpgcheck=0
-	to:
-        [kloxo-mr-testing-neutral-noarch]
-        name=Kloxo-MR - testing-neutral-noarch
-        baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
-        #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
-        enabled=1
-        gpgcheck=0
-		includepkgs=kloxomr
-	
+    # edit /etc/yum.repos.d/mratwork.repo
+    # from:
+    #    [mratwork-testing-neutral-noarch]
+    #    name=MRatWork - testing-neutral-noarch
+    #    baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
+    #    #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
+    #    enabled=0
+    #    gpgcheck=0
+
+    # to:
+    #    [mratwork-testing-neutral-noarch]
+    #    name=MRatWork - testing-neutral-noarch
+    #    baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
+    #    #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
+    #    enabled=1
+    #    gpgcheck=0
+    #    includepkgs=kloxomr
+
 	yum clean all
 	yum install kloxomr
    
@@ -68,17 +70,15 @@ B.2. For Final Release:
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
-    # move repo dir
-    cd /etc/yum.repos.d/
-
     # get repo file -- no need for 6.5.0.c and after
-    rm -rf kloxo-mr.repo
-    wget https://github.com/mustafaramadhan/kloxo/raw/release/kloxo-mr.repo --no-check-certificate
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+    yum update mratwork-release
 
     # move to /
     cd /
 
-    # need update mysql because need mysql/mariadb version 5.1++
+    # need update mysql because Kloxo-MR need mysql/mariadb version 5.1++
     yum clean all
     yum install yum-plugin-replace -y
     yum replace mysql --replace-with=mysql55 -y
@@ -90,6 +90,8 @@ B.2. For Final Release:
 
     # better reboot
     reboot
+	
+
 WARNING:
 
 1. Need running 'sh /script/backup-patch' in Kloxo Official (6.1.12) before backup data.
@@ -100,7 +102,7 @@ WARNING:
         wget https://github.com/mustafaramadhan/kloxo/blob/dev/kloxo/pscript/backup-patch
         sh ./backup-patch
 	
-2. Since 6.5.0.f-20130701, Kloxo-MR using MySQLi API instead MySQL API.  Need update mysql 5.0.x to 5.1.x or above for Centos 5.
+2. Since 6.5.0.f-20130701, Kloxo-MR using MySQLi API instead MySQL API. Need update mysql 5.0.x to 5.1.x or above for Centos 5.
 
     - Check mysql version with:
 
