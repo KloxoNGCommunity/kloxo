@@ -4,9 +4,11 @@
     if ($user === 'apache') {
         // MR -- for future purpose, apache user have uid 50000
         $fpmport = 50000;
+        $openbasedir = "/home/kloxo/httpd";
     } else {
         $userinfo = posix_getpwnam($user);
         $fpmport = (50000 + $userinfo['uid']);
+        $openbasedir = "/httpd/$user";
     }
 
     if ($user == 'apache') {
@@ -24,7 +26,6 @@
 ;listen = 127.0.0.1:<?php echo $fpmport; ?>
 
 listen = /home/php-fpm/sock/<?php echo $user; ?>.sock
-
 listen.backlog = -1
 listen.allowed_clients = 127.0.0.1
 user = <?php echo $user; ?>
@@ -66,3 +67,4 @@ php_admin_value[error_log] = /var/log/php-fpm/error.log
 php_admin_value[session.save_path] = /var/lib/php/session
 php_admin_flag[log_errors] = on
 ;php_admin_value[memory_limit] = 64M
+php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
