@@ -7220,8 +7220,6 @@ class HtmlLib
 
 		$count = 0;
 
-		// MR if only have hidden component of form; disabled because make trouble in disable_skeleton
-	//	if ($total === 5) { return; }
 ?>
 
 					<div align="center" style="background-color:<?= $backgroundcolor ?>; width:100%">
@@ -7791,7 +7789,7 @@ class HtmlLib
 ?>
 
 					<?= $string ?>
-					<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?> name="<? $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
+					<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?> name="<?= $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
 <?php
 
 				break;
@@ -8114,6 +8112,14 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		if(!$login) {
+			$error_box = "Error Box";
+			$press_esc_to_close = "";
+		} else {
+			$error_box = $login->getKeywordUc('error_box');
+			$press_esc_to_close = "&nbsp;-&nbsp;" . $login->getKeywordUc('press_esc_to_close');
+		}
+
 		if (!$imgfile) {
 			$img_path = get_general_image_path();
 			$imgfile = $img_path . "/button/warningpic.gif";
@@ -8133,7 +8139,7 @@ class HtmlLib
 		<div id="showimage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin: 0 auto;">
 			<div style="<?= $style ?>">
 				<div id="dragbar" onmousedown="password_initializedrag(event)" style="background-color: #ec8; text-align: right; padding: 2px; height: 18px; border-bottom: 1px solid red; cursor:hand; cursor:pointer">
-					<div style="float:left"><?= $login->getKeywordUc('error_box') ?>&nbsp;-&nbsp;<?= $login->getKeywordUc('press_esc_to_close') ?></div>
+					<div style="float:left"><?= $error_box ?><?= $press_esc_to_close ?></div>
 					<div style="float:right"><a href="javascript:hide_a_div_box('showimage')"><!-- <img src="<?= $icondir ?>/close.gif"> -->X</a></div>
 				</div>
 				<div style="padding: 10px"><span style='<?= $fontstyle ?>; padding: 10px'><!-- <img src="<?= $imgfile ?>"> --><?= $message ?> <?= $mess ?></div>
@@ -8232,7 +8238,7 @@ class HtmlLib
 		$treename = "_" . fix_nname_to_be_variable($object->nname);
 ?>
 
-		<div>
+		<div style="width: 600px; margin: 0 auto">
 <?php
 		if ($complex) {
 ?>
@@ -8279,10 +8285,9 @@ class HtmlLib
 
 		print_time('tree', "Tree", 2);
 ?>
-		</div>
 
-		<form name="__treeForm" id="__treeForm" method="get" action="/display.php" accept-charset="utf-8">
-			<input type="hidden" name="frm_accountselect" value="">
+			<form name="__treeForm" id="__treeForm" method="get" action="/display.php" accept-charset="utf-8">
+				<input type="hidden" name="frm_accountselect" value="">
 <?php
 		$this->print_current_input_vars(array('frm_action', 'frm_subaction'));
 
@@ -8290,23 +8295,27 @@ class HtmlLib
 			$this->print_input("hidden", "frm_action", "update");
 			$sub = $this->frm_subaction;
 			$actionimg = "finish.gif";
+			$actiontxt = $login->getKeywordUc('finish');
 		} else {
 			$this->print_input("hidden", "frm_action", "updateform");
 			$sub = $this->frm_subaction . "_confirm";
 			$actionimg = "next.gif";
+			$actiontxt = $login->getKeywordUc('next');
 		}
 
 		$this->print_input("hidden", "frm_subaction", "$sub");
 
 		if (isset($gbl->__tmp_checkbox_value)) {
 ?>
-
-			<a href="javascript:treeStoreValue()"> <img src="/theme/general/button/<?= $actionimg ?>"> </a>
+				<br/>
+				<!-- <a href="javascript:treeStoreValue()"> <img src="/theme/general/button/<?= $actionimg ?>"> </a> -->
+				<input type="button" style="width: 100px; padding: 2px" onClick="treeStoreValue()" value="<?= $actiontxt ?>"/>
 <?php
 		}
 ?>
 
-		</form>
+			</form>
+		</div>
 <?php
 	}
 

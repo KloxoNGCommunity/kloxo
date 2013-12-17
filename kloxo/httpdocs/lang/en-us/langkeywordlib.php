@@ -122,6 +122,12 @@ $__keyword["press_esc_to_close"] = "Press Esc to close";
 $__keyword["password_box"] = "Password Box";
 $__keyword["error_box"] = "Error Box";
 
+$__keyword["next"] = "Next";
+$__keyword["finish"] = "Finish";
+$__keyword["already_exists"] = "Already Exists";
+$__keyword["will_be_updated"] = "Will be Updated";
+$__keyword["updating"] = "Updating";
+
 $__throw["domain_is_already_owned"] = "domain already owned";
 $__throw["invalid_domain_name"] = "invalid domain name";
 $__throw["add_without_www"] = "add without www";

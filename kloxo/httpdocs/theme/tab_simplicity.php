@@ -20,7 +20,7 @@ function print_tab_block_start($alist)
 	$skin_color = $login->getSpecialObject('sp_specialplay')->skin_color;
 
 ?>
-	<!-- <br /> -->
+
 <!-- "START TAB" -->
 	<div>
 <?php

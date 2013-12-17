@@ -362,30 +362,29 @@ $__information['updateform_domainpserver_pre'] = "<p>These are the servers on wh
 	"<p>See bottom for more help on server move. You can make mass DNS change later by going to <b>dns manager -> rebuild</b> and clicking <b>update all</b>, ".
 	"which will impress the new dnstemplate on all the domains in the account.</p>";
 
-$__information['updateform_exclusive_pre'] = "<p>IP able assign to to certain Client exclusively.</p>";
+$__information['updateform_exclusive_pre'] = "<p>P address can be assigned to certain client exclusively.</p>";
 
 $__information['domainipaddress_updateform_update_pre'] = "<p>This will allow you to map a particular ipaddress to a domain.</p>".
 	"<p>That is, if someone accesses http://ip, then the document root of the domain configured here will be shown.</p>";
 
 $__information['sslipaddress_updateform_update_pre'] = "<p>To setup an ssl for an ipaddress, first upload/add an ssl certificate ".
-	"from <url:goback=2&a=list&c=sslcert>here</url></p>";
+	"from <url:goback=2&a=list&c=sslcert>here</url>.</p>";
 
 $__information['sslcert_updateform_update_pre'] = "<p>To assign this ssl certificate to a particular ipaddress, ".
 	"<url:goback=2&a=list&c=ipaddress> click here</url> and then go into an ipaddress, ".
 	"and click on <b>ssl certificate</b> tab, and you can set one of these certificates to a particular ipaddress.</p>".
-	"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p>".
-	"<p>For client, the admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p>";
+	"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p>";
 
 $__information['domain_not_customer'] = "<p>To add a domain, create a customer first, and you can add domains under him.</p>".
-	"<p>To add a customer, <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>click here </url></p>";
+	"<p>To add a customer, <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>click here</url>.</p>";
 
-$__information['ipaddress_addform__pre'] = "<p>IP must assign to detectable 'Device Name'.</p>";
+$__information['ipaddress_addform__pre'] = "<p>IP must assigned to detectable 'Device Name'.</p>";
 
 $__information['ipaddress_updateform_update_pre'] = "<p>Exclusive IP will allow you to have dedicated control of a particular ipaddress. ".
 	"This is useful for setting up SSL and also for setting up an ip for a domain.</p>".
 	"<p>That is, if you want a particular IP to resolve to a domain.</p>".
 	"<p>For you to have an exclusive IPaddress, the administrator will have to set the exclusive client of a particular ipaddress.</p>".
-	"<p>To setup ssl or to map an IP to a domain, click on an IPaddress, and then click on <b>configure ssl</b> or <b>configure domain</b></p>";
+	"<p>To setup ssl or to map an IP to a domain, click on an IPaddress, and then click on <b>configure ssl</b> or <b>configure domain</b>.</p>";
 
 $__information['clientmail_list__pre'] = "<p>This will list the number of mails sent out by your clients via ".
 	"the webserver or smtp auth relay in the last 2 days.</p>".

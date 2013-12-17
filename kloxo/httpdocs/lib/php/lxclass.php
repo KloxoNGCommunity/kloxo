@@ -2640,12 +2640,12 @@ abstract class Lxclass
 		if ($real) {
 			if ($gbl->__var_list_flag) {
 				if ($this->isCoreBackup()) {
-					print("{$this->getClName()} under {$this->__parent_o->nname} Already exists.....\n");
+					print("{$this->getClName()} under {$this->__parent_o->nname} {$login->getKeywordUc('already_exists')}...\n");
 				}
 			} else {
 				$this->setUpdateSubaction('full_update');
 				if ($this->isCoreBackup()) {
-					print("{$this->getClName()} under {$this->__parent_o->nname} Already exists... Updating.....\n");
+					print("{$this->getClName()} under {$this->__parent_o->nname} {$login->getKeywordUc('already_exists')}... {$login->getKeywordUc('updating')}...\n");
 				}
 			}
 		}
@@ -2653,10 +2653,10 @@ abstract class Lxclass
 		$extra = null;
 
 		if ($trulist) {
-			$extra = " Will be Updated";
+			$extra = "; " . $login->getKeywordUc('will_be_updated');
 		}
 
-		$this->AddMEssageOnlyIfClientDomain("<b> (Already Exists.{$extra}). </b>");
+		$this->AddMEssageOnlyIfClientDomain("--> {$login->getKeywordUc('already_exists')} {$extra}");
 
 		if ($this->extraRestore()) {
 			$sgbl->__var_objectrestorelist[] = $this;
@@ -2967,8 +2967,11 @@ abstract class Lxclass
 			$img = $ghtml->get_image($path, $this->get__table(), "show", ".gif");
 		}
 
+		$message = $this->__v_message;
+
 		$name = $this->getId();
-		$imgstr = "<img height=12 width=12 src={$img}> {$name} {$this->__v_message}";
+	//	$imgstr = "<img height='12' width='12' src='{$img}'/> {$name} {$message}";
+		$imgstr = " {$name} {$message}";
 
 		$showdisabledflag = $gbl->__var_tmp_disabled_flag;
 		$disabled = null;
@@ -2976,7 +2979,7 @@ abstract class Lxclass
 
 		if ($showdisabledflag) {
 			$disabled = "disabled";
-
+		
 			if (isset($this->__var_checked) && $this->__var_checked) {
 				$checked = "checked";
 			} else {
@@ -2991,8 +2994,8 @@ abstract class Lxclass
 		$v = $gbl->__tmp_checkbox_value;
 		$gbl->__tmp_checkbox_value++;
 
-		$inputstr = "<input type='checkbox' id='treecheckbox{$v}' {$checked} {$disabled}  name='treecheckbox{$v}' " .
-			"value='{$this->getClName()}' class='verysmall'>";
+		$inputstr = "<input type='checkbox' id='treecheckbox{$v}' {$checked} {$disabled} name='treecheckbox{$v}' " .
+			"value='{$this->getClName()}' class='verysmall'/>";
 
 		$img = null;
 		$imgstr = $inputstr . $imgstr;

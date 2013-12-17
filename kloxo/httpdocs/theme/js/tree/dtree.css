@@ -12,7 +12,7 @@
 }
 .dtree img {
 	border: 0px;
-	vertical-align: middle;
+	vertical-align: top;
 }
 .dtree a {
 	color: #333;
@@ -28,4 +28,9 @@
 }
 .dtree .clip {
 	overflow: hidden;
+}
+
+.dTreeNode {
+	/* vertical-align: middle; */
+	padding: 2px 8px;
 }
