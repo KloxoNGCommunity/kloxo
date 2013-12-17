@@ -110,7 +110,7 @@ if (file_exists("{$globalspath}/custom.proxy.conf")) {
     }
 }
 
-if (file_exists("{$globalspath}/custom.phpfpm.conf")) {
+if (file_exists("{$globalspath}/custom.php-fpm.conf")) {
     $phpfpmconf = 'custom.php-fpm.conf';
 } else {
     $phpfpmconf = 'php-fpm.conf';
