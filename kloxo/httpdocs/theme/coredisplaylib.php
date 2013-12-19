@@ -1638,6 +1638,11 @@ function create_xml($object, $stuff, $ret)
 		$button = $action;
 	}
 
+	// MR -- change frm_change to hidden and button with frm_submit/frm_submit_all
+	// for fix updateall issue
+
+	$string[] = $ghtml->object_variable_hidden("frm_change", $button);
+
 	if ($button) {
 		$string[] = $ghtml->object_variable_button($button);
 	}

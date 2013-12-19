@@ -2109,9 +2109,9 @@ class HtmlLib
 		$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
 		$this->print_input_vars($post);
 ?>
-			<input type="hidden" name="frm_ffile_c_recursive_f" value="Off">
-			<input type="hidden" name="frm_action" value="update">
-			<input type="hidden" name="frm_subaction" value="perm">
+			<input type="hidden" id="frm_ffile_c_recursive_f" name="frm_ffile_c_recursive_f" value="Off">
+			<input type="hidden" id="frm_action" name="frm_action" value="update">
+			<input type="hidden" id="frm_subaction" name="frm_subaction" value="perm">
 		</form>
 
 		<table cellpadding="0" cellspacing="0" border="0" width="325">
@@ -2479,7 +2479,14 @@ class HtmlLib
 		$name = ucfirst($name);
 		$rvr = new FormVar();
 		$rvr->type = 'button';
-		$rvr->name = 'frm_change';
+	//	$rvr->name = 'frm_change';
+
+		if ($name === 'updateall') {
+			$rvr->name = 'frm_submit_all';
+		} else {
+			$rvr->name = 'frm_submit';
+		}
+
 		$rvr->value = $name;
 
 		return $rvr;
@@ -2653,14 +2660,14 @@ class HtmlLib
 							$str = "{$key}" . "[$k][$nk]";
 ?>
 
-			<input type="hidden" name="<?= $str ?>" value="<?= $nv ?>">
+			<input type="hidden" id="<?= $str ?>" name="<?= $str ?>" value="<?= $nv ?>">
 <?php
 						}
 					} else {
 						$str = "{$key}" . "[$k]";
 ?>
 
-			<input type="hidden" name="<?= $str ?>" value="<?= $v ?>">
+			<input type="hidden" id="<?= $str ?>" name="<?= $str ?>" value="<?= $v ?>">
 <?php
 					}
 				}
@@ -2670,7 +2677,7 @@ class HtmlLib
 				}
 ?>
 
-			<input type="hidden" name="<?= $str ?>" value="<?= $value ?>">
+			<input type="hidden" id="<?= $str ?>" name="<?= $str ?>" value="<?= $value ?>">
 <?php
 			}
 		}
@@ -3050,21 +3057,21 @@ class HtmlLib
 						foreach ($v as $nk => $nv) {
 ?>
 
-			<input type="hidden" name="<?= $key ?>[<?= $k ?>][<?= $nk ?>]" value="<?= $nv ?>">
+			<input type="hidden" id="<?= $key ?>[<?= $k ?>][<?= $nk ?>]" name="<?= $key ?>[<?= $k ?>][<?= $nk ?>]" value="<?= $nv ?>">
 <?php
 						}
 
 					} else {
 ?>
 
-			<input type="hidden" name="<?= $key ?>[<?= $k ?>]" value="<?= $v ?>">
+			<input type="hidden" id="<?= $key ?>[<?= $k ?>]" name="<?= $key ?>[<?= $k ?>]" value="<?= $v ?>">
 <?php
 					}
 				}
 			} else {
 ?>
 
-			<input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
+			<input type="hidden" id="<?= $key ?>" name="<?= $key ?>" value="<?= $value ?>">
 <?php
 			}
 		}
@@ -3916,7 +3923,7 @@ class HtmlLib
 				} else {
 					if (isset($v[0]) && $v[0] === 'h') {
 ?>
-								<input type="hidden" name="frm_<?= $class ?>_c_<?= $k ?>" value="<?= $v[1] ?>">
+								<input type="hidden" id="frm_<?= $class ?>_c_<?= $k ?>" name="frm_<?= $class ?>_c_<?= $k ?>" value="<?= $v[1] ?>">
 <?php
 					} else {
 ?>
@@ -3932,7 +3939,7 @@ class HtmlLib
 		}
 ?>
 
-				<input type="hidden" name="frm_action" value="add">
+				<input type="hidden" id="frm_action" name="frm_action" value="add">
 <?php
 				$this->print_current_input_vars(array('frm_action'));
 				$desc = $this->get_class_description($rclass);
@@ -3940,7 +3947,7 @@ class HtmlLib
 ?>
 
 				</td>
-				<td><input type="submit" class='submitbutton' name='Search' value="<?= $login->getKeywordUc('quickadd') ?> <?= $desc ?>"></td>
+				<td><input type="submit" class='submitbutton' id='Search' name='Search' value="<?= $login->getKeywordUc('quickadd') ?> <?= $desc ?>"></td>
 				</form>
 				</td>
 				<td width="100%"></td>
@@ -4490,13 +4497,13 @@ class HtmlLib
 				if ($last) {
 ?>
 
-							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value="<?= $total_page ?>" class="small">
+							<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][pagenum]" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value="<?= $total_page ?>" class="small">
 							<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">...Last&nbsp;</a>
 <?php
 				} else {
 ?>
 
-							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value="<?= $i ?>" class="small">
+							<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][pagenum]" name="frm_hpfilter[<?= $filtername ?>][pagenum]" value="<?= $i ?>" class="small">
 							<a href="javascript:page<?= $unique_name ?><?= $i ?>.submit()">&nbsp;<?= $i ?>&nbsp;</a>
 <?php
 				}
@@ -4539,7 +4546,7 @@ class HtmlLib
 					$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
 
-							<input type="hidden" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $l ?>">
+							<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][pagesize]" name="frm_hpfilter[<?= $filtername ?>][pagesize]" value="<?= $l ?>">
 						</form>
 						<a href="javascript:perpage_<?= $i ?><?= $unique_name ?>.submit()">&nbsp;<?= $l ?>&nbsp;</a>
 					</td>
@@ -4684,12 +4691,13 @@ class HtmlLib
 			}
 		}
 
-		$count = 0;
-		$rowcount = 0;
 ?>
 
 					</tr>
 <?php
+		$count = 0;
+		$rowcount = 0;
+
 		print_time('loop');
 
 		$n = 1;
@@ -4700,7 +4708,8 @@ class HtmlLib
 			}
 
 			// Admin object should not be listed ever.
-			if ($obj->isAdmin() && $obj->isClient()) {
+		//	if ($obj->isAdmin() && $obj->isClient()) {
+			if ($obj->isAdmin()) {
 				continue;
 			}
 
@@ -4731,7 +4740,8 @@ class HtmlLib
 		*/
 ?>
 
-					<tr height='22' id='<?= $rowuniqueid ?>' class='tablerow<?= $count ?>' onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';" onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')">
+					<!-- <tr height='22' id='<?= $rowuniqueid ?>' class='tablerow<?= $count ?>' onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';" onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')"> -->
+					<tr height='22' id='<?= $rowuniqueid ?>' class='tablerow<?= $count ?>'>
 <?php
 
 			if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
@@ -4749,7 +4759,7 @@ class HtmlLib
 <?php
 			}
 
-			$colcount = 1;
+			$colcount = 0;
 
 			foreach ($name_list as $name => $width) {
 				try {
@@ -5693,21 +5703,21 @@ class HtmlLib
 		$subactionstr = null;
 
 		if ($this->frm_subaction) {
-			$subactionstr = "<input type=hidden name=frm_subaction value={$this->frm_subaction}>";
+			$subactionstr = "<input type='hidden' id='frm_subaction' name='frm_subaction' value='{$this->frm_subaction}'>";
 		}
 
 		$cnamestr = null;
 
 		if ($this->frm_o_cname) {
-			$cnamestr = "<input type=hidden name=frm_o_cname value={$this->frm_o_cname}>";
+			$cnamestr = "<input type='hidden' id='frm_o_cname' name='frm_o_cname' value='{$this->frm_o_cname}'>";
 		}
 
 		$dttypestr = null;
 
 		// This needs to be an array.
 		if ($this->frm_dttype) {
-			$dttypestr = "<input type=hidden name=frm_dttype[val] value={$this->frm_dttype['val']}>";
-			$dttypestr = "<input type=hidden name=frm_dttype[var] value={$this->frm_dttype['var']}>";
+			$dttypestr = "<input type='hidden' id='frm_dttype[val]' name='frm_dttype[val]' value='{$this->frm_dttype['val']}'>";
+			$dttypestr = "<input type='hidden' id='frm_dttype[var]' name='frm_dttype[var]' value='{$this->frm_dttype['var']}'>";
 		}
 
 		$frm_action = $this->frm_action;
@@ -5729,18 +5739,18 @@ class HtmlLib
 		foreach ($cgi_o_o as $k => $v) {
 ?>
 
-							<input type='hidden' name='frm_o_o[<?= $k ?>][class]' value='<?= $v['class'] ?>'>
+							<input type='hidden' id='frm_o_o[<?= $k ?>][class]' name='frm_o_o[<?= $k ?>][class]' value='<?= $v['class'] ?>'>
 <?php
 			if (isset($v['nname'])) {
 ?>
 
-								<input type='hidden' name='frm_o_o[<?= $k ?>][nname]' value='<?= $v['nname'] ?>'>
+								<input type='hidden' id='frm_o_o[<?= $k ?>][nname]' name='frm_o_o[<?= $k ?>][nname]' value='<?= $v['nname'] ?>'>
 <?php
 			}
 		}
 ?>
 
-						<input type='hidden' name='frm_action' value='<?= $frm_action ?>'>
+						<input type='hidden' id='frm_action' name='frm_action' value='<?= $frm_action ?>'>
 						<?= $subactionstr ?>
 						<?= $cnamestr ?>
 						<?= $dttypestr ?>
@@ -5811,25 +5821,25 @@ class HtmlLib
 		$subactionstr = null;
 
 		if ($this->frm_subaction) {
-			$subactionstr = "<input type='hidden' name='frm_subaction' value='{$this->frm_subaction}'>\n";
+			$subactionstr = "<input type='hidden' id='frm_subaction' name='frm_subaction' value='{$this->frm_subaction}'>\n";
 		}
 
 		if ($this->frm_consumedlogin) {
-			$subactionstr .= "<input type='hidden' name='frm_consumedlogin' value='{$this->frm_consumedlogin}'>";
+			$subactionstr .= "<input type='hidden' id='frm_consumedlogin' name='frm_consumedlogin' value='{$this->frm_consumedlogin}'>";
 		}
 
 		$cnamestr = null;
 
 		if ($this->frm_o_cname) {
-			$cnamestr = "<input type='hidden' name='frm_o_cname' value='{$this->frm_o_cname}'>";
+			$cnamestr = "<input type='hidden' id='frm_o_cname' name='frm_o_cname' value='{$this->frm_o_cname}'>";
 		}
 
 		$dttypestr = null;
 
 		// This needs to be an array.
 		if ($this->frm_dttype) {
-			$dttypestr = "<input type='hidden' name='frm_dttype[val]' value='{$this->frm_dttype['val']}'>";
-			$dttypestr .= "<input type='hidden' name='frm_dttype[var]' value='{$this->frm_dttype['var']}'>";
+			$dttypestr = "<input type='hidden' id='frm_dttype[val]' name='frm_dttype[val]' value='{$this->frm_dttype['val']}'>";
+			$dttypestr .= "<input type='hidden' id='frm_dttype[var]' name='frm_dttype[var]' value='{$this->frm_dttype['var']}'>";
 		}
 
 		$frm_action = $this->frm_action;
@@ -5868,19 +5878,19 @@ class HtmlLib
 		foreach ($cgi_o_o as $k => $v) {
 ?>
 
-					<input type="hidden" name="frm_o_o[<?= $k ?>][class]" value="<?= $v['class'] ?>"/>
+					<input type="hidden" id="frm_o_o[<?= $k ?>][class]" name="frm_o_o[<?= $k ?>][class]" value="<?= $v['class'] ?>"/>
 <?php
 			if ($k != $num && isset($v['nname'])) {
 ?>
 
-					<input type="hidden" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>"/>
+					<input type="hidden" id="frm_o_o[<?= $k ?>][nname]" name="frm_o_o[<?= $k ?>][nname]" value="<?= $v['nname'] ?>"/>
 <?php
 
 			}
 		}
 ?>
 
-					<input type="hidden" name="frm_action" value="<?= $frm_action ?>"/>
+					<input type="hidden" id="frm_action" name="frm_action" value="<?= $frm_action ?>"/>
 					<?= $subactionstr ?>
 
 					<?= $cnamestr ?>
@@ -6834,9 +6844,9 @@ class HtmlLib
 								<td><b>Selected</b></td>
 							</tr>
 							<tr height='20' valign='middle'>
-								<input type='hidden' name="<?= trim($variablename) ?>">
-								<input type='hidden' name='frm_action' value="update">
-								<input type='hidden' name='frm_subaction' value="update">
+								<input type='hidden' id="<?= trim($variablename) ?>" name="<?= trim($variablename) ?>">
+								<input type='hidden' id='frm_action' name='frm_action' value="update">
+								<input type='hidden' id='frm_subaction' name='frm_subaction' value="update">
 								<?= $this->html_variable_inherit("frm_o_o") ?>
 								<td class='col' width='100%' align='center' valign='middle'>
 									<select class='textbox' <?= $stylestring ?> id='<?= $ts_name ?>' multiple name='<?= trim($srcname) ?>'>
@@ -7018,7 +7028,7 @@ class HtmlLib
 			</tr>
 			<tr>
 				<td>
-					<input type='hidden' name="<?= $variable->name ?>">
+					<input type='hidden' id="<?= $variable->name ?>" name="<?= $variable->name ?>">
 					<select class='textbox' id='<?= $ts_name ?>' multiple size='5' class='textbox' name='<?= $variable1->name ?>'>
 <?php
 		foreach ($variable1->option as $k => $option) {
@@ -7241,7 +7251,7 @@ class HtmlLib
 			if ($variable->type === 'hidden') {
 ?>
 
-						<input type="hidden" name="<?= $variable->name ?>" value="<?= $variable->value ?>">
+						<input type="hidden" id="<?= $variable->name ?>" name="<?= $variable->name ?>" value="<?= $variable->value ?>">
 <?php
 
 				continue;
@@ -7390,7 +7400,7 @@ class HtmlLib
 				<div style="background-color: #48c; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
 					<div id="dragbar" style="padding: 2px; height: 18px">
 						<div style="float:left"><span style="color:#fff"><?= $login->getKeywordUc('password_box') ?>&nbsp;-&nbsp;<?= $login->getKeywordUc('press_esc_to_close') ?></span></div>
-						<div style="float:right"><a href="#" onClick="password_hidebox('showimage')"><span style="color:#fff; padding:2px">X</span></a></div>
+						<div style="float:right"><a href="#" onClick="password_hidebox('showimage')"><span style="color:#fff; padding:2px">&#215;</span></a></div>
 					</div>
 
 					<!-- PUT YOUR CONTENT BETWEEN HERE -->
@@ -7785,11 +7795,18 @@ class HtmlLib
 					$string = $login->getKeywordUc("update_all");
 					$bgcolor = "bgcolor=$skincolor";
 					$onclick = "onclick='return updateallWarning();'";
+?>
+					<script>
+						var updateallwarning1 = "<?= $login->getKeywordUc('updateall_warning1') ?>";
+						var updateallwarning2 = "<?= $login->getKeywordUc('updateall_warning2') ?>";
+					</script>
+<?php
 				}
 ?>
 
 					<?= $string ?>
-					<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?> name="<?= $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
+
+					<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?> id="<?= $variable->name ?>" name="<?= $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
 <?php
 
 				break;
@@ -8140,7 +8157,7 @@ class HtmlLib
 			<div style="<?= $style ?>">
 				<div id="dragbar" onmousedown="password_initializedrag(event)" style="background-color: #ec8; text-align: right; padding: 2px; height: 18px; border-bottom: 1px solid red; cursor:hand; cursor:pointer">
 					<div style="float:left"><?= $error_box ?><?= $press_esc_to_close ?></div>
-					<div style="float:right"><a href="javascript:hide_a_div_box('showimage')"><!-- <img src="<?= $icondir ?>/close.gif"> -->X</a></div>
+					<div style="float:right"><a href="javascript:hide_a_div_box('showimage')"><!-- <img src="<?= $icondir ?>/close.gif"> -->&#215;</a></div>
 				</div>
 				<div style="padding: 10px"><span style='<?= $fontstyle ?>; padding: 10px'><!-- <img src="<?= $imgfile ?>"> --><?= $message ?> <?= $mess ?></div>
 			</div>
@@ -8287,7 +8304,7 @@ class HtmlLib
 ?>
 
 			<form name="__treeForm" id="__treeForm" method="get" action="/display.php" accept-charset="utf-8">
-				<input type="hidden" name="frm_accountselect" value="">
+				<input type="hidden" id="frm_accountselect" name="frm_accountselect" value="">
 <?php
 		$this->print_current_input_vars(array('frm_action', 'frm_subaction'));
 
@@ -9185,8 +9202,8 @@ class HtmlLib
 		<!-- <form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
-			<input name="frm_hpfilter[<?= $filtername ?>][sortby]" type="hidden" value="<?= $sortby ?>">
-			<input name="frm_hpfilter[<?= $filtername ?>][sortdir]" type="hidden" value="<?= $sortdir ?>">
+			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">
+			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortdir]" name="frm_hpfilter[<?= $filtername ?>][sortdir]" value="<?= $sortdir ?>">
 		</form>
 
 		<span title='<?= $alt ?>'><a class='tableheadtext' href="javascript:document.<?= $formname ?>.submit()"><?= $desc ?> </a> </span>
@@ -9251,7 +9268,7 @@ class HtmlLib
 											<!-- <form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
-												<input type="hidden" name="frm_clear_filter" value="true">
+												<input type="hidden" id="frm_clear_filter" name="frm_clear_filter" value="true">
 												<table cellpadding="0" cellspacing="0" border="0" width="100%" height="22">
 													<tr>
 														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><img alt="<?= $login->getKeywordUc('showall') ?>" title="<?= $login->getKeywordUc('showall') ?>" name="showall" src="<?= $showallimg ?>" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"></a></td>

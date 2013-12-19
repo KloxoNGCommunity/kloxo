@@ -858,7 +858,7 @@ class ClientBase extends ClientCore
 		$name_list["state"] = "3%";
 
 		$name_list["cttype"] = "3%";
-		$name_list["nname"] = "100%";
+		$name_list["nname"] = "50%";
 
 		if ($view === 'quota') {
 			$name_list["traffic_usage"] = "5%";
@@ -874,7 +874,7 @@ class ClientBase extends ClientCore
 			$name_list["mysqldb_num_per_f"] = "5%";
 			$name_list["__v_priv_used_client_num"] = "5%";
 		} else {
-			$name_list["resourceplan_used_f"] = "100%";
+			$name_list["resourceplan_used_f"] = "20%";
 			$name_list["maindomain_num"] = "10%";
 
 			if ($sgbl->isKloxo()) {

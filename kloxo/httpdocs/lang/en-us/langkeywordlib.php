@@ -128,6 +128,15 @@ $__keyword["already_exists"] = "Already Exists";
 $__keyword["will_be_updated"] = "Will be Updated";
 $__keyword["updating"] = "Updating";
 
+$__keyword["updateall_warning1"] = "Attention:\\n\\n".
+	"- Will impress the parameters of the above form to\\n".
+	"  EVERY object in the drop down list at the top.\\n\\n".
+	"- Do you want to continue?.\\n".
+	"  If unsure, press cancel, and use simple update";
+
+$__keyword["updateall_warning2"] = "- Are you really sure?.\\n\\n".
+	"  If unsure press cancel, and use simple update.";
+
 $__throw["domain_is_already_owned"] = "domain already owned";
 $__throw["invalid_domain_name"] = "invalid domain name";
 $__throw["add_without_www"] = "add without www";

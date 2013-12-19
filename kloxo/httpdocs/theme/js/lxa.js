@@ -95,11 +95,21 @@ function updateStatusBar(str)
 
 function updateallWarning()
 {
+/*
 	if (confirm("UpdateAll will impress the parameters of the above form to EVERY object in the drop down list at the top. Do you want to continue? If unsure, press cancel, and use simple update")) {
 		if (confirm("Are you really sure?\n\n\n\n\nEvery object in the drop down list at the top will be updated with the values in the above form. If unsure press cancel, and use simple update.")) {
 			return true;
 		}
 	} 
+*/
+	if (confirm("Attention:\n\n- Will impress the parameters of the above form to\n  EVERY object in the drop down list at the top.\n\n- Do you want to continue?.\n  If unsure, press cancel, and use simple update")) {
+		document.getElementById('frm_change').value = 'updateall';
+		if (confirm("- Are you really sure?.\n\n  If unsure press cancel, and use simple update.")) {
+			return true;
+		}
+	} 
+
+	document.getElementById('frm_change').value = 'update';
 	return false;
 }
 

@@ -362,7 +362,7 @@ $__information['updateform_domainpserver_pre'] = "<p>These are the servers on wh
 	"<p>See bottom for more help on server move. You can make mass DNS change later by going to <b>dns manager -> rebuild</b> and clicking <b>update all</b>, ".
 	"which will impress the new dnstemplate on all the domains in the account.</p>";
 
-$__information['updateform_exclusive_pre'] = "<p>P address can be assigned to certain client exclusively.</p>";
+$__information['updateform_exclusive_pre'] = "<p>IP address can be assigned to certain client exclusively.</p>";
 
 $__information['domainipaddress_updateform_update_pre'] = "<p>This will allow you to map a particular ipaddress to a domain.</p>".
 	"<p>That is, if someone accesses http://ip, then the document root of the domain configured here will be shown.</p>";
@@ -427,17 +427,17 @@ $__information['subweb_a_addform__pre'] = "<p>This is a simple subdomain. A simp
 $__information['updateform_lighty_rewrite_pre'] = "<p>This is the custom lighttpd rewrite rule that will directly appended to the configuration file ".
 	"without any change. It will be of the form <b>url.rewrite = ( ...</b>.</p>";
 
-$__information['updateform_custom_error_pre'] = "<p><b>Note:<b></p>".
+$__information['updateform_custom_error_pre'] = "<p><b>Note:</b></p>".
 	"<p>The values you have to provide are the virtual paths to the files that will be shown in case of these errors.</p>".
 	"<p>Example: /error_files/404.html.</p>";
 
-$__information['domain_updateform_ipaddress_pre'] = "<p><b>Note:<b></p>".
+$__information['domain_updateform_ipaddress_pre'] = "<p><b>Note:</b></p>".
 	"<p>Make sure that you make the requisite changes to nameserver configuration too.</p>";
 
-$__information['client_updateform_ipaddress_pre'] = "<p><b>Note:<b></p>".
+$__information['client_updateform_ipaddress_pre'] = "<p><b>Note:</b></p>".
 	"<p>The available ip pool is selected from the machines in the web server pool.</p>";
 
-$__information['domaintemplate_addform__pre'] = "<p><b>Note:<b></p>".
+$__information['domaintemplate_addform__pre'] = "<p><b>Note:</b></p>".
 	"<p>The Max Value on the right shows your current quota limit.</p>".
 	"<p>You can create a Template with values more than your quota, but you won't be able to use them to create Domains/Clients.</p>";
 
@@ -463,7 +463,7 @@ $__information['ffile_show___lx_error_log_pre'] = "<p>This is the error log for 
 
 $__information['ffile_show___lx_access_log_pre'] = "<p>This is the access log for your domain.</p>".
 	"<p>You can download this by clicking on the <b>download</b> tab at the right. ".
-	"This file contains information about every single hit that is made to to your website.</p>";
+	"This file contains information about every single hit that is made to your website.</p>";
 
 $__information['updateform_dnstemplatelist_pre'] = "<p>Allocate only a single dns template to your customer.</p>".
 	"<p>This would mean that kloxo will not show the dns template select box while adding a domain, ".
@@ -490,13 +490,13 @@ $__information['webserver_config'] =
 	"<p><b>Apache Memory Optimize</b>".
 	"<ul>".
 		"<li>Optimize memory usage</li>".
-		"<li>Kloxo-MR will set half amount for <b>nginx/lighttpd-proxy</b></li>".
+		"<li>Kloxo-MR will set half amount of available memory for <b>nginx/lighttpd-proxy</b></li>".
 		"<li>select 'default' if select 'php-fpm' on 'Php Type'</li>".
 	"</ul></p>".
 	"<p><b>MySQL Convert</b>".
 	"<ul>".
-		"<li>MyISAM (less memory usage; save 100-200 MB)<br/>".
-			"<b>Note:</b> add 'skip-innodb' may trouble to access to panel)</li>".
+		"<li>MyISAM (less memory usage; save about 100-200 MB)<br/>".
+	       	"<b>Note:</b> adding 'skip-innodb' may cause trouble accessing the panel)</li>".
 		"<li>InnoDB (higher performance)</li>".
 		"<li>Aria (Alternative to MyISAM if select MariaDB)</li>".
 	"</ul></p>".
@@ -543,7 +543,7 @@ $__information['dnstemplate_addform__pre'] = "<p><b>Primary and Secondary DNS</b
 	"<p>If selecting 'default' in 'DNS Template Name', 'default.dnst' is 'symbolic' domain name.</p>".
 	"<p><b>Example</b> - 'ns1.default.dnst' (on 'Primary DNS') will be converted to 'ns1.domain.com' for 'domain.com'.</p>";
 
-$__information['dns_show__pre'] = "<p>Here you can manage DNS.</p>";
+$__information['dns_show__pre'] = "<p>Here you can manage DNS zone entries.</p>";
 
 $__information['dns_updateform_rebuild_pre'] = "<p>Here you can rebuild your domain zone from a DNS Template.</p>";
 
@@ -554,7 +554,7 @@ $__information['dns_record_a_addform_a_pre'] = "<p>Here you can manage the 'A re
 
 $__information['dns_record_a_addform_cname_pre'] = "<p>Here you can manage the 'CNAME record'.</p>";
 
-$__information['dns_record_a_addform_fcname_pre'] = "<p>Here you can manage the 'FCNAME record'. <b>FCNAME</b> stands for full cname and ".
+$__information['dns_record_a_addform_fcname_pre'] = "<p>Here you can manage the 'FCNAME record'. <b>FCNAME</b> stands for full CNAME and ".
 	"will allow you to point a subdomain to an external domain.</p>";
 
 $__information['dns_record_a_addform_mx_pre'] = "<p>Here you can manage the 'MX record'.</p>".
@@ -567,7 +567,7 @@ $__information['dns_record_a_addform_txt_pre'] = "<p>Use &lt;%domain%&gt; if you
 	"For instance, 'v=spf1 include: &lt;%domain%&gt;'.</p>".
 	"<p>Automatically create 'SRV record' with the same contents.</p>";
 
-$__information['dns_updateform_parameter_pre'] = "<p>Here you can manage the SOA record.</p>";
+$__information['dns_updateform_parameter_pre'] = "<p>Here you can manage the 'SOA record'.</p>";
 
 // $__information['dns_record_a_updateform_edit_pre'] = "<p>No information...</p>";
 
