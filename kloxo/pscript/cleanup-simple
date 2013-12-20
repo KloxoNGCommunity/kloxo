@@ -11,7 +11,7 @@ else
     yum update mratwork-release -y
 fi
 
-if [ "$(rpm -qa lxphp)" == "" ] ; then
+if [ "$(rpm -qa lxphp)" != "" ] ; then
     yum remove lxphp lxlighttpd lxzend -y
 	yum install php52s hiawatha
 fi
