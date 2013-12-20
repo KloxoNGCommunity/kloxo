@@ -11,6 +11,11 @@ else
     yum update mratwork-release -y
 fi
 
+if [ "$(rpm -qa lxphp)" == "" ] ; then
+    yum remove lxphp lxlighttpd lxzend -y
+	yum install php52s hiawatha
+fi
+
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
 
 if [ "${checktmpfs}" != "" ] ; then

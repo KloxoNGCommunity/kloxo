@@ -256,8 +256,7 @@ $__information['sp_specialplay_updateform_upload_logo_pre'] = "<p><b>Note:</b>".
 	"<ul>".
 		"<li>Leave the fields blank to reset the logos to default images</li>".
 		"<li>To enforce your logo on your children, just disable their 'can Manage logo' in the permission settings</li>".
-		"<li>Upload logo image (example: appear on top-left cp page) should be in PNG format with optimal height 75 pixels, while width is up to user's choice</li>".
-	"</ul></p>";
+ "<li>Upload logo image (example: appear on top-right cp page) should be in PNG format with optimal height 75 pixels, while width is up to user's choice</li>".	"</ul></p>";
 
 $__information['web_updateform_extra_tag_pre'] = "<p><b><span style='color=red'>Warning!!!!!</span></b>  Whatever you enter here will be directly added to the VirtualHost.</p>".
 	"<p>If there is a syntax error in this, it will prevent the webserver from restarting.</p>".
@@ -580,8 +579,8 @@ $__information['subdomain_addform__pre'] = "<p>Better use lowercase for 'Domain 
 	"<p>Leave the document root blank and Kloxo-MR will automatically use domain from 'Subdomain Name' + selected domain as the docroot.</p>".
 	"<p>The document root may not contain any space at the end or before the slash. Please check and submit again.</p>";
 
-$__information['mailaccount_addform__pre'] = "<p>Kloxo-MR automatically add <b>postmaster</b> if you add domain/subdomain.</p>".
-	"<p>You can add another mail account if you needed.</p>";
+$__information['mailaccount_addform__pre'] = "<p>Kloxo-MR automatically add <b>postmaster</b> account if you add domain/subdomain.</p>".
+	"<p>You can add another mail accounts if you need them.</p>";
 
 $__information['sp_specialplay_updateform_skin_pre'] = "<p>Base 'Appearance' is 'Skin'. Different skin have different features.</p>".
 	"<p><b>Example:</b> 'Feather' skin doesn't have 'background image' feature.</p>".
@@ -593,8 +592,8 @@ $__information['lxupdate_updateform_lxupdateinfo_pre'] = "<p>Click 'Update Now' 
 $__information['releasenote_list__pre'] = "<p>Information about Kloxo-MR release since first release.</p>";
 
 $__information['client_updateform_password_pre'] = "<p>Update password for <b><%client%></b>.</p>".
-	"<p>Better 8 character or more with combination of uppercase, lowercase and numeric.</p>".
-	"<p>Click 'Generate Password' if you want Kloxo-MR generating password for you.</p>";
+	"<p>Better use 8 character or more with a combination of uppercase, lowercase and numbers.</p>".
+	"<p>Click 'Generate Password' if you want Kloxo-MR to generate password for you.</p>";
 
 $__information['auxiliary_addform__pre'] = "<p>You can add/delete 'auxiliary login' (always with '.aux' postfix) as alternative id to login.</p>".
 	"<p>Don't give main account to anyone, instead 'auxiliary login'.</p>";
@@ -624,8 +623,8 @@ $__information['general_updateform_scavengetime_pre'] = "<p>The purpose of this 
 $__information['general_updateform_maintenance_pre'] = "<p>Send message 'System Under Maintenance' to your client.</p>";
 
 $__information['dirindexlist_a_addform__pre'] = "<p>By default, ".
-	"'index.php, index.html, index.shtml, index.htm, default.htm, Default.aspx, Default.asp, index.pl' already setup.</p>".
-	"<p>You can add other index files</p>";
+	"'index.php, index.html, index.shtml, index.htm, default.htm, Default.aspx, Default.asp, index.pl' files are already setup.</p>".
+	"<p>You can add other index files here.</p>";
 
 $__information['client_updateform_disable_url_pre'] = "<p>All your children will automatically inherit your Disable url parameters.</p>".
 	"<p>To enforce your 'Disable URL' on them, just disable their 'can Set Disable URL' in the permission settings.</p>".
@@ -636,7 +635,7 @@ $__information['client_updateform_skeleton_pre'] = "<p>This is the archive of th
 	"<p>You can use <b>&lt;%domainname%&gt; , &lt;%clientname%&gt;</b>  inside the index.html file, ".
 	"and the variables will be replaced properly with the correct values.</p>";
 
-$__information['notification_updateform_update_pre'] = "<p>Set 'notification' configure here.</p>";
+$__information['notification_updateform_update_pre'] = "<p>You can configure 'notifications' here.</p>";
 
 $__information['client_updateform_miscinfo_pre'] = "<p>Add 'miscellaneous information' for <b><%client%></b>.</p>";
 
@@ -648,8 +647,8 @@ $__information['pserver_updateform_reboot_pre'] = "<p>Click 'Reboot' to reboot y
 
 $__information['pserver_updateform_poweroff_pre'] = "<p>Click 'Poweroff' to poweroff/shutdown your <b><%server%></b>.</p>";
 
-$__information['service_list__pre'] = "<p>Click 'SB' for start/stop service when reboot server. Click 'State' for start/stop service.</p>".
-	"<p>Kloxo-MR always monitor services with green 'SB' and try to start if red 'State' periodically.</p>";
+$__information['service_list__pre'] = "<p>Click 'SB' for start/stop service when the server is rebooted. Click 'State' to start/stop service now.</p>".
+	"<p>Kloxo-MR always monitor services with green 'SB' and try to start them periodically in case of red 'State' .</p>";
 
 // $__information['process_list__pre'] = "<p>No information...</p>";
 
@@ -672,7 +671,7 @@ $__information['sshclient_show__pre'] = "<p>SSH access here (using java-based ss
 
 $__information['phpini_updateform_edit_pre'] = $__information['phpini_updateform_edit_admin_pre'];
 
-$__information['phpini_updateform_extraedit_pre'] = "<p>Setting 'advanced' PHP here.</p>";
+$__information['phpini_updateform_extraedit_pre'] = "<p>You can change 'advanced' PHP settings here.</p>";
 
 $__information['mysqldb_addform__pre'] = "<p>Add your MySQL database here. 'User Name' is the same as 'DB Name' automatically.</p>";
 
