@@ -146,6 +146,12 @@ if (file_exists("{$globalspath}/custom.suexec.conf")) {
 }
 
 if ($disabled) {
+    $sockuser = 'apache';
+} else {
+    $sockuser = $user;
+}
+
+if ($disabled) {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
@@ -241,7 +247,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
     index-file.names = ( <?php echo $indexorder; ?> )
 
-    var.user = "<?php echo $user; ?>"
+    var.user = "<?php echo $sockuser; ?>"
 <?php
             if (!$disablephp) {
                 if ($reverseproxy) {
@@ -543,7 +549,7 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
 
     index-file.names = ( <?php echo $indexorder; ?> )
 
-    var.user = "<?php echo $user; ?>"
+    var.user = "<?php echo $sockuser; ?>"
 <?php
         if ($redirectionlocal) {
             foreach ($redirectionlocal as $rl) {

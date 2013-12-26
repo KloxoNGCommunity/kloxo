@@ -98,6 +98,12 @@ $fpmportapache = 50000;
 
 $disabledocroot = "/home/kloxo/httpd/disable";
 
+if ($disabled) {
+    $sockuser = 'apache';
+} else {
+    $sockuser = $user;
+}
+
 foreach ($certnamelist as $ip => $certname) {
     if ($ip !== '*') {
 ?>
@@ -371,7 +377,10 @@ VirtualHost {
     Hostname = webmail.<?php echo $domainname; ?>
 
 
-    usrToolkit = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
+    WebsiteRoot = <?php echo $webmaildocroot; ?>
+
+
+    useToolkit = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
 }
 
@@ -589,7 +598,8 @@ VirtualHost {
         } else {
 ?>
 
-    UseFastCGI = php_for_apache
+    UseFastCGI = php_for_<?php echo $sockuser; ?>
+
 <?php
         }
 ?>
@@ -689,12 +699,11 @@ VirtualHost {
     ReverseProxy (^\/$|^\/.*\.php.*$|^\/([a-z0-9-]+\/?)*$) http://127.0.0.1:30080/
 <?php
                     } else {
-                        if (!$disablephp) {
 ?>
 
-    UseFastCGI = php_for_<?php echo $user; ?>
+    UseFastCGI = php_for_<?php echo $sockuser; ?>
+
 <?php
-                        }
                     }
 ?>
 
@@ -776,6 +785,7 @@ VirtualHost {
 ?>
 
     UseFastCGI = php_for_<?php echo $user; ?>
+
 <?php
                     }
 ?>
@@ -888,6 +898,7 @@ VirtualHost {
 ?>
 
     UseFastCGI = php_for_<?php echo $user; ?>
+
 <?php
                         }
 ?>

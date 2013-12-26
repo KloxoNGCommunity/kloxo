@@ -1850,6 +1850,7 @@ function set_login_skin_to_feather()
 	$obj->specialplay_b->skin_color = 'default';
 	$obj->specialplay_b->icon_name = 'collage';
 	$obj->specialplay_b->show_direction = 'vertical';
+	$obj->specialplay_b->skin_background = 'nature_004.jpg';
 	$obj->specialplay_b->button_type = 'font';
 	$obj->setUpdateSubaction();
 	$obj->write();
@@ -1859,6 +1860,7 @@ function set_login_skin_to_feather()
 	$obj->specialplay_b->skin_color = 'default';
 	$obj->specialplay_b->icon_name = 'collage';
 	$obj->specialplay_b->show_direction = 'vertical';
+	$obj->specialplay_b->skin_background = 'nature_004.jpg';
 	$obj->specialplay_b->button_type = 'font';
 	$obj->setUpdateSubaction();
 	$obj->write();

@@ -2053,8 +2053,9 @@ function password_contact_check()
 	if (check_raw_password('client', 'admin', 'admin')) {
 ?>
 
-		<br/> <br/> <br/>
-		<div style="width:640px; background-color: #fff; margin: 0 auto 0 auto; border: 1px solid #ddd;">
+		<br/>
+		<div style="width: 640px; background-color: #fff; margin: 0 auto; border: 1px solid #ddd;">
+		<br/>
 <?php
 
 			if (!isset($ghtml->__http_vars['frm_emessage'])) {
@@ -2066,6 +2067,7 @@ function password_contact_check()
 			do_updateform($login, 'password');
 ?>
 		</div>
+		<br/>
 <?php
 		exit;
 	}

@@ -146,6 +146,12 @@ if (file_exists("{$globalspath}/custom.webalizer.conf")) {
     $webalizerconf = 'webalizer.conf';
 }
 
+if ($disabled) {
+    $sockuser = 'apache';
+} else {
+    $sockuser = $user;
+}
+
 $count = 0;
 
 foreach ($certnamelist as $ip => $certname) {
@@ -454,7 +460,7 @@ server {
         }
 ?>
 
-    set $user '<?php echo $user; ?>';
+    set $user '<?php echo $sockuser; ?>';
 <?php
         if (!$reverseproxy) {
 ?>
@@ -640,7 +646,7 @@ server {
                     } else {
 ?>
 
-    set $user '<?php echo $user; ?>';
+    set $user '<?php echo $sockuser; ?>';
     set $fpmport '<?php echo $fpmport; ?>';
 
     include '<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>';

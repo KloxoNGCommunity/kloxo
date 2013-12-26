@@ -95,6 +95,12 @@ $fpmportapache = 50000;
 
 $disablepath = "/home/kloxo/httpd/disable";
 
+if ($disabled) {
+    $sockuser = 'apache';
+} else {
+    $sockuser = $user;
+}
+
 if (!$reverseproxy) {
     foreach ($certnamelist as $ip => $certname) {
         if ($ip !== '*') {
@@ -444,12 +450,12 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup <?php echo $user; ?> <?php echo $user; ?>
+        SuexecUserGroup <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+        SuPhp_UserGroup <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
@@ -460,9 +466,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid <?php echo $user; ?> <?php echo $user; ?>
+        RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-        RMinUidGid <?php echo $user; ?> <?php echo $user; ?>
+        RMinUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
     </IfModule>
 <?php
@@ -470,7 +476,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule itk.c>
-        AssignUserId <?php echo $user; ?> <?php echo $user; ?>
+        AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
 
         <Location "/awstats/">
@@ -485,7 +491,7 @@ foreach ($certnamelist as $ip => $certname) {
         Alias /<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake"
         #FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?>
 
-        FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/<?php echo $user; ?>.sock
+        FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/<?php echo $sockuser; ?>.sock
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $domainname; ?>.<?php echo $count; ?>fake
         <Files "<?php echo $domainname; ?>.<?php echo $count; ?>fake">
@@ -698,12 +704,12 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule suexec.c>
-        SuexecUserGroup <?php echo $user; ?> <?php echo $user; ?>
+        SuexecUserGroup <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
     </IfModule>
 
     <IfModule mod_suphp.c>
-        SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+        SuPhp_UserGroup <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
@@ -714,9 +720,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ruid2.c>
         RMode config
-        RUidGid <?php echo $user; ?> <?php echo $user; ?>
+        RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-        RMinUidGid <?php echo $user; ?> <?php echo $user; ?>
+        RMinUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
     </IfModule>
 <?php
@@ -724,7 +730,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
     <IfModule itk.c>
-        AssignUserId <?php echo $user; ?> <?php echo $user; ?>
+        AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
         <Location "/awstats/">
             AssignUserId apache apache
@@ -738,7 +744,7 @@ foreach ($certnamelist as $ip => $certname) {
         Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
         #FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?>
 
-        FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/<?php echo $user; ?>.sock
+        FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/<?php echo $sockuser; ?>.sock
         AddType application/x-httpd-fastphp .php
         Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
         <Files "<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
