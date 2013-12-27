@@ -6097,6 +6097,14 @@ function setInitialServer($nolog = null)
 	lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/init", "kloxo.init"),
 		"/etc/init.d/kloxo");
 
+	fix_hiawatha();
+
+	exec("chown root:root /etc/init.d/kloxo; chmod 755 /etc/init.d/kloxo");
+	exec("chkconfig kloxo on");
+}
+
+function fix_hiawatha()
+{
 	if (file_exists("/etc/init.d/hiawatha")) {
 		$webdrv = slave_get_driver('web');
 
@@ -6106,9 +6114,6 @@ function setInitialServer($nolog = null)
 			exec("chkconfig hiawatha on");
 		}
 	}
-
-	exec("chown root:root /etc/init.d/kloxo; chmod 755 /etc/init.d/kloxo");
-	exec("chkconfig kloxo on");
 }
 
 function setSomePermissions($nolog = null)
