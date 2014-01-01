@@ -872,7 +872,7 @@ function __ac_desc_Update($object)
 		$selflist = $object->getSelfList();
 
 		foreach ($selflist as $l) {
-			do_update($l, $subaction, null);
+			$ret = do_update($l, $subaction, null);
 		}
 	}
 
@@ -886,12 +886,15 @@ function __ac_desc_Update($object)
 			// Example is the ffile class...
 
 			$subaction = "{$class}_$subaction";
+
 			$ret = do_update($object, $subaction, $list);
 		} else {
 			if (!$list) {
 				print("List not set for Multiple Update <br/> ");
+
 				exit;
 			}
+
 			foreach ($list as $l) {
 				$ob = $object->getFromList($class, $l);
 				$ret = do_update($ob, $subaction, null);
@@ -2261,8 +2264,19 @@ function display_init()
 		exit;
 	}
 
-/*
 	try {
+		if ($ghtml->frm_filter) {
+			$filtername = $gbl->__c_object->getFilterVariableForThis($ghtml->frm_o_cname);
+			$list[$filtername] = $ghtml->frm_filter;
+			$login->setupHpFilter($list);
+			$login->setUpdateSubaction();
+		}
+
+		if ($ghtml->frm_hpfilter) {
+			$login->setupHpFilter($ghtml->frm_hpfilter);
+			$login->setUpdateSubaction();
+		}
+
 		do_display_init();
 	} catch (Exception $e) {
 		log_log("redirect_error", "exception");
@@ -2279,21 +2293,6 @@ function display_init()
 
 		exit;
 	}
-*/
-
-	if ($ghtml->frm_filter) {
-		$filtername = $gbl->__c_object->getFilterVariableForThis($ghtml->frm_o_cname);
-		$list[$filtername] = $ghtml->frm_filter;
-		$login->setupHpFilter($list);
-		$login->setUpdateSubaction();
-	}
-
-	if ($ghtml->frm_hpfilter) {
-		$login->setupHpFilter($ghtml->frm_hpfilter);
-		$login->setUpdateSubaction();
-	}
-
-	do_display_init();
 }
 
 function lx_frm_inc()

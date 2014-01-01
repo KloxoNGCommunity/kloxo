@@ -3429,7 +3429,8 @@ class HtmlLib
 		}
 
 		//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
-		$wrapstr = ($width === "100%") ? "" : "nowrap";
+		$widthval = str_replace("%", "", $width);
+		$wrapstr = ((int)$widthval >= 25) ? "" : "nowrap";
 
 		$target = null;
 		$purl = null;

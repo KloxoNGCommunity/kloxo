@@ -5564,20 +5564,22 @@ abstract class Lxclass
 			}
 		}
 
-		try {
-			if (!$gbl->__var_list_flag) {
-				$ob->was();
-				foreach ($sgbl->__var_objectrestorelist as $d) {
+
+		if (!$gbl->__var_list_flag) {
+			$ob->was();
+
+			foreach ($sgbl->__var_objectrestorelist as $d) {
+				try {
 					print("Taking restore of '{$d->get__table()}:{$d->nname}'\n");
 					log_log("restore", "Taking restore of '{$d->get__table()}:{$d->nname}'");
-					$d->restoreMeUp($vd, $rem->ddate);
+					$d->restoreMeUp($vd, $rem->ddate);				
+				} catch (Exception $e) {
+					//	lxfile_tmp_rm_rec($vd);
+					//	throw $e;
+					print("Failed for taking restore of '{$d->get__table()}:{$d->nname}'\n");
+					log_log("restore", "- Alert: Failed restore of '{$d->get__table()}:{$d->nname}'\n");
 				}
 			}
-		} catch (Exception $e) {
-		//	lxfile_tmp_rm_rec($vd);
-		//	throw $e;
-			print("Failed for taking restore of '{$d->get__table()}:{$d->nname}'\n");
-			log_log("restore", "- Alert: Failed restore of '{$d->get__table()}:{$d->nname}'\n");
 		}
 
 		lxfile_tmp_rm_rec($vd);

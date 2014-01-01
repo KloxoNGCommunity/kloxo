@@ -6108,8 +6108,10 @@ function fix_hiawatha()
 	if (file_exists("/etc/init.d/hiawatha")) {
 		$webdrv = slave_get_driver('web');
 
-		if (strpos($webdrv, 'hiawatha')) {
-			exec("chkconfig hiawatha off; service hiawatha stop");
+		if (strpos($webdrv, 'hiawatha') !== false) {
+			if (strpos($webdrv, 'hiawathaproxy') === false) {
+				exec("chkconfig hiawatha off; service hiawatha stop");
+			}
 		} else {
 			exec("chkconfig hiawatha on");
 		}
