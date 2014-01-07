@@ -39,16 +39,20 @@ $path = "../theme/background";
 
 // MR -- trick to make random background for login
 if ((file_exists($path)) && (!file_exists("./.norandomimage"))) {
-	$dirs = glob("{$path}/*");
+	try {
+		$dirs = glob("{$path}/*");
 
-	$count = count($dirs);
-	$selnum = rand(1, $count);
+		$count = count($dirs);
+		$selnum = rand(1, $count);
 
-	$selimg = $dirs[$selnum];
+		$selimg = $dirs[$selnum];
 
-	$bckgrnd = "\tbackground-image: url({$selimg});\n".
-		"\tbackground-size: cover;\n".
-		"\tbackground-attachment: fixed;";
+		$bckgrnd = "\tbackground-image: url({$selimg});\n".
+			"\tbackground-size: cover;\n".
+			"\tbackground-attachment: fixed;";
+	} catch (exception $e) {
+		// no action -- that mean using 'default' bckgrnd
+	}
 }
 
 ?>

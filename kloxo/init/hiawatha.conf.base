@@ -1,7 +1,7 @@
 # Hiawatha main configuration file
 #
 
-ServerString = Hiawatha for Kloxo-MR
+ServerString = Hiawatha_for_Kloxo-MR
 
 ServerId = lxlabs
 ConnectionsTotal = 2048

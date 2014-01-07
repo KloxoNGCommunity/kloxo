@@ -7934,7 +7934,7 @@ class HtmlLib
 
 		if ($ret) {
 			$fullurl = $this->getFullUrl(trim($matches[1]));
-			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href='$fullurl'>$matches[2]</a>", $pinfo);
+			$pinfo = preg_replace("/<url:([^>]*)>([^<]*)<\/url>/", "<a class='insidelist' href='$fullurl'><span style='font-weight:bold'>$matches[2]</span></a>", $pinfo);
 		}
 
 		if ($sgbl->isBlackBackground()) {

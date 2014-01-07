@@ -129,7 +129,7 @@ yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* -y
 #		yum -y remove php*
 #	fi
 
-	osverid=$(yum list kernel*|grep -i "@")
+	osverid=$(yum list *yum*|grep -i "@")
 
 	## it's mean centos 6 or equal
 	if [ "${osverid}" != "" ]  ; then
