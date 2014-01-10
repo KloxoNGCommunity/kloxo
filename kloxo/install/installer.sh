@@ -138,6 +138,9 @@ yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* -y
 		yum -y install mysql55 mysql55-server mysql55-libs
 	fi
 
+	# MR -- always disable mysql-aio
+	sh /script/disable-mysql-aio
+
 	yum -y install php53u php53u-mysql
 
 	## install after mysql55 and php53u because if mysql not exist will install 'old' mysql

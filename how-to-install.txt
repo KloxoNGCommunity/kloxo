@@ -84,10 +84,13 @@ B.2. For Final Release:
     yum replace mysql --replace-with=mysql55 -y
     chkconfig mysqld on
 
+	# additional step for update from Kloxo official
+	sh /script/convert-to-qmailtoaster
+
     # install (and then run 'sh /script/upcp')
     yum install kloxomr -y
     sh /script/upcp
-
+	
     # better reboot
     reboot
 	

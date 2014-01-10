@@ -62,7 +62,12 @@ function lxins_main()
 	if (strpos($sysctlconf, $pattern) !== false) {
 		//
 	} else {
-		system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
+		// MR -- problem with for openvz
+		exec("grep envID /proc/self/status", $ret, $out);
+	//	if (!file_exists("/proc/user_beancounters")) {
+		if (($out[0] === '') || ($out[0] === 'envID: 0')) {
+			system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
+		}
 	}
 
 	if ($installstep === '2') {
@@ -254,6 +259,9 @@ function install_main()
 	$installcomp['database'] = array($mysqltmp, $mysqltmp."-server", $mysqltmp."-libs");
 
 //	system("yum replace $mysqltmp --replace-with=mysql55 -y");
+
+	// MR -- openvz have a problem with aio; so, disable aio for all
+//	system("sh /script/disable-mysql-aio");
 
 //	$comp = array("web", "database", "dns", "mail");
 
