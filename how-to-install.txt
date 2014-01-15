@@ -78,16 +78,13 @@ B.2. For Final Release:
     # move to /
     cd /
 
-	# additional step for update from Kloxo official
-    # read WARNING 2
+    # install
+    yum install kloxomr -y
+    sh /script/upcp -y
 
 	# additional step for update from Kloxo official
 	sh /script/convert-to-qmailtoaster
 
-    # install
-    yum install kloxomr -y
-    sh /script/upcp -y
-	
     # better reboot
     reboot
 	
