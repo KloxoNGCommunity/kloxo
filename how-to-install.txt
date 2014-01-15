@@ -78,18 +78,15 @@ B.2. For Final Release:
     # move to /
     cd /
 
-    # need update mysql because Kloxo-MR need mysql/mariadb version 5.1++
-    yum clean all
-    yum install yum-plugin-replace -y
-    yum replace mysql --replace-with=mysql55 -y
-    chkconfig mysqld on
+	# additional step for update from Kloxo official
+    # read WARNING 2
 
 	# additional step for update from Kloxo official
 	sh /script/convert-to-qmailtoaster
 
-    # install (and then run 'sh /script/upcp')
+    # install
     yum install kloxomr -y
-    sh /script/upcp
+    sh /script/upcp -y
 	
     # better reboot
     reboot
