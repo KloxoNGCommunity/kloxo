@@ -52,7 +52,8 @@ class Sqlite
 
 			// MR -- use unix socket instead tcp/ip socket
 			if ($mysqlsrv === 'localhost') {
-				$mysqlsrv = ':/var/lib/mysql/mysql.sock';
+				// MR -- not use because found weird (like not work for fixweb)
+			//	$mysqlsrv = ':/var/lib/mysql/mysql.sock';
 			}
 
 			$gbl->$fdbvar = new mysqli($mysqlsrv, $user, $pass, $db) or dprint("Could not connect and select select $db MySQL database.\n");
