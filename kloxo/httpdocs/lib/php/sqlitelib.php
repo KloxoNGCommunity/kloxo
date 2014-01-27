@@ -48,7 +48,14 @@ class Sqlite
 		$pass = getAdminDbPass();
 
 		if ($sgbl->__var_database_type === 'mysql') {
-			$gbl->$fdbvar = new mysqli($this->__readserver, $user, $pass, $db) or dprint("Could not connect and select select $db MySQL database.\n");
+			$mysqlsrv = $this->__readserver;
+
+			// MR -- use unix socket instead tcp/ip socket
+			if ($mysqlsrv === 'localhost') {
+				$mysqlsrv = ':/var/lib/mysql/mysql.sock';
+			}
+
+			$gbl->$fdbvar = new mysqli($mysqlsrv, $user, $pass, $db) or dprint("Could not connect and select select $db MySQL database.\n");
 			self::$__database = 'mysql';
 		} else {
 			try {

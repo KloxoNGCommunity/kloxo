@@ -16,11 +16,14 @@
 	$file = "/home/nsd/conf/defaults/nsd.master.conf";
 
 	file_put_contents($file, $str);
-
+/*
 	if ($action === 'fix') {
 		exec_with_all_closed("nsdc rebuild; nsdc reload; nsdc notify");
 	} elseif ($action === 'update') {
 		exec_with_all_closed("nsdc rebuild; nsdc reload; nsdc notify");
 	}
+*/
+	exec_with_all_closed("/etc/init.d/nsd restart");
+	
 ?>
 

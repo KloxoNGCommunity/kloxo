@@ -4750,11 +4750,11 @@ class HtmlLib
 
 						<td width='10' class="collist"> <?= $filteropacitystringspan ?>
 <?php
-				if ($checked !== 'disabled') {
+			//	if ($checked !== 'disabled') {
 ?>
 							<input <?= $filteropacitystring ?> id="ckbox<?= $unique_name ?><?= $rowcount ?>" class="ch1" type="checkbox" <?= $checked ?> name="frm_accountselect" onclick="hiliteRowColor('tr<?= $unique_name ?><?= $rowcount ?>','tablerow<?= $count ?>',document.formselectall<?= $unique_name ?>.selectall<?= $unique_name ?>)" value="<?= $obj->nname ?>"> <?= $filteropacitystringspanend ?>
 <?php
-				}
+			//	}
 ?>
 						</td>
 <?php
