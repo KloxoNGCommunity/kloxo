@@ -104,6 +104,49 @@ if ($disabled) {
     $sockuser = $user;
 }
 
+if (!$reverseproxy) {
+    if ($statsapp === 'awstats') {
+        if ($statsprotect) {
+?>
+
+Directory {
+    Path = /home/kloxo/httpd/awstats/wwwroot/cgi-bin
+    PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
+}
+
+<?php
+        }
+    } elseif ($statsapp === 'webalizer') {
+        if ($statsprotect) {
+?>
+
+Directory {
+    Path = /home/httpd/<?php echo $domainname; ?>/webstats
+    PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
+}
+
+<?php
+        }
+    }
+
+    if ($dirprotect) {
+        foreach ($dirprotect as $k) {
+            $protectpath = $k['path'];
+            $protectauthname = $k['authname'];
+            $protectfile = str_replace('/', '_', $protectpath) . '_';
+?>
+
+Directory {
+    Path = /<?php echo $protectpath; ?>
+
+    PasswordFile = /home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>
+}
+
+<?php
+        }
+    }
+}
+
 foreach ($certnamelist as $ip => $certname) {
     if ($ip !== '*') {
 ?>
@@ -507,61 +550,24 @@ VirtualHost {
             }
         }
 
+        if (!$reverseproxy) {
 ?>
 
     AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log
     ErrorLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log
 <?php
-        if ($statsapp === 'awstats') {
+            if ($statsapp === 'awstats') {
 ?>
 
     Alias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
 
     Alias = /awstatscss:/home/kloxo/httpd/awstats/wwwroot/css
     Alias = /awstatsicons:/home/kloxo/httpd/awstats/wwwroot/icon
-
 <?php
-            if ($statsprotect) {
-?>
-    Directory {
-        Path = /awstats
-        PasswordFile = /home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
-    }
-<?php
-            }
-        } elseif ($statsapp === 'webalizer') {
+            } elseif ($statsapp === 'webalizer') {
 ?>
 
     Alias = /stats:/home/httpd/<?php echo $domainname; ?>/webstats
-
-    #Directory {
-    #    Path = /stats
-    #    ShowIndex = yes
-    #}
-<?php
-            if ($statsprotect) {
-?>
-
-    Directory {
-        Path = /stats
-        PasswordFile = /home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
-    }
-<?php
-            }
-        }
-
-        if ($dirprotect) {
-            foreach ($dirprotect as $k) {
-                $protectpath = $k['path'];
-                $protectauthname = $k['authname'];
-                $protectfile = str_replace('/', '_', $protectpath) . '_';
-?>
-
-    Directory {
-        Path = /<?php echo $protectpath; ?>
-
-        PasswordFile = /home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>
-    }
 <?php
             }
         }
