@@ -1457,13 +1457,14 @@ class Ffile extends Lxclass
 
 	static function createListNlist($parent, $view)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-		
+		global $gbl, $sgbl, $login, $ghtml; 
+
 		$driverapp = $gbl->getSyncClass($parent->__masterserver, $parent->__readserver, 'ffile');
 
 		$duflag = $parent->duflag;
+	
 
-		$nlist["ttype"] = "3%";
+		$nlist["ttype"] = "2%";
 
 		if ($duflag) {
 			$nlist["size"] = "10%";
@@ -1471,18 +1472,22 @@ class Ffile extends Lxclass
 		} else {
 			$nlist["size"] = "10%";
 		}
-		
-		$nlist["nname"] = "70%";
-		
+
+		$nlist["nname"] = "50%";
+
 		if ($parent->getParentO()->is__table('web')) {
 			$nlist["protect"] = "3%";
 		}
 
+		$nlist["other_username"] = "15%";
+
 		$nlist["mtime"] = "10%";
+
+		$nlist["mode"] = "10%";
 
 		$nlist["pvrename"] = "3%";
 		$nlist["pvdownload"] = "3%";
-		
+
 		return $nlist;
 	}
 }

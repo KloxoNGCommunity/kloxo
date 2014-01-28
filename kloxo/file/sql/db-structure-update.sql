@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `watchdog` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_watchdog` (`parent_clname`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `watchdog` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`, `syncserver`, `port`, `action`, `status`, `added_by_system`, `oldsyncserver`, `olddeleteflag`) VALUES
 ('dns___localhost', 'pserver-localhost', '', 'dns', 'localhost', '53', '__driver_dns', 'on', 'on', '', ''),
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_service` (`parent_clname`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`, `description`, `grepstring`, `syncserver`, `oldsyncserver`, `olddeleteflag`) VALUES
 ('qmail___localhost', 'pserver-localhost', '', 'qmail', 'Qmail-toaster Mail Server', 'qmail', 'localhost', '', ''),
@@ -50,10 +50,5 @@ INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`,
 ('httpd___localhost', 'pserver-localhost', '', 'httpd', 'Apache Web Server', 'httpd', 'localhost', '', ''),
 ('lighttpd___localhost', 'pserver-localhost', '', 'lighttpd', 'Lighttpd Web Server', 'lighttpd', 'localhost', '', ''),
 ('nginx___localhost', 'pserver-localhost', '', 'nginx', 'Nginx Web Server', 'nginx', 'localhost', '', ''),
-('hiawatha___localhost', 'pserver-localhost', '', 'hiawatha', 'Hiawatha Web Server (also use by Kloxo-MR)', 'hiawatha', 'localhost', '', ''),
-('openlitespeed___localhost', 'pserver-localhost', '', 'openlitespeed', 'OpenLitespeed Web Server', 'lsws', 'localhost', '', ''),
-('gwan___localhost', 'pserver-localhost', '', 'gwan', 'G-WAN Web Server', 'gwan', 'localhost', '', ''),
-('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', ''),
-('varnish___localhost', 'pserver-localhost', '', 'varnish', 'Varnish Cache Server', 'varnish', 'localhost', '', ''),
-('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server', 'traffic_cop', 'localhost', '', ''),
-('squid___localhost', 'pserver-localhost', '', 'squid', 'Squid Proxy Server', 'squid', 'localhost', '', '');
+('hiawatha___localhost', 'pserver-localhost', '', 'hiawatha', 'Hiawatha Web Server (use by Kloxo-MR)', 'hiawatha', 'localhost', '', ''),
+('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', '');
