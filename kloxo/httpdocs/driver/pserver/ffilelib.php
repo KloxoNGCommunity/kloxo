@@ -1473,20 +1473,20 @@ class Ffile extends Lxclass
 			$nlist["size"] = "10%";
 		}
 
-		$nlist["nname"] = "50%";
+		$nlist["nname"] = "70%";
 
 		if ($parent->getParentO()->is__table('web')) {
 			$nlist["protect"] = "3%";
 		}
 
-		$nlist["other_username"] = "15%";
+		$nlist["other_username"] = "5%";
 
-		$nlist["mtime"] = "10%";
+		$nlist["mtime"] = "15%";
 
 		$nlist["mode"] = "10%";
 
-		$nlist["pvrename"] = "3%";
-		$nlist["pvdownload"] = "3%";
+		$nlist["pvrename"] = "2%";
+		$nlist["pvdownload"] = "2%";
 
 		return $nlist;
 	}
