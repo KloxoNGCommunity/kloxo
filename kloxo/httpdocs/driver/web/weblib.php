@@ -1162,11 +1162,13 @@ class Web extends Lxdb
 		throw new lxException("se_submit_running_background", '', $this->nname);
 	}
 
-	function update($subaction, $param)
+	function updateDocroot($param)
 	{
-		if ($subaction === 'docroot') {
-			validate_docroot($param['docroot']);
-		}
+		global $gbl, $sgbl, $login, $ghtml;
+
+		validate_docroot($param['docroot']);
+
+		return $param;
 	}
 
 	function updateform($subaction, $param)
