@@ -29,7 +29,8 @@ if [ "$(rpm -qa mratwork-release)" == "" ] ; then
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
     yum update mratwork-release -y
 	
-    rm -rf /etc/yum.repos.d/kloxo-mr.repo
+    mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
+    mv -f /etc/yum.repos.d/kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.nonrepo
 else
     yum update mratwork-release -y
 fi

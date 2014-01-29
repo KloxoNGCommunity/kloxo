@@ -75,15 +75,19 @@ B.2. For Final Release:
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
     yum update mratwork-release
 
+	# additional step for update from Kloxo official
+	mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
+	# to make sure CentOS 5 with version 5.6 or higher
+	yum clean all
+	yum update
+	sh /script/convert-to-qmailtoaster
+	
     # move to /
     cd /
 
     # install
     yum install kloxomr -y
     sh /script/upcp -y
-
-	# additional step for update from Kloxo official
-	sh /script/convert-to-qmailtoaster
 
     # better reboot
     reboot

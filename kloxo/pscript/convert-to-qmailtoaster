@@ -14,7 +14,7 @@ else
 	echo
 fi
 
-yum remove qmail vpopmail *-toaster exim* dovecot* postfix* -y
+yum remove qmail* vpopmail* *-toaster exim* dovecot* postfix* -y
 rpm -e --noscripts vpopmail
 yum clean all
 yum install *toaster -y
