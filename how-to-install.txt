@@ -96,7 +96,7 @@ WARNING:
     - In Kloxo offical run:
 
         cd /script
-        wget https://github.com/mustafaramadhan/kloxo/blob/dev/kloxo/pscript/backup-patch
+        wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/pscript/backup-patch
         sh ./backup-patch
 	
 2. Since 6.5.0.f-20130701, Kloxo-MR using MySQLi API instead MySQL API. Need update mysql 5.0.x to 5.1.x or above for Centos 5.
