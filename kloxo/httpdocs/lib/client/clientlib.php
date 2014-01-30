@@ -381,10 +381,17 @@ class Client extends ClientBase
 
 		$alist['__v_dialog_info'] = "a=updateform&sa=information";
 
+	/*
 		if ($this->priv->isOn('webhosting_flag')) {
 			if ($this->priv->isOn('cron_manage_flag') && $this->isCustomer()) {
 				$alist[] = "a=list&c=cron";
 			}
+		}
+	*/
+		// MR -- for security reason, only anable for admin
+
+		if ($this->isAdmin()) {
+			$alist[] = "a=list&c=cron";
 		}
 
 		if (!$this->isLogin()) {

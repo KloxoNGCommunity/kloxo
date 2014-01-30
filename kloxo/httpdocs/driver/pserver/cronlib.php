@@ -33,6 +33,9 @@ class Cron extends Lxdb
 
 	static function createListAlist($parent, $class)
 	{
+		// MR --- for security reason, only enable for admin
+		if (!$this->isAdmin()) { return; }
+
 		$alist[] = "a=list&c=$class";
 		$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=simple";
 		$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=complex";
@@ -137,6 +140,9 @@ class Cron extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		// MR --- for security reason, only enable for admin
+		if (!$this->isAdmin()) { return; }
+
 		$parent = $this->getParentO();
 
 		// This is a hack to fix the cron migrated from web to client.
@@ -177,6 +183,9 @@ class Cron extends Lxdb
 	static function addform($parent, $class, $typetd = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		// MR --- for security reason, only enable for admin
+		if (!$this->isAdmin()) { return; }
 		
 		// This is to make sure that the static variables 'monthlist, weekdaylist' etc, are initialized. 
 		// There is no other way to do it.
