@@ -2114,28 +2114,28 @@ class HtmlLib
 			<input type="hidden" id="frm_subaction" name="frm_subaction" value="perm">
 		</form>
 
-		<table cellpadding="0" cellspacing="0" border="0" width="325">
+<div style="padding:5px; border:1px solid #aaa; width: 330px; margin: 0 auto;">
+		<table cellpadding="0" cellspacing="0" border="0" width="325" bgcolor="#efe8e0">
 			<tr>
-				<td width="60%" valign="bottom">
+				<!-- <td width="60%" valign="bottom">
 					<table cellpadding="0" cellspacing="0" border="0" width="100%">
 						<tr>
 							<td width="100%" height="2" background="<?= $imgtopline ?>"></td>
 						</tr>
 					</table>
-				</td>
-				<td align="right">
-					<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				</td> -->
+				<td width="100%" align="center">
+					<table cellpadding="10" cellspacing="0" border="0" width="100%">
 						<tr>
-							<td>
+							<!-- <td>
 								<img src="<?= $imgheadleft ?>">
+							</td> -->
+							<td nowrap width="100%" align="center">
+								<b><span style="color:"#ffffff">Change Permissions</span></b><? // [FIXME] Harcode translation string?>
 							</td>
-							<td nowrap width="100%" background="<?= $imgheadbg ?>">
-								<b><span style="color:"#ffffff">Change Permissions</span>
-								</b><? // [FIXME] Harcode translation string?>
-							</td>
-							<td>
+							<!-- <td>
 								<img src="<?= $imgheadright ?>">
-							</td>
+							</td> -->
 						</tr>
 					</table>
 				</td>
@@ -2144,7 +2144,7 @@ class HtmlLib
 
 		<form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 		<!-- <form name="chmod" method="get" action="/display.php" accept-charset="utf-8"> -->
-			<table cellpadding="0" cellspacing="0" border="0" width="325">
+			<table cellpadding="5" cellspacing="0" border="0" width="325">
 				<tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
 					<td width="100" class="col"></td>
 					<td width=75 align=center>User</td><? // [FIXME] Harcode translation string?>
@@ -2157,8 +2157,8 @@ class HtmlLib
 					<td align="center"><input type="checkbox" name="groupall" onclick="allrights(document.chmod,this,'group');"></td>
 					<td align="center"><input type="checkbox" name="otherall" onclick="allrights(document.chmod,this,'other');"></td>
 				</tr>
-			</table>
-			<table cellpadding="0" cellspacing="0" border="0" width="325">
+			<!-- </table>
+			<table cellpadding="0" cellspacing="0" border="0" width="325"> -->
 				<tr class="tablerow0">
 					<td class="col" width="100">Write</td><? // [FIXME] Harcode translation string?>
 					<td align="center"><input type="checkbox" name="wu" onclick="changerights(document.chmod,this,'user',2);"></td>
@@ -2177,8 +2177,8 @@ class HtmlLib
 					<td align="center"><input type="checkbox" name="rg" onclick="changerights(document.chmod,this,'group',4);"></td>
 					<td align="center"><input type="checkbox" name="ro" onclick="changerights(document.chmod,this,'other',4);"></td>
 				</tr>
-			</table>
-			<table cellpadding="0" cellspacing="0" border="0" width="325">
+			<!-- </table>
+			<table cellpadding="0" cellspacing="0" border="0" width="325"> -->
 				<tr>
 					<td colspan="4" bgcolor="#ffffff" height="2"></td>
 				</tr>
@@ -2203,9 +2203,9 @@ class HtmlLib
 				<tr>
 					<td colspan="2" bgcolor="#ffffff" height="4"></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td colspan="4" style="background:#efe8e0 url(<?= $imgtopline ?>)" height="1"></td>
-				</tr>
+				</tr> -->
 			</table>
 		</form>
 
@@ -2218,6 +2218,8 @@ class HtmlLib
 			setpermission(document.chmod, 'group', <?=$group?>);
 			setpermission(document.chmod, 'other', <?=$other?>);
 		</script>
+
+</div>
 <?php
 	}
 

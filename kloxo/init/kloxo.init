@@ -48,7 +48,7 @@ phpcgi_pidfile="/var/run/kloxo-phpcgi.pid"
 phpcgi_file="/opt/php52s/bin/php-cgi"
 phpcgi_symlink="/opt/php52s/bin/kloxo-phpcgi"
 phpcgi_user="lxlabs"
-phpcgi_child="4"
+phpcgi_child="1"
 phpcgi_max_req="10000"
 
 phpcgi_name=$(basename ${phpcgi_symlink})
@@ -60,10 +60,17 @@ phpcgi_prog="kloxo-phpcgi"
 prog_as_slave="/usr/local/lxlabs/${prog}/etc/conf/slave-db.db"
 prog_wrapper="kloxo-wrapper.sh"
 
-phpcgi_spawn="env -i PHP_FCGI_CHILDREN=${phpcgi_child} \
-	PHP_FCGI_MAX_REQUESTS=${phpcgi_max_req} \
-	${phpcgi_symlink} \
-	-b ${phpcgi_sockfile} &"
+#phpcgi_spawn="env -i PHP_FCGI_CHILDREN=${phpcgi_child} \
+#	PHP_FCGI_MAX_REQUESTS=${phpcgi_max_req} \
+#	${phpcgi_symlink} \
+#	-b ${phpcgi_sockfile} &"
+
+if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
+	yum install spawn-fcgi -y
+fi
+
+phpcgi_spawn="/usr/bin/spawn-fcgi -f ${phpcgi_symlink} -s ${phpcgi_sockfile} \
+	-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user} > /dev/null 2>&1"
 
 function phpcgi_start() {
 	phpcli_load_wrapper

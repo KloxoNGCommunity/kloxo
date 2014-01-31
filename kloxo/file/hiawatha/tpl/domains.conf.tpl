@@ -538,7 +538,8 @@ VirtualHost {
 
     Alias = /__kloxo:/home/<?php echo $user; ?>/kloxoscript
 
-    Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
+    ### MR -- disable perl until fix hardlinks issue
+    #Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
         if ($redirectionlocal) {
             foreach ($redirectionlocal as $rl) {
