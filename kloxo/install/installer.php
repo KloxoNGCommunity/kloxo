@@ -39,7 +39,7 @@ function lxins_main()
 //	$arch = trim( `arch` );
 //	$arch = php_uname('m');
 
-	// MR -- to make sure /tmp ready for all; found mysql not start not 1777
+	// MR -- to make sure /tmp ready for all; found mysql not able to start if not 1777
 	system("chmod 1777 /tmp");
 
 	// MR -- modified sysctl.conf because using socket instead port for php-fpm
@@ -180,16 +180,19 @@ function lxins_main()
 	if ($installtype === 'master') {
 		if (file_exists("/var/lib/mysql/kloxo")) {
 			kloxo_install_bye();
+		} else {
+			echo "Fail to create kloxo database...\nRun again 'sh /script/upcp -y";
 		}
 	} else {
 		kloxo_install_bye();
 	}
 
-	system("chkconfig hiawatha off; hiawatha stop; rm -f /etc/init.d/hiawatha");
-	copy("{$kloxopath}/init/kloxo.init", "/etc/init.d/kloxo");
+//	system("chkconfig hiawatha off; /etc/rc.d/init.d/hiawatha stop; rm -f /etc/rc.d/init.d/hiawatha");
+//	system("chkconfig hiawatha off; /etc/rc.d/init.d/hiawatha stop");
+	copy("{$kloxopath}/init/kloxo.init", "/etc/rc.d/init.d/kloxo");
 	system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
 
-	system("/etc/init.d/kloxo restart >/dev/null 2>&1 &");
+	system("/etc/rc.d/init.d/kloxo restart >/dev/null 2>&1 &");
 }
 
 // ==== kloxo_all portion ===
@@ -251,7 +254,7 @@ function install_main()
 		"cronie", "cronie-anacron", "crontabs");
 
 
-	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_fastcgi", "pure-ftpd");
+	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_ruid2", "pure-ftpd");
 //	$installcomp['dns'] = array("bind", "bind-chroot");
 	$installcomp['dns'] = array("bind", "bind-utils");
 
@@ -262,11 +265,8 @@ function install_main()
 
 	// MR -- openvz have a problem with aio; so, disable aio for all
 //	system("sh /script/disable-mysql-aio");
-
-//	$comp = array("web", "database", "dns", "mail");
-
-	// MR -- new install always 'none' for web and dns
-	$comp = array("database", "mail");
+	
+	$comp = array("web", "database", "dns", "mail");
 
 	$serverlist = $comp;
 
@@ -287,9 +287,12 @@ function install_main()
 		}
 	}
 
-	// MR -- remove httpd because need 'none' driver for web
-	// httpd always installed when install php!
-	system("rpm -e httpd --nodeps");
+	// MR -- use \cp for temporary cp without prompt
+	// because 'cp' as alias as 'cp -i' with 'alias -p' info
+	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
+
+	// MR -- because using ruid2 as default php-type, disable php-fpm
+//	system("chkconfig php-fpm off; service php-fpm stop");
 }
 
 function kloxo_vpopmail()
@@ -327,7 +330,7 @@ function kloxo_vpopmail()
 		system("rm -f /etc/xinetd.d/kloxo_smtp_lxa");
 	}
 
-	system("chmod -R 755 /var/log/httpd/ >/dev/null 2>&1");
+	system("chmod -R 755 /var/log/httpd/");
 	system("chmod -R 755 /var/log/httpd/fpcgisock >/dev/null 2>&1");
 	system("mkdir -p /var/log/kloxo/");
 	system("mkdir -p /var/log/news");
@@ -380,9 +383,10 @@ function kloxo_install_step1()
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
 		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf", "automake", "make",
 			"libtool", "openssl-devel", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota", "traceroute", "util-linux",
+			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota",
 			"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
-			"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha", "php52s"
+			"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
+			"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha", "php52s"
 		);
 
 		$list = implode(" ", $packages);
@@ -417,11 +421,9 @@ function kloxo_install_step1()
 		}
 		
 		// MR -- install kloxomr specific rpms
-	//	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
-	//		"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch"
-	//	);
-	
-		$packages = array("kloxomr-webmail-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch");
+		$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
+			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch"
+		);
 		
 		$list = implode(" ", $packages);
 
@@ -532,15 +534,9 @@ function kloxo_install_step2()
 	}
 
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
-/*
-		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:4:{s:3:"web";s:6:"apache";' .
-			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";s:8:"webcache";s:4:"none";}}';
+		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
+			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';
 		system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
-*/
-		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:4:{s:3:"web";s:4:"none";' .
-			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"none";s:8:"webcache";s:4:"none";}}';
-		system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
-
 	}
 
 	check_default_mysql();
@@ -585,16 +581,12 @@ function kloxo_install_before_bye()
 		system("yum remove {$phpbranch}-fpm -y");
 	}
 
-	// MR -- use fastcgi instead ruid2 or mod_php as default
+	// MR -- ruid2 as default instead mod_php
 	if (file_exists("/etc/httpd/conf.d/php.conf")) {
-		// MR -- because /home/apache no exist at this step
 		// MR -- ruid2 need php.conf!
 	//	system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
-	//	system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
-		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/fastcgi.conf /etc/httpd/conf.d/fastcgi.conf");
-		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/_inactive_.conf /etc/httpd/conf.d/php.conf");
-		exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
-
+		// MR -- because /home/apache no exist at this step
+		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
 	}
 
 	//--- Prevent mysql socket problem (especially on 64bit system)
@@ -608,7 +600,6 @@ function kloxo_install_before_bye()
 	//--- Set ownership for Kloxo httpdocs dir
 	system("chown -R lxlabs:lxlabs {$kloxopath}/httpdocs");
 
-	// must be start status for guarantee next process running well
 	if (!isMysqlRunning()) {
 		//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
 		print("Setting Mysql for always running after reboot and restart now...\n");
@@ -623,7 +614,7 @@ function kloxo_install_bye()
 	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
-	
+
 		$t  = "\n";
 		$t .= " _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ "."\n";
 		$t .= " _/                                                                          _/ "."\n";
@@ -987,6 +978,7 @@ function copy_script()
 
 	system("mkdir -p /script/filter");
 
+//	system("cp -rf {$kloxopath}/httpdocs/htmllib/script/* /script/");
 	system("cp -rf {$kloxopath}/pscript/* /script/");
 
 	file_put_contents("/script/programname", 'kloxo');
