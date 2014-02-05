@@ -21,6 +21,9 @@ B.1.1. via non-RPM (not recommended for dev)
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
+    # move to /
+    cd /tmp
+
     # delete if exist, create kloxo temp dir
     rm -rf /tmp/kloxo; mkdir /tmp/kloxo ; cd /tmp/kloxo; 
 
@@ -37,13 +40,18 @@ B.1.1. via non-RPM (not recommended for dev)
 
 B.1.2. via RPM (recommended for dev)
 
+    # move to /
+    cd /tmp
+
     # get repo file -- no need for 6.5.0.c and after
     wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-    yum update mratwork-release
 
     # move to /
     cd /
+
+    # update
+    yum update mratwork-release
 
     # edit /etc/yum.repos.d/mratwork.repo
     # from:
@@ -63,35 +71,40 @@ B.1.2. via RPM (recommended for dev)
     #    gpgcheck=0
     #    includepkgs=kloxomr
 
-	yum clean all
-	yum install kloxomr
+    yum clean all
+    yum install kloxomr
    
 B.2. For Final Release:
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
+    # move to /
+    cd /tmp
+
     # get repo file -- no need for 6.5.0.c and after
     wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-    yum update mratwork-release
-
-	# additional step for update from Kloxo official
-	mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
-	# to make sure CentOS 5 with version 5.6 or higher
-	yum clean all
-	yum update
-	sh /script/convert-to-qmailtoaster
 	
     # move to /
     cd /
 
+    # update
+    yum update mratwork-release
+
+    # additional step for update from Kloxo official
+    mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
+    # to make sure CentOS 5 with version 5.6 or higher
+    yum clean all
+    yum update
+    sh /script/convert-to-qmailtoaster
+    
     # install
     yum install kloxomr -y
     sh /script/upcp -y
 
     # better reboot
     reboot
-	
+    
 
 WARNING:
 
@@ -102,7 +115,7 @@ WARNING:
         cd /script
         wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/pscript/backup-patch
         sh ./backup-patch
-	
+    
 2. Since 6.5.0.f-20130701, Kloxo-MR using MySQLi API instead MySQL API. Need update mysql 5.0.x to 5.1.x or above for Centos 5.
 
     - Check mysql version with:
