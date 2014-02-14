@@ -11,7 +11,7 @@ GarbageLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-garbage.log
 
 MaxUrlLength = 65536
 
-PIDfile = /var/run/kloxo-hiawatha.pid
+PIDfile = /usr/local/lxlabs/kloxo/init/kloxo-hiawatha.pid
 
 BanOnGarbage = 300
 BanOnMaxPerIP = 60
@@ -21,7 +21,7 @@ RebanDuringBan = yes
 
 ThreadPoolSize = 50
 
-#CGIhandler = /opt/php52s/bin/php-cgi:php
+#CGIhandler = /opt/php53s/usr/bin/php-cgi:php
 #ExecuteCGI = yes
 WaitForCGI = yes
 

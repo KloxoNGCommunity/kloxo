@@ -60,6 +60,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## 'cp' config
 server {
+    disable_symlinks on if_not_owner
+	
 <?php
         if ($ip === '*') {
             if ($IPv6Enable) {
@@ -124,6 +126,8 @@ server {
 
 ## 'default' config
 server {
+    disable_symlinks on if_not_owner
+
 <?php
         if ($ip === '*') {
             if ($IPv6Enable) {

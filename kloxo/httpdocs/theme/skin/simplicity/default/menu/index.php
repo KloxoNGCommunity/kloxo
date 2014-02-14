@@ -780,7 +780,10 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=sshauthorizedkey">&#x00bb; localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=sshauthorizedkey">&#x00bb;&nbsp;<?= $syncserver ?></a><br/>
+						<!-- &#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=jailed") ?>
 
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=jailed">&#x00bb; localhost</a>
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=jailed">&#x00bb;&nbsp;<?= $syncserver ?></a><br/> -->
 <?php
 		} else {
 ?>
@@ -788,6 +791,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=watchdog"><?= $ghtml->getTitleOnly("a=list&c=watchdog") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=hostdeny"><?= $ghtml->getTitleOnly("a=list&c=hostdeny") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=sshauthorizedkey"><?= $ghtml->getTitleOnly("a=list&c=sshauthorizedkey") ?></a><br/>
+						<!-- &#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=jailed"><?= $ghtml->getTitleOnly("a=show&o=jailed") ?></a><br/> -->
 <?php
 		}
 ?>

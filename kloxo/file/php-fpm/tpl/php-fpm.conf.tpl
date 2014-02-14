@@ -1,5 +1,8 @@
 <?php
-    $maxchildren = '6';
+
+    if (!$maxchildren) {
+        $maxchildren = '6';
+    }
 
     $userlist[] = 'apache';
 

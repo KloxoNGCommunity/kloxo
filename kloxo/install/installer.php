@@ -181,7 +181,8 @@ function lxins_main()
 		if (file_exists("/var/lib/mysql/kloxo")) {
 			kloxo_install_bye();
 		} else {
-			echo "Fail to create kloxo database...\nRun again 'sh /script/upcp -y";
+			### no need because looping process in setup/installer.sh
+		//	echo "Fail to create kloxo database...\nRun again 'sh /script/upcp -y\n";
 		}
 	} else {
 		kloxo_install_bye();
@@ -250,13 +251,15 @@ function install_main()
 	$installcomp['mail'] = array("autorespond-toaster", "courier-authlib-toaster",
 		"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
-		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", "webalizer",
-		"cronie", "cronie-anacron", "crontabs");
+		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter");
 
 
-	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_ruid2", "pure-ftpd");
+	$installcomp['others'] = array("webalizer",	"cronie", "cronie-anacron", "crontabs");
+
+//	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_ruid2", "mod_fastcgi", "mod_fcgid", "mod_suphp", "pure-ftpd");
+
 //	$installcomp['dns'] = array("bind", "bind-chroot");
-	$installcomp['dns'] = array("bind", "bind-utils");
+//	$installcomp['dns'] = array("bind", "bind-utils");
 
 	$mysqltmp = getMysqlBranch();
 	$installcomp['database'] = array($mysqltmp, $mysqltmp."-server", $mysqltmp."-libs");
@@ -266,12 +269,13 @@ function install_main()
 	// MR -- openvz have a problem with aio; so, disable aio for all
 //	system("sh /script/disable-mysql-aio");
 	
-	$comp = array("web", "database", "dns", "mail");
+//	$comp = array("web", "database", "dns", "mail", "others");
+	$comp = array("database", "mail", "others");
 
 	$serverlist = $comp;
 
 	foreach ($comp as $c) {
-		flush();
+	//	flush();
 
 		if (array_search($c, $serverlist) !== false) {
 			print("Installing $c Components....");
@@ -386,7 +390,7 @@ function kloxo_install_step1()
 			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota",
 			"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
 			"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
-			"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha", "php52s"
+			"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha"
 		);
 
 		$list = implode(" ", $packages);
@@ -409,6 +413,7 @@ function kloxo_install_step1()
 	*/
 		system("yum -y install $list");
 
+/*
 		$php52modinst = "/usr/local/lxlabs/kloxo/pscript/php52s-extension-install";
 
 		system("sh {$php52modinst} php52-xcache");
@@ -419,7 +424,7 @@ function kloxo_install_step1()
 		if (!file_exists("/usr/bin/lxphp.exe")) {
 			system("ln -s /opt/php52s/bin/php /usr/bin/lxphp.exe");
 		}
-		
+*/		
 		// MR -- install kloxomr specific rpms
 		$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
 			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch"
@@ -533,11 +538,13 @@ function kloxo_install_step2()
 		system("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
 	}
 
+/*
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';
 		system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
 	}
+*/
 
 	check_default_mysql();
 	

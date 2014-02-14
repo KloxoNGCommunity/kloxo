@@ -455,7 +455,7 @@ $__description["all_reverse_dns"] = array("All Reverse DNS");
 $__description["traceroute"] = array("Traceroute");
 $__description["IP"] = array("IP");
 $__description["response_time"] = array("Response Time");
-$__description["cron scheduled_task"] = array("Cron Scheduled Task");
+$__description["cron_scheduled_task"] = array("Cron Scheduled Task");
 $__description["min"] = array("Min");
 $__description["minute"] = array("Minute");
 $__description["hour"] = array("Hour");
@@ -1312,3 +1312,7 @@ $__description["domain_owned"] = array("I confirm that I am the owner of domain"
 $__description["updateall"] = array("Update All");
 
 $__description["skeleton"] = array("Skeleton");
+
+$__description["jailed"] = array("Jailed Access");
+$__description["enable_jailed"] = array("Enable Jailed");
+

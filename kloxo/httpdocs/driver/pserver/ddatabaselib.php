@@ -64,14 +64,24 @@ class databasecore extends Lxdb
 				$param['nname'] = self::getDbName($parent->nname, $param['nname']);
 			} else {
 				$param['nname'] = substr($param['nname'], 0, 15);
+
+			/* 
+				// MR -- pending until running well for changeowner
+				$param['nname'] = self::getDbName($parent->nname, $param['nname']);
+			*/
 			}
 		}
 
-		if (csa($param['dbpassword'], "'")) {
-			throw new lxexception("password_cannot_contain_single_quote", '', "");
+		// MR -- pending until running well for changeowner
+//		if (strlen($param['nname']) > 64) {
+		if (strlen($param['nname']) > 16) {
+			throw new lxexception("dataname_cannot_be_more_than_64_chars", 'nname', $param['nname']);
 		}
+				
+		$param['username'] = substr($param['nname'], 0, 15);
+		// MR -- pending until running well for changeowner
+	//	$param['username'] = $parent->nname;
 
-		$param['username'] = $param['nname'];
 		$param['dbname'] = $param['nname'];
 		$param['dbtype'] = strtil($class, "db");
 
@@ -87,7 +97,7 @@ class databasecore extends Lxdb
 	{
 		$dbprefix = self::fixDbname($parentname);
 		$name = $dbprefix . $name;
-		$name = substr($name, 0, 15);
+		$name = substr($name, 0, 63);
 		
 		return $name;
 	}

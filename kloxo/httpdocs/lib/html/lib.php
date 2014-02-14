@@ -845,7 +845,7 @@ function validate_domain_name($name)
 		throw new lxException($login->getThrowUc('add_without_www'), 'nname');
 	}
 
-	if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
+	if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,16})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
 		throw new lxException($login->getThrowUc('invalid_domain_name'), 'nname');
 	}
 
@@ -2509,7 +2509,8 @@ function lightyApacheLimit($server, $var)
 	}
 
 	if ($var === 'phpfcgi_flag' || $var === 'phpfcgiprocess_num') {
-		//	$driverapp = $gbl->getSyncClass(null, $server, 'web');
+/*
+	//	$driverapp = $gbl->getSyncClass(null, $server, 'web');
 		$driverapp = slave_get_driver('web');
 
 		if ($driverapp === 'apache') {
@@ -2517,6 +2518,9 @@ function lightyApacheLimit($server, $var)
 		} else {
 			return true;
 		}
+*/
+		// always true because change to php-fpm purpose!
+		return true;
 	}
 
 	if ($var === 'dotnet_flag') {
@@ -2526,7 +2530,6 @@ function lightyApacheLimit($server, $var)
 
 	return true;
 }
-
 
 function createRestartFile($servar)
 {
@@ -7622,5 +7625,20 @@ function validate_docroot($docroot) {
 			throw new lxexception("document_root_may_not_contain_tilde", 'docroot', "");
 		}
 	}
+}
 
+// MR -- this function to replace eval($sgbl->arg_getting_string) in php 5.3
+function get_function_arglist($start = 0, $transforming_func)
+{
+	$arglist = array();
+
+	for ($i = $start; $i < func_num_args(); $i++) {
+		if (isset($transforming_func)) {
+			$arglist[] = $transforming_func(func_get_arg($i));
+		} else {
+			$arglist[] = func_get_arg($i);
+		}
+	}
+
+	return $arglist;
 }

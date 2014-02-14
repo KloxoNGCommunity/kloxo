@@ -249,6 +249,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = cp.<?php echo $domainname; ?>
 
 
@@ -298,6 +300,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $domainname; ?>
 
 
@@ -350,6 +354,8 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = cp.<?php echo $domainname; ?>
 
 
@@ -417,6 +423,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $domainname; ?>
 
 
@@ -433,6 +441,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $domainname; ?>
 
 
@@ -499,6 +509,8 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>
 
 <?php
@@ -647,6 +659,8 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 
 
@@ -737,6 +751,8 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 
 
@@ -830,6 +846,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $parkdomainname; ?>
 
 
@@ -871,6 +889,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $parkdomainname; ?>
 
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
@@ -933,6 +953,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $parkdomainname; ?>
 
 
@@ -1000,6 +1022,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $redirdomainname; ?>
 
 
@@ -1065,6 +1089,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $redirdomainname; ?>
 
 
@@ -1128,6 +1154,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+    FollowSymlinks = no
+
     Hostname = webmail.<?php echo $redirdomainname; ?>
 
 

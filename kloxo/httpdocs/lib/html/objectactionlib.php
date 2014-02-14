@@ -3,25 +3,22 @@
 function webcommandline_main()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
-
 	global $argv;
 
 	ob_start();
 
 	$opt = $_REQUEST;
 
-	// MR -- why && instead || ?
-//	if ($opt['login-class'] !== 'client' && $opt['login-class'] !== 'auxiliary') {
-//	if ($opt['login-class'] !== 'client' || $opt['login-class'] !== 'auxiliary') {
-	// MR -- back to original -- thanks toohai (Mohamed Haisham)
 	if ($opt['login-class'] !== 'client' && $opt['login-class'] !== 'auxiliary') {
 		json_print("error", $opt, "__error_only_clients_and_auxiliary_allowed_to_login");
 		log_log("web_command", "__error_only_clients_and_auxiliary_allowed_to_login");
+
 		exit;
 	}
 
 	log_log("web_command", var_export($opt, true));
-	//initProgram('admin');
+
+//	initProgram('admin');
 
 	if (!check_raw_password($opt['login-class'], $opt['login-name'], $opt['login-password'])) {
 		json_print("error", $opt, "_error_login_error");
@@ -70,6 +67,7 @@ function webcommandline_main()
 			$string = implode("_", $must);
 			json_print("error", $opt, "__error_need_$string\n");
 			log_log("web_command", "__error_need_$string");
+
 			exit;
 		}
 	}
@@ -117,6 +115,7 @@ function json_print_result($opt, $result)
 	}
 
 	while(@ob_end_clean());
+
 	print($out);
 }
 
@@ -209,6 +208,7 @@ function check_priv($parent, $class, $pvar, $v)
 			if (isOn($pv)) {
 				throw new lxException("Parent Doesnt Have Permission for $pk", "frm_{$class}_c_priv_s_$pk", null);
 			}
+
 			$pvar->$pk = $pv;
 
 			continue;
@@ -234,7 +234,9 @@ function check_priv($parent, $class, $pvar, $v)
 
 			if (is_unlimited($pv)) {
 				$desc = getNthToken(get_v_descr($parent, $pk), 2);
+
 				if (!$desc) { $desc = $pk; }
+
 				throw new lxException("quota_exceeded", "priv_s_$pk", $desc);
 			}
 
@@ -309,8 +311,7 @@ function createPrincipleObject()
 	$navigmenu = null;
 	$n = 0;
 
-	// no cgi_o_o shows that the object being shown is the current object, so don't show anything,
-	// if the object is the current object.
+	// no cgi_o_o shows that the object being shown is the current object, so don't show anything, if the object is the current object.
 	if ($ghtml->frm_o_o || ($ghtml->frm_action != 'show')) {
 		if ($ghtml->frm_consumedlogin === 'true') {
 			$navig[$n]['frm_consumedlogin'] = 'true';
@@ -327,7 +328,7 @@ function createPrincipleObject()
 
 		foreach($p as $k => $v) {
 			$__tparent = $object;
-
+			
 			if (isset($v['nname'])) {
 				$object = $object->getFromList($v['class'], $v['nname']);
 				$sing = false;
@@ -341,22 +342,19 @@ function createPrincipleObject()
 			}
 
 			if (!$object->isLogin() && !is_object($object->getParentO())) {
-				dprint("<br> <h1>... Parent got currupted for " . 
-					$object->getClass() . ":$object->nname with parent " . 
-					$__tparent->getClass() . 
-					":$__tparent->nname $object->__parent_o <br> \n");
+				dprint("<br> <h1>... Parent got currupted for " . $object->getClass() . ":$object->nname with parent " .
+						$__tparent->getClass() . ":$__tparent->nname $object->__parent_o <br> \n");
 				dprintr($object->getParentO());
 			}
 
 			$desc = $ghtml->get_class_description($object->getClass());
 
-			// Three conditions needed for listing. 
-			// One, it should contain nname - this is the basic criteria. 
-			// Second, the parent should contain the list as a child - 
-			// this isn't as important actually.... (i removed the parent-containing-list-as child criteria, since it is absurdly wrong. 
-			// The list is the child not of the _tparent, but a child of one of its child objects.) 
-			// The third is that the child shouldn't be P object. P object is a virtual list object, where the whole list is virtually present, 
-			// but you can't really list them, but can get any object as if the list was present.
+			// Three conditions needed for listing. One, it should contain nname - this is the basic criteria.
+			// Second, the parent should contain the list as a child - this isn't as important actually....
+			// (i removed the parent-containing-list-as child criteria, since it is absurdly wrong. The list is the child not of the _tparent,
+			// but a child of one of its child objects.) The third is that the child shouldn't be P object.
+			// P object is a virtual list object, where the whole list is virtually present, but you can't really list them,
+			// but can get any object as if the list was present.
 			if (!$sing && isset($p[$k]['nname']) && !csa($desc[0], 'P')) {
 				// Sort of a hack job... i am setting the self list parent and child here itself.
 				$gbl->__self_list_parent = $__tparent;
@@ -368,24 +366,22 @@ function createPrincipleObject()
 
 				$navig[$n]['frm_action'] = 'list';
 				$navigmenu[$n] = array('list', null);
-
+				
 				for($i = 0; $i <= ($k - 1); $i++) {
 					$navig[$n]['frm_o_o'][$i] = $p[$i];
 				}
 
 				$navig[$n]['frm_o_cname'] = $object->getClass();
-
+				
 				// Hack bloody hack.. This should be done the other way. getFiltervariable needs the navig to be set.
 				$gbl->__navig = $navig;
 				$gbl->__navigmenu = $navigmenu;
-
+				
 				$n++;
 			}
 
-			if (!$sing && ($object->createShowAlist($alist) || $object->createShowPropertyList($alist) || 
-					$object->createShowClist("") || $object->createShowSclist())) {
-				// Skip the last one, but only if it is a 'show'. If 'show', the last object is the object that is 
-				// being displayed, and shouldn't appear in history.
+			if (!$sing && ($object->createShowAlist($alist) || $object->createShowPropertyList($alist) || $object->createShowClist("") || $object->createShowSclist())) {
+				// Skip the last one, but only if it is a 'show'. If 'show', the last object is the object that is being displayed, and shouldn't appear in history.
 				if (($k === count($p) - 1) && ($ghtml->frm_action === 'show')) {
 					break;
 				}
@@ -396,11 +392,11 @@ function createPrincipleObject()
 
 				$navig[$n]['frm_action'] = 'show';
 				$navigmenu[$n] = array('show', $object);
-
+				
 				for($i = 0; $i <= $k; $i++) {
 					$navig[$n]['frm_o_o'][$i] = $p[$i];
 				}
-
+				
 				$n++;
 			}
 		}
@@ -431,7 +427,7 @@ function createPrincipleObject()
 	$gbl->__c_object = $object;
 	$gbl->__histlist = $gbl->getSessionV("lx_history_var");
 
-//	dprint_r($ghtml->__http_vars['frm_hpfilter']);
+//	dprintr($ghtml->__http_vars['frm_hpfilter']);
 }
 
 function do_desc_update($object, $subaction, $param)
@@ -453,76 +449,78 @@ function do_desc_update($object, $subaction, $param)
 		$param =  $object->$update_func($param);
 	}
 
-	//dprintr($param['__m_group']);
+//	dprintr($param['__m_group']);
 
 	if (!$param) {
 		return false;
 	}
 
-	if (array_search_bool('--Select One--', $param)) {
+	if (array_search_bool('--Select One--', $param, true)) {
 		throw new lxException("Select One is not an acceptable Value", '');
 	}
 
 	$nparam[$class]['nname'] = $object->nname;
-	// This code is very much suspect. Looks like I copied this from the addform and dumped it here. Should tkae a more detailed look in this. The issue is, the nnamevar is not needed, since this is inside a fully formed object, and nname need not be constructed. 
-	foreach($param as $k => $v) {
-		$object->resolve_class_heirarchy($class, $k, $dclass, $dk);
 
-		$object->resolve_class_differences($class, $k, $ddclass, $ddk);
+	// This code is very much suspect. Looks like I copied this from the addform and dumped it here.
+	// Should tkae a more detailed look in this. The issue is, the nnamevar is not needed, since this is inside a fully formed object,
+	// and nname need not be constructed. 
+	if(is_array($param)) {
+		foreach($param as $k => $v) {
+			$object->resolve_class_heirarchy($class, $k, $dclass, $dk);
 
-		if ($ddclass !== $class) {
-			$nnamevar = get_real_class_variable($ddclass, "__rewrite_nname_const");
+			$object->resolve_class_differences($class, $k, $ddclass, $ddk);
 
-			if ($nnamevar) {
-				$nnamelist = null;
-
-				foreach($nnamevar as $n) {
-					$nnamelist[] = $param[$n];
+			if ($ddclass !== $class) {
+				$nnamevar = get_real_class_variable($ddclass, "__rewrite_nname_const");
+				if ($nnamevar) {
+					$nnamelist = null;
+					foreach($nnamevar as $n) {
+						$nnamelist[] = $param[$n];
+					}
+					$nparam[$dclass]['nname'] = implode($sgbl->__var_nname_impstr, $nnamelist);
 				}
-
-				$nparam[$dclass]['nname'] = implode($sgbl->__var_nname_impstr, $nnamelist);
 			}
+
+			$nparam[$dclass][$dk] = $v;
 		}
 
-		$nparam[$dclass][$dk] = $v;
-	}
+		foreach($nparam as $k => $v) {
+			if ($k === $class) {
+				continue;
+			}
 
-	foreach($nparam as $k => $v) {
-		if ($k === $class) {
-			continue;
-		}
-
-		if ($k === 'priv') {
-			$pvar = $object->priv;
-			$oldpvar = clone $pvar; 
-			check_priv($qparent, $class, $pvar, $v);
-			$object->distributeChildQuota($oldpvar);
-
-			continue;
-		}
-
-		if ($k === 'listpriv') {
-			$pvar = $object->listpriv;
-			check_listpriv($qparent, $class, $pvar, $v);
+			if ($k === 'priv') {
+				$pvar = $object->priv;
+				$oldpvar = clone $pvar; 
+				check_priv($qparent, $class, $pvar, $v);
+				$object->distributeChildQuota($oldpvar);
 
 			continue;
-		}
-		// Checking for used too. Special case.... Copy the current used to __old_used. 
-		// This is done so that the changes are trackable. For instance, in frontpage, 
-		// you need to know if the previous state of frontpage. You cannot simply run 
-		// the frontpage enabled command evertime any change is made. 
-		// It should be run only if the previous state was disabled and the current state is enabled. 
-		// Or vice versa. This has to be done distributechildquota too, 
-		// where the 'used' is forcibly turned off to synchronize with the priv variable.
-		if ($k === 'used') {
-			$object->__old_used = clone $object->used;
-		}
-		if (cse($k, "_b") || $k === 'used') {
-			$bvar = $object->$k;
-			$bvar->modify($v);
+			}
 
-			continue;
-		}
+			if ($k === 'listpriv') {
+				$pvar = $object->listpriv;
+				check_listpriv($qparent, $class, $pvar, $v);
+
+				continue;
+			}
+
+			// Checking for used too. Special case.... Copy the current used to __old_used. This is done so that the changes are trackable.
+			// For instance, in frontpage, you need to know if the previous state of frontpage.
+			// You cannot simply run the frontpage enabled command evertime any change is made. It should be run only if the previous state was disabled
+			// and the current state is enabled. Or vice versa. This has to be done distributechildquota too, where the 'used' is forcibly turned off
+			// to synchronize with the priv variable.
+			if ($k === 'used') {
+				$object->__old_used = clone $object->used;
+			}
+
+			if (cse($k, "_b") || $k === 'used') {
+				$bvar = $object->$k;
+				$bvar->modify($v);
+
+				continue;
+			}
+		}		
 	}
 
 	$object->modify($nparam[$class], $subaction);
@@ -535,7 +533,6 @@ function do_desc_update($object, $subaction, $param)
 
 	return $param;
 }
-
 
 function do_desc_add($object, $class, $param)
 {
@@ -553,6 +550,7 @@ function do_desc_add($object, $class, $param)
 			throw new lxException("Quota Exceeded for $class", 'nname', $numvar);
 		}
 	}
+
 /*
 	$list = $qobject->getQuotaVariableList();
 
@@ -560,6 +558,7 @@ function do_desc_add($object, $class, $param)
 		if (csb($l, "{$class}_m_")) {
 			$license = strtil(strfrom($l, "_n_"), "_num");
 			$licvar = strtil(strfrom($l, "_m_"), "_n_");
+
 			if (isset($param[$licvar]) && $param[$licvar] === $license) {
 				if (isQuotaGreaterThanOrEq($qobject->used->$l, $qobject->priv->$l)) {
 					throw new lxException("Quota Exceeded for $class $licvar.$license", 'nname', $numvar);
@@ -568,6 +567,7 @@ function do_desc_add($object, $class, $param)
 		}
 	}
 */
+
 	// Setting it here itself so that the add can override if necessary. This is done in tickets, where the parent is always the admin.
 	$param['parent_clname'] = $object->getClName();
 
@@ -579,7 +579,7 @@ function do_desc_add($object, $class, $param)
 
 	$param = exec_class_method($class, 'Add', $object, $class, $param);
 
-	// First loop to create a unique nname if applicable.... FOr the 'unique-nname-creation' to work in the second loop, 
+	// First loop to create a unique nname if applicable.... FOr the 'unique-nname-creation' to work in the second loop,
 	// the variables must be resolved before that... So this extra looping...
 
 	foreach($param as $k => $v) {
@@ -602,11 +602,9 @@ function do_desc_add($object, $class, $param)
 
 		if ($nnamevar) {
 			$nnamelist = null;
-
 			foreach($nnamevar as $n) {
 				$nnamelist[] = $param[$n];
 			}
-
 			$nparam[$dclass]['nname'] =implode($sgbl->__var_nname_impstr, $nnamelist);
 		}
 
@@ -630,8 +628,9 @@ function do_desc_add($object, $class, $param)
 			$olist[$k] = new Used(null, null, $nparam[$class]['nname']);
 			$olist[$k]->create($v);
 
-			continue;
+				continue;
 		}
+		
 		if ($k === 'listpriv') {
 			//$olist[$k] = new listpriv($object->__masterserver, null, $class . "_s_vv_p_" . $nparam[$class]['nname']);
 			$olist[$k] = new listpriv($object->__masterserver, null, $class . "-" . $nparam[$class]['nname']);
@@ -649,6 +648,7 @@ function do_desc_add($object, $class, $param)
 		$olist[$k]->inheritSyncServer($object);
 		$olist[$k]->initThisDef();
 		$olist[$k]->create($v);
+
 		// The createsyncclass needs the syncserver variable to be set. Which may not be available. So we have to run this again.
 
 		if ($olist[$k]->hasDriverClass()) {
@@ -684,6 +684,7 @@ function do_desc_add($object, $class, $param)
 		$nolist[$k]->create($v);
 
 		// The createsyncclass needs the syncserver variable to be set. Which may not be available. So we have to run this again.
+
 		if ($nolist[$k]->hasDriverClass()) {
 			$nolist[$k]->createSyncClass();
 		}
@@ -694,13 +695,10 @@ function do_desc_add($object, $class, $param)
 	foreach($olist as $k => $v) {
 		if (cse($k, "_b") || $k === 'used' || $k === 'priv' || $k === 'listpriv') {
 			$olist[$class]->$k = $v;
-
 			continue;
 		}
-
 		if ($k != $class) {
 			$olist[$class]->addObject($k, $v);
-
 			continue;
 		}
 	}
@@ -713,7 +711,8 @@ function do_desc_add($object, $class, $param)
 		$olist[$class]->listpriv = $param['__v_listpriv'];
 	}
 
-	//$olist[$class]->parent_clname = $object->getClName();
+//	$olist[$class]->parent_clname = $object->getClName();
+
 	$rparent = $object;
 
 	$olist[$class]->__parent_o = $rparent;
@@ -722,15 +721,16 @@ function do_desc_add($object, $class, $param)
 
 	$rparent->addToList($class, $olist[$class]);
 	$olist[$class]->superPostAdd();
-	//dprintr($object);
+
+//	dprintr($object);
 
 	notify_admin("add", $object, $olist[$class]);
 
 	do_actionlog($login, $olist[$class], "add", "");
 
-	//This shouldn't happen here. This should be done only after the synctosystem since, the sync can fail and the write may not happen at all.
+	//	This shouldn't happen here. This should be done only after the synctosystem since, the sync can fail and the write may not happen at all.
 
-	//$olist[$class]->changeUsedFromParentAll();
+//	$olist[$class]->changeUsedFromParentAll();
 
 	dprint($olist[$class]->getParentO());
 }

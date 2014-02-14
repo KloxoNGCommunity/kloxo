@@ -5,7 +5,7 @@ class Cron extends Lxdb
 	static $__table = 'cron';
 
 	// Core
-	static $__desc = array("", "", "cron scheduled_task");
+	static $__desc = array("", "", "cron_scheduled_task");
 
 	static $__desc_nname = array("", "", "min");
 	static $__desc_minute = array("", "", "minute");

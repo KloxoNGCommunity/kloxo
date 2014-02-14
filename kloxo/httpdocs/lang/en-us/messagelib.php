@@ -673,7 +673,7 @@ $__information['phpini_updateform_edit_pre'] = $__information['phpini_updateform
 
 $__information['phpini_updateform_extraedit_pre'] = "<p>You can change 'advanced' PHP settings here.</p>";
 
-$__information['mysqldb_addform__pre'] = "<p>Add your MySQL database here. 'User Name' is the same as 'DB Name' automatically.</p>";
+$__information['mysqldb_addform__pre'] = "<p>Add your MySQL database here. 'User Name' is the same as 'DB Name' (no more than 64 chars) automatically. 'User Name' will cutoff to 16 chars.</p>";
 
 $__information['dbadmin_addform__pre'] = "<p>". $__emessage['e_no_dbadmin_entries'] . "</p>";
 
@@ -765,4 +765,6 @@ $__information['cron_addform_complex_pre'] = $__information['cron_addform_simple
 $__information['serverftp_updateform_update_pre'] =  "<p>Basic setting for FTP server.</p>";
 
 $__information['client_updateform_information_pre'] =  "<p>As admin, if you have <url:a=list&c=auxiliary>auxillary login</url> for admin, you can set 'Disable Admin Login' and use auxillary login for login purpose.</p>";
+
+$__information['jailed_show__pre'] =  "<p>Enable 'Jailed' make 'chroot' client access and only permit to their document root ('/home/user').</p>";
 

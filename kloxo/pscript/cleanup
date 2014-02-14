@@ -37,15 +37,12 @@ fi
 
 T="$(date +%s%N)"
 
-#if $(rpm -qa|grep lxphp >/dev/null 2>&1) ; then
-if $(ls -al /usr/bin/lxphp.exe|grep /usr/local/lxlabs >/dev/null 2>&1) ; then
-	yum remove lxphp lxlighttpd lxzend >/dev/null 2>&1
+if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
+	rpm -e lxphp --nodeps
+	rpm -e lxlighttpd --nodeps
+	rpm -e lxzend --nodeps
 	
 	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
-	
-	rm -rf /usr/bin/lxphp.exe
-	
-	yum install php52s -y >/dev/null 2>&1
 fi
 
 . /script/directory

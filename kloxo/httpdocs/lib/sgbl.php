@@ -101,7 +101,7 @@ class Sgbl
 		$this->__path_program_etc = "/usr/local/lxlabs/kloxo/etc/";
 		$this->__path_program_root = "/usr/local/lxlabs/kloxo";
 		$this->__path_program_htmlbase = "/usr/local/lxlabs/kloxo/httpdocs";
-		$this->__path_php_path = "/opt/php52s/bin/php";
+		$this->__path_php_path = "/usr/bin/lxphp.exe";
 
 		$this->__path_serverfile = $this->__path_lxlabs_base . "/kloxo/serverfile";
 		$this->__path_download_dir = $this->__path_lxlabs_base . "/kloxo/download";

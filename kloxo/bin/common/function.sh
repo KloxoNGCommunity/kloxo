@@ -2,7 +2,7 @@
 
 # issue #623
 
-__path_php_path="/opt/php52s/etc/php52s-cli.sh";
+__path_php_path="/usr/bin/lxphp.exe";
 __path_program_root="/usr/local/lxlabs/${progname}";
 __path_slave_db="/usr/local/lxlabs/${progname}/etc/conf/slave-db.db";
 

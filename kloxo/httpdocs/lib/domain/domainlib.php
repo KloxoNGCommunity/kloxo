@@ -189,7 +189,8 @@ class Domaind extends DomainBase
 	function isQuotaVariableSpecific($var)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
+
+		// MR -- change this function for php-fpm purpose		
 		return lightyApacheLimit($this->webpserver, $var);
 	}
 

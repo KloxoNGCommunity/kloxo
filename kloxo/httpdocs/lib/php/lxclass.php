@@ -517,13 +517,26 @@ abstract class Lxclass
 
 		if (!$driverapp) {
 			dprint(" NO driverapp class for {$class}\n <br> ");
+
 			return;
 		}
 		$class = $class . "_" . $driverapp;
 
 		$start = 2;
+		$transforming_func = null;
+	
+		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+			eval($sgbl->arg_getting_string);
+		} else {
+		//	$arglist = get_function_arglist($start, $transforming_func);
 
-		eval($sgbl->arg_getting_string);
+			$arglist = array();
+
+			for ($i = $start; $i < func_num_args(); $i++) {
+				$arglist[] = func_get_arg($i);
+			}
+
+		}
 
 		return call_user_func_array(array($class, $func), $arglist);
 	}
@@ -1167,6 +1180,7 @@ abstract class Lxclass
 
 		if (isset($oplist[$op])) {
 			$string = "('{$oval}' {$oplist[$op]} '{$val}')";
+
 			return eval("return {$string} ;");
 		}
 

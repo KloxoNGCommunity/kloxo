@@ -52,3 +52,13 @@ INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`,
 ('nginx___localhost', 'pserver-localhost', '', 'nginx', 'Nginx Web Server', 'nginx', 'localhost', '', ''),
 ('hiawatha___localhost', 'pserver-localhost', '', 'hiawatha', 'Hiawatha Web Server (use by Kloxo-MR)', 'hiawatha', 'localhost', '', ''),
 ('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', '');
+
+CREATE TABLE IF NOT EXISTS `jailed` (
+  `nname` varchar(255) NOT NULL,
+  `parent_clname` varchar(255) DEFAULT NULL,
+  `parent_cmlist` text,
+  `enable_jailed` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nname`),
+  KEY `parent_clname_jailed` (`parent_clname`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+

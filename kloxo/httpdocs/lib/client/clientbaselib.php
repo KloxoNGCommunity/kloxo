@@ -313,6 +313,7 @@ class ClientBase extends ClientCore
 			//$s = $this->websyncserver;
 		}
 
+		// MR -- change this function for php-fpm purpose
 		return lightyApacheLimit($s, $var);
 	}
 
@@ -907,8 +908,8 @@ class ClientBase extends ClientCore
 
 		self::validate_client_name($param['nname']);
 
-		if (strlen($param['nname']) > 12) {
-			throw new lxexception("name_cannot_be_more_than_12_char", 'nname', $param['nname']);
+		if (strlen($param['nname']) > 16) {
+			throw new lxexception("name_cannot_be_more_than_16_chars", 'nname', $param['nname']);
 		}
 
 		if ($parent->isGt('wholesale') && $parent->isGte($param['cttype'])) {

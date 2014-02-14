@@ -122,3 +122,5 @@ $gl_class_array['custombutton'] = "lib/html/custombuttonlib.php";
 $gl_class_array['lxguardwhitelist'] = "driver/pserver/lxguardwhitelistlib.php";
 $gl_class_array['browsebackup'] = "lib/html/browsebackuplib.php";
 
+$gl_class_array['jailed'] = "driver/pserver/jailedlib.php";
+

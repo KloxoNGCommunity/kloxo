@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ "$(grep -R 'hiawatha' '/usr/local/lxlabs/kloxo/etc/slavedb/driver')" == "" ] ; then
+	chkconfig hiawatha off
+fi

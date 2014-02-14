@@ -109,7 +109,7 @@ int run_php_prog_ssl(SSL *ssl, int sock)
 	if (pid == 0) {
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
-		execl("/opt/php52s/bin/php", "lxphp", "../bin/common/process_single.php", ftempname, NULL);
+		execl("/usr/bin/lxphp.exe", "lxphp", "../bin/common/process_single.php", ftempname, NULL);
 		printf("Exec failed\n");
 		exit(0);
 	} else {
@@ -401,7 +401,7 @@ int check_restart()
 			neededstring = position + 10;
 			if (!strcmp(neededstring, "lxcollectquota")) {
 				printf("Running CollectQuota\n");
-				close_and_system("/opt/php52s/bin/php ../bin/collectquota.php --just-db=true &");
+				close_and_system("/usr/bin/lxphp.exe ../bin/collectquota.php --just-db=true &");
 			} else if (!strcmp(neededstring, "openvz_tc")) {
 				printf("Running Openvz\n");
 				close_and_system("sh ../etc/openvz_tc.sh");
@@ -430,7 +430,7 @@ int exec_sisinfoc()
 	}
 
 	printf("Executing Sisinfoc...\n");
-	close_and_system("/opt/php52s/bin/php ../bin/sisinfoc.php >/dev/null 2>&1 &");
+	close_and_system("/usr/bin/lxphp.exe ../bin/sisinfoc.php >/dev/null 2>&1 &");
 
 	sisinfoc_timer = now;
 }
@@ -489,7 +489,7 @@ int exec_scavenge()
 
 	if (time_match) {
 		printf("Executing Scavenge...\n");
-		close_and_system("/opt/php52s/bin/php ../bin/scavenge.php >/dev/null 2>&1 &");
+		close_and_system("/usr/bin/lxphp.exe ../bin/scavenge.php >/dev/null 2>&1 &");
 		scavenge_timer = now + interval * 60;
 	}
 	else {

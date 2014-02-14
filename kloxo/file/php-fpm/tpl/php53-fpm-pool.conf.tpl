@@ -18,31 +18,40 @@
         $pool = $user;
     }
 
-    $startservers = '4';
-    $minspareservers = '2';
-    $maxspareservers = '4';
-    $maxchildren = '6';
+    if ($maxchildren) {
+        $startservers = (($sts = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $sts;
+        $minspareservers = (($mis = (int)($maxchildren / 3)) < 2) ? 2 : $mis;
+        $maxspareservers = (($mas = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $mas;
+        $maxchildren = (($mac = (int)($maxchildren)) < 2) ? 2 : $mac;
+    } else {
+        $startservers = '4';
+        $minspareservers = '2';
+        $maxspareservers = '4';
+        $maxchildren = '6';
+    }
 ?>
 [<?php echo $pool; ?>]
 ;listen = 127.0.0.1:<?php echo $fpmport; ?>
 
 listen = /home/php-fpm/sock/<?php echo $user; ?>.sock
-listen.backlog = -1
+listen.backlog = 65536
 listen.allowed_clients = 127.0.0.1
 user = <?php echo $user; ?>
 
 group = <?php echo $user; ?>
 
-pm = dynamic
+;pm = dynamic
+pm = ondemand
 pm.max_children = <?php echo $maxchildren; ?>
 
-pm.start_servers = <?php echo $startservers; ?>
+;pm.start_servers = <?php echo $startservers; ?>
 
-pm.min_spare_servers = <?php echo $minspareservers; ?>
+;pm.min_spare_servers = <?php echo $minspareservers; ?>
 
-pm.max_spare_servers = <?php echo $maxspareservers; ?>
+;pm.max_spare_servers = <?php echo $maxspareservers; ?>
 
 pm.max_requests = 1000
+
 ;pm.status_path = /status
 ;ping.path = /ping
 ;ping.response = pong

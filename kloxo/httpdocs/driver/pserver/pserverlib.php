@@ -249,12 +249,14 @@ class pserver extends pservercore {
 		$alist[] = "a=updateform&sa=reboot";
 		$alist[] = "a=updateform&sa=poweroff";
 
-	//	$alist['__title_security'] = "Security";
+		$alist['__title_security'] = "Security";
 		$alist[] = "a=show&o=sshconfig";
 		$alist[] = "a=list&c=watchdog";
 		$alist[] = "a=show&o=lxguard";
 		$alist[] = "a=list&c=hostdeny";
 		$alist[] = "a=list&c=sshauthorizedkey";
+
+	//	$alist[] = "a=show&o=jailed";
 
 		$alist['__title_webmailanddb'] = $login->getKeywordUc('webmailanddb');
 		$alist[] = "o=servermail&a=updateform&sa=update";

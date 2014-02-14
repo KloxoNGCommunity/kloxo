@@ -38,17 +38,43 @@ fi
 
 WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
-### 0. Change Kloxo-MR port
+### 1. PHP-CGI portion
+
+if [ -f /opt/php53s/usr/bin/php ] ; then
+	ln -sf ${INIT_DIR}/php53s-cli.sh /usr/bin/lphp.exe
+	ln -sf ${INIT_DIR}/php53s-cli.sh /usr/bin/lxphp.exe
+
+	chmod 755 ${INIT_DIR}/php53s-cli.sh
+	chmod 755 ${INIT_DIR}/php53s-cgi.sh
+
+	phpcgi_file="/opt/php53s/usr/sbin/php-fpm"
+	phpcgi_conf="/usr/local/lxlabs/kloxo/init/php53s/php-fpm.conf"
+	phpcgi_ini="/usr/local/lxlabs/kloxo/init/php53s/php.ini"
+elif [ -f /opt/php52s/usr/bin/php ] ; then
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
+
+	chmod 755 ${INIT_DIR}/php52s-cli.sh
+	chmod 755 ${INIT_DIR}/php52s-cgi.sh
+
+	phpcgi_file="/opt/php52s/usr/bin/php-cgi"
+elif [ -f /opt/php52s/bin/php ] ; then
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
+
+	chmod 755 ${INIT_DIR}/php52s-cli.sh
+	chmod 755 ${INIT_DIR}/php52s-cgi.sh
+
+	phpcgi_file="/opt/php52s/bin/php-cgi"
+fi
+
 cd /usr/local/lxlabs/kloxo/httpdocs
 lxphp.exe -f ../init/changeport.php
 
-### 1. PHP-CGI portion
-
-phpcgi_pidfile="/var/run/kloxo-phpcgi.pid"
-phpcgi_file="/opt/php52s/bin/php-cgi"
-phpcgi_symlink="/opt/php52s/bin/kloxo-phpcgi"
+phpcgi_pidfile="${INIT_DIR}/kloxo-phpcgi.pid"
+phpcgi_symlink="${INIT_DIR}/kloxo-phpcgi"
 phpcgi_user="lxlabs"
-phpcgi_child="1"
+phpcgi_child="4"
 phpcgi_max_req="10000"
 
 phpcgi_name=$(basename ${phpcgi_symlink})
@@ -60,34 +86,29 @@ phpcgi_prog="kloxo-phpcgi"
 prog_as_slave="/usr/local/lxlabs/${prog}/etc/conf/slave-db.db"
 prog_wrapper="kloxo-wrapper.sh"
 
-#phpcgi_spawn="env -i PHP_FCGI_CHILDREN=${phpcgi_child} \
-#	PHP_FCGI_MAX_REQUESTS=${phpcgi_max_req} \
-#	${phpcgi_symlink} \
-#	-b ${phpcgi_sockfile} &"
-
 if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
 	yum install spawn-fcgi -y
 fi
 
-phpcgi_spawn="/usr/bin/spawn-fcgi -f ${phpcgi_symlink} -s ${phpcgi_sockfile} \
-	-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user} > /dev/null 2>&1"
+ln -sf ${phpcgi_file} ${phpcgi_symlink}
+
+if [ -f /opt/php53s/usr/bin/php ] ; then
+	phpcgi_spawn="$phpcgi_symlink --fpm-config $phpcgi_conf --php-ini $phpcgi_ini"
+else
+	phpcgi_spawn="/usr/bin/spawn-fcgi -f ${phpcgi_symlink} -s ${phpcgi_sockfile} \
+		-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user} > /dev/null 2>&1"
+fi
 
 function phpcgi_start() {
 	phpcli_load_wrapper
-
-	if ! [ -L ${phpcgi_symlink} ] ; then
-		ln -s ${phpcgi_file} ${phpcgi_symlink}
-	fi
-
-	if [ -f ${phpcgi_pidfile} ] ; then
-		phpcgi_stop
-	fi
 
 	echo -n $"Starting ${phpcgi_prog}: "
 
 	daemon ${phpcgi_spawn}
 
-	echo $! > "${phpcgi_pidfile}"
+	if [ ! -f /opt/php53s/usr/bin/php ] ; then
+		echo $! > "${phpcgi_pidfile}"
+	fi
 
 	retval=$?
 	echo
@@ -97,9 +118,13 @@ function phpcgi_start() {
 
 function phpcgi_stop() {
 	echo -n $"Stopping ${phpcgi_prog}: "
-	# need 2x killproc because phpcgi_chid
-	killproc ${phpcgi_name}
-	killproc ${phpcgi_name}
+
+	if [ -f /opt/php53s/usr/bin/php ] ; then
+		killproc -p ${phpcgi_pidfile}
+	else
+		killproc ${phpcgi_name}
+	fi
+
 	retval=$?
 	echo
 	[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile}
@@ -138,31 +163,27 @@ function phpcgi_rh_status_q() {
 ### 2.1. HIAWATHA portion
 
 hiawatha_prog="/usr/sbin/hiawatha"
-hiawatha_symlink="/usr/sbin/kloxo-hiawatha"
+hiawatha_symlink="${INIT_DIR}/kloxo-hiawatha"
 wigwam_prog="/usr/sbin/wigwam"
-wigwam_symlink="/usr/sbin/kloxo-wigwam"
+wigwam_symlink="${INIT_DIR}/kloxo-wigwam"
 hiawatha_name=$(basename ${hiawatha_symlink})
 wigwam_name=$(basename ${wigwam_symlink})
 
 hiawatha_conf=${INIT_DIR}
 
-hiawatha_pidfile="/var/run/kloxo-hiawatha.pid"
+hiawatha_pidfile="${INIT_DIR}/kloxo-hiawatha.pid"
 hiawatha_lockfile="/var/lock/subsys/kloxo-hiawatha"
-
-
 
 if [ ! -f ${hiawatha_prog} ]; then
 	echo -e "${hiawatha_prog} not found."
 	exit 1;
+else
+	sh /script/hiawatha-off
 fi
 
 function hiawatha_start() {
 	if ! [ -L ${hiawatha_symlink} ] ; then
 		ln -s ${hiawatha_prog} ${hiawatha_symlink}
-	fi
-
-	if [ -f ${hiawatha_pidfile} ] ; then
-		hiawatha_stop
 	fi
 
 	echo -n "Starting ${hiawatha_name}: "

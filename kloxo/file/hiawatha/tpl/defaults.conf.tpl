@@ -113,6 +113,8 @@ Binding {
         } else {
 ?>
 VirtualHost {
+    FollowSymlinks = no
+
 <?php
         }
 ?>

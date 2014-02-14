@@ -222,7 +222,8 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Location />
         Allow from all
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
 
 </VirtualHost>
@@ -356,7 +357,8 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Location />
         Allow from all
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
 
 </VirtualHost>
@@ -541,11 +543,14 @@ foreach ($certnamelist as $ip => $certname) {
         <IfVersion >= 2.4>
             Require all granted
         </IfVersion>
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Directory>
 
     <Location />
-        Options +Includes +FollowSymlinks
+        Allow from all
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
 
     <Location />
@@ -788,7 +793,8 @@ foreach ($certnamelist as $ip => $certname) {
         <IfVersion >= 2.4>
             Require all granted
         </IfVersion>
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Directory>
 
 </VirtualHost>
@@ -933,7 +939,8 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Location />
         Allow from all
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
 
 </VirtualHost>
@@ -1067,7 +1074,8 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Location />
         Allow from all
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
 
 </VirtualHost>
@@ -1189,7 +1197,8 @@ foreach ($certnamelist as $ip => $certname) {
 
     <Location />
         Allow from all
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
 
 </VirtualHost>
@@ -1323,7 +1332,8 @@ DirectoryIndex <?php echo $indexorder; ?>
 
     <Location />
         Allow from all
-        Options +Indexes +FollowSymlinks
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
 
 </VirtualHost>

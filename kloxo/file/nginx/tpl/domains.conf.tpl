@@ -166,6 +166,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## webmail for '<?php echo $domainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
             if ($ip === '*') {
                 if ($IPv6Enable) {
@@ -230,6 +232,8 @@ server {
 
 ## webmail for '<?php echo $domainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                 if ($ip === '*') {
                     if ($IPv6Enable) {
@@ -273,6 +277,8 @@ server {
 
 ## webmail for '<?php echo $domainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                 if ($ip === '*') {
                     if ($IPv6Enable) {
@@ -337,6 +343,8 @@ server {
 
 ## web for '<?php echo $domainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
         if ($ip === '*') {
             if ($IPv6Enable) {
@@ -600,6 +608,8 @@ server {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                     if ($ip === '*') {
                         if ($IPv6Enable) {
@@ -663,6 +673,8 @@ server {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                     if ($ip === '*') {
                         if ($IPv6Enable) {
@@ -715,6 +727,8 @@ server {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                     if ($ip === '*') {
                         if ($IPv6Enable) {
@@ -779,6 +793,8 @@ server {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                         if ($ip === '*') {
                             if ($IPv6Enable) {
@@ -824,6 +840,8 @@ server {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                         if ($ip === '*') {
                             if ($IPv6Enable) {
@@ -904,6 +922,8 @@ server {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                     if ($ip === '*') {
                         if ($IPv6Enable) {
@@ -968,6 +988,8 @@ server {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                         if ($ip === '*') {
                             if ($IPv6Enable) {
@@ -1011,6 +1033,8 @@ server {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 server {
+    disable_symlinks on if_not_owner
+
 <?php
                         if ($ip === '*') {
                             if ($IPv6Enable) {

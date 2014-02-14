@@ -2373,6 +2373,21 @@ CREATE TABLE IF NOT EXISTS `webmimetype` (
   KEY `parent_clname_webmimetype` (`parent_clname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jailed`
+--
+
+CREATE TABLE IF NOT EXISTS `jailed` (
+  `nname` varchar(255) NOT NULL,
+  `parent_clname` varchar(255) DEFAULT NULL,
+  `parent_cmlist` text,
+  `enable_jailed` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nname`),
+  KEY `parent_clname_jailed` (`parent_clname`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
