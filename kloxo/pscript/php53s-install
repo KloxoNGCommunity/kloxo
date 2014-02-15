@@ -1,6 +1,7 @@
 #!/bin/sh
 
-yum -y install php53s php53s-bcmath php53s-enchant php53s-fpm php53s-gd php53s-imap \
+### don't install php53s because conflict with other php version; install php-cli instead
+yum -y install php53s-cli php53s-bcmath php53s-enchant php53s-fpm php53s-gd php53s-imap \
 	php53s-intl php53s-ldap php53s-litespeed php53s-mbstring php53s-mcrypt \
 	php53s-mysql php53s-pdo php53s-process php53s-pspell php53s-recode php53s-snmp \
 	php53s-soap php53s-tidy php53s-xml php53s-xmlrpc

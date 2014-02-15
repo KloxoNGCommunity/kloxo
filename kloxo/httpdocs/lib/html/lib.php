@@ -7642,3 +7642,54 @@ function get_function_arglist($start = 0, $transforming_func)
 
 	return $arglist;
 }
+
+function generateUniqueToken($number)
+{
+	$arr = array('a', 'b', 'c', 'd', 'e', 'f',
+		'g', 'h', 'i', 'j', 'k', 'l',
+		'm', 'n', 'o', 'p', 'r', 's',
+		't', 'u', 'v', 'x', 'y', 'z',
+ 		'A', 'B', 'C', 'D', 'E', 'F',
+ 		'G', 'H', 'I', 'J', 'K', 'L',
+		'M', 'N', 'O', 'P', 'R', 'S',
+		'T', 'U', 'V', 'X', 'Y', 'Z',
+ 		'1', '2', '3', '4', '5', '6',
+		'7', '8', '9', '0');
+
+	$token = "";
+
+	for ($i = 0; $i < $number; $i++) {
+		$index = rand(0, count($arr) - 1);
+		$token .= $arr[$index];
+	}
+
+	if (isToken($token)) {
+		return generateUniqueToken($number);
+	} else {
+		return $token;
+	}
+}
+
+// for prefix mysql database name
+function generateUniqueTokenLowerCase($number)
+{
+	$arr = array('a', 'b', 'c', 'd', 'e', 'f',
+		'g', 'h', 'i', 'j', 'k', 'l',
+		'm', 'n', 'o', 'p', 'r', 's',
+		't', 'u', 'v', 'x', 'y', 'z',
+ 		'1', '2', '3', '4', '5', '6',
+		'7', '8', '9', '0');
+
+	$token = "";
+
+	for ($i = 0; $i < $number; $i++) {
+		$index = rand(0, count($arr) - 1);
+		$token .= $arr[$index];
+	}
+
+	if (isToken($token)) {
+		return generateUniqueTokenLowerCase($number);
+	} else {
+		return $token;
+	}
+}

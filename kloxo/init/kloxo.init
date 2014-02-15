@@ -102,6 +102,10 @@ fi
 function phpcgi_start() {
 	phpcli_load_wrapper
 
+	if [ -f ${phpcgi_pidfile} ] ; then
+		phpcgi_stop
+	fi
+
 	echo -n $"Starting ${phpcgi_prog}: "
 
 	daemon ${phpcgi_spawn}
@@ -184,6 +188,10 @@ fi
 function hiawatha_start() {
 	if ! [ -L ${hiawatha_symlink} ] ; then
 		ln -s ${hiawatha_prog} ${hiawatha_symlink}
+	fi
+
+	if [ -f ${hiawatha_pidfile} ] ; then
+		hiawatha_stop
 	fi
 
 	echo -n "Starting ${hiawatha_name}: "
