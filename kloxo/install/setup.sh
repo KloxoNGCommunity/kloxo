@@ -134,7 +134,6 @@ yum clean all
 
 yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
 
-
 yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
 
 #if [ ! -f /opt/php52s/bin/php ] ; then
@@ -158,6 +157,8 @@ yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
 
 	## install after mysql55 and php53u because if mysql not exist will install 'old' mysql
 	yum -y install net-snmp php52s
+	
+	sh /script/fixlxphpexe
 #fi
 
 cd /

@@ -13,6 +13,7 @@ for item in ${list[*]} ; do
 						chkconfig hiawatha off
 						/etc/init.d/${item} stop
 					else
+						chkconfig hiawatha on
 						/etc/init.d/${item} restart
 					fi
 				elif [ $item == 'qmail' ] ; then

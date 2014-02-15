@@ -2,7 +2,16 @@
 
 # issue #623
 
+#if [ -f /opt/php53s/usr/bin/php ] ; then
+#	__path_php_path="/opt/php53s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php53s/php.ini";
+#elif [ -f /opt/php53s/usr/bin/php ] ; then
+#	__path_php_path="/opt/php52s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php52s/php.ini";
+#else
+#	__path_php_path="/opt/php52s/bin/php -c /usr/local/lxlabs/kloxo/init/php52s/php.ini";
+#fi
+
 __path_php_path="/usr/bin/lxphp.exe";
+	
 __path_program_root="/usr/local/lxlabs/${progname}";
 __path_slave_db="/usr/local/lxlabs/${progname}/etc/conf/slave-db.db";
 

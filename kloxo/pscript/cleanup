@@ -16,6 +16,8 @@ if [ "$(rpm -qa lxphp)" != "" ] ; then
 	yum install php52s hiawatha
 fi
 
+sh /script/fixlxphpexe
+
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
 
 if [ "${checktmpfs}" != "" ] ; then

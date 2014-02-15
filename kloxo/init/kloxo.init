@@ -40,31 +40,15 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 ### 1. PHP-CGI portion
 
+sh /script/fixlxphpexe
+
 if [ -f /opt/php53s/usr/bin/php ] ; then
-	ln -sf ${INIT_DIR}/php53s-cli.sh /usr/bin/lphp.exe
-	ln -sf ${INIT_DIR}/php53s-cli.sh /usr/bin/lxphp.exe
-
-	chmod 755 ${INIT_DIR}/php53s-cli.sh
-	chmod 755 ${INIT_DIR}/php53s-cgi.sh
-
 	phpcgi_file="/opt/php53s/usr/sbin/php-fpm"
 	phpcgi_conf="/usr/local/lxlabs/kloxo/init/php53s/php-fpm.conf"
 	phpcgi_ini="/usr/local/lxlabs/kloxo/init/php53s/php.ini"
 elif [ -f /opt/php52s/usr/bin/php ] ; then
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
-
-	chmod 755 ${INIT_DIR}/php52s-cli.sh
-	chmod 755 ${INIT_DIR}/php52s-cgi.sh
-
 	phpcgi_file="/opt/php52s/usr/bin/php-cgi"
 elif [ -f /opt/php52s/bin/php ] ; then
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
-
-	chmod 755 ${INIT_DIR}/php52s-cli.sh
-	chmod 755 ${INIT_DIR}/php52s-cgi.sh
-
 	phpcgi_file="/opt/php52s/bin/php-cgi"
 fi
 
@@ -124,8 +108,17 @@ function phpcgi_stop() {
 	echo -n $"Stopping ${phpcgi_prog}: "
 
 	if [ -f /opt/php53s/usr/bin/php ] ; then
+		if [ "$(ps aux |grep 'kloxo-phpcgi'|grep 'lxlabs')" != "" ] ; then
+			killproc ${phpcgi_name}
+		fi
+
 		killproc -p ${phpcgi_pidfile}
+
 	else
+		if [ "$(ps aux|grep '/init/php53s/php-fpm.conf'|grep 'php-fpm:')" != "" ] ; then
+			killproc -p ${phpcgi_pidfile}
+		fi
+
 		killproc ${phpcgi_name}
 	fi
 
@@ -189,8 +182,8 @@ function hiawatha_start() {
 	if ! [ -L ${hiawatha_symlink} ] ; then
 		ln -s ${hiawatha_prog} ${hiawatha_symlink}
 	fi
-
-	if [ -f ${hiawatha_pidfile} ] ; then
+	
+	if [ "$(ps aux |grep 'kloxo-hiawatha'|grep 'lxlabs')" != "" ] ; then
 		hiawatha_stop
 	fi
 
@@ -204,13 +197,11 @@ function hiawatha_start() {
 }
 
 function hiawatha_stop() {
-	echo -en "Stopping ${hiawatha_name}: "
-
-	if [ -f ${hiawatha_pidfile} ] ; then
-		PID=$(cat ${hiawatha_pidfile})
-	else
-		PID=''
+	if [ "$(ps aux |grep 'kloxo-hiawatha'|grep 'lxlabs')" == "" ] ; then
+		return 1
 	fi
+
+	echo -en "Stopping ${hiawatha_name}: "
 
 	killproc ${hiawatha_name}
 

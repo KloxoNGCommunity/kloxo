@@ -156,6 +156,8 @@ yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
 
 	## install after mysql55 and php53u because if mysql not exist will install 'old' mysql
 	yum -y install net-snmp php52s
+	
+	sh /script/fixlxphpexe
 #fi
 
 cd /
@@ -170,8 +172,6 @@ else
 	mv ./kloxomr-6* ./kloxomr >/dev/null 2>&1
 	cd ./kloxomr/install >/dev/null 2>&1
 fi
-
-cd /usr/local/lxlabs/kloxo/install
 
 cd /usr/local/lxlabs/kloxo/install
 

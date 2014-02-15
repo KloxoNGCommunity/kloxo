@@ -1,0 +1,23 @@
+#!/bin/sh
+
+INIT_DIR="/usr/local/lxlabs/kloxo/init"
+
+if [ -f /opt/php53s/usr/bin/php ] ; then
+	ln -sf ${INIT_DIR}/php53s-cli.sh /usr/bin/lphp.exe
+	ln -sf ${INIT_DIR}/php53s-cli.sh /usr/bin/lxphp.exe
+
+	chmod 755 ${INIT_DIR}/php53s-cli.sh
+	chmod 755 ${INIT_DIR}/php53s-cgi.sh
+elif [ -f /opt/php52s/usr/bin/php ] ; then
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
+
+	chmod 755 ${INIT_DIR}/php52s-cli.sh
+	chmod 755 ${INIT_DIR}/php52s-cgi.sh
+elif [ -f /opt/php52s/bin/php ] ; then
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
+	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
+
+	chmod 755 ${INIT_DIR}/php52s-cli.sh
+	chmod 755 ${INIT_DIR}/php52s-cgi.sh
+fi
