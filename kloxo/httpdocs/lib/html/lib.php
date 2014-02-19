@@ -830,28 +830,66 @@ function installAppPHP($var, $cmd)
 
 }
 
-
 function validate_domain_name($name)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if ($name === 'lxlabs.com' || $name === 'lxcenter.org'|| $name === 'mratwork.com') {
 		if (!$sgbl->isDebug()) {
-			throw new lxException($login->getThrowUc('cannot_be_added'), 'nname');
+			throw new lxException($login->getThrowUc('cannot_be_added'), '', $name);
 		}
 	}
 
 	if (csb($name, "www.")) {
-		throw new lxException($login->getThrowUc('add_without_www'), 'nname');
+		throw new lxException($login->getThrowUc('add_without_www'), '', $name);
 	}
 
 	if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,16})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
-		throw new lxException($login->getThrowUc('invalid_domain_name'), 'nname');
+		throw new lxException($login->getThrowUc('invalid_domain_name'), '', $name);
 	}
 
 	if (strlen($name) > 255) {
-		throw new lxException($login->getThrowUc('invalid_domain_name'), 'nname');
+		throw new lxException($login->getThrowUc('invalid_domain_name'), '', $name);
 	}
+}
+
+function validate_client_name($name)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+	
+	if (!preg_match('/^([_A-Za-z][-\._A-Za-z0-9]){2,64}$/', $name)) {
+		throw new lxexception($login->getThrowUc('invalid_client_name'), '', $name);
+	}
+
+//	if (strlen($name) > 64) {
+//		throw new lxException($login->getThrowUc('invalid_client_name'), '', $name);
+//	}
+}
+
+function validate_database_name($name)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+	
+	if (!preg_match('/^([a-z0-9_]){2,64}$/', $name)) {
+		throw new lxexception($login->getThrowUc('invalid_database_name'), '', $name);
+	}
+
+//	if (strlen($name) > 64) {
+//		throw new lxException($login->getThrowUc('invalid_database_name'), '', $name);
+//	}
+}
+
+function validate_password_add($name)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	if (!preg_match('/^([a-zA-Z0-9]){8,64}$/', $name)) {
+		throw new lxException($login->getThrowUc('invalid_add_password'), '', $name);
+	}
+
+//	if (strlen($name) < 8) {
+//		throw new lxException($login->getThrowUc('invalid_add_password'), '', $name);
+//	}
 }
 
 function validate_domain_owned($name)
@@ -861,10 +899,9 @@ function validate_domain_owned($name)
 	// MR -- idn_to_ascii only work in php 5.3.0+
 //	if (checkdnsrr(idn_to_ascii($name), "MX")) {
 	if (checkdnsrr($name, "MX")) {
-		throw new lxException($login->getThrowUc('domain_is_already_owned'), 'nname');	
+		throw new lxException($login->getThrowUc('domain_is_already_owned'), '', $name);
 	}
 }
-
 
 function execinstallappPhp($domain, $appname, $cmd)
 {
@@ -5145,7 +5182,7 @@ function setDefaultPages($nolog = null)
 
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
-			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
+			log_cleanup("- Copy skeleton.zip to $targetzip", $nolog);
 			exec("cp -rf $sourcezip $targetzip");
 			$newer = true;
 		}
@@ -5242,7 +5279,11 @@ function getRpmBranchInstalled($rpm)
 {
 	$a = getRpmBranchList($rpm);
 
-	if (!$a) { return; }
+//	if (!$a) { return; }
+
+	if (!$a) {
+		$a = array($rpm);
+	}
 
 	foreach ($a as $k => $e) {
 		if (isRpmInstalled($e)) {
@@ -7643,53 +7684,30 @@ function get_function_arglist($start = 0, $transforming_func)
 	return $arglist;
 }
 
-function generateUniqueToken($number)
-{
-	$arr = array('a', 'b', 'c', 'd', 'e', 'f',
-		'g', 'h', 'i', 'j', 'k', 'l',
-		'm', 'n', 'o', 'p', 'r', 's',
-		't', 'u', 'v', 'x', 'y', 'z',
- 		'A', 'B', 'C', 'D', 'E', 'F',
- 		'G', 'H', 'I', 'J', 'K', 'L',
-		'M', 'N', 'O', 'P', 'R', 'S',
-		'T', 'U', 'V', 'X', 'Y', 'Z',
- 		'1', '2', '3', '4', '5', '6',
-		'7', '8', '9', '0');
+function random_string_lcase($length) {
+	$key = '';
 
-	$token = "";
+	$keys1 = array_merge(range('a', 'z'));
+	$keys2 = array_merge(range(0, 9), range('a', 'z'));
 
-	for ($i = 0; $i < $number; $i++) {
-		$index = rand(0, count($arr) - 1);
-		$token .= $arr[$index];
+	for ($i = 0; $i < $length; $i++) {
+		if ($i === 0) {
+			$key .= $keys1[array_rand($keys1)];
+		} else {
+			$key .= $keys2[array_rand($keys2)];
+		}
 	}
 
-	if (isToken($token)) {
-		return generateUniqueToken($number);
-	} else {
-		return $token;
-	}
+	return $key;
 }
 
-// for prefix mysql database name
-function generateUniqueTokenLowerCase($number)
+function exec_out($input)
 {
-	$arr = array('a', 'b', 'c', 'd', 'e', 'f',
-		'g', 'h', 'i', 'j', 'k', 'l',
-		'm', 'n', 'o', 'p', 'r', 's',
-		't', 'u', 'v', 'x', 'y', 'z',
- 		'1', '2', '3', '4', '5', '6',
-		'7', '8', '9', '0');
+	exec($input, $out);
 
-	$token = "";
-
-	for ($i = 0; $i < $number; $i++) {
-		$index = rand(0, count($arr) - 1);
-		$token .= $arr[$index];
+	if ($out) {
+		print(implode("\n", $out) . "\n");
 	}
 
-	if (isToken($token)) {
-		return generateUniqueTokenLowerCase($number);
-	} else {
-		return $token;
-	}
+	$out = null;
 }

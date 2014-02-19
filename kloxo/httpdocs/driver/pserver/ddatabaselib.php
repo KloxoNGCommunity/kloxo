@@ -60,29 +60,22 @@ class databasecore extends Lxdb
 		if ($login->isAdmin() && isset($param['nomodifyname']) && $param['nomodifyname'] === 'on') {
 			// no action
 		} else {
+		/*
 			if (!$parent->isAdmin()) {
 				$param['nname'] = self::getDbName($parent->nname, $param['nname']);
 			} else {
 				$param['nname'] = substr($param['nname'], 0, 15);
-
-			/* 
-				// MR -- pending until running well for changeowner
-				$param['nname'] = self::getDbName($parent->nname, $param['nname']);
-			*/
 			}
+		*/
 		}
 
-		// MR -- pending until running well for changeowner
-//		if (strlen($param['nname']) > 64) {
-		if (strlen($param['nname']) > 16) {
-			throw new lxexception("dataname_cannot_be_more_than_64_chars", 'nname', $param['nname']);
-		}
-				
-		$param['username'] = substr($param['nname'], 0, 15);
-		// MR -- pending until running well for changeowner
-	//	$param['username'] = $parent->nname;
+		$param['nname'] = random_string_lcase(4) . "_" . $param['nname'];
+
+		validate_database_name($param['nname']);
+		validate_password_add($param['dbpassword']);
 
 		$param['dbname'] = $param['nname'];
+		$param['username'] = substr($param['nname'], 0, 15);
 		$param['dbtype'] = strtil($class, "db");
 
 	/*
@@ -304,11 +297,12 @@ class databasecore extends Lxdb
 
 		$dbprefix = null;
 
-		if (!$parent->isAdmin()) {
-			$dbprefix = self::fixDbname($parent->nname);
-		}
+	//	if (!$parent->isAdmin()) {
+	//		$dbprefix = self::fixDbname($parent->nname);
+	//	}
 
-		$vlist['nname'] = array('m', array('pretext' => $dbprefix));
+	//	$vlist['nname'] = array('m', array('pretext' => $dbprefix));
+		$vlist['nname'] = array('m', array('pretext' => 'prefix_'));
 	//	$vlist['dbtype'] = $class;
 		
 		if (0 && check_if_many_server()) {

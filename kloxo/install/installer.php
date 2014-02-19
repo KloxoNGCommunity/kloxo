@@ -103,7 +103,7 @@ function lxins_main()
 		if ($installfrom !== 'setup') {
 			//--- Ask Reinstall
 			if (get_yes_no("\nKloxo seems already installed do you wish to continue?") == 'n') {
-				print("Installation Aborted.\n");
+				print("\nInstallation Aborted.\n");
 
 				exit;
 			}
@@ -129,11 +129,11 @@ function lxins_main()
 
 			//--- Ask License
 			if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
-				print("You did not agree to the AGPL-V3.0 license terms.\n");
+				print("\nYou did not agree to the AGPL-V3.0 license terms.\n");
 				print("Installation aborted.\n\n");
 				exit;
 			} else {
-				print("Installing Kloxo-MR = YES\n\n");
+				print("\nInstalling Kloxo-MR = YES\n\n");
 			}
 		}
 	}
@@ -141,15 +141,15 @@ function lxins_main()
 	// MR -- disable asking for installing installapp where installapp not installed now
 /*
 	//--- Ask for InstallApp
-	print("InstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
+	print("\nInstallApp: PHP Applications like PHPBB, WordPress, Joomla etc\n");
 	print("When you choose Yes, be aware of downloading about 350Mb of data!\n");
 
 	if (get_yes_no("Do you want to install the InstallAPP sotfware?") == 'n') {
-		print("Installing InstallApp = NO\n");
+		print("\nInstalling InstallApp = NO\n");
 		print("You can install it later with /script/installapp-update\n\n");
 		$installappinst = false;
 	} else {
-		print("Installing InstallApp = YES\n\n");
+		print("\nInstalling InstallApp = YES\n\n");
 		$installappinst = true;
 	}
 */
@@ -206,7 +206,7 @@ function install_general_mine($value)
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	$value = implode(" ", $value);
-	print("Installing $value ....\n");
+	print("\nInstalling $value ....\n");
 	system("yum -y install $value");
 }
 
@@ -231,14 +231,14 @@ function install_main()
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
-	print("Prepare defaults and configurations...\n");
+	print("\nPrepare defaults and configurations...\n");
 	
 	// MR -- remove qmail-lxcenter not here! - need outside script
 	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
 		"vsftpd", "postfix", "ssmtp", "lxzend", "pure-ftpd");
 
 	$list = implode(" ", $packages);
-	print("Removing packages $list...\n");
+	print("\nRemoving packages $list...\n");
 
 	foreach ($packages as $package) {
 		system("rpm -e --nodeps $package > /dev/null 2>&1");
@@ -254,23 +254,22 @@ function install_main()
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter");
 
 
-	$installcomp['others'] = array("webalizer",	"cronie", "cronie-anacron", "crontabs");
+	$installcomp['others'] = array("pure-ftpd", "webalizer", "cronie", "cronie-anacron", "crontabs");
 
-//	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_ruid2", "mod_fastcgi", "mod_fcgid", "mod_suphp", "pure-ftpd");
+	// MR -- default to php-fpm_event
+	$installcomp['web'] = array(getApacheBranch(), "mod_rpaf", "mod_ssl", "mod_ruid2", "mod_fastcgi", "mod_fcgid", "mod_suphp");
+
 
 //	$installcomp['dns'] = array("bind", "bind-chroot");
-//	$installcomp['dns'] = array("bind", "bind-utils");
+	$installcomp['dns'] = array("bind", "bind-utils");
 
 	$mysqltmp = getMysqlBranch();
 	$installcomp['database'] = array($mysqltmp, $mysqltmp."-server", $mysqltmp."-libs");
 
 //	system("yum replace $mysqltmp --replace-with=mysql55 -y");
 
-	// MR -- openvz have a problem with aio; so, disable aio for all
-//	system("sh /script/disable-mysql-aio");
-	
-//	$comp = array("web", "database", "dns", "mail", "others");
-	$comp = array("database", "mail", "others");
+	$comp = array("web", "database", "dns", "mail", "others");
+//	$comp = array("database", "mail", "others");
 
 	$serverlist = $comp;
 
@@ -278,7 +277,7 @@ function install_main()
 	//	flush();
 
 		if (array_search($c, $serverlist) !== false) {
-			print("Installing $c Components....");
+			print("\n\nInstalling $c Components...\n\n");
 			$req = $installcomp[$c];
 			$func = "installcomp_$c";
 
@@ -294,9 +293,6 @@ function install_main()
 	// MR -- use \cp for temporary cp without prompt
 	// because 'cp' as alias as 'cp -i' with 'alias -p' info
 	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
-
-	// MR -- because using ruid2 as default php-type, disable php-fpm
-//	system("chkconfig php-fpm off; service php-fpm stop");
 }
 
 function kloxo_vpopmail()
@@ -348,14 +344,11 @@ function kloxo_install_step1()
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
 
 	if ($kloxostate === 'none') {
-		print("Adding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
+		print("\nAdding System users and groups (nouser, nogroup and lxlabs, lxlabs)\n");
 		system("groupadd nogroup");
 		system("useradd nouser -g nogroup -s '/sbin/nologin'");
 		system("groupadd lxlabs");
 		system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
-
-		// MR -- force remove old lxphp (from lxcenter.repo)
-	//	system("rpm -e lxphp-5.2.1-400.i386 --nodeps > /dev/null 2>&1");
 
 		if (isRpmInstalled('qmail-toaster')) {
 			// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
@@ -387,57 +380,34 @@ function kloxo_install_step1()
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
 		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf", "automake", "make",
 			"libtool", "openssl-devel", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota",
-			"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
+			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota");
+	
+		$list = implode(" ", $packages);
+
+		system("yum -y install $list");
+
+		$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
 			"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
 			"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha"
 		);
 
 		$list = implode(" ", $packages);
 
-	/*
-		while (true) {
-			print("Installing generic packages $list...\n");
-			system("yum -y install $list", $return_value);
-
-			if (file_exists("/opt/php52s/bin/php")) {
-				break;
-			} else {
-				print("YUM Gave Error... Trying Again...\n");
-				if (get_yes_no("Try again?") == 'n') {
-					print("- EXIT: Fix the problem and install Kloxo-MR again.\n");
-					exit;
-				}
-			}
-		}
-	*/
 		system("yum -y install $list");
 
-/*
-		$php52modinst = "/usr/local/lxlabs/kloxo/pscript/php52s-extension-install";
-
-		system("sh {$php52modinst} php52-xcache");
-		system("sh {$php52modinst} php52-pecl-geoip");
-
-		system("ln -s /opt/php52s/bin/php-cgi /opt/php52s/bin/kloxo-phpcgi");
-
-		if (!file_exists("/usr/bin/lxphp.exe")) {
-			system("ln -s /opt/php52s/bin/php /usr/bin/lxphp.exe");
-		}
-*/		
-		// MR -- install kloxomr specific rpms
-		$packages = array("kloxomr-webmail-*.noarch", "kloxomr-addon-*.noarch",
+		// MR -- install kloxomr specific rpms; 6.5.1 no need addon becuase include
+		$packages = array("kloxomr-webmail-*.noarch",
 			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch"
 		);
 		
 		$list = implode(" ", $packages);
 
-		print("Installing Kloxo-MR packages $list...\n");
+		print("\nInstalling Kloxo-MR packages $list...\n");
 
 		system("yum -y install $list");
 	}
 
-	print("Prepare installation directory\n");
+	print("\nPrepare installation directory\n");
 
 	system("mkdir -p {$kloxopath}");
 
@@ -448,7 +418,7 @@ function kloxo_install_step1()
 			system("rm -f {$kloxopath}/kloxo-mr-latest.zip");
 			system("rm -f {$kloxopath}/kloxomr.tar.gz");
 
-			print("Local copying Kloxo-MR release\n");
+			print("\nLocal copying Kloxo-MR release\n");
 			system("mkdir -p /var/cache/kloxo");
 			system("cp -rf ../../kloxomr-latest.tar.gz {$kloxopath}");
 
@@ -539,6 +509,7 @@ function kloxo_install_step2()
 	}
 
 /*
+	// MR -- no needed because defaults as 'none'.
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';
@@ -556,14 +527,14 @@ function kloxo_install_step2()
 
 function kloxo_install_installapp()
 {
-	print("Install InstallApp...\n");
+	print("\nInstall InstallApp...\n");
 	system("/script/installapp-update"); // First run (gets installappdata)
 	system("/script/installapp-update"); // Second run (gets applications)
 }
 
 function kloxo_prepare_kloxo_httpd_dir()
 {
-	print("Prepare /home/kloxo/httpd...\n");
+	print("\nPrepare /home/kloxo/httpd...\n");
 	system("mkdir -p /home/kloxo/httpd");
 
 	system("rm -f /home/kloxo/httpd/skeleton-disable.zip");
@@ -587,18 +558,29 @@ function kloxo_install_before_bye()
 		$phpbranch = getPhpBranch();
 		system("yum remove {$phpbranch}-fpm -y");
 	}
+	
+	$sp = "{$kloxopath}/file/apache/etc/conf.d";
+	$tp = "/etc/httpd/conf.d";
 
-	// MR -- ruid2 as default instead mod_php
+	// MR -- php-fpm_event as default instead mod_php
 	if (file_exists("/etc/httpd/conf.d/php.conf")) {
-		// MR -- ruid2 need php.conf!
-	//	system("mv -f /etc/httpd/conf.d/php.conf /etc/httpd/conf.d/php.nonconf");
 		// MR -- because /home/apache no exist at this step
-		system("cp -rf {$kloxopath}/file/apache/etc/conf.d/ruid2.conf /etc/httpd/conf.d/ruid2.conf");
+	//	system("cp -rf {$sp}/ruid2.conf {$tp}/ruid2.conf");
+		system("cp -rf {$sp}/fastcgi.conf {$tp}/fastcgi.conf;" .
+			"cp -rf {$sp}/_inactive_.conf {$tp}/fcgid.conf;" .
+			"cp -rf {$sp}/_inactive_.conf {$tp}/php.conf;" .
+			"cp -rf {$sp}/_inactive_.conf {$tp}/ruid2.conf;" .
+			"cp -rf {$sp}/_inactive_.conf {$tp}/suphp.conf;" .
+			"cp -rf {$sp}/_inactive_.conf {$tp}/suphp2.conf;" .
+			"cp -rf {$sp}/~lxcenter.conf {$tp}/~lxcenter.conf;" .
+			"cp -rf {$sp}/ssl.conf {$tp}/ssl.conf;" .
+			"cp -rf {$sp}/__version.conf {$tp}/__version.conf;" .
+			"echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd;");
 	}
-
+	
 	//--- Prevent mysql socket problem (especially on 64bit system)
 	if (!file_exists("/var/lib/mysql/mysql.sock")) {
-		print("Create mysql.sock...\n");
+		print("\nCreate mysql.sock...\n");
 		actionMysql('stop');
 		system("mksock /var/lib/mysql/mysql.sock");
 		actionMysql('start');
@@ -609,7 +591,7 @@ function kloxo_install_before_bye()
 
 	if (!isMysqlRunning()) {
 		//--- Prevent for Mysql not start after reboot for fresh kloxo slave install
-		print("Setting Mysql for always running after reboot and restart now...\n");
+		print("\nSetting Mysql for always running after reboot and restart now...\n");
 
 		actionMysql('start');
 	}
@@ -654,7 +636,9 @@ function kloxo_install_bye()
 	}
 
 	if ($installstep === '2') {
-		$t .= " _/ - Better reboot for fresh install                                        _/ "."\n";
+	//	$t .= " _/ - Better reboot for fresh install                                        _/ "."\n";
+		$t .= " _/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQL       _/ "."\n";
+		$t .= " _/   memory usage. Or, go to 'Webserver Configure'                          _/ "."\n";
 		$t .= " _/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/ "."\n";
 	}
 
@@ -717,7 +701,7 @@ function install_yum_repo()
 	print("\nModified MRatWork repos and then install some packages...\n\n");
 
 	if (!file_exists("/etc/yum.repos.d")) {
-		print("No yum.repos.d dir detected!\n");
+		print("\nNo yum.repos.d dir detected!\n");
 
 		return;
 	}
@@ -777,7 +761,7 @@ function find_os_version()
 
 		return $ossup[$osver[0]] . "-" . $oss;
 	} else {
-		print("This Operating System is currently *NOT* supported.\n");
+		print("\nThis Operating System is currently *NOT* supported.\n");
 
 		exit;
 	}
@@ -820,7 +804,7 @@ function addLineIfNotExist($filename, $pattern, $comment)
 		file_put_contents($filename, $pattern, FILE_APPEND);
 		file_put_contents($filename, "\n\n\n", FILE_APPEND);
 	} else {
-		print("Pattern '$pattern' Already present in $filename\n");
+		print("\nPattern '$pattern' Already present in $filename\n");
 	}
 }
 
@@ -1045,6 +1029,7 @@ function resetDBPassword()
 // taken from lxlib.php
 function randomString($length)
 {
+/*
 	$randstr = '';
 
 	$chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -1059,6 +1044,29 @@ function randomString($length)
 	}
 
 	return $randstr;
+*/
+	$key = '';
+
+	$keys = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
+
+	for ($i = 0; $i < $length; $i++) {
+			$key .= $keys[array_rand($keys)];
+	}
+
+	return $key;
+}
+
+function exec_out($input)
+{
+	if (!$input) { return; }
+
+	exec($input, $out);
+
+	if ($out) {
+		print("\n" . implode("\n", $out) . "\n");
+	}
+
+	$out = null;
 }
 
 lxins_main();

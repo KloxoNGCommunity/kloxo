@@ -157,6 +157,9 @@ yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
 
 	## install after mysql55 and php53u because if mysql not exist will install 'old' mysql
 	yum -y install net-snmp php52s
+
+	### MR -- install with php53s still 'memory leaks'
+	#sh /script/php53s-install
 	
 	sh /script/fixlxphpexe
 #fi
@@ -186,11 +189,25 @@ for (( a=1; a<=100; a++ )) ; do
 	fi
 done
 
-chkconfig httpd off > /dev/null 2>&1
-httpd stop > /dev/null 2>&1
+echo
+echo "... Wait until finished (install php53s and restart services) ..."
+
+sh /script/php53s-install >/dev/null 2>&1
+sh /script/restart-all >/dev/null 2>&1
+
+#if [ "$(rpm -qa|grep httpd)" != "" ] ; then
+#	chkconfig httpd off >/dev/null 2>&1
+#	service httpd stop >/dev/null 2>&1
+#fi
 
 echo
-echo "Run 'sh /script/php53s-install' for running panel under PHP 5.3 version"
-echo
-echo "Run 'sh /script/restart-all' to make sure all services running well"
-echo
+
+#if [ ! -f /opt/php53s/usr/bin/php ] ; then
+#	echo
+#	echo "Run 'sh /script/php53s-install' for running panel under PHP 5.3 version"
+#fi
+
+#echo
+#echo "Run 'sh /script/restart-all' to make sure all services running well"
+#echo "Note: certain services may not running well until add domain"
+#echo

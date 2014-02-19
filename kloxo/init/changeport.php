@@ -2,7 +2,11 @@
 
 $kpath = "/usr/local/lxlabs/kloxo";
 
-include_once "{$kpath}/httpdocs/lib/html/include.php";
+if (file_exists("{$kpath}/httpdocs/lib/html/include.php")) {
+	include_once "{$kpath}/httpdocs/lib/html/include.php";
+} else {
+	include_once "{$kpath}/httpdocs/htmllib/lib/include.php";
+}
 
 initProgram('admin');
 

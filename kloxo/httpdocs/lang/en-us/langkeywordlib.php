@@ -158,3 +158,7 @@ $__throw["file_download_failed"] = "file download failed";
 $__throw["install_failed"] = "install failed";
 $__throw["remove_failed"] = "remove failed";
 $__throw["replace_failed"] = "replace failed";
+
+$__throw["invalid_client_name"] = "invalid client name";
+$__throw["invalid_database_name"] = "invalid database name";
+$__throw["invalid_add_password"] = "invalid add password";

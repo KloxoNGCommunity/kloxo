@@ -7852,31 +7852,7 @@ class HtmlLib
 			}
 		}
 
-		$pinfo = str_replace("<%program%>", $sgbl->__var_program_name, $pinfo);
-
-		if ($this->frm_o_o[0]['class'] === 'mailaccount') {
-			$pinfo = str_replace("<%mailaccount%>", $this->frm_o_o[0]['nname'], $pinfo);
-		} else {
-			$pinfo = str_replace("<%mailaccount%>", 'mailaccount@domain.com', $pinfo);
-		}
-
-		$pinfo = str_replace("<%server%>", $login->syncserver, $pinfo);
-		$pinfo = str_replace("<%loginas%>", $login->nname, $pinfo);
-		$pinfo = str_replace("<%programname%>", 'Kloxo-MR', $pinfo);
-
-		if ($this->frm_o_o[0]['class'] === 'domain') {
-			$pinfo = str_replace("<%domain%>", $this->frm_o_o[0]['nname'], $pinfo);
-		} else {
-			$pinfo = str_replace("<%domain%>", 'domain.com', $pinfo);
-		}
-
-		if (isset($_GET['frm_o_o'][0]['class']) && ($_GET['frm_o_o'][0]['class'] === 'client')) {
-			$pinfo = str_replace("<%client%>", $_GET['frm_o_o'][0]['nname'], $pinfo);
-		} elseif (isset($_GET['frm_o_o'][1]['class']) && ($_GET['frm_o_o'][1]['class'] === 'client')) {
-			$pinfo = str_replace("<%client%>", $_GET['frm_o_o'][1]['nname'], $pinfo);
-		} else {
-			$pinfo = str_replace("<%client%>", $login->nname, $pinfo);
-		}
+		$pinfo = $this->convert_message($pinfo);
 
 		$pinfo = explode("\n", $pinfo);
 		$skip = false;
@@ -7988,6 +7964,39 @@ class HtmlLib
 		</div>
 <?php
 		}
+	}
+
+	function convert_message($pinfo)
+	{
+		global $gbl, $sgbl, $login;
+
+		$pinfo = str_replace("[%_program_%]", $sgbl->__var_program_name, $pinfo);
+
+		if ($this->frm_o_o[0]['class'] === 'mailaccount') {
+			$pinfo = str_replace("[%_mailaccount_%]", $this->frm_o_o[0]['nname'], $pinfo);
+		} else {
+			$pinfo = str_replace("[%_mailaccount_%]", 'mailaccount@domain.com', $pinfo);
+		}
+
+		$pinfo = str_replace("[%_server_%]", $login->syncserver, $pinfo);
+		$pinfo = str_replace("[%_loginas_%]", $login->nname, $pinfo);
+		$pinfo = str_replace("[%_programname_%]", 'Kloxo-MR', $pinfo);
+
+		if ($this->frm_o_o[0]['class'] === 'domain') {
+			$pinfo = str_replace("[%_domain_%]", $this->frm_o_o[0]['nname'], $pinfo);
+		} else {
+			$pinfo = str_replace("[%_domain_%]", 'domain.com', $pinfo);
+		}
+
+		if (isset($_GET['frm_o_o'][0]['class']) && ($_GET['frm_o_o'][0]['class'] === 'client')) {
+			$pinfo = str_replace("[%_client_%]", $_GET['frm_o_o'][0]['nname'], $pinfo);
+		} elseif (isset($_GET['frm_o_o'][1]['class']) && ($_GET['frm_o_o'][1]['class'] === 'client')) {
+			$pinfo = str_replace("[%_client_%]", $_GET['frm_o_o'][1]['nname'], $pinfo);
+		} else {
+			$pinfo = str_replace("[%_client_%]", $login->nname, $pinfo);
+		}
+
+		return $pinfo;
 	}
 
 	// function print_curvy_table_start($width = "100")
@@ -8152,6 +8161,8 @@ class HtmlLib
 		// MR -- impossible for login page with get_image_path()
 	//	$icondir = get_image_path();
 		$icondir = "/theme/icon/collage";
+
+		$mess = $this->convert_message($mess);
 ?>
 
 		<script language="javascript" src="/theme/js/divpop.js"></script>

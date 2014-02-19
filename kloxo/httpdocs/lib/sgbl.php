@@ -101,6 +101,15 @@ class Sgbl
 		$this->__path_program_etc = "/usr/local/lxlabs/kloxo/etc/";
 		$this->__path_program_root = "/usr/local/lxlabs/kloxo";
 		$this->__path_program_htmlbase = "/usr/local/lxlabs/kloxo/httpdocs";
+/*
+		if (file_exists("/opt/php53s/usr/bin/php")) {
+			$this->__path_php_path = "/opt/php53s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php53s/phpini";
+		} elseif (file_exists("/opt/php52s/usr/bin/php")) {
+			$this->__path_php_path = "/opt/php52s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php52s/phpini";
+		} else {
+			$this->__path_php_path = "/opt/php52s/bin/php -c /opt/php52s/etc/phpini";
+		}
+*/
 		$this->__path_php_path = "/usr/bin/lxphp.exe";
 
 		$this->__path_serverfile = $this->__path_lxlabs_base . "/kloxo/serverfile";

@@ -736,7 +736,9 @@ function log_log($file, $mess, $id = null)
 	if (!is_string($mess)) {
 		$mess = var_export($mess, true);
 	}
+
 	$mess = trim($mess);
+
 	$rf = "__path_program_root/log/$file";
 
 	lfile_put_contents($rf, @ date("H:i M/d/Y") . ": $mess" . PHP_EOL, FILE_APPEND);
@@ -823,9 +825,11 @@ function log_shell_error($mess, $id = 1)
 function lfile_trim($arg)
 {
 	$list = lfile($arg);
+
 	foreach ($list as &$s) {
 		$s = trim($s);
 	}
+
 	return $list;
 }
 
@@ -1410,9 +1414,11 @@ function test_remote_func()
 function log_clicks($mess, $id = 1)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
 	if (!if_demo()) {
 		return;
 	}
+
 	$ip = $gbl->c_session->ip_address;
 	$mess = trim($mess);
 	$file = "__path_program_root/log/clicks";
@@ -1690,13 +1696,31 @@ function get_image_path($path = null)
 
 function randomString($length)
 {
+/*
 	$randstr = '';
-	$chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+
+	$chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+		'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
+		'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+		'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+
 	for ($rand = 0; $rand <= $length; $rand++) {
 		$random = rand(0, count($chars) - 1);
 		$randstr .= $chars[$random];
 	}
+
 	return $randstr;
+*/
+	$key = '';
+
+	$keys = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
+
+	for ($i = 0; $i < $length; $i++) {
+			$key .= $keys[array_rand($keys)];
+	}
+
+	return $key;
 }
 
 function DBG_GetBacktrace($traceArr)

@@ -122,7 +122,7 @@ class pserver extends pservercore {
 	{
 	//	$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", "mysqldb" => 'mysqldb', 'mssqldb' => 'mssqldb');
 
-		$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", 	"mysqldb" => 'mysqldb', "webcache" => 'webcache');
+		$vlist = array("mmail" => "mmail", "dns" => "dns",  "web" => "web", "mysqldb" => 'mysqldb', "webcache" => 'webcache');
 
 		$ret = null;
 

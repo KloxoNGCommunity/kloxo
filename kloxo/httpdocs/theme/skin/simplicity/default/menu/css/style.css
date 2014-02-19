@@ -126,13 +126,13 @@
 .menuTemplate2 li:hover div.drop, .menuTemplate2 li.onhover div.drop
 {
 	/* left: -1px; */ /*Use this property to change offset of the dropdown*/
-	left: -200px; /* MR -- set 'centered' drop */
+	left: -320px; /* MR -- set 'centered' drop */
 }
 
 .menuTemplate2 li:hover div.drop2, .menuTemplate2 li.onhover div.drop2
 {
 	/* left: -1px; */ /*Use this property to change offset of the dropdown*/
-	left: -1px; /* MR -- set 'centered' drop */
+	left: -40px; /* MR -- set 'centered' drop */
 }
 
 /* Elements within the drop down sub-menu

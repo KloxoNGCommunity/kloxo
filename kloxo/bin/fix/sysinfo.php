@@ -3,6 +3,7 @@
 // by mustafa@bigraf.com for Kloxo-MR
 
 include_once "lib/html/include.php";
+initProgram('admin');
 
 exec("sh /script/version --vertype=full", $kloxomrver);
 $kloxomrver = $kloxomrver[0];
@@ -99,9 +100,10 @@ if ($dnsbranch) {
 	$appdns = '--uninstalled--';
 }
 
-$sq = new Sqlite(null, 'serverweb');
-$res = $sq->getRowsWhere("nname = 'pserver-localhost'", array('php_type'));
-$phptype = $res[0];
+$a = get_namelist_from_objectlist($login->getList('pserver'), 'syncserver');
+$b = implode("", $a);
+
+$phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
 exec("free -m", $meminfo);
 
@@ -129,7 +131,7 @@ if ($appcourierimap !== '--uninstalled--') {
 }
 
 echo "\n";
-echo "D. Php-type (for Httpd/proxy): " . $phptype['php_type'] . "\n";
+echo "D. Php-type (for Httpd/proxy): " . $phptype . "\n";
 echo "\n";
 echo "E. Memory:\n";
 echo "   " . $meminfo[0] . "\n";
@@ -137,5 +139,4 @@ echo "   " . $meminfo[1] . "\n";
 echo "   " . $meminfo[2] . "\n";
 echo "   " . $meminfo[3] . "\n";
 echo "\n";
-
 

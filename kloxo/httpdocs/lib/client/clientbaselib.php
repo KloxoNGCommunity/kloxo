@@ -215,6 +215,18 @@ class ClientBase extends ClientCore
 					$ghtml->__http_vars['frm_emessage'] = "lxguard_not_configured";
 				}
 			}
+
+			// MR -- need this trick to make sure driver info sync between slavedb and kloxo database
+			// if going to 'switch program' sync will be processed.
+		//	if (!$this->getObject('pserver')->web_driver) {
+		//	if (!slave_get_driver('web')) {
+			if (!$gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web')) {
+				$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
+			}
+
+			if (!db_get_value("serverweb", "pserver-" . $login->syncserver, "php_type")) {
+				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set";
+			}
 		}
 
 		parent::getAnyErrorMessage();
@@ -906,12 +918,6 @@ class ClientBase extends ClientCore
 	{
 		if_customer_complain_and_exit();
 
-		self::validate_client_name($param['nname']);
-
-		if (strlen($param['nname']) > 16) {
-			throw new lxexception("name_cannot_be_more_than_16_chars", 'nname', $param['nname']);
-		}
-
 		if ($parent->isGt('wholesale') && $parent->isGte($param['cttype'])) {
 			throw new lxexception("type_of_adding_more_than_parent", '');
 		}
@@ -962,20 +968,14 @@ class ClientBase extends ClientCore
 		return null;
 	}
 
-	static function validate_client_name($name)
-	{
-		if (!preg_match("/^[_A-Za-z][-\._A-Za-z0-9]*$/", $name)) {
-			throw new lxexception("only_alpha_characters_allowed", 'nname');
-		}
-	}
-
 	static function continueForm($parent, $class, $param, $continueaction)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$vlist = null;
 
-		self::validate_client_name($param['nname']);
+		validate_client_name($param['nname']);
+		validate_password_add($param['password']);
 
 		// and issue #657 - Client user names with "__" are displayed with missing end
 		if (stristr($param['nname'], '__')) {

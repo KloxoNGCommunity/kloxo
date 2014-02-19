@@ -4,14 +4,14 @@
 
 #if [ -f /opt/php53s/usr/bin/php ] ; then
 #	__path_php_path="/opt/php53s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php53s/php.ini";
-#elif [ -f /opt/php53s/usr/bin/php ] ; then
+#elif [ -f /opt/php52s/usr/bin/php ] ; then
 #	__path_php_path="/opt/php52s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php52s/php.ini";
 #else
-#	__path_php_path="/opt/php52s/bin/php -c /usr/local/lxlabs/kloxo/init/php52s/php.ini";
+#	__path_php_path="/opt/php52s/bin/php -c /opt/php52s/etc/php.ini";
 #fi
 
 __path_php_path="/usr/bin/lxphp.exe";
-	
+
 __path_program_root="/usr/local/lxlabs/${progname}";
 __path_slave_db="/usr/local/lxlabs/${progname}/etc/conf/slave-db.db";
 
@@ -63,7 +63,7 @@ wrapper_main() {
 			exec ${__path_server_exe} ${string} >/dev/null 2>&1;
 		else 
 			exec ${__path_php_path} ${__path_server_path} ${string} >/dev/null 2>&1;
-	 	fi
+		fi
 
 		sleep 10;
 	done

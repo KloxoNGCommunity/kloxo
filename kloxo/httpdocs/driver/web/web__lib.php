@@ -204,7 +204,7 @@ class web__ extends lxDriverClass
 
 			// MR -- php 5.2 from centalt not create this pid but php-fpm installed!
 			if (!file_exists("/var/run/php-fpm/php-fpm.pid")) {
-				exec("mkdir -p /var/run/php-fpm/");
+				lxfile_mkdir("/var/run/php-fpm/");
 				exec("echo '2265' > /var/run/php-fpm/php-fpm.pid");
 			}
 		}
@@ -399,12 +399,11 @@ class web__ extends lxDriverClass
 
 	static function getPhptype()
 	{
-		$sq = new Sqlite(null, 'serverweb');
-		$res = $sq->getRowsWhere("nname = 'pserver-localhost'", array('php_type'));
-	//	$ret = ($res[0]) ? $res[0] : array('php_type' => 'php-fpm_event');
-		$ret = $res[0];
+		global $login;
 
-		return $ret['php_type'];
+		$data = db_get_value("serverweb", "pserver-" . $login->syncserver, "php_type");
+
+		return $data;
 	}
 
 	function getDomainname()
@@ -1006,8 +1005,9 @@ class web__ extends lxDriverClass
 		$cust_log = "{$log_path}/{$domainname}-custom_log";
 		$err_log = "{$log_path}/{$domainname}-error_log";
 
-		// MR -- this function not used but for temporary using for fix lighttpd issue
-		// where lighttpd not running if ownership not apache
+		if (!file_exists($log_path)) {
+			lxfile_mkdir("$log_path");
+		}
 
 		lxfile_unix_chown_rec("{$log_path}", "apache:apache");
 	}
@@ -1168,12 +1168,12 @@ class web__ extends lxDriverClass
 		$hroot = $sgbl->__path_httpd_root;
 		$droot = $this->main->getFullDocRoot();
 
-		lxfile_mkdir("{$hroot}/{$domname}/webstats");
+		$this->createConfFile();
 
-		$this->main->createPhpInfo();
+		lxfile_mkdir("{$hroot}/{$domname}/webstats");
 		web::createstatsConf($domname, $this->main->stats_username, $this->main->stats_password);
 
-		$this->createConfFile();
+		$this->main->createPhpInfo();
 
 		lxfile_unix_chown_rec("{$droot}/", "{$uname}:{$uname}");
 		lxfile_unix_chmod("{$droot}/", "0755");

@@ -112,19 +112,23 @@ function phpcgi_stop() {
 			killproc ${phpcgi_name}
 		fi
 
-		killproc -p ${phpcgi_pidfile}
+		if [ "$(ps aux|grep '/init/php53s/php-fpm.conf'|grep 'php-fpm:')" != "" ] ; then
+			killproc -p ${phpcgi_pidfile}
+		fi
 
 	else
 		if [ "$(ps aux|grep '/init/php53s/php-fpm.conf'|grep 'php-fpm:')" != "" ] ; then
 			killproc -p ${phpcgi_pidfile}
 		fi
 
-		killproc ${phpcgi_name}
+		if [ "$(ps aux |grep 'kloxo-phpcgi'|grep 'lxlabs')" != "" ] ; then
+			killproc ${phpcgi_name}
+		fi
 	fi
 
 	retval=$?
 	echo
-	[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile}
+	[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile} && rm -rf ${phpcgi_pidfile}
 	return ${retval}
 }
 

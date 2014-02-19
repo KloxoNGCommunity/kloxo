@@ -162,6 +162,7 @@ class pservercore extends Lxclient
 	static $__acdesc_update_phpmyadmin = array("", "", "phpmyadmin");
 
 	static $__desc_no_fix_config = array("f", "", "no_fix_config");
+	static $__desc_pserver_o = array('d', '', '', '');
 
 	function syncToSystem()
 	{
@@ -244,8 +245,20 @@ class pservercore extends Lxclient
 			//$ghtml->__http_vars['frm_emessage'] = "mail_server_name_not_set";
 		}
 
-		parent::getAnyErrorMessage();
 
+		// MR -- need this trick to make sure driver info sync between slavedb and kloxo database
+		// if going to 'switch program' sync will be processed.
+	//	if (!$this->getObject('pserver')->web_driver) {
+	//	if (!slave_get_driver('web')) {
+		if (!$gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web')) {
+			$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
+		}
+
+		if (!db_get_value("serverweb", "pserver-" . $login->syncserver, "php_type")) {
+			$ghtml->__http_vars['frm_emessage'] = "phptype_not_set";
+		}
+
+		parent::getAnyErrorMessage();
 	}
 
 	function getIpPool($totalneeded)
@@ -1078,6 +1091,7 @@ STRIN;
 			print("NO driverapp for ipaddress\n");
 
 			exit;
+		//	return;
 		}
 
 		$rmt->func = array("Ipaddress__$driverapp", "listSystemIps");
@@ -1200,12 +1214,11 @@ STRIN;
 
 
 			case "switchprogram":
-			/*
+
 				$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'web');
 				$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'webcache');
 				$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'dns');
 				$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
-			*/
 
 				$this->web_driver = slave_get_driver('web');
 				$this->webcache_driver = slave_get_driver('webcache');
@@ -1225,12 +1238,6 @@ STRIN;
 				$vlist['spam_driver'] = array('s', array('none', 'spamassassin', 'bogofilter'));
 
 				$vlist['no_fix_config'] = array('f', 'on', 'off');
-
-				$this->setDefaultValue('web_driver', 'apache');
-				$this->setDefaultValue('webcache_driver', 'none');
-				$this->setDefaultValue('dns_driver', 'bind');
-				$this->setDefaultValue('spam_driver', 'bogofilter');
-				$this->setDefaultValue('no_fix_config', 'off');
 
 				return $vlist;
 

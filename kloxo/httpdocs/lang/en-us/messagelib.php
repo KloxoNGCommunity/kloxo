@@ -2,13 +2,13 @@
 
 /*
 	REMARK:
-	- <%server%> - translate to current server (example: localhost)
-	- <%loginas%> - translate to current user login (example: admin)
-	- <%client%> - translate to current client of user login (example: tester)
-	- <%mailaccount%> - translate to current user login (example: admin@domain.com)
-	- <%program%> - translate kloxo
-	- <%programname%> - translate Kloxo-MR
-	- <%domain%> - translate to current domain (example: domain.com)
+	- [%_server_%] - translate to current server (example: localhost)
+	- [%_loginas_%] - translate to current user login (example: admin)
+	- [%_client_%] - translate to current client of user login (example: tester)
+	- [%_mailaccount_%] - translate to current user login (example: admin@domain.com)
+	- [%_program_%] - translate kloxo
+	- [%_programname_%] - translate Kloxo-MR
+	- [%_domain_%] - translate to current domain (example: domain.com)
 */
 
 $__emessage['blocked'] = "Your address is blocked";
@@ -18,18 +18,18 @@ $__emessage['no_socket_connect_to_server'] = "Could not Connect to the server [%
 $__emessage['restarting_backend'] = "Restarting the backend. Please try again after 30 seconds.";
 $__emessage['quota_exceeded'] = "Quota Exceeded for [%s]";
 $__emessage['license_no_ipaddress'] = "The public ipaddress [%s] of this server was not found in in the license repository. Please contact Lxlabs sales or your reseller to create a license for this server.";
-$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via Kloxo-MR itself. Click <url:k[class]=pserver&k[nname]=localhost&a=updateform&sa=update&o=sshconfig>here</url> to configure your ssh server.";
+$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via Kloxo-MR itself. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=sshconfig>here</url> to configure your ssh server.";
 $__emessage['already_exists'] = "The resource of name [%s] already exists.";
-$__emessage['lxguard_not_configured'] = "Lxguard for this server is not configured. Click <url:k[class]=pserver&k[nname]=localhost&a=show&o=lxguard>here</url> to configure Lxguard since it is very important that you understand what it does. Lxguard is critical for the security of your server, at the same time, it can block your own IPaddress from accessing the server, which can be frustrating if you don't know what's happening.";
+$__emessage['lxguard_not_configured'] = "Lxguard for this server is not configured. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=show&o=lxguard>here</url> to configure Lxguard since it is very important that you understand what it does. Lxguard is critical for the security of your server, at the same time, it can block your own IPaddress from accessing the server, which can be frustrating if you don't know what's happening.";
 $__emessage['root_cannot_extract_to_existing_dir'] = "Directory you provided already exists. Root user cannot extract archive into an existing directory. Please provide the name of a directory that doesn't exist in the system.";
 $__emessage['no_imagemagick'] = "There is no imagemagick in the system. You can install imagemagick by running <b>yum -y install imagemagick</b>.";
-$__emessage['warn_license_limit'] = "You are very close to your license limit for [%s]. If the system goes over limit for [%s] the interface will stop working and you won't be able to manage your system. Please increase your license at client.lxlabs.com and update by clicking <url:o=license&a=show>here</url>.";
+$__emessage['warn_license_limit'] = "You are very close to your license limit for [%s]. If the system goes over limit for [%s] the interface will stop working and you won't be able to manage your system. Please increase your license at client.lxlabs.com and update by click <url:o=license&a=show>here</url>.";
 $__emessage['file_already_exists'] = "The file [%s] already exists.";
 $__emessage['contact_set_but_not_correct'] = "Your Contact Information doesn't appear to be a valid email address. Click <url:a=updateform&sa=information>here</url> to fix it.";
 $__emessage['contact_not_set'] = "Your Contact Information is not set properly. Click <url:a=updateform&sa=information>here</url> to fix it.";
 $__emessage['you_have_unread_message'] = "You have [%s] Unread Message(s). click <url:a=list&c=smessage>here</url> to read it.";
 $__emessage['you_have_unread_ticket'] = "You have [%s] Unread Ticket(s). click <url:a=list&c=ticket> here  to read it. </url>";
-$__emessage['security_warning'] = "Your password is now set as a generic password which constitutes a grave security threat. Please change it immediately by <url:a=updateform&sa=password> clicking here. </url> ";
+$__emessage['security_warning'] = "Your password is now set as a generic password which constitutes a grave security threat. Please change it immediately by click <url:a=updateform&sa=password>here</url>.";
 $__emessage['ssh_port_not_configured'] = "The ssh port for this server is not set. It is a good idea to change it to something other than the default 22. Please click <url:a=show&o=sshconfig>here</url> to change. If you want to keep the ssh port to 22 and still avoid this message, go to the page, and set it forcibly to 22, and the warning will not be displayed again.";
 $__emessage['system_is_updating_itself'] = "The system at this point is upgrading itself, and thus you won't be able to make any changes for a few minutes. All read actions work normally though.";
 $__emessage['system_is_locked'] = "Someone has initiated system-modification-action on this particular object which is still going on. You wont be able to make any changes till it is finished. All read actions work normally though.";
@@ -61,15 +61,18 @@ $__emessage['dns_conflict'] = "The domain was not added due to an error in the d
 $__emessage['add_without_www'] = "You should add only the main domain in the form of domain.com. The <b>www</b> subdomain will be automatically added to it. You shouldn't add <b>www</b> when creating a domain.";
 $__emessage['could_not_connect_to_db'] = "Could Not Connect to Database: The error has been logged. Please contact the administrator.";
 $__emessage['e_no_dbadmin_entries'] = "There are no Database administrator entries configured for this particular server. Please contact your admin to set them.";
-$__emessage['please_add_one_domain_for_owner_mode'] = "You will need to have at least one domain if you want to switch to domain owner mode. You can add a domain by <url:a=addform&c=domain>clicking here </url>.";
+$__emessage['please_add_one_domain_for_owner_mode'] = "You will need to have at least one domain if you want to switch to domain owner mode. You can add a domain by click <url:a=addform&c=domain>here</url>.";
 $__emessage['e_no_dbadmin_entries_admin'] = "There are no Database administrator entries configured for this particular server. You have to go to the server section for this server, and click on the Dbadmin link, and add the database admin user and password for this particular machine and the type of database.";
-$__emessage['mail_server_name_not_set'] = "The identification name for your mail server is not set. This means that many public mail servers like hotmail will reject mails from your server. Click <url:k[class]=pserver&k[nname]=localhost&a=updateform&sa=update&o=servermail>here</url> to set it.";
+$__emessage['mail_server_name_not_set'] = "The identification name for your mail server is not set. This means that many public mail servers like hotmail will reject mails from your server. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=servermail>here</url> to set it.";
 $__emessage['dns_template_inconsistency'] = "The Dns Template You have chosen is not consistent with your choice of the servers. For instance, it could be that the ipaddress in the dns is not at all found in the webserver. Please go back and create a dns template that has the parameters consistent with server setup.";
 $__emessage['adding_cron_failed'] = "Adding crontab has failed due to [%s]. Please delete it and add it again.";
 $__emessage['se_submit_running_background'] = "Search Engine Submission is running in the background. You will be sent a message to your contact email when it is done.";
 $__emessage['err_no_dns_template'] = "There are no Dns Templates in the System. You have to have at least one Dns Template to add a domain/client. Click <url:a=list&c=dnstemplate>here</url> to add a dnstemplate.";
 $__emessage['certificate_key_file_empty'] = "The certificate and the Key file you have chosen are empty. You have to first create or upload them before enabling ssl";
 $__emessage['document_root_may_not_contain_spaces'] = "The document root may not contain any space at the end or before the slash. Please check and submit again.";
+
+$__emessage['switch_program_not_set'] = "Need select services. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=switchprogram>here</url> to set it.";
+$__emessage['phptype_not_set'] = "Need select php-type. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=serverweb&a=show>here</url> to set it.";
 
 // ------------------------ //
 
@@ -223,7 +226,7 @@ $__information['ticketconfig_updateform_ticketconfig_pre'] = "<p>The mailgate is
 	"It is always recommended that you use ssl, but you will need to make sure that the remote mail serer does support pop3-ssl service at port 995.</p>";
 
 $__information['updateform_mysqlpasswordreset_pre'] = "<p>This should only be used if you have lost the MySQL database root password.</p>".
-	"<p>In normal circumstances, you can change the password by clicking <url:a=list&c=dbadmin>here</url> (database admin).</p>".
+	"<p>In normal circumstances, you can change the password by click <url:a=list&c=dbadmin>here</url> (database admin).</p>".
 	"<p>Please be patient as this will take a while to finish. This will reset the mysql root password by running it with the skip-grant-tables option.</p>".
 	"<p>If this doesn't work, please login through ssh and run '<b>sh /script/reset-mysql-root-password</b>'.</p>";
 
@@ -470,7 +473,7 @@ $__information['updateform_dnstemplatelist_pre'] = "<p>Allocate only a single dn
 
 $__information['forward_a_addform__pre'] = "<p>The forward addresses are a list of email addresses to which the mail is forwarded to. ".
 	"One copy of the mail gets saved to the actual mailaccount too.</p>".
-	"<p>You can disable local storage by clicking <url:a=updateform&sa=configuration>here</url>.</p>";
+	"<p>You can disable local storage by click <url:a=updateform&sa=configuration>here</url>.</p>";
 
 $__information['webserver_config'] = 
 	"<p><b>PHP Branch</b>".
@@ -513,7 +516,7 @@ $__information['webserver_config'] =
 // $__information['domain_show__pre'] = "<p>No information...</p>";
 // $__information['pserver_show__pre'] = "<p>No information...</p>";
 
-$__information['mailaccount_show__pre'] = "<p>Login in Kloxo-MR panel with <b><%mailaccount%></b> will be going to this page directly.</p>";
+$__information['mailaccount_show__pre'] = "<p>Login in Kloxo-MR panel with <b>[%_mailaccount_%]</b> will be going to this page directly.</p>";
 
 $__information['smessage_addform__pre'] = "<p>You can send a message your client.</p>";
 
@@ -591,7 +594,7 @@ $__information['lxupdate_updateform_lxupdateinfo_pre'] = "<p>Click 'Update Now' 
 
 $__information['releasenote_list__pre'] = "<p>Information about Kloxo-MR release since first release.</p>";
 
-$__information['client_updateform_password_pre'] = "<p>Update password for <b><%client%></b>.</p>".
+$__information['client_updateform_password_pre'] = "<p>Update password for <b>[%_client_%]</b>.</p>".
 	"<p>Better use 8 character or more with a combination of uppercase, lowercase and numbers.</p>".
 	"<p>Click 'Generate Password' if you want Kloxo-MR to generate password for you.</p>";
 
@@ -610,13 +613,13 @@ $__information['ffile_updateform_download_from_ftp_pre'] = "<p>Setup for remote 
 // $__information['ffile_show__pre'] = "<p>No information...</p>";
 
 // MR -- it's for 'processed log'
-$__information['domaindefault_updateform_update_pre'] = "<p>Click 'Update' to remove log in <b>'/home/<%client%>/__processed_stats/'</b>.</p>";
+$__information['domaindefault_updateform_update_pre'] = "<p>Click 'Update' to remove log in <b>'/home/[%_client_%]/__processed_stats/'</b>.</p>";
 
 // $__information['utmp_list__pre'] = "<p>No information...</p>";
 
 // $__information['ftpsession_list__pre'] = "<p>No information...</p>";
 
-$__information['client_updateform_shell_access_pre'] = "<p>You can limiting SSH access for <b><%client%></b>.</p>";
+$__information['client_updateform_shell_access_pre'] = "<p>You can limiting SSH access for <b>[%_client_%]</b>.</p>";
 
 $__information['general_updateform_scavengetime_pre'] = "<p>The purpose of this feature is 'book keeping jobs' for disk/traffic/etc.</p>";
 
@@ -637,15 +640,15 @@ $__information['client_updateform_skeleton_pre'] = "<p>This is the archive of th
 
 $__information['notification_updateform_update_pre'] = "<p>You can configure 'notifications' here.</p>";
 
-$__information['client_updateform_miscinfo_pre'] = "<p>Add 'miscellaneous information' for <b><%client%></b>.</p>";
+$__information['client_updateform_miscinfo_pre'] = "<p>Add 'miscellaneous information' for <b>[%_client_%]</b>.</p>";
 
 $__information['sp_childspecialplay_updateform_skin_pre'] = $__information['sp_specialplay_updateform_skin_pre'];
 
 $__information['psrole_a_addform__pre'] = "<p>No information...</p>";
 
-$__information['pserver_updateform_reboot_pre'] = "<p>Click 'Reboot' to reboot your <b><%server%></b>.</p>";
+$__information['pserver_updateform_reboot_pre'] = "<p>Click 'Reboot' to reboot your <b>[%_server_%]</b>.</p>";
 
-$__information['pserver_updateform_poweroff_pre'] = "<p>Click 'Poweroff' to poweroff/shutdown your <b><%server%></b>.</p>";
+$__information['pserver_updateform_poweroff_pre'] = "<p>Click 'Poweroff' to poweroff/shutdown your <b>[%_server_%]</b>.</p>";
 
 $__information['service_list__pre'] = "<p>Click 'SB' for start/stop service when the server is rebooted. Click 'State' to start/stop service now.</p>".
 	"<p>Kloxo-MR always monitor services with green 'SB' and try to start them periodically in case of red 'State' .</p>";
@@ -660,11 +663,11 @@ $__information['service_list__pre'] = "<p>Click 'SB' for start/stop service when
 
 // $__information['driver_updateform_update_pre'] = "<p>No information...</p>";
 
-$__information['pserver_updateform_timezone_pre'] = "<p>Choose 'timezone' for your <b><%server%></b>. Default is 'Europe/London'.</p>";
+$__information['pserver_updateform_timezone_pre'] = "<p>Choose 'timezone' for your <b>[%_server_%]</b>. Default is 'Europe/London'.</p>";
 
 $__information['pserver_updateform_commandcenter_pre'] = "<p>You can execute ssh command here. Example: 'sh /script/sysinfo'.</p>";
 
-$__information['sshclient_show__pre'] = "<p>SSH access here (using java-based ssh emulator) for your <b><%server%></b>.</p>".
+$__information['sshclient_show__pre'] = "<p>SSH access here (using java-based ssh emulator) for your <b>[%_server_%]</b>.</p>".
 	"<p>Need java-enabled in your browser.</p>";
 
 // $__information['traceroute_list__pre'] = "<p>No information...</p>";
@@ -673,7 +676,14 @@ $__information['phpini_updateform_edit_pre'] = $__information['phpini_updateform
 
 $__information['phpini_updateform_extraedit_pre'] = "<p>You can change 'advanced' PHP settings here.</p>";
 
-$__information['mysqldb_addform__pre'] = "<p>Add your MySQL database here. 'User Name' is the same as 'DB Name' (no more than 64 chars) automatically. 'User Name' will cutoff to 16 chars.</p>";
+$__information['mysqldb_addform__pre'] = "<p>Add your MySQL database here. 'User Name' is the same as 'DB Name' and will be cutoff to 16 chars.</p>" .
+	"<p>Note:<br>" .
+	"1. Database name:<br>" .
+	"- Valid character: a-z 0-9 _<br>" .
+	"- Minimum 2 characters; Maximum: 64 characters<br>" .
+	"2. Password:<br>" .
+	"- Valid character: a-z A-Z 0-9<br>" .
+	"- Minimum 8 characters; Maximum: 64 characters</p>";
 
 $__information['dbadmin_addform__pre'] = "<p>". $__emessage['e_no_dbadmin_entries'] . "</p>";
 
@@ -702,11 +712,25 @@ $__information['mail_graylist_wlist_a_addform__pre'] = "<p>No information...</p>
 $__information['client_addform_wholesale_pre'] = "<p>Add 'Wholesale Reseller' if you want your Client able to resell their plan.<p>".
 	"<p>Different between 'Wholesale' and 'regualar' Reseller is 'Wholesale' able to resell their plan in master/slave server.</p>";
 
-$__information['client_addform_reseller_pre'] = "<p>Add 'Reseller' if you want your Client able to resell their plan.</p>";
+$__information['client_addform_reseller_pre'] = "<p>Add 'Reseller' if you want your Client able to resell their plan.</p>" .
+	"<p>Note:<br>" .
+	"1. Username:<br>" .
+	"- Valid character: a-z 0-9 _<br>" .
+	"- Minimum: 2 characters; Maximum: 64 characters<br>" .
+	"2. Password:<br>" .
+	"- Valid character: a-z A-Z 0-9<br>" .
+	"- Minimum 8 characters; Maximum: 64 characters</p>";
 
-$__information['client_addform_customer_pre'] = "<p>Add 'Customer' if you don't want your Client not able to resell their plan.</p>";
-
-$__information['domain_updateform_limit_pre'] = "<p>You can setting up <b><%domain%></b> limiting here.</p>";
+$__information['client_addform_customer_pre'] = "<p>Add 'Customer' if you don't want your Client not able to resell their plan.</p>" .
+	"<p>Note:<br>" .
+	"1. Username:<br>" .
+	"- Valid character: a-z 0-9 _<br>" .
+	"- Minimum: 2 chars; Maximum: 64 chars<br>" .
+	"2. Password:<br>" .
+	"- Valid character: a-z A-Z 0-9<br>" .
+	"- Minimum 8 characters; Maximum: 64 characters</p>";
+	
+$__information['domain_updateform_limit_pre'] = "<p>You can setting up <b>[%_domain_%]</b> limiting here.</p>";
 
 $__information['addondomain_addform_parked_pre'] = "<p>No information...</p>";
 
@@ -714,7 +738,7 @@ $__information['addondomain_addform_redirect_pre'] = "<p>No information...</p>";
 
 $__information['dirprotect_addform__pre'] = "<p>No information...</p>";
 
-$__information['web_updateform_docroot_pre'] = "<p>Default directory structure is '/home/<%client%>/<%domain%>'.</p>".
+$__information['web_updateform_docroot_pre'] = "<p>Default directory structure is '/home/[%_client_%]/[%_domain_%]'.</p>".
 	"<p>You can change to other but better using default. Left blank if you want to use default.</p>";
 
 $__information['web_updateform_configure_misc_pre'] = "<p>No information...</p>";

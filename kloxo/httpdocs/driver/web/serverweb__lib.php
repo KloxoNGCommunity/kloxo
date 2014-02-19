@@ -87,13 +87,19 @@ class serverweb__ extends lxDriverClass
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
 
+		if ($this->main->mysql_charset === 'utf-8') {
+			$charset = '--utf8=yes';
+		} else {
+			$charset = '';
+		}
+
 		switch ($this->main->mysql_convert) {
 			case 'to-myisam':
 				$t = 'myisam';
-				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $charset, $nolog);
 				break;
 			case 'to-innodb':
-				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $charset, $nolog);
 				break;
 			case 'to-aria':
 				lxshell_return("lxphp.exe", $scripting, "--engine=aria", $nolog);

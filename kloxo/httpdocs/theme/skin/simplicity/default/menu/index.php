@@ -99,7 +99,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		</li>
 		<li class="separator"></li>
 		<li><a href="#" class="arrow"><?= $login->getKeywordUc('administration') ?></a>
-			<div class="drop decor2_2" style="width:<?= $genwidth ?>px">
+			<div class="drop2 decor2_2" style="width:<?= $genwidth ?>px">
 <?php
 	if ($login->isCustomer()) {
 ?>
@@ -297,7 +297,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		</li>
 		<li class="separator"></li>
 		<li><a href="#" class="arrow"><?= $login->getKeywordUc('resource') ?></a>
-			<div class="drop decor2_2" style="width:<?= $genwidth ?>px">
+			<div class="drop2 decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('auxiliary') ?></b>
 					<div class="dropmenu">
@@ -481,7 +481,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		</li>
 		<li class="separator"></li>
 		<li><a href="#"><?= $login->getKeywordUc('advanced') ?></a>
-			<div class="drop decor2_2" style="width:<?= $genwidth ?>px">
+			<div class="drop2 decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('general') ?></b>
 					<div class="dropmenu">

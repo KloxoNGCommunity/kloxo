@@ -1297,6 +1297,7 @@ $__description["path"] = array("Path");
 // MR -- in 'webserver config'
 $__description["apache_optimize"] = array("Apache memory optimize");
 $__description["mysql_convert"] = array("MySQL convert");
+$__description["mysql_charset"] = array("MySQL charset");
 $__description["fix_chownchmod"] = array("Fix 'ownership' and 'permissions'");
 
 // MR -- in 'switch program'
