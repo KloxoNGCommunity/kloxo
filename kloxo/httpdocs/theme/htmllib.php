@@ -8107,7 +8107,7 @@ class HtmlLib
 			if ($skin_name === 'simplicity') {
 				$mess = preg_replace("/<.*?>/", "", $mess);
 				$message = preg_replace("/<.*?>/", "", $message);
-				return $message . " " . $mess;
+				return $message . "\n- " . $mess;
 			} else {
 				$this->print_on_status_bar("$message $mess");
 			}
@@ -8144,7 +8144,7 @@ class HtmlLib
 			if ($skin_name === 'simplicity') {
 				$message = preg_replace("/<.*?>/", "", $message);
 				$pmess = preg_replace("/<.*?>/", "", $pmess);
-				return $message . " " . $pmess . "...";
+				return $message . "\n- " . $pmess . "...";
 			} else {
 				$this->print_on_status_bar("$message $pmess...");
 			}
@@ -8956,12 +8956,12 @@ class HtmlLib
 
 			$mess_url = "/display.php?frm_action=list&frm_o_cname=smessage";
 
-			$status_title = str_replace("  ", " ", $this->print_message('simplicity'));
+			$status_title = $this->print_message('simplicity');
 
 			if (strlen($status_title) > 0) {
 				$status_color = "#fff";
 			} else {
-				$status_color = "#000";
+				$status_color = "#3498db";
 			}
 
 			$loginas = $login->nname;
@@ -8991,7 +8991,7 @@ class HtmlLib
 				<div style="position: fixed; top: 2px; right: 2px">
 					<div style="float: left">
 						<a href="javascript://">
-							<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #000; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#000'; this.style.color='<?=$status_color;?>';" title="<?=$status_title;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+							<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>';" title="<?=$status_title;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
 						</a>
 					</div>
 					<div style="float: left">

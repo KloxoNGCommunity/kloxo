@@ -2265,6 +2265,8 @@ function display_init()
 	}
 
 	try {
+		do_display_init();
+
 		if ($ghtml->frm_filter) {
 			$filtername = $gbl->__c_object->getFilterVariableForThis($ghtml->frm_o_cname);
 			$list[$filtername] = $ghtml->frm_filter;
@@ -2276,8 +2278,6 @@ function display_init()
 			$login->setupHpFilter($ghtml->frm_hpfilter);
 			$login->setUpdateSubaction();
 		}
-
-		do_display_init();
 	} catch (Exception $e) {
 		log_log("redirect_error", "exception");
 		$gbl->setSessionV('__tmp_redirect_var', $ghtml->__http_vars);

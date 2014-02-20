@@ -5287,11 +5287,7 @@ function getRpmBranchInstalled($rpm)
 {
 	$a = getRpmBranchList($rpm);
 
-//	if (!$a) { return; }
-
-	if (!$a) {
-		$a = array($rpm);
-	}
+	if (!$a) { return; }
 
 	foreach ($a as $k => $e) {
 		if (isRpmInstalled($e)) {
@@ -5318,9 +5314,12 @@ function getRpmBranchList($pname)
 	$p = "/usr/local/lxlabs/kloxo/etc/list";
 	$f = getLinkCustomfile($p, "{$pname}.lst");
 
-	if (!file_exists($f)) { return; }
-
-	$c = trimSpaces(file_get_contents($f));
+//	if (!file_exists($f)) { return; }
+	if (!file_exists($f)) {
+		$c = $pname; 
+	} else {
+		$c = trimSpaces(file_get_contents($f));
+	}
 
 	$a = explode(",", $c);
 
