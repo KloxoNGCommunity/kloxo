@@ -8983,19 +8983,16 @@ class HtmlLib
 							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('message_title'); ?>">&nbsp;<?=$message_text;?>&nbsp;</div>
 						</a>
 					</div>
-					<div style="float: left">
-						<a href="javascript://">
-							<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #000; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#000'; this.style.color='<?=$status_color;?>';" title="<?=$status_title;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
-						</a>
-					</div>
 				</div>
-				<div id="menu_div" style="width:800px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all">
+				<div id="menu_div" style="width: 700px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all">
 <? include_once "theme/skin/simplicity/default/menu/index.php" ?>
 
 				</div>
 				<div style="position: fixed; top: 2px; right: 2px">
-					<div id="div_progress" style="float: left">
-						<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #000; border:0;">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+					<div style="float: left">
+						<a href="javascript://">
+							<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #000; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#000'; this.style.color='<?=$status_color;?>';" title="<?=$status_title;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+						</a>
 					</div>
 					<div style="float: left">
 						<a href="#" onClick="toggleVisibilityByClass('mmm');">
