@@ -98,7 +98,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 ?>
 		</li>
 		<li class="separator"></li>
-		<li><a href="#" class="arrow"><?= $login->getKeywordUc('administration') ?></a>
+		<li><a href="javascript://" class="arrow"><?= $login->getKeywordUc('administration') ?></a>
 			<div class="drop2 decor2_2" style="width:<?= $genwidth ?>px">
 <?php
 	if ($login->isCustomer()) {
@@ -296,7 +296,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 			</div>
 		</li>
 		<li class="separator"></li>
-		<li><a href="#" class="arrow"><?= $login->getKeywordUc('resource') ?></a>
+		<li><a href="javascript://" class="arrow"><?= $login->getKeywordUc('resource') ?></a>
 			<div class="drop2 decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('auxiliary') ?></b>
@@ -480,7 +480,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 			</div>
 		</li>
 		<li class="separator"></li>
-		<li><a href="#"><?= $login->getKeywordUc('advanced') ?></a>
+		<li><a href="javascript://"><?= $login->getKeywordUc('advanced') ?></a>
 			<div class="drop2 decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('general') ?></b>
@@ -598,7 +598,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	if ($login->isAdmin()) {
 ?>
 		<li class="separator"></li>
-		<li><a href="#"><?= $login->getKeywordUc('server') ?></a>
+		<li><a href="javascript://"><?= $login->getKeywordUc('server') ?></a>
 			<div class="drop decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('server') ?></b>
@@ -722,7 +722,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 			</div>
 		</li>
 		<li class="separator"></li>
-		<li><a href="#"><?= $login->getKeywordUc('security') ?></a>
+		<li><a href="javascript://"><?= $login->getKeywordUc('security') ?></a>
 			<div class="drop decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('lxguard') ?></b>
@@ -806,7 +806,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	if ($login->isAdmin()) {
 ?>
 		<li class="separator"></li>
-		<li><a href="#"><?= $login->getKeywordUc('webmailanddb') ?></a>
+		<li><a href="javascript://"><?= $login->getKeywordUc('webmailanddb') ?></a>
 			<div class="drop decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('configure') ?></b>
@@ -909,7 +909,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	}
 ?>
 		<li class="separator"></li>
-		<li><a href="#"><?= $login->getKeywordUc('task') ?></a>
+		<li><a href="javascript://"><?= $login->getKeywordUc('task') ?></a>
 			<div class="drop decor2_2" style="width:<?= $genwidth ?>px">
 				<div class='left rightborder'>
 					<b><?= $login->getKeywordUc('domain') ?></b>
@@ -1082,7 +1082,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 </div>
 <div style="float:right">
 	<ul class="menuTemplate2 decor2_1">
-		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('help') ?>" href="#" onClick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
+		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('help') ?>" href="javascript://" onClick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
 		<li class="separator"></li>
 		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('logout') ?>"  href="javascript:if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a></li>
 	</ul>

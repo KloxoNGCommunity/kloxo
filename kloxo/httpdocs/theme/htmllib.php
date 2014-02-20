@@ -8071,7 +8071,7 @@ class HtmlLib
 <?php
 	}
 
-	function print_message()
+	function print_message($skin_name = null)
 	{
 		global $gbl, $sgbl, $login;
 
@@ -8103,7 +8103,14 @@ class HtmlLib
 			$style = 'border: 1px solid green; background:#fff;';
 			$fontstyle = 'color: #000';
 			$mess = $this->format_message($mess, $value, true);
-			$this->print_on_status_bar("$message $mess");
+
+			if ($skin_name === 'simplicity') {
+				$mess = preg_replace("/<.*?>/", "", $mess);
+				$message = preg_replace("/<.*?>/", "", $message);
+				return $message . " " . $mess;
+			} else {
+				$this->print_on_status_bar("$message $mess");
+			}
 		}
 
 		if ($cgi_message) {
@@ -8133,9 +8140,17 @@ class HtmlLib
 
 			$pmess = $this->format_message($mess, $value, true);
 			$pmess = substr($pmess, 0, 270);
-			$this->print_on_status_bar("$message $pmess...");
+
+			if ($skin_name === 'simplicity') {
+				$message = preg_replace("/<.*?>/", "", $message);
+				$pmess = preg_replace("/<.*?>/", "", $pmess);
+				return $message . " " . $pmess . "...";
+			} else {
+				$this->print_on_status_bar("$message $pmess...");
+			}
 		}
 	}
+
 
 	function show_error_message($mess, $message = null, $imgfile = null, $color = null, $style = null, $fontstyle = null)
 	{
@@ -8938,15 +8953,55 @@ class HtmlLib
 		<!-- "START TOP MENU + LOGO" -->
 <?php
 		if ($skin_name === 'simplicity') {
+
+			$mess_url = "/display.php?frm_action=list&frm_o_cname=smessage";
+
+			$status_title = str_replace("  ", " ", $this->print_message('simplicity'));
+
+			if (strlen($status_title) > 0) {
+				$status_color = "#fff";
+			} else {
+				$status_color = "#000";
+			}
+
+			$loginas = $login->nname;
+
+			$total_message_received = db_get_count("smessage", "text_sent_to_cmlist LIKE '%client-{$loginas}%'");
+			$total_message_readby = db_get_count("smessage", "text_readby_cmlist LIKE '%client-{$loginas}%'");
+			$total_message_unreadby = $total_message_received - $total_message_readby;
+
+			$total_message_madeby = db_get_count("smessage", "made_by LIKE '%client-{$loginas}%'");
+
+			$message_text = $login->getKeywordUc('message') . ": {$total_message_madeby} - {$total_message_unreadby}/{$total_message_received}";
 ?>
 
+		<!-- "START TOP MENU + LOGO" -->
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
+				<div style="position: fixed; top: 2px; left: 2px">
+					<div style="float: left">
+						<a href="<?="/display.php?frm_action=list&frm_o_cname=smessage";?>">
+							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('message_title'); ?>">&nbsp;<?=$message_text;?>&nbsp;</div>
+						</a>
+					</div>
+					<div style="float: left">
+						<a href="javascript://">
+							<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #000; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#000'; this.style.color='<?=$status_color;?>';" title="<?=$status_title;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+						</a>
+					</div>
+				</div>
 				<div id="menu_div" style="width:800px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all">
 <? include_once "theme/skin/simplicity/default/menu/index.php" ?>
 
 				</div>
-				<div style="position: fixed; top: 2px; right: 2px"><a href="#" onClick="toggleVisibilityByClass('mmm');">
-					<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
+				<div style="position: fixed; top: 2px; right: 2px">
+					<div id="div_progress" style="float: left">
+						<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #000; border:0;">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+					</div>
+					<div style="float: left">
+						<a href="#" onClick="toggleVisibilityByClass('mmm');">
+							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
+						</a>
+					</div>
 				</div>
 			</div>
 

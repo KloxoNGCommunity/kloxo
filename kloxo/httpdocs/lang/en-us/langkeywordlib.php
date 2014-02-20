@@ -68,6 +68,9 @@ $__keyword['custombutton'] = 'Custom Button';
 $__keyword['reversedns'] = 'Reverse DNS';
 $__keyword['update'] = 'Update';
 
+$__keyword['status'] = 'Status';
+$__keyword['message_title'] = $__keyword['message'] . ": (total made) - (unread received)/(total received)";
+
 $__keyword['other'] = 'Other';
 
 $__keyword['auxiliary'] = 'Auxiliary';

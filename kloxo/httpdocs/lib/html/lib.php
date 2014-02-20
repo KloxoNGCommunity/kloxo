@@ -161,6 +161,14 @@ function db_get_value($table, $nname, $var)
 	return $row[0][$var];
 }
 
+function db_get_count($table, $query)
+{
+	$sql = new Sqlite(null, $table);
+	$count = $sql->getCountWhere($query);
+
+	return $count;
+}
+
 function monitor_load()
 {
 	global $gbl, $sgbl, $login, $ghtml;
@@ -899,7 +907,7 @@ function validate_domain_owned($name)
 	// MR -- idn_to_ascii only work in php 5.3.0+
 //	if (checkdnsrr(idn_to_ascii($name), "MX")) {
 	if (checkdnsrr($name, "MX")) {
-		throw new lxException($login->getThrowUc('domain_is_already_owned'), '', $name);
+		throw new lxException($login->getThrowUc('domain_is_already_owned'), '', $name);	
 	}
 }
 
@@ -5182,7 +5190,7 @@ function setDefaultPages($nolog = null)
 
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
-			log_cleanup("- Copy skeleton.zip to $targetzip", $nolog);
+			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
 			exec("cp -rf $sourcezip $targetzip");
 			$newer = true;
 		}
