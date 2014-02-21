@@ -716,7 +716,7 @@ $__information['client_addform_reseller_pre'] = "<p>Add 'Reseller' if you want y
 	"<p>Note:<br>" .
 	"1. Username:<br>" .
 	"- Valid character: a-z 0-9 _<br>" .
-	"- Minimum: 2 characters; Maximum: 64 characters<br>" .
+	"- Minimum: 2 characters; Maximum: 31 characters<br>" .
 	"2. Password:<br>" .
 	"- Valid character: a-z A-Z 0-9<br>" .
 	"- Minimum 8 characters; Maximum: 64 characters</p>";
@@ -725,7 +725,7 @@ $__information['client_addform_customer_pre'] = "<p>Add 'Customer' if you don't 
 	"<p>Note:<br>" .
 	"1. Username:<br>" .
 	"- Valid character: a-z 0-9 _<br>" .
-	"- Minimum: 2 chars; Maximum: 64 chars<br>" .
+	"- Minimum: 2 chars; Maximum: 31 chars<br>" .
 	"2. Password:<br>" .
 	"- Valid character: a-z A-Z 0-9<br>" .
 	"- Minimum 8 characters; Maximum: 64 characters</p>";

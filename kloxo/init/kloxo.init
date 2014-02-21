@@ -48,8 +48,15 @@ if [ -f /opt/php53s/usr/bin/php ] ; then
 	phpcgi_ini="/usr/local/lxlabs/kloxo/init/php53s/php.ini"
 elif [ -f /opt/php52s/usr/bin/php ] ; then
 	phpcgi_file="/opt/php52s/usr/bin/php-cgi"
+	if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
+		yum install spawn-fcgi -y
+	fi
 elif [ -f /opt/php52s/bin/php ] ; then
 	phpcgi_file="/opt/php52s/bin/php-cgi"
+
+	if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
+		yum install spawn-fcgi -y
+	fi
 fi
 
 cd /usr/local/lxlabs/kloxo/httpdocs
@@ -69,10 +76,6 @@ phpcgi_lockfile="/var/lock/subsys/${phpcgi_name}"
 phpcgi_prog="kloxo-phpcgi"
 prog_as_slave="/usr/local/lxlabs/${prog}/etc/conf/slave-db.db"
 prog_wrapper="kloxo-wrapper.sh"
-
-if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
-	yum install spawn-fcgi -y
-fi
 
 ln -sf ${phpcgi_file} ${phpcgi_symlink}
 

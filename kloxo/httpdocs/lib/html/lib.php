@@ -864,12 +864,13 @@ function validate_domain_name($name)
 function validate_client_name($name)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-	
-	if (!preg_match('/^([_A-Za-z][-\._A-Za-z0-9]){2,64}$/', $name)) {
+
+	// MR -- Centos using max length to 31 chars; pure-ftpd need no more then 32
+	if (!preg_match('/^([_A-Za-z][-\._A-Za-z0-9]){2,31}$/', $name)) {
 		throw new lxexception($login->getThrowUc('invalid_client_name'), '', $name);
 	}
 
-//	if (strlen($name) > 64) {
+//	if (strlen($name) > 31) {
 //		throw new lxException($login->getThrowUc('invalid_client_name'), '', $name);
 //	}
 }
