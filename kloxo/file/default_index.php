@@ -13,12 +13,19 @@
 			$incfile2 = "./custom-inc2.php";
 		}
 	}
+
 	else {
 		// use default inc.php
 		$incfile = "./inc.php";
 		if (file_exists("./inc2.php")) {
 			$incfile2 = "./inc2.php";
 		}
+	}
+
+	if (file_exists("./images/user-logo.png")) {
+		$logo_url = "./images/user-logo.png";
+	} else {
+		$logo_url = "./images/logo.png";
 	}
 ?>
 
@@ -124,7 +131,7 @@ table.content_title td {
 
 <table class="header">
 	<tr>
-		<td width="100%"><img class="logo" src="./images/logo.png" height="75" alt="hosting-logo"></td>
+		<td width="100%"><img class="logo" src="<?php echo $logo_url; ?>" height="75" alt="hosting-logo"></td>
 		<td><a href="http://mratwork.com/work/" title="Go to Kloxo-MR website"><img class="logo" src="./images/kloxo-mr.png" alt="kloxo-mr-logo" height="75"></a></td>
 	</tr>
 </table>

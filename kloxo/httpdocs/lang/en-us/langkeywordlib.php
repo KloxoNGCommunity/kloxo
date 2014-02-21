@@ -69,7 +69,10 @@ $__keyword['reversedns'] = 'Reverse DNS';
 $__keyword['update'] = 'Update';
 
 $__keyword['status'] = 'Status';
-$__keyword['message_title'] = $__keyword['message'] . ": (total made) - (unread received)/(total received)";
+$__keyword['message_title'] = $__keyword['message'] . ": unread/total";
+
+$__keyword['ticket'] = 'Ticket';
+$__keyword['ticket_title'] = $__keyword['ticket'] . ": open/total";
 
 $__keyword['other'] = 'Other';
 

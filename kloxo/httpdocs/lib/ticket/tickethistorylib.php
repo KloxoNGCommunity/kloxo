@@ -183,12 +183,12 @@ class TicketHistory extends Lxdb
 			$ip = "lxlabs.com";
 
 			if ($obj->isClient() && !$obj->isAdmin()) {
-				$obj->findTotalBalance(null);
+			//	$obj->findTotalBalance(null);
 				$sq = new Sqlite(null, "ticket");
 				$tlist = $sq->getRowsWhere("made_by = 'client-$obj->nname' AND category LIKE '%TechnicalSupport%'");
 				$nticket = count($tlist);
-				$to = $obj->find_actual_billing("2009.05");
-				$extra .= "X-lxheader: $to->total P: $obj->total_paid B: $obj->total_balance T: $nticket\n";
+			//	$to = $obj->find_actual_billing("2009.05");
+			//	$extra .= "X-lxheader: $to->total P: $obj->total_paid B: $obj->total_balance T: $nticket\n";
 			}
 		} else {
 			$ip = getFQDNforServer('localhost');
@@ -198,12 +198,12 @@ class TicketHistory extends Lxdb
 		$ip = getFQDNforServer('localhost');
 
 		if ($obj->isClient() && !$obj->isAdmin()) {
-			$obj->findTotalBalance(null);
+		//	$obj->findTotalBalance(null);
 			$sq = new Sqlite(null, "ticket");
 			$tlist = $sq->getRowsWhere("made_by = 'client-$obj->nname' AND category LIKE '%TechnicalSupport%'");
 			$nticket = count($tlist);
-			$to = $obj->find_actual_billing("2009.05");
-			$extra .= "X-lxheader: $to->total P: $obj->total_paid B: $obj->total_balance T: $nticket\n";
+		//	$to = $obj->find_actual_billing("2009.05");
+		//	$extra .= "X-lxheader: $to->total P: $obj->total_paid B: $obj->total_balance T: $nticket\n";
 		}
 
 		$pass = $parent->realpass;

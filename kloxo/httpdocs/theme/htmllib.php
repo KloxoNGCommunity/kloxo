@@ -8972,12 +8972,24 @@ class HtmlLib
 			$total_message_readby = db_get_count("smessage", "text_readby_cmlist LIKE '%client-{$loginas}%'");
 			$total_message_unreadby = $total_message_received - $total_message_readby;
 
-			$total_message_madeby = db_get_count("smessage", "made_by LIKE '%client-{$loginas}%'");
+//			$total_message_madeby = db_get_count("smessage", "made_by LIKE '%client-{$loginas}%'");
 
-			$message_text = $login->getKeywordUc('message') . ": {$total_message_madeby} - {$total_message_unreadby}/{$total_message_received}";
+			$message_text = $login->getKeywordUc('message') . ": {$total_message_unreadby}/{$total_message_received}";
+
+			$total_ticket_received = db_get_count("ticket", "sent_to='client-{$loginas}'");
+			$total_ticket_open = db_get_count("ticket", "sent_to='client-{$loginas}' AND state='open'");
+
+			$ticket_text = $login->getKeywordUc('ticket') . ": {$total_ticket_open}/{$total_ticket_received}";
 ?>
 
 		<!-- "START TOP MENU + LOGO" -->
+<?php
+		if (file_exists("./login/images/user-logo.png")) {
+?>
+			<div style="position: fixed; left:10px; top:40px;"><img src="./login/images/user-logo.png" height="60"/></div>
+<?php
+		}
+?>
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
 				<div style="position: fixed; top: 2px; left: 2px">
 					<div style="float: left">
@@ -8985,8 +8997,13 @@ class HtmlLib
 							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('message_title'); ?>">&nbsp;<?=$message_text;?>&nbsp;</div>
 						</a>
 					</div>
+					<div style="float: left">
+						<a href="<?="/display.php?frm_action=list&frm_o_cname=ticket";?>">
+							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('ticket_title'); ?>">&nbsp;<?=$ticket_text;?>&nbsp;</div>
+						</a>
+					</div>
 				</div>
-				<div id="menu_div" style="width: 700px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all">
+				<div id="menu_div" style="width: 680px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all">
 <? include_once "theme/skin/simplicity/default/menu/index.php" ?>
 
 				</div>
