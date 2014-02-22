@@ -78,10 +78,13 @@ function setFixUserlogoDomainPages()
 		$dlist = $c->getList('domaina');
 
 		foreach((array) $dlist as $l) {
-			$web = $l->nname;
-			system("cp -rf /home/kloxo/httpd/user-logo.png {$cdir}/{$web}/images/user-logo.png");
-			system("cp -rf /home/kloxo/httpd/user-logo.png {$cdir}/{$web}/images/logo.png");
-			log_cleanup("- User logo for domain pages copy to -> {$cdir}/{$web}/images/logo.png", $nolog);
+			$web = $l->getObject('web');
+			$docroot = $web->getFullDocRoot();
+
+			if (file_exists("$docroot/images")) {
+				system("cp -rf /home/kloxo/httpd/user-logo.png $docroot/images/user-logo.png");
+				system("cp -rf /home/kloxo/httpd/user-logo.png $docroot/images/logo.png");
+			}
 		}
 	}
 }

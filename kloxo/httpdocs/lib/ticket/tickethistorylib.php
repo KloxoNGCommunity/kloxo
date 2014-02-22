@@ -52,9 +52,12 @@ class TicketHistory extends Lxdb
 		}
 		
 		$mail .= "A ticket $actxt by $parentclass:$parentname at the $name ticketing system\n";
-		$mail .= "Message:\n--------------------------\n";
-		$mail .= $message;
-		$mail .= "\n--------------------\n";
+		$mail .= "Message:\n";
+		$mail .= "--------------------------\n";
+		$mail .= "". $message . "\n";
+		$mail .= "--------------------------\n";
+
+		$mail = "<pre>" . $mail . "</pre>";
 
 		$reply_to = $o->mail_account;
 

@@ -5,7 +5,7 @@ if [ "$(rpm -qa mratwork-release)" == "" ] ; then
     wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
     yum update mratwork-release -y
-
+	
     rm -rf /etc/yum.repos.d/lxlabs.repo
     rm -rf /etc/yum.repos.d/lxcenter.repo
     rm -rf /etc/yum.repos.d/kloxo-mr.repo
@@ -17,6 +17,8 @@ if [ "$(rpm -qa lxphp)" != "" ] ; then
     yum remove lxphp lxlighttpd lxzend -y
 	yum install php52s hiawatha
 fi
+
+sh /script/fixlxphpexe
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
 
@@ -39,15 +41,12 @@ fi
 
 T="$(date +%s%N)"
 
-#if $(rpm -qa|grep lxphp >/dev/null 2>&1) ; then
-if $(ls -al /usr/bin/lxphp.exe|grep /usr/local/lxlabs >/dev/null 2>&1) ; then
-	yum remove lxphp lxlighttpd lxzend >/dev/null 2>&1
+if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
+	rpm -e lxphp --nodeps
+	rpm -e lxlighttpd --nodeps
+	rpm -e lxzend --nodeps
 	
 	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
-	
-	rm -rf /usr/bin/lxphp.exe
-	
-	yum install php52s -y >/dev/null 2>&1
 fi
 
 . /script/directory

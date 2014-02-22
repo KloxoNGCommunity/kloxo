@@ -230,7 +230,7 @@ class Smessage extends Lxdb
 	static function send_mail_to($list, $param)
 	{
 		$subject = "Message from {$param['name_made_by']}: {$param['subject']}";
-		$message = $param['text_description'];
+		$message = "<pre>" . $param['text_description'] . "</pre>";
 
 		foreach($list as $l) {
 			if ($l->contactemail) {
