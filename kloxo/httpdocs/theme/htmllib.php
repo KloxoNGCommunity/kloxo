@@ -3677,6 +3677,11 @@ class HtmlLib
 <?php
 
 			} else {
+				// MR -- fix if data is array
+				if (is_array($pname)) {
+					$pname = implode(",", $pname);
+				}
+
 				if (csa($descr[$name][0], "W")) {
 					$pname = str_replace("\n", "<br />\n", $pname);
 					$pname = str_replace("[code]", "<div style='padding: 10px; margin: 10px; border: 1px solid #43a1a1'>", $pname);
@@ -3693,8 +3698,8 @@ class HtmlLib
 
 				$pname = str_replace("Unlimited", "&#x221E;", $pname);
 			//	$pname = str_replace("Unlimited", "&#x007e;", $pname);
-?>
 
+?>
 			<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist"> <?= $pname ?> </td>
 <?php
 			}
@@ -9017,6 +9022,33 @@ class HtmlLib
 						<a href="#" onClick="toggleVisibilityByClass('mmm');">
 							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
 						</a>
+					</div>
+					<div style="float: left">
+						<div id="clock_div" style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;">
+<script>
+	function startTime() {
+		var today=new Date();
+		var h=today.getHours();
+		var m=today.getMinutes();
+		var s=today.getSeconds();
+		// add a zero in front of numbers<10
+		m=checkTime(m);
+		s=checkTime(s);
+		document.getElementById('clock_div').innerHTML="&nbsp;"+h+":"+m+":"+s+"&nbsp;";
+		t=setTimeout(function(){startTime()},500);
+	}
+
+	function checkTime(i) {
+		if (i<10) {
+			i="0" + i;
+ 		}
+
+		return i;
+	}
+
+	startTime();
+</script>
+						</div>
 					</div>
 				</div>
 			</div>
