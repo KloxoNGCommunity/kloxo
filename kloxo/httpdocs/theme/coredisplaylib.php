@@ -1902,7 +1902,7 @@ function print_navigation($navig)
 
 ?>
 	</div>
-	<br/>
+	<!-- <br/> -->
 <?php
 }
 

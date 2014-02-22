@@ -9008,7 +9008,7 @@ class HtmlLib
 						</a>
 					</div>
 				</div>
-				<div id="menu_div" style="width: 680px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:35px; padding:5px; vertical-align:middle" class="shadow_all">
+				<div id="menu_div" style="width: 680px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all">
 <? include_once "theme/skin/simplicity/default/menu/index.php" ?>
 
 				</div>

@@ -7,7 +7,7 @@
 	float: left;
 	position: relative;
 	z-index: 4;
-	height: 28px;
+	height: 24px;
 	background: none;
 	border: none;
 	font-family: Tahoma, Verdana Arial, Helvetica, sans-serif;
@@ -22,8 +22,8 @@
 {
 	padding: 0;
 	float: left;
-	height: 32px;
-	_height: 34px;/*IE6 Hack*/
+	height: 28px;
+	_height: 30px;/*IE6 Hack*/
 	position: relative;/*delete it if you want submenu to be positioned relative to the whole menu instead of this li element*/
 	z-index: 5;
 	
@@ -47,7 +47,7 @@
 .menuTemplate2 a
 {
 	padding: 0 4px;
-	line-height: 32px; /*Note: keep this value the same as the height of .menuTemplate2 li */
+	line-height: 28px; /*Note: keep this value the same as the height of .menuTemplate2 li */
 	font-size: 9pt;
 	font-weight: normal;
 	display: inline-block;
@@ -96,7 +96,7 @@
 	background-color: #F8F8FF;
 	text-align: left;
 	padding: 15px;  
-	top: 31px;
+	top: 27px;
 
 	left: -9999px;
 	width: 600px; /* MR -- set fix width */
@@ -132,7 +132,7 @@
 .menuTemplate2 li:hover div.drop2, .menuTemplate2 li.onhover div.drop2
 {
 	/* left: -1px; */ /*Use this property to change offset of the dropdown*/
-	left: -40px; /* MR -- set 'centered' drop */
+	left: -60px; /* MR -- set 'centered' drop */
 }
 
 /* Elements within the drop down sub-menu
