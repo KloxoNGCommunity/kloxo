@@ -680,10 +680,10 @@ $__information['mysqldb_addform__pre'] = "<p>Add your MySQL database here. 'User
 	"<p>Note:<br>" .
 	"1. Database name:<br>" .
 	"- Valid character: a-z 0-9 _<br>" .
-	"- Minimum 2 characters; Maximum: 64 characters<br>" .
+	"- Minimum 2 chars; maximum: 64 chars; last char NOT _<br>" .
 	"2. Password:<br>" .
 	"- Valid character: a-z A-Z 0-9<br>" .
-	"- Minimum 8 characters; Maximum: 64 characters</p>";
+	"- Minimum 8 chars; maximum: 64 chars</p>";
 
 $__information['dbadmin_addform__pre'] = "<p>". $__emessage['e_no_dbadmin_entries'] . "</p>";
 
@@ -716,19 +716,19 @@ $__information['client_addform_reseller_pre'] = "<p>Add 'Reseller' if you want y
 	"<p>Note:<br>" .
 	"1. Username:<br>" .
 	"- Valid character: a-z 0-9 _<br>" .
-	"- Minimum: 2 characters; Maximum: 31 characters<br>" .
+	"- Minimum: 2 chars; maximum: 31 chars; first char must a-z; last char NOT _<br>" .
 	"2. Password:<br>" .
 	"- Valid character: a-z A-Z 0-9<br>" .
-	"- Minimum 8 characters; Maximum: 64 characters</p>";
+	"- Minimum 8 chars; maximum: 64 chars</p>";
 
 $__information['client_addform_customer_pre'] = "<p>Add 'Customer' if you don't want your Client not able to resell their plan.</p>" .
 	"<p>Note:<br>" .
 	"1. Username:<br>" .
 	"- Valid character: a-z 0-9 _<br>" .
-	"- Minimum: 2 chars; Maximum: 31 chars<br>" .
+	"- Minimum: 2 chars; maximum: 31 chars; first char must a-z; last char NOT _<br>" .
 	"2. Password:<br>" .
 	"- Valid character: a-z A-Z 0-9<br>" .
-	"- Minimum 8 characters; Maximum: 64 characters</p>";
+	"- Minimum 8 chars; maximum: 64 chars</p>";
 	
 $__information['domain_updateform_limit_pre'] = "<p>You can setting up <b>[%_domain_%]</b> limiting here.</p>";
 

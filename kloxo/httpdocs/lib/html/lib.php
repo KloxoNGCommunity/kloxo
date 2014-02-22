@@ -867,7 +867,7 @@ function validate_client_name($name)
 
 	// MR -- Centos using max length to 31 chars; pure-ftpd need no more then 32
 //	if (!preg_match('/^([_A-Za-z][-\._A-Za-z0-9]){2,31}$/', $name)) {
-	if (!preg_match('/^([_a-z0-9]){2,31}$/', $name)) {
+	if (!preg_match('/^([a-z]){1,1}([_a-z0-9]){0,29}([a-z0-9]){1,1}$/', $name)) {
 		throw new lxexception($login->getThrowUc('invalid_client_name'), '', $name);
 	}
 
@@ -880,7 +880,7 @@ function validate_database_name($name)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 	
-	if (!preg_match('/^([a-z0-9_]){2,64}$/', $name)) {
+	if (!preg_match('/^([a-z0-9_]){1,63}([a-z0-9]){1,1}$/', $name)) {
 		throw new lxexception($login->getThrowUc('invalid_database_name'), '', $name);
 	}
 
