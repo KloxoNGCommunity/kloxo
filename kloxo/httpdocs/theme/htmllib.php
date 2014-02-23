@@ -350,7 +350,11 @@ class HtmlLib
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 
-		include_once "theme/tab_{$skin_name}.php";
+	//	include_once "theme/tab_{$skin_name}.php";
+
+		$path = getLinkCustomfile("theme", "tab_{$skin_name}.php");
+
+		include_once $path;
 
 		print_tab_block_start($alist);
 	}
@@ -1001,8 +1005,11 @@ class HtmlLib
 				</div>
 			</div>
 		</div>
+<?php
+		$post_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/css", "post.css"));
 
-		<link rel="stylesheet" type="text/css" href="/theme/extjs/css/post.css"/>
+		$this->print_css_source($post_path);
+?>
 
 		<script>
 			var global_formname;
@@ -1759,9 +1766,11 @@ class HtmlLib
 ?>
 
 		</div>
+<?php
+		$dragdivscroll_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "dragdivscroll.js"));
 
-		<script type='text/javascript' src='/theme/js/dragdivscroll.js'></script>
-
+		$this->print_jscript_source($dragdivscroll_path);
+?>
 		<script type='text/javascript'>
 
 			new DragDivScroll('show_page', 'mouseWheelX noStatus noXBarHide');
@@ -5353,20 +5362,31 @@ class HtmlLib
 		// print('<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">');
 
 		$this->print_refresh_key();
-		$this->print_jscript_source("/theme/js/lxa.js");
-		$this->print_jscript_source("/theme/js/helptext.js");
-		$this->print_jscript_source("/theme/js/preop.js");
+
+		$lxa_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "lxa.js"));
+		$helptext_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "helptext.js"));
+		$preop_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "preop.js"));
+
+		$this->print_jscript_source($lxa_path);
+		$this->print_jscript_source($helptext_path);
+		$this->print_jscript_source($preop_path);
 
 		if (!$login->getSpecialObject('sp_specialplay')->isOn('enable_ajax') && ($header !== 'left_panel')) {
 			//
 		} else {
-			$this->print_jscript_source("/theme/extjs/js/yui-utilities.js");
-			$this->print_jscript_source("/theme/extjs/js/ext-yui-adapter.js");
-			$this->print_jscript_source("/theme/extjs/js/ext-all.js");
-			$this->print_jscript_source("/theme/js/dragdrop.js");
+			$yui_utilities_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/js", "lxa.js"));
+			$ext_yui_adapter_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/js", "ext-yui-adapter.js"));
+			$ext_all_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/js", "ext-all.js"));
+			$dragdrop_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "dragdrop.js"));
+
+			$this->print_jscript_source($yui_utilities_path);
+			$this->print_jscript_source($ext_yui_adapter_path);
+			$this->print_jscript_source($ext_all_path);
+			$this->print_jscript_source($dragdrop_path);
 		}
 
-		$this->print_jscript_source("/theme/js/drag.js");
+		$drag_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "drag.js"));
+		$this->print_jscript_source($drag_path);
 
 		$func = null;
 
@@ -5388,9 +5408,19 @@ class HtmlLib
 			$css = "/theme/css/base.css";
 		}
 
-		$this->print_css_source("/theme/css/common.css");
-		$this->print_css_source($css);
-		$this->print_css_source("/theme/css/ext-all.css");
+		$common_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/css", "common.css"));
+
+		if (!lfile_exists(getreal($css))) {
+			$style_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/css", "base.css"));
+		} else {
+			$style_path = str_replace(getcwd(), "", getLinkCustomfile("{$skin}/css", "style.css"));
+		}
+
+		$ext_all_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/css", "ext-all.css"));
+
+		$this->print_css_source($common_path);
+		$this->print_css_source($style_path);
+		$this->print_css_source($ext_all_path);
 
 		$l = @ getdate();
 		$hours = $l['hours'];
@@ -7400,9 +7430,10 @@ class HtmlLib
 		}
 
 		if (isset($variable->confirm_password) && $variable->confirm_password) {
-?>
+			$divpop_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "divpop.js"));
 
-			<script language="javascript" src="/theme/js/divpop.js"></script>
+			$this->print_jscript_source($divpop_path);
+?>
 
 			<div id="showimage" style="visibility: hidden; position: absolute; width: 320px; left: 0; top: 300px; right: 0; margin: 0 auto">
 				<div style="background-color: #48c; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
@@ -8183,9 +8214,12 @@ class HtmlLib
 		$icondir = "/theme/icon/collage";
 
 		$mess = $this->convert_message($mess);
-?>
 
-		<script language="javascript" src="/theme/js/divpop.js"></script>
+		$divpop_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "divpop.js"));
+
+		$this->print_jscript_source($divpop_path);
+
+?>
 
 		<div id="showimage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin: 0 auto;">
 			<div style="<?= $style ?>">
@@ -8278,11 +8312,12 @@ class HtmlLib
 		static $scriptdone;
 
 		if (!$scriptdone && $complex) {
-?>
+			$dtree_css_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js/tree", "dtree.css"));
+			$this->print_css_source($dtree_css_path);
 
-			<link href="/theme/js/tree/dtree.css" rel="stylesheet" type="text/css"/>
-<?php
-			$this->print_jscript_source("/theme/js/tree/dtree.js");
+			$dtree_js_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js/tree", "dtree.js"));
+			$this->print_jscript_source($dtree_js_path);
+
 			$scriptdone = true;
 		}
 
@@ -8994,6 +9029,7 @@ class HtmlLib
 			<div style="position: fixed; left:10px; top:40px;"><img src="./login/images/user-logo.png" height="60"/></div>
 <?php
 		}
+			$simplicity_menu = getLinkCustomfile(getcwd() . "/theme/skin/simplicity/default/menu", "index.php");
 ?>
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
 				<div style="position: fixed; top: 2px; left: 2px">
@@ -9009,7 +9045,7 @@ class HtmlLib
 					</div>
 				</div>
 				<div id="menu_div" style="width: 680px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all">
-<? include_once "theme/skin/simplicity/default/menu/index.php" ?>
+<? include_once "{$simplicity_menu}" ?>
 
 				</div>
 				<div style="position: fixed; top: 2px; right: 2px">
@@ -9025,30 +9061,15 @@ class HtmlLib
 					</div>
 					<div style="float: left">
 						<div id="clock_div" style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;">
-<script>
-	function startTime() {
-		var today=new Date();
-		var h=today.getHours();
-		var m=today.getMinutes();
-		var s=today.getSeconds();
-		// add a zero in front of numbers<10
-		h=checkTime(h);
-		m=checkTime(m);
-		s=checkTime(s);
-		document.getElementById('clock_div').innerHTML="&nbsp;"+h+":"+m+":"+s+"&nbsp;";
-		t=setTimeout(function(){startTime()},1000);
-	}
+<?php
+		$clock_path = str_replace(getcwd(), "", getLinkCustomfile("{$skin_dir}/js", "clock.js"));
 
-	function checkTime(i) {
-		if (i<10) {
-			i="0"+i;
- 		}
+		$this->print_jscript_source($clock_path);
 
-		return i;
-	}
-
-	startTime();
-</script>
+?>
+	<script>
+		startTime('clock_div');
+	</script>
 						</div>
 					</div>
 				</div>

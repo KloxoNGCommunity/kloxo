@@ -47,8 +47,19 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 
 ?>
 <!-- 'BEGIN: Simplicity menu' -->
+<?php
+	if (file_exists(getcwd() . "/theme/skin/simplicity/default/menu/css/custom.style.css")) {
+?>
+
+<link rel="stylesheet" type="text/css" href="/theme/skin/simplicity/default/menu/css/custom.style.css"/>
+<?php
+	} else {
+?>
 
 <link rel="stylesheet" type="text/css" href="/theme/skin/simplicity/default/menu/css/style.css"/>
+<?php
+	}
+?>
 
 <div style="float:left">
 	<ul class="menuTemplate2 decor2_1">
