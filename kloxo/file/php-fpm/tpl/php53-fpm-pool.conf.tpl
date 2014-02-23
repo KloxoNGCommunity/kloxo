@@ -78,3 +78,6 @@ php_admin_value[session.save_path] = /var/lib/php/session
 php_admin_flag[log_errors] = on
 ;php_admin_value[memory_limit] = 64M
 php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
+
+;php_admin_value[session.save_path] = /home/<?php echo $user; ?>
+

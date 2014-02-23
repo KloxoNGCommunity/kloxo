@@ -64,6 +64,134 @@ foreach ($certnamelist as $ip => $certname) {
     foreach ($ports as &$port) {
 ?>
 
+### 'default' config
+<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
+
+    ServerName default
+
+    ServerAlias *
+
+    DocumentRoot "<?php echo $defaultdocroot; ?>"
+
+    DirectoryIndex <?php echo $indexorder; ?>
+
+<?php
+        if ($count !== 0) {
+?>
+
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
+        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    </IfModule>
+<?php
+        }
+?>
+
+    <Ifmodule mod_userdir.c>
+        UserDir enabled
+        UserDir /home/*/public_html
+<?php
+        foreach ($userlist as &$user) {
+            $userinfo = posix_getpwnam($user);
+
+            if (!$userinfo) {
+                continue;
+            }
+?>
+        <Location "/~<?php echo $user; ?>">
+            <IfModule mod_suphp.c>
+                SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+
+            </IfModule>
+        </Location>
+<?php
+        }
+?>
+    </Ifmodule>
+<?php
+        // if (strpos($phptype, '_suphp') !== false) {
+?>
+
+    <IfModule suexec.c>
+        SuexecUserGroup apache apache
+    </IfModule>
+
+    <IfModule mod_suphp.c>
+        SuPhp_UserGroup apache apache
+    </IfModule>
+<?php
+        // } elseif (strpos($phptype, '_ruid2') !== false) {
+        if (strpos($phptype, '_ruid2') !== false) {
+?>
+
+    <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid apache apache
+        RMinUidGid apache apache
+    </IfModule>
+<?php
+        } elseif (strpos($phptype, '_itk') !== false) {
+?>
+
+    <IfModule itk.c>
+        AssignUserId apache apache
+    </IfModule>
+<?php
+        } elseif (strpos($phptype, 'php-fpm_') !== false) {
+?>
+
+    <IfModule mod_fastcgi.c>
+        Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
+        #FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 180
+        FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 180
+        AddType application/x-httpd-fastphp .php
+        Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
+        <Files "default.<?php echo $count; ?>fake">
+            RewriteCond %{REQUEST_URI} !default.<?php echo $count; ?>fake
+        </Files>
+    </IfModule>
+<?php
+        } elseif (strpos($phptype, 'fcgid_') !== false) {
+?>
+
+    <IfModule mod_fcgid.c>
+        <Directory "<?php echo $defaultdocroot; ?>/">
+            Options +ExecCGI
+            AllowOverride All
+            AddHandler fcgid-script .php
+            FCGIWrapper /home/httpd/php5.fcgi .php
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
+        </Directory>
+    </IfModule>
+<?php
+        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+?>
+
+    <IfModule mod_proxy_fcgi.c>
+        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+    </IfModule>
+<?php
+        }
+?>
+
+    <Location />
+        Allow from all
+        # Options +Indexes +FollowSymlinks
+        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+    </Location>
+
+</VirtualHost>
+
+
 ### 'cp' config
 <VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
@@ -131,134 +259,6 @@ foreach ($certnamelist as $ip => $certname) {
     </IfModule>
 <?php
        } elseif (strpos($phptype, 'fcgid_') !== false) {
-?>
-
-    <IfModule mod_fcgid.c>
-        <Directory "<?php echo $defaultdocroot; ?>/">
-            Options +ExecCGI
-            AllowOverride All
-            AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
-        </Directory>
-    </IfModule>
-<?php
-        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
-?>
-
-    <IfModule mod_proxy_fcgi.c>
-        ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-        ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-    </IfModule>
-<?php
-        }
-?>
-
-    <Location />
-        Allow from all
-        # Options +Indexes +FollowSymlinks
-        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
-    </Location>
-
-</VirtualHost>
-
-
-### 'default' config
-<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
-
-    ServerName default
-
-    ServerAlias default.*
-
-    DocumentRoot "<?php echo $defaultdocroot; ?>"
-
-    DirectoryIndex <?php echo $indexorder; ?>
-
-<?php
-        if ($count !== 0) {
-?>
-
-    <IfModule mod_ssl.c>
-        SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
-    </IfModule>
-<?php
-        }
-?>
-
-    <Ifmodule mod_userdir.c>
-        UserDir enabled
-        UserDir "public_html"
-<?php
-        foreach ($userlist as &$user) {
-            $userinfo = posix_getpwnam($user);
-
-            if (!$userinfo) {
-                continue;
-            }
-?>
-        <Location "/~<?php echo $user; ?>">
-            <IfModule mod_suphp.c>
-                SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
-
-            </IfModule>
-        </Location>
-<?php
-        }
-?>
-    </Ifmodule>
-<?php
-        // if (strpos($phptype, '_suphp') !== false) {
-?>
-
-    <IfModule suexec.c>
-        SuexecUserGroup apache apache
-    </IfModule>
-
-    <IfModule mod_suphp.c>
-        SuPhp_UserGroup apache apache
-    </IfModule>
-<?php
-        // } elseif (strpos($phptype, '_ruid2') !== false) {
-        if (strpos($phptype, '_ruid2') !== false) {
-?>
-
-    <IfModule mod_ruid2.c>
-        RMode config
-        RUidGid apache apache
-        RMinUidGid apache apache
-    </IfModule>
-<?php
-        } elseif (strpos($phptype, '_itk') !== false) {
-?>
-
-    <IfModule itk.c>
-        AssignUserId apache apache
-    </IfModule>
-<?php
-        } elseif (strpos($phptype, 'php-fpm_') !== false) {
-?>
-
-    <IfModule mod_fastcgi.c>
-        Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
-        #FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 180
-        FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 180
-        AddType application/x-httpd-fastphp .php
-        Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
-        <Files "default.<?php echo $count; ?>fake">
-            RewriteCond %{REQUEST_URI} !default.<?php echo $count; ?>fake
-        </Files>
-    </IfModule>
-<?php
-        } elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
