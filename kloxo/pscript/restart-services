@@ -5,6 +5,7 @@ list=(mysqld mysql named djbdns maradns pdns nsd varnish trafficserver squid htt
 for item in ${list[*]} ; do
 	if [ -f /etc/init.d/${item} ] ; then
 		for num in 0 1 2 3 4 5 6 ; do
+			if $(dir /etc/rc.d/rc${num}.d|grep -E 'S[0-9]{2}'${item} >/dev/null 2>&1) ; then
 				### MR -- need special treatment for hiawatha because using by panel also
 				if [ $item == 'hiawatha' ] ; then
 					## tricky detect if hiawatha as web server
