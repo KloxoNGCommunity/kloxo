@@ -6,16 +6,17 @@ if [ "$(rpm -qa mratwork-release)" == "" ] ; then
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
     yum update mratwork-release -y
 	
-    rm -rf /etc/yum.repos.d/lxlabs.repo
-    rm -rf /etc/yum.repos.d/lxcenter.repo
     rm -rf /etc/yum.repos.d/kloxo-mr.repo
 else
     yum update mratwork-release -y
 fi
 
-if [ "$(rpm -qa lxphp)" != "" ] ; then
-    yum remove lxphp lxlighttpd lxzend -y
-	yum install php52s hiawatha
+if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
+	rpm -e lxphp --nodeps
+	rpm -e lxlighttpd --nodeps
+	rpm -e lxzend --nodeps
+	
+	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
 
 sh /script/fixlxphpexe
@@ -40,14 +41,6 @@ if [ "$u" != "" ] ; then
 fi
 
 T="$(date +%s%N)"
-
-if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
-	rpm -e lxphp --nodeps
-	rpm -e lxlighttpd --nodeps
-	rpm -e lxzend --nodeps
-	
-	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
-fi
 
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php

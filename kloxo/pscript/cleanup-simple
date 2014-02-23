@@ -6,17 +6,20 @@ if [ "$(rpm -qa mratwork-release)" == "" ] ; then
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
     yum update mratwork-release -y
 	
-    rm -rf /etc/yum.repos.d/lxlabs.repo
-    rm -rf /etc/yum.repos.d/lxcenter.repo
     rm -rf /etc/yum.repos.d/kloxo-mr.repo
 else
     yum update mratwork-release -y
 fi
 
-if [ "$(rpm -qa lxphp)" != "" ] ; then
-    yum remove lxphp lxlighttpd lxzend -y
-	yum install php52s hiawatha
+if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
+	rpm -e lxphp --nodeps
+	rpm -e lxlighttpd --nodeps
+	rpm -e lxzend --nodeps
+	
+	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
+
+sh /script/fixlxphpexe
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
 
@@ -37,31 +40,10 @@ if [ "$u" != "" ] ; then
 	exit
 fi
 
-t=$(mysql -V|awk '{print $5}')
-u=$(echo $t|grep -i '5.0.')
-
-if [ "$u" != "" ] ; then
-	echo "Need update mysql first..."
-	echo "- Run 'yum replace mysql --replace-with=mysql55'" 
-fi
-
 T="$(date +%s%N)"
-
-#if $(rpm -qa|grep lxphp >/dev/null 2>&1) ; then
-if $(ls -al /usr/bin/lxphp.exe|grep /usr/local/lxlabs >/dev/null 2>&1) ; then
-	yum remove lxphp lxlighttpd lxzend >/dev/null 2>&1
-	
-	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
-	
-	rm -rf /usr/bin/lxphp.exe
-	
-	yum install php52s -y >/dev/null 2>&1
-fi
 
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php --without-services
-
-echo
 
 # Time interval in nanoseconds
 T="$(($(date +%s%N)-T))"
@@ -72,3 +54,5 @@ M="$((T/1000000))"
 
 printf "Process Time: %02d:%02d:%02d:%02d.%03d (dd:hh:mm:ss:xxxxxx)\n" \
 	"$((S/86400))" "$((S/3600%24))" "$((S/60%60))" "$((S%60))" "${M}"
+
+

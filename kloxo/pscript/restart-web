@@ -15,12 +15,6 @@ for item in ${list[*]} ; do
 					else
 						/etc/init.d/${item} restart
 					fi
-				elif [ $item == 'qmail' ] ; then
-					qmailctl stop
-					sleep 2
-					qmailctl start
-				else
-					/etc/init.d/${item} restart
 				fi
 
 				break
