@@ -249,11 +249,11 @@ class databasecore extends Lxdb
 	{
 		$nlist['installapp_flag'] = '5%';
 		$nlist['phpmyadmin_f'] = '5%';
+		$nlist['parent_clname'] = '5%';
 		$nlist['syncserver'] = '5%';
 		$nlist['username'] =  '10%';
 		$nlist['nname'] =  '70%';
-		$nlist['dbtype'] = '5%';
-		
+		$nlist['dbtype'] = '5%';		
 		return $nlist;
 	}
 	function updateform($subaction, $param)

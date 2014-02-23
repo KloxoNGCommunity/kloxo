@@ -514,18 +514,27 @@ class Ffile extends Lxclass
 
 		$iconpath = get_image_path();
 
-		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
+		if ($skin_name === 'simplicity') {
 			$background = "url({$genimgpath}/button/fnav_02.gif)";
+			$icon_text = "<span class='if32' style='color:#d33'>&#xf382;</span>";
 		} else {
 			$background = "#ffffff";
+			$icon_text = "<img width='29' height='29' src='{$iconpath}/ffile_show.gif'>";
 		}
 
 		// Hack hack
+
+		if ($skin_name === 'simplicity') {
+		} else {
+		}
 ?>
 
-<table width='90%'>
+<div style="width:910px; margin:0 auto">
+<table>
 	<tr>
-		<td>&nbsp;&nbsp;<img width='29' height='29' src='<?= $iconpath ?>/ffile_show.gif'> </td>
+		<td><?=$icon_text;?></td>
 		<td nowrap style='background <?= $background ?>'>
 <?php
 
@@ -573,6 +582,7 @@ class Ffile extends Lxclass
 				$url .= "&frm_selectshowbase=$base";
 			}
 			if ($j === count($list) - 1) {
+
 ?>
 <span>/ <?= $list[$j] ?></span>
 
@@ -590,6 +600,7 @@ class Ffile extends Lxclass
 		<td width="100%"></td>
 	</tr>
 </table>
+</div>
 <?php		
 		$list = $gbl->getSessionV("frm_clip_list");
 

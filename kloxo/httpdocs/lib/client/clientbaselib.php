@@ -103,7 +103,7 @@ class ClientBase extends ClientCore
 
 	function updateClientSendMessage($param)
 	{
-		dprintr($param);
+	//	dprintr($param);
 		
 		$flist = $param['_accountselect'];
 		$this->doSendMessage('client', $flist);
@@ -157,7 +157,7 @@ class ClientBase extends ClientCore
 
 	function updateVpsSendMessage($param)
 	{
-		dprintr($param);
+	//	dprintr($param);
 		$flist = $param['_accountselect'];
 		$this->doSendMessage('vps', $flist);
 	}
@@ -867,24 +867,24 @@ class ClientBase extends ClientCore
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$name_list["cpstatus"] = "3%";
-		$name_list["status"] = "3%";
-		$name_list["state"] = "3%";
+		$name_list["status"] = "2%";
+		$name_list["state"] = "2%";
 
-		$name_list["cttype"] = "3%";
-		$name_list["nname"] = "50%";
+		$name_list["cttype"] = "2%";
+		$name_list["nname"] = "30%";
 
 		if ($view === 'quota') {
-			$name_list["traffic_usage"] = "5%";
-			$name_list["traffic_usage_per_f"] = "5%";
-			$name_list["__v_priv_used_traffic_usage"] = "5%";
-			$name_list["totaldisk_usage"] = "5%";
-			$name_list["totaldisk_usage_per_f"] = "5%";
-			$name_list["__v_priv_used_totaldisk_usage"] = "5%";
-			$name_list["maindomain_num"] = "5%";
-			$name_list["__v_priv_used_maindomain_num"] = "5%";
-			$name_list["maindomain_num_per_f"] = "5%";
-			$name_list["__v_priv_used_mysqldb_num"] = "5%";
-			$name_list["mysqldb_num_per_f"] = "5%";
+		//	$name_list["traffic_usage"] = "5%";
+			$name_list["traffic_usage_per_f"] = "10%";
+			$name_list["__v_priv_used_traffic_usage"] = "10%";
+		//	$name_list["totaldisk_usage"] = "5%";
+			$name_list["totaldisk_usage_per_f"] = "10%";
+			$name_list["__v_priv_used_totaldisk_usage"] = "10%";
+		//	$name_list["maindomain_num"] = "5%";
+		//	$name_list["__v_priv_used_maindomain_num"] = "5%";
+			$name_list["maindomain_num_per_f"] = "10%";
+			$name_list["__v_priv_used_mysqldb_num"] = "10%";
+			$name_list["mysqldb_num_per_f"] = "15%";
 			$name_list["__v_priv_used_client_num"] = "5%";
 		} else {
 			$name_list["resourceplan_used_f"] = "20%";
@@ -1015,7 +1015,7 @@ class ClientBase extends ClientCore
 				}
 			}
 
-			dprintr($param);
+		//	dprintr($param);
 
 			if ($param['resourceplan_f'] !== 'continue_without_plan') {
 				$param['use_resourceplan_f'] = 'On';

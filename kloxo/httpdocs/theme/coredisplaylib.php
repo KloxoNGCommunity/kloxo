@@ -2199,9 +2199,11 @@ function do_display_init()
 
 		exit;
 	}
+}
 
+function do_display_exec()
+{
 	display_exec();
-
 ?>
 
 	<!-- "END TAB + CONTENT" -->
@@ -2264,35 +2266,21 @@ function display_init()
 		exit;
 	}
 
-	try {
-		do_display_init();
+	do_display_init();
 
-		if ($ghtml->frm_filter) {
-			$filtername = $gbl->__c_object->getFilterVariableForThis($ghtml->frm_o_cname);
-			$list[$filtername] = $ghtml->frm_filter;
-			$login->setupHpFilter($list);
-			$login->setUpdateSubaction();
-		}
-
-		if ($ghtml->frm_hpfilter) {
-			$login->setupHpFilter($ghtml->frm_hpfilter);
-			$login->setUpdateSubaction();
-		}
-	} catch (Exception $e) {
-		log_log("redirect_error", "exception");
-		$gbl->setSessionV('__tmp_redirect_var', $ghtml->__http_vars);
-		$gbl->c_session->write();
-
-		if (is_array($e->variable)) {
-			$evlist = implode(",", $e->variable);
-		} else {
-			$evlist = $e->variable;
-		}
-
-		$ghtml->print_redirect_back($e->getMessage(), $evlist, $e->value);
-
-		exit;
+	if ($ghtml->frm_filter) {
+		$filtername = $gbl->__c_object->getFilterVariableForThis($ghtml->frm_o_cname);
+		$list[$filtername] = $ghtml->frm_filter;
+		$login->setupHpFilter($list);
+		$login->setUpdateSubaction();
 	}
+
+	if ($ghtml->frm_hpfilter) {
+		$login->setupHpFilter($ghtml->frm_hpfilter);
+		$login->setUpdateSubaction();
+	}
+
+	do_display_exec();
 }
 
 function lx_frm_inc()

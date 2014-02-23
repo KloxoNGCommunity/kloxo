@@ -3,12 +3,14 @@
 
 class mimehandler extends lxdb {
 
-
+static $__desc_type	 = array("n", "",  "type");
 static $__desc_extension	 = array("n", "",  "extension(s)");
 
 static function createListNlist($parent, $view)
 {
-	$nlist['mimehandler'] = '70%';
+	$nlist['parent_clname'] = '10%';
+	$nlist['mimehandler'] = '50%';
+	$nlist['type'] = '20%';
 	$nlist['extension'] = '20%';
 	return $nlist;
 }

@@ -3439,7 +3439,7 @@ class HtmlLib
 			}
 		}
 
-		//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
+	//	$wrapstr = ($width === "100%") ? "wrap" : "nowrap";
 		$widthval = str_replace("%", "", $width);
 		$wrapstr = ((int)$widthval >= 25) ? "" : "nowrap";
 
@@ -4277,7 +4277,7 @@ class HtmlLib
 
 		if (isset($fil[$filtername]['view'])) {
 			$view = $fil[$filtername]['view'];
-			dprintr($view);
+		//	dprintr($view);
 		}
 
 		if (!$name_list) {
@@ -4448,7 +4448,7 @@ class HtmlLib
 				<tr>
 					<td width="10"> &nbsp; </td>
 					<td> <?= $this->print_list_submit($class, $blist, $unique_name) ?> </td>
-					<td> <?= $this->print_search($parent, $class) ?> </td>
+					<td><?= $this->print_search($parent, $class) ?> </td>
 					<td width="10"> &nbsp; </td>
 				</tr>
 				<tr>
@@ -5133,6 +5133,8 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
 		$iconpath = get_image_path();
 
 		$url = $button[0];
@@ -5193,10 +5195,64 @@ class HtmlLib
 		}
 
 		if (!$sgbl->isBlackBackground()) {
+			if ($skin_name === 'simplicity') {
+				if ($var === 'delete') {
+					$icon = "&#xf0d2;";
+				} elseif ($var === 'refresh') {
+					$icon = "&#xf078;";
+				} elseif ($var === 'hardrefresh') {
+					$icon = "&#xf66c;";
+				} elseif (strpos($var, '_sendmessage') !== false) {
+					$icon = "&#xf176;";
+				} elseif (strpos($var, '_view_quota') !== false) {
+					$icon = "&#xf480;";
+				} elseif (strpos($var, '_view_normal') !== false) {
+					$icon = "&#xf111;";
+				} elseif (strpos($var, '_show_nonclosed') !== false) {
+					$icon = "&#xf768;";
+				} elseif (strpos($var, '_show_open') !== false) {
+					$icon = "&#xf767;";
+				} elseif (strpos($var, '_show_all') !== false) {
+					$icon = "&#xf766;";
+				} elseif (strpos($var, '_toggle_dot') !== false) {
+					$icon = "&#xf28a;";
+				} elseif (strpos($var, '_newdir') !== false) {
+					$icon = "&#xf0da;";
+				} elseif (strpos($var, '_newfile') !== false) {
+					$icon = "&#xf0c6;";
+				} elseif (strpos($var, '_copy') !== false) {
+					$icon = "&#xf0c9;";
+				} elseif (strpos($var, '_cut') !== false) {
+					$icon = "&#xf0ca;";
+				} elseif (strpos($var, '_paste') !== false) {
+					$icon = "&#xf0cb;";
+				} elseif (strpos($var, '_filedelete') !== false) {
+					$icon = "&#xf0ce;";
+				} elseif (strpos($var, '_filerealdelete') !== false) {
+					$icon = "&#xf0c7;";
+				} elseif (strpos($var, '_zip_file') !== false) {
+					$icon = "&#xf7c8;";
+				} elseif (strpos($var, '_kill') !== false) {
+					$icon = "&#xf4fa;";
+				} elseif (strpos($var, '_term') !== false) {
+					$icon = "&#xf55c;";
+				} elseif (strpos($var, '_mailqueuedelete') !== false) {
+					$icon = "&#xf00d;";
+				} elseif (strpos($var, '_mailqueueflush') !== false) {
+					$icon = "&#xf680;";
+				} else {
+					$icon = "&#xf0a3;";
+				}
+?>
+					<span class="if16"><?=$icon;?></span>
+<?php
+			} else {
 ?>
 
 					<img height="15" width="15" src="<?= $image ?>">
 <?php
+			}
+
 			$colorstring = null;
 		} else {
 			$colorstring = "color=#999999";
@@ -7236,7 +7292,11 @@ class HtmlLib
 	//	dprintr($full);
 
 		if ((strpos($block->form, "html_edit") !== false) || (strpos($block->form, "edit") !== false)) {
-			$totalwidth = '900px';
+			if (strpos($block->form, "edit_mx") !== false) {
+				$totalwidth = '600px';
+			} else {
+				$totalwidth = '900px';
+			}
 		} else {
 			$totalwidth = '600px';
 		}
@@ -7703,8 +7763,7 @@ class HtmlLib
 				// Don't ever make this hidden. It is absolutely not necessary. The value is available directly itself.
 ?>
 
-					<?= $variable_description ?>: &nbsp;
-					<?= $value ?>
+					<?= $variable_description ?>: &nbsp; <?= $value ?>
 
 <?php
 				break;
@@ -9351,7 +9410,9 @@ class HtmlLib
 
 	function print_search($parent, $class)
 	{
-		global $gbl, $sgbl, $login;
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 
 		$url = $_SERVER['PHP_SELF'];
 		$gen_image_path = get_general_image_path();
@@ -9370,12 +9431,17 @@ class HtmlLib
 			$value = $login->getHPFilter($filtername, 'searchstring');
 		}
 
-		$showallimg = "$btnpath/showall_b.gif";
-		$searchimg = "$btnpath/search_b.gif";
+		if ($skin_name === 'simplicity') {
+			$search_text = "<span title='Search' style='font-size:16px' class='if16'>&#xf0c5;</span>";
+			$showall_text = "<span title=\"{$login->getKeywordUc('showall')}\" class='if16'>&#xf480;</span>";
+		} else {
+			$showallimg = "$btnpath/showall_b.gif";
+			$searchimg = "$btnpath/search_b.gif";
 
-		if ($sgbl->isBlackBackground()) {
-			$showallimg = null;
-			$searchimg = null;
+			$search_text = "<img border='0' alt='Search' title='Search' name='search' src='{$searchimg}' height='15' width='15' " .
+				"onMouseOver=\"changeContent('help','search');\" onMouseOut=\"changeContent('help','helparea');\">";
+			$showall_text = "<img alt='{$login->getKeywordUc('showall')}' title=\"{$login->getKeywordUc('showall')}\" name='showall' " .
+				"src='{$showallimg}' onMouseOver=\"changeContent('help','showall');\" onMouseOut=\"changeContent('help','helparea');\">";
 		}
 ?>
 
@@ -9400,7 +9466,7 @@ class HtmlLib
 											</form>
 										</td>
 										<td width="10" height="22">&nbsp;</td>
-										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><img border="0" alt="Search" title="Search" name="search" src="<?= $searchimg ?>" height="15" width="15" onMouseOver="changeContent('help','search');" onMouseOut="changeContent('help','helparea');"></a></td>
+										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><?=$search_text;?></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td height="22" width="70">
 											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
@@ -9410,7 +9476,7 @@ class HtmlLib
 												<input type="hidden" id="frm_clear_filter" name="frm_clear_filter" value="true">
 												<table cellpadding="0" cellspacing="0" border="0" width="100%" height="22">
 													<tr>
-														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><img alt="<?= $login->getKeywordUc('showall') ?>" title="<?= $login->getKeywordUc('showall') ?>" name="showall" src="<?= $showallimg ?>" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"></a></td>
+														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><?=$showall_text;?></a></td>
 														<td width="69%" height="22" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class="small"><?= $login->getKeywordUc('showall') ?></span></a></td>
 													</tr>
 												</table>

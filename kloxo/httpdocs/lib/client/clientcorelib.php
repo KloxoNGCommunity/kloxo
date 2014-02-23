@@ -256,7 +256,7 @@ abstract class ClientCore extends Resourcecore {
 	function updategenerate_csr($param)
 	{
 		$s = new sslcert(null, null, null);
-		dprintr($param);
+	//	dprintr($param);
 
 		$dn = array(
 			"countryName" => $param['ssl_data_b_s_countryName_r'],
@@ -552,13 +552,13 @@ abstract class ClientCore extends Resourcecore {
 					$vlist['__v_button'] = array();
 				} else {
 					if (check_if_many_server()) {
-						dprintr($this->listpriv->webpserver_list);
+					//	dprintr($this->listpriv->webpserver_list);
 						$iplist = $parent->getIpaddress($this->listpriv->webpserver_list);
 					} else {
 						$iplist = $parent->getIpaddress(array('localhost'));
 					}
 
-					dprintr($iplist);
+				//	dprintr($iplist);
 					$vlist['ipaddress_list'] = array('Q', $iplist);
 				}
 
@@ -706,7 +706,7 @@ abstract class ClientCore extends Resourcecore {
 			return null;
 		}
 
-		dprint($subaction);
+	//	dprint($subaction);
 		$rlist = null;
 
 		if (!$subaction) {
@@ -761,7 +761,7 @@ abstract class ClientCore extends Resourcecore {
 		if ($this->isAdmin()) {
 			$iplist = $this->getList('ipaddress');
 
-			dprintoa($iplist);
+		//	dprintoa($iplist);
 
 			foreach($iplist as $ip) {
 				$ipaddr = trim($ip->ipaddr);

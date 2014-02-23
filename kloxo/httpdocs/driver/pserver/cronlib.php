@@ -10,7 +10,8 @@ class Cron extends Lxdb
 	static $__desc_nname = array("", "", "min");
 	static $__desc_minute = array("", "", "minute");
 	static $__desc_hour = array("", "", "hour");
-	static $__desc_weekday = array("", "", "day_of_week");
+//	static $__desc_weekday = array("", "", "day_of_week");
+	static $__desc_weekday = array("", "", "Week");
 	static $__desc_ddate = array("", "", "date");
 	static $__desc_month = array("", "", "month");
 	static $__desc_command = array("n", "", "command", URL_SHOW);
@@ -30,6 +31,51 @@ class Cron extends Lxdb
 	static $ddatelist = null;
 	static $monthlist = null;
 	static $weekdaylist = null;
+
+	function display($var)
+	{
+		if ($this->ttype === 'simple') {
+			if ($this->simple_cron === 'every-day') {
+				if ($var === 'minute') {
+					$x = '0';
+				} elseif ($var === 'hour') {
+					$x = $this->cron_day_hour;
+				} elseif ($var === 'ddate') {
+					$x = '--all--';
+				} else {
+					$x = $this->$var;
+				}
+			} elseif ($this->simple_cron === 'every-hour') {
+				if ($var === 'minute') {
+					$x = '0';
+				} elseif ($var === 'hour') {
+					$x = '--all--';
+				} elseif ($var === 'ddate') {
+					$x = '--all--';
+				} else {
+					$x = $this->$var;
+				}
+			} elseif ($this->simple_cron === 'every-minute') {
+				if ($var === 'minute') {
+					$x = '--all--';
+				} elseif ($var === 'hour') {
+					$x = '--all--';
+				} elseif ($var === 'ddate') {
+					$x = '--all--';
+				} else {
+					$x = $this->$var;
+				}
+			}
+		} else {
+			$x = $this->$var;
+		}
+
+		if ($x === null) {
+			$x = '-';
+		}
+
+		return $x;
+	}
 
 	static function createListAlist($parent, $class)
 	{
@@ -113,14 +159,14 @@ class Cron extends Lxdb
 	{
 	//	$nlist["nname"] = "5%";
 		$nlist["username"] = "10%";
-		$nlist["command"] = "60%";
-		$nlist["syncserver"] = "5%";
-
-		$nlist["minute"] = "5%";
-		$nlist["hour"] = "5%";
-		$nlist["ddate"] = "5%";
-		$nlist["weekday"] = "5%";
-		$nlist["month"] = "5%";
+		$nlist["command"] = "30%";
+		$nlist["syncserver"] = "10%";
+		$nlist["ttype"] = "10%";
+		$nlist["minute"] = "10%";
+		$nlist["hour"] = "10%";
+		$nlist["ddate"] = "10%";
+		$nlist["weekday"] = "10%";
+		$nlist["month"] = "10%";
 
 		return $nlist;
 	}
@@ -353,8 +399,14 @@ class Cron extends Lxdb
 	function checkIfNullVar($var)
 	{
 		if (is_array($this->$var)) {
-			return;
+		//	return;
+			$this->$var = implode(",", $this->$var);
 		}
+
+		if ($his->simple_cron === 'every-day') {
+			$this->$ddate = $this->cron_day_hour;
+		}
+
 		if (trim($this->$var) === "") {
 			throw new lxexception("cannot_be_null", $var, "");
 		}

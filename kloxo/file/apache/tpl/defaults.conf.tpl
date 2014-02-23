@@ -69,7 +69,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     ServerName default
 
-    ServerAlias *
+    ServerAlias default.*
 
     DocumentRoot "<?php echo $defaultdocroot; ?>"
 

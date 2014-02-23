@@ -25,10 +25,10 @@ abstract class Lxclass
 
 	static $__desc_parent_name_change = array("", "", "owner");
 	static $__acdesc_update_commandcenter = array("", "", "command_center");
-	static $__desc_ccenter_command = array("", "", "Command");
+	static $__desc_ccenter_command = array("", "", "ccenter_command");
 	static $__desc_confirm_f = array("", "", "Confirm");
-	static $__desc_ccenter_output = array("T", "", "Output");
-	static $__desc_ccenter_error = array("", "", "Error");
+	static $__desc_ccenter_output = array("T", "", "ccenter_output");
+	static $__desc_ccenter_error = array("", "", "ccenter_error");
 	static $__acdesc_update_toggle_status = array("", "", "status");
 	static $__acdesc_update_disable = array("", "", "disable");
 	static $__acdesc_update_enable = array("", "", "enable");
@@ -37,7 +37,7 @@ abstract class Lxclass
 	static $__acdesc_update_backup = array("", "", "get_backup");
 	static $__acdesc_update_restore = array("", "", "restore");
 	static $__acdesc_update_logout = array("", "", "logout");
-	static $__acdesc_update_changenname = array("", "", "Change Name");
+	static $__acdesc_update_changenname = array("", "", "change_name");
 	static $__desc_switch_happening_f = array("", "", "switch_status");
 	static $__desc_server_detail_f = array("", "", "server_details");
 	static $__desc_parent_clname = array("", "", "owner");
@@ -45,6 +45,9 @@ abstract class Lxclass
 	static $__desc_ddate = array("", "", "date");
 	static $__desc_filter_view_quota = array("", "", "quota_view");
 	static $__desc_filter_view_normal = array("", "", "normal_view");
+
+	static $__desc_ccenter_standard = array("", "", "ccenter_standard");
+	static $__desc_ccenter_restart = array("", "", "ccenter_restart");
 
 	function __construct($masterserver, $readserver, $key)
 	{
@@ -5144,7 +5147,70 @@ abstract class Lxclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$this->ccenter_command = null;
+
+		$this->ccenter_standard = $param['ccenter_standard'];
+		$this->ccenter_restart = $param['ccenter_restart'];
+
 		$this->ccenter_command = $param['ccenter_command'];
+
+		if ($this->ccenter_standard !== '--- Not Selected ---') {
+			if ($this->ccenter_standard === 'Fix - DNS') {
+				$this->ccenter_command = 'sh /script/fixdns --server=all;';
+
+				if ($param['ccenter_restart'] === 'on') {
+					$this->ccenter_command .= 'sh /script/restart-dns --server=all;';
+				}
+			}
+
+			if ($this->ccenter_standard === 'Fix - Web') {
+				$this->ccenter_command = 'sh /script/fixweb --server=all;';
+
+				if ($param['ccenter_restart'] === 'on') {
+					$this->ccenter_command .= 'sh /script/restart-web --server=all;';
+				}
+			}
+
+			if ($this->ccenter_standard === 'Fix - Mail') {
+				$this->ccenter_command = 'sh /script/fixmail-all --server=all;';
+
+				if ($param['ccenter_restart'] === 'on') {
+					$this->ccenter_command .= 'sh /script/restart-mail --server=all;';
+				}
+			}
+
+			if ($this->ccenter_standard === 'Fix - FTP') {
+				$this->ccenter_command = 'sh /script/fixftp-all --server=all;';
+
+				if ($param['ccenter_restart'] === 'on') {
+					$this->ccenter_command .= 'sh /script/restart-ftp --server=all;';
+				}
+			}
+
+			if ($this->ccenter_standard === 'Fix - ALL') {
+				$this->ccenter_command = 'sh /script/fix-all --server=all;';
+
+				if ($param['ccenter_restart'] === 'on') {
+					$this->ccenter_command .= 'sh /script/restart-all --server=all;';
+				}
+			}
+
+			if ($this->ccenter_standard === 'Fix - Traffic') {
+				$this->ccenter_command = 'sh /script/fixtraffic --day=1 --server=all;';
+			}
+
+			if ($this->ccenter_standard === 'List - Fix') {
+				$this->ccenter_command = 'find /script/fix* -maxdepth 1 -type f;';
+			}
+
+			if ($this->ccenter_standard === 'List - Restart') {
+				$this->ccenter_command = 'find /script/restart* -maxdepth 1 -type f;';
+			}
+
+			if ($this->ccenter_standard === 'List - ALL') {
+				$this->ccenter_command = 'find /script -maxdepth 1 -type f;';
+			}
+		}
 
 		if ($this->ccenter_command) {
 			// This is needed, otherwise if a command gets stuck it will keep tyring to execute the same command.
@@ -5158,6 +5224,15 @@ abstract class Lxclass
 			$this->ccenter_output = $res['output'];
 			$this->ccenter_error = $res['error'];
 		}
+
+		$vlist['ccenter_standard'] = array('s', array('--- Not Selected ---', 
+			'Fix - DNS', 'Fix - Web', 'Fix - Mail', 'Fix - FTP', 'Fix - ALL', 
+			'Fix - Traffic', 'List - Fix', 'List - Restart', 'List - ALL'));
+
+		$this->setDefaultValue('ccenter_standard', '--- Not Selected ---');
+
+		$vlist['ccenter_restart'] = array('f', 'on', 'off');
+		$this->setDefaultValue('ccenter_restart', 'off');
 
 		$vlist['ccenter_command'] = null;
 		$vlist['ccenter_output'] = null;

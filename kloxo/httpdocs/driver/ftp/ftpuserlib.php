@@ -15,6 +15,8 @@ class ftpuser extends Lxclient
 
 	static $__acdesc_update_edit = array('', '', 'edit', 'edit');
 
+	static $__desc_syncserver = array("", "", "syncserver");
+
 	function createExtraVariables()
 	{
 		$this->__var_username = $this->getParentO()->username;
@@ -67,8 +69,11 @@ class ftpuser extends Lxclient
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$nlist['status'] = '3%';
-		$nlist['nname'] = '30%';
-		$nlist['directory'] = '70%';
+		$nlist['parent_clname'] = '5%';
+		$nlist['syncserver'] = '10%';
+		$nlist['nname'] = '25%';
+		$nlist['directory'] = '50%';
+		$nlist['ftp_disk_usage'] = '20%';
 
 		return $nlist;
 	}
