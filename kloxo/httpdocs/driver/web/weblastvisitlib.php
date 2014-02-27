@@ -51,6 +51,13 @@ class WebLastVisit extends Lxaclass
 
 	}
 
+	static function createListAlist($parent, $class)
+	{
+		$alist[] = "a=list&c=$class";
+
+		return $alist;
+	}
+
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = "a=show";

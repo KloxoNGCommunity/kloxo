@@ -13,7 +13,6 @@ class mailinglist_mod_a extends Lxaclass
 
 	static function createListAlist($object, $class)
 	{
-		$alist[] = "a=show";
 		$alist[] = "a=updateform&sa=update";
 		$alist[] = "a=list&c=mailinglist_mod_a";
 		$alist[] = "a=updateform&sa=editfile";

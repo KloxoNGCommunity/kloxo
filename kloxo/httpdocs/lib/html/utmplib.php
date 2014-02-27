@@ -37,13 +37,15 @@ class Utmp extends Lxdb
 
 	function display($var)
 	{
+		$o = $this;
+
 		if ($var === "logintime") {
-			return lxgettime($this->$var);
+			return lxgettime($o->$var);
 		}
 
 		if ($var === 'logouttime') {
-			if ($this->$var !== 'Still Logged') {
-				return lxgettime($this->$var);
+			if ($o->$var !== 'Still Logged') {
+				return lxgettime($o->$var);
 			}
 		}
 

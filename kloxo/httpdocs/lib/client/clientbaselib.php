@@ -418,7 +418,7 @@ class ClientBase extends ClientCore
 		}
 
 		if ($login->priv->isOn('logo_manage_flag') && $this->isLogin()) {
-			$alist['__v_dialog_uplo'] = "o=sp_specialplay&a=updateForm&sa=upload_logo";
+			$alist['__v_dialog_uplo'] = "o=sp_specialplay&a=updateform&sa=upload_logo";
 		}
 
 		if ($sgbl->isKloxo()) {
@@ -1237,13 +1237,13 @@ class ClientBase extends ClientCore
 
 		$alist[] = "a=list&c=client";
 
-		if (!$sgbl->isHyperVm()) {
+	//	if (!$sgbl->isHyperVm()) {
 			if ($parent->isLte('wholesale')) {
 				$alist[] = "a=addform&dta[var]=cttype&dta[val]=wholesale&c=client";
 				$alist[] = "a=addform&dta[var]=cttype&dta[val]=reseller&c=client";
 			}
 
-		}
+	//	}
 
 		if ($parent->isLte('reseller')) {
 			$alist[] = "a=addform&dta[var]=cttype&dta[val]=customer&c=client";

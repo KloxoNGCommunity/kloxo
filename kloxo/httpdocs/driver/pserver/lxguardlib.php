@@ -17,6 +17,7 @@ class lxguard extends lxdb
 	function createShowPropertyList(&$alist)
 	{
 		$nalist = lxguardhitdisplay::createListAlist($this->getParentO(), 'lxguard');
+
 		$alist['property'] = $nalist;
 	}
 

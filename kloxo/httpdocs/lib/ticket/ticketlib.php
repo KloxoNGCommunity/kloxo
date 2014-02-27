@@ -61,7 +61,7 @@ class Ticket extends Lxclient
 	static function createListAlist($parent, $class)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
+
 		$alist[] = "a=list&c=$class";
 	//	$alist[] = "a=addform&c=$class";
 		

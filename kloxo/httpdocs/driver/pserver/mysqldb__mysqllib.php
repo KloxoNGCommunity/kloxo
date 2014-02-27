@@ -30,7 +30,7 @@ class Mysqldb__mysql extends lxDriverClass
 		}
 
 		if ($ret) {
-			throw new lxException("database_user_already_exists__{$this->main->username}", 'username', '');
+			throw new lxException("database_user_already_exists", '', $this->main->username);
 		}
 
 		$rdb->query("create database {$this->main->dbname};");

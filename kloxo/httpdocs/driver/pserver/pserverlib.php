@@ -213,16 +213,35 @@ class pserver extends pservercore {
 
 	function createShowPropertyList(&$alist)
 	{
-	//	$alist['property'][] = "o=sp_specialplay&a=updateForm&sa=skin";
-		$alist['property'][] = 'a=show';
-		$alist['property'][] = "a=updateform&sa=information";
+		global $gbl, $sgbl, $login, $ghtml;
 
-	//	if ($this->nname !== 'localhost') {
-			$alist['property'][] = "a=updateform&sa=password";
-	//	}
+		if ($ghtml->frm_subaction === 'commandcenter') {
+			$alist['property'][] = "a=updateform&sa=commandcenter";
+		} elseif ($ghtml->frm_subaction === 'timezone') {
+			$alist['property'][] = "a=updateform&sa=timezone";
+		} elseif ($ghtml->frm_subaction === 'update') {
+			$alist['property'][] = "a=updateform&sa=update&n=driver";
+		} elseif ($ghtml->frm_subaction === 'reboot') {
+			$alist['property'][] = "a=updateform&sa=reboot";
+			$alist['property'][] = "a=updateform&sa=poweroff";
+		} elseif ($ghtml->frm_subaction === 'poweroff') {
+			$alist['property'][] = "a=updateform&sa=reboot";
+			$alist['property'][] = "a=updateform&sa=poweroff";
+		} elseif ($ghtml->frm_subaction === 'mysqlpasswordreset') {
+			$alist['property'][] = "a=updateform&sa=mysqlpasswordreset";
+		}  else {
+			$alist['property'][] = 'a=show';
 
-		if (check_if_many_server()) {
-			$alist['property'][] = "a=list&c=psrole_a";
+		//	$alist['property'][] = "o=sp_specialplay&a=updateform&sa=skin";
+			$alist['property'][] = "a=updateform&sa=information";
+
+		//	if ($this->nname !== 'localhost') {
+				$alist['property'][] = "a=updateform&sa=password";
+		//	}
+
+			if (check_if_many_server()) {
+				$alist['property'][] = "a=list&c=psrole_a";
+			}
 		}
 	}
 

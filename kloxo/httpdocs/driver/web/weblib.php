@@ -972,9 +972,33 @@ class Web extends Lxdb
 
 	function createShowPropertyList(&$alist)
 	{
-		$alist['property'][] = 'a=show';
+		global $gbl, $sgbl, $login, $ghtml;
+
+	//	$alist['property'][] = 'a=show';
 	//	$alist['property'][] = "goback=1&o=mmail&a=list&c=mailaccount";
 	//	$alist['property'][] = 'goback=1&a=show&sa=config';
+
+		if ($ghtml->frm_subaction === 'stats_protect') {
+			$alist['property'][] = "a=updateform&sa=stats_protect";
+		} elseif ($ghtml->frm_subaction === 'statsconfig') {
+			$alist['property'][] = "a=updateform&sa=statsconfig";
+		} elseif ($ghtml->frm_subaction === 'run_stats') {
+			$alist['property'][] = "a=updateform&sa=run_stats";
+		} elseif ($ghtml->frm_subaction === 'hotlink_protection') {
+			$alist['property'][] = "a=updateform&sa=hotlink_protection";
+		} elseif ($ghtml->frm_subaction === 'blockip') {
+			$alist['property'][] = "a=updateform&sa=blockip";
+		} elseif ($ghtml->frm_subaction === 'docroot') {
+			$alist['property'][] = "a=updateform&sa=docroot";
+		} elseif ($ghtml->frm_subaction === 'configure_misc') {
+			$alist['property'][] = "a=updateform&sa=configure_misc";
+		} elseif ($ghtml->frm_subaction === 'dirindex') {
+			$alist['property'][] = "a=updateform&sa=dirindex";
+		} elseif ($ghtml->frm_subaction === 'custom_error') {
+			$alist['property'][] = "a=updateform&sa=custom_error";
+		}
+
+		return $alist;
 	}
 
 	static function removeOtherDriver()

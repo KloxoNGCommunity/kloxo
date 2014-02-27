@@ -36,10 +36,11 @@ class psrole_a extends LxaClass
 			$alist[] = "a=updateform&sa=password";
 	//	}
 
+	/*
 		if ($sgbl->isHyperVm()) {
 			$alist[] = "a=graph&sa=vpsbase";
 		}
-
+	*/
 		$alist[] = "a=list&c=$class";
 
 		return $alist;
@@ -212,6 +213,8 @@ class pservercore extends Lxclient
 	static function createListAlist($parent, $class)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		$alist[] = "a=show";
 
 		$alist[] = "a=list&c=$class";
 
@@ -728,9 +731,9 @@ class pservercore extends Lxclient
 
 	function createShowAlist(&$alist, $subaction = null)
 	{
-	//	$alist[] = "a=show";
-
 		global $gbl, $sgbl, $login, $ghtml;
+
+		$alist[] = "a=show";
 
 		$alist['__title_main'] = $login->getKeywordUc('config');
 

@@ -1091,12 +1091,13 @@ function dprintr($var, $type = 0)
 function dprint($var, $type = 0)
 {
 	global $sgbl;
+
 	if ($type <= $sgbl->dbg) {
 		if (is_string($var)) {
 			if ($sgbl->isBlackBackground()) {
 				print("<font color=gray>");
 			}
-			print($var);
+			print("<pre>---begin dprint---\n" . $var . "\n---end dprint---<br></pre>");
 			if ($sgbl->isBlackBackground()) {
 				print("</font> ");
 			}
@@ -1107,8 +1108,24 @@ function dprint($var, $type = 0)
 function dprint_r($var, $type = 0)
 {
 	global $sgbl;
+
 	if ($type <= $sgbl->dbg) {
+		print("<pre>---begin dprint_r---\n");
 		print_r($var);
+		print("\n---end dprint_r---</pre>");
+	}
+}
+
+function xprint($var)
+{
+	if (is_array($var) || is_object($var)) {
+		print("<pre>---begin xprint_r---\n");
+		print_r($var);
+		print("\n---end xprint_r---</pre>");
+	} else {
+		print("<pre>---begin xprint---\n");
+		print($var);
+		print("\n---end xprint---</pre>");
 	}
 }
 

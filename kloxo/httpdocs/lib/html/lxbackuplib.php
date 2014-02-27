@@ -352,6 +352,7 @@ class lxbackup extends Lxdb
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = 'a=show';
+
 	//	$alist[] = 'a=updateform&sa=backup';
 		$alist['property'][] = 'a=updateform&sa=ftp_conf';
 

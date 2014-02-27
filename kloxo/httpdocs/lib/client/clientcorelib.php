@@ -2,47 +2,47 @@
 
 abstract class ClientCore extends Resourcecore {
 
-	static $__desc_ddate =     array("", "",  "date:date_of_registration");
+	static $__desc_ddate = array("", "",  "date:date_of_registration");
 
-	static $__desc_lic_client_num_f =     array("","",  "number_of_clients");
-	static $__desc_lic_pserver_num_f =     array("","",  "number_of_servers");
-	static $__desc_lic_domain_num_f =     array("","",  "number_of_domains");
-	static $__desc_lic_expiry_date_f =     array("","",  "expiry_date");
-	static $__desc_lic_live_support_f =     array("","",  "live_support");
-	static $__desc_lic_ipaddress_f =     array("","",  "ip_address");
-	static $__desc_lic_client_f =     array("","",  "client_support");
-	static $__desc_lic_node_num_f	 = array("", "",  "number_of_nodes");
-	static $__desc_license_upload_f =     array("F","",  "upload_new_license");
-	static $__desc_lic_current_f =     array("t","",  "current_license_string");
-	static $__desc_pserver_delete_f =     array("","",  "server_to_delete");
-	static $__desc_vps_delete_f =     array("","",  "orphaned_VM_to_delete");
-	static $__desc_newdnstemplate =     array("","",  "dnstemplate");
-	static $__desc_websyncserver =     array("","",  "web_server");
-	static $__desc_mmailsyncserver =     array("","",  "mail_server");
-	static $__desc_mysqldbsyncserver =     array("","",  "mysql_server");
+	static $__desc_lic_client_num_f = array("","",  "number_of_clients");
+	static $__desc_lic_pserver_num_f = array("","",  "number_of_servers");
+	static $__desc_lic_domain_num_f = array("","",  "number_of_domains");
+	static $__desc_lic_expiry_date_f = array("","",  "expiry_date");
+	static $__desc_lic_live_support_f = array("","",  "live_support");
+	static $__desc_lic_ipaddress_f = array("","",  "ip_address");
+	static $__desc_lic_client_f = array("","",  "client_support");
+	static $__desc_lic_node_num_f = array("", "",  "number_of_nodes");
+	static $__desc_license_upload_f = array("F","",  "upload_new_license");
+	static $__desc_lic_current_f = array("t","",  "current_license_string");
+	static $__desc_pserver_delete_f = array("","",  "server_to_delete");
+	static $__desc_vps_delete_f = array("","",  "orphaned_VM_to_delete");
+	static $__desc_newdnstemplate = array("","",  "dnstemplate");
+	static $__desc_websyncserver = array("","",  "web_server");
+	static $__desc_mmailsyncserver = array("","",  "mail_server");
+	static $__desc_mysqldbsyncserver = array("","",  "mysql_server");
 	static $__desc_openvzostemplate_list = array("", "",  "openvz_template_list");
 	static $__desc_xenostemplate_list = array("", "",  "xen_template_list");
 	static $__desc_disable_admin = array("f", "",  "disable_admin_login");
-	static $__desc_dnssyncserver_list =     array("","",  "dns_servers");
+	static $__desc_dnssyncserver_list = array("","",  "dns_servers");
 	static $__desc_cron_mailto = array("", "",  "mail_to");
 	static $__desc_disable_system_flag = array("f", "",  "completely_disable_system_access_to_this_user");
 
-	static $__acdesc_update_ostemplatelist  =  array("","",  "ostemplate_list");
+	static $__acdesc_update_ostemplatelist = array("","",  "ostemplate_list");
 
 	//  Objects
-	static $__acdesc_update_pserver  =  array("","",  "server_pool");
-	static $__acdesc_update_ipaddress  =  array("","",  "ip_pool");
+	static $__acdesc_update_pserver = array("","",  "server_pool");
+	static $__acdesc_update_ipaddress = array("","",  "ip_pool");
 	static $__acdesc_update_changeowner = array("", "",  "change_owner");
 	static $__acdesc_update_description = array("", "",  "information");
-	static $__acdesc_update_license  =  array("","",  "license");
-	static $__acdesc_update_disable_url  =  array("","",  "disable_url");
-	static $__acdesc_update_skeleton  =  array("","",  "skeleton");
-	static $__acdesc_update_forcedeletepserver  =  array("","",  "force_delete_server");
-	static $__acdesc_update_generate_csr  =  array("","",  "generate_csr");
-	static $__acdesc_update_deleteorphanedvps  =  array("","",  "delete_orphaned_VM");
-	static $__acdesc_update_dnstemplatelist  =  array("","",  "dns_template_pool");
-	static $__acdesc_update_domainpserver  =  array("","",  "Servers");
-	static $__acdesc_update_pserver_s  =  array("","",  "server_pool");
+	static $__acdesc_update_license = array("","",  "license");
+	static $__acdesc_update_disable_url = array("","",  "disable_url");
+	static $__acdesc_update_skeleton = array("","",  "skeleton");
+	static $__acdesc_update_forcedeletepserver = array("","",  "force_delete_server");
+	static $__acdesc_update_generate_csr = array("","",  "generate_csr");
+	static $__acdesc_update_deleteorphanedvps = array("","",  "delete_orphaned_VM");
+	static $__acdesc_update_dnstemplatelist = array("","",  "dns_template_pool");
+	static $__acdesc_update_domainpserver = array("","",  "Servers");
+	static $__acdesc_update_pserver_s = array("","",  "server_pool");
 
 	static $__desc_owner_f = array("ef", "",  "owner");
 	static $__desc_owner_f_v_on = array("", "",  "you_are_the_owner_of_plan");

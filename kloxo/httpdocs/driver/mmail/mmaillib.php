@@ -401,7 +401,28 @@ class Mmail extends Lxdb
 
 	function createShowPropertyList(&$alist)
 	{
-		$this->getParentO()->getObject('web')->createShowPropertyList($alist);
+		global $gbl, $sgbl, $login, $ghtml;
+
+
+	//	$this->getParentO()->getObject('web')->createShowPropertyList($alist);
+
+		if ($ghtml->frm_subaction === 'catchall') {
+			$alist['property'][] = "a=updateform&sa=catchall";
+		} elseif ($ghtml->frm_subaction === 'remotelocalmail') {
+			$alist['property'][] = "a=updateform&sa=remotelocalmail";
+		} elseif (isset($ghtml->frm_o_o['2']['class']) && $ghtml->frm_o_o['2']['class'] === 'spam') {
+			$alist['property'][] = "a=updateform&sa=update&o=spam";
+		} elseif ($ghtml->frm_subaction === 'editmx') {
+			$alist['property'][] = "a=updateform&sa=editmx";
+		} elseif ($ghtml->frm_subaction === 'authentication') {
+			$alist['property'][] = "a=updateform&sa=authentication";
+		} elseif ($ghtml->frm_subaction === 'webmail_select') {
+			$alist['property'][] = "a=updateform&sa=webmail_select";
+		} else {
+			$alist['property'][] = "a=show";
+		}
+
+		return $alist;
 	}
 
 	function postUpdate()

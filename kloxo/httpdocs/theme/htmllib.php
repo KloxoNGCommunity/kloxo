@@ -350,8 +350,6 @@ class HtmlLib
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 
-	//	include_once "theme/tab_{$skin_name}.php";
-
 		$path = getLinkCustomfile("theme", "tab_{$skin_name}.php");
 
 		include_once $path;
@@ -5202,7 +5200,7 @@ class HtmlLib
 					$icon = "&#xf078;";
 				} elseif ($var === 'hardrefresh') {
 					$icon = "&#xf66c;";
-				} elseif (strpos($var, '_sendmessage') !== false) {
+				} elseif (strpos($var, 'sendmessage') !== false) {
 					$icon = "&#xf176;";
 				} elseif (strpos($var, '_view_quota') !== false) {
 					$icon = "&#xf480;";
@@ -7290,13 +7288,19 @@ class HtmlLib
 
 		$full = array_flatten($full);
 	//	dprintr($full);
-
+	/*
 		if ((strpos($block->form, "html_edit") !== false) || (strpos($block->form, "edit") !== false)) {
 			if (strpos($block->form, "edit_mx") !== false) {
 				$totalwidth = '600px';
 			} else {
 				$totalwidth = '900px';
 			}
+		} else {
+			$totalwidth = '600px';
+		}
+	*/
+		if (strpos($block->form, "html_edit") !== false) {
+			$totalwidth = '900px';
 		} else {
 			$totalwidth = '600px';
 		}
@@ -9083,11 +9087,12 @@ class HtmlLib
 
 		<!-- "START TOP MENU + LOGO" -->
 <?php
-		if (file_exists("./login/images/user-logo.png")) {
+			if (file_exists("./login/images/user-logo.png")) {
 ?>
 			<div style="position: fixed; left:10px; top:40px;"><img src="./login/images/user-logo.png" height="60"/></div>
 <?php
-		}
+			}
+
 			$simplicity_menu = getLinkCustomfile(getcwd() . "/theme/skin/simplicity/default/menu", "index.php");
 ?>
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">

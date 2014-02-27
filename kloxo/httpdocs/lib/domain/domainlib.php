@@ -9,7 +9,7 @@ class Domaind extends DomainBase
 	static $__desc_status = array("e", "", "s:status");
 	static $__desc_status_v_on = array("", "", "enabled");
 	static $__desc_status_v_off = array("", "", "disabled");
-	static $__desc_disable_reason = array("", "", "st", 'a=updateForm&sa=limit');
+	static $__desc_disable_reason = array("", "", "st", 'a=updateform&sa=limit');
 
 	static $__desc_ttype = array("e", "", "t:type_of_hosting", URL_SHOW);
 //	static $__desc_ttype_v_dedicated  = array("", "",  "s");
@@ -20,7 +20,7 @@ class Domaind extends DomainBase
 	static $__desc_dtype_v_domain = array("", "", "domain");
 	static $__desc_dtype_v_maindomain = array("", "", "domain");
 	static $__desc_dtype_v_subdomain = array("", "", "subdomain");
-	static $__desc_state = array("e", "", "ST:State", 'a=updateForm&sa=limit');
+	static $__desc_state = array("e", "", "ST:State", 'a=updateform&sa=limit');
 	static $__desc_state_v_ok = array("", "", "alright");
 	static $__desc_state_v_exceed = array("", "", "exceeded");
 	static $__desc_uuser_dummy = array("n", "", "primary_ftp_user");
@@ -339,7 +339,7 @@ class Domaind extends DomainBase
 			$parent->username = 'admin';
 			$parent->setUpdateSubaction();
 		}
-		
+
 		$alist[] = "a=show";
 
 		$alist[] = "a=list&c=domain";
@@ -1270,13 +1270,23 @@ class Domaind extends DomainBase
 	function createShowPropertyList(&$alist)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
-	//	$alist['property'][] = 'a=show';
-		
+	/*
 		if ($this->isDomainVirtual()) {
-		//	$alist['property'][] = "o=mmail&a=list&c=mailaccount";
-		//	$alist['property'][] = 'a=show&sa=config';
+			$alist['property'][] = "o=mmail&a=list&c=mailaccount";
+			$alist['property'][] = 'a=show&sa=config';
 		}
+	*/
+		if ($ghtml->frm_subaction === 'limit') {
+			$alist['property'][] = "a=updateform&sa=limit";
+		} elseif ($ghtml->frm_subaction === 'changeowner') {
+			$alist['property'][] = "a=updateform&sa=changeowner";
+		} elseif ($ghtml->frm_subaction === 'preview_config') {
+			$alist['property'][] = "a=updateform&sa=preview_config";
+		} else {
+			$alist['property'][] = "a=show";
+		}
+
+		return $alist;
 	}
 
 	static function consumeUnderParent()
@@ -1405,7 +1415,7 @@ class Domaind extends DomainBase
 
 	//	$web->getSwitchServerUrl($alist);
 
-	//	$alist[] = "a=updateForm&sa=ipaddress";
+	//	$alist[] = "a=updateform&sa=ipaddress";
 
 		// MR -- disable because want combine 'domain' and 'domain adm'
 	//	$alist['__title_script'] = $login->getKeywordUc('script');
@@ -1416,7 +1426,8 @@ class Domaind extends DomainBase
 		$alist[] = "n=web&a=update&sa=phpinfo";
 
 
-		$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=updateform&sa=edit";
+	//	$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=updateform&sa=edit";
+		$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
 
 		$alist['__v_dialog_phpiniadv'] = "n=web&o=phpini&a=updateform&sa=extraedit";
 
@@ -1482,17 +1493,17 @@ class Domaind extends DomainBase
 
 		if ($login->isNotCustomer()) {
 			// Disabling change owner for the present.
-			$alist[] = "a=updateForm&sa=changeowner";
+			$alist[] = "a=updateform&sa=changeowner";
 		}
 		
 	//	$alist[] = "a=list&c=subweb_a";
 	//	$alist[] = $this->getStubUrl('__stub_domain_view_url');
 
-		if ($this->previewdomain) {
-			$alist[] = create_simpleObject(array('url' => "http://$this->nname.$this->previewdomain", 'purl' => 'c=domain&a=updateform&sa=site_preview', 'target' => "target='_blank'"));
-		} else {
+	//	if ($this->previewdomain) {
+	//		$alist[] = create_simpleObject(array('url' => "http://$this->nname.$this->previewdomain", 'purl' => 'c=domain&a=updateform&sa=site_preview', 'target' => "target='_blank'"));
+	//	} else {
 			$alist[] = create_simpleObject(array('url' => "/sitepreview/$this->nname/", 'purl' => 'c=domain&a=updateform&sa=site_preview', 'target' => "target='_blank'"));
-		}
+	//	}
 
 		if ($login->isAdmin()) {
 			$alist[] = "a=updateform&sa=preview_config";
@@ -1523,8 +1534,8 @@ class Domaind extends DomainBase
 
 	//	$this->getLxclientActions($alist);
 
-		$alist[] = "a=updateForm&sa=limit";
-	//	$alist[] = "a=updateForm&sa=change_plan";
+		$alist[] = "a=updateform&sa=limit";
+	//	$alist[] = "a=updateform&sa=change_plan";
 
 	//	$alist['__title_next'] = $login->getKeywordUc('general');
 
@@ -1610,7 +1621,7 @@ class Domaind extends DomainBase
 		if (!$this->isLogin()) {
 			if ($login->isNotCustomer()) {
 				// Disabling change owner for the present.
-				$alist[] = "a=updateForm&sa=changeowner";
+				$alist[] = "a=updateform&sa=changeowner";
 			}
 		}
 
@@ -1814,6 +1825,8 @@ class all_domain extends domaind
 
 	static function createListAlist($parent, $class)
 	{
+	//	$alist[] = "a=show";
+
 		if ($parent->isAdmin()) {
 			$alist[] = "a=list&c=all_domain";
 			$alist[] = "a=list&c=all_addondomain";

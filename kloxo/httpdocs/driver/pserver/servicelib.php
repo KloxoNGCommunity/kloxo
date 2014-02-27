@@ -33,7 +33,7 @@ class Service extends Lxdb
 
 	static $__rewrite_nname_const = Array("servicename", "syncserver");
 
-//// These functions shouldn't exist. This is very wrong.
+	//// These functions shouldn't exist. This is very wrong.
 
 	function update($subaction, $param)
 	{
@@ -44,6 +44,8 @@ class Service extends Lxdb
 
 	static function createListAlist($parent, $class)
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
 		$alist[] = "a=list&c=$class";
 		
 		return $alist;

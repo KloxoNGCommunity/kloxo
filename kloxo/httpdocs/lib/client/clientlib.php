@@ -126,17 +126,52 @@ class Client extends ClientBase
 			return;
 		}
 
-		$alist['property'][] = "a=show";
+		if ($ghtml->frm_subaction === 'password') {
+			$alist['property'][] = "a=updateform&sa=password";
+		} elseif ($ghtml->frm_subaction === 'information') {
+			$alist['property'][] = "a=updateform&sa=information";
+		} elseif (($ghtml->frm_subaction === 'update') && ($ghtml->frm_o_o['0']['class'] === 'domaindefault')) {
+			$alist['property'][] = "a=updateform&sa=update&n=domaindefault";
+		} elseif ($ghtml->frm_subaction === 'shell_access') {
+			$alist['property'][] = "a=updateform&sa=shell_access";
+		} elseif ($ghtml->frm_subaction === 'default_domain') {
+			$alist['property'][] = "a=updateform&sa=default_domain";
+		} elseif ($ghtml->frm_subaction === 'scavengetime') {
+			$alist['property'][] = "a=updateform&sa=scavengetime&o=general";
+		} elseif ($ghtml->frm_subaction === 'generalsetting') {
+			$alist['property'][] = "a=updateform&sa=generalsetting&o=general";
+		} elseif ($ghtml->frm_subaction === 'maintenance') {
+			$alist['property'][] = "a=updateform&sa=maintenance&o=general";
+		} elseif ($ghtml->frm_subaction === 'selfbackupconfig') {
+			$alist['property'][] = "a=updateform&sa=selfbackupconfig&o=general";
+		} elseif ($ghtml->frm_subaction === 'download_config') {
+			$alist['property'][] = "a=updateform&sa=download_config&o=general";
+		} elseif ($ghtml->frm_subaction === 'miscinfo') {
+			$alist['property'][] = "a=updateform&sa=miscinfo";
+		} elseif ($ghtml->frm_subaction === 'upload_logo') {
+			$alist['property'][] = "a=updateform&sa=upload_logo&o=sp_specialplay";
+	//	} elseif (($ghtml->frm_subaction === 'skin') && ($ghtml->frm_o_o['0']['class'] === 'sp_specialplay')) {
+	//		$alist['property'][] = "a=updateform&sa=skin&o=sp_specialplay";
+	//	} elseif (($ghtml->frm_subaction === 'skin') && ($ghtml->frm_o_o['0']['class'] === 'sp_childspecialplay')) {
+	//		$alist['property'][] = "a=updateform&sa=skin&o=sp_childspecialplay";
+		} elseif ($ghtml->frm_subaction === 'portconfig') {
+			$alist['property'][] = "a=updateform&sa=portconfig&o=general";
+		} elseif ($ghtml->frm_subaction === 'disable_skeleton') {
+			$alist['property'][] = "a=updateform&sa=disable_skeleton";
+		} elseif ($ghtml->frm_subaction === 'login_options') {
+			$alist['property'][] = "a=updateform&sa=login_options&o=sp_specialplay";
+		} else {
+			$alist['property'][] = "a=show";
 
-		$alist['property'][] = "a=list&c=domain";
+			$alist['property'][] = "a=list&c=domain";
 		
-		if ($this->priv->subdomain_num) {
-			$alist['property'][] = "a=list&c=subdomain";
+			if ($this->priv->subdomain_num) {
+				$alist['property'][] = "a=list&c=subdomain";
+			}
+		
+			$alist['property'][] = "a=list&c=mailaccount";
+			$alist['property'][] = "o=sp_specialplay&a=updateform&sa=skin";
 		}
-		
-		$alist['property'][] = "a=list&c=mailaccount";
-		$alist['property'][] = "o=sp_specialplay&a=updateform&sa=skin";
-
 	}
 
 	function createShowTypeList()
@@ -411,7 +446,7 @@ class Client extends ClientBase
 
 			if (check_if_many_server()) {
 				if ($this->isLte('reseller')) {
-					$alist[] = "a=updateForm&sa=pserver_s";
+					$alist[] = "a=updateform&sa=pserver_s";
 				}
 			}
 		}
@@ -438,7 +473,7 @@ class Client extends ClientBase
 
 		if (check_if_many_server()) {
 			if (!$this->isLogin() && !$this->isAdmin()) {
-				$alist[] = "a=updateForm&sa=domainpserver";
+				$alist[] = "a=updateform&sa=domainpserver";
 			}
 		}
 
@@ -556,7 +591,7 @@ class Client extends ClientBase
 		// temporary, only for admin - on 6.1.7
 		if ($this->isAdmin()) {
 			if ($login->priv->isOn('logo_manage_flag') && $this->isLogin()) {
-				$alist['__v_dialog_uplo'] = "o=sp_specialplay&a=updateForm&sa=upload_logo";
+				$alist['__v_dialog_uplo'] = "o=sp_specialplay&a=updateform&sa=upload_logo";
 			}
 
 			if ($this->canHaveChild()) {
@@ -589,7 +624,7 @@ class Client extends ClientBase
 		// temporary, only for admin
 		if ($this->isAdmin()) {
 			if ($login->priv->isOn('logo_manage_flag') && $this->isLogin()) {
-				$alist['__v_dialog_uplo'] = "o=sp_specialplay&a=updateForm&sa=upload_logo";
+				$alist['__v_dialog_uplo'] = "o=sp_specialplay&a=updateform&sa=upload_logo";
 			}
 		}
 
@@ -598,7 +633,7 @@ class Client extends ClientBase
 		}
 
 		if (!$this->isLogin()) {
-			$alist[] = "a=updateForm&sa=changeowner";
+			$alist[] = "a=updateform&sa=changeowner";
 		}
 		if ($this->isLogin()) {
 			$alist['__v_dialog_login'] = "o=sp_specialplay&a=updateform&sa=login_options";

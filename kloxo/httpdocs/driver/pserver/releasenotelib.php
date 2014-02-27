@@ -17,7 +17,6 @@ class ReleaseNote extends Lxlclass
 
 	static function createListAlist($parent, $class)
 	{
-		$alist[] = "a=show";
 		$alist[] = "a=list&c=$class";
 
 		return $alist;

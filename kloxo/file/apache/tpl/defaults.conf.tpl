@@ -54,15 +54,38 @@ Listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>
     NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
 
 </IfVersion>
-
 <?php
 }
+?>
 
+<Ifmodule mod_userdir.c>
+    UserDir enabled
+    UserDir /home/*/public_html
+<?php
+foreach ($userlist as &$user) {
+    $userinfo = posix_getpwnam($user);
+
+    if (!$userinfo) {
+        continue;
+    }
+?>
+    <Location "/~<?php echo $user; ?>">
+        <IfModule mod_suphp.c>
+            SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+
+        </IfModule>
+    </Location>
+<?php
+}
+?>
+</Ifmodule>
+<?php
 foreach ($certnamelist as $ip => $certname) {
     $count = 0;
 
     foreach ($ports as &$port) {
 ?>
+
 
 ### 'default' config
 <VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
@@ -89,27 +112,6 @@ foreach ($certnamelist as $ip => $certname) {
         }
 ?>
 
-    <Ifmodule mod_userdir.c>
-        UserDir enabled
-        UserDir /home/*/public_html
-<?php
-        foreach ($userlist as &$user) {
-            $userinfo = posix_getpwnam($user);
-
-            if (!$userinfo) {
-                continue;
-            }
-?>
-        <Location "/~<?php echo $user; ?>">
-            <IfModule mod_suphp.c>
-                SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
-
-            </IfModule>
-        </Location>
-<?php
-        }
-?>
-    </Ifmodule>
 <?php
         // if (strpos($phptype, '_suphp') !== false) {
 ?>
@@ -211,7 +213,7 @@ foreach ($certnamelist as $ip => $certname) {
         SSLEngine On
         SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
         SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
     </IfModule>
 <?php
         }

@@ -148,21 +148,21 @@ class Mailaccount extends Lxclient
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['cpstatus'] = '4%';
-		$nlist['status'] = '4%';
-		$nlist['forward_status'] = '4%';
-		$nlist['autorespond_status'] = '4%';
-		$nlist['abutton_updateform_s_password'] = '4%';
-		$nlist['abutton_updateform_s_limit'] = '4%';
-		$nlist['abutton_list_s_forward_a'] = '4%';
-		$nlist['abutton_list_s_mailcontent'] = '4%';
-		$nlist['abutton_list_s_autoresponder'] = '4%';
-		$nlist['abutton_updateform_s_filter'] = '4%';
-		$nlist['abutton_updateform_s_configuration'] = '4%';
-	//	$nlist['button_spam_f'] = '4%';
-		$nlist['button_webmail_f'] = '4%';
+		$nlist['cpstatus'] = '3%';
+		$nlist['status'] = '3%';
+		$nlist['forward_status'] = '3%';
+		$nlist['autorespond_status'] = '3%';
+		$nlist['abutton_updateform_s_password'] = '3%';
+		$nlist['abutton_updateform_s_limit'] = '3%';
+		$nlist['abutton_list_s_forward_a'] = '3%';
+		$nlist['abutton_list_s_mailcontent'] = '3%';
+		$nlist['abutton_list_s_autoresponder'] = '3%';
+		$nlist['abutton_updateform_s_filter'] = '3%';
+		$nlist['abutton_updateform_s_configuration'] = '3%';
+	//	$nlist['button_spam_f'] = '3%';
+		$nlist['button_webmail_f'] = '3%';
 		$nlist['nname'] = '40%';
-		$nlist['maildisk_usage_per_f'] = '25%';
+		$nlist['maildisk_usage_per_f'] = '30%';
 
 		return $nlist;
 	}
@@ -303,15 +303,18 @@ class Mailaccount extends Lxclient
 
 	static function createListAlist($parent, $class)
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
 		if ($parent->isClient()) {
 			$parent->createShowPropertyList($alist);
 
 			return $alist['property'];
 		}
 
-	//	$parent->getParentO()->getObject('web')->createShowPropertyList($alist);
+		$parent->getParentO()->getObject('web')->createShowPropertyList($alist);
 
 		return null;
+
 	}
 
 	static function initThisListRule($parent, $class)
@@ -329,7 +332,6 @@ class Mailaccount extends Lxclient
 	function createShowPropertyList(&$alist)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
 	/*
 		if ($ghtml->frm_subaction === 'autores') {
 			$alist['property'][] = "a=list&c=autoresponder";
@@ -338,7 +340,7 @@ class Mailaccount extends Lxclient
 
 			return $alist;
 		}
-	*/
+
 
 		if ($ghtml->frm_subaction === 'autores') {
 			$alist['property'] = autoresponder::createListAlist($this, 'autoresponder');
@@ -365,9 +367,31 @@ class Mailaccount extends Lxclient
 			$this->getParentO()->getParentO()->createShowPropertyList($alist);
 
 			foreach ($alist['property'] as &$__a) {
-				$__a = "goback=2&$__a";
+				$__a = "goback=1&$__a";
 			}
 		}
+
+	*/
+
+		if ($ghtml->frm_subaction === 'password') {
+			$alist['property'][] = "a=updateform&sa=password";
+		} elseif ($ghtml->frm_subaction === 'limit') {
+			$alist['property'][] = "a=updateform&sa=limit";
+		} elseif ($ghtml->frm_o_cname === 'forward_a') {
+			$alist['property'][] = "a=list&c=forward_a";
+		} elseif ($ghtml->frm_subaction === 'filter') {
+			$alist['property'][] = "a=updateform&sa=filter";
+		} elseif ($ghtml->frm_subaction === 'configuration') {
+			$alist['property'][] = "a=updateform&sa=configuration";
+		} elseif ($ghtml->frm_o_cname === 'mailcontent') {
+			$alist['property'][] = "a=list&c=mailcontent";
+		} elseif ($ghtml->frm_o_cname === 'autoresponder') {
+			$alist['property'][] = "a=list&c=autoresponder";
+		} else {
+			$alist['property'][] = "a=show";
+		}
+
+		return $alist;
 	}
 
 	function isAction($var)

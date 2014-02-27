@@ -77,8 +77,6 @@ class TicketHistory extends Lxdb
 
 	static function createListAlist($parent, $class)
 	{
-		$alist[] = "a=show";
-		
 		return null;
 	}
 

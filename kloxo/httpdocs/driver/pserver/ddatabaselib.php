@@ -69,13 +69,26 @@ class databasecore extends Lxdb
 		*/
 		}
 
-		$param['nname'] = random_string_lcase(4) . "_" . $param['nname'];
+		if ($parent->isAdmin()) {
+			$param['nname'] = $param['nname'];
+		} else {
+			$param['nname'] = random_string_lcase(4) . "_" . $param['nname'];
+		}
 
 		validate_database_name($param['nname']);
 		validate_password_add($param['dbpassword']);
 
 		$param['dbname'] = $param['nname'];
-		$param['username'] = substr($param['nname'], 0, 15);
+
+		if ($parent->isAdmin()) {
+			$param['username'] = substr($param['username'], 0, 15);
+
+			// MR -- use database name for validate of admin's database username
+			validate_database_name($param['nname']);
+		} else {
+			$param['username'] = substr($param['nname'], 0, 15);
+		}
+
 		$param['dbtype'] = strtil($class, "db");
 
 	/*
@@ -225,6 +238,8 @@ class databasecore extends Lxdb
 
 	static function createListAlist($parent, $class)
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
 		$alist[] = "a=list&c=$class";
 	//	$alist['__v_dialog_add'] = "a=addform&c=$class";
 	//	$alist[] = create_simpleObject(array('url' => "/thirdparty/phpMyAdmin/", 'purl' => "c=ddatabase&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
@@ -245,6 +260,7 @@ class databasecore extends Lxdb
 		
 		return true;
 	}
+
 	static function createListNlist($parent, $view)
 	{
 		$nlist['installapp_flag'] = '5%';
@@ -256,6 +272,7 @@ class databasecore extends Lxdb
 		$nlist['dbtype'] = '5%';		
 		return $nlist;
 	}
+
 	function updateform($subaction, $param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -301,8 +318,12 @@ class databasecore extends Lxdb
 	//		$dbprefix = self::fixDbname($parent->nname);
 	//	}
 
-	//	$vlist['nname'] = array('m', array('pretext' => $dbprefix));
-		$vlist['nname'] = array('m', array('pretext' => 'prefix_'));
+		if ($parent->isAdmin()) {
+			$vlist['nname'] = null;
+		} else {
+			$vlist['nname'] = array('m', array('pretext' => 'prefix_'));
+		}
+
 	//	$vlist['dbtype'] = $class;
 		
 		if (0 && check_if_many_server()) {
@@ -317,6 +338,10 @@ class databasecore extends Lxdb
 				throw new lxException('no_database_server_pool_in_client', $class);
 			}
 			$vlist['syncserver'] = array('s', $pp->listpriv->$var);
+		}
+
+		if ($parent->isAdmin()) {
+			$vlist['username'] = null;
 		}
 
 	//	$vlist['username'] = array('m', array('pretext' => $dbprefix));

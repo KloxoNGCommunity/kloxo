@@ -24,7 +24,6 @@ class rawlxguardhit extends lxdb
 
 	static function createListNlist($parent, $view)
 	{
-
 		$nlist['user'] = '10%';
 		$nlist['service'] = '10%';
 		$nlist['ipaddress'] = '5%';
@@ -112,7 +111,6 @@ class lxguardhitdisplay extends lxclass
 
 	static function createListAlist($parent, $class)
 	{
-		$alist[] = "a=show";
 		$alist[] = "a=list&c=lxguardhitdisplay";
 		$alist[] = "a=list&c=rawlxguardhit";
 		$alist[] = "a=list&c=lxguardwhitelist";

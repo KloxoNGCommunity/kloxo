@@ -992,13 +992,12 @@ function __ac_desc_UpdateForm($object)
 	$selflist = $object->getSelfList();
 	$subaction = $ghtml->frm_subaction;
 
-	// WHy is this getting called?????
+/*
 	$object->createShowPropertyList($alist);
 
 	if (isset($alist['property']) && count($alist['property']) > 1) {
 		$nalist = null;
 		$nalist = lx_merge_good($nalist, $alist['property']);
-		$ghtml->print_tab_block($nalist);
 	} elseif ($object->getParentO()) {
 		$alist['property'] = null;
 		$object->getParentO()->createShowPropertyList($alist);
@@ -1012,8 +1011,22 @@ function __ac_desc_UpdateForm($object)
 		}
 
 		$nalist = lx_merge_good($nalist, $alist['property']);
-		$ghtml->print_tab_block($nalist);
 	}
+
+	$ghtml->print_tab_block($nalist);
+*/
+	// MR -- use logic from show
+	$object->createShowPropertyList($prlist);
+
+	if (!$prlist['property']) {
+		$object->getParentO()->createShowPropertyList($prlist);
+
+		foreach ($prlist['property'] as $k => $v) {
+			$prlist['property'][$k] = "goback=1&$v";
+		}
+	}
+
+	$ghtml->print_tab_block($prlist['property']);
 
 	$ghtml->print_content_begin();
 
@@ -1764,12 +1777,16 @@ function print_navigation($navig)
 		$imgstr = null;
 		$image = "$icondir/black.gif";
 	}
+
+	// MR -- need add table around div to resolv div height!
 ?>
 	<script>
 		var gl_imgrightpoint = '<?=$imgleftpoint?>';
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
-	<div style="height: 40px; padding: 2px">
+
+<table style="width: 100%; border:0 ; margin: 0 0 10px 0; padding: 0"><tr><td>
+<div style="padding: 2px">
 <?php
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
@@ -1902,6 +1919,7 @@ function print_navigation($navig)
 
 ?>
 	</div>
+</td></tr></table>
 	<!-- <br/> -->
 <?php
 }
