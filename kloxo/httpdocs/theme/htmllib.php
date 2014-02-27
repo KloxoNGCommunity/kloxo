@@ -5238,6 +5238,10 @@ class HtmlLib
 					$icon = "&#xf00d;";
 				} elseif (strpos($var, '_mailqueueflush') !== false) {
 					$icon = "&#xf680;";
+				} elseif (strpos($var, '_whitelist') !== false) {
+					$icon = "&#xf4c6;";
+				} elseif (strpos($var, '_remove') !== false) {
+					$icon = "&#xf5d0;";
 				} else {
 					$icon = "&#xf0a3;";
 				}

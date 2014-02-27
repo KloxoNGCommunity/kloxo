@@ -13,4 +13,11 @@ class domaindefault extends lxdb {
 		return $vlist;
 	}
 
+	function createShowPropertyList(&$alist)
+	{
+		$alist['property'][] = "a=updateform&sa=update";
+		
+		return $alist;
+	}
+
 }
