@@ -61,6 +61,8 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	}
 ?>
 
+<div id="menu_div" style="width: 680px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all">
+
 <div style="float:left">
 	<ul class="menuTemplate2 decor2_1">
 		<li><a href="/display.php?<?= $consumedlogin ?>frm_action=show"><?= $login->getKeywordUc('home') ?></a>
@@ -1098,7 +1100,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('logout') ?>"  href="javascript:if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a></li>
 	</ul>
 </div>
-
+</div>
 <!-- 'END - Simplicity menu' -->
 
 

@@ -5132,6 +5132,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+		$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
 
 		$iconpath = get_image_path();
 
@@ -5193,7 +5194,7 @@ class HtmlLib
 		}
 
 		if (!$sgbl->isBlackBackground()) {
-			if ($skin_name === 'simplicity') {
+			if ($button_type !== 'image') {
 				if ($var === 'delete') {
 					$icon = "&#xf0d2;";
 				} elseif ($var === 'refresh') {
@@ -9097,50 +9098,14 @@ class HtmlLib
 <?php
 			}
 
+			$simplicity_topbar_left =getLinkCustomfile(getcwd() . "{$skin_dir}", "topbar_left.php");
 			$simplicity_menu = getLinkCustomfile(getcwd() . "/theme/skin/simplicity/default/menu", "index.php");
+			$simplicity_topbar_right =getLinkCustomfile(getcwd() . "{$skin_dir}", "topbar_right.php");
 ?>
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
-				<div style="position: fixed; top: 2px; left: 2px">
-					<div style="float: left">
-						<a href="<?="/display.php?frm_action=list&frm_o_cname=smessage";?>">
-							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('message_title'); ?>">&nbsp;<?=$message_text;?>&nbsp;</div>
-						</a>
-					</div>
-					<div style="float: left">
-						<a href="<?="/display.php?frm_action=list&frm_o_cname=ticket";?>">
-							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('ticket_title'); ?>">&nbsp;<?=$ticket_text;?>&nbsp;</div>
-						</a>
-					</div>
-				</div>
-				<div id="menu_div" style="width: 680px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all">
-<? include_once "{$simplicity_menu}" ?>
-
-				</div>
-				<div style="position: fixed; top: 2px; right: 2px">
-					<div style="float: left">
-						<a href='javascript:alert("<?=$status_title_1;?>");'>
-							<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>';" title="<?=$status_title_2;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
-						</a>
-					</div>
-					<div style="float: left">
-						<a href="#" onClick="toggleVisibilityByClass('mmm');">
-							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
-						</a>
-					</div>
-					<div style="float: left">
-						<div id="clock_div" style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;">
-<?php
-		$clock_path = str_replace(getcwd(), "", getLinkCustomfile("{$skin_dir}/js", "clock.js"));
-
-		$this->print_jscript_source($clock_path);
-
-?>
-	<script>
-		startTime('clock_div');
-	</script>
-						</div>
-					</div>
-				</div>
+<?php include_once "{$simplicity_topbar_left}"; ?>
+<?php include_once "{$simplicity_menu}"; ?>
+<?php include_once "{$simplicity_topbar_right}"; ?>
 			</div>
 
 			<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60"/></a></div>
@@ -9422,6 +9387,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+		$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
 
 		$url = $_SERVER['PHP_SELF'];
 		$gen_image_path = get_general_image_path();
@@ -9440,7 +9406,7 @@ class HtmlLib
 			$value = $login->getHPFilter($filtername, 'searchstring');
 		}
 
-		if ($skin_name === 'simplicity') {
+		if ($button_type !== 'image') {
 			$search_text = "<span title='Search' style='font-size:16px' class='if16'>&#xf0c5;</span>";
 			$showall_text = "<span title=\"{$login->getKeywordUc('showall')}\" class='if16'>&#xf480;</span>";
 		} else {
