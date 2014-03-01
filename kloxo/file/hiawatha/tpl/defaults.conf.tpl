@@ -152,8 +152,8 @@ VirtualHost {
         } else {
 ?>
 
-    UserDirectory = public_html
-    UserWebsites = yes
+    #UserDirectory = public_html
+    #UserWebsites = yes
 
     UseFastCGI = php_for_apache
 <?php

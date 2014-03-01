@@ -1,12 +1,24 @@
+<?php
+			$status_title = $this->print_message('simplicity');
+			$status_title_1 = str_replace(":  ", ':\n\n- ', $status_title);
+			$status_title_2 = str_replace(":  ", ":\n- ", $status_title);
+
+			if (strlen($status_title) > 0) {
+				$status_color = "#fff";
+			} else {
+				$status_color = "#3498db";
+			}
+?>
+
 				<div style="position: fixed; top: 2px; right: 2px">
 					<div style="float: left">
 						<a href='javascript:alert("<?=$status_title_1;?>");'>
-							<div style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>';" title="<?=$status_title_2;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+							<div id="div_status" style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>';" title="<?=$status_title_2;?>">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
 						</a>
 					</div>
 					<div style="float: left">
 						<a href="#" onClick="toggleVisibilityByClass('mmm');">
-							<div style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
+							<div id="div_showhide" style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
 						</a>
 					</div>
 					<div style="float: left">

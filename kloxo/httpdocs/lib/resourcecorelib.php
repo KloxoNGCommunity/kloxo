@@ -20,7 +20,7 @@ abstract class Resourcecore extends Lxclient
 	static $__desc_mailinglist_num = array("q", "", "mailinglist:number_of_mailing_lists");
 	static $__desc_ftpuser_num = array("q", "", "ftpuser:number_of_ftp_users");
 
-	static $__desc_phpfcgi_flag = array("q", "", "enable_php_fastcgi");
+//	static $__desc_phpfcgi_flag = array("q", "", "enable_php_fastcgi");
 	static $__desc_phpfcgiprocess_num = array("q", "", "phpfcgi:number_of_fastcgi_process");
 
 //	static $__desc_subweb_a_num =  array("q", "",  "subdomain:number_of_subdomains");

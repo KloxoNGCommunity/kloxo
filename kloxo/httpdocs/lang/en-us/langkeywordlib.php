@@ -143,6 +143,8 @@ $__keyword["updateall_warning1"] = "Attention:\\n\\n".
 $__keyword["updateall_warning2"] = "- Are you really sure?.\\n\\n".
 	"  If unsure press cancel, and use simple update.";
 
+$__keyword["wait"] = "Wait...";
+
 $__throw["domain_is_already_owned"] = "domain already owned";
 $__throw["invalid_domain_name"] = "invalid domain name";
 $__throw["add_without_www"] = "add without www";

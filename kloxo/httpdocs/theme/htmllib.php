@@ -7246,6 +7246,13 @@ class HtmlLib
 		$frmvalidcount = -1;
 
 		$skincolor = $login->getSkinColor();
+		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+
+		if ($skin_name === 'simplicity') {
+			$wait_text = "document.getElementById('div_status').style.color='#fff';document.getElementById('div_status').innerHTML='&nbsp;{$login->getKeywordUc('wait')}&nbsp;';";
+		} else {
+			$wait_text = "";
+		}
 
 		$backgroundcolor = '#fff';
 		$bordertop = "#d0d0d0";
@@ -7265,10 +7272,10 @@ class HtmlLib
 		$block = array_shift($full);
 
 		if ($gbl->__inside_ajax) {
-			$onsubmit = "onsubmit='return false;'";
+			$onsubmit = "onsubmit='{$wait_text}return false;'";
 			$gbl->__ajax_form_name = $block->form;
 		} else {
-			$onsubmit = "onsubmit=\"return check_for_needed_variables('$block->form');\"";
+			$onsubmit = "onsubmit=\"{$wait_text}return check_for_needed_variables('$block->form');\"";
 ?>
 
 			<script>
@@ -9061,33 +9068,6 @@ class HtmlLib
 		<!-- "START TOP MENU + LOGO" -->
 <?php
 		if ($skin_name === 'simplicity') {
-
-			$mess_url = "/display.php?frm_action=list&frm_o_cname=smessage";
-
-			$status_title = $this->print_message('simplicity');
-			$status_title_1 = str_replace(":  ", ':\n\n- ', $status_title);
-			$status_title_2 = str_replace(":  ", ":\n- ", $status_title);
-
-			if (strlen($status_title) > 0) {
-				$status_color = "#fff";
-			} else {
-				$status_color = "#3498db";
-			}
-
-			$loginas = $login->nname;
-
-			$total_message_received = db_get_count("smessage", "text_sent_to_cmlist LIKE '%client-{$loginas}%'");
-			$total_message_readby = db_get_count("smessage", "text_readby_cmlist LIKE '%client-{$loginas}%'");
-			$total_message_unreadby = $total_message_received - $total_message_readby;
-
-//			$total_message_madeby = db_get_count("smessage", "made_by LIKE '%client-{$loginas}%'");
-
-			$message_text = $login->getKeywordUc('message') . ": {$total_message_unreadby}/{$total_message_received}";
-
-			$total_ticket_received = db_get_count("ticket", "sent_to='client-{$loginas}'");
-			$total_ticket_open = db_get_count("ticket", "sent_to='client-{$loginas}' AND state='open'");
-
-			$ticket_text = $login->getKeywordUc('ticket') . ": {$total_ticket_open}/{$total_ticket_received}";
 ?>
 
 		<!-- "START TOP MENU + LOGO" -->
@@ -9099,7 +9079,7 @@ class HtmlLib
 			}
 
 			$simplicity_topbar_left =getLinkCustomfile(getcwd() . "{$skin_dir}", "topbar_left.php");
-			$simplicity_menu = getLinkCustomfile(getcwd() . "/theme/skin/simplicity/default/menu", "index.php");
+			$simplicity_menu = getLinkCustomfile(getcwd() . "{$skin_dir}/menu", "index.php");
 			$simplicity_topbar_right =getLinkCustomfile(getcwd() . "{$skin_dir}", "topbar_right.php");
 ?>
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
@@ -9109,7 +9089,7 @@ class HtmlLib
 			</div>
 
 			<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60"/></a></div>
-			<!-- "END TOP MENU + LOGO" -->
+		<!-- "END TOP MENU + LOGO" -->
 <?php
 		}
 
