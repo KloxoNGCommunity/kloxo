@@ -1,1 +1,3 @@
-/etc/init.d/djbdns reload
+# /etc/init.d/djbdns reload
+
+/etc/init.d/djbdns restart

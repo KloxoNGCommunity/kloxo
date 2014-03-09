@@ -528,19 +528,31 @@ function PrepareRoundCubeDb($nolog = null)
 
 	exec("mysql -f -u root {$pstring} < {$roundcubepath}/SQL/mysql.initial.sql >/dev/null 2>&1");
 
-	lxfile_cp("{$roundcubepath}/config/roundcube_main.inc.php", "{$roundcubepath}/config/main.inc.php");
-	lxfile_cp("{$roundcubepath}/config/roundcube_db.inc.php", "{$roundcubepath}/config/db.inc.php");
-
-	$cfgfile = "{$roundcubepath}/config/db.inc.php";
-
 	log_cleanup("- Generating password", $nolog);
 	$pass = randomString(8);
 	log_cleanup("- Add Password to configuration file", $nolog);
 
-	$content = lfile_get_contents($cfgfile);
-	$content = str_replace("mysql://roundcube:roundcube", "mysql://roundcube:" . $pass, $content);
+	if (file_exists("{$roundcubepath}/config/roundcube_defaults.inc.php")) {
+		lxfile_cp("{$roundcubepath}/config/roundcube_defaults.inc.php", "{$roundcubepath}/config/defaults.inc.php");
+		$cfgfile = "{$roundcubepath}/config/defaults.inc.php";
+		$content = lfile_get_contents($cfgfile);
+		$content = str_replace("mysql://roundcube:roundcube", "mysql://roundcube:" . $pass, $content);
+		$content = str_replace("mysql://roundcube:pass", "mysql://roundcube:" . $pass, $content);
+		$content = str_replace("mysql://roundcube:@", "mysql://roundcube:" . $pass . "@", $content);
+		lfile_put_contents($cfgfile, $content);
+	} 
 
-	lfile_put_contents($cfgfile, $content);
+	if (file_exists("{$roundcubepath}/config/roundcube_db.inc.php")) {
+		lxfile_cp("{$roundcubepath}/config/roundcube_main.inc.php", "{$roundcubepath}/config/main.inc.php");
+		lxfile_cp("{$roundcubepath}/config/roundcube_db.inc.php", "{$roundcubepath}/config/db.inc.php");
+		$cfgfile = "{$roundcubepath}/config/db.inc.php";
+		$content = lfile_get_contents($cfgfile);
+		$content = str_replace("mysql://roundcube:roundcube", "mysql://roundcube:" . $pass, $content);
+		$content = str_replace("mysql://roundcube:pass", "mysql://roundcube:" . $pass, $content);
+		$content = str_replace("mysql://roundcube:@", "mysql://roundcube:" . $pass . "@", $content);
+		lfile_put_contents($cfgfile, $content);
+	}
+
 
 	$result = $link->query("GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '{$pass}'");
 	$link->query("flush privileges");
@@ -556,7 +568,13 @@ function PrepareRoundCubeDb($nolog = null)
 	$pstring = null;
 
 	//--- to make sure always 644
-	lxfile_unix_chmod("{$roundcubepath}/config/db.inc.php", "644");
+	if (file_exists("{$roundcubepath}/config/roundcube_defaults.inc.php")) {
+		lxfile_unix_chmod("{$roundcubepath}/config/defaults.inc.php", "644");
+	}
+
+	if (file_exists("{$roundcubepath}/config/roundcube_db.inc.php")) {
+		lxfile_unix_chmod("{$roundcubepath}/config/db.inc.php", "644");
+	}
 }
 
 // --- new function with 'roundcube' style to replace 'old'

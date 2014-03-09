@@ -3381,6 +3381,7 @@ class HtmlLib
 		global $gbl, $sgbl, $login;
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+		$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
 
 		$rclass = $class;
 
@@ -3538,40 +3539,37 @@ class HtmlLib
 			$align = "center onmouseover=\"changeContent('help',' $help')\" onmouseout=\"changeContent('help','helparea')\"";
 
 			if (!$sgbl->isBlackBackground()) {
-				if ($skin_name === 'feather') {
+				if ($button_type === 'image') {
 					$pname = " <span title='$alt'><img src='$image' width='16' height='16'></span>";
 				} else {
-					// MR -- change char number < 00ff
-					$spancolor = '#ddd';
-				//	$spanchar = '&#x2739;';
-					$spanchar = '&#x00bb;';
+					$spancolor = '#333';
+					$spanchar = '&#xf0d3;';
 
 					if ($pname === 'on') {
-						$spancolor = '#2d2';
-					}
-					if ($pname === 'off') {
-						$spancolor = '#d22';
-					}
-					if ($pname === 'dull') {
+						$spancolor = '#3c3';
+					} elseif ($pname === 'off') {
+						$spancolor = '#c33';
+					} elseif ($pname === 'dull') {
 						$spancolor = '#aaa';
+					} elseif ($pname === 'ok') {
+						$spancolor = '#3c3';
+					} elseif ($pname === 'exceed') {
+						$spancolor = '#c83';
 					}
 
-					if ($pname === 'ok') {
-						$spancolor = '#2d2';
-					}
-					if ($pname === 'exceed') {
-						$spancolor = '#d82';
+					$a = array('maindomain' => '&#xf01d;', 'subdomain' => '&#xf052;', 'cpstatus' => '&#xf008;',
+						'rhel' => '&#xf3f1;', 'customer' => '&#xf133;', 'reseller' => '&#xf134;',
+						'autorespond' => '&#xf08e;', 'forward' => '&#xf175;', 
+						'file' => '&#xf0d6;', 'directory' => '&#xf094;', 'dirlink' => '&#xf022;');
+
+					foreach ($a as $k => $v) {
+						if (strpos($property, $k) !== false) {
+							$spanchar = $v;
+						}
 					}
 
-				//	if (strpos($pname, 'customer') !== false) { $spancolor = '#22d'; $spanchar = '&#x263A'; }
-				
-					if ($pname === 'customer') {
-						$spancolor = '#22d';
-					//	$spanchar = '&#x263A';
-						$spanchar = '&#x00a4';
-					}
-
-					$pname = "<span title='$alt'><span style='font-size: 1.5em; line-height: 0; color:{$spancolor}'>{$spanchar}</span></span>";
+				//	$pname = "<span title='$alt'><span style='font-size: 1.5em; line-height: 0; color:{$spancolor}'>{$spanchar}</span></span>";
+					$pname = "<span class='if12' style='color:{$spancolor}' title='$alt'>{$spanchar}</span>";
 				}
 			}
 
@@ -3613,33 +3611,38 @@ class HtmlLib
 						if ($sgbl->isBlackBackground()) {
 							$pname = "b";
 						} else {
-							if ($skin_name === 'feather') {
+							if ($button_type === 'image') {
 								$pname = " <span title='$alt'><img src='$_t_image' height=15 width=15></span>";
 							} else {
-							//	$txt = '<span style="font-size:1.5em">&#x25C9;</span>';
-								$txt = '<span style="font-size:1.5em; line-height: 0; color:#222">&#x006f;</span>';
-								$tcol = '#222';
-								$tico = '&#x006f;';
+								$tcol = '#333';
+								$tico = '&#xf0d3;';
 
-								if (strpos($_t_image, '/start.gif')) {
-								//	$txt = '<span style="font-size:1.5em">&#x21E7;</span>';
-								//	$txt = '<span style="font-size:1.5em; line-height: 0; color:#2d2">&#x006f;</span>';
-									$tcol = '#2d2';
-									$tico = '&#x006f;';
-								}
-								if (strpos($_t_image, '/stop.gif')) {
-									$txt = '<span style="font-size:1.5em; line-height: 0; color:#d22">&#x006f;</span>';
-									$tcol = '#d22';
-									$tico = '&#x006f;';
-								}
-								if (strpos($_t_image, '/restart.gif')) {
-									$txt = '<span style="font-size:1.5em; line-height: 0; color:#22d">&#x006f;</span>';
-									$tcol = '#22d';
-									$tico = '&#x006f;';
+								if (strpos($name, 'start') !== false) {
+									$tcol = '#3c3';
+								} elseif (strpos($name, 'stop') !== false) {
+									$tcol = '#c33';
+								} elseif (strpos($name, 'restart') !== false) {
+									$tcol = '#33c';
 								}
 
+								$a = array('password' => '&#xf03f;', 'process' => '&#xf4f2;', 'ip' => '&#xf51c;',
+									'service' => '&#xf014;', 'usage' => '&#xf000;', 'file' => '&#xf095;',
+									'information' => '&#xf15a;', 'ticket' => '&#xf3dc;', 'utmp' => '&#xf0c1;',
+									'limit' => '&#xf189;', 'phpmyadmin' => '&#xf00b;', 'dns' => '&#xf07f;',
+									'traffichistory' => '&#xf5eb;', 'addondomain' => '&#xf053;', 'phpinfo' => '&#xf599;',
+									'pvview' => '&#xf330;', 'dnvview' => '&#xf022;', 'webmail' => '&#xf045;',
+									'stats' => '&#xf4f4;', 'forward' => '&#xf175;', 'configuration' => '&#xf331;',
+									'filter' => '&#xf05e;', 'autorespond' => '&#xf08e;', 'mailcontent' => '&#xf044;',
+									'pvrename' => '&#xf28a;', 'pvdownload' => '&#xf32f;');
 
-								$pname = "<span title='$alt'><span style='font-size:1.5em; line-height: 0; color:{$tcol}'>{$tico}</span></span>";
+								foreach ($a as $k => $v) {
+									if (strpos($name, $k) !== false) {
+										$tico = $v;
+									}
+								}
+
+							//	$pname = "<span title='$alt'><span id='if8' style='font-size:1.5em; line-height: 0; color:{$tcol}'>{$tico}</span></span>";
+								$pname = "<span class='if12' style='color:{$tcol}' title='$alt'>{$tico}</span>";
 							}
 						}
 
@@ -8521,6 +8524,10 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		// MR -- TODO - also font-type
+
+		$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
+
 		$bgcolor = null;
 
 		$path = $bpath = get_image_path();
@@ -9387,7 +9394,7 @@ class HtmlLib
 		}
 
 		if ($button_type !== 'image') {
-			$search_text = "<span title='Search' style='font-size:16px' class='if16'>&#xf0c5;</span>";
+			$search_text = "<span title='Search' class='if16'>&#xf0c5;</span>";
 			$showall_text = "<span title=\"{$login->getKeywordUc('showall')}\" class='if16'>&#xf480;</span>";
 		} else {
 			$showallimg = "$btnpath/showall_b.gif";

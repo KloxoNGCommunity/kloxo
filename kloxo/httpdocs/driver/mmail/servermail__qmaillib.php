@@ -152,7 +152,8 @@ class Servermail__Qmail  extends lxDriverClass
 	function writeWhitelist()
 	{
 		$list = get_namelist_from_objectlist($this->main->mail_graylist_wlist_a);
-		lfile_put_contents("/etc/spamdyke-ip-white.list", implode("\n", $list));
+	//	lfile_put_contents("/etc/spamdyke-ip-white.list", implode("\n", $list));
+		lfile_put_contents("/var/qmail/spamdyke/whitelist_ip", implode("\n", $list));
 	}
 
 	function writeDnsBlist()
@@ -166,8 +167,10 @@ class Servermail__Qmail  extends lxDriverClass
 
 	function savespamdyke()
 	{
-		lxfile_mkdir("/var/tmp/graylist.d/");
-		lxfile_touch("/etc/spamdyke-ip-white.list");
+	//	lxfile_mkdir("/var/tmp/graylist.d/");
+	//	lxfile_touch("/etc/spamdyke-ip-white.list");
+
+		lxfile_mkdir("/var/qmail/spamdyke/greylist/");
 
 		$bcont = lfile_get_contents("../file/template/spamdyke.conf");
 		$bcont = str_replace("%lx_greet_delay%", sprintf("greeting-delay-secs=%d",$this->main->greet_delay), $bcont);
@@ -177,11 +180,13 @@ class Servermail__Qmail  extends lxDriverClass
 		$bcont = str_replace("%lx_maximum_recipients%",sprintf("max-recipients=%d",$this->main->max_rcpnts),$bcont);
 		$bcont = str_replace("%lx_reject_empty_rdns%", $this->main->isOn('reject_empty_rdns_flag') ? "reject-empty-rdns":"",$bcont);
 		$bcont = str_replace("%lx_reject_ip_in_cc_rdns%", $this->main->isOn('reject_ip_in_cc_rdns_flag') ? "reject-ip-in-cc-rdns":"", $bcont);
-		$bcont = str_replace("%lx_reject_missing_sender_mx%", $this->main->isOn('reject_missing_sender_mx_flag')?  "reject-missing-sender-mx":"",$bcont);
+	//	$bcont = str_replace("%lx_reject_missing_sender_mx%", $this->main->isOn('reject_missing_sender_mx_flag')?  "reject-missing-sender-mx":"",$bcont);
+		$bcont = str_replace("%lx_reject_missing_sender_mx%", $this->main->isOn('reject_missing_sender_mx_flag')?  "reject-sender=no-mx":"",$bcont);
 		$bcont = str_replace("%lx_reject_unresolvable_rdns%",$this->main->isOn('reject_unresolvable_rdns_flag')? "reject-unresolvable-rdns":"",$bcont);
-		$bcont = str_replace("%lx_dns_blacklist_entries%",$this->writeDnsBlist(),$bcont);
+	//	$bcont = str_replace("%lx_dns_blacklist_entries%",$this->writeDnsBlist(),$bcont);
 
 		lfile_put_contents("/etc/spamdyke.conf", $bcont);
+		lfile_put_contents("/var/qmail/spamdyke/blacklist_ip", $this->writeDnsBlist());
 	}
 
 	function deleteQueue()

@@ -1326,3 +1326,5 @@ $__description["ccenter_output"] = array("Output");
 $__description["ccenter_error"] = array("Error");
 
 $__description["change_name"] = array("Change Name");
+
+$__description["clientname_as_prefix"] = array("Clientname as Databasename Prefix (only first 16 chars if longer)");

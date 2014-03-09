@@ -1,1 +1,3 @@
-/etc/init.d/nsd reload
+# /etc/init.d/nsd reload
+
+/etc/init.d/nsd restart

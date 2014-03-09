@@ -1,1 +1,3 @@
-/etc/init.d/httpd graceful
+# /etc/init.d/httpd graceful
+
+/etc/init.d/httpd restart

@@ -1,1 +1,3 @@
-/etc/init.d/maradns reload
+# /etc/init.d/maradns reload
+
+/etc/init.d/maradns restart

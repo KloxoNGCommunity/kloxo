@@ -21,6 +21,8 @@ class databasecore extends Lxdb
 	static $__acdesc_update_update = array("", "",  "edit_db");
 	static $__acdesc_update_phpmyadmin = array("", "",  "phpmyadmin");
 
+	static $__desc_clientname_as_prefix = array("f", "",  "clientname_as_prefix");
+
 	function inheritSynserverFromParent()
 	{ 
 		return false; 
@@ -56,23 +58,25 @@ class databasecore extends Lxdb
 	static function add($parent, $class, $param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
+	/*
 		if ($login->isAdmin() && isset($param['nomodifyname']) && $param['nomodifyname'] === 'on') {
 			// no action
 		} else {
-		/*
 			if (!$parent->isAdmin()) {
 				$param['nname'] = self::getDbName($parent->nname, $param['nname']);
 			} else {
 				$param['nname'] = substr($param['nname'], 0, 15);
 			}
-		*/
 		}
-
+	*/
 		if ($parent->isAdmin()) {
 			$param['nname'] = $param['nname'];
 		} else {
-			$param['nname'] = random_string_lcase(4) . "_" . $param['nname'];
+			if ($param['clientname_as_prefix'] === 'on') {
+				$param['nname'] = substr($parent->nname, 0, 15) . "_" . $param['nname'];
+			} else {
+				$param['nname'] = random_string_lcase(4) . "_" . $param['nname'];
+			}
 		}
 
 		validate_database_name($param['nname']);
@@ -328,20 +332,26 @@ class databasecore extends Lxdb
 		
 		if (0 && check_if_many_server()) {
 			$var = "{$class}pserver_list";
+
 			if ($parent->is__table('domain')) {
 				$pp = $parent->getRealClientParentO();
 			} else {
 				$pp = $parent;
 			}
+
 			$list = $pp->listpriv->$var;
+
 			if (!$list) {
 				throw new lxException('no_database_server_pool_in_client', $class);
 			}
+
 			$vlist['syncserver'] = array('s', $pp->listpriv->$var);
 		}
 
 		if ($parent->isAdmin()) {
 			$vlist['username'] = null;
+		} else {
+			$vlist['clientname_as_prefix'] = null;
 		}
 
 	//	$vlist['username'] = array('m', array('pretext' => $dbprefix));
