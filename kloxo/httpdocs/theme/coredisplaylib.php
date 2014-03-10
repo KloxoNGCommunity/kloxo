@@ -641,13 +641,15 @@ function __ac_desc_delete($object)
 
 		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
 <?php
+		/*
+			// MR -- useless and not importance
+
 			if (exec_class_method($cname, 'isTreeForDelete')) {
 ?>
 
 				<div>These Objects Under these <?=get_plural($object->getClass())?> will also be Deleted.<br/> <br/></div>
 
 <?php
-
 				foreach ($ll as $l) {
 					$o = $object->getFromList($cname, $l);
 					$ghtml->do_resource(null, $o, 6, false, "getResourceChildList", true, false);
@@ -657,6 +659,7 @@ function __ac_desc_delete($object)
 <?php
 			}
 
+		*/
 			do_list_class($object, $cname);
 ?>
 

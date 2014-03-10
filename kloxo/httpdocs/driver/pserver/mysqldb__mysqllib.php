@@ -76,7 +76,10 @@ class Mysqldb__mysql extends lxDriverClass
 
 		$this->log_error_messages(false);
 
-		$rdb->query("delete from mysql.user where user = '{$this->main->username}';");
+		// MR -- fix delete database username
+	//	$rdb->query("delete from mysql.user where user = '{$this->main->username}';");
+		$rdb->query("drop user '{$this->main->username}'@'%';");
+		$rdb->query("drop user '{$this->main->username}'@'localhost';");
 
 		$this->log_error_messages(false);
 
