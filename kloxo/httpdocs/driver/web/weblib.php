@@ -667,9 +667,12 @@ class Web extends Lxdb
 		lxfile_rm_rec("/var/lib/webalizer/{$this->nname}");
 		lxfile_rm("/etc/webalizer/webalizer.{$this->nname}.conf");
 
+		// MR -- also delete docroot if only refer to 1 web
+		$c = db_get_count("web", "customer_name = '{$this->customer_name}' AND docroot = '$this->docroot'");
 
-		// MR -- this is dangerously because possible domains pointing to the same docroot!
-	//	recursively_remove($this->getFullDocRoot());
+		if ((int)$c === 1) {
+			recursively_remove($this->getFullDocRoot());
+		}
 	}
 
 	function webChangeOwner()
