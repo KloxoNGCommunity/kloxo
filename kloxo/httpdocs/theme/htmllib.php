@@ -8102,10 +8102,10 @@ class HtmlLib
 			$pinfo = str_replace("[%_domain_%]", 'domain.com', $pinfo);
 		}
 
-		if (isset($_GET['frm_o_o'][0]['class']) && ($_GET['frm_o_o'][0]['class'] === 'client')) {
-			$pinfo = str_replace("[%_client_%]", $_GET['frm_o_o'][0]['nname'], $pinfo);
-		} elseif (isset($_GET['frm_o_o'][1]['class']) && ($_GET['frm_o_o'][1]['class'] === 'client')) {
-			$pinfo = str_replace("[%_client_%]", $_GET['frm_o_o'][1]['nname'], $pinfo);
+		if (isset($this->frm_o_o[0]['class']) && ($this->frm_o_o[0]['class'] === 'client')) {
+			$pinfo = str_replace("[%_client_%]", $this->frm_o_o[0]['nname'], $pinfo);
+		} elseif (isset($this->frm_o_o[1]['class']) && ($this->frm_o_o[1]['class'] === 'client')) {
+			$pinfo = str_replace("[%_client_%]", $this->frm_o_o[1]['nname'], $pinfo);
 		} else {
 			$pinfo = str_replace("[%_client_%]", $login->nname, $pinfo);
 		}
@@ -9085,9 +9085,9 @@ class HtmlLib
 <?php
 			}
 
-			$simplicity_topbar_left =getLinkCustomfile(getcwd() . "{$skin_dir}", "topbar_left.php");
-			$simplicity_menu = getLinkCustomfile(getcwd() . "{$skin_dir}/menu", "index.php");
-			$simplicity_topbar_right =getLinkCustomfile(getcwd() . "{$skin_dir}", "topbar_right.php");
+			$simplicity_topbar_left =getLinkCustomfile(getcwd() . $skin_dir, "topbar_left.php");
+			$simplicity_menu = getLinkCustomfile(getcwd() . $skin_dir, "menu.php");
+			$simplicity_topbar_right =getLinkCustomfile(getcwd() . $skin_dir, "topbar_right.php");
 ?>
 			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
 <?php include_once "{$simplicity_topbar_left}"; ?>

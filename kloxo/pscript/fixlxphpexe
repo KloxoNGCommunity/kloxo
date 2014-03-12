@@ -7,6 +7,8 @@ chmod 755 ${INIT_DIR}/php52s-cgi.sh
 
 chmod 755 ${INIT_DIR}/php53s-cli.sh
 chmod 755 ${INIT_DIR}/php53s-cgi.sh
+chmod 755 ${INIT_DIR}/php53s-fpm.sh
+chmod 755 ${INIT_DIR}/php53s-ls.sh
 
 if [ -f /opt/php53s/usr/bin/php ] ; then
 	ln -sf ${INIT_DIR}/php53s-cli.sh /usr/bin/lphp.exe
