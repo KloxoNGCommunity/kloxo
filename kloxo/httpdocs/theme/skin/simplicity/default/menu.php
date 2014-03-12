@@ -831,7 +831,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=phpini">localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=phpini"><?= $syncserver ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[2][class]=phpini"><?= $clientid ?></a><br/>
+						<!-- &#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=phpini"><?= $clientid ?></a>--><br/>
 						<!-- &#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=extraedit&<?= $localhostquery ?>frm_o_o[1][class]=phpini">localhost</a>
@@ -852,7 +852,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=phpini") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=phpini">localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>&<?= $clientquery ?>frm_o_o[2][class]=phpini"><?= $clientid ?></a><br/>
+						<!-- &#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>&<?= $clientquery ?>frm_o_o[1][class]=phpini"><?= $clientid ?></a>--><br/>
 						<!-- &#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=extraedit&<?= $localhostquery ?>frm_o_o[1][class]=phpini">localhost</a>
