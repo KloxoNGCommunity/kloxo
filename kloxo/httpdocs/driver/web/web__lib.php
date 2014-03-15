@@ -191,7 +191,7 @@ class web__ extends lxDriverClass
 			$ret = lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
 		}
 
-		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
+		if (version_compare(phpversion(), "5.3.2", ">")) {
 			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");
 
 			if (file_exists("/etc/php-fpm.d")) {
@@ -338,9 +338,7 @@ class web__ extends lxDriverClass
 		
 		$input['userlist'] = $this->getUserList();
 
-		$phpver = getPhpVersion();
-
-		if (version_compare($phpver, "5.3.3", "<")) {
+		if (version_compare(phpversion(), "5.3.3", "<")) {
 			// MR -- that mean 'xml' type config
 			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
 			$tpltarget = "/etc/php-fpm.conf";
@@ -959,13 +957,11 @@ class web__ extends lxDriverClass
 
 	static function setHttpdFcgid($input)
 	{
-		$ver = getPhpVersion();
-
 		$tplsource = getLinkCustomfile("/home/apache/tpl", "php5.fcgi.tpl");
 
 		$input['phpinipath'] = "/home/httpd/{$input['domainname']}";
 
-		$input['phpcginame'] = (version_compare($ver, "5.3.0", "<")) ? 'php-cgi_pure' : 'php-cgi';
+		$input['phpcginame'] = (version_compare(phpversion(), "5.3.0", "<")) ? 'php-cgi_pure' : 'php-cgi';
 
 		$tpltarget = "/home/httpd/{$input['domainname']}/php5.fcgi";
 
@@ -1025,6 +1021,16 @@ class web__ extends lxDriverClass
 			// lighttpd use lxfile_cp
 			lxfile_cp("/etc/php.ini", "/home/httpd/{$domainname}/php.ini");
 		}
+	
+	/*
+		// TODO
+		// MR -- change to user-level php
+		if (!lxfile_exists("/home/kloxo/client/{$username}/php.ini")) {
+			// MR -- issue #650 - lxuser_cp does not work and change to lxfile_cp;
+			// lighttpd use lxfile_cp
+			lxfile_cp("/etc/php.ini", "/home/kloxo/client/{$username}/php.ini");
+		}
+	*/
 	}
 
 	function createHotlinkHtaccess()

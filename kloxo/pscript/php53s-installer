@@ -1,0 +1,89 @@
+#!/bin/sh
+
+echo "*** BEGIN $0 ***"
+
+base_name="php53"
+
+echo "- Download rpms..."
+mkdir -p /opt/${base_name}s
+cd /opt/${base_name}s
+yumdownloader ${base_name}u-* >/dev/null 2>&1
+rm -rf *-debug*
+rm -rf *-devel*
+
+
+echo "- Extract rpms..."
+for entry in $(ls ./*.rpm) ; do
+	rpm2cpio $entry | cpio -idmv  >/dev/null 2>&1
+done
+
+rm -rf *.rpm
+
+echo "- Disable certain modules..."
+for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
+	apc imagick interbase ioncube-loader memcache memcached mssql debug \
+	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
+	xdebug	; do
+	if [ -f /opt/${base_name}s/etc/php.d/${i}.ini ] ; then
+		sed -i 's:=/usr/:=/opt/${base_name}s/usr/:' /opt/${base_name}s/etc/php.d/${i}.ini
+		if [ $i == 'mysqlnd_mysql' ] || [ $i == 'mysqlnd_mysqli' ] ; then
+			except_no="yes"
+		else
+			if [ $i == 'mysqlnd' ] || [ $i == 'pdo_mysqlnd' ] ; then
+				if [ except_no == 'no' ] ; then
+					mv -f /opt/${base_name}s/etc/php.d/${i}.ini /opt/${base_name}s/etc/php.d/${i}.nonini
+				fi
+			else
+				mv -f /opt/${base_name}s/etc/php.d/${i}.ini /opt/${base_name}s/etc/php.d/${i}.nonini
+			fi
+		fi
+	fi
+done
+
+
+cd /
+
+if [ "$(yum list *yum*|grep @)" != "" ] ; then
+	mysqlapp="mysql"
+else
+	mysqlapp="mysql55"
+fi
+
+echo "- Download dependencies..."
+yum -y install bzip2 curl db4 expat expat openssl libc-client cyrus-sasl openldap \
+	krb5 postgresql unixODBC libxml2 libxslt net-snmp lm_sensors ncurses t1lib \
+	libmcrypt mhash libtidy freetds aspell pspell recode ${mysqlapp} mysqlclient \
+	icui18n enchant libicu GeoIP liblzf freetype libXpm libpng libjpeg \
+	ConsoleKit ConsoleKit-libs GConf2 ImageMagick ORBit2 OpenEXR-libs \
+	atk avahi-libs cairo cups-libs dbus eggdbus fontconfig ghostscript ghostscript-fonts \
+	gtk2 hicolor-icon-theme ilmbase jasper-libs lcms-libs libICE libIDL libSM \
+	libXcomposite libXcursor libXdamage libXext libXfixes libXfont libXft libXi libXinerama \
+	libXrandr libXrender libXt libcroco libfontenc libgomp libgsf librsvg2 libthai libtiff \
+	libwmf-lite pango pixman polkit sgml-common urw-fonts xorg-x11-font-utils libmemcached \
+	libvpx >/dev/null 2>&1
+
+cd /opt/${base_name}s
+
+mkdir -p /opt/${base_name}s/custom
+
+echo "- Copy sh script to custom dir..."
+for i in ${base_name}s-cgi ${base_name}s-cli ${base_name}s-ls ${base_name}s-fpm ; do
+	if [ -f /usr/local/lxlabs/kloxo/init/generic-${i}.sh ] ;  then
+		cp -rf /usr/local/lxlabs/kloxo/init/generic-${i}.sh /opt/${base_name}s/custom/${i}.sh
+		chmod 755 /opt/${base_name}s/custom/${i}.sh
+		ln -sf /opt/${base_name}s/custom/${i}.sh /usr/bin/${i}
+	fi
+done
+
+echo "- Copy generic php.ini..."
+cp -rf /usr/local/lxlabs/kloxo/init/${base_name}s/generic-php.ini /opt/${base_name}s/etc/php.ini
+
+echo "- Fix extension_dir in php.ini..."
+if [ "$(uname -m)" == "x86_64" ] ; then
+	sed -i "s:/opt/${base_name}s/usr/lib/:/opt/${base_name}s/usr/lib64/:" /opt/${base_name}s/etc/php.ini
+	sed -i "s:/opt/${base_name}s/usr/lib/:/opt/${base_name}s/usr/lib64/:" /usr/local/lxlabs/kloxo/init/${base_name}s/php.ini
+fi
+
+echo "*** END $0 ***"
+echo
+

@@ -205,6 +205,7 @@ function __ac_desc_show($object)
 	$ghtml->print_content_begin();
 
 	if ($sgbl->isKloxo() && $object->isLogin() && $object->isLte('reseller')) {
+		// MR -- TODO: disable switch from domain to admin mode; make confuse for dev
 		print_customer_mode($object);
 	}
 

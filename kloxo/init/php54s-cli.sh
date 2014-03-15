@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# exec /opt/php54s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php54s/php.ini $*
-
 if [ -f /usr/local/lxlabs/kloxo/init/softlimit ] ; then
 	### MR -- must be content '/usr/bin/softlimit -m MEM' where MEM is memory in bytes
 	SOFTLIMIT=$(cat /usr/local/lxlabs/kloxo/init/softlimit)

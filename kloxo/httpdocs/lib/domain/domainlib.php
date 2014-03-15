@@ -1426,11 +1426,15 @@ class Domaind extends DomainBase
 		$alist[] = "n=web&a=update&sa=phpinfo";
 
 
-	//	$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=updateform&sa=edit";
 		$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
-
 		$alist['__v_dialog_phpiniadv'] = "n=web&o=phpini&a=updateform&sa=extraedit";
 
+	/*
+		// MR -- TODO: change to user-level for client! (not admin)
+		$alist[] = create_simpleObject(array('url' => "/display.php?frm_action=show&" .
+			"frm_o_o[0][class]=client&frm_o_o[0][nname]={$this->getParentName()}&frm_o_o[1][class]=phpini",
+			'purl' => "a=show&o=phpini", 'target' => "target='_self'"));
+	*/
 		if ($login->isAdmin()) {
 		//	if ($web->__driverappclass === 'lighttpd') {
 			//	if (is_centosfive()) {

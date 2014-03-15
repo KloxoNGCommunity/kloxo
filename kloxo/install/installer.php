@@ -63,9 +63,10 @@ function lxins_main()
 		//
 	} else {
 		// MR -- problem with for openvz
-		exec("grep envID /proc/self/status", $ret, $out);
+		exec("grep envID /proc/self/status", $out, $ret);
 	//	if (!file_exists("/proc/user_beancounters")) {
-		if (($out[0] === '') || ($out[0] === 'envID: 0')) {
+	//	if (($out[0] === '') || ($out[0] === 'envID: 0')) {
+		if ($ret === 0) {
 			system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
 		}
 	}
@@ -235,7 +236,7 @@ function install_main()
 	
 	// MR -- remove qmail-lxcenter not here! - need outside script
 	$packages = array("sendmail", "sendmail-cf", "sendmail-doc", "sendmail-devel",
-		"vsftpd", "postfix", "ssmtp", "lxzend", "pure-ftpd");
+		"vsftpd", "postfix", "ssmtp", "lxzend", "pure-ftpd", "exim");
 
 	$list = implode(" ", $packages);
 	print("\nRemoving packages $list...\n");
@@ -246,7 +247,7 @@ function install_main()
 
 	// MR -- use 'rpm -e' not work perfectly; use 'yum remove' and also install depedencies again
 	// (webalizer, cronie, cronie-anacron and crontabs)
-	system("yum -y remove exim");
+//	system("yum -y remove exim");
 	
 	$installcomp['mail'] = array("autorespond-toaster", "courier-authlib-toaster",
 		"courier-imap-toaster", "daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
@@ -714,7 +715,8 @@ function install_yum_repo()
 	exec("yum list *yum*|grep @", $out, $ret);
 
 	// MR -- need for OS (like fedora) where os version not the same with redhat/centos
-	if ($out) {
+//	if ($out) {
+	if ($ret === 0) {
 		system("sed -i 's/\$releasever/6/' /etc/yum.repos.d/kloxo-mr.repo");
 	} else {
 		system("sed -i 's/\$releasever/5/' /etc/yum.repos.d/kloxo-mr.repo");
@@ -855,7 +857,8 @@ function getRpmVersion($rpmname)
 {
 	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
-	if ($out[0] !== false) {
+//	if ($out[0] !== false) {
+	if ($ret === 0) {
 		$ver = $out[0];
 	} else {
 		$ver = '';
@@ -867,24 +870,34 @@ function getRpmVersion($rpmname)
 // MR -- taken from lib.php
 function getPhpVersion()
 {
-	exec("php -r 'echo phpversion();'", $out, $ret);
+//	exec("php -r 'echo phpversion();'", $out, $ret);
 
-	return $out[0];
+//	return $out[0];
+
+	return phpversion();
 }
 
 // MR -- taken from lib.php
 function isRpmInstalled($rpmname)
 {
-	exec("rpm -q {$rpmname}", $out);
+	exec("rpm -q {$rpmname}", $out, $ret);
 
-	$ret = strpos($out[0], "{$rpmname}-");
+//	$ret = strpos($out[0], "{$rpmname}-");
 
+/*
 	// MR -- must be '!== 0' because no exist sometimes with value > 0; 0 because position in 0
 	if ($ret !== 0) {
 		return false;
 	} else {
 		return true;
 	}
+*/
+	if ($ret === 0) {
+		return true;
+	} else {
+		return false;
+	}
+
 }
 
 function setUsingMyIsam()
@@ -939,12 +952,13 @@ function setUsingMyIsam()
 function isMysqlRunning()
 {
 	if (file_exists("/etc/rc.d/init.d/mysql")) {
-		exec("service mysql status|grep -i '(pid'", $out);
+		exec("service mysql status|grep -i '(pid'", $out, $ret);
 	} else {
-		exec("service mysqld status|grep -i '(pid'", $out);
+		exec("service mysqld status|grep -i '(pid'", $out, $ret);
 	}
 
-	if ($out) {
+//	if ($out) {
+	if ($ret === 0) {
 		return true;
 	} else {
 		return false;
@@ -1006,12 +1020,12 @@ function check_default_mysql()
 	}
 
 	if ($dbpass !== '') {
-		exec("echo \"show tables\" | mysql -u {$dbroot} -p\"{$dbpass}\" mysql", $out, $return);
+		exec("echo \"show tables\" | mysql -u {$dbroot} -p\"{$dbpass}\" mysql", $out, $ret);
 	} else {
-		exec("echo \"show tables\" | mysql -u {$dbroot} mysql", $out, $return);
+		exec("echo \"show tables\" | mysql -u {$dbroot} mysql", $out, $ret);
 	}
 
-	if ($return) {
+	if ($ret !== 0) {
 		resetDBPassword();
 	}
 }

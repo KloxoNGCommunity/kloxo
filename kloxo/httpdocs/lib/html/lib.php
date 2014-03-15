@@ -2914,7 +2914,8 @@ function getLatestVersion()
 
 	exec("yum check-update kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
 
-	if (!$out) {
+//	if (!$out) {
+	if ($ret !== 0) {
 		$ver = getInstalledVersion();
 	} else {
 		$ver = str_replace(".mr", "", $out[0]);
@@ -5298,9 +5299,11 @@ function setDomainPages($nolog = null)
 
 function getPhpVersion()
 {
-	exec("php -r 'echo phpversion();'", $out, $ret);
+//	exec("php -r 'echo phpversion();'", $out, $ret);
 
-	return $out[0];
+//	return $out[0];
+
+	return phpversion();
 }
 
 function getRpmBranchInstalled($rpm)
@@ -5381,7 +5384,8 @@ function getRpmVersion($rpmname)
 */
 	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
-	if ($out[0] !== false) {
+//	if ($out[0] !== false) {
+	if ($ret === 0) {
 		$ver = $out[0];
 	} else {
 		$ver = '';
@@ -6146,7 +6150,8 @@ function setInitialServer($nolog = null)
 		// MR -- problem with for openvz
 		exec("grep envID /proc/self/status", $ret, $out);
 	//	if (!file_exists("/proc/user_beancounters")) {
-		if (($out[0] === '') || ($out[0] === 'envID: 0')) {
+	//	if (($out[0] === '') || ($out[0] === 'envID: 0')) {
+		if ($ret === 0) {
 			system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
 		}
 	}
@@ -6852,7 +6857,8 @@ function setUpdateServices($list, $nolog = null)
 	foreach ($l as $k => $v) {
 		exec("yum list installed {$v}", $out, $ret);
 
-		if ($out[0] !== false) {
+	//	if ($out[0] !== false) {
+		if ($ret === 0) {
 			exec("yum update {$v} -y >/dev/null 2>&1");
 			log_cleanup("- New {$v} version installed", $nolog);
 		} else {
@@ -7445,7 +7451,8 @@ function getRpmVersionViaYum($rpm)
 	// MR -- don't use 'grep -i' because need real 'Version' word
 	exec("yum info {$rpm} | grep 'Version'", $out, $ret);
 
-	if ($out[0] !== false) {
+//	if ($out[0] !== false) {
+	if ($ret === 0) {
 		$ver = str_replace('Version', '', $out[0]);
 		$ver = str_replace(':', '', $ver);
 		$ver = str_replace(' ', '', $ver);
@@ -7454,16 +7461,23 @@ function getRpmVersionViaYum($rpm)
 	}
 */
 	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
-
-	return $out[0];
+	
+	if ($ret === 0) {
+		return $out[0];
+	} else {
+		return '';
+	}
 }
 
 function getRpmReleaseViaYum($rpm)
 {
-
 	exec("yum info {$rpm} | grep 'Release' | awk '{print $3}'", $out, $ret);
 
-	return $out[0];
+	if ($ret === 0) {
+		return $out[0];
+	} else {
+		return '';
+	}
 }
 
 function setPhpBranch($select, $nolog = null)

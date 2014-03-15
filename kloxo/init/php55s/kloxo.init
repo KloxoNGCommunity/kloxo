@@ -40,7 +40,7 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 ### 1. PHP-CGI portion
 
-php_basename="php53s"
+php_basename="php55s"
 
 sh /script/fixlxphpexe ${php_basename}
 

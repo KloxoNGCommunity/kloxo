@@ -315,8 +315,6 @@ class phpini extends lxdb
 
 	function initialValueRpmStatus($var)
 	{
-		$phpver = getPhpVersion();
-
 		$srcpath = '/home/phpini/etc/php.d';
 		$trgtpath = '/etc/php.d';
 
@@ -339,7 +337,7 @@ class phpini extends lxdb
 		} elseif ($var === 'enable_zend_flag') {
 			$modulebase = "zend";
 		
-			if (version_compare($phpver, "5.3.0", ">=")) {
+			if (version_compare(phpversion(), "5.3.0", ">=")) {
 				$modulelist = array("{$modulebase}-guard-loader");
 				$ininamelist = array("zendguard");
 			} else {

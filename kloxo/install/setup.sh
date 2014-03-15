@@ -136,33 +136,25 @@ yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion cu
 
 yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
 
-#if [ ! -f /opt/php52s/bin/php ] ; then
-#	if [ -f /usr/bin/php ] ; then
-#		yum -y remove php*
-#	fi
-
-	osverid=$(yum list *yum*|grep -i "@")
-
-	## it's mean centos 6 or equal
-	if [ "${osverid}" != "" ]  ; then
-		yum -y install mysql mysql-server mysql-libs
-	else
-		yum -y install mysql55 mysql55-server mysql55-libs
-	fi
+## it's mean centos 6 or equal
+if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
+	yum -y install mysql mysql-server mysql-libs
+else
+	yum -y install mysql55 mysql55-server mysql55-libs
+fi
 	
-	# MR -- always disable mysql-aio
-	sh /script/disable-mysql-aio
+# MR -- always disable mysql-aio
+sh /script/disable-mysql-aio
 
-	yum -y install php53u php53u-mysql
+yum -y install php53u php53u-mysql
 
-	## install after mysql55 and php53u because if mysql not exist will install 'old' mysql
-	yum -y install net-snmp php52s
+if [ "$1" != "--use-php52s" ] || [ "$2" != "--use-php52s" ] ; then
+	sh /script/php53s-installer
+else
+	sh /script/php53s-installer
+fi
 
-	### MR -- install with php53s still 'memory leaks'
-	#sh /script/php53s-install
-	
-	sh /script/fixlxphpexe
-#fi
+sh /script/fixlxphpexe php53s
 
 cd /
 
@@ -174,7 +166,6 @@ cd /usr/local/lxlabs/kloxo/install
 
 # Fix issue because sometimes kloxo database not created
 for (( a=1; a<=100; a++ )) ; do
-#	echo -n "$a "
 	sleep 2s
 
 	if [ $APP_TYPE == 'master' ] ; then
@@ -190,24 +181,6 @@ for (( a=1; a<=100; a++ )) ; do
 done
 
 echo
-echo "... Wait until finished (install php53s and restart services) ..."
-
-sh /script/php53s-install >/dev/null 2>&1
+echo "... Wait until finished (restart services) ..."
 sh /script/restart-all >/dev/null 2>&1
-
-#if [ "$(rpm -qa|grep httpd)" != "" ] ; then
-#	chkconfig httpd off >/dev/null 2>&1
-#	service httpd stop >/dev/null 2>&1
-#fi
-
 echo
-
-#if [ ! -f /opt/php53s/usr/bin/php ] ; then
-#	echo
-#	echo "Run 'sh /script/php53s-install' for running panel under PHP 5.3 version"
-#fi
-
-#echo
-#echo "Run 'sh /script/restart-all' to make sure all services running well"
-#echo "Note: certain services may not running well until add domain"
-#echo

@@ -198,6 +198,7 @@ class pserver extends pservercore {
 			$dbad = $this->getFromList('dbadmin', "mysql___{$this->syncserver}");
 			$user = $dbad->dbadmin_name;
 			$pass = $dbad->dbpassword;
+		//	$pass = crypt($dbad->dbpassword);
 
 			if (if_demo()) {
 				$pass = "demopass";
@@ -282,7 +283,21 @@ class pserver extends pservercore {
 		$alist[] = 'a=list&c=mailqueue';
 		$alist[] = 'a=list&c=clientmail';
 		$alist[] = "a=list&c=ftpsession";
+/*
+		// TODO
+		// MR -- this trick to make sure php.ini in server and user-level only
+		// because php-fpm approach need user-level rathe than domain-level
+		// rule for admin only
+		if ($ghtml->frm_o_o['0']['class'] === 'pserver') {
+			$alist[] = "a=show&o=phpini";
+		} else {
+			$alist[] = create_simpleObject(array('url' => "/display.php?frm_action=show&" .
+				"frm_o_o[0][class]=client&frm_o_o[0][nname]={$this->getParentName()}&frm_o_o[1][class]=phpini",
+				'purl' => "a=show&o=phpini", 'target' => "target='_self'"));			
+		}
+*/
 		$alist[] = "a=show&o=phpini";
+
 		$alist[] = "a=show&o=serverweb";
 		$alist[] = "a=show&o=serverftp";
 		$this->getMysqlDbAdmin($alist);

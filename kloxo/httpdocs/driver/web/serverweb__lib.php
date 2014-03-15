@@ -209,13 +209,11 @@ class serverweb__ extends lxDriverClass
 
 		setRpmInstalled("mod_suphp");
 
-		$ver = getPhpVersion();
-
 		$phpbranch = getRpmBranchInstalled('php');
 
 		$this->rename_to_nonconf();
 
-		if (version_compare($ver, "5.3.0", ">")) {
+		if (version_compare(phpversion(), "5.3.0", ">")) {
 			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
 			$this->remove_phpfpm();
 		} else {
@@ -261,11 +259,9 @@ class serverweb__ extends lxDriverClass
 		$haepath = '/home/apache/etc';
 		$haecdpath = '/home/apache/etc/conf.d';
 
-		$ver = getPhpVersion();
-
 		setRpmInstalled("mod_fcgid");
 
-		if (version_compare($ver, "5.3.0", "<")) {
+		if (version_compare(phpversion(), "5.3.0", "<")) {
 			$this->set_php_pure();
 		} else {
 			$this->remove_phpfpm();

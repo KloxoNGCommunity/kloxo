@@ -1,20 +1,24 @@
 #!/bin/sh
 
+### MR --  note: additional with '--use-php52s' if trouble with php53s
+
 if [ ! -f /script/programname ] ; then
 	echo 'kloxo' > /script/programname
 fi
 
-if [ "$1" != "-y" ] ; then
+if [ "$1" == "-y" ] || [ "$1" == "--force" ] || [ "$2" == "-y" ] || [ "$2" == "--force" ] ; then
+	if [ -f /etc/rc.d/init.d/qmail ] ; then
+		service qmail stop
+		rm -f /etc/rc.d/init.d/qmail
+	fi
+
+	sh /usr/local/lxlabs/kloxo/install/setup.sh $*
+
+else
 	if [ -r /usr/bin/lxphp.exe ] ; then
 		sh /script/cleanup
 	else
 		sh /usr/local/lxlabs/kloxo/install/setup.sh $*
 	fi
-else
-	if [ -f /etc/rc.d/init.d/qmail ] ; then
-		rm -f /etc/rc.d/init.d/qmail
-	fi
-
-	sh /usr/local/lxlabs/kloxo/install/setup.sh $*
 fi
 
