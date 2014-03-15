@@ -1,5 +1,12 @@
 #!/bin/sh
 
+if [ "$(rpm -qa php53s)" != "" ] ; then
+	service kloxo stop
+	yum remove php53s* -y
+	sh /script/php53s-install
+	sh /script/restart
+fi
+
 if [ "$(rpm -qa mratwork-release)" == "" ] ; then
     cd /tmp
     wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
