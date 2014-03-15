@@ -60,7 +60,7 @@ yum -y install bzip2 curl db4 expat expat openssl libc-client cyrus-sasl openlda
 	libXcomposite libXcursor libXdamage libXext libXfixes libXfont libXft libXi libXinerama \
 	libXrandr libXrender libXt libcroco libfontenc libgomp libgsf librsvg2 libthai libtiff \
 	libwmf-lite pango pixman polkit sgml-common urw-fonts xorg-x11-font-utils libmemcached \
-	libvpx >/dev/null 2>&1
+	libvpx liblzf >/dev/null 2>&1
 
 cd /opt/${base_name}s
 
