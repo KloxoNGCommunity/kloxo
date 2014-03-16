@@ -4,17 +4,27 @@ echo "*** BEGIN $0 ***"
 
 base_name="php52"
 
+if [ "$(yum list php*|grep ${base_name}u)" != "" ] ; then
+	pack_name="${base_name}u"
+elif [ "$(yum list php*|grep ${base_name})" != "" ] ; then
+	pack_name="${base_name}"
+else
+	echo "- No PHP packages exists. Only detecting '${base_name}u' and '${base_name}'. Exit"
+	echo
+	exit
+fi
+
 echo "- Download rpms..."
 mkdir -p /opt/${base_name}s
 cd /opt/${base_name}s
-yumdownloader ${base_name}-* >/dev/null 2>&1
+yumdownloader ${pack_name}-*
 rm -rf *-debug*
 rm -rf *-devel*
 
 
 echo "- Extract rpms..."
 for entry in $(ls ./*.rpm) ; do
-	rpm2cpio $entry | cpio -idmv  >/dev/null 2>&1
+	rpm2cpio $entry | cpio -idmv
 done
 
 rm -rf *.rpm
@@ -49,7 +59,7 @@ else
 	mysqlapp="mysql55"
 fi
 
-echo "- Download dependencies..."
+echo "- Install dependencies..."
 yum -y install bzip2 curl db4 expat expat openssl libc-client cyrus-sasl openldap \
 	krb5 postgresql unixODBC libxml2 libxslt net-snmp lm_sensors ncurses t1lib \
 	libmcrypt mhash libtidy freetds aspell pspell recode ${mysqlapp} mysqlclient \
@@ -60,7 +70,7 @@ yum -y install bzip2 curl db4 expat expat openssl libc-client cyrus-sasl openlda
 	libXcomposite libXcursor libXdamage libXext libXfixes libXfont libXft libXi libXinerama \
 	libXrandr libXrender libXt libcroco libfontenc libgomp libgsf librsvg2 libthai libtiff \
 	libwmf-lite pango pixman polkit sgml-common urw-fonts xorg-x11-font-utils libmemcached \
-	libvpx liblzf >/dev/null 2>&1
+	libvpx liblzf
 
 cd /opt/${base_name}s
 
