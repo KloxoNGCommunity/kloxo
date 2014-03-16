@@ -14,6 +14,25 @@ else
 	exit
 fi
 
+if [ "$(yum list *yum*|grep @)" != "" ] ; then
+	mysqlapp="mysql"
+else
+	mysqlapp="mysql55"
+fi
+
+echo "- Install dependencies first..."
+yum -y install apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
+	curl cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
+	fileutils fontconfig freetds freetype GConf2 gcc-c++ gd GeoIP ghostscript ghostscript-fonts \
+	gmp gtk2 hicolor-icon-theme icui18n ilmbase ImageMagick jasper-libs krb5 lcms-libs libc-client \
+	libcroco libedit libevent libfontenc libgomp libgsf libicu libIDL libjpeg liblzf \
+	libmcrypt libmemcached libpng librsvg2 libSM libstdc++ libthai libtiff libtool libtool-ltdl \
+	libwmf-lite libxml2 libxslt libtidy libvpx libXpm libXcomposite libXcursor libXdamage libXext \
+	libXfixes libXfont libXft libXi libXinerama libXrandr libXrender libXt lm_sensors \
+	${mysqlapp} mhash ncurses net-snmp OpenEXR-libs openldap openssl ORBit2 pam pango perl polkit \
+	postgresql pspell recode redhat-lsb sgml-common sqlite smtpdaemon t1lib unixODBC urw-fonts \
+	xorg-x11-font-utils zlib
+
 echo "- Download rpms..."
 mkdir -p /opt/${base_name}s
 cd /opt/${base_name}s
@@ -32,7 +51,7 @@ echo "- Disable certain modules..."
 for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 	apc imagick interbase ioncube-loader memcache memcached mssql debug \
 	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
-	xdebug	; do
+	xdebug	xcache ; do
 	if [ -f /opt/${base_name}s/etc/php.d/${i}.ini ] ; then
 		sed -i 's:=/usr/:=/opt/${base_name}s/usr/:' /opt/${base_name}s/etc/php.d/${i}.ini
 		if [ $i == 'mysqlnd_mysql' ] || [ $i == 'mysqlnd_mysqli' ] ; then
@@ -49,27 +68,7 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 	fi
 done
 
-
 cd /
-
-if [ "$(yum list *yum*|grep @)" != "" ] ; then
-	mysqlapp="mysql"
-else
-	mysqlapp="mysql55"
-fi
-
-echo "- Install dependencies..."
-yum -y install bzip2 curl db4 expat expat openssl libc-client cyrus-sasl openldap \
-	krb5 postgresql unixODBC libxml2 libxslt net-snmp lm_sensors ncurses t1lib \
-	libmcrypt mhash libtidy freetds aspell pspell recode ${mysqlapp} mysqlclient \
-	icui18n enchant libicu GeoIP liblzf freetype libXpm libpng libjpeg \
-	ConsoleKit ConsoleKit-libs GConf2 ImageMagick ORBit2 OpenEXR-libs \
-	atk avahi-libs cairo cups-libs dbus eggdbus fontconfig ghostscript ghostscript-fonts \
-	gtk2 hicolor-icon-theme ilmbase jasper-libs lcms-libs libICE libIDL libSM \
-	libXcomposite libXcursor libXdamage libXext libXfixes libXfont libXft libXi libXinerama \
-	libXrandr libXrender libXt libcroco libfontenc libgomp libgsf librsvg2 libthai libtiff \
-	libwmf-lite pango pixman polkit sgml-common urw-fonts xorg-x11-font-utils libmemcached \
-	libvpx liblzf
 
 cd /opt/${base_name}s
 

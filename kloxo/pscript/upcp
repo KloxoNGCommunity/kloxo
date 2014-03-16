@@ -1,19 +1,30 @@
 #!/bin/sh
 
-### MR --  note: additional with '--use-php52s' if trouble with php53s
+### MR --  note: additional with '--use-php53s' as alternative but still problem in centos 6 64bit
 
 if [ ! -f /script/programname ] ; then
 	echo 'kloxo' > /script/programname
 fi
 
-if [ "$1" == "-y" ] || [ "$1" == "--force" ] || [ "$2" == "-y" ] || [ "$2" == "--force" ] ; then
+if [ "$1" == "--remove-kloxo-databse" ] || [ "$2" == "--remove-kloxo-databse" ] || [ "$3" == "--remove-kloxo-databse" ] ; then
+	if [ -f /etc/rc.d/init.d/mysql ] ; then
+		service mysql stop
+		rm -rf /var/lib/mysql/kloxo
+		service mysql start
+	else
+		service mysqld stop
+		rm -rf /var/lib/mysql/kloxo
+		service mysqld start
+	fi
+fi
+
+if [ "$1" == "-y" ] || [ "$1" == "--force" ] || [ "$2" == "-y" ] || [ "$2" == "--force" ]  || [ "$3" == "-y" ] || [ "$3" == "--force" ] ; then
 	if [ -f /etc/rc.d/init.d/qmail ] ; then
 		service qmail stop
 		rm -f /etc/rc.d/init.d/qmail
 	fi
 
 	sh /usr/local/lxlabs/kloxo/install/setup.sh $*
-
 else
 	if [ -r /usr/bin/lxphp.exe ] ; then
 		sh /script/cleanup

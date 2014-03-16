@@ -144,17 +144,23 @@ else
 fi
 	
 # MR -- always disable mysql-aio
-sh /script/disable-mysql-aio
+#sh /script/disable-mysql-aio
+sh /script/set-mysql-default
 
 yum -y install php53u php53u-mysql
 
-if [ "$1" != "--use-php52s" ] || [ "$2" != "--use-php52s" ] ; then
+if [ "$1" == "--use-php53s" ] || [ "$2" == "--use-php53s" ] || [ "$3" == "--use-php53s" ] ; then
+	#sh /script/php53s-original-installer
 	sh /script/php53s-installer
+	sh /script/fixlxphpexe php53s
+	use_php53s="yes"
 else
-	sh /script/php53s-installer
-fi
+	#yum -y install net-snmp php52s
+	sh /script/php52s-installer
+	sh /script/fixlxphpexe php52s
+	use_php53s="no"
 
-sh /script/fixlxphpexe php53s
+fi
 
 cd /
 
@@ -181,6 +187,12 @@ for (( a=1; a<=100; a++ )) ; do
 done
 
 echo
-echo "... Wait until finished (restart services) ..."
+if [ $use_php53s == "no" ] ; then
+	echo "... Wait until finished (install php53s and restart services) ..."
+	sh /script/php53s-installer >/dev/null 2>&1
+	sh /script/fixlxphpexe php53s >/dev/null 2>&1
+else
+	echo "... Wait until finished (restart services) ..."
+fi
 sh /script/restart-all >/dev/null 2>&1
 echo

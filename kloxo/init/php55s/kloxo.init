@@ -42,8 +42,6 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 php_basename="php55s"
 
-sh /script/fixlxphpexe ${php_basename}
-
 if [ -f /opt/${php_basename}/usr/bin/php ] ; then
 	#phpcgi_file="/opt/${php_basename}/usr/sbin/php-fpm"
 	phpcgi_file="/usr/local/lxlabs/kloxo/init/${php_basename}-fpm.sh"	
@@ -53,11 +51,15 @@ if [ -f /opt/${php_basename}/usr/bin/php ] ; then
 	if [ "$(uname -m)" == "x86_64" ] ; then
 		sed -i "s:/usr/lib/php/modules:/usr/lib64/php/modules:" ${phpcgi_ini}
 	fi
+
+	sh /script/fixlxphpexe ${php_basename}
 elif [ -f /opt/php52s/usr/bin/php ] ; then
 	phpcgi_file="/opt/php52s/usr/bin/php-cgi"
 	if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
 		yum install spawn-fcgi -y
 	fi
+
+	sh /script/fixlxphpexe php52s
 elif [ -f /opt/php52s/bin/php ] ; then
 	phpcgi_file="/opt/php52s/bin/php-cgi"
 

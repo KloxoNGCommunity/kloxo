@@ -2,9 +2,6 @@
 
 INIT_DIR="/usr/local/lxlabs/kloxo/init"
 
-chmod 755 ${INIT_DIR}/php52s-cli.sh
-chmod 755 ${INIT_DIR}/php52s-cgi.sh
-
 if [ "$1" != "" ] ; then
 	base_name=$1
 else
@@ -12,16 +9,13 @@ else
 fi
 
 if [ -f /opt/${base_name}/usr/bin/php ] ; then
-	chmod 755 ${INIT_DIR}/${base_name}-cli.sh
-	chmod 755 ${INIT_DIR}/${base_name}-cgi.sh
-	chmod 755 ${INIT_DIR}/${base_name}-fpm.sh
-	chmod 755 ${INIT_DIR}/${base_name}-ls.sh
-
+	for i in cli cgi fpm ls ; do
+		if [ -f ${INIT_DIR}/${base_name}-${i}.sh ] ; then
+			chmod 755 -f ${INIT_DIR}/${base_name}-${i}.sh
+		fi
+	done
 	ln -sf ${INIT_DIR}/${base_name}-cli.sh /usr/bin/lphp.exe
 	ln -sf ${INIT_DIR}/${base_name}-cli.sh /usr/bin/lxphp.exe
-elif [ -f /opt/php52s/usr/bin/php ] ; then
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
 elif [ -f /opt/php52s/bin/php ] ; then
 	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
 	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe

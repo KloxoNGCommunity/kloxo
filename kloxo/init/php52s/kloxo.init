@@ -42,13 +42,13 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 php_basename="php52s"
 
-sh /script/fixlxphpexe ${php_basename}
-
 if [ -f /opt/${php_basename}/usr/bin/php ] ; then
 	phpcgi_file="/opt/php52s/usr/bin/php-cgi"
 	if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
 		yum install spawn-fcgi -y
 	fi
+
+	sh /script/fixlxphpexe ${php_basename}
 elif [ -f /opt/php52s/bin/php ] ; then
 	phpcgi_file="/opt/php52s/bin/php-cgi"
 
