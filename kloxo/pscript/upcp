@@ -6,7 +6,15 @@ if [ ! -f /script/programname ] ; then
 	echo 'kloxo' > /script/programname
 fi
 
-if [ "$1" == "--remove-kloxo-databse" ] || [ "$2" == "--remove-kloxo-databse" ] || [ "$3" == "--remove-kloxo-databse" ] ; then
+ppath="/usr/local/lxlabs/kloxo"
+
+if ! [ -d ${ppath}/log ] ; then
+	### must create log path because without it possible segfault for php!
+	mkdir -p ${ppath}/log
+fi
+
+if [ "$1" == "--remove-kloxo-databse" ] || [ "$2" == "--remove-kloxo-databse" ] || [ "$3" == "--remove-kloxo-databse" ] \
+		|| [ "$1" == "-r" ] || [ "$2" == "-r" ] || [ "$3" == "-r" ] ; then
 	if [ -f /etc/rc.d/init.d/mysql ] ; then
 		service mysql stop
 		rm -rf /var/lib/mysql/kloxo
@@ -18,18 +26,19 @@ if [ "$1" == "--remove-kloxo-databse" ] || [ "$2" == "--remove-kloxo-databse" ] 
 	fi
 fi
 
-if [ "$1" == "-y" ] || [ "$1" == "--force" ] || [ "$2" == "-y" ] || [ "$2" == "--force" ]  || [ "$3" == "-y" ] || [ "$3" == "--force" ] ; then
+if [ "$1" == "-y" ] || [ "$1" == "--force" ] || [ "$2" == "-y" ] || \
+		[ "$2" == "--force" ]  || [ "$3" == "-y" ] || [ "$3" == "--force" ] ; then
 	if [ -f /etc/rc.d/init.d/qmail ] ; then
 		service qmail stop
 		rm -f /etc/rc.d/init.d/qmail
 	fi
 
-	sh /usr/local/lxlabs/kloxo/install/setup.sh $*
+	sh ${ppath}/install/setup.sh $*  | tee ${ppath}/install/install.log
 else
-	if [ -r /usr/bin/lxphp.exe ] ; then
+	if [ -d /var/lib/mysql/kloxo ] ; then
 		sh /script/cleanup
 	else
-		sh /usr/local/lxlabs/kloxo/install/setup.sh $*
+		sh ${ppath}/install/setup.sh $*  | tee ${ppath}/install/install.log
 	fi
 fi
 

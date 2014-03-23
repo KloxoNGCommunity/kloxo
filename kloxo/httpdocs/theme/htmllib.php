@@ -1981,6 +1981,11 @@ class HtmlLib
 
 	function get_post_from_get($url, &$path, &$post)
 	{
+		// MR -- fix issue for maillinglist
+		if (is_object($url)) {
+			$url = $url->url;
+		}
+
 		$post = null;
 		$array = parse_url($url);
 		$path = '';
@@ -4014,7 +4019,7 @@ class HtmlLib
 		}
 ?>
 
-		<div style="background: #<?= $skin_color ?>; padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a href="javascript:toggleVisibilityById('listaddform_<?= $unique_name ?>');"> <?= $login->getKeywordUc('clickheretoadd') ?> <?= $cdesc ?> (<?= $showstring ?>)</a> <?= $show_all_string ?> <<<<&nbsp;</div>
+		<div style="background: #<?= $skin_color ?>; padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a href="javascript:toggleVisibilityById('listaddform_<?= $unique_name ?>');"> <?= $login->getKeywordUc('clickheretoadd') ?> <?= $cdesc ?> (<?= $showstring ?>)</a><?= $show_all_string ?> <<<<&nbsp;</div>
 		<br/>
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
@@ -5437,7 +5442,7 @@ class HtmlLib
 		if (!$login->getSpecialObject('sp_specialplay')->isOn('enable_ajax') && ($header !== 'left_panel')) {
 			//
 		} else {
-			$yui_utilities_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/js", "lxa.js"));
+			$yui_utilities_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/js", "yui-utilities.js"));
 			$ext_yui_adapter_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/js", "ext-yui-adapter.js"));
 			$ext_all_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/extjs/js", "ext-all.js"));
 			$dragdrop_path = str_replace(getcwd(), "", getLinkCustomfile("/theme/js", "dragdrop.js"));
@@ -5684,22 +5689,14 @@ class HtmlLib
 			$cont = ob_get_contents();
 
 			if ($gbl->__fvar_dont_redirect || csa($cont, "Notice") || csa($cont, "Warning") || csa($cont, "Parse error")) {
-				print_time('full', "Page Generation Took: ");
-?>
-
-				<b><br/> <br/> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
-					<br/>
-					Click <a href="<?= $redirect_url ?>"> xHere to go there Anyways.</b>
-<?php
+				print_time('full', "<br/>*** Page Generation Took: ");
 			} else {
-				print_time('full', "Page Generation Took: ");
-?>
-
-				<b><br/> <br/> Looks Like there are some errors... Or Been asked not to redirect Not redirecting...
-					<br/>
-					Click <a href="<?= $redirect_url ?>"> xHere to go there Anyways.</b>
-<?php
+				print_time('full', "<br/>*** Page Generation Took: ");
 			}
+?>
+			- Looks Like there are some errors... Or Been asked not to redirect. Not redirecting...<br/>
+			- Click <a href="<?= $redirect_url ?>">here</a> to go there Anyways.
+<?php
 		} else {
 			header("Location:$redirect_url");
 ?>
@@ -6002,7 +5999,7 @@ class HtmlLib
 
 					<?= $filteropacitystringspan ?>
 
-					<select style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?> class="textbox" onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
+					<select style="width: 100%; border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?> class="textbox" onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
 
 <?php
 		foreach ($list as $k => $l) {
@@ -8397,7 +8394,6 @@ class HtmlLib
 
 		$treename = "_" . fix_nname_to_be_variable($object->nname);
 ?>
-
 		<div style="width: 600px; margin: 0 auto">
 <?php
 		if ($complex) {
@@ -9099,18 +9095,21 @@ class HtmlLib
 		if (($as_simple_skin) || ($skin_name === 'simplicity')) {
 			if ($skin_name === 'simplicity') {
 				$margin_top = '60';
-				$border = '0';
+				$border = 'border: 0';
 				$bgcolor = "";
-				$bgcolor = "background-color:#f0f8ff";
+			//	$bgcolor = "background-color:#f0f8ff";
+				$bgcolor='';
+				$shadow='mmm';
 			} else {
 				$margin_top = '10';
-				$border = '4px double #ddd';
+				$border = 'border: 4px double #ddd';
 				$bgcolor = "background-color:#fff";
+				$shadow='shadow_all mmm';
 			}
 ?>
 
 			<!-- "START TAB + CONTENT" -->
-			<div class="shadow_all mmm" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; border: <?= $border ?>; <?= $bgcolor ?>">
+			<div class="<?= $shadow ?>" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; <?= $border ?>; <?= $bgcolor ?>">
 <?php
 		}
 
@@ -9504,7 +9503,8 @@ class HtmlLib
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
 
-		$bordering = "border: 1px solid #ddd; border-top:0";
+	//	$bordering = "border: 1px solid #ddd; border-top: 0";
+		$bordering = "";
 
 		if ($skin_name === 'feather') {
 			if (!$as_simple_skin) {
@@ -9516,9 +9516,15 @@ class HtmlLib
 ?>
 
 	<!-- "START CONTENT" -->
-	<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden">
-		<table style="width: 100%; height: 100%; border: 0; margin: 0; padding: 0; <?= $bordering ?>; background-color: #fff"><tr><td style="vertical-align:top;">
-		<br/>
+	<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden; border: 0; padding:0; margin: 0; background-color: #fff">
+<?php
+		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+?>
+		<div class="verb4" style="padding: 0px; border-bottom: 1px solid #ddd; margin-bottom: 10px; background-color: #eee"><?= print_navigation($gbl->__navig); ?></div>
+<?php
+		}
+?>
+		<table style="width: 100%; height: 100%; margin: 0; padding: 0; <?= $bordering ?>; background-color: #fff"><tr><td style="vertical-align:top; border: 0; padding:0; margin: 0">
 <?php
 	}
 

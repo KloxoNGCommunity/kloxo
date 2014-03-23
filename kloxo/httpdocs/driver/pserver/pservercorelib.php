@@ -242,6 +242,21 @@ class pservercore extends Lxclient
 
 		if (!$this->isLocalhost() && $this->realpass === 'admin') {
 			$ghtml->__http_vars['frm_emessage'] = "security_warning";
+
+		/*
+			if ($_SERVER["SERVER_BINDING"] === 'port_ssl') {
+				$schema = 'https';
+			} else {
+				$schema = 'http';
+			}
+
+			$domain = $_SERVER['HTTP_HOST'];
+			$port = $_SERVER['SERVER_PORT'];
+			$script = $_SERVER["SCRIPT_NAME"];
+			$query = "frm_action=updateform&frm_subaction=password";
+
+			header('Location: {$schema}://{$domain}:{$port}/{$script}?{$query}');
+		*/
 		}
 
 		if ($sgbl->isKloxo() && !$this->getObject('servermail')->myname) {
@@ -1093,8 +1108,8 @@ STRIN;
 		if (!$driverapp) {
 			print("NO driverapp for ipaddress\n");
 
-			exit;
-		//	return;
+		//	exit;
+			return;
 		}
 
 		$rmt->func = array("Ipaddress__$driverapp", "listSystemIps");

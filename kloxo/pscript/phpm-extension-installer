@@ -1,0 +1,30 @@
+#!/bin/sh
+
+um=$(uname -m)
+
+if [ "$#" == 0 ] ; then
+	echo
+	echo " ---------------------------------------------------------------------------"
+	echo "  format: sh $0 <extension_name>"
+	echo " ---------------------------------------------------------------------------"
+	echo " - Better use the same version; Example: 'sh $0 php52-xcache'"
+	echo
+	echo " - Certain extension need 'extension=/opt/${1}/usr/${um}/xxx.so'"
+	echo "   rather than 'extension=xxx.so' inside their ini file on"
+	echo "   '/opt/${1}/etc/php.d'"
+	echo
+	echo " - Testing with '${1} -m'"
+	echo
+	exit;
+fi
+
+yum install yum-utils -y
+
+rm -f *.rpm
+
+cd /opt/${1}
+
+yumdownloader ${2}
+
+rpm2cpio *.rpm | cpio -idmv >/dev/null 2>$1
+

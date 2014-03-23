@@ -28,8 +28,10 @@ $gl_class_array["domaintraffic"] = "lib/domain/domaintrafficlib.php";
 
 $gl_class_array["mailaccount"] = "driver/mmail/mailaccountlib.php";
 $gl_class_array["mailforward"] = "driver/mmail/mailforwardlib.php";
+
 $gl_class_array["mailinglist"] = "driver/mmail/mailinglistlib.php";
 $gl_class_array["listsubscribe"] = "driver/mmail/listsubscribelib.php";
+$gl_class_array["all_mailinglist"] = "driver/mmail/mailinglistlib.php";
 
 // $gl_class_array["phpmailer"] = "lib/extra/class.phpmailer.php";
 // $gl_class_array["smtp"] = "lib/extra/class.smtp.php";

@@ -54,6 +54,7 @@ class Client extends ClientBase
 	static $__desc_reversedns_l = array("", "", "");
 	static $__desc_ftpsession_l = array("", "", "");
 	static $__desc_dbadmin_l = array("", "", "");
+	static $__desc_phpini_o = array("db", "", "");
 
 	function isSync()
 	{
@@ -462,6 +463,9 @@ class Client extends ClientBase
 		if ($this->priv->isOn('webhosting_flag')) {
 			$alist['__title_resource'] = $login->getKeywordUc('resource');
 		}
+
+
+		$alist[] = "a=show&o=phpini";
 
 		$alist[] = "a=updateform&sa=update&o=domaindefault";
 		$alist[] = "a=list&c=auxiliary";

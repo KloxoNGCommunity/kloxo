@@ -33,8 +33,6 @@ function create_mysql_db($type, $opt, $admin_pass)
 	if ($sgbl->__var_database_type === 'mysql') {
 		$req->query("create database $dbname");
 		$req->query("grant all on $dbname.* to '$pguser'@'localhost' identified by '$dbadminpass';");
-	} else {
-		//
 	}
 
 	lfile_put_contents("__path_admin_pass", $dbadminpass);

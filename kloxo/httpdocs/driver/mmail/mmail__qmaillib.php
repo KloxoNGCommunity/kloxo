@@ -226,7 +226,8 @@ class Mmail__Qmail extends lxDriverClass
 		$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
 
 		if ($ret) {
-			exec_with_all_closed("sh /script/laod-wrapper >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
+			exec_with_all_closed("sh /script/fixmail-all >/dev/null 2>&1 &");
 			throw new lxException("could_not_add_mail", 'mailpserver', $global_shell_error);
 		}
 

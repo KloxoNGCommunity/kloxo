@@ -7,8 +7,8 @@ $gl_class_array['autoresponder__qmail'] = "driver/mmail/autoresponder__qmaillib.
 
 //--// $gl_class_array['domaintraffichistory__apache'] = "driver/web/domaintraffichistory__apachelib.php";
 
-$gl_class_array['mailinglist__mailman'] = "driver/mmail/mailinglist__mailmanlib.php";
-$gl_class_array['listsubscribe__mailman'] = "driver/mmail/listsubscribe__mailmanlib.php";
+//--// $gl_class_array['mailinglist__mailman'] = "driver/mmail/mailinglist__mailmanlib.php";
+//--// $gl_class_array['listsubscribe__mailman'] = "driver/mmail/listsubscribe__mailmanlib.php";
 
 $gl_class_array['web__apache'] = "driver/web/web__apachelib.php";
 $gl_class_array['web__lighttpd'] = "driver/web/web__lighttpdlib.php";
@@ -65,6 +65,7 @@ $gl_class_array['listsubscribe__ezmlm'] = "driver/mmail/listsubscribe__ezmlmlib.
 //--// $gl_class_array['listsubscribe__mailenable'] = "driver/mmail/listsubscribe__mailenablelib.php";
 $gl_class_array['spam__spamassassin'] = "driver/mmail/spam__spamassassinlib.php";
 $gl_class_array['spam__bogofilter'] = "driver/mmail/spam__bogofilterlib.php";
+$gl_class_array['spam__none'] = "driver/mmail/spam__nonelib.php";
 $gl_class_array['mailcontent__qmail'] = "driver/mmail/mailcontent__qmaillib.php";
 $gl_class_array['mailqueue__qmail'] = "driver/mmail/mailqueue__qmaillib.php";
 

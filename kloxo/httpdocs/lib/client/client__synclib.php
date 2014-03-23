@@ -4,15 +4,18 @@ class client__sync extends lxDriverClass {
 
 	function dbactionDelete()
 	{
+		lxshell_return("userdel", $this->main->username);
+
 		lxfile_rm_rec("__path_client_root/{$this->main->nname}");
 		lxfile_rm_rec("__path_customer_root/{$this->main->getPathFromName()}");
-		lxshell_return("userdel", $this->main->username);
+
+		// MR -- remember: using lxfile_rm may not work!
+		unlink("/etc/php-fpm.d/{$this->main->nname}.conf");
+		createRestartFile("php-fpm");
 	}
 
 	function dbactionAdd()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-		
 		lxfile_mkdir("__path_client_root/{$this->main->nname}");
 		lxfile_mkdir("__path_client_root/{$this->main->nname}/__backup");
 		lxfile_generic_chown("__path_client_root/{$this->main->nname}", "lxlabs");
@@ -20,8 +23,22 @@ class client__sync extends lxDriverClass {
 
 		$ret = $this->createUser();
 		$this->setupDefaultDomain();
-		
+
+		// MR -- not work here. So, create warning if client not update php.ini
+		// in getAnyErrorMessage()
+	//	$php = $this->main->getObject('phpini');
+	//	$php->initPhpIni();
+	//	$php->setUpdateSubaction('ini_update');
+
+	//	exec("sh /script/fixphp --client={$username}");
+
 		return $ret;
+	}
+
+	function dosyncToSystemPost()
+	{
+		$username = $this->main->username;
+
 	}
 
 	static function getFromRemote($user, $server, $filepass, $dt, $p)
@@ -56,7 +73,7 @@ class client__sync extends lxDriverClass {
 
 		$this->setQuota();
 		$ret = array("__syncv_username" => $username);
-		
+
 		return $ret;
 	}
 

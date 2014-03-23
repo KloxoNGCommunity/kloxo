@@ -191,7 +191,7 @@ class web__ extends lxDriverClass
 			$ret = lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
 		}
 
-		if (version_compare(phpversion(), "5.3.2", ">")) {
+		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
 			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");
 
 			if (file_exists("/etc/php-fpm.d")) {
@@ -338,7 +338,7 @@ class web__ extends lxDriverClass
 		
 		$input['userlist'] = $this->getUserList();
 
-		if (version_compare(phpversion(), "5.3.3", "<")) {
+		if (version_compare(getPhpVersion(), "5.3.3", "<")) {
 			// MR -- that mean 'xml' type config
 			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
 			$tpltarget = "/etc/php-fpm.conf";
@@ -510,7 +510,8 @@ class web__ extends lxDriverClass
 				$conftype = 'domains';
 				$conftpl = 'domains';
 				$conffile = $input['domainname'] . '.conf';
-				self::setHttpdFcgid($input);
+				// MR -- change process to create client (user-level php.ini)
+			//	self::setHttpdFcgid($input);
 			}
 		}
 
@@ -574,7 +575,8 @@ class web__ extends lxDriverClass
 
 	function disablePhp()
 	{
-		$this->setPhpIni();
+		// MR -- move to user-level php.ini
+	//	$this->setPhpIni();
 
 		$ret = ($this->main->priv->isOn('php_flag')) ? false : true;
 
@@ -959,11 +961,11 @@ class web__ extends lxDriverClass
 	{
 		$tplsource = getLinkCustomfile("/home/apache/tpl", "php5.fcgi.tpl");
 
-		$input['phpinipath'] = "/home/httpd/{$input['domainname']}";
+		$input['phpinipath'] = "/home/kloxo/client/{$input['user']}";
 
-		$input['phpcginame'] = (version_compare(phpversion(), "5.3.0", "<")) ? 'php-cgi_pure' : 'php-cgi';
+		$input['phpcginame'] = (version_compare(getPhpVersion(), "5.3.0", "<")) ? 'php-cgi_pure' : 'php-cgi';
 
-		$tpltarget = "/home/httpd/{$input['domainname']}/php5.fcgi";
+		$tpltarget = "/home/kloxo/client/{$input['user']}/php5.fcgi";
 
 		$tpl = file_get_contents($tplsource);
 
@@ -975,9 +977,9 @@ class web__ extends lxDriverClass
 			lxfile_generic_chmod($tpltarget, "755");
 		}
 
-		$input['phpinipath'] = "/etc";
+		$input['pathinipath'] = "/etc";
 
-		$tpltarget = "/home/httpd/php5.fcgi";
+		$tpltarget = "/home/kloxo/client/php5.fcgi";
 
 		$tpl = file_get_contents($tplsource);
 
@@ -1016,21 +1018,13 @@ class web__ extends lxDriverClass
 		lxfile_unix_chown("/home/httpd/{$domainname}", "{$username}:apache");
 		lxfile_unix_chmod("/home/httpd/{$domainname}", "0775");
 
-		if (!lxfile_exists("/home/httpd/{$domainname}/php.ini")) {
-			// MR -- issue #650 - lxuser_cp does not work and change to lxfile_cp;
-			// lighttpd use lxfile_cp
-			lxfile_cp("/etc/php.ini", "/home/httpd/{$domainname}/php.ini");
-		}
-	
-	/*
-		// TODO
+		// TODO -- done
 		// MR -- change to user-level php
 		if (!lxfile_exists("/home/kloxo/client/{$username}/php.ini")) {
 			// MR -- issue #650 - lxuser_cp does not work and change to lxfile_cp;
 			// lighttpd use lxfile_cp
 			lxfile_cp("/etc/php.ini", "/home/kloxo/client/{$username}/php.ini");
 		}
-	*/
 	}
 
 	function createHotlinkHtaccess()
@@ -1123,7 +1117,6 @@ class web__ extends lxDriverClass
 
 		$this->main->doStatsPageProtection();
 
-		$user = $this->getUser();
 	}
 
 	function dbactionDelete()
@@ -1185,6 +1178,31 @@ class web__ extends lxDriverClass
 		lxfile_unix_chmod("{$droot}/", "0755");
 		lxfile_unix_chmod("{$droot}", "0755");
 		lxfile_unix_chown("{$hroot}/{$domname}", "{$uname}:apache");
+	}
+
+	function skeletonUpdate()
+	{
+		$droot = $this->main->getFullDocRoot();
+
+		$this->main->getAndUnzipSkeleton($droot);
+	}
+
+	function phpUpdate()
+	{
+		// MR -- no need for it except .htaccess per-domain!
+		$uname = $this->getUser();
+
+		exec("sh /script/fixphp --client={$uname} --nolog");
+	}
+
+	function htaccessUpdate()
+	{
+		// MR -- no need for it except .htaccess per-domain!
+		$domain = $this->getDomainname();
+		$uname = $this->getUser();
+
+		exec("sh /script/fixphp --domain={$domain} --nolog");
+
 	}
 
 	function dbactionUpdate($subaction)
@@ -1282,7 +1300,19 @@ class web__ extends lxDriverClass
 
 				case "static_config_update":
 					$this->updateMainConfFile();
-					$this->createPhpFpmConfig();
+				//	$this->createPhpFpmConfig();
+					break;
+
+				case "skeleton_update":
+					$this->skeletonUpdate();
+					break;
+
+				case "php_update":
+					$this->phpUpdate();
+					break;
+
+				case "htaccess_update":
+					$this->htaccessUpdate();
 					break;
 
 				case "fix_phpfpm":

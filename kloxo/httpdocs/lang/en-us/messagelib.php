@@ -18,26 +18,26 @@ $__emessage['no_socket_connect_to_server'] = "Could not Connect to the server [%
 $__emessage['restarting_backend'] = "Restarting the backend. Please try again after 30 seconds.";
 $__emessage['quota_exceeded'] = "Quota Exceeded for [%s]";
 $__emessage['license_no_ipaddress'] = "The public ipaddress [%s] of this server was not found in in the license repository. Please contact Lxlabs sales or your reseller to create a license for this server.";
-$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via Kloxo-MR itself. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=sshconfig>here</url> to configure your ssh server.";
+$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via Kloxo-MR itself. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=sshconfig>[here]</url> to configure your ssh server.";
 $__emessage['already_exists'] = "The resource of name [%s] already exists.";
-$__emessage['lxguard_not_configured'] = "Lxguard for this server is not configured. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=show&o=lxguard>here</url> to configure Lxguard since it is very important that you understand what it does. Lxguard is critical for the security of your server, at the same time, it can block your own IPaddress from accessing the server, which can be frustrating if you don't know what's happening.";
+$__emessage['lxguard_not_configured'] = "Lxguard for this server is not configured. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=show&o=lxguard>[here]</url> to configure Lxguard since it is very important that you understand what it does. Lxguard is critical for the security of your server, at the same time, it can block your own IPaddress from accessing the server, which can be frustrating if you don't know what's happening.";
 $__emessage['root_cannot_extract_to_existing_dir'] = "Directory you provided already exists. Root user cannot extract archive into an existing directory. Please provide the name of a directory that doesn't exist in the system.";
 $__emessage['no_imagemagick'] = "There is no imagemagick in the system. You can install imagemagick by running <b>yum -y install imagemagick</b>.";
-$__emessage['warn_license_limit'] = "You are very close to your license limit for [%s]. If the system goes over limit for [%s] the interface will stop working and you won't be able to manage your system. Please increase your license at client.lxlabs.com and update by click <url:o=license&a=show>here</url>.";
+$__emessage['warn_license_limit'] = "You are very close to your license limit for [%s]. If the system goes over limit for [%s] the interface will stop working and you won't be able to manage your system. Please increase your license at client.lxlabs.com and update by click <url:o=license&a=show>[here]</url>.";
 $__emessage['file_already_exists'] = "The file [%s] already exists.";
-$__emessage['contact_set_but_not_correct'] = "Your Contact Information doesn't appear to be a valid email address. Click <url:a=updateform&sa=information>here</url> to fix it.";
-$__emessage['contact_not_set'] = "Your Contact Information is not set properly. Click <url:a=updateform&sa=information>here</url> to fix it.";
-$__emessage['you_have_unread_message'] = "You have [%s] Unread Message(s). click <url:a=list&c=smessage>here</url> to read it.";
-$__emessage['you_have_unread_ticket'] = "You have [%s] Unread Ticket(s). click <url:a=list&c=ticket> here  to read it. </url>";
-$__emessage['security_warning'] = "Your password is now set as a generic password which constitutes a grave security threat. Please change it immediately by click <url:a=updateform&sa=password>here</url>.";
-$__emessage['ssh_port_not_configured'] = "The ssh port for this server is not set. It is a good idea to change it to something other than the default 22. Please click <url:a=show&o=sshconfig>here</url> to change. If you want to keep the ssh port to 22 and still avoid this message, go to the page, and set it forcibly to 22, and the warning will not be displayed again.";
+$__emessage['contact_set_but_not_correct'] = "Your Contact Information doesn't appear to be a valid email address. Click <url:a=updateform&sa=information>[here]</url> to fix it.";
+$__emessage['contact_not_set'] = "Your Contact Information is not set properly. Click <url:a=updateform&sa=information>[here]</url> to fix it.";
+$__emessage['you_have_unread_message'] = "You have [%s] Unread Message(s). click <url:a=list&c=smessage>[here]</url> to read it.";
+$__emessage['you_have_unread_ticket'] = "You have [%s] Unread Ticket(s). click <url:a=list&c=ticket>[here]</url> to read it.";
+$__emessage['security_warning'] = "Your password is now set as a generic password which constitutes a grave security threat. Please change it immediately by click <url:a=updateform&sa=password>[here]</url>.";
+$__emessage['ssh_port_not_configured'] = "The ssh port for this server is not set. It is a good idea to change it to something other than the default 22. Please click <url:a=show&o=sshconfig>[here]</url> to change. If you want to keep the ssh port to 22 and still avoid this message, go to the page, and set it forcibly to 22, and the warning will not be displayed again.";
 $__emessage['system_is_updating_itself'] = "The system at this point is upgrading itself, and thus you won't be able to make any changes for a few minutes. All read actions work normally though.";
 $__emessage['system_is_locked'] = "Someone has initiated system-modification-action on this particular object which is still going on. You wont be able to make any changes till it is finished. All read actions work normally though.";
 $__emessage['system_is_locked_by_u'] = "You have initiated a system-modification-action which is still going on. You wont be able to make any changes till it is finished. All read actions work normally though.";
 $__emessage['smtp_server_not_running'] = "Kloxo-MR could not connect to an smtp server on this server. That means that Kloxo-MR will not able to send out any mails. This is very critical since Kloxo-MR monitors the health of the entire cluster and sends email to the admin if there is any problem. You should make sure that the smtp service is running on this server. Once you restart the SMTP service, please wait 5 minutes for this error message to disappear, since Kloxo-MR checks for the service availability only once every 5 minutes.";
 $__emessage['template_not_owner'] = "You are not the Owner of this Template";
 $__emessage['ipaddress_changed_amidst_session'] = "IP Address Changed Amidst Session. Possible Session Hijacking.";
-$__emessage['more_than_one_user'] = "More than one user is logged in this account. Click <burl:a=list&c=ssession>here to see list of logins. </burl> ";
+$__emessage['more_than_one_user'] = "More than one user is logged in this account. Click <url:a=list&c=ssession>[here]</url> to see list of logins. ";
 $__emessage['login_error'] = "Login Unsuccessful";
 $__emessage['file_exists'] = "file(s) [%s] Exists. Not Pasting...";
 $__emessage['cannot_unzip_in_root'] = "You cannot unzip files into the root. Please specify a directory and unzip into that.";
@@ -61,18 +61,20 @@ $__emessage['dns_conflict'] = "The domain was not added due to an error in the d
 $__emessage['add_without_www'] = "You should add only the main domain in the form of domain.com. The <b>www</b> subdomain will be automatically added to it. You shouldn't add <b>www</b> when creating a domain.";
 $__emessage['could_not_connect_to_db'] = "Could Not Connect to Database: The error has been logged. Please contact the administrator.";
 $__emessage['e_no_dbadmin_entries'] = "There are no Database administrator entries configured for this particular server. Please contact your admin to set them.";
-$__emessage['please_add_one_domain_for_owner_mode'] = "You will need to have at least one domain if you want to switch to domain owner mode. You can add a domain by click <url:a=addform&c=domain>here</url>.";
+$__emessage['please_add_one_domain_for_owner_mode'] = "You will need to have at least one domain if you want to switch to domain owner mode. You can add a domain by click <url:a=addform&c=domain>[here]</url>.";
 $__emessage['e_no_dbadmin_entries_admin'] = "There are no Database administrator entries configured for this particular server. You have to go to the server section for this server, and click on the Dbadmin link, and add the database admin user and password for this particular machine and the type of database.";
-$__emessage['mail_server_name_not_set'] = "The identification name for your mail server is not set. This means that many public mail servers like hotmail will reject mails from your server. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=servermail>here</url> to set it.";
+$__emessage['mail_server_name_not_set'] = "The identification name for your mail server is not set. This means that many public mail servers like hotmail will reject mails from your server. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=servermail>[here]</url> to set it.";
 $__emessage['dns_template_inconsistency'] = "The Dns Template You have chosen is not consistent with your choice of the servers. For instance, it could be that the ipaddress in the dns is not at all found in the webserver. Please go back and create a dns template that has the parameters consistent with server setup.";
 $__emessage['adding_cron_failed'] = "Adding crontab has failed due to [%s]. Please delete it and add it again.";
 $__emessage['se_submit_running_background'] = "Search Engine Submission is running in the background. You will be sent a message to your contact email when it is done.";
-$__emessage['err_no_dns_template'] = "There are no Dns Templates in the System. You have to have at least one Dns Template to add a domain/client. Click <url:a=list&c=dnstemplate>here</url> to add a dnstemplate.";
+$__emessage['err_no_dns_template'] = "There are no Dns Templates in the System. You have to have at least one Dns Template to add a domain/client. Click <url:a=list&c=dnstemplate>[here]</url> to add a dnstemplate.";
 $__emessage['certificate_key_file_empty'] = "The certificate and the Key file you have chosen are empty. You have to first create or upload them before enabling ssl";
 $__emessage['document_root_may_not_contain_spaces'] = "The document root may not contain any space at the end or before the slash. Please check and submit again.";
 
-$__emessage['switch_program_not_set'] = "Need select services. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=switchprogram>here</url> to set it.";
-$__emessage['phptype_not_set'] = "Need select php-type. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=serverweb&a=show>here</url> to set it.";
+$__emessage['switch_program_not_set'] = "Need select services. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=switchprogram>[here]</url> to set it.";
+$__emessage['phptype_not_set'] = "Need select php-type. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=serverweb&a=show>[here]</url> to set it.";
+$__emessage['phpini_not_set'] = "Need update php.ini to make sure website able to process php file. Click <url:&o=phpini&a=show>[here]</url> to set it.";
+
 
 // ------------------------ //
 
@@ -109,7 +111,7 @@ $__information['sshconfig_updateform_update_pre'] = "<p>It is recommended that y
 	"<p>In any case, make sure you disable password based root access to this server.</p>";
 
 $__information['all_dns_list__pre'] = "<p>This is the list of every dns created by your VPS owners.</p>".
-	"<p>Click <url:o=general&a=updateform&sa=reversedns>here</url> to configure DNS servers so that all your customers can use it.</p>".
+	"<p>Click <url:o=general&a=updateform&sa=reversedns>[here]</url> to configure DNS servers so that all your customers can use it.</p>".
 	"<p>Kloxo-MR's DNS manager allows a VPS owner to create DNS directly in Kloxo-MR itself, and the data will be saved on the VPS vendor's servers.</p>".
 	"<p>In other words, it allows you to host your vps customer's DNS on your servers.</p>";
 
@@ -186,7 +188,7 @@ $__information['updateform_login_options_pre'] = "<p><b>Note:</b> session timeou
 
 $__information['resourceplan_show__pre'] = "<p><b>Note:</b> ".
 	"If you change the values here, every account that uses this plan will be updated with the new values.</p>".
-	"<p>Click <url:a=updateForm&sa=description>here</url> to see the accounts configured on this plan.</p>";
+	"<p>Click <url:a=updateForm&sa=description>[here]</url> to see the accounts configured on this plan.</p>";
 
 $__information['resourceplan_addform__pre'] = "<p>You can set 'Resource Plan' here and then create client based on it.</p>";
 
@@ -226,7 +228,7 @@ $__information['ticketconfig_updateform_ticketconfig_pre'] = "<p>The mailgate is
 	"It is always recommended that you use ssl, but you will need to make sure that the remote mail serer does support pop3-ssl service at port 995.</p>";
 
 $__information['updateform_mysqlpasswordreset_pre'] = "<p>This should only be used if you have lost the MySQL database root password.</p>".
-	"<p>In normal circumstances, you can change the password by click <url:a=list&c=dbadmin>here</url> (database admin).</p>".
+	"<p>In normal circumstances, you can change the password by click <url:a=list&c=dbadmin>[here]</url> (database admin).</p>".
 	"<p>Please be patient as this will take a while to finish. This will reset the mysql root password by running it with the skip-grant-tables option.</p>".
 	"<p>If this doesn't work, please login through ssh and run '<b>sh /script/reset-mysql-root-password</b>'.</p>";
 
@@ -272,12 +274,12 @@ $__information['addondomain_list__pre'] = "<p><b>Note:</b>".
 	"</ul></p>";
 
 $__information['redirect_a_list__pre'] = "<p>This will allow you to redirect a particular url in the domain to another.</p>".
-	"<p>Click <url:a=updateform&sa=configure_misc>here</url> if you want to forcibly redirect non-www base <b>domain.com</b> to <b>www.domain.com</b>.</p>";
+	"<p>Click <url:a=updateform&sa=configure_misc>[here]</url> if you want to forcibly redirect non-www base <b>domain.com</b> to <b>www.domain.com</b>.</p>";
 
 $__information['web_updateform_dirindex_pre'] = "<p>Enabling <b>directory index</b> will allow you to browse the directories of your domain via the webserver.</p>".
 	"<p>If directory index is disabled, and if an index.xxx file is not found inside the directory, a forbidden error message will be raised.</p>";
 
-$__information['updateform_editmx_pre'] = "<p>If you want to configure remote mail server, click <url:a=updateform&sa=remotelocalmail>here</url>.</p>".
+$__information['updateform_editmx_pre'] = "<p>If you want to configure remote mail server, click <url:a=updateform&sa=remotelocalmail>[here]</url>.</p>".
 	"<p>You can tell Kloxo-MR that the mail server is configured remotely, so that all local generated mails will be sent to that server.</p>".
 	"<p>If you don't configure remote mail, then all mails to this domain will delivered locally itself, without doing any DNS lookup.</p>";
 
@@ -312,7 +314,7 @@ $__information['ftpuser_admin'] = "<p>Use <b>--direct--</b> to add an ftpuser th
 
 $__information['updateform_default_domain_pre'] = "<p>This will set the domain that's considered as the primary domain for this particular account.</p>".
 	"<p>You can access this domain's document root by going to http://IP/~clientname.</p>".
-	"<p>To map an ipaddress to a domain, you have to click <url: a=list&c=ipaddress>here</url>, go inside an ipaddress and click on 'configure domain' tab there.</p>".
+	"<p>To map an ipaddress to a domain, you have to click <url: a=list&c=ipaddress>[here]</url>, go inside an ipaddress and click on 'configure domain' tab there.</p>".
 	"<p>If you want to view a domain before the dns is setup, the best way is to create an entry for the domain in your local etc/hosts file.</p>".
 	"<p>Just add an entry like this: <b>192.168.1.32 domain.com</b> on a separete line, ".
 	"and then you will be able to access the domain by typing it in your browser's url box.</p>";
@@ -370,7 +372,7 @@ $__information['domainipaddress_updateform_update_pre'] = "<p>This will allow yo
 	"<p>That is, if someone accesses http://ip, then the document root of the domain configured here will be shown.</p>";
 
 $__information['sslipaddress_updateform_update_pre'] = "<p>To setup an ssl for an ipaddress, first upload/add an ssl certificate ".
-	"from <url:goback=2&a=list&c=sslcert>here</url>.</p>";
+	"from <url:goback=2&a=list&c=sslcert>[here]</url>.</p>";
 
 $__information['sslcert_updateform_update_pre'] = "<p>To assign this ssl certificate to a particular ipaddress, ".
 	"<url:goback=2&a=list&c=ipaddress> click here</url> and then go into an ipaddress, ".
@@ -473,7 +475,7 @@ $__information['updateform_dnstemplatelist_pre'] = "<p>Allocate only a single dn
 
 $__information['forward_a_addform__pre'] = "<p>The forward addresses are a list of email addresses to which the mail is forwarded to. ".
 	"One copy of the mail gets saved to the actual mailaccount too.</p>".
-	"<p>You can disable local storage by click <url:a=updateform&sa=configuration>here</url>.</p>";
+	"<p>You can disable local storage by click <url:a=updateform&sa=configuration>[here]</url>.</p>";
 
 $__information['webserver_config'] = 
 	"<p><b>PHP Branch</b>".

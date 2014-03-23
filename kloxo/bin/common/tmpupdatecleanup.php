@@ -30,18 +30,24 @@ function updatecleanup_main()
 		$sgbl->slave = false;
 		
 		if (!is_secondary_master()) {
+			print(">>> Execute fixDataBaseIssues() <<<\n");
 			fixDataBaseIssues();
+			print(">>> Execute doUpdates() <<<\n");
 			doUpdates();
+			print(">>> Execute driverload.php <<<\n");
 			lxshell_return("__path_php_path", "../bin/common/driverload.php");
 		}
-		
+
+		print(">>> Execute update_all_slave() <<<\n");
 		update_all_slave();
+		print(">>> Execute cp_dbfile() <<<\n");
 		cp_dbfile();
 	} else {
 		$sgbl->slave = true;
 	}
 
 	if (!is_secondary_master()) {
+		print(">>> Execute updatecleanup() <<<\n");
 		updatecleanup();
 	}
 
@@ -50,7 +56,7 @@ function updatecleanup_main()
 	}
 
 	// MR -- mysql not start after kloxo slave install
-	log_cleanup("Preparing MySQL/MariaDB service");
+	log_cleanup("- Preparing MySQL/MariaDB service");
 
 	if (file_exists("/etc/rc.d/init.d/mysqld")) {
 		log_cleanup("- MySQL activated");
@@ -68,6 +74,8 @@ function updatecleanup_main()
 	//	exec("service mysql restart");
 	}
 
+	log_cleanup("- Updating Main services");
+	
 	$slist = array(
 		"kloxomr",
 		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
@@ -82,7 +90,7 @@ function updatecleanup_main()
 	setUpdateServices($slist);
 	
 	// MR -- use this trick for qmail non-daemontools based
-	log_cleanup("Preparing some services again");
+	log_cleanup("- Preparing some services again");
 	
 	log_cleanup("- qmail enabled and restart queue");
 	exec("chkconfig qmail on");

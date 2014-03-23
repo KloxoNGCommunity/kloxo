@@ -1,0 +1,16 @@
+#!/bin/sh
+
+## it's mean centos 6 or equal
+if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
+	sed -i 's:\$releasever:6:' /etc/yum.repos.d/mratwork.repo
+else
+	sed -i 's:\$releasever:5:' /etc/yum.repos.d/mratwork.repo
+fi
+
+for i in kloxo kloxo-custom lxcenter ; do
+	if [ -f /etc/yum.repos.d/${i}.repo ] ; then
+		mv -f /etc/yum.repos.d/${i}.repo /etc/yum.repos.d/${i}.nonrepo
+	fi
+done
+
+yum clean all

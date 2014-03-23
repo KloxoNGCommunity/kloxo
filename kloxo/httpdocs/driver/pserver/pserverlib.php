@@ -13,6 +13,7 @@ class pserver extends pservercore {
 	static $__acdesc_update_mailqueueflush = array('', '', 'flush', '');
 
 	static $__desc_sshconfig_l = array('', '', '', '');
+	static $__desc_phpini_o = array("db", "", "");
 
 	Function display($var)
 	{
@@ -230,6 +231,8 @@ class pserver extends pservercore {
 			$alist['property'][] = "a=updateform&sa=poweroff";
 		} elseif ($ghtml->frm_subaction === 'mysqlpasswordreset') {
 			$alist['property'][] = "a=updateform&sa=mysqlpasswordreset";
+		} elseif ($ghtml->frm_subaction === 'switchprogram') {
+			$alist['property'][] = "a=updateform&sa=switchprogram";
 		}  else {
 			$alist['property'][] = 'a=show';
 
@@ -283,20 +286,10 @@ class pserver extends pservercore {
 		$alist[] = 'a=list&c=mailqueue';
 		$alist[] = 'a=list&c=clientmail';
 		$alist[] = "a=list&c=ftpsession";
-/*
-		// TODO
-		// MR -- this trick to make sure php.ini in server and user-level only
-		// because php-fpm approach need user-level rathe than domain-level
-		// rule for admin only
+
 		if ($ghtml->frm_o_o['0']['class'] === 'pserver') {
 			$alist[] = "a=show&o=phpini";
-		} else {
-			$alist[] = create_simpleObject(array('url' => "/display.php?frm_action=show&" .
-				"frm_o_o[0][class]=client&frm_o_o[0][nname]={$this->getParentName()}&frm_o_o[1][class]=phpini",
-				'purl' => "a=show&o=phpini", 'target' => "target='_self'"));			
 		}
-*/
-		$alist[] = "a=show&o=phpini";
 
 		$alist[] = "a=show&o=serverweb";
 		$alist[] = "a=show&o=serverftp";

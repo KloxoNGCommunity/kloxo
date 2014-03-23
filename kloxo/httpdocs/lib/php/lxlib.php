@@ -517,7 +517,7 @@ function lfile_put_contents($file, $data, $flag = null)
 	}
 
 	if (char_search_a($data, "__path_")) {
-		dprint("<font color=red>Warning : Trying to write __path into a file $file: </font> $data <br> \n", 3);
+		dprint("Warning : Trying to write __path into a file $file: $data <br> \n", 3);
 	}
 
 	lxfile_mkdir(dirname($file));
@@ -526,6 +526,23 @@ function lfile_put_contents($file, $data, $flag = null)
 		if(is_readable($file)){
 			if(is_writable($file)){
 				return file_put_contents($file, $data, $flag);
+
+/*
+// MR -- alternative for file_put_contents because trouble when install with php53
+// memeory limit issue (data to put > 2MB)
+// but it's not work because need buffering to temp file!
+$op = fopen(tempnam('/tmp', 'kloxo'));
+
+if ($flag === null) {
+	$fp = fopen($file, 'w');
+
+} else {
+	$fp = fopen($file, 'a');
+}
+
+fwrite($fp, $data);
+fclose($fp);
+*/
 			}
 			else{
 				$error_msg = 'Could not write the file \''.$file.'\' with permissions: '.substr(sprintf('%o', fileperms($file)), -4);
@@ -1071,6 +1088,7 @@ function dprintr($var, $type = 0)
 		$newvar->__parent_o = 'unset for printing';
 
 		$class = $newvar->get__table();
+		
 		if (csb($class, "sp_")) {
 			$bclass = strfrom($class, "sp_") . "_b";
 			$newvar->$bclass->__parent_o = 'unset for printing';
@@ -1079,12 +1097,18 @@ function dprintr($var, $type = 0)
 		$newvar = $var;
 	}
 
-	if ($sgbl->isBlackBackground()) {
-		print("<font color=gray>");
+	if ($sgbl->__running_in_cli) {
+		print("\n");
+	} else {
+		print("<pre>");
 	}
+
 	print_r($newvar);
-	if ($sgbl->isBlackBackground()) {
-		print("</font> ");
+
+	if ($sgbl->__running_in_cli) {
+		print("\n");
+	} else {
+		print("</pre>");
 	}
 }
 
@@ -1092,14 +1116,22 @@ function dprint($var, $type = 0)
 {
 	global $sgbl;
 
+	$isCliMode = is_cli();
+	
 	if ($type <= $sgbl->dbg) {
 		if (is_string($var)) {
-			if ($sgbl->isBlackBackground()) {
-				print("<font color=gray>");
+			if ($sgbl->__running_in_cli) {
+				print("\n");
+			} else {
+				print("<pre>");
 			}
-			print("<pre>---begin dprint---\n" . $var . "\n---end dprint---<br></pre>");
-			if ($sgbl->isBlackBackground()) {
-				print("</font> ");
+
+			print($var);
+			
+			if ($sgbl->__running_in_cli) {
+				print("\n");
+			} else {
+				print("</pre>");
 			}
 		}
 	}
@@ -1108,24 +1140,48 @@ function dprint($var, $type = 0)
 function dprint_r($var, $type = 0)
 {
 	global $sgbl;
-
+	
 	if ($type <= $sgbl->dbg) {
-		print("<pre>---begin dprint_r---\n");
+		if ($sgbl->__running_in_cli) {
+			print("\n");
+		} else {
+			print("<pre>");
+		}
+
 		print_r($var);
-		print("\n---end dprint_r---</pre>");
+
+		if ($sgbl->__running_in_cli) {
+			print("\n");
+		} else {
+			print("</pre>");
+		}
 	}
 }
 
 function xprint($var)
 {
-	if (is_array($var) || is_object($var)) {
-		print("<pre>---begin xprint_r---\n");
-		print_r($var);
-		print("\n---end xprint_r---</pre>");
+	global $sgbl;
+
+	if ($sgbl->__running_in_cli) {
+	//	print("\n---begin xprint_r---\n");
+		print("\n");
 	} else {
-		print("<pre>---begin xprint---\n");
+	//	print("<pre>---begin xprint_r---\n");
+		print("<pre>");
+	}
+		
+	if (is_array($var) || is_object($var)) {
+		print_r($var);
+	} else {
 		print($var);
-		print("\n---end xprint---</pre>");
+	}
+
+	if ($sgbl->__running_in_cli) {
+	//	print("\n---end xprint_r---\n");
+		print("\n");
+	} else {
+	//	print("\n---end xprint_r---</pre>");
+		print("</pre>");
 	}
 }
 
@@ -1758,7 +1814,6 @@ function DBG_GetBacktrace($traceArr)
 		}
 
 		$tabs -= 1;
-		$s .= '<font face="Courier New,Courier">';
 		if (isset($arr['class'])) {
 			$s .= $arr['class'] . '.';
 		}
@@ -1785,10 +1840,10 @@ function DBG_GetBacktrace($traceArr)
 				}
 			}
 		}
-		$s .= $arr['function'] . '(' . implode(',', $args) . ')</font>';
+		$s .= $arr['function'] . '(' . implode(',', $args) . ')';
 		$Line = (isset($arr['line']) ? $arr['line'] : "unknown");
 		$File = (isset($arr['file']) ? $arr['file'] : "unknown");
-		$s .= sprintf("<font color=#808080 size=-1> # line %4d, file: <a href=\"file:/%s\">%s</a></font>", $Line, $File, $File);
+		$s .= sprintf("# line %4d, file: <a href=\"file:/%s\">%s</a>", $Line, $File, $File);
 		$s .= "\n";
 	}
 	$s .= '</pre>';
@@ -2008,8 +2063,8 @@ function lx_error_handler($errno, $errstr, $file, $line)
 
 	dprint("\n### PHP Error detected\n");
 	dprint("### Notice: $errstr\n");
-        dprint("### File:$file\n");
-        dprint("### Line number: $line\n");
+       dprint("### File:$file\n");
+       dprint("### Line number: $line\n");
 	dprint("### End PHP Error information\n\n");
 }
 
@@ -2837,8 +2892,9 @@ function lxgettime($time)
 {
 	$curd = @ getdate(time());
 	$date = @ getdate($time);
-
+/*
 	$year = ($date['year'] === $curd['year']) ? "" : $date['year'];
+	$year = $date['year'];
 	//$month = ($date['month'] === $curd['month'])? "this Month": $date['month'];
 	$month = substr($date['month'], 0, 3);
 
@@ -2858,6 +2914,16 @@ function lxgettime($time)
 	}
 
 	$string = $hour . ":" . $minutes . " " . $date['mday'] . " " . $month . " " . $year;
+*/
+	$year = $date['year'];
+	$month = ($date['mon'] < 10) ? "0" . $date['mon'] : $date['mon'];
+	$day = ($date['mday'] < 10) ? "0" . $date['mday'] : $date['mday'];
+
+	$hour = ($date['hours'] < 10) ? "0" . $date['hours'] : $date['hours'];
+	$minute = ($date['minutes'] < 10) ? "0" . $date['minutes'] : $date['minutes'];
+	$second = ($date['seconds'] < 10) ? "0" . $date['seconds'] : $date['seconds'];
+
+	$string = "{$year}/{$month}/{$day} {$hour}:{$minute}:{$second}";
 
 	return $string;
 }

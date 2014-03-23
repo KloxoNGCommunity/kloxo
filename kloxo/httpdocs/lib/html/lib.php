@@ -307,9 +307,9 @@ function removeFromEtcHost($request)
 
 function find_php_version()
 {
-	$s = getPhpVersion();
-	$t = explode(".", $s);
+	$t = explode(".", getPhpVersion());
 	$ret = $t[0] . "." . $t[1];
+
 	return $ret;
 }
 
@@ -1240,11 +1240,13 @@ function restart_service($service)
 
 function remove_old_serve_file()
 {
+	global $gbl, $sgbl, $login, $ghtml;
+
 	log_log("remove_oldfile", "Removing old files");
-	$list = lscandir_without_dot("__path_serverfile/tmp");
+	$list = lscandir_without_dot("{$sgbl->__path_serverfile}/tmp");
 
 	foreach ($list as $l) {
-		remove_if_older_than_a_day("__path_serverfile/tmp/$l");
+		remove_if_older_than_a_day("{$sgbl->__path_serverfile}/tmp/$l");
 	}
 }
 
@@ -1675,7 +1677,7 @@ function cp_fileserv($file)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	$path = __path_serverfile;
+	$path = $sgbl->__path_serverfile;
 
 	lxfile_mkdir($path);
 	lxfile_generic_chown($path, "lxlabs:lxlabs");
@@ -1694,7 +1696,7 @@ function cp_fileserv($file)
 	}
 
 	$basebase = basename($file);
-	$base = basename(ltempnam("__path_serverfile", $basebase));
+	$base = basename(ltempnam("$sgbl->__path_serverfile", $basebase));
 	$pass = md5($file . time());
 	$ar = array('filename' => $file, 'password' => $pass);
 	lfile_put_serialize("{$path}/$base", $ar);
@@ -1711,14 +1713,14 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	$path = __path_serverfile;
+	$path = $sgbl->__path_serverfile;
 
 	lxfile_mkdir("{$path}/tmp");
 	lxfile_unix_chown_rec("{$path}", "lxlabs");
 
 	$basebase = basename($arg[0]);
 
-	$base = basename(ltempnam("__path_serverfile/tmp", $basebase));
+	$base = basename(ltempnam("$sgbl->__path_serverfile/tmp", $basebase));
 
 	// Create the pass file now itself so that it isn't unwittingly created again.
 
@@ -1727,16 +1729,16 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 
 	if ($type === 'zip') {
 		dprint("zipping $vd: " . $vd . " \n");
-		$ret = lxshell_zip($vd, "__path_serverfile/tmp/$base.tmp", $list);
-		lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
+		$ret = lxshell_zip($vd, "$sgbl->__path_serverfile/tmp/$base.tmp", $list);
+		lrename("$sgbl->__path_serverfile/tmp/$base.tmp", "$sgbl->__path_serverfile/tmp/$base");
 	} elseif ($type === 'tgz') {
 		dprint("tarring $vd: " . $vd . " \n");
-		$ret = lxshell_tgz($vd, "__path_serverfile/tmp/$base.tmp", $list);
-		lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
+		$ret = lxshell_tgz($vd, "$sgbl->__path_serverfile/tmp/$base.tmp", $list);
+		lrename("$sgbl->__path_serverfile/tmp/$base.tmp", "$sgbl->__path_serverfile/tmp/$base");
 	} elseif ($type === 'tar') {
 		dprint("tarring $vd: " . $vd . " \n");
-		$ret = lxshell_tar($vd, "__path_serverfile/tmp/$base.tmp", $list);
-		lrename("__path_serverfile/tmp/$base.tmp", "__path_serverfile/tmp/$base");
+		$ret = lxshell_tar($vd, "$sgbl->__path_serverfile/tmp/$base.tmp", $list);
+		lrename("$sgbl->__path_serverfile/tmp/$base.tmp", "$sgbl->__path_serverfile/tmp/$base");
 	}
 
 	if ($ret) {
@@ -1752,14 +1754,16 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 		}
 	}
 
-	return "__path_serverfile/tmp/$base";
+	return "$sgbl->__path_serverfile/tmp/$base";
 }
 
 function fileserv_unlink_if_tmp($file)
 {
+	global $gbl, $sgbl, $login, $ghtml;
+
 	$base = dirname($file);
 
-	if (expand_real_root($base) === expand_real_root("__path_serverfile/tmp")) {
+	if (expand_real_root($base) === expand_real_root("$sgbl->__path_serverfile/tmp")) {
 		log_log("servfile", "Deleting tmp servfile $file");
 		lunlink($file);
 	}
@@ -1804,18 +1808,20 @@ function printFromFileServ($serv, $filepass)
 
 function doRealGetFromFileServ($cmd, $serv, $filepass, $copyto = null)
 {
+	global $gbl, $sgbl, $login, $ghtml;
+
 	$file = $filepass['file'];
 	$pass = $filepass['pass'];
 	$size = $filepass['size'];
 	$base = basename($file);
 
 	if ($serv === 'localhost') {
-		$array = lfile_get_unserialize("__path_serverfile/$base");
+		$array = lfile_get_unserialize("$sgbl->__path_serverfile/$base");
 		$realfile = $array['filename'];
 		log_log("servfile", "getting local file $realfile");
 
 		if (lxfile_exists($realfile) && lis_readable($realfile)) {
-			lunlink("__path_serverfile/$base");
+			lunlink("$sgbl->__path_serverfile/$base");
 
 			if ($cmd === 'fileprint') {
 				slow_print($realfile);
@@ -4444,10 +4450,12 @@ function load_database_file($dbtype, $dbhost, $dbname, $dbuser, $dbpass, $dbfile
 
 function do_serve_file($fd, $rem)
 {
+	global $gbl, $sgbl, $login, $ghtml;
+
 	$file = $rem->filename;
 
 	$file = basename($file);
-	$file = "__path_serverfile/$file";
+	$file = "$sgbl->__path_serverfile/$file";
 
 	if (!lxfile_exists($file)) {
 		log_log("servfile", "datafile $file dosn't exist, exiting");
@@ -4473,8 +4481,8 @@ function do_serve_file($fd, $rem)
 	if (is_dir($realfile)) {
 		// This should neverhappen. The directories are zipped at cp-fileserv and tar_to_filserved then itself.
 		$b = basename($realfile);
-		lxfile_mkdir("__path_serverfile/tmp/");
-		$tfile = tempnam("__path_serverfile/tmp/", "$b.tar");
+		lxfile_mkdir("$sgbl->__path_serverfile/tmp/");
+		$tfile = tempnam("$sgbl->__path_serverfile/tmp/", "$b.tar");
 		$list = lscandir_without_dot($realfile);
 		lxshell_tar($realfile, $tfile, $list);
 		$realfile = $tfile;
@@ -5299,11 +5307,9 @@ function setDomainPages($nolog = null)
 
 function getPhpVersion()
 {
-//	exec("php -r 'echo phpversion();'", $out, $ret);
+	exec("php -r 'echo phpversion();'", $out, $ret);
 
-//	return $out[0];
-
-	return phpversion();
+	return $out[0];
 }
 
 function getRpmBranchInstalled($rpm)
@@ -5522,7 +5528,7 @@ function setPhpModuleActive($module, $ininamelist = null)
 	}
 
 	foreach ($ininamelist as &$i) {
-		if (!file_exists("{$phpdpath}/{$i}.ini")) {
+		if (!file_exists("{$srcpath}/{$i}.ini")) {
 			lxfile_cp(getLinkCustomfile("{$srcpath}", "{$i}.ini"), "{$trgtpath}/{$i}.ini");
 		}
 	}
@@ -5536,8 +5542,8 @@ function setPhpModuleInactive($module, $ininamelist = null)
 	$ininamelist = ($ininamelist) ? $ininamelist : array($module);
 
 	foreach ($ininamelist as &$i) {
-		if (file_exists("{$phpdpath}/{$i}.ini")) {
-			lxfile_mv("{$phpdpath}/{$i}.ini", "{$trgtpath}/{$i}.nonini");
+		if (file_exists("{$trgtpath}/{$i}.ini")) {
+			lxfile_mv("{$trgtpath}/{$i}.ini", "{$trgtpath}/{$i}.nonini");
 		}
 	}
 }
@@ -5629,6 +5635,14 @@ function setInitialWebCacheConfig($nolog = null)
 	setCopyWebCacheConfFiles($nolog);
 }
 
+function setInitialPhpIniConfig($nolog = null)
+{
+	$fpath = "/usr/local/lxlabs/kloxo/file";
+	$inipath = "/home/phpini";
+
+	exec("cp -rf {$fpath}/phpini /home");
+}
+
 function setInitialPhpFpmConfig($nolog = null)
 {
 	$fpath = "/usr/local/lxlabs/kloxo/file";
@@ -5644,9 +5658,7 @@ function setInitialPhpFpmConfig($nolog = null)
 
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
-	$phpver = getPhpVersion();
-
-	$phpchoose = version_compare($phpver, "5.3.2", ">") ? "php53" : "php";
+	$phpchoose = version_compare(getPhpVersion(), "5.3.2", ">") ? "php53" : "php";
 
 	$t = getLinkCustomfile("{$fpmpath}", "{$phpchoose}-fpm.conf");
 	if (file_exists($t)) {
@@ -7029,6 +7041,7 @@ function setInitialServices($nolog = null)
 	setInitialWebCacheConfig('trafficserver', $nolog);
 	setInitialWebCacheConfig('squid', $nolog);
 
+	setInitialPhpIniConfig($nolog);
 	setInitialPhpFpmConfig($nolog);
 
 	setInitialPureftpConfig($nolog);
@@ -7751,4 +7764,18 @@ function exec_out($input)
 	}
 
 	$out = null;
+}
+
+// taken from http://www.binarytides.com/php-check-running-cli/
+function is_cli()
+{
+	if (defined('STDIN')) {
+		return true;
+	}
+	 
+	if (empty($_SERVER['REMOTE_ADDR']) and !isset($_SERVER['HTTP_USER_AGENT']) and count($_SERVER['argv']) > 0)	{
+		return true;
+	}
+	 
+	return false;
 }

@@ -103,18 +103,23 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/etc/last_sisinfoc" \
 	--exclude "./kloxomr-$ver/etc/program.*" \
 	--exclude "./kloxomr-$ver/etc/watchdog.conf" \
-	--exclude "./kloxomr-$ver/install/kloxo-mr_install.log" \
+	--exclude "./kloxomr-$ver/install/*.log" \
 	--exclude "./kloxomr-$ver/log" \
 	--exclude "./kloxomr-$ver/pid" \
 	--exclude "./kloxomr-$ver/init/*.sock" \
 	--exclude "./kloxomr-$ver/init/*.pid" \
+	--exclude "./kloxomr-$ver/init/kloxo-*" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/editor/_source" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/_samples" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/yui-dragdrop" \
 	--exclude "./kloxomr-$ver/*.old" \
 	--exclude "./kloxomr-$ver/*.bck" \
 	--exclude "./kloxomr-$ver/*.pyo" \
-	--exclude "./kloxomr-$ver/*.pyc"
+	--exclude "./kloxomr-$ver/*.pyc" \
+	--exclude "./kloxomr-$ver/init/php_active" \
+	--exclude "./kloxomr-$ver/httpdocs/login/*.php" \
+	--exclude "./kloxomr-$ver/httpdocs/login/*.html" \
+	--exclude "./kloxomr-$ver/httpdocs/login/images"
 
 
 rm -rf ./kloxomr-$ver > /dev/null 2>&1

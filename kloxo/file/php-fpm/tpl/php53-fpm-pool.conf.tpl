@@ -31,6 +31,7 @@
     }
 ?>
 [<?php echo $pool; ?>]
+;catch_workers_output = yes
 ;listen = 127.0.0.1:<?php echo $fpmport; ?>
 
 listen = /home/php-fpm/sock/<?php echo $user; ?>.sock
@@ -71,13 +72,48 @@ env[TMP] = /tmp
 env[TMPDIR] = /tmp
 env[TEMP] = /tmp
 
-;php_admin_value[sendmail_path] = /usr/sbin/sendmail -t -i -f webmaster@domain.com
-;php_flag[display_errors] = off
-php_admin_value[error_log] = /var/log/php-fpm/error.log
-php_admin_value[session.save_path] = /var/lib/php/session
-php_admin_flag[log_errors] = on
-;php_admin_value[memory_limit] = 64M
+php_admin_value[zlib.output_compression] = <?php echo $output_compression_flag; ?>
+
+php_admin_value[disable_functions] = <?php echo $disable_functions; ?>
+
+php_admin_value[display_errors] = <?php echo $display_error_flag; ?>
+
+php_admin_value[file_uploads] = <?php echo $file_uploads_flag; ?>
+
+php_admin_value[fiupload_max_filesize] = <?php echo $upload_max_filesize; ?>
+
+php_admin_value[log_errors] = <?php echo $log_errors_flag; ?>
+
+php_admin_value[output_buffering] = <?php echo $output_buffering_flag; ?>
+
+php_admin_value[register_argc_argv] = <?php echo $register_argc_argv_flag; ?>
+
+php_admin_value[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
+
+php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
+
+php_admin_value[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
+
+php_admin_value[mysql.allow_persistent] = <?php echo $mysql_allow_persistent_flag; ?>
+
+php_admin_value[max_execution_time] = <?php echo $max_execution_time_flag; ?>
+
+php_admin_value[max_input_time] = <?php echo $max_input_time_flag; ?>
+
+php_admin_value[memory_limit] = <?php echo $memory_limit_flag; ?>
+
+php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
+
+php_admin_value[allow_url_fopen] = <?php echo $allow_url_fopen_flag; ?>
+
+php_admin_value[allow_url_include] = <?php echo $allow_url_include_flag; ?>
+
+php_admin_value[session.save_path] = <?php echo $session_save_path_flag; ?>
+
+php_admin_value[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
+
+php_admin_value[safe_mode] = <?php echo $safe_mode_flag; ?>
+
+php_admin_value[enable_dl] = <?php echo $enable_dl_flag; ?>
+
 php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
-
-;php_admin_value[session.save_path] = /home/<?php echo $user; ?>
-

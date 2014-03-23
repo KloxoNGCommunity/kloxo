@@ -206,7 +206,12 @@ function __ac_desc_show($object)
 
 	if ($sgbl->isKloxo() && $object->isLogin() && $object->isLte('reseller')) {
 		// MR -- TODO: disable switch from domain to admin mode; make confuse for dev
-		print_customer_mode($object);
+	//	print_customer_mode($object);
+
+		// MR -- for temporary until switch to 'user' mode
+		if ($object->isDomainOwnerMode()) {
+			print_customer_mode($object);
+		}
 	}
 
 	if ($selflist) {
@@ -642,8 +647,8 @@ function __ac_desc_delete($object)
 
 		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
 <?php
+	
 		/*
-			// MR -- useless and not importance
 
 			if (exec_class_method($cname, 'isTreeForDelete')) {
 ?>
@@ -659,7 +664,6 @@ function __ac_desc_delete($object)
 				<br/>
 <?php
 			}
-
 		*/
 			do_list_class($object, $cname);
 ?>
@@ -1783,18 +1787,23 @@ function print_navigation($navig)
 	}
 
 	// MR -- need add table around div to resolv div height!
+	if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+		$padd = "2px";
+	} else {
+		$padd = "10px";
+	}
 ?>
 	<script>
 		var gl_imgrightpoint = '<?=$imgleftpoint?>';
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
 
-<table style="width: 100%; border:0 ; margin: 0 0 10px 0; padding: 0"><tr><td>
+<table style="width: 100%; border:0 ; margin: 0 0 2px 0; padding: 0"><tr><td>
 <div style="padding: 2px">
 <?php
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
-			<div style="float: left;margin-top: -0px">&nbsp;<span style="font-size: 24px; color: #22e">&#x00a7;</span>&nbsp;</div>
+			<div style="float: left;margin-top: 0">&nbsp;<span class="if16" style="color: #c22">&#xf009;</span>&nbsp;</div>
 <?php
 		} else {
 ?>
@@ -1815,19 +1824,21 @@ function print_navigation($navig)
 			$desc = $ghtml->getActionDescr('', $h, $class, $var, $name);
 			$image = $ghtml->get_image($buttonpath, $class, $var, ".gif");
 			$desc['help'] = $ghtml->get_action_or_display_help($desc['help'], 'action');
-			$nname = substr($name, 0, 19);
+		//	$nname = substr($name, 0, 19);
+			$nname = $name;
 
 			$bracketedname = null;
 
 			if ($navigmenu[$k][0] != 'list') {
-				$bracketedname = "&nbsp;($nname)";
+			//	$bracketedname = "&nbsp;($nname)";
+				$bracketedname = '';
+				$desc['desc'] = "$nname";
 			}
 
 			$menustring = null;
-
 ?>
 
-			<div style="float:left; padding-top: 10px;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;&#x0097;</div>
+			<div style="float:left; padding-top: <?= $padd ?>;">&nbsp;<a href='<?=$url?>'><b><?=$desc['desc']?><?=$bracketedname?></b></a>&nbsp;&#x0097;</div>
 <?php
 		}
 
@@ -1886,7 +1897,8 @@ function print_navigation($navig)
 		$fullimgstr = implode(" ", $imgstr);
 ?>
 
-		<div style="float:left; padding-top: 10px;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;<?=$name?>&nbsp;{<b><?=$clienttype?><?=trim($description['desc'])?></b>}<?=$fullimgstr?></div>
+		<!-- <div style="float:left; padding-top: 10px;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;<?=$name?>&nbsp;{<b><?=$clienttype?><?=trim($description['desc'])?></b>}<?=$fullimgstr?></div> -->
+		<div style="float:left; padding-top: <?= $padd ?>;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;{<?=$clienttype?><?=trim($description['desc'])?>}<?=$fullimgstr?></div>
 <?php
 
 		$hypervm = null;
@@ -1917,7 +1929,7 @@ function print_navigation($navig)
 
 ?>
 
-			<div style="float: right; padding-top: 10px;">&nbsp;<a href="<?=$shurl?>"><?= $login->getKeywordUc('add_to_favorites') ?></a>&nbsp;</div>
+			<div style="float: right; padding-top: <?= $padd ?>;">&nbsp;<a href="<?=$shurl?>"><?= $login->getKeywordUc('add_to_favorites') ?></a>&nbsp;</div>
 <?php
 		}
 
@@ -2203,7 +2215,11 @@ function do_display_init()
 
 	try {
 		main_system_lock();
-		print_navigation($gbl->__navig);
+
+		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
+			print_navigation($gbl->__navig);
+		}
+
 		print_warning();
 		password_contact_check();
 	} catch (Exception $e) {

@@ -423,7 +423,8 @@ class Sqlite
 				$cvar = substr($key, 4);
 
 				// see note #1 on top
-				$value = $object->$cvar;
+				// MR -- fix if not exists
+				$value = (isset($object->$cvar)) ? $object->$cvar : null;
 
 				if ($value && isset($value->driverApp)) {
 					unset($value->driverApp);
@@ -436,12 +437,12 @@ class Sqlite
 				}
 
 				// See note #1 on top
-				$ret[$key] = base64_encode(serialize($object->$cvar));
+				$ret[$key] = base64_encode(serialize($value));
 			} else if (csb($key, "priv_q_") || csb($key, "used_q_")) {
 				$qob = strtil($key, "_q_");
 				$qkey = strfrom($key, "_q_");
 
-				$ret[$key] = $object->$qob->$qkey;
+				$ret[$key] = (isset($object->$qob->$qkey)) ? $object->$qob->$qkey : null;
 			} else {
 				if (!isset($object->$key)) {
 					$object->$key = null;

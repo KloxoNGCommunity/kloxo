@@ -5,10 +5,7 @@ include_once "lib/html/lxserverlib.php";
 kill_and_save_pid('lxserver');
 debug_for_backend();
 
-
 lxserver_main();
-
-
 
 function timed_execution()
 {
@@ -17,7 +14,6 @@ function timed_execution()
 	timed_exec(2,  "checkRestart");
 	timed_exec(2 * 5, "execSisinfoc"); 
 	$global_dontlogshell = false;
-
 }
 
 function execSisinfoc()

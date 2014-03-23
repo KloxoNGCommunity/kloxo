@@ -1,32 +1,32 @@
 ### begin content - please not remove this line
 
 <?php
-	// can use $user and $domain vars
+    // can use $user and $domain vars
 
-	exec("php -r 'echo phpversion();'", $out, $ret);
+    exec("php -r 'echo phpversion();'", $out, $ret);
 
-	$phpver = $out[0];
+    $phpver = $out[0];
 
-	if (version_compare($phpver, "5.4.0", ">=")) {
-$php54mark = '';
-$php54disable = '#';
-} else {
-$php54mark = '#';
-$php54disable = '';
-}
+    if (version_compare($phpver, "5.4.0", ">=")) {
+        $php54mark = '';
+        $php54disable = '#';
+    } else {
+        $php54mark = '#';
+        $php54disable = '';
+    }
 
-if (version_compare($phpver, "5.3.0", ">=")) {
-$php53mark = '';
-} else {
-$php53mark = '#';
-}
+    if (version_compare($phpver, "5.3.0", ">=")) {
+        $php53mark = '';
+    } else {
+        $php53mark = '#';
+    }
 
-if ($sendmail_from) {
-$sendmailmark = '';
-} else {
-$sendmailmark = '#';
-$sendmail_from = '';
-}
+    if ($sendmail_from) {
+        $sendmailmark = '';
+    } else {
+        $sendmailmark = '#';
+        $sendmail_from = '';
+    }
 ?>
 ### MR -- attention
 ### 1. Move '#<Ifmodule !mod_php5.c>' until '#</Ifmodule>' on
@@ -74,7 +74,7 @@ $sendmail_from = '';
 
     php_flag mysql.allow_persistent <?php echo $mysql_allow_persistent_flag; ?>
 
-    <?php echo $php54disable; ?>php_flag register_long_arrays <?php echo $register_long_arrays_flag; ?>
+    # <?php echo $php54disable; ?>php_flag register_long_arrays <?php echo $register_long_arrays_flag; ?>
 
     php_flag allow_url_fopen <?php echo $allow_url_fopen_flag; ?>
 

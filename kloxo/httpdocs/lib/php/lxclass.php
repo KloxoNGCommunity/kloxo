@@ -168,7 +168,7 @@ abstract class Lxclass
 				$this->driverApp->main = $this;
 			} else {
 				debugBacktrace();
-				dprint("No driverApp class for {$class} {$syncclass} <br> ");
+				dprint("No driverApp class for {$class} {$syncclass}\n");
 			}
 		} else {
 			$this->driverApp = new LxaClass(null, null, $this->nname);
@@ -203,10 +203,10 @@ abstract class Lxclass
 
 		if ($this->dbaction === 'update') {
 			if (!$this->subaction) {
-				//dprint("Overwriting Old NULL subaction <br> \n");
+				//dprint("Overwriting Old NULL subaction\n");
 				$this->subaction = $val;
 			} else {
-				//dprint("Old subaction {$this->subaction}.. Turning into array<br> \n");
+				//dprint("Old subaction {$this->subaction}.. Turning into array\n");
 				if (!is_array($this->subaction)) {
 					if ($this->subaction != $val) {
 						$oldval = $this->subaction;
@@ -284,12 +284,12 @@ abstract class Lxclass
 
 		// Don't sync if there is no subactiion for update..
 		if ($this->dbaction === 'update' && !$this->subaction) {
-			dprint("No subaction for update not syncing anymore {$this->get__table()}\n <br> ");
+			dprint("No subaction for update not syncing anymore {$this->get__table()}\n");
 			return false;
 		}
 
 		if (lfile_exists("__path_program_etc/.writeonly")) {
-			dprintr("Global Writonly Mode... Not syncing... <br> \n");
+			dprintr("Global Writonly Mode... Not syncing... \n");
 			return false;
 		}
 
@@ -316,7 +316,7 @@ abstract class Lxclass
 				$s = trim($s);
 
 				if ($s) {
-					dprint("doing the real sync this {$this->nname} on server {$s}  <br> \n");
+					dprint("doing the real sync this {$this->nname} on server {$s}\n");
 					$this->__var_syncserver = $s;
 					$res = rl_exec_set(null, $s, $this);
 				} else {
@@ -403,14 +403,15 @@ abstract class Lxclass
 
 		$this->__var_custom_exec = null;
 
-		dprint($query);
+		dprint($query . "\n");
+
 		$list = $sq->getRowsWhere($query);
 
 		if (!$list) {
 			return;
 		}
 
-		dprintr($list);
+		dprintr($list . "\n");
 
 		foreach ($list as $k => $l) {
 			$ex = $l['exec'];
@@ -519,7 +520,7 @@ abstract class Lxclass
 		$driverapp = $gbl->getSyncClass(null, null, $class);
 
 		if (!$driverapp) {
-			dprint(" NO driverapp class for {$class}\n <br> ");
+			dprint("NO driverapp class for {$class}\n");
 
 			return;
 		}
@@ -826,10 +827,10 @@ abstract class Lxclass
 		}
 
 		if ($this->get__table() === 'driver') {
-			dprint("<b> Driver  {$this->dbaction} <br> <br> </b>");
+			dprint("Driver {$this->dbaction}\n");
 		}
 		if ($this->isUnclean()) {
-			dprint("Really Writing  {$this->get__table()} {$this->nname}...dbaction... {$this->dbaction} <br> \n");
+			dprint("Really Writing {$this->get__table()} {$this->nname}...dbaction... {$this->dbaction}\n");
 			$this->write();
 		}
 
@@ -878,7 +879,7 @@ abstract class Lxclass
 			return;
 		}
 
-		//  dprint("Master: {$this->dbaction}: {$this->nname} {$this->getParentO()->nname} {$this->get__table()} <br> ");
+		//  dprint("Master: {$this->dbaction}: {$this->nname} {$this->getParentO()->nname} {$this->get__table()}\n");
 
 		try {
 			$this->doWas();
@@ -892,7 +893,7 @@ abstract class Lxclass
 
 	static function verify($var, $val)
 	{
-		dprint("{$var} {$val}");
+		dprint("{$var} {$val}\n");
 
 		return $val;
 
@@ -922,7 +923,7 @@ abstract class Lxclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//	dprint($this->cttype.  ' <br> ' . $type);
+	//	dprint($this->cttype.  "\n" . $type . "\n");
 
 		if (!isset($sgbl->__var_cttype[$this->cttype])) {
 			return true;
@@ -1066,7 +1067,7 @@ abstract class Lxclass
 			$obj->parent_clname = $this->getClName();
 
 			if ($obj->nname !== '__tmp_lx_name__') {
-				dprintr("<b> Getobject Created the {$class} {$obj->nname} object fresh in {$this->getClName()} ... </b>");
+				dprintr("Getobject Created the {$class} {$obj->nname} object fresh in {$this->getClName()} ...\n");
 				debugBacktrace();
 			}
 
@@ -1291,7 +1292,7 @@ abstract class Lxclass
 
 		} else {
 			if ($class != "ssession") {
-				dprint("Calling External Function to initialize {$class} list <br> ", 3);
+				dprint("Calling External Function to initialize {$class} list\n", 3);
 			}
 
 			$res = exec_class_method($rclass, 'initThisList', $this, $class);
@@ -1450,7 +1451,7 @@ abstract class Lxclass
 			$filter = $login->getHPFilter($filtername);
 		}
 
-	//	dprint("hello: " . $filtername);
+	//	dprint("hello: " . $filtername . "\n");
 
 		if (!isset($filter['sortby'])) {
 			$filter['sortby'] = exec_class_method($rclass, "defaultSort");
@@ -1587,7 +1588,7 @@ abstract class Lxclass
 		if (($rule = exec_class_method($rclass, 'initThisListRule', $this, $class))) {
 			$query = $this->getDefaultQuery($class, $rule);
 
-		//	dprint(' <br> ' .$query . "<br> \n");
+		//	dprint($query . "\n");
 
 			$filter = $this->getFilterForThis($class);
 			$string = exec_class_method($rclass, "getdbFilter", $filter, $class);
@@ -1600,7 +1601,7 @@ abstract class Lxclass
 				}
 			}
 
-		//	dprint(' <br> ' .$string . "<br> \n");
+		//	dprint($string . "\n");
 
 			$db = new Sqlite($this->__masterserver, $this->getTheTable($rclass));
 
@@ -2039,7 +2040,7 @@ abstract class Lxclass
 
 	function getTrueParentO()
 	{
-	//	dprint("Class: . " . $this->get__table() . "<br> ");
+	//	dprint("Class: . " . $this->get__table() . "\n");
 
 		// DOn't pointlessly load objects from the db.
 		if ($this->__parent_o && is_object($this->__parent_o) && ($this->__parent_o->getClName() === $this->parent_clname)) {
@@ -2053,7 +2054,7 @@ abstract class Lxclass
 		}
 
 		if (!$this->parent_clname) {
-			print("Critical internal error. there is no parent_clname for {$this->getClname()} \n<br> ");
+			print("Critical internal error. There is no parent_clname for {$this->getClname()}\n");
 			exit;
 
 			return $this->getParentO();
@@ -2079,7 +2080,7 @@ abstract class Lxclass
 
 	function getParentO()
 	{
-		//dprint("Class: . " . $this->get__table() . "<br> ");
+		//dprint("Class: . " . $this->get__table() . "\n");
 
 		if (isset($this->__parent_o) && $this->__parent_o) {
 			return $this->__parent_o;
@@ -2349,7 +2350,7 @@ abstract class Lxclass
 		$desc = "{$class}_{$type}";
 
 		if (!get_classvar_description($this->get__table(), $desc)) {
-			dprint("<b> Trying to init a nondescribed Class {$class} as {$type} in {$this->get__table()}: {$this->nname} <br> ");
+			dprint("Trying to init a nondescribed Class {$class} as {$type} in {$this->get__table()}: {$this->nname}\n");
 		}
 	}
 
@@ -2623,8 +2624,8 @@ abstract class Lxclass
 				$parentstring = "Someone Else";
 			}
 
-			$this->AddMEssageOnlyIfClientDomain("<font color=red><b> (Already Present under {$parentstring}. " .
-				"Will Not be Restored)</font> </b> ");
+			$this->AddMEssageOnlyIfClientDomain("(Already Present under {$parentstring}. " .
+				"Will Not be Restored)");
 			if ($this->isCoreBackup()) {
 				log_restore("{$this->get__table()}:{$this->nname} is already present under another user. " .
 					"Won't be restored");
@@ -2775,7 +2776,7 @@ abstract class Lxclass
 		$res = $sql->getRowsWhere("nname = '{$this->getParentName()}'");
 
 		if ($trulist && $this->__parent_o->dbaction !== 'add' && !$res) {
-			$this->AddMEssageOnlyIfClientDomain("<font color=red> <b> (Parent {$this->getParentName()} Does Not Exist. Will be Not be Restored).</font> </b> ");
+			$this->AddMEssageOnlyIfClientDomain("(Parent {$this->getParentName()} Does Not Exist. Will be Not be Restored).");
 			return false;
 		} else {
 			$extra = null;
@@ -2784,7 +2785,7 @@ abstract class Lxclass
 				$extra = " Will be Restored";
 			}
 
-			$this->AddMEssageOnlyIfClientDomain("<font color=blue> <b> (Does Not Exist.{$extra}).</font> </b> ");
+			$this->AddMEssageOnlyIfClientDomain("(Does Not Exist.{$extra}).");
 		}
 
 		if ($this->extraRestore()) {
@@ -3094,7 +3095,7 @@ abstract class Lxclass
 
 	static function exec_collectQuota()
 	{
-		dprint("Execing Collect Quota");
+		dprint("Execing Collect Quota\n");
 		lxshell_return("__path_php_path", "../bin/collectquota.php", "--just-db");
 	}
 
@@ -3118,7 +3119,7 @@ abstract class Lxclass
 
 		if ($var === "status") {
 			if (!$this->status) {
-				dprint("Status not set for {$this->getClass()}:{$this->nname}");
+				dprint("Status not set for {$this->getClass()}:{$this->nname}\n");
 				return "on";
 			}
 		}
@@ -3285,7 +3286,7 @@ abstract class Lxclass
 
 		if ($desc) {
 			if (strpos($desc[0], "v") !== false) {
-				dprint("{$object} in {$this->getClass()} is virtual... Removing <br> ", 2);
+				dprint("{$object} in {$this->getClass()} is virtual... Removing\n", 2);
 				$this->$object = NULL;
 
 				return;
@@ -3329,11 +3330,11 @@ abstract class Lxclass
 		$desc = get_real_class_variable($pclass, $desc);
 
 		if (csa($desc[0], "r")) {
-			dprint("Readonly {$class} in {$this->get__table()} {$this->nname} <br> ");
+			dprint("Readonly {$class} in {$this->get__table()} {$this->nname}\n");
 			return;
 		}
 
-		dprintr("Warning... Writing {$class} in {$this->get__table()} {$this->nname}...<br> ");
+		dprintr("Warning... Writing {$class} in {$this->get__table()} {$this->nname}...\n");
 
 		if (!$this->$list) {
 			return;
@@ -3346,7 +3347,7 @@ abstract class Lxclass
 				continue;
 			}
 
-			//  dprint("Inside: {$element->getClName()} {$element->dbaction} <br> ");
+			//  dprint("Inside: {$element->getClName()} {$element->dbaction}\n");
 
 			if (!isset($element->__parent_o) || !$element->__parent_o) {
 				$element->__parent_o = $this;
@@ -3364,7 +3365,7 @@ abstract class Lxclass
 		if ($this->isVirtual($class)) {
 			$this->__virtual_list = array_remove($this->__virtual_list, $class);
 			// Try adding this whole list to the $login... 
-			dprint("{$list} in {$this->getClass()}:{$this->nname} is virtual; present in Virtual List... Removing <br> ", 2);
+			dprint("{$list} in {$this->getClass()}:{$this->nname} is virtual; present in Virtual List... Removing\n", 2);
 			$this->$list = NULL;
 
 			return;
@@ -3401,7 +3402,7 @@ abstract class Lxclass
 
 		$object->__object_list = null;
 
-		//  dprint("<b> Clearing ... </b>  {$object->getClName()} {$object}<br> ");
+		//  dprint("Clearing ... </b>  {$object->getClName()} {$object}\n");
 		foreach ((array)$object->__list_list as $v) {
 			$list = $v . "_l";
 			$object->$list = null;
@@ -3454,7 +3455,7 @@ abstract class Lxclass
 	{
 		foreach ($array as $key => $value) {
 			if (is_numeric($key)) {
-				//dprint("The Key is {$key} integer in .  {$this->get__table()}:{$this->nname} <br> ");
+				//dprint("The Key is {$key} integer in .  {$this->get__table()}:{$this->nname}\n");
 			}
 
 			if ($key === '__table') {
@@ -3466,10 +3467,10 @@ abstract class Lxclass
 				$vv = @ unserialize(base64_decode($value));
 
 				if (!$vv) {
-					dprint("{$this->getClName()} $key");
+					dprint("{$this->getClName()} $key\n");
 					dprint(substr($value, 49146, 10));
 					dprint(substr($value, 0, 10));
-					dprint(" ");
+					dprint("\n");
 					$this->setUpdateSubaction();
 				}
 				if (!is_object($vv)) {
@@ -3483,7 +3484,7 @@ abstract class Lxclass
 				continue;
 			}
 			if ($key === 'priv') {
-				print("<b> Setting Priv If it is Ser. in {$this->nname} {$this->get__table()}<br> </b>");
+				print("Setting Priv If it is Ser. in {$this->nname} {$this->get__table()}\n");
 
 				if (!is_object($value)) {
 					$this->$key = new $key(null, null, $this->nname);
@@ -3501,7 +3502,7 @@ abstract class Lxclass
 				$value = unserialize(base64_decode($value));
 
 				if ($value === false) {
-					dprint("Unserialize failed: {$this->get__table()}: {$key}<br>\n", 3);
+					dprint("Unserialize failed: {$this->get__table()}: {$key}\n", 3);
 					if (cse($key, "_b") && !is_object($value)) {
 						$value = new $key(null, null, $this->nname);
 						$this->$key = $value;
@@ -3510,7 +3511,7 @@ abstract class Lxclass
 					}
 				} else {
 					if (cse($key, "_b") && !is_object($value)) {
-						dprint("Unserialize failed: {$this->get__table()}: {$key}<br>\n", 3);
+						dprint("Unserialize failed: {$this->get__table()}: {$key}\n", 3);
 						$value = new $key(null, null, $this->nname);
 						$this->$key = $value;
 
@@ -3574,7 +3575,7 @@ abstract class Lxclass
 				$qvar = strtil($key, "_q_");
 
 				if (!isset($this->$qvar)) {
-					//dprint("Setting Priv in $this->nname {$this->get__table()}");
+					//dprint("Setting Priv in $this->nname {$this->get__table()}\n");
 					$this->$qvar = new $qvar(null, null, $this->nname);
 					$this->$qvar->__parent_o = $this;
 				}
@@ -3589,7 +3590,7 @@ abstract class Lxclass
 			}
 		}
 
-		//  dprintr($this);
+		//  dprintr($this . "\n");
 
 		if ($this->hasDriverClass()) {
 			$this->createSyncClass();
@@ -3754,7 +3755,7 @@ abstract class Lxclass
 				return $vlist;
 		}
 
-		dprintr("updateform in lxclass called. {$subaction} mostly by security_check\n <br> ");
+		dprintr("updateform in lxclass called. {$subaction} mostly by security_check\n");
 		//debugBacktrace();
 	}
 
@@ -4105,11 +4106,12 @@ abstract class Lxclass
 			if ($this->isExceptionForSelflist()) {
 				$nob = $ob->getObject($this->getClass());
 			} else if ($this->is__table('phpini')) {
-				if ($ob->isClass('domain')) {
-					$nob = $ob->getObject('web')->getObject($this->getClass());
-				} else {
+			//	if ($ob->isClass('domain')) {
+					// MR -- no need under web because change to user-level
+			//		$nob = $ob->getObject('web')->getObject($this->getClass());
+			//	} else {
 					$nob = $ob->getObject($this->getClass());
-				}
+			//	}
 			} else if ($this->is__table('spam')) {
 				$nob = $ob->getObject('mmail')->getObject($this->getClass());
 			} else {
@@ -4227,7 +4229,7 @@ abstract class Lxclass
 
 		$gbl->__fvar_dont_redirect = ($childo || $childl);
 
-		dprint("Execing {$key} {$func} <br> ");
+		dprint("Execing {$key} {$func}\n");
 		dprintr($childo);
 
 		foreach ((array)$childo as $co) {
@@ -4239,7 +4241,7 @@ abstract class Lxclass
 
 			if ($ob) {
 				$ob->$func($arg);
-				dprint("{$func} on {$co} ob dbaction {$ob->dbaction} in {$class}:{$this->get__table()}:{$this->nname} <br> ");
+				dprint("{$func} on {$co} ob dbaction {$ob->dbaction} in {$class}:{$this->get__table()}:{$this->nname}\n");
 			}
 		}
 
@@ -4249,11 +4251,11 @@ abstract class Lxclass
 			$obl = $this->getList($cl);
 
 			foreach ((array)$obl as $ob) {
-				dprint("{$func} on {$cl}:{$ob->nname} in {$class }:{$this->nname}...");
+				dprint("{$func} on {$cl}:{$ob->nname} in {$class }:{$this->nname}...\n");
 				$ob->$func($arg);
 			}
 
-			dprint("<br> ");
+			dprint("\n");
 		}
 	}
 
@@ -4262,7 +4264,7 @@ abstract class Lxclass
 		$qp = $parent;
 
 		while (1) {
-			dprint(" Parent... " . $qp->nname . '<br> ');
+			dprint(" Parent... " . $qp->nname . "\n");
 			$this->checkIfEnoughParentQuota($qp);
 			$qp = $qp->getParentO();
 
@@ -4352,11 +4354,11 @@ abstract class Lxclass
 		}
 
 		while (($qp = $qp->getParentO())) {
-			dprint(" Changin {$this->get__table()}: {$this->nname}... {$qp->get__table()} {$qp->nname} </b><br> ");
+			dprint(" Changin {$this->get__table()}: {$this->nname}... {$qp->get__table()} {$qp->nname}\n");
 			$this->changeUsedFromParent($qp, $flag);
 		}
 
-	//	dprint(" <b> After  Mailaccount Num: {$login->used->mailaccount_num} </b> <br> \n");
+	//	dprint("After  Mailaccount Num: {$login->used->mailaccount_num}\n");
 	}
 
 	function getResourceIdentity() { return $this->getClass(); }
@@ -4377,12 +4379,12 @@ abstract class Lxclass
 		if ($qp->isQuotaVariable($cnum)) {
 			$qp->used->$cnum += $val;
 			$doupdate = true;
-			dprint("<b> IN change used ... quota variable specific {$qp->getClname()} {$class} {$this->nname} <br> </b><br>\n ");
+			dprint("IN change used ... quota variable specific {$qp->getClname()} {$class} {$this->nname}\n");
 			//dprintr($qp->used);
 		}
 
 		if ($doupdate) {
-			dprint("<b> Warning Change Used From Parent... {$qp->getClname()} {$class} {$this->nname} <br> </b><br>\n ");
+			dprint("Warning Change Used From Parent... {$qp->getClname()} {$class} {$this->nname}\n");
 			$qp->setUpdateSubaction();
 		}
 
@@ -4439,8 +4441,8 @@ abstract class Lxclass
 
 		if ($this->get__table() === 'ticket') {
 
-			dprint(" <b> Ticket <br> <br> ");
-			dprint($this->parent_clname . "<br> ");
+			dprint("Ticket\n");
+			dprint($this->parent_clname . "\n");
 			dprint($this->getParentO()->nname);
 		}
 
@@ -4863,7 +4865,7 @@ abstract class Lxclass
 	{
 		$cl = $this->getQuotaChildList();
 
-		//  dprint("hello <br> ");
+		//  dprint("hello\n");
 
 		$ql = $this->getQuotaVariableList();
 
@@ -4892,8 +4894,8 @@ abstract class Lxclass
 						if (!isset($this->__old_priv)) {
 							$this->__old_priv = $oldv;
 						}
-						dprint("<br> <b> Warning. In {$this->getClname()} {$nk} is {$this->priv->$nk}: old value is " .
-							"{$oldv->$nk} , Updateing the object.<br> </b>");
+						dprint("Warning. In {$this->getClname()} {$nk} is {$this->priv->$nk}: old value is " .
+							"{$oldv->$nk} , Updateing the object.\n");
 						$this->setUpdateSubaction("enable_{$nk}");
 					}
 
@@ -4907,8 +4909,8 @@ abstract class Lxclass
 						if (!isset($this->__old_priv)) {
 							$this->__old_priv = $oldv;
 						}
-						dprint("<br> <b> Warning. In {$this->getClname()} {$nk} is {$this->priv->$nk}: old value is " .
-							"{$oldv->$nk} , Updateing the object.<br> </b>");
+						dprint("Warning. In {$this->getClname()} {$nk} is {$this->priv->$nk}: old value is " .
+							"{$oldv->$nk} , Updateing the object.\n");
 						$this->setUpdateSubaction("change_{$nk}");
 					}
 				}
@@ -4923,7 +4925,7 @@ abstract class Lxclass
 			if (cse($v, "_o")) {
 				$chn = $this->getChildNameFromDes($v);
 
-				dprintr("<br> Distribute Child {$chn}: ");
+				dprintr("Distribute Child {$chn}:\n");
 
 				$cb = $this->getObject($chn);
 
@@ -5248,7 +5250,7 @@ abstract class Lxclass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if (!$this->isLxclient()) {
-			dprint("Special object called in nonclient {$this->get__table()}:{$this->nname}<br> \n");
+			dprint("Special object called in nonclient {$this->get__table()}:{$this->nname}\n");
 			//debugBacktrace();
 		}
 
@@ -6151,7 +6153,7 @@ class priv extends Lxaclass
 	function __get($var)
 	{
 		if (!isset($this->__parent_o)) {
-			dprint("<b> error No parent... {$this->nname} {$this->__class}\n </b>");
+			dprint("error No parent... {$this->nname} {$this->__class}\n");
 		}
 
 		if (cse($var, '_flag')) {

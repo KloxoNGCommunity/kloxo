@@ -198,7 +198,7 @@ foreach ($certnamelist as $ip => $certname) {
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all
@@ -333,7 +333,7 @@ foreach ($certnamelist as $ip => $certname) {
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all
@@ -507,7 +507,7 @@ foreach ($certnamelist as $ip => $certname) {
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all
@@ -762,7 +762,7 @@ foreach ($certnamelist as $ip => $certname) {
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/<?php echo $domainname; ?>/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all
@@ -915,7 +915,7 @@ foreach ($certnamelist as $ip => $certname) {
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all
@@ -1050,7 +1050,7 @@ foreach ($certnamelist as $ip => $certname) {
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all
@@ -1173,7 +1173,7 @@ foreach ($certnamelist as $ip => $certname) {
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all
@@ -1308,7 +1308,7 @@ DirectoryIndex <?php echo $indexorder; ?>
             Options +ExecCGI
             AllowOverride All
             AddHandler fcgid-script .php
-            FCGIWrapper /home/httpd/php5.fcgi .php
+            FCGIWrapper /home/kloxo/client/php5.fcgi .php
             <IfVersion < 2.4>
                 Order allow,deny
                 Allow from all

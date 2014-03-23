@@ -6,9 +6,8 @@
 	if ($setphp52ver) {
 		$phpver = '5.2';
 	} else {
-	//	exec("php -r 'echo phpversion();'", $out, $ret);
-	//	$phpver = $out[0];
-		$phpver = phpversion();
+		exec("php -r 'echo phpversion();'", $out, $ret);
+		$phpver = $out[0];
 	}
 
 	if (version_compare($phpver, "5.4.0", ">=")) {

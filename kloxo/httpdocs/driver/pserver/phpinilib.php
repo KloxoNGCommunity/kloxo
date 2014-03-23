@@ -152,17 +152,26 @@ class phpini extends lxdb
 			$ob->get();
 			$ob->fixphpIniFlag();
 
-			$this->__var_docrootpath = $this->getParentO()->getFullDocRoot();
+			// MR -- trick for escape web-based php.ini
+			if ($this->getParentO()->is__table('web')) {
+				$this->__var_docrootpath = $this->getParentO()->getFullDocRoot();
+			}
+
 			$list = $this->getInheritedList();
 			
 			foreach ($list as $l) {
 				$this->phpini_flag_b->$l = $ob->phpini_flag_b->$l;
 			}
-			
-			$this->__var_web_user = $this->getParentO()->username;
-			$this->__var_customer_name = $this->getParentO()->customer_name;
-			$this->__var_disable_openbasedir = 
-				$this->getParentO()->webmisc_b->disable_openbasedir;
+
+			// MR -- trick for escape web-based php.ini
+			if ($this->getParentO()->is__table('web')) {
+				$this->__var_web_user = $this->getParentO()->username;
+				$this->__var_customer_name = $this->getParentO()->customer_name;
+				$this->__var_disable_openbasedir = (isset($this->getParentO()->webmisc_b->disable_openbasedir)) ?
+					$this->getParentO()->webmisc_b->disable_openbasedir : null;
+			} else {
+				$this->__var_web_user = $this->getParentO()->nname;
+			}
 		}
 
 		$this->__var_extrabasedir = $gen->extrabasedir;
@@ -337,7 +346,7 @@ class phpini extends lxdb
 		} elseif ($var === 'enable_zend_flag') {
 			$modulebase = "zend";
 		
-			if (version_compare(phpversion(), "5.3.0", ">=")) {
+			if (version_compare(getPhpVersion(), "5.3.0", ">=")) {
 				$modulelist = array("{$modulebase}-guard-loader");
 				$ininamelist = array("zendguard");
 			} else {

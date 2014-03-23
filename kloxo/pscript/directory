@@ -1,1 +1,1 @@
-cd /usr/local/lxlabs/`cat /script/programname`/httpdocs
+cd /usr/local/lxlabs/$(cat /script/programname)/httpdocs

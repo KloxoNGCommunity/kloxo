@@ -218,8 +218,6 @@ class ClientBase extends ClientCore
 
 			// MR -- need this trick to make sure driver info sync between slavedb and kloxo database
 			// if going to 'switch program' sync will be processed.
-		//	if (!$this->getObject('pserver')->web_driver) {
-		//	if (!slave_get_driver('web')) {
 			if (!$gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web')) {
 				$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
 			}
@@ -227,6 +225,11 @@ class ClientBase extends ClientCore
 			if (!db_get_value("serverweb", "pserver-" . $login->syncserver, "php_type")) {
 				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set";
 			}
+		}
+
+		// MR -- client must set/update php.ini
+		if (!db_get_value("phpini", "client-" . $this->nname, "nname")) {
+			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
 		}
 
 		parent::getAnyErrorMessage();
@@ -604,7 +607,7 @@ class ClientBase extends ClientCore
 			$ct = getFromAny(array($login, $parent), 'resourceplan', $this->resourceplan_f);
 
 			if (!$ct) {
-				throw new lxexception("the_resourceplan_doesnt_exist", 'resourceplan_f', $this->resourceplan_f);
+				throw new lxexception("resourceplan_doesnt_exist", 'resourceplan_f', $this->resourceplan_f);
 			}
 
 			if (!$parent->isAdmin()) {

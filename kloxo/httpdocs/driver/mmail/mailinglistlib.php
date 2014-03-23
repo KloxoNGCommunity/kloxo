@@ -24,11 +24,11 @@ class mailinglist_mod_a extends Lxaclass
 
 class Mailinglist extends Lxdb
 {
+	static $__desc = array("", "", "mailinglist");
 	static $__table = 'mailinglist';
-	static $__desc = array("", "", "mailing_list");
 	
-	static $__desc_nname = array("", "", "mailing_list", URL_SHOW);
-	static $__desc_listname = array("n", "", "mailing_list_name");
+	static $__desc_nname = array("", "", "mailinglist", URL_SHOW);
+	static $__desc_listname = array("n", "", "mailinglist_name");
 	static $__desc_adminemail = array("n", "", "admin_email");
 	static $__desc_post_members_only_flag = array("f", "", "only_members_can_post");
 	static $__desc_post_moderated_flag = array("f", "", "only_moderated_posts");
@@ -229,7 +229,7 @@ class Mailinglist extends Lxdb
 
 class all_mailinglist extends mailinglist
 {
-	static $__desc = array("", "", "all_mailing_list");
+	static $__desc = array("", "", "all_mailinglist");
 	static $__desc_parent_name_f = array("n", "", "owner");
 	static $__desc_parent_clname = array("n", "", "owner");
 

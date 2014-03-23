@@ -3,20 +3,23 @@
 INIT_DIR="/usr/local/lxlabs/kloxo/init"
 
 if [ "$1" != "" ] ; then
-	base_name=$1
+	base_name="$1"
+	echo "${base_name}" > ${INIT_DIR}/php_active
 else
-	base_name="php53s"
+	if [ -f ${INIT_DIR}/php_active ] ; then
+		base_name="$(cat ${INIT_DIR}/php_active)"
+	else
+		base_name="php53s"
+		echo "${base_name}" > ${INIT_DIR}/php_active
+	fi
 fi
 
-if [ -f /opt/${base_name}/usr/bin/php ] ; then
-	for i in cli cgi fpm ls ; do
-		if [ -f ${INIT_DIR}/${base_name}-${i}.sh ] ; then
-			chmod 755 -f ${INIT_DIR}/${base_name}-${i}.sh
-		fi
-	done
-	ln -sf ${INIT_DIR}/${base_name}-cli.sh /usr/bin/lphp.exe
-	ln -sf ${INIT_DIR}/${base_name}-cli.sh /usr/bin/lxphp.exe
-elif [ -f /opt/php52s/bin/php ] ; then
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lphp.exe
-	ln -sf ${INIT_DIR}/php52s-cli.sh /usr/bin/lxphp.exe
-fi
+mkdir -p /opt/${base_name}/custom
+
+cp -rf ${INIT_DIR}/${base_name}/* /opt/${base_name}/custom
+chmod 755 /opt/${base_name}/custom/*
+
+ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lphp.exe
+ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lxphp.exe
+
+echo "Execute fixlxphpexe for ${base_name}..."

@@ -10,13 +10,13 @@ function init_main($admin_pass)
 		initProgram("admin");
 
 		create_servername();
-		//create_default_template();
+	//	create_default_template();
 
 
 		$login->was();
-		createDnsTemplate();
+	//	createDnsTemplate();
 		Ticket::createWelcomeTicket();
-		/*
+	/*
 		if (lxfile_exists("__path_program_etc/license.txt")) {
 			decodeAndStoreLicense();
 			$login->license_o->write();
@@ -29,6 +29,7 @@ function init_main($admin_pass)
 		print($e->getMessage());
 		print("\\n\n\n\n\n\n\n\n\n\nn\n");
 	}
+
 	print("\n");
 }
 

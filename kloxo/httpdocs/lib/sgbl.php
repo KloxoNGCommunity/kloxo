@@ -14,6 +14,12 @@ class Sgbl
 			}
 		}';
 
+		if (!is_cli()) {
+			$this->__running_in_cli = false;
+		} else {
+			$this->__running_in_cli = true;
+		}
+			
 		$this->initDeviceDescriptions();
 		$this->initLanguages();
 		$this->initLTypes();
@@ -92,7 +98,7 @@ class Sgbl
 
 		// MR -- don't use isRpmInstalled for identified!!!
 		exec("rpm -q qmail-toaster", $out, $ret);
-		$this->__path_mail_root = (strpos($out[0], "qmail-toaster-") !== 0) ? "/home/lxadmin/mail" : "/home/vpopmail";
+		$this->__path_mail_root = (strpos($out[0], "qmail-toaster") !== false) ? "/home/vpopmail" : "/home/lxadmin/mail";
 		// MR -- still using old kloxo mail path
 		$this->__path_mail_data = "/home/lxadmin/mail";
 
@@ -101,15 +107,7 @@ class Sgbl
 		$this->__path_program_etc = "/usr/local/lxlabs/kloxo/etc/";
 		$this->__path_program_root = "/usr/local/lxlabs/kloxo";
 		$this->__path_program_htmlbase = "/usr/local/lxlabs/kloxo/httpdocs";
-/*
-		if (file_exists("/opt/php53s/usr/bin/php")) {
-			$this->__path_php_path = "/opt/php53s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php53s/phpini";
-		} elseif (file_exists("/opt/php52s/usr/bin/php")) {
-			$this->__path_php_path = "/opt/php52s/usr/bin/php -c /usr/local/lxlabs/kloxo/init/php52s/phpini";
-		} else {
-			$this->__path_php_path = "/opt/php52s/bin/php -c /opt/php52s/etc/phpini";
-		}
-*/
+
 		$this->__path_php_path = "/usr/bin/lxphp.exe";
 
 		$this->__path_serverfile = $this->__path_lxlabs_base . "/kloxo/serverfile";

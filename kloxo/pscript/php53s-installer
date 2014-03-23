@@ -1,97 +1,26 @@
 #!/bin/sh
 
-echo "*** BEGIN $0 ***"
+mkdir -p /opt/php53s/custom
 
-base_name="php53"
+yum -y install php53s-cli php53s-intl php53s-ldap php53s-litespeed php53s-mbstring php53s-mcrypt \
+	php53s-mysql php53s-pdo php53s-process php53s-pspell php53s-recode php53s-snmp \
+	php53s-soap php53s-tidy php53s-xml php53s-xmlrpc php53s-fpm php53s-bcmath php53s-enchant \
+	php53s-gd php53s-imap
 
-if [ "$(yum list php*|grep ${base_name}u)" != "" ] ; then
-	pack_name="${base_name}u"
-elif [ "$(yum list php*|grep ${base_name})" != "" ] ; then
-	pack_name="${base_name}"
-else
-	echo "- No PHP packages exists. Only detecting '${base_name}u' and '${base_name}'. Exit"
-	echo
-	exit
-fi
+cp -f /usr/local/lxlabs/kloxo/init/php53s/php.ini /opt/php53s/custom/php.ini
+cp -f /usr/local/lxlabs/kloxo/init/php53s/php-fpm.conf /opt/php53s/custom/php-fpm.conf
 
-if [ "$(yum list *yum*|grep @)" != "" ] ; then
-	mysqlapp="mysql"
-else
-	mysqlapp="mysql55"
-fi
-
-echo "- Install dependencies first..."
-yum -y install apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
-	curl cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
-	fileutils fontconfig freetds freetype GConf2 gcc-c++ gd GeoIP ghostscript ghostscript-fonts \
-	gmp gtk2 hicolor-icon-theme icui18n ilmbase ImageMagick jasper-libs krb5 lcms-libs libc-client \
-	libcroco libedit libevent libfontenc libgomp libgsf libicu libIDL libjpeg liblzf \
-	libmcrypt libmemcached libpng librsvg2 libSM libstdc++ libthai libtiff libtool libtool-ltdl \
-	libwmf-lite libxml2 libxslt libtidy libvpx libXpm libXcomposite libXcursor libXdamage libXext \
-	libXfixes libXfont libXft libXi libXinerama libXrandr libXrender libXt lm_sensors \
-	${mysqlapp} mhash ncurses net-snmp OpenEXR-libs openldap openssl ORBit2 pam pango perl polkit \
-	postgresql pspell recode redhat-lsb sgml-common sqlite smtpdaemon t1lib unixODBC urw-fonts \
-	xorg-x11-font-utils zlib
-
-echo "- Download rpms..."
-mkdir -p /opt/${base_name}s
-cd /opt/${base_name}s
-yumdownloader ${pack_name}-*
-rm -rf *-debug*
-rm -rf *-devel*
-
-echo "- Extract rpms..."
-for entry in $(ls ./*.rpm) ; do
-	rpm2cpio $entry | cpio -idmv
-done
-
-rm -rf *.rpm
-
-echo "- Disable certain modules..."
-for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
-	apc imagick interbase ioncube-loader memcache memcached mssql debug \
-	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
-	xdebug	xcache ; do
-	if [ -f /opt/${base_name}s/etc/php.d/${i}.ini ] ; then
-		sed -i 's:=/usr/:=/opt/${base_name}s/usr/:' /opt/${base_name}s/etc/php.d/${i}.ini
-		if [ $i == 'mysqlnd_mysql' ] || [ $i == 'mysqlnd_mysqli' ] ; then
-			except_no="yes"
-		else
-			if [ $i == 'mysqlnd' ] || [ $i == 'pdo_mysqlnd' ] ; then
-				if [ except_no == 'no' ] ; then
-					mv -f /opt/${base_name}s/etc/php.d/${i}.ini /opt/${base_name}s/etc/php.d/${i}.nonini
-				fi
-			else
-				mv -f /opt/${base_name}s/etc/php.d/${i}.ini /opt/${base_name}s/etc/php.d/${i}.nonini
-			fi
-		fi
-	fi
-done
-
-cd /
-
-cd /opt/${base_name}s
-
-mkdir -p /opt/${base_name}s/custom
-
-echo "- Copy sh script to custom dir..."
-for i in ${base_name}s-cgi ${base_name}s-cli ${base_name}s-ls ${base_name}s-fpm ; do
-	if [ -f /usr/local/lxlabs/kloxo/init/generic-${i}.sh ] ;  then
-		cp -rf /usr/local/lxlabs/kloxo/init/generic-${i}.sh /opt/${base_name}s/custom/${i}.sh
-		chmod 755 /opt/${base_name}s/custom/${i}.sh
-		ln -sf /opt/${base_name}s/custom/${i}.sh /usr/bin/${i}
-	fi
-done
-
-echo "- Copy generic php.ini..."
-cp -rf /usr/local/lxlabs/kloxo/init/${base_name}s/generic-php.ini /opt/${base_name}s/etc/php.ini
-
-echo "- Fix extension_dir in php.ini..."
 if [ "$(uname -m)" == "x86_64" ] ; then
-	sed -i "s:/opt/${base_name}s/usr/lib/:/opt/${base_name}s/usr/lib64/:" /opt/${base_name}s/etc/php.ini
-	sed -i "s:/opt/${base_name}s/usr/lib/:/opt/${base_name}s/usr/lib64/:" /usr/local/lxlabs/kloxo/init/${base_name}s/php.ini
+	ln -sf /opt/php53s/usr/lib64 /opt/php53s/usr/lib
+	sed -i "s:/opt/php53s/usr/lib/:/opt/php53s/usr/lib64/:" /opt/php53s/custom/php.ini
 fi
 
-echo "*** END $0 ***"
-echo
+for i in cgi cli ls fpm ; do
+	if [ -f /usr/local/lxlabs/kloxo/init/php53s/php-${i}.sh ] ;  then
+		cp -rf /usr/local/lxlabs/kloxo/init/php53s/php-${i}.sh /opt/php53s/custom/php-${i}.sh
+		chmod 755 /opt/php53s/custom/php-${i}.sh
+		ln -sf /opt/php53s/custom/php-${i}.sh /usr/bin/php53s-${i}
+	fi
+done
 
+sh /script/fixlxphpexe php53s

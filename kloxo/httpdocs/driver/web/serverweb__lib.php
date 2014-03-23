@@ -213,15 +213,10 @@ class serverweb__ extends lxDriverClass
 
 		$this->rename_to_nonconf();
 
-		if (version_compare(phpversion(), "5.3.0", ">")) {
-			lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
-			$this->remove_phpfpm();
-		} else {
-			lxfile_cp(getLinkCustomfile($haepath, "suphp_pure.conf"), $epath . "/suphp.conf");
-			$this->set_php_pure();
-		}
+		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
+		$this->remove_phpfpm();
 
-		exec("sh /script/fixphp --nolog");
+	//	exec("sh /script/fixphp --nolog");
 
 		lxfile_rm($ehcdpath . "/suphp.nonconf");
 	}
@@ -261,7 +256,7 @@ class serverweb__ extends lxDriverClass
 
 		setRpmInstalled("mod_fcgid");
 
-		if (version_compare(phpversion(), "5.3.0", "<")) {
+		if (version_compare(getPhpVersion(), "5.3.0", "<")) {
 			$this->set_php_pure();
 		} else {
 			$this->remove_phpfpm();

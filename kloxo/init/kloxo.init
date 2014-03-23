@@ -40,47 +40,27 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 ### 1. PHP-CGI portion
 
-php_basename="php53s"
+if [ -f /usr/local/lxlabs/kloxo/init/php_active ] ; then
+	php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
+else
+	sh /script/fixlxphpexe php52s
+	php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
+fi
 
-if [ -f /opt/${php_basename}/usr/bin/php ] ; then
-	#phpcgi_file="/opt/${php_basename}/usr/sbin/php-fpm"
-	phpcgi_file="/usr/local/lxlabs/kloxo/init/${php_basename}-fpm.sh"	
-	phpcgi_conf="/usr/local/lxlabs/kloxo/init/${php_basename}/php-fpm.conf"
-	phpcgi_ini="/usr/local/lxlabs/kloxo/init/${php_basename}/php.ini"
-
-	if [ "$(uname -m)" == "x86_64" ] ; then
-		sed -i "s:/usr/lib/php/modules:/usr/lib64/php/modules:" ${phpcgi_ini}
-	fi
-
-	sh /script/fixlxphpexe ${php_basename}
-elif [ -f /opt/php52s/usr/bin/php ] ; then
-	phpcgi_file="/opt/php52s/usr/bin/php-cgi"
-	if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
-		yum install spawn-fcgi -y
-	fi
+if [ -f /opt/${php_active}/usr/bin/php ] ; then
+	phpcgi_file="/opt/${php_active}/custom/php-fpm.sh"
+	phpcgi_conf="/opt/${php_active}/custom/php-fpm.conf"
+	phpcgi_ini="/opt/${php_active}/custom/php.ini"
 elif [ -f /opt/php52s/bin/php ] ; then
+	sh /script/fixlxphpexe php52s
 	phpcgi_file="/opt/php52s/bin/php-cgi"
-
-	if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
-		yum install spawn-fcgi -y
-	fi
 fi
 
 cd /usr/local/lxlabs/kloxo/httpdocs
 lxphp.exe -f ../init/changeport.php
 
 phpcgi_pidfile="${INIT_DIR}/kloxo-phpcgi.pid"
-
-if [ -f /opt/${php_basename}/usr/bin/php ] ; then
-	chmod 755 /usr/local/lxlabs/kloxo/init/${php_basename}-fpm.sh
-	ln -sf /usr/local/lxlabs/kloxo/init/${php_basename}-fpm.sh /usr/local/lxlabs/kloxo/init/kloxo-phpcgi
-else
-	chmod 755 /usr/local/lxlabs/kloxo/init/php52s-cgi.sh
-	ln -sf /usr/local/lxlabs/kloxo/init/php52s-cgi.sh /usr/local/lxlabs/kloxo/init/kloxo-phpcgi
-fi
-
 phpcgi_symlink="${INIT_DIR}/kloxo-phpcgi"
-
 phpcgi_user="lxlabs"
 phpcgi_child="4"
 phpcgi_max_req="10000"
@@ -93,15 +73,20 @@ phpcgi_lockfile="/var/lock/subsys/${phpcgi_name}"
 phpcgi_prog="kloxo-phpcgi"
 prog_as_slave="/usr/local/lxlabs/${prog}/etc/conf/slave-db.db"
 prog_wrapper="kloxo-wrapper.sh"
+wrapper_pidfile="/usr/local/lxlabs/kloxo/pid/wrapper.pid"
+
+if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
+	yum install spawn-fcgi -y
+fi
 
 ln -sf ${phpcgi_file} ${phpcgi_symlink}
 
-if [ -f /opt/${php_basename}/usr/bin/php ] ; then
-	#phpcgi_spawn="$phpcgi_symlink --fpm-config $phpcgi_conf --php-ini $phpcgi_ini"
-	phpcgi_spawn="$phpcgi_symlink --fpm-config $phpcgi_conf"
+if [ "${php_active}" != "php52s" ] || [ "${php_active}" != "php52m" ] ; then
+	phpcgi_spawn="$phpcgi_symlink --fpm-config $phpcgi_conf --php-ini $phpcgi_ini"
 else
 	phpcgi_spawn="/usr/bin/spawn-fcgi -f ${phpcgi_symlink} -s ${phpcgi_sockfile} \
-		-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user} > /dev/null 2>&1"
+		-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user}  -P $phpcgi_pidfile \
+		> /dev/null 2>&1"
 fi
 
 function phpcgi_start() {
@@ -115,10 +100,6 @@ function phpcgi_start() {
 
 	daemon ${phpcgi_spawn}
 
-	if [ ! -f /opt/${php_basename}/usr/bin/php ] ; then
-		echo $! > "${phpcgi_pidfile}"
-	fi
-
 	retval=$?
 	echo
 	[ ${retval} -eq 0 ] && touch ${phpcgi_lockfile} && touch ${phpcgi_sockfile}
@@ -128,28 +109,12 @@ function phpcgi_start() {
 function phpcgi_stop() {
 	echo -n $"Stopping ${phpcgi_prog}: "
 
-	if [ -f /opt/${php_basename}/usr/bin/php ] ; then
-		if [ "$(ps aux |grep 'kloxo-phpcgi'|grep 'lxlabs')" != "" ] ; then
-			killproc ${phpcgi_name}
-		fi
-
-		if [ "$(ps aux|grep '/init/${php_basename}/php-fpm.conf'|grep 'php-fpm:')" != "" ] ; then
-			killproc -p ${phpcgi_pidfile}
-		fi
-
-	else
-		if [ "$(ps aux|grep '/init/${php_basename}/php-fpm.conf'|grep 'php-fpm:')" != "" ] ; then
-			killproc -p ${phpcgi_pidfile}
-		fi
-
-		if [ "$(ps aux |grep 'kloxo-phpcgi'|grep 'lxlabs')" != "" ] ; then
-			killproc ${phpcgi_name}
-		fi
-	fi
+	killproc -p ${wrapper_pidfile}
+	killproc -p ${phpcgi_pidfile}
 
 	retval=$?
 	echo
-	[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile} && rm -rf ${phpcgi_pidfile}
+	[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile}
 	return ${retval}
 }
 
@@ -171,7 +136,8 @@ function phpcgi_reload() {
 
 function phpcli_load_wrapper() {
 	cd /usr/local/lxlabs/kloxo/httpdocs
-	sh ../sbin/kloxo-wrapper.sh &
+	chmod 755 ../sbin/kloxo-wrapper.sh
+	../sbin/kloxo-wrapper.sh &
 }
 
 function phpcgi_rh_status() {
@@ -336,4 +302,3 @@ case "$1" in
 		echo $"Usage: $0 {start|stop|status|restart|reload|update}"
 		exit 2
 esac
-

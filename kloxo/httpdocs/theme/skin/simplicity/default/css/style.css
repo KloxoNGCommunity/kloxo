@@ -358,13 +358,14 @@
 		/* margin-bottom: 6px; */
 		height: 20px;
 		float: left;
-		border: 1px solid #ddd;
-		background-color: #efe8e0;
+		border: 1px solid #dcb;
+		margin: 0 1px;
+		background-color: #dcb;
 		padding: 6px 6px 0 6px;
 	}
 
 	.verb:hover {
-		background-color: #ccc;
+		background-color: #ceb;
 	}
 
 	.verb2 {
@@ -373,13 +374,14 @@
 		text-align: left;
 		height: 20px;
 		float: left;
-		border: 1px solid #ddd;
+		border: 1px solid #ccc;
+		margin: 0 1px;
 		background-color: #ccc;
 		padding: 6px 6px 0 6px;
 	}
 
 	.verb2:hover {
-		background-color: #ccc;
+		background-color: #ceb;
 	}
 
 	.verb3 {
@@ -387,9 +389,9 @@
 		white-space: nowrap;
 		height: 20px;
 		float: left;
-		border: 1px solid #ddd;
-		border-bottom: 1px solid #fff;
-		background-color: #fff;
+		border: 1px solid #eee;
+		margin: 0 1px;
+		background-color: #eee;
 		padding: 6px 6px 0 6px;
 	}
 
@@ -398,7 +400,7 @@
 	}
 
 	.verb3:hover {
-		background-color: #ccc;
+		background-color: #ceb;
 	}
 
 	.tabnew {
@@ -616,5 +618,5 @@
 	}
 
 	.shadow_all {
-		box-shadow: 0 0 4px #cba;
+		box-shadow: 0 0 10px #cba;
 	}

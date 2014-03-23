@@ -230,6 +230,7 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 
 	$res = unserialize(base64_decode($totalout));
 
+
 	if (!$res) {
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxException('could_not_connect_to_server', 'syncserver', $machine);
@@ -243,7 +244,7 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 
 //	dprint($res->message);
 
-//	print_time('server', "remote<b> $raddress</b>: $size KB", 2);
+//	print_time('server', "remote $raddress: $size KB", 2);
 
 	// We have only return values. The output of the command is discarded.
 	// This leads to tremendous savings of bandwidth; makes the communication almost one way.
@@ -253,20 +254,20 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 
 	$err = $res ? 3 : 2;
 
-	dprint("<br>  <table border=2> <tr> <td > Remote: $machine, $cmdtype, $nname, $dbaction<br> ", $err);
+	dprint("Remote: $machine, $cmdtype, $nname, $dbaction\n", $err);
 
 	if (!$res) {
-		dprint("<b> <font color=red>Got Error: </b> </font> $res", $err);
+		dprint("Got Error:$res\n", $err);
 	//	$ser = base64_decode($res);
 	//	dprint($ser);
 	} else {
-		dprint("Message: " . $res->message . "<br> ", $err);
+		dprint("\nMessage: " . $res->message . "\n", $err);
 	}
 
-	dprint("</td> </tr> </table>  ", $err);
+	dprint("\n", $err);
 
 	if (!$res) {
-		dprint("Warning");
+		dprint("Warning\n");
 	}
 
 	if ($res->__this_warning) {
@@ -328,8 +329,8 @@ function remote_exec($machine, $cmd)
 		$subaction = $cmd->robject->subaction;
 	}
 
-	print_time('remote_exec', "<b> Remote Exec $machine: type: $cmdtype, class: $class name: " .
-		"$nname action: $dbaction; subaction $subaction </b>");
+	print_time('remote_exec', "Remote Exec: $machine, type: $cmdtype, class: $class, name: " .
+		"$nname, action: $dbaction, subaction: $subaction\n\n");
 
 	if (!$rmt) {
 		return null;
@@ -338,7 +339,7 @@ function remote_exec($machine, $cmd)
 	// If the slave server is upgrading try once more. Don't!!!!!!!!!!!!!!
 /*
 	 if ($rmt->state === 'upgrade') {
-		 print("Slave Server Upgraded. Trying Again....<br> ");
+		 print("Slave Server Upgraded. Trying Again....\n");
 		 flush();
 		 sleep(20);
 		 $rmt = do_remote_exec($machine, $password, $cmd, $cmdtype, $nname, $dbaction);
@@ -349,7 +350,7 @@ function remote_exec($machine, $cmd)
 	 }
 
 	 if ($rmt->state === 'upgrade') {
-		 dprint("Slave Server Upgrade. Has failed...<br> ");
+		 dprint("Slave Server Upgrade. Has failed...\n");
 		 throw new lxException("slave_server_upgrade_failed");
 	 }
 */
@@ -512,7 +513,7 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd, $reexec 
 		return null;
 	}
 
-	dprint("Got this much:" . strlen($totalout));
+	dprint("Got this much: " . strlen($totalout) . "\n\n");
 
 //	dprint($totalout);
 
@@ -926,11 +927,11 @@ function rl_exec($masterserver, $slaveserver, $cmd)
 	if ($cmd->action === "set" || $cmd->action === 'dowas') {
 		$robject = $cmd->robject;
 		$clo = myclone($robject);
-	//	dprint("Just before $robject {$robject->nname} " . $robject->domain_l . "<br> ");
+	//	dprint("Just before $robject {$robject->nname} " . $robject->domain_l . "\n");
 		lxclass::clearChildrenAndParent($clo);
 		$clo->syncserver = $slaveserver;
 		$clo->createSyncClass();
-	//	dprint("Just after $robject {$robject->nname} " . $robject->domain_l . "<br> ");
+	//	dprint("Just after $robject {$robject->nname} " . $robject->domain_l . "\n");
 		$cmd->robject = $clo;
 	}
 

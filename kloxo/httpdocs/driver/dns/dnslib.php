@@ -81,7 +81,8 @@ class Dns extends DnsBase
 	{
 		$ddate = @ date("Ymd");
 
-		$this->serial = $this->serial + 1;
+		// MR -- error for create new domain
+		$this->serial = (isset($this->serial)) ? $this->serial + 1 : 0;
 
 		if ($this->serial > 99) {
 			$this->serial = 0;

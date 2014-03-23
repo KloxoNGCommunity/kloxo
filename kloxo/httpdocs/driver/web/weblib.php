@@ -325,7 +325,7 @@ class Web extends Lxdb
 	static $__desc_ffile_o = array('', '', '', '');
 	static $__desc_dirprotect_l = array('db', '', '', '');
 	static $__desc_ftpuser_l = array("Rqdtb", "", "");
-	static $__desc_installappsnapshot_l = array("d", "", "");
+//	static $__desc_installappsnapshot_l = array("d", "", "");
 	static $__desc_component_l = array("", "", "");
 	static $__desc_rubyrails_l = array("qdb", "", "");
 	static $__desc_odbc_l = array("db", "", "");
@@ -875,7 +875,14 @@ class Web extends Lxdb
 		$this->createstatsConf($this->nname, $this->stats_username, $this->stats_password);
 
 		// MR -- must be running here!
-		$this->getAndUnzipSkeleton($this->__var_skelmachine, $this->__var_skelfile, "$user_home/");
+	//	$this->getAndUnzipSkeleton($this->__var_skelmachine, $this->__var_skelfile, "$user_home/");
+		$this->getAndUnzipSkeleton("$user_home/", $this->__var_skelfile, $this->__var_skelmachine);
+
+		if (file_exists("/etc/php-fpm/{$this->customer_name}.conf")) {
+			exec("sh /script/fixphp --domain={$domname} --nolog");
+		} else {
+			exec("sh /script/fixphp --client={$this->customer_name} --nolog");
+		}
 	}
 
 	static function createstatsConf($domname, $stats_name, $stats_password)
@@ -1052,7 +1059,7 @@ class Web extends Lxdb
 		$alist[] = create_simpleObject(array('url' => "http://nname/__kloxo/phpinfo.php", 
 				'purl' => 'a=updateform&sa=phpinfo', 'target' => "target='_blank'"));
 
-		$alist[] = "a=show&o=phpini";
+	//	$alist[] = "a=show&o=phpini";
 	//	$alist[] = "a=updateform&sa=lighty_rewrite";
 		$alist[] = "a=list&c=component";
 
@@ -1402,19 +1409,34 @@ class Web extends Lxdb
 		return $filename;
 	}
 
-	function getAndUnzipSkeleton($ip, $filepass, $dir)
+	// MR change  input format
+//	function getAndUnzipSkeleton($ip, $filepass, $dir)
+	function getAndUnzipSkeleton($dir, $filepass = null, $ip = null)
 	{
 		$oldir = getcwd();
 		// File may be a variable path.
 		//	dprintr($filepass);
-		$file = $filepass['file'];
 
-		// The thing is this needs to be executed even on secondary master and then the primary master would be down.
-		// So if we cannot connect back, we just continue. Skeleton is not an important thing.
-		try {
-			getFromFileserv($ip, $filepass, "$dir/$file");
-		} catch (exception $e) {
-			return;
+		if ($filepass !== null) {
+			$file = $filepass['file'];
+		} else {
+			$file = "skeleton.zip";
+
+			if (file_exists("/home/{$this->username}/skeleton.zip")) {
+				lxfile_cp("/home/{$this->username}/skeleton.zip", "{$dir}/{$file}");
+			} else {
+				lxfile_cp("__path_program_root/file/skeleton.zip", "{$dir}/{$file}");
+			}
+		}
+
+		if ($ip !== null) {
+			// The thing is this needs to be executed even on secondary master and then the primary master would be down.
+			// So if we cannot connect back, we just continue. Skeleton is not an important thing.
+			try {
+				getFromFileserv($ip, $filepass, "$dir/$file");
+			} catch (exception $e) {
+				return;
+			}
 		}
 
 		lxfile_generic_chown("$dir/$file", $this->username);

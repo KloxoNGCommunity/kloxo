@@ -702,7 +702,11 @@ class Domaind extends DomainBase
 
 
 		$web->syncserver = $parent->websyncserver;
-		$dns->syncserver = implode(",", $parent->dnssyncserver_list);
+
+		// MR -- fix issue of not array
+		$dns->syncserver = (is_array($parent->dnssyncserver_list)) ? 
+			implode(",", $parent->dnssyncserver_list) : $parent->dnssyncserver_list;
+
 		$mmail->syncserver = $parent->mmailsyncserver;
 
 		$dns->zone_type = 'master';
@@ -864,6 +868,8 @@ class Domaind extends DomainBase
 		$this->lxclientpostAdd();
 
 		$this->generateDomainKey(true);
+
+	//	exec("sh /script/fixphp --domain={$this->nname} --nolog");
 	}
 
 	function generateDomainKey($dontwasflag)
@@ -1425,9 +1431,11 @@ class Domaind extends DomainBase
 		
 		$alist[] = "n=web&a=update&sa=phpinfo";
 
-
+	/*
+		// MR -- disable because change to user-level php.ini
 		$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
 		$alist['__v_dialog_phpiniadv'] = "n=web&o=phpini&a=updateform&sa=extraedit";
+	*/
 
 	/*
 		// MR -- TODO: change to user-level for client! (not admin)

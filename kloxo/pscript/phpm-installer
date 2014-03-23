@@ -1,0 +1,103 @@
+#!/bin/sh
+
+echo "*** BEGIN $1 ***"
+
+base_name="${1}"
+## MR -- remove last char (default m or s)
+src_name="${base_name%?}"
+
+if [ "$(yum list php*|grep ${src_name}u)" != "" ] ; then
+	pack_name="${src_name}u"
+elif [ "$(yum list php*|grep ${src_name})" != "" ] ; then
+	pack_name="${src_name}"
+else
+	echo "- No PHP packages exists. Only detecting '${src_name}u' and '${src_name}'. Exit"
+	echo
+	exit
+fi
+
+#if [ "$(yum list *yum*|grep @)" != "" ] ; then
+#	mysqlapp="mysql"
+#else
+#	mysqlapp="mysql55"
+#fi
+
+echo "- Install dependencies first..."
+yum -y install apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
+	curl cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
+	fileutils fontconfig freetds freetype GConf2 gcc-c++ gd GeoIP ghostscript ghostscript-fonts \
+	gmp gtk2 hicolor-icon-theme icui18n ilmbase ImageMagick jasper-libs krb5 lcms-libs libc-client \
+	libcroco libedit libevent libfontenc libgomp libgsf libicu libIDL libjpeg liblzf \
+	libmcrypt libmemcached libpng librsvg2 libSM libstdc++ libthai libtiff libtool libtool-ltdl \
+	libwmf-lite libxml2 libxslt libtidy libvpx libXpm libXcomposite libXcursor libXdamage libXext \
+	libXfixes libXfont libXft libXi libXinerama libXrandr libXrender libXt lm_sensors lm_sensors-libs \
+	mhash ncurses net-snmp OpenEXR-libs openldap openssl ORBit2 pam pango perl polkit \
+	postgresql pspell recode redhat-lsb sgml-common sqlite t1lib unixODBC urw-fonts \
+	xorg-x11-font-utils zlib
+
+echo "- Download rpms..."
+mkdir -p /opt/${base_name}
+cd /opt/${base_name}
+yumdownloader ${pack_name}-*
+rm -rf *-debug*
+rm -rf *-devel*
+
+echo "- Extract rpms..."
+for entry in $(ls ./*.rpm) ; do
+	rpm2cpio $entry | cpio -idmv
+done
+
+rm -rf *.rpm
+
+## NOTE: mbstring make segfault in Kloxo-MR install process (test in Centos 6 64bit); also disable it.
+
+echo "- Disable certain modules..."
+for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
+	apc apcu imagick interbase ioncube-loader memcache memcached mssql debug \
+	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
+	xdebug	xcache opcache mbstring ; do
+	if [ -f /opt/${base_name}/etc/php.d/${i}.ini ] ; then
+		sed -i 's:=/usr/:=/opt/${base_name}/usr/:' /opt/${base_name}/etc/php.d/${i}.ini
+		if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then
+			## MR -- using mysqlnd instead mysql/mysqli in php54s
+			if [ -f /opt/${base_name}/etc/php.d/mysql.ini ] ; then
+				mv -f /opt/${base_name}/etc/php.d/mysql.ini /opt/${base_name}/etc/php.d/mysql.nonini
+				mv -f /opt/${base_name}/etc/php.d/mysqli.ini /opt/${base_name}/etc/php.d/mysqli.nonini
+			fi
+		else
+			mv -f /opt/${base_name}/etc/php.d/${i}.ini /opt/${base_name}/etc/php.d/${i}.nonini
+		fi
+	fi
+done
+
+cd /
+
+cd /opt/${base_name}
+
+mkdir -p /opt/${base_name}/custom
+
+echo "- Copy sh script to custom dir..."
+for i in cgi cli ls fpm ; do
+	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/php-${i}.sh ] ;  then
+		cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/php-${i}.sh /opt/${base_name}/custom/php-${i}.sh
+		chmod 755 /opt/${base_name}/custom/php-${i}.sh
+		ln -sf /opt/${base_name}/custom/php-${i}.sh /usr/bin/${base_name}-${i}
+	fi
+done
+
+echo "- Copy generic config file..."
+for i in php.ini php-fpm.conf php-fpm.init ; do
+	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/${i} ] ; then
+		cp -f /usr/local/lxlabs/kloxo/init/${base_name}/${i} /opt/${base_name}/custom/${i}
+	fi
+done
+
+echo "- Fix extension_dir in php.ini..."
+if [ "$(uname -m)" == "x86_64" ] ; then
+	sed -i "s:/opt/${base_name}/usr/lib/:/opt/${base_name}/usr/lib64/:" /opt/${base_name}/etc/php.ini
+	sed -i "s:/opt/${base_name}/usr/lib/:/opt/${base_name}/usr/lib64/:" /usr/local/lxlabs/kloxo/init/${base_name}/php.ini
+fi
+
+echo "*** END $1 ***"
+echo
+

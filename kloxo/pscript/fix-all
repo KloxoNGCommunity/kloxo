@@ -3,8 +3,8 @@
 T="$(date +%s%N)"
 
 sh /script/fixdns
-sh /script/fixphp
 sh /script/fixweb
+sh /script/fixphp
 sh /script/fixftpuser
 sh /script/fixmail-all
 
