@@ -1705,6 +1705,9 @@ function print_navigation($navig)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+	$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+	$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
+
 	if ($ghtml->isSelectShow()) {
 		return;
 	}
@@ -1801,13 +1804,18 @@ function print_navigation($navig)
 <table style="width: 100%; border:0 ; margin: 0 0 2px 0; padding: 0"><tr><td>
 <div style="padding: 2px">
 <?php
-		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
+		if ($button_type !== 'image') {
 ?>
 			<div style="float: left;margin-top: 0">&nbsp;<span class="if16" style="color: #c22">&#xf009;</span>&nbsp;</div>
 <?php
 		} else {
+			if ($skin_name === 'simplicity') {
+				$img_height = '24';
+			} else {
+				$img_height = '32';
+			}
 ?>
-			<div style="float: left"><?="$imgstr $demoimg"?><img height="35" src="<?=$image?>"></div>
+			<div style="float: left"><?="$imgstr $demoimg"?><img height="<?= $img_height ?>" src="<?=$image?>"></div>
 <?php
 		}
 

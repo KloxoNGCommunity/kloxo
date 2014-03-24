@@ -2920,8 +2920,7 @@ function getLatestVersion()
 
 	exec("yum check-update kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
 
-//	if (!$out) {
-	if ($ret !== 0) {
+	if (!$ret) {
 		$ver = getInstalledVersion();
 	} else {
 		$ver = str_replace(".mr", "", $out[0]);
@@ -7400,6 +7399,8 @@ function setRealServiceBranchList($nolog = null)
 
 function resetQmailAssign()
 {
+	// MR -- this function not use anymore because fix-qmailassign directly reading vdominfo
+
 	$pass = slave_get_db_pass();
 
 	$con = new mysqli("localhost", "root", $pass);

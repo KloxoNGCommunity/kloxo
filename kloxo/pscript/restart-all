@@ -11,7 +11,9 @@ for item in ${list[*]} ; do
 					## tricky detect if hiawatha as web server
 					if [ "$(grep 'hiawatha' /usr/local/lxlabs/kloxo/etc/slavedb/driver)" == "" ] ; then
 						chkconfig hiawatha off
-						/etc/init.d/${item} stop
+						if [ "$(service hiawatha status|grep '(pid')" == "" ] ; then
+							/etc/init.d/${item} stop
+						fi
 					else
 						chkconfig hiawatha on
 						/etc/init.d/${item} restart

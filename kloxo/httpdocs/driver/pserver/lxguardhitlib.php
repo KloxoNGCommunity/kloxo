@@ -10,6 +10,10 @@ class rawlxguardhit extends lxdb
 	static $__desc_user = array("", "",  "user");
 	static $__desc_ipaddress = array("", "",  "ipaddress");
 
+	static $__desc_failcount = array("", "",  "fail");
+	static $__desc_successcount = array("", "",  "success");
+	static $__desc_blocked = array("", "",  ".");
+
 	function isSelect() { return false; }
 
 	static function createListBlist($parent, $class)
@@ -24,11 +28,13 @@ class rawlxguardhit extends lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['user'] = '10%';
-		$nlist['service'] = '10%';
-		$nlist['ipaddress'] = '5%';
-		$nlist['ddate'] = '5%';
-		$nlist['access'] = '70%';
+		$nlist['user'] = '20%';
+		$nlist['service'] = '20%';
+		$nlist['ipaddress'] = '20%';
+		$nlist['ddate'] = '30%';
+	//	$nlist['access'] = '70%';
+		$nlist['failcount'] = '10%';
+		$nlist['successcount'] = '10%';
 
 		return $nlist;
 	}
@@ -57,6 +63,12 @@ class lxguardhit extends lxdb
 	static $__desc_service = array("", "",  "service");
 	static $__desc_user = array("", "",  "user");
 
+	static $__desc_ipaddress = array("", "",  "ipaddress");
+
+	static $__desc_failcount = array("", "",  "fail");
+	static $__desc_successcount = array("", "",  "success");
+	static $__desc_blocked = array("", "",  ".");
+
 	static function createListBlist($parent, $class)
 	{
 		return null;
@@ -68,7 +80,9 @@ class lxguardhit extends lxdb
 		$nlist['service'] = '40%';
 		$nlist['user'] = '40%';
 		$nlist['ddate'] = '10%';
-		$nlist['access'] = '10%';
+	//	$nlist['access'] = '10%';
+		$nlist['failcount'] = '10%';
+		$nlist['successcount'] = '10%';
 
 		return $nlist;
 	}
@@ -210,11 +224,11 @@ class lxguardhitdisplay extends lxclass
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['blocked'] = '5%';
-		$nlist['currentip_flag'] = '5%';
+		$nlist['blocked'] = '10%';
+		$nlist['currentip_flag'] = '10%';
 		$nlist['failcount'] = '10%';
 		$nlist['successcount'] = '10%';
-		$nlist['ipaddress'] = '70%';
+		$nlist['ipaddress'] = '60%';
 
 		return $nlist;
 	}

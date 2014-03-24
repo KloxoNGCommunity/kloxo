@@ -271,13 +271,16 @@ class sp_basespecialplay extends LxspecialClass
 		lxfile_cp($fullpath_logo_image, "/usr/local/lxlabs/kloxo/file/user-logo.png");
 		// must chown to lxlabs for successful display on 'Upload Logo'
 		lxfile_unix_chown($fullpath_logo_image, "lxlabs");
-		exec("lxphp.exe /usr/local/lxlabs/kloxo/bin/fix/fix-userlogo.php --select=all");
+		lxfile_unix_chmod($fullpath_logo_image, "0644");
+		lxfile_unix_chmod("/usr/local/lxlabs/kloxo/file/user-logo.png", "0644");
 
 		$tsp = $parent->getObject("sp_childspecialplay");
 		$tsp->specialplay_b->logo_image = $param['specialplay_b-logo_image'];
 		//	$tsp->specialplay_b->logo_image_loading = $param['specialplay_b-logo_image_loading'];
 		$tsp->setUpdateSubaction('upload_logo');
 		$this->setUpdateSubaction('upload_logo');
+
+		exec("sh /script/fix-userlogo --nolog");
 
 		return $param;
 	}

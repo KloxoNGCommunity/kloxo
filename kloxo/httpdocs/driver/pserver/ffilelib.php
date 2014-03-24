@@ -515,13 +515,14 @@ class Ffile extends Lxclass
 		$iconpath = get_image_path();
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
+		$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
 
-		if ($skin_name === 'simplicity') {
+		if ($button_type !== 'image') {
 			$background = "url({$genimgpath}/button/fnav_02.gif)";
 			$icon_text = "<span class='if32' style='color:#d33'>&#xf382;</span>";
 		} else {
 			$background = "#ffffff";
-			$icon_text = "<img width='29' height='29' src='{$iconpath}/ffile_show.gif'>";
+			$icon_text = "<img height='32' src='{$iconpath}/ffile_show.gif'>";
 		}
 
 		// Hack hack
