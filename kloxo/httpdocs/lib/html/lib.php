@@ -532,6 +532,10 @@ function PrepareRoundCubeDb($nolog = null)
 	$pass = randomString(8);
 	log_cleanup("- Add Password to configuration file", $nolog);
 
+	if (file_exists("{$roundcubepath}/config/roundcube_main.inc.php")) {
+		lxfile_cp("{$roundcubepath}/config/roundcube_main.inc.php", "{$roundcubepath}/config/main.inc.php");
+	}
+
 	if (file_exists("{$roundcubepath}/config/roundcube_defaults.inc.php")) {
 		lxfile_cp("{$roundcubepath}/config/roundcube_defaults.inc.php", "{$roundcubepath}/config/defaults.inc.php");
 		$cfgfile = "{$roundcubepath}/config/defaults.inc.php";
@@ -543,9 +547,18 @@ function PrepareRoundCubeDb($nolog = null)
 	} 
 
 	if (file_exists("{$roundcubepath}/config/roundcube_db.inc.php")) {
-		lxfile_cp("{$roundcubepath}/config/roundcube_main.inc.php", "{$roundcubepath}/config/main.inc.php");
 		lxfile_cp("{$roundcubepath}/config/roundcube_db.inc.php", "{$roundcubepath}/config/db.inc.php");
 		$cfgfile = "{$roundcubepath}/config/db.inc.php";
+		$content = lfile_get_contents($cfgfile);
+		$content = str_replace("mysql://roundcube:roundcube", "mysql://roundcube:" . $pass, $content);
+		$content = str_replace("mysql://roundcube:pass", "mysql://roundcube:" . $pass, $content);
+		$content = str_replace("mysql://roundcube:@", "mysql://roundcube:" . $pass . "@", $content);
+		lfile_put_contents($cfgfile, $content);
+	}
+
+	if (file_exists("{$roundcubepath}/config/roundcube_config.inc.php")) {
+		lxfile_cp("{$roundcubepath}/config/roundcube_config.inc.php", "{$roundcubepath}/config/config.inc.php");
+		$cfgfile = "{$roundcubepath}/config/config.inc.php";
 		$content = lfile_get_contents($cfgfile);
 		$content = str_replace("mysql://roundcube:roundcube", "mysql://roundcube:" . $pass, $content);
 		$content = str_replace("mysql://roundcube:pass", "mysql://roundcube:" . $pass, $content);
@@ -5306,7 +5319,8 @@ function setDomainPages($nolog = null)
 
 function getPhpVersion()
 {
-	exec("php -r 'echo phpversion();'", $out, $ret);
+//	exec("php -r 'echo phpversion();'", $out, $ret);
+	exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
 
 	// MR -- 'php -v' may not work when php 5.4/5.5 using php.ini from 5.2/5.3
 	if ($ret) {
