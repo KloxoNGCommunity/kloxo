@@ -270,13 +270,17 @@ class General extends Lxdb
 		//	call_user_func("web__{$driverapp}::createWebDefaultConfig");
 
 			exec("sh /script/fixweb --server=all --nolog");
-
+		/*
 			// MR --- new function handle installapp issue because built-in postUpdate no immediately process
 			if ($this->generalmisc_b->isOn('disableinstallapp')) {
 				system("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
 			} else {
 				system("rm -rf /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
 			}
+		*/
+			$this->generalmisc_b->disableinstallapp = 'on';
+			system("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+			
 		}
 	}
 
@@ -375,7 +379,11 @@ class General extends Lxdb
 					$list = add_disabled($list);
 					$this->generalmisc_b->setDefaultValue('webstatisticsprogram', 'awstats');
 					$vlist['generalmisc_b-webstatisticsprogram'] = array('s', $list);
-					$vlist['generalmisc_b-disableinstallapp'] = null;
+
+					$this->generalmisc_b->disableinstallapp = 'on';
+					system("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+				//	$vlist['generalmisc_b-disableinstallapp'] = 'on';
+
 					$list = lx_merge_good('--chooser--', mmail::getWebmailProgList());
 					$vlist['generalmisc_b-webmail_system_default'] = array('s', $list);
 				}

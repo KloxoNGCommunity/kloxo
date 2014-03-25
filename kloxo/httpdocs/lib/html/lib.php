@@ -5308,7 +5308,12 @@ function getPhpVersion()
 {
 	exec("php -r 'echo phpversion();'", $out, $ret);
 
-	return $out[0];
+	// MR -- 'php -v' may not work when php 5.4/5.5 using php.ini from 5.2/5.3
+	if ($ret) {
+		return '5.4.0';
+	} else {
+		return $out[0];
+	}
 }
 
 function getRpmBranchInstalled($rpm)

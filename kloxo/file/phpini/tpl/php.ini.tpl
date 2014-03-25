@@ -6,8 +6,14 @@
 	if ($setphp52ver) {
 		$phpver = '5.2';
 	} else {
-		exec("php -r 'echo phpversion();'", $out, $ret);
-		$phpver = $out[0];
+	//	exec("php -r 'echo phpversion();'", $out, $ret);
+		exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
+
+		if ($ret) {
+			$phpver = '5.4.0';
+		} else {
+			$phpver = $out[0];
+		}
 	}
 
 	if (version_compare($phpver, "5.4.0", ">=")) {
@@ -43,11 +49,11 @@ precision = 14
 y2k_compliance = On
 unserialize_callback_func=
 allow_call_time_pass_reference = Off
-safe_mode_gid = Off
-safe_mode_include_dir =
-safe_mode_exec_dir =
-safe_mode_allowed_env_vars = PHP_
-safe_mode_protected_env_vars = LD_LIBRARY_PATH
+<?php echo $php54disable; ?>safe_mode_gid = Off
+<?php echo $php54disable; ?>safe_mode_include_dir =
+<?php echo $php54disable; ?>safe_mode_exec_dir =
+<?php echo $php54disable; ?>safe_mode_allowed_env_vars = PHP_
+<?php echo $php54disable; ?>safe_mode_protected_env_vars = LD_LIBRARY_PATH
 disable_classes =
 expose_php = On
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
@@ -93,7 +99,7 @@ zlib.output_compression = <?php echo $output_compression_flag; ?>
 ;### MR -- custom setting (handle by kloxo)
 disable_functions = <?php echo $disable_functions; ?>
 
-register_globals = <?php echo $register_global_flag; ?>
+<?php echo $php54disable; ?>register_globals = <?php echo $register_global_flag; ?>
 
 display_errors = <?php echo $display_error_flag; ?>
 
@@ -108,13 +114,13 @@ output_buffering = <?php echo $output_buffering_flag; ?>
 
 register_argc_argv = <?php echo $register_argc_argv_flag; ?>
 
-magic_quotes_gpc = <?php echo $magic_quotes_gpc_flag; ?>
+<?php echo $php54disable; ?>magic_quotes_gpc = <?php echo $magic_quotes_gpc_flag; ?>
 
 post_max_size = <?php echo $post_max_size_flag; ?>
 
-magic_quotes_runtime = <?php echo $magic_quotes_runtime_flag; ?>
+<?php echo $php54disable; ?>magic_quotes_runtime = <?php echo $magic_quotes_runtime_flag; ?>
 
-magic_quotes_sybase = <?php echo $magic_quotes_sybase_flag; ?>
+<?php echo $php54disable; ?>magic_quotes_sybase = <?php echo $magic_quotes_sybase_flag; ?>
 
 mysql.allow_persistent = <?php echo $mysql_allow_persistent_flag; ?>
 
@@ -122,8 +128,9 @@ max_execution_time = <?php echo $max_execution_time_flag; ?>
 
 max_input_time = <?php echo $max_input_time_flag; ?>
 
-memory_limit = <?php echo $memory_limit_flag; ?>
+;memory_limit = <?php echo $memory_limit_flag; ?>
 
+memory_limit = 128M
 post_max_size = <?php echo $post_max_size_flag; ?>
 
 allow_url_fopen = <?php echo $allow_url_fopen_flag; ?>
@@ -136,7 +143,7 @@ cgi.force_redirect = <?php echo $cgi_force_redirect_flag; ?>
 
 <?php echo $sendmailmark; ?>sendmail_from = <?php echo $sendmail_from; ?>
 
-safe_mode = <?php echo $safe_mode_flag; ?>
+<?php echo $php54disable; ?>safe_mode = <?php echo $safe_mode_flag; ?>
 
 enable_dl = <?php echo $enable_dl_flag; ?>
 

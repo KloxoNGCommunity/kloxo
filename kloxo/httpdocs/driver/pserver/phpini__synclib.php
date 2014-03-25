@@ -64,8 +64,10 @@ class phpini__sync extends Lxdriverclass
 		$fcgid_path = "/home/apache/tpl";
 		$fcgid_cont = file_get_contents(getLinkCustomfile($fcgid_path, "php5.fcgi.tpl"));
 
+		$phpfpm_path_etc = "/home/php-fpm/etc";
 		$phpfpm_path = "/home/php-fpm/tpl";
 		$phpfpm_cont = file_get_contents(getLinkCustomfile($phpfpm_path, "php53-fpm-pool.conf.tpl"));
+		$phpfpm_main = file_get_contents(getLinkCustomfile($phpfpm_path_etc, "php53-fpm.conf"));
 
 		$htaccess_path = "/home/phpini/tpl";
 		$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
@@ -98,6 +100,8 @@ class phpini__sync extends Lxdriverclass
 			file_put_contents($phpini_target, $phpini_parse);
 			file_put_contents($fcgid_target, $fcgid_parse);
 			file_put_contents($phpfpm_target, $phpfpm_parse);
+
+			lxfile_cp($phpfpm_main, "/etc/php-fpm.conf");
 		} else {
 			$input['phpinipath'] = "/home/kloxo/client/{$user}";
 			$input['phpcgipath'] = "/usr/bin/php-cgi";

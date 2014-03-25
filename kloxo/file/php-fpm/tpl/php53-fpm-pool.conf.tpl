@@ -1,34 +1,49 @@
 <?php
-    $userinfo = posix_getpwnam($user);
+	$userinfo = posix_getpwnam($user);
 
-    if ($user === 'apache') {
-        // MR -- for future purpose, apache user have uid 50000
-        $fpmport = 50000;
-        $openbasedir = "/home/kloxo/httpd/:/tmp/:/usr/share/pear/:/var/lib/php/session/";
-    } else {
-        $userinfo = posix_getpwnam($user);
-        $fpmport = (50000 + $userinfo['uid']);
-        $openbasedir = "/home/$user/:/tmp/:/usr/share/pear/:/var/lib/php/session/:".
-		"/home/kloxo/httpd/script/:/home/kloxo/httpd/disable/";
-    }
+	if ($user === 'apache') {
+		// MR -- for future purpose, apache user have uid 50000
+		$fpmport = 50000;
+		$openbasedir = "/home/kloxo/httpd/:/tmp/:/usr/share/pear/:/var/lib/php/session/";
+	} else {
+		$userinfo = posix_getpwnam($user);
+		$fpmport = (50000 + $userinfo['uid']);
+		$openbasedir = "/home/$user/:/tmp/:/usr/share/pear/:/var/lib/php/session/:".
+			"/home/kloxo/httpd/script/:/home/kloxo/httpd/disable/";
+	}
 
-    if ($user == 'apache') {
-        $pool = 'default';
-    } else {
-        $pool = $user;
-    }
+	if ($user == 'apache') {
+		$pool = 'default';
+	} else {
+		$pool = $user;
+	}
 
-    if ($maxchildren) {
-        $startservers = (($sts = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $sts;
-        $minspareservers = (($mis = (int)($maxchildren / 3)) < 2) ? 2 : $mis;
-        $maxspareservers = (($mas = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $mas;
-        $maxchildren = (($mac = (int)($maxchildren)) < 2) ? 2 : $mac;
-    } else {
-        $startservers = '4';
-        $minspareservers = '2';
-        $maxspareservers = '4';
-        $maxchildren = '6';
-    }
+	if ($maxchildren) {
+		$startservers = (($sts = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $sts;
+		$minspareservers = (($mis = (int)($maxchildren / 3)) < 2) ? 2 : $mis;
+		$maxspareservers = (($mas = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $mas;
+		$maxchildren = (($mac = (int)($maxchildren)) < 2) ? 2 : $mac;
+	} else {
+		$startservers = '4';
+		$minspareservers = '2';
+		$maxspareservers = '4';
+		$maxchildren = '6';
+	}
+
+//	exec("php -r 'echo phpversion();'", $out, $ret);
+	exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
+
+	if ($ret) {
+		$phpver = '5.4.0';
+	} else {
+		$phpver = $out[0];
+	}
+
+	if (version_compare($phpver, "5.4.0", ">=")) {
+		$php54disable = ';';
+	} else {
+		$php54disable = '';
+	}
 ?>
 [<?php echo $pool; ?>]
 ;catch_workers_output = yes
@@ -88,11 +103,11 @@ php_admin_value[output_buffering] = <?php echo $output_buffering_flag; ?>
 
 php_admin_value[register_argc_argv] = <?php echo $register_argc_argv_flag; ?>
 
-php_admin_value[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
+<?php echo $php54disable; ?>php_admin_value[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
 
 php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
 
-php_admin_value[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
+<?php echo $php54disable; ?>php_admin_value[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
 
 php_admin_value[mysql.allow_persistent] = <?php echo $mysql_allow_persistent_flag; ?>
 
@@ -112,7 +127,7 @@ php_admin_value[session.save_path] = <?php echo $session_save_path_flag; ?>
 
 php_admin_value[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
 
-php_admin_value[safe_mode] = <?php echo $safe_mode_flag; ?>
+<?php echo $php54disable; ?>php_admin_value[safe_mode] = <?php echo $safe_mode_flag; ?>
 
 php_admin_value[enable_dl] = <?php echo $enable_dl_flag; ?>
 
