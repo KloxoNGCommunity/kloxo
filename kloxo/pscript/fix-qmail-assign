@@ -1,4 +1,32 @@
 #!/bin/sh
 
-. /script/directory
-lxphp.exe ../bin/fix/fix-qmail-assign.php $*
+# source /script/directory
+# lxphp.exe ../bin/fix/fix-qmail-assign.php $*
+
+d="/home/lxadmin/mail/domains/"
+q="/var/qmail"
+
+rm -f ${q}/users/assign ${q}/control/rcpthosts ${q}/control/virtualdomains
+
+cd ${d}
+ 
+for i in * ; do
+	if [ ! -d ${i} ] ; then
+		continue
+	fi
+
+	u=$(ls -l ${i}|awk '{print $3}')
+	v=$(id -u ${u})
+	g=$(ls -l ${i}|awk '{print $4}')	
+	h=$(id -g ${g})
+
+	echo "+${i}-:${i}:${v}:${h}:${d}${i}:-::" >> ${q}/users/assign
+	echo "${i}:${i}" >> ${q}/control/virtualdomains
+	echo "${i}" >> ${q}/control/rcpthosts
+done
+
+if [ $# -eq 0 ] ; then
+	echo "." >> ${q}/users/assign
+fi
+
+/var/qmail/bin/qmail-newu

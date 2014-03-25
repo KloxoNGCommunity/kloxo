@@ -235,7 +235,11 @@ if ($domainredirect) {
         $webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
 
         if ($redirpath) {
-            $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
+            if ($disabled) {
+                $$redirfullpath = $disablepath;
+            } else {
+                $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
+            }
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
@@ -277,10 +281,20 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 <?php
         } else {
+            if ($disabled) {
+                $$redirfullpath = $disablepath;
+            } else {
+                $redirfullpath = $rootpath;
+            }
+
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
+
+    var.rootdir = "<?php echo $redirfullpath; ?>/"
+
+    server.document-root = var.rootdir
 
     url.redirect = ( "/" =>  "<?php echo $protocol; ?><?php echo $domainname; ?>/" )
 

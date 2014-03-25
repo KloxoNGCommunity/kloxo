@@ -747,6 +747,11 @@ VirtualHost {
 
 <?php
                 } else {
+                    if ($disabled) {
+                        $$redirfullpath = $disabledocroot;
+                    } else {
+                        $redirfullpath = $rootpath;
+                    }
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
@@ -755,6 +760,7 @@ VirtualHost {
 
     Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 
+    WebsiteRoot = <?php echo $redirfullpath; ?>
 
     #Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $domainname; ?>/$1
 

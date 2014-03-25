@@ -603,7 +603,11 @@ server {
                 $webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
 
                 if ($redirpath) {
-                    $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
+                    if ($disabled) {
+                        $$redirfullpath = $disablepath;
+                    } else {
+                        $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
+                    }
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
@@ -669,6 +673,11 @@ server {
 
 <?php
                 } else {
+                    if ($disabled) {
+                        $$redirfullpath = $disablepath;
+                    } else {
+                        $redirfullpath = $rootpath;
+                    }
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
@@ -706,6 +715,12 @@ server {
 ?>
 
     server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
+
+    index <?php echo $indexorder; ?>;
+
+    set $rootdir '<?php echo $redirfullpath; ?>';
+
+    root $rootdir;
 
     if ($host != '<?php echo $domainname; ?>') {
         rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $domainname; ?>/$1';
