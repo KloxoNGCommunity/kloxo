@@ -3,12 +3,12 @@
 class sshauthorizedkey extends lxclass 
 {
 	static $__desc = array("", "",  "SSH_authorized_key");
-	static $__desc_nname	 = array("n", "",  "key");
-	static $__desc_key	 = array("n", "",  "key");
-	static $__desc_type	 = array("n", "",  "type");
-	static $__desc_hostname	 = array("n", "",  "hostname");
-	static $__desc_type_v_snormal	 = array("", "",  "authorized_key");
-	static $__desc_full_key	 = array("t", "",  "full_key");
+	static $__desc_nname = array("n", "",  "key");
+	static $__desc_key = array("StW", "",  "key");
+	static $__desc_type = array("n", "",  "type");
+	static $__desc_hostname = array("n", "",  "hostname");
+	static $__desc_type_v_snormal = array("", "",  "authorized_key");
+	static $__desc_full_key = array("t", "",  "full_key");
 
 	function get() {}
 	
@@ -27,7 +27,7 @@ class sshauthorizedkey extends lxclass
 		return array("height" => 30, "width" => "90%");
 	}
 
-	static function AddListForm($parent, $class)
+	static function addListForm($parent, $class)
 	{
 		return self::addform($parent, $class);
 	}
@@ -35,13 +35,12 @@ class sshauthorizedkey extends lxclass
 	static function addform($parent, $class, $typetd = null)
 	{
 		$x = sshauthorizedkey__sync::getAuthorizedKey($parent->username, 'proto');
-		$k = key($x);
-		$y = $x[$k];
+		$y = $x[key($x)];
 
 		$vlist['full_key'] = array("t", $y['full_key']);
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
-		
+
 		return $ret;
 	}
 

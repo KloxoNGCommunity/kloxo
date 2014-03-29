@@ -3706,7 +3706,8 @@ class HtmlLib
 					$pname = str_replace("[/b]", "</span>", $pname);
 					$pname = str_replace("[/code]", "</div>", $pname);
 					$pname = str_replace("[/quote]", "</div>", $pname);
-					$pname = "<table width='100%' style='background:white;padding:20px; margin-top: 8px; border: 1px solid grey;' cellpadding='0' cellspacing='0'> <tr> <td> $pname </td> </tr> </table>  ";
+				//	$pname = "<table width='100%' style='background:white;padding:20px; margin:8px; border: 1px solid grey;' cellpadding='0' cellspacing='0'> <tr> <td> $pname </td> </tr> </table>  ";
+					$pname = "<textarea style='width:100%; padding:2px; border:0; height:100px; resize:vertical; border: 1px solid #ccc'>$pname</textarea>";
 				}
 
 				$pname = str_replace("&lt;", "<", $pname);
@@ -3875,125 +3876,23 @@ class HtmlLib
 		return $n;
 	}
 
-	function printListAddFormBad($parent, $class)
-	{
-		global $gbl, $sgbl, $login;
-
-		$col = $login->getSkinColor();
-		$rclass = $class;
-		$vlist = exec_class_method($rclass, "addListForm", $parent, $class);
-
-		if (!$vlist) {
-			return;
-		}
-
-		$buttonpath = get_image_path();
-?>
-
-		<table cellpadding="0" width="90%" cellspacing="1" style="border: 1px solid #<?= $col ?>; background:#fffafa;">
-			<tr>
-				<td height="10" colspan="10"> &nbsp;</td>
-			</tr>
-			<tr>
-				<td width="20" color="#fffafa"> &nbsp; </td>
-				<td></td>
-				<form name="addlist" method="get" action="/display.php" accept-charset="utf-8">
-<?php
-		foreach ($vlist as $k => $v) {
-			if (isset($v[0]) && $v[0] === 'h') {
-				continue;
-			}
-
-			$k = get_classvar_description($rclass, $k);
-?>
-
-						<td nowrap> <?= $k[2] ?> </td>
-<?php
-		}
-?>
-
-					<td></td>
-					<td width="10"> &nbsp; </td>
-			</tr>
-			<tr>
-				<td width="10"></td>
-				<td><img src="<?= $buttonpath ?>/<?= $class ?>_list.gif" height="20" width="20"></td>
-<?php
-		foreach ($vlist as $k => $v) {
-?>
-
-					<td>
-<?php
-			if (isset($v[0]) && $v[0] === 's') {
-?>
-							<select name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff;" value="">
-<?php
-				foreach ($v[1] as $kk => $vv) {
-?>
-
-								<option value="<?= $vv ?>"><?= $vv ?></option>
-<?php
-				}
-?>
-
-							</select>
-<?php
-			} else {
-				if (isset($v[0]) && $v[0] === 'M') {
-?>
-
-<?= $v[1] ?>
-<?php
-				} else {
-					if (isset($v[0]) && $v[0] === 'h') {
-?>
-								<input type="hidden" id="frm_<?= $class ?>_c_<?= $k ?>" name="frm_<?= $class ?>_c_<?= $k ?>" value="<?= $v[1] ?>">
-<?php
-					} else {
-?>
-								<input type="text" name="frm_<?= $class ?>_c_<?= $k ?>" style="border:1px solid #b0c0f0; font-family: Arial, sans-serif; color:#000000; font-size:10px; font-weight:normal; padding-left:2px; background-color:#ffffff; margin:1px;  background-size:10px; background-position:1% 1%; vertical-align:middle;" value="">
-<?php
-					}
-				}
-			}
-?>
-
-					</td>
-<?php
-		}
-?>
-
-				<input type="hidden" id="frm_action" name="frm_action" value="add">
-<?php
-				$this->print_current_input_vars(array('frm_action'));
-				$desc = $this->get_class_description($rclass);
-				$desc = $desc[2];
-?>
-
-				</td>
-				<td><input type="submit" class='submitbutton' id='Search' name='Search' value="<?= $login->getKeywordUc('quickadd') ?> <?= $desc ?>"></td>
-				</form>
-				</td>
-				<td width="100%"></td>
-			</tr>
-			<tr>
-				<td height="10" colspan="10"></td>
-			</tr>
-		</table>
-<?php
-	}
-
 	function printListAddForm($parent, $class)
 	{
 		global $gbl, $sgbl, $login;
 
 		$vlist = exec_class_method($class, "addListForm", $parent, $class);
 
-		$skin_color = $login->getSkinColor();
-
 		if (!$vlist) {
 			return;
 		}
+
+	/*
+		if (method_exists($parent->$class, 'addListForm')) {
+			return;
+		}
+	*/
+
+		$skin_color = $login->getSkinColor();
 
 		$unique_name = "{$parent->getClName()}_$class";
 		$showstring = $login->getKeywordUc('showhide');
@@ -4017,13 +3916,14 @@ class HtmlLib
 			$fontcolor = "#333333";
 			$bordertop = "#444444";
 		}
+
 ?>
 
 		<div style="background: #<?= $skin_color ?>; padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a href="javascript:toggleVisibilityById('listaddform_<?= $unique_name ?>');"> <?= $login->getKeywordUc('clickheretoadd') ?> <?= $cdesc ?> (<?= $showstring ?>)</a><?= $show_all_string ?> <<<<&nbsp;</div>
 		<br/>
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
-			<div><?= do_addform($parent, $class, null, true) ?></div>
+			<div><?= do_addform($parent, $class, null, true) ?><div> 
 		</div>
 <?php
 	}
@@ -7766,7 +7666,7 @@ class HtmlLib
 				$value = self::fix_lt_gt($value);
 
 			//	if ($sgbl->isLxlabsClient()) {
-					$value = preg_replace("+(https://[^ \n]*)+", "<a href=$1 target=_blank style='text-decoration:underline'> " . $login->getKeywordUc('click_here') . " </a>", $value);
+					$value = preg_replace("+(https://[^ \n]*)+", "<a href='$1' target='_blank' style='text-decoration:underline'> " . $login->getKeywordUc('click_here') . " </a>", $value);
 			//	}
 
 				$value = str_replace("\n", "\n<br /> ", $value);

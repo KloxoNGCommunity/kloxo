@@ -60,6 +60,7 @@ class sshauthorizedkey__sync extends Lxdriverclass
 		lxshell_return("rm", "-f", "{$s}*");
 
 		$r = randomString(10);
+
 		lxshell_return("ssh-keygen", "-t", "rsa", "-b", '4096', "-N", $r, "-f", $s);
 		// MR -- because php running under lxlabs, need change
 		lxshell_return("sed", "-i", "'s:lxlabs@:{$username}@:'", "{$s}.pub");
@@ -129,8 +130,9 @@ class sshauthorizedkey__sync extends Lxdriverclass
 
 			$r['nname'] = fix_nname_to_be_variable_without_lowercase($vv[1]);
 			$r['full_key'] = $l;
-			$r['key'] = substr($vv[1], 0, 50);;
-			$r['key'] .= " .....";
+		//	$r['key'] = substr($vv[1], 0, 50);
+		//	$r['key'] .= " .....";
+			$r['key'] = $vv[1];
 
 			$r['hostname'] = $vv[2];
 
