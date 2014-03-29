@@ -72,31 +72,7 @@ done
 
 cd /
 
-cd /opt/${base_name}
-
-mkdir -p /opt/${base_name}/custom
-
-echo "- Copy sh script to custom dir..."
-for i in cgi cli ls fpm ; do
-	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/php-${i}.sh ] ;  then
-		cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/php-${i}.sh /opt/${base_name}/custom/php-${i}.sh
-		chmod 755 /opt/${base_name}/custom/php-${i}.sh
-		ln -sf /opt/${base_name}/custom/php-${i}.sh /usr/bin/${base_name}-${i}
-	fi
-done
-
-echo "- Copy generic config file..."
-for i in php.ini php-fpm.conf php-fpm.init ; do
-	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/${i} ] ; then
-		cp -f /usr/local/lxlabs/kloxo/init/${base_name}/${i} /opt/${base_name}/custom/${i}
-	fi
-done
-
-echo "- Fix extension_dir in php.ini..."
-if [ "$(uname -m)" == "x86_64" ] ; then
-	sed -i "s:/opt/${base_name}/usr/lib/:/opt/${base_name}/usr/lib64/:" /opt/${base_name}/etc/php.ini
-	sed -i "s:/opt/${base_name}/usr/lib/:/opt/${base_name}/usr/lib64/:" /usr/local/lxlabs/kloxo/init/${base_name}/php.ini
-fi
+sh /script/phpm-config-setup $base_name
 
 echo "*** END $1 ***"
 echo
