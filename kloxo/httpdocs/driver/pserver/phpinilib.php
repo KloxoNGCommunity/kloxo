@@ -37,8 +37,7 @@ class phpini_flag_b extends lxaclass
 	static $__desc_session_autostart_flag = array("f", "", "session_autostart");
 	static $__desc_safe_mode_flag = array("f", "", "safe_mode");
 
-	static $__desc_multiple_php_flag = array("f", "", "enable_multiple_php");
-	static $__desc_server_php_enable = array("", "", "server_php_enable");
+	static $__desc_multiple_php_ready = array("", "", "multiple_php_ready");
 	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
 
 }
@@ -75,23 +74,21 @@ class phpini extends lxdb
 		$list[] = 'session_save_path_flag';
 
 		if (!$this->getParentO()->is__table('pserver')) {
-			$spe = $this->phpini_flag_b->server_php_enable;
+			$spe = $this->phpini_flag_b->multiple_php_ready;
 			if (($spe === '') || (!isset($spe))) {
 				$sa=$login->getList('pserver');
 
 				foreach ($sa as $s) {
 					if ($s->nname === $this->syncserver) {
 						$p = $s->getObject('phpini');
-						$p->phpini_flag_b->server_php_enable = $this->get_multiple_php();
+						$p->phpini_flag_b->multiple_php_ready = $this->get_multiple_php();
 						$p->was();
 					}
 				}
 			}
 		}
 
-
-
-		$list[] = 'server_php_enable';
+		$list[] = 'multiple_php_ready';
 
 		return $list;
 	}
@@ -101,7 +98,7 @@ class phpini extends lxdb
 		global $ghtml, $login;
 
 		if ($this->getParentO()->is__table('pserver')) {
-			$list[] = 'server_php_enable';
+			$list[] = 'multiple_php_ready';
 
 			$list[] = 'multiple_php_flag';
 
@@ -120,7 +117,7 @@ class phpini extends lxdb
 			}
 
 			if ($flag === 'on') {
-				$list[] = 'server_php_enable';
+				$list[] = 'multiple_php_ready';
 				$list[] = 'multiple_php_ratio';
 			}
 		}
@@ -252,18 +249,25 @@ class phpini extends lxdb
 
 			foreach ($a as $k => $v) {
 				if (file_exists("/opt/php{$v}m/usr/bin/php")) {
-					$p[] = 'php' . $v . 'm';
+				//	$p[] = '+php' . $v . 'm';
+					$p[] = '+' . $v . 'm';
+					$e[] = true;
+				} else {
+				//	$p[] = '-php' . $v . 'm';
+					$p[] = '-' . $v . 'm';
+					$e[] = false;
 				}
 			}
 
-			if (!isset($p)) {
+			if (!isset($e)) {
 				$this->phpini_flag_b->multiple_php_flag = 'off';
 
-				throw new lxexception('need_install_phpXYm_series_for_enable_multiple_php', '', $this->syncserver);	
+				throw new lxexception('need_install_phpXYm_series_for_multiple_php', '', $this->syncserver);	
 			}
 		}
 
 		return implode(',', $p);
+	//	return $p;
 	}
 
 	function postUpdate()
@@ -394,7 +398,7 @@ class phpini extends lxdb
 
 		$this->initialValue('multiple_php_ratio', $php_ratio);
 
-		$this->initialValue('server_php_enable', $this->get_multiple_php());
+		$this->initialValue('multiple_php_ready', $this->get_multiple_php());
 	}
 
 	function initialValue($var, $val)

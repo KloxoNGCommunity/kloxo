@@ -63,9 +63,9 @@ class sshauthorizedkey extends lxclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 		
-		$nlist['hostname'] = '20%';
-		$nlist['type'] = '10%';
-		$nlist['key'] = '70%';
+		$nlist['hostname'] = '5%';
+		$nlist['type'] = '3%';
+		$nlist['key'] = '100%';
 		
 		return $nlist;
 	}
