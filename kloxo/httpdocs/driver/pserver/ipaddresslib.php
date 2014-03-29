@@ -630,7 +630,9 @@ class Ipaddress extends Lxdb
 
 	static function AddListForm($parent, $class)
 	{
-		return self::addform($parent, $class);
+		if ($parent->__class === 'pserver') {
+			return self::addform($parent, $class);
+		}
 	}
 
 	static function add($parent, $class, $param)

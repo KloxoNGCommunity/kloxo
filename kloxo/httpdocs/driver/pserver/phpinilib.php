@@ -37,6 +37,10 @@ class phpini_flag_b extends lxaclass
 	static $__desc_session_autostart_flag = array("f", "", "session_autostart");
 	static $__desc_safe_mode_flag = array("f", "", "safe_mode");
 
+	static $__desc_multiple_php_flag = array("f", "", "enable_multiple_php");
+	static $__desc_server_php_enable = array("", "", "server_php_enable");
+	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
+
 }
 
 class phpini extends lxdb
@@ -59,6 +63,7 @@ class phpini extends lxdb
 
 	function getInheritedList()
 	{
+		global $ghtml, $login;
 	/*
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
@@ -69,11 +74,57 @@ class phpini extends lxdb
 		$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
 
+		if (!$this->getParentO()->is__table('pserver')) {
+			$spe = $this->phpini_flag_b->server_php_enable;
+			if (($spe === '') || (!isset($spe))) {
+				$sa=$login->getList('pserver');
+
+				foreach ($sa as $s) {
+					if ($s->nname === $this->syncserver) {
+						$p = $s->getObject('phpini');
+						$p->phpini_flag_b->server_php_enable = $this->get_multiple_php();
+						$p->was();
+					}
+				}
+			}
+		}
+
+
+
+		$list[] = 'server_php_enable';
+
 		return $list;
 	}
 
 	function getLocalList()
 	{
+		global $ghtml, $login;
+
+		if ($this->getParentO()->is__table('pserver')) {
+			$list[] = 'server_php_enable';
+
+			$list[] = 'multiple_php_flag';
+
+			$flag = $this->phpini_flag_b->multiple_php_flag;
+
+			if ($flag === 'on') {
+				$list[] = 'multiple_php_ratio';
+			}
+		} else {
+			$sa=$login->getList('pserver');
+
+			foreach ($sa as $s) {
+				if ($s->nname === $this->syncserver) {
+					$flag = $s->getObject('phpini')->phpini_flag_b->multiple_php_flag;
+				}
+			}
+
+			if ($flag === 'on') {
+				$list[] = 'server_php_enable';
+				$list[] = 'multiple_php_ratio';
+			}
+		}
+
 		$list[] = 'display_error_flag';
 		$list[] = 'register_global_flag';
 		$list[] = 'log_errors_flag';
@@ -190,13 +241,34 @@ class phpini extends lxdb
 	function createShowUpdateform()
 	{
 		$uflist['edit'] = null;
+
 		return $uflist;
+	}
+
+	function get_multiple_php()
+	{
+		if ($this->phpini_flag_b->multiple_php_flag === 'on') {
+			$a = array('52', '53', '54', '55');
+
+			foreach ($a as $k => $v) {
+				if (file_exists("/opt/php{$v}m/usr/bin/php")) {
+					$p[] = 'php' . $v . 'm';
+				}
+			}
+
+			if (!isset($p)) {
+				$this->phpini_flag_b->multiple_php_flag = 'off';
+
+				throw new lxexception('need_install_phpXYm_series_for_enable_multiple_php', '', $this->syncserver);	
+			}
+		}
+
+		return implode(',', $p);
 	}
 
 	function postUpdate()
 	{
-
-		global $gbl, $sgbl, $login, $ghtml;
+		$this->get_multiple_php();
 
 		$this->setUpINitialValues();
 
@@ -267,6 +339,8 @@ class phpini extends lxdb
 
 	function setUpINitialValues()
 	{
+		global $ghtml, $login;
+
 		$this->initialValueRpmStatus('enable_xcache_flag');
 		$this->initialValueRpmStatus('enable_zend_flag');
 		$this->initialValueRpmStatus('enable_ioncube_flag');
@@ -313,6 +387,14 @@ class phpini extends lxdb
 		$this->initialValue('safe_mode_flag', 'off');
 
 		$this->initialValue('sendmail_from', null);
+
+		$this->initialValue('multiple_php_flag', 'off');
+
+		$php_ratio = '0:6:0:0';
+
+		$this->initialValue('multiple_php_ratio', $php_ratio);
+
+		$this->initialValue('server_php_enable', $this->get_multiple_php());
 	}
 
 	function initialValue($var, $val)

@@ -838,7 +838,6 @@ function __ac_desc_selectShow($object)
 ?>
 
 	<br/>
-	<br/>
 <?php
 
 	$object->showRawPrint();

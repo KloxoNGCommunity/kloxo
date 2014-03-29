@@ -1332,3 +1332,7 @@ $__description["ccenter_error"] = array("Error");
 $__description["change_name"] = array("Change Name");
 
 $__description["clientname_as_prefix"] = array("Clientname as Databasename Prefix (only first 16 chars if longer)");
+
+$__description["enable_multiple_php"] = array("Enable Multiple PHP");
+$__description["server_multiple_php_ratio"] = array("Server Multiple PHP Ratio");
+$__description["multiple_php_ratio"] = array("Multiple PHP Ratio");

@@ -1,7 +1,10 @@
 #!/bin/sh
 
-export PHPRC="/opt/php52s/custom"
-export PHP_INI_SCAN_DIR="/opt/php52s/etc/php.d"
-php_ini="/opt/php52s/custom/php.ini"
+php_rc='/opt/php52s/custom'
+php_scan='/opt/php52s/etc/php.d'
+php_prog='/opt/php52s/bin/php-cgi'
 
-exec /opt/php52s/bin/php-cgi -c $php_ini $*
+export PHPRC=$php_rc
+export PHP_INI_SCAN_DIR=$php_scan
+
+exec $php_prog -c $php_rc $*

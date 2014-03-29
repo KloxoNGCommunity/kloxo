@@ -1,101 +1,146 @@
-<?php 
+<?php
 
-class sshauthorizedkey__sync extends Lxdriverclass {
-
-
-function writeAuthorizedKey($key)
+class sshauthorizedkey__sync extends Lxdriverclass
 {
-	if_demo_throw_exception('sshkey');
-	$username = $this->main->username;
+	function writeAuthorizedKey($key)
+	{
+		if_demo_throw_exception('sshkey');
 
-	$p = os_get_home_dir($username);
-	if (!$p) { return; }
-	lxuser_mkdir($username, "$p/.ssh");
+		$username = $this->main->username;
 
-	$f = "$p/.ssh/authorized_keys";
-	lxuser_put_contents($username, $f, $key);
-	lxuser_chmod($username, "$p/.ssh", "0700");
-	lxuser_chmod($username, $f, "0700");
-}
+		lxfile_mkdir($username, "/root/.ssh");
+		lxuser_chmod($username, "/root/.ssh", "0755");
+		$f = "/root/.ssh/{$username}.authorized_keys";
 
-static function readAuthorizedKey($username)
-{
-	$p = os_get_home_dir($username);
+		file_put_contents($f, $key);
 
-	if ($p === '/tmp' && $username) {
-		if (!lxfile_exists("/home/$username")) {
-			lxfile_mkdir("/home/$username");
-			lxshell_return("usermod", "-d", "/home/$username", $username);
-			lxfile_unix_chown("/home/$username", "$username:$username");
-			$p = "/home/$username";
+		lxuser_chmod($username, $f, "0644");
+
+		$t = '';
+
+		$dirs = glob("/root/.ssh/*.authorized_keys");
+
+		foreach ($dirs as $k => $v) {
+			$x = file_get_contents($v);
+			$y = explode(" ", $x);
+			$z = explode("@", $y[2]);
+
+			$a = gethostname();
+			$b = explode(".", $a);
+
+			$s['user'] = $z[0];
+			$s['hostname'] = $a;
+			$s['host'] = $b[0];
+			$s['file'] = $v;
+
+			$t .= "Host " . $b[0] . "\n";
+			$t .= "HostName " . $a . "\n";
+			$t .= "IdentityFile " . str_replace("/root/", "~/", $v) . "\n";
+			$t .= "User " . $z[0] . "\n\n";
+		}
+
+		file_put_contents("/root/.ssh/config", $t);
+	}
+
+	static function readAuthorizedKey($username)
+	{
+		$f = "/root/.ssh/{$username}.authorized_keys";
+
+		if (file_exists($f)) {
+			return file_get_contents($f);
+		} else {
+			return;
 		}
 	}
 
-	if (!$p) { return; }
+	static function readProtoAuthorizedKey($username)
+	{
+		$s = "/root/{$username}.id.rsa";
 
-	$f = "$p/.ssh/authorized_keys";
-	if (lxfile_exists("{$f}2")) {
-		$s = lfile_get_contents("{$f}2");
-		$s = "\n$s\n";
-		lxuser_put_contents($username, $f, $s, FILE_APPEND);
-		lunlink("{$f}2");
-	}
-	return lfile_get_contents($f);
-}
+		lxshell_return("rm", "-f", "{$s}*");
 
-function getCurrentAuthKey()
-{
+		$r = randomString(10);
+		lxshell_return("ssh-keygen", "-t", "rsa", "-b", '4096', "-N", $r, "-f", $s);
+		// MR -- because php running under lxlabs, need change
+		lxshell_return("sed", "-i", "'s:lxlabs@:{$username}@:'", "{$s}.pub");
 
-	$res = self::getAuthorizedKey($this->main->username);
-	foreach($res as $k => $v) {
-		if ("{$this->main->syncserver}___{$v['nname']}" === $this->main->nname) {
-			continue;
+		$f = "{$s}.pub";
+
+		if (lxfile_exists("{$f}2")) {
+			$s = file_get_contents("{$f}2");
+			$s = "\n{$s}\n";
+		//	lfile_put_contents($username, $f, $s, FILE_APPEND);
+			file_put_contents($f, $s);
+			lunlink("{$f}2");
 		}
-		$output[] = $v['full_key'];
+
+		return file_get_contents($f);
 	}
 
-	return $output;
-}
+	function getCurrentAuthKey()
+	{
+		$res = self::getAuthorizedKey($this->main->username);
 
-function dbactionAdd()
-{
-	$output = $this->getCurrentAuthKey();
-	$output[] = $this->main->full_key;
-	$output = implode("\n", $output);
-	$this->writeAuthorizedKey($output);
-}
+		foreach($res as $k => $v) {
+			if ("{$this->main->syncserver}___{$v['nname']}" === $this->main->nname) {
+				continue;
+			}
 
-function dbactionDelete()
-{
-	//dprintr($this);
-	$output = $this->getCurrentAuthKey();
-	$output = implode("\n", $output);
-	$this->writeAuthorizedKey($output);
-}
+			$output[] = $v['full_key'];
+		}
 
-
-static function getAuthorizedKey($username)
-{
-	$v = self::readAuthorizedKey($username);
-	$list = explode("\n", $v);
-
-	foreach($list as $l) {
-		$l = trim($l);
-		if (!$l) { continue; }
-		$l = trimSpaces($l);
-		$vv = explode(" ", $l);
-		$r['nname'] = fix_nname_to_be_variable_without_lowercase($vv[1]);
-		$r['full_key'] = $l;
-		$r['key'] = substr($vv[1], 0, 50);;
-		$r['key'] .= " .....";
-		$r['hostname'] = $vv[2];
-		$r['username'] = $username;
-		$r['type'] = $vv[0];
-		$res[$r['nname']] = $r;
+		return $output;
 	}
 
-	return $res;
+	function dbactionAdd()
+	{
+		// MR -- no need because no append
+	//	$output = $this->getCurrentAuthKey();
 
-}
+		$output[] = $this->main->full_key;
+		$output = implode("\n", $output);
+		$this->writeAuthorizedKey($output);
+	}
+
+	function dbactionDelete()
+	{
+		$output = $this->getCurrentAuthKey();
+		$output = implode("\n", $output);
+		$this->writeAuthorizedKey($output);
+	}
+
+	static function getAuthorizedKey($username, $type = null)
+	{
+		if ($type === 'proto') {
+			$v = self::readProtoAuthorizedKey($username);
+		} else {
+			$v = self::readAuthorizedKey($username);
+		}
+
+		$list = explode("\n", $v);
+
+		foreach($list as $l) {
+			$l = trim($l);
+
+			if (!$l) { continue; }
+
+			$l = trimSpaces($l);
+			$vv = explode(" ", $l);
+
+			$r['nname'] = fix_nname_to_be_variable_without_lowercase($vv[1]);
+			$r['full_key'] = $l;
+			$r['key'] = substr($vv[1], 0, 50);;
+			$r['key'] .= " .....";
+
+			$r['hostname'] = $vv[2];
+
+			$r['username'] = $username;
+			$r['type'] = $vv[0];
+
+			$res[$r['nname']] = $r;
+		}
+
+		return $res;
+	}	
 }
 

@@ -36,7 +36,7 @@ $gl_class_array["traffichistory"] = "lib/html/traffichistorylib.php";
 $gl_class_array["htmllib"] = "theme/htmllib.php";
 
 $gl_class_array["sshauthorizedkey"] = "driver/pserver/sshauthorizedkeylib.php";
-$gl_class_array["sshauthorizedkey__sync"] = "driver/pserver/driver/sshauthorizedkey__synclib.php";
+$gl_class_array["sshauthorizedkey__sync"] = "driver/pserver/sshauthorizedkey__synclib.php";
 $gl_class_array["ssession"] = "lib/php/ssessionlib.php";
 $gl_class_array["ssessionlist"] = "lib/php/ssessionlib.php";
 $gl_class_array["ticketconfig"] = "lib/ticket/ticketconfiglib.php";

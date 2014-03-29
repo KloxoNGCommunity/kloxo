@@ -34,7 +34,11 @@ class sshauthorizedkey extends lxclass
 
 	static function addform($parent, $class, $typetd = null)
 	{
-		$vlist['full_key'] = null;
+		$x = sshauthorizedkey__sync::getAuthorizedKey($parent->username, 'proto');
+		$k = key($x);
+		$y = $x[$k];
+
+		$vlist['full_key'] = array("t", $y['full_key']);
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
 		
@@ -81,7 +85,11 @@ class sshauthorizedkey extends lxclass
 			$slave = $parent->syncserver;
 		}
 
-		$res = rl_exec_get(null, $slave, array('sshauthorizedkey__sync', 'getAuthorizedKey'), array($parent->username));
+
+	//	$res = rl_exec_get(null, $slave, array('sshauthorizedkey__sync', 'getAuthorizedKey'), array($parent->username));
+		$res = sshauthorizedkey__sync::getAuthorizedKey($parent->username);
+
+		if (!$res) { return; }
 
 		foreach($res as &$r) {
 			$r['nname'] = "{$slave}___{$r['nname']}";

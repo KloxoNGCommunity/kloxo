@@ -9094,11 +9094,15 @@ class HtmlLib
 
 		if (($as_simple_skin) || ($skin_name === 'simplicity')) {
 			if ($skin_name === 'simplicity') {
+				if ($ghtml->frm_action === 'selectshow') {
+					$bgcolor = "background-color:#fff";
+				} else {
+					$bgcolor = "";
+				}
+
 				$margin_top = '60';
+
 				$border = 'border: 0';
-				$bgcolor = "";
-			//	$bgcolor = "background-color:#f0f8ff";
-				$bgcolor='';
 				$shadow='mmm';
 			} else {
 				$margin_top = '10';

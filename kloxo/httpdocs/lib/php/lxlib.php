@@ -2177,7 +2177,10 @@ function check_if_disabled_and_exit()
 
 	$contact = "administrator";
 
+	if ($login->isAdmin()) { return; }
+
 	if (!$login->isOn('cpstatus')) {
+
 		Utmp::updateUtmp($gbl->c_session->nname, $login, 'disabled');
 		$ghtml->print_css_source("/theme/css/common.css");
 
@@ -2193,7 +2196,9 @@ function check_if_disabled_and_exit()
 		$gbl->c_session->delete();
 		$gbl->c_session->was();
 		exit(0);
+
 	}
+
 }
 
 function delete_expired_ssessions()

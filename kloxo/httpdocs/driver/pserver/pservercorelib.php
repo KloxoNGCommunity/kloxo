@@ -785,7 +785,7 @@ class pservercore extends Lxclient
 	//	$alist[] = "a=show&o=proxy";
 	//	$alist[] = "a=updateform&sa=update&c=serverspam";
 		$alist['__title_nnn'] = 'Machine';
-		$alist[] = "a=show&o=driver";
+		$alist[] = "a=show&n=driver";
 	//	$alist[] = "a=update&sa=loaddriverinfo";
 		$alist[] = "a=updateform&sa=reboot";
 
