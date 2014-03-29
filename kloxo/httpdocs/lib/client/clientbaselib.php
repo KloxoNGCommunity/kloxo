@@ -227,8 +227,8 @@ class ClientBase extends ClientCore
 			}
 		}
 
-		// MR -- client must set/update php.ini
-		if (!db_get_value("phpini", "client-" . $this->nname, "nname")) {
+		// MR -- pserver must set/update php.ini
+		if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
 			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
 		}
 

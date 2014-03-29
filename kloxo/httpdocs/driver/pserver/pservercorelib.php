@@ -276,6 +276,11 @@ class pservercore extends Lxclient
 			$ghtml->__http_vars['frm_emessage'] = "phptype_not_set";
 		}
 
+		// MR -- pserver must set/update php.ini
+		if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
+			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
+		}
+
 		parent::getAnyErrorMessage();
 	}
 

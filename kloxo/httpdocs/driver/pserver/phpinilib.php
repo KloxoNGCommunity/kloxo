@@ -37,9 +37,9 @@ class phpini_flag_b extends lxaclass
 	static $__desc_session_autostart_flag = array("f", "", "session_autostart");
 	static $__desc_safe_mode_flag = array("f", "", "safe_mode");
 
+	static $__desc_multiple_php_flag = array("f", "", "multiple_php_enable");
 	static $__desc_multiple_php_ready = array("", "", "multiple_php_ready");
 	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
-
 }
 
 class phpini extends lxdb
@@ -54,6 +54,8 @@ class phpini extends lxdb
 	static $__acdesc_update_edit = array("", "", "PHP_config");
 	static $__acdesc_update_extraedit = array("", "", "advanced_PHP_config");
 	static $__acdesc_show = array("", "", "PHP_config");
+
+	static $__desc_php_selected = array("s", "", "php_selected");
 
 	static function initThisObjectRule($parent, $class, $name = null)
 	{
@@ -72,21 +74,6 @@ class phpini extends lxdb
 		$list[] = 'safe_mode_flag';
 		$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
-
-		if (!$this->getParentO()->is__table('pserver')) {
-			$spe = $this->phpini_flag_b->multiple_php_ready;
-			if (($spe === '') || (!isset($spe))) {
-				$sa=$login->getList('pserver');
-
-				foreach ($sa as $s) {
-					if ($s->nname === $this->syncserver) {
-						$p = $s->getObject('phpini');
-						$p->phpini_flag_b->multiple_php_ready = $this->get_multiple_php();
-						$p->was();
-					}
-				}
-			}
-		}
 
 		$list[] = 'multiple_php_ready';
 
@@ -117,15 +104,19 @@ class phpini extends lxdb
 			}
 
 			if ($flag === 'on') {
-				$list[] = 'multiple_php_ready';
-				$list[] = 'multiple_php_ratio';
+				if (!$this->getParentO()->is__table('web')) {
+					$list[] = 'multiple_php_ready';
+					$list[] = 'multiple_php_ratio';
+				}
 			}
 		}
 
-		$list[] = 'display_error_flag';
-		$list[] = 'register_global_flag';
-		$list[] = 'log_errors_flag';
-		$list[] = 'output_compression_flag';
+		if (!$this->getParentO()->is__table('web')) {
+			$list[] = 'display_error_flag';
+			$list[] = 'register_global_flag';
+			$list[] = 'log_errors_flag';
+			$list[] = 'output_compression_flag';
+		}
 	/*
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
@@ -177,7 +168,6 @@ class phpini extends lxdb
 
 			return $list;
 		}
-		
 	}
 
 	function fixphpIniFlag()
@@ -227,7 +217,6 @@ class phpini extends lxdb
 		$this->__var_webdriver = $driverapp;
 	}
 
-
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = 'a=show';
@@ -242,38 +231,37 @@ class phpini extends lxdb
 		return $uflist;
 	}
 
-	function get_multiple_php()
+	function get_multiple_php_list()
 	{
-		if ($this->phpini_flag_b->multiple_php_flag === 'on') {
-			$a = array('52', '53', '54', '55');
+		global $login;
 
-			foreach ($a as $k => $v) {
-				if (file_exists("/opt/php{$v}m/usr/bin/php")) {
-				//	$p[] = '+php' . $v . 'm';
-					$p[] = '+' . $v . 'm';
-					$e[] = true;
-				} else {
-				//	$p[] = '-php' . $v . 'm';
-					$p[] = '-' . $v . 'm';
-					$e[] = false;
-				}
-			}
+		$sa=$login->getList('pserver');
 
-			if (!isset($e)) {
-				$this->phpini_flag_b->multiple_php_flag = 'off';
+		$a = array('52', '53', '54', '55');
 
-				throw new lxexception('need_install_phpXYm_series_for_multiple_php', '', $this->syncserver);	
+		foreach ($a as $k => $v) {
+			if (file_exists("/opt/php{$v}m/usr/bin/php")) {
+			//	$p[] = '+php' . $v . 'm';
+				$p[] = '+' . $v . 'm';
+				$e[] = true;
+			} else {
+			//	$p[] = '-php' . $v . 'm';
+				$p[] = '-' . $v . 'm';
+				$e[] = false;
 			}
 		}
 
-		return implode(',', $p);
-	//	return $p;
+		if (!isset($e)) {
+			$s->getObject('phpini')->phpini_flag_b->multiple_php_flag = 'off';
+
+			throw new lxexception('need_install_phpXYm_series_for_multiple_php', '', $this->syncserver);	
+		}
+
+		return $p;
 	}
 
 	function postUpdate()
 	{
-		$this->get_multiple_php();
-
 		$this->setUpINitialValues();
 
 		// We need to write because the fixphpini reads everything from the database.
@@ -337,6 +325,22 @@ class phpini extends lxdb
 			}
 		}
 
+		if ($this->getParentO()->is__table('web')) {
+			if (!$this->php_selected) {
+				$this->php_selected = 'php53m';
+			}
+
+			$l = $this->get_multiple_php_list();
+
+			foreach ($l as $k => $v) {
+				if (strpos($v, '-') !== false) { continue; }
+
+				$f[] = 'php' . str_replace('+', '', $v);
+			}
+
+			$vlist['php_selected'] = array("s", $f);
+		}
+
 		return $vlist;
 	}
 
@@ -398,7 +402,9 @@ class phpini extends lxdb
 
 		$this->initialValue('multiple_php_ratio', $php_ratio);
 
-		$this->initialValue('multiple_php_ready', $this->get_multiple_php());
+		$list = $this->get_multiple_php_list();
+
+		$this->initialValue('multiple_php_ready', implode(" ", $list));
 	}
 
 	function initialValue($var, $val)
@@ -451,10 +457,8 @@ class phpini extends lxdb
 
 		if ($active) {
 			$this->phpini_flag_b->$var = 'on';
-		//	exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/{$t}");
 		} else {
 			$this->phpini_flag_b->$var = 'off';
-		//	exec("rm -rf /usr/local/lxlabs/kloxo/etc/flag/{$t}");
 		}
 	}
 }
