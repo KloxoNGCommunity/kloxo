@@ -1929,7 +1929,7 @@ function print_navigation($navig)
 
 ?>
 
-			<div style="float: right; padding-top: <?= $padd ?>;">&nbsp;<a href="<?=$shurl?>"><?= $login->getKeywordUc('add_to_favorites') ?></a>&nbsp;</div>
+			<div style="float: right; padding-top: <?= $padd ?>;">&nbsp;<a href="javascript://" onclick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a>&nbsp;-&nbsp;<a href="<?=$shurl?>"><?= $login->getKeywordUc('add_to_favorites') ?></a>&nbsp;</div>
 <?php
 		}
 

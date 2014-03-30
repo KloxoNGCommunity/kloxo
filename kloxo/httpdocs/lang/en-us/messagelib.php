@@ -213,6 +213,7 @@ $__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the 
 		"<li>for enable 'multiple php' need install php52m, php53m, php53m, php54m and php55m with 'sh /script/php53m-installer' (example for php53m)</li>" .
 		"<li>for share-hosting, better install all phpXYm series</li>" .
 		"<li>Format for 'multiple php ratio' is 'a:b:c:d' where 'a' for php52m, 'b' for php53m, 'c' for php54m and 'd' for php55m</li>" .
+		"<li>Left blank in 'Multiple PHP Ready' to re-list</li>" .
 	"</ul>" .
 	"</p>";
 
