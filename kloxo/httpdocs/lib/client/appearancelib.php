@@ -178,11 +178,11 @@ class sp_basespecialplay extends LxspecialClass
 				}
 
 				$vlist['specialplay_b-language'] = array('A', $this->getLanguage());
-
+			/*
 				if ($this->getParentO()->isLte('reseller') && $sgbl->isKloxo()) {
 					$vlist['specialplay_b-customermode_flag'] = null;
 				}
-
+			*/
 				if (!$login->isCustomer()) {
 					$vlist['__v_updateall_button'] = array();
 				}
