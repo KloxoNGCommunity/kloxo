@@ -389,10 +389,18 @@
 		white-space: nowrap;
 		height: 20px;
 		float: left;
-		border: 1px solid #eee;
 		margin: 0 1px;
-		background-color: #eee;
+		border: 1px solid #eee;
+		border-bottom: 1px solid #fffae8;
+		background-color: #fffae8;
 		padding: 6px 6px 0 6px;
+	}
+
+	.verb4 {
+		padding: 0px;
+		border-bottom: 1px solid #ddd;
+		margin-bottom: 10px;
+		background-color: #fffae8;
 	}
 
 	.verb_all {

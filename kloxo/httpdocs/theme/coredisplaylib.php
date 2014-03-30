@@ -777,9 +777,7 @@ function __ac_desc_list($object, $cname = null)
 		}
 	}
 
-	$addlist = exec_class_method($rclass, "createListAddForm", $object, $cname);
-
-	if ($addlist) {
+	if (exec_class_method($rclass, "createListAddForm", $object, $cname)) {
 		do_addform($object, $cname);
 	}
 
@@ -797,7 +795,9 @@ function __ac_desc_list($object, $cname = null)
 
 	$ghtml->print_information('pre', 'list', $cname, "", $pre);
 
-	$ghtml->printListAddForm($object, $cname);
+	if (exec_class_method($cname, "addListForm", $object, $cname)) {
+		$ghtml->printListAddForm($object, $cname);
+	}
 
 	do_search($object, $cname);
 
@@ -1764,12 +1764,12 @@ function print_navigation($navig)
 			if ($v) {
 				if (isset($ob->$k)) {
 					$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->$k, ".gif");
-					$imgstr[] = "<span title='$k is {$ob->$k}'><img src='$img' width='30' height='30'></span>";
+					$imgstr[] = "<span title='$k is {$ob->$k}'><img src='$img' width='20' height='20'></span>";
 				}
 			} else {
 				$v = $ob->display($k);
 				$img = $ghtml->get_image($buttonpath, $ob->getClass(), "{$k}_v_" . $ob->display($k), ".gif");
-				$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src='$img' width='30' height='30'></span>";
+				$imgstr[] = "<span title='$k is " . $ob->display($k) . "'><img src='$img' width='20' height='20'></span>";
 			}
 		}
 	}
@@ -1789,11 +1789,7 @@ function print_navigation($navig)
 	}
 
 	// MR -- need add table around div to resolv div height!
-	if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
-		$padd = "2px";
-	} else {
-		$padd = "10px";
-	}
+	$padd = "2px";
 ?>
 	<script>
 		var gl_imgrightpoint = '<?=$imgleftpoint?>';
@@ -1804,15 +1800,12 @@ function print_navigation($navig)
 <div style="padding: 2px">
 <?php
 		if ($button_type !== 'image') {
+			$class = 'if16';
 ?>
-			<div style="float: left;margin-top: 0">&nbsp;<span class="if16" style="color: #c22">&#xf009;</span>&nbsp;</div>
+			<div style="float: left;margin-top: 0">&nbsp;<span class="<?= $class ?>" style="color: #c22">&#xf009;</span>&nbsp;</div>
 <?php
 		} else {
-			if ($skin_name === 'simplicity') {
-				$img_height = '24';
-			} else {
-				$img_height = '32';
-			}
+			$img_height = '20';
 ?>
 			<div style="float: left"><?="$imgstr $demoimg"?><img height="<?= $img_height ?>" src="<?=$image?>"></div>
 <?php

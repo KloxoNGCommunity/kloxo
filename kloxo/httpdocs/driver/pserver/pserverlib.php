@@ -221,8 +221,8 @@ class pserver extends pservercore {
 			$alist['property'][] = "a=updateform&sa=commandcenter";
 		} elseif ($ghtml->frm_subaction === 'timezone') {
 			$alist['property'][] = "a=updateform&sa=timezone";
-		} elseif ($ghtml->frm_subaction === 'update') {
-			$alist['property'][] = "a=updateform&sa=update&n=driver";
+	//	} elseif ($ghtml->frm_subaction === 'update') {
+	//		$alist['property'][] = "a=updateform&sa=update&n=driver";
 		} elseif ($ghtml->frm_subaction === 'reboot') {
 			$alist['property'][] = "a=updateform&sa=reboot";
 			$alist['property'][] = "a=updateform&sa=poweroff";
@@ -268,7 +268,8 @@ class pserver extends pservercore {
 		$alist[] = "a=show&o=sshclient";
 		$alist[] = "a=show&o=llog";
 		$alist[] = "a=show&l[class]=ffile&l[nname]=";
-		$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
+	//	$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
+		$alist[] = "a=show&o=driver";
 		$alist[] = "a=updateform&sa=reboot";
 		$alist[] = "a=updateform&sa=poweroff";
 
@@ -302,6 +303,7 @@ class pserver extends pservercore {
 		
 	//	$alist['__title_nnn'] = 'Machine';
 		// MR -- move to under pserver
+	//	$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
 		$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
 		$alist[] = "a=updateform&sa=reboot";
 		$alist[] = "a=updateform&sa=poweroff";

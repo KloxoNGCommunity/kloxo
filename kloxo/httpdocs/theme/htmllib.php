@@ -3879,19 +3879,13 @@ class HtmlLib
 	function printListAddForm($parent, $class)
 	{
 		global $gbl, $sgbl, $login;
-
+	/*
 		$vlist = exec_class_method($class, "addListForm", $parent, $class);
 
 		if (!$vlist) {
 			return;
 		}
-
-	/*
-		if (method_exists($parent->$class, 'addListForm')) {
-			return;
-		}
 	*/
-
 		$skin_color = $login->getSkinColor();
 
 		$unique_name = "{$parent->getClName()}_$class";
@@ -3916,14 +3910,13 @@ class HtmlLib
 			$fontcolor = "#333333";
 			$bordertop = "#444444";
 		}
-
 ?>
 
 		<div style="background: #<?= $skin_color ?>; padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a href="javascript:toggleVisibilityById('listaddform_<?= $unique_name ?>');"> <?= $login->getKeywordUc('clickheretoadd') ?> <?= $cdesc ?> (<?= $showstring ?>)</a><?= $show_all_string ?> <<<<&nbsp;</div>
 		<br/>
 
 		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
-			<div><?= do_addform($parent, $class, null, true) ?><div> 
+			<div><?= do_addform($parent, $class, null, true) ?></div> 
 		</div>
 <?php
 	}
@@ -9424,7 +9417,7 @@ class HtmlLib
 <?php
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
-		<div class="verb4" style="padding: 0px; border-bottom: 1px solid #ddd; margin-bottom: 10px; background-color: #eee"><?= print_navigation($gbl->__navig); ?></div>
+		<div class="verb4"><?= print_navigation($gbl->__navig); ?></div>
 <?php
 		}
 ?>

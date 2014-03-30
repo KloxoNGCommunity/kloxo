@@ -6,6 +6,8 @@
 d="/home/lxadmin/mail/domains/"
 q="/var/qmail"
 
+echo "Fix Qmail User Assign"
+
 rm -f ${q}/users/assign ${q}/control/rcpthosts ${q}/control/virtualdomains
 
 cd ${d}
@@ -16,13 +18,17 @@ for i in * ; do
 	fi
 
 	u=$(ls -l ${i}|awk '{print $3}')
+	u=$(echo -n ${u})
 	v=$(id -u ${u})
-	g=$(ls -l ${i}|awk '{print $4}')	
+	g=$(ls -l ${i}|awk '{print $4}')
+	g=$(echo -n ${g})
 	h=$(id -g ${g})
 
 	echo "+${i}-:${i}:${v}:${h}:${d}${i}:-::" >> ${q}/users/assign
 	echo "${i}:${i}" >> ${q}/control/virtualdomains
 	echo "${i}" >> ${q}/control/rcpthosts
+
+	echo "- for '${i}' under '${u}'"
 done
 
 if [ $# -eq 0 ] ; then
