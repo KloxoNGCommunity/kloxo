@@ -1,5 +1,33 @@
 ;;; begin content - please not remove this line
 
+<?php
+    if (!$phpdesc) {
+        $phpdesc = '5.3.0';
+    }
+
+    if (version_compare($phpdesc, "5.4.0", ">=")) {
+        $php54enable = '';
+        $php54disable = ';';
+    } else {
+        $php54enable = ';';
+        $php54disable = '';
+    }
+
+    if (version_compare($phpdesc, "5.3.0", ">=")) {
+        $php53enable = '';
+        $php53disable = ';';
+    } else {
+        $php53enable = ';';
+        $php53disable = '';
+    }
+
+    if ($sendmail_from) {
+        $sendmailmark = '';
+    } else {
+        $sendmailmark = ';';
+        $sendmail_from = '';
+    }
+?>
 
 [PHP]
 ;### MR -- generic (the same on all php 5.x version)
@@ -10,11 +38,11 @@ precision = 14
 y2k_compliance = On
 unserialize_callback_func=
 allow_call_time_pass_reference = Off
-safe_mode_gid = Off
-safe_mode_include_dir =
-safe_mode_exec_dir =
-safe_mode_allowed_env_vars = PHP_
-safe_mode_protected_env_vars = LD_LIBRARY_PATH
+<?=$php54disable;?>safe_mode_gid = Off
+<?=$php54disable;?>safe_mode_include_dir =
+<?=$php54disable;?>safe_mode_exec_dir =
+<?=$php54disable;?>safe_mode_allowed_env_vars = PHP_
+<?=$php54disable;?>safe_mode_protected_env_vars = LD_LIBRARY_PATH
 disable_classes =
 expose_php = On
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
@@ -29,8 +57,7 @@ gpc_order = "GPC"
 include_path = ".:/usr/share/pear/"
 doc_root =
 user_dir =
-extension_dir = /opt/php53m/usr/lib/php/modules
-extension_dir =
+extension_dir = /usr/lib/php/modules
 upload_tmp_dir = /tmp/
 default_socket_timeout = 60
 date.timezone = "Europe/London"
@@ -40,52 +67,79 @@ cgi.fix_pathinfo = 0
 cgi.rfc2616_headers = 1
 
 ;### MR -- specific for php 5.3+
-auto_globals_jit = On
-zlib.output_compression = off
-zlib.output_compression_level = 6
-implicit_flush = Off
-unserialize_callback_func =
-serialize_precision = 17
-zend.enable_gc = On
-expose_php = On
-max_execution_time = 30
-max_input_time = 60
-unserialize_callback_func =
-output_buffering = 4096
-ignore_repeated_source = Off
-report_memleaks = On
-html_errors = On
-auto_append_file =
+<?=$php53enable;?>auto_globals_jit = On
+zlib.output_compression = <?=$output_compression_flag;?>
+
+<?=$php53enable;?>zlib.output_compression_level = 6
+<?=$php53enable;?>implicit_flush = Off
+<?=$php53enable;?>unserialize_callback_func =
+<?=$php53enable;?>serialize_precision = 17
+<?=$php53enable;?>zend.enable_gc = On
+<?=$php53enable;?>expose_php = On
+<?=$php53enable;?>max_execution_time = 30
+<?=$php53enable;?>max_input_time = 60
+<?=$php53enable;?>unserialize_callback_func =
+<?=$php53enable;?>output_buffering = 4096
+<?=$php53enable;?>ignore_repeated_source = Off
+<?=$php53enable;?>report_memleaks = On
+<?=$php53enable;?>html_errors = On
+<?=$php53enable;?>auto_append_file =
 
 ;### MR -- custom setting (handle by kloxo)
-; disable_functions = exec,passthru,shell_exec,system,proc_open,popen,show_source
-register_globals = off
-display_errors = off
-file_uploads = on
-upload_max_filesize = 16M
-log_errors = off
-error_log = "/var/log/php53m-error.log"
-output_buffering = off
-register_argc_argv = on
-;magic_quotes_gpc = off
-post_max_size = 32M
-magic_quotes_runtime = off
-magic_quotes_sybase = off
-mysql.allow_persistent = off
-max_execution_time = 180
-max_input_time = 180
-memory_limit = 64M
-post_max_size = 32M
-allow_url_fopen = on
-allow_url_include = on
-session.save_path = /var/lib/php/session
-cgi.force_redirect = on
-;sendmail_from = 
-safe_mode = off
-enable_dl = on
+disable_functions = <?=$disable_functions;?>
+
+<?=$php54disable;?>register_globals = <?=$register_global_flag;?>
+
+display_errors = <?=$display_error_flag;?>
+
+file_uploads = <?=$file_uploads_flag;?>
+
+upload_max_filesize = <?=$upload_max_filesize;?>
+
+log_errors = <?=$log_errors_flag;?>
+
+error_log = /var/log/php_error.log
+output_buffering = <?=$output_buffering_flag;?>
+
+register_argc_argv = <?=$register_argc_argv_flag;?>
+
+<?=$php54disable;?>magic_quotes_gpc = <?=$magic_quotes_gpc_flag;?>
+
+post_max_size = <?=$post_max_size_flag;?>
+
+<?=$php54disable;?>magic_quotes_runtime = <?=$magic_quotes_runtime_flag;?>
+
+<?=$php54disable;?>magic_quotes_sybase = <?=$magic_quotes_sybase_flag;?>
+
+mysql.allow_persistent = <?=$mysql_allow_persistent_flag;?>
+
+max_execution_time = <?=$max_execution_time_flag;?>
+
+max_input_time = <?=$max_input_time_flag;?>
+
+;memory_limit = <?=$memory_limit_flag;?>
+
+memory_limit = 128M
+post_max_size = <?=$post_max_size_flag;?>
+
+allow_url_fopen = <?=$allow_url_fopen_flag;?>
+
+allow_url_include = <?=$allow_url_include_flag;?>
+
+session.save_path = <?=$session_save_path_flag;?>
+
+cgi.force_redirect = <?=$cgi_force_redirect_flag;?>
+
+<?=$sendmailmark;?>sendmail_from = <?=$sendmail_from;?>
+
+<?=$php54disable;?>safe_mode = <?=$safe_mode_flag;?>
+
+enable_dl = <?=$enable_dl_flag;?>
+
 
 ;### MR -- deprecated/disabled on php 5.3+
-;register_long_arrays = on
+<?=$php53disable;?>register_long_arrays = <?=$register_long_arrays_flag;?>
+
 
 [Syslog]
 define_syslog_variables = Off
@@ -244,8 +298,6 @@ cli_server.color = On
 [sqlite3]
 
 [Pcre]
-pcre.backtrack_limit=100000
-pcre.recursion_limit=100000
 
 [Pdo]
 

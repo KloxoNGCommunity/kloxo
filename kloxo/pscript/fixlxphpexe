@@ -16,8 +16,14 @@ fi
 
 mkdir -p /opt/${base_name}/custom
 
-cp -rf ${INIT_DIR}/${base_name}/* /opt/${base_name}/custom
-chmod 755 /opt/${base_name}/custom/*
+cp -rf ${INIT_DIR}/${base_name}/* /opt/${base_name}/custom/
+
+cp -rf ${INIT_DIR}/${base_name}/*.sh /opt/${base_name}/custom
+chmod 755 /opt/${base_name}/custom/*.sh
+
+cp -rf ${INIT_DIR}/${base_name}/*.ini /opt/${base_name}/etc
+
+chown -R root:root /opt/${base_name}
 
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lphp.exe
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lxphp.exe

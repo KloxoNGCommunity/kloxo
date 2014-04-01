@@ -22,8 +22,8 @@ fi
 
 RETVAL=0
 
-base_name="php"
-custom_name="php53m"
+base_name="php55m"
+custom_name="php55m"
 
 fpm_prog="${custom_name}-fpm"
 

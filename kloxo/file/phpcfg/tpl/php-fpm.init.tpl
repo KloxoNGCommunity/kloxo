@@ -1,3 +1,7 @@
+<?php
+	$phpdesc_fpm = (isset($phpdesc)) ? $phpdesc . "-fpm" : 'php-fpm';
+?>
+
 #! /bin/sh
 #
 # chkconfig: - 84 16
@@ -21,32 +25,22 @@ then
 fi
 
 RETVAL=0
-
-base_name="php"
-custom_name="php53m"
-
-fpm_prog="${custom_name}-fpm"
-
-if [ "${base_name}" == "php" ] ; then
-	fpm_conf="/opt/${custom_name}/custom/${base_name}-fpm.conf"
-	pidfile="/var/run/php-fpm/${base_name}-fpm.pid"
-	lockfile="/var/lock/subsys/${base_name}-fpm"
-else
-	fpm_conf="/opt/${custom_name}/custom/${custom_name}-fpm.conf"
-	pidfile="/var/run/php-fpm/${custom_name}-fpm.pid"
-	lockfile="/var/lock/subsys/${custom_name}-fpm"
-fi
+prog="<?=$phpdesc_fpm;?>"
+pidfile=${PIDFILE-/var/run/php-fpm/<?=$phpdesc_fpm;?>.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/<?=$phpdesc_fpm;?>}
 
 start () {
-    echo -n $"Starting $fpm_prog: "
-    daemon --pidfile ${pidfile} $fpm_prog --fpm-config $fpm_conf
+    echo -n $"Starting $prog: "
+    daemon --pidfile ${pidfile} <?=$phpdesc_fpm;?>
+
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${lockfile}
 }
 stop () {
-    echo -n $"Stopping $fpm_prog: "
-    killproc -p ${pidfile} $fpm_prog
+    echo -n $"Stopping $prog: "
+    killproc -p ${pidfile} <?=$phpdesc_fpm;?>
+
     RETVAL=$?
     echo
     if [ $RETVAL -eq 0 ] ; then
@@ -55,13 +49,13 @@ stop () {
 }
 
 restart () {
-        stop
-        start
+    stop
+    start
 }
 
 reload () {
-    echo -n $"Reloading $fpm_prog: "
-    killproc -p ${pidfile} $fpm_prog -USR2
+    echo -n $"Reloading $prog: "
+    killproc -p ${pidfile} <?=$phpdesc_fpm;?> -USR2
     RETVAL=$?
     echo
 }
@@ -76,7 +70,8 @@ case "$1" in
     stop
     ;;
   status)
-    status -p ${pidfile} $fpm_prog
+    status -p ${pidfile} <?=$phpdesc_fpm;?>
+
     RETVAL=$?
     ;;
   restart)

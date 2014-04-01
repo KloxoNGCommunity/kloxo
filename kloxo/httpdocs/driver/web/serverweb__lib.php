@@ -244,6 +244,8 @@ class serverweb__ extends lxDriverClass
 			lxfile_rm($ehcdpath . "/fastcgi.nonconf");
 		}
 
+		lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
+
 		lxshell_return("chkconfig", "php-fpm", "on");
 		createRestartFile('php-fpm');
 	}

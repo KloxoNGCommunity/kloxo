@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ ! -f /opt/${1}/usr/sbin/php-fpm ] ; then
+	echo "Need ${1} installing with 'sh /script/${1}-installer"
+else
+	if [ ! -f /opt/${1}/custom/php-fpm.init ] ; then
+		echo "${1} not support php-fpm (need php 5.3.3+)" 
+	else
+		cp -f /opt/${1}/custom/php-fpm.init /etc/rc.d/init.d/php-fpm
+		chown root:root /etc/rc.d/init.d/php-fpm
+		chkconfig php-fpm on
+		service php-fpm restart
+	fi
+fi

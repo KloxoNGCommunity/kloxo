@@ -119,7 +119,8 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/init/php_active" \
 	--exclude "./kloxomr-$ver/httpdocs/login/*.php" \
 	--exclude "./kloxomr-$ver/httpdocs/login/*.html" \
-	--exclude "./kloxomr-$ver/httpdocs/login/images"
+	--exclude "./kloxomr-$ver/httpdocs/login/images" \
+	--exclude "./kloxomr-$ver/*/user-logo.png"
 
 
 rm -rf ./kloxomr-$ver > /dev/null 2>&1
