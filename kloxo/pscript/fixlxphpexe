@@ -18,6 +18,16 @@ mkdir -p /opt/${base_name}/custom
 
 cp -rf ${INIT_DIR}/${base_name}/* /opt/${base_name}/custom/
 
+if [ "$(uname -m)" == "x86_64" ] ; then
+	if [ -f /opt/${base_name}/usr/bin/php ] ; then
+		sed -i 's:/usr/lib:/usr/lib64:' /opt/${base_name}/custom/php.ini
+	fi
+else
+	if [ -f /opt/${base_name}/usr/bin/php ] ; then
+		sed -i 's:/usr/lib64:/usr/lib:' /opt/${base_name}/custom/php.ini
+	fi
+fi
+
 cp -rf ${INIT_DIR}/${base_name}/*.sh /opt/${base_name}/custom
 chmod 755 /opt/${base_name}/custom/*.sh
 

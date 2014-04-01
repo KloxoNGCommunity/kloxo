@@ -19,14 +19,13 @@ if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
 	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
 
-for i in 52m 52s 53m 53s 54m 55m ; do
-	if [ -d /opt/php${i} ] ; then
-		sh /script/phpm-config-setup php${i}
-	fi
-
-done
-
 sh /script/fixlxphpexe
+
+#for i in 52m 52s 53m 53s 54m 55m ; do
+#	if [ -d /opt/php${i} ] ; then
+#		sh /script/phpm-config-setup php${i}
+#	fi
+#done
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
 
