@@ -28,4 +28,8 @@ chown -R root:root /opt/${base_name}
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lphp.exe
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lxphp.exe
 
+cp -f ${INIT_DIR}/kloxo.init /etc/rc.d/init.d/kloxo
+chown root:root /etc/rc.d/init.d/kloxo
+chmod 0775 /etc/rc.d/init.d/kloxo
+
 echo "Execute fixlxphpexe for ${base_name}..."
