@@ -117,8 +117,6 @@ php_admin_value[max_input_time] = <?php echo $max_input_time_flag; ?>
 
 php_admin_value[memory_limit] = <?php echo $memory_limit_flag; ?>
 
-php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
-
 php_admin_value[allow_url_fopen] = <?php echo $allow_url_fopen_flag; ?>
 
 php_admin_value[allow_url_include] = <?php echo $allow_url_include_flag; ?>

@@ -4,4 +4,6 @@ mkdir -p /opt/php52s/custom
 
 yum -y install net-snmp php52s
 
+sh /script/phpm-config-setup php52s
+
 sh /script/fixlxphpexe php52s
