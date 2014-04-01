@@ -39,11 +39,12 @@
 		$sendmail_from = '';
 	}
 
-	if (uname('m') === 'x68_64') {
+	if (php_uname('m') === 'x86_64') {
 		$libpath = 'lib64';
 	} else {
 		$libpath = 'lib';
 	}
+
 ?>
 
 [PHP]
@@ -74,7 +75,7 @@ gpc_order = "GPC"
 include_path = ".:/usr/share/pear/"
 doc_root =
 user_dir =
-extension_dir = /usr/<?=$libpath;?>/php/modules
+extension_dir = /usr/<?php echo $libpath; ?>/php/modules
 upload_tmp_dir = /tmp/
 default_socket_timeout = 60
 date.timezone = "Europe/London"

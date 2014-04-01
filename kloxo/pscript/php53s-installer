@@ -1,26 +1,32 @@
 #!/bin/sh
 
-mkdir -p /opt/php53s/custom
+#mkdir -p /opt/php53s/custom
 
-yum -y install php53s-cli php53s-intl php53s-ldap php53s-litespeed php53s-mbstring php53s-mcrypt \
-	php53s-mysql php53s-pdo php53s-process php53s-pspell php53s-recode php53s-snmp \
-	php53s-soap php53s-tidy php53s-xml php53s-xmlrpc php53s-fpm php53s-bcmath php53s-enchant \
-	php53s-gd php53s-imap
+#yum -y install php53s-cli php53s-intl php53s-ldap php53s-litespeed php53s-mbstring php53s-mcrypt \
+#	php53s-mysql php53s-pdo php53s-process php53s-pspell php53s-recode php53s-snmp \
+#	php53s-soap php53s-tidy php53s-xml php53s-xmlrpc php53s-fpm php53s-bcmath php53s-enchant \
+#	php53s-gd php53s-imap
 
-cp -f /usr/local/lxlabs/kloxo/init/php53s/php.ini /opt/php53s/custom/php.ini
-cp -f /usr/local/lxlabs/kloxo/init/php53s/php-fpm.conf /opt/php53s/custom/php-fpm.conf
+#cp -f /usr/local/lxlabs/kloxo/init/php53s/php.ini /opt/php53s/custom/php.ini
+#cp -f /usr/local/lxlabs/kloxo/init/php53s/php-fpm.conf /opt/php53s/custom/php-fpm.conf
 
-if [ "$(uname -m)" == "x86_64" ] ; then
-	ln -sf /opt/php53s/usr/lib64 /opt/php53s/usr/lib
-	sed -i "s:/opt/php53s/usr/lib/:/opt/php53s/usr/lib64/:" /opt/php53s/custom/php.ini
+#if [ "$(uname -m)" == "x86_64" ] ; then
+#	ln -sf /opt/php53s/usr/lib64 /opt/php53s/usr/lib
+#	sed -i "s:/opt/php53s/usr/lib/:/opt/php53s/usr/lib64/:" /opt/php53s/custom/php.ini
+#fi
+
+#for i in cgi cli ls fpm ; do
+#	if [ -f /usr/local/lxlabs/kloxo/init/php53s/php-${i}.sh ] ;  then
+#		cp -rf /usr/local/lxlabs/kloxo/init/php53s/php-${i}.sh /opt/php53s/custom/php-${i}.sh
+#		chmod 755 /opt/php53s/custom/php-${i}.sh
+#		ln -sf /opt/php53s/custom/php-${i}.sh /usr/bin/php53s-${i}
+#	fi
+#done
+
+#sh /script/fixlxphpexe php53s
+
+ [ "$(rpm -qa|grep php53s)" != "" ] ; then
+	yum remove php53s* -y
 fi
 
-for i in cgi cli ls fpm ; do
-	if [ -f /usr/local/lxlabs/kloxo/init/php53s/php-${i}.sh ] ;  then
-		cp -rf /usr/local/lxlabs/kloxo/init/php53s/php-${i}.sh /opt/php53s/custom/php-${i}.sh
-		chmod 755 /opt/php53s/custom/php-${i}.sh
-		ln -sf /opt/php53s/custom/php-${i}.sh /usr/bin/php53s-${i}
-	fi
-done
-
-sh /script/fixlxphpexe php53s
+sh /script/phpm-installer php53s

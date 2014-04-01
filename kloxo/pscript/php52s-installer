@@ -1,9 +1,15 @@
 #!/bin/sh
 
-mkdir -p /opt/php52s/custom
+#mkdir -p /opt/php52s/custom
 
-yum -y install net-snmp php52s
+#yum -y install net-snmp php52s
 
-sh /script/phpm-config-setup php52s
+#sh /script/phpm-config-setup php52s
 
-sh /script/fixlxphpexe php52s
+#sh /script/fixlxphpexe php52s
+
+if [ "$(rpm -qa|grep php52s)" != "" ] ; then
+	yum remove php52s* -y
+fi
+
+sh /script/phpm-installer php52s
