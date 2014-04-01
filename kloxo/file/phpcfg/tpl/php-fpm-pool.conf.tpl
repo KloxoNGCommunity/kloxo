@@ -90,7 +90,7 @@ php_admin_value[display_errors] = <?=$display_error_flag;?>
 
 php_admin_value[file_uploads] = <?=$file_uploads_flag;?>
 
-php_admin_value[fiupload_max_filesize] = <?=$upload_max_filesize;?>
+php_admin_value[upload_max_filesize] = <?=$upload_max_filesize;?>
 
 php_admin_value[log_errors] = <?=$log_errors_flag;?>
 
@@ -111,8 +111,6 @@ php_admin_value[max_execution_time] = <?=$max_execution_time_flag;?>
 php_admin_value[max_input_time] = <?=$max_input_time_flag;?>
 
 php_admin_value[memory_limit] = <?=$memory_limit_flag;?>
-
-php_admin_value[post_max_size] = <?=$post_max_size_flag;?>
 
 php_admin_value[allow_url_fopen] = <?=$allow_url_fopen_flag;?>
 
