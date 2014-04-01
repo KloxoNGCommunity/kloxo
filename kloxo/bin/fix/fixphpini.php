@@ -31,6 +31,15 @@ foreach($plist as $s) {
 	$php->setUpdateSubaction('ini_update');
 
 	log_cleanup("- '/etc/php.ini' at '{$php->syncserver}'", $nolog);
+
+	log_cleanup("- Fix 'extension_dir' path in php.ini at '{$php->syncserver}'", $nolog);
+
+	if (php_uname('m') === 'x86_64') {
+		exec("sed -i 's:/usr/lib/php/modules:/usr/lib64/php/modules:' /etc/php.ini");
+	} else {
+		exec("sed -i 's:/usr/lib64/php/modules:/usr/lib/php/modules:' /etc/php.ini");
+	}
+
 	log_cleanup("- '/etc/php-fpm.d/default.conf' at '{$php->syncserver}'", $nolog);
 	log_cleanup("- '/home/kloxo/client/php5.fcgi' at '{$php->syncserver}'", $nolog);
 
