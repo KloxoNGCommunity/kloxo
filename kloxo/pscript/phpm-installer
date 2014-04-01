@@ -23,17 +23,24 @@ fi
 #fi
 
 echo "- Install dependencies first..."
-yum -y install apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
-	curl cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
-	fileutils fontconfig freetds freetype GConf2 gcc-c++ gd GeoIP ghostscript ghostscript-fonts \
-	gmp gtk2 hicolor-icon-theme icui18n ilmbase ImageMagick jasper-libs krb5 lcms-libs libc-client \
-	libcroco libedit libevent libfontenc libgomp libgsf libicu libIDL libjpeg liblzf \
-	libmcrypt libmemcached libpng librsvg2 libSM libstdc++ libthai libtiff libtool libtool-ltdl \
-	libwmf-lite libxml2 libxslt libtidy libvpx libXpm libXcomposite libXcursor libXdamage libXext \
-	libXfixes libXfont libXft libXi libXinerama libXrandr libXrender libXt lm_sensors lm_sensors-libs \
-	mhash ncurses net-snmp OpenEXR-libs openldap openssl ORBit2 pam pango perl polkit \
-	postgresql pspell recode redhat-lsb sgml-common sqlite t1lib unixODBC urw-fonts \
-	xorg-x11-font-utils zlib
+if [ "$(uname)" == "x86_64" ] ; then
+	v=".x86_64"
+else
+	v=""
+fi
+
+yum -y install${v} apr${v} apr-util${v} aspell${v} atk${v} avahi-libs${v} bzip2${v} cairo${v} ConsoleKit${v} ConsoleKit-libs${v} cups-libs${v} \
+	curl${v} cyrus-sasl${v} db4${v} dbus${v} e2fsprogs${v} eggdbus${v} elfutils-libelf${v} enchant${v} expat${v} file${v} \
+	fileutils${v} fontconfig${v} freetds${v} freetype${v} GConf2${v} gcc-c++${v} gd${v} GeoIP${v} ghostscript${v} ghostscript-fonts${v} \
+	gmp${v} gtk2${v} hicolor-icon-theme${v} icui18n${v} ilmbase${v} ImageMagick${v} jasper-libs${v} krb5${v} lcms-libs${v} libc-client${v} \
+	libcroco${v} libedit${v} libevent${v} libfontenc${v} libgomp${v} libgsf${v} libicu${v} libIDL${v} libjpeg${v} liblzf${v} \
+	libmcrypt${v} libmemcached${v} libpng${v} librsvg2${v} libSM${v} libstdc++${v} libthai${v} libtiff${v} libtool${v} libtool-ltdl${v} \
+	libwmf-lite${v} libxml2${v} libxslt${v} libtidy${v} libvpx${v} libXpm${v} libXcomposite${v} libXcursor${v} libXdamage${v} libXext${v} \
+	libXfixes${v} libXfont${v} libXft${v} libXi${v} libXinerama${v} libXrandr${v} libXrender${v} libXt${v} lm_sensors${v} lm_sensors-libs${v} \
+	mhash${v} ncurses${v} net-snmp${v} OpenEXR-libs${v} openldap${v} openssl${v} ORBit2${v} pam${v} pango${v} perl${v} polkit${v} \
+	postgresql${v} pspell${v} recode${v} redhat-lsb${v} sgml-common${v} sqlite${v} t1lib${v} unixODBC${v} urw-fonts${v} \
+	xorg-x11-font-utils${v} zlib${v} redis{v}
+
 
 echo "- Download rpms..."
 mkdir -p /opt/${base_name}
@@ -53,7 +60,7 @@ echo "- Disable certain modules..."
 for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 	apc apcu imagick interbase ioncube-loader memcache memcached mssql debug \
 	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
-	xdebug	xcache opcache mbstring ; do
+	xdebug	xcache opcache lzf redis ; do
 	if [ -f /opt/${base_name}/etc/php.d/${i}.ini ] ; then
 		sed -i 's:=/usr/:=/opt/${base_name}/usr/:' /opt/${base_name}/etc/php.d/${i}.ini
 		if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then

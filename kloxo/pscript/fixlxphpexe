@@ -35,6 +35,9 @@ cp -rf ${INIT_DIR}/${base_name}/*.ini /opt/${base_name}/etc
 
 chown -R root:root /opt/${base_name}
 
+rm -f /usr/bin/lphp.exe
+rm -f /usr/bin/lxphp.exe
+
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lphp.exe
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lxphp.exe
 
