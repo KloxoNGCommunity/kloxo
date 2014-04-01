@@ -108,7 +108,8 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/pid" \
 	--exclude "./kloxomr-$ver/init/*.sock" \
 	--exclude "./kloxomr-$ver/init/*.pid" \
-	--exclude "./kloxomr-$ver/init/kloxo-*" \
+	--exclude "./kloxomr-$ver/init/kloxo-hiawatha" \
+	--exclude "./kloxomr-$ver/init/kloxo-phpcgi" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/editor/_source" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/_samples" \
 	--exclude "./kloxomr-$ver/httpdocs/theme/yui-dragdrop" \
