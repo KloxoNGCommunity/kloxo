@@ -25,8 +25,9 @@
 
 #sh /script/fixlxphpexe php53s
 
- [ "$(rpm -qa|grep php53s)" != "" ] ; then
+if [ "$(rpm -qa|grep php53s)" != "" ] ; then
 	yum remove php53s* -y
+	yum remove php53s* --noscript -y
 fi
 
 sh /script/phpm-installer php53s

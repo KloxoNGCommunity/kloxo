@@ -19,6 +19,8 @@ if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
 	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
 
+sh /script/php53s-installer
+
 sh /script/fixlxphpexe
 
 #for i in 52m 52s 53m 53s 54m 55m ; do
