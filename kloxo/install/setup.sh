@@ -146,11 +146,11 @@ yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion cu
 yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
 
 ## it's mean centos 6 or equal
-if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
-	yum -y install mysql mysql-server mysql-libs
-else
+#if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
+#	yum -y install mysql mysql-server mysql-libs
+#else
 	yum -y install mysql55 mysql55-server mysql55-libs
-fi
+#fi
 	
 # MR -- always disable mysql-aio
 #sh /script/disable-mysql-aio
