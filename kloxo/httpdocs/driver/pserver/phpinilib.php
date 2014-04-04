@@ -71,7 +71,7 @@ class phpini extends lxdb
 		$list[] = "enable_ioncube_flag";
 		$list[] = "enable_suhosin_flag";
 	*/
-		$list[] = 'safe_mode_flag';
+	//	$list[] = 'safe_mode_flag';
 		$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
 
@@ -89,7 +89,8 @@ class phpini extends lxdb
 
 			$list[] = 'multiple_php_flag';
 
-			$flag = $this->phpini_flag_b->multiple_php_flag;
+			$flag = (isset($this->phpini_flag_b->multiple_php_flag)) ?
+				$this->phpini_flag_b->multiple_php_flag : 'off';
 
 			if ($flag === 'on') {
 				$list[] = 'multiple_php_ratio';
@@ -99,7 +100,8 @@ class phpini extends lxdb
 
 			foreach ($sa as $s) {
 				if ($s->nname === $this->syncserver) {
-					$flag = $s->getObject('phpini')->phpini_flag_b->multiple_php_flag;
+					$flag = (isset($s->getObject('phpini')->phpini_flag_b->multiple_php_flag)) ?
+						$s->getObject('phpini')->phpini_flag_b->multiple_php_flag : 'off';
 				}
 			}
 
@@ -113,7 +115,7 @@ class phpini extends lxdb
 
 		if (!$this->getParentO()->is__table('web')) {
 			$list[] = 'display_error_flag';
-			$list[] = 'register_global_flag';
+		//	$list[] = 'register_global_flag';
 			$list[] = 'log_errors_flag';
 			$list[] = 'output_compression_flag';
 		}
@@ -131,11 +133,11 @@ class phpini extends lxdb
 		$list[] = 'sendmail_from';
 		$list[] = 'enable_dl_flag';
 		$list[] = 'output_buffering_flag';
-		$list[] = 'register_long_arrays_flag';
+	//	$list[] = 'register_long_arrays_flag';
 		$list[] = 'allow_url_fopen_flag';
 		$list[] = 'allow_url_include_flag';
 		$list[] = 'register_argc_argv_flag';
-		$list[] = 'magic_quotes_gpc_flag';
+	//	$list[] = 'magic_quotes_gpc_flag';
 		$list[] = 'mysql_allow_persistent_flag';
 		$list[] = 'disable_functions';
 		$list[] = 'max_execution_time_flag';
@@ -144,10 +146,10 @@ class phpini extends lxdb
 		$list[] = 'post_max_size_flag';
 		$list[] = "upload_max_filesize";
 		$list[] = 'file_uploads_flag';
-		$list[] = 'magic_quotes_runtime_flag';
-		$list[] = 'magic_quotes_sybase_flag';
+	//	$list[] = 'magic_quotes_runtime_flag';
+	//	$list[] = 'magic_quotes_sybase_flag';
 		$list[] = 'cgi_force_redirect_flag';
-		$list[] = 'safe_mode_flag';
+	//	$list[] = 'safe_mode_flag';
 	//	$list[] = 'session_autostart_flag' ;
 		$list[] = 'session_save_path_flag';
 

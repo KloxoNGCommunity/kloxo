@@ -4,7 +4,14 @@ INIT_DIR="/usr/local/lxlabs/kloxo/init"
 
 if [ "$1" != "" ] ; then
 	base_name="$1"
-	echo "${base_name}" > ${INIT_DIR}/php_active
+
+	if [ ! -f /opt/${base_name}/custom/${base_name}-cli.sh ] ; then
+		echo "File: '/opt/${base_name}/custom/${base_name}-cli.sh' not exists"
+		echo "Need install with sh '/script/${base_name}-installer' not exists"
+		exit
+	else
+		echo "${base_name}" > ${INIT_DIR}/php_active
+	fi
 else
 	if [ -f ${INIT_DIR}/php_active ] ; then
 		base_name="$(cat ${INIT_DIR}/php_active)"
@@ -18,16 +25,6 @@ mkdir -p /opt/${base_name}/custom
 
 cp -rf ${INIT_DIR}/${base_name}/* /opt/${base_name}/custom/
 
-if [ "$(uname -m)" == "x86_64" ] ; then
-	if [ -f /opt/${base_name}/usr/bin/php ] ; then
-		sed -i 's:/usr/lib:/usr/lib64:' /opt/${base_name}/custom/php.ini
-	fi
-else
-	if [ -f /opt/${base_name}/usr/bin/php ] ; then
-		sed -i 's:/usr/lib64:/usr/lib:' /opt/${base_name}/custom/php.ini
-	fi
-fi
-
 cp -rf ${INIT_DIR}/${base_name}/*.sh /opt/${base_name}/custom
 chmod 755 /opt/${base_name}/custom/*.sh
 
@@ -38,8 +35,8 @@ chown -R root:root /opt/${base_name}
 rm -f /usr/bin/lphp.exe
 rm -f /usr/bin/lxphp.exe
 
-ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lphp.exe
-ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lxphp.exe
+ln -sf /opt/${base_name}/custom/${base_name}-cli.sh /usr/bin/lphp.exe
+ln -sf /opt/${base_name}/custom/${base_name}-cli.sh /usr/bin/lxphp.exe
 
 cp -f ${INIT_DIR}/kloxo.init /etc/rc.d/init.d/kloxo
 chown root:root /etc/rc.d/init.d/kloxo

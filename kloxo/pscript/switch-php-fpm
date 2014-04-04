@@ -1,14 +1,21 @@
 #!/bin/sh
 
-if [ ! -f /opt/${1}/usr/sbin/php-fpm ] ; then
-	echo "Need ${1} installing with 'sh /script/${1}-installer"
+if [ "${1}" == "php" ] ; then
+	cp -f /usr/local/lxlabs/kloxo/init/php-fpm.init /etc/rc.d/init.d/php-fpm
+	chown root:root /etc/rc.d/init.d/php-fpm
+	chkconfig php-fpm on
+	service php-fpm restart
 else
-	if [ ! -f /opt/${1}/custom/php-fpm.init ] ; then
-		echo "${1} not support php-fpm (need php 5.3.3+)" 
+	if [ ! -f /opt/${1}/usr/sbin/php-fpm ] ; then
+		echo "Need ${1} installing with 'sh /script/${1}-installer"
 	else
-		cp -f /opt/${1}/custom/php-fpm.init /etc/rc.d/init.d/php-fpm
-		chown root:root /etc/rc.d/init.d/php-fpm
-		chkconfig php-fpm on
-		service php-fpm restart
+		if [ ! -f /opt/${1}/custom/php-fpm.init ] ; then
+			echo "${1} not support php-fpm (need php 5.3.3+)" 
+		else
+			cp -f /opt/${1}/custom/php-fpm.init /etc/rc.d/init.d/php-fpm
+			chown root:root /etc/rc.d/init.d/php-fpm
+			chkconfig php-fpm on
+			service php-fpm restart
+		fi
 	fi
 fi

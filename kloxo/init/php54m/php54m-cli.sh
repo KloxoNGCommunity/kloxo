@@ -1,6 +1,6 @@
 #!/bin/sh
 
-php_rc='/opt/php54m/custom/php.ini'
+php_rc='/opt/php54m/custom/php54m.ini'
 php_scan='/opt/php54m/etc/php.d'
 php_prog='/opt/php54m/usr/bin/php'
 

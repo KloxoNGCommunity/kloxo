@@ -1,6 +1,14 @@
 #!/bin/sh
 
 base_name="${1}"
+## MR -- remove last char (default m or s)
+src_name="${base_name%?}"
+
+if [ "$(uname -m)" == "x86_64" ] ; then
+	uname_m="64"
+else
+	uname_m=""
+fi
 
 cd /opt/${base_name}
 
@@ -8,22 +16,44 @@ mkdir -p /opt/${base_name}/custom
 
 echo "- Copy '${base_name}' sh script to custom dir..."
 cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/* /opt/${base_name}/custom/
+
+#if [ "${src_name}" != "php52" ] ; then
+#	## MR -- php53/php54/php55 must to blank extenstion_dir in php.ini and set directly to each module ini
+#	echo "- Change '${base_name}' extension path for modules ini..."
+#	for i in /opt/${base_name}/etc/php.d/* ; do
+#		if [ "$(find ${i} -type f | xargs grep 'extension=/opt/')" == "" ] ; then
+#			if [ "$(find ${i} -type f | xargs grep 'extension=/usr/lib')" != "" ] ; then
+#				sed -i 's:extension=/usr/lib/:extension=/opt/'${base_name}'/usr/lib'${uname_m}'/:' ${i}
+#				sed -i 's:extension=/usr/lib'${uname_m}'/:extension=/opt/'${base_name}'/usr/lib'${uname_m}'/:' ${i}
+#			else
+#				if [ "$(find ${i} -type f | xargs grep 'extension = ')" != "" ] ; then
+#					sed -i 's:extension = :extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' ${i}
+#				else
+#					sed -i 's:extension=:extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' ${i}
+#				fi
+#			fi
+#		fi
+#	done
+#else
+	## MR -- php52 only work if add extension_dir path
+	#echo "- Change '${base_name}' for php.ini..."
+	#if [ "${base_name}" == "php52m" ] ; then
+	#	sed -i 's:/usr/lib/php/modules:/usr/lib'${uname_m}'/php/modules:' /opt/${base_name}/custom/php.ini
+	#fi
+
+	#sed -i 's:/usr/lib/php/modules:/usr/lib'${uname_m}'/php/modules:' /opt/${base_name}/custom/${base_name}.ini
+
+	if [ "${uname_m}" == "64" ] ; then
+		ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib
+	fi
+#fi
+
+echo "- Set '${base_name}' sh script to 755 and create symlink..."
+
 chmod 755 /opt/${base_name}/custom/*.sh
 
 for i in cgi cli ls fpm ; do
-	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/php-${i}.sh ] ;  then
-		ln -sf /opt/${base_name}/custom/php-${i}.sh /usr/bin/${base_name}-${i}
+	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/${base_name}-${i}.sh ] ;  then
+		ln -sf /opt/${base_name}/custom/${base_name}-${i}.sh /usr/bin/${base_name}-${i}
 	fi
 done
-
-echo "- Adjustment extension_dir in php.ini of '${base_name}'..."
-if [ "${base_name}" != "php52s" ] ; then
-	if [ "$(uname -m)" == "x86_64" ] ; then
-		sed -i "s:/usr/lib/:/usr/lib64/:" /opt/${base_name}/custom/php.ini
-	else
-		sed -i "s:/usr/lib64/:/usr/lib/:" /opt/${base_name}/custom/php.ini
-	fi
-fi
-
-echo "- Copy '${base_name}' config files..."
-cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/* /opt/${base_name}/etc/

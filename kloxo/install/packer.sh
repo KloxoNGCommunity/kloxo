@@ -51,7 +51,9 @@ kloxo_branch=${request2#--branch\=}
 
 kloxo_path=${kloxo_fork}/kloxomr-$ver/zipball/${kloxo_branch}
 
-yum install zip unzip -y
+if [ "$(rpm -qa|grep unzip)" == "" ] ; then
+	yum install zip unzip -y
+fi
 
 if [ ! -d ./kloxo/httpdocs ] ; then
 	echo "Download git from "${kloxo_path}

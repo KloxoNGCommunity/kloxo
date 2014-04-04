@@ -43,20 +43,19 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 if [ -f /usr/local/lxlabs/kloxo/init/php_active ] ; then
 	php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
 else
-	sh /script/fixlxphpexe php52s
+	sh /script/fixlxphpexe php53s
 	php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
 fi
 
-if [ -f /opt/${php_active}/usr/bin/php ] || [ -f /opt/${php_active}/bin/php ] ; then
-	phpcgi_file="/opt/${php_active}/custom/php-fpm.sh"
-	phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
-
-	if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
-		phpcgi_ini="/opt/${php_active}/custom/php52.ini"
-	else
-		phpcgi_ini="/opt/${php_active}/custom/php.ini"
-	fi
+if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
+	phpcgi_file="/opt/${php_active}/custom/${php_active}-cgi.sh"
+else
+	phpcgi_file="/opt/${php_active}/custom/${php_active}-fpm.sh"
 fi
+
+phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
+
+phpcgi_ini="/opt/${php_active}/custom/${php_active}.ini"
 
 cd /usr/local/lxlabs/kloxo/httpdocs
 lxphp.exe -f ../init/changeport.php
@@ -83,12 +82,12 @@ fi
 
 ln -sf ${phpcgi_file} ${phpcgi_symlink}
 
-if [ "${php_active}" != "php52s" ] && [ "${php_active}" != "php52m" ] ; then
-	phpcgi_spawn="${phpcgi_symlink} -y ${phpcgi_conf} -c ${phpcgi_ini}"
-else
+if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
 	phpcgi_spawn="/usr/bin/spawn-fcgi -f ${phpcgi_symlink} -s ${phpcgi_sockfile} \
 		-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user}  -P $phpcgi_pidfile \
 		> /dev/null 2>&1"
+else
+	phpcgi_spawn="${phpcgi_symlink} -y ${phpcgi_conf} -c ${phpcgi_ini}"
 fi
 
 function phpcgi_start() {

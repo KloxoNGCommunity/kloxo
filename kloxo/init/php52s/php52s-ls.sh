@@ -1,8 +1,8 @@
 #!/bin/sh
 
-php_rc='/opt/php52s/custom'
+php_rc='/opt/php52s/custom/php52s.ini'
 php_scan='/opt/php52s/etc/php.d'
-php_prog='/opt/php52s/bin/php-cgi'
+php_prog='/opt/php52s/usr/bin/php-ls'
 
 #export PHPRC=$php_rc
 export PHP_INI_SCAN_DIR=$php_scan

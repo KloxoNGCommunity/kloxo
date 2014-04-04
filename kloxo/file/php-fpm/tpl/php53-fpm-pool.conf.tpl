@@ -103,11 +103,9 @@ php_admin_value[output_buffering] = <?php echo $output_buffering_flag; ?>
 
 php_admin_value[register_argc_argv] = <?php echo $register_argc_argv_flag; ?>
 
-<?php echo $php54disable; ?>php_admin_value[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
+;<?php echo $php54disable; ?>php_admin_value[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
 
-php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
-
-<?php echo $php54disable; ?>php_admin_value[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
+;<?php echo $php54disable; ?>php_admin_value[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
 
 php_admin_value[mysql.allow_persistent] = <?php echo $mysql_allow_persistent_flag; ?>
 
@@ -117,6 +115,8 @@ php_admin_value[max_input_time] = <?php echo $max_input_time_flag; ?>
 
 php_admin_value[memory_limit] = <?php echo $memory_limit_flag; ?>
 
+php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
+
 php_admin_value[allow_url_fopen] = <?php echo $allow_url_fopen_flag; ?>
 
 php_admin_value[allow_url_include] = <?php echo $allow_url_include_flag; ?>
@@ -125,7 +125,7 @@ php_admin_value[session.save_path] = <?php echo $session_save_path_flag; ?>
 
 php_admin_value[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
 
-<?php echo $php54disable; ?>php_admin_value[safe_mode] = <?php echo $safe_mode_flag; ?>
+;<?php echo $php54disable; ?>php_admin_value[safe_mode] = <?php echo $safe_mode_flag; ?>
 
 php_admin_value[enable_dl] = <?php echo $enable_dl_flag; ?>
 

@@ -372,19 +372,31 @@ function kloxo_install_step1()
 
 		print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
-		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf", "automake", "make",
-			"libtool", "openssl-devel", "pure-ftpd", "yum-protectbase", "yum-plugin-replace", "crontabs",
-			"make", "glibc-static", "net-snmp", "tmpwatch", "rkhunter", "quota");
+		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf",
+			"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
+			"yum-plugin-replace", "crontabs", "make", "glibc-static", "net-snmp", "tmpwatch",
+			"rkhunter", "quota");
 	
 		$list = implode(" ", $packages);
 
 		system("yum -y install $list");
 
 		print(">>> Adding Standard PHP components and Hiawatha <<<\n");
+/*
 		$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
-			"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick",
-			"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "hiawatha"
-		);
+			"{$phpbranch}-pecl-geoip", "{$phpbranch}-pecl-imagick", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+			"{$phpbranch}-embedded", "{$phpbranch}-enchant", "{$phpbranch}-imap", "{$phpbranch}-intl",
+			"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
+			"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
+			"{$phpbranch}-xmlrpc", "hiawatha");
+*/
+		// MR -- xcache, zend, ioncube, suhosin and zts not default install
+		$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
+			"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+			"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
+			"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
+			"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
+			"{$phpbranch}-xmlrpc", "hiawatha");
 
 		$list = implode(" ", $packages);
 

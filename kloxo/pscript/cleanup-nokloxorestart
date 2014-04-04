@@ -19,8 +19,6 @@ if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
 	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
 
-sh /script/php53s-installer
-
 sh /script/fixlxphpexe
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')

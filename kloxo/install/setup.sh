@@ -38,7 +38,7 @@ if [ "$(rpm -qa mratwork-release)" == "" ] ; then
 	cd /tmp
 	rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 	yum update mratwork-release -y
-	
+
 	mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
 	mv -f /etc/yum.repos.d/kloxo.repo /etc/yum.repos.d/kloxo.nonrepo
 	mv -f /etc/yum.repos.d/kloxo-custom.repo /etc/yum.repos.d/kloxo-custom.nonrepo
@@ -158,15 +158,23 @@ sh /script/set-mysql-default
 
 yum -y install php53u php53u-mysql
 
+if [ "$(uname -m)" == "x86_64" ] ; then
+	ln -sf /usr/lib64/php /usr/lib/php
+fi
+
 if [ "$1" == "--with-php53s" ] || [ "$2" == "--with-php53s" ] || [ "$3" == "--with-php53s" ] \
 		|| [ "$1" == "-3s" ] || [ "$2" == "-3s" ] || [ "$3" == "-3s" ] ; then
+	with_php53s="yes"
+
 	mkdir -p /opt/php53s/custom
 	sh /script/php53s-installer
-	with_php53s="yes"
+	sh /script/fixlxphpexe php53s
 else
+	with_php53s="no"
+
 	mkdir -p /opt/php52s/custom
 	sh /script/php52s-installer
-	with_php53s="no"
+	sh /script/fixlxphpexe php52s
 fi
 
 cd /
@@ -179,7 +187,6 @@ cd ${ppath}/install
 
 # Fix issue because sometimes kloxo database not created
 for (( a=1; a<=100; a++ )) ; do
-#	echo -n "$a "
 	sleep 2s
 
 	if [ $APP_TYPE == 'master' ] ; then
@@ -197,7 +204,6 @@ done
 echo
 if [ "${with_php53s}" == "no" ] ; then
 	echo "... Wait until finished (switch to php53s and restart services) ..."
-	#yum -y remove php52s* >/dev/null 2>&1
 	sh /script/php53s-installer >/dev/null 2>&1
 else
 	echo "... Wait until finished (restart services) ..."

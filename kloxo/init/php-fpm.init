@@ -21,32 +21,20 @@ then
 fi
 
 RETVAL=0
-
-base_name="php53s"
-custom_name="php53s"
-
-fpm_prog="${custom_name}-fpm"
-
-if [ "${base_name}" == "php" ] ; then
-	fpm_conf="/opt/${custom_name}/custom/${base_name}-fpm.conf"
-	pidfile="/var/run/php-fpm/${base_name}-fpm.pid"
-	lockfile="/var/lock/subsys/${base_name}-fpm"
-else
-	fpm_conf="/opt/${custom_name}/custom/${custom_name}-fpm.conf"
-	pidfile="/var/run/php-fpm/${custom_name}-fpm.pid"
-	lockfile="/var/lock/subsys/${custom_name}-fpm"
-fi
+prog="php-fpm"
+pidfile=${PIDFILE-/var/run/php-fpm/php-fpm.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 
 start () {
-    echo -n $"Starting $fpm_prog: "
-    daemon --pidfile ${pidfile} $fpm_prog --fpm-config $fpm_conf
+    echo -n $"Starting $prog: "
+    daemon --pidfile ${pidfile} $prog
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${lockfile}
 }
 stop () {
-    echo -n $"Stopping $fpm_prog: "
-    killproc -p ${pidfile} $fpm_prog
+    echo -n $"Stopping $prog: "
+    killproc -p ${pidfile} $prog
     RETVAL=$?
     echo
     if [ $RETVAL -eq 0 ] ; then
@@ -60,8 +48,8 @@ restart () {
 }
 
 reload () {
-    echo -n $"Reloading $fpm_prog: "
-    killproc -p ${pidfile} $fpm_prog -USR2
+    echo -n $"Reloading $prog: "
+    killproc -p ${pidfile} $prog -USR2
     RETVAL=$?
     echo
 }
@@ -76,7 +64,7 @@ case "$1" in
     stop
     ;;
   status)
-    status -p ${pidfile} $fpm_prog
+    status -p ${pidfile} $prog
     RETVAL=$?
     ;;
   restart)
