@@ -54,7 +54,7 @@
 
     php_value post_max_size <?php echo $post_max_size_flag; ?>
 
-    php_flag register_globals <?php echo $register_global_flag; ?>
+    # php_flag register_globals <?php echo $register_global_flag; ?>
 
     php_flag display_errors <?php echo $display_error_flag; ?>
 
@@ -66,11 +66,11 @@
 
     php_flag register_argc_argv <?php echo $register_argc_argv_flag; ?>
 
-    php_flag magic_quotes_gpc <?php echo $magic_quotes_gpc_flag; ?>
+    # php_flag magic_quotes_gpc <?php echo $magic_quotes_gpc_flag; ?>
 
-    php_flag magic_quotes_runtime <?php echo $magic_quotes_runtime_flag; ?>
+    # php_flag magic_quotes_runtime <?php echo $magic_quotes_runtime_flag; ?>
 
-    php_flag magic_quotes_sybase <?php echo $magic_quotes_sybase_flag; ?>
+    # php_flag magic_quotes_sybase <?php echo $magic_quotes_sybase_flag; ?>
 
     php_flag mysql.allow_persistent <?php echo $mysql_allow_persistent_flag; ?>
 
