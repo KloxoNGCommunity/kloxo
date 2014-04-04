@@ -220,7 +220,8 @@ class ffile__common
 		$zipd = trim($this->main->zip_extract_dir_f, "/");
 
 		if (!$zipd) {
-			throw new lxexception('cannot_unzip_in_root', '', '');
+			// MR -- no reason not able unzip in root because root mean docroot
+		//	throw new lxexception('cannot_unzip_in_root', '', '');
 		}
 
 		if (lxfile_exists($fulzippath) && $this->main->__username_o === 'root') {
