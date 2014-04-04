@@ -163,19 +163,19 @@ if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php
 fi
 
-if [ "$1" == "--with-php53s" ] || [ "$2" == "--with-php53s" ] || [ "$3" == "--with-php53s" ] \
-		|| [ "$1" == "-3s" ] || [ "$2" == "-3s" ] || [ "$3" == "-3s" ] ; then
-	with_php53s="yes"
+if [ "$1" == "--with-php52s" ] || [ "$2" == "--with-php52s" ] || [ "$3" == "--with-php52s" ] \
+		|| [ "$1" == "-2s" ] || [ "$2" == "-2s" ] || [ "$3" == "-2s" ] ; then
+	with_php52s="yes"
+
+	mkdir -p /opt/php52s/custom
+	sh /script/php52s-installer
+	sh /script/fixlxphpexe php53s
+else
+	with_php52s="no"
 
 	mkdir -p /opt/php53s/custom
 	sh /script/php53s-installer
 	sh /script/fixlxphpexe php53s
-else
-	with_php53s="no"
-
-	mkdir -p /opt/php52s/custom
-	sh /script/php52s-installer
-	sh /script/fixlxphpexe php52s
 fi
 
 cd /
@@ -188,7 +188,6 @@ cd ${ppath}/install
 
 # Fix issue because sometimes kloxo database not created
 for (( a=1; a<=100; a++ )) ; do
-#	echo -n "$a "
 	sleep 2s
 
 	if [ $APP_TYPE == 'master' ] ; then
@@ -204,7 +203,7 @@ for (( a=1; a<=100; a++ )) ; do
 done
 
 echo
-if [ "${with_php53s}" == "no" ] ; then
+if [ "${with_php52s}" != "no" ] ; then
 	echo "... Wait until finished (switch to php53s and restart services) ..."
 	sh /script/php53s-installer >/dev/null 2>&1
 else
@@ -214,4 +213,3 @@ fi
 sh /script/restart-all >/dev/null 2>&1
 
 echo
-
