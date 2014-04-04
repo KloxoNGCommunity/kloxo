@@ -27,7 +27,7 @@
 
 if [ "$(rpm -qa|grep php53s)" != "" ] ; then
 	yum remove php53s* -y
-	yum remove php53s* --noscript -y
+	rpm -e php53s-fpm --noscripts
 fi
 
 sh /script/phpm-installer php53s
