@@ -202,13 +202,14 @@ function installcomp_mail()
 	global $lxlabspath, $kloxopath, $currentstamp, $kloxostate;
 	global $installtype, $installfrom, $installstep;
 	global $currentpath, $dbroot, $dbpass, $mypass, $osversion;
-
+/*
 	print(">>> Updateing PEAR chaannel <<<\n");
 	system('pear channel-update "pear.php.net"'); // to remove old channel warning
 	system("pear upgrade --force pear"); // force is needed
 	system("pear upgrade --force Archive_Tar"); // force is needed
 	system("pear upgrade --force structures_graph"); // force is needed
 	system("pear install log");
+*/
 }
 
 function install_main()
