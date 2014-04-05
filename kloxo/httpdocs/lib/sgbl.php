@@ -181,8 +181,6 @@ class Sgbl
 		$this->__var_error_file = "__path_program_root/httpdocs/.php.err";
 
 		$this->__var_ticket_subcategory = null;
-
-		$this->__var_csrf_token = getCSRFToken(64);
 	}
 
 	private function initLanguages()

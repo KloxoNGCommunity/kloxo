@@ -910,7 +910,7 @@ function __ac_desc_Update($object)
 	if (!isset($gbl->__this_redirect)) {
 		if ($ret) {
 			$gbl->__this_redirect = get_return_url("update") . 
-				"&frm_smessage=[b]{$subaction}[/b]+successfully+updated+for+{$object->nname}";
+				"&frm_smessage={$subaction}+successfully+updated+for+{$object->nname}";
 		} else {
 			$gbl->__this_redirect = get_return_url("update");
 		}
@@ -1083,6 +1083,7 @@ function do_updateform($object, $subaction)
 
 		$param = $ghtml->createCurrentParam($class);
 
+
 		if ($ghtml->frm_accountselect) {
 			$list = explode(",", $ghtml->frm_accountselect);
 			$param['_accountselect'] = $list;
@@ -1165,6 +1166,7 @@ function do_updateform($object, $subaction)
 		$ghtml->print_information('pre', 'updateform', $class, $subaction, $pre);
 
 		$ghtml->xml_print_page($string);
+
 		$ghtml->print_information('post', 'updateform', $class, $subaction, $post);
 	}
 }
@@ -1638,6 +1640,17 @@ function create_xml($object, $stuff, $ret)
 		$string[] = $ghtml->object_variable_modify($stuff, $k);
 	}
 
+	if (isset($gbl->c_session->ssession_vars['__tmp_csrf_token'])) {
+		$token = $gbl->c_session->ssession_vars['__tmp_csrf_token'];
+	} else {
+		$token = randomString(64);
+	}
+
+	$string[] = $ghtml->object_variable_hidden("frm_token", $token);
+
+	$gbl->setSessionV('__tmp_csrf_token', $token);
+	$gbl->c_session->write();
+
 	$string[] = $ghtml->object_variable_hidden("frm_action", $action);
 
 	if (isset($ret['subaction'])) {
@@ -1657,8 +1670,6 @@ function create_xml($object, $stuff, $ret)
 	} else {
 		$button = $action;
 	}
-
-	$string[] = $ghtml->object_variable_hidden("frm_token", $sgbl->__var_csrf_token);
 
 	// MR -- change frm_change to hidden and button with frm_submit/frm_submit_all
 	// for fix updateall issue
@@ -2321,6 +2332,10 @@ function lx_frm_inc()
 
 	if (!$ghtml->iset("frm_action")) {
 		display_die('Action Not set');
+	}
+
+	if (isRemotePost()) {
+		display_die('Remote post not permit');
 	}
 
 	$caction = $ghtml->frm_action;

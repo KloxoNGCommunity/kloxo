@@ -1169,11 +1169,27 @@ function xprint($var)
 	//	print("<pre>---begin xprint_r---\n");
 		print("<pre>");
 	}
+
+	if (is_object($var) && method_exists($var, "clearChildrenAndParent")) {
+		$newvar = myclone($var);
+		lxclass::clearChildrenAndParent($newvar);
+		$newvar->driverApp = 'unset for printing';
+		$newvar->__parent_o = 'unset for printing';
+
+		$class = $newvar->get__table();
 		
-	if (is_array($var) || is_object($var)) {
-		print_r($var);
+		if (csb($class, "sp_")) {
+			$bclass = strfrom($class, "sp_") . "_b";
+			$newvar->$bclass->__parent_o = 'unset for printing';
+		}
+		
+		print_r($newvar);
 	} else {
-		print($var);
+		if (is_array($var)) {
+			print_r($var);
+		} else {
+			print($var);
+		}
 	}
 
 	if ($sgbl->__running_in_cli) {
