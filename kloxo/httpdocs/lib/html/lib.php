@@ -7763,3 +7763,47 @@ function is_cli()
 	 
 	return false;
 }
+
+// taken from ...
+function getCSRFToken($length = 8) {
+	$nonce = randomString($length);
+
+	if (empty($_SESSION['csrf_tokens'])) {
+		$_SESSION['csrf_tokens'] = array();
+	}
+
+	$_SESSION['csrf_tokens'][$nonce] = true;
+
+	return $nonce;
+}
+
+function validateCSRFToken($token) {
+	if (isset($_SESSION['csrf_tokens'][$token])) {
+	//	unset($_SESSION['csrf_tokens'][$token]);
+
+		return true;
+	}
+
+	return false;
+}
+
+// taken from http://snipplr.com/view/11410/prevent-remote-form-submit/
+function isRemotePost()
+{
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		// or possibly, count($_POST) > 0
+		$host = preg_replace('#^www\.#', '', $_SERVER['SERVER_NAME']);
+     
+		if ($host AND $_SERVER['HTTP_REFERER']) {
+			$refparts = @parse_url($_SERVER['HTTP_REFERER']);
+			$refhost = $refparts['host'] . ((int)$refparts['port'] ? ':' . (int)$refparts['port'] : '');
+
+			if (strpos($refhost, $host) === false) {
+			//	die('POST requests are not permitted from "foreign" domains.');
+				return true;
+			}
+		}
+	}
+
+	return false;
+}

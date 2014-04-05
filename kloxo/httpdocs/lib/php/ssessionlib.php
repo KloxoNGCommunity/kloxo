@@ -3,30 +3,30 @@
 class Ssession extends Lxclass
 {
 	static $__ttype = "transient";
-	static $__desc = array("", "",  "session");
+	static $__desc = array("", "", "session");
 
 	// Data
-	static $__desc_nname = array("", "",  "session_id");
-	static $__desc_parent_name = array("", "",  "client_name");
-	static $__desc_parent_name_f = array("", "",  "client_name");
-	static $__desc_cttype =     array("e", "",  "t");
-	static $__desc_cttype_v_superadmin =    array("", "",  "superadmin");
-	static $__desc_cttype_v_admin =    array("", "",  "admin");
-	static $__desc_cttype_v_reseller =    array("", "",  "reseller");
-	static $__desc_cttype_v_customer =    array("", "",  "customer");
-	static $__desc_cttype_v_mailaccount =    array("", "",  "mail_account");
-	static $__desc_cttype_v_uuser =    array("", "",  "system_user");
-	static $__desc_cttype_v_domain =    array("", "",  "domain");
-	static $__desc_cttype_v_vps =    array("", "",  "vps");
-	static $__desc_ip_address = array("", "",  "ip_address");
-	static $__desc_current_f = array("e", "",  "cs");
-	static $__desc_current_f_v_on = array("", "",  "current_session");
-	static $__desc_current_f_v_dull = array("", "",  "");
-	static $__desc_logintime = array("", "",  "login_time");
-	static $__desc_auxiliary_id = array("", "",  "auxiliary_id");
-	static $__desc_consuming_parent = array("", "",  "consuming_parent");
-	static $__desc_last_access = array("", "",  "last_access");
-	static $__desc_timeout = array("", "",  "timeout");
+	static $__desc_nname = array("", "", "session_id");
+	static $__desc_parent_name = array("", "", "client_name");
+	static $__desc_parent_name_f = array("", "", "client_name");
+	static $__desc_cttype = array("e", "", "t");
+	static $__desc_cttype_v_superadmin = array("", "", "superadmin");
+	static $__desc_cttype_v_admin = array("", "", "admin");
+	static $__desc_cttype_v_reseller = array("", "", "reseller");
+	static $__desc_cttype_v_customer = array("", "", "customer");
+	static $__desc_cttype_v_mailaccount = array("", "", "mail_account");
+	static $__desc_cttype_v_uuser = array("", "", "system_user");
+	static $__desc_cttype_v_domain = array("", "", "domain");
+	static $__desc_cttype_v_vps = array("", "", "vps");
+	static $__desc_ip_address = array("", "", "ip_address");
+	static $__desc_current_f = array("e", "", "cs");
+	static $__desc_current_f_v_on = array("", "", "current_session");
+	static $__desc_current_f_v_dull = array("", "", "");
+	static $__desc_logintime = array("", "", "login_time");
+	static $__desc_auxiliary_id = array("", "", "auxiliary_id");
+	static $__desc_consuming_parent = array("", "", "consuming_parent");
+	static $__desc_last_access = array("", "", "last_access");
+	static $__desc_timeout = array("", "", "timeout");
 
 	function get()
 	{

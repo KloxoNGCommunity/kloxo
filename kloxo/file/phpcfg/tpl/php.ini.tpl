@@ -37,7 +37,7 @@ asp_tags = Off
 precision = 14
 y2k_compliance = On
 unserialize_callback_func=
-allow_call_time_pass_reference = Off
+;allow_call_time_pass_reference = Off
 ;<?=$php54disable;?>safe_mode_gid = Off
 ;<?=$php54disable;?>safe_mode_include_dir =
 ;<?=$php54disable;?>safe_mode_exec_dir =
@@ -135,7 +135,7 @@ enable_dl = <?=$enable_dl_flag;?>
 
 
 ;### MR -- deprecated/disabled on php 5.3+
-<?=$php53disable;?>register_long_arrays = <?=$register_long_arrays_flag;?>
+;<?=$php53disable;?>register_long_arrays = <?=$register_long_arrays_flag;?>
 
 
 [Syslog]

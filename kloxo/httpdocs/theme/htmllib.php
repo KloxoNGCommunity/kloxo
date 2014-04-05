@@ -2154,8 +2154,8 @@ class HtmlLib
 			</tr>
 		</table>
 
-		<form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 		<!-- <form name="chmod" method="get" action="/display.php" accept-charset="utf-8"> -->
+		<form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 			<table cellpadding="5" cellspacing="0" border="0" width="325">
 				<tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
 					<td width="100" class="col"></td>
@@ -3093,7 +3093,11 @@ class HtmlLib
 
 	function get_get_from_post($ignore, $list)
 	{
-		$string = "";
+		global $sgbl;
+
+		// MR -- add token -- unnecessary except for form
+	//	$string = "token=" . $sgbl->__var_csrf_token . "&";
+		$string = '';
 
 		if (!$list) {
 			return $string;
@@ -3738,8 +3742,8 @@ class HtmlLib
 		$filtername = $object->getFilterVariableForThis($class);
 ?>
 
-		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 		<!-- <form name="form<?= $name ?>_page_<?= $place ?>" method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8"> -->
+		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
 			$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 			$this->print_current_input_vars(array('frm_hpfilter'));
@@ -3991,8 +3995,8 @@ class HtmlLib
 		</div>
 
 		<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto'>
-			<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
 			<!-- <form name="lpfform_rsearch" method="get" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8"> -->
+			<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
 				<table width=100% border=0 align="center" cellpadding=0
 				       style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
 					<tr>
@@ -4821,8 +4825,8 @@ class HtmlLib
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid #ddd">
 				<tr>
 					<td>
-						<form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 						<!-- <form name="perpage_<?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8"> -->
+						<form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 							<table cellpadding="0" cellspacing="0" border="0">
 								<tr>
 <?php
@@ -5724,18 +5728,18 @@ class HtmlLib
 			<tr>
 				<td width='10'></td>
 				<td align='left'>
-					<form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8">
 					<!-- <form name="graphselectjump" method="get" action="display.php" accept-charset="utf-8"> -->
+					<form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8">
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
 
-							<input type='hidden' id='frm_o_o[<?= $k ?>][class]' name='frm_o_o[<?= $k ?>][class]' value='<?= $v['class'] ?>'>
+						<input type='hidden' id='frm_o_o[<?= $k ?>][class]' name='frm_o_o[<?= $k ?>][class]' value='<?= $v['class'] ?>'>
 <?php
 			if (isset($v['nname'])) {
 ?>
 
-								<input type='hidden' id='frm_o_o[<?= $k ?>][nname]' name='frm_o_o[<?= $k ?>][nname]' value='<?= $v['nname'] ?>'>
+						<input type='hidden' id='frm_o_o[<?= $k ?>][nname]' name='frm_o_o[<?= $k ?>][nname]' value='<?= $v['nname'] ?>'>
 <?php
 			}
 		}
@@ -5863,8 +5867,8 @@ class HtmlLib
 		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 24px; margin: 0 25px;">
 			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;<?= $login->getKeywordUc('switchtoanother') ?>&nbsp;</span></div>
 			<div style="float:left;">
-				<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
 				<!-- <form name="topjumpselect" method="get" action='/display.php' accept-charset="utf-8"> -->
+				<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
@@ -7182,8 +7186,8 @@ class HtmlLib
 ?>
 
 			<div style="margin: 0 auto">
-				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $method ?>" <?= $onsubmit ?> accept-charset="utf-8">
 				<!-- <form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="get" <?= $onsubmit ?> accept-charset="utf-8"> -->
+				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $method ?>" <?= $onsubmit ?> accept-charset="utf-8">
 <?php
 	//	dprint($block->form);
 
@@ -9249,8 +9253,8 @@ class HtmlLib
 		$formname = 'lpform_' . $unique_name . $sortby;
 ?>
 
-		<form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
 		<!-- <form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
+		<form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">
@@ -9310,8 +9314,8 @@ class HtmlLib
 									<tr>
 										<td width="10" height="22"></td>
 										<td height="22">
-											<form name="lpform_search" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
 											<!-- <form name="lpform_search" method="get" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8"> -->
+											<form name="lpform_search" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
 
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
@@ -9323,8 +9327,8 @@ class HtmlLib
 										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><?=$search_text;?></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td height="22" width="70">
-											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
 											<!-- <form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
+											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" id="frm_clear_filter" name="frm_clear_filter" value="true">

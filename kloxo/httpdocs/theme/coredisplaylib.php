@@ -897,9 +897,7 @@ function __ac_desc_Update($object)
 			$ret = do_update($object, $subaction, $list);
 		} else {
 			if (!$list) {
-				print("List not set for Multiple Update <br/> ");
-
-				exit;
+				print_die("List not set for Multiple Update");
 			}
 
 			foreach ($list as $l) {
@@ -1300,7 +1298,6 @@ function __ac_desc_addform($object)
 ?>
 <!-- "ac-desc-addform" -->
 <?php
-
 	$cname = $ghtml->frm_o_cname;
 	$dttype = $ghtml->frm_dttype;
 
@@ -1660,6 +1657,8 @@ function create_xml($object, $stuff, $ret)
 	} else {
 		$button = $action;
 	}
+
+	$string[] = $ghtml->object_variable_hidden("frm_token", $sgbl->__var_csrf_token);
 
 	// MR -- change frm_change to hidden and button with frm_submit/frm_submit_all
 	// for fix updateall issue
@@ -2043,7 +2042,7 @@ function license_check()
 		$mess = "License Expired";
 ?>
 
-		<br/> <br/> <br/> <br/> <br/>
+		<br/> <br/>
 		<?=$mess?>
 <?php
 
@@ -2288,12 +2287,7 @@ function display_init()
 	init_language();
 
 	if ($sgbl->is_this_slave()) {
-?>
-
-		Slave Server
-<?php
-
-		exit;
+		display_die("Slave Server");
 	}
 
 	// The only thing that gets modified when the dbaction is not a modify action, is the ssession table. 
@@ -2326,7 +2320,7 @@ function lx_frm_inc()
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!$ghtml->iset("frm_action")) {
-		die("Action Not set <br/> ");
+		display_die('Action Not set');
 	}
 
 	$caction = $ghtml->frm_action;
@@ -2336,7 +2330,7 @@ function lx_frm_inc()
 	$cobject = $gbl->__c_object;
 
 	if (!function_exists($cgi_action)) {
-		die("Action not supported..\n");
+		display_die('Action not supported');
 	}
 
 	try {
@@ -2437,12 +2431,7 @@ function exit_if_under_maintenance()
 	$gen = $login->getObject('general')->generalmisc_b;
 
 	if ($gen->isOn("maintenance_flag")) {
-?>
-
-		<?=$g->text_maintenance_message?>
-<?php
-
-		exit;
+		display_die($g->text_maintenance_message);
 	}
 }
 
@@ -2603,5 +2592,11 @@ function print_quick_action($class)
 	$res .= "</form> <tr> <td align='right'> <a href='javascript:quickaction.submit()'> Go </a> </td> </tr> ";
 
 	return $res;
+}
+
+function display_die($string)
+{
+	die("<div style='width:400px; padding: 10px; margin: 0 auto; " .
+		"background-color: #fff; border: 1px solid #ddd;'>" . $string ."</div>");	
 }
 
