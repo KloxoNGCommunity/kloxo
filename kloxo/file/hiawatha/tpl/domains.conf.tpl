@@ -139,7 +139,7 @@ Directory {
 Directory {
     Path = /<?php echo $protectpath; ?>
 
-    PasswordFile = /home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>
+    PasswordFile = basic:/home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>
 
 }
 
