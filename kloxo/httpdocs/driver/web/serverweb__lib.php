@@ -214,6 +214,7 @@ class serverweb__ extends lxDriverClass
 		$this->rename_to_nonconf();
 
 		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
+
 		$this->remove_phpfpm();
 
 	//	exec("sh /script/fixphp --nolog");
@@ -274,7 +275,9 @@ class serverweb__ extends lxDriverClass
 	{
 		$phpbranch = getRpmBranchInstalled('php');
 
-		setRpmRemoved("{$phpbranch}-fpm");
+		// MR -- no remove and just off/disable
+	//	setRpmRemoved("{$phpbranch}-fpm");
+		exec("chkconfig php-fpm off; service php-fpm stop");
 	}
 
 	function rename_to_nonconf()

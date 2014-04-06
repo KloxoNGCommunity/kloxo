@@ -148,7 +148,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
             }
 
-            // if (strpos($phptype, '_suphp') !== false) {
+            //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -159,8 +159,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-             // } elseif (strpos($phptype, '_ruid2') !== false) {
-             if (strpos($phptype, '_ruid2') !== false) {
+             //} elseif (strpos($phptype, '_ruid2') !== false) {
+             //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -169,14 +169,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-            } elseif (strpos($phptype, '_itk') !== false) {
+            //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'php-fpm_') !== false) {
+            //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -190,26 +190,18 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'fcgid_') !== false) {
+            //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
-        <Directory "<?php echo $docroot; ?>/">
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-            } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+            //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -217,7 +209,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-            }
+            //}
 ?>
 
     <Location />
@@ -225,6 +217,23 @@ foreach ($certnamelist as $ip => $certname) {
         # Options +Indexes +FollowSymlinks
         Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
+<?php
+            //if (strpos($phptype, 'fcgid_') === false) {
+?>
+
+    <Directory "<?php echo $disablepath; ?>/">
+        AllowOverride All
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+<?php
+            //}
+?>
 
 </VirtualHost>
 
@@ -283,7 +292,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                 }
 
-                // if (strpos($phptype, '_suphp') !== false) {
+                //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -294,8 +303,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                // } elseif (strpos($phptype, '_ruid2') !== false) {
-                if (strpos($phptype, '_ruid2') !== false) {
+                //} elseif (strpos($phptype, '_ruid2') !== false) {
+                //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -304,14 +313,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, '_itk') !== false) {
+                //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -325,26 +334,18 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'fcgid_') !== false) {
+                //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
-        <Directory "<?php echo $docroot; ?>/">
+        <Directory "<?php echo $webmaildocroot; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-                } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -352,7 +353,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                }
+                //}
 ?>
 
     <Location />
@@ -360,6 +361,23 @@ foreach ($certnamelist as $ip => $certname) {
         # Options +Indexes +FollowSymlinks
         Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
+<?php
+                //if (strpos($phptype, 'fcgid_') === false) {
+?>
+
+    <Directory "<?php echo $webmaildocroot; ?>/">
+        AllowOverride All
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+<?php
+                //}
+?>
 
 </VirtualHost>
 
@@ -447,7 +465,7 @@ foreach ($certnamelist as $ip => $certname) {
             }
         }
 
-        // if (strpos($phptype, '_suphp') !== false) {
+        //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -461,8 +479,8 @@ foreach ($certnamelist as $ip => $certname) {
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
 <?php
-         // } elseif (strpos($phptype, '_ruid2') !== false) {
-         if (strpos($phptype, '_ruid2') !== false) {
+         //} elseif (strpos($phptype, '_ruid2') !== false) {
+         //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -473,7 +491,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     </IfModule>
 <?php
-        } elseif (strpos($phptype, '_itk') !== false) {
+        //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
@@ -485,7 +503,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Location>
     </IfModule>
 <?php
-        } elseif (strpos($phptype, 'php-fpm_') !== false) {
+        //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -499,26 +517,18 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-        } elseif (strpos($phptype, 'fcgid_') !== false) {
+        //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
         <Directory "<?php echo $rootpath; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+        //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -526,7 +536,23 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
     </IfModule>
 <?php
-        }
+        //}
+
+        //if (strpos($phptype, 'fcgid_') === false) {
+?>
+
+    <Directory "<?php echo $rootpath; ?>/">
+        AllowOverride All
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+<?php
+        //}
 ?>
 
     <IfModule mod_php5.c>
@@ -688,7 +714,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                     }
 
-                    // if (strpos($phptype, '_suphp') !== false) {
+                    //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -702,8 +728,8 @@ foreach ($certnamelist as $ip => $certname) {
         suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
     </IfModule>
 <?php
-                     // } elseif (strpos($phptype, '_ruid2') !== false) {
-                     if (strpos($phptype, '_ruid2') !== false) {
+                     //} elseif (strpos($phptype, '_ruid2') !== false) {
+                     //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -714,7 +740,7 @@ foreach ($certnamelist as $ip => $certname) {
 
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, '_itk') !== false) {
+                    //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
@@ -725,7 +751,7 @@ foreach ($certnamelist as $ip => $certname) {
         </Location>
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                    //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -739,26 +765,18 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'fcgid_') !== false) {
+                    //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
-        <Directory "<?php echo $webmaildocroot; ?>/">
+        <Directory "<?php echo $redirfullpath; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                    //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -766,8 +784,11 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
     </IfModule>
 <?php
-                    }
+                    //}
+
+                    //if (strpos($phptype, 'fcgid_') === false) {
 ?>
+
 
     <Directory "<?php echo $redirfullpath; ?>/">
         AllowOverride All
@@ -778,9 +799,11 @@ foreach ($certnamelist as $ip => $certname) {
         <IfVersion >= 2.4>
             Require all granted
         </IfVersion>
-        # Options +Indexes +FollowSymlinks
-        Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Directory>
+<?php
+                   //}
+
+?>
 
 </VirtualHost>
 
@@ -850,7 +873,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                     }
 
-                    // if (strpos($phptype, '_suphp') !== false) {
+                    //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -861,8 +884,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                     // } elseif (strpos($phptype, '_ruid2') !== false) {
-                     if (strpos($phptype, '_ruid2') !== false) {
+                     //} elseif (strpos($phptype, '_ruid2') !== false) {
+                     //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -871,14 +894,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, '_itk') !== false) {
+                    //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                    //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -892,26 +915,18 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'fcgid_') !== false) {
+                    //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
-        <Directory "<?php echo $docroot; ?>/">
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                    //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -919,7 +934,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                    }
+                    //}
 ?>
 
     <Location />
@@ -927,6 +942,23 @@ foreach ($certnamelist as $ip => $certname) {
         # Options +Indexes +FollowSymlinks
         Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
+<?php
+                    //if (strpos($phptype, 'fcgid_') === false) {
+?>
+
+    <Directory "<?php echo $disablepath; ?>/">
+        AllowOverride All
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+<?php
+                    //}
+?>
 
 </VirtualHost>
 
@@ -985,7 +1017,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                         }
 
-                        // if (strpos($phptype, '_suphp') !== false) {
+                        //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -996,8 +1028,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                         // } elseif (strpos($phptype, '_ruid2') !== false) {
-                         if (strpos($phptype, '_ruid2') !== false) {
+                         //} elseif (strpos($phptype, '_ruid2') !== false) {
+                         //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -1006,14 +1038,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, '_itk') !== false) {
+                        //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                        //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -1027,26 +1059,18 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, 'fcgid_') !== false) {
+                        //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
-        <Directory "<?php echo $docroot; ?>/">
+        <Directory "<?php echo $webmaildocroot; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                        //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -1054,7 +1078,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                        }
+                        //}
 ?>
 
     <Location />
@@ -1062,6 +1086,23 @@ foreach ($certnamelist as $ip => $certname) {
         # Options +Indexes +FollowSymlinks
         Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
+<?php
+                        //if (strpos($phptype, 'fcgid_') === false) {
+?>
+
+    <Directory "<?php echo $webmaildocroot; ?>/">
+        AllowOverride All
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+<?php
+                        //}
+?>
 
 </VirtualHost>
 
@@ -1108,7 +1149,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
                     }
 
-                    // if (strpos($phptype, '_suphp') !== false) {
+                    //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -1119,8 +1160,8 @@ foreach ($certnamelist as $ip => $certname) {
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                     // } elseif (strpos($phptype, '_ruid2') !== false) {
-                     if (strpos($phptype, '_ruid2') !== false) {
+                     //} elseif (strpos($phptype, '_ruid2') !== false) {
+                     //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -1129,14 +1170,14 @@ foreach ($certnamelist as $ip => $certname) {
         RMinUidGid apache apache
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, '_itk') !== false) {
+                    //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                    //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -1150,26 +1191,18 @@ foreach ($certnamelist as $ip => $certname) {
         </Files>
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'fcgid_') !== false) {
+                    //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
-        <Directory "<?php echo $docroot; ?>/">
+        <Directory "<?php echo $disablepath; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-                    } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                    //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -1177,7 +1210,7 @@ foreach ($certnamelist as $ip => $certname) {
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                    }
+                    //}
 ?>
 
     <Location />
@@ -1185,6 +1218,23 @@ foreach ($certnamelist as $ip => $certname) {
         # Options +Indexes +FollowSymlinks
         Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
+<?php
+                    //if (strpos($phptype, 'fcgid_') === false) {
+?>
+
+    <Directory "<?php echo $disablepath; ?>/">
+        AllowOverride All
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+<?php
+                   //}
+?>
 
 </VirtualHost>
 
@@ -1243,7 +1293,7 @@ DirectoryIndex <?php echo $indexorder; ?>
 <?php
                         }
 
-                        // if (strpos($phptype, '_suphp') !== false) {
+                        //if (strpos($phptype, '_suphp') !== false) {
 ?>
 
     <IfModule suexec.c>
@@ -1254,8 +1304,8 @@ DirectoryIndex <?php echo $indexorder; ?>
         SuPhp_UserGroup apache apache
     </IfModule>
 <?php
-                         // } elseif (strpos($phptype, '_ruid2') !== false) {
-                         if (strpos($phptype, '_ruid2') !== false) {
+                         //} elseif (strpos($phptype, '_ruid2') !== false) {
+                         //if (strpos($phptype, '_ruid2') !== false) {
 ?>
 
     <IfModule mod_ruid2.c>
@@ -1264,14 +1314,14 @@ DirectoryIndex <?php echo $indexorder; ?>
         RMinUidGid apache apache
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, '_itk') !== false) {
+                        //} elseif (strpos($phptype, '_itk') !== false) {
 ?>
 
     <IfModule itk.c>
         AssignUserId apache apache
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, 'php-fpm_') !== false) {
+                        //} elseif (strpos($phptype, 'php-fpm_') !== false) {
 ?>
 
     <IfModule mod_fastcgi.c>
@@ -1285,26 +1335,18 @@ DirectoryIndex <?php echo $indexorder; ?>
         </Files>
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, 'fcgid_') !== false) {
+                        //} elseif (strpos($phptype, 'fcgid_') !== false) {
 ?>
 
     <IfModule mod_fcgid.c>
-        <Directory "<?php echo $docroot; ?>/">
+        <Directory "<?php echo $webmaildocroot; ?>/">
             Options +ExecCGI
-            AllowOverride All
             AddHandler fcgid-script .php
             FCGIWrapper /home/kloxo/client/php5.fcgi .php
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
         </Directory>
     </IfModule>
 <?php
-                        } elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
+                        //} elseif (strpos($phptype, 'proxy-fcgi_') !== false) {
 ?>
 
     <IfModule mod_proxy_fcgi.c>
@@ -1312,7 +1354,7 @@ DirectoryIndex <?php echo $indexorder; ?>
         ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
     </IfModule>
 <?php
-                        }
+                        //}
 ?>
 
     <Location />
@@ -1320,6 +1362,23 @@ DirectoryIndex <?php echo $indexorder; ?>
         # Options +Indexes +FollowSymlinks
         Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
     </Location>
+<?php
+                        //if (strpos($phptype, 'fcgid_') === false) {
+?>
+
+    <Directory "<?php echo $webmaildocroot; ?>/">
+        AllowOverride All
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+<?php
+                       //}
+?>
 
 </VirtualHost>
 

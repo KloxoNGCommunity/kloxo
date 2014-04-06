@@ -7780,7 +7780,7 @@ function getCSRFToken($length = 8) {
 function validateCSRFToken($token) {
 
 	if (isset($_SESSION['csrf_tokens'][$token])) {
-		unset($_SESSION['csrf_tokens'][$token]);
+	//	unset($_SESSION['csrf_tokens'][$token]);
 
 		return true;
 	}
@@ -7793,8 +7793,8 @@ function isRemotePost()
 {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// or possibly, count($_POST) > 0
-		$host = preg_replace('#^www\.#', '', $_SERVER['SERVER_NAME']);
-     
+		$host = preg_replace('#^www\.#', '', $_SERVER['HTTP_HOST']);
+
 		if ($host AND $_SERVER['HTTP_REFERER']) {
 			$refparts = @parse_url($_SERVER['HTTP_REFERER']);
 			$refhost = $refparts['host'] . ((int)$refparts['port'] ? ':' . (int)$refparts['port'] : '');

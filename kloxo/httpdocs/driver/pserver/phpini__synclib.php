@@ -102,6 +102,8 @@ class phpini__sync extends Lxdriverclass
 			file_put_contents($phpfpm_target, $phpfpm_parse);
 
 			lxfile_cp($phpfpm_main, "/etc/php-fpm.conf");
+
+			lxfile_unix_chmod($fcgid_target, "0755");
 		} else {
 			$input['phpinipath'] = "/home/kloxo/client/{$user}";
 			$input['phpcgipath'] = "/usr/bin/php-cgi";
@@ -134,10 +136,15 @@ class phpini__sync extends Lxdriverclass
 
 			lxfile_unix_chown($htaccess_target, "{$user}:apache");
 
+			lxfile_unix_chmod($fcgid_target, "0755");
+
 		}
 
 		// MR -- also restart php-fpm
-		createRestartFile('php-fpm');
+		$phptype = db_get_value("serverweb", "pserver-" . $this->syncserver, "php-type");
+		if (strpos($phptype, 'php-fpm') !== false) {
+			createRestartFile('php-fpm');
+		}
 
 		createRestartFile($this->main->__var_webdriver);
 
@@ -204,7 +211,11 @@ class phpini__sync extends Lxdriverclass
 	{
 		$this->createIniFile();
 
-		createRestartFile("php-fpm");
+		// MR -- also restart php-fpm
+		$phptype = db_get_value("serverweb", "pserver-" . $this->syncserver, "php-type");
+		if (strpos($phptype, 'php-fpm') !== false) {
+			createRestartFile('php-fpm');
+		}
 	}
 
 	function updateSelected()

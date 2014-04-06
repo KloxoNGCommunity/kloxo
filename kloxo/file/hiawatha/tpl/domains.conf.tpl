@@ -140,6 +140,7 @@ Directory {
     Path = /<?php echo $protectpath; ?>
 
     PasswordFile = /home/httpd/<?php echo $domainname; ?>/__dirprotect/<?php echo $protectfile; ?>
+
 }
 
 <?php

@@ -41,7 +41,7 @@ yum -y install apr${v} apr-util${v} aspell${v} atk${v} avahi-libs${v} bzip2${v} 
 	libXfixes${v} libXfont${v} libXft${v} libXi${v} libXinerama${v} libXrandr${v} libXrender${v} libXt${v} lm_sensors${v} lm_sensors-libs${v} \
 	mhash${v} ncurses${v} net-snmp${v} OpenEXR-libs${v} openldap${v} openssl${v} ORBit2${v} pam${v} pango${v} perl${v} polkit${v} \
 	postgresql${v} pspell${v} recode${v} redhat-lsb${v} sgml-common${v} sqlite${v} t1lib${v} unixODBC${v} urw-fonts${v} \
-	xorg-x11-font-utils${v} zlib${v} redis{v} >/dev/null 2>&1
+	xorg-x11-font-utils${v} zlib${v} redis${v} >/dev/null 2>&1
 
 
 echo "- Download '${base_name}' all rpms... Please wait!"
