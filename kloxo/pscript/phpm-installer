@@ -30,35 +30,81 @@ else
 	v=""
 fi
 
-echo "- Install php general dependencies rpms... Please wait!"
-yum -y install apr${v} apr-util${v} aspell${v} atk${v} avahi-libs${v} bzip2${v} cairo${v} ConsoleKit${v} ConsoleKit-libs${v} cups-libs${v} \
-	curl${v} cyrus-sasl${v} db4${v} dbus${v} e2fsprogs${v} eggdbus${v} elfutils-libelf${v} enchant${v} expat${v} file${v} \
-	fileutils${v} fontconfig${v} freetds${v} freetype${v} GConf2${v} gcc-c++${v} gd${v} GeoIP${v} ghostscript${v} ghostscript-fonts${v} \
-	gmp${v} gtk2${v} hicolor-icon-theme${v} icui18n${v} ilmbase${v} ImageMagick${v} jasper-libs${v} krb5${v} lcms-libs${v} libc-client${v} \
-	libcroco${v} libedit${v} libevent${v} libfontenc${v} libgomp${v} libgsf${v} libicu${v} libIDL${v} libjpeg${v} liblzf${v} \
-	libmcrypt${v} libmemcached${v} libpng${v} librsvg2${v} libSM${v} libstdc++${v} libthai${v} libtiff${v} libtool${v} libtool-ltdl${v} \
-	libwmf-lite${v} libxml2${v} libxslt${v} libtidy${v} libvpx${v} libXpm${v} libXcomposite${v} libXcursor${v} libXdamage${v} libXext${v} \
-	libXfixes${v} libXfont${v} libXft${v} libXi${v} libXinerama${v} libXrandr${v} libXrender${v} libXt${v} lm_sensors${v} lm_sensors-libs${v} \
-	mhash${v} ncurses${v} net-snmp${v} OpenEXR-libs${v} openldap${v} openssl${v} ORBit2${v} pam${v} pango${v} perl${v} polkit${v} \
-	postgresql${v} pspell${v} recode${v} redhat-lsb${v} sgml-common${v} sqlite${v} t1lib${v} unixODBC${v} urw-fonts${v} \
-	xorg-x11-font-utils${v} zlib${v} redis${v} >/dev/null 2>&1
-
-
-echo "- Download '${base_name}' all rpms... Please wait!"
 mkdir -p /opt/${base_name}
+
+DATE=$(date +"%Y%m%d%H%M")
+
+x="- Install php general dependencies rpms... Please wait!"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
+c=""
+
+x="-- Check installed dependencies rpms"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
+for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
+	curl cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
+	fileutils fontconfig freetds freetype GConf2 gcc-c++ gd${v} GeoIP ghostscript ghostscript-fonts \
+	gmp gtk2 hicolor-icon-theme icui18n ilmbase ImageMagick jasper-libs krb5 lcms-libs libc-client \
+	libcroco libedit libevent libfontenc libgomp libgsf libicu libIDL libjpeg liblzf \
+	libmcrypt libmemcached libpng librsvg2 libSM libstdc++ libthai libtiff libtool libtool-ltdl \
+	libwmf-lite libxml2 libxslt libtidy libvpx libXpm libXcomposite libXcursor libXdamage libXext \
+	libXfixes libXfont libXft libXi libXinerama libXrandr libXrender libXt lm_sensors lm_sensors-libs \
+	mhash ncurses net-snmp OpenEXR-libs openldap openssl ORBit2 pam pango perl polkit \
+	postgresql pspell recode redhat-lsb sgml-common sqlite t1lib unixODBC urw-fonts \
+	xorg-x11-font-utils zlib redis ; do
+
+	rpm_detect=$(rpm -qa|grep ${i}-)
+
+	x="--- Check for ${i} installed or not"
+	echo $x >>/opt/${base_name}/install${DATE}.log
+
+	if [ "${rpm_detect}" == "" ] ; then
+		c=${c}${i}${v}" "
+
+		x="---- ${i} not installed"
+		echo $x >>/opt/${base_name}/install${DATE}.log
+	else
+		x="---- ${i} already installed"
+		echo $x >>/opt/${base_name}/install${DATE}.log
+	fi
+done
+
+if [ "${c}" != "" ] ; then
+	x="-- Install for not installed dependencies rpms"
+	echo $x
+	echo $x >>/opt/${base_name}/install${DATE}.log
+	yum -y install $c >>/opt/${base_name}/install${DATE}.log
+fi
+
+## MR -- no need delete because will be overrite if new files.
+#find /opt/${base_name} -type f -not -name '_*.ini' | xargs rm
+
+x="- Download all rpms (debug and devel will be deleted)... Please wait!"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
 cd /opt/${base_name}
-yumdownloader ${pack_name}-*  >/dev/null 2>&1
+yumdownloader ${pack_name}-* >>/opt/${base_name}/install${DATE}.log
 rm -rf *-debug*
 rm -rf *-devel*
 
-echo "- Extract '${base_name}' all rpms..."
+x="- Extract all rpms to '/opt/${base_name}'"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
 for entry in $(ls ./*.rpm) ; do
-	rpm2cpio $entry | cpio -idmv >/dev/null 2>&1
+	rpm2cpio $entry | cpio -idmv >/dev/null 2>$1
 done
 
 rm -rf *.rpm
 
-echo "- Disable '${base_name}' certain modules..."
+x="- Disable certain modules (rename to .nonini) in '/etc/${base_name}/etc/php.d'"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
 for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 	apc apcu imagick interbase ioncube-loader memcache memcached mssql debug \
 	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
@@ -67,12 +113,20 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 	if [ -f /opt/${base_name}/etc/php.d/${i}.ini ] ; then
 		if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then
 			## MR -- using mysqlnd instead mysql/mysqli in php54s
+			x="-- Enable 'mysqlnd' instead 'mysql' modules in '/etc/${base_name}/etc/php.d'"
+			echo $x
+			echo $x >>/opt/${base_name}/install${DATE}.log
+
 			if [ -f /opt/${base_name}/etc/php.d/mysql.ini ] ; then
 				mv -f /opt/${base_name}/etc/php.d/mysql.ini /opt/${base_name}/etc/php.d/mysql.nonini
 				mv -f /opt/${base_name}/etc/php.d/mysqli.ini /opt/${base_name}/etc/php.d/mysqli.nonini
 				mv -f /opt/${base_name}/etc/php.d/pdo_mysql.ini /opt/${base_name}/etc/php.d/pdo_mysql.nonini
 			fi
 		else
+			x="-- Disable '${i}' modules in '/etc/${base_name}/etc/php.d'"
+			echo $x
+			echo $x >>/opt/${base_name}/install${DATE}.log
+
 			mv -f /opt/${base_name}/etc/php.d/${i}.ini /opt/${base_name}/etc/php.d/${i}.nonini
 		fi
 	fi
@@ -80,8 +134,15 @@ done
 
 cd /
 
-sh /script/phpm-config-setup $base_name
+sh /script/phpm-config-setup $base_name ${DATE}
 
 echo "*** END '$1' install ***"
 echo
+
+echo "Note:"
+echo " - See '/opt/${base_name}/install${DATE}.log' for detail install process"
+echo " - Example: copy 'xcache.nonini' to '_xcache.ini' for enable 'xcache' module"
+echo "      in '/etc/${base_name}/etc/php.d'"
+echo
+
 

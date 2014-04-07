@@ -1,6 +1,8 @@
 #!/bin/sh
 
 base_name="${1}"
+DATE="${2}"
+
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
 
@@ -14,8 +16,31 @@ cd /opt/${base_name}
 
 mkdir -p /opt/${base_name}/custom
 
-echo "- Copy '${base_name}' sh script to custom dir..."
+x="- Copy certain files to '/opt/${base_name}/custom'"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
 cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/* /opt/${base_name}/custom/
+
+x="- Set .sh to 755"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
+chmod 755 /opt/${base_name}/custom/*.sh
+
+x="- Create .sh symlink"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
+for i in cgi cli ls fpm ; do
+	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/${base_name}-${i}.sh ] ;  then
+		x="-- From '/opt/${base_name}/custom/${base_name}-${i}.sh' to '/usr/bin/${base_name}-${i}'"
+		echo $x
+		echo $x >>/opt/${base_name}/install${DATE}.log
+
+		ln -sf /opt/${base_name}/custom/${base_name}-${i}.sh /usr/bin/${base_name}-${i}
+	fi
+done
 
 #if [ "${src_name}" != "php52" ] ; then
 #	## MR -- php53/php54/php55 must to blank extenstion_dir in php.ini and set directly to each module ini
@@ -44,16 +69,10 @@ cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/* /opt/${base_name}/custom/
 	#sed -i 's:/usr/lib/php/modules:/usr/lib'${uname_m}'/php/modules:' /opt/${base_name}/custom/${base_name}.ini
 
 	if [ "${uname_m}" == "64" ] ; then
+		x="- Create symlink from /opt/${base_name}/usr/lib64 to /opt/${base_name}/usr/lib"
+		echo $x
+		echo $x >>/opt/${base_name}/install${DATE}.log
+
 		ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib
 	fi
 #fi
-
-echo "- Set '${base_name}' sh script to 755 and create symlink..."
-
-chmod 755 /opt/${base_name}/custom/*.sh
-
-for i in cgi cli ls fpm ; do
-	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/${base_name}-${i}.sh ] ;  then
-		ln -sf /opt/${base_name}/custom/${base_name}-${i}.sh /usr/bin/${base_name}-${i}
-	fi
-done

@@ -1,5 +1,12 @@
 #!/bin/sh
-export PHPRC="/etc"
-export PHP_FCGI_CHILDREN=5
+
+php_rc='/etc'
+php_scan='/etc/php.d'
+php_prog='/usr/bin/php-cgi'
+
+#export PHPRC=$php_rc
+export PHP_INI_SCAN_DIR=$php_scan
+export PHP_FCGI_CHILDREN=6
 export PHP_FCGI_MAX_REQUESTS=1000
-exec /usr/bin/php-cgi
+
+exec $php_prog -c $php_rc $*
