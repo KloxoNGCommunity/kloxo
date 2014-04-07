@@ -6,43 +6,38 @@ class serverweb__ extends lxDriverClass
 	{
 	}
 
-
 	function dbactionUpdate($subaction)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		switch ($subaction) {
 			case "apache_optimize":
-				$this->set_apacheoptimize();
+				$this->set_apache_optimize();
 
 				break;
-
 			case "fix_chownchmod":
-				$this->set_fixchownchmod();
+				$this->set_fix_chownchmod();
 
 				break;
-
 			case "mysql_convert":
-				$this->set_mysqlconvert();
+				$this->set_mysql_convert();
 
 				break;
-
 			case "php_type":
-				$this->set_phptype();
+				$this->set_php_type();
 
 				break;
-
 			case "php_branch":
-				$this->set_phpbranch();
+				$this->set_php_branch();
+
+				break;
+			case "multiple_php_install":
+				$this->set_multiple_php_install();
 
 				break;
 		}
 	}
 
-	function set_apacheoptimize()
+	function set_apache_optimize()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		$nolog = '--nolog';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
@@ -50,18 +45,17 @@ class serverweb__ extends lxDriverClass
 		switch ($this->main->apache_optimize) {
 			case 'default':
 				lxshell_return("lxphp.exe", $scripting, "--select=default", $nolog);
-				break;
 
+				break;
 			case 'optimize':
 				lxshell_return("lxphp.exe", $scripting, "--select=optimize", $nolog);
+
 				break;
 		}
 	}
 
-	function set_fixchownchmod()
+	function set_fix_chownchmod()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		$nolog = '--nolog';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
@@ -69,20 +63,21 @@ class serverweb__ extends lxDriverClass
 		switch ($this->main->fix_chownchmod) {
 			case 'fix-ownership':
 				lxshell_return("lxphp.exe", $scripting, "--select=chmod", $nolog);
+
 				break;
 			case 'fix-permissions':
 				lxshell_return("lxphp.exe", $scripting, "--select=chown", $nolog);
+
 				break;
 			case 'fix-ALL':
 				lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
+
 				break;
 		}
 	}
 
-	function set_mysqlconvert()
+	function set_mysql_convert()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		$nolog = '--nolog';
 
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
@@ -95,22 +90,22 @@ class serverweb__ extends lxDriverClass
 
 		switch ($this->main->mysql_convert) {
 			case 'to-myisam':
-				$t = 'myisam';
 				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $charset, $nolog);
+
 				break;
 			case 'to-innodb':
 				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $charset, $nolog);
+
 				break;
 			case 'to-aria':
 				lxshell_return("lxphp.exe", $scripting, "--engine=aria", $nolog);
+
 				break;
 		}
 	}
 
-	function set_phptype()
+	function set_php_type()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		$nolog = '--nolog';
 
 		$t = (isset($this->main->php_type)) ? $this->main->php_type : null;
@@ -321,7 +316,7 @@ class serverweb__ extends lxDriverClass
 		setRpmInstalled("httpd");
 	}
 
-	function set_phpbranch($branch = null)
+	function set_php_branch($branch = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
@@ -376,12 +371,12 @@ class serverweb__ extends lxDriverClass
 		$phpbranch = getRpmBranchInstalled('php');
 
 		if (!file_exists('/usr/bin/php_pure')) {
-			$this->set_phpbranch('php52');
+			$this->set_php_branch('php52');
 
 			lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
 			lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
 
-			$this->set_phpbranch($phpbranch);
+			$this->set_php_branch($phpbranch);
 		}
 
 	}
@@ -419,5 +414,17 @@ class serverweb__ extends lxDriverClass
 		}
 
 		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
+	}
+
+	function set_multiple_php_install()
+	{
+		return;
+
+		// MR -- TODO: this function still not work. Trouble with $this->main->multiple_php_install
+		$a = $this->main->multiple_php_install;
+
+		foreach ($a as $k => $v) {
+			lxshell_return("sh", "/script/{$v}-installer", "--nolog");
+		}
 	}
 }

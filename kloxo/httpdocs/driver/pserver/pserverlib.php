@@ -14,6 +14,7 @@ class pserver extends pservercore {
 
 	static $__desc_sshconfig_l = array('', '', '', '');
 	static $__desc_phpini_o = array("db", "", "");
+	static $__desc_serverweb_o = array("db", "", "");
 
 	Function display($var)
 	{

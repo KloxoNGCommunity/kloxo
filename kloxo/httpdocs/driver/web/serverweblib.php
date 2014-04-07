@@ -19,11 +19,15 @@ class serverweb extends lxdb
 
 	static $__desc_php_branch = array("", "", "php_branch");
 
+	static $__desc_multiple_php_install = array("", "", "multiple_php_install");
+
 	function createShowUpdateform()
 	{
 		$uflist['edit'] = null;
 
 		$uflist['php_branch'] = null;
+
+		$uflist['multiple_php_install'] = null;
 
 		if (isWebProxyOrApache()) {
 			$uflist['php_type'] = null;
@@ -38,8 +42,6 @@ class serverweb extends lxdb
 
 	function updateform($subaction, $param)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		switch($subaction) {
 			case "apache_optimize":
 				$vlist['apache_optimize'] = array('s', array('---No Change---', 'default', 'optimize'));
@@ -80,7 +82,7 @@ class serverweb extends lxdb
 					'php-fpm_event', 'php-fpm_worker',
 					'fcgid_event', 'fcgid_worker'));
 	
-				$vlist['secondary_php'] = array('f', 'on', 'off');
+				$vlist['secondary_php'] = array('f', array('on', 'off'));
 
 				if (file_exists("/etc/httpd/conf.d/suphp52.conf")) {
 					$this->setDefaultValue('secondary_php', 'on');
@@ -92,6 +94,45 @@ class serverweb extends lxdb
 				$vlist['php_branch'] = array('s', $a);
 
 				$this->setDefaultValue('php_branch', getRpmBranchInstalledOnList('php'));
+
+				break;
+			case "multiple_php_install":
+				$a = getRpmBranchListOnList('php');
+
+				$c = array();
+
+				foreach ($a as $k => $v) {
+					if (strpos($v, 'php_(') !== false) {
+						unset($a[$k]);
+					} else {
+						$b = explode('_(', $v);
+						$a[$k] = $b[0];
+
+						if (strpos($a[$k], 'u') !== false) {
+							$c[] = str_replace('u', '', $a[$k]);
+						}
+					}
+				}
+
+				$a = array_diff($a, $c);
+
+				foreach($a as $k => $v) {
+					$a[$k] = str_replace('u', '', $v) . "m";					
+				}
+
+				$d = glob("/opt/*m/usr/bin/php");
+
+				foreach ($d as $k => $v) {
+					$e = str_replace('/opt/', '', $v);
+					$e = str_replace('/usr/bin/php', '', $e);
+					$d[$k] = $e;
+				}
+
+				$f = array_diff($a, $d);
+
+				$vlist['multiple_php_install'] = array("U", $a);
+
+				$this->setDefaultValue('multiple_php_install', $f);
 
 				break;
 			default:
@@ -107,5 +148,4 @@ class serverweb extends lxdb
 	{
 		return $parent->getClName();
 	}
-
 }
