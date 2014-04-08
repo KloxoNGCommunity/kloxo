@@ -5173,6 +5173,14 @@ abstract class Lxclass
 				}
 			}
 
+			if ($this->ccenter_standard === 'Fix - PHP') {
+				$this->ccenter_command = 'sh /script/fixphp --server=all;';
+
+				if ($param['ccenter_restart'] === 'on') {
+					$this->ccenter_command .= 'sh /script/restart-web --server=all;';
+				}
+			}
+
 			if ($this->ccenter_standard === 'Fix - Mail') {
 				$this->ccenter_command = 'sh /script/fixmail-all --server=all;';
 
@@ -5228,7 +5236,7 @@ abstract class Lxclass
 		}
 
 		$vlist['ccenter_standard'] = array('s', array('--- Not Selected ---', 
-			'Fix - DNS', 'Fix - Web', 'Fix - Mail', 'Fix - FTP', 'Fix - ALL', 
+			'Fix - DNS', 'Fix - Web', 'Fix - PHP', 'Fix - Mail', 'Fix - FTP', 'Fix - ALL', 
 			'Fix - Traffic', 'List - Fix', 'List - Restart', 'List - ALL'));
 
 		$this->setDefaultValue('ccenter_standard', '--- Not Selected ---');

@@ -1311,6 +1311,7 @@ $__description["no_fix_config"] = array("No fix config");
 
 // MR -- in 'webservr config'
 $__description["php_branch"] = array("PHP Branch");
+$__description["php_used"] = array("PHP Used");
 
 $__description["domain_administer"] = array("Domain Administer");
 
@@ -1339,4 +1340,6 @@ $__description["multiple_php_ready"] = array("Multiple PHP Ready");
 $__description["multiple_php_ratio"] = array("Multiple PHP Ratio");
 $__description["php_selected"] = array("PHP Selected");
 
+
 $__description["multiple_php_install"] = array("Multiple PHP Install");
+$__description["multiple_php_already_installed"] = array("Multiple PHP Already Installed");

@@ -18,12 +18,16 @@ class serverweb extends lxdb
 	static $__desc_fix_chownchmod = array("", "", "fix_chownchmod");
 
 	static $__desc_php_branch = array("", "", "php_branch");
+	static $__desc_php_used = array("", "", "php_used");
 
 	static $__desc_multiple_php_install = array("", "", "multiple_php_install");
+	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
 
 	function createShowUpdateform()
 	{
 		$uflist['edit'] = null;
+
+		$uflist['php_used'] = null;
 
 		$uflist['php_branch'] = null;
 
@@ -69,9 +73,9 @@ class serverweb extends lxdb
 
 				break;
 			case "php_type":
-				if (!db_get_value("serverweb", "pserver-". $login->syncserver, "php_type")) {
+				if (!db_get_value("serverweb", "pserver-". $this->syncserver, "php_type")) {
 					db_set_default("serverweb", "php_type", "php-fpm_event", 
-						"nname = 'pserver-{$login->syncserver}'");
+						"nname = 'pserver-{$this->syncserver}'");
 					$this->setDefaultValue('php_type', 'php-fpm_event');
 				}
 
@@ -130,11 +134,52 @@ class serverweb extends lxdb
 
 				$f = array_diff($a, $d);
 
+				$g = implode(" ", $d);
+
+				$vlist['multiple_php_already_installed'] = array("M", $g);				
+
 				$vlist['multiple_php_install'] = array("U", $a);
 
 				$this->setDefaultValue('multiple_php_install', $f);
 
 				break;
+			case "php_used":
+				$d = glob("/opt/*m/usr/bin/php");
+
+				foreach ($d as $k => $v) {
+					$e = str_replace('/opt/', '', $v);
+					$e = str_replace('/usr/bin/php', '', $e);
+					$d[$k] = $e;
+
+					if ($e === 'php52m') {
+						unset($d[$k]);
+					}
+				}
+
+				$s = '--Use PHP Branch--';
+
+				$d = array_merge(array($s), $d);
+
+				$vlist['php_used'] = array('s', $d);
+
+				foreach ($d as $k => $v) {
+
+					if ($v === $s) {
+						$t = "'prog=\"php-fpm\"'";
+					} else {
+						$t = "'custom_name=\"{$v}\"'";
+					}
+
+					exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out);
+
+					if ($out[0]) {
+						$this->setDefaultValue('php_used', $v);
+						break;
+					}
+				}
+
+				break;
+
 			default:
 				$vlist['__v_button'] = array();
 

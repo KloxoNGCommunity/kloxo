@@ -312,7 +312,7 @@ class HtmlLib
 ?>
 
 				<td width="16%" align="left">
-					<span style="color: #bb3333;"><b><?= $descr[2] ?>: <?= $obj->display($i) ?></b></span>
+					<span style="color: #b33;"><b><?= $descr[2] ?>: <?= $obj->display($i) ?></b></span>
 				</td>
 <?php
 
@@ -465,14 +465,14 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
+				background: #edc url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 			}
 
 			.expanded {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
+				background: #edc url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 			}
@@ -514,8 +514,8 @@ class HtmlLib
 			h2 {
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 115%;
-				color: #003360;
-				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
+				color: #036;
+				background: #edc url(<?=$skindir?>/images/expand.gif);
 
 				margin-bottom: 0
 			}
@@ -614,7 +614,7 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
+				background: #edc url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 				height: 25px;
@@ -622,7 +622,7 @@ class HtmlLib
 
 			.expanded {
 				cursor: pointer;
-				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
+				background: #edc url(<?=$skindir?>/images/expand.gif);
 
 				border: 1px solid #<?=$col?>;
 				height: 25px;
@@ -669,8 +669,8 @@ class HtmlLib
 			h2 {
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 130%;
-				color: #003370;
-				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
+				color: #036;
+				background: #edc url(<?=$skindir?>/images/expand.gif);
 
 				margin-bottom: 10px;
 				margin-top: 10px
@@ -1630,8 +1630,8 @@ class HtmlLib
 				margin: 0 0 10px 0;
 				display: block;
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
-				color: #003360;
-				background: #efe8e0 url(<?=$skindir?>/images/expand.gif);
+				color: #036;
+				background: #edc url(<?=$skindir?>/images/expand.gif);
 				border-bottom: 1px solid #<?=$col?>;
 			}
 
@@ -1671,7 +1671,7 @@ class HtmlLib
 			$horiz_width = 15 + ($retcount * ($sectionwidth + 10)) + 15;
 ?>
 
-				<div id="show_page" style="background-color: #f0f8ff; padding:10px; border: 1px solid #ddd; float:left; width: <?= $showpagewidth ?>px; height: <?= $sectionheight + 20; ?>px; overflow: auto; white-space: nowarp; margin: 0 auto 0 auto">
+				<div id="show_page" style="background-color: #def; padding:10px; border: 1px solid #ddd; float:left; width: <?= $showpagewidth ?>px; height: <?= $sectionheight + 20; ?>px; overflow: auto; white-space: nowarp; margin: 0 auto 0 auto">
 					<div id='horiz_scroll' style="width: <?= $horiz_width ?>px">
 <?php
 		}
@@ -1714,11 +1714,11 @@ class HtmlLib
 <?php
 			if ($show_direction !== 'horizontal') {
 ?>
-									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)" onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'" onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#efe8e0 url(<?= $backgimage ?>)'">
+									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc url(<?= $backgimage ?>)" onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#edc url(<?= $backgimage ?>)'" onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#edc url(<?= $backgimage ?>)'">
 <?php
 			} else {
 ?>
-									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#efe8e0 url(<?= $backgimage ?>)">
+									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc url(<?= $backgimage ?>)">
 
 <?php
 			}
@@ -2127,7 +2127,7 @@ class HtmlLib
 		</form>
 
 <div style="padding:5px; border:1px solid #aaa; width: 330px; margin: 0 auto;">
-		<table cellpadding="0" cellspacing="0" border="0" width="325" bgcolor="#efe8e0">
+		<table cellpadding="0" cellspacing="0" border="0" width="325" bgcolor="#edc">
 			<tr>
 				<!-- <td width="60%" valign="bottom">
 					<table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -2143,7 +2143,7 @@ class HtmlLib
 								<img src="<?= $imgheadleft ?>">
 							</td> -->
 							<td nowrap width="100%" align="center">
-								<b><span style="color:"#ffffff">Change Permissions</span></b><? // [FIXME] Harcode translation string?>
+								<b><span style="color:"#fff">Change Permissions</span></b><? // [FIXME] Harcode translation string?>
 							</td>
 							<!-- <td>
 								<img src="<?= $imgheadright ?>">
@@ -2157,13 +2157,13 @@ class HtmlLib
 		<!-- <form name="chmod" method="get" action="/display.php" accept-charset="utf-8"> -->
 		<form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
 			<table cellpadding="5" cellspacing="0" border="0" width="325">
-				<tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
+				<tr style="background:#edc url(<?= $tablerow_head ?>)">
 					<td width="100" class="col"></td>
 					<td width=75 align=center>User</td><? // [FIXME] Harcode translation string?>
 					<td width=75 align=center>Group</td><? // [FIXME] Harcode translation string?>
 					<td align=center width=75>Others</td><? // [FIXME] Harcode translation string?>
 				</tr>
-				<tr style="background:#efe8e0 url(<?= $tablerow_head ?>)">
+				<tr style="background:#edc url(<?= $tablerow_head ?>)">
 					<td width=100 class="col"></td>
 					<td align="center"><input type="checkbox" name="userall" onclick="allrights(document.chmod,this,'user');"></td>
 					<td align="center"><input type="checkbox" name="groupall" onclick="allrights(document.chmod,this,'group');"></td>
@@ -2192,7 +2192,7 @@ class HtmlLib
 			<!-- </table>
 			<table cellpadding="0" cellspacing="0" border="0" width="325"> -->
 				<tr>
-					<td colspan="4" bgcolor="#ffffff" height="2"></td>
+					<td colspan="4" bgcolor="#fff" height="2"></td>
 				</tr>
 				<tr class="tablerow1">
 					<td class="tableheadtext" width="100">&nbsp;&nbsp;Total
@@ -2207,16 +2207,16 @@ class HtmlLib
 				</tr>
 
 				<tr>
-					<td colspan="4" bgcolor="#ffffff" height="4"></td>
+					<td colspan="4" bgcolor="#fff" height="4"></td>
 				</tr>
 				<tr>
 					<td colspan="4" align="right"><input type="button" onclick="sendchmode(document.chmod,document.frmsendchmod)" class="submitbutton" name="change" value="&nbsp;&nbsp;Change&nbsp;&nbsp;"></td>
 				</tr>
 				<tr>
-					<td colspan="2" bgcolor="#ffffff" height="4"></td>
+					<td colspan="2" bgcolor="#fff" height="4"></td>
 				</tr>
 				<!-- <tr>
-					<td colspan="4" style="background:#efe8e0 url(<?= $imgtopline ?>)" height="1"></td>
+					<td colspan="4" style="background:#edc url(<?= $imgtopline ?>)" height="1"></td>
 				</tr> -->
 			</table>
 		</form>
@@ -3596,7 +3596,7 @@ class HtmlLib
 
 		if ($sgbl->isBlackBackground()) {
 			$bgcolorstring = "bgcolor=#000";
-			$forecolorstring = "color=#999999";
+			$forecolorstring = "color=#999";
 		}
 
 		if ($url && $obj->isAction($name)) {
@@ -3704,7 +3704,7 @@ class HtmlLib
 
 				if (csa($descr[$name][0], "W")) {
 					$pname = str_replace("\n", "<br />\n", $pname);
-					$pname = str_replace("[code]", "<div style='padding: 10px; margin: 10px; border: 1px solid #43a1a1'>", $pname);
+					$pname = str_replace("[code]", "<div style='padding: 10px; margin: 10px; border: 1px solid #4aa'>", $pname);
 					$pname = str_replace("[quote]", "<div style='background:#eee; padding: 10px; margin: 10px; border: 1px solid #aaa'> [b] QUOTE [/b]", $pname);
 					$pname = str_replace("[b]", "<span style='font-weight:bold'>", $pname);
 					$pname = str_replace("[/b]", "</span>", $pname);
@@ -3783,7 +3783,7 @@ class HtmlLib
 
 		<table width="10">
 			<tr>
-				<td bgcolor="#ffffff" nowrap>
+				<td bgcolor="#fff" nowrap>
 <?php
 		$first_link = $this->print_next_previous_link($object, $class, $place, $iconpath, "first", 1);
 
@@ -3907,12 +3907,12 @@ class HtmlLib
 
 		$backgroundstring = "background:#fff;";
 		$fontcolor = "black";
-		$bordertop = "#d0d0d0";
+		$bordertop = "#ddd";
 
 		if ($sgbl->isBlackBackground()) {
 			$backgroundstring = "background:#000;";
-			$fontcolor = "#333333";
-			$bordertop = "#444444";
+			$fontcolor = "#333";
+			$bordertop = "#444";
 		}
 ?>
 
@@ -3977,9 +3977,9 @@ class HtmlLib
 			$visiblity = "visibility:hidden;display:none";
 		}
 
-		$backgroundstring = "background:#fffafa;";
+		$backgroundstring = "background:#fee;";
 		$backgroundnullstring = null;
-		$bordertop = "#d0d0d0";
+		$bordertop = "#ddd";
 
 		if ($sgbl->isBlackBackground()) {
 			$backgroundstring = "background:gray;";
@@ -3989,7 +3989,7 @@ class HtmlLib
 ?>
 
 		<div style="width: 910px; margin: 0 auto 0 auto;">
-			<fieldset style='<?= $backgroundnullstring ?> padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
+			<fieldset style='padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
 				<legend><span style='font-weight:bold'>Advanced Search <a href="javascript:toggleVisibilityById('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>	</span></legend>
 			</fieldset>
 		</div>
@@ -4300,28 +4300,28 @@ class HtmlLib
 		$perpageof = "$lower to $upper of ";
 
 		if ($sgbl->isBlackBackground()) {
-			$backgroundstring = "background:#222222;";
-			$stylebackgroundstring = "style='background-color:#000000; background:#000000;'";
+			$backgroundstring = "background:#222;";
+			$stylebackgroundstring = "style='background-color:#000; background:#000;'";
 			$filteropacitystringspan = "<span style='background:black'> ";
 			$filteropacitystring = "style='FILTER:progid;-moz-opacity:0.5'";
 			$filteropacitystringspanend = "</span>";
 
-			$backgroundcolorstring = "#000000";
+			$backgroundcolorstring = "#000";
 			$imgtopline = $login->getSkinDir() . "/images/black.gif";
 			$blackstyle = "style='background:black;color:gray;border:1px solid gray;'";
 			$imgtablerowhead = null;
 			$col = "333";
-			$bordertop = "#444444";
+			$bordertop = "#444";
 
 		} else {
 			$blackstyle = null;
-			$backgroundstring = "background:#fffafa;";
+			$backgroundstring = "background:#fee;";
 			$stylebackgroundstring = null;
 			$filteropacitystring = null;
 			$filteropacitystringspan = null;
 			$filteropacitystringspanend = null;
-			$backgroundcolorstring = "#ffffff";
-			$bordertop = "#d0d0d0";
+			$backgroundcolorstring = "#fff";
+			$bordertop = "#ddd";
 		}
 
 		if (!$sellist && !$this->isResourceClass($class)) {
@@ -4330,7 +4330,7 @@ class HtmlLib
 		<!-- "I am here 4" -->
 		<br/>
 		<div style="width: 910px; margin: 0 auto 0 auto;">
-			<fieldset style="<?= $backgroundstring ?> padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
+			<fieldset style="padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
 				<legend>
 					<span style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeywordUc('under') ?> <?= $parent->getId() ?>
 					<span style="color:red"><?= $filterundermes ?></span> <?= $this->print_machine($parent) ?> (<?= $perpageof ?><?= $total_num ?>)</span>
@@ -4564,7 +4564,7 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$wrapstr .= " style='background:gray'";
 				} else {
-					$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/listsort.gif)'";
+					$wrapstr .= " style='background:#edc url({$skindir}/images/listsort.gif)'";
 				}
 ?>
 
@@ -4577,9 +4577,9 @@ class HtmlLib
 <?php
 			} else {
 				if ($sgbl->isBlackBackground()) {
-					$wrapstr .= " style='background:#efe8e0'";
+					$wrapstr .= " style='background:#edc'";
 				} else {
-					$wrapstr .= " style='background:#efe8e0 url({$skindir}/images/expand.gif)'";
+					$wrapstr .= " style='background:#edc url({$skindir}/images/expand.gif)'";
 				}
 ?>
 
@@ -4749,7 +4749,7 @@ class HtmlLib
 				<tr>
 					<td colspan="<?= $nlcount ?>">
 						<table cellpadding="0" cellspacing="0" border="0" width="100%">
-							<tr height="1" style="background:#efe8e0 url(<?= $imgtopline ?>)">
+							<tr height="1" style="background:#edc url(<?= $imgtopline ?>)">
 							</tr>
 							<tr>
 								<td>
@@ -5164,7 +5164,7 @@ class HtmlLib
 
 			$colorstring = null;
 		} else {
-			$colorstring = "color=#999999";
+			$colorstring = "color=#999";
 		}
 ?>
 
@@ -5644,7 +5644,7 @@ class HtmlLib
 				</td>
 			</tr>
 			<tr>
-				<td bgcolor="#A5C7E7"></td>
+				<td bgcolor="#ace"></td>
 			</tr>
 		</table>
 
@@ -5793,7 +5793,7 @@ class HtmlLib
 		if ($sgbl->isBlackBackground()) {
 			$filteropacitystringspanend = "</span>";
 			$filteropacitystringspan = "<span style='background:black'> ";
-			$filteropacitystring = "style='background:black;color:#999999;FILTER:progid;-moz-opacity:0.5'";
+			$filteropacitystring = "style='background:black;color:#999;FILTER:progid;-moz-opacity:0.5'";
 		}
 
 		$num = count($cgi_o_o) - 1;
@@ -5896,7 +5896,7 @@ class HtmlLib
 
 					<?= $filteropacitystringspan ?>
 
-					<select style="width: 100%; border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?> class="textbox" onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
+					<select style="width: 100%; border: 1px solid #aaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?> class="textbox" onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
 
 <?php
 		foreach ($list as $k => $l) {
@@ -6185,15 +6185,15 @@ class HtmlLib
 		if ($button_type === 'reverse-font') {
 			$forecolorstring = "color:#fff";
 		} else {
-			$forecolorstring = "color:#002244";
+			$forecolorstring = "color:#024";
 		}
 
 		if ($sgbl->isBlackBackground()) {
 			$bgcolorstring = "bgcolor=#000";
-			$forecolorstring = "color:#999999";
-			$selectcolor = '#444444';
-			$skincolor = '#000000';
-			$blackbordercolor = '#000000';
+			$forecolorstring = "color:#999";
+			$selectcolor = '#444';
+			$skincolor = '#000';
+			$blackbordercolor = '#000';
 			$imgflag = false;
 		}
 
@@ -6565,7 +6565,7 @@ class HtmlLib
 		$help = $descr['desc'];
 
 		if ($linkflag) {
-			$displayvar = "<span style='color:#002244' class=icontextlink id=aaid_$formname " .
+			$displayvar = "<span style='color:#024' class=icontextlink id=aaid_$formname " .
 				"onmouseover=\"style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\">" .
 				"</span>";
 
@@ -6767,7 +6767,7 @@ class HtmlLib
 					<table cellpadding=0 cellspacing=0 border=0 width=100%>
 						<tr>
 							<td><img src="<?= $imgheadleft ?>"></td>
-							<td nowrap width=100% background="<?= $imgheadbg ?>"><b><span style="color:#ffffff"><?= $title ?></span></b></td>
+							<td nowrap width=100% background="<?= $imgheadbg ?>"><b><span style="color:#fff"><?= $title ?></span></b></td>
 							<td><img src="<?= $imgheadright ?>"></td>
 						</tr>
 					</table>
@@ -6783,7 +6783,7 @@ class HtmlLib
 
 		<table cellpadding=0 cellspacing=0 border=0 width=100%>
 			<tr>
-				<td height=2 bgcolor="#a5c7e7"></td>
+				<td height=2 bgcolor="#ace"></td>
 			</tr>
 		</table>
 <?php
@@ -6810,7 +6810,7 @@ class HtmlLib
 	function print_fancy_select($class, $src, $dst)
 	{
 		$variablename = "frm_interface_template_c_{$class}_show_list";
-		$ts_name = "ts_$variablename";
+		$ts_name1 = "ts_{$variablename}1";
 		$ts_name2 = "ts_{$variablename}2";
 		$variable_description = "";
 		$dstname = "destination";
@@ -6839,7 +6839,7 @@ class HtmlLib
 								<input type='hidden' id='frm_subaction' name='frm_subaction' value="update">
 								<?= $this->html_variable_inherit("frm_o_o") ?>
 								<td class='col' width='100%' align='center' valign='middle'>
-									<select class='textbox' <?= $stylestring ?> id='<?= $ts_name ?>' multiple name='<?= trim($srcname) ?>'>
+									<select class='textbox' <?= $stylestring ?> id='<?= $ts_name1 ?>' multiple name='<?= trim($srcname) ?>'>
 <?php
 		foreach ($src as $k => $s) {
 			if (csb($k, "__title")) {
@@ -6856,7 +6856,7 @@ class HtmlLib
 			}
 ?>
 
-										<option value="<?= $key ?>" style="vertical-align:middle;padding:0 0 0 25px; width:300px; height:20px; background:#efe8e0 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+										<option value="<?= $key ?>" style="vertical-align:middle;padding:0 0 0 25px; width:300px; height:20px; background:#edc url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 		}
 ?>
@@ -6866,7 +6866,7 @@ class HtmlLib
 								<td class='col' width='15%' align='center'>
 									<table align='center'>
 										<tr>
-											<td><INPUT TYPE='button' class='submitbutton' onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variablename) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')" VALUE="&nbsp;&#x00bb;&nbsp;"></td>
+											<td><INPUT TYPE='button' class='submitbutton' onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variablename) ?>',  '<?= $ts_name1 ?>', '<?= $ts_name2 ?>')" VALUE="&nbsp;&#x00bb;&nbsp;"></td>
 										</tr>
 										<tr>
 											<td><INPUT TYPE='button' class='submitbutton' onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variablename) ?>', '<?= $ts_name2 ?>')" VALUE="&nbsp;&#x00ab;&nbsp;"></td>
@@ -6890,7 +6890,7 @@ class HtmlLib
 				$desc = $ac_descr[2];
 			}
 ?>
-										<option value="<?= $d ?>" style="vertical-align:middle; padding:0 0 0 25px; width:300px; height:20px; background:#efe8e0 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+										<option value="<?= $d ?>" style="vertical-align:middle; padding:0 0 0 25px; width:300px; height:20px; background:#edc url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 		}
 ?>
@@ -6943,7 +6943,7 @@ class HtmlLib
 ?>
 
 		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)"><span style="font-weight:bold">&nbsp;Find</span></div>
+			<div style="padding: 4px; text-align: center; background:#edc url(<?= $skindir ?>/images/expand.gif)"><span style="font-weight:bold">&nbsp;Find</span></div>
 			<div><input style="width: 100%; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)"></div>
 		</div>
 		<br/>
@@ -6976,7 +6976,7 @@ class HtmlLib
 ?>
 
 		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#efe8e0 url(<?= $skindir ?>/images/expand.gif)">
+			<div style="padding: 4px; text-align: center; background:#edc url(<?= $skindir ?>/images/expand.gif)">
 				<span style='font-weight:bold'>&nbsp;<?= $login->getDescriptionUc('comments') ?>&nbsp;[<a href="<?= $url ?>"><?= $login->getDescriptionUc('edit') ?></a>]
 			</div>
 		</div>
@@ -6991,7 +6991,7 @@ class HtmlLib
 		$_t_name = $this->getcgikey($variable->name);
 		$this->checkForScript($this->$_t_name);
 		$m_value = $this->$_t_name;
-		$ts_name = "ts_$variable->name";
+		$ts_name1 = "ts_{$variable->name}1";
 		$ts_name2 = "ts_{$variable->name}2";
 		$size = $variable->count;
 		$variable1 = $variable->variable1;
@@ -7019,7 +7019,7 @@ class HtmlLib
 			<tr>
 				<td>
 					<input type='hidden' id="<?= $variable->name ?>" name="<?= $variable->name ?>">
-					<select class='textbox' id='<?= $ts_name ?>' multiple size='5' class='textbox' name='<?= $variable1->name ?>'>
+					<select class='textbox' id='<?= $ts_name1 ?>' name='<?= $variable1->name ?>' multiple size='5'>
 <?php
 		foreach ($variable1->option as $k => $option) {
 ?>
@@ -7032,11 +7032,11 @@ class HtmlLib
 					</select>
 				</td>
 				<td>
-					<INPUT TYPE="button" class="submitbutton" onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variable->name) ?>',  '<?= $ts_name ?>', '<?= $ts_name2 ?>')" VALUE="&nbsp;&#x00bb;&nbsp;">
+					<INPUT TYPE="button" class="submitbutton" onClick="multiSelectPopulate('<?= $form ?>', '<?= trim($variable->name) ?>',  '<?= $ts_name1 ?>', '<?= $ts_name2 ?>')" VALUE="&nbsp;&#x00bb;&nbsp;">
 					<INPUT TYPE="button" class="submitbutton" onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variable->name) ?>', '<?= $ts_name2 ?>')" VALUE="&nbsp;&#x00ab;&nbsp;">
 				</td>
 				<td>
-					<select id=<?= $ts_name2 ?> class=textbox size=5 multiple name=<?= trim($variable2->name) ?>>
+					<select class='textbox' id='<?= $ts_name2 ?>' name='<?= trim($variable2->name) ?>' multiple size='5'>
 <?php
 		$v2count = 0;
 
@@ -7148,7 +7148,7 @@ class HtmlLib
 		}
 
 		$backgroundcolor = '#fff';
-		$bordertop = "#d0d0d0";
+		$bordertop = "#ddd";
 
 		if ($sgbl->isBlackBackground()) {
 			$skincolor = '333';
@@ -7214,7 +7214,7 @@ class HtmlLib
 ?>
 
 					<div style="width: 400px; margin: 0 auto 10px auto; text-align:center; background-color:<?= $backgroundcolor ?>; border: 0; padding: 5px 0; border-top: 1px solid <?= $bordertop ?>;  border-bottom: 1px solid <?= $bordertop ?>">
-						<span style='color: #303030; font-weight:bold'><?= $block->title ?></span>
+						<span style='color: #333; font-weight:bold'><?= $block->title ?></span>
 					</div>
 <?php
 		}
@@ -7338,7 +7338,7 @@ class HtmlLib
 		$blackstyle = null;
 
 		if ($sgbl->isBlackBackground()) {
-			$variable_description = "<span style='color:#999999'> $variable_description </span> ";
+			$variable_description = "<span style='color:#999'> $variable_description </span> ";
 			$blackstyle = "style='background:black;color:gray;border:1px solid gray;'";
 		}
 
@@ -7387,7 +7387,7 @@ class HtmlLib
 
 		<br/>
 		<?= $variable->pretext ?>
-		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>" style="width: 45%; border: 1px solid #aaaaaa; margin: 2px 0 2px 0; padding: 2px 0 2px 0" name="<?= $variable->name ?>" value="<?= $m_value ?>"> <?= $variable->posttext ?>
+		<input class="<?= $variable->name ?> textbox" type="<?= $texttype ?>" style="width: 45%; border: 1px solid #aaa; margin: 2px 0 2px 0; padding: 2px 0 2px 0" name="<?= $variable->name ?>" value="<?= $m_value ?>"> <?= $variable->posttext ?>
 <?php
 
 		if ($variable->type === 'fileselect') {
@@ -7408,7 +7408,7 @@ class HtmlLib
 				<div style="background-color: #48c; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
 					<div id="dragbar" style="padding: 2px; height: 18px">
 						<div style="float:left"><span style="color:#fff"><?= $login->getKeywordUc('password_box') ?>&nbsp;-&nbsp;<?= $login->getKeywordUc('press_esc_to_close') ?></span></div>
-						<div style="float:right"><a href="#" onClick="password_hidebox('showimage')"><span style="color:#fff; padding:2px">&#215;</span></a></div>
+						<div style="float:right"><a href="javascript://" onClick="password_hidebox('showimage')"><span style="color:#fff; padding:2px">&#215;</span></a></div>
 					</div>
 
 					<!-- PUT YOUR CONTENT BETWEEN HERE -->
@@ -7419,7 +7419,7 @@ class HtmlLib
 				</div>
 
 			</div>
-			<input style="margin: 2px; border: 1px solid #aaaaaa; background-color: #eeeeee; width: 120px;" class=textbox type=button value="Generate Password" onclick="generatePass('<?= $form ?>', '<?= $variable->name ?>');" width="10">
+			<input style="margin: 2px; border: 1px solid #aaa; background-color: #eee; width: 120px;" class=textbox type=button value="Generate Password" onclick="generatePass('<?= $form ?>', '<?= $variable->name ?>');" width="10">
 <?php
 		}
 
@@ -7520,11 +7520,11 @@ class HtmlLib
 		$filteropacitystring = null;
 
 		if ($sgbl->isBlackBackground()) {
-			$variable_description = "<span style='color:#999999'> $variable_description </span> ";
+			$variable_description = "<span style='color:#999'> $variable_description </span> ";
 			$blackstyle = "style='background:black;color:gray;border:1px solid gray;'";
 			$filteropacitystringspanend = "</span>";
 			$filteropacitystringspan = "<span style='background:black'> ";
-			$filteropacitystring = "style='background:black;color:#999999;FILTER:progid;-moz-opacity:0.5'";
+			$filteropacitystring = "style='background:black;color:#999;FILTER:progid;-moz-opacity:0.5'";
 		}
 
 		if (preg_match("/frm_.*_c_/", $vname)) {
@@ -7532,12 +7532,12 @@ class HtmlLib
 		}
 
 		if ($vname && array_search_bool($vname, $_error_list)) {
-			$divstyle = 'background-color:#ffd7d7';
+			$divstyle = 'background-color:#fffff8';
 		} else {
 			$borb = null;
 
 			if ($count) {
-				$borb = "border-top:1px solid #aaaaaa;";
+				$borb = "border-top:1px solid #ddd;";
 
 				if ($sgbl->isBlackBackground()) {
 					$borb = "border-top:1px solid #333;";
@@ -7545,9 +7545,9 @@ class HtmlLib
 			}
 
 			if ($rowclass) {
-				$divstyle = "$borb background-color:#ffffff";
+				$divstyle = "$borb background-color:#f8f8ff";
 			} else {
-				$divstyle = "$borb background-color:#faf8f8";
+				$divstyle = "$borb background-color:#f8fff8";
 			}
 
 			if ($sgbl->isBlackBackground()) {
@@ -7558,7 +7558,7 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$divstyle = "text-align:right;";
 				} else {
-					$divstyle = "text-align:right;$borb background:#eef url({$skindir}/images/expand.gif)";
+					$divstyle = "text-align:right;$borb background:#eee url({$skindir}/images/expand.gif)";
 				}
 			}
 
@@ -7598,7 +7598,7 @@ class HtmlLib
 
 					<?= $filteropacitystringspan ?>
 
-					<input style="border: 1px solid #aaaaaa;" <?= $filteropacitystring ?> <?= $blackstyle ?> type=checkbox name="<?= $variable->name ?>" <?= $checkv ?> value="<?= $variable->value ?>">
+					<input style="border: 1px solid #aaa;" <?= $filteropacitystring ?> <?= $blackstyle ?> type=checkbox name="<?= $variable->name ?>" <?= $checkv ?> value="<?= $variable->value ?>">
 					<?= $variable_description ?> <?= $filteropacitystringspanend ?>
 <?php
 
@@ -7618,7 +7618,7 @@ class HtmlLib
 					<br/>
 					<?= $filteropacitystringspan ?>
 
-					<select style="border: 1px solid #aaaaaa; margin: 2px" <?= $filteropacitystring ?> class="textbox" name="<?= $v ?>">
+					<select style="border: 1px solid #aaa; margin: 2px" <?= $filteropacitystring ?> class="textbox" name="<?= $v ?>">
 <?php
 				foreach ($variable->option as $k => $option) {
 					$issel = false;
@@ -7784,7 +7784,7 @@ class HtmlLib
 							margin: 0;
 							font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 							font-size: 11px;
-							border: 1px solid #aaaaaa;
+							border: 1px solid #aaa;
 							border-right: 1px solid #<?=$skincolor?>;
 							background: #<?=$skincolor?>;
 						}
@@ -7906,7 +7906,7 @@ class HtmlLib
 
 		$pinfo = implode("\n", $out);
 
-		$fontcolor = "#000000";
+		$fontcolor = "#000";
 
 	//	$pinfo = str_replace("\n", "<br />", $pinfo);
 		$pinfo = str_replace("<b>", "<span style='font-weight: bold'>", $pinfo);
@@ -7920,7 +7920,7 @@ class HtmlLib
 		}
 
 		if ($sgbl->isBlackBackground()) {
-			$fontcolor = "#999999";
+			$fontcolor = "#999";
 		}
 
 		if ($pinfo !== '') {
@@ -7946,7 +7946,7 @@ class HtmlLib
 		if ($sgbl->isBlackBackground()) {
 ?>
 
-		<span style="color:#999999">
+		<span style="color:#999">
 <?php
 		}
 
@@ -8135,7 +8135,7 @@ class HtmlLib
 			$imgfile = $img_path . "/button/warningpic.gif";
 			$color = 'brown';
 			$message = "<span style='color:red'><b>Alert: </b></span> ";
-			$style = 'border: 1px solid red; background:#ffd7d7;';
+			$style = 'border: 1px solid red; background:#fee;';
 			$fontstyle = 'color: #000';
 
 			// In the status bar, you should print with mainframe. But in the main page, it should be simple url.
@@ -8531,7 +8531,7 @@ class HtmlLib
 
 		if ($alist && $alistflag) {
 			$open = 'false';
-			$imgstr = "<img src='$homeimg' width=14 height=14> <span style='color:#5958aa'><b>Functions</b></span> ";
+			$imgstr = "<img src='$homeimg' width=14 height=14> <span style='color:#55a'><b>Functions</b></span> ";
 			$ttr = createTreeObject($name, '', $imgstr, $url, $open, $help, $alt);
 			$pttr->addToList('tree', $ttr);
 			$this->print_resourcelist($ttr, $alist, null);
@@ -8978,7 +8978,7 @@ class HtmlLib
 			$simplicity_menu = getLinkCustomfile(getcwd() . $skin_dir, "menu.php");
 			$simplicity_topbar_right =getLinkCustomfile(getcwd() . $skin_dir, "topbar_right.php");
 ?>
-			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e74c3c;" class="shadow_all">
+			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e43;" class="shadow_all">
 <?php include_once "{$simplicity_topbar_left}"; ?>
 <?php include_once "{$simplicity_menu}"; ?>
 <?php include_once "{$simplicity_topbar_right}"; ?>
@@ -9391,8 +9391,8 @@ class HtmlLib
 		} else {
 ?>
 
-			<td height="34" wrap class='alink' style='cursor:pointer;background:#efe8e0 url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="<?= $height ?>" nowrap class='alink' style='cursor:pointer;background:#efe8e0 url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
+			<td height="34" wrap class='alink' style='cursor:pointer;background:#edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class='alink' style='cursor:pointer;background:#edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
 <?php
 		}
 	}

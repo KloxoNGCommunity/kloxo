@@ -3,6 +3,7 @@
 if [ "${1}" == "php" ] ; then
 	cp -f /usr/local/lxlabs/kloxo/init/php-fpm.init /etc/rc.d/init.d/php-fpm
 	chown root:root /etc/rc.d/init.d/php-fpm
+	chmod 0755 /etc/rc.d/init.d/php-fpm
 	chkconfig php-fpm on
 	service php-fpm restart
 else
@@ -14,6 +15,7 @@ else
 		else
 			cp -f /opt/${1}/custom/php-fpm.init /etc/rc.d/init.d/php-fpm
 			chown root:root /etc/rc.d/init.d/php-fpm
+			chmod 0755 /etc/rc.d/init.d/php-fpm
 			chkconfig php-fpm on
 			service php-fpm restart
 		fi

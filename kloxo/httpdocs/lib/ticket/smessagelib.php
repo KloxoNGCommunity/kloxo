@@ -170,6 +170,7 @@ class Smessage extends Lxdb
 
 		if ($this->getParentO()->getClName() === $this->made_by) {
 			$sent = $this->convertClCmToNameCm($this->text_sent_to_cmlist);
+
 			$vlist['text_sent_to_cmlist'] = array('M', $sent);
 		} else {
 			$sent = $this->getParentO()->nname;

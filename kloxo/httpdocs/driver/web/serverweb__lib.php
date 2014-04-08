@@ -25,12 +25,19 @@ class serverweb__ extends lxDriverClass
 				$this->set_php_type();
 
 				break;
+
 			case "php_branch":
 				$this->set_php_branch();
 
 				break;
+
 			case "multiple_php_install":
 				$this->set_multiple_php_install();
+
+				break;
+
+			case "php_used":
+				$this->set_php_used();
 
 				break;
 		}
@@ -38,17 +45,15 @@ class serverweb__ extends lxDriverClass
 
 	function set_apache_optimize()
 	{
-		$nolog = '--nolog';
-
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
 
 		switch ($this->main->apache_optimize) {
 			case 'default':
-				lxshell_return("lxphp.exe", $scripting, "--select=default", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=default", '--nolog');
 
 				break;
 			case 'optimize':
-				lxshell_return("lxphp.exe", $scripting, "--select=optimize", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=optimize", '--nolog');
 
 				break;
 		}
@@ -56,21 +61,19 @@ class serverweb__ extends lxDriverClass
 
 	function set_fix_chownchmod()
 	{
-		$nolog = '--nolog';
-
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
 
 		switch ($this->main->fix_chownchmod) {
 			case 'fix-ownership':
-				lxshell_return("lxphp.exe", $scripting, "--select=chmod", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=chmod", '--nolog');
 
 				break;
 			case 'fix-permissions':
-				lxshell_return("lxphp.exe", $scripting, "--select=chown", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=chown", '--nolog');
 
 				break;
 			case 'fix-ALL':
-				lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--select=all", '--nolog');
 
 				break;
 		}
@@ -78,8 +81,6 @@ class serverweb__ extends lxDriverClass
 
 	function set_mysql_convert()
 	{
-		$nolog = '--nolog';
-
 		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
 
 		if ($this->main->mysql_charset === 'utf-8') {
@@ -90,15 +91,15 @@ class serverweb__ extends lxDriverClass
 
 		switch ($this->main->mysql_convert) {
 			case 'to-myisam':
-				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $charset, $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $charset, '--nolog');
 
 				break;
 			case 'to-innodb':
-				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $charset, $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $charset, '--nolog');
 
 				break;
 			case 'to-aria':
-				lxshell_return("lxphp.exe", $scripting, "--engine=aria", $nolog);
+				lxshell_return("lxphp.exe", $scripting, "--engine=aria", '--nolog');
 
 				break;
 		}
@@ -106,8 +107,6 @@ class serverweb__ extends lxDriverClass
 
 	function set_php_type()
 	{
-		$nolog = '--nolog';
-
 		$t = (isset($this->main->php_type)) ? $this->main->php_type : null;
 
 		if (((stripos($t, '_ruid2') !== false)) || (stripos($t, '_itk') !== false)) {
@@ -316,56 +315,6 @@ class serverweb__ extends lxDriverClass
 		setRpmInstalled("httpd");
 	}
 
-	function set_php_branch($branch = null)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$ehcdpath = '/etc/httpd/conf.d';
-		$haecdpath = '/home/apache/etc/conf.d';
-		
-		$installed = isRpmInstalled('yum-plugin-replace');
-
-		if (!$installed) {
-			setRpmInstalled("yum-plugin-replace");
-		}
-
-		$nolog = '--nolog';
-
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/php-branch.php';
-
-		if ($branch) {
-			$branchselect = $branch;
-		} else {
-			$branchselect = $this->main->php_branch;
-		}
-
-		$branchselect = preg_replace('/(.*)\_\(as\_(.*)\)/', '$1', $branchselect);
-
-		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", $nolog);
-	/*
-		// MR -- to make sure this modules convert too
-		lxshell_return("yum", "install", "-y", "{$branchselect}-mbstring",
-				"{$branchselect}-mysql", "{$branchselect}-imap", "{$branchselect}-pear",
-				"{$branchselect}-devel", "{$branchselect}-fpm");
-	*/
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
-
-		lxshell_return("lxphp.exe", $scripting, "--select=all", $nolog);
-
-		$installed = isRpmInstalled("{$branchselect}-fpm");
-
-		if ($installed) {
-			lxshell_return("chkconfig", "php-fpm", "on");
-			createRestartFile('php-fpm');
-		}
-
-		if (stripos('mod_php', $this->main->php_type) === false) {
-		//	lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
-			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
-
-		}
-	}
-
 	function set_php_pure()
 	{
 		$phpbranch = getRpmBranchInstalled('php');
@@ -416,11 +365,84 @@ class serverweb__ extends lxDriverClass
 		lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
 	}
 
+	function set_php_branch($branch = null)
+	{
+		$ehcdpath = '/etc/httpd/conf.d';
+		$haecdpath = '/home/apache/etc/conf.d';
+		
+		$installed = isRpmInstalled('yum-plugin-replace');
+
+		if (!$installed) {
+			setRpmInstalled("yum-plugin-replace");
+		}
+
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/php-branch.php';
+
+		if ($branch) {
+			$branchselect = $branch;
+		} else {
+			$branchselect = $this->main->php_branch;
+		}
+
+		$branchselect = preg_replace('/(.*)\_\(as\_(.*)\)/', '$1', $branchselect);
+
+		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", '--nolog');
+	/*
+		// MR -- to make sure this modules convert too
+		lxshell_return("yum", "install", "-y", "{$branchselect}-mbstring",
+				"{$branchselect}-mysql", "{$branchselect}-imap", "{$branchselect}-pear",
+				"{$branchselect}-devel", "{$branchselect}-fpm");
+	*/
+		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+
+		lxshell_return("lxphp.exe", $scripting, "--select=all", '--nolog');
+
+		$installed = isRpmInstalled("{$branchselect}-fpm");
+
+		if ($installed) {
+			lxshell_return("chkconfig", "php-fpm", "on");
+			createRestartFile('php-fpm');
+		}
+
+		if (stripos('mod_php', $this->main->php_type) === false) {
+		//	lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
+			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
+
+		}
+	}
+
+	function set_php_used()
+	{
+		if (isWebProxyOrApache()) {
+			$p = $this->main->php_type;
+
+			if (strpos($p, 'php-fpm') !== false) {
+				// no action
+			} else {
+				throw new lxexception("only_work_for_php-type_for_php-fpm", 'parent');
+			}
+		}
+
+		$v = $this->main->php_used;
+
+		switch ($v) {
+			case "--Use PHP Branch--":
+				lxshell_return("sh", "/script/switch-php-fpm", "php");
+				break;
+			default:
+				lxshell_return("sh", "/script/switch-php-fpm", $v);
+				break;
+		}
+
+		// MR -- no needed because switch also restart
+	//	createRestartFile("php-fpm");
+	}
+
 	function set_multiple_php_install()
 	{
 		return;
 
-		// MR -- TODO: this function still not work. Trouble with $this->main->multiple_php_install
+		// MR -- TODO: this function still not work. Trouble with $this->main->->multiple_php_install
 		$a = $this->main->multiple_php_install;
 
 		foreach ($a as $k => $v) {

@@ -1531,7 +1531,7 @@ function create_xml($object, $stuff, $ret)
 				}
 
 				$string[] = $ghtml->object_variable_multiselect($stuff, $k, $list);
-				$list = null;
+			//	$list = null;
 
 				continue;
 			}
