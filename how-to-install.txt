@@ -44,33 +44,15 @@ B.1.2. via RPM (recommended for dev)
     cd /tmp
 
     # get repo file -- no need for 6.5.0.c and after
-    #wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-    #rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-    rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+    #wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm --no-check-certificate
+    #rpm -ivh mratwork-testing-0.0.1-1.noarch.rpm
+    rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm
 
     # move to /
     cd /
 
     # update
-    yum update mratwork-release -y
-
-    # edit /etc/yum.repos.d/mratwork.repo
-    # from:
-    #    [mratwork-testing-neutral-noarch]
-    #    name=MRatWork - testing-neutral-noarch
-    #    baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
-    #    #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
-    #    enabled=0
-    #    gpgcheck=0
-
-    # to:
-    #    [mratwork-testing-neutral-noarch]
-    #    name=MRatWork - testing-neutral-noarch
-    #    baseurl=https://github.com/mustafaramadhan/kloxo/raw/rpms/testing/neutral/noarch/
-    #    #mirrorlist=http://rpms.potissima.com/repo/mirrors/mratwork-testing-neutral-noarch-mirrors.txt
-    #    enabled=1
-    #    gpgcheck=0
-    #    includepkgs=kloxomr
+    yum update mratwork-* -y
 
     yum clean all
     yum install kloxomr -y
@@ -91,7 +73,7 @@ B.2. For Final Release:
     cd /
 
     # update
-    yum update mratwork-release -y
+    yum update mratwork-* -y
 
     # additional step for update from Kloxo official
     mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
