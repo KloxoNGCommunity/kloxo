@@ -1,34 +1,6 @@
 #!/bin/sh
 
-if [ "$(rpm -qa mratwork-release)" == "" ] ; then
-	cd /tmp
-	wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-	yum update mratwork-release -y
-	
-	rm -rf /etc/yum.repos.d/kloxo-mr.repo
-else
-	yum update mratwork-release -y
-fi
-
-if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
-	rpm -e lxphp --nodeps
-	rpm -e lxlighttpd --nodeps
-	rpm -e lxzend --nodeps
-	
-	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
-fi
-
 sh /script/fixlxphpexe
-
-checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
-
-if [ "${checktmpfs}" != "" ] ; then
-	echo "This server have '/tmp' with 'tmpfs' detect."
-	echo "Modified '/etc/fstab' where remove 'tmpfs' in '/tmp' line and then reboot."
-	echo "Without remove, backup/restore may have a trouble."
-	exit
-fi
 
 t=$(mysql -V|awk '{print $5}')
 u=$(echo $t|grep -i '5.0.')

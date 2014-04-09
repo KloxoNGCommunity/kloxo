@@ -72,7 +72,7 @@ $__emessage['certificate_key_file_empty'] = "The certificate and the Key file yo
 $__emessage['document_root_may_not_contain_spaces'] = "The document root may not contain any space at the end or before the slash. Please check and submit again.";
 
 $__emessage['switch_program_not_set'] = "Need select services. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=switchprogram>[here]</url> to set it.";
-$__emessage['phptype_not_set'] = "Need select php-type. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=serverweb&a=show>[here]</url> to set it.";
+$__emessage['phptype_not_set'] = "Need select php-type. Click <url:o=serverweb&a=show>[here]</url> to set it.";
 $__emessage['phpini_not_set'] = "Need update php.ini to make sure website able to process php file. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=phpini&a=show>[here]</url> to set it. The same way for 'slave' server";
 
 
@@ -208,6 +208,7 @@ $__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the 
 	"<p>It is recommended that you let Kloxo-MR completely handle your php configuration, and ask in our forum if you need special features.</p>".
 	"<p>Installing PHP modules (like xcache/ioncube/zend/suhosin) rpm via yum. Installing these modules depend on php branch and version installed on system. " .
 	"<b>Example</b>: when using php53u branch, installing with 'yum install php53u-xcache'. Try 'php -m' for to make sure</p>" .
+	"<p>Click <url:o=serverweb&a=show>[here]</url> to install another php for 'Multiple PHP'.</p>" .
 	"<p><b>Note:</b></p>" .
 	"<ul>" .
 		"<li>for enable 'multiple php' need install php52m, php53m, php53m, php54m and php55m with 'sh /script/php53m-installer' (example for php53m)</li>" .
@@ -383,12 +384,12 @@ $__information['sslipaddress_updateform_update_pre'] = "<p>To setup an ssl for a
 	"from <url:goback=2&a=list&c=sslcert>[here]</url>.</p>";
 
 $__information['sslcert_updateform_update_pre'] = "<p>To assign this ssl certificate to a particular ipaddress, ".
-	"<url:goback=2&a=list&c=ipaddress> click here</url> and then go into an ipaddress, ".
+	"click <url:goback=2&a=list&c=ipaddress>[here]</url> and then go into an ipaddress, ".
 	"and click on <b>ssl certificate</b> tab, and you can set one of these certificates to a particular ipaddress.</p>".
 	"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p>";
 
 $__information['domain_not_customer'] = "<p>To add a domain, create a customer first, and you can add domains under him.</p>".
-	"<p>To add a customer, <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>click here</url>.</p>";
+	"<p>To add a customer, click <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>[here]</url>.</p>";
 
 $__information['ipaddress_addform__pre'] = "<p>IP must assigned to detectable 'Device Name'.</p>";
 
@@ -486,12 +487,30 @@ $__information['forward_a_addform__pre'] = "<p>The forward addresses are a list 
 	"<p>You can disable local storage by click <url:a=updateform&sa=configuration>[here]</url>.</p>";
 
 $__information['webserver_config'] = 
+	"<p><b>PHP Used</b>".
+	"<ul>".
+		"<li>The purpose for 'PHP Used' is using different PHP for 'Single PHP' System. For enable 'Multiple PHP, click <url:k[class]=pserver&k[nname]=[%_server_%]&o=phpini&a=show>[here]</url></li>".
+		"<li>You can choose 'standard php' (install with 'PHP Branch') or from 'Multiple PHP' (install with 'Multiple PHP Install')</li>".
+	"</ul></p>".
 	"<p><b>PHP Branch</b>".
 	"<ul>".
 		"<li>Branch-based PHP version</li>".
 		"<li>Php-fpm for 'php52' may not work; ".
 		"test result with 'php -v' via ssh to find out error (usually incompatible modules)</li>".
 		"<li>Better reboot after change, especially if using Lighttpd, Nginx or Apache with 'php-fpm' as 'php-type'</li>".
+	"</ul></p>".
+	"<p><b>Multiple PHP Install</b>".
+	"<ul>".
+		"<li>PHP for 'Multiple PHP' already install will show in 'Multiple PHP Already Installed'</li>".
+		"<li>List of 'Available' meaning all available for 'Multiple PHP'</li>".
+		"<li>List of 'Selected' meaning PHP that want to install</li>".
+		"<li>Choose the same name with 'Multiple PHP Already Installed' for need reinstall</li>".
+		"<li><b>Note</b>:".
+			"<ul>".
+				"<li>Select for 'php53m' as the same way for running 'sh /script/switch-php-fpm php53m' in ssh command-line</li>".
+				"<li>Only work and optimize for php-fpm</li>".
+			"</ul>".
+		"</li>".
 	"</ul></p>".
 	"<p><b>PHP Type</b>".
 	"<ul>".
