@@ -3905,6 +3905,10 @@ abstract class Lxclass
 
 	function createShowActionList(&$alist) { }
 
+	static function preAdd($parent, $class, $param)
+	{
+	}
+
 	static function add($parent, $class, $param)
 	{
 		return $param;
@@ -4194,6 +4198,10 @@ abstract class Lxclass
 	{
 		return lget_class($this);
 
+	}
+
+	function preUpdate($subaction, $param)
+	{
 	}
 
 	function update($subaction, $param)
