@@ -27,14 +27,14 @@ lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 
 start () {
     echo -n $"Starting $prog: "
-    daemon --pidfile ${pidfile} php-fpm
+    daemon --pidfile ${pidfile} $prog
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${lockfile}
 }
 stop () {
     echo -n $"Stopping $prog: "
-    killproc -p ${pidfile} php-fpm
+    killproc -p ${pidfile} $prog
     RETVAL=$?
     echo
     if [ $RETVAL -eq 0 ] ; then
@@ -43,13 +43,13 @@ stop () {
 }
 
 restart () {
-    stop
-    start
+        stop
+        start
 }
 
 reload () {
     echo -n $"Reloading $prog: "
-    killproc -p ${pidfile} php-fpm -USR2
+    killproc -p ${pidfile} $prog -USR2
     RETVAL=$?
     echo
 }
@@ -64,7 +64,7 @@ case "$1" in
     stop
     ;;
   status)
-    status -p ${pidfile} php-fpm
+    status -p ${pidfile} $prog
     RETVAL=$?
     ;;
   restart)

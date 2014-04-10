@@ -5663,6 +5663,32 @@ function setInitialPhpIniConfig($nolog = null)
 
 function setInitialPhpFpmConfig($nolog = null)
 {
+	// MR -- this portion for detect multiple php for using standard php-fpm
+	$d = glob("/opt/*m/usr/bin/php");
+
+	foreach ($d as $k => $v) {
+		$e = str_replace('/opt/', '', $v);
+		$e = str_replace('/usr/bin/php', '', $e);
+		$d[$k] = $e;
+
+		if ($e === 'php52m') {
+			unset($d[$k]);
+		}
+	}
+
+	foreach ($d as $k => $v) {
+		$t = "'custom_name=\"{$v}\"'";
+
+		exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out);
+
+		if ($out[0]) {
+			exec("sh /script/switch-php-fpm {$v}");
+			return;
+		}
+	}
+
+	// MR -- this portion using standard php-fpm
+
 	$fpath = "/usr/local/lxlabs/kloxo/file";
 	$fpmpath = "/home/php-fpm/etc";
 
