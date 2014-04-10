@@ -6,6 +6,10 @@ class serverweb__ extends lxDriverClass
 	{
 	}
 
+	function dosyncToSystemPre()
+	{
+	}
+
 	function dbactionUpdate($subaction)
 	{
 		switch ($subaction) {
@@ -440,13 +444,35 @@ class serverweb__ extends lxDriverClass
 
 	function set_multiple_php_install()
 	{
-		return;
+		// MR -- see preUpdate in serverweblib.php for why using this trick!
 
-		// MR -- TODO: this function still not work. Trouble with $this->main->->multiple_php_install
-		$a = $this->main->multiple_php_install;
+		$c = '/tmp/phpm-install-process.sh';
 
-		foreach ($a as $k => $v) {
-			lxshell_return("sh", "/script/{$v}-installer", "--nolog");
+		if (file_exists($c)) {
+			throw new lxexception('other_install_process_still_running', '', $this->main->syncserver);
+			return;
 		}
+
+		$s = '/tmp/multiple_php_install.tmp';
+
+		if (file_exists($s)) {
+			$a = explode(',', file_get_contents($s));
+
+			lxfile_rm($s);
+
+			$b = '';
+
+			foreach ($a as $k => $v) {
+				$b .= "sh /script/{$v}-installer\n";
+			}
+
+			$b .= "rm -f $c\n";
+
+			file_put_contents('/tmp/phpm-install-process.sh', $b);
+
+			lxshell_background("sh", $c);			
+		}
+		
+		throw new lxexception('install_process_running_in_background', '', $this->main->syncserver);
 	}
 }

@@ -19,8 +19,7 @@ include_once "$dir/lib/php/lxdb.php";
 include_once "$dir/lib/define.php";
 include_once "$dir/lib/driver_define.php";
 include_once "$dir/lib/sgbl.php";
-include_once "$dir/lib/common.inc";
-//include_once "$dir/lib/html/xmlinclude.php";
+//include_once "$dir/lib/common.inc";//include_once "$dir/lib/html/xmlinclude.php";
 // This is the program specific common lib. There is no need dump everything lib/html/lib.php which has become too large.
 // include_once "$dir/lib/programlib.php";
 

@@ -435,6 +435,8 @@ function do_desc_update($object, $subaction, $param)
 	global $gbl, $sgbl, $login, $ghtml; 
 	$class = lget_class($object);
 
+	$object->preUpdate();
+
 	$parent = $object->getParentO();
 	$qparent = $parent;
 
@@ -537,6 +539,8 @@ function do_desc_update($object, $subaction, $param)
 function do_desc_add($object, $class, $param)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
+	$object->preAdd();
 
 	$quotaclass = exec_class_method($class, "getquotaclass", $class);
 	$numvar = "{$quotaclass}_num";

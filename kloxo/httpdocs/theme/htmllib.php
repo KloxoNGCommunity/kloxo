@@ -6834,12 +6834,12 @@ class HtmlLib
 								<td><b>Selected</b></td>
 							</tr>
 							<tr height='20' valign='middle'>
-								<input type='hidden' id="<?= trim($variablename) ?>" name="<?= trim($variablename) ?>">
 								<input type='hidden' id='frm_action' name='frm_action' value="update">
 								<input type='hidden' id='frm_subaction' name='frm_subaction' value="update">
 								<?= $this->html_variable_inherit("frm_o_o") ?>
+								<input type='hidden' id="<?= trim($variablename) ?>" name="<?= trim($variablename) ?>" value="">
 								<td class='col' width='100%' align='center' valign='middle'>
-									<select class='textbox' <?= $stylestring ?> id='<?= $ts_name1 ?>' multiple name='<?= trim($srcname) ?>'>
+									<select class="textbox" <?= $stylestring ?> id="<?= $ts_name1 ?>" multiple name="<?= trim($srcname) ?>[]">
 <?php
 		foreach ($src as $k => $s) {
 			if (csb($k, "__title")) {
@@ -6873,8 +6873,8 @@ class HtmlLib
 										</tr>
 									</table>
 								</td>
-								<td class=col align=center width=30%>
-									<select id="<?= $ts_name2 ?>" <?= $stylestring ?> class="textbox" multiple name="<?= trim($dstname) ?>">
+								<td class='col' align='center' width='30%'>
+									<select class="textbox" id="<?= $ts_name2 ?>" <?= $stylestring ?> multiple name="<?= trim($dstname) ?>[]">
 <?php
 
 		foreach ($dst as $k => $d) {
@@ -7018,8 +7018,8 @@ class HtmlLib
 			</tr>
 			<tr>
 				<td>
-					<input type='hidden' id="<?= $variable->name ?>" name="<?= $variable->name ?>">
-					<select class='textbox' id='<?= $ts_name1 ?>' name='<?= $variable1->name ?>' multiple size='5'>
+					<input type='hidden' id="<?= $variable->name ?>" name="<?= $variable->name ?>" value="">
+					<select class="textbox" id="<?= $ts_name1 ?>" name="<?= $variable1->name ?>[]" multiple size="5">
 <?php
 		foreach ($variable1->option as $k => $option) {
 ?>
@@ -7036,7 +7036,7 @@ class HtmlLib
 					<INPUT TYPE="button" class="submitbutton" onClick="multiSelectRemove('<?= $form ?>', '<?= trim($variable->name) ?>', '<?= $ts_name2 ?>')" VALUE="&nbsp;&#x00ab;&nbsp;">
 				</td>
 				<td>
-					<select class='textbox' id='<?= $ts_name2 ?>' name='<?= trim($variable2->name) ?>' multiple size='5'>
+					<select class="textbox" id="<?= $ts_name2 ?>" name="<?= trim($variable2->name) ?>[]" multiple size="5">
 <?php
 		$v2count = 0;
 

@@ -44,6 +44,22 @@ class serverweb extends lxdb
 		return $uflist;
 	}
 
+	function preUpdate()
+	{
+		// MR -- preUpdate (also preAdd) is new function; process before Update/Add
+
+		// MR -- still any trouble passing value so use this trick
+		if (isset($_POST['frm_serverweb_b_multiple_php_install'])) {
+			// MR -- $this->multiple_php_install (frm_serverweb_c_multiple_php_install) still empty
+			// so, use frm_serverweb_b_multiple_php_install (second multiselect)
+			$this->multiple_php_install = $_POST['frm_serverweb_b_multiple_php_install'];
+		}
+
+		$join = implode(',', $this->multiple_php_install);
+
+		file_put_contents('/tmp/multiple_php_install.tmp', $join);
+	}
+
 	function updateform($subaction, $param)
 	{
 		switch($subaction) {
@@ -73,12 +89,6 @@ class serverweb extends lxdb
 
 				break;
 			case "php_type":
-				if (!db_get_value("serverweb", "pserver-". $this->syncserver, "php_type")) {
-					db_set_default("serverweb", "php_type", "php-fpm_event", 
-						"nname = 'pserver-{$this->syncserver}'");
-					$this->setDefaultValue('php_type', 'php-fpm_event');
-				}
-
 				// MR -- remove mod_php on 'php-type' select
 				$vlist['php_type'] = array('s', array(
 					'mod_php_ruid2', 'mod_php_itk',
@@ -86,6 +96,12 @@ class serverweb extends lxdb
 					'php-fpm_event', 'php-fpm_worker',
 					'fcgid_event', 'fcgid_worker'));
 	
+				if (!db_get_value("serverweb", "pserver-". $this->syncserver, "php_type")) {
+					db_set_default("serverweb", "php_type", "php-fpm_event", 
+						"nname = 'pserver-{$this->syncserver}'");
+					$this->setDefaultValue('php_type', 'php-fpm_event');
+				}
+
 				$vlist['secondary_php'] = array('f', array('on', 'off'));
 
 				if (file_exists("/etc/httpd/conf.d/suphp52.conf")) {
@@ -140,7 +156,8 @@ class serverweb extends lxdb
 
 				$vlist['multiple_php_install'] = array("U", $a);
 
-				$this->setDefaultValue('multiple_php_install', $f);
+				// MR -- not able to 'default' value
+			//	$this->setDefaultValue('multiple_php_install', $f);
 
 				break;
 			case "php_used":

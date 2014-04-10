@@ -1201,6 +1201,16 @@ function xprint($var)
 	}
 }
 
+function get_xprint($var)
+{
+	ob_start();
+	eval(xprint($var));
+	$x = ob_get_contents();
+	ob_end_clean();
+
+	return $x;
+}
+
 function lx_local_socket_read($socket)
 {
 	return @ socket_read($socket, 2048);

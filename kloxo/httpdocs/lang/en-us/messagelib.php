@@ -509,6 +509,7 @@ $__information['webserver_config'] =
 			"<ul>".
 				"<li>Select for 'php53m' as the same way for running 'sh /script/switch-php-fpm php53m' in ssh command-line</li>".
 				"<li>Only work and optimize for php-fpm</li>".
+				"<li>Install process running in background and don't install other(s) until current PHP installed appear in 'Multiple PHP Already Installed'</li>".
 			"</ul>".
 		"</li>".
 	"</ul></p>".

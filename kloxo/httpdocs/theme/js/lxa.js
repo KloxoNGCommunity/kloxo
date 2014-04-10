@@ -524,7 +524,11 @@ function multiSelectPopulate(form, variable, box1, box2) {
 			field2.length= n + 1;
 			field2.options[n]= new Option(newOpt, newOpt);
 			field2.options[n].value = field1.options[i].value;
+
+			field2.options[n].selected = true; 
+
 			copyStyle(field1.options[i], field2.options[n]);
+
 			n++;
 		}
 	}
@@ -534,6 +538,7 @@ function multiSelectPopulate(form, variable, box1, box2) {
 
 function createFormVariable(form, variable, box)
 {
+
 	if (typeof box == 'string') {
 		field = document.getElementById(box);
 	} else {
@@ -546,9 +551,8 @@ function createFormVariable(form, variable, box)
 		data[i] = field.options[i].value;
 	}
 
-
-
-	eval("frm." + variable + ".value = data");
+//	eval("frm." + variable + ".value = data;");
+	document.getElementById(variable).value = data;
 }
 
 function multiSelectisPresentIn(text, field)

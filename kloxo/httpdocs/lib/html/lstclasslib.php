@@ -2,8 +2,8 @@
 
 class lstclass {
 
-static $__desc = array("", "",  "class_list");
-static $__desc_lstclass_list	 = array("U", "",  "client_name");
+static $__desc = array("", "", "class_list");
+static $__desc_lstclass_list = array("U", "", "client_name");
 
 
 
