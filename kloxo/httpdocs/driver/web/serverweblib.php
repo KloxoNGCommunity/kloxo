@@ -44,7 +44,7 @@ class serverweb extends lxdb
 		return $uflist;
 	}
 
-	function preUpdate()
+	function preUpdate($subaction, $param)
 	{
 		// MR -- preUpdate (also preAdd) is new function; process before Update/Add
 
