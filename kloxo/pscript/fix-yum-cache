@@ -6,7 +6,7 @@ if [ "$(cat /etc/yum.conf|grep 'http_caching=packages')" == "" ] ; then
 	echo "" >> /etc/yum.conf
 	echo "### MR -- http_caching: all, packages or none; default all" >> /etc/yum.conf
 	echo "http_caching=packages" >> /etc/yum.conf
-	echo "timeout=300" >> /etc/yum.conf
+	echo "timeout=30" >> /etc/yum.conf
 else
 	echo "Modified already exist in /etc/yum.conf"
 fi
