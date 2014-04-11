@@ -435,7 +435,7 @@ function do_desc_update($object, $subaction, $param)
 	global $gbl, $sgbl, $login, $ghtml; 
 	$class = lget_class($object);
 
-	$object->preUpdate();
+	$object->preUpdate($subaction, $param);
 
 	$parent = $object->getParentO();
 	$qparent = $parent;

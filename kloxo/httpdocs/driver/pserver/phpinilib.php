@@ -237,7 +237,14 @@ class phpini extends lxdb
 	{
 		global $login;
 
-		$sa=$login->getList('pserver');
+		$l = $login->getList('pserver');
+
+		foreach ($l as $s) {
+			if ($s->nname === $this->syncserver) {
+				$php = $s->getObject('phpini');
+				break;
+			}
+		}
 
 		$a = array('52', '53', '54', '55');
 
@@ -254,7 +261,7 @@ class phpini extends lxdb
 		}
 
 		if (!isset($e)) {
-			$s->getObject('phpini')->phpini_flag_b->multiple_php_flag = 'off';
+			$php->phpini_flag_b->multiple_php_flag = 'off';
 
 			throw new lxexception('need_install_phpXYm_series_for_multiple_php', '', $this->syncserver);	
 		}
@@ -305,6 +312,8 @@ class phpini extends lxdb
 
 	function updateform($subaction, $param)
 	{
+		global $login;
+
 		$this->initPhpIni();
 
 		if ($subaction === 'extraedit') {

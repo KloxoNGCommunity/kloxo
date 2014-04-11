@@ -4345,19 +4345,19 @@ class HtmlLib
 
 		<!-- "I am here 5" -->
 		<div style="width: 910px; margin: 0 auto 0 auto">
-			<table width="100%" cellpadding="0" cellspacing="0" border="0" style="<?= $backgroundstring ?>  border: 1px solid #<?= $col ?>;">
-				<tr>
+			<table width="100%" cellpadding="0" cellspacing="0" border="0" style="<?= $backgroundstring ?>  border: 1px solid #<?= $col ?>; padding: 10px;">
+				<!-- <tr>
 					<td valign="bottom" height="10" colspan="4"> &nbsp;  </td>
-				</tr>
+				</tr> -->
 				<tr>
-					<td width="10"> &nbsp; </td>
-					<td> <?= $this->print_list_submit($class, $blist, $unique_name) ?> </td>
-					<td><?= $this->print_search($parent, $class) ?> </td>
-					<td width="10"> &nbsp; </td>
+					<!-- <td width="10"> &nbsp; </td> -->
+					<td><?= $this->print_list_submit($class, $blist, $unique_name) ?></td>
+					<td><?= $this->print_search($parent, $class) ?></td>
+					<!-- <td width="10"> &nbsp; </td> -->
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td height="10" colspan="4"> &nbsp; </td>
-				</tr>
+				</tr> -->
 			</table>
 		</div>
 <?php
@@ -9326,16 +9326,18 @@ class HtmlLib
 										<td width="10" height="22">&nbsp;</td>
 										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><?=$search_text;?></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
-										<td height="22" width="70">
+										<td width="70">
 											<!-- <form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
 											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" id="frm_clear_filter" name="frm_clear_filter" value="true">
-												<table cellpadding="0" cellspacing="0" border="0" width="100%" height="22">
+												<table cellpadding="0" cellspacing="0" border="0" width="100%">
 													<tr>
-														<td height="22" width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><?=$showall_text;?></a></td>
-														<td width="69%" height="22" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class="small"><?= $login->getKeywordUc('showall') ?></span></a></td>
+														<td width="31%" align="center" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();"><?=$showall_text;?></a></td>
+													</tr>
+													<tr>
+														<td width="69%" nowrap>&nbsp;<a href="javascript:document.lpform_showall.submit();" onMouseOver="changeContent('help','showall');" onMouseOut="changeContent('help','helparea');"><span class="small"><?= $login->getKeywordUc('showall') ?></span></a></td>
 													</tr>
 												</table>
 											</form>

@@ -1400,6 +1400,19 @@ class Domaind extends DomainBase
 		$alist['__title_domain_classweb'] = $web->getTitleWithSync();
 	//	$alist['__title_domain_classweb'] = 'web';
 
+		$plist = $login->getList('pserver');
+
+		foreach ($plist as $server) {
+			if ($server->nname === $this->syncserver) {
+				$php = $server->getObject('phpini');
+				break;
+			}
+		}
+
+		if ($php->phpini_flag_b->isOn('multiple_php_flag')) {
+			$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
+		}
+
 	//	$alist[] = "a=list&c=webindexdir_a";
 
 		$alist[] = "n=web&a=list&c=dirprotect";
