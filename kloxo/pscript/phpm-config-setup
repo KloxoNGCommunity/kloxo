@@ -6,6 +6,37 @@ DATE="${2}"
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
 
+x="- Disable certain modules (rename to .nonini) in '/etc/${base_name}/etc/php.d'"
+echo $x
+echo $x >>/opt/${base_name}/install${DATE}.log
+
+for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
+	apc apcu imagick interbase ioncube-loader memcache memcached mssql debug \
+	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
+	xdebug	xcache opcache lzf redis enchant phar intl geoip fileinfo tidy ; do
+
+	if [ -f /opt/${base_name}/etc/php.d/${i}.ini ] ; then
+		if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then
+			## MR -- using mysqlnd instead mysql/mysqli in php54s
+			x="-- Enable 'mysqlnd' instead 'mysql' modules in '/etc/${base_name}/etc/php.d'"
+			echo $x
+			echo $x >>/opt/${base_name}/install${DATE}.log
+
+			if [ -f /opt/${base_name}/etc/php.d/mysql.ini ] ; then
+				mv -f /opt/${base_name}/etc/php.d/mysql.ini /opt/${base_name}/etc/php.d/mysql.nonini
+				mv -f /opt/${base_name}/etc/php.d/mysqli.ini /opt/${base_name}/etc/php.d/mysqli.nonini
+				mv -f /opt/${base_name}/etc/php.d/pdo_mysql.ini /opt/${base_name}/etc/php.d/pdo_mysql.nonini
+			fi
+		else
+			x="-- Disable '${i}' modules in '/etc/${base_name}/etc/php.d'"
+			echo $x
+			echo $x >>/opt/${base_name}/install${DATE}.log
+
+			mv -f /opt/${base_name}/etc/php.d/${i}.ini /opt/${base_name}/etc/php.d/${i}.nonini
+		fi
+	fi
+done
+
 if [ "$(uname -m)" == "x86_64" ] ; then
 	uname_m="64"
 else
