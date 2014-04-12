@@ -178,6 +178,10 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+	if (!isset($rmt)) {
+		$rmt = new Remote();
+	}
+
 	$remotechar = $sgbl->__var_remote_char;
 
 	if ($login && $login->isSuperClient()) {

@@ -682,6 +682,10 @@ class Web extends Lxdb
 		}
 	}
 
+	// MR -- web__xxxlib call this function but no exists
+	function ftpChangeOwner() {
+	}
+
 	function webChangeOwner()
 	{
 		if (!lxfile_exists("{$this->getFullDocRoot()}")) {

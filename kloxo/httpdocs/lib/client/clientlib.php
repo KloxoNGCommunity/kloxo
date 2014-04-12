@@ -151,10 +151,6 @@ class Client extends ClientBase
 			$alist['property'][] = "a=updateform&sa=miscinfo";
 		} elseif ($ghtml->frm_subaction === 'upload_logo') {
 			$alist['property'][] = "a=updateform&sa=upload_logo&o=sp_specialplay";
-	//	} elseif (($ghtml->frm_subaction === 'skin') && ($ghtml->frm_o_o['0']['class'] === 'sp_specialplay')) {
-	//		$alist['property'][] = "a=updateform&sa=skin&o=sp_specialplay";
-	//	} elseif (($ghtml->frm_subaction === 'skin') && ($ghtml->frm_o_o['0']['class'] === 'sp_childspecialplay')) {
-	//		$alist['property'][] = "a=updateform&sa=skin&o=sp_childspecialplay";
 		} elseif ($ghtml->frm_subaction === 'portconfig') {
 			$alist['property'][] = "a=updateform&sa=portconfig&o=general";
 		} elseif ($ghtml->frm_subaction === 'disable_skeleton') {

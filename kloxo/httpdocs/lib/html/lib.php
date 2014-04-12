@@ -153,6 +153,17 @@ function lxfile_cp_if_not_exists($src, $dst)
 	}
 }
 
+function db_set_value($table, $set, $where, $extra = null)
+{
+	$sq = new Sqlite(null, $table);
+
+	if ($extra) {
+		$extra = "AND $extra";
+	}
+
+	$sq->rawQuery("update $table set $set where $where $extra");
+}
+
 function db_get_value($table, $nname, $var)
 {
 	$sql = new Sqlite(null, $table);

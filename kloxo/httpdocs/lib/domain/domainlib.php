@@ -77,6 +77,8 @@ class Domaind extends DomainBase
 	static $__desc_mmail_o = array('qdtb', '', '', '');
 //	static $__desc_lxbackup_o = array('d', '', '', '');
 
+	static $__desc_ftpuser_o = array('d', '', '', '');
+
 	// Lists
 //	static $__desc_domain_l = array("qvd", "",  "virtual_object");
 	static $__desc_domaintraffic_l = array("d", "", "");
@@ -116,17 +118,25 @@ class Domaind extends DomainBase
 		$web->setUpdateSubaction('changeowner');
 		$web->__var_oldcustomer_name = $oldcustomer_name;
 		$web->customer_name = $parent->getPathFromName('nname');
-		$phpini = $web->getObject('phpini');
-		$phpini->setUpdateSubaction('changeowner');
+
+		// MR -- no need change phpini because user-based php.ini
+	//	$phpini = $web->getObject('phpini');
+	//	$phpini->setUpdateSubaction('changeowner');
 
 		$this->generateCMList();
 
-		$flist = $web->getList('ftpuser');
+	//	$flist = $web->getList('ftpuser');
 
-		foreach ($flist as $l) {
-			$l->setupdateSubaction('changeowner');
-		}
+	//	foreach ($flist as $l) {
+	//		$l->setupdateSubaction('changeowner');
+	//	}
 		
+	//	$f = $parent->getObject('ftpuser');
+	//	$f->setupdateSubaction('changeowner');
+
+		// MR -- all above action for ftpuser not work; so, change ftuser table directly
+		db_set_value('ftpuser', "parent_clname = 'client-{$parent->username}'", "nname = '{$this->nname}'"); 
+
 		$mmail = $this->getObject('mmail');
 		$mmail->systemuser = $parent->username;
 		$mmail->setUpdateSubaction('changeowner');
