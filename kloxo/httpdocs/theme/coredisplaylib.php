@@ -2334,8 +2334,12 @@ function lx_frm_inc()
 		display_die('Action Not set');
 	}
 
-	if (isRemotePost()) {
-		display_die('Remote post not permit');
+//	if (isRemotePost()) {
+//		display_die('Remote post not permit');
+//	}
+
+	if (!isTokenMatch()) {
+		display_die('Post token not match');
 	}
 
 	$caction = $ghtml->frm_action;
