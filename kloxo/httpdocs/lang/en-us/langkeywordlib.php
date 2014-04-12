@@ -148,6 +148,9 @@ $__keyword["wait"] = "Wait...";
 $__keyword["available"] = "Available";
 $__keyword["installed"] = "Installed";
 
+$__keyword["up"] = "Up";
+$__keyword["down"] = "Down";
+
 $__throw["domain_is_already_owned"] = "domain already owned";
 $__throw["invalid_domain_name"] = "invalid domain name";
 $__throw["add_without_www"] = "add without www";

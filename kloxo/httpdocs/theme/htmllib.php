@@ -6809,6 +6809,8 @@ class HtmlLib
 
 	function print_fancy_select($class, $src, $dst)
 	{
+		global $login;
+
 		$variablename = "frm_interface_template_c_{$class}_show_list";
 		$ts_name1 = "ts_{$variablename}1";
 		$ts_name2 = "ts_{$variablename}2";
@@ -6829,9 +6831,9 @@ class HtmlLib
 					<td>
 						<table width='100%' cellspacing='0' cellpadding='0'>
 							<tr align='center'>
-								<td><b>Available</b></td>
+								<td><b><?=$login->getKeywordUc('available');?></b></td>
 								<td></td>
-								<td><b>Selected</b></td>
+								<td><b><?=$login->getKeywordUc('selected');?></b></td>
 							</tr>
 							<tr height='20' valign='middle'>
 								<input type='hidden' id='frm_action' name='frm_action' value="update">
@@ -7011,9 +7013,9 @@ class HtmlLib
 
 		<table style="padding: 4px; border: 0;">
 			<tr>
-				<td><b>Available</b></td>
+				<td><b><?=$login->getKeywordUc('available');?></b></td>
 				<td colspan=1></td>
-				<td><b>Selected</b></td>
+				<td><b><?=$login->getKeywordUc('selected');?></b></td>
 				<td colspan=1></td>
 			</tr>
 			<tr>
@@ -7067,8 +7069,8 @@ class HtmlLib
 
 				</td>
 				<td>
-					<input type="button" name="upbutton" class="submitbutton" value="&nbsp;Up&nbsp;" onclick="shiftOptionUp('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
-					<input type="button" name="downbutton" class='submitbutton' value="&nbsp;Down&nbsp;" onclick="shiftOptionDown('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
+					<input type="button" name="upbutton" class="submitbutton" value="&nbsp;<?=$login->getKeywordUc('up');?>&nbsp;" onclick="shiftOptionUp('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
+					<input type="button" name="downbutton" class='submitbutton' value="&nbsp;<?=$login->getKeywordUc('down');?>&nbsp;" onclick="shiftOptionDown('<?= $form ?>', '<?= $variable->name ?>', <?= $variable2->name ?>)"/>
 
 				</td>
 			</tr>

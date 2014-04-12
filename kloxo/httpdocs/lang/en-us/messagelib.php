@@ -73,7 +73,7 @@ $__emessage['document_root_may_not_contain_spaces'] = "The document root may not
 
 $__emessage['switch_program_not_set'] = "Need select services. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=switchprogram>[here]</url> to set it.";
 $__emessage['phptype_not_set'] = "Need select php-type. Click <url:o=serverweb&a=show>[here]</url> to set it.";
-$__emessage['phpini_not_set'] = "Need update php.ini to make sure website able to process php file. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=phpini&a=show>[here]</url> to set it. The same way for 'slave' server";
+$__emessage['phpini_not_set'] = "Need update php.ini to make sure the website able to process php files. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=phpini&a=show>[here]</url> to set it. The same way for 'slave' server";
 
 
 // ------------------------ //
@@ -212,7 +212,7 @@ $__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the 
 	"<p><b>Note:</b></p>" .
 	"<ul>" .
 		"<li>for enable 'multiple php' need install php52m, php53m, php53m, php54m and php55m with 'sh /script/php53m-installer' (example for php53m)</li>" .
-		"<li>for share-hosting, better install all phpXYm series</li>" .
+		"<li>for shared-hosting, better install all phpXYm series</li>" .
 		"<li>Format for 'multiple php ratio' is 'a:b:c:d' where 'a' for php52m, 'b' for php53m, 'c' for php54m and 'd' for php55m</li>" .
 		"<li>Left blank in 'Multiple PHP Ready' to re-list</li>" .
 	"</ul>" .
@@ -237,7 +237,7 @@ $__information['ticketconfig_updateform_ticketconfig_pre'] = "<p>The mailgate is
 	"It is always recommended that you use ssl, but you will need to make sure that the remote mail serer does support pop3-ssl service at port 995.</p>";
 
 $__information['updateform_mysqlpasswordreset_pre'] = "<p>This should only be used if you have lost the MySQL database root password.</p>".
-	"<p>In normal circumstances, you can change the password by click <url:a=list&c=dbadmin>[here]</url> (database admin).</p>".
+	"<p>In normal circumstances, you can change the password by clicking <url:a=list&c=dbadmin>[here]</url> (database admin).</p>".
 	"<p>Please be patient as this will take a while to finish. This will reset the mysql root password by running it with the skip-grant-tables option.</p>".
 	"<p>If this doesn't work, please login through ssh and run '<b>sh /script/reset-mysql-root-password</b>'.</p>";
 
@@ -489,8 +489,8 @@ $__information['forward_a_addform__pre'] = "<p>The forward addresses are a list 
 $__information['webserver_config'] = 
 	"<p><b>PHP Used</b>".
 	"<ul>".
-		"<li>The purpose for 'PHP Used' is using different PHP for 'Single PHP' System. For enable 'Multiple PHP, click <url:k[class]=pserver&k[nname]=[%_server_%]&o=phpini&a=show>[here]</url></li>".
-		"<li>You can choose 'standard php' (install with 'PHP Branch') or from 'Multiple PHP' (install with 'Multiple PHP Install')</li>".
+		"<li>The purpose for 'PHP Used' is using a different PHP for 'Single PHP' System. To enable 'Multiple PHP, click <url:o=phpini&a=show>[here]</url></li>".
+      		"<li>You can choose 'standard php' (install with 'PHP Branch') or 'Multiple PHP' (install with 'Multiple PHP Install')</li>".
 	"</ul></p>".
 	"<p><b>PHP Branch</b>".
 	"<ul>".
@@ -501,7 +501,7 @@ $__information['webserver_config'] =
 	"</ul></p>".
 	"<p><b>Multiple PHP Install</b>".
 	"<ul>".
-		"<li>PHP for 'Multiple PHP' already install will show in 'Multiple PHP Already Installed'</li>".
+		"<li>PHP for 'Multiple PHP' already installed will show in 'Multiple PHP Already Installed'</li>".
 		"<li>List of 'Available' meaning all available for 'Multiple PHP'</li>".
 		"<li>List of 'Selected' meaning PHP that want to install</li>".
 		"<li>Choose the same name with 'Multiple PHP Already Installed' for need reinstall</li>".
