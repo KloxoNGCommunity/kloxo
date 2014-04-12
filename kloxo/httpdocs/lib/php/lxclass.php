@@ -3681,7 +3681,13 @@ abstract class Lxclass
 
 		$this->changeOwnerSpecific();
 
-		$gbl->__this_redirect = $ghtml->getFullUrl('a=resource', null);
+		// MR -- change redirect to 'new' client
+	//	$gbl->__this_redirect = $ghtml->getFullUrl('a=resource', null);
+
+		$new_cname = str_replace('client-', '', $this->parent_clname);
+
+		$gbl->__this_redirect = $ghtml->getFullUrl("a=show&k[class]=client&k[nname]={$new_cname}", null);
+
 		$gbl->__this_function = array("lxclass", "exec_collectQuota");
 		$gbl->__this_functionargs = null;
 
