@@ -1,10 +1,16 @@
 #!/bin/sh
 
-echo "*** BEGIN '$1' install ***"
+DATE=$(date +"%Y/%m/%d %H:%M:%S")
 
 base_name="${1}"
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
+
+mkdir -p /opt/${base_name}
+
+x="=== BEGIN '$1' (${DATE}) install ==="
+echo $x
+echo $x >>/opt/${base_name}/install.log
 
 if [ "$(yum list php*|grep ${src_name}u)" != "" ] ; then
 	pack_name="${src_name}u"
@@ -30,19 +36,15 @@ else
 	v=""
 fi
 
-mkdir -p /opt/${base_name}
-
-DATE=$(date +"%Y%m%d%H%M")
-
 x="- Install php general dependencies rpms... Please wait!"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
 c=""
 
 x="-- Check installed dependencies rpms"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
 for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
 	curl cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
@@ -59,62 +61,62 @@ for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-li
 	rpm_detect=$(rpm -qa|grep ${i}-)
 
 	x="--- Check for ${i} installed or not"
-	echo $x >>/opt/${base_name}/install${DATE}.log
+	echo $x >>/opt/${base_name}/install.log
 
 	if [ "${rpm_detect}" == "" ] ; then
 		c=${c}${i}${v}" "
 
 		x="---- ${i} not installed"
-		echo $x >>/opt/${base_name}/install${DATE}.log
+		echo $x >>/opt/${base_name}/install.log
 	else
 		x="---- ${i} already installed"
-		echo $x >>/opt/${base_name}/install${DATE}.log
+		echo $x >>/opt/${base_name}/install.log
 	fi
 done
 
 if [ "${c}" != "" ] ; then
 	x="-- Install for not installed dependencies rpms"
 	echo $x
-	echo $x >>/opt/${base_name}/install${DATE}.log
-	yum -y install $c >>/opt/${base_name}/install${DATE}.log
+	echo $x >>/opt/${base_name}/install.log
+	yum -y install $c >>/opt/${base_name}/install.log
 fi
-
-## MR -- no need delete because will be overrite if new files.
-#find /opt/${base_name} -type f -not -name '_*.ini' | xargs rm
 
 x="- Download all rpms (debug and devel will be deleted)... Please wait!"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
 cd /opt/${base_name}
-yumdownloader ${pack_name}-* >>/opt/${base_name}/install${DATE}.log
+yumdownloader ${pack_name}-* >>/opt/${base_name}/install.log
 rm -rf *-debug*
 rm -rf *-devel*
 
 x="- Extract all rpms to '/opt/${base_name}'"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
-for entry in $(ls ./*.rpm) ; do
-	rpm2cpio $entry | cpio -idmv >/dev/null 2>$1
+for i in $(ls ./*.rpm) ; do
+	rpm2cpio $i | cpio -idmv >/dev/null 2>$1
 done
 
-rm -rf *.rpm
+rm -rf ./*.rpm
 
 cd /
 
-sh /script/phpm-config-setup $base_name ${DATE}
+sh /script/phpm-config-setup $base_name 
 
-echo "*** END '$1' install ***"
+x="=== END '$1' (${DATE}) install ==="
+echo $x
+echo $x >>/opt/${base_name}/install.log
+
 echo
 
 echo "Note:"
-echo " - See '/opt/${base_name}/install${DATE}.log' for detail install process"
+echo " - See '/opt/${base_name}/install.log' for detail install process"
 echo " - Example: copy 'xcache.nonini' to '_xcache.ini' for enable 'xcache' module"
 echo "      in '/etc/${base_name}/etc/php.d'"
-echo ""
-echo "- Running '/script/php53m-installer' as the same as 'sh /script/phpm-installer php53m'"
-echo "- For config setup only, run 'sh /script/phpm-config-setup php53m"
+echo " - Running 'sh /script/php53m-installer' as the same as "
+echo "      'sh /script/phpm-installer php53m'"
+echo " - For config setup only, run 'sh /script/phpm-config-setup php53m"
 echo
 
 

@@ -108,36 +108,38 @@ class phpini__sync extends Lxdriverclass
 			$input['phpinipath'] = "/home/kloxo/client/{$user}";
 			$input['phpcgipath'] = "/usr/bin/php-cgi";
 
-			$maxchildren = db_get_value("client", $user, "priv_q_phpfcgiprocess_num");
+			if ($pclass === 'client') {
+				$maxchildren = db_get_value("client", $user, "priv_q_phpfcgiprocess_num");
 
-			if (($maxchildren === 'Unlimited') || ($maxchildren === '-')) {
-				$maxchildren = '6';
+				if (($maxchildren === 'Unlimited') || ($maxchildren === '-')) {
+					$maxchildren = '6';
+				}
+
+				$input['maxchildren'] = $maxchildren;
+
+				$phpini_parse = getParseInlinePhp($phpini_cont, $input);
+				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
+				$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
+
+				$phpini_target = "/home/kloxo/client/{$user}/php.ini";
+				$fcgid_target = "/home/kloxo/client/{$user}/php5.fcgi";
+				$phpfpm_target = "/etc/php-fpm.d/{$user}.conf";
+
+				file_put_contents($phpini_target, $phpini_parse);
+				file_put_contents($fcgid_target, $fcgid_parse);
+				file_put_contents($phpfpm_target, $phpfpm_parse);
+
+				lxfile_unix_chmod($fcgid_target, "0755");
+			} else {
+				$htaccess_parse = getParseInlinePhp($htaccess_cont, $input);
+
+				$htaccess_target = "/home/{$user}/kloxoscript/.htaccess";
+
+				file_put_between_comments("{$user}:apache", $stlist, $endlist, 
+						$startstring, $endstring, $htaccess_target, $htaccess_parse);
+
+				lxfile_unix_chown($htaccess_target, "{$user}:apache");
 			}
-
-			$input['maxchildren'] = $maxchildren;
-
-			$phpini_parse = getParseInlinePhp($phpini_cont, $input);
-			$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
-			$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
-			$htaccess_parse = getParseInlinePhp($htaccess_cont, $input);
-
-			$phpini_target = "/home/kloxo/client/{$user}/php.ini";
-			$fcgid_target = "/home/kloxo/client/{$user}/php5.fcgi";
-			$phpfpm_target = "/etc/php-fpm.d/{$user}.conf";
-			$htaccess_target = "/home/{$user}/kloxoscript/.htaccess";
-
-			file_put_contents($phpini_target, $phpini_parse);
-			file_put_contents($fcgid_target, $fcgid_parse);
-			file_put_contents($phpfpm_target, $phpfpm_parse);
-		//	file_put_contents($htaccess_target, $htaccess_parse);
-
-			file_put_between_comments("{$user}:apache", $stlist, $endlist, 
-					$startstring, $endstring, $htaccess_target, $htaccess_parse);
-
-			lxfile_unix_chown($htaccess_target, "{$user}:apache");
-
-			lxfile_unix_chmod($fcgid_target, "0755");
-
 		}
 
 		// MR -- also restart php-fpm

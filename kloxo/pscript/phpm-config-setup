@@ -1,40 +1,41 @@
 #!/bin/sh
 
 base_name="${1}"
-DATE="${2}"
 
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
 
-x="- Disable certain modules (rename to .nonini) in '/etc/${base_name}/etc/php.d'"
+x="- Disable certain modules (rename to .nonini) in '/etc/${base_name}/etc/' + 'php.d' and 'php-zts.d'"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
 for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 	apc apcu imagick interbase ioncube-loader memcache memcached mssql debug \
 	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
 	xdebug	xcache opcache lzf redis enchant phar intl geoip fileinfo tidy ; do
 
-	if [ -f /opt/${base_name}/etc/php.d/${i}.ini ] ; then
-		if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then
-			## MR -- using mysqlnd instead mysql/mysqli in php54s
-			x="-- Enable 'mysqlnd' instead 'mysql' modules in '/etc/${base_name}/etc/php.d'"
-			echo $x
-			echo $x >>/opt/${base_name}/install${DATE}.log
+	for j in php.d php-zts.d ; do
+		if [ -f /opt/${base_name}/etc/${j}/${i}.ini ] ; then
+			if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then
+				## MR -- using mysqlnd instead mysql/mysqli in php54s
+				x="-- Enable 'mysqlnd' instead 'mysql' modules in '/etc/${base_name}/etc/${j}'"
+				echo $x
+				echo $x >>/opt/${base_name}/install.log
 
-			if [ -f /opt/${base_name}/etc/php.d/mysql.ini ] ; then
-				mv -f /opt/${base_name}/etc/php.d/mysql.ini /opt/${base_name}/etc/php.d/mysql.nonini
-				mv -f /opt/${base_name}/etc/php.d/mysqli.ini /opt/${base_name}/etc/php.d/mysqli.nonini
-				mv -f /opt/${base_name}/etc/php.d/pdo_mysql.ini /opt/${base_name}/etc/php.d/pdo_mysql.nonini
+				if [ -f /opt/${base_name}/etc/php.d/mysql.ini ] ; then
+					mv -f /opt/${base_name}/etc/${j}/mysql.ini /opt/${base_name}/etc/${j}/mysql.nonini
+					mv -f /opt/${base_name}/etc/${j}/mysqli.ini /opt/${base_name}/etc/${j}/mysqli.nonini
+					mv -f /opt/${base_name}/etc/${j}/pdo_mysql.ini /opt/${base_name}/etc/${j}/pdo_mysql.nonini
+				fi
+			else
+				x="-- Disable '${i}' modules in '/etc/${base_name}/etc/${j}'"
+				echo $x
+				echo $x >>/opt/${base_name}/install.log
+
+				mv -f /opt/${base_name}/etc/${j}/${i}.ini /opt/${base_name}/etc/${j}/${i}.nonini
 			fi
-		else
-			x="-- Disable '${i}' modules in '/etc/${base_name}/etc/php.d'"
-			echo $x
-			echo $x >>/opt/${base_name}/install${DATE}.log
-
-			mv -f /opt/${base_name}/etc/php.d/${i}.ini /opt/${base_name}/etc/php.d/${i}.nonini
 		fi
-	fi
+	done
 done
 
 if [ "$(uname -m)" == "x86_64" ] ; then
@@ -49,26 +50,27 @@ mkdir -p /opt/${base_name}/custom
 
 x="- Copy certain files to '/opt/${base_name}/custom'"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
 cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/* /opt/${base_name}/custom/
 
 x="- Set .sh to 755"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
 chmod 755 /opt/${base_name}/custom/*.sh
 
 x="- Create .sh symlink"
 echo $x
-echo $x >>/opt/${base_name}/install${DATE}.log
+echo $x >>/opt/${base_name}/install.log
 
 for i in cgi cli ls fpm ; do
 	if [ -f /usr/local/lxlabs/kloxo/init/${base_name}/${base_name}-${i}.sh ] ;  then
 		x="-- From '/opt/${base_name}/custom/${base_name}-${i}.sh' to '/usr/bin/${base_name}-${i}'"
 		echo $x
-		echo $x >>/opt/${base_name}/install${DATE}.log
+		echo $x >>/opt/${base_name}/install.log
 
+		rm -f /usr/bin/${base_name}-${i}
 		ln -sf /opt/${base_name}/custom/${base_name}-${i}.sh /usr/bin/${base_name}-${i}
 	fi
 done
@@ -102,7 +104,7 @@ done
 	if [ "${uname_m}" == "64" ] ; then
 		x="- Create symlink from /opt/${base_name}/usr/lib64 to /opt/${base_name}/usr/lib"
 		echo $x
-		echo $x >>/opt/${base_name}/install${DATE}.log
+		echo $x >>/opt/${base_name}/install.log
 
 		ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib
 	fi

@@ -11,7 +11,7 @@ class client__sync extends lxDriverClass {
 
 		// MR -- remember: using lxfile_rm may not work!
 		unlink("/etc/php-fpm.d/{$this->main->nname}.conf");
-		createRestartFile("php-fpm");
+	//	createRestartFile("php-fpm");
 	}
 
 	function dbactionAdd()

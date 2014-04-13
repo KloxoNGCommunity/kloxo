@@ -45,6 +45,12 @@
 		$libpath = 'lib';
 	}
 
+	$register_global_flag = 'Off';
+	$magic_quotes_runtime_flag = 'Off';
+	$magic_quotes_sybase_flag = 'Off';
+	$safe_mode_flag = 'Off';
+	$register_long_arrays_flag = 'Off';
+
 ?>
 
 [PHP]

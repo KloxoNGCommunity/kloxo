@@ -1250,9 +1250,9 @@ function fix_vgname($vgname)
 
 function restart_mysql()
 {
-	if (file_exists("/etc/rc.d/init.d/mysqld")) {
+	if (file_exists("/etc/init.d/mysqld")) {
 		exec_with_all_closed("service mysqld restart >/dev/null 2>&1");
-	} elseif (file_exists("/etc/rc.d/init.d/mysql")) {
+	} elseif (file_exists("/etc/init.d/mysql")) {
 		exec_with_all_closed("service mysql restart >/dev/null 2>&1");
 	}
 }
@@ -6009,11 +6009,11 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
-	if (lxfile_exists("/etc/rc.d/init.d/pure-ftpd")) {
+	if (lxfile_exists("/etc/init.d/pure-ftpd")) {
 		log_cleanup("- Turn off and remove pure-ftpd service", $nolog);
 		exec("chkconfig pure-ftpd off 2>/dev/null");
 		// MR --- chkconfig off not enough because can restart with 'service pure-ftpd start'
-		@lxfile_rm("/etc/rc.d/init.d/pure-ftpd");
+		@lxfile_rm("/etc/init.d/pure-ftpd");
 	}
 
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {
@@ -7562,7 +7562,9 @@ function setPhpBranch($select, $nolog = null)
 
 	exec("sh /script/fixphp");
 
-	createRestartFile('php-fpm');
+	if (file_exists('/etc/init.d/php-fpm')) {
+		createRestartFile('php-fpm');
+	}
 }
 
 function getKloxoType()

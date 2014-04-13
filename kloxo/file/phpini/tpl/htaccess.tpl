@@ -27,6 +27,13 @@
         $sendmailmark = '#';
         $sendmail_from = '';
     }
+
+    $register_global_flag = 'Off';
+    $magic_quotes_gpc_flag = 'Off';
+    $magic_quotes_runtime_flag = 'Off';
+    $magic_quotes_sybase_flag = 'Off';
+    $safe_mode_flag = 'Off';
+    $register_long_arrays_flag = 'Off';
 ?>
 ### MR -- attention
 ### 1. Move '#<Ifmodule !mod_php5.c>' until '#</Ifmodule>' on
