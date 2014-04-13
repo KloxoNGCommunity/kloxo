@@ -58,6 +58,8 @@ class serverweb extends lxdb
 		$join = implode(',', $this->multiple_php_install);
 
 		file_put_contents('/tmp/multiple_php_install.tmp', $join);
+
+		chown('/tmp/multiple_php_install.tmp', 'root:root');
 	}
 
 	function updateform($subaction, $param)

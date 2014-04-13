@@ -96,7 +96,6 @@ class watchdog extends lxdb
 		// MR -- watchdog for php-fpm for listening 'apache' user port
 		$userinfo = posix_getpwnam('apache');
 		$fpmport = (50000 + $userinfo['uid']);
-		
 		if (file_exists('/etc/init.d/php-fpm')) {
 			self::addOneWatchdog($pserver, "php-fpm", $fpmport, "/etc/init.d/php-fpm restart");
 		}

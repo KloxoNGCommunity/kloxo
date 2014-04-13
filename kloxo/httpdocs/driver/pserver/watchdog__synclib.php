@@ -47,7 +47,6 @@ class watchdog__sync extends Lxdriverclass {
 				if (file_exists('/etc/init.d/php-fpm')) {
 					createRestartFile('php-fpm');
 				}
-
 				$action = "{$a[0]} restart";
 			} else {
 				$action = $l['action'];
