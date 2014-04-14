@@ -90,11 +90,12 @@ class PermissionOrResource extends LxaClass
 	{
 		// We have to divide by 1024 * 1024 because prividsplay deals in MBs while we have got bytes.
 		if ($name === 'sizeper') {
+			$value = (float)$value;
+
 			$value = round($value/ (1024 * 1024), 2);
 		}
 
 		if (array_search_bool($name, array('sizeper', 'disk_usage', "maildisk_usage", "memory_usage", "backup_num", "traffic_usage", "traffic_last_usage", "swap_usage", "guarmem_usage", "realmem_usage", "disk", "lvm", "mysqldb_usage", "clientdisk_usage", "totaldisk_usage"))) {
-
 			if ($value === '-' || is_unlimited($value)) {
 				return $value;
 			}

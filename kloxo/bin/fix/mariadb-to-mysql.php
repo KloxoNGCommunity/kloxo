@@ -36,7 +36,7 @@ if (strpos($mysqlbranch, "mysql") !== false) {
 		}
 
 		echo "- Install MySQL\n";
-		system("yum install mysql mysql-server -y");
+		system("yum install mysql55 mysql55-server -y");
 
 		if (file_exists("/etc/my.cnf.d/my.cnf")) {
 			system("cp -f /etc/my.cnf.d/my.cnf /etc/my.cnf");

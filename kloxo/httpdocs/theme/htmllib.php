@@ -3415,7 +3415,11 @@ class HtmlLib
 			if (isset($descr[$name]) && csa($descr[$name][0], 'p')) {
 				if (cse($name, "_per_f")) {
 					$qrname = strtil($name, "_per_f");
-					$pname = array($obj->priv->$qrname, $obj->used->$qrname, null);
+
+					$priv = (isset($obj->priv->$qrname)) ? $obj->priv->$qrname : 0;
+					$used = (isset($obj->used->$qrname)) ? $obj->used->$qrname : 0;
+
+					$pname = array($priv, $used, null);
 				} else {
 					$pname = $obj->perDisplay($name);
 				}
@@ -7118,7 +7122,9 @@ class HtmlLib
 		}
 
 		if ($variable->checkbox->checked === "yes") {
-			$checked = " CHECKED  ";
+			$checked = " CHECKED ";
+		} else {
+			$checked = " ";
 		}
 ?>
 

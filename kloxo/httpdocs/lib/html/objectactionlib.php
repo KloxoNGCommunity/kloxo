@@ -540,7 +540,7 @@ function do_desc_add($object, $class, $param)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	$object->preAdd();
+	$object->preAdd($object, $class, $param);
 
 	$quotaclass = exec_class_method($class, "getquotaclass", $class);
 	$numvar = "{$quotaclass}_num";

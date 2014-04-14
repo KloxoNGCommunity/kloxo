@@ -22,9 +22,10 @@ class  Diskusage extends Lxclass
 
 	function perDisplay($var)
 	{
-		if ($var === "pused") {
-			return array($this->kblock, $this->used, "MB");
-		}
+	//	if ($var === "pused") {
+			$used = (isset($this->used)) ? $this->used : 0;
+			return array($this->kblock, $used, "MB");
+	//	}
 	}
 
 	Function display($var)

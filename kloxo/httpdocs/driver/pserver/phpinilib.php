@@ -303,9 +303,11 @@ class phpini extends lxdb
 
 	function initPhpIni()
 	{
+	/*
 		if (!isset($this->phpini_flag_b) || get_class($this->phpini_flag_b) !== 'phpini_flag_b') {
 			$this->phpini_flag_b = new phpini_flag_b(null, null, $this->nname);
 		}
+	*/
 
 		$this->setUpINitialValues();
 	}
@@ -326,8 +328,10 @@ class phpini extends lxdb
 		$inheritedlist = $this->getInheritedList();
 		$adminList = $this->getAdminList();
 
+		$parent = $this->getParentO();
+
 		foreach ($totallist as $l) {
-			if ((!$this->getParentO()->is__table('pserver') && array_search_bool($l, $inheritedlist)) 
+			if ((!$parent->is__table('pserver') && array_search_bool($l, $inheritedlist)) 
 					|| array_search_bool($l, $adminList)) {
 				$vlist["phpini_flag_b-$l"] = array('M', null);
 			} 
@@ -336,7 +340,7 @@ class phpini extends lxdb
 			}
 		}
 
-		if ($this->getParentO()->is__table('web')) {
+		if ($parent->is__table('web')) {
 			if (!$this->php_selected) {
 				$this->php_selected = 'php53m';
 			}
@@ -350,6 +354,12 @@ class phpini extends lxdb
 			}
 
 			$vlist['php_selected'] = array("s", $f);
+		}
+
+		// MR -- still not work (like in 'appearance')
+		// still something wrong with 'updateall' process!
+		if ($parent->is__table('pserver')) {
+		//	$vlist['__v_updateall_button'] = array();
 		}
 
 		return $vlist;
@@ -420,8 +430,27 @@ class phpini extends lxdb
 
 	function initialValue($var, $val)
 	{
+		global $login;
+
+		$parent = $this->getParentO();
+
 		if (!isset($this->phpini_flag_b->$var) || !$this->phpini_flag_b->$var) {
-			$this->phpini_flag_b->$var = $val;
+			if ($parent->is__table('pserver')) {
+				$this->phpini_flag_b->$var = $val;
+			} else {
+				$slist = $login->getList('pserver');
+
+				foreach ($slist as $k => $v) {
+					if ($v->nname === $this->syncserver) {
+						$s = $v;
+						break;
+					}
+				}
+
+				$p = $s->getObject('phpini');
+				$this->phpini_flag_b->$var = $p->phpini_flag_b->$var;
+			}
+
 		}
 	}
 

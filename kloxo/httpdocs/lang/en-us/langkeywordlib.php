@@ -146,6 +146,7 @@ $__keyword["updateall_warning2"] = "- Are you really sure?.\\n\\n".
 $__keyword["wait"] = "Wait...";
 
 $__keyword["available"] = "Available";
+$__keyword["selected"] = "Selected";
 $__keyword["installed"] = "Installed";
 
 $__keyword["up"] = "Up";

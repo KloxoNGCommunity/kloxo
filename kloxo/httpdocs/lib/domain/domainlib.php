@@ -1419,7 +1419,7 @@ class Domaind extends DomainBase
 			}
 		}
 
-		if ($php->phpini_flag_b->isOn('multiple_php_flag')) {
+		if ($php->phpini_flag_b->multiple_php_flag === 'on') {
 			$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
 		}
 

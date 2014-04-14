@@ -3461,6 +3461,9 @@ function initProgram($ctype = NULL)
 
 function getKBOrMB($val)
 {
+//	$val = (isset($val)) ? $val : 0;
+	$val = (float)$val;
+
 	if ($val > 1014) {
 		return round($val / 1024, 2) . " MB";
 	}
@@ -3470,6 +3473,9 @@ function getKBOrMB($val)
 
 function getGBOrMB($val)
 {
+//	$val = (isset($val)) ? $val : 0;
+	$val = (float)$val;
+
 	if ($val > 1014) {
 		return round($val / 1024, 2) . " GB";
 	}

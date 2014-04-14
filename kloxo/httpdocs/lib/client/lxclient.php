@@ -928,8 +928,15 @@ abstract class Lxclient extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		// MR -- need ending process before next process
+		$this->was();
+
 		if ($this->subaction === 'limit') {
 			$this->distributeChildQuota();
+
+			// MR -- php-fpm config mod update until client create 1 domain or more
+			lxshell_return("sh", "/script/fixphp", "--client={$this->nname}", "--nolog");
+			createRestartFile('php-fpm');
 		}
 		
 		if ($this->subaction === 'resendwelcome') {
