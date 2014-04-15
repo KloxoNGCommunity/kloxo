@@ -159,8 +159,8 @@ class Cron extends Lxdb
 	{
 	//	$nlist["nname"] = "5%";
 		$nlist["username"] = "10%";
-		$nlist["command"] = "30%";
-		$nlist["syncserver"] = "10%";
+		$nlist["command"] = "20%";
+		$nlist["syncserver"] = "20%";
 		$nlist["ttype"] = "10%";
 		$nlist["minute"] = "10%";
 		$nlist["hour"] = "10%";
@@ -182,6 +182,23 @@ class Cron extends Lxdb
 	function isSimple()
 	{
 		return ($this->ttype === 'simple');
+	}
+
+	function PreUpdate($subaction, $param)
+	{
+		xprint($param);
+	}
+
+
+	function update($subaction, $param)
+	{
+		$param['minute'] = self::convertToAllIfExists($param['minute']);
+		$param['hour'] = self::convertToAllIfExists($param['hour']);
+		$param['ddate'] = self::convertToAllIfExists($param['ddate']);
+		$param['weekday'] = self::convertToAllIfExists($param['weekday']);
+		$param['month'] = self::convertToAllIfExists($param['month']);
+
+		return $param;
 	}
 
 	function updateform($subaction, $param)
@@ -307,15 +324,19 @@ class Cron extends Lxdb
 
 	static function convertBackCronList($list, $staticlist)
 	{
-		if ($list[0] === '--all--') {
-			return $list;
+		if (is_string($list)) {
+			$list = array($list);
 		}
 
-		foreach ($list as $l) {
+		foreach ($list as $k => $v) {
+			if ($v === '--all--') {
+				return $list;
+			}
+
 			if ($staticlist) {
-				$outl[] = $staticlist[$l];
+				$outl[] = $staticlist[$k];
 			} else {
-				$outl[] = $l;
+				$outl[] = $k;
 			}
 		}
 		
@@ -349,13 +370,30 @@ class Cron extends Lxdb
 		return $nel;
 	}
 
+	static function convertToAllIfExists($part)
+	{
+		if ((isset($part)) && (strpos('--all--', $part) !== false)) {
+			$part = '--all--';
+		}
+
+		return $part;
+	}
+
 	static function add($parent, $class, $param)
 	{
+		$param['minute'] = self::convertToAllIfExists($param['minute']);
+		$param['hour'] = self::convertToAllIfExists($param['hour']);
+		$param['ddate'] = self::convertToAllIfExists($param['ddate']);
+		$param['weekday'] = self::convertToAllIfExists($param['weekday']);
+		$param['month'] = self::convertToAllIfExists($param['month']);
+
 		if (!($parent->isClass('pserver') || $parent->priv->isOn('cron_minute_flag'))) {
 			if (!is_numeric($param['minute'])) {
 				$param['minute'] = 0;
 			}
 		}
+
+
 
 		$param['username'] = $parent->username;
 	/*
@@ -403,7 +441,7 @@ class Cron extends Lxdb
 			$this->$var = implode(",", $this->$var);
 		}
 
-		if ($his->simple_cron === 'every-day') {
+		if ($this->simple_cron === 'every-day') {
 			$this->$ddate = $this->cron_day_hour;
 		}
 

@@ -2338,8 +2338,10 @@ function lx_frm_inc()
 //		display_die('Remote post not permit');
 //	}
 
-	if (!isTokenMatch()) {
-		display_die('Post token not match');
+	if(!file_exists("{$sgbl->__path_program_etc}/flag/not_use_token.flg")) {
+		if (!isTokenMatch()) {
+			display_die('Post token not match');
+		}
 	}
 
 	$caction = $ghtml->frm_action;
