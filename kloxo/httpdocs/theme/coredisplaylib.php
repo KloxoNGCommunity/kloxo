@@ -649,6 +649,10 @@ function __ac_desc_delete($object)
 ?>
 
 		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
+			<div style="width: 600px; margin: 10px auto; padding: 10px; border: 3px double #ccc; background-color: #fcc">
+				<?=$g_language_mes->__information['general_delete_warning']?>
+			</div>
+
 <?php
 	
 		/*
@@ -670,9 +674,6 @@ function __ac_desc_delete($object)
 		*/
 			do_list_class($object, $cname);
 ?>
-			<div style="width: 600px; margin: 10px auto; padding: 10px; border: 3px double #ccc; background-color: #fcc">
-				<?=$g_language_mes->__information['general_delete_warning']?>
-			</div>
 		</div>
 <?php
 	}
