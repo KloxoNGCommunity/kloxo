@@ -620,6 +620,9 @@ function do_select_list($object, $sclist)
 function __ac_desc_delete($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+	global $g_language_mes;
+
+
 ?>
 <!-- "ac-desc-delete" -->
 <?php
@@ -667,7 +670,9 @@ function __ac_desc_delete($object)
 		*/
 			do_list_class($object, $cname);
 ?>
-
+			<div style="width: 600px; margin: 10px auto; padding: 10px; border: 3px double #ccc; background-color: #fcc">
+				<?=$g_language_mes->__information['general_delete_warning']?>
+			</div>
 		</div>
 <?php
 	}

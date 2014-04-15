@@ -822,3 +822,13 @@ $__information['client_updateform_information_pre'] =  "<p>As admin, if you have
 
 $__information['jailed_show__pre'] =  "<p>Enable 'Jailed' make 'chroot' client access and only permit to their document root ('/home/user').</p>";
 
+$__information['general_delete_warning'] = 
+	"<p>- <b>ATTENTION for deletion</b>:" .
+	"<ul>" .
+		"<li>CLIENT - delete clients will delete their domains and mysql databases</li>" .
+		"<li>DOMAIN - delete domains will delete their websites, mail accounts, ftp users and stats</li>" .
+		"<li>FTP User - delete ftpusers will delete their ftpusers</li>" .
+		"<li>DATABASE - delete databases will delete their databses</li>" .
+		"<li>and other deletions...</li>" .
+	"</ul>" .
+	"<p>- No recover mechanism except via restore from backup.";
