@@ -2115,7 +2115,8 @@ class HtmlLib
 			}
 		</script>
 
-		<form name="frmsendchmod" action="/display.php" accept-charset="utf-8">
+		<form name="frmsendchmod" method="post" action="/display.php" accept-charset="utf-8">
+			<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
 			<input type="hidden" name="frm_ffile_c_file_permission_f">
 <?php
 		$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
@@ -2154,8 +2155,7 @@ class HtmlLib
 			</tr>
 		</table>
 
-		<!-- <form name="chmod" method="get" action="/display.php" accept-charset="utf-8"> -->
-		<form name="chmod" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+		<form name="chmod" method="get" action="/display.php" accept-charset="utf-8">
 			<table cellpadding="5" cellspacing="0" border="0" width="325">
 				<tr style="background:#edc url(<?= $tablerow_head ?>)">
 					<td width="100" class="col"></td>
@@ -3746,8 +3746,7 @@ class HtmlLib
 		$filtername = $object->getFilterVariableForThis($class);
 ?>
 
-		<!-- <form name="form<?= $name ?>_page_<?= $place ?>" method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8"> -->
-		<form name="form<?= $name ?>_page_<?= $place ?>" method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+		<form name="form<?= $name ?>_page_<?= $place ?>" method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
 			$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 			$this->print_current_input_vars(array('frm_hpfilter'));
@@ -3999,10 +3998,8 @@ class HtmlLib
 		</div>
 
 		<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto'>
-			<!-- <form name="lpfform_rsearch" method="get" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8"> -->
-			<form name="lpfform_rsearch" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
-				<table width=100% border=0 align="center" cellpadding=0
-				       style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
+			<form name="lpfform_rsearch" method="get" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
+				<table width='100%' border='0' align="center" cellpadding='0' style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
 					<tr>
 						<td><img width=26 height=26 src="<?= $img ?>"></td>
 					</tr>
@@ -4413,7 +4410,6 @@ class HtmlLib
 ?>
 
 					<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-						<!-- <form name="page<?= $unique_name ?><?= $i ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
 						<form name="page<?= $unique_name ?><?= $i ?>" method="get" action="/display.php" accept-charset="utf-8">
 <?php
 				$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
@@ -4464,7 +4460,6 @@ class HtmlLib
 ?>
 
 					<td width="6" style="border: 1px solid #<?= $col ?>; <?= $bgcolorstring ?>">
-						<!-- <form name="perpage_<?= $i ?><?= $unique_name ?>" method="<?= $sgbl->method ?>" action="/display.php" accept-charset="utf-8"> -->
 						<form name="perpage_<?= $i ?><?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8">
 <?php
 					$this->print_current_input_var_unset_filter($filtername, array('pagesize', 'pagenum'));
@@ -4507,7 +4502,7 @@ class HtmlLib
 ?>
 
 					<td style="width: 10px; text-align: center; background:#cde url(<?= $imgtablerowhead ?>)">
-						<form name="formselectall<?= $unique_name ?>" value="hello" accept-charset="utf-8">
+						<form name="formselectall<?= $unique_name ?>" method="get" accept-charset="utf-8">
 							<?= $filteropacitystringspan ?>
 
 							<input <?= $filteropacitystring ?> type=checkbox name="selectall<?= $unique_name ?>" value='on' <?= $checked ?> onclick="calljselectall<?= $unique_name ?>()">
@@ -4778,7 +4773,6 @@ class HtmlLib
 									<table <?= $blackstyle ?>>
 										<tr>
 											<td>
-												<!-- <form method="<?= $sgbl->method ?>" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8"> -->
 												<form method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
 <?php
 				$this->print_current_input_vars(array("frm_confirmed"));
@@ -4790,7 +4784,6 @@ class HtmlLib
 											</td>
 											<td width="30"> &nbsp; </td>
 											<td>
-												<!-- <form method="<? $sgbl->method ?>" action="/display.php" accept-charset="utf-8"> -->
 												<form method="get" action="/display.php" accept-charset="utf-8">
 <?php
 				$this->print_current_input_vars(array("frm_action", "frm_accountselect"));
@@ -4829,8 +4822,7 @@ class HtmlLib
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid #ddd">
 				<tr>
 					<td>
-						<!-- <form name="perpage_<?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8"> -->
-						<form name="perpage_<?= $unique_name ?>" method="<?= $sgbl->method ?>" action="" accept-charset="utf-8">
+						<form name="perpage_<?= $unique_name ?>" method="get" action="/display.php" accept-charset="utf-8">
 							<table cellpadding="0" cellspacing="0" border="0">
 								<tr>
 <?php
@@ -4940,7 +4932,6 @@ class HtmlLib
 			if ($rpagesize < 1000) {
 ?>
 
-							<!-- <form method="<?= $sgbl->method ?>" action="" accept-charset="utf-8"> -->
 							<form method="get" action="/display.php" accept-charset="utf-8">
 								<table cellpadding="0" cellspacing="0" border="0" valign="middle">
 									<tr valign="middle">
@@ -5080,7 +5071,7 @@ class HtmlLib
 		<td width=10></td>
 		<td align=center valign=bottom>
 
-			<form name="form<?= $form_name ?>" action="<?= $path ?>">
+			<form name="form<?= $form_name ?>" method="get" action="<?= $path ?>">
 <?php
 
 		$this->print_input_vars($post);
@@ -5732,8 +5723,7 @@ class HtmlLib
 			<tr>
 				<td width='10'></td>
 				<td align='left'>
-					<!-- <form name="graphselectjump" method="get" action="display.php" accept-charset="utf-8"> -->
-					<form name="graphselectjump" method="<?= $sgbl->method; ?>" action="display.php" accept-charset="utf-8">
+					<form name="graphselectjump" method="get" action="display.php" accept-charset="utf-8">
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
@@ -5866,13 +5856,14 @@ class HtmlLib
 		if (!$sgbl->isBlackBackground()) {
 			$col = "{$skindir}/images/expand.gif";
 		}
+
+		// MR -- topjumpselect must 'get' for escaping validate token
 ?>
 
 		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 24px; margin: 0 25px;">
 			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;<?= $login->getKeywordUc('switchtoanother') ?>&nbsp;</span></div>
 			<div style="float:left;">
-				<!-- <form name="topjumpselect" method="get" action='/display.php' accept-charset="utf-8"> -->
-				<form name="topjumpselect" method="<?= $sgbl->method ?>" action='/display.php' accept-charset="utf-8">
+				<form name="topjumpselect" method="get" action='/display.php' accept-charset="utf-8">
 <?php
 		foreach ($cgi_o_o as $k => $v) {
 ?>
@@ -6460,7 +6451,7 @@ class HtmlLib
 ?>
 
 			<td valign="middle" align="left" width="5">
-				<form>
+				<form method="get">
 <?php
 			$l['ac_descr']['desc'] = "{$l['fullstr']} {$l['tag']}";
 			$this->print_div_for_divbutton_on_header($l['url'], $l['target'], null, true, true, $l['url'], $l['__t_identity'], $l['_t_image'], $l['ac_descr']);
@@ -6827,7 +6818,7 @@ class HtmlLib
 		$iconpath = get_image_path();
 ?>
 
-		<form name="<?= $form ?>" action="/display.php" accept-charset="utf-8">
+		<form name="<?= $form ?>" action="/display.php" method="get" accept-charset="utf-8">
 			<table cellpadding='0' cellspacing='0'>
 				<tr>
 					<td></td>
@@ -7194,8 +7185,8 @@ class HtmlLib
 ?>
 
 			<div style="margin: 0 auto">
-				<!-- <form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="get" <?= $onsubmit ?> accept-charset="utf-8"> -->
 				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $method ?>" <?= $onsubmit ?> accept-charset="utf-8">
+				<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
 <?php
 	//	dprint($block->form);
 
@@ -9259,10 +9250,11 @@ class HtmlLib
 		}
 
 		$formname = 'lpform_' . $unique_name . $sortby;
+
+		// MR -- also change to 'get' for escaping validate token
 ?>
 
-		<!-- <form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
-		<form name="<?= $formname ?>" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
+		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">
@@ -9309,6 +9301,8 @@ class HtmlLib
 			$showall_text = "<img alt='{$login->getKeywordUc('showall')}' title=\"{$login->getKeywordUc('showall')}\" name='showall' " .
 				"src='{$showallimg}' onMouseOver=\"changeContent('help','showall');\" onMouseOut=\"changeContent('help','helparea');\">";
 		}
+
+		// MR -- also change to 'get' for escaping validate token
 ?>
 
 		<table width="100%" border="0" cellpadding="0">
@@ -9322,8 +9316,7 @@ class HtmlLib
 									<tr>
 										<td width="10" height="22"></td>
 										<td height="22">
-											<!-- <form name="lpform_search" method="get" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8"> -->
-											<form name="lpform_search" method="<?= $sgbl->method ?>" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
+											<form name="lpform_search" method="get" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
 
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
@@ -9335,8 +9328,7 @@ class HtmlLib
 										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><?=$search_text;?></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td width="70">
-											<!-- <form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8"> -->
-											<form name="lpform_showall" method="<?= $sgbl->method ?>" action="<?= $url ?>" accept-charset="utf-8">
+											<form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8">
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" id="frm_clear_filter" name="frm_clear_filter" value="true">

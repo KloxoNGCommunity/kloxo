@@ -438,6 +438,8 @@ class phpini extends lxdb
 			if ($parent->is__table('pserver')) {
 				$this->phpini_flag_b->$var = $val;
 			} else {
+			/*
+				// MR -- not work in client level except admin
 				$slist = $login->getList('pserver');
 
 				foreach ($slist as $k => $v) {
@@ -449,6 +451,10 @@ class phpini extends lxdb
 
 				$p = $s->getObject('phpini');
 				$this->phpini_flag_b->$var = $p->phpini_flag_b->$var;
+			*/
+				if (isset($parent->phpini_flag_b)) {
+					$this->phpini_flag_b->$var = $parent->phpini_flag_b->$var;
+				}
 			}
 
 		}
