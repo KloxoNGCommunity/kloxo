@@ -12,23 +12,19 @@ x="=== BEGIN '$1' (${DATE}) install ==="
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
-if [ "$(yum list php*|grep ${src_name}u)" != "" ] ; then
+if yum list ${src_name}u >/dev/null 2>&1 ; then
 	pack_name="${src_name}u"
-elif [ "$(yum list php*|grep ${src_name})" != "" ] ; then
+elif yum list ${src_name} >/dev/null 2>&1 ; then
 	pack_name="${src_name}"
-#elif [ "$(yum list lsphp*|grep ${src_name})" != "" ] ; then
-#	pack_name="${src_name}"
 else
 	echo "- No PHP packages exists. Only detecting '${src_name}u' and '${src_name}'. Exit"
 	echo
 	exit
 fi
 
-#if [ "$(yum list *yum*|grep @)" != "" ] ; then
-#	mysqlapp="mysql"
-#else
-#	mysqlapp="mysql55"
-#fi
+x="- '${pack_name}' ready to installed"
+echo $x
+echo $x >>/opt/${base_name}/install.log
 
 if [ "$(uname -m)" == "x86_64" ] ; then
 	v=".x86_64"
@@ -58,12 +54,10 @@ for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-li
 	postgresql pspell recode redhat-lsb sgml-common sqlite t1lib unixODBC urw-fonts \
 	xorg-x11-font-utils zlib redis ; do
 
-	rpm_detect=$(rpm -qa|grep ${i}-)
-
 	x="--- Check for ${i} installed or not"
 	echo $x >>/opt/${base_name}/install.log
 
-	if [ "${rpm_detect}" == "" ] ; then
+	if rpm -qa|grep ${i}- >/dev/null 2>&1 ; then
 		c=${c}${i}${v}" "
 
 		x="---- ${i} not installed"
@@ -86,6 +80,15 @@ echo $x
 echo $x >>/opt/${base_name}/install.log
 
 cd /opt/${base_name}
+
+if [ -f /opt/${base_name}/etc ] ; then
+	rm -f /opt/${base_name}/etc
+fi
+
+if [ -f /opt/${base_name}/${base_name} ] ; then
+	rm -f /opt/${base_name}/${base_name}
+fi
+
 yumdownloader ${pack_name}-* >>/opt/${base_name}/install.log
 rm -rf *-debug*
 rm -rf *-devel*

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(yum list installed *yum*|grep @)" != "" ] ; then
+if yum list installed *yum*|grep @ >/dev/null 2>&1 ; then
 	if [ "$(uname -m)" == "x86_4" ] ; then
 		v="1280000"
 		m="1280000"

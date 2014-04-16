@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## it's mean centos 6 or equal
-if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
+if yum list *yum*|grep -i '@' >/dev/null 2>&1 ; then
 	sed -i 's:\$releasever:6:' /etc/yum.repos.d/mratwork.repo
 else
 	sed -i 's:\$releasever:5:' /etc/yum.repos.d/mratwork.repo

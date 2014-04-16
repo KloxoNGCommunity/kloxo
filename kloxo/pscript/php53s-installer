@@ -25,7 +25,7 @@
 
 #sh /script/fixlxphpexe php53s
 
-if [ "$(rpm -qa|grep php53s)" != "" ] ; then
+if rpm -qa|grep php53s >/dev/null 2>&1 ; then
 	yum remove php53s* -y
 	rpm -e php53s-fpm --noscripts
 fi

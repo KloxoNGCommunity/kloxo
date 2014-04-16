@@ -646,11 +646,17 @@ function __ac_desc_delete($object)
 		}
 	} else {
 		$gbl->setSessionV("lx_delete_return_url", $gbl->getHttpReferer());
+
+		if ($login->isCustomer()) {
+			$warning = $g_language_mes->__information['general_delete_warning_customer'];
+		} else {
+			$warning = $g_language_mes->__information['general_delete_warning'];
+		}
 ?>
 
 		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
 			<div style="width: 600px; margin: 10px auto; padding: 10px; border: 3px double #ccc; background-color: #fcc">
-				<?=$g_language_mes->__information['general_delete_warning']?>
+				<?=$warning?>
 			</div>
 
 <?php
@@ -1650,12 +1656,12 @@ function create_xml($object, $stuff, $ret)
 		$token = $gbl->c_session->ssession_vars['__tmp_csrf_token'];
 	} else {
 		$token = randomString(64);
-
-		$gbl->setSessionV('__tmp_csrf_token', $token);
-		$gbl->c_session->write();
 	}
 
 	$string[] = $ghtml->object_variable_hidden("frm_token", $token);
+
+	$gbl->setSessionV('__tmp_csrf_token', $token);
+	$gbl->c_session->write();
 
 	$string[] = $ghtml->object_variable_hidden("frm_action", $action);
 

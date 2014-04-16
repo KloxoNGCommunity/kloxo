@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if rpm -q qmail-toaster 2>&1 > /dev/null ; then
+if rpm -qa|grep 'qmail-toaster' >/dev/null 2>&1 ; then
 	echo
 	echo "Mail server already use qmail-toaster"
 	echo

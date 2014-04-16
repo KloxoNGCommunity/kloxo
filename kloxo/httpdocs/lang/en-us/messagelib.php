@@ -832,3 +832,13 @@ $__information['general_delete_warning'] =
 		"<li>and other deletions...</li>" .
 	"</ul>" .
 	"<p>- No recovery mechanism except via restore from backup.";
+
+$__information['general_delete_warning_customer'] = 
+	"<p>- <b>ATTENTION for deletion</b>:" .
+	"<ul>" .
+		"<li>DOMAIN - delete domains will delete their websites, mail accounts, ftp users and stats</li>" .
+		"<li>FTP User - delete ftpusers will delete their ftpusers</li>" .
+		"<li>DATABASE - delete databases will delete their databases</li>" .
+		"<li>and other deletions...</li>" .
+	"</ul>" .
+	"<p>- No recovery mechanism except via restore from backup.";

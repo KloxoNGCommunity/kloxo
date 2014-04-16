@@ -1,10 +1,10 @@
 #!/bin/sh
 
-if [ "$(rpm -qa|grep 'mratwork-')" == "" ] ; then
+if rpm -qa|grep 'mratwork-' >/dev/null 2>&1 ; then
     cd /tmp
     wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
     rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-    yum update mratwork-release -y
+    yum update mratwork-* -y
 	
     rm -rf /etc/yum.repos.d/kloxo-mr.repo
 else
@@ -20,12 +20,17 @@ if [ "${checktmpfs}" != "" ] ; then
 	exit
 fi
 
-if [ "$(rpm -qa|grep lxphp)" != "" ] ; then
+if rpm -qa|grep lxphp >/dev/null 2>&1 ; then
 	rpm -e lxphp --nodeps
 	rpm -e lxlighttpd --nodeps
 	rpm -e lxzend --nodeps
 	
 	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
+fi
+
+if rpm -qa|grep php52s >/dev/null 2>&1 ; then
+	yum remove php52s -y
+	sh /script/php53s-installer
 fi
 
 if [ ! -f /script/programname ] ; then
@@ -68,7 +73,7 @@ else
 	fi
 fi
 
-if [ "$(rpm -qa|grep php53s)" != "" ] ; then
+if rpm -qa|grep php53s >/dev/null 2>&1 ; then
 	yum remove php53s* -y
 	yum remove php53s* --noscript -y
 
