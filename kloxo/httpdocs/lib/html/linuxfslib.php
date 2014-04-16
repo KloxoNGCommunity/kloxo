@@ -61,8 +61,7 @@ function lxfile_dirsize($path, $byteflag = false)
 */
 
 //	exec("du -sc {$path} | grep -i '{$path}'", $out);
-//	exec("ionice -c2 -n7 du -s {$path}", $out);
-	exec("ionice -c3 du -s {$path}", $out);
+	exec("ionice -c 2 -n 7 du -s {$path}", $out);
 	$os  = preg_replace("/\s+/", ":", $out[0]);
 	$t = str_replace(":{$path}", "", $os);
 
@@ -703,7 +702,7 @@ function lxshell_background($cmd)
 	}
 
 //	exec($cmd);
-	exec("ionice -c2 -n7 " . $cmd);
+	exec("ionice -c 2 -n 7 " . $cmd);
 
 	return true;
 }

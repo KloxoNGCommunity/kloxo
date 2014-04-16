@@ -828,7 +828,7 @@ $__information['general_delete_warning'] =
 		"<li>CLIENT - delete clients will delete their domains and mysql databases</li>" .
 		"<li>DOMAIN - delete domains will delete their websites, mail accounts, ftp users and stats</li>" .
 		"<li>FTP User - delete ftpusers will delete their ftpusers</li>" .
-		"<li>DATABASE - delete databases will delete their databses</li>" .
+		"<li>DATABASE - delete databases will delete their databases</li>" .
 		"<li>and other deletions...</li>" .
 	"</ul>" .
-	"<p>- No recover mechanism except via restore from backup.";
+	"<p>- No recovery mechanism except via restore from backup.";

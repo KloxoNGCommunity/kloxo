@@ -468,11 +468,15 @@ class serverweb__ extends lxDriverClass
 
 			$b .= "rm -f $c\n";
 
-			file_put_contents('/tmp/phpm-install-process.sh', $b);
+			file_put_contents($c, $b);
 
-			lxshell_background("sh", $c);			
+		//	chmod($c, 0777);
+
+			lxshell_background("sh", $c);
 		}
 		
 		throw new lxexception('install_process_running_in_background', '', $this->main->syncserver);
+
+		// MR -- (20140416) not work in 6 64bit; something wrong with yum!
 	}
 }

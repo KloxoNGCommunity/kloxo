@@ -1650,12 +1650,12 @@ function create_xml($object, $stuff, $ret)
 		$token = $gbl->c_session->ssession_vars['__tmp_csrf_token'];
 	} else {
 		$token = randomString(64);
+
+		$gbl->setSessionV('__tmp_csrf_token', $token);
+		$gbl->c_session->write();
 	}
 
 	$string[] = $ghtml->object_variable_hidden("frm_token", $token);
-
-	$gbl->setSessionV('__tmp_csrf_token', $token);
-	$gbl->c_session->write();
 
 	$string[] = $ghtml->object_variable_hidden("frm_action", $action);
 
