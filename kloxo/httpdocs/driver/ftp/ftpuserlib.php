@@ -19,13 +19,18 @@ class ftpuser extends Lxclient
 
 	function createExtraVariables()
 	{
-		$this->__var_username = $this->getParentO()->username;
+		$parent = $this->getParentO();
 
-		if ($this->getParentO()->isClass('client')) {
-			$this->__var_full_directory = "__path_customer_root/{$this->getParentO()->getPathFromName()}/{$this->directory}";
+		$this->__var_username = $parent->username;
+
+		if ($parent->isClass('client')) {
+			$this->__var_full_directory = "__path_customer_root/{$parent->getPathFromName()}/{$this->directory}";
 		} else {
-			$this->customer_name = $this->getParentO()->customer_name;
-			$this->__var_full_directory = "{$this->getParentO()->getFullDocRoot()}/{$this->directory}";
+			$this->customer_name = $parent->customer_name;
+
+			if ($parent->getFullDocRoot()) {
+				$this->__var_full_directory = "{$parent->getFullDocRoot()}/{$this->directory}";
+			}
 		}
 	}
 

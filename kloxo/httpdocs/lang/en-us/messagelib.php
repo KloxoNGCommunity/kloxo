@@ -831,7 +831,8 @@ $__information['general_delete_warning'] =
 		"<li>DATABASE - delete databases will delete their databases</li>" .
 		"<li>and other deletions...</li>" .
 	"</ul>" .
-	"<p>- No recovery mechanism except via restore from backup.";
+	"<p>- If many domains/sudomains are pointing to the same folder then data won't be removed until only one folder remains.</p>" .
+	"<p>- No recovery mechanism except via restore from backup.</p>";
 
 $__information['general_delete_warning_customer'] = 
 	"<p>- <b>ATTENTION for deletion</b>:" .
@@ -841,4 +842,5 @@ $__information['general_delete_warning_customer'] =
 		"<li>DATABASE - delete databases will delete their databases</li>" .
 		"<li>and other deletions...</li>" .
 	"</ul>" .
-	"<p>- No recovery mechanism except via restore from backup.";
+	"<p>- If many domains/sudomains are pointing to the same folder then data won't be removed until only one folder remains.</p>" .
+	"<p>- No recovery mechanism except via restore from backup.</p>";
