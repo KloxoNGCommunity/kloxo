@@ -149,6 +149,6 @@ function doUpdates()
 
 	createDatabaseInterfaceTemplate();
 
-	fix_self_ssl();
+//	fix_self_ssl();
 
 }
