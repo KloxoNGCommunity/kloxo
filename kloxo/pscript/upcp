@@ -39,7 +39,7 @@ fi
 
 if rpm -qa|grep php53s >/dev/null 2>&1 ; then
 	yum remove php53s* -y
-	yum remove php53s* --noscript -y
+	rpm -e php53s-fpm --noscript
 
 	sh /script/php53s-installer
 fi
