@@ -20,6 +20,10 @@ if [ "${checktmpfs}" != "" ] ; then
 	exit
 fi
 
+if [ ! -f /script/programname ] ; then
+	echo 'kloxo' > /script/programname
+fi
+
 if rpm -qa|grep lxphp >/dev/null 2>&1 ; then
 	rpm -e lxphp --nodeps
 	rpm -e lxlighttpd --nodeps
@@ -33,8 +37,20 @@ if rpm -qa|grep php52s >/dev/null 2>&1 ; then
 	sh /script/php53s-installer
 fi
 
-if [ ! -f /script/programname ] ; then
-	echo 'kloxo' > /script/programname
+if rpm -qa|grep php53s >/dev/null 2>&1 ; then
+	yum remove php53s* -y
+	yum remove php53s* --noscript -y
+
+	sh /script/php53s-installer
+fi
+
+if rpm -qa|grep mysql55 >/dev/null 2>&1 ; then
+	echo "Already use mysql55. No replace"
+else
+	if rpm -qa|grep mysql >/dev/null 2>&1 ; then
+		echo "Replace mysql to mysql55"
+		yum replace mysql --replace-with=mysql55 -y
+	fi
 fi
 
 ppath="/usr/local/lxlabs/kloxo"
@@ -71,12 +87,5 @@ else
 	else
 		sh ${ppath}/install/setup.sh $*  | tee ${ppath}/install/install.log
 	fi
-fi
-
-if rpm -qa|grep php53s >/dev/null 2>&1 ; then
-	yum remove php53s* -y
-	yum remove php53s* --noscript -y
-
-	sh /script/php53s-installer
 fi
 

@@ -1,6 +1,7 @@
 <?php
 
 chdir("../");
+
 include_once "lib/html/displayinclude.php";
 
 lpanel_main();
@@ -88,14 +89,14 @@ function print_ext_tree($object)
 <?php
 }
 
-	function tab_vheight()
-	{
-		global $gbl, $sgbl, $login, $ghtml;
+function tab_vheight()
+{
+	global $gbl, $sgbl, $login, $ghtml;
 
-		$skincolor = $login->getSkinColor();
+	$skincolor = $login->getSkinColor();
 
-		$ghtml->print_css_source("/theme/css/examples.css");
-		print_ext_tree($login);
+	$ghtml->print_css_source("/theme/css/examples.css");
+	print_ext_tree($login);
 
 ?>
 
@@ -113,27 +114,26 @@ function print_ext_tree($object)
 		</div>
 
 <?php
+}
+
+function xp_panel($object)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	$skincolor = $login->getSkinColor();
+	$skin_name = basename($login->getSkinDir());
+
+	if (csa($skin_name, "_")) {
+		$skin_name = substr($skin_name, 0, strrpos($skin_name, "_"));
 	}
 
-	function xp_panel($object)
-	{
-		global $gbl, $sgbl, $login, $ghtml;
+	$skin_name = str_replace("_", " ", $skin_name);
 
-		$skincolor = $login->getSkinColor();
-		$skin_name = basename($login->getSkinDir());
+	$icondir = get_image_path();
 
-		if (csa($skin_name, "_")) {
-			$skin_name = substr($skin_name, 0, strrpos($skin_name, "_"));
-		}
-
-		$skin_name = str_replace("_", " ", $skin_name);
-
-		$icondir = get_image_path();
-
-		$cl = $login->getResourceChildList();
-		$qlist = $object->getList('resource');
-		$skinget = $login->getSkinDir();
-
+	$cl = $login->getResourceChildList();
+	$qlist = $object->getList('resource');
+	$skinget = $login->getSkinDir();
 ?>
 
 		<script language="javascript" type="text/javascript" src="/theme/js/xpmenu/ua.js"></script>
@@ -203,29 +203,28 @@ function print_ext_tree($object)
 		<script language="javascript">
 			var objTmp;
 <?php
-
-					if (!$login->getSpecialObject('sp_specialplay')->isOn('disable_quickaction')) {
-						$class = $login->getQuickClass();
-
-						if ($class) {
-							$rdesc = print_quick_action($class);
+/*
+	if (!$login->getSpecialObject('sp_specialplay')->isOn('disable_quickaction')) {
+		$class = $login->getQuickClass();
+		if ($class) {
+			$rdesc = print_quick_action($class);
 ?>
 
 			xpreso = createMenu('Quick Actions', '', true);
 			createSubMenu(xpreso, '<?=$rdesc?>', '', '', '', '', '');
 <?php
-						}
-					}
-
-					$url = $ghtml->getFullUrl("a=list&c=ndskshortcut");
-					$rdesc = $ghtml->print_favorites();
+		}
+	}
+*/
+	$url = $ghtml->getFullUrl("a=list&c=ndskshortcut");
+	$rdesc = $ghtml->print_favorites();
 ?>
 
 			xxpFav = createMenu('<span style="color:#003360">Favorites<a href="<?=$url?>" target="mainframe"> [edit] </a></span>', '', true);
 			createSubMenu(xxpFav, '<?=$rdesc?>', '', '', '', '', '');
 <?php
 
-					if ($login->isLte('reseller')) {
+	if ($login->isLte('reseller')) {
 ?>
 
 			xxpDescr = createMenu('<span style="color:#003360">Usage', '', true);
@@ -262,13 +261,13 @@ function print_ext_tree($object)
 
 			createSubMenu(xxpDescr, '<?=$rdesc?>', '', '', '', '', '');
 <?php
-					}
+	}
 
-					$forumurl = "http://forum.mratwork.com";
+	$forumurl = "http://forum.mratwork.com";
 
-					if (!$login->isAdmin() && isset($login->getObject('general')->generalmisc_b->forumurl)) {
-						$forumurl = $login->getObject('general')->generalmisc_b->forumurl;
-					}
+	if (!$login->isAdmin() && isset($login->getObject('general')->generalmisc_b->forumurl)) {
+		$forumurl = $login->getObject('general')->generalmisc_b->forumurl;
+	}
 ?>
 
 			setTheme("XPClassic.css", null, null);
@@ -276,6 +275,6 @@ function print_ext_tree($object)
 		</script>
 
 <?php
-	}
+}
 
 

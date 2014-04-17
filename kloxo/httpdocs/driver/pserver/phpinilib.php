@@ -438,22 +438,21 @@ class phpini extends lxdb
 			if ($parent->is__table('pserver')) {
 				$this->phpini_flag_b->$var = $val;
 			} else {
-			/*
-				// MR -- not work in client level except admin
-				$slist = $login->getList('pserver');
-
-				foreach ($slist as $k => $v) {
-					if ($v->nname === $this->syncserver) {
-						$s = $v;
-						break;
-					}
-				}
-
-				$p = $s->getObject('phpini');
-				$this->phpini_flag_b->$var = $p->phpini_flag_b->$var;
-			*/
-				if (isset($parent->phpini_flag_b)) {
+				if ($login->isCustomer()) {
 					$this->phpini_flag_b->$var = $parent->phpini_flag_b->$var;
+				} else {
+					$slist = $login->getList('pserver');
+
+					foreach ($slist as $k => $v) {
+						if ($v->nname === $this->syncserver) {
+							$s = $v;
+							break;
+						}
+					}
+
+					$p = $s->getObject('phpini');
+					$this->phpini_flag_b->$var = $p->phpini_flag_b->$var;
+
 				}
 			}
 
