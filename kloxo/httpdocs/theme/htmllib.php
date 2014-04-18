@@ -5072,7 +5072,8 @@ class HtmlLib
 		<td width=10></td>
 		<td align=center valign=bottom>
 
-			<form name="form<?= $form_name ?>" method="get" action="<?= $path ?>">
+			<form name="form<?= $form_name ?>" method="post" action="<?= $path ?>">
+				<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
 <?php
 
 		$this->print_input_vars($post);
