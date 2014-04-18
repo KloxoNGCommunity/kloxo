@@ -7864,9 +7864,13 @@ function isTokenMatch()
 		$token_post = $_POST['frm_token'];
 		$token_session = $gbl->c_session->ssession_vars['__tmp_csrf_token'];
 
-		if ($token_post === $token_session) {
-			$ret = true;
-		} else {
+		if ($token_post !== $token_session) {
+			$ret = false;
+		}
+	} else {
+		$action = $_GET['frm_action'];
+
+		if (($action === 'add') || ($action === 'update') || ($action === 'delete')) {
 			$ret = false;
 		}
 	}
