@@ -157,6 +157,12 @@ class Client extends ClientBase
 			$alist['property'][] = "a=updateform&sa=disable_skeleton";
 		} elseif ($ghtml->frm_subaction === 'login_options') {
 			$alist['property'][] = "a=updateform&sa=login_options&o=sp_specialplay";
+		} elseif ($ghtml->frm_subaction === 'limit') {
+			$alist['property'][] = "a=updateform&sa=limit";
+		} elseif ($ghtml->frm_subaction === 'dnstemplatelist') {
+			$alist['property'][] = "a=updateform&sa=dnstemplatelist";
+		} elseif ($ghtml->frm_subaction === 'custombutton') {
+			$alist['property'][] = "a=list&sa=custombutton";
 		} else {
 			$alist['property'][] = "a=show";
 
