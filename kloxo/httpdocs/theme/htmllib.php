@@ -4773,7 +4773,8 @@ class HtmlLib
 									<table <?= $blackstyle ?>>
 										<tr>
 											<td>
-												<form method="get" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+												<form method="post" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
+													<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
 <?php
 				$this->print_current_input_vars(array("frm_confirmed"));
 				$this->print_input("hidden", "frm_confirmed", "yes");
@@ -6818,7 +6819,8 @@ class HtmlLib
 		$iconpath = get_image_path();
 ?>
 
-		<form name="<?= $form ?>" action="/display.php" method="get" accept-charset="utf-8">
+		<form name="<?= $form ?>" action="/display.php" method="post" accept-charset="utf-8">
+			<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
 			<table cellpadding='0' cellspacing='0'>
 				<tr>
 					<td></td>
