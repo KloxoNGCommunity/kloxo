@@ -28,6 +28,14 @@ if ($reverseproxy) {
     $certnamelist[$tmp_ip] = $tmp_certname;
 }
 
+foreach ($certnamelist as $ip => $certname) {
+    if (file_exists("/home/{$user}/ssl/{$domainname}.key")) {
+        $certnamelist[$ip] = "/home/{$user}/ssl/{$domainname}";
+    } else {
+        $certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+    }
+}
+
 $statsapp = $stats['app'];
 $statsprotect = ($stats['protect']) ? true : false;
 
@@ -141,9 +149,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
             }
@@ -255,9 +263,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                 }
@@ -285,9 +293,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                 }
@@ -403,9 +411,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
         }
@@ -707,9 +715,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                     }
@@ -827,9 +835,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                     }
@@ -866,9 +874,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                     }
@@ -980,9 +988,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                         }
@@ -1010,9 +1018,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                         }
@@ -1142,9 +1150,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                     }
@@ -1256,9 +1264,9 @@ foreach ($certnamelist as $ip => $certname) {
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                         }
@@ -1286,9 +1294,9 @@ DirectoryIndex <?php echo $indexorder; ?>
 
     <IfModule mod_ssl.c>
         SSLEngine On
-        SSLCertificateFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt
-        SSLCertificateKeyFile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key
-        SSLCACertificatefile /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+        SSLCertificateFile <?php echo $certname; ?>.crt
+        SSLCertificateKeyFile <?php echo $certname; ?>.key
+        SSLCACertificatefile <?php echo $certname; ?>.ca
     </IfModule>
 <?php
                         }

@@ -10,6 +10,14 @@ if (($webcache === 'none') || (!$webcache)) {
     $ports[] = '8443';
 }
 
+foreach ($certnamelist as $ip => $certname) {
+    if (file_exists("/home/{$user}/ssl/{$domainname}.key")) {
+        $certnamelist[$ip] = "/home/{$user}/ssl/{$domainname}";
+    } else {
+        $certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+    }
+}
+
 $statsapp = $stats['app'];
 $statsprotect = ($stats['protect']) ? true : false;
 
@@ -190,8 +198,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -256,8 +264,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -301,8 +309,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -367,8 +375,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -636,8 +644,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -706,8 +714,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -766,8 +774,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -832,8 +840,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -879,8 +887,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -961,8 +969,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -1027,8 +1035,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -1072,8 +1080,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php

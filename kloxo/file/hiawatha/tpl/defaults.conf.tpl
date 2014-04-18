@@ -97,7 +97,7 @@ Binding {
         if ($count !== 0) {
 ?>
 
-    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
 <?php
         }
@@ -128,7 +128,7 @@ VirtualHost {
         if ($count !== 0) {
 ?>
 
-    #RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
+    RequiredCA = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca
     SSLcertFile = /home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem
 <?php
         }

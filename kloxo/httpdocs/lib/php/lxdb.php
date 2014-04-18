@@ -38,10 +38,10 @@ abstract class Lxdb extends Lxclass
 		$desc = get_classvar_description(get_class($parent),  $objectname);
 		if (!$desc) {
 			if ($login->isAdmin()) {
-				print("<h1> Trying to init and non described  object $objectname in " . get_class($parent) . "...</h1>  <br> \n");
+				print("<h2>Trying to init a non described  object $objectname in " . get_class($parent) . "...</h2>  <br> \n");
 				//exit(0);
 			} else {
-				dprint("<h1> Trying to init and non described  object $objectame in " . get_class($parent) . "... </h1> <br> \n");
+				dprint("<h2>Trying to init a non described  object $objectame in " . get_class($parent) . "... </h2> <br> \n");
 				print("Attempt to Hack.... <br> ");
 				//exit(0);
 			}
@@ -63,12 +63,12 @@ abstract class Lxdb extends Lxclass
 
 		if (!$desc) {
 			if ($login->isAdmin()) {
-				print("<h1> Trying to init and non described list $class in " . get_class($this) . "... </h1> <br> \n");
+				print("<h2>Trying to init a non described list $class in " . get_class($this) . "... </h2> <br> \n");
 				//$trace = debug_backtrace();
 				//dprint(DBG_GetBacktrace($trace));
 				//exit;
 			} else {
-				dprint("<h1> Trying to init and non described list $class in " . get_class($this) . "... </h1> <br> \n");
+				dprint("<h2>Trying to init a non described list $class in " . get_class($this) . "... </h2> <br> \n");
 				print("Attempt to Hack.... <br> ");
 				//exit;
 			}

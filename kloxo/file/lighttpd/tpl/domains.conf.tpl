@@ -10,6 +10,14 @@ if (($webcache === 'none') || (!$webcache)) {
     $ports[] = '8443';
 }
 
+foreach ($certnamelist as $ip => $certname) {
+    if (file_exists("/home/{$user}/ssl/{$domainname}.key")) {
+        $certnamelist[$ip] = "/home/{$user}/ssl/{$domainname}";
+    } else {
+        $certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+    }
+}
+
 $statsapp = $stats['app'];
 $statsprotect = ($stats['protect']) ? true : false;
 
@@ -532,8 +540,8 @@ $SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
 
     ssl.engine = "enable"
 
-    ssl.pemfile = "/home/kloxo/httpd/ssl/<?php echo $certname; ?>.pem"
-    ssl.ca-file = "/home/kloxo/httpd/ssl/<?php echo $certname; ?>.ca"
+    ssl.pemfile = "<?php echo $certname; ?>.pem"
+    ssl.ca-file = "<?php echo $certname; ?>.ca"
     ssl.use-sslv2 = "disable"
 <?php
             }
