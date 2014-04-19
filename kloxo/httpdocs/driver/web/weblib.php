@@ -380,6 +380,8 @@ class Web extends Lxdb
 	static $__desc_webmimetype_l = array("", "", "mimetype");
 	static $__desc_webhandler_l = array("", "", "handler");
 
+	static $__desc_sslcert_l = array("d", "", "");
+
 	function createExtraVariables()
 	{
 		global $gbl, $sgbl, $login, $ghtml;

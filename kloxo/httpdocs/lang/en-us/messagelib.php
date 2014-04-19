@@ -842,5 +842,5 @@ $__information['general_delete_warning_customer'] =
 		"<li>DATABASE - delete databases will delete their databases</li>" .
 		"<li>and other deletions...</li>" .
 	"</ul>" .
-	"<p>- If many domains/sudomains are pointing to the same folder then data won't be removed until only one folder remains.</p>" .
+	"<p>- If many domains/sudomains has the same document root then data won't be removed until only one domain/subdomain is pointing to this particular folder.</p>" .
 	"<p>- No recovery mechanism except via restore from backup.</p>";

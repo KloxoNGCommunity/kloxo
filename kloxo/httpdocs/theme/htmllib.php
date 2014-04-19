@@ -4785,7 +4785,7 @@ class HtmlLib
 											</td>
 											<td width="30"> &nbsp; </td>
 											<td>
-												<form method="get" action="/display.php" accept-charset="utf-8">
+												<form method="post" action="/display.php" accept-charset="utf-8">
 <?php
 				$this->print_current_input_vars(array("frm_action", "frm_accountselect"));
 				$this->print_input("hidden", "frm_action", "list");
@@ -7182,9 +7182,9 @@ class HtmlLib
 		}
 
 		// MR -- impossible enctype="" with 'get'; so force to 'post' to make sure
-		if (strpos($block->formtype, "multipart/form-data") !== false) {
+	//	if (strpos($block->formtype, "multipart/form-data") !== false) {
 			$method = 'post';
-		}
+	//	}
 ?>
 
 			<div style="margin: 0 auto">
@@ -9257,7 +9257,7 @@ class HtmlLib
 		// MR -- also change to 'get' for escaping validate token
 ?>
 
-		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
+		<form name="<?= $formname ?>" method="post" action="<?= $url ?>" accept-charset="utf-8">
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">

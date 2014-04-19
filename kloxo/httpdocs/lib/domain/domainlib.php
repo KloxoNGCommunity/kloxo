@@ -1427,6 +1427,9 @@ class Domaind extends DomainBase
 			$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
 		}
 
+		$alist['__v_dialog_sslcert'] = "n=web&a=list&c=sslcert";
+
+
 	//	$alist[] = "a=list&c=webindexdir_a";
 
 		$alist[] = "n=web&a=list&c=dirprotect";

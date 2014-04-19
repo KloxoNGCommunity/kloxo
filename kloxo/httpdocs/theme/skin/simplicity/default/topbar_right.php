@@ -25,9 +25,7 @@
 
 				<div style="position: fixed; top: 2px; right: 2px">
 					<div style="float: left">
-						<!-- <a href='javascript:alert("<?=$status_title_1;?>");'> -->
-							<div id="div_status" style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000'; displayStatus('div_cfstatus', 'inline');" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>'; displayStatus('div_cfstatus', 'none');">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
-						<!-- </a> -->
+						<div id="div_status" style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000'; displayStatus('div_cfstatus', 'inline');" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>'; displayStatus('div_cfstatus', 'none');">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
 					</div>
 					<div style="float: left">
 						<a href="#" onClick="toggleVisibilityByClass('mmm');">

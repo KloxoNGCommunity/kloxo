@@ -73,9 +73,9 @@ class SslCert extends Lxdb
 			$vlist["ssl_data_b_s_organizationalUnitName_r"] = null;
 			$vlist["ssl_data_b_s_emailAddress_r"] = null;
 			$this->convertToUnmodifiable($vlist);
-			$vlist['text_csr_content'] = null;
 			$vlist['text_crt_content'] = null;
 			$vlist['text_key_content'] = null;
+			$vlist['text_csr_content'] = null;
 		}
 
 		$vlist['__v_button'] = array();
@@ -158,7 +158,8 @@ class SslCert extends Lxdb
 		if (!$contentscer || !$contentskey) {
 			throw new lxException("certificate_key_file_empty", '');
 		}
-		sslcert::checkAndThrow($contentscer, $contentskey, null);
+
+		self::checkAndThrow($contentscer, $contentskey, null);
 
 	//	$contentpem = "$contentscer\n$contentskey";
 
@@ -230,9 +231,49 @@ class SslCert extends Lxdb
 
 	function postAdd()
 	{
+		$parent = $this->getParentO();
+
 		if (!$this->isOn('upload_status')) {
 			$this->createNewcertificate();
 		}
+
+		if ($parent->getClass() === 'web') {
+			$this->createDomainSSL();
+		}
+	}
+
+	function createDomainSSL()
+	{
+		$parent = $this->getParentO();
+		$name = $parent->nname;
+		$user = $parent->customer_name;
+
+		$path = "/home/{$user}/ssl";
+
+		$contentscer = $this->text_crt_content;
+		$contentskey = $this->text_key_content;
+		$contentsca = trim($this->text_ca_content);
+
+		if (!$contentscer || !$contentskey) {
+			throw new lxException("certificate_key_file_empty", '');
+		}
+
+		self::checkAndThrow($contentscer, $contentskey, $name);
+
+		lfile_put_contents("$path/$name.crt", $contentscer);
+		lfile_put_contents("$path/$name.key", $contentskey);
+
+		$contentpem = "$contentskey\n$contentscer";
+
+		lfile_put_contents("$path/$name.pem", $contentpem);
+
+		if ($contentsca) {
+			lfile_put_contents("$path/$name.ca", $contentsca);
+		} else {
+			lxfile_cp("theme/filecore/program.ca", "$path/$name.ca");
+		}
+
+		createRestartFile($parent->__var_webdriver);
 	}
 
 	function isSelect()
@@ -330,35 +371,6 @@ class SslCert extends Lxdb
 	{
 		return fix_nname_to_be_variable($ipname);
 	}
-
-
-// Not fucking needed
-/*
-	function dbactionAdd()
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-		if ($this->main->isOn('upload_status')) {
-			$crtfile = "$sgbl->__path_ssl_root/" . $this->main->certname. ".crt";
-			$keyfile = "$sgbl->__path_ssl_root/". $this->main->certname. ".key";
-			//$cafile =  "$sgbl->__path_ssl_root/". $this->main->certname. ".ca";
-			lfile_put_contents($crtfile, $this->main->ssl_crt_file_f);
-			lfile_put_contents($keyfile, $this->main->ssl_key_file_f);
-			if (!sslcert::checkKeyCert($crtfile, $keyfile)) {
-				lxfile_rm($crtfile);
-				lxfile_rm($keyfile);
-				throw new lxexception('certificate_key_file_corrupted', '');
-			}
-
-			//lfile_put_contents($cafile, $this->main->ssl_ca_file_f);
-			lxfile_generic_chown($crtfile, "lxlabs");
-			lxfile_generic_chown($keyfile, "lxlabs");
-			//lxfile_generic_chown($cafile, "lxlabs");
-		} else {
-			$this->createNewcertificate();
-		}
-	}
-
-*/
 
 	function isSync() { return false; }
 }
