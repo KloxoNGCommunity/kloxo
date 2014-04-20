@@ -67,7 +67,8 @@ class  Diskusage extends Lxclass
 
 		$vpsid = null;
 
-		if ($parent->is__table('vps')) {
+	//	if ($parent->is__table('vps')) {
+		if ($parent->getClass() === 'vps') {
 			$vpsid = $parent->vpsid;
 		}
 

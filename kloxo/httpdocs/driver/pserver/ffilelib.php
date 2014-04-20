@@ -1255,7 +1255,8 @@ class Ffile extends Lxclass
 		$this->ttype = "{$this->ttype}$sel_append";
 
 		if ($this->is_dir()) {
-			if ($this->getParentO()->is__table('web')) {
+		//	if ($this->getParentO()->is__table('web')) {
+			if ($this->getParentO()->getClass() === 'web') {
 				if (strpos(dirname($this->nname), '/') === false || dirname($this->nname) === '/') {
 					if ($this->base != "www") {
 						$this->protect = "na";
@@ -1495,7 +1496,8 @@ class Ffile extends Lxclass
 
 		$nlist["nname"] = "70%";
 
-		if ($parent->getParentO()->is__table('web')) {
+	//	if ($parent->getParentO()->is__table('web')) {
+		if ($parent->getParentO()->getClass() === 'web') {
 			$nlist["protect"] = "3%";
 		}
 

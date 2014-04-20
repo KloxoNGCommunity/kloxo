@@ -136,7 +136,8 @@ class DomainIpaddress extends Lxdb
 		$alist['property'][] = 'goback=1&o=sslipaddress&a=show';
 		$alist['property'][] = 'a=show';
 
-		if ($this->getParentO()->is__table('ipaddress') && $this->getParentO()->getParentO()->isAdmin()) {
+	//	if ($this->getParentO()->is__table('ipaddress') && $this->getParentO()->getParentO()->isAdmin()) {
+		if ($this->getParentO()->getClass() === 'ipaddress' && $this->getParentO()->getParentO()->isAdmin()) {
 			$alist['property'][] = 'goback=1&a=updateform&sa=exclusive';
 		}
 	}

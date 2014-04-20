@@ -84,7 +84,8 @@ class phpini extends lxdb
 	{
 		global $ghtml, $login;
 
-		if ($this->getParentO()->is__table('pserver')) {
+	//	if ($this->getParentO()->is__table('pserver')) {
+		if ($this->getParentO()->getClass()  === 'pserver') {
 			$list[] = 'multiple_php_ready';
 
 			$list[] = 'multiple_php_flag';
@@ -106,14 +107,18 @@ class phpini extends lxdb
 			}
 
 			if ($flag === 'on') {
-				if (!$this->getParentO()->is__table('web')) {
+			//	if (!$this->getParentO()->is__table('web')) {
+				if ($this->getParentO()->getClass() !== 'web') {
 					$list[] = 'multiple_php_ready';
 					$list[] = 'multiple_php_ratio';
+				} else {
+					$list[] = 'php_selected';
 				}
 			}
 		}
 
-		if (!$this->getParentO()->is__table('web')) {
+	//	if (!$this->getParentO()->is__table('web')) {
+		if ($this->getParentO()->getClass() !== 'web') {
 			$list[] = 'display_error_flag';
 		//	$list[] = 'register_global_flag';
 			$list[] = 'log_errors_flag';
@@ -187,13 +192,15 @@ class phpini extends lxdb
 		$this->fixphpIniFlag();
 		$gen = $login->getObject('general')->generalmisc_b;
 
-		if (!$this->getParentO()->is__table('pserver')) {
+	//	if (!$this->getParentO()->is__table('pserver')) {
+		if ($this->getParentO()->getClass() !== 'pserver') {
 			$ob = new phpini(null, 'localhost', createParentName('pserver', 'localhost'));
 			$ob->get();
 			$ob->fixphpIniFlag();
 
 			// MR -- trick for escape web-based php.ini
-			if ($this->getParentO()->is__table('web')) {
+		//	if ($this->getParentO()->is__table('web')) {
+			if ($this->getParentO()->getClass() === 'web') {
 				$this->__var_docrootpath = $this->getParentO()->getFullDocRoot();
 			}
 
@@ -204,7 +211,8 @@ class phpini extends lxdb
 			}
 
 			// MR -- trick for escape web-based php.ini
-			if ($this->getParentO()->is__table('web')) {
+		//	if ($this->getParentO()->is__table('web')) {
+			if ($this->getParentO()->getClass() === 'web') {
 				$this->__var_web_user = $this->getParentO()->username;
 				$this->__var_customer_name = $this->getParentO()->customer_name;
 				$this->__var_disable_openbasedir = (isset($this->getParentO()->webmisc_b->disable_openbasedir)) ?
@@ -278,7 +286,8 @@ class phpini extends lxdb
 
 		$this->setPhpModuleUpdate();
 
-		if ($this->getParentO()->is__table('pserver')) {
+	//	if ($this->getParentO()->is__table('pserver')) {
+		if ($this->getParentO()->getClass() === 'pserver') {
 			lxshell_return("__path_php_path", "../bin/fix/fixphpini.php", 
 				"--server={$this->getParentO()->nname}");
 		}
@@ -318,6 +327,8 @@ class phpini extends lxdb
 
 		$this->initPhpIni();
 
+		$parent = $this->getParentO();
+
 		if ($subaction === 'extraedit') {
 			$totallist = $this->getExtraList();
 		} 
@@ -325,25 +336,25 @@ class phpini extends lxdb
 			$totallist = $this->getLocalList();
 		}
 
-		$inheritedlist = $this->getInheritedList();
-		$adminList = $this->getAdminList();
+		if ($parent->getClass() !== 'web') {
+		
+			$inheritedlist = $this->getInheritedList();
+			$adminList = $this->getAdminList();
 
-		$parent = $this->getParentO();
-
-		foreach ($totallist as $l) {
-			if ((!$parent->is__table('pserver') && array_search_bool($l, $inheritedlist)) 
-					|| array_search_bool($l, $adminList)) {
-				$vlist["phpini_flag_b-$l"] = array('M', null);
-			} 
-			else {
-				$vlist["phpini_flag_b-$l"] = null;
+			foreach ($totallist as $l) {
+			//	if ((!$parent->is__table('pserver') && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
+				if (($parent->getClass() !== 'pserver' && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
+					$vlist["phpini_flag_b-$l"] = array('M', null);
+				} 
+				else {
+					$vlist["phpini_flag_b-$l"] = null;
+				}
 			}
 		}
 
-		if ($parent->is__table('web')) {
-			if (!$this->php_selected) {
-				$this->php_selected = 'php53m';
-			}
+	//	if ($parent->is__table('web')) {
+		if ($parent->getClass() === 'web') {
+			$this->php_selected = 'php53m';
 
 			$l = $this->get_multiple_php_list();
 
@@ -358,7 +369,8 @@ class phpini extends lxdb
 
 		// MR -- still not work (like in 'appearance')
 		// still something wrong with 'updateall' process!
-		if ($parent->is__table('pserver')) {
+	//	if ($parent->is__table('pserver')) {
+		if ($parent->getClass() === 'pserver') {
 		//	$vlist['__v_updateall_button'] = array();
 		}
 
@@ -435,7 +447,8 @@ class phpini extends lxdb
 		$parent = $this->getParentO();
 
 		if (!isset($this->phpini_flag_b->$var) || !$this->phpini_flag_b->$var) {
-			if ($parent->is__table('pserver')) {
+		//	if ($parent->is__table('pserver')) {
+			if ($parent->getClass() === 'pserver') {
 				$this->phpini_flag_b->$var = $val;
 			} else {
 				if ($login->isCustomer()) {

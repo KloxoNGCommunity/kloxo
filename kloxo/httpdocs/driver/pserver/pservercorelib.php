@@ -148,6 +148,9 @@ class pservercore extends Lxclient
 	static $__desc_servermail_o = array('d', '', '', '');
 	static $__desc_serverspam_o = array('', '', '', '');
 	static $__desc_llog_o = array('d', '', '', '');
+	static $__desc_sshconfig_o = array('d', '', '', '');
+
+
 	static $__acdesc_update_cron_mailto = array("", "", "cron_mail");
 	static $__acdesc_update_dbpassword = array("", "", "db_admin");
 	static $__acdesc_update_reboot = array("", "", "reboot");
@@ -1443,7 +1446,8 @@ STRIN;
 		if ($parent->isAdmin()) {
 			$res = "__v_table";
 		} else {
-			if ($parent->is__table('datacenter')) {
+		//	if ($parent->is__table('datacenter')) {
+			if ($parent->getClass() === 'datacenter') {
 				$res[] = array('datacenter', '=', "'$parent->nname'");
 			} else {
 				$res[] = array("clientname", '=', "'$parent->nname'");

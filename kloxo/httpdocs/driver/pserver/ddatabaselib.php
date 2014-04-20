@@ -335,7 +335,8 @@ class databasecore extends Lxdb
 		if (0 && check_if_many_server()) {
 			$var = "{$class}pserver_list";
 
-			if ($parent->is__table('domain')) {
+		//	if ($parent->is__table('domain')) {
+			if ($parent->getClass() === 'domain') {
 				$pp = $parent->getRealClientParentO();
 			} else {
 				$pp = $parent;

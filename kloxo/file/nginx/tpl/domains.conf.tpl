@@ -198,7 +198,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -264,7 +264,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -309,7 +309,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -375,7 +375,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -644,7 +644,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -714,7 +714,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -774,7 +774,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -840,7 +840,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -887,7 +887,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -969,7 +969,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -1035,7 +1035,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -1080,7 +1080,7 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate <?php echo $certname; ?>.crt;
+    ssl_certificate <?php echo $certname; ?>.pem;
     ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;

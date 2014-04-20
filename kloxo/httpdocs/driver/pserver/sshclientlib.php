@@ -18,7 +18,8 @@ class sshclient extends lxclass
 
 		$v = lfile_get_contents("theme/filecore/sshterm-applet.htm");
 
-		if ($parent->is__table('pserver')) {
+	//	if ($parent->is__table('pserver')) {
+		if ($parent->getClass() === 'pserver') {
 			$username = "root";
 			$ip = getFQDNforServer($parent->nname);
 
@@ -27,7 +28,8 @@ class sshclient extends lxclass
 			if (!$sshport) { $sshport = "22"; }
 
 			$connectimmediately = "true";
-		} else if ($parent->is__table('client')) {
+	//	} else if ($parent->is__table('client')) {
+		} else if ($parent->getClass() === 'client') {
 			if ($parent->isDisabled('shell') || !$parent->shell) {
 				exit;
 			}

@@ -23,7 +23,7 @@ class resourceplan extends resourcecore
 	static $__acdesc_update_changerealname = array("", "",  "change_name");
 	static $__acdesc_update_ipaddress  =  array("","",  "ip_pool");
 	static $__acdesc_update_pserver_s  =  array("","",  "server_pool");
-	static $__acdesc_update_account  =  array("","",  "accounts_on_plan");
+//	static $__acdesc_update_account  =  array("","",  "accounts_on_plan");
 	static $__acdesc_update_copyplan  =  array("","",  "copy_plan");
 	static $__rewrite_nname_const =    Array("realname", "parent_clname");
 
@@ -183,6 +183,7 @@ class resourceplan extends resourcecore
 		
 		$sq = new Sqlite(null, 'client');
 		$res = $sq->getRowsWhere("resourceplan_used = '$this->nname'", array('nname'));
+
 		$total['client'] = get_namelist_from_arraylist($res);
 
 		if ($sgbl->isHyperVm()) {
@@ -308,9 +309,11 @@ class resourceplan extends resourcecore
 			//	$vlist['share_status'] = null;
 
 				$total = $this->getAccountList();
+
 				$total = lx_array_merge($total);
 
 				$vlist['account'] = array('M', implode(" ", $total));
+			//	$vlist['account'] = implode(" ", $total);
 
 				if (!$this->isRightParent()) {
 					$this->convertToUnmodifiable($vlist);

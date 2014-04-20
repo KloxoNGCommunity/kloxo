@@ -397,7 +397,8 @@ class Cron extends Lxdb
 
 		$param['username'] = $parent->username;
 	/*
-		if ($parent->is__table('pserver')) {
+	//	if ($parent->is__table('pserver')) {
+		if ($parent->getClass() === 'pserver') {
 			$param['syncserver'] = $parent->nname;
 		} else {
 			$param['syncserver'] = $parent->syncserver;
@@ -459,7 +460,8 @@ class Cron extends Lxdb
 
 	static function initThisListRule($parent, $class)
 	{
-		if ($parent->is__table('pserver')) {
+	//	if ($parent->is__table('pserver')) {
+		if ($parent->getClass() === 'pserver') {
 			$res[] = array('syncserver', '=', "'$parent->nname'");
 			return $res;
 			//$res[] = 'AND';

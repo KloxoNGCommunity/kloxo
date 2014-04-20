@@ -15,7 +15,8 @@ class mimehandler___apache extends Lxdriverclass
 
 	function mupdate()
 	{
-		if ($this->main->is__table('webmimetype')) {
+	//	if ($this->main->is__table('webmimetype')) {
+		if ($this->main->getClass() === 'webmimetype') {
 			$keystring = "Addtype";
 		} else {
 			$keystring = "AddHandler";

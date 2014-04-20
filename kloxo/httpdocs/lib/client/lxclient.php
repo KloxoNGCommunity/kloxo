@@ -670,7 +670,8 @@ abstract class Lxclient extends Lxdb
 		$this->nname = $param['nname'];
 		$this->nname = trim($this->nname);
 
-		If ($this->is__table('vps')) {
+	//	If ($this->is__table('vps')) {
+		If ($this->getClass() === 'vps') {
 			if (!cse($this->nname, ".vm")) {
 				$this->nname .= ".vm";
 			}
@@ -903,7 +904,8 @@ abstract class Lxclient extends Lxdb
 		
 		if_demo_throw_exception('lxclient');
 		
-		if ($this->isLogin() || ($this->is__table('auxiliary') && $this->getParentO()->isAuxiliary())) {
+	//	if ($this->isLogin() || ($this->is__table('auxiliary') && $this->getParentO()->isAuxiliary())) {
+		if ($this->isLogin() || ($this->getClass() === 'auxiliary' && $this->getParentO()->isAuxiliary())) {
 			if (!check_password($param['old_password_f'], $this->password)) {
 				throw new lxException("Wrong+Password", 'old_password_f');
 			}

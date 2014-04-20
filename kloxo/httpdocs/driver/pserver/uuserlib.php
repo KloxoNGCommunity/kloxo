@@ -158,7 +158,8 @@ class Uuser extends Lxclient
 
 	static function initThisObjectRule($parent, $class, $name = null)
 	{
-		if ($parent->is__table('pserver')) {
+	//	if ($parent->is__table('pserver')) {
+		if ($parent->getClass() === 'pserver') {
 			dprint("argh ... <br> ");
 			exit;
 		}
@@ -183,7 +184,8 @@ class Uuser extends Lxclient
 
 	static function initThisListRule($parent, $class)
 	{
-		if (!$parent->is__table('pserver')) {
+	//	if (!$parent->is__table('pserver')) {
+		if ($parent->getClass() !== 'pserver') {
 			print("attempt to hack... <br> ");
 
 			exit;

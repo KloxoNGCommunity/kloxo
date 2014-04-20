@@ -10,6 +10,10 @@ if (($webcache === 'none') || (!$webcache)) {
     $ports[] = '8443';
 }
 
+foreach ($certnamelist as $ip => $certname) {
+        $certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+}
+
 $iplist = array('*');
 
 $defaultdocroot = "/home/kloxo/httpd/default";
@@ -84,8 +88,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.pem;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php
@@ -150,8 +154,8 @@ server {
 ?>
 
     ssl on;
-    ssl_certificate /home/kloxo/httpd/ssl/<?php echo $certname; ?>.crt;
-    ssl_certificate_key /home/kloxo/httpd/ssl/<?php echo $certname; ?>.key;
+    ssl_certificate <?php echo $certname; ?>.pem;
+    ssl_certificate_key <?php echo $certname; ?>.key;
     ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers HIGH:!aNULL:!MD5;
 <?php

@@ -64,8 +64,8 @@ class SslCert extends Lxdb
 			$vlist['text_key_content'] = null;
 			$vlist['text_ca_content'] = null;
 		} else {
-			$vlist['nname'] = array('M', $this->certname);
-			$vlist["ssl_data_b_s_commonName_r"] = null;
+			$vlist['nname'] = $this->certname;
+			$vlist["ssl_data_b_s_commonName_r"] = implode(',', $this->ssl_data_b->commonName_r);
 			$vlist["ssl_data_b_s_countryName_r"] = null;
 			$vlist["ssl_data_b_s_stateOrProvinceName_r"] = null;
 			$vlist["ssl_data_b_s_localityName_r"] = null;
@@ -197,6 +197,24 @@ class SslCert extends Lxdb
 		$this->updateSetProgramSSL($param);
 	}
 
+	function deleteSpecific()
+	{
+		$parent = $this->getParentO();
+
+		if ($parent->getClass() === 'web') {
+			$name = $parent->nname;
+			$user = $parent->customer_name;
+
+			$path = "/home/{$user}/ssl";
+
+			exec("rm -f {$path}/{$name}.*");
+		}
+	}
+
+	static function preAdd($parent, $class, $param)
+	{
+	}
+
 	static function add($parent, $class, $param)
 	{
 		if (isset($param['upload'])) {
@@ -217,11 +235,19 @@ class SslCert extends Lxdb
 				}
 			}
 
-			sslcert::checkAndThrow($param['text_crt_content'], $param['text_key_content']);
+			self::checkAndThrow($param['text_crt_content'], $param['text_key_content']);
 
 			$param['upload_status'] = 'on';
 		} else {
 			$param['upload_status'] = 'off';
+
+			if ($parent->getClass() === 'web') {
+				$param['nname'] = $parent->nname;
+				$param['ssl_data_b_s_commonName_r'] = array("*.{$parent->nname}", "{$parent->nname}");
+			} else {
+				$cname = $param['ssl_data_b_s_commonName_r'];
+				$param['ssl_data_b_s_commonName_r'] = explode(',', str_replace(' ', '', $cname));
+			}
 		}
 
 		$param['certname'] = $param['nname'];
@@ -269,8 +295,6 @@ class SslCert extends Lxdb
 
 		if ($contentsca) {
 			lfile_put_contents("$path/$name.ca", $contentsca);
-		} else {
-			lxfile_cp("theme/filecore/program.ca", "$path/$name.ca");
 		}
 
 		createRestartFile($parent->__var_webdriver);
@@ -290,21 +314,29 @@ class SslCert extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		if ($parent->getClass() === 'web') {
+			$nname = array('M', $parent->nname);
+			$cname = array('M', "*.{$parent->nname},{$parent->nname}");
+		} else {
+			$nname = null;
+			$cname = null;
+		}
+
 		if ($typetd['val'] === 'uploadfile') {
-			$vlist['nname'] = null;
+			$vlist['nname'] = $nname;
 			$vlist['ssl_key_file_f'] = null;
 			$vlist['ssl_crt_file_f'] = null;
 			$vlist['ssl_ca_file_f'] = null;
 			$sgbl->method = 'post';
 		} else if ($typetd['val'] === 'uploadtxt') {
-			$vlist['nname'] = null;
+			$vlist['nname'] = $nname;
 			$vlist['text_crt_content'] = null;
 			$vlist['text_key_content'] = null;
 			$vlist['text_ca_content'] = null;
 		} else {
 			include "lib/html/countrycode.inc";
 
-			$vlist['nname'] = null;
+			$vlist['nname'] = $nname;
 
 			// MR -- add key_bits options
 			$vlist['key_bits'] = array("s", array("2048", "1024", "512"));
@@ -313,7 +345,7 @@ class SslCert extends Lxdb
 				$temp[] = "$key:$name";
 			}
 
-			$vlist["ssl_data_b_s_commonName_r"] = null;
+			$vlist["ssl_data_b_s_commonName_r"] = $cname;
 			$vlist["ssl_data_b_s_countryName_r"] = array("s", $temp);
 			$vlist["ssl_data_b_s_stateOrProvinceName_r"] = null;
 			$vlist["ssl_data_b_s_localityName_r"] = null;
@@ -338,6 +370,16 @@ class SslCert extends Lxdb
 			}
 			$nk = strtil($key, "_r");
 			$temp[$nk] = $value;
+		}
+
+		$parent = $this->getParentO();
+
+		if ($parent->getClass() === 'web') {
+			$temp['nname'] = $parent->nname;
+			$temp['commonName'] = array("*.{$parent->nname}", "{$parent->nname}");
+		} else {
+			// MR -- already in array
+		//	$temp['commonName'] = explode(',', $temp['commonName']);
 		}
 
 		foreach ($temp as $key => $t) {

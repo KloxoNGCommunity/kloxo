@@ -1075,7 +1075,8 @@ class ClientBase extends ClientCore
 
 	static function initThisObject($parent, $class, $name = null)
 	{
-		if (!$parent->is__table('node')) {
+	//	if (!$parent->is__table('node')) {
+		if ($parent->getClass() !== 'node') {
 			print("Attempt to Hack <br> <br> ");
 			exit;
 		}

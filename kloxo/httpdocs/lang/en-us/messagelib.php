@@ -383,11 +383,14 @@ $__information['domainipaddress_updateform_update_pre'] = "<p>This will allow yo
 $__information['sslipaddress_updateform_update_pre'] = "<p>To setup an ssl for an ipaddress, first upload/add an ssl certificate ".
 	"from <url:goback=2&a=list&c=sslcert>[here]</url>.</p>";
 
-$__information['sslcert_updateform_update_pre'] = "<p>To assign this ssl certificate to a particular ipaddress, ".
-	"click <url:goback=2&a=list&c=ipaddress>[here]</url> and then go into an ipaddress, ".
-	"and click on <b>ssl certificate</b> tab, and you can set one of these certificates to a particular ipaddress.</p>".
-	"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p>";
-
+$__information['sslcert_updateform_update_pre'] = "<p>Two option for SSL certifate:</p>" .
+		"<ul>" .
+			"<li><b>IP Address based</b>: must assign to certain IP address and possible access domain via IP address" .
+				"<p>To assign IP address, click <url:goback=2&a=list&c=ipaddress>[here]</url> and then go into an IP address, ".
+				"and click on <b>ssl certificate</b> tab and select an IP address.</p>" .
+				"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p></li>" .
+			"<li><b>Domain based</b>: possible every domains heve their owned ssl certifate without assign to IP address</li>" .
+		"</ul>";
 $__information['domain_not_customer'] = "<p>To add a domain, create a customer first, and you can add domains under him.</p>".
 	"<p>To add a customer, click <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>[here]</url>.</p>";
 

@@ -4034,12 +4034,14 @@ abstract class Lxclass
 		$exc_list = array("lxbackup", "web", "mmail", "sp_specialplay", "centralbackupconfig");
 
 		foreach ($exc_list as $l) {
-			if ($this->is__table($l)) {
+		//	if ($this->is__table($l)) {
+			if ($this->getClass() === $l) {
 				return true;
 			}
 		}
 
-		if ($this->is__table("dns") && $sgbl->isKloxo()) {
+	//	if ($this->is__table("dns") && $sgbl->isKloxo()) {
+		if ($this->getClass() === 'dns' && $sgbl->isKloxo()) {
 			return true;
 		}
 
@@ -4122,7 +4124,8 @@ abstract class Lxclass
 			//	} else {
 					$nob = $ob->getObject($this->getClass());
 			//	}
-			} else if ($this->is__table('spam')) {
+		//	} else if ($this->is__table('spam')) {
+			} else if ($this->getClass() === 'spam') {
 				$nob = $ob->getObject('mmail')->getObject($this->getClass());
 			} else {
 				$nob = $ob;
@@ -5143,7 +5146,8 @@ abstract class Lxclass
 
 	function isLxclient()
 	{
-		if ($this->is__table('domain')) {
+	//	if ($this->is__table('domain')) {
+		if ($this->getClass() === 'domain') {
 			return false;
 		} else {
 			return is_subclass_of($this, 'lxclient');
@@ -5939,7 +5943,7 @@ abstract class Lxclass
 	function convertToUnmodifiable(&$vlist)
 	{
 		foreach ($vlist as $k => $v) {
-			$vlist[$k] = array('M', null);
+			$vlist[$k] = array('M', $v);
 		}
 	}
 

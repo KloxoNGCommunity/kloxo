@@ -25,7 +25,8 @@ function get()
 	if (isset($this->download_f) && $this->download_f) {
 		$numlines = 'download';
 	} else {
-		if ($this->getParentO()->is__table('llog')) {
+	//	if ($this->getParentO()->is__table('llog')) {
+		if ($this->getParentO()->getClass() === 'llog') {
 			$numlines = 20;
 		} else {
 			$numlines = null;

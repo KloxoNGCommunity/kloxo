@@ -177,7 +177,8 @@ function createHeaderData()
 		$serverurl = $ghtml->getFullUrl('k[class]=pserver&k[nname]=localhost&a=show');
 	}
 
-	if ($login->is__table('client')) {
+//	if ($login->is__table('client')) {
+	if ($login->getClass() === 'client') {
 		$ffileurl = $ghtml->getFullUrl('k[class]=ffile&k[nname]=/&a=show');
 	} else {
 		$ffileurl = $ghtml->getFullUrl('n=web&k[class]=ffile&k[nname]=/&a=show');

@@ -1447,7 +1447,8 @@ function do_actionlog($login, $object, $action, $subaction)
 		return;
 	}
 
-	if (!$object->is__table('domain') && !$object->is__table('client') && !$object->is__table('vps')) {
+//	if (!$object->is__table('domain') && !$object->is__table('client') && !$object->is__table('vps')) {
+	if ($object->getClass() !== 'domain' && $object->getClass() !== 'client' && $object->getClass() !== 'vps') {
 		return;
 	}
 

@@ -129,7 +129,8 @@ class Spam extends Lxdb
 	{
 		$parent = $this->getTrueParentO();
 
-		if ($parent->is__table('mmail')) {
+	//	if ($parent->is__table('mmail')) {
+		if ($parent->getClass() === 'mmail') {
 			$list = $parent->getList('mailaccount');
 			
 			foreach($list as $l) {

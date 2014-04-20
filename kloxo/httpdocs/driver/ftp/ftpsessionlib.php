@@ -38,7 +38,8 @@ class ftpsession extends Lxclass
 
 	static function initThisList($parent, $class)
 	{
-		if ($parent->is__table('client')) {
+	//	if ($parent->is__table('client')) {
+		if ($parent->getClass() === 'client') {
 			if ($parent->username) {
 				$username = $parent->username;
 				$res = rl_exec_in_driver($parent, $class, "getFtpList", array($username));
