@@ -284,7 +284,7 @@ class phpini extends lxdb
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
 
-		$this->setPhpModuleUpdate();
+	//	$this->setPhpModuleUpdate();
 
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() === 'pserver') {
@@ -381,12 +381,12 @@ class phpini extends lxdb
 	function setUpINitialValues()
 	{
 		global $ghtml, $login;
-
+	/*
 		$this->initialValueRpmStatus('enable_xcache_flag');
 		$this->initialValueRpmStatus('enable_zend_flag');
 		$this->initialValueRpmStatus('enable_ioncube_flag');
 		$this->initialValueRpmStatus('enable_suhosin_flag');
-
+	*/
 		$this->initialValue('output_compression_flag', 'off');
 
 		$this->initialValue('upload_max_filesize', '16M');
