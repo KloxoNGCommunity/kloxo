@@ -99,7 +99,7 @@ class web__ extends lxDriverClass
 			createRestartFile($l);
 		}
 
-		self::setInstallPhpfpm();
+	//	self::setInstallPhpfpm();
 	}
 
 	static function setBaseWebConfig($drivertype = null)
