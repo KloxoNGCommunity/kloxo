@@ -199,6 +199,8 @@ class SslCert extends Lxdb
 
 	function deleteSpecific()
 	{
+		global $gbl;
+
 		$parent = $this->getParentO();
 
 		if ($parent->getClass() === 'web') {
@@ -208,11 +210,10 @@ class SslCert extends Lxdb
 			$path = "/home/{$user}/ssl";
 
 			exec("rm -f {$path}/{$name}.*");
-		}
-	}
 
-	static function preAdd($parent, $class, $param)
-	{
+			exec("sh /script/fixweb --domain={$name} --nolog");
+			createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
+		}
 	}
 
 	static function add($parent, $class, $param)
@@ -270,6 +271,8 @@ class SslCert extends Lxdb
 
 	function createDomainSSL()
 	{
+		global $gbl;
+
 		$parent = $this->getParentO();
 		$name = $parent->nname;
 		$user = $parent->customer_name;
@@ -297,7 +300,8 @@ class SslCert extends Lxdb
 			lfile_put_contents("$path/$name.ca", $contentsca);
 		}
 
-		createRestartFile($parent->__var_webdriver);
+		exec("sh /script/fixweb --domain={$name} --nolog");
+		createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
 	}
 
 	function isSelect()
