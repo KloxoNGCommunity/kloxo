@@ -21,8 +21,8 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 	
 	if ($ret) {
 		echo "- No repo for MariaDB.\n";
-		echo "  Open '/etc/yum.repos.d/kloxo-mr.repo and change 'enable=0' to 'enable=1'\n";
-		echo "  under [kloxo-mr-mariadb32] for 32bit OS or [kloxo-mr-mariadb64] for 64bit OS\n";
+		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=0' to 'enable=1'\n";
+		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
 	} else {
 		system("yum clean all");
 

@@ -415,7 +415,7 @@ foreach ($certnamelist as $ip => $certname) {
 		}
 ?>
 
-		## web for '<?php echo $domainname; ?>'
+## web for '<?php echo $domainname; ?>'
 <VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
 	ServerAdmin webmaster@<?php echo $domainname; ?>
