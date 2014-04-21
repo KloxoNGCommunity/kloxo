@@ -7869,16 +7869,19 @@ function isTokenMatch()
 			$ret = false;
 		}
 	} else {
+	/*
+		// MR -- disable for implementation because too much exception and include less of less risk
 		$action = $_GET['frm_action'];
 		$subaction = $_GET['frm_subaction'];
-
 		if (($action === 'add') || ($action === 'update') || ($action === 'delete')) {
 			if (($subaction !== 'toggle_state') && ($subaction !== 'toggle_boot_state') &&
-				($subaction !== 'start') && ($subaction !== 'stop') && ($subaction !== 'restart')) {
+				($subaction !== 'start') && ($subaction !== 'stop') && ($subaction !== 'restart') &&
+				($subaction !== 'readipaddress')) {
 
 				$ret = false;
 			}
 		}
+	*/
 	}
 
 	return $ret;
