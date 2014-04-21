@@ -7870,9 +7870,14 @@ function isTokenMatch()
 		}
 	} else {
 		$action = $_GET['frm_action'];
+		$subaction = $_GET['frm_subaction'];
 
 		if (($action === 'add') || ($action === 'update') || ($action === 'delete')) {
-			$ret = false;
+			if (($subaction !== 'toggle_state') && ($subaction !== 'toggle_boot_state') &&
+				($subaction !== 'start') && ($subaction !== 'stop') && ($subaction !== 'restart')) {
+
+				$ret = false;
+			}
 		}
 	}
 
