@@ -8341,7 +8341,7 @@ class HtmlLib
 		print_time('tree', "Tree", 2);
 ?>
 
-			<form name="__treeForm" id="__treeForm" method="get" action="/display.php" accept-charset="utf-8">
+			<form name="__treeForm" id="__treeForm" method="post" action="/display.php" accept-charset="utf-8">
 				<input type="hidden" id="frm_accountselect" name="frm_accountselect" value="">
 <?php
 		$this->print_current_input_vars(array('frm_action', 'frm_subaction'));
