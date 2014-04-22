@@ -2,51 +2,34 @@
 
 include_once "lib/html/include.php";
 
-if (isset($argv[1])) {
-	$pass = $argv[1];
+$db = $sgbl->__var_dbf;
+$username = $sgbl->__var_program_name;
+$program = $username;
+
+if ($argv[1]) {
+	$mysqlpass = $argv[1];
 } else {
-	$pass = "";
+	$mysqlpass = randomString(9);
 }
 
-$text = <<<EOF
-UPDATE mysql.user SET Password=PASSWORD('PASSWORD') WHERE User='USER';
-FLUSH PRIVILEGES;
-EOF;
+client::createDbPass($mysqlpass);
 
-$text = str_replace("'USER'", "'kloxo'", $text);
-$text = str_replace("'PASSWORD'", "'{$pass}'", $text);
+$rootpass = slave_get_db_pass();
 
-file_put_contents("/tmp/reset-mysql-password.sql", $text);
+$conn = new mysqli('localhost', 'root', $rootpass, 'mysql');
 
-print("Stop MySQL service...\n");
-if (file_exists("/etc/init.d/mysql")) {
-	exec("service mysql stop");
-} else {
-	exec("service mysqld stop");
-}
+$cmd = "grant all on {$db}.* to {$username}@localhost identified by '{$mysqlpass}'";
 
-print("MySQL kloxo password reset...\n");
-sleep(10);
-system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
-sleep(15);
+print($cmd . "\n");
 
-print("Start MySQL service...\n");
-if (file_exists("/etc/init.d/mysql")) {
-	exec("service mysql start");
-} else {
-	exec("service mysqld start");
-}
+$result = $conn->query($cmd);
 
-exec("rm -f /tmp/reset-mysql-password.sql");
-
-$conn = new mysqli('localhost', 'kloxo', $pass, 'mysql');
-
-if ($conn->connect_errno) {
-    printf("Connect failed: %s\n", $conn->connect_error);
-
-    exit();
+if (!$result) {
+	print($conn->connect_errno . "\n");
+	exit();
 }
 
 $conn->close();
 
-file_put_contents("", "/usr/local/lxlabs/kloxo/etc/conf/kloxo.pass");
+file_put_contents("../etc/conf/$program.pass", $mysqlpass);
+

@@ -42,9 +42,9 @@ exec("rm -f /tmp/reset-mysql-password.sql");
 $conn = new mysqli('localhost', 'root', $pass, 'mysql');
 
 if ($conn->connect_errno) {
-    printf("Connect failed: %s\n", $conn->connect_error);
+	printf("Connect failed: %s\n", $conn->connect_error);
 
-    exit();
+	exit();
 }
 
 $conn->close();
