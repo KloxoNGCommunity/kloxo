@@ -9257,7 +9257,7 @@ class HtmlLib
 		// MR -- also change to 'get' for escaping validate token
 ?>
 
-		<form name="<?= $formname ?>" method="post" action="<?= $url ?>" accept-charset="utf-8">
+		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">
