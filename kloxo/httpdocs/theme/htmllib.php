@@ -1523,8 +1523,30 @@ class HtmlLib
 ?>
 
 		<div id="<?= $dividentity ?>" style="visibility: visible; float: left; margin: 3px; <?= $bgcolor ?>">
-			<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>"><?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?></a>
+<?php
+		if (strpos($path, '/display.php') !== false) {
+?>
+			<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
+				<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?>
+			</a>
+<?php
+		} else {
+?>
+			<form onClick="document.form_<?= $form_name ?>.submit();" name="form_<?= $form_name ?>" <?= $target ?> method="post" action="<?= $path ?>">
+<?php
+			foreach ($post as $k => $v) {
+?>
+				<input type="hidden" name="<?= $k ?>" value="<?= $v ?>">
+<?php
+			}
+?>
+				<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?>
+			</form>
+<?php
+		}
+?>
 		</div>
+
 <?php
 		return $dividentity;
 	}
@@ -6198,7 +6220,8 @@ class HtmlLib
 			$displayvar = "<span style='$forecolorstring' class='icontextlink' id='aaid_$formname' " .
 				"href=\"javascript:document.form_$formname.submit()\" onmouseover=\" style.textDecoration='underline';\" " .
 				"onmouseout=\"style.textDecoration='none'\"> $descr[2] </span>";
-			$onclickvar = "onClick=\"document.form_$formname.submit()\"";
+		//	$onclickvar = "onClick=\"document.form_$formname.submit()\"";
+			$onclickvar = null;
 			$alt = $help;
 		} else {
 			$displayvar = "<span title=\"You don't have permission\" class='icontextlink'>{$descr[2]} (disabled)</span>";
@@ -6599,17 +6622,15 @@ class HtmlLib
 		}
 ?>
 
-		<span title='<?= $alt ?>'>
-		<a target="<?= $target ?>" href="<?= $url ?>">
-			<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='#fff'; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" cellpadding='3' cellspacing='3' height='10' width='10' valign='top'>
-				<tr>
-					<td valign='top' align='center'> <?= $imgvar ?> </td>
-				</tr>
-				<tr valign='top' height='100%'>
-					<td width='10' align='center'><span title='<?= $alt ?>'><?= $displayvar ?></span></td>
-				</tr>
-			</table>
-		</a>
+	<span title='<?= $alt ?>'>
+		<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='#fff'; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" cellpadding='3' cellspacing='3' height='10' width='10' valign='top'>
+			<tr>
+				<td valign='top' align='center'> <?= $imgvar ?> </td>
+			</tr>
+			<tr valign='top' height='100%'>
+				<td width='10' align='center'><span title='<?= $alt ?>'><?= $displayvar ?></span></td>
+			</tr>
+		</table>
 	</span>
 
 <?php

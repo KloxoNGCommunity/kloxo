@@ -46,7 +46,13 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 			system("rpm -e {$o} --nodeps");
 		}
 		
-	//	system("yum install mysqlclient*-devel -y");
+		// MR -- may trouble if remove for mysqli extension
+	//	system("yum install mysqlclient* -y");
+
+		if (!file_exists("/var/lib/mysqltmp")) {
+			mkdir("/var/lib/mysqltmp");
+			chown("/var/lib/mysqltmp", "mysql:mysql");
+		}
 
 		echo "- Install MariaDB\n";
 		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common MariaDB-shared -y");
