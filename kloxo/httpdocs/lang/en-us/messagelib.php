@@ -390,7 +390,13 @@ $__information['sslcert_updateform_update_pre'] = "<p>Two option for SSL certifa
 				"and click on <b>ssl certificate</b> tab and select an IP address.</p>" .
 				"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p></li>" .
 			"<li><b>Domain based</b>: possible every domains heve their owned ssl certifate without assign to IP address</li>" .
+		"</ul>" .
+		"<p><b>Note</b>:" .
+		"<ul>" .
+			"<li><b>Common Name</b>: Set wildcards (*) domain (ex: *.domain.com)</li>" .
+			"<li><b>Subject Alt Name</b>: Set primary domain (ex: domain.com) and other domains (separated by comma; including their wildcards if needed)</li>" .
 		"</ul>";
+
 $__information['domain_not_customer'] = "<p>To add a domain, create a customer first, and you can add domains under him.</p>".
 	"<p>To add a customer, click <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>[here]</url>.</p>";
 

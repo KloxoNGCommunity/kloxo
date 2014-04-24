@@ -7068,6 +7068,8 @@ function setInitialServices($nolog = null)
 	setInitialPhpIniConfig($nolog);
 	setInitialPhpFpmConfig($nolog);
 
+	setCopyOpenSSLConfFiles();
+
 	setInitialPureftpConfig($nolog);
 
 	setInitialLogrotate($nolog);
@@ -7324,6 +7326,19 @@ function setCopyWebConfFiles($webdriver)
 			lxfile_cp($t, "{$pathconfd}/{$c}.conf");
 		}
 	}
+}
+
+function setCopyOpenSSLConfFiles()
+{
+	$nolog = null;
+
+	$pathsrc = "/usr/local/lxlabs/kloxo/file/openssl";
+	$pathdrv = "/home/openssl";
+
+	log_cleanup("Copy all contents of openssl", $nolog);
+
+	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+	exec("cp -rf {$pathsrc} /home");
 }
 
 function isWebProxy($drivertype = null)

@@ -647,8 +647,9 @@ $__description["ca_certificates"] = array("Ca Certificates");
 $__description["countryname"] = array("Countryname");
 $__description["organization"] = array("Organization");
 $__description["department_name"] = array("Department Name");
-$__description["commonname_(domain_name)"] = array("Commonname (domain Name)");
-$__description["emailaddress"] = array("Email Address");
+$__description["common_name"] = array("Common Name (CN)");
+$__description["email_address"] = array("Email Address");
+$__description["subject_alt_name"] = array("Subject Alt Name (SAN)");
 
 $__description["ssl_certificate"] = array("SSL Certificate");
 $__description["ssl_key_bits"] = array("SSL Key Bits");

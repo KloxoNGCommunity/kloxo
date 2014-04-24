@@ -1531,18 +1531,20 @@ class HtmlLib
 			</a>
 <?php
 		} else {
+			if ($post) {
 ?>
 			<form onClick="document.form_<?= $form_name ?>.submit();" name="form_<?= $form_name ?>" <?= $target ?> method="post" action="<?= $path ?>">
 <?php
-			foreach ($post as $k => $v) {
+				foreach ($post as $k => $v) {
 ?>
 				<input type="hidden" name="<?= $k ?>" value="<?= $v ?>">
 <?php
-			}
+				}
 ?>
 				<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?>
 			</form>
 <?php
+			}
 		}
 ?>
 		</div>

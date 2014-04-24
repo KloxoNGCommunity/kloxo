@@ -14,8 +14,9 @@ class Ssl_data_b extends LxaClass
 	static $__desc_localityName_r = array("n", "", "city");
 	static $__desc_organizationName_r = array("n", "", "organization");
 	static $__desc_organizationalUnitName_r = array("n", "", "department_name");
-	static $__desc_commonName_r = array("n", "", "commonname_(domain_name)");
-	static $__desc_emailAddress_r = array("n", "", "emailaddress");
+	static $__desc_commonName_r = array("n", "", "common_name");
+	static $__desc_emailAddress_r = array("n", "", "email_address");
+	static $__desc_subjectAltName_r = array("n", "", "subject_alt_name");
 }
 
 class SslCert extends Lxdb
@@ -65,13 +66,14 @@ class SslCert extends Lxdb
 			$vlist['text_ca_content'] = null;
 		} else {
 			$vlist['nname'] = $this->certname;
-			$vlist["ssl_data_b_s_commonName_r"] = implode(',', $this->ssl_data_b->commonName_r);
+			$vlist["ssl_data_b_s_commonName_r"] = null;
 			$vlist["ssl_data_b_s_countryName_r"] = null;
 			$vlist["ssl_data_b_s_stateOrProvinceName_r"] = null;
 			$vlist["ssl_data_b_s_localityName_r"] = null;
 			$vlist["ssl_data_b_s_organizationName_r"] = null;
 			$vlist["ssl_data_b_s_organizationalUnitName_r"] = null;
 			$vlist["ssl_data_b_s_emailAddress_r"] = null;
+			$vlist["ssl_data_b_s_subjectAltName_r"] = null;
 			$this->convertToUnmodifiable($vlist);
 			$vlist['text_crt_content'] = null;
 			$vlist['text_key_content'] = null;
@@ -170,7 +172,7 @@ class SslCert extends Lxdb
 	}
 
 
-	static function setProgramSsl($contentpem, $contentsca, $contentscer, $contentskey)
+	static function setProgramSsl($contentpem, $contentsca, $contentscrt, $contentskey)
 	{
 		lfile_put_contents("../etc/program.pem", $contentpem);
 
@@ -178,7 +180,7 @@ class SslCert extends Lxdb
 			lfile_put_contents("../etc/program.ca", $contentsca);
 		}
 		
-		lfile_put_contents("../etc/program.crt", $contentscer);
+		lfile_put_contents("../etc/program.crt", $contentscrt);
 		lfile_put_contents("../etc/program.key", $contentskey);
 
 		lxfile_unix_chown("../etc/program.pem", "lxlabs:lxlabs");
@@ -228,8 +230,8 @@ class SslCert extends Lxdb
 					throw new lxException("key_crt_files_needed");
 				}
 
-				$param['text_key_content'] = file_get_contents($key_file);
-				$param['text_crt_content'] = file_get_contents($crt_file);
+				$param['text_key_content'] = lfile_get_contents($key_file);
+				$param['text_crt_content'] = lfile_get_contents($crt_file);
 
 				if ($ca_file && lxfile_exists($ca_file)) {
 					$param['text_ca_content'] = lfile_get_contents($ca_file);
@@ -244,10 +246,8 @@ class SslCert extends Lxdb
 
 			if ($parent->getClass() === 'web') {
 				$param['nname'] = $parent->nname;
-				$param['ssl_data_b_s_commonName_r'] = array("*.{$parent->nname}", "{$parent->nname}");
-			} else {
-				$cname = $param['ssl_data_b_s_commonName_r'];
-				$param['ssl_data_b_s_commonName_r'] = explode(',', str_replace(' ', '', $cname));
+				$param['ssl_data_b_s_commonName_r'] = '*.' . $parent->nname;
+				$param['ssl_data_b_s_subjectAltName_r'] = $parent->nname;
 			}
 		}
 
@@ -279,20 +279,22 @@ class SslCert extends Lxdb
 
 		$path = "/home/{$user}/ssl";
 
-		$contentscer = $this->text_crt_content;
+		$contentscrt = $this->text_crt_content;
 		$contentskey = $this->text_key_content;
+		$contentscsr = $this->text_csr_content;
 		$contentsca = trim($this->text_ca_content);
 
-		if (!$contentscer || !$contentskey) {
+		if (!$contentscrt || !$contentskey) {
 			throw new lxException("certificate_key_file_empty", '');
 		}
 
-		self::checkAndThrow($contentscer, $contentskey, $name);
+		self::checkAndThrow($contentscrt, $contentskey, $name);
 
-		lfile_put_contents("$path/$name.crt", $contentscer);
+		lfile_put_contents("$path/$name.crt", $contentscrt);
 		lfile_put_contents("$path/$name.key", $contentskey);
+		lfile_put_contents("$path/$name.csr", $contentscsr);
 
-		$contentpem = "$contentskey\n$contentscer";
+		$contentpem = "$contentskey\n$contentscrt";
 
 		lfile_put_contents("$path/$name.pem", $contentpem);
 
@@ -320,10 +322,12 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$nname = array('M', $parent->nname);
-			$cname = array('M', "*.{$parent->nname},{$parent->nname}");
+			$cname = array('M', '*.' . $parent->nname);
+			$saname = array('M', $parent->nname);
 		} else {
 			$nname = null;
 			$cname = null;
+			$saname = null;
 		}
 
 		if ($typetd['val'] === 'uploadfile') {
@@ -350,12 +354,15 @@ class SslCert extends Lxdb
 			}
 
 			$vlist["ssl_data_b_s_commonName_r"] = $cname;
+			$vlist["ssl_data_b_s_subjectAltName_r"] = $saname;
+
 			$vlist["ssl_data_b_s_countryName_r"] = array("s", $temp);
 			$vlist["ssl_data_b_s_stateOrProvinceName_r"] = null;
 			$vlist["ssl_data_b_s_localityName_r"] = null;
 			$vlist["ssl_data_b_s_organizationName_r"] = null;
 			$vlist["ssl_data_b_s_organizationalUnitName_r"] = null;
 			$vlist["ssl_data_b_s_emailAddress_r"] = null;
+
 		}
 
 		$ret['action'] = 'add';
@@ -379,11 +386,12 @@ class SslCert extends Lxdb
 		$parent = $this->getParentO();
 
 		if ($parent->getClass() === 'web') {
+			$name = $parent->nname;
+			$user = $parent->customer_name;
+
 			$temp['nname'] = $parent->nname;
-			$temp['commonName'] = array("*.{$parent->nname}", "{$parent->nname}");
-		} else {
-			// MR -- already in array
-		//	$temp['commonName'] = explode(',', $temp['commonName']);
+			$temp['commonName'] = '*.' . $parent->nname;
+			$temp['subjectAltName'] = $parent->nname;
 		}
 
 		foreach ($temp as $key => $t) {
@@ -395,15 +403,49 @@ class SslCert extends Lxdb
 				$name = $t;
 			}
 
-			$ltemp[$key] = $name;
+			$input[$key] = $name;
 		}
 
-	//	$config['private_key_bits'] = 1024;
-		$config['private_key_bits'] = intval($this->key_bits);
+		$dn = $input;
+		unset($dn['subjectAltName']);
+		unset($dn['nname']);
+
+		if ($parent->getClass() === 'web') {
+			$cnffile = "/home/{$user}/ssl/{$name}.cnf";
+		} else {
+			$cnffile = '/tmp/openssl.cnf';
+		}
+
+		$config = array('config' => $cnffile,
+			'digest_alg' => 'sha1',
+			'req_extensions' => 'v3_req',
+			'private_key_bits' => (int)$this->key_bits,
+			'private_key_type' => OPENSSL_KEYTYPE_RSA,
+			'encrypt_key' => true,
+			'encrypt_key_cipher' => OPENSSL_CIPHER_3DES
+		);
+
+		$tplsource = getLinkCustomfile("/home/openssl/tpl", "openssl.cnf.tpl");
+
+		$tpltarget = $cnffile;
+
+		$tpl = lfile_get_contents($tplsource);
+
+		$tplparse = getParseInlinePhp($tpl, $input);
+
+		if ($parent->getClass() === 'web') {
+			if (!file_exists("/home/{$user}/ssl")) {
+				mkdir("/home/{$user}/ssl");
+			}
+		}
+
+		if ($tplparse) {
+			lfile_put_contents($tpltarget, $tplparse);
+		}
 
 		$privkey = openssl_pkey_new($config);
 		openssl_pkey_export($privkey, $text_key_content);
-		$csr = openssl_csr_new($ltemp, $privkey);
+		$csr = openssl_csr_new($dn, $privkey, $config);
 		openssl_csr_export($csr, $text_csr_content);
 		$sscert = openssl_csr_sign($csr, null, $privkey, 3650);
 		openssl_x509_export($sscert, $text_crt_content);
