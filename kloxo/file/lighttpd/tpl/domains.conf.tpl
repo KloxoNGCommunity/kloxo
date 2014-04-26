@@ -536,26 +536,28 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 			}
 		} else {
 			if ($ip !== '*') {
+				foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## web for '<?php echo $domainname; ?>'
 #$SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
-$SERVER["socket"] == ":<?php echo $port; ?>" {
+$SERVER["socket"] == ":<?php echo $port[1]; ?>" {
 
 	ssl.engine = "enable"
 
-	ssl.pemfile = "<?php echo $certname; ?>.pem"
+	ssl.pemfile = "<?php echo $certname]; ?>.pem"
 <?php
-				if (file_exists("$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 
 ?>
-
 	ssl.ca-file = "<?php echo $certname; ?>.ca"
 <?php
-				}
+					}
 ?>
+
 	ssl.use-sslv2 = "disable"
 <?php
+				)
 			}
 		}
 

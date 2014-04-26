@@ -322,7 +322,7 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$nname = array('M', $parent->nname);
-			$cname = array('M', '*.' . $parent->nname);
+			$cname = array('M', "*.{$parent->nname}");
 			$saname = array('M', $parent->nname);
 		} else {
 			$nname = null;
@@ -390,7 +390,7 @@ class SslCert extends Lxdb
 			$user = $parent->customer_name;
 
 			$temp['nname'] = $parent->nname;
-			$temp['commonName'] = '*.' . $parent->nname;
+			$temp['commonName'] = "*.{$parent->nname}";
 			$temp['subjectAltName'] = $parent->nname;
 		}
 
@@ -407,8 +407,8 @@ class SslCert extends Lxdb
 		}
 
 		$dn = $input;
-		unset($dn['subjectAltName']);
-		unset($dn['nname']);
+
+	//	unset($dn['nname']);
 
 		if ($parent->getClass() === 'web') {
 			$cnffile = "/home/{$user}/ssl/{$name}.cnf";
@@ -449,6 +449,12 @@ class SslCert extends Lxdb
 		openssl_csr_export($csr, $text_csr_content);
 		$sscert = openssl_csr_sign($csr, null, $privkey, 3650);
 		openssl_x509_export($sscert, $text_crt_content);
+
+		// MR -- not using openssl error message because so many warning but process still work.
+		while (($e = openssl_error_string()) !== false) {
+		//	throw new lxException(str_replace(' ', '_', $e), '', $parent->nname);
+		//	throw new lxException($e, '', $parent->nname);
+		}
 
 		$this->text_key_content = $text_key_content;
 		$this->text_csr_content = $text_csr_content;

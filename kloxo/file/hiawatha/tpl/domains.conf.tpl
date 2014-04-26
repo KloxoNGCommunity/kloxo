@@ -426,7 +426,7 @@ VirtualHost {
 <?php
 			} else {
 ?>
-				UseToolkit = findindexfile, permalink
+	UseToolkit = findindexfile, permalink
 <?php
 			}
 ?>
@@ -1005,11 +1005,11 @@ VirtualHost {
 <?php
 						if ($reverseproxy) {
 ?>
-							UseToolkit = findindexfile
+	UseToolkit = findindexfile
 <?php
 						} else {
 ?>
-							UseToolkit = findindexfile, permalink
+	UseToolkit = findindexfile, permalink
 <?php
 						}
 ?>
@@ -1221,11 +1221,11 @@ VirtualHost {
 <?php
 						if ($reverseproxy) {
 ?>
-							UseToolkit = findindexfile
+	UseToolkit = findindexfile
 <?php
 						} else {
 ?>
-							UseToolkit = findindexfile, permalink
+	UseToolkit = findindexfile, permalink
 <?php
 						}
 ?>
