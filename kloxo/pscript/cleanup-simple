@@ -1,5 +1,7 @@
 #!/bin/sh
 
+chkconfig kloxo on
+
 sh /script/fixlxphpexe
 
 t=$(mysql -V|awk '{print $5}')

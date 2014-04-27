@@ -34,18 +34,18 @@ rm -f /var/run/yum.pid
 
 cd /
 
-if [ "$(rpm -qa mratwork-release)" == "" ] ; then
-	cd /tmp
-	rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
-	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-	yum update mratwork-release -y
-
-	mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
-	mv -f /etc/yum.repos.d/kloxo.repo /etc/yum.repos.d/kloxo.nonrepo
-	mv -f /etc/yum.repos.d/kloxo-custom.repo /etc/yum.repos.d/kloxo-custom.nonrepo
-	mv -f /etc/yum.repos.d/kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.nonrepo
+if rpm -qa|grep 'mratwork-' >/dev/null 2>&1 ; then
+    yum update mratwork* -y
 else
-	yum update mratwork-release -y
+    cd /tmp
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+    yum update mratwork-* -y
+	
+    rm -rf /etc/yum.repos.d/kloxo-mr.repo
+	rm -rf /etc/yum.repos.d/kloxo-custom.repo
+	rm -rf /etc/yum.repos.d/lxcenter.repo
+	rm -rf /etc/yum.repos.d/lxlabs.repo	
 fi
 
 cd / 

@@ -1,16 +1,22 @@
 #!/bin/sh
 
-## it's mean centos 6 or equal
-if yum list *yum*|grep -i '@' >/dev/null 2>&1 ; then
-	sed -i 's:\$releasever:6:' /etc/yum.repos.d/mratwork.repo
+if rpm -qa|grep 'mratwork-' >/dev/null 2>&1 ; then
+    yum update mratwork* -y
 else
-	sed -i 's:\$releasever:5:' /etc/yum.repos.d/mratwork.repo
+    cd /tmp
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+    yum update mratwork-* -y
+	
+    rm -rf /etc/yum.repos.d/kloxo.repo
+    rm -rf /etc/yum.repos.d/kloxo-mr.repo
+	rm -rf /etc/yum.repos.d/kloxo-custom.repo
+	rm -rf /etc/yum.repos.d/lxcenter.repo
+	rm -rf /etc/yum.repos.d/lxlabs.repo	
 fi
 
-for i in kloxo kloxo-custom lxcenter ; do
-	if [ -f /etc/yum.repos.d/${i}.repo ] ; then
-		mv -f /etc/yum.repos.d/${i}.repo /etc/yum.repos.d/${i}.nonrepo
-	fi
-done
-
-yum clean all
+if yum list *yum*|grep '@' >/dev/null 2>&1 ; then
+	sed -i 's:$releasever:6:' /etc/yum.repos.d/mratwork.repo
+else
+	sed -i 's:$releasever:5:' /etc/yum.repos.d/mratwork.repo
+fi
