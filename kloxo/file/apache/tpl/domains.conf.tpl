@@ -152,7 +152,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -273,7 +273,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -310,7 +310,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -435,7 +435,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-				if (file_exists("$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -746,7 +746,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -873,7 +873,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -919,7 +919,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -1040,7 +1040,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -1077,7 +1077,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -1216,7 +1216,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -1337,7 +1337,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
@@ -1374,7 +1374,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca

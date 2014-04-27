@@ -99,7 +99,7 @@ Binding {
 	MaxUploadSize = 100
 <?php
 		if ($count !== 0) {
-			if (file_exists("$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -135,7 +135,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 		if ($count !== 0) {
-			if (file_exists("$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca

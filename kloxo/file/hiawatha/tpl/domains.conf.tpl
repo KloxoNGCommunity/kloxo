@@ -173,7 +173,7 @@ Binding {
 	## not able more than 100MB
 	MaxUploadSize = 100
 <?php
-if (file_exists("$certname}.ca")) {
+if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -264,7 +264,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 			if ($count !== 0) {
-				if (file_exists("$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -320,7 +320,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 			if ($count !== 0) {
-				if (file_exists("$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -379,7 +379,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 			if ($count !== 0) {
-				if (file_exists("$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -471,7 +471,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 				if ($count !== 0) {
-					if (file_exists("$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -546,7 +546,7 @@ VirtualHost {
 
 <?php
 			} else {
-				if (file_exists("$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -559,7 +559,7 @@ VirtualHost {
 			}
 		} else {
 			if ($ip !== '*') {
-				if (file_exists("$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -712,7 +712,7 @@ VirtualHost {
 
 <?php
 						} else {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -731,7 +731,7 @@ VirtualHost {
 
 <?php
 						} else {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -819,7 +819,7 @@ VirtualHost {
 
 <?php
 						} else {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -832,7 +832,7 @@ VirtualHost {
 						}
 					} else {
 						if ($ip !== '*') {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -918,7 +918,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 					if ($count !== 0) {
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -963,7 +963,7 @@ VirtualHost {
 
 <?php
 						if ($count !== 0) {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -1046,7 +1046,7 @@ VirtualHost {
 	ExecuteCGI = yes
 <?php
 						if ($count !== 0) {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -1109,7 +1109,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 					if ($count !== 0) {
-						if (file_exists("$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -1180,7 +1180,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 						if ($count !== 0) {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
@@ -1251,7 +1251,7 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 						if ($count !== 0) {
-							if (file_exists("$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca

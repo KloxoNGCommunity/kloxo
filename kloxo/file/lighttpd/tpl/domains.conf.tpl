@@ -545,7 +545,7 @@ $SERVER["socket"] == ":<?php echo $port[1]; ?>" {
 
 	ssl.engine = "enable"
 
-	ssl.pemfile = "<?php echo $certname]; ?>.pem"
+	ssl.pemfile = "<?php echo $certname; ?>.pem"
 <?php
 					if (file_exists("{$certname}.ca")) {
 

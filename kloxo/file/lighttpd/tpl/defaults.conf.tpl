@@ -60,7 +60,7 @@ $SERVER["socket"] == ":<?php echo $port; ?>" {
 
 	ssl.pemfile = "<?php echo $certname; ?>.pem"
 <?php
-			if (file_exists("$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 
 ?>
 
