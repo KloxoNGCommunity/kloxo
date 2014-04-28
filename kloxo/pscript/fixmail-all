@@ -1,5 +1,25 @@
 #!/bin/sh
 
+if id -u postfix >/dev/null 2>&1; then
+	userdel postfix
+	$delpf="yes"
+else
+	$delpf="no"
+fi
+
+
+if rpm -qa|grep 'qmail-toaster' >/dev/null 2>&1 ; then
+	if [ $delpf == 'yes' ] ; then
+		yum -y reinstall *-toaster
+	fi
+else
+	yum -y install autorespond-toaster courier-authlib-toaster \
+		courier-imap-toaster daemontools-toaster ezmlm-toaster \
+		libdomainkeys-toaster libsrs2-toaster maildrop-toaster \
+		qmail-pop3d-toaster qmail-toaster ripmime-toaster ucspi-tcp-toaster \
+		vpopmail-toaster fetchmail bogofilter
+fi
+
 ULLKFPATH="/usr/local/lxlabs/kloxo/file"
 VQSPATH="/var/qmail/supervise"
 ERIPATH="/etc/rc.d/init.d"

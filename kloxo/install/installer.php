@@ -144,9 +144,9 @@ function lxins_main()
 	}
 
 	kloxo_install_step1();
+	install_main();
 
 	if ($kloxostate === 'none') {
-		install_main();
 		kloxo_install_step2();
 	}
 
@@ -338,6 +338,10 @@ function kloxo_install_step1()
 		system("groupadd lxlabs");
 		system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
 
+		print(">>> Removing postfix user <<<\n");
+		// MR -- force remove postfix and their user
+		system("userdel postfix > /dev/null 2>&1");
+
 		if (isRpmInstalled('qmail-toaster')) {
 			// MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
 			system("userdel lxpopuser > /dev/null 2>&1");
@@ -356,10 +360,6 @@ function kloxo_install_step1()
 				system("rm -rf /home/{$d} > /dev/null 2>&1");
 			}
 		}
-
-		print(">>> Removing postfix user <<<\n");
-		// MR -- force remove postfix and their user
-		system("userdel postfix > /dev/null 2>&1");
 
 		// MR -- remove lxphp, lxlighttpd and lxzend
 		print(">>> Removing 'old' lxphp/lxligttpd/lxzend <<<\n");

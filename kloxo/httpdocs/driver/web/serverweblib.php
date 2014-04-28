@@ -49,28 +49,37 @@ class serverweb extends lxdb
 		// MR -- preUpdate (also preAdd) is new function; process before Update/Add
 
 		// MR -- still any trouble passing value so use this trick
-		if (isset($_POST['frm_serverweb_b_multiple_php_install'])) {
+	//	if (isset($_POST['frm_serverweb_b_multiple_php_install'])) {
+		if ($subaction === 'multiple_php_install') {
 			// MR -- $this->multiple_php_install (frm_serverweb_c_multiple_php_install) still empty
 			// so, use frm_serverweb_b_multiple_php_install (second multiselect)
 			$this->multiple_php_install = $_POST['frm_serverweb_b_multiple_php_install'];
+
+			$join = implode(',', $this->multiple_php_install);
+
+			file_put_contents('/tmp/multiple_php_install.tmp', $join);
+
+			// MR -- no need while under root
+		//	chown('/tmp/multiple_php_install.tmp', 'root:root');
+
 		}
 
-		$join = implode(',', $this->multiple_php_install);
-
-		file_put_contents('/tmp/multiple_php_install.tmp', $join);
-
-		chown('/tmp/multiple_php_install.tmp', 'root:root');
 	}
 
 	function updateform($subaction, $param)
 	{
 		switch($subaction) {
 			case "apache_optimize":
+				$this->apache_optimize = null;
+
 				$vlist['apache_optimize'] = array('s', array('---No Change---', 'default', 'optimize'));
 				$this->setDefaultValue('apache_optimize', '---No Change---');
 
 				break;
 			case "mysql_convert":
+				$this->mysql_convert = null;
+				$this->mysql_charset = null;
+
 				if (getRpmBranchInstalled('mysql') === 'MariaDB-server') {
 					$vlist['mysql_convert'] = array('s', array('---No Change---', 'to-myisam', 'to-innodb', 'to-aria'));
 				} else {
@@ -85,23 +94,32 @@ class serverweb extends lxdb
 
 				break;
 			case "fix_chownchmod":
+				$this->fix_chownchmod = null;
+
 				$vlist['fix_chownchmod'] = array('s', array('---No Change---', 'fix-ownership', 'fix-permissions', 'fix-ALL'));
 
 				$this->setDefaultValue('fix_chownchmod', '---No Change---');
 
 				break;
 			case "php_type":
+				$this->php_type = null;
+				$this->secondary_php = null;
+
 				// MR -- remove mod_php on 'php-type' select
 				$vlist['php_type'] = array('s', array(
 					'mod_php_ruid2', 'mod_php_itk',
 					'suphp', 'suphp_event', 'suphp_worker',
 					'php-fpm_event', 'php-fpm_worker',
 					'fcgid_event', 'fcgid_worker'));
+
+				$d = db_get_value("serverweb", "pserver-". $this->syncserver, "php_type");
 	
-				if (!db_get_value("serverweb", "pserver-". $this->syncserver, "php_type")) {
+				if (!$d) {
 					db_set_default("serverweb", "php_type", "php-fpm_event", 
 						"nname = 'pserver-{$this->syncserver}'");
 					$this->setDefaultValue('php_type', 'php-fpm_event');
+				} else {
+					$this->setDefaultValue('php_type', $d);
 				}
 
 				$vlist['secondary_php'] = array('f', array('on', 'off'));
@@ -112,6 +130,8 @@ class serverweb extends lxdb
 
 				break;
 			case "php_branch":
+				$this->php_branch = null;
+
 				$a = getRpmBranchListOnList('php');
 				$vlist['php_branch'] = array('s', $a);
 
@@ -119,6 +139,9 @@ class serverweb extends lxdb
 
 				break;
 			case "multiple_php_install":
+				$this->multiple_php_already_installed = null;
+				$this->multiple_php_install = null;
+
 				$a = getRpmBranchListOnList('php');
 
 				$c = array();
@@ -163,6 +186,8 @@ class serverweb extends lxdb
 
 				break;
 			case "php_used":
+				$this->php_used = null;
+
 				$d = glob("/opt/*m/usr/bin/php");
 
 				foreach ($d as $k => $v) {
@@ -189,9 +214,9 @@ class serverweb extends lxdb
 						$t = "'custom_name=\"{$v}\"'";
 					}
 
-					exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out);
+					exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
 
-					if ($out[0]) {
+					if ($out) {
 						$this->setDefaultValue('php_used', $v);
 						break;
 					}

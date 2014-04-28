@@ -476,7 +476,5 @@ class serverweb__ extends lxDriverClass
 		}
 		
 		throw new lxexception('install_process_running_in_background', '', $this->main->syncserver);
-
-		// MR -- (20140416) not work in 6 64bit; something wrong with yum!
 	}
 }
