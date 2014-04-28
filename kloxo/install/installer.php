@@ -144,6 +144,7 @@ function lxins_main()
 	}
 
 	kloxo_install_step1();
+
 	install_main();
 
 	if ($kloxostate === 'none') {

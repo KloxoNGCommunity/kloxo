@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if rpm -qa|grep 'yum-plugin-replace' >/dev/null 2>&1 ; then
+	echo ""
+else
+	yum -y install yum-plugin-replace
+fi
+
 sh /script/fixrepo
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')

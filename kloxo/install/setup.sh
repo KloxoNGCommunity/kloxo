@@ -35,14 +35,14 @@ rm -f /var/run/yum.pid
 cd /
 
 if rpm -qa|grep 'mratwork-' >/dev/null 2>&1 ; then
-    yum update mratwork* -y
+	yum update mratwork* -y
 else
-    cd /tmp
-    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-    yum update mratwork-* -y
+	cd /tmp
+	wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+	yum update mratwork-* -y
 	
-    rm -rf /etc/yum.repos.d/kloxo-mr.repo
+	rm -rf /etc/yum.repos.d/kloxo-mr.repo
 	rm -rf /etc/yum.repos.d/kloxo-custom.repo
 	rm -rf /etc/yum.repos.d/lxcenter.repo
 	rm -rf /etc/yum.repos.d/lxlabs.repo	
@@ -115,7 +115,7 @@ else
 	OUT=$?
 	if [ $OUT -eq "0" ] ; then
 		echo -en "SELinux disabled       " $C_NO
-	    setenforce 0
+		setenforce 0
 		echo "SELINUX=disabled" > $SELINUX_CFG
 		echo -e "SELinux disabled successfully\n"
 	elif [ $OUT -eq "1" ] ; then
@@ -142,9 +142,13 @@ rm -rf *.rpm
 
 yum clean all
 
-yum -y install wget zip unzip yum-utils yum-priorities vim-minimal subversion curl
+yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
+yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster postfix exim -y
+rpm -e vpopmail-toaster --noscripts
 
-yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
+if id -u postfix >/dev/null 2>&1 ; then
+	userdel postfix
+fi
 
 ## it's mean centos 6 or equal
 #if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
@@ -155,9 +159,11 @@ yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster -y
 	
 # MR -- always disable mysql-aio
 #sh /script/disable-mysql-aio
-sh /script/set-mysql-default
+sh /init/php.ini /script/set-mysql-default
 
 yum -y install php53u php53u-mysql
+## MR -- protect to lxphp.exe show missing .so. it's must /etc/php.ini exist extension_dir
+cp -f ${ppath}/init/php.ini /etc/php.ini
 
 if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php

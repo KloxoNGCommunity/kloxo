@@ -22,6 +22,10 @@ else
 	exit
 fi
 
+#if [ "${base_name}" == "53s" ] ;  then
+#	pack_name="${base_name}"
+#fi
+
 x="- '${pack_name}' ready to installed"
 echo $x
 echo $x >>/opt/${base_name}/install.log

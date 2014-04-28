@@ -2,9 +2,9 @@
 
 if id -u postfix >/dev/null 2>&1; then
 	userdel postfix
-	$delpf="yes"
+	delpf="yes"
 else
-	$delpf="no"
+	delpf="no"
 fi
 
 

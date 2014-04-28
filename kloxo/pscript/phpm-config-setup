@@ -108,7 +108,10 @@ done
 
 		if [ -d /opt/${base_name}/usr/lib ] ; then
 			ln -sf /opt/${base_name}/usr/lib64/php /opt/${base_name}/usr/lib/php
-			ln -sf /opt/${base_name}/usr/lib64/php-zts /opt/${base_name}/usr/lib/php-zts
+
+			if [ -d /opt/${base_name}/usr/lib64/php-zts ] ; then
+				ln -sf /opt/${base_name}/usr/lib64/php-zts /opt/${base_name}/usr/lib/php-zts
+			fi
 		else
 			ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib
 		fi
