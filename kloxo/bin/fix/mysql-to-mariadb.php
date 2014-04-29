@@ -23,6 +23,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		echo "- No repo for MariaDB.\n";
 		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=0' to 'enable=1'\n";
 		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
+		exit;
 	} else {
 		system("yum clean all");
 
@@ -50,9 +51,10 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 	//	system("yum install mysqlclient* -y");
 
 		if (!file_exists("/var/lib/mysqltmp")) {
-			mkdir("/var/lib/mysqltmp");
-			chown("/var/lib/mysqltmp", "mysql:mysql");
+			mkdir("/var/lib/mysqltmp");			
 		}
+
+		chown("/var/lib/mysqltmp", "mysql:mysql");
 
 		echo "- Install MariaDB\n";
 		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common MariaDB-shared -y");

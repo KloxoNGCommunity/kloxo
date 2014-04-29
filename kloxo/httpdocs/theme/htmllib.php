@@ -1544,6 +1544,13 @@ class HtmlLib
 				<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?>
 			</form>
 <?php
+			} else {
+?>
+			<a <?= $target ?> href="<?= $path ?>?<?= $this->get_get_from_post(null, $post) ?>">
+				<?= $this->print_div_for_divbutton($key, $imgflag, $linkflag, $form_name, $name, $image, $descr) ?>
+			</a>
+<?php
+
 			}
 		}
 ?>
@@ -1753,7 +1760,6 @@ class HtmlLib
 								</table>
 
 							<div style="<?= $dispstring ?>" id="internal_<?= $nametitle ?>">
-
 <?php
 			array_shift($a);
 			$n = 0;

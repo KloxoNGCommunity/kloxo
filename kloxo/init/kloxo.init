@@ -40,12 +40,8 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 ### 1. PHP-CGI portion
 
-if [ -f /usr/local/lxlabs/kloxo/init/php_active ] ; then
-	php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
-else
-	sh /script/fixlxphpexe php53s
-	php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
-fi
+php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
+sh /script/fixlxphpexe ${php_active}
 
 if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
 	phpcgi_file="/opt/${php_active}/custom/${php_active}-cgi.sh"

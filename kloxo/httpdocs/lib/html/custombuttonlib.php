@@ -57,6 +57,9 @@ class custombutton extends lxdb
 	function updateform($subaction, $param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		$this->image = null;
+		$this->upload = null;
 		
 		$list = array("client"); if ($sgbl->isHyperVm()) { $list = lx_array_merge(array($list, array("vps"))); }
 		$vlist['class'] = array('s', $list);
