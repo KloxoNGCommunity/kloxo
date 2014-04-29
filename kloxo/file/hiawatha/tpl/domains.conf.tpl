@@ -156,8 +156,8 @@ Binding {
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600
 	MaxRequestSize = 102400
-	## not able more than 100MB
-	MaxUploadSize = 100
+	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
+	MaxUploadSize = 2000
 }
 
 Binding {
@@ -170,8 +170,8 @@ Binding {
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600
 	MaxRequestSize = 102400
-	## not able more than 100MB
-	MaxUploadSize = 100
+	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
+	MaxUploadSize = 2000
 <?php
 if (file_exists("{$certname}.ca")) {
 ?>
