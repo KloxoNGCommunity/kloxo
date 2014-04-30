@@ -5,3 +5,15 @@ rm -f installatron-plugin.sh
 wget http://dal01.installatron.com/installatron-plugin.sh
 chmod 755 installatron-plugin.sh
 ./installatron-plugin.sh -f
+
+## MR -- fix issue if Kloxo-MR 6.5.1 installed together with webmin
+
+source="/var/installatron/frontend"
+target="/usr/local/lxlabs/kloxo/httpdocs/installatron"
+ini="/usr/local/installatron/etc/settings.ini"
+
+if [ ! -L $target ] ; then
+	ln -sf $source $target
+fi
+
+sed -i 's:admin=root:admin=admin:' $ini

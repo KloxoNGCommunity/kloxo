@@ -172,22 +172,24 @@ class pserver extends pservercore {
 	function getMysqlDbAdmin(&$alist)
 	{
 
-	/*
+		if (file_exists("./thirdparty/mywebsql/")) {
+			$url = "/thirdparty/mywebsql/";
+		} else {
+			$url = "/thirdparty/phpMyAdmin/";
+		}
+
 		if (!$this->isLocalhost('nname')) {
 			$fqdn = getFQDNforServer($this->nname);
 
 			if (http_is_self_ssl()) {
-				$dbadminUrl =  "https://$fqdn:7777/thirdparty/phpMyAdmin/";
+				$dbadminUrl = "https://{$fqdn}:7777{$url}";
 			} else {
-				$dbadminUrl = "http://$fqdn:7778/thirdparty/phpMyAdmin/";
+				$dbadminUrl = "http://{$fqdn}:7778{$url}";
 			}
 
 		} else {
-			$dbadminUrl =  "/thirdparty/phpMyAdmin/";
+			$dbadminUrl =  $url;
 		}
-	*/
-
-		$dbadminUrl =  "/thirdparty/phpMyAdmin/";
 
 		$server = $_SERVER['SERVER_NAME'];
 
@@ -206,8 +208,13 @@ class pserver extends pservercore {
 				$pass = "demopass";
 			}
 
-			$alist[] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass",
-				'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			if (file_exists("./thirdparty/mywebsql/")) {
+				$alist[] = create_simpleObject(array('url' => "$dbadminUrl?auth_user=$user&auth_pwd=$pass",
+					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			} else {
+				$alist[] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass",
+					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			}
 		} catch (Exception $e) {
 
 		}

@@ -187,20 +187,26 @@ class databasecore extends Lxdb
 		$sslport = $sgbl->__var_prog_ssl_port;
 		$nonsslport = $sgbl->__var_prog_port;
 
+		if (file_exists("./thirdparty/mywebsql/")) {
+			$url = "/thirdparty/mywebsql/";
+		} else {
+			$url = "/thirdparty/phpMyAdmin/";
+		}
+
 		if (!$this->isLocalhost()) {
 			$fqdn = getFQDNforServer($this->syncserver);
 
 			if (http_is_self_ssl()) {
-				return "https://{$fqdn}:{$sslport}/thirdparty/phpMyAdmin/";
+				return "https://{$fqdn}:{$sslport}{$url}";
 			} else {
-				return "http://{$fqdn}:{$nonsslport}/thirdparty/phpMyAdmin/";
+				return "http://{$fqdn}:{$nonsslport}{$url}";
 			}
 		} else {
-			return "/thirdparty/phpMyAdmin/";
+			return $url;
 		}
 
 		if ($this->dbtype === 'mysql') {
-			return "/thirdparty/phpMyAdmin/";
+			return $url;
 		}
 		
 		if ($this->dbtype === 'pgsql') {
@@ -225,7 +231,13 @@ class databasecore extends Lxdb
 	//	$pass = urlencode($pass);
 
 		if ($dbadminUrl) {
-			$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass", 'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			if (strpos($dbadminUrl, 'mywebsql') !== false) {
+				$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?auth_user=$user&auth_pwd=$pass",
+					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			} else {
+				$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass", 
+					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			}
 		}
 	}
 

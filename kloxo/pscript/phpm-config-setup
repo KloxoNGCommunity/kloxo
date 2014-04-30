@@ -5,6 +5,12 @@ base_name="${1}"
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
 
+if [ "$(uname -m)" == "x86_64" ] ; then
+	uname_m="64"
+else
+	uname_m=""
+fi
+
 x="- Disable certain modules (rename to .nonini) in '/etc/${base_name}/etc/' + 'php.d' and 'php-zts.d'"
 echo $x
 echo $x >>/opt/${base_name}/install.log
@@ -16,6 +22,9 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 
 	for j in php.d php-zts.d ; do
 		if [ -f /opt/${base_name}/etc/${j}/${i}.ini ] ; then
+			## MR -- remove path in 'extension='
+			sed -i 's:/usr/lib'${uname_m}'/php/modules::' /opt/${base_name}/etc/${j}/${i}.ini
+
 			if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then
 				## MR -- using mysqlnd instead mysql/mysqli in php54s
 				x="-- Enable 'mysqlnd' instead 'mysql' modules in '/etc/${base_name}/etc/${j}'"
@@ -37,12 +46,6 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 		fi
 	done
 done
-
-if [ "$(uname -m)" == "x86_64" ] ; then
-	uname_m="64"
-else
-	uname_m=""
-fi
 
 cd /opt/${base_name}
 

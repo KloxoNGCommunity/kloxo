@@ -1,30 +1,37 @@
 #!/bin/sh
 
-um=$(uname -m)
+$base_name=$1
+$extension_name=$2
+uname_m=$(uname -m)
 
 if [ "$#" == 0 ] ; then
 	echo
 	echo " ---------------------------------------------------------------------------"
-	echo "  format: sh $0 <extension_name>"
+	echo "  format: sh $0 <version_target> <extension_name>"
 	echo " ---------------------------------------------------------------------------"
-	echo " - Better use the same version; Example: 'sh $0 php52-xcache'"
+	echo " - Better use the same version; Example: 'sh $0 php52m php52-xcache'"
 	echo
-	echo " - Certain extension need 'extension=/opt/${1}/usr/${um}/xxx.so'"
-	echo "   rather than 'extension=xxx.so' inside their ini file on"
-	echo "   '/opt/${1}/etc/php.d'"
-	echo
-	echo " - Testing with '${1} -m'"
+	echo " - Testing with '${base_name} -m'"
 	echo
 	exit;
 fi
 
-yum install yum-utils -y
+if rpm -qa|grep 'yum-utils' >/dev/null 2>&1 ; then
+	echo "'yum-utils' already exists"
+else
+	echo "Installing 'yum-utils'"
+	yum install yum-utils -y
+fi
+
+cd /opt/${base_name}
 
 rm -f *.rpm
 
-cd /opt/${1}
-
-yumdownloader ${2}
+yumdownloader ${extension_name}
 
 rpm2cpio *.rpm | cpio -idmv >/dev/null 2>$1
+
+for i in /opt/${base_name}/etc/php.d/*ini ; do
+	sed -i 's:/usr/lib'${uname_m}'/php/modules::' ${i}
+done
 
