@@ -434,15 +434,22 @@ function changeDriverFunc($server, $class, $pgm)
 
 function slave_get_db_pass()
 {
+//	global $login;
+
 	$rmt = lfile_get_unserialize("../etc/slavedb/dbadmin");
+
+//	$rmt = rl_exec_get('localhost', $login->syncserver, 'lfile_get_unserialize', array('../etc/slavedb/dbadmin'));
 
 	return $rmt->data['mysql']['dbpassword'];
 }
 
 function slave_get_driver($class)
 {
+//	global $login;
+	
 	$rmt = lfile_get_unserialize("../etc/slavedb/driver");
-
+//	$rmt = rl_exec_get('localhost', $login->syncserver, 'lfile_get_unserialize', array('../etc/slavedb/driver'));
+	
 	return $rmt->data[$class];
 }
 
@@ -4310,12 +4317,16 @@ function fix_mysql_root_password($server)
 
 function slave_save_db($file, $list)
 {
+//	global $login;
+
 	$rmt = new Remote();
 	$rmt->data = $list;
 
 	lxfile_mkdir("../etc/slavedb");
-
 	lfile_put_serialize("../etc/slavedb/$file", $rmt);
+
+//	rl_exec_get('localhost', $login->syncserver, 'lxfile_mkdir', array('../etc/slavedb'));
+//	rl_exec_get('localhost', $login->syncserver, 'lfile_put_serialize', array("../etc/slavedb/{$file}", $rmt));
 }
 
 function securityBlanketExec($table, $nname, $variable, $func, $arglist)

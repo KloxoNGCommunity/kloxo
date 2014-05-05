@@ -1,6 +1,6 @@
 <?php
 
-$conn = new mysqli('localhost', 'root', $rootpass, 'powerdns');
+$conn = new mysqli($syncserver, 'root', $rootpass, 'powerdns');
 
 if (($action === 'delete') || ($action === 'update')) {
 	if($query = $conn->query("SELECT * FROM domains WHERE name='{$domainname}';")) {

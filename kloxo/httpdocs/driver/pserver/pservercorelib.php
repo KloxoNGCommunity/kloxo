@@ -170,9 +170,11 @@ class pservercore extends Lxclient
 
 	function syncToSystem()
 	{
-		// Special for pserver... Since the whole idea of remote syncing is handled here, it makes sense to have the special case of pserver when it is added here itself.
+		// Special for pserver... Since the whole idea of remote syncing is handled here,
+		// it makes sense to have the special case of pserver when it is added here itself.
 
 		global $gbl, $sgbl, $login, $ghtml;
+
 		if ($this->dbaction === 'add') {
 			dprint("This is ssytem not syncing anymore\n");
 
@@ -1242,16 +1244,19 @@ STRIN;
 
 
 			case "switchprogram":
-
-				$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'web');
-				$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'webcache');
-				$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'dns');
-				$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->nname, 'spam');
-
-				$this->web_driver = slave_get_driver('web');
-				$this->webcache_driver = slave_get_driver('webcache');
-				$this->dns_driver = slave_get_driver('dns');
-				$this->spam_driver = slave_get_driver('spam');
+				// MR -- 'nname' = syncserver in here (because pserver class)!
+				// check if driver table first and if empty check slavedb/driver file
+				if ($gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web')) {
+					$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web');
+					$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'webcache');
+					$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'dns');
+					$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'spam');
+				} else {
+					$this->web_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('web'));
+					$this->webcache_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('webcache'));
+					$this->dns_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('dns'));
+					$this->spam_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('spam'));
+				}
 
 				$this->no_fix_config = 'off';
 

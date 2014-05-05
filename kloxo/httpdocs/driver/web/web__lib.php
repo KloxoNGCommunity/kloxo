@@ -214,6 +214,8 @@ class web__ extends lxDriverClass
 
 	function createConfFile()
 	{
+		global $gbl;
+		
 		$this->clearDomainIpAddress();
 
 		$input = array();
@@ -264,7 +266,8 @@ class web__ extends lxDriverClass
 
 		$input['phptype'] = self::getPhptype();
 
-		$input['webcache'] = slave_get_driver('webcache');
+	//	$input['webcache'] = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('webcache'));
+		$input['webcache'] = $gbl->getSyncClass('localhost', $this->syncserver, 'webcache');
 
 		self::setCreateConfFile($input);
 
@@ -275,6 +278,8 @@ class web__ extends lxDriverClass
 
 	function updateMainConfFile()
 	{
+		global $gbl;
+
 		$input = array();
 
 		$input['setdefaults'] = 'init';
@@ -285,7 +290,8 @@ class web__ extends lxDriverClass
 
 		$input['phptype'] = self::getPhptype();
 
-		$input['webcache'] = slave_get_driver('webcache');
+	//	$input['webcache'] = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('webcache'));
+		$input['webcache'] = $gbl->getSyncClass('localhost', $this->syncserver, 'webcache');
 
 		self::setCreateConfFile($input);
 	}

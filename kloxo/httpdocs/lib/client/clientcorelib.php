@@ -168,7 +168,8 @@ abstract class ClientCore extends Resourcecore {
 
 		if ($this->__old_websyncserver !== $this->websyncserver) {
 			$filepass = rl_exec_get(null, $this->__old_websyncserver, "cp_fileserv", array("__path_customer_root/$name"));
-			rl_exec_get(null, $this->websyncserver, array("client__sync", "getFromRemote"), array($this->username, getFQDNforServer($this->__old_websyncserver), $filepass, "__path_customer_root", $name));
+			rl_exec_get(null, $this->websyncserver, array("client__sync", "getFromRemote"), array($this->username,
+					getFQDNforServer($this->__old_websyncserver), $filepass, "__path_customer_root", $name));
 			rl_exec_get(null, $this->__old_websyncserver, "lxfile_rm_rec_content", array("__path_customer_root/$name"));
 		}
 

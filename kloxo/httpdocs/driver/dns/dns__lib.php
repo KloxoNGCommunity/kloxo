@@ -7,7 +7,11 @@ class dns__ extends lxDriverClass
 	}
 
 	static function getActiveDriver()
-	{
+	{	
+	//	global $gbl, $login;
+
+	//	return $gbl->getSyncClass('localhost', $login->syncserver, 'dns');
+
 		return slave_get_driver('dns');
 	}
 
@@ -27,6 +31,8 @@ class dns__ extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$input = array();
+
+		$input['syncserver'] = $this->syncserver;
 
 		$input['domainname'] = $domainname;
 		$input['ttl'] = $this->main->ttl;
@@ -103,7 +109,7 @@ class dns__ extends lxDriverClass
 	{
 		$nobase = true;
 
-		$iplist = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($nobase));
+		$iplist = rl_exec_get('localhost', $this->syncserver, 'getIpfromARecord', array($nobase));
 
 		return $iplist;
 	}

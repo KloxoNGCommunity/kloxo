@@ -262,25 +262,12 @@ class General extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//	if ($this->subaction === 'generalsetting') {
 		if ($subaction === 'generalsetting') {
-			// MR --- update for /webmails/webmail.conf
-		//	$driverapp = slave_get_driver('web');
-
-		//	call_user_func("web__{$driverapp}::createWebDefaultConfig");
-
 			exec("sh /script/fixweb --server=all --nolog");
-		/*
-			// MR --- new function handle installapp issue because built-in postUpdate no immediately process
-			if ($this->generalmisc_b->isOn('disableinstallapp')) {
-				system("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
-			} else {
-				system("rm -rf /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
-			}
-		*/
+
 			$this->generalmisc_b->disableinstallapp = 'on';
+
 			system("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
-			
 		}
 	}
 

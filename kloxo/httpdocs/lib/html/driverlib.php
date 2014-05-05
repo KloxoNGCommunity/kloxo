@@ -23,6 +23,7 @@ class Driver extends Lxdb
 	static function initThisObject($parent, $class, $name = null)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$driverapp = $gbl->getSyncClass(null, null, 'fake');
 		
 		if (isLocalhost($parent->__masterserver)) {
