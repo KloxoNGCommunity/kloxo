@@ -68,6 +68,8 @@ class serverweb extends lxdb
 
 	function updateform($subaction, $param)
 	{
+		$phpm = rl_exec_get(null, $this->syncserver, "glob", array("/opt/*m/usr/bin/php"));
+
 		switch($subaction) {
 			case "apache_optimize":
 				$this->apache_optimize = null;
@@ -162,10 +164,10 @@ class serverweb extends lxdb
 				$a = array_diff($a, $c);
 
 				foreach($a as $k => $v) {
-					$a[$k] = str_replace('u', '', $v) . "m";					
+					$a[$k] = str_replace('u', '', $v) . "m";
 				}
 
-				$d = glob("/opt/*m/usr/bin/php");
+				$d = $phpm;
 
 				foreach ($d as $k => $v) {
 					$e = str_replace('/opt/', '', $v);
@@ -177,7 +179,7 @@ class serverweb extends lxdb
 
 				$g = implode(" ", $d);
 
-				$vlist['multiple_php_already_installed'] = array("M", $g);				
+				$vlist['multiple_php_already_installed'] = array("M", $g);
 
 				$vlist['multiple_php_install'] = array("U", $a);
 
@@ -188,7 +190,7 @@ class serverweb extends lxdb
 			case "php_used":
 				$this->php_used = null;
 
-				$d = glob("/opt/*m/usr/bin/php");
+				$d = $phpm;
 
 				foreach ($d as $k => $v) {
 					$e = str_replace('/opt/', '', $v);
@@ -209,14 +211,16 @@ class serverweb extends lxdb
 				foreach ($d as $k => $v) {
 
 					if ($v === $s) {
-						$t = "'prog=\"php-fpm\"'";
+						$t = "prog=\"php-fpm\"";
 					} else {
-						$t = "'custom_name=\"{$v}\"'";
+						$t = "custom_name=\"{$v}\"";
 					}
 
-					exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
+				//	exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
+		
+					$ret = rl_exec_get(null, $this->syncserver, "exec", array("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'"));
 
-					if ($out) {
+					if ($ret === $t) {
 						$this->setDefaultValue('php_used', $v);
 						break;
 					}
