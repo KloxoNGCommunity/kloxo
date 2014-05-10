@@ -101,7 +101,7 @@ function updatecleanup_main()
 	} else {
 		setInitialServices();
 
-		$fixapps = array("dns", "web", "php", "mail", "ftpuser");
+		$fixapps = array("dns", "web", "php", "mail-all", "ftp-all");
 		setUpdateConfigWithVersionCheck($fixapps, $opt['type']);
 	}
 

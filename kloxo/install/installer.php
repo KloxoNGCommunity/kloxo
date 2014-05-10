@@ -198,10 +198,10 @@ function installcomp_mail()
 
 function install_main()
 {
-	install_database();
-	install_mail();
 	install_web();
+	install_database();
 	install_dns();
+	install_mail();
 	install_others();
 
 	system("cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");

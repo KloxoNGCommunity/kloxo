@@ -5,8 +5,8 @@ T="$(date +%s%N)"
 sh /script/fixdns
 sh /script/fixweb
 sh /script/fixphp
-sh /script/fixftpuser
 sh /script/fixmail-all
+sh /script/fixftp-all
 
 # Time interval in nanoseconds
 T="$(($(date +%s%N)-T))"
