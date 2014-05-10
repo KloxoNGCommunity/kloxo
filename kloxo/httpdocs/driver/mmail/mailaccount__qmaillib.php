@@ -35,11 +35,13 @@ class Mailaccount__Qmail extends lxDriverClass
 
 		$res = lxuser_return(mmail__qmail::getUserGroup($domain), "__path_mail_root/bin/vadduser", $this->main->nname, '-e', $password);
 
+		// MR -- need fix chown/chmod to make it work
 		if ($res) {
 			// --- Issue #702 - Error 'mailaccount_add_failed' when add email account
 			// REVERT -- back to previous
 			if (!csb($this->main->nname, "postmaster")) {
-				throw new lxException("mailaccount_add_failed", "nname", $global_shell_error);
+			//	throw new lxException("mailaccount_add_failed", "nname", $global_shell_error);
+				throw new lxException("mailaccount_add_failed", "", $domain);
 			}
 		}
 

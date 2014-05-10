@@ -65,6 +65,7 @@ phpcgi_max_req="10000"
 phpcgi_name=$(basename ${phpcgi_symlink})
 
 phpcgi_sockfile="${INIT_DIR}/${phpcgi_name}.sock"
+
 phpcgi_lockfile="/var/lock/subsys/${phpcgi_name}"
 
 phpcgi_prog="kloxo-phpcgi"

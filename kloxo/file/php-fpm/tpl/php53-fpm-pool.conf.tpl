@@ -52,6 +52,11 @@
 listen = /home/php-fpm/sock/<?php echo $user; ?>.sock
 listen.backlog = 65536
 listen.allowed_clients = 127.0.0.1
+listen.owner = <?php echo $user; ?>
+
+listen.group = <?php echo $user; ?>
+
+listen.mode = 0660
 user = <?php echo $user; ?>
 
 group = <?php echo $user; ?>

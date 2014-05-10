@@ -61,7 +61,7 @@ for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-li
 	x="--- Check for ${i} installed or not"
 	echo $x >>/opt/${base_name}/install.log
 
-	if rpm -qa|grep ${i}- >/dev/null 2>&1 ; then
+	if rpm -qa|grep ${i} >/dev/null 2>&1 ; then
 		c=${c}${i}${v}" "
 
 		x="---- ${i} not installed"

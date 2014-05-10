@@ -23,45 +23,78 @@ fi
 ULLKFPATH="/usr/local/lxlabs/kloxo/file"
 VQSPATH="/var/qmail/supervise"
 ERIPATH="/etc/rc.d/init.d"
-HVBPATH="/home/vpopmail/bin"
 VQCPATH="/var/qmail/control"
 ECPATH="/etc/courier"
 
+HVPATH="/home/vpopmail"
+HVBPATH="${HVPATH}/bin"
+HVDPATH="${HVPATH}/domains"
+
+HLPATH="/home/lxadmin"
+HLMPATH="${HLPATH}/mail"
+HLMDPATH="${HLPATH}/mail/domains"
+
 echo ""
 echo "Change qmail.init"
-cp -rf $ULLKFPATH/qmail.init $ERIPATH/qmail
-chmod -f 0755 $ERIPATH/qmail
+cp -rf ${ULLKFPATH}/qmail.init ${ERIPATH}/qmail
+chmod -f 0755 ${ERIPATH}/qmail
 
 echo "--------------------------"
+echo "Fix '89' uid to vpopmail:vchkpw ownership"
 
-echo "Set '$HVBPATH/vchkpw' for root:root ownership"
-chown -f root:root $HVBPATH/vchkpw
+if id -u postfix >/dev/null 2>&1 ; then
+	userdel postfix
+fi
 
-echo "Set '$HVBPATH/vchkpw' for 4751 permissions"
-chmod -f 4755 $HVBPATH/vchkpw
+if id -u lxpopuser >/dev/null 2>&1 ; then
+	userdel lxpopuser
+	groupdel lxpopgroup
+fi
+
+if id -u vpopmail >/dev/null 2>&1 ; then
+	userdel vpopmail
+	groupdel vpopmail
+	groupdel vchkpw
+	groupadd -g 89 vchkpw
+	useradd -u 89 -g 89 vpopmail -s '/sbin/nologin'
+fi
 
 echo "--------------------------"
-echo "Set '$VQCPATH/locals' with 'localhost' only"
-echo 'localhost' > $VQCPATH/locals
+echo "Set '${HVBPATH}/vchkpw' for root:root ownership"
+chown -f root:root ${HVBPATH}/vchkpw
 
 echo "--------------------------"
+echo "Set '${HVPATH}' for 755 permissions"
+chmod 755 ${HVPATH}
+echo "Set '${HVDPATH}' for 755 permissions"
+chmod 755 ${HVDPATH}
+echo "Set '${HLPATH}' for 755 permissions"
+chmod 755 ${HLPATH}
+echo "Set '${HLMPATH}' for 755 permissions"
+chmod 755 ${HLMPATH}
+echo "Set '${HLMDPATH}' for 755 permissions"
+chmod 755 ${HLMDPATH}
 
+echo "Set '${HVBPATH}/vchkpw' for 4751 permissions"
+chmod -f 4755 ${HVBPATH}/vchkpw
+
+echo "--------------------------"
+echo "Set '${VQCPATH}/locals' with 'localhost' only"
+echo 'localhost' > ${VQCPATH}/locals
+
+echo "--------------------------"
 sh /script/fixvpop
 
 echo "--------------------------"
-
 sh /script/fix-qmail-assign
 
 echo "--------------------------"
-
 sh /script/fixmail
 
 echo "--------------------------"
-
 sh /script/fixdomainkey
 
 echo "--------------------------"
-
 sh /script/fixwebmail
 
 echo ""

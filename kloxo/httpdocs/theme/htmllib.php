@@ -6835,7 +6835,7 @@ class HtmlLib
 
 	function print_fancy_select($class, $src, $dst)
 	{
-		global $login;
+		global $gbl, $login;
 
 		$variablename = "frm_interface_template_c_{$class}_show_list";
 		$ts_name1 = "ts_{$variablename}1";

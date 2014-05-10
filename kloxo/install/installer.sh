@@ -144,6 +144,7 @@ yum clean all
 
 yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
 yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster postfix exim -y
+userdel postfix
 rpm -e vpopmail-toaster --noscripts
 
 ## MR -- qmail-toaster will be fail to installed if this user exists

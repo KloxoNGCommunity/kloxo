@@ -27,6 +27,7 @@ WaitForCGI = yes
 
 FastCGIserver {
 	FastCGIid = PHP5
+	#ConnectTo = 127.0.0.1:39000
 	ConnectTo = /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock
 	Extension = php
 }
@@ -52,7 +53,7 @@ Binding {
 	TimeForRequest = 3600
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
-	MaxUploadSize = 100
+	MaxUploadSize = 2000
 }
 
 Binding {
@@ -63,7 +64,7 @@ Binding {
 	TimeForRequest = 3600
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
-	MaxUploadSize = 100
+	MaxUploadSize = 2000
 	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
 	SSLcertFile = /usr/local/lxlabs/kloxo/etc/program.pem
 }

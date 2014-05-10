@@ -16,4 +16,5 @@ if [ ! -L $target ] ; then
 	ln -sf $source $target
 fi
 
+sed -i 's:path_gui=:#path_gui=:' $ini
 sed -i 's:admin=root:admin=admin:' $ini

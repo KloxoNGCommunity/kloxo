@@ -95,7 +95,7 @@ C_OK=" OK \n"
 C_NO=" NO \n"
 C_MISS=" UNDETERMINED \n"
 
-clear
+# clear
 
 # Check if user is root.
 if [ "$UID" -ne "0" ] ; then
@@ -144,6 +144,7 @@ yum clean all
 
 yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
 yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster postfix exim -y
+userdel postfix
 rpm -e vpopmail-toaster --noscripts
 
 if id -u postfix >/dev/null 2>&1 ; then
