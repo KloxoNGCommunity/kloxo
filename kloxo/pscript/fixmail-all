@@ -43,20 +43,20 @@ echo "--------------------------"
 echo "Fix '89' uid to vpopmail:vchkpw ownership"
 
 if id -u postfix >/dev/null 2>&1 ; then
-	userdel postfix
+	userdel postfix >/dev/null 2>&1
 fi
 
 if id -u lxpopuser >/dev/null 2>&1 ; then
-	userdel lxpopuser
-	groupdel lxpopgroup
+	userdel lxpopuser >/dev/null 2>&1
+	groupdel lxpopgroup >/dev/null 2>&1
 fi
 
 if id -u vpopmail >/dev/null 2>&1 ; then
-	userdel vpopmail
-	groupdel vpopmail
-	groupdel vchkpw
-	groupadd -g 89 vchkpw
-	useradd -u 89 -g 89 vpopmail -s '/sbin/nologin'
+	userdel vpopmail >/dev/null 2>&1
+	groupdel vpopmail >/dev/null 2>&1
+	groupdel vchkpw >/dev/null 2>&1
+	groupadd -g 89 vchkpw >/dev/null 2>&1
+	useradd -u 89 -g 89 vpopmail -s '/sbin/nologin' >/dev/null 2>&1
 fi
 
 echo "--------------------------"
