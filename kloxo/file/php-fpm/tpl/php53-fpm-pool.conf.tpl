@@ -56,7 +56,7 @@ listen.owner = <?php echo $user; ?>
 
 listen.group = <?php echo $user; ?>
 
-listen.mode = 0660
+listen.mode = 0666
 user = <?php echo $user; ?>
 
 group = <?php echo $user; ?>

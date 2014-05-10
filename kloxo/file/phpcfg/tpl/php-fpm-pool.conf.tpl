@@ -51,7 +51,7 @@ listen.owner = <?=$user;?>
 
 listen.group = <?=$user;?>
 
-listen.mode = 0660
+listen.mode = 0666
 user = <?=$user;?>
 
 group = <?=$user;?>
