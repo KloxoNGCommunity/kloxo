@@ -173,9 +173,9 @@ class sp_basespecialplay extends LxspecialClass
 				$vlist['specialplay_b-button_type'] = array('s', array("font", "reverse-font", "image"));
 			//	$this->setDefaultValue('specialplay_b-button_type', 'font');
 
-				if ($this->specialplay_b->skin_name === 'simplicity') {
+			//	if ($this->specialplay_b->skin_name === 'simplicity') {
 					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));
-				}
+			//	}
 
 				$vlist['specialplay_b-language'] = array('A', $this->getLanguage());
 			/*

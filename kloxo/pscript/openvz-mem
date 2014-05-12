@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if cat /proc/user_beancounters >/dev/null 2>&1 ; then
+	r=$(cat /proc/user_beancounters|grep vmguarpages|awk '{print $4}')
+	let "v=${r}*4"
+
+	echo $v
+fi

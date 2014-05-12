@@ -3737,7 +3737,7 @@ class HtmlLib
 				}
 
 				if (csa($descr[$name][0], "W")) {
-					$pname = str_replace("\n", "<br />\n", $pname);
+				//	$pname = str_replace("\n", "<br />\n", $pname);
 					$pname = str_replace("[code]", "<div style='padding: 10px; margin: 10px; border: 1px solid #4aa'>", $pname);
 					$pname = str_replace("[quote]", "<div style='background:#eee; padding: 10px; margin: 10px; border: 1px solid #aaa'> [b] QUOTE [/b]", $pname);
 					$pname = str_replace("[b]", "<span style='font-weight:bold'>", $pname);

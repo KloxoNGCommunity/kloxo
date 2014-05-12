@@ -285,7 +285,7 @@ class pservercore extends Lxclient
 
 		// MR -- pserver must set/update php.ini
 		if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
-			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
+			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
 		}
 
 		parent::getAnyErrorMessage();
@@ -1247,15 +1247,15 @@ STRIN;
 				// MR -- 'nname' = syncserver in here (because pserver class)!
 				// check if driver table first and if empty check slavedb/driver file
 				if ($gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web')) {
-					$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web');
-					$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'webcache');
-					$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'dns');
-					$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'spam');
-				} else {
 					$this->web_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('web'));
 					$this->webcache_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('webcache'));
 					$this->dns_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('dns'));
 					$this->spam_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('spam'));
+				} else {
+					$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web');
+					$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'webcache');
+					$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'dns');
+					$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'spam');
 				}
 
 				$this->no_fix_config = 'off';

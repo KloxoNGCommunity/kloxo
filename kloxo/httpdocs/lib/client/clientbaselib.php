@@ -220,7 +220,7 @@ class ClientBase extends ClientCore
 
 			// MR -- pserver must set/update php.ini
 			if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
-				$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
+				$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
 			}
 
 			// MR -- need this trick to make sure driver info sync between slavedb and kloxo database
@@ -236,7 +236,7 @@ class ClientBase extends ClientCore
 
 		// MR -- pserver must set/update php.ini
 		if (!db_get_value("phpini", "client-" . $this->nname, "nname")) {
-			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
+			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
 		}
 
 		parent::getAnyErrorMessage();
