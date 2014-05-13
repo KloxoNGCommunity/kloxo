@@ -22,7 +22,6 @@ if (isset($list['day'])) {
 	print("Day not set... Defaulting to $day\n");
 }
 
-
 $oldtime = time() - $day * 24 * 3600;
 
 $sq = new Sqlite(null, "{$class}traffic");

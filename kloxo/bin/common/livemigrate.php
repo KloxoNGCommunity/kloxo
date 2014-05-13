@@ -6,7 +6,6 @@ switchserver_main();
 
 function switchserver_main()
 {
-
 	global $argc, $argv;
 	global $gbl, $sgbl, $login, $ghtml; 
 
@@ -17,7 +16,6 @@ function switchserver_main()
 		print("Usage: $argv[0] --class= --name= --v-syncserver= \n");
 		exit;
 	}
-
 
 	try {
 		$opt = parse_opt($argv);
@@ -51,8 +49,6 @@ function switchserver_main()
 			throw new lxException ("no_change", '', '');
 			exit;
 		}
-
-
 
 		$driverapp_old = $gbl->getSyncClass('localhost', $object->syncserver, $object->getClass());
 		$driverapp_new = $gbl->getSyncClass('localhost', $param['syncserver'], $object->getClass());
@@ -92,7 +88,9 @@ function switchserver_main()
 		
 	} catch (exception $e) {
 		print($e->getMessage());
-		/// hcak ahck... Chnage only the olddelete variable which is the mutex used for locking in the process of switch. The problem is we want to totally bail out if the switchserver fails. The corect way would be save after reverting the syncserve to the old value, but that's a bit risky. So we just use a hack to change only the olddeleteflag; Not a real hack.. This is the better way.
+		// hcak ahck... Chnage only the olddelete variable which is the mutex used for locking in the process of switch.
+		// The problem is we want to totally bail out if the switchserver fails. The corect way would be save after reverting the syncserve
+		// to the old value, but that's a bit risky. So we just use a hack to change only the olddeleteflag; Not a real hack.. This is the better way.
 
 		$message = "{$e->getMessage()}";
 
@@ -106,11 +104,9 @@ function switchserver_main()
 		print("\n");
 		exit;
 	}
+	
 	mail($login->contactemail, "Switch Succeeded", "Switch Succeeded {$object->getClass()}:$object->nname to {$param['syncserver']}\n");
-
 }
-
-
 
 function write_to_object($object, $message, $syncserver)
 {

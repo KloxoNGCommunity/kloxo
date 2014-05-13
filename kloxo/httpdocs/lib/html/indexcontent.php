@@ -125,13 +125,6 @@ elseif ($cgi_forgotpwd == 1) {
 		$classname = getClassFromName($cgi_clientname);
 	}
 
-
-	/*
-	if ($cgi_clientname == 'admin') {
-		$ghtml->print_redirect("/?frm_emessage=cannot_reset_admin");
-	}
-*/
-
 	if ($cgi_clientname != "" && $cgi_email != "") { 
 		$tablename = $classname;
 		$rawdb = new Sqlite(null, $tablename);

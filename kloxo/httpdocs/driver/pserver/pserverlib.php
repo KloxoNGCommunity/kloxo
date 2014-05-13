@@ -140,6 +140,7 @@ class pserver extends pservercore {
 			$db = new Sqlite($this->__masterserver, $db);
 			$str = "$vname = '$this->nname'";
 			$res = $db->getRowsWhere($str, array('nname'));
+
 			if ($res) {
 				$tmp = null;
 				foreach($res as $r) {

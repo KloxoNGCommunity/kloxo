@@ -14,7 +14,6 @@ foreach($list as $l) {
 	$l->was();
 }
 
-
 foreach($list as $c) {
 
 	$dlist = $c->getList('domain');
@@ -29,9 +28,6 @@ foreach($list as $c) {
 		if (is_link("/home/httpd/$w->nname/httpdocs")) {
 			continue;
 		}
-
-
-
 
 		$uuser = $w->getObject('uuser');
 		$w->ftpusername = $w->username;
@@ -54,6 +50,7 @@ foreach($list as $c) {
 
 		print("moving $w->nname to /home/$clientname/domain\n");
 		$ret = lxshell_return("mv", "/home/httpd/$w->nname/httpdocs", "/home/$clientname/domain/$w->nname");
+		
 		if ($ret) {
 			print("Couldnt move $w->nname to /home/$clientname\n");
 			//continue;
@@ -61,16 +58,16 @@ foreach($list as $c) {
 		lxshell_return("ln", "-sf", "/home/$clientname/domain/$w->nname", "/home/httpd/$w->nname/httpdocs");
 		lxfile_unix_chown_rec("/home/$clientname/domain/$w->nname", "$w->username:$w->username");
 
-
 		$dirp = $w->getList('dirprotect');
+		
 		foreach($dirp as $d) {
 			$d->setUpdateSubaction('full_update');
 			$d->was();
 		}
+		
 		$w->was();
 	}
 }
  
-
 $sq = new Sqlite(null, 'client');
 $sq->rawQuery("update client set username = 'admin' where nname = 'admin';");

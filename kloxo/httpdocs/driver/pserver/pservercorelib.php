@@ -1,6 +1,5 @@
 <?php
 
-
 class pserverconf_b extends Lxaclass
 {
 
@@ -1446,7 +1445,6 @@ STRIN;
 
 	//	$this->fixDatabaseServers();
 	}
-
 
 	static function initThisListRule($parent, $class)
 	{

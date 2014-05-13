@@ -415,6 +415,7 @@ abstract class ClientCore extends Resourcecore {
 				$res = $sq->getTable(array('nname', 'syncserver', 'parent_clname'));
 
 				$list = null;
+
 				foreach($res as $r) {
 					if (!array_search_bool($r['syncserver'], $slist)) {
 						$list[$r['nname']] = "{$r['nname']} ({$r['syncserver']}) (orphaned)";

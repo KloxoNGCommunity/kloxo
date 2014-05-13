@@ -2,7 +2,6 @@
 
 class lxguardwhitelist extends lxdb 
 {
-
 	static $__desc = array("", "",  "white_list");
 	static $__desc_ipaddress = array("", "",  "ipaddress");
 	static $__desc_cur_ip = array("", "",  "your_current_ip");

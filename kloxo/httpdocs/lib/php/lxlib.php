@@ -3275,18 +3275,17 @@ function change_db_pass()
 	$newp = client::createDbPass($pass);
 	$oldpass = lfile_get_contents("__path_admin_pass");
 	$username = $sgbl->__var_program_name;
-	$sql = new Sqlite(null, "client");
-	//$sql->rawQuery("grant all on kloxo.* to kloxo@'localhost' identified by $newp");
-	//$sql->rawQuery("grant all on kloxo.* to kloxo@'%' identified by $newp");
-	//$return = $sql->setPassword($newp);
-	//exec("mysqladmin -u $username -p$oldpass password $newp 2>&1", $out, $return);
+
 	exec("echo 'set Password=Password(\"$newp\")' | mysql -u $username -p$oldpass 2>&1", $out, $return);
+
 	if ($return) {
 		$out = implode(" ", $out);
 		log_log("admin_error", "mysql change password Failed $out");
 		throw new lxException ("could_not_change_admin_pass", '', $out);
 	}
+
 	$return = lfile_put_contents("__path_admin_pass", $newp);
+
 	if (!$return) {
 		log_log("admin_error", "Admin pass change failed  $last_error");
 		throw new lxException ("could_not_change_admin_pass", '', $last_error);
@@ -3383,16 +3382,13 @@ function create_table($__db, $tbl_name, $list)
 function sqlite_do_create_table($__db, $tbl_name, $fields)
 {
 	$fields = implode(', ', $fields);
-	//$query = "create table $tbl_name ($fields, primary key (nname (255)));";
+
 	$query = "create table $tbl_name ($fields);";
 	print("Creating table $tbl_name....\n");
 	$ret = $__db->rawQuery($query);
-	//if (!$ret) {
-	//print("\nerror: " . sqlite_error_string(sqlite_last_error()) . "\n\n");
-	//}
+
 	$query = "insert into $tbl_name (nname) values ('__dummy__dummy__')";
 	$__db->rawQuery($query);
-	//$query = "create index parent_clname_$tbl_name on $tbl_name (parent_clname (255));"; $__db->rawQuery($query);
 }
 
 function mysql_do_create_table($__db, $tbl_name, $fields)
@@ -3401,9 +3397,11 @@ function mysql_do_create_table($__db, $tbl_name, $fields)
 	$query = "create table $tbl_name ($fields, primary key (nname (255)));";
 	print("Creating table $tbl_name....\n");
 	$ret = $__db->rawQuery($query);
+
 	if (!$ret) {
 		//print("\nerror: " . mysql_error() . "\n\n");
 	}
+
 	$query = "create index parent_clname_$tbl_name on $tbl_name (parent_clname (255));";
 	$__db->rawQuery($query);
 }
@@ -3470,11 +3468,6 @@ function getClassFromName($cgi_clientname)
 	} elseif (csa($cgi_clientname, ".aux")) {
 		$classname = "auxiliary";
 	}
-/*
-	 Domain user doesn't exist anymore....
-	 else if (csa($cgi_clientname, ".")) {
-		 $classname = "domain";
-	 }
- */
+
 	return $classname;
 }

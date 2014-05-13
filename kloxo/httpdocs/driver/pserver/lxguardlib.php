@@ -84,7 +84,6 @@ class lxguard extends lxdb
 		self::save_current_hitlist($server);
 	}
 
-
 	static function save_current_hitlist($server)
 	{
 		$list = lxguardhitdisplay::createHitList($server);

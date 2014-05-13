@@ -2,7 +2,6 @@
 
 class Dnstemplate extends DnsBase 
 {
-
 	// Core
 	static $__desc = array("", "",  "DNS_template");
 	static $__desc_nname = array("n", "",  "DNS_template_name", URL_SHOW);

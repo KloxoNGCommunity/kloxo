@@ -2792,7 +2792,9 @@ abstract class Lxclass
 			$sgbl->__var_objectrestorelist[] = $this;
 		}
 
-		// This is to ensure that if the syncserver of say mmail gets switched, and if one of the mailaccounts doesn't exist in the db, then the syncserver is properly got from the parent. Most of the objects directly inherit their syncservers from their parnet. But this code needs some more analysis.
+		// This is to ensure that if the syncserver of say mmail gets switched, and if one of the mailaccounts doesn't exist in the db,
+		// then the syncserver is properly got from the parent. Most of the objects directly inherit their syncservers from their parnet.
+		// But this code needs some more analysis.
 
 		$this->inheritSyncServer($this->__parent_o);
 

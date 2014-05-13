@@ -7,10 +7,10 @@ initProgram('admin');
 
 $STDIN = fopen("php://stdin", "r");
 $content = null;
+
 while (!feof($STDIN)) {
 	$content .= fread($STDIN, 8192);
 }
-
 
 $email = new parseMail($content);
 
@@ -28,10 +28,8 @@ $smallfrom = trim($smallfrom, "<>");
 
 $email->message = $message;
 
-
 preg_match("/.*\[ticket:([^:]*):([^:]*)\].*/i", $subject, $matches);
 print_r($matches);
-
 
 if (!$matches) {
 	$param['subject'] = $subject;
@@ -41,6 +39,7 @@ if (!$matches) {
 	$param['priority'] = 'medium';
 	$csq = new Sqlite(null, 'client');
 	$c = $csq->getRowsWhere("contactemail = '$smallfrom'", array('nname'));
+	
 	if ($c) {
 		$clientname = $c[0]['nname'];
 		$client = new Client(null, null, $clientname);
@@ -55,12 +54,11 @@ if (!$matches) {
 		$m .= "-------------------\n.........$content";
 		mail($smallfrom, "HelpDesk Failed", $m);
 	}
+	
 	exit;
 }
 
-
 $ticketid = $matches[2];
-
 
 $pclass = "client";
 $pname = $matches[1];
@@ -69,7 +67,7 @@ if (cse($pname, ".vm")) {
 	$pclass = "vps";
 }
 
-	/*
+/*
 if (!csa($matches[1], "-")) {
 	$pclass = "client";
 	$pname = $matches[1];
@@ -83,7 +81,6 @@ if (!csa($matches[1], "-")) {
 $pobject = new $pclass(null, null, $pname);
 $pobject->get();
 
-
 $tick = new Ticket(null, null, $ticketid);
 $tick->get();
 
@@ -93,12 +90,7 @@ $param['pobject'] = $pobject;
 $param['made_by'] = createClName($pclass, $pname);
 $param['from_ad'] = $email->from;
 
-
-
-
-
 $param = tickethistory::add($tick, 'tickethistory', $param); 
-
 
 $newob = new TicketHistory(null, null, $param['nname']);
 

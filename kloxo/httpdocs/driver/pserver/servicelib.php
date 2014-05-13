@@ -1,6 +1,5 @@
 <?php
 
-
 class Service extends Lxdb
 {
 	static $__desc = array("", "", "service");
@@ -184,6 +183,7 @@ class Service extends Lxdb
 		foreach ($list as $l) {
 			$nlist[$l['servicename']] = $l;
 		}
+
 		$res = rl_exec_get($parent->__masterserver, $parent->__readserver, array("service__$driverapp", 'getServiceDetails'), array($nlist));
 	
 		return $res;

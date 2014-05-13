@@ -775,7 +775,7 @@ class ClientBase extends ClientCore
 
 	function isSync()
 	{
-		/*
+	/*
 		if ($this->dbaction === 'update') {
 			return false;
 		}
@@ -861,7 +861,7 @@ class ClientBase extends ClientCore
 			$rs = lx_merge_good(array('--any--'), $rs);
 			$nlist['websyncserver'] = array('s', $rs);
 			$nlist['mmailsyncserver'] = array('s', $rs);
-			//$nlist['coma_dnssyncserver_list'] = array('s', $rs);
+		//	$nlist['coma_dnssyncserver_list'] = array('s', $rs);
 		}
 
 		return $nlist;

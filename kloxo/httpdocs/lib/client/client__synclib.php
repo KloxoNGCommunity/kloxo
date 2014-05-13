@@ -200,7 +200,6 @@ class client__sync extends lxDriverClass {
 			dprint($this->main->realpass);
 			$newp = client::createDbPass($this->main->realpass);
 			$oldpass = lfile_get_contents("__path_admin_pass");
-			$sql = new Sqlite(null, "client");
 
 			exec("echo 'set Password=Password(\"$newp\")' | mysql -u $username -p$oldpass 2>&1", $out, $return);
 

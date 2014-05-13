@@ -6,7 +6,6 @@ gettraffic_main();
 $val = print_time("gettraffic", "Get Traffic ");
 log_log("get_traffic", $val);
 
-
 function gettraffic_main()
 {
 	global $argc, $argv;
@@ -76,10 +75,8 @@ function filltraffictable()
 		}
 	}
 
-
-
-
 	$flag = 0;
+	
 	if($oldtime == 0) {
 		// 8 days back
 		$oldtime  =  @ mktime(00, 01, 00, date("n"), date("j") - 10, date("Y"));

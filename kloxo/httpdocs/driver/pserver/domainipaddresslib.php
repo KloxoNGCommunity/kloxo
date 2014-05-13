@@ -1,6 +1,5 @@
 <?php 
 
-
 class DomainIpaddress extends Lxdb
 {
 	static $__desc = array("", "", "configure_domain");
