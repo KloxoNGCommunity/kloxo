@@ -68,6 +68,7 @@ class phpini__sync extends Lxdriverclass
 		$phpfpm_path = "/home/php-fpm/tpl";
 		$phpfpm_cont = file_get_contents(getLinkCustomfile($phpfpm_path, "php53-fpm-pool.conf.tpl"));
 		$phpfpm_main = getLinkCustomfile($phpfpm_path_etc, "php53-fpm.conf");
+		$phpfpm_www = getLinkCustomfile($phpfpm_path_etc . "/php-fpm.d", "www.conf");
 
 		$htaccess_path = "/home/phpini/tpl";
 		$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
@@ -102,6 +103,7 @@ class phpini__sync extends Lxdriverclass
 			file_put_contents($phpfpm_target, $phpfpm_parse);
 
 			lxfile_cp($phpfpm_main, "/etc/php-fpm.conf");
+			lxfile_cp($phpfpm_www, "/etc/php-fpm.d/www.conf");
 
 			lxfile_unix_chmod($fcgid_target, "0755");
 		} else {

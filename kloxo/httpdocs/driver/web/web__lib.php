@@ -198,6 +198,10 @@ class web__ extends lxDriverClass
 				if (!file_exists("/etc/php-fpm.d/default.conf")) {
 					lxfile_cp("/home/php-fpm/etc/php-fpm.d/default.conf", "/etc/php-fpm.d/default.conf");
 				}
+
+				if (!file_exists("/etc/php-fpm.d/www.conf")) {
+					lxfile_cp("/home/php-fpm/etc/php-fpm.d/www.conf", "/etc/php-fpm.d/www.conf");
+				}
 			}
 		} else {
 			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php-fpm.conf"), "/etc/php-fpm.conf");

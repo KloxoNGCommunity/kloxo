@@ -2146,7 +2146,7 @@ class HtmlLib
 		</script>
 
 		<form name="frmsendchmod" method="post" action="/display.php" accept-charset="utf-8">
-			<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
+			<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
 			<input type="hidden" name="frm_ffile_c_file_permission_f">
 <?php
 		$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
@@ -4804,7 +4804,6 @@ class HtmlLib
 										<tr>
 											<td>
 												<form method="post" action="<?= $_SERVER["PHP_SELF"] ?>" accept-charset="utf-8">
-													<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
 <?php
 				$this->print_current_input_vars(array("frm_confirmed"));
 				$this->print_input("hidden", "frm_confirmed", "yes");
@@ -5103,7 +5102,7 @@ class HtmlLib
 		<td align=center valign=bottom>
 
 			<form name="form<?= $form_name ?>" method="post" action="<?= $path ?>">
-				<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
+				<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
 <?php
 
 		$this->print_input_vars($post);
@@ -6850,7 +6849,7 @@ class HtmlLib
 ?>
 
 		<form name="<?= $form ?>" action="/display.php" method="post" accept-charset="utf-8">
-			<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
+			<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
 			<table cellpadding='0' cellspacing='0'>
 				<tr>
 					<td></td>
@@ -7218,7 +7217,7 @@ class HtmlLib
 
 			<div style="margin: 0 auto">
 				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $method ?>" <?= $onsubmit ?> accept-charset="utf-8">
-				<input type='hidden' name='frm_token' value='<?= $gbl->c_session->ssession_vars['__tmp_csrf_token'] ?>'>
+				<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
 <?php
 	//	dprint($block->form);
 
@@ -9283,10 +9282,9 @@ class HtmlLib
 
 		$formname = 'lpform_' . $unique_name . $sortby;
 
-		// MR -- also change to 'get' for escaping validate token
 ?>
 
-		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
+		<form name="<?= $formname ?>" method="post" action="<?= $url ?>" accept-charset="utf-8">
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">
@@ -9334,7 +9332,6 @@ class HtmlLib
 				"src='{$showallimg}' onMouseOver=\"changeContent('help','showall');\" onMouseOut=\"changeContent('help','helparea');\">";
 		}
 
-		// MR -- also change to 'get' for escaping validate token
 ?>
 
 		<table width="100%" border="0" cellpadding="0">
@@ -9348,7 +9345,8 @@ class HtmlLib
 									<tr>
 										<td width="10" height="22"></td>
 										<td height="22">
-											<form name="lpform_search" method="get" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
+											<form name="lpform_search" method="post" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
+												<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
 
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
@@ -9360,7 +9358,8 @@ class HtmlLib
 										<td height="22" width="20"><a href='javascript:document.lpform_search.submit()'><?=$search_text;?></a></td>
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td width="70">
-											<form name="lpform_showall" method="get" action="<?= $url ?>" accept-charset="utf-8">
+											<form name="lpform_showall" method="post" action="<?= $url ?>" accept-charset="utf-8">
+												<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" id="frm_clear_filter" name="frm_clear_filter" value="true">

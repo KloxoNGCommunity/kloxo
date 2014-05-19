@@ -7834,6 +7834,7 @@ function is_cli()
 	return false;
 }
 
+/*
 // taken from ...
 function getCSRFToken($length = 8) {
 	$nonce = randomString($length);
@@ -7857,6 +7858,7 @@ function validateCSRFToken($token) {
 
 	return false;
 }
+*/
 
 // taken from http://snipplr.com/view/11410/prevent-remote-form-submit/
 function isRemotePost()
@@ -7879,7 +7881,23 @@ function isRemotePost()
 	return false;
 }
 
-function isTokenMatch()
+function getCRFToken()
+{
+	global $gbl;
+
+	if (isset($gbl->c_session->ssession_vars['__tmp_csrf_token'])) {
+		$token = $gbl->c_session->ssession_vars['__tmp_csrf_token'];
+	} else {
+		$token = randomString(64);
+	//	$gbl->c_session->ssession_vars['__tmp_csrf_token'] = $token;
+		$gbl->setSessionV('__tmp_csrf_token', $token);
+		$gbl->c_session->write();
+	}
+
+	return $token;
+}
+
+function isCRFTokenMatch()
 {
 	global $gbl;
 
