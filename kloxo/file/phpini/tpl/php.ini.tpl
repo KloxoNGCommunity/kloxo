@@ -51,6 +51,9 @@
 	$safe_mode_flag = 'Off';
 	$register_long_arrays_flag = 'Off';
 
+	if (!$max_input_vars_flag) {
+		$max_input_vars_flag = '3000';
+	}
 ?>
 
 [PHP]
@@ -157,6 +160,8 @@ cgi.force_redirect = <?php echo $cgi_force_redirect_flag; ?>
 ;<?php echo $php54disable; ?>safe_mode = <?php echo $safe_mode_flag; ?>
 
 enable_dl = <?php echo $enable_dl_flag; ?>
+
+max_input_vars = <?php echo $max_input_vars_flag; ?>
 
 
 ;### MR -- deprecated/disabled on php 5.3+

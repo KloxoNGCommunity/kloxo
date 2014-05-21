@@ -17,6 +17,10 @@
         $sendmailmark = '#';
         $sendmail_from = '';
     }
+
+    if (!$max_input_vars_flag) {
+        $max_input_vars_flag = '3000';
+    }
 ?>
 ### MR -- attention
 ### 1. Move '#<Ifmodule !mod_php5.c>' until '#</Ifmodule>' on
@@ -71,6 +75,8 @@
     php_flag cgi.force_redirect <?php echo $cgi_force_redirect_flag; ?>
 
     php_flag enable_dl <?php echo $enable_dl_flag; ?>
+
+    php_flag max_input_vars <?php echo $max_input_vars_flag; ?>
 
 </Ifmodule>
 

@@ -204,7 +204,7 @@ UrlToolkit {
 UrlToolkit {
 	ToolkitID = redirect_<?php echo str_replace('.', '_', $domainname); ?>
 
-RequestURI exists Return
+	RequestURI exists Return
 <?php
 if ($redirectionremote) {
 	foreach ($redirectionremote as $rr) {

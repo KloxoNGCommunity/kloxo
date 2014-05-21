@@ -1344,3 +1344,5 @@ $__description["php_selected"] = array("PHP Selected");
 
 $__description["multiple_php_install"] = array("Multiple PHP Install");
 $__description["multiple_php_already_installed"] = array("Multiple PHP Already Installed");
+
+$__description["max_input_vars"] = array("Max Input Vars");

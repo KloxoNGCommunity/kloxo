@@ -40,6 +40,8 @@ class phpini_flag_b extends lxaclass
 	static $__desc_multiple_php_flag = array("f", "", "multiple_php_enable");
 	static $__desc_multiple_php_ready = array("", "", "multiple_php_ready");
 	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
+
+	static $__desc_max_input_vars_flag = array("", "", "max_input_vars");
 }
 
 class phpini extends lxdb
@@ -150,6 +152,9 @@ class phpini extends lxdb
 		$list[] = 'memory_limit_flag';
 		$list[] = 'post_max_size_flag';
 		$list[] = "upload_max_filesize";
+
+		$list[] = 'max_input_vars_flag';
+
 		$list[] = 'file_uploads_flag';
 	//	$list[] = 'magic_quotes_runtime_flag';
 	//	$list[] = 'magic_quotes_sybase_flag';
@@ -438,6 +443,8 @@ class phpini extends lxdb
 		$list = $this->get_multiple_php_list();
 
 		$this->initialValue('multiple_php_ready', implode(" ", $list));
+
+		$this->initialValue('max_input_vars_flag', '3000');
 	}
 
 	function initialValue($var, $val)

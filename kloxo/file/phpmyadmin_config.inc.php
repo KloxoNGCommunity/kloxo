@@ -63,8 +63,10 @@ $cfg['Servers'][$i]['bs_temp_log_threshold'] = '32M';
 /*
  * Directories for saving/loading files from server
  */
-$cfg['UploadDir'] = '';
-$cfg['SaveDir'] = '';
+// $cfg['UploadDir'] = '/home/%u/';
+// $cfg['SaveDir'] = '/home/%u/';
+$cfg['UploadDir'] = '/tmp/';
+$cfg['SaveDir'] = '/tmp/';
 
 $cfg['ThemeManager'] = TRUE; 
 $cfg['ThemeDefault'] = 'pmahomme';

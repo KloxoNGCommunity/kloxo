@@ -27,6 +27,10 @@
         $sendmailmark = ';';
         $sendmail_from = '';
     }
+
+    if (!$max_input_vars_flag) {
+        $max_input_vars_flag = '3000';
+    }
 ?>
 
 [PHP]
@@ -132,6 +136,8 @@ cgi.force_redirect = <?=$cgi_force_redirect_flag;?>
 ;<?=$php54disable;?>safe_mode = <?=$safe_mode_flag;?>
 
 enable_dl = <?=$enable_dl_flag;?>
+
+max_input_vars = <?php echo $max_input_vars_flag; ?>
 
 
 ;### MR -- deprecated/disabled on php 5.3+

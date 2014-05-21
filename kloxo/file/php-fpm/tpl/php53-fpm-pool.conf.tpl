@@ -44,6 +44,10 @@
 	} else {
 		$php54disable = '';
 	}
+
+	if (!$max_input_vars_flag) {
+		$max_input_vars_flag = '3000';
+	}
 ?>
 [<?php echo $pool; ?>]
 ;catch_workers_output = yes
@@ -135,3 +139,5 @@ php_admin_value[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
 php_admin_value[enable_dl] = <?php echo $enable_dl_flag; ?>
 
 php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
+
+php_admin_value[max_input_vars] = <?php echo $max_input_vars_flag; ?>
