@@ -4598,6 +4598,7 @@ abstract class Lxclass
 
 		foreach ($gbl->__tmp_var_email_list as $k => $v) {
 			dprint("Sending {$v} to {$k}\n");
+
 			lx_mail(null, $k, "{$name} Message", $v);
 		}
 	}

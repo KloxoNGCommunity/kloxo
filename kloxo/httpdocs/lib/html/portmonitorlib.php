@@ -19,9 +19,11 @@ function do_send_email()
 	//fprint($global_reminder, 0);
 	foreach($global_reminder as $k => $v) {
 		$string = null;
+
 		foreach($v as $kk => $vv) {
 			$string .= "{$vv[1]}\n";
 		}
+
 		lx_mail(null, $k, "Message from hyperVM alert system", $string);
 	}
 }

@@ -57,8 +57,6 @@ class TicketHistory extends Lxdb
 		$mail .= "". $message . "\n";
 		$mail .= "--------------------------\n";
 
-		$mail = "<pre>" . $mail . "</pre>";
-
 		$reply_to = $o->mail_account;
 
 		if (!$reply_to) {
@@ -67,8 +65,6 @@ class TicketHistory extends Lxdb
 
 		$extra .= "Reply-To: $reply_to\n";
 		$extra .= "X-Category: $category\n";
-		$extra .= "MIME-Version: 1.0\n";
-		$extra .= "Content-type: text/html; charset=utf-8\n";
 
 		$contactemail = $object->getAllContactEmail();
 

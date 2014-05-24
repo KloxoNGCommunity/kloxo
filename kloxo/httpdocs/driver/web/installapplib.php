@@ -372,6 +372,7 @@ function postSync()
 			$string .= "Admin Password: {$this->installappmisc_b->admin_password}\n";
 
 			$subject = "Application $this->appname installed on {$this->getParentO()->nname}";
+
 			callInBackground("lx_mail", array(null, $this->installappmisc_b->admin_email, $subject, $string));
 		}
 	}

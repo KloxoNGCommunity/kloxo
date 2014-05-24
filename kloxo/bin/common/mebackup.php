@@ -33,7 +33,9 @@ function mebackup_main()
 			lxbackup::upload_to_server($bfile, basename($bfile), $backup);
 		} catch (Exception $e) {
 			print("Sending warning to $login->contactemail ..\n");
-			lx_mail(null, $login->contactemail, "$cprogname Self Database Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') ." Hours" , "$cprogname Backup upload Failed due to {$e->getMessage()}\n");  
+
+			lx_mail(null, $login->contactemail, "$cprogname Self Database Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') ." Hours" , 
+				"$cprogname Backup upload Failed due to {$e->getMessage()}\n");  
 		}
 	}
 	$backup->rm_last_number = 20;

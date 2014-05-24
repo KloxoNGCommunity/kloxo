@@ -1,4 +1,5 @@
 <?php 
+
 include_once "lib/html/displayinclude.php";
 
 schedulebackup_main();
@@ -55,6 +56,7 @@ function schedulebackup_main()
 		} catch (exception $e) {
 			$mess = "{$e->__full_message}\n";
 			$backup->backupstage = "Failed due to: $mess";
+
 			lx_mail($progname, $object->contactemail, "Backup Failed..", "Backup Failed for $object->nname with the Message $mess");
 		}
 	*/

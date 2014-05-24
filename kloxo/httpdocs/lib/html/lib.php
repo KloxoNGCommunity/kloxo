@@ -3084,7 +3084,9 @@ function se_submit($contact, $dom, $email)
 	}
 
 	lunlink($tmpfile);
+
 	lx_mail("kloxo", $contact, "Search Submission Info", $var);
+
 	lfile_put_contents("/tmp/mine", $var);
 }
 
@@ -3147,14 +3149,19 @@ function lx_mail($from, $to, $subject, $message, $extra = null)
 		$from = "$progname@$server";
 	}
 
-	$header = "From: $from";
+	$header  = "From: $from";
+
+	$header .= "MIME-Version: 1.0\n";
+	$header .= "Content-type: text/html; charset=utf-8\n";
+
+	$message = str_replace("\n", "<br>\n", $message);
 
 	if ($extra) {
 		$header .= "\n$extra";
 	}
 
 	log_log("mail_send", "Sending Mail to $to $subject from $from");
-
+	
 	mail($to, $subject, $message, $header);
 }
 

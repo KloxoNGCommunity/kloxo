@@ -1,10 +1,9 @@
-
-	Thank you for choosing our service to meet your web hosting needs.
+Thank you for choosing our service to meet your web hosting needs.
 
 Your account has been created with the following details:
 
-Username:	%name%
-Password:	%password%
+Username: %name%
+Password: %password%
 
 To log in immediately, follow this link, using your username and password:
 

@@ -1,4 +1,5 @@
 <?php
+
 class ClientBase extends ClientCore
 {
 //  Core
@@ -542,7 +543,9 @@ class ClientBase extends ClientCore
 				if ($sgbl->dbg > 0) {
 					$subject = $param['wall_subject_f'] . " ({$client['nname']})";
 				}
+
 				$contactemail = $client['contactemail'];
+
 				lx_mail(null, $contactemail, $subject, $param['wall_message_f']);
 			}
 		}
@@ -555,7 +558,9 @@ class ClientBase extends ClientCore
 		if (!$this->contactemail) {
 			throw new lxException ("no_contact_email", 'contactemail');
 		}
+
 		lx_mail(null, $this->contactemail, $param['wall_subject_f'], $param['wall_message_f']);
+
 		throw new lxException ("success_message_successfully_sent", '');
 	}
 

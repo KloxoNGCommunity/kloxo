@@ -564,6 +564,7 @@ class lxbackup extends Lxdb
 			} catch (Exception $e) {
 				$text1 = "$cprogname Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') . " Hours";
 				$text2 = "$cprogname Backup upload Failed due to '{$e->getMessage()}'";
+
 				lx_mail(null, $parent->contactemail, $text . "\n");
 				log_log("backup", "* " . $text1 . " - " . $text2);
 			}
@@ -583,6 +584,7 @@ class lxbackup extends Lxdb
 
 		$text1 = "$cprogname Backup on " . date('Y-M-d') . " at " . date('H') . " Hours";
 		$text2 = "$cprogname Backup Succeeded for '{$parent->nname}' to '{$tobackup}'";
+
 		lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
 		log_log("backup", "* " . $text1 . " - " . $text2);
 
@@ -775,6 +777,7 @@ class lxbackup extends Lxdb
 		if (!$gbl->__var_list_flag) {
 			$text1 = "$cprogname Restore on " . date('Y-M-d') . " at " . date('H') . " Hours";
 			$text2 = "$cprogname Restore Succeeded for '{$parent->nname}' on '$parent->syncserver'";
+
 			lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
 			log_log("restore", "* " . $text1 . " - " . $text2);
 		}
