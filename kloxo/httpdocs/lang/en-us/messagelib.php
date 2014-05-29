@@ -420,7 +420,15 @@ $__information['servermail_updateform_update_pre'] = "<p>It is very essential th
 	"<p>The max smtp instances specifies the maximum number of smtp processes that are allowed. You should set it to some number, " .
 	"say 10, if you are getting spammed heavily.</p>".
 	"<p>If you leave it blank, it will be set to UNLIMITED, which is the default.</p>" .
-	"<p><b>REMARK</b>: You can choose port 25, 465 or 587 for SMTP.</p>";
+	"<p>You can choose port 25, 465 or 587 for SMTP.</p>" .
+	"<p>Set <b>SMTP Relay</b> to use outside SMTP server instead internal." .
+	"<ul>" .
+		"<li>Full format (all domains): <b>:smtpserveraddress:port username password</b><br>" . 
+		"- Example: <b>:mail.domain.com:25 admin@domain.com pass123</b></li>" .
+		"<li>Open-relay format (example for certain domain): <b>domain2.com:smtpserveraddress</b><br>" . 
+		"- Example: <b>domain2.com:mail.domain.com</b></li>" .
+	"</ul></p>";
+
 
 $__information['updateform_switchprogram_pre'] = "<p>Switching Programs will take a while, since it needs to remove the old program from the system, ". 
 	"and install the new one using yum.</p>".

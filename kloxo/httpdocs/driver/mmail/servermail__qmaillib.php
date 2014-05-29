@@ -85,6 +85,8 @@ class Servermail__Qmail  extends lxDriverClass
 
 		lfile_put_contents("/var/qmail/control/concurrencyincoming", $instance);
 
+		lfile_put_contents("/var/qmail/control/smtproutes", $this->main->smtp_relay);
+
 		if ($this->main->isOn('virus_scan_flag')) {
 			$ret = lxshell_return("rpm", "-q", "simscan-toaster");
 
@@ -132,7 +134,6 @@ class Servermail__Qmail  extends lxDriverClass
 				$this->save_myname();
 				$this->save_xinetd_qmail();
 				createRestartFile("qmail");
-
 				break;
 			case "spamdyke":
 				$this->savespamdyke();

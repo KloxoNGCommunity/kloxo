@@ -36,7 +36,10 @@ class ServerMail extends lxdb
 	static $__desc_enable_maps = array("f", "",  "enable_maps_protection");
 	static $__desc_spamdyke_flag = array("f", "",  "enable_spamdyke");
 	static $__desc_domainkey_flag = array("f", "",  "enable_domainkey");
+
 	static $__desc_smtp_instance = array("", "",  "max_smtp_instances");
+	static $__desc_smtp_relay = array("t", "",  "smtp_relay");
+
 	static $__desc_max_size = array("", "",  "max_mail_attachment_size(bytes)");
 //	static $__desc_additional_smtp_port = array("", "",  "additional_smtp_port");
 	static $__desc_virus_scan_flag = array("f", "",  "enable_virus_scan");
@@ -115,6 +118,10 @@ class ServerMail extends lxdb
 
 			//	$vlist['additional_smtp_port'] = null;
 			//	$vlist['alt_smtp_sdyke_flag'] = null;
+
+				if (!$this->smtp_relay) {
+					$vlist['smtp_relay'] = array("t", lfile_get_contents("/var/qmail/control/smtproutes"));
+				}
 
 				$this->postUpdate($subaction);
 
