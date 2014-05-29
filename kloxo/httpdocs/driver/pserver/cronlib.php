@@ -81,13 +81,17 @@ class Cron extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		if ($parent->getClass() !== 'pserver') {
+			if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+				return;
+			}
+		}
+
 		$alist[] = "a=list&c=$class";
 
-		if ($login->nname === 'admin') {
-			$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=simple";
-			$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=complex";
-		}
-	
+		$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=simple";
+		$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=complex";
+
 		return $alist;
 	}
 

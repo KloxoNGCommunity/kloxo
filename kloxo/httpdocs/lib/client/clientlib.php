@@ -422,14 +422,12 @@ class Client extends ClientBase
 	
 		if ($this->priv->isOn('webhosting_flag')) {
 			if ($this->priv->isOn('cron_manage_flag') && $this->isCustomer()) {
-				$alist[] = "a=list&c=cron";
+				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+					$alist[] = "a=list&c=cron";
+				}
 			}
 		}
-/*
-		if ($this->isAdmin()) {
-			$alist[] = "a=list&c=cron";
-		}
-*/
+
 		if (!$this->isLogin()) {
 			$alist['__v_dialog_limit'] = "a=updateform&sa=limit";
 			$alist['__v_dialog_plan'] = "a=updateform&sa=change_plan";
@@ -540,7 +538,11 @@ class Client extends ClientBase
 			$this->getMysqlDbAdmin($alist);
 			$alist[] = "a=show&l[class]=ffile&l[nname]=/";
 			$alist['__v_dialog_defd'] = "a=updateform&sa=default_domain";
-			$alist[] = "a=list&c=cron";
+
+			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+				$alist[] = "a=list&c=cron";
+			}
+
 			$alist[] = "a=list&c=traceroute";
 		}
 
