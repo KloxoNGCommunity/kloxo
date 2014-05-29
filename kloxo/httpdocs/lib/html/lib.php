@@ -3146,21 +3146,21 @@ function lx_mail($from, $to, $subject, $message, $extra = null)
 	if (!$from) {
 		$progname = $sgbl->__var_program_name;
 		$server = getFQDNforServer('localhost');
-		$from = "$progname@$server";
+		$from = "{$progname}@{$server}";
 	}
 
-	$header  = "From: $from";
+	$header  = "From: {$from}\n";
 
 	$header .= "MIME-Version: 1.0\n";
 	$header .= "Content-type: text/html; charset=utf-8\n";
 
-	$message = str_replace("\n", "<br>\n", $message);
-
 	if ($extra) {
-		$header .= "\n$extra";
+		$header .= "{$extra}\n";
 	}
 
-	log_log("mail_send", "Sending Mail to $to $subject from $from");
+	$message = str_replace("\n", "<br>\n", $message);
+
+	log_log("mail_send", "Sending Mail to {$to} {$subject} from {$from}");
 	
 	mail($to, $subject, $message, $header);
 }

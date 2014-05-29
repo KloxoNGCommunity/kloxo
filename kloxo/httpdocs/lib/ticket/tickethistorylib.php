@@ -63,11 +63,12 @@ class TicketHistory extends Lxdb
 			$reply_to = "helpdesk";
 		}
 
-		$extra .= "Reply-To: $reply_to\n";
-		$extra .= "X-Category: $category\n";
+		$extra .= "Reply-To: {$reply_to}\n";
+		$extra .= "X-Category: {$category}\n";
 
 		$contactemail = $object->getAllContactEmail();
 
+	//	lx_mail($from, $contactemail, $subject, $mail, $extra);
 		callInBackground('lx_mail', array($from, $contactemail, $subject, $mail, $extra));
 	}
 
