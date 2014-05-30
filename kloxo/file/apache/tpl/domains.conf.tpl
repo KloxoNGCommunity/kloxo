@@ -230,7 +230,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 				//if (strpos($phptype, 'fcgid_') === false) {
@@ -388,7 +388,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 					//if (strpos($phptype, 'fcgid_') === false) {
@@ -599,7 +599,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 
 		<IfModule mod_php5.c>
 			php_admin_value open_basedir "/home/<?php echo $user; ?>:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script:/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
@@ -700,6 +700,7 @@ foreach ($certnamelist as $ip => $certname) {
 		Deny from <?php echo $blockips; ?>
 
 		Allow from all
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 		}
@@ -997,7 +998,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 					//if (strpos($phptype, 'fcgid_') === false) {
@@ -1155,7 +1156,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 						//if (strpos($phptype, 'fcgid_') === false) {
@@ -1294,7 +1295,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 					//if (strpos($phptype, 'fcgid_') === false) {
@@ -1452,7 +1453,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 						//if (strpos($phptype, 'fcgid_') === false) {

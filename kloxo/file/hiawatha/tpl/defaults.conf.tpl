@@ -122,15 +122,14 @@ Binding {
 		} else {
 ?>
 VirtualHost {
-	FollowSymlinks = no
-
 <?php
 		}
 ?>
+	FollowSymlinks = no
+	
 	Hostname = 0.0.0.0
 
 	WebsiteRoot = <?php echo $defaultdocroot; ?>
-
 
 	EnablePathInfo = yes
 <?php

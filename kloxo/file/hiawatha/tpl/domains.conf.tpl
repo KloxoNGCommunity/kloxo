@@ -260,7 +260,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
 	EnablePathInfo = yes
 <?php
 			if ($count !== 0) {

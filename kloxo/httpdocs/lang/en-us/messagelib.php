@@ -826,7 +826,8 @@ $__information['mailinglist_updateform_editfile_pre'] = "<p>No information...</p
 
 $__information['listsubscribe_addform__pre'] = "<p>No information...</p>";
 
-$__information['updateform_cron_mailto_pre'] = "<p>Cron task will reported to 'Mail To'</p>";
+$__information['updateform_cron_mailto_pre'] = "<p>Cron task will reported to 'Mail To'.</p>" .
+	"<p><b>Note</b>: add '/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg' to enable Cron for all clients.</p>";
 
 $__information['cron_addform_simple_pre'] = "<p>Add something like 'sh /script/restart-all' in 'Command'.</p>".
 	"<p>You can see cron activity in 'Log Manager'.</p>";

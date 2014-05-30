@@ -98,8 +98,6 @@ server {
 
     server_name cp.*;
 
-    set $domain '';
-
     index <?php echo $indexorder; ?>;
 
     set $rootdir '<?php echo $cpdocroot; ?>';

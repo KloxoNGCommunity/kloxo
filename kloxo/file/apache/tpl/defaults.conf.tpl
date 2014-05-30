@@ -192,7 +192,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 		//if (strpos($phptype, 'fcgid_') === false) {
@@ -313,7 +313,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 <?php
 		//if (strpos($phptype, 'fcgid_') === false) {
