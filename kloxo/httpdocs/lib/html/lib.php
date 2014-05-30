@@ -3144,9 +3144,10 @@ function lx_mail($from, $to, $subject, $message, $extra = null)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!$from) {
-		$progname = $sgbl->__var_program_name;
+	//	$progname = $sgbl->__var_program_name;
 		$server = getFQDNforServer('localhost');
-		$from = "{$progname}@{$server}";
+	//	$from = "{$progname}@{$server}";
+		$from = "root@{$server}";
 	}
 
 	$header  = "From: {$from}\n";

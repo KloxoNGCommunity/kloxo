@@ -51,7 +51,7 @@ class TicketHistory extends Lxdb
 			$mail  .= "When replying please leave the subject intact for the helpdesk to parse...\n-----\n";
 		}
 		
-		$mail .= "A ticket $actxt by $parentclass:$parentname at the $name ticketing system\n";
+		$mail .= "A ticket {$actxt} by {$parentclass}:{$parentname} at the {$name} ticketing system\n";
 		$mail .= "Message:\n";
 		$mail .= "--------------------------\n";
 		$mail .= "". $message . "\n";

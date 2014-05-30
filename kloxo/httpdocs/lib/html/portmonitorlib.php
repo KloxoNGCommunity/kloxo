@@ -16,7 +16,9 @@ function port_send_email($portstatus)
 function do_send_email()
 {
 	global $global_reminder;
-	//fprint($global_reminder, 0);
+
+//	fprint($global_reminder, 0);
+
 	foreach($global_reminder as $k => $v) {
 		$string = null;
 
