@@ -4933,7 +4933,7 @@ class HtmlLib
 			} else {
 ?>
 												</td>
-												<td><input type="button" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
+												<td><input type="submit" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
 <?php
 			}
 ?>
@@ -4980,7 +4980,7 @@ class HtmlLib
 				} else {
 ?>
 											<td style="background: #eee;">
-												<input type="button" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
+												<input type="submit" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
 											</td>
 <?php
 				}
