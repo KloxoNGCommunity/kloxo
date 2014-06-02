@@ -16,13 +16,16 @@
 	</div>
 	I.e., a DIV.banner with a P with a small logo and a couple of
 	A elements.
-	Copyright © 2000 W3C® (MIT, INRIA, Keio). All Rights Reserved.
+	Copyright Â© 2000 W3CÂ® (MIT, INRIA, Keio). All Rights Reserved.
 	See http: //www.w3.org/Consortium/Legal/ipr-notice.html#Copyright
 	Author: Bert Bos <bert@w3.org>
 	Created: 26 July 2000
 	*/
 /* body div.banner { display: block } /* Overrides 'none' in banner-*.css */
 	
+a[href], input[type='submit'], input[type='image'], label[for], select, button, .pointer {
+       cursor: pointer;
+}
 	
 table  {
 	margin: 0;

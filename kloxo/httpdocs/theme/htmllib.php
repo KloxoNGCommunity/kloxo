@@ -4933,7 +4933,7 @@ class HtmlLib
 			} else {
 ?>
 												</td>
-												<td><input type="submit" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
+												<td><input type="submit" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced;">
 <?php
 			}
 ?>
@@ -4980,7 +4980,7 @@ class HtmlLib
 				} else {
 ?>
 											<td style="background: #eee;">
-												<input type="submit" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced">
+												<input type="submit" value="Go" style="border: 1px solid #ddd; margin: 2px; background-color: #ced;">
 											</td>
 <?php
 				}
@@ -7435,7 +7435,7 @@ class HtmlLib
 ?>
 
 			<div id="showimage" style="visibility: hidden; position: absolute; width: 320px; left: 0; top: 300px; right: 0; margin: 0 auto">
-				<div style="background-color: #48c; border: 1px solid #ddd; cursor:hand; cursor:pointer" onMousedown="password_initializedrag(event)">
+				<div style="background-color: #48c; border: 1px solid #ddd; cursor: pointer" onMousedown="password_initializedrag(event)">
 					<div id="dragbar" style="padding: 2px; height: 18px">
 						<div style="float:left"><span style="color:#fff"><?= $login->getKeywordUc('password_box') ?>&nbsp;-&nbsp;<?= $login->getKeywordUc('press_esc_to_close') ?></span></div>
 						<div style="float:right"><a href="javascript://" onClick="password_hidebox('showimage')"><span style="color:#fff; padding:2px">&#215;</span></a></div>
@@ -8221,7 +8221,7 @@ class HtmlLib
 
 		<div id="showimage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin: 0 auto;">
 			<div style="<?= $style ?>">
-				<div id="dragbar" onmousedown="password_initializedrag(event)" style="background-color: #ec8; text-align: right; padding: 2px; height: 18px; border-bottom: 1px solid red; cursor:hand; cursor:pointer">
+				<div id="dragbar" onmousedown="password_initializedrag(event)" style="background-color: #ec8; text-align: right; padding: 2px; height: 18px; border-bottom: 1px solid red; cursor: pointer">
 					<div style="float:left"><?= $error_box ?><?= $press_esc_to_close ?></div>
 					<div style="float:right"><a href="javascript:hide_a_div_box('showimage')"><!-- <img src="<?= $icondir ?>/close.gif"> -->&#215;</a></div>
 				</div>
@@ -9417,15 +9417,15 @@ class HtmlLib
 		if ($check) {
 ?>
 
-			<td height="34" wrap class="alink" style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="<?= $height ?>" nowrap class="alink" style='cursor:pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?>
+			<td height="34" wrap class="alink" style='cursor: pointer; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class="alink" style='cursor: pointer; padding:3px 0 0 0; vertical-align:middle'><span size=-1><?= $displaystring ?>
 			</td>
 <?php
 		} else {
 ?>
 
-			<td height="34" wrap class='alink' style='cursor:pointer;background:#edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="<?= $height ?>" nowrap class='alink' style='cursor:pointer;background:#edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
+			<td height="34" wrap class='alink' style='cursor: pointer; background: #edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class='alink' style='cursor: pointer; background: #edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
 <?php
 		}
 	}
