@@ -210,7 +210,9 @@ class Cron extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// MR --- for security reason, only enable for admin
-		if ($login->nname !== 'admin') { return; }
+		if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+			if ($login->nname !== 'admin') { return; }
+		}
 
 		$parent = $this->getParentO();
 
@@ -254,8 +256,9 @@ class Cron extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// MR --- for security reason, only enable for admin
-		if ($login->nname !== 'admin') { return; }
-
+		if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+			if ($login->nname !== 'admin') { return; }
+		}
 		
 		// This is to make sure that the static variables 'monthlist, weekdaylist' etc, are initialized. 
 		// There is no other way to do it.
