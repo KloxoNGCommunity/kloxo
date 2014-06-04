@@ -158,8 +158,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 180 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 180 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
 		<Files "default.<?php echo $count; ?>fake">
@@ -279,8 +279,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /cp.<?php echo $count; ?>fake "<?php echo $cpdocroot; ?>/cp.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 180 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 180 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $count; ?>fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /cp.<?php echo $count; ?>fake
 		<Files "cp.<?php echo $count; ?>fake">
