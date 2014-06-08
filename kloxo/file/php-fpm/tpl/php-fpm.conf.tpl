@@ -16,7 +16,7 @@
         <value name="log_level">notice</value>
         <value name="emergency_restart_threshold">10</value>
         <value name="emergency_restart_interval">1m</value>
-        <value name="process_control_timeout">5s</value>
+        <value name="process_control_timeout">10s</value>
         <value name="daemonize">yes</value>
     </section>
 
@@ -35,12 +35,12 @@
 ?>
         <section name="pool">
             <value name="name"><?php echo $pool; ?></value>
-        <!--    <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value> -->
+            <!-- <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value> -->
             <value name="listen_address">/home/php-fpm/sock/<?php echo $user; ?>.sock</value>
             <value name="listen_options">
-                <value name="backlog">-1</value>
-                <value name="owner"></value>
-                <value name="group"></value>
+                <value name="backlog">65536</value>
+                <value name="owner"><?php echo $user; ?></value>
+                <value name="group"><?php echo $user; ?></value>
                 <value name="mode">0666</value>
             </value>
             <value name="user"><?php echo $user; ?></value>                

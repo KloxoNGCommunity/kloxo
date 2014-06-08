@@ -45,6 +45,20 @@ UrlToolkit {
     Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
 }
 
+UrlToolkit {
+    ToolkitID = expire_needed
+    Match .*\.jpg$ Expire 1 weeks
+    Match .*\.png$ Expire 1 weeks
+    Match .*\.gif$ Expire 1 weeks
+    Match .*\.css$ Expire 1 weeks
+    Match .*\.js$ Expire 1 weeks
+    Match .*\.gif$ Expire 1 weeks
+    Match .*\.eot$ Expire 1 weeks
+    Match .*\.svg$ Expire 1 weeks
+    Match .*\.ttf$ Expire 1 weeks
+    Match .*\.ico$ Expire 1 weeks
+}
+
 Binding {
 	BindingId = port_nonssl
 	Port = __nonssl_port__
@@ -77,7 +91,7 @@ ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
 
 UseFastCGI = PHP5
 
-UseToolkit = findindexfile
+UseToolkit = findindexfile, expire_needed
 
 TimeForCGI = 3600
 ErrorHandler = 401:/error/401.html
@@ -99,7 +113,7 @@ VirtualHost {
 
 	UseFastCGI = PHP5
 
-	UseToolkit = findindexfile
+	UseToolkit = findindexfile, expire_needed
 
 	TimeForCGI = 3600
 	ErrorHandler = 401:/error/401.html
@@ -108,4 +122,6 @@ VirtualHost {
 	ErrorHandler = 404:/panel/lbin/sitepreview.php
 	ErrorHandler = 501:/error/501.html
 	ErrorHandler = 503:/error/503.html
+
+	UseGZfile = yes
 }

@@ -6225,7 +6225,7 @@ class HtmlLib
 
 		if ($linkflag) {
 			$displayvar = "<span style='$forecolorstring' class='icontextlink' id='aaid_$formname' " .
-				"href=\"javascript:document.form_$formname.submit()\" onmouseover=\" style.textDecoration='underline';\" " .
+				"href=\"javascript:document.form_$formname.submit()\" onmouseover=\"style.textDecoration='underline';\" " .
 				"onmouseout=\"style.textDecoration='none'\"> $descr[2] </span>";
 		//	$onclickvar = "onClick=\"document.form_$formname.submit()\"";
 			$onclickvar = null;
@@ -6592,7 +6592,7 @@ class HtmlLib
 		$help = $descr['desc'];
 
 		if ($linkflag) {
-			$displayvar = "<span style='color:#024' class=icontextlink id=aaid_$formname " .
+			$displayvar = "<span style='color:#024' class='icontextlink' id='aaid_$name' " .
 				"onmouseover=\"style.textDecoration='underline';\" onmouseout=\"style.textDecoration='none'\">" .
 				"</span>";
 
@@ -6617,11 +6617,11 @@ class HtmlLib
 
 		if ($imgflag) {
 			if ($linkflag) {
-				$imgvar = "<img width=15 height=15 class=icontextlink " .
-					"onMouseOver=\"getElementById('aaid_$formname').style.textDecoration='underline'; \" " .
-					"onMouseOut=\"getElementById('aaid_$formname').style.textDecoration='none'; \" src=\"$imagesrc\">";
+				$imgvar = "<img width='15' height='15' class='icontextlink' $onclickvar" .
+					"onMouseOver=\"getElementById('aaid_$name').style.textDecoration='underline';\" " .
+					"onMouseOut=\"getElementById('aaid_$name').style.textDecoration='none';\" src=\"$imagesrc\">";
 			} else {
-				$imgvar = "<img width=15 height=15 class=icontextlink src=\"$imagesrc\">";
+				$imgvar = "<img width='15' height='15' class='icontextlink' src=\"$imagesrc\">";
 			}
 
 		} else {
@@ -6630,9 +6630,9 @@ class HtmlLib
 ?>
 
 	<span title='<?= $alt ?>'>
-		<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='#fff'; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none';" cellpadding='3' cellspacing='3' height='10' width='10' valign='top'>
+		<table <?= $idvar ?> style='border: 1px solid #<?= $skincolor ?>; cursor: pointer' onmouseover="getElementById('aaid_<?= $name ?>').style.textDecoration='none'; this.style.backgroundColor='#fff'; this.style.border='1px solid #<?= $skincolor ?>';" onmouseout="this.style.border='1px solid #<?= $skincolor ?>'; this.style.backgroundColor=''; getElementById('aaid_<?= $name ?>').style.textDecoration='none';" cellpadding='3' cellspacing='3' height='10' width='10' valign='top'>
 			<tr>
-				<td valign='top' align='center'> <?= $imgvar ?> </td>
+				<td valign='top' align='center'><?= $imgvar ?></td>
 			</tr>
 			<tr valign='top' height='100%'>
 				<td width='10' align='center'><span title='<?= $alt ?>'><?= $displayvar ?></span></td>

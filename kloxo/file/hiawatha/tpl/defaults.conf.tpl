@@ -125,6 +125,7 @@ VirtualHost {
 <?php
 		}
 ?>
+	UseGZfile = yes
 	FollowSymlinks = no
 	
 	Hostname = 0.0.0.0

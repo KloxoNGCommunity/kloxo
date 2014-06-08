@@ -29,6 +29,9 @@ scavenge_main();
 	
 function scavenge_main() {
 	global $gbl, $sgbl, $login, $ghtml;
+
+	$starttime = time();
+
 	log_shell("Scavenge: Start");
 	initProgramlib('admin');
 	log_shell("Scavenge: Collect Traffic");
@@ -67,4 +70,15 @@ function scavenge_main() {
 	fix_all_mysql_root_password();
 	log_shell("Scavenge: Auto update Kloxo");
 	auto_update();
+
+	$endtime = time();
+
+	$subj = "Scavenge has completed";
+
+	$msg  = "Scavenge started: {$starttime}\n";
+	$msg .= "Scavenge completed: {$endtime}";
+
+	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg")) {
+		lx_mall(null, $login->contactemail, $subj, $msg);
+	}
 }

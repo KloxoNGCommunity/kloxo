@@ -122,6 +122,8 @@ class generalmisc_b extends Lxaclass
 	static $__desc_scavengeminute = array("", "", "Minute");
 	static $__desc_dpercentage = array("s", "", "disable_percentage");
 	static $__desc_dpercentage_v_110 = array("s", "", "disable_percentage");
+
+	static $__desc_sendmailflag = array("f", "", "scavenge_sendmail");
 }
 
 class General extends Lxdb
@@ -190,6 +192,12 @@ class General extends Lxdb
 		if (!$ret) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			throw new lxException("could_not_save_file");
+		}
+
+		if ($param['generalmisc_b-sendmailflag'] === 'on') {
+			touch("/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg");
+		} else {
+			unlink("/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg");
 		}
 
 		return $param;
@@ -412,6 +420,7 @@ class General extends Lxdb
 				unset($v[0]);
 				$vlist['generalmisc_b-scavengehour'] = array('s', $v);
 				$vlist['generalmisc_b-scavengeminute'] = array('s', array("0", "15", "30", "45"));
+				$vlist['generalmisc_b-sendmailflag'] = null;
 
 				break;
 
@@ -421,7 +430,7 @@ class General extends Lxdb
 				$vlist['selfbackupparam_b-rm_directory'] = null;
 				$vlist['selfbackupparam_b-rm_username'] = null;
 				$vlist['selfbackupparam_b-rm_password'] = array('m', '***');
-				//	$vlist['selfbackupparam_b-rm_last_number'] = null;
+			//	$vlist['selfbackupparam_b-rm_last_number'] = null;
 
 				break;
 

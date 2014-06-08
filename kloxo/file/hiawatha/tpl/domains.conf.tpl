@@ -253,6 +253,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = cp.<?php echo $domainname; ?>
@@ -308,6 +309,7 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $domainname; ?>
@@ -367,6 +369,7 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = cp.<?php echo $domainname; ?>
@@ -441,6 +444,7 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $domainname; ?>
@@ -459,6 +463,7 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $domainname; ?>
@@ -532,6 +537,7 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>
@@ -693,6 +699,7 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
@@ -800,6 +807,7 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
@@ -906,6 +914,7 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
@@ -954,6 +963,7 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
@@ -1023,6 +1033,7 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
@@ -1097,6 +1108,7 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
@@ -1169,6 +1181,7 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
@@ -1239,6 +1252,7 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	UseGZfile = yes
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>

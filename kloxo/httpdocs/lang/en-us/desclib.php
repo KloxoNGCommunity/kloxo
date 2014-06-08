@@ -1349,3 +1349,5 @@ $__description["max_input_vars"] = array("Max Input Vars");
 
 $__description["smtp_relay"] = array("SMTP relay");
 
+$__description["scavenge_sendmail"] = array("Send mail when scavenge completes");
+
