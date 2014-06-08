@@ -79,6 +79,6 @@ function scavenge_main() {
 	$msg .= "Scavenge completed: {$endtime}";
 
 	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg")) {
-		lx_mall(null, $login->contactemail, $subj, $msg);
+		lx_mail(null, $login->contactemail, $subj, $msg);
 	}
 }
