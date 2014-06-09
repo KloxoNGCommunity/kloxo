@@ -16,10 +16,6 @@ foreach ($certnamelist as $ip => $certname) {
 
 $defaultdocroot = "/home/kloxo/httpd/default";
 
-if ($indexorder) {
-	$indexorder = implode(', ', $indexorder);
-}
-
 // MR -- for future purpose, apache user have uid 50000
 // $userinfoapache = posix_getpwnam('apache');
 // $fpmportapache = (50000 + $userinfoapache['uid']);
@@ -28,13 +24,18 @@ $fpmportapache = 50000;
 
 UrlToolkit {
 	ToolkitID = findindexfile
-	Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
+<?php
+	$v2 = "";
+
+	foreach ($indexorder as $k => $v) {
+?>
+	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/<?php echo $v; ?>$2 Continue
 	RequestURI isfile Return
-	Match ^([^?]*)/index\.php(\?.*)?$ Rewrite $1/index.html$2 Continue
-	RequestURI isfile Return
-	Match ^([^?]*)/index\.html(\?.*)?$ Rewrite $1/index.htm$2 Continue
-	RequestURI isfile Return
-	Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
+<?php
+		$v2 = str_replace(".", "\.", $v);
+	}
+?>
+	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/$2 Continue
 }
 
 UrlToolkit {

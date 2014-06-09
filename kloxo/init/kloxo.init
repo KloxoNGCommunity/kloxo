@@ -44,14 +44,30 @@ php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
 sh /script/fixlxphpexe ${php_active}
 
 if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
-	phpcgi_file="/opt/${php_active}/custom/${php_active}-cgi.sh"
+	if [ -f /opt/${php_active}/custom/custom.${php_active}-cgi.sh ] ; then
+		phpcgi_file="/opt/${php_active}/custom/custom.${php_active}-cgi.sh"
+	else
+		phpcgi_file="/opt/${php_active}/custom/${php_active}-cgi.sh"
+	fi
 else
-	phpcgi_file="/opt/${php_active}/custom/${php_active}-fpm.sh"
+	if [ -f /opt/${php_active}/custom/custom.${php_active}-fpm.sh ] ; then
+		phpcgi_file="/opt/${php_active}/custom/custom.${php_active}-fpm.sh"
+	else
+		phpcgi_file="/opt/${php_active}/custom/${php_active}-fpm.sh"
+	fi
 fi
 
-phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
+if [ -f ${INIT_DIR}/custom.kloxo-php-fpm.conf ] ; then
+	phpcgi_conf="${INIT_DIR}/custom.kloxo-php-fpm.conf"
+else
+	phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
+fi
 
-phpcgi_ini="/opt/${php_active}/custom/${php_active}.ini"
+if [ -f /opt/${php_active}/custom/custom.${php_active}.ini ] ; then
+	phpcgi_ini="/opt/${php_active}/custom/custom.${php_active}.ini"
+else
+	phpcgi_ini="/opt/${php_active}/custom/${php_active}.ini"
+fi
 
 cd /usr/local/lxlabs/kloxo/httpdocs
 lxphp.exe -f ../init/changeport.php

@@ -30,7 +30,7 @@ scavenge_main();
 function scavenge_main() {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	$starttime = time();
+	$starttime = date('Y/m/d H:i:s', time());
 
 	log_shell("Scavenge: Start");
 	initProgramlib('admin');
@@ -71,7 +71,7 @@ function scavenge_main() {
 	log_shell("Scavenge: Auto update Kloxo");
 	auto_update();
 
-	$endtime = time();
+	$endtime = date('Y/m/d H:i:s', time());
 
 	$subj = "Scavenge has completed";
 

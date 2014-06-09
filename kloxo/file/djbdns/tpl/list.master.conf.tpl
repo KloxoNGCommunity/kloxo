@@ -3,7 +3,7 @@
 	$dirs = glob("{$path}/*");
 
 	$datadir = "/home/djbdns/tinydns/root";
-	$datafile = "/home/djbdns/tinydns/root/data";
+	$datafile = "{$datadir}/data";
 
 	exec("echo '' > {$datafile}");
 

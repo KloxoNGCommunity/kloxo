@@ -95,6 +95,9 @@ env[PATH] = /usr/local/bin:/usr/bin:/bin
 env[TMP] = /tmp
 env[TMPDIR] = /tmp
 env[TEMP] = /tmp
+env[OSTYPE] = $OSTYPE
+env[MACHTYPE] = $MACHTYPE
+env[MALLOC_CHECK_] = 2
 
 php_admin_value[zlib.output_compression] = <?php echo $output_compression_flag; ?>
 

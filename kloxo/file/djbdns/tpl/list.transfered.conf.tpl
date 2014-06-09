@@ -1,6 +1,8 @@
 <?php
 	if (array_keys($ip)) {
-		$file = "/home/djbdns/axfrdns/tcp";
+		$dir = "/home/djbdns/axfrdns";
+
+		$file = "{$dir}/tcp";
 
 		$text = implode(":allow\n", $ip);
 
@@ -8,7 +10,6 @@
 
 		file_put_contents($file, $text);
 
-		$dir = "/home/djbdns/axfrdns";
 		$nameduser = "axfrdns";
 
 		chown("{$dir}/data", $nameduser);
