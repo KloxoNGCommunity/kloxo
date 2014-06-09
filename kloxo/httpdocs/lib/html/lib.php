@@ -3326,7 +3326,7 @@ function copy_script($nolog = null)
 
 	log_cleanup("Initialize /script/ dir", $nolog);
 	log_cleanup("- Initialize processes", $nolog);
-
+/*
 	lxfile_tmp_rm_rec("/script");
 	lxfile_mkdir("/script");
 	lxfile_mkdir("/script/filter");
@@ -3343,6 +3343,11 @@ function copy_script($nolog = null)
 
 	lfile_put_contents("/script/programname", $sgbl->__var_program_name);
 	lxfile_unix_chmod_rec("/script", "0755");
+*/
+//	unlink("/script");
+//	symlink("/usr/local/lxlabs/kloxo/pscript", "/script");
+
+	exec("rm -rf /script; ln -sf /usr/local/lxlabs/kloxo/pscript /script");
 }
 
 function getAdminDbPass()

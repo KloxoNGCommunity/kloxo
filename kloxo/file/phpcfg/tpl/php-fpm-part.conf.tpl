@@ -1,6 +1,6 @@
 <?php
-	if (strpos($fpm_type, '52') !== false) {
-		if ($fpm_section === 'global') {
+    if (strpos($fpm_type, '52') !== false) {
+        if ($fpm_section === 'global') {
 ?>
     <section name="global_options">
         <value name="pid_file">/var/run/php-fpm.pid</value>
@@ -13,7 +13,13 @@
     </section>
 
 <?php
-		} else {
+        } else {
+            if ($maxchildren === 0) {
+?>
+        <!-- no pool for '<?php echo $user; ?>' user -->
+<?php
+    
+            } else {
 ?>
         <section name="pool">
             <value name="name"><?php echo $pool; ?></value>
@@ -53,9 +59,10 @@
         </section>
 
 <?php
-		}
-	} else {
-		if ($fpm_section === 'global') {
+            }
+        }
+    } else {
+        if ($fpm_section === 'global') {
 ?>
 [global]
 pid=/var/run/php-fpm/php-fpm.pid
@@ -75,7 +82,13 @@ daemonize=yes
 ;include=/home/phpcfg/fpm/pool/<?php echo $fpm_type; ?>*.conf
 
 <?php
-		} else {
+        } else {
+            if ($maxchildren === 0) {
+?>
+        ; no pool for '<?php echo $user; ?>' user
+<?php
+    
+            } else {
 ?>
 [<?php echo $pool; ?>]
 ;catch_workers_output = yes
@@ -173,7 +186,7 @@ php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
 php_admin_value[max_input_vars] = <?php echo $max_input_vars_flag; ?>
 
 <?php
-		}
-	}
+        }
+    }
 ?>
 

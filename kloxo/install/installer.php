@@ -911,7 +911,7 @@ function actionMysql($action)
 function copy_script()
 {
 	global $kloxopath;
-
+/*
 	print(">>> Copying scripts to /scripts path <<<\n");
 
 	system("mkdir -p /script/filter");
@@ -920,6 +920,12 @@ function copy_script()
 
 	file_put_contents("/script/programname", 'kloxo');
 	system("chmod 0775 /script");
+*/
+	print(">>> Symlink '{$kloxopath}/pscript' to '/script' path <<<\n");
+//	unlink("/script");
+//	symlink("{$kloxopath}/pscript", "/script");
+
+	exec("rm -rf /script; ln -sf {$kloxopath}/pscript /script");
 }
 
 function getKloxoType()
