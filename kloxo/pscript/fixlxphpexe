@@ -10,14 +10,14 @@ if [ "$1" != "" ] ; then
 		echo "Need install with sh '/script/${base_name}-installer' not exists"
 		exit
 	else
-		echo "${base_name}" > ${INIT_DIR}/php_active
+		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active
 	fi
 else
-	if [ -f ${INIT_DIR}/php_active ] ; then
-		base_name="$(cat ${INIT_DIR}/php_active)"
+	if [ -f ${INIT_DIR}/kloxo_php_active ] ; then
+		base_name="$(cat ${INIT_DIR}/kloxo_php_active)"
 	else
 		base_name="php53s"
-		echo "${base_name}" > ${INIT_DIR}/php_active
+		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active
 	fi
 fi
 

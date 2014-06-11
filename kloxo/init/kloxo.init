@@ -40,34 +40,22 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 ### 1. PHP-CGI portion
 
-php_active=$(cat /usr/local/lxlabs/kloxo/init/php_active)
+if [ -f /usr/local/lxlabs/kloxo/init/php_active ] ; then
+	mv -f /usr/local/lxlabs/kloxo/init/php_active /usr/local/lxlabs/kloxo/init/kloxo_php_active
+fi
+
+php_active=$(cat /usr/local/lxlabs/kloxo/init/kloxo_php_active)
 sh /script/fixlxphpexe ${php_active}
 
 if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
-	if [ -f /opt/${php_active}/custom/custom.${php_active}-cgi.sh ] ; then
-		phpcgi_file="/opt/${php_active}/custom/custom.${php_active}-cgi.sh"
-	else
-		phpcgi_file="/opt/${php_active}/custom/${php_active}-cgi.sh"
-	fi
+	phpcgi_file="/opt/${php_active}/custom/${php_active}-cgi.sh"
 else
-	if [ -f /opt/${php_active}/custom/custom.${php_active}-fpm.sh ] ; then
-		phpcgi_file="/opt/${php_active}/custom/custom.${php_active}-fpm.sh"
-	else
-		phpcgi_file="/opt/${php_active}/custom/${php_active}-fpm.sh"
-	fi
+	phpcgi_file="/opt/${php_active}/custom/${php_active}-fpm.sh"
 fi
 
-if [ -f ${INIT_DIR}/custom.kloxo-php-fpm.conf ] ; then
-	phpcgi_conf="${INIT_DIR}/custom.kloxo-php-fpm.conf"
-else
-	phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
-fi
+phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
 
-if [ -f /opt/${php_active}/custom/custom.${php_active}.ini ] ; then
-	phpcgi_ini="/opt/${php_active}/custom/custom.${php_active}.ini"
-else
-	phpcgi_ini="/opt/${php_active}/custom/${php_active}.ini"
-fi
+phpcgi_ini="/opt/${php_active}/custom/${php_active}.ini"
 
 cd /usr/local/lxlabs/kloxo/httpdocs
 lxphp.exe -f ../init/changeport.php

@@ -139,27 +139,27 @@ env[OSTYPE] = $OSTYPE
 env[MACHTYPE] = $MACHTYPE
 env[MALLOC_CHECK_] = 2
 
-php_admin_value[zlib.output_compression] = <?php echo $output_compression_flag; ?>
+php_flag[zlib.output_compression] = <?php echo $output_compression_flag; ?>
 
 php_admin_value[disable_functions] = <?php echo $disable_functions; ?>
 
-php_admin_value[display_errors] = <?php echo $display_error_flag; ?>
+php_flag[display_errors] = <?php echo $display_error_flag; ?>
 
-php_admin_value[file_uploads] = <?php echo $file_uploads_flag; ?>
+php_flag[file_uploads] = <?php echo $file_uploads_flag; ?>
 
 php_admin_value[upload_max_filesize] = <?php echo $upload_max_filesize; ?>
 
-php_admin_value[log_errors] = <?php echo $log_errors_flag; ?>
+php_flag[log_errors] = <?php echo $log_errors_flag; ?>
 
-php_admin_value[output_buffering] = <?php echo $output_buffering_flag; ?>
+php_flag[output_buffering] = <?php echo $output_buffering_flag; ?>
 
-php_admin_value[register_argc_argv] = <?php echo $register_argc_argv_flag; ?>
+php_flag[register_argc_argv] = <?php echo $register_argc_argv_flag; ?>
 
-;<?php echo $php54disable; ?>php_admin_value[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
+;<?php echo $php54disable; ?>php_flag[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
 
-;<?php echo $php54disable; ?>php_admin_value[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
+;<?php echo $php54disable; ?>php_flag[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
 
-php_admin_value[mysql.allow_persistent] = <?php echo $mysql_allow_persistent_flag; ?>
+php_flag[mysql.allow_persistent] = <?php echo $mysql_allow_persistent_flag; ?>
 
 php_admin_value[max_execution_time] = <?php echo $max_execution_time_flag; ?>
 
@@ -169,17 +169,17 @@ php_admin_value[memory_limit] = <?php echo $memory_limit_flag; ?>
 
 php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
 
-php_admin_value[allow_url_fopen] = <?php echo $allow_url_fopen_flag; ?>
+php_flag[allow_url_fopen] = <?php echo $allow_url_fopen_flag; ?>
 
-php_admin_value[allow_url_include] = <?php echo $allow_url_include_flag; ?>
+php_flag[allow_url_include] = <?php echo $allow_url_include_flag; ?>
 
 php_admin_value[session.save_path] = <?php echo $session_save_path_flag; ?>
 
-php_admin_value[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
+php_flag[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
 
-;<?php echo $php54disable; ?>php_admin_value[safe_mode] = <?php echo $safe_mode_flag; ?>
+;<?php echo $php54disable; ?>php_flag[safe_mode] = <?php echo $safe_mode_flag; ?>
 
-php_admin_value[enable_dl] = <?php echo $enable_dl_flag; ?>
+php_flag[enable_dl] = <?php echo $enable_dl_flag; ?>
 
 php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
 
