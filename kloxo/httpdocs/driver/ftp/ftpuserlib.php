@@ -1,6 +1,5 @@
 <?php
 
-
 class ftpuser extends Lxclient
 {
 	static $__table = 'ftpuser';
@@ -19,12 +18,14 @@ class ftpuser extends Lxclient
 
 	function createExtraVariables()
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
 		$parent = $this->getParentO();
 
 		$this->__var_username = $parent->username;
 
 		if ($parent->isClass('client')) {
-			$this->__var_full_directory = "__path_customer_root/{$parent->getPathFromName()}/{$this->directory}";
+			$this->__var_full_directory = "$sgbl->__path_customer_root/{$parent->getPathFromName()}/{$this->directory}";
 		} else {
 			$this->customer_name = $parent->customer_name;
 
@@ -34,7 +35,6 @@ class ftpuser extends Lxclient
 		}
 	}
 
-
 	static function createListAlist($parent, $class)
 	{
 		$alist[] = "a=list&c=$class";
@@ -43,7 +43,6 @@ class ftpuser extends Lxclient
 		
 		return $alist;
 	}
-
 
 	static function add($parent, $class, $param)
 	{
@@ -152,8 +151,8 @@ class ftpuser extends Lxclient
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = 'a=show';
-	//  $alist['property'][] = "o=sp_specialplay&a=updateform&sa=skin";
-	//  $alist['property'][] = "a=updateform&sa=password";
+	//	$alist['property'][] = "o=sp_specialplay&a=updateform&sa=skin";
+	//	$alist['property'][] = "a=updateform&sa=password";
 	}
 
 	function createShowAlist(&$alist, $subaction = null)
