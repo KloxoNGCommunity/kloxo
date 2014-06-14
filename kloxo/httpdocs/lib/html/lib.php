@@ -3085,7 +3085,8 @@ function se_submit($contact, $dom, $email)
 
 	lunlink($tmpfile);
 
-	lx_mail("kloxo", $contact, "Search Submission Info", $var);
+//	lx_mail("kloxo", $contact, "Search Submission Info", $var);
+	callInBackground("lx_mail", array(null, $contact, "Search Submission Info", $var));
 
 	lfile_put_contents("/tmp/mine", $var);
 }
@@ -4392,7 +4393,8 @@ function checkClusterDiskQuota()
 	dprint("\n");
 
 	if ($mess) {
-		lx_mail(null, $login->contactemail, "Filesystem Warning", $mess);
+	//	lx_mail(null, $login->contactemail, "Filesystem Warning", $mess);
+		callInBackground("lx_mail", array(null, $login->contactemail, "Filesystem Warning", $mess));
 	}
 
 	lxfile_generic_chown("..", "lxlabs");

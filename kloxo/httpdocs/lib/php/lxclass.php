@@ -4789,9 +4789,13 @@ abstract class Lxclass
 					if (!$sgbl->__var_just_db) {
 						$msg = "Warning: The Account {$this->nname} is using {$per}% of quota for {$var}.\n Limit: " .
 							"{$this->priv->$var}\nUsed: {$this->used->$var}\n";
-						$this->notifyAll($msg, false);
+
+						if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/disablesendnotifyforquota.flg")) {
+							$this->notifyAll($msg, false);
+						}
 					}
 				}
+
 				if ($this->disable_per && !$this->isOff('disable_per') && $per > $this->disable_per) {
 					dprint("In {$this->nname} {$var} rexceeded... \n");
 					$rexceeded = true;
@@ -4806,7 +4810,9 @@ abstract class Lxclass
 			$msg = "The Account {$this->nname} has been disabled due to overquota";
 
 			if (!$sgbl->__var_just_db) {
-				$this->notifyAll($msg);
+				if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/disablesendnotifyforquota.flg")) {
+					$this->notifyAll($msg);
+				}
 			}
 
 			print("$msg\n");
