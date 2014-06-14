@@ -227,7 +227,7 @@ class Server_Alias_a extends Lxaclass
 		$this->setUpdateSubaction('subdomain');
 
 		// Validates value subdomain
-		if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
+		if (!preg_match("/^((([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])|\*)$/",
 				$this->nname)) {
 			throw new lxexception('invalid_server_alias', '', $this->nname);
 		}

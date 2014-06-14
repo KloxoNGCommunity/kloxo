@@ -38,6 +38,7 @@ class ftpuser__pureftp extends lxDriverClass {
 
 		$d = str_replace("/home/{$u}/", "", $this->main->__var_full_directory);
 
+	//	$c = db_get_count("web", "nname = '{$d}'");
 		$c = db_get_count("web", "customer_name = '{$u}' AND docroot = '{$d}'");
 
 		if ((int)$c !== 0) {
