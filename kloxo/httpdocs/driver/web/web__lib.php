@@ -145,7 +145,7 @@ class web__ extends lxDriverClass
 			// MR -- nginx from nginx.org also copy default.conf with listen 80
 			// it make nginx not start when webcache enable
 			lxfile_cp(getLinkCustomfile("/home/nginx/etc/conf.d", "default.conf"),
-				"/etc/nginx/conf.d/"default.conf");
+				"/etc/nginx/conf.d/default.conf");
 		} elseif ($a === 'hiawatha') {
 			$x = array('defaults/disable', '/defaults/cp', '/webmails/webmail');
 
