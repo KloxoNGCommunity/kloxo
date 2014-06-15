@@ -138,6 +138,8 @@ class General extends Lxdb
 	static $__desc_generalmisc_b = array("", "", "general");
 	static $__desc_text_maintenance_message = array("", "", "Message");
 
+	static $__desc_enable_cronforall = array("", "", "enable_cronforall");
+
 	static $__acdesc_update_multi = array("", "", "multiple_servers");
 	static $__acdesc_update_ssh_config = array("", "", "ssh_config");
 	static $__acdesc_update_npercentage = array("", "", "notify_policy");
@@ -266,17 +268,31 @@ class General extends Lxdb
 		return $param;
 	}
 
-	function postUpdate($subaction = null)
+	function postUpdate()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($subaction === 'generalsetting') {
+		// MR -- need ending process before next process
+		$this->was();
+
+		if ($this->subaction === 'generalsetting') {
 			exec("sh /script/fixweb --server=all --nolog");
 
 			$this->generalmisc_b->disableinstallapp = 'on';
 
-			system("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+			touch("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
 		}
+	}
+
+	function updateGeneralsetting($param)
+	{
+		if ($param['enable_cronforall'] === 'on') {
+			touch("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg");
+		} else {
+			unlink("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg");
+		}
+
+		return $param;
 	}
 
 	function updateform($subaction, $param)
@@ -376,7 +392,7 @@ class General extends Lxdb
 					$vlist['generalmisc_b-webstatisticsprogram'] = array('s', $list);
 
 					$this->generalmisc_b->disableinstallapp = 'on';
-					system("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+					touch("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
 				//	$vlist['generalmisc_b-disableinstallapp'] = 'on';
 
 					$list = lx_merge_good('--chooser--', mmail::getWebmailProgList());
@@ -387,7 +403,13 @@ class General extends Lxdb
 				$vlist['generalmisc_b-ticket_url'] = null;
 				$vlist['login_pre'] = null;
 
-				$this->postUpdate('generalsetting');
+				$this->enable_cronforall = null;
+
+				$vlist['enable_cronforall'] = array('f', array('on', 'off'));
+
+				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+					$this->setDefaultValue('enable_cronforall', 'on');
+				}
 
 				break;
 

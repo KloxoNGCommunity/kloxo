@@ -29,6 +29,8 @@ abstract class Lxclient extends Lxdb
 	static $__desc_disable_per = array("", "", "disable_when_usage_reaches_(percentage)_");
 
 	static $__desc_old_password_f = array("n", "", "old_password");
+
+	static $__desc_disable_notify = array("", "", "disable_notify");
 	
 	// Objects
 	static $__desc_general_o = array('', "", "Virtual", "");
@@ -742,8 +744,16 @@ abstract class Lxclient extends Lxdb
 					throw new lxException('you_cannot_set_your_own_limit', '');
 				}
 				
-				$vlist['disable_per'] = array('s', array('off', '95', '100', '110', '120', '130'));
-				
+				$vlist['disable_per'] = array('s', array('off', '95', '100', '110', '120', '130', '150', '175', '200', '300'));
+
+				$this->disable_notify = null;
+
+				$vlist['disable_notify'] = array('f', array('on', 'off'));
+
+				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/disablenotifyforquota.flg")) {
+					$this->setDefaultValue('disable_notify', 'on');
+				}
+
 				return $vlist;
 
 			case "miscinfo":
@@ -921,6 +931,17 @@ abstract class Lxclient extends Lxdb
 		// to which it is redirected, is empty. So if you are changing the login password, you can anyway redirect to 'show';
 		if ($this->isLogin()) {
 			$gbl->__this_redirect = '/display.php?frm_action=show';
+		}
+
+		return $param;
+	}
+
+	function updateDisable_per($param)
+	{
+		if ($param['disable_notify'] === 'on') {
+			touch('/usr/local/lxlabs/kloxo/etc/flag/disablenotifyforquota.flg');
+		} else {
+			unlink('/usr/local/lxlabs/kloxo/etc/flag/disablenotifyforquota.flg');
 		}
 
 		return $param;
