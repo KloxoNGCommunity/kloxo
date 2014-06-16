@@ -276,9 +276,9 @@ class pservercore extends Lxclient
 			$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
 		}
 
-		if (!db_get_value("serverweb", "pserver-" . $login->syncserver, "php_type")) {
+		if (!db_get_value("serverweb", "pserver-" . $this->syncserver, "php_type")) {
 			if (isWebProxyOrApache()) {
-				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set";
+				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set_pserver";
 			}
 		}
 

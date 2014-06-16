@@ -72,7 +72,8 @@ $__emessage['certificate_key_file_empty'] = "The certificate and the Key file yo
 $__emessage['document_root_may_not_contain_spaces'] = "The document root may not contain any space at the end or before the slash. Please check and submit again.";
 
 $__emessage['switch_program_not_set'] = "Need select services. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=switchprogram>[here]</url> to set it.";
-$__emessage['phptype_not_set'] = "Need select php-type. Click <url:o=serverweb&a=show>[here]</url> to set it.";
+$__emessage['phptype_not_set_pserver'] = "Need select php-type. Click <url:o=serverweb&a=show>[here]</url> to set it.";
+$__emessage['phptype_not_set_client'] = "Need select php-type. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=serverweb&a=show>[here]</url> to set it.";
 $__emessage['phpini_not_set_pserver'] = "Need update php.ini to make sure the website able to process php files. Click <url:o=phpini&a=show>[here]</url> to set it. The same way for 'slave' server";
 $__emessage['phpini_not_set_client'] = "Need update php.ini to make sure the website able to process php files. Click <url:o=phpini&a=show>[here]</url> to set it.";
 

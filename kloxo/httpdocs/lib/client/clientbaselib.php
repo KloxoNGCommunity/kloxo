@@ -231,7 +231,7 @@ class ClientBase extends ClientCore
 			}
 
 			if (!db_get_value("serverweb", "pserver-" . $this->syncserver, "php_type")) {
-				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set";
+				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set_client";
 			}
 		}
 
