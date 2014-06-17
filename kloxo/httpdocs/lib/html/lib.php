@@ -1520,6 +1520,9 @@ function validate_ipaddress($ip)
 	} else {
 		return 0;
 	}
+
+	// MR -- 'new' validate
+//	return inet_pton($ip);
 }
 
 function make_sure_directory_is_lxlabs($file)
