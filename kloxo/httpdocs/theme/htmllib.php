@@ -7758,13 +7758,28 @@ class HtmlLib
 					}
 				}
 
-				include("theme/fckeditor/fckeditor_php5.php");
+				if (file_exists("/usr/local/lxlabs/kloxo/httpdocs/theme/ckeditor/ckeditor.js")) {
+
+?>
+
+<script type="text/javascript" src="/theme/ckeditor/ckeditor.js"></script>
+<script>
+	CKEDITOR.replace( '<?=$variable->name;?>', {
+		customConfig: '/theme/ckeditor/ckeditor_config.js'
+	});
+</script>
+<textarea class="ckeditor" name="<?=$variable->name;?>"><?php echo $value; ?></textarea>
+<?php
+				} else {
+
+					include("theme/fckeditor/fckeditor.php");
 
 
-				$oFCKeditor = new FCKeditor($variable->name);
-				$oFCKeditor->BasePath = '/theme/fckeditor/';
-				$oFCKeditor->Value = $value;
-				$oFCKeditor->Create();
+					$oFCKeditor = new FCKeditor($variable->name);
+					$oFCKeditor->BasePath = '/theme/fckeditor/';
+					$oFCKeditor->Value = $value;
+					$oFCKeditor->Create();
+				}
 
 				break;
 			case "textarea":

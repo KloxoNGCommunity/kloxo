@@ -346,7 +346,7 @@ function kloxo_install_step1()
 
 		$list = implode(" ", $packages);
 
-		system("yum -y install $list");
+		system("yum -y install $list; rkhunter --update");
 
 		print(">>> Adding Standard PHP components and Hiawatha <<<\n");
 		// MR -- xcache, zend, ioncube, suhosin and zts not default install
