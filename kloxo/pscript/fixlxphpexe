@@ -13,6 +13,10 @@ if [ "$1" != "" ] ; then
 		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active
 	fi
 else
+	if [ -f ${INIT_DIR}/php_active ] ; then
+		mv -f ${INIT_DIR}/php_active ${INIT_DIR}/kloxo_php_active
+	fi
+
 	if [ -f ${INIT_DIR}/kloxo_php_active ] ; then
 		base_name="$(cat ${INIT_DIR}/kloxo_php_active)"
 	else
