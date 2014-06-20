@@ -84,6 +84,9 @@ class ServerMail extends lxdb
 
 	function postUpdate($subaction = null)
 	{
+		// We need to write because reads everything from the database.
+		$this->write();
+
 		if ($subaction === 'update') {
 			//
 		}

@@ -78,6 +78,9 @@ class Domaind extends DomainBase
 //	static $__desc_lxbackup_o = array('d', '', '', '');
 
 	static $__desc_ftpuser_o = array('d', '', '', '');
+	static $__desc_phpini_o = array('d', '', '', '');
+
+	static $__desc_pserver_o = array('', '', '', '');
 
 	// Lists
 //	static $__desc_domain_l = array("qvd", "",  "virtual_object");
@@ -549,6 +552,9 @@ class Domaind extends DomainBase
 
 	function postUpdate()
 	{
+		// We need to write because reads everything from the database.
+		$this->write();
+
 		// The lxclient postupdate which checks for change of skin...
 		parent::postUpdate();
 	}
@@ -1421,9 +1427,10 @@ class Domaind extends DomainBase
 			}
 		}
 */
-		$php = $this->getParentO()->getObject('phpini');
+	//	$php = $this->getParentO()->getObject('phpini');
 
-		if ($php->phpini_flag_b->multiple_php_flag === 'on') {
+	//	if ($php->phpini_flag_b->multiple_php_flag === 'on') {
+		if (file_exists('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg')) {
 			$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
 		}
 

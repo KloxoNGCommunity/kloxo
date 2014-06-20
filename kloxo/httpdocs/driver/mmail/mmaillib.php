@@ -427,13 +427,9 @@ class Mmail extends Lxdb
 
 	function postUpdate()
 	{
-		// MR -- still have a problem - need click 2 times for 'update'/'update all' button
-		// just single make kloxo recreate webserver config with reference to 'old' state!
-
-	//	if ($this->subaction === 'remotelocalmail' || $this->subaction === 'webmail_select') {
-	//		$this->fixWebmailRedirect();
-	//	}
-
+		// We need to write because reads everything from the database.
+		$this->write();
+		
 		if ($this->subaction === 'remotelocalmail' || $this->subaction === 'webmail_select') {
 			$web = $this->getParentO()->getObject('web');
 

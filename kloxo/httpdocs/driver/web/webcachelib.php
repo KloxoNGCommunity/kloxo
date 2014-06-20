@@ -30,5 +30,7 @@ class WebCache extends LxDriverClass
 
 	function postUpdate()
 	{
+		// We need to write because reads everything from the database.
+		$this->write();
 	}
 }

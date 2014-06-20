@@ -270,10 +270,8 @@ class General extends Lxdb
 
 	function postUpdate()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		// MR -- need ending process before next process
-		$this->was();
+		// We need to write because reads everything from the database.
+		$this->write();
 
 		if ($this->subaction === 'generalsetting') {
 			exec("sh /script/fixweb --server=all --nolog");

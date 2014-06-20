@@ -88,8 +88,6 @@ class phpini extends lxdb
 
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass()  === 'pserver') {
-			$list[] = 'multiple_php_ready';
-
 			$list[] = 'multiple_php_flag';
 
 			$flag = (isset($this->phpini_flag_b->multiple_php_flag)) ?
@@ -99,23 +97,11 @@ class phpini extends lxdb
 				$list[] = 'multiple_php_ratio';
 			}
 		} else {
-			$sa=$login->getList('pserver');
-
-			foreach ($sa as $s) {
-				if ($s->nname === $this->syncserver) {
-					$flag = (isset($s->getObject('phpini')->phpini_flag_b->multiple_php_flag)) ?
-						$s->getObject('phpini')->phpini_flag_b->multiple_php_flag : 'off';
-				}
-			}
-
-			if ($flag === 'on') {
-			//	if (!$this->getParentO()->is__table('web')) {
-				if ($this->getParentO()->getClass() !== 'web') {
-					$list[] = 'multiple_php_ready';
-					$list[] = 'multiple_php_ratio';
-				} else {
-					$list[] = 'php_selected';
-				}
+		//	if (!$this->getParentO()->is__table('web')) {
+			if ($this->getParentO()->getClass() !== 'web') {
+				$list[] = 'multiple_php_ratio';
+			} else {
+				$list[] = 'php_selected';
 			}
 		}
 
@@ -235,7 +221,10 @@ class phpini extends lxdb
 	function createShowPropertyList(&$alist)
 	{
 		$alist['property'][] = 'a=show';
-		$alist['property'][] = 'a=updateform&sa=extraedit';
+
+		if ($this->getParentO()->getClass() !== 'web') {
+			$alist['property'][] = 'a=updateform&sa=extraedit';
+		}
 	}
 
 
@@ -250,27 +239,16 @@ class phpini extends lxdb
 	{
 		global $login;
 
-		$l = $login->getList('pserver');
+		$a = array('52', '53', '54', '55', '56');
 
-		foreach ($l as $s) {
-			if ($s->nname === $this->syncserver) {
-				$php = $s->getObject('phpini');
-				break;
-			}
-		}
-
-		$a = array('52', '53', '54', '55');
+		$e[] = false;
 
 		foreach ($a as $k => $v) {
 			if (file_exists("/opt/php{$v}m/usr/bin/php")) {
-			//	$p[] = '+php' . $v . 'm';
-				$p[] = '+' . $v . 'm';
+				$p[] = 'php' . $v . 'm';
 				$e[] = true;
-			} else {
-			//	$p[] = '-php' . $v . 'm';
-				$p[] = '-' . $v . 'm';
-				$e[] = false;
 			}
+
 		}
 
 		if (!isset($e)) {
@@ -288,6 +266,12 @@ class phpini extends lxdb
 
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
+
+		if ($this->phpini_flag_b->multiple_php_flag === 'on') {
+			touch('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
+		} else {
+			unlink('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
+		}
 
 	//	$this->setPhpModuleUpdate();
 
@@ -334,10 +318,17 @@ class phpini extends lxdb
 
 		$parent = $this->getParentO();
 
+		$list = $this->get_multiple_php_list();
+
+		if ($parent->getClass() !== 'web') {
+			if ($subaction !== 'extraedit') {
+				$vlist["phpini_flag_b-multiple_php_ready"] = array('M', implode(" ", $list));
+			}
+		}
+
 		if ($subaction === 'extraedit') {
 			$totallist = $this->getExtraList();
-		} 
-		else {
+		} else {
 			$totallist = $this->getLocalList();
 		}
 
@@ -350,8 +341,7 @@ class phpini extends lxdb
 			//	if ((!$parent->is__table('pserver') && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
 				if (($parent->getClass() !== 'pserver' && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
 					$vlist["phpini_flag_b-$l"] = array('M', null);
-				} 
-				else {
+				} else {
 					$vlist["phpini_flag_b-$l"] = null;
 				}
 			}
@@ -366,7 +356,8 @@ class phpini extends lxdb
 			foreach ($l as $k => $v) {
 				if (strpos($v, '-') !== false) { continue; }
 
-				$f[] = 'php' . str_replace('+', '', $v);
+			//	$f[] = 'php' . str_replace('+', '', $v);
+				$f[] = $v;
 			}
 
 			$vlist['php_selected'] = array("s", $f);
@@ -440,10 +431,6 @@ class phpini extends lxdb
 
 		$this->initialValue('multiple_php_ratio', $php_ratio);
 
-		$list = $this->get_multiple_php_list();
-
-		$this->initialValue('multiple_php_ready', implode(" ", $list));
-
 		$this->initialValue('max_input_vars_flag', '3000');
 	}
 
@@ -451,31 +438,8 @@ class phpini extends lxdb
 	{
 		global $login;
 
-		$parent = $this->getParentO();
-
 		if (!isset($this->phpini_flag_b->$var) || !$this->phpini_flag_b->$var) {
-		//	if ($parent->is__table('pserver')) {
-			if ($parent->getClass() === 'pserver') {
-				$this->phpini_flag_b->$var = $val;
-			} else {
-				if ($login->isCustomer()) {
-					$this->phpini_flag_b->$var = $parent->phpini_flag_b->$var;
-				} else {
-					$slist = $login->getList('pserver');
-
-					foreach ($slist as $k => $v) {
-						if ($v->nname === $this->syncserver) {
-							$s = $v;
-							break;
-						}
-					}
-
-					$p = $s->getObject('phpini');
-					$this->phpini_flag_b->$var = $p->phpini_flag_b->$var;
-
-				}
-			}
-
+			$this->phpini_flag_b->$var = $val;
 		}
 	}
 

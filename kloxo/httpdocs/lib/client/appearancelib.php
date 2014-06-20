@@ -292,6 +292,9 @@ class sp_basespecialplay extends LxspecialClass
 		// It is supposed to be handled by the display.php, but since this is a single case, i am doing it here...
 		global $gbl, $sgbl, $login, $ghtml;
 
+		// We need to write because reads everything from the database.
+		$this->write();
+
 		$gbl->setSessionV('show_lpanel', $login->getSpecialObject('sp_specialplay')->show_lpanel);
 		$gbl->setSessionV('show_help', $login->getSpecialObject('sp_specialplay')->show_help);
 

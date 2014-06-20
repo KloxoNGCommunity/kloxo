@@ -3,18 +3,18 @@
 class ndskshortcut extends lxdb
 {
 	static $__desc = array("e", "",  "favorite");
-	static $__desc_nname  	 = array("nS", "",  "link");
-	static $__desc_url  	 = array("nS", "",  "link");
-	static $__desc_ddate  	 = array("n", "",  "date");
-	static $__desc_description  	 = array("n", "",  "description", "a=show");
-	static $__desc_separatorid  	 = array("n", "",  "separatorid");
-	static $__desc_sortid  	 = array("n", "",  "sortid", "a=show");
-	static $__desc_ttype  	 = array("n", "",  "type");
-	static $__desc_ttype_v_separator  	 = array("n", "",  "separator");
-	static $__desc_ttype_v_favorite  	 = array("n", "",  "favorite");
-	static $__desc_external  	 = array("nS", "",  "description");
-	static $__desc_default_description  	 = array("nS", "",  "default_description");
-	static $__acdesc_list  	 = array("nS", "",  "edit_favorites", "a=show");
+	static $__desc_nname	= array("nS", "",  "link");
+	static $__desc_url = array("nS", "",  "link");
+	static $__desc_ddate	= array("n", "",  "date");
+	static $__desc_description = array("n", "",  "description", "a=show");
+	static $__desc_separatorid = array("n", "",  "separatorid");
+	static $__desc_sortid = array("n", "",  "sortid", "a=show");
+	static $__desc_ttype = array("n", "",  "type");
+	static $__desc_ttype_v_separator = array("n", "",  "separator");
+	static $__desc_ttype_v_favorite = array("n", "",  "favorite");
+	static $__desc_external = array("nS", "",  "description");
+	static $__desc_default_description = array("nS", "",  "default_description");
+	static $__acdesc_list = array("nS", "",  "edit_favorites", "a=show");
 
 	function getId() { return $this->display('description'); }
 
@@ -25,7 +25,7 @@ class ndskshortcut extends lxdb
 	static function createListAlist($parent, $class)
 	{
 		$alist[] = "a=list&c=$class";
-	//  $alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=favorite";
+	//	$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=favorite";
 		$alist[] = "a=addform&c=$class&dta[var]=ttype&dta[val]=separator";
 
 		return $alist;
@@ -42,7 +42,10 @@ class ndskshortcut extends lxdb
 
 	function postUpdate()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $gbl;
+
+		// We need to write because reads everything from the database.
+		$this->write();
 
 		$gbl->setSessionV("__refresh_lpanel", true);
 	}

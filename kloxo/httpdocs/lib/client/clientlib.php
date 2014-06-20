@@ -55,6 +55,7 @@ class Client extends ClientBase
 	static $__desc_ftpsession_l = array("", "", "");
 	static $__desc_dbadmin_l = array("", "", "");
 	static $__desc_phpini_o = array("db", "", "");
+//	static $__desc_pserver_o = array("db", "", "");
 
 	function isSync()
 	{

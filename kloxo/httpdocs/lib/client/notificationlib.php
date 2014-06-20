@@ -36,6 +36,9 @@ class Notification  extends LxspecialClass
 
 	function postUpdate()
 	{
+		// We need to write because reads everything from the database.
+		$this->write();
+
 		$this->class_list = explode(",", $this->class_list);
 	}
 

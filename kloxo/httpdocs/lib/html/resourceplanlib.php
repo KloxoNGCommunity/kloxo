@@ -55,7 +55,6 @@ class resourceplan extends resourcecore
 		}
 	}
 
-
 	static function createListAlist($parent, $class)
 	{
 		$alist[] = "a=list&c=$class";
@@ -77,7 +76,6 @@ class resourceplan extends resourcecore
 		
 		return $param;
 	}
-
 
 	final function updateIpaddress($param)
 	{
@@ -131,12 +129,14 @@ class resourceplan extends resourcecore
 
 	function postUpdate()
 	{
+		// We need to write because reads everything from the database.
+		$this->write();
+
 		if ($this->subaction === 'changerealname') { return; }
 		if ($this->subaction === 'copyplan') { return; }
 
 		$list = $this->getAccountList();
 		$qparent = $this->getParentO();
-		$this->write();
 
 		foreach($list as $class => $l) {
 			foreach($l as $k => $v) {

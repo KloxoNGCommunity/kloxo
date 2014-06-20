@@ -127,6 +127,9 @@ class Spam extends Lxdb
 
 	function postUpdate()
 	{
+		// We need to write because the fixphpini reads everything from the database.
+		$this->write();
+
 		$parent = $this->getTrueParentO();
 
 	//	if ($parent->is__table('mmail')) {
