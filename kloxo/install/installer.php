@@ -362,9 +362,8 @@ function kloxo_install_step1()
 		system("yum -y install $list");
 
 		print(">>> Adding Kloxo-MR webmail/thirparty/stats <<<\n");
-		// MR -- install kloxomr specific rpms; 6.5.1 no need addon becuase include
 		$packages = array("kloxomr-webmail-*.noarch",
-			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch"
+			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-addon-ckeditor.noarch"
 		);
 
 		$list = implode(" ", $packages);

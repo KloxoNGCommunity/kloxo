@@ -6236,7 +6236,7 @@ function setInitialServer($nolog = null)
 //		"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "hiawatha"
 //	);
 
-	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "hiawatha");
+	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", , "kloxomr-addon-ckeditor.noarch", "hiawatha");
 
 	$list = implode(" ", $packages);
 
