@@ -363,7 +363,7 @@ function kloxo_install_step1()
 
 		print(">>> Adding Kloxo-MR webmail/thirparty/stats <<<\n");
 		$packages = array("kloxomr-webmail-*.noarch",
-			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-addon-ckeditor.noarch"
+			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch"
 		);
 
 		$list = implode(" ", $packages);

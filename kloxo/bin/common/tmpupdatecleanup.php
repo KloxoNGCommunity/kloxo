@@ -85,7 +85,7 @@ function updatecleanup_main()
 		"pure-ftpd* *-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",
 		"kloxomr-thirdparty-*.noarch",
-		"kloxomr-addon-ckeditor.noarch"
+		"kloxomr-editor-*.noarch"
 	);
 
 	setUpdateServices($slist);
