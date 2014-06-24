@@ -1,9 +1,9 @@
 <?php
 
-// Core
-
 class Mailaccount__Qmail extends lxDriverClass
 {
+	// Core
+
 	static function Mailaccdisk_usage($accname)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -20,7 +20,7 @@ class Mailaccount__Qmail extends lxDriverClass
 
 	function syncUseradd()
 	{
-		global $gbl, $sgbl, $ghtml;
+		global $gbl, $sgbl, $ghtml, $login;
 
 		global $global_shell_error;
 
@@ -40,8 +40,7 @@ class Mailaccount__Qmail extends lxDriverClass
 			// --- Issue #702 - Error 'mailaccount_add_failed' when add email account
 			// REVERT -- back to previous
 			if (!csb($this->main->nname, "postmaster")) {
-			//	throw new lxException("mailaccount_add_failed", "nname", $global_shell_error);
-				throw new lxException("mailaccount_add_failed", "", $domain);
+				throw new lxException($login->getThrow("mailaccount_add_failed"), '', $this->main->nname);
 			}
 		}
 
@@ -229,8 +228,8 @@ class Mailaccount__Qmail extends lxDriverClass
 
 		if (csb($mailpath, "domain") && cse($mailpath, "exist")) {
 			dprint("Got a non-existent Domain $mailpath\n");
+
 			return;
-			//throw new lxException("domain_doesnt_exist", '');
 		}
 
 		$sys_path = "$mailpath/{$quser[0]}";

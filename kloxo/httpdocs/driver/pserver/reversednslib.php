@@ -73,7 +73,7 @@ class reversedns extends Lxdb
 		$revc = $login->getObject('general')->reversedns_b;
 
 		if (!$revc->dns_slave_list) {
-			throw new lxexception("dns_params_not_configured", '', "");
+			throw new lxException($login->getThrow("dns_params_not_configured"));
 		}
 
 		$this->syncserver = implode(",", $revc->dns_slave_list);
@@ -146,8 +146,10 @@ class all_reversedns extends reversedns
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if (!$parent->isAdmin()) {
-			throw new lxexception("only_admin_can_access", '', "");
+			throw new lxException($login->getThrow("only_admin_can_access"));
 		}
 
 		return "__v_table";

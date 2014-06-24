@@ -60,6 +60,8 @@ class SuperClient extends ClientBase
 
 	function changeAdminPass()
 	{
+		global $login;
+
 		if ($this->main->nname === 'admin') {
 			$newp = client::createDbPass($this->main->realpass);
 
@@ -70,7 +72,7 @@ class SuperClient extends ClientBase
 				log_log("admin_error", "mysql change password Failed . $out");
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException ("could_not_change_admin_pass", '');
+				throw new lxException($login->getThrow("could_not_change_admin_pass"));
 			}
 
 			$return = lfile_put_contents("__path_admin_pass", $newp);
@@ -79,13 +81,15 @@ class SuperClient extends ClientBase
 				log_log("admin_error", "Admin pass change failed  $last_error");
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException ("could_not_change_admin_pass", '');
+				throw new lxException($login->getThrow("could_not_change_admin_pass"));
 			}
 		}
 	}
 
 	function changeSuperAdminPass()
 	{
+		global $login;
+
 		if ($this->nname === 'superadmin') {
 			$oldpass = getAdminDbPass();
 
@@ -97,7 +101,7 @@ class SuperClient extends ClientBase
 				log_log("admin_error", "Admin pass change failed  $last_error");
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException ("could_not_change_superadmin_pass", '');
+				throw new lxException($login->getThrow("could_not_change_superadmin_pass"));
 			}
 
 			$sql = new Sqlite(null, "client");
@@ -109,7 +113,7 @@ class SuperClient extends ClientBase
 				log_log("admin_error", "mysqladmin Failed . $out");
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException ("could_not_change_superadmin_pass", '');
+				throw new lxException($login->getThrow("could_not_change_superadmin_pass"));
 			}
 		}
 	}

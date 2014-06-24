@@ -161,7 +161,6 @@ class Gbllib  extends Lxclass
 	function setSessionV($key, $value)
 	{
 		if (!isset($this->c_session)) {
-			//throw new lxexception ("Current Session Not Set");
 			return 0;
 		}
 

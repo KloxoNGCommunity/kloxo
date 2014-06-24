@@ -18,8 +18,10 @@ class Dnstemplate extends DnsBase
 
 	function update($subaction, $param)
 	{
+		global $login;
+
 		if ($this->getParentO()->getClName() !== $this->parent_clname) {
-			//throw new lxexception('template_not_owner', 'parent');
+			//throw new lxException($login->getThrow('template_not_owner'));
 		}
 		
 		return $param;
@@ -84,15 +86,17 @@ class Dnstemplate extends DnsBase
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		// issue #755 - creation of secondary mx entry at the dns template gives error
 		// only alphanumeric, dot and minus accepted --> like domain name
 
 		if (!preg_match("/^[^\W][0-9a-zA-Z-.]+[^\W]$/", $param['nname'])) {
-			throw new lxexception('invalid_char_in_template_name', 'nname');
+			throw new lxException($login->getThrow('invalid_char_in_template_name'), '', $param['nname']);
 		}
 
 		if (strlen($param['nname']) > 60) {
-			throw new lxException('template_name_over_char_limit', 'nname');
+			throw new lxException($login->getThrow('template_name_over_char_limit'), '', $param['nname']);
 		}
 
 		$param['nname'] = "{$param['nname']}.dnst";
@@ -108,6 +112,8 @@ class Dnstemplate extends DnsBase
 
 	static function addform($parent, $class, $typetd = null)
 	{
+		global $login;
+
 		$res = Dnsbase::getIpaddressList($parent);
 		
 		if (!$res) {
@@ -117,7 +123,7 @@ class Dnstemplate extends DnsBase
 		$res = Dnsbase::getIpaddressList($parent);
 		
 		if (!$res) {
-			throw new lxexception('no_ip_address', 'parent');
+			throw new lxException($login->getThrow('no_ip_address'));
 		}
 
 		$vlist['nname'] = null;

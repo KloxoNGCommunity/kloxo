@@ -361,7 +361,7 @@ class Client extends ClientBase
 			$pass = $dbad->dbpassword;
 			
 			if (if_demo()) {
-				//$pass = "demopass";
+			//	$pass = "demopass";
 			}
 			
 			$alist[] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass", 'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
@@ -797,11 +797,13 @@ class all_client extends client
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if ($parent->isAdmin()) {
 			return "__v_table";
 		//	return array('parent_cmlist', "LIKE", "'%,{$parent->getClName()},%'");
 		} else {
-			throw new lxexception("only_reseller_and_admin", '', "");
+			throw new lxException($login->getThrow("only_reseller_and_admin"), '', $parent->getClName());
 		//	return array('parent_cmlist', "LIKE", "'%,{$parent->getClName()},%'");
 		}
 	}

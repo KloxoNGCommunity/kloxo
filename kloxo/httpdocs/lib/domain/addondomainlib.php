@@ -45,10 +45,12 @@ class addondomain extends Lxdb
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		$param['nname'] = strtolower($param['nname']);
 
 		if (exists_in_db(null, 'domain', $param['nname'])) {
-			throw new lxException('domain_already_exists_as_virtual', 'nname', $param['nname']);
+			throw new lxException($login->getThrow('domain_already_exists_as_virtual'), '', $param['nname']);
 		}
 
 		validate_domain_name($param['nname']);
@@ -196,8 +198,10 @@ class all_addondomain extends addondomain
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if (!$parent->isAdmin()) {
-			throw new lxexception("only_admin_can_access", '', "");
+			throw new lxException($login->getThrow("only_admin_can_access"));
 		}
 
 		return "__v_table";

@@ -51,6 +51,8 @@ abstract class Lxclass
 
 	function __construct($masterserver, $readserver, $key)
 	{
+		global $login;
+
 		$key = trim($key);
 		// FIXME
 		$this->__virtual_list = array();
@@ -68,29 +70,29 @@ abstract class Lxclass
 
 		if (!csb($this->__class, "ffile") && !csb($this->__class, 'mailcontent')) {
 			if (char_search_a($key, ",")) {
-				throw new lxexception('name_cannot_contain_comma', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_comma'), '', $key);
 			}
 			if (char_search_a($key, "'")) {
-				throw new lxexception('name_cannot_contain_single_quote', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_single_quote'), '', $key);
 			}
 			if (char_search_a($key, ")")) {
-				throw new lxexception('name_cannot_contain_bracket', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_bracket'), '', $key);
 			}
 
 			if (char_search_a($key, "(")) {
-				throw new lxexception('name_cannot_contain_bracket', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_bracket'), '', $key);
 			}
 			if (char_search_a($key, "+")) {
-				throw new lxexception('name_cannot_contain_plus', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_plus'), '', $key);
 			}
 			if (char_search_a($key, "&")) {
-				throw new lxexception('name_cannot_contain_lessthan_greaterthan_or_and', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_lessthan_greaterthan_or_and'), '', $key);
 			}
 			if (char_search_a($key, "<")) {
-				throw new lxexception('name_cannot_contain_lessthan_greaterthan_or_and', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_lessthan_greaterthan_or_and'), '', $key);
 			}
 			if (char_search_a($key, ">")) {
-				throw new lxexception('name_cannot_contain_lessthan_greaterthan_or_and', 'nname');
+				throw new lxException($login->getThrow('name_can_not_contain_lessthan_greaterthan_or_and'), '', $key);
 			}
 		}
 
@@ -278,7 +280,7 @@ abstract class Lxclass
 
 		if ($login->isDemo()) {
 			if ($this->get__table() !== 'ssession') {
-				throw new lxexception('login_is_demo', '');
+				throw new lxException($login->getThrow('login_is_demo'));
 			}
 		}
 
@@ -331,16 +333,19 @@ abstract class Lxclass
 	function getCommandResource($resource)
 	{
 		return null;
+	/*
+		global $login;
 
 		$list = $this->getList($resource);
 
 		if (!$list) {
-			throw new lxexception('resource_doesnt_exist', '', $resource);
+			throw new lxException($login->getThrow('no_resourceplan'), '', $resource);
 		}
 
 		$array = get_namelist_from_objectlist($list);
 
 		return $array;
+	*/
 	}
 
 	static function switchDriver($class, $old, $new)
@@ -864,9 +869,11 @@ abstract class Lxclass
 
 	function checkNotSame($var, $list)
 	{
+		global $login;
+
 		foreach ($list as $l) {
 			if ($this->$l === $var[$l]) {
-				throw new lxexception('no_change', '');
+				throw new lxException($login->getThrow('no_change'), '', $var[$l]);
 			}
 		}
 	}
@@ -1796,6 +1803,8 @@ abstract class Lxclass
 
 	final function delFromList($class, $ll)
 	{
+		global $login;
+
 		if (cse($class, "_a")) {
 			$dellistvar = "__t_delete_{$class}_list";
 			//Calling this buggers update... the security checks r in there....
@@ -1820,7 +1829,7 @@ abstract class Lxclass
 				$obj = $this->getFromList($class, $l);
 
 				if (!$obj) {
-					throw new lxexception('object_doesnt_exist', '', $l);
+					throw new lxException($login->getThrow('no_object'), '', $l);
 				}
 
 				$obj->update("delete", null);
@@ -1850,6 +1859,8 @@ abstract class Lxclass
 
 	final function addToList($class, $object)
 	{
+		global $login;
+
 		if (cse($class, "_a")) {
 			$this->{$class}[$object->nname] = $object;
 			$newvvar = "__t_new_{$class}_list";
@@ -1871,7 +1882,7 @@ abstract class Lxclass
 		}
 
 		if (isset($this->{$list}[$object->nname])) {
-			throw new lxexception("{$object->nname} already exists in {$list} in {$this->nname}");
+			throw new lxException($login->getThrow("already exists"), '', "{$object->nname} in {$list} in {$this->nname}");
 		}
 
 		$this->{$list}[$object->nname] = $object;
@@ -2164,6 +2175,8 @@ abstract class Lxclass
 
 	final function getFromList($class, $name)
 	{
+		global $login;
+
 		if (cse($class, "_a")) {
 			return $this->{$class}[$name];
 		}
@@ -2193,7 +2206,7 @@ abstract class Lxclass
 
 		if (!isset($this->$list)) {
 			$this->$list = null;
-		//	throw new lxexception ("The " . get_class($this) . ":$list is NULL ");
+		//	throw new lxException($login->getThrow("class_is_null"), '', "{get_class($this)}:{$list}");
 		}
 
 		// Very important. If it is already set, then don't ever load it from the database.
@@ -2224,7 +2237,7 @@ abstract class Lxclass
 				$res = $db->getRowsGeneric($query);
 
 				if (!$res) {
-					throw new lxexception ("The Element {$name} Doesnt Exist in. {$this->getClass()}:{$this->nname} {$list}");
+					throw new lxException($login->getThrow("no_element"), '', "{$name} in {$this->getClass()}:{$this->nname} {$list}");
 				}
 
 				$obj = new $class($this->__masterserver, $this->__readserver, $name);
@@ -2238,7 +2251,7 @@ abstract class Lxclass
 
 			if (!$this->$list) {
 				$this->$list = null;
-			//	throw new lxexception ("The " . get_class($this) . ":$list is NULL ");
+			//	throw new lxException($login->getThrow("class_is_null"), '', "{get_class($this)}:{$list}");
 			}
 		}
 
@@ -2251,7 +2264,7 @@ abstract class Lxclass
 
 			return $this->{$list}[$name];
 		} else {
-			throw new lxexception ("The Element {$name} Doesnt Exist in. {$this->getClass()}:{$this->nname} {$list}");
+			throw new lxException($login->getThrow("no_element"), '', "{$name} in {$this->getClass()}:{$this->nname} {$list}");
 		}
 	}
 
@@ -2297,10 +2310,12 @@ abstract class Lxclass
 
 	function getPlanList()
 	{
+		global $login;
+
 		$planlist = $this->getList('resourceplan');
 
 		if (!$planlist) {
-			throw new lxException("no_plans_found", 'parent');
+			throw new lxException($login->getThrow("no_resourceplan"));
 		}
 
 		$planlist = get_namelist_from_objectlist($planlist);
@@ -2579,6 +2594,8 @@ abstract class Lxclass
 	// Not needed now. Was used for databases. but now onwards, the entire cluster single database naming.
 	function changeNnameRewrite()
 	{
+		global $login;
+
 		$rewrite = get_class_variable($this->get__table(), "__rewrite_nname_const");
 
 		if ($rewrite && array_search_bool("syncserver", $rewrite)) {
@@ -2591,7 +2608,7 @@ abstract class Lxclass
 			$res = $sql->getRowsWhere("nname = '{$this->nname}'");
 
 			if ($res) {
-				throw new lxException("{$this->nname}_already_exists");
+				throw new lxException($login->getThrow("already_exists"), '', $this->nname);
 			}
 		}
 	}
@@ -2816,7 +2833,7 @@ abstract class Lxclass
 
 				if ($this->syncserver && $this->isSync() && !csa($this->syncserver, ",")) {
 					if (!exists_in_db($this->__masterserver, 'pserver', $this->syncserver)) {
-						throw new lxException("server_{$this->syncserver}_doesnt_exist", '', $this->get__table());
+						throw new lxException($login->getThrow("no_syncserver"), '', $this->syncserver);
 					}
 				}
 
@@ -2925,7 +2942,7 @@ abstract class Lxclass
 
 						if ($ch->parent_clname !== $this->getClName()) {
 							print("Inconsistency detected... {$ch->get__table()}:{$ch->nname} under {$this->nname}... Parent {$ch->parent_clname} Hack attempt... exiting\n");
-							throw new lxException("inconsistency_in_backup_detected_parent_heirarchy_not_met", '', '');
+							throw new lxException($login->getThrow("inconsistency_in_backup_detected_parent_heirarchy_not_met"), '', $ch->parent_clname);
 						}
 
 						$ch->checkForConsistency($ctree, $trulist, $real);
@@ -2944,18 +2961,15 @@ abstract class Lxclass
 					$ch->__parent_o = $this;
 
 					if ($c === 'web_o') {
-						//print("Setting object parent of {$ch->getClName()} to {$this->getClName()}\n");
+					//	print("Setting object parent of {$ch->getClName()} to {$this->getClName()}\n");
 					}
 
 					$ch->fixIndividualParentName();
 
 					if (($ch->parent_clname !== $this->getClName()) && ($ch->nname !== $this->getClName()) &&
-						($ch->nname !== $this->getClName())
-					) {
+						($ch->nname !== $this->getClName())) {
 						print("Inconsistency detected... {$ch->nname} {$this->nname} {$ch->get__table()} Hack attempt...\n");
-
-						throw new lxException("Inconsistency detected... {$ch->nname} {$this->nname} " .
-							"{$ch->get__table()} Hack attempt... exiting\n");
+						throw new lxException($login->getThrow("inconsistency_in_backup_detected_parent_heirarchy_not_met"), '', $ch->nname);
 					}
 
 					$ch->checkForConsistency($ctree, $trulist, $real);
@@ -4297,22 +4311,25 @@ abstract class Lxclass
 
 	function checkIfEnoughParentQuota($parent)
 	{
+		global $login;
+
 		$class = $this->get__table();
 
 		$numvar = $class . "_num";
 
 		if (isQuotaGreaterThan($parent->used->$numvar + 1, $parent->priv->$numvar)) {
-			throw new lxexception('not_enough_quota_in_parent', $k);
+			throw new lxException($login->getThrow('not_enough_quota_in_parent'), '', $k);
 		}
 
 		$qlist = $this->getQuotaVariableList();
 
 		foreach ($qlist as $k => $q) {
 			if (isQuotaGreaterThan($this->priv->$k, $parent->priv->$k)) {
-				throw new lxexception('not_enough_quota_in_parent', $k);
+				throw new lxException($login->getThrow('not_enough_quota_in_parent'), '', $k);
 			}
+
 			if (isQuotaGreaterThan($parent->used->$k + $this->used->$k, $parent->priv->$k)) {
-				throw new lxexception('not_enough_quota_in_parent', $k);
+				throw new lxException($login->getThrow('not_enough_quota_in_parent'), '', $k);
 			}
 		}
 
@@ -4475,6 +4492,8 @@ abstract class Lxclass
 
 	function updateLimit($param)
 	{
+		global $login;
+
 		if_demo_throw_exception('limit');
 
 		log_log("ajax", var_export($param, true));
@@ -4484,7 +4503,7 @@ abstract class Lxclass
 		$gbl->__ajax_refresh = true;
 
 		if ($this->isLogin()) {
-			throw new lxException('cannot_change_own_limit', 'limit');
+			throw new lxException($login->getThrow('cannot_change_own_limit'));
 		}
 
 		$mstr = '(--Mod--)';
@@ -4532,8 +4551,9 @@ abstract class Lxclass
 		if ($t && csb($t, "__type")) {
 			$list = explode(":", $t);
 			$cttype = $list[2];
+
 			if ($login->isGt($cttype)) {
-				throw new lxexception('locked_by_parent', '');
+				throw new lxException($login->getThrow('locked_by_parent'));
 			}
 		}
 
@@ -5334,6 +5354,8 @@ abstract class Lxclass
 
 	function fix_syncserver_nname_problem()
 	{
+		global $login;
+
 		$rewrite = get_class_variable($this->get__table(), "__rewrite_nname_const");
 
 		if ($rewrite && array_search_bool("syncserver", $rewrite)) {
@@ -5350,7 +5372,7 @@ abstract class Lxclass
 			$res = $sql->getRowsWhere("nname = '{$newthis->nname}'");
 
 			if ($res) {
-				throw new lxException("changed_name_already_exists", $newthis->nname, "syncserver");
+				throw new lxException($login->getThrow("changed_name_already_exists"), '', $newthis->nname);
 			}
 
 			$this->__real_nname = $this->nname;
@@ -5499,7 +5521,7 @@ abstract class Lxclass
 
 		if (!lxfile_exists($fname)) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException('could_not_get_file', 'dbname', '');
+			throw new lxException($login->getThrow('could_not_get_file'), '', $fname);
 		}
 
 		$param['switchserverlist'] = null;
@@ -5531,12 +5553,14 @@ abstract class Lxclass
 
 	function updateRestore($param)
 	{
+		global $login;
+
 		$param['nothing'] = null;
 		$fname = $_FILES['restore_file_f']['tmp_name'];
 
 		if (!lxfile_exists($fname)) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException('could_not_get_file', 'dbname', '');
+			throw new lxException($login->getThrow('could_not_get_file'), '', $fname);
 		}
 
 		$res = cp_fileserv($fname);
@@ -5600,7 +5624,7 @@ abstract class Lxclass
 		// TODO!
 
 		if ($ob->getClName() !== $this->getClName()) {
-			throw new lxException('objectclassname_doesnt_match', '');
+			throw new lxException($login->getThrow('objectclassname_does_not_match'), '', "{$ob->getClName()} - {$this->getClName()}");
 		}
 
 
@@ -5655,7 +5679,7 @@ abstract class Lxclass
 		}
 
 		if ($ob->getClName() !== $this->getClName()) {
-			throw new lxException('objectclassname_doesnt_match', '');
+			throw new lxException($login->getThrow('objectclassname_does_not_match'), '', "{$ob->getClName()} - {$this->getClName()}");
 		}
 
 		$gbl->__var_serverlist = $param['switchserverlist'];

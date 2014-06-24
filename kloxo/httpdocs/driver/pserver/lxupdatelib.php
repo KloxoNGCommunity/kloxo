@@ -93,14 +93,16 @@ class Lxupdate extends lxClass
 
 	function updateLxupdateInfo()
 	{
-		if_demo_throw_exception();
+		global $login;
+
+		if_demo_throw_exception('lxupdate');
 
 		if (isUpdating()) {
 			throw new lxException("program_is_already_updating");
 		} else {
 			rl_exec_get($this->__masterserver, 'localhost', array('lxupdate', 'execUpdate'), null);
 
-			throw new lxException("update_scheduled");
+			throw new lxException($login->getThrow("update_scheduled"));
 		}
 	}
 
@@ -115,7 +117,7 @@ class Lxupdate extends lxClass
 		
 	/*
 		if (!$parent->isLocalhost('nname')) {
-			throw new lxException("slave_is_automatically_updated", $parent->nname);
+			throw new lxException($login->getThrow("slave_is_automatically_updated"), '', $parent->nname);
 		}
 	*/
 		

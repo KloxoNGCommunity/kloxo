@@ -24,6 +24,8 @@ class monitorport extends Lxdb
 
 	static function addform($parent, $class, $typetd = null)
 	{
+		global $login;
+
 		$standard_port = array("HTTP:80", "FTP:21", "SSH:22", "SMTP:25", "DNS:53", "POP3:110", "IMAP:143", "Mysql:3306");
 
 		$list = $parent->getList('monitorport');
@@ -46,7 +48,7 @@ class monitorport extends Lxdb
 		$clp = $parent->getClientParentO();
 		
 		if (!is_unlimited($clp->priv->monitorport_num) && $clp->used->monitorport_num >= $clp->priv->monitorport_num) {
-			throw new lxException("mon_port_exceeded", "nname");
+			throw new lxException($login->getThrow("monitoring_port_exceeded"));
 		}
 
 		$ret['variable'] = $vlist;

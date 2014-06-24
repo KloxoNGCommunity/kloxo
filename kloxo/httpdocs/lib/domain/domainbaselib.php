@@ -75,6 +75,8 @@ abstract class DomainBase extends DomainCore
 
 	static function getDnsTemplateList($parent)
 	{
+		global $login;
+
 		$res = $parent->dnstemplate_list;
 		dprintr($res);
 		
@@ -85,7 +87,7 @@ abstract class DomainBase extends DomainCore
 		}
 
 		if (!$res) {
-			throw new lxException("err_no_dns_template", '', '');
+			throw new lxException($login->getThrow("no_dns_template"));
 		}
 
 		return $res;

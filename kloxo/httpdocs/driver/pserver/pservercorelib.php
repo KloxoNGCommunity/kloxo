@@ -197,9 +197,11 @@ class pservercore extends Lxclient
 		if ($this->dbaction === 'delete') {
 			return;
 		}
+		
 		if ($this->dbaction === 'add') {
 			return;
 		}
+		
 		if_demo_throw_exception('pserver');
 
 		return $this->driverApp->dosyncToSystem();
@@ -292,6 +294,7 @@ class pservercore extends Lxclient
 
 	function getIpPool($totalneeded)
 	{
+		global $login;
 
 		if (!($totalneeded > 0)) {
 			return;
@@ -300,7 +303,7 @@ class pservercore extends Lxclient
 		$list = $this->getList('ippool');
 
 		if (!$list) {
-			throw new lxException("no_ippool_configured_for_this_slave", null, $this->nname);
+			throw new lxException($login->getThrow("no_ip_pool_configured_for_this_slave"), null, $this->nname);
 		}
 
 		$totallist = null;
@@ -642,8 +645,10 @@ class pservercore extends Lxclient
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		if (!preg_match("/^[A-Za-z.0-9-]*$/", $param['nname'])) {
-			throw new lxexception("only_alpha_numeric_characters_allowed", 'nname');
+			throw new lxException($login->getThrow("only_alpha_numeric_characters_allowed"), '', $param['nname']);
 		}
 
 		if_not_admin_complain_and_exit();
@@ -710,7 +715,7 @@ class pservercore extends Lxclient
 		$result = rl_exec($this->__masterserver, $this->nname, $rmt);
 
 		if (!$result) {
-			throw new lxException("no_server", "nname");
+			throw new lxException($login->getThrow("no_server"), '', $this->nname);
 		}
 
 		$this->ostype = $result['os'];
@@ -850,7 +855,7 @@ class pservercore extends Lxclient
 	/*
 		if (!check_password($param['retype_admin_p_f'], $login->password) &&
 				!check_password($param['retype_admin_p_f'], $this->password)) {
-			throw new lxException("Wrong_Password", "retype_admin_p_f");
+			throw new lxException($login->getThrow("wrong_password"), '', $param['retype_admin_p_f']);
 		}
 
 		return $param;
@@ -868,7 +873,7 @@ class pservercore extends Lxclient
 				check_password($param['retype_admin_p_f'], $this->password)) {
 			return $param;
 		} else {
-			throw new lxException("Wrong_Password", "retype_admin_p_f");
+			throw new lxException($login->getThrow("wrong_password"), '', $param['retype_admin_p_f']);
 		}
 	*/
 		return $login->password;
@@ -1093,10 +1098,12 @@ STRIN;
 
 	function update($subaction, $param)
 	{
+		global $login;
+
 		$parent = $this->getParentO();
 
 		if (!$parent->isAdmin() && $this->clientname !== $parent->nname) {
-			throw new lxException("No Permission");
+			throw new lxException($login->getThrow("no_permission"), '', $parent->nname);
 		}
 
 		return $param;

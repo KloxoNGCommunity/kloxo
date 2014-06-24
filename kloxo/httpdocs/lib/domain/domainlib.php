@@ -111,6 +111,8 @@ class Domaind extends DomainBase
 
 	function changeOwnerSpecific()
 	{
+		global $login;
+
 		$parent = $this->getParentO();
 		$newcustomer_name = $this->getParentName();
 
@@ -145,11 +147,11 @@ class Domaind extends DomainBase
 		$mmail->setUpdateSubaction('changeowner');
 
 		if ($parent->websyncserver !== $web->syncserver) {
-			throw new lxexception("webserver_not_same", '', "$parent->websyncserver != $web->syncserver");
+			throw new lxException($login->getThrow("webserver_not_same"), '', "$parent->websyncserver != $web->syncserver");
 		}
 		
 		if ($parent->mmailsyncserver !== $mmail->syncserver) {
-			throw new lxexception("mailserver_not_same", '', "$parent->mmailsyncserver != $mmail->syncserver");
+			throw new lxException($login->getThrow("mailserver_not_same"), '', "$parent->mmailsyncserver != $mmail->syncserver");
 		}
 	}
 
@@ -165,11 +167,11 @@ class Domaind extends DomainBase
 		switch ($var) {
 			case "nname":
 				if (is_numeric($val) || char_search_a($val, " ")) {
-					throw new lxexception("");
+					throw new lxException("");
 				}
 			case "username":
 				if (is_numeric($val) || char_search_a($val, " ")) {
-					throw new lxexception("");
+					throw new lxException("");
 				}
 		}
 		
@@ -561,10 +563,12 @@ class Domaind extends DomainBase
 
 	function checkDnsTemplateConsistency($web, $mmail, $dnstemplate)
 	{
+		global $login;
+
 		$list = getIpAddressList($web->__masterserver, $web->syncserver);
 
 		if (!array_search_bool($dnstemplate->ipaddress, $list)) {
-			throw new lxexception('dns_template_inconsistency', 'dnstemplate_f');
+			throw new lxException($login->getThrow('dns_template_inconsistency'), '', $dnstemplate->ipaddress);
 		}
 	}
 
@@ -638,7 +642,7 @@ class Domaind extends DomainBase
 				$template = getFromAny(array($login, $parent), 'resourceplan', $this->resourceplan_f);
 				
 				if (!$template) {
-					throw new lxexception("the_resourceplan_doesnt_exist", 'resourceplan_f', $this->resourceplan_f);
+					throw new lxException($login->getThrow("no_resourceplan"), '', $this->resourceplan_f);
 				}
 				
 				$this->template_used = $this->resourceplan_f;
@@ -666,7 +670,7 @@ class Domaind extends DomainBase
 			$dnstemplate = new Dnstemplate($this->__masterserver, null, $this->dnstemplate_f);
 			$dnstemplate->get();
 			if ($dnstemplate->dbaction === 'add') {
-				throw new lxexception('the_dns_template_doesnt_exist', 'dnstemplate_f', $this->dnstemplate_f);
+				throw new lxException($login->getThrow('no_dns_template'), '', $this->dnstemplate_f);
 			}
 		}
 
@@ -681,41 +685,10 @@ class Domaind extends DomainBase
 
 		$web->docroot = trim($web->docroot, "/");
 
-	/*
-		///#656 When adding a subdomain, the Document Root field is not being validated
-		if (csa($web->docroot, " /")) {
-			throw new lxexception("document_root_may_not_contain_spaces", 'docroot', "");
-		} else {
-			$domain_validation = str_split($web->docroot);
-			$domain_validation_num = strlen($web->docroot) - 1;
-			
-			if ($domain_validation[$domain_validation_num] == " ") {
-				throw new lxexception("document_root_may_not_contain_spaces", 'docroot', "");
-			}
-
-			if (strpos("..", $web->docroot) !== false) {
-				throw new lxexception("document_root_may_not_contain_doubledots", 'docroot', "");
-			}
-
-			if (strpos("./", $web->docroot) !== false) {
-				throw new lxexception("document_root_may_not_contain_dotslash", 'docroot', "");
-			}
-
-			if (strpos("/.", $web->docroot) !== false) {
-				throw new lxexception("document_root_may_not_contain_slashdot", 'docroot', "");
-			}
-
-			if (strpos("~", $web->docroot) !== false) {
-				throw new lxexception("document_root_may_not_contain_tilde", 'docroot', "");
-			}
-		}
-
-	*/
 		validate_docroot($web->docroot);
 
 		$dns->copyObject($dnstemplate);
 		$dns->dbaction = 'add';
-
 
 		$web->syncserver = $parent->websyncserver;
 
@@ -738,16 +711,6 @@ class Domaind extends DomainBase
 		$mmail->fixSyncServer();
 		$web->fixSyncServer();
 		$dns->fixSyncServer();
-
-		if ($sgbl->dbg < 0) {
-			if (getOsForServer($dns->syncserver) === 'windows') {
-				throw new lxexception('no_dns_on_windows');
-			}
-
-			if (getOsForServer($mmail->syncserver) === 'windows') {
-				throw new lxexception('no_mail_on_windows');
-			}
-		}
 
 		$skelf = "__path_client_root/$parent->nname/skeleton.zip";
 		
@@ -868,7 +831,7 @@ class Domaind extends DomainBase
 
 	/*
 		if (exists_in_db($this->__masterserver, "uuser", $uuser->nname)) {
-			throw new lxexception('user_exists_in_db', 'uuser');
+			throw new lxException($login->getThrow('user_exists_in_db'), '', $uuser->nname);
 		}
 	*/
 
@@ -1005,7 +968,7 @@ class Domaind extends DomainBase
 		$param['nname'] = strtolower($param['nname']);
 
 		if (exists_in_db(null, 'addondomain', $param['nname'])) {
-			throw new lxException('domain_already_exists_as_pointer', 'parent');
+			throw new lxException($login->getThrow('domain_already_exists_as_pointer'), '', $param['nname']);
 		}
 
 		$param['web-nname'] = $param['nname'];
@@ -1068,12 +1031,6 @@ class Domaind extends DomainBase
 
 		validate_domain_name($param['nname']);
 
-	/*
-		if (!preg_match("/[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+]/i", $param['nname'])) {
-			throw new lxException('domain_name_invalid', 'nname');
-		}
-	*/
-
 		if ($continueaction === 'server') {
 
 			if ($param['resourceplan_f'] === 'continue_without_plan') {
@@ -1085,7 +1042,7 @@ class Domaind extends DomainBase
 				$param['use_resourceplan_f'] = 'on';
 				
 				if (!$template) {
-					throw new lxexception("the_resource_plan_doesnt_exist", 'resourceplan_f', $param['resourceplan_f']);
+					throw new lxException($login->getThrow("no_resourceplan"), '', $param['resourceplan_f']);
 				}
 
 				$ret['action'] = 'addnow';
@@ -1752,7 +1709,7 @@ class subdomain extends Domaind
 		$list = get_namelist_from_objectlist($parent->getVirtualList('domain', $count));
 		
 		if (!$list) {
-			throw new lxexception("no_maindomain", '', "");
+			throw new lxException($login->getThrow("no_maindomain"));
 		}
 		
 		$vlist['subdomain_parent'] = array('s', $list);
@@ -1861,8 +1818,10 @@ class all_domain extends domaind
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if ($parent->isGte('customer')) {
-			throw new lxexception("only_reseller_and_admin", '', "");
+			throw new lxException($login->getThrow("only_reseller_and_admin"));
 		}
 
 		if ($parent->isAdmin()) {

@@ -111,11 +111,13 @@ class serverweb__ extends lxDriverClass
 
 	function set_php_type()
 	{
+		global $login;
+
 		$t = (isset($this->main->php_type)) ? $this->main->php_type : null;
 
 		if (((stripos($t, '_ruid2') !== false)) || (stripos($t, '_itk') !== false)) {
 			if ($this->main->secondary_php === 'on') {
-				throw new lxexception("secondary_php_not_work_for_{$t}", 'parent');
+				throw new lxException($login->getThrow("secondary_php_not_work_for"), '', $t);
 			}
 		}
 
@@ -417,13 +419,15 @@ class serverweb__ extends lxDriverClass
 
 	function set_php_used()
 	{
+		global $login;
+
 		if (isWebProxyOrApache()) {
 			$p = $this->main->php_type;
 
 			if (strpos($p, 'php-fpm') !== false) {
 				// no action
 			} else {
-				throw new lxexception("only_work_for_php-type_for_php-fpm", 'parent');
+				throw new lxException($login->getThrow("only_work_for_php-type_for_php-fpm"), '', $p);
 			}
 		}
 
@@ -444,12 +448,14 @@ class serverweb__ extends lxDriverClass
 
 	function set_multiple_php_install()
 	{
+		global $login;
+
 		// MR -- see preUpdate in serverweblib.php for why using this trick!
 
 		$c = '/tmp/phpm-install-process.sh';
 
 		if (file_exists($c)) {
-			throw new lxexception('other_install_process_still_running', '', $this->main->syncserver);
+			throw new lxException($login->getThrow('other_install_process_still_running'), '', $this->main->syncserver);
 			return;
 		}
 
@@ -475,6 +481,6 @@ class serverweb__ extends lxDriverClass
 			lxshell_background("sh", $c);
 		}
 		
-		throw new lxexception('install_process_running_in_background', '', $this->main->syncserver);
+		throw new lxException($login->getThrow('install_process_running_in_background'), '', $this->main->syncserver);
 	}
 }

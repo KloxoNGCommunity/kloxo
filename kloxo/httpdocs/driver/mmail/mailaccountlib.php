@@ -8,6 +8,7 @@ class Forward_a extends LxMailClass
 	function postAdd()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$this->nname = trim($this->nname);
 
 		$this->nname = trim($this->nname, "'");
@@ -171,11 +172,13 @@ class Mailaccount extends Lxclient
 
 	function updateform($subaction, $param)
 	{
+		global $login;
+
 		if ($subaction === 'autores') {
 			$list = $this->getList('autoresponder');
 
 			if (!$list) {
-				throw new lxException("first_add_some_autoresponders", '');
+				throw new lxException($login->getThrow("first_add_some_autoresponders"));
 			}
 
 			$nlist = get_namelist_from_objectlist($list, "nname", "autores_name");
@@ -497,6 +500,8 @@ class Mailaccount extends Lxclient
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		if ($parent->isClient()) {
 			$param['nname'] = "{$param['nname']}@{$param['real_clparent_f']}";
 			$param['syncserver'] = $parent->mmailsyncserver;
@@ -506,7 +511,7 @@ class Mailaccount extends Lxclient
 		}
 
 		if (!validate_email($param['nname'])) {
-			throw new lxException("invalid_email_id", 'nname');
+			throw new lxException($login->getThrow("invalid_email"), '', $param['nname']);
 		}
 
 		// Not needed. The child will automatically inherit the syncserver.
@@ -515,7 +520,7 @@ class Mailaccount extends Lxclient
 	//	$param['parent_clname'] = "mmail-{$param['real_clparent_f']}";
 
 		if (exists_in_db(null, "mailforward", $param['nname'])) {
-			throw new lxException("forward_with_same_id_exists", 'nname', $param['nname']);
+			throw new lxException($login->getThrow("forward_with_same_id_exists"), '', $param['nname']);
 		}
 
 		$param = parent::add($parent, $class, $param);
@@ -605,8 +610,10 @@ class all_mailaccount extends mailaccount
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if (!$parent->isAdmin()) {
-			throw new lxexception("only_admin_can_access", '', "");
+			throw new lxException($login->getThrow("only_admin_can_access"));
 		}
 
 		return "__v_table";

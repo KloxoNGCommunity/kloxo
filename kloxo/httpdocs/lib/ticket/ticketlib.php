@@ -270,7 +270,7 @@ class Ticket extends Lxclient
 		}
 
 		if ($param['sent_to'] === '--all_children--') {
-			throw new lxexception('select_one_child', 'sent_to');
+			throw new lxException($login->getThrow('select_one_child'), '', $param['sent_to']);
 		}
 
 		$param['parent_clname'] = "client-admin";

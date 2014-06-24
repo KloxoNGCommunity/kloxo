@@ -589,18 +589,20 @@ class Ipaddress extends Lxdb
 
 	static function VerifyString($parent, $param)
 	{
+		global $login;
+
 		if (!self::isValidIpaddress($param['ipaddr'])) {
-			throw new lxexception("ipaddress_invalid", 'ipaddr');
+			throw new lxException($login->getThrow("invalid_ipaddress"), '', $param['ipaddr']);
 		}
 
 		if ($param['gateway']) {
 			if (!self::isValidIpaddress($param['gateway'])) {
-				throw new lxexception("gateway_invalid", 'gateway');
+				throw new lxException($login->getThrow("invalid_gateway"), '', $param['gateway']);
 			}
 		}
 
 		if (!self::isValidIpaddress($param['netmask'])) {
-			throw new lxexception("netmask_invalid", 'netmask');
+			throw new lxException($login->getThrow("invalid_netmask"), '', $param['netmask']);
 		}
 
 		$sq = new Sqlite($parent->__masterserver, "ipaddress");
@@ -610,13 +612,13 @@ class Ipaddress extends Lxdb
 		$list = get_namelist_from_arraylist($res, "ipaddr");
 
 		if (array_search_bool($param['ipaddr'], $list)) {
-			throw new lxexception("ipaddress_already_configured", 'ipaddr');
+			throw new lxException($login->getThrow("ipaddress_already_configured"), '', $param['ipaddr']);
 		}
 
 		$ret = lxshell_return("ping", "-n", "-c", "1", "-w", "5", $param['ipaddr']);
 
 		if (!$ret) {
-			throw new lxexception("some_other_host_uses_this_ip", 'ipaddr');
+			throw new lxException($login->getThrow("some_other_host_uses_this_ip"), '', $param['ipaddr']);
 		}
 
 	}
@@ -730,3 +732,4 @@ class Ipaddress extends Lxdb
 		return $res;
 	}
 }
+

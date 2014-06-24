@@ -61,7 +61,7 @@ class pserver extends pservercore {
 				$t = str_replace("proxy", "", $v);
 
 				if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver') && ($t !== 'none')) {
-					throw new lxException("{$v}_not_ready_to_use", 'nname');
+					throw new lxException($login->getThrow("not_ready_to_use"), '', $v);
 				} else {
 					dprint("Change for $k: $v\n");
 

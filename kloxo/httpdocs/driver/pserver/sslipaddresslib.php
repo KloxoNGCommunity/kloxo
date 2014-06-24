@@ -72,7 +72,7 @@ class SslIpaddress extends Lxdb
 		$driverapp = $gbl->getSyncClass($this->__masterserver, $this->__readserver, 'web');
 
 		if ($param['sslcert'] == '--Select One--') {
-			throw new lxException("need_real_cert");
+			throw new lxException($login->getThrow("need_real_cert"));
 		}
 
 		$this->ipaddr = $this->getParentO()->ipaddr;
@@ -82,7 +82,7 @@ class SslIpaddress extends Lxdb
 		$sslcert->get();
 
 		if ($sslcert->dbaction === 'add') {
-			throw new lxException("sslcert_does_not_exist");
+			throw new lxException($login->getThrow("sslcert_does_not_exists"));
 		}
 
 		$this->text_crt_content = $sslcert->text_crt_content;

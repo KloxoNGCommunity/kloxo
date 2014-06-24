@@ -109,13 +109,15 @@ class ippool extends Lxdb
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		$param['ttype'] = 'vps';
 
 		validate_ipaddress_and_throw($param['firstip'], 'firstip');
 		validate_ipaddress_and_throw($param['lastip'], 'lastip');
 
 		if (!$param['pserver_list']) {
-			throw new lxException ("need_to_select_pserver", 'pserver_list');
+			throw new lxException($login->getThrow("need_to_select_pserver"));
 		}
 
 		$param['pserver_list'] = explode(',', $param['pserver_list']);
@@ -123,7 +125,7 @@ class ippool extends Lxdb
 		$first = strtil($param['firstip'], ".");
 		$last = strtil($param['lastip'], ".");
 		if ($first !== $last) {
-			throw new lxException ("first_and_last_should_be_same_network", 'lastip');
+			throw new lxException($login->getThrow("first_and_last_should_be_same_network"), ''. "{$first} - {$last}");
 		}
 		return $param;
 	}
@@ -155,13 +157,15 @@ class ippool extends Lxdb
 
 	function updateUpdate($param)
 	{
+		global $login;
+
 		validate_ipaddress_and_throw($param['firstip'], 'firstip');
 		validate_ipaddress_and_throw($param['lastip'], 'lastip');
 		$first = strtil($param['firstip'], ".");
 		$last = strtil($param['lastip'], ".");
 
 		if ($first !== $last) {
-			throw new lxException ("first_and_last_same_network", 'lastip');
+			throw new lxException($login->getThrow("first_and_last_should_be_same_network"), ''. "{$first} - {$last}");
 		}
 
 		$param['pserver_list'] = explode(',', $param['pserver_list']);

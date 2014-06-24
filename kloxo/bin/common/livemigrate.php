@@ -34,19 +34,19 @@ function switchserver_main()
 		$object = new $class(null, 'localhost', $name);
 		$object->get();
 		if ($object->dbaction === 'add') {
-			throw new lxException ("no_object", '', '');
+			throw new lxException($login->getThrow("no_object"));
 			exit;
 		}
 
 		if (!$object->syncserver) {
 			print("No_synserver...\n");
-			throw new lxException ("no_syncserver", '', '');
+			throw new lxException($login->getThrow("no_syncserver"));
 			exit;
 		}
 
 		if ($param['syncserver'] === $object->syncserver) {
 			print("No Change...\n");
-			throw new lxException ("no_change", '', '');
+			throw new lxException($login->getThrow("no_change"));
 			exit;
 		}
 
@@ -57,7 +57,7 @@ function switchserver_main()
 		$newserver = $param['syncserver'];
 
 		if ($driverapp_new !== $driverapp_old) {
-			throw new lxException ("the_drivers_are_different_in_two_servers", '', '');
+			throw new lxException($login->getThrow("drivers_are_different_in_two_servers"));
 		}
 
 		$actualserver = getFQDNforServer($newserver);
@@ -74,7 +74,7 @@ function switchserver_main()
 
 
 		if ($ret !== 0) {
-			throw new lxException ("vzmigrate_failed_due_to:$error", '', '');
+			throw new lxException($login->getThrow("vzmigrate_failed_due_to"), '' , $error);
 		}
 
 		$object->olddeleteflag = 'done';

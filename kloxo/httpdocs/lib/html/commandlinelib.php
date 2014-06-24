@@ -11,11 +11,11 @@ function __cmd_desc_add($p, $parent = null)
 			$parent->get();
 
 			if ($parent->dbaction === 'add') {
-				throw new lxException("parent_doesnt_exist", "nname", $p['parent-name']);
+				throw new lxException($login->getThrow("no_parent_object"), '', $p['parent-name']);
 			}
 
 			if (!$parent->checkIfSomeParent($login->getClName())) {
-				throw new lxException("you_are_not_the_owner_of_parent", "", $p['parent-name']);
+				throw new lxException($login->getThrow("not_owner_of_parent_object"), '', $p['parent-name']);
 			}
 
 		} else {
@@ -61,18 +61,7 @@ function __cmd_desc_add($p, $parent = null)
 function __cmd_desc_delete($p)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
-/*
-	if (isset($p['parent-class']) && isset($p['parent-name'])) {
-		$parent = new $p['parent-class'](null, 'localhost', $p['parent-name']);
-		$parent->get();
 
-		if ($parent->dbaction === 'add') {
-			throw new lxException("parent_doesnt_exist", "nname", $class);
-		}
-	} else {
-		$parent = $login;
-	}
-*/
 	$class = $p['class'];
 	$name = $p['name'];
 
@@ -80,11 +69,11 @@ function __cmd_desc_delete($p)
 	$object->get();
 
 	if ($object->dbaction === 'add') {
-		throw new lxException('object_doesnt_exist', '', $name);
+		throw new lxException($login->getThrow('no_object'), '', $name);
 	}
 
 	if (!$object->checkIfSomeParent($login->getClName())) {
-		throw new lxException("the_object_doesnt_exist_under_you", "", $object->nname);
+		throw new lxException($login->getThrow("no_object_under_current_user"), '', $object->nname);
 	}
 
 	do_desc_delete_single($object);
@@ -108,11 +97,11 @@ function __cmd_desc_simplelist($p)
 			$parent->get();
 
 			if ($parent->dbaction === 'add') {
-				throw new lxException("parent_doesnt_exist", "nname", $p['parent-name']);
+				throw new lxException($login->getThrow("no_parent_object"), '', $p['parent-name']);
 			}
 
 			if (!$parent->checkIfSomeParent($login->getClName())) {
-				throw new lxException("you_are_not_the_owner_of_parent", "", $p['parent-name']);
+				throw new lxException($login->getThrow("not_owner_of_parent_object"), '', $p['parent-name']);
 			}
 
 		} else {
@@ -171,11 +160,11 @@ function __cmd_desc_update($p)
 	$object->get();
 
 	if ($object->dbaction === 'add') {
-		throw new lxException("object_doesnt_exist", "name", $p['name']);
+		throw new lxException($login->getThrow("no_object"), '', $p['name']);
 	}
 
 	if (!$object->checkIfSomeParent($login->getClName())) {
-		throw new lxException("the_object_doesnt_exist_under_you", "", $object->nname);
+		throw new lxException($login->getThrow("no_object_under_current_user"), '', $object->nname);
 	}
 
 	$tparam = get_variable($p);
@@ -207,7 +196,7 @@ function __cmd_desc_getproperty($param)
 		$object->get();
 
 		if ($object->dbaction === 'add') {
-			throw new lxException('object_doesnt_exist', 'name', $name);
+			throw new lxException($login->getThrow('no_object'), '', $name);
 		}
 	} else {
 		$object = $login;

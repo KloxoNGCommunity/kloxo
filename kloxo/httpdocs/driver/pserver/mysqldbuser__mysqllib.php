@@ -4,6 +4,8 @@ class Mysqldbuser__mysql extends lxDriverClass
 {
 	function lx_mysql_connect($server, $dbadmin, $dbpass)
 	{
+		global $login;
+
 		$rdb = new mysqli('localhost', $dbadmin, $dbpass);
 
 		if (!$rdb) {
@@ -11,7 +13,7 @@ class Mysqldbuser__mysql extends lxDriverClass
 
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 
-			throw new lxException('could_not_connect_to_db', '', '');
+			throw new lxException($login->getThrow('could_not_connect_to_db'), '', $rdb->connect_error);
 		}
 
 		return $rdb;
@@ -19,6 +21,8 @@ class Mysqldbuser__mysql extends lxDriverClass
 
 	function createUser()
 	{
+		global $login;
+
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
 		$rdb->query("use mysql");
@@ -27,7 +31,7 @@ class Mysqldbuser__mysql extends lxDriverClass
 		$ret = $res->fetch_row();
 
 		if ($ret) {
-			throw new lxException('user_already_exists', '', '');
+			throw new lxException($login->getThrow('user_already_exists'), '', $this->main->username);
 		}
 
 		$rdb->query("grant all on {$this->main->dbname}.* to '{$this->main->username}'@'%' identified by '{$this->main->dbpassword}';");

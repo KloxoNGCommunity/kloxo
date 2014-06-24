@@ -31,8 +31,10 @@ class TicketConfig  extends Lxdb
 
 	function updateTicketconfig($param)
 	{
+		global $login;
+
 		if (intval($param['ticketid']) < $this->ticketid) {
-		//	throw new lxException ("ticketid_cannot_be_less_than_current", 'ticketid');
+		//	throw new lxException($login->getThrow("ticketid_can_not_be_less_than_current"), '', $param['ticketid']);
 		}
 		
 		return $param;

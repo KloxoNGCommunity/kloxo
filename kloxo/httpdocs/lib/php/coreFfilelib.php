@@ -49,6 +49,8 @@ class coreFfile
 
 	static function check_for_break($root, $path)
 	{
+		global $login;
+
 		if (lis_link($path)) {
 			$rpath = lreadlink($path);
 		} else {
@@ -58,7 +60,7 @@ class coreFfile
 		dprint("$rpath $root\n");
 		
 		if (!csb($rpath, $root)) {
-			throw new lxException("you_are_trying_to_go_outside_your_root", '', '');
+			throw new lxException($login->getThrow("trying_to_go_outside_root"), '', $rpath);
 		}
 	}
 

@@ -419,8 +419,10 @@ function lfile_write_content($file, $data, $user)
 
 function check_file_if_owned_by_and_throw($filename, $username)
 {
+	global $login;
+
 	if (!check_file_if_owned_by($filename, $username)) {
-		throw new lxexception('file_exists_not_owned', '', $filename);
+		throw new lxException($login->getThrow('file_exists_not_owned'), '', $filename);
 	}
 }
 
@@ -1404,7 +1406,7 @@ function decodeAndStoreLicense($ip, $license_content)
 	$license->text_license_content = $license_content;
 
 	if (!$get) {
-		throw new lxException("could_not_decrypt_license");
+		throw new lxException($login->getThrow("could_not_decrypt_license"));
 	}
 	$get = 'licence.php?' . $get;
 	$ghtml->get_post_from_get($get, $path, $post);
@@ -1687,8 +1689,10 @@ function is_unlimited($val)
 
 function if_demo_throw()
 {
+	global $login;
+
 	if (if_demo()) {
-		throw new lxException ("demo", '');
+		throw new lxException ($login->getThrow("demo"), '');
 	}
 }
 
@@ -2029,31 +2033,32 @@ function init_language()
 	if (lxfile_exists("lang/$language/messagelib.php")) {
 		include_once("lang/$language/messagelib.php");
 	} else {
-		include_once("lang/en/messagelib.php");
+		include_once("lang/en-us/messagelib.php");
 	}
 
 	if (lxfile_exists("lang/$language/langfunctionlib.php")) {
 		include_once("lang/$language/langfunctionlib.php");
 	} else {
-		include_once("lang/en/langfunctionlib.php");
+		include_once("lang/en-us/langfunctionlib.php");
 	}
 
 	if (lxfile_exists("lang/$language/langkeywordlib.php")) {
 		include_once("lang/$language/langkeywordlib.php");
 	} else {
-		include_once("lang/en/langkeywordlib.php");
+		include_once("lang/en-us/langkeywordlib.php");
 	}
 
 	if (lxfile_exists("lang/$language/desclib.php")) {
 		include_once("lang/$language/desclib.php");
 	} else {
-		include_once("lang/en/desclib.php");
+		include_once("lang/en-us/desclib.php");
 	}
 
 	$g_language_mes = new Language_Mes();
 	$g_language_mes->__information = $__information;
 	$g_language_mes->__emessage = $__emessage;
 	$g_language_mes->__keyword = $__keyword;
+
 /*
 	$g_language_mes->__help = $__help;
 	$g_language_mes->__helpvar = $__helpvar;
@@ -2062,9 +2067,10 @@ function init_language()
 	$g_language_mes->__help = (isset($__help)) ? $__help : '';
 	$g_language_mes->__helpvar = (isset($__helpvar)) ? $__helpvar : '';
 
+	$g_language_mes->__throw = $__throw;
+
 	$g_language_desc = new Remote();
 	$g_language_desc->__description = $__description;
-
 }
 
 function lx_error_handler($errno, $errstr, $file, $line)
@@ -3271,6 +3277,7 @@ function critical_change_db_pass()
 function change_db_pass()
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
 	$pass = randomString(10);
 	$newp = client::createDbPass($pass);
 	$oldpass = lfile_get_contents("__path_admin_pass");
@@ -3281,14 +3288,14 @@ function change_db_pass()
 	if ($return) {
 		$out = implode(" ", $out);
 		log_log("admin_error", "mysql change password Failed $out");
-		throw new lxException ("could_not_change_admin_pass", '', $out);
+		throw new lxException ($login->getThrow("could_not_change_admin_pass"), '', $out);
 	}
 
 	$return = lfile_put_contents("__path_admin_pass", $newp);
 
 	if (!$return) {
 		log_log("admin_error", "Admin pass change failed  $last_error");
-		throw new lxException ("could_not_change_admin_pass", '', $last_error);
+		throw new lxException ($login->getThrow("could_not_change_admin_pass"), '', $last_error);
 	}
 }
 
@@ -3445,7 +3452,7 @@ function if_demo_throw_exception($where = null)
 	}
 
 	if (if_demo()) {
-		throw new lxException("$where not_allowed_in_demo_version");
+		throw new lxException($login->getThrow("not_allowed_in_demo_version"), '', $where);
 	}
 }
 

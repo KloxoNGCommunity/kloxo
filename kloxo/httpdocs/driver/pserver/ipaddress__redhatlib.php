@@ -158,8 +158,10 @@ class Ipaddress__Redhat extends LxDriverclass
 
 	function checkForEthBase()
 	{
+		global $login;
+
 		if (ipaddress::checkIfBaseAddress($this->main->devname)) {
-			throw new lxException("modifying_eth0_eth1_not_permitted", '');
+			throw new lxException($login->getThrow("modifying_eth0_eth1_not_permitted"), '', $this->main->devname);
 
 			return;
 		}
@@ -177,7 +179,9 @@ class Ipaddress__Redhat extends LxDriverclass
 
 	function dbactionUpdate($subaction)
 	{
-		throw new lxException("modifying_not_permitted", '');
+		global $login;
+
+		throw new lxException($login->getThrow("modifying_not_permitted"), '', $subaction);
 	}
 
 	function dbactionDelete()

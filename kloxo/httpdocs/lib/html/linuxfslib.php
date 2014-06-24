@@ -10,13 +10,13 @@ function lxshell_expect($strtype, $cmd)
 	lfile_put_contents($t, "spawn $cmd\n$string");
 	log_shell("expect $t $cmd");
 	system("expect $t");
-	//lunlink($t);
+//	lunlink($t);
 }
 
 function lxshell_getzipcontent($path)
 {
-	
 	$type = os_getZipType($path);
+
 	if ($type === 'zip') {
 		return lxshell_output("unzip", "-l", $path);
 	} else if ($type === 'tgz') {
@@ -33,15 +33,15 @@ function lxshell_exists_in_zip($archive, $file)
 	lxfile_tmp_rm_rec($dir);
 
 	if (!$ret) { return true; }
-	return false;
 
+	return false;
 }
 
 // Normally the value is returned in MBs, but if you want to, you can force it to be bytes.
 function lxfile_dirsize($path, $byteflag = false)
 {
-
 	global $global_dontlogshell;
+
 	// This actually has to return the in Mega byts. The calculation is not actually correct now, 
 	// and I need to find out how to properly do it.
 
@@ -78,13 +78,14 @@ function lxfile_symlink($src, $dst)
 {
 	$src = expand_real_root($src);
 	$dst = expand_real_root($dst);
+
 	if (is_dir($dst)) {
 		$dst = "$dst/" . basename($src);
 	}
+
 	log_filesys("Linking $src to $dst");
 	symlink($src, $dst);
 }
-
 
 function kpart_remove($disk)
 {
@@ -103,13 +104,14 @@ function get_partition($disk, $root)
 	$o = explode(" ", $o);
 	$partition = trimSpaces($o[0]);
 	$partition = "/dev/mapper/$partition";
-	//lxshell_return("ntfsfix", $partition);
+//	lxshell_return("ntfsfix", $partition);
+
 	return $partition;
 }
 
 function get_free_loop()
 {
-	global $global_shell_error, $global_shell_ret, $global_shell_out;
+	global $login, $global_shell_error, $global_shell_ret, $global_shell_out;
 
 	lxfile_unix_chmod("__path_program_root/sbin/findfreeloop", "0755");
 
@@ -124,7 +126,7 @@ function get_free_loop()
 	$num = strfrom($loop, "/dev/loop");
 
 	if ($num >= 128) {
-		throw new lxException("could_not_find_free_loop");
+		throw new lxException($login->getThrow("could_not_find_free_loop"), '', $num);
 	}
 
 	lxshell_return("mknod", "-m660", $loop, "b", "7", $num);
@@ -144,9 +146,11 @@ function lxfile_get_ntfs_disk_usage($file, $root)
 
 	foreach($res as $r) {
 		$r = trim($r);
+
 		if (!csa($r, ":")) {
 			continue;
 		}
+
 		list($var, $val) = explode(":", $r);
 		$var = trim($var);
 		$val = trim($val);
@@ -154,6 +158,7 @@ function lxfile_get_ntfs_disk_usage($file, $root)
 		if ($var === "bytes per volume") {
 			$total = round($val / (1024 * 1024), 1);
 		}
+
 		if ($var === "bytes of user data") {
 			$used = round($val / (1024 * 1024), 1);
 		}
@@ -182,6 +187,7 @@ function lxfile_get_disk_usage($file)
 		if (csb($r, "Block count:")) {
 			$total = trim(strfrom($r, "Block count:")) * $blocksize; 
 		}
+
 		if (csb($r, "Free blocks:")) {
 			$free = trim(strfrom($r, "Free blocks:")) * $blocksize; 
 		}
@@ -237,9 +243,9 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 		foreach($filelist as &$__nf) {
 			$__nf = "'$__nf'";
 		}
+
 		$files = implode(" ", $filelist);
 	}
-
 
 	// MR -- Use `--ignore-failed-read' to prevents tar from exitting with non-zero status on unreadable files
 	// http://fvue.nl/wiki/Tar:_file_changed_as_we_read_it
@@ -279,7 +285,6 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 	return $ret;
 }
 
-
 function lxshell_unzip($username, $dir, $file, $filelist = null)
 {
 	$dir = expand_real_root($dir);
@@ -316,7 +321,6 @@ function lxshell_unzip($username, $dir, $file, $filelist = null)
 
 	return $ret;
 }
-
 
 function lxshell_unzip_numeric($dir, $file, $filelist = null)
 {
@@ -412,7 +416,6 @@ function lxfile_rm_content($dir)
 	$username = "__system__";
 	$dir = expand_real_root($dir);
 
-
 	$list = lscandir_without_dot($dir);
 
 	foreach($list as $l) {
@@ -422,40 +425,47 @@ function lxfile_rm_content($dir)
 
 function lxfile_rm_rec_content($file)
 {
+	global $login;
+
 	$file = expand_real_root($file);
 	$file = remove_extra_slash($file);
 
 	$list = explode("/", $file);
 	if (count($list) <= 2) {
 		return;
-		//throw new lxException("recursive_removal_low_level_directories_not_allowed$file", '', $file);
+
+	//	throw new lxException($login->getThrow("recursive_removal_low_level_directories_not_allowed"), '', $file);
 	}
 
 	if (preg_match("/\*/", $file)) {
-		throw new lxException('no_stars_allowed', '');
+		throw new lxException($login->getThrow('no_stars_allowed'), '', $file);
 	}
 
 	$list = lscandir_without_dot($file);
 
 	foreach($list as $l) {
 		if (!$l) { continue; }
+
 		lxshell_return("rm", "-r", "$file/$l");
 	}
 }
 
 function lxfile_rm_rec($file)
 {
+	global $login;
+
 	$file = expand_real_root($file);
 	$file = remove_extra_slash($file);
 	$list = explode("/", $file);
 
 	if (count($list) <= 2) {
 		return;
-		//throw new lxException("recursive_removal_low_level_directories_not_allowed$file", '', $file);
+
+	//	throw new lxException($login->getThrow("recursive_removal_low_level_directories_not_allowed"), '', $file);
 	}
 
 	if (preg_match("/\*/", $file)) {
-		throw new lxException('no_stars_allowed', '');
+		throw new lxException($login->getThrow('no_stars_allowed'), '', $file);
 	}
 
 	lxshell_return("rm", "-r", $file);
@@ -586,6 +596,7 @@ function lxfile_cp_rec($dirsource, $dirdest)
 	$dirsource = expand_real_root($dirsource);
 	$arglist = array("-a", $dirsource, $dirdest);
 	$cmd = getShellCommand("cp", $arglist);
+
 	return do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 } 
 
@@ -603,10 +614,12 @@ function lxfile_size($file)
 
 function lxfile_unix_chmod($file, $mod) 
 {
+	global $login;
+
 	$file = expand_real_root($file);
 /*
 	if ($mod & S_ISUID || $mod & S_ISGID) {
-		throw new lxException('setuid_not_allowed_in_chmod', '');
+		throw new lxException($login->getThrow('setuid_not_allowed_in_chmod'), '', $mod);
 	}
 */
 	$ret =  lxshell_return("chmod", $mod, $file);
@@ -632,6 +645,7 @@ function lxfile_unix_chown($file, $mod)
 	//dprintr($stat);
 	if (!is_dir($file) && $stat['nlink'] > 1) {
 		log_log("link_error", "$file is a hard link not chowning");
+
 		return;
 	}
 
@@ -709,7 +723,6 @@ function lxshell_background($cmd)
 
 function do_exec_system($username, $dir, $cmd, &$out, &$err, &$ret, $input) 
 {
-	//dprint("<hr>$dir <hr> ");
 	global $gbl, $sgbl, $login, $ghtml; 
 	global $global_shell_out, $global_shell_error, $global_shell_ret;
 	global $global_dontlogshell;

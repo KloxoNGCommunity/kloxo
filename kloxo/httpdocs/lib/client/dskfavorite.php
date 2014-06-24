@@ -72,6 +72,8 @@ class ndskshortcut extends lxdb
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		if ($param['ttype'] === 'separator') {
 			$sq = new Sqlite(null, 'ndskshortcut');
 			$separatorid = getIncrementedValueFromTable('ndskshortcut', 'separatorid');
@@ -88,7 +90,7 @@ class ndskshortcut extends lxdb
 		}
 
 		if (trim($url) == '' || !isset($url)) {
-			throw new lxexception('url_is_not_defined', 'nname');
+			throw new lxException($login->getThrow('url_is_not_defined'));
 		}
 
 		$param['nname'] = "{$param['url']}___{$parent->getClName()}";

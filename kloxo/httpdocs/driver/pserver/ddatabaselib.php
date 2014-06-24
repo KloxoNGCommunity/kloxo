@@ -6,7 +6,6 @@ class userlist_a
 
 class databasecore extends Lxdb
 {
-
 	static $__desc_username = array("n", "",  "user_name", "a=show");
 	static $__desc_dbtype = array("", "",  "database_type");
 	static $__desc_syncserver = array("", "",  "database_server");
@@ -114,6 +113,8 @@ class databasecore extends Lxdb
 
 	function postAdd()
 	{
+		global $login;
+
 		$parent = $this->getParentO();
 		$nname = $this->username;
 		$pp = $this->getRealClientParentO();
@@ -121,7 +122,7 @@ class databasecore extends Lxdb
 		$this->fixSyncServer();
 		
 		if (exists_in_db($parent->__masterserver, 'mysqldbuser', $nname)) {
-			throw new lxException('databaseuser_already_exists', 'dbname', '');
+			throw new lxException($login->getThrow('database_user_already_exists'), '', $nname);
 		}
 	}
 
@@ -357,7 +358,7 @@ class databasecore extends Lxdb
 			$list = $pp->listpriv->$var;
 
 			if (!$list) {
-				throw new lxException('no_database_server_pool_in_client', $class);
+				throw new lxException($login->getThrow('no_database_server_pool_in_client'), '', $class);
 			}
 
 			$vlist['syncserver'] = array('s', $pp->listpriv->$var);
@@ -489,7 +490,8 @@ class mysqldb extends databasecore
 	//	$pass = urlencode($pass);
 
 		if ($dbadminUrl) {
-			$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass", 'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass",
+				'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 		}
 	}
 
@@ -505,8 +507,8 @@ class mysqldb extends databasecore
 	}
 }
 
-class all_mysqldb extends mysqldb {
-
+class all_mysqldb extends mysqldb
+{
 	static $__desc = array("", "",  "all_mysql_database");
 	static $__desc_parent_name_f =  array("n", "",  "owner");
 	static $__desc_parent_clname =  array("n", "",  "owner");
@@ -518,8 +520,10 @@ class all_mysqldb extends mysqldb {
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if (!$parent->isAdmin()) {
-			throw new lxexception("only_admin_can_access", '', "");
+			throw new lxException($login->getThrow("only_admin_can_access"));
 		}
 
 		return "__v_table";

@@ -254,7 +254,7 @@ class phpini extends lxdb
 		if (!isset($e)) {
 			$php->phpini_flag_b->multiple_php_flag = 'off';
 
-			throw new lxexception('need_install_phpXYm_series_for_multiple_php', '', $this->syncserver);	
+			throw new lxException($login->getThrow('need_install_phpXYm_series_for_multiple_php'), '', $this->syncserver);
 		}
 
 		return $p;

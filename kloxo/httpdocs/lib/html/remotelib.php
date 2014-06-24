@@ -205,7 +205,7 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 			if ($res) {
 				$password = $res[0]['realpass'];
 			} else {
-				throw new lxException("machine_doesnt_exist_in_db", 'nname', $machine);
+				throw new lxException($login->getThrow("machine_doesnt_exist_in_db"), '', $machine);
 			}
 		}
 	} else {
@@ -237,7 +237,7 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 
 	if (!$res) {
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxException('could_not_connect_to_server', 'syncserver', $machine);
+		throw new lxException($login->getThrow('could_not_connect_to_server'), '', $machine);
 	}
 
 //	dprint($res->message);
@@ -295,7 +295,7 @@ function remote_exec($machine, $cmd)
 
 	if (isLocalhost($machine)) {
 		if (is_secondary_master()) {
-			throw new lxException('you_are_on_secondary_master', '');
+			throw new lxException($login->getThrow('on_secondary_master'), '', $machine);
 		}
 		if (os_isSelfSystemUser()) {
 			return do_local_action($cmd);
@@ -340,32 +340,10 @@ function remote_exec($machine, $cmd)
 		return null;
 	}
 
-	// If the slave server is upgrading try once more. Don't!!!!!!!!!!!!!!
-/*
-	 if ($rmt->state === 'upgrade') {
-		 print("Slave Server Upgraded. Trying Again....\n");
-		 flush();
-		 sleep(20);
-		 $rmt = do_remote_exec($machine, $password, $cmd, $cmdtype, $nname, $dbaction);
-	 }
-
-	 if (!$rmt) {
-		 return null;
-	 }
-
-	 if ($rmt->state === 'upgrade') {
-		 dprint("Slave Server Upgrade. Has failed...\n");
-		 throw new lxException("slave_server_upgrade_failed");
-	 }
-*/
-
 	if ($rmt->exception) {
-	//	$exc = new Exception("syncserver:$machine <br> " . $rmt->exception->getMessage());
 		$rmt->exception->syncserver = $machine;
 		throw $rmt->exception;
-	//	throw $exc;
 	}
-
 
 	return $rmt->ddata;
 }
@@ -441,10 +419,10 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd, $reexec 
 		//	lxshell_background("/usr/sbin/lxrestart", $sgbl->__var_program_name);
 
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException('no_socket_connect_to_server', '', $raddress);
-			throw new lxException('restarting_backend', '', $raddress);
+			throw new lxException($login->getThrow('no_socket_connect_to_server'), '', $raddress);
+			throw new lxException($login->getThrow('restarting_backend'), '', $raddress);
 		} else {
-			throw new lxException('no_socket_connect_to_server', '', $raddress);
+			throw new lxException($login->getThrow('no_socket_connect_to_server'), '', $raddress);
 		}
 	}
 

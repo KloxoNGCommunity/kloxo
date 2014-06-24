@@ -276,7 +276,7 @@ class Ffile extends Lxclass
 		$this->upload_file_name = $_FILES["upload_file_f"]["name"];
 
 		if (!$this->upload_file_name) {
-			throw new lxexception('no_file_in_upload', 'upload_name_f');
+			throw new lxException($login->getThrow('no_file_in_upload'), '', $this->upload_file_name);
 		}
 
 		$this->upload_file_name = str_replace("'", "", $this->upload_file_name);
@@ -660,7 +660,7 @@ class Ffile extends Lxclass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if (strpos($param['newfolder_f'], '../') !== false) {
-			throw new lxexception("folder_name_may_not_contain_doubledotsslash", '', '');
+			throw new lxException($login->getThrow("folder_name_may_not_contain_doubledotsslash"), '', $param['newfolder_f']);
 		}
 		
 		$this->setUpdateSubaction('newdir');
@@ -675,7 +675,7 @@ class Ffile extends Lxclass
 		global $gbl, $sgbl, $login, $ghtml;
 		
 		if (strpos($param['newfile_f'], '../') !== false) {
-			throw new lxexception("file_name_may_not_contain_doubledotsslash", '', '');
+			throw new lxException($login->getThrow("file_name_may_not_contain_doubledotsslash"), '', $param['newfile_f']);
 		}
 
 		$this->newfile_f = $param['newfile_f'];
@@ -849,14 +849,16 @@ class Ffile extends Lxclass
 
 	function downloadFromBackup(&$vlist)
 	{
+		global $login;
+	
 		$parent = $this->getParentO();
 		
 		if (!$parent->isClass('lxbackup')) {
-			throw new lxexception('only_in_backup', '');
+			throw new lxException($login->getThrow('only_in_backup'));
 		}
 
 		if (!$parent->ftp_server) {
-			throw new lxexception('ftp_server_not_set', '');
+			throw new lxException($login->getThrow('ftp_server_not_set'));
 		}
 		
 		$fn = lxftp_connect($parent->ftp_server);

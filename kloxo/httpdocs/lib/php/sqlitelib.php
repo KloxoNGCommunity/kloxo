@@ -33,13 +33,13 @@ class Sqlite
 	// Moved connecting to a new function
 	function connect()
 	{
-		global $gbl, $sgbl;
+		global $gbl, $sgbl, $login;
 
 		$fdbvar = "__fdb_{$this->__readserver}";
 
 		if (!isset($gbl->$fdbvar) || $this->__force) {
 			if (is_running_secondary()) {
-				throw new lxexception("this_is_a_running_secondary_master", '', "");
+				throw new lxException($login->getThrow("this_is_a_running_secondary_master"), '', $this->__readserver);
 			}
 		}
 
@@ -533,7 +533,7 @@ class Sqlite
 			// Let us just ignore the second time, but log it properly.
 
 			if ($sgbl->dbg > 0) {
-			//	throw new lxException("db_add_failed", "{$this->__sqtable}:{$array['nname']}");
+			//	throw new lxException($login->getThrow("db_add_failed"), '', "{$this->__sqtable}:{$array['nname']}");
 			}
 
 			return true;

@@ -35,20 +35,21 @@ function switchserver_main()
 
 		$object = new $class(null, 'localhost', $name);
 		$object->get();
+
 		if ($object->dbaction === 'add') {
-			throw new lxException ("no_object", '', '');
+			throw new lxException($login->getThrow("no_object"));
 			exit;
 		}
 
 		if (!$object->syncserver) {
 			print("No_synserver...\n");
-			throw new lxException ("no_syncserver", '', '');
+			throw new lxException($login->getThrow("no_syncserver"));
 			exit;
 		}
 
 		if ($param['syncserver'] === $object->syncserver) {
 			print("No Change...\n");
-			throw new lxException ("no_change", '', '');
+			throw new lxException($login->getThrow("no_change"));
 			exit;
 		}
 
@@ -58,7 +59,7 @@ function switchserver_main()
 		$driverapp_new = $gbl->getSyncClass('localhost', $param['syncserver'], $object->get__table());
 
 		if ($driverapp_new !== $driverapp_old) {
-			//throw new lxException ("the_drivers_are_different_in_two_servers", '', '');
+		//	throw new lxException($login->getThrow("drivers_are_different_in_two_servers"));
 		}
 
 
@@ -81,8 +82,6 @@ function switchserver_main()
 	mail($login->contactemail, "Switch Succeeded", "Switch Succeeded {$object->get__table()}:$object->nname to {$param['syncserver']}\n");
 
 }
-
-
 
 function write_to_object($object, $message, $syncserver)
 {

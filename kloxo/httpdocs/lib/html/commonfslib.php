@@ -40,12 +40,14 @@ function lxfile_disk_free_space($dir)
 
 function lxshell_unzip_numeric_with_throw($dir, $file, $list = null)
 {
+	global $login;
+
 	$ret = lxshell_unzip_numeric($dir, $file, $list);
+
 	if ($ret) {
-//		throw new lxException("could_not_unzip_file", '');
 		// MR -- more informative error message
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxException($msg, "Could not unzip file - dir: {$dir}; file: {$file}");
+		throw new lxException($login->getThrow("could_not_unzip_file"), '', "dir: {$dir}; file: {$file}");
 	}
 }
 
@@ -210,12 +212,15 @@ function lxshell_input($input, $cmd)
  */
 function lxuser_unzip_with_throw($username, $dir, $file, $list = null)
 {
+	global $login;
+
 	$ret = lxshell_unzip($username, $dir, $file, $list);
+
 	if ($ret) {
-//		throw new lxException("could_not_unzip_file", '');
 		// MR -- more informative error message
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxException($msg, "Could not unzip file - dir: {$dir}; file: {$file}");
+		throw new lxException($login->getThrow("could_not_unzip_file"), '', "dir: {$dir}; file: {$file}");
+
 	}
 }
 
@@ -580,6 +585,7 @@ function lxfile_dstat($dir, $duflag)
 
 function lxfile_getfile($file, $bytes = null)
 {
+	global $login;
 
 	$file = expand_real_root($file);
 	$stat = stat($file);
@@ -589,7 +595,7 @@ function lxfile_getfile($file, $bytes = null)
 	}
 
 	if ($lines === 'download') {
-		throw new lxException('cannot_download_here', '');
+		throw new lxException($login->getThrow('could_not_download_here'));
 		$lines = null;
 	}
 	if (!$lines) {

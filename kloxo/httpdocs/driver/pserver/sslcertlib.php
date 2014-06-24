@@ -93,7 +93,7 @@ class SslCert extends Lxdb
 			if ($gbl->__restore_flag) {
 				log_log("restore", "certificate_key_file_corrupted");
 			} else {
-				throw new lxException("certificate_key_file_corrupted", '', $throwname);
+				throw new lxException($login->getThrow("certificate_key_file_corrupted"), '', $throwname);
 			}
 		}
 
@@ -152,13 +152,14 @@ class SslCert extends Lxdb
 
 	function updateSetProgramSSL($param)
 	{
+		global $login;
 
 		$contentscer = $this->text_crt_content;
 		$contentskey = $this->text_key_content;
 		$contentsca = trim($this->text_ca_content);
 
 		if (!$contentscer || !$contentskey) {
-			throw new lxException("certificate_key_file_empty", '');
+			throw new lxException($login->getThrow("certificate_key_file_empty"));
 		}
 
 		self::checkAndThrow($contentscer, $contentskey, null);
@@ -220,6 +221,8 @@ class SslCert extends Lxdb
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		if (isset($param['upload'])) {
 			if ($param['upload'] === 'uploadfile') {
 				$key_file = $_FILES['ssl_key_file_f']['tmp_name'];
@@ -227,7 +230,7 @@ class SslCert extends Lxdb
 				$ca_file = $_FILES['ssl_ca_file_f']['tmp_name'];
 
 				if (!$key_file || !$crt_file) {
-					throw new lxException("key_crt_files_needed");
+					throw new lxException($login->getThrow("key_crt_files_needed"));
 				}
 
 				$param['text_key_content'] = lfile_get_contents($key_file);
@@ -271,7 +274,7 @@ class SslCert extends Lxdb
 
 	function createDomainSSL()
 	{
-		global $gbl;
+		global $gbl, $login;
 
 		$parent = $this->getParentO();
 		$name = $parent->nname;
@@ -285,7 +288,7 @@ class SslCert extends Lxdb
 		$contentsca = trim($this->text_ca_content);
 
 		if (!$contentscrt || !$contentskey) {
-			throw new lxException("certificate_key_file_empty", '');
+			throw new lxException($login->getThrow("certificate_key_file_empty"));
 		}
 
 		self::checkAndThrow($contentscrt, $contentskey, $name);

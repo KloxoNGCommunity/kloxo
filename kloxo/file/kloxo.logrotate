@@ -30,7 +30,7 @@
         missingok
 }
 
-/home/*/__processed_stats/*_log-* {
+/home/*/__processed_stats/*_log {
         daily
         rotate 30
         create 0750 root root

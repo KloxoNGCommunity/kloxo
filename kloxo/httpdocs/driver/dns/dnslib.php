@@ -138,7 +138,7 @@ class Dns extends DnsBase
 		//Clients who do not have dns permission should be able to create domains.
 		if (!$login->priv->isOn('dns_manage_flag')) {
 			if ($this->dbaction === 'update') {
-				throw new lxexception('no_dns_permission', 'parent');
+				throw new lxException($login->getThrow('no_dns_permission'));
 			}
 		}
 	}
@@ -165,7 +165,7 @@ class Dns extends DnsBase
 		$res = get_namelist_from_objectlist($parent->vmipaddress_a);
 
 		if (!$res) {
-			throw new lxexception('no_ip_address', 'parent');
+			throw new lxException($login->getThrow('no_ip_address'));
 		}
 
 		$vlist['nname'] = null;
@@ -219,8 +219,10 @@ class all_dns extends dns
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if (!$parent->isAdmin()) {
-			throw new lxexception("only_admin_can_access", '', "");
+			throw new lxException($login->getThrow("only_admin_can_access"));
 		}
 
 		return "__v_table";

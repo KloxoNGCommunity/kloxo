@@ -24,12 +24,10 @@ class pserver__Linux extends lxDriverClass
 
 	static function execCommand($iid, $command)
 	{
-		global $global_shell_error, $global_shell_ret;
+		global $login, $global_shell_error, $global_shell_ret;
 		$global_shell_error = null;
 
-		if (if_demo()) {
-			throw new lxException ("not_allowed_in_demo");
-		}
+		if_demo_throw_exception('command');
 		
 		$out = shell_exec("$command 2>&1");
 
@@ -226,7 +224,7 @@ class pserver__Linux extends lxDriverClass
 		
 		if ($this->main->__var_vps_driver === 'openvz') {
 			if (!lxfile_exists("/etc/vz/conf")) {
-				throw new lxException ("no_vz_conf_directory", '');
+				throw new lxException($login->getThrow("no_vz_conf_directory"), '', '/etc/vz/conf');
 			}
 
 			$list = lscandir_without_dot_or_underscore("/etc/vz/conf");
@@ -251,13 +249,13 @@ class pserver__Linux extends lxDriverClass
 			$importdriverfile = "{$sgbl->__path_program_htmlbase}/lib/xenimport/xenimport__$imdriver.php";
 			
 			if (!lxfile_exists($importdriverfile)) {
-				throw new lxException ("could_not_find_xen_import_driver_file", '');
+				throw new lxException($login->getThrow("could_not_find_xen_import_driver_file"), '', $importdriverfile);
 			}
 
 			include_once $importdriverfile;
 
 			if (!function_exists("__xenimport_get_data")) {
-				throw new lxException ("no_xenimport_function", '');
+				throw new lxException($login->getThrow("no_xenimport_function"));
 			}
 
 			$data = __xenimport_get_data();

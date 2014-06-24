@@ -18,6 +18,8 @@ setApacheOptimize($select, $spare, $nolog);
 
 function setApacheOptimize($select, $spare = null, $nolog = null)
 {
+	global $login;
+
 	log_cleanup("Apache optimize", $nolog);
 
 	$factor = (isWebProxy()) ? 0.5 : 1;
@@ -33,7 +35,7 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 
 			$ret = lxshell_return("service", "httpd", "stop");
 
-			if ($ret) { throw new lxexception('httpd_stop_failed', 'parent'); }
+			if ($ret) { throw new lxException($login->getThrow('httpd_stop_failed'), 'parent'); }
 		}
 
 		lxshell_return("sync; echo 3 > /proc/sys/vm/drop_caches");
@@ -112,8 +114,9 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 
 		$ret = lxshell_return("service", "httpd", "start");
 
-		if ($ret) { throw new lxexception('httpd_start_failed', 'parent'); }
-
+		if ($ret) {
+			throw new lxException($login->getThrow('httpd_start_failed'), 'parent');
+		}
 	}
 }
 

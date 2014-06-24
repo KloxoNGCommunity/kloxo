@@ -14,7 +14,7 @@ class ffile__linux extends lxDriverClass
 		$this->aux->main = $this->main;
 
 		if ($this->main->isOn('readonly')) {
-			throw new lxexception('file_manager_is_readonly', '');
+			throw new lxException($login->getThrow('file_manager_is_readonly'));
 		}
 
 		$chownug = "{$this->main->__username_o}:{$this->main->__username_o}";
@@ -69,7 +69,7 @@ class ffile__linux extends lxDriverClass
 				if ($this->main->is_image()) {
 					$this->aux->resizeImage();
 				} else {
-					throw new lxexception('cannot_save_content', '');
+					throw new lxException($login->getThrow('can_not_save_content'));
 				}
 
 				break;

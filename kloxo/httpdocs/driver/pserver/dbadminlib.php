@@ -63,8 +63,10 @@ class Dbadmin extends Lxdb
 
 	function updateUpdate($param)
 	{
+		global $login;
+
 		if ($param['dbpassword'] == '') {
-			throw new lxException("dbpassword_cannot_be_null", 'dbpassword');
+			throw new lxException($login->getThrow("dbpassword_can_not_be_null"));
 		}
 		
 		$this->old_db_password = $this->dbpassword;
@@ -91,6 +93,4 @@ class Dbadmin extends Lxdb
 		return $ret;
 	}
 }
-
-
 

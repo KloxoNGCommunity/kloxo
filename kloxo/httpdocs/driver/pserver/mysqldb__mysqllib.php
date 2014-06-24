@@ -4,13 +4,15 @@ class Mysqldb__mysql extends lxDriverClass
 {
 	function lx_mysql_connect($server, $dbadmin, $dbpass)
 	{
+		global $login;
+
 		$rdb = new mysqli('localhost', $dbadmin, $dbpass);
 
 		if (!$rdb) {
 			log_error($rdb->connect_error);
 
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException('could_not_connect_to_db', '', '');
+			throw new lxException($login->getThrow('could_not_connect_to_db'), '', $rdb->connect_error);
 		}
 
 		return $rdb;
@@ -18,6 +20,8 @@ class Mysqldb__mysql extends lxDriverClass
 
 	function createDatabase()
 	{
+		global $login;
+
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
 		$rdb->query("use mysql");
@@ -30,7 +34,7 @@ class Mysqldb__mysql extends lxDriverClass
 		}
 
 		if ($ret) {
-			throw new lxException("database_user_already_exists", '', $this->main->username);
+			throw new lxException($login->getThrow("database_user_already_exists"), '', $this->main->username);
 		}
 
 		$rdb->query("create database {$this->main->dbname};");
@@ -99,6 +103,8 @@ class Mysqldb__mysql extends lxDriverClass
 
 	function log_error_messages($throwflag = true)
 	{
+		global $login;
+
 		$rdb = $this->lx_mysql_connect('localhost', $this->main->__var_dbadmin, $this->main->__var_dbpassword);
 
 		if ($rdb->connect_errno) {
@@ -107,7 +113,7 @@ class Mysqldb__mysql extends lxDriverClass
 			log_error($rdb->connect_error);
 
 			if ($throwflag) {
-				throw new lxException('mysql_error', '', $rdb->connect_error);
+				throw new lxException($login->getThrow('could_not_connect_to_db'), '', $rdb->connect_error);
 			}
 		}
 	}
@@ -148,7 +154,6 @@ class Mysqldb__mysql extends lxDriverClass
 		}
 
 	}
-
 
 	static function drop_all_table($dbname, $dbuser, $dbpass)
 	{
@@ -276,7 +281,7 @@ class Mysqldb__mysql extends lxDriverClass
 		$ret = lxshell_unzip_with_throw($vd, $docd);
 
 		if (!lxfile_exists($docf)) {
-		//	throw new lxException('could_not_find_matching_dumpfile_for_db', '', '');
+		//	throw new lxException($login->getThrow('could_not_find_matching_dumpfile_for_db'), '', $docf);
 			log_log("restore", "- Not match $docf file for database");
 		}
 
@@ -330,3 +335,4 @@ class Mysqldb__mysql extends lxDriverClass
 		$this->updateDatabase();
 	}
 }
+

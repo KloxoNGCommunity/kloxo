@@ -85,10 +85,12 @@ class lxbackup extends Lxdb
 
 	function update($subaction, $param)
 	{
+		global $login;
+
 		$parent = $this->getParentO();
 
 		if (!$parent->priv->isOn('backup_flag')) {
-			throw new lxException('no_premission_to_backup', '', '');
+			throw new lxException($login->getThrow('no_premission_to_backup'));
 		}
 
 		return $param;
@@ -101,7 +103,7 @@ class lxbackup extends Lxdb
 		$progname = $sgbl->__var_program_name;
 
 		if (!lxfile_exists($file)) {
-			throw new lxException('could_not_find_file', '', $file);
+			throw new lxException($login->getThrow('could_not_find_file'), '', $file);
 		}
 
 		$tmpdir = lxbackup::createTmpDirIfitDoesntExist($file, false);
@@ -117,7 +119,7 @@ class lxbackup extends Lxdb
 		lxfile_tmp_rm_rec($tmpdir);
 
 		if (!$rem) {
-			throw new lxException('backupfile_corrupted', '');
+			throw new lxException($login->getThrow('backup_file_corrupted'), '', $filename);
 		}
 
 		return $rem;
@@ -159,6 +161,8 @@ class lxbackup extends Lxdb
 
 	function updateFtp_conf($param)
 	{
+		global $login;
+
 		$param['rm_username'] = fix_meta_character($param['rm_username']);
 
 		if (is_star_password($param['rm_password'])) {
@@ -170,7 +174,7 @@ class lxbackup extends Lxdb
 			$mylogin = ftp_login($fn, $param['rm_username'], $param['rm_password']);
 			if (!$mylogin) {
 				$p = error_get_last();
-				throw new lxException('could_not_connect_to_ftp_server', '', $p);
+				throw new lxException($login->getThrow('could_not_connect_to_ftp_server'), '', $p);
 			}
 		}
 
@@ -183,7 +187,7 @@ class lxbackup extends Lxdb
 		$ret = ftp_fput($fn, $uploadfilename, $fp, FTP_BINARY);
 
 		if (!$ret) {
-			throw new lxException('could_not_upload_file', '', $object->ftp_server);
+			throw new lxException($login->getThrow('could_not_upload_file'), '', $object->ftp_server);
 		}
 	*/
 		return $param;
@@ -400,8 +404,7 @@ class lxbackup extends Lxdb
 		$stagevar = $type . "stage";
 
 		if ($parent->checkIfLockedForAction($type)) {
-			$message = "{$type}_is_going_on";
-			throw new lxException($message, '');
+			throw new lxException($login->getThrow('going_on'), '', $type);
 		}
 
 		$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
@@ -410,7 +413,7 @@ class lxbackup extends Lxdb
 			if ($parent->get__table() === 'vps') {
 				$num = rl_exec_get(null, $parent->syncserver, "get_total_files_in_directory", array($bpath));
 				if (isQuotaGreaterThanOrEq($num, $parent->priv->backup_num)) {
-					throw new lxException ("backup_number_exceeded", '', "$num greater than {$parent->priv->backup_num}");
+					throw new lxException($login->getThrow("backup_number_exceeded"), '', "$num greater than {$parent->priv->backup_num}");
 				}
 			}
 		}
@@ -428,7 +431,7 @@ class lxbackup extends Lxdb
 		if ($this->backuptype === 'backup') {
 			rl_exec_get(null, null, array("lxbackup", "execbackupphp"), array($this->getParentClass(), $this->getParentName(), $param));
 			$this->write();
-			throw new lxException("backup_has_been_scheduled", '');
+			throw new lxException($login->getThrow("backup_has_been_scheduled"), '');
 		} else {
 			$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
 			$fname = $param['backup_from_file_f'];
@@ -457,7 +460,7 @@ class lxbackup extends Lxdb
 		$bfile = "$bpath/{$this->createBackupFileName($param['backup_to_file_f'])}.tgz";
 
 		if (lxfile_exists($bfile)) {
-			throw new lxException ("file_already_exists", 'backup_to_file_f', $param['backup_to_file_f'] . ".tgz");
+			throw new lxException($login->getThrow("file_already_exists"), '', $param['backup_to_file_f'] . ".tgz");
 		}
 
 		$this->updateBackupRestore($param, "backup");

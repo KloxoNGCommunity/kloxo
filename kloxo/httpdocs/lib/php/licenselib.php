@@ -126,7 +126,7 @@ class License extends Lxdb
 		$var = base64_encode(serialize($rmt));
 
 		if (!$login->isLteAdmin()) {
-			throw new lxException ("not_admin", '');
+			throw new lxException($login->getThrow("not_admin"));
 		}
 
 		$license = $login->getObject('license');

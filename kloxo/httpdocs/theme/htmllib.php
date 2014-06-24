@@ -3529,7 +3529,7 @@ class HtmlLib
 
 							if (!$url) {
 								/// That means that the object is dangling and has no parent.
-								throw new lxException("object_found_without_proper_parent");
+								throw new lxException($login->getThrow("object_found_without_proper_parent"));
 							}
 						} else {
 							$urlname = $obj->nname;
@@ -5492,10 +5492,12 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		$message = str_replace(' ', '+', htmlspecialchars($message));
+
 		$vstring = null;
 
 		if ($value) {
-			$value = htmlspecialchars($value);
+			$value = str_replace(' ', '+', htmlspecialchars($value));
 			$vstring = "&frm_m_emessage_data=$value";
 		}
 

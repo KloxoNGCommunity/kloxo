@@ -893,20 +893,20 @@ function validate_domain_name($name)
 
 	if ($name === 'lxlabs.com' || $name === 'lxcenter.org'|| $name === 'mratwork.com') {
 		if (!$sgbl->isDebug()) {
-			throw new lxException($login->getThrowUc('cannot_be_added'), '', $name);
+			throw new lxException($login->getThrow('can_not_be_added'), '', $name);
 		}
 	}
 
 	if (csb($name, "www.")) {
-		throw new lxException($login->getThrowUc('add_without_www'), '', $name);
+		throw new lxException($login->getThrow('add_without_www'), '', $name);
 	}
 
 	if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,16})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
-		throw new lxException($login->getThrowUc('invalid_domain_name'), '', $name);
+		throw new lxException($login->getThrow('invalid_domain_name'), '', $name);
 	}
 
 	if (strlen($name) > 255) {
-		throw new lxException($login->getThrowUc('invalid_domain_name'), '', $name);
+		throw new lxException($login->getThrow('invalid_domain_name'), '', $name);
 	}
 }
 
@@ -917,11 +917,11 @@ function validate_client_name($name)
 	// MR -- Centos using max length to 31 chars; pure-ftpd need no more then 32
 //	if (!preg_match('/^([_A-Za-z][-\._A-Za-z0-9]){2,31}$/', $name)) {
 	if (!preg_match('/^([a-z]){1,1}([_a-z0-9]){0,29}([a-z0-9]){1,1}$/', $name)) {
-		throw new lxexception($login->getThrowUc('invalid_client_name'), '', $name);
+		throw new lxException($login->getThrow('invalid_client_name'), '', $name);
 	}
 
 //	if (strlen($name) > 31) {
-//		throw new lxException($login->getThrowUc('invalid_client_name'), '', $name);
+//		throw new lxException($login->getThrow('invalid_client_name'), '', $name);
 //	}
 }
 
@@ -930,12 +930,8 @@ function validate_database_name($name)
 	global $gbl, $sgbl, $login, $ghtml;
 	
 	if (!preg_match('/^([a-z0-9_]){1,63}([a-z0-9]){1,1}$/', $name)) {
-		throw new lxexception($login->getThrowUc('invalid_database_name'), '', $name);
+		throw new lxException($login->getThrow('invalid_database_name'), '', $name);
 	}
-
-//	if (strlen($name) > 64) {
-//		throw new lxException($login->getThrowUc('invalid_database_name'), '', $name);
-//	}
 }
 
 function validate_password_add($name)
@@ -943,12 +939,8 @@ function validate_password_add($name)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!preg_match('/^([a-zA-Z0-9]){8,64}$/', $name)) {
-		throw new lxException($login->getThrowUc('invalid_add_password'), '', $name);
+		throw new lxException($login->getThrow('invalid_add_password'), '', $name);
 	}
-
-//	if (strlen($name) < 8) {
-//		throw new lxException($login->getThrowUc('invalid_add_password'), '', $name);
-//	}
 }
 
 function validate_domain_owned($name)
@@ -958,7 +950,7 @@ function validate_domain_owned($name)
 	// MR -- idn_to_ascii only work in php 5.3.0+
 //	if (checkdnsrr(idn_to_ascii($name), "MX")) {
 	if (checkdnsrr($name, "MX")) {
-		throw new lxException($login->getThrowUc('domain_is_already_owned'), '', $name);	
+		throw new lxException($login->getThrow('domain_is_already_owned'), '', $name);
 	}
 }
 
@@ -1314,7 +1306,7 @@ function mysql_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file)
 	$rs = new mysqli($dbhost, $dbuser, $dbpassword);
 
 	if (!$rs) {
-		throw new lxException($login->getThrowUc('no_mysql_connection_while_uploading_file'), '');
+		throw new lxException($login->getThrow('no_mysql_connection_while_uploading_file'));
 	}
 
 	$rs->select_db($dbname);
@@ -1324,7 +1316,7 @@ function mysql_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file)
 	$res = $rs->query($res);
 
 	if (!$res) {
-		throw new lxException($login->getThrowUc('no_mysql_connection_while_uploading_file'), '');
+		throw new lxException($login->getThrow('no_mysql_connection_while_uploading_file'));
 	}
 }
 
@@ -1431,13 +1423,13 @@ function full_validate_ipaddress($ip, $variable = 'ipaddress')
 
 
 	if (!validate_ipaddress($ip)) {
-		throw new lxException($login->getThrowUc("invalid_ipaddress"), $variable);
+		throw new lxException($login->getThrow("invalid_ipaddress"), $variable);
 	}
 
 	$ret = lxshell_return("ping", "-n", "-c", "1", "-w", "5", $ip);
 
 	if (!$ret) {
-		throw new lxexception($login->getThrowUc("some_other_host_uses_this_ip"), $variable);
+		throw new lxException($login->getThrow("some_other_host_uses_this_ip"), $variable);
 	}
 
 	$global_dontlogshell = false;
@@ -1491,7 +1483,7 @@ function validate_ipaddress_and_throw($ip, $variable)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!validate_ipaddress($ip)) {
-		throw new lxException($login->getThrowUc("invalid_ipaddress"), $variable);
+		throw new lxException($login->getThrow("invalid_ipaddress"), '', $variable);
 	}
 }
 
@@ -1781,7 +1773,7 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 			log_log($logto, "- Could not zip for '$vd'");
 		} else {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException($login->getThrowUc("could_not_zip_dir"), '', $vd);
+			throw new lxException($login->getThrow("could_not_zip_dir"), '', $vd);
 		}
 	} else {
 		if ($logto) {
@@ -2089,7 +2081,7 @@ function rrd_graph_single($type, $file, $time)
 	$graphfile = ltempnam("/tmp", "lx_graph");
 
 	if (!lxfile_exists($file)) {
-		throw new lxexception($login->getThrowUc("no_graph_data"));
+		throw new lxException($login->getThrow("no_graph_data"), '', $file);
 	}
 
 	if ($time >= 7 * 24 * 3600) {
@@ -2108,7 +2100,7 @@ function rrd_graph_single($type, $file, $time)
 
 	if ($ret) {
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxexception($login->getThrowUc("could_not_get_graph_data"), '', $global_shell_error);
+		throw new lxException($login->getThrow("could_not_get_graph_data"), '', $global_shell_error);
 	}
 
 	$content = lfile_get_contents($graphfile);
@@ -2133,7 +2125,7 @@ function rrd_graph_vps($type, $file, $time)
 	$graphfile = ltempnam("/tmp", "lx_graph");
 
 	if (!lxfile_exists($file)) {
-		throw new lxexception($login->getThrowUc("no_traffic_data"));
+		throw new lxException($login->getThrow("no_traffic_data"), '', $file);
 	}
 
 	if ($time >= 7 * 24 * 3600) {
@@ -2148,16 +2140,20 @@ function rrd_graph_vps($type, $file, $time)
 
 	switch ($type) {
 		case "traffic":
-			$ret = lxshell_return('rrdtool', 'graph', $graphfile, '--start', "-$time", '-w', '600', '-h', '200', '--x-grid', $grid, '--vertical-label=Bytes/s', "DEF:dss0=$file:total:AVERAGE", "DEF:dss1=$file:incoming:AVERAGE", "DEF:dss2=$file:outgoing:AVERAGE", 'LINE1:dss0#00FF00:Total traffic', 'LINE1:dss1#FF0000:In traffic\\r', 'LINE1:dss2#0000FF:Out traffic\\r');
+			$ret = lxshell_return('rrdtool', 'graph', $graphfile, '--start', "-$time", '-w', '600', '-h', '200',
+				'--x-grid', $grid, '--vertical-label=Bytes/s', "DEF:dss0=$file:total:AVERAGE", "DEF:dss1=$file:incoming:AVERAGE",
+				"DEF:dss2=$file:outgoing:AVERAGE", 'LINE1:dss0#00FF00:Total traffic', 'LINE1:dss1#FF0000:In traffic\\r',
+				'LINE1:dss2#0000FF:Out traffic\\r');
 			break;
 
 		default:
-			$ret = lxshell_return('rrdtool', 'graph', $graphfile, '--start', "-$time", '-w', '600', '-h', '200', '--x-grid', $grid, "--vertical-label=$type", "DEF:dss1=$file:$type:AVERAGE", "LINE1:dss1#FF0000:$type\\r");
+			$ret = lxshell_return('rrdtool', 'graph', $graphfile, '--start', "-$time", '-w', '600', '-h', '200', '--x-grid',
+				$grid, "--vertical-label=$type", "DEF:dss1=$file:$type:AVERAGE", "LINE1:dss1#FF0000:$type\\r");
 			break;
 	}
 
 	if ($ret) {
-		throw new lxexception($login->getThrowUc("couldnt_get_traffic_data"), '', $global_shell_error);
+		throw new lxException($login->getThrow("could_not_get_traffic_data"), '', $global_shell_error);
 	}
 
 	$content = lfile_get_contents($graphfile);
@@ -2248,7 +2244,7 @@ function rrd_graph_server($type, $list, $time)
 	}
 
 	if ($ret) {
-		throw new lxexception($login->getThrowUc("graph_generation_failed"), null, $global_shell_error);
+		throw new lxException($login->getThrow("graph_generation_failed"), '', $global_shell_error);
 	}
 
 	$content = lfile_get_contents($graphfile);
@@ -2282,7 +2278,7 @@ function createTempDir($dir, $name)
 
 	if (!$vd) {
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxException($login->getThrowUc('could_not_create_tmp_dir'), '');
+		throw new lxException($login->getThrow('could_not_create_tmp_dir'), '', $vd);
 	}
 
 	unlink($vd);
@@ -2299,7 +2295,7 @@ function getObjectFromFileWithThrow($file)
 	$rem = unserialize(lfile_get_contents($file));
 
 	if (!$rem) {
-		throw new lxException($login->getThrowUc('corrupted_file'), 'dbname', '');
+		throw new lxException($login->getThrow('corrupted_file'), '', $file);
 	}
 
 	return $rem;
@@ -2317,7 +2313,7 @@ function checkIfVariablesSetOr($p, &$param, $v, $list)
 		}
 	}
 
-	throw new lxException ($login->getThrowUc("need") . " " . $list[0], '');
+	throw new lxException($login->getThrow("need"), '', $list[0]);
 }
 
 function checkIfVariablesSet($p, $list)
@@ -2328,7 +2324,7 @@ function checkIfVariablesSet($p, $list)
 		if (!isset($p[$l]) || !$p[$l]) {
 			$n = str_replace("-", "_", $l);
 
-			throw new lxException($login->getThrowUc("need") . " " . $n, '', $l);
+			throw new lxException($login->getThrow("need"), '', $n);
 		}
 	}
 }
@@ -3016,14 +3012,14 @@ function download_from_ftp($ftp_server, $ftp_user, $ftp_pass, $file, $localfile)
 
 	if (!$login) {
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxException($login->getThrowUc('could_not_connect_to_ftp_server'), 'download_ftp_f', $ftp_server);
+		throw new lxException($login->getThrow('could_not_connect_to_ftp_server'), '', $ftp_server);
 	}
 
 	ftp_pasv($fn, true);
 	$fp = lfopen($localfile, "w");
 
 	if (!ftp_fget($fn, $fp, $file, FTP_BINARY)) {
-		throw new lxException($login->getThrowUc('file_download_failed'), '', $file);
+		throw new lxException($login->getThrow('file_download_failed'), '', $file);
 	}
 
 	fclose($fp);
@@ -5475,7 +5471,7 @@ function setRpmInstalled($rpmname)
 		$ret = lxshell_return("yum", "-y", "install", $rpmname);
 
 		if (!$ret) {
-			throw new lxException($rpmname . " " . $login->getThrowUc("install_failed"), '', 'parent');
+			throw new lxException($login->getThrow("install_failed"), '', $rpmname);
 		}
 	}
 */
@@ -5492,7 +5488,7 @@ function setRpmRemoved($rpmname)
 	$ret = lxshell_return("rpm", "-e", "--nodeps", $rpmname);
 
 	if ($ret) {
-		throw new lxException($rpmname . " " . $login->getThrowUc("remove_failed"), '', 'parent');
+		throw new lxException($login->getThrow("remove_failed"), '', $rpmname);
 	}
 }
 
@@ -5505,7 +5501,7 @@ function setRpmRemovedViaYum($rpmname)
 	$ret = lxshell_return("yum", "-y", "remove", $rpmname);
 
 	if ($ret) {
-		throw new lxException($rpmname . " " . $login->getThrowUc("remove_failed"), '', 'parent');
+		throw new lxException($login->getThrow("remove_failed"), '', $rpmname);
 	}
 }
 
@@ -5516,7 +5512,7 @@ function setRpmReplaced($rpmname, $replacewith)
 	$ret = lxshell_return("yum", "-y", "replace", $rpmname, "--replace-with={$replacewith}");
 
 	if ($ret) {
-		throw new lxException($login->getThrowUc("replace_failed") . ": {$rpmname} => {$replacewith}", '', 'parent');
+		throw new lxException($login->getThrow("replace_failed"), '', "{$rpmname} => {$replacewith}");
 	}
 }
 
@@ -7705,7 +7701,8 @@ function adjust_brightness($hex, $steps) {
 }
 
 // MR -- taken from http://lab.clearpixel.com.au/2008/06/darken-or-lighten-colours-dynamically-using-php/
-function colourBrightness($hex, $percent) {
+function colourBrightness($hex, $percent)
+{
 	// Work out if hash given
 	$hash = '';
 
@@ -7759,32 +7756,35 @@ function colourBrightness($hex, $percent) {
 	return $hash.$hex;
 }
 
-function validate_docroot($docroot) {
+function validate_docroot($docroot)
+{
+	global $login;
+
 	///#656 When adding a subdomain, the Document Root field is not being validated
 	if (csa($docroot, " /")) {
-		throw new lxexception("document_root_may_not_contain_spaces", 'docroot', "");
+		throw new lxException($login->getThrow("document_root_may_not_contain_spaces"), '', $docroot);
 	} else {
 		$domain_validation = str_split($docroot);
 		$domain_validation_num = strlen($docroot) - 1;
 			
 		if ($domain_validation[$domain_validation_num] == " ") {
-			throw new lxexception("document_root_may_not_contain_spaces", 'docroot', "");
+			throw new lxException($login->getThrow("document_root_may_not_contain_spaces"), '', $docroot);
 		}
 
 		if (strpos("..", $docroot) !== false) {
-			throw new lxexception("document_root_may_not_contain_doubledots", 'docroot', "");
+			throw new lxException($login->getThrow("document_root_may_not_contain_doubledots"), '', $docroot);
 		}
 
 		if (strpos("./", $docroot) !== false) {
-			throw new lxexception("document_root_may_not_contain_dotslash", 'docroot', "");
+			throw new lxException($login->getThrow("document_root_may_not_contain_dotslash"), '', $docroot);
 		}
 
 		if (strpos("/.", $docroot) !== false) {
-			throw new lxexception("document_root_may_not_contain_slashdot", 'docroot', "");
+			throw new lxException($login->getThrow("document_root_may_not_contain_slashdot"), '', $docroot);
 		}
 
 		if (strpos("~", $docroot) !== false) {
-			throw new lxexception("document_root_may_not_contain_tilde", 'docroot', "");
+			throw new lxException($login->getThrow("document_root_may_not_contain_tilde"), '', $docroot);
 		}
 	}
 }

@@ -96,16 +96,19 @@ class ffile__common
 
 	function throw_if_not_magick()
 	{
+		global $login;
+
 		$ret = lxshell_return("rpm", "-q", "ImageMagick");
 		
 		if ($ret) {
-			throw new lxexception('no_imagemagick', '');
+			throw new lxException($login->getThrow('no_imagemagick'));
 		}
 	}
 
 	function resizeImage()
 	{
 		$this->throw_if_not_magick();
+
 		$oldimage = coreFfile::getRealPath($this->main->old_image_name_f);
 		
 		if ($this->main->isOn('copy_old_image_flag_f')) {
@@ -129,6 +132,7 @@ class ffile__common
 	function createThumbnail()
 	{
 		$this->throw_if_not_magick();
+
 		$dir = $this->main->getFullPath();
 		$list = lscandir_without_dot($dir);
 		lxfile_mkdir("$dir/thumbs");
@@ -149,6 +153,7 @@ class ffile__common
 	function convertImage()
 	{
 		$this->throw_if_not_magick();
+
 		$fp = $this->main->getFullPath();
 		$file = coreFfile::getWithoutExtension($fp);
 		$newfile = "$file.{$this->main->new_format_f}";
@@ -172,17 +177,19 @@ class ffile__common
 
 	function downloadFromHttp()
 	{
+		global $login;
+
 		$file = basename($this->main->download_url_f);
 		
 		if (!$file) {
-			throw new lxexception('please_type_the_full_url_including_file_name', '');
+			throw new lxException($login->getThrow('please_type_full_url_including_file_name'), '', $file);
 		}
 		
 		$fullpath = $this->main->getFullPath() . "/" . $file;
 		check_file_if_owned_by_and_throw($fullpath, $this->main->__username_o);
 		
 		if (lxfile_exists($fullpath) && !$this->main->isOn('download_overwrite_f')) {
-			throw new lxexception('file_exists', '', $file);
+			throw new lxException($login->getThrow('file_exists'), '', $fullpath);
 		}
 		
 		download_file($this->main->download_url_f, $fullpath);
@@ -192,17 +199,19 @@ class ffile__common
 
 	function downloadFromFtp()
 	{
+		global $login;
+
 		$file = basename($this->main->download_ftp_file_f);
 		
 		if (!$file) {
-			throw new lxexception('please_type_the_full_url_including_file_name', '');
+			throw new lxException($login->getThrow('please_type_full_url_including_file_name'), '', $file);
 		}
 		
 		$fullpath = $this->main->getFullPath() . "/" . $file;
 		check_file_if_owned_by_and_throw($fullpath, $this->main->__username_o);
 		
 		if (lxfile_exists($fullpath) && !$this->main->isOn('download_overwrite_f')) {
-			throw new lxexception('file_exists', 'download_ftp_file_f', $file);
+			throw new lxException($login->getThrow('file_exists'), '', $fullpath);
 		}
 		
 		download_from_ftp($this->main->download_ftp_f, $this->main->download_username_f, 
@@ -213,6 +222,8 @@ class ffile__common
 
 	function zipExtract()
 	{
+		global $login;
+
 		$extractdir = coreFfile::getRealPath($this->main->zip_extract_dir_f);
 		$fulzippath = "{$this->main->root}/$extractdir";
 
@@ -221,11 +232,11 @@ class ffile__common
 
 		if (!$zipd) {
 			// MR -- no reason not able unzip in root because root mean docroot
-		//	throw new lxexception('cannot_unzip_in_root', '', '');
+		//	throw new lxException($login->getThrow('can_not_unzip_in_root'), '', $this->main->root);
 		}
 
 		if (lxfile_exists($fulzippath) && $this->main->__username_o === 'root') {
-			throw new lxexception ("root_cannot_extract_to_existing_dir", 'unzippath', $this->main->zip_extract_dir_f);
+			throw new lxexception($login->getThrow("root_can_not_extract_to_existing_dir"), '', $fulzippath);
 		}
 
 		lxfile_mkdir($fulzippath);
@@ -258,6 +269,8 @@ class ffile__common
 
 	function zipFile()
 	{
+		global $login;
+
 		foreach ($this->main->zip_file_list as &$_t_f) {
 			$_t_f = coreFfile::removeLeadingSlash($_t_f);
 			$_t_f = basename($_t_f);
@@ -272,7 +285,7 @@ class ffile__common
 		$fz = $fullpath . "/" . $this->main->zip_file_f;
 	
 		if (lxfile_exists($fz)) {
-			throw new lxexception('file_exists', 'zip_file_f', $this->main->zip_file_f);
+			throw new lxException($login->getThrow('file_exists'), '', $fullpath);
 		}
 	*/
 		$date = date("M-d-H");
@@ -284,12 +297,14 @@ class ffile__common
 
 	function newDir()
 	{
+		global $login;
+
 		$rpath = $this->main->fullpath;
 		$name = $this->main->newfolder_f;
 		$path = "$rpath/$name";
 		
 		if (lxfile_exists($path)) {
-			throw new lxexception('file_exists', '');
+			throw new lxException($login->getThrow('file_exists'), '', $path);
 		}
 		
 		lxfile_mkdir($path);
@@ -358,6 +373,8 @@ class ffile__common
 
 	function uploadDirect()
 	{
+		global $login;
+
 		$filename = "{$this->main->getFullPath()}/{$this->main->upload_file_name}";
 		check_file_if_owned_by_and_throw($filename, $this->main->__username_o);
 		
@@ -365,7 +382,7 @@ class ffile__common
 		
 		if (lfile_exists($filename)) {
 			if (!$this->main->isOn('upload_overwrite_f')) {
-				throw new lxexception('file_exists_upload', 'upload_name_f');
+				throw new lxException($login->getThrow('file_exists_upload'), '', $filename);
 			} else {
 				lxfile_rm($filename);
 			}
@@ -380,11 +397,13 @@ class ffile__common
 
 	function reName()
 	{
+		global $login;
+
 		$directory = dirname($this->main->fullpath);
 		$new = $directory . "/" . $this->main->newname;
 		
 		if (lfile_exists($new)) {
-			throw new lxexception('file_exists_rename', '');
+			throw new lxException($login->getThrow('file_exists_rename'), '', $new);
 		}
 		
 		new_process_mv_rec($this->main->__username_o, $this->main->fullpath, $new);

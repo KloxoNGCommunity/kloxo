@@ -3,7 +3,7 @@
 class jailed__linux extends lxDriverClass
 {
 	function dbactionUpdate($subaction) {
-		if (if_demo()) { throw new lxException ("demo", $v); }
+		if_demo_throw_exception('jailkit');
 	}
 
 }

@@ -80,7 +80,7 @@ class DomainIpaddress extends Lxdb
 			$ip = gethostbyname($newdom);
 
 			if ($ip != $this->getParentO()->ipaddr) {
-				throw new lxexception("this_domain_does_not_resolve_to_this_ip", 'domain', $newdom);
+				throw new lxException($login->getThrow("this_domain_does_not_resolve_to_this_ip"), '', $newdom);
 			}
 		}
 

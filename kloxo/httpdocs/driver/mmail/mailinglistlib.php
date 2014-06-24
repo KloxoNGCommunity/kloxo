@@ -2,7 +2,6 @@
 
 class mailinglist_mod_a extends Lxaclass
 {
-
 	static $__desc = array("", "", "moderator");
 	static $__desc_nname = array("", "", "moderator");
 
@@ -121,8 +120,10 @@ class Mailinglist extends Lxdb
 
 	function updateUpdate($param)
 	{
+		global $login;
+
 		if (!validate_email($param['adminemail'])) {
-			//throw new lxException('invalid_email', 'adminemail', '');
+		//	throw new lxException($login->getThrow('invalid_email'), '', $param['adminemail']);
 		}
 		
 		return $param;
@@ -169,12 +170,14 @@ class Mailinglist extends Lxdb
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		if (!validate_email($param['adminemail'])) {
-			throw new lxException('invalid_email', 'adminemail', '');
+			throw new lxException($login->getThrow('invalid_email'), '', $param['adminemail']);
 		}
 
 		if (!$param['listname']) {
-			throw new lxException('need_listname', '', '');
+			throw new lxException($login->getThrow('need_listname'), '', $param['listname']);
 		}
 
 		if ($parent->isClient()) {
@@ -251,8 +254,10 @@ class all_mailinglist extends mailinglist
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if (!$parent->isAdmin()) {
-			throw new lxexception("only_admin_can_access", '', "");
+			throw new lxException($login->getThrow("only_admin_can_access"));
 		}
 
 		return "__v_table";

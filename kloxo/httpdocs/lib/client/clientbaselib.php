@@ -123,14 +123,14 @@ class ClientBase extends ClientCore
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//if_demo_throw_exception();
+	//	if_demo_throw_exception();
 
 		if ($this->isDomainOwnerMode()) {
 			$gbl->setSessionV('customermode_flag', 'off');
 		} else {
 			$list = $this->getList('domain');
 			if (!$list) {
-				throw new lxexception("please_add_one_domain_for_owner_mode", '', '');
+				throw new lxException($login->getThrow("please_add_one_domain_for_owner_mode"));
 			}
 			$gbl->setSessionV('customermode_flag', 'on');
 		}
@@ -513,10 +513,12 @@ class ClientBase extends ClientCore
 
 	function updateSkeleton($param)
 	{
+		global $login;
+
 		$key_file_tmp = $_FILES['skeletonarchive_f']['tmp_name'];
 		$key_file = $_FILES['skeletonarchive_f']['name'];
 		if (!cse($key_file, ".zip")) {
-			throw new lxException ("skeleton_should_be_zip", 'skeletonarchive_f');
+			throw new lxException($login->getThrow("skeleton_should_be_zip"), '', $key_file);
 		}
 		$this->skeletonarchive = $key_file;
 		$this->__skeletion_tmp = $key_file_tmp;
@@ -550,18 +552,20 @@ class ClientBase extends ClientCore
 			}
 		}
 
-		throw new lxException ("success_message_successfully_sent", '');
+		throw new lxException($login->getThrow("success_message_successfully_sent"));
 	}
 
 	function updateMessage($param)
 	{
+		global $login;
+
 		if (!$this->contactemail) {
-			throw new lxException ("no_contact_email", 'contactemail');
+			throw new lxException($login->getThrow("no_contact_email"));
 		}
 
 		lx_mail(null, $this->contactemail, $param['wall_subject_f'], $param['wall_message_f']);
 
-		throw new lxException ("success_message_successfully_sent", '');
+		throw new lxException($login->getThrow("success_message_successfully_sent"), '', $this->contactemail);
 	}
 
 	function checkTemplateGreaterThan($tmp)
@@ -582,11 +586,13 @@ class ClientBase extends ClientCore
 
 	static function verify($var, $val)
 	{
+		global $login;
+
 		switch ($var) {
 			case "nname":
 			{
 				if (is_numeric($val)) {
-					throw new lxexception("client_name_invalid", 'nname', $val);
+					throw new lxException($login->getThrow("invalid_client_name"), '', $val);
 				}
 			}
 		}
@@ -619,14 +625,14 @@ class ClientBase extends ClientCore
 			$ct = getFromAny(array($login, $parent), 'resourceplan', $this->resourceplan_f);
 
 			if (!$ct) {
-				throw new lxexception("resourceplan_doesnt_exist", 'resourceplan_f', $this->resourceplan_f);
+				throw new lxException($login->getThrow("no_resourceplan"), '', $this->resourceplan_f);
 			}
 
 			if (!$parent->isAdmin()) {
 				$v = $parent->checkTemplateGreaterThan($ct);
 
 				if ($v) {
-					throw new lxexception("resource_quota_more_than_available", 'resourceplan_f', $v);
+					throw new lxException($login->getThrow("resource_quota_more_than_available"), '', $v);
 				}
 			}
 
@@ -647,7 +653,7 @@ class ClientBase extends ClientCore
 
 		if ($this->installapp_app && $this->installapp_app !== '--leave--') {
 			if (!validate_email($this->contactemail)) {
-				throw new lxexception("installapp_needs_valid_contactemail", 'contactemail', null);
+				throw new lxException($login->getThrow("installapp_needs_valid_contactemail"), '', $this->contactemail);
 			}
 		}
 
@@ -937,10 +943,12 @@ class ClientBase extends ClientCore
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		if_customer_complain_and_exit();
 
 		if ($parent->isGt('wholesale') && $parent->isGte($param['cttype'])) {
-			throw new lxexception("type_of_adding_more_than_parent", '');
+			throw new lxException($login->getThrow("type_of_adding_more_than_parent"));
 		}
 
 		$param['cpstatus'] = 'on';
@@ -1000,7 +1008,7 @@ class ClientBase extends ClientCore
 
 		// and issue #657 - Client user names with "__" are displayed with missing end
 		if (stristr($param['nname'], '__')) {
-			throw new lxexception("{$param['nname']}_use_double_underscore", 'nname');
+			throw new lxException($login->getThrow("use_double_underscore"), '', $param['nname']);
 		}
 
 		// also check if /home/<client> exists --> prevent use like 'httpd' as client
@@ -1009,12 +1017,12 @@ class ClientBase extends ClientCore
 
 		foreach ($reserved as $r) {
 			if ($param['nname'] === $r) {
-				throw new lxexception("{$param['nname']}_dir_as_reserved_under_home_dir", 'nname');
+				throw new lxException($login->getThrow("dir_as_reserved_under_home_dir"), '', $param['nname']);
 			}
 		}
 
 		if (lxfile_exists("/home/{$param['nname']}")) {
-			throw new lxexception("{$param['nname']}_dir_exists_under_home_dir", 'nname');
+			throw new lxException($login->getThrow("dir_exists_under_home_dir"), '', $param['nname']);
 
 		}
 
@@ -1023,7 +1031,7 @@ class ClientBase extends ClientCore
 		if ($continueaction === 'server') {
 			if (isOn($param['send_welcome_f'])) {
 				if (!$param['contactemail']) {
-					throw new lxexception("sending_welcome_needs_contactemail", array('contactemail', 'send_welcome_f'), '');
+					throw new lxException($login->getThrow("sending_welcome_needs_contactemail"));
 				}
 
 				// accept to more contact mail - http://forum.lxcenter.org/index.php?t=msg&goto=89118
@@ -1031,7 +1039,7 @@ class ClientBase extends ClientCore
 
 				foreach ($contact as $c) {
 					if (!validate_email($c)) {
-						throw new lxexception("contactemail_is_not_valid_email_address", 'contactemail', '');
+						throw new lxException($login->getThrow("contactemail_is_not_valid_email_address"), '', $c);
 					}
 				}
 			}
@@ -1051,7 +1059,7 @@ class ClientBase extends ClientCore
 				$v = "{$a}_list";
 
 				if (!$parent->listpriv->$v) {
-					//throw new lxException ("no_server_pool", $v);
+				//	throw new lxException($login->getThrow("no_server_pool"), $v);
 				}
 
 				$param["listpriv_s_{$a}_list"] = $parent->listpriv->$v;

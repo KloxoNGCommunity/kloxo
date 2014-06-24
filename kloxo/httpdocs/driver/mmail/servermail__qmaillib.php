@@ -1,4 +1,5 @@
 <?php
+
 class Servermail__Qmail  extends lxDriverClass
 {
 	function queue_lifetime()
@@ -45,7 +46,9 @@ class Servermail__Qmail  extends lxDriverClass
 
 	function save_xinetd_qmail()
 	{
-		if (if_demo()) { throw new lxException ("demo", $v); }
+		global $login;
+
+		if_demo_throw_exception('xinetd');
 
 		$bcont = lfile_get_contents("../file/template/xinetd.smtp_lxa");
 		$maps = null;
@@ -67,7 +70,7 @@ class Servermail__Qmail  extends lxDriverClass
 			$ret = lxshell_return("rpm", "-q", "spamdyke");
 
 			if ($ret) {
-				throw new lxException('spamdyke_is_not_installed', 'spamdyke_flag', '');
+				throw new lxException($login->getThrow('spamdyke_is_not_installed'), '', 'spamdyke');
 			}
 
 			exec("echo '/usr/bin/rblsmtpd' > /var/qmail/control/rblsmtpd");
@@ -91,7 +94,7 @@ class Servermail__Qmail  extends lxDriverClass
 			$ret = lxshell_return("rpm", "-q", "simscan-toaster");
 
 			if ($ret) {
-				throw new lxException('simscan_is_not_installed_for_virus_scan', 'virus_scan_flag', '');
+				throw new lxException($login->getThrow('simscan_is_not_installed_for_virus_scan'), '', 'simscan-toaster');
 			}
 
 			lxfile_cp("../file/clamav.init", "/etc/init.d/clamav");

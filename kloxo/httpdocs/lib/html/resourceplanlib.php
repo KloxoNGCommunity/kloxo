@@ -36,8 +36,10 @@ class resourceplan extends resourcecore
 
 	function update($subaction, $param)
 	{
+		global $login;
+
 		if ($this->getParentO()->getClName() != $this->parent_clname) {
-			throw new lxException('template_not_owner', 'parent');
+			throw new lxException($login->getThrow('template_not_owner'), '', $this->parent_clname);
 		}
 		
 		return $param;

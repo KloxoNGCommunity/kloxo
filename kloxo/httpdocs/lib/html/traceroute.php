@@ -34,7 +34,8 @@ class traceroute extends lxclass
 
 	static function initThisList($parent, $class)
 	{
-		global $gbl, $sgbl, $login, $ghtml; 
+		global $gbl, $sgbl, $login, $ghtml;
+
 		$_sysname = "linux";
 
 		$host = $_SERVER['REMOTE_ADDR'];
@@ -54,11 +55,11 @@ class traceroute extends lxclass
 		$_result = rl_exec_get(null, "localhost", array("traceroute", "exec_traceroute"), array($cmd));
 
 		if (!is_array($_result)) {
-			throw new lxexception("traceroute_failed", '', "");
+			throw new lxException($login->getThrow("traceroute_failed"), '', $host);
 		}
 
 		if (count($_result) == 0) {
-			throw new lxexception("traceroute_failed", '', "");
+			throw new lxException($login->getThrow("traceroute_failed"), '', $host);
 		}
 
 		$object = new Traceroute(null, null, '__name__');

@@ -10,11 +10,12 @@ class Dbadmin__sync extends lxDriverClass
 
 				break;
 		}
-
 	}
 
 	function dbactionAdd()
 	{
+		global $login;
+
 		$dbadmin = $this->main->dbadmin_name;
 		$dbpass = $this->main->dbpassword;
 
@@ -23,7 +24,7 @@ class Dbadmin__sync extends lxDriverClass
 		if (!$rdb) {
 			log_error($rdb->connect_error);
 
-			throw new lxException('the_mysql_admin_password_is_not_correct', '', '');
+			throw new lxException($login->getThrow('mysql_admin_password_is_not_correct'), '', $dbadmin);
 		}
 	}
 
@@ -38,17 +39,21 @@ class Dbadmin__sync extends lxDriverClass
 
 	function mysql_reset_pass()
 	{
+		global $login;
+
 		$rdb = $this->lx_mysql_connect("localhost", $this->main->dbadmin_name, $this->main->old_db_password);
 
 		$res = $rdb->query("set password=Password('{$this->main->dbpassword}');");
 
 		if (!$res) {
-			throw new lxException('mysql_password_reset_failed', '', '');
+			throw new lxException($login->getThrow('mysql_password_reset_failed'), '', $this->main->dbadmin_name);
 		}
 	}
 
 	function lx_mysql_connect($server, $dbadmin, $dbpass)
 	{
+		global $login;
+
 		$rdb = new mysqli('localhost', $dbadmin, $dbpass);
 
 		if (!$rdb) {
@@ -56,9 +61,10 @@ class Dbadmin__sync extends lxDriverClass
 
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 
-			throw new lxException('could_not_connect_to_db_admin', '', '');
+			throw new lxException($login->getThrow('could_not_connect_to_db_admin'), '', $dbadmin);
 		}
 
 		return $rdb;
 	}
 }
+

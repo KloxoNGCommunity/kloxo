@@ -178,6 +178,8 @@ function isHardQuotaVariableInClass($class, $vname)
 
 function check_priv($parent, $class, $pvar, $v)
 {
+	global $login;
+
 	if (cse($class, "template")) {
 		foreach($v as $pk => $pv) {
 			$pvar->$pk = $pv;
@@ -206,7 +208,7 @@ function check_priv($parent, $class, $pvar, $v)
 			}
 
 			if (isOn($pv)) {
-				throw new lxException("Parent Doesnt Have Permission for $pk", "frm_{$class}_c_priv_s_$pk", null);
+				throw new lxException($login->getThrow("parent_does_not_have_permission_for"), '', "frm_{$class}_c_priv_s_$pk");
 			}
 
 			$pvar->$pk = $pv;
@@ -218,7 +220,7 @@ function check_priv($parent, $class, $pvar, $v)
 			$tmp = $pv;
 
 			if ($tmp < 0) {
-				throw new lxException('has_to_be_greater_than_zero', "priv_s_$pk");
+				throw new lxException($login->getThrow('has_to_be_greater_than_zero'), '', "priv_s_$pk");
 			}
 			if (is_unlimited($parent->priv->$pk)) {
 				if (isHardQuotaVariableInClass($class, $pk)) {
@@ -237,7 +239,7 @@ function check_priv($parent, $class, $pvar, $v)
 
 				if (!$desc) { $desc = $pk; }
 
-				throw new lxException("quota_exceeded", "priv_s_$pk", $desc);
+				throw new lxException($login->getThrow("quota_exceeded"), '', $desc);
 			}
 
 			if (isHardQuotaVariableInClass($class, $pk)) {
@@ -250,7 +252,7 @@ function check_priv($parent, $class, $pvar, $v)
 				dprint("After throw");
 				$desc = getNthToken(get_v_descr($parent, $pk), 1);
 				if (!$desc) { $desc = $pk; }
-				throw new lxException("quota_exceeded", "priv_s_$pk", $desc);
+				throw new lxException($login->getThrow("quota_exceeded"), '', $desc);
 			}
 
 			dprint("No throw.. $tmp <br> ");
@@ -458,7 +460,7 @@ function do_desc_update($object, $subaction, $param)
 	}
 
 	if (array_search_bool('--Select One--', $param, true)) {
-		throw new lxException("Select One is not an acceptable Value", '');
+		throw new lxException($login->getThrow("select_one_is_not_an_acceptable_value"));
 	}
 
 	$nparam[$class]['nname'] = $object->nname;
@@ -551,26 +553,9 @@ function do_desc_add($object, $class, $param)
 
 	if ($qobject->isQuotaVariable($numvar)) {
 		if (isQuotaGreaterThanOrEq($qobject->used->$numvar, $qobject->priv->$numvar)) {
-			throw new lxException("Quota Exceeded for $class", 'nname', $numvar);
+			throw new lxException($login->getThrow("quota_exceeded"), '', $numvar);
 		}
 	}
-
-/*
-	$list = $qobject->getQuotaVariableList();
-
-	foreach((array) $list as $l => $v) {
-		if (csb($l, "{$class}_m_")) {
-			$license = strtil(strfrom($l, "_n_"), "_num");
-			$licvar = strtil(strfrom($l, "_m_"), "_n_");
-
-			if (isset($param[$licvar]) && $param[$licvar] === $license) {
-				if (isQuotaGreaterThanOrEq($qobject->used->$l, $qobject->priv->$l)) {
-					throw new lxException("Quota Exceeded for $class $licvar.$license", 'nname', $numvar);
-				}
-			}
-		}
-	}
-*/
 
 	// Setting it here itself so that the add can override if necessary. This is done in tickets, where the parent is always the admin.
 	$param['parent_clname'] = $object->getClName();
@@ -670,7 +655,7 @@ function do_desc_add($object, $class, $param)
 			$vname = "nname";
 		}
 
-		throw new lxException("{$olist[$class]->nname}+already+exists+in+$class.", $vname, $class);
+		throw new lxException($login->getThrow("already_exists"), $vname, $class);
 	}
 
 	//Second Pass...

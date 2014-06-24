@@ -288,6 +288,8 @@ class sp_basespecialplay extends LxspecialClass
 
 	function postUpdate()
 	{
+		global $login;
+
 		// Hack Hack Hack... Redirecting the whole frame thing after a skin change...
 		// It is supposed to be handled by the display.php, but since this is a single case, i am doing it here...
 		global $gbl, $sgbl, $login, $ghtml;
@@ -298,9 +300,7 @@ class sp_basespecialplay extends LxspecialClass
 		$gbl->setSessionV('show_lpanel', $login->getSpecialObject('sp_specialplay')->show_lpanel);
 		$gbl->setSessionV('show_help', $login->getSpecialObject('sp_specialplay')->show_help);
 
-		if (if_demo()) {
-			throw new lxexception('not_allowed_in_demo', '');
-		}
+		if_demo_throw_exception('appearance');
 
 		if ($this->subaction === 'skin' && !$login->isClass('sp_childspecialplay')) {
 			if ($sgbl->dbg < 0 && $this->getParentO()->isLogin()) {

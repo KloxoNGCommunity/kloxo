@@ -208,7 +208,7 @@ class client__sync extends lxDriverClass {
 				log_log("admin_error", "mysql change password Failed $out");
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException ("could_not_change_admin_pass", '', $out);
+				throw new lxException($login->getThrow("could_not_change_admin_pass"), '', $out);
 			}
 
 			$return = lfile_put_contents("__path_admin_pass", $newp);
@@ -218,7 +218,7 @@ class client__sync extends lxDriverClass {
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 				
-				throw new lxException ("could_not_change_admin_pass", '', $last_error);
+				throw new lxException($login->getThrow("could_not_change_admin_pass"), '', $last_error);
 			}
 		}
 	}

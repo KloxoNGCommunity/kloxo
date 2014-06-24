@@ -20,7 +20,7 @@ function installapp_update_main()
 
 function application_update()
 {
-	global $gbl;
+	global $gbl, $login;
 
 /*
 	$checkflag = $gbl->getObject('general')->generalmisc_b;
@@ -43,7 +43,7 @@ function application_update()
 
 	if (!$rmt) { 
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-		throw new lxexception(" could_not_get_application_version_list", '', "");
+		throw new lxException($login->getThrow("could_not_get_application_version_list"));
 	}
 
 	print(" OK ");

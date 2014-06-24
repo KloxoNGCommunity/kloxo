@@ -13,7 +13,7 @@ class installapp__linux extends LxDriverclass
 
 		if ($this->main->installdir) {
 			if (lxfile_exists("{$this->main->__var_full_documentroot}/{$this->main->installdir}")) {
-				//throw new lxException('path_already_exists', '', $this->main->installdir);
+			//	throw new lxException($login->getThrow('path_already_exists'), '', $this->main->installdir);
 			}
 		}
 
@@ -21,7 +21,7 @@ class installapp__linux extends LxDriverclass
 
 	/*
 		if (!lxfile_exists($res['src'])) {
-			throw new lxException('cannot_access_application_directory', '', '' );
+			throw new lxException($login->getThrow('can_not_access_application_directory'), '', $res['src']);
 		}
 	*/
 
@@ -54,7 +54,7 @@ class installapp__linux extends LxDriverclass
 
 			if (!$__tmpr) {
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException('could_not_connect_to_mysql_server_from_the_web_server', '', '' );
+				throw new lxException($login->getThrow('could_not_connect_to_mysql_server_from_web_server'), '', $this->main->realhost);
 			}
 		}
 
@@ -75,7 +75,7 @@ class installapp__linux extends LxDriverclass
 				lxfile_rm($tf);
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException('could_not_download_application_archive', '', '');
+				throw new lxException($login->getThrow('could_not_download_application_archive'), '', $this->main->appname);
 			}
 
 			$vd = createTempDir("/tmp", "installappdir");
@@ -96,7 +96,7 @@ class installapp__linux extends LxDriverclass
 		if (!lxfile_exists("$dompath/{$res['installdir']}/__kloxo/lxinstaller.inc")) {
 			if (!lxfile_exists("$dompath/{$res['installdir']}/lxinstaller.inc")) {
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-				throw new lxException('could_not_copy_to_domain_root', '', '' );
+				throw new lxException($login->getThrow('could_not_copy_to_domain_root'), '', $dompath);
 			} else {
 				$file = "$dompath/{$res['installdir']}/lxinstaller.inc";
 			}
@@ -110,7 +110,7 @@ class installapp__linux extends LxDriverclass
 
 		if (!function_exists("__lxinstaller_{$this->main->appname}")) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException('could_not_copy_document_root', '', '' );
+			throw new lxException($login->getThrow('could_not_copy_document_root'), '', $dompath);
 		}
 
 		$olddir = getcwd();

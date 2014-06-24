@@ -84,12 +84,6 @@ abstract class Lxclient extends Lxdb
 		$this->__force = $force;
 		$nname = strtolower($nname);
 
-	/*
-		if (csa($nname, ":")) {
-			throw new lxException("name_cannot_contain_colon", 'nname');
-		}
-	*/
-
 		parent::__construct($masterserver, $readserver, $nname);
 	}
 
@@ -567,8 +561,10 @@ abstract class Lxclient extends Lxdb
 
 	function updateCPEnable($param)
 	{
+		global $login;
+
 		if (isset($this->status) && !$this->isOn('status')) {
-			//throw new lxException('the_account_is_disabled', 'status');
+		//	throw new lxException($login->getThrow('account_is_disabled'));
 		}
 		
 		$this->cpstatus = 'on';
@@ -678,11 +674,11 @@ abstract class Lxclient extends Lxdb
 				$this->nname .= ".vm";
 			}
 			if (csa($this->nname, '-')) {
-				throw new lxexception('name_cannot_contain_dash', 'nname', '');
+				throw new lxException($login->getThrow('name_cannot_contain_dash'), '', $this->nname);
 			}
 
 			if (csa($this->nname, ' ')) {
-				throw new lxexception('name_cannot_contain_space', 'nname', '');
+				throw new lxException($login->getThrow('name_cannot_contain_space'), '', $this->nname);
 			}
 
 		}
@@ -691,7 +687,7 @@ abstract class Lxclient extends Lxdb
 		$res = $sq->rawQuery("select * from {$this->get__table()} where nname = '$this->nname'");
 		
 		if ($res) {
-			throw new lxException('already_exists', 'nname', $this->nname);
+			throw new lxException($login->getThrow('already_exists'), '', $this->nname);
 		}
 		
 		$gbl->__this_redirect = '/display.php?frm_action=resource';
@@ -741,7 +737,7 @@ abstract class Lxclient extends Lxdb
 
 			case "disable_per":
 				if ($this->islogin()) {
-					throw new lxException('you_cannot_set_your_own_limit', '');
+					throw new lxException($login->getThrow('cannot_set_own_limit'));
 				}
 				
 				$vlist['disable_per'] = array('s', array('off', '95', '100', '110', '120', '130', '150', '175', '200', '300'));
@@ -770,7 +766,7 @@ abstract class Lxclient extends Lxdb
 			case "limit_s":
 			case "limit":
 				if ($this->islogin()) {
-					throw new lxException('you_cannot_set_your_own_limit', '');
+					throw new lxException($login->getThrow('cannot_set_own_limit'));
 				}
 				if (cse($this->get__table(), "template")) {
 					$class = strtil($this->get__table(), "template");
@@ -854,7 +850,7 @@ abstract class Lxclient extends Lxdb
 		if_demo_throw_exception('changeplan');
 
 		if ($this->isLogin()) {
-			throw new lxException('cannot_change_plan', 'nname', $this->nname);
+			throw new lxException($login->getThrow('cannot_change_plan'), '', $this->nname);
 		}
 
 		$gbl->__ajax_refresh = true;
@@ -863,7 +859,7 @@ abstract class Lxclient extends Lxdb
 		$template = getFromAny(array($parent, $login), "resourceplan", $tname);
 		
 		if (!$template) {
-			throw new lxException('cannot_find_the_resource_plan', 'nname', $this->nname);
+			throw new lxException($login->getThrow('cannot_find_the_resource_plan'), '', $this->nname);
 		}
 		
 		$priv = $template->priv;
@@ -917,7 +913,7 @@ abstract class Lxclient extends Lxdb
 	//	if ($this->isLogin() || ($this->is__table('auxiliary') && $this->getParentO()->isAuxiliary())) {
 		if ($this->isLogin() || ($this->getClass() === 'auxiliary' && $this->getParentO()->isAuxiliary())) {
 			if (!check_password($param['old_password_f'], $this->password)) {
-				throw new lxException("Wrong+Password", 'old_password_f');
+				throw new lxException($login->getThrow("wrong_password"), 'old_password_f');
 			}
 			
 			unset($param['old_password_f']);

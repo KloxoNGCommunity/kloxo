@@ -51,7 +51,7 @@ class sshclient extends lxclass
 			$sshport = db_get_value("sshconfig", $parent->syncserver, "ssh_port");
 
 			if (!$ip) {
-				throw new lxException("need_to_add_at_least_one_ip_to_the_vps_for_logging_in");
+				throw new lxException($login->getThrow("need_to_add_at_least_one_ip_to_vps_for_logging_in"));
 			}
 
 			if (!$sshport) { $sshport = "22"; }

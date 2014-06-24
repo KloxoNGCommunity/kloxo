@@ -169,15 +169,15 @@ class General extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if (!$login->isAdmin() && $this->dbaction !== 'clean') {
-			throw new lxException('not_admin_cannot_modify_general', '', '');
+			throw new lxException($login->getThrow('only_admin_can_modify_general'));
 		}
 	}
 
 	function updateMaintenance($param)
 	{
-		if (if_demo()) {
-			throw new lxException("not_allowed_in_demo");
-		}
+		global $login;
+
+		if_demo_throw_exception('demo');
 
 		return $param;
 	}
@@ -189,11 +189,13 @@ class General extends Lxdb
 
 	function updateScavengeTime($param)
 	{
+		global $login;
+
 		$ret = lfile_put_contents("../etc/conf/scavenge_time.conf", "{$param['generalmisc_b-scavengehour']} {$param['generalmisc_b-scavengeminute']}");
 		
 		if (!$ret) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException("could_not_save_file");
+			throw new lxException($login->getThrow("could_not_save_file"), '', '../etc/conf/scavenge_time.conf');
 		}
 
 		if ($param['generalmisc_b-sendmailflag'] === 'on') {
@@ -241,13 +243,15 @@ class General extends Lxdb
 
 	function updateselfbackupconfig($param)
 	{
+		global $login;
+
 		if (isOn($param['selfbackupparam_b-selfbackupflag'])) {
 			$fn = lxftp_connect($param['selfbackupparam_b-ftp_server']);
 			$mylogin = ftp_login($fn, $param['selfbackupparam_b-rm_username'], $param['selfbackupparam_b-rm_password']);
 
 			if (!$mylogin) {
 				$p = error_get_last();
-				throw new lxException('could_not_connect_to_ftp_server', '', $p);
+				throw new lxException($login->getThrow('could_not_connect_to_ftp_server'), '', $p);
 			}
 		}
 		return $param;

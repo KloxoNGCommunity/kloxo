@@ -1,7 +1,7 @@
 <?php 
 
-class ftpuser__pureftp extends lxDriverClass {
-
+class ftpuser__pureftp extends lxDriverClass
+{
 	function dbactionAdd()
 	{
 		global $gbl, $sgbl, $login, $ghtml; 
@@ -42,7 +42,7 @@ class ftpuser__pureftp extends lxDriverClass {
 		$c = db_get_count("web", "customer_name = '{$u}' AND docroot = '{$d}'");
 
 		if ((int)$c !== 0) {
-			throw new lxException("no_permit_to_delete_main_ftpuser", '', $this->main->nname);
+			throw new lxException($login->getThrow("no_permit_to_delete_main_ftpuser"), '', $this->main->nname);
 		}
 
 		lxshell_return("pure-pw", "userdel", $this->main->nname, "-m" );

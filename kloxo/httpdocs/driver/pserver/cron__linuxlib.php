@@ -112,7 +112,8 @@ class cron__Linux extends lxDriverClass
 
 		if ($ret) {
 			// Why exactly was a throw removed? backup/restore?
-			//throw new lxException("adding_cron_failed", "", $global_shell_error);
+		//	throw new lxException($login->getThrow("adding_cron_failed"), '', $global_shell_error);
+		
 			$gbl->setWarning('adding_cron_failed', '', $global_shell_error);
 			$data = lfile_get_contents($tfile);
 			log_log("cron_error", $data);

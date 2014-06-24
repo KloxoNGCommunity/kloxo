@@ -61,10 +61,12 @@ class Domaintemplate extends DomainBase
 	// in domain it will call the complex finish, and in templates it will call the simple one.
 	static function continueFormFinish($parent, $class, $param, $continueaction)
 	{
+		global $login;
+
 		$iplist = $parent->getIpaddress(array($param['listpriv_s_webpserver_sing']));
 
 		if (!$iplist) {
-			throw new lxexception('no_ip_address_matching_the_webserver', 'parent');
+			throw new lxException($login->getThrow('no_ip_address_matching_the_webserver'));
 		}
 
 		$vlist['ipaddress'] = array('s', $iplist);
@@ -203,8 +205,10 @@ class Domaintemplate extends DomainBase
 
 	function update($subaction, $param)
 	{
+		global $login;
+
 		if ($this->getparentO()->getClName() != $this->parent_clname) {
-			throw new lxexception('template_not_owner', 'parent');
+			throw new lxException($login->getThrow('template_not_owner'), '', $this->parent_clname);
 		}
 		
 		return $param;

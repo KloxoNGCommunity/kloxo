@@ -447,6 +447,8 @@ class Cron extends Lxdb
 
 	function checkIfNullVar($var)
 	{
+		global $login;
+
 		if (is_array($this->$var)) {
 		//	return;
 			$this->$var = implode(",", $this->$var);
@@ -457,7 +459,7 @@ class Cron extends Lxdb
 		}
 
 		if (trim($this->$var) === "") {
-			throw new lxexception("cannot_be_null", $var, "");
+			throw new lxException($login->getThrow("can_not_be_null"), '', $var);
 		}
 	}
 
@@ -502,8 +504,10 @@ class all_cron extends cron
 
 	static function initThisListRule($parent, $class)
 	{
+		global $login;
+
 		if (!$parent->isAdmin()) {
-			throw new lxexception("only_admin_can_access", '', "");
+			throw new lxException($login->getThrow("only_admin_can_access"));
 		}
 
 		return "__v_table";

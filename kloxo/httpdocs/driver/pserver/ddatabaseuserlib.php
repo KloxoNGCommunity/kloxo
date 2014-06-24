@@ -60,11 +60,13 @@ class databaseusercorelib extends lxdb
 
 	function postAdd()
 	{
+		global $login;
+
 		$parent = $this->getParentO();
 		$nname = $this->username;
 		
 		if (exists_in_db($parent->__masterserver, 'mysqldb', $nname)) {
-			throw new lxException('databaseuser_already_exists', 'dbname', '');
+			throw new lxException($login->getThrow('database_user_already_exists'), '', $nname);
 		}
 
 	}

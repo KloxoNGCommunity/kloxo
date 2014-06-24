@@ -171,7 +171,7 @@ class Mmail__Qmail extends lxDriverClass
 
 		if (!$ret) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
-			throw new lxException("could_not_delete_domain", '');
+			throw new lxException($login->getThrow("could_not_delete_domain"), '', $this->main->nname);
 		}
 
 		lxshell_return("{$sgbl->__path_mail_root}/bin/vaddaliasdomain", $this->main->redirect_domain, $this->main->nname);
@@ -228,7 +228,7 @@ class Mmail__Qmail extends lxDriverClass
 		if ($ret) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			exec_with_all_closed("sh /script/fixmail-all >/dev/null 2>&1 &");
-			throw new lxException("could_not_add_mail_and_then_try_again", 'mailpserver', $global_shell_error);
+			throw new lxException($login->getThrow("could_not_add_mail_and_then_try_again"), 'mailpserver', $global_shell_error);
 		}
 
 	/*
@@ -360,7 +360,6 @@ class Mmail__Qmail extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		//throw new lxexception("Qmail screw", "");
 		$this->addDomain();
 
 		foreach ((array)$this->main->__var_addonlist as $d) {
@@ -536,3 +535,4 @@ class Mmail__Qmail extends lxDriverClass
 		}
 	}
 }
+

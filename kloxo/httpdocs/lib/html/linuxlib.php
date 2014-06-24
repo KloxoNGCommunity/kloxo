@@ -1,7 +1,7 @@
 <?php 
+
 include_once "lib/php/linuxcorelib.php";
 include_once "lib/html/linuxfslib.php";
-
 
 function os_isSelfSystemUser()
 {
@@ -11,10 +11,13 @@ function os_isSelfSystemUser()
 function os_isSelfSystemOrLxlabsUser()
 {
 	$uid = posix_getuid();
+
 	if ($uid === 0) {
 		return true;
 	}
+
 	$pwd = posix_getpwuid($uid);
+
 	if ($pwd['name'] === 'lxlabs') {
 		return true;
 	}
@@ -24,6 +27,7 @@ function os_getUptime()
 {
 	$v = trim(file_get_contents("/proc/uptime"));
 	$vv = strtilfirst($v, " ");
+
 	return trim($vv);
 }
 
@@ -51,10 +55,12 @@ function os_fix_fstab()
 			$out[] = $l;
 			continue;
 		}
+
 		if (!csa($n[3], "usrquota")) {
 			$mount[] = $n[1];
 			$n[3] = "$n[3],usrquota,grpquota";
 		}
+
 		$o = implode("\t", $n);
 		$out[] = $o;
 	}
@@ -62,12 +68,13 @@ function os_fix_fstab()
 	$out = implode("\n", $out);
 	$out .= "\n";
 	dprint($out);
+
 	lfile_put_contents("/etc/fstab", $out);
 	dprintr($mount);
+
 	foreach($mount as $m) {
 		system("mount $m -o remount");
 	}
-
 }
 
 function os_set_quota($username, $disk)
@@ -96,6 +103,7 @@ function os_createUserQuota()
 function os_get_home_dir($user)
 {
 	$pwd = posix_getpwnam($user);
+
 	return $pwd['dir'];
 }
 
@@ -120,28 +128,8 @@ function os_get_allips()
 			$iplist[] = $t;		
 		}
 	}
-//	else {
-	/*
-		// get ip from ifconfig
-		$out = lxshell_output("ifconfig");
-		$list = explode("\n", $out);
-		foreach($list as $l) {
-			$l = trim($l);
-			if (!csa($l, "inet addr:")) {
-				continue;
-			}
-			$ip = strfrom($l, "inet addr:");
-			$ip = strtilfirst($ip, " ");
-			if (csb($ip, "127.0")) {
-				continue;
-			}
-			$iplist[] = $ip;
-		}
-	*/
-	//	$iplist = getIPs_from_ifconfig(false);
 
-		$iplist = getIPs_from_ifcfg();
-//	}
+	$iplist = getIPs_from_ifcfg();
 
 	// MR -- change spec from substitution to complementary
 	// and then remove duplicate array value
@@ -201,35 +189,6 @@ function getIPs_from_ifcfg()
 	}
 	
 	return $r;
-
-/*
-	// instead mimic function, call function directly
-
-	global $gbl, $sgbl, $login, $ghtml;
-
-//	$driverapp = $gbl->getSyncClass(null, null, 'ipaddress');
-//	print($driverapp);
-
-//	if ($driverapp === 'redhat') {
-		$list = Ipaddress__Redhat::getCurrentIps();
-//	}
-
-	$iplist = array(); // Initialize return value
-	
-	if(!empty($list)) {
-		foreach($list as $k => $v) {
-			// Check ipaddr index
-			$ip_address = isset($v['ipaddr']) ? $v['ipaddr'] : NULL;
-			
-			// Skip localhost IP or empty values
-			if ($ip_address !== '127.0.0.1' && !empty($ip_address)) { 
-				$iplist[] = $ip_address;
-			}
-		}
-	}
-
-	return $iplist;
-*/
 }
 
 function os_disable_user($username)
@@ -260,7 +219,6 @@ function os_create_default_slave_driver_db()
 	slave_save_db("driver", $a);
 }
 
-
 function os_fix_lxlabs_permission()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
@@ -271,14 +229,7 @@ function os_fix_lxlabs_permission()
 	lxfile_unix_chmod("__path_program_etc", "0700");
 	lxfile_unix_chmod("__path_program_root/log", "0700");
 	lxfile_unix_chmod("__path_program_root/session", "0700");
-/*
-	// prevent php warning when file exist - already since 6.1.7
-	if (!lxfile_exists("/usr/bin/lphp.exe")) {
-		lxfile_symlink("__path_php_path", "/usr/bin/lphp.exe");
-	}
-*/
 }
-
 
 function os_userdel($name)
 {
@@ -287,9 +238,12 @@ function os_userdel($name)
 
 function os_create_system_user($basename, $password, $id, $shell, $dir = "/tmp")
 {
+	global $login;
+
 	dprint("In Create User $basename, $id $password $shell");
 	$i = null;
 	$name = $basename;
+	
 	while (true) {
 		try {
 			$ret = uuser__linux::checkIfUserExists($name, $id);
@@ -303,16 +257,17 @@ function os_create_system_user($basename, $password, $id, $shell, $dir = "/tmp")
 			$name = "$basename$i";
 		}
 	}
+	
 	$ret = lxshell_return("useradd", "-m", "-c", uuser::getUserDescription($id), "-d", $dir, "-s", $shell, "-p", $password, $name);
 
 	if ($ret) {
 		// --- issue #638 - installation fails if 'admin' group already exists
 		if (!lxfile_real("/var/cache/kloxo/kloxo-install-firsttime.flg")) {
-			throw new lxexception("could_not_create_user", '', $name);
+			throw new lxException($login->getThrow("could_not_create_user"), '', $name);
 		}
 	}
+	
 	return $name;
-
 }
 
 function os_service_manage($serv, $act)
@@ -330,18 +285,20 @@ function os_create_program_service()
 	lxfile_unix_chmod("/etc/init.d/$pgm", "0755");
 }
 
-
 function os_is_arch_sixfour()
 {
     if (!lxfile_exists("/proc/xen")) {
-	$arch = trim(`arch`);
-	return $arch === 'x86_64';
+		$arch = trim(`arch`);
+	
+		return $arch === 'x86_64';
     } else {
-	$q = lfile_get_contents("/etc/rpm/platform");
-	if ($q === "i686-redhat-linux") {
-	    return false;
-	}
-	return true;
+		$q = lfile_get_contents("/etc/rpm/platform");
+
+		if ($q === "i686-redhat-linux") {
+		    return false;
+		}
+
+		return true;
     }
 }
 
@@ -349,12 +306,14 @@ function os_is_php_six_four()
 {
     $v = lxshell_output("rpm -q --queryformat '%{ARCH}' php");
     $v = trim($v);
+	
     return ($v === "x86_64");
 }
 
 function os_restart_program()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+	
 	$pgm = $sgbl->__var_program_name;
 	// We just need to kill the main server, and leave the wrapper alone.
 	exec_with_all_closed("/etc/init.d/$pgm lxrestart");
@@ -369,16 +328,16 @@ function os_get_network_gateway()
 		if (csb($r, "0.0.0.0")) {
 			$r = trimSpaces($r);
 			$o = explode(" ", $r);
+			
 			return trim($o[1]);
 		}
 	}
+	
 	return null;
-
 }
 
 function os_get_default_ethernet()
 {
-
 	$res = lxshell_output("route", "-n");
 	$re = explode("\n", $res);
 
@@ -386,11 +345,12 @@ function os_get_default_ethernet()
 		if (csb($r, "0.0.0.0")) {
 			$r = trimSpaces($r);
 			$o = explode(" ", $r);
+			
 			return trim($o[7]);
 		}
 	}
+	
 	return null;
-
 }
 
 function os_getCpuNum()
@@ -404,21 +364,28 @@ function os_getCpuNum()
 			$i++;
 		}
 	}
+	
 	return $i;
-
 }
 function os_get_hostname()
 {
-	$v = `hostname`;
-	return trim($v);
+//	$v = `hostname`;
+//	return trim($v);
+
+//	exec("hostname", $out);
+//	return $out[0];
+
+//	return gethostname();
+	return php_uname('n');
 }
 
 function os_get_user_from_uid($uid)
 {
 	$pwd = posix_getpwuid($uid);
 
-	if ($pwd['name']) 
+	if ($pwd['name']) {
 		return $pwd['name'];
+	}
 
 	return $uid;
 }
@@ -427,8 +394,10 @@ function os_get_uid_from_user($user)
 {
 	$pwd = posix_getpwnam($user);
 
-	if ($pwd['uid']) 
+	if ($pwd['uid']) {
 		return $pwd['uid'];
+	}
+
 	// If the user doesn't exist return a very large number.
 	return 10000000;
 }
@@ -437,8 +406,10 @@ function os_get_gid_from_user($user)
 {
 	$pwd = posix_getpwnam($user);
 
-	if ($pwd['gid']) 
+	if ($pwd['gid']) {
 		return $pwd['gid'];
+	}
+
 	// If the user doesn't exist return a very large number.
 	return 10000000;
 }
@@ -458,9 +429,9 @@ function os_get_commandname($pid)
 
 	$cmd = lfile_get_contents("/proc/$pid/cmdline");
 	$cmd = explode("\0", $cmd);
+	
 	return $cmd[1];
 }
-
 
 // If pcntl is enabled, then sigterm is automatically defined. Silll
 @ define('SIGTERM', 15);
@@ -476,14 +447,15 @@ function os_killpid($pid)
 	if (!$pid) {
 		return;
 	}
+	
 	if (intval($pid) < 10) {
 		return;
 	}
+	
 	posix_kill($pid, SIGTERM);
 	usleep(10000);
 	posix_kill($pid, SIGKILL);
 }
-
 
 function os_set_path()
 {

@@ -60,7 +60,10 @@ function setMysqlOptimize($select, $database = null)
 
 	log_cleanup("- MySQL Service restart");
 	$ret = lxshell_return("service", "mysqld", "restart");
-	if ($ret) { throw new lxexception('mysqld_restart_failed', 'parent'); }
+
+	if ($ret) {
+		throw new lxException($login->getThrow('mysqld_restart_failed'), 'parent');
+	}
 }
 
 /* ****** END - setMysqlOptimize ***** */

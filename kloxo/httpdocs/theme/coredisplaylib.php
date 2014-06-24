@@ -629,7 +629,7 @@ function __ac_desc_delete($object)
 	$cname = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
-		throw new lxException("cannot_delete_in_demo", $pk);
+		throw new lxException($login->getThrow("can_not_delete_in_demo"), '', $pk);
 	}
 
 	$ghtml->print_message();
@@ -933,6 +933,8 @@ function __ac_desc_Update($object)
 
 function security_check($oldvlist, $param)
 {
+	global $login;
+
 	foreach ((array)$oldvlist as $k => $v) {
 		if (csb($k, "__v")) {
 			continue;
@@ -959,7 +961,7 @@ function security_check($oldvlist, $param)
 		}
 
 		if (!isset($tmpvlist[$k])) {
-			throw new lxException("you_are_trying_to_access_an_unsettable_variable", '', $k);
+			throw new lxException($login->getThrow("trying_to_access_an_unsettable_variable"), '', $k);
 		}
 	}
 }
@@ -1194,7 +1196,7 @@ function __ac_desc_add($object, $param = null)
 	$class = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
-		throw new lxException("cannot_add_in_demo", $pk);
+		throw new lxException($login->getThrow("can_not_add_in_demo"), '', $pk);
 	}
 
 	if (!$param) {
@@ -1225,7 +1227,7 @@ function check_for_select_one($param)
 
 	foreach ((array)$param as $k => $v) {
 		if ($ghtml->isSelectOne($v)) {
-			throw new lxException("please_select_value", $k);
+			throw new lxException($login->getThrow("please_select_value"), '', $k);
 		}
 	}
 }
@@ -1243,7 +1245,7 @@ function __ac_desc_continue($object)
 
 	if ($object->isQuotaVariable($numvar)) {
 		if (isQuotaGreaterThan($object->used->$numvar, $object->priv->$numvar)) {
-			throw new lxException("Quota Exceeded for $cname", $numvar);
+			throw new lxException($login->getThrow("quota_exceeded"), '', "{$cname} - {$numvar}");
 		}
 	}
 
@@ -1277,7 +1279,7 @@ function __ac_desc_continue($object)
 	$vlist = $ret['variable'];
 
 	if (isset($tparam['nname']) && exists_in_db($object->__masterserver, $cname, $tparam['nname'])) {
-		throw new lxException("{$tparam['nname']}+already+exists+in+$cname.", "nname");
+		throw new lxException($login->getThrow("already_exists"), '', "{$tparam['nname']} in {$cname}");
 	}
 
 	$param = null;
@@ -2104,9 +2106,9 @@ function password_contact_check()
 		return;
 	}
 
-	if (csb($ghtml->frm_action, 'update') && $ghtml->frm_subaction === 'password')
+	if (csb($ghtml->frm_action, 'update') && $ghtml->frm_subaction === 'password') {
 		return;
-
+	}
 
 	if (if_demo()) {
 		return;

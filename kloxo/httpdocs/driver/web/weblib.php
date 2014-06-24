@@ -95,11 +95,13 @@ class Redirect_a extends LxaClass
 
 	static function add($parent, $class, $param)
 	{
+		global $login;
+
 		$ttype = $param['ttype'];
 		$redirect = $param['redirect'];
 
 		if (csb($redirect, "http://") || csb($redirect, "https://")) {
-			throw new lxException("no_need_protocol_http_or_https_for_location", '', $ttype);
+			throw new lxException($login->getThrow("no_need_protocol_http_or_https_for_location"), '', $ttype);
 		}
 
 		$redirect = str_replace("//", "/", $redirect);
@@ -155,6 +157,8 @@ class SubWeb_a extends LxaClass
 
 	function postAdd()
 	{
+		global $login;
+
 		$web = $this->getParentO();
 		$domain = $web->getParentO();
 		$dns = $domain->getObject('dns');
@@ -163,7 +167,7 @@ class SubWeb_a extends LxaClass
 		try {
 			$dns->was();
 		} catch (exception $e) {
-			throw new lxException("subdomain_not_added_due_to_dns_conflict", 'nname', $this->nname);
+			throw new lxException($login->getThrow("subdomain_not_added_due_to_dns_conflict"), '', $this->nname);
 		}
 
 		validate_domain_name("{$this->nname}.$web->nname");
@@ -213,6 +217,8 @@ class Server_Alias_a extends Lxaclass
 
 	function postAdd()
 	{
+		global $login;
+
 		$web = $this->getParentO();
 		$domain = $web->getParentO();
 		$dns = $domain->getObject('dns');
@@ -229,15 +235,14 @@ class Server_Alias_a extends Lxaclass
 		// Validates value subdomain
 		if (!preg_match("/^((([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])|\*)$/",
 				$this->nname)) {
-			throw new lxexception('invalid_server_alias', '', $this->nname);
+			throw new lxException($login->getThrow('invalid_server_alias'), '', $this->nname);
 		}
 
 		try {
 			$dns->was();
 		} catch (exception $e) {
-			throw new lxException("alias_not_added_due_to_dns_conflict", 'nname', $this->nname);
+			throw new lxException($login->getThrow("alias_not_added_due_to_dns_conflict"), '', $this->nname);
 		}
-
 	}
 
 	static function createListAddForm($parent, $class)
@@ -693,14 +698,6 @@ class Web extends Lxdb
 		if (!lxfile_exists("{$this->getFullDocRoot()}")) {
 			lxfile_cp_rec("__path_customer_root/$this->__var_oldcustomer_name/$this->docroot", "{$this->getFullDocRoot()}");
 		}
-	/*
-		if (!lxfile_exists("{$this->getFullDocRoot()}")) {
-		//	lxfile_cp_rec("__path_customer_root/$this->__var_oldcustomer_name/$this->docroot", "{$this->getFullDocRoot()}");
-			lxfile_mv_rec("__path_customer_root/$this->__var_oldcustomer_name/$this->docroot", "{$this->getFullDocRoot()}");
-		} else {
-			throw new lxException("target_docroot_need_to_renamed", '', $this->getFullDocRoot());
-		}
-	*/
 
 		lxfile_unix_chown_rec("{$this->getFullDocRoot()}", "$this->username:$this->username");
 
@@ -1205,8 +1202,10 @@ class Web extends Lxdb
 	function updateSesubmit($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+		
 		callInBackground("se_submit", array($login->contactemail, $this->nname, $param['email']));
-		throw new lxException("se_submit_running_background", '', $this->nname);
+		
+		throw new lxException($login->getThrow("se_submit_running_background"), '', $this->nname);
 	}
 
 	function updateDocroot($param)
@@ -1390,8 +1389,8 @@ class Web extends Lxdb
 			case "ipaddress":
 				$iplist = $parent->getIpaddress(array($param['web_s_syncserver']));
 				if (!$iplist) {
-					//dprintr($parent->__parent_o);
-					throw new lxException("no_ip_pool_in_parent", 'ipaddresslist');
+				//	dprintr($parent->__parent_o);
+					throw new lxException($login->getThrow("no_ip_pool_in_parent"), '', $parent->nname);
 				}
 
 				return lx_array_keys($iplist);

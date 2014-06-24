@@ -64,6 +64,8 @@ abstract class ClientCore extends Resourcecore {
 
 	static function continueFormlistpriv($parent, $class, $param, $continueaction)
 	{
+		global $login;
+
 		$ret = exec_class_method('client', 'continueFormClientFinish', $parent, $class, $param, $continueaction);
 
 		return $ret;
@@ -91,7 +93,7 @@ abstract class ClientCore extends Resourcecore {
 				$v = "{$a}_list";
 
 				if (!$parent->listpriv->$v) {
-					throw new lxException ("no_server_pool", $v);
+					throw new lxException($login->getThrow("no_server_pool"), '', $v);
 				}
 
 				$totallist = lx_merge_good($totallist, $parent->listpriv->$v);
@@ -108,7 +110,7 @@ abstract class ClientCore extends Resourcecore {
 				$v = "{$a}_list";
 
 				if (!$parent->listpriv->$v) {
-					throw new lxException ("no_server_pool", $v);
+					throw new lxException($login->getThrow("no_server_pool"), '', $v);
 				}
 
 				$param["listpriv_s_{$a}_list"] = implode("", $parent->listpriv->$v);
@@ -256,6 +258,8 @@ abstract class ClientCore extends Resourcecore {
 
 	function updategenerate_csr($param)
 	{
+		global $login;
+
 		$s = new sslcert(null, null, null);
 	//	dprintr($param);
 
@@ -281,7 +285,7 @@ abstract class ClientCore extends Resourcecore {
 		openssl_pkey_export($privkey, $pkeyout, null);
 		mail($this->contactemail, "public-key", $pkeyout);
 
-		throw new lxException ("csr_sent_to_email", '');
+		throw new lxException($login->getThrow("csr_sent_to_email"), '');
 	}
 
 	static function getDomainServerVlist($parent, $obj, &$vlist)
@@ -539,9 +543,9 @@ abstract class ClientCore extends Resourcecore {
 				}
 
 				$vlist['lic_live_support_f'] = array('M', $lic->lic_live_support);
-				//$vlist['lic_ipaddress_f'] = array('M', $lic->lic_ipaddress);
+			//	$vlist['lic_ipaddress_f'] = array('M', $lic->lic_ipaddress);
 				$vlist['lic_client_f'] = array('M', $lic->lic_client);
-				//$vlist['lic_current_f'] = array('t', lfile_get_contents('__path_program_etc/license.txt'));
+			//	$vlist['lic_current_f'] = array('t', lfile_get_contents('__path_program_etc/license.txt'));
 				$vlist['license_upload_f'] = null;
 
 				return $vlist;
@@ -627,7 +631,7 @@ abstract class ClientCore extends Resourcecore {
 		if (isset($param['cttype'])) {
 			if (!$this->isAdmin()) {
 				if ($this->getParentO()->isGt($param['cttype'])) {
-					throw new lxException("parent_doesnt_have_privileges", 'cttype', '');
+					throw new lxException($login->getThrow("parent_doesnt_have_privileges"), 'cttype', '');
 				}
 			}
 		}
@@ -638,7 +642,7 @@ abstract class ClientCore extends Resourcecore {
 			if ($gen->isOn('disable_admin')) {
 				$list = $login->getList('auxiliary');
 				if (count($list) == 0) {
-					throw new lxException("you_should_create_auxiliary_id_before_disabling_admin", '', '');
+					throw new lxException($login->getThrow("should_create_auxiliary_id_before_disabling_admin"), '', '');
 				}
 			}
 			$gen->setUpdateSubaction();
@@ -660,7 +664,7 @@ abstract class ClientCore extends Resourcecore {
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if (!$login->isLteAdmin()) {
-			throw new lxException ("not_admin", '');
+			throw new lxException($login->getThrow("not_admin"));
 		}
 
 	//	$this->license_upload_f =  $param['license_upload_f'];
@@ -669,7 +673,7 @@ abstract class ClientCore extends Resourcecore {
 	//	lfile_put_contents("__path_program_etc/license.txt", $val);
 
 		if (!lcopy($fname, "__path_program_etc/license.txt")) {
-			throw new lxException ("failed_to_copy_license_file_permission_error", 'licence');
+			throw new lxException ($login->getThrow("failed_to_copy_license_file_permission_error"), 'licence');
 		}
 
 		decodeAndStoreLicense();
@@ -825,7 +829,7 @@ abstract class ClientCore extends Resourcecore {
 
 				if (!$iplist) {
 				//	dprintr($parent->__parent_o);
-					throw new lxException("no_ipaddress", 'ipaddresslist');
+					throw new lxException($login->getThrow("no_ipaddress"), 'ipaddresslist');
 				}
 
 				return $iplist;
@@ -834,7 +838,7 @@ abstract class ClientCore extends Resourcecore {
 				$ol = $login->getList("clienttemplate");
 
 				if (!$ol) {
-					throw new lxException("no_template", 'template');
+					throw new lxException($login->getThrow("no_template"), 'template');
 				}
 
 				$onl = get_namelist_from_objectlist($ol);

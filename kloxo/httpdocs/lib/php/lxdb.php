@@ -156,7 +156,7 @@ abstract class Lxdb extends Lxclass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if ($this->checkIfLockedForAction('switchserver')) {
-			throw new lxException("switch_is_already_happening", "syncserver", $param['syncserver']);
+			throw new lxException($login->getThrow("switch_is_already_happening"), '', $param['syncserver']);
 		}
 
 		$this->checkNotSame($param, array("syncserver"));
@@ -177,7 +177,7 @@ abstract class Lxdb extends Lxclass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if ($this->checkIfLockedForAction('livemigrate')) {
-			throw new lxException("livemigrate_is_already_happening", "syncserver", $param['syncserver']);
+			throw new lxException($login->getThrow("livemigrate_is_already_happening"), '', $param['syncserver']);
 		}
 
 		$this->checkNotSame($param, array("syncserver"));
@@ -210,7 +210,7 @@ abstract class Lxdb extends Lxclass
 		$this->checkNotSame($param, array("syncserver"));
 
 		if (!exists_in_db($this->__masterserver, 'pserver', $param['syncserver'])) {
-			throw new lxException("does_not_exist", "syncserver", $param['syncserver']);
+			throw new lxException($login->getThrow("does_not_exist"), '', $param['syncserver']);
 		}
 
 		$this->__var_bc_backupextra_stopvpsflag = 'on';
@@ -236,10 +236,12 @@ abstract class Lxdb extends Lxclass
 				$this->restoreMeUpThere($oldsyncserver, $file);
 			}
 
-			//$this->makeDnsChanges($param['syncserver']);
+		//	$this->makeDnsChanges($param['syncserver']);
 			$this->UpdateHeirarchy();
 			$this->was();
-			// There is a problem here. Teh __list_list will get cleared with one was. Then it is the getlist called from inside the deletefromhere that should fill it up again.
+
+			// There is a problem here. Teh __list_list will get cleared with one was.
+			// Then it is the getlist called from inside the deletefromhere that should fill it up again.
 
 			$cloned->DeleteFromHere($oldsyncserver);
 			$cloned->was();
