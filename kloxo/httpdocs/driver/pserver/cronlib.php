@@ -459,7 +459,7 @@ class Cron extends Lxdb
 		}
 
 		if (trim($this->$var) === "") {
-			throw new lxException($login->getThrow("can_not_be_null"), '', $var);
+			throw new lxException($login->getThrow("can_not_be_null"));
 		}
 	}
 

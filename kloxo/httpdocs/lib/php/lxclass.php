@@ -4318,7 +4318,7 @@ abstract class Lxclass
 		$numvar = $class . "_num";
 
 		if (isQuotaGreaterThan($parent->used->$numvar + 1, $parent->priv->$numvar)) {
-			throw new lxException($login->getThrow('not_enough_quota_in_parent'), '', $k);
+			throw new lxException($login->getThrow('not_enough_quota_in_parent'), '', $numvar);
 		}
 
 		$qlist = $this->getQuotaVariableList();
@@ -4503,7 +4503,7 @@ abstract class Lxclass
 		$gbl->__ajax_refresh = true;
 
 		if ($this->isLogin()) {
-			throw new lxException($login->getThrow('cannot_change_own_limit'));
+			throw new lxException($login->getThrow('can_not_change_own_limit'));
 		}
 
 		$mstr = '(--Mod--)';

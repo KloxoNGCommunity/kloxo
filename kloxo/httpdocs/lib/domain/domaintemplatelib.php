@@ -66,7 +66,7 @@ class Domaintemplate extends DomainBase
 		$iplist = $parent->getIpaddress(array($param['listpriv_s_webpserver_sing']));
 
 		if (!$iplist) {
-			throw new lxException($login->getThrow('no_ip_address_matching_the_webserver'));
+			throw new lxException($login->getThrow('no_ip_address_matching_webserver'));
 		}
 
 		$vlist['ipaddress'] = array('s', $iplist);

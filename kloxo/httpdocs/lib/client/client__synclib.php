@@ -214,7 +214,7 @@ class client__sync extends lxDriverClass {
 			$return = lfile_put_contents("__path_admin_pass", $newp);
 
 			if (!$return) {
-				log_log("admin_error", "Admin pass change failed  $last_error");
+				log_log("admin_error", "Admin pass change failed $last_error");
 
 				exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 				

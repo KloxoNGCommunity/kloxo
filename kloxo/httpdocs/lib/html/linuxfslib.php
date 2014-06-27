@@ -628,7 +628,6 @@ function lxfile_unix_chmod($file, $mod)
 	if ($ret) {
 		dprint("Chmod Error in file $file\n");
 	}
-
 }
 
 function lxfile_unix_chown($file, $mod)

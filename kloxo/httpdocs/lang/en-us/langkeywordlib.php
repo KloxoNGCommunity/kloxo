@@ -246,9 +246,9 @@ $__throw["account_is_disabled"] = array("Account is disabled");
 $__throw["name_cannot_contain_dash"] = array("Name cannot contain dash");
 $__throw["name_cannot_contain_space"] = array("Name cannot contain space");
 $__throw["already_exists"] = array("Already exists");
-$__throw["cannot_set_own_limit"] = array("Cannot set own limit");
-$__throw["cannot_change_plan"] = array("Cannot change plan");
-$__throw["cannot_find_the_resource_plan"] = array("Cannot find the resource plan");
+$__throw["can_not_set_own_limit"] = array("Can not set own limit");
+$__throw["can_not_change_plan"] = array("Can not change plan");
+$__throw["can_not_find_the_resource_plan"] = array("Can not find the resource plan");
 $__throw["wrong_password"] = array("Wrong password");
 
 $__throw["no_root_dir_specified"] = array("No root dir specified");
@@ -265,7 +265,7 @@ $__throw["user_exists_in_db"] = array("User exists in DB");
 $__throw["domain_already_exists_as_pointer"] = array("Domain already exists as Pointer");
 $__throw["no_maindomain"] = array("No_maindomain");
 
-$__throw["no_ip_address_matching_the_webserver"] = array("No IPAddress matching the webserver");
+$__throw["no_ip_address_matching_webserver"] = array("No IPAddress matching Webserver");
 
 $__throw["no_parent_object"] = array("No parent object");
 $__throw["not_owner_of_parent_object"] = array("Not owner of parent object");
@@ -313,7 +313,6 @@ $__throw["class_is_null"] = array("Class is null");
 $__throw["no_element"] = array("No element");
 $__throw["inconsistency_in_backup_detected_parent_heirarchy_not_met"] = array("Inconsistency in backup detected parent heirarchy not met");
 $__throw["not_enough_quota_in_parent"] = array("Not enough quota in parent");
-$__throw["can_not_change_own_limit"] = array("Can not change own limit");
 $__throw["locked_by_parent"] = array("Locked by parent");
 $__throw["changed_name_already_existst"] = array("Changed name already exists");
 $__throw["could_not_get_file"] = array("Could not get file");
@@ -389,7 +388,7 @@ $__throw["user_exists"] = array("Userexists");
 
 $__throw["certificate_key_file_empty"] = array("Certificate key file empty");
 
-$__throw["need_real_cert"] = array("Need real cert");
+$__throw["need_real_certificate"] = array("Need real certificate");
 $__throw["sslcert_does_not_exists"] = array("sslcert does not exists");
 
 $__throw["certificate_key_file_corrupted"] = array("Certificate key file corrupted");
@@ -420,7 +419,7 @@ $__throw["could_not_find_matching_dumpfile_for_db"] = array("Could not find matc
 $__throw["update_scheduled"] = array("Update scheduled");
 $__throw["slave_is_automatically_updated"] = array("Slave is automatically updated");
 
-$__throw["modifying_eth0_eth1_not_permitted"] = array("Modifying eth0 eth1 not permitted");
+$__throw["modifying_eth_not_permitted"] = array("Modifying eth not permitted");
 $__throw["modifying_not_permitted"] = array("Modifying not permitted");
 
 $__throw["invalid_gateway"] = array("Invalid gateway");
@@ -480,3 +479,5 @@ $__throw["first_add_some_autoresponders"] = array("First add some autoresponders
 $__throw["forward_with_same_id_exists"] = array("Forward with same id exists");
 
 $__throw["no_permit_to_delete_main_ftpuser"] = array("No permit to delete main FTPUser");
+
+$__throw["program_is_already_updating"] = array("Program is already updating");

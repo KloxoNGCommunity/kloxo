@@ -5492,6 +5492,11 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		// MR - as array if more then 1 declare in language files (example: for throw)
+		if (is_array($message)) {
+			$message = $message[0];
+		}
+
 		$message = str_replace(' ', '+', htmlspecialchars($message));
 
 		$vstring = null;
@@ -5530,6 +5535,11 @@ class HtmlLib
 	function print_redirect_back_success($message, $variable, $value = null)
 	{
 		global $gbl, $sgbl, $login;
+
+		// MR - as array if more then 1 declare in language files (example: for throw)
+		if (is_array($message)) {
+			$message = $message[0];
+		}
 
 		$vstring = null;
 

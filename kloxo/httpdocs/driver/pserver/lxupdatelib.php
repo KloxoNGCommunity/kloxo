@@ -98,7 +98,7 @@ class Lxupdate extends lxClass
 		if_demo_throw_exception('lxupdate');
 
 		if (isUpdating()) {
-			throw new lxException("program_is_already_updating");
+			throw new lxException($login->getThrow("program_is_already_updating"));
 		} else {
 			rl_exec_get($this->__masterserver, 'localhost', array('lxupdate', 'execUpdate'), null);
 

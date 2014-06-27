@@ -111,6 +111,11 @@ class lxException extends Exception
 
 	function __construct($message, $variable = 'nname', $value = null)
 	{
+		// MR - as array if more then 1 declare in language files (example: for throw)
+		if (is_array($message)) {
+			$message = $message[0];
+		}
+
 		$this->message = $message;
 		$this->variable = $variable;
 		$this->value = $value;
@@ -1692,7 +1697,7 @@ function if_demo_throw()
 	global $login;
 
 	if (if_demo()) {
-		throw new lxException ($login->getThrow("demo"), '');
+		throw new lxException ($login->getThrow("demo"));
 	}
 }
 

@@ -235,7 +235,7 @@ abstract class Dnsbase extends Lxdb
 
 		if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
 				$nameserver)) {
-			throw new lxException($login->getThrow('invalid_domain_in_primary_ns'), 'nameserver_f');
+			throw new lxException($login->getThrow('invalid_domain_in_primary_ns'), '', $nameserver);
 		}
 
 		$this->addRec('ns', $nameserver, $nameserver);

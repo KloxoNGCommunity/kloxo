@@ -161,7 +161,7 @@ class resourceplan extends resourcecore
 		$nname = "{$namereal}___{$this->getParentO()->getClName()}";
 
 		if (exists_in_db(null, 'resourceplan', $nname)) {
-			throw new lxException('already_exists', 'realname');
+			throw new lxException('already_exists', '', $namereal);
 		}
 		
 		$this->nname = $nname;
@@ -299,7 +299,9 @@ class resourceplan extends resourcecore
 				break;
 
 			case "description":
-				if ($this->islogin()) { throw new lxException('you_cannot_set_your_own_limit', ''); }
+				if ($this->islogin()) {
+					throw new lxException($login->getThrow('can_not_set_own_limit'));
+				}
 
 				$vlist['disable_per'] = array('s', array('off', '95', '100', '110', '120', '130'));
 

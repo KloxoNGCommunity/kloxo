@@ -1059,7 +1059,7 @@ class ClientBase extends ClientCore
 				$v = "{$a}_list";
 
 				if (!$parent->listpriv->$v) {
-				//	throw new lxException($login->getThrow("no_server_pool"), $v);
+				//	throw new lxException($login->getThrow("no_server_pool"), '', $v);
 				}
 
 				$param["listpriv_s_{$a}_list"] = $parent->listpriv->$v;

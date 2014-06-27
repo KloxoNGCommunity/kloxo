@@ -35,7 +35,9 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 
 			$ret = lxshell_return("service", "httpd", "stop");
 
-			if ($ret) { throw new lxException($login->getThrow('httpd_stop_failed'), 'parent'); }
+			if ($ret) {
+				throw new lxException($login->getThrow('httpd_stop_failed'));
+			}
 		}
 
 		lxshell_return("sync; echo 3 > /proc/sys/vm/drop_caches");
@@ -115,7 +117,7 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 		$ret = lxshell_return("service", "httpd", "start");
 
 		if ($ret) {
-			throw new lxException($login->getThrow('httpd_start_failed'), 'parent');
+			throw new lxException($login->getThrow('httpd_start_failed'));
 		}
 	}
 }

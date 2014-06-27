@@ -205,7 +205,7 @@ function do_remote_exec($machine, $rmt, $cmdtype, $nname, $dbaction)
 			if ($res) {
 				$password = $res[0]['realpass'];
 			} else {
-				throw new lxException($login->getThrow("machine_doesnt_exist_in_db"), '', $machine);
+				throw new lxException($login->getThrow("machine_does_not_exist_in_db"), '', $machine);
 			}
 		}
 	} else {

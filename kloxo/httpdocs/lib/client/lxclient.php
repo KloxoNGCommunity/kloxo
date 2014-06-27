@@ -737,7 +737,7 @@ abstract class Lxclient extends Lxdb
 
 			case "disable_per":
 				if ($this->islogin()) {
-					throw new lxException($login->getThrow('cannot_set_own_limit'));
+					throw new lxException($login->getThrow('can_not_set_own_limit'));
 				}
 				
 				$vlist['disable_per'] = array('s', array('off', '95', '100', '110', '120', '130', '150', '175', '200', '300'));
@@ -766,7 +766,7 @@ abstract class Lxclient extends Lxdb
 			case "limit_s":
 			case "limit":
 				if ($this->islogin()) {
-					throw new lxException($login->getThrow('cannot_set_own_limit'));
+					throw new lxException($login->getThrow('can_not_set_own_limit'));
 				}
 				if (cse($this->get__table(), "template")) {
 					$class = strtil($this->get__table(), "template");
@@ -859,7 +859,7 @@ abstract class Lxclient extends Lxdb
 		$template = getFromAny(array($parent, $login), "resourceplan", $tname);
 		
 		if (!$template) {
-			throw new lxException($login->getThrow('cannot_find_the_resource_plan'), '', $this->nname);
+			throw new lxException($login->getThrow('can_not_find_the_resource_plan'), '', $this->nname);
 		}
 		
 		$priv = $template->priv;

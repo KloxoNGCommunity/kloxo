@@ -303,7 +303,7 @@ class pservercore extends Lxclient
 		$list = $this->getList('ippool');
 
 		if (!$list) {
-			throw new lxException($login->getThrow("no_ip_pool_configured_for_this_slave"), null, $this->nname);
+			throw new lxException($login->getThrow("no_ip_pool_configured_for_this_slave"), '', $this->nname);
 		}
 
 		$totallist = null;

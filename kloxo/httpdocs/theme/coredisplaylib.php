@@ -629,7 +629,7 @@ function __ac_desc_delete($object)
 	$cname = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
-		throw new lxException($login->getThrow("can_not_delete_in_demo"), '', $pk);
+		throw new lxException($login->getThrow("can_not_delete_in_demo"));
 	}
 
 	$ghtml->print_message();
@@ -1196,7 +1196,7 @@ function __ac_desc_add($object, $param = null)
 	$class = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
-		throw new lxException($login->getThrow("can_not_add_in_demo"), '', $pk);
+		throw new lxException($login->getThrow("can_not_add_in_demo"));
 	}
 
 	if (!$param) {

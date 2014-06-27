@@ -21,7 +21,7 @@ class Dnstemplate extends DnsBase
 		global $login;
 
 		if ($this->getParentO()->getClName() !== $this->parent_clname) {
-			//throw new lxException($login->getThrow('template_not_owner'));
+		//	throw new lxException($login->getThrow('template_not_owner'));
 		}
 		
 		return $param;

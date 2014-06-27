@@ -1423,13 +1423,13 @@ function full_validate_ipaddress($ip, $variable = 'ipaddress')
 
 
 	if (!validate_ipaddress($ip)) {
-		throw new lxException($login->getThrow("invalid_ipaddress"), $variable);
+		throw new lxException($login->getThrow("invalid_ipaddress"), $ip);
 	}
 
 	$ret = lxshell_return("ping", "-n", "-c", "1", "-w", "5", $ip);
 
 	if (!$ret) {
-		throw new lxException($login->getThrow("some_other_host_uses_this_ip"), $variable);
+		throw new lxException($login->getThrow("some_other_host_uses_this_ip"), $ip);
 	}
 
 	$global_dontlogshell = false;
@@ -1483,7 +1483,7 @@ function validate_ipaddress_and_throw($ip, $variable)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!validate_ipaddress($ip)) {
-		throw new lxException($login->getThrow("invalid_ipaddress"), '', $variable);
+		throw new lxException($login->getThrow("invalid_ipaddress"), '', $ip);
 	}
 }
 

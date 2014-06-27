@@ -24,7 +24,7 @@ class Uuser__Linux  extends lxDriverClass
 		if ($ret) {
 			// Error... Do a lot of stuff;
 			log_error($global_shell_out);
-			throw new lxException($login->getThrow('user_create'), 'web_s_uuser_s_nname', $this->main->nname);
+			throw new lxException($login->getThrow('user_create'), '', $this->main->nname);
 		}
 
 	/*
@@ -101,7 +101,7 @@ class Uuser__Linux  extends lxDriverClass
 				return true;
 			} else {
 				log_error("User {$name} Already Exists. But is of NOT of the same domain");
-				throw new lxException($login->getThrow("user_exists"), 'web_s_uuser_nname', $name);
+				throw new lxException($login->getThrow("user_exists"), '', $name);
 			}
 		}
 

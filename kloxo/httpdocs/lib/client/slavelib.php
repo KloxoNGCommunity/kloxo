@@ -12,7 +12,7 @@ class Slave extends Lxclient
 		$root = $gbl->getSessionV('ffile_root');
 
 		if (!$root) {
-			throw new lxException($login->getThrow("no_root_dir_specified"), 'template');
+			throw new lxException($login->getThrow("no_root_dir_specified"));
 		}
 
 		$name = coreFfile::getRealpath($name);

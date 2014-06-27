@@ -413,7 +413,7 @@ class lxbackup extends Lxdb
 			if ($parent->get__table() === 'vps') {
 				$num = rl_exec_get(null, $parent->syncserver, "get_total_files_in_directory", array($bpath));
 				if (isQuotaGreaterThanOrEq($num, $parent->priv->backup_num)) {
-					throw new lxException($login->getThrow("backup_number_exceeded"), '', "$num greater than {$parent->priv->backup_num}");
+					throw new lxException($login->getThrow("backup_number_exceeded"), '', "$num > {$parent->priv->backup_num}");
 				}
 			}
 		}
@@ -431,7 +431,7 @@ class lxbackup extends Lxdb
 		if ($this->backuptype === 'backup') {
 			rl_exec_get(null, null, array("lxbackup", "execbackupphp"), array($this->getParentClass(), $this->getParentName(), $param));
 			$this->write();
-			throw new lxException($login->getThrow("backup_has_been_scheduled"), '');
+			throw new lxException($login->getThrow("backup_has_been_scheduled"));
 		} else {
 			$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
 			$fname = $param['backup_from_file_f'];
@@ -738,7 +738,7 @@ class lxbackup extends Lxdb
 		$vd = tempnam("/tmp", "backup");
 
 		if (!$vd) {
-			throw new lxException('could_not_create_tmp_dir', '');
+			throw new lxException($login->getThrow('could_not_create_tmp_dir'));
 		}
 
 		lunlink($vd);
@@ -792,12 +792,14 @@ class lxbackup extends Lxdb
 
 	function download_from_server($file, $localfile)
 	{
+		global $login;
+			
 		$fn = lxftp_connect($this->ftp_server);
 		$mylogin = ftp_login($fn, $this->rm_username, $this->rm_password);
 
 		if (!$mylogin) {
 			$p = error_get_last();
-			throw new lxException('could_not_connect_to_ftp_server', '', $p);
+			throw new lxException($login->getThrow('could_not_connect_to_ftp_server'), '', $p);
 		}
 
 		// using a PASV connection is more likely to succeed
@@ -806,7 +808,7 @@ class lxbackup extends Lxdb
 		$fp = lfopen($localfile, "w");
 
 		if (!ftp_fget($fn, $fp, $file, FTP_BINARY)) {
-			throw new lxException('file_download_failed', '', $file);
+			throw new lxException($login->getThrow('file_download_failed'), '', $file);
 		}
 
 		fclose($fp);
@@ -814,12 +816,14 @@ class lxbackup extends Lxdb
 
 	static function upload_to_server($file, $uploadfilename, $object)
 	{
+		global $login;
+
 		$fn = lxftp_connect($object->ftp_server);
 		$mylogin = ftp_login($fn, $object->rm_username, $object->rm_password);
 
 		if (!$mylogin) {
 			$p = error_get_last();
-			throw new lxException('could_not_connect_to_ftp_server', '', $p);
+			throw new lxException($login->getThrow('could_not_connect_to_ftp_server'), '', $p);
 		}
 
 		ftp_pasv($fn, true);
@@ -836,7 +840,7 @@ class lxbackup extends Lxdb
 			$p = error_get_last();
 			log_log("ftp_error", $p);
 
-			throw new lxException('could_not_upload_file', '', $object->ftp_server);
+			throw new lxException($login->getThrow('could_not_upload_file'), '', $object->ftp_server);
 		}
 
 		fclose($fp);

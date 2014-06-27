@@ -136,7 +136,6 @@ class reversedns extends Lxdb
 
 class all_reversedns extends reversedns
 {
-
 	static $__desc =  array("n", "",  "all_reversedns");
 	static $__desc_parent_name_f =  array("n", "",  "vps");
 	static $__desc_parent_clname =  array("n", "",  "vps");

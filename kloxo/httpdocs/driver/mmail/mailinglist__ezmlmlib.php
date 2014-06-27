@@ -52,7 +52,7 @@ HEAD;
 			$r = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $dom, "-d", $mailrootpath, 'nothing');
 
 			if ($r) {
-				throw new lxException($login->getThrow("create_mailinglist_failed), '', "{$dom} on $mailrootpath");
+				throw new lxException($login->getThrow("create_mailinglist_failed"), '', "{$dom} on $mailrootpath");
 			}
 
 			$qmailfile = "{$mailpath}/.qmail-default";
@@ -74,7 +74,7 @@ HEAD;
 
 		// MR -- must be use !$ret because if success without return value!
 		if ($r) {
-			throw new lxException($login->getThrow("create_mailinglist_failed), ''. "{$listname} at {$dom}");
+			throw new lxException($login->getThrow("create_mailinglist_failed"), ''. "{$listname} at {$dom}");
 		}
 
 		$this->add_header("$dom_dir/headerremove", $headerremove);

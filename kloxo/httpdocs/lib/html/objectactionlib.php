@@ -250,8 +250,11 @@ function check_priv($parent, $class, $pvar, $v)
 
 			if ($tmp > $parent->getEffectivePriv($pk, $class)) {
 				dprint("After throw");
+				
 				$desc = getNthToken(get_v_descr($parent, $pk), 1);
+				
 				if (!$desc) { $desc = $pk; }
+				
 				throw new lxException($login->getThrow("quota_exceeded"), '', $desc);
 			}
 
@@ -655,7 +658,7 @@ function do_desc_add($object, $class, $param)
 			$vname = "nname";
 		}
 
-		throw new lxException($login->getThrow("already_exists"), $vname, $class);
+		throw new lxException($login->getThrow("already_exists"), '', "{$vname} - {$class}");
 	}
 
 	//Second Pass...

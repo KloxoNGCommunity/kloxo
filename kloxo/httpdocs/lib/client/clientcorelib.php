@@ -285,7 +285,7 @@ abstract class ClientCore extends Resourcecore {
 		openssl_pkey_export($privkey, $pkeyout, null);
 		mail($this->contactemail, "public-key", $pkeyout);
 
-		throw new lxException($login->getThrow("csr_sent_to_email"), '');
+		throw new lxException($login->getThrow("csr_sent_to_email"));
 	}
 
 	static function getDomainServerVlist($parent, $obj, &$vlist)
@@ -631,7 +631,7 @@ abstract class ClientCore extends Resourcecore {
 		if (isset($param['cttype'])) {
 			if (!$this->isAdmin()) {
 				if ($this->getParentO()->isGt($param['cttype'])) {
-					throw new lxException($login->getThrow("parent_doesnt_have_privileges"), 'cttype', '');
+					throw new lxException($login->getThrow("parent_doesnt_have_privileges"), '', $param['cttype']);
 				}
 			}
 		}
@@ -642,7 +642,7 @@ abstract class ClientCore extends Resourcecore {
 			if ($gen->isOn('disable_admin')) {
 				$list = $login->getList('auxiliary');
 				if (count($list) == 0) {
-					throw new lxException($login->getThrow("should_create_auxiliary_id_before_disabling_admin"), '', '');
+					throw new lxException($login->getThrow("should_create_auxiliary_id_before_disabling_admin"));
 				}
 			}
 			$gen->setUpdateSubaction();

@@ -44,7 +44,7 @@ class dirlocation__linux extends lxDriverClass
 		$ret = exec_with_all_closed_output("vgdisplay -c $dirlocation");
 
 		if (!csa($ret, ":")) {
-			throw new lxException($login->getThrow("lvm_does_not_exist"), 'nname', $dirlocation);
+			throw new lxException($login->getThrow("lvm_does_not_exist"), '', $dirlocation);
 		}
 	}
 }

@@ -72,6 +72,7 @@ class DomainIpaddress extends Lxdb
 		// then the web objects are initialized, and the web can be created only UNDER the domain, and not directly under this object.
 
 		global $gbl, $sgbl, $login, $ghtml;
+
 		$driverapp = $gbl->getSyncClass($this->__masterserver, $this->__readserver, 'web');
 		$olddom = $this->domain;
 		$newdom = $param['domain'];
