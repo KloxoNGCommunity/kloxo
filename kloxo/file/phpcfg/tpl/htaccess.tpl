@@ -33,6 +33,9 @@
 ###    on point (1) if select suphp_worker/_event for primary-php
 
 #<Ifmodule !mod_php5.c>
+    #AddHandler x-httpd-php55 .php
+    #AddHandler x-httpd-php54 .php
+    #AddHandler x-httpd-php53 .php
     #AddHandler x-httpd-php52 .php
     #AddHandler x-httpd-php .php
 #</Ifmodule>

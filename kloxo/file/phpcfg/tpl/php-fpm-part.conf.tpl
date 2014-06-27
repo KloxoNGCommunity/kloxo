@@ -139,6 +139,8 @@ env[OSTYPE] = $OSTYPE
 env[MACHTYPE] = $MACHTYPE
 env[MALLOC_CHECK_] = 2
 
+php_admin_value[extension_dir] = <?php echo $extension_dir_path; ?>
+
 php_flag[zlib.output_compression] = <?php echo $output_compression_flag; ?>
 
 php_admin_value[disable_functions] = <?php echo $disable_functions; ?>

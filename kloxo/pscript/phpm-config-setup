@@ -18,7 +18,7 @@ echo $x >>/opt/${base_name}/install.log
 for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 	apc apcu imagick interbase ioncube-loader memcache memcached mssql debug \
 	pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
-	xdebug	xcache opcache lzf redis enchant phar intl geoip fileinfo tidy ; do
+	xdebug xcache opcache lzf redis enchant ; do
 
 	for j in php.d php-zts.d ; do
 		if [ -f /opt/${base_name}/etc/${j}/${i}.ini ] ; then

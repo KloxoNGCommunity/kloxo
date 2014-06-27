@@ -95,6 +95,8 @@ foreach ($certnamelist as $ip => $certname) {
 ### 'default' config
 <VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
 
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
 	ServerName default
 
 	ServerAlias default.*
@@ -217,6 +219,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 ### 'cp' config
 <VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
 	ServerName cp
 

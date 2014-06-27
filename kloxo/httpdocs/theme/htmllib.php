@@ -7761,11 +7761,15 @@ class HtmlLib
 				}
 
 				if (file_exists("/usr/local/lxlabs/kloxo/httpdocs/editor/ckeditor/ckeditor.js")) {
-
+					$jsconfig = getLinkCustomfile("/usr/local/lxlabs/kloxo/httpdocs/editor/ckeditor", "kloxo.js");
+					$jsconfig = str_replace('/usr/local/lxlabs/kloxo/httpdocs', '', $jsconfig);
 ?>
 
 <script type="text/javascript" src="/editor/ckeditor/ckeditor.js"></script>
 <textarea class="ckeditor" name="<?=$variable->name;?>"><?php echo $value; ?></textarea>
+<script>
+	CKEDITOR.replace( '<?=$variable->name;?>' , { customConfig: '<?=$jsconfig;?>'} );
+</script>
 <?php
 				} else {
 
