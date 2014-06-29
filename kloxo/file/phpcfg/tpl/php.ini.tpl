@@ -83,7 +83,6 @@ zlib.output_compression = <?=$output_compression_flag;?>
 <?=$php53enable;?>max_execution_time = 30
 <?=$php53enable;?>max_input_time = 60
 <?=$php53enable;?>unserialize_callback_func =
-<?=$php53enable;?>output_buffering = 4096
 <?=$php53enable;?>ignore_repeated_source = Off
 <?=$php53enable;?>report_memleaks = On
 <?=$php53enable;?>html_errors = On

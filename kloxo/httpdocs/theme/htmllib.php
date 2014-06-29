@@ -7778,8 +7778,11 @@ class HtmlLib
 <script type="text/javascript" src="/editor/ckeditor/ckeditor.js"></script>
 <textarea class="ckeditor" name="<?=$variable->name;?>"><?php echo $value; ?></textarea>
 <script>
-	CKEDITOR.replace( '<?=$variable->name;?>' , { customConfig: '<?=$jsconfig;?>'} );
+	CKEDITOR.replace( '<?=$variable->name;?>' , { customConfig: '<?=$jsconfig;?>' } );
 </script>
+<style>
+	.cke_button__source_label { display: none; }
+</style>
 <?php
 				} else {
 
