@@ -213,11 +213,13 @@ $__throw["not_allowed_in_demo"] = "Not allowed in DEMO";
 
 $__throw["please_add_one_domain_for_owner_mode"] = "Please add one domain for owner mode";
 $__throw["skeleton_should_be_zip"] = "Skeleton should be zip";
-$__throw["success_message_successfully_sent"] = "Success message successfully sent";
+// $__throw["success_message_successfully_sent"] = "Success message successfully sent";
+$__throw["message_sent"] = "Message sent";
 $__throw["no_contact_email"] = "No contact email";
 $__throw["resource_quota_more_than_available"] = "Resource quota more than available";
 $__throw["installapp_needs_valid_contactemail"] = "Installapp needs valid contactemail";
-$__throw["type_of_adding_more_than_parent"] = "Type of adding more than parent";
+// $__throw["type_of_adding_more_than_parent"] = "Type of adding more than parent";
+$__throw["client_type_more_than_parent"] = "Client type more than parent";
 $__throw["use_double_underscore"] = "Use double underscore";
 $__throw["dir_as_reserved_under_home_dir"] = "Dir as reserved under home dir";
 $__throw["dir_exists_under_home_dir"] = "Dir exists under home dir";
@@ -336,7 +338,7 @@ $__throw["restarting_backend"] = "Restarting backend";
 $__throw["parent_does_not_have_permission_for"] = "Parent does not have permission for";
 $__throw["has_to_be_greater_than_zero"] = "Has to be greater than zero";
 
-$__throw["no_premission_to_backup"] = "No premission to backup";
+$__throw["no_permission_to_backup"] = "No permission to backup";
 $__throw["could_not_find_file"] = "Could not find file";
 $__throw["backup_file_corrupted"] = "Backup file corrupted";
 $__throw["could_not_upload_file"] = "Could not upload file";
@@ -378,7 +380,7 @@ $__throw["could_not_copy_document_root"] = "Could not copy document root";
 $__throw["this_is_a_snapshot_of_an_older_installation"] = "This is a snapshot of an older installation";
 
 $__throw["database_already_exists"] = "Database already exists";
-$__throw["another_appliation_exists_in_the_same_location"] = "Another appliation exists in the same location";
+$__throw["another_application_exists_in_the_same_location"] = "Another application exists in the same location";
 $__throw["could_not_create_database_after_20_tries"] = "Could not create database after 20 tries";
 $__throw["mysqldb_quota_exceeded"] = "Mysqldb quota exceeded";
 $__throw["invalid_email"] = "Invalid Email";
@@ -409,7 +411,6 @@ $__throw["not_ready_to_use"] = "Not ready to use";
 
 $__throw["no_ip_pool_configured_for_this_slave"] = "No IP pool configured for this slave";
 $__throw["only_alpha_numeric_characters_allowed"] = "Only alpha numeric characters allowed";
-$__throw["wrong_password"] = "Wrong password";
 $__throw["no_permission"] = "No permission";
 
 $__throw["could_not_connect_to_db"] = "Could not connect to DB";
@@ -425,7 +426,6 @@ $__throw["modifying_not_permitted"] = "Modifying not permitted";
 $__throw["invalid_gateway"] = "Invalid gateway";
 $__throw["invalid_netmask"] = "Invalid netmask";
 $__throw["ipaddress_already_configured"] = "IPAddress already configured";
-$__throw["some_other_host_uses_this_ip"] = "Some other host uses this IPAddress";
 
 $__throw["file_manager_is_readonly"] = "File Manager is readonly";
 $__throw["can_not_save_content"] = "Can not save content";
@@ -435,8 +435,8 @@ $__throw["please_type_full_url_including_file_name"] = "Please type full url inc
 $__throw["file_exists"] = "File exists";
 $__throw["can_not_unzip_in_root"] = "Can not unzip in root";
 $__throw["root_can_not_extract_to_existing_dir"] = "Root can not extract to existing dir";
-$__throw["file_exists_upload"] = "File exists upload";
-$__throw["file_exists_rename"] = "File exists rename";
+$__throw["file_upload_already_exists"] = "File upload already exists";
+$__throw["file_rename_already_exists"] = "File rename already exists";
 
 $__throw["no_file_in_upload"] = "No file in upload";
 $__throw["folder_name_may_not_contain_doubledotsslash"] = "Folder name may not contain doubledotsslash";
@@ -461,13 +461,11 @@ $__throw["adding_cron_failed"] = "Adding cron failed";
 
 $__throw["can_not_be_null"] = "Can not be null";
 
-$__throw["install_failed"] = "Install failed";
-
 $__throw["spamdyke_is_not_installed"] = "spamdyke is not installed";
 $__throw["simscan_is_not_installed_for_virus_scan"] = "simscan is not installed for virus scan";
 
 $__throw["could_not_delete_domain"] = "Could not delete domain";
-$__throw["could_not_add_mail_and_then_try_again"] = "Could not add mail and then try again";
+$__throw["could_not_add_mail_and_then_try_again"] = "Could not add mail, try again";
 
 $__throw["create_mailinglist_failed"] = "Create mailinglist failed";
 
@@ -476,7 +474,7 @@ $__throw["need_listname"] = "Need listname";
 $__throw["mailaccount_add_failed"] = "MailAccount add failed";
 
 $__throw["first_add_some_autoresponders"] = "First add some autoresponders";
-$__throw["forward_with_same_id_exists"] = "Forward with same id exists";
+$__throw["mailforward_already_exists"] = "Mailforward already exists";
 
 $__throw["no_permit_to_delete_main_ftpuser"] = "No permit to delete main FTPUser";
 

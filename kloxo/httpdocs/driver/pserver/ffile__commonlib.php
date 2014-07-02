@@ -382,7 +382,7 @@ class ffile__common
 		
 		if (lfile_exists($filename)) {
 			if (!$this->main->isOn('upload_overwrite_f')) {
-				throw new lxException($login->getThrow('file_exists_upload'), '', $filename);
+				throw new lxException($login->getThrow('file_upload_already_exists'), '', $filename);
 			} else {
 				lxfile_rm($filename);
 			}
@@ -403,7 +403,7 @@ class ffile__common
 		$new = $directory . "/" . $this->main->newname;
 		
 		if (lfile_exists($new)) {
-			throw new lxException($login->getThrow('file_exists_rename'), '', $new);
+			throw new lxException($login->getThrow('file_rename_already_exists'), '', $new);
 		}
 		
 		new_process_mv_rec($this->main->__username_o, $this->main->fullpath, $new);

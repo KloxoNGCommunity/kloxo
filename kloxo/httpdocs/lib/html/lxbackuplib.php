@@ -90,7 +90,7 @@ class lxbackup extends Lxdb
 		$parent = $this->getParentO();
 
 		if (!$parent->priv->isOn('backup_flag')) {
-			throw new lxException($login->getThrow('no_premission_to_backup'));
+			throw new lxException($login->getThrow('no_permission_to_backup'));
 		}
 
 		return $param;

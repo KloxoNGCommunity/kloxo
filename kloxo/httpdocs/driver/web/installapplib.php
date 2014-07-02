@@ -225,7 +225,7 @@ class installapp extends Lxdb
 			}
 
 			if ($l->installdir === $this->installdir) {
-				throw new lxException($login->getThrow('another_appliation_exists_in_the_same_location'), '', $l->installdir);
+				throw new lxException($login->getThrow('another_application_exists_in_the_same_location'), '', $l->installdir);
 			}
 		}
 

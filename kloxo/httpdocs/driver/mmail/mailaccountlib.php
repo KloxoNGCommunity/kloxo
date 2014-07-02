@@ -520,7 +520,7 @@ class Mailaccount extends Lxclient
 	//	$param['parent_clname'] = "mmail-{$param['real_clparent_f']}";
 
 		if (exists_in_db(null, "mailforward", $param['nname'])) {
-			throw new lxException($login->getThrow("forward_with_same_id_exists"), '', $param['nname']);
+			throw new lxException($login->getThrow("mailforward_already_exists"), '', $param['nname']);
 		}
 
 		$param = parent::add($parent, $class, $param);

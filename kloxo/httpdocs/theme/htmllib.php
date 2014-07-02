@@ -7610,9 +7610,15 @@ class HtmlLib
 		$rowuniqueid = "id$vname";
 		$rowcount++;
 
+		if ($variable->type === 'htmltextarea') {
+			$padding = '0';
+		} else {
+			$padding = '10px';
+		}
+
 ?>
 
-		<div align="left" style="padding:10px; <?= $divstyle ?>; display:block">
+		<div align="left" style="padding:<?= $padding ?>; <?= $divstyle ?>; display:block">
 <?php
 
 		$variable_description = ucwords($variable_description);

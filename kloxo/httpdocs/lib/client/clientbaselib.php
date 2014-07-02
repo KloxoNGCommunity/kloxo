@@ -552,7 +552,8 @@ class ClientBase extends ClientCore
 			}
 		}
 
-		throw new lxException($login->getThrow("success_message_successfully_sent"));
+	//	throw new lxException($login->getThrow("success_message_successfully_sent"));
+		throw new lxException($login->getThrow("message_sent"));
 	}
 
 	function updateMessage($param)
@@ -565,7 +566,8 @@ class ClientBase extends ClientCore
 
 		lx_mail(null, $this->contactemail, $param['wall_subject_f'], $param['wall_message_f']);
 
-		throw new lxException($login->getThrow("success_message_successfully_sent"), '', $this->contactemail);
+	//	throw new lxException($login->getThrow("success_message_successfully_sent"), '', $this->contactemail);
+		throw new lxException($login->getThrow("message_sent"), '', $this->contactemail);
 	}
 
 	function checkTemplateGreaterThan($tmp)
@@ -948,7 +950,8 @@ class ClientBase extends ClientCore
 		if_customer_complain_and_exit();
 
 		if ($parent->isGt('wholesale') && $parent->isGte($param['cttype'])) {
-			throw new lxException($login->getThrow("type_of_adding_more_than_parent"));
+		//	throw new lxException($login->getThrow("type_of_adding_more_than_parent"));
+			throw new lxException($login->getThrow("client_type_more_than_parent"));
 		}
 
 		$param['cpstatus'] = 'on';
