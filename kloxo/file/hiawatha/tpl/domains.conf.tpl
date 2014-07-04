@@ -540,7 +540,7 @@ VirtualHost {
 	UseGZfile = yes
 	FollowSymlinks = no
 <?php
-		if ($enable_cgi) {
+		if ($enablecgi) {
 ?>
 
 	WrapCGI = <?=$user;?>_wrapper
@@ -709,9 +709,8 @@ VirtualHost {
 VirtualHost {
 	UseGZfile = yes
 	FollowSymlinks = no
-
 <?php
-			if ($enable_cgi) {
+			if ($enablecgi) {
 ?>
 
 	WrapCGI = <?=$user;?>_wrapper
@@ -826,6 +825,14 @@ VirtualHost {
 VirtualHost {
 	UseGZfile = yes
 	FollowSymlinks = no
+<?php
+			if ($enablecgi) {
+?>
+
+	WrapCGI = <?=$user;?>_wrapper
+<?php
+			}
+?>
 
 	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 

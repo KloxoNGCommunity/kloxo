@@ -352,8 +352,14 @@ server {
 ## web for '<?php echo $domainname; ?>'
 server {
     #disable_symlinks if_not_owner;
-
 <?php
+		if ($enablecgi) {
+?>
+
+	## MR -- 'enable-cgi' not implementing yet
+<?php
+		}
+
         if ($ip === '*') {
             if ($IPv6Enable) {
 ?>
@@ -623,6 +629,13 @@ server {
     #disable_symlinks if_not_owner;
 
 <?php
+					if ($enablecgi) {
+?>
+
+	## MR -- 'enable-cgi' not implementing yet
+<?php
+					}
+
                     if ($ip === '*') {
                         if ($IPv6Enable) {
 ?>
@@ -693,6 +706,13 @@ server {
     #disable_symlinks if_not_owner;
 
 <?php
+					if ($enablecgi) {
+?>
+
+	## MR -- 'enable-cgi' not implementing yet
+<?php
+					}
+
                     if ($ip === '*') {
                         if ($IPv6Enable) {
 ?>

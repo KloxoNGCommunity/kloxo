@@ -320,18 +320,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 	server.document-root = var.rootdir
 
 	url.redirect = ( "/" =>  "<?php echo $protocol; ?><?php echo $domainname; ?>/" )
-<?php
-			if ($enablecgi) {
-?>
 
-	alias.url += ( "/" => var.rootdir )
-
-	$HTTP["url"] =~ "^/" {
-		cgi.assign = ( ".pl" => "/usr/bin/perl" )
-	}
-<?php
-			}
-?>
 }
 
 <?php
