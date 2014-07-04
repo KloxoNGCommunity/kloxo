@@ -278,6 +278,8 @@ class web__ extends lxDriverClass
 	//	$input['webcache'] = rl_exec_get('localhost', $this->main->__syncserver, 'slave_get_driver', array('webcache'));
 		$input['webcache'] = $gbl->getSyncClass('localhost', $this->main->__syncserver, 'webcache');
 
+		$input['enablecgi'] = $this->getEnableCGI();
+
 		self::setCreateConfFile($input);
 
 		$this->setLogfile();
@@ -555,11 +557,26 @@ class web__ extends lxDriverClass
 
 			if ($conftype === 'domains') {
 				if ($l === 'lighttpd') {
-					self::setLighttpdPerlSuexec($input);
+				//	self::setLighttpdPerlSuexec($input);
 				}
 
 				if ($l === 'nginx') {
-					self::setNginxCgibinPhp();
+				//	self::setNginxCgibinPhp();
+				}
+			}
+
+			if ($conftype === 'defaults') {
+				if ($l === 'hiawatha') {
+					$tplsource = getLinkCustomfile("/home/{$l}/tpl", "cgi-wrapper.conf.tpl");
+					$tpltarget = "/etc/hiawatha/cgi-wrapper.conf";
+				
+					$tpl = file_get_contents($tplsource);
+
+					$tplparse = getParseInlinePhp($tpl, $input);
+
+					if ($tplparse) {
+						file_put_contents("{$tpltarget}", $tplparse);
+					}
 				}
 			}
 		}
@@ -629,6 +646,13 @@ class web__ extends lxDriverClass
 
 		$ret = ($this->main->isOn('fcgi_children')) ? $n : "1";
 
+		return $ret;
+	}
+
+	function getEnableCGI()
+	{
+		$ret = ($this->main->priv->isOn('cgi_flag')) ? true : false;
+		
 		return $ret;
 	}
 

@@ -261,6 +261,18 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 	server.document-root = var.rootdir
 
 	index-file.names = ( <?php echo $indexorder; ?> )
+<?php
+			if ($enablecgi) {
+?>
+
+	alias.url += ( "/" => var.rootdir )
+
+	$HTTP["url"] =~ "^/" {
+		cgi.assign = ( ".pl" => "/usr/bin/perl" )
+	}
+<?php
+			}
+?>
 
 	var.user = "<?php echo $sockuser; ?>"
 <?php
@@ -288,7 +300,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 			}
 ?>
 
-			}
+}
 
 <?php
 		} else {
@@ -308,7 +320,18 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 	server.document-root = var.rootdir
 
 	url.redirect = ( "/" =>  "<?php echo $protocol; ?><?php echo $domainname; ?>/" )
+<?php
+			if ($enablecgi) {
+?>
 
+	alias.url += ( "/" => var.rootdir )
+
+	$HTTP["url"] =~ "^/" {
+		cgi.assign = ( ".pl" => "/usr/bin/perl" )
+	}
+<?php
+			}
+?>
 }
 
 <?php
@@ -324,32 +347,32 @@ if ($parkdomains) {
 		if ($disabled) {
 ?>
 
-			## webmail for parked '<?php echo $parkdomainname; ?>'
-			$HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
+## webmail for parked '<?php echo $parkdomainname; ?>'
+$HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
-			var.rootdir = "<?php echo $disabledocroot; ?>/"
+	var.rootdir = "<?php echo $disabledocroot; ?>/"
 
-			server.document-root = var.rootdir
+	server.document-root = var.rootdir
 
-			index-file.names = ( <?php echo $indexorder; ?> )
+	index-file.names = ( <?php echo $indexorder; ?> )
 <?php
 			if ($reverseproxy) {
 ?>
 
-				include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
+	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
 <?php
 			} else {
 ?>
 
-				var.user = "apache"
-				var.fpmport = "<?php echo $fpmportapache; ?>"
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
 
-				include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
+	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
 <?php
 			}
 ?>
 
-			}
+}
 
 <?php
 		} else {
@@ -541,7 +564,7 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 
 ## web for '<?php echo $domainname; ?>'
 #$SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
-$SERVER["socket"] == ":<?php echo $port[1]; ?>" {
+$SERVER["socket"] == ":<?php echo $port; ?>" {
 
 	ssl.engine = "enable"
 
@@ -557,12 +580,12 @@ $SERVER["socket"] == ":<?php echo $port[1]; ?>" {
 
 	ssl.use-sslv2 = "disable"
 <?php
-				)
+				}
+			} else {
+				if ($count !== 0) {
+					continue;
+				}
 			}
-		}
-
-		if (($ip === '*') && ($count !== 0)) {
-			continue;
 		}
 ?>
 
@@ -725,6 +748,18 @@ $SERVER["socket"] == ":<?php echo $port[1]; ?>" {
 ?>
 
 	include "<?php echo $globalspath; ?>/<?php echo $genericconf; ?>"
+<?php
+		if ($enablecgi) {
+?>
+
+	alias.url += ( "/" => var.rootdir )
+
+	$HTTP["url"] =~ "^/" {
+		cgi.assign = ( ".pl" => "/usr/bin/perl" )
+	}
+<?php
+		}
+?>
 }
 
 <?php

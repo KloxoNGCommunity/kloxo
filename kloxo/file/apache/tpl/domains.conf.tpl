@@ -594,6 +594,14 @@ foreach ($certnamelist as $ip => $certname) {
 		<IfVersion >= 2.4>
 			Require all granted
 		</IfVersion>
+<?php
+			if ($enable_cgi) {
+?>
+		Options +ExecCGI
+		AddHandler cgi-script .cgi .pl
+<?php
+			}
+?>
 	</Directory>
 <?php
 			//}
@@ -853,6 +861,14 @@ foreach ($certnamelist as $ip => $certname) {
 		<IfVersion >= 2.4>
 			Require all granted
 		</IfVersion>
+<?php
+			if ($enable_cgi) {
+?>
+		Options +ExecCGI
+		AddHandler cgi-script .cgi .pl
+<?php
+			}
+?>
 	</Directory>
 <?php
 					//}

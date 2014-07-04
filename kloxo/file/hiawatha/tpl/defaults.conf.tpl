@@ -74,12 +74,6 @@ FastCGIserver {
 	Extension = php
 }
 
-CGIhandler = /usr/bin/perl:pl
-#CGIhandler = /usr/bin/php-cgi:php
-#CGIhandler = /usr/bin/python:py
-#CGIhandler = /usr/bin/ruby:rb
-#CGIhandler = /usr/bin/ssi-cgi:shtml
-CGIextension = pl
 <?php
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
@@ -113,6 +107,13 @@ Binding {
 		}
 ?>
 }
+
+CGIhandler = /usr/bin/perl:pl
+#CGIhandler = /usr/bin/php5-cgi:php
+CGIhandler = /usr/bin/python:py
+CGIhandler = /usr/bin/ruby:rb
+CGIhandler = /usr/bin/ssi-cgi:shtml
+#CGIextension = cgi
 
 ### 'default' config
 <?php
