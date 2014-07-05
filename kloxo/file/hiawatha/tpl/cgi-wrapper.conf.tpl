@@ -1,7 +1,7 @@
 # CGI wrapper configuration
 
 CGIhandler = /usr/bin/perl
-#CGIhandler = /usr/bin/php5-cgi
+#CGIhandler = /usr/bin/php-cgi
 CGIhandler = /usr/bin/python
 CGIhandler = /usr/bin/ruby
 CGIhandler = /usr/bin/ssi-cgi

@@ -479,10 +479,14 @@ foreach ($certnamelist as $ip => $certname) {
 	Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:7778"
 
 	Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
+<?php
+			if (($enablecgi) && ($webdriverlist[0] !== 'hiawatha')) {
+?>
 
-	### MR -- disable perl until fix hardlinks issue
 	ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
 <?php
+			}
+
 			if ($redirectionlocal) {
 				foreach ($redirectionlocal as $rl) {
 ?>
@@ -595,7 +599,7 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-			if ($enablecgi) {
+			if (($enablecgi) && ($webdriverlist[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
 		AddHandler cgi-script .cgi .pl
@@ -862,7 +866,7 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-			if ($enablecgi) {
+			if (($enablecgi) && ($webdriverlist[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
 		AddHandler cgi-script .cgi .pl

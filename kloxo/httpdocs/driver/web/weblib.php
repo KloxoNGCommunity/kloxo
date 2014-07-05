@@ -401,7 +401,7 @@ class Web extends Lxdb
 		}
 		$this->__var_statsprog = $webstatsprog;
 
-		$ol = array("index.php", "index.html", "index.shtml", "index.htm", "default.htm", "Default.aspx", "Default.asp", "index.pl");
+		$ol = self::getIndexOrderDefault();
 
 		if (!isset($login->getObject('genlist')->dirindexlist_a)) {
 			$this->__var_index_list = $ol;
@@ -501,6 +501,13 @@ class Web extends Lxdb
 	//	$clientdb = new Sqlite($this->__masterserver, 'client');
 		$clientdb = new Sqlite(null, 'client');
 		$this->__var_clientlist = $clientdb->getRowsWhere($string, array('nname', 'parent_clname'));
+	}
+
+	static function getIndexOrderDefault()
+	{
+		return array('index.php', 'index.html', 'index.shtml', 'index.htm', 
+			'index.pl', 'index.py', 'index.cgi', 'index.rb', 
+			'default.htm', 'Default.aspx', 'Default.asp');
 	}
 	
 	function getQuotaNeedVar()
@@ -1323,7 +1330,7 @@ class Web extends Lxdb
 					//$this->indexfile_list = get_web_index_list();
 				}
 
-				$ol = array("index.php", "index.html", "index.shtml", "index.htm", "default.htm", "Default.aspx", "Default.asp", "index.pl");
+				$ol = self::getIndexOrderDefault();
 				$dirin = $login->getObject('genlist')->dirindexlist_a;
 				$list = get_namelist_from_objectlist($dirin);
 				$index = lx_array_merge(array($list, $ol));

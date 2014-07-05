@@ -536,6 +536,8 @@ class web__ extends lxDriverClass
 
 		$list = getWebDriverList();
 
+		$input['webdriverlist'] = $list;
+
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/home/{$l}/tpl", "{$conftpl}.conf.tpl");
 
@@ -796,10 +798,9 @@ class web__ extends lxDriverClass
 
 	static function getIndexFileOrderDefault()
 	{
-    		return array('index.php', 'index.html', 'index.shtml', 'index.htm', 
-			'default.htm', 'Default.aspx', 'Default.asp', 'index.pl');
-
+		return web::getIndexOrderDefault();
 	}
+
 	function isWildcards()
 	{
 		$serveralias = (isset($this->main->server_alias_a)) ?
