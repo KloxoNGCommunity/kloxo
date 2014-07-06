@@ -78,6 +78,8 @@ class web__ extends lxDriverClass
 				setRpmInstalled("mod_suphp");
 				setRpmInstalled("mod_fastcgi");
 				setRpmInstalled("mod_fcgid");
+				setRpmInstalled("mod_perl");
+				setRpmInstalled("perl-Taint-Runtime");
 			} elseif ($a === 'lighttpd') {
 				setRpmInstalled("{$a}-fastcgi");
 			} elseif ($a === 'nginx') {
@@ -113,6 +115,8 @@ class web__ extends lxDriverClass
 				"/etc/httpd/conf.d/rpaf.conf");
 			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
 				"/etc/httpd/conf.d/ssl.conf");
+			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "perl.conf"),
+				"/etc/httpd/conf.d/perl.conf");
 
 			// MR -- this is from old Kloxo
 			if (file_exists("{$hwcpath}/defaults/stats.conf")) {
