@@ -7336,7 +7336,7 @@ function setCopyWebConfFiles($webdriver)
 	log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
 
-	$confs = array("~lxcenter", "ssl", "__version");
+	$confs = array("~lxcenter", "ssl", "__version", "perl");
 
 	foreach ($confs as &$c) {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "{$c}.conf");
@@ -7344,6 +7344,14 @@ function setCopyWebConfFiles($webdriver)
 		if (file_exists($t)) {
 			log_cleanup("- Copy {$t} to {$pathconfd}/{$c}.conf", $nolog);
 			lxfile_cp($t, "{$pathconfd}/{$c}.conf");
+		}
+		
+		// MR -- specific for mod_perl in apache
+		if ($c === 'perl') {
+			if (!isRpmInstalled('mod_perl')) {
+				setRpmInstalled('mod_perl');
+				setRpmInstalled('perl-Taint-Runtime');
+			}
 		}
 	}
 }
