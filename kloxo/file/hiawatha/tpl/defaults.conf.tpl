@@ -162,8 +162,8 @@ VirtualHost {
 		if ($reverseproxy) {
 ?>
 
-	ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	#ReverseProxy ^(\/$|\/.*\.php.*$|\/([a-z0-9\-\_]+\/\?)*$) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 <?php
 		} else {
 ?>
