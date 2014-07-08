@@ -69,8 +69,9 @@ foreach($list as $c) {
 			log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
 			$web->setUpdateSubaction('full_update');
 
-			log_cleanup("- '.htaccess' for '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
-			$web->setUpdateSubaction('htaccess_update');
+			// MR -- disabled because include inside fixphp
+		//	log_cleanup("- '.htaccess' for '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
+		//	$web->setUpdateSubaction('htaccess_update');
 		}
 
 		$web->was();

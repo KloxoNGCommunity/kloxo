@@ -217,7 +217,7 @@ class web__ extends lxDriverClass
 
 			// MR -- php 5.2 from centalt not create this pid but php-fpm installed!
 			if (!file_exists("/var/run/php-fpm/php-fpm.pid")) {
-				lxfile_mkdir("/var/run/php-fpm/");
+				lxfile_mkdir("/var/run/php-fpm");
 				exec("echo '2265' > /var/run/php-fpm/php-fpm.pid");
 			}
 		}
@@ -1213,13 +1213,16 @@ class web__ extends lxDriverClass
 
 		$this->createConfFile();
 
-		lxfile_mkdir("{$hroot}/{$domname}/webstats");
+		if (!file_exists("{$hroot}/{$domname}/webstats")) {
+			lxfile_mkdir("{$hroot}/{$domname}/webstats");
+		}
+
 		web::createstatsConf($domname, $this->main->stats_username, $this->main->stats_password);
 
 		$this->main->createPhpInfo();
 
 		lxfile_unix_chown_rec("{$droot}/", "{$uname}:{$uname}");
-		lxfile_unix_chmod("{$droot}/", "0755");
+	//	lxfile_unix_chmod("{$droot}/", "0755");
 		lxfile_unix_chmod("{$droot}", "0755");
 		lxfile_unix_chown("{$hroot}/{$domname}", "{$uname}:apache");
 	}

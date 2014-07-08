@@ -1,6 +1,4 @@
 #!/bin/sh
 
-#. /script/directory
-#lxphp.exe ../bin/common/commandline.php --action=update "$@"
-
-sh /script/cleanup
+. /script/directory
+lxphp.exe ../bin/common/commandline.php --action=update "$@"
