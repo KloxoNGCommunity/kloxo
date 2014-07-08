@@ -5809,8 +5809,8 @@ function setKloxoHttpdChownChmod($nolog = null)
 	exec("find {$hkhpath}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 	log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$hkhpath}/", $nolog);
 
-	exec("find {$hkhpath}/ -type f -name \"*.pl*\" -exec chmod {$domdirchmod} \{\} \\;");
-	log_cleanup("- chmod {$domdirchmod} FOR *.pl* INSIDE {$hkhpath}/", $nolog);
+	exec("find {$hkhpath}/ -type f  -regex " . '".*\.\(pl\|cgi\|py\|rb\)"' . " -exec chmod {$domdirchmod} \{\} \\;");
+	log_cleanup("- chmod {$domdirchmod} FOR *.pl/cgi/py/rb INSIDE {$hkhpath}/", $nolog);
 
 	exec("find {$hkhpath}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
 	log_cleanup("- chmod {$domdirchmod} FOR {$hkhpath}/ AND INSIDE", $nolog);
@@ -5898,6 +5898,9 @@ function setFixChownChmod($select, $nolog = null)
 			if (($select === "all") || ($select === 'chmod')) {
 				exec("find {$cdir}/{$docroot}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
 				log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$docroot}/", $nolog);
+
+				exec("find {$cdir}/{$docroot}/ -type f  -regex " . '".*\.\(pl\|cgi\|py\|rb\)"' . " -exec chmod {$domdirchmod} \{\} \\;");
+				log_cleanup("- chmod {$domdirchmod} FOR *.pl/cgi/py/rb INSIDE {$cdir}/{$docroot}/", $nolog);
 
 				exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
 				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);

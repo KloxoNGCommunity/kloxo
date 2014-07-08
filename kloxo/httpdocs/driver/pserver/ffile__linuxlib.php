@@ -31,7 +31,13 @@ class ffile__linux extends lxDriverClass
 
 			case "upload_s":
 				$filename = $this->aux->uploadDirect();
-				lxuser_chmod($chownug, $filename, "0644");
+
+				if (preg_match('/^.*\.(pl|cgi|py|rb)$/i', $filename)) {
+					lxuser_chmod($chownug, $filename, "0755");
+				} else {
+					lxuser_chmod($chownug, $filename, "0644");
+				}
+
 				lxfile_generic_chown($filename, $chownug);
 
 				break;
