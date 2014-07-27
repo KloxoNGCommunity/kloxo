@@ -10,7 +10,7 @@ $list = $login->getList('client');
 
 foreach($list as $c) {
 	$dlist = $c->getList('domaina');
-	$cdir = "__path_customer_root/{$c->getPathFromName('nname')}";
+	$cdir = "$sgbl->__path_customer_root/{$c->getPathFromName('nname')}";
 	lxfile_mkdir("$cdir/old");
 	lxfile_mkdir("$cdir/cgi-bin");
 	foreach($dlist as $l) {
@@ -42,5 +42,5 @@ foreach($list as $c) {
 	}
 }
 
-lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
+lxshell_return("$sgbl->__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
 

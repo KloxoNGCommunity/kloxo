@@ -4,9 +4,9 @@ lxpackage_main();
 
 function lxpackage_main()
 {
-	global $argv;
+	global $argv, $sgbl;
 
-	$list = lfile_get_unserialize("__path_package_root/pkglist.lst");
+	$list = lfile_get_unserialize("$sgbl->__path_package_root/pkglist.lst");
 
 	$pkg = $list['pkg'];
 

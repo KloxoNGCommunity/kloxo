@@ -9,7 +9,8 @@ create_main();
 function create_main()
 {
 	global $argc, $argv;
-	global $gbl, $sgbl, $login, $ghtml; 
+	global $gbl, $sgbl, $login, $ghtml;
+
 	$opt = parse_opt($argv);
 
 	lxfile_mkdir("{$sgbl->__path_program_etc}/conf");
@@ -40,7 +41,7 @@ function create_main()
 		create_general();
 		init_main($admin_pass);
 		print(">>> Execute collectquota.php... for MASTER <<<\n");
-		lxshell_return("__path_php_path", "../bin/collectquota.php");
+		lxshell_return("$sgbl->__path_php_path", "../bin/collectquota.php");
 		print(">>> Execute tmpupdatecleanup.php for MASTER... <<<\n");
 		print("- This will take a long time... Please wait...\n");
 		system("lxphp.exe ../bin/common/tmpupdatecleanup.php --type=master");
@@ -68,9 +69,3 @@ function create_main()
 	print(">>> Execute os_fix_some_permissions()... <<<\n");
 	os_fix_some_permissions();
 }
-
-
-
-
-
-

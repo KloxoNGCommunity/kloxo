@@ -12,6 +12,6 @@ if (!$list) {
 	//fixes issue #515
 	lxfile_generic_chmod("/home/admin", "0770");
 
-	lxshell_return("__path_php_path", "../bin/misc/fixwebdnsfullupdate.php");
-	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php");
+	lxshell_return("$sgbl->__path_php_path", "../bin/misc/fixwebdnsfullupdate.php");
+	lxshell_return("$sgbl->__path_php_path", "../bin/misc/fixftpuserclient.php");
 }

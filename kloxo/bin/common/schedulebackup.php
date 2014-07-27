@@ -8,6 +8,7 @@ schedulebackup_main();
 function schedulebackup_main()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	$progname = $sgbl->__var_program_name;
 	initProgram('admin');
 
@@ -45,7 +46,7 @@ function schedulebackup_main()
 		}
 
 
-		/*
+	/*
 		try {
 			$param['backup_to_file_f'] = "$progname-scheduled";
 			$param['upload_to_ftp'] = $l->upload_to_ftp;
@@ -66,7 +67,7 @@ function schedulebackup_main()
 		$fname = "$progname-scheduled";
 
 		print("Scheduling for $class $name\n");
-		lxshell_return("__path_php_path", "../bin/common/backup.php", "--class=$class", "--name=$name", "--v-backup_file_name=$fname");
+		lxshell_return("$sgbl->__path_php_path", "../bin/common/backup.php", "--class=$class", "--name=$name", "--v-backup_file_name=$fname");
 
 
 	}

@@ -48,6 +48,9 @@ class ftpuser extends Lxclient
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		validate_client_name($param['nname']);
+		validate_password_add($param['password']);
+
 		if (!isset($param['complete_name_f'])) {
 			$param['complete_name_f'] = $parent->nname;
 		}
@@ -63,6 +66,7 @@ class ftpuser extends Lxclient
 		$param['cpstatus'] = 'on';
 		$web = $parent;
 		$param['realpass'] = $param['password'];
+
 		$param['password'] = crypt($param['password']);
 
 		return $param;

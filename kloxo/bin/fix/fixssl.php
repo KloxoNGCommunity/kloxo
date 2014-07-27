@@ -12,9 +12,9 @@ foreach($list as $l) {
 	}
 }
 
-$kloxo_file_path = __path_program_root . "/file";
+$kloxo_file_path = $sgbl->__path_program_root . "/file";
 $httpd_ssl_path = "/home/kloxo/httpd/ssl/";
-$kloxo_etc_path = __path_program_root . "/etc";
+$kloxo_etc_path = $sgbl->__path_program_root . "/etc";
 
 // MR -- using exec because lxshell_return not work!
 exec("cat {$kloxo_file_path}/default.crt {$kloxo_file_path}/default.key > {$kloxo_file_path}/default.pem");

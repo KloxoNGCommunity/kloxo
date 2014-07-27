@@ -2,7 +2,7 @@
 
 include_once "lib/html/include.php"; 
 
-$path = "__path_mail_root/domains/";
+$path = "$sgbl->__path_mail_root/domains/";
 
 delete_domain_spam($path);
 
@@ -19,12 +19,14 @@ function delete_domain_spam($path)
 		}
 
 		$aclist = lscandir_without_dot("$path/$d");
+		
 		foreach($aclist as $c) {
-
 			if (!lis_dir("$path/$d/$c")) { continue; }
 
 			$spamfolder = "$path/$d/$c/Maildir/.Spam/new";
+			
 			if (!lis_dir($spamfolder)) { continue; }
+			
 			print("Deleting Old spam from $spamfolder\n");
 			remove_if_older_than_a_day_dir($spamfolder, 30);
 		}

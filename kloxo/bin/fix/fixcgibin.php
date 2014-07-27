@@ -27,7 +27,7 @@ foreach($list as $c) {
 	}
 
 	$dlist = $c->getList('domaina');
-	$cdir = "__path_customer_root/{$c->getPathFromName('nname')}";
+	$cdir = "$sgbl->__path_customer_root/{$c->getPathFromName('nname')}";
 
 	foreach($dlist as $l) {
 		$web = $l->getObject('web');

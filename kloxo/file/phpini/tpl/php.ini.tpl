@@ -247,7 +247,8 @@ ifx.nullformat = 0
 
 [Session]
 session.save_handler = files
-session.save_path = /var/lib/php/session
+session.save_path = <?php echo $session_save_path_flag; ?>
+
 session.use_cookies = 1
 session.name = PHPSESSID
 session.auto_start = 0

@@ -1,4 +1,0 @@
-#!/bin/sh
-
-sh /script/phpm-installer php54m
-

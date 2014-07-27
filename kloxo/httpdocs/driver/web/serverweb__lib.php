@@ -469,7 +469,7 @@ class serverweb__ extends lxDriverClass
 			$b = '';
 
 			foreach ($a as $k => $v) {
-				$b .= "sh /script/{$v}-installer\n";
+				$b .= "sh /script/phpm-installer {$v} --force\n";
 			}
 
 			$b .= "rm -f $c\n";

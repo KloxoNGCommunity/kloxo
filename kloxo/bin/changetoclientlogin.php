@@ -44,9 +44,9 @@ foreach($list as $c) {
 		$w->username = $w->getRealClientParentO()->username;
 		$w->setUpdateSubaction('full_update');
 
-		lxfile_mkdir("__path_customer_root/$clientname/domain");
-		lxfile_unix_chown("__path_customer_root/$clientname", "{$w->username}:apache");
-		lxfile_unix_chmod("__path_customer_root/$clientname", "750");
+		lxfile_mkdir("$sgbl->__path_customer_root/$clientname/domain");
+		lxfile_unix_chown("$sgbl->__path_customer_root/$clientname", "{$w->username}:apache");
+		lxfile_unix_chmod("$sgbl->__path_customer_root/$clientname", "750");
 
 		print("moving $w->nname to /home/$clientname/domain\n");
 		$ret = lxshell_return("mv", "/home/httpd/$w->nname/httpdocs", "/home/$clientname/domain/$w->nname");

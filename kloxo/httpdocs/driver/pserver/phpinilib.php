@@ -87,7 +87,7 @@ class phpini extends lxdb
 		global $ghtml, $login;
 
 	//	if ($this->getParentO()->is__table('pserver')) {
-		if ($this->getParentO()->getClass()  === 'pserver') {
+		if ($this->getParentO()->getClass() === 'pserver') {
 			$list[] = 'multiple_php_flag';
 
 			$flag = (isset($this->phpini_flag_b->multiple_php_flag)) ?
@@ -333,7 +333,6 @@ class phpini extends lxdb
 		}
 
 		if ($parent->getClass() !== 'web') {
-		
 			$inheritedlist = $this->getInheritedList();
 			$adminList = $this->getAdminList();
 
@@ -388,7 +387,12 @@ class phpini extends lxdb
 		$this->initialValue('upload_max_filesize', '16M');
 		$this->initialValue('register_global_flag', 'off');
 		$this->initialValue('mysql_allow_persistent_flag', 'off');
-		$this->initialValue('session_save_path_flag', '/var/lib/php/session');
+
+		if ($this->getParentO()->getClass() === 'pserver') {
+			$this->phpini_flag_b->session_save_path_flag = '/var/lib/php/session';
+		} else {
+			$this->phpini_flag_b->session_save_path_flag = "/home/kloxo/client/{$this->getParentO()->nname}";
+		}
 
 		// Issue #630 - parse_ini_file to be enabled by default
 		//	$this->initialValue('disable_functions', 
@@ -399,9 +403,9 @@ class phpini extends lxdb
 		$initial = 'exec,passthru,shell_exec,system,proc_open,popen,show_source';
 		$this->initialValue('disable_functions', $initial);
 
-		$this->initialValue('max_execution_time_flag', '180');
-		$this->initialValue('max_input_time_flag', '180');
-		$this->initialValue('memory_limit_flag', '64M');
+		$this->initialValue('max_execution_time_flag', '120');
+		$this->initialValue('max_input_time_flag', '120');
+		$this->initialValue('memory_limit_flag', '128M');
 		$this->initialValue('allow_url_fopen_flag', 'on');
 		$this->initialValue('allow_url_include_flag', 'on');
 		$this->initialValue('display_error_flag', 'off');

@@ -152,7 +152,7 @@ $__keyword["installed"] = "Installed";
 $__keyword["up"] = "Up";
 $__keyword["down"] = "Down";
 
-$__throw["domain_is_already_owned"] = "Domain is already owned";
+$__throw["domain_is_already_owned"] = "Domain is already owned. Please enable 'I Confirm That I Am The Owner Of Domain'";
 $__throw["invalid_domain_name"] = "Invalid domain name";
 $__throw["add_without_www"] = "Add without www";
 $__throw["can_not_be_added"] = "Can not be added";

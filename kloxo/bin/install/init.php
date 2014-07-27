@@ -4,7 +4,6 @@ function init_main($admin_pass)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	
 	try {
 		add_admin($admin_pass);
 		initProgram("admin");
@@ -17,7 +16,7 @@ function init_main($admin_pass)
 	//	createDnsTemplate();
 		Ticket::createWelcomeTicket();
 	/*
-		if (lxfile_exists("__path_program_etc/license.txt")) {
+		if (lxfile_exists("$sgbl->__path_program_etc/license.txt")) {
 			decodeAndStoreLicense();
 			$login->license_o->write();
 			$login->write();
@@ -33,10 +32,10 @@ function init_main($admin_pass)
 	print("\n");
 }
 
-
 function createDnsTemplate()
 {
-	global $gbl, $sgbl, $login, $ghtml; 
+	global $gbl, $sgbl, $login, $ghtml;
+
 	if ($sgbl->dbg < 1) {
 		return;
 	}
@@ -51,12 +50,12 @@ function createDnsTemplate()
 	$dnstemp->dbaction = 'add';
 	$dnstemp->postAdd();
 	$dnstemp->was();
+
 	create_default_template($dnstemp);
 }
 
 function create_default_template($dns)
 {
-
 	global $gbl, $sgbl, $login, $ghtml; 
 
 	$temp = new Domaintemplate(null, null, "test");
@@ -75,7 +74,4 @@ function create_default_template($dns)
 	$temp->description = "The Default Template created Only in debug Mode";
 	$temp->write();
 }
-
-
-
 
