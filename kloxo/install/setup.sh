@@ -175,13 +175,13 @@ if [ "$1" == "--with-php52s" ] || [ "$2" == "--with-php52s" ] || [ "$3" == "--wi
 	with_php52s="yes"
 
 	mkdir -p /opt/php52s/custom
-	sh /script/php52s-installer
+	sh /script/phpm-installer php52s
 	sh /script/fixlxphpexe php53s
 else
 	with_php52s="no"
 
 	mkdir -p /opt/php53s/custom
-	sh /script/php53s-installer
+	sh /script/phpm-installer php53s
 	sh /script/fixlxphpexe php53s
 fi
 
@@ -212,7 +212,7 @@ done
 echo
 if [ "${with_php52s}" != "no" ] ; then
 	echo "... Wait until finished (switch to php53s and restart services) ..."
-	sh /script/php53s-installer >/dev/null 2>&1
+	sh /script/phpm-installer php53s >/dev/null 2>&1
 else
 	echo "... Wait until finished (restart services) ..."
 fi
