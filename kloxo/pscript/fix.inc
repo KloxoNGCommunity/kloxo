@@ -1,7 +1,7 @@
 if [ "$1" == "--help" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
-	echo "  format: sh $0 [--server=] [--client=]"
+	echo "  format: sh $0 [--server=] [--client=] [--target=]"
 	echo " ------------------------------------------------------------------------------"
 	echo "  --server="
 	echo "      localhost: master (default)"
@@ -13,6 +13,10 @@ if [ "$1" == "--help" ] ; then
 	echo "      - optional and 'all' for default value"
 	echo "      - multiple clients separated by ',' (comma)"
 	echo "      - use this option automatically set '--server=all'"
+	echo "  --target= (only for fixweb)"
+	echo "      - optional and 'all' for default value"
+	echo "      - defaults: for 'defaults' config"
+	echo "      - domains: for 'domains' config"
 	echo
 	exit;
 fi

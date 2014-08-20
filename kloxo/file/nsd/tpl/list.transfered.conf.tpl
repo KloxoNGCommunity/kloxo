@@ -1,5 +1,5 @@
 <?php
-	$file = "/home/nsd/conf/defaults/nsd.acl.conf";
+	$file = "/opt/configs/nsd/conf/defaults/nsd.acl.conf";
 
 	$text = '';
 

@@ -1,6 +1,6 @@
 <?php
 	if (array_keys($ip)) {
-		$file = "/home/bind/conf/defaults/named.acl.conf";
+		$file = "/opt/configs/bind/conf/defaults/named.acl.conf";
 
 		$text = implode(";\n    ", $ip);
 

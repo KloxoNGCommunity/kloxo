@@ -112,48 +112,12 @@ if ($reverseproxy) {
 
 $disabledocroot = "/home/kloxo/httpd/disable";
 
-$globalspath = "/home/lighttpd/conf/globals";
+$globalspath = "/opt/configs/lighttpd/conf/globals";
 
 if (file_exists("{$globalspath}/custom.generic.conf")) {
 	$genericconf = 'custom.generic.conf';
 } else {
 	$genericconf = 'generic.conf';
-}
-
-if (file_exists("{$globalspath}/custom.awstats.conf")) {
-	$awstatsconf = 'custom.awstats.conf';
-} else {
-	$awstatsconf = 'awstats.conf';
-}
-
-if (file_exists("{$globalspath}/custom.dirprotect.conf")) {
-	$dirprotectconf = 'custom.dirprotect.conf';
-} else {
-	$dirprotectconf = 'dirprotect.conf';
-}
-
-if (file_exists("{$globalspath}/custom.webalizer.conf")) {
-	$webalizerconf = 'custom.webalizer.conf';
-} else {
-	$webalizerconf = 'webalizer.conf';
-}
-
-if (file_exists("{$globalspath}/custom.proxy.conf")) {
-	$proxyconf = 'custom.proxy.conf';
-} else {
-	$proxyconf = 'proxy.conf';
-}
-
-if (file_exists("{$globalspath}/custom.php-fpm.conf")) {
-	$phpfpmconf = 'custom.php-fpm.conf';
-} else {
-	$phpfpmconf = 'php-fpm.conf';
-}
-
-if (file_exists("{$globalspath}/custom.suexec.conf")) {
-	$suexecconf = 'custom.suexec.conf';
-} else {
-	$suexecconf = 'suexec.conf';
 }
 
 if ($disabled) {
@@ -168,27 +132,15 @@ if ($disabled) {
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 
 	server.document-root = var.rootdir
 
 	index-file.names = ( <?php echo $indexorder; ?> )
-<?php
-	if ($reverseproxy) {
-?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
-<?php
-	} else {
-?>
-
-	var.user = "apache"
-	var.fpmport = "<?php echo $fpmportapache; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-	}
-?>
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 
 }
 
@@ -211,27 +163,15 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
 
 	server.document-root = var.rootdir
 
 	index-file.names = ( <?php echo $indexorder; ?> )
-<?php
-		if ($reverseproxy) {
-?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
-<?php
-		} else {
-?>
-
-	var.user = "apache"
-	var.fpmport = "<?php echo $fpmportapache; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-		}
-?>
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 
 }
 
@@ -256,6 +196,8 @@ if ($domainredirect) {
 ## web for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
+	var.user = "<?php echo $sockuser; ?>"
+	var.fpmport = "<?php echo $fpmport; ?>"
 	var.rootdir = "<?php echo $redirfullpath; ?>/"
 
 	server.document-root = var.rootdir
@@ -272,31 +214,12 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 	}
 <?php
 			}
-?>
 
-	var.user = "<?php echo $sockuser; ?>"
-<?php
 			if (!$disablephp) {
-				if ($reverseproxy) {
 ?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 <?php
-				} else {
-					if ($phpcgitype === 'fastcgi') {
-?>
-
-	var.fpmport = "<?php echo $fpmport; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-					} elseif ($phpcgitype === 'suexec') {
-?>
-
-	include "<?php echo $globalspath; ?>/<?php echo $suexecconf; ?>"
-<?php
-					}
-				}
 			}
 ?>
 
@@ -339,27 +262,15 @@ if ($parkdomains) {
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 
 	server.document-root = var.rootdir
 
 	index-file.names = ( <?php echo $indexorder; ?> )
-<?php
-			if ($reverseproxy) {
-?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
-<?php
-			} else {
-?>
-
-	var.user = "apache"
-	var.fpmport = "<?php echo $fpmportapache; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-			}
-?>
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 
 }
 
@@ -384,27 +295,15 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
 
 	server.document-root = var.rootdir
 
 	index-file.names = ( <?php echo $indexorder; ?> )
-<?php
-					if ($reverseproxy) {
-?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
-<?php
-					} else {
-?>
-
-	var.user = "apache"
-	var.fpmport = "<?php echo $fpmportapache; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-					}
-?>
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 
 }
 
@@ -432,27 +331,15 @@ if ($domainredirect) {
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 
 	server.document-root = var.rootdir
 
 	index-file.names = ( <?php echo $indexorder; ?> )
-<?php
-			if ($reverseproxy) {
-?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
-<?php
-			} else {
-?>
-
-	var.user = "apache"
-	var.fpmport = "<?php echo $fpmportapache; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-			}
-?>
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 
 }
 
@@ -476,27 +363,15 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
 
 	server.document-root = var.rootdir
 
 	index-file.names = ( <?php echo $indexorder; ?> )
-<?php
-					if ($reverseproxy) {
-?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
-<?php
-					} else {
-?>
-
-	var.user = "apache"
-	var.fpmport = "<?php echo $fpmportapache; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-					}
-?>
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 
 }
 
@@ -552,8 +427,8 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 ?>
 
 ## web for '<?php echo $domainname; ?>'
-#$SERVER["socket"] == "<?php echo $ip; ?>:<?php echo $port; ?>" {
-$SERVER["socket"] == ":<?php echo $port; ?>" {
+#$SERVER["socket"] == "<?php echo $ip; ?>:" + var.portssl {
+$SERVER["socket"] == ":" + var.portssl {
 
 	ssl.engine = "enable"
 
@@ -579,17 +454,17 @@ $SERVER["socket"] == ":<?php echo $port; ?>" {
 ?>
 
 	var.domain = "<?php echo $domainname; ?>"
+	var.user = "<?php echo $sockuser; ?>"
+	var.fpmport = "<?php echo $fpmport; ?>"
 <?php
 		if ($disabled) {
 ?>
-
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 
 	server.document-root = var.rootdir
 <?php
 		} else {
 ?>
-
 	var.rootdir = "<?php echo $rootpath; ?>/"
 
 	server.document-root = var.rootdir
@@ -598,8 +473,6 @@ $SERVER["socket"] == ":<?php echo $port; ?>" {
 ?>
 
 	index-file.names = ( <?php echo $indexorder; ?> )
-
-	var.user = "<?php echo $sockuser; ?>"
 <?php
 		if ($redirectionlocal) {
 			foreach ($redirectionlocal as $rl) {
@@ -625,51 +498,19 @@ $SERVER["socket"] == ":<?php echo $port; ?>" {
 ?>
 
 	url.redirect  += ( "^(/<?php echo $rr[0]; ?>/|/<?php echo $rr[0]; ?>$)" => "<?php echo $protocol2; ?><?php echo $rr[1]; ?>" )
+
+	include "<?php echo $globalspath; ?>/stats.conf"
 <?php
 				}
 			}
 		}
 
 		if (!$reverseproxy) {
+			if ($statsprotect) {
 ?>
 
-	accesslog.filename = "/home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-custom_log"
-	server.errorlog    = "/home/httpd/<?php echo $domainname; ?>/stats/<?php echo $domainname; ?>-error_log"
+	include "<?php echo $globalspath; ?>/dirprotect_stats.conf"
 <?php
-			if ($statsapp === 'awstats') {
-?>
-
-	var.statstype = "awstats"
-
-	include "<?php echo $globalspath; ?>/<?php echo $awstatsconf; ?>"
-<?php
-				if ($statsprotect) {
-?>
-
-	var.protectpath = "awstats"
-	var.protectauthname = "Awstats"
-	var.protectfile = "__stats"
-
-	include "<?php echo $globalspath; ?>/<?php echo $dirprotectconf; ?>"
-<?php
-				}
-			} elseif ($statsapp === 'webalizer') {
-?>
-
-	var.statstype = "stats"
-
-	include "<?php echo $globalspath; ?>/<?php echo $webalizerconf; ?>"
-<?php
-				if ($statsprotect) {
-?>
-
-	var.protectpath = "stats"
-	var.protectauthname = "stats"
-	var.protectfile = "__stats"
-
-	include "<?php echo $globalspath; ?>/<?php echo $dirprotectconf; ?>"
-<?php
-				}
 			}
 		}
 
@@ -684,33 +525,18 @@ $SERVER["socket"] == ":<?php echo $port; ?>" {
 		}
 
 		if (!$disablephp) {
-			if ($reverseproxy) {
 ?>
 
-	include "<?php echo $globalspath; ?>/<?php echo $proxyconf; ?>"
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 <?php
-			} else {
-				if ($phpcgitype === 'fastcgi') {
-?>
-
-	var.fpmport = "<?php echo $fpmport; ?>"
-
-	include "<?php echo $globalspath; ?>/<?php echo $phpfpmconf; ?>"
-<?php
-				} elseif ($phpcgitype === 'suexec') {
-?>
-
-	include "<?php echo $globalspath; ?>/<?php echo $suexecconf; ?>"
-<?php
-				}
-			}
 		}
 
-		if ($dirprotect) {
-			foreach ($dirprotect as $k) {
-				$protectpath = $k['path'];
-				$protectauthname = $k['authname'];
-				$protectfile = str_replace('/', '_', $protectpath) . '_';
+		if (!$reverseproxy) {
+			if ($dirprotect) {
+				foreach ($dirprotect as $k) {
+					$protectpath = $k['path'];
+					$protectauthname = $k['authname'];
+					$protectfile = str_replace('/', '_', $protectpath) . '_';
 ?>
 
 	$HTTP["url"] =~ "^/<?php echo $protectpath; ?>[/$]" {
@@ -723,6 +549,7 @@ $SERVER["socket"] == ":<?php echo $port; ?>" {
 		))
 	}
 <?php
+				}
 			}
 		}
 

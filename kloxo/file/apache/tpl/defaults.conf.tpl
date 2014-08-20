@@ -15,6 +15,8 @@ if ($reverseproxy) {
 	}
 }
 
+$portlist = array('${global::port}', '${global::portssl}');
+
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
 }
@@ -46,17 +48,19 @@ $fpmportapache = 50000;
 
 foreach ($certnamelist as $ip => $certname) {
 ?>
+Define global::port <?php echo $ports[0]; ?>
 
-Listen <?php echo $ip; ?>:<?php echo $ports[0]; ?>
+Define global::portssl <?php echo $ports[1]; ?>
 
-Listen <?php echo $ip; ?>:<?php echo $ports[1]; ?>
+Define global::ip <?php echo $ip; ?>
 
+
+Listen ${global::ip}:${global::port}
+Listen ${global::ip}:${global::portssl}
 
 <IfVersion < 2.4>
-	NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[0]; ?>
-
-	NameVirtualHost <?php echo $ip; ?>:<?php echo $ports[1]; ?>
-
+	NameVirtualHost ${global::ip}:${global::port}
+	NameVirtualHost ${global::ip}:${global::portssl}
 </IfVersion>
 <?php
 }
@@ -93,7 +97,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ### 'default' config
-<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
+<VirtualHost ${global::ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -218,7 +222,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 
 ### 'cp' config
-<VirtualHost <?php echo $ip; ?>:<?php echo $port; ?>>
+<VirtualHost ${global::ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 

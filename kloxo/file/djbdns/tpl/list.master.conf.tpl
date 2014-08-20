@@ -1,8 +1,8 @@
 <?php
-	$path = "/home/djbdns/conf/master";
+	$path = "/opt/configs/djbdns/conf/master";
 	$dirs = glob("{$path}/*");
 
-	$datadir = "/home/djbdns/tinydns/root";
+	$datadir = "/opt/configs/djbdns/tinydns/root";
 	$datafile = "{$datadir}/data";
 
 	exec("echo '' > {$datafile}");

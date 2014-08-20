@@ -1,5 +1,5 @@
 <?php
-	$path = "/home/nsd/conf/slave";
+	$path = "/opt/configs/nsd/conf/slave";
 	$dirs = glob("{$path}/*");
 
 	$str = '';
@@ -10,7 +10,7 @@
 		$str .= $zone;
 	}
 
-	$file = "/home/nsd/conf/defaults/nsd.slave.conf";
+	$file = "/opt/configs/nsd/conf/defaults/nsd.slave.conf";
 
 	file_put_contents($file, $str);
 ?>

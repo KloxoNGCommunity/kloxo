@@ -127,12 +127,11 @@ for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-li
 	echo $x >>/opt/${base_name}/install.log
 
 	if rpm -qa|grep ${i} >/dev/null 2>&1 ; then
-		c=${c}${i}${v}" "
-
-		x="---- ${i} not installed"
-		echo $x >>/opt/${base_name}/install.log
-	else
 		x="---- ${i} already installed"
+		echo $x >>/opt/${base_name}/install.log
+		c=${c}${i}${v}" "
+	else
+		x="---- ${i} not installed"
 		echo $x >>/opt/${base_name}/install.log
 	fi
 done
@@ -142,6 +141,10 @@ if [ "${c}" != "" ] ; then
 	echo $x
 	echo $x >>/opt/${base_name}/install.log
 	yum -y install $c >>/opt/${base_name}/install.log
+else
+	x="-- Dependencies rpms already installed"
+	echo $x
+	echo $x >>/opt/${base_name}/install.log
 fi
 
 x="- Download all rpms (debug and devel will be deleted)... Please wait!"

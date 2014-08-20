@@ -1,3 +1,8 @@
 #!/bin/sh
+
+. /script/counter-start.inc
+
 . /script/directory
 lxphp.exe ../bin/common/fixtraffic.php "$@"
+
+. /script/counter-end.inc

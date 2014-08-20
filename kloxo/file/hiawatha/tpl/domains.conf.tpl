@@ -253,6 +253,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -283,7 +285,7 @@ VirtualHost {
 				} else {
 ?>
 
-					UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 				}
 			}
@@ -309,6 +311,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -340,7 +344,7 @@ VirtualHost {
 				} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 				}
 			}
@@ -369,6 +373,8 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -415,7 +421,7 @@ VirtualHost {
 			} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 			}
 ?>
@@ -444,6 +450,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -463,6 +471,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -508,7 +518,7 @@ VirtualHost {
 				} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 				}
 ?>
@@ -537,6 +547,9 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
+	set var_user = <?php echo $user; ?>
+
+
 	UseGZfile = yes
 	FollowSymlinks = no
 <?php
@@ -665,8 +678,7 @@ VirtualHost {
 		} else {
 ?>
 
-	UseFastCGI = php_for_<?php echo $sockuser; ?>
-
+	UseFastCGI = php_for_var_user
 <?php
 		}
 ?>
@@ -707,6 +719,9 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	set var_user = <?php echo $user; ?>
+
+
 	UseGZfile = yes
 	FollowSymlinks = no
 <?php
@@ -789,8 +804,7 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_<?php echo $sockuser; ?>
-
+	UseFastCGI = php_for_var_user
 <?php
 					}
 ?>
@@ -823,6 +837,9 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	set var_user = <?php echo $user; ?>
+
+
 	UseGZfile = yes
 	FollowSymlinks = no
 <?php
@@ -899,8 +916,7 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_<?php echo $user; ?>
-
+	UseFastCGI = php_for_var_user
 <?php
 					}
 ?>
@@ -938,6 +954,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -987,6 +1005,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -1028,8 +1048,7 @@ VirtualHost {
 						} else {
 ?>
 
-	UseFastCGI = php_for_<?php echo $user; ?>
-
+	UseFastCGI = php_for_var_user
 <?php
 						}
 ?>
@@ -1057,6 +1076,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -1132,6 +1153,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -1176,7 +1199,7 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 					}
 ?>
@@ -1205,6 +1228,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -1248,7 +1273,7 @@ VirtualHost {
 						} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 						}
 ?>
@@ -1276,6 +1301,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 
@@ -1320,7 +1347,7 @@ VirtualHost {
 						} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 						}
 ?>

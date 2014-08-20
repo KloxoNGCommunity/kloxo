@@ -1,6 +1,10 @@
 #!/bin/sh
 
+. /script/counter-start.inc
+
 . /script/fix.inc
 
 . /script/directory
 lxphp.exe ../bin/fix/fixskeleton.php $*
+
+. /script/counter-end.inc

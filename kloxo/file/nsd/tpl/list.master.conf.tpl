@@ -1,5 +1,5 @@
 <?php
-	$path = "/home/nsd/conf/master";
+	$path = "/opt/configs/nsd/conf/master";
 	$dirs = glob("{$path}/*");
 
 	$str = '';
@@ -8,12 +8,12 @@
 		$d = str_replace("{$path}/", "", $d);
 		$zone  = "zone:\n    name: {$d}\n    zonefile: master/{$d}\n";
 
-		$zone .= "    include: \"/home/nsd/conf/defaults/nsd.acl.conf\"\n";
+		$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
 		
 		$str .= $zone . "\n";
 	}
 
-	$file = "/home/nsd/conf/defaults/nsd.master.conf";
+	$file = "/opt/configs/nsd/conf/defaults/nsd.master.conf";
 
 	file_put_contents($file, $str);
 /*

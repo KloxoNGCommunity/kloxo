@@ -1,0 +1,155 @@
+<Macro webmail_standard $ip $port $portssl $user $domain $serveralias $webdocroot $webmaildocroot $dirindex $certname>
+
+## webmail
+<VirtualHost ${ip}:${port}>
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
+	ServerName webmail.${domain}
+
+	DocumentRoot ${webmaildocroot}
+
+	DirectoryIndex ${dirindex}
+
+	<IfModule suexec.c>
+		SuexecUserGroup apache apache
+	</IfModule>
+
+	<IfModule mod_suphp.c>
+		SuPhp_UserGroup apache apache
+	</IfModule>
+
+	<IfModule mod_ruid2.c>
+		RMode config
+		RUidGid apache apache
+		RMinUidGid apache apache
+	</IfModule>
+
+	<IfModule itk.c>
+		AssignUserId apache apache
+	</IfModule>
+
+	<IfModule mod_fastcgi.c>
+		Alias /webmail.${domain}.0fake "${webmaildocroot}/webmail.${domain}.0fake"
+		#FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.0fake" -host 127.0.0.1:50000 -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.0fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
+		AddType application/x-httpd-fastphp .php
+		Action application/x-httpd-fastphp /webmail.${domain}.0fake
+		<Files "webmail.${domain}.0fake">
+			RewriteCond %{REQUEST_URI} !webmail.${domain}.0fake
+		</Files>
+	</IfModule>
+
+	<IfModule mod_fcgid.c>
+		<Directory "${webmaildocroot}/">
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/php5.fcgi .php
+		</Directory>
+	</IfModule>
+
+	<IfModule mod_proxy_fcgi.c>
+		ProxyPass / fcgi://127.0.0.1:50000/
+		ProxyPassReverse / fcgi://127.0.0.1:50000/
+	</IfModule>
+
+	<Location />
+		Allow from all
+		# Options +Indexes +FollowSymlinks
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+	</Location>
+
+	<Directory "${webmaildocroot}/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+	</Directory>
+
+</VirtualHost>
+
+## webmail
+<VirtualHost ${ip}:${portssl}>
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
+	ServerName webmail.${domain}
+
+	DocumentRoot ${webmaildocroot}
+
+	DirectoryIndex ${dirindex}
+
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLCertificateFile /home/kloxo/httpd/ssl/${certname}.pem
+		SSLCertificateKeyFile /home/kloxo/httpd/ssl/${certname}.key
+		SSLCACertificatefile /home/kloxo/httpd/ssl/${certname}.ca
+	</IfModule>
+
+	<IfModule suexec.c>
+		SuexecUserGroup apache apache
+	</IfModule>
+
+	<IfModule mod_suphp.c>
+		SuPhp_UserGroup apache apache
+	</IfModule>
+
+	<IfModule mod_ruid2.c>
+		RMode config
+		RUidGid apache apache
+		RMinUidGid apache apache
+	</IfModule>
+
+	<IfModule itk.c>
+		AssignUserId apache apache
+	</IfModule>
+
+	<IfModule mod_fastcgi.c>
+		Alias /webmail.${domain}.1fake "${webmaildocroot}/webmail.${domain}.1fake"
+		#FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.1fake" -host 127.0.0.1:50000 -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.1fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
+		AddType application/x-httpd-fastphp .php
+		Action application/x-httpd-fastphp /webmail.${domain}.1fake
+		<Files "webmail.${domain}.1fake">
+			RewriteCond %{REQUEST_URI} !webmail.${domain}.1fake
+		</Files>
+	</IfModule>
+
+	<IfModule mod_fcgid.c>
+		<Directory "${webmaildocroot}/">
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/php5.fcgi .php
+		</Directory>
+	</IfModule>
+
+	<IfModule mod_proxy_fcgi.c>
+		ProxyPass / fcgi://127.0.0.1:50000/
+		ProxyPassReverse / fcgi://127.0.0.1:50000/
+	</IfModule>
+
+	<Location />
+		Allow from all
+		# Options +Indexes +FollowSymlinks
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+	</Location>
+
+	<Directory "${webmaildocroot}/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+	</Directory>
+
+</VirtualHost>
+
+</Macro>
+

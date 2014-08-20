@@ -25,15 +25,15 @@ class webcache__trafficserver extends webcache__
 		$nolog = null;
 
 		$pathsrc = "/usr/local/lxlabs/kloxo/file/trafficserver";
-		$pathdrv = "/home/trafficserver";
+		$pathdrv = "/opt/configs/trafficserver";
 		$pathetc = "/etc";
 
 		log_cleanup("Copy all contents of 'trafficserver'", $nolog);
 
 		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-		exec("cp -rf {$pathsrc} /home");
+		exec("cp -rf {$pathsrc} /opt/configs");
 
-		if (!file_exists("/etc/trafficserver")) { return; }
+	//	if (!file_exists("/etc/trafficserver")) { return; }
 
 		$a = array("records.config", "remap.config", "storage.config", "ip_allow.config");
 

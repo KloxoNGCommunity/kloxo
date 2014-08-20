@@ -1,5 +1,5 @@
 <?php
-	$path = "/home/bind/conf/master";
+	$path = "/opt/configs/bind/conf/master";
 	$dirs = glob("{$path}/*");
 
 	$str = '';
@@ -10,7 +10,7 @@
 		$str .= $zone;
 	}
 
-	$file = "/home/bind/conf/defaults/named.master.conf";
+	$file = "/opt/configs/bind/conf/defaults/named.master.conf";
 
 	file_put_contents($file, $str);
 

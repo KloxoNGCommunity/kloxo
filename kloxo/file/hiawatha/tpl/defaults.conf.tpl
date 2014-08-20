@@ -74,6 +74,12 @@ FastCGIserver {
 	Extension = php
 }
 
+CGIhandler = /usr/bin/perl:pl
+#CGIhandler = /usr/bin/php5-cgi:php
+CGIhandler = /usr/bin/python:py
+CGIhandler = /usr/bin/ruby:rb
+CGIhandler = /usr/bin/ssi-cgi:shtml
+#CGIextension = cgi
 <?php
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
@@ -108,13 +114,6 @@ Binding {
 ?>
 }
 
-CGIhandler = /usr/bin/perl:pl
-#CGIhandler = /usr/bin/php5-cgi:php
-CGIhandler = /usr/bin/python:py
-CGIhandler = /usr/bin/ruby:rb
-CGIhandler = /usr/bin/ssi-cgi:shtml
-#CGIextension = cgi
-
 ### 'default' config
 <?php
 		if ($count === 0) {
@@ -127,6 +126,8 @@ VirtualHost {
 <?php
 		}
 ?>
+	set var_user = apache
+
 	UseGZfile = yes
 	FollowSymlinks = no
 	
@@ -171,7 +172,7 @@ VirtualHost {
 	#UserDirectory = public_html
 	#UserWebsites = yes
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_for_var_user
 <?php
 		}
 ?>

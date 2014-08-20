@@ -25,6 +25,39 @@ class ftpuser__pureftp extends lxDriverClass
 		$this->toggleStatus();
 	}
 
+	// MR -- function to combine add + quota + status without '-m' (create .pdb) - using by fixftpuser
+	function setFix()
+	{
+		global $gbl, $sgbl, $login, $ghtml; 
+
+		$dir = $this->main->__var_full_directory;
+		$dir = expand_real_root($dir);
+		$pass = $this->main->realpass;
+
+		if (!$pass) { $pass = randomString(8); }
+
+		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $this->main->nname, "-u", $this->main->__var_username, "-d",  $dir);
+
+		if (!lxfile_exists($dir)) {
+			lxfile_mkdir($dir);
+			lxfile_unix_chown($dir, $this->main->__var_username);
+		}
+
+		if ($this->main->ftp_disk_usage > 0) {
+			$q  = "-N {$this->main->ftp_disk_usage}";
+		} else {
+			$q = "-N ''";
+		}
+
+		if ($this->main->isOn('status')) {
+			$z = "-z 0000-2359";
+		} else {
+			$z = "-z 0000-0000";
+		}
+
+		exec("pure-pw usermod {$this->main->nname} {$q} {z}");
+	}
+
 	function dbactionDelete()
 	{
 		global $gbl, $sgbl, $login, $ghtml; 
@@ -45,7 +78,7 @@ class ftpuser__pureftp extends lxDriverClass
 			throw new lxException($login->getThrow("no_permit_to_delete_main_ftpuser"), '', $this->main->nname);
 		}
 
-		lxshell_return("pure-pw", "userdel", $this->main->nname, "-m" );
+		lxshell_return("pure-pw", "userdel", $this->main->nname, "-m");
 	}
 
 	function toggleStatus()
@@ -77,8 +110,7 @@ class ftpuser__pureftp extends lxDriverClass
 		$dir = $this->main->__var_full_directory;
 		$dir = expand_real_root($dir);
 
-		switch($subaction) 
-		{
+		switch($subaction) {
 			case "full_update":
 				$pass = $this->main->realpass;
 				lxshell_input("$pass\n$pass\n", "pure-pw", "passwd", $this->main->nname, "-m");
@@ -103,6 +135,10 @@ class ftpuser__pureftp extends lxDriverClass
 
 			case "changeowner":
 				lxshell_return("pure-pw", "usermod", $this->main->nname, "-u", $this->main->__var_username, "-d", $dir, "-m");
+				break;
+
+			case "fix":
+				$this->setFix();
 				break;
 		}
 	}

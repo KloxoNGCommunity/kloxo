@@ -27,7 +27,7 @@ class dns__bind extends dns__
 		setRpmInstalled("bind-utils");
 		setRpmRemoved("bind-chroot");
 
-		$initfile = getLinkCustomfile("/home/bind/etc/init.d", "named.init");
+		$initfile = getLinkCustomfile("/opt/configs/bind/etc/init.d", "named.init");
 
 		if (file_exists($initfile)) {
 			lxfile_cp($initfile, "/etc/init.d/named");
@@ -42,22 +42,7 @@ class dns__bind extends dns__
 
 	static function copyConfigMe()
 	{
-		$nolog = null;
-
-		$pathsrc = "/usr/local/lxlabs/kloxo/file/bind";
-		$pathdrv = "/home/bind";
-		$pathetc = "/etc/";
-
-		log_cleanup("Copy all contents of 'bind'", $nolog);
-
-		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-		exec("cp -rf {$pathsrc} /home");
-
-		$t = getLinkCustomfile($pathdrv . "/etc/conf", "named.conf");
-
-		log_cleanup("- Copy {$t} to {$pathetc}/named.conf", $nolog);
-		lxfile_cp($t, "{$pathetc}/named.conf");
-
+		setCopyDnsConfFiles('bind');
 	}
 
 	function createConfFile($action = null)

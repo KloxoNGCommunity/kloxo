@@ -488,7 +488,7 @@ function PreparePowerdnsDb($nolog = null)
 
 	log_cleanup("- Fixing MySQL commands in import files", $nolog);
 
-	$pdnspath = "/home/pdns";
+	$pdnspath = "/opt/configs/pdns";
 
 	exec("mysql -f -u root {$pstring} < {$pdnspath}/tpl/pdns.sql >/dev/null 2>&1");
 
@@ -834,18 +834,6 @@ function send_system_monitor_message_to_admin($prog)
 
 function check_if_port_on($port)
 {
-/*
-	$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-//	socket_set_nonblock($socket);
-	$ret = socket_connect($socket, "127.0.0.1", $port);
-	socket_close($socket);
-
-	if (!$ret) {
-		return false;
-	}
-
-	return true;
-*/
 	$socket = fsockopen('127.0.0.1', $port, $errno, $errstr, 5);
 
 	if($socket) {
@@ -2637,6 +2625,10 @@ function createRestartFile($servar)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+	if ($servar === 'none') { return; }
+
+	if (strpos($servar, 'proxy') !== false) { return; }
+
 	$servarn = "__var_progservice_$servar";
 
 	if (isset($sgbl->$servarn)) {
@@ -2935,23 +2927,9 @@ function checkIfLatest()
 
 function getLatestVersion()
 {
-//	$nlist = getVersionList();
-//	return $nlist[count($nlist) - 1];
-/*
-	$ver = getRpmVersionViaYum("kloxomr");
-
-	$rel = getRpmReleaseViaYum("kloxomr");
-	$rel = explode(".", $rel);
-
-	return $ver.'-'.$rel[0];
-*/
-	// MR -- need 'yum clean all' to make sure latest version
-	// slowly and then disable
-//	exec("yum clean all");
-
 	exec("yum check-update kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
 
-	if (!$ret) {
+	if ($ret === 0) {
 		$ver = getInstalledVersion();
 	} else {
 		$ver = str_replace(".mr", "", $out[0]);
@@ -2963,16 +2941,6 @@ function getLatestVersion()
 
 function getInstalledVersion()
 {
-//	$nlist = getVersionList();
-//	return $nlist[count($nlist) - 1];
-/*
-	$ver = getRpmVersionViaYum("kloxomr");
-
-	$rel = getRpmReleaseViaYum("kloxomr");
-	$rel = explode(".", $rel);
-
-	return $ver.'-'.$rel[0];
-*/
 	exec("yum list installed kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
 
 	$ver = str_replace(".mr", "", $out[0]);
@@ -5362,14 +5330,13 @@ function setDomainPages($nolog = null)
 
 function getPhpVersion()
 {
-//	exec("php -r 'echo phpversion();'", $out, $ret);
 	exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
 
 	// MR -- 'php -v' may not work when php 5.4/5.5 using php.ini from 5.2/5.3
-	if ($ret) {
-		return '5.4.0';
-	} else {
+	if ($ret === 0) {
 		return $out[0];
+	} else {
+		return '5.4.0';
 	}
 }
 
@@ -5444,14 +5411,9 @@ function getRpmBranchListOnList($pname)
 
 function getRpmVersion($rpmname)
 {
-/*
-	$out = lxshell_output("rpm -q {$rpmname}");
 
-	return str_replace($rpmname . '-', '', $out[0]);
-*/
 	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
-//	if ($out[0] !== false) {
 	if ($ret === 0) {
 		$ver = $out[0];
 	} else {
@@ -5463,18 +5425,6 @@ function getRpmVersion($rpmname)
 
 function setRpmInstalled($rpmname)
 {
-	global $gbl, $sgbl, $login, $ghtml;
-/*
-	$ret = isRpmInstalled($rpmname);
-
-	if (!$ret) {
-		$ret = lxshell_return("yum", "-y", "install", $rpmname);
-
-		if (!$ret) {
-			throw new lxException($login->getThrow("install_failed"), '', $rpmname);
-		}
-	}
-*/
 	lxshell_return("yum", "-y", "install", $rpmname);
 }
 
@@ -5484,7 +5434,6 @@ function setRpmRemoved($rpmname)
 
 	if (!isRpmInstalled($rpmname)) { return; }
 
-//	$ret = lxshell_return("yum", "-y", "remove", $rpmname);
 	$ret = lxshell_return("rpm", "-e", "--nodeps", $rpmname);
 
 	if ($ret) {
@@ -5518,7 +5467,6 @@ function setRpmReplaced($rpmname, $replacewith)
 
 function isRpmInstalled($rpmname)
 {
-//	$ret = lxshell_return("rpm", "-q", "--quiet", $rpmname);
 	$ret = lxshell_return("rpm", "-q", $rpmname);
 
 	if ($ret) {
@@ -5622,7 +5570,7 @@ function setInitialDnsConfig($type, $nolog = null)
 	} else {
 		$newlist = array("defaults", "master", "slave", "reverse");
 
-		$path = "/home/{$type}/conf";
+		$path = "/opt/configs/{$type}/conf";
 
 		foreach ($newlist as &$n) {
 			if (!file_exists("{$path}/{$n}")) {
@@ -5630,6 +5578,11 @@ function setInitialDnsConfig($type, $nolog = null)
 			}
 		}
 	}
+
+	// MR -- remove old dirs
+	$htpath_old = "/home/{$type}";
+
+	lxfile_rm_rec($htpath_old);
 }
 
 function setInitialWebConfig($type, $nolog = null)
@@ -5646,7 +5599,7 @@ function setInitialWebConfig($type, $nolog = null)
 		$atype = $type;
 	}
 
-	$htpath = "/home/{$type}";
+	$htpath = "/opt/configs/{$type}";
 	$eatpath = "/etc/{$atype}";
 
 	$htcpath = "{$htpath}/conf";
@@ -5666,7 +5619,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	$list = array("defaults", "domains", "globals");
+	$list = array("defaults", "domains", "proxies", "globals");
 
 	foreach ($list as $k => $l) {
 		if (!lxfile_exists("{$htcpath}/{$l}")) {
@@ -5684,16 +5637,26 @@ function setInitialWebConfig($type, $nolog = null)
 		if (lxfile_exists("{$l}")) {
 			log_cleanup("- Remove {$l} dir", $nolog);
 
-			lxfile_rm_rec("{$l}");
+			lxfile_rm_rec($l);
 		}
 	}
 
 	setCopyWebConfFiles($type);
+
+	// MR -- remove old dirs
+	$htpath_old = "/home/{$type}";
+
+	lxfile_rm_rec($htpath_old);
 }
 
-function setInitialWebCacheConfig($nolog = null)
+function setInitialWebCacheConfig($type, $nolog = null)
 {
-	setCopyWebCacheConfFiles($nolog);
+	setCopyWebCacheConfFiles($type, $nolog);
+
+	// MR -- remove old dirs
+	$htpath_old = "/home/{$type}";
+
+	lxfile_rm_rec($htpath_old);
 }
 
 function setInitialPhpIniConfig($nolog = null)
@@ -5722,9 +5685,9 @@ function setInitialPhpFpmConfig($nolog = null)
 	foreach ($d as $k => $v) {
 		$t = "'custom_name=\"{$v}\"'";
 
-		exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out);
+		exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
 
-		if ($out[0]) {
+		if ($ret === 0) {
 			exec("sh /script/switch-php-fpm {$v}");
 			return;
 		}
@@ -5778,16 +5741,16 @@ function setKloxoCexeChownChmod($nolog = null)
 
 function setWebDriverChownChmod($type, $nolog = null)
 {
-	if (!file_exists("/home/{$type}")) { return; }
+	if (!file_exists("/opt/configs/{$type}")) { return; }
 
 	$webdirchmod = '755';
 	$webdirchown = "root:root";
 
-	log_cleanup("- chown {$webdirchown} FOR /home/{$type}/ AND INSIDE", $nolog);
-	lxfile_unix_chown_rec("/home/{$type}/", $webdirchown);
+	log_cleanup("- chown {$webdirchown} FOR /opt/configs/{$type}/ AND INSIDE", $nolog);
+	lxfile_unix_chown_rec("/opt/configs/{$type}/", $webdirchown);
 
-	exec("find /home/{$type}/ -type f -name \"*.sh\" -exec chmod {$webdirchmod} \{\} \\;");
-	log_cleanup("- chmod {$webdirchmod} FOR *.sh INSIDE /home/{$type}/", $nolog);
+	exec("find /opt/configs/{$type}/ -type f -name \"*.sh\" -exec chmod {$webdirchmod} \{\} \\;");
+	log_cleanup("- chmod {$webdirchmod} FOR *.sh INSIDE /opt/configs/{$type}/", $nolog);
 }
 
 function setKloxoHttpdChownChmod($nolog = null)
@@ -6098,25 +6061,25 @@ function setRemoveOldDirs($nolog = null)
 
 	if (lxfile_exists("/home/admin/domain")) {
 		log_cleanup("- Remove dir /home/admin/domain/ if exists", $nolog);
-		rmdir("/home/admin/domain/");
+		lxfile_rm_rec("/home/admin/domain/");
 	}
 
 	if (lxfile_exists("/home/admin/old")) {
 		log_cleanup("- Remove dir /home/admin/old/ if exists", $nolog);
-		rmdir("/home/admin/old/");
+		lxfile_rm_rec("/home/admin/old/");
 	}
 
 	if (lxfile_exists("/home/admin/cgi-bin")) {
 		log_cleanup("- Remove dir /home/admin/cgi-bin/ if exists", $nolog);
-		rmdir("/home/admin/cgi-bin/");
+		lxfile_rm_rec("/home/admin/cgi-bin/");
 	}
 
 	if (lxfile_exists("/etc/skel/Maildir")) {
 		log_cleanup("- Remove dir /etc/skel/Maildir/ if exists", $nolog);
-		rmdir("/etc/skel/Maildir/new");
-		rmdir("/etc/skel/Maildir/cur");
-		rmdir("/etc/skel/Maildir/tmp");
-		rmdir("/etc/skel/Maildir/");
+		lxfile_rm_rec("/etc/skel/Maildir/new");
+		lxfile_rm_rec("/etc/skel/Maildir/cur");
+		lxfile_rm_rec("/etc/skel/Maildir/tmp");
+		lxfile_rm_rec("/etc/skel/Maildir/");
 	}
 
 	if (lxfile_exists('kloxo.sql')) {
@@ -6212,9 +6175,7 @@ function setInitialServer($nolog = null)
 		//
 	} else {
 		// MR -- problem with for openvz
-		exec("grep envID /proc/self/status", $ret, $out);
-	//	if (!file_exists("/proc/user_beancounters")) {
-	//	if (($out[0] === '') || ($out[0] === 'envID: 0')) {
+		exec("grep envID /proc/self/status", $out, $ret);
 		if ($ret === 0) {
 			system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
 		}
@@ -6270,9 +6231,6 @@ function setSomePermissions($nolog = null)
 
 	log_cleanup("- Set permissions for phpsuexec.sh script", $nolog);
 	lxfile_unix_chmod("../file/phpsuexec.sh", "0755");
-
-//	log_cleanup("- Set permissions for /home/kloxo/httpd/lighttpd/ dir", $nolog);
-//	lxfile_unix_chown_rec("/home/kloxo/httpd/lighttpd/", "apache:apache");
 
 	log_cleanup("- Set permissions for /var/lib/php/session/ dir", $nolog);
 	lxfile_unix_chmod("/var/lib/php/session/", "777");
@@ -6914,7 +6872,6 @@ function setUpdateServices($list, $nolog = null)
 	foreach ($l as $k => $v) {
 		exec("yum list installed {$v}", $out, $ret);
 
-	//	if ($out[0] !== false) {
 		if ($ret === 0) {
 			exec("yum update {$v} -y >/dev/null 2>&1");
 			log_cleanup("- New {$v} version installed", $nolog);
@@ -7029,10 +6986,6 @@ function updatecleanup($nolog = null)
 	log_cleanup("Remove cache dir", $nolog);
 	log_cleanup("- Remove process", $nolog);
 	lxfile_rm_rec("__path_program_root/cache");
-
-	log_cleanup("Restart syslog service", $nolog);
-	log_cleanup("- Restart process", $nolog);
-	createRestartFile('syslog');
 
 	log_cleanup("Initialize awstats dirdata", $nolog);
 	log_cleanup("- Initialize process", $nolog);
@@ -7228,24 +7181,22 @@ function getParseInlinePhp($template, $input)
 	return $ret;
 }
 
-function setCopyDnsConfFiles($dnsdriver)
+function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 {
 	$aliasdriver = ($dnsdriver === 'bind') ? 'named' : $dnsdriver;
 
-	$nolog = null;
-
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$dnsdriver}";
-	$pathdrv = "/home/{$dnsdriver}";
+	$pathdrv = "/opt/configs/{$dnsdriver}";
 	$pathetc = "/etc/";
 
 	log_cleanup("Copy all contents of $dnsdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /home");
+	exec("cp -rf {$pathsrc} /opt/configs");
 
-	if ($aliasdriver === 'djbdns') { return; }
-
-	if ($aliasdriver === 'maradns') {
+	if ($aliasdriver === 'djbdns') {
+		lxfile_mv("/home/djbdns", "/opt/configs/djbdns");
+	} elseif ($aliasdriver === 'maradns') {
 		$t = getLinkCustomfile($pathdrv . "/etc", "mararc");
 
 		log_cleanup("- Copy {$t} to {$pathetc}/mararc", $nolog);
@@ -7267,20 +7218,18 @@ function setCopyDnsConfFiles($dnsdriver)
 	}
 }
 
-function setCopyWebCacheConfFiles($cachedriver)
+function setCopyWebCacheConfFiles($cachedriver, $nolog = null)
 {
-	$nolog = null;
-
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$cachedriver}";
-	$pathdrv = "/home/{$cachedriver}";
+	$pathdrv = "/opt/configs/{$cachedriver}";
 	$pathetc = "/etc";
 
 	log_cleanup("Copy all contents of $cachedriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /home");
+	exec("cp -rf {$pathsrc} /opt/configs");
 
-	if (!file_exists("/etc/{$cachedriver}")) { return; }
+//	if (!file_exists("/etc/{$cachedriver}")) { return; }
 
 	if ($cachedriver === 'varnish') {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "default.vcl");
@@ -7301,17 +7250,15 @@ function setCopyWebCacheConfFiles($cachedriver)
 }
 
 
-function setCopyWebConfFiles($webdriver)
+function setCopyWebConfFiles($webdriver, $nolog = null)
 {
 	$aliasdriver = ($webdriver === 'apache') ? 'httpd' : $webdriver;
 
-	$nolog = null;
-
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$webdriver}";
-	$pathdrv = "/home/{$webdriver}";
-	$pathtpl = "/home/{$webdriver}/tpl";
-	$pathgbls = "/home/{$webdriver}/conf/globals";
-	$pathdef = "/home/{$webdriver}/conf/defaults";
+	$pathdrv = "/opt/configs/{$webdriver}";
+	$pathtpl = "/opt/configs/{$webdriver}/tpl";
+	$pathgbls = "/opt/configs/{$webdriver}/conf/globals";
+	$pathdef = "/opt/configs/{$webdriver}/conf/defaults";
 	$pathetc = "/etc/{$aliasdriver}";
 	$pathinit = "/etc/init.d";
 	$pathconfd = "{$pathetc}/conf.d";
@@ -7320,7 +7267,7 @@ function setCopyWebConfFiles($webdriver)
 	log_cleanup("Copy all contents of $webdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /home");
+	exec("cp -rf {$pathsrc} /opt/configs");
 
 	if ($webdriver !== 'hiawatha') {
 		$dirs = array($pathconf, $pathconfd);
@@ -7330,6 +7277,11 @@ function setCopyWebConfFiles($webdriver)
 				exec("mkdir -p {$d}");
 			}
 		}
+
+		if ($webdriver === 'lighttpd') {
+			// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
+			lxfile_unix_chown("/var/log/{$webdriver}", "apache:apache");
+		}
 	}
 
 	$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
@@ -7337,7 +7289,7 @@ function setCopyWebConfFiles($webdriver)
 	log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
 
-	$confs = array("~lxcenter", "ssl", "__version", "perl");
+	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default");
 
 	foreach ($confs as &$c) {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "{$c}.conf");
@@ -7407,6 +7359,11 @@ function getWebDriverList($drivertype = null)
 	return $list;
 }
 
+function getAllWebDriverList()
+{
+	return array('apache', 'lighttpd', 'nginx', 'hiawatha');
+}
+
 function getWebCacheDriverList($drivertype = null)
 {
 	$driverapp = ($drivertype) ? $drivertype : slave_get_driver('webcache');
@@ -7414,11 +7371,21 @@ function getWebCacheDriverList($drivertype = null)
 	return array($driverapp);
 }
 
+function getAllWebCacheDriverList()
+{
+	return array('varnish', 'squid', 'trafficserver');
+}
+
 function getDnsDriverList($drivertype = null)
 {
 	$driverapp = ($drivertype) ? $drivertype : slave_get_driver('dns');
 
 	return array($driverapp);
+}
+
+function getAllDnsDriverList()
+{
+	return array('bind', 'djbdns', 'maradns', 'nsd', 'pdns');
 }
 
 function setRealServiceBranchList($nolog = null)
@@ -7530,19 +7497,6 @@ function isServiceRunning($srvc)
 
 function getRpmVersionViaYum($rpm)
 {
-/*
-	// MR -- don't use 'grep -i' because need real 'Version' word
-	exec("yum info {$rpm} | grep 'Version'", $out, $ret);
-
-//	if ($out[0] !== false) {
-	if ($ret === 0) {
-		$ver = str_replace('Version', '', $out[0]);
-		$ver = str_replace(':', '', $ver);
-		$ver = str_replace(' ', '', $ver);
-	} else {
-		$ver = '';
-	}
-*/
 	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
 	
 	if ($ret === 0) {
@@ -7833,9 +7787,9 @@ function random_string_lcase($length) {
 
 function exec_out($input)
 {
-	exec($input, $out);
+	exec($input, $out, $ret);
 
-	if ($out) {
+	if ($ret === 0) {
 		print(implode("\n", $out) . "\n");
 	}
 

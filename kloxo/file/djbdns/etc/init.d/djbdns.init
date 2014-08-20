@@ -14,7 +14,7 @@ TCPserv="/usr/bin/tcpserver"
 Bootproc="/var/qmail/boot/proc"
 prog="Djbdns"
 
-ppath="/home/djbdns"
+ppath="/opt/configs/djbdns"
 
 PATH=$PATH:/bin:/usr/bin:/usr/local/bin
 

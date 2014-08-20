@@ -30,10 +30,11 @@ scavenge_main();
 function scavenge_main() {
 	global $gbl, $sgbl, $login, $ghtml;
 
+	initProgramlib('admin');
+	
 	$starttime = date('Y/m/d H:i:s', time());
 
 	log_shell("Scavenge: Start");
-	initProgramlib('admin');
 	log_shell("Scavenge: Collect Traffic");
 	passthru("$sgbl->__path_php_path ../bin/gettraffic.php");
 	log_shell("Scavenge: Collect Quota");
@@ -48,11 +49,12 @@ function scavenge_main() {
 	checkClusterDiskQuota();
 
 	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
+/*
 	if ($driverapp === 'lighttpd') {
 	    log_shell("Scavenge: Restarting lighttpd");
 	    system("service lighttpd restart");
 	}
-
+*/
 	log_shell("Scavenge: Fix log dir");
 	passthru("$sgbl->__path_php_path ../bin/common/fixlogdir.php");
 	log_shell("Scavenge: InstallApp update");
@@ -60,6 +62,7 @@ function scavenge_main() {
 
 	log_shell("Scavenge: Watchdog checks");
 	$rs = get_all_pserver();
+
 	foreach ($rs as $r) {
 	    watchdog::addDefaultWatchdog($r);
 	}

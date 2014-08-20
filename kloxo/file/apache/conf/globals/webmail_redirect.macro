@@ -1,0 +1,26 @@
+<Macro webmail_redirect $ip $port $portssl $domain $protocol $webmailremote>
+
+## webmail
+<VirtualHost ${ip}:${port}>
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
+	ServerName webmail.${domain}
+
+	Redirect / "${protocol}${webmailremote}"
+
+</VirtualHost>
+
+## webmail
+<VirtualHost ${ip}:${portssl}>
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
+	ServerName webmail.${domain}
+
+	Redirect / "${protocol}${webmailremote}"
+
+</VirtualHost>
+
+</Macro>
+

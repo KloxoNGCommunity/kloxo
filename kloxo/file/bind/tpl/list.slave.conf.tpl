@@ -1,5 +1,5 @@
 <?php
-	$path = "/home/bind/conf/slave";
+	$path = "/opt/configs/bind/conf/slave";
 	$dirs = glob("{$path}/*");
 
 	$str = '';
@@ -10,7 +10,7 @@
 		$str .= $zone;
 	}
 
-	$file = "/home/bind/conf/defaults/named.slave.conf";
+	$file = "/opt/configs/bind/conf/defaults/named.slave.conf";
 
 	file_put_contents($file, $str);
 ?>

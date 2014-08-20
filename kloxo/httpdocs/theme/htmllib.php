@@ -9319,7 +9319,8 @@ class HtmlLib
 
 ?>
 
-		<form name="<?= $formname ?>" method="post" action="<?= $url ?>" accept-charset="utf-8">
+		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
+			<!-- <input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'> -->
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">

@@ -3,4 +3,5 @@
 . /script/fix.inc
 
 . /script/directory
-lxphp.exe ../bin/misc/fixftpuserclient.php "$@"
+lxphp.exe ../bin/fix/fixftpuser.php "$@"
+

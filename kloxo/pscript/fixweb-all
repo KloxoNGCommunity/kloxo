@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sh /script/fixweb
+sh /script/fixphp

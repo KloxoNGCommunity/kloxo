@@ -22,13 +22,13 @@ class dns__nsd extends dns__
 	{
 		setRpmInstalled("nsd");
 
-		$initfile = getLinkCustomfile("/home/nsd/etc/init.d", "nsd.init");
+		$initfile = getLinkCustomfile("/opt/configs/nsd/etc/init.d", "nsd.init");
 
 		if (file_exists($initfile)) {
 			lxfile_cp($initfile, "/etc/init.d/nsd");
 		}
 
-		$path = "/home/nsd/conf/defaults";
+		$path = "/opt/configs/nsd/conf/defaults";
 
 		if (!file_exists("{$path}/nsd.master.conf")) {
 			touch("{$path}/nsd.master.conf");
@@ -49,26 +49,7 @@ class dns__nsd extends dns__
 
 	static function copyConfigMe()
 	{
-		$nolog = null;
-
-		$pathsrc = "/usr/local/lxlabs/kloxo/file/nsd";
-		$pathdrv = "/home/nsd";
-		$pathetc = "/etc/";
-
-		log_cleanup("Copy all contents of 'nsd'", $nolog);
-
-		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-		exec("cp -rf {$pathsrc} /home");
-
-		$pathtarget = "{$pathetc}/nsd";
-
-		exec("mkdir -p {$pathtarget}");
-
-		$t = getLinkCustomfile($pathdrv . "/etc/conf", "nsd.conf");
-
-		log_cleanup("- Copy {$t} to {$pathtarget}/nsd.conf", $nolog);
-		lxfile_cp($t, "{$pathtarget}/nsd.conf");
-
+		setCopyDnsConfFiles('nsd');
 	}
 
 	function createConfFile($action = null)

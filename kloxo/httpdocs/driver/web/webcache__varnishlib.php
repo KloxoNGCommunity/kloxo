@@ -25,15 +25,15 @@ class webcache__varnish extends webcache__
 		$nolog = null;
 
 		$pathsrc = "/usr/local/lxlabs/kloxo/file/varnish";
-		$pathdrv = "/home/varnish";
+		$pathdrv = "/opt/configs/varnish";
 		$pathetc = "/etc";
 
 		log_cleanup("Copy all contents of 'varnish'", $nolog);
 
 		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-		exec("cp -rf {$pathsrc} /home");
+		exec("cp -rf {$pathsrc} /opt/configs");
 
-		if (!file_exists("/etc/varnish")) { return; }
+	//	if (!file_exists("/etc/varnish")) { return; }
 
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "default.vcl");
 		lxfile_cp($t, "$pathetc/varnish/default.vcl");

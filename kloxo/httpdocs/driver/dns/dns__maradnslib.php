@@ -22,7 +22,7 @@ class dns__maradns extends dns__
 	{
 		setRpmInstalled("maradns");
 
-		$initfile = getLinkCustomfile("/home/maradns/etc/init.d", "maradns.init");
+		$initfile = getLinkCustomfile("/opt/configs/maradns/etc/init.d", "maradns.init");
 
 		if (file_exists($initfile)) {
 			lxfile_cp($initfile, "/etc/init.d/maradns");
@@ -37,22 +37,7 @@ class dns__maradns extends dns__
 
 	static function copyConfigMe()
 	{
-		$nolog = null;
-
-		$pathsrc = "/usr/local/lxlabs/kloxo/file/maradns";
-		$pathdrv = "/home/maradns";
-		$pathetc = "/etc/";
-
-		log_cleanup("Copy all contents of 'maradns'", $nolog);
-
-		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-		exec("cp -rf {$pathsrc} /home");
-
-		$t = getLinkCustomfile($pathdrv . "/etc", "mararc");
-
-		log_cleanup("- Copy {$t} to {$pathetc}/mararc", $nolog);
-		lxfile_cp($t, "{$pathetc}/mararc");
-
+		setCopyDnsConfFiles('maradns');
 	}
 
 	function createConfFile($action = null)

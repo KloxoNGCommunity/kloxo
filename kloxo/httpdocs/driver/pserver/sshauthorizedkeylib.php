@@ -77,7 +77,7 @@ class sshauthorizedkey extends lxclass
 		$slave = $parent->nname;
 
 	//	if ($parent->is__table('client')) {
-		if ($parent->getClas() === 'client') {
+		if ($parent->getClass() === 'client') {
 			$slave = $parent->websyncserver;
 		}
 

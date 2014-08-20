@@ -22,7 +22,7 @@ class dns__pdns extends dns__
 	{
 		setRpmInstalled("pdns");
 
-		$initfile = getLinkCustomfile("/home/pdns/etc/init.d", "pdns.init");
+		$initfile = getLinkCustomfile("/opt/configs/pdns/etc/init.d", "pdns.init");
 
 		if (file_exists($initfile)) {
 			lxfile_cp($initfile, "/etc/init.d/pdns");
@@ -37,26 +37,7 @@ class dns__pdns extends dns__
 
 	static function copyConfigMe()
 	{
-		$nolog = null;
-
-		$pathsrc = "/usr/local/lxlabs/kloxo/file/pdns";
-		$pathdrv = "/home/pdns";
-		$pathetc = "/etc/";
-
-		log_cleanup("Copy all contents of 'pdns'", $nolog);
-
-		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-		exec("cp -rf {$pathsrc} /home");
-
-		$pathtarget = "{$pathetc}/pdns";
-
-		exec("mkdir -p {$pathtarget}");
-
-		$t = getLinkCustomfile($pathdrv . "/etc/conf", "pdns.conf");
-
-		log_cleanup("- Copy {$t} to {$pathtarget}/pdns.conf", $nolog);
-		lxfile_cp($t, "{$pathtarget}/pdns.conf");
-
+		setCopyDnsConfFiles('pdns');
 	}
 
 	function createConfFile($action = null)
@@ -156,7 +137,7 @@ class dns__pdns extends dns__
 	{
 		$input['rootpass'] = slave_get_db_pass();
 
-		$tplsource = getLinkCustomfile("/home/pdns/tpl", "domains.conf.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/pdns/tpl", "domains.conf.tpl");
 
 		$tpl = file_get_contents($tplsource);
 

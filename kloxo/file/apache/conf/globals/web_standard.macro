@@ -1,0 +1,223 @@
+<Macro web_standard $ip $port $portssl $user $domain $serveralias $webdocroot $webmaildocroot $dirindex $certname>
+
+## web
+<VirtualHost ${ip}:${port}>
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
+	ServerAdmin webmaster@${domain}
+
+	ServerName ${domain}
+
+	ServerAlias ${serveralias}
+
+	DocumentRoot ${webdocroot}
+
+	DirectoryIndex ${dirindex}
+
+	Alias /__kloxo "/home/${user}/kloxoscript/"
+
+	Redirect /kloxo "https://cp.${domain}:7777"
+	Redirect /kloxononssl "http://cp.${domain}:7778"
+
+	Redirect /webmail "http://webmail.${domain}"
+
+	ScriptAlias /cgi-bin/ "${webdocroot}/cgi-bin/"
+
+	<IfModule suexec.c>
+		SuexecUserGroup ${user} ${user}
+	</IfModule>
+
+	<IfModule mod_suphp.c>
+		SuPhp_UserGroup ${user} ${user}
+		suPHP_Configpath "/home/httpd/${domain}/"
+	</IfModule>
+
+	<IfModule mod_ruid2.c>
+		RMode config
+		RUidGid ${user} ${user}
+		RMinUidGid ${user} ${user}
+	</IfModule>
+
+	<IfModule itk.c>
+		AssignUserId ${user} ${user}
+
+		<Location "/awstats/">
+			AssignUserId apache apache
+		</Location>
+	</IfModule>
+
+	<IfModule mod_fastcgi.c>
+		Alias /${domain}.0fake "${webdocroot}/${domain}.0fake"
+		#FastCGIExternalServer "${webdocroot}/${domain}.0fake" -host 127.0.0.1:57804 -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webdocroot}/${domain}.0fake" -socket /home/php-fpm/sock/${user}.sock -idle-timeout 90 -pass-header Authorization
+		AddType application/x-httpd-fastphp .php
+		Action application/x-httpd-fastphp /${domain}.0fake
+		<Files "${domain}.0fake">
+			RewriteCond %{REQUEST_URI} !${domain}.0fake
+		</Files>
+	</IfModule>
+
+	<IfModule mod_fcgid.c>
+		<Directory "${webdocroot}/">
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/${user}/php5.fcgi .php
+		</Directory>
+	</IfModule>
+
+	<IfModule mod_proxy_fcgi.c>
+		ProxyPass / fcgi://127.0.0.1:57804/
+		ProxyPassReverse / fcgi://127.0.0.1:57804/
+	</IfModule>
+
+	<Directory "${webdocroot}/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+		Options +ExecCGI
+		AddHandler cgi-script .cgi .pl
+	</Directory>
+
+	<IfModule mod_php5.c>
+		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
+		php_admin_value sendmail_from "${domain}"
+	</IfModule>
+
+	<Location />
+		Allow from all
+		# Options +Indexes +FollowSymlinks
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+
+		<IfModule mod_php5.c>
+			php_admin_value open_basedir "/home/${user}:/tmp:/usr/share/pear:/home/kloxo/client/${user}:/home/kloxo/httpd/script:/home/kloxo/httpd/disable:"
+		</IfModule>
+	</Location>
+
+	CustomLog "/home/httpd/${domain}/stats/${domain}-custom_log" combined
+	ErrorLog "/home/httpd/${domain}/stats/${domain}-error_log"
+
+	Include "/home/apache/conf/globals/stats.conf"
+
+</VirtualHost>
+
+## web
+<VirtualHost ${ip}:${portssl}>
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
+	ServerAdmin webmaster@${domain}
+
+	ServerName ${domain}
+
+	ServerAlias ${serveralias}
+
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLCertificateFile /home/kloxo/httpd/ssl/${certname}.pem
+		SSLCertificateKeyFile /home/kloxo/httpd/ssl/${certname}.key
+		SSLCACertificatefile /home/kloxo/httpd/ssl/${certname}.ca
+	</IfModule>
+
+	DocumentRoot ${webdocroot}
+
+	DirectoryIndex ${dirindex}
+
+	Alias /__kloxo "/home/${user}/kloxoscript/"
+
+	Redirect /kloxo "https://cp.${domain}:7777"
+	Redirect /kloxononssl "http://cp.${domain}:7778"
+
+	Redirect /webmail "https://webmail.${domain}"
+
+	ScriptAlias /cgi-bin/ "${webdocroot}/cgi-bin/"
+
+	<IfModule suexec.c>
+		SuexecUserGroup ${user} ${user}
+	</IfModule>
+
+	<IfModule mod_suphp.c>
+		SuPhp_UserGroup ${user} ${user}
+		suPHP_Configpath "/home/httpd/${domain}/"
+	</IfModule>
+
+	<IfModule mod_ruid2.c>
+		RMode config
+		RUidGid ${user} ${user}
+		RMinUidGid ${user} ${user}
+	</IfModule>
+
+	<IfModule itk.c>
+		AssignUserId ${user} ${user}
+
+		<Location "/awstats/">
+			AssignUserId apache apache
+		</Location>
+	</IfModule>
+
+	<IfModule mod_fastcgi.c>
+		Alias /${domain}.1fake "${webdocroot}/${domain}.1fake"
+		#FastCGIExternalServer "${webdocroot}/${domain}.1fake" -host 127.0.0.1:57804 -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webdocroot}/${domain}.1fake" -socket /home/php-fpm/sock/${user}.sock -idle-timeout 90 -pass-header Authorization
+		AddType application/x-httpd-fastphp .php
+		Action application/x-httpd-fastphp /${domain}.1fake
+		<Files "${domain}.1fake">
+			RewriteCond %{REQUEST_URI} !${domain}.1fake
+		</Files>
+	</IfModule>
+
+	<IfModule mod_fcgid.c>
+		<Directory "${webdocroot}/">
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/${user}/php5.fcgi .php
+		</Directory>
+	</IfModule>
+
+	<IfModule mod_proxy_fcgi.c>
+		ProxyPass / fcgi://127.0.0.1:57804/
+		ProxyPassReverse / fcgi://127.0.0.1:57804/
+	</IfModule>
+
+	<Directory "${webdocroot}/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+		Options +ExecCGI
+		AddHandler cgi-script .cgi .pl
+	</Directory>
+
+	<IfModule mod_php5.c>
+		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
+		php_admin_value sendmail_from "${domain}"
+	</IfModule>
+
+	<Location />
+		Allow from all
+		# Options +Indexes +FollowSymlinks
+		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+
+		<IfModule mod_php5.c>
+			php_admin_value open_basedir "/home/${user}:/tmp:/usr/share/pear:/home/kloxo/client/${user}:/home/kloxo/httpd/script:/home/kloxo/httpd/disable:"
+		</IfModule>
+	</Location>
+
+	CustomLog "/home/httpd/${domain}/stats/${domain}-custom_log" combined
+	ErrorLog "/home/httpd/${domain}/stats/${domain}-error_log"
+
+	Include "/home/apache/conf/globals/stats.conf"
+
+</VirtualHost>
+
+</Macro>
+

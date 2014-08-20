@@ -1,6 +1,6 @@
 <?php
 	if (array_keys($ip)) {
-		$dir = "/home/djbdns/axfrdns";
+		$dir = "/opt/configs/djbdns/axfrdns";
 
 		$file = "{$dir}/tcp";
 

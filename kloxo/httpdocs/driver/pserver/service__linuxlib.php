@@ -30,6 +30,10 @@ class Service__Linux extends Lxlclass
 		$nval['openlitespeed'] = 'lsws';
 		$nval['gwan'] = 'gwan';
 
+		$nval['varnish'] = 'varnish';
+		$nval['squid'] = 'squid';
+		$nval['trafficserver'] = 'trafficserver';
+
 		$nval['php-fpm'] = 'php-fpm';
 
 		$nval['named'] = 'named';

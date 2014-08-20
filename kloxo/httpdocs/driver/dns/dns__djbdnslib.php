@@ -22,7 +22,7 @@ class dns__djbdns extends dns__
 	{
 		setRpmInstalled("djbdns");
 
-		$initfile = getLinkCustomfile("/home/djbdns/etc/init.d", "djbdns.init");
+		$initfile = getLinkCustomfile("/opt/configs/djbdns/etc/init.d", "djbdns.init");
 
 		if (file_exists($initfile)) {
 			lxfile_cp($initfile, "/etc/init.d/djbdns");

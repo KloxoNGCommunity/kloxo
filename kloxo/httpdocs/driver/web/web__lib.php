@@ -71,6 +71,9 @@ class web__ extends lxDriverClass
 			$hawcpath = "/home/{$l}/etc/conf";
 			$hawcdpath = "/home/{$l}/etc/conf.d";
 
+			setRpmInstalled("{$a}");
+		//	setRpmInstalled("{$a}-devel");
+
 			if ($a === 'httpd') {
 				setRpmInstalled("mod_ssl");
 				setRpmInstalled("mod_rpaf");
@@ -78,8 +81,6 @@ class web__ extends lxDriverClass
 				setRpmInstalled("mod_suphp");
 				setRpmInstalled("mod_fastcgi");
 				setRpmInstalled("mod_fcgid");
-				setRpmInstalled("mod_perl");
-				setRpmInstalled("perl-Taint-Runtime");
 			} elseif ($a === 'lighttpd') {
 				setRpmInstalled("{$a}-fastcgi");
 			} elseif ($a === 'nginx') {
@@ -101,82 +102,21 @@ class web__ extends lxDriverClass
 			createRestartFile($l);
 		}
 
-	//	self::setInstallPhpfpm();
+		self::setInstallPhpfpm();
 	}
 
 	static function setBaseWebConfig($drivertype = null)
 	{
-		$a = $drivertype;
-
-		$hwcpath = "/home/{$a}/conf";
-
-		if ($a === 'httpd') {
-			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "rpaf.conf"),
-				"/etc/httpd/conf.d/rpaf.conf");
-			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "ssl.conf"),
-				"/etc/httpd/conf.d/ssl.conf");
-			lxfile_cp(getLinkCustomfile("/home/apache/etc/conf.d", "perl.conf"),
-				"/etc/httpd/conf.d/perl.conf");
-
-			// MR -- this is from old Kloxo
-			if (file_exists("{$hwcpath}/defaults/stats.conf")) {
-				lxfile_rm("{$hwcpath}/defaults/stats.conf");
-			}
-
-			// MR -- this is from old Kloxo
-			if (file_exists("{$hwcpath}/defaults/mimetype.conf")) {
-				lxfile_rm("{$hwcpath}/defaults/mimetype.conf");
-			}
-		} elseif ($a === 'lighttpd') {
-			// MR -- some rpm not create this file
-			if (!file_exists("/etc/lighttpd/local.lighttpd.conf")) {
-				exec("echo '' > /etc/lighttpd/local.lighttpd.conf");
-			}
-
-			// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
-			lxfile_unix_chown("/var/log/{$a}", "apache:apache");
-		} elseif ($a === 'nginx') {
-			// MR -- nginx 1.3.5 from centalt also copy httpd ssl to /etc/nginx/conf.d
-			// it's make nginx not able started. Because nginx for kloxo don't need this file,
-			// and then this file deleted.
-
-			$nginxsslcfgfile = '/etc/nginx/conf.d/ssl.conf';
-
-			if (file_exists($nginxsslcfgfile)) {
-				lxfile_rm("{$nginxsslcfgfile}");
-			}
-
-			// MR -- nginx from nginx.org also copy default.conf with listen 80
-			// it make nginx not start when webcache enable
-			lxfile_cp(getLinkCustomfile("/home/nginx/etc/conf.d", "default.conf"),
-				"/etc/nginx/conf.d/default.conf");
-		} elseif ($a === 'hiawatha') {
-			$x = array('defaults/disable', '/defaults/cp', '/webmails/webmail');
-
-			foreach ($x as $k => $v) {
-				if (!file_exists("{$hwcpath}/{$v}.conf")) {
-					lxfile_rm("{$hwcpath}/{$v}.conf");
-				}
-			}
-		}
+		setCopyWebConfFiles($drivertype);
 	}
 
 	static function setWebserverInstall($webserver)
 	{
-		$l = getRpmBranchList($webserver);
-
-		if (!$l) { $l = array($webserver); }
-
-		if ($l[0] !== 'hiawatha') {
-			// MR -- priority for first data on list
-			setRpmInstalled($l[0]);
-		}
-
 		// MR -- overwrite init
 
 		$altname = ($webserver === 'httpd') ? 'apache' : $webserver;
 
-		lxfile_cp(getLinkCustomfile("/home/{$altname}/etc/init.d", "{$webserver}.init"),
+		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$webserver}.init"),
 				"/etc/rc.d/init.d/{$webserver}");
 
 		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
@@ -538,28 +478,46 @@ class web__ extends lxDriverClass
 
 		$input['reverseproxy'] = isWebProxy();
 
-		$list = getWebDriverList();
+	//	$list = getWebDriverList();
+		$list = getAllWebDriverList();
 
-		$input['webdriverlist'] = $list;
+	//	$input['webdriverlist'] = $list;
 
 		foreach ($list as &$l) {
-			$tplsource = getLinkCustomfile("/home/{$l}/tpl", "{$conftpl}.conf.tpl");
+			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");
 
 			if ($conftype === 'defaults') {
-				exec("rm -rf /home/{$l}/conf/{$conftpl}/*.conf");
+				exec("rm -rf /opt/configs/{$l}/conf/{$conftpl}/*.conf");
 			}
 
-			$tpltarget = "/home/{$l}/conf/{$conftype}";
+			if (($l === 'hiawatha') && ($conftype === 'domains')) {
+				$types = array('domains' => false, 'proxies' => true);
+
+				foreach ($types as $k => $v) {
+					$tpltarget = "/opt/configs/{$l}/conf/{$k}";
+					$input['reverseproxy'] = $v;
 				
-			$tpl = file_get_contents($tplsource);
+					$tpl = file_get_contents($tplsource);
 
-			$tplparse = getParseInlinePhp($tpl, $input);
+					$tplparse = getParseInlinePhp($tpl, $input);
 
-			if ($tplparse) {
-				file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
+					if ($tplparse) {
+						file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
+					}
+				}
+			} else {
+				$tpltarget = "/opt/configs/{$l}/conf/{$conftype}";
+				
+				$tpl = file_get_contents($tplsource);
+
+				$tplparse = getParseInlinePhp($tpl, $input);
+
+				if ($tplparse) {
+					file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
+				}
 			}
 
-			createRestartFile($l);
+		//	createRestartFile($l);
 
 			if ($conftype === 'domains') {
 				if ($l === 'lighttpd') {
@@ -573,7 +531,7 @@ class web__ extends lxDriverClass
 
 			if ($conftype === 'defaults') {
 				if ($l === 'hiawatha') {
-					$tplsource = getLinkCustomfile("/home/{$l}/tpl", "cgi-wrapper.conf.tpl");
+					$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "cgi-wrapper.conf.tpl");
 					$tpltarget = "/etc/hiawatha/cgi-wrapper.conf";
 				
 					$tpl = file_get_contents($tplsource);
@@ -585,6 +543,14 @@ class web__ extends lxDriverClass
 					}
 				}
 			}
+		}
+
+		$list = getWebDriverList();
+
+		foreach ($list as &$l) {
+			if ($l === 'apache') { $l = 'httpd'; }
+
+			createRestartFile($l);
 		}
 	}
 
@@ -981,7 +947,7 @@ class web__ extends lxDriverClass
 	{
 		$domainname = $input['domainname'];
 
-		$tplsource = getLinkCustomfile("/home/lighttpd/tpl", "perlsuexec.sh.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/lighttpd/tpl", "perlsuexec.sh.tpl");
 
 		$tpltarget = "/home/httpd/{$domainname}/perlsuexec.sh";
 
@@ -998,12 +964,12 @@ class web__ extends lxDriverClass
 
 	static function setNginxCgibinPhp()
 	{
-		lxfile_cp(getLinkCustomfile("/home/nginx/tpl", "cgi-bin.php"), "/home/httpd/cgi-bin.php");
+		lxfile_cp(getLinkCustomfile("/opt/configs/nginx/tpl", "cgi-bin.php"), "/home/httpd/cgi-bin.php");
 	}
 
 	static function setHttpdFcgid($input)
 	{
-		$tplsource = getLinkCustomfile("/home/apache/tpl", "php5.fcgi.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "php5.fcgi.tpl");
 
 		$input['phpinipath'] = "/home/kloxo/client/{$input['user']}";
 
@@ -1172,7 +1138,8 @@ class web__ extends lxDriverClass
 		$list = getWebDriverList();
 
 		foreach ($list as &$l) {
-			unlink("/home/{$l}/conf/domains/{$domainname}.conf");
+			unlink("/opt/configs/{$l}/conf/domains/{$domainname}.conf");
+			unlink("/opt/configs/{$l}/conf/proxies/{$domainname}.conf");
 		}
 	}
 
@@ -1181,24 +1148,6 @@ class web__ extends lxDriverClass
 		// MR -- to make sure after domain config process
 		// also update static config
 		$this->dbactionUpdate("static_config_update");
-
-		if (!$this->isOn('norestart')) {
-			if (file_exists("/etc/rc.d/init.d/nginx")) {
-				createRestartFile("nginx");
-			}
-
-			if (file_exists("/etc/rc.d/init.d/httpd")) {
-				createRestartFile("httpd");
-			}
-
-			if (file_exists("/etc/rc.d/init.d/lighttpd")) {
-				createRestartFile("lighttpd");
-			}
-
-			if (file_exists("/etc/rc.d/init.d/php-fpm")) {
-				createRestartFile("php-fpm");
-			}
-		}
 	}
 
 	function fullUpdate()

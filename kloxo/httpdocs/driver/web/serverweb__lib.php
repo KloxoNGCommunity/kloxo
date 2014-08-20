@@ -130,19 +130,17 @@ class serverweb__ extends lxDriverClass
 
 		$hhcpath = '/home/httpd/conf';
 
-		$hapath = '/home/apache';
-		$hacpath = '/home/apache/conf';
-		$haepath = '/home/apache/etc';
-		$haecpath = '/home/apache/etc/conf';
-		$haecdpath = '/home/apache/etc/conf.d';
-
-		$ullkbffwphp = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+		$hapath = '/opt/configs/apache';
+		$hacpath = '/opt/configs/apache/conf';
+		$haepath = '/opt/configs/apache/etc';
+		$haecpath = '/opt/configs/apache/etc/conf';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
 		if (isWebProxyOrApache()) {
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
 			lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
 
-			exec("cp -rf {$ullkfapath} /home");
+			exec("cp -rf {$ullkfapath} /opt/configs");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
 				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath . "/~lxcenter.conf");
@@ -175,7 +173,7 @@ class serverweb__ extends lxDriverClass
 	function set_modphp($type)
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haecdpath = '/home/apache/etc/conf.d';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
 		$this->rename_to_nonconf();
 
@@ -202,10 +200,10 @@ class serverweb__ extends lxDriverClass
 	function set_suphp()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haecdpath = '/home/apache/etc/conf.d';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
 		$epath = '/etc';
-		$haepath = '/home/apache/etc';
+		$haepath = '/opt/configs/apache/etc';
 
 		setRpmInstalled("mod_suphp");
 
@@ -225,8 +223,8 @@ class serverweb__ extends lxDriverClass
 	function set_phpfpm()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haepath = '/home/apache/etc';
-		$haecdpath = '/home/apache/etc/conf.d';
+		$haepath = '/opt/configs/apache/etc';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
 		$this->rename_to_nonconf();
 
@@ -254,8 +252,8 @@ class serverweb__ extends lxDriverClass
 	function set_fcgid()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haepath = '/home/apache/etc';
-		$haecdpath = '/home/apache/etc/conf.d';
+		$haepath = '/opt/configs/apache/etc';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
 		setRpmInstalled("mod_fcgid");
 
@@ -283,7 +281,7 @@ class serverweb__ extends lxDriverClass
 	function rename_to_nonconf()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haecdpath = '/home/apache/etc/conf.d';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 	/*
 		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
 		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastcgi.nonconf");
@@ -339,10 +337,10 @@ class serverweb__ extends lxDriverClass
 	function set_secondary_php()
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haecdpath = '/home/apache/etc/conf.d';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
 		$epath = '/etc';
-		$haepath = '/home/apache/etc';
+		$haepath = '/opt/configs/apache/etc';
 
 		if ($this->main->secondary_php === 'on') {
 			if (stripos($this->main->php_type, 'suphp') !== false) {
@@ -374,7 +372,7 @@ class serverweb__ extends lxDriverClass
 	function set_php_branch($branch = null)
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
-		$haecdpath = '/home/apache/etc/conf.d';
+		$haecdpath = '/opt/configs/apache/etc/conf.d';
 		
 		$installed = isRpmInstalled('yum-plugin-replace');
 

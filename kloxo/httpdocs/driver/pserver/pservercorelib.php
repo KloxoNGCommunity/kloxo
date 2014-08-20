@@ -85,7 +85,6 @@ class pservercore extends Lxclient
 	static $__desc_ostype_v_fedora = array("", "", "fedora");
 	static $__desc_ostype_v_rhel = array("", "", "rhel");
 	static $__desc_ostype_v_debian = array("", "", "debian");
-	static $__desc_ostype_v_windows = array("", "", "windows");
 	static $__desc_used_domainlist_mmail_f = array("", "", "mail_servers");
 	static $__desc_used_domainlist_web_f = array("", "", "domains_as_web");
 	static $__desc_used_domainlist_dns_f = array("", "", "domains_as_dns");
@@ -322,6 +321,7 @@ class pservercore extends Lxclient
 				$newnum = $totalneeded - count($totallist);
 			}
 		}
+
 		return array('nameserver' => $nameserver, 'networkgateway' => $networkgateway, 'ip' => $totallist, 'networknetmask' => $netmask);
 	}
 
@@ -397,7 +397,7 @@ class pservercore extends Lxclient
 		$nlist['used_f'] = '3%';
 		$nlist['nname'] = '50%';
 		$nlist['osversion'] = '50%';
-		//$nlist['button_showused_f'] = '5%';
+	//	$nlist['button_showused_f'] = '5%';
 		$nlist['button_password_f'] = '5%';
 		$nlist['button_list_process_f'] = '5%';
 		$nlist['button_list_ip_f'] = '5%';
@@ -583,20 +583,12 @@ class pservercore extends Lxclient
 		$this->dbaction = 'add';
 		$this->findOsDetails();
 
-		if ($this->ostype === 'windows') {
-			$this->username = 'system';
-		} else {
-			$this->username = "root";
-		}
+		$this->username = "root";
 
 		if ($sgbl->isHyperVm()) {
 			$rlist = array('vps');
 		} else {
-			if ($this->ostype === 'windows') {
-				$rlist = array('web', 'mssqldb');
-			} else {
-				$rlist = array('web', 'mmail', 'dns', 'mysqldb');
-			}
+			$rlist = array('web', 'mmail', 'dns', 'mysqldb');
 		}
 
 		foreach ($rlist as $l) {
@@ -611,9 +603,7 @@ class pservercore extends Lxclient
 
 		$this->parent_clname = createParentName('client', 'admin');
 
-		if ($this->ostype !== 'windows') {
-			$this->AddMysqlDbadmin();
-		}
+		$this->AddMysqlDbadmin();
 
 		// There's a problem here. If the server is added for the second time, the ipaddress would be present,
 		// and this would lead to a 'was' happening inside here, which would turn the dbaction to clean and

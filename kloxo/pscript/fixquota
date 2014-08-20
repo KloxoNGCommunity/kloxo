@@ -1,2 +1,8 @@
+#!/bin/sh
+
+. /script/counter-start.inc
+
 . /script/directory
 lxphp.exe ../bin/fix/fixclientquota.php
+
+. /script/counter-end.inc

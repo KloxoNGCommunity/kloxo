@@ -7,11 +7,7 @@ class dns__ extends lxDriverClass
 	}
 
 	static function getActiveDriver()
-	{	
-	//	global $gbl, $login;
-
-	//	return $gbl->getSyncClass('localhost', $login->syncserver, 'dns');
-
+	{
 		return slave_get_driver('dns');
 	}
 
@@ -32,8 +28,6 @@ class dns__ extends lxDriverClass
 
 		$input = array();
 
-		$input['syncserver'] = $this->syncserver;
-
 		$input['domainname'] = $domainname;
 		$input['ttl'] = $this->main->ttl;
 		$input['nameduser'] = $sgbl->__var_programuser_dns;
@@ -49,8 +43,8 @@ class dns__ extends lxDriverClass
 			$input['action'] = $action;
 		}
 
-		$tplsource = getLinkCustomfile("/home/{$drivertype}/tpl", "domains.conf.tpl");
-		$tpltarget = "/home/{$drivertype}/conf/master/" . $input['domainname'];
+		$tplsource = getLinkCustomfile("/opt/configs/{$drivertype}/tpl", "domains.conf.tpl");
+		$tpltarget = "/opt/configs/{$drivertype}/conf/master/" . $input['domainname'];
 
 		$tpl = file_get_contents($tplsource);
 
@@ -83,7 +77,7 @@ class dns__ extends lxDriverClass
 			$input['domain'] = $this->main->nname;
 		}
 
-		$tplsource = getLinkCustomfile("/home/{$drivertype}/tpl", "list.master.conf.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/{$drivertype}/tpl", "list.master.conf.tpl");
 
 		$tpl = file_get_contents($tplsource);
 
@@ -98,7 +92,7 @@ class dns__ extends lxDriverClass
 
 		$input['ip'] = $this->getIps();
 
-		$tplsource = getLinkCustomfile("/home/{$drivertype}/tpl", "list.transfered.conf.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/{$drivertype}/tpl", "list.transfered.conf.tpl");
 
 		$tpl = file_get_contents($tplsource);
 
@@ -109,7 +103,7 @@ class dns__ extends lxDriverClass
 	{
 		$nobase = true;
 
-		$iplist = rl_exec_get('localhost', $this->syncserver, 'getIpfromARecord', array($nobase));
+		$iplist = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($nobase));
 
 		return $iplist;
 	}
@@ -158,12 +152,12 @@ class dns__ extends lxDriverClass
 
 		$domainname = $this->main->nname;
 
-		$dnsfile = "/home/{$drivertype}/conf/master/{$domainname}";
+		$dnsfile = "/opt/configs/{$drivertype}/conf/master/{$domainname}";
 		lxfile_rm($dnsfile);
 
 		foreach ((array)$this->main->__var_addonlist as $d) {
 			$addondomain = $d->nname;
-			$dnsfile = "/home/{$drivertype}/conf/master/{$addondomain}";
+			$dnsfile = "/opt/configs/{$drivertype}/conf/master/{$addondomain}";
 			lxfile_rm($dnsfile);
 		}
 

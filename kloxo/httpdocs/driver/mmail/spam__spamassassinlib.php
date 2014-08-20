@@ -91,19 +91,15 @@ class Spam__Spamassassin extends lxDriverClass
 
 		switch ($subaction) {
 			case "full_update":
-				{
 				$this->syncSpamUserPref();
 				break;
-				}
 			case "update":
 			case "add_wlist_a" :
 			case "add_blist_a" :
 			case "delete_blist_a" :
 			case "delete_wlist_a" :
-				{
 				$this->syncSpamUserPref();
 				break;
-				}
 		}
 	}
 }

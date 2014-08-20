@@ -1,5 +1,5 @@
 <?php
-	$path = "/home/maradns/conf/master";
+	$path = "/opt/configs/maradns/conf/master";
 	$dirs = glob("{$path}/*");
 
 	$str = '';

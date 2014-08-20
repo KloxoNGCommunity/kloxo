@@ -81,7 +81,13 @@ class pserver extends pservercore {
 
 					// MR -- original code not work, so change to, also must be the last process!
 					if ($fixc === 'webcache') {
-						lxshell_return("lxphp.exe", "../bin/fix/fixweb.php", "--server=$this->nname", "--nolog");
+						lxshell_return("lxphp.exe", "../bin/fix/fixweb.php", "--target=defaults", "--server=$this->nname", "--nolog");
+					}
+
+					if ($fixc === 'web') {
+						lxshell_return("lxphp.exe", "../bin/fix/fix$fixc.php", "--target=defaults", "--server=$this->nname", "--nolog");
+					} elseif ($fixc === 'dns') {
+						// no acrtion
 					} else {
 						lxshell_return("lxphp.exe", "../bin/fix/fix$fixc.php", "--server=$this->nname", "--nolog");
 					}
