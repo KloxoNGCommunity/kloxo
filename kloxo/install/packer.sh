@@ -49,7 +49,7 @@ kloxo_fork=${request1#--fork\=}
 request2=$2
 kloxo_branch=${request2#--branch\=}
 
-kloxo_path=${kloxo_fork}/kloxomr-$ver/zipball/${kloxo_branch}
+kloxo_path=${kloxo_fork}/kloxomr7-$ver/zipball/${kloxo_branch}
 
 if [ "$(rpm -qa|grep unzip)" == "" ] ; then
 	yum install zip unzip -y
@@ -78,56 +78,56 @@ cp -rf ./kloxo/install/installer.sh ./
 
 ver=`cat ./kloxo/bin/kloxoversion`
 
-mv ./kloxo ./kloxomr-$ver
+mv ./kloxo ./kloxomr7-$ver
 
 # delete dirs except en-us
-find ./kloxomr-$ver/httpdocs/lang/* -type d ! -name 'en-us' -exec rm -R {} \;
+find ./kloxomr7-$ver/httpdocs/lang/* -type d ! -name 'en-us' -exec rm -R {} \;
 
 ### 4. zipped process
-tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxomr-$ver/file" \
-	"./kloxomr-$ver/httpdocs" "./kloxomr-$ver/pscript" "./kloxomr-$ver/sbin" \
-	"./kloxomr-$ver/RELEASEINFO" "./kloxomr-$ver/etc/process" \
-	"./kloxomr-$ver/etc/config.ini" \
-	"./kloxomr-$ver/install" "./kloxomr-$ver/init" \
-	"./kloxomr-$ver/etc/list" \
-	--exclude "./kloxomr-$ver/httpdocs/commands.php" \
-	--exclude "./kloxomr-$ver/httpdocs/newpass" \
-	--exclude "./kloxomr-$ver/httpdocs/.php.err" \
-	--exclude "./kloxomr-$ver/httpdocs/thirdparty" \
-	--exclude "./kloxomr-$ver/file/cache" \
-	--exclude "./kloxomr-$ver/file/*.repo" \
-	--exclude "./kloxomr-$ver/serverfile" \
-	--exclude "./kloxomr-$ver/session" \
-	--exclude "./kloxomr-$ver/etc/.restart" \
-	--exclude "./kloxomr-$ver/etc/conf/*" \
-	--exclude "./kloxomr-$ver/etc/flag/*" \
-	--exclude "./kloxomr-$ver/etc/slavedb/*" \
-	--exclude "./kloxomr-$ver/etc/last_sisinfoc" \
-	--exclude "./kloxomr-$ver/etc/program.*" \
-	--exclude "./kloxomr-$ver/etc/watchdog.conf" \
-	--exclude "./kloxomr-$ver/install/*.log" \
-	--exclude "./kloxomr-$ver/log" \
-	--exclude "./kloxomr-$ver/pid" \
-	--exclude "./kloxomr-$ver/init/*.sock" \
-	--exclude "./kloxomr-$ver/init/*.pid" \
-	--exclude "./kloxomr-$ver/init/kloxo-hiawatha" \
-	--exclude "./kloxomr-$ver/init/kloxo-phpcgi" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/editor/_source" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/fckeditor/_samples" \
-	--exclude "./kloxomr-$ver/httpdocs/theme/yui-dragdrop" \
-	--exclude "./kloxomr-$ver/*.old" \
-	--exclude "./kloxomr-$ver/*.bck" \
-	--exclude "./kloxomr-$ver/*.pyo" \
-	--exclude "./kloxomr-$ver/*.pyc" \
-	--exclude "./kloxomr-$ver/init/php_active" \
-	--exclude "./kloxomr-$ver/httpdocs/login/*.php" \
-	--exclude "./kloxomr-$ver/httpdocs/login/*.html" \
-	--exclude "./kloxomr-$ver/httpdocs/login/.norandomimage" \
-	--exclude "./kloxomr-$ver/httpdocs/login/images" \
-	--exclude "./kloxomr-$ver/*/user-logo.png"
+tar -czf kloxomr7-$ver.tar.gz "./kloxomr7-$ver/bin" "./kloxomr7-$ver/cexe" "./kloxomr7-$ver/file" \
+	"./kloxomr7-$ver/httpdocs" "./kloxomr7-$ver/pscript" "./kloxomr7-$ver/sbin" \
+	"./kloxomr7-$ver/RELEASEINFO" "./kloxomr7-$ver/etc/process" \
+	"./kloxomr7-$ver/etc/config.ini" \
+	"./kloxomr7-$ver/install" "./kloxomr7-$ver/init" \
+	"./kloxomr7-$ver/etc/list" \
+	--exclude "./kloxomr7-$ver/httpdocs/commands.php" \
+	--exclude "./kloxomr7-$ver/httpdocs/newpass" \
+	--exclude "./kloxomr7-$ver/httpdocs/.php.err" \
+	--exclude "./kloxomr7-$ver/httpdocs/thirdparty" \
+	--exclude "./kloxomr7-$ver/file/cache" \
+	--exclude "./kloxomr7-$ver/file/*.repo" \
+	--exclude "./kloxomr7-$ver/serverfile" \
+	--exclude "./kloxomr7-$ver/session" \
+	--exclude "./kloxomr7-$ver/etc/.restart" \
+	--exclude "./kloxomr7-$ver/etc/conf/*" \
+	--exclude "./kloxomr7-$ver/etc/flag/*" \
+	--exclude "./kloxomr7-$ver/etc/slavedb/*" \
+	--exclude "./kloxomr7-$ver/etc/last_sisinfoc" \
+	--exclude "./kloxomr7-$ver/etc/program.*" \
+	--exclude "./kloxomr7-$ver/etc/watchdog.conf" \
+	--exclude "./kloxomr7-$ver/install/*.log" \
+	--exclude "./kloxomr7-$ver/log" \
+	--exclude "./kloxomr7-$ver/pid" \
+	--exclude "./kloxomr7-$ver/init/*.sock" \
+	--exclude "./kloxomr7-$ver/init/*.pid" \
+	--exclude "./kloxomr7-$ver/init/kloxo-hiawatha" \
+	--exclude "./kloxomr7-$ver/init/kloxo-phpcgi" \
+	--exclude "./kloxomr7-$ver/httpdocs/theme/fckeditor/editor/_source" \
+	--exclude "./kloxomr7-$ver/httpdocs/theme/fckeditor/_samples" \
+	--exclude "./kloxomr7-$ver/httpdocs/theme/yui-dragdrop" \
+	--exclude "./kloxomr7-$ver/*.old" \
+	--exclude "./kloxomr7-$ver/*.bck" \
+	--exclude "./kloxomr7-$ver/*.pyo" \
+	--exclude "./kloxomr7-$ver/*.pyc" \
+	--exclude "./kloxomr7-$ver/init/php_active" \
+	--exclude "./kloxomr7-$ver/httpdocs/login/*.php" \
+	--exclude "./kloxomr7-$ver/httpdocs/login/*.html" \
+	--exclude "./kloxomr7-$ver/httpdocs/login/.norandomimage" \
+	--exclude "./kloxomr7-$ver/httpdocs/login/images" \
+	--exclude "./kloxomr7-$ver/*/user-logo.png"
 
 
-rm -rf ./kloxomr-$ver > /dev/null 2>&1
+rm -rf ./kloxomr7-$ver > /dev/null 2>&1
 rm -rf ./kloxo-install > /dev/null 2>&1
 rm -rf ./install > /dev/null 2>&1
 
