@@ -2927,7 +2927,7 @@ function checkIfLatest()
 
 function getLatestVersion()
 {
-	exec("yum check-update kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
+	exec("yum check-update kloxomr7|grep kloxomr7|awk '{print $2}'", $out, $ret);
 
 	if ($ret === 0) {
 		$ver = getInstalledVersion();
@@ -2941,13 +2941,12 @@ function getLatestVersion()
 
 function getInstalledVersion()
 {
-	exec("yum list installed kloxomr|grep kloxomr|awk '{print $2}'", $out, $ret);
+	exec("yum list installed kloxomr7|grep kloxomr7|awk '{print $2}'", $out, $ret);
 
 	$ver = str_replace(".mr", "", $out[0]);
 
 	return $ver;
 }
-
 
 function getDownloadServer()
 {
