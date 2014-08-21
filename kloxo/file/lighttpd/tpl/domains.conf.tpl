@@ -111,6 +111,7 @@ if ($reverseproxy) {
 }
 
 $disabledocroot = "/home/kloxo/httpd/disable";
+$cpdocroot = "/home/kloxo/httpd/cp";
 
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
@@ -129,6 +130,22 @@ if ($disabled) {
 if ($disabled) {
 ?>
 
+## cp for '<?php echo $domainname; ?>'
+$HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
+
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
+	var.rootdir = "<?php echo $disabledocroot; ?>/"
+
+	server.document-root = var.rootdir
+
+	index-file.names = ( <?php echo $indexorder; ?> )
+
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
+
+}
+
+
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
@@ -146,6 +163,24 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 
 <?php
 } else {
+?>
+
+## cp for '<?php echo $domainname; ?>'
+$HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
+
+	var.user = "apache"
+	var.fpmport = "<?php echo $fpmportapache; ?>"
+	var.rootdir = "<?php echo $cpdocroot; ?>/"
+
+	server.document-root = var.rootdir
+
+	index-file.names = ( <?php echo $indexorder; ?> )
+
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
+
+}
+
+<?php
 	if ($webmailremote) {
 ?>
 

@@ -95,6 +95,7 @@ if ($out[0]) {
 }
 
 $disabledocroot = "/home/kloxo/httpd/disable";
+$cpdocroot = "/home/kloxo/httpd/cp";
 
 $globalspath = "/opt/configs/nginx/conf/globals";
 
@@ -118,6 +119,40 @@ foreach ($certnamelist as $ip => $certname) {
 
 		if ($disabled) {
 ?>
+
+## cp for '<?php echo $domainname; ?>'
+server {
+	#disable_symlinks if_not_owner;
+	
+	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+<?php
+			if ($count !== 0) {
+?>
+
+	ssl on;
+	ssl_certificate <?php echo $certname; ?>.pem;
+	ssl_certificate_key <?php echo $certname; ?>.key;
+	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+	ssl_ciphers HIGH:!aNULL:!MD5;
+<?php
+			}
+?>
+
+	server_name cp.<?php echo $domainname; ?>;
+
+	index <?php echo $indexorder; ?>;
+
+	set $var_rootdir '<?php echo $disabledocroot; ?>';
+
+	root $var_rootdir;
+
+	set $var_user 'apache';
+
+	set $var_fpmport '<?php echo $fpmportapache; ?>';
+
+	include '<?php echo $globalspath; ?>/switch_standard.conf';
+}
+
 
 ## webmail for '<?php echo $domainname; ?>'
 server {
@@ -153,6 +188,42 @@ server {
 
 <?php
 		} else {
+?>
+
+## cp for '<?php echo $domainname; ?>'
+server {
+	#disable_symlinks if_not_owner;
+	
+	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+<?php
+			if ($count !== 0) {
+?>
+
+	ssl on;
+	ssl_certificate <?php echo $certname; ?>.pem;
+	ssl_certificate_key <?php echo $certname; ?>.key;
+	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+	ssl_ciphers HIGH:!aNULL:!MD5;
+<?php
+			}
+?>
+
+	server_name cp.<?php echo $domainname; ?>;
+
+	index <?php echo $indexorder; ?>;
+
+	set $var_rootdir '<?php echo $cpdocroot; ?>';
+
+	root $var_rootdir;
+
+	set $var_user 'apache';
+
+	set $var_fpmport '<?php echo $fpmportapache; ?>';
+
+	include '<?php echo $globalspath; ?>/switch_standard.conf';
+}
+
+<?php
 			if ($webmailremote) {
 ?>
 

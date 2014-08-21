@@ -147,20 +147,6 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 		}
 	}
 ?>
-	$HTTP["host"] =~ "^cp\.*" {
-
-		var.rootdir = "/home/kloxo/httpd/cp/"
-		var.user = "apache"
-		var.fpmport = "<?php echo $fpmportapache; ?>"
-
-		server.document-root = var.rootdir
-
-		index-file.names = ( <?php echo $indexorder; ?> )
-
-		include "<?php echo $globalspath; ?>/switch_standard.conf"
-
-	}
-
 
 	$HTTP["host"] =~ "^default\.*" {
 
