@@ -213,7 +213,7 @@ function install_web()
 
 	$apache = getApacheBranch();
 
-	system("yum -y install {$apache} mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl perl-Taint*");
+	system("yum -y install {$apache} mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
 }
 
 function install_database()

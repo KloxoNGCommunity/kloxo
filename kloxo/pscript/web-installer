@@ -131,7 +131,7 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 fi
 
 if [ "${pack_name}" == "httpd" ] ; then
-	yum install httpd httpd-tools httpd-devel mod_fastcgi mod_fcgid mod_perl mod_rpaf mod_ruid2 mod_ssl mod_suphp perl-Taint-Runtime -y >>/opt/${base_name}/install.log
+	yum install httpd httpd-tools httpd-devel mod_fastcgi mod_fcgid mod_perl mod_rpaf mod_ruid2 mod_ssl mod_suphp mod_define perl-Taint-Runtime -y >>/opt/${base_name}/install.log
 else
 	if [ "${pack_name}" == "lighttpd" ] ; then
 		yumdownloader ${pack_name} >>/opt/${base_name}/install.log

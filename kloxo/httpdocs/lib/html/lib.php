@@ -7289,7 +7289,7 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
 
-	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default");
+	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default", "define");
 
 	foreach ($confs as &$c) {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "{$c}.conf");
@@ -7304,6 +7304,13 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 			if (!isRpmInstalled('mod_perl')) {
 				setRpmInstalled('mod_perl');
 				setRpmInstalled('perl-Taint-Runtime');
+			}
+		}
+		
+		// MR -- specific for mod_define in apache
+		if ($c === 'define') {
+			if (!isRpmInstalled('mod_define')) {
+				setRpmInstalled('mod_define');
 			}
 		}
 	}
