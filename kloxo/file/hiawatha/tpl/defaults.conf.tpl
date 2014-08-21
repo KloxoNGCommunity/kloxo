@@ -2,6 +2,12 @@
 
 <?php
 
+if ($reverseproxy) {
+	copy("/opt/configs/hiawatha/etc/conf/hiawatha_proxy.conf", "/etc/hiawatha/hiawatha.conf");
+} else {
+	copy("/opt/configs/hiawatha/etc/conf/hiawatha_standard.conf", "/etc/hiawatha/hiawatha.conf");
+}
+
 if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '80';
 	$ports[] = '443';
