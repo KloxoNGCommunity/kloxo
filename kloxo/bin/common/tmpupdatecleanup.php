@@ -85,8 +85,9 @@ function updatecleanup_main()
 		"varnish* trafficserver* squid*",
 		"pure-ftpd* *-toaster bogofilter",
 		"kloxomr-webmail-*.noarch",
+		"kloxomr-thirdparty-*.noarch",
 		"kloxomr7-thirdparty-*.noarch",
-		"kloxomr7-editor-*.noarch"
+		"kloxomr-editor-*.noarch"
 	);
 
 	setUpdateServices($slist);

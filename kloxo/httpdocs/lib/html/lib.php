@@ -5576,6 +5576,12 @@ function setInitialDnsConfig($type, $nolog = null)
 				lxfile_mkdir("{$path}/{$n}");
 			}
 		}
+		
+		if ($type === 'nsd') {
+			if (!file_exists("{$path}/defaults/nsd.slave.conf")) {
+				touch("{$path}/defaults/nsd.slave.conf");
+			}
+		}
 	}
 
 	// MR -- remove old dirs
