@@ -1,4 +1,4 @@
-<Macro web_redirect_www $ip $port $portssl $user $domain $serveralias $webdocroot $webmaildocroot $dirindex $certname $protocol>
+<Macro web_standard $ip $port $portssl $user $domain $serveralias $webdocroot $webmaildocroot $dirindex $certname $protocol $kloxoportssl $kloxoportnonssl>
 
 ## web
 <VirtualHost ${ip}:${port}>
@@ -15,14 +15,10 @@
 
 	DirectoryIndex ${dirindex}
 
-	RewriteEngine On
-	RewriteCond %{HTTP_HOST} ^${domainname}$ [NC]
-	RewriteRule ^(.*)/$ ${protocol}www.${domainname}/$1 [R=301,L]
-
 	Alias /__kloxo "/home/${user}/kloxoscript/"
 
-	Redirect /kloxo "https://cp.${domain}:7777"
-	Redirect /kloxononssl "http://cp.${domain}:7778"
+	Redirect /kloxo "https://cp.${domain}:${kloxoportssl}"
+	Redirect /kloxononssl "http://cp.${domain}:${kloxoportnonssl}"
 
 	Redirect /webmail "http://webmail.${domain}"
 
@@ -106,7 +102,11 @@
 	CustomLog "/home/httpd/${domain}/stats/${domain}-custom_log" combined
 	ErrorLog "/home/httpd/${domain}/stats/${domain}-error_log"
 
-	Include "/home/apache/conf/globals/stats.conf"
+	Alias /stats "/home/httpd/${domain}/webstats/"
+
+	<Location "/stats/">
+		Options +Indexes
+	</Location>
 
 </VirtualHost>
 
@@ -131,10 +131,6 @@
 	DocumentRoot ${webdocroot}
 
 	DirectoryIndex ${dirindex}
-
-	RewriteEngine On
-	RewriteCond %{HTTP_HOST} ^${domainname}$ [NC]
-	RewriteRule ^(.*)/$ ${protocol}www.${domainname}/$1 [R=301,L]
 
 	Alias /__kloxo "/home/${user}/kloxoscript/"
 
@@ -223,7 +219,11 @@
 	CustomLog "/home/httpd/${domain}/stats/${domain}-custom_log" combined
 	ErrorLog "/home/httpd/${domain}/stats/${domain}-error_log"
 
-	Include "/home/apache/conf/globals/stats.conf"
+	Alias /stats "/home/httpd/${domain}/webstats/"
+
+	<Location "/stats/">
+		Options +Indexes
+	</Location>
 
 </VirtualHost>
 

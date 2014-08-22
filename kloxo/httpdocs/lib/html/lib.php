@@ -1980,6 +1980,32 @@ function set_login_skin_to_simplicity()
 	$obj->write();
 }
 
+function get_kloxo_port($type)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+//	include_once "lib/php/generallib.php";
+
+	$port = db_get_value("general", "admin", "ser_portconfig_b");
+	$port = unserialize(base64_decode($port));
+
+	if ($type === 'ssl') {
+		$ret = $port->sslport;
+
+		if (!$ret) {
+			$ret = $sgbl->__var_prog_ssl_port;
+		}
+	} elseif ($type === 'nonssl') {
+		$ret = $port->nonsslport;
+
+		if (!$ret) {
+			$ret = $sgbl->__var_prog_port;
+		}
+	}
+
+	return	$ret;
+}
+
 function redirect_to_https()
 {
 	global $gbl, $sgbl, $login, $ghtml;
@@ -1990,7 +2016,7 @@ function redirect_to_https()
 		exit;
 	}
 
-	include_once "lib/php/generallib.php";
+//	include_once "lib/php/generallib.php";
 
 	$port = db_get_value("general", "admin", "ser_portconfig_b");
 	$port = unserialize(base64_decode($port));
@@ -5576,7 +5602,6 @@ function setInitialDnsConfig($type, $nolog = null)
 				lxfile_mkdir("{$path}/{$n}");
 			}
 		}
-		
 		if ($type === 'nsd') {
 			if (!file_exists("{$path}/defaults/nsd.slave.conf")) {
 				touch("{$path}/defaults/nsd.slave.conf");
@@ -7326,12 +7351,16 @@ function setCopyOpenSSLConfFiles()
 	$nolog = null;
 
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/openssl";
-	$pathdrv = "/home/openssl";
+	$pathdrv = "/opt/configs/openssl";
 
 	log_cleanup("Copy all contents of openssl", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
 	exec("cp -rf {$pathsrc} /home");
+
+	if (file_exists("/home/openssl")) {
+		lxfile_rm_rc("/home/openssl");
+	}
 }
 
 function isWebProxy($drivertype = null)

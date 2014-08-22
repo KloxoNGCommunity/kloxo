@@ -1,4 +1,4 @@
-<Macro web_standard $ip $port $portssl $user $domain $serveralias $webdocroot $webmaildocroot $dirindex $certname>
+<Macro web_standard $ip $port $portssl $user $domain $serveralias $webdocroot $webmaildocroot $dirindex $certname $protocol $kloxoportssl $kloxoportnonssl>
 
 ## web
 <VirtualHost ${ip}:${port}>
@@ -17,8 +17,8 @@
 
 	Alias /__kloxo "/home/${user}/kloxoscript/"
 
-	Redirect /kloxo "https://cp.${domain}:7777"
-	Redirect /kloxononssl "http://cp.${domain}:7778"
+	Redirect /kloxo "https://cp.${domain}:${kloxoportssl}"
+	Redirect /kloxononssl "http://cp.${domain}:${kloxoportnonssl}"
 
 	Redirect /webmail "http://webmail.${domain}"
 
@@ -102,7 +102,24 @@
 	CustomLog "/home/httpd/${domain}/stats/${domain}-custom_log" combined
 	ErrorLog "/home/httpd/${domain}/stats/${domain}-error_log"
 
-	Include "/home/apache/conf/globals/stats.conf"
+	ScriptAlias /awstats/ "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/"
+
+	Alias /awstatscss "/home/kloxo/httpd/awstats/wwwroot/css/"
+	Alias /awstatsicons "/home/kloxo/httpd/awstats/wwwroot/icon/"
+
+	Redirect /stats "${protocol}${domain}/awstats/awstats.pl"
+	Redirect /stats/ "${protocol}${domain}/awstats/awstats.pl"
+
+	<Location "/stats/">
+		Options +Indexes
+	</Location>
+	
+	<Location "/awstats/">
+		AuthType Basic
+		AuthName "Awstats"
+		AuthUserFile "/home/httpd/${domain}/__dirprotect/__stats"
+		require valid-user
+	</Location>
 
 </VirtualHost>
 
@@ -215,7 +232,24 @@
 	CustomLog "/home/httpd/${domain}/stats/${domain}-custom_log" combined
 	ErrorLog "/home/httpd/${domain}/stats/${domain}-error_log"
 
-	Include "/home/apache/conf/globals/stats.conf"
+	ScriptAlias /awstats/ "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/"
+
+	Alias /awstatscss "/home/kloxo/httpd/awstats/wwwroot/css/"
+	Alias /awstatsicons "/home/kloxo/httpd/awstats/wwwroot/icon/"
+
+	Redirect /stats "${protocol}${domain}/awstats/awstats.pl"
+	Redirect /stats/ "${protocol}${domain}/awstats/awstats.pl"
+
+	<Location "/stats/">
+		Options +Indexes
+	</Location>
+
+	<Location "/awstats/">
+		AuthType Basic
+		AuthName "Awstats"
+		AuthUserFile "/home/httpd/${domain}/__dirprotect/__stats"
+		require valid-user
+	</Location>
 
 </VirtualHost>
 

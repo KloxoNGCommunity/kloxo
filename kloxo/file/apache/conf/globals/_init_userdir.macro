@@ -1,0 +1,7 @@
+<Macro init_userdir $user>
+        <Location "/~${user}">
+            <IfModule mod_suphp.c>
+                SuPhp_UserGroup ${user} ${user}
+            </IfModule>
+        </Location>
+</Macro>

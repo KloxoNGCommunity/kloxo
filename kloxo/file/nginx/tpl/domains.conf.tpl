@@ -497,6 +497,9 @@ server {
 		}
 ?>
 
+	set $var_kloxoportssl '<?php echo $kloxoportssl; ?>';
+	set $var_kloxoportnonssl '<?php echo $kloxoportnonssl; ?>';
+
 	include '<?php echo $globalspath; ?>/<?php echo $genericconf; ?>';
 }
 

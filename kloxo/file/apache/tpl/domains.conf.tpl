@@ -488,8 +488,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Alias /__kloxo "/home/<?php echo $user; ?>/kloxoscript/"
 
-	Redirect /kloxo "https://cp.<?php echo $domainname; ?>:7777"
-	Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:7778"
+	Redirect /kloxo "https://cp.<?php echo $domainname; ?>:<?php echo $kloxoportssl; ?>"
+	Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:<?php echo $kloxoportnonssl; ?>"
 
 	Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
 <?php

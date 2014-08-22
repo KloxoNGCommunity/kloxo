@@ -26,12 +26,25 @@ if [ -z "$LIGHTTPD_CONF_PATH" ]; then
 fi
 
 prog="lighttpd"
-lighttpd="/usr/sbin/lighttpd"
+
+if [ -f /opt/lighttpd/usr/sbin/lighttpd ] ; then
+	if [ "$(uname -m)" == "x86_64" ] ; then
+		MODULES_ACTION="-m /opt/lighttpd/usr/lib64/lighttpd"
+	else
+		MODULES_ACTION="-m /opt/lighttpd/usr/lib/lighttpd"
+	fi
+
+	lighttpd="/opt/lighttpd/usr/sbin/lighttpd"
+else
+	MODULES_ACTION=""
+	lighttpd="/usr/sbin/lighttpd"
+fi
+
 RETVAL=0
 
 start() {
 	echo -n $"Starting $prog: "
-	daemon $lighttpd -f $LIGHTTPD_CONF_PATH
+	daemon $lighttpd -f $LIGHTTPD_CONF_PATH $MODULES_ACTION
 	RETVAL=$?
 	echo
 	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$prog

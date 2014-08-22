@@ -225,6 +225,9 @@ class web__ extends lxDriverClass
 
 		$input['enablecgi'] = $this->getEnableCGI();
 
+		$input['kloxoportnonssl'] = get_kloxo_port('nonssl');
+		$input['kloxoportssl'] = get_kloxo_port('ssl');
+
 		self::setCreateConfFile($input);
 
 		$this->setLogfile();

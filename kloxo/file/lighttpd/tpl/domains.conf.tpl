@@ -598,6 +598,9 @@ $SERVER["socket"] == ":" + var.portssl {
 		}
 ?>
 
+	var.kloxoportssl = "<?php echo $kloxoportssl; ?>"
+	var.kloxoportnonssl = "<?php echo $kloxoportnonssl; ?>"
+
 	include "<?php echo $globalspath; ?>/<?php echo $genericconf; ?>"
 <?php
 		if ($enablecgi) {

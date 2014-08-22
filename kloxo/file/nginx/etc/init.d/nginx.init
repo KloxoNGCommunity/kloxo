@@ -19,7 +19,12 @@
 # Check that networking is up.
 [ "$NETWORKING" = "no" ] && exit 0
 
-nginx="/usr/sbin/nginx"
+if [ -f /opt/nginx/usr/sbin/nginx ] ; then
+	nginx="/opt/nginx/usr/sbin/nginx"
+else
+	nginx="/usr/sbin/nginx"
+fi
+
 prog=$(basename $nginx)
 
 NGINX_CONF_FILE="/etc/nginx/nginx.conf"

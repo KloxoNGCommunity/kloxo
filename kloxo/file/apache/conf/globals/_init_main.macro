@@ -1,4 +1,4 @@
-<Macro init $ip $port $portssl $dirindex $certname>
+<Macro init_main $ip $port $portssl $dirindex $certname>
 
 Listen ${ip}:${port}
 Listen ${ip}:${portssl}
@@ -7,46 +7,6 @@ Listen ${ip}:${portssl}
 	NameVirtualHost ${ip}:${port}
 	NameVirtualHost ${ip}:${portssl}
 </IfVersion>
-
-
-### cp
-<VirtualHost ${ip}:${port}>
-
-	ServerName cp
-
-	ServerAlias cp.*
-
-	DocumentRoot "/home/kloxo/httpd/cp"
-
-	DirectoryIndex ${dirindex}
-
-	<IfModule suexec.c>
-		SuexecUserGroup apache apache
-	</IfModule>
-
-	<IfModule mod_suphp.c>
-		SuPhp_UserGroup apache apache
-	</IfModule>
-
-	<IfModule mod_fastcgi.c>
-		Alias /cp.0fake "/home/kloxo/httpd/cp/cp.0fake"
-		#FastCGIExternalServer "/home/kloxo/httpd/cp/cp.0fake" -host ${ip}:50000 -idle-timeout 180
-		FastCGIExternalServer "/home/kloxo/httpd/cp/cp.0fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 180
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /cp.0fake
-		<Files "cp.0fake">
-			RewriteCond %{REQUEST_URI} !cp.0fake
-		</Files>
-	</IfModule>
-
-	<Location />
-		Allow from all
-		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
-	</Location>
-
-</VirtualHost>
-
 
 ### default
 <VirtualHost ${ip}:${port}>
@@ -87,53 +47,6 @@ Listen ${ip}:${portssl}
 	</Location>
 
 </VirtualHost>
-
-
-### cp
-<VirtualHost ${ip}:${portssl}>
-
-	ServerName cp
-
-	ServerAlias cp.*
-
-	DocumentRoot "/home/kloxo/httpd/cp"
-
-	DirectoryIndex ${dirindex}
-
-	<IfModule mod_ssl.c>
-		SSLEngine On
-		SSLCertificateFile /home/kloxo/httpd/ssl/${certname}.crt
-		SSLCertificateKeyFile /home/kloxo/httpd/ssl/${certname}.key
-		SSLCACertificatefile /home/kloxo/httpd/ssl/${certname}.ca
-	</IfModule>
-
-	<IfModule suexec.c>
-		SuexecUserGroup apache apache
-	</IfModule>
-
-	<IfModule mod_suphp.c>
-		SuPhp_UserGroup apache apache
-	</IfModule>
-
-	<IfModule mod_fastcgi.c>
-		Alias /cp.1fake "/home/kloxo/httpd/cp/cp.1fake"
-		#FastCGIExternalServer "/home/kloxo/httpd/cp/cp.1fake" -host ${ip}:50000 -idle-timeout 180
-		FastCGIExternalServer "/home/kloxo/httpd/cp/cp.1fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 180
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /cp.1fake
-		<Files "cp.1fake">
-	   		RewriteCond %{REQUEST_URI} !cp.1fake
-		</Files>
-	</IfModule>
-
-	<Location />
-		Allow from all
-		# Options +Indexes +FollowSymlinks
-		Options +Indexes -FollowSymlinks +SymLinksIfOwnerMatch
-	</Location>
-
-</VirtualHost>
-
 
 ### default
 <VirtualHost ${ip}:${portssl}>
