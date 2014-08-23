@@ -16,6 +16,8 @@
 # Source networking configuration.
 . /etc/sysconfig/network
 
+[ -f /etc/sysconfig/nginx ] && . /etc/sysconfig/nginx
+
 # Check that networking is up.
 [ "$NETWORKING" = "no" ] && exit 0
 
@@ -29,9 +31,9 @@ prog=$(basename $nginx)
 
 NGINX_CONF_FILE="/etc/nginx/nginx.conf"
 
-[ -f /etc/sysconfig/nginx ] && . /etc/sysconfig/nginx
-
 lockfile=/var/lock/subsys/nginx
+
+[ -f /etc/sysconfig/custom.nginx ] && . /etc/sysconfig/custom.nginx
 
 start() {
     [ -x $nginx ] || exit 5

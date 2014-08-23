@@ -128,9 +128,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 <?php
 		}
-?>
 
-<?php
 		//if (strpos($phptype, '_suphp') !== false) {
 ?>
 

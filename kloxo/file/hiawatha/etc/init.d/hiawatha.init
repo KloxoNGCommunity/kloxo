@@ -20,12 +20,10 @@
 # Stolen from radvd script
 
 # Source function library.
-if [ -f /etc/init.d/functions ] ; then
-	. /etc/init.d/functions
-elif [ -f /etc/rc.d/init.d/functions ] ; then
-	. /etc/rc.d/init.d/functions
-else
-	exit 0
+. /etc/rc.d/init.d/functions
+
+if [ -f /etc/sysconfig/hiawatha ] ; then
+	. /etc/sysconfig/hiawatha
 fi
 
 if [ -f /opt/hiawatha/usr/sbin/hiawatha ] ; then
@@ -37,6 +35,10 @@ fi
 config="/etc/hiawatha"
 
 RETVAL=0
+
+if [ -f /etc/sysconfig/custom.hiawatha ] ; then
+	. /etc/sysconfig/custom.hiawatha
+fi
 
 start() {
 	echo -n $"Starting Hiawatha web server: "
