@@ -3,13 +3,13 @@
 <?php
 
 if ($reverseproxy) {
-	if (file_exits("/opt/configs/hiawatha/etc/conf/custom.hiawatha_proxy.conf")) {
+	if (file_exists("/opt/configs/hiawatha/etc/conf/custom.hiawatha_proxy.conf")) {
 		copy("/opt/configs/hiawatha/etc/conf/custom.hiawatha_proxy.conf", "/etc/hiawatha/hiawatha.conf");
 	} else {
 		copy("/opt/configs/hiawatha/etc/conf/hiawatha_proxy.conf", "/etc/hiawatha/hiawatha.conf");
 	}
 } else {
-	if (file_exits("/opt/configs/hiawatha/etc/conf/custom.hiawatha_standard.conf")) {
+	if (file_exists("/opt/configs/hiawatha/etc/conf/custom.hiawatha_standard.conf")) {
 		copy("/opt/configs/hiawatha/etc/conf/custom.hiawatha_standard.conf", "/etc/hiawatha/hiawatha.conf");
 	} else {
 		copy("/opt/configs/hiawatha/etc/conf/hiawatha_standard.conf", "/etc/hiawatha/hiawatha.conf");
