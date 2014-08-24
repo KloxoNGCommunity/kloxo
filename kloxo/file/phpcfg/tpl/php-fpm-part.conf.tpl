@@ -157,10 +157,6 @@ php_flag[output_buffering] = <?php echo $output_buffering_flag; ?>
 
 php_flag[register_argc_argv] = <?php echo $register_argc_argv_flag; ?>
 
-;<?php echo $php54disable; ?>php_flag[magic_quotes_gpc] = <?php echo $magic_quotes_gpc_flag; ?>
-
-;<?php echo $php54disable; ?>php_flag[magic_quotes_runtime] = <?php echo $magic_quotes_runtime_flag; ?>
-
 php_flag[mysql.allow_persistent] = <?php echo $mysql_allow_persistent_flag; ?>
 
 php_admin_value[max_execution_time] = <?php echo $max_execution_time_flag; ?>
@@ -178,8 +174,6 @@ php_flag[allow_url_include] = <?php echo $allow_url_include_flag; ?>
 php_admin_value[session.save_path] = <?php echo $session_save_path_flag; ?>
 
 php_flag[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
-
-;<?php echo $php54disable; ?>php_flag[safe_mode] = <?php echo $safe_mode_flag; ?>
 
 php_flag[enable_dl] = <?php echo $enable_dl_flag; ?>
 
