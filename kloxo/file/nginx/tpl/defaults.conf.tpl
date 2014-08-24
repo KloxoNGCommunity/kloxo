@@ -2,19 +2,44 @@
 
 <?php
 
-$srcinitpath = "/opt/configs/nginx/etc/init.d";
-$trgtinitpath = "/etc/rc.d/init.d";
+foreach ($driverlist as $k => $v) {
+	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
+	$trgtinitpath = "/etc/rc.d/init.d";
 
-if (file_exists("{$srcinitpathh}/nginx.init")) {
-	copy("{$srcinitpath}/custom.nginx.init", "{$trgtinitpath}/nginx");
-} else {
-	copy("{$srcinitpath}/nginx.init", "{$trgtinitpath}/nginx");
+	if ($v === 'apache') { 
+		$w = 'httpd';
+	} else {
+		$w = $v;
+	}
+
+	if (file_exists("{$trgtinitpath}/{$w}")) {
+		exec("service {$w} stop; chkconfig {$w} off");
+		unlink("{$trgtinitpath}/{$w}");
+	}
 }
 
-chmod("{$trgtinitpath}/nginx", 755);
+foreach ($driver as $k => $v) {
+	if ($v === 'apache') { 
+		$w = 'httpd';
+	} else {
+		$w = $v;
+	}
 
-$srcconfpath = "/opt/configs/conf/nginx";
-$srcconfdpath = "/opt/configs/nginx/conf.d";
+	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
+	$trgtinitpath = "/etc/rc.d/init.d";
+
+	if (file_exists("{$srcinitpath}/custom.{$w}.init")) {
+		copy("{$srcinitpath}/custom.{$w}.init", "{$trgtinitpath}/{$w}");
+	} else {
+		copy("{$srcinitpath}/{$w}.init", "{$trgtinitpath}/{$w}");
+	}
+
+	chmod("{$trgtinitpath}/{$w}", 755);
+	exec("chkconfig {$w} on");
+}
+
+$srcconfpath = "/opt/configs/conf/etc/nginx";
+$srcconfdpath = "/opt/configs/nginx/etc/conf.d";
 $trgtconfpath = "/etc/nginx";
 $trgtconfdpath = "/etc/nginx/conf.d";
 

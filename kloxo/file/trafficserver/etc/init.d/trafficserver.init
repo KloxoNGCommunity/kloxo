@@ -203,6 +203,7 @@ forkdaemon()
     return 1
 }
 
+[ -f /etc/sysconfig/custom.trafficserver ] && . /etc/sysconfig/custom.trafficserver
 
 #
 # Ubuntu: Function that starts the daemon/service

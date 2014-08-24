@@ -3,8 +3,44 @@
 
 <?php
 
-$srcconfpath = "/opt/configs/conf/lighttpd";
-$srcconfdpath = "/opt/configs/lighttpd/conf.d";
+foreach ($driverlist as $k => $v) {
+	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
+	$trgtinitpath = "/etc/rc.d/init.d";
+
+	if ($v === 'apache') { 
+		$w = 'httpd';
+	} else {
+		$w = $v;
+	}
+
+	if (file_exists("{$trgtinitpath}/{$w}")) {
+		exec("service {$w} stop; chkconfig {$w} off");
+		unlink("{$trgtinitpath}/{$w}");
+	}
+}
+
+foreach ($driver as $k => $v) {
+	if ($v === 'apache') { 
+		$w = 'httpd';
+	} else {
+		$w = $v;
+	}
+
+	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
+	$trgtinitpath = "/etc/rc.d/init.d";
+
+	if (file_exists("{$srcinitpath}/custom.{$w}.init")) {
+		copy("{$srcinitpath}/custom.{$w}.init", "{$trgtinitpath}/{$w}");
+	} else {
+		copy("{$srcinitpath}/{$w}.init", "{$trgtinitpath}/{$w}");
+	}
+
+	chmod("{$trgtinitpath}/{$w}", 755);
+	exec("chkconfig {$w} on");
+}
+
+$srcconfpath = "/opt/configs/conf/etc/lighttpd";
+$srcconfdpath = "/opt/configs/lighttpd/etc/conf.d";
 $trgtconfpath = "/etc/lighttpd";
 $trgtconfdpath = "/etc/lighttpd/conf.d";
 

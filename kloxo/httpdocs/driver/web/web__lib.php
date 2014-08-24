@@ -252,6 +252,9 @@ class web__ extends lxDriverClass
 	//	$input['webcache'] = rl_exec_get('localhost', $this->main->__syncserver, 'slave_get_driver', array('webcache'));
 		$input['webcache'] = $gbl->getSyncClass('localhost', $this->main->__syncserver, 'webcache');
 
+		$input['driverlist'] = getAllWebDriverList();
+		$input['driver'] = getWebDriverList();
+
 		self::setCreateConfFile($input);
 	}
 

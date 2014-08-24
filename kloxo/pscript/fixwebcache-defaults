@@ -1,0 +1,6 @@
+#!/bin/sh
+
+. /script/fix.inc
+
+. /script/directory
+lxphp.exe ../bin/fix/fixwebcache.php --target=defaults

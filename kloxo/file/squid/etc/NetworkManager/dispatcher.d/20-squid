@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ "$2" = "up" ]; then
+	/sbin/service squid reload || :
+fi
