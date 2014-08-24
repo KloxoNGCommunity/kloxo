@@ -5,10 +5,10 @@
 $srcinitpath = "/opt/configs/apache/etc/init.d";
 $trgtinitpath = "/etc/rc.d/init.d";
 
-if (file_exists("{srcinitpath}/custom.httpd.init")) {
-	copy("{srcinitpath}/custom.httpd.init", "{$trgtinitpath}/httpd");
+if (file_exists("{$srcinitpath}/custom.httpd.init")) {
+	copy("{$srcinitpath}/custom.httpd.init", "{$trgtinitpath}/httpd");
 } else {
-	copy("{srcinitpath}/httpd.init", "{$trgtinitpath}/httpd");
+	copy("{$srcinitpath}/httpd.init", "{$trgtinitpath}/httpd");
 }
 
 chmod("{$trgtinitpath}/httpd", 755);
@@ -24,15 +24,19 @@ if (file_exists("{$srcconfpath}/custom.httpd.conf")) {
 	copy("{$srcconfpath}/httpd.conf", "{$trgtconfpath}/httpd.conf");
 }
 
-if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
-	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-} else {
-	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-}
-
-$modlist = array('itk', 'ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
+$modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "default", "define");
 
 foreach ($modlist as $k => $v) {
+	if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
+		copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+	} else {
+		copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+	}
+}
+
+$typelist = array('itk', 'ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
+
+foreach ($typelist as $k => $v) {
 	if (strpos($phptype, "_{$v}") !== false) {
 		if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
 			copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
@@ -185,9 +189,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 <?php
 		}
-?>
 
-<?php
 		//if (strpos($phptype, '_suphp') !== false) {
 ?>
 

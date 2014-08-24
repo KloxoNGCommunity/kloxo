@@ -5,10 +5,10 @@
 $srcinitpath = "/opt/configs/hiawatha/etc/init.d";
 $trgtinitpath = "/etc/rc.d/init.d";
 
-if (file_exists("{srcinitpath}/custom.hiawatha.init")) {
-	copy("{srcinitpath}/custom.hiawatha.init", "{$trgtinitpath}/hiawatha");
+if (file_exists("{$srcinitpath}/custom.hiawatha.init")) {
+	copy("{$srcinitpath}/custom.hiawatha.init", "{$trgtinitpath}/hiawatha");
 } else {
-	copy("{srcinitpath}/hiawatha.init", "{$trgtinitpath}/hiawatha");
+	copy("{$srcinitpath}/hiawatha.init", "{$trgtinitpath}/hiawatha");
 }
 
 chmod("{$trgtinitpath}/hiawatha", 755);

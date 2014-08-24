@@ -5,10 +5,10 @@
 $srcinitpath = "/opt/configs/nginx/etc/init.d";
 $trgtinitpath = "/etc/rc.d/init.d";
 
-if (file_exists("{srcinitpath}/nginx.init")) {
-	copy("{srcinitpath}/custom.nginx.init", "{$trgtinitpath}/nginx");
+if (file_exists("{$srcinitpathh}/nginx.init")) {
+	copy("{$srcinitpath}/custom.nginx.init", "{$trgtinitpath}/nginx");
 } else {
-	copy("{srcinitpath}/nginx.init", "{$trgtinitpath}/nginx");
+	copy("{$srcinitpath}/nginx.init", "{$trgtinitpath}/nginx");
 }
 
 chmod("{$trgtinitpath}/nginx", 755);

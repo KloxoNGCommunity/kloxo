@@ -6916,19 +6916,12 @@ function setUpdateServices($list, $nolog = null)
 
 function setUpdateConfigWithVersionCheck($list, $servertype = null, $nolog = null)
 {
-
-	$fixpath = "sh /script";
-
-	$el = implode("/", $list);
-
-	log_cleanup("Fix {$el} configs", $nolog);
-
 	$fixstr = "";
 
-	foreach ($list as $key => $fa) {
-		log_cleanup("- Fix {$fa} services", $nolog);
+	foreach ($list as $k => $v) {
+		log_cleanup("- Fix {$v} services", $nolog);
 
-		$fixstr = "{$fixpath}/fix{$fa} --server=all --nolog";
+		$fixstr = "sh /script/fix{$v} --server=all --nolog";
 
 		if ($servertype !== 'slave') {
 			exec($fixstr);
@@ -7097,7 +7090,8 @@ function setRemoveAlias($nolog = null)
 	log_cleanup("Remove cp/mv/rm alias", $nolog);
 
 	//MR -- importance for Centos 6
-	exec("unalias cp; unalias mv; unalias rm");
+	log_cleanup("- Unaliasing process", $nolog);
+	exec("unalias cp > /dev/null 2>&1; unalias mv > /dev/null 2>&1; unalias rm > /dev/null 2>&1");
 }
 
 function setPrepareKloxo($nolog = null)
@@ -7332,13 +7326,15 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default", "define");
 
 	foreach ($confs as &$c) {
+	/*
+		// MR -- move this process to defaults.conf.tpl
 		$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "{$c}.conf");
 
 		if (file_exists($t)) {
 			log_cleanup("- Copy {$t} to {$pathconfd}/{$c}.conf", $nolog);
 			lxfile_cp($t, "{$pathconfd}/{$c}.conf");
 		}
-		
+	*/	
 		// MR -- specific for mod_perl in apache
 		if ($c === 'perl') {
 			if (!isRpmInstalled('mod_perl')) {
@@ -7369,7 +7365,7 @@ function setCopyOpenSSLConfFiles()
 	exec("cp -rf {$pathsrc} /home");
 
 	if (file_exists("/home/openssl")) {
-		lxfile_rm_rc("/home/openssl");
+		lxfile_rm_rec("/home/openssl");
 	}
 }
 
