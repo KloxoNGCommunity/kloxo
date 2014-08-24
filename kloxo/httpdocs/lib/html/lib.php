@@ -7035,6 +7035,8 @@ function updatecleanup($nolog = null)
 function setInitialServices($nolog = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+	
+	setRemoveAlias($nolog);
 
 	setInitialServer($nolog);
 
@@ -7088,6 +7090,14 @@ function setInitialServices($nolog = null)
 	installChooser($nolog);
 
 	setInstallMailserver($nolog);
+}
+
+function setRemoveAlias($nolog = null)
+{
+	log_cleanup("Remove cp/mv/rm alias", $nolog);
+
+	//MR -- importance for Centos 6
+	exec("unalias cp; unalias mv; unalias rm");
 }
 
 function setPrepareKloxo($nolog = null)

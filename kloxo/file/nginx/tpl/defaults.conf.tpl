@@ -2,6 +2,34 @@
 
 <?php
 
+$srcinitpath = "/opt/configs/nginx/etc/init.d";
+$trgtinitpath = "/etc/rc.d/init.d";
+
+if (file_exists("{srcinitpath}/nginx.init")) {
+	copy("{srcinitpath}/custom.nginx.init", "{$trgtinitpath}/nginx");
+} else {
+	copy("{srcinitpath}/nginx.init", "{$trgtinitpath}/nginx");
+}
+
+chmod("{$trgtinitpath}/nginx", 755);
+
+$srcconfpath = "/opt/configs/conf/nginx";
+$srcconfdpath = "/opt/configs/nginx/conf.d";
+$trgtconfpath = "/etc/nginx";
+$trgtconfdpath = "/etc/nginx/conf.d";
+
+if (file_exists("{$srcconfpath}/custom.nginx.conf")) {
+	copy("{$srcconfpath}/custom.nginx.conf", "{$trgtconfpath}/nginx.conf");
+} else {
+	copy("{$srcconfpath}/nginx.conf", "{$trgtconfpath}/nginx.conf");
+}
+
+if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
+	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
+} else {
+	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
+}
+
 $listens = array('listen_nonssl', 'listen_ssl');
 
 foreach ($certnamelist as $ip => $certname) {

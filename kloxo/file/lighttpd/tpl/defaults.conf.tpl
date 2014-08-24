@@ -3,6 +3,23 @@
 
 <?php
 
+$srcconfpath = "/opt/configs/conf/lighttpd";
+$srcconfdpath = "/opt/configs/lighttpd/conf.d";
+$trgtconfpath = "/etc/lighttpd";
+$trgtconfdpath = "/etc/lighttpd/conf.d";
+
+if (file_exists("{$srcconfpath}/lighttpd.conf")) {
+	copy("{$srcconfpath}/custom.lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
+} else {
+	copy("{$srcconfpath}/lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
+}
+
+if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
+	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
+} else {
+	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
+}
+
 if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '80';
 	$ports[] = '443';

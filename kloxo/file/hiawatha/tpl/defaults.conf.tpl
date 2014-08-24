@@ -2,17 +2,31 @@
 
 <?php
 
+$srcinitpath = "/opt/configs/hiawatha/etc/init.d";
+$trgtinitpath = "/etc/rc.d/init.d";
+
+if (file_exists("{srcinitpath}/custom.hiawatha.init")) {
+	copy("{srcinitpath}/custom.hiawatha.init", "{$trgtinitpath}/hiawatha");
+} else {
+	copy("{srcinitpath}/hiawatha.init", "{$trgtinitpath}/hiawatha");
+}
+
+chmod("{$trgtinitpath}/hiawatha", 755);
+
+$srcconfpath = "/opt/configs/hiawatha/etc/conf";
+$trgtconfpath = "/etc/hiawatha";
+
 if ($reverseproxy) {
-	if (file_exists("/opt/configs/hiawatha/etc/conf/custom.hiawatha_proxy.conf")) {
-		copy("/opt/configs/hiawatha/etc/conf/custom.hiawatha_proxy.conf", "/etc/hiawatha/hiawatha.conf");
+	if (file_exists("{$srcconfpath}/custom.hiawatha_proxy.conf")) {
+		copy("{$srcconfpath}/custom.hiawatha_proxy.conf", "{$trgtconfpath}/hiawatha.conf");
 	} else {
-		copy("/opt/configs/hiawatha/etc/conf/hiawatha_proxy.conf", "/etc/hiawatha/hiawatha.conf");
+		copy("{$srcconfpath}/hiawatha_proxy.conf", "{$trgtconfpath}/hiawatha.conf");
 	}
 } else {
-	if (file_exists("/opt/configs/hiawatha/etc/conf/custom.hiawatha_standard.conf")) {
-		copy("/opt/configs/hiawatha/etc/conf/custom.hiawatha_standard.conf", "/etc/hiawatha/hiawatha.conf");
+	if (file_exists("{$srcconfpath}/custom.hiawatha_standard.conf")) {
+		copy("{$srcconfpath}/custom.hiawatha_standard.conf", "{$trgtconfpath}/hiawatha.conf");
 	} else {
-		copy("/opt/configs/hiawatha/etc/conf/hiawatha_standard.conf", "/etc/hiawatha/hiawatha.conf");
+		copy("{$srcconfpath}/hiawatha_standard.conf", "{$trgtconfpath}/hiawatha.conf");
 	}
 }
 

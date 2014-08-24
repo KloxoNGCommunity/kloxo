@@ -2,6 +2,63 @@
 
 <?php
 
+$srcinitpath = "/opt/configs/apache/etc/init.d";
+$trgtinitpath = "/etc/rc.d/init.d";
+
+if (file_exists("{srcinitpath}/custom.httpd.init")) {
+	copy("{srcinitpath}/custom.httpd.init", "{$trgtinitpath}/httpd");
+} else {
+	copy("{srcinitpath}/httpd.init", "{$trgtinitpath}/httpd");
+}
+
+chmod("{$trgtinitpath}/httpd", 755);
+
+$srcconfpath = "/opt/configs/apache/conf";
+$srcconfdpath = "/opt/configs/apache/conf.d";
+$trgtconfpath = "/etc/httpd/conf";
+$trgtconfdpath = "/etc/httpd/conf.d";
+
+if (file_exists("{$srcconfpath}/custom.httpd.conf")) {
+	copy("{$srcconfpath}/custom.httpd.conf", "{$trgtconfpath}/httpd.conf");
+} else {
+	copy("{$srcconfpath}/httpd.conf", "{$trgtconfpath}/httpd.conf");
+}
+
+if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
+	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
+} else {
+	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
+}
+
+$modlist = array('itk', 'ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
+
+foreach ($modlist as $k => $v) {
+	if (strpos($phptype, "_{$v}") !== false) {
+		if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
+			copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+		} else {
+			copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+		}
+	} else {
+		if (file_exists("{$srcconfdpath}/custom._inactive_.conf.conf")) {
+			copy("{$srcconfdpath}/custom._inactive_.conf.conf", "{$trgtconfdpath}/{$v}.conf");
+		} else {
+			copy("{$srcconfdpath}/_inactive_.conf.conf", "{$trgtconfdpath}/{$v}.conf");
+		}
+	}
+}
+
+$mpmlist = array('event', 'worker');
+
+// as 'httpd' as default mpm
+exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
+
+foreach ($mpmlist as $k => $v) {
+	if (strpos($phptype, "_{$v}") !== false) {
+		exec("echo 'HTTPD=/usr/sbin/httpd.{$v}' > /etc/sysconfig/httpd");
+	}
+}
+
 if ($reverseproxy) {
 	$ports[] = '30080';
 	$ports[] = '30443';
@@ -128,7 +185,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 <?php
 		}
+?>
 
+<?php
 		//if (strpos($phptype, '_suphp') !== false) {
 ?>
 
