@@ -60,7 +60,7 @@ foreach($clist as $c) {
 			$dns->copyObject($dnst);
 		}
 
-		log_cleanup("- '{$dns->nname}'('{$c->nname}') at '{$dns->syncserver}'", $nolog);
+		log_cleanup("- '{$dns->nname}' ('{$c->nname}') at '{$dns->syncserver}'", $nolog);
 	//	$dns->setUpdateSubaction('full_update');
 		$dns->setUpdateSubaction('domain');
 
