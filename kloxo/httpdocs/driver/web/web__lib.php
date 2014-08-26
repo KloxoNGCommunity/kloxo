@@ -488,7 +488,7 @@ class web__ extends lxDriverClass
 	//	$list = getWebDriverList();
 		$list = getAllWebDriverList();
 
-	//	$input['webdriverlist'] = $list;
+		$input['webdriverlist'] = $list;
 
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");

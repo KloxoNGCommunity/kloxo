@@ -25,6 +25,7 @@ foreach ($driver as $k => $v) {
 		$w = $v;
 	}
 
+
 	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
 	$trgtinitpath = "/etc/rc.d/init.d";
 

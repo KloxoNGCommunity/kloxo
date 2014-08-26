@@ -15,30 +15,31 @@ foreach ($driverlist as $k => $v) {
 	}
 }
 
-foreach ($driver as $k => $v) {
-	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
-	$trgtinitpath = "/etc/rc.d/init.d";
+$srcinitpath = "/opt/configs/{$driver}/etc/init.d";
+$trgtinitpath = "/etc/rc.d/init.d";
 
-	if ($v === 'varnish') {
-		$inits = array ('', 'log', 'ncsa');
+if ($driver === 'varnish') {
+	$inits = array ('', 'log', 'ncsa');
 
-		foreach ($inits as $k2 => $v2) {
-			if (file_exists("{$srcinitpath}/custom.{$v}{$v2}.init")) {
-				copy("{$srcinitpath}/custom.{$v}{$v2}.init", "{$trgtinitpath}/{$v}{$v2}");
-			} else {
-				copy("{$srcinitpath}/{$v}{$v2}.init", "{$trgtinitpath}/{$v}{$v2}");
-			}
-		}
-	} else {
-		if (file_exists("{$srcinitpath}/custom.{$v}.init")) {
-			copy("{$srcinitpath}/custom.{$v}.init", "{$trgtinitpath}/{$v}");
+	foreach ($inits as $k2 => $v2) {
+		if (file_exists("{$srcinitpath}/custom.{$driver}{$v2}.init")) {
+			copy("{$srcinitpath}/custom.{$driver}{$v2}.init", "{$trgtinitpath}/{$driver}{$v2}");
 		} else {
-			copy("{$srcinitpath}/{$v}.init", "{$trgtinitpath}/{$v}");
+			copy("{$srcinitpath}/{$driver}{$v2}.init", "{$trgtinitpath}/{$driver}{$v2}");
 		}
+
+		chmod("{$trgtinitpath}/{$driver}{$v2}", 755);
+		exec("chkconfig {$driver}{$v2} on");
+	}
+} else {
+	if (file_exists("{$srcinitpath}/custom.{$driver}.init")) {
+		copy("{$srcinitpath}/custom.{$driver}.init", "{$trgtinitpath}/{$driver}");
+	} else {
+		copy("{$srcinitpath}/{$driver}.init", "{$trgtinitpath}/{$driver}");
 	}
 
-	chmod("{$trgtinitpath}/{$v}", 755);
-	exec("chkconfig {$v} on");
+	chmod("{$trgtinitpath}/{$driver}", 755);
+	exec("chkconfig {$driver} on");
 }
 
 $srcconfpath ="/opt/configs/trafficserver/etc/conf";

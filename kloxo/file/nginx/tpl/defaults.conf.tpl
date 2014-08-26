@@ -1,6 +1,14 @@
 ### begin - web of initial - do not remove/modify this line
 
 <?php
+	
+if (($webcache === 'none') || (!$webcache)) {
+	$ports[] = '80';
+	$ports[] = '443';
+} else {
+	$ports[] = '8080';
+	$ports[] = '8443';
+}
 
 foreach ($driverlist as $k => $v) {
 	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
@@ -38,7 +46,7 @@ foreach ($driver as $k => $v) {
 	exec("chkconfig {$w} on");
 }
 
-$srcconfpath = "/opt/configs/conf/etc/nginx";
+$srcconfpath = "/opt/configs/nginx/etc/conf";
 $srcconfdpath = "/opt/configs/nginx/etc/conf.d";
 $trgtconfpath = "/etc/nginx";
 $trgtconfdpath = "/etc/nginx/conf.d";
@@ -49,13 +57,15 @@ if (file_exists("{$srcconfpath}/custom.nginx.conf")) {
 	copy("{$srcconfpath}/nginx.conf", "{$trgtconfpath}/nginx.conf");
 }
 
-if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
-	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-} else {
-	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-}
+$confds = array('default', '~lxcenter');
 
-$listens = array('listen_nonssl', 'listen_ssl');
+foreach ($confds as $k => $v) {
+	if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
+		copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+	} else {
+		copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+	}
+}
 
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
@@ -143,44 +153,36 @@ if ($reverseproxy) {
 	}
 }
 
-if (($webcache === 'none') || (!$webcache)) {
-	if (file_exists("{$globalspath}/custom.listen_nonssl_front.conf")) {
-		copy("{$globalspath}/custom.listen_nonssl_front.conf", "{$globalspath}/listen_nonssl.conf");
-	} else {
-		copy("{$globalspath}/listen_nonssl_front.conf", "{$globalspath}/listen_nonssl.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.listen_ssl_front.conf")) {
-		copy("{$globalspath}/custom.listen_ssl_front.conf", "{$globalspath}/listen_ssl.conf");
-	} else {
-		copy("{$globalspath}/listen_ssl_front.conf", "{$globalspath}/listen_ssl.conf");
-	}
-} else {
-	if (file_exists("{$globalspath}/custom.listen_nonssl_back.conf")) {
-		copy("{$globalspath}/custom.listen_nonssl_back.conf", "{$globalspath}/listen_nonssl.conf");
-	} else {
-		copy("{$globalspath}/listen_nonssl_back.conf", "{$globalspath}/listen_nonssl.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.listen_ssl_back.conf")) {
-		copy("{$globalspath}/custom.listen_ssl_back.conf", "{$globalspath}/listen_ssl.conf");
-	} else {
-		copy("{$globalspath}/listen_ssl_back.conf", "{$globalspath}/listen_ssl.conf");
-	}
-}
-
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
 
-	foreach ($listens as &$listen) {
+	foreach ($ports as &$port) {
 ?>
 
-## 'default' config
+## 'defaults' config
 server {
 	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
+		if ($ip === '*') {
+			if ($IPv6Enable) {
+?>
+
+	listen 0.0.0.0:<?php echo $port; ?> default;
+	listen [::]:<?php echo $port; ?> default;
+<?php
+			} else {
+?>
+
+	listen <?php echo $ip; ?>:<?php echo $port; ?> default;
+<?php
+			}
+		} else {
+?>
+
+	listen <?php echo $ip; ?>:<?php echo $port; ?> default;
+<?php
+		}
+
 		if ($count !== 0) {
 ?>
 

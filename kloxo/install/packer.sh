@@ -94,6 +94,7 @@ tar -czf kloxomr7-$ver.tar.gz "./kloxomr7-$ver/bin" "./kloxomr7-$ver/cexe" "./kl
 	--exclude "./kloxomr7-$ver/httpdocs/newpass" \
 	--exclude "./kloxomr7-$ver/httpdocs/.php.err" \
 	--exclude "./kloxomr7-$ver/httpdocs/thirdparty" \
+	--exclude "./kloxomr7-$ver/httpdocs/editor" \
 	--exclude "./kloxomr7-$ver/file/cache" \
 	--exclude "./kloxomr7-$ver/file/*.repo" \
 	--exclude "./kloxomr7-$ver/serverfile" \
@@ -108,6 +109,7 @@ tar -czf kloxomr7-$ver.tar.gz "./kloxomr7-$ver/bin" "./kloxomr7-$ver/cexe" "./kl
 	--exclude "./kloxomr7-$ver/install/*.log" \
 	--exclude "./kloxomr7-$ver/log" \
 	--exclude "./kloxomr7-$ver/pid" \
+	--exclude "./kloxomr7-$ver/init/kloxo_php_active" \
 	--exclude "./kloxomr7-$ver/init/*.sock" \
 	--exclude "./kloxomr7-$ver/init/*.pid" \
 	--exclude "./kloxomr7-$ver/init/kloxo-hiawatha" \

@@ -3,48 +3,12 @@
 
 <?php
 
-foreach ($driverlist as $k => $v) {
-	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
-	$trgtinitpath = "/etc/rc.d/init.d";
-
-	if ($v === 'apache') { 
-		$w = 'httpd';
-	} else {
-		$w = $v;
-	}
-
-	if (file_exists("{$trgtinitpath}/{$w}")) {
-		exec("service {$w} stop; chkconfig {$w} off");
-		unlink("{$trgtinitpath}/{$w}");
-	}
-}
-
-foreach ($driver as $k => $v) {
-	if ($v === 'apache') { 
-		$w = 'httpd';
-	} else {
-		$w = $v;
-	}
-
-	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
-	$trgtinitpath = "/etc/rc.d/init.d";
-
-	if (file_exists("{$srcinitpath}/custom.{$w}.init")) {
-		copy("{$srcinitpath}/custom.{$w}.init", "{$trgtinitpath}/{$w}");
-	} else {
-		copy("{$srcinitpath}/{$w}.init", "{$trgtinitpath}/{$w}");
-	}
-
-	chmod("{$trgtinitpath}/{$w}", 755);
-	exec("chkconfig {$w} on");
-}
-
-$srcconfpath = "/opt/configs/conf/etc/lighttpd";
+$srcconfpath = "/opt/configs/lighttpd/etc/conf";
 $srcconfdpath = "/opt/configs/lighttpd/etc/conf.d";
 $trgtconfpath = "/etc/lighttpd";
 $trgtconfdpath = "/etc/lighttpd/conf.d";
 
-if (file_exists("{$srcconfpath}/lighttpd.conf")) {
+if (file_exists("{$srcconfpath}/custom.lighttpd.conf")) {
 	copy("{$srcconfpath}/custom.lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
 } else {
 	copy("{$srcconfpath}/lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
@@ -75,12 +39,6 @@ if ($reverseproxy) {
 		copy("{$globalspath}/proxy_standard.conf", "{$globalspath}/switch_standard.conf");
 	}
 
-	if (file_exists("{$globalspath}/custom.proxy_wildcards.conf")) {
-		copy("{$globalspath}/custom.proxy_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
-	} else {
-		copy("{$globalspath}/proxy_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
-	}
-
 	if (file_exists("{$globalspath}/custom.stats_none.conf")) {
 		copy("{$globalspath}/custom.stats_none.conf", "{$globalspath}/stats.conf");
 	} else {
@@ -91,12 +49,6 @@ if ($reverseproxy) {
 		copy("{$globalspath}/custom.php-fpm_standard.conf", "{$globalspath}/switch_standard.conf");
 	} else {
 		copy("{$globalspath}/php-fpm_standard.conf", "{$globalspath}/switch_standard.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.php-fpm_wildcards.conf")) {
-		copy("{$globalspath}/custom.php-fpm_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
-	} else {
-		copy("{$globalspath}/php-fpm_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
 	}
 
 	if ($stats['app'] === 'webalizer') {
@@ -123,32 +75,6 @@ if ($reverseproxy) {
 		} else {
 			copy("{$globalspath}/dirprotect_awstats.conf", "{$globalspath}/dirprotect_stats.conf");
 		}
-	}
-}
-
-if (($webcache === 'none') || (!$webcache)) {
-	if (file_exists("{$globalspath}/custom.listen_nonssl_front.conf")) {
-		copy("{$globalspath}/custom.listen_nonssl_front.conf", "{$globalspath}/listen_nonssl.conf");
-	} else {
-		copy("{$globalspath}/listen_nonssl_front.conf", "{$globalspath}/listen_nonssl.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.listen_ssl_front.conf")) {
-		copy("{$globalspath}/custom.listen_ssl_front.conf", "{$globalspath}/listen_ssl.conf");
-	} else {
-		copy("{$globalspath}/listen_ssl_front.conf", "{$globalspath}/listen_ssl.conf");
-	}
-} else {
-	if (file_exists("{$globalspath}/custom.listen_nonssl_back.conf")) {
-		copy("{$globalspath}/custom.listen_nonssl_back.conf", "{$globalspath}/listen_nonssl.conf");
-	} else {
-		copy("{$globalspath}/listen_nonssl_back.conf", "{$globalspath}/listen_nonssl.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.listen_ssl_back.conf")) {
-		copy("{$globalspath}/custom.listen_ssl_back.conf", "{$globalspath}/listen_ssl.conf");
-	} else {
-		copy("{$globalspath}/listen_ssl_back.conf", "{$globalspath}/listen_ssl.conf");
 	}
 }
 

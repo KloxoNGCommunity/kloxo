@@ -9,6 +9,8 @@ function __autoload($class)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
+	if (strpos($class, '_none') !== false) { return; }
+
 	global $gl_class_array;
 
 //	dprint("Searching for class: $class  <br> \n");

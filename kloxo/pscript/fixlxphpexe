@@ -7,7 +7,7 @@ if [ "$1" != "" ] ; then
 
 	if [ ! -f /opt/${base_name}/custom/${base_name}-cli.sh ] ; then
 		echo "File: '/opt/${base_name}/custom/${base_name}-cli.sh' not exists"
-		echo "Need install with sh '/script/${base_name}-installer' not exists"
+		echo "Need install with sh '/script/phpm-installer ${base_name}' not exists"
 		exit
 	else
 		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active

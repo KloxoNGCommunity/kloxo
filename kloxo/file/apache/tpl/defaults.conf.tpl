@@ -2,46 +2,19 @@
 
 <?php
 
-foreach ($driverlist as $k => $v) {
-	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
-	$trgtinitpath = "/etc/rc.d/init.d";
+$srcinitpath = "/opt/configs/apache/etc/init.d";
+$trgtinitpath = "/etc/rc.d/init.d";
 
-	if ($v === 'apache') { 
-		$w = 'httpd';
-	} else {
-		$w = $v;
-	}
-
-	if (file_exists("{$trgtinitpath}/{$w}")) {
-		exec("service {$w} stop; chkconfig {$w} off");
-		unlink("{$trgtinitpath}/{$w}");
-	}
-}
-
-foreach ($driver as $k => $v) {
-	if ($v === 'apache') { 
-		$w = 'httpd';
-	} else {
-		$w = $v;
-	}
-
-	$srcinitpath = "/opt/configs/{$v}/etc/init.d";
-	$trgtinitpath = "/etc/rc.d/init.d";
-
-	if (file_exists("{$srcinitpath}/custom.{$w}.init")) {
-		copy("{$srcinitpath}/custom.{$w}.init", "{$trgtinitpath}/{$w}");
-	} else {
-		copy("{$srcinitpath}/{$w}.init", "{$trgtinitpath}/{$w}");
-	}
-
-	chmod("{$trgtinitpath}/{$w}", 755);
-	exec("chkconfig {$w} on");
+if (file_exists("{$srcinitpath}/custom.httpd.init")) {
+	copy("{$srcinitpath}/custom.httpd.init", "{$trgtinitpath}/httpd");
+} else {
+	copy("{$srcinitpath}/httpd.init", "{$trgtinitpath}/httpd");
 }
 
 chmod("{$trgtinitpath}/httpd", 755);
 
-$srcconfpath = "/opt/configs/apache/conf";
-$srcconfdpath = "/opt/configs/apache/conf.d";
+$srcconfpath = "/opt/configs/apache/etc/conf";
+$srcconfdpath = "/opt/configs/apache/etc/conf.d";
 $trgtconfpath = "/etc/httpd/conf";
 $trgtconfdpath = "/etc/httpd/conf.d";
 
@@ -51,7 +24,7 @@ if (file_exists("{$srcconfpath}/custom.httpd.conf")) {
 	copy("{$srcconfpath}/httpd.conf", "{$trgtconfpath}/httpd.conf");
 }
 
-$modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "default", "define");
+$modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define");
 
 foreach ($modlist as $k => $v) {
 	if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
@@ -61,20 +34,28 @@ foreach ($modlist as $k => $v) {
 	}
 }
 
+exec("echo $phptype > /tmp/phptype");
+
 $typelist = array('itk', 'ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
 
 foreach ($typelist as $k => $v) {
-	if (strpos($phptype, "_{$v}") !== false) {
+	if ($v === 'fastcgi') {
+		$w = 'php-fpm';
+	} else {
+		$w = $v;
+	}
+
+	if (strpos($phptype, "{$w}") !== false) {
 		if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
 			copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
 		} else {
 			copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
 		}
 	} else {
-		if (file_exists("{$srcconfdpath}/custom._inactive_.conf.conf")) {
-			copy("{$srcconfdpath}/custom._inactive_.conf.conf", "{$trgtconfdpath}/{$v}.conf");
+		if (file_exists("{$srcconfdpath}/custom._inactive_.conf")) {
+			copy("{$srcconfdpath}/custom._inactive_.conf", "{$trgtconfdpath}/{$v}.conf");
 		} else {
-			copy("{$srcconfdpath}/_inactive_.conf.conf", "{$trgtconfdpath}/{$v}.conf");
+			copy("{$srcconfdpath}/_inactive_.conf", "{$trgtconfdpath}/{$v}.conf");
 		}
 	}
 }
@@ -85,7 +66,7 @@ $mpmlist = array('event', 'worker');
 exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
 
 foreach ($mpmlist as $k => $v) {
-	if (strpos($phptype, "_{$v}") !== false) {
+	if (strpos($phptype, "{$v}") !== false) {
 		exec("echo 'HTTPD=/usr/sbin/httpd.{$v}' > /etc/sysconfig/httpd");
 	}
 }

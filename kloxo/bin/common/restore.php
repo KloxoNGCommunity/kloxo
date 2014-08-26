@@ -1,5 +1,5 @@
 <?php 
-include_once "htmllib/lib/include.php";
+include_once "lib/html/include.php";
 
 backup_main();
 
@@ -68,7 +68,7 @@ function backup_main()
 	}
 
 
-	/*
+/*
 	if (!testAllServersWithMessage()) {
 		$backup->restorestage = "Failed due to: could not connect to slave servers";
 		clearLxbackup($backup);
