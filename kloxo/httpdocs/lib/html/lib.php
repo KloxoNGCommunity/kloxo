@@ -7089,7 +7089,7 @@ function setRemoveAlias($nolog = null)
 {
 	log_cleanup("Remove cp/mv/rm alias", $nolog);
 
-	//MR -- importance for Centos 6
+	// MR -- importance for Centos 6
 	log_cleanup("- Unaliasing process", $nolog);
 	exec("unalias cp > /dev/null 2>&1; unalias mv > /dev/null 2>&1; unalias rm > /dev/null 2>&1");
 }

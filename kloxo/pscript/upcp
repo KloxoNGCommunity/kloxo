@@ -17,6 +17,9 @@ if [ "${checktmpfs}" != "" ] ; then
 	exit
 fi
 
+## MR -- importance for Centos 6
+unalias cp > /dev/null 2>&1; unalias mv > /dev/null 2>&1; unalias rm > /dev/null 2>&1
+
 if [ ! -f /script/programname ] ; then
 	echo 'kloxo' > /script/programname
 fi
