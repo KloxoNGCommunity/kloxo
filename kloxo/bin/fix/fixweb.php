@@ -29,8 +29,9 @@ foreach($list as $c) {
 
 	if ($driverapp === 'none') {
 		log_cleanup("- No process because using 'NONE' driver for '{$c->syncserver}'", $nolog);
+	//	continue;
 
-		continue;
+		return;
 	}
 
 	if ($client) {
