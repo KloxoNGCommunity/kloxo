@@ -67,7 +67,7 @@ class Sgbl
 		$this->__path_mysqlclient_path = "mysql";
 		$this->__path_mysqldump_path = "mysqldump";
 		$this->__var_noaccess_shell = '/sbin/nologin';
-		$this->__path_named_path = "/var/named";
+//		$this->__path_named_path = "/var/named";
 		$this->__path_customer_root = "/home";
 		$this->__path_mysql_datadir = "/var/lib/mysql/";
 
@@ -85,8 +85,8 @@ class Sgbl
 
 		$this->__path_program_home = "/home/kloxo";
 		$this->__path_home_dir = "/home";
-		$this->__path_named_conf = "/etc/kloxo.named.conf";
-		$this->__path_named_chroot = "";
+//		$this->__path_named_conf = "/etc/kloxo.named.conf";
+//		$this->__path_named_chroot = "";
 		$this->__path_home_root = "/home/kloxo";
 		$this->__path_apache_path = "/etc/httpd/conf/";
 		$this->__path_lighty_path = "/etc/lighttpd/";
@@ -118,7 +118,7 @@ class Sgbl
 		$this->__path_installapp_servervar = $this->__path_kloxo_httpd_root . "/installappdata/lx_template.servervars.phps";
 
 		// Default Values that will be overrriden in the kloxoconf file.
-		$this->__path_named_chroot = "/var/named/chroot/";
+	//	$this->__path_named_chroot = "/var/named/chroot/";
 		$this->__var_progservice_apache = 'httpd';
 		$this->__var_programname_ftp = 'pure-ftpd';
 		$this->__var_programname_syslog = 'syslog';
@@ -133,7 +133,7 @@ class Sgbl
 		$this->__var_no_sync = false;
 
 		$this->__path_ssl_root = $this->__path_kloxo_httpd_root . "/ssl";
-		$this->__path_named_realpath = "$this->__path_named_chroot/$this->__path_named_path";
+//		$this->__path_named_realpath = "$this->__path_named_chroot/$this->__path_named_path";
 
 		$this->__var_local_port = '7776';
 		$this->__var_remote_port = '7779';

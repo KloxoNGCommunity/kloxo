@@ -58,19 +58,19 @@ class phpini__sync extends Lxdriverclass
 
 		$user = $input['user'] = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';
 
-		$phpini_path = "/home/phpini/tpl";
+		$phpini_path = "/opt/configs/phpini/tpl";
 		$phpini_cont = file_get_contents(getLinkCustomfile($phpini_path, "php.ini.tpl"));
 
-		$fcgid_path = "/home/apache/tpl";
+		$fcgid_path = "/opt/configs/apache/tpl";
 		$fcgid_cont = file_get_contents(getLinkCustomfile($fcgid_path, "php5.fcgi.tpl"));
 
-		$phpfpm_path_etc = "/home/php-fpm/etc";
-		$phpfpm_path = "/home/php-fpm/tpl";
+		$phpfpm_path_etc = "/opt/configs/php-fpm/etc";
+		$phpfpm_path = "/opt/configs/php-fpm/tpl";
 		$phpfpm_cont = file_get_contents(getLinkCustomfile($phpfpm_path, "php53-fpm-pool.conf.tpl"));
 		$phpfpm_main = getLinkCustomfile($phpfpm_path_etc, "php53-fpm.conf");
 		$phpfpm_www = getLinkCustomfile($phpfpm_path_etc . "/php-fpm.d", "www.conf");
 
-		$htaccess_path = "/home/phpini/tpl";
+		$htaccess_path = "/opt/configs/phpini/tpl";
 		$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
 
 		if (!file_exists("/etc/php-fpm.d")) {
@@ -95,7 +95,7 @@ class phpini__sync extends Lxdriverclass
 			$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
 
 			$phpini_target = '/etc/php.ini';
-			$fcgid_target = '/home/kloxo/client/php5.fcgi';
+			$fcgid_target = '/opt/configs/kloxo/client/php5.fcgi';
 			$phpfpm_target = '/etc/php-fpm.d/default.conf';
 
 			file_put_contents($phpini_target, $phpini_parse);
@@ -190,7 +190,7 @@ class phpini__sync extends Lxdriverclass
 		$endstring = $endlist[0];
 		$startstring = $stlist[0];
 
-		$phpini_path = "/home/phpini/tpl";
+		$phpini_path = "/opt/configs/phpini/tpl";
 
 		if ($pclass !== 'pserver') {
 			$dname = $this->main->getParentName();

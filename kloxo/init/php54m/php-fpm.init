@@ -20,8 +20,6 @@ then
     exit 0
 fi
 
-RETVAL=0
-
 base_name="php"
 custom_name="php54m"
 
@@ -36,6 +34,12 @@ else
 	pidfile="/var/run/php-fpm/${custom_name}-fpm.pid"
 	lockfile="/var/lock/subsys/${custom_name}-fpm"
 fi
+
+if [ -f /etc/sysconfig/php-fpm ]; then
+    . /etc/sysconfig/php-fpm
+fi
+
+RETVAL=0
 
 start () {
     echo -n $"Starting $fpm_prog: "

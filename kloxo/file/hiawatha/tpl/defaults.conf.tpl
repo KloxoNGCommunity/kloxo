@@ -115,7 +115,7 @@ foreach ($userlist as &$user) {
 FastCGIserver {
 	FastCGIid = php_for_<?php echo $user; ?>
 
-	ConnectTo = /home/php-fpm/sock/<?php echo $user; ?>.sock
+	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $user; ?>.sock
 	Extension = php
 }
 <?php
@@ -124,7 +124,7 @@ FastCGIserver {
 
 FastCGIserver {
 	FastCGIid = php_for_apache
-	ConnectTo = /home/php-fpm/sock/apache.sock
+	ConnectTo = /opt/configs/php-fpm/sock/apache.sock
 	Extension = php
 }
 

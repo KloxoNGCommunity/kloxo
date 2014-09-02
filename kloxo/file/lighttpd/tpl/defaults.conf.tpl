@@ -33,48 +33,21 @@ $portlist = array('var.port', 'var.portssl');
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
 if ($reverseproxy) {
-	if (file_exists("{$globalspath}/custom.proxy_standard.conf")) {
-		copy("{$globalspath}/custom.proxy_standard.conf", "{$globalspath}/switch_standard.conf");
-	} else {
-		copy("{$globalspath}/proxy_standard.conf", "{$globalspath}/switch_standard.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.stats_none.conf")) {
-		copy("{$globalspath}/custom.stats_none.conf", "{$globalspath}/stats.conf");
-	} else {
-		copy("{$globalspath}/stats_none.conf", "{$globalspath}/stats.conf");
-	}
+	$confs = array('proxy_standard' => 'switch_standard', 'stats_none' => 'stats');
 } else {
-	if (file_exists("{$globalspath}/custom.php-fpm_standard.conf")) {
-		copy("{$globalspath}/custom.php-fpm_standard.conf", "{$globalspath}/switch_standard.conf");
+	if ($stats['app'] === 'webalizer') {
+		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_webalizer' => 'stats');
 	} else {
-		copy("{$globalspath}/php-fpm_standard.conf", "{$globalspath}/switch_standard.conf");
+		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_awstats' => 'stats');
 	}
 
-	if ($stats['app'] === 'webalizer') {
-		if (file_exists("{$globalspath}/custom.stats_webalizer.conf")) {
-			copy("{$globalspath}/custom.stats_webalizer.conf", "{$globalspath}/stats.conf");
-		} else {
-			copy("{$globalspath}/stats_webalizer.conf", "{$globalspath}/stats.conf");
-		}
+}
 
-		if (file_exists("{$globalspath}/custom.dirprotect_webalizer.conf")) {
-			copy("{$globalspath}/custom.dirprotect_webalizer.conf", "{$globalspath}/dirprotect_stats.conf");
-		} else {
-			copy("{$globalspath}/dirprotect_webalizer.conf", "{$globalspath}/dirprotect_stats.conf");
-		}
+foreach ($confs as $k => $v) {
+	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
+		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
 	} else {
-		if (file_exists("{$globalspath}/custom.stats_awstats.conf")) {
-			copy("{$globalspath}/custom.stats_awstats.conf", "{$globalspath}/stats.conf");
-		} else {
-			copy("{$globalspath}/stats_awstats.conf", "{$globalspath}/stats.conf");
-		}
-
-		if (file_exists("{$globalspath}/custom.dirprotect_awstats.conf")) {
-			copy("{$globalspath}/custom.dirprotect_awstats.conf", "{$globalspath}/dirprotect_stats.conf");
-		} else {
-			copy("{$globalspath}/dirprotect_awstats.conf", "{$globalspath}/dirprotect_stats.conf");
-		}
+		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
 	}
 }
 
@@ -95,6 +68,8 @@ $indexorder = str_replace(' ', '", "', $indexorder);
 $fpmportapache = 50000;
 
 $count = 0;
+
+$tabs = array("", "\t");
 ?>
 server.port = "<?php echo $ports[0]; ?>"
 <?php echo $portlist[1]; ?> = "<?php echo $ports[1]; ?>"
@@ -121,25 +96,24 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 			}
 ?>
 	ssl.use-sslv2 = "disable"
-
 <?php
 		}
 	}
 ?>
 
-	$HTTP["host"] =~ "^default\.*" {
+<?php echo $tabs[$count]; ?>$HTTP["host"] =~ "^default\.*" {
 
-		var.rootdir = "/home/kloxo/httpd/default/"
-		var.user = "apache"
-		var.fpmport = "<?php echo $fpmportapache; ?>"
+<?php echo $tabs[$count]; ?>	var.rootdir = "/home/kloxo/httpd/default/"
+<?php echo $tabs[$count]; ?>	var.user = "apache"
+<?php echo $tabs[$count]; ?>	var.fpmport = "<?php echo $fpmportapache; ?>"
 
-		server.document-root = var.rootdir
+<?php echo $tabs[$count]; ?>	server.document-root = var.rootdir
 
-		index-file.names = ( <?php echo $indexorder; ?> )
+<?php echo $tabs[$count]; ?>	index-file.names = ( <?php echo $indexorder; ?> )
 
-		include "<?php echo $globalspath; ?>/switch_standard.conf"
+<?php echo $tabs[$count]; ?>	include "<?php echo $globalspath; ?>/switch_standard.conf"
 
-	}
+<?php echo $tabs[$count]; ?>}
 
 <?php
 	if ($count !== 0) {

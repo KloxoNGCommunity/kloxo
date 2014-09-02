@@ -32,16 +32,16 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 				echo $x >>/opt/${base_name}/install.log
 
 				if [ -f /opt/${base_name}/etc/php.d/mysql.ini ] ; then
-					mv -f /opt/${base_name}/etc/${j}/mysql.ini /opt/${base_name}/etc/${j}/mysql.nonini
-					mv -f /opt/${base_name}/etc/${j}/mysqli.ini /opt/${base_name}/etc/${j}/mysqli.nonini
-					mv -f /opt/${base_name}/etc/${j}/pdo_mysql.ini /opt/${base_name}/etc/${j}/pdo_mysql.nonini
+					\mv -f /opt/${base_name}/etc/${j}/mysql.ini /opt/${base_name}/etc/${j}/mysql.nonini
+					\mv -f /opt/${base_name}/etc/${j}/mysqli.ini /opt/${base_name}/etc/${j}/mysqli.nonini
+					\mv -f /opt/${base_name}/etc/${j}/pdo_mysql.ini /opt/${base_name}/etc/${j}/pdo_mysql.nonini
 				fi
 			else
 				x="-- Disable '${i}' modules in '/etc/${base_name}/etc/${j}'"
 				echo $x
 				echo $x >>/opt/${base_name}/install.log
 
-				mv -f /opt/${base_name}/etc/${j}/${i}.ini /opt/${base_name}/etc/${j}/${i}.nonini
+				\mv -f /opt/${base_name}/etc/${j}/${i}.ini /opt/${base_name}/etc/${j}/${i}.nonini
 			fi
 		fi
 	done
@@ -55,7 +55,7 @@ x="- Copy certain files to '/opt/${base_name}/custom'"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
-cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/* /opt/${base_name}/custom/
+\cp -rf /usr/local/lxlabs/kloxo/init/${base_name}/* /opt/${base_name}/custom/
 
 x="- Set .sh to 755"
 echo $x
@@ -73,7 +73,7 @@ for i in cgi cli ls fpm ; do
 		echo $x
 		echo $x >>/opt/${base_name}/install.log
 
-		rm -f /usr/bin/${base_name}-${i}
+		\rm -f /usr/bin/${base_name}-${i}
 		ln -sf /opt/${base_name}/custom/${base_name}-${i}.sh /usr/bin/${base_name}-${i}
 	fi
 done

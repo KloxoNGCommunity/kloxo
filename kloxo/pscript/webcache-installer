@@ -123,11 +123,11 @@ echo $x
 echo $x >>/opt/${base_name}/install.log
 
 if [ -f /opt/${base_name}/etc ] ; then
-	rm -f /opt/${base_name}/etc
+	\rm -f /opt/${base_name}/etc
 fi
 
 if [ -f /opt/${base_name}/${base_name} ] ; then
-	rm -f /opt/${base_name}/${base_name}
+	\rm -f /opt/${base_name}/${base_name}
 fi
 
 yumdownloader ${pack_name} >>/opt/${base_name}/install.log
@@ -140,7 +140,7 @@ for i in $(ls ./*.rpm) ; do
 	rpm2cpio $i | cpio -idmv >/dev/null 2>$1
 done
 
-rm -rf ./*.rpm
+\rm -rf ./*.rpm
 
 cd /
 

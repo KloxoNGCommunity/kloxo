@@ -31,25 +31,25 @@ kloxo_path=${kloxo_fork}/kloxo/zipball/${kloxo_branch}
 ### 1. download and unzip phase
 
 cd /tmp
-rm -rf ./kloxo/*
-rm -rf ${kloxo_branch}* > /dev/null 2>&1
+\rm -rf ./kloxo/*
+\rm -rf ${kloxo_branch}* > /dev/null 2>&1
 mkdir -p /tmp/kloxo
 cd ./kloxo
 
 echo "Download git from "${kloxo_path}
-rm -rf ${kloxo_branch}* > /dev/null 2>&1
+\rm -rf ${kloxo_branch}* > /dev/null 2>&1
 wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip -O kloxo-mr-${kloxo_branch}.zip
 
 unzip -oq kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
-rm -rf kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
-mv -f ./kloxo*-${kloxo_branch}/kloxo ./
-rm -rf ./kloxo*-${kloxo_branch}
+\rm -rf kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
+\mv-f ./kloxo*-${kloxo_branch}/kloxo ./
+\rm -rf ./kloxo*-${kloxo_branch}
 
-cp -rf ./kloxo/install/installer.sh ./
+\cp -rf ./kloxo/install/installer.sh ./
 
 ver=`cat ./kloxo/bin/kloxoversion`
 
-mv ./kloxo ./kloxomr-$ver
+\mv./kloxo ./kloxomr-$ver
 
 ### 4. zipped process
 tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxomr-$ver/file" \
@@ -85,9 +85,9 @@ tar -czf kloxomr-$ver.tar.gz "./kloxomr-$ver/bin" "./kloxomr-$ver/cexe" "./kloxo
 	--exclude "./kloxomr-$ver/*.pyo" \
 	--exclude "./kloxomr-$ver/*.pyc"
 
-rm -rf ./kloxomr-$ver > /dev/null 2>&1
-rm -rf ./kloxo-install > /dev/null 2>&1
-rm -rf ./install > /dev/null 2>&1
+\rm -rf ./kloxomr-$ver > /dev/null 2>&1
+\rm -rf ./kloxo-install > /dev/null 2>&1
+\rm -rf ./install > /dev/null 2>&1
 
 sh ./installer.sh
 

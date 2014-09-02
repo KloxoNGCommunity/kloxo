@@ -437,9 +437,11 @@ class Client extends ClientBase
 		// MR -- don't care vps or dedi, reversedns always appear
 		// just need 'message box' warning
 		//	if ($this->isAdmin() && !lxfile_exists("/proc/user_beancounters") && !lxfile_exists("/proc/xen")) {
+		/*
 			if ($this->isAdmin()) {
 				$alist[] = "a=list&c=reversedns";
 			}
+		*/
 
 		if (!$this->isAdmin()) {
 			if (!$this->isLogin()) {

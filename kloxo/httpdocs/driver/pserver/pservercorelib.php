@@ -611,7 +611,7 @@ class pservercore extends Lxclient
 		$this->getandwriteipaddress();
 
 		// MR -- no need because execute on fixIpAddrss.php and execatinit.php
-		// MR -- fix issue when start/restart kloxo will be delete /home/<webserver>/conf/domains contents
+		// MR -- fix issue when start/restart kloxo will be delete /opt/configs/<webserver>/conf/domains contents
 	//	lxshell_return("sh", "/script/fixweb", "--nolog");
 
 	}
@@ -1241,18 +1241,20 @@ STRIN;
 
 			case "switchprogram":
 				// MR -- 'nname' = syncserver in here (because pserver class)!
-				// check if driver table first and if empty check slavedb/driver file
-				if ($gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web')) {
-					$this->web_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('web'));
-					$this->webcache_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('webcache'));
-					$this->dns_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('dns'));
-					$this->spam_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('spam'));
-				} else {
+				// check if slavedb/driver file first and if empty then check driver table
+				$this->web_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('web'));
+				$this->webcache_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('webcache'));
+				$this->dns_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('dns'));
+				$this->spam_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('spam'));
+
+				if (!isset($this->web_driver)) {
 					$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web');
 					$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'webcache');
 					$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'dns');
 					$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'spam');
 				}
+
+				$this->was();
 
 				$this->no_fix_config = 'off';
 

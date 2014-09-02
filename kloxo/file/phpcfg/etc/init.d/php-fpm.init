@@ -40,7 +40,7 @@ start () {
     if [ "(${php_type}" == "multiple" ] ; then
         for i in ${bin_path}/php*m-fpm ;  do
             prog="${i#$bin_path}"
-            fpmconf="/home/phpcfg/fpm/conf/${prog}.conf"
+            fpmconf="/opt/configs/phpcfg/fpm/conf/${prog}.conf"
             pidfile="/var/run/php-fpm/${prog}.pid"
             lockfile="/var/lock/subsys/${prog}"
             
@@ -54,7 +54,7 @@ start () {
         done
     else
         prog=$(cat ${prog_init}/website_php_used)"-fpm"
-        fpmconf="/home/phpcfg/fpm/conf/${prog}.conf"
+        fpmconf="/opt/configs/phpcfg/fpm/conf/${prog}.conf"
         pidfile="/var/run/php-fpm/${prog}.pid"
         lockfile="/var/lock/subsys/${prog}"
  

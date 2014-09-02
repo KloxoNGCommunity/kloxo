@@ -232,7 +232,7 @@ class all_dns extends dns
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$alist[] = "a=list&c=reversedns";
+	//	$alist[] = "a=list&c=reversedns";
 
 		if ($login->isAdmin()) {
 			$alist[] = "o=general&a=updateform&sa=reversedns";

@@ -11,33 +11,12 @@ class dns__pdns extends dns__
 
 	static function unInstallMe()
 	{
-		setRpmRemoved("pdns");
-
-		if (file_exists("/etc/init.d/pdns")) {
-			lunlink("/etc/init.d/pdns");
-		}
+		parent::unInstallMeTrue('pdns');
 	}
 
 	static function installMe()
 	{
-		setRpmInstalled("pdns");
-
-		$initfile = getLinkCustomfile("/opt/configs/pdns/etc/init.d", "pdns.init");
-
-		if (file_exists($initfile)) {
-			lxfile_cp($initfile, "/etc/init.d/pdns");
-		}
-
-		lxshell_return("chkconfig", "pdns", "on");
-
-		createRestartFile("pdns");
-
-		self::copyConfigMe();
-	}
-
-	static function copyConfigMe()
-	{
-		setCopyDnsConfFiles('pdns');
+		parent::installMeTrue('pdns');
 	}
 
 	function createConfFile($action = null)

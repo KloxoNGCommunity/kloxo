@@ -30,7 +30,7 @@ if ! [ -d ${ppath}/log ] ; then
 	mkdir -p ${ppath}/log
 fi
 
-rm -f /var/run/yum.pid
+\rm -f /var/run/yum.pid
 
 cd /
 
@@ -42,10 +42,10 @@ else
 	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
 	yum update mratwork-* -y
 	
-	rm -rf /etc/yum.repos.d/kloxo-mr.repo
-	rm -rf /etc/yum.repos.d/kloxo-custom.repo
-	rm -rf /etc/yum.repos.d/lxcenter.repo
-	rm -rf /etc/yum.repos.d/lxlabs.repo	
+	\rm -rf /etc/yum.repos.d/kloxo-mr.repo
+	\rm -rf /etc/yum.repos.d/kloxo-custom.repo
+	\rm -rf /etc/yum.repos.d/lxcenter.repo
+	\rm -rf /etc/yum.repos.d/lxlabs.repo	
 fi
 
 cd /
@@ -138,7 +138,7 @@ echo
 
 cd /
 
-rm -rf *.rpm
+\rm -rf *.rpm
 
 yum clean all
 
@@ -164,7 +164,7 @@ sh /init/php.ini /script/set-mysql-default
 
 yum -y install php53u php53u-mysql
 ## MR -- protect to lxphp.exe show missing .so. it's must /etc/php.ini exist extension_dir
-cp -f ${ppath}/init/php.ini /etc/php.ini
+\cp-f ${ppath}/init/php.ini /etc/php.ini
 
 if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php

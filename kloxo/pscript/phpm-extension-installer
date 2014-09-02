@@ -25,7 +25,7 @@ fi
 
 cd /opt/${base_name}
 
-rm -f *.rpm
+\rm -f *.rpm
 
 yumdownloader ${extension_name}
 

@@ -449,7 +449,7 @@ class phpini extends lxdb
 
 	function initialValueRpmStatus($var)
 	{
-		$srcpath = '/home/phpini/etc/php.d';
+		$srcpath = '/opt/configs/phpini/etc/php.d';
 		$trgtpath = '/etc/php.d';
 
 		if ($var === 'enable_xcache_flag') {

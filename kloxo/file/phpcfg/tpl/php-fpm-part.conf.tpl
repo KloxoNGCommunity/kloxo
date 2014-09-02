@@ -69,17 +69,13 @@ pid=/var/run/php-fpm/php-fpm.pid
 error_log=/var/log/php-fpm/error.log
 log_level=error
 
-;emergency_restart_threshold=0
-;emergency_restart_interval=0
-;process_control_timeout=0
-
 emergency_restart_threshold=10s
 emergency_restart_interval=1m
 process_control_timeout=10s
 
 daemonize=yes
 
-;include=/home/phpcfg/fpm/pool/<?php echo $fpm_type; ?>*.conf
+;include=/opt/configs/phpcfg/fpm/pool/<?php echo $fpm_type; ?>*.conf
 
 <?php
         } else {
@@ -93,7 +89,7 @@ daemonize=yes
 [<?php echo $pool; ?>]
 ;catch_workers_output = yes
 
-listen = /home/php-fpm/sock/<?php echo $fpm_type; ?>-<?php echo $user; ?>.sock
+listen = /opt/configs/php-fpm/sock/<?php echo $fpm_type; ?>-<?php echo $user; ?>.sock
 listen.backlog = 65536
 listen.allowed_clients = 127.0.0.1
 listen.owner = <?php echo $user; ?>

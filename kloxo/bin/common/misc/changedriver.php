@@ -6,20 +6,21 @@ initProgram('admin');
 
 $plist = parse_opt($argv);
 
-$class = $argv[1];
 if (!isset($argv[1])) {
 	print("Format: sh /script/changedriver <class> <driver>\n");
 	exit;
+} else {
+	$class = $argv[1];
 }
+
+$driverapp = $gbl->getSyncClass(null, 'localhost', $class);
 
 if (!isset($argv[2])) {
-	$driverapp = $gbl->getSyncClass(null, 'localhost', $class);
-	print("Driver for '$class' is '$driverapp'\n");
+	print("Driver for '{$class}' is '{$driverapp}'\n");
 	exit;
+} else {
+	$pgm = $argv[2];
 }
-
-$pgm = $argv[2];
-
 
 
 $server = $login->getFromList('pserver', 'localhost');
@@ -29,12 +30,13 @@ $server = $login->getFromList('pserver', 'localhost');
 
 include "../file/driver/rhel.inc";
 
-
 $dr = $server->getObject('driver');
 
 if (!array_search_bool($pgm, $driver[$class])) {
 	$str = implode(" ", $driver[$class]);
-	print("- The driver name isn't correct.\n  Available drivers for '$class': $str\n");
+
+	print("Current driver: {$driverapp}\n- The driver name isn't correct.\n- Available drivers for '{$class}': {$str}\n");
+
 	exit;
 }
 
@@ -46,10 +48,14 @@ $dr->setUpdateSubaction();
 
 $dr->write();
 
+if ($class === 'web') {
+	slave_save_db('driver', array('web' => $pgm));
+} elseif ($class === 'webcache') {
+	slave_save_db('driver', array('webcache' => $pgm));
+} elseif ($class === 'dns') {
+	slave_save_db('driver', array('dns' => $pgm));
+} elseif ($class === 'spam') {
+	slave_save_db('driver', array('spam' => $pgm));
+}
+
 print("Successfully changed Driver for $class to $pgm\n");
-
-
-
-
-
-

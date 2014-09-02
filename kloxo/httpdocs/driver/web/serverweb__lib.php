@@ -138,9 +138,9 @@ class serverweb__ extends lxDriverClass
 
 		if (isWebProxyOrApache()) {
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
-			lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
+			lxshell_return("\\rm", "-f", $ehcdpath . "/swtune.conf");
 
-			exec("cp -rf {$ullkfapath} /opt/configs");
+			lxshell_return("\\cp", "-rf", "{$ullkfapath}", "/opt/configs");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
 				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath . "/~lxcenter.conf");
@@ -192,7 +192,7 @@ class serverweb__ extends lxDriverClass
 		}
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "php.conf"), $ehcdpath . "/php.conf");
-		lxfile_rm($ehcdpath . "/php.nonconf");
+		lxfile_rm("{$ehcdpath}/php.nonconf");
 
 		$this->remove_phpfpm();
 	}
@@ -215,9 +215,9 @@ class serverweb__ extends lxDriverClass
 
 		$this->remove_phpfpm();
 
-	//	exec("sh /script/fixphp --nolog");
+		lxshell_return("sh", "/script/fixphp", "--nolog");
 
-		lxfile_rm($ehcdpath . "/suphp.nonconf");
+		lxfile_rm("{$ehcdpath}/suphp.nonconf");
 	}
 
 	function set_phpfpm()
@@ -232,7 +232,7 @@ class serverweb__ extends lxDriverClass
 
 		if (version_compare($ver, "2.4.0", ">=") !== false) {
 			lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath . "/proxy_fcgi.conf");
-			lxfile_rm($ehcdpath . "/proxy_fcgi.nonconf");
+			lxfile_rm("{$ehcdpath}/proxy_fcgi.nonconf");
 		} else {
 			$phpbranch = getRpmBranchInstalled('php');
 
@@ -240,7 +240,7 @@ class serverweb__ extends lxDriverClass
 			setRpmInstalled("{$phpbranch}-fpm");
 
 			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath . "/fastcgi.conf");
-			lxfile_rm($ehcdpath . "/fastcgi.nonconf");
+			lxfile_rm("{$ehcdpath}/fastcgi.nonconf");
 		}
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
@@ -266,7 +266,7 @@ class serverweb__ extends lxDriverClass
 		$this->rename_to_nonconf();
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "fcgid.conf"), $ehcdpath . "/fcgid.conf");
-		lxfile_rm($ehcdpath . "/fcgid.nonconf");
+		lxfile_rm("{$ehcdpath}/fcgid.nonconf");
 	}
 
 	function remove_phpfpm()
@@ -347,7 +347,7 @@ class serverweb__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp.conf");
 				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
 			} else {
-				lxfile_rm($ehcdpath . "/suphp52.nonconf");
+				lxfile_rm("{$ehcdpath}/suphp52.nonconf");
 
 				setRpmInstalled("mod_suphp");
 
@@ -356,7 +356,7 @@ class serverweb__ extends lxDriverClass
 			}
 
 		} else {
-			lxfile_rm($ehcdpath . "/suphp52.conf");
+			lxfile_rm("{$ehcdpath}/suphp52.conf");
 
 			if (stripos($this->main->php_type, 'suphp') !== false) {
 				lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
@@ -470,7 +470,7 @@ class serverweb__ extends lxDriverClass
 				$b .= "sh /script/phpm-installer {$v} --force\n";
 			}
 
-			$b .= "rm -f $c\n";
+			$b .= "\\rm -f {$c}\n";
 
 			file_put_contents($c, $b);
 

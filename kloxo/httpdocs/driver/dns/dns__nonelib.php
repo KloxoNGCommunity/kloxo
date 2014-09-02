@@ -17,10 +17,6 @@ class dns__none extends dns__
 	{
 	}
 
-	static function copyConfigMe()
-	{
-	}
-
 	function createConfFile($action = null)
 	{
 	}

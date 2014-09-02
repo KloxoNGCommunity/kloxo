@@ -1,8 +1,6 @@
 #!/bin/sh
 
-chkconfig kloxo on
-
-sh /script/fixlxphpexe
+. /script/counter-start.inc
 
 t=$(mysql -V|awk '{print $5}')
 u=$(echo $t|grep -i '5.0.')
@@ -14,19 +12,13 @@ if [ "$u" != "" ] ; then
 	exit
 fi
 
-T="$(date +%s%N)"
+chkconfig kloxo on
+
+sh /script/fixlxphpexe
 
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php --without-services
 
-# Time interval in nanoseconds
-T="$(($(date +%s%N)-T))"
-# Seconds
-S="$((T/1000000000))"
-# Milliseconds
-M="$((T/1000000))"
-
-printf "Process Time: %02d:%02d:%02d:%02d.%03d (dd:hh:mm:ss:xxxxxx)\n" \
-	"$((S/86400))" "$((S/3600%24))" "$((S/60%60))" "$((S%60))" "${M}"
+. /script/counter-end.inc
 
 

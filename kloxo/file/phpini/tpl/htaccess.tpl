@@ -28,13 +28,6 @@
         $sendmail_from = '';
     }
 
-    $register_global_flag = 'Off';
-    $magic_quotes_gpc_flag = 'Off';
-    $magic_quotes_runtime_flag = 'Off';
-    $magic_quotes_sybase_flag = 'Off';
-    $safe_mode_flag = 'Off';
-    $register_long_arrays_flag = 'Off';
-
     if (!$max_input_vars_flag) {
         $max_input_vars_flag = '3000';
     }
@@ -65,8 +58,6 @@
 
     php_value post_max_size <?php echo $post_max_size_flag; ?>
 
-    # php_flag register_globals <?php echo $register_global_flag; ?>
-
     php_flag display_errors <?php echo $display_error_flag; ?>
 
     php_flag file_uploads <?php echo $file_uploads_flag; ?>
@@ -75,17 +66,7 @@
 
     php_flag output_buffering <?php echo $output_buffering_flag; ?>
 
-    php_flag register_argc_argv <?php echo $register_argc_argv_flag; ?>
-
-    # php_flag magic_quotes_gpc <?php echo $magic_quotes_gpc_flag; ?>
-
-    # php_flag magic_quotes_runtime <?php echo $magic_quotes_runtime_flag; ?>
-
-    # php_flag magic_quotes_sybase <?php echo $magic_quotes_sybase_flag; ?>
-
     php_flag mysql.allow_persistent <?php echo $mysql_allow_persistent_flag; ?>
-
-    # <?php echo $php54disable; ?>php_flag register_long_arrays <?php echo $register_long_arrays_flag; ?>
 
     php_flag allow_url_fopen <?php echo $allow_url_fopen_flag; ?>
 

@@ -38,15 +38,19 @@ foreach ($driver as $k => $v) {
 	exec("chkconfig {$w} on");
 }
 
-$srcconfpath = "/opt/configs/conf/etc/nginx";
+$srcconfpath = "/opt/configs/nginx/etc/conf";
 $srcconfdpath = "/opt/configs/nginx/etc/conf.d";
 $trgtconfpath = "/etc/nginx";
 $trgtconfdpath = "/etc/nginx/conf.d";
 
-if (file_exists("{$srcconfpath}/custom.nginx.conf")) {
-	copy("{$srcconfpath}/custom.nginx.conf", "{$trgtconfpath}/nginx.conf");
-} else {
-	copy("{$srcconfpath}/nginx.conf", "{$trgtconfpath}/nginx.conf");
+$confs = array('nginx.conf', 'mime.types', 'fastcgi_params');
+
+foreach ($confs as $k => $v) {
+	if (file_exists("{$srcconfpath}/custom.{$v}")) {
+		copy("{$srcconfpath}/custom.{$v}", "{$trgtconfpath}/{$v}");
+	} else {
+		copy("{$srcconfpath}/{$v}", "{$trgtconfpath}/{$v}");
+	}
 }
 
 if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
@@ -54,8 +58,6 @@ if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
 } else {
 	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
 }
-
-$listens = array('listen_nonssl', 'listen_ssl');
 
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
@@ -86,88 +88,44 @@ if ($out[0]) {
 }
 
 if ($reverseproxy) {
-	if (file_exists("{$globalspath}/custom.proxy_standard.conf")) {
-		copy("{$globalspath}/custom.proxy_standard.conf", "{$globalspath}/switch_standard.conf");
-	} else {
-		copy("{$globalspath}/proxy_standard.conf", "{$globalspath}/switch_standard.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.proxy_wildcards.conf")) {
-		copy("{$globalspath}/custom.proxy_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
-	} else {
-		copy("{$globalspath}/proxy_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.stats_none.conf")) {
-		copy("{$globalspath}/custom.stats_none.conf", "{$globalspath}/stats.conf");
-	} else {
-		copy("{$globalspath}/stats_none.conf", "{$globalspath}/stats.conf");
-	}
+	$confs = array('proxy_standard' => 'switch_standard', 'proxy_wildcards' => 'switch_wildcards',
+		'stats_none' => 'stats');
 } else {
-	if (file_exists("{$globalspath}/custom.php-fpm_standard.conf")) {
-		copy("{$globalspath}/custom.php-fpm_standard.conf", "{$globalspath}/switch_standard.conf");
-	} else {
-		copy("{$globalspath}/php-fpm_standard.conf", "{$globalspath}/switch_standard.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.php-fpm_wildcards.conf")) {
-		copy("{$globalspath}/custom.php-fpm_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
-	} else {
-		copy("{$globalspath}/php-fpm_wildcards.conf", "{$globalspath}/switch_wildcards.conf");
-	}
-
 	if ($stats['app'] === 'webalizer') {
-		if (file_exists("{$globalspath}/custom.stats_webalizer.conf")) {
-			copy("{$globalspath}/custom.stats_webalizer.conf", "{$globalspath}/stats.conf");
-		} else {
-			copy("{$globalspath}/stats_webalizer.conf", "{$globalspath}/stats.conf");
-		}
-
-		if (file_exists("{$globalspath}/custom.dirprotect_webalizer.conf")) {
-			copy("{$globalspath}/custom.dirprotect_webalizer.conf", "{$globalspath}/dirprotect_stats.conf");
-		} else {
-			copy("{$globalspath}/dirprotect_webalizer.conf", "{$globalspath}/dirprotect_stats.conf");
-		}
+		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
+		'stats_webalizer' => 'stats');
 	} else {
-		if (file_exists("{$globalspath}/custom.stats_awstats.conf")) {
-			copy("{$globalspath}/custom.stats_awstats.conf", "{$globalspath}/stats.conf");
-		} else {
-			copy("{$globalspath}/stats_awstats.conf", "{$globalspath}/stats.conf");
-		}
+		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
+		'stats_awstats' => 'stats');
+	}
 
-		if (file_exists("{$globalspath}/custom.dirprotect_awstats.conf")) {
-			copy("{$globalspath}/custom.dirprotect_awstats.conf", "{$globalspath}/dirprotect_stats.conf");
-		} else {
-			copy("{$globalspath}/dirprotect_awstats.conf", "{$globalspath}/dirprotect_stats.conf");
-		}
+}
+
+foreach ($confs as $k => $v) {
+	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
+		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
+	} else {
+		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
 	}
 }
 
 if (($webcache === 'none') || (!$webcache)) {
-	if (file_exists("{$globalspath}/custom.listen_nonssl_front.conf")) {
-		copy("{$globalspath}/custom.listen_nonssl_front.conf", "{$globalspath}/listen_nonssl.conf");
-	} else {
-		copy("{$globalspath}/listen_nonssl_front.conf", "{$globalspath}/listen_nonssl.conf");
-	}
-
-	if (file_exists("{$globalspath}/custom.listen_ssl_front.conf")) {
-		copy("{$globalspath}/custom.listen_ssl_front.conf", "{$globalspath}/listen_ssl.conf");
-	} else {
-		copy("{$globalspath}/listen_ssl_front.conf", "{$globalspath}/listen_ssl.conf");
-	}
+	$confs = array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front' => 'listen_ssl',
+		'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default' => 'listen_ssl_default');
 } else {
-	if (file_exists("{$globalspath}/custom.listen_nonssl_back.conf")) {
-		copy("{$globalspath}/custom.listen_nonssl_back.conf", "{$globalspath}/listen_nonssl.conf");
-	} else {
-		copy("{$globalspath}/listen_nonssl_back.conf", "{$globalspath}/listen_nonssl.conf");
-	}
+	$confs = array('listen_nonssl_back' => 'listen_nonssl', 'listen_ssl_back' => 'listen_ssl',
+		'listen_nonssl_back_default' => 'listen_nonssl_default', 'listen_ssl_back_default' => 'listen_ssl_default');
+}
 
-	if (file_exists("{$globalspath}/custom.listen_ssl_back.conf")) {
-		copy("{$globalspath}/custom.listen_ssl_back.conf", "{$globalspath}/listen_ssl.conf");
+foreach ($confs as $k => $v) {
+	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
+		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
 	} else {
-		copy("{$globalspath}/listen_ssl_back.conf", "{$globalspath}/listen_ssl.conf");
+		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
 	}
 }
+
+$listens = array('listen_nonssl_default', 'listen_ssl_default');
 
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;

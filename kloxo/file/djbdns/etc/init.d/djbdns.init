@@ -18,6 +18,10 @@ ppath="/opt/configs/djbdns"
 
 PATH=$PATH:/bin:/usr/bin:/usr/local/bin
 
+if [ -f /etc/sysconfig/djbdns ]; then
+        . /etc/sysconfig/djbdns
+fi
+
 start() {
 	echo $"Starting $prog for: "
 
@@ -32,7 +36,7 @@ start() {
 			echo '[FAILED]'
 		fi
 	else 
-		cd ${ppath}/axfrdns
+		cd ${ppath}/axfrdns/
 		./run > /dev/null 2>&1 &
 		echo -n '  - axfrdns    '
 
@@ -43,7 +47,7 @@ start() {
 		fi
 	fi
 
-	cd ${ppath}/tinydns
+	cd ${ppath}/tinydns/
 	./run > /dev/null 2>&1 &
 
 	echo -n '  - tinydns    '

@@ -11,33 +11,12 @@ class dns__maradns extends dns__
 
 	static function unInstallMe()
 	{
-		setRpmRemoved("maradns");
-
-		if (file_exists("/etc/init.d/maradns")) {
-			lunlink("/etc/init.d/maradns");
-		}
+		parent::unInstallMeTrue('maradns');
 	}
 
 	static function installMe()
 	{
-		setRpmInstalled("maradns");
-
-		$initfile = getLinkCustomfile("/opt/configs/maradns/etc/init.d", "maradns.init");
-
-		if (file_exists($initfile)) {
-			lxfile_cp($initfile, "/etc/init.d/maradns");
-		}
-
-		lxshell_return("chkconfig", "maradns", "on");
-
-		createRestartFile("maradns");
-
-		self::copyConfigMe();
-	}
-
-	static function copyConfigMe()
-	{
-		setCopyDnsConfFiles('maradns');
+		parent::installMeTrue('maradns');
 	}
 
 	function createConfFile($action = null)

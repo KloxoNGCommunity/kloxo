@@ -253,10 +253,12 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 					<div class="dropmenu">
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=custombutton"><?= $ghtml->getTitleOnly("a=list&c=custombutton") ?></a><br/>
 					</div>
+<!--
 					<b><?= $login->getKeywordUc('reversedns') ?></b>
 					<div class="dropmenu">
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=reversedns"><?= $ghtml->getTitleOnly("a=list&c=reversedns") ?></a><br/>
 					</div>
+-->
 <?php
 	}
 

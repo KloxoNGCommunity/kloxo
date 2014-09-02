@@ -41,12 +41,6 @@ asp_tags = Off
 precision = 14
 y2k_compliance = On
 unserialize_callback_func=
-;allow_call_time_pass_reference = Off
-;<?=$php54disable;?>safe_mode_gid = Off
-;<?=$php54disable;?>safe_mode_include_dir =
-;<?=$php54disable;?>safe_mode_exec_dir =
-;<?=$php54disable;?>safe_mode_allowed_env_vars = PHP_
-;<?=$php54disable;?>safe_mode_protected_env_vars = LD_LIBRARY_PATH
 disable_classes =
 expose_php = On
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
@@ -91,8 +85,6 @@ zlib.output_compression = <?=$output_compression_flag;?>
 ;### MR -- custom setting (handle by kloxo)
 disable_functions = <?=$disable_functions;?>
 
-;<?=$php54disable;?>register_globals = <?=$register_global_flag;?>
-
 display_errors = <?=$display_error_flag;?>
 
 file_uploads = <?=$file_uploads_flag;?>
@@ -105,12 +97,6 @@ error_log = /var/log/php_error.log
 output_buffering = <?=$output_buffering_flag;?>
 
 register_argc_argv = <?=$register_argc_argv_flag;?>
-
-;<?=$php54disable;?>magic_quotes_gpc = <?=$magic_quotes_gpc_flag;?>
-
-;<?=$php54disable;?>magic_quotes_runtime = <?=$magic_quotes_runtime_flag;?>
-
-;<?=$php54disable;?>magic_quotes_sybase = <?=$magic_quotes_sybase_flag;?>
 
 mysql.allow_persistent = <?=$mysql_allow_persistent_flag;?>
 
@@ -132,15 +118,13 @@ cgi.force_redirect = <?=$cgi_force_redirect_flag;?>
 
 <?=$sendmailmark;?>sendmail_from = <?=$sendmail_from;?>
 
-;<?=$php54disable;?>safe_mode = <?=$safe_mode_flag;?>
-
 enable_dl = <?=$enable_dl_flag;?>
 
 max_input_vars = <?php echo $max_input_vars_flag; ?>
 
 
 ;### MR -- deprecated/disabled on php 5.3+
-;<?=$php53disable;?>register_long_arrays = <?=$register_long_arrays_flag;?>
+;<?=$php53disable;?>register_long_arrays = Off
 
 
 [Syslog]

@@ -73,7 +73,7 @@ function application_upload()
 function data_upload()
 {
 	print("Uploading data\n");
-	system("rm -f /home/kloxo/httpd/installappdata.zip");
+	lxfile_rm("/home/kloxo/httpd/installappdata.zip");
 	system("cd /home/kloxo/httpd/installappdata/ ; zip -r ../installappdata.zip * > /dev/null;");
 	upload_file("/home/kloxo/httpd/installappdata.zip");
 	lxfile_rm("/home/kloxo/httpd/installappdata.zip");

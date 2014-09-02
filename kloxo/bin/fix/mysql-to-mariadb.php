@@ -39,7 +39,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		$arr = explode("\n", $out2);
 
 		echo "- Remove MySQL packages\n";
-		system("cp -f /etc/my.cnf /etc/my.cnf._bck_");
+		system("\\cp -f /etc/my.cnf /etc/my.cnf._bck_");
 		
 		foreach ($arr as &$o) {
 			if (strpos($o, "-mysql") !== false) { continue; }
@@ -59,7 +59,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		echo "- Install MariaDB\n";
 		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common MariaDB-shared -y");
 
-		system("cp -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf");
+		system("\\cp -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf");
 
 		echo "- Restart MariaDB\n";
 		system("chkconfig mysql on");

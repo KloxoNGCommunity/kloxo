@@ -27,22 +27,22 @@ fi
 
 mkdir -p /opt/${base_name}/custom
 
-cp -rf ${INIT_DIR}/${base_name}/* /opt/${base_name}/custom/
+\cp -rf ${INIT_DIR}/${base_name}/* /opt/${base_name}/custom/
 
-cp -rf ${INIT_DIR}/${base_name}/*.sh /opt/${base_name}/custom
+\cp -rf ${INIT_DIR}/${base_name}/*.sh /opt/${base_name}/custom
 chmod 755 /opt/${base_name}/custom/*.sh
 
-cp -rf ${INIT_DIR}/${base_name}/*.ini /opt/${base_name}/etc
+\cp -rf ${INIT_DIR}/${base_name}/*.ini /opt/${base_name}/etc
 
 chown -R root:root /opt/${base_name}
 
-rm -f /usr/bin/lphp.exe
-rm -f /usr/bin/lxphp.exe
+\rm -f /usr/bin/lphp.exe
+\rm -f /usr/bin/lxphp.exe
 
 ln -sf /opt/${base_name}/custom/${base_name}-cli.sh /usr/bin/lphp.exe
 ln -sf /opt/${base_name}/custom/${base_name}-cli.sh /usr/bin/lxphp.exe
 
-cp -f ${INIT_DIR}/kloxo.init /etc/rc.d/init.d/kloxo
+\cp -f ${INIT_DIR}/kloxo.init /etc/rc.d/init.d/kloxo
 chown root:root /etc/rc.d/init.d/kloxo
 chmod 0775 /etc/rc.d/init.d/kloxo
 

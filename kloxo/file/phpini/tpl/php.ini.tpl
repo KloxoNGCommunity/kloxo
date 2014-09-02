@@ -45,12 +45,6 @@
 		$libpath = 'lib';
 	}
 
-	$register_global_flag = 'Off';
-	$magic_quotes_runtime_flag = 'Off';
-	$magic_quotes_sybase_flag = 'Off';
-	$safe_mode_flag = 'Off';
-	$register_long_arrays_flag = 'Off';
-
 	if (!$max_input_vars_flag) {
 		$max_input_vars_flag = '3000';
 	}
@@ -64,12 +58,6 @@ asp_tags = Off
 precision = 14
 y2k_compliance = On
 unserialize_callback_func=
-;allow_call_time_pass_reference = Off
-;<?php echo $php54disable; ?>safe_mode_gid = Off
-;<?php echo $php54disable; ?>safe_mode_include_dir =
-;<?php echo $php54disable; ?>safe_mode_exec_dir =
-;<?php echo $php54disable; ?>safe_mode_allowed_env_vars = PHP_
-;<?php echo $php54disable; ?>safe_mode_protected_env_vars = LD_LIBRARY_PATH
 disable_classes =
 expose_php = On
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
@@ -115,8 +103,6 @@ zlib.output_compression = <?php echo $output_compression_flag; ?>
 ;### MR -- custom setting (handle by kloxo)
 disable_functions = <?php echo $disable_functions; ?>
 
-;<?php echo $php54disable; ?>register_globals = <?php echo $register_global_flag; ?>
-
 display_errors = <?php echo $display_error_flag; ?>
 
 file_uploads = <?php echo $file_uploads_flag; ?>
@@ -129,12 +115,6 @@ error_log = /var/log/php_error.log
 output_buffering = <?php echo $output_buffering_flag; ?>
 
 register_argc_argv = <?php echo $register_argc_argv_flag; ?>
-
-;<?php echo $php54disable; ?>magic_quotes_gpc = <?php echo $magic_quotes_gpc_flag; ?>
-
-;<?php echo $php54disable; ?>magic_quotes_runtime = <?php echo $magic_quotes_runtime_flag; ?>
-
-;<?php echo $php54disable; ?>magic_quotes_sybase = <?php echo $magic_quotes_sybase_flag; ?>
 
 mysql.allow_persistent = <?php echo $mysql_allow_persistent_flag; ?>
 
@@ -156,15 +136,13 @@ cgi.force_redirect = <?php echo $cgi_force_redirect_flag; ?>
 
 <?php echo $sendmailmark; ?>sendmail_from = <?php echo $sendmail_from; ?>
 
-;<?php echo $php54disable; ?>safe_mode = <?php echo $safe_mode_flag; ?>
-
 enable_dl = <?php echo $enable_dl_flag; ?>
 
 max_input_vars = <?php echo $max_input_vars_flag; ?>
 
 
 ;### MR -- deprecated/disabled on php 5.3+
-;<?php echo $php53disable; ?>register_long_arrays = <?php echo $register_long_arrays_flag; ?>
+;<?php echo $php53disable; ?>register_long_arrays = Off
 
 
 [Syslog]

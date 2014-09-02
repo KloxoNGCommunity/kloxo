@@ -49,7 +49,7 @@ foreach($list as $c) {
 		lxfile_unix_chmod("$sgbl->__path_customer_root/$clientname", "750");
 
 		print("moving $w->nname to /home/$clientname/domain\n");
-		$ret = lxshell_return("mv", "/home/httpd/$w->nname/httpdocs", "/home/$clientname/domain/$w->nname");
+		$ret = lxshell_return("\\mv", "-f", "/home/httpd/$w->nname/httpdocs", "/home/$clientname/domain/$w->nname");
 		
 		if ($ret) {
 			print("Couldnt move $w->nname to /home/$clientname\n");

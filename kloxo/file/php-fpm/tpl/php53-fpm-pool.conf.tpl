@@ -1,4 +1,8 @@
 <?php
+	if (!file_exists("/opt/configs/php-fpm/sock")) {
+		mkdir("/opt/configs/php-fpm/sock");
+	}
+
 	$userinfo = posix_getpwnam($user);
 
 	if ($user === 'apache') {
@@ -53,7 +57,7 @@
 ;catch_workers_output = yes
 ;listen = 127.0.0.1:<?php echo $fpmport; ?>
 
-listen = /home/php-fpm/sock/<?php echo $user; ?>.sock
+listen = /opt/configs/php-fpm/sock/<?php echo $user; ?>.sock
 listen.backlog = 65536
 listen.allowed_clients = 127.0.0.1
 listen.owner = <?php echo $user; ?>

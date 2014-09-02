@@ -212,9 +212,9 @@ class SslCert extends Lxdb
 
 			$path = "/home/{$user}/ssl";
 
-			exec("rm -f {$path}/{$name}.*");
+			lxshell_return("\\rm", "-rf", "{$path}/{$name}.*");
 
-			exec("sh /script/fixweb --domain={$name} --nolog");
+			lxshell_return("sh", "/script/fixweb", "--domain={$name}", "--nolog");
 			createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
 		}
 	}
@@ -428,7 +428,7 @@ class SslCert extends Lxdb
 			'encrypt_key_cipher' => OPENSSL_CIPHER_3DES
 		);
 
-		$tplsource = getLinkCustomfile("/home/openssl/tpl", "openssl.cnf.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/openssl/tpl", "openssl.cnf.tpl");
 
 		$tpltarget = $cnffile;
 

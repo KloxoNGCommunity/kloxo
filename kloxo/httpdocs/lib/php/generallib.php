@@ -216,7 +216,7 @@ class General extends Lxdb
 			$alist['property'][] = 'goback=1&a=addform&c=centralbackupserver';
 			$alist['property'][] = 'a=updateform&sa=browsebackup';
 		}
-
+	/*
 		if ($ghtml->frm_subaction === 'reversedns') {
 			$alist['property'][] = 'goback=1&a=list&c=reversedns';
 			$alist['property'][] = 'a=updateform&sa=reversedns';
@@ -226,7 +226,7 @@ class General extends Lxdb
 				$alist['property'][] = 'goback=1&a=list&c=all_reversedns';
 			}
 		}
-
+	*/
 		return $alist;
 	}
 

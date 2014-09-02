@@ -18,7 +18,7 @@ do
 
 		for j in $arec
 		do
-			# MR -- use dom instead i because i have dot at the end
+			# MR -- use 'dom' instead 'i' because 'i' have dot at the end
 			perl ../bin/misc/dnsnotify.pl $dom $j
 		done
 	fi

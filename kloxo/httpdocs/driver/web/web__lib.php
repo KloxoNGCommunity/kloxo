@@ -65,11 +65,11 @@ class web__ extends lxDriverClass
 
 			$hhcpath = '/home/httpd/conf';
 
-			$hwpath  = "/home/{$l}";
-			$hwcpath = "/home/{$l}/conf";
-			$hawpath = "/home/{$l}/etc";
-			$hawcpath = "/home/{$l}/etc/conf";
-			$hawcdpath = "/home/{$l}/etc/conf.d";
+			$hwpath  = "/opt/configs/{$l}";
+			$hwcpath = "/opt/configs/{$l}/conf";
+			$hawpath = "/opt/configs/{$l}/etc";
+			$hawcpath = "/opt/configs/{$l}/etc/conf";
+			$hawcdpath = "/opt/configs/{$l}/etc/conf.d";
 
 			setRpmInstalled("{$a}");
 		//	setRpmInstalled("{$a}-devel");
@@ -96,9 +96,6 @@ class web__ extends lxDriverClass
 			lxshell_return("chkconfig", $a, "on");
 
 			setCopyWebConfFiles($l);
-
-			// MR -- to make sure no 'old' config
-			exec("rm -rf $hwcpath/defaults/*; rm -rf $hwcpath/domains/*");
 
 			createRestartFile($l);
 		}
@@ -131,7 +128,7 @@ class web__ extends lxDriverClass
 
 	static function setInstallPhpfpm()
 	{
-		lxfile_cp_rec("/usr/local/lxlabs/kloxo/file/php-fpm", "/home");
+		exec("\\cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /opt/configs");
 
 		$phpbranch = getRpmBranchInstalled('php');
 
@@ -142,19 +139,19 @@ class web__ extends lxDriverClass
 		}
 
 		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
-			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");
+			lxfile_cp(getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");
 
 			if (file_exists("/etc/php-fpm.d")) {
 				if (!file_exists("/etc/php-fpm.d/default.conf")) {
-					lxfile_cp("/home/php-fpm/etc/php-fpm.d/default.conf", "/etc/php-fpm.d/default.conf");
+					lxfile_cp("/opt/configs/php-fpm/etc/php-fpm.d/default.conf", "/etc/php-fpm.d/default.conf");
 				}
 
 				if (!file_exists("/etc/php-fpm.d/www.conf")) {
-					lxfile_cp("/home/php-fpm/etc/php-fpm.d/www.conf", "/etc/php-fpm.d/www.conf");
+					lxfile_cp("/opt/configs/php-fpm/etc/php-fpm.d/www.conf", "/etc/php-fpm.d/www.conf");
 				}
 			}
 		} else {
-			lxfile_cp(getLinkCustomfile("/home/php-fpm/etc", "php-fpm.conf"), "/etc/php-fpm.conf");
+			lxfile_cp(getLinkCustomfile("/opt/configs/php-fpm/etc", "php-fpm.conf"), "/etc/php-fpm.conf");
 
 			// MR -- php 5.2 from centalt not create this pid but php-fpm installed!
 			if (!file_exists("/var/run/php-fpm/php-fpm.pid")) {
@@ -252,6 +249,8 @@ class web__ extends lxDriverClass
 	//	$input['webcache'] = rl_exec_get('localhost', $this->main->__syncserver, 'slave_get_driver', array('webcache'));
 		$input['webcache'] = $gbl->getSyncClass('localhost', $this->main->__syncserver, 'webcache');
 
+		$input['stats'] = $this->getStats();
+
 		$input['driverlist'] = getAllWebDriverList();
 		$input['driver'] = getWebDriverList();
 
@@ -276,10 +275,10 @@ class web__ extends lxDriverClass
 	static function addPhpFpmConfig($user)
 	{
 		// MR -- that mean 'ini' type config
-		$cfgmain = getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf");
+		$cfgmain = getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf");
 		lxfile_cp($cfgmain, "/etc/php-fpm.conf");
 
-		$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm-pool.conf.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/php-fpm/tpl", "php53-fpm-pool.conf.tpl");
 		$tpl = file_get_contents($tplsource);
 
 		$input['user'] = $user;
@@ -296,7 +295,7 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-			lxshell_return("rm", "-rf", $tpltarget);
+			lxshell_return("\\rm", "-rf", $tpltarget);
 		}
 	}
 
@@ -308,7 +307,7 @@ class web__ extends lxDriverClass
 
 		if (version_compare(getPhpVersion(), "5.3.3", "<")) {
 			// MR -- that mean 'xml' type config
-			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php-fpm.conf.tpl");
+			$tplsource = getLinkCustomfile("/opt/configs/php-fpm/tpl", "php-fpm.conf.tpl");
 			$tpltarget = "/etc/php-fpm.conf";
 			$tpl = file_get_contents($tplsource);
 			$tplparse = getParseInlinePhp($tpl, $input);
@@ -327,14 +326,13 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-		//	lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
-			exec("rm -rf /etc/php-fpm.d/*.conf");
+			lxshell_return("\\rm", "-rf", "/etc/php-fpm.d/*.conf");
 
 			// MR -- that mean 'ini' type config
-			$cfgmain = getLinkCustomfile("/home/php-fpm/etc", "php53-fpm.conf");
+			$cfgmain = getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf");
 			lxfile_cp($cfgmain, "/etc/php-fpm.conf");
 
-			$tplsource = getLinkCustomfile("/home/php-fpm/tpl", "php53-fpm-pool.conf.tpl");
+			$tplsource = getLinkCustomfile("/opt/configs/php-fpm/tpl", "php53-fpm-pool.conf.tpl");
 			$tpl = file_get_contents($tplsource);
 
 			foreach ($input['userlist'] as &$user) {
@@ -493,9 +491,8 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");
 
-			if ($conftype === 'defaults') {
-				exec("rm -rf /opt/configs/{$l}/conf/{$conftpl}/*.conf");
-			}
+			// MR -- to make sure no 'old' config -
+			lxshell_return("\\rm", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
 
 			if (($l === 'hiawatha') && ($conftype === 'domains')) {
 				$types = array('domains' => false, 'proxies' => true);
@@ -1112,7 +1109,7 @@ class web__ extends lxDriverClass
 		$domainname = $this->getDomainname();
 
 		// Very important. If the nname is null,
-		// then the 'rm - rf' command will delete all the domains.
+		// then the "\\rm - rf" command will delete all the domains.
 		// So please be careful here. Must find a better way to delete stuff.
 		if (!$domainname) {	return null;	}
 

@@ -32,7 +32,7 @@
 	<IfModule mod_fastcgi.c>
 		Alias /webmail.${domain}.0fake "${webmaildocroot}/webmail.${domain}.0fake"
 		#FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.0fake" -host 127.0.0.1:50000 -idle-timeout 90 -pass-header Authorization
-		FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.0fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.0fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.${domain}.0fake
 		<Files "webmail.${domain}.0fake">
@@ -111,7 +111,7 @@
 	<IfModule mod_fastcgi.c>
 		Alias /webmail.${domain}.1fake "${webmaildocroot}/webmail.${domain}.1fake"
 		#FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.1fake" -host 127.0.0.1:50000 -idle-timeout 90 -pass-header Authorization
-		FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.1fake" -socket /home/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webmaildocroot}/webmail.${domain}.1fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.${domain}.1fake
 		<Files "webmail.${domain}.1fake">

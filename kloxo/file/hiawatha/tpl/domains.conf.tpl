@@ -143,52 +143,6 @@ Directory {
 	}
 }
 
-foreach ($certnamelist as $ip => $certname) {
-	if ($ip !== '*') {
-?>
-Binding {
-	BindingId = port_nonssl_<?php echo $certname; ?>
-
-	Port = <?php echo $ports[0]; ?>
-
-	Interface = <?php echo $ip; ?>
-
-	MaxKeepAlive = 3600
-	TimeForRequest = 3600
-	MaxRequestSize = 102400
-	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
-	MaxUploadSize = 2000
-}
-
-Binding {
-	BindingId = port_ssl_<?php echo $certname; ?>
-
-	Port = <?php echo $ports[1]; ?>
-
-	Interface = <?php echo $ip; ?>
-
-	MaxKeepAlive = 3600
-	TimeForRequest = 3600
-	MaxRequestSize = 102400
-	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
-	MaxUploadSize = 2000
-<?php
-if (file_exists("{$certname}.ca")) {
-?>
-
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-}
-
-<?php
-	}
-}
-
-
 if ($webmailremote) {
 ?>
 UrlToolkit {

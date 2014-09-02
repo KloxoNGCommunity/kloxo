@@ -11,36 +11,12 @@ class dns__djbdns extends dns__
 
 	static function unInstallMe()
 	{
-		setRpmRemoved("djbdns");
-
-		if (file_exists("/etc/init.d/djbdns")) {
-			lunlink("/etc/init.d/djbdns");
-		}
+		parent::unInstallMeTrue('djbdns');
 	}
 
 	static function installMe()
 	{
-		setRpmInstalled("djbdns");
-
-		$initfile = getLinkCustomfile("/opt/configs/djbdns/etc/init.d", "djbdns.init");
-
-		if (file_exists($initfile)) {
-			lxfile_cp($initfile, "/etc/init.d/djbdns");
-		}
-
-		lxshell_return("chkconfig", "djbdns", "on");
-
-		// MR -- need setup
-		lxshell_return("/etc/init.d/djbdns", "setup");
-
-		createRestartFile("djbdns");
-
-		self::copyConfigMe();
-	}
-
-	static function copyConfigMe()
-	{
-		// MR -- no need action
+		parent::installMeTrue('djbdns');
 	}
 
 	function createConfFile($action = null)

@@ -11,45 +11,12 @@ class dns__nsd extends dns__
 
 	static function unInstallMe()
 	{
-		setRpmRemoved("nsd");
-
-		if (file_exists("/etc/init.d/nsd")) {
-			lunlink("/etc/init.d/nsd");
-		}
+		parent::unInstallMeTrue('nsd');
 	}
 
 	static function installMe()
 	{
-		setRpmInstalled("nsd");
-
-		$initfile = getLinkCustomfile("/opt/configs/nsd/etc/init.d", "nsd.init");
-
-		if (file_exists($initfile)) {
-			lxfile_cp($initfile, "/etc/init.d/nsd");
-		}
-
-		$path = "/opt/configs/nsd/conf/defaults";
-
-		if (!file_exists("{$path}/nsd.master.conf")) {
-			touch("{$path}/nsd.master.conf");
-			
-		}
-
-		if (!file_exists("{$path}/nsd.slave.conf")) {
-			touch("{$path}/nsd.slave.conf");
-			
-		}
-
-		lxshell_return("chkconfig", "nsd", "on");
-
-		createRestartFile("nsd");
-
-		self::copyConfigMe();
-	}
-
-	static function copyConfigMe()
-	{
-		setCopyDnsConfFiles('nsd');
+		parent::installMeTrue('nsd');
 	}
 
 	function createConfFile($action = null)

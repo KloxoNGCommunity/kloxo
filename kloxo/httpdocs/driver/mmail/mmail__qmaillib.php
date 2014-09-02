@@ -25,7 +25,7 @@ class Mmail__Qmail extends lxDriverClass
 		}
 
 		if (lxfile_exists("/var/qmail/control/domainkeys/$domain/public.txt")) {
-			return lfile_get_contents("/var/qmail/control/domainkeys/$domain/public.txt");
+		//	return lfile_get_contents("/var/qmail/control/domainkeys/$domain/public.txt");
 		}
 
 		lxfile_mkdir("/var/qmail/control/domainkeys/$domain");
@@ -382,7 +382,6 @@ class Mmail__Qmail extends lxDriverClass
 		}
 		
 	//	lxfile_rm_rec("{$sgbl->__path_mail_root}/spamassassin/$this->nname");
-
 	}
 
 	function addAlias()

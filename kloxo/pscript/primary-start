@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 . /script/directory
 sh ../bin/common/csyncdb.sh `cat /script/programname` "$@"
 

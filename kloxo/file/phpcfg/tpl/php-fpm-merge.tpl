@@ -1,5 +1,5 @@
 <?php
-	$path = "/home/phpcfg/fpm";
+	$path = "/opt/configs/phpcfg/fpm";
 
 	$dirs = glob("{$path}/pool/{$fpm_type}*.conf");
 

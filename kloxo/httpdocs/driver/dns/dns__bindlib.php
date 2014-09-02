@@ -11,38 +11,12 @@ class dns__bind extends dns__
 
 	static function unInstallMe()
 	{
-		setRpmRemoved("bind");
-
-		if (file_exists("/etc/init.d/named")) {
-			lunlink("/etc/init.d/named");
-		}
-
-		setRpmInstalled("bind-utils");
+		parent::unInstallMeTrue('bind');
 	}
 
 	static function installMe()
 	{
-		setRpmInstalled("bind");
-
-		setRpmInstalled("bind-utils");
-		setRpmRemoved("bind-chroot");
-
-		$initfile = getLinkCustomfile("/opt/configs/bind/etc/init.d", "named.init");
-
-		if (file_exists($initfile)) {
-			lxfile_cp($initfile, "/etc/init.d/named");
-		}
-
-		lxshell_return("chkconfig", "named", "on");
-
-		createRestartFile("named");
-
-		self::copyConfigMe();
-	}
-
-	static function copyConfigMe()
-	{
-		setCopyDnsConfFiles('bind');
+		parent::installMeTrue('bind');
 	}
 
 	function createConfFile($action = null)

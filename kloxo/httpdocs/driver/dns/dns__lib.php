@@ -6,6 +6,73 @@ class dns__ extends lxDriverClass
 	{
 	}
 
+	static function unInstallMeTrue($driver)
+	{
+		if ($driver === 'bind') {
+			$driveralias = 'named';
+		} else {
+			$driveralias = $driver;
+		}
+
+		setRpmRemoved($driver);
+
+		if (file_exists("/etc/init.d/{$driveralias}")) {
+			lunlink("/etc/init.d/{$driveralias}");
+		}
+
+		setRpmInstalled("bind-utils");
+	}
+
+	static function installMeTrue($driver)
+	{
+		if ($driver === 'bind') {
+			$driveralias = 'named';
+		} else {
+			$driveralias = $driver;
+		}
+
+		$dnsdrvlist = getAllDnsDriverList();
+
+		foreach ($dnsdrvlist as $k => $v) {
+			if ($v === $driver) {
+				setRpmInstalled($driver);
+
+				if ($driver === 'bind') {
+				//	setRpmInstalled("{$driver}-utils");
+					setRpmRemoved("{$driver}-chroot");
+					setRpmRemoved("{$driver}-libs");
+				}
+
+				$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");
+
+				if (file_exists($initfile)) {
+					lxfile_cp($initfile, "/etc/init.d/{$driveralias}");
+					chmod("/etc/init.d/{$driveralias}", '0755');
+				}
+
+				setCopyDnsConfFiles($driver);
+
+				if ($driver === 'djbdns') {
+					lxshell_return("/etc/init.d/djbdns", "setup");
+				} elseif ($driver === 'nsd') {
+					$path = "/opt/configs/nsd/conf/defaults";
+
+					if (!file_exists("{$path}/{$driver}.master.conf")) {
+						touch("{$path}/{$driver}.master.conf");
+					}
+
+					if (!file_exists("{$path}/nsd.slave.conf")) {
+						touch("{$path}/nsd.slave.conf");
+					}
+				}
+
+				lxshell_return("chkconfig", $driveralias, "on");
+
+				createRestartFile($driveralias);
+			}
+		}
+	}
+
 	static function getActiveDriver()
 	{
 		return slave_get_driver('dns');

@@ -66,7 +66,7 @@ if ($driverapp === 'apache') {
 //	lxfile_cp("../file/lighttpd/conf/kloxo/kloxo.conf", "/etc/lighttpd/conf/kloxo/kloxo.conf");
 //	lxfile_cp("../file/lighttpd/conf/kloxo/webmail.conf", "/etc/lighttpd/conf/kloxo/webmail.conf");
 	lxfile_cp("../file/lighttpd/~lxcenter.conf", "/etc/lighttpd/conf.d/~lxcenter.conf");
-	lxfile_cp("../file/lighttpd/conf/kloxo/webmail.conf", "/home/lighttpd/conf/defaults/webmail.conf");
+	lxfile_cp("../file/lighttpd/conf/kloxo/webmail.conf", "/opt/configs/lighttpd/conf/defaults/webmail.conf");
 	lxfile_mkdir("/home/kloxo/httpd/lighttpd");
 	lxfile_unix_chown("/home/kloxo/httpd/lighttpd", "apache");
 }

@@ -812,7 +812,7 @@ FTC;
 
 //	exec("pkill -f fetchmail");
 //	sleep(10);
-	exec_with_all_closed("fetchmail -d0 -e 15 -f $tmp; rm $tmp");
+	exec_with_all_closed("fetchmail -d0 -e 15 -f $tmp; \\rm -rf $tmp");
 //	sleep(20);
 //	lunlink($tmp);
 }
@@ -3340,7 +3340,7 @@ function copy_script($nolog = null)
 //	unlink("/script");
 //	symlink("/usr/local/lxlabs/kloxo/pscript", "/script");
 
-	exec("rm -rf /script; ln -sf /usr/local/lxlabs/kloxo/pscript /script");
+	exec("\\rm -rf /script; ln -sf /usr/local/lxlabs/kloxo/pscript /script");
 }
 
 function getAdminDbPass()
@@ -5268,7 +5268,7 @@ function setDefaultPages($nolog = null)
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
-			exec("cp -rf $sourcezip $targetzip");
+			exec("\\cp -rf $sourcezip $targetzip");
 			$newer = true;
 		}
 	}
@@ -5321,7 +5321,7 @@ function setDefaultPages($nolog = null)
 	if (lxfile_exists($usersourcezip)) {
 		if (!checkIdenticalFile($usersourcezip, $usertargetzip)) {
 			log_cleanup("- Copy $usersourcezip to $usertargetzip", $nolog);
-			exec("cp -rf $usersourcezip $usertargetzip");
+			exec("\\cp -rf $usersourcezip $usertargetzip");
 		} else {
 			log_cleanup("- No new user-skeleton", $nolog);
 		}
@@ -5520,7 +5520,7 @@ function isPhpModuleInstalled($module)
 
 function isPhpModuleActive($module, $ininamelist = null)
 {
-	$srcpath = '/home/phpini/etc/php.d';
+	$srcpath = '/opt/configs/phpini/etc/php.d';
 	$trgtpath = '/etc/php.d';
 
 	$ininamelist = ($ininamelist) ? $ininamelist : array($module);
@@ -5548,7 +5548,7 @@ function setPhpModuleActive($module, $ininamelist = null)
 
 	$list = array("{$phpbranch}-{$module}", "php-{$module}");
 
-	$srcpath = '/home/phpini/etc/php.d';
+	$srcpath = '/opt/configs/phpini/etc/php.d';
 	$trgtpath = '/etc/php.d';
 
 	$ininamelist = ($ininamelist) ? $ininamelist : array($module);
@@ -5570,7 +5570,7 @@ function setPhpModuleActive($module, $ininamelist = null)
 
 function setPhpModuleInactive($module, $ininamelist = null)
 {
-	$srcpath = '/home/phpini/etc/php.d';
+	$srcpath = '/opt/configs/phpini/etc/php.d';
 	$trgtpath = '/etc/php.d';
 
 	$ininamelist = ($ininamelist) ? $ininamelist : array($module);
@@ -5602,6 +5602,7 @@ function setInitialDnsConfig($type, $nolog = null)
 				lxfile_mkdir("{$path}/{$n}");
 			}
 		}
+
 		if ($type === 'nsd') {
 			if (!file_exists("{$path}/defaults/nsd.slave.conf")) {
 				touch("{$path}/defaults/nsd.slave.conf");
@@ -5691,16 +5692,16 @@ function setInitialWebCacheConfig($type, $nolog = null)
 
 function setInitialPhpIniConfig($nolog = null)
 {
-	$fpath = "/usr/local/lxlabs/kloxo/file";
-	$inipath = "/home/phpini";
+	$fpath = "/usr/local/lxlabs/kloxo/file/phpini";
+	$inipath = "/opt/configs/phpini";
 
-	exec("cp -rf {$fpath}/phpini /home");
+	exec("\\cp -rf {$fpath} /opt/configs");
 }
 
 function setInitialPhpFpmConfig($nolog = null)
 {
 	// MR -- this portion for detect multiple php for using standard php-fpm
-	$d = glob("/opt/*m/usr/bin/php");
+	$d = glob("/opt/php*m/usr/bin/php");
 
 	foreach ($d as $k => $v) {
 		$e = str_replace('/opt/', '', $v);
@@ -5726,11 +5727,11 @@ function setInitialPhpFpmConfig($nolog = null)
 	// MR -- this portion using standard php-fpm
 
 	$fpath = "/usr/local/lxlabs/kloxo/file";
-	$fpmpath = "/home/php-fpm/etc";
+	$fpmpath = "/opt/configs/php-fpm/etc";
 
-	exec("cp -rf {$fpath}/php-fpm /home");
+	exec("\\cp -rf {$fpath}/php-fpm /opt/configs");
 
-	$sockpath = "/home/php-fpm/sock";
+	$sockpath = "/opt/configs/php-fpm/sock";
 
 	if (!file_exists($sockpath)) {
 		exec("mkdir -p {$sockpath}");
@@ -6124,7 +6125,7 @@ function setInitialBinary($nolog = null)
 	log_cleanup("Initialize Some Binary files", $nolog);
 
 	// MR -- because no need lxrestart (also lxsuexec) so remove if exist
-	exec("rm -rf /usr/sbin/lxrestart");
+	exec("\\rm -rf /usr/sbin/lxrestart");
 
 	if (!lxfile_exists("/usr/bin/php-cgi")) {
 		log_cleanup("- Install php-cgi binary", $nolog);
@@ -6475,7 +6476,7 @@ function installChooser($nolog = null)
 	lxfile_mkdir("/home/kloxo/httpd/webmail/img");
 
 	// MR -- make webmail redirect to 'universal'
-	exec("rm -f {$path}/redirect-to-*.php");
+	exec("\\rm -f {$path}/redirect-to-*.php");
 	$dirs = glob("{$path}/*");
 
 	foreach ($dirs as $dir) {
@@ -6637,7 +6638,7 @@ function fix_suexec($nolog = null)
 	log_cleanup("- Fix process", $nolog);
 
 	// MR -- because no need lxsuexec (also lxrestart) so remove if exist
-	exec("rm -rf /usr/bin/lxsuexec");
+	exec("\\rm -rf /usr/bin/lxsuexec");
 }
 
 function enable_xinetd($nolog = null)
@@ -7029,7 +7030,8 @@ function setInitialServices($nolog = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 	
-	setRemoveAlias($nolog);
+	// MR -- no needed because using disable temporal alias (\cp, \mv and \rm)
+//	setRemoveAlias($nolog);
 
 	setInitialServer($nolog);
 
@@ -7217,6 +7219,8 @@ function getParseInlinePhp($template, $input)
 
 function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 {
+	if ($dnsdriver === 'none') { return; }
+
 	$aliasdriver = ($dnsdriver === 'bind') ? 'named' : $dnsdriver;
 
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$dnsdriver}";
@@ -7226,20 +7230,17 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 	log_cleanup("Copy all contents of $dnsdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /opt/configs");
+	exec("\\cp -rf {$pathsrc} /opt/configs");
 
 	if ($aliasdriver === 'djbdns') {
-		lxfile_mv("/home/djbdns", "/opt/configs/djbdns");
+		if (file_exists("/home/djbdns/tinydns")) {
+			lxfile_mv("/home/djbdns", "/opt/configs/djbdns");
+		}
 	} elseif ($aliasdriver === 'maradns') {
 		$t = getLinkCustomfile($pathdrv . "/etc", "mararc");
 
 		log_cleanup("- Copy {$t} to {$pathetc}/mararc", $nolog);
 		lxfile_cp($t, "{$pathetc}/mararc");
-	} elseif ($aliasdriver === 'named') {
-		$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
-
-		log_cleanup("- Copy {$t} to {$pathetc}/{$aliasdriver}.conf", $nolog);
-		lxfile_cp($t, "{$pathetc}/{$aliasdriver}.conf");
 	} else {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
@@ -7252,33 +7253,41 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 	}
 }
 
-function setCopyWebCacheConfFiles($cachedriver, $nolog = null)
+function setCopyWebCacheConfFiles($webcachedriver, $nolog = null)
 {
-	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$cachedriver}";
-	$pathdrv = "/opt/configs/{$cachedriver}";
+	if ($webcachedriver === 'none') { return; }
+
+	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$webcachedriver}";
+	$pathdrv = "/opt/configs/{$webcachedriver}";
 	$pathetc = "/etc";
 
-	log_cleanup("Copy all contents of $cachedriver", $nolog);
+	log_cleanup("Copy all contents of $webcachedriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /opt/configs");
+	exec("\\cp -rf {$pathsrc} /opt/configs");
+	
+	$pathconf = "{$pathetc}/{$webcachedriver}";
 
-//	if (!file_exists("/etc/{$cachedriver}")) { return; }
+	if (!file_exists($pathconf)) {
+		exec("mkdir -p {$pathconf}");
+	}
 
-	if ($cachedriver === 'varnish') {
+//	if (!file_exists("/etc/{$webcachedriver}")) { return; }
+
+	if ($webcachedriver === 'varnish') {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "default.vcl");
-		lxfile_cp($t, "$pathetc/{$cachedriver}/default.vcl");
+		lxfile_cp($t, "$pathetc/{$webcachedriver}/default.vcl");
 
 		$t = getLinkCustomfile($pathdrv . "/etc/sysconfig", "varnish");
 		lxfile_cp($t, "$pathetc/sysconfig/varnish");
-	} elseif ($cachedriver === 'trafficserver') {
+	} elseif ($webcachedriver === 'trafficserver') {
 		$a = array("records.config", "remap.config", "storage.config", "ip_allow.config");
 
 		foreach ($a as $k => $v) {
 			$t = getLinkCustomfile($pathdrv . "/etc/conf", $v);
-			lxfile_cp($t, "$pathetc/{$cachedriver}/{$v}");
+			lxfile_cp($t, "$pathetc/{$webcachedriver}/{$v}");
 		}
-	} elseif ($cachedriver === 'squid') {
+	} elseif ($webcachedriver === 'squid') {
 		// TODO
 	}
 }
@@ -7286,6 +7295,8 @@ function setCopyWebCacheConfFiles($cachedriver, $nolog = null)
 
 function setCopyWebConfFiles($webdriver, $nolog = null)
 {
+	if ($webdriver === 'none') { return; }
+
 	$aliasdriver = ($webdriver === 'apache') ? 'httpd' : $webdriver;
 
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$webdriver}";
@@ -7298,11 +7309,11 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	$pathconfd = "{$pathetc}/conf.d";
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
 
-	log_cleanup("Copy all contents of $webdriver", $nolog);
+	log_cleanup("Copy all contents of {$webdriver}", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /opt/configs");
-
+	exec("\\cp -rf {$pathsrc} /opt/configs");
+	
 	if ($webdriver !== 'hiawatha') {
 		$dirs = array($pathconf, $pathconfd);
 
@@ -7316,9 +7327,17 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 			// MR -- lighttpd problem if /var/log/lighttpd not apache:apache chown
 			lxfile_unix_chown("/var/log/{$webdriver}", "apache:apache");
 		}
+
+		$addition = '';
+	} else {
+		if (isWebProxy()) {
+			$addition = '_proxy';
+		} else {
+			$addition = '_standard';
+		}
 	}
 
-	$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
+	$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}{$addition}.conf");
 
 	log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
@@ -7362,8 +7381,8 @@ function setCopyOpenSSLConfFiles()
 	log_cleanup("Copy all contents of openssl", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("cp -rf {$pathsrc} /home");
-
+	exec("\\cp -rf {$pathsrc} /opt/configs");
+	
 	if (file_exists("/home/openssl")) {
 		lxfile_rm_rec("/home/openssl");
 	}

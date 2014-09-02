@@ -50,7 +50,7 @@
 	<IfModule mod_fastcgi.c>
 		Alias /${domain}.0fake "${webdocroot}/${domain}.0fake"
 		#FastCGIExternalServer "${webdocroot}/${domain}.0fake" -host 127.0.0.1:57804 -idle-timeout 90 -pass-header Authorization
-		FastCGIExternalServer "${webdocroot}/${domain}.0fake" -socket /home/php-fpm/sock/${user}.sock -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webdocroot}/${domain}.0fake" -socket /opt/configs/php-fpm/sock/${user}.sock -idle-timeout 90 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /${domain}.0fake
 		<Files "${domain}.0fake">
@@ -167,7 +167,7 @@
 	<IfModule mod_fastcgi.c>
 		Alias /${domain}.1fake "${webdocroot}/${domain}.1fake"
 		#FastCGIExternalServer "${webdocroot}/${domain}.1fake" -host 127.0.0.1:57804 -idle-timeout 90 -pass-header Authorization
-		FastCGIExternalServer "${webdocroot}/${domain}.1fake" -socket /home/php-fpm/sock/${user}.sock -idle-timeout 90 -pass-header Authorization
+		FastCGIExternalServer "${webdocroot}/${domain}.1fake" -socket /opt/configs/php-fpm/sock/${user}.sock -idle-timeout 90 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /${domain}.1fake
 		<Files "${domain}.1fake">

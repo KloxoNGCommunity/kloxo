@@ -14,7 +14,7 @@ for phpver in php53 php54 ; do
 	
 	for rpmfile in $(dir -x *.rpm) ; do
 		rpm2cpio $rpmfile | cpio -idmv
-		rm -rf $rpmfile
+		\rm -rf $rpmfile
 	done
 
 	cd /opt/$phpvers/etc/php.d/
@@ -23,7 +23,7 @@ for phpver in php53 php54 ; do
 			mysqlnd mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli \
 			interbase pdo_firebird pgsql pdo_pgsql pdo_mysqlnd ; do
 		if [ -f $inifile.ini ] ; then
-			mv -f $inifile.ini $inifile.nonini
+			\mv -f $inifile.ini $inifile.nonini
 		fi
 	done
 
@@ -38,15 +38,15 @@ for phpver in php53 php54 ; do
 	cd /opt/$phpvers/etc/
 
 	if [ ! -f php.ini.original ] ; then
-		cp -rf php.ini php.ini.original
+		\cp -rf php.ini php.ini.original
 	fi
 
 #	cat /opt/$phpvers/etc/modules.ini >> /opt/$phpvers/etc/php.ini
 
 	if [ -d /opt/$phpvers/usr/lib64 ] ; then
-		mv -f /opt/$phpvers/usr/lib /opt/$phpvers/usr/lib.bck
+		\mv -f /opt/$phpvers/usr/lib /opt/$phpvers/usr/lib.bck
 		ln -s /opt/$phpvers/usr/lib64 /opt/$phpvers/usr/lib
-		cp -rf /opt/$phpvers/usr/lib.bck/* /opt/$phpvers/usr/lib64/
+		\cp -rf /opt/$phpvers/usr/lib.bck/* /opt/$phpvers/usr/lib64/
 	fi
 
 done

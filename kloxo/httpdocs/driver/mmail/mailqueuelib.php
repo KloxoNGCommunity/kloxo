@@ -102,6 +102,8 @@ class mailqueue extends lxclass
 		
 		$res = rl_exec_in_driver($parent, 'mailqueue', "readMailqueue", array());
 
+		if (!$res) { return; }
+
 		foreach($res as &$_r) {
 			$_r['syncserver'] = 'localhost';
 			$_r['parent_clname'] = $parent->getClName();

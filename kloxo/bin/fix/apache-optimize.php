@@ -101,7 +101,7 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 				'maxsparethreads' => $maxpar_w, 'minsparethreads' => $minpar_w,
 				'keepalive' => 'Off', 'maxrequestsperchild' => '2000');
 
-		$tplsource = getLinkCustomfile("/home/apache/tpl", "~lxcenter.conf.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "~lxcenter.conf.tpl");
 
 		$tpltarget = "/etc/httpd/conf.d/~lxcenter.conf";
 
