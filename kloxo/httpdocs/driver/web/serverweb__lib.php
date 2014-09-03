@@ -138,7 +138,7 @@ class serverweb__ extends lxDriverClass
 
 		if (isWebProxyOrApache()) {
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
-			lxshell_return("\\rm", "-f", $ehcdpath . "/swtune.conf");
+			lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
 
 			lxshell_return("\\cp", "-rf", "{$ullkfapath}", "/opt/configs");
 
@@ -470,7 +470,7 @@ class serverweb__ extends lxDriverClass
 				$b .= "sh /script/phpm-installer {$v} --force\n";
 			}
 
-			$b .= "\\rm -f {$c}\n";
+			$b .= "rm -f {$c}\n";
 
 			file_put_contents($c, $b);
 

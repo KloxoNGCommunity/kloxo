@@ -212,7 +212,7 @@ class SslCert extends Lxdb
 
 			$path = "/home/{$user}/ssl";
 
-			lxshell_return("\\rm", "-rf", "{$path}/{$name}.*");
+			lxshell_return("rm", "-rf", "{$path}/{$name}.*");
 
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}", "--nolog");
 			createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));

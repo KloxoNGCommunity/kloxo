@@ -408,7 +408,7 @@ function lxfile_tmp_rm_rec($file)
 		return;
 	}
 
-	lxshell_return("\\rm", "-rf", $file);
+	lxshell_return("rm", "-rf", $file);
 }
 
 function lxfile_rm_content($dir)
@@ -446,7 +446,7 @@ function lxfile_rm_rec_content($file)
 	foreach($list as $l) {
 		if (!$l) { continue; }
 
-		lxshell_return("\\rm", "-rf", "$file/$l");
+		lxshell_return("rm", "-rf", "$file/$l");
 	}
 }
 
@@ -468,7 +468,7 @@ function lxfile_rm_rec($file)
 		throw new lxException($login->getThrow('no_stars_allowed'), '', $file);
 	}
 
-	lxshell_return("\\rm", "-rf", $file);
+	lxshell_return("rm", "-rf", $file);
 }
 
 function lxfile_generic_chmod($file, $mod)

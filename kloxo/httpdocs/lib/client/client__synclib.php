@@ -172,6 +172,7 @@ class client__sync extends lxDriverClass {
 	function setupDefaultDomain()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		if (!$sgbl->isKloxo()) {
 			return;
 		}
@@ -185,6 +186,7 @@ class client__sync extends lxDriverClass {
 		if ($this->main->isDisabled('default_domain')) {
 			return;
 		}
+
 		dprint("linking {$this->main->__var_defdocroot}\n");
 
 		lxfile_symlink("/home/{$this->main->getPathFromName()}/{$this->main->__var_defdocroot}/", "/home/{$this->main->getPathFromName()}/public_html");

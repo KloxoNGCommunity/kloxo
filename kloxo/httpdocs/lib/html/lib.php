@@ -812,7 +812,7 @@ FTC;
 
 //	exec("pkill -f fetchmail");
 //	sleep(10);
-	exec_with_all_closed("fetchmail -d0 -e 15 -f $tmp; \\rm -rf $tmp");
+	exec_with_all_closed("fetchmail -d0 -e 15 -f $tmp; rm -rf $tmp");
 //	sleep(20);
 //	lunlink($tmp);
 }
@@ -1990,15 +1990,15 @@ function get_kloxo_port($type)
 	$port = unserialize(base64_decode($port));
 
 	if ($type === 'ssl') {
-		$ret = $port->sslport;
-
-		if (!$ret) {
+		if (isset($port->sslport)) {
+			$ret = $port->sslport;
+		} else {
 			$ret = $sgbl->__var_prog_ssl_port;
 		}
-	} elseif ($type === 'nonssl') {
-		$ret = $port->nonsslport;
-
-		if (!$ret) {
+	} else {
+		if (isset($port->nonsslport)) {
+			$ret = $port->nonsslport;
+		} else {
 			$ret = $sgbl->__var_prog_port;
 		}
 	}
@@ -3340,7 +3340,7 @@ function copy_script($nolog = null)
 //	unlink("/script");
 //	symlink("/usr/local/lxlabs/kloxo/pscript", "/script");
 
-	exec("\\rm -rf /script; ln -sf /usr/local/lxlabs/kloxo/pscript /script");
+	exec("rm -rf /script; ln -sf /usr/local/lxlabs/kloxo/pscript /script");
 }
 
 function getAdminDbPass()
@@ -6125,7 +6125,7 @@ function setInitialBinary($nolog = null)
 	log_cleanup("Initialize Some Binary files", $nolog);
 
 	// MR -- because no need lxrestart (also lxsuexec) so remove if exist
-	exec("\\rm -rf /usr/sbin/lxrestart");
+	exec("rm -rf /usr/sbin/lxrestart");
 
 	if (!lxfile_exists("/usr/bin/php-cgi")) {
 		log_cleanup("- Install php-cgi binary", $nolog);
@@ -6457,6 +6457,8 @@ function fix_secure_log($nolog = null)
 	} else {
 		createRestartFile('rsyslog');
 	}
+
+	exec("sed -i 's:-/var/log/:/var/log/:g' /etc/*syslog.conf");
 }
 
 function fix_cname($nolog = null)
@@ -6476,7 +6478,7 @@ function installChooser($nolog = null)
 	lxfile_mkdir("/home/kloxo/httpd/webmail/img");
 
 	// MR -- make webmail redirect to 'universal'
-	exec("\\rm -f {$path}/redirect-to-*.php");
+	exec("rm -f {$path}/redirect-to-*.php");
 	$dirs = glob("{$path}/*");
 
 	foreach ($dirs as $dir) {
@@ -6638,7 +6640,7 @@ function fix_suexec($nolog = null)
 	log_cleanup("- Fix process", $nolog);
 
 	// MR -- because no need lxsuexec (also lxrestart) so remove if exist
-	exec("\\rm -rf /usr/bin/lxsuexec");
+	exec("rm -rf /usr/bin/lxsuexec");
 }
 
 function enable_xinetd($nolog = null)
@@ -7031,6 +7033,7 @@ function setInitialServices($nolog = null)
 	global $gbl, $sgbl, $login, $ghtml;
 	
 	// MR -- no needed because using disable temporal alias (\cp, \mv and \rm)
+	// -- not include rm because conflict with \r
 //	setRemoveAlias($nolog);
 
 	setInitialServer($nolog);

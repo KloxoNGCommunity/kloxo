@@ -37,7 +37,7 @@ if (file_exists("/etc/init.d/mysql")) {
 	exec("service mysqld start");
 }
 
-exec("\\rm -f /tmp/reset-mysql-password.sql");
+exec("rm -f /tmp/reset-mysql-password.sql");
 
 $conn = new mysqli('localhost', 'root', $pass, 'mysql');
 

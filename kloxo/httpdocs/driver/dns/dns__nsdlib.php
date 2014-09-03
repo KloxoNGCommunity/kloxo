@@ -46,7 +46,7 @@ class dns__nsd extends dns__
 
 	function dbactionDelete()
 	{
-		parent::dbactionDeleteTrue();
+		parent::dbactionDeleteTrue('nsd');
 		exec("nsdc rebuild");
 	}
 

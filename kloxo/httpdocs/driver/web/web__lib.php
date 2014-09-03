@@ -295,7 +295,7 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-			lxshell_return("\\rm", "-rf", $tpltarget);
+			lxshell_return("rm", "-rf", $tpltarget);
 		}
 	}
 
@@ -326,7 +326,7 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-			lxshell_return("\\rm", "-rf", "/etc/php-fpm.d/*.conf");
+			lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
 
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf");
@@ -492,7 +492,7 @@ class web__ extends lxDriverClass
 			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");
 
 			// MR -- to make sure no 'old' config -
-			lxshell_return("\\rm", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
+			lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
 
 			if (($l === 'hiawatha') && ($conftype === 'domains')) {
 				$types = array('domains' => false, 'proxies' => true);
@@ -1109,7 +1109,7 @@ class web__ extends lxDriverClass
 		$domainname = $this->getDomainname();
 
 		// Very important. If the nname is null,
-		// then the "\\rm - rf" command will delete all the domains.
+		// then the "rm - rf" command will delete all the domains.
 		// So please be careful here. Must find a better way to delete stuff.
 		if (!$domainname) {	return null;	}
 

@@ -427,7 +427,7 @@ class phpini extends lxdb
 		$this->initialValue('upload_tmp_dir_flag', '/tmp');
 		$this->initialValue('safe_mode_flag', 'off');
 
-		$this->initialValue('sendmail_from', null);
+		$this->initialValue('sendmail_from', '');
 
 		$this->initialValue('multiple_php_flag', 'off');
 

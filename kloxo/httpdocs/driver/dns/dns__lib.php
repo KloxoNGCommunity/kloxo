@@ -6,7 +6,7 @@ class dns__ extends lxDriverClass
 	{
 	}
 
-	static function unInstallMeTrue($driver)
+	static function unInstallMeTrue($driver = null)
 	{
 		if ($driver === 'bind') {
 			$driveralias = 'named';
@@ -23,7 +23,7 @@ class dns__ extends lxDriverClass
 		setRpmInstalled("bind-utils");
 	}
 
-	static function installMeTrue($driver)
+	static function installMeTrue($driver = null)
 	{
 		if ($driver === 'bind') {
 			$driveralias = 'named';

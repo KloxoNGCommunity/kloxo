@@ -78,7 +78,7 @@ abstract class DomainBase extends DomainCore
 		global $login;
 
 		$res = $parent->dnstemplate_list;
-		dprintr($res);
+	//	dprintr($res);
 		
 		if (!$res) {
 			$sq = new Sqlite(null, "dnstemplate");

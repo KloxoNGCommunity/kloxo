@@ -677,22 +677,28 @@ class Web extends Lxdb
 			return;
 		}
 
-		recursively_remove("$sgbl->__path_customer_root/{$this->customer_name}/__processed_stats/{$this->nname}");
+	//	recursively_remove("$sgbl->__path_customer_root/{$this->customer_name}/__processed_stats/{$this->nname}");
+		lxshell_return("rm", "-rf", "{$sgbl->__path_customer_root}/{$this->customer_name}/__processed_stats/{$this->nname}");
 
 		// MR -- this for what?. So disable!
 	//	recursively_remove("$sgbl->__path_program_home/domain/{$this->nname}");
 
-		recursively_remove("$sgbl->__path_httpd_root/{$this->nname}");
-		recursively_remove("$sgbl->__path_kloxo_httpd_root/awstats/dirdata/{$this->nname}");
-		lxfile_rm("__path_real_etc_root/awstats/awstats.{$this->nname}.conf");
-		lxfile_rm_rec("/var/lib/webalizer/{$this->nname}");
+	//	recursively_remove("{$sgbl->__path_httpd_root}/{$this->nname}");
+	//	recursively_remove("{$sgbl->__path_kloxo_httpd_root}/awstats/dirdata/{$this->nname}");
+		lxshell_return("rm", "-rf", "/home/httpd/{$this->nname}");
+		lxshell_return("rm", "-rf", "/home/kloxo/httpd/awstats/dirdata/{$this->nname}");
+
+		lxfile_rm("{$sgbl->__path_real_etc_root}/awstats/awstats.{$this->nname}.conf");
+	//	lxfile_rm_rec("/var/lib/webalizer/{$this->nname}");
+		lxshell_return("rm", "-rf", "/var/lib/webalizer/{$this->nname}");
 		lxfile_rm("/etc/webalizer/webalizer.{$this->nname}.conf");
 
 		// MR -- also delete docroot if only refer to 1 web
 		$c = db_get_count("web", "customer_name = '{$this->customer_name}' AND docroot = '$this->docroot'");
 
 		if ((int)$c === 1) {
-			recursively_remove($this->getFullDocRoot());
+		//	recursively_remove($this->getFullDocRoot());
+			lxshell_return("rm", "-rf", "{$this->getFullDocRoot()}");
 		}
 	}
 
@@ -840,7 +846,7 @@ class Web extends Lxdb
 		$user_home = $this->getFullDocRoot();
 
 		if (!lxfile_exists("{$this->getCustomerRoot()}/public_html")) {
-			lxfile_symlink($this->nname, "{$this->getCustomerRoot()}/public_html");
+			lxfile_symlink($this->getFullDocRoot(), "{$this->getCustomerRoot()}/public_html");
 		}
 
 		$domname = $this->nname;

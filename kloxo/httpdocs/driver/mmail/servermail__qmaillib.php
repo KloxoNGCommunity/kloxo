@@ -76,8 +76,8 @@ class Servermail__Qmail  extends lxDriverClass
 			exec("echo '/usr/bin/rblsmtpd' > /var/qmail/control/rblsmtpd");
 			exec("echo '/usr/bin/spamdyke -f /etc/spamdyke.conf' > /var/qmail/control/spamdyke");
 		} else {
-		//	exec("\\rm -f /var/qmail/control/rblsmtpd");
-		//	exec("\\rm -f  /var/qmail/control/spamdyke");
+		//	exec("rm -f /var/qmail/control/rblsmtpd");
+		//	exec("rm -f  /var/qmail/control/spamdyke");
 			lxfile_rm("/var/qmail/control/rblsmtpd");
 			lxfile_rm("/var/qmail/control/spamdyke");
 		}

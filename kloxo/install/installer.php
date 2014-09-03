@@ -118,7 +118,7 @@ function lxins_main()
 
 		foreach ($ipts as &$ipt) {
 			if (file_exists("{$iptp}/{$ipt}")) {
-				system("\\mv -f rename("{$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
+				system("\\mv -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
 			}
 		}
 
@@ -925,7 +925,7 @@ function copy_script()
 //	unlink("/script");
 //	symlink("{$kloxopath}/pscript", "/script");
 
-	exec("\\rm -rf /script; ln -sf {$kloxopath}/pscript /script");
+	exec("rm -rf /script; ln -sf {$kloxopath}/pscript /script");
 }
 
 function getKloxoType()
@@ -999,7 +999,7 @@ function exec_out($input)
 function rm_if_exists($file)
 {
 	if (file_exists("")) {
-		system("\\rm -rf {$file}");
+		system("rm -rf {$file}");
 	}
 }
 
