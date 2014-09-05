@@ -14,7 +14,7 @@ if [ "$1" != "" ] ; then
 	fi
 else
 	if [ -f ${INIT_DIR}/php_active ] ; then
-		mv -f ${INIT_DIR}/php_active ${INIT_DIR}/kloxo_php_active
+		\mv -f ${INIT_DIR}/php_active ${INIT_DIR}/kloxo_php_active
 	fi
 
 	if [ -f ${INIT_DIR}/kloxo_php_active ] ; then
@@ -36,8 +36,8 @@ chmod 755 /opt/${base_name}/custom/*.sh
 
 chown -R root:root /opt/${base_name}
 
-\rm -f /usr/bin/lphp.exe
-\rm -f /usr/bin/lxphp.exe
+rm -f /usr/bin/lphp.exe
+rm -f /usr/bin/lxphp.exe
 
 ln -sf /opt/${base_name}/custom/${base_name}-cli.sh /usr/bin/lphp.exe
 ln -sf /opt/${base_name}/custom/${base_name}-cli.sh /usr/bin/lxphp.exe

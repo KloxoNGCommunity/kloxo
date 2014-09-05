@@ -65,9 +65,8 @@ function lxins_main()
 	} else {
 		// MR -- problem with for openvz
 		exec("grep envID /proc/self/status", $out, $ret);
-		//	if (!file_exists("/proc/user_beancounters")) {
-		//	if (($out[0] === '') || ($out[0] === 'envID: 0')) {
-		if (!$ret) {
+
+		if ($ret === 0) {
 			system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
 		}
 	}
@@ -666,7 +665,7 @@ function install_yum_repo()
 	exec("yum list *yum*|grep '@'", $out, $ret);
 
 	// MR -- need for OS (like fedora) where os version not the same with redhat/centos
-	if (!$ret) {
+	if ($ret === 0) {
 		system("sed -i 's/\$releasever/6/' /etc/yum.repos.d/mratwork.repo");
 	} else {
 		system("sed -i 's/\$releasever/5/' /etc/yum.repos.d/mratwork.repo");
@@ -808,7 +807,7 @@ function getRpmVersion($rpmname)
 {
 	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
-	if (!$ret) {
+	if ($ret === 0) {
 		$ver = $out[0];
 	} else {
 		$ver = '';
@@ -830,7 +829,7 @@ function isRpmInstalled($rpmname)
 {
 	exec("rpm -q {$rpmname}", $out, $ret);
 
-	if (!$ret) {
+	if ($ret === 0) {
 		return true;
 	} else {
 		return false;
@@ -892,7 +891,7 @@ function isMysqlRunning()
 		exec("service mysqld status|grep -i '(pid'", $out, $ret);
 	}
 
-	if (!$ret) {
+	if ($ret === 0) {
 		return true;
 	} else {
 		return false;
@@ -957,7 +956,7 @@ function check_default_mysql()
 		exec("echo \"show tables\" | mysql -u {$dbroot} mysql", $out, $ret);
 	}
 
-	if ($ret) {
+	if ($ret !== 0) {
 		resetDBPassword();
 	}
 }

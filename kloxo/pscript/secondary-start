@@ -6,6 +6,6 @@
 
 service mysqld restart
 
-\rm ../etc/running_secondary
+rm ../etc/running_secondary
 
 /script/upcp

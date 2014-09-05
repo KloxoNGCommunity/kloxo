@@ -57,13 +57,13 @@ fi
 
 if [ ! -d ./kloxo/httpdocs ] ; then
 	echo "Download git from "${kloxo_path}
-	\rm -rf ${kloxo_branch}* > /dev/null 2>&1
+	rm -rf ${kloxo_branch}* > /dev/null 2>&1
 	wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip -O kloxo-mr-${kloxo_branch}.zip
 
 	unzip -oq kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
-	\rm -rf kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
+	rm -rf kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
 	\mv -f ./kloxo*-${kloxo_branch}/kloxo ./
-	\rm -rf ./kloxo*-${kloxo_branch}
+	rm -rf ./kloxo*-${kloxo_branch}
 else
 	echo "No download and use local copy already exist"
 fi
@@ -81,7 +81,7 @@ ver=`cat ./kloxo/bin/kloxoversion`
 \mv ./kloxo ./kloxomr7-$ver
 
 # delete dirs except en-us
-find ./kloxomr7-$ver/httpdocs/lang/* -type d ! -name 'en-us' -exec \rm -R {} \;
+find ./kloxomr7-$ver/httpdocs/lang/* -type d ! -name 'en-us' -exec rm -R {} \;
 
 ### 4. zipped process
 tar -czf kloxomr7-$ver.tar.gz "./kloxomr7-$ver/bin" "./kloxomr7-$ver/cexe" "./kloxomr7-$ver/file" \
@@ -114,9 +114,6 @@ tar -czf kloxomr7-$ver.tar.gz "./kloxomr7-$ver/bin" "./kloxomr7-$ver/cexe" "./kl
 	--exclude "./kloxomr7-$ver/init/*.pid" \
 	--exclude "./kloxomr7-$ver/init/kloxo-hiawatha" \
 	--exclude "./kloxomr7-$ver/init/kloxo-phpcgi" \
-	--exclude "./kloxomr7-$ver/httpdocs/theme/fckeditor/editor/_source" \
-	--exclude "./kloxomr7-$ver/httpdocs/theme/fckeditor/_samples" \
-	--exclude "./kloxomr7-$ver/httpdocs/theme/yui-dragdrop" \
 	--exclude "./kloxomr7-$ver/*.old" \
 	--exclude "./kloxomr7-$ver/*.bck" \
 	--exclude "./kloxomr7-$ver/*.pyo" \
@@ -129,9 +126,9 @@ tar -czf kloxomr7-$ver.tar.gz "./kloxomr7-$ver/bin" "./kloxomr7-$ver/cexe" "./kl
 	--exclude "./kloxomr7-$ver/*/user-logo.png"
 
 
-\rm -rf ./kloxomr7-$ver > /dev/null 2>&1
-\rm -rf ./kloxo-install > /dev/null 2>&1
-\rm -rf ./install > /dev/null 2>&1
+rm -rf ./kloxomr7-$ver > /dev/null 2>&1
+rm -rf ./kloxo-install > /dev/null 2>&1
+rm -rf ./install > /dev/null 2>&1
 
 echo
 echo "Now you can run 'sh ./installer.sh' for installing"

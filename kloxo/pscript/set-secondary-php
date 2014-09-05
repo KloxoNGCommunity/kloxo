@@ -14,7 +14,7 @@ for phpver in php53 php54 ; do
 	
 	for rpmfile in $(dir -x *.rpm) ; do
 		rpm2cpio $rpmfile | cpio -idmv
-		\rm -rf $rpmfile
+		rm -rf $rpmfile
 	done
 
 	cd /opt/$phpvers/etc/php.d/

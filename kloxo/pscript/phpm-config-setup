@@ -73,7 +73,7 @@ for i in cgi cli ls fpm ; do
 		echo $x
 		echo $x >>/opt/${base_name}/install.log
 
-		\rm -f /usr/bin/${base_name}-${i}
+		rm -f /usr/bin/${base_name}-${i}
 		ln -sf /opt/${base_name}/custom/${base_name}-${i}.sh /usr/bin/${base_name}-${i}
 	fi
 done
