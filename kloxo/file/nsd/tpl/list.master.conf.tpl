@@ -17,10 +17,16 @@
 
 	file_put_contents($file, $str);
 
+	if (file_exists("usr/sbin/nsd-control") {
+		$nsdc = "usr/sbin/nsd-control";
+	} else {
+		$nsdc = "usr/sbin/nsdc";
+	}
+
 	if ($action === 'fix') {
-		exec_with_all_closed("nsdc rebuild; nsdc reload; nsdc notify");
+		exec_with_all_closed("{$nsdc} rebuild; {$nsdc} reload; {$nsdc} notify");
 	} elseif ($action === 'update') {
-		exec_with_all_closed("nsdc rebuild; nsdc reload; nsdc notify");
+		exec_with_all_closed("{$nsdc} rebuild; {$nsdc} reload; {$nsdc} notify");
 	}
 
 //	exec_with_all_closed("/etc/init.d/nsd restart");
