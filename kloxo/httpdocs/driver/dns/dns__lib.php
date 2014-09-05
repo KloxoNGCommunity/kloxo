@@ -66,7 +66,7 @@ class dns__ extends lxDriverClass
 					}
 				}
 
-			//	lxshell_return("chkconfig", $driveralias, "on");
+				lxshell_return("chkconfig", $driveralias, "on");
 
 				createRestartFile($driveralias);
 		//	}
