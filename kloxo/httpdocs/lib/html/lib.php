@@ -6457,9 +6457,7 @@ function fix_secure_log($nolog = null)
 	} else {
 		createRestartFile('rsyslog');
 	}
-
-	exec("sed -i 's:-/var/log/:/var/log/:g' /etc/*syslog.conf");
-}
+	exec("sed -i 's:-/var/log/:/var/log/:g' /etc/*syslog.conf");}
 
 function fix_cname($nolog = null)
 {

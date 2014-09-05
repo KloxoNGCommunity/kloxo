@@ -4,7 +4,6 @@ include_once "lib/html/include.php";
 
 initProgram('admin');
 
-
 $login->loadAllObjects('client');
 $list = $login->getList('client');
 

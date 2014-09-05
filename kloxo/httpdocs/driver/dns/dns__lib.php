@@ -31,10 +31,10 @@ class dns__ extends lxDriverClass
 			$driveralias = $driver;
 		}
 
-		$dnsdrvlist = getAllDnsDriverList();
+	//	$dnsdrvlist = getAllDnsDriverList();
 
-		foreach ($dnsdrvlist as $k => $v) {
-			if ($v === $driver) {
+	//	foreach ($dnsdrvlist as $k => $v) {
+	//		if ($v === $driver) {
 				setRpmInstalled($driver);
 
 				if ($driver === 'bind') {
@@ -66,11 +66,11 @@ class dns__ extends lxDriverClass
 					}
 				}
 
-				lxshell_return("chkconfig", $driveralias, "on");
+			//	lxshell_return("chkconfig", $driveralias, "on");
 
 				createRestartFile($driveralias);
-			}
-		}
+		//	}
+	//	}
 	}
 
 	static function getActiveDriver()

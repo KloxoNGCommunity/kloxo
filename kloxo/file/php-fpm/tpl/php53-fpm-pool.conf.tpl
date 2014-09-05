@@ -143,4 +143,3 @@ php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
 
 php_admin_value[max_input_vars] = <?php echo $max_input_vars_flag; ?>
 
-php_admin_value[session.save_path] = <?php echo $session_save_path_flag; ?>

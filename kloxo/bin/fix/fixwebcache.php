@@ -21,7 +21,7 @@ foreach($plist as $s) {
 	$list = getAllWebCacheDriverList();
 	$driver = $gbl->getSyncClass(null, $s->syncserver, 'webcache');;
 
-	if ($driver === 'none') {
+	if ($driver[0] === 'none') {
 		foreach ($driverlist as $k => $v) {
 			$srcinitpath = "/opt/configs/{$v}/etc/init.d";
 			$trgtinitpath = "/etc/rc.d/init.d";
@@ -38,6 +38,7 @@ foreach($plist as $s) {
 		}
 
 		log_cleanup("- No process because using 'NONE' driver for '{$s->syncserver}'", $nolog);
+
 		return;
 	}
 
