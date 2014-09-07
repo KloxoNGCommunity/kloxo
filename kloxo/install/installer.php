@@ -109,7 +109,7 @@ function lxins_main()
 			}
 		}
 
-		system("\\cp -rf {$kloxopath} {$kloxopath}.{$currentstamp}");
+		system("'cp' -rf {$kloxopath} {$kloxopath}.{$currentstamp}");
 	} else {
 		// MR -- issue found on Centos 5.9 where have 'default' iptables config
 		$iptp = '/etc/sysconfig';
@@ -117,7 +117,7 @@ function lxins_main()
 
 		foreach ($ipts as &$ipt) {
 			if (file_exists("{$iptp}/{$ipt}")) {
-				system("\\mv -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
+				system("'mv' -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
 			}
 		}
 
@@ -202,7 +202,7 @@ function install_main()
 	install_mail();
 	install_others();
 
-	system("\\cp -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
+	system("'cp' -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
 }
 
 function install_web()
@@ -384,7 +384,7 @@ function kloxo_install_step1()
 
 			print("- Local copying Kloxo-MR release\n");
 			system("mkdir -p /var/cache/kloxo");
-			system("\\cp -rf ../../kloxomr-latest.tar.gz {$kloxopath}");
+			system("'cp' -rf ../../kloxomr-latest.tar.gz {$kloxopath}");
 
 			chdir("/usr/local/lxlabs/kloxo");
 			system("mkdir -p {$kloxopath}/log");
@@ -401,7 +401,7 @@ function kloxo_install_step1()
 	print(">>> Creating Symlink (in 64bit OS) for certain components <<<\n");
 	if (php_uname('m') === 'x86_64') {
 		if (file_exists("/usr/lib/php")) {
-			system("\\mv -f /usr/lib/php /usr/lib/php.bck");
+			system("'mv' -f /usr/lib/php /usr/lib/php.bck");
 		}
 
 		$sls = array('php', 'httpd', 'lighttpd', 'nginx', 'mysql', 'perl');
@@ -422,8 +422,8 @@ function kloxo_install_step1()
 
 		system("tar -xzf kloxomr-latest.tar.gz -C ../");
 		rm_if_exists("{$kloxopath}/kloxomr-latest.tar.gz");
-		system("\\mv -f ../kloxomr-* ../kloxomr");
-		system("\\cp -rf ../kloxomr/* ../kloxo");
+		system("'mv' -f ../kloxomr-* ../kloxomr");
+		system("'cp' -rf ../kloxomr/* ../kloxo");
 		rm_if_exists("../kloxomr");
 	}
 
@@ -524,15 +524,15 @@ function kloxo_install_before_bye()
 
 	// MR -- php-fpm_event as default instead mod_php
 	if (file_exists("/etc/httpd/conf.d/php.conf")) {
-		system("\\cp -rf {$sp}/fastcgi.conf {$tp}/fastcgi.conf;" .
-			"\\cp -rf {$sp}/_inactive_.conf {$tp}/fcgid.conf;" .
-			"\\cp -rf {$sp}/_inactive_.conf {$tp}/php.conf;" .
-			"\\cp -rf {$sp}/_inactive_.conf {$tp}/ruid2.conf;" .
-			"\\cp -rf {$sp}/_inactive_.conf {$tp}/suphp.conf;" .
-			"\\cp -rf {$sp}/_inactive_.conf {$tp}/suphp2.conf;" .
-			"\\cp -rf {$sp}/~lxcenter.conf {$tp}/~lxcenter.conf;" .
-			"\\cp -rf {$sp}/ssl.conf {$tp}/ssl.conf;" .
-			"\\cp -rf {$sp}/__version.conf {$tp}/__version.conf;" .
+		system("'cp' -rf {$sp}/fastcgi.conf {$tp}/fastcgi.conf;" .
+			"'cp' -rf {$sp}/_inactive_.conf {$tp}/fcgid.conf;" .
+			"'cp' -rf {$sp}/_inactive_.conf {$tp}/php.conf;" .
+			"'cp' -rf {$sp}/_inactive_.conf {$tp}/ruid2.conf;" .
+			"'cp' -rf {$sp}/_inactive_.conf {$tp}/suphp.conf;" .
+			"'cp' -rf {$sp}/_inactive_.conf {$tp}/suphp2.conf;" .
+			"'cp' -rf {$sp}/~lxcenter.conf {$tp}/~lxcenter.conf;" .
+			"'cp' -rf {$sp}/ssl.conf {$tp}/ssl.conf;" .
+			"'cp' -rf {$sp}/__version.conf {$tp}/__version.conf;" .
 			"echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd;");
 	}
 
@@ -915,7 +915,7 @@ function copy_script()
 
 	system("mkdir -p /script/filter");
 
-	system("\\cp -rf {$kloxopath}/pscript/* /script/");
+	system("'cp' -rf {$kloxopath}/pscript/* /script/");
 
 	file_put_contents("/script/programname", 'kloxo');
 	system("chmod 0775 /script");
@@ -924,7 +924,7 @@ function copy_script()
 //	unlink("/script");
 //	symlink("{$kloxopath}/pscript", "/script");
 
-	exec("rm -rf /script; ln -sf {$kloxopath}/pscript /script");
+	exec("'rm' -rf /script; ln -sf {$kloxopath}/pscript /script");
 }
 
 function getKloxoType()
@@ -998,7 +998,7 @@ function exec_out($input)
 function rm_if_exists($file)
 {
 	if (file_exists("")) {
-		system("rm -rf {$file}");
+		system("'rm' -rf {$file}");
 	}
 }
 

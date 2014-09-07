@@ -2,6 +2,9 @@
 
 . /script/counter-start.inc
 
+## MR -- importance for CentOS 6+ for cp/mv/rm
+# sh /script/disable-alias
+
 t=$(mysql -V|awk '{print $5}')
 u=$(echo $t|grep -i '5.0.')
 

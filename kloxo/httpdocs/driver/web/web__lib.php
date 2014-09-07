@@ -225,6 +225,9 @@ class web__ extends lxDriverClass
 		$input['kloxoportnonssl'] = get_kloxo_port('nonssl');
 		$input['kloxoportssl'] = get_kloxo_port('ssl');
 
+		$input['driverlist'] = getAllWebDriverList();
+		$input['driver'] = getWebDriverList();
+
 		self::setCreateConfFile($input);
 
 		$this->setLogfile();
@@ -295,7 +298,7 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-			lxshell_return("rm", "-rf", $tpltarget);
+			lxshell_return("'rm'", "-rf", $tpltarget);
 		}
 	}
 
@@ -326,7 +329,7 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-			lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
+			lxshell_return("'rm'", "-rf", "/etc/php-fpm.d/*.conf");
 
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf");
@@ -492,7 +495,7 @@ class web__ extends lxDriverClass
 			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");
 
 			// MR -- to make sure no 'old' config -
-			lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
+			lxshell_return("'rm'", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
 
 			if (($l === 'hiawatha') && ($conftype === 'domains')) {
 				$types = array('domains' => false, 'proxies' => true);

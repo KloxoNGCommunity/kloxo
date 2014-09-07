@@ -304,12 +304,16 @@ class installapp extends Lxdb
 		}
 
 		if (isset($param['installappmisc_b_s_admin_email'])) {
+			$param['installappmisc_b_s_admin_email'] = trim($param['installappmisc_b_s_admin_email']);
+
 			if (!validate_email($param['installappmisc_b_s_admin_email'])) {
 				throw new lxException($login->getThrow('invalid_email'), '', $param['installappmisc_b_s_admin_email']);
 			}
 		}
 
 		if (isset($param['installappmisc_b_s_admin_email_login'])) {
+			$param['installappmisc_b_s_admin_email_login'] = trim($param['installappmisc_b_s_admin_email_login']);
+
 			if (!validate_email($param['installappmisc_b_s_admin_email_login'])) {
 				throw new lxException($login->getThrow('invalid_email'), '', $param['installappmisc_b_s_admin_email_login']);
 			}

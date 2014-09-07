@@ -11,13 +11,11 @@ soarec=$(dig $dom SOA|grep -v '<<>>'|grep -v ';'|grep -i $dom|awk '{print $5}')
 
 nsrec=$(dig $dom NS|grep -v '<<>>'|grep -v ';'|grep -i $dom|awk '{print $5}')
 
-for i in $nsrec
-do
+for i in $nsrec; do
 	if [ "$i" != "$soarec" ] ; then
 		arec=$(dig $i A|grep -v '<<>>'|grep -v ';'|grep -i $i|awk '{print $5}')
 
-		for j in $arec
-		do
+		for j in $arec ; do
 			# MR -- use 'dom' instead 'i' because 'i' have dot at the end
 			perl ../bin/misc/dnsnotify.pl $dom $j
 		done

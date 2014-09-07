@@ -178,20 +178,21 @@ class pserver extends pservercore {
 	{
 
 		if (file_exists("./thirdparty/mywebsql/")) {
-			$url = "/thirdparty/mywebsql/";
+			$url = "thirdparty/mywebsql/";
 		} else {
-			$url = "/thirdparty/phpMyAdmin/";
+			$url = "thirdparty/phpMyAdmin/";
 		}
 
 		if (!$this->isLocalhost('nname')) {
 			$fqdn = getFQDNforServer($this->nname);
 
 			if (http_is_self_ssl()) {
-				$dbadminUrl = "https://{$fqdn}:7777{$url}";
+				$port = get_kloxo_port('ssl');
 			} else {
-				$dbadminUrl = "http://{$fqdn}:7778{$url}";
+				$port = get_kloxo_port('nonssl');
 			}
-
+			
+				$dbadminUrl = "http://{$fqdn}:{$port}/{$url}";
 		} else {
 			$dbadminUrl =  $url;
 		}

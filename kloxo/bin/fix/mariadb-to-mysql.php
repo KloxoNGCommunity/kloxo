@@ -40,9 +40,9 @@ if (strpos($mysqlbranch, "mysql") !== false) {
 		system("yum install mysql55 mysql55-server -y");
 
 		if (file_exists("/etc/my.cnf.d/my.cnf")) {
-			system("\\cp -f /etc/my.cnf.d/my.cnf /etc/my.cnf");
+			system("'cp' -f /etc/my.cnf.d/my.cnf /etc/my.cnf");
 		} elseif (file_exists("/etc/my.cnf._bck_")) {
-			system("\\cp -f /etc/my.cnf._bck_ /etc/my.cnf");
+			system("'cp' -f /etc/my.cnf._bck_ /etc/my.cnf");
 		}
 
 		echo "- Restart MySQL\n";

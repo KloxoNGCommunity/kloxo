@@ -12,6 +12,10 @@ class serverweb__ extends lxDriverClass
 
 	function dbactionUpdate($subaction)
 	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$this->was();
+
 		switch ($subaction) {
 			case "apache_optimize":
 				$this->set_apache_optimize();
@@ -138,9 +142,9 @@ class serverweb__ extends lxDriverClass
 
 		if (isWebProxyOrApache()) {
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
-			lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
+			lxshell_return("'rm'", "-f", $ehcdpath . "/swtune.conf");
 
-			lxshell_return("\\cp", "-rf", "{$ullkfapath}", "/opt/configs");
+			lxshell_return("'cp'", "-rf", "{$ullkfapath}", "/opt/configs");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
 				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath . "/~lxcenter.conf");
@@ -177,14 +181,13 @@ class serverweb__ extends lxDriverClass
 
 		$this->rename_to_nonconf();
 
-		// use > that equal to lxfile_rm + echo >>
-		exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
+		$this->set_mpm('prefork');
 
 		if ($type === 'mod_php') {
 			// no action here
 		} elseif ($type === 'mod_php_ruid2') {
-			lxshell_return("yum", "-y", "install", "mod_ruid2");
-			lxshell_return("yum", "-y", "update", "mod_ruid2");
+		//	lxshell_return("yum", "-y", "install", "mod_ruid2");
+		//	lxshell_return("yum", "-y", "update", "mod_ruid2");
 			lxfile_cp(getLinkCustomfile($haecdpath, "ruid2.conf"), $ehcdpath . "/ruid2.conf");
 			lxfile_rm("{$ehcdpath}/ruid2.nonconf");
 		} elseif ($type === 'mod_php_itk') {
@@ -205,7 +208,7 @@ class serverweb__ extends lxDriverClass
 		$epath = '/etc';
 		$haepath = '/opt/configs/apache/etc';
 
-		setRpmInstalled("mod_suphp");
+	//	setRpmInstalled("mod_suphp");
 
 		$phpbranch = getRpmBranchInstalled('php');
 
@@ -236,8 +239,8 @@ class serverweb__ extends lxDriverClass
 		} else {
 			$phpbranch = getRpmBranchInstalled('php');
 
-			setRpmInstalled("mod_fastcgi");
-			setRpmInstalled("{$phpbranch}-fpm");
+		//	setRpmInstalled("mod_fastcgi");
+		//	setRpmInstalled("{$phpbranch}-fpm");
 
 			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath . "/fastcgi.conf");
 			lxfile_rm("{$ehcdpath}/fastcgi.nonconf");
@@ -255,7 +258,7 @@ class serverweb__ extends lxDriverClass
 		$haepath = '/opt/configs/apache/etc';
 		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
-		setRpmInstalled("mod_fcgid");
+	//	setRpmInstalled("mod_fcgid");
 
 		if (version_compare(getPhpVersion(), "5.3.0", "<")) {
 			$this->set_php_pure();
@@ -349,7 +352,7 @@ class serverweb__ extends lxDriverClass
 			} else {
 				lxfile_rm("{$ehcdpath}/suphp52.nonconf");
 
-				setRpmInstalled("mod_suphp");
+			//	setRpmInstalled("mod_suphp");
 
 				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");
@@ -470,7 +473,7 @@ class serverweb__ extends lxDriverClass
 				$b .= "sh /script/phpm-installer {$v} --force\n";
 			}
 
-			$b .= "rm -f {$c}\n";
+			$b .= "'rm' -f {$c}\n";
 
 			file_put_contents($c, $b);
 

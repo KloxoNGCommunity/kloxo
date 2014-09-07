@@ -95,7 +95,7 @@ class phpini__sync extends Lxdriverclass
 			$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
 
 			$phpini_target = '/etc/php.ini';
-			$fcgid_target = '/opt/configs/kloxo/client/php5.fcgi';
+			$fcgid_target = '/home/kloxo/client/php5.fcgi';
 			$phpfpm_target = '/etc/php-fpm.d/default.conf';
 
 			file_put_contents($phpini_target, $phpini_parse);

@@ -29,7 +29,7 @@ if rpm -qa|grep lxphp >/dev/null 2>&1 ; then
 	rpm -e lxlighttpd --nodeps
 	rpm -e lxzend --nodeps
 	
-	rm -rf /usr/local/lxlabs/ext >/dev/null 2>&1
+	'rm' -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
 
 if rpm -qa|grep php52s >/dev/null 2>&1 ; then
@@ -64,11 +64,11 @@ if [ "$1" == "--remove-kloxo-databse" ] || [ "$2" == "--remove-kloxo-databse" ] 
 		|| [ "$1" == "-r" ] || [ "$2" == "-r" ] || [ "$3" == "-r" ] ; then
 	if [ -f /etc/rc.d/init.d/mysql ] ; then
 		service mysql stop
-		rm -rf /var/lib/mysql/kloxo
+		'rm' -rf /var/lib/mysql/kloxo
 		service mysql start
 	else
 		service mysqld stop
-		rm -rf /var/lib/mysql/kloxo
+		'rm' -rf /var/lib/mysql/kloxo
 		service mysqld start
 	fi
 fi
@@ -77,7 +77,7 @@ if [ "$1" == "-y" ] || [ "$1" == "--force" ] || [ "$2" == "-y" ] || \
 		[ "$2" == "--force" ]  || [ "$3" == "-y" ] || [ "$3" == "--force" ] ; then
 	if [ -f /etc/rc.d/init.d/qmail ] ; then
 		service qmail stop
-		rm -f /etc/rc.d/init.d/qmail
+		'rm' -f /etc/rc.d/init.d/qmail
 	fi
 
 	sh ${ppath}/install/setup.sh $*  | tee ${ppath}/install/install.log

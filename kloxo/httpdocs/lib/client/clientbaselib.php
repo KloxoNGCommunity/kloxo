@@ -653,6 +653,8 @@ class ClientBase extends ClientCore
 
 		$this->lxclientpostAdd();
 
+		$this->contactemail = trim($this->contactemail);
+
 		if ($this->installapp_app && $this->installapp_app !== '--leave--') {
 			if (!validate_email($this->contactemail)) {
 				throw new lxException($login->getThrow("installapp_needs_valid_contactemail"), '', $this->contactemail);
@@ -1005,6 +1007,9 @@ class ClientBase extends ClientCore
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$vlist = null;
+
+		$param['nname'] = trim($param['nname']);
+		$param['password'] = trim($param['password']);
 
 		validate_client_name($param['nname']);
 		validate_password_add($param['password']);

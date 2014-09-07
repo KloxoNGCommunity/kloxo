@@ -333,6 +333,10 @@ class Ipaddress extends Lxdb
 			return $param;
 		}
 
+		$param['ipaddr'] = trim($param['ipaddr']);
+		$param['gateway'] = trim($param['gateway']);
+		$param['netmask'] = trim($param['netmask']);
+
 		self::VerifyString($this->getParentO(), $param);
 
 		return $param;
@@ -644,6 +648,10 @@ class Ipaddress extends Lxdb
 		if (!isset($param['netmask'])) {
 			$param['netmask'] = "255.255.255.0";
 		}
+		
+		$param['ipaddr'] = trim($param['ipaddr']);
+		$param['gateway'] = trim($param['gateway']);
+		$param['netmask'] = trim($param['netmask']);
 
 		self::VerifyString($parent, $param);
 

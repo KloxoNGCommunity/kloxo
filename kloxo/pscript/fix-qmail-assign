@@ -10,7 +10,7 @@ q="/var/qmail"
 
 echo "Fix Qmail User Assign"
 
-rm -f ${q}/users/assign ${q}/control/rcpthosts ${q}/control/virtualdomains
+'rm' -f ${q}/users/assign ${q}/control/rcpthosts ${q}/control/virtualdomains
 
 cd ${d}
  

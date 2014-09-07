@@ -57,17 +57,7 @@ class databasecore extends Lxdb
 	static function add($parent, $class, $param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-	/*
-		if ($login->isAdmin() && isset($param['nomodifyname']) && $param['nomodifyname'] === 'on') {
-			// no action
-		} else {
-			if (!$parent->isAdmin()) {
-				$param['nname'] = self::getDbName($parent->nname, $param['nname']);
-			} else {
-				$param['nname'] = substr($param['nname'], 0, 15);
-			}
-		}
-	*/
+
 		if ($parent->isAdmin()) {
 			$param['nname'] = $param['nname'];
 		} else {
@@ -77,6 +67,9 @@ class databasecore extends Lxdb
 				$param['nname'] = random_string_lcase(4) . "_" . $param['nname'];
 			}
 		}
+
+		$param['nname'] = trim($param['nname']);
+		$param['dbpassword'] = trim($param['dbpassword']);
 
 		validate_database_name($param['nname']);
 		validate_password_add($param['dbpassword']);

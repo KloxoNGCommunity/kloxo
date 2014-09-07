@@ -22,7 +22,7 @@ function setFixUserlogo($select)
 	log_cleanup("Fix user logo", $nolog);
 
 	if (file_exists("/usr/local/lxlabs/kloxo/httpdocs/user-logo.png")) {
-		system("\\cp -rf /usr/local/lxlabs/kloxo/httpdocs/user-logo.png /home/kloxo/httpd/user-logo.png");
+		system("'cp' -rf /usr/local/lxlabs/kloxo/httpdocs/user-logo.png /home/kloxo/httpd/user-logo.png");
 		log_cleanup("- User logo copy from -> /usr/local/lxlabs/kloxo/user-logo.png", $nolog);
 		log_cleanup("- User logo copy to -> /home/kloxo/httpd/user-logo.png", $nolog);
 	}
@@ -51,13 +51,13 @@ function setFixUserlogoDefaultPages()
 	$list = array('cp', 'default', 'disable', 'webmail');
 	
 	foreach($list as $k => $l) {
-		system("\\cp -rf /home/kloxo/httpd/user-logo.png /home/kloxo/httpd/{$l}/images/user-logo.png");
-		system("\\cp -rf /home/kloxo/httpd/user-logo.png /home/kloxo/httpd/{$l}/images/logo.png");
+		system("'cp' -rf /home/kloxo/httpd/user-logo.png /home/kloxo/httpd/{$l}/images/user-logo.png");
+		system("'cp' -rf /home/kloxo/httpd/user-logo.png /home/kloxo/httpd/{$l}/images/logo.png");
 		log_cleanup("- User logo for default pages copy to -> /home/kloxo/httpd/{$l}/images/logo.png", $nolog);
 	}
 	
-	system("\\cp -rf /home/kloxo/httpd/user-logo.png /usr/local/lxlabs/kloxo/httpdocs/login/images/user-logo.png");
-	system("\\cp -rf /home/kloxo/httpd/user-logo.png /usr/local/lxlabs/kloxo/httpdocs/login/images/logo.png");
+	system("'cp' -rf /home/kloxo/httpd/user-logo.png /usr/local/lxlabs/kloxo/httpdocs/login/images/user-logo.png");
+	system("'cp' -rf /home/kloxo/httpd/user-logo.png /usr/local/lxlabs/kloxo/httpdocs/login/images/logo.png");
 	log_cleanup("- User logo copy to -> /usr/local/lxlabs/kloxo/httpdocs/login/images/user-logo.png", $nolog);
 }
 
@@ -82,8 +82,8 @@ function setFixUserlogoDomainPages()
 			$docroot = $web->getFullDocRoot();
 
 			if (file_exists("$docroot/images")) {
-				system("\\cp -rf /home/kloxo/httpd/user-logo.png $docroot/images/user-logo.png");
-				system("\\cp -rf /home/kloxo/httpd/user-logo.png $docroot/images/logo.png");
+				system("'cp' -rf /home/kloxo/httpd/user-logo.png $docroot/images/user-logo.png");
+				system("'cp' -rf /home/kloxo/httpd/user-logo.png $docroot/images/logo.png");
 			}
 		}
 	}

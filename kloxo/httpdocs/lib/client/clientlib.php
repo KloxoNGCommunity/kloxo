@@ -339,13 +339,14 @@ class Client extends ClientBase
 	{
 		if (!$this->isLocalhost('mysqldbsyncserver')) {
 			$fqdn = getFQDNforServer($this->mysqldbsyncserver);
-			//$dbadminUrl =  "http://$fqdn:7778/thirdparty/phpMyAdmin/";
 			if (http_is_self_ssl()) {
-				$dbadminUrl = "https://$fqdn:7777/thirdparty/phpMyAdmin/";
+				$port = get_kloxo_port('ssl');
+
 			} else {
-				$dbadminUrl = "http://$fqdn:7778/thirdparty/phpMyAdmin/";
+				$port = get_kloxo_port('nonssl');
 			}
 
+			$dbadminUrl = "https://{$fqdn}:{$port}/thirdparty/phpMyAdmin/";
 		} else {
 			$dbadminUrl = "/thirdparty/phpMyAdmin/";
 		}

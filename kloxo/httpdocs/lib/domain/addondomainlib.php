@@ -49,6 +49,8 @@ class addondomain extends Lxdb
 
 		$param['nname'] = strtolower($param['nname']);
 
+		$param['nname'] = trim($param['nname']);
+
 		if (exists_in_db(null, 'domain', $param['nname'])) {
 			throw new lxException($login->getThrow('domain_already_exists_as_virtual'), '', $param['nname']);
 		}
@@ -59,6 +61,8 @@ class addondomain extends Lxdb
 		} else {
 			$param['real_clparent_f'] = $parent->nname;
 		}
+
+		$param['destinationdir'] = trim($param['destinationdir']);
 
 		// MR -- that mean redirect
 		if (isset($param['destinationdir'])) {

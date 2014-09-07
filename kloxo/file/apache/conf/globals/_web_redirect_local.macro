@@ -21,8 +21,8 @@
 
 	Alias /__kloxo "/home/${user}/kloxoscript/"
 
-	Redirect /kloxo "https://cp.${domain}:7777"
-	Redirect /kloxononssl "http://cp.${domain}:7778"
+	Redirect /kloxo "https://cp.${domain}:${kloxoportssl}"
+	Redirect /kloxononssl "http://cp.${domain}:${kloxoportnonssl}"
 
 	Redirect /webmail "http://webmail.${domain}"
 
@@ -140,8 +140,8 @@
 
 	Alias /__kloxo "/home/${user}/kloxoscript/"
 
-	Redirect /kloxo "https://cp.${domain}:7777"
-	Redirect /kloxononssl "http://cp.${domain}:7778"
+	Redirect /kloxo "https://cp.${domain}:${kloxoportssl}"
+	Redirect /kloxononssl "http://cp.${domain}:${kloxoportnonssl}"
 
 	Redirect /webmail "https://webmail.${domain}"
 

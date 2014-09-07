@@ -127,7 +127,8 @@ function doUpdates()
 
 	fixIpAddress();
 
-	fixservice();
+	// MR -- disabled it because trouble set 'chkconfig on' for also inactive all services
+//	fixservice();
 
 	add_domain_backup_dir();
 

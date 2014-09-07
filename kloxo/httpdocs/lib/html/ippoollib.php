@@ -113,6 +113,9 @@ class ippool extends Lxdb
 
 		$param['ttype'] = 'vps';
 
+		param['firstip'] = trim(param['firstip']);
+		param['lastip'] = trim(param['lastip']);
+
 		validate_ipaddress_and_throw($param['firstip'], 'firstip');
 		validate_ipaddress_and_throw($param['lastip'], 'lastip');
 
@@ -158,6 +161,9 @@ class ippool extends Lxdb
 	function updateUpdate($param)
 	{
 		global $login;
+
+		param['firstip'] = trim(param['firstip']);
+		param['lastip'] = trim(param['lastip']);
 
 		validate_ipaddress_and_throw($param['firstip'], 'firstip');
 		validate_ipaddress_and_throw($param['lastip'], 'lastip');
@@ -277,6 +283,8 @@ class ippool extends Lxdb
 		$pingip = null;
 		
 		foreach($list as $l) {
+			$l = trim($l);
+
 			$p = $sq->getRowsWhere("nname = '$l'");
 
 			if ($p) { continue; }

@@ -348,7 +348,7 @@ class Mmail__Qmail extends lxDriverClass
 		
 		lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", "-f", $this->main->nname);
 	//	lxfile_rm_rec_content("/var/qmail/control/domainkeys/{$this->main->nname}");
-		lxshell_return("rm", "-rf", "/var/qmail/control/domainkeys/{$this->main->nname}");
+		lxshell_return("'rm'", "-rf", "/var/qmail/control/domainkeys/{$this->main->nname}");
 
 		if ($this->doesListExist()) {
 		//	dprint("Lists exists. deleting list..\n");

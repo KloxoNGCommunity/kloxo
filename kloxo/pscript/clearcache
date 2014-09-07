@@ -17,7 +17,10 @@ proc__user_beancounters="/proc/user_beancounters"
 file_grub_conf="/boot/grub/grub.conf"
 
 execf() {
-	echo "Execute..."
+	echo "--- Memory BEFORE clearcache ---"
+	free -m
+
+	echo ""
 
 	if [ "$1" == "--select=1" ]; then
 		sync; echo 1 > /proc/sys/vm/drop_caches
@@ -36,6 +39,10 @@ execf() {
 		echo
 		exit;
 	fi
+
+	echo "--- Memory AFTER clearcache ---"
+	free -m
+
 }
 
 noexecf() {

@@ -3340,7 +3340,7 @@ function copy_script($nolog = null)
 //	unlink("/script");
 //	symlink("/usr/local/lxlabs/kloxo/pscript", "/script");
 
-	exec("rm -rf /script; ln -sf /usr/local/lxlabs/kloxo/pscript /script");
+	exec("'rm' -rf /script; ln -sf /usr/local/lxlabs/kloxo/pscript /script");
 }
 
 function getAdminDbPass()
@@ -5268,7 +5268,7 @@ function setDefaultPages($nolog = null)
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
-			exec("\\cp -rf $sourcezip $targetzip");
+			exec("'cp' -rf $sourcezip $targetzip");
 			$newer = true;
 		}
 	}
@@ -5321,7 +5321,7 @@ function setDefaultPages($nolog = null)
 	if (lxfile_exists($usersourcezip)) {
 		if (!checkIdenticalFile($usersourcezip, $usertargetzip)) {
 			log_cleanup("- Copy $usersourcezip to $usertargetzip", $nolog);
-			exec("\\cp -rf $usersourcezip $usertargetzip");
+			exec("'cp' -rf $usersourcezip $usertargetzip");
 		} else {
 			log_cleanup("- No new user-skeleton", $nolog);
 		}
@@ -5695,7 +5695,7 @@ function setInitialPhpIniConfig($nolog = null)
 	$fpath = "/usr/local/lxlabs/kloxo/file/phpini";
 	$inipath = "/opt/configs/phpini";
 
-	exec("\\cp -rf {$fpath} /opt/configs");
+	exec("'cp' -rf {$fpath} /opt/configs");
 }
 
 function setInitialPhpFpmConfig($nolog = null)
@@ -5729,7 +5729,7 @@ function setInitialPhpFpmConfig($nolog = null)
 	$fpath = "/usr/local/lxlabs/kloxo/file";
 	$fpmpath = "/opt/configs/php-fpm/etc";
 
-	exec("\\cp -rf {$fpath}/php-fpm /opt/configs");
+	exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
 
 	$sockpath = "/opt/configs/php-fpm/sock";
 
@@ -6125,7 +6125,7 @@ function setInitialBinary($nolog = null)
 	log_cleanup("Initialize Some Binary files", $nolog);
 
 	// MR -- because no need lxrestart (also lxsuexec) so remove if exist
-	exec("rm -rf /usr/sbin/lxrestart");
+	exec("'rm' -rf /usr/sbin/lxrestart");
 
 	if (!lxfile_exists("/usr/bin/php-cgi")) {
 		log_cleanup("- Install php-cgi binary", $nolog);
@@ -6222,7 +6222,8 @@ function setInitialServer($nolog = null)
 
 	exec("yum -y remove $list >/dev/null 2>&1");
 
-	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch", "hiawatha");
+	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr7-thirdparty-*.noarch",
+			"kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch", "hiawatha");
 
 	$list = implode(" ", $packages);
 
@@ -6476,7 +6477,7 @@ function installChooser($nolog = null)
 	lxfile_mkdir("/home/kloxo/httpd/webmail/img");
 
 	// MR -- make webmail redirect to 'universal'
-	exec("rm -f {$path}/redirect-to-*.php");
+	exec("'rm' -f {$path}/redirect-to-*.php");
 	$dirs = glob("{$path}/*");
 
 	foreach ($dirs as $dir) {
@@ -6638,7 +6639,7 @@ function fix_suexec($nolog = null)
 	log_cleanup("- Fix process", $nolog);
 
 	// MR -- because no need lxsuexec (also lxrestart) so remove if exist
-	exec("rm -rf /usr/bin/lxsuexec");
+	exec("'rm' -rf /usr/bin/lxsuexec");
 }
 
 function enable_xinetd($nolog = null)
@@ -6954,7 +6955,8 @@ function updatecleanup($nolog = null)
 	log_cleanup("- Clean process", $nolog);
 	call_with_flag("remove_host_deny");
 
-	if (isRpmInstalled("gpm")) {
+//	if (isRpmInstalled("gpm")) {
+	if (file_exists("/etc/rc.d/init.d/gpm")) {
 		log_cleanup("Turn off mouse daemon", $nolog);
 		log_cleanup("- Turn off process", $nolog);
 		exec("chkconfig gpm off");
@@ -6966,9 +6968,9 @@ function updatecleanup($nolog = null)
 		lxfile_rm("phpinfo.php");
 	}
 
-	log_cleanup("Killing gettraffic system process", $nolog);
-	log_cleanup("- Killing process", $nolog);
-	lxshell_return("pkill", "-f", "gettraffic");
+//	log_cleanup("Killing gettraffic system process", $nolog);
+//	log_cleanup("- Killing process", $nolog);
+//	exec("pkill -f gettraffic");
 
 	setRealServiceBranchList();
 
@@ -7231,7 +7233,7 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 	log_cleanup("Copy all contents of $dnsdriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("\\cp -rf {$pathsrc} /opt/configs");
+	exec("'cp' -rf {$pathsrc} /opt/configs");
 
 	if ($aliasdriver === 'djbdns') {
 		if (file_exists("/home/djbdns/tinydns")) {
@@ -7265,7 +7267,7 @@ function setCopyWebCacheConfFiles($webcachedriver, $nolog = null)
 	log_cleanup("Copy all contents of $webcachedriver", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("\\cp -rf {$pathsrc} /opt/configs");
+	exec("'cp' -rf {$pathsrc} /opt/configs");
 	
 	$pathconf = "{$pathetc}/{$webcachedriver}";
 
@@ -7313,7 +7315,7 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	log_cleanup("Copy all contents of {$webdriver}", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("\\cp -rf {$pathsrc} /opt/configs");
+	exec("'cp' -rf {$pathsrc} /opt/configs");
 	
 	if ($webdriver !== 'hiawatha') {
 		$dirs = array($pathconf, $pathconfd);
@@ -7382,7 +7384,7 @@ function setCopyOpenSSLConfFiles()
 	log_cleanup("Copy all contents of openssl", $nolog);
 
 	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
-	exec("\\cp -rf {$pathsrc} /opt/configs");
+	exec("'cp' -rf {$pathsrc} /opt/configs");
 	
 	if (file_exists("/home/openssl")) {
 		lxfile_rm_rec("/home/openssl");
@@ -7415,7 +7417,7 @@ function getWebDriverList($drivertype = null)
 {
 	$driverapp = ($drivertype) ? $drivertype : slave_get_driver('web');
 
-	if (isWebProxy($drivertype)) {
+	if (isWebProxy($driverapp)) {
 		$front = str_replace('proxy', '', $driverapp);
 
 		$list = array($front, 'apache');
@@ -7482,7 +7484,7 @@ function setRealServiceBranchList($nolog = null)
 			foreach ($sl as $s) {
 				$ret = lxshell_return("yum", "list", "{$s}");
 
-				if (!$ret) {
+				if ($ret === 0) {
 					$ver = getRpmVersionViaYum($s);
 
 					if ($ver !== '') {

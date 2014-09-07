@@ -286,7 +286,7 @@ foreach ($certnamelist as $ip => $certname) {
 </VirtualHost>
 
 
-### 'cp' config
+### cp config
 <VirtualHost ${global::ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1

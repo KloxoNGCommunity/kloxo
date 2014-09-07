@@ -4,8 +4,7 @@ my_cnf_1="/etc/my.cnf"
 
 if [ -f $my_cnf_1 ] ; then
 	if [ "$(grep 'innodb_use_native_aio' $my_cnf_1)" == "" ] ; then
-		# sed -i 's|innodb_use_native_aio|#innodb_use_native_aio|g' $my_cnf_1
-		sed -i -e's|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g' $my_cnf_1
+		sed -i "s|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g" $my_cnf_1
 		echo "Add 'innodb_use_native_aio=0' to $my_cnf_1"
 	else
 		echo "Already exist 'innodb_use_native_aio' in $my_cnf_1"
@@ -16,8 +15,7 @@ my_cnf_2="/etc/my.cnf.d/server.cnf"
 
 if [ -f $my_cnf_2 ] ; then
 	if [ "$(grep 'innodb_use_native_aio' $my_cnf_2)" == "" ] ; then
-		# sed -i 's|innodb_use_native_aio|#innodb_use_native_aio|g' $my_cnf_2
-		sed -i -e's|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g' $my_cnf_2
+		sed -i "s|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g" $my_cnf_2
 		echo "Add 'innodb_use_native_aio=0' to $my_cnf_2"
 	else
 		echo "Already exist 'innodb_use_native_aio' in $my_cnf_1"

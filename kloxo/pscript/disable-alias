@@ -1,0 +1,17 @@
+#!/bin/sh
+
+for x in cp mv rm ; do
+	for y in bashrc cshrc tcshrc ; do
+		if echo /root/.${y} | grep "#alias ${x}" 1>/dev/null 2>&1 ; then
+			echo "Already disabled alias for ${x} in /root/.${y}"
+		else
+			if echo /root/.${y} | grep "alias ${x}" 1>/dev/null 2>&1 ; then
+				echo "Disabling alias for ${x} in /root/.${y}"
+				sed -i "s:^alias ${x}:#alias ${x}:" /root/.${y}
+				echo "Need REBOOT! (run again cleanup or upcp)"
+			else
+				echo "No alias for ${x} in /root/.${y}"			
+			fi
+		fi
+	done
+done

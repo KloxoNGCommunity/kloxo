@@ -408,7 +408,7 @@ function lxfile_tmp_rm_rec($file)
 		return;
 	}
 
-	lxshell_return("rm", "-rf", $file);
+	lxshell_return("'rm'", "-rf", $file);
 }
 
 function lxfile_rm_content($dir)
@@ -446,7 +446,7 @@ function lxfile_rm_rec_content($file)
 	foreach($list as $l) {
 		if (!$l) { continue; }
 
-		lxshell_return("rm", "-rf", "$file/$l");
+		lxshell_return("'rm'", "-rf", "$file/$l");
 	}
 }
 
@@ -468,7 +468,7 @@ function lxfile_rm_rec($file)
 		throw new lxException($login->getThrow('no_stars_allowed'), '', $file);
 	}
 
-	lxshell_return("rm", "-rf", $file);
+	lxshell_return("'rm'", "-rf", $file);
 }
 
 function lxfile_generic_chmod($file, $mod)
@@ -532,7 +532,7 @@ function lxfile_mv_rec($dirsource, $dirdest)
 	$dirdest = expand_real_root($dirdest);
 	$dirsource = expand_real_root($dirsource);
 	$arglist = array("-f", $dirsource, $dirdest);
-	$cmd = getShellCommand("\\mv", $arglist);
+	$cmd = getShellCommand("'mv'", $arglist);
 
 	return do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 }
@@ -595,7 +595,7 @@ function lxfile_cp_rec($dirsource, $dirdest)
 	$dirdest = expand_real_root($dirdest);
 	$dirsource = expand_real_root($dirsource);
 	$arglist = array("-a", $dirsource, $dirdest);
-	$cmd = getShellCommand("\\cp", $arglist);
+	$cmd = getShellCommand("'cp'", $arglist);
 
 	return do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 } 
@@ -774,19 +774,27 @@ function do_exec_system($username, $dir, $cmd, &$out, &$err, &$ret, $input)
 		$ret = proc_close($process);
 	}
 
-	$err = lfile_get_contents($fename);
+	$err = str_replace("\n", "", lfile_get_contents($fename));
+
+	if ($err === '') {
+		$err = "(No message)";
+	}
+
 	unlink($fename);
 
-	$tcwd = getcwd();
+	// $tcwd = ':' . getcwd();
+	 $tcwd = '';
+
+	$cmd = str_replace("\n", ";", $cmd);
 
 	if ($ret) {
-		log_shell_error("$err: [($username:$tcwd) $cmd]");
+		log_shell_error("$err: [($username$tcwd) $cmd]");
 	}
 
 	if ($global_dontlogshell) {
-		log_log("other_cmd", "$ret: $err [($username:$tcwd) $cmd]");
+		log_log("other_cmd", "$ret: $err [($username$tcwd) $cmd]");
 	} else {
-		log_shell("$ret: $err [($username:$tcwd) $cmd]");
+		log_shell("$ret: $err [($username$tcwd) $cmd]");
 	}
 
 	$global_shell_ret = $ret;

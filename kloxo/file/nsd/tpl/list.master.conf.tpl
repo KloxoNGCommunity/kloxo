@@ -4,11 +4,17 @@
 
 	$str = '';
 
-	foreach ($dirs as $d) {
+	foreach ($dirs as &$d) {
 		$d = str_replace("{$path}/", "", $d);
 		$zone  = "zone:\n    name: {$d}\n    zonefile: master/{$d}\n";
 
-		$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
+	//	$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
+
+		if (array_keys($ips)) {
+			foreach ($ips as $k => $v) {
+				$zone .= "    notify: {$v} NOKEY\n    provide-xfr: {$v} NOKEY\n";
+			}
+		}
 		
 		$str .= $zone . "\n";
 	}
@@ -17,7 +23,7 @@
 
 	file_put_contents($file, $str);
 
-	if (file_exists("usr/sbin/nsd-control") {
+	if (file_exists("usr/sbin/nsd-control")) {
 		$nsdc = "usr/sbin/nsd-control";
 	} else {
 		$nsdc = "usr/sbin/nsdc";

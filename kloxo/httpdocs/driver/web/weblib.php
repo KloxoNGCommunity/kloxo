@@ -169,6 +169,8 @@ class SubWeb_a extends LxaClass
 		} catch (exception $e) {
 			throw new lxException($login->getThrow("subdomain_not_added_due_to_dns_conflict"), '', $this->nname);
 		}
+		
+		$this->nname = trim($this->nname);
 
 		validate_domain_name("{$this->nname}.$web->nname");
 	}
@@ -231,6 +233,8 @@ class Server_Alias_a extends Lxaclass
 		}
 
 		$this->setUpdateSubaction('subdomain');
+
+		$this->nname = trim($this->nname);
 
 		// Validates value subdomain
 		if (!preg_match("/^((([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])|\*)$/",
@@ -678,19 +682,19 @@ class Web extends Lxdb
 		}
 
 	//	recursively_remove("$sgbl->__path_customer_root/{$this->customer_name}/__processed_stats/{$this->nname}");
-		lxshell_return("rm", "-rf", "{$sgbl->__path_customer_root}/{$this->customer_name}/__processed_stats/{$this->nname}");
+		lxshell_return("'rm'", "-rf", "{$sgbl->__path_customer_root}/{$this->customer_name}/__processed_stats/{$this->nname}");
 
 		// MR -- this for what?. So disable!
 	//	recursively_remove("$sgbl->__path_program_home/domain/{$this->nname}");
 
 	//	recursively_remove("{$sgbl->__path_httpd_root}/{$this->nname}");
 	//	recursively_remove("{$sgbl->__path_kloxo_httpd_root}/awstats/dirdata/{$this->nname}");
-		lxshell_return("rm", "-rf", "/home/httpd/{$this->nname}");
-		lxshell_return("rm", "-rf", "/home/kloxo/httpd/awstats/dirdata/{$this->nname}");
+		lxshell_return("'rm'", "-rf", "/home/httpd/{$this->nname}");
+		lxshell_return("'rm'", "-rf", "/home/kloxo/httpd/awstats/dirdata/{$this->nname}");
 
 		lxfile_rm("{$sgbl->__path_real_etc_root}/awstats/awstats.{$this->nname}.conf");
 	//	lxfile_rm_rec("/var/lib/webalizer/{$this->nname}");
-		lxshell_return("rm", "-rf", "/var/lib/webalizer/{$this->nname}");
+		lxshell_return("'rm'", "-rf", "/var/lib/webalizer/{$this->nname}");
 		lxfile_rm("/etc/webalizer/webalizer.{$this->nname}.conf");
 
 		// MR -- also delete docroot if only refer to 1 web
@@ -698,7 +702,7 @@ class Web extends Lxdb
 
 		if ((int)$c === 1) {
 		//	recursively_remove($this->getFullDocRoot());
-			lxshell_return("rm", "-rf", "{$this->getFullDocRoot()}");
+			lxshell_return("'rm'", "-rf", "{$this->getFullDocRoot()}");
 		}
 	}
 
@@ -1224,6 +1228,8 @@ class Web extends Lxdb
 	function updateDocroot($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		$param['docroot'] = trim($param['docroot']);
 
 		validate_docroot($param['docroot']);
 

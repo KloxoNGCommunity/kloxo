@@ -40,7 +40,7 @@ class dns__ extends lxDriverClass
 				if ($driver === 'bind') {
 				//	setRpmInstalled("{$driver}-utils");
 					setRpmRemoved("{$driver}-chroot");
-					setRpmRemoved("{$driver}-libs");
+					setRpmInstalled("{$driver}-libs");
 				}
 
 				$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");
@@ -130,6 +130,11 @@ class dns__ extends lxDriverClass
 
 		$input['action'] = $action;
 
+		$ip_dns = $this->getIps();
+		$ip_hostname = array(gethostbyname(php_uname('n')));
+		// MR -- IP list without hostname IP
+		$input['ips'] = array_diff($ip_dns, $ip_hostname);
+
 		$domains = array();
 
 		if ($action === 'fix') {
@@ -157,7 +162,10 @@ class dns__ extends lxDriverClass
 
 		$input = array();
 
-		$input['ip'] = $this->getIps();
+		$ip_dns = $this->getIps();
+		$ip_hostname = array(gethostbyname(php_uname('n')));
+		// MR -- IP list without hostname IP
+		$input['ips'] = array_diff($ip_dns, $ip_hostname);
 
 		$tplsource = getLinkCustomfile("/opt/configs/{$drivertype}/tpl", "list.transfered.conf.tpl");
 

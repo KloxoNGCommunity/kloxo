@@ -683,6 +683,7 @@ class Domaind extends DomainBase
 		$web->ipaddress = $dnstemplate->getIpForBaseDomain();
 		$web->docroot = $this->docroot;
 
+		$web->docroot = trim($web->docroot);
 		$web->docroot = trim($web->docroot, "/");
 
 		validate_docroot($web->docroot);
@@ -956,6 +957,8 @@ class Domaind extends DomainBase
 			$param['nname'] = "{$param['nname']}.{$param['subdomain_parent']}";
 		}
 
+		$param['nname'] = trim($param['nname']);
+
 		validate_domain_name($param['nname']);
 
 		// MR -- no need domain_owned with /script/add
@@ -1028,6 +1031,8 @@ class Domaind extends DomainBase
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$param['nname'] = strtolower($param['nname']);
+
+		$param['nname'] = trim($param['nname']);
 
 		validate_domain_name($param['nname']);
 

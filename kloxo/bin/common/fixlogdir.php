@@ -17,7 +17,7 @@ function fixlogdir_main()
 	@ lunlink("/opt/php53s/error.log");
 	@ lunlink("/opt/php54s/error.log");
 	$dir = getNotexistingFile("../processed_log", "proccessed");
-	system("\\mv -f ../log ../processed_log/$dir");
+	system("'mv' -f ../log ../processed_log/$dir");
 	mkdir("../log");
 
 	$list = lscandir_without_dot("../processed_log");

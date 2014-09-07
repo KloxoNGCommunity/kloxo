@@ -493,7 +493,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
 <?php
-			if (($enablecgi) && ($webdriverlist[0] !== 'hiawatha')) {
+			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
 
 	ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
@@ -612,7 +612,7 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-			if (($enablecgi) && ($webdriverlist[0] !== 'hiawatha')) {
+			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
 		AddHandler cgi-script .cgi .pl
@@ -879,7 +879,7 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-			if (($enablecgi) && ($webdriverlist[0] !== 'hiawatha')) {
+			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
 		AddHandler cgi-script .cgi .pl

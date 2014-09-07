@@ -3,9 +3,12 @@
 
 	$text = '';
 
-	if (array_keys($ip)) {
-		foreach ($ip as $k => $v) {
+	if (array_keys($ips)) {
+		foreach ($ips as $k => $v) {
 			$text .= "    notify: {$v} NOKEY\n    provide-xfr: {$v} NOKEY\n";
+			$text .= "\n";
+		//	$text .= "    allow-notify: {$v} NOKEY\n    request-xfr: {$v}@53 NOKEY\n";
+		//	$text .= "\n";
 		}
 	}
 
