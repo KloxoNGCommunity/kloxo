@@ -55,7 +55,11 @@ fi
 
 phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
 
-cd /usr/local/lxlabs/kloxo/httpdocs
+#if [ -f /opt/${php_active}/custom/custom.${php_active}.ini ] ; then
+#	phpcgi_ini="/opt/${php_active}/custom/custom.${php_active}.ini"
+#else
+	phpcgi_ini="/opt/${php_active}/custom/${php_active}.ini"
+#ficd /usr/local/lxlabs/kloxo/httpdocs
 lxphp.exe -f ../init/changeport.php
 
 phpcgi_pidfile="${INIT_DIR}/kloxo-phpcgi.pid"
