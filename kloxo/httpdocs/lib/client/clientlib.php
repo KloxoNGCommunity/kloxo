@@ -337,18 +337,21 @@ class Client extends ClientBase
 
 	function getMysqlDbAdmin(&$alist)
 	{
-		if (!$this->isLocalhost('mysqldbsyncserver')) {
+		if ($this->isLocalhost('mysqldbsyncserver')) {
+			$dbadminUrl = "/thirdparty/phpMyAdmin/";
+		} else {
 			$fqdn = getFQDNforServer($this->mysqldbsyncserver);
+
 			if (http_is_self_ssl()) {
 				$port = get_kloxo_port('ssl');
+				$schema = "https://";
 
 			} else {
 				$port = get_kloxo_port('nonssl');
+				$schema = "https://";
 			}
 
-			$dbadminUrl = "https://{$fqdn}:{$port}/thirdparty/phpMyAdmin/";
-		} else {
-			$dbadminUrl = "/thirdparty/phpMyAdmin/";
+			$dbadminUrl = "{$schema}{$fqdn}:{$port}/thirdparty/phpMyAdmin/";
 		}
 
 		try {
@@ -365,10 +368,9 @@ class Client extends ClientBase
 			//	$pass = "demopass";
 			}
 			
-			$alist[] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass", 'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
-		} catch (Exception $e) {
-
-		}
+			$alist[] = create_simpleObject(array('url' => "{$dbadminUrl}?pma_username={$user}&pma_password={$pass}", 
+				'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+		} catch (Exception $e) {}
 	}
 
 	function createShowAlist(&$alist, $subaction = null)

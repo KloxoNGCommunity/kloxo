@@ -178,36 +178,31 @@ class databasecore extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$sslport = $sgbl->__var_prog_ssl_port;
-		$nonsslport = $sgbl->__var_prog_port;
-
-		if (file_exists("./thirdparty/mywebsql/")) {
-			$url = "/thirdparty/mywebsql/";
-		} else {
-			$url = "/thirdparty/phpMyAdmin/";
+		if ($this->dbtype === 'mysql') {
+			if (file_exists("./thirdparty/mywebsql/")) {
+				$url = "/thirdparty/mywebsql/";
+			} else {
+				$url = "/thirdparty/phpMyAdmin/";
+			}
+		} elseif ($this->dbtype === 'pgsql') {
+				$url = "/thirdparty/phpPgAdmin/";
 		}
 
-		if (!$this->isLocalhost()) {
+		if ($this->isLocalhost()) {
+			return $url;
+		} else {
 			$fqdn = getFQDNforServer($this->syncserver);
 
 			if (http_is_self_ssl()) {
-				return "https://{$fqdn}:{$sslport}{$url}";
+				$port = get_kloxo_port('ssl');
+				$schema = "https://";
 			} else {
-				return "http://{$fqdn}:{$nonsslport}{$url}";
+				$port = get_kloxo_port('nonssl');
+				$schema = "http://";
 			}
-		} else {
-			return $url;
-		}
 
-		if ($this->dbtype === 'mysql') {
-			return $url;
+			return "{$schema}{$fqdn}:{$port}{$url}";
 		}
-		
-		if ($this->dbtype === 'pgsql') {
-			return "/thirdparty/phpPgAdmin/";
-		}
-
-		return null;
 	}
 
 	function createShowPropertyList(&$alist)
@@ -220,19 +215,22 @@ class databasecore extends Lxdb
 
 		$pass = $this->dbpassword;
 
-		$dbadminUrl = $this->getDbAdminUrl();
-		$servernum = $this->getDbServerNum();
-	//	$pass = urlencode($pass);
+		try {
+			$dbadminUrl = $this->getDbAdminUrl();
+			$servernum = $this->getDbServerNum();
+		//	$pass = urlencode($pass);
 
-		if ($dbadminUrl) {
-			if (strpos($dbadminUrl, 'mywebsql') !== false) {
-				$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?auth_user=$user&auth_pwd=$pass",
-					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
-			} else {
-				$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass", 
-					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+			if ($dbadminUrl) {
+				if (strpos($dbadminUrl, 'mywebsql') !== false) {
+					$alist['property'][] = create_simpleObject(array('url' => "{$dbadminUrl}?auth_user={$user}&auth_pwd={$pass}",
+						'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+				} else {
+					$alist['property'][] = create_simpleObject(array('url' => "{$dbadminUrl}?pma_username={$user}&pma_password={$pass}", 
+						'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+				}
 			}
-		}
+		} catch (Exception $e) {}
+
 	}
 
 	function createShowAlist(&$alist, $subaction = null)

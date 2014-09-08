@@ -178,9 +178,9 @@ class pserver extends pservercore {
 	{
 
 		if (file_exists("./thirdparty/mywebsql/")) {
-			$url = "thirdparty/mywebsql/";
+			$url = "/thirdparty/mywebsql/";
 		} else {
-			$url = "thirdparty/phpMyAdmin/";
+			$url = "/thirdparty/phpMyAdmin/";
 		}
 
 		if (!$this->isLocalhost('nname')) {
@@ -188,11 +188,13 @@ class pserver extends pservercore {
 
 			if (http_is_self_ssl()) {
 				$port = get_kloxo_port('ssl');
+				$schema = "https://";
 			} else {
 				$port = get_kloxo_port('nonssl');
+				$schema = "http://";
 			}
-			
-				$dbadminUrl = "http://{$fqdn}:{$port}/{$url}";
+
+			$dbadminUrl = "{$schema}{$fqdn}:{$port}{$url}";
 		} else {
 			$dbadminUrl =  $url;
 		}
@@ -215,15 +217,13 @@ class pserver extends pservercore {
 			}
 
 			if (file_exists("./thirdparty/mywebsql/")) {
-				$alist[] = create_simpleObject(array('url' => "$dbadminUrl?auth_user=$user&auth_pwd=$pass",
+				$alist[] = create_simpleObject(array('url' => "{$dbadminUrl}?auth_user={$user}&auth_pwd={$pass}",
 					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 			} else {
-				$alist[] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass",
+				$alist[] = create_simpleObject(array('url' => "{$dbadminUrl}?pma_username={$user}&pma_password={$pass}",
 					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 			}
-		} catch (Exception $e) {
-
-		}
+		} catch (Exception $e) {}
 	}
 
 
