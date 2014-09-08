@@ -14,31 +14,10 @@ A. pre-install -- better for fresh install
     cd /
 
 B. Install Kloxo-MR (select B.1 or B.2)
-
-B.1 For Dev (alpha, beta, candidate) Release:
-
-B.1.1. via non-RPM (not recommended for dev)
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing kloxo (6.1.x), run 'sh /script/update' first.
 
-    # move to /
-    cd /tmp
-
-    # delete if exist, create kloxo temp dir
-    rm -rf /tmp/kloxo; mkdir /tmp/kloxo ; cd /tmp/kloxo; 
-
-    rm -f ./kloxo-mr-dev.sh
-
-    # get kloxo-mr-dev installer from github
-    wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/install/kloxo-mr-dev.sh --no-check-certificate
-
-    # install kloxo
-    sh ./kloxo-mr-dev.sh
-    
-    # better reboot
-    reboot
-
-B.1.2. via RPM (recommended for dev)
+B.1.1. for version 6.5.0 (rpm naming as kloxomr-6.5.0-*.rpm)
 
     # move to /
     cd /tmp
@@ -56,40 +35,43 @@ B.1.2. via RPM (recommended for dev)
 
     yum clean all
     yum install kloxomr -y
-   
-B.2. For Final Release:
-   - Install/reinstall/upgrade -- data not destroyed with this fork
-     for existing kloxo (6.1.x), run 'sh /script/update' first.
+
+ 	sh /script/upcp
+  
+B.1.2. for version 7.0.0 (rpm naming as kloxomr7-7.0.0-*.rpm)
 
     # move to /
     cd /tmp
 
     # get repo file -- no need for 6.5.0.c and after
-    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-    #rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
-	
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-testing-0.0.1-1.noarch.rpm
+    #rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm
+
     # move to /
     cd /
 
     # update
     yum update mratwork-* -y
 
-    # additional step for update from Kloxo official
-    mv -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo
-
-    # to make sure uss latest version of OS
     yum clean all
-    yum update -y
-    sh /script/convert-to-qmailtoaster
-    
-    # install
-    yum install kloxomr -y
-    sh /script/upcp -y
+    yum install kloxomr7 -y
 
-    # better reboot
-    reboot
-    
+	sh /script/upcp
+
+B.1.3. unpdate from 6.5.0 to 7.0.0
+
+    yum replace kloxomr --replace-with=kloxomr7 -y
+	
+	# '-y' mean force
+	sh /script/upcp -y
+	
+B.1.4. update from Kloxo Official 6.1.19
+
+	## follow step B.1.1 or B.1.2 and read 'WARNING' below
+
+	# '-y' mean force
+	sh /script/upcp -y
 
 WARNING:
 
