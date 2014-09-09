@@ -14,8 +14,8 @@ if [ "$#" == 0 ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
 	echo "  format:"
-	echo "    sh $0 --engine=<> --database=[] --table=[]"
-	echo "    --utf8=[] --config=[]"
+	echo "    sh $0 --engine=<> --database=[] --table=[] \\"
+	echo "        --utf8=[] --config=[]"
 	echo " ------------------------------------------------------------------------------"
 	echo "  --engine - change to MyISAM/InnoDB"
 	echo "  --database - database name; default: all databases"
@@ -33,7 +33,7 @@ fi
 request1=$1
 ENGINE=${request1#--engine\=}
 
-if [ $ENGINE == '' ] ; then
+if [ "$ENGINE" == "" ] ; then
 	echo "Empty --engine= entry..."
 	exit;
 fi
