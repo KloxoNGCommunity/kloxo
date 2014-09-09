@@ -178,30 +178,40 @@ class databasecore extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($this->dbtype === 'mysql') {
-			if (file_exists("./thirdparty/mywebsql/")) {
-				$url = "/thirdparty/mywebsql/";
-			} else {
-				$url = "/thirdparty/phpMyAdmin/";
-			}
-		} elseif ($this->dbtype === 'pgsql') {
-				$url = "/thirdparty/phpPgAdmin/";
-		}
+		$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
 
-		if ($this->isLocalhost()) {
+		if (file_exists($flagfile)) {
+			$url = file_get_contents($flagfile);
+			$url = trim($url);
+			$url = trim($url, "\n");
+
 			return $url;
 		} else {
-			$fqdn = getFQDNforServer($this->syncserver);
-
-			if (http_is_self_ssl()) {
-				$port = get_kloxo_port('ssl');
-				$schema = "https://";
-			} else {
-				$port = get_kloxo_port('nonssl');
-				$schema = "http://";
+			if ($this->dbtype === 'mysql') {
+				if (file_exists("./thirdparty/mywebsql/")) {
+					$url = "/thirdparty/mywebsql/";
+				} else {
+					$url = "/thirdparty/phpMyAdmin/";
+				}
+			} elseif ($this->dbtype === 'pgsql') {
+					$url = "/thirdparty/phpPgAdmin/";
 			}
 
-			return "{$schema}{$fqdn}:{$port}{$url}";
+			if ($this->isLocalhost()) {
+				return $url;
+			} else {
+				$fqdn = getFQDNforServer($this->syncserver);
+
+				if (http_is_self_ssl()) {
+					$port = get_kloxo_port('ssl');
+					$schema = "https://";
+				} else {
+					$port = get_kloxo_port('nonssl');
+					$schema = "http://";
+				}
+
+				return "{$schema}{$fqdn}:{$port}{$url}";
+			}
 		}
 	}
 

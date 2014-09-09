@@ -176,35 +176,37 @@ class pserver extends pservercore {
 
 	function getMysqlDbAdmin(&$alist)
 	{
+		$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
 
-		if (file_exists("./thirdparty/mywebsql/")) {
-			$url = "/thirdparty/mywebsql/";
+		if (file_exists($flagfile)) {
+			$url = file_get_contents($flagfile);
+			$url = trim($url);
+			$url = trim($url, "\n");
+
+			$dbadminUrl = $url;
 		} else {
-			$url = "/thirdparty/phpMyAdmin/";
-		}
-
-		if (!$this->isLocalhost('nname')) {
-			$fqdn = getFQDNforServer($this->nname);
-
-			if (http_is_self_ssl()) {
-				$port = get_kloxo_port('ssl');
-				$schema = "https://";
+			if (file_exists("./thirdparty/mywebsql/")) {
+				$url = "/thirdparty/mywebsql/";
 			} else {
-				$port = get_kloxo_port('nonssl');
-				$schema = "http://";
+				$url = "/thirdparty/phpMyAdmin/";
 			}
 
-			$dbadminUrl = "{$schema}{$fqdn}:{$port}{$url}";
-		} else {
-			$dbadminUrl =  $url;
+			if (!$this->isLocalhost('nname')) {
+				$fqdn = getFQDNforServer($this->nname);
+
+				if (http_is_self_ssl()) {
+					$port = get_kloxo_port('ssl');
+					$schema = "https://";
+				} else {
+					$port = get_kloxo_port('nonssl');
+					$schema = "http://";
+				}
+
+				$dbadminUrl = "{$schema}{$fqdn}:{$port}{$url}";
+			} else {
+				$dbadminUrl =  $url;
+			}
 		}
-
-		$server = $_SERVER['SERVER_NAME'];
-
-		if (csa($server, ":")) {
-			list($server, $port) = explode(":", $server);
-		}
-
 
 		try {
 			$dbad = $this->getFromList('dbadmin', "mysql___{$this->syncserver}");

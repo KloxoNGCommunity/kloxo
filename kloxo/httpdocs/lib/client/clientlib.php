@@ -337,21 +337,31 @@ class Client extends ClientBase
 
 	function getMysqlDbAdmin(&$alist)
 	{
-		if ($this->isLocalhost('mysqldbsyncserver')) {
-			$dbadminUrl = "/thirdparty/phpMyAdmin/";
+		$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
+
+		if (file_exists($flagfile)) {
+			$url = file_get_contents($flagfile);
+			$url = trim($url);
+			$url = trim($url, "\n");
+
+			$dbadminUrl = $url;
 		} else {
-			$fqdn = getFQDNforServer($this->mysqldbsyncserver);
-
-			if (http_is_self_ssl()) {
-				$port = get_kloxo_port('ssl');
-				$schema = "https://";
-
+			if ($this->isLocalhost('mysqldbsyncserver')) {
+				$dbadminUrl = "/thirdparty/phpMyAdmin/";
 			} else {
-				$port = get_kloxo_port('nonssl');
-				$schema = "https://";
-			}
+				$fqdn = getFQDNforServer($this->mysqldbsyncserver);
 
-			$dbadminUrl = "{$schema}{$fqdn}:{$port}/thirdparty/phpMyAdmin/";
+				if (http_is_self_ssl()) {
+					$port = get_kloxo_port('ssl');
+					$schema = "https://";
+
+				} else {
+					$port = get_kloxo_port('nonssl');
+					$schema = "https://";
+				}
+
+				$dbadminUrl = "{$schema}{$fqdn}:{$port}/thirdparty/phpMyAdmin/";
+			}
 		}
 
 		try {
