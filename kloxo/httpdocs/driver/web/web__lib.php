@@ -1177,10 +1177,12 @@ class web__ extends lxDriverClass
 
 		$this->main->createPhpInfo();
 
+	/*
+		// MR -- disabled because make slower; use fix-chownchmod for this purpose
 		lxfile_unix_chown_rec("{$droot}/", "{$uname}:{$uname}");
-	//	lxfile_unix_chmod("{$droot}/", "0755");
 		lxfile_unix_chmod("{$droot}", "0755");
 		lxfile_unix_chown("{$hroot}/{$domname}", "{$uname}:apache");
+	*/
 	}
 
 	function skeletonUpdate()
