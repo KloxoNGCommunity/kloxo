@@ -72,6 +72,11 @@ if [ "$(rpm -qa yum-utils)" == "" ] ; then
 	yum install yum-utils -y
 fi
 
+if [ -f /opt/${base_name}/${base_name} ] ; then
+	## remove from previous process
+	'rm' -f /opt/${base_name}/${base_name}
+fi
+
 pack_verrel=$(repoquery --nvr $pack_name|sed 's/${pack_name}-//')
 
 if [ -f /opt/${base_name}/version ] ; then
@@ -155,10 +160,6 @@ if [ -f /opt/${base_name}/etc ] ; then
 	'rm' -f /opt/${base_name}/etc
 fi
 
-if [ -f /opt/${base_name}/${base_name} ] ; then
-	'rm' -f /opt/${base_name}/${base_name}
-fi
-
 yumdownloader ${pack_name}-* >>/opt/${base_name}/install.log
 'rm' -rf *-debug*
 'rm' -rf *-devel*
@@ -175,7 +176,11 @@ done
 
 cd /
 
-sh /script/phpm-config-setup $base_name 
+sh /script/phpm-config-setup $base_name
+
+if [ -f /opt/${base_name}/${base_name} ] ; then
+	'rm' -f /opt/${base_name}/${base_name}
+fi
 
 x="=== END '$1' (${DATE}) install ==="
 echo $x
