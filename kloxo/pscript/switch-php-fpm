@@ -1,5 +1,26 @@
 #!/bin/sh
 
+if [ "$1" == "--help" ] ; then
+	echo
+	echo " --------------------------------------------------------------"
+	echo "  format: sh $0 <php/php53m/php54m/php55m>"
+	echo " --------------------------------------------------------------"
+	echo "   - 'php' mean 'php branch' (check with 'php v')"
+	echo "   - for 'phpXYm', check with 'php55m-cli v' (for php55m)"
+	echo "   - unsupport for 'php52m'"
+	echo
+	exit;
+fi
+
+echo
+echo "- For help, type '$0 --help'"
+
+if [ "$#" == 0 ] ; then
+	echo "- No argument supplied. Defaulting to localhost (master) servers"
+fi
+
+echo
+
 if [ "${1}" == "php" ] ; then
 	'cp' -f /usr/local/lxlabs/kloxo/init/php-fpm.init /etc/rc.d/init.d/php-fpm
 	chown root:root /etc/rc.d/init.d/php-fpm

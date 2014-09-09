@@ -178,14 +178,22 @@ class databasecore extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
+//		$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
 
-		if (file_exists($flagfile)) {
-			$url = file_get_contents($flagfile);
-			$url = trim($url);
-			$url = trim($url, "\n");
+//		if (file_exists($flagfile)) {
+//			$url = file_get_contents($flagfile);
+//			$url = trim($url);
+//			$url = trim($url, "\n");
 
-			return $url;
+//			return $url;
+
+		$incfile = "lib/sqlmgr.php";
+
+		if (file_exists($incfile)) {
+			// MR -- logic must be declare $dbadminUrl
+			include $incfile;
+			
+			return $dbadminUrl;
 		} else {
 			if ($this->dbtype === 'mysql') {
 				if (file_exists("./thirdparty/mywebsql/")) {
@@ -447,7 +455,8 @@ class mysqldb extends databasecore
 		//	$pass = urlencode($pass);
 			
 			if ($dbadminUrl) {
-				return create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass", 'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
+				return create_simpleObject(array('url' => "{$dbadminUrl}?pma_username={$user}&pma_password={$pass}",
+					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 			}
 		}
 	}
@@ -491,7 +500,7 @@ class mysqldb extends databasecore
 	//	$pass = urlencode($pass);
 
 		if ($dbadminUrl) {
-			$alist['property'][] = create_simpleObject(array('url' => "$dbadminUrl?pma_username=$user&pma_password=$pass",
+			$alist['property'][] = create_simpleObject(array('url' => "{$dbadminUrl}?pma_username={$user}&pma_password={$pass}",
 				'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 		}
 	}

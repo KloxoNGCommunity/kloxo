@@ -176,14 +176,20 @@ class pserver extends pservercore {
 
 	function getMysqlDbAdmin(&$alist)
 	{
-		$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
+	//	$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
 
-		if (file_exists($flagfile)) {
-			$url = file_get_contents($flagfile);
-			$url = trim($url);
-			$url = trim($url, "\n");
+	//	if (file_exists($flagfile)) {
+	//		$url = file_get_contents($flagfile);
+	//		$url = trim($url);
+	//		$url = trim($url, "\n");
 
-			$dbadminUrl = $url;
+	//		$dbadminUrl = $url;
+
+		$incfile = "lib/sqlmgr.php";
+
+		if (file_exists($incfile)) {
+			// MR -- logic must be declare $dbadminUrl
+			include $incfile;
 		} else {
 			if (file_exists("./thirdparty/mywebsql/")) {
 				$url = "/thirdparty/mywebsql/";
