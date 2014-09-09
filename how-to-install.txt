@@ -23,9 +23,9 @@ B.1.1. for version 6.5.0 (rpm naming as kloxomr-6.5.0-*.rpm)
     cd /tmp
 
     # get repo file -- no need for 6.5.0.c and after
-    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm --no-check-certificate
-    rpm -ivh mratwork-testing-0.0.1-1.noarch.rpm
-    #rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+    #rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 
     # move to /
     cd /
@@ -44,9 +44,9 @@ B.1.2. for version 7.0.0 (rpm naming as kloxomr7-7.0.0-*.rpm)
     cd /tmp
 
     # get repo file -- no need for 6.5.0.c and after
-    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm --no-check-certificate
-    rpm -ivh mratwork-testing-0.0.1-1.noarch.rpm
-    #rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-testing-0.0.1-1.noarch.rpm
+    wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+    rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+    #rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 
     # move to /
     cd /
