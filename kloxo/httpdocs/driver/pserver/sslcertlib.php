@@ -300,11 +300,11 @@ class SslCert extends Lxdb
 		$contentpem = "$contentskey\n$contentscrt";
 
 		lfile_put_contents("$path/$name.pem", $contentpem);
-
+	/*
 		if ($contentsca) {
 			lfile_put_contents("$path/$name.ca", $contentsca);
 		}
-
+	*/
 		exec("sh /script/fixweb --domain={$name} --nolog");
 		createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
 	}
