@@ -997,7 +997,7 @@ function exec_out($input)
 
 function rm_if_exists($file)
 {
-	if (file_exists("")) {
+	if (file_exists($file)) {
 		system("'rm' -rf {$file}");
 	}
 }

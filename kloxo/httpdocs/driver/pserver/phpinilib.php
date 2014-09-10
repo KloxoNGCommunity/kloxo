@@ -42,6 +42,8 @@ class phpini_flag_b extends lxaclass
 	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
 
 	static $__desc_max_input_vars_flag = array("", "", "max_input_vars");
+
+	static $__desc_date_timezone_flag = array("s", "", "date_timezone");
 }
 
 class phpini extends lxdb
@@ -111,6 +113,7 @@ class phpini extends lxdb
 		//	$list[] = 'register_global_flag';
 			$list[] = 'log_errors_flag';
 			$list[] = 'output_compression_flag';
+			$list[] = 'date_timezone_flag';
 		}
 	/*
 		$list[] = 'enable_xcache_flag';
@@ -318,9 +321,9 @@ class phpini extends lxdb
 
 		$parent = $this->getParentO();
 
-		$list = $this->get_multiple_php_list();
-
 		if ($parent->getClass() !== 'web') {
+			$list = $this->get_multiple_php_list();
+
 			if ($subaction !== 'extraedit') {
 				$vlist["phpini_flag_b-multiple_php_ready"] = array('M', implode(" ", $list));
 			}
@@ -344,6 +347,8 @@ class phpini extends lxdb
 					$vlist["phpini_flag_b-$l"] = null;
 				}
 			}
+
+			$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
 		}
 
 	//	if ($parent->is__table('web')) {
@@ -436,6 +441,9 @@ class phpini extends lxdb
 		$this->initialValue('multiple_php_ratio', $php_ratio);
 
 		$this->initialValue('max_input_vars_flag', '3000');
+
+		$this->initialValue('date_timezone_flag', 'Europe/London');
+	//	$vlist['date_timezone_flag'] = array('s', timezone_identifiers_list());
 	}
 
 	function initialValue($var, $val)

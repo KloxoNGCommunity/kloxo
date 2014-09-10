@@ -31,6 +31,10 @@
     if (!$max_input_vars_flag) {
         $max_input_vars_flag = '3000';
     }
+
+    if (!isset($date_timezone_flag)) {
+        $date_timezone_flag = 'Europe/London';
+    }
 ?>
 ### MR -- attention
 ### 1. Move '#<Ifmodule !mod_php5.c>' until '#</Ifmodule>' on
@@ -74,7 +78,9 @@
 
     php_flag enable_dl <?php echo $enable_dl_flag; ?>
 
-    php_flag max_input_vars <?php echo $max_input_vars_flag; ?>
+    php_value max_input_vars <?php echo $max_input_vars_flag; ?>
+
+    php_value date.timezone <?php echo $date_timezone_flag; ?>
 
 </Ifmodule>
 

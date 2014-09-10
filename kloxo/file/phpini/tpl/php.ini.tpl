@@ -48,6 +48,10 @@
 	if (!$max_input_vars_flag) {
 		$max_input_vars_flag = '3000';
 	}
+
+	if (!isset($date_timezone_flag)) {
+		$date_timezone_flag = 'Europe/London';
+	}
 ?>
 
 [PHP]
@@ -75,7 +79,8 @@ user_dir =
 extension_dir = /usr/<?php echo $libpath; ?>/php/modules
 upload_tmp_dir = /tmp/
 default_socket_timeout = 60
-date.timezone = "Europe/London"
+date.timezone = <?php echo $date_timezone_flag; ?>
+
 
 ;### MR -- certain apps not work if 0 (ex: roundcube)
 cgi.fix_pathinfo = 1

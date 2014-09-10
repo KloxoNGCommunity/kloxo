@@ -61,7 +61,7 @@ function lxfile_dirsize($path, $byteflag = false)
 */
 
 //	exec("du -sc {$path} | grep -i '{$path}'", $out);
-	exec("ionice -c 2 -n 7 du -s {$path}", $out);
+	exec("'ionice -c 2 -n 7' 'du -s {$path}'", $out);
 	$os  = preg_replace("/\s+/", ":", $out[0]);
 	$t = str_replace(":{$path}", "", $os);
 
@@ -278,7 +278,7 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 	$fcmd = "$command $fullpath $files $command2";
 	$fcmd = str_replace(";", "", $fcmd);
 
-	do_exec_system("__system__", $dir, "nice -n 15 $fcmd", $out, $err, $ret, null);
+	do_exec_system("__system__", $dir, "'ionice -c 2 -n 7' $fcmd'", $out, $err, $ret, null);
 
 	print_time("zipfile", "Ziptook");
 
@@ -317,7 +317,7 @@ function lxshell_unzip($username, $dir, $file, $filelist = null)
 
 	$fcmd = "$command $fullpath $files";
 	$fcmd = str_replace(";", "", $fcmd);
-	$ret = new_process_cmd($username, $dir, "nice -n 15 $fcmd");
+	$ret = new_process_cmd($username, $dir, "'ionice -c 2 -n 7' '$fcmd'");
 
 	return $ret;
 }
@@ -352,7 +352,7 @@ function lxshell_unzip_numeric($dir, $file, $filelist = null)
 		$command = "unzip -oq";
 	}
 
-	do_exec_system("__system__", $dir, "nice -n 15 $command $fullpath $files", $out, $err, $ret, null);
+	do_exec_system("__system__", $dir, "'ionice -c 2 -n 7' '$command $fullpath $files'", $out, $err, $ret, null);
 
 	return $ret;
 }
@@ -408,7 +408,7 @@ function lxfile_tmp_rm_rec($file)
 		return;
 	}
 
-	lxshell_return("'rm'", "-rf", $file);
+	lxshell_return("rm", "-rf", $file);
 }
 
 function lxfile_rm_content($dir)
@@ -446,7 +446,7 @@ function lxfile_rm_rec_content($file)
 	foreach($list as $l) {
 		if (!$l) { continue; }
 
-		lxshell_return("'rm'", "-rf", "$file/$l");
+		lxshell_return("rm", "-rf", "$file/$l");
 	}
 }
 
@@ -468,7 +468,7 @@ function lxfile_rm_rec($file)
 		throw new lxException($login->getThrow('no_stars_allowed'), '', $file);
 	}
 
-	lxshell_return("'rm'", "-rf", $file);
+	lxshell_return("rm", "-rf", $file);
 }
 
 function lxfile_generic_chmod($file, $mod)
@@ -595,7 +595,7 @@ function lxfile_cp_rec($dirsource, $dirdest)
 	$dirdest = expand_real_root($dirdest);
 	$dirsource = expand_real_root($dirsource);
 	$arglist = array("-a", $dirsource, $dirdest);
-	$cmd = getShellCommand("'cp'", $arglist);
+	$cmd = getShellCommand("cp", $arglist);
 
 	return do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 } 
@@ -706,7 +706,8 @@ function lxshell_background($cmd)
 
 	$cmd = getShellCommand($cmd, $arglist);
 	$cmd .= " >/dev/null 2>&1 &";
-	$pwd = getcwd();
+//	$pwd = getcwd();
+	$pwd = '';
 
 	if (!$global_dontlogshell) {
 		log_shell("Background: ($pwd) $cmd");
@@ -715,7 +716,7 @@ function lxshell_background($cmd)
 	}
 
 //	exec($cmd);
-	exec("ionice -c 2 -n 7 " . $cmd);
+	exec("'ionice -c 2 -n 7' " . $cmd);
 
 	return true;
 }

@@ -481,12 +481,14 @@ function lxfile_cp($src, $dst)
 	global $gbl, $sgbl, $login, $ghtml; 
 	$src = expand_real_root($src);
 	$dst = expand_real_root($dst);
+
 	if (is_dir($dst)) {
 		$dst = $dst . "/" . basename($src);
 	}
 
 	log_filesys("Copying $src $dst");
-	system("'cp' -f $src $dst", $ret);
+	system("'cp' '-rf' '$src' '$dst'", $ret);
+
 	return $ret == 0;
 }
 
@@ -507,24 +509,27 @@ function lxfile_stat($file, $duflag)
 
 function get_file_type($file, &$stat)
 {
-
-
 	if (is_link($file)) {
 		$dst = readlink($file);
 
 		if (($dst[0] !== '/')) {
 			$dst = dirname($file) . "/" . $dst;
 		}
+
 		if (!lxfile_exists($dst)) {
 			$stat['ttype'] = "brokenlink";
 			$stat['linkto'] = $dst;
+			
 			return;
 		}
+
 		if (is_dir($dst)) {
 			$stat['ttype'] = "dirlink";
 			$stat['linkto'] = $dst;
+
 			return;
 		}
+
 		$stat['ttype'] = "filelink";
 		$stat['linkto'] = $dst;
 		return;

@@ -6974,7 +6974,9 @@ function updatecleanup($nolog = null)
 
 	setRealServiceBranchList();
 
-	setCheckPackages($nolog);
+
+	// MR -- no need because 'yum update' in tmpupdatecleanup
+//	setCheckPackages($nolog);
 
 	copy_script($nolog);
 

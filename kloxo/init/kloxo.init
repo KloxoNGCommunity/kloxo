@@ -156,9 +156,15 @@ function phpcgi_rh_status_q() {
 
 ### 2.1. HIAWATHA portion
 
-hiawatha_prog="/usr/sbin/hiawatha"
+if [ -f /opt/hiawatha/usr/sbin/hiawatha ] ; then
+	hiawatha_prog="/opt/hiawatha/usr/sbin/hiawatha"
+	wigwam_prog="/opt/hiawatha/usr/sbin/wigwam"
+else
+	hiawatha_prog="/usr/sbin/hiawatha"
+	wigwam_prog="/usr/sbin/wigwam"
+fi
+
 hiawatha_symlink="${INIT_DIR}/kloxo-hiawatha"
-wigwam_prog="/usr/sbin/wigwam"
 wigwam_symlink="${INIT_DIR}/kloxo-wigwam"
 hiawatha_name=$(basename ${hiawatha_symlink})
 wigwam_name=$(basename ${wigwam_symlink})

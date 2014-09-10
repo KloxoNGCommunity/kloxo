@@ -57,7 +57,7 @@ class sshauthorizedkey__sync extends Lxdriverclass
 	{
 		$s = "/root/{$username}.id.rsa";
 
-		lxshell_return("'rm'", "-f", "{$s}*");
+		lxshell_return("rm", "-f", "{$s}*");
 
 		$r = randomString(10);
 

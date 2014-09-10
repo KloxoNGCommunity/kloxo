@@ -10,6 +10,8 @@ if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '8443';
 }
 
+$portnames = array('nonssl', 'ssl');
+
 foreach ($certnamelist as $ip => $certname) {
 	if (file_exists("/home/{$user}/ssl/{$domainname}.key")) {
 		$certnamelist[$ip] = "/home/{$user}/ssl/{$domainname}";
@@ -207,9 +209,21 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+			if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+			}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = cp.<?php echo $domainname; ?>
@@ -257,7 +271,7 @@ VirtualHost {
 <?php
 			}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -265,9 +279,21 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+			if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+			}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $domainname; ?>
@@ -316,7 +342,7 @@ VirtualHost {
 <?php
 			}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -327,9 +353,21 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+			if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+			}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = cp.<?php echo $domainname; ?>
@@ -392,7 +430,7 @@ VirtualHost {
 <?php
 			}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -404,9 +442,21 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+				if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+				}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $domainname; ?>
@@ -425,9 +475,21 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+				if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+				}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $domainname; ?>
@@ -489,7 +551,7 @@ VirtualHost {
 <?php
 				}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -501,16 +563,30 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+		if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+		}
+?>
+
 	set var_user = <?php echo $user; ?>
 
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 <?php
 		if ($enablecgi) {
 ?>
 
 	WrapCGI = <?=$user;?>_wrapper
+
+	ScriptAlias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
 		}
 ?>
@@ -519,37 +595,16 @@ VirtualHost {
 
 <?php
 		if ($count !== 0) {
-			if ($ip !== '*') {
-?>
-
-	RequiredBinding = port_ssl_<?php echo $certname; ?>
-
-<?php
-			} else {
-				if (file_exists("{$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+			}
 ?>
 
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-			}
-		} else {
-			if ($ip !== '*') {
-				if (file_exists("{$certname}.ca")) {
-?>
-
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-				}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-			}
 		}
 
 		if ($disabled) {
@@ -563,9 +618,6 @@ VirtualHost {
 	EnablePathInfo = yes
 
 	Alias = /__kloxo:/home/<?php echo $user; ?>/kloxoscript
-
-	### MR -- disable perl until fix hardlinks issue
-	Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
 		if ($redirectionlocal) {
 			foreach ($redirectionlocal as $rl) {
@@ -586,7 +638,7 @@ VirtualHost {
 			if ($statsapp === 'awstats') {
 ?>
 
-	Alias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
+	ScriptAlias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
 
 	Alias = /awstatscss:/home/kloxo/httpd/awstats/wwwroot/css
 	Alias = /awstatsicons:/home/kloxo/httpd/awstats/wwwroot/icon
@@ -649,7 +701,7 @@ VirtualHost {
 <?php
 		}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -673,16 +725,30 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+					if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+					}
+?>
+
 	set var_user = <?php echo $user; ?>
 
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 <?php
 			if ($enablecgi) {
 ?>
 
 	WrapCGI = <?=$user;?>_wrapper
+
+	ScriptAlias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
 			}
 ?>
@@ -696,43 +762,16 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 					if ($count !== 0) {
-						if ($ip !== '*') {
-?>
-
-	RequiredBinding = port_ssl_<?php echo $certname; ?>
-
-<?php
-						} else {
-							if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-							}
+						}
 ?>
 
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-						}
-					} else {
-						if ($ip !== '*') {
-?>
-
-	RequiredBinding = port_nonssl_<?php echo $certname; ?>
-
-<?php
-						} else {
-							if (file_exists("{$certname}.ca")) {
-?>
-
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-							}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-						}
 					}
 ?>
 
@@ -775,7 +814,7 @@ VirtualHost {
 <?php
 					}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -791,10 +830,22 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+					if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+					}
+?>
+
 	set var_user = <?php echo $user; ?>
 
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 <?php
 			if ($enablecgi) {
@@ -814,37 +865,16 @@ VirtualHost {
 	EnablePathInfo = yes
 <?php
 					if ($count !== 0) {
-						if ($ip !== '*') {
-?>
-
-	RequiredBinding = port_ssl_<?php echo $certname; ?>
-
-<?php
-						} else {
-							if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-							}
+						}
 ?>
 
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-						}
-					} else {
-						if ($ip !== '*') {
-							if (file_exists("{$certname}.ca")) {
-?>
-
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-							}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-						}
 					}
 ?>
 
@@ -888,7 +918,7 @@ VirtualHost {
 					}
 ?>
 
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -908,9 +938,21 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+					if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+					}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
@@ -947,7 +989,7 @@ VirtualHost {
 <?php
 					}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -959,14 +1001,24 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+					if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+					}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
-
-	#Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
 <?php
 						if ($count !== 0) {
@@ -1019,7 +1071,7 @@ VirtualHost {
 <?php
 						}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -1030,9 +1082,21 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+						if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+						}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
@@ -1080,7 +1144,7 @@ VirtualHost {
 <?php
 						}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -1107,9 +1171,21 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+					if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+					}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
@@ -1170,7 +1246,7 @@ VirtualHost {
 <?php
 					}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -1182,15 +1258,25 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+						if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+						}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
 
-
-	#Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
 	EnablePathInfo = yes
 <?php
@@ -1244,7 +1330,7 @@ VirtualHost {
 <?php
 						}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }
@@ -1255,9 +1341,21 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+						if ($count !== 0) {
+?>
+
+	RequireSSL = yes
+<?php
+						}
+?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
@@ -1318,7 +1416,7 @@ VirtualHost {
 <?php
 						}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 }

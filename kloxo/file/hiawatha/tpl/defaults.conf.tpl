@@ -64,6 +64,8 @@ if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '8443';
 }
 
+$portnames = array('nonssl', 'ssl');
+
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
 }
@@ -142,7 +144,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 Binding {
-	BindingId = port_<?php echo $ports[$count]; ?>
+	BindingId = port_<?php echo $portnames[$count]; ?>
 
 	Port = <?php echo $ports[$count]; ?>
 
@@ -152,20 +154,8 @@ Binding {
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
 	MaxUploadSize = 2000
-<?php
-		if ($count !== 0) {
-			if (file_exists("{$certname}.ca")) {
-?>
 
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-			}
-?>
 
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-		}
-?>
 }
 
 ### 'default' config
@@ -173,16 +163,24 @@ Binding {
 		if ($count === 0) {
 ?>
 #VirtualHost {
+	#RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
 		} else {
 ?>
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+
+	RequireSSL = yes
 <?php
 		}
 ?>
+
 	set var_user = apache
 
 	UseGZfile = yes
+
 	FollowSymlinks = no
 	
 	Hostname = 0.0.0.0
@@ -243,7 +241,7 @@ VirtualHost {
 <?php
 		}
 ?>
-	## still not work for 'microcache'
+
 	## add 'header("X-Hiawatha-Cache: 10");' to index.php
 	#CustomHeader = X-Hiawatha-Cache:10
 <?php

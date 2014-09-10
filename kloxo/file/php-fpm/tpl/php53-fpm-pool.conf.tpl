@@ -52,6 +52,10 @@
 	if (!$max_input_vars_flag) {
 		$max_input_vars_flag = '3000';
 	}
+
+	if (!isset($date_timezone_flag)) {
+		$date_timezone_flag = 'Europe/London';
+	}
 ?>
 [<?php echo $pool; ?>]
 ;catch_workers_output = yes
@@ -143,3 +147,4 @@ php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
 
 php_admin_value[max_input_vars] = <?php echo $max_input_vars_flag; ?>
 
+php_admin_value[date.timezone] = "<?php echo $date_timezone_flag; ?>"

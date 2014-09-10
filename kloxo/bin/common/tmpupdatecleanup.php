@@ -76,7 +76,8 @@ function updatecleanup_main()
 	}
 
 	log_cleanup("- Updating Main services");
-	
+
+/*	
 	$slist = array(
 		"kloxomr7",
 		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
@@ -91,14 +92,27 @@ function updatecleanup_main()
 	);
 
 	setUpdateServices($slist);
-	
+*/
+	## MR -- change to update all
+
+	log_cleanup('Updating All packages - WAIT to process...');
+//	lxshell_return("rm", "-f", "/var/run/yum.pid");
+	lxshell_return("yum", "clean", "expire-cache");
+	$ret = lxshell_return("yum", "update", "-y");
+
+	if (!$ret) {
+		log_cleanup("- No update found/not installed");
+	} else {
+		log_cleanup("- New version of packages installed");
+	}
+/*
 	// MR -- use this trick for qmail non-daemontools based
 	log_cleanup("- Preparing some services again");
 	
 	log_cleanup("- qmail enabled and restart queue");
 	exec("chkconfig qmail on");
-//	createRestartFile("qmail");
-
+	createRestartFile("qmail");
+*/
 	if (isset($opt['without-services'])) {
 		// no action
 	} else {

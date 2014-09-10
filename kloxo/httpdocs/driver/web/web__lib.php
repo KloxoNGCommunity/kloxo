@@ -298,7 +298,7 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-			lxshell_return("'rm'", "-rf", $tpltarget);
+			lxshell_return("rm", "-rf", $tpltarget);
 		}
 	}
 
@@ -329,7 +329,7 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-			lxshell_return("'rm'", "-rf", "/etc/php-fpm.d/*.conf");
+			lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
 
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf");
@@ -494,8 +494,8 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");
 
-			// MR -- to make sure no 'old' config -
-			lxshell_return("'rm'", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
+			// MR -- to make sure no 'old' config - move to fixweb
+		//	lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
 
 			if (($l === 'hiawatha') && ($conftype === 'domains')) {
 				$types = array('domains' => false, 'proxies' => true);
@@ -558,6 +558,16 @@ class web__ extends lxDriverClass
 			if ($l === 'apache') { $l = 'httpd'; }
 
 			createRestartFile($l);
+		}
+	}
+	
+	function setRemoveAllDomainConfigs()
+	{
+		$list = getAllWebDriverList();
+
+		foreach ($list as &$l) {
+			lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/domains/*.conf");
+			lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/proxies/*.conf");
 		}
 	}
 
@@ -1306,6 +1316,10 @@ class web__ extends lxDriverClass
 				case "static_config_update":
 					$this->updateMainConfFile();
 				//	$this->createPhpFpmConfig();
+					break;
+					
+				case "remove_all_domain_configs":
+					$this->setRemoveAllDomainConfigs();
 					break;
 
 				case "skeleton_update":
