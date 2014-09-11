@@ -79,8 +79,6 @@ Binding {
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
 	MaxUploadSize = 2000
-	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
-	SSLcertFile = /usr/local/lxlabs/kloxo/etc/program.pem
 }
 
 Hostname = 0.0.0.0
@@ -102,12 +100,17 @@ ErrorHandler = 501:/error/501.html
 ErrorHandler = 503:/error/503.html
 
 VirtualHost {
-	#RequiredBinding = port7777
-	RequireSSL = yes
+	RequiredBinding = port_ssl
 
 	Hostname = 0.0.0.0
 	WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
 	StartFile = index.php
+
+	RequireSSL = yes
+	SecureURL = no
+	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
+	SSLcertFile = /usr/local/lxlabs/kloxo/etc/program.pem
+
 	AccessLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-access.log
 	ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
 

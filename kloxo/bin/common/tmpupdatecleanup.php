@@ -118,6 +118,7 @@ function updatecleanup_main()
 	} else {
 		setInitialServices();
 
+		log_cleanup("Fix services", $nolog);
 		$fixapps = array("dns", "webcache", "web", "php", "mail-all", "ftp-all");
 		setUpdateConfigWithVersionCheck($fixapps, $opt['type']);
 	}

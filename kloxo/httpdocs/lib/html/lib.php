@@ -7043,6 +7043,7 @@ function setInitialServices($nolog = null)
 	setHostsFile($nolog);
 
 	setDefaultPages($nolog);
+	setCopyErrorPages($nolog);
 
 	setInitialPhpMyAdmin($nolog);
 
@@ -7090,8 +7091,6 @@ function setInitialServices($nolog = null)
 	installChooser($nolog);
 
 	setInstallMailserver($nolog);
-	
-	setCopyErrorPages($nolog);
 }
 
 function setRemoveAlias($nolog = null)
