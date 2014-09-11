@@ -171,35 +171,32 @@ Binding {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-
-	RequireSSL = yes
 <?php
 		}
 ?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-	
 	Hostname = 0.0.0.0
-
 	WebsiteRoot = <?php echo $defaultdocroot; ?>
 
+
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 		if ($count !== 0) {
-			if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+			if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 			}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 		}
 ?>
 

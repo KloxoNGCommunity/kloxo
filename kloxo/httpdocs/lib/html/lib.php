@@ -7090,6 +7090,8 @@ function setInitialServices($nolog = null)
 	installChooser($nolog);
 
 	setInstallMailserver($nolog);
+	
+	setCopyErrorPages($nolog);
 }
 
 function setRemoveAlias($nolog = null)
@@ -7976,4 +7978,24 @@ function isCRFTokenMatch()
 	}
 
 	return $ret;
+}
+
+function setCopyErrorPages()
+{
+	log_cleanup("Copy Error Pages", $nolog);
+
+	$dir = "/home/kloxo/httpd/error";
+
+	if (!file_exists($dir)) {
+		mkdir($dir);
+	}
+
+	$src = "/usr/local/lxlabs/kloxo/httpdocs/error";
+
+	$list = array('401', '403', '404', '501', '503');
+
+	foreach ($list as $k => $v) {
+		log_cleanup("- Copy '$v' Page to '{$dir}'", $nolog);
+		lxfile_cp(getLinkCustomfile($src, "{$v}.html"), "{$dir}/{v}.html");
+	}
 }

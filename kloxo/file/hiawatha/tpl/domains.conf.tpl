@@ -211,39 +211,31 @@ foreach ($certnamelist as $ip => $certname) {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	set var_user = apache
+
+	Hostname = cp.<?php echo $domainname; ?>
+
+	WebsiteRoot = <?php echo $disabledocroot; ?>
+
+
+	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 			if ($count !== 0) {
 ?>
 
 	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-			}
-?>
-
-	set var_user = apache
-
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
-	Hostname = cp.<?php echo $domainname; ?>
-
-
-	WebsiteRoot = <?php echo $disabledocroot; ?>
-
-	EnablePathInfo = yes
-<?php
-			if ($count !== 0) {
 				if (file_exists("{$certname}.ca")) {
 ?>
-
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 				}
-?>
 
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 				if ($reverseproxy) {
 ?>
 
@@ -281,40 +273,29 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-			if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-			}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = webmail.<?php echo $domainname; ?>
-
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 			if ($count !== 0) {
-				if (file_exists("{$certname}.ca")) {
-?>
-
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-				}
 ?>
 
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+
 				if ($reverseproxy) {
 ?>
 
@@ -355,40 +336,28 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-			if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-			}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = cp.<?php echo $domainname; ?>
-
 
 	WebsiteRoot = <?php echo $cpdocroot; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 			if ($count !== 0) {
-				if (file_exists("{$certname}.ca")) {
-?>
-
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-				}
 ?>
 
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
 			}
 ?>
 
@@ -444,26 +413,17 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-				if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-				}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = webmail.<?php echo $domainname; ?>
-
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
+
+	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 
 	useToolkit = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
@@ -477,40 +437,30 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-				if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-				}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = webmail.<?php echo $domainname; ?>
-
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 				if ($count !== 0) {
-					if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+					if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 					}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 				}
 ?>
 
@@ -565,28 +515,17 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-		if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-		}
-?>
 
 	set var_user = <?php echo $user; ?>
 
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
 <?php
 		if ($enablecgi) {
 ?>
 
 	WrapCGI = <?=$user;?>_wrapper
 
-	ScriptAlias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
+	Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
 		}
 ?>
@@ -595,16 +534,17 @@ VirtualHost {
 
 <?php
 		if ($count !== 0) {
-			if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+			if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 			}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 		}
 
 		if ($disabled) {
@@ -616,6 +556,8 @@ VirtualHost {
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 
 	Alias = /__kloxo:/home/<?php echo $user; ?>/kloxoscript
 <?php
@@ -638,7 +580,7 @@ VirtualHost {
 			if ($statsapp === 'awstats') {
 ?>
 
-	ScriptAlias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
+	Alias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
 
 	Alias = /awstatscss:/home/kloxo/httpd/awstats/wwwroot/css
 	Alias = /awstatsicons:/home/kloxo/httpd/awstats/wwwroot/icon
@@ -727,51 +669,42 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-					}
-?>
 
 	set var_user = <?php echo $user; ?>
 
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
 <?php
 			if ($enablecgi) {
 ?>
 
 	WrapCGI = <?=$user;?>_wrapper
 
-	ScriptAlias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
+	Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
 			}
 ?>
 
 	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 
-
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 					if ($count !== 0) {
-						if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 						}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 					}
 ?>
 
@@ -832,21 +765,10 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-					}
-?>
 
 	set var_user = <?php echo $user; ?>
 
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
 <?php
 			if ($enablecgi) {
 ?>
@@ -860,21 +782,23 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
-	#Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $domainname; ?>/$1
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 					if ($count !== 0) {
-						if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 						}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 					}
 ?>
 
@@ -940,40 +864,30 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-					}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = webmail.<?php echo $parkdomainname; ?>
-
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 					if ($count !== 0) {
-						if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 						}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 					}
 ?>
 
@@ -1003,35 +917,29 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-					}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
 
+
+	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 						if ($count !== 0) {
-							if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+							if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 							}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 						}
 ?>
 	TimeForCGI = 3600
@@ -1084,28 +992,17 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-						if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-						}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = webmail.<?php echo $parkdomainname; ?>
-
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 
 	TimeForCGI = 3600
 
@@ -1119,16 +1016,17 @@ VirtualHost {
 	ExecuteCGI = yes
 <?php
 						if ($count !== 0) {
-							if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+							if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 							}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 						}
 ?>
 
@@ -1173,40 +1071,30 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-					}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = webmail.<?php echo $redirdomainname; ?>
-
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 					if ($count !== 0) {
-						if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 						}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 					}
 ?>
 	TimeForCGI = 3600
@@ -1260,37 +1148,29 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-						if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-						}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 						if ($count !== 0) {
-							if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+							if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 							}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 						}
 ?>
 	TimeForCGI = 3600
@@ -1343,40 +1223,30 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-<?php
-						if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-<?php
-						}
-?>
 
 	set var_user = apache
 
-	UseGZfile = yes
-
-	FollowSymlinks = no
-
 	Hostname = webmail.<?php echo $redirdomainname; ?>
-
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
 	EnablePathInfo = yes
+	UseGZfile = yes
+	FollowSymlinks = no
 <?php
 						if ($count !== 0) {
-							if (file_exists("{$certname}.ca")) {
 ?>
 
+	RequireSSL = yes
+	SecureURL = no
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+							if (file_exists("{$certname}.ca")) {
+?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 							}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
 						}
 ?>
 	TimeForCGI = 3600
