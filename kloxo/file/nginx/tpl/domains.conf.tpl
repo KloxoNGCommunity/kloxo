@@ -133,7 +133,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 			}
 ?>
@@ -167,7 +170,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 			}
 ?>
@@ -203,7 +209,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 			}
 ?>
@@ -240,7 +249,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 				}
 ?>
@@ -269,7 +281,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 				}
 ?>
@@ -323,7 +338,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 		}
 ?>
@@ -550,7 +568,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 					}
 ?>
@@ -609,7 +630,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 					}
 ?>
@@ -653,7 +677,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 					}
 ?>
@@ -690,7 +717,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 			  		  }
 ?>
@@ -721,7 +751,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 			  			}
 ?>
@@ -774,7 +807,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 					}
 ?>
@@ -811,7 +847,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 			  			}
 ?>
@@ -840,7 +879,10 @@ server {
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers HIGH:!aNULL:!MD5;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 			  			}
 ?>

@@ -190,6 +190,7 @@ VirtualHost {
 
 	RequireSSL = yes
 	SecureURL = no
+	MinSSLversion = TLS1.1
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
 			if (file_exists("{$certname}.ca")) {

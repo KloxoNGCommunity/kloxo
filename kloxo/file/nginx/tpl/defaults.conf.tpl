@@ -38,221 +38,144 @@ foreach ($driver as $k => $v) {
 	exec("chkconfig {$w} on");
 }
 
-$srcconfpath = "/opt/configs/hiawatha/etc/conf";
-$trgtconfpath = "/etc/hiawatha";
+$srcconfpath = "/opt/configs/nginx/etc/conf";
+$srcconfdpath = "/opt/configs/nginx/etc/conf.d";
+$trgtconfpath = "/etc/nginx";
+$trgtconfdpath = "/etc/nginx/conf.d";
 
-if ($reverseproxy) {
-	if (file_exists("{$srcconfpath}/custom.hiawatha_proxy.conf")) {
-		copy("{$srcconfpath}/custom.hiawatha_proxy.conf", "{$trgtconfpath}/hiawatha.conf");
+$confs = array('nginx.conf', 'mime.types', 'fastcgi_params');
+
+foreach ($confs as $k => $v) {
+	if (file_exists("{$srcconfpath}/custom.{$v}")) {
+		copy("{$srcconfpath}/custom.{$v}", "{$trgtconfpath}/{$v}");
 	} else {
-		copy("{$srcconfpath}/hiawatha_proxy.conf", "{$trgtconfpath}/hiawatha.conf");
-	}
-} else {
-	if (file_exists("{$srcconfpath}/custom.hiawatha_standard.conf")) {
-		copy("{$srcconfpath}/custom.hiawatha_standard.conf", "{$trgtconfpath}/hiawatha.conf");
-	} else {
-		copy("{$srcconfpath}/hiawatha_standard.conf", "{$trgtconfpath}/hiawatha.conf");
+		copy("{$srcconfpath}/{$v}", "{$trgtconfpath}/{$v}");
 	}
 }
 
-if (($webcache === 'none') || (!$webcache)) {
-	$ports[] = '80';
-	$ports[] = '443';
+if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
+	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
 } else {
-	$ports[] = '8080';
-	$ports[] = '8443';
+	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
 }
-
-$portnames = array('nonssl', 'ssl');
 
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
 }
 
+$iplist = array('*');
+
 $defaultdocroot = "/home/kloxo/httpd/default";
+$cpdocroot = "/home/kloxo/httpd/cp";
+
+$globalspath = "/opt/configs/nginx/conf/globals";
+
+if ($indexorder) {
+	$indexorder = implode(' ', $indexorder);
+}
 
 // MR -- for future purpose, apache user have uid 50000
 // $userinfoapache = posix_getpwnam('apache');
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
-?>
 
-UrlToolkit {
-	ToolkitID = findindexfile
-<?php
-	$v2 = "";
+exec("ip -6 addr show", $out);
 
-	foreach ($indexorder as $k => $v) {
-?>
-	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/<?php echo $v; ?>$2 Continue
-	RequestURI isfile Return
-<?php
-		$v2 = str_replace(".", "\.", $v);
+if ($out[0]) {
+	$IPv6Enable = true;
+} else {
+	$IPv6Enable = false;
+}
+
+if ($reverseproxy) {
+	$confs = array('proxy_standard' => 'switch_standard', 'proxy_wildcards' => 'switch_wildcards',
+		'stats_none' => 'stats', 'dirprotect_none' => 'dirprotect_stats');
+} else {
+	if ($stats['app'] === 'webalizer') {
+		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
+		'stats_webalizer' => 'stats', 'dirprotect_webalizer' => 'dirprotect_stats');
+	} else {
+		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
+		'stats_awstats' => 'stats', 'dirprotect_awstats' => 'dirprotect_stats');
 	}
-?>
-	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/$2 Continue
+
 }
 
-UrlToolkit {
-	ToolkitID = permalink
-	RequestURI exists Return
-	## process for 'special dirs' of Kloxo-MR
-	Match ^/(stats|awstats|awstatscss|awstats)(/|$) Return
-	## process for 'special dirs' of Kloxo-MR
-	Match ^/(cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
-	Match ^/(css|files|images|js)(/|$) Return
-	Match ^/(favicon.ico|robots.txt|sitemap.xml)$ Return
-	Match /(.*)\?(.*) Rewrite /index.php?path=$1&$2
-	Match .*\?(.*) Rewrite /index.php?$1
-	Match .* Rewrite /index.php
-}
-<?php
-foreach ($userlist as &$user) {
-	$userinfo = posix_getpwnam($user);
-
-	if (!$userinfo) { continue; }
-?>
-
-FastCGIserver {
-	FastCGIid = php_for_<?php echo $user; ?>
-
-	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $user; ?>.sock
-	Extension = php
-}
-<?php
-}
-?>
-
-FastCGIserver {
-	FastCGIid = php_for_apache
-	ConnectTo = /opt/configs/php-fpm/sock/apache.sock
-	Extension = php
+foreach ($confs as $k => $v) {
+	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
+		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
+	} else {
+		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
+	}
 }
 
-CGIhandler = /usr/bin/perl:pl
-#CGIhandler = /usr/bin/php5-cgi:php
-CGIhandler = /usr/bin/python:py
-CGIhandler = /usr/bin/ruby:rb
-CGIhandler = /usr/bin/ssi-cgi:shtml
-#CGIextension = cgi
-<?php
+if (($webcache === 'none') || (!$webcache)) {
+	$confs = array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front' => 'listen_ssl',
+		'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default' => 'listen_ssl_default');
+} else {
+	$confs = array('listen_nonssl_back' => 'listen_nonssl', 'listen_ssl_back' => 'listen_ssl',
+		'listen_nonssl_back_default' => 'listen_nonssl_default', 'listen_ssl_back_default' => 'listen_ssl_default');
+}
+
+foreach ($confs as $k => $v) {
+	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
+		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
+	} else {
+		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
+	}
+}
+
+$listens = array('listen_nonssl_default', 'listen_ssl_default');
+
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
 
-	foreach ($ports as &$port) {
+	foreach ($listens as &$listen) {
 ?>
 
-Binding {
-	BindingId = port_<?php echo $portnames[$count]; ?>
+## 'default' config
+server {
+	#disable_symlinks if_not_owner;
 
-	Port = <?php echo $ports[$count]; ?>
-
-	#Interface = 0.0.0.0
-	MaxKeepAlive = 120
-	TimeForRequest = 480
-	MaxRequestSize = 102400
-	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
-	MaxUploadSize = 2000
-}
-
-### 'default' config
-<?php
-		if ($count === 0) {
-?>
-#VirtualHost {
-	#RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-		} else {
-?>
-VirtualHost {
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-
-	RequireSSL = yes
-<?php
-		}
-?>
-
-	set var_user = apache
-
-	UseGZfile = yes
-
-	FollowSymlinks = no
-	
-	Hostname = 0.0.0.0
-
-	WebsiteRoot = <?php echo $defaultdocroot; ?>
-
-	EnablePathInfo = yes
+	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
 		if ($count !== 0) {
-			if (file_exists("{$certname}.ca")) {
 ?>
 
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-			}
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
+	ssl on;
+	ssl_certificate <?php echo $certname; ?>.pem;
+	ssl_certificate_key <?php echo $certname; ?>.key;
+	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+	#ssl_ciphers HIGH:!aNULL:!MD5;
+	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
+	#ssl_prefer_server_ciphers on;
+	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
 		}
+
 ?>
 
-	TimeForCGI = 3600
+	server_name _;
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
-<?php
-		if ($reverseproxy) {
-?>
+	set $var_domain '';
 
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-<?php
-		} else {
-?>
+	index <?php echo $indexorder; ?>;
 
-	#UserDirectory = public_html
-	#UserWebsites = yes
+	set $var_rootdir '<?php echo $defaultdocroot; ?>';
 
-	UseFastCGI = php_for_var_user
-<?php
-		}
-?>
+	root $var_rootdir;
 
-	#StartFile = index.php
-<?php
-		if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-		} else {
-?>
-	UseToolkit = findindexfile, permalink
-<?php
-		}
-?>
+	set $var_user 'apache';
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	set $var_fpmport '<?php echo $fpmportapache; ?>';
+
+	include '<?php echo $globalspath; ?>/switch_standard.conf';
 <?php
-		if ($count === 0) {
-?>
-#}
-<?php
-		} else {
+		$count++;
 ?>
 }
-<?php
-		}
 
-		$count++;
+<?php
 	}
 }
 ?>
