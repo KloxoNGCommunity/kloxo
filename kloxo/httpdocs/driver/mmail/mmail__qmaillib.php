@@ -206,7 +206,8 @@ class Mmail__Qmail extends lxDriverClass
 
 		//Hack hack... Read the mail password in the input.
 		if (!$this->main->__var_password) {
-			$password = 'something';
+		//	$password = 'something';
+			$password = randomString(8);
 		} else {
 			$password = $this->main->__var_password;
 		}

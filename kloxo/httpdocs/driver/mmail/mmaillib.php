@@ -63,7 +63,8 @@ class Mmail extends Lxdb
 			try {
 				$master = $this->getFromList('mailaccount', "postmaster@$this->nname");
 			} catch (exception $e) {
-				$this->__var_password = "hello";
+			//	$this->__var_password = "hello";
+				$this->__var_password = randomString(8);
 			}
 			if ($master) {
 				$this->__var_password = $master->realpass;

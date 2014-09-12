@@ -239,7 +239,7 @@ class Smessage extends Lxdb
 			if ($l->contactemail) {
 				$cm = $l->contactemail;
 
-				$extra .= "Reply-To: {$cm}\n";
+			//	$extra .= "Reply-To: {$cm}\n";
 
 			//	lx_mail(null, $cm, $subject, $message, $extra);
 				callInBackground('lx_mail', array(null, $cm, $subject, $message, $extra));
