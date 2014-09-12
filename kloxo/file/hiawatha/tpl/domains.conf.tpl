@@ -1,5 +1,9 @@
 ### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line
 
+
+## MR - NOTE:
+## add 'header("X-Hiawatha-Cache: 10");' to index.php
+
 <?php
 
 if (($webcache === 'none') || (!$webcache)) {
@@ -10,7 +14,7 @@ if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '8443';
 }
 
-$portnames = array('nonssl', 'ssl');
+$portnames = array("nonssl", "ssl");
 
 foreach ($certnamelist as $ip => $certname) {
 	if (file_exists("/home/{$user}/ssl/{$domainname}.key")) {
@@ -95,10 +99,44 @@ $fpmportapache = 50000;
 
 $disabledocroot = "/home/kloxo/httpd/disable";
 
-if ($disabled) {
-	$sockuser = 'apache';
-} else {
-	$sockuser = $user;
+$domcleaner = str_replace('-', '_', str_replace('.', '_', $domainname));
+
+$count = 0;
+
+foreach ($certnamelist as $ip => $certname) {
+	if ($ip !== '*') {
+?>
+
+Binding {
+	BindingId = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+	Port = <?php echo $ports[$count]; ?>
+
+	Interface = <?php echo $ip; ?>
+
+	MaxKeepAlive = 3600
+	TimeForRequest = 3600
+	MaxRequestSize = 102400
+	## not able more than 100MB
+	MaxUploadSize = 100
+<?php
+	if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+		if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+		}
+	}
+?>
+}
+<?php
+	}
+
+	$count++;
 }
 
 if (!$reverseproxy) {
@@ -158,7 +196,7 @@ UrlToolkit {
 ?>
 
 UrlToolkit {
-	ToolkitID = redirect_<?php echo str_replace('.', '_', $domainname); ?>
+	ToolkitID = redirect_<?php echo $domcleaner; ?>
 
 	RequestURI exists Return
 <?php
@@ -209,26 +247,22 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-
-	set var_user = apache
-
-	Hostname = cp.<?php echo $domainname; ?>
-
-	WebsiteRoot = <?php echo $disabledocroot; ?>
-
-
-	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 <?php
+			}
+
 			if ($count !== 0) {
 ?>
 
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
@@ -236,56 +270,61 @@ VirtualHost {
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
-				if ($reverseproxy) {
+	set var_user = apache
+
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
+	Hostname = cp.<?php echo $domainname; ?>
+
+
+	WebsiteRoot = <?php echo $disabledocroot; ?>
+
+	EnablePathInfo = yes
+<?php
+			if ($reverseproxy) {
 ?>
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-<?php
-				} else {
-?>
-
-	UseFastCGI = php_for_var_user
-<?php
-				}
-			}
-?>
-
-	#StartFile = index.php
-<?php
-			if ($reverseproxy) {
-?>
 	UseToolkit = findindexfile
 <?php
 			} else {
 ?>
+
+	UseFastCGI = php_for_var_user
 	UseToolkit = findindexfile, permalink
 <?php
 			}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-
-	set var_user = apache
-
-	Hostname = webmail.<?php echo $domainname; ?>
-
-	WebsiteRoot = <?php echo $disabledocroot; ?>
-
-
-	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 <?php
+			}
+
 			if ($count !== 0) {
 ?>
 
@@ -296,37 +335,43 @@ VirtualHost {
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 				}
-
-				if ($reverseproxy) {
 ?>
-
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	SecureURL = no
+	#MinSSLversion = TLS1.1
 <?php
-				} else {
-?>
-
-	UseFastCGI = php_for_var_user
-<?php
-				}
 			}
 ?>
 
-	#StartFile = index.php
+	set var_user = apache
+
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
+	Hostname = webmail.<?php echo $domainname; ?>
+
+
+	WebsiteRoot = <?php echo $disabledocroot; ?>
+
+
+	EnablePathInfo = yes
 <?php
 			if ($reverseproxy) {
 ?>
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = findindexfile
 <?php
 			} else {
 ?>
+
+	UseFastCGI = php_for_var_user
 	UseToolkit = findindexfile, permalink
 <?php
 			}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -335,20 +380,19 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-
-	set var_user = apache
-
-	Hostname = cp.<?php echo $domainname; ?>
-
-	WebsiteRoot = <?php echo $cpdocroot; ?>
-
-
-	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 <?php
+			}
+
 			if ($count !== 0) {
 ?>
 
@@ -359,8 +403,26 @@ VirtualHost {
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
 			}
 ?>
+
+	set var_user = apache
+
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
+	Hostname = cp.<?php echo $domainname; ?>
+
+
+	WebsiteRoot = <?php echo $cpdocroot; ?>
+
+
+	EnablePathInfo = yes
 
 	TimeForCGI = 3600
 
@@ -373,58 +435,72 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-
 			if ($reverseproxy) {
 ?>
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 			} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-<?php
-			}
-?>
-
-	#StartFile = index.php
-<?php
-			if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-			} else {
-?>
 	UseToolkit = findindexfile, permalink
 <?php
 			}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
-
 			if ($webmailremote) {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = apache
 
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
 	Hostname = webmail.<?php echo $domainname; ?>
+
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 
 	useToolkit = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
@@ -436,35 +512,49 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = apache
 
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
 	Hostname = webmail.<?php echo $domainname; ?>
+
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
-<?php
-				if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-					if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-					}
-				}
-?>
 
 	TimeForCGI = 3600
 
@@ -482,30 +572,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 				} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-<?php
-				}
-?>
-
-	#StartFile = index.php
-<?php
-				if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-				} else {
-?>
 	UseToolkit = findindexfile, permalink
 <?php
 				}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -515,41 +593,46 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = <?php echo $user; ?>
 
 
-<?php
-		if ($enablecgi) {
-?>
+	UseGZfile = yes
 
-	WrapCGI = <?=$user;?>_wrapper
-
-	Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
-<?php
-		}
-?>
+	FollowSymlinks = no
 
 	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>
 
 <?php
-		if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-			if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-			}
-		}
-
 		if ($disabled) {
 			$rootpath = $disabledocroot;
 		}
@@ -559,11 +642,18 @@ VirtualHost {
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 
 	Alias = /__kloxo:/home/<?php echo $user; ?>/kloxoscript
 <?php
+		if ($enablecgi) {
+?>
+
+	WrapCGI = <?=$user;?>_wrapper
+
+	ScriptAlias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
+<?php
+		}
+
 		if ($redirectionlocal) {
 			foreach ($redirectionlocal as $rl) {
 ?>
@@ -583,7 +673,7 @@ VirtualHost {
 			if ($statsapp === 'awstats') {
 ?>
 
-	Alias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
+	ScriptAlias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
 
 	Alias = /awstatscss:/home/kloxo/httpd/awstats/wwwroot/css
 	Alias = /awstatsicons:/home/kloxo/httpd/awstats/wwwroot/icon
@@ -625,30 +715,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = redirect_<?php echo $domcleaner; ?>, findindexfile
 <?php
 		} else {
 ?>
 
 	UseFastCGI = php_for_var_user
+	UseToolkit = redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
 <?php
 		}
 ?>
 
 	#StartFile = index.php
-<?php
-		if ($reverseproxy) {
-?>
-	UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>, findindexfile
-<?php
-		} else {
-?>
-	UseToolkit = redirect_<?php echo str_replace('.', '_', $domainname); ?>, findindexfile, permalink
-<?php
-		}
-?>
-
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -670,47 +748,50 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-
-	set var_user = <?php echo $user; ?>
-
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			if ($enablecgi) {
+			} else {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
+<?php
+			}
+
+			if ($count !== 0) {
 ?>
 
-	WrapCGI = <?=$user;?>_wrapper
-
-	Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
 <?php
 			}
 ?>
 
+	set var_user = <?php echo $user; ?>
+
+
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
 	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
+
 
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-						if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-						}
-					}
-?>
 
 	UserWebsites = yes
 
@@ -730,30 +811,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 					} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-<?php
-					}
-?>
-
-	#StartFile = index.php
-<?php
-					if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-					} else {
-?>
 	UseToolkit = findindexfile, permalink
 <?php
 					}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -767,20 +836,42 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = <?php echo $user; ?>
 
 
-<?php
-			if ($enablecgi) {
-?>
+	UseGZfile = yes
 
-	WrapCGI = <?=$user;?>_wrapper
-<?php
-			}
-?>
+	FollowSymlinks = no
 
 	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 
@@ -788,24 +879,6 @@ VirtualHost {
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-						if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-						}
-					}
-?>
 
 	UserWebsites = yes
 
@@ -825,31 +898,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 					} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-<?php
-					}
-?>
-
-	#StartFile = index.php
-<?php
-					if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-					} else {
-?>
 	UseToolkit = findindexfile, permalink
 <?php
 					}
 ?>
 
-
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -867,37 +927,49 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = apache
 
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
 	Hostname = webmail.<?php echo $parkdomainname; ?>
+
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
-<?php
-					if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-						if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-						}
-					}
-?>
-
-	#StartFile = index.php
 <?php
 					if ($reverseproxy) {
 ?>
@@ -910,8 +982,7 @@ VirtualHost {
 					}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -921,34 +992,44 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
-
-	set var_user = apache
-
-
-	Hostname = webmail.<?php echo $parkdomainname; ?>
-
-
-	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 <?php
-						if ($count !== 0) {
+			}
+
+			if ($count !== 0) {
 ?>
 
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-							if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-							}
-						}
+				}
 ?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
+
+	set var_user = apache
+
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
+	Hostname = webmail.<?php echo $parkdomainname; ?>
+
 	TimeForCGI = 3600
 
 	Alias = /error:/home/kloxo/httpd/error
@@ -965,30 +1046,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 						} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-<?php
-						}
-?>
-
-	#StartFile = index.php
-<?php
-						if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-						} else {
-?>
 	UseToolkit = findindexfile, permalink
 <?php
 						}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -997,19 +1066,49 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = apache
 
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
 	Hostname = webmail.<?php echo $parkdomainname; ?>
+
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 
 	TimeForCGI = 3600
 
@@ -1022,24 +1121,6 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-						if ($count !== 0) {
-?>
-
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-							if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-							}
-						}
-?>
-
-	#StartFile = index.php
-<?php
 						if ($reverseproxy) {
 ?>
 	UseToolkit = findindexfile
@@ -1051,8 +1132,7 @@ VirtualHost {
 						}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -1077,35 +1157,50 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = apache
 
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
 	Hostname = webmail.<?php echo $redirdomainname; ?>
+
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
-<?php
-					if ($count !== 0) {
-?>
 
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-						if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-						}
-					}
-?>
 	TimeForCGI = 3600
 
 	Alias = /error:/home/kloxo/httpd/error
@@ -1122,30 +1217,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 					} else {
 ?>
 
 	UseFastCGI = php_for_var_user
+	UseToolkit = findindexfile
 <?php
 					}
 ?>
 
 	#StartFile = index.php
-<?php
-					if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-					} else {
-?>
-	UseToolkit = findindexfile, permalink
-<?php
-					}
-?>
-
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
 }
 
 <?php
@@ -1155,34 +1238,49 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = apache
 
+	UseGZfile = yes
+
+	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
 
 
-	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
-<?php
-						if ($count !== 0) {
-?>
+	#Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-							if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-							}
-						}
-?>
+	EnablePathInfo = yes
+
 	TimeForCGI = 3600
 
 	Alias = /error:/home/kloxo/httpd/error
@@ -1199,30 +1297,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 						} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-<?php
-						}
-?>
-
-	#StartFile = index.php
-<?php
-						if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-						} else {
-?>
 	UseToolkit = findindexfile, permalink
 <?php
 						}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php
@@ -1231,35 +1317,50 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+<?php
+			if ($ip !== '*') {
+?>
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
+
+<?php
+			} else {
+?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+<?php
+			}
+
+			if ($count !== 0) {
+?>
+
+	SSLcertFile = <?php echo $certname; ?>.pem
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	RequiredCA = <?php echo $certname; ?>.ca
+<?php
+				}
+?>
+	SecureURL = no
+	#MinSSLversion = TLS1.1
+<?php
+			}
+?>
 
 	set var_user = apache
 
+	UseGZfile = yes
+
+	FollowSymlinks = no
+
 	Hostname = webmail.<?php echo $redirdomainname; ?>
+
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
 	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
-<?php
-						if ($count !== 0) {
-?>
 
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-							if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-							}
-						}
-?>
 	TimeForCGI = 3600
 
 	Alias = /error:/home/kloxo/httpd/error
@@ -1276,30 +1377,18 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	UseToolkit = findindexfile
 <?php
 						} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-<?php
-						}
-?>
-
-	#StartFile = index.php
-<?php
-						if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-						} else {
-?>
 	UseToolkit = findindexfile, permalink
 <?php
 						}
 ?>
 
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
+	#StartFile = index.php
 }
 
 <?php

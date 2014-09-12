@@ -142,9 +142,11 @@ class serverweb__ extends lxDriverClass
 
 		if (isWebProxyOrApache()) {
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
-			lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
+		//	lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
+			exec("'rm' -rf {$ehcdpath}/swtune.conf");
 
-			lxshell_return("cp", "-rf", "{$ullkfapath}", "/opt/configs");
+		//	lxshell_return("cp", "-rf", "{$ullkfapath}", "/opt/configs");
+			lxshell_return("'cp' {$ullkfapath} /opt/configs");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
 				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath . "/~lxcenter.conf");

@@ -7994,7 +7994,7 @@ function setCopyErrorPages()
 	$list = array('401', '403', '404', '501', '503');
 
 	foreach ($list as $k => $v) {
-		log_cleanup("- Copy '$v' Page to '{$dir}'", $nolog);
-		lxfile_cp(getLinkCustomfile($src, "{$v}.html"), "{$dir}/{v}.html");
+		log_cleanup("- Copy '{$v}' Page to '{$dir}'", $nolog);
+		lxfile_cp(getLinkCustomfile($src, "{$v}.html"), "{$dir}/{$v}.html");
 	}
 }

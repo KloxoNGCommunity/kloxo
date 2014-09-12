@@ -1,5 +1,9 @@
 ### begin - web of initial - do not remove/modify this line
 
+
+## MR - NOTE:
+## add 'header("X-Hiawatha-Cache: 10");' to index.php
+
 <?php
 
 foreach ($driverlist as $k => $v) {
@@ -154,43 +158,10 @@ Binding {
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
 	MaxUploadSize = 2000
-
-
-}
-
-### 'default' config
-<?php
-		if ($count === 0) {
-?>
-#VirtualHost {
-	#RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-		} else {
-?>
-VirtualHost {
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-		}
-?>
-
-	set var_user = apache
-
-	Hostname = 0.0.0.0
-	WebsiteRoot = <?php echo $defaultdocroot; ?>
-
-
-	EnablePathInfo = yes
-	UseGZfile = yes
-	FollowSymlinks = no
 <?php
 		if ($count !== 0) {
 ?>
 
-	RequireSSL = yes
-	SecureURL = no
-	#MinSSLversion = TLS1.1
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
 			if (file_exists("{$certname}.ca")) {
@@ -200,62 +171,62 @@ VirtualHost {
 			}
 		}
 ?>
-
-	TimeForCGI = 3600
-
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
-<?php
-		if ($reverseproxy) {
-?>
-
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-<?php
-		} else {
-?>
-
-	#UserDirectory = public_html
-	#UserWebsites = yes
-
-	UseFastCGI = php_for_var_user
-<?php
-		}
-?>
-
-	#StartFile = index.php
-<?php
-		if ($reverseproxy) {
-?>
-	UseToolkit = findindexfile
-<?php
-		} else {
-?>
-	UseToolkit = findindexfile, permalink
-<?php
-		}
-?>
-
-	## add 'header("X-Hiawatha-Cache: 10");' to index.php
-	#CustomHeader = X-Hiawatha-Cache:10
-<?php
-		if ($count === 0) {
-?>
-#}
-<?php
-		} else {
-?>
 }
 <?php
-		}
-
 		$count++;
 	}
 }
 ?>
+
+### 'default' config
+set var_user = apache
+
+Hostname = 0.0.0.0
+WebsiteRoot = <?php echo $defaultdocroot; ?>
+
+
+EnablePathInfo = yes
+UseGZfile = yes
+FollowSymlinks = no
+
+TimeForCGI = 3600
+
+Alias = /error:/home/kloxo/httpd/error
+ErrorHandler = 401:/error/401.html
+ErrorHandler = 403:/error/403.html
+ErrorHandler = 404:/error/404.html
+ErrorHandler = 501:/error/501.html
+ErrorHandler = 503:/error/503.html
+<?php
+		if ($reverseproxy) {
+?>
+
+#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
+ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+<?php
+		} else {
+?>
+
+#UserDirectory = public_html
+#UserWebsites = yes
+
+UseFastCGI = php_for_var_user
+<?php
+		}
+?>
+
+#StartFile = index.php
+<?php
+		if ($reverseproxy) {
+?>
+UseToolkit = findindexfile
+<?php
+		} else {
+?>
+UseToolkit = findindexfile, permalink
+<?php
+		}
+?>
+
 
 ### end - web of initial - do not remove/modify this line

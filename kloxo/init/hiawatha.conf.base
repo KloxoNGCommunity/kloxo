@@ -1,5 +1,5 @@
 # Hiawatha main configuration file
-#
+# Convictions Hosting Custom - September 9th
 
 ServerString = Hiawatha_for_Kloxo-MR
 
@@ -35,36 +35,36 @@ FastCGIserver {
 MimetypeConfig = hiawatha-mimetype.conf
 
 UrlToolkit {
-    ToolkitID = findindexfile
-    Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
-    RequestURI isfile Return
-    Match ^([^?]*)/index\.php(\?.*)?$ Rewrite $1/index.html$2 Continue
-    RequestURI isfile Return
-    Match ^([^?]*)/index\.html(\?.*)?$ Rewrite $1/index.htm$2 Continue
-    RequestURI isfile Return
-    Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
+	ToolkitID = findindexfile
+	Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
+	RequestURI isfile Return
+	Match ^([^?]*)/index\.php(\?.*)?$ Rewrite $1/index.html$2 Continue
+	RequestURI isfile Return
+	Match ^([^?]*)/index\.html(\?.*)?$ Rewrite $1/index.htm$2 Continue
+	RequestURI isfile Return
+	Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
 }
 
 UrlToolkit {
-    ToolkitID = expire_needed
-    Match .*\.jpg$ Expire 1 weeks
-    Match .*\.png$ Expire 1 weeks
-    Match .*\.gif$ Expire 1 weeks
-    Match .*\.css$ Expire 1 weeks
-    Match .*\.js$ Expire 1 weeks
-    Match .*\.gif$ Expire 1 weeks
-    Match .*\.eot$ Expire 1 weeks
-    Match .*\.svg$ Expire 1 weeks
-    Match .*\.ttf$ Expire 1 weeks
-    Match .*\.ico$ Expire 1 weeks
+	ToolkitID = expire_needed
+	Match .*\.jpg$ Expire 1 weeks
+	Match .*\.png$ Expire 1 weeks
+	Match .*\.gif$ Expire 1 weeks
+	Match .*\.css$ Expire 1 weeks
+	Match .*\.js$ Expire 1 weeks
+	Match .*\.gif$ Expire 1 weeks
+	Match .*\.eot$ Expire 1 weeks
+	Match .*\.svg$ Expire 1 weeks
+	Match .*\.ttf$ Expire 1 weeks
+	Match .*\.ico$ Expire 1 weeks
 }
 
 Binding {
 	BindingId = port_nonssl
 	Port = __nonssl_port__
 	#Interface = 0.0.0.0
-	MaxKeepAlive = 3600
-	TimeForRequest = 3600
+	MaxKeepAlive = 200
+	TimeForRequest = 8,25
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
 	MaxUploadSize = 2000
@@ -74,23 +74,24 @@ Binding {
 	BindingId = port_ssl
 	Port = __ssl_port__
 	#Interface = 0.0.0.0
-	MaxKeepAlive = 3600
-	TimeForRequest = 3600
+	MaxKeepAlive = 200
+	TimeForRequest = 8,25
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
 	MaxUploadSize = 2000
+	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
+	SSLcertFile = /usr/local/lxlabs/kloxo/etc/program.pem
 }
 
+## CF - no need for Virtual Host, all default to this:
 Hostname = 0.0.0.0
 WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
 StartFile = index.php
 AccessLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-access.log
 ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
-
+SecureURL = no
 UseFastCGI = PHP5
-
 UseToolkit = findindexfile, expire_needed
-
 TimeForCGI = 3600
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html
@@ -98,33 +99,3 @@ ErrorHandler = 403:/error/403.html
 ErrorHandler = 404:/theme/lbin/sitepreview.php
 ErrorHandler = 501:/error/501.html
 ErrorHandler = 503:/error/503.html
-
-VirtualHost {
-	RequiredBinding = port_ssl
-
-	Hostname = 0.0.0.0
-	WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
-	StartFile = index.php
-
-	RequireSSL = yes
-	SecureURL = no
-	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
-	SSLcertFile = /usr/local/lxlabs/kloxo/etc/program.pem
-
-	AccessLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-access.log
-	ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
-
-	UseFastCGI = PHP5
-
-	UseToolkit = findindexfile, expire_needed
-
-	TimeForCGI = 3600
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	#ErrorHandler = 404:/error/404.html
-	ErrorHandler = 404:/panel/lbin/sitepreview.php
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
-
-	UseGZfile = yes
-}

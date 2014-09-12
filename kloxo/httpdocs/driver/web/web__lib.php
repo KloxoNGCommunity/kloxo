@@ -298,7 +298,8 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-			lxshell_return("rm", "-rf", $tpltarget);
+		//	lxshell_return("rm", "-rf", $tpltarget);
+			exec("'rm' -rf {$tpltarget}");
 		}
 	}
 
@@ -329,7 +330,8 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-			lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
+		//	lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
+			exec("'rm' -rf /etc/php-fpm.d/*.conf");
 
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf");
@@ -566,8 +568,11 @@ class web__ extends lxDriverClass
 		$list = getAllWebDriverList();
 
 		foreach ($list as &$l) {
-			lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/domains/*.conf");
-			lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/proxies/*.conf");
+			// MR -- lxshell_return not work for rm; then use exec
+		//	lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/domains/*.conf");
+		//	lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/proxies/*.conf");
+			exec("'rm' -rf /opt/configs/{$l}/conf/domains/*.conf");
+			exec("'rm' -rf /opt/configs/{$l}/conf/proxies/*.conf");
 		}
 	}
 
