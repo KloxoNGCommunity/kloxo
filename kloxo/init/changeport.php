@@ -8,7 +8,7 @@ if (file_exists("{$kpath}/httpdocs/lib/html/include.php")) {
 	include_once "{$kpath}/httpdocs/htmllib/lib/include.php";
 }
 
-// initProgram('admin');
+initProgram('admin');
 
 $sslport = $sgbl->__var_prog_ssl_port;
 $nonsslport = $sgbl->__var_prog_port;
