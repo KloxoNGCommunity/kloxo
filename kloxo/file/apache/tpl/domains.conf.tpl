@@ -167,7 +167,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -294,7 +293,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -337,7 +335,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -468,7 +465,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -798,7 +794,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -939,7 +934,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -991,7 +985,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -1118,7 +1111,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -1161,7 +1153,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -1306,7 +1297,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -1433,7 +1423,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -1476,7 +1465,6 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLProtocol ALL -SSLv2
 		SSLHonorCipherOrder On
 		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCompression Off
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
