@@ -101,10 +101,11 @@ $disabledocroot = "/home/kloxo/httpd/disable";
 
 $domcleaner = str_replace('-', '_', str_replace('.', '_', $domainname));
 
-$count = 0;
-
 foreach ($certnamelist as $ip => $certname) {
-	if ($ip !== '*') {
+	$count = 0;
+
+	foreach ($ports as &$port) {
+		if ($ip !== '*') {
 ?>
 
 Binding {
@@ -112,7 +113,7 @@ Binding {
 
 	Port = <?php echo $ports[$count]; ?>
 
-	Interface = <?php echo $ip; ?>
+	#Interface = <?php echo $ip; ?>
 
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600
@@ -120,20 +121,21 @@ Binding {
 	## not able more than 100MB
 	MaxUploadSize = 100
 <?php
-	if ($count !== 0) {
+			if ($count !== 0) {
 ?>
 
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-		if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+		RequiredCA = <?php echo $certname; ?>.ca
 <?php
-		}
-	}
+				}
+			}
 ?>
 }
 <?php
+		}
 	}
 
 	$count++;
@@ -240,6 +242,9 @@ foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
 
 	foreach ($ports as &$port) {
+
+		//	if ($count !== 0) { continue; }
+
 		$protocol = ($count === 0) ? "http://" : "https://";
 
 		if ($disabled) {
@@ -261,15 +266,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+			//		}
+			}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -326,15 +332,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -394,15 +401,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -474,15 +482,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -526,15 +535,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -607,15 +617,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -776,15 +787,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -864,15 +876,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -955,15 +968,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1020,15 +1034,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1094,15 +1109,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1185,15 +1201,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1266,15 +1283,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1345,15 +1363,16 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+			//	if ($ip !== '*') {
 ?>
-
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
+			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1

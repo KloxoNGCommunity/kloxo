@@ -10,7 +10,7 @@
 [req]
 prompt = no
 distinguished_name = req_distinguished_name
-req_extensions = v3_req
+#req_extensions = v3_req
 
 [req_distinguished_name]
 countryName = <?php echo $countryName; ?>
@@ -27,13 +27,14 @@ emailAddress = <?php echo $emailAddress; ?>
 
 commonName = <?php echo $commonName; ?>
 
-
+<?php
+/*
+?>
 [v3_req]
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName = @alt_names
 # subjectAltName = "<?php echo $SAN; ?>"
-
 
 [alt_names]
 <?php
@@ -44,4 +45,5 @@ DNS.<?php echo $c; ?> = <?php echo $v; ?>
 
 <?php
 	}
+*/
 ?>

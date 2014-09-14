@@ -176,18 +176,17 @@ class SslCert extends Lxdb
 	static function setProgramSsl($contentpem, $contentsca, $contentscrt, $contentskey)
 	{
 		lfile_put_contents("../etc/program.pem", $contentpem);
-
-		if ($contentsca) {
-			lfile_put_contents("../etc/program.ca", $contentsca);
-		}
-		
 		lfile_put_contents("../etc/program.crt", $contentscrt);
 		lfile_put_contents("../etc/program.key", $contentskey);
 
 		lxfile_unix_chown("../etc/program.pem", "lxlabs:lxlabs");
-		lxfile_unix_chown("../etc/program.ca", "lxlabs:lxlabs");
 		lxfile_unix_chown("../etc/program.crt", "lxlabs:lxlabs");
 		lxfile_unix_chown("../etc/program.key", "lxlabs:lxlabs");
+
+		if ($contentsca) {
+			lfile_put_contents("../etc/program.ca", $contentsca);
+			lxfile_unix_chown("../etc/program.ca", "lxlabs:lxlabs");
+		}
 	}
 
 	function updatessl_hypervm($param)
@@ -249,7 +248,8 @@ class SslCert extends Lxdb
 
 			if ($parent->getClass() === 'web') {
 				$param['nname'] = $parent->nname;
-				$param['ssl_data_b_s_commonName_r'] = '*.' . $parent->nname;
+			//	$param['ssl_data_b_s_commonName_r'] = '*.' . $parent->nname;
+				$param['ssl_data_b_s_commonName_r'] = $parent->nname;
 				$param['ssl_data_b_s_subjectAltName_r'] = $parent->nname;
 			}
 		}
@@ -300,11 +300,11 @@ class SslCert extends Lxdb
 		$contentpem = "$contentskey\n$contentscrt";
 
 		lfile_put_contents("$path/$name.pem", $contentpem);
-	/*
+
 		if ($contentsca) {
 			lfile_put_contents("$path/$name.ca", $contentsca);
 		}
-	*/
+
 		exec("sh /script/fixweb --domain={$name} --nolog");
 		createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
 	}
@@ -325,7 +325,8 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$nname = array('M', $parent->nname);
-			$cname = array('M', "*.{$parent->nname}");
+		//	$cname = array('M', "*.{$parent->nname}");
+			$cname = array('M', $parent->nname);
 			$saname = array('M', $parent->nname);
 		} else {
 			$nname = null;
@@ -357,7 +358,7 @@ class SslCert extends Lxdb
 			}
 
 			$vlist["ssl_data_b_s_commonName_r"] = $cname;
-			$vlist["ssl_data_b_s_subjectAltName_r"] = $saname;
+		//	$vlist["ssl_data_b_s_subjectAltName_r"] = $saname;
 
 			$vlist["ssl_data_b_s_countryName_r"] = array("s", $temp);
 			$vlist["ssl_data_b_s_stateOrProvinceName_r"] = null;
@@ -392,9 +393,10 @@ class SslCert extends Lxdb
 			$name = $parent->nname;
 			$user = $parent->customer_name;
 
-			$temp['nname'] = $parent->nname;
-			$temp['commonName'] = "*.{$parent->nname}";
-			$temp['subjectAltName'] = $parent->nname;
+			$temp['name'] = $parent->nname;
+		//	$temp['commonName'] = "*.{$parent->nname}";
+			$temp['commonName'] = $parent->nname;
+		//	$temp['subjectAltName'] = $parent->nname;
 		}
 
 		foreach ($temp as $key => $t) {
@@ -419,9 +421,19 @@ class SslCert extends Lxdb
 			$cnffile = '/tmp/openssl.cnf';
 		}
 
+	/*
 		$config = array('config' => $cnffile,
 			'digest_alg' => 'sha1',
 			'req_extensions' => 'v3_req',
+			'private_key_bits' => (int)$this->key_bits,
+			'private_key_type' => OPENSSL_KEYTYPE_RSA,
+			'encrypt_key' => true,
+			'encrypt_key_cipher' => OPENSSL_CIPHER_3DES
+		);
+	*/
+
+		$config = array('config' => $cnffile,
+			'digest_alg' => 'sha1',
 			'private_key_bits' => (int)$this->key_bits,
 			'private_key_type' => OPENSSL_KEYTYPE_RSA,
 			'encrypt_key' => true,

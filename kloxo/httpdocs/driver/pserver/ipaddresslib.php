@@ -406,9 +406,11 @@ class Ipaddress extends Lxdb
 			lxfile_cp("{$ppath}/file/default.key", "{$spath}/$name.key");
 		}
 
+	/*
 		if (!lxfile_exists("{$spath}/$name.ca")) {
 			lxfile_cp("{$ppath}/file/default.ca", "{$spath}/$name.ca");
 		}
+	*/
 
 		// MR -- add for missing (lighttpd error when select because need .pem file
 		if (!lxfile_exists("{$spath}/$name.pem")) {
