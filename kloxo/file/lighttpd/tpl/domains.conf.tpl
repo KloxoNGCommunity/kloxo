@@ -239,16 +239,6 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	index-file.names = ( <?php echo $indexorder; ?> )
 <?php
-			if ($enablecgi) {
-?>
-
-	alias.url += ( "/" => var.rootdir )
-
-	$HTTP["url"] =~ "^/" {
-		cgi.assign = ( ".pl" => "/usr/bin/perl" )
-	}
-<?php
-			}
 
 			if (!$disablephp) {
 ?>
@@ -602,18 +592,40 @@ $SERVER["socket"] == ":" + var.portssl {
 	var.kloxoportnonssl = "<?php echo $kloxoportnonssl; ?>"
 
 	include "<?php echo $globalspath; ?>/<?php echo $genericconf; ?>"
+
+	alias.url += ( "/" => var.rootdir )
+
 <?php
 		if ($enablecgi) {
 ?>
 
-	alias.url += ( "/" => var.rootdir )
-
-	$HTTP["url"] =~ "^/" {
-		cgi.assign = ( ".pl" => "/usr/bin/perl" )
+	$HTTP["url"] =~ "^/cgi-bin" {
+		#cgi.assign = ( "" => "/home/httpd/" + var.domain + "/perlsuexec.sh" )
+		cgi.assign = ( "" => "/usr/bin/perl" )
 	}
 <?php
 		}
 ?>
+
+	$HTTP["url"] =~ "^/" {
+<?php
+		if ($enablecgi) {
+?>
+		#cgi.assign = ( ".pl" => "/home/httpd/" + var.domain + "/perlsuexec.sh" )
+		cgi.assign = ( ".pl" => "/usr/bin/perl" )
+<?php
+		}
+
+		if ($dirindex) {
+?>
+		dir-listing.activate = "enable"
+<?php
+		}
+?>
+
+		## trick using 'microcache' not work; no different performance!
+		#expire.url = ( "" => "access 10 seconds" )
+	}
 }
 
 <?php

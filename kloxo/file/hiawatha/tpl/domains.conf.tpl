@@ -727,6 +727,20 @@ VirtualHost {
 ?>
 
 	#StartFile = index.php
+<?php
+		if ($dirindex) {
+?>
+
+	ShowIndex = yes
+<?php
+		} else {
+?>
+
+	ShowIndex = no
+<?php
+
+		}
+?>
 }
 
 <?php

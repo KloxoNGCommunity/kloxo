@@ -506,9 +506,11 @@ class lxbackup extends Lxdb
 
 	static function execbackupphp($class, $name, $param)
 	{
+		$string = '';
+
 		foreach ($param as $k => $v) {
 			if (csb($k, "backupextra_")) {
-				$string[] = "--v-$k=$v";
+				$string .= " --v-$k=$v";
 			}
 		}
 
@@ -517,7 +519,7 @@ class lxbackup extends Lxdb
 		$fname = str_replace("/", "", $fname);
 
 		lxshell_background("__path_php_path", "../bin/common/backup.php", "--class=$class",
-			"--name=$name", "--v-backup_file_name=$fname", $string[0]);
+			"--name=$name", "--v-backup_file_name=$fname", $string);
 	}
 
 	function createBackupFileName($name)

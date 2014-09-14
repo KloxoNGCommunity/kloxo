@@ -61,7 +61,7 @@ function lxfile_dirsize($path, $byteflag = false)
 */
 
 //	exec("du -sc {$path} | grep -i '{$path}'", $out);
-	exec("'ionice -c 2 -n 7' 'du -s {$path}'", $out);
+	exec("ionice -c 2 -n 7 du -s {$path}", $out);
 	$os  = preg_replace("/\s+/", ":", $out[0]);
 	$t = str_replace(":{$path}", "", $os);
 
@@ -278,7 +278,7 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 	$fcmd = "$command $fullpath $files $command2";
 	$fcmd = str_replace(";", "", $fcmd);
 
-	do_exec_system("__system__", $dir, "'ionice -c 2 -n 7' $fcmd'", $out, $err, $ret, null);
+	do_exec_system("__system__", $dir, "ionice -c 2 -n 7 $fcmd", $out, $err, $ret, null);
 
 	print_time("zipfile", "Ziptook");
 
@@ -317,7 +317,7 @@ function lxshell_unzip($username, $dir, $file, $filelist = null)
 
 	$fcmd = "$command $fullpath $files";
 	$fcmd = str_replace(";", "", $fcmd);
-	$ret = new_process_cmd($username, $dir, "'ionice -c 2 -n 7' '$fcmd'");
+	$ret = new_process_cmd($username, $dir, "ionice -c 2 -n 7 $fcmd");
 
 	return $ret;
 }
@@ -352,7 +352,7 @@ function lxshell_unzip_numeric($dir, $file, $filelist = null)
 		$command = "unzip -oq";
 	}
 
-	do_exec_system("__system__", $dir, "'ionice -c 2 -n 7' '$command $fullpath $files'", $out, $err, $ret, null);
+	do_exec_system("__system__", $dir, "ionice -c 2 -n 7 $command $fullpath $files", $out, $err, $ret, null);
 
 	return $ret;
 }
@@ -719,7 +719,7 @@ function lxshell_background($cmd)
 	}
 
 //	exec($cmd);
-	exec("'ionice -c 2 -n 7' " . $cmd);
+	exec("ionice -c 2 -n 7 " . $cmd);
 
 	return true;
 }

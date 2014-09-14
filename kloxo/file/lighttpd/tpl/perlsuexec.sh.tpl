@@ -1,16 +1,7 @@
 <?php
 $userinfo = posix_getpwnam($user);
 
-if ($userinfo) {
-    $fpmport = (50000 + $userinfo['uid']);
-} else {
-    return false;
-}
-
-// MR -- to make easy for watchdog, apache user have uid 50000
-//$userinfoapache = posix_getpwnam('apache');
-//$fpmportapache = (50000 + $userinfoapache['uid']);
-$fpmportapache = 50000;
+userid =  $userinfo['uid'];
 
 ?>
 #!/bin/sh

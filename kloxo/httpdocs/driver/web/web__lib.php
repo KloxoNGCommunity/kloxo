@@ -183,6 +183,8 @@ class web__ extends lxDriverClass
 		$input['parkdomains'] = $this->getParkDomains();
 		$input['serveraliases'] = $this->getServerAliases();
 		$input['dirprotect'] = $this->getDirprotect();
+	
+		$input['dirindex'] = $this->getDirIndex();
 
 		$input['certnamelist'] = ($this->getSslCertNameList()) ?
 				$this->getSslCertNameList() : $this->getSslCertNameList('*');
@@ -770,6 +772,19 @@ class web__ extends lxDriverClass
 		}
 	}
 
+	function getDirIndex()
+	{
+		$s = $this->main->webmisc_b;
+
+		if (isset($s->dirindex) && ($s->dirindex === 'on')) {
+			$dirindex = true;
+		} else {
+			$dirindex = false;
+		}
+
+		return $dirindex;
+	}
+
 	function getIndexFileOrder()
 	{
 		if ($this->main->indexfile_list) {
@@ -873,6 +888,11 @@ class web__ extends lxDriverClass
 	function getStats()
 	{
 		$prog = ($this->main->__var_statsprog) ? $this->main->__var_statsprog : 'awstats';
+
+		// MR -- by default stats dir always protected
+		if (!$this->main->stats_password) {
+			$this->main->stats_password = randomString(8);
+		}
 
 		$prot = ($this->main->stats_password) ? $this->main->stats_password : null;
 

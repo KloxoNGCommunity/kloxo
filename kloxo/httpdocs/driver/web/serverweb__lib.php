@@ -451,8 +451,6 @@ class serverweb__ extends lxDriverClass
 
 	function set_multiple_php_install()
 	{
-		global $login;
-
 		// MR -- see preUpdate in serverweblib.php for why using this trick!
 
 		$c = '/tmp/phpm-install-process.sh';
@@ -472,7 +470,7 @@ class serverweb__ extends lxDriverClass
 			$b = '';
 
 			foreach ($a as $k => $v) {
-				$b .= "sh /script/phpm-installer {$v} --force\n";
+				$b .= "sh /script/phpm-installer {$v}\n";
 			}
 
 			$b .= "'rm' -f {$c}\n";
@@ -484,6 +482,8 @@ class serverweb__ extends lxDriverClass
 			lxshell_background("sh", $c);
 		}
 		
-		throw new lxException($login->getThrow('install_process_running_in_background'), '', $this->main->syncserver);
+		if (file_exists($c)) {
+			throw new lxException($login->getThrow('install_process_running_in_background'), '', $this->main->syncserver);
+		}
 	}
 }
