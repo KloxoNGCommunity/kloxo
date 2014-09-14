@@ -772,6 +772,14 @@ function PrepareTelaenDb($nolog = null)
 	lxfile_cp("{$tdahpath}/inc/config/telaen_config.security.php", "{$tdahpath}/inc/config/config.security.php");
 }
 
+function PrepareRainloopDb($nolog = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	log_cleanup("Preparing Rainloop Database", $nolog);
+	log_cleanup("- No need database", $nolog);
+}
+
 function run_mail_to_ticket()
 {
 	global $gbl, $sgbl, $login, $ghtml;
@@ -6633,6 +6641,30 @@ function installTelaen($nolog = null)
 
 }
 
+function installRainloop($nolog = null)
+{
+	global $sgbl;
+
+	$path_webmail = "$sgbl->__path_kloxo_httpd_root/webmail";
+	$path_telaen = "$path_webmail/telaen";
+
+	if (!file_exists($path_telaen)) {
+		log_cleanup("Rainloop webmail no exists", $nolog);
+		return;
+	}
+
+	PrepareRainloopDb($nolog);
+
+	log_cleanup("Initialize Rainloop files", $nolog);
+	log_cleanup("- Initialize process", $nolog);
+
+	if (lxfile_exists($path_webmail)) {
+		lxfile_generic_chown_rec($path_webmail, 'apache:apache');
+		lxfile_rm('/var/cache/kloxo/Rainloop.log');
+	}
+
+}
+
 function fix_suexec($nolog = null)
 {
 	log_cleanup("Fix suexec", $nolog);
@@ -7087,6 +7119,7 @@ function setInitialServices($nolog = null)
 	installAfterlogic($nolog);
 	installSquirrelmail($nolog);
 	installTelaen($nolog);
+	installRainloop($nolog);
 
 	installChooser($nolog);
 

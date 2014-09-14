@@ -63,8 +63,12 @@ foreach($list as $c) {
 			}
 
 			if (($target === 'all') || ($target === 'domains')) {
-				log_cleanup("- remove all domains configs at '{$web->syncserver}'", $nolog);
-				$web->setUpdateSubaction('remove_all_domain_configs');
+				if (($domain) || ($client)) {
+					// no action
+				} else {
+					log_cleanup("- remove all domains configs at '{$web->syncserver}'", $nolog);
+					$web->setUpdateSubaction('remove_all_domain_configs');
+				}
 			}
 
 			$slist[] = $web->syncserver;
