@@ -130,10 +130,23 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 	'rm' -f /opt/${base_name}/${base_name}
 fi
 
-if [ "${pack_name}" == "httpd" ] ; then
-	yum install httpd httpd-tools httpd-devel mod_fastcgi mod_fcgid mod_perl mod_rpaf mod_ruid2 mod_ssl mod_suphp mod_define perl-Taint-Runtime -y >>/opt/${base_name}/install.log
-else
-	if [ "${pack_name}" == "lighttpd" ] ; then
+#if [ "${pack_name}" == "httpd" ] ; then
+#	yum install httpd httpd-tools httpd-devel mod_fastcgi mod_fcgid mod_perl mod_rpaf mod_ruid2 mod_ssl mod_suphp mod_define perl-Taint-Runtime -y >>/opt/${base_name}/install.log
+#else
+	if [ "${pack_name}" == "httpd" ] ; then
+		yumdownloader httpd >>/opt/${base_name}/install.log
+		yumdownloader httpd-tools >>/opt/${base_name}/install.log
+		yumdownloader mod_fastcgi >>/opt/${base_name}/install.log
+		yumdownloader mod_fcgid >>/opt/${base_name}/install.log
+		yumdownloader mod_perl >>/opt/${base_name}/install.log
+		yumdownloader mod_rpaf >>/opt/${base_name}/install.log
+		yumdownloader mod_ruid2 >>/opt/${base_name}/install.log
+		yumdownloader mod_ssl >>/opt/${base_name}/install.log
+		yumdownloader mod_suphp >>/opt/${base_name}/install.log
+		yumdownloader mod_define >>/opt/${base_name}/install.log
+		yumdownloader mod_macro >>/opt/${base_name}/install.log
+		yum install perl-Taint-Runtime -y >>/opt/${base_name}/install.log
+	elif [ "${pack_name}" == "lighttpd" ] ; then
 		yumdownloader ${pack_name} >>/opt/${base_name}/install.log
 		yumdownloader ${pack_name}-fastcgi >>/opt/${base_name}/install.log
 	elif [ "${pack_name}" == "nginx" ] ; then
@@ -151,7 +164,7 @@ else
 	done
 
 	'rm' -rf ./*.rpm
-fi
+#fi
 
 cd /
 

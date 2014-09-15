@@ -3,7 +3,7 @@
 if [ "$1" == "--help" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
-	echo "  format: sh $0 <bind/djbdns/nsd/maradns/pdns> [--force]"
+	echo "  format: sh $0 <bind/djbdns/maradns/nsd/pdns> [--force]"
 	echo " ------------------------------------------------------------------------------"
 	echo "  --force"
 	echo "      - for re-install"
@@ -129,10 +129,10 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 	'rm' -f /opt/${base_name}/${base_name}
 fi
 
-if [ "${pack_name}" == "bind" ] ; then
-	yum install bind bind-utils -y >>/opt/${base_name}/install.log
-	yum remove bind-chroot -y >>/opt/${base_name}/install.log
-else
+#if [ "${pack_name}" == "bind" ] ; then
+#	yum install bind bind-utils -y >>/opt/${base_name}/install.log
+#	yum remove bind-chroot -y >>/opt/${base_name}/install.log
+#else
 	yumdownloader ${pack_name} >>/opt/${base_name}/install.log
 
 	x="- Extract all rpms to '/opt/${base_name}'"
@@ -144,7 +144,7 @@ else
 	done
 
 	'rm' -rf ./*.rpm
-fi
+#fi
 
 cd /
 
