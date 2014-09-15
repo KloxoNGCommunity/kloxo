@@ -44,7 +44,7 @@ $gl_class_array['dirprotect__nginxproxy'] = "driver/web/dirprotect__nginxproxyli
 $gl_class_array['dirprotect__openlitespeed'] = "driver/web/dirprotect__openlitespeedlib.php";
 $gl_class_array['dirprotect__openlitespeedproxy'] = "driver/web/dirprotect__openlitespeedproxylib.php";
 $gl_class_array['dirprotect__gwan'] = "driver/web/dirprotect__gwanlib.php";
-$gl_class_array['dirprotect__none'] = "driver/web/dirprotect__none.php";
+$gl_class_array['dirprotect__none'] = "driver/web/dirprotect__nonelib.php";
 
 $gl_class_array['mmail__qmail'] = "driver/mmail/mmail__qmaillib.php";
 
@@ -68,16 +68,16 @@ $gl_class_array['spam__none'] = "driver/mmail/spam__nonelib.php";
 $gl_class_array['mailcontent__qmail'] = "driver/mmail/mailcontent__qmaillib.php";
 $gl_class_array['mailqueue__qmail'] = "driver/mmail/mailqueue__qmaillib.php";
 
-//--// $gl_class_array['serverweb__apache'] = "driver/web/serverweb__apachelib.php";
-//--// $gl_class_array['serverweb__lighttpd'] = "driver/web/serverweb__lighttpdlib.php";
-//--// $gl_class_array['serverweb__nginx'] = "driver/web/serverweb__nginxlib.php";
-//--// $gl_class_array['serverweb__hiawatha'] = "driver/web/serverweb__hiawathalib.php";
-//--// $gl_class_array['serverweb__openlitespeed'] = "driver/web/serverweb__openlitespeedlib.php";
-//--// $gl_class_array['serverweb__gwan'] = "driver/web/serverweb__gwanlib.php";
-//--// $gl_class_array['serverweb__lighttpdproxy'] = "driver/web/serverweb__lighttpdproxylib.php";
-//--// $gl_class_array['serverweb__nginxproxy'] = "driver/web/serverweb__nginxproxylib.php";
-//--// $gl_class_array['serverweb__hiawathaproxy'] = "driver/web/serverweb__hiawathaproxylib.php";
-//--// $gl_class_array['serverweb__openlitespeedproxy'] = "driver/web/serverweb__openlitespeedproxylib.php";
+$gl_class_array['serverweb__apache'] = "driver/web/serverweb__apachelib.php";
+$gl_class_array['serverweb__lighttpd'] = "driver/web/serverweb__lighttpdlib.php";
+$gl_class_array['serverweb__nginx'] = "driver/web/serverweb__nginxlib.php";
+$gl_class_array['serverweb__hiawatha'] = "driver/web/serverweb__hiawathalib.php";
+$gl_class_array['serverweb__openlitespeed'] = "driver/web/serverweb__openlitespeedlib.php";
+$gl_class_array['serverweb__gwan'] = "driver/web/serverweb__gwanlib.php";
+$gl_class_array['serverweb__lighttpdproxy'] = "driver/web/serverweb__lighttpdproxylib.php";
+$gl_class_array['serverweb__nginxproxy'] = "driver/web/serverweb__nginxproxylib.php";
+$gl_class_array['serverweb__hiawathaproxy'] = "driver/web/serverweb__hiawathaproxylib.php";
+$gl_class_array['serverweb__openlitespeedproxy'] = "driver/web/serverweb__openlitespeedproxylib.php";
 $gl_class_array['serverweb__none'] = "driver/web/serverweb__nonelib.php";
 
 $gl_class_array['rubyrails__linux'] = "driver/web/rubyrails__linuxlib.php";

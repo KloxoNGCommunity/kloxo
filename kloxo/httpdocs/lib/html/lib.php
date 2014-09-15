@@ -461,13 +461,6 @@ function PreparePowerdnsDb($nolog = null)
 
 	log_cleanup("- Install MySQL and Geo Backend", $nolog);
 
-	// MR -- something trouble with pdns install via switch application
-	// so, fix here
-	if (isRpmInstalled('pdns')) {
-		setRpmInstalled("pdns-backend-mysql");
-		setRpmInstalled("pdns-backend-geo");
-	}
-
 	$pass = slave_get_db_pass();
 	$user = "root";
 	$host = "localhost";
@@ -5500,14 +5493,13 @@ function setRpmReplaced($rpmname, $replacewith)
 
 function isRpmInstalled($rpmname)
 {
-//	$ret = lxshell_return("rpm", "-q", $rpmname);
-	exec("rpm -qa {$rpmname}", $out, $ret);
+	// MR -- exec not work and must '-q' instead '-qa' to know true/false
+	$ret = lxshell_return("rpm", "-q", $rpmname);
 
-
-	if ($ret === 0) {
-		return true;
-	} else {
+	if ($ret) {
 		return false;
+	} else {
+		return true;
 	}
 }
 

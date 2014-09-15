@@ -1262,9 +1262,9 @@ STRIN;
 					'hiawatha', 'openlitespeed', 'gwan',
 					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy', 'openlitespeedproxy'));
 
-				$vlist['webcache_driver'] = array('s', array('none', 'varnish', 'trafficserver', 'squid'));
+				$vlist['webcache_driver'] = array('s', array('none', 'squid', 'trafficserver', 'varnish'));
 
-				$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'maradns', 'pdns', 'nsd'));
+				$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'maradns', 'nsd', 'pdns'));
 
 				$vlist['spam_driver'] = array('s', array('none', 'spamassassin', 'bogofilter'));
 
