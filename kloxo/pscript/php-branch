@@ -6,9 +6,10 @@
 if [ "$1" == "--help" ] ; then
 	echo
 	echo " ---------------------------------------------------------------------------"
-	echo "  format: sh $0 --select=<php/php52/php53/php53u/php54>"
+	echo "  format: sh $0 --select=<>"
 	echo " ---------------------------------------------------------------------------"
 	echo
+	echo " --select: php/php52/php53/php53u/php54/php55u"
 	echo
 	exit;
 fi

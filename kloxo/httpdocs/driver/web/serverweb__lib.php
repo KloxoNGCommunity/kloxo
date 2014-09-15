@@ -451,6 +451,8 @@ class serverweb__ extends lxDriverClass
 
 	function set_multiple_php_install()
 	{
+		global $login;
+
 		// MR -- see preUpdate in serverweblib.php for why using this trick!
 
 		$c = '/tmp/phpm-install-process.sh';

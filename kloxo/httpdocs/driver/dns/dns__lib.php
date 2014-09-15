@@ -31,46 +31,40 @@ class dns__ extends lxDriverClass
 			$driveralias = $driver;
 		}
 
-	//	$dnsdrvlist = getAllDnsDriverList();
+		setRpmInstalled($driver);
 
-	//	foreach ($dnsdrvlist as $k => $v) {
-	//		if ($v === $driver) {
-				setRpmInstalled($driver);
+		if ($driver === 'bind') {
+		//	setRpmInstalled("{$driver}-utils");
+			setRpmRemoved("{$driver}-chroot");
+			setRpmInstalled("{$driver}-libs");
+		}
 
-				if ($driver === 'bind') {
-				//	setRpmInstalled("{$driver}-utils");
-					setRpmRemoved("{$driver}-chroot");
-					setRpmInstalled("{$driver}-libs");
-				}
+		$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");
 
-				$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");
+		if (file_exists($initfile)) {
+			lxfile_cp($initfile, "/etc/init.d/{$driveralias}");
+			chmod("/etc/init.d/{$driveralias}", '0755');
+		}
 
-				if (file_exists($initfile)) {
-					lxfile_cp($initfile, "/etc/init.d/{$driveralias}");
-					chmod("/etc/init.d/{$driveralias}", '0755');
-				}
+		setCopyDnsConfFiles($driver);
 
-				setCopyDnsConfFiles($driver);
+		if ($driver === 'djbdns') {
+			lxshell_return("/etc/init.d/djbdns", "setup");
+		} elseif ($driver === 'nsd') {
+			$path = "/opt/configs/nsd/conf/defaults";
 
-				if ($driver === 'djbdns') {
-					lxshell_return("/etc/init.d/djbdns", "setup");
-				} elseif ($driver === 'nsd') {
-					$path = "/opt/configs/nsd/conf/defaults";
+			if (!file_exists("{$path}/{$driver}.master.conf")) {
+				touch("{$path}/{$driver}.master.conf");
+			}
 
-					if (!file_exists("{$path}/{$driver}.master.conf")) {
-						touch("{$path}/{$driver}.master.conf");
-					}
+			if (!file_exists("{$path}/nsd.slave.conf")) {
+				touch("{$path}/nsd.slave.conf");
+			}
+		}
 
-					if (!file_exists("{$path}/nsd.slave.conf")) {
-						touch("{$path}/nsd.slave.conf");
-					}
-				}
+		lxshell_return("chkconfig", $driveralias, "on");
 
-				lxshell_return("chkconfig", $driveralias, "on");
-
-				createRestartFile($driveralias);
-		//	}
-	//	}
+		createRestartFile($driveralias);
 	}
 
 	static function getActiveDriver()
@@ -110,15 +104,25 @@ class dns__ extends lxDriverClass
 			$input['action'] = $action;
 		}
 
-		$tplsource = getLinkCustomfile("/opt/configs/{$drivertype}/tpl", "domains.conf.tpl");
-		$tpltarget = "/opt/configs/{$drivertype}/conf/master/" . $input['domainname'];
+		$dnsdrvlist = getAllDnsDriverList();
 
-		$tpl = file_get_contents($tplsource);
+		foreach ($dnsdrvlist as $k => $v) {
+			if ($v !== 'pdns') {
+				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "domains.conf.tpl");
+				$tpltarget = "/opt/configs/{$v}/conf/master/" . $input['domainname'];
 
-		$tplparse = getParseInlinePhp($tpl, $input);
+				$tpl = file_get_contents($tplsource);
 
-		if ($tplparse) {
-			file_put_contents($tpltarget, $tplparse);
+				$tplparse = getParseInlinePhp($tpl, $input);
+
+				file_put_contents($tpltarget, $tplparse);
+			} else {
+				if (!isset($input['action'])) {
+					$input['action'] = 'add';
+				}
+
+				self::setPdnsSpecific($input);
+			}
 		}
 	}
 
@@ -149,11 +153,19 @@ class dns__ extends lxDriverClass
 			$input['domain'] = $this->main->nname;
 		}
 
-		$tplsource = getLinkCustomfile("/opt/configs/{$drivertype}/tpl", "list.master.conf.tpl");
+		$dnsdrvlist = getAllDnsDriverList();
 
-		$tpl = file_get_contents($tplsource);
+		foreach ($dnsdrvlist as $k => $v) {
+			if ($v !== 'pdns') {
+				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.master.conf.tpl");
 
-		$tplparse = getParseInlinePhp($tpl, $input);
+				$tpl = file_get_contents($tplsource);
+
+				$tplparse = getParseInlinePhp($tpl, $input);
+
+				// MR -- no action for file_put_contents
+			}
+		}
 	}
 
 	function createAllowTransferIpsTrue($drivertype)
@@ -167,11 +179,19 @@ class dns__ extends lxDriverClass
 		// MR -- IP list without hostname IP
 		$input['ips'] = array_diff($ip_dns, $ip_hostname);
 
-		$tplsource = getLinkCustomfile("/opt/configs/{$drivertype}/tpl", "list.transfered.conf.tpl");
+		$dnsdrvlist = getAllDnsDriverList();
 
-		$tpl = file_get_contents($tplsource);
+		foreach ($dnsdrvlist as $k => $v) {
+			if ($v !== 'pdns') {
+				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.transfered.conf.tpl");
 
-		$tplparse = getParseInlinePhp($tpl, $input);
+				$tpl = file_get_contents($tplsource);
+
+				$tplparse = getParseInlinePhp($tpl, $input);
+
+				// MR -- no action for file_put_contents
+			}
+		}
 	}
 
 	function getIps()
@@ -227,21 +247,72 @@ class dns__ extends lxDriverClass
 
 		$domainname = $this->main->nname;
 
-		$dnsfile = "/opt/configs/{$drivertype}/conf/master/{$domainname}";
-		lxfile_rm($dnsfile);
+		$dnsdrvlist = getAllDnsDriverList();
 
-		foreach ((array)$this->main->__var_addonlist as $d) {
-			$addondomain = $d->nname;
-			$dnsfile = "/opt/configs/{$drivertype}/conf/master/{$addondomain}";
-			lxfile_rm($dnsfile);
+		foreach ($dnsdrvlist as $k => $v) {
+			if ($v !== 'pdns') {
+				$dnsfile = "/opt/configs/{$v}/conf/master/{$domainname}";
+				unlink($dnsfile);
+
+				foreach ((array)$this->main->__var_addonlist as $d) {
+					$addondomain = $d->nname;
+					$dnsfile = "/opt/configs/{$v}/conf/master/{$addondomain}";
+					unlink($dnsfile);
+				}
+
+				$this->createAllowTransferIpsTrue($v);
+				$this->syncCreateConfTrue($v);
+			} else {
+				$input = array();
+
+				$input['domainname'] = $domainname;
+
+				$input['action'] = 'delete';
+
+				self::setPdnsSpecific($input);
+
+				foreach ((array)$this->main->__var_addonlist as $d) {
+					$input = array();
+
+					$input['domainname'] = $d->nname;
+
+					$input['action'] = 'delete';
+
+					$nameserver = null;
+
+					foreach($this->main->dns_record_a as $dns) {
+						if ($dns->ttype === "ns") {
+							if (!$nameserver) {
+								$nameserver = $dns->param;
+							}
+						}
+					}
+
+					if ($this->main->soanameserver) {
+						$nameserver = $this->main->soanameserver;
+					}
+
+					$input['nameserver'] = $nameserver;
+
+					self::setPdnsSpecific($input);
+				}
+			}
 		}
-
-		$this->createAllowTransferIpsTrue($drivertype);
-		$this->syncCreateConfTrue($drivertype);
 	}
 
 	function dosyncToSystemPostTrue($drivertype)
 	{
 		// MR -- no need action
+	}
+
+	static function setPdnsSpecific($input)
+	{
+		$input['rootpass'] = slave_get_db_pass();
+
+		$tplsource = getLinkCustomfile("/opt/configs/pdns/tpl", "domains.conf.tpl");
+
+		$tpl = file_get_contents($tplsource);
+
+		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 }

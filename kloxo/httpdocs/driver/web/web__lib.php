@@ -183,9 +183,7 @@ class web__ extends lxDriverClass
 		$input['parkdomains'] = $this->getParkDomains();
 		$input['serveraliases'] = $this->getServerAliases();
 		$input['dirprotect'] = $this->getDirprotect();
-	
 		$input['dirindex'] = $this->getDirIndex();
-
 		$input['certnamelist'] = ($this->getSslCertNameList()) ?
 				$this->getSslCertNameList() : $this->getSslCertNameList('*');
 
@@ -300,7 +298,7 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-		//	lxshell_return("rm", "-rf", $tpltarget);
+		//	lxshell_return("'rm'", "-rf", $tpltarget);
 			exec("'rm' -rf {$tpltarget}");
 		}
 	}
@@ -332,9 +330,8 @@ class web__ extends lxDriverClass
 			}
 
 			// MR -- make simple, delete all .conf files first
-		//	lxshell_return("rm", "-rf", "/etc/php-fpm.d/*.conf");
+		//	lxshell_return("'rm'", "-rf", "/etc/php-fpm.d/*.conf");
 			exec("'rm' -rf /etc/php-fpm.d/*.conf");
-
 			// MR -- that mean 'ini' type config
 			$cfgmain = getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf");
 			lxfile_cp($cfgmain, "/etc/php-fpm.conf");
@@ -498,8 +495,8 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");
 
-			// MR -- to make sure no 'old' config - move to fixweb
-		//	lxshell_return("rm", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
+			// MR -- to make sure no 'old' config -
+		//	lxshell_return("'rm'", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
 
 			if (($l === 'hiawatha') && ($conftype === 'domains')) {
 				$types = array('domains' => false, 'proxies' => true);
@@ -564,7 +561,6 @@ class web__ extends lxDriverClass
 			createRestartFile($l);
 		}
 	}
-	
 	function setRemoveAllDomainConfigs()
 	{
 		$list = getAllWebDriverList();
@@ -577,7 +573,6 @@ class web__ extends lxDriverClass
 			exec("'rm' -rf /opt/configs/{$l}/conf/proxies/*.conf");
 		}
 	}
-
 	function AddExtraBaseDir()
 	{
 		$extrabasedir = $this->main->__var_extrabasedir;
@@ -774,17 +769,20 @@ class web__ extends lxDriverClass
 
 	function getDirIndex()
 	{
-		$s = $this->main->webmisc_b;
+		if (isset($this->main->webmisc_b)) {
+			$s = $this->main->webmisc_b;
 
-		if (isset($s->dirindex) && ($s->dirindex === 'on')) {
-			$dirindex = true;
+			if ($s->dirindex === 'on') {
+				$dirindex = true;
+			} else {
+				$dirindex = false;
+			}
 		} else {
 			$dirindex = false;
 		}
 
 		return $dirindex;
 	}
-
 	function getIndexFileOrder()
 	{
 		if ($this->main->indexfile_list) {
@@ -1151,6 +1149,21 @@ class web__ extends lxDriverClass
 		// So please be careful here. Must find a better way to delete stuff.
 		if (!$domainname) {	return null;	}
 
+		$list = getAllWebDriverList();
+
+		foreach ($list as &$l) {
+			$dfile = "/opt/configs/{$l}/conf/domains/{$domainname}.conf";
+			$pfile = "/opt/configs/{$l}/conf/proxy/{$domainname}.conf";
+
+			if (file_exists($dfile)) {
+				unlink($dfile);
+			}
+
+			if (file_exists($pfile)) {
+				unlink($pfile);
+			}
+		}
+
 		$this->main->deleteDir();
 	}
 
@@ -1174,15 +1187,6 @@ class web__ extends lxDriverClass
 	function dbactionDelete()
 	{
 		$this->delDomain();
-
-		$domainname = $this->getDomainname();
-
-		$list = getWebDriverList();
-
-		foreach ($list as &$l) {
-			unlink("/opt/configs/{$l}/conf/domains/{$domainname}.conf");
-			unlink("/opt/configs/{$l}/conf/proxies/{$domainname}.conf");
-		}
 	}
 
 	function dosyncToSystemPost()
@@ -1342,11 +1346,9 @@ class web__ extends lxDriverClass
 					$this->updateMainConfFile();
 				//	$this->createPhpFpmConfig();
 					break;
-					
 				case "remove_all_domain_configs":
 					$this->setRemoveAllDomainConfigs();
 					break;
-
 				case "skeleton_update":
 					$this->skeletonUpdate();
 					break;

@@ -5500,12 +5500,14 @@ function setRpmReplaced($rpmname, $replacewith)
 
 function isRpmInstalled($rpmname)
 {
-	$ret = lxshell_return("rpm", "-q", $rpmname);
+//	$ret = lxshell_return("rpm", "-q", $rpmname);
+	exec("rpm -qa {$rpmname}", $out, $ret);
 
-	if ($ret) {
-		return false;
-	} else {
+
+	if ($ret === 0) {
 		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -7628,10 +7630,6 @@ function setPhpBranch($select, $nolog = null)
 
 	$phpbranch = getRpmBranchInstalled('php');
 
-	if ($phpmodules[0] === $phpbranch) {
-		unset($phpmodules[0]);
-	}
-
 	if ($select === $phpbranch) {
 		log_cleanup("-- It's the same branch ({$select}); no changed", $nolog);
 		return null;
@@ -7647,16 +7645,18 @@ function setPhpBranch($select, $nolog = null)
 		}
 
 		// MR -- reinstall php modules to make sure replace too; must execute before replace
-		exec("yum list installed php* |egrep -o 'php[a-zA-z0-9\-]+'", $phpmodules);
+		exec("yum list installed php* |grep -P 'php[a-zA-z0-9\-]+'", $phpmodules);
 
 		log_cleanup("-- Replace using 'yum replace {$phpbranch} --replace-with={$select}'", $nolog);
 		setRpmReplaced($phpbranch, $select);
-
+	/*
 		if ($phpmodules[0] === $phpbranch) {
 			unset($phpmodules[0]);
 		}
-
+	*/
 		foreach ($phpmodules as $k => $v) {
+			if ($phpmodules[0] === $phpbranch) { continue; }
+
 			$t = str_replace("{$phpbranch}-", "{$select}-", $v);
 
 			if (!isRpmInstalled($t)) {

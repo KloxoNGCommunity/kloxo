@@ -21,105 +21,31 @@ class dns__pdns extends dns__
 
 	function createConfFile($action = null)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$this->syncAddFile($this->main->nname, $action);
-	
-		foreach ((array)$this->main->__var_addonlist as $d) {
-			$this->syncAddFile($d->nname, $action);
-		}
+		parent::createConfFileTrue('pdns');
 	}
 
 	function syncAddFile($domainname, $action = null)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$input = array();
-
-		$input['domainname'] = $domainname;
-		$input['ttl'] = $this->main->ttl;
-		$input['nameduser'] = $sgbl->__var_programuser_dns;
-		$input['soanameserver'] = $this->main->soanameserver;
-		$input['email'] = $this->main->__var_email;
-		$input['serial'] = $this->main->__var_ddate;
-		$input['dns_records'] = $this->main->dns_record_a;
-
-		// MR -- not work and not implementing yet!
-	//	$input['account'] = $this->parent->getRealClientParentO()->getPathFromName();
-
-		if ($action) {
-			$input['action'] = $action;
-		}
-
-		if (!isset($input['action'])) {
-			$input['action'] = 'add';
-		}
-
-		self::setSpecific($input);
+		parent::syncAddFileTrue('pdns');
 	}
 
 	function dbactionAdd()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$this->createConfFile();
+		parent::dbactionAddTrue('pdns');
 	}
 
 	function dbactionUpdate($subaction)
 	{
-		$this->createConfFile('update');
+		parent::dbactionUpdateTrue('pdns');
 	}
 
 	function dbactionDelete()
 	{
-		$input = array();
-
-		$input['domainname'] = $domainname;
-
-		$input['action'] = 'delete';
-
-		self::setSpecific($input);
-
-		foreach ((array)$this->main->__var_addonlist as $d) {
-			$input = array();
-
-			$input['domainname'] = $d->nname;
-
-			$input['action'] = 'delete';
-
-			$nameserver = null;
-
-			foreach($this->main->dns_record_a as $dns) {
-				if ($dns->ttype === "ns") {
-					if (!$nameserver) {
-						$nameserver = $dns->param;
-					}
-				}
-			}
-
-			if ($this->main->soanameserver) {
-				$nameserver = $this->main->soanameserver;
-			}
-
-			$input['nameserver'] = $nameserver;
-
-			self::setSpecific($input);
-		}
+		parent::dbactionDeleteTrue('pdns');
 	}
 
 	function dosyncToSystemPost()
 	{
 		 // MR -- no action here
-	}
-
-	static function setSpecific($input)
-	{
-		$input['rootpass'] = slave_get_db_pass();
-
-		$tplsource = getLinkCustomfile("/opt/configs/pdns/tpl", "domains.conf.tpl");
-
-		$tpl = file_get_contents($tplsource);
-
-		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 }

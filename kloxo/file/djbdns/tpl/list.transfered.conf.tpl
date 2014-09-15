@@ -1,7 +1,10 @@
 <?php
-	if (array_keys($ip)) {
-		$dir = "/opt/configs/djbdns/axfrdns";
+	$dir = "/opt/configs/djbdns/axfrdns";
 
+	// MR -- importance if not active
+	if (!file_exists($dir)) { return; }
+
+	if (array_keys($ip)) {
 		$file = "{$dir}/tcp";
 
 		$text = implode(":allow\n", $ip);
