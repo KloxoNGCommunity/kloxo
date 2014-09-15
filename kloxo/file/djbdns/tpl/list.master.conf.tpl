@@ -7,9 +7,11 @@
 	if (file_exists("/opt/djbdns/bin/tinydns-data")) {
 		exec("echo 'data.cdb: data\n\t/opt/djbdns/bin/tinydns-data' > " .
 			"/opt/configs/djbdns/tinydns/root/Makefile");
-	} else {
+	} elseif (file_exists("/bin/tinydns-data")) {
 		exec("echo 'data.cdb: data\n\t//bin/tinydns-data' > " .
 			"/opt/configs/djbdns/tinydns/root/Makefile");
+	} else {
+		return;
 	}
 
 	$path = "/opt/configs/djbdns/conf/master";
