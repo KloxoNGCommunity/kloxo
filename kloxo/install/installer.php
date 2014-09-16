@@ -824,17 +824,16 @@ function getPhpVersion()
 	return $out[0];
 }
 
-// MR -- taken from lib.php
 function isRpmInstalled($rpmname)
 {
-	exec("rpm -q {$rpmname}", $out, $ret);
+	// MR -- exec not work and must '-q' instead '-qa' to know true/false
+	$ret = lxshell_return("rpm", "-q", $rpmname);
 
-	if ($ret === 0) {
-		return true;
-	} else {
+	if ($ret) {
 		return false;
+	} else {
+		return true;
 	}
-
 }
 
 function setUsingMyIsam()
