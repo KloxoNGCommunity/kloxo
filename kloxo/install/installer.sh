@@ -136,6 +136,11 @@ echo
 
 # Start install
 
+if [ -d /script ] ; then
+	'rm' -rf /script
+	ln -sf ${ppath}/pscript /script
+fi
+
 cd /
 
 'rm' -rf *.rpm

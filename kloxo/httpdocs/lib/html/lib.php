@@ -5493,10 +5493,22 @@ function setRpmReplaced($rpmname, $replacewith)
 
 function isRpmInstalled($rpmname)
 {
+/*
 	// MR -- exec not work and must '-q' instead '-qa' to know true/false
 	$ret = lxshell_return("rpm", "-q", $rpmname);
 
 	if ($ret) {
+		return false;
+	} else {
+		return true;
+	}
+*/
+	exec("rpm -q {$rpmname}", $out);
+
+	$ret = strpos($out[0], "{$rpmname}-");
+
+	// MR -- must be '!== 0' because no exist sometimes with value > 0; 0 because position in 0
+	if ($ret !== 0) {
 		return false;
 	} else {
 		return true;

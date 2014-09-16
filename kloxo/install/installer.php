@@ -923,7 +923,8 @@ function copy_script()
 //	unlink("/script");
 //	symlink("{$kloxopath}/pscript", "/script");
 
-	exec("'rm' -rf /script; ln -sf {$kloxopath}/pscript /script");
+	// MR -- move to setup/installer.sh
+//	exec("'rm' -rf /script; ln -sf {$kloxopath}/pscript /script");
 }
 
 function getKloxoType()
