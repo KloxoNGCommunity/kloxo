@@ -215,6 +215,9 @@ for (( a=1; a<=100; a++ )) ; do
 	fi
 done
 
+## set skin to simplicity
+sh /script/skin-set-for-all >/dev/null 2>&1
+
 echo
 if [ "${with_php52s}" != "no" ] ; then
 	echo "... Wait until finished (switch to php53s and restart services) ..."
