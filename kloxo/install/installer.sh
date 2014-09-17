@@ -145,7 +145,7 @@ cd /
 
 'rm' -rf *.rpm
 
-yum clean all
+#yum clean all
 
 yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
 yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster postfix exim libmhash -y

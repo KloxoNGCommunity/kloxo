@@ -4,7 +4,8 @@ if grep 'add by Kloxo-MR' /etc/hosts >/dev/null 2>&1 ; then
 	echo "- 'add by Kloxo-MR' already exists in /etc/hosts"
 else
 	hs=$(hostname -s)
-	hf=$(hostname -f)
+	## use it instead 'hostname -f'
+	hf=$(hostname)
 	ip=$(ifconfig |grep -i 'inet addr:'|grep -v '127.0.0.1'|awk '{print $2}'|sed 's/addr\://')
 
 	echo "- add parameters between 'add by Kloxo-MR' in /etc/hosts"
