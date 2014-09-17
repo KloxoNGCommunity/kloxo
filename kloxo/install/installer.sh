@@ -218,6 +218,9 @@ done
 ## set skin to simplicity
 sh /script/skin-set-for-all >/dev/null 2>&1
 
+sh /script/set-hosts >/dev/null 2>&1
+sh /script/set-fs >/dev/null 2>&1
+
 echo
 if [ "${with_php52s}" != "no" ] ; then
 	echo "... Wait until finished (switch to php53s and restart services) ..."

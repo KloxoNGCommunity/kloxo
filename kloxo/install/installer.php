@@ -26,7 +26,7 @@ $dbroot = "root";
 // MR -- always set to ''
 $dbpass = '';
 
-$osversion = find_os_version();
+// $osversion = find_os_version();
 
 function lxins_main()
 {
@@ -232,9 +232,9 @@ function install_dns()
 
 function install_mail()
 {
-	print(">>> Removing packages $list <<<\n");
-
 	$s = "sendmail sendmail-cf sendmail-doc sendmail-devel vsftpd postfix ssmtp lxzend pure-ftpd exim";
+
+	print(">>> Removing $s packages <<<\n");
 
 	system("yum -y remove {$s}");
 
@@ -311,65 +311,67 @@ function kloxo_install_step1()
 {
 	global $kloxopath, $kloxostate, $installfrom, $lxlabspath;
 
-	if ($kloxostate === 'none') {
-		print(">>> Adding System users and groups (nouser, nogroup and lxlabs, lxlabs) <<<\n");
-		system("groupadd nogroup");
-		system("useradd nouser -g nogroup -s '/sbin/nologin'");
-		system("groupadd lxlabs");
-		system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
+	// MR -- disable this 'if' because trouble for update from lower version
 
-		print(">>> Removing DJBDns components <<<\n");
-		if (!file_exists("/etc/rc.d/init.d/djbdns")) {
-			$darr = array('axfrdns', 'dnscache', 'dnslog', 'tinydns');
+//	if ($kloxostate === 'none') {
+	print(">>> Adding System users and groups (nouser, nogroup and lxlabs, lxlabs) <<<\n");
+	system("groupadd nogroup");
+	system("useradd nouser -g nogroup -s '/sbin/nologin'");
+	system("groupadd lxlabs");
+	system("useradd lxlabs -g lxlabs -s '/sbin/nologin'");
 
-			foreach ($darr as &$d) {
-				rm_if_exists("/home/{$d}");
-			}
+	print(">>> Removing DJBDns components <<<\n");
+	if (!file_exists("/etc/rc.d/init.d/djbdns")) {
+		$darr = array('axfrdns', 'dnscache', 'dnslog', 'tinydns');
+
+		foreach ($darr as &$d) {
+			rm_if_exists("/home/{$d}");
 		}
-
-		// MR -- remove lxphp, lxlighttpd and lxzend
-		print(">>> Removing 'old' lxphp/lxligttpd/lxzend <<<\n");
-		system("yum remove -y lxphp lxlighttpd lxzend");
-		if (file_exists("/usr/local/lxlabs/ext")) {
-			rm_if_exists("/usr/local/lxlabs/ext");
-		}
-
-		// MR -- for accept for php and apache branch rpm
-		$phpbranch = getPhpBranch();
-
-		print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
-		// MR -- xcache, zend, ioncube, suhosin and zts not default install
-		$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf",
-			"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
-			"yum-plugin-replace", "crontabs", "make", "glibc-static", "net-snmp", "tmpwatch",
-			"rkhunter", "quota");
-
-		$list = implode(" ", $packages);
-
-		system("yum -y install $list; rkhunter --update");
-
-		print(">>> Adding Standard PHP components and Hiawatha <<<\n");
-		// MR -- xcache, zend, ioncube, suhosin and zts not default install
-		$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
-			"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
-			"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
-			"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
-			"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
-			"{$phpbranch}-xmlrpc", "hiawatha");
-
-		$list = implode(" ", $packages);
-
-		system("yum -y install $list");
-
-		print(">>> Adding Kloxo-MR webmail/thirparty/stats <<<\n");
-		$packages = array("kloxomr-webmail-*.noarch",
-			"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch"
-		);
-
-		$list = implode(" ", $packages);
-
-		system("yum -y install $list");
 	}
+
+	// MR -- remove lxphp, lxlighttpd and lxzend
+	print(">>> Removing 'old' lxphp/lxligttpd/lxzend <<<\n");
+	system("yum remove -y lxphp lxlighttpd lxzend");
+	if (file_exists("/usr/local/lxlabs/ext")) {
+		rm_if_exists("/usr/local/lxlabs/ext");
+	}
+
+	// MR -- for accept for php and apache branch rpm
+	$phpbranch = getPhpBranch();
+
+	print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
+	// MR -- xcache, zend, ioncube, suhosin and zts not default install
+	$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf",
+		"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
+		"yum-plugin-replace", "crontabs", "make", "glibc-static", "net-snmp", "tmpwatch",
+		"rkhunter", "quota");
+
+	$list = implode(" ", $packages);
+
+	system("yum -y install $list; rkhunter --update");
+
+	print(">>> Adding Standard PHP components and Hiawatha <<<\n");
+	// MR -- xcache, zend, ioncube, suhosin and zts not default install
+	$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
+		"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+		"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
+		"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
+		"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
+		"{$phpbranch}-xmlrpc", "hiawatha");
+
+	$list = implode(" ", $packages);
+
+	system("yum -y install $list");
+
+	print(">>> Adding Kloxo-MR webmail/thirparty/stats <<<\n");
+	$packages = array("kloxomr-webmail-*.noarch",
+		"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch"
+	);
+
+	$list = implode(" ", $packages);
+
+	system("yum -y install $list");
+//	}
 
 	print(">>> Prepare installation directories <<<\n");
 
@@ -559,6 +561,9 @@ function kloxo_install_bye()
 {
 	global $kloxostate, $installtype, $installstep;
 
+	$ip = gethostbyname(gethostname());
+	$l = strlen($ip);
+	
 	$t  = "\n";
 	$t .= " _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ "."\n";
 	$t .= " _/                                                                          _/ "."\n";
@@ -567,8 +572,8 @@ function kloxo_install_bye()
 
 	if ($installtype === 'master') {
 		$t .= " _/ You can connect to the server at:                                        _/ "."\n";
-		$t .= " _/ https://<ip-address>:7777 - secure ssl connection, or                    _/ "."\n";
-		$t .= " _/ http://<ip-address>:7778 - normal one.                                   _/ "."\n";
+		$t .= " _/     https://{$ip}:7777 - secure ssl connection, or" . str_repeat(" ", 28 - $l) . "_/ "."\n";
+		$t .= " _/     http://{$ip}:7778 - normal one." . str_repeat(" ", 43 - $l) . "_/ "."\n";
 		$t .= " _/                                                                          _/ "."\n";
 		$t .= " _/ The login and password are 'admin' and 'admin' for new install.          _/ "."\n";
 		$t .= " _/ After Logging in, you will have to change your password to               _/ "."\n";
@@ -727,6 +732,9 @@ function get_yes_no($question, $default = 'n')
 	} else {
 		$question .= ' [Y/n]: ';
 	}
+
+	$ret = 'n';
+
 	for (; ;) {
 		print $question;
 		flush();
@@ -735,11 +743,13 @@ function get_yes_no($question, $default = 'n')
 		$input = strtolower($input);
 
 		if ($input == 'y' || $input == 'yes' || ($default == 'y' && $input == '')) {
-			return 'y';
+			$ret = 'y';
 		} else if ($input == 'n' || $input == 'no' || ($default == 'n' && $input == '')) {
-			return 'n';
+			$ret = 'n';
 		}
 	}
+
+	return $ret;
 }
 
 function addLineIfNotExist($filename, $pattern, $comment)
@@ -826,10 +836,12 @@ function getPhpVersion()
 
 function isRpmInstalled($rpmname)
 {
-	// MR -- exec not work and must '-q' instead '-qa' to know true/false
-	$ret = lxshell_return("rpm", "-q", $rpmname);
+	exec("rpm -q {$rpmname}", $out);
 
-	if ($ret) {
+	$ret = strpos($out[0], "{$rpmname}-");
+
+	// MR -- must be '!== 0' because no exist sometimes with value > 0; 0 because position in 0
+	if ($ret !== 0) {
 		return false;
 	} else {
 		return true;
@@ -880,6 +892,8 @@ function setUsingMyIsam()
 
 		file_put_contents($file, $string_collect);
 	}
+
+	return true;
 }
 
 function isMysqlRunning()
@@ -909,17 +923,17 @@ function actionMysql($action)
 function copy_script()
 {
 	global $kloxopath;
-/*
-	print(">>> Copying scripts to /scripts path <<<\n");
+	/*
+		print(">>> Copying scripts to /scripts path <<<\n");
 
-	system("mkdir -p /script/filter");
+		system("mkdir -p /script/filter");
 
-	system("'cp' -rf {$kloxopath}/pscript/* /script/");
+		system("'cp' -rf {$kloxopath}/pscript/* /script/");
 
-	file_put_contents("/script/programname", 'kloxo');
-	system("chmod 0775 /script");
-*/
-	print(">>> Symlink '{$kloxopath}/pscript' to '/script' path <<<\n");
+		file_put_contents("/script/programname", 'kloxo');
+		system("chmod 0775 /script");
+	*/
+//	print(">>> Symlink '{$kloxopath}/pscript' to '/script' path <<<\n");
 //	unlink("/script");
 //	symlink("{$kloxopath}/pscript", "/script");
 

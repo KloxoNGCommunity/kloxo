@@ -36,6 +36,10 @@ HLPATH="/home/lxadmin"
 HLMPATH="${HLPATH}/mail"
 HLMDPATH="${HLPATH}/mail/domains"
 
+if [ ! -d ${HLMDPATH} ] ; then
+	mkdir -p ${HLMDPATH}
+fi
+
 echo ""
 echo "Change qmail.init"
 cp -rf ${ULLKFPATH}/qmail.init ${ERIPATH}/qmail

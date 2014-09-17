@@ -1,0 +1,36 @@
+#!/bin/sh
+
+sysctlf="/etc/sysctl.conf"
+
+if grep 'add by Kloxo-MR' ${sysctlf} >/dev/null 2>&1 ; then
+	echo "- 'add by Kloxo-MR' already exists in ${sysctlf}"
+else
+	echo "- add parameters between 'add by Kloxo-MR' in ${sysctlf}"
+
+	echo "" >> ${sysctlf}
+	echo "### begin -- add by Kloxo-MR" >> ${sysctlf}
+	echo "fs.aio-max-nr = 1048576" >> ${sysctlf}
+	echo "fs.file-max = 1048576" >> ${sysctlf}
+	echo "#vm.swappiness = 10" >> ${sysctlf}
+	echo "#vm.vfs_cache_pressure = 100" >> ${sysctlf}
+	echo "#vm.dirty_background_ratio = 15" >> ${sysctlf}
+	echo "#vm.dirty_ratio = 5" >> ${sysctlf}
+	echo "### end -- add by Kloxo-MR" >> ${sysctlf}
+
+	sysctl -e -p >/dev/null 2>&1
+fi
+
+limitsf="/etc/security/limits.conf"
+
+if grep 'add by Kloxo-MR' ${limitsf} >/dev/null 2>&1 ; then
+	echo "- 'add by Kloxo-MR' already exists in ${limitsf}"
+else
+	echo "- add parameters between 'add by Kloxo-MR' in ${limitsf}"
+	echo "" >> ${limitsf}
+	echo "### begin -- add by Kloxo-MR" >> ${limitsf}
+	echo "*                 soft   nofile          20480" >> ${limitsf}
+	echo "*                 hard   nofile          40960" >> ${limitsf}
+	echo "### end -- add by Kloxo-MR" >> ${limitsf}
+
+	ulimit -n 10240 >/dev/null 2>&1
+fi
