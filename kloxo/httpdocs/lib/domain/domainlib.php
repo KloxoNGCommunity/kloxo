@@ -191,13 +191,14 @@ class Domaind extends DomainBase
 	function updatePassword($param)
 	{
 		$web = $this->getObject('web');
-	//	$ftpuser = $web->getFromList('ftpuser', $web->ftpusername);
 		$web->__var_sysuserpassword = null;
 		$web->__var_sysuserpassword['realpass'] = $param['password'];
-	//	$ftpuser->realpass = $param['password'];
-	//	$ftpuser->password = crypt($param['password']);
-	//	$ftpuser->setUpdateSubaction('password');
-		
+	/*
+		$ftpuser = $web->getFromList('ftpuser', $web->ftpusername);
+		$ftpuser->realpass = $param['password'];
+		$ftpuser->password = crypt($param['password']);
+		$ftpuser->setUpdateSubaction('password');
+	*/	
 		return parent::updatePassword($param);
 	}
 
@@ -944,9 +945,11 @@ class Domaind extends DomainBase
 
 	function postSync()
 	{
+	/*
 		if ($this->dbaction === 'add') {
-			//$this->notifyObjects('add');
+			$this->notifyObjects('add');
 		}
+	*/
 	}
 
 	static function add($parent, $class, $param)
@@ -1213,7 +1216,7 @@ class Domaind extends DomainBase
 		if (check_if_many_server() && $login->isLte("reseller")) {
 			$ilist['Web'] = $web->syncserver;
 			$ilist['Mail'] = $mmail->syncserver;
-			//$ilist['Mysql'] = $this->mysqldbsyncserver;
+		//	$ilist['Mysql'] = $this->mysqldbsyncserver;
 			$ilist['Dns'] = $dns->syncserver;
 		}
 		

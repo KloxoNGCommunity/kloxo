@@ -31,7 +31,7 @@ class web__ extends lxDriverClass
 		} elseif ($l === 'nginx') {
 			$blist[] = "{$l}-devel";
 		}
-		
+
 		lxshell_return("service", $l, "stop");
 
 		foreach ($blist as $k => $v) {
@@ -63,14 +63,6 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
-			$hhcpath = '/home/httpd/conf';
-
-			$hwpath  = "/opt/configs/{$l}";
-			$hwcpath = "/opt/configs/{$l}/conf";
-			$hawpath = "/opt/configs/{$l}/etc";
-			$hawcpath = "/opt/configs/{$l}/etc/conf";
-			$hawcdpath = "/opt/configs/{$l}/etc/conf.d";
-
 			setRpmInstalled("{$a}");
 		//	setRpmInstalled("{$a}-devel");
 
@@ -96,8 +88,6 @@ class web__ extends lxDriverClass
 			lxshell_return("chkconfig", $a, "on");
 
 			setCopyWebConfFiles($l);
-
-			createRestartFile($l);
 		}
 
 		self::setInstallPhpfpm();
@@ -115,7 +105,7 @@ class web__ extends lxDriverClass
 		$altname = ($webserver === 'httpd') ? 'apache' : $webserver;
 
 		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$webserver}.init"),
-				"/etc/rc.d/init.d/{$webserver}");
+			"/etc/rc.d/init.d/{$webserver}");
 
 		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
 	}
@@ -132,10 +122,10 @@ class web__ extends lxDriverClass
 
 		$phpbranch = getRpmBranchInstalled('php');
 
-		$out = isRpmInstalled("{$phpbranch}-fpm");
+		$ret = isRpmInstalled("{$phpbranch}-fpm");
 
-		if (!$out) {
-			$ret = lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
+		if (!$ret) {
+			lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
 		}
 
 		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
@@ -166,7 +156,7 @@ class web__ extends lxDriverClass
 	function createConfFile()
 	{
 		global $gbl;
-		
+
 		$this->clearDomainIpAddress();
 
 		$input = array();
@@ -185,7 +175,7 @@ class web__ extends lxDriverClass
 		$input['dirprotect'] = $this->getDirprotect();
 		$input['dirindex'] = $this->getDirIndex();
 		$input['certnamelist'] = ($this->getSslCertNameList()) ?
-				$this->getSslCertNameList() : $this->getSslCertNameList('*');
+			$this->getSslCertNameList() : $this->getSslCertNameList('*');
 
 		$input['stats'] = $this->getStats();
 		$input['wwwredirect'] = $this->getWwwRedirect();
@@ -289,7 +279,7 @@ class web__ extends lxDriverClass
 		$tplparse = getParseInlinePhp($tpl, $input);
 
 		if (!file_exists($tpltarget)) {
-			file_put_contents($tpltarget, $tplparse);	
+			file_put_contents($tpltarget, $tplparse);
 		}
 	}
 
@@ -298,7 +288,6 @@ class web__ extends lxDriverClass
 		$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 
 		if (file_exists($tpltarget)) {
-		//	lxshell_return("'rm'", "-rf", $tpltarget);
 			exec("'rm' -rf {$tpltarget}");
 		}
 	}
@@ -306,7 +295,7 @@ class web__ extends lxDriverClass
 	function createPhpFpmConfig($forwhat = null, $foruser = null)
 	{
 		$input = array();
-		
+
 		$input['userlist'] = $this->getUserList();
 
 		if (version_compare(getPhpVersion(), "5.3.3", "<")) {
@@ -345,14 +334,14 @@ class web__ extends lxDriverClass
 				$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 				$tplparse = getParseInlinePhp($tpl, $input);
 
-				file_put_contents($tpltarget, $tplparse);	
+				file_put_contents($tpltarget, $tplparse);
 			}
 
 			// MR - for 'default' user
 			$input['user'] = 'apache';
 			$tpltarget = "/etc/php-fpm.d/default.conf";
 			$tplparse = getParseInlinePhp($tpl, $input);
-			file_put_contents($tpltarget, $tplparse);	
+			file_put_contents($tpltarget, $tplparse);
 
 			if (file_exists("/etc/php-fpm.d/www.conf")) {
 				lxfile_mv("/etc/php-fpm.d/www.conf", "/etc/php-fpm.d/www.nonconf");
@@ -387,7 +376,7 @@ class web__ extends lxDriverClass
 
 		return $ret;
 	}
-	
+
 	function getUserList()
 	{
 		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', null);
@@ -439,8 +428,8 @@ class web__ extends lxDriverClass
 		} else {
 			// --- for the first time domain create
 			if (!isset($list)) {
-				$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname, 
-						'webmailprog' => '', 'webmail_url' => '', 'remotelocalflag' => 'local');
+				$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname,
+					'webmailprog' => '', 'webmail_url' => '', 'remotelocalflag' => 'local');
 			}
 		}
 
@@ -504,7 +493,7 @@ class web__ extends lxDriverClass
 				foreach ($types as $k => $v) {
 					$tpltarget = "/opt/configs/{$l}/conf/{$k}";
 					$input['reverseproxy'] = $v;
-				
+
 					$tpl = file_get_contents($tplsource);
 
 					$tplparse = getParseInlinePhp($tpl, $input);
@@ -515,7 +504,7 @@ class web__ extends lxDriverClass
 				}
 			} else {
 				$tpltarget = "/opt/configs/{$l}/conf/{$conftype}";
-				
+
 				$tpl = file_get_contents($tplsource);
 
 				$tplparse = getParseInlinePhp($tpl, $input);
@@ -524,8 +513,6 @@ class web__ extends lxDriverClass
 					file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
 				}
 			}
-
-		//	createRestartFile($l);
 
 			if ($conftype === 'domains') {
 				if ($l === 'lighttpd') {
@@ -541,7 +528,7 @@ class web__ extends lxDriverClass
 				if ($l === 'hiawatha') {
 					$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "cgi-wrapper.conf.tpl");
 					$tpltarget = "/etc/hiawatha/cgi-wrapper.conf";
-				
+
 					$tpl = file_get_contents($tplsource);
 
 					$tplparse = getParseInlinePhp($tpl, $input);
@@ -551,14 +538,6 @@ class web__ extends lxDriverClass
 					}
 				}
 			}
-		}
-
-		$list = getWebDriverList();
-
-		foreach ($list as &$l) {
-			if ($l === 'apache') { $l = 'httpd'; }
-
-			createRestartFile($l);
 		}
 	}
 	function setRemoveAllDomainConfigs()
@@ -629,7 +608,7 @@ class web__ extends lxDriverClass
 	function getFastcgiChildren()
 	{
 		$n = ($this->main->priv->phpfcgiprocess_num) ?
-				$this->main->priv->phpfcgiprocess_num : "0";
+			$this->main->priv->phpfcgiprocess_num : "0";
 
 		if (($n === 'Unlimited') || ($n === '-')) {
 			$n = '0';
@@ -643,7 +622,7 @@ class web__ extends lxDriverClass
 	function getEnableCGI()
 	{
 		$ret = ($this->main->priv->isOn('cgi_flag')) ? true : false;
-		
+
 		return $ret;
 	}
 
@@ -652,7 +631,7 @@ class web__ extends lxDriverClass
 		$domainname = $this->getDomainname();
 
 		$domainipaddress = (isset($this->main->__var_domainipaddress)) ?
-				$this->main->__var_domainipaddress : null;
+			$this->main->__var_domainipaddress : null;
 
 		if ($domainipaddress) {
 			$list = array();
@@ -747,7 +726,7 @@ class web__ extends lxDriverClass
 	function getDirprotect()
 	{
 		$dirprotect = (isset($this->main->__var_dirprotect)) ?
-				$this->main->__var_dirprotect : null;
+			$this->main->__var_dirprotect : null;
 
 		if ($dirprotect) {
 			$input = array();
@@ -758,7 +737,7 @@ class web__ extends lxDriverClass
 				}
 
 				$input[] = array('authname' => $prot->authname,
-						'path' => $prot->path, 'file' => $prot->getFileName());
+					'path' => $prot->path, 'file' => $prot->getFileName());
 			}
 
 			return $input;
@@ -809,7 +788,7 @@ class web__ extends lxDriverClass
 	function isWildcards()
 	{
 		$serveralias = (isset($this->main->server_alias_a)) ?
-				$this->main->server_alias_a : null;
+			$this->main->server_alias_a : null;
 
 		foreach ($serveralias as $val) {
 			if ($val->nname === '*') {
@@ -842,7 +821,7 @@ class web__ extends lxDriverClass
 	function getParkDomains()
 	{
 		$addonlist = (isset($this->main->__var_addonlist)) ?
-				$this->main->__var_addonlist : null;
+			$this->main->__var_addonlist : null;
 
 		if ($addonlist) {
 			$list = array();
@@ -874,7 +853,7 @@ class web__ extends lxDriverClass
 				}
 
 				$list[] = array('redirdomain' => $val->nname, 'redirpath' => $val->destinationdir,
-						'mailflag' => $val->mail_flag);
+					'mailflag' => $val->mail_flag);
 			}
 		} else {
 			$list = null;
@@ -1050,8 +1029,6 @@ class web__ extends lxDriverClass
 
 		$web_home = $sgbl->__path_httpd_root;
 		$log_path = "{$web_home}/{$domainname}/stats";
-		$cust_log = "{$log_path}/{$domainname}-custom_log";
-		$err_log = "{$log_path}/{$domainname}-error_log";
 
 		if (!file_exists($log_path)) {
 			lxfile_mkdir("$log_path");
@@ -1087,7 +1064,7 @@ class web__ extends lxDriverClass
 		$htfile = "{$this->main->getFullDocRoot()}/.htaccess";
 
 		file_put_between_comments($this->getUser(), $stlist, $endlist,
-				$startstring, $endstring, $htfile, $string);
+			$startstring, $endstring, $htfile, $string);
 	}
 
 	function hotlink_protection()
@@ -1170,10 +1147,9 @@ class web__ extends lxDriverClass
 	function addDomain()
 	{
 		$this->main->createDir();
+		$this->main->createPhpInfo();
 
 		$this->createConfFile();
-
-		$this->main->createPhpInfo();
 	}
 
 	function dbactionAdd()
@@ -1181,7 +1157,6 @@ class web__ extends lxDriverClass
 		$this->addDomain();
 
 		$this->main->doStatsPageProtection();
-
 	}
 
 	function dbactionDelete()
@@ -1194,6 +1169,8 @@ class web__ extends lxDriverClass
 		// MR -- to make sure after domain config process
 		// also update static config
 		$this->dbactionUpdate("static_config_update");
+
+		self::set_restart();
 	}
 
 	function fullUpdate()
@@ -1201,10 +1178,8 @@ class web__ extends lxDriverClass
 		global $sgbl;
 
 		$domname = $this->getDomainname();
-		$uname = $this->getUser();
 
 		$hroot = $sgbl->__path_httpd_root;
-		$droot = $this->main->getFullDocRoot();
 
 		$this->createConfFile();
 
@@ -1217,6 +1192,9 @@ class web__ extends lxDriverClass
 		$this->main->createPhpInfo();
 
 	/*
+		$uname = $this->getUser();
+		$droot = $this->main->getFullDocRoot();
+
 		// MR -- disabled because make slower; use fix-chownchmod for this purpose
 		lxfile_unix_chown_rec("{$droot}/", "{$uname}:{$uname}");
 		lxfile_unix_chmod("{$droot}", "0755");
@@ -1243,7 +1221,7 @@ class web__ extends lxDriverClass
 	{
 		// MR -- no need for it except .htaccess per-domain!
 		$domain = $this->getDomainname();
-		$uname = $this->getUser();
+	//	$uname = $this->getUser();
 
 		exec("sh /script/fixphp --domain={$domain} --nolog");
 
@@ -1263,8 +1241,8 @@ class web__ extends lxDriverClass
 		} else {
 			switch ($subaction) {
 				case "full_update":
-					$this->fullUpdate();
 					$this->main->doStatsPageProtection();
+					$this->fullUpdate();
 					break;
 
 				case "changeowner":
@@ -1301,13 +1279,13 @@ class web__ extends lxDriverClass
 					break;
 
 				case "fixipdomain":
-					$this->createConfFile();
 					$this->updateMainConfFile();
+					$this->createConfFile();
 					break;
 
 				case "enable_php_manage_flag":
-					$this->createConfFile();
 					$this->updateMainConfFile();
+					$this->createConfFile();
 					break;
 
 				case "toggle_status" :
@@ -1408,5 +1386,16 @@ class web__ extends lxDriverClass
 		$this->main->do_restore($docd);
 
 		lxfile_unix_chown_rec($fullpath, $uname);
+	}
+
+	static function set_restart()
+	{
+		$list = getWebDriverList();
+
+		foreach ($list as &$l) {
+			if ($l === 'apache') { $l = 'httpd'; }
+
+			createRestartFile($l);
+		}
 	}
 }

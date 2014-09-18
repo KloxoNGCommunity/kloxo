@@ -14,6 +14,8 @@
 
 	file_put_contents($file, $str);
 
+	if (!file_exists("/etc/rc.d/init.id/named")) { return; }
+
 	if ($action === 'fix') {
 		if (array_keys($domains)) {
 			foreach ($domains as $k => $v) {

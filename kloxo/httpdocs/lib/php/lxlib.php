@@ -520,6 +520,7 @@ function lfile_put_contents($file, $data, $flag = null)
 
 	if (is_soft_or_hardlink($file)) {
 		log_log("link_error", "$file is hard or symlink. Not writing\n");
+
 		return;
 	}
 
@@ -529,50 +530,34 @@ function lfile_put_contents($file, $data, $flag = null)
 
 	lxfile_mkdir(dirname($file));
 
-	if(file_exists($file)){
-		if(is_readable($file)){
-			if(is_writable($file)){
+	if (file_exists($file)) {
+		if (is_readable($file)){
+			if(is_writable($file)) {
 				return file_put_contents($file, $data, $flag);
-
-/*
-// MR -- alternative for file_put_contents because trouble when install with php53
-// memeory limit issue (data to put > 2MB)
-// but it's not work because need buffering to temp file!
-$op = fopen(tempnam('/tmp', 'kloxo'));
-
-if ($flag === null) {
-	$fp = fopen($file, 'w');
-
-} else {
-	$fp = fopen($file, 'a');
-}
-
-fwrite($fp, $data);
-fclose($fp);
-*/
-			}
-			else{
+			} else{
 				$error_msg = 'Could not write the file \''.$file.'\' with permissions: '.substr(sprintf('%o', fileperms($file)), -4);
 				dprint($error_msg);
 				log_log('filesys', $error_msg);
+
 				return false;
 			}
-		}
-		else{
+		} else{
 			$error_msg = 'Could not read the file \''.$file.'\' with permissions: '.substr(sprintf('%o', fileperms($file)), -4);
 			dprint($error_msg);
 			log_log('filesys', $error_msg);
+
 			return false;
 		}
-	}
-	else{
-        if(file_put_contents($file, $data, $flag) === false){
-            $error_msg = 'File \''.$file.'\' could not be created.';
-            dprint($error_msg);
-            log_log('filesys', $error_msg);
-            return false;
-        }
-        return true;
+	} else {
+		if (file_put_contents($file, $data, $flag) === false){
+			$error_msg = 'File \''.$file.'\' could not be created.';
+			dprint($error_msg);
+			log_log('filesys', $error_msg);
+
+			return false;
+		}
+
+		return true;
  	}
 }
 

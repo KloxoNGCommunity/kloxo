@@ -28,6 +28,8 @@
 
 	exec("cd {$datadir}; make");
 
+	if (!file_exists("/etc/rc.d/init.id/tinydns")) { return; }
+
 	if ($action === 'fix') {
 		if (array_keys($domains)) {
 			exec_with_all_closed("/etc/init.d/djbdns reload");

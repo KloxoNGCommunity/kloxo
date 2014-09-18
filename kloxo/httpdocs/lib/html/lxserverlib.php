@@ -168,11 +168,11 @@ function checkRestart()
 					}
 
 					if ($c) {
-					//	exec("echo 'custom: $c' >> /tmp/process.txt");
 						exec_with_all_closed($c);
+					//	exec($c);
 					} else {
-					//	exec("echo 'basic: /etc/init.d/$cmd restart' >> /tmp/process.txt");
 						exec_with_all_closed("/etc/init.d/$cmd restart");
+					//	exec("/etc/init.d/$cmd restart");
 					}
 				}
 

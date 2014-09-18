@@ -23,6 +23,8 @@
 
 	file_put_contents($file, $str);
 
+	if (!file_exists("/etc/rc.d/init.id/nsd")) { return; }
+
 	if (file_exists("usr/sbin/nsd-control")) {
 		$nsdc = "usr/sbin/nsd-control";
 	} else {
