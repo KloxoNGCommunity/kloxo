@@ -197,3 +197,41 @@
 	-webkit-box-shadow: 0 0 14px #AAA;
 	box-shadow: 0 0 14px #AAA;  
 }
+
+/* Others */
+.div_menu {
+	width: 680px;
+	background-color: #16a085;
+	border: 0;
+	margin:0 auto 0 auto;
+	height: 30px; 
+	padding: 5px;
+	vertical-align: middle
+}
+
+.div_header_message {
+	color: #fff;
+	margin: 2px;
+	padding: 3px;
+	background-color: #3498db;
+	border: 0
+}
+
+.div_header_message_inactive {
+	color: #3498db;
+	margin: 2px;
+	padding: 3px;
+	background-color: #3498db;
+	border: 0
+}
+
+.div_header_message_status {
+	width: 240px;
+	padding: 10px;
+	color: #FFFFFF;
+	background-color: #9834db;
+	position: absolute;
+	z-index: 1000;
+	top: 35px;right: 5px;
+	border: 1px solid #888
+}

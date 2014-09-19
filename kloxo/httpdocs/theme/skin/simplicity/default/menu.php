@@ -61,7 +61,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	}
 ?>
 
-<div id="menu_div" style="width: 680px; background-color: #16a085; border: 0; margin:0 auto 0 auto; height:30px; padding:5px; vertical-align:middle" class="shadow_all">
+<div id="menu_div" class="div_menu shadow_all">
 
 <div style="float:left">
 	<ul class="menuTemplate2 decor2_1">
@@ -1106,7 +1106,7 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 </div>
 <div style="float:right">
 	<ul class="menuTemplate2 decor2_1">
-		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('help') ?>" href="javascript://" onClick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
+		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('help') ?>" href="javascript://" onClick="toggleVisibilityById('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>
 		<li class="separator"></li>
 		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('logout') ?>"  href="javascript:if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) { location = '/lib/php/logout.php'; }"><?= $login->getKeywordUc('logout') ?></a></li>
 	</ul>

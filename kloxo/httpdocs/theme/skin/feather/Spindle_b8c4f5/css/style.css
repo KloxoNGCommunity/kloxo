@@ -276,3 +276,158 @@ body {
 
 #menubg{width:779px;height:26px;background: url(/theme/skin/feather/default/images/menubg.jpg) repeat-x}
 #menubg1{width:779px;height:3px;background: url(/theme/skin/feather/default/images/menubg1.jpg) repeat-x} 
+
+	.div_container_icons {
+		cursor: pointer;
+		width: 90px;
+		height: 90px;
+		padding: 1px;
+		margin: 1px;
+	}
+
+	.div_icons_image {
+		margin: 1px auto;
+		height: 40px;
+		text-align: center;
+	}
+
+	.div_icons_text {
+		margin: 1px auto;
+		height: 50px;
+		text-align: center;
+	}
+
+	.div_icons_text_reverse {
+		margin: 1px auto;
+		height: 50px;
+		display: table-cell;
+		vertical-align: bottom;
+		padding-bottom: 3px;
+	}
+
+	.div_container {
+		visibility: visible;
+		float: left;
+		margin: 3px;
+	}
+
+	.div_content {
+		min-height: 100%;
+		height:auto !important;
+		height:100%;
+		width:100%;
+		overflow:hidden;
+		border: 0; padding:0;
+		margin: 0;
+		background-color: #fff
+	}
+
+	.tbl_content_content {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background-color: #fff"
+	}
+
+	.tbl_navigation {
+		width: 100%;
+		border:0 ;
+		margin: 0 0 2px 0;
+		padding: 0
+	}
+
+	.div_note {
+		width: 240px;
+		border: 1px solid #ddd;
+		margin: 0 auto 0 auto;
+		background-color:#fff"
+	}
+
+	.div_note_title {
+		padding: 4px;
+		text-align: center;
+		background:#edc
+	}
+
+	.div_resource {
+		width: 240px;
+		border: 0;
+		margin: 0 auto 0 auto;
+		background-color:#fff"
+	}
+
+	.div_standard {
+		width: 910px;
+		/* border: 1px solid #ddd; */
+		border: 0;
+		margin: 0 auto 0 auto;
+		background-color:#fff"
+	}
+
+	.div_showhide {
+		width: 910px;
+		margin: 0 auto 0 auto
+	}
+
+	.div_fixed_left {
+		position: fixed;
+		top: 2px;
+		left: 2px
+	}
+
+	.div_fixed_right {
+		position: fixed;
+		top: 2px;
+		right: 2px
+	}
+
+	.div_fixed_logo_left {
+		position: fixed;
+		top: 40px;
+		left: 10px
+	}
+
+	.div_fixed_logo_right {
+		position: fixed;
+		top: 40px;
+		right: 10px;
+	}
+
+	.div_fixed_top {
+		position: fixed;
+		width: 100%;
+		top: 0;
+		height: 30px;
+		margin: 0;
+		padding: 0;
+		background-color: #e43
+	}
+
+	.div_mmm_simplicity {
+		width: 960px;
+		padding: 0;
+		border: 0;
+		margin: 60px auto 10px auto;
+	}
+
+	.div_mmm_feather {
+		width: 960px;
+		padding: 0;
+		border: 4px double #ddd;
+		margin: 10px auto 10px auto;
+		background-color: #fff
+	}
+
+	.div_select_switch {
+		height: 24px;
+		margin: 0 25px
+	}
+
+	.select_switch {
+		width: 100%;
+		border: 1px solid #aaa;
+		margin: 2px
+	}
+

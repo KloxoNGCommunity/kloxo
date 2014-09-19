@@ -560,7 +560,6 @@ function kloxo_install_before_bye()
 function kloxo_install_bye()
 {
 	global $kloxostate, $installtype, $installstep;
-
 //	$ip = gethostbyname(gethostname());
 	$ip = gethostbyname(php_uname('n'));
 	$l = strlen($ip);

@@ -452,6 +452,8 @@ class HtmlLib
 		$skindir = $login->getSkinDir();
 		$col = $login->getSkinColor();
 		// [FIXME] Put this css code on a file, NOT inline
+
+		$img_url = $this->get_expand_url();
 ?>
 
 		<style type="text/css">
@@ -465,14 +467,14 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #edc url(<?=$skindir?>/images/expand.gif);
+				background: #edc <?= $img_url ?>;
 
 				border: 1px solid #<?=$col?>;
 			}
 
 			.expanded {
 				cursor: pointer;
-				background: #edc url(<?=$skindir?>/images/expand.gif);
+				background: #edc <?= $img_url ?>;
 
 				border: 1px solid #<?=$col?>;
 			}
@@ -515,7 +517,7 @@ class HtmlLib
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 115%;
 				color: #036;
-				background: #edc url(<?=$skindir?>/images/expand.gif);
+				background: #edc <?= $img_url ?>;
 
 				margin-bottom: 0
 			}
@@ -601,6 +603,8 @@ class HtmlLib
 		$skindir = $login->getSkinDir();
 		$col = $login->getSkinColor();
 		// [FIXME] Put this css code on a file, NOT inline
+
+		$img_url = $this->get_expand_url();
 ?>
 
 		<style type="text/css">
@@ -614,7 +618,7 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #edc url(<?=$skindir?>/images/expand.gif);
+				background: #edc <?= $img_url ?>;
 
 				border: 1px solid #<?=$col?>;
 				height: 25px;
@@ -622,9 +626,9 @@ class HtmlLib
 
 			.expanded {
 				cursor: pointer;
-				background: #edc url(<?=$skindir?>/images/expand.gif);
+				background: #edc <?= $img_url ?>;
 
-				border: 1px solid #<?=$col?>;
+				border: 1px solid #<?= $col ?>;
 				height: 25px;
 			}
 
@@ -670,7 +674,7 @@ class HtmlLib
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 130%;
 				color: #036;
-				background: #edc url(<?=$skindir?>/images/expand.gif);
+				background: #edc <?= $img_url ?>;
 
 				margin-bottom: 10px;
 				margin-top: 10px
@@ -1522,7 +1526,7 @@ class HtmlLib
 
 ?>
 
-		<div id="<?= $dividentity ?>" style="visibility: visible; float: left; margin: 3px; <?= $bgcolor ?>">
+		<div id="<?= $dividentity ?>" class="div_container" style="<?= $bgcolor ?>">
 <?php
 		if (strpos($path, '/display.php') !== false) {
 ?>
@@ -1634,6 +1638,8 @@ class HtmlLib
 		} else {
 			$wrapstyle = "float:left; margin: 0 0 20px 15px";
 		}
+
+		$img_url = $this->get_expand_url();
 ?>
 
 		<style>
@@ -1662,7 +1668,7 @@ class HtmlLib
 				display: block;
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				color: #036;
-				background: #edc url(<?=$skindir?>/images/expand.gif);
+				background: #edc <?= $img_url ?>;
 				border-bottom: 1px solid #<?=$col?>;
 			}
 
@@ -1745,11 +1751,11 @@ class HtmlLib
 <?php
 			if ($show_direction !== 'horizontal') {
 ?>
-									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc url(<?= $backgimage ?>)" onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#edc url(<?= $backgimage ?>)'" onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#edc url(<?= $backgimage ?>)'">
+									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc <?= $img_url ?>" onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#edc'" onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#edc'">
 <?php
 			} else {
 ?>
-									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc url(<?= $backgimage ?>)">
+									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc">
 
 <?php
 			}
@@ -2126,6 +2132,8 @@ class HtmlLib
 		$imgheadbg = $login->getSkinDir() . 'top_bg.gif';
 		$imgtopline = $login->getSkinDir() . '/images/top_line.gif';
 		$tablerow_head = $login->getSkinDir() . '/images/tablerow_head.gif';
+
+		$img_url = $this->get_expand_url();
 ?>
 
 		<script>
@@ -2160,25 +2168,12 @@ class HtmlLib
 <div style="padding:5px; border:1px solid #aaa; width: 330px; margin: 0 auto;">
 		<table cellpadding="0" cellspacing="0" border="0" width="325" bgcolor="#edc">
 			<tr>
-				<!-- <td width="60%" valign="bottom">
-					<table cellpadding="0" cellspacing="0" border="0" width="100%">
-						<tr>
-							<td width="100%" height="2" background="<?= $imgtopline ?>"></td>
-						</tr>
-					</table>
-				</td> -->
 				<td width="100%" align="center">
 					<table cellpadding="10" cellspacing="0" border="0" width="100%">
 						<tr>
-							<!-- <td>
-								<img src="<?= $imgheadleft ?>">
-							</td> -->
 							<td nowrap width="100%" align="center">
 								<b><span style="color:"#fff">Change Permissions</span></b><? // [FIXME] Harcode translation string?>
 							</td>
-							<!-- <td>
-								<img src="<?= $imgheadright ?>">
-							</td> -->
 						</tr>
 					</table>
 				</td>
@@ -2187,20 +2182,18 @@ class HtmlLib
 
 		<form name="chmod" method="get" action="/display.php" accept-charset="utf-8">
 			<table cellpadding="5" cellspacing="0" border="0" width="325">
-				<tr style="background:#edc url(<?= $tablerow_head ?>)">
+				<tr style="background:#edc <?= $img_url ?>">
 					<td width="100" class="col"></td>
 					<td width=75 align=center>User</td><? // [FIXME] Harcode translation string?>
 					<td width=75 align=center>Group</td><? // [FIXME] Harcode translation string?>
 					<td align=center width=75>Others</td><? // [FIXME] Harcode translation string?>
 				</tr>
-				<tr style="background:#edc url(<?= $tablerow_head ?>)">
+				<tr style="background:#edc <?= $img_url ?>">
 					<td width=100 class="col"></td>
 					<td align="center"><input type="checkbox" name="userall" onclick="allrights(document.chmod,this,'user');"></td>
 					<td align="center"><input type="checkbox" name="groupall" onclick="allrights(document.chmod,this,'group');"></td>
 					<td align="center"><input type="checkbox" name="otherall" onclick="allrights(document.chmod,this,'other');"></td>
 				</tr>
-			<!-- </table>
-			<table cellpadding="0" cellspacing="0" border="0" width="325"> -->
 				<tr class="tablerow0">
 					<td class="col" width="100">Write</td><? // [FIXME] Harcode translation string?>
 					<td align="center"><input type="checkbox" name="wu" onclick="changerights(document.chmod,this,'user',2);"></td>
@@ -2219,8 +2212,6 @@ class HtmlLib
 					<td align="center"><input type="checkbox" name="rg" onclick="changerights(document.chmod,this,'group',4);"></td>
 					<td align="center"><input type="checkbox" name="ro" onclick="changerights(document.chmod,this,'other',4);"></td>
 				</tr>
-			<!-- </table>
-			<table cellpadding="0" cellspacing="0" border="0" width="325"> -->
 				<tr>
 					<td colspan="4" bgcolor="#fff" height="2"></td>
 				</tr>
@@ -2245,9 +2236,6 @@ class HtmlLib
 				<tr>
 					<td colspan="2" bgcolor="#fff" height="4"></td>
 				</tr>
-				<!-- <tr>
-					<td colspan="4" style="background:#edc url(<?= $imgtopline ?>)" height="1"></td>
-				</tr> -->
 			</table>
 		</form>
 
@@ -3952,7 +3940,7 @@ class HtmlLib
 		<div style="background: #<?= $skin_color ?>; padding: 4px; margin: 0 25px; text-align: center">&nbsp;>>>> <a href="javascript:toggleVisibilityById('listaddform_<?= $unique_name ?>');"> <?= $login->getKeywordUc('clickheretoadd') ?> <?= $cdesc ?> (<?= $showstring ?>)</a><?= $show_all_string ?> <<<<&nbsp;</div>
 		<br/>
 
-		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto">
+		<div id="listaddform_<?= $unique_name ?>" style="<?= $visiblity ?>;" class="div_showhide">
 			<div><?= do_addform($parent, $class, null, true) ?></div> 
 		</div>
 <?php
@@ -4021,13 +4009,13 @@ class HtmlLib
 		}
 ?>
 
-		<div style="width: 910px; margin: 0 auto 0 auto;">
+		<div class="div_showhide">
 			<fieldset style='padding: 0; text-align: center; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>'>
 				<legend><span style='font-weight:bold'>Advanced Search <a href="javascript:toggleVisibilityById('search_<?= $unique_name ?>');"><?= $showstring ?> </a> <?= $show_all_string ?>	</span></legend>
 			</fieldset>
 		</div>
 
-		<div id=search_<?= $unique_name ?> style='<?= $visiblity ?>; width: 910px; margin: 0 auto 0 auto'>
+		<div id=search_<?= $unique_name ?> style="<?= $visiblity ?>;" class="div_showhide">
 			<form name="lpfform_rsearch" method="get" action="<?= $url ?>" onsubmit="return true;" accept-charset="utf-8">
 				<table width='100%' border='0' align="center" cellpadding='0' style='<?= $backgroundstring ?> border: 1px solid #<?= $col ?>'>
 					<tr>
@@ -4358,9 +4346,8 @@ class HtmlLib
 		if (!$sellist && !$this->isResourceClass($class)) {
 ?>
 
-		<!-- "I am here 4" -->
 		<br/>
-		<div style="width: 910px; margin: 0 auto 0 auto;">
+		<div class="div_showhide">
 			<fieldset style="padding: 0 ; text-align: center ; margin: 0; border: 0; border-top: 1px solid <?= $bordertop ?>">
 				<legend>
 					<span style='font-weight:bold'><?= $pluraldesc ?> <?= $showvar ?> <?= $login->getKeywordUc('under') ?> <?= $parent->getId() ?>
@@ -4374,21 +4361,12 @@ class HtmlLib
 		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 ?>
 
-		<!-- "I am here 5" -->
-		<div style="width: 910px; margin: 0 auto 0 auto">
+		<div class="div_showhide">
 			<table width="100%" cellpadding="0" cellspacing="0" border="0" style="<?= $backgroundstring ?>  border: 1px solid #<?= $col ?>; padding: 10px;">
-				<!-- <tr>
-					<td valign="bottom" height="10" colspan="4"> &nbsp;  </td>
-				</tr> -->
 				<tr>
-					<!-- <td width="10"> &nbsp; </td> -->
 					<td><?= $this->print_list_submit($class, $blist, $unique_name) ?></td>
 					<td><?= $this->print_search($parent, $class) ?></td>
-					<!-- <td width="10"> &nbsp; </td> -->
 				</tr>
-				<!-- <tr>
-					<td height="10" colspan="4"> &nbsp; </td>
-				</tr> -->
 			</table>
 		</div>
 <?php
@@ -4398,7 +4376,7 @@ class HtmlLib
 			$imgshow = get_general_image_path() . "/button/btn_show.gif";
 ?>
 
-		<div style="width: 910px; margin: 0 auto 0 auto">
+		<div class="div_showhide">
 			<table cellpadding="0" cellspacing="0" width="100%" border=0 valign="middle">
 				<tr>
 					<td colspan="100" height="6"></td>
@@ -4513,25 +4491,27 @@ class HtmlLib
 		}
 
 		if ($this->isResourceClass($class)) {
-			$divwidth = "240px";
+			$divclass = "div_resource";
 		} else {
-			$divwidth = "910px";
+			$divclass = "div_standard";
 		}
 ?>
 
-		<div style="width: <?= $divwidth ?>; margin: 0 auto 0 auto; background-color:#fff">
-			<table cellspacing="1" cellpadding="3" width="100%" align="center">
+		<div class="<?= $divclass ?>">
+			<table style="margin:0;padding:0" cellspacing="1" cellpadding="3" width="100%" align="center">
 				<tr>
 					<td colspan="<?= $nlcount ?>"></td>
 				</tr>
 				<tr height="25" valign="middle">
 <?php
+		$img_url = $this->get_expand_url();
+
 		if (!$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 		//	$checked = "checked disabled";
 			$checked = "";
 ?>
 
-					<td style="width: 10px; text-align: center; background:#cde url(<?= $imgtablerowhead ?>)">
+					<td style="width: 10px; text-align: center; background:#cde">
 						<form name="formselectall<?= $unique_name ?>" method="get" accept-charset="utf-8">
 							<?= $filteropacitystringspan ?>
 
@@ -4593,11 +4573,10 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$wrapstr .= " style='background:gray'";
 				} else {
-					$wrapstr .= " style='background:#edc url({$skindir}/images/listsort.gif)'";
+					$wrapstr .= " style='background:#edc {$img_url}'";
 				}
 ?>
 
-					<!-- "I am here 8" -->
 					<td <?= $wrapstr ?> width="<?= $width ?>">
 						<table cellspacing="0" cellpadding="2"  border="0">
 							<tr>
@@ -4608,11 +4587,10 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$wrapstr .= " style='background:#edc'";
 				} else {
-					$wrapstr .= " style='background:#edc url({$skindir}/images/expand.gif)'";
+					$wrapstr .= " style='background:#edc {$img_url}'";
 				}
 ?>
 
-								<!-- "I am here 9" -->
 								<td width="<?= $width ?>" <?= $wrapstr ?> class="collist">
 
 <?php
@@ -4690,7 +4668,6 @@ class HtmlLib
 		*/
 ?>
 
-					<!-- <tr height='22' id='<?= $rowuniqueid ?>' class='tablerow<?= $count ?>' onmouseover=" swapImage('imgpoint<?= $rowcount ?>','','<?= $imgpointer ?>',1);document.getElementById('<?= $rowuniqueid ?>').className='tablerowhilite';" onmouseout="swapImgRestore();restoreListOnMouseOver('<?= $rowuniqueid ?>', 'tablerow<?= $count ?>','ckbox<?= $unique_name . $rowcount ?>')"> -->
 					<tr height='22' id='<?= $rowuniqueid ?>' class='tablerow<?= $count ?>'>
 <?php
 
@@ -4778,7 +4755,7 @@ class HtmlLib
 				<tr>
 					<td colspan="<?= $nlcount ?>">
 						<table cellpadding="0" cellspacing="0" border="0" width="100%">
-							<tr height="1" style="background:#edc url(<?= $imgtopline ?>)">
+							<tr height="1" style="background:#edc <?= $img_url ?>">
 							</tr>
 							<tr>
 								<td>
@@ -5000,7 +4977,6 @@ class HtmlLib
 			</td>
 		</tr>
 	</table>
-<br/>
 </div>
 <?php
 	}
@@ -5245,18 +5221,14 @@ class HtmlLib
 	function print_jscript_source($jsource)
 	{
 ?>
-
 		<script language="javascript" src="<?= $jsource ?>"></script>
-
 <?php
 	}
 
 	function print_css_source($csource)
 	{
 ?>
-
 		<link href="<?= $csource ?>" rel="stylesheet" type="text/css">
-
 <?php
 	}
 
@@ -5896,14 +5868,12 @@ class HtmlLib
 			$ststring = "style='background:black;color:gray'";
 		}
 
-		if (!$sgbl->isBlackBackground()) {
-			$col = "{$skindir}/images/expand.gif";
-		}
+		$img_url = $this->get_expand_url();
 
 		// MR -- topjumpselect must 'get' for escaping validate token
 ?>
 
-		<div style="background: #<?= $skin_color ?> url(<?= $col ?>); height: 24px; margin: 0 25px;">
+		<div style="background: #<?= $skin_color ?> <?= $img_url ?>" class="div_select_switch">
 			<div style="float:left; padding: 4px"><span <?= $forecolorstring ?> style='font-weight:bold;'>&nbsp;<?= $login->getKeywordUc('switchtoanother') ?>&nbsp;</span></div>
 			<div style="float:left;">
 				<form name="topjumpselect" method="get" action='/display.php' accept-charset="utf-8">
@@ -5934,7 +5904,7 @@ class HtmlLib
 
 					<?= $filteropacitystringspan ?>
 
-					<select style="width: 100%; border: 1px solid #aaa; margin: 2px" <?= $filteropacitystring ?> <?= $ststring ?> class="textbox" onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
+					<select <?= $filteropacitystring ?> <?= $ststring ?> class="textbox select_switch" onChange='document.topjumpselect.submit()' name='frm_o_o[<?= $num ?>][nname]'>
 
 <?php
 		foreach ($list as $k => $l) {
@@ -6265,7 +6235,8 @@ class HtmlLib
 					$imgvar = "<img width='32' height='32' class='icontextlink' src=\"$imagesrc\">";
 				}
 
-				$txtalign = "text-align: center;";
+			//	$txtalign = "text-align: center;";
+				$cssclass = 'div_icons_text';
 			} else {
 				$b = $this->get_metro_color();
 
@@ -6385,10 +6356,12 @@ class HtmlLib
 
 				if ($button_type === 'reverse-font') {
 					$imgvar .= "<span title='{$a[1]}' class='if16' style='color: #ddd'>&#x{$x};</span>";
-					$txtalign = "display: table-cell; vertical-align: bottom; padding-bottom: 3px;";
+				//	$txtalign = "display: table-cell; vertical-align: bottom; padding-bottom: 3px;";
+					$cssclass = 'div_icons_text_reverse';
 				} else {
 					$imgvar .= "<span title='{$a[1]}' class='if16' style='color: {$b[1]};'>&#x{$x};</span>";
-					$txtalign = "text-align: center;";
+				//	$txtalign = "text-align: center;";
+					$cssclass = 'div_icons_text';
 				}
 			}
 		} else {
@@ -6397,9 +6370,9 @@ class HtmlLib
 
 ?>
 
-		<div <?= $idvar ?> <?= $onclickvar ?> style='cursor: pointer; width: 90px; height: 90px; padding: 1px; margin: 1px;' onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>';" onmouseout="this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none'">
-			<div style="margin: 1px auto; height: 40px; text-align: center;"><span title='<?= $alt ?>'><?= $imgvar ?></span></div>
-			<div style="margin: 1px auto; height: 50px; <?= $txtalign ?>"><span title='<?= $alt ?>'><?= $displayvar ?></span></div>
+		<div <?= $idvar ?> <?= $onclickvar ?> class="div_container_icons" onmouseover="getElementById('aaid_<?= $formname ?>').style.textDecoration='none'; this.style.backgroundColor='<?= $selectcolor ?>';" onmouseout="this.style.backgroundColor=''; getElementById('aaid_<?= $formname ?>').style.textDecoration='none'">
+			<div class="div_icons_image"><span title='<?= $alt ?>'><?= $imgvar ?></span></div>
+			<div class="<?= $cssclass ?>"><span title='<?= $alt ?>'><?= $displayvar ?></span></div>
 		</div>
 <?php
 	}
@@ -6760,21 +6733,7 @@ class HtmlLib
 ?>
 
 		<div <?= $help ?> style="float: left">
-			<!-- <div id="quotameter" class="smallroundedmodule lowquota">
-				<div class="first">
-					<span class="first"></span>
-					<span class="last"></span>
-				</div>
-				<div>
-					<span id="quotausagebar" title='<?= $alt ?>'>
-						<span class="first" style="background-image: url(<?= $quotaimg ?>); width:<?= $usedval ?>%;"><?= $text; ?></span>
-					</span>
-				</div>
-				<div class="last">
-					<span class="first"></span>
-					<span class="last"></span>
-				</div>
-			</div> --><?= $val ?> <?= $unit ?> (<?= $realval?>%) / <?= $maxval ?>
+			<?= $val ?> <?= $unit ?> (<?= $realval?>%) / <?= $maxval ?>
 
 		</div>
 <?php
@@ -6980,10 +6939,12 @@ class HtmlLib
 		$value = $object->text_comment;
 		$rclass = "frmtextarea";
 		$variable = "frm_{$object->getClass()}_c_text_comment";
+
+		$img_url = $this->get_expand_url();
 ?>
 
-		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#edc url(<?= $skindir ?>/images/expand.gif)"><span style="font-weight:bold">&nbsp;Find</span></div>
+		<div class="div_note">
+			<div class="div_note_title" style="background:#edc <?= $img_url ?>"><span style="font-weight:bold">&nbsp;Find</span></div>
 			<div><input style="width: 100%; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)"></div>
 		</div>
 		<br/>
@@ -7015,8 +6976,8 @@ class HtmlLib
 		$variable = "frm_{$object->getClass()}_c_text_comment";
 ?>
 
-		<div style="width: 240px; border: 1px solid #ddd; margin: 0 auto 0 auto;">
-			<div style="padding: 4px; text-align: center; background:#edc url(<?= $skindir ?>/images/expand.gif)">
+		<div class="div_note">
+			<div class="div_note_title">
 				<span style='font-weight:bold'>&nbsp;<?= $login->getDescriptionUc('comments') ?>&nbsp;[<a href="<?= $url ?>"><?= $login->getDescriptionUc('edit') ?></a>]
 			</div>
 		</div>
@@ -7600,7 +7561,7 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$divstyle = "text-align:right;";
 				} else {
-					$divstyle = "text-align:right;$borb background:#eee url({$skindir}/images/expand.gif)";
+					$divstyle = "text-align:right;$borb background:#eee";
 				}
 			}
 
@@ -8001,7 +7962,7 @@ class HtmlLib
 				}
 			}
 ?>
-		<div class="infomsg" style="display: none; width: 600px; margin: 10px auto">
+		<div id="infomsg" style="display: none; width: 600px; margin: 10px auto">
 			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold; color: #ffc"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <!-- <?= $info ?> --></div>
 			<div  style="padding: 0 10px; background-color: #cff; border: 1px solid #f88">
 <?php
@@ -8426,7 +8387,6 @@ class HtmlLib
 		if (isset($gbl->__tmp_checkbox_value)) {
 ?>
 				<br/>
-				<!-- <a href="javascript:treeStoreValue()"> <img src="/theme/general/button/<?= $actionimg ?>"> </a> -->
 				<input type="button" style="width: 100px; padding: 2px" onClick="treeStoreValue()" value="<?= $actiontxt ?>"/>
 <?php
 		}
@@ -9025,17 +8985,12 @@ class HtmlLib
 		}
 ?>
 
-		<body <?= $func ?> style="border:0; margin:0; padding:0; background:#<?= $bodycolor ?> <?= $bodybackground ?>;">
-		<!-- "START TOP MENU + LOGO" -->
+		<body <?= $func ?> style="background:#<?= $bodycolor ?> <?= $bodybackground ?>;">
 <?php
 		if ($skin_name === 'simplicity') {
-?>
-
-		<!-- "START TOP MENU + LOGO" -->
-<?php
 			if (file_exists("./login/images/user-logo.png")) {
 ?>
-			<div style="position: fixed; left:10px; top:40px;"><img src="./login/images/user-logo.png" height="60"/></div>
+			<div class="div_fixed_logo_left"><img src="./login/images/user-logo.png" height="60"/></div>
 <?php
 			}
 
@@ -9043,39 +8998,25 @@ class HtmlLib
 			$simplicity_menu = getLinkCustomfile(getcwd() . $skin_dir, "menu.php");
 			$simplicity_topbar_right =getLinkCustomfile(getcwd() . $skin_dir, "topbar_right.php");
 ?>
-			<div style="position: fixed; width:100%; top:0; height:30px; margin:0; padding:0; background-color: #e43;" class="shadow_all">
+			<div class="div_fixed_top shadow_all">
 <?php include_once "{$simplicity_topbar_left}"; ?>
 <?php include_once "{$simplicity_menu}"; ?>
 <?php include_once "{$simplicity_topbar_right}"; ?>
 			</div>
 
-			<div style="position: fixed; right:10px; top:40px;"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60"/></a></div>
-		<!-- "END TOP MENU + LOGO" -->
+			<div class="div_fixed_logo_right"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60"/></a></div>
 <?php
 		}
 
 		if (($as_simple_skin) || ($skin_name === 'simplicity')) {
 			if ($skin_name === 'simplicity') {
-				if ($ghtml->frm_action === 'selectshow') {
-					$bgcolor = "background-color:#fff";
-				} else {
-					$bgcolor = "";
-				}
-
-				$margin_top = '60';
-
-				$border = 'border: 0';
-				$shadow='mmm';
+				$mmmclass = 'div_mmm_simplicity';
 			} else {
-				$margin_top = '10';
-				$border = 'border: 4px double #ddd';
-				$bgcolor = "background-color:#fff";
-				$shadow='shadow_all mmm';
+				$mmmclass = 'div_mmm_feather shadow_all';
 			}
 ?>
 
-			<!-- "START TAB + CONTENT" -->
-			<div class="<?= $shadow ?>" style="padding:0; width:960px; margin:<?= $margin_top ?>px auto 10px auto; <?= $border ?>; <?= $bgcolor ?>">
+			<div id="mmm" class="<?= $mmmclass ?>">
 <?php
 		}
 
@@ -9320,7 +9261,6 @@ class HtmlLib
 ?>
 
 		<form name="<?= $formname ?>" method="get" action="<?= $url ?>" accept-charset="utf-8">
-			<!-- <input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'> -->
 			<?= $this->print_current_input_vars(array('frm_hpfilter')) ?>
 
 			<input type="hidden" id="frm_hpfilter[<?= $filtername ?>][sortby]" name="frm_hpfilter[<?= $filtername ?>][sortby]" value="<?= $sortby ?>">
@@ -9460,8 +9400,8 @@ class HtmlLib
 		} else {
 ?>
 
-			<td height="34" wrap class='alink' style='cursor: pointer; background: #edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="<?= $height ?>" nowrap class='alink' style='cursor: pointer; background: #edc url(<?= $imgbg ?>); padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
+			<td height="34" wrap class='alink' style='cursor: pointer; background: #edc; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class='alink' style='cursor: pointer; background: #edc; padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
 <?php
 		}
 	}
@@ -9473,20 +9413,10 @@ class HtmlLib
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 		$as_simple_skin = $login->getSpecialObject('sp_specialplay')->isOn('simple_skin');
 
-	//	$bordering = "border: 1px solid #ddd; border-top: 0";
-		$bordering = "";
-
-		if ($skin_name === 'feather') {
-			if (!$as_simple_skin) {
-				$bordering = "border: 0";
-			}
-		}
-
 		// MR -- trouble for height if using div-div; so change to div-table
 ?>
 
-	<!-- "START CONTENT" -->
-	<div id="content_wrapper" style="min-height: 100%; height:auto !important; height:100%; width:100%; overflow:hidden; border: 0; padding:0; margin: 0; background-color: #fff">
+	<div id="content_wrapper" class="div_content">
 <?php
 		if ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
 ?>
@@ -9494,16 +9424,18 @@ class HtmlLib
 <?php
 		}
 ?>
-		<table style="width: 100%; height: 100%; margin: 0; padding: 0; <?= $bordering ?>; background-color: #fff"><tr><td style="vertical-align:top; border: 0; padding:0; margin: 0">
+		<table class="tbl_content_content">
+			<tr>
+				<td style="vertical-align:top; border: 0; padding:0; margin: 0">
 <?php
 	}
 
 	function print_content_end()
 	{
 ?>
-			</td>
-		</tr>
-	</table>
+				</td>
+			</tr>
+		</table>
 <?php
 
 	}
@@ -9633,6 +9565,19 @@ class HtmlLib
 		}
 
 		return $nalist;
+	}
+
+	function get_expand_url()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$skindir = $login->getSkinDir();
+
+		if ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
+			return "url({$skindir}/images/expand.gif)";
+		} else {
+			return "";
+		}
 	}
 }
 

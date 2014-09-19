@@ -8,9 +8,6 @@ include_once "lib/html/displayinclude.php";
 function __ac_desc_desktop($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-desktop" -->
-<?php
 
 	$skindir = $login->getSkinDir();
 	$col = $login->getSkinColor();
@@ -108,9 +105,7 @@ function __ac_desc_logout($object)
 function __ac_desc_updateshow($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-updateshow" -->
-<?php
+
 	$subaction = $ghtml->frm_subaction;
 	$post = $ghtml->__http_vars;
 
@@ -170,9 +165,7 @@ function print_customer_mode($object)
 function __ac_desc_show($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-show" -->
-<?php
+
 	print_time("show_select");
 
 	if (!$object) {
@@ -371,11 +364,7 @@ function __ac_desc_show($object)
 			}
 		}
 	}
-?>
-	
-	<!-- "I am here 1" -->
-	
-<?php
+
 	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
 
@@ -402,8 +391,6 @@ function __ac_desc_show($object)
 ?>
 
 		</div>
-		
-		<!-- "I am here 2" -->
 
 <?php
 		if (isset($nalist)) {
@@ -442,8 +429,6 @@ function __ac_desc_show($object)
 
 	if (($rlist || $plist || $ilist) && !$printed_message) {
 ?>
-	
-	<!-- "I am here 3" -->
 	
 			</div>
 		</div>
@@ -622,10 +607,6 @@ function __ac_desc_delete($object)
 	global $gbl, $sgbl, $login, $ghtml;
 	global $g_language_mes;
 
-
-?>
-<!-- "ac-desc-delete" -->
-<?php
 	$cname = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
@@ -749,9 +730,7 @@ function check_for_license()
 function __ac_desc_list($object, $cname = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-list" -->
-<?php
+
 	if (!$cname) {
 		$cname = $ghtml->frm_o_cname;
 	}
@@ -835,9 +814,7 @@ function make_show_all($object, $cname)
 function __ac_desc_selectShow($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-selectShow" -->
-<?php
+
 	$cnamelist = $object->createShowClist("");
 	$cname = "ffile";
 
@@ -875,9 +852,7 @@ function __ac_desc_showform($object)
 function __ac_desc_Update($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-Update" -->
-<?php
+
 	$subaction = $ghtml->frm_subaction;
 	$class = $ghtml->frm_o_cname;
 
@@ -1001,9 +976,7 @@ function do_search($object, $cname)
 function __ac_desc_UpdateForm($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-UpdateForm" -->
-<?php
+
 	if (!$object) {
 		return;
 	}
@@ -1189,10 +1162,6 @@ function __ac_desc_add($object, $param = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-?>
-<!-- "ac-desc-add" -->
-<?php
-
 	$class = $ghtml->frm_o_cname;
 
 	if ($login->isDemo()) {
@@ -1235,9 +1204,6 @@ function check_for_select_one($param)
 function __ac_desc_continue($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-continue" -->
-<?php
 
 	$cname = $ghtml->frm_o_cname;
 
@@ -1311,9 +1277,7 @@ function __ac_desc_continue($object)
 function __ac_desc_addform($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-addform" -->
-<?php
+
 	$cname = $ghtml->frm_o_cname;
 	$dttype = $ghtml->frm_dttype;
 
@@ -1823,7 +1787,7 @@ function print_navigation($navig)
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
 
-<table style="width: 100%; border:0 ; margin: 0 0 2px 0; padding: 0"><tr><td>
+<table class="tbl_navigation"><tr><td>
 <div style="padding: 2px">
 <?php
 		if ($button_type !== 'image') {
@@ -1924,7 +1888,6 @@ function print_navigation($navig)
 		$fullimgstr = implode(" ", $imgstr);
 ?>
 
-		<!-- <div style="float:left; padding-top: 10px;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;<?=$name?>&nbsp;{<b><?=$clienttype?><?=trim($description['desc'])?></b>}<?=$fullimgstr?></div> -->
 		<div style="float:left; padding-top: <?= $padd ?>;" id="tnavig<?=$k?>" onMouseOut="changeContent('help', 'helparea');">&nbsp;{<?=$clienttype?><?=trim($description['desc'])?>}<?=$fullimgstr?></div>
 <?php
 
@@ -1941,7 +1904,7 @@ function print_navigation($navig)
 				//	$ghtml->print_div_button_on_header(null, true, $k, '');
 ?>
 
-				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityByClass('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) {top.location = '/lib/php/logout.php';}" /></div>
+				<div style="float:right; padding: 2px;"><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');"/><input type="button" value="Logout" onClick="if (confirm('<?= $login->getKeywordUc('is_want_logout') ?>')) {top.location = '/lib/php/logout.php';}" /></div>
 <?php
 			}
 
@@ -1956,14 +1919,14 @@ function print_navigation($navig)
 
 ?>
 
-			<div style="float: right; padding-top: <?= $padd ?>;">&nbsp;<a href="javascript://" onclick="toggleVisibilityByClass('infomsg');"><?= $login->getKeywordUc('help') ?></a>&nbsp;-&nbsp;<a href="<?=$shurl?>"><?= $login->getKeywordUc('add_to_favorites') ?></a>&nbsp;</div>
+			<div style="float: right; padding-top: <?= $padd ?>;">&nbsp;<a href="javascript://" onclick="toggleVisibilityById('infomsg');"><?= $login->getKeywordUc('help') ?></a>&nbsp;-&nbsp;<a href="<?=$shurl?>"><?= $login->getKeywordUc('add_to_favorites') ?></a>&nbsp;</div>
 <?php
 		}
 
 ?>
 	</div>
 </td></tr></table>
-	<!-- <br/> -->
+
 <?php
 }
 
@@ -1997,9 +1960,7 @@ function create_navmenu($n, $action, $stuff)
 function __ac_desc_resource($object)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-?>
-<!-- "ac-desc-resource" -->
-<?php
+
 	$sgbl->__var_main_resource = true;
 
 	$treename = fix_nname_to_be_variable($object->nname);
@@ -2271,8 +2232,6 @@ function do_display_exec()
 	display_exec();
 ?>
 
-	<!-- "END TAB + CONTENT" -->
-
 	</div>
 	</body>
 	</html>
@@ -2525,7 +2484,7 @@ function print_head_image()
 			if ($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) {
 ?>
 
-				<td nowrap valign='top'><input type="button" value="Help" onClick="toggleVisibilityByClass('infomsg');" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
+				<td nowrap valign='top'><input type="button" value="Help" onClick="toggleVisibilityById('infomsg');" /><input type="button" value="Logout" onClick="if (confirm('Do You Really Want To Logout?')){top.location = '/lib/php/logout.php';}"></td>
 <?php
 			}
 ?>

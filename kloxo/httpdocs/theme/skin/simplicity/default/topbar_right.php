@@ -9,31 +9,31 @@
 	if ($status_title !== '') {
 		$status_title .= "</li></ul>";
 
-		$status_color = "#fff";
+		$divclass = "div_header_message";
 	} else {
-		$status_color = "#3498db";
+		$divclass = "div_header_message_inactive";
 	}
 
 	if ($status_title != '') {
 ?>
-				<div id="div_cfstatus" style="width: 240px;padding: 10px;color: #FFFFFF;background-color: #9834db;position: absolute;z-index: 1000;top: 35px;right: 5px;border: 1px solid #888">
+				<div id="div_cfstatus" class="div_header_message_status">
 				<?=$status_title;?>
 				</div>
 <?php
 	}
 ?>
 
-				<div style="position: fixed; top: 2px; right: 2px">
+				<div class="div_fixed_right">
 					<div style="float: left">
-						<div id="div_status" style="color: <?=$status_color;?>; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000'; displayStatus('div_cfstatus', 'inline');" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>'; displayStatus('div_cfstatus', 'none');">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+						<div id="div_status" class="<?=$divclass;?>" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000'; displayStatus('div_cfstatus', 'inline');" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>'; displayStatus('div_cfstatus', 'none');">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
 					</div>
 					<div style="float: left">
-						<a href="#" onClick="toggleVisibilityByClass('mmm');">
-							<div id="div_showhide" style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
+						<a href="#" onClick="toggleVisibilityById('mmm');">
+							<div id="div_showhide" class="div_header_message" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';">&nbsp;<?= $login->getKeywordUc('showhide') ?>&nbsp;</div>
 						</a>
 					</div>
 					<div style="float: left">
-						<div id="clock_div" style="color: #fff; margin:2px; padding: 3px; background-color: #3498db; border:0;">
+						<div id="clock_div" class="div_header_message">
 <?php
 		$clock_path = str_replace(getcwd(), "", getLinkCustomfile("{$skin_dir}/js", "clock.js"));
 

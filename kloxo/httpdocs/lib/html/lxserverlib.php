@@ -95,7 +95,9 @@ function timed_exec($time, $func)
 {
 	$v = "global_v$func";
 	global $$v;
+
 	$ct = time();
+
 	if (($ct - $$v) >= $time * 30) {
 		//dprint("Executing at $ct {$$v} rd time $func\n");
 		$$v = $ct;
