@@ -49,7 +49,7 @@
 		$max_input_vars_flag = '3000';
 	}
 
-	if (!isset($date_timezone_flag)) {
+	if (!$date_timezone_flag) {
 		$date_timezone_flag = 'Europe/London';
 	}
 ?>
