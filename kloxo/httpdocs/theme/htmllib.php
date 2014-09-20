@@ -9426,7 +9426,7 @@ class HtmlLib
 ?>
 		<table class="tbl_content_content">
 			<tr>
-				<td style="vertical-align:top; border: 0; padding:0; margin: 0">
+				<td class="td_top_align">
 <?php
 	}
 
