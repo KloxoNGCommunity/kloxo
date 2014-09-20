@@ -19,23 +19,33 @@ if (isset($par['newip'])) {
 	$newip = $par['newip'];
 }
 
+log_cleanup("Changing DNS 'A record' IP", $nolog);
 
 foreach($list as $c) {
 	$dlist = $c->getList('domain');
+
 	foreach($dlist as $l) {
 		$dns = $l->getObject('dns');
 		$dns->setUpdateSubaction('full_update');
+
 		if ($newip && $oldip) {
+			print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
+
 			foreach($dns->dns_record_a as $drec) {
 				if ($drec->ttype !== 'a') {
 					continue;
 				}
-				print("changing oldip $oldip to $newip\n");
+
 				if ($drec->param === $oldip) {
+					$sub = str_replace("a_", "", $drec->nname);
+
+					print("-- '{$oldip}' to '{$newip}' for '{$sub}'\n");
+
 					$drec->param = $newip;
 				}
 			}
 		}
+
 		$dns->was();
 	}
 }

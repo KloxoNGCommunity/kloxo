@@ -842,6 +842,20 @@ html>body #quotausagebar span.last {
 		background-color: #fff
 	}
 
+	.div_mmm_inside {
+		background-color: #fff;
+		padding:20px 20px 20px 20px;
+		border: 1px solid #ddd
+	}
+
+	.div_mmm_warning {
+		width: 600px;
+		margin: 10px auto;
+		padding: 10px;
+		border: 3px double #ccc;
+		background-color: #fcc
+	}
+
 	.div_select_switch {
 		height: 24px;
 		margin: 0 25px
@@ -858,4 +872,12 @@ html>body #quotausagebar span.last {
 		border: 0;
 		padding: 0;
 		margin: 0
+	}
+
+	.div_display_die {
+		width: 400px;
+		padding: 10px;
+		margin: 0 auto;
+		background-color: #fff;
+		border: 1px solid #ddd
 	}

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# release on Kloxo-MR 7.0.0
+# by mustafa.ramadhan@lxcenter.org
+
+# ENVIRONMENT VARIABLE PRIMER FOR REFERENCE
+# $0 script invoked
+# $1, $2, $3 are the command line arguments
+# $# Number of command line arguments 
+# $@ all command line arguments - white space is preserved
+# $* all command line arguments - white space striped 
+
+if [ "$#" == 0 ] ; then
+	echo
+	echo " ------------------------------------------------------------------------------"
+	echo "  format:"
+	echo "    sh $0 --oldip=<> --newip=<>"
+	echo " ------------------------------------------------------------------------------"
+	echo
+	exit;
+fi
+
+request1=$1
+OLDIP=${request1#--oldip\=}
+
+request2=$2
+NEWIP=${request2#--newip\=}
+
+if [ "$OLDIP" == "" ] ; then
+	echo "Empty --oldip= --newip= entry..."
+	exit;
+fi
+
+if [ "$NEWIP" == "" ] ; then
+	echo "Empty --oldip= --newip= entry..."
+	exit;
+fi
+
+. /script/directory
+lxphp.exe ../bin/misc/fixdnschangeip.php $*

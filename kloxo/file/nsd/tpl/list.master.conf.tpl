@@ -8,14 +8,14 @@
 		$d = str_replace("{$path}/", "", $d);
 		$zone  = "zone:\n    name: {$d}\n    zonefile: master/{$d}\n";
 
-	//	$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
-
+		$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
+	/*
 		if (array_keys($ips)) {
 			foreach ($ips as $k => $v) {
 				$zone .= "    notify: {$v} NOKEY\n    provide-xfr: {$v} NOKEY\n";
 			}
 		}
-		
+	*/	
 		$str .= $zone . "\n";
 	}
 

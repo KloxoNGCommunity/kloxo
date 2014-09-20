@@ -348,7 +348,9 @@ class phpini extends lxdb
 				}
 			}
 
-			$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
+		//	$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
+			$vlist["phpini_flag_b-date_timezone_flag"] = array('s', getTimeZoneList());
+
 		}
 
 	//	if ($parent->is__table('web')) {
@@ -444,6 +446,7 @@ class phpini extends lxdb
 
 		$this->initialValue('date_timezone_flag', 'Europe/London');
 	//	$vlist['date_timezone_flag'] = array('s', timezone_identifiers_list());
+		$vlist['date_timezone_flag'] = array('s', getTimeZoneList());
 	}
 
 	function initialValue($var, $val)

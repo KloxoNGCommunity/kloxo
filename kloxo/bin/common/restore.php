@@ -11,7 +11,7 @@ function backup_main()
 	$gbl->__restore_flag = true;
 
 	if ($argc === 1) {
-		print("Usage: $argv[0] --restore/--list --accounts='domain-<domain1.com>,client-<client1>,domain-<domain2.com>' <backup-file> [--switchserverlist='oldserver1:newserver1,oldserver2:newserver2']\n Use --accounts=all to restore everything.\n");
+		print("Usage: $argv[0] class=client name=<clientname> --restore/--list --accounts='domain:<domain1.com>,client:<client1>,domain:<domain2.com>' <backup-file> [--switchserverlist='oldserver1:newserver1,oldserver2:newserver2']\n Use --accounts=all to restore everything.\n");
 		exit;
 	}
 
@@ -86,7 +86,7 @@ function backup_main()
 	}  else if (isset($opt['restore'])) {
 		$gbl->__var_list_flag = false;
 		if (!isset($opt['accounts'])) {
-			print("Restore option needs accounts that are to be restored. --accounts='domain-domain.com,client:clientname'... Use --list to find out all the domain/clients in the backup archive.\n");
+			print("Restore option needs accounts that are to be restored. --accounts='domain:domain.com,client:clientname'... Use --list to find out all the domain/clients in the backup archive.\n");
 			clearLxbackup($backup);
 			exit;
 		}
@@ -125,6 +125,8 @@ function backup_main()
 	clearLxbackup($backup);
 
 	log_log("restore", "*** Restore from '{$name}' user - END ***");
+
+	print("\nNote: run 'sh /script/fixdnschangeip' for migrate from other server\n");
 }
 
 

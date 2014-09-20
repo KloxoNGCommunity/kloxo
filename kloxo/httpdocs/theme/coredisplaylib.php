@@ -635,8 +635,8 @@ function __ac_desc_delete($object)
 		}
 ?>
 
-		<div style="background-color: #fff; padding:20px 20px 0 20px; border: 1px solid #ddd">
-			<div style="width: 600px; margin: 10px auto; padding: 10px; border: 3px double #ccc; background-color: #fcc">
+		<div class="div_mmm_inside">
+			<div class="div_mmm_warning">
 				<?=$warning?>
 			</div>
 
@@ -2593,7 +2593,6 @@ function print_quick_action($class)
 
 function display_die($string)
 {
-	die("<div style='width:400px; padding: 10px; margin: 0 auto; " .
-		"background-color: #fff; border: 1px solid #ddd;'>" . $string ."</div>");	
+	die("<div class='div_display_die'>" . $string ."</div>");	
 }
 

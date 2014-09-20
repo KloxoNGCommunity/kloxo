@@ -8035,3 +8035,14 @@ function setCopyErrorPages()
 		lxfile_cp(getLinkCustomfile($src, "{$v}.html"), "{$dir}/{$v}.html");
 	}
 }
+
+function getTimeZoneList()
+{
+	global $global_list_path;
+
+	$global_list_path = null;
+
+	do_recurse_dir("/usr/share/zoneinfo/", "listFile", null);
+
+	return $global_list_path;
+}
