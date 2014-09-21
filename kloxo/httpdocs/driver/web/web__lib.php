@@ -118,7 +118,7 @@ class web__ extends lxDriverClass
 
 	static function setInstallPhpfpm()
 	{
-		exec("\\cp -rf /usr/local/lxlabs/kloxo/file/php-fpm /opt/configs");
+		exec("'cp' -rf /usr/local/lxlabs/kloxo/file/php-fpm /opt/configs");
 
 		$phpbranch = getRpmBranchInstalled('php');
 

@@ -164,7 +164,7 @@ fi
 #fi
 	
 # MR -- always disable mysql-aio
-#sh /script/disable-mysql-aio
+sh /script/disable-mysql-aio
 sh /init/php.ini /script/set-mysql-default
 
 yum -y install php53u php53u-mysql

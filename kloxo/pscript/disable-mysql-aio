@@ -1,23 +1,27 @@
 #!/bin/sh
 
-my_cnf_1="/etc/my.cnf"
+if grep envID /proc/self/status >/dev/null 2>&1 ; then
+	my_cnf_1="/etc/my.cnf"
 
-if [ -f $my_cnf_1 ] ; then
-	if [ "$(grep 'innodb_use_native_aio' $my_cnf_1)" == "" ] ; then
-		sed -i "s|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g" $my_cnf_1
-		echo "Add 'innodb_use_native_aio=0' to $my_cnf_1"
-	else
-		echo "Already exist 'innodb_use_native_aio' in $my_cnf_1"
+	if [ -f $my_cnf_1 ] ; then
+		if [ "$(grep 'innodb_use_native_aio' $my_cnf_1)" == "" ] ; then
+			sed -i "s|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g" $my_cnf_1
+			echo "Add 'innodb_use_native_aio=0' to $my_cnf_1"
+		else
+			echo "Already exist 'innodb_use_native_aio' in $my_cnf_1"
+		fi
 	fi
-fi
 
-my_cnf_2="/etc/my.cnf.d/server.cnf"
+	my_cnf_2="/etc/my.cnf.d/server.cnf"
 
-if [ -f $my_cnf_2 ] ; then
-	if [ "$(grep 'innodb_use_native_aio' $my_cnf_2)" == "" ] ; then
-		sed -i "s|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g" $my_cnf_2
-		echo "Add 'innodb_use_native_aio=0' to $my_cnf_2"
-	else
-		echo "Already exist 'innodb_use_native_aio' in $my_cnf_1"
+	if [ -f $my_cnf_2 ] ; then
+		if [ "$(grep 'innodb_use_native_aio' $my_cnf_2)" == "" ] ; then
+			sed -i "s|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g" $my_cnf_2
+			echo "Add 'innodb_use_native_aio=0' to $my_cnf_2"
+		else
+			echo "Already exist 'innodb_use_native_aio' in $my_cnf_1"
+		fi
 	fi
+else
+	echo "No need because no OpenVZ VPS"
 fi
