@@ -2,17 +2,6 @@
 
 <?php
 
-$srcinitpath = "/opt/configs/apache/etc/init.d";
-$trgtinitpath = "/etc/rc.d/init.d";
-
-if (file_exists("{$srcinitpath}/custom.httpd.init")) {
-	copy("{$srcinitpath}/custom.httpd.init", "{$trgtinitpath}/httpd");
-} else {
-	copy("{$srcinitpath}/httpd.init", "{$trgtinitpath}/httpd");
-}
-
-chmod("{$trgtinitpath}/httpd", 755);
-
 $srcconfpath = "/opt/configs/apache/etc/conf";
 $srcconfdpath = "/opt/configs/apache/etc/conf.d";
 $trgtconfpath = "/etc/httpd/conf";
