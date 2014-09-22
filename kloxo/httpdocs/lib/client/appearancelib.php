@@ -194,7 +194,7 @@ class sp_basespecialplay extends LxspecialClass
 					//	$vlist['specialplay_b-logo_image'] =array('I', array("width" => 20, "height" => 20,
 					//		"value" => $this->specialplay_b->logo_image));
 					// trick use 'null' for guarantee 100% size of img (not 100% size div container)
-					$vlist['specialplay_b-logo_image'] = array('I', array("width" => "null", "height" => "null", "value" => "/theme/user-logo.png"));
+					$vlist['specialplay_b-logo_image'] = array('I', array("width" => "null", "height" => "null", "value" => "/user-logo.png"));
 					$vlist['logo_image_f'] = null;
 					//	$vlist['specialplay_b-logo_image_loading'] =array('I', array("width" => 20, "height" => 20,
 					//		"value" => $this->specialplay_b->logo_image_loading));

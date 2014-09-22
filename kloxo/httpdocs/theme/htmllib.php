@@ -8990,7 +8990,7 @@ class HtmlLib
 		if ($skin_name === 'simplicity') {
 			if (file_exists("./login/images/user-logo.png")) {
 ?>
-			<div class="div_fixed_logo_left"><img src="./login/images/user-logo.png" height="60"/></div>
+			<div class="div_fixed_logo_left"><img src="./login/images/user-logo.png" height="40"/></div>
 <?php
 			}
 
@@ -9004,7 +9004,7 @@ class HtmlLib
 <?php include_once "{$simplicity_topbar_right}"; ?>
 			</div>
 
-			<div class="div_fixed_logo_right"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="60"/></a></div>
+			<div class="div_fixed_logo_right"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="40"/></a></div>
 <?php
 		}
 
