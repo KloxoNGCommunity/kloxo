@@ -165,7 +165,7 @@ fi
 	
 # MR -- always disable mysql-aio
 sh /script/disable-mysql-aio
-sh /init/php.ini /script/set-mysql-default
+sh /script/set-mysql-default
 
 yum -y install php53u php53u-mysql
 ## MR -- protect to lxphp.exe show missing .so. it's must /etc/php.ini exist extension_dir
