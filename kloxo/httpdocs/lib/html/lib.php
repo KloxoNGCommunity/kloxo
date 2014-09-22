@@ -6030,6 +6030,10 @@ function setInitialPureftpConfig($nolog = null)
 	log_cleanup("Initialize PureFtp service", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
+	if (!isRpmInstalled("xinetd")) {
+		exec("yum install xinetd -y");
+	}
+
 	if (lxfile_exists("/etc/xinetd.d/pure-ftpd")) {
 		log_cleanup("- Remove /etc/xinetd.d/pure-ftpd service file", $nolog);
 		@lxfile_rm("/etc/xinetd.d/pure-ftpd");
