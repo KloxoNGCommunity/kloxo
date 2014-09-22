@@ -62,11 +62,11 @@ KeepAliveTimeout 15
 
     ThreadsPerChild 25
     <IfVersion >= 2.4>
-        MaxRequestWorkers 1000
+        MaxRequestWorkers 400
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients 1000
+        MaxClients 400
         MaxRequestsPerChild 0
     </IfVersion>
 
@@ -86,11 +86,11 @@ KeepAliveTimeout 15
     MaxRequestsPerChild 0
     ThreadStackSize 8196
     <IfVersion >= 2.4>
-        MaxRequestWorkers 1000
+        MaxRequestWorkers 400
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients 1000
+        MaxClients 400
         MaxRequestsPerChild 0
     </IfVersion>
 
