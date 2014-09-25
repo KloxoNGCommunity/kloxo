@@ -233,7 +233,7 @@ class Mmail__Qmail extends lxDriverClass
 		}
 
 	//	$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
-		$ret = lxshell_return($sys_cmd, '-u', $this->main->systemuser, "-b", $password, "-d", $mailpath);
+		$ret = lxshell_return($sys_cmd, '-u', $this->main->systemuser, $this->main->nname, "-b", $password, "-d", $mailpath);
 
 		if ($ret) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");

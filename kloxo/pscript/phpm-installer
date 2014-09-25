@@ -192,8 +192,6 @@ echo "Note:"
 echo " - See '/opt/${base_name}/install.log' for detail install process"
 echo " - Example: copy 'xcache.nonini' to '_xcache.ini' for enable 'xcache' module"
 echo "      in '/etc/${base_name}/etc/php.d'"
-echo " - Running 'sh /script/php53m-installer' as the same as "
-echo "      'sh /script/phpm-installer php53m'"
 echo " - For config setup only, run 'sh /script/phpm-config-setup php53m"
 echo
 
