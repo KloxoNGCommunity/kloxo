@@ -6,6 +6,8 @@
 
 		$text = "acl allow-transfer {\n    localhost;\n    {$text};\n};\n";
 
+		$text .= "acl allow-notify {\n    {$text};\n};\n";
+
 		file_put_contents($file, $text);
 	}
 ?>

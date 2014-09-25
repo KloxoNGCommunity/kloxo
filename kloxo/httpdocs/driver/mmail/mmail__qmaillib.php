@@ -190,7 +190,7 @@ class Mmail__Qmail extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 		global $global_shell_error;
 
-		//$catchall = "postmaster";
+	//	$catchall = "postmaster";
 
 		if ($this->main->ttype === 'forward') {
 			$sys_cmd = "{$sgbl->__path_mail_root}/bin/vaddaliasdomain";
@@ -219,12 +219,21 @@ class Mmail__Qmail extends lxDriverClass
 		$uid = os_get_uid_from_user($this->main->systemuser);
 		$gid = os_get_gid_from_user($this->main->systemuser);
 
-		//$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-e", $catchall, $password);
-		//$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password);
+	//	$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-e", $catchall, $password);
+	//	$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password);
 
 		$mailpath = $sgbl->__path_mail_data;
 
-		$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
+		// MR -- the first check if exists (garbage from old) and then delete!
+		$ret = lxshell_return("{$sgbl->__path_mail_root}/bin/vdominfo", $this->main->nname);
+
+		if (!$ret) {
+			lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", $this->main->nname, "-f");
+			exec("sh /script/fix-qmail-assign");
+		}
+
+	//	$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
+		$ret = lxshell_return($sys_cmd, '-u', $this->main->systemuser, "-b", $password, "-d", $mailpath);
 
 		if ($ret) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
@@ -490,7 +499,8 @@ class Mmail__Qmail extends lxDriverClass
 			}
 		}
 
-		createRestartFile('courier-imap');
+	//	createRestartFile('courier-imap');
+		createRestartFile('qmail');
 	}
 
 	function dbactionUpdate($subaction)

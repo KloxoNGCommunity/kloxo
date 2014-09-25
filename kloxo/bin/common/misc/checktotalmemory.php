@@ -5,11 +5,12 @@ if ($sgbl->isHyperVm()) {
 	exit(10);
 }
 
-
 if (lxfile_exists("/proc/user_beancounters")) {
 	$list = lfile("/proc/user_beancounters");
+
 	foreach($list as $l) {
 		$l = trimSpaces($l);
+
 		if (!csb($l, "privvmpages")) {
 			continue;
 		}
@@ -18,6 +19,7 @@ if (lxfile_exists("/proc/user_beancounters")) {
 
 		$mem = $d[3]/ 256;
 	}
+
 	exit(11);
 } else if (lxfile_exists("/proc/xen")) {
 	exit (11);

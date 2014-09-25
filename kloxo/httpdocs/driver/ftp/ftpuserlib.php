@@ -29,8 +29,9 @@ class ftpuser extends Lxclient
 		} else {
 			$this->customer_name = $parent->customer_name;
 
-			if ($parent->getFullDocRoot()) {
+			if (method_exists($parent, 'getFullDocRoot')) {
 				$this->__var_full_directory = "{$parent->getFullDocRoot()}/{$this->directory}";
+
 			}
 		}
 	}

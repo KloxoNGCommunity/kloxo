@@ -63,8 +63,8 @@ Binding {
 	BindingId = port_nonssl
 	Port = __nonssl_port__
 	#Interface = 0.0.0.0
-	MaxKeepAlive = 200
-	TimeForRequest = 8,25
+	MaxKeepAlive = 3600
+	TimeForRequest = 3600
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
 	MaxUploadSize = 2000
@@ -74,8 +74,8 @@ Binding {
 	BindingId = port_ssl
 	Port = __ssl_port__
 	#Interface = 0.0.0.0
-	MaxKeepAlive = 200
-	TimeForRequest = 8,25
+	MaxKeepAlive = 3600
+	TimeForRequest = 3600
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
 	MaxUploadSize = 2000
