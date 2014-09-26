@@ -16,6 +16,7 @@
 
 	if (!file_exists("/etc/rc.d/init.id/named")) { return; }
 
+/*
 	if ($action === 'fix') {
 		if (array_keys($domains)) {
 			foreach ($domains as $k => $v) {
@@ -27,4 +28,6 @@
 	} elseif ($action === 'update') {
 		exec_with_all_closed("rndc reload {$domain}; rndc notify {$domain}");
 	}
+*/
+	createRestartFile("restart-dns");
 ?>

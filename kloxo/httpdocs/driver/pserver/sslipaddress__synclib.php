@@ -35,6 +35,7 @@ class sslipaddress__sync extends lxDriverClass
 			lxfile_cp("theme/filecore/program.ca", "$path/$name.ca");
 		}
 
-		createRestartFile($this->main->__var_webdriver);
+	//	createRestartFile($this->main->__var_webdriver);
+		createRestartFile("restart-web");
 	}
 }

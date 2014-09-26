@@ -159,7 +159,6 @@ function checkRestart()
 					$cmdlist = array($cmd);
 				}
 
-
 				foreach ($cmdlist as $key => $cmd) {
 					$l = getLinkCustomfile("{$sgbl->__path_program_etc}/process", $cmd);
 					
@@ -173,8 +172,12 @@ function checkRestart()
 						exec_with_all_closed($c);
 					//	exec($c);
 					} else {
-						exec_with_all_closed("/etc/init.d/$cmd restart");
-					//	exec("/etc/init.d/$cmd restart");
+						if (strpos($cmd, 'restart-') !== false) {
+							exec_with_all_closed("sh /script/{$cmd}");
+						} else {
+							exec_with_all_closed("/etc/init.d/{$cmd} restart");
+						//	exec("/etc/init.d/{$cmd} restart");
+						}
 					}
 				}
 

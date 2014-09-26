@@ -35,7 +35,7 @@ class DnsSlave extends Lxdb
 
 	static function add($parent, $class, $param)
 	{
-		validate_domain_name($param['nname']);
+		validate_domain_name($param['nname'], $bypass = true);
 		validate_ipaddress_and_throw($param['master_ip']);
 
 		return $param;

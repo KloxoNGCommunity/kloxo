@@ -226,8 +226,8 @@ class webtraffic extends lxclass
 
 		dprintr($temp);
 		
-		createRestartFile($driverapp);
-
+//		createRestartFile($driverapp);
+		createRestartFile("restart-web");
 		return $temp;
 	}
 }

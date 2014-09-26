@@ -12,7 +12,8 @@ class WebCache extends LxDriverClass
 
 	static function switchProgramPost($old, $new)
 	{
-		createRestartFile($new);
+	//	createRestartFile($new);
+		createRestartFile("restart-web");
 	}
 
 	static function removeOtherDriver()

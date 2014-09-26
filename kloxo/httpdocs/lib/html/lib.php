@@ -876,13 +876,15 @@ function installAppPHP($var, $cmd)
 
 }
 
-function validate_domain_name($name)
+function validate_domain_name($name, $bypass = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	if ($name === 'lxlabs.com' || $name === 'lxcenter.org'|| $name === 'mratwork.com') {
-		if (!$sgbl->isDebug()) {
-			throw new lxException($login->getThrow('can_not_be_added'), '', $name);
+	if (!$bypass) {
+		if ($name === 'lxlabs.com' || $name === 'lxcenter.org'|| $name === 'mratwork.com') {
+			if (!$sgbl->isDebug()) {
+				throw new lxException($login->getThrow('can_not_be_added'), '', $name);
+			}
 		}
 	}
 
@@ -5105,7 +5107,9 @@ function changetoclient()
 	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
 	restart_service("xinetd");
 	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
-	createRestartFile($driverapp);
+
+//	createRestartFile($driverapp);
+	createRestartFile("restart-web");
 }
 
 function fix_dns_zones()

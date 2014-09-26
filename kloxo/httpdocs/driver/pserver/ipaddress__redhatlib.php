@@ -170,7 +170,10 @@ class Ipaddress__Redhat extends LxDriverclass
 	function dbactionAdd()
 	{
 		$this->IpaddressEdit('add');
-		createRestartFile($this->main->__var_dnsdriver);
+
+	//	createRestartFile($this->main->__var_dnsdriver);
+		createRestartFile("restart-dns");
+	
 		$result = self::getCurrentIps();
 
 		// MR -- not needed because Kloxo-MR use *:port instead existing ip for webconfig
@@ -201,7 +204,8 @@ class Ipaddress__Redhat extends LxDriverclass
 		lxshell_return("ifdown", $actualname);
 		lxfile_rm($ipaddrfile);
 
-		createRestartFile($this->main->__var_dnsdriver);
+	//	createRestartFile($this->main->__var_dnsdriver);
+		createRestartFile("restart-dns");
 	}
 
 	static function getCurrentIps()

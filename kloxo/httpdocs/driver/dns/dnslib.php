@@ -118,7 +118,8 @@ class Dns extends DnsBase
 
 	static function switchProgramPost($old, $new)
 	{
-		createRestartFile($new);
+	//	createRestartFile($new);
+		createRestartFile("restart-dns");
 	}
 
 	static function removeOtherDriver()

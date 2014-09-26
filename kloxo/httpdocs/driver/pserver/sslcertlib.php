@@ -214,7 +214,8 @@ class SslCert extends Lxdb
 			exec("'rm' -rf {$path}/{$name}.*");
 
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}", "--nolog");
-			createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
+		//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
+			createRestartFile("restart-web");
 		}
 	}
 
@@ -306,7 +307,8 @@ class SslCert extends Lxdb
 		}
 
 		exec("sh /script/fixweb --domain={$name} --nolog");
-		createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
+	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
+		createRestartFile("restart-web");
 	}
 
 	function isSelect()

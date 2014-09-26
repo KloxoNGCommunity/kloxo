@@ -64,7 +64,9 @@ class dns__ extends lxDriverClass
 
 		lxshell_return("chkconfig", $driveralias, "on");
 
-		createRestartFile($driveralias);
+		// MR -- disable here because execute in switchProgramPost()
+	//	createRestartFile($driveralias);
+	//	createRestartFile("restart-dns");
 	}
 
 	static function getActiveDriver()

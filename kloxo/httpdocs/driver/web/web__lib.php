@@ -1390,11 +1390,13 @@ class web__ extends lxDriverClass
 	static function set_restart()
 	{
 		$list = getWebDriverList();
-
+	/*
 		foreach ($list as &$l) {
 			if ($l === 'apache') { $l = 'httpd'; }
 
 			createRestartFile($l);
 		}
+	*/
+		createRestartFile("restart-web");
 	}
 }

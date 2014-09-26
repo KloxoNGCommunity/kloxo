@@ -25,6 +25,7 @@ class webcache__ extends lxDriverClass
 
 		lxshell_return("chkconfig", $drivertype, "on");
 
-		createRestartFile($drivertype);
+	//	createRestartFile($drivertype);
+		createRestartFile("restart-web");
 	}
 }

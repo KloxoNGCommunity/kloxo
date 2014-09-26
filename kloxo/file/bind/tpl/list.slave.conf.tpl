@@ -19,9 +19,10 @@
 	$file = "/opt/configs/bind/conf/defaults/named.slave.conf";
 
 	file_put_contents($file, $str);
-
+/*
 	foreach ($doms as $k => $v) {
 		exec_with_all_closed("rndc retransfer {$v}");
 	}
-
+*/
+	createRestartFile("restart-dns");
 ?>

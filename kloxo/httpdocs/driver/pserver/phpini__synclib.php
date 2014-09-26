@@ -150,8 +150,8 @@ class phpini__sync extends Lxdriverclass
 			createRestartFile('php-fpm');
 		}
 
-		createRestartFile($this->main->__var_webdriver);
-
+	//	createRestartFile($this->main->__var_webdriver);
+		createRestartFile("restart-web");
 	}
 
 	function createHtaccessFile()

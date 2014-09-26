@@ -18,7 +18,8 @@ function os_createLowMem()
 	if (!lxfile_exists("/proc/user_beancounters") && !lxfile_exists("/proc/xen")) {
 		if (!lxshell_return("diff", "../file/lowmem/my.cnf.lowmem", "/etc/my.cnf")) {
 			lxfile_cp("/etc/lowmem.saved.my.cnf", "/etc/my.cnf");
-			createRestartFile("mysqld");
+		//	createRestartFile("mysqld");
+			createRestartFile("restart-mysql");
 		}
 		return;
 	}
@@ -28,7 +29,8 @@ function os_createLowMem()
 		if (!lxfile_exists("/etc/lowmem.saved.my.cnf")) {
 			lxfile_cp("/etc/my.cnf", "/etc/lowmem.saved.my.cnf");
 			lxfile_cp("../file/lowmem/my.cnf.lowmem", "/etc/my.cnf");
-			createRestartFile('mysql');
+		//	createRestartFile('mysql');
+			createRestartFile("restart-mysql");
 		//	createRestartFile('courier-imap');
 		}
 
@@ -52,7 +54,8 @@ function remove_lighttpd_error_log()
 
 	if ($s > 50 * 1024 * 1024) {
 		lunlink($f);
-		createRestartFile("lighttpd");
+	//	createRestartFile("lighttpd");
+		createRestartFile("restart-web");
 	}
 }
 

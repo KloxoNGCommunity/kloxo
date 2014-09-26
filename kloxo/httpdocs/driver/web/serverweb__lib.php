@@ -173,7 +173,8 @@ class serverweb__ extends lxDriverClass
 
 		$this->set_secondary_php();
 
-		createRestartFile('httpd');
+	//	createRestartFile('httpd');
+		createRestartFile("restart-web");
 	}
 
 	function set_modphp($type)
@@ -251,7 +252,9 @@ class serverweb__ extends lxDriverClass
 		lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
 
 		lxshell_return("chkconfig", "php-fpm", "on");
-		createRestartFile('php-fpm');
+
+	//	createRestartFile('php-fpm');
+		createRestartFile("restart-web");
 	}
 
 	function set_fcgid()
@@ -410,7 +413,8 @@ class serverweb__ extends lxDriverClass
 
 		if ($installed) {
 			lxshell_return("chkconfig", "php-fpm", "on");
-			createRestartFile('php-fpm');
+		//	createRestartFile('php-fpm');
+			createRestartFile("restart-web");
 		}
 
 		if (stripos('mod_php', $this->main->php_type) === false) {
