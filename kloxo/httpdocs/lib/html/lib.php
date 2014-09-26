@@ -1467,12 +1467,12 @@ function validate_email($email)
 	return true;
 }
 
-function validate_ipaddress_and_throw($ip, $variable)
+function validate_ipaddress_and_throw($ip, $variable = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!validate_ipaddress($ip)) {
-		throw new lxException($login->getThrow("invalid_ipaddress"), '', $ip);
+		throw new lxException($login->getThrow("invalid_ipaddress"), '', $ip, $variable);
 	}
 }
 

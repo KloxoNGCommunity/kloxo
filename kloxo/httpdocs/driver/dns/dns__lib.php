@@ -157,7 +157,17 @@ class dns__ extends lxDriverClass
 
 		foreach ($dnsdrvlist as $k => $v) {
 			if ($v !== 'pdns') {
+				// MR -- for master
 				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.master.conf.tpl");
+
+				$tpl = file_get_contents($tplsource);
+
+				$tplparse = getParseInlinePhp($tpl, $input);
+
+				// MR -- no action for file_put_contents
+
+				// MR -- for slave
+				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.slave.conf.tpl");
 
 				$tpl = file_get_contents($tplsource);
 

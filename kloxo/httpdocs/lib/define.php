@@ -88,5 +88,6 @@ $gl_class_array["weblastvisit"] = "driver/web/weblastvisitlib.php";
 $gl_class_array["serverweb"] = "driver/web/serverweblib.php";
 $gl_class_array["rubyrails"] = "driver/web/rubyrailslib.php";
 
+$gl_class_array["dnsslave"] = "lib/php/dnsslavelib.php";
 
 

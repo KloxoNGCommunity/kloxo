@@ -1356,3 +1356,6 @@ $__description["enable_cronforall"] = array("Enable cron for all users");
 
 $__description["date_timezone"] = array("Timezone");
 
+$__description["dnsslave"] = array("Secondary DNS Configure");
+$__description["master_ip"] = array("Master IP Address");
+$__description["slave_domain"] = array("Slave Domain");

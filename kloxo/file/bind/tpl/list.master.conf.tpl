@@ -6,7 +6,7 @@
 
 	foreach ($dirs as $d) {
 		$d = str_replace("{$path}/", "", $d);
-		$zone = "zone \"{$d}\" { type master; file \"master/{$d}\"; };\n";
+		$zone = "zone \"{$d}\" {\n    type master;\n    file \"master/{$d}\";\n};\n";
 		$str .= $zone;
 	}
 

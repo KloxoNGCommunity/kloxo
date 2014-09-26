@@ -57,6 +57,8 @@ class Client extends ClientBase
 	static $__desc_phpini_o = array("db", "", "");
 //	static $__desc_pserver_o = array("db", "", "");
 
+	static $__desc_dnsslave_l = array("", "", "");
+
 	function isSync()
 	{
 		if ($this->subaction === 'boxpos') {
@@ -672,6 +674,8 @@ class Client extends ClientBase
 		if ($this->isAdmin()) {
 		//	$alist[] = "a=updateform&sa=license&o=license";
 		}
+
+		$alist[] = "a=list&c=dnsslave";
 
 		$this->getCustomButton($alist);
 

@@ -1,20 +1,15 @@
 <?php
-	$path = "/opt/configs/nsd/conf/slave";
+	$path = "/opt/configs/dnsslave_tmp";
 	$dirs = glob("{$path}/*");
 
 	$str = '';
 
 	foreach ($dirs as $d) {
+		$c = trim(file_get_contents($d));
 		$d = str_replace("{$path}/", "", $d);
-		$zone = "zone:\n    name: {$d}\n    zonefile: slave/{$d}\n";
-		$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
-	/*
-		if (array_keys($ips)) {
-			foreach ($ips as $k => $v) {
-				$zone .= "    allow-notify: {$v} NOKEY\n    request-xfr: {$v}@53 NOKEY\n";
-			}
-		}
-	*/
+		$zone  = "zone:\n    name: {$d}\n    zonefile: slave/{$d}\n";
+		$zone .= "    allow-notify: {$c} NOKEY\n    request-xfr: {$c}@53 NOKEY\n";
+
 		$str .= $zone . "\n";
 	}
 

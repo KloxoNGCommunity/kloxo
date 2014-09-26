@@ -67,3 +67,14 @@ CREATE TABLE IF NOT EXISTS `jailed` (
   KEY `parent_clname_jailed` (`parent_clname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+CREATE TABLE IF NOT EXISTS `dnsslave` (
+  `nname` varchar(255) NOT NULL,
+  `parent_clname` varchar(255) DEFAULT NULL,
+  `parent_cmlist` text,
+  `master_ip` varchar(255) DEFAULT NULL,
+  `syncserver` varchar(255) DEFAULT NULL,
+  `serial` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nname`),
+  KEY `parent_clname_dnsslave` (`parent_clname`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
