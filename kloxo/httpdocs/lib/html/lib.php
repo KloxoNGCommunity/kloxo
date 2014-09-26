@@ -6483,7 +6483,7 @@ function fix_cname($nolog = null)
 	log_cleanup("Initialize OS admin account description", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
-	lxshell_return("__path_php_path", "../bin/fix/fixdns.php", "--nolog");
+	lxshell_return("sh", "/script/fixdns", "--nolog");
 }
 
 function installChooser($nolog = null)

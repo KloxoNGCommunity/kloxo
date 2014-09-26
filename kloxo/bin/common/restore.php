@@ -11,7 +11,10 @@ function backup_main()
 	$gbl->__restore_flag = true;
 
 	if ($argc === 1) {
-		print("Usage: $argv[0] class=client name=<clientname> --restore/--list --accounts='domain:<domain1.com>,client:<client1>,domain:<domain2.com>' <backup-file> [--switchserverlist='oldserver1:newserver1,oldserver2:newserver2']\n Use --accounts=all to restore everything.\n");
+		print("Usage: $argv[0] class=client name=<clientname> --restore/--list " .
+			"--accounts='domain:<domain1.com>,client:<client1>,domain:<domain2.com>' <backup-file> " .
+			"[--switchserverlist='oldserver1:newserver1,oldserver2:newserver2']" .
+			"\n- Use --accounts=all to restore everything.\n");
 		exit;
 	}
 

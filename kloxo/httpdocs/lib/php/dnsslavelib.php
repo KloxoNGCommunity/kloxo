@@ -45,7 +45,7 @@ class DnsSlave extends Lxdb
 	{
 		$ip = $this->master_ip;
 		$domain = $this->nname;
-
+		$syncserver = $this->syncserver;
 		$path = "/opt/configs/dnsslave_tmp";
 
 		if (!file_exists($path)) {
@@ -53,13 +53,15 @@ class DnsSlave extends Lxdb
 		}
 
 		exec("echo '{$ip}' > {$path}/{$domain}");
+		exec("sh /script/fixdns --server={$syncserver} --nolog");
 	}
 
 	function deleteSpecific()
 	{
 		$ip = $this->master_ip;
 		$domain = $this->nname;
-
+	
+		$syncserver = $this->syncserver;
 		$path = "/opt/configs/dnsslave_tmp";
 
 		if (!file_exists($path)) {
@@ -67,6 +69,7 @@ class DnsSlave extends Lxdb
 		}
 
 		exec("'rm' -rf {$path}/{$domain}");
+		exec("sh /script/fixdns --server={$syncserver} --nolog");
 	}
 
 	static function AddListForm($parent, $class)
