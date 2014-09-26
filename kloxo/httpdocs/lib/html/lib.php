@@ -6145,13 +6145,14 @@ function setInitialBinary($nolog = null)
 	// MR -- because no need lxrestart (also lxsuexec) so remove if exist
 	exec("'rm' -rf /usr/sbin/lxrestart");
 
+/*
 	if (!lxfile_exists("/usr/bin/php-cgi")) {
 		log_cleanup("- Install php-cgi binary", $nolog);
 		lxfile_cp("/usr/bin/php", "/usr/bin/php-cgi");
 	} else {
 		log_cleanup("- php-cgi binary already installed", $nolog);
 	}
-
+*/
 	if (!lxfile_exists("/usr/local/bin/php")) {
 		log_cleanup("- Create Symlink /usr/bin/php to /usr/local/bin/php", $nolog);
 		lxfile_symlink("/usr/bin/php", "/usr/local/bin/php");
