@@ -15,4 +15,3 @@
 	$content = replace_between($srctxt, $startin, $endin, $str);
 
 	file_put_contents($file, $content);
-?>

@@ -2,189 +2,200 @@
 
 $conn = new mysqli($syncserver, 'root', $rootpass, 'powerdns');
 
-if ($target === 'master') {
-	if (($action === 'delete') || ($action === 'update')) {
-		if($query = $conn->query("SELECT * FROM domains WHERE name='{$domainname}';")) {
-			while ($row = $query->fetch_object()) {
-				$rowid = $row->id;
+// MR -- master dns portion
+if (($action === 'delete') || ($action === 'update')) {
+	if($query = $conn->query("SELECT * FROM domains WHERE name='{$domainname}' AND type='MASTER'")) {
+		while ($row = $query->fetch_object()) {
+			$rowid = $row->id;
 
-				$conn->query("DELETE FROM domains WHERE id='{$rowid}'");
-				$conn->query("DELETE FROM records WHERE domain_id='{$rowid}'");
-				$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
-			}
-		}
-
-		if ($action === 'delete') {
-			$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
+			$conn->query("DELETE FROM domains WHERE id='{$rowid}' AND type='MASTER';");
+			$conn->query("DELETE FROM records WHERE domain_id='{$rowid}'");
+			$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
 		}
 	}
 
-	if (($action === 'add') || ($action === 'update')) {
-		$nameserver = null;
+	if ($action === 'delete') {
+		$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
+	}
+}
 
-		foreach($dns_records as $dns) {
-			if ($dns->ttype === "ns") {
-				if (!$nameserver) {
-					$nameserver = $dns->param;
-				}
-			}
+if (($action === 'add') || ($action === 'update')) {
+	$nameserver = null;
 
-			if ($dns->ttype === 'a') {
-				$arecord[$dns->hostname] = $dns->param;
-
-				if ($dns->hostname === '__base__') {
-					$baseip = $dns->param;
-				}
+	foreach($dns_records as $dns) {
+		if ($dns->ttype === "ns") {
+			if (!$nameserver) {
+				$nameserver = $dns->param;
 			}
 		}
 
-		if ($soanameserver) {
-			$nameserver = $soanameserver;
+		if ($dns->ttype === 'a') {
+			$arecord[$dns->hostname] = $dns->param;
+
+			if ($dns->hostname === '__base__') {
+				$baseip = $dns->param;
+			}
 		}
+	}
 
-		$email = str_replace("@", ".", $email);
-		$refresh = isset($refresh) && strlen($refresh) > 0 ? $refresh : 3600;
-		$retry = isset($retry) && strlen($retry) > 0 ? $retry : 1800;
-		$expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
-		$minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
+	if ($soanameserver) {
+		$nameserver = $soanameserver;
+	}
 
-		$conn->query("INSERT INTO domains (name,type) values('$domainname', 'MASTER');");
+	$email = str_replace("@", ".", $email);
+	$refresh = isset($refresh) && strlen($refresh) > 0 ? $refresh : 3600;
+	$retry = isset($retry) && strlen($retry) > 0 ? $retry : 1800;
+	$expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
+	$minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
 
-	//	if ($conn->insert_id === 0) { return; }
+	$conn->query("INSERT INTO domains (name, type) values('$domainname', 'MASTER');");
 
-		$domain_id = $conn->insert_id;
+//	if ($conn->insert_id === 0) { return; }
 
-		$soa = "{$nameserver} {$email} {$serial} {$refresh} {$retry} {$expire} {$minimum}";
+	$domain_id = $conn->insert_id;
 
-		$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-			"VALUES ('$domain_id', '$domainname', '$soa', 'SOA', '$ttl', 'NULL');");
+	$soa = "{$nameserver} {$email} {$serial} {$refresh} {$retry} {$expire} {$minimum}";
 
-		foreach($dns_records as $k => $o) {
-			switch ($o->ttype) {
-				case "ns":
-					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-						"VALUES ('$domain_id', '$domainname', '$o->param', 'NS', '$ttl', 'NULL');");
+	$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+		"VALUES ('$domain_id', '$domainname', '$soa', 'SOA', '$ttl', 'NULL');");
 
-					break;
-				case "mx":
-					$v = $o->priority;
+	foreach($dns_records as $k => $o) {
+		switch ($o->ttype) {
+			case "ns":
+				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+					"VALUES ('$domain_id', '$domainname', '$o->param', 'NS', '$ttl', 'NULL');");
 
-					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-						"VALUES ('$domain_id', '$domainname', '$o->param', 'MX', '$ttl', '$v');");
+				break;
+			case "mx":
+				$v = $o->priority;
 
-					break;
-				case "a":
-					$key = $o->hostname;
-					$value = $o->param;
+				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+					"VALUES ('$domain_id', '$domainname', '$o->param', 'MX', '$ttl', '$v');");
 
-					if ($key !== "__base__") {
-						$key = "$key.$domainname";
-					} else {
-						$key = "$domainname";
-					}
+				break;
+			case "a":
+				$key = $o->hostname;
+				$value = $o->param;
 
-					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-						"VALUES ('$domain_id', '$key', '$value', 'A', '$ttl', 'NULL');");
+				if ($key !== "__base__") {
+					$key = "$key.$domainname";
+				} else {
+					$key = "$domainname";
+				}
 
-					break;
-				case "cn":
-				case "cname":
-					$key = $o->hostname;
-					$value = $o->param;
-					$key .= ".$domainname";
+				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+					"VALUES ('$domain_id', '$key', '$value', 'A', '$ttl', 'NULL');");
 
-					if (isset($arecord[$value])) {
-						$rvalue = $arecord[$value];
+				break;
+			case "cn":
+			case "cname":
+				$key = $o->hostname;
+				$value = $o->param;
+				$key .= ".$domainname";
 
-						$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
-							"VALUES ('$domain_id', '$key', '$rvalue', 'A', '$ttl', 'NULL');");
-					} else {
-						if ($value !== "__base__") {
-							$value = "$value.$domainname";
-						} else {
-							$value = "$domainname";
-						}
+				if (isset($arecord[$value])) {
+					$rvalue = $arecord[$value];
 
-						$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
-							"VALUES ('$domain_id', '$key', '$value', 'CNAME', '$ttl', 'NULL');");
-					}
-
-					break;
-				case "fcname":
-					$key = $o->hostname;
-					$value = $o->param;
-					$key .= ".$domainname";
-
+					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
+						"VALUES ('$domain_id', '$key', '$rvalue', 'A', '$ttl', 'NULL');");
+				} else {
 					if ($value !== "__base__") {
-						if (!cse($value, ".")) {
-							$value = "$value.";
-						}
+						$value = "$value.$domainname";
 					} else {
 						$value = "$domainname";
 					}
 
-					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
 						"VALUES ('$domain_id', '$key', '$value', 'CNAME', '$ttl', 'NULL');");
+				}
 
-					break;
-				case "txt":
-					$key = $o->hostname;
-					$value = $o->param;
+				break;
+			case "fcname":
+				$key = $o->hostname;
+				$value = $o->param;
+				$key .= ".$domainname";
 
-					if ($o->param === null) {
-						continue;
+				if ($value !== "__base__") {
+					if (!cse($value, ".")) {
+						$value = "$value.";
 					}
+				} else {
+					$value = "$domainname";
+				}
 
-					if ($key !== "__base__") {
-						$key = "$key.$domainname";
-					} else {
-						$key = "$domainname";
-					}
+				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+					"VALUES ('$domain_id', '$key', '$value', 'CNAME', '$ttl', 'NULL');");
 
-				//	$value = str_replace("<%domain>", $domainname, $value);
-					$value = '"' . str_replace("<%domain>", $domainname, $value) . '"';
+				break;
+			case "txt":
+				$key = $o->hostname;
+				$value = $o->param;
 
+				if ($o->param === null) {
+					continue;
+				}
+
+				if ($key !== "__base__") {
+					$key = "$key.$domainname";
+				} else {
+					$key = "$domainname";
+				}
+
+			//	$value = str_replace("<%domain>", $domainname, $value);
+				$value = '"' . str_replace("<%domain>", $domainname, $value) . '"';
+
+				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+					"VALUES ('$domain_id', '$key', '$value', 'TXT', '$ttl', 'NULL');");
+
+				if (strpos($value, "v=spf1") !== false) {
 					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-						"VALUES ('$domain_id', '$key', '$value', 'TXT', '$ttl', 'NULL');");
+						"VALUES ('$domain_id', '$key', '$value', 'SPF', '$ttl', 'NULL');");
+				}
 
-					if (strpos($value, "v=spf1") !== false) {
-						$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-							"VALUES ('$domain_id', '$key', '$value', 'SPF', '$ttl', 'NULL');");
-					}
-
-					break;
-			}
-		}
-
-		$conn->query("INSERT INTO domainmetadata (domain_id, kind, content) " .
-			"VALUES ('{$domain_id}','ALLOW-AXFR-FROM','AUTO-NS');");
-
-		// MR -- account not implementing yet; importance for poweradmin to multiple use!
-		$account = 'admin';
-
-		$conn->query("INSERT INTO supermasters (ip, nameserver, account) " .
-			"VALUES ('{$baseip}','{$nameserver}','{$account}');");
-	}
-
-	$conn->close();
-} elseif ($target === 'slave') {
-	if (($action === 'delete') || ($action === 'update')) {
-		if($query = $conn->query("SELECT * FROM domains WHERE name='{$domainname}';")) {
-			while ($row = $query->fetch_object()) {
-				$rowid = $row->id;
-
-				$conn->query("DELETE FROM domains WHERE id='{$rowid}'");
-				$conn->query("DELETE FROM records WHERE domain_id='{$rowid}'");
-				$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
-			}
-		}
-
-		if ($action === 'delete') {
-			$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
+				break;
 		}
 	}
 
-	if (($action === 'add') || ($action === 'update')) {
-		$conn->query("INSERT INTO domains (name, master, type) values('$domainname', $master_ip, 'SLAVE');");
+	$conn->query("INSERT INTO domainmetadata (domain_id, kind, content) " .
+		"VALUES ('{$domain_id}','ALLOW-AXFR-FROM','AUTO-NS');");
+
+	// MR -- account not implementing yet; importance for poweradmin to multiple use!
+	$account = 'admin';
+
+	$conn->query("INSERT INTO supermasters (ip, nameserver, account) " .
+		"VALUES ('{$baseip}','{$nameserver}','{$account}');");
+}
+
+// MR -- slave dns portion
+
+if($query = $conn->query("SELECT * FROM domains WHERE type='SLAVE'")) {
+	while ($row = $query->fetch_object()) {
+		$rowid = $row->id;
+
+		$conn->query("DELETE FROM domains WHERE id='{$rowid}' AND type='SLAVE';");
+		$conn->query("DELETE FROM records WHERE domain_id='{$rowid}'");
+		$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
 	}
 }
+
+$path = "/opt/configs/dnsslave_tmp";
+$dirs = glob("{$path}/*");
+
+$str = '';
+
+$doms = array();
+
+foreach ($dirs as $d) {
+	$c = trim(file_get_contents($d));
+	$d = str_replace("{$path}/", "", $d);
+
+	$doms[] = $d;
+}
+
+foreach ($doms as $k => $v) {
+	$ip = trim(file_get_contents("{$path}/{$v}"));
+
+	$conn->query("INSERT INTO domains (name, master, type) values('{$v}', '{$ip}', 'SLAVE');");
+}
+
+$conn->close();

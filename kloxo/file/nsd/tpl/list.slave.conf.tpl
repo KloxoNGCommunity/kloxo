@@ -2,7 +2,9 @@
 	$path = "/opt/configs/dnsslave_tmp";
 	$dirs = glob("{$path}/*");
 
-	$str = '';
+	exec("'rm' -rf /opt/configs/nsd/conf/slave/*");
+
+	$srr = '';
 
 	foreach ($dirs as $d) {
 		$c = trim(file_get_contents($d));
@@ -18,4 +20,3 @@
 	file_put_contents($file, $str);
 
 	createRestartFile("restart-dns");
-?>

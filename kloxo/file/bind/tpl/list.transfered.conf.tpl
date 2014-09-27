@@ -10,4 +10,3 @@
 
 		file_put_contents($file, $text);
 	}
-?>

@@ -2,6 +2,8 @@
 	$path = "/opt/configs/dnsslave_tmp";
 	$dirs = glob("{$path}/*");
 
+	exec("'rm' -rf /opt/configs/bind/conf/slave/*");
+
 	$str = '';
 
 	$doms = array();
@@ -25,4 +27,3 @@
 	}
 */
 	createRestartFile("restart-dns");
-?>

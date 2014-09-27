@@ -4,4 +4,3 @@
 	// need a trick (http://maradns.samiam.org/tutorial/dnsslave.html)
 	// -- so, in progress!
 */
-?>

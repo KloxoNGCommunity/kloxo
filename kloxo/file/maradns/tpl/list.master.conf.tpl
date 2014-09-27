@@ -4,8 +4,8 @@
 
 	$str = '';
 
-	foreach ($dirs as $d) {
-		$d = str_replace("{$path}/", "", $d);
+	foreach ($dirs as $k => $v) {
+		$d = str_replace("{$path}/", "", $v);
 		$zone = "csv2[\"{$d}.\"] = \"{$d}\"\n";
 		$str .= $zone;
 	}
@@ -22,17 +22,14 @@
 
 	file_put_contents($file, $content);
 
-//	if ($target === 'master') {
-		if ($action === 'fix') {
-			if (array_keys($domains)) {
-				exec_with_all_closed("/etc/init.d/maradns reload");
+	if ($action === 'fix') {
+		if (array_keys($domains)) {
+			exec_with_all_closed("/etc/init.d/maradns reload");
 
-				foreach ($domains as $k => $v) {
-					exec_with_all_closed("sh /script/dnsnotify {$v}");
-				}
+			foreach ($domains as $k => $v) {
+				exec_with_all_closed("sh /script/dnsnotify {$v}");
 			}
-		} elseif ($action === 'update') {
-			exec_with_all_closed("/etc/init.d/maradns reload; sh /script/dnsnotify {$domain}");
 		}
-//	}
-?>
+	} elseif ($action === 'update') {
+		exec_with_all_closed("/etc/init.d/maradns reload; sh /script/dnsnotify {$domain}");
+	}
