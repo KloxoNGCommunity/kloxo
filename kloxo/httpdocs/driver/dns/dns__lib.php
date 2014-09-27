@@ -217,7 +217,7 @@ class dns__ extends lxDriverClass
 
 	function dbactionAddTrue($drivertype)
 	{
-		$this->createConfFileTrue($drivertype);
+		$this->createConfFileTrue($drivertype, 'add');
 		$this->createAllowTransferIpsTrue($drivertype);
 		$this->syncCreateConfTrue($drivertype);
 	}
@@ -228,7 +228,7 @@ class dns__ extends lxDriverClass
 
 		switch ($subaction) {
 			case "allowed_transfer":
-				$this->createAllowTransferIpsTrue($drivertype);
+				$this->createAllowTransferIpsTrue($drivertype, 'update');
 
 				break;
 			case "synchronize":
@@ -240,12 +240,12 @@ class dns__ extends lxDriverClass
 
 				break;
 			case "domain":
-				$this->createConfFileTrue($drivertype);
+				$this->createConfFileTrue($drivertype, 'update');
 
 				break;
 			case "full_update":
 			default:
-				$this->createConfFileTrue($drivertype);
+				$this->createConfFileTrue($drivertype, 'update');
 				$this->createAllowTransferIpsTrue($drivertype);
 				$this->syncCreateConfTrue($drivertype, 'update');
 

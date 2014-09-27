@@ -2,8 +2,30 @@
 
 $conn = new mysqli($syncserver, 'root', $rootpass, 'powerdns');
 
+$nameserver = null;
+
+foreach($dns_records as $dns) {
+	if ($dns->ttype === "ns") {
+		if (!$nameserver) {
+			$nameserver = $dns->param;
+		}
+	}
+
+	if ($dns->ttype === 'a') {
+		$arecord[$dns->hostname] = $dns->param;
+
+		if ($dns->hostname === '__base__') {
+			$baseip = $dns->param;
+		}
+	}
+}
+
+if ($soanameserver) {
+	$nameserver = $soanameserver;
+}
+
 // MR -- master dns portion
-if (($action === 'delete') || ($action === 'update')) {
+//if (($action === 'delete') || ($action === 'update')) {
 	if($query = $conn->query("SELECT * FROM domains WHERE name='{$domainname}' AND type='MASTER'")) {
 		while ($row = $query->fetch_object()) {
 			$rowid = $row->id;
@@ -14,34 +36,12 @@ if (($action === 'delete') || ($action === 'update')) {
 		}
 	}
 
-	if ($action === 'delete') {
+//	if ($action === 'delete') {
 		$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
-	}
-}
+//	}
+//}
 
 if (($action === 'add') || ($action === 'update')) {
-	$nameserver = null;
-
-	foreach($dns_records as $dns) {
-		if ($dns->ttype === "ns") {
-			if (!$nameserver) {
-				$nameserver = $dns->param;
-			}
-		}
-
-		if ($dns->ttype === 'a') {
-			$arecord[$dns->hostname] = $dns->param;
-
-			if ($dns->hostname === '__base__') {
-				$baseip = $dns->param;
-			}
-		}
-	}
-
-	if ($soanameserver) {
-		$nameserver = $soanameserver;
-	}
-
 	$email = str_replace("@", ".", $email);
 	$refresh = isset($refresh) && strlen($refresh) > 0 ? $refresh : 3600;
 	$retry = isset($retry) && strlen($retry) > 0 ? $retry : 1800;
