@@ -22,15 +22,17 @@
 
 	file_put_contents($file, $content);
 
-	if ($action === 'fix') {
-		if (array_keys($domains)) {
-			exec_with_all_closed("/etc/init.d/maradns reload");
+//	if ($target === 'master') {
+		if ($action === 'fix') {
+			if (array_keys($domains)) {
+				exec_with_all_closed("/etc/init.d/maradns reload");
 
-			foreach ($domains as $k => $v) {
-				exec_with_all_closed("sh /script/dnsnotify {$v}");
+				foreach ($domains as $k => $v) {
+					exec_with_all_closed("sh /script/dnsnotify {$v}");
+				}
 			}
+		} elseif ($action === 'update') {
+			exec_with_all_closed("/etc/init.d/maradns reload; sh /script/dnsnotify {$domain}");
 		}
-	} elseif ($action === 'update') {
-		exec_with_all_closed("/etc/init.d/maradns reload; sh /script/dnsnotify {$domain}");
-	}
+//	}
 ?>

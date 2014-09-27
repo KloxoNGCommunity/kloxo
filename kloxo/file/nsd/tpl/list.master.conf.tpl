@@ -32,8 +32,16 @@
 		$nsdc = "/usr/sbin/nsdc";
 	}
 
-//	exec_with_all_closed("{$nsdc} update; {$nsdc} reload");
-	exec_with_all_closed("/etc/init.d/nsd restart");
+//	if ($target === 'master') {
+		if ($action === 'master_fix') {
+			exec_with_all_closed("{$nsdc} rebuild; {$nsdc} reload; {$nsdc} notify");
+		} elseif ($action === 'master_update') {
+			exec_with_all_closed("{$nsdc} rebuild; {$nsdc} reload; {$nsdc} notify");
+		}
+
+	//	exec_with_all_closed("{$nsdc} update; {$nsdc} reload");
+		exec_with_all_closed("/etc/init.d/nsd restart");
+//	}
 */
 	createRestartFile("restart-dns");
 	

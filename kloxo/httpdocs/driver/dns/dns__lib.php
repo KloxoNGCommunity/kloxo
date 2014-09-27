@@ -288,8 +288,6 @@ class dns__ extends lxDriverClass
 
 					$input['domainname'] = $d->nname;
 
-					$input['action'] = 'delete';
-
 					$nameserver = null;
 
 					foreach($this->main->dns_record_a as $dns) {

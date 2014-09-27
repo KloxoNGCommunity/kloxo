@@ -13,10 +13,17 @@ if [ "$1" == "--help" ] ; then
 	echo "      - optional and 'all' for default value"
 	echo "      - multiple clients separated by ',' (comma)"
 	echo "      - use this option automatically set '--server=all'"
-	echo "  --target= (only for fixweb)"
-	echo "      - optional and 'all' for default value"
-	echo "      - defaults: for 'defaults' config"
-	echo "      - domains: for 'domains' config"
+	if echo $0|grep 'fixweb' >/dev/null 2>&1 ; then
+		echo "  --target="
+		echo "      - optional and 'all' for default value"
+		echo "      - defaults: for 'defaults' config"
+		echo "      - domains: for 'domains' config"
+	elif echo $0|grep 'fixdns' >/dev/null 2>&1 ; then
+		echo "  --target="
+		echo "      - optional and 'all' for default value"
+		echo "      - master: for 'master' config"
+		echo "      - slave: for 'slave' config"
+	fi
 	echo
 	exit;
 fi

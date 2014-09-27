@@ -4,12 +4,12 @@
 	// MR -- importance if not active
 	if (!file_exists($dir)) { return; }
 
-	if (array_keys($ip)) {
+	if (array_keys($ips)) {
 		$file = "{$dir}/tcp";
 
-		$text = implode(":allow\n", $ip);
+		$i = implode(":allow\n", $ips);
 
-		$text = $text . ":allow\n:deny\n";
+		$text = $i . ":allow\n:deny\n";
 
 		file_put_contents($file, $text);
 

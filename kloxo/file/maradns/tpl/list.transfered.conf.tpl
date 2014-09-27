@@ -1,7 +1,7 @@
 <?php
-	if (array_keys($ip)) {
-		$str = implode(",", $ip);
-		$str = "zone_transfer_acl = \"{$str}\"\n";
+	if (array_keys($ips)) {
+		$i = implode(",", $ips);
+		$str = "zone_transfer_acl = \"{$i}\"\n";
 	}
 
 	$file = "/etc/mararc";

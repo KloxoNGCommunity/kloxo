@@ -29,17 +29,22 @@
 	exec("cd {$datadir}; make");
 
 	if (!file_exists("/etc/rc.d/init.id/tinydns")) { return; }
+/*
+//	if ($target === 'master') {
+		if ($action === 'master_fix') {
+			if (array_keys($domains)) {
+				exec_with_all_closed("/etc/init.d/djbdns reload");
 
-	if ($action === 'fix') {
-		if (array_keys($domains)) {
-			exec_with_all_closed("/etc/init.d/djbdns reload");
-
-			foreach ($domains as $k => $v) {
-				exec_with_all_closed("sh /script/dnsnotify {$v}");
+				foreach ($domains as $k => $v) {
+					exec_with_all_closed("sh /script/dnsnotify {$v}");
+				}
 			}
+		} elseif ($action === 'master_update') {
+			exec_with_all_closed("/etc/init.d/djbdns reload; sh /script/dnsnotify {$domain}");
 		}
-	} elseif ($action === 'update') {
-		exec_with_all_closed("/etc/init.d/djbdns reload; sh /script/dnsnotify {$domain}");
-	}
+//	}
+*/
+	createRestartFile("restart-dns");
+	exec_with_all_closed("sh /script/dnsnotify {$domain}");
 ?>
 

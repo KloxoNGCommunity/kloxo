@@ -54,10 +54,10 @@ function lxins_main()
 	$patch = "\n### begin -- add by Kloxo-MR\n" .
 		"fs.aio-max-nr = 1048576\n" .
 		"fs.file-max = 1048576\n" .
-		"vm.swappiness = 10\n" .
-		"vm.vfs_cache_pressure = 100\n" .
-		"vm.dirty_background_ratio = 15\n" .
-		"vm.dirty_ratio = 5\n" .
+		"#vm.swappiness = 10\n" .
+		"#vm.vfs_cache_pressure = 100\n" .
+		"#vm.dirty_background_ratio = 15\n" .
+		"#vm.dirty_ratio = 5\n" .
 		"### end -- add by Kloxo-MR\n";
 
 	if (strpos($sysctlconf, $pattern) !== false) {
@@ -67,6 +67,8 @@ function lxins_main()
 		exec("grep envID /proc/self/status", $out, $ret);
 
 		if ($ret === 0) {
+			// no action
+		} else {
 			system("echo '{$patch}' >> /etc/sysctl.conf; sysctl -e -p");
 		}
 	}

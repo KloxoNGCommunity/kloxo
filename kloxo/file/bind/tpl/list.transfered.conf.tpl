@@ -1,12 +1,12 @@
 <?php
-	if (array_keys($ip)) {
+	if (array_keys($ips)) {
 		$file = "/opt/configs/bind/conf/defaults/named.acl.conf";
 
-		$text = implode(";\n    ", $ip);
+		$i = implode(";\n    ", $ips);
 
-		$text = "acl allow-transfer {\n    localhost;\n    {$text};\n};\n";
+		$text = "acl allow-transfer {\n    localhost;\n    {$i};\n};\n\n";
 
-		$text .= "acl allow-notify {\n    {$text};\n};\n";
+		$text .= "acl allow-notify {\n    {$i};\n};\n";
 
 		file_put_contents($file, $text);
 	}
