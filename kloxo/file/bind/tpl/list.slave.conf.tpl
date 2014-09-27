@@ -14,7 +14,7 @@
 		
 		$doms[] = $d;
 
-		$zone = "zone \"{$d}\" {\n    type slave;\n    file \"slave/{$d}\";\n    masters { {$c}; }\n};\n";
+		$zone = "zone \"{$d}\" {\n    type slave;\n    file \"slave/{$d}\";\n    masters { {$c}; };\n};\n\n";
 		$str .= $zone;
 	}
 
