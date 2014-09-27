@@ -27,7 +27,7 @@ class Component__rpm extends lxDriverClass
 			'trafficserver', 'varnish', 'squid',
 			'php', 'perl', 'mono', 'ruby', 
 			'bind', 'djbdns', 'maradns', 'pdns', 'nsd',
-			'qmail', 'pure-ftpd');
+			'qmail-toaster', 'pure-ftpd');
 
 		foreach ($comps as $k => $c) {
 		//	$list[]['componentname'] = $c;

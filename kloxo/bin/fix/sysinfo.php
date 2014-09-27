@@ -67,7 +67,7 @@ if ($cachebranch) {
 	$appcache = '--uninstalled--';
 }
 
-$qmailbranch = getRpmBranchInstalled('qmail');
+$qmailbranch = getRpmBranchInstalled('qmail-toaster');
 if ($qmailbranch) {
 	exec("rpm -q {$qmailbranch}", $appqmail);
 	$appqmail = trim($appqmail[0]);
