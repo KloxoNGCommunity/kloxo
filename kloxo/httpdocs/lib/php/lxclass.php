@@ -593,7 +593,7 @@ abstract class Lxclass
 	{
 		$class = lget_class($this);
 
-		// First pass to isolate teh _v_ variable
+		// First pass to isolate _v_ variable
 		$list = $this->getVarDescrList();
 		$this->dbaction = 'add';
 
@@ -3933,7 +3933,10 @@ abstract class Lxclass
 
 	static function add($parent, $class, $param)
 	{
-		return $param;
+		// MR -- trim all array values
+		$result = array_map('trim', $param);
+
+		return $result;
 	}
 
 	static function continueForm($parent, $class, $param, $continueaction)
@@ -4231,7 +4234,10 @@ abstract class Lxclass
 
 	function update($subaction, $param)
 	{
-		return $param;
+		// MR -- trim all array values
+		$result = array_map('trim', $param);
+
+		return $result;
 	}
 
 	function execInChildren($key, $func, $arg = null)

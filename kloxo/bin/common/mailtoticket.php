@@ -22,14 +22,15 @@ if (csa($smallfrom, "<")) {
 	$smallfrom = strfrom($smallfrom, "<");
 	$smallfrom = strtilfirst($smallfrom, ">");
 }
+
 $smallfrom = trim($smallfrom);
 $smallfrom = trim($smallfrom, "<>");
-//$email->from = $smallfrom;
+// $email->from = $smallfrom;
 
 $email->message = $message;
 
 preg_match("/.*\[ticket:([^:]*):([^:]*)\].*/i", $subject, $matches);
-print_r($matches);
+// print_r($matches);
 
 if (!$matches) {
 	$param['subject'] = $subject;

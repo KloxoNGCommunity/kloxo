@@ -93,68 +93,97 @@ class dns_record_a extends LxDnsClass
 
 		if ($param['ttype'] === 'mx') {
 			// Validates domain
+		/*
 			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
 					$param['param'])) {
 				throw new lxException($login->getThrow('invalid_domain'), '', $param['param']);
 			}
+		*/
+			validate_domain_name($param['hostname']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['priority']}";
 			$param['hostname'] = $parent->nname;
 		} else if ($param['ttype'] === 'ns') {
 			// Validates domain
+		/*
 			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
 					$param['param'])) {
 				throw new lxException($login->getThrow('invalid_domain'), '', $param['param']);
 			}
+		*/
+			validate_domain_name($param['hostname']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['param']}";
 		} else if ($param['ttype'] === 'a' || $param['ttype'] === 'aaaa') {
 			// Validates subdomain
+		/*
 			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
 					$param['hostname'])) {
 				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
 			}
+		*/
+			validate_hostname_name($param['hostname']);
 
+		/*
 			// Validates both ipv4 and ipv6
 			if (!preg_match('/^(?:(?>(?>([a-f0-9]{1,4})(?>:(?1)){7})|(?>(?!(?:.*[a-f0-9](?>:|$)){8,})((?1)(?>:" .
 					"(?1)){0,6})?::(?2)?))|(?>(?>(?>(?1)(?>:(?1)){5}:)|(?>(?!(?:.*[a-f0-9]:){6,})((?1)(?>:(?1)){0,4})?:" .
 					":(?>(?3):)?))?(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?>\.(?4)){3}))$/iD', $param['param'])) {
 				throw new lxException($login->getThrow('invalid_ip_address'), '', $param['param']);
 			}
+		*/
+			validate_ip_address($param['param']);
+
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}_{$param['param']}";
 		} else if ($param['ttype'] === 'cname') {
 			// Validates hostname subdomain
+		/*
 			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
 					$param['hostname'])) {
 				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
 			}
+		*/
+			validate_hostname_name($param['hostname']);
 
+		/*
 			// Validates value subdomain
 			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
 					$param['param']) && $param['param'] != "__base__") {
 				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['param']);
 			}
+		*/
+			validate_hostname_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		} else if ($param['ttype'] === 'fcname') {
 			// Validates hostname subdomain
+		/*
 			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
 					$param['hostname'])) {
 				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
 			}
+		*/
+			validate_hostname_name($param['hostname']);
 
+		/*
 			// Validates value domain
 			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
 					$param['param'])) {
 				throw new lxException($login->getThrow('invalid_domain'), '', $param['param']);
 			}
+		*/
+			validate_domain_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		} else if ($param['ttype'] === 'txt') {
 			// Validates hostname subdomain
+		/*
 			if (!preg_match("/[0-9a-zA-Z-._]$/", $param['hostname'])) {
 				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
 			}
+		*/
+			validate_hostname_name($param['hostname']);
+
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		} else {
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
@@ -233,19 +262,25 @@ abstract class Dnsbase extends Lxdb
 
 		$this->ttl = "86000";
 
+	/*
 		if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
 				$nameserver)) {
 			throw new lxException($login->getThrow('invalid_domain_in_primary_ns'), '', $nameserver);
 		}
+	*/
+		validate_domain_name($nameserver);
 
 		$this->addRec('ns', $nameserver, $nameserver);
 
 		if ($secnamserver) {
+		/*
 			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
 					$secnamserver)) {
 				throw new lxException($login->getThrow('invalid_domain_in_secondary_ns'), '', $secnamserver);
 			}
-
+		*/
+			validate_domain_name($nameserver);
+		
 			$this->addRec('ns', $secnamserver, $secnamserver);
 		}
 

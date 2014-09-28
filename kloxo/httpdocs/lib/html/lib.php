@@ -876,6 +876,18 @@ function installAppPHP($var, $cmd)
 
 }
 
+function validate_ip_address($name, $bypass = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	// Validates both ipv4 and ipv6
+	if (!preg_match('/^(?:(?>(?>([a-f0-9]{1,4})(?>:(?1)){7})|(?>(?!(?:.*[a-f0-9](?>:|$)){8,})((?1)(?>:" .
+			"(?1)){0,6})?::(?2)?))|(?>(?>(?>(?1)(?>:(?1)){5}:)|(?>(?!(?:.*[a-f0-9]:){6,})((?1)(?>:(?1)){0,4})?:" .
+			":(?>(?3):)?))?(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?>\.(?4)){3}))$/iD', $param['param'])) {
+		throw new lxException($login->getThrow('invalid_ip_address'), '', $param['param']);
+	}
+}
+
 function validate_domain_name($name, $bypass = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
@@ -898,6 +910,19 @@ function validate_domain_name($name, $bypass = null)
 
 	if (strlen($name) > 255) {
 		throw new lxException($login->getThrow('invalid_domain_name'), '', $name);
+	}
+}
+
+function validate_hostname_name($name, $bypass = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	if (!preg_match('/^([0-9a-z][0-9a-z\-\.]{1,126}[0-9a-z])$/i', $name) && $param['param'] != "__base__") {
+		throw new lxException($login->getThrow('invalid_subdomain'), '', $name);
+	}
+
+	if (strlen($name) > 128) {
+		throw new lxException($login->getThrow('invalid_subdomain'), '', $name);
 	}
 }
 
