@@ -3933,10 +3933,13 @@ abstract class Lxclass
 
 	static function add($parent, $class, $param)
 	{
-		// MR -- trim all array values
-		$result = array_map('trim', $param);
+		// MR -- only process if NOT multidimensional array
+		if (count($param) === count($param, COUNT_RECURSIVE)) {
+			// MR -- trim all array values
+			$param = array_map('trim', $param);
+		}
 
-		return $result;
+		return $param;
 	}
 
 	static function continueForm($parent, $class, $param, $continueaction)
@@ -4234,10 +4237,13 @@ abstract class Lxclass
 
 	function update($subaction, $param)
 	{
-		// MR -- trim all array values
-		$result = array_map('trim', $param);
+		// MR -- only process if NOT multidimensional array
+		if (count($param) === count($param, COUNT_RECURSIVE)) {
+			// MR -- trim all array values
+			$param = array_map('trim', $param);
+		}
 
-		return $result;
+		return $param;
 	}
 
 	function execInChildren($key, $func, $arg = null)

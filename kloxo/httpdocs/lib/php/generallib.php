@@ -198,10 +198,14 @@ class General extends Lxdb
 			throw new lxException($login->getThrow("could_not_save_file"), '', '../etc/conf/scavenge_time.conf');
 		}
 
+		$f = "/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg";
+
 		if ($param['generalmisc_b-sendmailflag'] === 'on') {
-			touch("/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg");
+			touch($f);
 		} else {
-			unlink("/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg");
+			if (file_exists($f)) {
+				unlink($f);
+			}
 		}
 
 		return $param;
@@ -288,10 +292,14 @@ class General extends Lxdb
 
 	function updateGeneralsetting($param)
 	{
+		$f = "/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg";
+
 		if ($param['enable_cronforall'] === 'on') {
-			touch("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg");
+			touch($f);
 		} else {
-			unlink("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg");
+			if (file_exists($f)) {
+				unlink($f);
+			}
 		}
 
 		return $param;
