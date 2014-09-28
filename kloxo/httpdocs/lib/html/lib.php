@@ -7323,6 +7323,17 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 
 		log_cleanup("- Copy {$t} to {$pathetc}/mararc", $nolog);
 		lxfile_cp($t, "{$pathetc}/mararc");
+	} elseif ($aliasdriver === 'named') {
+		$pathtarget = "{$pathetc}";
+
+		$a = array($aliasdriver, 'rndc');
+
+		foreach ($a as $k => $v) {
+			$t = getLinkCustomfile($pathdrv . "/etc", "{$v}.conf");
+
+			log_cleanup("- Copy {$t} to {$pathtarget}/{$v}.conf", $nolog);
+			lxfile_cp($t, "{$pathtarget}/{$v}.conf");
+		}
 	} else {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
