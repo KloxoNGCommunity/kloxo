@@ -41,10 +41,6 @@ function do_server_stuff()
 	global $gbl, $sgbl, $login, $ghtml;
 	//dprint("in Do server stuff\n");
 
-	if (if_demo()) {
-		return;
-	}
-
 	try {
 		timed_execution();
 		if ($sgbl->is_this_master()) {
@@ -118,10 +114,6 @@ function exec_scavenge()
 function checkRestart()
 {
 	global $gbl, $sgbl, $login, $ghtml;
-
-	if (if_demo()) {
-		return;
-	}
 
 	$res = lscandir_without_dot("{$sgbl->__path_program_etc}/.restart");
 

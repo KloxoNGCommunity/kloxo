@@ -42,6 +42,7 @@ class Lxupdate extends lxClass
 		
 		return $alist;
 		
+		// MR -- still used?
 		if (checkIfLatest() && !if_demo()) {
 			return null;
 		}
@@ -94,8 +95,6 @@ class Lxupdate extends lxClass
 	function updateLxupdateInfo()
 	{
 		global $login;
-
-		if_demo_throw_exception('lxupdate');
 
 		if (isUpdating()) {
 			throw new lxException($login->getThrow("program_is_already_updating"));

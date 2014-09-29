@@ -7,11 +7,6 @@ function dbactionAdd()
 {
 	global $gbl, $sgbl, $login; 
 
-
-
-	if (if_demo()) {
-		return;
-	}
 	$_filepath="__path_home_root/lxguard/hostdeny.info";
 	$result =  $this->main->__var_hostlist;
 	$result = merge_array_object_not_deleted($result, $this->main);

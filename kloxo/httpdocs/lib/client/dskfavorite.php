@@ -37,7 +37,6 @@ class ndskshortcut extends lxdb
 
 	function deleteSpecific()
 	{
-		if_demo_throw_exception('short');
 	}
 
 	function postUpdate()
@@ -100,8 +99,6 @@ class ndskshortcut extends lxdb
 
 	static function addform($parent, $class, $typetd = null)
 	{
-		if_demo_throw_exception('short');
-
 		$vlist['sortid'] = null;
 
 		if ($typetd['val'] !== 'separator') {

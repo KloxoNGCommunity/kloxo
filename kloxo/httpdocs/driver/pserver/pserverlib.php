@@ -37,8 +37,6 @@ class pserver extends pservercore {
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if_demo_throw_exception('switchprog');
-
 		// MR -- change and add nofixconfig
 
 		$a['web'] = $param['web_driver'];

@@ -7,8 +7,6 @@ class ffile__linux extends lxDriverClass
 	function dbactionUpdate($subaction)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
-		if_demo_throw_exception('ffile');
 
 		$this->aux = new Ffile__common(null, null, $this->nname);
 		$this->aux->main = $this->main;

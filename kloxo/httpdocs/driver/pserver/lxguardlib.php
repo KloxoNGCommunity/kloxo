@@ -23,8 +23,6 @@ class lxguard extends lxdb
 
 	function createExtraVariables()
 	{
-	//	if_demo_throw_exception('lxguard');
-
 		$this->setDefaultValue("disablehit", "20");
 	}
 
@@ -73,8 +71,6 @@ class lxguard extends lxdb
 
 	function updateRemove($param)
 	{
-		if_demo_throw_exception('lxguard');
-
 		$server = $this->syncserver;
 		$sq = new Sqlite(null, "lxguardhit");
 

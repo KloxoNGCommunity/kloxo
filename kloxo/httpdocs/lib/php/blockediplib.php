@@ -9,8 +9,6 @@ class BlockedIp extends Lxdb
 
 	function isSync()
 	{
-		if_demo_throw_exception('ip');
-		
 		return false ;
 	}
 

@@ -146,7 +146,7 @@ abstract class Lxclass
 		}
 
 		if ($this->get__table() === 'pserver') {
-			//debugBacktrace();
+		//	debugBacktrace();
 		}
 
 		if (isLocalhost($this->__masterserver) && $login->isSuperClient()) {
@@ -205,10 +205,10 @@ abstract class Lxclass
 
 		if ($this->dbaction === 'update') {
 			if (!$this->subaction) {
-				//dprint("Overwriting Old NULL subaction\n");
+			//	dprint("Overwriting Old NULL subaction\n");
 				$this->subaction = $val;
 			} else {
-				//dprint("Old subaction {$this->subaction}.. Turning into array\n");
+			//	dprint("Old subaction {$this->subaction}.. Turning into array\n");
 				if (!is_array($this->subaction)) {
 					if ($this->subaction != $val) {
 						$oldval = $this->subaction;
@@ -255,10 +255,9 @@ abstract class Lxclass
 
 		if (check_if_many_server()) {
 			$descr = "on {$obj->syncserver}";
-			//$str = ":{$obj->syncserver}";
+		//	$str = ":{$obj->syncserver}";
 		}
 
-		//<img src={$img} width=14 height=14> 
 		// Don't need this. Ruins the appearance <b> [</b>{$obj->getShowInfo()}<b>] </b>
 		return "{$desc}  <span title=\"{$desc} is Configured {$descr} on {$obj->__driverappclass}\"> {$str} {$switch} &#x00bb; <span style='font-weight: normal'>{$obj->__driverappclass}<span> </span>";
 
@@ -271,18 +270,13 @@ abstract class Lxclass
 	function eeval($rule)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
 		return eval("return {$rule};");
 	}
 
 	function syncToSystemCommon()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-		if ($login->isDemo()) {
-			if ($this->get__table() !== 'ssession') {
-				throw new lxException($login->getThrow('login_is_demo'));
-			}
-		}
 
 		// Don't sync if there is no subactiion for update..
 		if ($this->dbaction === 'update' && !$this->subaction) {
@@ -520,6 +514,7 @@ abstract class Lxclass
 
 		print("I shouldn't get called\n");
 		debugBacktrace();
+
 		exit;
 
 		$driverapp = $gbl->getSyncClass(null, null, $class);
@@ -886,7 +881,7 @@ abstract class Lxclass
 			return;
 		}
 
-		//  dprint("Master: {$this->dbaction}: {$this->nname} {$this->getParentO()->nname} {$this->get__table()}\n");
+	//	dprint("Master: {$this->dbaction}: {$this->nname} {$this->getParentO()->nname} {$this->get__table()}\n");
 
 		try {
 			$this->doWas();
@@ -1096,11 +1091,11 @@ abstract class Lxclass
 			$skiprows = 0;
 		}
 
-		//$sortstr = "order by {$filter['sortby']} {$filter['sortdir']}";
+	//	$sortstr = "order by {$filter['sortby']} {$filter['sortdir']}";
 		$sortby = $filter['sortby'];
 		$sortdir = $filter['sortdir'];
 		$pagesize = $filter['pagesize'];
-		//$orderstr = "{$sortstr} limit {$skiprows},{$filter['pagesize']} ";
+	//	$orderstr = "{$sortstr} limit {$skiprows},{$filter['pagesize']} ";
 
 		$ret['sortby'] = $sortby;
 		$ret['sortdir'] = $sortdir;
@@ -1126,7 +1121,7 @@ abstract class Lxclass
 			if (char_search_a($key, "_o_")) {
 				$var = substr($key, 0, strpos($key, "_o_"));
 				$op = substr($key, strpos($key, "_o_") + 3);
-				//$op = $oplist[$op];
+			//	$op = $oplist[$op];
 				$var = str_replace(array("\"", "'", ";"), "", $var);
 				$val = str_replace(array("\"", "'", ";"), "", $val);
 
@@ -1218,7 +1213,7 @@ abstract class Lxclass
 			if (char_search_a($key, "_o_")) {
 				$var = substr($key, 0, strpos($key, "_o_"));
 				$op = substr($key, strpos($key, "_o_") + 3);
-				//$op = $oplist[$op];
+			//	$op = $oplist[$op];
 
 				if (!isset($this->$var)) {
 					$oval = $a->display($var);
@@ -1267,9 +1262,8 @@ abstract class Lxclass
 		$typevar = "__listtype_{$class}";
 		$totalvar = "__virtualtotal_{$class}";
 
-		//list($iclass, $mclass, $rclass) = get_composite($class);
+	//	list($iclass, $mclass, $rclass) = get_composite($class);
 		$rclass = $class;
-		//if (isset($this->$list) && $this->$list != NULL) {
 
 		// this is necessary. AFteare was the list is cleared. So if you want to do two wases in the same place
 		$this->__list_list = array_push_unique($this->__list_list, $class);
@@ -1629,7 +1623,7 @@ abstract class Lxclass
 				$countres = $countres[0]['count(*)'];
 			}
 
-			//  print_time('count', "CountResult");
+		//	print_time('count', "CountResult");
 
 			print_time('getdb');
 			$f = $this->getDbOrderLimit($filter, $countres, $class);
@@ -1722,13 +1716,14 @@ abstract class Lxclass
 
 	final protected function setListFromArray($masterserver, $readserver, $class, $result, $force = false)
 	{
-		//list($iclass, $mclass, $rclass) = get_composite($class);
+	//	list($iclass, $mclass, $rclass) = get_composite($class);
 		$rclass = $class;
 		$list = "{$class}_l";
 
 		if (!isset($this->$list)) {
 			$this->$list = NULL;
 		}
+
 		if (!$result) {
 			return;
 		}
@@ -1755,7 +1750,7 @@ abstract class Lxclass
 	{
 		$v = ($this->getParentO()->getClname() === $this->parent_clname);
 		$vvv = ($this->getParentO()->getClname() === $this->nname);
-		//[b] hack
+		// hack
 		$mailf = ($this->getParentO()->isClient() && $this->isClass('mailaccount'));
 		$mailfo = ($this->getParentO()->isClient() && $this->isClass('mailforward'));
 		$addonfo = ($this->getParentO()->isClient() && $this->isClass('addondomain'));
@@ -1770,7 +1765,7 @@ abstract class Lxclass
 			return;
 		}
 		if ($this->isLogin()) {
-			//$alist[] = "a=list&c=permission";
+		//	$alist[] = "a=list&c=permission";
 		} else {
 			if ($this->doesHaveTemplate()) {
 			}
@@ -1807,7 +1802,7 @@ abstract class Lxclass
 
 		if (cse($class, "_a")) {
 			$dellistvar = "__t_delete_{$class}_list";
-			//Calling this buggers update... the security checks r in there....
+			// Calling this buggers update... the security checks r in there....
 			$this->update("delete", null);
 			$this->setUpdateSubaction("delete_{$class}");
 
@@ -2091,7 +2086,7 @@ abstract class Lxclass
 
 	function getParentO()
 	{
-		//dprint("Class: . " . $this->get__table() . "\n");
+	//	dprint("Class: . " . $this->get__table() . "\n");
 
 		if (isset($this->__parent_o) && $this->__parent_o) {
 			return $this->__parent_o;
@@ -2293,7 +2288,7 @@ abstract class Lxclass
 
 	function __sleep()
 	{
-		/// Clearing certain variables.
+		// Clearing certain variables.
 		$this->__parent_o = null;
 		$this->__old_used = null;
 		$this->__virtual_list = array();
@@ -2301,8 +2296,8 @@ abstract class Lxclass
 		unset($this->__parent_o);
 
 		$res = get_object_vars($this);
-		//unset($res[1]);
-		//unset($res[0]);
+	//	unset($res[1]);
+	//	unset($res[0]);
 		$keys = array_keys($res);
 
 		return $keys;
@@ -2937,7 +2932,9 @@ abstract class Lxclass
 						}
 
 						$ch->__parent_o = $this;
-						//print("Setting list parent of {$ch->getClName()} $c to {$this->getClName()}\n");
+
+					//	print("Setting list parent of {$ch->getClName()} $c to {$this->getClName()}\n");
+
 						$ch->fixIndividualParentName();
 
 						if ($ch->parent_clname !== $this->getClName()) {
@@ -3213,7 +3210,7 @@ abstract class Lxclass
 		$list[] = $login->getList($class);
 		$list[] = $this->getList($class);
 		$clist = lx_array_merge($list);
-		//$clist = $this->clearGreaterTemplate($clist);
+	//	$clist = $this->clearGreaterTemplate($clist);
 
 		$nclist = get_namelist_from_objectlist($clist, 'nname', 'description');
 
@@ -3265,7 +3262,7 @@ abstract class Lxclass
 		$list[] = $login->getList($class);
 		$list[] = $this->getList($class);
 		$clist = lx_array_merge($list);
-		//$clist = $this->clearGreaterTemplate($clist);
+	//	$clist = $this->clearGreaterTemplate($clist);
 
 		$nclist = get_namelist_from_objectlist($clist, 'nname', 'realname');
 
@@ -3356,14 +3353,14 @@ abstract class Lxclass
 			return;
 		}
 
-		//  dprint(" element {$class} \n");
+	//	dprint(" element {$class} \n");
 
 		foreach ((array)$this->$list as $element) {
 			if (!$element) {
 				continue;
 			}
 
-			//  dprint("Inside: {$element->getClName()} {$element->dbaction}\n");
+		//	dprint("Inside: {$element->getClName()} {$element->dbaction}\n");
 
 			if (!isset($element->__parent_o) || !$element->__parent_o) {
 				$element->__parent_o = $this;
@@ -3405,7 +3402,7 @@ abstract class Lxclass
 		foreach ((array)$object->__object_list as $v) {
 			$obj = $v . "_o";
 			$object->$obj = null;
-			//unset($object->$obj);
+		//	unset($object->$obj);
 		}
 
 		if (isset($obj->sp_specialplay_o)) {
@@ -3418,11 +3415,12 @@ abstract class Lxclass
 
 		$object->__object_list = null;
 
-		//  dprint("Clearing ... </b>  {$object->getClName()} {$object}\n");
+	//	dprint("Clearing ... </b>  {$object->getClName()} {$object}\n");
+
 		foreach ((array)$object->__list_list as $v) {
 			$list = $v . "_l";
 			$object->$list = null;
-			//unset($object->$list);
+		//	unset($object->$list);
 		}
 
 		// Because of the cloning, the main is now pointing to the old this object. That means there will be unnecssary redundancy, but more importantly, this will result in catastrophe as there are two copies of the same object. So we set the driverapp->main back to the new $object.
@@ -3471,7 +3469,7 @@ abstract class Lxclass
 	{
 		foreach ($array as $key => $value) {
 			if (is_numeric($key)) {
-				//dprint("The Key is {$key} integer in .  {$this->get__table()}:{$this->nname}\n");
+			//	dprint("The Key is {$key} integer in .  {$this->get__table()}:{$this->nname}\n");
 			}
 
 			if ($key === '__table') {
@@ -3591,7 +3589,7 @@ abstract class Lxclass
 				$qvar = strtil($key, "_q_");
 
 				if (!isset($this->$qvar)) {
-					//dprint("Setting Priv in $this->nname {$this->get__table()}\n");
+				//	dprint("Setting Priv in $this->nname {$this->get__table()}\n");
 					$this->$qvar = new $qvar(null, null, $this->nname);
 					$this->$qvar->__parent_o = $this;
 				}
@@ -3606,7 +3604,7 @@ abstract class Lxclass
 			}
 		}
 
-		//  dprintr($this . "\n");
+	//	dprintr($this . "\n");
 
 		if ($this->hasDriverClass()) {
 			$this->createSyncClass();
@@ -3763,7 +3761,8 @@ abstract class Lxclass
 					}
 				}
 
-				//dprintr($nlist['down']);
+			//	dprintr($nlist['down']);
+
 				$nnlist = lx_array_merge($nlist);
 				$nnlist = array_unique($nnlist);
 				$this->parent_name_change = $this->getParentName();
@@ -3778,7 +3777,7 @@ abstract class Lxclass
 		}
 
 		dprintr("updateform in lxclass called. {$subaction} mostly by security_check\n");
-		//debugBacktrace();
+	//	debugBacktrace();
 	}
 
 	function getLoginTo()
@@ -3933,6 +3932,8 @@ abstract class Lxclass
 
 	static function add($parent, $class, $param)
 	{
+		if_demo_throw_exception();
+
 		// MR -- only process if NOT multidimensional array
 		if (count($param) === count($param, COUNT_RECURSIVE)) {
 			// MR -- trim all array values
@@ -4140,12 +4141,7 @@ abstract class Lxclass
 			if ($this->isExceptionForSelflist()) {
 				$nob = $ob->getObject($this->getClass());
 			} else if ($this->is__table('phpini')) {
-			//	if ($ob->isClass('domain')) {
-					// MR -- no need under web because change to user-level
-			//		$nob = $ob->getObject('web')->getObject($this->getClass());
-			//	} else {
-					$nob = $ob->getObject($this->getClass());
-			//	}
+				$nob = $ob->getObject($this->getClass());
 		//	} else if ($this->is__table('spam')) {
 			} else if ($this->getClass() === 'spam') {
 				$nob = $ob->getObject('mmail')->getObject($this->getClass());
@@ -4237,6 +4233,8 @@ abstract class Lxclass
 
 	function update($subaction, $param)
 	{
+		if_demo_throw_exception();
+
 		// MR -- only process if NOT multidimensional array
 		if (count($param) === count($param, COUNT_RECURSIVE)) {
 			// MR -- trim all array values
@@ -4428,7 +4426,7 @@ abstract class Lxclass
 			$qp->used->$cnum += $val;
 			$doupdate = true;
 			dprint("IN change used ... quota variable specific {$qp->getClname()} {$class} {$this->nname}\n");
-			//dprintr($qp->used);
+		//	dprintr($qp->used);
 		}
 
 		if ($doupdate) {
@@ -4459,7 +4457,7 @@ abstract class Lxclass
 
 		foreach ($v as $__q) {
 			if ($__q) {
-				//list($pclass, $pname) = explode("_s_vv_p_", $__q);
+			//	list($pclass, $pname) = explode("_s_vv_p_", $__q);
 				list($pclass, $pname) = getParentNameAndClass($__q);
 				$nv[] = $pname;
 			}
@@ -4471,6 +4469,8 @@ abstract class Lxclass
 	function delete()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		if_demo_throw_exception();
 
 		// Don't delete unless the parent is the real owner. Or the parent is admin.
 		if (!$this->getParentO()->isAdmin() && !$this->isRightParent()) {
@@ -4506,8 +4506,6 @@ abstract class Lxclass
 	{
 		global $login;
 
-		if_demo_throw_exception('limit');
-
 		log_log("ajax", var_export($param, true));
 
 		global $gbl, $sgbl, $login, $ghtml;
@@ -4534,8 +4532,6 @@ abstract class Lxclass
 		if ($this->isAdmin()) {
 			return;
 		}
-
-		if_demo_throw_exception();
 
 		if (!$reason) {
 			$reason = "__type:{$login->nname}:{$login->cttype}";
@@ -4923,7 +4919,7 @@ abstract class Lxclass
 	{
 		$cl = $this->getQuotaChildList();
 
-		//  dprint("hello\n");
+	//	dprint("hello\n");
 
 		$ql = $this->getQuotaVariableList();
 
@@ -5007,36 +5003,36 @@ abstract class Lxclass
 				continue;
 			}
 
-			/* 
-				// I am not sure if the quota should be synced ALL the list children too. The problem here is the load. 
-				// But it is essential that _flag variables be properly synced throughout. But then it will take a long time. 
-				// I think I will add this properly inside the collectquota and leave it here like this.
+		/* 
+			// I am not sure if the quota should be synced ALL the list children too. The problem here is the load. 
+			// But it is essential that _flag variables be properly synced throughout. But then it will take a long time. 
+			// I think I will add this properly inside the collectquota and leave it here like this.
 	
-				if (cse($v, "_l")) {
-					$chn = $this->getChildNameFromDes($v);
+			if (cse($v, "_l")) {
+				$chn = $this->getChildNameFromDes($v);
 	
-					$clist = $this->getList($chn);
+				$clist = $this->getList($chn);
 	
-					if (!$clist) {
-						continue;
-					}
+				if (!$clist) {
+					continue;
+				}
 	
-					foreach($clist as $cb) {
-						$ql = $cb->getQuotaVariableList();
+				foreach($clist as $cb) {
+					$ql = $cb->getQuotaVariableList();
 	
-						if ($ql) {
-							foreach($ql as $nk => $nv) {
-								//if (!cse($nk, "_flag")) { continue; }
-								$cb->priv->$nk = $this->priv->$nk;
-							}
-			
-							$cb->setUpdateSubaction();
+					if ($ql) {
+						foreach($ql as $nk => $nv) {
+						//	if (!cse($nk, "_flag")) { continue; }
+							$cb->priv->$nk = $this->priv->$nk;
 						}
-					}
 			
-					$cb->distributeChildQuota($oldv);
-				} 
-			*/
+						$cb->setUpdateSubaction();
+					}
+				}
+			
+				$cb->distributeChildQuota($oldv);
+			} 
+		*/
 		}
 	}
 
@@ -5062,7 +5058,7 @@ abstract class Lxclass
 
 		$object = $this->getObject($class);
 
-		//$ol[] = "a=show&o={$class}";
+	//	$ol[] = "a=show&o={$class}";
 		$ol = null;
 		$object->createShowAlist($onl);
 
@@ -5284,7 +5280,7 @@ abstract class Lxclass
 		if ($this->ccenter_command) {
 			// This is needed, otherwise if a command gets stuck it will keep tyring to execute the same command.
 			// We are not at all using session now. We are just passing it to the next ccenter.
-			//if ($gbl) { $gbl->c_session->write(); }
+		//	if ($gbl) { $gbl->c_session->write(); }
 
 			$driverapp = $gbl->getSyncClass(null, $this->syncserver, $this->get__table());
 			$res = rl_exec_get($this->__masterserver, $this->syncserver, array("{$this->get__table()}__{$driverapp}", 
@@ -5318,7 +5314,7 @@ abstract class Lxclass
 
 		if (!$this->isLxclient()) {
 			dprint("Special object called in nonclient {$this->get__table()}:{$this->nname}\n");
-			//debugBacktrace();
+		//	debugBacktrace();
 		}
 
 		$objectname = $class . "_o";
@@ -5629,7 +5625,7 @@ abstract class Lxclass
 
 		$ob = $rem->bobject;
 
-		//	dprint($ob->getClName()); dprint($this->getClName());
+	//	dprint($ob->getClName()); dprint($this->getClName());
 
 		// Issue #671 - Fixed backup-restore issue
 		// forum http://forum.lxcenter.org/index.php?t=msg&th=16875
@@ -5736,8 +5732,9 @@ abstract class Lxclass
 					log_log("restore", "Taking restore of '{$d->get__table()}:{$d->nname}'");
 					$d->restoreMeUp($vd, $rem->ddate);				
 				} catch (Exception $e) {
-					//	lxfile_tmp_rm_rec($vd);
-					//	throw $e;
+				//	lxfile_tmp_rm_rec($vd);
+				//	throw $e;
+
 					print("Failed for taking restore of '{$d->get__table()}:{$d->nname}'\n");
 					log_log("restore", "- Alert: Failed restore of '{$d->get__table()}:{$d->nname}'\n");
 				}
@@ -5790,6 +5787,7 @@ abstract class Lxclass
 		} catch (Exception $e) {
 		//	lxfile_tmp_rm_rec($vd);
 		//	throw $e;
+
 			print("Failed for taking backup of '{$d->get__table()}:{$d->nname}'\n");
 			log_log("backup", "- Alert: Failed backup of '{$d->get__table()}:{$d->nname}'\n");
 		}
@@ -5840,7 +5838,8 @@ abstract class Lxclass
 		$singlerem->_clean_object = $cleanobject;
 
 		$fullrem->bobject = $this;
-		/// Do a was on the login would take a huge amount of time. Let us not do it.
+
+		// Do a was on the login would take a huge amount of time. Let us not do it.
 
 		$this->__var_bc_metafile = serialize($fullrem);
 		$this->__var_bc_metadata = serialize($singlerem);
@@ -6293,14 +6292,17 @@ class lxDriverClass extends Lxclass
 
 	function dbactionDelete()
 	{
+		if_demo_throw_exception();
 	}
 
 	function dbactionAdd()
 	{
+		if_demo_throw_exception();
 	}
 
 	function dbactionUpdate($subaction)
 	{
+		if_demo_throw_exception();
 	}
 
 	function do_backup_cleanup($list) { return; }

@@ -63,7 +63,6 @@ class Process__Linux extends lxDriverClass
 
 	function dbactionUpdate($subaction)
 	{
-		if_demo_throw_exception('ps');
 		lxshell_return("kill", "-" . $this->main->signal, $this->main->nname);
 	}
 }

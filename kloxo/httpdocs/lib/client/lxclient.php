@@ -484,7 +484,6 @@ abstract class Lxclient extends Lxdb
 		$this->cpstatus = 'off';
 		$this->dbaction = 'update';
 		$this->subaction = 'cpstatus';
-		if_demo_throw_exception();
 		
 		return null;
 	}
@@ -494,9 +493,6 @@ abstract class Lxclient extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 		
 		if ($gbl->isOn('show_lpanel')) {
-			if (!if_demo()) {
-				$this->getSpecialObject('sp_specialplay')->show_lpanel = 'off';
-			}
 			$gbl->setSessionV('show_lpanel', 'off');
 		} else {
 			$this->getSpecialObject('sp_specialplay')->show_lpanel = 'on';
@@ -544,9 +540,6 @@ abstract class Lxclient extends Lxdb
 			$this->getSpecialObject('sp_specialplay')->show_help = 'off';
 			$gbl->setSessionV('show_help', 'off');
 		} else {
-			if (!if_demo()) {
-				$this->getSpecialObject('sp_specialplay')->show_help = 'on';
-			}
 			$gbl->setSessionV('show_help', 'on');
 		}
 
@@ -847,8 +840,6 @@ abstract class Lxclient extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if_demo_throw_exception('changeplan');
-
 		if ($this->isLogin()) {
 			throw new lxException($login->getThrow('cannot_change_plan'), '', $this->nname);
 		}
@@ -907,9 +898,7 @@ abstract class Lxclient extends Lxdb
 	function updatePassword($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
-		if_demo_throw_exception('lxclient');
-		
+
 	//	if ($this->isLogin() || ($this->is__table('auxiliary') && $this->getParentO()->isAuxiliary())) {
 		if ($this->isLogin() || ($this->getClass() === 'auxiliary' && $this->getParentO()->isAuxiliary())) {
 			if (!check_password($param['old_password_f'], $this->password)) {

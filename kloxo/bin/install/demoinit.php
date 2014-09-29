@@ -4,15 +4,7 @@
 //
 
 // This include stops with lxexception
-include_once "lib/html/include.php";
-
-// This is a proper one
-// remove the above one if u need this demoinit to run
-// run it within httpdocs as
-// lxphp.exe /usr/local/lxlabs/kloxo/bin/install/demoinit.php
-include_once "lib/html/displayinclude.php";
-
-// Not everything is working. Need to be sorted out.
+ include_once "/usr/local/lxlabs/kloxo/httpdocs/lib/html/include.php"
 
 install_main();
 
@@ -43,6 +35,7 @@ function install_main()
 
 function create_servername()
 {
+/*
 	$servername = new pserver(null, null, "titan.lxcenter.net");
 	$servername->initThisDef();
 	$servername->syncserver = $servername->nname;
@@ -63,6 +56,7 @@ function create_servername()
 	$servername->password = 'admin';
 	$servername->dbaction = "add";
 	$servername->write();
+*/
 }
 
 function client_priv($priv, $val)
@@ -96,7 +90,7 @@ function client_priv($priv, $val)
 function add_customer_reseller()
 {
 	global $gbl, $login, $ghtml;
-
+/*
 	$M[] = array("admin" => array("master", "adelia"),
 		"adelle" => array("agnes", "aileen", "ainsley"),
 		"aileen" => array("ainslie", "aislin", "alaina"),
@@ -121,7 +115,7 @@ function add_customer_reseller()
 		"washi" => array("harrison", "harry"),
 		"adelle" => array("hartford")
 	);
-
+*/
 	$R[] = array("admin" => array("reseller"),
 		"hardy" => array("peter", "paddy", "parker", "patrick"),
 		"hartford" => array("pelham", "percival"),
@@ -149,8 +143,8 @@ function add_customer_reseller()
 		"ainslie" => array("waverly")
 	);
 
-	$type['M'] = 'master';
-	$type['W'] = 'wholesale';
+//	$type['M'] = 'master';
+//	$type['W'] = 'wholesale';
 	$type['R'] = 'reseller';
 	$type['C'] = 'customer';
 

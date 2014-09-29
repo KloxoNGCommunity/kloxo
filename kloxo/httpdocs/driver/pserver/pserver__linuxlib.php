@@ -27,8 +27,6 @@ class pserver__Linux extends lxDriverClass
 		global $login, $global_shell_error, $global_shell_ret;
 		$global_shell_error = null;
 
-		if_demo_throw_exception('command');
-		
 		$out = shell_exec("$command 2>&1");
 
 		return array('output' => $out, 'error' => $global_shell_error);

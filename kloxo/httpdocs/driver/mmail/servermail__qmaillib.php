@@ -48,8 +48,6 @@ class Servermail__Qmail  extends lxDriverClass
 	{
 		global $login;
 
-		if_demo_throw_exception('xinetd');
-
 		$bcont = lfile_get_contents("../file/template/xinetd.smtp_lxa");
 		$maps = null;
 

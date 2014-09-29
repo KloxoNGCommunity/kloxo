@@ -155,7 +155,7 @@ class monitorport extends Lxdb
 		print_time("checkprot");
 		$sip = gethostbyname($sname);
 
-		if (validate_ipaddress($sip)) {
+		if (validate_ipaddress($sip, $ret = true)) {
 			$res =  fsockopen($sip, $num, $erno, $erstr, 10);
 		} else {
 			$res = null;

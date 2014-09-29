@@ -4,8 +4,6 @@ class sshauthorizedkey__sync extends Lxdriverclass
 {
 	function writeAuthorizedKey($key)
 	{
-		if_demo_throw_exception('sshkey');
-
 		$username = $this->main->username;
 
 		lxfile_mkdir($username, "/root/.ssh");

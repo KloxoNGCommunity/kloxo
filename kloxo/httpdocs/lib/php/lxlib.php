@@ -1506,10 +1506,6 @@ function log_clicks($mess, $id = 1)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	if (!if_demo()) {
-		return;
-	}
-
 	$ip = $gbl->c_session->ip_address;
 	$mess = trim($mess);
 	$file = "__path_program_root/log/clicks";
@@ -3436,6 +3432,10 @@ function remove_extra_slash($file)
 function if_demo_throw_exception($where = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+	
+	if (!$where) {
+		$where = $login->nname;
+	}
 
 	if ($sgbl->dbg < 0) {
 		$where = null;

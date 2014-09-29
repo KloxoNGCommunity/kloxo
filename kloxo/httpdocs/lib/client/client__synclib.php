@@ -105,8 +105,6 @@ class client__sync extends lxDriverClass {
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 		
-		if_demo_throw_exception();
-		
 		$shell = fix_disabled($this->main->shell, $sgbl->__var_noaccess_shell);
 		lxshell_return("usermod", "-s", $shell,  $this->main->nname);
 		

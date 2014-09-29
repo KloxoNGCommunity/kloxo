@@ -250,11 +250,6 @@ class sp_basespecialplay extends LxspecialClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		// MR -- prevent for 'upload logo' process on demo mode
-		if (if_demo()) {
-			return null;
-		}
-
 		$progname = $sgbl->__var_program_name;
 		$parent = $this->getParentO();
 		$imgname = $parent->getClName();
@@ -299,8 +294,6 @@ class sp_basespecialplay extends LxspecialClass
 
 		$gbl->setSessionV('show_lpanel', $login->getSpecialObject('sp_specialplay')->show_lpanel);
 		$gbl->setSessionV('show_help', $login->getSpecialObject('sp_specialplay')->show_help);
-
-		if_demo_throw_exception('appearance');
 
 		if ($this->subaction === 'skin' && !$login->isClass('sp_childspecialplay')) {
 			if ($sgbl->dbg < 0 && $this->getParentO()->isLogin()) {

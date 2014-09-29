@@ -116,8 +116,8 @@ class ippool extends Lxdb
 		param['firstip'] = trim(param['firstip']);
 		param['lastip'] = trim(param['lastip']);
 
-		validate_ipaddress_and_throw($param['firstip'], 'firstip');
-		validate_ipaddress_and_throw($param['lastip'], 'lastip');
+		validate_ipaddress($param['firstip']);
+		validate_ipaddress($param['lastip']);
 
 		if (!$param['pserver_list']) {
 			throw new lxException($login->getThrow("need_to_select_pserver"));
@@ -165,8 +165,9 @@ class ippool extends Lxdb
 		param['firstip'] = trim(param['firstip']);
 		param['lastip'] = trim(param['lastip']);
 
-		validate_ipaddress_and_throw($param['firstip'], 'firstip');
-		validate_ipaddress_and_throw($param['lastip'], 'lastip');
+		validate_ipaddress($param['firstip']);
+		validate_ipaddress($param['lastip']);
+
 		$first = strtil($param['firstip'], ".");
 		$last = strtil($param['lastip'], ".");
 

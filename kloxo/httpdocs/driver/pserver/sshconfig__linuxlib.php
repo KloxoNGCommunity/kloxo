@@ -6,8 +6,6 @@ class sshconfig__linux extends lxDriverClass
 	{
 		global $login;
 
-		if_demo_throw_exception('demo');
-
 		if ($this->main->ssh_port && !($this->main->ssh_port > 0)) {
 			throw new lxException($login->getThrow('invalid_ssh_port'), '', $this->main->ssh_port);
 		}

@@ -37,8 +37,6 @@ class cron__Linux extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 		global $global_shell_error;
 
-		if_demo_throw_exception('cron');
-
 		$conf_file = "__path_cron_root/{$this->main->username}";
 		$list = array('minute', 'hour', 'weekday', 'ddate', 'month');
 

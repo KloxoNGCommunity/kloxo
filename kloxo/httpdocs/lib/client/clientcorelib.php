@@ -126,8 +126,6 @@ abstract class ClientCore extends Resourcecore {
 	{
 		if_not_admin_complain_and_exit();
 
-		if_demo_throw_exception('info');
-
 		$servername = $param['pserver_delete_f'];
 		$servo = $this->getFromList('pserver', $servername);
 		$ol = $servo->getList('dbadmin');
@@ -625,8 +623,6 @@ abstract class ClientCore extends Resourcecore {
 	function updateInformation($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-		if_demo_throw_exception('info');
 
 		if (isset($param['cttype'])) {
 			if (!$this->isAdmin()) {

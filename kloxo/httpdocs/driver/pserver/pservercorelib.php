@@ -201,8 +201,6 @@ class pservercore extends Lxclient
 			return;
 		}
 		
-		if_demo_throw_exception('pserver');
-
 		return $this->driverApp->dosyncToSystem();
 	}
 
@@ -1437,8 +1435,6 @@ STRIN;
 
 	function deleteSpecific()
 	{
-		if_demo_throw_exception('demo');
-
 		$sq = new Sqlite(null, 'ipaddress');
 		$sq->rawQuery("delete from ipaddress where syncserver = '$this->nname'");
 

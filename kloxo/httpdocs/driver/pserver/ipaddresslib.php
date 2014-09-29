@@ -240,7 +240,7 @@ class Ipaddress extends Lxdb
 
 	static function isValidIpaddress($ip)
 	{
-		return validate_ipaddress($ip);
+		return validate_ipaddress($ip, $ret = true);
 	}
 
 	// Temporary hack... Ipaddress doesn't contain a show at all. So just printing....

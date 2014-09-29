@@ -132,7 +132,7 @@ class dns_record_a extends LxDnsClass
 				throw new lxException($login->getThrow('invalid_ip_address'), '', $param['param']);
 			}
 		*/
-			validate_ip_address($param['param']);
+			validate_ipaddress($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}_{$param['param']}";
 		} else if ($param['ttype'] === 'cname') {

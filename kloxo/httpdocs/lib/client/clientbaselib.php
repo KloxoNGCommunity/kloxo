@@ -85,12 +85,6 @@ class ClientBase extends ClientCore
 
 	function isSelect()
 	{
-		if (if_demo()) {
-			if (array_search_bool($this->nname, array('wholesale', 'reseller', 'customer'))) {
-				return false;
-			}
-		}
-
 		return true;
 	}
 
@@ -122,8 +116,6 @@ class ClientBase extends ClientCore
 	function updateCustomerMode($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-	//	if_demo_throw_exception();
 
 		if ($this->isDomainOwnerMode()) {
 			$gbl->setSessionV('customermode_flag', 'off');

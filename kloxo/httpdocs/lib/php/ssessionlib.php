@@ -68,8 +68,6 @@ class Ssession extends Lxclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if (if_demo()) { return false; }
-
 		if ($gbl->c_session->nname === $this->nname) {
 			return false;
 		}
@@ -107,12 +105,6 @@ class Ssession extends Lxclass
 			}
 
 			return 'dull';
-		}
-
-		if ($var === 'ip_address') {
-			if (if_demo()) {
-				return 'Masked in Demo';
-			}
 		}
 
 		return parent::display($var);

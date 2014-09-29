@@ -136,18 +136,7 @@ function check_for_remote($rmt)
 		}
 	}
 
-	//	dprintr($rmt);
-
-/*
-	 // Even if it is demo, versions must be updated, otherwise, results are unpredictable.
-	 if (if_demo()) {
-		 do_the_action($rmt, $res);
-
-		 $res->state = 'success';
-
-		 return $res;
-	 }
-*/
+//	dprintr($rmt);
 
 	if ($vercmp < 0) {
 		$res->state = 'version_greater';

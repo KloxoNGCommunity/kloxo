@@ -177,8 +177,6 @@ class General extends Lxdb
 	{
 		global $login;
 
-		if_demo_throw_exception('demo');
-
 		return $param;
 	}
 
@@ -264,8 +262,6 @@ class General extends Lxdb
 	function updatePortConfig($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-		if_demo_throw_exception('port');
 
 		$sslport = $param['portconfig_b-sslport'];
 		$nonsslport = $param['portconfig_b-nonsslport'];

@@ -876,17 +876,45 @@ function installAppPHP($var, $cmd)
 
 }
 
-function validate_ip_address($name, $bypass = null)
+function validate_ipaddress($name, $ret = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
 	// Validates both ipv4 and ipv6
 	if (!preg_match('/^(?:(?>(?>([a-f0-9]{1,4})(?>:(?1)){7})|(?>(?!(?:.*[a-f0-9](?>:|$)){8,})((?1)(?>:" .
 			"(?1)){0,6})?::(?2)?))|(?>(?>(?>(?1)(?>:(?1)){5}:)|(?>(?!(?:.*[a-f0-9]:){6,})((?1)(?>:(?1)){0,4})?:" .
-			":(?>(?3):)?))?(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?>\.(?4)){3}))$/iD', $param['param'])) {
-		throw new lxException($login->getThrow('invalid_ip_address'), '', $param['param']);
+			":(?>(?3):)?))?(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?>\.(?4)){3}))$/iD', $name)) {
+		if ($ret) {
+			return false;
+		} else {
+			throw new lxException($login->getThrow('invalid_ip_address'), '', $name);
+		}
+	} else {
+		return true;
 	}
 }
+
+function full_validate_ipaddress($ip, $variable = 'ipaddress')
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	global $global_dontlogshell;
+
+	$global_dontlogshell = true;
+
+	$gen = $login->getObject('general')->generalmisc_b;
+
+	validate_ipaddress($ip);
+
+	$ret = lxshell_return("ping", "-n", "-c", "1", "-w", "5", $ip);
+
+	if (!$ret) {
+		throw new lxException($login->getThrow("some_other_host_uses_this_ip"), $ip);
+	}
+
+	$global_dontlogshell = false;
+}
+
 
 function validate_domain_name($name, $bypass = null)
 {
@@ -967,6 +995,39 @@ function validate_domain_owned($name)
 //	if (checkdnsrr(idn_to_ascii($name), "MX")) {
 	if (checkdnsrr($name, "MX")) {
 		throw new lxException($login->getThrow('domain_is_already_owned'), '', $name);
+	}
+}
+
+function validate_docroot($docroot)
+{
+	global $login;
+
+	///#656 When adding a subdomain, the Document Root field is not being validated
+	if (csa($docroot, " /")) {
+		throw new lxException($login->getThrow("document_root_may_not_contain_spaces"), '', $docroot);
+	} else {
+		$domain_validation = str_split($docroot);
+		$domain_validation_num = strlen($docroot) - 1;
+			
+		if ($domain_validation[$domain_validation_num] == " ") {
+			throw new lxException($login->getThrow("document_root_may_not_contain_spaces"), '', $docroot);
+		}
+
+		if (strpos("..", $docroot) !== false) {
+			throw new lxException($login->getThrow("document_root_may_not_contain_doubledots"), '', $docroot);
+		}
+
+		if (strpos("./", $docroot) !== false) {
+			throw new lxException($login->getThrow("document_root_may_not_contain_dotslash"), '', $docroot);
+		}
+
+		if (strpos("/.", $docroot) !== false) {
+			throw new lxException($login->getThrow("document_root_may_not_contain_slashdot"), '', $docroot);
+		}
+
+		if (strpos("~", $docroot) !== false) {
+			throw new lxException($login->getThrow("document_root_may_not_contain_tilde"), '', $docroot);
+		}
 	}
 }
 
@@ -1427,29 +1488,6 @@ function mycount($olist)
 	return $i;
 }
 
-function full_validate_ipaddress($ip, $variable = 'ipaddress')
-{
-	global $gbl, $sgbl, $login, $ghtml;
-
-	global $global_dontlogshell;
-
-	$global_dontlogshell = true;
-
-	$gen = $login->getObject('general')->generalmisc_b;
-
-
-	if (!validate_ipaddress($ip)) {
-		throw new lxException($login->getThrow("invalid_ipaddress"), $ip);
-	}
-
-	$ret = lxshell_return("ping", "-n", "-c", "1", "-w", "5", $ip);
-
-	if (!$ret) {
-		throw new lxException($login->getThrow("some_other_host_uses_this_ip"), $ip);
-	}
-
-	$global_dontlogshell = false;
-}
 
 function do_actionlog($login, $object, $action, $subaction)
 {
@@ -1492,45 +1530,6 @@ function validate_email($email)
 	}
 
 	return true;
-}
-
-function validate_ipaddress_and_throw($ip, $variable = null)
-{
-	global $gbl, $sgbl, $login, $ghtml;
-
-	if (!validate_ipaddress($ip)) {
-		throw new lxException($login->getThrow("invalid_ipaddress"), '', $ip, $variable);
-	}
-}
-
-function validate_ipaddress($ip)
-{
-	$ind = explode(".", $ip);
-	$d = 0;
-	$c = 0;
-
-	foreach ($ind as $in) {
-		$c++;
-
-		if (is_numeric($in) && $in >= 0 && $in <= 255) {
-			$d++;
-		} else {
-			return 0;
-		}
-	}
-
-	if ($c === 4) {
-		if ($d === 4) {
-			return 1;
-		} else {
-			return 0;
-		}
-	} else {
-		return 0;
-	}
-
-	// MR -- 'new' validate
-//	return inet_pton($ip);
 }
 
 function make_sure_directory_is_lxlabs($file)
@@ -7592,7 +7591,7 @@ function setRealServiceBranchList($nolog = null)
 	}
 }
 
-function resetQmailAssign()
+function resetQmailAssign($nolog = null)
 {
 	// MR -- this function not use anymore because fix-qmailassign directly reading vdominfo
 
@@ -7618,10 +7617,10 @@ function resetQmailAssign()
 
 	$t = '';
 
-	log_cleanup("Reset Qmail Assign for domains");
+	log_cleanup("Reset Qmail Assign for domains", $nolog);
 
 	foreach ($n as $k => $v) {
-		log_cleanup("- assign for '{$k}'");
+		log_cleanup("- assign for '{$k}'", $nolog);
 
 		$o = fileowner($v);
 		$t .= "+{$k}-:{$k}:{$o}:{$o}:{$v}:-::\n";
@@ -7876,39 +7875,6 @@ function colourBrightness($hex, $percent)
 	return $hash.$hex;
 }
 
-function validate_docroot($docroot)
-{
-	global $login;
-
-	///#656 When adding a subdomain, the Document Root field is not being validated
-	if (csa($docroot, " /")) {
-		throw new lxException($login->getThrow("document_root_may_not_contain_spaces"), '', $docroot);
-	} else {
-		$domain_validation = str_split($docroot);
-		$domain_validation_num = strlen($docroot) - 1;
-			
-		if ($domain_validation[$domain_validation_num] == " ") {
-			throw new lxException($login->getThrow("document_root_may_not_contain_spaces"), '', $docroot);
-		}
-
-		if (strpos("..", $docroot) !== false) {
-			throw new lxException($login->getThrow("document_root_may_not_contain_doubledots"), '', $docroot);
-		}
-
-		if (strpos("./", $docroot) !== false) {
-			throw new lxException($login->getThrow("document_root_may_not_contain_dotslash"), '', $docroot);
-		}
-
-		if (strpos("/.", $docroot) !== false) {
-			throw new lxException($login->getThrow("document_root_may_not_contain_slashdot"), '', $docroot);
-		}
-
-		if (strpos("~", $docroot) !== false) {
-			throw new lxException($login->getThrow("document_root_may_not_contain_tilde"), '', $docroot);
-		}
-	}
-}
-
 // MR -- this function to replace eval($sgbl->arg_getting_string) in php 5.3
 function get_function_arglist($start = 0, $transforming_func)
 {
@@ -8064,7 +8030,7 @@ function isCRFTokenMatch()
 	return $ret;
 }
 
-function setCopyErrorPages()
+function setCopyErrorPages($nolog = null)
 {
 	log_cleanup("Copy Error Pages", $nolog);
 
