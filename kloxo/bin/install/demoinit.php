@@ -4,7 +4,7 @@
 //
 
 // This include stops with lxexception
- include_once "/usr/local/lxlabs/kloxo/httpdocs/lib/html/include.php"
+include_once "/usr/local/lxlabs/kloxo/httpdocs/lib/html/include.php";
 
 install_main();
 
@@ -111,11 +111,9 @@ function add_customer_reseller()
 	$W[] = array("alaina" => array("wholesale", "arding", "hardwin", "hardy"),
 		"alina" => array("harford", "hargrove"),
 		"wayne" => array("harkin", "harlan", "harley", "harmon", "gatha"),
-		"master" => array("harold", "harper"),
-		"washi" => array("harrison", "harry"),
-		"adelle" => array("hartford")
+		"master" => array("harold", "harper")
 	);
-*/
+
 	$R[] = array("admin" => array("reseller"),
 		"hardy" => array("peter", "paddy", "parker", "patrick"),
 		"hartford" => array("pelham", "percival"),
@@ -125,7 +123,7 @@ function add_customer_reseller()
 		"webster" => array("wells", "wenda", "wendell")
 	);
 
-	$C[] = array("admin" => array("customer", "generic customer", "simplehosting", "sample customer", "ondemand"),
+	$C[] = array("admin" => array("customer", "simplehosting", "ondemand"),
 		"master" => array("shelby"),
 		"patrick" => array("kerry", "shelagh"),
 		"aislin" => array("johny", "ercood"),
@@ -143,13 +141,21 @@ function add_customer_reseller()
 		"ainslie" => array("waverly")
 	);
 
-//	$type['M'] = 'master';
-//	$type['W'] = 'wholesale';
+	$type['M'] = 'master';
+	$type['W'] = 'wholesale';
 	$type['R'] = 'reseller';
 	$type['C'] = 'customer';
 
-//	$a = array("M", "W", "R", "C");
+	$a = array("M", "W", "R", "C");
+*/
+	$R[] = array("admin" => array("reseller")	);
+
+	$C[] = array("admin" => array("customer", "simplehosting", "ondemand"),
+		'reseller' => array('personal', 'business'));
+
 	$a = array("R", "C");
+
+	print("Add clients:\n");
 
 	foreach ($a as $key => $val) {
 		foreach ($$val as $key1 => $val1) {
@@ -177,6 +183,8 @@ function add_customer_reseller()
 					}
 
 					$login->addToList("client", $client);
+
+					print("  - '$name' (under '$parent_name')\n");
 				}
 			}
 		}
@@ -213,6 +221,7 @@ function string_convert($conv)
 
 function add_domain_list()
 {
+/*
 	$list = array(
 		"adelia" => array("testtttttt.com", "hello.org"),
 		"admin" => array("demo.lxcenter.net", "domaindomain.com", "example.com"),
@@ -230,6 +239,12 @@ function add_domain_list()
 		"walta" => array("paradise1.com"),
 		"sibyl" => array("test101.org", "freedomain102.com", "paradise11.com")
 	);
+*/
+	$list = array(
+		"simplehosting" => array("simplehosting.com", "hello.org")
+	);
+
+	print("Add domains:\n");
 
 	foreach ($list as $key => $val) {
 		foreach ($val as $key1 => $val1) {
@@ -298,7 +313,7 @@ function add_domain($domain_name, $parent_name)
 //	$web->addObject('uuser', $uuser);
 
 	$domain->write();
-	print("Added domain\n");
+	print("  - '$domain_name' (for '$parent_name')\n");
 }
 
 
