@@ -111,7 +111,7 @@ class dns_record_a extends LxDnsClass
 				throw new lxException($login->getThrow('invalid_domain'), '', $param['param']);
 			}
 		*/
-			validate_domain_name($param['hostname']);
+			validate_domain_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['param']}";
 		} else if ($param['ttype'] === 'a' || $param['ttype'] === 'aaaa') {
