@@ -45,6 +45,11 @@ $defaultdocroot = "/home/kloxo/httpd/default";
 $fpmportapache = 50000;
 ?>
 
+UrlTookit {
+	ToolkitID = block_shellshock
+	Header * \(\)\s*\{ DenyAccess
+}
+
 UrlToolkit {
 	ToolkitID = findindexfile
 <?php
@@ -182,11 +187,11 @@ UseFastCGI = php_for_var_user
 <?php
 		if ($reverseproxy) {
 ?>
-UseToolkit = findindexfile
+UseToolkit = block_shellshock, findindexfile
 <?php
 		} else {
 ?>
-UseToolkit = findindexfile, permalink
+UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 		}
 ?>

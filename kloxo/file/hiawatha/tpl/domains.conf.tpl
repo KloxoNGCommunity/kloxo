@@ -301,13 +301,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 			} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 			}
 ?>
@@ -367,13 +367,13 @@ VirtualHost {
 ?>
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 			} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 			}
 ?>
@@ -448,13 +448,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 			} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 			}
 ?>
@@ -511,7 +511,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	useToolkit = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
+	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
 }
 
@@ -582,13 +582,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 				} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 				}
 ?>
@@ -726,13 +726,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = redirect_<?php echo $domcleaner; ?>, findindexfile
+	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile
 <?php
 		} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
+	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
 <?php
 		}
 ?>
@@ -837,13 +837,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 					} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 					}
 ?>
@@ -925,13 +925,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 					} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 					}
 ?>
@@ -1001,11 +1001,11 @@ VirtualHost {
 <?php
 					if ($reverseproxy) {
 ?>
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 					} else {
 ?>
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 					}
 ?>
@@ -1075,13 +1075,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 						} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
 ?>
@@ -1153,11 +1153,11 @@ VirtualHost {
 <?php
 						if ($reverseproxy) {
 ?>
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 						} else {
 ?>
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
 ?>
@@ -1248,13 +1248,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 					} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 					}
 ?>
@@ -1329,13 +1329,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 						} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
 ?>
@@ -1410,13 +1410,13 @@ VirtualHost {
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-	UseToolkit = findindexfile
+	UseToolkit = block_shellshock, findindexfile
 <?php
 						} else {
 ?>
 
 	UseFastCGI = php_for_var_user
-	UseToolkit = findindexfile, permalink
+	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
 ?>
