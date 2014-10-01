@@ -79,8 +79,6 @@ class phpini extends lxdb
 		$list[] = 'output_compression_flag';
 		$list[] = 'session_save_path_flag';
 
-		$list[] = 'multiple_php_ready';
-
 		return $list;
 	}
 

@@ -417,18 +417,16 @@ class web__ extends lxDriverClass
 		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
 	//	$mlist = $this->main->__var_mmaillist;
 
+		// --- for the first time domain create
+		$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname,
+			'webmailprog' => '', 'webmail_url' => '', 'remotelocalflag' => 'local');
+
 		if ($mlist) {
 			foreach ($mlist as $m) {
 				if ($m['nname'] === $domainname) {
 					$list = $m;
 					break;
 				}
-			}
-		} else {
-			// --- for the first time domain create
-			if (!isset($list)) {
-				$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname,
-					'webmailprog' => '', 'webmail_url' => '', 'remotelocalflag' => 'local');
 			}
 		}
 
