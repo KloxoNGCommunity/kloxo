@@ -91,6 +91,10 @@ class dns_record_a extends LxDnsClass
 				$this->$var = $this->getParentO()->nname;
 			}
 
+			if ($this->hostname === '') {
+				$this->$var = $this->getParentO()->nname;
+			}
+
 			$this->$var = str_replace("__base__.", "", $this->$var);
 		}
 

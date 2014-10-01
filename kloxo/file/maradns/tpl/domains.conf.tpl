@@ -37,7 +37,11 @@ foreach($dns_records as $k => $o) {
             if ($o->param === $o->hostname) {
                 $key = $domainname;
             } else {
-                $key = $o->hostname;
+                if ($o->hostname === '') {
+                    $key = $domainname;
+                } else {
+                    $key = $o->hostname;
+                }
             }
 ?>
 <?php echo $key; ?>. NS <?php echo $value; ?>. ~
