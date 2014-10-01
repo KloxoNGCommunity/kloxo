@@ -43,10 +43,11 @@ class dns_record_a extends LxDnsClass
 
 	function isAction($var)
 	{
+	/*
 		if ($this->ttype === 'ns') {
 			return false;
 		}
-
+	*/
 		return true;
 	}
 
@@ -84,6 +85,15 @@ class dns_record_a extends LxDnsClass
 			}
 		}
 
+		// MR -- fix appear in 'old' data
+		if ($var === 'hostname') {
+			if ($this->hostname === $this->param) {
+				$this->$var = $this->getParentO()->nname;
+			}
+
+			$this->$var = str_replace("__base__.", "", $this->$var);
+		}
+
 		return $this->$var;
 	}
 
@@ -93,95 +103,61 @@ class dns_record_a extends LxDnsClass
 
 		if ($param['ttype'] === 'mx') {
 			// Validates domain
-		/*
-			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
-					$param['param'])) {
-				throw new lxException($login->getThrow('invalid_domain'), '', $param['param']);
-			}
-		*/
 			validate_domain_name($param['hostname']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['priority']}";
 			$param['hostname'] = $parent->nname;
-		} else if ($param['ttype'] === 'ns') {
-			// Validates domain
-		/*
-			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
-					$param['param'])) {
-				throw new lxException($login->getThrow('invalid_domain'), '', $param['param']);
+		} elseif ($param['ttype'] === 'ns') {
+			// MR -- make possible to 'delegate' subdomain to other server!
+
+			// Validates subdomain
+			validate_hostname_name($param['hostname']);
+
+			$a_record_match = false;
+
+			foreach($parent->dns_record_a as $d) {
+				if (($d->ttype === 'a') || ($d->ttype === 'aaa')) {
+					if ($d->hostname === $param['hostname']) {
+						$a_record_match = true;
+						break;
+					}
+				}
 			}
-		*/
+
+			if (!$a_record_match) {
+				throw new lxException($login->getThrow('need_a_or_aaa_record'), '', $param['hostname']);
+			}
+
+			$param['hostname'] = "{$param['hostname']}.{$parent->nname}";
+
+			// Validates domain
 			validate_domain_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['param']}";
-		} else if ($param['ttype'] === 'a' || $param['ttype'] === 'aaaa') {
+		} elseif ($param['ttype'] === 'a' || $param['ttype'] === 'aaaa') {
 			// Validates subdomain
-		/*
-			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
-					$param['hostname'])) {
-				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
-			}
-		*/
 			validate_hostname_name($param['hostname']);
 
-		/*
 			// Validates both ipv4 and ipv6
-			if (!preg_match('/^(?:(?>(?>([a-f0-9]{1,4})(?>:(?1)){7})|(?>(?!(?:.*[a-f0-9](?>:|$)){8,})((?1)(?>:" .
-					"(?1)){0,6})?::(?2)?))|(?>(?>(?>(?1)(?>:(?1)){5}:)|(?>(?!(?:.*[a-f0-9]:){6,})((?1)(?>:(?1)){0,4})?:" .
-					":(?>(?3):)?))?(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?>\.(?4)){3}))$/iD', $param['param'])) {
-				throw new lxException($login->getThrow('invalid_ip_address'), '', $param['param']);
-			}
-		*/
 			validate_ipaddress($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}_{$param['param']}";
-		} else if ($param['ttype'] === 'cname') {
+		} elseif ($param['ttype'] === 'cname') {
 			// Validates hostname subdomain
-		/*
-			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
-					$param['hostname'])) {
-				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
-			}
-		*/
 			validate_hostname_name($param['hostname']);
-
-		/*
-			// Validates value subdomain
-			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
-					$param['param']) && $param['param'] != "__base__") {
-				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['param']);
-			}
-		*/
 			validate_hostname_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
-		} else if ($param['ttype'] === 'fcname') {
+		} elseif ($param['ttype'] === 'fcname') {
 			// Validates hostname subdomain
-		/*
-			if (!preg_match("/^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$/",
-					$param['hostname'])) {
-				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
-			}
-		*/
 			validate_hostname_name($param['hostname']);
 
-		/*
 			// Validates value domain
-			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
-					$param['param'])) {
-				throw new lxException($login->getThrow('invalid_domain'), '', $param['param']);
-			}
-		*/
 			validate_domain_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
-		} else if ($param['ttype'] === 'txt') {
+		} elseif ($param['ttype'] === 'txt') {
 			// Validates hostname subdomain
-		/*
-			if (!preg_match("/[0-9a-zA-Z-._]$/", $param['hostname'])) {
-				throw new lxException($login->getThrow('invalid_subdomain'), '', $param['hostname']);
-			}
-		*/
 			validate_hostname_name($param['hostname']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
@@ -195,14 +171,17 @@ class dns_record_a extends LxDnsClass
 	static function addform($parent, $class, $typetd = null)
 	{
 		if ($typetd['val'] === 'ns') {
+			// MR -- add hostname entry to make possible to 'delegate' to other server!
+			$vlist['hostname'] = array('m', array('value'=> '__base__', 'posttext' => ".$parent->nname."));
+
 			$vlist['param'] = null;
-		} else if ($typetd['val'] === 'mx') {
+		} elseif ($typetd['val'] === 'mx') {
 			$vlist['priority'] = array('s', array('5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'));
 			$vlist['param'] = null;
-		} else if ($typetd['val'] === 'cname') {
+		} elseif ($typetd['val'] === 'cname') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('m', array('posttext' => ".$parent->nname."));
-		} else if ($typetd['val'] === 'fcname') {
+		} elseif ($typetd['val'] === 'fcname') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('m', array('posttext' => ""));
 		} else {
@@ -262,23 +241,11 @@ abstract class Dnsbase extends Lxdb
 
 		$this->ttl = "86000";
 
-	/*
-		if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
-				$nameserver)) {
-			throw new lxException($login->getThrow('invalid_domain_in_primary_ns'), '', $nameserver);
-		}
-	*/
 		validate_domain_name($nameserver);
 
 		$this->addRec('ns', $nameserver, $nameserver);
 
 		if ($secnamserver) {
-		/*
-			if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,6})|(xn--[a-z0-9]{4,14}))$/i',
-					$secnamserver)) {
-				throw new lxException($login->getThrow('invalid_domain_in_secondary_ns'), '', $secnamserver);
-			}
-		*/
 			validate_domain_name($nameserver);
 		
 			$this->addRec('ns', $secnamserver, $secnamserver);
@@ -303,13 +270,6 @@ abstract class Dnsbase extends Lxdb
 		$this->addRec("cn", "lists", "mail");
 		$this->addRec("mx", "10", "mail.$this->nname");
 
-		// MR -- just testing!!!
-
-	//	$this->addRec("txt", "__base__", "v=spf1 a mx ~all");
-
-	//	$this->addRec("txt", "_domainkey", "t=y; o=-; r=postmaster@<%domain%>");
-	//	$this->addRec("txt", "private._domainkey", "v=DKIM1; g=*; k=rsa; p=<%key%>");
-
 		return;
 	}
 
@@ -322,9 +282,13 @@ abstract class Dnsbase extends Lxdb
 			$__temp->hostname = $this->nname;
 			$__temp->priority = $name;
 			$__temp->param = $param;
-		} else {
+		} elseif ($ttype === 'ns') {
+			// MR -- add 'hostname' and set '__base__' as default
+			$__temp->hostname = "__base__";
 			$__temp->param = $param;
+		} else {
 			$__temp->hostname = $name;
+			$__temp->param = $param;
 		}
 
 		$__temp->ttype = $ttype;
@@ -368,7 +332,7 @@ abstract class Dnsbase extends Lxdb
 
 	function copyObject($dns)
 	{
-		//$this->ipaddress = $dns->ipaddress;
+	//	$this->ipaddress = $dns->ipaddress;
 		$this->ttl = $dns->ttl;
 
 		if ($dns->isClass('dns')) {
@@ -381,8 +345,8 @@ abstract class Dnsbase extends Lxdb
 		$name = $dns->nname;
 
 		foreach ($dns->dns_record_a as $k => $o) {
-
 			if ($dns->isClass('dns') && $o->ttype === 'ns') {
+				// MR -- add 'hostname'
 				$hostname = $o->hostname;
 				$param = $o->param;
 				$nname = $o->nname;
@@ -470,10 +434,10 @@ abstract class Dnsbase extends Lxdb
 
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=ns';
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=a';
+			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=aaaa';
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=cname';
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=fcname';
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=mx';
-			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=aaaa';
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=txt';
 			$alist['property'][] = 'a=updateform&sa=parameter';
 
@@ -500,21 +464,6 @@ abstract class Dnsbase extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$this->fixParentClName();
-
-		if (!cse($this->get__table(), "template")) {
-			//$alist['__title_main'] = $this->getTitleWithSync();
-			/*
-			$alist['action'][] = "a=update&sa=backup";
-			$alist['action'][] = "a=updateform&sa=restore";
-			*/
-		} else {
-			//$alist['__title_main'] = $login->getKeywordUc('resource');
-		}
-
-		if ($this->get__table() === 'dnstemplate') {
-			//$alist[] = 'a=updateform&sa=ipaddress';
-		} else {
-		}
 
 		return $alist;
 	}
@@ -581,11 +530,6 @@ abstract class Dnsbase extends Lxdb
 
 		$this->dbaction = 'syncadd';
 		$this->was();
-
-	/*
-		$this->dbaction = 'syncdelete';
-		$this->was();
-	*/
 
 		$ghtml->print_redirect_back_success('dns_switched_successfuly', null);
 

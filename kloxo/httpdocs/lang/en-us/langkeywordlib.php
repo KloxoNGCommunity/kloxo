@@ -479,3 +479,6 @@ $__throw["mailforward_already_exists"] = "Mailforward already exists";
 $__throw["no_permit_to_delete_main_ftpuser"] = "No permit to delete main FTPUser";
 
 $__throw["program_is_already_updating"] = "Program is already updating";
+
+$__throw["need_a_or_aaa_record"] = "Need A or AAA record declared";
+

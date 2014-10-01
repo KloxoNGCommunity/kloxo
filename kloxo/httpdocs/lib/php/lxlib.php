@@ -3094,6 +3094,11 @@ function send_to_some_http_server($raddress, $socket_type, $port, $var)
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "frm_rmt=$var&");
+
+	// MR -- possible fix download/upload issue in php 5.3
+	curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+	curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'SSLv3');
+
 	$totalout = curl_exec($ch);
 	dprint(curl_error($ch));
 	$totalout = trim($totalout);

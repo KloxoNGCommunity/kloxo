@@ -34,8 +34,13 @@ foreach($dns_records as $k => $o) {
     switch($o->ttype) {
         case "ns":
             $value = $o->param;
+            if ($o->param === $o->hostname) {
+                $key = $domainname;
+            } else {
+                $key = $o->hostname;
+            }
 ?>
-% NS <?php echo $value; ?>. ~
+<?php echo $key; ?>. NS <?php echo $value; ?>. ~
 <?php
             break;
         case "mx":

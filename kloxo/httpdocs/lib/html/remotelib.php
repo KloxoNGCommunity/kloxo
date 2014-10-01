@@ -366,7 +366,6 @@ function send_to_master($object)
 function send_to_some_server($raddress, $var)
 {
 	return send_to_some_stream_server("cmd", null, $raddress, $var, null);
-//	return send_to_some_http_server($raddress, $socket_type, "7777", $rmt);
 }
 
 function recall_send_to_some_stream_server($type, $size, $raddress, $var)

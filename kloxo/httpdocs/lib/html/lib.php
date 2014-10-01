@@ -2888,6 +2888,11 @@ function curl_get_file_contents($file)
 	curl_setopt($ch, CURLOPT_FAILONERROR, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+	// MR -- possible fix download/upload issue in php 5.3
+	curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+	curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'SSLv3');
+
 	curl_exec($ch);
 
 	$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
