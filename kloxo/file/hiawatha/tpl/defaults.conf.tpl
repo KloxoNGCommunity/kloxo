@@ -45,7 +45,7 @@ $defaultdocroot = "/home/kloxo/httpd/default";
 $fpmportapache = 50000;
 ?>
 
-UrlTookit {
+UrlToolkit {
 	ToolkitID = block_shellshock
 	Header * \(\)\s*\{ DenyAccess
 }
