@@ -33,13 +33,7 @@ if (($action === 'delete') || ($action === 'update')) {
 			$conn->query("DELETE FROM records WHERE domain_id='{$rowid}'");
 			$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
 
-			// MR -- this table for SLAVE, so delete it if exists
-			$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
-
-			if ($action === 'delete') {
-				$conn->query("DELETE FROM domains WHERE id='{$rowid}' AND type='MASTER';");
-			}
-
+			$conn->query("DELETE FROM domains WHERE id='{$rowid}' AND type='MASTER';");
 		}
 	}
 }
@@ -51,15 +45,13 @@ if (($action === 'add') || ($action === 'update')) {
 	$expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
 	$minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
 
-//	$conn->query("INSERT INTO domains (name, type) values('$domainname', 'MASTER');");
+	// MR -- this table for SLAVE, so delete it if exists
+	$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
 
-	if ($rowid) {
-		// for update
-		$domain_id = $rowid;
-	} else {
-		// for add
-		$domain_id = $conn->insert_id;
-	}
+
+	$conn->query("INSERT INTO domains (name, type) values('$domainname', 'MASTER');");
+
+	$domain_id = $conn->insert_id;
 
 	$soa = "{$nameserver} {$email} {$serial} {$refresh} {$retry} {$expire} {$minimum}";
 
