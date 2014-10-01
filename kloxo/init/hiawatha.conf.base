@@ -35,6 +35,11 @@ FastCGIserver {
 MimetypeConfig = hiawatha-mimetype.conf
 
 UrlToolkit {
+	ToolkitID = block_shellshock
+	Header * \(\)\s*\{ DenyAccess
+}
+
+UrlToolkit {
 	ToolkitID = findindexfile
 	Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
 	RequestURI isfile Return
@@ -91,7 +96,7 @@ AccessLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-access.log
 ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
 SecureURL = no
 UseFastCGI = PHP5
-UseToolkit = findindexfile, expire_needed
+UseToolkit = block_shellshock, findindexfile, expire_needed
 TimeForCGI = 3600
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html
