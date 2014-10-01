@@ -14,7 +14,8 @@ class serverweb__ extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$this->was();
+		// We need to write because reads everything from the database.
+		$this->main->write();
 
 		switch ($subaction) {
 			case "apache_optimize":

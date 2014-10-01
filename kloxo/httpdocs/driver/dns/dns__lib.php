@@ -37,6 +37,10 @@ class dns__ extends lxDriverClass
 		//	setRpmInstalled("{$driver}-utils");
 			setRpmRemoved("{$driver}-chroot");
 			setRpmInstalled("{$driver}-libs");
+		} elseif ($driver === 'pdns') {
+			setRpmInstalled("{$driver}-backend-mysql");
+			setRpmInstalled("{$driver}-tools");
+			setRpmInstalled("{$driver}-geo");
 		}
 
 		$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");

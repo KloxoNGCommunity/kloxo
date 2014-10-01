@@ -13,7 +13,7 @@ if (file_exists("{$srcconfpath}/custom.httpd.conf")) {
 	copy("{$srcconfpath}/httpd.conf", "{$trgtconfpath}/httpd.conf");
 }
 
-$modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define");
+$modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define", "_inactive_");
 
 foreach ($modlist as $k => $v) {
 	if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
@@ -23,7 +23,14 @@ foreach ($modlist as $k => $v) {
 	}
 }
 
-$typelist = array('itk', 'ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
+// MR -- because 'pure' mod_php disabled (security reason)
+if (file_exists("{$srcconfdpath}/custom._inactive_.conf")) {
+	copy("{$srcconfdpath}/custom._inactive_.conf", "{$trgtconfdpath}/php.conf");
+} else {
+	copy("{$srcconfdpath}/_inactive_.conf", "{$trgtconfdpath}/php.conf");
+}
+
+$typelist = array('ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
 
 foreach ($typelist as $k => $v) {
 	if ($v === 'fastcgi') {
@@ -47,7 +54,7 @@ foreach ($typelist as $k => $v) {
 	}
 }
 
-$mpmlist = array('event', 'worker');
+$mpmlist = array('event', 'worker', 'itk');
 
 // as 'httpd' as default mpm
 exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
