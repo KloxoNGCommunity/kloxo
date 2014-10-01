@@ -3933,12 +3933,14 @@ abstract class Lxclass
 	static function add($parent, $class, $param)
 	{
 		if_demo_throw_exception();
-
+	/*
 		// MR -- only process if NOT multidimensional array
 		if (count($param) === count($param, COUNT_RECURSIVE)) {
 			// MR -- trim all array values
 			$param = array_map('trim', $param);
 		}
+	*/
+		$param = trimming($param);
 
 		return $param;
 	}
@@ -4235,11 +4237,14 @@ abstract class Lxclass
 	{
 		if_demo_throw_exception();
 
+	/*
 		// MR -- only process if NOT multidimensional array
 		if (count($param) === count($param, COUNT_RECURSIVE)) {
 			// MR -- trim all array values
 			$param = array_map('trim', $param);
 		}
+	*/
+		$param = trimming($param);
 
 		return $param;
 	}

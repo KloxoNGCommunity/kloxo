@@ -8060,3 +8060,11 @@ function getTimeZoneList()
 
 	return $global_list_path;
 }
+
+function trimming($data) {
+	if (gettype($data) == 'array') {
+		return array_map("trimming", $data);
+	} else {
+		return trim($data);
+	}
+}
