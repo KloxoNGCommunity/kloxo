@@ -70,7 +70,11 @@ class dns_record_a extends LxDnsClass
 	function display($var)
 	{
 		if (!isset($this->$var)) {
-			return '-';
+			if ($var == 'hostname') {
+				return $this->getParentO()->nname;
+			} else {
+				return '-';
+			}
 		}
 
 		if ($var === 'ttype') {
