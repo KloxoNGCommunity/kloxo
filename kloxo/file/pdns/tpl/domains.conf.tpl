@@ -32,8 +32,8 @@ if (($action === 'delete') || ($action === 'update')) {
 
 			$conn->query("DELETE FROM records WHERE domain_id='{$rowid}'");
 			$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
-
 			$conn->query("DELETE FROM domains WHERE id='{$rowid}' AND type='MASTER';");
+			$conn->query("DELETE FROM zones WHERE domain_id='{$rowid}' AND type='MASTER';");
 		}
 	}
 }
@@ -49,14 +49,16 @@ if (($action === 'add') || ($action === 'update')) {
 	$conn->query("DELETE FROM supermasters WHERE nameserver LIKE '{$nameserver}'");
 
 
-	$conn->query("INSERT INTO domains (name, type) values('$domainname', 'MASTER');");
+	$conn->query("INSERT INTO domains (name, type) values('{$domainname}', 'MASTER');");
 
 	$domain_id = $conn->insert_id;
+
+//	$conn->query("INSERT INTO zones (domain_id, owner) values('{$domain_id}', '1');");
 
 	$soa = "{$nameserver} {$email} {$serial} {$refresh} {$retry} {$expire} {$minimum}";
 
 	$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-		"VALUES ('$domain_id', '$domainname', '$soa', 'SOA', '$ttl', 'NULL');");
+		"VALUES ('{$domain_id}', '{$domainname}', '{$soa}', 'SOA', '{$ttl}', 'NULL');");
 
 	foreach($dns_records as $k => $o) {
 		switch ($o->ttype) {
@@ -65,22 +67,22 @@ if (($action === 'add') || ($action === 'update')) {
 				if ($o->param === $o->hostname) {
 					$key = $domainname;
 				} else {
-					if (($o->hostname === '') || (!$o->hostname)) {
+					if (($o->hostname === '') || (!$o->hostname) || ($o->hostname === '__base__')) {
 						$key = $domainname;
 					} else {
 						$key = $o->hostname;
-					}
+ 					}
 				}
 
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-					"VALUES ('$domain_id', '$key', '$o->param', 'NS', '$ttl', 'NULL');");
+					"VALUES ('{$domain_id}', '{$key}', '{$o->param}', 'NS', '{$ttl}', 'NULL');");
 
 				break;
 			case "mx":
 				$v = $o->priority;
 
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-					"VALUES ('$domain_id', '$domainname', '$o->param', 'MX', '$ttl', '$v');");
+					"VALUES ('{$domain_id}', '{$domainname}', '{$o->param}', 'MX', '{$ttl}', '{$v}');");
 
 				break;
 			case "a":
@@ -88,53 +90,53 @@ if (($action === 'add') || ($action === 'update')) {
 				$value = $o->param;
 
 				if ($key !== "__base__") {
-					$key = "$key.$domainname";
+					$key = "{$key}.{$domainname}";
 				} else {
-					$key = "$domainname";
+					$key = "{$domainname}";
 				}
 
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-					"VALUES ('$domain_id', '$key', '$value', 'A', '$ttl', 'NULL');");
+					"VALUES ('{$domain_id}', '{$key}', '{$value}', 'A', '{$ttl}', 'NULL');");
 
 				break;
 			case "cn":
 			case "cname":
 				$key = $o->hostname;
 				$value = $o->param;
-				$key .= ".$domainname";
+				$key .= ".{$domainname}";
 
 				if (isset($arecord[$value])) {
 					$rvalue = $arecord[$value];
 
 					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
-						"VALUES ('$domain_id', '$key', '$rvalue', 'A', '$ttl', 'NULL');");
+						"VALUES ('{$domain_id}', '{$key}', '{$rvalue}', 'A', '{$ttl}', 'NULL');");
 				} else {
 					if ($value !== "__base__") {
-						$value = "$value.$domainname";
+						$value = "{$value}.{$domainname}";
 					} else {
-						$value = "$domainname";
+						$value = "{$domainname}";
 					}
 
 					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
-						"VALUES ('$domain_id', '$key', '$value', 'CNAME', '$ttl', 'NULL');");
+						"VALUES ('{$domain_id}', '{$key}', '{$value}', 'CNAME', '{$ttl}', 'NULL');");
 				}
 
 				break;
 			case "fcname":
 				$key = $o->hostname;
 				$value = $o->param;
-				$key .= ".$domainname";
+				$key .= ".{$domainname}";
 
 				if ($value !== "__base__") {
 					if (!cse($value, ".")) {
-						$value = "$value.";
+						$value = "{$value}.";
 					}
 				} else {
-					$value = "$domainname";
+					$value = "{$domainname}";
 				}
 
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-					"VALUES ('$domain_id', '$key', '$value', 'CNAME', '$ttl', 'NULL');");
+					"VALUES ('{$domain_id}', '{$key}', '{$value}', 'CNAME', '{$ttl}', 'NULL');");
 
 				break;
 			case "txt":
@@ -146,20 +148,19 @@ if (($action === 'add') || ($action === 'update')) {
 				}
 
 				if ($key !== "__base__") {
-					$key = "$key.$domainname";
+					$key = "{$key}.{$domainname}";
 				} else {
-					$key = "$domainname";
+					$key = "{$domainname}";
 				}
 
-			//	$value = str_replace("<%domain>", $domainname, $value);
 				$value = '"' . str_replace("<%domain>", $domainname, $value) . '"';
 
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-					"VALUES ('$domain_id', '$key', '$value', 'TXT', '$ttl', 'NULL');");
+					"VALUES ('{$domain_id}', '{$key}', '{$value}', 'TXT', '{$ttl}', 'NULL');");
 
 				if (strpos($value, "v=spf1") !== false) {
 					$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-						"VALUES ('$domain_id', '$key', '$value', 'SPF', '$ttl', 'NULL');");
+						"VALUES ('{$domain_id}', '{$key}', '{$value}', 'SPF', '{$ttl}', 'NULL');");
 				}
 
 				break;
@@ -176,9 +177,10 @@ if($query = $conn->query("SELECT * FROM domains WHERE type='SLAVE'")) {
 	while ($row = $query->fetch_object()) {
 		$rowid = $row->id;
 
-		$conn->query("DELETE FROM domains WHERE id='{$rowid}' AND type='SLAVE';");
 		$conn->query("DELETE FROM records WHERE domain_id='{$rowid}'");
 		$conn->query("DELETE FROM domainmetadata WHERE domain_id='{$rowid}'");
+		$conn->query("DELETE FROM domains WHERE id='{$rowid}' AND type='SLAVE';");
+		$conn->query("DELETE FROM zones WHERE domain_id='{$rowid}' AND type='MASTER';");
 	}
 }
 
@@ -208,6 +210,7 @@ foreach ($doms as $k => $v) {
 	$conn->query("INSERT INTO supermasters (ip, nameserver, account) " .
 		"VALUES ('{$baseip}','{$v}','{$account}');");
 
+//	$conn->query("INSERT INTO zones (domain_id, owner) values('{$v}', '1');");
 }
 
 $conn->close();
