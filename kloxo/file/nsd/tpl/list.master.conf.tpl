@@ -19,23 +19,14 @@
 
 	if (!file_exists("/etc/rc.d/init.id/nsd")) { return; }
 
-/*
+//	createRestartFile("restart-dns");
+
 	if (file_exists("/usr/sbin/nsd-control")) {
-		$nsdc = "/usr/sbin/nsd-control";
+		$n = "/usr/sbin/nsd-control";
+		exec_with_all_closed("{$n} write ; {$n} notify");
 	} else {
-		$nsdc = "/usr/sbin/nsdc";
+		$n = "/usr/sbin/nsdc";
+		exec_with_all_closed("{$n} rebuild ; {$n} notify");
 	}
-
-	if ($action === 'master_fix') {
-		exec_with_all_closed("{$nsdc} rebuild; {$nsdc} reload; {$nsdc} notify");
-	} elseif ($action === 'master_update') {
-		exec_with_all_closed("{$nsdc} rebuild; {$nsdc} reload; {$nsdc} notify");
-	}
-
-//	exec_with_all_closed("{$nsdc} update; {$nsdc} reload");
-	exec_with_all_closed("/etc/init.d/nsd restart");
-*/
-
-	createRestartFile("restart-dns");
 
 

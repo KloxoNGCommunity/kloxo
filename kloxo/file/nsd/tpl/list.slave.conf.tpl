@@ -19,4 +19,15 @@
 
 	file_put_contents($file, $str);
 
-	createRestartFile("restart-dns");
+	if (!file_exists("/etc/rc.d/init.id/nsd")) { return; }
+
+//	createRestartFile("restart-dns");
+
+	if (file_exists("/usr/sbin/nsd-control")) {
+		$n = "/usr/sbin/nsd-control";
+		exec_with_all_closed("{$n} write ; {$n} transfer");
+	} else {
+		$n = "/usr/sbin/nsdc";
+		exec_with_all_closed("{$n} rebuild ; {$n} update");
+	}
+
