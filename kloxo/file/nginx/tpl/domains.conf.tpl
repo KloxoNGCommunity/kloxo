@@ -2,6 +2,14 @@
 
 <?php
 
+if (($webcache === 'none') || (!$webcache)) {
+    $ports[] = '80';
+    $ports[] = '443';
+} else {
+    $ports[] = '8080';
+    $ports[] = '8443';
+}
+
 $listens = array('listen_nonssl', 'listen_ssl');
 
 foreach ($certnamelist as $ip => $certname) {
@@ -327,7 +335,7 @@ server {
 		} else {
 ?>
 
-	listen <?php echo $ip; ?>:<?php echo $port; ?>;
+	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
 <?php
 		}
 
@@ -557,7 +565,7 @@ server {
 					} else {
 ?>
 
-	listen <?php echo $ip; ?>:<?php echo $port; ?>;
+	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
 <?php
 					}
 
@@ -619,7 +627,7 @@ server {
 					} else {
 ?>
 
-	listen <?php echo $ip; ?>:<?php echo $port; ?>;
+	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
 <?php
 					}
 
