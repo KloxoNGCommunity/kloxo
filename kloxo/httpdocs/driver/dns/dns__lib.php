@@ -16,11 +16,20 @@ class dns__ extends lxDriverClass
 
 		setRpmRemoved($driver);
 
-		if (file_exists("/etc/init.d/{$driveralias}")) {
-			lunlink("/etc/init.d/{$driveralias}");
+		if ($driver === 'bind') {
+			setRpmInstalled("bind-utils");
 		}
 
-		setRpmInstalled("bind-utils");
+		if ($driver === 'maradns') {
+			$a = array('', '.deadwood', '.zoneserver');
+			
+			foreach ($a as $k => $v) {
+				exec("service {$driveralias}{$v} stop");
+				lunlink("/etc/init.d/{$driveralias}{$v}");
+			}
+		} else
+			lunlink("/etc/init.d/{$driveralias}");
+		}
 	}
 
 	static function installMeTrue($driver = null)

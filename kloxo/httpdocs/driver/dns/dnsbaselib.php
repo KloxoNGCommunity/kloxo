@@ -95,7 +95,7 @@ class dns_record_a extends LxDnsClass
 				$this->$var = $this->getParentO()->nname;
 			}
 
-			if ($this->hostname === '') {
+			if (($this->hostname === '') || ($this->hostname === '__base__')) {
 				$this->$var = $this->getParentO()->nname;
 			}
 
