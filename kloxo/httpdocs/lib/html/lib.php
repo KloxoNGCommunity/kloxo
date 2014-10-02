@@ -7338,6 +7338,18 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 			log_cleanup("- Copy {$t} to {$pathtarget}/{$v}.conf", $nolog);
 			lxfile_cp($t, "{$pathtarget}/{$v}.conf");
 		}
+	} elseif ($aliasdriver === 'nsd') {
+		$pathtarget = "{$pathetc}";
+
+		if (file_exists("/usr/sbin/nsd-control")) {
+			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$v}4.conf");
+		} else {
+			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$v}3.conf");	
+		}
+
+		log_cleanup("- Copy {$t} to {$pathtarget}/{$v}.conf", $nolog);
+		lxfile_cp($t, "{$pathtarget}/{$v}.conf");
+
 	} else {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
