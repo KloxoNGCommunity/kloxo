@@ -27,7 +27,7 @@ class dns__ extends lxDriverClass
 				exec("service {$driveralias}{$v} stop");
 				lunlink("/etc/init.d/{$driveralias}{$v}");
 			}
-		} else
+		} else {
 			lunlink("/etc/init.d/{$driveralias}");
 		}
 	}

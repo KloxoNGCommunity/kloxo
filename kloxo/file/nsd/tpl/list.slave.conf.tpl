@@ -25,9 +25,9 @@
 
 	if (file_exists("/usr/sbin/nsd-control")) {
 		$n = "/usr/sbin/nsd-control";
-		exec_with_all_closed("{$n} write ; {$n} transfer");
+		exec_with_all_closed("{$n} transfer; {$n} write");
 	} else {
 		$n = "/usr/sbin/nsdc";
-		exec_with_all_closed("{$n} rebuild ; {$n} update");
+		exec_with_all_closed("{$n} update; {$n} rebuild");
 	}
 
