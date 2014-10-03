@@ -7342,13 +7342,13 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 		$pathtarget = "{$pathetc}";
 
 		if (file_exists("/usr/sbin/nsd-control")) {
-			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$v}4.conf");
+			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}4.conf");
 		} else {
-			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$v}3.conf");	
+			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}3.conf");	
 		}
 
-		log_cleanup("- Copy {$t} to {$pathtarget}/{$v}.conf", $nolog);
-		lxfile_cp($t, "{$pathtarget}/{$v}.conf");
+		log_cleanup("- Copy {$t} to {$pathtarget}/{$aliasdriver}.conf", $nolog);
+		lxfile_cp($t, "{$pathtarget}/{$aliasdriver}.conf");
 
 	} else {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
