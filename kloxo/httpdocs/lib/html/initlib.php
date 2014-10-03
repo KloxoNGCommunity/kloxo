@@ -46,9 +46,9 @@ function add_admin($pass)
 	$client = new Client(null, null, 'admin');
 	$login = $client;
 	$client->initThisDef();
-	$client->priv->pserver_num = 10;
+	$client->priv->pserver_num = 'Unlimited';
 	$client->priv->maindomain_num = 'Unlimited';
-	$client->priv->vps_num = '5';
+	$client->priv->vps_num = 'Unlimited';
 	$client->priv->client_num = 'Unlimited';
 	$client->ddate = time();
 

@@ -1375,7 +1375,7 @@ function setLicenseTodefault()
 	$license = $login->getObject('license');
 	$license->parent_clname = $login->getClName();
 	$lic = $license->licensecom_b;
-	$def = array("maindomain_num" => "40", "vps_num" => 5, "pserver_num" => 10, "client_num" => "Unlimited");
+	$def = array("maindomain_num" => "Unlimited", "vps_num" => "Unlimited", "pserver_num" => "Unlimited", "client_num" => "Unlimited");
 	$list = get_license_resource();
 	foreach ($list as $l) {
 		$licv = "lic_$l";
