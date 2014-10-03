@@ -1,0 +1,16 @@
+#!/bin/sh
+
+echo "This script will be fixed an issue:"
+echo "- Run 'sh /script/resetpassword' will appear 'only_admin_can_modify_general'"
+echo "- Fail login as 'admin' with error 'This login has been Disabled'"
+
+## php 5.4+ not work for 'php -r', so use php from php53s
+if [ -f /opt/php53s/usr/bin/php ] ; then
+	pass=$(/opt/php53s/usr/bin/php -r "echo var_dump(unserialize(file_get_contents('/usr/local/lxlabs/kloxo/etc/slavedb/dbadmin')));"|grep 'string'|grep -v 'Remote'|awk '{print $2}'|sed 's/"//g')
+else
+	echo "Need install php53s. Use 'sh /script/phpm-installer php53s'"
+fi
+
+mysql -u root -p${pass} kloxo < /script/admin.sql &
+
+echo "Process finished. Need running 'sh /script/resetpassword'"

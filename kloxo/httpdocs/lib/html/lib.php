@@ -7311,7 +7311,7 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$dnsdriver}";
 	$pathdrv = "/opt/configs/{$dnsdriver}";
-	$pathetc = "/etc/";
+	$pathetc = "/etc";
 
 	log_cleanup("Copy all contents of $dnsdriver", $nolog);
 
@@ -7339,7 +7339,7 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 			lxfile_cp($t, "{$pathtarget}/{$v}.conf");
 		}
 	} elseif ($aliasdriver === 'nsd') {
-		$pathtarget = "{$pathetc}";
+		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
 		if (file_exists("/usr/sbin/nsd-control")) {
 			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}4.conf");

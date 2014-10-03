@@ -144,13 +144,15 @@ class phpini__sync extends Lxdriverclass
 			}
 		}
 
+	/*
 		// MR -- also restart php-fpm
 		$phptype = db_get_value("serverweb", "pserver-" . $this->syncserver, "php-type");
 		if (strpos($phptype, 'php-fpm') !== false) {
 			createRestartFile('php-fpm');
 		}
 
-	//	createRestartFile($this->main->__var_webdriver);
+		createRestartFile($this->main->__var_webdriver);
+	*/
 		createRestartFile("restart-web");
 	}
 

@@ -27,7 +27,7 @@ static function createDhcpConfFile($slist)
 	$string .= "ignore client-updates;\n\n\n";
 
 	$string .= self::getSubnetString($k, $slist);
-	/*
+/*
 	foreach($subnet as $k => $v) {
 		$string .= self::getSubnetString($k, $slist);
 	}

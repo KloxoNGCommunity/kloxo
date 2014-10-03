@@ -253,7 +253,6 @@ class Mmail__Qmail extends lxDriverClass
 	*/
 
 		$this->updateQmaildefault();
-		//createRestartFile('courier-imap');
 	}
 
 	function doesListExist()
@@ -499,7 +498,6 @@ class Mmail__Qmail extends lxDriverClass
 			}
 		}
 
-	//	createRestartFile('courier-imap');
 		createRestartFile('qmail');
 	}
 
