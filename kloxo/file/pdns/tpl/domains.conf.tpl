@@ -128,7 +128,9 @@ if (($action === 'add') || ($action === 'update')) {
 				$key .= ".{$domainname}";
 
 				if ($value !== "__base__") {
-					if (!cse($value, ".")) {
+	                if (strpos($value, ".") !== false) {
+						// no action
+					} else {
 						$value = "{$value}.";
 					}
 				} else {

@@ -67,9 +67,6 @@ foreach($dns_records as $k => $o) {
 <?php echo $key; ?> <?php echo $ttl; ?> AAAA <?php echo $value; ?> ~
 <?php
             break;
-        case "ddns":
-            if ($o->offline === 'on')
-                break;
         case "a":
             $key = $o->hostname;
             $value = $o->param;
@@ -114,7 +111,9 @@ foreach($dns_records as $k => $o) {
             $key .= ".%";
 
             if ($value !== "__base__") {
-                if (!cse($value, ".")) {
+                if (strpos($value, ".") !== false) {
+					// no action
+				} else {
                     $value = "$value.";
                 }
             } else {
