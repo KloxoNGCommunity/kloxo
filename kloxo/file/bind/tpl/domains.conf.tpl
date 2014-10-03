@@ -103,8 +103,7 @@ foreach($dns_records as $k => $o) {
                 }
 
 ?>
-<?php echo $key; ?> IN CNAME <?php echo $value; ?>
-
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>.
 <?php
             }
 
@@ -122,16 +121,15 @@ foreach($dns_records as $k => $o) {
 
             if ($value !== "__base__") {
                 if (strpos($value, ".") !== false) {
-					// no action
-				} else {
+                    // no action
+                } else {
                     $value = "$value.";
                 }
             } else {
                 $value = "$domainname.";
             }
 ?>
-<?php echo $key; ?> IN CNAME <?php echo $value; ?>
-
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>.
 <?php
             break;
 
