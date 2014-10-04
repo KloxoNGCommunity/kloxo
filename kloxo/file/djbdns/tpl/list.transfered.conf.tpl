@@ -22,6 +22,10 @@
 
 	$datadir = "/opt/configs/djbdns/tinydns/root";
 
+	if (!file_exists("{$datadir}/slave")) {
+		touch("{$datadir}/slave");
+	}
+
 	exec("cd {$datadir}; cat master slave > data; make");
 
 	if (!file_exists("/etc/rc.d/init.id/tinydns")) { return; }

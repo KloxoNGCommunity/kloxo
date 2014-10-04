@@ -1,5 +1,8 @@
 <?php
 	$path = "/opt/configs/dnsslave_tmp";
+
+	if (!file_exists($path)) { return; }
+
 	$dirs = glob("{$path}/*");
 
 	exec("chown -R 777 /opt/configs/bind/conf/slave");

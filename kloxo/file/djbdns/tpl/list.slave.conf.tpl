@@ -6,6 +6,9 @@
 	}
 
 	$spath = "/opt/configs/dnsslave_tmp";
+
+	if (!file_exists($spath)) { return; }
+
 	$dirs = glob("{$spath}/*");
 
 	$tpath = "/opt/configs/djbdns/conf/slave";

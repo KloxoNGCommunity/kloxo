@@ -1,5 +1,8 @@
 <?php
 	$path = "/opt/configs/dnsslave_tmp";
+
+	if (!file_exists($path)) { return; }
+
 	$dirs = glob("{$path}/*");
 
 	exec("'rm' -rf /opt/configs/nsd/conf/slave/*");
