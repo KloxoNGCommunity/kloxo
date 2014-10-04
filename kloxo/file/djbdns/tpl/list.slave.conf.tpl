@@ -1,8 +1,10 @@
 <?php
 	if (file_exists("/opt/djbdns/bin/axfr-get")) {
-		$axfr_get = "/opt/djbdns/bin/axfr-get"; 
-	} else {
+		$axfr_get = "/opt/djbdns/bin/axfr-get";
+	} elseif (file_exists("/bin/axfr-get")) {
 		$axfr_get = "/bin/axfr-get"; 
+	} else {
+		$axfr_get = null;
 	}
 
 	$spath = "/opt/configs/dnsslave_tmp";
@@ -21,10 +23,15 @@
 
 		touch("{$tpath}/{$d}");
 
-		exec("tcpclient -v {$c} 53 {$axfr_get} {$d} {$tpath}/{$d} {$tpath}/{$d}.tmp 2>&1");
+		if ($axfr_get) {
+			exec("tcpclient -v {$c} 53 {$axfr_get} {$d} {$tpath}/{$d} {$tpath}/{$d}.tmp 2>&1");
+		}
 	}
 
 	$datadir = "/opt/configs/djbdns/tinydns/root";
+
+	if (!file_exists($datadir)) { return; }
+
 	$datafile = "{$datadir}/slave";
 
 	$dirs = glob("{$tpath}/*");

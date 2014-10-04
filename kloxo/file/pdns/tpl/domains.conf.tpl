@@ -187,6 +187,9 @@ if($query = $conn->query("SELECT * FROM domains WHERE type='SLAVE'")) {
 }
 
 $path = "/opt/configs/dnsslave_tmp";
+
+if (!file_exists($path)) { $conn->close(); return; }
+
 $dirs = glob("{$path}/*");
 
 $str = '';
