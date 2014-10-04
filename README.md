@@ -35,7 +35,7 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 * Database Manager: PHPMyAdmin; Adminer, MyWebSql and SqlBuddy as additional **)
 * Webmail: Afterlogic Webmail Lite, Telaen, Squirrelmail, Roundcube and Rainloop; Horde and T-Dah dropped
 * FTP server: Pure-ftpd
-* DNS Server: Bind and Djbdns; ready testing for Powerdns, MaraDNS and NSD *)
+* DNS Server: Bind and Djbdns; add Powerdns, MaraDNS and NSD *)
 * Addons: ClamAV, Spamassassin/Bogofilter/Spamdyke and RKHunter
 * Fixed many bugs of Kloxo Official (including security issues)
 * And many more!
@@ -54,17 +54,17 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 
 ### Notes
-*) New features in Kloxo-MR 6.5.1 (Final version Dec 2013 - Jan 2014)
+*) New features in Kloxo-MR 7.0.0 (aka Kloxo-MR-7)
 
-- Version 6.5.1 change to 7.0.0 since 20 Aug 2014
+- Version 6.5.1 change to 7.0.0 since 20 Aug 2014 (beta step)
 
-- Web: Hiawatha (ready for testing since 28 Sep 2013) and Httpd 2.4
-- Web cache: Squid, Varnish and ATS (Apache Traffic Server) (ready for testing since 3 Oct 2013)
-- DNS: Powerdns, MaraDNS and NSD (ready for testing since 16 Sep 2013)
+- Web: Hiawatha (since 28 Sep 2013) and Httpd 2.4
+- Web cache: Squid, Varnish and ATS (Apache Traffic Server) (since 3 Oct 2013)
+- DNS: Powerdns, MaraDNS and NSD (since 16 Sep 2013)
 - Mail: Dovecot
 - Php: multiple Php versions running together (php-fpm/spawning base)
 
 **) New features in Kloxo-MR 6.5.0 after released
 - Panel: Adminer, MyWebSql and SqlBuddy as alternative for Database management
-- Core: change to use Hiawatha + php52s from lxphp + lxlighttpd for handling
+- Core: change to use Hiawatha + php52s from lxphp + lxlighttpd for running panel
 
