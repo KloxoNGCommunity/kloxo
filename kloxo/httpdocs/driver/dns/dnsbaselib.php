@@ -108,7 +108,7 @@ class dns_record_a extends LxDnsClass
 
 		if ($param['ttype'] === 'mx') {
 			// Validates domain
-			validate_domain_name($param['hostname']);
+			validate_domain_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['priority']}";
 			$param['hostname'] = $parent->nname;
