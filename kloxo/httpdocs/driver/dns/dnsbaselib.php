@@ -57,7 +57,7 @@ class dns_record_a extends LxDnsClass
 		$nlist['hostname'] = '25%';
 		$nlist['ttype'] = '5%';
 		$nlist['priority'] = '5%';
-		$nlist['param'] = '65%';
+		$nlist['param'] = '100%';
 
 		return $nlist;
 	}
@@ -71,7 +71,7 @@ class dns_record_a extends LxDnsClass
 	{
 		if (!isset($this->$var)) {
 			if ($var == 'hostname') {
-				return $this->getParentO()->nname;
+				$this->$var = '__base__';
 			} else {
 				return '-';
 			}
@@ -83,23 +83,20 @@ class dns_record_a extends LxDnsClass
 
 		if ($var === 'param') {
 			if ($this->ttype === 'txt') {
-				if (strlen($this->$var) > 30) {
-					return substr($this->$var, 0, 30) . "...";
+				if (strlen($this->$var) > 50) {
+					return substr($this->$var, 0, 50) . "...";
 				}
 			}
 		}
 
 		// MR -- fix appear in 'old' data
 		if ($var === 'hostname') {
-			if ($this->hostname === $this->param) {
-				$this->$var = $this->getParentO()->nname;
+			if (($this->hostname === $this->param) || ($this->hostname === '')) {
+				$this->$var = '__base__';
 			}
 
-			if (($this->hostname === '') || ($this->hostname === '__base__')) {
-				$this->$var = $this->getParentO()->nname;
-			}
-
-			$this->$var = str_replace("__base__.", "", $this->$var);
+			$this->$var = str_replace($this->getParentO()->nname, "__base__", $this->$var);
+			$this->$var = str_replace(".__base__", "", $this->$var);
 		}
 
 		return $this->$var;
@@ -203,7 +200,6 @@ class dns_record_a extends LxDnsClass
 		if ($typetd['val'] === 'ns') {
 			// MR -- add hostname entry to make possible to 'delegate' to other server!
 			$vlist['hostname'] = array('m', array('value'=> '__base__', 'posttext' => ".$parent->nname."));
-
 			$vlist['param'] = null;
 		} elseif ($typetd['val'] === 'mx') {
 			$vlist['priority'] = array('s', array('5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'));

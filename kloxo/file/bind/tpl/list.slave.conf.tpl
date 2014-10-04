@@ -2,6 +2,8 @@
 	$path = "/opt/configs/dnsslave_tmp";
 	$dirs = glob("{$path}/*");
 
+	exec("chown -R 777 /opt/configs/bind/conf/slave");
+
 	exec("'rm' -rf /opt/configs/bind/conf/slave/*");
 
 	$str = '';
@@ -14,7 +16,12 @@
 		
 		$doms[] = $d;
 
-		$zone = "zone \"{$d}\" {\n    type slave;\n    file \"slave/{$d}\";\n    masters { {$c}; };\n};\n\n";
+		$zone  = "zone \"{$d}\" {\n    type slave;";
+		$zone .= "\n    file \"slave/{$d}\";";
+		$zone .= "\n    masters { {$c}; };";
+		$zone .= "\n    masterfile-format text;";
+		$zone .= "\n};\n\n";
+
 		$str .= $zone;
 	}
 
