@@ -18,22 +18,11 @@
 	$dirs = glob("{$path}/*");
 
 	
-	$datafile = "{$datadir}/data";
+	$datafile = "{$datadir}/master";
 
-	exec("echo '' > {$datafile}");
+//	exec("echo '' > {$datafile}");
+	exec("'rm' -f {$datafile}");
 
 	foreach ($dirs as $d) {
 		exec("cat {$d} >> {$datafile}");
 	}
-
-	exec("cd {$datadir}; make");
-
-	if (!file_exists("/etc/rc.d/init.id/tinydns")) { return; }
-
-	createRestartFile("restart-dns");
-
-	if (file_exists("/etc/rc.d/init.d/djbdns")) {
-		exec_with_all_closed("sh /script/dnsnotify {$domain}");
-	}
-?>
-
