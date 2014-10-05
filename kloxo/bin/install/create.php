@@ -66,6 +66,6 @@ function create_main()
 
 	print(">>> Create slavedb_driver <<<\n");
 	os_create_default_slave_driver_db();
-	print(">>> Execute os_fix_some_permissions()... <<<\n");
-	os_fix_some_permissions();
+//	print(">>> Execute os_fix_some_permissions()... <<<\n");
+//	os_fix_some_permissions();
 }

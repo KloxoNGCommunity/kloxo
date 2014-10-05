@@ -1,4 +1,4 @@
-![Kloxo-MR logo](http://mratwork.com/images/kloxo-mr.png)
+![Kloxo-MR logo](https://github.com/mustafaramadhan/kloxo/kloxo-mr_small.png)
 
 ===================
 
