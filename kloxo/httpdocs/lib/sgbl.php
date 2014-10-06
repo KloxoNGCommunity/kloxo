@@ -80,8 +80,8 @@ class Sgbl
 		$this->__path_root_base = "/";
 
 		$this->__path_mara_path = "";
-		$this->__path_mara_chroot = "/etc/maradns/";
-		$this->__path_mara_conf = "/etc/mararc";
+//		$this->__path_mara_chroot = "/etc/maradns/";
+//		$this->__path_mara_conf = "/etc/mararc";
 
 		$this->__path_program_home = "/home/kloxo";
 		$this->__path_home_dir = "/home";

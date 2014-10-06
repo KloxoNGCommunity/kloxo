@@ -14,15 +14,32 @@
 		return;
 	}
 
-	$path = "/opt/configs/djbdns/conf/master";
-	$dirs = glob("{$path}/*");
+	$d1names = $domains;
 
-	
+	$tpath = "/opt/configs/djbdns/conf/master";
+	$d2files = glob("{$tpath}/*");
+
+	if (empty($d2files)) { return; }
+
+	foreach ($d2files as $k => $v) {
+		$d2names[] = str_replace("{$tpath}/", '', $v);
+	}
+
+	$d2olds = array_diff($d2names, $d1names);
+
+	// MR -- delete unwanted files
+	if (!empty($d2olds)) {
+		foreach ($d2olds as $k => $v) {
+			unlink("{$tpath}/{$v}");
+		}
+	}
+
 	$datafile = "{$datadir}/master";
 
-//	exec("echo '' > {$datafile}");
 	exec("'rm' -f {$datafile}");
 
-	foreach ($dirs as $d) {
-		exec("cat {$d} >> {$datafile}");
+	foreach ($d1names as $k => $v) {
+		$c = "{$tpath}/{$v}";
+		exec("cat {$c} >> {$datafile}");
 	}
+

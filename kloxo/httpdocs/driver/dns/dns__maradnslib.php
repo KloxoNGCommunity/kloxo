@@ -19,14 +19,14 @@ class dns__maradns extends dns__
 		parent::installMeTrue('maradns');
 	}
 
-	function createConfFile($action = null)
+	function createConfFile()
 	{
-		parent::createConfFileTrue('maradns', $action);
+		parent::createConfFileTrue('maradns');
 	}
 
-	function syncCreateConf($action = null)
+	function syncCreateConf()
 	{
-		parent::syncCreateConfTrue('maradns', $action);
+		parent::syncCreateConfTrue('maradns');
 	}
 
 	function createAllowTransferIps()

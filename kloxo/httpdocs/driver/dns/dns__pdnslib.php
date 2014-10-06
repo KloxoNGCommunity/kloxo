@@ -19,14 +19,19 @@ class dns__pdns extends dns__
 		parent::installMeTrue('pdns');
 	}
 
-	function createConfFile($action = null)
+	function createConfFile()
 	{
 		parent::createConfFileTrue('pdns');
 	}
 
-	function syncAddFile($domainname, $action = null)
+	function syncCreateConf()
 	{
-		parent::syncAddFileTrue('pdns');
+		parent::syncCreateConfTrue('pdns');
+	}
+
+	function createAllowTransferIps()
+	{
+		parent::createAllowTransferIpsTrue('pdns');
 	}
 
 	function dbactionAdd()
@@ -36,7 +41,7 @@ class dns__pdns extends dns__
 
 	function dbactionUpdate($subaction)
 	{
-		parent::dbactionUpdateTrue('pdns');
+		parent::dbactionUpdateTrue('pdns', $subaction);
 	}
 
 	function dbactionDelete()

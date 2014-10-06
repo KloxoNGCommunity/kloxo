@@ -17,11 +17,11 @@ class dns__none extends dns__
 	{
 	}
 
-	function createConfFile($action = null)
+	function createConfFile()
 	{
 	}
 
-	function syncCreateConf($action = null)
+	function syncCreateConf()
 	{
 	}
 

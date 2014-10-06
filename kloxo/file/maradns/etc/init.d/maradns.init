@@ -3,22 +3,6 @@
 # chkconfig: - 55 45
 # description: MaraDNS is secure Domain Name Server (DNS)
 # probe: true
-#
-### BEGIN INIT INFO
-# Provides:          named maradns
-# Required-Start:    $syslog $remote_fs $network
-# Should-Start:
-# Required-Stop:     $syslog $remote_fs $network
-# Should-Stop:
-# Default-Start:     3 5
-# Default-Stop:      0 1 2 6
-# Short-Description: MaraDNS is a security-aware DNS server
-# Description:
-#	MaraDNS is an authoritative and recursive DNS server made with
-#	security and embedded systems in mind.  More information is at
-#	http://www.maradns.org
-#
-### END INIT INFO
 
 # Copyright 2005-2006 Sam Trenholme
 
@@ -37,24 +21,11 @@
 # This software is provided 'as is' with no guarantees of correctness or
 # fitness for purpose.
 
-### MR -- process to change listen IP in /etc/mararc
-hostip=$(hostname -i)
-
-if [ "${hostip}" != "" ] ; then
-	oldtxt="ipv4_bind_addresses = \"127.0.0.1\""
-	newtxt="ipv4_bind_addresses = \"$hostip\""
-	sed -i "s/$oldtxt/$newtxt/g" /etc/mararc
-else
-	echo "Fail for detect hostname IP..."
-fi
-
 # This is a script which stops and starts the MaraDNS process
 # The first line points to bash because I don't have a true Solaris /bin/sh
 # to test this against.
 
 # The following is a pointer to the MaraDNS program
-# cd /usr/local/lxlabs/kloxo/httpdocs/
-# lxphp.exe ../bin/misc/marac_fix_iplist.php
 if [ -x "/usr/sbin/maradns" ] ; then
 	MARADNS="/usr/sbin/maradns"
 elif [ -x "/usr/sbin/maradns.authonly" ] ; then
@@ -95,36 +66,50 @@ MARARCS="/etc/mararc"
 #  to multiple IPs)
 #MARARCS="/etc/mararc.1 /etc/mararc.2 /etc/mararc.3"
 
-# Show usage information if this script is invoked with no arguments
-if [ $# -lt 1 ] ; then
-    echo Usage: $0 \(start\|stop\|restart\)
-    exit 1
-fi
+# source function library
+. /etc/rc.d/init.d/functions
 
-# If invoked as stop or restart, kill *all* MaraDNS processes
-if [ $1 = "stop" -o $1 = "restart" ] ; then
-    echo Sending all MaraDNS processes the TERM signal
-    ps -ef | awk '{print $2":"$8}' | grep maradns | grep -v $$ | \
-      cut -f1 -d: | xargs kill > /dev/null 2>&1
-    echo waiting 1 second
-    sleep 1
-    echo Sending all MaraDNS processes the KILL signal
-    ps -e | awk '{print $1":"$NF}' | grep maradns | grep -v $$ | \
-      cut -f1 -d: | xargs kill -9 > /dev/null 2>&1
-    echo MaraDNS should have been stopped
-    if [ $1 = "stop" ] ; then
-    	exit 0
-    fi
-fi
+RETVAL=0
 
-# If invoked as start or restart, start the MaraDNS processes
-if [ $1 = "start" -o $1 = "restart" ] ; then
-    echo Starting all maradns processes
-    for a in $MARARCS ; do
-        echo Starting maradns process which uses Mararc file $a
-	# Duende syslogs MaraDNS' output messages and daemonizes MaraDNS
-        $DUENDE $MARADNS -f $a
-    done
-    exit 0
-fi
+start() {
+	echo -n $"Starting all MaraDNS processes: "
+	for rcfile in $MARARCS ; do
+		echo -n $"$rcfile "
+		# Duende syslogs MaraDNS' output messages and daemonizes MaraDNS
+		daemon $DUENDE $MARADNS -f $rcfile || RETVAL=$?
+	done
+	echo
+	[ $RETVAL -eq 0 ] && echo `pidof maradns` > /var/run/maradns.pid && touch /var/lock/subsys/maradns
+}
 
+stop() {
+	echo -n $"Stopping MaraDNS: "
+	killproc maradns
+	echo
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/maradns
+}
+
+case "$1" in
+  start)
+	start
+	;;
+  stop) 
+	stop
+	;;
+  restart|reload)
+	stop
+	start
+	;;
+  condrestart)
+	[ -f /var/lock/subsys/maradns ] && restart
+	;;
+  status)
+	status maradns
+	RETVAL=$?
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart|reload|condrestart}"
+	exit 1
+esac
+
+exit $RETVAL

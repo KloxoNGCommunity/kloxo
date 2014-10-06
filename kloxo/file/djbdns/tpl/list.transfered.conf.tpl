@@ -26,13 +26,13 @@
 		touch("{$datadir}/slave");
 	}
 
+	if (!file_exists("/etc/rc.d/init.d/djbdns")) { return; }
+
 	exec("cd {$datadir}; cat master slave > data; make");
 
-	if (!file_exists("/etc/rc.d/init.id/tinydns")) { return; }
-
-	createRestartFile("restart-dns");
-
 	if (file_exists("/etc/rc.d/init.d/djbdns")) {
+		createRestartFile("restart-dns");
+
 		$path = "/opt/configs/djbdns/conf/master";
 		$dirs = glob("{$path}/*");
 

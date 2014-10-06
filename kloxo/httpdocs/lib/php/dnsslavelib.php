@@ -41,21 +41,37 @@ class DnsSlave extends Lxdb
 
 	function postAdd()
 	{
+		// MR -- need write because have next action for fixdns!
+		// TODO: make 'general' action for this process
+		$this->write();
+
 		$ip = $this->master_ip;
 		$domain = $this->nname;
 		$syncserver = $this->syncserver;
-		$path = "/opt/configs/dnsslave_tmp";
 
+		$path = "/opt/configs/dnsslave_tmp";
+	/*
+		// MR -- no need this dir because read from db directly
 		if (!file_exists($path)) {
 			lxshell_return("mkdir", "-p", $path);
 		}
 
 		exec("echo '{$ip}' > {$path}/{$domain}");
+	*/
+		// MR -- deleted
+		if (file_exists($path)) {
+			lxshell_return("rm", "-rf", $path);
+		}
+
 		exec("sh /script/fixdns --server={$syncserver} --nolog");
 	}
 
 	function deleteSpecific()
 	{
+		// MR -- need write because have next action for fixdns!
+		// TODO: make 'general' action for this process
+		$this->write();
+
 		$ip = $this->master_ip;
 		$domain = $this->nname;
 	

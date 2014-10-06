@@ -1,100 +1,167 @@
-#!/bin/bash
-#
+#! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          zoneserver
-# Required-Start:    $syslog $remote_fs $network maradns
-# Should-Start:
-# Required-Stop:     $syslog $remote_fs $network maradns
-# Should-Stop:
-# Default-Start:     3 5
-# Default-Stop:      0 1 2 6
-# Short-Description: handle zone transfers and other TCP functions for MaraDNS
-# Description:       Handle zone transfers and other TCP functions for MaraDNS
-#
+# Provides:          maradns-zoneserver
+# Required-Start:    $remote_fs $network $syslog
+# Required-Stop:     $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop maradns zoneserver
+# Description:       maradns is a Domain Name Server (DNS)   
+#       The zoneserver handles zone transfers and TCP based functions.
 ### END INIT INFO
 
-# Copyright 2005-2006 Sam Trenholme
+# Author: Nicholas Bamber <nicholas@periapt.co.uk>
 
-# TERMS
+# Do NOT "set -e"
 
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="domain name server (zoneserver)"
+NAME=maradns-zoneserver
+DAEMON=/usr/sbin/zoneserver
+DUENDE=/usr/sbin/duende
+SCRIPTNAME=/etc/init.d/$NAME
+WORKING_DIR=/var/run/maradns
+OUR_UID=`id --user maradns`
+OUR_GID=`id --group maradns`
 
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
+# It is possible to have more than one maradns server
+# running on the same machine so long as they bind to different IP
+# addresses. You specify multiple config files in the
+# SERVERS variable in /etc/default/maradns.
+# This goes back to #176066.
 
-# This software is provided 'as is' with no guarantees of correctness or
-# fitness for purpose.
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
 
-# This is a script which stops and starts the MaraDNS zoneserver process
-# The first line points to bash because I don't have a true Solaris /bin/sh
-# to test this against.
+# Read configuration variable file if it is present
+[ -r /etc/default/maradns ] && . /etc/default/maradns
 
-# The following is a pointer to the MaraDNS program
-if [ -x "/usr/sbin/zoneserver" ] ; then
-	ZONESERVER="/usr/sbin/zoneserver"
-elif [ -x "/usr/local/sbin/zoneserver" ] ; then
-	ZONESERVER="/usr/local/sbin/zoneserver"
-else
-	echo unable to find zoneserver
-	exit 1
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+# and status_of_proc is working.
+. /lib/lsb/init-functions
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+
+	# Return
+	#   0 if daemon has been started
+	#   1 if daemon was already running
+	#   2 if daemon could not be started
+
+        # Now start the actual maradns process
+        PIDFILE="$WORKING_DIR/$SERVERNAME-zs.pid"
+	start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null || return 1
+	start-stop-daemon --start --quiet --background --pidfile $PIDFILE --startas $DUENDE -- --pid $PIDFILE --uid $OUR_UID --gid $OUR_GID --ident "$SERVERNAME-zs" -- $DAEMON -f $rcfile
+        sleep 3
+        if ! pidofproc -p $PIDFILE > /dev/null
+        then
+            rm -rf $PIDFILE
+            return 2
+        fi
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+	# Return
+	#   0 if daemon has been stopped
+	#   1 if daemon was already stopped
+	#   2 if daemon could not be stopped
+	#   other if a failure occurred
+        PIDFILE="$WORKING_DIR/$SERVERNAME-zs.pid"
+	start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --name duende
+	RETVAL="$?"
+	[ "$RETVAL" = 2 ] && return 2
+	# Many daemons don't delete their pidfiles when they exit.
+	rm -f $PIDFILE
+	return "$RETVAL"
+}
+
+#
+# Function that sends a SIGHUP to the daemon/service
+#
+do_reload() {
+	#
+	# If the daemon can reload its configuration without
+	# restarting (for example, when it is sent a SIGHUP),
+	# then implement that here.
+	#
+        PIDFILE="$WORKING_DIR/$SERVERNAME-zs.pid"
+	start-stop-daemon --stop --signal 1 --quiet --pidfile $PIDFILE --name duende
+	return 0
+}
+
+if [ -z "$SERVERS" ]
+then
+    log_action_msg "No maradns servers configured"
+    exit 0
 fi
 
-# The following is a pointer to the duende daemonizer
-if [ -x "/usr/sbin/duende" ] ; then
-	DUENDE="/usr/sbin/duende"
-elif [ -x "/usr/local/sbin/duende" ] ; then
-	DUENDE="/usr/local/sbin/duende"
-elif [ -x "/usr/bin/duende" ] ; then
-	DUENDE="/usr/bin/duende"
-elif [ -x "/usr/local/bin/duende" ] ; then
-	DUENDE="/usr/local/bin/duende"
-else
-	echo unable to find duende
-	exit 1
-fi
+case "$1" in
+  start)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC..."
 
-# The following is the directory we place MaraDNS log entries in
-LOGDIR="/var/log"
+        # dir can go away on reboots
+        mkdir -p $WORKING_DIR
+        chmod 775 $WORKING_DIR
+        chown maradns:root $WORKING_DIR >/dev/null 2>&1 || true
 
-# The following is a list of all mararc files which we will load or
-# unload;
-# Simple case: Only one MaraDNS zoneserver process, using the /etc/mararc file
-MARARCS="/etc/mararc"
-# Case two: Three MaraDNS processes, one using /etc/mararc.1, the second one
-# using /etc/mararc.2, and the third one using /etc/mararc.3
-#MARARCS="/etc/mararc.1 /etc/mararc.2 /etc/mararc.3"
+	for rcfile in $SERVERS
+        do
+	    SERVERNAME=`echo $rcfile | sed 's/\//_/g;s/^_*//;' | awk -F. '{print $NF}'`
+	    do_start
+	    case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_progress_msg "$SERVERNAME-zs" ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1
+                exit 1
+                ;;
+	    esac
+        done
+        [ "$VERBOSE" != no ] && log_end_msg 0
+	;;
+  stop)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC"
+	for rcfile in $SERVERS
+        do
+	    SERVERNAME=`echo $rcfile | sed 's/\//_/g;s/^_*//;' | awk -F. '{print $NF}'`
+	    do_stop
+	    case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_progress_msg "$SERVERNAME-zs" ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1
+                exit 1
+                ;;
+	    esac
+        done
+        [ "$VERBOSE" != no ] && log_end_msg 0
+	;;
+  status)
+	for rcfile in $SERVERS
+        do
+	    SERVERNAME=`echo $rcfile | sed 's/\//_/g;s/^_*//;' | awk -F. '{print $NF}'`
+            status_of_proc -p "$WORKING_DIR/$SERVERNAME-zs.pid" $DAEMON "$SERVERNAME-zs" || exit $?
+        done
+        exit 0
+        ;;
+  restart|force-reload)
+	$0 stop
+        [ "$?" = "0" ] || exit "$?"
+	sleep 3
+	$0 start
+        ;;       
+  *)
+	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+	exit 3
+	;;
+esac
 
-# Show usage information if this script is invoked with no arguments
-if [ $# -lt 1 ] ; then
-    echo Usage: $0 \(start\|stop\|restart\)
-    exit 1
-fi
-
-# If invoked as stop or restart, kill *all* MaraDNS processes
-if [ $1 = "stop" -o $1 = "restart" ] ; then
-    echo Sending all MaraDNS processes the TERM signal
-    ps -ef | awk '{print $2":"$8}' | grep zoneserver | grep -v $$ | \
-      cut -f1 -d: | xargs kill > /dev/null 2>&1
-    echo waiting 1 second
-    sleep 1
-    echo Sending all MaraDNS processes the KILL signal
-    ps -e | awk '{print $1":"$NF}' | grep zoneserver | grep -v $$ | \
-      cut -f1 -d: | xargs kill -9 > /dev/null 2>&1
-    echo MaraDNS should have been stopped
-fi
-
-# If invoked as start or restart, start the MaraDNS processes
-if [ $1 = "start" -o $1 = "restart" ] ; then
-    echo Starting all zoneserver processes
-    for a in $MARARCS ; do
-        echo Starting zoneserver process which uses Mararc file $a
-	# Duende syslogs MaraDNS' output messages and daemonizes MaraDNS
-        $DUENDE $ZONESERVER -f $a
-    done
-fi
-
+:

@@ -22,11 +22,20 @@ class Component__rpm extends lxDriverClass
 
 	static function getListVersion($syncserver, $list)
 	{
+	/*
 		$comps = array('mysql', 'postgresql', 
 			'httpd', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed',
 			'trafficserver', 'varnish', 'squid',
 			'php', 'perl', 'mono', 'ruby', 
 			'bind', 'djbdns', 'maradns', 'pdns', 'nsd',
+			'qmail-toaster', 'pure-ftpd');
+	*/
+
+		$comps = array('mysql', 'postgresql', 
+			'httpd', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed',
+			'trafficserver', 'varnish', 'squid',
+			'php', 'perl', 'mono', 'ruby', 
+			'bind', 'djbdns', 'pdns', 'nsd',
 			'qmail-toaster', 'pure-ftpd');
 
 		foreach ($comps as $k => $c) {

@@ -179,7 +179,8 @@ class SsessionList extends Ssession
 			if (!$pp) { lunlink("__path_program_root/session/$l"); continue; }
 
 			if (!$parent->isAdmin()) {
-				//$result = $db->getRowsWhere("parent_clname = '" . $parent->getClName() . "'");
+			//	$result = $db->getRowsWhere("parent_clname = '" . $parent->getClName() . "'");
+
 				if ($pp['parent_clname'] !== $parent->getClName()) {
 					continue;
 				}

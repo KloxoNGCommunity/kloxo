@@ -19,14 +19,14 @@ class dns__djbdns extends dns__
 		parent::installMeTrue('djbdns');
 	}
 
-	function createConfFile($action = null)
+	function createConfFile()
 	{
-		parent::createConfFileTrue('djbdns', $action);
+		parent::createConfFileTrue('djbdns');
 	}
 
-	function syncCreateConf($action = null)
+	function syncCreateConf()
 	{
-		parent::syncCreateConfTrue('djbdns', $action);
+		parent::syncCreateConfTrue('djbdns');
 	}
 
 	function createAllowTransferIps()

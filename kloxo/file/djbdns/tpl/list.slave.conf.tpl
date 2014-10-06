@@ -7,44 +7,53 @@
 		$axfr_get = null;
 	}
 
-	$spath = "/opt/configs/dnsslave_tmp";
+	foreach($domains as $k => $v) {
+		$t = explode(':', $v);
 
-	if (!file_exists($spath)) { return; }
-
-	$dirs = glob("{$spath}/*");
+		$d1names[] = $t[0];
+		$d1ips[] = $t[1];
+	}
 
 	$tpath = "/opt/configs/djbdns/conf/slave";
 
-	exec("'rm' -rf {$tpath}/*");
+	$d2files = glob("{$tpath}/*");
 
-	foreach ($dirs as $d) {
-		$c = trim(file_get_contents($d));
-		$d = str_replace("{$spath}/", "", $d);
+	foreach ($d2files as $k => $v) {
+		$d2names[] = str_replace("{$tpath}/", '', $v);
+	}
 
-		touch("{$tpath}/{$d}");
+	$d2olds = array_diff($d2names, $d1names);
+
+	// MR -- delete unwanted files
+	if (!empty($d2olds)) {
+		foreach ($d2olds as $k => $v) {
+			unlink("{$tpath}/{$v}");
+		}
+	}
+
+	foreach ($d1names as $k => $v) {
+		$c = $d1ips[$k];
+
+		touch("{$tpath}/{$v}");
 
 		if ($axfr_get) {
-			exec("tcpclient -v {$c} 53 {$axfr_get} {$d} {$tpath}/{$d} {$tpath}/{$d}.tmp 2>&1");
+			exec("tcpclient -v {$c} 53 {$axfr_get} {$v} {$tpath}/{$v} {$tpath}/{$v}.tmp 2>&1");
 		}
 	}
 
 	$datadir = "/opt/configs/djbdns/tinydns/root";
+	$datafile = "{$datadir}/slave";
 
 	if (!file_exists($datadir)) { return; }
 
-	$datafile = "{$datadir}/slave";
-
-	$dirs = glob("{$tpath}/*");
-
-//	exec("echo '' > {$datafile}");
 	exec("'rm' -f {$datafile}");
 
-	foreach ($dirs as $d) {
-		$n = str_replace("{$datafile}/", "", $d);
-		$e  = "### begin - dns of '{$n}' - do not remove/modify this line\n\n";
-		$e .= file_get_contents($d);
-		$e .= "\n### en - dns of '{$n}' - do not remove/modify this line\n\n";
+	foreach ($d1names as $k => $v) {
+		$c = $d1ips[$k];
+
+		$e  = "### begin - dns of '{$v}' - do not remove/modify this line\n\n";
+		$e .= file_get_contents("{$tpath}/{$v}");
+		$e .= "\n### en - dns of '{$v}' - do not remove/modify this line\n\n";
 
 		exec("echo '{$e}' >> {$datafile}");
 	}
-

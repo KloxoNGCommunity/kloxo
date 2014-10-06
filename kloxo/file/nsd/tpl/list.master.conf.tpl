@@ -1,12 +1,28 @@
 <?php
-	$path = "/opt/configs/nsd/conf/master";
-	$dirs = glob("{$path}/*");
+	$d1names = $domains;
+
+	$tpath = "/opt/configs/nsd/conf/master";
+	$d2files = glob("{$tpath}/*");
+
+	if (empty($d2files)) { return; }
+
+	foreach ($d2files as $k => $v) {
+		$d2names[] = str_replace("{$tpath}/", '', $v);
+	}
+
+	$d2olds = array_diff($d2names, $d1names);
+
+	// MR -- delete unwanted files
+	if (!empty($d2olds)) {
+		foreach ($d2olds as $k => $v) {
+			unlink("{$tpath}/{$v}");
+		}
+	}
 
 	$str = '';
 
-	foreach ($dirs as $k => $v) {
-		$d = str_replace("{$path}/", "", $v);
-		$zone  = "zone:\n    name: {$d}\n    zonefile: master/{$d}\n";
+	foreach ($d1names as $k => $v) {
+		$zone  = "zone:\n    name: {$v}\n    zonefile: master/{$v}\n";
 
 		$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
 

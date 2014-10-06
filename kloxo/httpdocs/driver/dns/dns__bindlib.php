@@ -19,14 +19,14 @@ class dns__bind extends dns__
 		parent::installMeTrue('bind');
 	}
 
-	function createConfFile($action = null)
+	function createConfFile()
 	{
-		parent::createConfFileTrue('bind', $action);
+		parent::createConfFileTrue('bind');
 	}
 
-	function syncCreateConf($action = null)
+	function syncCreateConf()
 	{
-		parent::syncCreateConfTrue('bind', $action);
+		parent::syncCreateConfTrue('bind');
 	}
 
 	function createAllowTransferIps()
@@ -47,7 +47,6 @@ class dns__bind extends dns__
 	function dbactionDelete()
 	{
 		parent::dbactionDeleteTrue('bind');
-		exec("rndc reconfig");
 	}
 
 	function dosyncToSystemPost()

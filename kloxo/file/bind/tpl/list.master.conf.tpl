@@ -8,15 +8,30 @@
 
 	}
 
+	$d1names = $domains;
 
-	$path = "/opt/configs/bind/conf/master";
-	$dirs = glob("{$path}/*");
+	$tpath = "/opt/configs/bind/conf/master";
+	$d2files = glob("{$tpath}/*");
+
+	if (empty($d2files)) { return; }
+
+	foreach ($d2files as $k => $v) {
+		$d2names[] = str_replace("{$tpath}/", '', $v);
+	}
+
+	$d2olds = array_diff($d2names, $d1names);
+
+	// MR -- delete unwanted files
+	if (!empty($d2olds)) {
+		foreach ($d2olds as $k => $v) {
+			unlink("{$tpath}/{$v}");
+		}
+	}
 
 	$str = '';
 
-	foreach ($dirs as $k => $v) {
-		$d = str_replace("{$path}/", "", $v);
-		$zone = "zone \"{$d}\" {\n    type master;\n    file \"master/{$d}\";\n};\n\n";
+	foreach ($d1names as $k => $v) {
+		$zone = "zone \"{$v}\" {\n    type master;\n    file \"master/{$v}\";\n};\n\n";
 		$str .= $zone;
 	}
 
@@ -26,17 +41,5 @@
 
 	if (!file_exists("/etc/rc.d/init.id/named")) { return; }
 
-/*
-	if ($action === 'fix') {
-		if (array_keys($domains)) {
-			foreach ($domains as $k => $v) {
-				exec_with_all_closed("rndc reload {$v}; rndc notify {$v}");
-			}
-		} else {
-			exec_with_all_closed("rndc reconfig");
-		}
-	} elseif ($action === 'update') {
-		exec_with_all_closed("rndc reload {$domain}; rndc notify {$domain}");
-	}
-*/
-	createRestartFile("restart-dns");
+//	createRestartFile("restart-dns");
+	exec_with_all_closed("rndc reload");

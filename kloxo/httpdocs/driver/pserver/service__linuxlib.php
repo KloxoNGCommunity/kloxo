@@ -38,7 +38,7 @@ class Service__Linux extends Lxlclass
 
 		$nval['named'] = 'named';
 		$nval['djbdns'] = "tinydns";
-		$nval['maradns'] = "maradns";
+	//	$nval['maradns'] = "maradns";
 	//	$nval['powerdns'] = "powerdns";
 		$nval['pdns'] = "pdns";
 		$nval['nsd'] = "nsd";

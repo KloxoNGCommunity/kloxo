@@ -2,7 +2,7 @@
 $gl_class_array['dns__bind'] =  "driver/dns/dns__bindlib.php";
 $gl_class_array['dns__djbdns'] =  "driver/dns/dns__djbdnslib.php";
 $gl_class_array['dns__pdns'] =  "driver/dns/dns__pdnslib.php";
-$gl_class_array['dns__maradns'] =  "driver/dns/dns__maradnslib.php";
+//--// $gl_class_array['dns__maradns'] =  "driver/dns/dns__maradnslib.php";
 $gl_class_array['dns__nsd'] =  "driver/dns/dns__nsdlib.php";
 $gl_class_array['dns__none'] =  "driver/dns/dns__nonelib.php";
 //--// $gl_class_array['dns__msdns'] =  "driver/dns/dns__msdnslib.php";

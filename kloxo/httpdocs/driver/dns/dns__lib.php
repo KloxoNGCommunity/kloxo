@@ -22,7 +22,7 @@ class dns__ extends lxDriverClass
 
 		if ($driver === 'maradns') {
 			$a = array('', '.deadwood', '.zoneserver');
-			
+
 			foreach ($a as $k => $v) {
 				exec("service {$driveralias}{$v} stop");
 				lunlink("/etc/init.d/{$driveralias}{$v}");
@@ -87,20 +87,18 @@ class dns__ extends lxDriverClass
 		return slave_get_driver('dns');
 	}
 
-	function createConfFileTrue($drivertype, $action = null)
+	function createConfFileTrue($drivertype)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		$this->syncAddFileTrue($drivertype, $this->main->nname);
 
-		$this->syncAddFileTrue($drivertype, $this->main->nname, $action);
-	
 		foreach ((array)$this->main->__var_addonlist as $d) {
-			$this->syncAddFileTrue($drivertype, $d->nname, $action);
+			$this->syncAddFileTrue($drivertype, $d->nname);
 		}
 	}
 
-	function syncAddFileTrue($drivertype, $domainname, $action = null)
+	function syncAddFileTrue($drivertype, $domainname)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $sgbl;
 
 		$input = array();
 
@@ -115,39 +113,29 @@ class dns__ extends lxDriverClass
 		// MR -- not work and not implementing yet!
 	//	$input['account'] = $this->parent->getRealClientParentO()->getPathFromName();
 
-		if ($action) {
-			$input['action'] = $action;
-		}
+		$input['rootpass'] = slave_get_db_pass();
 
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $k => $v) {
+			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "domains.conf.tpl");
+			$tpltarget = "/opt/configs/{$v}/conf/master/" . $input['domainname'];
+
+			$tpl = file_get_contents($tplsource);
+
 			if ($v !== 'pdns') {
-				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "domains.conf.tpl");
-				$tpltarget = "/opt/configs/{$v}/conf/master/" . $input['domainname'];
-
-				$tpl = file_get_contents($tplsource);
-
 				$tplparse = getParseInlinePhp($tpl, $input);
 
 				file_put_contents($tpltarget, $tplparse);
 			} else {
-				if (!isset($input['action'])) {
-					$input['action'] = 'add';
-				}
-
-				self::setPdnsSpecific($input);
+				getParseInlinePhp($tpl, $input);
 			}
 		}
 	}
 
-	function syncCreateConfTrue($drivertype, $action = null)
+	function syncCreateConfTrue($drivertype)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		$input = array();
-
-		$input['action'] = $action;
 
 		$ip_dns = $this->getIps();
 		$ip_hostname = array(gethostbyname(php_uname('n')));
@@ -156,47 +144,35 @@ class dns__ extends lxDriverClass
 
 		$domains = array();
 
-		if ($action === 'fix') {
-			$domains[] = $this->main->nname;
-	
-			foreach ((array)$this->main->__var_addonlist as $d) {
-				$domains[] = $d->nname;
-			}
+		$domains[] = $this->main->nname;
 
-			$input['domains'] = $domains;
-		} elseif ($action === 'update') {
-			$input['domain'] = $this->main->nname;
+		foreach ((array)$this->main->__var_addonlist as $d) {
+			$domains[] = $d->nname;
 		}
+
+		$input['rootpass'] = slave_get_db_pass();
 
 		$dnsdrvlist = getAllDnsDriverList();
 
-		foreach ($dnsdrvlist as $k => $v) {
-			if ($v !== 'pdns') {
-				// MR -- for master
+		foreach ($domains as $d) {
+			$input['domain'] = $d;
+
+			foreach ($dnsdrvlist as $k => $v) {
+				$input['domains'] = $this->getMasterList();
 				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.master.conf.tpl");
-
 				$tpl = file_get_contents($tplsource);
+				getParseInlinePhp($tpl, $input);
 
-				$tplparse = getParseInlinePhp($tpl, $input);
-
-				// MR -- no action for file_put_contents
-
-				// MR -- for slave
+				$input['domains'] = $this->getSlaveList();
 				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.slave.conf.tpl");
-
 				$tpl = file_get_contents($tplsource);
-
-				$tplparse = getParseInlinePhp($tpl, $input);
-
-				// MR -- no action for file_put_contents
+				getParseInlinePhp($tpl, $input);
 			}
 		}
 	}
 
 	function createAllowTransferIpsTrue($drivertype)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		$input = array();
 
 		$ip_dns = $this->getIps();
@@ -204,18 +180,16 @@ class dns__ extends lxDriverClass
 		// MR -- IP list without hostname IP
 		$input['ips'] = array_diff($ip_dns, $ip_hostname);
 
+		$input['rootpass'] = slave_get_db_pass();
+
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $k => $v) {
-			if ($v !== 'pdns') {
-				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.transfered.conf.tpl");
+			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.transfered.conf.tpl");
 
-				$tpl = file_get_contents($tplsource);
+			$tpl = file_get_contents($tplsource);
 
-				$tplparse = getParseInlinePhp($tpl, $input);
-
-				// MR -- no action for file_put_contents
-			}
+			getParseInlinePhp($tpl, $input);
 		}
 	}
 
@@ -223,44 +197,56 @@ class dns__ extends lxDriverClass
 	{
 		$nobase = true;
 
-		$iplist = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($nobase));
+		$ret = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($nobase));
 
-		return $iplist;
+		return $ret;
+	}
+
+	function getMasterList()
+	{
+		$ret = rl_exec_get('localhost', 'localhost', 'getDnsMasters');
+
+		return $ret;
+	}
+
+	function getSlaveList()
+	{
+		$ret = rl_exec_get('localhost', 'localhost', 'getDnsSlaves');
+
+		return $ret;
 	}
 
 	function dbactionAddTrue($drivertype)
 	{
-		$this->createConfFileTrue($drivertype, 'add');
+		$this->createConfFileTrue($drivertype);
 		$this->createAllowTransferIpsTrue($drivertype);
 		$this->syncCreateConfTrue($drivertype);
 	}
 
 	function dbactionUpdateTrue($drivertype, $subaction)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		switch ($subaction) {
 			case "allowed_transfer":
-				$this->createAllowTransferIpsTrue($drivertype, 'update');
+				$this->createAllowTransferIpsTrue($drivertype);
 
 				break;
 			case "synchronize":
-				$this->syncCreateConfTrue($drivertype, 'update');
+				$this->syncCreateConfTrue($drivertype);
 
 				break;
 			case "synchronize_fix":
-				$this->syncCreateConfTrue($drivertype, 'fix');
+				$this->syncCreateConfTrue($drivertype);
 
 				break;
 			case "domain":
-				$this->createConfFileTrue($drivertype, 'update');
+				$this->createConfFileTrue($drivertype);
 
 				break;
 			case "full_update":
 			default:
-				$this->createConfFileTrue($drivertype, 'update');
+				$this->createConfFileTrue($drivertype);
 				$this->createAllowTransferIpsTrue($drivertype);
-				$this->syncCreateConfTrue($drivertype, 'update');
+				$this->syncCreateConfTrue($drivertype);
 
 				break;
 		}
@@ -268,74 +254,16 @@ class dns__ extends lxDriverClass
 
 	function dbactionDeleteTrue($drivertype)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$domainname = $this->main->nname;
-
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $k => $v) {
-			if ($v !== 'pdns') {
-				$dnsfile = "/opt/configs/{$v}/conf/master/{$domainname}";
-				unlink($dnsfile);
-
-				foreach ((array)$this->main->__var_addonlist as $d) {
-					$addondomain = $d->nname;
-					$dnsfile = "/opt/configs/{$v}/conf/master/{$addondomain}";
-					unlink($dnsfile);
-				}
-
-				$this->createAllowTransferIpsTrue($v);
-				$this->syncCreateConfTrue($v);
-			} else {
-				$input = array();
-
-				$input['domainname'] = $domainname;
-
-				$input['action'] = 'delete';
-
-				self::setPdnsSpecific($input);
-
-				foreach ((array)$this->main->__var_addonlist as $d) {
-					$input = array();
-
-					$input['domainname'] = $d->nname;
-
-					$nameserver = null;
-
-					foreach($this->main->dns_record_a as $dns) {
-						if ($dns->ttype === "ns") {
-							if (!$nameserver) {
-								$nameserver = $dns->param;
-							}
-						}
-					}
-
-					if ($this->main->soanameserver) {
-						$nameserver = $this->main->soanameserver;
-					}
-
-					$input['nameserver'] = $nameserver;
-
-					self::setPdnsSpecific($input);
-				}
-			}
+			$this->createAllowTransferIpsTrue($v);
+			$this->syncCreateConfTrue($v);
 		}
 	}
 
 	function dosyncToSystemPostTrue($drivertype)
 	{
 		// MR -- no need action
-	}
-
-	static function setPdnsSpecific($input)
-	{
-		$input['rootpass'] = slave_get_db_pass();
-
-		$tplsource = getLinkCustomfile("/opt/configs/pdns/tpl", "domains.conf.tpl");
-
-		$tpl = file_get_contents($tplsource);
-
-		$tplparse = getParseInlinePhp($tpl, $input);
 	}
 }
