@@ -6,6 +6,7 @@ $gl_class_array['dns__pdns'] =  "driver/dns/dns__pdnslib.php";
 $gl_class_array['dns__nsd'] =  "driver/dns/dns__nsdlib.php";
 $gl_class_array['dns__none'] =  "driver/dns/dns__nonelib.php";
 //--// $gl_class_array['dns__msdns'] =  "driver/dns/dns__msdnslib.php";
+$gl_class_array['dns__mydns'] =  "driver/dns/dns__mydnslib.php";
 
 $gl_class_array['anonftpipaddress__pureftp'] =  "driver/ftp/anonftpipaddress__pureftplib.php";
 $gl_class_array['service__linux'] =  "driver/pserver/service__linuxlib.php";

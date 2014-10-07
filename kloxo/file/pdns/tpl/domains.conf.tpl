@@ -74,10 +74,12 @@ foreach($dns_records as $k => $o) {
 
 			break;
 		case "mx":
-			$v = $o->priority;
+			$key = $domainname;
+			$value = $o->param;
+			$prio = $o->priority;
 
 			$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-				"VALUES ('{$domain_id}', '{$domainname}', '{$o->param}', 'MX', '{$ttl}', '{$v}');");
+				"VALUES ('{$domain_id}', '{$key}', '{$value}', 'MX', '{$ttl}', '{$prio}');");
 
 			break;
 		case "a":

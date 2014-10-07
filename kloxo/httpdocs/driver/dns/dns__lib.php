@@ -50,7 +50,10 @@ class dns__ extends lxDriverClass
 			setRpmInstalled("{$driver}-backend-mysql");
 			setRpmInstalled("{$driver}-tools");
 			setRpmInstalled("{$driver}-geo");
+		} elseif ($driver === 'mydns') {
+			setRpmInstalled("{$driver}-mysql");
 		}
+
 
 		$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");
 

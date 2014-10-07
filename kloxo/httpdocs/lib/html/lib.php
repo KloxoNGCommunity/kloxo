@@ -508,6 +508,64 @@ function PreparePowerdnsDb($nolog = null)
 	file_put_contents($tfile, $content);
 }
 
+function PrepareMyDnsDb($nolog = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	log_cleanup("Preparing MyDns database", $nolog);
+
+	$pass = slave_get_db_pass();
+	$user = "root";
+	$host = "localhost";
+
+	$link = new mysqli($host, $user, $pass);
+
+	if (!$link) {
+		log_cleanup("- Mysql root password incorrect", $nolog);
+
+		exit;
+	}
+
+	$pstring = null;
+
+	if ($pass) {
+		$pstring = "-p\"$pass\"";
+	}
+
+	log_cleanup("- Fixing MySQL commands in import files", $nolog);
+
+	$mydnspath = "/opt/configs/mydns";
+
+	exec(" mysqladmin -u root $pstring create mydns 2>&1");
+
+	$sfile = getLinkCustomfile("{$mydnspath}/etc/conf", "mydns.conf");
+	$tfile = "/etc/mydns.conf";
+
+	$content = file_get_contents($sfile);
+
+	log_cleanup("- Generating password", $nolog);
+	$pass = randomString(8);
+
+	$result = $link->query("GRANT ALL ON mydns.* TO mydns@localhost IDENTIFIED BY '{$pass}'");
+	$link->query("flush privileges");
+
+	$content = str_replace("db-password = mydns", "db-password = {$pass}", $content);
+
+	log_cleanup("- Add Password to configuration file", $nolog);
+
+	file_put_contents($tfile, $content);
+
+	if (file_exists("/opt/mydns/usr/sbin/mydns-mysql")) {
+		$mydns = "/opt/mydns/usr/sbin/mydns-mysql";
+	} elseif (file_exists("/usr/sbin/mydns-mysql")) {
+		$mydns = "/usr/sbin/mydns-mysql";
+	}
+
+	if ($mydns) {
+		exec("{$mydns} --create-tables | mysql -u mydns -p'{$pass}'");
+	}
+}
+
 function PrepareRoundCubeDb($nolog = null)
 {
 	// MR -- because Roundcube use rpm on Kloxo-MR,
@@ -5681,6 +5739,8 @@ function setInitialDnsConfig($type, $nolog = null)
 
 	if ($type === 'pdns') {
 		PreparePowerdnsDb($nolog);
+	} elseif ($type === 'mydns') {
+		PrepareMydnsDb($nolog);
 	} else {
 		$newlist = array("defaults", "master", "slave", "reverse");
 
@@ -6541,6 +6601,9 @@ function removeOtherDrivers($class = null, $nolog = null)
 
 		if ($otherlist) {
 			foreach ($otherlist as $o) {
+				// MR -- TODO: need better code for web proxy
+				if (strpos($o, 'proxy') !== false) { continue; }
+
 				if (class_exists("{$k}__{$o}")) {
 					if ($o === 'hiawatha') {
 						exec_with_all_closed("chkconfig hiawatha off; /etc/init.d/hiawatha stop");
@@ -6555,17 +6618,17 @@ function removeOtherDrivers($class = null, $nolog = null)
 	}
 }
 
-function removeWebOtherDriver($nolog = null)
+function removeWebOtherDrivers($nolog = null)
 {
 	removeOtherDrivers($class = 'web', $nolog = 'true');
 }
 
-function removeWebCacheOtherDriver($nolog = null)
+function removeWebCacheOtherDrivers($nolog = null)
 {
 	removeOtherDrivers($class = 'webcache', $nolog = 'true');
 }
 
-function removeDnsOtherDriver($nolog = null)
+function removeDnsOtherDrivers($nolog = null)
 {
 	removeOtherDrivers($class = 'dns', $nolog = 'true');
 }
@@ -7194,7 +7257,11 @@ function updatecleanup($nolog = null)
 
 	setSomeScript($nolog);
 
-	removeOtherDrivers($class = null, $nolog);
+	// MR -- disabled for awhile
+//	removeOtherDrivers($class = null, $nolog);
+//	removeWebcacheOtherDrivers($class = null, $nolog);
+//	removeWebOtherDrivers($class = null, $nolog);
+//	removeDnsOtherDrivers($class = null, $nolog);
 
 	log_cleanup("Remove cache dir", $nolog);
 	log_cleanup("- Remove process", $nolog);
@@ -7239,6 +7306,7 @@ function setInitialServices($nolog = null)
 //	setInitialDnsConfig('maradns', $nolog);
 	setInitialDnsConfig('pdns', $nolog);
 	setInitialDnsConfig('nsd', $nolog);
+	setInitialDnsConfig('mydns', $nolog);
 
 	setInitialWebConfig('apache', $nolog);
 	setWebDriverChownChmod('apache', $nolog);

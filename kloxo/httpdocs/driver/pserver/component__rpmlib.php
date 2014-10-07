@@ -35,7 +35,7 @@ class Component__rpm extends lxDriverClass
 			'httpd', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed',
 			'trafficserver', 'varnish', 'squid',
 			'php', 'perl', 'mono', 'ruby', 
-			'bind', 'djbdns', 'pdns', 'nsd',
+			'bind', 'djbdns', 'pdns', 'nsd', 'mydns',
 			'qmail-toaster', 'pure-ftpd');
 
 		foreach ($comps as $k => $c) {
