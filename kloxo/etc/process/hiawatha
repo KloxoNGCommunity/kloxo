@@ -8,5 +8,5 @@ if [ "$(grep 'hiawatha' /usr/local/lxlabs/kloxo/etc/slavedb/driver)" == "" ] ; t
 	fi
 else
 	chkconfig hiawatha on
-	/etc/init.d/hiawatha condrestart
+	/etc/init.d/hiawatha restart
 fi
