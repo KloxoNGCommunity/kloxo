@@ -17,10 +17,14 @@ foreach ($confs as $k => $v) {
 	}
 }
 
-if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
-	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-} else {
-	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
+$confs = array('~lxcenter.conf', 'default.conf');
+
+foreach ($confs as $k => $v) {
+	if (file_exists("{$srcconfdpath}/custom.{$v}")) {
+		copy("{$srcconfdpath}/custom.{$v}", "{$trgtconfdpath}/{$v}");
+	} else {
+		copy("{$srcconfdpath}/{$v}", "{$trgtconfdpath}/{$v}");
+	}
 }
 
 foreach ($certnamelist as $ip => $certname) {
