@@ -95,7 +95,7 @@ case "$1" in
 		fi
 		;;
 	*)
-	echo -n "Usage: %s {start|stop|status|restart|reload|condrestart}\n" "$0"
+	echo $"Usage: hiawatha {start|stop|status|restart|reload|condrestart}"
 	exit 1
 esac
 

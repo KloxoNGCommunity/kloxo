@@ -10,14 +10,14 @@ class ftpuser__pureftp extends lxDriverClass
 		$dir = expand_real_root($dir);
 		$pass = $this->main->realpass;
 
-		if (!$pass) { $pass = randomString(8); }
-
-		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $this->main->nname, "-u", $this->main->__var_username, "-d",  $dir, "-m");
-
 		if (!lxfile_exists($dir)) {
 			lxfile_mkdir($dir);
 			lxfile_unix_chown($dir, $this->main->__var_username);
 		}
+
+		if (!$pass) { $pass = randomString(8); }
+
+		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $this->main->nname, "-u", $this->main->__var_username, "-d",  $dir, "-m");
 
 		$this->setQuota();
 
@@ -34,28 +34,37 @@ class ftpuser__pureftp extends lxDriverClass
 		$dir = expand_real_root($dir);
 		$pass = $this->main->realpass;
 
-		if (!$pass) { $pass = randomString(8); }
-
-		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $this->main->nname, "-u", $this->main->__var_username, "-d",  $dir);
+		$nname = $this->main->nname;
+		$username = $this->main->__var_username;
 
 		if (!lxfile_exists($dir)) {
 			lxfile_mkdir($dir);
-			lxfile_unix_chown($dir, $this->main->__var_username);
+			lxfile_unix_chown($dir, $username);
 		}
+
+		if (!$pass) { $pass = randomString(8); }
+
+//		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $nname, "-u", $username, "-d",  $dir);
 
 		if ($this->main->ftp_disk_usage > 0) {
 			$q  = "-N {$this->main->ftp_disk_usage}";
+			$q2 = $this->main->ftp_disk_usage;
 		} else {
 			$q = "-N ''";
+			$q2 = "";
 		}
 
 		if ($this->main->isOn('status')) {
 			$z = "-z 0000-2359";
+			$z2 = "0000-2359";
 		} else {
 			$z = "-z 0000-0000";
+			$z2 = "0000-0000";
 		}
 
-		exec("pure-pw usermod {$this->main->nname} {$q} {z}");
+//		exec("pure-pw usermod {$nname} {$q} {z}");
+
+		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $nname, "-u", $username, "-d",  $dir, "-N", $q2, "-z", $z2);
 	}
 
 	function dbactionDelete()

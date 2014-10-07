@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "*** Process for QMAIL service ***"
 qmailctl stop
 sleep 2
 qmailctl start

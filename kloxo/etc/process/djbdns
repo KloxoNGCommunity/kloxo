@@ -1,9 +1,19 @@
 #!/bin/sh
 
-/etc/init.d/djbdns restart
+echo "*** Process for DJBDNS service ***"
 
-echo "* Also execute: dnsnotify"
+if [ ! -f /var/run/djbdns.pid ] ; then
+	if [ -f /var/lock/subsys/djbdns ] ; then
+		'rm' -f /var/lock/subsys/djbdns
+	fi
 
+	/etc/rc.d/init.d/djbdns start
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process: dnsnotify"
 for i in $(ls /opt/configs/djbdns/conf/master) ; do
 	sh /script/dnsnotify ${i}
 done
+

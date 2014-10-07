@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "*** Process for HIAWATHA service ***"
+
 ## tricky detect if hiawatha as web server
 if [ "$(grep 'hiawatha' /usr/local/lxlabs/kloxo/etc/slavedb/driver)" == "" ] ; then
 	chkconfig hiawatha off

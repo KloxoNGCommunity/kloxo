@@ -10,6 +10,8 @@ for item in ${list[*]} ; do
 					/etc/init.d/${item} restart
 				fi
 
+				echo "-------------------------------------------------------------------"
+
 				break
 			fi
 		done

@@ -1,3 +1,16 @@
 #!/bin/sh
 
-/etc/init.d/named force-reload
+echo "*** Process for BIND service ***"
+
+if [ ! -f /var/run/named.pid ] ; then
+	if [ -f /var/lock/subsys/named ] ; then
+		'rm' -f /var/lock/subsys/named
+	fi
+
+	/etc/rc.d/init.d/named start
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process with 'rndc': reload"
+rndc reload

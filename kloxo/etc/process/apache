@@ -1,3 +1,16 @@
 #!/bin/sh
 
-/etc/init.d/httpd restart
+echo "*** Process for HTTPD service ***"
+
+if [ ! -f /var/run/httpd.pid ] ; then
+	if [ -f /var/lock/subsys/httpd ] ; then
+		'rm' -f /var/lock/subsys/httpd
+	fi
+
+	/etc/rc.d/init.d/httpd start
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process with 'apachectl': graceful"
+apachectl graceful

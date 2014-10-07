@@ -1,14 +1,26 @@
 #!/bin/sh
 
-## MR -- exists
-if [ -f /var/lock/subsys/nsd ] ; then
-	'rm' -f /var/lock/subsys/nsd
+echo "*** Process for NSD service ***"
+
+if [ ! -f /var/run/nsd/nsd.pid ] ; then
+	if [ -f /var/lock/subsys/nsd ] ; then
+		'rm' -f /var/lock/subsys/nsd
+	fi
+
+	/etc/rc.d/init.d/nsd start
+else
+	echo "  - No need started"
 fi
 
-/etc/rc.d/init.d/nsd restart
-
-echo "* Also process: transfer + write + reload + notify"
-for i in transfer write reload notify ; do
-	nsd-control ${i} >/dev/null 2>&1
-done
+if [ -f /usr/sbin/nsd-control ] ; then
+	echo "  - Process with 'nsd-control': transfer + write + reload + notify"
+	for i in transfer write reload notify ; do
+		nsd-control ${i} >/dev/null 2>&1
+	done
+else
+	echo "  - Process with 'nsdc': update + rebuild + reload + notify"
+	for i in transfer rebuild reload notify ; do
+		nsdc ${i} >/dev/null 2>&1
+	done
+fi
 
