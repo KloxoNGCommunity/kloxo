@@ -6,9 +6,21 @@ echo "*** Process for HIAWATHA service ***"
 if [ "$(grep 'hiawatha' /usr/local/lxlabs/kloxo/etc/slavedb/driver)" == "" ] ; then
 	chkconfig hiawatha off
 	if [ "$(service hiawatha status|grep '(pid')" == "" ] ; then
-	/etc/init.d/hiawatha stop
+		/etc/init.d/hiawatha stop >/dev/null 2>&1
 	fi
 else
 	chkconfig hiawatha on
-	/etc/init.d/hiawatha restart
 fi
+
+if [ ! -f /var/run/hiawatha.pid ] ; then
+	if [ -f /var/lock/subsys/hiawatha ] ; then
+		'rm' -f /var/lock/subsys/hiawatha
+	fi
+
+	/etc/rc.d/init.d/hiawatha start
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process: reload"
+/etc/rc.d/init.d/hiawatha reload

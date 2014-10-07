@@ -14,3 +14,4 @@ fi
 
 echo "  - Process with 'apachectl': graceful"
 apachectl graceful
+echo "No message for graceful"
