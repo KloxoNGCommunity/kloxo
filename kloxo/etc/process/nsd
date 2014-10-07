@@ -1,9 +1,14 @@
 #!/bin/sh
 
+## MR -- exists
+if [ -f /var/lock/subsys/nsd ] ; then
+	'rm' -f /var/lock/subsys/nsd
+fi
+
 /etc/rc.d/init.d/nsd restart
 
-echo "* Also execute: transfer + write + reload + notify"
-
+echo "* Also process: transfer + write + reload + notify"
 for i in transfer write reload notify ; do
 	nsd-control ${i} >/dev/null 2>&1
 done
+

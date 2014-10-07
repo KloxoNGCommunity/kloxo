@@ -1,4 +1,6 @@
 <?php
+	exec("chown -R nsd:nsd /var/lib/nsd");
+
 	$file = "/opt/configs/nsd/conf/defaults/nsd.acl.conf";
 
 	$text = '';

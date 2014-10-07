@@ -34,14 +34,14 @@ fi
 
 if rpm -qa|grep php52s >/dev/null 2>&1 ; then
 	yum remove php52s -y
-	sh /script/php53s-installer
+	sh /script/phpm-installer php53s
 fi
 
 if rpm -qa|grep php53s >/dev/null 2>&1 ; then
 	yum remove php53s* -y
 	rpm -e php53s-fpm --noscript
 
-	sh /script/php53s-installer
+	sh /script/phpm-installer php53s
 fi
 
 if rpm -qa|grep mysql55 >/dev/null 2>&1 ; then

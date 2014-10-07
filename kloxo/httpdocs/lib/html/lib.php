@@ -7489,9 +7489,9 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 	$pathdrv = "/opt/configs/{$dnsdriver}";
 	$pathetc = "/etc";
 
-	log_cleanup("Copy all contents of $dnsdriver", $nolog);
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
 
-	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
 	exec("'cp' -rf {$pathsrc} /opt/configs");
 
 	if ($aliasdriver === 'djbdns') {
@@ -7500,9 +7500,10 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 		}
 /*
 	} elseif ($aliasdriver === 'maradns') {
-		$t = getLinkCustomfile($pathdrv . "/etc", "mararc");
+		$s = "mararc";
+		$t = getLinkCustomfile($pathdrv . "/etc", $s);
 
-		log_cleanup("- Copy {$t} to {$pathetc}/mararc", $nolog);
+		log_cleanup("- Copy etc/{$s} to {$pathetc}/mararc", $nolog);
 		lxfile_cp($t, "{$pathetc}/mararc");
 */
 	} elseif ($aliasdriver === 'named') {
@@ -7511,21 +7512,24 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 		$a = array($aliasdriver, 'rndc');
 
 		foreach ($a as $k => $v) {
-			$t = getLinkCustomfile($pathdrv . "/etc", "{$v}.conf");
+			$s = "{$v}.conf";
+			$t = getLinkCustomfile($pathdrv . "/etc", $s);
 
-			log_cleanup("- Copy {$t} to {$pathtarget}/{$v}.conf", $nolog);
+			log_cleanup("- Copy etc/{$s} to {$pathtarget}/{$v}.conf", $nolog);
 			lxfile_cp($t, "{$pathtarget}/{$v}.conf");
 		}
 	} elseif ($aliasdriver === 'nsd') {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
 		if (file_exists("/usr/sbin/nsd-control")) {
-			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}4.conf");
+			$s = "{$aliasdriver}4.conf";
+			$t = getLinkCustomfile($pathdrv . "/etc/conf", $s);
 		} else {
-			$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}3.conf");
+			$s = "{$aliasdriver}3.conf";
+			$t = getLinkCustomfile($pathdrv . "/etc/conf", $s);
 		}
 
-		log_cleanup("- Copy {$t} to {$pathtarget}/{$aliasdriver}.conf", $nolog);
+		log_cleanup("- Copy etc/conf/{$s} to {$pathtarget}/{$aliasdriver}.conf", $nolog);
 		lxfile_cp($t, "{$pathtarget}/{$aliasdriver}.conf");
 
 	} else {
@@ -7533,9 +7537,10 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 
 		exec("mkdir -p {$pathtarget}");
 
-		$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}.conf");
+		$s = "{$aliasdriver}.conf";
+		$t = getLinkCustomfile($pathdrv . "/etc/conf", $s);
 
-		log_cleanup("- Copy {$t} to {$pathtarget}/{$aliasdriver}.conf", $nolog);
+		log_cleanup("- Copy etc/conf/{$s} to {$pathtarget}/{$aliasdriver}.conf", $nolog);
 		lxfile_cp($t, "{$pathtarget}/{$aliasdriver}.conf");
 	}
 }
@@ -7550,9 +7555,9 @@ function setCopyWebCacheConfFiles($webcachedriver, $nolog = null)
 	$pathdrv = "/opt/configs/{$webcachedriver}";
 	$pathetc = "/etc";
 
-	log_cleanup("Copy all contents of $webcachedriver", $nolog);
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
 
-	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
 	exec("'cp' -rf {$pathsrc} /opt/configs");
 
 	$pathconf = "{$pathetc}/{$webcachedriver}";
@@ -7600,9 +7605,9 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	$pathconfd = "{$pathetc}/conf.d";
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
 
-	log_cleanup("Copy all contents of {$webdriver}", $nolog);
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
 
-	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
 	exec("'cp' -rf {$pathsrc} /opt/configs");
 
 	if ($webdriver !== 'hiawatha') {
@@ -7628,9 +7633,10 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 		}
 	}
 
-	$t = getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}{$addition}.conf");
+	$s = "{$aliasdriver}{$addition}.conf";
+	$t = getLinkCustomfile($pathdrv . "/etc/conf", $s);
 
-	log_cleanup("- Copy {$t} to {$pathconf}/{$aliasdriver}.conf", $nolog);
+	log_cleanup("- Copy etc/conf/{$s} to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
 
 	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default", "define");
@@ -7638,10 +7644,11 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	foreach ($confs as &$c) {
 		/*
 			// MR -- move this process to defaults.conf.tpl
-			$t = getLinkCustomfile($pathdrv . "/etc/conf.d", "{$c}.conf");
+			$s = "{$c}.conf";
+			$t = getLinkCustomfile($pathdrv . "/etc/conf.d", $s);
 
 			if (file_exists($t)) {
-				log_cleanup("- Copy {$t} to {$pathconfd}/{$c}.conf", $nolog);
+				log_cleanup("- Copy /etc/conf.d/{$s} to {$pathconfd}/{$c}.conf", $nolog);
 				lxfile_cp($t, "{$pathconfd}/{$c}.conf");
 			}
 		*/
@@ -7669,9 +7676,9 @@ function setCopyOpenSSLConfFiles()
 	$pathsrc = "/usr/local/lxlabs/kloxo/file/openssl";
 	$pathdrv = "/opt/configs/openssl";
 
-	log_cleanup("Copy all contents of openssl", $nolog);
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
 
-	log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
 	exec("'cp' -rf {$pathsrc} /opt/configs");
 
 	if (file_exists("/home/openssl")) {

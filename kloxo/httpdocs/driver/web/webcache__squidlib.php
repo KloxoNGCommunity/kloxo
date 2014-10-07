@@ -28,9 +28,9 @@ class webcache__squid extends webcache__
 		$pathdrv = "/opt/configs/squid";
 		$pathetc = "/etc";
 
-		log_cleanup("Copy all contents of 'squid'", $nolog);
+		log_cleanup("Copy all contents of 'squid' (from '{$pathsrc}')", $nolog);
 
-		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+		log_cleanup("- Copy to {$pathdrv}", $nolog);
 		exec("'cp' -rf {$pathsrc} /opt/configs");
 
 	//	if (!file_exists("/etc/squid")) { return; }

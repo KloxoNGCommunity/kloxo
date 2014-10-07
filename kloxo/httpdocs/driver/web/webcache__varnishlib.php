@@ -28,9 +28,9 @@ class webcache__varnish extends webcache__
 		$pathdrv = "/opt/configs/varnish";
 		$pathetc = "/etc";
 
-		log_cleanup("Copy all contents of 'varnish'", $nolog);
+		log_cleanup("Copy all contents of 'varnish' (from '{$pathsrc}')", $nolog);
 
-		log_cleanup("- Copy {$pathsrc} to {$pathdrv}", $nolog);
+		log_cleanup("- Copy to {$pathdrv}", $nolog);
 		exec("'cp' -rf {$pathsrc} /opt/configs");
 
 	//	if (!file_exists("/etc/varnish")) { return; }
