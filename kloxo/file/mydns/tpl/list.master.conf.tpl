@@ -2,7 +2,7 @@
 
 	$d1names = $domains;
 
-	$conn = new mysqli('localhost', 'root', $rootpass, 'powerdns');
+	$conn = new mysqli('localhost', 'root', $rootpass, 'mydns');
 
 	if ($query = $conn->query("SELECT * FROM soa WHERE origin='*';")) {
 		while ($row = $query->fetch_object()) {

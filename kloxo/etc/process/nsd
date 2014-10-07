@@ -1,3 +1,9 @@
-# /etc/init.d/nsd reload
+#!/bin/sh
 
-/etc/init.d/nsd restart
+/etc/rc.d/init.d/nsd restart
+
+echo "* Also execute: transfer + write + reload + notify"
+
+for i in transfer write reload notify ; do
+	nsd-control ${i} >/dev/null 2>&1
+done

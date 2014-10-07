@@ -1,0 +1,5 @@
+#!/bin/sh
+
+qmailctl stop
+sleep 2
+qmailctl start

@@ -1,3 +1,9 @@
-# /etc/init.d/djbdns reload
+#!/bin/sh
 
 /etc/init.d/djbdns restart
+
+echo "* Also execute: dnsnotify"
+
+for i in $(ls /opt/configs/djbdns/conf/master) ; do
+	sh /script/dnsnotify ${i}
+done

@@ -1,3 +1,3 @@
-# /etc/init.d/named force-reload
+#!/bin/sh
 
-/etc/init.d/named restart
+/etc/init.d/named force-reload

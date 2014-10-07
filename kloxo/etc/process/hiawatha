@@ -1,0 +1,12 @@
+#!/bin/sh
+
+## tricky detect if hiawatha as web server
+if [ "$(grep 'hiawatha' /usr/local/lxlabs/kloxo/etc/slavedb/driver)" == "" ] ; then
+	chkconfig hiawatha off
+	if [ "$(service hiawatha status|grep '(pid')" == "" ] ; then
+	/etc/init.d/hiawatha stop
+	fi
+else
+	chkconfig hiawatha on
+	/etc/init.d/hiawatha condrestart
+fi
