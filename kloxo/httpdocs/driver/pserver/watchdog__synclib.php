@@ -4,8 +4,6 @@ class watchdog__sync extends Lxdriverclass {
 
 	static function watchRun()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		if (lx_core_lock_check_only("scavenge.php", "scavenge.php.pid")) {
 			log_log("watchdog", "scavenge is running");
 			dprint("Savenge is running\n");
@@ -30,6 +28,7 @@ class watchdog__sync extends Lxdriverclass {
 			}
 
 			if (csb($l['action'], "__driver_")) {
+			/*
 				$class = strfrom($l['action'], "__driver_");
 				$driverapp = slave_get_driver($class);
 
@@ -56,13 +55,18 @@ class watchdog__sync extends Lxdriverclass {
 				}
 
 				$action = "{$a[0]} restart";
+			*/
+				$action = str_replace("__driver_", "sh /script/restart-", $l['action']) . " >/dev/null 2>&1";
+			} elseif (csb($l['action'], "restart-")) {
+				$action = "sh /script/" . $l['action'] . " >/dev/null 2>&1";
 			} else {
 				$action = $l['action'];
-				exec_with_all_closed("$action >/dev/null 2>&1");
+				exec_with_all_closed("{$action} >/dev/null 2>&1");
 			}
+			
 
 			log_log("watchdog", "$action executed for port {$l['port']}");
-			send_system_monitor_message_to_admin("Port: {$l['port']}\nAction: $action");
+			send_system_monitor_message_to_admin("Port: {$l['port']}\nAction: {$action}");
 		}
 	}
 
