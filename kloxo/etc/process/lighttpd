@@ -1,0 +1,19 @@
+#!/bin/sh
+
+### lighhtpd not create pid
+
+echo "*** Process for LIGHTTPD service ***"
+
+if [ ! -f /var/run/lighttpd.pid ] ; then
+	if [ -f /var/lock/subsys/lighttpd ] ; then
+		'rm' -f /var/lock/subsys/lighttpd
+	fi
+
+	/etc/rc.d/init.d/lighttpd start
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process: reload"
+/etc/rc.d/init.d/lighttpd reload
+

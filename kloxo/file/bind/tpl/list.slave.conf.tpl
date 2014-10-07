@@ -42,6 +42,8 @@
 
 	file_put_contents($file, $str);
 
+	if (!file_exists("/etc/rc.d/init.id/named")) { return; }
+
 //	createRestartFile("restart-dns");
 	exec_with_all_closed("rndc reload");
 

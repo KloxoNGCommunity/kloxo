@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo "*** Process for KLOXO service ***"
+
+ret="no"
+
+if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo-hiawatha.pid ] ; then
+	ret="yes"
+fi
+
+if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.pid ] ; then
+	if [ -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock ] ; then
+		'rm' -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock
+	fi
+
+	ret="yes"
+fi
+
+if [ "${ret}" == "yes" ] ; then
+	/etc/rc.d/init.d/kloxo start
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process: reload"
+/etc/rc.d/init.d/kloxo reload

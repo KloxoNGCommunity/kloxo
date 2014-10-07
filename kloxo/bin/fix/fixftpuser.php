@@ -12,8 +12,14 @@ $nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
 
 if (file_exists("/etc/pure-ftpd/pureftpd.passwd")) {
 	lxfile_mv("/etc/pure-ftpd/pureftpd.passwd", "/etc/pure-ftpd/pureftpd.passwd.oldsaved");
-	lunlink("/etc/pure-ftpd/pureftpd.pdb");
-	lunlink("/etc/pure-ftpd/pureftpd.passwd.tmp");
+
+	if (file_exists("/etc/pure-ftpd/pureftpd.pdb")) {
+		lunlink("/etc/pure-ftpd/pureftpd.pdb");
+	}
+
+	if (file_exists("/etc/pure-ftpd/pureftpd.passwd.tmp")) {
+		lunlink("/etc/pure-ftpd/pureftpd.passwd.tmp");
+	}
 }
 
 $login->loadAllObjects('client');

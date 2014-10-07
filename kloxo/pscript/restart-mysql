@@ -1,5 +1,5 @@
 #!/bin/sh
 
-list=(mysqld mysql)
+list=(mysql mysqld)
 
 . /script/restart.inc

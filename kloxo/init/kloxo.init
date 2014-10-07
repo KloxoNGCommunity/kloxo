@@ -134,7 +134,7 @@ function phpcgi_restart() {
 
 function phpcgi_reload() {
 	echo -n $"Reloading ${phpcgi_prog}: "
-	killproc ${phpcgi_name} -HUP
+	killproc -p ${phpcgi_pidfile} ${phpcgi_name} -USR2
 	RETVAL=$?
 	echo
 
@@ -221,7 +221,11 @@ function hiawatha_restart() {
 }
 
 function hiawatha_reload() {
-	hiawatha_restart
+	echo -n $"Reloading ${hiawatha_name}: "
+	killproc ${hiawatha_name} -USR1
+	RETVAL=$?
+	echo
+	return $RETVAL
 }
 
 function hiawatha_config_check() {

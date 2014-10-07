@@ -200,21 +200,21 @@ class dns__ extends lxDriverClass
 	{
 		$nobase = true;
 
-		$ret = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($nobase));
+		$ret = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($this->main->syncserver, $nobase));
 
 		return $ret;
 	}
 
 	function getMasterList()
 	{
-		$ret = rl_exec_get('localhost', 'localhost', 'getDnsMasters');
+		$ret = rl_exec_get('localhost', 'localhost', 'getDnsMasters', array($this->main->syncserver));
 
 		return $ret;
 	}
 
 	function getSlaveList()
 	{
-		$ret = rl_exec_get('localhost', 'localhost', 'getDnsSlaves');
+		$ret = rl_exec_get('localhost', 'localhost', 'getDnsSlaves', , array($this->main->syncserver));
 
 		return $ret;
 	}

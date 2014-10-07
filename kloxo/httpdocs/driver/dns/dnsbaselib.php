@@ -511,7 +511,7 @@ abstract class Dnsbase extends Lxdb
 
 			// ONly from dnstemplate
 			case "ipaddress":
-				$res = Dnsbase::getIpaddressList($this);
+				$res = self::getIpaddressList($this);
 				$vlist['ipaddress'] = array('s', $res);
 				return $vlist;
 

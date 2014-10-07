@@ -179,33 +179,6 @@ class Dns extends DnsBase
 
 		return $ret;
 	}
-
-	function getIpfromARecord()
-	{
-		global $gbl, $sgbl, $login, $ghtml;
-
-		$dnsdb = new Sqlite(null, 'dns');
-		$sync = "syncserver = 'localhost'";
-
-		$d = $dnsdb->getRowsWhere($sync, array('nname', 'zone_type', 'ser_dns_record_a'));
-
-		$z = array();
-
-		foreach($d as $dk => $dv) {
-			$w = unserialize(base64_decode($dv['ser_dns_record_a']));
-
-			foreach($w as $wk => $wv) {
-				if ((strpos($wv->nname, "a_") !== false) ||
-						(strpos($wv->nname, "aaa_") !== false)) {
-					$z[] = $wv->param;
-				}
-			}
-		}
-
-		$z = array_unique($z);
-
-		return $z;
-	}
 }
 
 class all_dns extends dns

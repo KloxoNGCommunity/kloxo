@@ -52,8 +52,9 @@ class phpini__sync extends Lxdriverclass
 		$input = array();
 
 		foreach ($list as &$l) {
-			$v = $this->main->phpini_flag_b->$l;
-			$input[$l] = ($v) ? $v : '';
+			if (isset($v = $this->main->phpini_flag_b->$l)) {
+				$input[$l] = ($v) ? $v : '';
+			}
 		}
 
 		$user = $input['user'] = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';

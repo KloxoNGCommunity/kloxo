@@ -192,10 +192,12 @@ class Mmail__Qmail extends lxDriverClass
 
 	//	$catchall = "postmaster";
 
-		if ($this->main->ttype === 'forward') {
-			$sys_cmd = "{$sgbl->__path_mail_root}/bin/vaddaliasdomain";
-			lxshell_return($sys_cmd, $this->main->redirect_domain, $this->main->nname);
-			return;
+		if (isset($this->main->ttype)) {
+			if ($this->main->ttype === 'forward') {
+				$sys_cmd = "{$sgbl->__path_mail_root}/bin/vaddaliasdomain";
+				lxshell_return($sys_cmd, $this->main->redirect_domain, $this->main->nname);
+				return;
+			}
 		}
 
 		if (self::doesDomainExist($this->main->nname)) {
@@ -418,8 +420,10 @@ class Mmail__Qmail extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($this->ttype === 'forward') {
-			$this->fixRedirectDomain();
+		if (isset($this->main->ttype)) {
+			if ($this->main->ttype === 'forward') {
+				$this->fixRedirectDomain();
+			}
 		} else {
 			$this->updateQmaildefault();
 			$this->syncToggleDomain();

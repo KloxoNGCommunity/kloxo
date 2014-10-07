@@ -378,7 +378,9 @@ class web__ extends lxDriverClass
 
 	function getUserList()
 	{
-		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', null);
+		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', array($this->main->syncserver));
+
+		$users = array();
 
 		foreach ($clist as &$n) {
 			$userinfo = posix_getpwnam($n);
@@ -745,7 +747,7 @@ class web__ extends lxDriverClass
 
 	function getDirIndex()
 	{
-		if (isset($this->main->webmisc_b)) {
+		if (isset($this->main->webmisc_b->dirindex)) {
 			$s = $this->main->webmisc_b;
 
 			if ($s->dirindex === 'on') {
@@ -759,6 +761,7 @@ class web__ extends lxDriverClass
 
 		return $dirindex;
 	}
+
 	function getIndexFileOrder()
 	{
 		if ($this->main->indexfile_list) {

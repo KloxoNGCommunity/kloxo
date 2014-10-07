@@ -555,6 +555,8 @@ function PrepareMyDnsDb($nolog = null)
 
 	file_put_contents($tfile, $content);
 
+	$mydns = null;
+
 	if (file_exists("/opt/mydns/usr/sbin/mydns-mysql")) {
 		$mydns = "/opt/mydns/usr/sbin/mydns-mysql";
 	} elseif (file_exists("/usr/sbin/mydns-mysql")) {
@@ -6091,7 +6093,7 @@ function setFixChownChmod($select, $nolog = null)
 	}
 }
 
-function getAllClientList()
+function getAllClientList($servername = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
@@ -6106,10 +6108,13 @@ function getAllClientList()
 		}
 
 	*/
-	$clientdb = new Sqlite(null, 'client');
-//	$sync = "syncserver = 'localhost'";
-	$sync = "syncserver = '*'";
 
+	if (!$servername) {
+		$servername = "localhost";
+	}
+
+	$clientdb = new Sqlite(null, 'client');
+	$sync = "syncserver = '{$servername}'";
 
 	$cdb = $clientdb->getRowsWhere($sync, array('nname', 'cttype'));
 
@@ -6124,12 +6129,18 @@ function getAllClientList()
 	return $users;
 }
 
-function getIpfromARecord($nobase = null)
+function getIpfromARecord($servername, $nobase = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
 	$dnsdb = new Sqlite(null, 'dns');
-	$sync = "syncserver = '{$login->syncserver}'";
+//	$sync = "syncserver = 'localhost'";
+
+	if (!$servername) {
+		$servername = "localhost";
+	}
+
+	$sync = "syncserver = '{$servername}'";
 
 	$d = $dnsdb->getRowsWhere($sync, array('nname', 'zone_type', 'ser_dns_record_a'));
 
@@ -6167,12 +6178,16 @@ function getIpfromARecord($nobase = null)
 	return $z;
 }
 
-function getDnsMasters()
+function getDnsMasters($servername)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+	if (!$servername) {
+		$servername = "localhost";
+	}
+
 	$dnsdb = new Sqlite(null, 'dns');
-	$sync = "syncserver = '{$login->syncserver}'";
+	$sync = "syncserver = '{$servername}'";
 
 	$d = $dnsdb->getRowsWhere($sync, array('nname'));
 
@@ -6185,12 +6200,16 @@ function getDnsMasters()
 	return $e;
 }
 
-function getDnsSlaves()
+function getDnsSlaves($servername)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
+	if (!$servername) {
+		$servername = "localhost";
+	}
+
 	$dnsdb = new Sqlite(null, 'dnsslave');
-	$sync = "syncserver = '{$login->syncserver}'";
+	$sync = "syncserver = '{$servername}'";
 
 	$d = $dnsdb->getRowsWhere($sync, array('nname', 'master_ip'));
 

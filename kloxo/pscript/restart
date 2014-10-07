@@ -1,4 +1,5 @@
 #!/bin/sh
 
-/etc/init.d/`cat /script/programname` restart
+list=(kloxo)
 
+. /script/restart.inc

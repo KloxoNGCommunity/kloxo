@@ -1,0 +1,25 @@
+#!/bin/sh
+
+echo "*** Process for MYSQL/MARIADB service ***"
+
+if [ -f /etc/initd/mysql ] ; then
+	if ! $(/etc/rc.d/init.d/mysql status) ; then
+		/etc/rc.d/init.d/mysql start
+	fi
+	sleep 1
+elif [ -f /etc/initd/mysqld ] ; then
+	if ! $(/etc/rc.d/init.d/mysqld status) ; then
+		/etc/rc.d/init.d/mysqld start
+	fi
+	sleep 1
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process: reload"
+if [ -f /etc/rc.d/init.d/mysql ] ; then
+	/etc/rc.d/init.d/mysql reload
+elif [ -f /etc/rc.d/init.d/mysqld ] ; then
+	/etc/rc.d/init.d/mysqld reload
+fi
+echo "No message for reload"

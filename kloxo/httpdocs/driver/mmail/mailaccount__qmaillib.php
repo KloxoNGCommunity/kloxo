@@ -324,11 +324,13 @@ class Mailaccount__Qmail extends lxDriverClass
 			lxuser_mkdir($sysuser, $autorespath);
 		}
 
-		$autoresfile = "$autorespath/message";
-		$mess = "From: {$this->main->nname}\nSubject: {$this->main->__var_autores_subject}\n\n";
-		$mess .= $this->main->__var_autores_message;
+		if (isset($this->main->__var_autores_subject)) {
+			$autoresfile = "$autorespath/message";
+			$mess = "From: {$this->main->nname}\nSubject: {$this->main->__var_autores_subject}\n\n";
+			$mess .= $this->main->__var_autores_message;
 
-		lxuser_put_contents($sysuser, $autoresfile, $mess);
+			lxuser_put_contents($sysuser, $autoresfile, $mess);
+		}
 	}
 
 	function dbactionAdd()

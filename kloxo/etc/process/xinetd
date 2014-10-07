@@ -1,0 +1,16 @@
+#!/bin/sh
+
+echo "*** Process for XINETD (including Pure-FTPd) service ***"
+
+if [ ! -f /var/run/xinetd.pid ] ; then
+	if [ -f /var/lock/subsys/xinetd ] ; then
+		'rm' -f /var/lock/subsys/xinetd
+	fi
+
+	/etc/rc.d/init.d/xinetd start
+else
+	echo "  - No need started"
+fi
+
+echo "  - Process: reload"
+/etc/rc.d/init.d/xinetd reload
