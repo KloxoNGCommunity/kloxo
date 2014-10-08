@@ -1,4 +1,4 @@
-if [ "$1" == "--help" ] ; then
+if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
 	echo "  format: sh $0 [--server=] [--client=] [--target=]"
@@ -29,7 +29,7 @@ if [ "$1" == "--help" ] ; then
 fi
 
 echo
-echo "- For help, type '$0 --help'"
+echo "- For help, type '$0 --help' or '$0 -h'"
 
 if [ "$#" == 0 ] ; then
 	echo "- No argument supplied. Defaulting to localhost (master) servers"

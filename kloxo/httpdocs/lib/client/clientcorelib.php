@@ -1,6 +1,7 @@
 <?php
 
-abstract class ClientCore extends Resourcecore {
+abstract class ClientCore extends Resourcecore
+{
 
 	static $__desc_ddate = array("", "",  "date:date_of_registration");
 

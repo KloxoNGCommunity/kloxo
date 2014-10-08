@@ -228,7 +228,7 @@ else
 	echo "... Wait until finished (restart services) ..."
 fi
 
-sh /script/restart-all >/dev/null 2>&1
+sh /script/restart-all --force >/dev/null 2>&1
 
 echo
 

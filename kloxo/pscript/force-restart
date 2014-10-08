@@ -1,3 +1,0 @@
-#!/bin/sh
-
-/etc/rc.d/init.d/kloxo restart

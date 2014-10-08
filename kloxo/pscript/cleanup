@@ -24,7 +24,7 @@ lxphp.exe ../bin/common/cleanup.php
 
 echo
 echo "*** Restart services - BEGIN ***"
-sh /script/restart-all
+sh /script/restart-all --force
 echo "*** Restart services - END ***"
 echo
 

@@ -130,7 +130,7 @@ class ClientBase extends ClientCore
 		//$gbl->c_session->was();
 		$gbl->was();
 
-		/*
+	/*
 		if ($this->isOn('customermode_flag')) {
 			$param['customermode_flag'] = 'off';
 		} else {
@@ -325,7 +325,7 @@ class ClientBase extends ClientCore
 		$s = null;
 
 		if (isset($this->websyncserver)) {
-			//$s = $this->websyncserver;
+		//	$s = $this->websyncserver;
 		}
 
 		// MR -- change this function for php-fpm purpose
@@ -363,14 +363,14 @@ class ClientBase extends ClientCore
 		$alist[] = "a=resource";
 
 		if ($this->isAdmin()) {
-			//$alist['__v_dialog_tick'] = "a=updateform&sa=ticketconfig&o=ticketconfig";
-			//$alist[] = "o=general&c=helpdeskcategory_a&a=list";
+		//	$alist['__v_dialog_tick'] = "a=updateform&sa=ticketconfig&o=ticketconfig";
+		//	$alist[] = "o=general&c=helpdeskcategory_a&a=list";
 			$alist['__v_dialog_sca'] = "o=general&a=updateform&sa=scavengetime";
 			$alist['__v_dialog_gen'] = "o=general&a=updateform&sa=generalsetting";
 			$alist['__v_dialog_main'] = "o=general&a=updateform&sa=maintenance";
 			$alist['__v_dialog_self'] = "o=general&a=updateform&sa=selfbackupconfig";
-			//$alist['__v_dialog_ssh'] = "o=general&a=updateform&sa=ssh_config";
-			//$alist['__v_dialog_ipcheck'] = "o=general&a=updateform&sa=session_config";
+		//	$alist['__v_dialog_ssh'] = "o=general&a=updateform&sa=ssh_config";
+		//	$alist['__v_dialog_ipcheck'] = "o=general&a=updateform&sa=session_config";
 			$alist['__v_dialog_download'] = "o=general&a=updateform&sa=download_config";
 			$alist['__v_dialog_forc'] = "a=updateform&sa=forcedeletepserver&c=client";
 
@@ -380,7 +380,7 @@ class ClientBase extends ClientCore
 				$alist['__v_dialog_cust'] = "o=general&a=updateform&sa=customaction";
 				$alist['__v_dialog_orph'] = "a=updateform&sa=deleteorphanedvps";
 				$alist['__v_dialog_lxc'] = "o=general&a=updateform&sa=kloxo_config";
-				//$alist[] = "a=show&o=ostemplatelist";
+			//	$alist[] = "a=show&o=ostemplatelist";
 				$alist[] = "a=list&c=customaction";
 			} else {
 				$alist[] = "o=genlist&c=dirindexlist_a&a=list";
@@ -429,7 +429,7 @@ class ClientBase extends ClientCore
 				$alist[] = 'a=updateform&sa=disable_skeleton';
 			}
 
-			//$alist[] = "a=updateform&sa=generate_csr";
+		//	$alist[] = "a=updateform&sa=generate_csr";
 		}
 
 		if (!$this->isLogin()) {
@@ -477,6 +477,7 @@ class ClientBase extends ClientCore
 		if ($k !== 'totaldisk_usage') {
 			return null;
 		}
+
 		return array('disk_usage', 'clientdisk_usage', 'mysqldb_usage');
 	}
 
@@ -611,7 +612,7 @@ class ClientBase extends ClientCore
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$parent = $this->getParentO();
-		//$parent = $parent->getClientParentO();
+	//	$parent = $parent->getClientParentO();
 
 		if ($this->isOn('use_resourceplan_f')) {
 			//$ct = $parent->getFromList("clienttemplate", $this->resourceplan_f);
@@ -658,12 +659,13 @@ class ClientBase extends ClientCore
 		}
 
 		// Please note, the parent is wassed inside the createDefaultDomain, via the __desc_cmd_add.
-		//So after that, nothing will happen.
-		//$this->domain_name = trim($this->domain_name);
+		// So after that, nothing will happen.
+	//	$this->domain_name = trim($this->domain_name);
 
 		if ($sgbl->isKloxo() && $this->domain_name) {
 			$this->default_domain = $this->domain_name;
 			$this->createDefaultDomain($this->domain_name, $this->dnstemplate_name);
+
 			if ($this->installapp_app && $this->installapp_app !== '--leave--') {
 				$this->createDefaultApplication($this->domain_name, $this->installapp_app);
 			}
@@ -954,7 +956,7 @@ class ClientBase extends ClientCore
 			// blank
 		} else {
 			ClientBase::fixpserver_list($param);
-			//$param['dnstemplate_list'] = domain::getDnsTemplateList($parent);
+		//	$param['dnstemplate_list'] = domain::getDnsTemplateList($parent);
 		}
 
 		if (isset($param['dnssyncserver_list'])) {
@@ -985,6 +987,7 @@ class ClientBase extends ClientCore
 			if ($l === 'define.inc') {
 				continue;
 			}
+
 			$m = new Module(null, null, $l);
 			$m->dbaction = 'add';
 			$m->parent_clname = $this->getClName();
@@ -1078,7 +1081,7 @@ class ClientBase extends ClientCore
 			$vlist = lx_merge_good($vlist, $qvlist);
 
 			$ret['action'] = "add";
-			//$ret['continueaction'] = 'server';
+		//	$ret['continueaction'] = 'server';
 			$ret['variable'] = $vlist;
 			$ret['param'] = $param;
 		}
@@ -1244,10 +1247,10 @@ class ClientBase extends ClientCore
 	}
 
 
-// Hack function... IF it returns false, the priv field will be a '-'.
+	// Hack function... IF it returns false, the priv field will be a '-'.
 	function showPrivInResource()
 	{
-		/*
+	/*
 		if ($this->isCustomer()) {
 			if (!$this->priv->isOn('domain_add_flag')) {
 				return false;
