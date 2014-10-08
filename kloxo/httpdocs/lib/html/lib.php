@@ -8304,3 +8304,12 @@ function trimming($data)
 	}
 }
 
+function getFSBlockSizeInKb()
+{
+	exec("echo ''>/tmp/mustafa.lia.armando;" .
+		"du -k /tmp/mustafa.lia.armando|awk '{print $1}';" .
+		"'rm' -f /tmp/mustafa.lia.armando", $out);
+
+	return $out[0];
+}
+

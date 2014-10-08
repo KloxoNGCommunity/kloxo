@@ -89,7 +89,14 @@ function os_set_quota($username, $disk)
 
 	// Issue #680 - Too high inode count in Kloxo quota - set 0 that unlimited
 //	$inode = $disk * 500;
-	$inode = 0;
+//	$inode = 0;
+
+	// MR -- assume 1GB space = 1.000.000 KB / 4 KB = 250.000 blocksize
+	// where blocksize = 4KB -> inode = 25.000
+	// So, make set $disk = $inode * 10
+
+	$inode = $disk / 10;
+
 	lxshell_return("setquota", "-u", $username, $disk, $disk, $inode, $inode, "-a");
 }
 
