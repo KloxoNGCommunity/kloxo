@@ -190,7 +190,7 @@ if ($webmailremote) {
 UrlToolkit {
 	ToolkitID = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
-	RequestURI exists Return
+	#RequestURI exists Return
 	Match ^/(.*) Redirect http://<?php echo $webmailremote; ?>/$1
 }
 <?php
@@ -200,7 +200,7 @@ UrlToolkit {
 UrlToolkit {
 	ToolkitID = redirect_<?php echo $domcleaner; ?>
 
-	RequestURI exists Return
+	#RequestURI exists Return
 <?php
 if ($redirectionremote) {
 	foreach ($redirectionremote as $rr) {
@@ -1308,8 +1308,6 @@ VirtualHost {
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
 
-
-	#Match ^/(.*) Redirect <?php echo $protocol; ?><?php echo $webmailremote; ?>/$1
 
 	EnablePathInfo = yes
 

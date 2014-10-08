@@ -214,7 +214,7 @@ class dns__ extends lxDriverClass
 
 	function getSlaveList()
 	{
-		$ret = rl_exec_get('localhost', 'localhost', 'getDnsSlaves', , array($this->main->syncserver));
+		$ret = rl_exec_get('localhost', 'localhost', 'getDnsSlaves', array($this->main->syncserver));
 
 		return $ret;
 	}
