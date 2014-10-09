@@ -7534,8 +7534,8 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 			$s = "{$v}.conf";
 			$t = getLinkCustomfile($pathdrv . "/etc", $s);
 
-			log_cleanup("- Copy etc/{$s} to {$pathtarget}/{$v}.conf", $nolog);
-			lxfile_cp($t, "{$pathtarget}/{$v}.conf");
+		//	log_cleanup("- Copy etc/{$s} to {$pathtarget}/{$v}.conf", $nolog);
+		//	lxfile_cp($t, "{$pathtarget}/{$v}.conf");
 		}
 	} elseif ($aliasdriver === 'nsd') {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
