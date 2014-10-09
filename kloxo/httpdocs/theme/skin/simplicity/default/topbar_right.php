@@ -25,7 +25,7 @@
 
 				<div class="div_fixed_right">
 					<div style="float: left">
-						<div id="div_status" class="<?=$divclass;?>" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000'; displayStatus('div_cfstatus', 'inline');" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='<?=$status_color;?>'; displayStatus('div_cfstatus', 'none');">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
+						<div id="div_status" class="<?=$divclass;?>" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000'; displayStatus('div_cfstatus', 'inline');" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff'; displayStatus('div_cfstatus', 'none');">&nbsp;<?= $login->getKeywordUc('status'); ?>&nbsp;</div>
 					</div>
 					<div style="float: left">
 						<a href="#" onClick="toggleVisibilityById('mmm');">

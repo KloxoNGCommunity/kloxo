@@ -38,7 +38,7 @@ $gl_class_array['mysqldbuser__mysql'] =  "driver/pserver/mysqldbuser__mysqllib.p
 //--// $gl_class_array['mssqldb__mssql'] =  "driver/pserver/mssqldb__mssqllib.php";
 //--// $gl_class_array['mssqldbuser__mssql'] =  "driver/pserver/mssqldbuser__mssqllib.php";
 
-// $gl_class_array['reversedns__bind'] =  "driver/pserver/reversedns__bindlib.php";
+$gl_class_array['reversedns__bind'] =  "driver/pserver/reversedns__bindlib.php";
 
 $gl_class_array["mimetype__apache"] = "driver/web/mimetype__apachelib.php";
 $gl_class_array["mimetype__lighttpd"] = "driver/web/mimetype__lighttpdlib.php";

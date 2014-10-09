@@ -148,7 +148,7 @@ class Dns extends DnsBase
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$revc = $login->getObject('general')->reversedns_b;
+	//	$revc = $login->getObject('general')->reversedns_b;
 		validate_domain_name($param['nname']);
 
 		$param['nameserver_f'] = $revc->primarydns;
