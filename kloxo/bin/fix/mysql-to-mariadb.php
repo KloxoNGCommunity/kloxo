@@ -57,9 +57,11 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		chown("/var/lib/mysqltmp", "mysql:mysql");
 
 		echo "- Install MariaDB\n";
-		system("yum install MariaDB-server MariaDB-client MariaDB-compat MariaDB-common MariaDB-shared -y");
+		system("yum install MariaDB-server MariaDB-shared -y");
 
 		system("'cp' -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf");
+
+		system("chmod 777 /var/lib/mysqltmp");
 
 		echo "- Restart MariaDB\n";
 		system("chkconfig mysql on");

@@ -55,7 +55,7 @@ INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`,
 ('squid___localhost', 'pserver-localhost', '', 'squid', 'Squid Web Cache', 'squid', 'localhost', '', ''),
 ('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server Web Cache', 'trafficserver', 'localhost', '', ''),
 ('mysql___localhost', 'pserver-localhost', '', 'mysqld', 'MySQL Database', 'mysqld', 'localhost', '', ''),
-('mariadb___localhost', 'pserver-localhost', '', 'mariadb', 'MariaDB Database', 'mysql', 'localhost', '', ''),
+('mariadb___localhost', 'pserver-localhost', '', 'mysql', 'MariaDB Database', 'mysql', 'localhost', '', ''),
 ('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', '');
 
 CREATE TABLE IF NOT EXISTS `jailed` (
