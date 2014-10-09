@@ -4,11 +4,11 @@ class phpini__sync extends Lxdriverclass
 {
 	function initString()
 	{
-	//	$pclass = $this->main->getParentClass();
+		//	$pclass = $this->main->getParentClass();
 
 		$this->main->fixphpIniFlag();
 
-	//	$this->setInitString();
+		//	$this->setInitString();
 
 	}
 
@@ -36,8 +36,6 @@ class phpini__sync extends Lxdriverclass
 
 	function createIniFile()
 	{
-		global $sgbl;
-
 		$pclass = $this->main->getParentClass();
 
 		$this->initString();
@@ -52,9 +50,7 @@ class phpini__sync extends Lxdriverclass
 		$input = array();
 
 		foreach ($list as &$l) {
-			if (isset($v = $this->main->phpini_flag_b->$l)) {
-				$input[$l] = ($v) ? $v : '';
-			}
+			$input[$l] = (isset($this->main->phpini_flag_b->$l)) ? $this->main->phpini_flag_b->$l : '';
 		}
 
 		$user = $input['user'] = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';
@@ -138,29 +134,27 @@ class phpini__sync extends Lxdriverclass
 
 				$htaccess_target = "/home/{$user}/kloxoscript/.htaccess";
 
-				file_put_between_comments("{$user}:apache", $stlist, $endlist, 
-						$startstring, $endstring, $htaccess_target, $htaccess_parse);
+				file_put_between_comments("{$user}:apache", $stlist, $endlist,
+					$startstring, $endstring, $htaccess_target, $htaccess_parse);
 
 				lxfile_unix_chown($htaccess_target, "{$user}:apache");
 			}
 		}
 
-	/*
-		// MR -- also restart php-fpm
-		$phptype = db_get_value("serverweb", "pserver-" . $this->syncserver, "php-type");
-		if (strpos($phptype, 'php-fpm') !== false) {
-			createRestartFile('php-fpm');
-		}
+		/*
+			// MR -- also restart php-fpm
+			$phptype = db_get_value("serverweb", "pserver-" . $this->syncserver, "php-type");
+			if (strpos($phptype, 'php-fpm') !== false) {
+				createRestartFile('php-fpm');
+			}
 
-		createRestartFile($this->main->__var_webdriver);
-	*/
+			createRestartFile($this->main->__var_webdriver);
+		*/
 		createRestartFile("restart-web");
 	}
 
 	function createHtaccessFile()
 	{
-		global $sgbl;
-
 		$pclass = $this->main->getParentClass();
 
 		$this->initString();
@@ -196,19 +190,13 @@ class phpini__sync extends Lxdriverclass
 		$phpini_path = "/opt/configs/phpini/tpl";
 
 		if ($pclass !== 'pserver') {
-			$dname = $this->main->getParentName();
-			$hroot = $sgbl->__path_httpd_root;
-			$droot = $this->main->__var_docrootpath;
-			$wuser = $this->main->__var_web_user;
-			$cname = $this->main->__var_customer_name;
-
 			$htaccess_cont = file_get_contents(getLinkCustomfile($phpini_path, "htaccess.tpl"));
 			$htaccess_parse = getParseInlinePhp($htaccess_cont, $input);
 
 			$htaccess_target = "{$droot}/.htaccess";
 
-			file_put_between_comments("{$user}:apache", $stlist, $endlist, 
-					$startstring, $endstring, $htaccess_target, $htaccess_parse);
+			file_put_between_comments("{$user}:apache", $stlist, $endlist,
+				$startstring, $endstring, $htaccess_target, $htaccess_parse);
 
 			lxfile_unix_chown($htaccess_target, "{$user}:apache");
 		}

@@ -323,6 +323,7 @@ class phpini extends lxdb
 			$list = $this->get_multiple_php_list();
 
 			if ($subaction !== 'extraedit') {
+				// MR -- found error in debug because not exists in db but work
 				$vlist["phpini_flag_b-multiple_php_ready"] = array('M', implode(" ", $list));
 			}
 		}
