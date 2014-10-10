@@ -323,7 +323,7 @@ function os_restart_program()
 	
 	$pgm = $sgbl->__var_program_name;
 	// We just need to kill the main server, and leave the wrapper alone.
-	exec_with_all_closed("/etc/init.d/$pgm lxrestart");
+	exec_with_all_closed("/etc/init.d/$pgm restart --force");
 }
 
 function os_get_network_gateway()
