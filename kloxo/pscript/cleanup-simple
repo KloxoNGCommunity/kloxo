@@ -22,12 +22,6 @@ sh /script/fixlxphpexe
 . /script/directory
 lxphp.exe ../bin/common/cleanup.php --without-services
 
-echo
-echo "*** Restart services - BEGIN ***"
-sh /script/restart-all --force
-echo "*** Restart services - END ***"
-echo
-
 . /script/counter-end.inc
 
 

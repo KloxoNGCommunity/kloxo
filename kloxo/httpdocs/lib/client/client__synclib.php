@@ -81,7 +81,7 @@ class client__sync extends lxDriverClass {
 	{
 		if (!is_unlimited($this->main->priv->totaldisk_usage)) {
 		//	$disk = $this->main->priv->totaldisk_usage * 1024;
-			$blocksize = getFSBlockSize(); // Size in KB
+			$blocksize = getFSBlockSizeInKb(); // Size in KB
 			$disk = ($this->main->priv->totaldisk_usage * 1024 / $blocksize);
 			os_set_quota($this->main->username, $disk);
 		} else {
