@@ -277,11 +277,8 @@ function kloxo_vpopmail()
 	print(">>> Creating Vpopmail database <<<\n");
 
 	if (file_exists("/home/vpopmail/etc")) {
-		system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
-	}
-
-	if (file_exists("/home/lxadmin/mail/etc")) {
-		system("sh /usr/local/lxlabs/kloxo/bin/misc/lxpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+	//	system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
+		system("sh /script/fixvpop");
 	}
 
 	print(">>> Fixing Vpopmail settings <<<\n");
