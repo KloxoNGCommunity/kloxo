@@ -366,13 +366,19 @@ function kloxo_install_step1()
 	system("yum -y install $list");
 
 	print(">>> Adding Kloxo-MR webmail/thirparty/stats <<<\n");
-	$packages = array("kloxomr-webmail-*.noarch",
+/*
+	$packages = array("kloxomr-webmail-*.noarch", "kloxomr7-thirdparty-*.noarch",
 		"kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch"
 	);
 
 	$list = implode(" ", $packages);
 
 	system("yum -y install $list");
+*/
+	// MR -- it's include packages like kloxomr7-thirdparty
+	system("yum -y install kloxomr7-*.noarch");
+	// MR -- regular packages (as the same as for Kloxo-MR 6.5.0)
+	system("yum -y install kloxomr-webmail-*.noarch kloxomr-thirdparty-*.noarch kloxomr-stats-*.noarch kloxomr-editor-*.noarch");
 //	}
 
 	print(">>> Prepare installation directories <<<\n");

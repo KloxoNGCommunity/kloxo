@@ -6449,7 +6449,7 @@ function setInitialServer($nolog = null)
 
 	exec("yum -y remove $list >/dev/null 2>&1");
 
-	$packages = array("kloxomr-webmail-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr7-thirdparty-*.noarch",
+	$packages = array("kloxomr-webmail-*.noarch", "kloxomr7-thirdparty-*.noarch", "kloxomr-thirdparty-*.noarch",
 		"kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch", "hiawatha");
 
 	$list = implode(" ", $packages);
