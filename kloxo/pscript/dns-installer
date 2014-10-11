@@ -3,7 +3,7 @@
 if [ "$1" == "--help" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
-	echo "  format: sh $0 <bind/djbdns/nsd/pdns/mydns> [--force]"
+	echo "  format: sh $0 <bind/djbdns/nsd/pdns/mydns/yafida> [--force]"
 	echo " ------------------------------------------------------------------------------"
 	echo "  --force"
 	echo "      - for re-install"

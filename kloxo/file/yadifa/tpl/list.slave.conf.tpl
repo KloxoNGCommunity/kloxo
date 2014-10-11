@@ -29,21 +29,21 @@
 	foreach ($d1names as $k => $v) {
 		$c = $d1ips[$k];
 		
-		$zone  = "zone \"{$v}\" {";
-		$zone .= "\n    type slave;";
-		$zone .= "\n    file \"slave/{$v}\";";
-		$zone .= "\n    masters { {$c}; };";
-		$zone .= "\n    masterfile-format text;";
-		$zone .= "\n};\n\n";
+		$zone  = "<zone>";
+		$zone .= "\n    domain      {$v}";
+		$zone .= "\n    type        slave";
+		$zone .= "\n    masters     {$c}";
+		$zone .= "\n    file-name   slave/{$v}";
+		$zone .= "\n</zone>\n\n";
 
 		$str .= $zone;
 	}
 
-	$file = "/opt/configs/bind/conf/defaults/named.slave.conf";
+	$file = "/opt/configs/yadifa/conf/defaults/yadifa.slave.conf";
 
 	file_put_contents($file, $str);
 
-	if (!file_exists("/etc/rc.d/init.d/named")) { return; }
+	if (!file_exists("/etc/rc.d/init.d/yadifad")) { return; }
 
 	createRestartFile("restart-dns");
 

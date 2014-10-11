@@ -5744,13 +5744,19 @@ function setInitialDnsConfig($type, $nolog = null)
 	} elseif ($type === 'mydns') {
 		PrepareMydnsDb($nolog);
 	} else {
-		$newlist = array("defaults", "master", "slave", "reverse");
-
 		$path = "/opt/configs/{$type}/conf";
 
-		foreach ($newlist as &$n) {
-			if (!file_exists("{$path}/{$n}")) {
-				lxfile_mkdir("{$path}/{$n}");
+		if (!file_exists("{$path}/defaults")) {
+			lxfile_mkdir("{$path}/defaults");
+		}
+
+		if (($type === 'nsd') || ($type === 'djbdns')) {
+			$newlist = array("master", "slave", "reverse");
+
+			foreach ($newlist as &$n) {
+				if (!file_exists("{$path}/{$n}")) {
+					lxfile_mkdir("{$path}/{$n}");
+				}
 			}
 		}
 
@@ -6212,6 +6218,10 @@ function getDnsSlaves($servername)
 	$sync = "syncserver = '{$servername}'";
 
 	$d = $dnsdb->getRowsWhere($sync, array('nname', 'master_ip'));
+
+	if (!isset($d)) { return; }
+
+	$e = array();
 
 	foreach ($d as $k => $v) {
 		$t = '';
@@ -7326,6 +7336,7 @@ function setInitialServices($nolog = null)
 	setInitialDnsConfig('pdns', $nolog);
 	setInitialDnsConfig('nsd', $nolog);
 	setInitialDnsConfig('mydns', $nolog);
+	setInitialDnsConfig('yadifa', $nolog);
 
 	setInitialWebConfig('apache', $nolog);
 	setWebDriverChownChmod('apache', $nolog);
@@ -7528,15 +7539,17 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 	} elseif ($aliasdriver === 'named') {
 		$pathtarget = "{$pathetc}";
 
-		$a = array($aliasdriver, 'rndc');
+		$t = getLinkCustomfile($pathdrv . "/etc", "{$aliasdriver}.conf");
 
-		foreach ($a as $k => $v) {
-			$s = "{$v}.conf";
-			$t = getLinkCustomfile($pathdrv . "/etc", $s);
+		log_cleanup("- Copy etc/{$aliasdriver}.conf to {$pathtarget}/{$aliasdriver}.conf", $nolog);
+		lxfile_cp($t, "{$pathtarget}/{$aliasdriver}.conf");
+	} elseif ($aliasdriver === 'yadifa') {
+		$pathtarget = "{$pathetc}";
 
-		//	log_cleanup("- Copy etc/{$s} to {$pathtarget}/{$v}.conf", $nolog);
-		//	lxfile_cp($t, "{$pathtarget}/{$v}.conf");
-		}
+		$t = getLinkCustomfile($pathdrv . "/etc", "{$aliasdriver}d.conf");
+
+		log_cleanup("- Copy etc/{$aliasdriver}d.conf to {$pathtarget}/{$aliasdriver}d.conf", $nolog);
+		lxfile_cp($t, "{$pathtarget}/{$aliasdriver}d.conf");
 	} elseif ($aliasdriver === 'nsd') {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
@@ -7769,7 +7782,7 @@ function getDnsDriverList($drivertype = null)
 function getAllDnsDriverList()
 {
 //	return array('bind', 'djbdns', 'maradns', 'nsd', 'pdns');
-	return array('bind', 'djbdns', 'nsd', 'pdns');
+	return array('bind', 'djbdns', 'nsd', 'pdns', 'mydns', 'yadifa');
 }
 
 function setRealServiceBranchList($nolog = null)

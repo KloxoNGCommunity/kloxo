@@ -1,12 +1,11 @@
 <?php
-	$file = "/opt/configs/bind/conf/defaults/named.acl.conf";
+	$file = "/opt/configs/yadifa/conf/defaults/yadifa.acl.conf";
 
 	if (array_keys($ips)) {
-		$i = implode(";\n    ", $ips);
+		$i = implode(" ", $ips);
 
-		$text = "acl allow-transfer {\n    localhost;\n    {$i};\n};\n\n";
-
-		$text .= "acl allow-notify {\n    {$i};\n};\n";
+		$text  ="    allow-notify    {$i}\n";
+		$text .="    allow-transfer  {$i}\n";
 
 		file_put_contents($file, $text);
 	} else {
@@ -15,7 +14,7 @@
 
 	// MR -- because the same structure with nsd and yadifa, so use nsd data
 
-	$path = "/opt/configs/bind/conf";
+	$path = "/opt/configs/yadifa/conf";
 
 	$dirs = array('master', 'slave', 'reverse');
 
@@ -25,3 +24,6 @@
 		}
 	}
 
+        #allow-update                none
+        #allow-transfer              none
+        #allow-notify                none

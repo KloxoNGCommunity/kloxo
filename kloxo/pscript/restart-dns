@@ -1,5 +1,5 @@
 #!/bin/sh
 
-list=(named djbdns pdns nsd mydns)
+list=(named djbdns pdns nsd mydns yadifad)
 
 . /script/restart.inc

@@ -1,13 +1,4 @@
 <?php
-	if (file_exists("/etc/rndc.conf")) {
-		exec("'rm' -f /etc/rndc.conf");
-	}
-
-	if (!file_exists("/var/log/named")) {
-		exec("mkdir -p /var/log/named; chmod -R 777 /var/log/named");
-
-	}
-
 	$d1names = $domains;
 
 	// MR -- use nsd data because the same structure
@@ -32,14 +23,20 @@
 	$str = '';
 
 	foreach ($d1names as $k => $v) {
-		$zone = "zone \"{$v}\" {\n    type master;\n    file \"master/{$v}\";\n};\n\n";
+		$zone  = "<zone>";
+		$zone .= "\n    domain      {$v}";
+		$zone .= "\n    type        master";
+		$zone .= "\n    file-name   masters/{$v}";
+		$zone .= "\n    include     \"/opt/configs/yadifa/conf/defaults/yadifa.acl.conf\"";
+		$zone .= "\n</zone>\n\n";
+
 		$str .= $zone;
 	}
 
-	$file = "/opt/configs/bind/conf/defaults/named.master.conf";
+	$file = "/opt/configs/yadifa/conf/defaults/yadifa.master.conf";
 
 	file_put_contents($file, $str);
 
-	if (!file_exists("/etc/rc.d/init.d/named")) { return; }
+	if (!file_exists("/etc/rc.d/init.d/yadifad")) { return; }
 
 	createRestartFile("restart-dns");

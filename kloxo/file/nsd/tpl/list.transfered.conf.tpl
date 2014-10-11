@@ -7,11 +7,12 @@
 
 	if (array_keys($ips)) {
 		foreach ($ips as $k => $v) {
-			$text .= "    notify: {$v} NOKEY\n    provide-xfr: {$v} NOKEY\n";
+			$text .= "    notify: {$v} NOKEY\n";
+			$text .= "    provide-xfr: {$v} NOKEY\n";
 			$text .= "\n";
-		//	$text .= "    allow-notify: {$v} NOKEY\n";
-		//	$text .= "\n";
 		}
+	} else {
+		exec("echo '' > {$file}");
 	}
 
 	file_put_contents($file, $text);

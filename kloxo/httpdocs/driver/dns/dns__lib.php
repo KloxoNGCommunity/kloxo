@@ -121,6 +121,8 @@ class dns__ extends lxDriverClass
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $k => $v) {
+			if (($v === 'bind') || ($v === 'yadifa')) { continue; }
+
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "domains.conf.tpl");
 			$tpltarget = "/opt/configs/{$v}/conf/master/" . $input['domainname'];
 
