@@ -26,7 +26,7 @@
 		$zone  = "<zone>";
 		$zone .= "\n    domain      {$v}";
 		$zone .= "\n    type        master";
-		$zone .= "\n    file-name   masters/{$v}";
+		$zone .= "\n    file-name   master/{$v}";
 		$zone .= "\n    include     \"/opt/configs/yadifa/conf/defaults/yadifa.acl.conf\"";
 		$zone .= "\n</zone>\n\n";
 
