@@ -5221,7 +5221,7 @@ abstract class Lxclass
 				$this->ccenter_command = 'sh /script/fixdns --server=all;';
 
 				if ($param['ccenter_restart'] === 'on') {
-					$this->ccenter_command .= 'sh /script/restart-dns --server=all;';
+					$this->ccenter_command .= 'sh /script/restart-dns --server=all --force;';
 				}
 			}
 
@@ -5229,7 +5229,7 @@ abstract class Lxclass
 				$this->ccenter_command = 'sh /script/fixweb --server=all;';
 
 				if ($param['ccenter_restart'] === 'on') {
-					$this->ccenter_command .= 'sh /script/restart-web --server=all;';
+					$this->ccenter_command .= 'sh /script/restart-web --server=all --force;';
 				}
 			}
 
@@ -5237,7 +5237,7 @@ abstract class Lxclass
 				$this->ccenter_command = 'sh /script/fixphp --server=all;';
 
 				if ($param['ccenter_restart'] === 'on') {
-					$this->ccenter_command .= 'sh /script/restart-web --server=all;';
+					$this->ccenter_command .= 'sh /script/restart-web --server=all --force;';
 				}
 			}
 
@@ -5245,7 +5245,7 @@ abstract class Lxclass
 				$this->ccenter_command = 'sh /script/fixmail-all --server=all;';
 
 				if ($param['ccenter_restart'] === 'on') {
-					$this->ccenter_command .= 'sh /script/restart-mail --server=all;';
+					$this->ccenter_command .= 'sh /script/restart-mail --server=all --force;';
 				}
 			}
 
@@ -5253,7 +5253,7 @@ abstract class Lxclass
 				$this->ccenter_command = 'sh /script/fixftp-all --server=all;';
 
 				if ($param['ccenter_restart'] === 'on') {
-					$this->ccenter_command .= 'sh /script/restart-ftp --server=all;';
+					$this->ccenter_command .= 'sh /script/restart-ftp --server=all --force;';
 				}
 			}
 
@@ -5261,7 +5261,7 @@ abstract class Lxclass
 				$this->ccenter_command = 'sh /script/fix-all --server=all;';
 
 				if ($param['ccenter_restart'] === 'on') {
-					$this->ccenter_command .= 'sh /script/restart-all --server=all;';
+					$this->ccenter_command .= 'sh /script/restart-all --server=all --force;';
 				}
 			}
 
