@@ -74,7 +74,7 @@ class serverweb extends lxdb
 			case "apache_optimize":
 				$this->apache_optimize = null;
 
-				$vlist['apache_optimize'] = array('s', array('---No Change---', 'default', 'optimize'));
+				$vlist['apache_optimize'] = array('s', array('---No Change---', 'default', 'low', 'medium', 'high'));
 				$this->setDefaultValue('apache_optimize', '---No Change---');
 
 				break;

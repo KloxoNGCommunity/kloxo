@@ -54,15 +54,23 @@ class serverweb__ extends lxDriverClass
 
 	function set_apache_optimize()
 	{
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/apache-optimize.php';
+		$scripting = '/script/apache-optimize';
 
 		switch ($this->main->apache_optimize) {
 			case 'default':
-				lxshell_return("lxphp.exe", $scripting, "--select=default", '--nolog');
+				lxshell_return("sh", $scripting, "--select=default", '--nolog');
 
 				break;
-			case 'optimize':
-				lxshell_return("lxphp.exe", $scripting, "--select=optimize", '--nolog');
+			case 'low':
+				lxshell_return("sh", $scripting, "--select=low", '--nolog');
+
+				break;
+			case 'medium':
+				lxshell_return("sh", $scripting, "--select=medium", '--nolog');
+
+				break;
+			case 'high':
+				lxshell_return("sh", $scripting, "--select=high", '--nolog');
 
 				break;
 		}
@@ -70,19 +78,19 @@ class serverweb__ extends lxDriverClass
 
 	function set_fix_chownchmod()
 	{
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fix-chownchmod.php';
+		$scripting = '/script/fix-chownchmod';
 
 		switch ($this->main->fix_chownchmod) {
 			case 'fix-ownership':
-				lxshell_return("lxphp.exe", $scripting, "--select=chmod", '--nolog');
+				lxshell_return("sh", $scripting, "--select=chmod", '--nolog');
 
 				break;
 			case 'fix-permissions':
-				lxshell_return("lxphp.exe", $scripting, "--select=chown", '--nolog');
+				lxshell_return("sh", $scripting, "--select=chown", '--nolog');
 
 				break;
 			case 'fix-ALL':
-				lxshell_return("lxphp.exe", $scripting, "--select=all", '--nolog');
+				lxshell_return("sh", $scripting, "--select=all", '--nolog');
 
 				break;
 		}
@@ -90,7 +98,7 @@ class serverweb__ extends lxDriverClass
 
 	function set_mysql_convert()
 	{
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/mysql-convert.php';
+		$scripting = '/script/mysql-convert';
 
 		if ($this->main->mysql_charset === 'utf-8') {
 			$charset = '--utf8=yes';
@@ -100,15 +108,15 @@ class serverweb__ extends lxDriverClass
 
 		switch ($this->main->mysql_convert) {
 			case 'to-myisam':
-				lxshell_return("lxphp.exe", $scripting, "--engine=myisam", $charset, '--nolog');
+				lxshell_return("sh", $scripting, "--engine=myisam", $charset, '--nolog');
 
 				break;
 			case 'to-innodb':
-				lxshell_return("lxphp.exe", $scripting, "--engine=innodb", $charset, '--nolog');
+				lxshell_return("sh", $scripting, "--engine=innodb", $charset, '--nolog');
 
 				break;
 			case 'to-aria':
-				lxshell_return("lxphp.exe", $scripting, "--engine=aria", '--nolog');
+				lxshell_return("sh", $scripting, "--engine=aria", '--nolog');
 
 				break;
 		}
@@ -321,9 +329,9 @@ class serverweb__ extends lxDriverClass
 			exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
 		}
 
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+		$scripting = '/script/fixweb';
 
-		lxshell_return("lxphp.exe", $scripting, "--select=all", "--nolog");
+		lxshell_return("sh", $scripting, "--select=all", "--nolog");
 
 		setRpmInstalled("httpd");
 	}
@@ -389,7 +397,7 @@ class serverweb__ extends lxDriverClass
 			setRpmInstalled("yum-plugin-replace");
 		}
 
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/php-branch.php';
+		$scripting = '/script/php-branch';
 
 		if ($branch) {
 			$branchselect = $branch;
@@ -399,16 +407,11 @@ class serverweb__ extends lxDriverClass
 
 		$branchselect = preg_replace('/(.*)\_\(as\_(.*)\)/', '$1', $branchselect);
 
-		lxshell_return("lxphp.exe", $scripting, "--select={$branchselect}", '--nolog');
-	/*
-		// MR -- to make sure this modules convert too
-		lxshell_return("yum", "install", "-y", "{$branchselect}-mbstring",
-				"{$branchselect}-mysql", "{$branchselect}-imap", "{$branchselect}-pear",
-				"{$branchselect}-devel", "{$branchselect}-fpm");
-	*/
-		$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
+		lxshell_return("sh", $scripting, "--select={$branchselect}", '--nolog');
 
-		lxshell_return("lxphp.exe", $scripting, "--select=all", '--nolog');
+		$scripting = '/script/fixweb';
+
+		lxshell_return("sh", $scripting, "--select=all", '--nolog');
 
 		$installed = isRpmInstalled("{$branchselect}-fpm");
 

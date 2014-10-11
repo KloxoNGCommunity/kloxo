@@ -539,8 +539,9 @@ $__information['webserver_config'] =
 	"<p><b>Apache Memory Optimize</b>".
 	"<ul>".
 		"<li>Optimize memory usage</li>".
-		"<li>Kloxo-MR will set half amount of available memory for <b>nginx/lighttpd-proxy</b></li>".
-		"<li>select 'default' if select 'php-fpm' on 'Php Type'</li>".
+		"<li>Most situations enough select 'default' or 'low'. Select 'medium' or 'high' if have many websites and or client</li>".
+		"<li>For proxy (like nginx-proxy), select 'low' or 'medium' only</li>".
+		"<li>Run 'sh /script/apache-optimize --help' to know how they calculate for optimizing</li>".
 	"</ul></p>".
 	"<p><b>MySQL Convert</b>".
 	"<ul>".

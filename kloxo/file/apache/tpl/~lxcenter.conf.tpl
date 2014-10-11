@@ -1,3 +1,49 @@
+<?php
+
+	exec("sh /script/clearcache3");
+
+	$factor = 1;
+
+	// check memory -- $2=total, $3=used, $4=free, $5=shared, $6=buffers, $7=cached
+	$total = (int)shell_exec("free -m | grep Mem: | awk '{print $2}'");
+	$spare = ($spare) ? $spare : ($total * 0.25);
+	$apps  = (int)shell_exec("free -m | grep buffers/cache: | awk '{print $3}'");
+	$avail = $total - $spare - $apps;
+
+	if ($select === 'low') {
+		$maxpar_p = (int)($avail / 30 * $factor);
+		$minpar_p = (int)($maxpar_p / 4);
+
+		$maxpar_w = (int)($avail / 35 * $factor);
+		$minpar_w = (int)($maxpar_w / 4);
+	} elseif ($select === 'medium') {
+		$maxpar_p = (int)($avail / 30 * $factor);
+		$minpar_p = (int)($maxpar_p / 3);
+
+		$maxpar_w = (int)($avail / 35 * $factor);
+		$minpar_w = (int)($maxpar_w / 3);
+	} elseif ($select === 'high') {
+		$maxpar_p = (int)($avail / 30 * $factor);
+		$minpar_p = (int)($maxpar_p / 2);
+
+		$maxpar_w = (int)($avail / 35 * $factor);
+		$minpar_w = (int)($maxpar_w / 2);
+	} else {
+		$maxpar_p = 4;
+		$minpar_p = 2;
+		$maxpar_w = 4;
+		$minpar_w = 2;
+	}
+
+	// correction
+	if ($maxpar_p < 4) { $maxpar_p = 4; }
+	if ($minpar_p < 2) { $minpar_p = 2; }
+	if ($maxpar_w < 4) { $maxpar_w = 4; }
+	if ($maxpar_w < 2) { $maxpar_w = 2; }
+
+	$keepalive = 'Off';
+?>
+
 Timeout 150
 KeepAlive <?php echo $keepalive; ?>
 
@@ -6,23 +52,21 @@ KeepAliveTimeout 15
 
 <IfModule prefork.c>
     StartServers 2
-    MinSpareServers <?php echo $minspareservers; ?>
+    MinSpareServers <?php echo $minpar_p; ?>
 
-    MaxSpareServers <?php echo $maxspareservers; ?>
+    MaxSpareServers <?php echo $maxpar_p; ?>
 
-    ServerLimit <?php echo $maxspareservers; ?>
+    ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $maxspareservers; ?>
+        MaxRequestWorkers <?php echo $maxpar_p; ?>
 
-        MaxConnectionsPerChild <?php echo $maxrequestsperchild; ?>
-
+        MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $maxspareservers; ?>
+        MaxClients <?php echo $maxpar_p; ?>
 
-        MaxRequestsPerChild <?php echo $maxrequestsperchild; ?>
-
+        MaxRequestsPerChild 4000
     </IfVersion>
     MaxMemFree 2
     SendBufferSize 65536
@@ -31,23 +75,21 @@ KeepAliveTimeout 15
 
 <IfModule itk.c>
     StartServers 2
-    MinSpareServers <?php echo $minspareservers; ?>
+    MinSpareServers <?php echo $minpar_p; ?>
 
-    MaxSpareServers <?php echo $maxspareservers; ?>
+    MaxSpareServers <?php echo $maxpar_p; ?>
 
-    ServerLimit <?php echo $maxspareservers; ?>
+    ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $maxspareservers; ?>
+        MaxRequestWorkers <?php echo $maxpar_p; ?>
 
-        MaxConnectionsPerChild <?php echo $maxrequestsperchild; ?>
-
+        MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $maxspareservers; ?>
+        MaxClients <?php echo $maxpar_p; ?>
 
-        MaxRequestsPerChild <?php echo $maxrequestsperchild; ?>
-
+        MaxRequestsPerChild 4000
     </IfVersion>
     MaxMemFree 2
     SendBufferSize 65536
@@ -56,9 +98,9 @@ KeepAliveTimeout 15
 
 <IfModule worker.c>
     StartServers 2
-    MinSpareThreads <?php echo $minsparethreads; ?>
+    MinSpareThreads <?php echo $minpar_w; ?>
 
-    MaxSpareThreads <?php echo $maxsparethreads; ?>
+    MaxSpareThreads <?php echo $maxpar_w; ?>
 
     ThreadsPerChild 25
     <IfVersion >= 2.4>
@@ -78,9 +120,9 @@ KeepAliveTimeout 15
 
 <IfModule event.c>
     StartServers 2
-    MinSpareThreads <?php echo $minsparethreads; ?>
+    MinSpareThreads <?php echo $minpar_w; ?>
 
-    MaxSpareThreads <?php echo $maxsparethreads; ?>
+    MaxSpareThreads <?php echo $maxpar_w; ?>
 
     ThreadsPerChild 25
     MaxRequestsPerChild 0

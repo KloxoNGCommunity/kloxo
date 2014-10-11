@@ -8,7 +8,7 @@ include_once "lib/html/include.php";
 
 $list = parse_opt($argv);
 
-$select = (isset($list['select'])) ? $list['select'] : 'optimize';
+$select = (isset($list['select'])) ? $list['select'] : 'medium';
 $spare  = (isset($list['spare']))  ? (int)$list['spare'] : null;
 $nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
 
@@ -20,106 +20,18 @@ function setApacheOptimize($select, $spare = null, $nolog = null)
 {
 	global $login;
 
-	log_cleanup("Apache optimize", $nolog);
+	$input['select'] = $select;
+	$input['spare'] = $select;
 
-	$factor = (isWebProxy()) ? 0.5 : 1;
+	$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "~lxcenter.conf.tpl");
 
-	if ($select === 'status') {
-		log_cleanup("- Status: $status", $nolog);
-	} else {
-		$status = isServiceRunning("httpd");
+	$tpltarget = "/etc/httpd/conf.d/~lxcenter.conf";
 
-		//--- stristr for Case-insensitive
-		if ($status) {
-			log_cleanup("- Service stop", $nolog);
+	$tpl = file_get_contents($tplsource);
 
-			$ret = lxshell_return("service", "httpd", "stop");
+	$tplparse = getParseInlinePhp($tpl, $input);
 
-			if ($ret) {
-				throw new lxException($login->getThrow('httpd_stop_failed'));
-			}
-		}
-
-		lxshell_return("sync; echo 3 > /proc/sys/vm/drop_caches");
-
-		if (file_exists("/etc/httpd/conf.d/swtune.conf")) {
-			//--- some vps include /etc/httpd/conf.d/swtune.conf
-			log_cleanup("- Delete /etc/httpd/conf.d/swtune.conf if exist", $nolog);
-
-			lunlink("/etc/httpd/conf.d/swtune.conf");
-		}
-
-		if ($select === 'optimize') {
-			$m = array();
-
-			// check memory -- $2=total, $3=used, $4=free, $5=shared, $6=buffers, $7=cached
-
-			$m['total']   = (int)shell_exec("free -m | grep Mem: | awk '{print $2}'");
-			$m['spare']   = ($spare) ? $spare : ($m['total'] * 0.25);
-
-			$m['apps']    = (int)shell_exec("free -m | grep buffers/cache: | awk '{print $3}'");
-
-		/*
-			$m['used']    = (int)shell_exec("free -m | grep Mem: | awk '{print $3}'");
-			$m['free']    = (int)shell_exec("free -m | grep Mem: | awk '{print $4}'");
-			$m['shared']  = (int)shell_exec("free -m | grep Mem: | awk '{print $5}'");
-			$m['buffers'] = (int)shell_exec("free -m | grep Mem: | awk '{print $6}'");
-			$m['cached']  = (int)shell_exec("free -m | grep Mem: | awk '{print $7}'");
-
-			$m['avail']   = $m['free'] + $m['shared'] + $m['buffers'] + $m['cached'] - $m['spare'];
-		*/
-
-			$m['avail'] = $m['total'] - $m['spare'] - $m['apps'];
-
-			$maxpar_p = (int)($m['avail'] / 30 * $factor);
-			$minpar_p = (int)($maxpar_p / 2);
-
-			$maxpar_w = (int)($m['avail'] / 35 * $factor);
-			$minpar_w = (int)($maxpar_w / 2);
-
-			if ($maxpar_p < 4) {
-				$maxpar_p = 4;
-				$minpar_p = 2;
-			}
-		
-			if ($maxpar_w < 4) {
-				$maxpar_w = 4;
-				$minpar_w = 2;
-			}
-
-
-		} elseif ($select === 'default') {
-			$maxpar_p = 4;
-			$minpar_p = 2;
-			$maxpar_w = 4;
-			$minpar_w = 2;
-		}
-
-		log_cleanup("- Service start", $nolog);
-
-		$input = array('maxspareservers' => $maxpar_p, 'minspareservers' => $minpar_p,
-				'maxsparethreads' => $maxpar_w, 'minsparethreads' => $minpar_w,
-				'keepalive' => 'Off', 'maxrequestsperchild' => '2000');
-
-		$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "~lxcenter.conf.tpl");
-
-		$tpltarget = "/etc/httpd/conf.d/~lxcenter.conf";
-
-		$tpl = file_get_contents($tplsource);
-
-		$tplparse = getParseInlinePhp($tpl, $input);
-
-		file_put_contents($tpltarget, $tplparse);
-
-		log_cleanup("- Calculate: threads (min/max -> {$minpar_w}/{$maxpar_w}) and servers (min/max -> {$minpar_p}/{$maxpar_p})", $nolog);
-		log_cleanup("- Write to '/etc/httpd/conf.d/~lxcenter.conf'", $nolog);
-
-		$ret = lxshell_return("service", "httpd", "start");
-
-		if ($ret) {
-			throw new lxException($login->getThrow('httpd_start_failed'));
-		}
-	}
+	file_put_contents($tpltarget, $tplparse);
 }
 
 /* ****** END - setApacheOptimize ***** */
