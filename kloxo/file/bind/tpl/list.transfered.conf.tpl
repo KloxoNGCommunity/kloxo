@@ -7,11 +7,12 @@
 		$text = "acl allow-transfer {\n    localhost;\n    {$i};\n};\n\n";
 
 		$text .= "acl allow-notify {\n    {$i};\n};\n";
-
-		file_put_contents($file, $text);
 	} else {
-		exec("echo '' > {$file}");
+		$text = "acl allow-transfer {\n    localhost;\n};\n\n";
+		$text .= "acl allow-notify {\n    localhost;\n};\n";
 	}
+
+	file_put_contents($file, $text);
 
 	// MR -- because the same structure with nsd and yadifa, so use nsd data
 
