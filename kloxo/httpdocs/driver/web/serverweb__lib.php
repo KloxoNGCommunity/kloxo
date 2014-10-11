@@ -387,17 +387,20 @@ class serverweb__ extends lxDriverClass
 	{
 		global $login;
 
+		$v = $this->main->php_used;
+
 		if (isWebProxyOrApache()) {
 			$p = $this->main->php_type;
 
-			if (strpos($p, 'php-fpm') !== false) {
-				// no action
-			} else {
-				throw new lxException($login->getThrow("only_work_for_php-type_for_php-fpm"), '', $p);
+			if ($v !== '--Use PHP Branch--') {
+
+				if (strpos($p, 'php-fpm') !== false) {
+					// no action
+				} else {
+					throw new lxException($login->getThrow("only_work_for_php-type_for_php-fpm"), '', $p);
+				}
 			}
 		}
-
-		$v = $this->main->php_used;
 
 		switch ($v) {
 			case "--Use PHP Branch--":
