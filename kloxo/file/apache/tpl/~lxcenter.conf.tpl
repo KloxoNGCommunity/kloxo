@@ -11,22 +11,22 @@
 	$avail = $total - $spare - $apps;
 
 	if ($select === 'low') {
-		$maxpar_p = (int)($avail / 30 * $factor);
-		$minpar_p = (int)($maxpar_p / 4);
-
-		$maxpar_w = (int)($avail / 35 * $factor);
-		$minpar_w = (int)($maxpar_w / 4);
-	} elseif ($select === 'medium') {
-		$maxpar_p = (int)($avail / 30 * $factor);
-		$minpar_p = (int)($maxpar_p / 3);
-
-		$maxpar_w = (int)($avail / 35 * $factor);
-		$minpar_w = (int)($maxpar_w / 3);
-	} elseif ($select === 'high') {
-		$maxpar_p = (int)($avail / 30 * $factor);
+		$maxpar_p = (int)($avail / 30 * $factor / 4);
 		$minpar_p = (int)($maxpar_p / 2);
 
-		$maxpar_w = (int)($avail / 35 * $factor);
+		$maxpar_w = (int)($avail / 35 * $factor / 4);
+		$minpar_w = (int)($maxpar_w / 2);
+	} elseif ($select === 'medium') {
+		$maxpar_p = (int)($avail / 30 * $factor / 3);
+		$minpar_p = (int)($maxpar_p / 2);
+
+		$maxpar_w = (int)($avail / 35 * $factor / 3);
+		$minpar_w = (int)($maxpar_w / 2);
+	} elseif ($select === 'high') {
+		$maxpar_p = (int)($avail / 30 * $factor / 2);
+		$minpar_p = (int)($maxpar_p / 2);
+
+		$maxpar_w = (int)($avail / 35 * $factor / 2);
 		$minpar_w = (int)($maxpar_w / 2);
 	} else {
 		$maxpar_p = 4;

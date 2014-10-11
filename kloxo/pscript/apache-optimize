@@ -15,7 +15,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo "     - high    -> 1/2 x available memory"
 	echo "   --spare - spare/unused memory in MB; default: 25% total memory"
 	echo
-	echo " Equition: a = t - s - c"
+	echo " Equation: a = t - s - c"
 	echo "   where: a = available, t = total, s = spare, c = used +- buffers/cache"
 	echo "   - memory info taken from 'free -m' after running 'sh /script/clearcache"
 	echo "   - Need reboot for OpenVZ to make accurate calculation"
