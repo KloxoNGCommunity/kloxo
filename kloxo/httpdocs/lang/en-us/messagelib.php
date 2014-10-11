@@ -539,9 +539,9 @@ $__information['webserver_config'] =
 	"<p><b>Apache Memory Optimize</b>".
 	"<ul>".
 		"<li>Optimize memory usage</li>".
-		"<li>Most situations enough select 'default' or 'low'. Select 'medium' or 'high' if have many websites and or client</li>".
+		"<li>Most situations enough select 'default' or 'low'. Select 'medium' or 'high' if having many websites and or clients</li>".
 		"<li>For proxy (like nginx-proxy), select 'low' or 'medium' only</li>".
-		"<li>Run 'sh /script/apache-optimize --help' to know how they calculate for optimizing</li>".
+		"<li>Run 'sh /script/apache-optimize --help' to know how calculation work</li>".
 	"</ul></p>".
 	"<p><b>MySQL Convert</b>".
 	"<ul>".
