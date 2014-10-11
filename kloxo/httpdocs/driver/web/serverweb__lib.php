@@ -151,10 +151,8 @@ class serverweb__ extends lxDriverClass
 
 		if (isWebProxyOrApache()) {
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
-		//	lxshell_return("rm", "-f", $ehcdpath . "/swtune.conf");
 			exec("'rm' -rf {$ehcdpath}/swtune.conf");
 
-		//	lxshell_return("cp", "-rf", "{$ullkfapath}", "/opt/configs");
 			lxshell_return("'cp' {$ullkfapath} /opt/configs");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
@@ -182,7 +180,6 @@ class serverweb__ extends lxDriverClass
 
 		$this->set_secondary_php();
 
-	//	createRestartFile('httpd');
 		createRestartFile("restart-web");
 	}
 
@@ -198,11 +195,10 @@ class serverweb__ extends lxDriverClass
 		if ($type === 'mod_php') {
 			// no action here
 		} elseif ($type === 'mod_php_ruid2') {
-		//	lxshell_return("yum", "-y", "install", "mod_ruid2");
-		//	lxshell_return("yum", "-y", "update", "mod_ruid2");
 			lxfile_cp(getLinkCustomfile($haecdpath, "ruid2.conf"), $ehcdpath . "/ruid2.conf");
 			lxfile_rm("{$ehcdpath}/ruid2.nonconf");
 		} elseif ($type === 'mod_php_itk') {
+			lxfile_cp(getLinkCustomfile($haecdpath, "itk.conf"), $ehcdpath . "/itk.conf");
 			exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
 		}
 
@@ -219,8 +215,6 @@ class serverweb__ extends lxDriverClass
 
 		$epath = '/etc';
 		$haepath = '/opt/configs/apache/etc';
-
-	//	setRpmInstalled("mod_suphp");
 
 		$phpbranch = getRpmBranchInstalled('php');
 
@@ -251,9 +245,6 @@ class serverweb__ extends lxDriverClass
 		} else {
 			$phpbranch = getRpmBranchInstalled('php');
 
-		//	setRpmInstalled("mod_fastcgi");
-		//	setRpmInstalled("{$phpbranch}-fpm");
-
 			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath . "/fastcgi.conf");
 			lxfile_rm("{$ehcdpath}/fastcgi.nonconf");
 		}
@@ -262,7 +253,6 @@ class serverweb__ extends lxDriverClass
 
 		lxshell_return("chkconfig", "php-fpm", "on");
 
-	//	createRestartFile('php-fpm');
 		createRestartFile("restart-web");
 	}
 
@@ -272,13 +262,7 @@ class serverweb__ extends lxDriverClass
 		$haepath = '/opt/configs/apache/etc';
 		$haecdpath = '/opt/configs/apache/etc/conf.d';
 
-	//	setRpmInstalled("mod_fcgid");
-
-		if (version_compare(getPhpVersion(), "5.3.0", "<")) {
-			$this->set_php_pure();
-		} else {
-			$this->remove_phpfpm();
-		}
+		$this->remove_phpfpm();
 
 		$this->rename_to_nonconf();
 
@@ -288,10 +272,7 @@ class serverweb__ extends lxDriverClass
 
 	function remove_phpfpm()
 	{
-		$phpbranch = getRpmBranchInstalled('php');
-
 		// MR -- no remove and just off/disable
-	//	setRpmRemoved("{$phpbranch}-fpm");
 		exec("chkconfig php-fpm off; service php-fpm stop");
 	}
 
@@ -299,17 +280,10 @@ class serverweb__ extends lxDriverClass
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
 		$haecdpath = '/opt/configs/apache/etc/conf.d';
-	/*
-		lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
-		lxfile_mv($ehcdpath."/fastcgi.conf", $ehcdpath."/fastcgi.nonconf");
-		lxfile_mv($ehcdpath."/fcgid.conf", $ehcdpath."/fcgid.nonconf");
-		lxfile_mv($ehcdpath."/ruid2.conf", $ehcdpath."/ruid2.nonconf");
-		lxfile_mv($ehcdpath."/suphp.conf", $ehcdpath."/suphp.nonconf");
-		lxfile_mv($ehcdpath."/proxy_fcgi.conf", $ehcdpath."/proxy_fcgi.nonconf");
-	*/
+
 		// MR -- use overwrite with 'inactive' content instead rename
 		// minimize 'effect' when running 'yum update'
-		$list = array('php', 'fastcgi', 'fcgid', 'ruid2', 'suphp', 'proxy_fcgi');
+		$list = array('php', 'fastcgi', 'fcgid', 'ruid2', 'suphp', 'proxy_fcgi', 'itk');
 
 		$source = getLinkCustomfile($haecdpath, "_inactive_.conf");
 
@@ -325,6 +299,8 @@ class serverweb__ extends lxDriverClass
 			exec("echo 'HTTPD=/usr/sbin/httpd.worker' >/etc/sysconfig/httpd");
 		} elseif (stripos($type, '_event') !== false) {
 			exec("echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd");
+		} elseif (stripos($type, '_itk') !== false) {
+			exec("echo 'HTTPD=/usr/sbin/httpd.itk' >/etc/sysconfig/httpd");
 		} else {
 			exec("echo 'HTTPD=/usr/sbin/httpd' >/etc/sysconfig/httpd");
 		}
@@ -334,21 +310,6 @@ class serverweb__ extends lxDriverClass
 		lxshell_return("sh", $scripting, "--select=all", "--nolog");
 
 		setRpmInstalled("httpd");
-	}
-
-	function set_php_pure()
-	{
-		$phpbranch = getRpmBranchInstalled('php');
-
-		if (!file_exists('/usr/bin/php_pure')) {
-			$this->set_php_branch('php52');
-
-			lxfile_cp('/usr/bin/php', '/usr/bin/php_pure');
-			lxfile_cp('/usr/bin/php-cgi', '/usr/bin/php-cgi_pure');
-
-			$this->set_php_branch($phpbranch);
-		}
-
 	}
 
 	function set_secondary_php()
@@ -365,8 +326,6 @@ class serverweb__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
 			} else {
 				lxfile_rm("{$ehcdpath}/suphp52.nonconf");
-
-			//	setRpmInstalled("mod_suphp");
 
 				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");
@@ -417,12 +376,10 @@ class serverweb__ extends lxDriverClass
 
 		if ($installed) {
 			lxshell_return("chkconfig", "php-fpm", "on");
-		//	createRestartFile('php-fpm');
 			createRestartFile("restart-web");
 		}
 
 		if (stripos('mod_php', $this->main->php_type) === false) {
-		//	lxfile_mv($ehcdpath."/php.conf", $ehcdpath."/php.nonconf");
 			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
 
 		}
@@ -452,9 +409,6 @@ class serverweb__ extends lxDriverClass
 				lxshell_return("sh", "/script/switch-php-fpm", $v);
 				break;
 		}
-
-		// MR -- no needed because switch also restart
-	//	createRestartFile("php-fpm");
 	}
 
 	function set_multiple_php_install()
@@ -486,8 +440,6 @@ class serverweb__ extends lxDriverClass
 			$b .= "'rm' -f {$c}\n";
 
 			file_put_contents($c, $b);
-
-		//	chmod($c, 0777);
 
 			lxshell_background("sh", $c);
 		}
