@@ -664,6 +664,13 @@ function PrepareRoundCubeDb($nolog = null)
 	if (file_exists("{$roundcubepath}/config/roundcube_db.inc.php")) {
 		lxfile_unix_chmod("{$roundcubepath}/config/db.inc.php", "644");
 	}
+
+	// MR -- update database
+	$sqlfiles = glob("{$roundcubepath}/SQL/mysql/*.sql");
+
+	foreach ($sqlfiles as $k => $v) {
+		exec("mysql -f -u root {$pstring} < {$v} >/dev/null 2>&1");
+	}
 }
 
 // --- new function with 'roundcube' style to replace 'old'

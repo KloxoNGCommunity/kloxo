@@ -56,9 +56,9 @@ class watchdog__sync extends Lxdriverclass {
 
 				$action = "{$a[0]} restart";
 			*/
-				$action = str_replace("__driver_", "sh /script/restart-", $l['action']) . " >/dev/null 2>&1";
+				$action = str_replace("__driver_", "sh /script/restart-", $l['action']) . " --force >/dev/null 2>&1";
 			} elseif (csb($l['action'], "restart-")) {
-				$action = "sh /script/" . $l['action'] . " >/dev/null 2>&1";
+				$action = "sh /script/" . $l['action'] . " --force >/dev/null 2>&1";
 			} else {
 				$action = $l['action'];
 				exec_with_all_closed("{$action} >/dev/null 2>&1");
