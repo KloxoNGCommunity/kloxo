@@ -27,8 +27,8 @@
 		$zone .= "\n    domain          {$v}";
 		$zone .= "\n    type            master";
 		$zone .= "\n    file-name       /opt/configs/nsd/conf/master/{$v}";
-		$zone .= "\n    allow-transfer  allower";
-		$zone .= "\n    allow-notity    allower";
+		$zone .= "\n#    allow-transfer  allower";
+		$zone .= "\n#    allow-notity    allower";
 		$zone .= "\n</zone>\n\n";
 
 		$str .= $zone;

@@ -1,33 +1,44 @@
 <?php
-	$file = "/opt/configs/yadifa/conf/defaults/yadifa.acl.conf";
+	$ypath = "/opt/configs/yadifa";
+	$npath = "/opt/configs/nsd";
+
+	$file = "{$ypath}/conf/defaults/yadifa.acl.conf";
 
 	$text  ="<acl>\n";
 
 	if (array_keys($ips)) {
 		$i = implode(", ", $ips);
-
-		$text .="    transferer  key allower\n";
-		$text .="    admins      localhost\n";
 		$text .="    slave       {$i}\n";
 	} else {
-		$text .="    transferer  key allower\n";
-		$text .="    admins      localhost\n";
-		$text .="    slave       localhost\n";
+		$text .="    ## no info for slave\n";
 	}
 
-	$text .="</acl>\n";
+	$text .="</acl>\n\n";
 
 	file_put_contents($file, $text);
 
-	// MR -- because the same structure with nsd and yadifa, so use nsd data
+	// MR -- then merge files because trouble with 'include'
 
-	$path = "/opt/configs/yadifa/conf";
+	if (file_exists("{$ypath}/etc/custom.yadifad.conf")) {
+		$yfile = "{$ypath}/etc/custom.yadifad.conf";
+	} else {
+		$yfile = "{$ypath}/etc/yadifad.conf";
+	}
+
+	$afile = $file;
+	$mfile = "{$ypath}/conf/defaults/yadifa.master.conf";
+	$sfile = "{$ypath}/conf/defaults/yadifa.slave.conf";
+
+	exec("cat {$yfile} {$afile} {$mfile} {$sfile} > /etc/yadifad.conf");
+
+	// MR -- because the same structure with nsd and yadifa, so use nsd data
+	$cpath = "{$ypath}/conf";
 
 	$dirs = array('master', 'slave', 'reverse');
 
 	foreach ($dirs as $k => $v) {
-		if (file_exists("{$path}/{$v}")) {
-			exec("'rm' -rf {$path}/{$v}");
+		if (file_exists("{$cpath}/{$v}")) {
+			exec("'rm' -rf {$cpath}/{$v}");
 		}
 	}
 
