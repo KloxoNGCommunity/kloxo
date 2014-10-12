@@ -32,8 +32,8 @@
 		$zone  = "<zone>";
 		$zone .= "\n    domain      {$v}";
 		$zone .= "\n    type        slave";
-		$zone .= "\n    masters     {$c}";
-		$zone .= "\n    file-name   slave/{$v}";
+		$zone .= "\n    master      {$c}";
+		$zone .= "\n    file-name   /opt/configs/nsd/conf/slave/{$v}";
 		$zone .= "\n</zone>\n\n";
 
 		$str .= $zone;

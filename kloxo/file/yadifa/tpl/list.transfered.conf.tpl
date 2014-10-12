@@ -1,16 +1,23 @@
 <?php
 	$file = "/opt/configs/yadifa/conf/defaults/yadifa.acl.conf";
 
+	$text  ="<acl>\n";
+
 	if (array_keys($ips)) {
-		$i = implode(" ", $ips);
+		$i = implode(", ", $ips);
 
-		$text  ="    allow-notify    {$i}\n";
-		$text .="    allow-transfer  {$i}\n";
-
-		file_put_contents($file, $text);
+		$text .="    transferer  key allower\n";
+		$text .="    admins      localhost\n";
+		$text .="    slave       {$i}\n";
 	} else {
-		exec("echo '' > {$file}");
+		$text .="    transferer  key allower\n";
+		$text .="    admins      localhost\n";
+		$text .="    slave       localhost\n";
 	}
+
+	$text .="</acl>\n";
+
+	file_put_contents($file, $text);
 
 	// MR -- because the same structure with nsd and yadifa, so use nsd data
 
@@ -24,6 +31,3 @@
 		}
 	}
 
-        #allow-update                none
-        #allow-transfer              none
-        #allow-notify                none
