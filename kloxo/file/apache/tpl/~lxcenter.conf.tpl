@@ -59,12 +59,12 @@ KeepAliveTimeout 15
     ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $maxpar_p; ?>
+        MaxRequestWorkers <?php echo $minpar_p * 5; ?>
 
         MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $maxpar_p; ?>
+        MaxClients <?php echo $minpar_p * 5; ?>
 
         MaxRequestsPerChild 4000
     </IfVersion>
@@ -82,12 +82,12 @@ KeepAliveTimeout 15
     ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $maxpar_p; ?>
+        MaxRequestWorkers <?php echo $minpar_p * 10; ?>
 
         MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $maxpar_p; ?>
+        MaxClients <?php echo $minpar_p * 10; ?>
 
         MaxRequestsPerChild 4000
     </IfVersion>
@@ -102,17 +102,16 @@ KeepAliveTimeout 15
 
     MaxSpareThreads <?php echo $maxpar_w; ?>
 
-    ThreadsPerChild <?php echo $maxpar_w; ?>
-
+    ThreadsPerChild 25
     ServerLimit <?php echo $maxpar_w; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $maxpar_w; ?>
+        MaxRequestWorkers <?php echo $minpar_w * 25; ?>
 
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $maxpar_p; ?>
+        MaxClients <?php echo $minpar_w * 25; ?>
 
         MaxRequestsPerChild 0
     </IfVersion>
@@ -129,19 +128,18 @@ KeepAliveTimeout 15
 
     MaxSpareThreads <?php echo $maxpar_w; ?>
 
-    ThreadsPerChild <?php echo $maxpar_w; ?>
-
+    ThreadsPerChild 25
     ServerLimit <?php echo $maxpar_w; ?>
 
     MaxRequestsPerChild 0
     ThreadStackSize 8196
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $maxpar_w; ?>
+        MaxRequestWorkers <?php echo $minpar_w * 25; ?>
 
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $maxpar_w; ?>
+        MaxClients <?php echo $minpar_w * 25; ?>
 
         MaxRequestsPerChild 0
     </IfVersion>
