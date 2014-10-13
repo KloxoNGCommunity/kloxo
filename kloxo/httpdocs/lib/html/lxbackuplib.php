@@ -180,16 +180,6 @@ class lxbackup extends Lxdb
 
 		ftp_pasv($fn, true);
 
-	/*
-		ftp_pasv($fn, true);
-
-		$fp = lfopen($file, "r");
-		$ret = ftp_fput($fn, $uploadfilename, $fp, FTP_BINARY);
-
-		if (!$ret) {
-			throw new lxException($login->getThrow('could_not_upload_file'), '', $object->ftp_server);
-		}
-	*/
 		return $param;
 	}
 

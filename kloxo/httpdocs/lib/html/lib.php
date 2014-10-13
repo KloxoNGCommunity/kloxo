@@ -5816,7 +5816,7 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
-	$list = array("defaults", "domains", "proxies", "globals");
+	$list = array("defaults", "domains", "proxies", "globals", "toolkits");
 
 	foreach ($list as $k => $l) {
 		if (!lxfile_exists("{$htcpath}/{$l}")) {
