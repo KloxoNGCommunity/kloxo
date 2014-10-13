@@ -38,7 +38,7 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 * Database Manager: PHPMyAdmin; Adminer, MyWebSql and SqlBuddy as additional **)
 * Webmail: Afterlogic Webmail Lite, Telaen, Squirrelmail, Roundcube and Rainloop; Horde and T-Dah dropped
 * FTP server: Pure-ftpd
-* DNS Server: Bind and Djbdns; add Powerdns, MaraDNS and NSD *)
+* DNS Server: Bind and Djbdns; add Powerdns, ~~MaraDNS~~, NSD, myDNS and Yadifa *)
 * Addons: ClamAV, Spamassassin/Bogofilter/Spamdyke and RKHunter
 * Fixed many bugs of Kloxo Official (including security issues)
 * And many more!
