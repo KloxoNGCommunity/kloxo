@@ -80,9 +80,7 @@ class client__sync extends lxDriverClass {
 	function setQuota()
 	{
 		if (!is_unlimited($this->main->priv->totaldisk_usage)) {
-		//	$disk = $this->main->priv->totaldisk_usage * 1024;
-			$blocksize = getFSBlockSizeInKb(); // Size in KB
-			$disk = ($this->main->priv->totaldisk_usage * 1024 / $blocksize);
+			$disk = $this->main->priv->totaldisk_usage * 1024;
 			os_set_quota($this->main->username, $disk);
 		} else {
 			os_set_quota($this->main->username, 0);

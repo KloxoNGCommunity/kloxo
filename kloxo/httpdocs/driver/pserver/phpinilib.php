@@ -77,7 +77,6 @@ class phpini extends lxdb
 	*/
 	//	$list[] = 'safe_mode_flag';
 		$list[] = 'output_compression_flag';
-		$list[] = 'session_save_path_flag';
 
 		return $list;
 	}
@@ -112,6 +111,8 @@ class phpini extends lxdb
 			$list[] = 'log_errors_flag';
 			$list[] = 'output_compression_flag';
 			$list[] = 'date_timezone_flag';
+		//	$list[] = 'session_autostart_flag' ;
+			$list[] = 'session_save_path_flag';
 		}
 	/*
 		$list[] = 'enable_xcache_flag';
@@ -147,8 +148,6 @@ class phpini extends lxdb
 	//	$list[] = 'magic_quotes_sybase_flag';
 		$list[] = 'cgi_force_redirect_flag';
 	//	$list[] = 'safe_mode_flag';
-	//	$list[] = 'session_autostart_flag' ;
-		$list[] = 'session_save_path_flag';
 
 		return $list;
 	}
@@ -164,6 +163,7 @@ class phpini extends lxdb
 			$list[] = 'memory_limit_flag';
 			$list[] = 'post_max_size_flag';
 			$list[] = "upload_max_filesize";
+			$list[] = 'session_save_path_flag';
 
 			return $list;
 		}
@@ -173,7 +173,7 @@ class phpini extends lxdb
 	{
 		if (!isset($this->phpini_flag_b) || get_class($this->phpini_flag_b) !== 'phpini_flag_b') {
 			$this->phpini_flag_b = new phpini_flag_b(null, null, $this->nname);
-			$this->setUpINitialValues();
+		//	$this->setUpInitialValues();
 		}
 	}
 
@@ -186,7 +186,7 @@ class phpini extends lxdb
 
 	//	if (!$this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() !== 'pserver') {
-			$ob = new phpini(null, 'localhost', createParentName('pserver', 'localhost'));
+			$ob = new phpini(null, $this->syncserver, createParentName('pserver', $this->syncserver));
 			$ob->get();
 			$ob->fixphpIniFlag();
 
@@ -263,7 +263,7 @@ class phpini extends lxdb
 
 	function postUpdate()
 	{
-		$this->setUpINitialValues();
+		$this->setUpInitialValues();
 
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
@@ -308,7 +308,7 @@ class phpini extends lxdb
 		}
 	*/
 
-		$this->setUpINitialValues();
+		$this->setUpInitialValues();
 	}
 
 	function updateform($subaction, $param)
@@ -347,9 +347,10 @@ class phpini extends lxdb
 				}
 			}
 
-		//	$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
-			$vlist["phpini_flag_b-date_timezone_flag"] = array('s', getTimeZoneList());
-
+			if ($subaction !== 'extraedit') {
+			//	$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
+				$vlist["phpini_flag_b-date_timezone_flag"] = array('s', getTimeZoneList());
+			}
 		}
 
 	//	if ($parent->is__table('web')) {
@@ -379,9 +380,37 @@ class phpini extends lxdb
 	}
 
 
-	function setUpINitialValues()
+	function setUpInitialValues()
 	{
 		global $ghtml, $login;
+
+		if ($this->getClass() === 'pserver') {
+			$this->initialValuesBasic();
+		} else {
+			$p = new phpini(null, $this->syncserver, createParentName('pserver', $this->syncserver));
+			$p->get();
+			$b = $p->phpini_flag_b;
+
+			$list = array_merge($this->getInheritedList(), $this->getLocalList(), $this->getExtraList());
+
+			array_unique($list);
+
+			if (isset($p->phpini_flag_b)) {
+				foreach ($list as $k => $v) {
+					if ($v === 'session_save_path_flag') {
+						$this->initialValue($v, "/home/kloxo/client/{$this->getParentO()->nname}");
+					} else {
+						$this->initialValue($v, $b->$v);
+					}
+				}
+			} else {
+				$this->initialValuesBasic();
+			}
+		}
+	}
+
+	function initialValuesBasic()
+	{
 	/*
 		$this->initialValueRpmStatus('enable_xcache_flag');
 		$this->initialValueRpmStatus('enable_zend_flag');
@@ -394,18 +423,8 @@ class phpini extends lxdb
 		$this->initialValue('register_global_flag', 'off');
 		$this->initialValue('mysql_allow_persistent_flag', 'off');
 
-		if ($this->getParentO()->getClass() === 'pserver') {
-			$this->phpini_flag_b->session_save_path_flag = '/var/lib/php/session';
-		} else {
-			$this->phpini_flag_b->session_save_path_flag = "/home/kloxo/client/{$this->getParentO()->nname}";
-		}
+		$this->phpini_flag_b->session_save_path_flag = '/var/lib/php/session';
 
-		// Issue #630 - parse_ini_file to be enabled by default
-		//	$this->initialValue('disable_functions', 
-		//		'exec,passthru,shell_exec,system,proc_open,popen,curl_exec,'.
-		//		'curl_multi_exec,parse_ini_file,show_source');
-
-		// MR -- remove curl from disable_functions
 		$initial = 'exec,passthru,shell_exec,system,proc_open,popen,show_source';
 		$this->initialValue('disable_functions', $initial);
 
@@ -447,7 +466,7 @@ class phpini extends lxdb
 			$c = str_replace("/usr/share/zoneinfo/", "", readlink("/etc/localtime"));
 			$this->initialValue('date_timezone_flag', $c);
 		} else {
-			// it's mean php in panel itself!
+			// it's mean php in panel itself and wrong. so changed
 		//	$this->initialValue('date_timezone_flag', date_default_timezone_get());
 			$this->initialValue('date_timezone_flag', 'Europe/London');
 		}

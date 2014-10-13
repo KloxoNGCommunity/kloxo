@@ -93,11 +93,14 @@ function os_set_quota($username, $disk)
 
 	// MR -- assume 1GB space = 1.000.000 KB / 4 KB = 250.000 blocksize
 	// where blocksize = 4KB -> inode = 25.000
-	// So, make set $disk = $inode * 10
+	// So, make set $totalblock = $inode * 10
 
-	$inode = $disk / 10;
+	$totalinode = $disk / 10;
 
-	lxshell_return("setquota", "-u", $username, $disk, $disk, $inode, $inode, "-a");
+	$perblock = getFSBlockSizeInKb();
+	$totalblock = $disk / $perblock;
+
+	lxshell_return("setquota", "-u", $username, $totalblock, $totalblock, $totalinode, $totalinode, "-a");
 }
 
 function os_createUserQuota()

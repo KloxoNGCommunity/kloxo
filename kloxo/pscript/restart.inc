@@ -16,7 +16,11 @@ else
 				if $(dir /etc/rc.d/rc${num}.d|grep -E 'S[0-9]{2}'${item} >/dev/null 2>&1) ; then
 					echo ""
 					if [ "$1" == "--force" ] || [ "$1" == "-y" ] ; then
-						/etc/init.d/${item} restart
+						if [ "${item}" == "qmail" ] ; then
+							sh /script/restart-mail
+						else
+							/etc/init.d/${item} restart
+						fi
 					else
 						if [ -f /usr/local/lxlabs/kloxo/etc/process/custom.${item} ] ; then
 							sh /usr/local/lxlabs/kloxo/etc/process/custom.${item}	

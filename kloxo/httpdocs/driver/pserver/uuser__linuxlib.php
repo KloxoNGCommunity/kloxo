@@ -69,7 +69,8 @@ class Uuser__Linux  extends lxDriverClass
 	function syncNewquota()
 	{
 		if(!is_unlimited($this->main->priv->disk_usage)) {
-			lxshell_return("setquota", "-ur","-F","vfsv0", $this->main->nname , "0", $this->main->priv->disk_usage, "200", "0", "0", "-a", "ext3");
+			$blocksize = getFSBlockSizeInKb(); // Size in KB
+			lxshell_return("setquota", "-ur","-F","vfsv0", $this->main->nname , "0", ($this->main->priv->disk_usage / $blocksize), "200", "0", "0", "-a", "ext3");
 		}
 	}
 
