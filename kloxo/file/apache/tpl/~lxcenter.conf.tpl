@@ -102,13 +102,18 @@ KeepAliveTimeout 15
 
     MaxSpareThreads <?php echo $maxpar_w; ?>
 
-    ThreadsPerChild 25
+    ThreadsPerChild <?php echo $maxpar_w; ?>
+
+    ServerLimit <?php echo $maxpar_w; ?>
+
     <IfVersion >= 2.4>
-        MaxRequestWorkers 400
+        MaxRequestWorkers <?php echo $maxpar_w; ?>
+
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients 400
+        MaxClients <?php echo $maxpar_p; ?>
+
         MaxRequestsPerChild 0
     </IfVersion>
 
@@ -124,15 +129,20 @@ KeepAliveTimeout 15
 
     MaxSpareThreads <?php echo $maxpar_w; ?>
 
-    ThreadsPerChild 25
+    ThreadsPerChild <?php echo $maxpar_w; ?>
+
+    ServerLimit <?php echo $maxpar_w; ?>
+
     MaxRequestsPerChild 0
     ThreadStackSize 8196
     <IfVersion >= 2.4>
-        MaxRequestWorkers 400
+        MaxRequestWorkers <?php echo $maxpar_w; ?>
+
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients 400
+        MaxClients <?php echo $maxpar_w; ?>
+
         MaxRequestsPerChild 0
     </IfVersion>
 
