@@ -50,10 +50,11 @@ foreach($dns_records as $k => $o) {
 <?php
             break;
         case "mx":
-            $v = $o->priority;
+            $key = $domainname;
+            $priority = $o->priority;
             $value = $o->param;
 ?>
-<?php echo $domainname; ?>. IN MX <?php echo $v; ?> <?php echo $value; ?>.
+<?php echo $key; ?>. IN MX <?php echo $priority; ?> <?php echo $value; ?>.
 <?php
             break;
         case "aaaa":
@@ -63,7 +64,7 @@ foreach($dns_records as $k => $o) {
             if ($key !== "__base__") {
                 $key = "{$key}.{$domainname}";
             } else {
-                $key = "{$domainname}";
+                $key = $domainname;
             }
 ?>
 <?php echo $key; ?>. IN AAAA <?php echo $value; ?>
@@ -77,7 +78,7 @@ foreach($dns_records as $k => $o) {
             if ($key !== "__base__") {
                 $key = "{$key}.{$domainname}";
             } else {
-                $key = "{$domainname}";
+                $key = $domainname;
             }
 ?>
 <?php echo $key; ?>. IN A <?php echo $value; ?>
@@ -92,7 +93,7 @@ foreach($dns_records as $k => $o) {
             if ($key !== "__base__") {
                 $key = "{$key}.{$domainname}";
             } else {
-                $key = "{$domainname}";
+                $key = $domainname;
             }
 
             if (isset($arecord[$value])) {
@@ -103,9 +104,9 @@ foreach($dns_records as $k => $o) {
 <?php
             } else {
                 if ($value !== "__base__") {
-                    $value = "$value";
+                    $value = $value;
                 } else {
-                    $value = "{$domainname}";
+                    $value = $domainname;
                 }
 ?>
 <?php echo $key; ?>. IN CNAME <?php echo $value; ?>.
@@ -121,7 +122,7 @@ foreach($dns_records as $k => $o) {
             if ($key !== "__base__") {
                 $key = "{$key}.{$domainname}";
             } else {
-                $key = "{$domainname}";
+                $key = $domainname;
             }
 
             if ($value !== "__base__") {
