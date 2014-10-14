@@ -67,8 +67,8 @@ class phpini__sync extends Lxdriverclass
 		$phpfpm_main = getLinkCustomfile($phpfpm_path_etc, "php53-fpm.conf");
 		$phpfpm_www = getLinkCustomfile($phpfpm_path_etc . "/php-fpm.d", "www.conf");
 
-		$htaccess_path = "/opt/configs/phpini/tpl";
-		$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
+		$prefork_path = "/opt/configs/apache/tpl";
+		$prefork_cont = file_get_contents(getLinkCustomfile($prefork_path, "prefork.inc.tpl"));
 
 		if (!file_exists("/etc/php-fpm.d")) {
 			lxfile_mkdir("/etc/php-fpm.d");
@@ -119,18 +119,21 @@ class phpini__sync extends Lxdriverclass
 				$phpini_parse = getParseInlinePhp($phpini_cont, $input);
 				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 				$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
+				$prefork_parse = getParseInlinePhp($prefork_cont, $input);
 
 				$phpini_target = "/home/kloxo/client/{$user}/php.ini";
 				$fcgid_target = "/home/kloxo/client/{$user}/php5.fcgi";
 				$phpfpm_target = "/etc/php-fpm.d/{$user}.conf";
+				$prefork_target = "/home/kloxo/client/{$user}/prefork.inc";
 
 				file_put_contents($phpini_target, $phpini_parse);
 				file_put_contents($fcgid_target, $fcgid_parse);
 				file_put_contents($phpfpm_target, $phpfpm_parse);
+				file_put_contents($prefork_target, $prefork_parse);
 
 				lxfile_unix_chmod($fcgid_target, "0755");
 			} else {
-				$htaccess_parse = getParseInlinePhp($htaccess_cont, $input);
+				$htaccess_parse = '';
 
 				$htaccess_target = "/home/{$user}/kloxoscript/.htaccess";
 
@@ -141,39 +144,15 @@ class phpini__sync extends Lxdriverclass
 			}
 		}
 
-		/*
-			// MR -- also restart php-fpm
-			$phptype = db_get_value("serverweb", "pserver-" . $this->syncserver, "php-type");
-			if (strpos($phptype, 'php-fpm') !== false) {
-				createRestartFile('php-fpm');
-			}
-
-			createRestartFile($this->main->__var_webdriver);
-		*/
 		createRestartFile("restart-web");
 	}
 
-	function createHtaccessFile()
+function removeHtaccessOldPart()
 	{
 		$pclass = $this->main->getParentClass();
 
-		$this->initString();
+		$user = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';
 
-		$l1 = $this->main->getInheritedList();
-		$l2 = $this->main->getLocalList();
-		$l3 = $this->main->getExtraList();
-
-		$ll = lx_array_merge(array($l1, $l2, $l3));
-		$list = array_unique($ll);
-
-		$input = array();
-
-		foreach ($list as &$l) {
-			$v = $this->main->phpini_flag_b->$l;
-			$input[$l] = ($v) ? $v : '';
-		}
-
-		$user = $input['user'] = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';
 
 		$stlist[] = "###Start Kloxo PHP config Area";
 		$stlist[] = "###Start Lxdmin Area";
@@ -187,10 +166,12 @@ class phpini__sync extends Lxdriverclass
 		$endstring = $endlist[0];
 		$startstring = $stlist[0];
 
-		$phpini_path = "/opt/configs/phpini/tpl";
+		$htaccess_path = "/opt/configs/apache/tpl";
 
 		if ($pclass !== 'pserver') {
-			$htaccess_cont = file_get_contents(getLinkCustomfile($phpini_path, "htaccess.tpl"));
+			$droot = $this->main->__var_docrootpath;
+
+			$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
 			$htaccess_parse = getParseInlinePhp($htaccess_cont, $input);
 
 			$htaccess_target = "{$droot}/.htaccess";
@@ -224,13 +205,12 @@ class phpini__sync extends Lxdriverclass
 		switch ($subaction) {
 			case "full_update":
 				$this->createIniFile();
-				$this->createHtaccessFile();
 				break;
 			case "ini_update":
 				$this->createIniFile();
 				break;
 			case "htaccess_update":
-				$this->createHtaccessFile();
+				$this->removeHtaccessOldPart();
 				break;
 			default:
 				$this->updateSelected();

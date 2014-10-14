@@ -125,9 +125,9 @@ server {
 
 	server_name _;
 
-	set $var_domain '';
-
 	index <?php echo $indexorder; ?>;
+
+	set $var_domain '';
 
 	set $var_rootdir '<?php echo $defaultdocroot; ?>';
 

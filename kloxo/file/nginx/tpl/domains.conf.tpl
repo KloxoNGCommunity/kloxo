@@ -153,6 +153,8 @@ server {
 
 	index <?php echo $indexorder; ?>;
 
+	set $var_domain 'cp.<?php echo $domainname; ?>';
+
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
 	root $var_rootdir;
@@ -189,6 +191,8 @@ server {
 	server_name webmail.<?php echo $domainname; ?>;
 
 	index <?php echo $indexorder; ?>;
+
+	set $var_domain 'webmail.<?php echo $domainname; ?>';
 
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
@@ -228,6 +232,8 @@ server {
 	server_name cp.<?php echo $domainname; ?>;
 
 	index <?php echo $indexorder; ?>;
+
+	set $var_domain 'cp.<?php echo $domainname; ?>';
 
 	set $var_rootdir '<?php echo $cpdocroot; ?>';
 
@@ -301,6 +307,8 @@ server {
 
 	index <?php echo $indexorder; ?>;
 
+	set $var_domain 'webmail.<?php echo $domainname; ?>';
+
 	set $var_rootdir '<?php echo $webmaildocroot; ?>';
 
 	root $var_rootdir;
@@ -358,7 +366,7 @@ server {
 
 	index <?php echo $indexorder; ?>;
 
-	set $var_domain '<?php echo $domainname; ?>';
+	set $var_domain <?php echo $domainname; ?>;
 <?php
 		if ($wwwredirect) {
 ?>
@@ -469,7 +477,6 @@ server {
 	# Extra Tags - end
 
 	set $var_fpmport '<?php echo $fpmport; ?>';
-	set $var_domain <?php echo $domainname; ?>
 
 <?php
 		}
@@ -588,6 +595,8 @@ server {
 
 	index <?php echo $indexorder; ?>;
 
+	set $var_domain '<?php echo $redirdomainname; ?>';
+
 	set $var_rootdir '<?php echo $redirfullpath; ?>';
 
 	root $var_rootdir;
@@ -650,6 +659,8 @@ server {
 
 	index <?php echo $indexorder; ?>;
 
+	set $var_domain '<?php echo $redirdomainname; ?>';
+
 	set $var_rootdir '<?php echo $redirfullpath; ?>';
 
 	root $var_rootdir;
@@ -696,6 +707,8 @@ server {
 	server_name webmail.<?php echo $parkdomainname; ?>;
 
 	index <?php echo $indexorder; ?>;
+
+	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
 
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
@@ -771,6 +784,8 @@ server {
 
 	index <?php echo $indexorder; ?>;
 
+	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
+
 	set $var_rootdir '<?php echo $webmaildocroot; ?>';
 
 	root $var_rootdir;
@@ -826,6 +841,8 @@ server {
 	server_name webmail.<?php echo $redirdomainname; ?>;
 
 	index <?php echo $indexorder; ?>;
+
+	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
 
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
@@ -898,6 +915,8 @@ server {
 	server_name webmail.<?php echo $redirdomainname; ?>;
 
 	index <?php echo $indexorder; ?>;
+
+	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
 
 	set $var_rootdir '<?php echo $webmaildocroot; ?>';
 

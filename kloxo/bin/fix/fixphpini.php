@@ -71,39 +71,29 @@ foreach($list as $c) {
 			if (!in_array($web->nname, $da)) { continue; }
 		}
 
-		if ($domain !== null) {
-			$php = $web->getObject('phpini');
-			$php->initPhpIni();
-			$php->setUpdateSubaction('htaccess_update');
+		$php = $web->getObject('phpini');
+		$php->initPhpIni();
+		$php->setUpdateSubaction('htaccess_update');
 
-			log_cleanup("- '/home/{$c->nname}/{$web->docroot}/.htaccess' ('{$c->nname}') at '{$php->syncserver}'", $nolog);
+		log_cleanup("- '/home/{$c->nname}/{$web->docroot}/.htaccess' ('{$c->nname}') at '{$php->syncserver}'", $nolog);
+
+		if (!in_array($c->nname, $clist)) {
+			$php = $c->getObject('phpini');
+			$php->initPhpIni();
+			$php->setUpdateSubaction('ini_update');
+
+			log_cleanup("- '/home/kloxo/client/{$c->nname}/php.ini' at '{$php->syncserver}'", $nolog);
+			log_cleanup("- '/home/kloxo/client/{$c->nname}/php5.fcgi' at '{$php->syncserver}'", $nolog);
+			log_cleanup("- '/home/kloxo/client/{$c->nname}/prefork.inc' at '{$php->syncserver}'", $nolog);
+			log_cleanup("- '/etc/php-fpm.d/{$c->nname}.conf' at '{$php->syncserver}'", $nolog);
 
 			$php->was();
-		} else {
-			if (!in_array($c->nname, $clist)) {
-				$php = $c->getObject('phpini');
-				$php->initPhpIni();
-				$php->setUpdateSubaction('ini_update');
 
-				log_cleanup("- '/home/kloxo/client/{$c->nname}/php.ini' at '{$php->syncserver}'", $nolog);
-				log_cleanup("- '/home/kloxo/client/{$c->nname}/php5.fcgi' at '{$php->syncserver}'", $nolog);
-				log_cleanup("- '/etc/php-fpm.d/{$c->nname}.conf' at '{$php->syncserver}'", $nolog);
-				log_cleanup("- '/home/{$c->nname}/kloxoscript/.htaccess' at '{$php->syncserver}'", $nolog);
-
-				$php->was();
-
-				$clist[] = $c->nname;
-				array_unique($clist);
-			}
-
-			$php = $web->getObject('phpini');
-			$php->initPhpIni();
-			$php->setUpdateSubaction('htaccess_update');
-
-			log_cleanup("- '/home/{$c->nname}/{$web->docroot}/.htaccess' ('{$c->nname}') at '{$php->syncserver}'", $nolog);
-
-			$php->was();
+			$clist[] = $c->nname;
+			array_unique($clist);
 		}
+
+		$php->was();
 
 		$web->was();
 	}

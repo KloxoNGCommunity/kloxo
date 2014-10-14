@@ -643,6 +643,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_php5.c>
 		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
 		php_admin_value sendmail_from "<?php echo $domainname; ?>"
+		Include /home/kloxo/client/<?php echo $user; ?>/prefork.inc
 	</IfModule>
 
 	<Location />

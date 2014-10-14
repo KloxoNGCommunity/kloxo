@@ -59,12 +59,12 @@ KeepAliveTimeout 15
     ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $minpar_p * 5; ?>
+        MaxRequestWorkers <?php echo $maxpar_p; ?>
 
         MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $minpar_p * 5; ?>
+        MaxClients <?php echo $maxpar_p; ?>
 
         MaxRequestsPerChild 4000
     </IfVersion>
@@ -82,12 +82,12 @@ KeepAliveTimeout 15
     ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $minpar_p * 10; ?>
+        MaxRequestWorkers <?php echo $maxpar_p; ?>
 
         MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $minpar_p * 10; ?>
+        MaxClients <?php echo $maxpar_p; ?>
 
         MaxRequestsPerChild 4000
     </IfVersion>
