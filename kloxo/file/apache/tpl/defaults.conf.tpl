@@ -1,5 +1,6 @@
 ### begin - web of initial - do not remove/modify this line
 
+
 <?php
 
 $srcconfpath = "/opt/configs/apache/etc/conf";
@@ -19,7 +20,9 @@ foreach ($modlist as $k => $v) {
 	if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
 		copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
 	} else {
-		copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+		if ($v !== 'lxcenter') {
+			copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+		}
 	}
 }
 
@@ -78,7 +81,7 @@ if ($reverseproxy) {
 	}
 }
 
-$portlist = array('${global::port}', '${global::portssl}');
+$portlist = array('${port}', '${portssl}');
 
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
@@ -111,19 +114,23 @@ $fpmportapache = 50000;
 
 foreach ($certnamelist as $ip => $certname) {
 ?>
+
 Define global::port <?php echo $ports[0]; ?>
 
 Define global::portssl <?php echo $ports[1]; ?>
 
-Define global::ip <?php echo $ip; ?>
+Define port ${global::port}
+Define portssl ${global::portssl}
+
+Define ip <?php echo $ip; ?>
 
 
-Listen ${global::ip}:${global::port}
-Listen ${global::ip}:${global::portssl}
+Listen ${ip}:${port}
+Listen ${ip}:${portssl}
 
 <IfVersion < 2.4>
-	NameVirtualHost ${global::ip}:${global::port}
-	NameVirtualHost ${global::ip}:${global::portssl}
+	NameVirtualHost ${ip}:${port}
+	NameVirtualHost ${ip}:${portssl}
 </IfVersion>
 <?php
 }
@@ -160,7 +167,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ### 'default' config
-<VirtualHost ${global::ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -259,7 +266,7 @@ foreach ($certnamelist as $ip => $certname) {
 		//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
@@ -286,7 +293,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 
 ### cp config
-<VirtualHost ${global::ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -385,7 +392,7 @@ foreach ($certnamelist as $ip => $certname) {
 		//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch

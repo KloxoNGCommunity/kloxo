@@ -15,7 +15,7 @@ if ($reverseproxy) {
 	}
 }
 
-$portlist = array('${global::port}', '${global::portssl}');
+$portlist = array('${port}', '${portssl}');
 
 if ($reverseproxy) {
 	$tmp_ip = '127.0.0.1';
@@ -122,25 +122,25 @@ if (!$reverseproxy) {
 		if ($ip !== '*') {
 ?>
 
+Define port ${global::port}
+Define portssl ${global::portssl}
 Define ip <?php echo $ip; ?>
 
 
-NameVirtualHost ${ip}:${global::port}
-NameVirtualHost ${ip}:${global::portssl}
+NameVirtualHost ${ip}:${port}
+NameVirtualHost ${ip}:${portssl}
 
 <?php
 		} else {
 ?>
 
-Define ip ${global::ip}
+Define port ${global::port}
+Define portssl ${global::portssl}
+Define ip <?php echo $ip; ?>
+
 <?php
 		}
 	}
-} else {
-?>
-
-Define ip ${global::ip}
-<?php
 }
 
 foreach ($certnamelist as $ip => $certname) {
@@ -251,7 +251,7 @@ foreach ($certnamelist as $ip => $certname) {
 				//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -418,7 +418,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -646,7 +646,7 @@ foreach ($certnamelist as $ip => $certname) {
 		Include /home/kloxo/client/<?php echo $user; ?>/prefork.inc
 	</IfModule>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options <?php echo $dirindex; ?> -FollowSymlinks +SymLinksIfOwnerMatch
 
@@ -744,7 +744,7 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($blockips) {
 ?>
 
-	<Location />
+	<Location "/">
 		Order deny,allow
 		Deny from <?php echo $blockips; ?>
 
@@ -1066,7 +1066,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1233,7 +1233,7 @@ foreach ($certnamelist as $ip => $certname) {
 						//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1376,7 +1376,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1543,7 +1543,7 @@ foreach ($certnamelist as $ip => $certname) {
 						//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
