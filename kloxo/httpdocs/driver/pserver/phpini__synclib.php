@@ -87,6 +87,9 @@ class phpini__sync extends Lxdriverclass
 		$startstring = $stlist[0];
 
 		if ($pclass === 'pserver') {
+			$input['phpinipath'] = "/var/lib/php/session";
+			$input['phpcgipath'] = "/usr/bin/php-cgi";
+
 			$phpini_parse = getParseInlinePhp($phpini_cont, $input);
 			$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 			$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);

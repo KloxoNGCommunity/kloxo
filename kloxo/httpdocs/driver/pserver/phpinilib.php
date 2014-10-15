@@ -395,16 +395,12 @@ class phpini extends lxdb
 
 			array_unique($list);
 
-			if (isset($p->phpini_flag_b)) {
-				foreach ($list as $k => $v) {
-					if ($v === 'session_save_path_flag') {
-						$this->initialValue($v, "/home/kloxo/client/{$this->getParentO()->nname}");
-					} else {
-						$this->initialValue($v, $b->$v);
-					}
+			foreach ($list as $k => $v) {
+				if ($v === 'session_save_path_flag') {
+					$this->initialValue($v, "/home/kloxo/client/{$this->getParentO()->nname}");
+				} else {
+					$this->initialValue($v, $b->$v);
 				}
-			} else {
-				$this->initialValuesBasic();
 			}
 		}
 	}
@@ -424,6 +420,7 @@ class phpini extends lxdb
 		$this->initialValue('mysql_allow_persistent_flag', 'off');
 
 		$this->phpini_flag_b->session_save_path_flag = '/var/lib/php/session';
+		$this->initialValue('session_save_path_flag', $this->phpini_flag_b->session_save_path_flag);
 
 		$initial = 'exec,passthru,shell_exec,system,proc_open,popen,show_source';
 		$this->initialValue('disable_functions', $initial);
