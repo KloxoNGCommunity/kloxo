@@ -5772,6 +5772,16 @@ function setInitialDnsConfig($type, $nolog = null)
 				touch("{$path}/defaults/nsd.slave.conf");
 			}
 		}
+
+		if ($type === 'yadifa') {
+			$newlist = array("keys", "xfr");
+
+			foreach ($newlist as &$n) {
+				if (!file_exists("{$path}/{$n}")) {
+					lxfile_mkdir("{$path}/{$n}");
+				}
+			}
+		}
 	}
 
 	// MR -- remove old dirs

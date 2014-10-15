@@ -1,6 +1,7 @@
 <?php
-	exec("chown -R nsd:nsd /var/lib/nsd");
-	exec("chmod 0777 /opt/configs/nsd/conf/master; chmod 0777 /opt/configs/nsd/conf/slave");
+	// MR -- don't needed because nsd running under root
+//	exec("chown -R nsd:nsd /var/lib/nsd");
+//	exec("chmod 0777 /opt/configs/nsd/conf/master; chmod 0777 /opt/configs/nsd/conf/slave");
 
 	$file = "/opt/configs/nsd/conf/defaults/nsd.acl.conf";
 
