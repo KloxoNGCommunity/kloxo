@@ -141,6 +141,14 @@ Define ip <?php echo $ip; ?>
 <?php
 		}
 	}
+} else {
+?>
+
+Define port ${global::port}
+Define portssl ${global::portssl}
+Define ip <?php echo $ip; ?>
+
+<?php
 }
 
 foreach ($certnamelist as $ip => $certname) {
