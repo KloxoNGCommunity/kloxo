@@ -16,21 +16,17 @@ class client__sync extends lxDriverClass {
 
 	function dbactionAdd()
 	{
-		lxfile_mkdir("__path_client_root/{$this->main->nname}");
-		lxfile_mkdir("__path_client_root/{$this->main->nname}/__backup");
-		lxfile_generic_chown("__path_client_root/{$this->main->nname}", "lxlabs");
-		lxfile_generic_chown("__path_client_root/{$this->main->nname}/__backup", "lxlabs");
+		global $sgbl;
+
+		$path = "{$sgbl->__path_client_root}/{$this->main->nname}";
+
+		lxfile_mkdir($path);
+		lxfile_mkdir("{$path}/__backup");
+		lxfile_generic_chown($path, "lxlabs");
+		lxfile_generic_chown("{$path}/__backup", "lxlabs");
 
 		$ret = $this->createUser();
 		$this->setupDefaultDomain();
-
-		// MR -- not work here. So, create warning if client not update php.ini
-		// in getAnyErrorMessage()
-	//	$php = $this->main->getObject('phpini');
-	//	$php->initPhpIni();
-	//	$php->setUpdateSubaction('ini_update');
-
-	//	exec("sh /script/fixphp --client={$username}");
 
 		return $ret;
 	}
@@ -51,6 +47,9 @@ class client__sync extends lxDriverClass {
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$spath = "{$sgbl->__path_customer_root}/{$this->main->getPathFromName()}";
+		$tpath = "{$sgbl->__path_client_root}/{$this->main->nname}";
+
 		if (!$sgbl->isKloxo()) {
 			return;
 		}
@@ -64,10 +63,12 @@ class client__sync extends lxDriverClass {
 			$username = "a$username";
 		}
 
-		$username = os_create_system_user($username, $password, $this->main->nname, $shell, "__path_customer_root/{$this->main->getPathFromName()}/");
+		$username = os_create_system_user($username, $password, $this->main->nname, $shell, "{$spath}/");
 
-		lxfile_unix_chown("__path_customer_root/{$this->main->getPathFromName()}", "{$username}:apache");
-		lxfile_unix_chmod("__path_customer_root/{$this->main->getPathFromName()}", "750");
+//		exec("ln -sf {$tpath}/__backup /home/{$this->main->nname}/__backup");
+
+		lxfile_unix_chown($spath, "{$username}:apache");
+		lxfile_unix_chmod($spath, "750");
 
 		$this->main->username = $username;
 
@@ -248,3 +249,4 @@ class client__sync extends lxDriverClass {
 		lxfile_generic_chmod($fullpath, "0750");
 	}
 }
+

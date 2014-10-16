@@ -10,6 +10,10 @@ $list = parse_opt($argv);
 
 $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $select = (isset($list['select'])) ? $list['select'] : 'all';
+
+// MR -- TODO: possible for each client running this function
+$client = (isset($list['client'])) ? $list['client'] : 'all';
+
 $nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
 
 log_cleanup("Fixing Chown and Chmod", $nolog);
@@ -30,37 +34,18 @@ foreach($clist as $c) {
 		if (!in_array($c->syncserver, $sa)) { continue; }
 	}
 
-	$dlist = $c->getList('domaina');
+	if ($client !== 'all') {
+		$ca = explode(",", $client);
+		if (!in_array($c->nname, $ca)) { continue; }
+	}
 
-	foreach((array) $dlist as $l) {
-		$web = $l->getObject('web');
-
-		$currsyncserver = $web->syncserver;
-
-		if ($prevsyncserver !== $currsyncserver) {
-			$prevsyncserver = $currsyncserver;
-
-			if (!$nolog) {
-				if ($select === 'all') {
-					$web->setUpdateSubaction('fix_chownchmod_all');
-				} elseif ($select === 'chown') {
-					$web->setUpdateSubaction('fix_chownchmod_own');
-				} elseif ($select === 'chmod') {
-					$web->setUpdateSubaction('fix_chownchmod_mod');
-				}
-			} else {
-				if ($select === 'all') {
-					$web->setUpdateSubaction('fix_chownchmod_all_nolog');
-				} elseif ($select === 'chown') {
-					$web->setUpdateSubaction('fix_chownchmod_own_nolog');
-				} elseif ($select === 'chmod') {
-					$web->setUpdateSubaction('fix_chownchmod_mod_nolog');
-				}
-			}
-
-			$web->was();
-		}
+	if ($client === 'all') {
+		rl_exec_get(null, $c->syncserver, "setFixChownChmod", array($select, $nolog));
+	} else {
+		rl_exec_get(null, $c->syncserver, "setFixChownChmodWebPerUser", array($select, $c->nname, $nolog));
+		rl_exec_get(null, $c->syncserver, "setFixChownChmodMailPerUser", array($select, $c->nname, $nolog));
 	}
 }
+
 
 

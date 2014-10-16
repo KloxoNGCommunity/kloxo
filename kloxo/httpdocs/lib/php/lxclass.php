@@ -5785,6 +5785,8 @@ abstract class Lxclass
 
 		try {
 			foreach ((array)$gbl->__var_objectbackuplist as $d) {
+				if (($d->get__table() === 'client') && ($d->nname === '_backuper_')) { continue; }
+
 				print("Taking backup of '{$d->get__table()}:{$d->nname}'\n");
 				log_log("backup", "Taking backup of '{$d->get__table()}:{$d->nname}'");
 				$d->backMeUp($vd, $rem->ddate);

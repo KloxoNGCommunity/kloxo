@@ -210,15 +210,14 @@ class Ffile extends Lxclass
 	function print_back()
 	{
 		?>
-    <table width=90%>
-        <tr>
-            <td>
-                <a href=<?php echo $_SERVER['PHP_SELF'] ?>?frm_action=show&frm_o_nname=<?php echo dirname($this->nname) ?>>
-                    Back </a>
-
-            </td>
-        </tr>
-    </table>
+	<table width=90%>
+		<tr>
+			<td>
+				<a href=<?php echo $_SERVER['PHP_SELF'] ?>?frm_action=show&frm_o_nname=<?php echo dirname($this->nname) ?>>
+					Back </a>
+			</td>
+		</tr>
+	</table>
 	<?php
 	}
 
@@ -300,7 +299,7 @@ class Ffile extends Lxclass
 		$ret = $this->serverfile_data;
 
 		while (@ob_end_clean()) {
-			;
+			// no action
 		}
 
 		if ($this->isLocalhost('__readserver') || $gen->isOn('masterdownload')) {
@@ -420,7 +419,6 @@ class Ffile extends Lxclass
 			$gbl->__this_redirect .= $error_exist;
 		}
 
-
 		$this->paste_list = $list;
 		$this->filepass = $filepass;
 		$this->setUpdateSubaction('paste');
@@ -532,6 +530,7 @@ class Ffile extends Lxclass
 		}
 ?>
 
+<!--
 <div style="width:910px; margin:0 auto">
 <table>
 	<tr>
@@ -546,13 +545,13 @@ class Ffile extends Lxclass
 		} else {
 			$url = "a=show&l[class]=ffile&l[nname]=/";
 		}
-		
+
 		$url = $ghtml->getFullUrl($url);
 		
 		if ($base) {
 			$url .= "&frm_selectshowbase=$base";
 		}
-		
+
 		$parent = $this->getParentO();
 		$desc = get_classvar_description($parent->getClass());
 ?>
@@ -570,7 +569,7 @@ class Ffile extends Lxclass
 					continue;
 				}
 			}
-			
+
 			if ($base) {
 				$url = 'a=selectshow&l[class]=ffile&l[nname]=' . $newname;
 			} else {
@@ -601,8 +600,9 @@ class Ffile extends Lxclass
 		<td width="100%"></td>
 	</tr>
 </table>
-</div>
-<?php		
+</div> -->
+
+<?php
 		$list = $gbl->getSessionV("frm_clip_list");
 
 		if ($list) {
@@ -651,7 +651,7 @@ class Ffile extends Lxclass
 		$this->recursive_f = $param['recursive_f'];
 		$this->newperm = $param['file_permission_f'];
 		$gbl->__this_redirect = $this->getParentDirUrl();
-		
+
 		return null;
 	}
 
@@ -662,11 +662,11 @@ class Ffile extends Lxclass
 		if (strpos($param['newfolder_f'], '../') !== false) {
 			throw new lxException($login->getThrow("folder_name_may_not_contain_doubledotsslash"), '', $param['newfolder_f']);
 		}
-		
+
 		$this->setUpdateSubaction('newdir');
 		$this->newfolder_f = $param['newfolder_f'];
 		$gbl->__this_redirect = $this->getDirUrl($this->nname);
-		
+
 		return null;
 	}
 
@@ -685,7 +685,7 @@ class Ffile extends Lxclass
 		$url = 'a=updateForm&sa=edit&l[class]=ffile&l[nname]=' . $file;
 		$url = $ghtml->getFullUrl($url);
 		$gbl->__this_redirect = $url;
-		
+
 		return null;
 	}
 
@@ -722,7 +722,7 @@ class Ffile extends Lxclass
 	function updateform($subaction, $param)
 	{
 		$vlist = null;
-		
+
 		switch ($subaction) {
 			case "thumbnail":
 				$this->image_width = '20';
@@ -742,23 +742,22 @@ class Ffile extends Lxclass
 			case "diskspace":
 				$vlist['diskspace'] = array('M', "calculate disk space");
 				$vlist['__v_button'] = 'calculate disk space';
-				
+
 				break;
 
 			case "zip_file":
-			//	dprintr($param);
 				$vlist['zip_file_f'] = null;
-				
+
 				break;
 
 			case "newdir":
 				$vlist['newfolder_f'] = null;
-				
+
 				break;
 
 			case "newfile":
 				$vlist['newfile_f'] = null;
-				
+
 				break;
 
 			case "content":
@@ -766,7 +765,7 @@ class Ffile extends Lxclass
 
 			case "fancyedit":
 				$this->getContent();
-				
+
 				if ($this->isOn('not_full_size')) {
 					$vlist['fake_f'] = array('M', "File Too Large to Edit");
 					$vlist['__v_button'] = array();
@@ -774,7 +773,7 @@ class Ffile extends Lxclass
 					$vlist['content'] = array('V', $this->content);
 					$vlist['__v_button'] = array();
 				}
-				
+
 				break;
 
 			case "edit":
@@ -787,29 +786,28 @@ class Ffile extends Lxclass
 					$vlist['content'] = null;
 					$vlist['__v_button'] = "Save";
 				}
-				
+
 				break;
 
 			case "zipextract":
-			//	dprint($this->nname);
 				$this->getContent();
 				$vlist['zipcontent'] = null;
 				$vlist['zip_extract_dir_f'] = array('m', dirname($this->nname));
-				//$vlist['zip_overwrite_f'] = null;
+			//	$vlist['zip_overwrite_f'] = null;
 				$vlist['__v_button'] = "Extract";
-				
+
 				return $vlist;
 
 			case "perm":
 				$vlist['file_permission_f'] = array();
 				$vlist['recursive_f'] = array();
-				
+
 				break;
 
 			case "rename":
 				$vlist['new_name_f'] = array('m', basename($this->nname));
 				$vlist['__v_button'] = "Rename";
-				
+
 				break;
 
 			case "upload_s":
@@ -826,33 +824,33 @@ class Ffile extends Lxclass
 				$vlist['download_ftp_file_f'] = null;
 				$vlist['download_overwrite_f'] = null;
 				$vlist['__v_button'] = "Upload";
-				
+
 				return $vlist;
 
 			case "backupftpupload":
 				$this->downloadFromBackup($vlist);
-				
+
 				return $vlist;
 
 			case "download_from_http":
 				$vlist['download_url_f'] = null;
 				$vlist['download_overwrite_f'] = null;
 				$vlist['__v_button'] = "Upload";
-				
+
 				return $vlist;
 		}
-		
+
 	//	dprint($subaction);
-		
+
 		return $vlist;
 	}
 
 	function downloadFromBackup(&$vlist)
 	{
 		global $login;
-	
+
 		$parent = $this->getParentO();
-		
+
 		if (!$parent->isClass('lxbackup')) {
 			throw new lxException($login->getThrow('only_in_backup'));
 		}
@@ -860,10 +858,10 @@ class Ffile extends Lxclass
 		if (!$parent->ftp_server) {
 			throw new lxException($login->getThrow('ftp_server_not_set'));
 		}
-		
+
 		$fn = lxftp_connect($parent->ftp_server);
 		$mylogin = ftp_login($fn, $parent->rm_username, $parent->rm_password);
-		
+
 		if ($parent->rm_directory) {
 			ftp_chdir($fn, $parent->rm_directory);
 		}
@@ -913,7 +911,7 @@ class Ffile extends Lxclass
 	{
 		if ($this->base === ".trash") {
 			$alist['property'][] = 'a=show';
-			
+
 			return null;
 		}
 
@@ -923,14 +921,14 @@ class Ffile extends Lxclass
 			foreach ($alist['property'] as &$__a) {
 				$__a = "goback=1&$__a";
 			}
-			
+
 			return $alist;
 		}
 
 		if ($this->isOn('browsebackup')) {
 			$alist['property'][] = "goback=1&a=show";
 			$alist['property'][] = "a=show";
-			
+
 			return $alist;
 		}
 
@@ -956,7 +954,7 @@ class Ffile extends Lxclass
 			} else {
 				$alist['property'][] = "a=update&sa=diskspace";
 			}
-			
+
 			return $alist;
 		}
 
@@ -971,10 +969,10 @@ class Ffile extends Lxclass
 				$alist['property'][] = "a=updateForm&sa=edit";
 				$alist['property'][] = "a=updateForm&sa=fancyedit";
 			}
-			
+
 			$alist['property'][] = "a=update&sa=download";
 		}
-		
+
 		if (!$this->is_top()) {
 			//$alist['property'][] = "a=updateform&sa=rename";
 			//$alist['property'][] = "a=updateform&sa=perm";
@@ -986,7 +984,7 @@ class Ffile extends Lxclass
 		if ($this->base === ".trash") {
 			return null;
 		}
-		
+
 		return $alist;
 	}
 
@@ -1007,7 +1005,7 @@ class Ffile extends Lxclass
 	function getDomainName()
 	{
 		list($dom,) = explode('/', $this->nname, 2);
-		
+
 		return $dom;
 	}
 
@@ -1017,7 +1015,7 @@ class Ffile extends Lxclass
 			list($dom, $rest) = explode('/', $this->nname, 2);
 			return $rest;
 		}
-		
+
 		return "";
 	}
 
@@ -1026,7 +1024,7 @@ class Ffile extends Lxclass
 		if ($this->mode & 0120000) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -1040,7 +1038,7 @@ class Ffile extends Lxclass
 		if ($this->ttype === 'zip' || $this->ttype === 'tgz' || $this->ttype === 'tar') {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -1056,7 +1054,7 @@ class Ffile extends Lxclass
 		if ($this->mode & S_IFDIR) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -1101,12 +1099,12 @@ class Ffile extends Lxclass
 					$perm .= $value;
 				}
 			}
-			
+
 			$n += -3;
 		}
-		
+
 		$perm = strrev($perm);
-		
+
 		return $perm;
 	}
 
@@ -1145,7 +1143,7 @@ class Ffile extends Lxclass
 				}
 
 				return $this->base;
-				
+
 				break;
 
 			case "mode":
@@ -1178,7 +1176,7 @@ class Ffile extends Lxclass
 
 			default:
 				return parent::display($var);
-					
+
 				break;
 		}
 	}
@@ -1188,7 +1186,7 @@ class Ffile extends Lxclass
 		if (basename(dirname($this->fullpath)) === ".trash") {
 			return 1;
 		}
-		
+
 		return 0;
 	}
 
@@ -1199,7 +1197,7 @@ class Ffile extends Lxclass
 				return "z";
 			}
 		}
-		
+
 		if ($this->ttype === "trash") {
 			return "a";
 		}
@@ -1214,7 +1212,7 @@ class Ffile extends Lxclass
 	function setFileType()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
+
 		$this->base = basename($this->nname);
 
 		$this->fullpath = $this->getFullPath();
@@ -1226,7 +1224,7 @@ class Ffile extends Lxclass
 				$gbl->c_session->ssession_vars['frm_clip_server'] === $this->syncserver) {
 			$selaction = $gbl->c_session->ssession_vars["frm_clip_action"];
 			$sellist = $gbl->c_session->ssession_vars["frm_clip_list"];
-			
+
 			if (array_search_bool($this->nname, $sellist)) {
 				$sel_append = "_" . $selaction;
 			}
@@ -1291,7 +1289,7 @@ class Ffile extends Lxclass
 		if (lfile_exists($name)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -1306,14 +1304,14 @@ class Ffile extends Lxclass
 		if ($this->nname === "/") {
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	function getCore()
 	{
 		list($core,) = explode("/", $this->nname, 2);
-		
+
 		return "{$this->root}$core";
 	}
 
@@ -1333,7 +1331,7 @@ class Ffile extends Lxclass
 
 		foreach ((array)$list as $stat) {
 			$file = basename($stat['name']);
-			
+
 			if ($file === "") {
 				continue;
 			}
@@ -1348,7 +1346,7 @@ class Ffile extends Lxclass
 			if (!isset($parent->ffile_l)) {
 				$parent->ffile_l = null;
 			}
-			
+
 			$parent->ffile_l[$file] = new Ffile($parent->__masterserver, $parent->__readserver, $parent->root, $file, 
 				$parent->__username_o);
 			$parent->ffile_l[$file]->setFromArray($stat);
@@ -1356,9 +1354,9 @@ class Ffile extends Lxclass
 			$parent->ffile_l[$file]->setFileType();
 
 		}
-		
+
 		$__tv = null;
-		
+
 		return $__tv;
 	}
 
@@ -1377,7 +1375,7 @@ class Ffile extends Lxclass
 				$numlines = null;
 			}
 		}
-		
+
 		if ($st > 0) {
 ?>
 	Called more than once
@@ -1398,11 +1396,11 @@ class Ffile extends Lxclass
 		}
 
 		$this->setFromArray($stat);
-		
+
 		if (!$this->isOn('readonly')) {
 			$this->__flag_showheader = true;
 		}
-		
+
 		$this->setFileType();
 	}
 
@@ -1428,7 +1426,7 @@ class Ffile extends Lxclass
 
 		if ($parent->isOn('ostemplate')) {
 			$blist[] = array("a=update&sa=filerealdelete", 0, NULL, 1);
-			
+
 			return $blist;
 		}
 
@@ -1451,7 +1449,7 @@ class Ffile extends Lxclass
 			} else {
 				$inactive = "_inactive";
 			}
-			
+
 			$blist[] = array("a=update&sa=paste$inactive", 1, $inactive);
 
 			$blist[] = array("a=update&sa=filedelete");
@@ -1459,7 +1457,7 @@ class Ffile extends Lxclass
 
 			$blist[] = array("a=update&sa=zip_file");
 		}
-		
+
 		return $blist;
 	}
 
@@ -1474,7 +1472,7 @@ class Ffile extends Lxclass
 		$nlist['nname'] = '80%';
 		$nlist["size"] = "10%";
 		$nlist["mtime"] = "10%";
-		
+
 		return $nlist;
 	}
 
@@ -1485,7 +1483,6 @@ class Ffile extends Lxclass
 		$driverapp = $gbl->getSyncClass($parent->__masterserver, $parent->__readserver, 'ffile');
 
 		$duflag = $parent->duflag;
-	
 
 		$nlist["ttype"] = "2%";
 
@@ -1515,3 +1512,4 @@ class Ffile extends Lxclass
 		return $nlist;
 	}
 }
+

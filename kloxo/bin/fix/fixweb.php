@@ -71,6 +71,15 @@ foreach($list as $c) {
 				}
 			}
 
+			if (strpos($driverapp, 'lighttpd) !== false) {
+				// MR - also fix for lighttpd
+				if (!file_exists("/var/log/lighttpd")) {
+					mkdir("/var/log/lighttpd",0777);
+				}
+
+				chmod("/var/log/lighttpd", 0777);
+			}
+
 			$slist[] = $web->syncserver;
 			array_unique($slist);
 		}
@@ -88,20 +97,4 @@ foreach($list as $c) {
 	}
 }
 
-// MR -- process separately for fixphp
-
-// MR - fix for php-fpm and fastcgi session issue
-if (!file_exists("/var/log/php-fpm")) {
-	mkdir("/var/log/php-fpm",0755);
-}
-
-chmod("/var/lib/php/session", 0777);
-chown("/var/lib/php/session", "apache");
-
-// MR - also fix for lighttpd
-if (!file_exists("/var/log/lighttpd")) {
-	mkdir("/var/log/lighttpd",0777);
-}
-
-chmod("/var/log/lighttpd", 0777);
 

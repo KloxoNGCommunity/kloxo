@@ -25,6 +25,8 @@ ThreadPoolSize = 50
 #ExecuteCGI = yes
 WaitForCGI = yes
 
+MinSSLversion = TLS1.0
+
 FastCGIserver {
 	FastCGIid = PHP5
 	#ConnectTo = 127.0.0.1:39000

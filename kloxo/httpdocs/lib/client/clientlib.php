@@ -58,6 +58,7 @@ class Client extends ClientBase
 //	static $__desc_pserver_o = array("db", "", "");
 
 	static $__desc_dnsslave_l = array("", "", "");
+	static $__desc_serverweb_l = array("", "", "");
 
 	function isSync()
 	{
@@ -544,6 +545,8 @@ class Client extends ClientBase
 				$alist[] = "a=list&c=traceroute";
 				$this->getListActions($alist, 'mysqldb');
 				$this->getMysqlDbAdmin($alist);
+
+				$alist[] = "a=show&o=serverweb";
 			}
 			
 			if ($login->priv->isOn('domain_add_flag')) {

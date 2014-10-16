@@ -99,6 +99,7 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 			}
 ?>
 	ssl.use-sslv2 = "disable"
+	ssl.use-sslv3 = "disable"
 <?php
 		}
 	}

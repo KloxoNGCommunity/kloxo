@@ -117,38 +117,21 @@ if ($disabled) {
 	$sockuser = $user;
 }
 
-if (!$reverseproxy) {
-	foreach ($certnamelist as $ip => $certname) {
-		if ($ip !== '*') {
+foreach ($certnamelist as $ip => $certname) {
 ?>
 
 Define port ${global::port}
 Define portssl ${global::portssl}
 Define ip <?php echo $ip; ?>
 
+<?php
+	if ((!$reverseproxy) &&  ($ip !== '*')) {
+?>
 
 NameVirtualHost ${ip}:${port}
 NameVirtualHost ${ip}:${portssl}
-
 <?php
-		} else {
-?>
-
-Define port ${global::port}
-Define portssl ${global::portssl}
-Define ip <?php echo $ip; ?>
-
-<?php
-		}
 	}
-} else {
-?>
-
-Define port ${global::port}
-Define portssl ${global::portssl}
-Define ip <?php echo $ip; ?>
-
-<?php
 }
 
 foreach ($certnamelist as $ip => $certname) {

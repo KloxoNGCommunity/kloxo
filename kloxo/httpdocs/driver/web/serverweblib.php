@@ -16,6 +16,7 @@ class serverweb extends lxdb
 	static $__desc_mysql_charset = array("", "", "mysql_charset");
 
 	static $__desc_fix_chownchmod = array("", "", "fix_chownchmod");
+	static $__desc_fix_chownchmod_user = array("", "", "fix_chownchmod");
 
 	static $__desc_php_branch = array("", "", "php_branch");
 	static $__desc_php_used = array("", "", "php_used");
@@ -25,21 +26,28 @@ class serverweb extends lxdb
 
 	function createShowUpdateform()
 	{
-		$uflist['edit'] = null;
+		global $login;
 
-		$uflist['php_used'] = null;
+		if ($this->getParentO()->isAdmin()) {
+			$uflist['edit'] = null;
 
-		$uflist['php_branch'] = null;
+			$uflist['php_used'] = null;
 
-		$uflist['multiple_php_install'] = null;
+			$uflist['php_branch'] = null;
 
-		if (isWebProxyOrApache()) {
-			$uflist['php_type'] = null;
-			$uflist['apache_optimize'] = null;
+			$uflist['multiple_php_install'] = null;
+
+			if (isWebProxyOrApache()) {
+				$uflist['php_type'] = null;
+				$uflist['apache_optimize'] = null;
+			}
+
+			$uflist['mysql_convert'] = null;
+
+			$uflist['fix_chownchmod'] = null;
+		} else {
+			$uflist['fix_chownchmod_user'] = null;
 		}
-
-		$uflist['mysql_convert'] = null;
-		$uflist['fix_chownchmod'] = null;
 
 		return $uflist;
 	}
@@ -101,6 +109,15 @@ class serverweb extends lxdb
 				$vlist['fix_chownchmod'] = array('s', array('---No Change---', 'fix-ownership', 'fix-permissions', 'fix-ALL'));
 
 				$this->setDefaultValue('fix_chownchmod', '---No Change---');
+
+				break;
+
+			case "fix_chownchmod_user":
+				$this->fix_chownchmod_user = null;
+
+				$vlist['fix_chownchmod_user'] = array('s', array('---No Change---', 'fix-ownership', 'fix-permissions', 'fix-ALL'));
+
+				$this->setDefaultValue('fix_chownchmod_user', '---No Change---');
 
 				break;
 			case "php_type":

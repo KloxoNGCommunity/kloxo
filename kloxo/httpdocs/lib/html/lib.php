@@ -6007,12 +6007,12 @@ function setFixChownChmod($select, $nolog = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	$login->loadAllObjects('client');
-	$list = $login->getList('client');
-
 	$userdirchmod = '751'; // need to change to 751 for nginx-proxy
 	$phpfilechmod = '644';
 	$domdirchmod = '755';
+
+	$login->loadAllObjects('client');
+	$list = $login->getList('client');
 
 	// --- for /home/kloxo/httpd dirs (defaults pages)
 
@@ -6020,28 +6020,54 @@ function setFixChownChmod($select, $nolog = null)
 
 	setKloxoCexeChownChmod($nolog);
 	setKloxoHttpdChownChmod($nolog);
-	setWebDriverChownChmod('apache', $nolog);
-	setWebDriverChownChmod('lighttpd', $nolog);
-	setWebDriverChownChmod('nginx', $nolog);
-	setWebDriverChownChmod('hiawatha', $nolog);
+
+	$webs = array('apache', 'lighttpd', 'nginx', 'hiawatha');
+
+	foreach ($webs as $k => $v) {
+		setWebDriverChownChmod($v, $nolog);
+	}
 
 	$prevdir = '';
 
 	// --- for domain dirs
 
 	foreach ($list as $c) {
-		$clname = $c->getPathFromName('nname');
-		$cdir = "/home/{$clname}";
-		$dlist = $c->getList('domaina');
+		setFixChownChmodWebPerUser($select, $c->nname, $nolog);
+		setFixChownChmodMailPerUser($select, $c->nname, $nolog);
+	}
+}
 
-		$ks = "kloxoscript";
+function setFixChownChmodWebPerUser($select, $user, $nolog = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
 
-		exec("chown {$clname}:apache {$cdir}/");
-		log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
+	$login->loadAllObjects('client');
+	$list = $login->getList('client');
 
-		exec("chmod {$userdirchmod} {$cdir}/");
-		log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
+	foreach ($list as $c) {
+		if ($c->nname = $user) {
+			$clname = $c->getPathFromName('nname');
 
+			$cdir = "/home/{$clname}";
+			$dlist = $c->getList('domaina');
+
+			break;
+		}
+	}
+
+	$userdirchmod = '751'; // need to change to 751 for nginx-proxy
+	$phpfilechmod = '644';
+	$domdirchmod = '755';
+
+	exec("chown {$clname}:apache {$cdir}/");
+	log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
+
+	exec("chmod {$userdirchmod} {$cdir}/");
+	log_cleanup("- chmod {$userdirchmod} FOR {$cdir}/", $nolog);
+
+	$ks = "kloxoscript";
+
+	if (file_exists("{$cdir}/{$ks}")) {
 		exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
 		log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/", $nolog);
 
@@ -6053,65 +6079,79 @@ function setFixChownChmod($select, $nolog = null)
 
 		exec("find {$cdir}/{$ks} -type d -exec chmod {$domdirchmod} \{\} \\;");
 		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
+	}
 
-		foreach ((array)$dlist as $l) {
-			$web = $l->getObject('web');
-			$docroot = $web->docroot;
-			$dom = $web->nname;
+	foreach ((array)$dlist as $l) {
+		$web = $l->getObject('web');
+		$docroot = $web->docroot;
+		$dom = $web->nname;
 
-			if ($docroot === $prevdir) {
-				continue;
-			}
+		if (($select === "all") || ($select === 'chown')) {
+			exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
+			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/", $nolog);
+		}
 
-			if (($select === "all") || ($select === 'chown')) {
-				exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
-				log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/", $nolog);
-			}
+		if (($select === "all") || ($select === 'chmod')) {
+			exec("find {$cdir}/{$docroot}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
+			log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$docroot}/", $nolog);
 
-			if (($select === "all") || ($select === 'chmod')) {
-				exec("find {$cdir}/{$docroot}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-				log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$docroot}/", $nolog);
+			exec("find {$cdir}/{$docroot}/ -type f  -regex " . '".*\.\(pl\|cgi\|py\|rb\)"' . " -exec chmod {$domdirchmod} \{\} \\;");
+			log_cleanup("- chmod {$domdirchmod} FOR *.pl/cgi/py/rb INSIDE {$cdir}/{$docroot}/", $nolog);
 
-				exec("find {$cdir}/{$docroot}/ -type f  -regex " . '".*\.\(pl\|cgi\|py\|rb\)"' . " -exec chmod {$domdirchmod} \{\} \\;");
-				log_cleanup("- chmod {$domdirchmod} FOR *.pl/cgi/py/rb INSIDE {$cdir}/{$docroot}/", $nolog);
+			exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
+			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
+		}
 
-				exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
-				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
-			}
+		exec("chown {$clname}:{$clname} {$cdir}/{$docroot}/");
+		log_cleanup("- chown {$clname}:{$clname} FOR {$cdir}/{$docroot}/", $nolog);
 
-			//	exec("chown {$clname}:apache {$cdir}/{$docroot}/");
-			//	log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$docroot}/", $nolog);
+		if (lxfile_exists("{$cdir}/{$docroot}/cgi-bin")) {
+			exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
+			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
+		}
+	}
+}
 
-			exec("chown {$clname}:{$clname} {$cdir}/{$docroot}/");
-			log_cleanup("- chown {$clname}:{$clname} FOR {$cdir}/{$docroot}/", $nolog);
+function setFixChownChmodMailPerUser($select, $user, $nolog = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
 
-			if (lxfile_exists("{$cdir}/{$docroot}/cgi-bin")) {
-				exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
-				log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
-			}
+	$login->loadAllObjects('client');
+	$list = $login->getList('client');
 
-			$prevdir = $docroot;
+	foreach ($list as $c) {
+		if ($c->nname = $user) {
+			$clname = $c->getPathFromName('nname');
 
-			// MR -- also fix chown for email
-			$mdir = "/home/lxadmin/mail/domains";
-			$mailfilechmod = "600";
-			$maildirchmod = "700";
+			$cdir = "/home/{$clname}";
+			$dlist = $c->getList('domaina');
 
-			exec("chown {$clname}:{$clname} {$mdir}/{$dom}/");
-			log_cleanup("- chown {$clname}:{$clname} FOR {$mdir}/{$dom}/", $nolog);
+			break;
+		}
+	}
 
-			if (($select === "all") || ($select === 'chown')) {
-				exec("chown -R {$clname}:{$clname} {$mdir}/{$dom}/");
-				log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$mdir}/{$dom}/", $nolog);
-			}
+	$mdir = "/home/lxadmin/mail/domains";
+	$mailfilechmod = "600";
+	$maildirchmod = "700";
 
-			if (($select === "all") || ($select === 'chmod')) {
-				exec("find {$mdir}/{$dom}/ -type f -name \"*\" -exec chmod {$mailfilechmod} \{\} \\;");
-				log_cleanup("- chmod {$mailfilechmod} FOR * INSIDE {$mdir}/{$dom}/", $nolog);
+	foreach ((array)$dlist as $l) {
+		$web = $l->getObject('web');
+		$dom = $web->nname;
 
-				exec("find {$mdir}/{$dom}/ -type d -exec chmod {$maildirchmod} \{\} \\;");
-				log_cleanup("- chmod {$maildirchmod} FOR {$mdir}/{$dom}/ AND INSIDE", $nolog);
-			}
+		exec("chown {$clname}:{$clname} {$mdir}/{$dom}/");
+		log_cleanup("- chown {$clname}:{$clname} FOR {$mdir}/{$dom}/", $nolog);
+
+		if (($select === "all") || ($select === 'chown')) {
+			exec("chown -R {$clname}:{$clname} {$mdir}/{$dom}/");
+			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$mdir}/{$dom}/", $nolog);
+		}
+
+		if (($select === "all") || ($select === 'chmod')) {
+			exec("find {$mdir}/{$dom}/ -type f -name \"*\" -exec chmod {$mailfilechmod} \{\} \\;");
+			log_cleanup("- chmod {$mailfilechmod} FOR * INSIDE {$mdir}/{$dom}/", $nolog);
+
+			exec("find {$mdir}/{$dom}/ -type d -exec chmod {$maildirchmod} \{\} \\;");
+			log_cleanup("- chmod {$maildirchmod} FOR {$mdir}/{$dom}/ AND INSIDE", $nolog);
 		}
 	}
 }

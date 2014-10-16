@@ -468,6 +468,7 @@ $SERVER["socket"] == ":" + var.portssl {
 ?>
 
 	ssl.use-sslv2 = "disable"
+	ssl.use-sslv3 = "disable"
 <?php
 				}
 			} else {

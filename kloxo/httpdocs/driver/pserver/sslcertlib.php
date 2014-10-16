@@ -423,19 +423,9 @@ class SslCert extends Lxdb
 			$cnffile = '/tmp/openssl.cnf';
 		}
 
-	/*
-		$config = array('config' => $cnffile,
-			'digest_alg' => 'sha1',
-			'req_extensions' => 'v3_req',
-			'private_key_bits' => (int)$this->key_bits,
-			'private_key_type' => OPENSSL_KEYTYPE_RSA,
-			'encrypt_key' => true,
-			'encrypt_key_cipher' => OPENSSL_CIPHER_3DES
-		);
-	*/
 
 		$config = array('config' => $cnffile,
-			'digest_alg' => 'sha1',
+			'digest_alg' => 'sha256',
 			'private_key_bits' => (int)$this->key_bits,
 			'private_key_type' => OPENSSL_KEYTYPE_RSA,
 			'encrypt_key' => true,

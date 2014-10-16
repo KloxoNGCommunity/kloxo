@@ -26,6 +26,11 @@ class serverweb__ extends lxDriverClass
 				$this->set_fix_chownchmod();
 
 				break;
+
+			case "fix_chownchmod_user":
+				$this->set_fix_chownchmod_user();
+
+				break;
 			case "mysql_convert":
 				$this->set_mysql_convert();
 
@@ -91,6 +96,28 @@ class serverweb__ extends lxDriverClass
 				break;
 			case 'fix-ALL':
 				lxshell_return("sh", $scripting, "--select=all", '--nolog');
+
+				break;
+		}
+	}
+
+	function set_fix_chownchmod_user()
+	{
+		$scripting = '/script/fix-chownchmod';
+
+		$user = "--client=" . $this->main->getParentO()->nname;
+
+		switch ($this->main->fix_chownchmod_user) {
+			case 'fix-ownership':
+				lxshell_return("sh", $scripting, "--select=chmod", $user, '--nolog');
+
+				break;
+			case 'fix-permissions':
+				lxshell_return("sh", $scripting, "--select=chown", $user, '--nolog');
+
+				break;
+			case 'fix-ALL':
+				lxshell_return("sh", $scripting, "--select=all", $user, '--nolog');
 
 				break;
 		}

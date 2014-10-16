@@ -99,4 +99,11 @@ foreach($list as $c) {
 	}
 }
 
+// MR - fix for php-fpm and fastcgi session issue
+if (!file_exists("/var/log/php-fpm")) {
+	mkdir("/var/log/php-fpm",0755);
+}
+
+chmod("/var/lib/php/session", 0777);
+chown("/var/lib/php/session", "apache");
 

@@ -3,16 +3,25 @@
 # release on Kloxo 6.1.7
 # by mustafa.ramadhan@lxcenter.org
 
-if [ "$1" == "--help" ] ; then
+if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo
 	echo " ------------------------------------------------------------"
-	echo "  format: sh $0 --select=<chown/chmod/all>"
+	echo "  format: sh $0 [--server=] [--select=] [--client=]"
 	echo " ------------------------------------------------------------"
-	echo " --select -"
-	echo "   chown: ownership only"
-	echo "   chmod: permissions only (for php*)"
+	echo "  --server="
+	echo "      localhost: master (default)"
+	echo "      slaveid: slave id (ip or hostname)"
+	echo "      all: all servers (master and slave)"
+	echo "      - multiple servers separated by ',' (comma)"
+	echo " --select="
+	echo "      all: chown and chmod (default)"
+	echo "      chown: ownership only"
+	echo "      chmod: permissions only (for php* and perl/cgi)"
+	echo " --client="
+	echo "     all: all client (default)"
+	echo "     - multiple clients separated by ',' (comma)"
 	echo
-	echo " * important for secure environment like suphp on Apache"
+	echo " * important for secure environment on Apache"
 	echo
 	exit;
 fi
