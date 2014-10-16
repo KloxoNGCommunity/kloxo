@@ -10,8 +10,6 @@ $list = parse_opt($argv);
 
 $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $select = (isset($list['select'])) ? $list['select'] : 'all';
-
-// MR -- TODO: possible for each client running this function
 $client = (isset($list['client'])) ? $list['client'] : 'all';
 
 $nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;

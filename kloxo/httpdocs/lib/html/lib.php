@@ -6045,7 +6045,7 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 	$list = $login->getList('client');
 
 	foreach ($list as $c) {
-		if ($c->nname = $user) {
+		if ($c->nname === $user) {
 			$clname = $c->getPathFromName('nname');
 
 			$cdir = "/home/{$clname}";

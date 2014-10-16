@@ -71,7 +71,7 @@ foreach($list as $c) {
 				}
 			}
 
-			if (strpos($driverapp, 'lighttpd) !== false) {
+			if (strpos($driverapp, 'lighttpd') !== false) {
 				// MR - also fix for lighttpd
 				if (!file_exists("/var/log/lighttpd")) {
 					mkdir("/var/log/lighttpd",0777);

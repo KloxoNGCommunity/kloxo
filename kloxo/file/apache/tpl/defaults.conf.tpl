@@ -1,6 +1,5 @@
 ### begin - web of initial - do not remove/modify this line
 
-
 <?php
 
 $srcconfpath = "/opt/configs/apache/etc/conf";
@@ -20,7 +19,7 @@ foreach ($modlist as $k => $v) {
 	if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
 		copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
 	} else {
-		if ($v !== 'lxcenter') {
+		if ($v !== '~lxcenter') {
 			copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
 		}
 	}
