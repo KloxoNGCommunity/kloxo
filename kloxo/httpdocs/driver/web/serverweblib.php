@@ -26,7 +26,9 @@ class serverweb extends lxdb
 
 	function createShowUpdateform()
 	{
-		if ($this->getParentO()->get__table() === 'pserver') {
+		global $login;
+
+		if ($this->getParentO()->getClass() === 'pserver') {
 			$uflist['edit'] = null;
 
 			$uflist['php_used'] = null;
