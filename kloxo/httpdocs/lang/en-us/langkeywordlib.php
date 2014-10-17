@@ -152,6 +152,21 @@ $__keyword["installed"] = "Installed";
 $__keyword["up"] = "Up";
 $__keyword["down"] = "Down";
 
+$__keyword["permissions_change"] = "Change Permissions";
+$__keyword["permissions_user"] = "User";
+$__keyword["permissions_group"] = "Group";
+$__keyword["permissions_others"] = "Others";
+$__keyword["permissions_write"] = "Write";
+$__keyword["permissions_execute"] = "Execute";
+$__keyword["permissions_read"] = "Read";
+$__keyword["permissions_total"] = "Total";
+$__keyword["permissions_recursively"] = "Change Permssions Recursively";
+$__keyword["permissions_confirm"] = "Do You Really want to set this permission Recursively?";
+
+$__keyword["ownership_change"] = "Change Ownership";
+$__keyword["ownership_recursively"] = "Change Ownership Recursively";
+$__keyword["ownership_confirm"] = "Do You Really want to set this ownership Recursively?";
+
 $__throw["domain_is_already_owned"] = "Domain is already owned. Please enable 'I Confirm That I Am The Owner Of Domain'";
 $__throw["invalid_domain_name"] = "Invalid domain name";
 $__throw["add_without_www"] = "Add without www";

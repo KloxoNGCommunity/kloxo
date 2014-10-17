@@ -2140,8 +2140,7 @@ class HtmlLib
 			function sendchmode(a, b) {
 				b.frm_ffile_c_file_permission_f.value = a.user.value + a.group.value + a.other.value;
 				if (a.frm_ffile_c_recursive_f.checked) {
-					if (confirm("Do You Really want to set this permission Recursively?")) /* [FIXME] Harcode string translate */
-					{
+					if (confirm("<?=$login->getKeywordUC('permissions_confirm');?>")) {
 						b.frm_ffile_c_recursive_f.value = 'on';
 					} else {
 						b.frm_ffile_c_recursive_f.value = 'off';
@@ -2165,76 +2164,70 @@ class HtmlLib
 			<input type="hidden" id="frm_subaction" name="frm_subaction" value="perm">
 		</form>
 
-<div style="padding:5px; border:1px solid #aaa; width: 330px; margin: 0 auto;">
-		<table cellpadding="0" cellspacing="0" border="0" width="325" bgcolor="#edc">
-			<tr>
-				<td width="100%" align="center">
-					<table cellpadding="10" cellspacing="0" border="0" width="100%">
-						<tr>
-							<td nowrap width="100%" align="center">
-								<b><span style="color:"#fff">Change Permissions</span></b><? // [FIXME] Harcode translation string?>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+<div style="padding:0px; border:1px solid #aaa; width: 330px; margin: 0 auto;">
+	<table cellpadding="10" cellspacing="5" border="0" width="100%" style="background-color:#efead8;">
+		<tr>
+			<td nowrap width="100%" align="center">
+				<b><span style="color:"#fff"><?=$login->getKeywordUC('permissions_change');?></span></b>
+			</td>
+		</tr>
+	</table>
+
 
 		<form name="chmod" method="get" action="/display.php" accept-charset="utf-8">
-			<table cellpadding="5" cellspacing="0" border="0" width="325">
-				<tr style="background:#edc <?= $img_url ?>">
-					<td width="100" class="col"></td>
-					<td width=75 align=center>User</td><? // [FIXME] Harcode translation string?>
-					<td width=75 align=center>Group</td><? // [FIXME] Harcode translation string?>
-					<td align=center width=75>Others</td><? // [FIXME] Harcode translation string?>
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr class="tablerow0">
+					<td width="100" class="col">&nbsp;</td>
+					<td width="75" align="center"><?=$login->getKeywordUC('permissions_user');?></td>
+					<td width="75" align="center"><?=$login->getKeywordUC('permissions_group');?></td>
+					<td width="75" align="center"><?=$login->getKeywordUC('permissions_others');?></td>
 				</tr>
-				<tr style="background:#edc <?= $img_url ?>">
-					<td width=100 class="col"></td>
+				<tr class="tablerow1">
+					<td class="col">&nbsp;</td>
 					<td align="center"><input type="checkbox" name="userall" onclick="allrights(document.chmod,this,'user');"></td>
 					<td align="center"><input type="checkbox" name="groupall" onclick="allrights(document.chmod,this,'group');"></td>
 					<td align="center"><input type="checkbox" name="otherall" onclick="allrights(document.chmod,this,'other');"></td>
 				</tr>
 				<tr class="tablerow0">
-					<td class="col" width="100">Write</td><? // [FIXME] Harcode translation string?>
-					<td align="center"><input type="checkbox" name="wu" onclick="changerights(document.chmod,this,'user',2);"></td>
-					<td align="center"><input type="checkbox" name="wg" onclick="changerights(document.chmod,this,'group',2);"></td>
-					<td align="center"><input type="checkbox" name="wo" onclick="changerights(document.chmod,this,'other',2);"></td>
-				</tr>
-				<tr class="tablerow1">
-					<td class="col" width="100">Execute</td><? // [FIXME] Harcode translation string?>
-					<td width="75" align="center"><input type="checkbox" name="eu" onclick="changerights(document.chmod,this,'user',1);"></td>
-					<td width="75" align="center"><input type="checkbox" name="eg" onclick="changerights(document.chmod,this,'group',1);"></td>
-					<td width="75" align="center"><input type="checkbox" name="eo" onclick="changerights(document.chmod,this,'other',1);"></td>
-				</tr>
-				<tr class="tablerow0">
-					<td class="col" width="100">Read</td><? // [FIXME] Harcode translation string?>
+					<td class="col"><?=$login->getKeywordUC('permissions_read');?></td>
 					<td align="center"><input type="checkbox" name="ru" onclick="changerights(document.chmod,this,'user',4);"></td>
 					<td align="center"><input type="checkbox" name="rg" onclick="changerights(document.chmod,this,'group',4);"></td>
 					<td align="center"><input type="checkbox" name="ro" onclick="changerights(document.chmod,this,'other',4);"></td>
 				</tr>
+				<tr class="tablerow1">
+					<td class="col"><?=$login->getKeywordUC('permissions_write');?></td>
+					<td align="center"><input type="checkbox" name="wu" onclick="changerights(document.chmod,this,'user',2);"></td>
+					<td align="center"><input type="checkbox" name="wg" onclick="changerights(document.chmod,this,'group',2);"></td>
+					<td align="center"><input type="checkbox" name="wo" onclick="changerights(document.chmod,this,'other',2);"></td>
+				</tr>
+				<tr class="tablerow0">
+					<td class="col"><?=$login->getKeywordUC('permissions_execute');?></td>
+					<td align="center"><input type="checkbox" name="eu" onclick="changerights(document.chmod,this,'user',1);"></td>
+					<td align="center"><input type="checkbox" name="eg" onclick="changerights(document.chmod,this,'group',1);"></td>
+					<td align="center"><input type="checkbox" name="eo" onclick="changerights(document.chmod,this,'other',1);"></td>
+				</tr>
 				<tr>
-					<td colspan="4" bgcolor="#fff" height="2"></td>
+					<td colspan="4" bgcolor="#fff" height="2">&nbsp;</td>
 				</tr>
 				<tr class="tablerow1">
-					<td class="tableheadtext" width="100">&nbsp;&nbsp;Total
-					</td> <? // [FIXME] Harcode translation string?>
-					<td align="center" width="75"><input type="text" size="1" name="user" class="textchmoddisable" value="<?= $user ?>"></td>
-					<td width="75" align="center"><input type="text" size="1" name="group" class="textchmoddisable" value="<?= $group ?>"></td>
-					<td width="75" align="center"><input type="text" size="1" name="other" class="textchmoddisable" value="<?= $other ?>"></td>
+					<td class="col"><?=$login->getKeywordUC('permissions_total');?></td> 
+					<td align="center"><input type="text" size="1" name="user" class="textchmoddisable" value="<?= $user ?>"></td>
+					<td align="center"><input type="text" size="1" name="group" class="textchmoddisable" value="<?= $group ?>"></td>
+					<td align="center"><input type="text" size="1" name="other" class="textchmoddisable" value="<?= $other ?>"></td>
 				</tr>
 				<tr>
-					<td colspan="3">&nbsp; <b>Change Permssion Recursively</b> <? // [FIXME] Harcode translation string?></td>
+					<td colspan="4" bgcolor="#fff" height="4">&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="3">&nbsp;&nbsp;<b><?=$login->getKeywordUC('permissions_recursively');?></b></td>
 					<td><input type="checkbox" name="frm_ffile_c_recursive_f"></td>
 				</tr>
 
 				<tr>
-					<td colspan="4" bgcolor="#fff" height="4"></td>
+					<td colspan="4" bgcolor="#fff" height="4">&nbsp;</td>
 				</tr>
 				<tr>
-					<td colspan="4" align="right"><input type="button" onclick="sendchmode(document.chmod,document.frmsendchmod)" class="submitbutton" name="change" value="&nbsp;&nbsp;Change&nbsp;&nbsp;"></td>
-				</tr>
-				<tr>
-					<td colspan="2" bgcolor="#fff" height="4"></td>
+					<td colspan="4" align="right"><input style="margin:5px" type="button" onclick="sendchmode(document.chmod,document.frmsendchmod)" class="submitbutton" name="change" value="&nbsp;&nbsp;Change&nbsp;&nbsp;"></td>
 				</tr>
 			</table>
 		</form>
@@ -5075,7 +5068,7 @@ class HtmlLib
 ?>
 
 		<td width=10></td>
-		<td align=center valign=bottom>
+		<td align="center" valign=bottom>
 
 			<form name="form<?= $form_name ?>" method="post" action="<?= $path ?>">
 				<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
