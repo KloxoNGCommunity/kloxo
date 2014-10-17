@@ -26,9 +26,7 @@ class serverweb extends lxdb
 
 	function createShowUpdateform()
 	{
-		global $login;
-
-	//	if ($this->getParentO()->isAdmin()) {
+		if ($this->getParentO()->get__table() === 'pserver') {
 			$uflist['edit'] = null;
 
 			$uflist['php_used'] = null;
@@ -45,9 +43,9 @@ class serverweb extends lxdb
 			$uflist['mysql_convert'] = null;
 
 			$uflist['fix_chownchmod'] = null;
-	//	} else {
-	//		$uflist['fix_chownchmod_user'] = null;
-	//	}
+		} else {
+			$uflist['fix_chownchmod_user'] = null;
+		}
 
 		return $uflist;
 	}

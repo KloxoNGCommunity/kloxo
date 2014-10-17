@@ -546,7 +546,7 @@ class Client extends ClientBase
 				$this->getListActions($alist, 'mysqldb');
 				$this->getMysqlDbAdmin($alist);
 
-			//	$alist[] = "a=show&o=serverweb";
+				$alist[] = "a=show&o=serverweb";
 			}
 			
 			if ($login->priv->isOn('domain_add_flag')) {
