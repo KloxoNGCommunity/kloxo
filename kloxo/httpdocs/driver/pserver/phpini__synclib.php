@@ -150,7 +150,7 @@ class phpini__sync extends Lxdriverclass
 		createRestartFile("restart-web");
 	}
 
-function removeHtaccessOldPart()
+	function removeHtaccessOldPart()
 	{
 		$pclass = $this->main->getParentClass();
 

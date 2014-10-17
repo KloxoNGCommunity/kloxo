@@ -244,6 +244,8 @@ class phpini extends lxdb
 
 		$e[] = false;
 
+		$p = array();
+
 		foreach ($a as $k => $v) {
 			if (file_exists("/opt/php{$v}m/usr/bin/php")) {
 				$p[] = 'php' . $v . 'm';
@@ -384,7 +386,7 @@ class phpini extends lxdb
 	{
 		global $ghtml, $login;
 
-		if ($this->getClass() === 'pserver') {
+		if ($this->getParentO()->getClass() === 'pserver') {
 			$this->initialValuesBasic();
 		} else {
 			$p = new phpini(null, $this->syncserver, createParentName('pserver', $this->syncserver));
