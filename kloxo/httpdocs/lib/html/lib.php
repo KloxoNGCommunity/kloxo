@@ -7911,15 +7911,22 @@ function resetQmailAssign($nolog = null)
 
 	$con->close();
 
-	$t = '';
+	$ua = '';
+	$rh = '';
+	$vd = '';
 
-	log_cleanup("Reset Qmail Assign for domains", $nolog);
+	log_cleanup("Reset Qmail Assign for domains (also rcpthosts and virtualdomains)", $nolog);
+
+	$cpath = "/var/qmail/control";
+	$upath = "/var/qmail/users";
+
+	exec("'rm' -f {$upath}/assign {$cpath}/rcpthosts {$cpath}/morercpthosts* {$cpath}/virtualdomains");
 
 	foreach ($n as $k => $v) {
 		log_cleanup("- assign for '{$k}'", $nolog);
 
 		$o = fileowner($v);
-		$t .= "+{$k}-:{$k}:{$o}:{$o}:{$v}:-::\n";
+		$ua .= "+{$k}-:{$k}:{$o}:{$o}:{$v}:-::\n";
 
 		if (isRpmInstalled('qmail-toaster')) {
 			// MR -- also fix /home/lxadmin/mail/bin to /home/vpopmail/bin
@@ -7929,11 +7936,18 @@ function resetQmailAssign($nolog = null)
 		}
 
 		file_put_contents($d, $x);
+
+		log_cleanup("- virtualdomains for '{$k}'", $nolog);
+		$rh .= "{$k}";
+		log_cleanup("- virtualdomains for '{$k}'", $nolog);
+		$vd .= "{$k}:{$k}";
 	}
 
-	$t .= ".";
+	$ua .= ".";
 
-	exec("echo '{$t}' > /var/qmail/users/assign");
+	exec("echo '{$ua}' > {$upath}/assign");
+	exec("echo '{$rh}' > {$cpath}/rcpthosts");
+	exec("echo '{$vd}' > {$cpath}/virtualdomains");
 
 	exec("/var/qmail/bin/qmail-newu");
 }
