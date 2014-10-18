@@ -118,11 +118,12 @@ Define global::port <?php echo $ports[0]; ?>
 
 Define global::portssl <?php echo $ports[1]; ?>
 
+Define global::ip <?php echo $ip; ?>
+
+
 Define port ${global::port}
 Define portssl ${global::portssl}
-
-Define ip <?php echo $ip; ?>
-
+Define ip ${global::ip}
 
 Listen ${ip}:${port}
 Listen ${ip}:${portssl}
@@ -265,7 +266,7 @@ foreach ($certnamelist as $ip => $certname) {
 		//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
@@ -391,7 +392,7 @@ foreach ($certnamelist as $ip => $certname) {
 		//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch

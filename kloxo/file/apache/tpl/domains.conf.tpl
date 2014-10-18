@@ -122,17 +122,25 @@ foreach ($certnamelist as $ip => $certname) {
 
 Define port ${global::port}
 Define portssl ${global::portssl}
-Define ip <?php echo $ip; ?>
-
 <?php
 	if (!$reverseproxy) {
 		if  ($ip !== '*') {
 ?>
+Define ip <?php echo $ip; ?>
+
 
 NameVirtualHost ${ip}:${port}
 NameVirtualHost ${ip}:${portssl}
 <?php
+		} else {
+?>
+Define ip ${global::ip}
+<?php
 		}
+	} else {
+?>
+Define ip ${global::ip}
+<?php
 	}
 }
 
@@ -244,7 +252,7 @@ foreach ($certnamelist as $ip => $certname) {
 				//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -411,7 +419,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -499,8 +507,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Redirect /kloxo "https://cp.<?php echo $domainname; ?>:<?php echo $kloxoportssl; ?>"
 	Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:<?php echo $kloxoportnonssl; ?>"
-
 	Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
+	Redirect /cp "<?php echo $protocol; ?>cp.<?php echo $domainname; ?>"
 <?php
 			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
@@ -639,7 +647,7 @@ foreach ($certnamelist as $ip => $certname) {
 		Include /home/kloxo/client/<?php echo $user; ?>/prefork.inc
 	</IfModule>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		Options <?php echo $dirindex; ?> -FollowSymlinks +SymLinksIfOwnerMatch
 
@@ -737,7 +745,7 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($blockips) {
 ?>
 
-	<Location "/">
+	<Location />
 		Order deny,allow
 		Deny from <?php echo $blockips; ?>
 
@@ -1059,7 +1067,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1226,7 +1234,7 @@ foreach ($certnamelist as $ip => $certname) {
 						//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1369,7 +1377,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1536,7 +1544,7 @@ foreach ($certnamelist as $ip => $certname) {
 						//}
 ?>
 
-	<Location "/">
+	<Location />
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
