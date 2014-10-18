@@ -160,10 +160,17 @@ $__keyword["permissions_write"] = "Write";
 $__keyword["permissions_execute"] = "Execute";
 $__keyword["permissions_read"] = "Read";
 $__keyword["permissions_total"] = "Total";
+$__keyword["permissions_target"] = "Target";
+$__keyword["permissions_target_file"] = "Files";
+$__keyword["permissions_target_dir"] = "Directories";
+$__keyword["permissions_target_all"] = "All";
 $__keyword["permissions_recursively"] = "Change Permssions Recursively";
 $__keyword["permissions_confirm"] = "Do You Really want to set this permission Recursively?";
 
 $__keyword["ownership_change"] = "Change Ownership";
+$__keyword["ownership_current"] = "Current";
+$__keyword["ownership_user"] = "User";
+$__keyword["ownership_group"] = "Group";
 $__keyword["ownership_recursively"] = "Change Ownership Recursively";
 $__keyword["ownership_confirm"] = "Do You Really want to set this ownership Recursively?";
 

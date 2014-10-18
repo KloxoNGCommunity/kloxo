@@ -568,7 +568,9 @@ function lxfile_dstat($dir, $duflag)
 {
 	$dir = expand_real_root($dir);
 	$list = lscandir_without_dot($dir);
+
 	$ret = null;
+
 	foreach($list as $l) {
 		$stat = lstat("$dir/$l");
 		get_file_type("$dir/$l", $stat);
@@ -580,10 +582,11 @@ function lxfile_dstat($dir, $duflag)
 		} else {
 			$stat['size'] = lxfile_size("$dir/$l");
 		}
+
 		$stat['name'] = "$dir/$l";
 		$ret[] = $stat;
 	}
-	//dprintr($ret);
+
 	return $ret;
 }
 

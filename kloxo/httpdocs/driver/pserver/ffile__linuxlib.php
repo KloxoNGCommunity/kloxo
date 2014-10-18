@@ -52,13 +52,38 @@ class ffile__linux extends lxDriverClass
 
 			case "perm":
 				$arg = null;
-				$perm = $this->main->newperm;
-				$perm = 0 . $perm;
 
-				if ($this->main->isOn('recursive_f')) {
-					new_process_chmod_rec($this->main->__username_o, $this->main->fullpath, $perm);
-				} else {
-					lxfile_unix_chmod($this->main->fullpath, "$perm");
+				$this->main->getFullpath();
+
+				if ($this->main->select_f === 'perm') {
+					$perm = $this->main->newperm;
+					$perm = 0 . $perm;
+
+					$client = $this->main->__username_o;
+
+					if ($this->main->isOn('recursive_f')) {
+					//	new_process_chmod_rec($client, $path, $perm);
+
+						if ($this->main->target_f === 'all') {
+							exec("chmod -R {$perm} {$path}");
+						} elseif ($this->main->target_f === 'dir') {
+							exec("find {$path} -type d -exec chmod {$perm} \{\} \\;");
+						} elseif ($this->main->target_f === 'file') {
+							exec("find {$path} -type f -name \"*.*\" -exec chmod {$perm} \{\} \\;");
+						}
+					} else {
+					//	lxfile_unix_chmod($client, $perm);
+						exec("chmod {$perm} {$path}");
+					}
+				} elseif ($this->main->select_f === 'own') {
+					$user = $this->main->user_f;
+					$group = $this->main->group_f;
+
+					if ($this->main->isOn('recursive_f')) {
+						exec("chown -R {$user}:{$group} {$path}");
+					} else {
+						exec("chown {$user}:{$group} {$path}");
+					}
 				}
 
 				break;

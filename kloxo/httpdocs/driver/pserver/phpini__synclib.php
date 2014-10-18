@@ -140,8 +140,11 @@ class phpini__sync extends Lxdriverclass
 
 				$htaccess_target = "/home/{$user}/kloxoscript/.htaccess";
 
+				$nowarning = true;
+
 				file_put_between_comments("{$user}:apache", $stlist, $endlist,
-					$startstring, $endstring, $htaccess_target, $htaccess_parse);
+					$startstring, $endstring, $htaccess_target, $htaccess_parse,
+					$nowarning);
 
 				lxfile_unix_chown($htaccess_target, "{$user}:apache");
 			}
@@ -179,8 +182,10 @@ class phpini__sync extends Lxdriverclass
 
 			$htaccess_target = "{$droot}/.htaccess";
 
+			$nowarning = true;
+
 			file_put_between_comments("{$user}:apache", $stlist, $endlist,
-				$startstring, $endstring, $htaccess_target, $htaccess_parse);
+				$startstring, $endstring, $htaccess_target, $htaccess_parse, $nowarning);
 
 			lxfile_unix_chown($htaccess_target, "{$user}:apache");
 		}

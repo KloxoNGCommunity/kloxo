@@ -125,12 +125,14 @@ Define portssl ${global::portssl}
 Define ip <?php echo $ip; ?>
 
 <?php
-	if ((!$reverseproxy) &&  ($ip !== '*')) {
+	if (!$reverseproxy) {
+		if  ($ip !== '*') {
 ?>
 
 NameVirtualHost ${ip}:${port}
 NameVirtualHost ${ip}:${portssl}
 <?php
+		}
 	}
 }
 

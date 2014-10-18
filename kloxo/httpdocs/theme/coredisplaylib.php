@@ -1066,7 +1066,6 @@ function do_updateform($object, $subaction)
 
 		$param = $ghtml->createCurrentParam($class);
 
-
 		if ($ghtml->frm_accountselect) {
 			$list = explode(",", $ghtml->frm_accountselect);
 			$param['_accountselect'] = $list;

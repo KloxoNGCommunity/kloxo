@@ -119,7 +119,17 @@ class Ffile extends Lxclass
 
 	function __construct($masterserver, $readserver, $root, $name, $__username_o)
 	{
-		$this->root = $root;
+		global $sgbl;
+
+		// MR -- trouble if $root with format '__path_' and then converted!
+		if (strpos($root, '__path_') !== false) {
+			$a = explode('/', $root);
+			$a[0] = $sgbl->$a[0];
+			$this->root = implode('/', $a);
+		} else {
+			$this->root = $root;
+		}
+
 		$this->__username_o = $__username_o;
 
 		parent::__construct($masterserver, $readserver, $name);
@@ -127,7 +137,7 @@ class Ffile extends Lxclass
 
 	function getFullPath()
 	{
-		$this->fullpath = "$this->root/$this->nname";
+		$this->fullpath = "{$this->root}/{$this->nname}";
 
 		return $this->fullpath;
 	}
@@ -213,8 +223,7 @@ class Ffile extends Lxclass
 	<table width=90%>
 		<tr>
 			<td>
-				<a href=<?php echo $_SERVER['PHP_SELF'] ?>?frm_action=show&frm_o_nname=<?php echo dirname($this->nname) ?>>
-					Back </a>
+				<a href="<?php echo $_SERVER['PHP_SELF'] ?>?frm_action=show&frm_o_nname=<?php echo dirname($this->nname) ?>"> Back </a>
 			</td>
 		</tr>
 	</table>
@@ -645,9 +654,17 @@ class Ffile extends Lxclass
 	function updatePerm($param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-		
+
 		// Hack Hack.. This should be done by display.php itself. But permissions are now handled separately..
 		$this->setUpdateSubaction('perm');
+
+		$this->select_f = $param['select_f'];
+
+		$this->user_f = $param['user_f'];
+		$this->group_f = $param['group_f'];
+
+		$this->target_f = $param['user_f'];
+
 		$this->recursive_f = $param['recursive_f'];
 		$this->newperm = $param['file_permission_f'];
 		$gbl->__this_redirect = $this->getParentDirUrl();
@@ -701,7 +718,7 @@ class Ffile extends Lxclass
 			$vlist['image_content'] = array('I', array("width" => 50, "height" => 50, "value" => "$thumb"));
 			$vlist['image_width'] = null;
 			$vlist['image_height'] = null;
-			//$vlist['image_type'] = null;
+		//	$vlist['image_type'] = null;
 			$vlist['copy_old_image_flag_f'] = null;
 			$dir = dirname($this->nname);
 			$name = basename($this->nname);
@@ -799,7 +816,14 @@ class Ffile extends Lxclass
 				return $vlist;
 
 			case "perm":
+				$vlist['select_f'] = array();
+
 				$vlist['file_permission_f'] = array();
+
+				$vlist['user_f'] = array();
+				$vlist['group_f'] = array();
+				$vlist['target_f'] = array();
+
 				$vlist['recursive_f'] = array();
 
 				break;
@@ -891,7 +915,9 @@ class Ffile extends Lxclass
 				return strfrom($this->nname, "_s_vv_p_");
 			} else {
 				$pdesc = get_classvar_description($this->getParentO()->getClass());
-				return "$pdesc[2]: {$this->getParentO()->getId()} $this->nname";
+
+			//	return "$pdesc[2]: {$this->getParentO()->getId()} $this->nname";
+				return "$this->nname";
 			}
 		}
 	}
@@ -974,8 +1000,8 @@ class Ffile extends Lxclass
 		}
 
 		if (!$this->is_top()) {
-			//$alist['property'][] = "a=updateform&sa=rename";
-			//$alist['property'][] = "a=updateform&sa=perm";
+		//	$alist['property'][] = "a=updateform&sa=rename";
+		//	$alist['property'][] = "a=updateform&sa=perm";
 		}
 	}
 
@@ -1111,7 +1137,6 @@ class Ffile extends Lxclass
 	function perDisplay($var)
 	{
 		if ($var === 'sizeper') {
-			//return array($this->getParentO()->size, $this->size, "");
 			return array($this->getParentO()->size, $this->size, "");
 		}
 	}
@@ -1500,9 +1525,9 @@ class Ffile extends Lxclass
 			$nlist["protect"] = "3%";
 		}
 
-		$nlist["other_username"] = "5%";
+		$nlist["mtime"] = "10%";
 
-		$nlist["mtime"] = "15%";
+		$nlist["other_username"] = "10%";
 
 		$nlist["mode"] = "10%";
 

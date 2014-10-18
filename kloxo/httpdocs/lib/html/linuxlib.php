@@ -400,6 +400,17 @@ function os_get_user_from_uid($uid)
 	return $uid;
 }
 
+function os_get_group_from_gid($gid)
+{
+	$pwd = posix_getgrgid($gid);
+
+	if ($pwd['name']) {
+		return $pwd['name'];
+	}
+
+	return $gid;
+}
+
 function os_get_uid_from_user($user)
 {
 	$pwd = posix_getpwnam($user);

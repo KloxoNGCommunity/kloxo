@@ -190,7 +190,9 @@ class coreFfile
 	static function createFfileVariables($stat)
 	{
 		$user = os_get_user_from_uid($stat['uid']);
-		$stat['other_username'] = $user;
+		$group = os_get_group_from_gid($stat['gid']);
+
+		$stat['other_username'] = "{$user}:{$group}";
 		
 		return $stat;
 	}

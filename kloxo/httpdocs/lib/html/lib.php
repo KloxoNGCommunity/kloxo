@@ -95,11 +95,14 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 		return;
 	}
 
-	$prgm = $sgbl->__var_program_name;
-
 	$startcomment = '';
 
-	if ($nowarning !== true) {
+//	if ($nowarning !== true) {
+	if ($nowarning !== false) {
+		// no action
+	} else {
+		$prgm = $sgbl->__var_program_name;
+
 		$startcomment = "\n### Please Don't edit these comments or the content in between. " .
 			"$prgm uses this to recognize the lines it writes to the the file. " .
 			"If the above line is corrupted, it may fail to recognize them, leading to multiple lines.";
@@ -142,7 +145,7 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 	}
 
 	$afterstring = implode("\n", $afterlist);
-	$outstring = "{$outstring}\n{$startstring}{$startcomment}\n{$string}\n{$endstring}\n$afterstring\n";
+	$outstring = "{$outstring}\n{$startstring}\n{$startcomment}\n{$string}\n{$endstring}\n$afterstring\n";
 
 	lxuser_put_contents($username, $file, $outstring);
 }
