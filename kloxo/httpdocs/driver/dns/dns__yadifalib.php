@@ -18,39 +18,4 @@ class dns__yadifa extends dns__
 	{
 		parent::installMeTrue('yadifa');
 	}
-
-	function createConfFile()
-	{
-		parent::createConfFileTrue('yadifa');
-	}
-
-	function syncCreateConf()
-	{
-		parent::syncCreateConfTrue('yadifa');
-	}
-
-	function createAllowTransferIps()
-	{
-		parent::createAllowTransferIpsTrue('yadifa');
-	}
-
-	function dbactionAdd()
-	{
-		parent::dbactionAddTrue('yadifa');
-	}
-
-	function dbactionUpdate($subaction)
-	{
-		parent::dbactionUpdateTrue('yadifa', $subaction);
-	}
-
-	function dbactionDelete()
-	{
-		parent::dbactionDeleteTrue('yadifa');
-	}
-
-	function dosyncToSystemPost()
-	{
-		 // MR -- no action here
-	}
 }

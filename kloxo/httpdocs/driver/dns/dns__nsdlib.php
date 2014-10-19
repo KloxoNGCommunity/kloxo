@@ -18,39 +18,4 @@ class dns__nsd extends dns__
 	{
 		parent::installMeTrue('nsd');
 	}
-
-	function createConfFile()
-	{
-		parent::createConfFileTrue('nsd');
-	}
-
-	function syncCreateConf()
-	{
-		parent::syncCreateConfTrue('nsd');
-	}
-
-	function createAllowTransferIps()
-	{
-		parent::createAllowTransferIpsTrue('nsd');
-	}
-
-	function dbactionAdd()
-	{
-		parent::dbactionAddTrue('nsd');
-	}
-
-	function dbactionUpdate($subaction)
-	{
-		parent::dbactionUpdateTrue('nsd', $subaction);
-	}
-
-	function dbactionDelete()
-	{
-		parent::dbactionDeleteTrue('nsd');
-	}
-
-	function dosyncToSystemPost()
-	{
-		 // MR -- no action here
-	}
 }

@@ -18,39 +18,4 @@ class dns__mydns extends dns__
 	{
 		parent::installMeTrue('mydns');
 	}
-
-	function createConfFile()
-	{
-		parent::createConfFileTrue('mydns');
-	}
-
-	function syncCreateConf()
-	{
-		parent::syncCreateConfTrue('mydns');
-	}
-
-	function createAllowTransferIps()
-	{
-		parent::createAllowTransferIpsTrue('mydns');
-	}
-
-	function dbactionAdd()
-	{
-		parent::dbactionAddTrue('mydns');
-	}
-
-	function dbactionUpdate($subaction)
-	{
-		parent::dbactionUpdateTrue('mydns', $subaction);
-	}
-
-	function dbactionDelete()
-	{
-		parent::dbactionDeleteTrue('mydns');
-	}
-
-	function dosyncToSystemPost()
-	{
-		 // MR -- no action here
-	}
 }

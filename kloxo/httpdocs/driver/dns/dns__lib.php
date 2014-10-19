@@ -90,16 +90,16 @@ class dns__ extends lxDriverClass
 		return slave_get_driver('dns');
 	}
 
-	function createConfFileTrue($drivertype)
+	function createConfFile()
 	{
-		$this->syncAddFileTrue($drivertype, $this->main->nname);
+		$this->syncAddFile($this->main->nname);
 
 		foreach ((array)$this->main->__var_addonlist as $d) {
-			$this->syncAddFileTrue($drivertype, $d->nname);
+			$this->syncAddFile($d->nname);
 		}
 	}
 
-	function syncAddFileTrue($drivertype, $domainname)
+	function syncAddFile($domainname)
 	{
 		global $sgbl;
 
@@ -128,7 +128,7 @@ class dns__ extends lxDriverClass
 
 			$tpl = file_get_contents($tplsource);
 
-			if ($v !== 'pdns') {
+			if (($v !== 'pdns') && (($v !== 'mydns'))) {
 				$tplparse = getParseInlinePhp($tpl, $input);
 
 				file_put_contents($tpltarget, $tplparse);
@@ -138,7 +138,7 @@ class dns__ extends lxDriverClass
 		}
 	}
 
-	function syncCreateConfTrue($drivertype)
+	function syncCreateConf()
 	{
 		$input = array();
 
@@ -176,7 +176,7 @@ class dns__ extends lxDriverClass
 		}
 	}
 
-	function createAllowTransferIpsTrue($drivertype)
+	function createAllowTransferIps()
 	{
 		$input = array();
 
@@ -221,53 +221,53 @@ class dns__ extends lxDriverClass
 		return $ret;
 	}
 
-	function dbactionAddTrue($drivertype)
+	function dbactionAdd()
 	{
-		$this->createConfFileTrue($drivertype);
-		$this->createAllowTransferIpsTrue($drivertype);
-		$this->syncCreateConfTrue($drivertype);
+		$this->main->write();
+
+		$this->createConfFile();
+		$this->createAllowTransferIps();
+		$this->syncCreateConf();
 	}
 
-	function dbactionUpdateTrue($drivertype, $subaction)
+	function dbactionDelete()
+	{
+		$this->main->write();
+
+		$this->createAllowTransferIps();
+		$this->syncCreateConf();
+	}
+
+	function dbactionUpdate($subaction)
 	{
 		switch ($subaction) {
 			case "allowed_transfer":
-				$this->createAllowTransferIpsTrue($drivertype);
+				$this->createAllowTransferIps();
 
 				break;
 			case "synchronize":
-				$this->syncCreateConfTrue($drivertype);
+				$this->syncCreateConf();
 
 				break;
 			case "synchronize_fix":
-				$this->syncCreateConfTrue($drivertype);
+				$this->syncCreateConf();
 
 				break;
 			case "domain":
-				$this->createConfFileTrue($drivertype);
+				$this->createConfFile();
 
 				break;
 			case "full_update":
 			default:
-				$this->createConfFileTrue($drivertype);
-				$this->createAllowTransferIpsTrue($drivertype);
-				$this->syncCreateConfTrue($drivertype);
+				$this->createConfFile();
+				$this->createAllowTransferIps();
+				$this->syncCreateConf();
 
 				break;
 		}
 	}
 
-	function dbactionDeleteTrue($drivertype)
-	{
-		$dnsdrvlist = getAllDnsDriverList();
-
-		foreach ($dnsdrvlist as $k => $v) {
-			$this->createAllowTransferIpsTrue($v);
-			$this->syncCreateConfTrue($v);
-		}
-	}
-
-	function dosyncToSystemPostTrue($drivertype)
+	function dosyncToSystemPost()
 	{
 		// MR -- no need action
 	}

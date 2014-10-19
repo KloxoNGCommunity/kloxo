@@ -62,6 +62,7 @@ function lxfile_dirsize($path, $byteflag = false)
 
 //	exec("du -sc {$path} | grep -i '{$path}'", $out);
 	exec("ionice -c 2 -n 7 du -s {$path}", $out);
+
 	$os  = preg_replace("/\s+/", ":", $out[0]);
 	$t = str_replace(":{$path}", "", $os);
 
@@ -409,7 +410,13 @@ function lxfile_tmp_rm_rec($file)
 	}
 
 //	lxshell_return("rm", "-rf", $file);
-	exec("'rm' -rf {$file}");
+//	exec("'rm' -rf {$file}");
+
+	$username = "__system__";
+	$arglist = array("-rf", $file);
+	$cmd = getShellCommand("'rm'", $arglist);
+
+	return do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 }
 
 function lxfile_rm_content($dir)
@@ -448,7 +455,13 @@ function lxfile_rm_rec_content($file)
 		if (!$l) { continue; }
 
 	//	lxshell_return("rm", "-rf", "$file/$l");
-		exec("'rm' -rf {$file}/{$l}");
+	//	exec("'rm' -rf {$file}/{$l}");
+
+		$username = "__system__";
+		$arglist = array("-rf", "{$file}/{$l}");
+		$cmd = getShellCommand("'rm'", $arglist);
+
+		do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 	}
 }
 
@@ -471,7 +484,13 @@ function lxfile_rm_rec($file)
 	}
 
 //	lxshell_return("rm", "-rf", $file);
-	exec("'rm' -rf {$file}");
+//	exec("su; 'rm' -rf {$file}");
+
+	$username = "__system__";
+	$arglist = array("-rf", $file);
+	$cmd = getShellCommand("'rm'", $arglist);
+
+	return do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 }
 
 function lxfile_generic_chmod($file, $mod)

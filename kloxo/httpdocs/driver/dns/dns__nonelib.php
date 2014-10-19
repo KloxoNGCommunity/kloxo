@@ -16,32 +16,4 @@ class dns__none extends dns__
 	static function installMe()
 	{
 	}
-
-	function createConfFile()
-	{
-	}
-
-	function syncCreateConf()
-	{
-	}
-
-	function createAllowTransferIps()
-	{
-	}
-
-	function dbactionAdd()
-	{
-	}
-
-	function dbactionUpdate($subaction)
-	{
-	}
-
-	function dbactionDelete()
-	{
-	}
-
-	function dosyncToSystemPost()
-	{
-	}
 }

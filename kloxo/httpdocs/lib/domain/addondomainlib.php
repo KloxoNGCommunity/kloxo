@@ -110,7 +110,6 @@ class addondomain extends Lxdb
 
 		if ($parent->isClient()) {
 			// You have to load the domain here. Otherwise, the synctosystem won't get executed on the domain.
-			dprint("yes\n");
 			$domain = $parent->getFromList('domain', $this->getTrueParentO()->nname);
 			$domain->addToList('addondomain', $this);
 		} else {
@@ -136,7 +135,6 @@ class addondomain extends Lxdb
 
 		if ($parent->isClient()) {
 			// You have to load the domain here. Otherwise, the synctosystem won't get executed on the domain.
-			dprint("yes\n");
 			$domain = $parent->getFromList('domain', $this->getTrueParentO()->nname);
 		} else {
 			$domain = $parent;

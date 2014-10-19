@@ -165,6 +165,7 @@ function lxshell_return($cmd)
 	}
 
 	$cmd = getShellCommand($cmd, $arglist);
+
 	do_exec_system($username, null, $cmd, $out, $err, $ret, null);
 	
 	return $ret;
