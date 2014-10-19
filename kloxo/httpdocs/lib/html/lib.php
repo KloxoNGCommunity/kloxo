@@ -7941,9 +7941,9 @@ function resetQmailAssign($nolog = null)
 		file_put_contents($d, $x);
 
 		log_cleanup("- virtualdomains for '{$k}'", $nolog);
-		$rh .= "{$k}";
+		$rh .= "{$k}\n";
 		log_cleanup("- virtualdomains for '{$k}'", $nolog);
-		$vd .= "{$k}:{$k}";
+		$vd .= "{$k}:{$k}\n";
 	}
 
 	$ua .= ".";
