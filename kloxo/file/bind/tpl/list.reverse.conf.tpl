@@ -1,4 +1,6 @@
 <?php
+	exec("cat '' > /opt/configs/bind/conf/defaults/bind.reverse.conf");
+
 	$d1names = $arpas;
 
 	// MR -- use nsd data because the same structure

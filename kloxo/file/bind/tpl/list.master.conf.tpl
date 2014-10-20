@@ -1,4 +1,6 @@
 <?php
+	exec("cat '' > /opt/configs/bind/conf/defaults/bind.master.conf");
+
 	$d1names = $domains;
 
 	// MR -- use nsd data because the same structure

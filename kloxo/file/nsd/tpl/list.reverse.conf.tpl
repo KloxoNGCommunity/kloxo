@@ -1,4 +1,7 @@
 <?php
+
+	exec("cat '' > /opt/configs/nsd/conf/defaults/nsd.reverse.conf");
+	
 	$d1names = $arpas;
 
 	$tpath = "/opt/configs/nsd/conf/reverse";

@@ -1,4 +1,6 @@
 <?php
+	exec("cat '' > /opt/configs/nsd/conf/defaults/nsd.master.conf");
+
 	$d1names = $domains;
 
 	$tpath = "/opt/configs/nsd/conf/master";

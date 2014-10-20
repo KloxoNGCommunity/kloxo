@@ -5770,12 +5770,6 @@ function setInitialDnsConfig($type, $nolog = null)
 			}
 		}
 
-		if ($type === 'nsd') {
-			if (!file_exists("{$path}/defaults/nsd.slave.conf")) {
-				touch("{$path}/defaults/nsd.slave.conf");
-			}
-		}
-
 		if ($type === 'yadifa') {
 			$newlist = array("keys", "xfr");
 

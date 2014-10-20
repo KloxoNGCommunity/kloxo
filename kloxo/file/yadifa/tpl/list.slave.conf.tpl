@@ -1,4 +1,6 @@
 <?php
+	exec("cat '' > /opt/configs/yadifa/conf/defaults/yadifa.slave.conf");
+
 	foreach($domains as $k => $v) {
 		$t = explode(':', $v);
 
