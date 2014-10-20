@@ -1,5 +1,5 @@
 <?php
-	exec("cat '' > /opt/configs/yadifa/conf/defaults/yadifa.master.conf");
+	exec("echo '' > /opt/configs/yadifa/conf/defaults/yadifa.master.conf");
 
 	$d1names = $domains;
 

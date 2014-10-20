@@ -1,5 +1,5 @@
 <?php
-	exec("cat '' > /opt/configs/nsd/conf/defaults/nsd.master.conf");
+	exec("echo '' > /opt/configs/nsd/conf/defaults/nsd.master.conf");
 
 	$d1names = $domains;
 

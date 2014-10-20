@@ -1,6 +1,6 @@
 <?php
 
-	exec("cat '' > /opt/configs/nsd/conf/defaults/nsd.reverse.conf");
+	exec("echo '' > /opt/configs/nsd/conf/defaults/nsd.reverse.conf");
 	
 	$d1names = $arpas;
 

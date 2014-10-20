@@ -1,5 +1,5 @@
 <?php
-	exec("cat '' > /opt/configs/nsd/conf/defaults/nsd.slave.conf");
+	exec("echo '' > /opt/configs/nsd/conf/defaults/nsd.slave.conf");
 
 	foreach($domains as $k => $v) {
 		$t = explode(':', $v);

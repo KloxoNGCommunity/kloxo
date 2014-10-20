@@ -1,5 +1,5 @@
 <?php
-	exec("cat '' > /opt/configs/bind/conf/defaults/bind.reverse.conf");
+	exec("echo '' > /opt/configs/bind/conf/defaults/bind.reverse.conf");
 
 	$d1names = $arpas;
 
