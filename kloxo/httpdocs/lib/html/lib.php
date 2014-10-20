@@ -8400,3 +8400,32 @@ function getFSBlockSizeInKb()
 	return $out[0];
 }
 
+// MR -- all exec() will be change with this function because no need 'root' user for php for panel itself
+// for security reason, shexec only permit execute with caller from inside /usr/local/lxlabs/kloxo
+function shexec($cmd)
+{
+	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
+
+	// MR -- $cmd must be full command like: 'rm' -rf /tmp/del.txt
+	exec("{$caller} {$cmd}");
+}
+
+function shexec_return($cmd)
+{
+	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
+
+	exec("{$caller} {$cmd}", null, $ret);
+
+	return $ret;
+}
+
+function shexec_output($cmd)
+{
+	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
+
+	exec("{$caller} {$cmd}", $out);
+
+	return $out;
+}
+
+
