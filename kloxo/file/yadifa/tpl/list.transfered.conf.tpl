@@ -28,8 +28,9 @@
 	$afile = $file;
 	$mfile = "{$ypath}/conf/defaults/yadifa.master.conf";
 	$sfile = "{$ypath}/conf/defaults/yadifa.slave.conf";
+	$rfile = "{$ypath}/conf/defaults/yadifa.reverse.conf";
 
-	exec("cat {$yfile} {$afile} {$mfile} {$sfile} > /etc/yadifad.conf");
+	exec("cat {$yfile} {$afile} {$mfile} {$sfile} {$rfile} > /etc/yadifad.conf");
 
 	// MR -- because the same structure with nsd and yadifa, so use nsd data
 	$cpath = "{$ypath}/conf";

@@ -172,6 +172,11 @@ class dns__ extends lxDriverClass
 				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.slave.conf.tpl");
 				$tpl = file_get_contents($tplsource);
 				getParseInlinePhp($tpl, $input);
+
+				$input['arpas'] = $this->getReverseList();
+				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.reverse.conf.tpl");
+				$tpl = file_get_contents($tplsource);
+				getParseInlinePhp($tpl, $input);
 			}
 		}
 	}
@@ -217,6 +222,13 @@ class dns__ extends lxDriverClass
 	function getSlaveList()
 	{
 		$ret = rl_exec_get('localhost', 'localhost', 'getDnsSlaves', array($this->main->syncserver));
+
+		return $ret;
+	}
+
+	function getReverseList()
+	{
+		$ret = rl_exec_get('localhost', 'localhost', 'getDnsReverses', array($this->main->syncserver));
 
 		return $ret;
 	}

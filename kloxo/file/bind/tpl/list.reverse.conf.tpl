@@ -1,8 +1,8 @@
 <?php
-	$d1names = $domains;
+	$d1names = $arpas;
 
 	// MR -- use nsd data because the same structure
-	$tpath = "/opt/configs/nsd/conf/master";
+	$tpath = "/opt/configs/nsd/conf/reverse";
 	$d2files = glob("{$tpath}/*");
 
 	if (empty($d2files)) { return; }
@@ -23,11 +23,11 @@
 	$str = '';
 
 	foreach ($d1names as $k => $v) {
-		$zone = "zone \"{$v}\" in {\n    type master;\n    file \"master/{$v}\";\n};\n\n";
+		$zone = "zone \"{$v}\" in {\n    type master;\n    file \"reverse/{$v}\";\n};\n\n";
 		$str .= $zone;
 	}
 
-	$file = "/opt/configs/bind/conf/defaults/named.master.conf";
+	$file = "/opt/configs/bind/conf/defaults/named.reverse.conf";
 
 	file_put_contents($file, $str);
 

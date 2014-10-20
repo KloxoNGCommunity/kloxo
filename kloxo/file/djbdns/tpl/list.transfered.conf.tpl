@@ -28,7 +28,7 @@
 
 	if (!file_exists("/etc/rc.d/init.d/djbdns")) { return; }
 
-	exec("cd {$datadir}; cat master slave > data; make");
+	exec("cd {$datadir}; cat master slave reverse > data; make");
 
 	if (file_exists("/etc/rc.d/init.d/djbdns")) {
 		createRestartFile("restart-dns");

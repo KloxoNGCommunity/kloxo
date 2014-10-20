@@ -1,4 +1,13 @@
 <?php
+	if (file_exists("/etc/rndc.conf")) {
+		exec("'rm' -f /etc/rndc.conf");
+	}
+
+	if (!file_exists("/var/log/named")) {
+		exec("mkdir -p /var/log/named; chmod -R 777 /var/log/named");
+
+	}
+
 	$file = "/opt/configs/bind/conf/defaults/named.acl.conf";
 
 	if (array_keys($ips)) {

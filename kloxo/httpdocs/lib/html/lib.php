@@ -6298,6 +6298,39 @@ function getDnsSlaves($servername)
 	return $e;
 }
 
+function getDnsReverses($servername)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	if (!$servername) {
+		$servername = "localhost";
+	}
+
+	$dnsdb = new Sqlite(null, 'reverse');
+	$sync = "syncserver = '{$servername}'";
+
+//	$d = $dnsdb->getRowsWhere($sync, array('nname', 'reversename'));
+	$d = $dnsdb->getRowsWhere($sync, array('reversename', 'nname'));
+
+	if (!isset($d)) { return; }
+
+	$e = array();
+
+	foreach ($d as $k => $v) {
+		$t = '';
+		foreach($v as $k2 => $v2) {
+			if ($t === '') {
+				$t = $v2;
+			} else {
+				$t = $t . ':' . $v2;
+				$e[] = $t;
+			}
+		}
+	}
+
+	return $e;
+}
+
 function setInitialPureftpConfig($nolog = null)
 {
 	log_cleanup("Initialize PureFtp service", $nolog);
@@ -8407,14 +8440,15 @@ function shexec($cmd)
 	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
 
 	// MR -- $cmd must be full command like: 'rm' -rf /tmp/del.txt
-	exec("{$caller} {$cmd}");
+	// no permit with "" (doublequote) because conflict
+	exec("{$caller} \"$cmd\"");
 }
 
 function shexec_return($cmd)
 {
 	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
 
-	exec("{$caller} {$cmd}", null, $ret);
+	exec("{$caller} \"$cmd\"", $out, $ret);
 
 	return $ret;
 }
@@ -8423,7 +8457,7 @@ function shexec_output($cmd)
 {
 	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
 
-	exec("{$caller} {$cmd}", $out);
+	exec("{$caller} \"$cmd\"", $out, $ret);
 
 	return $out;
 }

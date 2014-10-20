@@ -29,7 +29,7 @@
 	foreach ($d1names as $k => $v) {
 		$c = $d1ips[$k];
 		
-		$zone  = "zone \"{$v}\" {";
+		$zone  = "zone \"{$v}\" in {";
 		$zone .= "\n    type slave;";
 		$zone .= "\n    file \"slave/{$v}\";";
 		$zone .= "\n    masters { {$c}; };";
