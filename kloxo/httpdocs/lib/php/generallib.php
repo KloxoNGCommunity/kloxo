@@ -425,18 +425,25 @@ class General extends Lxdb
 				break;
 
 			case "reversedns":
-			//	if (!$this->reversedns_b) {
+				if (!$this->reversedns_b) {
 					$this->reversedns_b = new reversedns_b(null, null, 'general');
-			//	}
+				}
 
-			//	if ($sgbl->isHyperVM()) {
-					$vlist['reversedns_b-enableflag'] = null;
-					$vlist['reversedns_b-forwardenableflag'] = null;
-			//	}
+				$vlist['reversedns_b-enableflag'] = (isset($this->reversedns_b->enableflag)) ?
+					array('', '', $this->reversedns_b->enableflag) : null;
 
-				$this->dns_slave_list = $this->reversedns_b->dns_slave_list;
-				$vlist['reversedns_b-primarydns'] = null;
-				$vlist['reversedns_b-secondarydns'] = null;
+			//	$vlist['reversedns_b-forwardenableflag'] =(isset($this->reversedns_b->forwardenableflag)) ?
+			//		array('', '', $this->reversedns_b->forwardenableflag) : null;
+
+				$this->dns_slave_list = (isset($this->reversedns_b->dns_slave_list)) ?
+					$this->reversedns_b->dns_slave_list : null;
+
+				$vlist['reversedns_b-primarydns'] = (isset($this->reversedns_b->primarydns)) ?
+					array('', '', $this->reversedns_b->primarydns) : null;
+
+				$vlist['reversedns_b-secondarydns'] = (isset($this->reversedns_b->secondarydns)) ?
+					array('', '', $this->reversedns_b->secondarydns) : null;
+
 				$serverlist = get_namelist_from_objectlist($login->getRealPserverList('dns'));
 				$vlist['dns_slave_list'] = array('U', $serverlist);
 
