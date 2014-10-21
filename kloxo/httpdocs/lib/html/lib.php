@@ -7336,8 +7336,9 @@ function updatecleanup($nolog = null)
 //	log_cleanup("- Killing process", $nolog);
 //	exec("pkill -f gettraffic");
 
-	setRealServiceBranchList();
+	setSyncDrivers($nolog);
 
+	setRealServiceBranchList($nolog);
 
 	// MR -- no need because 'yum update' in tmpupdatecleanup
 //	setCheckPackages($nolog);
@@ -7374,11 +7375,12 @@ function updatecleanup($nolog = null)
 	setSomeScript($nolog);
 
 	// MR -- disabled for awhile
-//	removeOtherDrivers($class = null, $nolog);
-//	removeWebcacheOtherDrivers($class = null, $nolog);
-//	removeWebOtherDrivers($class = null, $nolog);
-//	removeDnsOtherDrivers($class = null, $nolog);
-
+/*
+	removeOtherDrivers($class = null, $nolog);
+	removeWebcacheOtherDrivers($class = null, $nolog);
+	removeWebOtherDrivers($class = null, $nolog);
+	removeDnsOtherDrivers($class = null, $nolog);
+*/
 	log_cleanup("Remove cache dir", $nolog);
 	log_cleanup("- Remove process", $nolog);
 	lxfile_rm_rec("__path_program_root/cache");
@@ -8456,4 +8458,37 @@ function shexec_output($cmd)
 	return $out;
 }
 
+// MR -- needed especially in install step
+// more priority using slavedb as primary instead table
+function setSyncDrivers($nolog = null)
+{
+	global $gbl, $login;
 
+	log_cleanup("Synchronizing driver between table and slavedb", $nolog);
+
+	include "../file/driver/rhel.inc";
+
+	$classlist = array('web', 'webcache', 'dns', 'spam');
+
+	$server = $login->getFromList('pserver', 'localhost');
+
+	$driverobject = $server->getObject('driver');
+
+	foreach ($classlist as &$class) {
+		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $class);
+		$driver_from_slavedb = slave_get_driver($class);
+
+		if ($driver_from_table !== $driver_from_slavedb) {
+			log_cleanup("- Synchronize for '{$class}' - set to '{$driver_from_slavedb}'", $nolog);
+
+			$pgclass = "pg_{$class}";
+
+			$driverobject->driver_b->$pgclass = $driver_from_slavedb;
+			$driverobject->setUpdateSubaction();
+		} else {
+			log_cleanup("- No need synchronize for '{$class}' - already using '{$driver_from_slavedb}'", $nolog);
+		}
+	}
+
+	$driverobject->write();
+}
