@@ -155,11 +155,14 @@ foreach($dns_records as $k => $o) {
 ?>
 <?php echo $key; ?>. IN TXT "<?php echo $value; ?>"
 <?php
+        /*
+            // MR -- disabled because deprecated (RFC7208)
             if (strpos($value, "v=spf1") !== false) {
 ?>
 <?php echo $key; ?>. IN SPF "<?php echo $value; ?>"
 <?php
             }
+        */
 
             break;
         case "srv":
