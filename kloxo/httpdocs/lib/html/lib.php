@@ -8457,29 +8457,36 @@ function setSyncDrivers($nolog = null)
 
 	log_cleanup("Synchronizing driver between table and slavedb", $nolog);
 
-	include "../file/driver/rhel.inc";
+	try {
+		include "../file/driver/rhel.inc";
 
-	$classlist = array('web', 'webcache', 'dns', 'spam');
+		$classlist = array('web', 'webcache', 'dns', 'spam');
 
-	$server = $login->getFromList('pserver', 'localhost');
+		$server = $login->getFromList('pserver', 'localhost');
 
-	$driverobject = $server->getObject('driver');
+		$driverobject = $server->getObject('driver');
 
-	foreach ($classlist as &$class) {
-		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $class);
-		$driver_from_slavedb = slave_get_driver($class);
+		foreach ($classlist as &$class) {
+			$driver_from_table = $gbl->getSyncClass(null, 'localhost', $class);
+			$driver_from_slavedb = slave_get_driver($class);
 
-		if ($driver_from_table !== $driver_from_slavedb) {
-			log_cleanup("- Synchronize for '{$class}' - set to '{$driver_from_slavedb}'", $nolog);
+			if (!$driver_from_table) { $driver_from_table = 'none'; }
+			if (!$driver_from_slavedb) { $driver_from_slavedb = 'none'; }
 
-			$pgclass = "pg_{$class}";
+			if ($driver_from_table !== $driver_from_slavedb) {
+				log_cleanup("- Synchronize for '{$class}' - set to '{$driver_from_slavedb}'", $nolog);
 
-			$driverobject->driver_b->$pgclass = $driver_from_slavedb;
-			$driverobject->setUpdateSubaction();
-		} else {
-			log_cleanup("- No need synchronize for '{$class}' - already using '{$driver_from_slavedb}'", $nolog);
+				$pgclass = "pg_{$class}";
+
+				$driverobject->driver_b->$pgclass = $driver_from_slavedb;
+				$driverobject->setUpdateSubaction();
+			} else {
+				log_cleanup("- No need synchronize for '{$class}' - already using '{$driver_from_slavedb}'", $nolog);
+			}
 		}
-	}
 
-	$driverobject->write();
+		$driverobject->write();
+	}  catch (exception $e) {
+		// no action
+	}
 }

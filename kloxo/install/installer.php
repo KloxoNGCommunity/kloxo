@@ -328,8 +328,8 @@ function kloxo_install_step1()
 	}
 
 	// MR -- remove lxphp, lxlighttpd and lxzend
-	print(">>> Removing 'old' lxphp/lxligttpd/lxzend <<<\n");
-	system("yum remove -y lxphp lxlighttpd lxzend");
+	print(">>> Removing 'old' lxphp/lxligttpd/lxzend/kloxo* <<<\n");
+	system("yum remove -y lxphp lxlighttpd lxzend kloxo-*");
 	if (file_exists("/usr/local/lxlabs/ext")) {
 		rm_if_exists("/usr/local/lxlabs/ext");
 	}
