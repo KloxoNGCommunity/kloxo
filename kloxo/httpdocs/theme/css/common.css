@@ -741,7 +741,7 @@ html>body #quotausagebar span.last {
 		overflow:hidden;
 		border: 0; padding:0;
 		margin: 0;
-		background-color: #fff
+		background-color: #fff;
 	}
 
 	.tbl_content_content {
@@ -750,34 +750,34 @@ html>body #quotausagebar span.last {
 		margin: 0;
 		padding: 0;
 		border: 0;
-		background-color: #fff"
+		background-color: #fff;
 	}
 
 	.tbl_navigation {
 		width: 100%;
 		border:0 ;
 		margin: 0 0 2px 0;
-		padding: 0
+		padding: 0;
 	}
 
 	.div_note {
 		width: 240px;
 		border: 1px solid #ddd;
 		margin: 0 auto 0 auto;
-		background-color:#fff"
+		background-color: #fff;
 	}
 
 	.div_note_title {
 		padding: 4px;
 		text-align: center;
-		background:#edc
+		background: #edc;
 	}
 
 	.div_resource {
 		width: 240px;
 		border: 0;
 		margin: 0 auto 0 auto;
-		background-color:#fff"
+		background-color: #fff;
 	}
 
 	.div_standard {
@@ -785,36 +785,50 @@ html>body #quotausagebar span.last {
 		/* border: 1px solid #ddd; */
 		border: 0;
 		margin: 0 auto 0 auto;
-		background-color:#fff"
+		background-color: #fff;
 	}
 
 	.div_showhide {
 		width: 910px;
-		margin: 0 auto 0 auto
+		margin: 0 auto 0 auto;
 	}
 
 	.div_fixed_left {
 		position: fixed;
 		top: 2px;
-		left: 2px
+		left: 2px;
 	}
 
 	.div_fixed_right {
 		position: fixed;
 		top: 2px;
-		right: 2px
+		right: 2px;
 	}
 
 	.div_fixed_logo_left {
 		position: fixed;
 		top: 40px;
-		left: 10px
+		left: 10px;
+		background-color: #fff;
+		filter: alpha(opacity=60);
+		opacity: 0.6;
+		padding: 5px;
+		border-radius: 10px;
+		-moz-border-radius: 10px;
+		-webkit-border-radius: 10px;
 	}
 
 	.div_fixed_logo_right {
 		position: fixed;
 		top: 40px;
 		right: 10px;
+		background-color: #fff;
+		filter: alpha(opacity=60);
+		opacity: 0.6;
+		padding: 5px;
+		border-radius: 10px;
+		-moz-border-radius: 10px;
+		-webkit-border-radius: 10px;
 	}
 
 	.div_fixed_top {
@@ -824,7 +838,7 @@ html>body #quotausagebar span.last {
 		height: 30px;
 		margin: 0;
 		padding: 0;
-		background-color: #e43
+		background-color: #e43;
 	}
 
 	.div_mmm_simplicity {
@@ -839,13 +853,13 @@ html>body #quotausagebar span.last {
 		padding: 0;
 		border: 4px double #ddd;
 		margin: 10px auto 10px auto;
-		background-color: #fff
+		background-color: #fff;
 	}
 
 	.div_mmm_inside {
 		background-color: #fff;
 		padding:20px 20px 20px 20px;
-		border: 1px solid #ddd
+		border: 1px solid #ddd;
 	}
 
 	.div_mmm_warning {
@@ -853,25 +867,25 @@ html>body #quotausagebar span.last {
 		margin: 10px auto;
 		padding: 10px;
 		border: 3px double #ccc;
-		background-color: #fcc
+		background-color: #fcc;
 	}
 
 	.div_select_switch {
 		height: 24px;
-		margin: 0 25px
+		margin: 0 25px;
 	}
 
 	.select_switch {
 		width: 100%;
 		border: 1px solid #aaa;
-		margin: 2px
+		margin: 2px;
 	}
 
 	.td_top_align {
 		vertical-align: top;
 		border: 0;
 		padding: 0;
-		margin: 0
+		margin: 0;
 	}
 
 	.div_display_die {
@@ -879,5 +893,5 @@ html>body #quotausagebar span.last {
 		padding: 10px;
 		margin: 0 auto;
 		background-color: #fff;
-		border: 1px solid #ddd
+		border: 1px solid #ddd;
 	}

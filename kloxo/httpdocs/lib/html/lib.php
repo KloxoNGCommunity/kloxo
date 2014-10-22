@@ -5399,7 +5399,7 @@ function setDefaultPages($nolog = null)
 	$sourcezip = "{$filepath}/skeleton.zip";
 	$targetzip = "{$httpdpath}/skeleton.zip";
 
-	$pages = array("default", "disable", "webmail", "cp");
+	$pages = array("default", "disable", "webmail", "cp", "error");
 
 	$newer = false;
 
@@ -5412,13 +5412,15 @@ function setDefaultPages($nolog = null)
 	}
 
 	foreach ($pages as $k => $p) {
-		if (!file_exists("/home/kloxo/httpd/{$p}")) {
-			lxfile_mkdir("/home/kloxo/httpd/{$p}");
+		if (!file_exists("{$httpdpath}/{$p}")) {
+			lxfile_mkdir("{$httpdpath}/{$p}");
 		}
 
-		log_cleanup("- Php files for {$p} web page", $nolog);
-		lxfile_cp(getLinkCustomfile($filepath, "{$p}_inc.php"), "{$httpdpath}/{$p}/inc.php");
-		lxfile_cp(getLinkCustomfile($filepath, "default_index.php"), "{$httpdpath}/{$p}/index.php");
+		if ($p !== 'error') {
+			log_cleanup("- Php files for {$p} web page", $nolog);
+			lxfile_cp(getLinkCustomfile($filepath, "{$p}_inc.php"), "{$httpdpath}/{$p}/inc.php");
+			lxfile_cp(getLinkCustomfile($filepath, "default_index.php"), "{$httpdpath}/{$p}/index.php");
+		}
 
 		log_cleanup("- Skeleton for {$p} web page", $nolog);
 		lxshell_unzip("__system__", "{$httpdpath}/{$p}/", $targetzip);
@@ -5429,7 +5431,6 @@ function setDefaultPages($nolog = null)
 	}
 
 	setKloxoHttpdChownChmod($nolog);
-
 
 	log_cleanup("- Php files for login web page", $nolog);
 
@@ -5453,8 +5454,19 @@ function setDefaultPages($nolog = null)
 	log_cleanup("- Skeleton for login web page", $nolog);
 	lxshell_unzip("__system__", "{$hdocspath}/login", $sourcezip);
 
+	log_cleanup("- Files for error web pages", $nolog);
+
+	lxfile_unix_chown("{$hdocspath}/error", "lxlabs:lxlabs");
+	lxfile_unix_chmod("{$hdocspath}/error", "0755");
+
+	log_cleanup("- Skeleton for error web pages", $nolog);
+	lxshell_unzip("__system__", "{$hdocspath}/error", $sourcezip);
+
+	log_cleanup("- Copy error web pages to '{$httpdpath}/error'", $nolog);
+	exec("cp -rf {$hdocspath}/error $httpdpath");
+
 	$usersourcezip = "{$filepath}/user-skeleton.zip";
-	$usertargetzip = "/home/kloxo/httpd/user-skeleton.zip";
+	$usertargetzip = "{$httpdpath}/user-skeleton.zip";
 
 	if (lxfile_exists($usersourcezip)) {
 		if (!checkIdenticalFile($usersourcezip, $usertargetzip)) {
@@ -5468,7 +5480,7 @@ function setDefaultPages($nolog = null)
 	}
 
 	$sourcelogo = realpath("../file/user-logo.png");
-	$targetlogo = "$httpdpath/user-logo.png";
+	$targetlogo = "{$httpdpath}/user-logo.png";
 
 	if (lxfile_exists($sourcelogo)) {
 		if (!checkIdenticalFile($sourcelogo, $targetlogo)) {
@@ -7413,7 +7425,6 @@ function setInitialServices($nolog = null)
 	setHostsFile($nolog);
 
 	setDefaultPages($nolog);
-	setCopyErrorPages($nolog);
 
 	setInitialPhpMyAdmin($nolog);
 
@@ -8378,26 +8389,6 @@ function isCRFTokenMatch()
 	}
 
 	return $ret;
-}
-
-function setCopyErrorPages($nolog = null)
-{
-	log_cleanup("Copy Error Pages", $nolog);
-
-	$dir = "/home/kloxo/httpd/error";
-
-	if (!file_exists($dir)) {
-		mkdir($dir);
-	}
-
-	$src = "/usr/local/lxlabs/kloxo/httpdocs/error";
-
-	$list = array('401', '403', '404', '501', '503');
-
-	foreach ($list as $k => $v) {
-		log_cleanup("- Copy '{$v}' Page to '{$dir}'", $nolog);
-		lxfile_cp(getLinkCustomfile($src, "{$v}.html"), "{$dir}/{$v}.html");
-	}
 }
 
 function getTimeZoneList()
