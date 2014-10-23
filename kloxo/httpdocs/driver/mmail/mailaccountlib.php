@@ -412,19 +412,21 @@ class Mailaccount extends Lxclient
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//	$alist[] = "a=show&o=notification";
+		// MR -- set 'appearence' as the same as parent
+		$this->getParentO()->getSpecialObject('sp_specialplay');
 
 		$alist['__title_mailaccount'] = "Mailaccount &#x00bb; $this->nname";
 
 	//	$this->getCPToggleUrl($alist);
 
+		$alist[] = "a=updateform&sa=password";
+
 		if (!$this->isLogin()) {
-			$alist[] = "a=updateform&sa=password";
 			$alist[] = "a=updateform&sa=limit";
 		}
 
 		$alist[] = "a=list&c=forward_a";
-	//	$alist[] =   "a=show&o=spam";
+		$alist[] = "a=show&o=spam";
 		$alist[] = "a=updateform&sa=filter";
 		$alist[] = "a=updateform&sa=configuration";
 		$alist[] = "a=list&c=mailcontent";
@@ -440,8 +442,11 @@ class Mailaccount extends Lxclient
 
 		$alist[] = create_simpleObject(array('url' => "http://webmail." . $this->getParentName(), 'purl' => "a=updateform&sa=webmail&l[class]=mailaccount&l[nname]=$this->nname", 'target' => "target='_blank'"));
 	//	$alist['__title_next'] = "Help";
+	//	$alist[] = "a=show&o=notification";
 	//	$alist[] = "a=list&c=ticket";
 	//	$alist[] = "a=list&c=smessage";
+
+	//	$alist[] = "a=updateform&sa=skin&o=sp_specialplay";
 
 		return $alist;
 	}

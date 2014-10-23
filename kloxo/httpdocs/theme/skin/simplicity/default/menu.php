@@ -62,12 +62,16 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 ?>
 
 <div id="menu_div" class="div_menu shadow_all">
+<?php
+// MR -- prevent for mailaccount login
+if (strpos($loginas, "@") === false) {
+?>
 
 <div style="float:left">
 	<ul class="menuTemplate2 decor2_1">
 		<li><a href="/display.php?<?= $consumedlogin ?>frm_action=show"><?= $login->getKeywordUc('home') ?></a>
 <?php
-	if ($clientid != 'admin') {
+	if (!$login->isAdmin()) {
 ?>
 			<div class="drop2 decor2_2" style="width:320px">
 				<div class='left'>
@@ -1104,6 +1108,9 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 		</li>
 	</ul>
 </div>
+<?php
+}
+?>
 <div style="float:right">
 	<ul class="menuTemplate2 decor2_1">
 		<li><a title="<?= $login->getKeywordUc('click_here_for') ?> <?= $login->getKeywordUc('help') ?>" href="javascript://" onClick="toggleVisibilityById('infomsg');"><?= $login->getKeywordUc('help') ?></a></li>

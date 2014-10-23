@@ -252,7 +252,7 @@ foreach ($certnamelist as $ip => $certname) {
 				//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -419,7 +419,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -647,7 +647,7 @@ foreach ($certnamelist as $ip => $certname) {
 		Include /home/kloxo/client/<?php echo $user; ?>/prefork.inc
 	</IfModule>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options <?php echo $dirindex; ?> -FollowSymlinks +SymLinksIfOwnerMatch
 
@@ -745,7 +745,7 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($blockips) {
 ?>
 
-	<Location />
+	<Location "/">
 		Order deny,allow
 		Deny from <?php echo $blockips; ?>
 
@@ -1067,7 +1067,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1234,7 +1234,7 @@ foreach ($certnamelist as $ip => $certname) {
 						//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1377,7 +1377,7 @@ foreach ($certnamelist as $ip => $certname) {
 					//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -1544,7 +1544,7 @@ foreach ($certnamelist as $ip => $certname) {
 						//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>

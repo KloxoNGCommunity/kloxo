@@ -5751,6 +5751,15 @@ function setPhpModuleInactive($module, $ininamelist = null)
 	}
 }
 
+function setInitialAllDnsConfigs($nolog = null)
+{
+	$list = array('bind', 'djbdns', 'maradns', 'mydns', 'nsd', 'pdns', 'yadifa');
+
+	foreach ($list as $k => $v) {
+		setInitialDnsConfig($v, $nolog);
+	}
+}
+
 function setInitialDnsConfig($type, $nolog = null)
 {
 	$fpath = "/usr/local/lxlabs/kloxo/file";
@@ -5797,6 +5806,16 @@ function setInitialDnsConfig($type, $nolog = null)
 	$htpath_old = "/home/{$type}";
 
 	lxfile_rm_rec($htpath_old);
+}
+
+function setInitialAllWebConfigs($nolog = null)
+{
+	$list = array('apache', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed', 'gwan');
+
+	foreach ($list as $k => $v) {
+		setInitialWebConfig($v, $nolog);
+		setWebDriverChownChmod($v, $nolog);
+	}
 }
 
 function setInitialWebConfig($type, $nolog = null)
@@ -5863,6 +5882,15 @@ function setInitialWebConfig($type, $nolog = null)
 	$htpath_old = "/home/{$type}";
 
 	lxfile_rm_rec($htpath_old);
+}
+
+function setInitialAllWebCacheConfigs($nolog = null)
+{
+	$list = array('varnish', 'squid', 'trafficserver');
+
+	foreach ($list as $k => $v) {
+		setInitialWebCacheConfig($v, $nolog);
+	}
 }
 
 function setInitialWebCacheConfig($type, $nolog = null)
@@ -7388,7 +7416,6 @@ function updatecleanup($nolog = null)
 
 	// MR -- disabled for awhile
 /*
-	removeOtherDrivers($class = null, $nolog);
 	removeWebcacheOtherDrivers($class = null, $nolog);
 	removeWebOtherDrivers($class = null, $nolog);
 	removeDnsOtherDrivers($class = null, $nolog);
@@ -7430,30 +7457,9 @@ function setInitialServices($nolog = null)
 
 	setInitialAdminAccount($nolog);
 
-	setInitialDnsConfig('bind', $nolog);
-	setInitialDnsConfig('djbdns', $nolog);
-//	setInitialDnsConfig('maradns', $nolog);
-	setInitialDnsConfig('pdns', $nolog);
-	setInitialDnsConfig('nsd', $nolog);
-	setInitialDnsConfig('mydns', $nolog);
-	setInitialDnsConfig('yadifa', $nolog);
-
-	setInitialWebConfig('apache', $nolog);
-	setWebDriverChownChmod('apache', $nolog);
-	setInitialWebConfig('lighttpd', $nolog);
-	setWebDriverChownChmod('lighttpd', $nolog);
-	setInitialWebConfig('nginx', $nolog);
-	setWebDriverChownChmod('nginx', $nolog);
-	setInitialWebConfig('hiawatha', $nolog);
-	setWebDriverChownChmod('hiawatha', $nolog);
-	setInitialWebConfig('openlitespeed', $nolog);
-	setWebDriverChownChmod('openlitespeed', $nolog);
-	setInitialWebConfig('gwan', $nolog);
-	setWebDriverChownChmod('gwan', $nolog);
-
-	setInitialWebCacheConfig('varnish', $nolog);
-	setInitialWebCacheConfig('trafficserver', $nolog);
-	setInitialWebCacheConfig('squid', $nolog);
+	setInitialAllDnsConfigs($nolog);
+	setInitialAllWebConfigs($nolog);
+	setInitialAllWebCacheConfigs($nolog);
 
 	setInitialPhpIniConfig($nolog);
 	setInitialPhpFpmConfig($nolog);

@@ -266,7 +266,7 @@ foreach ($certnamelist as $ip => $certname) {
 		//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
@@ -392,7 +392,7 @@ foreach ($certnamelist as $ip => $certname) {
 		//}
 ?>
 
-	<Location />
+	<Location "/">
 		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
@@ -401,7 +401,7 @@ foreach ($certnamelist as $ip => $certname) {
 		//if (strpos($phptype, 'fcgid_') === false) {
 ?>
 
-	<Directory "<?php echo $defaultdocroot; ?>/">
+	<Directory "<?php echo $cpdocroot; ?>/">
 		AllowOverride All
 		<IfVersion < 2.4>
 			Order allow,deny
