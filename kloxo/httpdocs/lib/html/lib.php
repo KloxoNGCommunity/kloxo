@@ -2090,7 +2090,7 @@ function get_kloxo_port($type)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-//	include_once "lib/php/generallib.php";
+	include_once "lib/php/generallib.php";
 
 	$port = db_get_value("general", "admin", "ser_portconfig_b");
 	$port = unserialize(base64_decode($port));
@@ -2122,7 +2122,7 @@ function redirect_to_https()
 		exit;
 	}
 
-//	include_once "lib/php/generallib.php";
+	include_once "lib/php/generallib.php";
 
 	$port = db_get_value("general", "admin", "ser_portconfig_b");
 	$port = unserialize(base64_decode($port));

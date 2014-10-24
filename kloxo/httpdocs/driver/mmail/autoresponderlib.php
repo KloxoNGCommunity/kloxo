@@ -34,6 +34,8 @@ class Autoresponder extends Lxdb
 
 	static function createListAlist($parent, $class)
 	{
+		$alist[] = "a=show";
+
 		$alist[] = "a=list&c=autoresponder";
 		$alist[] = "a=addform&c=autoresponder";
 		$alist[] = "a=updateform&sa=autores";
@@ -43,10 +45,10 @@ class Autoresponder extends Lxdb
 	}
 	static function createListNlist($parent, $view)
 	{
-		$nlist['status'] = '5%';
-		$nlist['autores_name'] = '30%';
-		$nlist['reply_subject'] = '65%';
-	//	$nlist['rule'] = '100%';
+		$nlist['status'] = '3%';
+		$nlist['autores_name'] = '25%';
+		$nlist['reply_subject'] = '60%';
+		$nlist['rule'] = '20%';
 
 		return $nlist;
 	}

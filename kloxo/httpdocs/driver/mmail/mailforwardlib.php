@@ -42,6 +42,8 @@ class MailForward extends Lxdb
 
 	static function createListAlist($parent, $class)
 	{
+		$alist[] = "a=show";
+
 		$alist[] = "a=list&c=$class";
 		$alist[] = "a=addform&c=$class&dta[var]=type&dta[val]=forward";
 		$alist[] = "a=addform&c=$class&dta[var]=type&dta[val]=alias";
