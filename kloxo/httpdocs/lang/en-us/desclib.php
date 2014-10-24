@@ -1340,7 +1340,7 @@ $__description["multiple_php_ready_server"] = array("Multiple PHP Ready (left bl
 $__description["multiple_php_ready"] = array("Multiple PHP Ready");
 $__description["multiple_php_ratio"] = array("Multiple PHP Ratio");
 $__description["php_selected"] = array("PHP Selected");
-
+$__description["web_selected"] = array("Web Selected");
 
 $__description["multiple_php_install"] = array("Multiple PHP Install");
 $__description["multiple_php_already_installed"] = array("Multiple PHP Already Installed");

@@ -60,6 +60,7 @@ class phpini extends lxdb
 	static $__acdesc_show = array("", "", "PHP_config");
 
 	static $__desc_php_selected = array("s", "", "php_selected");
+	static $__desc_web_selected = array("s", "", "web_selected");
 
 	static function initThisObjectRule($parent, $class, $name = null)
 	{
@@ -100,6 +101,7 @@ class phpini extends lxdb
 			if ($this->getParentO()->getClass() !== 'web') {
 				$list[] = 'multiple_php_ratio';
 			} else {
+				$list[] = 'web_selected';
 				$list[] = 'php_selected';
 			}
 		}
@@ -357,7 +359,15 @@ class phpini extends lxdb
 
 	//	if ($parent->is__table('web')) {
 		if ($parent->getClass() === 'web') {
-			$this->php_selected = 'php53m';
+			if (!isset($this->web_selected)) {
+				$this->web_selected = 'back-end';
+			}
+
+			$vlist['web_selected'] = array("s", array('front-end', 'back-end'));
+
+			if (!isset($this->php_selected)) {
+				$this->php_selected = 'php53m';
+			}
 
 			$l = $this->get_multiple_php_list();
 

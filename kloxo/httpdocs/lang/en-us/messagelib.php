@@ -204,11 +204,9 @@ $__information['lxbackup_updateform_restore_from_file_pre'] =	"<p>You can upload
 	"Then come here, and click on <b>directory</b> icon on the right in the <b>restore</b> form, ".
 	"and it will allow you to select the particular file. Then click on <b>start restore process</b>.</p>";
 
-$__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the <b>Manage Php Configuration</b> flag to let Kloxo-MR manage your php.ini completely.</p>".
-	"<p>Please note that your old php.ini will be overwritten. To restore your old php.ini, just disable <b>Manage Php Configuration</b> and update.</p>".
-	"<p>It is recommended that you let Kloxo-MR completely handle your php configuration, and ask in our forum if you need special features.</p>".
-	"<p>Installing PHP modules (like xcache/ioncube/zend/suhosin) rpm via yum. Installing these modules depend on php branch and version installed on system. " .
-	"<b>Example</b>: when using php53u branch, installing with 'yum install php53u-xcache'. Try 'php -m' for to make sure.</p>" .
+$__information['phpini_updateform_edit_admin_pre'] = "<p>Installing PHP modules (like xcache/ioncube/zend/suhosin) rpm via yum. Installing these modules depend on php branch and version installed on system.</p>" .
+	"<p>If using 'php-branch' in 'php used' and using php53u, installing with 'yum install php53u-xcache' and then try 'php -m' for to make sure.</p>" .
+	"<p>Ask to <a href='http://forum.mratwork.com' target='_blank'>forum</a> to know how to install php extension for 'multiple php'. Generally, using 'sh /script/phpm-extension-installer'.</p>" .
 	"<p>Click <url:o=serverweb&a=show>[here]</url> to install another php for 'Multiple PHP'.</p>" .
 	"<p><b>Note:</b></p>" .
 	"<ul>" .
@@ -216,7 +214,9 @@ $__information['phpini_updateform_edit_admin_pre'] = "<p>You have to enable the 
 		"<li>for shared-hosting, better install all phpXYm series</li>" .
 		"<li>Format for 'multiple php ratio' is 'a:b:c:d' where 'a' for php52m, 'b' for php53m, 'c' for php54m and 'd' for php55m</li>" .
 	"</ul>" .
-	"</p>";
+	"</p>" .
+	"<p>In domain-level, appear 'web selected' and 'php selected' (if enable 'multiple php').</p>" .
+	"<p>For web proxy (example: nginx-proxy), select 'front-end' mean execute process in nginx (rewrite rule in .htaccess may not work).</p>";
 
 $__information['client_updateform_wall_pre'] = "<p><b>Note:</b> The Message will only be sent to your direct children (one level, ".
 	"including this account) who has a contact email set.</p>";
@@ -323,7 +323,7 @@ $__information['ftpuser_admin'] = "<p>Use <b>--direct--</b> to add an ftpuser th
 
 $__information['updateform_default_domain_pre'] = "<p>This will set the domain that's considered as the primary domain for this particular account.</p>".
 	"<p>You can access this domain's document root by going to http://IP/~clientname.</p>".
-	"<p>To map an ipaddress to a domain, you have to click <url: a=list&c=ipaddress>[here]</url>, go inside an ipaddress and click on 'configure domain' tab there.</p>".
+	"<p>To map an ipaddress to a domain, you have to click <url:a=list&c=ipaddress>[here]</url>, go inside an ipaddress and click on 'configure domain' tab there.</p>".
 	"<p>If you want to view a domain before the dns is setup, the best way is to create an entry for the domain in your local etc/hosts file.</p>".
 	"<p>Just add an entry like this: <b>192.168.1.32 domain.com</b> on a separete line, ".
 	"and then you will be able to access the domain by typing it in your browser's url box.</p>";
