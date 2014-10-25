@@ -7447,6 +7447,8 @@ function setInitialServices($nolog = null)
 	// -- not include rm because conflict with \r
 //	setRemoveAlias($nolog);
 
+	setEnableQuota($nolog);
+
 	setInitialServer($nolog);
 
 	setHostsFile($nolog);
@@ -8494,5 +8496,26 @@ function setSyncDrivers($nolog = null)
 		$driverobject->write();
 	}  catch (exception $e) {
 		// no action
+	}
+}
+
+function setEnableQuota($nolog = null)
+{
+	log_cleanup("Enabling Disk Quota\n", $nolog);
+
+	if (isRpmInstalled('quota')) {
+		log_cleanup("- Already installed\n", $nolog);
+	} else {
+		log_cleanup("- Installing...\n", $nolog);
+		setRpmInstalled('quota');
+	}
+
+	exec("quotaon -pa|grep 'off'", $out);
+
+	if ($out[0] !== '') {
+		log_cleanup("- Enabling...\n", $nolog);
+		exec("quotaon -vaug, $nolog);
+	} else {
+		log_cleanup("- Already enabled\n", $nolog);
 	}
 }

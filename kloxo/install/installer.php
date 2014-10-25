@@ -471,7 +471,6 @@ function kloxo_install_step2()
 		system("echo '{$dbadmindata}' > {$kloxopath}/etc/slavedb/dbadmin");
 	}
 
-	// MR -- no needed because defaults as 'none'.
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';

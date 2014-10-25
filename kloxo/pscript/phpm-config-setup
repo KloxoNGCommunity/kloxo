@@ -21,29 +21,31 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 	xdebug xcache opcache lzf redis enchant ; do
 
 	for j in php.d php-zts.d ; do
-		if [ -f /opt/${base_name}/etc/${j}/${i}.ini ] ; then
-			## MR -- remove path in 'extension='
-			sed -i 's:/usr/lib'${uname_m}'/php/modules::' /opt/${base_name}/etc/${j}/${i}.ini
+		for k in '10-' '20-' '30-' '40-' '50-' '60-' '70-' '80-' '90-' '' ; do
+			if [ -f /opt/${base_name}/etc/${j}/${k}${i}.ini ] ; then
+				## MR -- remove path in 'extension='
+				sed -i 's:/usr/lib'${uname_m}'/php/modules::' /opt/${base_name}/etc/${j}/${k}${i}.ini
 
-			if [ "$(echo ${i}|grep mysqlnd)" != "" ] ; then
-				## MR -- using mysqlnd instead mysql/mysqli in php54s
-				x="-- Enable 'mysqlnd' instead 'mysql' modules in '/etc/${base_name}/etc/${j}'"
-				echo $x
-				echo $x >>/opt/${base_name}/install.log
+				if [ "$(echo ${k}${i}|grep mysqlnd)" != "" ] ; then
+					## MR -- using mysqlnd instead mysql/mysqli in php54s
+					x="-- Enable 'mysqlnd' instead 'mysql' modules in '/etc/${base_name}/etc/${j}'"
+					echo $x
+					echo $x >>/opt/${base_name}/install.log
 
-				if [ -f /opt/${base_name}/etc/php.d/mysql.ini ] ; then
-					'mv' -f /opt/${base_name}/etc/${j}/mysql.ini /opt/${base_name}/etc/${j}/mysql.nonini
-					'mv' -f /opt/${base_name}/etc/${j}/mysqli.ini /opt/${base_name}/etc/${j}/mysqli.nonini
-					'mv' -f /opt/${base_name}/etc/${j}/pdo_mysql.ini /opt/${base_name}/etc/${j}/pdo_mysql.nonini
+					if [ -f /opt/${base_name}/etc/php.d/${k}mysql.ini ] ; then
+						'mv' -f /opt/${base_name}/etc/${j}/${k}mysql.ini /opt/${base_name}/etc/${j}/${k}mysql.nonini
+						'mv' -f /opt/${base_name}/etc/${j}/${k}mysqli.ini /opt/${base_name}/etc/${j}/${k}mysqli.nonini
+						'mv' -f /opt/${base_name}/etc/${j}/${k}pdo_mysql.ini /opt/${base_name}/etc/${j}/${k}pdo_mysql.nonini
+					fi
+				else
+					x="-- Disable '${i}' modules in '/etc/${base_name}/etc/${j}'"
+					echo $x
+					echo $x >>/opt/${base_name}/install.log
+
+					'mv' -f /opt/${base_name}/etc/${j}/${k}${i}.ini /opt/${base_name}/etc/${j}/${k}${i}.nonini
 				fi
-			else
-				x="-- Disable '${i}' modules in '/etc/${base_name}/etc/${j}'"
-				echo $x
-				echo $x >>/opt/${base_name}/install.log
-
-				'mv' -f /opt/${base_name}/etc/${j}/${i}.ini /opt/${base_name}/etc/${j}/${i}.nonini
 			fi
-		fi
+		done
 	done
 done
 
