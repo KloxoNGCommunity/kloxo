@@ -11,6 +11,7 @@
 		foreach ($ips as $k => $v) {
 			$text .= "    notify: {$v} NOKEY\n";
 			$text .= "    provide-xfr: {$v} NOKEY\n";
+			$text .= "    outgoing-interface: {$v}\n";
 			$text .= "\n";
 		}
 	} else {
