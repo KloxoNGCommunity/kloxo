@@ -7447,7 +7447,8 @@ function setInitialServices($nolog = null)
 	// -- not include rm because conflict with \r
 //	setRemoveAlias($nolog);
 
-	setEnableQuota($nolog);
+	// MR -- disabled until auto-edit /etc/fstab
+//	setEnableQuota($nolog);
 
 	setInitialServer($nolog);
 
@@ -8514,7 +8515,7 @@ function setEnableQuota($nolog = null)
 
 	if ($out[0] !== '') {
 		log_cleanup("- Enabling...\n", $nolog);
-		exec("quotaon -vaug, $nolog);
+		exec("quotaon -vaug, $nolog");
 	} else {
 		log_cleanup("- Already enabled\n", $nolog);
 	}
