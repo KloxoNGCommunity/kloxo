@@ -25,8 +25,12 @@
 	$str = '';
 
 	foreach ($d1names as $k => $v) {
-		$zone = "zone \"{$v}\" in {\n    type master;\n    file \"reverse/{$v}\";\n};\n\n";
-		$str .= $zone;
+		$zone  = "zone \"{$v}\" in {\n";
+		$zone .= "    type master;\n";
+		$zone .= "    file \"reverse/{$v}\";\n";
+		$zone .= "};\n";
+
+		$str .= $zone . "\n";
 	}
 
 	$file = "/opt/configs/bind/conf/defaults/named.reverse.conf";

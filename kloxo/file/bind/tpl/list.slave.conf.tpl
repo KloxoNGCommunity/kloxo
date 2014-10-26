@@ -31,14 +31,14 @@
 	foreach ($d1names as $k => $v) {
 		$c = $d1ips[$k];
 		
-		$zone  = "zone \"{$v}\" in {";
-		$zone .= "\n    type slave;";
-		$zone .= "\n    file \"slave/{$v}\";";
-		$zone .= "\n    masters { {$c}; };";
-		$zone .= "\n    masterfile-format text;";
-		$zone .= "\n};\n\n";
+		$zone  = "zone \"{$v}\" in {\n";
+		$zone .= "    type slave;\n";
+		$zone .= "    file \"slave/{$v}\";\n";
+		$zone .= "    masters { {$c}; };\n";
+		$zone .= "    masterfile-format text;\n";
+		$zone .= "};\n";
 
-		$str .= $zone;
+		$str .= $zone . "\n";
 	}
 
 	$file = "/opt/configs/bind/conf/defaults/named.slave.conf";

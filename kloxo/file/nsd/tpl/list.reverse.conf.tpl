@@ -25,8 +25,9 @@
 	$str = '';
 
 	foreach ($d1names as $k => $v) {
-		$zone  = "zone:\n    name: {$v}\n    zonefile: reverse/{$v}\n";
-
+		$zone  = "zone:\n";
+		$zone .= "    name: {$v}\n";
+		$zone .= "    zonefile: reverse/{$v}\n";
 		$zone .= "    include: \"/opt/configs/nsd/conf/defaults/nsd.acl.conf\"\n";
 
 		$str .= $zone . "\n";

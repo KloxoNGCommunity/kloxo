@@ -18,6 +18,7 @@ class dns__ extends lxDriverClass
 
 		if ($driver === 'bind') {
 			setRpmInstalled("bind-utils");
+			exec("killall -9 named");
 		}
 
 		if ($driver === 'maradns') {

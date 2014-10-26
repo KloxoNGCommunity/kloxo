@@ -25,8 +25,12 @@
 	$str = '';
 
 	foreach ($d1names as $k => $v) {
-		$zone = "zone \"{$v}\" in {\n    type master;\n    file \"master/{$v}\";\n};\n\n";
-		$str .= $zone;
+		$zone  = "zone \"{$v}\" in {\n";
+		$zone .= "    type master;\n";
+		$zone .= "    file \"master/{$v}\";\n";
+		$zone .= "};\n";
+
+		$str .= $zone . "\n";
 	}
 
 	$file = "/opt/configs/bind/conf/defaults/named.master.conf";
