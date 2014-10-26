@@ -1342,30 +1342,6 @@ class web__ extends lxDriverClass
 				case "fix_phpfpm":
 					$this->createPhpFpmConfig();
 					break;
-
-				case "fix_chownchmod_all":
-					setFixChownChmod('all');
-					break;
-
-				case "fix_chownchmod_own":
-					setFixChownChmod('chown');
-					break;
-
-				case "fix_chownchmod_mod":
-					setFixChownChmod('chmod');
-					break;
-
-				case "fix_chownchmod_all_nolog":
-					setFixChownChmod('all', $nolog = true);
-					break;
-
-				case "fix_chownchmod_own_nolog":
-					setFixChownChmod('chown', $nolog = true);
-					break;
-
-				case "fix_chownchmod_mod_nolog":
-					setFixChownChmod('chmod', $nolog = true);
-					break;
 			}
 		}
 	}

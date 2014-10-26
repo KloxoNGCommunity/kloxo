@@ -5151,6 +5151,8 @@ function createOSUserAdmin($nolog = null)
 	} else {
 		log_cleanup("- User admin exists", $nolog);
 	}
+
+	exec("chmod 751 /home/admin");
 }
 
 function setWatchdogDefaults($nolog = null)
@@ -5753,7 +5755,8 @@ function setPhpModuleInactive($module, $ininamelist = null)
 
 function setInitialAllDnsConfigs($nolog = null)
 {
-	$list = array('bind', 'djbdns', 'maradns', 'mydns', 'nsd', 'pdns', 'yadifa');
+//	$list = array('bind', 'djbdns', 'maradns', 'mydns', 'nsd', 'pdns', 'yadifa');
+	$list = array('bind', 'djbdns', 'mydns', 'nsd', 'pdns', 'yadifa');
 
 	foreach ($list as $k => $v) {
 		setInitialDnsConfig($v, $nolog);
@@ -8478,7 +8481,20 @@ function setSyncDrivers($nolog = null)
 			$driver_from_slavedb = slave_get_driver($class);
 
 			if (!$driver_from_table) { $driver_from_table = 'none'; }
-			if (!$driver_from_slavedb) { $driver_from_slavedb = 'none'; }
+
+			if (!$driver_from_slavedb) {
+				if ($class === 'web') {
+					$driver_from_slavedb = 'apache';
+				} elseif ($class === 'webcache') {
+					$driver_from_slavedb = 'none';
+				} elseif ($class === 'dns') {
+					$driver_from_slavedb = 'bind';
+				} elseif ($class === 'spam') {
+					$driver_from_slavedb = 'bogofilter';
+				} else {
+					$driver_from_slavedb = 'none';
+				}
+			}
 
 			if ($driver_from_table !== $driver_from_slavedb) {
 				log_cleanup("- Synchronize for '{$class}' - set to '{$driver_from_slavedb}'", $nolog);

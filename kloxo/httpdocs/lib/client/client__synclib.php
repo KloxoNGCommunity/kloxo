@@ -68,7 +68,7 @@ class client__sync extends lxDriverClass {
 //		exec("ln -sf {$tpath}/__backup /home/{$this->main->nname}/__backup");
 
 		lxfile_unix_chown($spath, "{$username}:apache");
-		lxfile_unix_chmod($spath, "750");
+		lxfile_unix_chmod($spath, "751");
 
 		$this->main->username = $username;
 
@@ -246,7 +246,7 @@ class client__sync extends lxDriverClass {
 		lxfile_generic_chown($docd, $this->main->username);
 		lxuser_unzip_with_throw($this->main->username, $fullpath, $docd);
 		lxfile_generic_chown($fullpath, "{$this->main->username}:apache");
-		lxfile_generic_chmod($fullpath, "0750");
+		lxfile_generic_chmod($fullpath, "0751");
 	}
 }
 
