@@ -5942,14 +5942,14 @@ function setInitialPhpFpmConfig($nolog = null)
 
 	$fpath = "/usr/local/lxlabs/kloxo/file";
 	$fpmpath = "/opt/configs/php-fpm/etc";
-
-	exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
-
 	$sockpath = "/opt/configs/php-fpm/sock";
 
 	if (!file_exists($sockpath)) {
 		exec("mkdir -p {$sockpath}");
 	}
+
+	exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
+
 
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
@@ -7941,8 +7941,6 @@ function setRealServiceBranchList($nolog = null)
 
 function resetQmailAssign($nolog = null)
 {
-	// MR -- this function not use anymore because fix-qmailassign directly reading vdominfo
-
 	$pass = slave_get_db_pass();
 
 	$con = new mysqli("localhost", "root", $pass);
