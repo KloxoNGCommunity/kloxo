@@ -37,13 +37,7 @@ foreach($clist as $c) {
 		if (!in_array($c->nname, $ca)) { continue; }
 	}
 
-	if ($client === 'all') {
-		rl_exec_get(null, $c->syncserver, "setFixChownChmod", array($select, $nolog));
-	} else {
-		rl_exec_get(null, $c->syncserver, "setFixChownChmodWebPerUser", array($select, $c->nname, $nolog));
-		rl_exec_get(null, $c->syncserver, "setFixChownChmodMailPerUser", array($select, $c->nname, $nolog));
-	}
+	rl_exec_get(null, $c->syncserver, "setFixChownChmodWebPerUser", array($select, $c->nname, $nolog));
+	rl_exec_get(null, $c->syncserver, "setFixChownChmodMailPerUser", array($select, $c->nname, $nolog));
 }
-
-
 

@@ -6121,9 +6121,14 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
 	}
 
+	$docrootlist = array();
+
 	foreach ((array)$dlist as $l) {
 		$web = $l->getObject('web');
 		$docroot = $web->docroot;
+
+		if (in_array("{$cdir}/{$docroot}", $docrootlist)) { continue; }
+
 		$dom = $web->nname;
 
 		if (($select === "all") || ($select === 'chown')) {
@@ -6149,6 +6154,10 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 			exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
 			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
 		}
+
+		$docrootlist[] = "{$cdir}/{$docroot}";
+
+		array_unique($docrootlist);
 	}
 }
 
