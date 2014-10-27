@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `watchdog` (
 INSERT INTO `watchdog` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`, `syncserver`, `port`, `action`, `status`, `added_by_system`, `oldsyncserver`, `olddeleteflag`) VALUES
 ('dns___localhost', 'pserver-localhost', '', 'dns', 'localhost', '53', '__driver_dns', 'on', 'on', '', ''),
 ('web___localhost', 'pserver-localhost', '', 'web', 'localhost', '80', '__driver_web', 'on', 'on', '', ''),
-('mail___localhost', 'pserver-localhost', '', 'mail', 'localhost', '25', '/etc/init.d/qmail restart', 'on', 'on', '', ''),
-('mysql___localhost', 'pserver-localhost', '', 'mysql', 'localhost', '3306', '__driver_mysql', 'on', 'on', '', ''),
-('ftp___localhost', 'pserver-localhost', '', 'ftp', 'localhost', '21', '/etc/init.d/xinetd restart', 'on', 'on', '', '');
+('mail___localhost', 'pserver-localhost', '', 'mail', 'localhost', '25', '__driver_qmail', 'on', 'on', '', ''),
+('mysql___localhost', 'pserver-localhost', '', 'mysql', 'localhost', '3306||/var/lib/mysql/mysql.sock', '__driver_mysql', 'on', 'on', '', ''),
+('ftp___localhost', 'pserver-localhost', '', 'ftp', 'localhost', '21', '__driver_xinetd', 'on', 'on', '', '');
 
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (

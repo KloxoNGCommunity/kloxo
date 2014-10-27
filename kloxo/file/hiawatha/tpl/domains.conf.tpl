@@ -1059,6 +1059,10 @@ VirtualHost {
 
 	Hostname = webmail.<?php echo $parkdomainname; ?>
 
+
+	WebsiteRoot = <?php echo $webmaildocroot; ?>
+
+
 	TimeForCGI = 3600
 
 	Alias = /error:/home/kloxo/httpd/error

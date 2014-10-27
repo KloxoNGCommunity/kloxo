@@ -910,15 +910,32 @@ function send_system_monitor_message_to_admin($prog)
 
 function check_if_port_on($port)
 {
-	$socket = fsockopen('127.0.0.1', $port, $errno, $errstr, 5);
+	$list = explode("||", $port);
 
-	if ($socket) {
-		fclose($socket);
+	foreach ($list as $k => $v) {
+		if (stppos($v, '.sock') !== false) {
+			// unix socket -> /var/lib/mysql/mysql.sock for mysql
+			$socket = fsockopen('unix://{$v}', '-1', $errno, $errstr, 5);
 
-		return true;
-	} else {
-		return false;
+			if ($socket) {
+				fclose($socket);
+
+				return true;
+			}
+		} else {
+			// standard port -> 3306 for mysql
+			$socket = fsockopen('127.0.0.1', $v, $errno, $errstr, 5);
+
+			if ($socket) {
+				fclose($socket);
+
+				return true;
+			}
+
+		}
 	}
+
+	return false;
 }
 
 function installAppPHP($var, $cmd)
@@ -1089,19 +1106,19 @@ function validate_docroot($docroot)
 			throw new lxException($login->getThrow("document_root_may_not_contain_spaces"), '', $docroot);
 		}
 
-		if (strpos("..", $docroot) !== false) {
+		if (strpos($docroot, "..") !== false) {
 			throw new lxException($login->getThrow("document_root_may_not_contain_doubledots"), '', $docroot);
 		}
 
-		if (strpos("./", $docroot) !== false) {
+		if (strpos($docroot, "./") !== false) {
 			throw new lxException($login->getThrow("document_root_may_not_contain_dotslash"), '', $docroot);
 		}
 
-		if (strpos("/.", $docroot) !== false) {
+		if (strpos($docroot, "/.") !== false) {
 			throw new lxException($login->getThrow("document_root_may_not_contain_slashdot"), '', $docroot);
 		}
 
-		if (strpos("~", $docroot) !== false) {
+		if (strpos($docroot, "~") !== false) {
 			throw new lxException($login->getThrow("document_root_may_not_contain_tilde"), '', $docroot);
 		}
 	}
