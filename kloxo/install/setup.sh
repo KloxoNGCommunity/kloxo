@@ -45,7 +45,9 @@ else
 	'rm' -rf /etc/yum.repos.d/kloxo-mr.repo
 	'rm' -rf /etc/yum.repos.d/kloxo-custom.repo
 	'rm' -rf /etc/yum.repos.d/lxcenter.repo
-	'rm' -rf /etc/yum.repos.d/lxlabs.repo	
+	'rm' -rf /etc/yum.repos.d/lxlabs.repo
+
+	'rm' -rf /etc/yum.repos.d/epel*.repo
 fi
 
 cd /

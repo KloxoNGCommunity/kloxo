@@ -70,6 +70,8 @@ class client__sync extends lxDriverClass {
 		lxfile_unix_chown($spath, "{$username}:apache");
 		lxfile_unix_chmod($spath, "751");
 
+		lxfile_unix_chmod($tpath, "777");
+
 		$this->main->username = $username;
 
 		$this->setQuota();

@@ -31,10 +31,10 @@ class rawlxguardhit extends lxdb
 		$nlist['user'] = '20%';
 		$nlist['service'] = '20%';
 		$nlist['ipaddress'] = '20%';
-		$nlist['ddate'] = '30%';
-	//	$nlist['access'] = '70%';
-		$nlist['failcount'] = '10%';
-		$nlist['successcount'] = '10%';
+		$nlist['ddate'] = '20%';
+		$nlist['access'] = '20%';
+	//	$nlist['failcount'] = '10%';
+	//	$nlist['successcount'] = '10%';
 
 		return $nlist;
 	}

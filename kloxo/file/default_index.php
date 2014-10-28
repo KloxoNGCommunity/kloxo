@@ -133,8 +133,8 @@ table.content_title td {
 
 <table class="header">
 	<tr>
-		<td width="100%"><img class="logo" src="<?php echo $logo_url; ?>" height="75" alt="hosting-logo"></td>
-		<td><a href="http://mratwork.com/work/" title="Go to Kloxo-MR website"><img class="logo" src="./images/kloxo-mr.png" alt="kloxo-mr-logo" height="75"></a></td>
+		<td width="100%"><img style="margin:5px; padding:5px; height:50px" class="logo" src="<?php echo $logo_url; ?>" alt="hosting-logo"></td>
+		<td><a href="http://mratwork.com/work/" title="Go to Kloxo-MR website"><img style="margin:5px; padding:5px; height:50px" class="logo" src="./images/kloxo-mr.png" alt="kloxo-mr-logo"></a></td>
 	</tr>
 </table>
 <table class="content">
