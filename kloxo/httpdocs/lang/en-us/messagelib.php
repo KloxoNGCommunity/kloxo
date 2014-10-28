@@ -205,7 +205,7 @@ $__information['lxbackup_updateform_restore_from_file_pre'] =	"<p>You can upload
 	"and it will allow you to select the particular file. Then click on <b>start restore process</b>.</p>";
 
 $__information['phpini_updateform_edit_admin_pre'] = "<p>Installing PHP modules (like xcache/ioncube/zend/suhosin) rpm via yum. Installing these modules depend on php branch and version installed on system.</p>" .
-	"<p>If using 'php-branch' in 'php used' and using php53u, installing with 'yum install php53u-xcache' and then try 'php -m' for to make sure.</p>" .
+	"<p>If using 'php-branch' in 'php used' and using php53u, install with 'yum install php53u-xcache' and then try 'php -m' for to make sure.</p>" .
 	"<p>Ask to <a href='http://forum.mratwork.com' target='_blank'>forum</a> to know how to install php extension for 'multiple php'. Generally, using 'sh /script/phpm-extension-installer'.</p>" .
 	"<p>Click <url:o=serverweb&a=show>[here]</url> to install another php for 'Multiple PHP'.</p>" .
 	"<p><b>Note:</b></p>" .
