@@ -44,43 +44,31 @@ class ftpuser__pureftp extends lxDriverClass
 
 		if (!$pass) { $pass = randomString(8); }
 
-//		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $nname, "-u", $username, "-d",  $dir);
+	//	if ($this->main->isOn('status')) {
+		if ($this->main->status == 'on') {
+			$z = "0000-2359";
+		} else {
+			$z = "0000-0000";
+		}
+
 
 		if ($this->main->ftp_disk_usage > 0) {
-			$q  = "-N {$this->main->ftp_disk_usage}";
-			$q2 = $this->main->ftp_disk_usage;
+			$q = $this->main->ftp_disk_usage;
+			lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $nname, "-u", $username, "-d", $dir, "-N", $q, "-z", $z);
 		} else {
-			$q = "-N ''";
-			$q2 = "";
+			lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $nname, "-u", $username, "-d", $dir, "-z", $z);
 		}
-
-		if ($this->main->isOn('status')) {
-			$z = "-z 0000-2359";
-			$z2 = "0000-2359";
-		} else {
-			$z = "-z 0000-0000";
-			$z2 = "0000-0000";
-		}
-
-//		exec("pure-pw usermod {$nname} {$q} {z}");
-
-		lxshell_input("$pass\n$pass\n", "pure-pw", "useradd",  $nname, "-u", $username, "-d",  $dir, "-N", $q2, "-z", $z2);
 	}
 
 	function dbactionDelete()
 	{
 		global $gbl, $sgbl, $login, $ghtml; 
 
-	//	$command =  "pure-pw userdel " . $this->main->nname . " -f /etc/pureftpd.passwd -m";
-
-	//	dprint($command); 
-	//	shell_exec($command);
 
 		$u = $this->main->__var_username;
 
 		$d = str_replace("/home/{$u}/", "", $this->main->__var_full_directory);
 
-	//	$c = db_get_count("web", "nname = '{$d}'");
 		$c = db_get_count("web", "customer_name = '{$u}' AND docroot = '{$d}'");
 
 		if ((int)$c !== 0) {
@@ -92,7 +80,8 @@ class ftpuser__pureftp extends lxDriverClass
 
 	function toggleStatus()
 	{
-		if ($this->main->isOn('status')) {
+	//	if ($this->main->isOn('status')) {
+		if ($this->main->status == 'on') {
 			lxshell_return("pure-pw", "usermod", $this->main->nname, "-z", "0000-2359", "-m");
 		} else {
 			lxshell_return("pure-pw", "usermod", $this->main->nname, "-z", "0000-0000", "-m");
@@ -107,8 +96,7 @@ class ftpuser__pureftp extends lxDriverClass
 			// This is because the shell_return cannot send '' to the program.
 			$cmd = "pure-pw usermod {$this->main->nname} -N '' -m";
 			log_log("shell_exec", $cmd);
-			system($cmd);
-		//	lxshell_return("pure-pw", "usermod", $this->main->nname, "-N", "", "-m");
+			exec($cmd);
 		}
 	}
 
