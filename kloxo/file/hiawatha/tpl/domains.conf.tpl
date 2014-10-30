@@ -299,6 +299,7 @@ VirtualHost {
 			if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -365,6 +366,8 @@ VirtualHost {
 <?php
 			if ($reverseproxy) {
 ?>
+
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -446,6 +449,7 @@ VirtualHost {
 			if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -580,6 +584,7 @@ VirtualHost {
 				if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -724,6 +729,7 @@ VirtualHost {
 		if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile
@@ -835,6 +841,7 @@ VirtualHost {
 					if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -923,6 +930,7 @@ VirtualHost {
 					if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -1001,10 +1009,16 @@ VirtualHost {
 <?php
 					if ($reverseproxy) {
 ?>
+
+	IgnoreDotHiawatha = yes
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
 <?php
 					} else {
 ?>
+
+	UseFastCGI = php_for_var_user
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 					}
@@ -1077,6 +1091,7 @@ VirtualHost {
 						if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -1157,10 +1172,16 @@ VirtualHost {
 <?php
 						if ($reverseproxy) {
 ?>
+
+	IgnoreDotHiawatha = yes
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
 <?php
 						} else {
 ?>
+
+	UseFastCGI = php_for_var_user
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
@@ -1250,6 +1271,7 @@ VirtualHost {
 					if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -1329,6 +1351,7 @@ VirtualHost {
 						if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile
@@ -1410,6 +1433,7 @@ VirtualHost {
 						if ($reverseproxy) {
 ?>
 
+	IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 	UseToolkit = block_shellshock, findindexfile

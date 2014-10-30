@@ -169,8 +169,10 @@ ErrorHandler = 503:/error/503.html
 		if ($reverseproxy) {
 ?>
 
+IgnoreDotHiawatha = yes
 #ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+UseToolkit = block_shellshock, findindexfile
 <?php
 		} else {
 ?>
@@ -179,22 +181,12 @@ ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 #UserWebsites = yes
 
 UseFastCGI = php_for_var_user
+UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 		}
 ?>
 
 #StartFile = index.php
-<?php
-		if ($reverseproxy) {
-?>
-UseToolkit = block_shellshock, findindexfile
-<?php
-		} else {
-?>
-UseToolkit = block_shellshock, findindexfile, permalink
-<?php
-		}
-?>
 
 
 ### end - web of initial - do not remove/modify this line
