@@ -24,7 +24,7 @@ class dns__ extends lxDriverClass
 		if ($driver === 'maradns') {
 			$a = array('', '.deadwood', '.zoneserver');
 
-			foreach ($a as $k => $v) {
+			foreach ($a as $v) {
 				exec("service {$driveralias}{$v} stop");
 				lunlink("/etc/init.d/{$driveralias}{$v}");
 			}
@@ -93,20 +93,16 @@ class dns__ extends lxDriverClass
 
 	function createConfFile()
 	{
-		$this->syncAddFile($this->main->nname);
-
-		foreach ((array)$this->main->__var_addonlist as $d) {
-			$this->syncAddFile($d->nname);
-		}
-	}
-
-	function syncAddFile($domainname)
-	{
 		global $sgbl;
 
 		$input = array();
 
-		$input['domainname'] = $domainname;
+		$domains[] = $this->main->nname;
+
+		foreach ((array)$this->main->__var_addonlist as $d) {
+			$domains[] = $d->nname;
+		}
+
 		$input['ttl'] = $this->main->ttl;
 		$input['nameduser'] = $sgbl->__var_programuser_dns;
 		$input['soanameserver'] = $this->main->soanameserver;
@@ -121,20 +117,24 @@ class dns__ extends lxDriverClass
 
 		$dnsdrvlist = getAllDnsDriverList();
 
-		foreach ($dnsdrvlist as $k => $v) {
+		foreach ($dnsdrvlist as $v) {
 			if (($v === 'bind') || ($v === 'yadifa')) { continue; }
 
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "domains.conf.tpl");
-			$tpltarget = "/opt/configs/{$v}/conf/master/" . $input['domainname'];
-
 			$tpl = file_get_contents($tplsource);
 
-			if (($v !== 'pdns') && (($v !== 'mydns'))) {
-				$tplparse = getParseInlinePhp($tpl, $input);
+			foreach ($domains as $d) {
+				$input['domainname'] = $d;
 
-				file_put_contents($tpltarget, $tplparse);
-			} else {
-				getParseInlinePhp($tpl, $input);
+				$tpltarget = "/opt/configs/{$v}/conf/master/{$d}";
+
+				if (($v === 'pdns') || (($v === 'mydns'))) {
+					getParseInlinePhp($tpl, $input);
+				} else {
+					$tplparse = getParseInlinePhp($tpl, $input);
+
+					file_put_contents($tpltarget, $tplparse);
+				}
 			}
 		}
 	}
@@ -148,37 +148,29 @@ class dns__ extends lxDriverClass
 		// MR -- IP list without hostname IP
 		$input['ips'] = array_diff($ip_dns, $ip_hostname);
 
-		$domains = array();
-
-		$domains[] = $this->main->nname;
-
-		foreach ((array)$this->main->__var_addonlist as $d) {
-			$domains[] = $d->nname;
-		}
-
 		$input['rootpass'] = slave_get_db_pass();
 
 		$dnsdrvlist = getAllDnsDriverList();
 
-		foreach ($domains as $d) {
-			$input['domain'] = $d;
+		$mlist = $this->getMasterList();
+		$slist = $this->getSlaveList();
+		$rlist = $this->getReverseList();
 
-			foreach ($dnsdrvlist as $k => $v) {
-				$input['domains'] = $this->getMasterList();
-				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.master.conf.tpl");
-				$tpl = file_get_contents($tplsource);
-				getParseInlinePhp($tpl, $input);
+		foreach ($dnsdrvlist as $v) {
+			$input['domains'] = $mlist;
+			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.master.conf.tpl");
+			$tpl = file_get_contents($tplsource);
+			getParseInlinePhp($tpl, $input);
 
-				$input['domains'] = $this->getSlaveList();
-				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.slave.conf.tpl");
-				$tpl = file_get_contents($tplsource);
-				getParseInlinePhp($tpl, $input);
+			$input['domains'] = $slist;
+			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.slave.conf.tpl");
+			$tpl = file_get_contents($tplsource);
+			getParseInlinePhp($tpl, $input);
 
-				$input['arpas'] = $this->getReverseList();
-				$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.reverse.conf.tpl");
-				$tpl = file_get_contents($tplsource);
-				getParseInlinePhp($tpl, $input);
-			}
+			$input['arpas'] = $rlist;
+			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.reverse.conf.tpl");
+			$tpl = file_get_contents($tplsource);
+			getParseInlinePhp($tpl, $input);
 		}
 	}
 
@@ -198,7 +190,7 @@ class dns__ extends lxDriverClass
 
 		$dnsdrvlist = getAllDnsDriverList();
 
-		foreach ($dnsdrvlist as $k => $v) {
+		foreach ($dnsdrvlist as $v) {
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.transfered.conf.tpl");
 
 			$tpl = file_get_contents($tplsource);

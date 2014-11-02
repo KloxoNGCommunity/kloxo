@@ -6320,9 +6320,25 @@ function getDnsMasters($servername)
 
 	$d = $dnsdb->getRowsWhere($sync, array('nname'));
 
+	if (!$d) { return; }
+
+	$addondb = new Sqlite(null, 'addondomain');
+
 	foreach ($d as $k => $v) {
-		foreach($v as $k2 => $v2) {
+		foreach ($v as $k2 => $v2) {
 			$e[] = $v2;
+
+			$p = "parent_clname = 'domain-{$v2}'";
+
+			$a = $addondb->getRowsWhere($p, array('nname'));
+
+			if (!$a) { continue; }
+
+			foreach ($a as $k3 => $v3) {
+				foreach ($v3 as $k4 => $v4) {
+					$e[] = $v4;
+				}
+			}
 		}
 	}
 
@@ -6342,7 +6358,7 @@ function getDnsSlaves($servername)
 
 	$d = $dnsdb->getRowsWhere($sync, array('nname', 'master_ip'));
 
-	if (!isset($d)) { return; }
+	if (!$d) { return; }
 
 	$e = array();
 
@@ -6375,7 +6391,7 @@ function getDnsReverses($servername)
 //	$d = $dnsdb->getRowsWhere($sync, array('nname', 'reversename'));
 	$d = $dnsdb->getRowsWhere($sync, array('reversename', 'nname'));
 
-	if (!isset($d)) { return; }
+	if (!$d) { return; }
 
 	$e = array();
 

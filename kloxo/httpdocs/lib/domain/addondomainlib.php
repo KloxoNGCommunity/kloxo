@@ -106,6 +106,8 @@ class addondomain extends Lxdb
 
 	function postAdd()
 	{
+		$this->write();
+
 		$parent = $this->getParentO();
 
 		if ($parent->isClient()) {
@@ -126,11 +128,13 @@ class addondomain extends Lxdb
 		}
 
 		$dns = $domain->getObject('dns');
-		$dns->setUpdateSubaction('addondomain');
+		$dns->setUpdateSubaction('domain');
 	}
 
 	function deleteSpecific()
 	{
+		$this->write();
+
 		$parent = $this->getParentO();
 
 		if ($parent->isClient()) {
@@ -148,7 +152,7 @@ class addondomain extends Lxdb
 		$mmail->setUpdateSubaction('delete_alias');
 
 		$dns = $domain->getObject('dns');
-		$dns->setUpdateSubaction('addondomain');
+		$dns->setUpdateSubaction('domain');
 	}
 
 	static function defaultParentClass($parent)

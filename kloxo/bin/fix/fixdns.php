@@ -9,7 +9,7 @@ $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $client = (isset($list['client'])) ? $list['client'] : null;
 $nolog  = (isset($list['nolog'])) ? $list['nolog'] : null;
 
-log_cleanup("Fixing DNS server config", $nolog);
+log_cleanup("Fixing DNS server config (including their parked/redirect domains)", $nolog);
 
 if (isset($list['new_dnstemplate'])) {
 	$dnst = new Dnstemplate(null, null, $list['new_dnstemplate']);
@@ -25,14 +25,13 @@ $clist = $login->getList('client');
 
 foreach($clist as $c) {
 	$driverapp = $gbl->getSyncClass(null, $c->syncserver, 'dns');
-
+/*
 	if ($driverapp === 'none') {
 		log_cleanup("- No process because using 'NONE' driver for '{$c->syncserver}'", $nolog);
-	//	continue;
 
 		return;
 	}
-
+*/
 	if ($client) {
 		$ca = explode(",", $client);
 		if (!in_array($c->nname, $ca)) { continue; }

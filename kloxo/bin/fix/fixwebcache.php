@@ -20,7 +20,7 @@ foreach($plist as $s) {
 
 	$list = getAllWebCacheDriverList();
 	$driver = $gbl->getSyncClass(null, $s->syncserver, 'webcache');;
-
+/*
 	if ($driver[0] === 'none') {
 		foreach ($driverlist as $k => $v) {
 			$srcinitpath = "/opt/configs/{$v}/etc/init.d";
@@ -41,7 +41,7 @@ foreach($plist as $s) {
 
 		return;
 	}
-
+*/
 	$input['driverlist'] = $list;
 	$input['driver'] = $driver;
 

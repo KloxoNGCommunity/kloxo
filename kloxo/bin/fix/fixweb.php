@@ -26,14 +26,13 @@ $counter = 0;
 
 foreach($list as $c) {
 	$driverapp = $gbl->getSyncClass(null, $c->syncserver, 'web');
-
+/*
 	if ($driverapp === 'none') {
 		log_cleanup("- No process because using 'NONE' driver for '{$c->syncserver}'", $nolog);
-	//	continue;
 
 		return;
 	}
-
+*/
 	if ($client) {
 		$ca = explode(",", $client);
 
