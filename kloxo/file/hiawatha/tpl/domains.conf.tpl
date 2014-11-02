@@ -909,6 +909,7 @@ VirtualHost {
 
 	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
 
+
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
@@ -1333,6 +1334,9 @@ VirtualHost {
 	FollowSymlinks = no
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
+
+
+	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
 	EnablePathInfo = yes
