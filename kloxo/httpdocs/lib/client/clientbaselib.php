@@ -890,7 +890,8 @@ class ClientBase extends ClientCore
 		$name_list["state"] = "2%";
 
 		$name_list["cttype"] = "2%";
-		$name_list["nname"] = "30%";
+		$name_list["nname"] = "25%";
+		$name_list["contactemail"] = "25%";
 
 		if ($view === 'quota') {
 		//	$name_list["traffic_usage"] = "5%";
@@ -912,11 +913,11 @@ class ClientBase extends ClientCore
 			$name_list["__v_priv_used_client_num"] = "5%";
 		//	$name_list["client_num_per_f"] = "5%";
 		} else {
-			$name_list["resourceplan_used_f"] = "20%";
+			$name_list["resourceplan_used_f"] = "10%";
 			$name_list["maindomain_num"] = "10%";
 
 			if ($sgbl->isKloxo()) {
-				$name_list['default_domain'] = '10%';
+			//	$name_list['default_domain'] = '10%';
 			}
 
 			if ($parent->isLte('wholesale')) {
