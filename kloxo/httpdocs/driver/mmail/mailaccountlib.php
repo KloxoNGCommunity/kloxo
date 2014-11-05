@@ -70,6 +70,7 @@ class Mailaccount extends Lxclient
 	static $__desc_maildisk_usage_per_f = array("p", "", "mail_disk_usage");
 
 	static $__desc_spam_o = array("db", "", "");
+	static $__desc_mmail_o = array("db", "", "");
 
 	static $__acdesc_update_webmail = array("", "", "webmail");
 	static $__acdesc_update_autores = array("", "", "set_auto_responder");
@@ -426,7 +427,6 @@ class Mailaccount extends Lxclient
 		}
 
 		$alist[] = "a=list&c=forward_a";
-		$alist[] = "a=show&o=spam";
 		$alist[] = "a=updateform&sa=filter";
 		$alist[] = "a=updateform&sa=configuration";
 		$alist[] = "a=list&c=mailcontent";

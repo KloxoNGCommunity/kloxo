@@ -10,7 +10,7 @@ class databasecore extends Lxdb
 	static $__desc_dbtype = array("", "",  "database_type");
 	static $__desc_syncserver = array("", "",  "database_server");
 	static $__desc_dbpassword = array("n", "",  "password");
-//	static $__desc_installapp_flag = array("e", "",  "Used");
+//	static $__desc_installapp_flag = array("e", "",  "used");
 //	static $__desc_installapp_flag_v_dull = array("", "",  "Not Used by Application");
 //	static $__desc_installapp_flag_v_on = array("", "",  "Used By Application");
 	static $__desc_mysqldb_usage = array("q", "",  "database_disk_usage_(mb)");

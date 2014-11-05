@@ -193,7 +193,7 @@ class ClientBase extends ClientCore
 			$this->__t_check_vvar = $vv;
 
 			if (!$this->isOn('__t_check_var') && !$this->isOn('__t_check_vvar')) {
-				//$ghtml->__http_vars['frm_emessage'] = "ssh_root_password_access";
+			//	$ghtml->__http_vars['frm_emessage'] = "ssh_root_password_access";
 			}
 
 			if ($sgbl->isKloxo()) {

@@ -3,12 +3,12 @@
 echo "*** Process for MYSQL/MARIADB service ***"
 
 if [ -f /etc/rc.d/init.d/mysql ] ; then
-	if ! $(/etc/rc.d/init.d/mysql status) ; then
+	if [ "$(/etc/rc.d/init.d/mysql status|grep pid)" == "" ] ; then
 		/etc/rc.d/init.d/mysql start
 	fi
 	sleep 1
 elif [ -f /etc/rc.d/init.d/mysqld ] ; then
-	if ! $(/etc/rc.d/init.d/mysqld status) ; then
+	if [ "$(/etc/rc.d/init.d/mysqld status|grep pid)" == "" ] ; then
 		/etc/rc.d/init.d/mysqld start
 	fi
 	sleep 1

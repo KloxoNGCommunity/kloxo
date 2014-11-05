@@ -13,15 +13,15 @@ class Ipaddress extends Lxdb
 	static $__desc_clientslist = Array("", "", "list_of_clients");
 	static $__desc_clients_no = Array("", "", "no_of_clients");
 	static $__desc_shared = Array("", "", "shared_ip_address");
-	static $__desc_used_f = Array("e", "", "Used");
-	static $__desc_used_f_v_on = Array("", "", "Used");
+	static $__desc_used_f = Array("e", "", "used");
+	static $__desc_used_f_v_on = Array("", "", "used");
 	static $__desc_used_f_v_dull = Array("", "", "not_used");
 	static $__desc_netmask = Array("n", "", "netmask");
 	static $__desc_status = Array("e", "", "s", "a=update&sa=toggle_status");
 	static $__desc_status_v_on = array("", "", "enabled");
 	static $__desc_status_v_off = array("", "", "disabled");
 	static $__desc_usectl = Array("", "", "root_user");
-	static $__desc_bproto = Array("", "", "root_user");
+	static $__desc_bproto = Array("", "", "bootproto");
 	static $__desc_peerdns = Array("", "", "dns_record_modify");
 	static $__desc_clientname = Array("", "", "exclusive_client");
 	static $__desc_gateway = Array("", "", "gateway");
@@ -298,19 +298,20 @@ class Ipaddress extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+		$nlist["used_f"] = "3%";
 		$nlist["nname"] = "3%";
+		$nlist["bproto"] = "3%";
 
-	//	if ($sgbl->isKloxo()) {
-			$nlist["used_f"] = "5%";
+		$nlist["ipaddr"] = "20%";
+		$nlist["netmask"] = "20%";
+		$nlist["gateway"] = "20%";
+		$nlist["itype"] = "20%";
+
+	//	if (!$parent->isClass('pserver')) {
+			$nlist['syncserver'] = '10%';
 	//	}
 
-		$nlist["ipaddr"] = "70%";
-
-		if (!$parent->isClass('pserver')) {
-			$nlist['syncserver'] = '10%';
-		}
-
-		$nlist["devname"] = "20%";
+	//	$nlist["devname"] = "20%";
 
 		if ($sgbl->isKloxo() && $parent->isAdmin()) {
 			$nlist["clientname"] = "20%";
@@ -673,8 +674,8 @@ class Ipaddress extends Lxdb
 		$vlist['devname'] = array('s', $result);
 
 		$vlist['ipaddr'] = "";
-
 		$vlist['netmask'] = array('m', '255.255.255.0');
+		$vlist['gateway'] = "";
 
 		$ret['variable'] = $vlist;
 		$ret['action'] = "add";
