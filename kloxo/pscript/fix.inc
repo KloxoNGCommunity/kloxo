@@ -26,7 +26,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 fi
 
 echo
-echo "- For help, type '$0 --help' or '$0 -h'"
+echo "- For help, type '$0 [--help|-h]'"
 
 if [ "$#" == 0 ] ; then
 	echo "- No argument supplied. Defaulting to localhost (master) servers"

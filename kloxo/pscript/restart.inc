@@ -40,6 +40,6 @@ else
 	done
 
 	echo
-	echo "- For help, type '$0 --help' or '$0 -h'"
+	echo "- For help, type '$0 [--help|-h]'"
 fi
 
