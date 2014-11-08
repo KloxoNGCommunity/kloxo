@@ -1,0 +1,4 @@
+#!/bin/sh
+
+'rm' -rf /home/httpd/*/httpdocs
+'rm' -rf /home/httpd/*/conf

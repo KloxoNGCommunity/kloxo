@@ -1,5 +1,5 @@
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
-	echo
+	echo ""
 	echo " ------------------------------------------------------------------------------"
 	echo "  format: sh $0 [--force|-y]"
 	echo " ------------------------------------------------------------------------------"
@@ -7,8 +7,8 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo "      - running '/etc/init.d/httpd restart' instead custom 'restart' declare"
 	echo "        inside /etc/local/lxlabs/kloxo/etc/process"
 	echo "      - use it if trouble restart without '--force' or '-y'"
-	echo
-	exit;
+	echo ""
+	exit
 else
 	for item in ${list[*]} ; do
 		if [ -f /etc/init.d/${item} ] ; then
@@ -39,7 +39,7 @@ else
 		fi
 	done
 
-	echo
+	echo ""
 	echo "- For help, type '$0 [--help|-h]'"
 fi
 

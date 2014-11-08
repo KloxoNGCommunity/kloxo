@@ -1,5 +1,5 @@
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
-	echo
+	echo ""
 	echo " ------------------------------------------------------------------------------"
 	echo "  format: sh $0 [--server=] [--client=] [--target=]"
 	echo " ------------------------------------------------------------------------------"
@@ -21,15 +21,15 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 		echo "      - master: for 'master' config"
 		echo "      - slave: for 'slave' config"
 	fi
-	echo
-	exit;
+	echo ""
+	exit
 fi
 
-echo
+echo ""
 echo "- For help, type '$0 [--help|-h]'"
 
 if [ "$#" == 0 ] ; then
 	echo "- No argument supplied. Defaulting to localhost (master) servers"
 fi
 
-echo
+echo ""

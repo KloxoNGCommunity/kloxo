@@ -3385,7 +3385,9 @@ function createDatabaseInterfaceTemplate($nolog = null)
 {
 	log_cleanup("- Create database interface template (Forced)", $nolog);
 
-	exec("mysql -u kloxo -p`cat ../etc/conf/kloxo.pass` kloxo < ../file/interface/interface_template.dump");
+//	exec("mysql -u kloxo -p`cat ../etc/conf/kloxo.pass` kloxo < ../file/interface/interface_template.dump");
+
+	exec("sh /script/fix-missing-admin");
 }
 
 function callInChild($func, $arglist)
@@ -7497,6 +7499,8 @@ function setInitialServices($nolog = null)
 
 	setInitialServer($nolog);
 
+	setRemoveHttpdocsSymlink($nolog);
+
 	setHostsFile($nolog);
 
 	setDefaultPages($nolog);
@@ -8575,6 +8579,16 @@ function setEnableQuota($nolog = null)
 	} else {
 		log_cleanup("- Already enabled\n", $nolog);
 	}
+}
+
+function setRemoveHttpdocsSymlink($nolog)
+{
+	log_cleanup("Removing /home/httpd/*/httpdocs\n", $nolog);
+
+	log_cleanup("- Removing...\n", $nolog);
+
+	// MR -- script also remove /home/httpd/*/conf
+	exec("sh /script/remove-httpdocs-symlink");
 }
 
 function get_ifconfig($key = null)
