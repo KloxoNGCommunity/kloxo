@@ -885,12 +885,12 @@ class ClientBase extends ClientCore
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$name_list["cpstatus"] = "3%";
+		$name_list["cpstatus"] = "2%";
 		$name_list["status"] = "2%";
 		$name_list["state"] = "2%";
 
 		$name_list["cttype"] = "2%";
-		$name_list["nname"] = "25%";
+		$name_list["nname"] = "15%";
 		$name_list["contactemail"] = "25%";
 
 		if ($view === 'quota') {
@@ -930,11 +930,11 @@ class ClientBase extends ClientCore
 
 			$name_list["ddate"] = "20%";
 			$name_list["traffic_usage"] = "5%";
-			$name_list["abutton_updateform_s_information"] = "5%";
-			$name_list["abutton_updateform_s_password"] = "5%";
-			$name_list["abutton_list_s_ticket"] = "5%";
-			$name_list["abutton_list_s_utmp"] = "5%";
-			$name_list["abutton_updateform_s_limit"] = "5%";
+			$name_list["abutton_updateform_s_information"] = "2%";
+			$name_list["abutton_updateform_s_password"] = "2%";
+			$name_list["abutton_list_s_ticket"] = "2%";
+			$name_list["abutton_list_s_utmp"] = "2%";
+			$name_list["abutton_updateform_s_limit"] = "2%";
 		}
 
 		return $name_list;

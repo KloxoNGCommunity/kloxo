@@ -6829,10 +6829,18 @@ class HtmlLib
 		$maxval = Resource::privdisplay($varname, null, $maxval);
 
 		if ($maxval === 'Unlimited') {
-			$maxval = str_replace("Unlimited", "&#x221E;", $maxval);
+			$maxval_view = str_replace("Unlimited", "&#x221E;", $maxval);
+		} else {
+			$maxval_view = number_format($maxval, 0, '', ',');
 		}
 
-		if (!$unit) { $unit = 'MB'; }
+		if ($val) {
+			$val_view = number_format($val, 2, '.', ',');
+		} else {
+			$val_view = '0.00';
+		}
+
+		if (!$unit) { $unit = ''; }
 
 		$val = Resource::privdisplay($varname, null, $val);
 
@@ -6850,7 +6858,7 @@ class HtmlLib
 ?>
 
 		<div <?= $help ?> style="float: left">
-			<?= $val ?> <?= $unit ?> (<?= $realval?>%) / <?= $maxval ?>
+			<?= $val_view ?> <?= $unit ?> (<?= $realval ?>%) / <?= $maxval_view ?>
 
 		</div>
 <?php
