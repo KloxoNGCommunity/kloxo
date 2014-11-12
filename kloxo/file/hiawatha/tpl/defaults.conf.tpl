@@ -152,6 +152,8 @@ set var_user = apache
 Hostname = 0.0.0.0
 WebsiteRoot = <?php echo $defaultdocroot; ?>
 
+ErrorLogfile = /var/log/hiawatha/error.log
+AccessLogfile = /dev/null
 
 EnablePathInfo = yes
 UseGZfile = yes
