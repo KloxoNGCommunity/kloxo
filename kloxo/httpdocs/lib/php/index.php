@@ -44,7 +44,7 @@ function ip_blocked($client)
 	$bl = $gbl->getList("allowedip");
 
 	foreach((array) $bl as $b) {
-		//Ipaddress::chekWhetherToBlock($_SERVER['REMOTE_ADDR']))
+	//	Ipaddress::checkWhetherToBlock($_SERVER['REMOTE_ADDR']))
 		if (check_ip_network($b->nname, $_SERVER['REMOTE_ADDR']))
 			return true;
 	}

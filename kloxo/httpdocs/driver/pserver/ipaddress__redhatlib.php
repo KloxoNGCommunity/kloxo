@@ -2,75 +2,6 @@
 
 class Ipaddress__Redhat extends LxDriverclass
 {
-	function OldUpdate()
-	{
-		if ($action === 'update') {
-			$res = self::getcontentsof($ipaddrfile);
-
-			$fdata = null;
-			$fdata .= "DEVICE=" . $actualname . "\n";
-
-			if ($this->main->isOn('status')) {
-				$status = "yes";
-			} else {
-				$status = "no";
-			}
-
-			$fdata .= "ONBOOT=$status\n";
-
-			if ($this->main->bproto != null) {
-				$fdata .= "BOOTPROTO=" . $this->main->bproto . "\n";
-			} else if ($res['BOOTPROTO'] != "") {
-				$fdata .= "BOOTPROTO=" . $res['bootproto'] . "\n";
-			} else {
-				$fdata .= "BOOTPROTO=" . "static" . "\n";
-			}
-
-			$fdata .= "IPADDR=" . $this->main->ipaddr . "\n";
-
-			$fdata .= "NETMASK=" . $this->main->netmask . "\n";
-
-			$fdata .= "NETWORK=" . $networkaddress . "\n";
-
-			if ($this->main->gateway) {
-				$fdata .= "GATEWAY=" . $this->main->gateway . "\n";
-			}
-
-			if ($this->main->userctl != null) {
-				$fdata .= "USERCTL=" . $this->main->userctl . "\n";
-			} else if ($res['userctl'] != "") {
-
-				$fdata .= "USERCTL=" . $res['userctl'] . "\n";
-			}
-
-			if ($this->main->peerdns != null) {
-				$fdata .= "PEERDNS=" . $this->main->peerdns . "\n";
-			} else if ($res['peerdns'] != "") {
-				$fdata .= "PEERDNS=" . $res['peerdns'] . "\n";
-			}
-
-			if ($this->main->itype != null) {
-				$fdata .= "TYPE=" . $this->main->itype . "\n";
-			} else if ($res['itype'] != "") {
-				$fdata .= "TYPE=" . $res['itype'] . "\n";
-			}
-
-			if ($this->main->ipv6init != null) {
-				$fdata .= "IPV6INIT=" . $this->main->ipv6init . "\n";
-			} else if ($res['ipv6init'] != null) {
-				$fdata .= "IPV6INIT=" . $res['ipv6init'] . "\n";
-			}
-
-			lfile_put_contents($ipaddrfile, "$fdata");
-
-			lxshell_return("ifdown", $actualname);
-
-			if ($this->main->status === "on") {
-				lxshell_return("ifup", $actualname);
-			}
-		}
-	}
-
 	function IpaddressEdit($action)
 	{
 		global $gbl, $sgbl, $login;
@@ -212,13 +143,13 @@ class Ipaddress__Redhat extends LxDriverclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$path = $sgbl->__path_real_etc_root . "sysconfig/network-scripts/";
+		$path = $sgbl->__path_real_etc_root . "sysconfig/network-scripts";
 
 		$flist = lscandir($path);
 
 		foreach ($flist as $file) {
 			if (char_search_a($file, "ifcfg-")) {
-				$result1[] = self::getcontentsof($path . $file);
+				$result1[] = self::get_network_data(str_replace("{$path}/ifcfg-", "", "{$path}/{$file}"));
 			}
 		}
 
@@ -235,7 +166,6 @@ class Ipaddress__Redhat extends LxDriverclass
 
 		}
 
-	//	dprintr($result);
 		return ($result);
 	}
 
@@ -261,74 +191,61 @@ class Ipaddress__Redhat extends LxDriverclass
 		return $res;
 	}
 
-	static function getcontentsof($file)
+	static function get_network_data($devname)
 	{
-		$fileName = "";
-		$fileName = explode('-', basename($file));
+		$list = self::get_ifcfgfile_parse($devname);
 
-	//	dprint("$file");
-		$contents = lfile($file);
+		if ((isset($list['BOOTPROTO'])) && ($list['BOOTPROTO'] === 'dhcp')) {
+			$list = self::get_ifconfig_parse($devname);
+			$result['bproto'] = 'dhcp';
+		}
 
-	//	dprint_r($contents);
-		$result1 = Array();
-
-		$i = 0;
-
-		foreach ($contents as $row) {
-			if (!csa($row, "=")) {
-				continue;
-			}
-
-			$value = explode("=", trim($row));
-
-			$value[1] = trim($value[1], "\"");
-			$value[1] = trim($value[1], "'");
-
-			switch ($value[0]) {
+		foreach ($list as $key => $value) {
+			switch ($key) {
 				case "DEVICE":
-					$result['devname'] = $value[1];
+					$result['devname'] = $value;
 					break;
 
 				case "IPADDR":
-					$result['ipaddr'] = $value[1];
+					$result['ipaddr'] = $value;
 					break;
 
 				case "NETMASK":
-					$result['netmask'] = $value[1];
+					$result['netmask'] = $value;
 					break;
 
 				case "ONBOOT":
-					$result['status'] = $value[1];
+					$result['status'] = $value;
 					break;
 
 				case "GATEWAY":
-					$result['gateway'] = $value[1];
+					$result['gateway'] = $value;
 					break;
 
 				case "USERCTL":
-					$result['userctl'] = $value[1];
+					$result['userctl'] = $value;
 					break;
 
 				case "PEERDNS":
-					$result['peerdns'] = $value[1];
+					$result['peerdns'] = $value;
 					break;
 
 				case "TYPE":
-					$result['itype'] = $value[1];
+					$result['itype'] = $value;
 					break;
 
 				case "IPV6INIT":
-					$result['ipv6init'] = $value[1];
+					$result['ipv6init'] = $value;
 					break;
 
 				case "BOOTPROTO":
-					$result['bproto'] = $value[1];
+					$result['bproto'] = $value;
 					break;
 			}
 		}
 
 		if (!isset($result['devname'])) {
-			$result['devname'] = $fileName[1];
+			$result['devname'] = $devname;
 		}
 
 		if (!isset($result['status'])) {
@@ -364,5 +281,61 @@ class Ipaddress__Redhat extends LxDriverclass
 
 		return ($result);
 	}
-}
 
+	static function get_ifconfig_parse($devname)
+	{
+		// MR - mod from http://www.plugged.in/linux/getting-network-information-in-bash-scripts.html
+		// call ifconfig and ip must with full path!
+
+		$t = explode(":", $devname);
+		$pdevname = $t[0];
+
+		exec("/sbin/ifconfig {$devname}", $out);
+		$vifconfig = implode("\n", $out);
+		$out = null;
+		exec("/sbin/ip addr show {$devname}", $out);
+		$vip = implode("\n", $out);
+		$out = null;
+
+		$list = array();
+
+		$list['DEVICE']     =  $devname;
+		exec("echo '{$vifconfig}' | grep -w encap | awk '{print $3}' | cut -d \":\" -f 2", $out);
+		$list['TYPE']       =  $out[0];
+		$out = null;
+		exec("echo '{$vifconfig}' | grep -w inet | awk '{print $3}' | cut -d \":\" -f 2", $out);
+		$list['BROADCAST']  =  $out[0];
+		$out = null;
+		exec("echo '{$vifconfig}' | grep -w inet | awk '{print $4}' | cut -d \":\" -f 2", $out);
+		$list['NETMASK']    =  $out[0];
+		$out = null;
+		exec("echo '{$vifconfig}' | grep -w inet | awk '{print $2}' | cut -d \":\" -f 2", $out);
+		$list['IPADDR']  = $out[0];
+		$out = null;
+		exec("echo '{$vip}' | grep -w inet | grep {$devname} | awk '{ print $2}' | cut -d \"/\" -f 2", $out);
+		$list['IPPREFIX']   =  $out[0];
+		$out = null;
+		exec("echo '{$vifconfig}' | grep -w inet6 | awk '{ print $3 }' | cut -d \"/\" -f 1", $out);
+		$list['IP6ADDR'] =  $out[0];
+		$out = null;
+		exec("echo '{$vifconfig}' | grep -w inet6 | awk '{ print $3 }' | cut -d \"/\" -f 2", $out);
+		$list['IP6PREFIX']  =  $out[0];
+		$out = null;
+		exec("/sbin/ip route show | grep {$pdevname} | grep link | awk '{ print $1}'", $out);
+		$list['GATEWAY']   =  $out[0];
+		$out = null;
+		exec("echo '{$vifconfig}' | grep HWaddr | awk '{ print $5 }'", $out);
+		$list['MACADDRESS'] =  $out[0];
+		$out = null;
+
+		return $list;
+	}
+
+	static function get_ifcfgfile_parse($devname)
+	{
+		// MR -- must with @ if not want notice message for '#' deprecated in php 5.3+
+		$ret = @parse_ini_file("/etc/sysconfig/network-scripts/ifcfg-{$devname}");
+
+		return $ret; 
+	}
+}

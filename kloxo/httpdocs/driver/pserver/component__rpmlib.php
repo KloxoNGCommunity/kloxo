@@ -22,6 +22,8 @@ class Component__rpm extends lxDriverClass
 
 	static function getListVersion($syncserver, $list)
 	{
+		global $sgbl;
+
 	/*
 		$comps = array('mysql', 'postgresql', 
 			'httpd', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed',
@@ -41,8 +43,10 @@ class Component__rpm extends lxDriverClass
 		foreach ($comps as $k => $c) {
 		//	$list[]['componentname'] = $c;
 
-			if (getRpmBranchInstalled($c)) {
-				$list[]['componentname'] = getRpmBranchInstalled($c);
+			$tmp = rl_exec_get('localhost', $syncserver, 'getRpmBranchInstalled', array('$c'));
+
+			if ($tmp) {
+				$list[]['componentname'] = $tmp;
 			} else {
 				$list[]['componentname'] = $c;
 			}
@@ -55,7 +59,7 @@ class Component__rpm extends lxDriverClass
 		$complist = implode(" ", $nlist);
 
 		$file = fix_nname_to_be_variable("rpm -q $complist");
-		$file = "__path_program_root/cache/$file";
+		$file = "$sgbl->__path_program_root/cache/$file";
 
 		$cmdlist = lx_array_merge(array(array("rpm", "-q"), $nlist));
 		$val = get_with_cache($file, $cmdlist);

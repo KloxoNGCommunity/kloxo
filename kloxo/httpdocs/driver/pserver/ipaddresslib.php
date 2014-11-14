@@ -180,8 +180,6 @@ class Ipaddress extends Lxdb
 		$list1 = $parent->getList("ipaddress");
 		$llist = get_namelist_from_objectlist($list1, "devname");
 
-	//	dprintr($llist);
-
 		for ($i = 0; $i < 1000000; $i++) {
 			$name = "$devname:$i";
 
