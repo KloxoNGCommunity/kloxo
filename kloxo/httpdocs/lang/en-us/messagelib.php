@@ -77,6 +77,8 @@ $__emessage['phptype_not_set_client'] = "Need select php-type. Click <url:k[clas
 $__emessage['phpini_not_set_pserver'] = "Need update php.ini to make sure the website able to process php files. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=phpini&a=show>[here]</url> to set it. The same way for 'slave' server";
 $__emessage['phpini_not_set_client'] = "Need update php.ini to make sure the website able to process php files. Click <url:o=phpini&a=show>[here]</url> to set it.";
 
+$__emessage['session_timeout'] = "Session timeout";
+
 // ------------------------ //
 
 $__information['ndskshortcut_list__pre'] = "<p>You can add a page in kloxo to the favorites, by clicking on the <b>add to favorites</b>link on <b>that particular page</b>.</p>".

@@ -95,7 +95,7 @@ function os_set_quota($username, $disk)
 	// where blocksize = 4KB -> inode = 25.000
 	// So, make set $totalblock = $inode * 10
 
-	$totalinode = $disk / 10;
+	$totalinode = (int) (($disk / 100) + 1);
 
 	$perblock = getFSBlockSizeInKb();
 	$totalblock = $disk / $perblock;
