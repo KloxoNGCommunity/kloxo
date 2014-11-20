@@ -5426,7 +5426,7 @@ function setDefaultPages($nolog = null)
 
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
-			log_cleanup("- Copy  $sourcezip to $targetzip", $nolog);
+			log_cleanup("- Copy $sourcezip to $targetzip", $nolog);
 			exec("'cp' -rf $sourcezip $targetzip");
 			$newer = true;
 		}

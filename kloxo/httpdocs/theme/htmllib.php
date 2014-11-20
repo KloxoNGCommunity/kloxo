@@ -6831,13 +6831,25 @@ class HtmlLib
 		if ($maxval === 'Unlimited') {
 			$maxval_view = str_replace("Unlimited", "&#x221E;", $maxval);
 		} else {
-			$maxval_view = number_format($maxval, 0, '', ',');
+			if (strpos($varname, 'domain_num') !== false) {
+				$maxval_view = $maxval;
+			} else {
+				$maxval_view = number_format($maxval, 0, '', ',');
+			}
 		}
 
-		if ($val) {
-			$val_view = number_format($val, 2, '.', ',');
+		if (strpos($varname, 'domain_num') !== false) {
+			if ($val) {
+				$val_view = $val;
+			} else {
+				$val_view = '0';
+			}
 		} else {
-			$val_view = '0.00';
+			if ($val) {
+				$val_view = number_format($val, 2, '.', ',');
+			} else {
+				$val_view = '0.00';
+			}
 		}
 
 		if (!$unit) { $unit = ''; }

@@ -71,6 +71,8 @@ class Mailaccount extends Lxclient
 
 	static $__desc_spam_o = array("db", "", "");
 	static $__desc_mmail_o = array("db", "", "");
+	static $__desc_web_o = array("db", "", "");
+	static $__desc_addondomain_l = array("db", "", "");
 
 	static $__acdesc_update_webmail = array("", "", "webmail");
 	static $__acdesc_update_autores = array("", "", "set_auto_responder");

@@ -891,38 +891,41 @@ class ClientBase extends ClientCore
 
 		$name_list["cttype"] = "2%";
 		$name_list["nname"] = "15%";
-		$name_list["contactemail"] = "25%";
 
 		if ($view === 'quota') {
-		//	$name_list["traffic_usage"] = "5%";
-		//	$name_list["__v_priv_used_traffic_usage"] = "10%";
-			$name_list["traffic_usage_per_f"] = "15%";
-
-		//	$name_list["totaldisk_usage"] = "5%";
-		//	$name_list["__v_priv_used_totaldisk_usage"] = "10%";
-			$name_list["totaldisk_usage_per_f"] = "15%";
+			$name_list["__v_priv_used_client_num"] = "10%";
+		//	$name_list["client_num_per_f"] = "5%";
 
 		//	$name_list["maindomain_num"] = "5%";
 		//	$name_list["__v_priv_used_maindomain_num"] = "5%";
 			$name_list["maindomain_num_per_f"] = "15%";
 
+		//	$name_list["traffic_usage"] = "5%";
+		//	$name_list["__v_priv_used_traffic_usage"] = "10%";
+			$name_list["traffic_usage_per_f"] = "20%";
+
+		//	$name_list["totaldisk_usage"] = "5%";
+		//	$name_list["__v_priv_used_totaldisk_usage"] = "10%";
+			$name_list["totaldisk_usage_per_f"] = "20%";
+
 		//	$name_list["mysqldb_num"] = "10%";
 		//	$name_list["__v_priv_used_mysqldb_num"] = "10%";
-			$name_list["mysqldb_num_per_f"] = "15%";
-
-			$name_list["__v_priv_used_client_num"] = "5%";
-		//	$name_list["client_num_per_f"] = "5%";
+			$name_list["mysqldb_num_per_f"] = "20%";
 		} else {
+			$name_list["contactemail"] = "25%";
+
 			$name_list["resourceplan_used_f"] = "10%";
+
+			if ($parent->isLte('wholesale')) {
+				$name_list["client_num"] = "3%";
+			}
+
 			$name_list["maindomain_num"] = "10%";
 
 			if ($sgbl->isKloxo()) {
 			//	$name_list['default_domain'] = '10%';
 			}
 
-			if ($parent->isLte('wholesale')) {
-				$name_list["client_num"] = "3%";
-			}
 
 			if ($sgbl->isKloxo() && check_if_many_server()) {
 				$name_list["websyncserver"] = "10%";

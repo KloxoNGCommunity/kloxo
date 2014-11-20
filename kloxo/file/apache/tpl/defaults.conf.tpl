@@ -111,23 +111,23 @@ if ($indexorder) {
 $fpmportapache = 50000;
 
 foreach ($certnamelist as $ip => $certname) {
-	?>
+?>
 
-	Define global::port <?php echo $ports[0]; ?>
+Define global::port <?php echo $ports[0]; ?>
 
-	Define global::portssl <?php echo $ports[1]; ?>
+Define global::portssl <?php echo $ports[1]; ?>
 
-	Define global::ip <?php echo $ip; ?>
+Define global::ip <?php echo $ip; ?>
 
 
-	Define port ${global::port}
-	Define portssl ${global::portssl}
-	Define ip ${global::ip}
+Define port ${global::port}
+Define portssl ${global::portssl}
+Define ip ${global::ip}
 
-	Listen ${ip}:${port}
-	Listen ${ip}:${portssl}
+Listen ${ip}:${port}
+Listen ${ip}:${portssl}
 
-	<IfVersion < 2.4>
+<IfVersion < 2.4>
 	NameVirtualHost ${ip}:${port}
 	NameVirtualHost ${ip}:${portssl}
 </IfVersion>
@@ -138,15 +138,15 @@ foreach ($certnamelist as $ip => $certname) {
 <Ifmodule mod_userdir.c>
 	UserDir enabled
 	UserDir /home/*/public_html
-	<?php
+<?php
 	foreach ($userlist as &$user) {
 		$userinfo = posix_getpwnam($user);
 
 		if (!$userinfo) {
 			continue;
 		}
-		?>
-		<Location "/~<?php echo $user; ?>">
+?>
+	<Location "/~<?php echo $user; ?>">
 		<IfModule mod_suphp.c>
 			SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
 
@@ -154,7 +154,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</Location>
 <?php
 }
-	?>
+?>
 </Ifmodule>
 
 <?php
@@ -162,10 +162,10 @@ foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
 
 	foreach ($ports as &$port) {
-		?>
+?>
 
-		### 'default' config
-		<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+### 'default' config
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -179,25 +179,25 @@ foreach ($certnamelist as $ip => $certname) {
 
 <?php
 		if ($count !== 0) {
-			?>
+?>
 
-			<IfModule mod_ssl.c>
-				SSLEngine On
-				SSLProtocol ALL -SSLv2
-				SSLHonorCipherOrder On
-				SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-				SSLCertificateFile <?php echo $certname; ?>.pem
-				SSLCertificateKeyFile <?php echo $certname; ?>.key
-				<?php
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLProtocol ALL -SSLv2
+		SSLHonorCipherOrder On
+		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCertificateFile <?php echo $certname; ?>.pem
+		SSLCertificateKeyFile <?php echo $certname; ?>.key
+<?php
 				if (file_exists("{$certname}.ca")) {
 
-					?>
-					SSLCACertificatefile <?php echo $certname; ?>.ca
-				<?php
+?>
+		SSLCACertificatefile <?php echo $certname; ?>.ca
+<?php
 				}
-				?>
-			</IfModule>
-		<?php
+?>
+	</IfModule>
+<?php
 		}
 ?>
 
