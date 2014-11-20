@@ -240,7 +240,9 @@ class Mmail__Qmail extends lxDriverClass
 		if ($ret) {
 			exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 			exec_with_all_closed("sh /script/fixmail-all >/dev/null 2>&1 &");
-			throw new lxException($login->getThrow("could_not_add_mail_and_then_try_again"), 'mailpserver', $global_shell_error);
+		//	throw new lxException($login->getThrow("could_not_add_mail_and_then_try_again"), 'mailpserver', $global_shell_error);
+			// MR -- instead show warning, try to re-process
+			lxshell_return($sys_cmd, '-u', $this->main->systemuser, $this->main->nname, "-b", $password, "-d", $mailpath);
 		}
 
 	/*
