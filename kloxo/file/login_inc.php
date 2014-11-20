@@ -42,7 +42,7 @@ if (!$cgi_forgotpwd) {
 		 	 <div align="center"><font size="5" color="red"><b> Login </b></font></div>
 		 	 <br/>
 
-		 	 <form name="loginform" action="/lib/php/" onsubmit="encode_url(loginform) ; return fieldcheck(this);" method="post">
+		 	 <form name="loginform" action="/lib/php/" onsubmit="ctrim(this.frm_clientname.value) ; ctrim(this.frm_password.value) ; encode_url(loginform) ; return fieldcheck(this)" method="post">
 		 		 <div class="form-block">
  		 		<div class="inputlabel">Username</div>
  		 		<input name="frm_clientname" type="text" class="inputbox" size="30"/>
@@ -104,7 +104,7 @@ if (!$cgi_forgotpwd) {
 		</div>
 		<div class="login-text">
 		<div class="ctr"><img src="/theme/login/icon1.gif" width="64" height="64" alt="security"/></div>
-			<p>Welcome to <?php echo	$sgbl->__var_program_name; ?></p>
+			<p>Welcome to <?php echo $sgbl->__var_program_name; ?></p>
 			<p>Use a valid username and email-id to get password.</p>
 			<br/>
 			<a class=forgotpwd href="javascript:history.go(-1);"><font color="black"><u>Back to login</u></a>

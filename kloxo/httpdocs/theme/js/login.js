@@ -11,7 +11,7 @@ function fieldcheck(form)
 
 	if(form.frm_clientname.value == "" && form.frm_password.value == "") { msg=m3; err=1; }
 
-	if (err==1) { 
+	if (err == 1) { 
 		alert(msg); return false;
 	} else {
 		return true;
@@ -35,9 +35,14 @@ function forgotfield(form)
 
 	if(form.frm_clientname.value == "" && form.frm_email.value == "") { msg=m3; err=1; }
 
-	if (err==1) { 
+	if (err == 1) { 
 		alert(msg); return false;
 	} else {
 		return true;
 	}
 }
+
+function ctrim(value) {
+	return value.replace(/^\s+|\s+$/g,"");
+}
+
