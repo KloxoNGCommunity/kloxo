@@ -460,7 +460,6 @@ $SERVER["socket"] == ":" + var.portssl {
 	ssl.pemfile = "<?php echo $certname; ?>.pem"
 <?php
 					if (file_exists("{$certname}.ca")) {
-
 ?>
 	ssl.ca-file = "<?php echo $certname; ?>.ca"
 <?php

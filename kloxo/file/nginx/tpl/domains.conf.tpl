@@ -140,6 +140,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+				}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -179,6 +186,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+				}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -220,6 +234,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+				if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+				}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -262,6 +283,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+					if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+					}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -294,6 +322,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+					if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+					}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -353,6 +388,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+			if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+			}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -582,6 +624,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+						}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -646,6 +695,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+					if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+					}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -695,6 +751,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+			if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+			}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -737,6 +800,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+						}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -771,6 +841,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+							if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+							}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -829,6 +906,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+						}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -871,6 +955,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+							if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+							}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
@@ -903,6 +994,13 @@ server {
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
+<?php
+							if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+<?php
+							}
+?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
 	ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;

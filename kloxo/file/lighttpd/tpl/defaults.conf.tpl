@@ -91,7 +91,6 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 	ssl.pemfile = "<?php echo $certname; ?>.pem"
 <?php
 			if (file_exists("{$certname}.ca")) {
-
 ?>
 
 	ssl.ca-file = "<?php echo $certname; ?>.ca"
