@@ -10,6 +10,5 @@ function lxpackage_main()
 
 	$pkg = $list['pkg'];
 
-	//$ver = $pkg[$argv[1]);
-
+//  $ver = $pkg[$argv[1]);
 }

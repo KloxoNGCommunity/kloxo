@@ -292,6 +292,9 @@ VirtualHost {
 	Hostname = cp.<?php echo $domainname; ?>
 
 
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
+
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 	EnablePathInfo = yes
@@ -361,6 +364,9 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
+
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	EnablePathInfo = yes
 <?php
@@ -432,6 +438,9 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $cpdocroot; ?>
 
+
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	EnablePathInfo = yes
 
@@ -514,6 +523,8 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
@@ -567,6 +578,8 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	EnablePathInfo = yes
 
@@ -700,6 +713,12 @@ VirtualHost {
 	Alias = /stats:/home/httpd/<?php echo $domainname; ?>/webstats
 <?php
 			}
+		} else {
+?>
+
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
+<?php
 		}
 
 		if ($blockips) {
@@ -823,6 +842,9 @@ VirtualHost {
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
+
 	EnablePathInfo = yes
 
 	UserWebsites = yes
@@ -912,6 +934,9 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
+
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	EnablePathInfo = yes
 
@@ -1006,6 +1031,9 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
+
 	EnablePathInfo = yes
 <?php
 					if ($reverseproxy) {
@@ -1077,6 +1105,9 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
+
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	TimeForCGI = 3600
 
@@ -1157,6 +1188,9 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
+
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	EnablePathInfo = yes
 
@@ -1256,6 +1290,9 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 3600
@@ -1339,6 +1376,9 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 3600
@@ -1417,6 +1457,9 @@ VirtualHost {
 
 	Hostname = webmail.<?php echo $redirdomainname; ?>
 
+
+	ErrorLogfile = /var/log/hiawatha/error.log
+	AccessLogfile = /dev/null
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
