@@ -139,7 +139,7 @@ class ServerMail extends lxdb
 				$vlist['reject_ip_in_cc_rdns_flag'] = null;
 				$vlist['reject_missing_sender_mx_flag'] = null;
 				$vlist['reject_unresolvable_rdns_flag'] = null;
-				$vlist['dns_blacklists'] = null;
+				$vlist['dns_blacklists'] = array("t", lfile_get_contents("/usr/local/lxlabs/kloxo/file/template/spamdyke_rbl.txt"));
 
 				break;
 		}
