@@ -16,7 +16,7 @@
 			"/home/kloxo/httpd/script/:/home/kloxo/httpd/disable/";
 	}
 
-	if ($user == 'apache') {
+	if ($user === 'apache') {
 		$pool = 'default';
 	} else {
 		$pool = $user;
@@ -99,7 +99,7 @@ catch_workers_output = yes
 security.limit_extensions = .php .php3 .php4 .php5
 
 env[HOSTNAME] = $HOSTNAME
-env[PATH] = /usr/local/bin:/usr/bin:/bin
+env[PATH] = /bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 env[TMP] = /tmp
 env[TMPDIR] = /tmp
 env[TEMP] = /tmp

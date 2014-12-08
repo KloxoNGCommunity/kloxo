@@ -26,6 +26,7 @@ abstract class DomainCore extends Lxclient
 	static $__desc_traffic_usage = array("DS", "", "Traffic:Traffic_(MB/month)");
 //	static $__desc_disk_usage = array("D", "",  "Disk:web_disk_usage_(MB)");
 	static $__desc_totaldisk_usage = array("D", "", "totDisk:total_disk_usage_(MB)");
+	static $__desc_totalinode_usage = array("D", "", "totInode:total_inode_usage");
 	static $__desc_maildisk_usage = array("D", "", "MailDisk:mail_disk_usage_(MB)");
 	static $__desc_rubyrails_num = array("D", "", "rails:number_of_rails_apps", "");
 	static $__desc_mailaccount_num = array("D", "", "Mailaccount:mail_account_num");

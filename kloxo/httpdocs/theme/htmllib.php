@@ -3557,6 +3557,15 @@ class HtmlLib
 				}
 			} else {
 				$pname = $obj->display($name);
+
+				// MR -- fix for client amount (use 0 instead -)
+				if ($pname === ' - / ') { $pname = ' 0 / 0 '; }
+				if (csa($pname, '- /')) { $pname = str_replace('- /', '0 /', $pname); }
+
+				if ($name === 'resourceused') {
+					if ($pname === '-') { $pname = '0'; }
+				}
+
 				$pname = Htmllib::fix_lt_gt($pname);
 
 				if (csa($pname, "_lximg:")) {
@@ -3822,18 +3831,15 @@ class HtmlLib
 
 		} else {
 			if (char_search_a($descr[$name][0], "p")) {
-
 ?>
 
 			<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist">
 <?php
-					$arr = $pname;
-					$this->show_graph($arr[0], $arr[1], null, $graphwidth, $arr[2], $graphtype, $obj->getId(), $name);
+					$this->show_graph($pname[0], $pname[1], null, $graphwidth, $pname[2], $graphtype, $obj->getId(), $name);
 ?>
 
 			</td>
 <?php
-
 			} else {
 				// MR -- fix if data is array
 				if (is_array($pname)) {
@@ -3857,7 +3863,6 @@ class HtmlLib
 
 				$pname = str_replace("Unlimited", "&#x221E;", $pname);
 			//	$pname = str_replace("Unlimited", "&#x007e;", $pname);
-
 ?>
 			<td <?= $bgcolorstring ?> <?= $wrapstr ?> <?= $align ?> class="collist"> <?= $pname ?> </td>
 <?php
@@ -6826,12 +6831,13 @@ class HtmlLib
 		$text = "<span class='last'><span size=1></span></span>";
 		$help = null;
 		$alt = null;
+
 		$maxval = Resource::privdisplay($varname, null, $maxval);
 
 		if ($maxval === 'Unlimited') {
 			$maxval_view = str_replace("Unlimited", "&#x221E;", $maxval);
 		} else {
-			if (strpos($varname, 'domain_num') !== false) {
+			if (strpos($varname, '_num') !== false) {
 				$maxval_view = $maxval;
 			} else {
 				$maxval_view = number_format($maxval, 0, '', ',');
@@ -6867,12 +6873,11 @@ class HtmlLib
 
 		// MR -- also need this process to fix title
 		$alt = preg_replace("/_lxspan:([^:]*):([^:]*):/", "$2", $alt);
+
+		$final_view = "{$val_view} {$unit} ({$realval}%) / {$maxval_view}";
 ?>
 
-		<div <?= $help ?> style="float: left">
-			<?= $val_view ?> <?= $unit ?> (<?= $realval ?>%) / <?= $maxval_view ?>
-
-		</div>
+		<div <?= $help ?> style="float: left"><?= $final_view ?></div>
 <?php
 	}
 

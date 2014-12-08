@@ -13,8 +13,8 @@ class information extends LxaClass
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['variable'] = '50%';
-		$nlist['value'] = '100%';
+		$nlist['variable'] = '20%';
+		$nlist['value'] = '80%';
 
 		return $nlist;
 	}
@@ -53,7 +53,7 @@ class PermissionOrResource extends LxaClass
 		if ($parent->isLxclient()) {
 			$nlist['resourcepriv'] = '10%';
 			// MR -- disable graph image
-			//	$nlist['resourceusedper'] = '40%';
+		//	$nlist['resourceusedper'] = '40%';
 		}
 
 		return $nlist;
@@ -95,7 +95,10 @@ class PermissionOrResource extends LxaClass
 			$value = round($value/ (1024 * 1024), 2);
 		}
 
-		if (array_search_bool($name, array('sizeper', 'disk_usage', "maildisk_usage", "memory_usage", "backup_num", "traffic_usage", "traffic_last_usage", "swap_usage", "guarmem_usage", "realmem_usage", "disk", "lvm", "mysqldb_usage", "clientdisk_usage", "totaldisk_usage"))) {
+		if (array_search_bool($name, array('sizeper', 'disk_usage', "maildisk_usage", "memory_usage", "backup_num", 
+				"traffic_usage", "traffic_last_usage", "swap_usage", "guarmem_usage", 
+				"realmem_usage", "disk", "lvm", "mysqldb_usage", "clientdisk_usage", 
+				"totaldisk_usage", "totalinode_usage"))) {
 			if ($value === '-' || is_unlimited($value)) {
 				return $value;
 			}

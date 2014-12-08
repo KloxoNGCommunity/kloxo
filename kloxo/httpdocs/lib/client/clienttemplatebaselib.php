@@ -128,7 +128,7 @@ class ClienttemplateBase extends ClientCore
 		return null;
 		
 		$vlist['owner_f'] = null;
-	//  $vlist['share_status'] = null;
+	//	$vlist['share_status'] = null;
 		
 		return $vlist;
 	}
@@ -137,7 +137,7 @@ class ClienttemplateBase extends ClientCore
 	{
 		$vlist['nname'] = "";
 		$vlist['description'] = null;
-	//  $vlist['share_status'] = null;
+	//	$vlist['share_status'] = null;
 
 		$qvlist = getQuotaListForClass('client', array());
 		$vlist = lx_array_merge(array($vlist, $qvlist));

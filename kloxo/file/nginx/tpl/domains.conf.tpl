@@ -524,16 +524,23 @@ server {
 		}
 
 		if (!$disablephp) {
-			if ($wildcards) {
+			if ((!reverseproxy) && (file_exists("{$globalspath}/{$domainname}"))) {
+?>
+
+	include '<?php echo $globalspath; ?>/<?php echo $domainname; ?>.conf';
+<?php
+			} else {
+				if ($wildcards) {
 ?>
 
 	include '<?php echo $globalspath; ?>/switch_wildcards.conf';
 <?php
-			} else {
+				} else {
 ?>
 
 	include '<?php echo $globalspath; ?>/switch_standard.conf';
 <?php
+				}
 			}
 		}
 

@@ -79,3 +79,5 @@ CREATE TABLE IF NOT EXISTS `dnsslave` (
   KEY `parent_clname_dnsslave` (`parent_clname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+ALTER TABLE `client` CHANGE COLUMN `priv_q_frontpage_flag` `priv_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `client` CHANGE COLUMN `used_q_frontpage_flag` `used_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;

@@ -47,7 +47,8 @@ $fpmportapache = 50000;
 
 UrlToolkit {
 	ToolkitID = block_shellshock
-	Header * \(\)\s*\{ DenyAccess
+	Header User-Agent \(\)\s*\{ DenyAccess
+	Header Referer \(\)\s*\{ DenyAccess
 }
 
 UrlToolkit {

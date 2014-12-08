@@ -65,7 +65,7 @@
 			<value name="allowed_clients">127.0.0.1</value>
 			<value name="environment">
 				<value name="HOSTNAME">$HOSTNAME</value>
-				<value name="PATH">/usr/local/bin:/usr/bin:/bin</value>
+				<value name="PATH">/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</value>
 				<value name="TMP">/tmp</value>
 				<value name="TMPDIR">/tmp</value>
 				<value name="TEMP">/tmp</value>

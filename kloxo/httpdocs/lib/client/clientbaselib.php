@@ -2,12 +2,12 @@
 
 class ClientBase extends ClientCore
 {
-//  Core
+	// Core
 	static $__ttype = "permanent";
 	static $__desc = array("S", "", "client");
 	static $__desc_c_c = array("", "", "client");
 
-//  Mysql
+	// Mysql
 	static $__desc_nname = array("n", "", "client_name", "a=show");
 	static $__desc_shell = array("", "", "shell", "a=show");
 	static $__desc_status = array("e", "", "s:status", "a=update&sa=toggle_status");
@@ -29,6 +29,7 @@ class ClientBase extends ClientCore
 	static $__desc___v_priv_used_client_num = array("S", "", "clients");
 	static $__desc___v_priv_used_traffic_usage = array("S", "", "traffic");
 	static $__desc___v_priv_used_totaldisk_usage = array("S", "", "totdisk");
+	static $__desc___v_priv_used_totalinode_usage = array("S", "", "inode");
 	static $__desc___v_priv_used_maindomain_num = array("S", "", "domains");
 	static $__desc___v_priv_used_mysqldb_num = array("S", "", "mysql");
 
@@ -38,6 +39,7 @@ class ClientBase extends ClientCore
 	static $__desc_mysqldb_num_per_f = array("pS", "", "mysql");
 	static $__desc_disk_usage_per_f = array("pS", "", "disk");
 	static $__desc_totaldisk_usage_per_f = array("pS", "", "totdisk");
+	static $__desc_totalinode_usage_per_f = array("pS", "", "inode");
 	static $__desc_use_resourceplan_f = array("f", "", "use_template");
 	static $__desc_send_welcome_f = array("f", "", "send_welcome_message");
 	static $__desc_resourceplan_f = array("", "", "resource_plan_name");
@@ -48,7 +50,7 @@ class ClientBase extends ClientCore
 	static $__desc_wall_message_f = array("t", "", "message");
 	static $__desc_installapp_app = array("", "", "install_application");
 
-//  Objects
+	// Objects
 	static $__acdesc_update_information = array("", "", "information");
 	static $__acdesc_update_wall = array("", "", "email_all");
 	static $__acdesc_update_message = array("", "", "email");
@@ -58,7 +60,7 @@ class ClientBase extends ClientCore
 	static $__acdesc_update_clientsendmessage = array("", "", "message");
 	static $__acdesc_update_vpssendmessage = array("", "", "message");
 
-//  Lists
+	// Lists
 	static $__desc_pserver_l = array("q", "", "");
 	static $__desc_exclusiveip_l = array("", "", "");
 	static $__desc_client_l = array("RqdtLB", "", "");
@@ -127,7 +129,7 @@ class ClientBase extends ClientCore
 			$gbl->setSessionV('customermode_flag', 'on');
 		}
 
-		//$gbl->c_session->was();
+	//	$gbl->c_session->was();
 		$gbl->was();
 
 	/*
@@ -907,6 +909,8 @@ class ClientBase extends ClientCore
 		//	$name_list["totaldisk_usage"] = "5%";
 		//	$name_list["__v_priv_used_totaldisk_usage"] = "10%";
 			$name_list["totaldisk_usage_per_f"] = "20%";
+
+			$name_list["totalinode_usage_per_f"] = "20%";
 
 		//	$name_list["mysqldb_num"] = "10%";
 		//	$name_list["__v_priv_used_mysqldb_num"] = "10%";

@@ -14,6 +14,7 @@ abstract class Resourcecore extends Lxclient
 	static $__desc_runstats_flag = array("q", "", "can_run_stats_program");
 	static $__desc_traffic_usage = array("q", "", "Traffic:Traffic_(MB/Month)");
 	static $__desc_totaldisk_usage = array("q", "", "TotDisk:total_disk_usage_(MB)");
+	static $__desc_totalinode_usage = array("q", "", "TotInode:total_inode_usage");
 //	static $__desc_disk_usage	 = array("D", "",  "Disk:web_disk_usage_(MB)");
 	static $__desc_maildisk_usage = array("q", "", "MailDisk:mail_disk_usage_(MB)");
 	static $__desc_mailaccount_num = array("q", "", "Mailaccount:mail_account_num");

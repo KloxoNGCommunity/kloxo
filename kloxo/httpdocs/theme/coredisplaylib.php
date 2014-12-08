@@ -377,6 +377,7 @@ function __ac_desc_show($object)
 			if ($ilist) {
 				$ghtml->printObjectTable(null, $object, 'information');
 			}
+
 			if ($object->createShowNote()) {
 				$ghtml->print_note($object);
 			}
