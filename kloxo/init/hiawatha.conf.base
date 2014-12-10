@@ -38,6 +38,7 @@ MimetypeConfig = hiawatha-mimetype.conf
 
 UrlToolkit {
 	ToolkitID = block_shellshock
+	#Header * \(\)\s*\{ DenyAccess
 	Header User-Agent \(\)\s*\{ DenyAccess
 	Header Referer \(\)\s*\{ DenyAccess
 }

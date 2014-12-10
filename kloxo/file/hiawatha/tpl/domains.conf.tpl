@@ -293,7 +293,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
@@ -366,7 +366,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 <?php
@@ -440,7 +440,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 
@@ -524,7 +524,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
@@ -579,7 +579,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 
@@ -717,7 +717,7 @@ VirtualHost {
 ?>
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 <?php
 		}
 
@@ -843,7 +843,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 
@@ -936,7 +936,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 
@@ -1032,7 +1032,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 <?php
@@ -1107,7 +1107,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	TimeForCGI = 3600
 
@@ -1190,7 +1190,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 
@@ -1291,7 +1291,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 
@@ -1377,7 +1377,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	EnablePathInfo = yes
 
@@ -1459,7 +1459,7 @@ VirtualHost {
 
 
 	ErrorLogfile = /var/log/hiawatha/error.log
-	AccessLogfile = /dev/null
+	AccessLogfile = none
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 

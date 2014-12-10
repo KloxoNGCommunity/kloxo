@@ -47,6 +47,7 @@ $fpmportapache = 50000;
 
 UrlToolkit {
 	ToolkitID = block_shellshock
+	#Header * \(\)\s+\{ DenyAccess
 	Header User-Agent \(\)\s*\{ DenyAccess
 	Header Referer \(\)\s*\{ DenyAccess
 }
@@ -154,7 +155,7 @@ Hostname = 0.0.0.0
 WebsiteRoot = <?php echo $defaultdocroot; ?>
 
 ErrorLogfile = /var/log/hiawatha/error.log
-AccessLogfile = /dev/null
+AccessLogfile = none
 
 EnablePathInfo = yes
 UseGZfile = yes
