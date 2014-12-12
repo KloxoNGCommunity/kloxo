@@ -1,7 +1,6 @@
 #!/bin/sh
 
 ## MR -- find out of php mail() origin
-/bin/logger -p mail.info "sendmail-caller=\"$(ps -ocommand= -p $PPID)\""
-
+/bin/logger -p mail.info "sendmail: caller=\"$(ps -ocommand= -p $PPID)\" pwd=\"$(pwd)\""
 /var/qmail/bin/sendmail-qmail "$@"
 

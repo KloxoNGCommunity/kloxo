@@ -1353,7 +1353,6 @@ class Ffile extends Lxclass
 		$list = rl_exec_get($parent->__masterserver, $parent->__readserver, array("coreFfile", "get_full_stat"), 
 			array($parent->__username_o, $parent->root, $fpathp, $duflag));
 
-
 		foreach ((array)$list as $stat) {
 			$file = basename($stat['name']);
 
@@ -1364,9 +1363,9 @@ class Ffile extends Lxclass
 				continue;
 			}
 
-			$fpath = $fpathp . "/" . $file;
+			$fpath = str_replace("//", "/", $fpathp . "/" . $file);
 
-			$file = $parent->nname . "/" . $file;
+			$file = str_replace("//", "/", $parent->nname . "/" . $file);
 			
 			if (!isset($parent->ffile_l)) {
 				$parent->ffile_l = null;
@@ -1437,8 +1436,8 @@ class Ffile extends Lxclass
 		$top = $parent->root;
 
 		if (!$parent->is_top()) {
-			//$blist[] = array("__ext|a=show&frm_o_o[nname]=$base|a=update&sa=go_home|", 1);
-			//$blist[] = array("__ext|a=show&frm_o_o[nname]=$top|a=update&sa=go_up|", 1);
+		//	$blist[] = array("__ext|a=show&frm_o_o[nname]=$base|a=update&sa=go_home|", 1);
+		//	$blist[] = array("__ext|a=show&frm_o_o[nname]=$top|a=update&sa=go_up|", 1);
 		}
 
 		$blist = null;

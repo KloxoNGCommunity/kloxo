@@ -242,10 +242,8 @@ class ffile__common
 		lxfile_mkdir($fulzippath);
 		lxfile_unix_chown($fulzippath, $this->main->__username_o);
 
-
 		$dir = expand_real_root($fulzippath);
 		$file = expand_real_root($this->main->getFullPath());
-
 
 		if ($file[0] !== '/') {
 			$fullpath = getcwd() . "/$file";
@@ -280,7 +278,6 @@ class ffile__common
 		$list = implode(" ", $this->main->zip_file_list);
 		$oldir = getcwd();
 		$fullpath = expand_real_root($this->main->fullpath);
-
 	/*
 		$fz = $fullpath . "/" . $this->main->zip_file_f;
 	
@@ -289,7 +286,7 @@ class ffile__common
 		}
 	*/
 		$date = date("M-d-H");
-		//check_file_if_owned_by_and_throw("NewArchive-$date.zip", $this->main->__username_o);
+	//	check_file_if_owned_by_and_throw("NewArchive-$date.zip", $this->main->__username_o);
 		$ret = new_process_cmd($this->main->__username_o, $fullpath, "zip -qu -r NewArchive-$date $list");
 		
 		return "$fullpath/NewArchive-$date.zip";
@@ -346,7 +343,7 @@ class ffile__common
 
 			if ($sgbl->isKloxo()) {
 				$pp = basename($p);
-			//  lxfile_unix_chown_rec("{$this->main->fullpath}/$pp", $this->main->__username_o);
+			//	lxfile_unix_chown_rec("{$this->main->fullpath}/$pp", $this->main->__username_o);
 			}
 		}
 	}

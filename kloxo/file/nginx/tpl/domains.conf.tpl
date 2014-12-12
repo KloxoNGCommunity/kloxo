@@ -524,7 +524,7 @@ server {
 		}
 
 		if (!$disablephp) {
-			if ((!reverseproxy) && (file_exists("{$globalspath}/{$domainname}"))) {
+			if ((!$reverseproxy) && (file_exists("{$globalspath}/{$domainname}.conf"))) {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $domainname; ?>.conf';
