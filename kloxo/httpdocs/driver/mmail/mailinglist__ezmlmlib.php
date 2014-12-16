@@ -49,8 +49,7 @@ HEAD;
 			$sys_cmd = "{$sgbl->__path_mail_root}/bin/vadddomain";
 
 			// MR -- may have a problem when using lxuser_return here!
-		//	$r = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $dom, "-d", $mailrootpath, 'nothing');
-			$r = lxshell_return($sys_cmd, '-u', $sysuser, $dom, "-d", $mailrootpath, 'nothing');
+			$r = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $dom, "-d", $mailrootpath, 'nothing');
 			if ($r) {
 				throw new lxException($login->getThrow("create_mailinglist_failed"), '', "{$dom} on $mailrootpath");
 			}
