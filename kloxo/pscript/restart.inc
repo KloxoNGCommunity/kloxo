@@ -10,6 +10,8 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo ""
 	exit
 else
+	ASQMAIL=""
+
 	for item in ${list[*]} ; do
 		if [ -f /etc/init.d/${item} ] ; then
 			for num in 0 1 2 3 4 5 6 ; do
@@ -17,6 +19,7 @@ else
 					echo ""
 					if [ "$1" == "--force" ] || [ "$1" == "-y" ] ; then
 						if [ "${item}" == "qmail" ] ; then
+							ASQMAIL="qmail"
 							sh /script/restart-mail
 						else
 							/etc/init.d/${item} restart
@@ -39,7 +42,9 @@ else
 		fi
 	done
 
-	echo ""
-	echo "- For help, type '$0 [--help|-h]'"
+	if [ "${ASQMAIL}" != "qmail" ] ; then
+		echo ""
+		echo "- For help, type '$0 [--help|-h]'"
+	fi
 fi
 
