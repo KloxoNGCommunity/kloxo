@@ -526,10 +526,10 @@ class Ffile extends Lxclass
 
 		if ($button_type !== 'image') {
 			$background = "url({$genimgpath}/button/fnav_02.gif)";
-			$icon_text = "<span class='if32' style='color:#d33'>&#xf382;</span>";
+			$icon_text = "<span class='if16' style='color:#d33'>&#xf382;</span>";
 		} else {
 			$background = "#ffffff";
-			$icon_text = "<img height='32' src='{$iconpath}/ffile_show.gif'>";
+			$icon_text = "<img height='16' src='{$iconpath}/ffile_show.gif'>";
 		}
 
 		// Hack hack
@@ -539,7 +539,6 @@ class Ffile extends Lxclass
 		}
 ?>
 
-<!--
 <div style="width:910px; margin:0 auto">
 <table>
 	<tr>
@@ -564,7 +563,7 @@ class Ffile extends Lxclass
 		$parent = $this->getParentO();
 		$desc = get_classvar_description($parent->getClass());
 ?>
-		<a class=insidelist href="<?= $url ?>">Address: <?= $desc[2] ?> <?= $parent->getId() ?></a>
+		Address: (<?= $desc[2] ?>: <a class=insidelist href="<?= $url ?>"><?= $parent->getId() ?></a>)
 <?php
 		$list = explode('/', $this->nname);
 	//	implode('/', $list);
@@ -609,8 +608,8 @@ class Ffile extends Lxclass
 		<td width="100%"></td>
 	</tr>
 </table>
-</div> -->
-
+</div>
+<br/>
 <?php
 		$list = $gbl->getSessionV("frm_clip_list");
 
@@ -621,12 +620,13 @@ class Ffile extends Lxclass
 				$file = substr($file, 0, 30) . " ...";
 			}
 ?>
-	<table cellpadding="0" cellspacing="0" width="90%">
+<div class="div_showhide">
+	<table cellpadding="0" cellspacing="0" width="100%">
 		<tr>
-			<td> </td>
-			<td width="100%"> Global ClipBoard: (<?= $gbl->getSessionV("frm_clip_rootname") ?>):<?= $file ?></td>
+			<td width="100%" align="center">Global Clipboard - (<?= $gbl->getSessionV("frm_clip_rootname") ?>): <?= $file ?></td>
 		</tr>
 	</table>
+</div>
 <?php
 		}
 	}
