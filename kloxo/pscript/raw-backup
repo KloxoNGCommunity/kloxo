@@ -20,7 +20,7 @@ cd /tmp
 echo "- Create zip file"
 
 if ! [ -d $mysqlpath/kloxo.bck ] ; then
-	cp -rf $mysqlpath/kloxo $mysqlpath/kloxo.bck
+	cp -rf $mysqlpath/kloxo $mysqlpath/kloxobck
 fi
 
 tar -czf "$zipfile" "$homepath" "$mysqlpath" \

@@ -269,6 +269,12 @@ class General extends Lxdb
 		exec("echo '$sslport' > /home/kloxo/httpd/cp/.ssl.port");
 		exec("echo '$nonsslport' > /home/kloxo/httpd/cp/.nonssl.port");
 
+		if ($param['portconfig_b-redirectnonssl_flag'] === 'on') {
+			touch("/usr/local/lxlabs/kloxo/httpdocs/login/redirect-to-ssl");
+		} else {
+			unlink("/usr/local/lxlabs/kloxo/httpdocs/login/redirect-to-ssl");
+		}
+
 		return $param;
 	}
 
