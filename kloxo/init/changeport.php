@@ -33,3 +33,7 @@ $content = str_replace("__nonssl_port__", $nonsslport, $content);
 $content = str_replace("__ssl_port__", $sslport, $content);
 
 file_put_contents("{$kpath}/init/hiawatha.conf", $content);
+
+file_put_contents("{$kpath}/init/port-nonssl", $nonsslport);
+file_put_contents("{$kpath}/init/port-ssl", $sslport);
+
