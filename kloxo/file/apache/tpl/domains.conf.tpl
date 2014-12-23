@@ -126,7 +126,9 @@ Define port ${global::port}
 Define portssl ${global::portssl}
 <?php
 	if (!$reverseproxy) {
-		if  ($ip !== '*') {
+		if ($ip !== '*') {
+		// MR -- use wildcards
+		$ip = '*';
 ?>
 Define ip <?php echo $ip; ?>
 

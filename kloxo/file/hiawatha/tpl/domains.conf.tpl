@@ -128,7 +128,7 @@ Binding {
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
-		RequiredCA = <?php echo $certname; ?>.ca
+	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 				}
 			}
@@ -336,16 +336,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -410,16 +408,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -482,12 +478,12 @@ VirtualHost {
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
 <?php
-			if ($ip !== '*') {
+				if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+				} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -495,16 +491,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -537,20 +531,19 @@ VirtualHost {
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
 <?php
-			if ($ip !== '*') {
+				if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+				} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+				}
 
-			if ($count !== 0) {
-			//	if ($ip !== '*') {
+				if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
@@ -559,12 +552,11 @@ VirtualHost {
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
 					}
-			//	}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+				}
 ?>
 
 	set var_user = apache
@@ -635,16 +627,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -812,16 +802,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -905,16 +893,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1002,16 +988,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1077,16 +1061,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1160,16 +1142,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1261,16 +1241,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1347,16 +1325,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
@@ -1432,16 +1408,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
-			//	}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1

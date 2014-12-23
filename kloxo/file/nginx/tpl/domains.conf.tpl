@@ -370,18 +370,10 @@ server {
 <?php
 		}
 
-		if ($ip === '*') {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
-		} else {
-?>
-
-	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
-<?php
-		}
-
 		if ($count !== 0) {
 ?>
 
@@ -613,18 +605,10 @@ server {
 <?php
 					}
 
-					if ($ip === '*') {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
-					} else {
-?>
-
-	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
-<?php
-					}
-
 					if ($count !== 0) {
 ?>
 
@@ -684,18 +668,10 @@ server {
 <?php
 					}
 
-					if ($ip === '*') {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
-					} else {
-?>
-
-	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
-<?php
-					}
-
 					if ($count !== 0) {
 ?>
 
