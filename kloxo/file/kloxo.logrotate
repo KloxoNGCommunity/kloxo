@@ -10,49 +10,49 @@
 # add and modified by Mustafa Ramadhan <mustafa.ramadhan@lxcenter.org>
 
 /var/log/qmail/*/current /var/log/pureftpd.log {
-        daily
-        rotate 30
-        create
-        compress
-        notifempty
-        missingok
-        postrotate
-        pkill -HUP syslogd
-        endscript
+    daily
+    rotate 30
+    create
+    compress
+    notifempty
+    missingok
+    postrotate
+        # pkill -HUP syslogd
+    endscript
 }
 
 /home/httpd/*/stats/*_log {
-        daily
-        rotate 30
-        create 0664 apache apache
-        compress
-        notifempty
-        missingok
+    daily
+    rotate 30
+    create 0664 apache apache
+    compress
+    notifempty
+    missingok
 }
 
 /home/*/__processed_stats/*_log {
-        daily
-        rotate 30
-        create 0750 root root
-        compress
-        notifempty
-        missingok
+    daily
+    rotate 30
+    create 0750 root root
+    compress
+    notifempty
+    missingok
 }
 
 /usr/local/lxlabs/kloxo/log/* {
-        daily
-        rotate 30
-        create 0664 lxlabs lxlabs
-        compress
-        notifempty
-        missingok
+    daily
+    rotate 30
+    create 0664 lxlabs lxlabs
+    compress
+    notifempty
+    missingok
 }
 
 /home/*/logs/*.log {
-        daily
-        rotate 30
-        create 0664 apache apache
-        compress
-        notifempty
-        missingok
+    daily
+    rotate 30
+    create 0664 apache apache
+    compress
+    notifempty
+    missingok
 }

@@ -200,6 +200,9 @@ $__throw["invalid_client_name"] = "Invalid client name";
 $__throw["invalid_database_name"] = "Invalid database name";
 $__throw["invalid_add_password"] = "Invalid add password";
 
+$__throw["more_than_128_chars"] = "More than 128 chars";
+$__throw["more_than_255_chars"] = "More than 255 chars";
+
 $__throw["could_not_get_application_version_list"] = "Could not get Application version list";
 
 $__throw["no_object"] = "No object";

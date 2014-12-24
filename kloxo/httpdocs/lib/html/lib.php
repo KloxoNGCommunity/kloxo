@@ -1030,7 +1030,7 @@ function validate_domain_name($name, $bypass = null)
 	}
 
 	if (strlen($name) > 255) {
-		throw new lxException($login->getThrow('invalid_domain_name'), '', $name);
+		throw new lxException($login->getThrow('more_than_255_chars'), '', $name);
 	}
 }
 
@@ -1043,7 +1043,26 @@ function validate_hostname_name($name, $bypass = null)
 	}
 
 	if (strlen($name) > 128) {
+		throw new lxException($login->getThrow('more_than_128_chars'), '', $name);
+	}
+}
+
+function validate_server_alias($name, $bypass = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+/*
+	// MR -- don't need *.* for purpose http://www.i.am.in.hostspectra.com
+	if (!preg_match('/^(([0-9a-z][0-9a-z\-\.]{1,126}|\*\.|)([0-9a-z]|\*))$/i', $name) && $name != "__base__") {
+		throw new lxException($login->getThrow('invalid_server_alias'), '', $name);
+	}
+*/
+	// MR -- enough * for all subdomain!
+	if (!preg_match('/^(([0-9a-z][0-9a-z\-\.]{1,126}[0-9a-z]|\*))$/i', $name) && $name != "__base__") {
 		throw new lxException($login->getThrow('invalid_subdomain'), '', $name);
+	}
+
+	if (strlen($name) > 128) {
+		throw new lxException($login->getThrow('more_than_128_chars'), '', $name);
 	}
 }
 
@@ -6730,12 +6749,15 @@ function setInitialLogrotate($nolog = null)
 {
 	log_cleanup("Initialize logrotate", $nolog);
 
-	if (!lxfile_exists("/etc/logrotate.d/kloxo")) {
-		log_cleanup("- Initialize process", $nolog);
+	if (lxfile_exists("../file/kloxo.logrotate")) {
+		log_cleanup("- kloxo logrotate", $nolog);
+		lxfile_cp("../file/kloxo.logrotate", "/etc/logrotate.d/kloxo");
+	}
 
-		if (lxfile_exists("../file/kloxo.logrotate")) {
-			lxfile_cp("../file/kloxo.logrotate", "/etc/logrotate.d/kloxo");
-		}
+	// MR -- fix syslog logrotate
+	if (lxfile_exists("../file/syslog.logrotate")) {
+		log_cleanup("- syslog logrotate", $nolog);
+		lxfile_cp("../file/syslog.logrotate", "/etc/logrotate.d/syslog");
 	}
 
 	// MR -- sometimes this file corrupt and make high cpu usage
