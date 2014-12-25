@@ -91,14 +91,20 @@ function os_set_quota($username, $disk)
 //	$inode = $disk * 500;
 //	$inode = 0;
 
-	// MR -- assume 1GB space = 1.000.000 KB / 4 KB = 250.000 blocksize
-	// where blocksize = 4KB -> inode = 25.000
-	// So, make set $totalblock = $inode * 10
+	if ($disk === 0) {
+		// MR -- that meaning 'unlimited'
+		$totalblock = 0;
+		$totalinode = 0;
+	} else {
+		// MR -- assume 1GB space = 1.000.000 KB / 4 KB = 250.000 blocksize
+		// where blocksize = 4KB -> inode = 25.000
+		// So, make set $totalblock = $inode * 10
 
-	$totalinode = (int) (($disk / 100) + 1);
+		$totalinode = (int) (($disk / 100) + 1);
 
-	$perblock = getFSBlockSizeInKb();
-	$totalblock = $disk / $perblock;
+		$perblock = getFSBlockSizeInKb();
+		$totalblock = $disk / $perblock;
+	}
 
 	lxshell_return("setquota", "-u", $username, $totalblock, $totalblock, $totalinode, $totalinode, "-a");
 }
