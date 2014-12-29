@@ -156,3 +156,89 @@ CREATE TABLE IF NOT EXISTS `zone_templ_records` (
 ) AUTO_INCREMENT=1 ;
 
 ALTER TABLE `records` ADD CONSTRAINT `records_ibfk_1` FOREIGN KEY (`domain_id`) REFERENCES `domains` (`id`) ON DELETE CASCADE;
+
+
+/* --- Update from 3.0 to 3.1 --- */
+ALTER TABLE records MODIFY content VARCHAR(64000);
+ALTER TABLE tsigkeys MODIFY algorithm VARCHAR(50);
+
+
+/* --- Update from 3.1 to 3.2 --- */
+ALTER TABLE records MODIFY ordername VARCHAR(255) BINARY;
+DROP INDEX orderindex ON records;
+CREATE INDEX recordorder ON records (domain_id, ordername);
+
+
+/* --- Update from 3.2 to 3.3 --- */
+ALTER TABLE supermasters MODIFY ip VARCHAR(64);
+
+
+/* --- Update from 3.3 to 3.3.1 */
+ALTER TABLE domains ADD constraint c_lowercase_name CHECK (((name)::text = lower((name)::text)));
+ALTER TABLE tsigkeys ADD constraint c_lowercase_name CHECK (((name)::text = lower((name)::text)));
+
+
+/* --- Update from 3.3.1 to 3.4.0 --- */
+/* Uncomment next line for versions <= 3.1 */
+/* DROP INDEX rec_name_index ON records; */
+
+ALTER TABLE records ADD disabled TINYINT(1) DEFAULT 0;
+ALTER TABLE records MODIFY content VARCHAR(64000) DEFAULT NULL;
+ALTER TABLE records ADD ordername VARCHAR(255) BINARY DEFAULT NULL;
+ALTER TABLE records ADD auth TINYINT(1) DEFAULT 1;
+ALTER TABLE records MODIFY type VARCHAR(10);
+ALTER TABLE supermasters MODIFY ip VARCHAR(64) NOT NULL;
+ALTER TABLE supermasters MODIFY account VARCHAR(40) NOT NULL;
+ALTER TABLE supermasters ADD PRIMARY KEY(ip, nameserver);
+
+CREATE INDEX recordorder ON records (domain_id, ordername);
+
+
+CREATE TABLE domainmetadata (
+  id                    INT AUTO_INCREMENT,
+  domain_id             INT NOT NULL,
+  kind                  VARCHAR(32),
+  content               TEXT,
+  PRIMARY KEY(id)
+) Engine=InnoDB;
+
+CREATE INDEX domainmetadata_idx ON domainmetadata (domain_id, kind);
+
+
+CREATE TABLE cryptokeys (
+  id                    INT AUTO_INCREMENT,
+  domain_id             INT NOT NULL,
+  flags                 INT NOT NULL,
+  active                TINYINT(1),
+  content               TEXT,
+  PRIMARY KEY(id)
+) Engine=InnoDB;
+
+CREATE INDEX domainidindex ON cryptokeys(domain_id);
+
+
+CREATE TABLE tsigkeys (
+  id                    INT AUTO_INCREMENT,
+  name                  VARCHAR(255),
+  algorithm             VARCHAR(50),
+  secret                VARCHAR(255),
+  PRIMARY KEY(id)
+) Engine=InnoDB;
+
+CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm);
+
+
+CREATE TABLE comments (
+  id                    INT AUTO_INCREMENT,
+  domain_id             INT NOT NULL,
+  name                  VARCHAR(255) NOT NULL,
+  type                  VARCHAR(10) NOT NULL,
+  modified_at           INT NOT NULL,
+  account               VARCHAR(40) NOT NULL,
+  comment               VARCHAR(64000) NOT NULL,
+  PRIMARY KEY(id)
+) Engine=InnoDB;
+
+CREATE INDEX comments_domain_id_idx ON comments (domain_id);
+CREATE INDEX comments_name_type_idx ON comments (name, type);
+CREATE INDEX comments_order_idx ON comments (domain_id, modified_at);

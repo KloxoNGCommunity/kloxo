@@ -2158,6 +2158,7 @@ function redirect_to_https()
 		exit;
 	}
 
+/*
 	include_once "lib/php/generallib.php";
 
 	$port = db_get_value("general", "admin", "ser_portconfig_b");
@@ -2192,6 +2193,30 @@ function redirect_to_https()
 	header("Location: https://$ip:$sslport");
 
 	exit;
+*/
+	if (file_exists("./login/redirect-to-ssl")) {
+		if($_SERVER["HTTPS"] != "on") {
+			$host = explode(":", $_SERVER["HTTP_HOST"]);
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: https://" . 
+				$host[0] . ":" . file_get_contents("../init/port-ssl") . 
+				$_SERVER["REQUEST_URI"]);
+			exit();
+		}
+	}
+}
+
+function redirect_to_domain()
+{
+	if (file_exists("./login/redirect-to-hostname")) {
+		if (preg_match('/(cp\.|webmail\.|www\.|mail\.)(.*)/i', $_SERVER["HTTP_HOST"])) {
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: " . $_SERVER["HTTP_SCHEME"] . "://" . 
+				preg_replace('/(cp\.|webmail\.|www\.|mail\.)(.*)/i', "$2", $_SERVER["HTTP_HOST"]) . 
+				$_SERVER["REQUEST_URI"]);
+			exit();
+		}
+	}
 }
 
 function execRrdSingle($name, $func, $filename, $tot)
