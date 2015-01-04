@@ -8063,6 +8063,7 @@ function resetQmailAssign($nolog = null)
 
 	log_cleanup("Reset Qmail Assign for domains (also rcpthosts and virtualdomains)", $nolog);
 
+	$bpath = "/var/qmail/bin";
 	$cpath = "/var/qmail/control";
 	$upath = "/var/qmail/users";
 
@@ -8083,8 +8084,9 @@ function resetQmailAssign($nolog = null)
 
 		file_put_contents($d, $x);
 
-		log_cleanup("- virtualdomains for '{$k}'", $nolog);
+		log_cleanup("- rcpthosts/morercpthosts for '{$k}'", $nolog);
 		$rh .= "{$k}\n";
+
 		log_cleanup("- virtualdomains for '{$k}'", $nolog);
 		$vd .= "{$k}:{$k}\n";
 	}
@@ -8093,9 +8095,8 @@ function resetQmailAssign($nolog = null)
 
 	exec("echo '{$ua}' > {$upath}/assign");
 	exec("echo '{$rh}' > {$cpath}/rcpthosts");
-	exec("echo '{$vd}' > {$cpath}/virtualdomains");
-
-	exec("/var/qmail/bin/qmail-newu");
+	exec("echo '{$rh}' > {$cpath}/morercpthosts; {$bpath}/qmail-newmrh");
+	exec("echo '{$vd}' > {$cpath}/virtualdomains; {$bpath}/qmail-newu");
 }
 
 function isServiceRunning($srvc)

@@ -277,19 +277,9 @@ class Mmail__Qmail extends lxDriverClass
 			if (array_search_bool($l, $nlist)) {
 				continue;
 			}
+
 			$nlist[] = $l;
 		}
-		
-		/*
-			//--- See Issue #512 for more information
-		//	if ($this->main->remotelocalflag === 'remote') {
-		//	} else {
-				$nlist[] = $string;
-				if ($this->doesListExist()) {
-					$nlist[] = $liststring;
-				}
-		//	}
-		*/
 		
 		//--- See Issue #593 for more information
 		if ($this->main->remotelocalflag !== 'remote') {

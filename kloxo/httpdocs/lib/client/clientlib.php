@@ -509,7 +509,7 @@ class Client extends ClientBase
 
 		if ($this->isAdmin()) {
 			if (lxfile_exists("/var/installatron")) {
-				$alist[] = create_simpleObject(array('url' => "/installatron/", 'purl' => 'a=updateform&sa=installatron', 'target' => ""));
+				$alist[] = create_simpleObject(array('url' => "/installatron/", 'purl' => 'a=updateform&sa=installatron', 'target' => "target='_blank'"));
 			}
 		}
 
@@ -518,7 +518,7 @@ class Client extends ClientBase
 			if (lxfile_exists("/var/installatron")) {
 				if (!$this->isAdmin()) {
 					if ($this->isLogin()) {
-						$alist[] = create_simpleObject(array('url' => "/installatron/", 'purl' => 'a=updateform&sa=installatron', 'target' => ""));
+						$alist[] = create_simpleObject(array('url' => "/installatron/", 'purl' => 'a=updateform&sa=installatron', 'target' => "target='_blank'"));
 					} else {
 						$alist[] = "a=updateform&sa=installatron";
 					}

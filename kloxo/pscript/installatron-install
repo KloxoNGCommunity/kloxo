@@ -15,7 +15,7 @@ ini="/usr/local/installatron/etc/settings.ini"
 
 if [ ! -L $target ] ; then
 	ln -sf $source $target
+	#sed -i 's:path_gui=:#path_gui=:' $ini
+	#sed -i 's:admin=root:admin=admin:' $ini
 fi
 
-sed -i 's:path_gui=:#path_gui=:' $ini
-sed -i 's:admin=root:admin=admin:' $ini

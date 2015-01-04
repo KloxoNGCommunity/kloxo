@@ -355,7 +355,7 @@ function kloxo_install_step1()
 		"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
 		"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
 		"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
-		"{$phpbranch}-xmlrpc", "hiawatha");
+		"{$phpbranch}-xmlrpc", "{$phpbranch}-gd", "{$phpbranch}-ioncube-loader", "hiawatha");
 
 	$list = implode(" ", $packages);
 
