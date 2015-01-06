@@ -174,9 +174,9 @@ ErrorHandler = 503:/error/503.html
 ?>
 
 IgnoreDotHiawatha = yes
+UseToolkit = block_shellshock, findindexfile
 #ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
 ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
-UseToolkit = block_shellshock, findindexfile
 <?php
 		} else {
 ?>
