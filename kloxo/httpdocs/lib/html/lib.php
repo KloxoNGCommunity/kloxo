@@ -1034,6 +1034,15 @@ function validate_domain_name($name, $bypass = null)
 	}
 }
 
+function validated_prefix_domain($name, $bypass = null)
+{
+	global $gbl, $sgbl, $login, $ghtml;
+
+	if (preg_match('/^(webmail\.|mail\.|cp\.|www\.|default\.)(.*)/i', $name)) {
+		throw new lxException($login->getThrow('not_permit_as_subdomain'), '', $name);
+	}
+}
+
 function validate_hostname_name($name, $bypass = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;

@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+// MR -- add quote (') in value may make trouble to popup appear
 
 $__keyword["under"] = "Under";
 $__keyword["filtered"] = "Filtered";
@@ -44,7 +46,7 @@ $__keyword["deprecated"] = "Deprecated in Reseller and Admin.";
 $__keyword["console_message"] = "You are actually logging into a user (%username%) on the HOST machine, " .
 	"which will automatically drop you into the vps. The password is your Control Panel password for the vps. " .
 	"You can also login to this user %username%  using your favorite ssh client, and there too on a successful login, " .
-	"you will be dropped into the vps. Note that you don't need an ipaddress to be configured on the vps to use this facility. " .
+	"you will be dropped into the vps. Note that you do not need an ipaddress to be configured on the vps to use this facility. " .
 	"You are basically connecting to the HOST as user, which will automatically transfer you to the vps.";
 $__keyword["advanced"] = "Advanced";
 $__keyword["domain"] = "Domain";
@@ -174,8 +176,9 @@ $__keyword["ownership_group"] = "Group";
 $__keyword["ownership_recursively"] = "Change Ownership Recursively";
 $__keyword["ownership_confirm"] = "Do You Really want to set this ownership Recursively?";
 
-$__throw["domain_is_already_owned"] = "Domain is already owned. Please enable 'I Confirm That I Am The Owner Of Domain'";
+$__throw["domain_is_already_owned"] = "Domain is already owned. Please enable: [b]I Confirm That I Am The Owner Of Domain[/b]";
 $__throw["invalid_domain_name"] = "Invalid domain name";
+$__throw["not_permit_as_subdomain"] = "Not permit webmail/mail/cp/www/default as subdomain";
 $__throw["add_without_www"] = "Add without www";
 $__throw["can_not_be_added"] = "Can not be added";
 $__throw["no_mysql_connection_while_uploading_file"] = "No MySQL connection while uploading file";

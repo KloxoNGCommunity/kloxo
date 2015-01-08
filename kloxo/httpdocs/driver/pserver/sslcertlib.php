@@ -209,7 +209,8 @@ class SslCert extends Lxdb
 			$name = $parent->nname;
 			$user = $parent->customer_name;
 
-			$path = "/home/{$user}/ssl";
+		//	$path = "/home/{$user}/ssl";
+			$path = "/home/kloxo/client/{$user}/ssl";
 
 			exec("'rm' -rf {$path}/{$name}.*");
 
@@ -281,7 +282,8 @@ class SslCert extends Lxdb
 		$name = $parent->nname;
 		$user = $parent->customer_name;
 
-		$path = "/home/{$user}/ssl";
+	//	$path = "/home/{$user}/ssl";
+		$path = "/home/kloxo/client/{$user}/ssl";
 
 		$contentscrt = $this->text_crt_content;
 		$contentskey = $this->text_key_content;
@@ -294,16 +296,16 @@ class SslCert extends Lxdb
 
 		self::checkAndThrow($contentscrt, $contentskey, $name);
 
-		lfile_put_contents("$path/$name.crt", $contentscrt);
-		lfile_put_contents("$path/$name.key", $contentskey);
-		lfile_put_contents("$path/$name.csr", $contentscsr);
+		lfile_put_contents("{$path}/{$name}.crt", $contentscrt);
+		lfile_put_contents("{$path}/{$name}.key", $contentskey);
+		lfile_put_contents("{$path}/{$name}.csr", $contentscsr);
 
 		$contentpem = "$contentskey\n$contentscrt";
 
 		lfile_put_contents("$path/$name.pem", $contentpem);
 
 		if ($contentsca) {
-			lfile_put_contents("$path/$name.ca", $contentsca);
+			lfile_put_contents("{$path}/{$name}.ca", $contentsca);
 		}
 
 		exec("sh /script/fixweb --domain={$name} --nolog");
@@ -418,7 +420,8 @@ class SslCert extends Lxdb
 	//	unset($dn['nname']);
 
 		if ($parent->getClass() === 'web') {
-			$cnffile = "/home/{$user}/ssl/{$name}.cnf";
+		//	$cnffile = "/home/{$user}/ssl/{$name}.cnf";
+			$cnffile = "/home/kloxo/client/{$user}/ssl/{$name}.cnf";
 		} else {
 			$cnffile = '/tmp/openssl.cnf';
 		}
@@ -441,8 +444,9 @@ class SslCert extends Lxdb
 		$tplparse = getParseInlinePhp($tpl, $input);
 
 		if ($parent->getClass() === 'web') {
-			if (!file_exists("/home/{$user}/ssl")) {
-				mkdir("/home/{$user}/ssl");
+		//	if (!file_exists("/home/{$user}/ssl")) {
+			if (!file_exists("/home/kloxo/client/{$user}/ssl")) {
+				mkdir("/home/kloxo/client/{$user}/ssl");
 			}
 		}
 

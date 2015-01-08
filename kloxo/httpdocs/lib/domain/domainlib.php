@@ -962,6 +962,8 @@ class Domaind extends DomainBase
 
 		$param['nname'] = trim($param['nname']);
 
+		validate_prefix_domain($param['nname']);
+
 		validate_domain_name($param['nname']);
 
 		// MR -- no need domain_owned with /script/add

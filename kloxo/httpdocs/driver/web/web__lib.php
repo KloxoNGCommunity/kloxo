@@ -1173,6 +1173,19 @@ class web__ extends lxDriverClass
 		self::set_restart();
 	}
 
+	function fixDomainSSLPath()
+	{
+		$domname = $this->getDomainname();
+		$uname = $this->getUser();
+
+		$spath="/home/{$uname}/ssl";
+		$dpath="/home/kloxo/client/{$uname}";
+
+		if (file_exists($spath)) {
+			exec("mv -f {$spath} {$dpath}");
+		}
+	}
+
 	function fullUpdate()
 	{
 		global $sgbl;
@@ -1180,6 +1193,9 @@ class web__ extends lxDriverClass
 		$domname = $this->getDomainname();
 
 		$hroot = $sgbl->__path_httpd_root;
+
+		// MR -- disabled because processed in cleanup
+	//	$this->fixDomainSSLPath();
 
 		$this->createConfFile();
 

@@ -8363,7 +8363,7 @@ class HtmlLib
 					<div style="float:left"><?= $error_box ?><?= $press_esc_to_close ?></div>
 					<div style="float:right"><a href="javascript:hide_a_div_box('showimage')"><!-- <img src="<?= $icondir ?>/close.gif"> -->&#215;</a></div>
 				</div>
-				<div style="padding: 10px"><span style='<?= $fontstyle ?>; padding: 10px'><!-- <img src="<?= $imgfile ?>"> --><?= $message ?> <?= $mess ?></div>
+				<div style="padding: 10px"><div style='<?= $fontstyle ?>; padding: 10px'><!-- <img src="<?= $imgfile ?>"> --><?= $message ?> <?= $mess ?></div></div>
 			</div>
 		</div>
 <?php
