@@ -1038,7 +1038,7 @@ function validated_prefix_domain($name, $bypass = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	if (preg_match('/^(webmail\.|mail\.|cp\.|www\.|default\.)(.*)/i', $name)) {
+	if (preg_match('/^(webmail\.|mail\.|lists\.|cp\.|www\.|default\.)(.*)/i', $name)) {
 		throw new lxException($login->getThrow('not_permit_as_subdomain'), '', $name);
 	}
 }
