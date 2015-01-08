@@ -157,7 +157,9 @@ echo $x
 echo $x >>/opt/${base_name}/install.log
 
 if [ -f /opt/${base_name}/etc ] ; then
-	'rm' -f /opt/${base_name}/etc
+	#'rm' -f /opt/${base_name}/etc
+	#'rm' -f /opt/${base_name}/etc/!(_*.ini)
+	find /opt/${base_name}/etc ! -name "_*.ini" -exec rm -rf {} \;
 fi
 
 yumdownloader ${pack_name}-* >>/opt/${base_name}/install.log

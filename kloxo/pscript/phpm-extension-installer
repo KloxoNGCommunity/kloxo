@@ -33,5 +33,6 @@ rpm2cpio *.rpm | cpio -idmv >/dev/null 2>$1
 
 for i in /opt/${base_name}/etc/php.d/*ini ; do
 	sed -i 's:/usr/lib'${uname_m}'/php/modules::' ${i}
+	sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' ${i}
 done
 

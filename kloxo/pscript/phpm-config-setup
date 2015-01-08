@@ -25,6 +25,8 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 			if [ -f /opt/${base_name}/etc/${j}/${k}${i}.ini ] ; then
 				## MR -- remove path in 'extension='
 				sed -i 's:/usr/lib'${uname_m}'/php/modules::' /opt/${base_name}/etc/${j}/${k}${i}.ini
+				## MR -- readd path in 'zend_extension='
+				sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${k}${i}.ini
 
 				if [ "$(echo ${k}${i}|grep mysqlnd)" != "" ] ; then
 					## MR -- using mysqlnd instead mysql/mysqli in php54s
@@ -80,45 +82,20 @@ for i in cgi cli ls fpm ; do
 	fi
 done
 
-#if [ "${src_name}" != "php52" ] ; then
-#	## MR -- php53/php54/php55 must to blank extenstion_dir in php.ini and set directly to each module ini
-#	echo "- Change '${base_name}' extension path for modules ini..."
-#	for i in /opt/${base_name}/etc/php.d/* ; do
-#		if [ "$(find ${i} -type f | xargs grep 'extension=/opt/')" == "" ] ; then
-#			if [ "$(find ${i} -type f | xargs grep 'extension=/usr/lib')" != "" ] ; then
-#				sed -i 's:extension=/usr/lib/:extension=/opt/'${base_name}'/usr/lib'${uname_m}'/:' ${i}
-#				sed -i 's:extension=/usr/lib'${uname_m}'/:extension=/opt/'${base_name}'/usr/lib'${uname_m}'/:' ${i}
-#			else
-#				if [ "$(find ${i} -type f | xargs grep 'extension = ')" != "" ] ; then
-#					sed -i 's:extension = :extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' ${i}
-#				else
-#					sed -i 's:extension=:extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' ${i}
-#				fi
-#			fi
-#		fi
-#	done
-#else
-	## MR -- php52 only work if add extension_dir path
-	#echo "- Change '${base_name}' for php.ini..."
-	#if [ "${base_name}" == "php52m" ] ; then
-	#	sed -i 's:/usr/lib/php/modules:/usr/lib'${uname_m}'/php/modules:' /opt/${base_name}/custom/php.ini
-	#fi
+if [ "${uname_m}" == "64" ] ; then
+	x="- Create symlink from /opt/${base_name}/usr/lib64 to /opt/${base_name}/usr/lib"
+	echo $x
+	echo $x >>/opt/${base_name}/install.log
 
-	#sed -i 's:/usr/lib/php/modules:/usr/lib'${uname_m}'/php/modules:' /opt/${base_name}/custom/${base_name}.ini
+	if [ -d /opt/${base_name}/usr/lib ] ; then
+		ln -sf /opt/${base_name}/usr/lib64/php /opt/${base_name}/usr/lib/php
 
-	if [ "${uname_m}" == "64" ] ; then
-		x="- Create symlink from /opt/${base_name}/usr/lib64 to /opt/${base_name}/usr/lib"
-		echo $x
-		echo $x >>/opt/${base_name}/install.log
-
-		if [ -d /opt/${base_name}/usr/lib ] ; then
-			ln -sf /opt/${base_name}/usr/lib64/php /opt/${base_name}/usr/lib/php
-
-			if [ -d /opt/${base_name}/usr/lib64/php-zts ] ; then
-				ln -sf /opt/${base_name}/usr/lib64/php-zts /opt/${base_name}/usr/lib/php-zts
-			fi
-		else
-			ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib
+		if [ -d /opt/${base_name}/usr/lib64/php-zts ] ; then
+			ln -sf /opt/${base_name}/usr/lib64/php-zts /opt/${base_name}/usr/lib/php-zts
 		fi
+	else
+		ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib
 	fi
-#fi
+fi
+
+

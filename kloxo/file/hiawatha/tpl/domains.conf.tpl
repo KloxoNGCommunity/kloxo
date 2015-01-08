@@ -266,16 +266,14 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
-			//	if ($ip !== '*') {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-			//		}
-			}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
