@@ -11,7 +11,7 @@ else
 	uname_m=""
 fi
 
-x="- Disable certain modules (rename to .nonini) in '/etc/${base_name}/etc/' + 'php.d' and 'php-zts.d'"
+x="- Disable certain modules (rename to .nonini) in 'php.d' and 'php-zts.d'"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
