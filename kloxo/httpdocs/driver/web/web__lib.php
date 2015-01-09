@@ -1194,8 +1194,7 @@ class web__ extends lxDriverClass
 
 		$hroot = $sgbl->__path_httpd_root;
 
-		// MR -- disabled because processed in cleanup
-	//	$this->fixDomainSSLPath();
+		$this->fixDomainSSLPath();
 
 		$this->createConfFile();
 

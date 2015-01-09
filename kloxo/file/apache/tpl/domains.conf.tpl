@@ -32,7 +32,7 @@ if ($reverseproxy) {
 
 foreach ($certnamelist as $ip => $certname) {
 	if (file_exists("/home/kloxo/client/{$user}/ssl/{$domainname}.key")) {
-		$certnamelist[$ip] = "/home/{$user}/ssl/{$domainname}";
+		$certnamelist[$ip] = "/home/kloxo/client/{$user}/ssl/{$domainname}";
 	} else {
 		$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
 	}
