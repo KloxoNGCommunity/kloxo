@@ -1034,7 +1034,7 @@ function validate_domain_name($name, $bypass = null)
 	}
 }
 
-function validated_prefix_domain($name, $bypass = null)
+function validate_prefix_domain($name, $bypass = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
