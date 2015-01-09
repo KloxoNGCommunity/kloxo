@@ -178,7 +178,7 @@ $__keyword["ownership_confirm"] = "Do You Really want to set this ownership Recu
 
 $__throw["domain_is_already_owned"] = "Domain is already owned. Please enable: [b]I Confirm That I Am The Owner Of Domain[/b]";
 $__throw["invalid_domain_name"] = "Invalid domain name";
-$__throw["not_permit_as_subdomain"] = "Not permit webmail/mail/cp/www/default as subdomain";
+$__throw["not_permit_as_subdomain"] = "Not permit webmail/mail/lists/cp/www/default as subdomain";
 $__throw["add_without_www"] = "Add without www";
 $__throw["can_not_be_added"] = "Can not be added";
 $__throw["no_mysql_connection_while_uploading_file"] = "No MySQL connection while uploading file";
