@@ -835,9 +835,9 @@ function PrepareTelaenDb($nolog = null)
 
 	$tdahpath = "/home/kloxo/httpd/webmail/telaen";
 
-	lxfile_cp("{$tdahpath}/inc/config/telaen_config.php", "{$tdahpath}/inc/config/config.php");
-	lxfile_cp("{$tdahpath}/inc/config/telaen_config.languages.php", "{$tdahpath}/inc/config/config.languages.php");
-	lxfile_cp("{$tdahpath}/inc/config/telaen_config.security.php", "{$tdahpath}/inc/config/config.security.php");
+	lxfile_cp("{$tdahpath}/inc/config/config.php.default", "{$tdahpath}/inc/config/config.php");
+	lxfile_cp("{$tdahpath}/inc/config/config.languages.php.default", "{$tdahpath}/inc/config/config.languages.php");
+	lxfile_cp("{$tdahpath}/inc/config/config.security.php.default", "{$tdahpath}/inc/config/config.security.php");
 }
 
 function PrepareRainloopDb($nolog = null)
