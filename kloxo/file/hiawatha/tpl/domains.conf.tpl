@@ -663,7 +663,8 @@ VirtualHost {
 
 	WrapCGI = <?=$user;?>_wrapper
 
-	ScriptAlias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
+	## MR -- don't use ScriptAlias but Alias because ScriptAlias not the same as in Apache
+	Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
 <?php
 		}
 

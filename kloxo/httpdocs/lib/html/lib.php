@@ -836,7 +836,7 @@ function PrepareTelaenDb($nolog = null)
 	$tdahpath = "/home/kloxo/httpd/webmail/telaen";
 
 	lxfile_cp("{$tdahpath}/inc/config/telaen_config.php", "{$tdahpath}/inc/config/config.php");
-//	lxfile_cp("{$tdahpath}/inc/config/telaen_config.languages.php", "{$tdahpath}/inc/config/config.languages.php");
+	lxfile_cp("{$tdahpath}/inc/config/telaen_config.languages.php", "{$tdahpath}/inc/config/config.languages.php");
 	lxfile_cp("{$tdahpath}/inc/config/telaen_config.security.php", "{$tdahpath}/inc/config/config.security.php");
 }
 
@@ -5885,7 +5885,7 @@ function setInitialDnsConfig($type, $nolog = null)
 
 function setInitialAllWebConfigs($nolog = null)
 {
-	$list = array('apache', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed', 'gwan');
+	$list = array('apache', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed', 'monkey');
 
 	foreach ($list as $k => $v) {
 		setInitialWebConfig($v, $nolog);

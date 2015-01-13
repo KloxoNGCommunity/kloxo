@@ -28,7 +28,7 @@ class Service__Linux extends Lxlclass
 		$nval['nginx'] = 'nginx';
 		$nval['hiawatha'] = 'hiawatha';
 		$nval['openlitespeed'] = 'lsws';
-		$nval['gwan'] = 'gwan';
+		$nval['monkey'] = 'monkey';
 
 		$nval['varnish'] = 'varnish';
 		$nval['squid'] = 'squid';

@@ -2,7 +2,7 @@
 
 include_once("web__lib.php");
 
-class web__gwan extends web__
+class web__monkey extends web__
 {
 	function __construct()
 	{
@@ -11,11 +11,11 @@ class web__gwan extends web__
 
 	static function uninstallMe()
 	{
-		parent::uninstallMeTrue('gwan');
+		parent::uninstallMeTrue('monkey');
 	}
 
 	static function installMe()
 	{
-		parent::installMeTrue('gwan');
+		parent::installMeTrue('monkey');
 	}
 }

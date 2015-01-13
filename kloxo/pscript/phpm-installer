@@ -117,7 +117,7 @@ echo $x
 echo $x >>/opt/${base_name}/install.log
 
 for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
-	curl cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
+	curl-devel cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
 	fileutils fontconfig freetds freetype GConf2 gcc-c++ gd${v} GeoIP ghostscript ghostscript-fonts \
 	gmp gtk2 hicolor-icon-theme icui18n ilmbase ImageMagick jasper-libs krb5 lcms-libs libc-client \
 	libcroco libedit libevent libfontenc libgomp libgsf libicu libIDL libjpeg liblzf \

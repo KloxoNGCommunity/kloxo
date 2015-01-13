@@ -339,7 +339,8 @@ function kloxo_install_step1()
 
 	print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
 	// MR -- xcache, zend, ioncube, suhosin and zts not default install
-	$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl", "autoconf",
+	// install curl-devel (need by php-common) will be install curl-devel in CentOS 5 and libcurl-devel in CentOS 6
+	$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", ""curl-devel", "autoconf",
 		"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
 		"yum-plugin-replace", "crontabs", "make", "glibc-static", "net-snmp", "tmpwatch",
 		"rkhunter", "quota", "xinetd", "screen", "telnet");

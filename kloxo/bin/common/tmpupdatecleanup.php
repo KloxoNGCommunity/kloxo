@@ -80,7 +80,7 @@ function updatecleanup_main()
 /*	
 	$slist = array(
 		"kloxomr7",
-		"httpd* lighttpd* nginx* hiawatha* openlitespeed* gwan*",
+		"httpd* lighttpd* nginx* hiawatha* openlitespeed* monkey*",
 		"mod_* mysql* mariadb* MariaDB* php*",
 		"bind* djbdns* pdns* nsd* maradns* mydns yadifa*",
 		"varnish* trafficserver* squid*",

@@ -275,15 +275,15 @@ class pservercore extends Lxclient
 			$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
 		}
 
+		// MR -- pserver must set/update php.ini
+		if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
+			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
+		}
+
 		if (!db_get_value("serverweb", "pserver-" . $this->syncserver, "php_type")) {
 			if (isWebProxyOrApache()) {
 				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set_pserver";
 			}
-		}
-
-		// MR -- pserver must set/update php.ini
-		if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
-			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
 		}
 
 		parent::getAnyErrorMessage();
@@ -1257,8 +1257,9 @@ STRIN;
 				$this->no_fix_config = 'off';
 
 				$vlist['web_driver'] = array('s', array('none', 'apache', 'lighttpd', 'nginx', 
-					'hiawatha', 'openlitespeed', 'gwan',
-					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy', 'openlitespeedproxy'));
+					'hiawatha', 'openlitespeed', 'monkey',
+					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy', 'openlitespeedproxy',
+					'monkeyproxy'));
 
 				$vlist['webcache_driver'] = array('s', array('none', 'squid', 'trafficserver', 'varnish'));
 

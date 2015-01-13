@@ -2,7 +2,7 @@
 
 include_once("dirprotect__lib.php");
 
-class dirprotect__gwan extends dirprotect__
+class dirprotect__monkey extends dirprotect__
 {
 
 }
