@@ -35,6 +35,9 @@ if [ "${base_name}" == "php52s" ] ;  then
 elif [ "${base_name}" == "php53s" ] ;  then
 	yum remove php53s* -y
 	'rpm' -e php53s-fpm --noscripts
+elif [ "${base_name}" == "php54s" ] ;  then
+	yum remove php54s* -y
+	'rpm' -e php54s-fpm --noscripts
 fi
 
 mkdir -p /opt/${base_name}
@@ -47,6 +50,8 @@ echo $x >>/opt/${base_name}/install.log
 
 if yum list ${src_name}u >/dev/null 2>&1 ; then
 	pack_name="${src_name}u"
+elif yum list ${src_name}w >/dev/null 2>&1 ; then
+	pack_name="${src_name}w"
 elif yum list ${src_name} >/dev/null 2>&1 ; then
 	pack_name="${src_name}"
 else
@@ -159,7 +164,7 @@ echo $x >>/opt/${base_name}/install.log
 if [ -f /opt/${base_name}/etc ] ; then
 	#'rm' -f /opt/${base_name}/etc
 	#'rm' -f /opt/${base_name}/etc/!(_*.ini)
-	find /opt/${base_name}/etc ! -name "_*.ini" -exec rm -rf {} \;
+	find /opt/${base_name}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
 yumdownloader ${pack_name}-* >>/opt/${base_name}/install.log
@@ -194,7 +199,7 @@ echo "Note:"
 echo " - See '/opt/${base_name}/install.log' for detail install process"
 echo " - Example: copy 'xcache.nonini' to '_xcache.ini' for enable 'xcache' module"
 echo "      in '/etc/${base_name}/etc/php.d'"
-echo " - For config setup only, run 'sh /script/phpm-config-setup php53m"
+echo " - For config setup only, run 'sh /script/phpm-config-setup php54m"
 echo
 
 

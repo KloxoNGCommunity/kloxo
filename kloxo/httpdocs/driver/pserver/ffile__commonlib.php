@@ -254,9 +254,9 @@ class ffile__common
 		$fullpath = expand_real_root($fullpath);
 
 		if ($this->main->ttype === "zip") {
-			$cmd = "/usr/bin/unzip -oq $fullpath";
+			$cmd = "/usr/bin/unzip -oq '$fullpath'";
 		} else {
-			$cmd = "/bin/tar -xzf $fullpath";
+			$cmd = "/bin/tar -xzf '$fullpath'";
 		}
 
 		new_process_cmd($this->main->__username_o, $dir, $cmd);

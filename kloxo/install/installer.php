@@ -351,7 +351,14 @@ function kloxo_install_step1()
 
 	print(">>> Adding Standard PHP components and Hiawatha <<<\n");
 	// MR -- xcache, zend, ioncube, suhosin and zts not default install
-	$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
+	
+	if ((strpos($phpbranch, '52') !== false) || (strpos($phpbranch, '53') !== false)) {
+		$phpbranchmysql = "{$phpbranch}-mysql";
+	} else {
+		$phpbranchmysql = "{$phpbranch}-mysqlnd";
+	}
+
+	$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranchmysql}", "{$phpbranch}-pear",
 		"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
 		"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
 		"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
@@ -769,7 +776,8 @@ function addLineIfNotExist($filename, $pattern, $comment)
 // MR -- taken from lib.php
 function getPhpBranch()
 {
-	$a = array('php', 'php52', 'php53', 'php53u', 'php54');
+	$a = array('php', 'php52', 'php53', 'php53u', 'php54', 'php55u', 'php56u',
+		'php52w', 'php53w', 'php54w', 'php55w', 'php56w');
 
 	foreach ($a as &$e) {
 		if (isRpmInstalled($e)) {

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ "$(grep envID /proc/self/status)" == "" ] ; then
+	if [ "$(rpm -qa|grep kexec-tools)" == "" ] ; then
+		yum install kexec-tools -y
+	fi
+
+	latestkernel=$(ls -t /boot/vmlinuz-* | sed "s/\/boot\/vmlinuz-//g" | head -n1)
+	kexec -l /boot/vmlinuz-${latestkernel} --initrd=/boot/initrd-${latestkernel}.img --append="$(cat /proc/cmdline)"
+	kexec -e
+else
+	echo 'Not work in OpenVZ container'
+fi

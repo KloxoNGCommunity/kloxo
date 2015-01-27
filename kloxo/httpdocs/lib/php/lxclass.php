@@ -1374,7 +1374,7 @@ abstract class Lxclass
 					$ch->__parent_o = $this;
 					print("Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'\n");
 
-				//	log_log("backup", "Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'");
+					log_log("backup", "Setting parent of '{$ch->getClName()}' to '{$this->getClName()}'");
 
 					if ($ch->parent_clname && !$ch->isRightParent()) {
 						unset($this->{$c}[$ch->nname]);

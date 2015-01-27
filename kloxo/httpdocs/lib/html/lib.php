@@ -6172,10 +6172,13 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 			break;
 		}
 	}
+	
+	$sdir = "/home/httpd";
 
 	$userdirchmod = '751'; // need to change to 751 for nginx-proxy
 	$phpfilechmod = '644';
 	$domdirchmod = '755';
+	$statsdirchmod = '777';
 
 	exec("chown {$clname}:apache {$cdir}/");
 	log_cleanup("- chown {$clname}:apache FOR {$cdir}/", $nolog);
@@ -6223,6 +6226,10 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 
 			exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
 			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
+
+			// MR -- fix nginx permissions issue
+			exec("find {$sdir}/{$dom}/stats -type d -exec chmod {$statsdirchmod} \{\} \\;");
+			log_cleanup("- chmod {$statsdirchmod} FOR {$sdir}/{$dom}/stats AND INSIDE", $nolog);
 		}
 
 		exec("chown {$clname}:{$clname} {$cdir}/{$docroot}/");
@@ -8654,13 +8661,9 @@ function setRemoveHttpdocsSymlink($nolog)
 	exec("sh /script/remove-httpdocs-symlink");
 }
 
-/*
-
 define("ENCRYPTION_KEY", "!@#$%^&*");
 
-/**
- * Returns an encrypted & utf8-encoded
- */
+// Returns an encrypted & utf8-encoded
 function encrypt($pure_string, $encryption_key) {
 	$iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
 	$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
@@ -8668,9 +8671,7 @@ function encrypt($pure_string, $encryption_key) {
 	return $encrypted_string;
 }
 
-/**
- * Returns decrypted original string
- */
+// Returns decrypted original string
 function decrypt($encrypted_string, $encryption_key) {
 	$iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
 	$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
@@ -8678,4 +8679,3 @@ function decrypt($encrypted_string, $encryption_key) {
 	return $decrypted_string;
 }
 
-*/

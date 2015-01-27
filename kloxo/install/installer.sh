@@ -170,7 +170,7 @@ fi
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
-yum -y install php53u php53u-mysql
+yum -y install php54 php54-mysqlnd
 ## MR -- protect to lxphp.exe show missing .so. it's must /etc/php.ini exist extension_dir
 'cp' -f ${ppath}/init/php.ini /etc/php.ini
 
@@ -184,13 +184,13 @@ if [ "$1" == "--with-php52s" ] || [ "$2" == "--with-php52s" ] || [ "$3" == "--wi
 
 	mkdir -p /opt/php52s/custom
 	sh /script/phpm-installer php52s
-	sh /script/fixlxphpexe php53s
+	sh /script/fixlxphpexe php52s
 else
 	with_php52s="no"
 
-	mkdir -p /opt/php53s/custom
-	sh /script/phpm-installer php53s
-	sh /script/fixlxphpexe php53s
+	mkdir -p /opt/php54s/custom
+	sh /script/phpm-installer php54s
+	sh /script/fixlxphpexe php54s
 fi
 
 cd /
@@ -225,8 +225,8 @@ sh /script/set-fs >/dev/null 2>&1
 
 echo
 if [ "${with_php52s}" != "no" ] ; then
-	echo "... Wait until finished (switch to php53s and restart services) ..."
-	sh /script/phpm-installer php53s >/dev/null 2>&1
+	echo "... Wait until finished (switch to php54s and restart services) ..."
+	sh /script/phpm-installer php54s >/dev/null 2>&1
 else
 	echo "... Wait until finished (restart services) ..."
 fi
