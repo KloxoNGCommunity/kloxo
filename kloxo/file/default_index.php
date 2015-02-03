@@ -1,68 +1,94 @@
 <?php
+/*
+	// MR -- copy this function and caller to redirect-ssl.php
+	// or you can use .htaccess if using apache or -proxy
+	
+	// RewriteEngine On
+	// RewriteCond %{HTTPS} off
+	// RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+	function redirect_to_ssl() {
+		if(!isset($_SERVER["HTTPS"])) {
+			$host = $_SERVER["HTTP_HOST"];
+			$requesturi = $_SERVER["REQUEST_URI"];
+
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: https://{$host}{$requesturi}");
+			exit();
+		}
+	}
+
+	// MR -- enabled in custom.index.php for redirect to https
+	redirect_to_ssl();
+*/
+
 	ini_set("display_errors","1");
 
-	// use default index.php
-	if (!file_exists("./custom-index.php")) {
-?>
+	if (file_exists("./custom-index.php")) {
+		include_once "./custom-index.php";
+	} elseif (file_exists("./custom.index.php")) {
+		include_once "./custom.index.php";
+	} else {
 
-<?php
-	if (file_exists("./custom-inc.php")) {
-		// use user-define inc.php -- no override when kloxo update
-		$incfile = "./custom-inc.php";
+		if (file_exists("./custom-inc.php")) {
+			$incfile = "./custom-inc.php";
+		} elseif (file_exists("./custom.inc.php")) {
+			$incfile = "./custom.inc.php";
+		} else {
+			if (file_exists("./inc.php")) {
+				$incfile = "./inc.php";
+			}
+		}
+
 		if (file_exists("./custom-inc2.php")) {
 			$incfile2 = "./custom-inc2.php";
+		} elseif (file_exists("./custom.inc2.php")) {
+			$incfile = "./custom.inc2.php";
+		} else {
+			if (file_exists("./inc2.php")) {
+				$incfile2 = "./inc2.php";
+			}
 		}
-	}
 
-	else {
-		// use default inc.php
-		$incfile = "./inc.php";
-		if (file_exists("./inc2.php")) {
-			$incfile2 = "./inc2.php";
+		if (file_exists("./images/user-logo.png")) {
+			$logo_url = "./images/user-logo.png";
+		} else {
+			$logo_url = "./images/logo.png";
 		}
-	}
-
-	if (file_exists("./images/user-logo.png")) {
-		$logo_url = "./images/user-logo.png";
-	} else {
-		$logo_url = "./images/logo.png";
-	}
 ?>
-
 <html>
 
 <head>
 	<title>Kloxo-MR Page</title>
 	<meta http-equiv="Content-Language" content="en-us" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
 <?php
 
-if(isset($incfile2)) { include_once $incfile2 ; }
+		if(isset($incfile2)) { include_once $incfile2 ; }
 
 $bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 
 $path = "../theme/background";
 
-// MR -- trick to make random background for login
-if ((file_exists($path)) && (!file_exists("./.norandomimage"))) {
-	try {
-		$dirs = glob("{$path}/*", GLOB_MARK);
+		// MR -- trick to make random background for login
+		if ((file_exists($path)) && (!file_exists("./.norandomimage"))) {
+			try {
+				$dirs = glob("{$path}/*", GLOB_MARK);
 
-		if ($dirs) {
-			$count = count($dirs);
-			$selnum = rand(0, ($count - 1));
+				if ($dirs) {
+					$count = count($dirs);
+					$selnum = rand(0, ($count - 1));
 
-			$selimg = $dirs[$selnum];
+					$selimg = $dirs[$selnum];
 
-			$bckgrnd = "\tbackground-image: url({$selimg});\n".
-				"\tbackground-size: cover;\n".
-				"\tbackground-attachment: fixed;";
+					$bckgrnd = "\tbackground-image: url({$selimg});\n".
+						"\tbackground-size: cover;\n".
+						"\tbackground-attachment: fixed;";
+				}
+			} catch (Exception $e) {
+				$bckgrnd = $bckgrnd;
+			}
 		}
-	} catch (Exception $e) {
-		$bckgrnd = $bckgrnd;
-	}
-}
 
 ?>
 
@@ -147,11 +173,6 @@ table.content_title td {
 </body>
 
 </html>
-
 <?php
-	}
-	else {
-		// use user-define index.php -- no override when kloxo update
-		include_once "./custom-index.php";
-	}
+		}
 ?>

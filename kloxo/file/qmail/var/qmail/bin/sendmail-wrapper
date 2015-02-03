@@ -1,7 +1,23 @@
 #!/bin/sh
 
-## MR -- find out of php mail() origin
-/bin/logger -p mail.info "sendmail: CALLER=\"$(ps -ocommand= -p $PPID|tr '\n' ' '|tr -s ' '|sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')\" PWD=\"$(pwd)\""
+## MR -- listing of the document root of website to banned
+file="/var/qmail/control/badsendmailfrom"
 
-/var/qmail/bin/sendmail-qmail "$@"
+banned="no"
+
+if [ -f $file ] ; then
+	for i in $file ; do
+		if [ "${i}" == "${pwd}" ] ; then
+			banned="yes"
+		fi
+	done
+fi
+
+## MR -- find out of php mail() origin
+/bin/logger -p mail.info "sendmail: CALLER=\"$(ps -ocommand= -p $PPID|tr '\n' ' '|tr -s ' '|sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')\" PWD=\"$(pwd)\" BAN=\"${banned}\""
+
+if [ "${banned}" == "no" ] ; then
+	/var/qmail/bin/sendmail-qmail "$@"
+fi
+
 

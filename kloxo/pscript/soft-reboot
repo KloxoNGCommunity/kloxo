@@ -6,7 +6,14 @@ if [ "$(grep envID /proc/self/status)" == "" ] ; then
 	fi
 
 	latestkernel=$(ls -t /boot/vmlinuz-* | sed "s/\/boot\/vmlinuz-//g" | head -n1)
-	kexec -l /boot/vmlinuz-${latestkernel} --initrd=/boot/initrd-${latestkernel}.img --append="$(cat /proc/cmdline)"
+
+	if [ -f /boot/initrd-${latestkernel}.img ] ; then
+		imgfile="/boot/initrd-${latestkernel}.img"
+	else
+		imgfile="/boot/initramfs-${latestkernel}.img"
+	fi
+
+	kexec -l /boot/vmlinuz-${latestkernel} --initrd=${imgfile} --append="$(cat /proc/cmdline)"
 	kexec -e
 else
 	echo 'Not work in OpenVZ container'

@@ -6627,13 +6627,19 @@ function setCheckPackages($nolog = null)
 		$imap_rpm = "courier-imap-toaster";
 		$authlib_rpm = "courier-authlib-toaster";
 	}
+	
+	if ((strpos($phpbranch, '52') !== false) || (strpos($phpbranch, '53') !== false)) {
+		$phpbranchmysql = "{$phpbranch}-mysql";
+	} else {
+		$phpbranchmysql = "{$phpbranch}-mysqlnd";
+	}
 
 	$list = array("autorespond-toaster", $authlib_rpm, $imap_rpm,
 		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
 		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
-		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranch}-mysql", "{$phpbranch}-pear",
+		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranchmysql}", "{$phpbranch}-pear",
 		"{$phpbranch}-pecl-geoip", "{$phpbranch}-gd",
 		"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "{$phpbranch}-bcmath", "{$phpbranch}-pgsql",
 		"webalizer", "dos2unix", "rrdtool", "xinetd", "lxjailshell");
