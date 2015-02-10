@@ -1,5 +1,5 @@
 <?php
-	exec("echo '' > /opt/configs/bind/conf/defaults/bind.slave.conf");
+	exec("echo '' > /opt/configs/bind/conf/defaults/named.slave.conf");
 
 	foreach($domains as $k => $v) {
 		$t = explode(':', $v);

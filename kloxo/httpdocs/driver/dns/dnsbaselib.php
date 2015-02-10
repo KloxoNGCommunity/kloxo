@@ -185,9 +185,17 @@ class dns_record_a extends LxDnsClass
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		} elseif ($param['ttype'] === 'txt') {
 			// Validates hostname subdomain
-			validate_hostname_name($param['hostname']);
+			
+			$val = $param['hostname'];
+			
+			// MR -- handle hostname like _domainkey and _dmarc
+			if ((strpos($val, '_') !== false)) {
+				$val = str_replace('_', '', $val);
+			}
 
-			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
+			validate_hostname_name($val);
+				
+			$param['nname'] = "{$param['ttype']}_{$val}";
 		} else {
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		}

@@ -1,5 +1,5 @@
 <?php
-	exec("echo '' > /opt/configs/bind/conf/defaults/bind.master.conf");
+	exec("echo '' > /opt/configs/bind/conf/defaults/named.master.conf");
 
 	$d1names = $domains;
 

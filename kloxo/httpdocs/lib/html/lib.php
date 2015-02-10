@@ -8122,7 +8122,9 @@ function resetQmailAssign($nolog = null)
 	$ua .= ".";
 
 	exec("echo '{$ua}' > {$upath}/assign");
-	exec("echo '{$rh}' > {$cpath}/rcpthosts");
+	// MR -- moving list to morercpthosts
+//	exec("echo '{$rh}' > {$cpath}/rcpthosts");
+	exec("echo '' > {$cpath}/rcpthosts");
 	exec("echo '{$rh}' > {$cpath}/morercpthosts; {$bpath}/qmail-newmrh");
 	exec("echo '{$vd}' > {$cpath}/virtualdomains; {$bpath}/qmail-newu");
 }
