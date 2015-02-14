@@ -265,7 +265,7 @@ function install_others()
 {
 	print(">>> Installing OTHER services <<<\n");
 
-	$s = "pure-ftpd webalizer cronie cronie-anacron crontabs rpmdevtools yum-utils";
+	$s = "pure-ftpd webalizer cronie cronie-anacron crontabs vixie-cron rpmdevtools yum-utils";
 
 	system("yum -y install {$s}");
 }
