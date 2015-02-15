@@ -47,6 +47,10 @@ class dns__ extends lxDriverClass
 		//	setRpmInstalled("{$driver}-utils");
 			setRpmRemoved("{$driver}-chroot");
 			setRpmInstalled("{$driver}-libs");
+			
+			if (!file_exists("/var/log/named")) {
+				exec("mkdir -p /var/log/named");
+			}
 		} elseif ($driver === 'pdns') {
 			setRpmInstalled("{$driver}-backend-mysql");
 			setRpmInstalled("{$driver}-tools");

@@ -3,6 +3,10 @@
 		exec("'rm' -f /etc/rndc.conf");
 	}
 
+	if (!file_exists("/var/log/named")) {
+		exec("mkdir -p /var/log/named");
+	}
+
 	exec("sed -i 's/rndckey/rndc-key/' /etc/rndc.key");
 
 	$file = "/opt/configs/bind/conf/defaults/named.acl.conf";
