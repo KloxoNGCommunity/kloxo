@@ -162,7 +162,7 @@ fi
 #if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
 #	yum -y install mysql mysql-server mysql-libs
 #else
-	yum -y install mysql55 mysql55-server mysql55-libs
+	yum -y install mysql55 mysql55-server mysql55-libs libmysqlclient*
 #fi
 	
 # MR -- always disable mysql-aio
