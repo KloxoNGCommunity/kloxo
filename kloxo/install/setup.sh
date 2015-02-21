@@ -151,6 +151,7 @@ cd /
 
 yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
 yum remove bind* mysql* mariadb* MariaDB* php* httpd* mod_* *-toaster postfix exim libmhash -y
+rpm -e pure-ftpd --noscripts
 userdel postfix
 rpm -e vpopmail-toaster --noscripts
 
@@ -158,11 +159,23 @@ if id -u postfix >/dev/null 2>&1 ; then
 	userdel postfix
 fi
 
+if [ "$(uname -m)" == "x86_64" ] ; then
+	mariarepo="mratwork-mariadb-64"
+else
+	mariarepo="mratwork-mariadb-32"
+fi
+
 ## it's mean centos 6 or equal
 #if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
 #	yum -y install mysql mysql-server mysql-libs
 #else
-	yum -y install mysql55 mysql55-server mysql55-libs libmysqlclient*
+	#yum -y install mysql55 mysql55-server mysql55-libs
+	yum -y install MariaDB-server MariaDB-shared --enablerepo=$mariarepo
+	if ! [ -d /var/lib/mysqltmp ] ; then
+		mkdir -p /var/lib/mysqltmp
+	fi
+
+	chown mysql:mysql /var/lib/mysqltmp
 #fi
 	
 # MR -- always disable mysql-aio

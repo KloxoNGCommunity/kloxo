@@ -44,12 +44,16 @@ if rpm -qa|grep php53s >/dev/null 2>&1 ; then
 	sh /script/phpm-installer php53s
 fi
 
-if rpm -qa|grep mysql55 >/dev/null 2>&1 ; then
+if rpm -qa|grep mysql56u >/dev/null 2>&1 ; then
+	echo "Already use mysql56u. No replace"
+elif rpm -qa|grep mysql55 >/dev/null 2>&1 ; then
 	echo "Already use mysql55. No replace"
+elif rpm -qa|grep MariaDBpserver >/dev/null 2>&1 ; then
+	echo "Already use MariaDB. No replace"
 else
 	if rpm -qa|grep mysql >/dev/null 2>&1 ; then
-		echo "Replace mysql to mysql55"
-		yum replace mysql --replace-with=mysql55 -y
+		echo "Replace mysql to mysql56u"
+		yum replace mysql --replace-with=mysql56u -y
 	fi
 fi
 

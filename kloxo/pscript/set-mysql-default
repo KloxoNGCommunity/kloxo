@@ -22,6 +22,13 @@ for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
 		else
 			echo "Already exist 'default-storage-engine=myisam' in ${i}"
 		fi
+
+		if [ "$(grep 'performance_schema' ${i})" == "" ] ; then
+			sed -i -e's|\[mysqld\]|\[mysqld\]\nperformance_schema=on|g' ${i}
+			echo "Add 'performance_schema=on' to ${i}"
+		else
+			echo "Already exist 'performance_schema=on' in ${i}"
+		fi
 	fi
 done
 

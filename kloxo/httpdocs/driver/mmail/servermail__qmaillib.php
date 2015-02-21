@@ -68,7 +68,8 @@ class Servermail__Qmail  extends lxDriverClass
 			$ret = lxshell_return("rpm", "-q", "spamdyke");
 
 			if ($ret) {
-				throw new lxException($login->getThrow('spamdyke_is_not_installed'), '', 'spamdyke');
+				lxshell_return("yum", "install", "-y", "spamdyke");
+			//	throw new lxException($login->getThrow('spamdyke_is_not_installed'), '', 'spamdyke');
 			}
 
 			exec("echo '/usr/bin/rblsmtpd' > /var/qmail/control/rblsmtpd");

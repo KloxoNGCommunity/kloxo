@@ -4,6 +4,7 @@ homepath=/home
 mysqlpath=/var/lib/mysql
 stamp=$(date +"%Y-%m-%d-%H-%M")
 zipfile=kloxo-mr_raw_$stamp.tar.gz
+clistfile=kloxo-mr_raw_$stamp.txt
 
 echo
 echo "*** Kloxo-MR raw-backup - BEGIN ***"
@@ -41,11 +42,14 @@ else
 	service mysql start;
 fi
 
+clist=$(dir -l /home/kloxo/client | grep "^d"|awk '{ print $NF }')
+echo $clist > $clistfile
+
 mv -f $zipfile /home/kloxo/client/admin/__backup
 
 echo
 echo "Attention:"
-echo "- Raw backup only work for Mysql with MyISAM storage engine."
+echo "- Raw backup only work for MySQL with MyISAM storage-engine."
 echo "  Run 'sh /script/mysql-convert' for convert to MyISAM"
 echo
 echo "- Your 'kloxo' database rename to 'kloxo.bck' inside zipfile"
