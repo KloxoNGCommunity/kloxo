@@ -213,22 +213,6 @@ cd ${ppath}/install
 
 /usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup $*
 
-# Fix issue because sometimes kloxo database not created
-for (( a=1; a<=100; a++ )) ; do
-	sleep 2s
-
-	if [ $APP_TYPE == 'master' ] ; then
-		if [ ! -d /var/lib/mysql/kloxo ] ; then
-			cd ${ppath}/install
-			/usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2 $*
-		else
-			break
-		fi
-	else 
-			break
-	fi
-done
-
 ## set skin to simplicity
 sh /script/skin-set-for-all >/dev/null 2>&1
 

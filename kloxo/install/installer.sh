@@ -159,11 +159,23 @@ if id -u postfix >/dev/null 2>&1 ; then
 	userdel postfix
 fi
 
+if [ "$(uname -m)" == "x86_64" ] ; then
+	mariarepo="mratwork-mariadb-64"
+else
+	mariarepo="mratwork-mariadb-32"
+fi
+
 ## it's mean centos 6 or equal
 #if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
 #	yum -y install mysql mysql-server mysql-libs
 #else
-	yum -y install mysql55 mysql55-server mysql55-libs
+	#yum -y install mysql55 mysql55-server mysql55-libs
+	yum -y install MariaDB-server MariaDB-shared --enablerepo=$mariarepo
+	if ! [ -d /var/lib/mysqltmp ] ; then
+		mkdir -p /var/lib/mysqltmp
+	fi
+
+	chown mysql:mysql /var/lib/mysqltmp
 #fi
 	
 # MR -- always disable mysql-aio
@@ -200,22 +212,6 @@ export PATH=/usr/bin:/usr/sbin:/sbin:$PATH
 cd ${ppath}/install
 
 /usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup $*
-
-# Fix issue because sometimes kloxo database not created
-for (( a=1; a<=100; a++ )) ; do
-	sleep 2s
-
-	if [ $APP_TYPE == 'master' ] ; then
-		if [ ! -d /var/lib/mysql/kloxo ] ; then
-			cd ${ppath}/install
-			/usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup --install-step=2 $*
-		else
-			break
-		fi
-	else 
-			break
-	fi
-done
 
 ## set skin to simplicity
 sh /script/skin-set-for-all >/dev/null 2>&1

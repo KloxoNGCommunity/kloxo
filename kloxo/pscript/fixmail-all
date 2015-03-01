@@ -89,6 +89,10 @@ echo "Set '${VQCPATH}/locals' with 'localhost' only"
 echo 'localhost' > ${VQCPATH}/locals
 
 echo "--------------------------"
+echo " Fix Qmail cdb"
+qmailctl cdb
+
+echo "--------------------------"
 sh /script/fixvpop
 
 echo "--------------------------"

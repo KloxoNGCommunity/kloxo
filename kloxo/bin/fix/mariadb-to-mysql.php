@@ -20,12 +20,12 @@ if (strpos($mysqlbranch, "mysql") !== false) {
 
 	exec("yum list|grep MariaDB", $out, $ret);
 	
-	if ($ret) {
-		echo "- Repo for MariaDB exists.\n";
-		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=1' to 'enable=0'\n";
-		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
-		exit;
-	} else {
+//	if ($ret) {
+//		echo "- Repo for MariaDB exists.\n";
+//		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=1' to 'enable=0'\n";
+//		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
+//		exit;
+//	} else {
 		// MR -- don't use $mysqlbranch because for MariaDB mean MariaDB-server
 		$out2 = shell_exec("rpm -qa|grep MariaDB");
 
@@ -37,7 +37,7 @@ if (strpos($mysqlbranch, "mysql") !== false) {
 		}
 
 		echo "- Install MySQL\n";
-		system("yum install mysql55 mysql55-server -y");
+		system("yum install mysql55 mysql55-server --disablerepo=mratwork-mariadb* -y");
 
 		if (file_exists("/etc/my.cnf.d/my.cnf")) {
 			system("'cp' -f /etc/my.cnf.d/my.cnf /etc/my.cnf");
@@ -48,7 +48,7 @@ if (strpos($mysqlbranch, "mysql") !== false) {
 		echo "- Restart MySQL\n";
 		system("chkconfig mysqld on");
 		system("service mysqld restart");
-	}
+//	}
 }
 
 echo "\n";

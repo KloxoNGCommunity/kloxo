@@ -19,12 +19,12 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 } else {
 	exec("yum list|grep MariaDB", $out, $ret);
 	
-	if ($ret) {
-		echo "- No repo for MariaDB.\n";
-		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=0' to 'enable=1'\n";
-		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
-		exit;
-	} else {
+//	if ($ret) {
+//		echo "- No repo for MariaDB.\n";
+//		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=0' to 'enable=1'\n";
+//		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
+//		exit;
+//	} else {
 		system("yum clean all");
 
 		// MR -- also issue on Centos 5.9 - prevent for update!
@@ -32,7 +32,12 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 			system("yum remove mysql*.i386 -y");
 
 			system("yum remove mysql*.i686 -y");
+
+			$mariarepo = "mratwork-mariadb-64";
+		} else {
+			$mariarepo = "mratwork-mariadb-32";
 		}
+
 		
 		$out2 = shell_exec("rpm -qa|grep {$mysqlbranch}");
 
@@ -57,7 +62,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		chown("/var/lib/mysqltmp", "mysql:mysql");
 
 		echo "- Install MariaDB\n";
-		system("yum install MariaDB-server MariaDB-shared -y");
+		system("yum install MariaDB-server MariaDB-shared --enablerepo={$mariarepo} -y");
 
 		system("'cp' -f /etc/my.cnf._bck_ /etc/my.cnf.d/my.cnf");
 
@@ -66,12 +71,12 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		echo "- Restart MariaDB\n";
 		system("chkconfig mysql on");
 		system("service mysql restart");
-	}
+//	}
 }
 
 echo "\n";
-echo " - Note: remove 'skip-innodb' from '/etc/my.cnf' and '/etc/my.cnf.d/my.cnf'.\n";
-echo "   Need reboot!.\n\n";
+//echo " - Note: remove 'skip-innodb' from '/etc/my.cnf' and '/etc/my.cnf.d/my.cnf'.\n";
+//echo "   Need reboot!.\n\n";
 
 echo "*** Change MySQL to MariaDB - end ***\n";
 

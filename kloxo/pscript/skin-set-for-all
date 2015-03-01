@@ -6,6 +6,7 @@ else
 	skin="$1"
 fi
 
-for i in $(sh /script/simplelist --resource=all_client) 
-	do sh /script/update --class=sp_specialplay --name=client-${i} --subaction=skin --v-specialplay_b_s_skin_name=${skin} --v-specialplay_b_s_skin_color=default
+for i in $(sh /script/simplelist --resource=all_client) ; do
+	sh /script/update --class=sp_specialplay --name=client-${i} \
+		--subaction=skin --v-specialplay_b_s_skin_name=${skin} --v-specialplay_b_s_skin_color=default
 done

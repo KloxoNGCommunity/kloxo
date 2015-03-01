@@ -95,21 +95,23 @@ class Servermail__Qmail  extends lxDriverClass
 			$ret = lxshell_return("rpm", "-q", "simscan-toaster");
 
 			if ($ret) {
-				throw new lxException($login->getThrow('simscan_is_not_installed_for_virus_scan'), '', 'simscan-toaster');
+				lxshell_return("yum", "install", "-y", "simscan-toaster");
+			//	throw new lxException($login->getThrow('simscan_is_not_installed_for_virus_scan'), '', 'simscan-toaster');
 			}
 
-			lxfile_cp("../file/clamav.init", "/etc/init.d/clamav");
-			lxfile_unix_chmod("/etc/init.d/clamav", "755");
-			lxshell_return("chkconfig", "clamav", "on");
-			os_service_manage("clamav", "restart");
+			// MR -- clamav from epel use clamd instead clamav init
+		//	lxfile_cp("../file/clamav.init", "/etc/init.d/clamav");
+		//	lxfile_unix_chmod("/etc/init.d/clamav", "755");
+		//	lxshell_return("chkconfig", "clamav", "on");
+		//	os_service_manage("clamav", "restart");
 			os_service_manage("freshclam", "restart");
 			lxshell_return("chkconfig", "freshclam", "on");
 			lxfile_cp("../file/linux/simcontrol", "/var/qmail/control/");
 			lxshell_return("/var/qmail/bin/simscanmk");
 			lxshell_return("/var/qmail/bin/simscanmk", "-g");
 		} else {
-			lxshell_return("chkconfig", "clamav", "off");
-			os_service_manage("clamav", "stop");
+		//	lxshell_return("chkconfig", "clamav", "off");
+		//	os_service_manage("clamav", "stop");
 			os_service_manage("freshclam", "stop");
 			lxshell_return("chkconfig", "freshclam", "off");
 		}

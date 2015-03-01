@@ -48,7 +48,7 @@ if rpm -qa|grep mysql56u >/dev/null 2>&1 ; then
 	echo "Already use mysql56u. No replace"
 elif rpm -qa|grep mysql55 >/dev/null 2>&1 ; then
 	echo "Already use mysql55. No replace"
-elif rpm -qa|grep MariaDBpserver >/dev/null 2>&1 ; then
+elif rpm -qa|grep MariaDB-server >/dev/null 2>&1 ; then
 	echo "Already use MariaDB. No replace"
 else
 	if rpm -qa|grep mysql >/dev/null 2>&1 ; then

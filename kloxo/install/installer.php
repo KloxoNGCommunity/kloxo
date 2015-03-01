@@ -230,6 +230,16 @@ function install_dns()
 	print(">>> Installing DNS services <<<\n");
 
 	system("yum -y install bind bind-utils");
+
+	if (!file_exists("/var/log/named")) {
+		exec("mkdir -p /var/log/named");
+	}
+
+	if (file_exists("/etc/rndc.conf")) {
+		exec("'rm' -f /etc/rndc.conf");
+	}
+
+//	exec("sed -i 's/rndckey/rndc-key/' /etc/rndc.key");
 }
 
 function install_mail()
