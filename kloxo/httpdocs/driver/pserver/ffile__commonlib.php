@@ -255,8 +255,15 @@ class ffile__common
 
 		if ($this->main->ttype === "zip") {
 			$cmd = "/usr/bin/unzip -oq '$fullpath'";
-		} else {
+		} else if ($this->main->ttype === "tgz") {
 			$cmd = "/bin/tar -xzf '$fullpath'";
+		} else if ($this->main->ttype === "tbz2") {
+			$cmd = "/bin/tar -xjf '$fullpath'";
+		} else if ($this->main->ttype === "txz") {
+			$cmd = "/bin/tar -xJf '$fullpath'";
+		} else {
+			// MR -- as .tar
+			$cmd = "/bin/tar -xf '$fullpath'";
 		}
 
 		new_process_cmd($this->main->__username_o, $dir, $cmd);

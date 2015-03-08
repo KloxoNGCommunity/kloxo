@@ -1803,6 +1803,20 @@ function tgz_to_fileserv($dir, $fillist, $logto = null)
 	return cp_fileserv($file);
 }
 
+function tbz2_to_fileserv($dir, $fillist, $logto = null)
+{
+	$file = do_zip_to_fileserv('tbz2', array($dir, $fillist), $logto);
+
+	return cp_fileserv($file);
+}
+
+function txz_to_fileserv($dir, $fillist, $logto = null)
+{
+	$file = do_zip_to_fileserv('txz', array($dir, $fillist), $logto);
+
+	return cp_fileserv($file);
+}
+
 function get_admin_license_var()
 {
 	$list = get_license_resource();
@@ -1899,6 +1913,14 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 	} elseif ($type === 'tgz') {
 		dprint("tarring $vd: " . $vd . " \n");
 		$ret = lxshell_tgz($vd, "$sgbl->__path_serverfile/tmp/$base.tmp", $list);
+		lrename("$sgbl->__path_serverfile/tmp/$base.tmp", "$sgbl->__path_serverfile/tmp/$base");
+	} elseif ($type === 'tbz2') {
+		dprint("tarring $vd: " . $vd . " \n");
+		$ret = lxshell_tbz2($vd, "$sgbl->__path_serverfile/tmp/$base.tmp", $list);
+		lrename("$sgbl->__path_serverfile/tmp/$base.tmp", "$sgbl->__path_serverfile/tmp/$base");
+	} elseif ($type === 'txz') {
+		dprint("tarring $vd: " . $vd . " \n");
+		$ret = lxshell_txz($vd, "$sgbl->__path_serverfile/tmp/$base.tmp", $list);
 		lrename("$sgbl->__path_serverfile/tmp/$base.tmp", "$sgbl->__path_serverfile/tmp/$base");
 	} elseif ($type === 'tar') {
 		dprint("tarring $vd: " . $vd . " \n");

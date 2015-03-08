@@ -557,12 +557,22 @@ function get_file_type($file, &$stat)
 		return;
 	}
 
-	if ($ext === "tar") {
-		$stat['ttype'] = "tgz";
+	if ($ext === "tbz2" || $ext === "tar.bz2" || $ext === "bz2") {
+		$stat['ttype'] = "tbz2";
 		return;
 	}
-	$stat['ttype'] = "file";
 
+	if ($ext === "txz" || $ext === "tar.xz" || $ext === "xz") {
+		$stat['ttype'] = "txz";
+		return;
+	}
+
+	if ($ext === "tar") {
+		$stat['ttype'] = "tar";
+		return;
+	}
+
+	$stat['ttype'] = "file";
 }
 
 function lxfile_dstat($dir, $duflag)

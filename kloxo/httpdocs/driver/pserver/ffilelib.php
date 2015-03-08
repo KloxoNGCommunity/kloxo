@@ -25,6 +25,8 @@ class Ffile extends Lxclass
 	static $__desc_ttype_v_directory_copy = array("", "", "directory_(copy)");
 	static $__desc_ttype_v_zip = array("", "", "zip");
 	static $__desc_ttype_v_tgz = array("", "", "tgz");
+	static $__desc_ttype_v_tbz2 = array("", "", "tbz2");
+	static $__desc_ttype_v_txz = array("", "", "txz");
 	static $__desc_ttype_v_tar = array("", "", "tar");
 	static $__desc_ttype_v_directory_cut = array("", "", "directory_(cut)");
 	static $__desc_ttype_v_file = array("", "", "file");
@@ -1061,7 +1063,9 @@ class Ffile extends Lxclass
 
 	function is_zip()
 	{
-		if ($this->ttype === 'zip' || $this->ttype === 'tgz' || $this->ttype === 'tar') {
+		if ($this->ttype === 'zip' || $this->ttype === 'tar' 
+				|| $this->ttype === 'tgz' || $this->ttype === 'tbz2'
+				|| $this->ttype === 'txz') {
 			return true;
 		}
 

@@ -21,6 +21,10 @@ function lxshell_getzipcontent($path)
 		return lxshell_output("unzip", "-l", $path);
 	} else if ($type === 'tgz') {
 		return lxshell_output("tar", "-tzf", $path);
+	} else if ($type === 'tbz2') {
+		return lxshell_output("tar", "-tjf", $path);
+	} else if ($type === 'txz') {
+		return lxshell_output("tar", "-tJf", $path);
 	} else if ($type === 'tar') {
 		return lxshell_output("tar", "-tf", $path);
 	}
@@ -221,6 +225,20 @@ function lxshell_tgz($dir, $zipname, $filelist)
 	return $ret;
 }
 
+function lxshell_tbz2($dir, $zipname, $filelist)
+{
+	$ret = lxshell_zip_core("tbz2", $dir, $zipname, $filelist);
+
+	return $ret;
+}
+
+function lxshell_txz($dir, $zipname, $filelist)
+{
+	$ret = lxshell_zip_core("txz", $dir, $zipname, $filelist);
+
+	return $ret;
+}
+
 function lxshell_tar($dir, $zipname, $filelist)
 {
 	$ret = lxshell_zip_core("tar", $dir, $zipname, $filelist);
@@ -310,6 +328,10 @@ function lxshell_unzip($username, $dir, $file, $filelist = null)
 
 	if ($ztype === 'tgz') {
 		$command = "tar -xzf";
+	} else if ($ztype === 'tbz2') {
+		$command = "tar -xjf";
+	} else if ($ztype === 'txz') {
+		$command = "tar -xJf";
 	} else if ($ztype === 'tar') {
 		$command = "tar -xf";
 	} else {
@@ -347,6 +369,10 @@ function lxshell_unzip_numeric($dir, $file, $filelist = null)
 
 	if ($ztype === 'tgz') {
 		$command = "tar --numeric-owner -xzf";
+	} else if ($ztype === 'tbz2') {
+		$command = "tar --numeric-owner -xjf";
+	} else if ($ztype === 'txz') {
+		$command = "tar --numeric-owner -xJf";
 	} else if ($ztype === 'tar') {
 		$command = "tar --numeric-owner -xf";
 	} else {
@@ -364,6 +390,10 @@ function os_getZipType($file)
 
 	if (csa($out, "gzip")) {
 		return "tgz";
+	} else if (csa($out, "bzip2")) {
+		return "tbz2";
+	} else if (csa($out, "xz")) {
+		return "txz";
 	} else if (csa($out, "tar")) {
 		return "tar";
 	} else {

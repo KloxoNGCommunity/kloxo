@@ -25,7 +25,7 @@ fi
 request1=$1
 SELECT=${request1#--select\=}
 
-if [ ! "$SELECT" == 'check' ] && "$SELECT" == 'repair' ] && [ ! "$SELECT" == 'optimize' ] ; then
+if [ ! "$SELECT" == 'check' ] && [ ! "$SELECT" == 'repair' ] && [ ! "$SELECT" == 'optimize' ] ; then
 	echo "Wrong --select= entry..."
 	exit;
 fi

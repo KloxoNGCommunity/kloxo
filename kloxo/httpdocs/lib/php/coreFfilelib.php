@@ -135,7 +135,9 @@ class coreFfile
 
 	static function getContent($__username_o, $root, $path, $stat, $numlines)
 	{
-		if ($stat['ttype'] === "zip" || $stat['ttype'] === 'tgz' || $stat['ttype'] === 'tar') {
+		if ($stat['ttype'] === "zip" || $stat['ttype'] === 'tar'
+				|| $stat['ttype'] === 'tgz' || $stat['ttype'] === 'tbz2'
+				|| $stat['ttype'] === 'txz') {
 			$res = lxshell_getzipcontent($path);
 		//	$res = str_replace(" ", "&nbsp;  ", $res);
 			$list = explode("\n", $res);
