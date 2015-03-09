@@ -100,11 +100,14 @@ class Dns extends DnsBase
 
 		$p = $this->getClientParentO();
 
+	/*
+		// MR -- move to hostmaster param
 		if ($p->contactemail) {
 			$this->__var_email = str_replace("@", ".", $p->contactemail);
 		} else {
 			$this->__var_email = "admin.{$this->nname}";
 		}
+	*/
 	}
 
 	static function switchProgramPre($old, $new)

@@ -81,3 +81,13 @@ CREATE TABLE IF NOT EXISTS `dnsslave` (
 
 ALTER TABLE `client` CHANGE COLUMN `priv_q_frontpage_flag` `priv_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `client` CHANGE COLUMN `used_q_frontpage_flag` `used_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
+
+ALTER TABLE `dns` ADD `hostmaster` VARCHAR(255) AFTER `soanameserver`;
+
+ALTER TABLE `mmail` ADD `spf_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `text_spf_ip`;
+ALTER TABLE `mmail` ADD `enable_dmarc_flag` VARCHAR(255) NULL DEFAULT NULL AFTER `spf_protocol`;
+ALTER TABLE `mmail` ADD `percentage_filtering` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_dmarc_flag`;
+ALTER TABLE `mmail` ADD `receiver_policy` VARCHAR(255) NULL DEFAULT NULL AFTER `percentage_filtering`;
+ALTER TABLE `mmail` ADD `mail_feedback` VARCHAR(255) NULL DEFAULT NULL AFTER `receiver_policy`;
+ALTER TABLE `mmail` ADD `dmarc_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `mail_feedback`;
+

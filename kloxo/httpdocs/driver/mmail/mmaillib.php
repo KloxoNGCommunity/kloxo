@@ -19,16 +19,25 @@ class Mmail extends Lxdb
 	static $__desc_mx_record = array("e", "", "mx_record");
 	static $__desc_status_v_on = array("", "", "enabled");
 	static $__desc_webmailprog = array("", "", "webmail_application");
-	static $__desc_exclude_all = array("", "", "exclude_all_others");
+
 	static $__desc_domainkey_f = array("", "", "domainkeys");
 	static $__desc_status_v_off = array("", "", "disabled");
 	static $__desc_mailinglist_num = array("q", "", "number_of_mailing_lists");
 	static $__desc_logo_manage_flag = array("q", "", "can_change_logo");
 	static $__desc_remotelocalflag = array("", "", "mail_hosted_remotely");
 	static $__desc_webmail_url = array("", "", "webmail_url");
+
 	static $__desc_enable_spf_flag = array("f", "", "enable_SPF");
-	static $__desc_text_spf_domain = array("t", "", "additional_domain_(one_per_line)");
-	static $__desc_text_spf_ip = array("t", "", "additional_IP(one_per_line)");
+	static $__desc_spf_protocol = array("", "", "protocol_version_SPF");
+	static $__desc_text_spf_domain = array("t", "", "additional_domain_SPF_(one_per_line)");
+	static $__desc_text_spf_ip = array("t", "", "additional_ip_SPF_(one_per_line)");
+	static $__desc_exclude_all = array("", "", "exclude_all_others");
+
+	static $__desc_enable_dmarc_flag = array("f", "", "enable_DMARC");
+	static $__desc_dmarc_protocol = array("", "", "protocol_version_DMARC");
+	static $__desc_percentage_filtering = array("", "", "percentage_to_filtering_DMARC");
+	static $__desc_receiver_policy = array("", "", "receiver_policy_DMARC");
+	static $__desc_mail_feedback = array("", "", "mail_feedback_DMARC");
 
 	// Objects
 	static $__desc_spam_o = array("db", "", "");
@@ -237,7 +246,13 @@ class Mmail extends Lxdb
 	{
 		$dns = $this->getParentO()->getObject('dns');
 	//	$rec = $dns->dns_record_a;
-		$this->__t_var_f = $param['enable_spf_flag'];
+
+		// MR -- must be unset to make no double spf 'txt record'
+		$nn = "txt__base";
+		unset($dns->dns_record_a[$nn]);
+
+
+		$this->__t_spf_f = $param['enable_spf_flag'];
 
 		if ($param['exclude_all'] == 'soft') {
 			$all = "~all";
@@ -266,13 +281,34 @@ class Mmail extends Lxdb
 			}
 		}
 
-		$nn = "txt__base";
+		$nn = "txt__spf";
 
-		if ($this->isOn('__t_var_f')) {
+		$spfproto = trim($param['spf_protocol']);
+
+		if ($this->isOn('__t_spf_f')) {
 			$nrc = new dns_record_a(null, null, $nn);
 			$nrc->ttype = "txt";
 			$nrc->hostname = "__base__";
-			$nrc->param = "v=spf1 a mx $an $all";
+			$nrc->param = "v={$spfproto} a mx {$an} {$all}";
+			$dns->dns_record_a[$nn] = $nrc;
+		} else {
+			unset($dns->dns_record_a[$nn]);
+		}
+
+		$this->__t_dmarc_f = $param['enable_dmarc_flag'];
+
+		$nn = "txt__dmarc";
+
+		$dmarcproto = trim($param['dmarc_protocol']);
+		$dmarcpct = trim($param['percentage_filtering']);
+		$dmarcp = trim($param['receiver_policy']);
+		$dmarcrua = trim($param['mail_feedback']);
+
+		if ($this->isOn('__t_dmarc_f')) {
+			$nrc = new dns_record_a(null, null, $nn);
+			$nrc->ttype = "txt";
+			$nrc->hostname = "__base__";
+			$nrc->param = "v={$dmarcproto}; p={$dmarcp}; pct={$dmarcpct}; rua=mailto:{$dmarcrua}";
 			$dns->dns_record_a[$nn] = $nrc;
 		} else {
 			unset($dns->dns_record_a[$nn]);
@@ -315,10 +351,21 @@ class Mmail extends Lxdb
 				$domkey .= " (Server Wide Value)";
 				$vlist['domainkey_f'] = array('M', $domkey);
 				$vlist['enable_spf_flag'] = null;
+				$this->setDefaultValue('spf_protocol', 'spf1');
+				$vlist['spf_protocol'] = null;
 				$vlist['text_spf_domain'] = null;
 				$vlist['text_spf_ip'] = null;
 				$this->setDefaultValue('exclude_all', 'soft');
 				$vlist['exclude_all'] = array('s', array('soft', 'hard'));
+				$vlist['enable_dmarc_flag'] = null;
+				$this->setDefaultValue('dmarc_protocol', 'DMARC1');
+				$vlist['dmarc_protocol'] = null;
+				$this->setDefaultValue('percentage_filtering', '50');
+				$vlist['percentage_filtering'] = null;
+				$this->setDefaultValue('receiver_policy', 'quarantine');
+				$vlist['receiver_policy'] = array('s', array('none', 'quarantine', 'reject'));
+				$this->setDefaultValue('mail_feedback', "postmaster@{$this->nname}");
+				$vlist['mail_feedback'] = null;
 				$vlist['__v_updateall_button'] = array();
 
 				return $vlist;

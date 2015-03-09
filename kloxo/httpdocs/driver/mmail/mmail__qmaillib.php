@@ -305,14 +305,16 @@ class Mmail__Qmail extends lxDriverClass
 		$qfile = "/var/qmail/control/rcpthosts";
 		$string = "{$this->main->nname}";
 		$liststring = "lists.{$this->main->nname}";
-		$this->filterRemoteList($qfile, $string, $liststring);
+		// MR -- moving list to morercpthosts
+	//	$this->filterRemoteList($qfile, $string, $liststring);
+		$this->filterRemoteList($qfile, '', '');
 
 		$qfile = "/var/qmail/control/morercpthosts";
 
-		if (lxfile_exists($qfile) && $this->main->remotelocalflag === 'remote') {
+	//	if (lxfile_exists($qfile) && $this->main->remotelocalflag === 'remote') {
 			$this->filterRemoteList($qfile, $string, $liststring);
 			lxshell_return("/var/qmail/bin/qmail-newmrh");
-		}
+	//	}
 
 		createRestartFile('qmail');
 	}

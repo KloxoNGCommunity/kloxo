@@ -110,7 +110,8 @@ class dns__ extends lxDriverClass
 		$input['ttl'] = $this->main->ttl;
 		$input['nameduser'] = $sgbl->__var_programuser_dns;
 		$input['soanameserver'] = $this->main->soanameserver;
-		$input['email'] = $this->main->__var_email;
+	//	$input['email'] = $this->main->__var_email;
+		$input['email'] = $this->main->hostmaster;
 		$input['serial'] = $this->main->__var_ddate;
 		$input['dns_records'] = $this->main->dns_record_a;
 

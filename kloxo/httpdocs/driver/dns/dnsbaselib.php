@@ -265,6 +265,7 @@ abstract class Dnsbase extends Lxdb
 	static $__desc_newdnstemplate_f = array("n", "", "new_dns_template");
 	static $__desc_secnameserver_f = array("", "", "secondary_DNS");
 	static $__desc_soanameserver = array("", "", "SOA_nameserver");
+	static $__desc_hostmaster = array("", "", "hostmaster_email");
 	static $__acdesc_update_parameter = array("", "", "general_settings");
 	static $__acdesc_update_switchdnsserver = array("", "", "switch_server");
 	static $__acdesc_update_rebuild = array("", "", "rebuild");
@@ -529,8 +530,11 @@ abstract class Dnsbase extends Lxdb
 						$nslist[] = $d->param;
 					}
 				}
+
 				$vlist['ttl'] = null;
 				$vlist['soanameserver'] = array('s', $nslist);
+				$this->setDefaultValue('hostmaster', "admin@{$this->nname}");
+				$vlist['hostmaster'] = null;
 				return $vlist;
 
 			case "switchdnsserver":

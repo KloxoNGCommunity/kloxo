@@ -59,6 +59,7 @@ $__description["primary_DNS"] = array("Primary DNS");
 $__description["new_dns_template"] = array("Select DNS Template");
 $__description["secondary_DNS"] = array("Secondary DNS");
 $__description["SOA_nameserver"] = array("SOA Nameserver");
+$__description["hostmaster_email"] = array("Hostmaster Email");
 $__description["general_settings"] = array("General Settings");
 $__description["rebuild"] = array("Rebuild");
 $__description["DNS"] = array("DNS");
@@ -1082,14 +1083,23 @@ $__description["MX_record"] = array("MX Record");
 $__description["number_of_mail_account"] = array("Number Of Mail Account");
 $__description["Redirect_to_Mail_Domain"] = array("Redirect To Mail Domain");
 $__description["webmail_application"] = array("Webmail Application");
-$__description["exclude_all_others"] = array("Exclude All Others");
 $__description["domainkeys"] = array("Domainkeys");
 $__description["number_of_mailing_lists"] = array("Number Of Mailing Lists");
 $__description["mail_hosted_remotely"] = array("Mail Hosted Remotely");
 $__description["webmail_url"] = array("Webmail URL");
+
 $__description["enable_SPF"] = array("Enable SPF");
-$__description["additional_domain_(one_per_line)"] = array("Additional Domain (one Per Line)");
-$__description["additional_IP(one_per_line)"] = array("Additional IP(one Per Line)");
+$__description["protocol_version_SPF"] = array("Protocol version for SPF");
+$__description["additional_domain_SPF_(one_per_line)"] = array("Additional Domain for SPF (one per Line)");
+$__description["additional_ip_SPF_(one_per_line)"] = array("Additional IP for SPF (one per Line)");
+$__description["exclude_all_others_SPF"] = array("Exclude All Others for SPF");
+
+$__description["enable_DMARC"] = array("Enable DMARC");
+$__description["protocol_version_DMARC"] = array("Protocol version for DMARC");
+$__description["percentage_to_filtering_DMARC"] = array("Percentage Messages Filtering for DMARC");
+$__description["receiver_policy_DMARC"] = array("Receiver Policy for DMARC");
+$__description["mail_feedback_DMARC"] = array("Mail Feedback for DMARC");
+
 $__description["spam_config"] = array("Spam Configure");
 $__description["remote_mail"] = array("Remote Mail");
 $__description["mail_traffic"] = array("Mail Traffic");
