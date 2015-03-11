@@ -278,7 +278,8 @@ class Mysqldb__mysql extends lxDriverClass
 	//	$docf = "$vd/mysql-{$this->main->dbname}.dump";
 		$docf = "$vd/mysql-{$dbname}.dump";
 
-		$ret = lxshell_unzip_with_throw($vd, $docd);
+	//	$ret = lxshell_unzip_with_throw($vd, $docd);
+		$ret = lxshell_unzip('__system__', $vd, $docd);
 
 		if (!lxfile_exists($docf)) {
 		//	throw new lxException($login->getThrow('could_not_find_matching_dumpfile_for_db'), '', $docf);

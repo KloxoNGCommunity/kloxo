@@ -797,7 +797,8 @@ class Web extends Lxdb
 		$fullpath = "$sgbl->__path_customer_root/{$this->customer_name}/$name/";
 		lxfile_mkdir($fullpath);
 
-		lxshell_unzip_with_throw($fullpath, $docd);
+	//	lxshell_unzip_with_throw($fullpath, $docd);
+		lxshell_unzip('__system__', $fullpath, $docd);
 	}
 
 	function makeDnsChanges($newserver)

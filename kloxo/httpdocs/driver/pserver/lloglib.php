@@ -60,7 +60,9 @@ class Llog extends Lxclass {
 
 			'secure' => 'Secure',
 
+			'clamav/clamd.log' => 'Clamd',
 			'clamav/freshclam.log' => 'Freshclam',
+
 			'maillog' => 'Mail log',
 
 			'httpd/access_log' => 'HTTP Access',
@@ -78,6 +80,13 @@ class Llog extends Lxclass {
 			'hiawatha/error.log' => 'Hiawatha Error',
 			'hiawatha/exploit.log' => 'Hiawatha Exploit',
 
+			'named/' => 'Named',
+			'djbdns.log' => 'DJBDns',
+			'nsd.log' => 'NSD',
+			'pdns.log' => 'PowerDNS',
+			'yadifa/' => 'Yadifa',
+
+			'php-error.log' => 'PHP Error',
 			'php-fpm/error.log' => 'PHP-FPM Error',
 			'php-fpm/slow.log' => 'PHP-FPM Slow',
 
@@ -87,7 +96,7 @@ class Llog extends Lxclass {
 
 			'rkhunter/rkhunter.log' => 'RKHunter',
 
-			'yum.log' => 'Yum log');
+			'yum.log' => 'Yum');
 
 		return $sclist;
 	}

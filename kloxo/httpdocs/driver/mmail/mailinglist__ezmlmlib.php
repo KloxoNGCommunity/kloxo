@@ -291,7 +291,8 @@ HEAD;
 		$vd = createTempDir("/tmp", "ezmlmdump");
 
 		$docf = "$vd/ezmlm-{$this->main->nname}.dump";
-		lxuser_unzip_with_throw($sysuser, $vd, $docd);
+	//	lxuser_unzip_with_throw($sysuser, $vd, $docd);
+		lxshell_unzip($sysuser, $vd, $docd);
 
 		$cont = unserialize(lfile_get_contents($docf));
 		lunlink($docf);

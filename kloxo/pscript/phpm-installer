@@ -130,7 +130,7 @@ for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-li
 	libwmf-lite libxml2 libxslt libtidy libvpx libXpm libXcomposite libXcursor libXdamage libXext \
 	libXfixes libXfont libXft libXi libXinerama libXrandr libXrender libXt lm_sensors lm_sensors-libs \
 	mhash ncurses net-snmp OpenEXR-libs openldap openssl ORBit2 pam pango perl polkit \
-	postgresql pspell recode redhat-lsb sgml-common sqlite t1lib unixODBC urw-fonts \
+	postgresql pspell recode redhat-lsb sgml-common sqlite t1lib unixODBC urw-fonts libgearman \
 	xorg-x11-font-utils zlib redis ; do
 
 	x="--- Check for ${i} installed or not"

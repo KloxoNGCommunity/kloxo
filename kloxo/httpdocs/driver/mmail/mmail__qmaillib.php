@@ -77,7 +77,8 @@ class Mmail__Qmail extends lxDriverClass
 		$mailpath = self::getDir($this->main->nname);
 		$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
 
-		lxshell_unzip_with_throw($mailpath, $docd);
+	//	lxshell_unzip_with_throw($mailpath, $docd);
+		lxshell_unzip('__system__', $mailpath, $docd);
 
 		lxfile_unix_chown_rec($mailpath, mmail__qmail::getUserGroup($this->main->nname));
 

@@ -221,7 +221,6 @@ function lxuser_unzip_with_throw($username, $dir, $file, $list = null)
 		// MR -- more informative error message
 		exec_with_all_closed("sh /script/load-wrapper >/dev/null 2>&1 &");
 		throw new lxException($login->getThrow("could_not_unzip_file"), '', "dir: {$dir}; file: {$file}");
-
 	}
 }
 

@@ -24,15 +24,8 @@ if ! [ -d $mysqlpath/kloxo.bck ] ; then
 	cp -rf $mysqlpath/kloxo $mysqlpath/kloxobck
 fi
 
-tar -czf "$zipfile" "$homepath" "$mysqlpath" \
-	--exclude "$homepath/vpopmail/*" \
-	--exclude "$homepath/lxadmin/bin/*" \
-	--exclude "$homepath/kloxo/httpd/*" \
-	--exclude "$homepath/kloxo/domain/*" \
-	--exclude "$homepath/kloxo/lxguard/*" \
-	--exclude "$homepath/kloxo/client/*/__backup/*" \
-	--exclude "$homepath/lxlabs/*" \
-	--exclude "$homepath/nouser/*" \
+## mysql data; create zip
+tar -czf "$zipfile" "$mysqlpath" \
 	--exclude "$mysqlpath/mysql/*" \
 	--exclude "$mysqlpath/kloxo/*"
 
@@ -41,6 +34,19 @@ if [ -f /etc/rc.d/init.d/mysqld ] ; then
 else
 	service mysql start;
 fi
+
+## home dir; append zip
+tar -uzf "$zipfile" "$homepath" \
+	--exclude "$homepath/vpopmail/*" \
+	--exclude "$homepath/lxadmin/bin/*" \
+	--exclude "$homepath/kloxo/httpd/*" \
+	--exclude "$homepath/kloxo/domain/*" \
+	--exclude "$homepath/kloxo/lxguard/*" \
+	--exclude "$homepath/kloxo/client/*/__backup/*" \
+	--exclude "$homepath/lxlabs/*" \
+	--exclude "$homepath/nouser/*" \
+	--exclude "$homepath/backuper/*"
+
 
 clist=$(dir -l /home/kloxo/client | grep "^d"|awk '{ print $NF }')
 echo $clist > $clistfile
