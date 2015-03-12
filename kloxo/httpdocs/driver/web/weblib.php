@@ -688,8 +688,8 @@ class Web extends Lxdb
 	//	recursively_remove("{$sgbl->__path_kloxo_httpd_root}/awstats/dirdata/{$this->nname}");
 	//	lxshell_return("rm", "-rf", "/home/httpd/{$this->nname}");
 	//	lxshell_return("rm", "-rf", "/home/kloxo/httpd/awstats/dirdata/{$this->nname}");
-		exec("'rm' -rf /home/httpd/{$this->nname}");
-		exec("'rm' -rf /home/kloxo/httpd/awstats/dirdata/{$this->nname}");
+		exec("'rm' -rf {$sgbl->__path_httpd_root}/{$this->nname}");
+		exec("'rm' -rf {$sgbl->__path_kloxo_httpd_root}/awstats/dirdata/{$this->nname}");
 
 		lxfile_rm("{$sgbl->__path_real_etc_root}/awstats/awstats.{$this->nname}.conf");
 	//	lxfile_rm_rec("/var/lib/webalizer/{$this->nname}");
@@ -842,6 +842,8 @@ class Web extends Lxdb
 
 		$v_dir = "{$web_home}/{$this->nname}/conf";
 
+		$user_home = $this->getFullDocRoot();
+
 		$log_path = "{$web_home}/{$this->nname}/stats";
 		$cgi_path = "{$this->getFullDocRoot()}/cgi-bin/";
 		$log_path1 = "{$log_path}/";
@@ -850,7 +852,6 @@ class Web extends Lxdb
 		$err_log = "{$log_path1}/{$this->nname}-error_log";
 		$awstat_conf = "{$sgbl->__path_real_etc_root}/awstats/";
 		$awstat_dirdata = "{$sgbl->__path_kloxo_httpd_root}/awstats/";
-		$user_home = $this->getFullDocRoot();
 
 		if (!lxfile_exists("{$this->getCustomerRoot()}/public_html")) {
 			lxfile_symlink($this->getFullDocRoot(), "{$this->getCustomerRoot()}/public_html");
@@ -864,18 +865,15 @@ class Web extends Lxdb
 
 		lfile_put_contents("{$web_home}/{$domname}/webstats/index.html", $wsstring);
 
-		lxfile_mkdir($cgi_path);
-
 		lxfile_mkdir($user_home);
+		lxfile_mkdir($cgi_path);
 
 		// Sort of hack.. Changes the domain.com/domain.com to domain.com/httpdocs.
 		// Which is easier to remember. Slowly we need to change all the code from dom/dom to dom/httpdocs..
 		// but for now, just create a symlink.
 
+		lxfile_generic_chown("{$web_home}/{$this->nname}", "{$this->username}:apache");
 		lxfile_generic_chmod("{$web_home}/{$this->nname}", "0755");
-		lxfile_mkdir("{$user_home}/");
-
-		lxfile_generic_chmod($user_home, "0755");
 
 		lxfile_mkdir($v_dir);
 		lxfile_mkdir($log_path);
@@ -888,12 +886,12 @@ class Web extends Lxdb
 			lxfile_generic_chown_rec($user_home, "{$this->username}:{$this->username}");
 		}
 
+	//	lxfile_generic_chown("{$sgbl->__path_customer_root}/{$this->customer_name}", "{$this->username}:apache");
+	//	lxfile_generic_chmod("{$sgbl->__path_customer_root}/{$this->customer_name}", "751"); // change 750 to 751 because nginx-proxy
 		lxfile_generic_chown($user_home, "{$this->username}:apache");
-		lxfile_generic_chown("{$sgbl->__path_customer_root}/{$this->customer_name}", "{$this->username}:apache");
-		lxfile_generic_chmod("{$sgbl->__path_customer_root}/{$this->customer_name}", "751"); // change 750 to 751 because nginx-proxy
+		lxfile_generic_chmod($user_home, "751");
 		lxfile_generic_chown($log_path1, "apache:apache");
 		lxfile_generic_chmod($log_path1, "771"); // change 770 to 771 because nginx-proxy
-		lxfile_generic_chown("{$web_home}/{$this->nname}", "{$this->username}:apache");
 
 	/*
 		// MR -- why make symlink for website docroot?

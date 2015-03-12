@@ -77,7 +77,7 @@ function os_fix_fstab()
 	}
 }
 
-function os_set_quota($username, $disk)
+function os_set_quota($username, $disk, $inode = null)
 {
 	if (!$username) {
 		return;
@@ -85,6 +85,10 @@ function os_set_quota($username, $disk)
 
 	if (!$disk) {
 		$disk = 0;
+	}
+
+	if (!$inode) {
+		$inode = 0;
 	}
 
 	// Issue #680 - Too high inode count in Kloxo quota - set 0 that unlimited
@@ -100,7 +104,11 @@ function os_set_quota($username, $disk)
 		// where blocksize = 4KB -> inode = 25.000
 		// So, make set $totalblock = $inode * 10
 
-		$totalinode = (int) (($disk / 100) + 1);
+		if ($inode === 0) {
+			$totalinode = (int) (($disk / 100) + 1);
+		} else {
+			$totalinode = (int) $inode;
+		}
 
 		$perblock = getFSBlockSizeInKb();
 		$totalblock = $disk / $perblock;
@@ -332,7 +340,7 @@ function os_restart_program()
 	
 	$pgm = $sgbl->__var_program_name;
 	// We just need to kill the main server, and leave the wrapper alone.
-	exec_with_all_closed("/etc/init.d/$pgm restart --force");
+	exec_with_all_closed("sh /script/restart --force");
 }
 
 function os_get_network_gateway()

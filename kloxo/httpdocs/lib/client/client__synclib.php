@@ -247,7 +247,7 @@ class client__sync extends lxDriverClass {
 		lxuser_mkdir($this->main->username, $fullpath);
 		lxfile_generic_chown($docd, $this->main->username);
 	//	lxuser_unzip_with_throw($this->main->username, $fullpath, $docd);
-		lxshell_unzip($this->main->username, $fullpath, $docd);
+		lxshell_unzip('__system__', $fullpath, $docd);
 		lxfile_generic_chown($fullpath, "{$this->main->username}:apache");
 		lxfile_generic_chmod($fullpath, "0751");
 	}

@@ -70,9 +70,11 @@ class Mailaccount extends Lxclient
 	static $__desc_maildisk_usage_per_f = array("p", "", "mail_disk_usage");
 
 	static $__desc_spam_o = array("db", "", "");
-	static $__desc_mmail_o = array("db", "", "");
-	static $__desc_web_o = array("db", "", "");
-	static $__desc_addondomain_l = array("db", "", "");
+
+	// MR -- danger if declate other _o in here - make mail account as website domain!.
+//	static $__desc_mmail_o = array("db", "", "");
+//	static $__desc_web_o = array("db", "", "");
+//	static $__desc_addondomain_l = array("db", "", "");
 
 	static $__acdesc_update_webmail = array("", "", "webmail");
 	static $__acdesc_update_autores = array("", "", "set_auto_responder");

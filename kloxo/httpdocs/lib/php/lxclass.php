@@ -5732,6 +5732,7 @@ abstract class Lxclass
 			$ob->was();
 
 			foreach ($sgbl->__var_objectrestorelist as $d) {
+
 				try {
 					print("Taking restore of '{$d->get__table()}:{$d->nname}'\n");
 					log_log("restore", "Taking restore of '{$d->get__table()}:{$d->nname}'");
@@ -5785,6 +5786,9 @@ abstract class Lxclass
 
 		try {
 			foreach ((array)$gbl->__var_objectbackuplist as $d) {
+				// MR -- bypass to make xxx@yyy.zzz.tgz file
+				if (strpos($d->nname, '@') !== false) { continue; }
+
 				if (($d->get__table() === 'client') && ($d->nname === 'backuper')) { continue; }
 
 				print("Taking backup of '{$d->get__table()}:{$d->nname}'\n");
