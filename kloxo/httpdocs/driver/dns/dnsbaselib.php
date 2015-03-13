@@ -338,7 +338,7 @@ abstract class Dnsbase extends Lxdb
 
 	function addDomainKey($key)
 	{
-		$this->addRec("txt", "_domainkey", "t=y; o=-; r=postmaster@{$this->nname}");
+		$this->addRec("txt", "_domainkey", "t=y; o=-; r=admin@{$this->nname}");
 	//	$this->addRec("txt", "private._domainkey", "k=rsa; p=$key");
 		$this->addRec("txt", "private._domainkey", "v=DKIM1; g=*; k=rsa; p=$key");
 	}

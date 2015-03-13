@@ -91,3 +91,6 @@ ALTER TABLE `mmail` ADD `receiver_policy` VARCHAR(255) NULL DEFAULT NULL AFTER `
 ALTER TABLE `mmail` ADD `mail_feedback` VARCHAR(255) NULL DEFAULT NULL AFTER `receiver_policy`;
 ALTER TABLE `mmail` ADD `dmarc_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `mail_feedback`;
 
+ALTER TABLE `client` ADD `priv_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `used_q_totaldisk_usage`;
+ALTER TABLE `client` ADD `used_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `priv_q_totalinode_usage`;
+
