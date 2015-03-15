@@ -364,7 +364,7 @@ class Mmail extends Lxdb
 				$vlist['percentage_filtering'] = null;
 				$this->setDefaultValue('receiver_policy', 'quarantine');
 				$vlist['receiver_policy'] = array('s', array('none', 'quarantine', 'reject'));
-				$this->setDefaultValue('mail_feedback', "postmaster@{$this->nname}");
+				$this->setDefaultValue('mail_feedback', "admin@{$this->nname}");
 				$vlist['mail_feedback'] = null;
 				$vlist['__v_updateall_button'] = array();
 

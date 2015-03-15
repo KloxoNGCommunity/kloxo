@@ -6659,7 +6659,7 @@ function setCheckPackages($nolog = null)
 	$list = array("autorespond-toaster", $authlib_rpm, $imap_rpm,
 		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
-		"ripmime-toaster", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
+		"ripmime", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
 		"spamdyke", "spamdyke-utils", "pure-ftpd",
 		"{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranchmysql}", "{$phpbranch}-pear",
 		"{$phpbranch}-pecl-geoip", "{$phpbranch}-gd",
@@ -7808,6 +7808,10 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 	} elseif ($aliasdriver === 'nsd') {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
+		if (!file_exists($pathtarget)) {
+			exec("mkdir -p {$pathtarget}");
+		}
+
 		if (file_exists("/usr/sbin/nsd-control")) {
 			$s = "{$aliasdriver}4.conf";
 			$t = getLinkCustomfile($pathdrv . "/etc/conf", $s);
@@ -7822,7 +7826,9 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 	} else {
 		$pathtarget = "{$pathetc}/{$aliasdriver}";
 
-		exec("mkdir -p {$pathtarget}");
+		if (!file_exists($pathtarget)) {
+			exec("mkdir -p {$pathtarget}");
+		}
 
 		$s = "{$aliasdriver}.conf";
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", $s);

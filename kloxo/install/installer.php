@@ -262,7 +262,7 @@ function install_mail()
 
 	$s = "autorespond-toaster courier-authlib-toaster courier-imap-toaster " .
 		"daemontools-toaster ezmlm-toaster libdomainkeys-toaster libsrs2-toaster " .
-		"maildrop-toaster qmail-pop3d-toaster qmail-toaster ripmime-toaster " .
+		"maildrop-toaster qmail-pop3d-toaster qmail-toaster " .
 		"ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter";
 
 	system("yum -y install {$s}");

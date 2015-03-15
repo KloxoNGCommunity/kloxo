@@ -195,6 +195,8 @@ class Mysqldb__mysql extends lxDriverClass
 		$cmd = implode(" ", $arg);
 
 		try {
+			// MR -- remove 'engine=' to make portable
+			system("sed -i 's/engine=\([a-zA-z0-9]*\) //gi' {$docf}");
 			system("{$cmd} < {$docf}");
 		} catch (Exception $e) {
 			throw new lxException('Error: ' . $e->getMessage(), $dbname);
@@ -236,6 +238,8 @@ class Mysqldb__mysql extends lxDriverClass
 		$result = $link->query("CREATE DATABASE IF NOT EXISTS {$dbname}");
 
 		try {
+			// MR -- remove 'engine=' to make portable
+			system("sed -e 's/engine\=[a-zA-z0-9]\s//gI' {$docf}");
 			system("{$cmd} > {$docf}");
 		} catch (Exception $e) {
 			lxfile_tmp_rm_rec($vd);

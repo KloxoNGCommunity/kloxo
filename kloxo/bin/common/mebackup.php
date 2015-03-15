@@ -7,6 +7,7 @@ mebackup_main();
 function mebackup_main()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
 	$progname = $sgbl->__var_program_name;
 	$cprogname = ucfirst($progname);
 	initProgram('admin');
@@ -19,9 +20,12 @@ function mebackup_main()
 	$vd = createTempDir("/tmp", "mebackup");
 	$docf = "$vd/mebackup.dump";
 
+	// MR -- remove 'engine=' to make portable
+	system("sed -i 's/engine=\([a-zA-z0-9]*\) //gi' {$docf}");
+
 	// Issue #671 - Fixed backup-restore issue
-//	exec("exec mysqldump --add-drop-table -u $progname -p$pass $dbf > $docf");
-	system("exec mysqldump --add-drop-table -u $progname -p$pass $dbf > $docf");
+//	exec("mysqldump --add-drop-table -u $progname -p$pass $dbf > $docf");
+	system("mysqldump --add-drop-table -u $progname -p$pass $dbf > $docf");
 
 	$string = @ date('Y-M-d'). '-' . time(); 
 	$bfile = "$sgbl->__path_program_home/selfbackup/self/__backup/$progname-scheduled-masterselfbackup-$string.zip";
