@@ -199,7 +199,7 @@ echo "Note:"
 echo " - See '/opt/${base_name}/install.log' for detail install process"
 echo " - Example: copy 'xcache.nonini' to '_xcache.ini' for enable 'xcache' module"
 echo "      in '/etc/${base_name}/etc/php.d'"
-echo " - For config setup only, run 'sh /script/phpm-config-setup php54m"
+echo " - For config setup only, run 'sh /script/phpm-config-setup ${base_name}"
 echo
 
 
