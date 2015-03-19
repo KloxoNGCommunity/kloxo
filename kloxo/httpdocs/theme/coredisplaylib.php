@@ -2303,7 +2303,7 @@ function lx_frm_inc()
 //	}
 
 	if(!file_exists("{$sgbl->__path_program_etc}/flag/not_use_token.flg")) {
-		if (!isCRFTokenMatch()) {
+		if (!isCSRFTokenMatch()) {
 			display_die('Post token not match or using get instead post');
 		}
 	}
