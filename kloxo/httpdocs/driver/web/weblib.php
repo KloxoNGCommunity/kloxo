@@ -854,7 +854,7 @@ class Web extends Lxdb
 		$awstat_dirdata = "{$sgbl->__path_kloxo_httpd_root}/awstats/";
 
 		if (!lxfile_exists("{$this->getCustomerRoot()}/public_html")) {
-			lxfile_symlink($this->getFullDocRoot(), "{$this->getCustomerRoot()}/public_html");
+			lxfile_symlink($user_home, "{$this->getCustomerRoot()}/public_html");
 		}
 
 		$domname = $this->nname;
@@ -893,15 +893,13 @@ class Web extends Lxdb
 		lxfile_generic_chown($log_path1, "apache:apache");
 		lxfile_generic_chmod($log_path1, "771"); // change 770 to 771 because nginx-proxy
 
-	/*
 		// MR -- why make symlink for website docroot?
 		if (!lxfile_exists("{$web_home}/{$this->nname}/httpdocs")) {
 		//	lxfile_mkdir("{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}");
-		//	lxfile_symlink("{$this->getFullDocRoot()}", "{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}/www");
-			lxfile_symlink("{$this->getFullDocRoot()}", "{$web_home}/{$this->nname}/httpdocs");
+		//	lxfile_symlink($user_home, "{$sgbl->__path_customer_root}/{$this->customer_name}/domain/{$this->nname}/www");
+			lxfile_symlink($user_home, "{$web_home}/{$this->nname}/httpdocs");
 		//	lxfile_symlink("{$web_home}/{$this->nname}/httpdocs", "{$web_home}/{$this->nname}/{$this->nname}");
 		}
-	*/
 
 		$this->createstatsConf($this->nname, $this->stats_username, $this->stats_password);
 

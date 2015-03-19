@@ -2175,7 +2175,7 @@ class HtmlLib
 		</script>
 
 		<form name="frmsend" method="post" action="/display.php" accept-charset="utf-8">
-			<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
+			<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
 			<input type="hidden" name="frm_ffile_c_file_permission_f">
 <?php
 		$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
@@ -5199,7 +5199,7 @@ class HtmlLib
 		<td align="center" valign=bottom>
 
 			<form name="form<?= $form_name ?>" method="post" action="<?= $path ?>">
-				<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
+				<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
 <?php
 
 		$this->print_input_vars($post);
@@ -6962,7 +6962,7 @@ class HtmlLib
 ?>
 
 		<form name="<?= $form ?>" action="/display.php" method="post" accept-charset="utf-8">
-			<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
+			<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
 			<table cellpadding='0' cellspacing='0'>
 				<tr>
 					<td></td>
@@ -7332,7 +7332,7 @@ class HtmlLib
 
 			<div style="margin: 0 auto">
 				<form name="<?= $block->form ?>" id="<?= $block->form ?>" action="<?= $block->url ?>" <?= $block->formtype ?> method="<?= $method ?>" <?= $onsubmit ?> accept-charset="utf-8">
-				<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
+				<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
 <?php
 	//	dprint($block->form);
 
@@ -9464,7 +9464,7 @@ class HtmlLib
 										<td width="10" height="22"></td>
 										<td height="22">
 											<form name="lpform_search" method="post" action="<?= $url ?>" onsubmit="return checksearch(this,1);" accept-charset="utf-8">
-												<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
+												<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
 												<?= $this->print_current_input_var_unset_filter($filtername, array('sortby', 'sortdir', 'pagenum')) ?>
 
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
@@ -9477,7 +9477,7 @@ class HtmlLib
 										<td width="30" height="22">&nbsp;&nbsp;&nbsp;</td>
 										<td width="70">
 											<form name="lpform_showall" method="post" action="<?= $url ?>" accept-charset="utf-8">
-												<input type='hidden' name='frm_token' value='<?= getCRFToken(); ?>'>
+												<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
 												<?= $this->print_current_input_vars(array("frm_hpfilter")) ?>
 
 												<input type="hidden" id="frm_clear_filter" name="frm_clear_filter" value="true">

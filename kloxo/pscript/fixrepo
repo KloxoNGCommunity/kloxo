@@ -17,8 +17,10 @@ else
 	yum update mratwork-* -y
 fi
 
-if yum list *yum*|grep '@' >/dev/null 2>&1 ; then
-	sed -i 's:$releasever:6:' /etc/yum.repos.d/mratwork.repo
-else
+identify=$(yum list *yum*|grep '@')
+
+if [ "${identified}" == "" ] ; then
 	sed -i 's:$releasever:5:' /etc/yum.repos.d/mratwork.repo
+else
+	sed -i 's:$releasever:6:' /etc/yum.repos.d/mratwork.repo
 fi

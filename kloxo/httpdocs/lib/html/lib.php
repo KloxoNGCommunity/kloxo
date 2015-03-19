@@ -8503,7 +8503,7 @@ function isRemotePost()
 	return false;
 }
 
-function getCRFToken()
+function getCSRFToken()
 {
 	global $gbl;
 
@@ -8519,7 +8519,7 @@ function getCRFToken()
 	return $token;
 }
 
-function isCRFTokenMatch()
+function isCSRFTokenMatch()
 {
 	global $gbl;
 

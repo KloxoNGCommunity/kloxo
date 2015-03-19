@@ -1620,7 +1620,7 @@ function create_xml($object, $stuff, $ret)
 		$gbl->c_session->write();
 	}
 */
-	$token = getCRFToken();
+	$token = getCSRFToken();
 
 	$string[] = $ghtml->object_variable_hidden("frm_token", $token);
 

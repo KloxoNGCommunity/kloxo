@@ -2,66 +2,76 @@
 
 homepath=/home
 mysqlpath=/var/lib/mysql
+logpath=/var/log
 stamp=$(date +"%Y-%m-%d-%H-%M")
-zipfile=kloxo-mr_raw_$stamp.tar.gz
-clistfile=kloxo-mr_raw_$stamp.txt
+zipfile=kloxo-mr_raw_$stamp.tgz
+homefile=home.tgz
+mysqlfile=mysql.tgz
+logfile=log.tgz
+clistfile=clients.txt
+bckpath=/home/kloxo/client/admin/__backup
+
+. /script/counter-start.inc
 
 echo
 echo "*** Kloxo-MR raw-backup - BEGIN ***"
 echo
 
 if [ -f /etc/rc.d/init.d/mysqld ] ; then
-	service mysqld stop;
+	service mysqld stop >/dev/null 2>&1
 else
-	service mysql stop;
+	service mysql stop >/dev/null 2>&1
 fi
 
 cd /tmp
 
 echo "- Create zip file"
 
-if ! [ -d $mysqlpath/kloxo.bck ] ; then
-	cp -rf $mysqlpath/kloxo $mysqlpath/kloxobck
-fi
-
-## mysql data; create zip
-tar -czf "$zipfile" "$mysqlpath" \
-	--exclude "$mysqlpath/mysql/*" \
-	--exclude "$mysqlpath/kloxo/*"
+echo "-- 'mysql' portion"
+nice -n +10 ionice -c3 tar -czf "$mysqlfile" "$mysqlpath" >/dev/null 2>&1
 
 if [ -f /etc/rc.d/init.d/mysqld ] ; then
-	service mysqld start;
+	service mysqld start >/dev/null 2>&1
 else
-	service mysql start;
+	service mysql start >/dev/null 2>&1
 fi
 
-## home dir; append zip
-tar -uzf "$zipfile" "$homepath" \
-	--exclude "$homepath/vpopmail/*" \
-	--exclude "$homepath/lxadmin/bin/*" \
-	--exclude "$homepath/kloxo/httpd/*" \
-	--exclude "$homepath/kloxo/domain/*" \
-	--exclude "$homepath/kloxo/lxguard/*" \
+echo "-- 'home' portion"
+nice -n +10 ionice -c3 tar -czf "$homefile" "$homepath" \
 	--exclude "$homepath/kloxo/client/*/__backup/*" \
-	--exclude "$homepath/lxlabs/*" \
-	--exclude "$homepath/nouser/*" \
-	--exclude "$homepath/backuper/*"
+	--exclude "$homepath/backuper/*" >/dev/null 2>&1
+
+echo "-- 'log' portion"
+nice -n +10 ionice -c3 tar -czf "$logfile" "$logpath" >/dev/null 2>&1
 
 
 clist=$(dir -l /home/kloxo/client | grep "^d"|awk '{ print $NF }')
-echo $clist > $clistfile
+echo $clist > $clistfile >/dev/null 2>&1
 
-mv -f $zipfile /home/kloxo/client/admin/__backup
+echo "-- portions merge"
+nice -n +10 ionice -c3 tar -czf "$zipfile" "$mysqlfile" "$homefile" "$logfile" "$clistfile" >/dev/null 2>&1
+
+echo "-- move to $bckpath"
+if [ -f $bckpath ] ; then
+	rm -rf $bckpath
+fi
+
+if [ ! -d $bckpath ] ; then
+	mkdir -p $bckpath
+fi
+
+mv -f $zipfile $bckpath >/dev/null 2>&1
+
+. /script/counter-start.inc
 
 echo
 echo "Attention:"
 echo "- Raw backup only work for MySQL with MyISAM storage-engine."
 echo "  Run 'sh /script/mysql-convert' for convert to MyISAM"
 echo
-echo "- Your 'kloxo' database rename to 'kloxo.bck' inside zipfile"
-echo
 echo "- Your '$zipfile' move to: "
-echo "  '/home/kloxo/client/admin/__backup'"
+echo "  '$bckpath'"
 echo
 echo "*** Kloxo-MR raw-backup - END ***"
 echo
+

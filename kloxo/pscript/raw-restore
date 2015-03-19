@@ -1,0 +1,83 @@
+#!/bin/sh
+
+if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
+	echo ""
+	echo " ------------------------------------------------------------------------------"
+	echo "  format: sh $0 [fullpath-of-raw-backup]"
+	echo " ------------------------------------------------------------------------------"
+	echo ""
+	exit
+fi
+
+echo ""
+echo "- For help, type '$0 [--help|-h]'"
+
+if [ "$#" == 0 ] ; then
+	echo "- No argument supplied. Defaulting to localhost (master) servers"
+	exit
+fi
+
+homepath=/home
+mysqlpath=/var/lib/mysql
+logpath=/var/log
+stamp=$(date +"%Y-%m-%d-%H-%M")
+zipfile=kloxo-mr_raw_$stamp.tgz
+homefile=home.tgz
+mysqlfile=mysql.tgz
+logfile=log.tgz
+clistfile=clients.txt
+bckpath=/home/kloxo/client/admin/__backup
+
+. /script/counter-start.inc
+
+echo
+echo "*** Kloxo-MR raw-restore - BEGIN ***"
+echo
+
+cd /tmp
+
+echo "- Extract zip merge file"
+nice -n +10 ionice -c3 tar -xzf "$1"
+
+cd /
+
+if [ -f /etc/rc.d/init.d/mysqld ] ; then
+	service mysqld stop
+else
+	service mysql stop
+fi
+
+echo "-- 'mysql' portion"
+mv -f "$mysqlpath" "$mysqlpath".$stamp
+nice -n +10 ionice -c3 tar -xzf /tmp/"$mysqlfile"
+
+if [ -f /etc/rc.d/init.d/mysqld ] ; then
+	service mysqld start
+else
+	service mysql start
+fi
+
+echo "-- 'home' portion"
+mv -f "$homepath" "$homepath".$stamp
+for i in $(cat /tmp/clients.txt) ; do
+	groupadd $i
+	useradd $i -g $i -s '/sbin/nologin'
+done
+nice -n +10 ionice -c3 tar -xzf /tmp/"$homefile"
+
+echo "-- 'log' portion"
+mv -f "$logpath" "$logpath".$stamp
+nice -n +10 ionice -c3 tar -xzf /tmp/"$logfile"
+
+cd /tmp
+
+rm -f $mysqlfile
+rm -f $homefile
+rm -f $logfile
+
+. /script/counter-start.inc
+
+echo
+echo "*** Kloxo-MR raw-restore - END ***"
+echo
+

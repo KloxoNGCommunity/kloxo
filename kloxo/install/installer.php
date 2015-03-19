@@ -672,7 +672,7 @@ function char_search_beg($haystack, $needle)
 function install_yum_repo()
 {
 	print(">>> Modified mratwork.repo and remove older repo names <<<\n");
-
+/*
 	if (!file_exists("/etc/yum.repos.d")) {
 		print("- No yum.repos.d dir detected!\n");
 
@@ -694,6 +694,8 @@ function install_yum_repo()
 	rm_if_exists("/etc/yum.repos.d/kloxo-custom.repo");
 	rm_if_exists("/etc/yum.repos.d/kloxo.repo");
 	rm_if_exists("/etc/yum.repos.d/lxcenter.repo");
+*/
+	system("sh /script/fixrepo");
 
 	system("yum clean all");
 }
