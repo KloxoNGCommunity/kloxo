@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ "${1}" == "-y" ] || [ "${1}" == "--force" ] ; then
+	action=${1}
+else
+	action=""
+fi
+
+for i in 52 53 54 55 56 ; do
+	if [ -f /opt/php${i}m/usr/bin/php ] ; then
+		sh /script/phpm-installer php${i}m ${action}
+	fi
+	if [ -f /opt/php${i}s/usr/bin/php ] ; then
+		sh /script/phpm-installer php${i}s ${action}
+	fi
+done

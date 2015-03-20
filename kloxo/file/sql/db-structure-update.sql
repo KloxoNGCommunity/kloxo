@@ -21,9 +21,8 @@ INSERT INTO `watchdog` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`
 ('dns___localhost', 'pserver-localhost', '', 'dns', 'localhost', '53', '__driver_dns', 'on', 'on', '', ''),
 ('web___localhost', 'pserver-localhost', '', 'web', 'localhost', '80', '__driver_web', 'on', 'on', '', ''),
 ('mail___localhost', 'pserver-localhost', '', 'mail', 'localhost', '25', '__driver_qmail', 'on', 'on', '', ''),
-('mysql___localhost', 'pserver-localhost', '', 'mysql', 'localhost', '3306||/var/lib/mysql/mysql.sock', '__driver_mysql', 'on', 'on', '', ''),
+('mysql___localhost', 'pserver-localhost', '', 'mysql', 'localhost', '3306', '__driver_mysql', 'on', 'on', '', ''),
 ('ftp___localhost', 'pserver-localhost', '', 'ftp', 'localhost', '21', '__driver_xinetd', 'on', 'on', '', '');
-
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `nname` varchar(255) NOT NULL,

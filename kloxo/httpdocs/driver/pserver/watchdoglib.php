@@ -108,7 +108,7 @@ class watchdog extends lxdb
 	//	self::addOneWatchdog($pserver, "mysql", "3306||/var/lib/mysql/mysql.sock", "/etc/init.d/mysqld restart");
 	//	self::addOneWatchdog($pserver, "mariadb", "3306", "/etc/init.d/mysql restart");
 		self::addOneWatchdog($pserver, "ftp", "21", "__driver_xinetd");
-		self::addOneWatchdog($pserver, "syslog", "514", "__driver_syslog");
+	//	self::addOneWatchdog($pserver, "syslog", "514||/dev/log", "__driver_syslog");
 	}
 
 	static function addOneWatchdog($pserver, $service, $port, $command)
