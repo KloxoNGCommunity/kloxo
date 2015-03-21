@@ -19,7 +19,7 @@ fi
 
 identify=$(yum list *yum*|grep '@')
 
-if [ "${identified}" == "" ] ; then
+if [ "${identify}" == "" ] ; then
 	sed -i 's:$releasever:5:' /etc/yum.repos.d/mratwork.repo
 else
 	sed -i 's:$releasever:6:' /etc/yum.repos.d/mratwork.repo

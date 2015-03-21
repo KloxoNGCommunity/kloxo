@@ -9,6 +9,8 @@ if [ "$(grep envID /proc/self/status)" == "" ] ; then
 
 	if [ -f /boot/initrd-${latestkernel}.img ] ; then
 		imgfile="/boot/initrd-${latestkernel}.img"
+	elif [ -f /boot/initrd-${latestkernel}kdump.img ] ; then
+		imgfile="/boot/initrd-${latestkernel}kdump.img"
 	else
 		imgfile="/boot/initramfs-${latestkernel}.img"
 	fi
