@@ -99,6 +99,8 @@ class Servermail__Qmail  extends lxDriverClass
 			//	throw new lxException($login->getThrow('simscan_is_not_installed_for_virus_scan'), '', 'simscan-toaster');
 			}
 
+			lxshell_return("yum", "install", "-y", "clamav", "clamd");
+
 			// MR -- clamav from epel use clamd instead clamav init
 		//	lxfile_cp("../file/clamav.init", "/etc/init.d/clamav");
 		//	lxfile_unix_chmod("/etc/init.d/clamav", "755");
@@ -114,6 +116,9 @@ class Servermail__Qmail  extends lxDriverClass
 		//	os_service_manage("clamav", "stop");
 			os_service_manage("freshclam", "stop");
 			lxshell_return("chkconfig", "freshclam", "off");
+		} else {
+			lxshell_return("rpm", "-e", "--nodeps", "clamav");
+			lxshell_return("rpm", "-e", "--nodeps", "clamd");
 		}
 
 		if ($this->main->max_size) {

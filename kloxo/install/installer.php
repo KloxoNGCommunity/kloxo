@@ -222,7 +222,12 @@ function install_database()
 
 	$mysql = getMysqlBranch();
 
-	system("yum -y install {$mysql} {$mysql}-server {$mysql}-libs");
+	if (strpos($mysql, 'MariaDB') !== false) {
+		// MR -- need separated becuase 'yum install MariaDB' will be install Galera
+		system("yum -y install {$mysql}-server {$mysql}-shared");
+	} else {
+		system("yum -y install {$mysql} {$mysql}-server {$mysql}-libs");
+	}
 }
 
 function install_dns()

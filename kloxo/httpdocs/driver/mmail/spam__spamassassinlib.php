@@ -33,8 +33,8 @@ class Spam__Spamassassin extends lxDriverClass
 	{
 	//	lxshell_return("service", "spamassassin", "stop");
 		lxshell_return("rpm", "-e", "--nodeps", "spamassassin-toaster");
-		lxshell_return("rpm", "-e", "--nodeps", "simscan-toaster");
-		lxshell_return("rpm", "-e", "--nodeps", "ripmime");
+	//	lxshell_return("rpm", "-e", "--nodeps", "simscan-toaster");
+	//	lxshell_return("rpm", "-e", "--nodeps", "ripmime");
 	}
 
 	function dbactionAdd()

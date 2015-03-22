@@ -100,7 +100,7 @@ if [ -f /opt/${base_name}/version ] ; then
 
 		if [[ $out != *${pack_ver}-${pack_rel}* ]] ; then
 			#x="- '${pack_name}-${pack_ver}-${pack_rel}' ready to installed"
-			x="- '${pack_name}-${pack_verrel}' ready to installed"
+			x="- '${pack_name}-${pack_verrel}' ready to installed/updated"
 			echo $x
 			echo $x >>/opt/${base_name}/install.log
 			exit	
