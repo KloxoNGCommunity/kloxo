@@ -116,9 +116,10 @@ class Servermail__Qmail  extends lxDriverClass
 		//	os_service_manage("clamav", "stop");
 			os_service_manage("freshclam", "stop");
 			lxshell_return("chkconfig", "freshclam", "off");
-		} else {
-			lxshell_return("rpm", "-e", "--nodeps", "clamav");
-			lxshell_return("rpm", "-e", "--nodeps", "clamd");
+
+			// MR -- don't need uninstall because possible used by other purpose
+		//	lxshell_return("rpm", "-e", "--nodeps", "clamav");
+		//	lxshell_return("rpm", "-e", "--nodeps", "clamd");
 		}
 
 		if ($this->main->max_size) {
