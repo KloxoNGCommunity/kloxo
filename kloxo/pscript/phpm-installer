@@ -40,9 +40,12 @@ elif [ "${base_name}" == "php54s" ] ;  then
 	'rpm' -e php54s-fpm --noscripts
 fi
 
-mkdir -p /opt/${base_name}
+mkdir -p /opt/${base_name} >/dev/null 2>&1
 
-cd /opt/${base_name}
+cd /opt/${base_name} >/dev/null 2>&1
+
+rm -f /opt/${base_name}/install.log >/dev/null 2>&1
+rm -f /opt/${base_name}/dependencies >/dev/null 2>&1
 
 x="=== BEGIN '$1' (${DATE}) install ==="
 echo $x
@@ -60,18 +63,11 @@ else
 	exit
 fi
 
-#if [ "${base_name}" == "53s" ] ;  then
-#	pack_name="${base_name}"
-#fi
-
 if [ "$(uname -m)" == "x86_64" ] ; then
 	v=".x86_64"
 else
 	v=""
 fi
-
-#pack_ver=$(yum info $pack_name|grep Version|awk '{print $3}')
-#pack_rel=$(yum info $pack_name|grep Release|awk '{print $3}')
 
 if [ "$(rpm -qa yum-utils)" == "" ] ; then
 	yum install yum-utils -y
@@ -82,12 +78,11 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 	'rm' -f /opt/${base_name}/${base_name}
 fi
 
-pack_verrel=$(repoquery --nvr $pack_name|sed 's/${pack_name}-//')
+pack_verrel=$(repoquery --qf='%{version}-%{release}' $pack_name)
 
 if [ -f /opt/${base_name}/version ] ; then
 	if [ "${2}" == "-y" ] || [ "${2}" == "--force" ] ; then
-		#echo "${pack_ver}-${pack_rel}" > version
-		echo "${pack_verrel}" > version
+		echo "${pack_verrel}" > /opt/${base_name}/version
 	else
 		cver=$(cat /opt/${base_name}/version)
 
@@ -95,11 +90,9 @@ if [ -f /opt/${base_name}/version ] ; then
 			yum install rpmdevtools -y
 		fi
 
-		#out=$(rpmdev-vercmp ${pack_ver}-${pack_rel} ${cver})
 		out=$(rpmdev-vercmp ${pack_verrel} ${cver})
 
-		if [[ $out != *${pack_ver}-${pack_rel}* ]] ; then
-			#x="- '${pack_name}-${pack_ver}-${pack_rel}' ready to installed"
+		if [[ $out != *${pack_verrel}* ]] ; then
 			x="- '${pack_name}-${pack_verrel}' ready to installed/updated"
 			echo $x
 			echo $x >>/opt/${base_name}/install.log
@@ -107,63 +100,31 @@ if [ -f /opt/${base_name}/version ] ; then
 		fi
 	fi
 else
-	#echo "${pack_ver}-${pack_rel}" > version
-	echo "${pack_verrel}" > version
+	echo "${pack_verrel}" >>/opt/${base_name}/version
 fi
 
-x="- Install php general dependencies rpms... Please wait!"
+x="- Dependencies rpms... Please wait!"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
 c=""
 
-x="-- Check installed dependencies rpms"
+x="-- Check dependencies rpms"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
-for i in apr apr-util aspell atk avahi-libs bzip2 cairo ConsoleKit ConsoleKit-libs cups-libs \
-	curl-devel cyrus-sasl db4 dbus e2fsprogs eggdbus elfutils-libelf enchant expat file \
-	fileutils fontconfig freetds freetype GConf2 gcc-c++ gd${v} GeoIP ghostscript ghostscript-fonts \
-	gmp gtk2 hicolor-icon-theme icui18n ilmbase ImageMagick jasper-libs krb5 lcms-libs libc-client \
-	libcroco libedit libevent libfontenc libgomp libgsf libicu libIDL libjpeg liblzf \
-	libmcrypt libmemcached libpng librsvg2 libSM libstdc++ libthai libtiff libtool libtool-ltdl \
-	libwmf-lite libxml2 libxslt libtidy libvpx libXpm libXcomposite libXcursor libXdamage libXext \
-	libXfixes libXfont libXft libXi libXinerama libXrandr libXrender libXt lm_sensors lm_sensors-libs \
-	mhash ncurses net-snmp OpenEXR-libs openldap openssl ORBit2 pam pango perl polkit \
-	postgresql pspell recode redhat-lsb sgml-common sqlite t1lib unixODBC urw-fonts libgearman \
-	xorg-x11-font-utils zlib redis ; do
+repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl)(.*)'|sort -u > /opt/${base_name}/dependencies
 
-	x="--- Check for ${i} installed or not"
-	echo $x >>/opt/${base_name}/install.log
-
-	if rpm -qa|grep ${i} >/dev/null 2>&1 ; then
-		x="---- ${i} already installed"
-		echo $x >>/opt/${base_name}/install.log
-		c=${c}${i}${v}" "
-	else
-		x="---- ${i} not installed"
-		echo $x >>/opt/${base_name}/install.log
-	fi
-done
-
-if [ "${c}" != "" ] ; then
-	x="-- Install for not installed dependencies rpms"
-	echo $x
-	echo $x >>/opt/${base_name}/install.log
-	yum -y install $c >>/opt/${base_name}/install.log
-else
-	x="-- Dependencies rpms already installed"
-	echo $x
-	echo $x >>/opt/${base_name}/install.log
-fi
+x="-- Install dependencies rpms"
+echo $x
+echo $x >>/opt/${base_name}/install.log
+yum -y install $(cat /opt/${base_name}/dependencies) >>/opt/${base_name}/install.log
 
 x="- Download all rpms (debug and devel will be deleted)... Please wait!"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
 if [ -f /opt/${base_name}/etc ] ; then
-	#'rm' -f /opt/${base_name}/etc
-	#'rm' -f /opt/${base_name}/etc/!(_*.ini)
 	find /opt/${base_name}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
@@ -201,5 +162,3 @@ echo " - Example: copy 'xcache.nonini' to '_xcache.ini' for enable 'xcache' modu
 echo "      in '/etc/${base_name}/etc/php.d'"
 echo " - For config setup only, run 'sh /script/phpm-config-setup ${base_name}"
 echo
-
-

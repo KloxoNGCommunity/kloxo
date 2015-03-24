@@ -7,7 +7,7 @@ banned="no"
 pwded=$(pwd)
 
 if [ -f $file ] ; then
-	for i in $file ; do
+	for i in $(cat $file|tr '\' ' ') ; do
 		if [ "${i}" == "${pwded}" ] ; then
 			banned="yes"
 		fi
@@ -20,5 +20,4 @@ fi
 if [ "${banned}" == "no" ] ; then
 	/var/qmail/bin/sendmail-qmail "$@"
 fi
-
 
