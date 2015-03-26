@@ -3,6 +3,11 @@
 base_name=$1
 extension_name=$2
 uname_m=$(uname -m)
+if [ "${base_name}" == "php" ] ; then
+	tpath="/"
+else
+	tpath="/opt/${base_name}/"
+fi
 
 if [ "$#" == 0 ] ; then
 	echo
@@ -10,6 +15,7 @@ if [ "$#" == 0 ] ; then
 	echo "  format: sh $0 <version_target> <extension_name>"
 	echo " ---------------------------------------------------------------------------"
 	echo " - Better use the same version; Example: 'sh $0 php52m php52-xcache'"
+	echo "   select 'php' for 'version_target' if want install to 'standard' php"
 	echo
 	echo " - Testing with '${base_name} -m'"
 	echo
@@ -23,10 +29,10 @@ else
 	yum install yum-utils -y
 fi
 
-repoquery --qf='%{name}' --requires --resolve ${extension_name}|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl)(.*)'|sort -u > /opt/${base_name}/${extension_name}-dependencies
-yum -y install $(cat /opt/${base_name}/${extension_name}-dependencies) >/dev/null 2>$1
+repoquery --qf='%{name}' --requires --resolve ${extension_name}|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl)(.*)'|sort -u > ${tpath}/${extension_name}-dependencies
+yum -y install $(cat ${tpath}${extension_name}-dependencies) >/dev/null 2>$1
 
-cd /opt/${base_name}
+cd ${tpath}
 
 'rm' -f *.rpm
 
@@ -34,12 +40,16 @@ yumdownloader ${extension_name} >/dev/null 2>$1
 
 rpm2cpio *.rpm | cpio -idmv >/dev/null 2>$1
 
-'rm' -rf ./*.rpm
+'rm' -rf ${tpath}*.rpm
 
-for i in /opt/${base_name}/etc/php.d/*ini ; do
+for i in ${tpath}etc/php.d/*ini ; do
 	sed -i 's:/usr/lib'${uname_m}'/php/modules::' ${i}
-	if [ "$(cat $i|grep 'zend_extension=/opt/')" == "" ] ; then
-		sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' ${i}
+	if [ "$(cat $i|grep 'zend_extension=/opt/')" == "" ] || [ "$(cat $i|grep 'zend_extension=/usr/')" == "" ] ; then
+		sed -i 's:zend_extension=/:zend_extension='${tpath}'usr/lib'${uname_m}'/php/modules/:' ${i}
 	fi
 done
+
+if [ "${tpath}" == "/" ] ; then
+	rm -f ${tpath}${extension_name}-dependencies
+fi
 
