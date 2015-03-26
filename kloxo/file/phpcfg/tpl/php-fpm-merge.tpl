@@ -19,7 +19,7 @@
 		exec("cat {$d} >> {$datafile}");
 	}
 
-	if (strpos('52', $fpm_type) !== false) {
+	if (strpos($fpm_type, '52') !== false) {
 		exec("echo '</configuration>' > {$datafile}");
 	}
 ?>

@@ -1,5 +1,12 @@
 #!/bin/sh
 
+## MR -- enable/disable sendmail-limiter
+limiter="/var/qmail/control/enablesendmaillimiter"
+
+if [ -f $limiter ] ; then
+	/var/qmail/bin/sendmail-limiter.pl "$@"
+fi
+
 ## MR -- listing of the document root of website to banned
 file="/var/qmail/control/badsendmailfrom"
 

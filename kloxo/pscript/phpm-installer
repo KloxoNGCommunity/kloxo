@@ -45,7 +45,6 @@ mkdir -p /opt/${base_name} >/dev/null 2>&1
 cd /opt/${base_name} >/dev/null 2>&1
 
 rm -f /opt/${base_name}/install.log >/dev/null 2>&1
-rm -f /opt/${base_name}/dependencies >/dev/null 2>&1
 
 x="=== BEGIN '$1' (${DATE}) install ==="
 echo $x
@@ -98,9 +97,11 @@ if [ -f /opt/${base_name}/version ] ; then
 			echo $x >>/opt/${base_name}/install.log
 			exit	
 		fi
+
+		echo "${pack_verrel}" >/opt/${base_name}/version
 	fi
 else
-	echo "${pack_verrel}" >>/opt/${base_name}/version
+	echo "${pack_verrel}" >/opt/${base_name}/version
 fi
 
 x="- Dependencies rpms... Please wait!"
@@ -158,7 +159,7 @@ echo
 
 echo "Note:"
 echo " - See '/opt/${base_name}/install.log' for detail install process"
-echo " - Example: copy 'xcache.nonini' to '_xcache.ini' for enable 'xcache' module"
-echo "      in '/etc/${base_name}/etc/php.d'"
+echo " - Example: copy 'xcache.nonini' to '_xcache.ini' or 'xcache_used'"
+echo "      for enable 'xcache' module in '/etc/${base_name}/etc/php.d'"
 echo " - For config setup only, run 'sh /script/phpm-config-setup ${base_name}"
 echo

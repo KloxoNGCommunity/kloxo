@@ -1,36 +1,61 @@
 ;;; begin content - please not remove this line
 
 <?php
-    if (!$phpdesc) {
-        $phpdesc = '5.3.0';
-    }
+	// can use $user and $domain vars
 
-    if (version_compare($phpdesc, "5.4.0", ">=")) {
-        $php54enable = '';
-        $php54disable = ';';
-    } else {
-        $php54enable = ';';
-        $php54disable = '';
-    }
+//	if ($setphp52ver) {
+//		$phpver = '5.2';
+//	} else {
+	//	exec("php -r 'echo phpversion();'", $out, $ret);
+		exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
 
-    if (version_compare($phpdesc, "5.3.0", ">=")) {
-        $php53enable = '';
-        $php53disable = ';';
-    } else {
-        $php53enable = ';';
-        $php53disable = '';
-    }
+		if ($ret) {
+			$phpver = '5.4.0';
+		} else {
+			$phpver = $out[0];
+		}
+//	}
 
-    if ($sendmail_from) {
-        $sendmailmark = '';
-    } else {
-        $sendmailmark = ';';
-        $sendmail_from = '';
-    }
+	if (version_compare($phpver, "5.4.0", ">=")) {
+		$php54enable = '';
+		$php54disable = ';';
+	} else {
+		$php54enable = ';';
+		$php54disable = '';
+	}
 
-    if (!$max_input_vars_flag) {
-        $max_input_vars_flag = '3000';
-    }
+	if (version_compare($phpver, "5.3.0", ">=")) {
+		$php53enable = '';
+		$php53disable = ';';
+	} else {
+		$php53enable = ';';
+		$php53disable = '';
+	}
+
+	if ($sendmail_from) {
+		$sendmailmark = '';
+	} else {
+		$sendmailmark = ';';
+		$sendmail_from = '';
+	}
+
+	if (php_uname('m') === 'x86_64') {
+		$libpath = 'lib64';
+	} else {
+		$libpath = 'lib';
+	}
+
+	if (!$max_input_vars_flag) {
+		$max_input_vars_flag = '3000';
+	}
+
+	if (!$date_timezone_flag) {
+		$date_timezone_flag = 'Europe/London';
+	}
+
+	if (!$session_save_path_flag) {
+		$session_save_path_flag = '/var/lib/php/session';
+	}
 ?>
 
 [PHP]
@@ -55,76 +80,78 @@ gpc_order = "GPC"
 include_path = ".:/usr/share/pear/"
 doc_root =
 user_dir =
-extension_dir = /usr/lib/php/modules
+extension_dir = /usr/<?php echo $libpath; ?>/php/modules
 upload_tmp_dir = /tmp/
 default_socket_timeout = 60
-date.timezone = "Europe/London"
+date.timezone = <?php echo $date_timezone_flag; ?>
 
-;### MR -- certain apps not work if 0
+
+;### MR -- certain apps not work if 0 (ex: roundcube)
 cgi.fix_pathinfo = 1
-cgi.rfc2616_headers = 1
+;### MR -- certain apps not work if 1 (ex: wordpress in apache or proxy)
+cgi.rfc2616_headers = 0
 
 ;### MR -- specific for php 5.3+
-<?=$php53enable;?>auto_globals_jit = On
-zlib.output_compression = <?=$output_compression_flag;?>
+<?php echo $php53enable; ?>auto_globals_jit = On
+zlib.output_compression = <?php echo $output_compression_flag; ?>
 
-<?=$php53enable;?>zlib.output_compression_level = 6
-<?=$php53enable;?>implicit_flush = Off
-<?=$php53enable;?>unserialize_callback_func =
-<?=$php53enable;?>serialize_precision = 17
-<?=$php53enable;?>zend.enable_gc = On
-<?=$php53enable;?>expose_php = On
-<?=$php53enable;?>max_execution_time = 30
-<?=$php53enable;?>max_input_time = 60
-<?=$php53enable;?>unserialize_callback_func =
-<?=$php53enable;?>ignore_repeated_source = Off
-<?=$php53enable;?>report_memleaks = On
-<?=$php53enable;?>html_errors = On
-<?=$php53enable;?>auto_append_file =
+<?php echo $php53enable; ?>zlib.output_compression_level = 6
+<?php echo $php53enable; ?>implicit_flush = Off
+<?php echo $php53enable; ?>unserialize_callback_func =
+<?php echo $php53enable; ?>serialize_precision = 17
+<?php echo $php53enable; ?>zend.enable_gc = On
+<?php echo $php53enable; ?>expose_php = On
+<?php echo $php53enable; ?>max_execution_time = 30
+<?php echo $php53enable; ?>max_input_time = 60
+<?php echo $php53enable; ?>unserialize_callback_func =
+<?php echo $php53enable; ?>ignore_repeated_source = Off
+<?php echo $php53enable; ?>report_memleaks = On
+<?php echo $php53enable; ?>html_errors = On
+<?php echo $php53enable; ?>auto_append_file =
 
 ;### MR -- custom setting (handle by kloxo)
-disable_functions = <?=$disable_functions;?>
+disable_functions = <?php echo $disable_functions; ?>
 
-display_errors = <?=$display_error_flag;?>
+display_errors = <?php echo $display_error_flag; ?>
 
-file_uploads = <?=$file_uploads_flag;?>
+file_uploads = <?php echo $file_uploads_flag; ?>
 
-upload_max_filesize = <?=$upload_max_filesize;?>
+upload_max_filesize = <?php echo $upload_max_filesize; ?>
 
-log_errors = <?=$log_errors_flag;?>
+log_errors = <?php echo $log_errors_flag; ?>
 
 error_log = /var/log/php_error.log
-output_buffering = <?=$output_buffering_flag;?>
+output_buffering = <?php echo $output_buffering_flag; ?>
 
-register_argc_argv = <?=$register_argc_argv_flag;?>
+register_argc_argv = <?php echo $register_argc_argv_flag; ?>
 
-mysql.allow_persistent = <?=$mysql_allow_persistent_flag;?>
+mysql.allow_persistent = <?php echo $mysql_allow_persistent_flag; ?>
 
-max_execution_time = <?=$max_execution_time_flag;?>
+max_execution_time = <?php echo $max_execution_time_flag; ?>
 
-max_input_time = <?=$max_input_time_flag;?>
+max_input_time = <?php echo $max_input_time_flag; ?>
 
-memory_limit = <?=$memory_limit_flag;?>
+post_max_size = <?php echo $post_max_size_flag; ?>
 
-post_max_size = <?=$post_max_size_flag;?>
+memory_limit = <?php echo $memory_limit_flag; ?>
 
-allow_url_fopen = <?=$allow_url_fopen_flag;?>
+allow_url_fopen = <?php echo $allow_url_fopen_flag; ?>
 
-allow_url_include = <?=$allow_url_include_flag;?>
+allow_url_include = <?php echo $allow_url_include_flag; ?>
 
-session.save_path = <?=$session_save_path_flag;?>
+session.save_path = <?php echo $session_save_path_flag; ?>
 
-cgi.force_redirect = <?=$cgi_force_redirect_flag;?>
+cgi.force_redirect = <?php echo $cgi_force_redirect_flag; ?>
 
-<?=$sendmailmark;?>sendmail_from = <?=$sendmail_from;?>
+<?php echo $sendmailmark; ?>sendmail_from = <?php echo $sendmail_from; ?>
 
-enable_dl = <?=$enable_dl_flag;?>
+enable_dl = <?php echo $enable_dl_flag; ?>
 
 max_input_vars = <?php echo $max_input_vars_flag; ?>
 
 
 ;### MR -- deprecated/disabled on php 5.3+
-;<?=$php53disable;?>register_long_arrays = Off
+;<?php echo $php53disable; ?>register_long_arrays = Off
 
 
 [Syslog]
@@ -207,7 +234,8 @@ ifx.nullformat = 0
 
 [Session]
 session.save_handler = files
-session.save_path = /var/lib/php/session
+session.save_path = <?php echo $session_save_path_flag; ?>
+
 session.use_cookies = 1
 session.name = PHPSESSID
 session.auto_start = 0
