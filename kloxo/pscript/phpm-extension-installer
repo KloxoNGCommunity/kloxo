@@ -2,7 +2,13 @@
 
 base_name=$1
 extension_name=$2
-uname_m=$(uname -m)
+
+if [ "$(uname -m)" == "x86_64" ] ; then
+	uname_m="64"
+else
+	uname_m=""
+fi
+
 if [ "${base_name}" == "php" ] ; then
 	tpath="/"
 else
@@ -22,13 +28,17 @@ if [ "$#" == 0 ] ; then
 	exit;
 fi
 
+. /script/counter-start.inc
+echo "=== BEGIN '$2' install ==="
+
 if rpm -qa|grep 'yum-utils' >/dev/null 2>&1 ; then
-	echo "'yum-utils' already exists"
+	echo "- 'yum-utils' already exists"
 else
-	echo "Installing 'yum-utils'"
+	echo "- Installing 'yum-utils'"
 	yum install yum-utils -y
 fi
 
+echo "- Install dependencies rpms"
 repoquery --qf='%{name}' --requires --resolve ${extension_name}|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl)(.*)'|sort -u > ${tpath}/${extension_name}-dependencies
 yum -y install $(cat ${tpath}${extension_name}-dependencies) >/dev/null 2>$1
 
@@ -36,13 +46,16 @@ cd ${tpath}
 
 'rm' -f *.rpm
 
+echo "- Download '${extension_name}' rpm"
 yumdownloader ${extension_name} >/dev/null 2>$1
 
+echo "- Extract '${extension_name}' rpm to '${tpath}'"
 rpm2cpio *.rpm | cpio -idmv >/dev/null 2>$1
 
 'rm' -rf ${tpath}*.rpm
 
 for i in ${tpath}etc/php.d/*ini ; do
+	echo "- Modified extension path of '${i}' if needed"
 	sed -i 's:/usr/lib'${uname_m}'/php/modules::' ${i}
 	if [ "$(cat $i|grep 'zend_extension=/opt/')" == "" ] || [ "$(cat $i|grep 'zend_extension=/usr/')" == "" ] ; then
 		sed -i 's:zend_extension=/:zend_extension='${tpath}'usr/lib'${uname_m}'/php/modules/:' ${i}
@@ -53,3 +66,5 @@ if [ "${tpath}" == "/" ] ; then
 	rm -f ${tpath}${extension_name}-dependencies
 fi
 
+echo "=== END '$2' install ==="
+. /script/counter-end.inc

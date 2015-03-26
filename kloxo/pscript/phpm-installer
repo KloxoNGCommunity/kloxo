@@ -24,7 +24,7 @@ if [ "$#" == 0 ] ; then
 	exit
 fi
 
-DATE=$(date +"%Y/%m/%d %H:%M:%S")
+. /script/counter-start.inc
 
 base_name="${1}"
 ## MR -- remove last char (default m or s)
@@ -46,7 +46,7 @@ cd /opt/${base_name} >/dev/null 2>&1
 
 rm -f /opt/${base_name}/install.log >/dev/null 2>&1
 
-x="=== BEGIN '$1' (${DATE}) install ==="
+x="=== BEGIN '$1' install ==="
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
@@ -151,9 +151,11 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 	'rm' -f /opt/${base_name}/${base_name}
 fi
 
-x="=== END '$1' (${DATE}) install ==="
+x="=== END '$1' install ==="
 echo $x
 echo $x >>/opt/${base_name}/install.log
+
+. /script/counter-end.inc
 
 echo
 
