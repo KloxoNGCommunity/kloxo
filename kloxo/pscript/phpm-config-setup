@@ -27,7 +27,11 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 				## MR -- remove path in 'extension='
 				sed -i 's:/usr/lib'${uname_m}'/php/modules::' /opt/${base_name}/etc/${j}/${k}${i}.ini
 				## MR -- readd path in 'zend_extension='
-				sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${k}${i}.ini
+				if [ "$(cat /opt/${base_name}/etc/${j}/${k}${i}.ini|grep 'zend_extension=/')" == "" ] ; then
+					sed -i 's:zend_extension=:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${k}${i}.ini
+				else
+					sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${k}${i}.ini
+				fi
 
 				if [ "$(echo ${k}${i}|grep mysqlnd)" != "" ] ; then
 					## MR -- using mysqlnd instead mysql/mysqli in php54s

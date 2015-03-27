@@ -95,6 +95,7 @@ if [ -f /opt/${base_name}/version ] ; then
 			x="- '${pack_name}-${pack_verrel}' ready to installed/updated"
 			echo $x
 			echo $x >>/opt/${base_name}/install.log
+			. /script/counter-end.inc
 			exit	
 		fi
 
