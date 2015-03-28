@@ -136,6 +136,8 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 		if ($database === '_all_') {
 			if (file_exists("/etc/my.cnf.d/my.cnf")) {
 				$mycnf = "/etc/my.cnf.d/my.cnf";
+			} elseif (file_exists("/etc/my.cnf.d/server.cnf")) {
+				$mycnf = "/etc/my.cnf.d/server.cnf";
 			} else {
 				$mycnf = "/etc/my.cnf";
 			}

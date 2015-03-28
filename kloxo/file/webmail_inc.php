@@ -13,7 +13,7 @@ foreach ($dirs as $dir) {
 			if (file_exists("{$dir}/index.php")) {
 ?>
 		<tr>
-			<td><?php echo $count; ?></td><td>-</td><td style="border-bottom: 1px solid #cccccc; width: 100%"><a href="/<?php echo $dir; ?>"><?php echo ucfirst("$dir"); ?></a></td>
+			<td><?php echo $count; ?></td><td>-</td><td style="border-bottom: 1px solid #cccccc; width: 100%"><a target="_blank" href="/<?php echo $dir; ?>"><?php echo ucfirst("$dir"); ?></a></td>
 		</tr>
 <?php
 			}
