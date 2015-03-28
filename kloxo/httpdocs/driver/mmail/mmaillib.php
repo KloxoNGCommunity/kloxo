@@ -330,8 +330,10 @@ class Mmail extends Lxdb
 
 				foreach ($rec as $a) {
 					if ($a->ttype === 'mx') {
-						$v = $a->param;
-						continue;
+						if ($a->priority === '10') {
+							$v = $a->param;
+							continue;
+						}
 					}
 				}
 
