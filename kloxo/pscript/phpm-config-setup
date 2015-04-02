@@ -21,10 +21,11 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 	xdebug xcache opcache lzf redis enchant ; do
 
 	for j in php.d php-zts.d ; do
-		for k in '10-' '15-' '20-' '25-' '30-' '35-' '40-' '45-' '50-' '55-' \
+		for k in '01-' '10-' '15-' '20-' '25-' '30-' '35-' '40-' '45-' '50-' '55-' \
 				'60-' '65-' '70-' '75-' '80-' '85-' '90-' '95-' '' ; do
 			if [ -f /opt/${base_name}/etc/${j}/${k}${i}.ini ] ; then
 				## MR -- remove path in 'extension='
+				sed -i 's:extension = /:extension=/:' /opt/${base_name}/etc/${j}/${k}${i}.ini
 				sed -i 's:/usr/lib'${uname_m}'/php/modules::' /opt/${base_name}/etc/${j}/${k}${i}.ini
 				## MR -- readd path in 'zend_extension='
 				if [ "$(cat /opt/${base_name}/etc/${j}/${k}${i}.ini|grep 'zend_extension=/')" == "" ] ; then

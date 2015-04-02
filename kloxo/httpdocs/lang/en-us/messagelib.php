@@ -306,8 +306,9 @@ $__information['server_alias_a_addform__pre'] = "<p>You can add wildcards (*) as
 $__information['updateform_sesubmit_pre'] = "<p>Your domain will be submitted to all the searchengines listed below.</p>".
 	"<p>The email should be an address that's not used often, since you are very highly likely to get Spammed on the email you enter here.</p>";
 
-$__information['mmail_updateform_authentication_pre'] = "<p>Your primary MX server is automatically included in the SPF, and you need not add it separately.</p>".
-	"<p>You can use <b>update all</b> to impress these values on all the domains visible on the top pull down list.</p>";
+$__information['mmail_updateform_authentication_pre'] = "<p>Primary MX server is automatically included in the SPF, and need not add it separately.</p>" .
+	"<p>DMARC is optional but recommended to enabled.</p>".
+	"<p>Can use <b>update all</b> to impress these values on all the domains visible on the top pull down list.</p>";
 
 $__information['updateform_preview_config_pre'] = "<p>Preview domain is a master domain, to which the site-preview button will be redirected to.</p>".
 	"<p>You have to manually add a parked domain called domain.com.previewdomain.com to this domain, and then add the previewdomain.com here.</p>".
@@ -813,7 +814,9 @@ $__information['mailforward_addform_alias_pre'] = "<p>No information...</p>";
 
 $__information['mmail_updateform_catchall_pre'] = "<p>No information...</p>";
 
-$__information['mmail_updateform_remotelocalmail_pre'] = "<p>No information...</p>";
+$__information['mmail_updateform_remotelocalmail_pre'] = "<p>Choose 'remote' if using remote mail server (like GoogleApps). " .
+	"Without it, sendmail as 'local'.</p>" .
+	"<p>Webmail URL is optional (left 'blank').</p>";
 
 $__information['mailinglist_list__pre'] = "<p>No information...</p>";
 

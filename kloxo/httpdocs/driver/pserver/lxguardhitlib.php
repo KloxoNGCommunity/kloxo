@@ -165,6 +165,8 @@ class lxguardhitdisplay extends lxclass
 	{
 		$list = rl_exec_get(null, $syncserver, "lxguard_main", array(true));
 
+		if (!$list) { return; }
+
 		if ($list) {
 			foreach($list as $k => $v) {
 				foreach($v as $kk => $vv) {
@@ -201,6 +203,8 @@ class lxguardhitdisplay extends lxclass
 		$sq = new Sqlite(null, "lxguardhit");
 		$res = $sq->rawQuery("SELECT ipaddress, access, count(*) FROM lxguardhit ".
 			"WHERE syncserver = '$server' GROUP BY ipaddress, access");
+
+		if (!$res) { return; }
 
 		foreach($res as $r) {
 			$total[$r['ipaddress']][$r['access']] = $r['count(*)'];

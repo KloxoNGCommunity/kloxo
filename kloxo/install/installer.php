@@ -237,7 +237,7 @@ function install_dns()
 	system("yum -y install bind bind-utils");
 
 	if (!file_exists("/var/log/named")) {
-		exec("mkdir -p /var/log/named");
+		exec("mkdir -p /var/log/named; chown named:root /var/log/named");
 	}
 
 	if (file_exists("/etc/rndc.conf")) {

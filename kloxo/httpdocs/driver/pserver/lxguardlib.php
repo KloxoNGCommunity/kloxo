@@ -11,6 +11,8 @@ class lxguard extends lxdb
 	static $__acdesc_update_whitelist = array("", "",  "whitelist");
 	static $__acdesc_update_remove = array("", "",  "remove");
 	static $__desc_lxguardwhitelist_l = array("d", "",  "");
+	static $__desc_rawlxguardhit_l = array("d", "",  "");
+	static $__desc_lxguardhitdisplay_l = array("d", "",  "");
 
 	static function initThisObjectRule($parent, $class, $name = null) { return $parent->nname; }
 

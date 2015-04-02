@@ -53,7 +53,7 @@ class webtraffic extends lxclass
 				if ($statsprog === 'webalizer') {
 					print("webalizer: $p->nname\n");
 
-					lxshell_return("nice", "-n", "15", "webalizer", "-n", $p->nname, "-t", $p->nname, "-c", 
+					lxshell_return("nice", "-n", "15", "webalizer", "-p", "-n", $p->nname, "-t", $p->nname, "-c", 
 						"__path_real_etc_root/webalizer/webalizer.{$p->nname}.conf");
 				} else {
 					print("awstats: $p->nname\n");

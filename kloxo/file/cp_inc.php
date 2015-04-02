@@ -1,13 +1,13 @@
 <?php
 	$ha = str_replace('cp.', '', $_SERVER["HTTP_HOST"]);
 
-	if (file_exists("nonssl.port")) {
+	if (file_exists(".nonssl.port")) {
 		$nonsslport = file_get_contents(".nonssl.port");
 	} else {
 		$nonsslport = "7778";
 	}
 
-	if (file_exists("ssl.port")) {
+	if (file_exists(".ssl.port")) {
 		$sslport = file_get_contents(".ssl.port");
 	} else {
 		$sslport = "7777";

@@ -1274,12 +1274,22 @@ function get_double_hex($i)
 
 function merge_array_object_not_deleted($array, $object)
 {
-	foreach ($array as $a) {
-		if ($a['nname'] === $object->nname) {
+	$ret = null;
+
+	if (is_array($array)) {
+		foreach ($array as $a) {
+			if ($a['nname'] === $object->nname) {
+				continue;
+			}
+
+			$ret[] = $a;
+		}
+	} else {
+		if ($array['nname'] === $object->nname) {
 			continue;
 		}
 
-		$ret[] = $a;
+		$ret[] = $array;
 	}
 
 	if ($object->isDeleted()) {
@@ -5008,78 +5018,97 @@ function lxguard_clear($list)
 
 }
 
-function lxguard_main($clearflag = false)
+function lxguard_main($since = false, $clearflag = false)
 {
 	include_once "lib/html/lxguardincludelib.php";
 
 	lxfile_mkdir("__path_home_root/lxguard");
 	$lxgpath = "__path_home_root/lxguard";
 
-	$file = "/var/log/secure";
+	$type = array('ssh' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages');
 
-	if (!file_exists($file)) {
-		return;
-	}
-
-	$fp = fopen($file, "r");
-	$fsize = filesize($file);
-	$newtime = time();
-	$oldtime = time() - 60 * 10;
-	$rmt = lfile_get_unserialize("$lxgpath/hitlist.info");
-
-	if ($rmt) {
-		$oldtime = max((int)$oldtime, (int)$rmt->ddate);
-	}
-
-	$ret = FindRightPosition($fp, $fsize, $oldtime, $newtime, "getTimeFromSysLogString");
-
-	$list = lfile_get_unserialize("$lxgpath/access.info");
-
-	if ($ret) {
-		parse_sshd_and_ftpd($fp, $list);
-		lfile_put_serialize("$lxgpath/access.info", $list);
-	}
-
-	get_total($list, $total);
-
-//	dprintr($list['192.168.1.11']);
-
-	dprint_r("Debug: Total: " . $total . "\n");
-	$deny = get_deny_list($total);
-	$hdn = lfile_get_unserialize("$lxgpath/hostdeny.info");
-	$deny = lx_array_merge(array($deny, $hdn));
-	$string = null;
-
-	foreach ($deny as $k => $v) {
-		if (csb($k, "127")) {
-			continue;
+	foreach ($type as $key => $file) {
+		if (!file_exists($file)) {
+			break;
 		}
 
-		$string .= "ALL : $k\n";
-	}
+		$fp = fopen($file, "r");
+		$fsize = filesize($file);
+		$newtime = time();
 
-	dprint("Debug: \$string is:\n" . $string . "\n");
+		if ($since !== false) {
+			$oldtime = time() - intval($since);
+		} else {
+			// MR -- since 1 hour
+			$oldtime = time() - 3600;
+		}
 
-	$stlist[] = "###Start Program Hostdeny config Area";
-	$stlist[] = "###Start Lxdmin Area";
-	$stlist[] = "###Start Kloxo Area";
-	$stlist[] = "###Start Lxadmin Area";
+		$rmt = lfile_get_unserialize("$lxgpath/hitlist.info");
 
-	$endlist[] = "###End Program HostDeny config Area";
-	$endlist[] = "###End Kloxo Area";
-	$endlist[] = "###End Lxadmin Area";
+		if ($rmt) {
+			$oldtime = max((int)$oldtime, (int)$rmt->ddate);
+		}
 
-	$startstring = $stlist[0];
-	$endstring = $endlist[0];
+		$ret = FindRightPosition($fp, $fsize, $oldtime, $newtime, "getTimeFromSysLogString");
 
-	file_put_between_comments("root", $stlist, $endlist, $startstring, $endstring, "/etc/hosts.deny", $string);
+		$list = lfile_get_unserialize("$lxgpath/access.info");
 
-	if ($clearflag) {
-		lxfile_rm("$lxgpath/access.info");
-		$rmt = new Remote();
-		$rmt->hl = $total;
-		$rmt->ddate = time();
-		lfile_put_serialize("$lxgpath/hitlist.info", $rmt);
+		if ($ret) {
+			if ($key === 'ssh') {
+				parse_ssh_log($fp, $list);
+			} elseif ($key === 'pure-ftpd') {
+				parse_ftp_log($fp, $list);
+			}
+
+			lfile_put_serialize("$lxgpath/access.info", $list);
+		}
+
+		get_total($list, $total);
+
+	//	dprintr($list['192.168.1.11']);
+
+		dprint_r("Debug: Total: " . count($total) . "\n");
+
+		$deny = get_deny_list($total);
+		$hdn = lfile_get_unserialize("$lxgpath/hostdeny.info");
+		$deny = lx_array_merge(array($deny, $hdn));
+
+		$string = null;
+
+		foreach ($deny as $k => $v) {
+			if (csb($k, "127")) {
+				continue;
+			}
+
+			$string .= "ALL : $k\n";
+		}
+
+		if (!$string) { return; }
+
+		dprint("Debug: \$string is:\n" . $string . "\n");
+
+		$stlist[] = "###Start Program Hostdeny config Area";
+		$stlist[] = "###Start Lxdmin Area";
+		$stlist[] = "###Start Kloxo Area";
+		$stlist[] = "###Start Lxadmin Area";
+
+		$endlist[] = "###End Program HostDeny config Area";
+		$endlist[] = "###End Kloxo Area";
+		$endlist[] = "###End Lxadmin Area";
+
+		$startstring = $stlist[0];
+		$endstring = $endlist[0];
+
+		file_put_between_comments("root", $stlist, $endlist, $startstring, $endstring, "/etc/hosts.deny", $string);
+
+		if ($clearflag) {
+			lxfile_rm("$lxgpath/access.info");
+			$rmt = new Remote();
+			$rmt->hl = $total;
+			$rmt->ddate = time();
+			lfile_put_serialize("$lxgpath/hitlist.info", $rmt);
+		}
+
 	}
 
 	return $list;
