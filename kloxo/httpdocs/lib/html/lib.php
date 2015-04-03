@@ -5025,90 +5025,88 @@ function lxguard_main($clearflag = false, $since = false)
 	lxfile_mkdir("__path_home_root/lxguard");
 	$lxgpath = "__path_home_root/lxguard";
 
-	$type = array('ssh' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages');
+	$newtime = time();
+
+	if ($since !== false) {
+		$oldtime = time() - intval($since);
+	} else {
+		// MR -- since 1 hour
+		$oldtime = time() - 3600;
+	}
+
+	$rmt = lfile_get_unserialize("$lxgpath/hitlist.info");
+
+	if ($rmt) {
+		$oldtime = max((int)$oldtime, (int)$rmt->ddate);
+	}
+
+	$list = lfile_get_unserialize("$lxgpath/access.info");
+
+	$type = array('sshd' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages');
 
 	foreach ($type as $key => $file) {
-		if (!file_exists($file)) {
-			break;
-		}
+		if (file_exists($file)) {
+			$fp = fopen($file, "r");
+			$fsize = filesize($file);
 
-		$fp = fopen($file, "r");
-		$fsize = filesize($file);
-		$newtime = time();
+			$ret = FindRightPosition($fp, $fsize, $oldtime, $newtime, "getTimeFromSysLogString");
 
-		if ($since !== false) {
-			$oldtime = time() - intval($since);
-		} else {
-			// MR -- since 1 hour
-			$oldtime = time() - 3600;
-		}
+			if ($ret) {
+				if ($key === 'sshd') {
+					parse_ssh_log($fp, $list);
+				} elseif ($key === 'pure-ftpd') {
+					parse_ftp_log($fp, $list);
+				}
 
-		$rmt = lfile_get_unserialize("$lxgpath/hitlist.info");
-
-		if ($rmt) {
-			$oldtime = max((int)$oldtime, (int)$rmt->ddate);
-		}
-
-		$ret = FindRightPosition($fp, $fsize, $oldtime, $newtime, "getTimeFromSysLogString");
-
-		$list = lfile_get_unserialize("$lxgpath/access.info");
-
-		if ($ret) {
-			if ($key === 'ssh') {
-				parse_ssh_log($fp, $list);
-			} elseif ($key === 'pure-ftpd') {
-				parse_ftp_log($fp, $list);
+				lfile_put_serialize("$lxgpath/access.info", $list);
 			}
+		}
+	}
 
-			lfile_put_serialize("$lxgpath/access.info", $list);
+	get_total($list, $total);
+
+//	dprintr($list['192.168.1.11']);
+
+	dprint_r("Debug: Total: " . count($total) . "\n");
+
+	$deny = get_deny_list($total);
+	$hdn = lfile_get_unserialize("$lxgpath/hostdeny.info");
+	$deny = lx_array_merge(array($deny, $hdn));
+
+	$string = null;
+
+	foreach ($deny as $k => $v) {
+		if (csb($k, "127")) {
+			continue;
 		}
 
-		get_total($list, $total);
+		$string .= "ALL : $k\n";
+	}
 
-	//	dprintr($list['192.168.1.11']);
+//	if (!$string) { return; }
 
-		dprint_r("Debug: Total: " . count($total) . "\n");
+	dprint("Debug: \$string is:\n" . $string . "\n");
 
-		$deny = get_deny_list($total);
-		$hdn = lfile_get_unserialize("$lxgpath/hostdeny.info");
-		$deny = lx_array_merge(array($deny, $hdn));
+	$stlist[] = "###Start Program Hostdeny config Area";
+	$stlist[] = "###Start Lxdmin Area";
+	$stlist[] = "###Start Kloxo Area";
+	$stlist[] = "###Start Lxadmin Area";
 
-		$string = null;
+	$endlist[] = "###End Program HostDeny config Area";
+	$endlist[] = "###End Kloxo Area";
+	$endlist[] = "###End Lxadmin Area";
 
-		foreach ($deny as $k => $v) {
-			if (csb($k, "127")) {
-				continue;
-			}
+	$startstring = $stlist[0];
+	$endstring = $endlist[0];
 
-			$string .= "ALL : $k\n";
-		}
+	file_put_between_comments("root", $stlist, $endlist, $startstring, $endstring, "/etc/hosts.deny", $string);
 
-		if (!$string) { return; }
-
-		dprint("Debug: \$string is:\n" . $string . "\n");
-
-		$stlist[] = "###Start Program Hostdeny config Area";
-		$stlist[] = "###Start Lxdmin Area";
-		$stlist[] = "###Start Kloxo Area";
-		$stlist[] = "###Start Lxadmin Area";
-
-		$endlist[] = "###End Program HostDeny config Area";
-		$endlist[] = "###End Kloxo Area";
-		$endlist[] = "###End Lxadmin Area";
-
-		$startstring = $stlist[0];
-		$endstring = $endlist[0];
-
-		file_put_between_comments("root", $stlist, $endlist, $startstring, $endstring, "/etc/hosts.deny", $string);
-
-		if ($clearflag) {
-			lxfile_rm("$lxgpath/access.info");
-			$rmt = new Remote();
-			$rmt->hl = $total;
-			$rmt->ddate = time();
-			lfile_put_serialize("$lxgpath/hitlist.info", $rmt);
-		}
-
+	if ($clearflag) {
+		lxfile_rm("$lxgpath/access.info");
+		$rmt = new Remote();
+		$rmt->hl = $total;
+		$rmt->ddate = time();
+		lfile_put_serialize("$lxgpath/hitlist.info", $rmt);
 	}
 
 	return $list;
