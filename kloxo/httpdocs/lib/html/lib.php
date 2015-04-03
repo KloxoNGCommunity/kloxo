@@ -5018,7 +5018,7 @@ function lxguard_clear($list)
 
 }
 
-function lxguard_main($since = false, $clearflag = false)
+function lxguard_main($clearflag = false, $since = false)
 {
 	include_once "lib/html/lxguardincludelib.php";
 

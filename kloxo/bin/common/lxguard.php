@@ -5,5 +5,8 @@ include_once "lib/html/lxguardincludelib.php";
 
 debug_for_backend();
 
-lxguard_main($argv[1]);
+lxfile_rm('/home/kloxo/lxguard/access.info');
+lxfile_rm('/home/kloxo/lxguard/hitlist.info');
+
+lxguard_main($clearflag = false, $since = $argv[1]);
 

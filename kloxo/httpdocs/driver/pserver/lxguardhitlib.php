@@ -164,6 +164,7 @@ class lxguardhitdisplay extends lxclass
 	static function getDataFromServer($syncserver)
 	{
 		$list = rl_exec_get(null, $syncserver, "lxguard_main", array(true));
+	//	$list = rl_exec_get(null, $syncserver, "lxguard_main");
 
 		if (!$list) { return; }
 
@@ -201,6 +202,7 @@ class lxguardhitdisplay extends lxclass
 	static function createHitList($server)
 	{
 		$sq = new Sqlite(null, "lxguardhit");
+
 		$res = $sq->rawQuery("SELECT ipaddress, access, count(*) FROM lxguardhit ".
 			"WHERE syncserver = '$server' GROUP BY ipaddress, access");
 
@@ -217,6 +219,7 @@ class lxguardhitdisplay extends lxclass
 			if (isset($_SERVER['REMOTE_ADDR']) && $k === $_SERVER['REMOTE_ADDR']) {
 				$res['currentip_flag'] = 'on';
 			}
+
 			$res['ipaddress'] = $k;
 			$res['failcount'] = isset($t['fail']) ? $t['fail'] : 0;
 			$res['successcount'] = isset($t['success']) ? $t['success'] : 0;
