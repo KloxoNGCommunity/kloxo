@@ -93,3 +93,5 @@ ALTER TABLE `mmail` ADD `dmarc_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `m
 ALTER TABLE `client` ADD `priv_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `used_q_totaldisk_usage`;
 ALTER TABLE `client` ADD `used_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `priv_q_totalinode_usage`;
 
+ALTER TABLE `serverftp` ADD `defaultport` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_anon_ftp`;
+

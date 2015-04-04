@@ -8322,7 +8322,7 @@ function setHostsFile($nolog = null)
 	exec("ifconfig |grep -i 'inet addr:'|grep -v '127.0.0.1'|awk '{print $2}'|sed 's/addr\://'", $hnip);
 //	}
 
-	$content = "{$hnip[0]} {$hnfull[0]} {$hnshort[0]}";
+	$content = "{$hnip[0]} {$hnfull[0]} {$hnshort[0]}\n";
 
 	$hnfile = '/etc/hosts';
 
