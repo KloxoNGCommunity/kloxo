@@ -1573,28 +1573,31 @@ function exec_with_all_closed($cmd)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	$string = null;
-	/*
-		log_shell("Closed Exec $sgbl->__path_program_root/cexe/closeallinput '$cmd' >/dev/null 2>&1 &");
-		chmod("$sgbl->__path_program_root/cexe/closeallinput", 0755);
-		exec("$sgbl->__path_program_root/cexe/closeallinput '$cmd' >/dev/null 2>&1 &");
-	*/
-	log_shell("Closed Exec $sgbl->__path_program_root/cexe/closeinput '$cmd' >/dev/null 2>&1 &");
-	chmod("$sgbl->__path_program_root/cexe/closeinput", 0755);
-	exec("$sgbl->__path_program_root/cexe/closeinput '$cmd' >/dev/null 2>&1 &");
-}
 
+	log_shell("Closed Exec $sgbl->__path_program_root/cexe/closeallinput '{$cmd}' >/dev/null 2>&1 &");
+	chmod("{$sgbl->__path_program_root}/cexe/closeallinput", 0755);
+	exec("{$sgbl->__path_program_root}/cexe/closeallinput '{$cmd}' >/dev/null 2>&1 &");
+
+/*
+	log_shell("Closed Exec $sgbl->__path_program_root/cexe/closeinput '{$cmd}' >/dev/null 2>&1 &");
+	chmod("{$sgbl->__path_program_root}/cexe/closeinput", 0755);
+	exec("{$sgbl->__path_program_root}/cexe/closeinput '{$cmd}' >/dev/null 2>&1 &");
+*/
+}
 
 function exec_with_all_closed_output($cmd)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-	/*
-		chmod("$sgbl->__path_program_root/cexe/closeallinput", 0755);
-		$res = shell_exec("$sgbl->__path_program_root/cexe/closeallinput '$cmd' 2>/dev/null");
-		log_shell("Closed Exec output: $res :  $sgbl->__path_program_root/cexe/closeallinput '$cmd'");
-	*/
-	chmod("$sgbl->__path_program_root/cexe/closeinput", 0755);
-	$res = shell_exec("$sgbl->__path_program_root/cexe/closeinput '$cmd' 2>/dev/null");
-	log_shell("Closed Exec output: $res :  $sgbl->__path_program_root/cexe/closeinput '$cmd'");
+
+	chmod("{$sgbl->__path_program_root}/cexe/closeallinput", 0755);
+	$res = shell_exec("{$sgbl->__path_program_root}/cexe/closeallinput '{$cmd}' 2>/dev/null");
+	log_shell("Closed Exec output: {$res} :  {$sgbl->__path_program_root}/cexe/closeallinput '{$cmd}'");
+
+/*
+	chmod("{$sgbl->__path_program_root}/cexe/closeinput", 0755);
+	$res = shell_exec("{$sgbl->__path_program_root}/cexe/closeinput '$cmd' 2>/dev/null");
+	log_shell("Closed Exec output: {$res} :  {$sgbl->__path_program_root}/cexe/closeinput '{$cmd}'");
+*/
 
 	return trim($res);
 }

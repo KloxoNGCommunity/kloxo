@@ -20,8 +20,10 @@ function timed_execution()
 
 function execSisinfoc()
 {
+	global $sgbl;
+
 	dprint("execing sisinfoc\n");
 
-	lxshell_background("__path_php_path", "../bin/sisinfoc.php");
+	lxshell_background("{$sgbl->__path_php_path}", "../bin/sisinfoc.php");
 }
 

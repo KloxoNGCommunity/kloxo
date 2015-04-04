@@ -109,7 +109,7 @@ int run_php_prog_ssl(SSL *ssl, int sock)
 	if (pid == 0) {
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
-		execl("/usr/bin/lxphp.exe", "lxphp", "../bin/common/process_single.php", ftempname, NULL);
+		execl("/usr/bin/lxphp.exe", "lxphp.exe", "../bin/common/process_single.php", ftempname, NULL);
 		printf("Exec failed\n");
 		exit(0);
 	} else {
@@ -180,7 +180,7 @@ SSL_CTX * ssl_init()
 	SSL_load_error_strings();
 
 	/* Create a SSL_METHOD structure (choose a SSL/TLS protocol version) */
-	meth = SSLv2_method();
+	meth = TLSv1_method();
 
 	/* Create a SSL_CTX structure */
 	ctx = SSL_CTX_new(meth);

@@ -18,8 +18,9 @@ if ($sgbl->is_this_master()) {
 monitor_load();
 collect_traffic();
 lxguard_main();
-//add_to_log("/var/log/kloxo/smtp.log");
-//add_to_log("/var/log/kloxo/courier");
+
+//	add_to_log("/var/log/kloxo/smtp.log");
+//	add_to_log("/var/log/kloxo/courier");
 
 
 
@@ -27,25 +28,27 @@ function collect_traffic()
 {
 	global $sgbl;
 
-	$flfile = "$sgbl->__path_program_etc/last_sisinfoc";
+	$flfile = "{$sgbl->__path_program_etc}/last_sisinfoc";
 	$ret = lfile_get_unserialize($flfile);
 	$interval = 20 * 60;
-	//$interval = 2;
+
+//	$interval = 2;
 	
 	if ((time() - $ret['time']) < $interval) {
-		//return;
+	//	return;
 	}
 
 	$oldtime = $ret['time'];
 
-	//if (!$oldtime) { $oldtime = time() - 20 * 60 ; }
+//	if (!$oldtime) { $oldtime = time() - 20 * 60 ; }
 	if (!$oldtime) { $oldtime = time() - 5 * 60 ; }
 
 	$newtime = time();
 	$ret['time'] = time();
+
 	lfile_put_serialize($flfile, $ret);
 
-	//mailtraffic:generateGraph($oldtime, $newtime);
-	//webtraffic::generateGraph($oldtime, $newtime);
+//	mailtraffic:generateGraph($oldtime, $newtime);
+//	webtraffic::generateGraph($oldtime, $newtime);
 }
 

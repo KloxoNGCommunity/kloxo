@@ -1,20 +1,27 @@
 all:
-#	rm -f closeinput
+	rm -f closeinput
+	rm -f closeallinput
+
 	rm -f kloxo.exe
 	rm -f kloxo.o
 
 	cc -static -o closeinput closeinput.c
-
-#	chmod 755 closeinput
-#	chmod ug+s closeinput
+	cc -static -o closeallinput closeallinput.c
 
 	gcc -o kloxo.exe kloxo.c -lssl
-	cp kloxo.exe ../sbin/kloxo.exe
-	cp kloxo.exe ../sbin/kloxo.exe.core
 
-	rm -f kloxo.exe
-	rm -f kloxo.o
+	chmod 0755 closeinput
+	chmod ug+s closeinput
 
+	chmod 0755 closeallinput
+	chmod ug+s closeallinput
+
+	chmod 0755 kloxo.exe
+	chmod ug+s kloxo.exe
+
+	cp -f kloxo.exe ../sbin/kloxo.exe
+	cp -f kloxo.exe ../sbin/kloxo.exe.core
 
 #test:
-#	./closeinput "ps ax > test.q"
+#	./closeinput "ps ax > closeinput.q"
+#	./closeallinput "ps ax > closeallinput.q"

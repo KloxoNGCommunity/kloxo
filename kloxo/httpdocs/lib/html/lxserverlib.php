@@ -4,13 +4,15 @@ function lxserver_main()
 {
 	global $gbl, $sgbl, $login, $ghtml;
 	global $argv, $argc;
+
 	// Set time limit to indefinite execution
 
 
 	if ($argv[1] === 'slave') {
 		$login = new Client(null, null, 'slave');
+
 		//Initthisdef uses the db to load the drivers. NO longer callable in slave.
-		//$login->initThisDef();
+	//	$login->initThisDef();
 		$gbl->is_slave = true;
 		$gbl->is_master = false;
 		$rmt = unserialize(lfile_get_contents("__path_slave_db"));
@@ -24,12 +26,14 @@ function lxserver_main()
 		$argv[1] = "Running as Master";
 	} else {
 		print("Wrong arguments\n");
+
 		exit;
 	}
+
 	$login->cttype = 'admin';
 
-	//set_error_handler("lx_error_handler");
-	//set_exception_handler("lx_exception_handler");
+//	set_error_handler("lx_error_handler");
+//	set_exception_handler("lx_exception_handler");
 
 	set_time_limit(0);
 
@@ -39,15 +43,19 @@ function lxserver_main()
 function do_server_stuff()
 {
 	global $gbl, $sgbl, $login, $ghtml;
-	//dprint("in Do server stuff\n");
+
+//	dprint("in Do server stuff\n");
 
 	try {
 		timed_execution();
+
 		if ($sgbl->is_this_master()) {
 			$schour = null;
 			$schour = $login->getObject('general')->generalmisc_b->scavengehour;
 			$scminute = $login->getObject('general')->generalmisc_b->scavengeminute;
-			//dprint("Cron exec $schour, $scminute\n");
+
+		//	dprint("Cron exec $schour, $scminute\n");
+
 			if ($schour) {
 				cron_exec($schour, $scminute, "exec_scavenge");
 			} else {
@@ -65,14 +73,15 @@ function cron_exec($hour, $minute, $func)
 {
 	static $localvar;
 
-	//dprint("in Cron exec\n");
-	//dprintr($localvar);
+//	dprint("in Cron exec\n");
+//	dprintr($localvar);
 
 	$time = mktime($hour, $minute, 0, date('n'), date('j'), date("Y"));
 	$now = time();
 
 	if (isset($localvar[$func]) && $localvar[$func]) {
-		//dprint("Already execed \n");
+	//	dprint("Already execed \n");
+
 		if ($now > $time + 2 * 60) {
 			$localvar[$func] = false;
 		}
@@ -95,7 +104,7 @@ function timed_exec($time, $func)
 	$ct = time();
 
 	if (($ct - $$v) >= $time * 30) {
-		//dprint("Executing at $ct {$$v} rd time $func\n");
+	//	dprint("Executing at $ct {$$v} rd time $func\n");
 		$$v = $ct;
 		$func();
 	}
@@ -104,10 +113,14 @@ function timed_exec($time, $func)
 function exec_scavenge()
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
 	dprint("Execing collect quota\n");
+
 	$olddir = getcwd();
 	lchdir("__path_program_htmlbase");
+
 	exec_with_all_closed("$sgbl->__path_php_path ../bin/scavenge.php");
+
 	lchdir($olddir);
 }
 
@@ -127,8 +140,10 @@ function checkRestart()
 		if (csb($r, "._restart_")) {
 			$cmd = strfrom($r, "._restart_");
 		}
+
 		lunlink("__path_program_etc/.restart/$r");
 		dprint("Restarting $cmd\n");
+
 		// THe 3,4 etc are the tcp ports of this program, and it should be closed, else some programs will grab it.
 		//exec("/etc/init.d/$cmd restart  </dev/null >/dev/null 2>&1 3</dev/null 4</dev/null 5</dev/null 6</dev/null &");
 		switch ($cmd) {
@@ -194,10 +209,7 @@ function special_bind_restart($cmd)
 	} else {
 		myPcntl_wait();
 	}
-
-
 }
-
 
 function reload_lxserver_password()
 {
@@ -229,15 +241,15 @@ function root_main($d)
 		$res->ret = -1;
 		$res->exception = $e;
 	}
+
 	return $res;
 }
 
 function do_root_main($data)
 {
-
 	dprintr("Remote: ");
 	dprintr($data);
+
 	return do_remote($data);
 }
-
 
