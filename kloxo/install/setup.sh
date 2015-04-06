@@ -228,10 +228,10 @@ else
 fi
 
 ## fix driver - always set default
-sh /script/changedriver web apache
-sh /script/changedriver webcache none
-sh /script/changedriver dns bind
-sh /script/changedriver spam bogofilter
+sh /script/changedriver web apache >/dev/null 2>&1
+sh /script/changedriver webcache none >/dev/null 2>&1
+sh /script/changedriver dns bind >/dev/null 2>&1
+sh /script/changedriver spam bogofilter >/dev/null 2>&1
 
 sh /script/restart-all --force >/dev/null 2>&1
 
