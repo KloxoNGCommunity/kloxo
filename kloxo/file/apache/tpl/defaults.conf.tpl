@@ -7,6 +7,18 @@ $srcconfdpath = "/opt/configs/apache/etc/conf.d";
 $trgtconfpath = "/etc/httpd/conf";
 $trgtconfdpath = "/etc/httpd/conf.d";
 
+// MR -- mod_ruid2 from epel use mod_ruid2.conf
+foreach (glob("{$trgtconfdpath}/mod_*.conf") as $file)
+{
+	$newfile = str_replace('.conf', '.nonconf', $file);
+	
+	if (file_exists($newfile)) {
+		unlink($newfile);
+	}
+	
+	rename($file, $newfile);
+}
+
 if (file_exists("{$srcconfpath}/custom.httpd.conf")) {
 	copy("{$srcconfpath}/custom.httpd.conf", "{$trgtconfpath}/httpd.conf");
 } else {

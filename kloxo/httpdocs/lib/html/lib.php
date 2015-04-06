@@ -5033,8 +5033,13 @@ function lxguard_main($clearflag = false, $since = false)
 	if ($since !== false) {
 		$oldtime = time() - intval($since);
 	} else {
-		// MR -- since 1 hour
-		$oldtime = time() - 3600;
+		if (file_exists("$lxgpath/hitlist.info")) {
+			// MR -- since 10 minutes
+			$oldtime = time() - (60 * 10);
+		} else {
+			// MR -- 3 months
+			$oldtime = time() - (60 * 60 * 24 * 30 * 3);
+		}
 	}
 
 	$rmt = lfile_get_unserialize("$lxgpath/hitlist.info");
