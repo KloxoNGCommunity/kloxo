@@ -142,17 +142,27 @@ function sshLogString($string, &$list)
 
 	$time = getTimeFromSysLogString($string);
 
-	preg_match("/.*Failed password for( invalid user)? (.*) from ([^ ]*).*/", $string, $match);
+	if ($access === 'fail') {
+		preg_match("/.*Failed password for( invalid user)? (.*) from ([^ ]*).*/", $string, $match);
 
-	if (!$match) { return; }
+		$ip = $match[3];
+		$user = $match[2];
+	} else {
+		preg_match("/.*Accepted password for (.*) from ([^ ]*).*/", $string, $match);
 
-	$ip = $match[3];
+		$ip = $match[2];
+		$user = $match[1];
+	}
 
 	if (csb($ip, "::ffff:")) {
 		$ip = strfrom($ip, "::ffff:");
 	}
 
-	$user = $match[2];
+	if (!$match) { return; }
+
+	if (csb($ip, "::ffff:")) {
+		$ip = strfrom($ip, "::ffff:");
+	}
 
 	if (csb($ip, "127")) { return; }
 

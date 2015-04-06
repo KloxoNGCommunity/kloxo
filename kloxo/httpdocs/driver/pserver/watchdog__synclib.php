@@ -1,6 +1,7 @@
 <?php
 
-class watchdog__sync extends Lxdriverclass {
+class watchdog__sync extends Lxdriverclass
+{
 
 	static function watchRun()
 	{
@@ -72,10 +73,18 @@ class watchdog__sync extends Lxdriverclass {
 
 	function dbactionUpdate($subaction)
 	{
-		$result = $this->main->__var_watchlist;
-		unset($this->main->__var_watchlist);
-		$result = merge_array_object_not_deleted($result, $this->main);
-		lfile_put_serialize("../etc/watchdog.conf", $result);
+		switch ($subaction) {
+			case "ftp":
+				// MR -- TODO
+				break;
+			case "full_update":
+			default:
+				$result = $this->main->__var_watchlist;
+				unset($this->main->__var_watchlist);
+				$result = merge_array_object_not_deleted($result, $this->main);
+				lfile_put_serialize("../etc/watchdog.conf", $result);
+				break;
+		}
 	}
 
 	function dbactionAdd()

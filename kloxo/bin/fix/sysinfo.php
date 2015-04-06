@@ -55,6 +55,12 @@ $hiawathabranch = getRpmBranchInstalled('hiawatha');
 if ($hiawathabranch) {
 	exec("rpm -q {$hiawathabranch}", $apphiawatha);
 	$apphiawatha = trim($apphiawatha[0]);
+
+	exec("chkconfig --list|grep 'hiawatha'|grep ':on'", $out);
+
+	if ($out[0] !== '') {
+		$apphiawatha .= " (also as webserver)";
+	}
 } else {
 	$apphiawatha = '--uninstalled--';
 }

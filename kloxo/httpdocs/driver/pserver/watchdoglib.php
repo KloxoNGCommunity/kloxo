@@ -42,13 +42,14 @@ class watchdog extends lxdb
 	{
 		$vlist['servicename'] = array('M', null);
 		$vlist['status'] = null;
-		$vlist['port'] = array('M', null);
+	//	$vlist['port'] = array('M', null);
+		$vlist['port'] = null;
 
-		if ($this->isOn('added_by_system')) {
-			$vlist['action'] = array('M', null);
-		} else {
+	//	if ($this->isOn('added_by_system')) {
+	//		$vlist['action'] = array('M', null);
+	//	} else {
 			$vlist['action'] = null;
-		}
+	//	}
 
 		return $vlist;
 	}
@@ -63,11 +64,13 @@ class watchdog extends lxdb
 		return $nlist;
 	}
 
+/*
+	// MR -- disabled because want able to deleted from list
 	static function createListBlist($parent, $class)
 	{
 		return null;
 	}
-
+*/
 	static function addDefaultWatchdog($pserver)
 	{
 		$v = new watchdog(null, $pserver, "mysql___$pserver");
@@ -131,5 +134,24 @@ class watchdog extends lxdb
 		$v->dbaction = 'add';
 		$v->createExtraVariables();
 		$v->was();
+	}
+
+	static function AddListForm($parent, $class)
+	{
+		return self::addform($parent, $class);
+	}
+
+	static function addform($parent, $class, $typetd = null)
+	{
+
+		$vlist['servicename'] = null;
+		$vlist['status'] = null;
+		$vlist['port'] = null;
+		$vlist['action'] = null;
+
+		$ret['action'] = 'add';
+		$ret['variable'] = $vlist;
+
+		return $ret;
 	}
 }
