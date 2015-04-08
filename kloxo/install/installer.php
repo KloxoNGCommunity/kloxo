@@ -54,6 +54,8 @@ function lxins_main()
 	$patch = "\n### begin -- add by Kloxo-MR\n" .
 		"fs.aio-max-nr = 1048576\n" .
 		"fs.file-max = 1048576\n" .
+		"net.ipv4.tcp_syncookies = 1\n" .
+		"net.ipv4.tcp_max_syn_backlog = 2048\n" .
 		"#vm.swappiness = 10\n" .
 		"#vm.vfs_cache_pressure = 100\n" .
 		"#vm.dirty_background_ratio = 15\n" .

@@ -56,6 +56,12 @@
 	if (!$date_timezone_flag) {
 		$date_timezone_flag = 'Europe/London';
 	}
+
+	if ($user === 'apache') {
+		$chroot_dir = "/home/kloxo/httpd";
+	} else {
+		$chroot_dir = "/home/{$user}";
+	}
 ?>
 [<?php echo $pool; ?>]
 ;catch_workers_output = yes
@@ -93,8 +99,9 @@ request_slowlog_timeout = 30s
 slowlog = /var/log/php-fpm/slow.log
 rlimit_files = 1024
 rlimit_core = 0
-;chroot = 
-;chdir = /var/www
+;chroot = <?php echo $chroot_dir; ?>
+
+;chdir = /
 catch_workers_output = yes
 security.limit_extensions = .php .php3 .php4 .php5
 

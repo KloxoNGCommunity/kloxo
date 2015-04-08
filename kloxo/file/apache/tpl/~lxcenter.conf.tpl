@@ -42,6 +42,8 @@
 	if ($maxpar_w < 2) { $maxpar_w = 2; }
 
 	$keepalive = 'Off';
+	
+	$mcfactor = 25;
 ?>
 
 Timeout 150
@@ -106,12 +108,12 @@ KeepAliveTimeout 15
     ServerLimit <?php echo $maxpar_w; ?>
 
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $minpar_w * 25; ?>
+        MaxRequestWorkers <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $minpar_w * 25; ?>
+        MaxClients <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxRequestsPerChild 0
     </IfVersion>
@@ -134,12 +136,12 @@ KeepAliveTimeout 15
     MaxRequestsPerChild 0
     ThreadStackSize 8196
     <IfVersion >= 2.4>
-        MaxRequestWorkers <?php echo $minpar_w * 25; ?>
+        MaxRequestWorkers <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-        MaxClients <?php echo $minpar_w * 25; ?>
+        MaxClients <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxRequestsPerChild 0
     </IfVersion>

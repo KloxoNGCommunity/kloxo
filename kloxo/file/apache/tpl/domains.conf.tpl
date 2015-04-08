@@ -175,7 +175,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -278,7 +279,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine on
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -376,7 +378,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -418,7 +421,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -521,7 +525,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -822,7 +827,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -934,7 +940,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -985,7 +992,8 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
 		SSLHonorCipherOrder On
-		SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
@@ -1066,8 +1074,8 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($webmailremote) {
 ?>
 
-						## webmail for parked '<?php echo $parkdomainname; ?>'
-						<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+## webmail for parked '<?php echo $parkdomainname; ?>'
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1079,22 +1087,23 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-							<IfModule mod_ssl.c>
-								SSLEngine On
-								SSLProtocol ALL -SSLv2 -SSLv3
-								SSLHonorCipherOrder On
-								SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-								SSLCertificateFile <?php echo $certname; ?>.pem
-								SSLCertificateKeyFile <?php echo $certname; ?>.key
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLProtocol ALL -SSLv2 -SSLv3
+		SSLHonorCipherOrder On
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
+		SSLCertificateFile <?php echo $certname; ?>.pem
+		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
 								if (file_exists("{$certname}.ca")) {
 
 ?>
-									SSLCACertificatefile <?php echo $certname; ?>.ca
+		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
 								}
 ?>
-							</IfModule>
+		</IfModule>
 <?php
 						}
 ?>
@@ -1105,8 +1114,8 @@ foreach ($certnamelist as $ip => $certname) {
 					} elseif ($webmailmap) {
 ?>
 
-						## webmail for parked '<?php echo $parkdomainname; ?>'
-						<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+## webmail for parked '<?php echo $parkdomainname; ?>'
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1121,22 +1130,23 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-							<IfModule mod_ssl.c>
-								SSLEngine On
-								SSLProtocol ALL -SSLv2 -SSLv3
-								SSLHonorCipherOrder On
-								SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-								SSLCertificateFile <?php echo $certname; ?>.pem
-								SSLCertificateKeyFile <?php echo $certname; ?>.key
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLProtocol ALL -SSLv2 -SSLv3
+		SSLHonorCipherOrder On
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
+		SSLCertificateFile <?php echo $certname; ?>.pem
+		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
 								if (file_exists("{$certname}.ca")) {
 
 ?>
-									SSLCACertificatefile <?php echo $certname; ?>.ca
+		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
 								}
 ?>
-							</IfModule>
+	</IfModule>
 <?php
 						}
 ?>
@@ -1205,7 +1215,7 @@ foreach ($certnamelist as $ip => $certname) {
 					} else {
 ?>
 
-						## No mail map for parked '<?php echo $parkdomainname; ?>'
+## No mail map for parked '<?php echo $parkdomainname; ?>'
 
 <?php
 					}
@@ -1221,8 +1231,8 @@ foreach ($certnamelist as $ip => $certname) {
 				if ($disabled) {
 ?>
 
-					## webmail for redirect '<?php echo $redirdomainname; ?>'
-					<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+## webmail for redirect '<?php echo $redirdomainname; ?>'
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1237,13 +1247,14 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($count !== 0) {
 ?>
 
-						<IfModule mod_ssl.c>
-							SSLEngine On
-							SSLProtocol ALL -SSLv2 -SSLv3
-							SSLHonorCipherOrder On
-							SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-							SSLCertificateFile <?php echo $certname; ?>.pem
-							SSLCertificateKeyFile <?php echo $certname; ?>.key
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLProtocol ALL -SSLv2 -SSLv3
+		SSLHonorCipherOrder On
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
+		SSLCertificateFile <?php echo $certname; ?>.pem
+		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
 							if (file_exists("{$certname}.ca")) {
 
@@ -1252,7 +1263,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
 							}
 ?>
-						</IfModule>
+	</IfModule>
 <?php
 					}
 ?>
@@ -1322,8 +1333,8 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($webmailremote) {
 ?>
 
-						## webmail for redirect '<?php echo $redirdomainname; ?>'
-						<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+## webmail for redirect '<?php echo $redirdomainname; ?>'
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1335,22 +1346,23 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-							<IfModule mod_ssl.c>
-								SSLEngine On
-								SSLProtocol ALL -SSLv2 -SSLv3
-								SSLHonorCipherOrder On
-								SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-								SSLCertificateFile <?php echo $certname; ?>.pem
-								SSLCertificateKeyFile <?php echo $certname; ?>.key
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLProtocol ALL -SSLv2 -SSLv3
+		SSLHonorCipherOrder On
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
+		SSLCertificateFile <?php echo $certname; ?>.pem
+		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
 								if (file_exists("{$certname}.ca")) {
 
 ?>
-									SSLCACertificatefile <?php echo $certname; ?>.ca
+		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
 								}
 ?>
-							</IfModule>
+	</IfModule>
 <?php
 						}
 ?>
@@ -1361,8 +1373,8 @@ foreach ($certnamelist as $ip => $certname) {
 					} elseif ($webmailmap) {
 ?>
 
-						## webmail for redirect '<?php echo $redirdomainname; ?>'
-						<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+## webmail for redirect '<?php echo $redirdomainname; ?>'
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1377,22 +1389,23 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-							<IfModule mod_ssl.c>
-								SSLEngine On
-								SSLProtocol ALL -SSLv2 -SSLv3
-								SSLHonorCipherOrder On
-								SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-								SSLCertificateFile <?php echo $certname; ?>.pem
-								SSLCertificateKeyFile <?php echo $certname; ?>.key
+	<IfModule mod_ssl.c>
+		SSLEngine On
+		SSLProtocol ALL -SSLv2 -SSLv3
+		SSLHonorCipherOrder On
+		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
+		SSLCertificateFile <?php echo $certname; ?>.pem
+		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
 								if (file_exists("{$certname}.ca")) {
 
 ?>
-									SSLCACertificatefile <?php echo $certname; ?>.ca
+		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
 								}
 ?>
-							</IfModule>
+	</IfModule>
 <?php
 						}
 ?>
@@ -1461,7 +1474,7 @@ foreach ($certnamelist as $ip => $certname) {
 					} else {
 ?>
 
-						## No mail map for redirect '<?php echo $redirdomainname; ?>'
+## No mail map for redirect '<?php echo $redirdomainname; ?>'
 
 <?php
 					}

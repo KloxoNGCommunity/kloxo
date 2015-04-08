@@ -3896,8 +3896,9 @@ function FindRightPosition($fp, $fsize, $oldtime, $newtime, $func)
 	$begtime = call_user_func($func, $string);
 
 	if ($newtime < $begtime) {
-		dprint("ENd time $newtime < $begtime Less than Beginning. \n");
-		print("Date: " . @ date('Y-m-d: H:i:s', $newtime) . " " . @ date('Y-m-d: h:i:s', $begtime) . "\n");
+		dprint("End time $newtime < $begtime Less than Beginning. \n");
+//		print("Date: " . @ date('Y-m-d: H:i:s', $newtime) . " " . @ date('Y-m-d: h:i:s', $begtime) . "\n");
+		print("<div align='center'>Date: " . @ date('Y-m-d: h:i:s', $begtime) . "(begin) - " . @ date('Y-m-d: H:i:s', $newtime) . " (end)</div>\n");
 
 		return -1;
 	}

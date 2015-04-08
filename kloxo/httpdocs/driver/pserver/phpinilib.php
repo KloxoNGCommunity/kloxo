@@ -352,6 +352,8 @@ class phpini extends lxdb
 			}
 
 			if ($subaction !== 'extraedit') {
+				$this->initialValue('date_timezone_flag', 'Europe/London');
+
 			//	$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
 				$vlist["phpini_flag_b-date_timezone_flag"] = array('s', getTimeZoneList());
 			}
