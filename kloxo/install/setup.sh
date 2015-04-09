@@ -227,11 +227,6 @@ else
 	echo "... Wait until finished (restart services) ..."
 fi
 
-## fix driver - always set default
-sh /script/setdriver --server=localhost --class=web --driver=apache >/dev/null 2>&1
-sh /script/setdriver --server=localhost --class=webcache --driver=none >/dev/null 2>&1
-sh /script/setdriver --server=localhost --class=dns --driver=bind >/dev/null 2>&1
-sh /script/setdriver --server=localhost --class=spam --driver=bogofilter >/dev/null 2>&1
 
 sh /script/restart-all --force >/dev/null 2>&1
 
