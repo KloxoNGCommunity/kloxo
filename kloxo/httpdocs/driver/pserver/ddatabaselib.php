@@ -72,7 +72,7 @@ class databasecore extends Lxdb
 		$param['dbpassword'] = trim($param['dbpassword']);
 
 		validate_database_name($param['nname']);
-		validate_password_add($param['dbpassword']);
+		validate_password($param['dbpassword']);
 
 		$param['dbname'] = $param['nname'];
 

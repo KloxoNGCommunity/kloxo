@@ -1015,7 +1015,7 @@ class ClientBase extends ClientCore
 		$param['password'] = trim($param['password']);
 
 		validate_client_name($param['nname']);
-		validate_password_add($param['password']);
+		validate_password($param['password']);
 
 		// and issue #657 - Client user names with "__" are displayed with missing end
 		if (stristr($param['nname'], '__')) {

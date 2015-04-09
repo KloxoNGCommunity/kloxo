@@ -1099,12 +1099,12 @@ function validate_database_name($name)
 	}
 }
 
-function validate_password_add($name)
+function validate_password($name)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
 	if (!preg_match('/^([a-zA-Z0-9]){8,64}$/', $name)) {
-		throw new lxException($login->getThrow('invalid_add_password'), '', $name);
+		throw new lxException($login->getThrow('invalid_password'), '', $name);
 	}
 }
 
