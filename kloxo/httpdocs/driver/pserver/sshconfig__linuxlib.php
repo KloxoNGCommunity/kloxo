@@ -22,6 +22,8 @@ class sshconfig__linux extends lxDriverClass
 					$port = $this->main->ssh_port;
 				}
 
+				$str = lfile_get_contents("../file/template/sshd_config");
+
 				$str = str_replace("%ssh_port%", $port, $str);
 		
 				if ($this->main->isOn('without_password_flag')) {
