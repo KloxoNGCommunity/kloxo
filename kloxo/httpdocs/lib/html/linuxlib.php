@@ -237,8 +237,8 @@ function os_kill_process_user($username)
 function os_create_default_slave_driver_db()
 {
 	$a['web'] = "apache";
-	$a['dns'] = "bind";
 	$a['webcache'] = "none";
+	$a['dns'] = "bind";
 	$a['spam'] = "bogofilter";
 	slave_save_db("driver", $a);
 }

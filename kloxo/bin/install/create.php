@@ -31,7 +31,6 @@ function create_main()
 		$admin_pass = 'admin';
 	}
 
-
 	if ($opt['install-type'] == 'master') {
 		print(">>> Execute create_mysql_db() for MASTER <<<\n");
 		create_mysql_db('master', $opt, $admin_pass);

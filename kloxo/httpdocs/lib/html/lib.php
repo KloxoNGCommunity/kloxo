@@ -8678,30 +8678,36 @@ function setSyncDrivers($nolog = null)
 
 //	include "../file/driver/rhel.inc";
 
-	$classlist = array('web', 'webcache', 'dns', 'spam');
-	$classvalue = array('apache', 'none', 'bind', 'bogofilter');
+	$classlist = array('web' => 'apache', 'webcache' => 'none', 'dns' => 'bind', 'spam' => 'bogofilter');
 
-	$server = $login->getFromList('pserver', 'localhost');
-
-	$driverobject = $server->getObject('driver');
+//	$server = $login->getFromList('pserver', 'localhost');
+//	$driverobject = $server->getObject('driver');
 
 	$nodriver = false;
 
-	if (file_exists("../etc/slavedb/driver")) {
+	if (!file_exists("/usr/local/lxlabs/kloxo/etc/slavedb/driver")) {
 		$nodriver = true;
+		slave_save_db("driver", $classlist);
 	}
 
-	foreach ($classlist as $key => $class) {
+	foreach ($classlist as $key => $val) {
 		if ($nodriver) {
-			$driver_from_slavedb = $classvalue[$key];
+			$driver_from_slavedb = $classlist[$val];
 		} else {
-			$driver_from_slavedb = slave_get_driver($class);
+			$driver_from_slavedb = slave_get_driver($key);
 		}
 
-		$driver_from_table = $driver_from_slavedb;
-			
-		log_cleanup("- Synchronize for '{$class}' to '{$driver_from_table}'", $nolog);
-		exec("sh /script/setdriver --server=localhost --class={$class} --driver={$driver_from_table}");
+		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $class);
+
+		if ($driver_from_table !== $driver_from_slavedb) {
+			$driver_from_table = $driver_from_slavedb;
+
+			log_cleanup("- Synchronize for '{$key}' to '{$driver_from_table}'", $nolog);
+			exec("sh /script/setdriver --server=localhost --class={$key} --driver={$driver_from_table}");
+		} else {
+			log_cleanup("- No need synchronize for '{$key}' - already using '{$driver_from_table}'", $nolog);
+		}
+		
 	}
 }
 
