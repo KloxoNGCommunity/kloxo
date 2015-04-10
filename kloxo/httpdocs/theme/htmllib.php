@@ -3521,6 +3521,12 @@ class HtmlLib
 	{
 		global $gbl, $sgbl, $login;
 
+		if (isset($obj->variable)) {
+			$variable = "{$obj->variable} -> ";
+		} else {
+			$variable = "";
+		}
+
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 		$button_type = $login->getSpecialObject('sp_specialplay')->button_type;
 
@@ -3569,21 +3575,52 @@ class HtmlLib
 				$pname = Htmllib::fix_lt_gt($pname);
 
 				if (csa($pname, "_lximg:")) {
-					$pname = preg_replace("/_lximg:([^:]*):([^:]*):([^:]*):/", "<img src='$1' width='$2' height='$3'>", $pname);
-				}
+					$pname = preg_replace("/_lximg:([^:]*):([^:]*):([^:]*):/", "<img title='{$variable}$1' src='$1' width='$2' height='$3'>", $pname);
+				} elseif (csa($pname, "_lxspan:")) {
+					if (strtolower($classdesc[2]) !== 'information') {
+						$pname = preg_replace("/_lxspan:([^:]*):([^:]*):/", "<span title='{$variable}$2'> $1 </span>", $pname);
+					} else {
+						$x1 = preg_replace("/_lxspan:([^:]*):([^:]*):/", "$1", $pname);
+						$x2 = preg_replace("/_lxspan:([^:]*):([^:]*):/", "$2", $pname);
 
-				if (csa($pname, "_lxspan:")) {
-					$pname = preg_replace("/_lxspan:([^:]*):([^:]*):/", "<span title='$2'> $1 </span>", $pname);
-				}
+						if (strlen($x1) > 20) {
+							$x1 = substr($x1, 0, 20) . '...';
+						}
 
-				if (csa($pname, "_lxurl:")) {
-					$pname = preg_replace("/_lxurl:([^:]*):([^:]*):/", "<a class='insidelist' target='_blank' href='http://$1'> $2 </a>", $pname);
-				}
+						$pname = "<span title='{$variable}{$x2}'> {$x1} </span>";
+					}
+				} elseif (csa($pname, "_lxurl:")) {
+					if (strtolower($classdesc[2]) !== 'information') {
+						$pname = preg_replace("/_lxurl:([^:]*):([^:]*):/", "<a title='{$variable}$2' class='insidelist' target='_blank' href='http://$1'> $2 </a>", $pname);
+					} else {
+						$x1 = preg_replace("/_lxurl:([^:]*):([^:]*):/", "$1", $pname);
+						$x2 = preg_replace("/_lxurl:([^:]*):([^:]*):/", "$2", $pname);
 
-				if (csa($pname, "_lxinurl:")) {
+						if (strlen($x2) > 20) {
+							$x3 = substr($x2, 0, 20) . '...';
+						} else {
+							$x3 = $x2;
+						}
+
+						$pname = "<a title='{$variable}{$x2}' class='insidelist' target='_blank' href='http://{$x1}'> {$x3} </a>";
+					}
+				} elseif (csa($pname, "_lxinurl:")) {
 					$url = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "$1", $pname);
 					$url = $this->getFullUrl($url);
-					$pname = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "<a class='insidelist' href='$url'> $2 </a>", $pname);
+
+					if (strtolower($classdesc[2]) !== 'information') {
+						$pname = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "<a title='{$variable}$2' class='insidelist' href='$url'> $2 </a>", $pname);
+					} else {
+						$x2 = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "$2", $pname);
+
+						if (strlen($x2) > 20) {
+							$x3 = substr($x2, 0, 20) . '...';
+						} else {
+							$x3 = $x2;
+						}
+
+						$pname = "<a title='{$variable}{$x2}' class='insidelist' href='{$url}'> {$x3} </a>";
+					}
 				}
 
 				if ($name === 'syncserver') {
@@ -4491,9 +4528,9 @@ class HtmlLib
 			</table>
 		</div>
 <?php
-		}
+	//	}
 
-		if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
+	//	if (!$sellist && !$this->isResourceClass($class) && !$gbl->__inside_ajax) {
 			$imgshow = get_general_image_path() . "/button/btn_show.gif";
 ?>
 

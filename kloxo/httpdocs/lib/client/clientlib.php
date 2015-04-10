@@ -222,10 +222,10 @@ class Client extends ClientBase
 
 		if ($this->priv->isOn('webhosting_flag')) {
 			$url = "a=show&l[class]=ffile&l[nname]=/";
-			$ilist['Home'] = "_lxinurl:$url:/home/{$this->getPathFromName()}/:";
-			$ilist['FTP User'] = "$this->username";
+			$ilist['Home'] = "_lxinurl:{$url}:/home/{$this->getPathFromName()}/:";
+			$ilist['Username'] = "_lxspan:{$this->username}:{$this->username}:";
 			$url = "&a=updateform&sa=default_domain";
-			$ilist['Default Domain'] = "_lxinurl:$url:$this->default_domain:";
+			$ilist['Default Domain'] = "_lxinurl:{$url}:{$this->default_domain}:";
 		}
 		
 		$this->getLastLogin($ilist);
