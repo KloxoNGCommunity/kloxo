@@ -469,7 +469,7 @@ class phpini extends lxdb
 
 		$this->initialValue('multiple_php_flag', 'off');
 
-		$php_ratio = '0:6:0:0:0';
+		$php_ratio = '0:0:6:0:0';
 
 		$this->initialValue('multiple_php_ratio', $php_ratio);
 

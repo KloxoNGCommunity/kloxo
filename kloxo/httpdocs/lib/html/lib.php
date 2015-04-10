@@ -5537,7 +5537,8 @@ function setDefaultPages($nolog = null)
 
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
-			log_cleanup("- Copy $sourcezip to $targetzip", $nolog);
+		//	log_cleanup("- Copy $sourcezip to $targetzip", $nolog);
+			log_cleanup("- Copy $sourcezip to $httpdpath", $nolog);
 			exec("'cp' -rf $sourcezip $targetzip");
 			$newer = true;
 		}
@@ -8675,7 +8676,7 @@ function setSyncDrivers($nolog = null)
 
 	log_cleanup("Synchronizing driver between table and slavedb", $nolog);
 
-	include "../file/driver/rhel.inc";
+//	include "../file/driver/rhel.inc";
 
 	$classlist = array('web', 'webcache', 'dns', 'spam');
 	$classvalue = array('apache', 'none', 'bind', 'bogofilter');
@@ -8684,17 +8685,20 @@ function setSyncDrivers($nolog = null)
 
 	$driverobject = $server->getObject('driver');
 
+	$nodriver = false;
+
+	if (file_exists("../etc/slavedb/driver")) {
+		$nodriver = true;
+	}
+
 	foreach ($classlist as $key => $class) {
-		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $class);
-		$driver_from_slavedb = slave_get_driver($class);
-
-		if (!isset($driver_from_slavedb)) {
+		if ($nodriver) {
 			$driver_from_slavedb = $classvalue[$key];
+		} else {
+			$driver_from_slavedb = slave_get_driver($class);
 		}
 
-		if (!isset($driver_from_table)) {
-			$driver_from_slavedb = $driver_from_slavedb;
-		}
+		$driver_from_table = $driver_from_slavedb;
 			
 		log_cleanup("- Synchronize for '{$class}' to '{$driver_from_table}'", $nolog);
 		exec("sh /script/setdriver --server=localhost --class={$class} --driver={$driver_from_table}");
