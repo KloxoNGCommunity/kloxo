@@ -8685,19 +8685,20 @@ function setSyncDrivers($nolog = null)
 
 	$nodriver = false;
 
-	if (!file_exists("/usr/local/lxlabs/kloxo/etc/slavedb/driver")) {
+	if (!file_exists("../etc/slavedb/driver")) {
 		$nodriver = true;
 		slave_save_db("driver", $classlist);
 	}
 
 	foreach ($classlist as $key => $val) {
 		if ($nodriver) {
-			$driver_from_slavedb = $classlist[$val];
+			$driver_from_slavedb = $classlist[$key];
 		} else {
 			$driver_from_slavedb = slave_get_driver($key);
 		}
 
-		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $class);
+
+		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $key);
 
 		if ($driver_from_table !== $driver_from_slavedb) {
 			$driver_from_table = $driver_from_slavedb;
