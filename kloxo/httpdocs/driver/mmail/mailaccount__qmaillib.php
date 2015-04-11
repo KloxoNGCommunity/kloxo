@@ -18,7 +18,7 @@ class Mailaccount__Qmail extends lxDriverClass
 		return lxfile_dirsize($path);
 	}
 
-	function syncUseradd()
+	function syncUserAdd()
 	{
 		global $gbl, $sgbl, $ghtml, $login;
 
@@ -100,19 +100,19 @@ class Mailaccount__Qmail extends lxDriverClass
 		$addextraspamheader = null;
 
 		if ($this->main->isOn('__var_spam_status')) {
-			if ($this->main->__var_spam_driver === 'spamassassin') {
+		//	if ($this->main->__var_spam_driver === 'spamassassin') {
 				$maildropspam = "spamc -p 783 -u {$this->main->nname}";
-				$addextraspamheader = " if ( /^X-Spam-status: Yes/ ) \n {\n $spamdir\n} \n";
-			} else {
+				$addextraspamheader = "\nif ( /^X-Spam-status: Yes/ )\n{\n    $spamdir\n} \n";
+		//	} else {
 				$bogconf = "$mailpath/$user/.bogopref.cf";
 
 				if (!lxfile_exists($bogconf)) {
 					lxfile_touch($bogconf);
 				}
 
-				$maildropspam = "bogofilter -d /var/bogofilter/ -ep -c $bogconf";
-				$addextraspamheader = "if ( /^X-Bogosity: Spam, tests=bogofilter/ ) \n{\n $spamdir\n }\n";
-			}
+				$maildropspam .= "bogofilter -d /var/bogofilter/ -ep -c $bogconf";
+				$addextraspamheader .= "\nif ( /^X-Bogosity: Spam, tests=bogofilter/ )\n{\n    $spamdir\n}\n";
+		//	}
 
 			$fdata .= "| /var/qmail/bin/preline maildrop $maildropfile\n";
 		} else {
@@ -125,7 +125,7 @@ class Mailaccount__Qmail extends lxDriverClass
 		$maildropdata = "SHELL=/bin/sh\n\n";
 
 		if ($this->main->isOn('__var_spam_status')) {
-			$maildropdata .= "if ( \$SIZE < 96144 )\n{\nexception  {\nxfilter \"$maildropspam\" \n}\n}\n $addextraspamheader\n";
+			$maildropdata .= "if ( \$SIZE < 96144 )\n{\n    exception {\n        xfilter \"$maildropspam\"\n    }\n}\n $addextraspamheader\n";
 		}
 
 		$maildropdata .= "to {$maildirpath}/\n";
@@ -202,7 +202,7 @@ class Mailaccount__Qmail extends lxDriverClass
 		// $d = glob("{$maildirpath}/.*", GLOB_ONLYDIR);
 	}
 
-	function syncUserdel()
+	function syncUserDel()
 	{
 		global $gbl, $sgbl, $ghtml;
 
@@ -246,7 +246,7 @@ class Mailaccount__Qmail extends lxDriverClass
 		lxuser_put_contents($sysuser, $sys_fpath, "From: {$this->main->nname}\nSubject: Response\n\n Message Received");
 	}
 
-	function syncrealpass()
+	function syncRealPass()
 	{
 		global $gbl, $sgbl, $ghtml;
 		$quser = explode("@", $this->main->nname);
@@ -335,13 +335,13 @@ class Mailaccount__Qmail extends lxDriverClass
 
 	function dbactionAdd()
 	{
-		$this->syncUseradd();
+		$this->syncUserAdd();
 		$this->createAutoResFile();
 	}
 
 	function dbactionDelete()
 	{
-		$this->syncUserdel();
+		$this->syncUserDel();
 	}
 
 	function syncAutoRespond()
@@ -403,7 +403,7 @@ class Mailaccount__Qmail extends lxDriverClass
 		switch ($subaction) {
 			case "full_update":
 				$this->syncQmail();
-				$this->syncrealpass();
+				$this->syncRealPass();
 				$this->syncAutoRes();
 				$this->syncToggleUser();
 				$this->syncQuota();
@@ -425,7 +425,7 @@ class Mailaccount__Qmail extends lxDriverClass
 				break;
 
 			case "password" :
-				$this->syncrealpass();
+				$this->syncRealPass();
 				break;
 
 			case "limit":

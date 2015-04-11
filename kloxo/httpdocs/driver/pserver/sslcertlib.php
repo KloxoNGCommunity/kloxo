@@ -55,6 +55,8 @@ class SslCert extends Lxdb
 			return $vlist;
 		}
 
+		$vlist['nname'] = $this->certname;
+
 		if ($this->isOn('upload_status')) {
 			$string = null;
 			$res = openssl_x509_read($this->text_crt_content);
@@ -65,7 +67,6 @@ class SslCert extends Lxdb
 			$vlist['text_key_content'] = null;
 			$vlist['text_ca_content'] = null;
 		} else {
-			$vlist['nname'] = $this->certname;
 			$vlist["ssl_data_b_s_commonName_r"] = null;
 			$vlist["ssl_data_b_s_countryName_r"] = null;
 			$vlist["ssl_data_b_s_stateOrProvinceName_r"] = null;
@@ -224,6 +225,8 @@ class SslCert extends Lxdb
 	{
 		global $login;
 
+		$param['nname'] = $parent->nname;
+
 		if (isset($param['upload'])) {
 			if ($param['upload'] === 'uploadfile') {
 				$key_file = $_FILES['ssl_key_file_f']['tmp_name'];
@@ -249,7 +252,6 @@ class SslCert extends Lxdb
 			$param['upload_status'] = 'off';
 
 			if ($parent->getClass() === 'web') {
-				$param['nname'] = $parent->nname;
 			//	$param['ssl_data_b_s_commonName_r'] = '*.' . $parent->nname;
 				$param['ssl_data_b_s_commonName_r'] = $parent->nname;
 				$param['ssl_data_b_s_subjectAltName_r'] = $parent->nname;

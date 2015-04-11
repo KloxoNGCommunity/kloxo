@@ -86,12 +86,14 @@ class phpini extends lxdb
 	{
 		global $ghtml, $login;
 
+		$server = $this->syncserver;
+		$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-{$server}", 
+			"ser_phpini_flag_b")));
+		$flag = $server_phpini->multiple_php_flag;
+
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() === 'pserver') {
 			$list[] = 'multiple_php_flag';
-
-			$flag = (isset($this->phpini_flag_b->multiple_php_flag)) ?
-				$this->phpini_flag_b->multiple_php_flag : 'off';
 
 			if ($flag === 'on') {
 				$list[] = 'multiple_php_ratio';
@@ -99,7 +101,9 @@ class phpini extends lxdb
 		} else {
 		//	if (!$this->getParentO()->is__table('web')) {
 			if ($this->getParentO()->getClass() !== 'web') {
-				$list[] = 'multiple_php_ratio';
+				if ($flag === 'on') {
+					$list[] = 'multiple_php_ratio';
+				}
 			} else {
 				$list[] = 'web_selected';
 				$list[] = 'php_selected';
