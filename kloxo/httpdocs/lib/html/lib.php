@@ -1047,7 +1047,7 @@ function validate_hostname_name($name, $bypass = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	if (!preg_match('/^([0-9a-z][0-9a-z\-\.]{1,126}[0-9a-z])$/i', $name) && $name != "__base__") {
+	if (!preg_match('/^([0-9a-z]{1,1}[0-9a-z\-\.]{0,126}[0-9a-z]{0,1})$/i', $name) && $name != "__base__") {
 		throw new lxException($login->getThrow('invalid_subdomain'), '', $name);
 	}
 
@@ -1059,14 +1059,9 @@ function validate_hostname_name($name, $bypass = null)
 function validate_server_alias($name, $bypass = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
-/*
-	// MR -- don't need *.* for purpose http://www.i.am.in.hostspectra.com
-	if (!preg_match('/^(([0-9a-z][0-9a-z\-\.]{1,126}|\*\.|)([0-9a-z]|\*))$/i', $name) && $name != "__base__") {
-		throw new lxException($login->getThrow('invalid_server_alias'), '', $name);
-	}
-*/
+
 	// MR -- enough * for all subdomain!
-	if (!preg_match('/^(([0-9a-z][0-9a-z\-\.]{1,126}[0-9a-z]|\*))$/i', $name) && $name != "__base__") {
+	if (!preg_match('/^(([0-9a-z]{1,1}[0-9a-z\-\.]{0,126}[0-9a-z]{0,1}|\*))$/i', $name) && $name != "__base__") {
 		throw new lxException($login->getThrow('invalid_subdomain'), '', $name);
 	}
 
@@ -1080,14 +1075,9 @@ function validate_client_name($name)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	// MR -- Centos using max length to 31 chars; pure-ftpd need no more then 32
-//	if (!preg_match('/^([_A-Za-z][-\._A-Za-z0-9]){2,31}$/', $name)) {
 	if (!preg_match('/^([a-z]){1,1}([_a-z0-9]){0,29}([a-z0-9]){1,1}$/', $name)) {
 		throw new lxException($login->getThrow('invalid_client_name'), '', $name);
 	}
-
-//	if (strlen($name) > 31) {
-//		throw new lxException($login->getThrow('invalid_client_name'), '', $name);
-//	}
 }
 
 function validate_database_name($name)
