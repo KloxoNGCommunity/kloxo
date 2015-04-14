@@ -808,11 +808,14 @@ $__description["reject_ip_in_cc_rdns"] = array("Reject servers with IP address i
 $__description["reject_missing_sender_mx"] = array("Reject messages from server without MX records");
 $__description["reject_unresolvable_rdns"] = array("Reject servers with rDNS names not resolving to IP");
 $__description["dns_blacklists"] = array("Space separated DNS RBL servers");
+
 $__description["FTP_config"] = array("FTP Configure");
 $__description["enable_anonymous_ftp"] = array("Enable Anonymous FTP");
 $__description["high_port_for_passive_ftp"] = array("High Port For Passive FTP");
 $__description["low_port_for_passive_ftp"] = array("Low Port For Passive FTP");
 $__description["maximum_number_of_clients"] = array("Maximum Number Of Clients");
+$__description["default_port_ftp"] = array("Default Port");
+
 $__description["mime_type"] = array("Mime Type");
 $__description["extension"] = array("Extension");
 $__description["Server"] = array("Server");
