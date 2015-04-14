@@ -88,26 +88,31 @@ function checkAttempt()
 
 function session_login()
 {
-	if(isset($_SESSION['num_login_fail'])) {
-		if($_SESSION['num_login_fail'] == 3) {
+	global $gbl, $sgbl, $login, $ghtml; 
+
+	if (isset($_SESSION['num_login_fail'])) {
+		if($_SESSION['num_login_fail'] == 5) {
 			if(time() - $_SESSION['last_login_time'] < 10*60*60 ) {
 				// alert to user wait for 10 minutes afer
-				return;
+				$ghtml->print_redirect("/login/?frm_emessage=blocked");
 			} else {
-					//after 10 minutes
-					$_SESSION['num_login_fail'] = 0;
+				// after 10 minutes
+				$_SESSION['num_login_fail'] = 0;
+
+				$ghtml->print_redirect("/login/");
 			}
 		} 
 	}
 
-	$sucess = doLogin() // your check login function
+	$success = doLogin(); // your check login function
 
-	if($success) {
+	if ($success) {
 		$_SESSION['num_login_fail'] = 0;
-		//your code here
 	} else {
 		$_SESSION['num_login_fail'] ++;
 		$_SESSION['last_login_time'] = time();
+
+		$ghtml->print_redirect("/login/?frm_emessage=login_error");
 	}
 }
 
