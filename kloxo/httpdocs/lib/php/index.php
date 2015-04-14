@@ -13,7 +13,6 @@ function index_main()
 
 function redirect_no_frames($url)
 {
-
 	global $gbl, $sgbl, $login, $ghtml; 
 
 	if ($ghtml->iset("frm_nf")) {
@@ -36,7 +35,6 @@ function redirect_no_frames($url)
 
 function ip_blocked($client)
 {
-
 	global $gbl, $sgbl, $ghtml; 
 
 	return false;
@@ -73,17 +71,44 @@ function checkAttempt()
 		$att->delete();
 		$bl = new BlockedIp(null, null, $ip);
 		$bl->dbaction = "add";
+
 		try {
 			$gbl->addToList("blockedip", $bl);
 		} catch (Exception $e) {
 			dprint("Blocked up already exists. This is weird\n");
 		}
+
 		$ghtml->print_redirect("/login/?frm_emessage=blocked");
 	} else {
 		$ghtml->print_redirect("/login/?frm_emessage=login_error");
 	}
 
 	$gbl->was();
+}
+
+function session_login()
+{
+	if(isset($_SESSION['num_login_fail'])) {
+		if($_SESSION['num_login_fail'] == 3) {
+			if(time() - $_SESSION['last_login_time'] < 10*60*60 ) {
+				// alert to user wait for 10 minutes afer
+				return;
+			} else {
+					//after 10 minutes
+					$_SESSION['num_login_fail'] = 0;
+			}
+		} 
+	}
+
+	$sucess = doLogin() // your check login function
+
+	if($success) {
+		$_SESSION['num_login_fail'] = 0;
+		//your code here
+	} else {
+		$_SESSION['num_login_fail'] ++;
+		$_SESSION['last_login_time'] = time();
+	}
 }
 
 function print_index() 
@@ -162,7 +187,7 @@ function check_login_success($cgi_classname, $cgi_clientname, $cgi_password, $cg
 		if (check_raw_password($cgi_classname, $cgi_clientname, $cgi_password)) {
 			return true;
 		} else {
-			log_log("error", "Failed Login attempt to $cgi_clientname from " .  $_SERVER['REMOTE_ADDR']);
+			log_log("login_fail", "Failed Login attempt to $cgi_clientname from " .  $_SERVER['REMOTE_ADDR']);
 			$ghtml->print_redirect("/login/?frm_emessage=login_error");
 			return false; 
 		}

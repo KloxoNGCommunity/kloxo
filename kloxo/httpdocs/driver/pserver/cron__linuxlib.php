@@ -106,15 +106,11 @@ class cron__Linux extends lxDriverClass
 			return;
 		}
 
-		$ret = lxshell_return("crontab", "-u", $this->main->username, $tfile);
-
-		if ($ret) {
-			// Why exactly was a throw removed? backup/restore?
-		//	throw new lxException($login->getThrow("adding_cron_failed"), '', $global_shell_error);
-		
-			$gbl->setWarning('adding_cron_failed', '', $global_shell_error);
-			$data = lfile_get_contents($tfile);
-			log_log("cron_error", $data);
+		try {
+			lxshell_return("crontab", "-u", $this->main->username, $tfile);
+		//	exec("crontab -u {$this->main->username} {$tfile}");
+		} catch (Exception $e) {
+			throw new lxException($e);
 		}
 
 		lunlink($tfile);

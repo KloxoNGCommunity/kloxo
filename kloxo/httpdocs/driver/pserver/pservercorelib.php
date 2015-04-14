@@ -31,9 +31,11 @@ class psrole_a extends LxaClass
 		$alist[] = 'a=show';
 		$alist[] = "a=updateform&sa=information";
 
-	//	if (!$parent->isLocalhost()) {
+		// MR -- look like not work but must
+		// because password need slavedb.db file where only exists in slave
+		if (!$parent->isLocalhost()) {
 			$alist[] = "a=updateform&sa=password";
-	//	}
+		}
 
 	/*
 		if ($sgbl->isHyperVm()) {
@@ -245,21 +247,6 @@ class pservercore extends Lxclient
 
 		if (!$this->isLocalhost() && $this->realpass === 'admin') {
 			$ghtml->__http_vars['frm_emessage'] = "security_warning";
-
-		/*
-			if ($_SERVER["SERVER_BINDING"] === 'port_ssl') {
-				$schema = 'https';
-			} else {
-				$schema = 'http';
-			}
-
-			$domain = $_SERVER['HTTP_HOST'];
-			$port = $_SERVER['SERVER_PORT'];
-			$script = $_SERVER["SCRIPT_NAME"];
-			$query = "frm_action=updateform&frm_subaction=password";
-
-			header('Location: {$schema}://{$domain}:{$port}/{$script}?{$query}');
-		*/
 		}
 
 		if ($sgbl->isKloxo() && !$this->getObject('servermail')->myname) {
@@ -326,14 +313,6 @@ class pservercore extends Lxclient
 	function __construct($masterserver, $readserver, $name)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
-	/*
-		if ($login && $login->isGt('admin')) {
-			if_not_admin_complain_and_exit();
-		}
-	*/
-
-	//	dprint("pserver:  $masterserver, $name <br>  ");
 
 		parent::__construct($masterserver, $name, $name);
 	}
@@ -458,17 +437,21 @@ class pservercore extends Lxclient
 	static function getTimeZoneList()
 	{
 		global $global_list_path;
+
 		$global_list_path = null;
+
 		do_recurse_dir("/usr/share/zoneinfo/", "listFile", null);
+
 		return $global_list_path;
 	}
 
 	function createShowRlist($subaction)
 	{
-	//	$l = $this->pserverInfo();
-
 		global $gbl, $sgbl, $login, $ghtml;
+
 		static $rlist;
+
+	//	$l = $this->pserverInfo();
 
 		if ($rlist) {
 			return $rlist;
@@ -498,14 +481,16 @@ class pservercore extends Lxclient
 
 		foreach ($disk as $k => $c) {
 			$c['nname'] = str_replace(":", "_", $c['nname']);
+
 			if (csa($c['nname'], "mapper")) {
 				$c['nname'] = strfrom($c['nname'], "/dev/mapper/");
 			}
+
 		//	$rlist[] = array('disk', "{$c['mountedon']} ({$c['nname']})", $c['used'], $c['kblock']);
 			$rlist[] = array('disk', "{$c['mountedon']}", $c['used'], $c['kblock']);
 		}
 
-		/// Rlist takes an array...
+		// Rlist takes an array...
 		$rlist[] = array('memory_usage', "Total Mem:Memory Usage (MB)", $l['used_s_memory'], $l['priv_s_memory']);
 
 		$rlist[] = array('membuffers_usage', "Buffers:Memory Buffers Usage (MB)", $l['used_s_membuffers'] . ' MB', $l['priv_s_memory'] . ' MB');
@@ -546,6 +531,9 @@ class pservercore extends Lxclient
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+	/*
+		// MR -- it's for hypervm; disabled it
+
 		if (!$sgbl->isHyperVm()) {
 			return;
 		}
@@ -572,6 +560,7 @@ class pservercore extends Lxclient
 				$this->addToList('dirlocation', $dirlocation);
 			}
 		}
+	*/
 	}
 
 	function postAdd()
@@ -582,12 +571,14 @@ class pservercore extends Lxclient
 		$this->findOsDetails();
 
 		$this->username = "root";
-
+/*
 		if ($sgbl->isHyperVm()) {
 			$rlist = array('vps');
 		} else {
 			$rlist = array('web', 'mmail', 'dns', 'mysqldb');
 		}
+*/
+		$rlist = array('web', 'mmail', 'dns', 'mysqldb');
 
 		foreach ($rlist as $l) {
 			$role = new psrole_a(null, null, $l);
@@ -744,7 +735,13 @@ class pservercore extends Lxclient
 	//	$alist['property'][] = "o=sp_specialplay&a=updateForm&sa=skin";
 		$alist['property'][] = 'a=show';
 		$alist['property'][] = "a=updateform&sa=information";
-		$alist['property'][] = "a=updateform&sa=password";
+
+		// MR -- look like not work but must
+		// because password need slavedb.db file where only exists in slave
+		if (!$this->isLocalhost()) {
+			$alist['property'][] = "a=updateform&sa=password";
+		}
+
 		$alist['property'][] = "a=list&c=psrole_a";
 	}
 
@@ -1022,7 +1019,6 @@ class pservercore extends Lxclient
 
 STRIN;
 
-
 		$fstring = "<?php\n\n\$i = 0;\n";
 
 		foreach ($list as $l) {
@@ -1081,7 +1077,7 @@ STRIN;
 			$this->addToList('service', $ob);
 		}
 
-		//$this->was();
+	//	$this->was();
 	}
 
 	function update($subaction, $param)
@@ -1146,7 +1142,7 @@ STRIN;
 				$ip->dbaction = 'clean';
 			}
 
-			//$this->was();
+		//	$this->was();
 		}
 
 		foreach ($result as $row) {
@@ -1432,6 +1428,7 @@ STRIN;
 		$ffile = new Ffile($this->__masterserver, $this->__readserver, "__path_root_base", $name, $this->username);
 		$ffile->__parent_o = $this;
 		$ffile->get();
+
 		return $ffile;
 	}
 
@@ -1461,7 +1458,6 @@ STRIN;
 
 	function syncPasswordCommon()
 	{
-
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$login->password = $this->password;
@@ -1473,6 +1469,7 @@ STRIN;
 		$rmt = unserialize(lfile_get_contents('__path_slave_db'));
 		$rmt->password = $this->password;
 	//	$rmt->realpass = $this->realpass;
+
 		lfile_put_contents('__path_slave_db', serialize($rmt));
 	}
 }

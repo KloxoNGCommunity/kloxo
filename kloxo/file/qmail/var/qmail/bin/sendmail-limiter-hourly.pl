@@ -3,7 +3,7 @@
 use DBI;
 use Mail::Send;
 
-require "/var/gmail/bin/sendmail-limiter-config.pl";
+require "/var/qmail/bin/sendmail-limiter-config.pl";
 
 my $dbase = DBI->connect($db_name, $db_uid, $db_pwd);
 if (!defined $dbase) { die 'Connection to database failed.'; }

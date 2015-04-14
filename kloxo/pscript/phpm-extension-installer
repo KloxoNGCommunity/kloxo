@@ -13,6 +13,10 @@ if [ "${base_name}" == "php" ] ; then
 	tpath="/"
 else
 	tpath="/opt/${base_name}/"
+
+	if [ ! -d $tpath ] ; then
+		echo "No directory exists"
+	fi
 fi
 
 if [ "$#" == 0 ] ; then

@@ -5,7 +5,13 @@ NOFILESGID=$(id -g qmaild)
 MAXSMTPD=$(cat /var/qmail/control/concurrencyincoming)
 SMTPD="/var/qmail/bin/qmail-smtpd"
 TCP_CDB="/etc/tcprules.d/tcp.smtp.cdb"
-HOSTNAME=$(hostname)
+
+if [ -f /var/qmail/control/hostname ] ; then
+	HOSTNAME=$(cat /var/qmail/control/hostname)
+else
+	HOSTNAME=$(hostname)
+fi
+
 VCHKPW="/home/vpopmail/bin/vchkpw"
 RECORDIO="/usr/bin/recordio"
 
@@ -35,7 +41,12 @@ else
 	SOFTLIMITVAR="18000000"
 fi
 
-IP=0
+if [ -f /var/qmail/control/ip ] ; then
+	IP=$(cat /var/qmail/control/ip)
+else
+	IP=0
+fi
+
 PORT=25
 
 ### MR -- SSL must using SMTPS=1 and SSL=1 but non-SSL only SSL=0 (without SMTPS=0)
