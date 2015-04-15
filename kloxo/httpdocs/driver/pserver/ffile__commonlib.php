@@ -14,7 +14,7 @@ class ffile__common
 	{
 		$trashcont = "$root/.trash/.__trash_" . basename($name);
 		$dst = trim(lfile_get_contents($trashcont));
-		new_process_mv_rec($user, "$root/.trash/" . basename($name), "$root/$dst");
+		new_process_mv_rec($user, "$root/.trash/" . basename($name), "'$root/$dst'");
 		lxfile_rm("$root/.trash/.__trash_" . basename($name));
 	}
 
@@ -28,14 +28,14 @@ class ffile__common
 		lxfile_rm_rec($trashcont);
 		$res = lxuser_mkdir($user, "$root/.trash/");
 		lfile_put_contents($trashcont, $name . "\n");
-		$res = new_process_mv_rec($user, $fullpath, "$root/.trash");
+		$res = new_process_mv_rec($user, $fullpath, "'$root/.trash'");
 	//	unlink($f);
 	}
 
 	function moveAllToTrash()
 	{
 		foreach ($this->main->filedelete_list as $f) {
-			self::moveToTrash($this->main->__username_o, $this->main->root, $f);
+			self::moveToTrash($this->main->__username_o, $this->main->root, "'$f'");
 		}
 	}
 
@@ -46,8 +46,8 @@ class ffile__common
 				continue;
 			}
 			
-			$fullname = "{$this->main->root}/$f";
-			lxfile_rm_rec($fullname);
+			$fullname = "'{$this->main->root}/$f'";
+			lxfile_rm_rec("'$fullname'");
 		}
 	}
 
@@ -90,7 +90,7 @@ class ffile__common
 				return;
 			}
 		} else if ($t == 2) {
-			copy($sourcefile, $destfile);
+			copy("'$sourcefile'", "'$destfile'");
 		}
 	}
 
@@ -112,7 +112,7 @@ class ffile__common
 		$oldimage = coreFfile::getRealPath($this->main->old_image_name_f);
 		
 		if ($this->main->isOn('copy_old_image_flag_f')) {
-			lxfile_cp($this->main->getFullPath(), "{$this->main->root}/$oldimage");
+			lxfile_cp($this->main->getFullPath(), "'{$this->main->root}/$oldimage'");
 		}
 		
 		$tfile = lx_tmp_file("resizeimage");
@@ -123,10 +123,10 @@ class ffile__common
 		$tfile .= ".$ext";
 
 		$geom = "{$this->main->image_width}x{$this->main->image_height}";
-		lxfile_cp($this->main->getFullPath(), $tfile);
-		lxuser_return($this->main->__username_o, "convert", "-scale", $geom, $tfile, $this->main->getFullPath());
-	//	lxshell_return("convert", "-scale", $geom, $tfile, $this->main->getFullPath());
-		lxfile_rm($tfile);
+		lxfile_cp($this->main->getFullPath(), "'$tfile'");
+		lxuser_return($this->main->__username_o, "convert", "-scale", $geom, "'$tfile'", $this->main->getFullPath());
+	//	lxshell_return("convert", "-scale", $geom, "'$tfile'", $this->main->getFullPath());
+		lxfile_rm("'$tfile'");
 	}
 
 	function createThumbnail()
@@ -145,8 +145,8 @@ class ffile__common
 			}
 			
 			$newf = "$dir/thumbs/th_$l";
-			lxuser_return($this->main->__username_o, "convert", "-scale", $geom, "$dir/$l", $newf);
-		//	lxshell_return("convert", "-scale", $geom, "$dir/$l", $newf);
+			lxuser_return($this->main->__username_o, "convert", "-scale", $geom, "'$dir/$l'", "'$newf'");
+		//	lxshell_return("convert", "-scale", $geom, "'$dir/$l'", "'$newf'");
 		}
 	}
 
@@ -157,21 +157,21 @@ class ffile__common
 		$fp = $this->main->getFullPath();
 		$file = coreFfile::getWithoutExtension($fp);
 		$newfile = "$file.{$this->main->new_format_f}";
-		lxuser_return($this->main->__username_o, "convert", $fp, $newfile);
+		lxuser_return($this->main->__username_o, "convert", $fp, "'$newfile'");
 	//	lxshell_return("convert", $fp, $newfile);
 	}
 
 	function restoreTrash()
 	{
 		foreach ($this->main->restore_trash_list as $f) {
-			ffile__common::restoreFromTrash($this->main->__username_o, $this->main->root, $f);
+			ffile__common::restoreFromTrash($this->main->__username_o, $this->main->root, "'$f'");
 		}
 	}
 
 	function clearTrash()
 	{
 		foreach ($this->main->clear_trash_list as $f) {
-			ffile__common::clearFromTrash($this->main->root, $f);
+			ffile__common::clearFromTrash($this->main->root, "'$f'");
 		}
 	}
 
@@ -325,7 +325,7 @@ class ffile__common
 			$arglist[] = $this->main->__username_o;
 			
 			foreach ($this->main->paste_list as &$_tl) {
-				$_tl = "{$this->main->pasteroot}/$_tl";
+				$_tl = "'{$this->main->pasteroot}/$_tl'";
 			}
 			
 		//	$arglist = array_merge($arglist, $this->main->paste_list);
@@ -371,7 +371,7 @@ class ffile__common
 			lxshell_unzip("__system__", "{$this->main->fullpath}/$bp", $tfile);
 			lunlink($tfile);
 		} else {
-			getFromFileserv($this->main->pasteserver, $this->main->filepass[$p], "{$this->main->fullpath}/$bp");
+			getFromFileserv($this->main->pasteserver, $this->main->filepass[$p], "'{$this->main->fullpath}/$bp'");
 		}
 	}
 
@@ -388,13 +388,13 @@ class ffile__common
 			if (!$this->main->isOn('upload_overwrite_f')) {
 				throw new lxException($login->getThrow('file_upload_already_exists'), '', $filename);
 			} else {
-				lxfile_rm($filename);
+				lxfile_rm("'$filename'");
 			}
 		}
 		
 		dprintr($this->main);
 		
-		getFromFileserv($this->main->__var_upload_tmp_server, $this->main->__var_upload_filepass, $filename);
+		getFromFileserv($this->main->__var_upload_tmp_server, $this->main->__var_upload_filepass, "'$filename'");
 		
 		return $filename;
 	}
@@ -410,6 +410,6 @@ class ffile__common
 			throw new lxException($login->getThrow('file_rename_already_exists'), '', $new);
 		}
 		
-		new_process_mv_rec($this->main->__username_o, $this->main->fullpath, $new);
+		new_process_mv_rec($this->main->__username_o, $this->main->fullpath, "'$new'");
 	}
 }

@@ -100,19 +100,19 @@ class Mailaccount__Qmail extends lxDriverClass
 		$addextraspamheader = null;
 
 		if ($this->main->isOn('__var_spam_status')) {
-		//	if ($this->main->__var_spam_driver === 'spamassassin') {
+			if ($this->main->__var_spam_driver === 'spamassassin') {
 				$maildropspam = "spamc -p 783 -u {$this->main->nname}";
 				$addextraspamheader = "\nif ( /^X-Spam-status: Yes/ )\n{\n    $spamdir\n} \n";
-		//	} else {
+			} else {
 				$bogconf = "$mailpath/$user/.bogopref.cf";
 
 				if (!lxfile_exists($bogconf)) {
 					lxfile_touch($bogconf);
 				}
 
-				$maildropspam .= "bogofilter -d /var/bogofilter/ -ep -c $bogconf";
-				$addextraspamheader .= "\nif ( /^X-Bogosity: Spam, tests=bogofilter/ )\n{\n    $spamdir\n}\n";
-		//	}
+				$maildropspam = "bogofilter -d /var/bogofilter/ -ep -c $bogconf";
+				$addextraspamheader = "\nif ( /^X-Bogosity: Spam, tests=bogofilter/ )\n{\n    $spamdir\n}\n";
+			}
 
 			$fdata .= "| /var/qmail/bin/preline maildrop $maildropfile\n";
 		} else {

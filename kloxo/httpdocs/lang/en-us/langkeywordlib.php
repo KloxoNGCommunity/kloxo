@@ -201,7 +201,7 @@ $__throw["replace_failed"] = "Replace failed";
 
 $__throw["invalid_client_name"] = "Invalid client name";
 $__throw["invalid_database_name"] = "Invalid database name";
-$__throw["invalid_password"] = "Invalid password";
+$__throw["invalid_password"] = "Password is too simple or contains invalid characters";
 
 $__throw["more_than_128_chars"] = "More than 128 chars";
 $__throw["more_than_255_chars"] = "More than 255 chars";
