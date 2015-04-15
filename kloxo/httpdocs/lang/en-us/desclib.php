@@ -1307,7 +1307,7 @@ $__description["referer"] = array("Referer");
 $__description["remote_host"] = array("Remote Host");
 $__description["webserver_config"] = array("Webserver Configure");
 $__description["php_type"] = array("PHP Type");
-$__description["secondary_php"] = array("Enable PHP 5.2 (use php52s) as secondary PHP");
+$__description["secondary_php"] = array("Enable Multiple PHP as secondary PHP");
 
 $__description["config"] = array("Configure");
 $__description["rails_app"] = array("Rails App");
