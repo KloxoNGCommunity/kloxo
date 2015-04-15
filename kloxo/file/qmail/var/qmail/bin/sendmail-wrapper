@@ -15,7 +15,8 @@ pwded=$(pwd)
 
 if [ -f $file ] ; then
 	for i in $(cat $file|tr '\' ' ') ; do
-		if [ "${i}" == "${pwded}" ] ; then
+		## choose /home/admin also ban for subdirs
+		if [[ "${pwded}" =~ "${i}" ]] ; then
 			banned="yes"
 		fi
 	done

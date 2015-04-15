@@ -871,11 +871,11 @@ $__information['general_delete_warning_customer'] =
 
 $__information['dnsslave_addform__pre'] = "<p>Add 'Slave Domain' for domain want to slaved and add their 'Master IP Address' where domain exists in primary location (must be 'allow-transfer' for this server IP address in their primary DNS server setting).</p>";
 
-$__information['watchdog_addform__pre'] = "<p>Setting:" .
+$__information['watchdog_addform__pre'] = "<p>Settings:" .
 	"<ul>" .
-		"<li>Servicename - service idendity</li>" .
-		"<li>Status - enable or disable</li>" .
-		"<li>Port - detect port number</li>" .
- 		"<li>Action - restart action</li>" .
+		"<li>Servicename - service identity</li>" .
+		"<li>Watchdog activated - enable or disable Watchdog service monitoring</li>" .
+		"<li>Port - service port number</li>" .
+		"<li>Action - command required to restart service</li>" .
 	"</ul></p>" .
-	"<p><b>Note</b>: - usually 'Action' as 'service' restart like 'service XXX restart' or '/etc/init.d/XXX restart'.</p>";
+	"<p><b>Note</b>: - usually 'Action' to restart service is 'service XXX restart' or '/etc/init.d/XXX restart'.</p>";
