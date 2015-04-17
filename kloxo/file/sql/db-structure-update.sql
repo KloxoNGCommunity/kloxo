@@ -1,6 +1,5 @@
 USE kloxo;
 
-DROP TABLE IF EXISTS `watchdog`;
 CREATE TABLE IF NOT EXISTS `watchdog` (
   `nname` varchar(255) NOT NULL,
   `parent_clname` varchar(255) DEFAULT NULL,
@@ -17,12 +16,12 @@ CREATE TABLE IF NOT EXISTS `watchdog` (
   KEY `parent_clname_watchdog` (`parent_clname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `watchdog` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`, `syncserver`, `port`, `action`, `status`, `added_by_system`, `oldsyncserver`, `olddeleteflag`) VALUES
-('dns___localhost', 'pserver-localhost', '', 'dns', 'localhost', '53', '__driver_dns', 'on', 'on', '', ''),
-('web___localhost', 'pserver-localhost', '', 'web', 'localhost', '80', '__driver_web', 'on', 'on', '', ''),
-('mail___localhost', 'pserver-localhost', '', 'mail', 'localhost', '25', '__driver_qmail', 'on', 'on', '', ''),
-('mysql___localhost', 'pserver-localhost', '', 'mysql', 'localhost', '3306', '__driver_mysql', 'on', 'on', '', ''),
-('ftp___localhost', 'pserver-localhost', '', 'ftp', 'localhost', '21', '__driver_xinetd', 'on', 'on', '', '');
+UPDATE `watchdog` SET `nname`='dns___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='dns',`syncserver`='localhost',`port`='53',`action`='__driver_dns',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='dns___localhost';
+UPDATE `watchdog` SET `nname`='web___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='web',`syncserver`='localhost',`port`='80',`action`='__driver_web',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='web___localhost';
+UPDATE `watchdog` SET `nname`='mail___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mail',`syncserver`='localhost',`port`='25',`action`='__driver_qmail',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mail___localhost';
+UPDATE `watchdog` SET `nname`='mysql___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mysql',`syncserver`='localhost',`port`='3306',`action`='__driver_mysql',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mysql___localhost';
+
+
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `nname` varchar(255) NOT NULL,

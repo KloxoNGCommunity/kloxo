@@ -94,7 +94,7 @@ COURIERTLS=/var/qmail/control/servercert.pem
 # SSL3 - SSLv3
 # TLS1 - TLS1
 
-TLS_PROTOCOL=SSL23
+TLS_PROTOCOL=TLS1
 
 ##NAME: TLS_STARTTLS_PROTOCOL:0
 # 

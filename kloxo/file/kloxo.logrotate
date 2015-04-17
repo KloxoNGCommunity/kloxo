@@ -16,9 +16,6 @@
     compress
     notifempty
     missingok
-    #postrotate
-        # pkill -HUP syslogd
-    #endscript
 }
 
 /home/httpd/*/stats/*_log {

@@ -1,0 +1,8 @@
+/var/log/hiawatha/*.log {
+	weekly
+	compress
+	delaycompress
+	rotate 52
+	missingok
+	create 640 apache apache
+}

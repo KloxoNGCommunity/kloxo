@@ -260,6 +260,7 @@ abstract class Dnsbase extends Lxdb
 	static $__desc_a_rec_a = array("", "", "a_record");
 	static $__desc_mx_rec_a = array("", "", "mx_record");
 	static $__desc_cn_rec_a = array("", "", "cn_record");
+	static $__desc_fcname_rec_a = array("", "", "fcname_record");
 	static $__desc_zone_type = array("", "", "type_of_dns_zone_file");
 	static $__desc_nameserver_f = array("n", "", "primary_DNS");
 	static $__desc_newdnstemplate_f = array("n", "", "new_dns_template");
@@ -304,6 +305,9 @@ abstract class Dnsbase extends Lxdb
 		$this->addRec("a", "ftp", $webipaddress);
 		$this->addRec("cn", "webmail", "mail");
 		$this->addRec("cn", "lists", "mail");
+		$this->addRec("fcname", "smtp", "mail.$this->nname");
+		$this->addRec("fcname", "pop", "mail.$this->nname");
+		$this->addRec("fcname", "imap", "mail.$this->nname");
 		$this->addRec("mx", "10", "mail.$this->nname");
 
 		return;

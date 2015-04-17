@@ -1,0 +1,4 @@
+/var/log/httpd/*log {
+    missingok
+    notifempty
+}
