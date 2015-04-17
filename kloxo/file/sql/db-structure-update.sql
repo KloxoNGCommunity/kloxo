@@ -77,20 +77,20 @@ CREATE TABLE IF NOT EXISTS `dnsslave` (
   KEY `parent_clname_dnsslave` (`parent_clname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-ALTER TABLE `client` CHANGE COLUMN `priv_q_frontpage_flag` `priv_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
-ALTER TABLE `client` CHANGE COLUMN `used_q_frontpage_flag` `used_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `client` CHANGE COLUMN IF EXISTS `priv_q_frontpage_flag` `priv_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `client` CHANGE COLUMN IF EXISTS `used_q_frontpage_flag` `used_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
 
-ALTER TABLE `dns` ADD `hostmaster` VARCHAR(255) AFTER `soanameserver`;
+ALTER TABLE `dns` ADD COLUMN IF NOT EXISTS `hostmaster` VARCHAR(255) AFTER `soanameserver`;
 
-ALTER TABLE `mmail` ADD `spf_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `text_spf_ip`;
-ALTER TABLE `mmail` ADD `enable_dmarc_flag` VARCHAR(255) NULL DEFAULT NULL AFTER `spf_protocol`;
-ALTER TABLE `mmail` ADD `percentage_filtering` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_dmarc_flag`;
-ALTER TABLE `mmail` ADD `receiver_policy` VARCHAR(255) NULL DEFAULT NULL AFTER `percentage_filtering`;
-ALTER TABLE `mmail` ADD `mail_feedback` VARCHAR(255) NULL DEFAULT NULL AFTER `receiver_policy`;
-ALTER TABLE `mmail` ADD `dmarc_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `mail_feedback`;
+ALTER TABLE `mmail` ADD COLUMN IF NOT EXISTS `spf_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `text_spf_ip`;
+ALTER TABLE `mmail` ADD COLUMN IF NOT EXISTS `enable_dmarc_flag` VARCHAR(255) NULL DEFAULT NULL AFTER `spf_protocol`;
+ALTER TABLE `mmail` ADD COLUMN IF NOT EXISTS `percentage_filtering` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_dmarc_flag`;
+ALTER TABLE `mmail` ADD COLUMN IF NOT EXISTS `receiver_policy` VARCHAR(255) NULL DEFAULT NULL AFTER `percentage_filtering`;
+ALTER TABLE `mmail` ADD COLUMN IF NOT EXISTS `mail_feedback` VARCHAR(255) NULL DEFAULT NULL AFTER `receiver_policy`;
+ALTER TABLE `mmail` ADD COLUMN IF NOT EXISTS `dmarc_protocol` VARCHAR(255) NULL DEFAULT NULL AFTER `mail_feedback`;
 
-ALTER TABLE `client` ADD `priv_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `used_q_totaldisk_usage`;
-ALTER TABLE `client` ADD `used_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `priv_q_totalinode_usage`;
+ALTER TABLE `client` ADD COLUMN IF NOT EXISTS `priv_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `used_q_totaldisk_usage`;
+ALTER TABLE `client` ADD COLUMN IF NOT EXISTS `used_q_totalinode_usage` VARCHAR(255) NULL DEFAULT NULL AFTER `priv_q_totalinode_usage`;
 
-ALTER TABLE `serverftp` ADD `defaultport` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_anon_ftp`;
+ALTER TABLE `serverftp` ADD COLUMN IF NOT EXISTS `defaultport` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_anon_ftp`;
 
