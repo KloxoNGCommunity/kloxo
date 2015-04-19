@@ -107,7 +107,7 @@ class phpini__sync extends Lxdriverclass
 
 			lxfile_unix_chmod($fcgid_target, "0755");
 		} else {
-			$input['phpinipath'] = "/home/kloxo/client/{$user}";
+			$input['phpinipath'] = "/home/kloxo/client/{$user}/session";
 			$input['phpcgipath'] = "/usr/bin/php-cgi";
 
 			if ($pclass === 'client') {

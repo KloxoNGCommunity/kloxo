@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `actionlog` (
   `ddate` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_actionlog` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `addondomain` (
   `mail_flag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_addondomain` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `allowedip` (
   `ipaddress` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_allowedip` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `anonftpipaddress` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_anonftpipaddress` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `aspnet` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_aspnet` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `autoresponder` (
   `autores_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_autoresponder` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `auxiliary` (
   `pserver_flag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_auxiliary` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `blockedip` (
   `ipaddress` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_blockedip` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -352,7 +352,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_client` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -375,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `clienttemplate` (
   `ser_dnstemplate_list` longtext,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_clienttemplate` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -393,7 +393,7 @@ CREATE TABLE IF NOT EXISTS `component` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_component` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -423,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `cron` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_cron` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -442,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `customaction` (
   `where_to_exec` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_customaction` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -461,7 +461,7 @@ CREATE TABLE IF NOT EXISTS `custombutton` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_custombutton` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -503,7 +503,7 @@ CREATE TABLE IF NOT EXISTS `davuser` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_davuser` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -523,7 +523,7 @@ CREATE TABLE IF NOT EXISTS `dbadmin` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_dbadmin` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -545,7 +545,7 @@ CREATE TABLE IF NOT EXISTS `dirprotect` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_dirprotect` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -572,7 +572,7 @@ CREATE TABLE IF NOT EXISTS `dns` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_dns` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -597,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `dnstemplate` (
   `mmailipaddress` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_dnstemplate` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -722,7 +722,7 @@ CREATE TABLE IF NOT EXISTS `domain` (
   `previewdomain` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_domain` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -737,7 +737,7 @@ CREATE TABLE IF NOT EXISTS `domaindefault` (
   `remove_processed_stats` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_domaindefault` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -756,7 +756,7 @@ CREATE TABLE IF NOT EXISTS `domainipaddress` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_domainipaddress` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -783,7 +783,7 @@ CREATE TABLE IF NOT EXISTS `domaintemplate` (
   `catchall` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_domaintemplate` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -804,7 +804,7 @@ CREATE TABLE IF NOT EXISTS `domaintraffic` (
   `traffic_usage` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_domaintraffic` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -819,7 +819,7 @@ CREATE TABLE IF NOT EXISTS `driver` (
   `ser_driver_b` longtext,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_driver` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -843,7 +843,7 @@ CREATE TABLE IF NOT EXISTS `firewall` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_firewall` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -888,7 +888,7 @@ CREATE TABLE IF NOT EXISTS `ftpuser` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_ftpuser` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -915,7 +915,7 @@ CREATE TABLE IF NOT EXISTS `general` (
   `disable_admin` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_general` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -930,7 +930,7 @@ CREATE TABLE IF NOT EXISTS `genlist` (
   `ser_dirindexlist_a` longtext,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_genlist` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -948,7 +948,7 @@ CREATE TABLE IF NOT EXISTS `hostdeny` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_hostdeny` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -974,7 +974,7 @@ CREATE TABLE IF NOT EXISTS `installsoft` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_installsoft` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -994,7 +994,7 @@ CREATE TABLE IF NOT EXISTS `interface_template` (
   `ser_vps_show_list` text,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_interface_template` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1024,7 +1024,7 @@ CREATE TABLE IF NOT EXISTS `ipaddress` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_ipaddress` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1040,7 +1040,7 @@ CREATE TABLE IF NOT EXISTS `license` (
   `text_license_content` longtext,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_license` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1059,7 +1059,7 @@ CREATE TABLE IF NOT EXISTS `llog` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_llog` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1075,7 +1075,7 @@ CREATE TABLE IF NOT EXISTS `loginattempt` (
   `client_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_loginattempt` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1106,7 +1106,7 @@ CREATE TABLE IF NOT EXISTS `lxbackup` (
   `no_local_copy_flag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_lxbackup` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1125,7 +1125,7 @@ CREATE TABLE IF NOT EXISTS `lxguard` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_lxguard` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1147,7 +1147,7 @@ CREATE TABLE IF NOT EXISTS `lxguardhit` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_lxguardhit` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1165,7 +1165,7 @@ CREATE TABLE IF NOT EXISTS `lxguardwhitelist` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_lxguardwhitelist` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1180,7 +1180,7 @@ CREATE TABLE IF NOT EXISTS `lxupdate` (
   `schedule` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_lxupdate` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1232,7 +1232,7 @@ CREATE TABLE IF NOT EXISTS `mailaccount` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mailaccount` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1248,7 +1248,7 @@ CREATE TABLE IF NOT EXISTS `mailfilter` (
   `action` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mailfilter` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1267,7 +1267,7 @@ CREATE TABLE IF NOT EXISTS `mailforward` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mailforward` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1305,7 +1305,7 @@ CREATE TABLE IF NOT EXISTS `mailinglist` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mailinglist` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1322,7 +1322,7 @@ CREATE TABLE IF NOT EXISTS `mimetype` (
   `extension` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mimetype` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1364,7 +1364,7 @@ CREATE TABLE IF NOT EXISTS `mmail` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mmail` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1379,7 +1379,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_module` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1405,7 +1405,7 @@ CREATE TABLE IF NOT EXISTS `mssqldb` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mssqldb` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1428,7 +1428,7 @@ CREATE TABLE IF NOT EXISTS `mssqldbuser` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mssqldbuser` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1456,7 +1456,7 @@ CREATE TABLE IF NOT EXISTS `mysqldb` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mysqldb` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1479,7 +1479,7 @@ CREATE TABLE IF NOT EXISTS `mysqldbuser` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_mysqldbuser` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1501,7 +1501,7 @@ CREATE TABLE IF NOT EXISTS `ndskshortcut` (
   `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_ndskshortcut` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1521,7 +1521,7 @@ CREATE TABLE IF NOT EXISTS `ndsktoolbar` (
   `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_ndsktoolbar` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1540,7 +1540,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `coma_class_list` text,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_notification` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1561,7 +1561,7 @@ CREATE TABLE IF NOT EXISTS `odbc` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_odbc` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1584,7 +1584,7 @@ CREATE TABLE IF NOT EXISTS `phpini` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_phpini` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1598,7 +1598,7 @@ CREATE TABLE IF NOT EXISTS `proxy` (
   `parent_cmlist` text,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_proxy` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1622,7 +1622,7 @@ CREATE TABLE IF NOT EXISTS `proxyacl` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_proxyacl` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1675,7 +1675,7 @@ CREATE TABLE IF NOT EXISTS `pserver` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_pserver` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1691,7 +1691,7 @@ CREATE TABLE IF NOT EXISTS `rdnsrange` (
   `lastip` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_rdnsrange` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1713,7 +1713,7 @@ CREATE TABLE IF NOT EXISTS `resourceplan` (
   `disable_per` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_resourceplan` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1728,7 +1728,7 @@ CREATE TABLE IF NOT EXISTS `reversedns` (
   `reversename` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_reversedns` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1750,7 +1750,7 @@ CREATE TABLE IF NOT EXISTS `rubyrails` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_rubyrails` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1768,7 +1768,7 @@ CREATE TABLE IF NOT EXISTS `serverftp` (
   `enable_anon_ftp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_serverftp` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1807,7 +1807,7 @@ CREATE TABLE IF NOT EXISTS `servermail` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_servermail` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1829,7 +1829,7 @@ CREATE TABLE IF NOT EXISTS `serverspam` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_serverspam` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1844,7 +1844,7 @@ CREATE TABLE IF NOT EXISTS `serverweb` (
   `php_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_serverweb` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1864,7 +1864,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_service` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1879,7 +1879,7 @@ CREATE TABLE IF NOT EXISTS `skipbackup` (
   `clname` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_skipbackup` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1900,7 +1900,7 @@ CREATE TABLE IF NOT EXISTS `smessage` (
   `ddate` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_smessage` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1922,7 +1922,7 @@ CREATE TABLE IF NOT EXISTS `spam` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_spam` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1937,7 +1937,7 @@ CREATE TABLE IF NOT EXISTS `sp_childspecialplay` (
   `ser_specialplay_b` longtext,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_sp_childspecialplay` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1953,7 +1953,7 @@ CREATE TABLE IF NOT EXISTS `sp_lstclass` (
   `ser_lst_vps_list` longtext,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_sp_lstclass` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1968,7 +1968,7 @@ CREATE TABLE IF NOT EXISTS `sp_specialplay` (
   `ser_specialplay_b` longtext,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_sp_specialplay` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1993,7 +1993,7 @@ CREATE TABLE IF NOT EXISTS `ssession` (
   `consuming_parent` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_ssession` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2011,7 +2011,7 @@ CREATE TABLE IF NOT EXISTS `sshconfig` (
   `config_flag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_sshconfig` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2035,7 +2035,7 @@ CREATE TABLE IF NOT EXISTS `sslcert` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_sslcert` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2057,7 +2057,7 @@ CREATE TABLE IF NOT EXISTS `sslipaddress` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_sslipaddress` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2088,7 +2088,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `mail_messageid` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_ticket` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2110,7 +2110,7 @@ CREATE TABLE IF NOT EXISTS `ticketconfig` (
   `mail_ssl_flag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_ticketconfig` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2130,7 +2130,7 @@ CREATE TABLE IF NOT EXISTS `tickethistory` (
   `from_ad` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_tickethistory` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2153,7 +2153,7 @@ CREATE TABLE IF NOT EXISTS `utmp` (
   `consuming_parent` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_utmp` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2197,7 +2197,7 @@ CREATE TABLE IF NOT EXISTS `uuser` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_uuser` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2215,7 +2215,7 @@ CREATE TABLE IF NOT EXISTS `version` (
   `extra` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_version` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2237,7 +2237,7 @@ CREATE TABLE IF NOT EXISTS `watchdog` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_watchdog` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2333,7 +2333,7 @@ CREATE TABLE IF NOT EXISTS `web` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_web` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2352,7 +2352,7 @@ CREATE TABLE IF NOT EXISTS `webhandler` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_webhandler` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2371,7 +2371,7 @@ CREATE TABLE IF NOT EXISTS `webmimetype` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_webmimetype` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2386,7 +2386,7 @@ CREATE TABLE IF NOT EXISTS `jailed` (
   `enable_jailed` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_jailed` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

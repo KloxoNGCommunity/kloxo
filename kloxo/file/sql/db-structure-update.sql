@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `watchdog` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_watchdog` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 UPDATE `watchdog` SET `nname`='dns___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='dns',`syncserver`='localhost',`port`='53',`action`='__driver_dns',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='dns___localhost';
 UPDATE `watchdog` SET `nname`='web___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='web',`syncserver`='localhost',`port`='80',`action`='__driver_web',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='web___localhost';
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `olddeleteflag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_service` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 INSERT INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servicename`, `description`, `grepstring`, `syncserver`, `oldsyncserver`, `olddeleteflag`) VALUES
 ('qmail___localhost', 'pserver-localhost', '', 'qmail', 'Qmail-toaster Mail Server', 'qmail', 'localhost', '', ''),
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `jailed` (
   `enable_jailed` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_jailed` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `dnsslave` (
   `nname` varchar(255) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `dnsslave` (
   `serial` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_dnsslave` (`parent_clname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) DEFAULT CHARSET=latin1;
 
 ALTER TABLE `client` CHANGE COLUMN IF EXISTS `priv_q_frontpage_flag` `priv_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `client` CHANGE COLUMN IF EXISTS `used_q_frontpage_flag` `used_q_totalinode_flag` VARCHAR(255) DEFAULT NULL;

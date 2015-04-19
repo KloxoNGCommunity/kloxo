@@ -391,9 +391,9 @@ function lxfile_rm($file)
 	log_filesys("Removing $file");
 	if (lxfile_exists($file)) {
 		if (lis_dir($file)) {
-			return rmdir($file);
+			return rmdir("$file");
 		} else {
-			return unlink($file);
+			return unlink("$file");
 		}
 	}
 
@@ -414,7 +414,7 @@ function lxfile_mv($src, $dst)
 	$dst = expand_real_root($dst);
 	if (is_dir($dst)) {
 		$base = basename($src);
-		$dst = $dst . "/$base";
+		$dst = "{$dst}/{$base}";
 	}
 
 	if ($sgbl->dbg > 0) {

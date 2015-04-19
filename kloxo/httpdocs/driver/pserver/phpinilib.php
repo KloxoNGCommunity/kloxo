@@ -415,9 +415,11 @@ class phpini extends lxdb
 
 			foreach ($list as $k => $v) {
 				if ($v === 'session_save_path_flag') {
-					$this->initialValue($v, "/home/kloxo/client/{$this->getParentO()->nname}");
+					$path = "/home/kloxo/client/{$this->getParentO()->nname}/session";
+					$this->initialValue($v, $path);
+					exec("mkdir -p $path");
 					// MR -- fix for permissions fail
-					exec("chmod 777 /home/kloxo/client/{$this->getParentO()->nname}");
+					exec("chmod 777 /home/kloxo/client/{$this->getParentO()->nname}/session");
 				} else {
 					$this->initialValue($v, $b->$v);
 				}

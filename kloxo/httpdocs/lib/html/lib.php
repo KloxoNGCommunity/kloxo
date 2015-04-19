@@ -3183,7 +3183,7 @@ function getLatestVersion()
 
 function getInstalledVersion()
 {
-	exec("yum list installed kloxomr7|grep kloxomr7|awk '{print $2}'", $out, $ret);
+	exec("cd /; yum list installed kloxomr7|grep kloxomr7|awk '{print $2}'", $out, $ret);
 
 	$ver = str_replace(".mr", "", $out[0]);
 
@@ -8260,7 +8260,7 @@ function setPhpBranch($select, $nolog = null)
 		}
 
 		// MR -- reinstall php modules to make sure replace too; must execute before replace
-		exec("yum list installed php* |grep -P 'php[a-zA-z0-9\-]+'", $phpmodules);
+		exec("cd /; yum list installed php* |grep -P 'php[a-zA-z0-9\-]+'", $phpmodules);
 
 		log_cleanup("-- Replace using 'yum replace {$phpbranch} --replace-with={$select}'", $nolog);
 		setRpmReplaced($phpbranch, $select);
