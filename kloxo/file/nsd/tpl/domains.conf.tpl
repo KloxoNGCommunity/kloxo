@@ -23,7 +23,7 @@ $email = str_replace("@", ".", $email);
 $refresh = isset($refresh) && strlen($refresh) > 0 ? $refresh : 3600;
 $retry = isset($retry) && strlen($retry) > 0 ? $retry : 1800;
 $expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
-$minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
+$minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 3600;
 ?>
 $ORIGIN <?php echo $domainname; ?>.
 $TTL <?php echo $ttl; ?>

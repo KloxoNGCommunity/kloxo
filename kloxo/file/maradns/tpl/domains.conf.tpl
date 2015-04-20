@@ -23,7 +23,7 @@ if ($soanameserver) {
 $refresh = isset($refresh) && strlen($refresh) > 0 ? $refresh : 3600;
 $retry = isset($retry) && strlen($retry) > 0 ? $retry : 1800;
 $expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
-$minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 1800;
+$minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 3600;
 ?>
 /origin <?php echo $domainname; ?>. ~
 % SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> ~

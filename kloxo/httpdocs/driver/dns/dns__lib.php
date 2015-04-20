@@ -151,7 +151,8 @@ class dns__ extends lxDriverClass
 		$ip_dns = $this->getIps();
 		$ip_hostname = array(gethostbyname(php_uname('n')));
 		// MR -- IP list without hostname IP
-		$input['ips'] = array_diff($ip_dns, $ip_hostname);
+	//	$input['ips'] = array_diff($ip_dns, $ip_hostname);
+		$input['ips'] = $ip_dns;
 
 		$input['rootpass'] = slave_get_db_pass();
 
