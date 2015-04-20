@@ -1,21 +1,25 @@
 #!/bin/sh
 
-## MR -- enable/disable sendmail-limiter
-limiter="/var/qmail/control/enablesendmaillimiter"
+## MR -- add addons
+## example addons: '/var/qmail/bin/sendmail-limiter.pl' (ready to use)
+afile="/var/qmail/control/sendmail-addons"
 
-if [ -f $limiter ] ; then
-	/var/qmail/bin/sendmail-limiter.pl "$@"
+if [ -f $afile ] ; then
+	for i in $(cat $afile|tr '\' ' ') ; do
+		chmod 775 $i
+		exec $i "$@"
+	done
 fi
 
 ## MR -- listing of the document root of website to banned
-file="/var/qmail/control/badsendmailfrom"
+bfile="/var/qmail/control/badsendmailfrom"
 
 banned="no"
 pwded=$(pwd)
 
-if [ -f $file ] ; then
-	for i in $(cat $file|tr '\' ' ') ; do
-		## choose /home/admin also ban for subdirs
+if [ -f $bfile ] ; then
+	for i in $(cat $bfile|tr '\' ' ') ; do
+		## choose /home/admin also ban for their subdirs
 		if [[ "${pwded}" =~ "${i}" ]] ; then
 			banned="yes"
 		fi
