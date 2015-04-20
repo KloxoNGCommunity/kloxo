@@ -82,7 +82,7 @@ $__description["email"] = array("Email");
 $__description["refresh"] = array("Refresh (Seconds) Default is 3600");
 $__description["expire"] = array("Expire (Seconds) Default is 604800");
 $__description["retry"] = array("Retry (Seconds) Default is 1800");
-$__description["minimum"] = array("Minimum (Seconds) Default is 1800");
+$__description["minimum"] = array("Minimum (Seconds) Default is 3600");
 
 
 $__description["notification"] = array("Notification");

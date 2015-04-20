@@ -1,6 +1,8 @@
 <?php
 
-if (strpos("/display.php", $_SERVER["SCRIPT_NAME"]) === false) {
+if (strpos($_SERVER["SCRIPT_NAME"], "/display.php") !== false) {
+	// no action
+} else {
 	print("No permit access directly");
 	return;
 }
@@ -64,7 +66,9 @@ if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 <div id="menu_div" class="div_menu shadow_all">
 <?php
 // MR -- prevent for mailaccount login
-if (strpos($loginas, "@") === false) {
+if (strpos($loginas, "@") !== false) {
+	// no action
+} else {
 ?>
 
 <div style="float:left">

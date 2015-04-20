@@ -430,6 +430,9 @@ class Cron extends Lxdb
 
 	function postAdd()
 	{
+		// We need to write because reads everything from the database.
+		$this->write();
+		
 		if (!$this->isSimple()) {
 			$this->checkIfNull();
 			$this->convertAll();

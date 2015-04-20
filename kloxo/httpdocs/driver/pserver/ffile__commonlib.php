@@ -14,7 +14,10 @@ class ffile__common
 	{
 		$trashcont = "$root/.trash/.__trash_" . basename($name);
 		$dst = trim(lfile_get_contents($trashcont));
-		new_process_mv_rec($user, "$root/.trash/" . basename($name), "$root/$dst");
+
+	//	new_process_mv_rec($user, "$root/.trash/" . basename($name), "$root/$dst");
+		new_process_mv_rec('__system__', "$root/.trash/" . basename($name), "$root/$dst");
+
 		lxfile_rm("$root/.trash/.__trash_" . basename($name));
 	}
 
@@ -28,7 +31,10 @@ class ffile__common
 		lxfile_rm_rec($trashcont);
 		$res = lxuser_mkdir($user, "$root/.trash/");
 		lfile_put_contents($trashcont, $name . "\n");
-		$res = new_process_mv_rec($user, $fullpath, "$root/.trash");
+
+	//	$res = new_process_mv_rec($user, $fullpath, "$root/.trash");
+		$res = new_process_mv_rec('__system__', $fullpath, "$root/.trash");
+
 	//	unlink($f);
 	}
 
@@ -266,7 +272,8 @@ class ffile__common
 			$cmd = "/bin/tar -xf '$fullpath'";
 		}
 
-		new_process_cmd($this->main->__username_o, $dir, $cmd);
+	//	new_process_cmd($this->main->__username_o, $dir, $cmd);
+		new_process_cmd('__system__', $dir, $cmd);
 
 		return $dir;
 	}
@@ -294,8 +301,10 @@ class ffile__common
 	*/
 		$date = date("M-d-H");
 	//	check_file_if_owned_by_and_throw("NewArchive-$date.zip", $this->main->__username_o);
-		$ret = new_process_cmd($this->main->__username_o, $fullpath, "zip -qu -r NewArchive-$date $list");
-		
+
+	//	$ret = new_process_cmd($this->main->__username_o, $fullpath, "zip -qu -r NewArchive-$date $list");
+		$ret = new_process_cmd('__system__', $fullpath, "zip -qu -r NewArchive-$date $list");
+
 		return "$fullpath/NewArchive-$date.zip";
 	}
 
@@ -339,11 +348,13 @@ class ffile__common
 			} else {
 				if ($this->main->pasteaction === 'copy') {
 					foreach ($this->main->paste_list as $p) {
-						new_process_cp_rec($this->main->__username_o, $p, $this->main->fullpath);
+					//	new_process_cp_rec($this->main->__username_o, $p, $this->main->fullpath);
+						new_process_cp_rec('__system__', $p, $this->main->fullpath);
 					}
 				} else {
 					foreach ($this->main->paste_list as $p) {
-						new_process_mv_rec($this->main->__username_o, $p, $this->main->fullpath);
+					//	new_process_mv_rec($this->main->__username_o, $p, $this->main->fullpath);
+						new_process_mv_rec('__system__', $p, $this->main->fullpath);
 					}
 				}
 			}
@@ -410,6 +421,7 @@ class ffile__common
 			throw new lxException($login->getThrow('file_rename_already_exists'), '', $new);
 		}
 		
-		new_process_mv_rec($this->main->__username_o, $this->main->fullpath, "$new");
+	//	new_process_mv_rec($this->main->__username_o, $this->main->fullpath, "$new");
+		new_process_mv_rec('__system__', $this->main->fullpath, "$new");
 	}
 }
