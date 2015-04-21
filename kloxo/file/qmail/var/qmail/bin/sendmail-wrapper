@@ -5,7 +5,7 @@
 afile="/var/qmail/control/sendmail-addons"
 
 if [ -f $afile ] ; then
-	for i in $(cat $afile|tr '\' ' ') ; do
+	for i in $(cat $afile|tr '\n' ' ') ; do
 		chmod 775 $i
 		exec $i "$@"
 	done
@@ -18,7 +18,7 @@ banned="no"
 pwded=$(pwd)
 
 if [ -f $bfile ] ; then
-	for i in $(cat $bfile|tr '\' ' ') ; do
+	for i in $(cat $bfile|tr '\n' ' ') ; do
 		## choose /home/admin also ban for their subdirs
 		if [[ "${pwded}" =~ "${i}" ]] ; then
 			banned="yes"
