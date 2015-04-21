@@ -1,5 +1,9 @@
 #!/bin/sh
 
+banned="no"
+pwded=$(pwd)
+ppided=$PPID
+
 ## MR -- add addons
 ## example addons: '/var/qmail/bin/sendmail-limiter.pl' (ready to use)
 afile="/var/qmail/control/sendmail-addons"
@@ -7,27 +11,24 @@ afile="/var/qmail/control/sendmail-addons"
 if [ -f $afile ] ; then
 	for i in $(cat $afile|tr '\n' ' ') ; do
 		chmod 775 $i
-		exec $i "$@"
+		$i "$@"
 	done
 fi
 
 ## MR -- listing of the document root of website to banned
 bfile="/var/qmail/control/badsendmailfrom"
 
-banned="no"
-pwded=$(pwd)
-
 if [ -f $bfile ] ; then
-	for i in $(cat $bfile|tr '\n' ' ') ; do
+	for j in $(cat $bfile|tr '\n' ' ') ; do
 		## choose /home/admin also ban for their subdirs
-		if [[ "${pwded}" =~ "${i}" ]] ; then
+		if [[ "${pwded}" ==  "${j}"* ]] ; then
 			banned="yes"
 		fi
 	done
 fi
 
 ## MR -- save to log for sendmail info
-/bin/logger -p mail.info "sendmail: CALLER=\"$(ps -ocommand= -p $PPID|tr '\n' ' '|tr -s ' '|sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')\" PWD=\"${pwded}\" BAN=\"${banned}\""
+/bin/logger -p mail.info "sendmail: CALLER=\"$(ps -ocommand= -p ${ppided}|tr '\n' ' '|tr -s ' '|sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')\" PWD=\"${pwded}\" BAN=\"${banned}\""
 
 if [ "${banned}" == "no" ] ; then
 	/var/qmail/bin/sendmail-qmail "$@"
