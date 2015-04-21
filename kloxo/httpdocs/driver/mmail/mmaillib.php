@@ -31,7 +31,7 @@ class Mmail extends Lxdb
 	static $__desc_spf_protocol = array("", "", "protocol_version_SPF");
 	static $__desc_text_spf_domain = array("t", "", "additional_domain_SPF_(one_per_line)");
 	static $__desc_text_spf_ip = array("t", "", "additional_ip_SPF_(one_per_line)");
-	static $__desc_exclude_all = array("", "", "exclude_all_others");
+	static $__desc_exclude_all = array("", "", "exclude_all_others_SPF");
 
 	static $__desc_enable_dmarc_flag = array("f", "", "enable_DMARC");
 	static $__desc_dmarc_protocol = array("", "", "protocol_version_DMARC");
