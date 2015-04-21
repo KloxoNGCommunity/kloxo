@@ -7,15 +7,15 @@ use DBI;
 ### --CONFIGURATION
 
 # DB information
-$db_name='DBI:mysql:sendmailwrapper:localhost:3306';
-$db_uid='sendmailwrapper';
-$db_pwd='zpKHCVirJKe';
+$db_name='DBI:mysql:sendmaillimiter:localhost:3306';
+$db_uid='sendmaillimiter';
+$db_pwd='';
 
 ### deliver report from cron about usage violations
 # 0 = no reports sent
 # 1 = reporting on, be sure to set report_email
 $send_reports = 1;
-$report_email = 'email@wp.pl';
+$report_email = '';
 
 ### 1 = disable all logging of sendmail
 $log_disabled = 0;
