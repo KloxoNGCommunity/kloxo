@@ -115,6 +115,7 @@ function lxins_main()
 
 		system("'cp' -rf {$kloxopath} {$kloxopath}.{$currentstamp}");
 	} else {
+	/*
 		// MR -- issue found on Centos 5.9 where have 'default' iptables config
 		$iptp = '/etc/sysconfig';
 		$ipts = array('iptables', 'ip6tables');
@@ -124,6 +125,9 @@ function lxins_main()
 				system("'mv' -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave");
 			}
 		}
+	*/
+		// MR -- just make inactive iptables
+		system("chkconfig iptables off; iptables stop");
 
 		if ($installfrom !== 'setup') {
 			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan) ***\n");

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for i in 52 53 54 55 56 ; do
+	sh /script/phpm-installer php${i}m
+done
