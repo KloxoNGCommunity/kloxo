@@ -151,7 +151,8 @@ foreach($dns_records as $k => $o) {
                 $key = $domainname;
             }
 
-            $value = str_replace("<%domain>", $domainname, $value);
+            $value = str_replace("<%domain%>", $domainname, $value);
+            $value = str_replace("__base__", $domainname, $value);
 ?>
 <?php echo $key; ?>. IN TXT "<?php echo $value; ?>"
 <?php

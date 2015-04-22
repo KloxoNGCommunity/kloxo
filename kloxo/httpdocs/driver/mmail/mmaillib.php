@@ -307,7 +307,7 @@ class Mmail extends Lxdb
 		if ($this->isOn('__t_dmarc_f')) {
 			$nrc = new dns_record_a(null, null, $nn);
 			$nrc->ttype = "txt";
-			$nrc->hostname = "__base__";
+			$nrc->hostname = "_dmarc";
 			$nrc->param = "v={$dmarcproto}; p={$dmarcp}; pct={$dmarcpct}; rua=mailto:{$dmarcrua}";
 			$dns->dns_record_a[$nn] = $nrc;
 		} else {
@@ -366,7 +366,8 @@ class Mmail extends Lxdb
 				$vlist['percentage_filtering'] = null;
 				$this->setDefaultValue('receiver_policy', 'quarantine');
 				$vlist['receiver_policy'] = array('s', array('none', 'quarantine', 'reject'));
-				$this->setDefaultValue('mail_feedback', "admin@{$this->nname}");
+			//	$this->setDefaultValue('mail_feedback', "admin@{$this->nname}");
+				$this->setDefaultValue('mail_feedback', "admin@__base__");
 				$vlist['mail_feedback'] = null;
 				$vlist['__v_updateall_button'] = array();
 

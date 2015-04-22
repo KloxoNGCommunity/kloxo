@@ -140,7 +140,8 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
                 $key = "$domainname";
             }
 
-            $value = str_replace("<%domain>", $domainname, $value);
+            $value = str_replace("<%domain%>", $domainname, $value);
+            $value = str_replace("__base__", $domainname, $value);
             $value = str_replace(":", "\\072", $value);
             $value = str_replace(" ", "\\040", $value);
 ?>

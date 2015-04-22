@@ -145,7 +145,8 @@ foreach($dns_records as $k => $o) {
 				$key = $domainname;
 			}
 
-			$value = str_replace("<%domain>", $domainname, $value);
+			$value = str_replace("<%domain%>", $domainname, $value);
+			$value = str_replace("__base__", $domainname, $value);
 			$value = '"' . $value . '"';
 
 			$conn->query("INSERT INTO rr (zone, name, data, aux, ttl, type) " .

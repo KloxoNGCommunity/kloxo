@@ -4,6 +4,9 @@ rm_if_exists("/var/run/yum.pid");
 
 // system("yum-complete-transaction");
 
+// MR -- just make inactive iptables
+system("chkconfig iptables off; iptables stop");
+
 $lxlabspath = "/usr/local/lxlabs";
 $kloxopath = "{$lxlabspath}/kloxo";
 $currentpath = realpath(dirname(__FILE__));
@@ -126,9 +129,6 @@ function lxins_main()
 			}
 		}
 	*/
-		// MR -- just make inactive iptables
-		system("chkconfig iptables off; iptables stop");
-
 		if ($installfrom !== 'setup') {
 			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan) ***\n");
 			print("- Better using backup-restore process for update from Kloxo 6.1.12+.\n");
