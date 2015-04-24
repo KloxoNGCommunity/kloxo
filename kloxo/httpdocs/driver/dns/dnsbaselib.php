@@ -36,7 +36,12 @@ class dns_record_a extends LxDnsClass
 	function updateform($subaction, $param)
 	{
 		$vlist['hostname'] = array('M', null);
-		$vlist['param'] = null;
+
+		if ($this->ttype === 'txt') {
+			$vlist['param'] = array("t", "");
+		} else {
+			$vlist['param'] = null;
+		}
 
 		return $vlist;
 	}
@@ -218,6 +223,9 @@ class dns_record_a extends LxDnsClass
 		} elseif ($typetd['val'] === 'fcname') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('m', array('posttext' => ""));
+		} elseif ($typetd['val'] === 'txt') {
+			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
+			$vlist['param'] = array('t', "");
 		} else {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = null;

@@ -23,8 +23,6 @@ setMysqlConvert($engine, $database, $table, $config, $utf8);
 
 function setMysqlConvert($engine, $database, $table, $config, $utf8)
 {
-	global $gbl, $sgbl, $login, $ghtml;
-
 	log_cleanup("Convert of MySQL engine");
 
 	$engine = strtolower($engine);
@@ -37,9 +35,9 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	$pass = slave_get_db_pass();
 
 	//--- the first - to 'disable' skip- and restart mysql
-	system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
-	system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/my.cnf");
-	system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/server.cnf");
+	@system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
+	@system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/my.cnf");
+	@system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/server.cnf");
 
 	if (file_exists("/etc/init.d/mysql")) {
 		exec("service mysql restart");
@@ -126,9 +124,9 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	}
 
 	//--- the second - back to 'original' config and restart mysql
-	system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf");
-	system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/my.cnf");
-	system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/server.cnf");
+	@system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf");
+	@system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/my.cnf");
+	@system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/server.cnf");
 
 	if (file_exists("/etc/init.d/mysql")) {
 		exec("service mysql restart");
@@ -140,42 +138,40 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 		if ($database === '_all_') {
 			$mycnfs = array('/etc/my.cnf.d/my.cnf', '/etc/my.cnf.d/server.cnf', '/etc/my.cnf');
 
-			$string = file_get_contents($mycnf);
-
-			$string_array = explode("\n", $string);
-
-			$string_collect = null;
-
-			foreach ($string_array as $sa) {
-				if (stristr($sa, 'skip-innodb') !== false) {
-					$string_collect .= "";
-					continue;
-				}
-
-				if (stristr($sa, 'default-storage-engine') !== false) {
-					$string_collect .= "";
-					continue;
-				}
-
-				$string_collect .= $sa . "\n";
-			}
-
-			if ($engine === 'myisam') {
-				$string_source = "[mysqld]\n";
-				$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\nskip-innodb\n";
-				log_cleanup(" - Added 'default-storage-engine={$engine}' and 'skip-innodb' in '{$mycnf}'");
-			} else {
-				$string_source = "[mysqld]\n";
-				$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\n#skip-innodb\n";
-				log_cleanup("- Added 'default-storage-engine={$engine}' in '{$mycnf}'");
-			}
-
-			$string_collect = str_replace($string_source, $string_replace, $string_collect);
-			
 			foreach ($mycnfs as &$mycnf) {
-				if (file_exists($mycnf)) {
-					file_put_contents($mycnf, $string_collect);
+				$string = file_get_contents($mycnf);
+
+				$string_array = explode("\n", $string);
+
+				$string_collect = null;
+
+				foreach ($string_array as $sa) {
+					if (stristr($sa, 'skip-innodb') !== false) {
+						$string_collect .= "";
+						continue;
+					}
+
+					if (stristr($sa, 'default-storage-engine') !== false) {
+						$string_collect .= "";
+						continue;
+					}
+
+					$string_collect .= $sa . "\n";
 				}
+
+				if ($engine === 'myisam') {
+					$string_source = "[mysqld]\n";
+					$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\nskip-innodb\n";
+					log_cleanup(" - Added 'default-storage-engine={$engine}' and 'skip-innodb' in '{$mycnf}'");
+				} else {
+					$string_source = "[mysqld]\n";
+					$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\n#skip-innodb\n";
+					log_cleanup("- Added 'default-storage-engine={$engine}' in '{$mycnf}'");
+				}
+
+				$string_collect = str_replace($string_source, $string_replace, $string_collect);
+
+				file_put_contents($mycnf, $string_collect);
 			}
 		}
 	}
