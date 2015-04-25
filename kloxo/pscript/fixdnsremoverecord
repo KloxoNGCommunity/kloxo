@@ -26,7 +26,7 @@ REC_TTYPE=${request1#--ttype\=}
 request2=$2
 REC_HOSTNAME=${request2#--hostname\=}
 
-if [ "$REC_TTYPE" == "" && "$REC_HOSTNAME" == "" ] ; then
+if [ "$REC_TTYPE" == "" ] && [ "$REC_HOSTNAME" == "" ] ; then
 	echo "Empty --ttype= --hostname= entry..."
 	exit;
 else

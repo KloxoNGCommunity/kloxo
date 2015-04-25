@@ -26,7 +26,7 @@ OLDIP=${request1#--oldip\=}
 request2=$2
 NEWIP=${request2#--newip\=}
 
-if [ "$OLDIP" == "" && "$NEWIP" == "" ] ; then
+if [ "$OLDIP" == "" ] && [ "$NEWIP" == "" ] ; then
 	echo "Empty --oldip= --newip= entry..."
 	exit;
 else
