@@ -194,11 +194,11 @@ class dns_record_a extends LxDnsClass
 			$val = $param['hostname'];
 			
 			// MR -- handle hostname like _domainkey and _dmarc
-			if ((strpos($val, '_') !== false)) {
-				$val = str_replace('_', '', $val);
+			if ((strpos($val, '_', 0) !== false)) {
+				validate_hostname_name(str_replace('_', '', $val));
+			} else {
+				validate_hostname_name($val);
 			}
-
-			validate_hostname_name($val);
 				
 			$param['nname'] = "{$param['ttype']}_{$val}";
 		} else {

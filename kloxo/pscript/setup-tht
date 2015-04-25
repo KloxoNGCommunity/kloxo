@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ ! -f /home/kloxo/httpd/cp/tht/index.php ] ; then
+	yum install kloxomr-panel-tht -y
+fi
+
+. /script/directory
+lxphp.exe ../bin/misc/setup-tht.php "$@"

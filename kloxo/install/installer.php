@@ -5,7 +5,8 @@ rm_if_exists("/var/run/yum.pid");
 // system("yum-complete-transaction");
 
 // MR -- just make inactive iptables
-system("chkconfig iptables off; iptables stop");
+// system("chkconfig iptables off; iptables stop");
+@system("chkconfig --del iptables; iptables stop");
 
 $lxlabspath = "/usr/local/lxlabs";
 $kloxopath = "{$lxlabspath}/kloxo";
