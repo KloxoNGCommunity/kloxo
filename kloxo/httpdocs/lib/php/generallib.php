@@ -408,6 +408,7 @@ class General extends Lxdb
 				//	$vlist['generalmisc_b-disableinstallapp'] = 'on';
 
 					$list = lx_merge_good('--chooser--', mmail::getWebmailProgList());
+					$this->generalmisc_b->setDefaultValue('webmail_system_default', '--chooser--');
 					$vlist['generalmisc_b-webmail_system_default'] = array('s', $list);
 				}
 
