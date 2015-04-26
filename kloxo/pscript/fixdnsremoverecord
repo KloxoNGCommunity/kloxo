@@ -14,27 +14,29 @@ if [ "$#" == 0 ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
 	echo "  format:"
-	echo "    sh $0 --ttype=<> --hostname=<>"
+	echo "    sh $0 --type=<> --key=<>"
 	echo " ------------------------------------------------------------------------------"
+	echo
+	echo " Formula: 'key IN type value' (example 'spf IN TXT \"v=spf1 a mx ~all\"')"
 	echo
 	exit;
 fi
 
 request1=$1
-REC_TTYPE=${request1#--ttype\=}
+REC_TYPE=${request1#--type\=}
 
 request2=$2
-REC_HOSTNAME=${request2#--hostname\=}
+REC_KEY=${request2#--key\=}
 
-if [ "$REC_TTYPE" == "" ] && [ "$REC_HOSTNAME" == "" ] ; then
-	echo "Empty --ttype= --hostname= entry..."
+if [ "$REC_TYPE" == "" ] && [ "$REC_KEY" == "" ] ; then
+	echo "Empty --type= --key= entry..."
 	exit;
 else
-	if [ "$REC_TTYPE" == "" ] ; then
-		echo "Empty --ttype= entry..."
+	if [ "$REC_TYPE" == "" ] ; then
+		echo "Empty --type= entry..."
 		exit;
-	elif [ "$REC_HOSTNAME" == "" ] ; then
-		echo "Empty --hostname= entry..."
+	elif [ "$REC_KEY" == "" ] ; then
+		echo "Empty --key= entry..."
 		exit;
 	fi
 fi

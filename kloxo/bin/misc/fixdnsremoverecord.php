@@ -9,17 +9,17 @@ $list = $login->getList('client');
 
 $par = parse_opt($argv);
 
-if (isset($par['ttype'])) {
-	$ttype = $par['ttype'];
+if (isset($par['type'])) {
+	$ttype = strtolower($par['type']);
 }
 
-if (isset($par['hostname'])) {
-	$hostname = $par['hostname'];
+if (isset($par['key'])) {
+	$hostname = strtolower($par['key']);
 }
 
 $nolog = false;
 
-log_cleanup("Remove DNS record for '{$hostname}' hostname in '{$ttype}' ttype", $nolog);
+log_cleanup("Remove DNS record for '{$hostname}' key in '{$ttype}' type", $nolog);
 
 foreach($list as $c) {
 	$dlist = $c->getList('domain');
@@ -28,14 +28,21 @@ foreach($list as $c) {
 		$dns = $l->getObject('dns');
 		$dns->setUpdateSubaction('full_update');
 
-		print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
+		print("- For '{$dns->nname}' domain ('{$c->nname}' client) at '{$c->syncserver}' server\n");
+
+		$removed = false;
 
 		foreach($dns->dns_record_a as $drec) {
 			if (($drec->ttype === $ttype) && ($drec->hostname === $hostname)) {
-				print("-- remove '{$drec->hostname}' hostname in '{$drec->ttype}'\n");
+				print("-- remove '{$drec->hostname}' key in '{$drec->ttype}' type\n");
+				$removed = true;
 			} else {
 				$x[] = $drec;
 			}
+		}
+
+		if ($removed === false) {
+			print("-- NO exists of '{$hostname}' key in '{$ttype}' type\n");
 		}
 
 		$dns->dns_record_a = $x;
