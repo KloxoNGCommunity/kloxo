@@ -17,6 +17,8 @@ if (isset($par['hostname'])) {
 	$hostname = $par['hostname'];
 }
 
+$nolog = false;
+
 log_cleanup("Remove DNS record for '{$hostname}' hostname in '{$ttype}' ttype", $nolog);
 
 foreach($list as $c) {
@@ -31,10 +33,12 @@ foreach($list as $c) {
 		foreach($dns->dns_record_a as $drec) {
 			if (($drec->ttype === $ttype) && ($drec->hostname === $hostname)) {
 				print("-- remove '{$drec->hostname}' hostname in '{$drec->ttype}'\n");
-
-				unset($drec);
+			} else {
+				$x[] = $drec;
 			}
 		}
+
+		$dns->dns_record_a = $x;
 
 		$dns->was();
 	}
