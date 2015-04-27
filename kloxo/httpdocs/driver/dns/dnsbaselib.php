@@ -59,10 +59,10 @@ class dns_record_a extends LxDnsClass
 	static function createListNlist($parent, $view)
 	{
 	//	$nlist['nname'] = '10%';
-		$nlist['hostname'] = '25%';
+		$nlist['hostname'] = '20%';
 		$nlist['ttype'] = '5%';
 		$nlist['priority'] = '5%';
-		$nlist['param'] = '100%';
+		$nlist['param'] = '70%';
 
 		return $nlist;
 	}
@@ -89,8 +89,17 @@ class dns_record_a extends LxDnsClass
 		if ($var === 'param') {
 			if ($this->ttype === 'txt') {
 				if (strlen($this->$var) > 50) {
-					return substr($this->$var, 0, 50) . "...";
+				//	return substr($this->$var, 0, 50) . "...";
+				 	$this->$var = substr($this->$var, 0, 75) . "...";
 				}
+			}
+
+			if (strpos($this->getParentO()->nname, '.dnst') !== false) {
+				// MR -- for template
+			//	$this->$var = str_replace($this->getParentO()->nname, "__base__", $this->$var);
+			} else {
+				// MR -- for dns setting
+				$this->$var = str_replace("__base__", $this->getParentO()->nname, $this->$var);
 			}
 		}
 
@@ -102,6 +111,11 @@ class dns_record_a extends LxDnsClass
 
 			$this->$var = str_replace($this->getParentO()->nname, "__base__", $this->$var);
 			$this->$var = str_replace(".__base__", "", $this->$var);
+
+			if ($this->$var !== '__base__') {
+				// MR -- TODO: change domain.dnst to __base__; unfinish
+			//	$this->$var = $this->$var . '.__base__';
+			}
 		}
 
 		return $this->$var;
@@ -120,7 +134,9 @@ class dns_record_a extends LxDnsClass
 		} elseif ($param['ttype'] === 'ns') {
 			// MR -- make possible to 'delegate' subdomain to other server!
 
-			// Validates subdomain
+			// MR -- need remove __base__
+			$param['hostname'] = str_replace('.__base__', '', $param['hostname']);
+
 			validate_hostname_name($param['hostname']);
 
 			$a_record_match = false;
@@ -212,7 +228,7 @@ class dns_record_a extends LxDnsClass
 	{
 		if ($typetd['val'] === 'ns') {
 			// MR -- add hostname entry to make possible to 'delegate' to other server!
-			$vlist['hostname'] = array('m', array('value'=> '__base__', 'posttext' => ".$parent->nname."));
+			$vlist['hostname'] = array('m', array('value'=> '__base__'));
 			$vlist['param'] = null;
 		} elseif ($typetd['val'] === 'mx') {
 			$vlist['priority'] = array('s', array('5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'));
