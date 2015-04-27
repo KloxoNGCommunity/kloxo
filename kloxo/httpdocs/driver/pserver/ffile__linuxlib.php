@@ -53,7 +53,7 @@ class ffile__linux extends lxDriverClass
 			case "perm":
 				$arg = null;
 
-				$this->main->getFullpath();
+				$path = $this->main->getFullpath();
 
 				if ($this->main->select_f === 'perm') {
 					$perm = $this->main->newperm;
