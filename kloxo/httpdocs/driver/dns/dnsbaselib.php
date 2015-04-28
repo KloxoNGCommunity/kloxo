@@ -88,9 +88,8 @@ class dns_record_a extends LxDnsClass
 
 		if ($var === 'param') {
 			if ($this->ttype === 'txt') {
-				if (strlen($this->$var) > 50) {
-				//	return substr($this->$var, 0, 50) . "...";
-				 	$this->$var = substr($this->$var, 0, 75) . "...";
+				if (strlen($this->$var) > 75) {
+					return substr($this->$var, 0, 75) . "...";
 				}
 			}
 
