@@ -1,0 +1,11 @@
+#!/bin/sh
+
+path="/home/kloxo/httpd/webmail/squirrelmail"
+
+if [ ! -f ${path}/index.php ] ; then
+	yum install kloxomr-webmail-squirrelmail -y
+	chown -R apache:apache $path
+fi
+
+. /script/directory
+lxphp.exe ../bin/misc/setup-squirrelmail.php "$@"

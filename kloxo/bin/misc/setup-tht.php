@@ -7,7 +7,9 @@ setSetupApp();
 
 function setSetupApp()
 {
-	log_cleanup("*** TheHostingTool setup ***", $nolog);
+	log_cleanup("*** TheHostingTool Billing setup ***", $nolog);
+
+	log_cleanup("- Preparing Database", $nolog);
 
 	$pass = slave_get_db_pass();
 	$user = "root";

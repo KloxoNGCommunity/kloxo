@@ -1,0 +1,11 @@
+#!/bin/sh
+
+path="/home/kloxo/httpd/webmail/afterlogic"
+
+if [ ! -f ${path}/index.php ] ; then
+	yum install kloxomr-webmail-afterlogic -y
+	chown -R apache:apache $path
+fi
+
+. /script/directory
+lxphp.exe ../bin/misc/setup-afterlogic.php "$@"

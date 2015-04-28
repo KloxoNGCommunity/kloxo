@@ -1,7 +1,10 @@
 #!/bin/sh
 
-if [ ! -f /home/kloxo/httpd/cp/tht/index.php ] ; then
+path="/home/kloxo/httpd/cp/tht"
+
+if [ ! -f ${path}/index.php ] ; then
 	yum install kloxomr-panel-tht -y
+	chown -R apache:apache $path
 fi
 
 . /script/directory
