@@ -14,10 +14,12 @@ if [ "$#" == 0 ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
 	echo "  format:"
-	echo "    sh $0 --type=<> --key=<>"
+	echo "    sh $0 --type=<> --key=<> [--client=<>]"
 	echo " ------------------------------------------------------------------------------"
 	echo
 	echo " Formula: 'key IN type value' (example 'spf IN TXT \"v=spf1 a mx ~all\"')"
+	echo
+	echo " --client: is optional and able to '--client=client1,client2' for multiple clients"
 	echo
 	exit;
 fi

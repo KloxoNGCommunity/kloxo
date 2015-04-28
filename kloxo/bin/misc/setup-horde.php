@@ -7,7 +7,7 @@ setSetupApp();
 
 function setSetupApp()
 {
-	log_cleanup("*** Afterlogic RoundCube setup ***", $nolog);
+	log_cleanup("*** Horde Webmail setup ***", $nolog);
 
 	// MR -- because Horde use rpm on Kloxo-MR,
 	// so horde_groupware.sql and horde_conf.php as template

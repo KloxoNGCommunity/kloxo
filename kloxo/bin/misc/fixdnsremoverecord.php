@@ -17,11 +17,20 @@ if (isset($par['key'])) {
 	$hostname = strtolower($par['key']);
 }
 
+$client = (isset($par['client'])) ? $par['client'] : null;
+$clist = array();
+
 $nolog = false;
 
 log_cleanup("Remove DNS record for '{$hostname}' key in '{$ttype}' type", $nolog);
 
 foreach($list as $c) {
+	if ($client) {
+		$ca = explode(",", $client);
+
+		if (!in_array($c->nname, $ca)) { continue; }
+	}
+
 	$dlist = $c->getList('domain');
 
 	foreach($dlist as $l) {
