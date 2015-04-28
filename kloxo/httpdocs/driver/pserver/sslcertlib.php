@@ -225,7 +225,9 @@ class SslCert extends Lxdb
 	{
 		global $login;
 
-		$param['nname'] = $parent->nname;
+		if ($parent->getClass() === 'web') {
+			$param['nname'] = $parent->nname;
+		}
 
 		if (isset($param['upload'])) {
 			if ($param['upload'] === 'uploadfile') {
