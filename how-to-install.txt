@@ -8,14 +8,11 @@ A. pre-install -- better for fresh install
     yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
     yum install telnet wget -y
 
-    setenforce 0
-    echo 'SELINUX=disabled' > /etc/selinux/config
-
     cd /
 
 B. Install Kloxo-MR
    - Install/reinstall/upgrade -- data not destroyed with this fork
-     for existing kloxo (6.1.x), run 'sh /script/update' first.
+     for existing Kloxo (6.1.x), run 'sh /script/update' first.
 
 B.1. Fresh Install
 
@@ -104,7 +101,7 @@ WARNING:
 
     - Update with 'yum replace mysql --replace-with=mysql55' (ask to forum for update to MariaDB)
 
-4. Make sure all MySQL databases in MyISAM storage-engine with execute:
+4. Make sure all MySQL databases in MyISAM storage-engine (especially upgrade to version 6.5.0) with execute:
 
    ## convert to MyISAM storage-engine
    sh /script/mysql-convert --engine=myisam
