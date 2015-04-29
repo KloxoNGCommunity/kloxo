@@ -771,7 +771,7 @@ abstract class Lxclient extends Lxdb
 				// get the quota for the specific type of object and not for the class.... Changing it to $this.
 
 				$sgbl->method = 'post';
-			//	$vlist['__v_updateall_button'] = array();
+				$vlist['__v_updateall_button'] = array();
 			
 				return $vlist;
 

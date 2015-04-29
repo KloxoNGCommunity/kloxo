@@ -23,7 +23,7 @@ class dns_record_a extends LxDnsClass
 	function isSelect()
 	{
 		if ($this->nname === 'a___base__') {
-			return false;
+		//	return false;
 		}
 
 		if ($this->nname === 'a_mail') {
@@ -188,7 +188,8 @@ class dns_record_a extends LxDnsClass
 			// Validates both ipv4 and ipv6
 			validate_ipaddress($param['param']);
 
-			$param['nname'] = "{$param['ttype']}_{$param['hostname']}_{$param['param']}";
+		//	$param['nname'] = "{$param['ttype']}_{$param['hostname']}_{$param['param']}";
+			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		} elseif ($param['ttype'] === 'cname') {
 			// Validates hostname subdomain
 			validate_hostname_name($param['hostname']);
@@ -242,7 +243,8 @@ class dns_record_a extends LxDnsClass
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('t', "");
 		} else {
-			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
+		//	$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
+			$vlist['hostname'] = null;
 			$vlist['param'] = null;
 		}
 

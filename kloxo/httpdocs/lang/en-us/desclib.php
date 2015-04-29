@@ -1094,6 +1094,7 @@ $__description["webmail_url"] = array("Webmail URL");
 $__description["enable_SPF"] = array("Enable SPF");
 $__description["protocol_version_SPF"] = array("Protocol version for SPF");
 $__description["additional_domain_SPF_(one_per_line)"] = array("Additional Domain for SPF (one per Line)");
+$__description["enable_autoip_SPF"] = array("Enable Automatic Add IP for SPF");
 $__description["additional_ip_SPF_(one_per_line)"] = array("Additional IP for SPF (one per Line)");
 $__description["exclude_all_others_SPF"] = array("Exclude All Others for SPF");
 

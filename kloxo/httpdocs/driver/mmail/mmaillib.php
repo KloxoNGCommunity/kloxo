@@ -30,6 +30,7 @@ class Mmail extends Lxdb
 	static $__desc_enable_spf_flag = array("f", "", "enable_SPF");
 	static $__desc_spf_protocol = array("", "", "protocol_version_SPF");
 	static $__desc_text_spf_domain = array("t", "", "additional_domain_SPF_(one_per_line)");
+	static $__desc_enable_spf_autoip = array("f", "", "enable_autoip_SPF");
 	static $__desc_text_spf_ip = array("t", "", "additional_ip_SPF_(one_per_line)");
 	static $__desc_exclude_all = array("", "", "exclude_all_others_SPF");
 
@@ -271,13 +272,22 @@ class Mmail extends Lxdb
 			}
 		}
 
-		$spfip = trim($param['text_spf_ip']);
+		if ($param['enable_spf_autoip'] === 'on') {
+			$ips = Dnsbase::getIpaddressList($this->getParentO());
 
-		if ($spfip) {
-			$v = explode("\n", $spfip);
-			foreach ($v as $d) {
-				$d = trim($d);
-				$an .= " ip4:$d";
+			foreach ($ips as $ip) {
+				$an .= " ip4:$ip";
+			}			
+		} else {
+			$spfip = trim($param['text_spf_ip']);
+
+			if ($spfip) {
+				$v = explode("\n", $spfip);
+
+				foreach ($v as $d) {
+					$d = trim($d);
+					$an .= " ip4:$d";
+				}
 			}
 		}
 
@@ -322,7 +332,6 @@ class Mmail extends Lxdb
 	function updateform($subaction, $param)
 	{
 		switch ($subaction) {
-
 			case "editmx":
 				$v = null;
 
@@ -356,7 +365,15 @@ class Mmail extends Lxdb
 				$this->setDefaultValue('spf_protocol', 'spf1');
 				$vlist['spf_protocol'] = null;
 				$vlist['text_spf_domain'] = null;
-				$vlist['text_spf_ip'] = null;
+
+				$autoip = db_get_value("mmail", $this->nname, "enable_spf_autoip");
+
+				$vlist['enable_spf_autoip'] = null;
+
+				if ($autoip !== 'on') {
+					$vlist['text_spf_ip'] = null;
+				}
+
 				$this->setDefaultValue('exclude_all', 'soft');
 				$vlist['exclude_all'] = array('s', array('soft', 'hard'));
 				$vlist['enable_dmarc_flag'] = null;
