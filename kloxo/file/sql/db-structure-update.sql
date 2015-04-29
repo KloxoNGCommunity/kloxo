@@ -95,4 +95,5 @@ ALTER TABLE `client` ADD COLUMN IF NOT EXISTS `used_q_totalinode_usage` VARCHAR(
 ALTER TABLE `serverftp` ADD COLUMN IF NOT EXISTS `defaultport` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_anon_ftp`;
 
 ALTER TABLE `mmail` ADD `enable_spf_autoip` VARCHAR(255) NULL DEFAULT NULL AFTER `text_spf_domain`;
+ALTER TABLE `mmail` ADD `text_spf_include` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_spf_flag`;
 

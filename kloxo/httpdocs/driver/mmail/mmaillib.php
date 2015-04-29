@@ -29,6 +29,7 @@ class Mmail extends Lxdb
 
 	static $__desc_enable_spf_flag = array("f", "", "enable_SPF");
 	static $__desc_spf_protocol = array("", "", "protocol_version_SPF");
+	static $__desc_text_spf_include = array("t", "", "additional_include_SPF_(one_per_line)");
 	static $__desc_text_spf_domain = array("t", "", "additional_domain_SPF_(one_per_line)");
 	static $__desc_enable_spf_autoip = array("f", "", "enable_autoip_SPF");
 	static $__desc_text_spf_ip = array("t", "", "additional_ip_SPF_(one_per_line)");
@@ -290,6 +291,16 @@ class Mmail extends Lxdb
 				}
 			}
 		}
+		
+		$spfinclude = trim($param['text_spf_include']);
+
+		if ($spfinclude) {
+			$v = explode("\n", $spfinclude);
+			foreach ($v as $d) {
+				$d = trim($d);
+				$an .= " include:$d";
+			}
+		}
 
 		$nn = "txt__spf";
 
@@ -364,13 +375,16 @@ class Mmail extends Lxdb
 				$vlist['enable_spf_flag'] = null;
 				$this->setDefaultValue('spf_protocol', 'spf1');
 				$vlist['spf_protocol'] = null;
+
+				$vlist['text_spf_include'] = null;
+
 				$vlist['text_spf_domain'] = null;
+				
+				$vlist['enable_spf_autoip'] = null;
 
 				$autoip = db_get_value("mmail", $this->nname, "enable_spf_autoip");
 
-				$vlist['enable_spf_autoip'] = null;
-
-				if ($autoip !== 'on') {
+				if (!isset($autoip) || ($autoip !== 'on')) {
 					$vlist['text_spf_ip'] = null;
 				}
 
