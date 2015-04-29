@@ -103,3 +103,8 @@ WARNING:
         mysql -V|awk '{print $5}'
 
     - Update with 'yum replace mysql --replace-with=mysql55' (ask to forum for update to MariaDB)
+
+4. Make sure all MySQL databases in MyISAM storage-engine with execute:
+
+   ## convert to MyISAM storage-engine
+   sh /script/mysql-convert --engine=myisam
