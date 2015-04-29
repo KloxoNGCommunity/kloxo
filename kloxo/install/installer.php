@@ -459,7 +459,7 @@ function kloxo_install_step1()
 
 	@system("chown -R lxlabs:lxlabs {$lxlabspath}");
 
-	setUsingMyIsam();
+//	setUsingMyIsam();
 
 	if (!isMysqlRunning()) {
 		actionMySql('start');
@@ -616,12 +616,12 @@ function kloxo_install_bye()
 		$t .= " _/ - Need running 'sh /script/cleanup' for update                           _/ "."\n";
 	}
 
-	if ($installstep === '2') {
+//	if ($installstep === '2') {
 		//	$t .= " _/ - Better reboot for fresh install                                        _/ "."\n";
 		$t .= " _/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQL       _/ "."\n";
 		$t .= " _/   memory usage. Or, go to 'Webserver Configure'                          _/ "."\n";
 		$t .= " _/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/ "."\n";
-	}
+//	}
 
 	if (isRpmInstalled('qmail')) {
 		$t .= " _/ - Run 'sh /script/convert-to-qmailtoaster' to convert qmail-toaster      _/ "."\n";
