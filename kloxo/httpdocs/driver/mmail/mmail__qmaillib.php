@@ -258,6 +258,8 @@ class Mmail__Qmail extends lxDriverClass
 	*/
 
 		$this->updateQmaildefault();
+
+		lxshell_return("sh", "/script/fix-outgoingips");
 	}
 
 	function doesListExist()
@@ -361,6 +363,8 @@ class Mmail__Qmail extends lxDriverClass
 		//	dprint("Lists exists. deleting list..\n");
 			lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", "lists.{$this->main->nname}");
 		}
+
+		lxshell_return("sh", "/script/fix-outgoingips");
 	}
 
 	function dbactionAdd()

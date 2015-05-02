@@ -99,6 +99,9 @@ echo "--------------------------"
 sh /script/fix-qmail-assign
 
 echo "--------------------------"
+sh /script/fix-outgoingips
+
+echo "--------------------------"
 sh /script/fixmail
 
 echo "--------------------------"

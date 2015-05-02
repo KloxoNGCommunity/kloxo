@@ -31,7 +31,7 @@ foreach($list as $c) {
 		$changed = false;
 
 		if ($newip && $oldip) {
-			print("- For '{$dns->nname}' domain ('{$c->nname}') client at '{$c->syncserver}' server\n");
+			print("- For '{$dns->nname}' domain ('{$c->nname}' client) at '{$c->syncserver}' server\n");
 
 			foreach($dns->dns_record_a as $drec) {
 				if ($drec->ttype !== 'a') {
