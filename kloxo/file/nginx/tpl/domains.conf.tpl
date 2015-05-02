@@ -388,17 +388,18 @@ server {
 		}
 
 		if ($count !== 0) {
+			if ($enablessl) {
 ?>
 
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-			if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-			}
+				}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
@@ -407,6 +408,7 @@ server {
 	ssl_prefer_server_ciphers on;
 	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
+			}
 		}
 ?>
 
@@ -506,14 +508,18 @@ server {
 
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
+<?php
+		if ($enablestats) {
+?>
 
 	include '<?php echo $globalspath; ?>/stats.conf';
 <?php
-		if ($statsprotect) {
+			if ($statsprotect) {
 ?>
 
 	include '<?php echo $globalspath; ?>/dirprotect_stats.conf';
 <?php
+			}
 		}
 
 		if ($nginxextratext) {
@@ -529,7 +535,7 @@ server {
 <?php
 		}
 
-		if (!$disablephp) {
+		if ($enablephp) {
 			if ((!$reverseproxy) && (file_exists("{$globalspath}/{$domainname}.conf"))) {
 ?>
 
@@ -632,17 +638,18 @@ server {
 					}
 
 					if ($count !== 0) {
+						if ($enablessl) {
 ?>
 
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-						if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-						}
+							}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
@@ -651,6 +658,7 @@ server {
 	ssl_prefer_server_ciphers on;
 	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
+						}
 					}
 ?>
 
@@ -704,17 +712,18 @@ server {
 					}
 
 					if ($count !== 0) {
+						if ($enablessl) {
 ?>
 
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-					if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-					}
+							}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	#ssl_ciphers HIGH:!aNULL:!MD5;
@@ -723,6 +732,7 @@ server {
 	ssl_prefer_server_ciphers on;
 	ssl_session_cache builtin:1000 shared:SSL:10m;
 <?php
+						}
 					}
 ?>
 

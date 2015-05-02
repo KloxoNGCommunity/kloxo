@@ -175,7 +175,7 @@ class web__ extends lxDriverClass
 		$input['dirprotect'] = $this->getDirprotect();
 		$input['dirindex'] = $this->getDirIndex();
 		$input['certnamelist'] = ($this->getSslCertNameList()) ?
-			$this->getSslCertNameList() : $this->getSslCertNameList('*');
+		$this->getSslCertNameList() : $this->getSslCertNameList('*');
 
 		$input['stats'] = $this->getStats();
 		$input['wwwredirect'] = $this->getWwwRedirect();
@@ -194,7 +194,6 @@ class web__ extends lxDriverClass
 	//	$input['webmailappdefault'] = self::getWebmailAppDefault();
 
 		$input['rootpath'] = $this->main->getFullDocRoot();
-		$input['disablephp'] = $this->disablePhp();
 
 		$input['phpcgitype'] = $this->getPhpCgiType();
 		$input['fastcgichildren'] = $this->getFastcgiChildren();
@@ -211,6 +210,9 @@ class web__ extends lxDriverClass
 		$input['webcache'] = $gbl->getSyncClass('localhost', $this->main->__syncserver, 'webcache');
 
 		$input['enablecgi'] = $this->getEnableCGI();
+		$input['enablephp'] = $this->getEnablePhp();
+		$input['enablessl'] = $this->getEnableSsl();
+		$input['enablestats'] = $this->getEnableStats();
 
 		$input['kloxoportnonssl'] = get_kloxo_port('nonssl');
 		$input['kloxoportssl'] = get_kloxo_port('ssl');
@@ -574,16 +576,6 @@ class web__ extends lxDriverClass
 		return $t;
 	}
 
-	function disablePhp()
-	{
-		// MR -- move to user-level php.ini
-	//	$this->setPhpIni();
-
-		$ret = ($this->main->priv->isOn('php_flag')) ? false : true;
-
-		return $ret;
-	}
-
 	function getPhpCgiType()
 	{
 		$ret = ($this->main->priv->isOn('phpfcgi_flag')) ? 'fastcgi' : 'suexec';
@@ -621,6 +613,27 @@ class web__ extends lxDriverClass
 	function getEnableCGI()
 	{
 		$ret = ($this->main->priv->isOn('cgi_flag')) ? true : false;
+
+		return $ret;
+	}
+
+	function getEnablePhp()
+	{
+		$ret = ($this->main->priv->isOn('php_flag')) ? true : false;
+
+		return $ret;
+	}
+
+	function getEnableSsl()
+	{
+		$ret = ($this->main->priv->isOn('ssl_flag')) ? true : false;
+
+		return $ret;
+	}
+
+	function getEnableStats()
+	{
+		$ret = ($this->main->priv->isOn('awstats_flag')) ? true : false;
 
 		return $ret;
 	}

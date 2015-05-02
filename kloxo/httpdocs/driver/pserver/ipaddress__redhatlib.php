@@ -193,12 +193,15 @@ class Ipaddress__Redhat extends LxDriverclass
 
 	static function get_network_data($devname)
 	{
-		$list = self::get_ifcfgfile_parse($devname);
+		// MR -- use directly to get_ifconfig_parse because unstandard ifcfg make
+		// trouble to reading
 
-		if ((isset($list['BOOTPROTO'])) && ($list['BOOTPROTO'] === 'dhcp')) {
+	//	$list = self::get_ifcfgfile_parse($devname);
+
+	//	if ((isset($list['BOOTPROTO'])) && ($list['BOOTPROTO'] === 'dhcp')) {
 			$list = self::get_ifconfig_parse($devname);
 			$result['bproto'] = 'dhcp';
-		}
+	//	}
 
 		foreach ($list as $key => $value) {
 			switch ($key) {

@@ -180,18 +180,16 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-					}
+				}
 ?>
 	</IfModule>
 <?php
 			}
-
-
 ?>
 
 	<IfModule suexec.c>
@@ -284,12 +282,12 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-				if (file_exists("{$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-				}
+			}
 ?>
 	</IfModule>
 <?php
@@ -383,12 +381,12 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-					}
+				}
 ?>
 	</IfModule>
 <?php
@@ -426,17 +424,16 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-					}
+				}
 ?>
 	</IfModule>
 <?php
 			}
-
 ?>
 
 	<IfModule suexec.c>
@@ -519,6 +516,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 <?php
 		if ($count !== 0) {
+			if ($enablessl) {
 ?>
 
 	<IfModule mod_ssl.c>
@@ -539,6 +537,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 	</IfModule>
 <?php
+			}
 		}
 
 		if ($wwwredirect) {
@@ -599,6 +598,8 @@ foreach ($certnamelist as $ip => $certname) {
 				}
 			}
 		}
+
+		if ($enablephp) {
 ?>
 
 	<IfModule suexec.c>
@@ -662,12 +663,12 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-		if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
 		AddHandler cgi-script .cgi .pl
 <?php
-		}
+			}
 ?>
 	</Directory>
 
@@ -676,6 +677,9 @@ foreach ($certnamelist as $ip => $certname) {
 		php_admin_value sendmail_from "<?php echo $domainname; ?>"
 		Include /home/kloxo/client/<?php echo $user; ?>/prefork.inc
 	</IfModule>
+<?php
+		}
+?>
 
 	<Location "/">
 		Allow from all
@@ -685,11 +689,14 @@ foreach ($certnamelist as $ip => $certname) {
 			php_admin_value open_basedir "/home/<?php echo $user; ?>:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script:/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
 		</IfModule>
 	</Location>
+<?php
+		if ($enablestats) {
+?>
 
 	CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
 	ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
 <?php
-		if ($statsapp === 'awstats') {
+			if ($statsapp === 'awstats') {
 ?>
 
 	ScriptAlias /awstats/ "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/"
@@ -704,8 +711,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Options +Indexes
 	</Location>
 <?php
-	 		if ($statsprotect) {
-			    ?>
+		 		if ($statsprotect) {
+?>
 
     <Location "/awstats/">
 		AuthType Basic
@@ -715,8 +722,8 @@ foreach ($certnamelist as $ip => $certname) {
 		require valid-user
 	</Location>
 <?php
-			}
-		} elseif ($statsapp === 'webalizer') {
+				}
+			} elseif ($statsapp === 'webalizer') {
 ?>
 
 	Alias /stats "/home/httpd/<?php echo $domainname; ?>/webstats/"
@@ -725,7 +732,7 @@ foreach ($certnamelist as $ip => $certname) {
 		Options +Indexes
 	</Location>
 <?php
-			if ($statsprotect) {
+				if ($statsprotect) {
 ?>
 
 	<Location "/stats/">
@@ -736,6 +743,7 @@ foreach ($certnamelist as $ip => $certname) {
 		require valid-user
 	</Location>
 <?php
+				}
 			}
 		}
 
@@ -769,7 +777,7 @@ foreach ($certnamelist as $ip => $certname) {
 		require valid-user
 	</Location>
 <?php
-		}
+			}
 		}
 
 		if ($blockips) {
@@ -821,6 +829,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 <?php
 					if ($count !== 0) {
+						if ($enablessl) {
 ?>
 
 	<IfModule mod_ssl.c>
@@ -841,7 +850,10 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 	</IfModule>
 <?php
+						}
 					}
+
+					if ($enablephp) {
 ?>
 
 	<IfModule suexec.c>
@@ -905,12 +917,14 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+					}
+
+					if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
 		AddHandler cgi-script .cgi .pl
 <?php
-			}
+					}
 ?>
 	</Directory>
 
@@ -934,6 +948,7 @@ foreach ($certnamelist as $ip => $certname) {
 	Redirect / "<?php echo $protocol; ?><?php echo $domainname; ?>/"
 <?php
 					if ($count !== 0) {
+						if ($enablessl) {
 ?>
 
 	<IfModule mod_ssl.c>
@@ -954,6 +969,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 	</IfModule>
 <?php
+						}
 					}
 ?>
 
@@ -1096,12 +1112,12 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
+							}
 ?>
 		</IfModule>
 <?php
@@ -1139,12 +1155,12 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
+							}
 ?>
 	</IfModule>
 <?php
@@ -1256,12 +1272,12 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-							if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 
 ?>
 								SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-							}
+						}
 ?>
 	</IfModule>
 <?php
@@ -1355,12 +1371,12 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
+							}
 ?>
 	</IfModule>
 <?php
@@ -1398,12 +1414,12 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
+							}
 ?>
 	</IfModule>
 <?php

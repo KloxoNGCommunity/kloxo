@@ -35,9 +35,9 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	$pass = slave_get_db_pass();
 
 	//--- the first - to 'disable' skip- and restart mysql
-	@system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
-	@system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/my.cnf");
-	@system("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/server.cnf");
+	@exec("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
+	@exec("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/my.cnf");
+	@exec("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/server.cnf");
 
 	if (file_exists("/etc/init.d/mysql")) {
 		exec("service mysql restart");
@@ -124,9 +124,9 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	}
 
 	//--- the second - back to 'original' config and restart mysql
-	@system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf");
-	@system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/my.cnf");
-	@system("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/server.cnf");
+	@exec("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf");
+	@exec("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/my.cnf");
+	@exec("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/server.cnf");
 
 	if (file_exists("/etc/init.d/mysql")) {
 		exec("service mysql restart");
@@ -159,14 +159,36 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 					$string_collect .= $sa . "\n";
 				}
 
-				if ($engine === 'myisam') {
-					$string_source = "[mysqld]\n";
-					$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\nskip-innodb\n";
-					log_cleanup(" - Added 'default-storage-engine={$engine}' and 'skip-innodb' in '{$mycnf}'");
-				} else {
+				if ($engine === 'innodb')  {
+					if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
+						@exec("sed -i 's/plugin-load-add/#plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
+					}
+
 					$string_source = "[mysqld]\n";
 					$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\n#skip-innodb\n";
 					log_cleanup("- Added 'default-storage-engine={$engine}' in '{$mycnf}'");
+				} else {
+					if ($engine === 'myisam') {
+						if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
+							@exec("sed -i 's/plugin-load-add/#plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
+						}
+					} elseif ($engine === 'tokudb')  {
+						if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
+							@exec("echo never > /sys/kernel/mm/transparent_hugepage/enabled");
+							@exec("grep -q -F 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' /etc/rc.d/rc.local || ".
+									"echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled\n".
+									"if [ -f /etc/rc.d/init.d/mysql ] ; then\n".
+									"\tservice mysql restart".
+									"fi".
+									"' >>  /etc/rc.d/rc.local");
+							
+							@exec("sed -i 's/#plugin-load-add/plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
+						}
+					}
+
+					$string_source = "[mysqld]\n";
+					$string_replace = "[mysqld]\ndefault-storage-engine={$engine}\nskip-innodb\n";
+					log_cleanup(" - Added 'default-storage-engine={$engine}' and 'skip-innodb' in '{$mycnf}'");
 				}
 
 				$string_collect = str_replace($string_source, $string_replace, $string_collect);

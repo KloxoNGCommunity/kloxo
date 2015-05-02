@@ -222,10 +222,12 @@ if ($redirectionremote) {
 	Match ^/webmail(/|$) Redirect http://webmail.<?php echo $domainname; ?>/$1
 	Match ^/cp(/|$) Redirect http://cp.<?php echo $domainname; ?>/$1
 <?php
-if ($statsapp === 'awstats') {
+if ($enablestats) {
+	if ($statsapp === 'awstats') {
 ?>
 	Match ^/stats(/|$) Redirect http://<?php echo $domainname; ?>/awstats/awstats.pl
 <?php
+	}
 }
 
 if ($wwwredirect) {
@@ -621,18 +623,20 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+				if ($enablessl) {			
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
+				}
 			}
 ?>
 
@@ -679,24 +683,26 @@ VirtualHost {
 		}
 
 		if (!$reverseproxy) {
+			if ($enablestats) {
 ?>
 
 	AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log
 	ErrorLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log
 <?php
-			if ($statsapp === 'awstats') {
+				if ($statsapp === 'awstats') {
 ?>
 
-	ScriptAlias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
+	Alias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
 
 	Alias = /awstatscss:/home/kloxo/httpd/awstats/wwwroot/css
 	Alias = /awstatsicons:/home/kloxo/httpd/awstats/wwwroot/icon
 <?php
-			} elseif ($statsapp === 'webalizer') {
+				} elseif ($statsapp === 'webalizer') {
 ?>
 
 	Alias = /stats:/home/httpd/<?php echo $domainname; ?>/webstats
 <?php
+				}
 			}
 		} else {
 ?>
@@ -738,11 +744,13 @@ VirtualHost {
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
 <?php
 		} else {
+			if ($enablephp) {
 ?>
 
 	UseFastCGI = php_for_var_user
 	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
 <?php
+			}
 		}
 ?>
 
@@ -796,18 +804,20 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+				if ($enablessl) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
+				}
 			}
 ?>
 
@@ -886,18 +896,20 @@ VirtualHost {
 			}
 
 			if ($count !== 0) {
+				if ($enablessl) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
+				}
 			}
 ?>
 

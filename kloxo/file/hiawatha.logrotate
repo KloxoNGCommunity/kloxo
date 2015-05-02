@@ -4,5 +4,5 @@
 	delaycompress
 	rotate 52
 	missingok
-	create 640 apache apache
+	#create 640 apache apache
 }

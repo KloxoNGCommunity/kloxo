@@ -240,7 +240,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 	index-file.names = ( <?php echo $indexorder; ?> )
 <?php
 
-			if (!$disablephp) {
+			if ($enablephp) {
 ?>
 
 	include "<?php echo $globalspath; ?>/switch_standard.conf"
@@ -523,9 +523,13 @@ $SERVER["socket"] == ":" + var.portssl {
 ?>
 
 	url.redirect  += ( "^(/<?php echo $rr[0]; ?>/|/<?php echo $rr[0]; ?>$)" => "<?php echo $protocol2; ?><?php echo $rr[1]; ?>" )
+<?php
+					if ($enablestats) {
+?>
 
 	include "<?php echo $globalspath; ?>/stats.conf"
 <?php
+					}
 				}
 			}
 		}
@@ -549,7 +553,7 @@ $SERVER["socket"] == ":" + var.portssl {
 <?php
 		}
 
-		if (!$disablephp) {
+		if ($enablephp) {
 ?>
 
 	include "<?php echo $globalspath; ?>/switch_standard.conf"
