@@ -89,6 +89,20 @@ foreach($dns_records as $k => $o) {
 				"VALUES ('{$zone}', '{$key}', '{$value}', 'NULL', '{$ttl}', 'A');");
 
 			break;
+		case "aaaa":
+			$key = $o->hostname;
+			$value = $o->param;
+
+			if ($key !== "__base__") {
+				$key = "{$key}.{$domainname}";
+			} else {
+				$key = $domainname;
+			}
+
+			$conn->query("INSERT INTO rr (zone, name, data, aux, ttl, type) " .
+				"VALUES ('{$zone}', '{$key}', '{$value}', 'NULL', '{$ttl}', 'AAAA');");
+
+			break;
 		case "cn":
 		case "cname":
 			$key = $o->hostname;

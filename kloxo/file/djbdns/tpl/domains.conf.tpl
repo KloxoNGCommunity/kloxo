@@ -70,6 +70,30 @@ foreach($dns_records as $k => $o) {
 
 <?php
             break;
+	/*
+        case "aaaa":
+            $key = $o->hostname;
+            $value = $o->param; // MR -- TODO: need to convert
+
+            if ($key === '*') {
+?>
+3*.<?php echo $domainname; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
+
+<?php
+                break;
+            }
+
+            if ($key !== "__base__") {
+                $key = "{$key}.{$domainname}";
+            } else {
+                $key = $domainname;
+            }
+?>
+3<?php echo $key; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
+
+<?php
+            break;
+	*/
         case "cn":
         case "cname":
             $key = $o->hostname;

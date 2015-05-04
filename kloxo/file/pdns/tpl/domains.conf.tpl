@@ -96,6 +96,20 @@ foreach($dns_records as $k => $o) {
 				"VALUES ('{$domain_id}', '{$key}', '{$value}', 'A', '{$ttl}', 'NULL');");
 
 			break;
+		case "aaaa":
+			$key = $o->hostname;
+			$value = $o->param;
+
+			if ($key !== "__base__") {
+				$key = "{$key}.{$domainname}";
+			} else {
+				$key = $domainname;
+			}
+
+			$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+				"VALUES ('{$domain_id}', '{$key}', '{$value}', 'AAAA', '{$ttl}', 'NULL');");
+
+			break;
 		case "cn":
 		case "cname":
 			$key = $o->hostname;
