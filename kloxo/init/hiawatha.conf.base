@@ -6,8 +6,11 @@ ServerString = Hiawatha_for_Kloxo-MR
 ServerId = lxlabs
 ConnectionsTotal = 2048
 ConnectionsPerIP = 64
-SystemLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-system.log
-GarbageLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-garbage.log
+SystemLogfile = /var/log/hiawatha/system.log
+GarbageLogfile = /var/log/hiawatha/garbage.log
+ExploitLogfile = /var/log/hiawatha/exploit.log
+ErrorLogfile = /var/log/hiawatha/error.log
+AccessLogfile = /var/log/hiawatha/access.log
 
 MaxUrlLength = 65536
 
@@ -23,8 +26,17 @@ RebanDuringBan = yes
 
 ThreadPoolSize = 50
 
-#CGIhandler = /opt/php53s/usr/bin/php-cgi:php
-#ExecuteCGI = yes
+CGIhandler = /usr/bin/perl:pl
+CGIhandler = /usr/bin/perl:cgi
+CGIhandler = /usr/bin/__php__-cgi:php
+CGIhandler = /usr/bin/python:py
+CGIhandler = /usr/bin/ruby:rb
+CGIhandler = /usr/bin/ssi-cgi:shtml
+#CGIextension = php
+
+#CGIwrapper = /usr/sbin/cgi-wrapper
+
+ExecuteCGI = yes
 WaitForCGI = yes
 
 MinSSLversion = TLS1.0
@@ -98,10 +110,8 @@ Binding {
 Hostname = 0.0.0.0
 WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
 StartFile = index.php
-AccessLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-access.log
-ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
 SecureURL = no
-UseFastCGI = PHP5
+__fpmdisabled__UseFastCGI = PHP5
 UseToolkit = block_shellshock, findindexfile, expire_needed
 TimeForCGI = 3600
 ErrorHandler = 401:/error/401.html

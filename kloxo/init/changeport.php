@@ -32,6 +32,17 @@ $content = file_get_contents($sfile);
 $content = str_replace("__nonssl_port__", $nonsslport, $content);
 $content = str_replace("__ssl_port__", $sslport, $content);
 
+$acontent = file_get_contents(getLinkCustomfile("{$kpath}/init", "kloxo_php_active"));
+
+$content = str_replace("__php__", str_replace("\n", "", $acontent), $content);
+$content = str_replace("__php__", str_replace(" ", "", $acontent), $content);
+
+if (file_exists("{$kpath}/init/kloxo_use_php-cgi")) {
+	$content = str_replace("__fpmdisabled__", "#", $content);
+} else {
+	$content = str_replace("__fpmdisabled__", "", $content);
+}
+
 file_put_contents("{$kpath}/init/hiawatha.conf", $content);
 
 file_put_contents("{$kpath}/init/port-nonssl", $nonsslport);

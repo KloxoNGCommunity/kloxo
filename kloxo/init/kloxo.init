@@ -20,19 +20,19 @@
 
 INIT_DIR='/usr/local/lxlabs/kloxo/init'
 
-if ! [ -d ${INIT_DIR} ] ; then
+if [ ! -d ${INIT_DIR} ] ; then
 	mkdir -p ${INIT_DIR}
 	chown -R lxlabs:lxlabs ${INIT_DIR}
 fi
 
 PID_DIR=${INIT_DIR}
 
-if ! [ -d ${PID_DIR} ] ; then
+if [ ! -d ${PID_DIR} ] ; then
 	mkdir -p ${PID_DIR}
 	chown -R lxlabs:lxlabs ${PID_DIR}
 fi
 
-if ! [ -f ${INIT_DIR}/webused.txt ] ; then
+if [ ! -f ${INIT_DIR}/webused.txt ] ; then
 	echo 'hiawatha' > ${INIT_DIR}/webused.txt
 fi
 
@@ -102,27 +102,33 @@ function phpcgi_start() {
 		phpcgi_stop
 	fi
 
-	echo -n $"Starting ${phpcgi_prog}: "
+	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+		echo -n $"Starting ${phpcgi_prog}: "
 
-	daemon ${phpcgi_spawn}
+		daemon ${phpcgi_spawn}
 
-	retval=$?
-	echo
-	[ ${retval} -eq 0 ] && touch ${phpcgi_lockfile} && touch ${phpcgi_sockfile}
-	return ${retval}
+		retval=$?
+		echo
+		[ ${retval} -eq 0 ] && touch ${phpcgi_lockfile} && touch ${phpcgi_sockfile}
+		return ${retval}
+	else
+		echo $"* ${phpcgi_prog}: No need to start because not use php-fpm"
+	fi
 }
 
 function phpcgi_stop() {
-	echo -n $"Stopping ${phpcgi_prog}: "
+	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+		echo -n $"Stopping ${phpcgi_prog}: "
 
-	## hidden for wrapper only
-	killproc -p ${wrapper_pidfile} >/dev/null 2>&1
-	killproc -p ${phpcgi_pidfile}
+		## hidden for wrapper only
+		killproc -p ${wrapper_pidfile} >/dev/null 2>&1
+		killproc -p ${phpcgi_pidfile}
 
-	retval=$?
-	echo
-	[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile}
-	return ${retval}
+		retval=$?
+		echo
+		[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile}
+		return ${retval}
+	fi
 }
 
 function phpcgi_restart() {
@@ -133,10 +139,12 @@ function phpcgi_restart() {
 }
 
 function phpcgi_reload() {
-	echo -n $"Reloading ${phpcgi_prog}: "
-	killproc -p ${phpcgi_pidfile} ${phpcgi_name} -USR2
-	RETVAL=$?
-	echo
+	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+		echo -n $"Reloading ${phpcgi_prog}: "
+		killproc -p ${phpcgi_pidfile} ${phpcgi_name} -USR2
+		RETVAL=$?
+		echo
+	fi
 
 	also_mysql
 }
@@ -183,7 +191,7 @@ else
 fi
 
 function hiawatha_start() {
-	if ! [ -L ${hiawatha_symlink} ] ; then
+	if [ ! -L ${hiawatha_symlink} ] ; then
 		ln -s ${hiawatha_prog} ${hiawatha_symlink}
 	fi
 	
@@ -253,7 +261,7 @@ function hiawatha_status() {
 ### 3. GENERAL portion
 
 function also_mysql() {
-	if ! [ -f ${prog_as_slave} ] ; then
+	if [ ! -f ${prog_as_slave} ] ; then
 		if [ -f /etc/initd/mysql ] ; then
 			if ! $(/etc/init.d/mysql status) ; then
 				/etc/init.d/mysql start
@@ -269,13 +277,13 @@ function also_mysql() {
 }
 
 function install_hiawatha() {
-	if ! [ -f /usr/sbin/hiawatha ] ; then
+	if [ ! -f /usr/sbin/hiawatha ] ; then
 		reinstall_hiawatha
 	fi
 }
 
 function reinstall_hiawatha() {
-	if ! [ -f /usr/sbin/hiawatha ] ; then
+	if [ ! -f /usr/sbin/hiawatha ] ; then
 		YUM_ACTION='reinstall'
 	else
 		YUM_ACTION='install'

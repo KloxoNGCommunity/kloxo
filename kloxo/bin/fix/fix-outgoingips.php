@@ -19,7 +19,7 @@ foreach($list as $c) {
 
 		foreach($dns->dns_record_a as $drec) {
 			if (($drec->ttype === 'a') && ($drec->hostname === '__base__')) {
-				print("- For '{$dns->nname}' domain ('{$c->nname}' client) at '{$c->syncserver}' server\n");
+				print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
 				$t .= "{$dns->nname}:{$drec->param}\n";
 			}
 		}

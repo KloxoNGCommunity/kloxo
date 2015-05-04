@@ -7,9 +7,12 @@
 #ServerId = www-data
 ConnectionsTotal = 250
 ConnectionsPerIP = 25
+
 SystemLogfile = /var/log/hiawatha/system.log
 GarbageLogfile = /var/log/hiawatha/garbage.log
-
+ExploitLogfile = /var/log/hiawatha/exploit.log
+ErrorLogfile = /var/log/hiawatha/error.log
+AccessLogfile = /var/log/hiawatha/access.log
 
 # BINDING SETTINGS
 # A binding is where a client can connect to.

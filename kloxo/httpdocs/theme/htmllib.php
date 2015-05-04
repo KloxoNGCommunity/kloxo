@@ -6627,13 +6627,13 @@ class HtmlLib
 ?>
 
 			<td valign="middle" align="left" width="5">
-				<form method="get">
+				<!-- <form method="get"> -->
 <?php
 			$l['ac_descr']['desc'] = "{$l['fullstr']} {$l['tag']}";
 			$this->print_div_for_divbutton_on_header($l['url'], $l['target'], null, true, true, $l['url'], $l['__t_identity'], $l['_t_image'], $l['ac_descr']);
 ?>
 
-				</form>
+				<!-- </form> -->
 			</td>
 <?php
 		}
@@ -9701,10 +9701,18 @@ class HtmlLib
 					$target = "_blank";
 				}
 
-				$vvar_list = array('_t_image', 'url', 'target', '__t_identity', 'ac_descr', 'str', 'tag', 'fullstr');
+				$vvar_list = array(
+					'_t_image' => $_t_image, 
+					'url' => $url, 
+					'target' => $target, 
+					'__t_identity' => $__t_identity, 
+					'ac_descr' => $ac_descr, 
+					'str' => $str, 
+					'tag' => $tag, 'fullstr' => $fullstr
+				);
 
-				foreach ($vvar_list as $vvar) {
-					$res[$vvar] = $vvar;
+				foreach ($vvar_list as $k => $v) {
+					$res[$k] = $v;
 				}
 
 				$ret[] = $res;

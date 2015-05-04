@@ -31,7 +31,7 @@ foreach($list as $c) {
 		$changed = false;
 
 		if ($newip && $oldip) {
-			print("- For '{$dns->nname}' domain ('{$c->nname}' client) at '{$c->syncserver}' server\n");
+			print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
 
 			foreach($dns->dns_record_a as $drec) {
 				if ($drec->ttype !== 'a') {
@@ -41,7 +41,7 @@ foreach($list as $c) {
 				if ($drec->param === $oldip) {
 					$sub = str_replace("a_", "", $drec->nname);
 
-					print("-- old '{$oldip}' IP to new '{$newip}' IP for '{$sub}' record\n");
+					print("-- old '{$oldip}' to new '{$newip}' for '{$sub}'\n");
 
 					$drec->param = $newip;
 
@@ -51,7 +51,7 @@ foreach($list as $c) {
 		}
 
 		if ($changed === false) {
-			print("-- NO exists of old '{$oldip}' IP for '{$dns->nname}' domain\n");
+			print("-- NO exists of old '{$oldip}' for '{$dns->nname}'\n");
 		}
 
 		$dns->was();

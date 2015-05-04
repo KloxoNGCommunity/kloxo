@@ -37,7 +37,7 @@ foreach($list as $c) {
 		$dns = $l->getObject('dns');
 		$dns->setUpdateSubaction('full_update');
 
-		print("- For '{$dns->nname}' domain ('{$c->nname}' client) at '{$c->syncserver}' server\n");
+		print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
 
 		$removed = false;
 
