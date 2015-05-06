@@ -82,42 +82,53 @@ class serverweb extends lxdb
 			case "apache_optimize":
 				$this->apache_optimize = null;
 
-				$vlist['apache_optimize'] = array('s', array('---No Change---', 'default', 'low', 'medium', 'high'));
-				$this->setDefaultValue('apache_optimize', '---No Change---');
+				$a = array('default', 'low', 'medium', 'high');
+				$b = '';
+				
+				$vlist['apache_optimize'] = array('s', $a);
+				
+				exec("cat /etc/httpd/conf.d/~lxcenter.conf | grep '### selected:'", $out);
+				
+				foreach ($a as $k => $v) {
+					if (strpos($out[0], $v) !== false) {
+						$b = $v;
 
+						break;
+					}
+				}
+
+				if ($b !== '') {
+					$this->setDefaultValue('apache_optimize', $b);
+				}
+	
 				break;
 			case "mysql_convert":
 				$this->mysql_convert = null;
 				$this->mysql_charset = null;
+				
+				// TODO: "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'kloxo';"
+				// mysql -u[user] -p -D[database] -e "show table status\G"| egrep "(Index|Data)_length" | awk 'BEGIN { rsum = 0 } { rsum += $2 } END { print rsum }'
 
 				if (getRpmBranchInstalled('mysql') === 'MariaDB-server') {
-					$vlist['mysql_convert'] = array('s', array('---No Change---', 'to-myisam', 'to-innodb', 'to-aria'));
+					$vlist['mysql_convert'] = array('s', array('to-myisam', 'to-innodb', 'to-aria', 'to-tokudb'));
 				} else {
-					$vlist['mysql_convert'] = array('s', array('---No Change---', 'to-myisam', 'to-innodb'));
+					$vlist['mysql_convert'] = array('s', array('to-myisam', 'to-innodb'));
 				}
 				
-				$this->setDefaultValue('mysql_convert', '---No Change---');
-
-				$vlist['mysql_charset'] = array('s', array('---No Change---', 'utf-8'));
-
-				$this->setDefaultValue('mysql_charset', '---No Change---');
+				$vlist['mysql_charset'] = array('s', array( 'utf8'));
 
 				break;
 			case "fix_chownchmod":
 				$this->fix_chownchmod = null;
 
-				$vlist['fix_chownchmod'] = array('s', array('---No Change---', 'fix-ownership', 'fix-permissions', 'fix-ALL'));
-
-				$this->setDefaultValue('fix_chownchmod', '---No Change---');
+				$vlist['fix_chownchmod'] = array('s', array('fix-ownership', 'fix-permissions', 'fix-ALL'));
 
 				break;
 
 			case "fix_chownchmod_user":
 				$this->fix_chownchmod_user = null;
 
-				$vlist['fix_chownchmod_user'] = array('s', array('---No Change---', 'fix-ownership', 'fix-permissions', 'fix-ALL'));
-
-				$this->setDefaultValue('fix_chownchmod_user', '---No Change---');
+				$vlist['fix_chownchmod_user'] = array('s', array('fix-ownership', 'fix-permissions', 'fix-ALL'));
 
 				break;
 			case "php_type":

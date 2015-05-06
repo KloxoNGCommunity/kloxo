@@ -79,6 +79,8 @@ class serverweb__ extends lxDriverClass
 
 				break;
 		}
+		
+		exec("sed -i 's:__optimize__:{$this->main->apache_optimize}:' /etc/httpd/conf.d/~lxcenter.conf");
 	}
 
 	function set_fix_chownchmod()
@@ -127,7 +129,7 @@ class serverweb__ extends lxDriverClass
 	{
 		$scripting = '/script/mysql-convert';
 
-		if ($this->main->mysql_charset === 'utf-8') {
+		if ($this->main->mysql_charset === 'utf8') {
 			$charset = '--utf8=yes';
 		} else {
 			$charset = '';
