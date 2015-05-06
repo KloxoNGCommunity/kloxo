@@ -224,7 +224,7 @@ sh /script/set-fs >/dev/null 2>&1
 echo
 if [ "${with_php52s}" != "no" ] ; then
 	echo "... Wait until finished (switch to php54s and restart services) ..."
-	sh /script/phpm-installer php54s >/dev/null 2>&1
+	sh /script/phpm-installer php54s -y >/dev/null 2>&1
 else
 	echo "... Wait until finished (restart services) ..."
 fi

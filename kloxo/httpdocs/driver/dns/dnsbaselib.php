@@ -184,6 +184,11 @@ class dns_record_a extends LxDnsClass
 		} elseif ($param['ttype'] === 'a' || $param['ttype'] === 'aaaa') {
 			// Validates subdomain
 			validate_hostname_name($param['hostname']);
+			
+			// MR -- make IPv6 always full format
+			if (strpos($param['param'], ':') !== false) {
+				$param['param'] = ipv6_expand($param['param']);
+			}
 
 			// Validates both ipv4 and ipv6
 			validate_ipaddress($param['param']);

@@ -70,14 +70,16 @@ foreach($dns_records as $k => $o) {
 
 <?php
             break;
-	/*
+/*
         case "aaaa":
             $key = $o->hostname;
-            $value = $o->param; // MR -- TODO: need to convert
-
+			$value = $o->param;
+		//	$value = escaped_hex(ipv6_expand($o->param)); // TODO: unfinish work
+			
+			
             if ($key === '*') {
 ?>
-3*.<?php echo $domainname; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
+:*.<?php echo $domainname; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
                 break;
@@ -89,11 +91,11 @@ foreach($dns_records as $k => $o) {
                 $key = $domainname;
             }
 ?>
-3<?php echo $key; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
+:<?php echo $key; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
 
 <?php
             break;
-	*/
+*/
         case "cn":
         case "cname":
             $key = $o->hostname;

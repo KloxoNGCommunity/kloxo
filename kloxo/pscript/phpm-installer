@@ -24,9 +24,15 @@ if [ "$#" == 0 ] ; then
 	exit
 fi
 
+base_name="${1}"
+
+if [ "echo '${base_name}'|grep 'php'|grep 's'" == "" ] || [ "echo '${base_name}'|grep 'php'|grep 'm'" == "" ] ; then
+	echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 56)"
+	exit
+fi
+
 . /script/counter-start.inc
 
-base_name="${1}"
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
 

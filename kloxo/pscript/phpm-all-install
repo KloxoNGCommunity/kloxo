@@ -1,5 +1,6 @@
 #!/bin/sh
 
 for i in 52 53 54 55 56 ; do
-	sh /script/phpm-installer php${i}m
+	sh /script/phpm-installer php${i}m $1
+	sh /script/phpm-installer php${i}s $1
 done

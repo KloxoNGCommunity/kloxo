@@ -8209,3 +8209,32 @@ function decrypt($encrypted_string, $encryption_key) {
 	return $decrypted_string;
 }
 
+/*
+// MR -- taken from https://github.com/NewEraCracker/php_work/blob/master/ipv6_hack.php with mod
+function ipv6_expand($ip) {
+	$ip = explode(':', $ip);
+	$res = '';
+	$expand = true;
+
+	foreach($ip as $seg) {
+		if($seg == '' && $expand) {
+			// This will expand a compacted IPv6
+			$res .= str_pad('', (((8 - count($ip)) + 1) * 4), '0', STR_PAD_LEFT);
+			// Only expand once, otherwise it will cause troubles with ::1 or ffff::
+			$expand = false;
+		} else {
+			// This will pad to ensure each IPv6 part has 4 digits.
+			$res .= str_pad($seg, 4, '0', STR_PAD_LEFT);
+		}
+	}
+
+	return $res;
+}
+*/
+
+function ipv6_expand($ip){
+    $hex = unpack("H*hex", inet_pton($ip));         
+    $ip = substr(preg_replace("/([A-f0-9]{4})/", "$1:", $hex['hex']), 0, -1);
+
+    return $ip;
+}
