@@ -79,8 +79,12 @@ sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' /opt/${bas
 
 if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
 	sed -i 's:__disable_functions__::' /opt/${base_name}/custom/php.ini
+	sed -i 's:__for_phpm__::' /opt/${base_name}/custom/php.ini
+	sed -i 's:__for_phps__:;:' /opt/${base_name}/custom/php.ini
 else
 	sed -i 's:__disable_functions__:;:' /opt/${base_name}/custom/php.ini
+	sed -i 's:__for_phpm__:;:' /opt/${base_name}/custom/php.ini
+	sed -i 's:__for_phps__::' /opt/${base_name}/custom/php.ini
 fi
 
 for i in php-cgi.sh php-cli.sh php-fpm.sh php-ls.sh ; do
