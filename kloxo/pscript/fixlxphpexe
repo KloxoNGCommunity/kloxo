@@ -20,6 +20,12 @@ else
 		base_name="$(cat ${INIT_DIR}/kloxo_php_active)"
 	else
 		base_name="php54s"
+
+		if [ ! -f /opt/${base_name}/custom/php-cli.sh ] ; then
+			echo "File: '/opt/${base_name}/custom/php-cli.sh' not exists. Installing..."
+			sh /script/phpm-installer ${base_name}
+		fi
+
 		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active
 	fi
 fi
