@@ -39,7 +39,7 @@
 	if ($maxpar_p < 4) { $maxpar_p = 4; }
 	if ($minpar_p < 2) { $minpar_p = 2; }
 	if ($maxpar_w < 4) { $maxpar_w = 4; }
-	if ($maxpar_w < 2) { $maxpar_w = 2; }
+	if ($minpar_w < 2) { $minpar_w = 2; }
 
 	$keepalive = 'Off';
 	
