@@ -400,14 +400,21 @@ class phpini extends lxdb
 
 	function setUpInitialValues()
 	{
-		global $ghtml, $login;
+		global $gbl, $ghtml, $login;
 
 		if ($this->getParentO()->getClass() === 'pserver') {
 			$this->initialValuesBasic();
 		} else {
 			$p = new phpini(null, $this->syncserver, createParentName('pserver', $this->syncserver));
-			$p->get();
-			$b = $p->phpini_flag_b;
+			$pg = $p->get();
+
+			if (!$pg) {
+				// MR -- not work for getFullUrl
+			//	$gbl->__this_redirect = $ghtml->getFullUrl("a=show&l[class]=pserver&l[nname]={$this->syncserver}");
+				$gbl->__this_redirect = "/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]={$this->syncserver}&frm_o_o[1][class]=phpini";
+			}
+
+			$b = $pg->phpini_flag_b;
 
 			$list = array_merge($this->getInheritedList(), $this->getLocalList(), $this->getExtraList());
 
@@ -416,7 +423,8 @@ class phpini extends lxdb
 			foreach ($list as $k => $v) {
 				if ($v === 'session_save_path_flag') {
 					$path = "/home/kloxo/client/{$this->getParentO()->nname}/session";
-					$this->initialValue($v, $path);
+					$this->phpini_flag_b->session_save_path_flag = $path;
+					$this->initialValue($v, $this->phpini_flag_b->session_save_path_flag);
 					exec("mkdir -p $path");
 					// MR -- fix for permissions fail
 					exec("chmod 777 /home/kloxo/client/{$this->getParentO()->nname}/session");
