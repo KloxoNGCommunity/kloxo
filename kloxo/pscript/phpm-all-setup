@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for i in 52 53 54 55 56 ; do
+	sh /script/phpm-config-setup php${i}m $1
+	sh /script/phpm-config-setup php${i}s $1
+done
