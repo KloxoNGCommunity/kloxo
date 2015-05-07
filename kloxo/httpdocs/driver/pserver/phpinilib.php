@@ -316,6 +316,21 @@ class phpini extends lxdb
 		}
 	*/
 
+		global $gbl, $ghtml, $login;
+
+		$parent = $this->getParentO();
+
+		if ($parent->getClass() !== 'pserver') {
+			$p = new phpini(null, $this->syncserver, createParentName('pserver', $this->syncserver));
+
+			if (!$p->get()) {
+				// MR -- not work for getFullUrl
+			//	$gbl->__this_redirect = $ghtml->getFullUrl("a=show&l[class]=pserver&l[nname]={$this->syncserver}");
+				$gbl->__this_redirect = "/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]={$this->syncserver}&frm_o_o[1][class]=phpini";
+				return;
+			}
+		}
+
 		$this->setUpInitialValues();
 	}
 
@@ -391,7 +406,7 @@ class phpini extends lxdb
 		// still something wrong with 'updateall' process!
 	//	if ($parent->is__table('pserver')) {
 		if ($parent->getClass() === 'pserver') {
-		//	$vlist['__v_updateall_button'] = array();
+			$vlist['__v_updateall_button'] = array();
 		}
 
 		return $vlist;
@@ -406,15 +421,9 @@ class phpini extends lxdb
 			$this->initialValuesBasic();
 		} else {
 			$p = new phpini(null, $this->syncserver, createParentName('pserver', $this->syncserver));
-			$pg = $p->get();
+			$p->get();
 
-			if (!$pg) {
-				// MR -- not work for getFullUrl
-			//	$gbl->__this_redirect = $ghtml->getFullUrl("a=show&l[class]=pserver&l[nname]={$this->syncserver}");
-				$gbl->__this_redirect = "/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]={$this->syncserver}&frm_o_o[1][class]=phpini";
-			}
-
-			$b = $pg->phpini_flag_b;
+			$b = $p->phpini_flag_b;
 
 			$list = array_merge($this->getInheritedList(), $this->getLocalList(), $this->getExtraList());
 
@@ -423,9 +432,8 @@ class phpini extends lxdb
 			foreach ($list as $k => $v) {
 				if ($v === 'session_save_path_flag') {
 					$path = "/home/kloxo/client/{$this->getParentO()->nname}/session";
-					$this->phpini_flag_b->session_save_path_flag = $path;
-					$this->initialValue($v, $this->phpini_flag_b->session_save_path_flag);
 					exec("mkdir -p $path");
+					$this->initialValue($v, $path);
 					// MR -- fix for permissions fail
 					exec("chmod 777 /home/kloxo/client/{$this->getParentO()->nname}/session");
 				} else {
