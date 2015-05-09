@@ -33,9 +33,13 @@ function setSetupApp()
 
 	exec("mysql -f -u root {$pstring} < {$path}/data/settings/afterlogic_initial.sql >/dev/null 2>&1");
 
-	lxfile_cp("{$path}/data/settings/afterlogic_settings.xml", "{$path}/data/settings/settings.xml");
-
-	$cfgfile = "{$path}/data/settings/settings.xml";
+	if (file_exists("{$path}/data/settings/afterlogic_settings.xml.php")) {
+		lxfile_cp("{$path}/data/settings/afterlogic_settings.xml.php", "{$path}/data/settings/settings.xml.php");
+		$cfgfile = "{$path}/data/settings/settings.xml.php";
+	} else {
+		lxfile_cp("{$path}/data/settings/afterlogic_settings.xml", "{$path}/data/settings/settings.xml");
+		$cfgfile = "{$path}/data/settings/settings.xml";
+	}
 
 	log_cleanup("- Generating password", $nolog);
 	$pass = randomString(8);

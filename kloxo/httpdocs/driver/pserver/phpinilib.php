@@ -89,6 +89,7 @@ class phpini extends lxdb
 		$server = $this->syncserver;
 		$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-{$server}", 
 			"ser_phpini_flag_b")));
+
 		$flag = $server_phpini->multiple_php_flag;
 
 	//	if ($this->getParentO()->is__table('pserver')) {
@@ -271,7 +272,7 @@ class phpini extends lxdb
 
 	function postUpdate()
 	{
-		$this->setUpInitialValues();
+	//	$this->setUpInitialValues();
 
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
@@ -315,21 +316,6 @@ class phpini extends lxdb
 			$this->phpini_flag_b = new phpini_flag_b(null, null, $this->nname);
 		}
 	*/
-
-		global $gbl, $ghtml, $login;
-
-		$parent = $this->getParentO();
-
-		if ($parent->getClass() !== 'pserver') {
-			$p = new phpini(null, $this->syncserver, createParentName('pserver', $this->syncserver));
-
-			if (!$p->get()) {
-				// MR -- not work for getFullUrl
-			//	$gbl->__this_redirect = $ghtml->getFullUrl("a=show&l[class]=pserver&l[nname]={$this->syncserver}");
-				$gbl->__this_redirect = "/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]={$this->syncserver}&frm_o_o[1][class]=phpini";
-				return;
-			}
-		}
 
 		$this->setUpInitialValues();
 	}
@@ -387,7 +373,7 @@ class phpini extends lxdb
 			$vlist['web_selected'] = array("s", array('front-end', 'back-end'));
 
 			if (!isset($this->php_selected)) {
-				$this->php_selected = 'php53m';
+				$this->php_selected = 'php54m';
 			}
 
 			$l = $this->get_multiple_php_list();
@@ -429,13 +415,15 @@ class phpini extends lxdb
 
 			array_unique($list);
 
+			$user = $this->getParentO()->nname;
+
 			foreach ($list as $k => $v) {
 				if ($v === 'session_save_path_flag') {
-					$path = "/home/kloxo/client/{$this->getParentO()->nname}/session";
+					$path = "/home/kloxo/client/{$user}/session";
 					exec("mkdir -p $path");
 					$this->initialValue($v, $path);
 					// MR -- fix for permissions fail
-					exec("chmod 777 /home/kloxo/client/{$this->getParentO()->nname}/session");
+					exec("chmod 777 $path");
 				} else {
 					$this->initialValue($v, $b->$v);
 				}

@@ -555,5 +555,7 @@ class Sqlite
 		} else {
 			dprint("Record deleted from $this->__sqtable for $nname <br>.");
 		}
+
+		return $delresult;
 	}
 }

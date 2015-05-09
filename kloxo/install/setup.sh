@@ -185,8 +185,6 @@ sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
 yum -y install php54 php54-mysqlnd
-## MR -- protect to lxphp.exe show missing .so. it's must /etc/php.ini exist extension_dir
-'cp' -f ${ppath}/init/php.ini /etc/php.ini
 
 if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php

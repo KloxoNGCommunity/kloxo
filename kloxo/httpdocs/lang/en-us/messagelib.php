@@ -73,7 +73,9 @@ $__emessage['document_root_may_not_contain_spaces'] = "The document root may not
 
 $__emessage['switch_program_not_set'] = "Need select services. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=switchprogram>[here]</url> to set it.";
 $__emessage['phptype_not_set'] = "Need select php-type. Click <url:k[class]=pserver&k[nname]=[%_server_%]&o=serverweb&a=show>[here]</url> to set it.";
-$__emessage['phpini_not_set'] = "Need update php.ini to make sure the website able to process php files. Click <url:o=phpini&a=show>[here]</url> to set it.";
+
+$__emessage['phpini_not_set_pserver'] = "Need update php.ini to make sure the website able to process php files. Click <a href='/display.php?frm_action=show&frm_o_o[0][class]=pserver&frm_o_o[0][nname]=[%_server_%]&frm_o_o[1][class]=phpini'>[here]</a> to set it.";
+$__emessage['phpini_not_set_client'] = "Need update php.ini to make sure the website able to process php files. Click <url:o=phpini&a=show>[here]</url> to set it.";
 
 
 $__emessage['session_timeout'] = "Session timeout";

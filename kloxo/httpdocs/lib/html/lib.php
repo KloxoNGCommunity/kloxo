@@ -184,6 +184,14 @@ function db_get_count($table, $query)
 	return $count;
 }
 
+function db_del_value($table, $nname)
+{
+	$sql = new Sqlite(null, $table);
+	$del = $sql->delRow($nname, $value);
+
+	return $del;
+}
+
 function monitor_load()
 {
 	global $gbl, $sgbl, $login, $ghtml;
