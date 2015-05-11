@@ -8394,7 +8394,7 @@ class HtmlLib
 
 ?>
 
-		<div id="showimage" style="visibility:visible;width:400px; position:absolute; top: 320px; left:0; right:0; margin: 0 auto;">
+		<div id="showimage" style="visibility:visible;width:400px; position:absolute; top: 200px; left:0; right:0; margin: 0 auto;">
 			<div style="<?= $style ?>">
 				<div id="dragbar" onmousedown="password_initializedrag(event)" style="background-color: #ec8; text-align: right; padding: 2px; height: 18px; border-bottom: 1px solid red; cursor: pointer">
 					<div style="float:left"><?= $error_box ?><?= $press_esc_to_close ?></div>

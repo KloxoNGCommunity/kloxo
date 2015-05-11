@@ -106,6 +106,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	foreach ($ports as &$port) {
 		if ($ip !== '*') {
+		/*
 ?>
 
 Binding {
@@ -113,7 +114,7 @@ Binding {
 
 	Port = <?php echo $ports[$count]; ?>
 
-	#Interface = <?php echo $ip; ?>
+	Interface = <?php echo $ip; ?>
 
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600
@@ -135,10 +136,10 @@ Binding {
 ?>
 }
 <?php
+			$count++;
+		*/
 		}
 	}
-
-	$count++;
 }
 
 if (!$reverseproxy) {
@@ -245,7 +246,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	foreach ($ports as &$port) {
 
-		//	if ($count !== 0) { continue; }
+	//	if ($count !== 0) { continue; }
 
 		$protocol = ($count === 0) ? "http://" : "https://";
 
@@ -254,7 +255,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
+		/*
 			if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
@@ -266,6 +270,7 @@ VirtualHost {
 
 <?php
 			}
+		*/
 
 			if ($count !== 0) {
 ?>
@@ -318,7 +323,10 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
+		/*
 			if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
@@ -330,7 +338,7 @@ VirtualHost {
 
 <?php
 			}
-
+		*/
 			if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -386,7 +394,10 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
+		/*
 			if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
@@ -397,8 +408,8 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
-
+						}
+		*/
 			if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -465,7 +476,10 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
+			/*
 				if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
@@ -476,22 +490,22 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
-
-			if ($count !== 0) {
+				}
+			*/
+				if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+					}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+				}
 ?>
 
 	set var_user = apache
@@ -508,7 +522,7 @@ VirtualHost {
 
 	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
-}
+				}
 
 <?php
 			} else {
@@ -516,7 +530,10 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
+			/*
 				if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
@@ -528,7 +545,7 @@ VirtualHost {
 
 <?php
 				}
-
+			*/
 				if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -596,35 +613,39 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+	/*
+		if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+		} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+		}
+	*/
 
-			if ($count !== 0) {
-				if ($enablessl) {			
+		if ($count !== 0) {
+			if ($enablessl) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
+				}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-				}
 			}
+		}
 ?>
 
 	set var_user = <?php echo $user; ?>
@@ -633,10 +654,21 @@ VirtualHost {
 	UseGZfile = yes
 
 	FollowSymlinks = no
+<?php
+		if ($ip !== '*') {
+?>
+
+	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>, <?php echo $ip; ?>
+
+<?php
+		} else {
+?>
 
 	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>
 
 <?php
+		}
+
 		if ($disabled) {
 			$rootpath = $disabledocroot;
 		}
@@ -771,35 +803,39 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+				/*
+					if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+					} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+					}
+				*/
 
-			if ($count !== 0) {
-				if ($enablessl) {
+					if ($count !== 0) {
+						if ($enablessl) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
+							}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-				}
-			}
+						}
+					}
 ?>
 
 	set var_user = <?php echo $user; ?>
@@ -809,8 +845,21 @@ VirtualHost {
 
 	FollowSymlinks = no
 
-	Hostname = <?php echo $redirdomainname; ?>, www.<?php echo $redirdomainname; ?>
+<?php
+					if ($ip !== '*') {
+?>
 
+	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>, <?php echo $ip; ?>
+
+<?php
+					} else {
+?>
+
+	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>
+
+<?php
+					}
+?>
 
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
@@ -860,35 +909,39 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+				/*
+					if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+					} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+					}
+				*/
 
-			if ($count !== 0) {
-				if ($enablessl) {
+					if ($count !== 0) {
+						if ($enablessl) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-					if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-					}
+							}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-				}
-			}
+						}
+					}
 ?>
 
 	set var_user = <?php echo $user; ?>
@@ -953,33 +1006,37 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+				/*
+					if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+					} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+					}
+				*/
 
-			if ($count !== 0) {
+					if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+						}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+					}
 ?>
 
 	set var_user = apache
@@ -1022,33 +1079,37 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+					/*
+						if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+						} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+						}
+					*/
 
-			if ($count !== 0) {
+						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+							}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+						}
 ?>
 
 	set var_user = apache
@@ -1099,33 +1160,37 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+					/*
+						if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+						} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+						}
+					*/
 
-			if ($count !== 0) {
+						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+							}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+						}
 ?>
 
 	set var_user = apache
@@ -1194,33 +1259,37 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+				/*
+					if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+					} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+					}
+				*/
 
-			if ($count !== 0) {
+					if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+						}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+					}
 ?>
 
 	set var_user = apache
@@ -1274,33 +1343,37 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+					/*
+						if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+						} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+						}
+					*/
 
-			if ($count !== 0) {
+						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+							}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+						}
 ?>
 
 	set var_user = apache
@@ -1353,33 +1426,37 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	RequiredBinding = port_<?php echo $portnames[$count]; ?>
+
 <?php
-			if ($ip !== '*') {
+					/*
+						if ($ip !== '*') {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
 
 <?php
-			} else {
+						} else {
 ?>
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			}
+						}
+					*/
 
-			if ($count !== 0) {
+						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
 <?php
-				if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	RequiredCA = <?php echo $certname; ?>.ca
 <?php
-				}
+							}
 ?>
 	SecureURL = no
 	#MinSSLversion = TLS1.1
 <?php
-			}
+						}
 ?>
 
 	set var_user = apache

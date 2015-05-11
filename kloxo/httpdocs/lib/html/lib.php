@@ -5803,7 +5803,7 @@ function setInitialPhpFpmConfig($nolog = null)
 		exec("mkdir -p {$sockpath}");
 	}
 
-	exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
+	exec("'cp' -rf {$fpath}/php-fpm/* /opt/configs/php-fpm");
 
 
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);

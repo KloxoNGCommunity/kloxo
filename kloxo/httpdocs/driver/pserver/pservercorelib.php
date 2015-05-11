@@ -1266,6 +1266,8 @@ STRIN;
 
 				$vlist['no_fix_config'] = array('f', 'on', 'off');
 
+				$vlist['__v_updateall_button'] = array();
+
 				return $vlist;
 
 			case "mysqlpasswordreset":

@@ -1,6 +1,5 @@
 #!/bin/sh
 
-#CALLER=$(ps ax | grep "^ *$PPID" | awk '{print $NF}' | grep '/usr/local/lxlabs/kloxo')
 CALLER=$(ps -ocommand= -p $PPID | grep '/usr/local/lxlabs/kloxo')
 
 if [ "$CALLER" == "" ] ; then

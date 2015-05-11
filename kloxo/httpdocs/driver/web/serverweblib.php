@@ -82,12 +82,17 @@ class serverweb extends lxdb
 			case "apache_optimize":
 				$this->apache_optimize = null;
 
-				$a = array('default', 'low', 'medium', 'high');
-				$b = '';
+				exec("cat /etc/httpd/conf.d/~lxcenter.conf | grep '### selected:'", $out);
+				
+				if (strpos($out[0], 'customize') !== false) {
+					$a = array('default', 'low', 'medium', 'high', 'customize');
+				} else {
+					$a = array('default', 'low', 'medium', 'high');
+				}
 				
 				$vlist['apache_optimize'] = array('s', $a);
-				
-				exec("cat /etc/httpd/conf.d/~lxcenter.conf | grep '### selected:'", $out);
+
+				$b = '';
 				
 				foreach ($a as $k => $v) {
 					if (strpos($out[0], $v) !== false) {
