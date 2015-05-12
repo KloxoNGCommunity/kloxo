@@ -653,6 +653,10 @@ function check_if_port_on($port)
 
 				return true;
 			}
+		} elseif (strpos($v, '.pid') !== false) {
+			if (file_exists($v)) {
+				return true;
+			}
 		} else {
 			// standard port -> 3306 for mysql
 			$socket = fsockopen('127.0.0.1', $v, $errno, $errstr, 5);
