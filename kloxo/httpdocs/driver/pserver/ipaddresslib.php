@@ -398,23 +398,23 @@ class Ipaddress extends Lxdb
 		}
 
 		if (!lxfile_exists("{$spath}/$name.crt")) {
-			lxfile_cp("{$ppath}/file/default.crt", "{$spath}/$name.crt");
+			lxfile_cp("{$ppath}/file/ssl/default.crt", "{$spath}/$name.crt");
 		}
 
 		if (!lxfile_exists("{$spath}/$name.key")) {
-			lxfile_cp("{$ppath}/file/default.key", "{$spath}/$name.key");
+			lxfile_cp("{$ppath}/file/ssl/default.key", "{$spath}/$name.key");
 		}
 
 		if (!lxfile_exists("{$spath}/$name.ca")) {
-			if (lxfile_exists("{$ppath}/file/default.ca")) {
-				lxfile_cp("{$ppath}/file/default.ca", "{$spath}/$name.ca");
+			if (lxfile_exists("{$ppath}/file/ssl/default.ca")) {
+				lxfile_cp("{$ppath}/file/ssl/default.ca", "{$spath}/$name.ca");
 			}
 		}
 
 		// MR -- add for missing (lighttpd error when select because need .pem file
 		if (!lxfile_exists("{$spath}/$name.pem")) {
-			exec("cat {$ppath}/file/default.crt {$ppath}/file/default.key > {$ppath}/file/default.pem");
-			lxfile_cp("{$ppath}/file/default.pem", "{$spath}/$name.pem");
+			exec("cat {$ppath}/file/ssl/default.crt {$ppath}/file/ssl/default.key > {$ppath}/file/ssl/default.pem");
+			lxfile_cp("{$ppath}/file/ssl/default.pem", "{$spath}/$name.pem");
 		}
 
 		// MR -- nginx for Kloxo using .crt and key; lxlighttpd using .ca and .pem

@@ -42,7 +42,7 @@ fi
 
 echo ""
 echo "Change qmail.init"
-cp -rf ${ULLKFPATH}/qmail.init ${ERIPATH}/qmail
+cp -rf ${ULLKFPATH}/qmail/etc/init.d/qmail.init ${ERIPATH}/qmail
 chmod -f 0755 ${ERIPATH}/qmail
 
 echo "--------------------------"

@@ -164,7 +164,6 @@ class serverweb__ extends lxDriverClass
 		}
 
 		$ullkfapath = '/usr/local/lxlabs/kloxo/file/apache';
-		$ullkfpfpath = '/usr/local/lxlabs/kloxo/file/php-fpm';
 
 		$ehcpath = '/etc/httpd/conf';
 		$ehcdpath = '/etc/httpd/conf.d';
@@ -182,7 +181,7 @@ class serverweb__ extends lxDriverClass
 			//--- some vps include /etc/httpd/conf.d/swtune.conf
 			exec("'rm' -rf {$ehcdpath}/swtune.conf");
 
-			lxshell_return("'cp' {$ullkfapath} /opt/configs");
+			lxshell_return("'cp' -rf {$ullkfapath} /opt/configs");
 
 			if (!lfile_exists("{$ehcdpath}/~lxcenter.conf")) {
 				lxfile_cp(getLinkCustomfile($haecdpath, "~lxcenter.conf"), $ehcdpath . "/~lxcenter.conf");

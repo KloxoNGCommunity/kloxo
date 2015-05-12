@@ -5244,10 +5244,11 @@ function setDefaultPages($nolog = null)
 	log_cleanup("Initialize some skeletons", $nolog);
 
 	$httpdpath = "/home/kloxo/httpd";
-	$filepath = "/usr/local/lxlabs/kloxo/file";
+	$basefilepath="/usr/local/lxlabs/kloxo/file";
+	$filepath = "{$basefilepath}/pages";
 	$hdocspath = "/usr/local/lxlabs/kloxo/httpdocs";
 
-	$sourcezip = "{$filepath}/skeleton.zip";
+	$sourcezip = "{$basefilepath}/skeleton.zip";
 	$targetzip = "{$httpdpath}/skeleton.zip";
 
 	$pages = array("default", "disable", "webmail", "cp", "error");
@@ -5317,7 +5318,7 @@ function setDefaultPages($nolog = null)
 	log_cleanup("- Copy error web pages to '{$httpdpath}/error'", $nolog);
 	exec("cp -rf {$hdocspath}/error $httpdpath");
 
-	$usersourcezip = "{$filepath}/user-skeleton.zip";
+	$usersourcezip = "{$basefilepath}/user-skeleton.zip";
 	$usertargetzip = "{$httpdpath}/user-skeleton.zip";
 
 	if (lxfile_exists($usersourcezip)) {
@@ -5331,7 +5332,7 @@ function setDefaultPages($nolog = null)
 		log_cleanup("- No exists user-skeleton", $nolog);
 	}
 
-	$sourcelogo = realpath("../file/user-logo.png");
+	$sourcelogo = "{$basefilepath}/file/user-logo.png";
 	$targetlogo = "{$httpdpath}/user-logo.png";
 
 	if (lxfile_exists($sourcelogo)) {
@@ -6278,7 +6279,7 @@ function setInitialPureftpConfig($nolog = null)
 	if (!lxfile_real("/etc/pki/pure-ftpd/pure-ftpd.pem")) {
 		log_cleanup("- Install pure-ftpd ssl/tls key", $nolog);
 		lxfile_mkdir("/etc/pki/pure-ftpd/");
-		lxfile_cp("../file/program.pem", "/etc/pki/pure-ftpd/pure-ftpd.pem");
+		lxfile_cp("../file/ssl/program.pem", "/etc/pki/pure-ftpd/pure-ftpd.pem");
 	}
 
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.pdb")) {
@@ -6314,7 +6315,7 @@ function setInitialPhpMyAdmin($nolog = null)
 	}
 
 	log_cleanup("Initialize phpMyAdmin configfile", $nolog);
-	lxfile_cp("../file/phpmyadmin_config.inc.php", "thirdparty/phpMyAdmin/config.inc.php");
+	lxfile_cp("../file/phpmyadmin/config.inc.php", "thirdparty/phpMyAdmin/config.inc.php");
 
 	log_cleanup("- phpMyAdmin: Set db password in configfile", $nolog);
 	$DbPass = file_get_contents("/usr/local/lxlabs/kloxo/etc/conf/kloxo.pass");
@@ -6439,7 +6440,7 @@ function setInstallMailserver($nolog = null)
 
 	if (!lxfile_exists("/etc/lxrestricted")) {
 		log_cleanup("- Install /etc/lxrestricted file (lxjailshell commands restrictions)", $nolog);
-		lxfile_cp("../file/lxrestricted", "/etc/lxrestricted");
+		lxfile_cp("../file/lxjailshell/lxrestricted", "/etc/lxrestricted");
 	}
 }
 
@@ -6578,18 +6579,9 @@ function setSomeScript($nolog = null)
 
 function setInitialLogrotate($nolog = null)
 {
-	log_cleanup("Initialize logrotate", $nolog);
+	log_cleanup("Initialize logrotates", $nolog);
 
-	if (lxfile_exists("../file/kloxo.logrotate")) {
-		log_cleanup("- kloxo logrotate", $nolog);
-		lxfile_cp("../file/kloxo.logrotate", "/etc/logrotate.d/kloxo");
-	}
-
-	// MR -- fix syslog logrotate
-	if (lxfile_exists("../file/syslog.logrotate")) {
-		log_cleanup("- syslog logrotate", $nolog);
-		lxfile_cp("../file/syslog.logrotate", "/etc/logrotate.d/syslog");
-	}
+	@exec("cp -f ../file/logrotate/etc/logrotate.d/* /etc/logrotate.d");
 
 	// MR -- sometimes this file corrupt and make high cpu usage
 	lxfile_rm("/var/lib/logrotate.status");

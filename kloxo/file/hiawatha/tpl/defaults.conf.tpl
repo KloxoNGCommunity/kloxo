@@ -151,7 +151,7 @@ Binding {
 ### 'default' config
 set var_user = apache
 
-Hostname = 0.0.0.0
+Hostname = 0.0.0.0, ::
 WebsiteRoot = <?php echo $defaultdocroot; ?>
 
 EnablePathInfo = yes

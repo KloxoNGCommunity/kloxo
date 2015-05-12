@@ -916,13 +916,13 @@ class Web extends Lxdb
 
 	static function createstatsConf($domname, $stats_name, $stats_password)
 	{
-		$inp = "__path_program_root/file/webalizer.model.conf";
+		$inp = "__path_program_root/file/stats/webalizer.model.conf";
 		$outp = "__path_real_etc_root/webalizer/webalizer.$domname.conf";
 		self::docreatestatsConf($inp, $outp, $domname, $stats_name, $stats_password);
 		lxfile_mkdir("/var/lib/webalizer/$domname");
 		lxfile_mkdir("__path_httpd_root/$domname/webstats/webalizer/");
 
-		$inp = "__path_program_root/file/awstats.model.conf";
+		$inp = "__path_program_root/file/stats/awstats.model.conf";
 		$outp = "__path_real_etc_root/awstats/awstats.$domname.conf";
 		self::docreatestatsConf($inp, $outp, $domname, $stats_name, $stats_password);
 	//	lxfile_cp("__path_real_etc_root/awstats/awstats.$domname.conf", "__path_real_etc_root/awstats/awstats.www.$domname.conf");

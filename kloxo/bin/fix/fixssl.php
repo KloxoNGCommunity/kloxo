@@ -2,7 +2,7 @@
 
 include_once "lib/html/include.php"; 
 
-$kloxo_file_path = $sgbl->__path_program_root . "/file";
+$kloxo_file_path = $sgbl->__path_program_root . "/file/ssl";
 $httpd_ssl_path = "/home/kloxo/httpd/ssl/";
 $kloxo_etc_path = $sgbl->__path_program_root . "/etc";
 

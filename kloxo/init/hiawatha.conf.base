@@ -107,7 +107,7 @@ Binding {
 }
 
 ## CF - no need for Virtual Host, all default to this:
-Hostname = 0.0.0.0
+Hostname = 0.0.0.0, ::
 WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
 StartFile = index.php
 SecureURL = no

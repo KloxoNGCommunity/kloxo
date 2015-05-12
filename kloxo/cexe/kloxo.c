@@ -34,8 +34,8 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
-#define RSA_SERVER_CERT "/usr/local/lxlabs/kloxo/file/backend.crt"
-#define RSA_SERVER_KEY  "/usr/local/lxlabs/kloxo/file/backend.key"
+#define RSA_SERVER_CERT "/usr/local/lxlabs/kloxo/init/backend.crt"
+#define RSA_SERVER_KEY  "/usr/local/lxlabs/kloxo/init/backend.key"
 
 #define RSA_SERVER_CA_CERT "server_ca.crt"
 #define RSA_SERVER_CA_PATH "sys$common:[syshlp.examples.ssl]"
