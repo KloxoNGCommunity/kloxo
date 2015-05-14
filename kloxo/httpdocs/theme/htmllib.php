@@ -4020,7 +4020,8 @@ class HtmlLib
 
 		if (!$classdesc) {
 ?>
-		Cannot access <?= $class ?>::\$__desc
+		<!-- Cannot access <?= $class ?>::\$__desc -->
+		Cannot access '<?= $class ?>' class
 <?php
 
 			exit(0);

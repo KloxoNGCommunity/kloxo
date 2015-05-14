@@ -646,7 +646,8 @@ function check_if_port_on($port)
 	foreach ($list as $k => $v) {
 		if (strpos($v, '.sock') !== false) {
 			// unix socket -> /var/lib/mysql/mysql.sock for mysql
-			$socket = fsockopen('unix://{$v}', '-1', $errno, $errstr, 5);
+		//	$socket = fsockopen('unix://{$v}', '-1', $errno, $errstr, 5);
+			$socket = fsockopen('unix://{$v}', '-1', $errno, $errstr);
 
 			if ($socket) {
 				fclose($socket);
@@ -654,7 +655,13 @@ function check_if_port_on($port)
 				return true;
 			}
 		} elseif (strpos($v, '.pid') !== false) {
-			if (file_exists($v)) {
+			if (filesize($v) !== 0) {
+				return true;
+			}
+		} elseif (strpos($v, ' status') !== false) {
+			exec($v, $out, $ret);
+
+			if (strpos($out[0], '(pid ') !== false) {
 				return true;
 			}
 		} else {
@@ -5377,8 +5384,18 @@ function getRpmBranchInstalled($rpm)
 	}
 
 	foreach ($a as $k => $e) {
-		if (isRpmInstalled($e)) {
-			return $e;
+		if (strpos($e, 'php') !== false) {
+			if (isRpmInstalled("{$e}")) {
+				return $e;
+			} else {
+				if (isRpmInstalled("{$e}-cli")) {
+					return $e;
+				}
+			}
+		} else {
+			if (isRpmInstalled($e)) {
+				return $e;
+			}
 		}
 	}
 }
@@ -5390,9 +5407,20 @@ function getRpmBranchInstalledOnList($rpm)
 	foreach ($a as $k => $e) {
 		$s = preg_replace('/(.*)\_\(as\_(.*)\)/', '$1', $e);
 
-		if (isRpmInstalled($s)) {
-			return $e;
+		if (strpos($s, 'php') !== false) {
+			if (isRpmInstalled($s)) {
+				return $e;
+			} else {
+				if (isRpmInstalled("{$s}-cli")) {
+					return $e;
+				}
+			}
+		} else {
+			if (isRpmInstalled($s)) {
+				return $e;
+			}
 		}
+
 	}
 }
 
