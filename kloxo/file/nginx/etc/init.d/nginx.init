@@ -40,7 +40,11 @@ else
 fi
 
 prog=$(basename $nginx)
-conffile=${CONFFILE-/etc/nginx/nginx.conf}
+if [ -f /etc/nginx/tengine.conf ] ; then
+	conffile=${CONFFILE-/etc/nginx/tengine.conf}
+else
+	conffile=${CONFFILE-/etc/nginx/nginx.conf}
+fi
 lockfile=${LOCKFILE-/var/lock/subsys/nginx}
 pidfile=${PIDFILE-/var/run/nginx.pid}
 SLEEPMSEC=${SLEEPMSEC-200000}

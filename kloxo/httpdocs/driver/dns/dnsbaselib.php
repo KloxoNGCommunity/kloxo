@@ -134,15 +134,15 @@ class dns_record_a extends LxDnsClass
 			// MR -- make possible to 'delegate' subdomain to other server!
 
 			// MR -- need remove __base__
-			$param['hostname'] = str_replace('.__base__', '', $param['hostname']);
+			$x = str_replace('.__base__', '', $param['hostname']);
 
-			validate_hostname_name($param['hostname']);
+			validate_hostname_name($x);
 
 			$a_record_match = false;
 
 			foreach($parent->dns_record_a as $d) {
 				if (($d->ttype === 'a') || ($d->ttype === 'aaa')) {
-					if ($d->hostname === $param['hostname']) {
+					if ($d->hostname === $x) {
 						$a_record_match = true;
 						break;
 					}
@@ -150,37 +150,13 @@ class dns_record_a extends LxDnsClass
 			}
 
 			if (!$a_record_match) {
-				throw new lxException($login->getThrow('need_a_or_aaa_record'), '', $param['hostname']);
+				throw new lxException($login->getThrow('need_a_or_aaa_record'), '', $x);
 			}
-
-			$param['hostname'] = "{$param['hostname']}.{$parent->nname}";
 
 			// Validates domain
 			validate_domain_name($param['param']);
 
 			$param['nname'] = "{$param['ttype']}_{$param['param']}";
-
-/*
-			// MR -- ideally using this approach but confuse (also danger) in practically
-			if (strpos($param['nname'], $parent->nname) !== false) {
-				$a_record_match = false;
-
-				$compared = str_replace(".{$parent->nname}", "", $param['nname']);
-
-				foreach($parent->dns_record_a as $d) {
-					if (($d->ttype === 'a') || ($d->ttype === 'aaa')) {
-						if ($d->hostname === $compared) {
-							$a_record_match = true;
-							break;
-						}
-					}
-				}
-
-				if (!$a_record_match) {
-					throw new lxException($login->getThrow('need_a_or_aaa_record'), '', $compared);
-				}
-			}
-*/
 		} elseif ($param['ttype'] === 'a' || $param['ttype'] === 'aaaa') {
 			// Validates subdomain
 			validate_hostname_name($param['hostname']);

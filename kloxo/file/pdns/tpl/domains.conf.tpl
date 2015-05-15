@@ -65,7 +65,7 @@ foreach($dns_records as $k => $o) {
 				if (($o->hostname === '') || (!$o->hostname) || ($o->hostname === '__base__')) {
 					$key = $domainname;
 				} else {
-					$key = $o->hostname;
+					$key = str_replace('__base__', $domainname, $o->hostname);
 				}
 			}
 
