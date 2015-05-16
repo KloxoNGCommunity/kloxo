@@ -168,14 +168,14 @@ class sp_basespecialplay extends LxspecialClass
 				$vlist['specialplay_b-icon_name'] = array('s', lscandir_without_dot(getreal("/theme/icon/")));
 
 				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "vertical 2", "horizontal"));
-			//	$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
+				$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
 
 				$vlist['specialplay_b-button_type'] = array('s', array("font", "reverse-font", "image"));
-			//	$this->setDefaultValue('specialplay_b-button_type', 'font');
+				$this->setDefaultValue('specialplay_b-button_type', 'font');
 
-			//	if ($this->specialplay_b->skin_name === 'simplicity') {
-					$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));
-			//	}
+				$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));
+				$this->setDefaultValue('specialplay_b-skin_background', '/theme/background/nature_004.jpg');
+
 
 				$vlist['specialplay_b-language'] = array('A', $this->getLanguage());
 			/*

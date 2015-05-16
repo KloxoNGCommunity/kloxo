@@ -224,18 +224,21 @@ class ClientBase extends ClientCore
 				$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
 			}
 
-			// MR -- double check for php.ini in client (especially for admin)
 			$server = $this->syncserver;
-			$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, 
+			$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-" . $server, 
 				"ser_phpini_flag_b")));
 
-			if (!isset($server_phpini->session_save_path_flag)) {
-				$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
-			}
-
 			// MR -- pserver must set/update php.ini
-			if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
+			if (!isset($server_phpini->session_save_path_flag)) {
 				$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
+			} else {
+				// MR -- double check for php.ini in client (especially for admin)
+				$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, 
+					"ser_phpini_flag_b")));
+
+				if (!isset($server_phpini->session_save_path_flag)) {
+					$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
+				}
 			}
 		}
 

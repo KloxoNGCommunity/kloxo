@@ -262,15 +262,20 @@ class pservercore extends Lxclient
 			$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
 		}
 
-		// MR -- pserver must set/update php.ini
-		if (!db_get_value("phpini", "pserver-" . $this->syncserver, "nname")) {
-			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
-		}
 
 		if (!db_get_value("serverweb", "pserver-" . $this->syncserver, "php_type")) {
 			if (isWebProxyOrApache()) {
 				$ghtml->__http_vars['frm_emessage'] = "phptype_not_set";
 			}
+		}
+
+		$server = $this->syncserver;
+		$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-" . $server, 
+			"ser_phpini_flag_b")));
+
+		// MR -- pserver must set/update php.ini
+		if (!isset($server_phpini->session_save_path_flag)) {
+			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set";
 		}
 
 		parent::getAnyErrorMessage();
