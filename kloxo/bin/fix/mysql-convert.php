@@ -174,14 +174,18 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 						}
 					} elseif ($engine === 'tokudb')  {
 						if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
-							@exec("echo never > /sys/kernel/mm/transparent_hugepage/enabled");
-							@exec("grep -q -F 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' /etc/rc.d/rc.local || ".
-									"echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled\n".
-									"if [ -f /etc/rc.d/init.d/mysql ] ; then\n".
-									"\tservice mysql restart".
-									"fi".
-									"' >>  /etc/rc.d/rc.local");
+							$tdir = "/sys/kernel/mm/transparent_hugepage";
 							
+							if (file_exists($tdir)) {
+								@exec("echo never > {$tdir}/enabled");
+								@exec("grep -q -F 'echo never > {$tdir}/enabled' /etc/rc.d/rc.local || ".
+										"echo 'echo never > {$tdir}/enabled\n".
+										"if [ -f /etc/rc.d/init.d/mysql ] ; then\n".
+										"\tservice mysql restart".
+										"fi".
+										"' >>  /etc/rc.d/rc.local");
+							}
+
 							@exec("sed -i 's/#plugin-load-add/plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
 						}
 					}
@@ -207,6 +211,8 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	} else {
 		exec("service mysqld restart");
 	}
+	
+	print("\n* Note: Better reboot after first running this script and then run again\n");
 }
 
 /* ****** END - setMysqlConvert ***** */
