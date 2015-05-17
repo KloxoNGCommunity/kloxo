@@ -1889,8 +1889,7 @@ function print_navigation($navig)
 			$hypervm = "HyperVM";
 		}
 
-		if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) &&
-			($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity')) {
+		if (($login->getSpecialObject('sp_specialplay')->isOn('simple_skin')) && ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity')) {
 			if ($login->getSpecialObject('sp_specialplay')->isOn('show_thin_header')) {
 				//	$v = create_simpleObject(array('url' => "javascript:top.mainframe.logOut()", 'purl' => '&a=updateform&sa=logout', 'target' => null));
 				//	$ghtml->print_div_button_on_header(null, true, $k, '');
@@ -1900,9 +1899,7 @@ function print_navigation($navig)
 <?php
 			}
 
-		} elseif ($login->getSpecialObject('sp_specialplay')->skin_name === 'simplicity') {
-			//
-		} else {
+		} elseif ($login->getSpecialObject('sp_specialplay')->skin_name !== 'simplicity') {
 			$imgstring = "<img width='18' height='18' src='/theme/general/button/star.gif'>";
 
 			if ($sgbl->isBlackBackground()) {

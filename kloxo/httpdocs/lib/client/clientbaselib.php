@@ -187,11 +187,6 @@ class ClientBase extends ClientCore
 			}
 		}
 
-		// MR -- client must set/update php.ini
-		if (!db_get_value("phpini", "client-" . $this->nname, "nname")) {
-			$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
-		}
-
 		if ($this->isAdmin()) {
 			$v = db_get_value("sshconfig", "localhost", "without_password_flag");
 			$vv = db_get_value("sshconfig", "localhost", "config_flag");
@@ -224,17 +219,26 @@ class ClientBase extends ClientCore
 				$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
 			}
 
-			$server = $this->syncserver;
-			$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-" . $server, 
-				"ser_phpini_flag_b")));
+			if ($login->sp_specialplay_o->specialplay_b->skin_name === 'simplicity') {
+				$server = $this->syncserver;
+				$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-" . $server, "ser_phpini_flag_b")));
 
-			// MR -- pserver must set/update php.ini
-			if (!isset($server_phpini->session_save_path_flag)) {
-				$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
-			} else {
-				// MR -- double check for php.ini in client (especially for admin)
-				$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, 
-					"ser_phpini_flag_b")));
+				// MR -- pserver must set/update php.ini
+				if (!isset($server_phpini->session_save_path_flag)) {
+					$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
+				} else {
+					// MR -- double check for php.ini in client (especially for admin)
+					$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, "ser_phpini_flag_b")));
+
+					if (!isset($server_phpini->session_save_path_flag)) {
+						$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
+					}
+				}
+			}
+		} else {
+			if ($login->sp_specialplay_o->specialplay_b->skin_name === 'simplicity') {
+				$server = $this->syncserver;
+				$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, "ser_phpini_flag_b")));
 
 				if (!isset($server_phpini->session_save_path_flag)) {
 					$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";

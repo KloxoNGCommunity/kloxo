@@ -168,14 +168,10 @@ class sp_basespecialplay extends LxspecialClass
 				$vlist['specialplay_b-icon_name'] = array('s', lscandir_without_dot(getreal("/theme/icon/")));
 
 				$vlist['specialplay_b-show_direction'] = array('s', array("vertical", "vertical 2", "horizontal"));
-				$this->setDefaultValue('specialplay_b-show_direction', 'vertical');
 
 				$vlist['specialplay_b-button_type'] = array('s', array("font", "reverse-font", "image"));
-				$this->setDefaultValue('specialplay_b-button_type', 'font');
 
 				$vlist['specialplay_b-skin_background'] = array('s', lscandir_without_dot(getreal("/theme/background")));
-				$this->setDefaultValue('specialplay_b-skin_background', '/theme/background/nature_004.jpg');
-
 
 				$vlist['specialplay_b-language'] = array('A', $this->getLanguage());
 			/*
@@ -191,14 +187,10 @@ class sp_basespecialplay extends LxspecialClass
 
 			case "upload_logo":
 				if ($login->priv->isOn('logo_manage_flag')) {
-					//	$vlist['specialplay_b-logo_image'] =array('I', array("width" => 20, "height" => 20,
-					//		"value" => $this->specialplay_b->logo_image));
 					// trick use 'null' for guarantee 100% size of img (not 100% size div container)
-					$vlist['specialplay_b-logo_image'] = array('I', array("width" => "null", "height" => "null", "value" => "/user-logo.png"));
+					$vlist['specialplay_b-logo_image'] = array('I', array("width" => "null", "height" => "null", 
+						"value" => "/user-logo.png"));
 					$vlist['logo_image_f'] = null;
-					//	$vlist['specialplay_b-logo_image_loading'] =array('I', array("width" => 20, "height" => 20,
-					//		"value" => $this->specialplay_b->logo_image_loading));
-					//	$vlist['logo_image_loading_f'] = null;
 				}
 
 				break;
