@@ -28,6 +28,8 @@ foreach($plist as $s) {
 
 	$php = $s->getObject('phpini');
 
+	$php->fixphpIniFlag();
+
 	$php->setUpdateSubaction('ini_update');
 
 	log_cleanup("- '/etc/php.ini' at '{$php->syncserver}'", $nolog);

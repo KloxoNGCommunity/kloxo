@@ -10,7 +10,7 @@
 # $@ all command line arguments - white space is preserved
 # $* all command line arguments - white space striped 
 
-if [ "$#" == 0 ] ; then
+if [ "$#" == 0 ] || [ "$1" == "--help" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
 	echo "  format: sh $0 --select=<> --database=[]"

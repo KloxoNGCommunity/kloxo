@@ -175,7 +175,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 					} elseif ($engine === 'tokudb')  {
 						if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
 							$tdir = "/sys/kernel/mm/transparent_hugepage";
-							
+
 							if (file_exists($tdir)) {
 								@exec("echo never > {$tdir}/enabled");
 								@exec("grep -q -F 'echo never > {$tdir}/enabled' /etc/rc.d/rc.local || ".

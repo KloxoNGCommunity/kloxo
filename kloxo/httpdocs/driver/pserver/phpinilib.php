@@ -180,7 +180,7 @@ class phpini extends lxdb
 	{
 		if (!isset($this->phpini_flag_b) || get_class($this->phpini_flag_b) !== 'phpini_flag_b') {
 			$this->phpini_flag_b = new phpini_flag_b(null, null, $this->nname);
-		//	$this->setUpInitialValues();
+			$this->setUpInitialValues();
 		}
 	}
 
@@ -272,8 +272,6 @@ class phpini extends lxdb
 
 	function postUpdate()
 	{
-	//	$this->setUpInitialValues();
-
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
 
@@ -311,12 +309,6 @@ class phpini extends lxdb
 
 	function initPhpIni()
 	{
-	/*
-		if (!isset($this->phpini_flag_b) || get_class($this->phpini_flag_b) !== 'phpini_flag_b') {
-			$this->phpini_flag_b = new phpini_flag_b(null, null, $this->nname);
-		}
-	*/
-
 		$this->setUpInitialValues();
 	}
 
