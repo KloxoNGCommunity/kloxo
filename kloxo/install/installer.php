@@ -552,7 +552,6 @@ function kloxo_install_before_bye()
 			"'cp' -rf {$sp}/_inactive_.conf {$tp}/php.conf;" .
 			"'cp' -rf {$sp}/_inactive_.conf {$tp}/ruid2.conf;" .
 			"'cp' -rf {$sp}/_inactive_.conf {$tp}/suphp.conf;" .
-			"'cp' -rf {$sp}/_inactive_.conf {$tp}/suphp2.conf;" .
 			"'cp' -rf {$sp}/~lxcenter.conf {$tp}/~lxcenter.conf;" .
 			"'cp' -rf {$sp}/ssl.conf {$tp}/ssl.conf;" .
 			"'cp' -rf {$sp}/__version.conf {$tp}/__version.conf;" .

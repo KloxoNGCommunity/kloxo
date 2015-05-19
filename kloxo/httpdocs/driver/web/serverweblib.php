@@ -159,8 +159,12 @@ class serverweb extends lxdb
 
 				$vlist['secondary_php'] = array('f', array('on', 'off'));
 
-				if (file_exists("/etc/httpd/conf.d/suphp52.conf")) {
+				if (file_exists("/etc/httpd/conf.d/suphp2.conf")) {
 					$this->setDefaultValue('secondary_php', 'on');
+				}
+
+				if (file_exists("/etc/httpd/conf.d/suphp52.conf")) {
+					lxfile_rm("/etc/httpd/conf.d/suphp52.conf");
 				}
 
 				break;

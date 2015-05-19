@@ -346,19 +346,21 @@ class serverweb__ extends lxDriverClass
 		$epath = '/etc';
 		$haepath = '/opt/configs/apache/etc';
 
+		// MR -- remove old files
+		lxfile_rm("{$ehcdpath}/suphp52.nonconf");
+		lxfile_rm("{$ehcdpath}/suphp52.conf");
+
 		if ($this->main->secondary_php === 'on') {
 			if (stripos($this->main->php_type, 'suphp') !== false) {
-				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp.conf");
-				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp52.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp2.conf"), $ehcdpath . "/suphp.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp2.conf");
 			} else {
-				lxfile_rm("{$ehcdpath}/suphp52.nonconf");
-
 				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/suphp.conf");
-				lxfile_cp(getLinkCustomfile($haecdpath, "suphp52.conf"), $ehcdpath . "/suphp52.conf");
+				lxfile_cp(getLinkCustomfile($haecdpath, "suphp2.conf"), $ehcdpath . "/suphp2.conf");
 			}
 
 		} else {
-			lxfile_rm("{$ehcdpath}/suphp52.conf");
+			lxfile_rm("{$ehcdpath}/suphp2.conf");
 
 			if (stripos($this->main->php_type, 'suphp') !== false) {
 				lxfile_cp(getLinkCustomfile($haepath, "suphp.conf"), $epath . "/suphp.conf");
