@@ -179,6 +179,9 @@ class phpini extends lxdb
 	function fixphpIniFlag()
 	{
 		if (!isset($this->phpini_flag_b) || get_class($this->phpini_flag_b) !== 'phpini_flag_b') {
+			if ($this->getParentO()->getClass() === 'web') { return; }
+			if ($this->getParentO()->getClass() === 'domain') { return; }
+
 			$this->phpini_flag_b = new phpini_flag_b(null, null, $this->nname);
 			$this->setUpInitialValues();
 		}
@@ -275,16 +278,16 @@ class phpini extends lxdb
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
 
-		if ($this->phpini_flag_b->multiple_php_flag === 'on') {
-			touch('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
-		} else {
-			unlink('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
-		}
-
 	//	$this->setPhpModuleUpdate();
 
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() === 'pserver') {
+			if ($this->phpini_flag_b->multiple_php_flag === 'on') {
+				@touch('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
+			} else {
+				@unlink('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
+			}
+
 			lxshell_return("__path_php_path", "../bin/fix/fixphpini.php", 
 				"--server={$this->getParentO()->nname}");
 		}
@@ -309,6 +312,9 @@ class phpini extends lxdb
 
 	function initPhpIni()
 	{
+		if ($this->getParentO()->getClass() === 'web') { return; }
+		if ($this->getParentO()->getClass() === 'domain') { return; }
+
 		$this->setUpInitialValues();
 	}
 

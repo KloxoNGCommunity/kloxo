@@ -152,7 +152,9 @@ function phpcli_load_wrapper() {
 }
 
 function phpcgi_rh_status() {
-	status ${phpcgi_name}
+	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+		status ${phpcgi_name}
+	fi
 }
 
 function phpcgi_rh_status_q() {
