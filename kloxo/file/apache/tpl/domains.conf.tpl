@@ -156,7 +156,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -258,7 +258,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 
 ## cp for '<?php echo $domainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -360,7 +360,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -400,7 +400,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for '<?php echo $domainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -502,7 +502,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## web for '<?php echo $domainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -813,7 +813,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -935,7 +935,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -989,7 +989,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1091,7 +1091,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1131,7 +1131,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1248,7 +1248,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1350,7 +1350,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1390,7 +1390,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?>>
+<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
