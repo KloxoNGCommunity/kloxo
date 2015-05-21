@@ -236,14 +236,15 @@ class ClientBase extends ClientCore
 				}
 			}
 		} else {
+		/*
+			// MR -- disabled because still trouble in client level!
 			if ($login->sp_specialplay_o->specialplay_b->skin_name === 'simplicity') {
-				$server = $this->syncserver;
 				$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, "ser_phpini_flag_b")));
-
 				if (!isset($server_phpini->session_save_path_flag)) {
 					$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
 				}
 			}
+		*/
 		}
 
 		parent::getAnyErrorMessage();
