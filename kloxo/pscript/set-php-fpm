@@ -13,7 +13,7 @@ if [ "$1" == "--help" ] ; then
 fi
 
 echo
-echo "- For help, type '$0 --help'"
+echo "- For help, type 'sh $0 --help'"
 
 if [ "$#" == 0 ] ; then
 	echo "- No argument supplied. Defaulting to localhost (master) servers"

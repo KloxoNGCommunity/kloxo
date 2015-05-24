@@ -27,6 +27,17 @@ if ($phpbranch) {
 	$appphp = '--uninstalled--';
 }
 
+$phpmdirs = glob("/opt/php*m", GLOB_MARK);
+
+$phpsbranch = str_replace("\n", "", file_get_contents("/usr/local/lxlabs/kloxo/init/kloxo_php_active"));
+$phpsver = str_replace("\n", "", file_get_contents("/opt/{$phpsbranch}/version"));
+
+if (file_exists("/usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi")) {
+	$phpsver = $phpsver . " (cgi mode)";
+} else {
+	$phpsver = $phpsver . " (fpm mode)";
+}
+
 $httpdbranch = getRpmBranchInstalled('httpd');
 if ($httpdbranch) {
 	exec("rpm -q {$httpdbranch}", $apphttpd);
@@ -55,11 +66,13 @@ $hiawathabranch = getRpmBranchInstalled('hiawatha');
 if ($hiawathabranch) {
 	exec("rpm -q {$hiawathabranch}", $apphiawatha);
 	$apphiawatha = trim($apphiawatha[0]);
+	$kloxohiawatha = $apphiawatha;
 
 	exec("chkconfig --list|grep 'hiawatha'|grep ':on'", $out);
 
 	if ($out[0] !== '') {
-		$apphiawatha .= " (also as webserver)";
+	//	$apphiawatha .= " (also as webserver)";
+		$apphiawatha = "--unused--";
 	}
 } else {
 	$apphiawatha = '--uninstalled--';
@@ -115,13 +128,23 @@ exec("free -m", $meminfo);
 
 echo "\n";
 echo "A. Kloxo-MR: " . $kloxomrver . "\n";
+echo "   - Web: " . $kloxohiawatha . "\n";
+echo "   - PHP: " . $phpsbranch . "-" . $phpsver . "\n";
 echo "\n";
 echo "B. OS: " . $osrelease[0] . " " . $osplateform[0] . "\n";
 echo "\n";
 echo "C. Apps:\n";
 echo "   1. MySQL: " .  $appmysql . "\n";
-echo "   2. PHP: " .  $appphp . "\n";
+echo "   2. PHP: \n";
+echo "      - Branch: " .  $appphp . "\n";
+echo "      - Multiple: \n";
+foreach ($phpmdirs as $k => $v) {
+	$v1 = str_replace("/", "", str_replace("/opt/", "", $v));
+	$v2  = file_get_contents($v . "/version");
+	echo "        * " . $v1 . "-" . str_replace("\n", "", $v2) . "\n";
+}
 echo "   3. Httpd: " .  $apphttpd . "\n";
+echo "      - PHP Type: " . $phptype . "\n";
 echo "   4. Lighttpd: " .  $applighttpd . "\n";
 echo "   5. Hiawatha: " .  $apphiawatha . "\n";
 echo "   6. Nginx: " .  $appnginx . "\n";
@@ -137,9 +160,7 @@ if ($appcourierimap !== '--uninstalled--') {
 }
 
 echo "\n";
-echo "D. Php-type (for Httpd/proxy): " . $phptype . "\n";
-echo "\n";
-echo "E. Memory:\n";
+echo "D. Memory:\n";
 echo "   " . $meminfo[0] . "\n";
 echo "   " . $meminfo[1] . "\n";
 echo "   " . $meminfo[2] . "\n";

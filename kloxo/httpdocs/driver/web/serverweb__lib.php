@@ -434,10 +434,10 @@ class serverweb__ extends lxDriverClass
 
 		switch ($v) {
 			case "--Use PHP Branch--":
-				lxshell_return("sh", "/script/switch-php-fpm", "php");
+				lxshell_return("sh", "/script/set-php-fpm", "php");
 				break;
 			default:
-				lxshell_return("sh", "/script/switch-php-fpm", $v);
+				lxshell_return("sh", "/script/set-php-fpm", $v);
 				break;
 		}
 	}
