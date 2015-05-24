@@ -5,6 +5,8 @@
 include_once "lib/html/include.php";
 initProgram('admin');
 
+$kloxopath="/usr/local/lxlabs/kloxo";
+
 exec("sh /script/version --vertype=full", $kloxomrver);
 $kloxomrver = $kloxomrver[0];
 
@@ -29,10 +31,10 @@ if ($phpbranch) {
 
 $phpmdirs = glob("/opt/php*m", GLOB_MARK);
 
-$phpsbranch = str_replace("\n", "", file_get_contents("/usr/local/lxlabs/kloxo/init/kloxo_php_active"));
+$phpsbranch = str_replace("\n", "", file_get_contents("{$kloxopath}/init/kloxo_php_active"));
 $phpsver = str_replace("\n", "", file_get_contents("/opt/{$phpsbranch}/version"));
 
-if (file_exists("/usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi")) {
+if (file_exists("{$kloxopath}/init/kloxo_use_php-cgi")) {
 	$phpsver = $phpsver . " (cgi mode)";
 } else {
 	$phpsver = $phpsver . " (fpm mode)";
@@ -131,7 +133,9 @@ echo "A. Kloxo-MR: " . $kloxomrver . "\n";
 echo "   - Web: " . $kloxohiawatha . "\n";
 echo "   - PHP: " . $phpsbranch . "-" . $phpsver . "\n";
 echo "\n";
-echo "B. OS: " . $osrelease[0] . " " . $osplateform[0] . "\n";
+echo "B. Plateform:\n";
+echo "   - OS: " . $osrelease[0] . " " . $osplateform[0] . "\n";
+echo "   - Hostname: " . gethostname() . "\n";
 echo "\n";
 echo "C. Apps:\n";
 echo "   1. MySQL: " .  $appmysql . "\n";
