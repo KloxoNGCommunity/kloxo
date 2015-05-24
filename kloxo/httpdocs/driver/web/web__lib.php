@@ -30,8 +30,6 @@ class web__ extends lxDriverClass
 			$blist[] = "{$l}-devel";
 		} elseif ($l === 'nginx') {
 			$blist[] = "{$l}-devel";
-			$blist[] = "tengine-devel";
-			$blist[] = "tengine";
 		}
 
 		lxshell_return("service", $l, "stop");
