@@ -128,24 +128,28 @@ $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
 exec("free -m", $meminfo);
 
+exec("df -h /", $diskinfo);
+
 echo "\n";
 echo "A. Kloxo-MR: " . $kloxomrver . "\n";
 echo "   - Web: " . $kloxohiawatha . "\n";
 echo "   - PHP: " . $phpsbranch . "-" . $phpsver . "\n";
-echo "\n";
+//echo "\n";
 echo "B. Plateform:\n";
 echo "   - OS: " . $osrelease[0] . " " . $osplateform[0] . "\n";
 echo "   - Hostname: " . gethostname() . "\n";
-echo "\n";
-echo "C. Apps:\n";
+//echo "\n";
+echo "C. Services:\n";
 echo "   1. MySQL: " .  $appmysql . "\n";
 echo "   2. PHP: \n";
 echo "      - Branch: " .  $appphp . "\n";
-echo "      - Multiple: \n";
-foreach ($phpmdirs as $k => $v) {
-	$v1 = str_replace("/", "", str_replace("/opt/", "", $v));
-	$v2  = file_get_contents($v . "/version");
-	echo "        * " . $v1 . "-" . str_replace("\n", "", $v2) . "\n";
+if ($phpmdirs) {
+	echo "      - Multiple: \n";
+	foreach ($phpmdirs as $k => $v) {
+		$v1 = str_replace("/", "", str_replace("/opt/", "", $v));
+		$v2  = file_get_contents($v . "/version");
+		echo "        * " . $v1 . "-" . str_replace("\n", "", $v2) . "\n";
+	}
 }
 echo "   3. Httpd: " .  $apphttpd . "\n";
 echo "      - PHP Type: " . $phptype . "\n";
@@ -163,11 +167,15 @@ if ($appcourierimap !== '--uninstalled--') {
 	echo "      - with: " . $appcourierimap  . "\n";
 }
 
-echo "\n";
+//echo "\n";
 echo "D. Memory:\n";
-echo "   " . $meminfo[0] . "\n";
-echo "   " . $meminfo[1] . "\n";
-echo "   " . $meminfo[2] . "\n";
-echo "   " . $meminfo[3] . "\n";
+foreach ($meminfo as $k => $v) {
+	echo "   " . $v . "\n";
+}
+//echo "\n";
+echo "E. Disk Space:\n";
+foreach ($diskinfo as $k => $v) {
+	echo "   " . $v . "\n";
+}
 echo "\n";
 

@@ -27,7 +27,12 @@ custom_name="__custom_name__"
 
 fpm_prog="${custom_name}-fpm"
 
-fpm_conf="/opt/${custom_name}/custom/php-fpm.conf"
+if [ "${custom_name}" == "php" ] ; then
+	fpm_conf="/etc/php-fpm.conf"
+else
+	fpm_conf="/opt/${custom_name}/custom/php-fpm.conf"
+fi
+
 pidfile="/var/run/php-fpm/php-fpm.pid"
 lockfile="/var/lock/subsys/php-fpm"
 
