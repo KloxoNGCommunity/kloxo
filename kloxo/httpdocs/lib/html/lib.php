@@ -5821,7 +5821,7 @@ function setInitialPhpFpmConfig($nolog = null)
 		exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
 
 		if ($ret === 0) {
-			exec("sh /script/switch-php-fpm {$v}");
+			exec("sh /script/set-php-fpm {$v}");
 
 			return;
 		}

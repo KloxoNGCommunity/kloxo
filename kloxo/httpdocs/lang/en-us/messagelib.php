@@ -528,7 +528,7 @@ $__information['webserver_config'] =
 		"<li>Choose the same name with 'Multiple PHP Already Installed' for need reinstall</li>".
 		"<li><b>Note</b>:".
 			"<ul>".
-				"<li>Select for 'php53m' as the same way for running 'sh /script/switch-php-fpm php53m' in ssh command-line</li>".
+				"<li>Select for 'php53m' as the same way for running 'sh /script/set-php-fpm php53m' in ssh command-line</li>".
 				"<li>Only work and optimize for php-fpm</li>".
 				"<li>Install process running in background and don't install other(s) until current PHP installed appear in 'Multiple PHP Already Installed'</li>".
 			"</ul>".
