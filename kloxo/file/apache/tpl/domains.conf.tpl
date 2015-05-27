@@ -502,8 +502,12 @@ foreach ($certnamelist as $ip => $certname) {
 			}
 		}
 
-		if ($ip !== '*') {
-			$ip_special = '${ipalloc}';
+		if (!$reverseproxy) {
+			if ($ip !== '*') {
+				$ip_special = '${ipalloc}';
+			} else {
+				$ip_special = '${ip}';
+			}
 		} else {
 			$ip_special = '${ip}';
 		}
