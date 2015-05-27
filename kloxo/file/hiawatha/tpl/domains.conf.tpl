@@ -101,47 +101,6 @@ $disabledocroot = "/home/kloxo/httpd/disable";
 
 $domcleaner = str_replace('-', '_', str_replace('.', '_', $domainname));
 
-foreach ($certnamelist as $ip => $certname) {
-	$count = 0;
-
-	foreach ($ports as &$port) {
-		if ($ip !== '*') {
-		/*
-?>
-
-Binding {
-	BindingId = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-	Port = <?php echo $ports[$count]; ?>
-
-	Interface = <?php echo $ip; ?>
-
-	MaxKeepAlive = 3600
-	TimeForRequest = 3600
-	MaxRequestSize = 102400
-	## not able more than 100MB
-	MaxUploadSize = 100
-<?php
-			if ($count !== 0) {
-?>
-
-	SSLcertFile = <?php echo $certname; ?>.pem
-<?php
-				if (file_exists("{$certname}.ca")) {
-?>
-	RequiredCA = <?php echo $certname; ?>.ca
-<?php
-				}
-			}
-?>
-}
-<?php
-			$count++;
-		*/
-		}
-	}
-}
-
 if (!$reverseproxy) {
 	if ($statsapp === 'awstats') {
 		if ($statsprotect) {
@@ -258,20 +217,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-		/*
-			if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-			} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-			}
-		*/
-
 			if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -326,19 +271,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-		/*
-			if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-			} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-			}
-		*/
 			if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -397,19 +329,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-		/*
-			if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-			} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-						}
-		*/
 			if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -479,19 +398,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			/*
-				if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-				} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-				}
-			*/
 				if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -533,19 +439,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-			/*
-				if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-				} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-				}
-			*/
 				if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -616,20 +509,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-	/*
-		if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-		} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-		}
-	*/
-
 		if ($count !== 0) {
 			if ($enablessl) {
 ?>
@@ -806,20 +685,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-				/*
-					if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-					} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-					}
-				*/
-
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>
@@ -845,21 +710,8 @@ VirtualHost {
 
 	FollowSymlinks = no
 
-<?php
-					if ($ip !== '*') {
-?>
-
-	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>, <?php echo $ip; ?>
-
-<?php
-					} else {
-?>
-
 	Hostname = <?php echo $domainname; ?>, <?php echo $serveralias; ?>
 
-<?php
-					}
-?>
 
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
@@ -912,20 +764,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-				/*
-					if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-					} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-					}
-				*/
-
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>
@@ -1009,20 +847,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-				/*
-					if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-					} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-					}
-				*/
-
 					if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -1082,20 +906,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-					/*
-						if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-						} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-						}
-					*/
-
 						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -1163,20 +973,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-					/*
-						if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-						} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-						}
-					*/
-
 						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -1262,20 +1058,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-				/*
-					if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-					} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-					}
-				*/
-
 					if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -1346,20 +1128,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-					/*
-						if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-						} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-						}
-					*/
-
 						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem
@@ -1429,20 +1197,6 @@ VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
-					/*
-						if ($ip !== '*') {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>_<?php echo $domcleaner; ?>
-
-<?php
-						} else {
-?>
-	RequiredBinding = port_<?php echo $portnames[$count]; ?>
-
-<?php
-						}
-					*/
-
 						if ($count !== 0) {
 ?>
 	SSLcertFile = <?php echo $certname; ?>.pem

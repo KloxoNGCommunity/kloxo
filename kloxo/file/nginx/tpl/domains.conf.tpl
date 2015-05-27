@@ -374,19 +374,10 @@ server {
 	## MR -- 'enable-cgi' not implementing yet
 <?php
 		}
-
-		if ($ip === '*') {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
-		} else {
-?>
-
-	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
-<?php
-		}
-
 		if ($count !== 0) {
 			if ($enablessl) {
 ?>
@@ -410,9 +401,19 @@ server {
 <?php
 			}
 		}
+
+		if ($ip === '*') {
 ?>
 
 	server_name <?php echo $serveralias; ?>;
+<?php
+		} else {
+?>
+
+	server_name <?php echo $serveralias; ?> <?php echo $ip; ?>;
+<?php
+		}
+?>
 
 	index <?php echo $indexorder; ?>;
 
@@ -625,18 +626,10 @@ server {
 <?php
 					}
 
-					if ($ip === '*') {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
-					} else {
-?>
-
-	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
-<?php
-					}
-
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>
@@ -698,19 +691,10 @@ server {
 	## MR -- 'enable-cgi' not implementing yet
 <?php
 					}
-
-					if ($ip === '*') {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 <?php
-					} else {
-?>
-
-	listen <?php echo $ip; ?>:<?php echo $ports[$count]; ?>;
-<?php
-					}
-
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>

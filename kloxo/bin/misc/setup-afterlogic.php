@@ -34,6 +34,7 @@ function setSetupApp()
 	exec("mysql -f -u root {$pstring} < {$path}/data/settings/afterlogic_initial.sql >/dev/null 2>&1");
 
 	if (file_exists("{$path}/data/settings/afterlogic_settings.xml.php")) {
+		lxfile_rm("{$path}/data/settings/settings.xml");
 		lxfile_cp("{$path}/data/settings/afterlogic_settings.xml.php", "{$path}/data/settings/settings.xml.php");
 		$cfgfile = "{$path}/data/settings/settings.xml.php";
 	} else {

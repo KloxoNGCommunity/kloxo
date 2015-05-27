@@ -128,11 +128,13 @@ Define portssl ${global::portssl}
 	if (!$reverseproxy) {
 		if ($ip !== '*') {
 ?>
-Define ip <?php echo $ip; ?>
+Define ipalloc <?php echo $ip; ?>
+
+Define ip ${global::ip}
 
 
-NameVirtualHost ${ip}:${port}
-NameVirtualHost ${ip}:${portssl}
+NameVirtualHost ${ipalloc}:${port}
+NameVirtualHost ${ipalloc}:${portssl}
 <?php
 		} else {
 ?>
@@ -499,10 +501,16 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
 			}
 		}
+
+		if ($ip !== '*') {
+			$ip_special = '${ipalloc}';
+		} else {
+			$ip_special = '${ip}';
+		}
 ?>
 
 ## web for '<?php echo $domainname; ?>'
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
+<VirtualHost <?php echo $ip_special; ?>:<?php echo $portlist[$count]; ?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
