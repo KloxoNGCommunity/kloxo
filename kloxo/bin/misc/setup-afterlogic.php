@@ -9,6 +9,13 @@ function setSetupApp()
 {
 	log_cleanup("*** Afterlogic Webmail Lite setup ***", $nolog);
 
+	$path = "/home/kloxo/httpd/webmail/afterlogic";
+	
+	if (!file_exists("{$path}/index.php")) {
+		log_cleanup("- Application not exists. Exit", $nolog);
+		exit;
+	}
+
 	log_cleanup("- Preparing database", $nolog);
 
 	$pass = slave_get_db_pass();
@@ -28,8 +35,6 @@ function setSetupApp()
 	if ($pass) {
 		$pstring = "-p\"$pass\"";
 	}
-
-	$path = "/home/kloxo/httpd/webmail/afterlogic";
 
 	exec("mysql -f -u root {$pstring} < {$path}/data/settings/afterlogic_initial.sql >/dev/null 2>&1");
 

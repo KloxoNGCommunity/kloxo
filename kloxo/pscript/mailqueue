@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/usr/local/lxlabs/kloxo/bin/misc/qmHandle $@

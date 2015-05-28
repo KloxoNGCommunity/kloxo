@@ -9,6 +9,13 @@ function setSetupApp()
 {
 	log_cleanup("*** TheHostingTool Billing setup ***", $nolog);
 
+	$path = "/home/kloxo/httpd/cp/tht";
+	
+	if (!file_exists("{$path}/index.php")) {
+		log_cleanup("- Application not exists. Exit", $nolog);
+		exit;
+	}
+
 	log_cleanup("- Preparing Database", $nolog);
 
 	$pass = slave_get_db_pass();
@@ -28,8 +35,6 @@ function setSetupApp()
 	if ($pass) {
 		$pstring = "-p\"$pass\"";
 	}
-
-	$path = "/home/kloxo/httpd/cp/tht";
 
 	log_cleanup("- Create 'thehostingtool' database", $nolog);
 	exec("mysql -f -u root {$pstring} < {$path}/tht_install.sql >/dev/null 2>&1");

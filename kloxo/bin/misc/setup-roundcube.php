@@ -14,6 +14,13 @@ function setSetupApp()
 
 	//  Related to issue #421
 
+	$path = "/home/kloxo/httpd/webmail/roundcube";
+	
+	if (!file_exists("{$path}/index.php")) {
+		log_cleanup("- Application not exists. Exit", $nolog);
+		exit;
+	}
+
 	log_cleanup("- Preparing database", $nolog);
 
 	$pass = slave_get_db_pass();
@@ -34,8 +41,6 @@ function setSetupApp()
 	}
 
 	log_cleanup("- Fixing MySQL commands in import files", $nolog);
-
-	$path = "/home/kloxo/httpd/webmail/roundcube";
 
 	lxfile_cp("{$path}/SQL/roundcube_mysql.initial.sql", "{$path}/SQL/mysql.initial.sql");
 

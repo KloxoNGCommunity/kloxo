@@ -9,13 +9,18 @@ function setSetupApp()
 {
 	log_cleanup("*** T-Dah Webmail setup ***", $nolog);
 
+	$path = "/home/kloxo/httpd/webmail/t-dah";
+	
+	if (!file_exists("{$path}/index.php")) {
+		log_cleanup("- Application not exists. Exit", $nolog);
+		exit;
+	}
+
 	log_cleanup("- Preparing Database", $nolog);
 	log_cleanup("-- No need database", $nolog);
 
-	$tdahpath = "/home/kloxo/httpd/webmail/t-dah";
-
 	log_cleanup("- Preparing Configs", $nolog);
-	lxfile_cp("{$tdahpath}/inc/config/t-dah_config.mail.php", "{$tdahpath}/inc/config/config.mail.php");
-	lxfile_cp("{$tdahpath}/inc/config/t-dah_config.paths.php", "{$tdahpath}/inc/config/config.paths.php");
-	lxfile_cp("{$tdahpath}/inc/config/t-dah_config.php", "{$tdahpath}/inc/config/config.php");
+	lxfile_cp("{$path}/inc/config/t-dah_config.mail.php", "{$path}/inc/config/config.mail.php");
+	lxfile_cp("{$path}/inc/config/t-dah_config.paths.php", "{$path}/inc/config/config.paths.php");
+	lxfile_cp("{$path}/inc/config/t-dah_config.php", "{$path}/inc/config/config.php");
 }

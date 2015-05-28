@@ -9,6 +9,13 @@ function setSetupApp()
 {
 	log_cleanup("*** Horde Webmail setup ***", $nolog);
 
+	$path = "/home/kloxo/httpd/webmail/horde";
+	
+	if (!file_exists("{$path}/index.php")) {
+		log_cleanup("- Application not exists. Exit", $nolog);
+		exit;
+	}
+
 	// MR -- because Horde use rpm on Kloxo-MR,
 	// so horde_groupware.sql and horde_conf.php as template
 
@@ -35,8 +42,6 @@ function setSetupApp()
 	$result = $link->select_db('horde_groupware');
 
 	log_cleanup("- Fix MySQL commands in import files of Horde", $nolog);
-
-	$path = "/home/kloxo/httpd/webmail/horde";
 
 	lxfile_cp("{$path}/scripts/sql/horde_groupware.mysql.sql", "{$path}/scripts/sql/groupware.mysql.sql");
 
