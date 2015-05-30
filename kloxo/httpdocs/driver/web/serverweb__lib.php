@@ -384,7 +384,7 @@ class serverweb__ extends lxDriverClass
 			setRpmInstalled("yum-plugin-replace");
 		}
 
-		$scripting = '/script/php-branch';
+		$scripting = '/script/set-php-branch';
 
 		if ($branch) {
 			$branchselect = $branch;

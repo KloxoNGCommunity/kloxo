@@ -196,12 +196,7 @@ class Ipaddress__Redhat extends LxDriverclass
 		// MR -- use directly to get_ifconfig_parse because unstandard ifcfg make
 		// trouble to reading
 
-	//	$list = self::get_ifcfgfile_parse($devname);
-
-	//	if ((isset($list['BOOTPROTO'])) && ($list['BOOTPROTO'] === 'dhcp')) {
-			$list = self::get_ifconfig_parse($devname);
-			$result['bproto'] = 'dhcp';
-	//	}
+		$list = self::get_ifconfig_parse($devname);
 
 		foreach ($list as $key => $value) {
 			switch ($key) {
@@ -306,10 +301,12 @@ class Ipaddress__Redhat extends LxDriverclass
 		exec("echo '{$vifconfig}' | grep -w encap | awk '{print $3}' | cut -d \":\" -f 2", $out);
 		$list['TYPE']       =  $out[0];
 		$out = null;
-		exec("echo '{$vifconfig}' | grep -w inet | awk '{print $3}' | cut -d \":\" -f 2", $out);
-		$list['BROADCAST']  =  $out[0];
-		$out = null;
-		exec("echo '{$vifconfig}' | grep -w inet | awk '{print $4}' | cut -d \":\" -f 2", $out);
+		// MR -- exception for OpenVZ
+		if (strpos($vifconfig, 'P-t-P') !== false) {
+			exec("echo '{$vifconfig}' | grep -w inet | awk '{print $5}' | cut -d \":\" -f 2", $out);
+		} else {
+			exec("echo '{$vifconfig}' | grep -w inet | awk '{print $4}' | cut -d \":\" -f 2", $out);
+		}
 		$list['NETMASK']    =  $out[0];
 		$out = null;
 		exec("echo '{$vifconfig}' | grep -w inet | awk '{print $2}' | cut -d \":\" -f 2", $out);
@@ -324,12 +321,32 @@ class Ipaddress__Redhat extends LxDriverclass
 		exec("echo '{$vifconfig}' | grep -w inet6 | awk '{ print $3 }' | cut -d \"/\" -f 2", $out);
 		$list['IP6PREFIX']  =  $out[0];
 		$out = null;
-		exec("/sbin/ip route show | grep {$pdevname} | grep link | awk '{ print $1}'", $out);
-		$list['GATEWAY']   =  $out[0];
+		// MR -- exception for OpenVZ
+	//	if ($list['NETMASK'] === '255.255.255.255') {
+		if (strpos($vifconfig, 'P-t-P') !== false) {
+			$list['GATEWAY']   = $list['IPADDR'];
+		} else {
+			exec("/sbin/ip route show | grep {$pdevname} | grep link | awk '{ print $1}'", $out);
+			$list['GATEWAY']   =  $out[0];
+		}
 		$out = null;
 		exec("echo '{$vifconfig}' | grep HWaddr | awk '{ print $5 }'", $out);
 		$list['MACADDRESS'] =  $out[0];
 		$out = null;
+		// MR -- exception for OpenVZ
+	//	if ($list['NETMASK'] === '255.255.255.255') {
+		if (strpos($vifconfig, 'P-t-P') !== false) {
+			$list['BROADCAST']   = $list['IPADDR'];
+		} else {
+			exec("echo '{$vifconfig}' | grep -w inet | awk '{print $3}' | cut -d \":\" -f 2", $out);
+			$list['BROADCAST']  =  $out[0];
+		}
+
+		$out = null;
+
+		// MR -- need info from ifcfg-* file for bproto
+		$list2 = self::get_ifcfgfile_parse($pdevname);
+		$list['BOOTPROTO'] = $list2['BOOTPROTO'];
 
 		return $list;
 	}

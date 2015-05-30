@@ -9,7 +9,7 @@ if [ "$1" == "--help" ] ; then
 	echo "  format: sh $0 --select=<>"
 	echo " ---------------------------------------------------------------------------"
 	echo
-	echo " --select: php/php52/php53/php53u/php54/php55u"
+	echo " --select: php/php52/php53/php53u/php54/php55u/php56u"
 	echo
 	exit;
 fi
@@ -24,4 +24,4 @@ fi
 echo
 
 . /script/directory
-lxphp.exe ../bin/fix/php-branch.php $*
+lxphp.exe ../bin/fix/set-php-branch.php $*

@@ -160,12 +160,13 @@ class Ipaddress extends Lxdb
 		foreach ($list as $row) {
 			list($devname, $id) = explode("-", $row);
 
-			if (!isset($id) || $id === null || $id = "") {
+			// MR -- not work with 'if' for OpenVZ
+		//	if (!isset($id) || $id === null || $id = "") {
 				$result[] = $devname;
-			}
+		//	}
 		}
 
-		return $result;
+		return array_unique($result);
 	}
 
 	static function getLeastId($parent, $devname)
