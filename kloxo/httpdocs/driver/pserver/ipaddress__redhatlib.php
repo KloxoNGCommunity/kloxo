@@ -326,7 +326,8 @@ class Ipaddress__Redhat extends LxDriverclass
 		if (strpos($vifconfig, 'P-t-P') !== false) {
 			$list['GATEWAY']   = $list['IPADDR'];
 		} else {
-			exec("/sbin/ip route show | grep {$pdevname} | grep link | awk '{ print $1}'", $out);
+		//	exec("/sbin/ip route show | grep {$pdevname} | grep link | awk '{ print $1}'", $out);
+			exec("/sbin/ip route show | grep {$pdevname} | grep default | awk '{ print $3}'", $out);
 			$list['GATEWAY']   =  $out[0];
 		}
 		$out = null;
