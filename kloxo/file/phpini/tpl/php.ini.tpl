@@ -81,6 +81,7 @@ upload_tmp_dir = /tmp/
 default_socket_timeout = 60
 date.timezone = <?php echo $date_timezone_flag; ?>
 
+default_charset = "utf-8"
 
 ;### MR -- certain apps not work if 0 (ex: roundcube)
 cgi.fix_pathinfo = 1

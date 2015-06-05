@@ -1204,15 +1204,15 @@ foreach ($certnamelist as $ip => $certname) {
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
-		RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
+			RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
 		</Files>
 	</IfModule>
 
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $webmaildocroot; ?>/">
-		Options +ExecCGI
-		AddHandler fcgid-script .php
-		FCGIWrapper /home/kloxo/client/php5.fcgi .php
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
@@ -1321,15 +1321,15 @@ foreach ($certnamelist as $ip => $certname) {
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
-		RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 		</Files>
 	</IfModule>
 
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $disablepath; ?>/">
-		Options +ExecCGI
-		AddHandler fcgid-script .php
-		FCGIWrapper /home/kloxo/client/php5.fcgi .php
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
@@ -1463,15 +1463,15 @@ foreach ($certnamelist as $ip => $certname) {
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
-		RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 		</Files>
 	</IfModule>
 
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $webmaildocroot; ?>/">
-		Options +ExecCGI
-		AddHandler fcgid-script .php
-		FCGIWrapper /home/kloxo/client/php5.fcgi .php
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 

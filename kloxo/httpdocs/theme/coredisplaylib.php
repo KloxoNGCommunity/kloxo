@@ -824,11 +824,16 @@ function __ac_desc_selectShow($object)
 ?>
 
 	<br/>
+	<div style="background-color:#eee">
+		<br/>
 <?php
 
 	$object->showRawPrint();
 	$nlist = exec_class_method($cname, 'createSelectListNlist', $object);
 	$ghtml->printSelectObjectTable($nlist, $object, $cname, null);
+?>
+	</div>
+<?php
 }
 
 function get_return_url($action)

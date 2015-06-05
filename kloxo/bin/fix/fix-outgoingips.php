@@ -11,22 +11,28 @@ log_cleanup("Fixing Mail Outgoing IP", $nolog);
 
 $t = '';
 
-foreach($list as $c) {
-	$dlist = $c->getList('domain');
+$flgfile = "/usr/local/lxlabs/kloxo/etc/flag/manualoutgoingips.flg";
 
-	foreach($dlist as $l) {
-		$dns = $l->getObject('dns');
+if (file_exists($flgfile)) {
+	print("- No process because '{$flgfile}' exists\n");
+} else {
+	foreach($list as $c) {
+		$dlist = $c->getList('domain');
 
-		foreach($dns->dns_record_a as $drec) {
-			if (($drec->ttype === 'a') && ($drec->hostname === '__base__')) {
-				print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
-				$t .= "{$dns->nname}:{$drec->param}\n";
+		foreach($dlist as $l) {
+			$dns = $l->getObject('dns');
+
+			foreach($dns->dns_record_a as $drec) {
+				if (($drec->ttype === 'a') && ($drec->hostname === '__base__')) {
+					print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
+					$t .= "{$dns->nname}:{$drec->param}\n";
+				}
 			}
-		}
 
-		$dns->was();
-	}
+			$dns->was();
+		}
 	
-	file_put_contents("/var/qmail/control/outgoingips", $t);
+		file_put_contents("/var/qmail/control/outgoingips", $t);
+	}
 }
 

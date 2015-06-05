@@ -239,15 +239,15 @@ foreach ($certnamelist as $ip => $certname) {
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
 		<Files "default.<?php echo $count; ?>fake">
-		RewriteCond %{REQUEST_URI} !default.<?php echo $count; ?>fake
+			RewriteCond %{REQUEST_URI} !default.<?php echo $count; ?>fake
 		</Files>
 	</IfModule>
 
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $defaultdocroot; ?>/">
-		Options +ExecCGI
-		AddHandler fcgid-script .php
-		FCGIWrapper /home/kloxo/client/php5.fcgi .php
+			Options +ExecCGI
+			AddHandler fcgid-script .php
+			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
