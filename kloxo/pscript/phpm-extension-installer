@@ -60,14 +60,12 @@ rpm2cpio *.rpm | cpio -idmv >/dev/null 2>$1
 
 for i in ${tpath}etc/php.d/*ini ; do
 	echo "- Modified extension path of '${i}' if needed"
-	if [ "$(cat $i|grep 'zend_extension=/opt/')" == "" ] && [ "$(cat $i|grep 'zend_extension=/usr/')" == "" ] ; then
-		sed -i 's:extension = /:extension=/:' ${i}
-		sed -i 's:/usr/lib'${uname_m}'/php/modules::' ${i}
-		if [ "$(cat $i|grep 'zend_extension=/')" == "" ] ; then
-			sed -i 's:zend_extension=:zend_extension='${tpath}'usr/lib'${uname_m}'/php/modules/:' ${i}
-		else
-			sed -i 's:zend_extension=/:zend_extension='${tpath}'usr/lib'${uname_m}'/php/modules/:' ${i}
-		fi
+	sed -i 's:extension = /:extension=/:' ${i}
+	sed -i 's:/usr/lib'${uname_m}'/php/modules::' ${i}
+	if [ "$(cat $i|grep 'zend_extension=/')" == "" ] ; then
+		sed -i 's:zend_extension=:zend_extension='${tpath}'usr/lib'${uname_m}'/php/modules/:' ${i}
+	else
+		sed -i 's:zend_extension=/:zend_extension='${tpath}'usr/lib'${uname_m}'/php/modules/:' ${i}
 	fi
 done
 

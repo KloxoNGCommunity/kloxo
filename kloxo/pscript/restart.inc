@@ -22,7 +22,10 @@ else
 							ASQMAIL="qmail"
 							sh /script/restart-mail
 						else
-							/etc/init.d/${item} restart
+							#/etc/init.d/${item} restart
+							/etc/init.d/${item} stop
+							pkill -9 ${item}
+							/etc/init.d/${item} start
 						fi
 					else
 						if [ -f /usr/local/lxlabs/kloxo/etc/process/custom.${item} ] ; then
@@ -30,7 +33,9 @@ else
 						elif [ -f /usr/local/lxlabs/kloxo/etc/process/${item} ] ; then
 							sh /usr/local/lxlabs/kloxo/etc/process/${item}
 						else
-							/etc/init.d/${item} restart
+							/etc/init.d/${item} stop
+							pkill -9 ${item}
+							/etc/init.d/${item} start
 						fi
 					fi
 

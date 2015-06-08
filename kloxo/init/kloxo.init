@@ -45,7 +45,10 @@ if [ -f /usr/local/lxlabs/kloxo/init/php_active ] ; then
 fi
 
 php_active=$(cat /usr/local/lxlabs/kloxo/init/kloxo_php_active)
-sh /script/fixlxphpexe ${php_active}
+
+if [ "${1}" == "start" ] ; then
+	sh /script/fixlxphpexe ${php_active}
+fi
 
 if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
 	phpcgi_file="/opt/${php_active}/custom/php-cgi.sh"

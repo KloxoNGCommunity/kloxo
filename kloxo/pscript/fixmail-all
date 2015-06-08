@@ -85,9 +85,13 @@ echo "Set '${HVBPATH}/vchkpw' for 4751 permissions"
 chmod -f 4755 ${HVBPATH}/vchkpw
 
 echo "--------------------------"
-echo "Set '${VQCPATH}/locals' with 'localhost' only"
+host_name=$(hostname)
+echo "Set '${VQCPATH}/locals' with 'localhost'"
 echo 'localhost' > ${VQCPATH}/locals
-
+for i in me defaultdomain defaulthost ; do
+	echo "Set '${VQCPATH}/${i}' with '${host_name}'"
+	echo ${host_name} > ${VQCPATH}/${i}
+done
 echo "--------------------------"
 echo " Fix Qmail cdb"
 qmailctl cdb

@@ -232,8 +232,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
 	</IfModule>
 
 	<Location "/">
@@ -334,8 +335,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
 	</IfModule>
 
 	<Location "/">
@@ -476,8 +478,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
 	</IfModule>
 
 	<Location "/">
@@ -661,8 +664,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock
 	</IfModule>
 
 	<Directory "<?php echo $rootpath; ?>/">
@@ -915,8 +919,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmport; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock
 	</IfModule>
 
 	<Directory "<?php echo $redirfullpath; ?>/">
@@ -1075,8 +1080,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
 	</IfModule>
 
 	<Location "/">
@@ -1217,8 +1223,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
 	</IfModule>
 
 	<Location "/">
@@ -1334,8 +1341,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
 	</IfModule>
 
 	<Location "/">
@@ -1476,8 +1484,9 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
+		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
 	</IfModule>
 
 	<Location "/">
