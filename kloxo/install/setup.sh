@@ -233,6 +233,9 @@ sh /script/setdriver --server=localhost --class=webcache --driver=none >/dev/nul
 sh /script/setdriver --server=localhost --class=dns --driver=bind >/dev/null 2>&1
 sh /script/setdriver --server=localhost --class=spam --driver=bogofilter >/dev/null 2>&1
 
+## use php-cgi by default
+sh /script/set-kloxo-php cgi
+
 sh /script/restart-all --force >/dev/null 2>&1
 
 echo

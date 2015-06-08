@@ -126,6 +126,10 @@ $b = implode("", $a);
 
 $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
+if (!isset($phptype)) {
+	$phptype = '[unknown]';
+}
+
 exec("free -m", $meminfo);
 
 exec("df -h /", $diskinfo);

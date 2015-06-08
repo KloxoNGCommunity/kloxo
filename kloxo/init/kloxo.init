@@ -48,6 +48,10 @@ php_active=$(cat /usr/local/lxlabs/kloxo/init/kloxo_php_active)
 
 if [ "${1}" == "start" ] ; then
 	sh /script/fixlxphpexe ${php_active}
+else
+	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_php_active ] ; then
+		sh /script/fixlxphpexe
+	fi
 fi
 
 if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
