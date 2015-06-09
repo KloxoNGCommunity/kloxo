@@ -204,6 +204,12 @@ class serverweb__ extends lxDriverClass
 			}
 
 			$this->set_mpm($t);
+
+			if (stripos($t, 'php-fpm') !== false) {
+				exec("chkconfig php-fpm on");
+			} else {
+				exec("chkconfig php-fpm off");
+			}
 		}
 
 		$this->set_secondary_php();
@@ -403,7 +409,7 @@ class serverweb__ extends lxDriverClass
 		$installed = isRpmInstalled("{$branchselect}-fpm");
 
 		if ($installed) {
-			lxshell_return("chkconfig", "php-fpm", "on");
+		//	lxshell_return("chkconfig", "php-fpm", "on");
 			createRestartFile("restart-web");
 		}
 

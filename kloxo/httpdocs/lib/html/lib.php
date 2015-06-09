@@ -5837,7 +5837,7 @@ function setInitialPhpFpmConfig($nolog = null)
 		exec("mkdir -p {$sockpath}");
 	}
 
-	exec("'cp' -rf {$fpath}/php-fpm/* /opt/configs/php-fpm");
+	exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
 
 
 	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
@@ -7539,16 +7539,6 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default", "define");
 
 	foreach ($confs as &$c) {
-		/*
-			// MR -- move this process to defaults.conf.tpl
-			$s = "{$c}.conf";
-			$t = getLinkCustomfile($pathdrv . "/etc/conf.d", $s);
-
-			if (file_exists($t)) {
-				log_cleanup("- Copy /etc/conf.d/{$s} to {$pathconfd}/{$c}.conf", $nolog);
-				lxfile_cp($t, "{$pathconfd}/{$c}.conf");
-			}
-		*/
 		// MR -- specific for mod_perl in apache
 		if ($c === 'perl') {
 			if (!isRpmInstalled('mod_perl')) {
@@ -7563,6 +7553,11 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 				setRpmInstalled('mod_define');
 			}
 		}
+	}
+
+	// MR - remove unwanted files
+	if ($webdriver === 'apache') {
+		lxfile_rm("{$pathdrv}/etc/conf.d/_mpm.nonconf");
 	}
 }
 

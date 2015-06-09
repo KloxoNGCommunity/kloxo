@@ -20,6 +20,8 @@ function resetQmailAssign($nolog = null)
 
 	$result = $con->query("SELECT pw_name, pw_domain, pw_dir FROM vpopmail");
 
+	if (!isset($result)) { return; }
+
 	$n = array();
 
 	while ($row = $result->fetch_array(MYSQLI_ASSOC)) {

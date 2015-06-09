@@ -29,34 +29,6 @@ class watchdog__sync extends Lxdriverclass
 			}
 
 			if (csb($l['action'], "__driver_")) {
-			/*
-				$class = strfrom($l['action'], "__driver_");
-				$driverapp = slave_get_driver($class);
-
-				if ($driverapp) {
-					if ($driverapp === 'none') { return; }
-
-					// MR -- need handling for webproxy and php-fpm
-					if (csb($driverapp, "proxy")) {
-						$a = array(str_replace('proxy', '', $driverapp), 'httpd');
-					} else {
-						$a = array($driverapp);
-					}
-
-					foreach ($a as &$v) {
-						createRestartFile($v);
-					}
-
-					if (file_exists('/etc/init.d/php-fpm')) {
-						createRestartFile('php-fpm');
-					}
-				} else {
-					$a[0] = $class;
-					createRestartFile('php-fpm');
-				}
-
-				$action = "{$a[0]} restart";
-			*/
 				$action = str_replace("__driver_", "sh /script/restart-", $l['action']) . " --force >/dev/null 2>&1";
 			} elseif (csb($l['action'], "restart-")) {
 				$action = "sh /script/" . $l['action'] . " --force >/dev/null 2>&1";

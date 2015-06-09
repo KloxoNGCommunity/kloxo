@@ -83,6 +83,18 @@ class pserver extends pservercore {
 						lxshell_return("sh", "/script/fixweb", "--target=defaults", "--server={$this->nname}", "--nolog");
 					} elseif ($fixc === 'web') {
 						lxshell_return("sh", "/script/fix{$fixc}", "--target=defaults", "--server={$this->nname}", "--nolog");
+
+						if (isWebProxyOrApache()) {
+							$php_type = db_get_value("serverweb", "pserver-" . $this->nname, "php_type");
+
+							if (stripos($php_type, 'php-fpm') !== false) {
+								exec("chkconfig php-fpm on");
+							} else {
+								exec("chkconfig php-fpm off");
+							}
+						} else {
+							exec("chkconfig php-fpm on");
+						}
 				//	} elseif ($fixc === 'dns') {
 				//		// no action
 					} else {

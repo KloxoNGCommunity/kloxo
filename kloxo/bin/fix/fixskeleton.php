@@ -17,8 +17,6 @@ $list = $login->getList('client');
 
 log_cleanup("Fixing Skeleton", $nolog);
 
-web__apache::setInstallPhpfpm();
-
 $clist = array();
 $slist = array();
 

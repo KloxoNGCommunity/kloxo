@@ -51,6 +51,7 @@ if [ "${1}" == "start" ] ; then
 else
 	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_php_active ] ; then
 		sh /script/fixlxphpexe
+		php_active=$(cat /usr/local/lxlabs/kloxo/init/kloxo_php_active)
 	fi
 fi
 
@@ -106,7 +107,7 @@ function phpcgi_start() {
 	fi
 
 	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
-		echo -n $"Starting ${phpcgi_prog}: "
+		echo -n $"Starting ${phpcgi_prog} ('${php_active}' in 'fpm' mode): "
 
 		daemon ${phpcgi_spawn}
 
@@ -115,7 +116,7 @@ function phpcgi_start() {
 		[ ${retval} -eq 0 ] && touch ${phpcgi_lockfile} && touch ${phpcgi_sockfile}
 		return ${retval}
 	else
-		echo $"* ${phpcgi_prog}: No need to start because not use php-fpm"
+		echo $"* ${phpcgi_prog} ('${php_active}' in 'cgi' mode): No need to start"
 	fi
 }
 

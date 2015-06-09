@@ -4,13 +4,12 @@ include_once "lib/html/include.php";
 
 initProgram('admin');
 
-
-//exec("sh /script/setup-horde");
-//exec("sh /script/setup-t-dah");
-exec("sh /script/setup-roundcube");
-exec("sh /script/setup-afterlogic");
-exec("sh /script/setup-squirrelmail");
-exec("sh /script/setup-telaen");
-exec("sh /script/setup-rainloop");
+//system("sh /script/setup-horde");
+//system("sh /script/setup-t-dah");
+system("sh /script/setup-roundcube");
+system("sh /script/setup-afterlogic");
+system("sh /script/setup-squirrelmail");
+system("sh /script/setup-telaen");
+system("sh /script/setup-rainloop");
 
 installChooser();
