@@ -11,7 +11,7 @@ class Cron extends Lxdb
 	static $__desc_minute = array("", "", "minute");
 	static $__desc_hour = array("", "", "hour");
 //	static $__desc_weekday = array("", "", "day_of_week");
-	static $__desc_weekday = array("", "", "Week");
+	static $__desc_weekday = array("", "", "week");
 	static $__desc_ddate = array("", "", "date");
 	static $__desc_month = array("", "", "month");
 	static $__desc_command = array("n", "", "command", URL_SHOW);
@@ -67,7 +67,11 @@ class Cron extends Lxdb
 				}
 			}
 		} else {
-			$x = $this->$var;
+			if (stripos($this->$var, '--all--') !== false) {
+				$x = '--all--';
+			} else {
+				$x = $this->$var;
+			}
 		}
 
 		if ($x === null) {
@@ -98,7 +102,6 @@ class Cron extends Lxdb
 	function __construct($masterserver, $readserver, $name)
 	{
 		if (!self::$minutelist) {
-
 			self::$minutelist[] = '--all--';
 
 			foreach (range(0, 59) as $i) {
@@ -163,14 +166,14 @@ class Cron extends Lxdb
 	{
 	//	$nlist["nname"] = "5%";
 		$nlist["username"] = "10%";
-		$nlist["command"] = "20%";
-		$nlist["syncserver"] = "20%";
+		$nlist["command"] = "80%";
+		$nlist["syncserver"] = "10%";
 		$nlist["ttype"] = "10%";
-		$nlist["minute"] = "10%";
-		$nlist["hour"] = "10%";
-		$nlist["ddate"] = "10%";
-		$nlist["weekday"] = "10%";
-		$nlist["month"] = "10%";
+		$nlist["minute"] = "20%";
+		$nlist["hour"] = "20%";
+		$nlist["ddate"] = "20%";
+		$nlist["weekday"] = "20%";
+		$nlist["month"] = "20%";
 
 		return $nlist;
 	}
@@ -334,6 +337,10 @@ class Cron extends Lxdb
 
 	static function convertBackCronList($list, $staticlist)
 	{
+		if (!isset($list)) {
+			$list = array('--all--');
+		}
+
 		if (is_string($list)) {
 			$list = array($list);
 		}
@@ -382,7 +389,7 @@ class Cron extends Lxdb
 
 	static function convertToAllIfExists($part)
 	{
-		if ((isset($part)) && (strpos('--all--', $part) !== false)) {
+		if ((isset($part)) && (stripos('--all--', $part) !== false)) {
 			$part = '--all--';
 		}
 

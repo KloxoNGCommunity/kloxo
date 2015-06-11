@@ -1,5 +1,5 @@
 #!/bin/sh
 
-list=(syslog rsyslog mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid lighttpd nginx hiawatha httpd qmail xinetd kloxo php-fpm)
+list=(syslog rsyslog mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid lighttpd nginx hiawatha httpd qmail xinetd kloxo php-fpm memcached)
 
 . /script/restart.inc

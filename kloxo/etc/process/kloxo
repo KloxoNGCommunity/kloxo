@@ -8,12 +8,14 @@ if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo-hiawatha.pid ] ; then
 	ret="yes"
 fi
 
-if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.pid ] ; then
-	if [ -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock ] ; then
-		'rm' -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock
-	fi
+if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.pid ] ; then
+		if [ -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock ] ; then
+			'rm' -f /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock
+		fi
 
-	ret="yes"
+		ret="yes"
+	fi
 fi
 
 if [ "${ret}" == "yes" ] ; then

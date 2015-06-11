@@ -35,9 +35,16 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	$pass = slave_get_db_pass();
 
 	//--- the first - to 'disable' skip- and restart mysql
-	@exec("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf");
-	@exec("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/my.cnf");
-	@exec("sed -i 's/skip/\;###123###skip/g' /etc/my.cnf.d/server.cnf");
+	
+	$cnffile = array('/etc/my.cnf', '/etc/my.cnf.d/my.cnf', '/etc/my.cnf.d/server.cnf');
+
+	$mycnfs = array('/etc/my.cnf.d/my.cnf', '/etc/my.cnf.d/server.cnf', '/etc/my.cnf');
+	
+	foreach ($mycnfs as &$mycnf) {
+		if (file_exists($mycnf)) {
+			@exec("sed -i 's/skip/\;###123###skip/g' {$mycnf}");
+		}
+	}
 
 	if (file_exists("/etc/init.d/mysql")) {
 		exec("service mysql restart");
@@ -124,9 +131,11 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	}
 
 	//--- the second - back to 'original' config and restart mysql
-	@exec("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf");
-	@exec("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/my.cnf");
-	@exec("sed -i 's/\;###123###skip/skip/g' /etc/my.cnf.d/server.cnf");
+	foreach ($mycnfs as &$mycnf) {
+		if (file_exists($mycnf)) {
+			@exec("sed -i 's/\;###123###skip/skip/g' {$mycnf}");
+		}
+	}
 
 	if (file_exists("/etc/init.d/mysql")) {
 		exec("service mysql restart");
@@ -136,8 +145,6 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 
 	if ($config === 'yes') {
 		if ($database === '_all_') {
-			$mycnfs = array('/etc/my.cnf.d/my.cnf', '/etc/my.cnf.d/server.cnf', '/etc/my.cnf');
-
 			foreach ($mycnfs as &$mycnf) {
 				$string = file_get_contents($mycnf);
 
@@ -197,7 +204,9 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 
 				$string_collect = str_replace($string_source, $string_replace, $string_collect);
 
-				file_put_contents($mycnf, $string_collect);
+				if (file_exists($mycnf)) {
+					file_put_contents($mycnf, $string_collect);
+				}
 			}
 		}
 	}

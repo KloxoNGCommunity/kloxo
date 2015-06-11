@@ -1,11 +1,11 @@
 #!/bin/sh
 
 echo "*** Process for PHP-FPM service ***"
-if [ $(ls -A /var/run/php-fpm/*.pid) ] ; then
-	echo "  - No need started"
-else
-	/etc/init.d/php-fpm restart
-fi
+#if [ $(ls -A /var/run/php-fpm/*.pid) ] ; then
+#	echo "  - No need started"
+#else
+#	/etc/init.d/php-fpm restart
+#fi
 
 #echo "  - Process: reload"
 #/etc/rc.d/init.d/php-fpm reload
