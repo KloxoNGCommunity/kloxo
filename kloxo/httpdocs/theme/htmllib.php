@@ -5033,7 +5033,7 @@ class HtmlLib
 			if ($rpagesize < 1000) {
 ?>
 
-														<select class="textbox" onchange="document.perpage_<?= $unique_name ?>.submit()" style="width:40px; border: 1px solid #888" name="frm_hpfilter[<?= $filtername ?>][pagesize]">
+														<select class="textbox" onchange="document.perpage_<?= $unique_name ?>.submit()" style="width:60px; border: 1px solid #888" name="frm_hpfilter[<?= $filtername ?>][pagesize]">
 <?php
 				$list = array($rpagesize / 2, $rpagesize, $rpagesize * 2, $rpagesize * 4, $rpagesize * 8, $rpagesize * 16);
 
@@ -5106,7 +5106,7 @@ class HtmlLib
 											$this->print_current_input_var_unset_filter($filtername, array('pagenum'));
 											$this->print_current_input_vars(array('frm_hpfilter'));
 ?>
-											<input class="textbox small" style="width:25px; border: 1px solid #888" name="frm_hpfilter[<?= $filtername ?>][pagenum]" type="text" value="<?= $cgi_pagenum ?>"></td>
+											<input class="textbox small" style="width:40px; border: 1px solid #888" name="frm_hpfilter[<?= $filtername ?>][pagenum]" type="text" value="<?= $cgi_pagenum ?>"></td>
 <?php
 				if ($skin_name === 'feather') {
 ?>
