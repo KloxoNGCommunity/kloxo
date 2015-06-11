@@ -13,7 +13,7 @@ function setSetupApp()
 	
 	if (!file_exists("{$path}/index.php")) {
 		log_cleanup("- Application not exists. Exit", $nolog);
-		exit;
+		return;
 	}
 
 	log_cleanup("- Preparing Database", $nolog);

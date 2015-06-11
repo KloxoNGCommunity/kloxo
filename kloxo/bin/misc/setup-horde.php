@@ -13,7 +13,7 @@ function setSetupApp()
 	
 	if (!file_exists("{$path}/index.php")) {
 		log_cleanup("- Application not exists. Exit", $nolog);
-		exit;
+		return;
 	}
 
 	// MR -- because Horde use rpm on Kloxo-MR,
@@ -29,8 +29,7 @@ function setSetupApp()
 
 	if (!$link) {
 		log_cleanup("- Mysql root password incorrect", $nolog);
-
-		exit;
+		return;
 	}
 
 	$pstring = null;

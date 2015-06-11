@@ -2,9 +2,11 @@
 
 path="/home/kloxo/httpd/webmail/t-dah"
 
-if [ ! -f ${path}/index.php ] ; then
-	yum install kloxomr-webmail-t-dah -y
-	chown -R apache:apache $path
+if [ "${1}" == "-y" ] ; then
+	if [ ! -f ${path}/index.php ] ; then
+		yum install kloxomr-webmail-t-dah -y
+		chown -R apache:apache $path
+	fi
 fi
 
 . /script/directory
