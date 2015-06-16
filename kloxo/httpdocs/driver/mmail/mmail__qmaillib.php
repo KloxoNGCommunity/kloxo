@@ -102,12 +102,6 @@ class Mmail__Qmail extends lxDriverClass
 		$out = $out[0];
 		$global_dontlogshell = $tmp;
 		
-		/*
-			if ($out === 'Invalid domain name') {
-				$out = false;
-			}
-		*/
-		
 		return $out;
 	}
 
@@ -191,8 +185,6 @@ class Mmail__Qmail extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 		global $global_shell_error;
 
-	//	$catchall = "postmaster";
-
 		if (isset($this->main->ttype)) {
 			if ($this->main->ttype === 'forward') {
 				$sys_cmd = "{$sgbl->__path_mail_root}/bin/vaddaliasdomain";
@@ -209,7 +201,6 @@ class Mmail__Qmail extends lxDriverClass
 
 		//Hack hack... Read the mail password in the input.
 		if (!$this->main->__var_password) {
-		//	$password = 'something';
 			$password = randomString(8);
 		} else {
 			$password = $this->main->__var_password;
@@ -222,9 +213,6 @@ class Mmail__Qmail extends lxDriverClass
 		$uid = os_get_uid_from_user($this->main->systemuser);
 		$gid = os_get_gid_from_user($this->main->systemuser);
 
-	//	$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-e", $catchall, $password);
-	//	$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password);
-
 		$mailpath = $sgbl->__path_mail_data;
 
 		// MR -- the first check if exists (garbage from old) and then delete!
@@ -235,7 +223,6 @@ class Mmail__Qmail extends lxDriverClass
 			exec("sh /script/fix-qmail-assign");
 		}
 
-	//	$ret = lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $this->main->nname, "-b", $password, "-d", $mailpath);
 		$ret = lxshell_return($sys_cmd, '-u', $this->main->systemuser, $this->main->nname, "-b", $password, "-d", $mailpath);
 
 		if ($ret) {
@@ -245,17 +232,6 @@ class Mmail__Qmail extends lxDriverClass
 			// MR -- instead show warning, try to re-process
 			lxshell_return($sys_cmd, '-u', $this->main->systemuser, $this->main->nname, "-b", $password, "-d", $mailpath);
 		}
-
-	/*
-		$listdom = "lists.{$this->main->nname}";
-		lxshell_return($sys_cmd, '-i', $uid, '-g', $gid, $listdom, $password);
-	//	lxshell_return($sys_cmd, $listdom, $password);
-		$mailpath = self::getDir($listdom);
-		$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
-		$qmailfile = "$mailpath/.qmail-default";
-	
-		lxfile_unix_chown($qmailfile, mmail__qmail::getUserGroup($this->main->nname));
-	*/
 
 		$this->updateQmaildefault();
 

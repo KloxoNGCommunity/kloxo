@@ -118,8 +118,6 @@ KeepAliveTimeout 15
         MaxRequestsPerChild 0
     </IfVersion>
 
-    ThreadStackSize 8196
-    MaxMemFree 2
     SendBufferSize 65536
     ReceiveBufferSize 65536
 </IfModule>
@@ -134,7 +132,6 @@ KeepAliveTimeout 15
     ServerLimit <?php echo $maxpar_w; ?>
 
     MaxRequestsPerChild 0
-    ThreadStackSize 8196
     <IfVersion >= 2.4>
         MaxRequestWorkers <?php echo $maxpar_w * $mcfactor; ?>
 

@@ -390,11 +390,6 @@ class Mailaccount__Qmail extends lxDriverClass
 			$name = str_replace("_s_colon_s_", ":", $name);
 			$cmd = "bogofilter -d /var/bogofilter/ $optstring $flag < $name";
 			do_exec_system("__system__", null, $cmd, $out, $err, $ret, null);
-			//$out = null;
-			//$ret = null;
-			//exec($cmd, $out, $ret);
-			//$out = implode(" ", $out);
-			//log_shell("$ret: $out: $cmd");
 		}
 	}
 

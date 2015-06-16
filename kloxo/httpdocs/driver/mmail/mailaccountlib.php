@@ -340,46 +340,6 @@ class Mailaccount extends Lxclient
 	function createShowPropertyList(&$alist)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-	/*
-		if ($ghtml->frm_subaction === 'autores') {
-			$alist['property'][] = "a=list&c=autoresponder";
-			$alist['property'][] = "a=addform&c=autoresponder";
-			$alist['property'][] = "a=updateform&sa=autores";
-
-			return $alist;
-		}
-
-
-		if ($ghtml->frm_subaction === 'autores') {
-			$alist['property'] = autoresponder::createListAlist($this, 'autoresponder');
-
-			return;
-		}
-
-		if ($this->isLogin()) {
-			$alist['property'][] = "a=show";
-			$alist['property'][] = "o=sp_specialplay&a=updateform&sa=skin";
-			$alist['property'][] = "a=updateform&sa=password";
-			$alist['property'][] = "o=sp_specialplay&a=updateform&sa=login_options";
-
-			return $alist;
-		}
-
-		if ($this->getParentO()->isClient()) {
-			$this->getParentO()->createShowPropertyList($alist);
-
-			foreach ($alist['property'] as &$__a) {
-				$__a = "goback=1&$__a";
-			}
-		} else {
-			$this->getParentO()->getParentO()->createShowPropertyList($alist);
-
-			foreach ($alist['property'] as &$__a) {
-				$__a = "goback=1&$__a";
-			}
-		}
-
-	*/
 
 		if ($ghtml->frm_subaction === 'password') {
 			$alist['property'][] = "a=updateform&sa=password";
@@ -436,42 +396,14 @@ class Mailaccount extends Lxclient
 		$alist[] = "a=list&c=mailcontent";
 		$driverapp = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'autoresponder');
 
-		if ($driverapp === 'qmail') {
-		//	$alist[] = "a=updateform&sa=autores";
-		}
-
 		$alist[] = "a=list&c=autoresponder";
-	//	$alist[] = "__int|a=updateForm&sa=edit&l[class]=ffile&l[nname]=/autorespond/vacation|a=updateForm&sa=autores_vacation&l[class]=mailaccount&l[nname]=$this->nname|";
-	//	$alist[] = "__int|a=updateForm&sa=edit&l[class]=ffile&l[nname]=/autorespond/autoresponder|a=updateForm&sa=autores_autoresponder&l[class]=mailaccount&l[nname]=$this->nname|";
-
 		$alist[] = create_simpleObject(array('url' => "http://webmail." . $this->getParentName(), 'purl' => "a=updateform&sa=webmail&l[class]=mailaccount&l[nname]=$this->nname", 'target' => "target='_blank'"));
-	//	$alist['__title_next'] = "Help";
-	//	$alist[] = "a=show&o=notification";
-	//	$alist[] = "a=list&c=ticket";
-	//	$alist[] = "a=list&c=smessage";
-
-	//	$alist[] = "a=updateform&sa=skin&o=sp_specialplay";
 
 		return $alist;
 	}
 
 	static function AddListForm($parent, $class)
 	{
-	/*
-		$vlist['nname'] = null;
-
-		if ($parent->isClient()) {
-			$vlist['text'] = array('M', "@");
-			$list = get_namelist_from_objectlist($parent->getList('domain'));
-			$vlist['real_clparent_f'] = array('s', $list);
-		} else {
-			$vlist['text'] = array('M', "@$parent->nname");
-		}
-
-		$vlist['simple_add_f'] = array('h', 'on');
-
-		return $vlist;
-	*/
 		return self::addform($parent, $class);
 	}
 

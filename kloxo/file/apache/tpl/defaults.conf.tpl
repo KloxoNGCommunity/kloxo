@@ -19,10 +19,18 @@ foreach (glob("{$trgtconfdpath}/mod_*.conf") as $file)
 	rename($file, $newfile);
 }
 
-if (file_exists("{$srcconfpath}/custom.httpd.conf")) {
-	copy("{$srcconfpath}/custom.httpd.conf", "{$trgtconfpath}/httpd.conf");
+exec("httpd -v|grep 'version:'|grep '/2.4.'", $out);
+
+if ($out[0] !== null) {
+	$httptype="httpd24";
 } else {
-	copy("{$srcconfpath}/httpd.conf", "{$trgtconfpath}/httpd.conf");
+	$httptype="httpd";
+}
+
+if (file_exists("{$srcconfpath}/custom.{$httptype}.conf")) {
+	copy("{$srcconfpath}/custom.{$httptype}.conf", "{$trgtconfpath}/httpd.conf");
+} else {
+	copy("{$srcconfpath}/{$httptype}.conf", "{$trgtconfpath}/httpd.conf");
 }
 
 $modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define", "_inactive_");
@@ -79,21 +87,6 @@ foreach ($mpmlist as $k => $v) {
 	}
 }
 
-if ($reverseproxy) {
-	$ports[] = '30080';
-	$ports[] = '30443';
-} else {
-	if (($webcache === 'none') || (!$webcache)) {
-		$ports[] = '80';
-		$ports[] = '443';
-	} else {
-		$ports[] = '8080';
-		$ports[] = '8443';
-	}
-}
-
-$portlist = array('${port}', '${portssl}');
-
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
 }
@@ -109,7 +102,31 @@ if ($reverseproxy) {
 	$certnamelist = null;
 
 	$certnamelist[$tmp_ip] = $tmp_certname;
+} else {
+	$tmp_ip = '*';
 }
+
+if ($reverseproxy) {
+	$ports[] = '30080';
+	$ports[] = '30443';
+} else {
+	if (($webcache === 'none') || (!$webcache)) {
+		$ports[] = '80';
+		$ports[] = '443';
+	} else {
+		$ports[] = '8080';
+		$ports[] = '8443';
+	}
+}
+
+$portlist = array('${port}', '${portssl}');
+
+$globalspath = "/opt/configs/apache/conf/globals";
+
+$portnip = "Define port {$ports[0]}\nDefine portssl {$ports[1]}\nDefine ip {$tmp_ip}\n";
+
+file_put_contents("{$globalspath}/portnip.conf", $portnip);
+
 
 $defaultdocroot = "/home/kloxo/httpd/default";
 
@@ -125,16 +142,22 @@ $fpmportapache = 50000;
 foreach ($certnamelist as $ip => $certname) {
 ?>
 
-Define global::port <?php echo $ports[0]; ?>
+<IfVersion < 2.4>
+	Define global::port <?php echo $ports[0]; ?>
 
-Define global::portssl <?php echo $ports[1]; ?>
+	Define global::portssl <?php echo $ports[1]; ?>
 
-Define global::ip <?php echo $ip; ?>
+	Define global::ip <?php echo $ip; ?>
 
 
-Define port ${global::port}
-Define portssl ${global::portssl}
-Define ip ${global::ip}
+	Define port ${global::port}
+	Define portssl ${global::portssl}
+	Define ip ${global::ip}
+</IfVersion>
+
+<IfVersion >= 2.4>
+	Include <?php echo $globalspath; ?>/portnip.conf
+</IfVersion>
 
 Listen ${ip}:${port}
 Listen ${ip}:${portssl}
@@ -252,9 +275,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		#ProxyPass / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		#ProxyPassReverse / fcgi://127.0.0.1:<?php echo $fpmportapache; ?>/
-		ProxyPassMatch ^/(.*\.php(/.*)?)$ unix:/opt/configs/php-fpm/sock/apache.sock
+		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $defaultdocroot; ?>/"
 	</IfModule>
 
 	<Location "/">

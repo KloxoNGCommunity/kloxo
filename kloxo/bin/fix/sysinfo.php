@@ -15,19 +15,23 @@ exec("uname -m", $osplateform);
 
 $mysqlbranch = getRpmBranchInstalled('mysql');
 if ($mysqlbranch) {
-	exec("rpm -q {$mysqlbranch}", $appmysql);
-	$appmysql = trim($appmysql[0]);
+	exec("rpm -q {$mysqlbranch}", $out);
+	$appmysql = trim($out[0]);
 } else {
 	$appmysql = '--uninstalled--';
 }
 
+$out = null;
+
 $phpbranch = getRpmBranchInstalled('php');
 if ($phpbranch) {
-	exec("rpm -q {$phpbranch}", $appphp);
-	$appphp = trim($appphp[0]);
+	exec("rpm -q {$phpbranch}", $out);
+	$appphp = trim($out[0]);
 } else {
 	$appphp = '--uninstalled--';
 }
+
+$out = null;
 
 $phpmdirs = glob("/opt/php*m", GLOB_MARK);
 
@@ -42,37 +46,43 @@ if (file_exists("{$kloxopath}/init/kloxo_use_php-cgi")) {
 
 $httpdbranch = getRpmBranchInstalled('httpd');
 if ($httpdbranch) {
-	exec("rpm -q {$httpdbranch}", $apphttpd);
-	$apphttpd = trim($apphttpd[0]);
+	exec("rpm -q {$httpdbranch}", $out);
+	$apphttpd = trim($out[0]);
 } else {
 	$apphttpd = '--uninstalled--';
 }
 
+$out = null;
+
 $lighttpdbranch = getRpmBranchInstalled('lighttpd');
 if ($lighttpdbranch) {
-	exec("rpm -q {$lighttpdbranch}", $applighttpd);
-	$applighttpd = trim($applighttpd[0]);
+	exec("rpm -q {$lighttpdbranch}", $out);
+	$applighttpd = trim($out[0]);
 } else {
 	$applighttpd = '--uninstalled--';
 }
 
+$out = null;
+
 $nginxbranch = getRpmBranchInstalled('nginx');
 if ($nginxbranch) {
-	exec("rpm -q {$nginxbranch}", $appnginx);
-	$appnginx = trim($appnginx[0]);
+	exec("rpm -q {$nginxbranch}", $out);
+	$appnginx = trim($out[0]);
 } else {
 	$appnginx = '--uninstalled--';
 }
 
+$out = null;
+
 $hiawathabranch = getRpmBranchInstalled('hiawatha');
 if ($hiawathabranch) {
-	exec("rpm -q {$hiawathabranch}", $apphiawatha);
-	$apphiawatha = trim($apphiawatha[0]);
+	exec("rpm -q {$hiawathabranch}", $out);
+	$apphiawatha = trim($out[0]);
 	$kloxohiawatha = $apphiawatha;
 
 	exec("chkconfig --list|grep 'hiawatha'|grep ':on'", $out);
 
-	if ($out[0] !== '') {
+	if ($out[0] !== null) {
 	//	$apphiawatha .= " (also as webserver)";
 		$apphiawatha = "--unused--";
 	}
@@ -80,46 +90,58 @@ if ($hiawathabranch) {
 	$apphiawatha = '--uninstalled--';
 }
 
+$out = null;
+
 $cachebranch = getRpmBranchInstalled('webcache');
 if ($cachebranch) {
-	exec("rpm -q {$cachebranch}", $appcache);
-	$appcache = trim($appcache[0]);
+	exec("rpm -q {$cachebranch}", $out);
+	$appcache = trim($out[0]);
 } else {
 	$appcache = '--uninstalled--';
 }
 
+$out = null;
+
 $qmailbranch = getRpmBranchInstalled('qmail-toaster');
 if ($qmailbranch) {
-	exec("rpm -q {$qmailbranch}", $appqmail);
-	$appqmail = trim($appqmail[0]);
+	exec("rpm -q {$qmailbranch}", $out);
+	$appqmail = trim($out[0]);
 } else {
 	$appqmail = '--uninstalled--';
 }
 
+$out = null;
+
 $dovecotbranch = getRpmBranchInstalled('dovecot');
 if ($dovecotbranch) {
-	exec("rpm -q {$dovecotbranch}", $appdovecot);
-	$appdovecot = trim($appdovecot[0]);
+	exec("rpm -q {$dovecotbranch}", $out);
+	$appdovecot = trim($out[0]);
 } else {
 	$appdovecot = '--uninstalled--';
 }
 
+$out = null;
+
 $courierimapbranch = 'courier-imap-toaster';
 $isinstalled = isRpmInstalled($courierimapbranch);
 if ($isinstalled) {
-	exec("rpm -q {$courierimapbranch}", $appcourierimap);
-	$appcourierimap = trim($appcourierimap[0]);
+	exec("rpm -q {$courierimapbranch}", $out);
+	$appcourierimap = trim($out[0]);
 } else {
 	$appcourierimap = '--uninstalled--';
 }
 
+$out = null;
+
 $dnsbranch = getRpmBranchInstalled('dns');
 if ($dnsbranch) {
-	exec("rpm -q {$dnsbranch}", $appdns);
-	$appdns = trim($appdns[0]);
+	exec("rpm -q {$dnsbranch}", $out);
+	$appdns = trim($out[0]);
 } else {
 	$appdns = '--uninstalled--';
 }
+
+$out = null;
 
 $a = get_namelist_from_objectlist($login->getList('pserver'), 'syncserver');
 $b = implode("", $a);
@@ -129,6 +151,17 @@ $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 if (!isset($phptype)) {
 	$phptype = '[unknown]';
 }
+
+$seddata = 's/custom_name=\"\(.*\)\"/\1/';
+exec("cat /etc/rc.d/init.d/php-fpm|grep 'custom_name='|sed -e '" . $seddata . "'", $out);
+
+if ($out[0] !== null) {
+	$phpused = $out[0];
+} else {
+	$phpused = '--Use PHP Branch--';
+}
+
+$out = null;
 
 exec("free -m", $meminfo);
 
@@ -155,6 +188,7 @@ if ($phpmdirs) {
 		echo "        * " . $v1 . "-" . str_replace("\n", "", $v2) . "\n";
 	}
 }
+echo "      - Used: " . $phpused . "\n";
 echo "   3. Httpd: " .  $apphttpd . "\n";
 echo "      - PHP Type: " . $phptype . "\n";
 echo "   4. Lighttpd: " .  $applighttpd . "\n";

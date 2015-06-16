@@ -485,7 +485,6 @@ class Mmail extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-
 	//	$this->getParentO()->getObject('web')->createShowPropertyList($alist);
 
 		if ($ghtml->frm_subaction === 'catchall') {
@@ -535,25 +534,6 @@ class Mmail extends Lxdb
 	function fixWebmailRedirect()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-/*
-		// the same trick with createListSlist()
-		// on /usr/local/lxlabs/kloxo/httpdocs/lib/domain/addondomainlib.php
-
-		$web = $this->getParentO()->getObject('web');
-
-		// have trouble when use addondomain, so use full_update
-		$web->setUpdateSubaction('full_update');
-
-	//	$web->setUpdateSubaction('addondomain');
-
-*/
-	//	$user = $this->getParentO()->getObject('web')->username;
-
-	//	$scripting = '/usr/local/lxlabs/kloxo/bin/fix/fixweb.php';
-	//	lxshell_return("lxphp.exe", $scripting, "--client={$user}", "--nolog");
-
-		// MR -- must be return null to prevent blank page
-	//	return null;
 
 		$web = $this->getParentO()->getObject('web');
 
@@ -571,21 +551,6 @@ class Mmail extends Lxdb
 
 		$alist['__title_classmmail'] = $this->getTitleWithSync();
 
-	/*
-		  if ($this->remotelocalflag === 'remote') {
-			  $alist[] =  "a=updateform&sa=remotelocalmail";
-			  $url = $this->webmail_url;
-			  $url = add_http_if_not_exist($url);
-			  $alist[] = create_simpleObject(array( 'url' => $url, 'purl' => "a=updateform&sa=webmail&c=mailaccount", "target"=> 'target=_blank'));
-			  return $alist;
-		  } else {
-	*/
-	//	$alist[] =  "a=show&o=spam";
-
-	/*
-		$alist['action'][] = "a=update&sa=backup";
-		$alist['action'][] = "a=updateform&sa=restore";
-	*/
 		$alist[] = "a=list&c=mailforward";
 		$alist['__v_dialog_ct'] = "a=updateform&sa=catchall";
 		$alist['__v_dialog_remote'] = "a=updateform&sa=remotelocalmail";
