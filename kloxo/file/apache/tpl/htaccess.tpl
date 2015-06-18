@@ -1,14 +1,16 @@
 ### begin content - please not remove this line
 
-### MR -- attention
-### 1. Copy one of '#AddHandler' to above '### begin content' and then remove '#' from '#AddHandler'
-### 2. Copy one of '#AddHandler' to subdirectory if want certain php version active in subdirectory
+### MR -- using php version different with default php
+### - Copy between '#<FilesMatch \.php$>' to '#</FilesMatch>' and 
+###   then remove '#' from '#<FilesMatch', '#</FilesMatch>' and one of '#SetHandler'
 
-#AddHandler x-httpd-php   .php
-#AddHandler x-httpd-php52 .php
-#AddHandler x-httpd-php53 .php
-#AddHandler x-httpd-php54 .php
-#AddHandler x-httpd-php55 .php
-#AddHandler x-httpd-php56 .php
+#<FilesMatch \.php$>
+	#SetHandler x-httpd-php   .php
+	#SetHandler x-httpd-php52 .php
+	#SetHandler x-httpd-php53 .php
+	#SetHandler x-httpd-php54 .php
+	#SetHandler x-httpd-php55 .php
+	#SetHandler x-httpd-php56 .php
+#</FilesMatch>
 
 ### end content - please not remove this line
