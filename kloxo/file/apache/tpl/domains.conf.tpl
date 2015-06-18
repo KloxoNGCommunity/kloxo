@@ -227,13 +227,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $disablepath; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $disablepath; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">
@@ -328,13 +332,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $defaultdocroot; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $cpdocroot; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">
@@ -469,13 +477,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $webmaildocroot; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $webmaildocroot; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">
@@ -653,13 +665,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $rootpath; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/<?php echo $rootpath; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Directory "<?php echo $rootpath; ?>/">
@@ -675,7 +691,9 @@ foreach ($certnamelist as $ip => $certname) {
 			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
-		AddHandler cgi-script .cgi .pl
+		<FilesMatch \.(cgi|pl)$>
+			SetHandler cgi-script
+		</FilesMatch>
 <?php
 			}
 ?>
@@ -906,13 +924,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $redirfullpath; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/<?php echo $redirfullpath; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Directory "<?php echo $redirfullpath; ?>/">
@@ -930,7 +952,9 @@ foreach ($certnamelist as $ip => $certname) {
 					if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
 		Options +ExecCGI
-		AddHandler cgi-script .cgi .pl
+		<FilesMatch \.(cgi|pl)$>
+			SetHandler cgi-script
+		</FilesMatch>
 <?php
 					}
 ?>
@@ -1065,13 +1089,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $disablepath; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $disablepath; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">
@@ -1206,13 +1234,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $webmaildocroot; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $webmaildocroot; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">
@@ -1322,13 +1354,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $disablepath; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $disablepath; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">
@@ -1463,13 +1499,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $webmaildocroot; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $webmaildocroot; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">

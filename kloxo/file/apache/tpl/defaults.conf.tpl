@@ -269,13 +269,17 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_fcgid.c>
 		<Directory "<?php echo $defaultdocroot; ?>/">
 			Options +ExecCGI
-			AddHandler fcgid-script .php
+			<FilesMatch \.php$>
+				SetHandler fcgid-script
+			</FilesMatch>
 			FCGIWrapper /home/kloxo/client/php5.fcgi .php
 		</Directory>
 	</IfModule>
 
 	<IfModule mod_proxy_fcgi.c>
-		ProxyPassMatch "^/(.*\.php(/.*)?)$" "unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/<?php echo $defaultdocroot; ?>/"
+		<FilesMatch \.php$>
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+		</FilesMatch>
 	</IfModule>
 
 	<Location "/">
