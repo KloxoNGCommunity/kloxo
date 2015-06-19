@@ -1,0 +1,47 @@
+#!/bin/sh
+
+if [ "$1" == "httpd24" ] ; then
+	if [ "$(rpm -qa|grep 'httpd24u-')" == "" ] ; then
+		if [ "$(rpm -qa|grep 'httpd-')" == "" ] ; then
+			echo
+			echo "- Need select apache or proxy in 'Switch Programs'"
+			echo
+			exit
+		else
+			yum replace httpd --replace-with=httpd24u -y
+			yum replace mod_suphp --replace-with=mod24u_suphp -y
+			chkconfig httpd on
+		fi
+	else
+		echo
+		echo "- httpd24 already installed"
+		echo
+		exit
+	fi
+elif [ "$1" == "httpd" ] ; then
+	if [ "$(rpm -qa|grep 'httpd-')" == "" ] ; then
+		if [ "$(rpm -qa|grep 'httpd24u-')" == "" ] ; then
+			echo
+			echo "- Need select apache or proxy in 'Switch Programs'"
+			echo
+			exit
+		else
+			yum replace httpd24u --replace-with=httpd -y
+			yum replace mod24u_suphp --replace-with=mod_suphp -y
+			if [ "$(rpm -qa|grep 'mod24u_ruid2-')" != "" ] ; then
+				yum replace mod24u_ruid2 --replace-with=mod_ruid2 -y
+			fi
+			yum install mod_ruid2 mod_fcgid mod_perl -y
+			chkconfig httpd on
+		fi
+	else
+		echo
+		echo "- httpd already installed"
+		echo
+		exit
+	fi
+else
+	echo
+	echo "- Execute: '$0 httpd' or '$0 httpd24'"
+	echo
+fi
