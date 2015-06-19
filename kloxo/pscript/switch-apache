@@ -8,6 +8,7 @@ if [ "$1" == "httpd24" ] ; then
 			echo
 			exit
 		else
+			service httpd stop
 			yum replace httpd --replace-with=httpd24u -y
 			yum replace mod_suphp --replace-with=mod24u_suphp -y
 			chkconfig httpd on
@@ -26,6 +27,7 @@ elif [ "$1" == "httpd" ] ; then
 			echo
 			exit
 		else
+			service httpd stop
 			yum replace httpd24u --replace-with=httpd -y
 			yum replace mod24u_suphp --replace-with=mod_suphp -y
 			if [ "$(rpm -qa|grep 'mod24u_ruid2-')" != "" ] ; then
@@ -33,6 +35,10 @@ elif [ "$1" == "httpd" ] ; then
 			fi
 			yum install mod_ruid2 mod_fcgid mod_perl -y
 			chkconfig httpd on
+			echo
+			echo "- Then, run 'sh /script/fixweb; sh /script/fixphp; sh /script/restart-web -y'"
+			echo
+			exit
 		fi
 	else
 		echo
