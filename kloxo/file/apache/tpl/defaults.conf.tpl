@@ -23,6 +23,13 @@ exec("httpd -v|grep 'version:'|grep '/2.4.'", $out);
 
 if ($out[0] !== null) {
 	$httptype="httpd24";
+	// MR -- enable all optional module
+	exec("sed -i 's/^#LoadModule/LoadModule/' /etc/httpd/conf.modules.d/00-optional.conf");
+	// MR -- disable deflate module; auto-enable by mod-pagespeed
+	exec("sed -i 's/^LoadModule deflate_module/#LoadModule deflate_module/' /etc/httpd/conf.modules.d/00-base.conf");
+	// MR -- always use event mpm; prefork not work because need 'special' php
+	exec("sed -i 's/^LoadModule mpm_prefork_module/#LoadModule mpm_prefork_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
+	exec("sed -i 's/^#LoadModule mpm_event_module/LoadModule mpm_event_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
 } else {
 	$httptype="httpd";
 }
@@ -278,8 +285,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">

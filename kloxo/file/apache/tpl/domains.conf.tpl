@@ -236,8 +236,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">
@@ -341,8 +343,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">
@@ -486,8 +490,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">
@@ -674,8 +680,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Directory "<?php echo $rootpath; ?>/">
@@ -933,8 +941,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Directory "<?php echo $redirfullpath; ?>/">
@@ -1098,8 +1108,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">
@@ -1243,8 +1255,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">
@@ -1363,8 +1377,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">
@@ -1508,8 +1524,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_proxy_fcgi.c>
 		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1"
+			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
+		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=10>
+		</Proxy>
 	</IfModule>
 
 	<Location "/">

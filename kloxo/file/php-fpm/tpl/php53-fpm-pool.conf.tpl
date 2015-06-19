@@ -3,6 +3,10 @@
 		mkdir("/opt/configs/php-fpm/sock");
 	}
 
+	if (!file_exists("/var/run/php-fpm")) {
+		mkdir("/var/run/php-fpm");
+	}
+
 	$userinfo = posix_getpwnam($user);
 
 	if ($user === 'apache') {
