@@ -1,5 +1,5 @@
 #!/bin/sh
 
-list=(varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd)
+list=(varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean)
 
 . /script/restart.inc

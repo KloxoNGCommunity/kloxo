@@ -30,8 +30,21 @@ if ($out[0] !== null) {
 	// MR -- always use event mpm; prefork not work because need 'special' php
 	exec("sed -i 's/^LoadModule mpm_prefork_module/#LoadModule mpm_prefork_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
 	exec("sed -i 's/^#LoadModule mpm_event_module/LoadModule mpm_event_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
+	// MR -- make blank content
+	exec("echo '' > /etc/sysconfig/httpd");
 } else {
 	$httptype="httpd";
+
+	$mpmlist = array('event', 'worker', 'itk');
+
+	// as 'httpd' as default mpm
+	exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
+
+	foreach ($mpmlist as $k => $v) {
+		if (strpos($phptype, "{$v}") !== false) {
+			exec("echo 'HTTPD=/usr/sbin/httpd.{$v}' > /etc/sysconfig/httpd");
+		}
+	}
 }
 
 if (file_exists("{$srcconfpath}/custom.{$httptype}.conf")) {
@@ -80,17 +93,6 @@ foreach ($typelist as $k => $v) {
 		} else {
 			copy("{$srcconfdpath}/_inactive_.conf", "{$trgtconfdpath}/{$v}.conf");
 		}
-	}
-}
-
-$mpmlist = array('event', 'worker', 'itk');
-
-// as 'httpd' as default mpm
-exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
-
-foreach ($mpmlist as $k => $v) {
-	if (strpos($phptype, "{$v}") !== false) {
-		exec("echo 'HTTPD=/usr/sbin/httpd.{$v}' > /etc/sysconfig/httpd");
 	}
 }
 
