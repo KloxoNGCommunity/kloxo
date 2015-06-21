@@ -46,8 +46,14 @@ class pserver extends pservercore {
 		$a['spam'] = $param['spam_driver'];
 
 		$nofixconfig = $param['no_fix_config'];
+		$useapache24 = $param['use_apache24'];
 
-		if ($nofixconfig === 'on') { return null; }
+		unset($param['no_fix_config']);
+		unset($param['use_apache24']);
+
+		if ($useapache24 === 'on') {
+			exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg");
+		}
 
 		// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
 		$a['pserver'] = $this->nname;
@@ -70,6 +76,8 @@ class pserver extends pservercore {
 					rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $this->$drstring, $v));
 
 					changeDriver($this->nname, $class, $v);
+
+					if ($nofixconfig === 'on') { continue; }
 
 					$fixc = $class;
 

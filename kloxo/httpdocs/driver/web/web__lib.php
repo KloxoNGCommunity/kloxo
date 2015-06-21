@@ -25,6 +25,19 @@ class web__ extends lxDriverClass
 		if ($l === 'httpd') {
 			$blist[] = "{$l}-tools";
 			$blist[] = "{$l}-devel";
+			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+				$blist[] = "mod24u_suphp");
+				$blist[] = "mod24u_ruid2");
+				$blist[] = "mod24u_fcgid");
+			} else {
+				$blist[] = "mod_ssl";
+				$blist[] = "mod_rpaf";
+				$blist[] = "mod_ruid2";
+				$blist[] = "mod_suphp";
+				$blist[] = "mod_fastcgi";
+				$blist[] = "mod_fcgid";
+				$blist[] = "mod_define";
+			}
 		} elseif ($l === 'lighttpd') {
 			$blist[] = "{$l}-fastcgi";
 			$blist[] = "{$l}-devel";
@@ -63,23 +76,37 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
-			setRpmInstalled("{$a}");
-		//	setRpmInstalled("{$a}-devel");
+			$list = array();
+
+			$list[] = $a;
 
 			if ($a === 'httpd') {
-				setRpmInstalled("mod_ssl");
-				setRpmInstalled("mod_rpaf");
-				setRpmInstalled("mod_ruid2");
-				setRpmInstalled("mod_suphp");
-				setRpmInstalled("mod_fastcgi");
-				setRpmInstalled("mod_fcgid");
-				setRpmInstalled("mod_define");
+				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+					$list[] = "mod24u_suphp";
+					$list[] = "mod24u_ruid2";
+					$list[] = "mod24u_fcgid";
+				} else {
+					$list[] = "mod_ssl";
+					$list[] = "mod_rpaf";
+					$list[] = "mod_ruid2";
+					$list[] = "mod_suphp";
+					$list[] = "mod_fastcgi";
+					$list[] = "mod_fcgid";
+					$list[] = "mod_define";
+				}
 			} elseif ($a === 'lighttpd') {
-				setRpmInstalled("{$a}-fastcgi");
+				$list[] = "{$a}-fastcgi";
 			} elseif ($a === 'nginx') {
-				setRpmInstalled("GeoIP");
+				$list[] = "GeoIP";
 			} elseif ($a === 'hiawatha') {
 				// no action
+			}
+
+			foreach ($list as $k => $v) {
+				// MR -- no remove for hiawatha
+				if ($v !== 'hiawatha') {
+					setRpmRemoved($v);
+				}
 			}
 
 			self::setWebserverInstall($a);

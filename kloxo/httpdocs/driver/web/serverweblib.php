@@ -140,21 +140,41 @@ class serverweb extends lxdb
 				$this->php_type = null;
 				$this->secondary_php = null;
 
-				// MR -- remove mod_php on 'php-type' select
-				$vlist['php_type'] = array('s', array(
-					'mod_php_ruid2', 'mod_php_itk',
-					'suphp', 'suphp_event', 'suphp_worker',
-					'php-fpm_event', 'php-fpm_worker',
-					'fcgid_event', 'fcgid_worker'));
+				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+					// MR -- remove mod_php on 'php-type' select
+					$vlist['php_type'] = array('s', array(
+						'php-fpm_event', 'php-fpm_worker'));
 
-				$d = db_get_value("serverweb", "pserver-". $this->syncserver, "php_type");
-	
-				if (!$d) {
-					db_set_default("serverweb", "php_type", "php-fpm_event", 
-						"nname = 'pserver-{$this->syncserver}'");
-					$this->setDefaultValue('php_type', 'php-fpm_event');
+					$d = db_get_value("serverweb", "pserver-". $this->syncserver, "php_type");
+
+					if (!$d) {
+						db_set_default("serverweb", "php_type", "php-fpm_event", 
+							"nname = 'pserver-{$this->syncserver}'");
+						$this->setDefaultValue('php_type', 'php-fpm_event');
+					} else {
+						if (stripos($d, 'php-fpm') !== false) {
+							$this->setDefaultValue('php_type', $d);
+						} else {
+							$this->setDefaultValue('php_type', 'php-fpm_event');
+						}
+					}
 				} else {
-					$this->setDefaultValue('php_type', $d);
+					// MR -- remove mod_php on 'php-type' select
+					$vlist['php_type'] = array('s', array(
+						'mod_php_ruid2', 'mod_php_itk',
+						'suphp', 'suphp_event', 'suphp_worker',
+						'php-fpm_event', 'php-fpm_worker',
+						'fcgid_event', 'fcgid_worker'));
+
+					$d = db_get_value("serverweb", "pserver-". $this->syncserver, "php_type");
+	
+					if (!$d) {
+						db_set_default("serverweb", "php_type", "php-fpm_event", 
+							"nname = 'pserver-{$this->syncserver}'");
+						$this->setDefaultValue('php_type', 'php-fpm_event');
+					} else {
+						$this->setDefaultValue('php_type', $d);
+					}
 				}
 
 				$vlist['secondary_php'] = array('f', array('on', 'off'));

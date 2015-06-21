@@ -1321,12 +1321,15 @@ $__description["path"] = array("Path");
 
 // MR -- in 'webserver config'
 $__description["apache_optimize"] = array("Apache memory optimize");
-$__description["mysql_convert"] = array("MySQL convert");
-$__description["mysql_charset"] = array("MySQL charset");
-$__description["fix_chownchmod"] = array("Fix 'ownership' and 'permissions'");
+$__description["mysql_convert"] = array("MySQL convert (Always need selected)");
+$__description["mysql_charset"] = array("MySQL charset (Always need selected)");
+$__description["fix_chownchmod"] = array("Fix 'ownership' and 'permissions' (Always need selected)");
 
 // MR -- in 'switch program'
-$__description["no_fix_config"] = array("No fix config");
+$__description["no_fix_config"] = array("No fix config (Always need selected)");
+
+// MR -- in 'switch program'
+$__description["use_apache24"] = array("Use Apache 2.4");
 
 // MR -- in 'webservr config'
 $__description["php_branch"] = array("PHP Branch");

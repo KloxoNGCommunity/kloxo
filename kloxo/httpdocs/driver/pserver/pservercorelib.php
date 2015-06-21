@@ -168,6 +168,8 @@ class pservercore extends Lxclient
 	static $__desc_no_fix_config = array("f", "", "no_fix_config");
 	static $__desc_pserver_o = array('d', '', '', '');
 
+	static $__desc_use_apache24 = array("f", "", "use_apache24");
+
 	function syncToSystem()
 	{
 		// Special for pserver... Since the whole idea of remote syncing is handled here,
@@ -1256,12 +1258,27 @@ STRIN;
 
 				$this->was();
 
+				// MR -- always off because one-time process
 				$this->no_fix_config = 'off';
+
 
 				$vlist['web_driver'] = array('s', array('none', 'apache', 'lighttpd', 'nginx', 
 					'hiawatha', 'openlitespeed', 'monkey',
 					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy', 'openlitespeedproxy',
 					'monkeyproxy'));
+
+				// MR -- get httpd24u info
+				exec("cat '/usr/local/lxlabs/kloxo/etc/list/httpd.lst'|grep httpd24", $out);
+
+				if ($out[0] !== null) {
+					if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+						$this->use_apache24 = 'on';
+					} else {
+						$this->use_apache24 = 'off';
+					}
+
+					$vlist['use_apache24'] = array('f', 'on', 'off');
+				}
 
 				$vlist['webcache_driver'] = array('s', array('none', 'squid', 'trafficserver', 'varnish'));
 
