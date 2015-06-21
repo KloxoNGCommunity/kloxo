@@ -7538,23 +7538,6 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 
 	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default", "define");
 
-	foreach ($confs as &$c) {
-		// MR -- specific for mod_perl in apache
-		if ($c === 'perl') {
-			if (!isRpmInstalled('mod_perl')) {
-				setRpmInstalled('mod_perl');
-				setRpmInstalled('perl-Taint-Runtime');
-			}
-		}
-
-		// MR -- specific for mod_define in apache
-		if ($c === 'define') {
-			if (!isRpmInstalled('mod_define')) {
-				setRpmInstalled('mod_define');
-			}
-		}
-	}
-
 	// MR - remove unwanted files
 	if ($webdriver === 'apache') {
 		lxfile_rm("{$pathdrv}/etc/conf.d/_mpm.nonconf");

@@ -48,18 +48,19 @@ class pserver extends pservercore {
 		$nofixconfig = $param['no_fix_config'];
 		$useapache24 = $param['use_apache24'];
 
-		unset($param['no_fix_config']);
-		unset($param['use_apache24']);
-
 		if ($useapache24 === 'on') {
 			exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg");
+		} else {
+			exec("'rm' -f /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg");
 		}
 
 		// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
-		$a['pserver'] = $this->nname;
-		rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
+	//	$a['pserver'] = $this->nname;
+	//	rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
 
 		foreach($param as $k => $v) {
+			if (($k === 'no_fix_config') || ($k === 'use_apache24')) { continue; }
+
 			if ($this->$k === $v) {
 				dprint("No change for $k: $v\n");
 			} else {
@@ -77,14 +78,14 @@ class pserver extends pservercore {
 
 					changeDriver($this->nname, $class, $v);
 
-					if ($nofixconfig === 'on') { continue; }
-
 					$fixc = $class;
 
 					if ($class === 'spam') { $fixc = "mmail"; }
 
 					$a[$class] = $v;
 					rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
+
+					if ($nofixconfig === 'on') { continue; }
 
 					// MR -- original code not work, so change to, also must be the last process!
 					if ($fixc === 'webcache') {

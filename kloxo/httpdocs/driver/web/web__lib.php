@@ -24,11 +24,11 @@ class web__ extends lxDriverClass
 		// no action for hiawatha because used by Kloxo too
 		if ($l === 'httpd') {
 			$blist[] = "{$l}-tools";
-			$blist[] = "{$l}-devel";
 			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
-				$blist[] = "mod24u_suphp");
-				$blist[] = "mod24u_ruid2");
-				$blist[] = "mod24u_fcgid");
+				$blist[] = "mod24u_ssl";
+				$blist[] = "mod24u_suphp";
+				$blist[] = "mod24u_ruid2";
+				$blist[] = "mod24u_fcgid";
 			} else {
 				$blist[] = "mod_ssl";
 				$blist[] = "mod_rpaf";
@@ -37,13 +37,15 @@ class web__ extends lxDriverClass
 				$blist[] = "mod_fastcgi";
 				$blist[] = "mod_fcgid";
 				$blist[] = "mod_define";
+				$blist[] = "mod_perl";
 			}
 		} elseif ($l === 'lighttpd') {
 			$blist[] = "{$l}-fastcgi";
-			$blist[] = "{$l}-devel";
 		} elseif ($l === 'nginx') {
-			$blist[] = "{$l}-devel";
+			// no action
 		}
+		
+		$blist[] = "{$l}-devel";
 
 		lxshell_return("service", $l, "stop");
 
@@ -76,37 +78,41 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
-			$list = array();
-
-			$list[] = $a;
+			$blist = array();
 
 			if ($a === 'httpd') {
 				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
-					$list[] = "mod24u_suphp";
-					$list[] = "mod24u_ruid2";
-					$list[] = "mod24u_fcgid";
+					$blist[] = "httpd24u";
+					$blist[] = "httpd24u-tools";
+					$blist[] = "mod24u_ssl";
+					$blist[] = "mod24u_suphp";
+					$blist[] = "mod24u_ruid2";
+					$blist[] = "mod24u_fcgid";
 				} else {
-					$list[] = "mod_ssl";
-					$list[] = "mod_rpaf";
-					$list[] = "mod_ruid2";
-					$list[] = "mod_suphp";
-					$list[] = "mod_fastcgi";
-					$list[] = "mod_fcgid";
-					$list[] = "mod_define";
+					$blist[] = "httpd";
+					$blist[] = "httpd-tools";
+					$blist[] = "mod_ssl";
+					$blist[] = "mod_rpaf";
+					$blist[] = "mod_ruid2";
+					$blist[] = "mod_suphp";
+					$blist[] = "mod_fastcgi";
+					$blist[] = "mod_fcgid";
+					$blist[] = "mod_define";
+					$blist[] = "mod_perl";
+					$blist[] = "perl-Taint-Runtime";
 				}
 			} elseif ($a === 'lighttpd') {
-				$list[] = "{$a}-fastcgi";
+				$blist[] = $a;
+				$blist[] = "{$a}-fastcgi";
 			} elseif ($a === 'nginx') {
-				$list[] = "GeoIP";
+				$blist[] = $a;
+				$blist[] = "GeoIP";
 			} elseif ($a === 'hiawatha') {
 				// no action
 			}
 
-			foreach ($list as $k => $v) {
-				// MR -- no remove for hiawatha
-				if ($v !== 'hiawatha') {
-					setRpmRemoved($v);
-				}
+			foreach ($blist as $k => $v) {
+				setRpmInstalled($v);
 			}
 
 			self::setWebserverInstall($a);
@@ -1210,12 +1216,11 @@ class web__ extends lxDriverClass
 		// also update static config
 		$this->dbactionUpdate("static_config_update");
 
-		self::set_restart();
+		createRestartFile("restart-web");
 	}
 
 	function fixDomainSSLPath()
 	{
-		$domname = $this->getDomainname();
 		$uname = $this->getUser();
 
 		$spath="/home/{$uname}/ssl";
@@ -1417,18 +1422,5 @@ class web__ extends lxDriverClass
 		$this->main->do_restore($docd);
 
 		lxfile_unix_chown_rec($fullpath, $uname);
-	}
-
-	static function set_restart()
-	{
-		$list = getWebDriverList();
-	/*
-		foreach ($list as &$l) {
-			if ($l === 'apache') { $l = 'httpd'; }
-
-			createRestartFile($l);
-		}
-	*/
-		createRestartFile("restart-web");
 	}
 }
