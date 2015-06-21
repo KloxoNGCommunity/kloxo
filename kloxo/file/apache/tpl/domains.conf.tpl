@@ -240,7 +240,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -351,7 +350,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -502,7 +500,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -696,7 +693,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -961,7 +957,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -1132,7 +1127,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -1283,7 +1277,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -1409,7 +1402,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
@@ -1560,7 +1552,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
 			ProxySet timeout=120
-			ProxyTimeout 120
 			ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
