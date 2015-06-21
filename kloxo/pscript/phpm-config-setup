@@ -81,10 +81,12 @@ if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
 	sed -i 's:__disable_functions__::' /opt/${base_name}/custom/php.ini
 	sed -i 's:__for_phpm__::' /opt/${base_name}/custom/php.ini
 	sed -i 's:__for_phps__:;:' /opt/${base_name}/custom/php.ini
+	sed -i 's:__session_save_path__:/var/lib/php/session:' /opt/${base_name}/custom/php.ini
 else
 	sed -i 's:__disable_functions__:;:' /opt/${base_name}/custom/php.ini
 	sed -i 's:__for_phpm__:;:' /opt/${base_name}/custom/php.ini
 	sed -i 's:__for_phps__::' /opt/${base_name}/custom/php.ini
+	sed -i 's:__session_save_path__:/usr/local/lxlabs/kloxo/session:' /opt/${base_name}/custom/php.ini
 fi
 
 for i in php-cgi.sh php-cli.sh php-fpm.sh php-ls.sh ; do

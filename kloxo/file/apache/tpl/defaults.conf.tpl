@@ -266,8 +266,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 90 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 90 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
 		<Files "default.<?php echo $count; ?>fake">
@@ -289,7 +289,11 @@ foreach ($certnamelist as $ip => $certname) {
 		<FilesMatch \.php$>
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/" enablereuse=on max=25>
+		<Proxy "fcgi://127.0.0.1/">
+			ProxySet timeout=120
+			ProxyTimeout 120
+			ProxySet enablereuse=on
+			ProxySet max=25
 		</Proxy>
 	</IfModule>
 
