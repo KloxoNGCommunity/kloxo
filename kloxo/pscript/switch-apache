@@ -19,6 +19,8 @@ if [ "$1" == "httpd24" ] ; then
 		echo
 		exit
 	fi
+
+	cat '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg
 elif [ "$1" == "httpd" ] ; then
 	if [ "$(rpm -qa|grep 'httpd-')" == "" ] ; then
 		if [ "$(rpm -qa|grep 'httpd24u-')" == "" ] ; then
@@ -46,6 +48,8 @@ elif [ "$1" == "httpd" ] ; then
 		echo
 		exit
 	fi
+	
+	rm -f /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg
 else
 	echo
 	echo "- Execute: '$0 httpd' or '$0 httpd24'"

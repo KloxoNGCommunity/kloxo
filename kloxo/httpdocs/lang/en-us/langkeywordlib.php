@@ -176,6 +176,8 @@ $__keyword["ownership_group"] = "Group";
 $__keyword["ownership_recursively"] = "Change Ownership Recursively";
 $__keyword["ownership_confirm"] = "Do You Really want to set this ownership Recursively?";
 
+$__keyword["click_help"] = "Click 'Help' for more info";
+
 $__throw["domain_is_already_owned"] = "Domain is already owned. Please enable: [b]I Confirm That I Am The Owner Of Domain[/b]";
 $__throw["invalid_domain_name"] = "Invalid domain name";
 $__throw["not_permit_as_subdomain"] = "Not permit webmail/mail/lists/cp/www/default as subdomain";

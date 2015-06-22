@@ -1784,7 +1784,7 @@ function print_navigation($navig)
 		var gl_imgleftpoint = '<?=$imgrightpoint?>';
 	</script>
 
-<table class="tbl_navigation"><tr><td>
+<table class="tbl_navigation"><tr><td nowrap='nowarp'>
 <div style="padding: 2px">
 <?php
 		if ($button_type !== 'image') {
@@ -1919,7 +1919,9 @@ function print_navigation($navig)
 
 ?>
 	</div>
-</td></tr></table>
+</td>
+<td align="right"><div style="padding: 2px"><span style='font-weight: bold; color: #3498db'>::&nbsp;<?php echo $login->getKeywordUc('click_help'); ?><span>&nbsp;::&nbsp;</div></td>
+</tr></table>
 
 <?php
 }
