@@ -24,17 +24,8 @@ class Component__rpm extends lxDriverClass
 	{
 		global $sgbl;
 
-	/*
 		$comps = array('mysql', 'postgresql', 
-			'httpd', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed',
-			'trafficserver', 'varnish', 'squid',
-			'php', 'perl', 'mono', 'ruby', 
-			'bind', 'djbdns', 'maradns', 'pdns', 'nsd',
-			'qmail-toaster', 'pure-ftpd');
-	*/
-
-		$comps = array('mysql', 'postgresql', 
-			'httpd', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed',
+			'httpd', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed', 'monkey',
 			'trafficserver', 'varnish', 'squid',
 			'php', 'perl', 'mono', 'ruby', 
 			'bind', 'djbdns', 'pdns', 'nsd', 'mydns', 'yadifa',

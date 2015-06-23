@@ -16,20 +16,26 @@ class web__ extends lxDriverClass
 
 		if ($l === 'apache') { $l = 'httpd'; }
 
+		lxshell_return("service", $l, "stop");
+
 		$blist = getRpmBranchList($l);
 
 		if (!$blist) { $blist = array($l); }
+
+		$blist[] = "{$l}-devel";
 
 		// MR -- for fixed an issue version conflict!
 		// no action for hiawatha because used by Kloxo too
 		if ($l === 'httpd') {
 			$blist[] = "{$l}-tools";
-			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+			$blist[] = "{$l}-filesystem";
+		//	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 				$blist[] = "mod24u_ssl";
+				$blist[] = "mod24u_session";
 				$blist[] = "mod24u_suphp";
 				$blist[] = "mod24u_ruid2";
 				$blist[] = "mod24u_fcgid";
-			} else {
+		//	} else {
 				$blist[] = "mod_ssl";
 				$blist[] = "mod_rpaf";
 				$blist[] = "mod_ruid2";
@@ -38,23 +44,24 @@ class web__ extends lxDriverClass
 				$blist[] = "mod_fcgid";
 				$blist[] = "mod_define";
 				$blist[] = "mod_perl";
-			}
+		//	}
+
 		} elseif ($l === 'lighttpd') {
 			$blist[] = "{$l}-fastcgi";
 		} elseif ($l === 'nginx') {
 			// no action
 		}
-		
-		$blist[] = "{$l}-devel";
-
-		lxshell_return("service", $l, "stop");
-
+	/*
 		foreach ($blist as $k => $v) {
 			// MR -- no remove for hiawatha
 			if ($v !== 'hiawatha') {
 				setRpmRemoved($v);
 			}
 		}
+	*/
+		$p = implode(" ", $blist);
+
+		exec("yum remove {$p} -y");
 
 		lxshell_return("chkconfig", $l, "off");
 
@@ -85,6 +92,7 @@ class web__ extends lxDriverClass
 					$blist[] = "httpd24u";
 					$blist[] = "httpd24u-tools";
 					$blist[] = "mod24u_ssl";
+					$blist[] = "mod24u_session";
 					$blist[] = "mod24u_suphp";
 					$blist[] = "mod24u_ruid2";
 					$blist[] = "mod24u_fcgid";
@@ -110,10 +118,14 @@ class web__ extends lxDriverClass
 			} elseif ($a === 'hiawatha') {
 				// no action
 			}
-
+		/*
 			foreach ($blist as $k => $v) {
 				setRpmInstalled($v);
 			}
+		*/
+			$p = implode(" ", $blist);
+
+			exec("yum install {$p} -y");
 
 			self::setWebserverInstall($a);
 			self::setBaseWebConfig($a);
