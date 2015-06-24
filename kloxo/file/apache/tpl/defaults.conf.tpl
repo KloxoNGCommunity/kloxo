@@ -2,8 +2,10 @@
 
 <?php
 
+$srcpath = "/opt/configs/apache/etc";
 $srcconfpath = "/opt/configs/apache/etc/conf";
 $srcconfdpath = "/opt/configs/apache/etc/conf.d";
+$trgtpath = "/etc";
 $trgtconfpath = "/etc/httpd/conf";
 $trgtconfdpath = "/etc/httpd/conf.d";
 
@@ -94,6 +96,12 @@ foreach ($typelist as $k => $v) {
 			copy("{$srcconfdpath}/_inactive_.conf", "{$trgtconfdpath}/{$v}.conf");
 		}
 	}
+}
+
+if (file_exists("{$srcpath}/custom.suphp.conf")) {
+	copy("{$srcpath}/custom.suphp.conf", "{$trgtpath}/suphp.conf");
+} else {
+	copy("{$srcpath}/suphp.conf", "{$trgtpath}/suphp.conf");
 }
 
 foreach ($certnamelist as $ip => $certname) {
@@ -290,8 +298,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>

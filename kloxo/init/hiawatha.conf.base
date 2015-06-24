@@ -39,13 +39,14 @@ CGIhandler = /usr/bin/ssi-cgi:shtml
 ExecuteCGI = yes
 WaitForCGI = yes
 
-MinSSLversion = TLS1.0
+MinTLSversion = TLS1.0
 
 FastCGIserver {
 	FastCGIid = PHP5
 	#ConnectTo = 127.0.0.1:39000
 	ConnectTo = /usr/local/lxlabs/kloxo/init/kloxo-phpcgi.sock
 	Extension = php
+	SessionTimeout = 3600
 }
 
 MimetypeConfig = hiawatha-mimetype.conf
@@ -103,7 +104,7 @@ Binding {
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
 	MaxUploadSize = 2000
 	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
-	SSLcertFile = /usr/local/lxlabs/kloxo/etc/program.pem
+	TLScertFile = /usr/local/lxlabs/kloxo/etc/program.pem
 }
 
 ## CF - no need for Virtual Host, all default to this:

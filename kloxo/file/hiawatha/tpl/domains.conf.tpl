@@ -219,7 +219,7 @@ VirtualHost {
 <?php
 			if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -228,7 +228,7 @@ VirtualHost {
 				}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 			}
 ?>
@@ -250,8 +250,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -273,7 +273,7 @@ VirtualHost {
 <?php
 			if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -282,7 +282,7 @@ VirtualHost {
 				}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 			}
 ?>
@@ -305,8 +305,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -331,7 +331,7 @@ VirtualHost {
 <?php
 			if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -340,7 +340,7 @@ VirtualHost {
 				}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 			}
 ?>
@@ -359,7 +359,7 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -374,8 +374,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -400,7 +400,7 @@ VirtualHost {
 <?php
 				if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 					if (file_exists("{$certname}.ca")) {
 ?>
@@ -409,7 +409,7 @@ VirtualHost {
 					}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 				}
 ?>
@@ -441,7 +441,7 @@ VirtualHost {
 <?php
 				if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 					if (file_exists("{$certname}.ca")) {
 ?>
@@ -450,7 +450,7 @@ VirtualHost {
 					}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 				}
 ?>
@@ -469,7 +469,7 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -484,8 +484,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 				} else {
 ?>
@@ -512,7 +512,7 @@ VirtualHost {
 		if ($count !== 0) {
 			if ($enablessl) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -521,7 +521,7 @@ VirtualHost {
 				}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 			}
 		}
@@ -617,7 +617,7 @@ VirtualHost {
 
 	UserWebsites = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -632,8 +632,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 		} else {
 			if ($enablephp) {
@@ -688,7 +688,7 @@ VirtualHost {
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -697,7 +697,7 @@ VirtualHost {
 							}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 						}
 					}
@@ -720,7 +720,7 @@ VirtualHost {
 
 	UserWebsites = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -735,8 +735,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -767,7 +767,7 @@ VirtualHost {
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -776,7 +776,7 @@ VirtualHost {
 							}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 						}
 					}
@@ -799,7 +799,7 @@ VirtualHost {
 
 	UserWebsites = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -814,8 +814,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -849,7 +849,7 @@ VirtualHost {
 <?php
 					if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
@@ -858,7 +858,7 @@ VirtualHost {
 						}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 					}
 ?>
@@ -881,8 +881,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -908,7 +908,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -917,7 +917,7 @@ VirtualHost {
 							}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 						}
 ?>
@@ -934,7 +934,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -949,8 +949,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -975,7 +975,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -984,7 +984,7 @@ VirtualHost {
 							}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 						}
 ?>
@@ -1003,7 +1003,7 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -1018,8 +1018,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1060,7 +1060,7 @@ VirtualHost {
 <?php
 					if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
@@ -1069,7 +1069,7 @@ VirtualHost {
 						}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 					}
 ?>
@@ -1088,7 +1088,7 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -1103,8 +1103,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -1130,7 +1130,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -1139,7 +1139,7 @@ VirtualHost {
 							}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 						}
 ?>
@@ -1158,7 +1158,7 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -1173,8 +1173,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1199,7 +1199,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -1208,7 +1208,7 @@ VirtualHost {
 							}
 ?>
 	SecureURL = no
-	#MinSSLversion = TLS1.1
+	#MinTLSversion = TLS1.0
 <?php
 						}
 ?>
@@ -1227,7 +1227,7 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 3600
+	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
 	ErrorHandler = 401:/error/401.html
@@ -1242,8 +1242,8 @@ VirtualHost {
 ?>
 
 	IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 						} else {
 ?>

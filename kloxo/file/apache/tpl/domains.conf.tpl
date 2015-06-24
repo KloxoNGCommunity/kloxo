@@ -215,8 +215,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
@@ -239,8 +239,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -325,8 +326,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake
 		<Files "cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
@@ -349,8 +350,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -475,8 +477,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
@@ -499,8 +501,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -668,8 +671,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /<?php echo $domainname; ?>.<?php echo $count; ?>fake
 		<Files "<?php echo $domainname; ?>.<?php echo $count; ?>fake">
@@ -692,8 +695,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -932,8 +936,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 		<Files "<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
@@ -956,8 +960,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -1102,8 +1107,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /webmailwebmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
@@ -1126,8 +1131,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -1252,8 +1258,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
@@ -1276,8 +1282,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -1377,8 +1384,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
@@ -1401,8 +1408,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>
@@ -1527,8 +1535,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfModule mod_fastcgi.c>
 		Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 		AddType application/x-httpd-fastphp .php
 		Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
 		<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
@@ -1551,8 +1559,9 @@ foreach ($certnamelist as $ip => $certname) {
 			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 		</FilesMatch>
 		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=120
-			ProxySet enablereuse=on
+			ProxySet timeout=600
+			ProxySet connectiontimeout=300
+			#ProxySet enablereuse=on
 			ProxySet max=25
 		</Proxy>
 	</IfModule>

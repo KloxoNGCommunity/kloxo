@@ -93,6 +93,7 @@ FastCGIserver {
 
 	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $user; ?>.sock
 	Extension = php
+	SessionTimeout = 600
 }
 <?php
 }
@@ -102,6 +103,7 @@ FastCGIserver {
 	FastCGIid = php_for_apache
 	ConnectTo = /opt/configs/php-fpm/sock/apache.sock
 	Extension = php
+	SessionTimeout = 600
 }
 
 CGIhandler = /usr/bin/perl:pl
@@ -124,7 +126,7 @@ Binding {
 
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 120
-	TimeForRequest = 480
+	TimeForRequest = 600
 	MaxRequestSize = 102400
 	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
 	MaxUploadSize = 2000
@@ -132,7 +134,7 @@ Binding {
 		if ($count !== 0) {
 ?>
 
-	SSLcertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 			if (file_exists("{$certname}.ca")) {
 ?>
@@ -158,7 +160,7 @@ EnablePathInfo = yes
 UseGZfile = yes
 FollowSymlinks = no
 
-TimeForCGI = 3600
+TimeForCGI = 600
 
 Alias = /error:/home/kloxo/httpd/error
 ErrorHandler = 401:/error/401.html
@@ -172,8 +174,8 @@ ErrorHandler = 503:/error/503.html
 
 IgnoreDotHiawatha = yes
 UseToolkit = block_shellshock, findindexfile
-#ReverseProxy ^/.* http://127.0.0.1:30080/ 90 keep-alive
-ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 90 keep-alive
+#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
+ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
 		} else {
 ?>
