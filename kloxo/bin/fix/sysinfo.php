@@ -25,7 +25,7 @@ $out = null;
 
 $phpbranch = getRpmBranchInstalled('php');
 if ($phpbranch) {
-	exec("rpm -q {$phpbranch}", $out);
+	exec("rpm -q {$phpbranch}-cli", $out);
 	$appphp = trim($out[0]);
 } else {
 	$appphp = '--uninstalled--';
@@ -83,6 +83,8 @@ if ($hiawathabranch) {
 	exec("chkconfig --list|grep 'hiawatha'|grep ':on'", $out);
 
 	if ($out[0] !== null) {
+		// no action
+	} else {
 	//	$apphiawatha .= " (also as webserver)";
 		$apphiawatha = "--unused--";
 	}
