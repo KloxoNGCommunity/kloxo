@@ -37,6 +37,7 @@
 	$end   = "    ## end ip-address";
 
 	exec("sed '/{$begin}/,/{$end}/d' {$file} > {$file}2");
-	exec("sed -i 's/^server:/server:\\n{$begin}\\n{$text}{$end}\\n/g' {$file}2");
+	// MR -- need without \\n in after {$end} 
+	exec("sed -i 's/^server:/server:\\n{$begin}\\n{$text}{$end}/g' {$file}2");
 	exec("mv -f {$file}2 {$file}");
 ?>
