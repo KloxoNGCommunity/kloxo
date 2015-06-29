@@ -6,6 +6,8 @@
 	if (!file_exists("/var/log/named")) {
 		exec("mkdir -p /var/log/named");
 	}
+	
+	exec("chown named:named /var/log/named; chmod 755 /var/log/named");
 
 	exec("sed -i 's/rndckey/rndc-key/' /etc/rndc.key");
 
