@@ -106,6 +106,10 @@ if (!file_exists("/var/log/php-fpm")) {
 	mkdir("/var/log/php-fpm",0755);
 }
 
+if (!file_exists("/var/lib/php/session")) {
+	mkdir("/var/lib/php/session");
+}
+
 chmod("/var/lib/php/session", 0777);
 chown("/var/lib/php/session", "apache");
 

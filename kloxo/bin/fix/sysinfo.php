@@ -154,7 +154,7 @@ if (!isset($phptype)) {
 	$phptype = '[unknown]';
 }
 
-$seddata = 's/custom_name=\"\(.*\)\"/\1/';
+$seddata = 's/^custom_name=\"\(.*\)\"/\1/';
 exec("cat /etc/rc.d/init.d/php-fpm|grep 'custom_name='|sed -e '" . $seddata . "'", $out);
 
 if ($out[0] !== null) {

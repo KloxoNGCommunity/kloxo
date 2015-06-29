@@ -42,7 +42,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	
 	foreach ($mycnfs as &$mycnf) {
 		if (file_exists($mycnf)) {
-			@exec("sed -i 's/skip/\;###123###skip/g' {$mycnf}");
+			@exec("sed -i 's/^skip/\;###123###skip/g' {$mycnf}");
 		}
 	}
 
@@ -133,7 +133,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 	//--- the second - back to 'original' config and restart mysql
 	foreach ($mycnfs as &$mycnf) {
 		if (file_exists($mycnf)) {
-			@exec("sed -i 's/\;###123###skip/skip/g' {$mycnf}");
+			@exec("sed -i 's/^\;###123###skip/skip/g' {$mycnf}");
 		}
 	}
 
@@ -168,7 +168,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 
 				if ($engine === 'innodb')  {
 					if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
-						@exec("sed -i 's/plugin-load-add/#plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
+						@exec("sed -i 's/^plugin-load-add/#plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
 					}
 
 					$string_source = "[mysqld]\n";
@@ -177,7 +177,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 				} else {
 					if ($engine === 'myisam') {
 						if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
-							@exec("sed -i 's/plugin-load-add/#plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
+							@exec("sed -i 's/^plugin-load-add/#plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
 						}
 					} elseif ($engine === 'tokudb')  {
 						if (file_exists("/etc/my.cnf.d/tokudb.cnf")) {
@@ -193,7 +193,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 										"' >>  /etc/rc.d/rc.local");
 							}
 
-							@exec("sed -i 's/#plugin-load-add/plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
+							@exec("sed -i 's/^#plugin-load-add/plugin-load-add/g' /etc/my.cnf.d/tokudb.cnf");
 						}
 					}
 

@@ -153,7 +153,8 @@ function os_get_allips()
 		}
 	}
 
-	$iplist = getIPs_from_ifcfg();
+//	$iplist = getIPs_from_ifcfg();
+	$iplist = getIPs_from_ipaddr();
 
 	// MR -- change spec from substitution to complementary
 	// and then remove duplicate array value
@@ -163,17 +164,12 @@ function os_get_allips()
 	return $iplist;
 }
 
-// Bug #797 - Failed identify ip on apache
-// MR - taken from http://stackoverflow.com/questions/1814611/how-do-i-find-my-servers-ip-address-in-phpcli
-// and modified for except 127.0.0.1
-function getIPs_from_ifconfig($withV6 = true)
+function getIPs_from_ipaddr($withV6 = true)
 {
-	preg_match_all('/inet'.($withV6 ? '6?' : '').' addr: ?([^ ]+)/', `ifconfig`, $ips);
-
-	$a = $ips[1];
+	exec("ip addr|grep 'inet'|grep 'scope global'|awk '{print $2}'|awk -F '/' '{print $1}'" . ($withV6 ? "" : "|grep -v ':'"), $a);
 
 	foreach($a as $k => $v) {
-		if ($v == '127.0.0.1') {
+		if (($v === '127.0.0.1') || ($v === '::1')) {
 			unset($a[$k]);
 		}
 	}

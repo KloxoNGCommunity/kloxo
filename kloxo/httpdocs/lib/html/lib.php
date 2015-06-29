@@ -3206,9 +3206,9 @@ function createDatabaseInterfaceTemplate($nolog = null)
 {
 	log_cleanup("- Create database interface template (Forced)", $nolog);
 
-//	exec("mysql -u kloxo -p`cat ../etc/conf/kloxo.pass` kloxo < ../file/interface/interface_template.dump");
+	exec("mysql -u kloxo -p`cat ../etc/conf/kloxo.pass` kloxo < ../file/interface/interface_template.dump");
 
-	exec("sh /script/fix-missing-admin");
+//	exec("sh /script/fix-missing-admin");
 }
 
 function callInChild($func, $arglist)

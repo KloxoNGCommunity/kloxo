@@ -7,6 +7,7 @@
 
 	$text = '';
 
+	// MR -- this is IPs from 'A record' of dns
 	if (array_keys($ips)) {
 		foreach ($ips as $k => $v) {
 			$text .= "    notify: {$v} NOKEY\n";
@@ -19,4 +20,23 @@
 	}
 
 	file_put_contents($file, $text);
+
+	$file = "/etc/nsd/nsd.conf";
+
+	$text = '';
+
+	// MR -- this is IPs from 'ip addr' (current server IPs)
+	foreach ($serverips as $k => $v) {
+		// MR -- IPv6 still not work?
+	//	if (stripos($v, ':')) { continue; }
+
+		$text .= "    ip-address: $v\\n";
+	}
+
+	$begin = "    ## begin ip-address";
+	$end   = "    ## end ip-address";
+
+	exec("sed '/{$begin}/,/{$end}/d' {$file} > {$file}2");
+	exec("sed -i 's/^server:/server:\\n{$begin}\\n{$text}{$end}\\n/g' {$file}2");
+	exec("mv -f {$file}2 {$file}");
 ?>

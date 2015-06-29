@@ -1,0 +1,23 @@
+#!/bin/sh
+
+rdir="/usr/local/lxlabs/kloxo/httpdocs/thirdparty/phpMyAdmin"
+
+cd ${rdir}
+
+if [ "${1}" == "" ] ; then
+	echo
+	echo "Need version info in format '${0} <version>'"
+	echo
+else
+	wget https://files.phpmyadmin.net/phpMyAdmin/${1}/phpMyAdmin-${1}-all-languages.zip
+	unzip -o phpMyAdmin-${1}-all-languages.zip
+	cp -rf ${rdir}/phpMyAdmin-${1}-all-languages/* ${rdir}/
+	rm -rf ${rdir}/phpMyAdmin-${1}-all-languages
+	rm -f phpMyAdmin-${1}-all-languages.zip*
+
+	chown -R lxlabs:lxlabs ${rdir}
+
+	echo
+	echo "* phpMyAdmin update - finish process"
+	echo
+fi

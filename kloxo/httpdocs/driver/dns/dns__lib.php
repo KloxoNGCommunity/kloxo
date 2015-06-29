@@ -154,6 +154,8 @@ class dns__ extends lxDriverClass
 	//	$input['ips'] = array_diff($ip_dns, $ip_hostname);
 		$input['ips'] = $ip_dns;
 
+		$input['serverips'] = $this->getServerIps();
+
 		$input['rootpass'] = slave_get_db_pass();
 
 		$dnsdrvlist = getAllDnsDriverList();
@@ -191,6 +193,7 @@ class dns__ extends lxDriverClass
 	*/
 
 		$input['ips'] = $this->getIps();
+		$input['serverips'] = $this->getServerIps();
 
 		$input['rootpass'] = slave_get_db_pass();
 
@@ -212,6 +215,11 @@ class dns__ extends lxDriverClass
 		$ret = rl_exec_get('localhost', 'localhost', 'getIpfromARecord', array($this->main->syncserver, $nobase));
 
 		return $ret;
+	}
+
+	function getServerIps()
+	{
+		return os_get_allips();
 	}
 
 	function getMasterList()

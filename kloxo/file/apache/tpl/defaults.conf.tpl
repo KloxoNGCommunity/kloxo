@@ -21,6 +21,8 @@ foreach (glob("{$trgtconfdpath}/mod_*.conf") as $file)
 	rename($file, $newfile);
 }
 
+$mpmlist = array('event', 'worker', 'itk');
+
 exec("httpd -v|grep 'version:'|grep '/2.4.'", $out);
 
 if ($out[0] !== null) {
@@ -29,22 +31,28 @@ if ($out[0] !== null) {
 	// exec("sed -i 's/^#LoadModule/LoadModule/' /etc/httpd/conf.modules.d/00-optional.conf");
 	// MR -- disable deflate module; auto-enable by mod-pagespeed
 	exec("sed -i 's/^LoadModule deflate_module/#LoadModule deflate_module/' /etc/httpd/conf.modules.d/00-base.conf");
-	// MR -- always use event mpm; prefork not work because need 'special' php
-	exec("sed -i 's/^LoadModule mpm_prefork_module/#LoadModule mpm_prefork_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
-	exec("sed -i 's/^#LoadModule mpm_event_module/LoadModule mpm_event_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
+	// MR -- disabled all first; prefork not work because need 'special' php
+	exec("sed -i 's/^LoadModule mpm_/#LoadModule mpm_/' /etc/httpd/conf.modules.d/00-mpm.conf");
+
+	foreach ($mpmlist as $k => $v) {
+		if (strpos($phptype, $v) !== false) {
+			exec("sed -i 's/^#LoadModule mpm_{$v}_module/LoadModule mpm_{$v}_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
+			break;
+		}
+	}
+
 	// MR -- make blank content
 	exec("echo '' > /etc/sysconfig/httpd");
 } else {
 	$httptype="httpd";
 
-	$mpmlist = array('event', 'worker', 'itk');
-
 	// as 'httpd' as default mpm
 	exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
 
 	foreach ($mpmlist as $k => $v) {
-		if (strpos($phptype, "{$v}") !== false) {
+		if (strpos($phptype, $v) !== false) {
 			exec("echo 'HTTPD=/usr/sbin/httpd.{$v}' > /etc/sysconfig/httpd");
+			break;
 		}
 	}
 }

@@ -441,19 +441,6 @@ class web__ extends lxDriverClass
 		return $users;
 	}
 
-	static function getAllIps()
-	{
-		$iplist = os_get_allips();
-
-		$list = array();
-
-		foreach ($iplist as $ip) {
-			$list[] = $ip;
-		}
-
-		return $list;
-	}
-
 	function getWebmailInfo($for)
 	{
 		$domainname = $this->getDomainname();
