@@ -309,16 +309,16 @@ class Ipaddress__Redhat extends LxDriverclass
 		}
 		$list['NETMASK']    =  $out[0];
 		$out = null;
-		exec("echo '{$vifconfig}' | grep -w inet | awk '{print $2}' | cut -d \":\" -f 2", $out);
+		exec("echo '{$vip}' | grep 'inet' | grep 'scope global' | grep '{$devname}' | awk '{print $2}' | awk -F '/' '{print $1}'", $out);
 		$list['IPADDR']  = $out[0];
 		$out = null;
-		exec("echo '{$vip}' | grep -w inet | grep {$devname} | awk '{ print $2}' | cut -d \"/\" -f 2", $out);
+		exec("echo '{$vip}' | grep 'inet' | grep 'scope global' | grep '{$devname}' | awk '{print $2}' | awk -F '/' '{print $2}'", $out);
 		$list['IPPREFIX']   =  $out[0];
 		$out = null;
-		exec("echo '{$vifconfig}' | grep -w inet6 | awk '{ print $3 }' | cut -d \"/\" -f 1", $out);
+		exec("echo '{$vip}' | grep 'inet6' | grep 'scope global' | grep '{$devname}' | awk '{print $2}' | awk -F '/' '{print $1}'", $out);
 		$list['IP6ADDR'] =  $out[0];
 		$out = null;
-		exec("echo '{$vifconfig}' | grep -w inet6 | awk '{ print $3 }' | cut -d \"/\" -f 2", $out);
+		exec("echo '{$vip}' | grep 'inet6' | grep 'scope global' | grep '{$devname}' | awk '{print $2}' | awk -F '/' '{print $2}'", $out);
 		$list['IP6PREFIX']  =  $out[0];
 		$out = null;
 		// MR -- exception for OpenVZ

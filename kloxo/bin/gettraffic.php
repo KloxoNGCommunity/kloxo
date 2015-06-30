@@ -120,7 +120,7 @@ function filltraffictable()
 			if ($newtime - $oldtime < 4 * 60 * 60) { continue; }
 			$o = @ strftime("%c", $oldtime);
 			$n = @ strftime("%c", $newtime);
-			print("\n\n$o  to ... $n\n\n"); 
+			print("\n\n$o to $n\n\n"); 
 			findtraffic($weblist, $mmaillist, $globaldomlist, $oldtime, $newtime);
 			$laccess->timestamp = $newtime;
 			$laccess->setUpdateSubaction();

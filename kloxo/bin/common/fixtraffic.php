@@ -19,7 +19,7 @@ if (isset($list['class'])) {
 if (isset($list['day'])) {
 	$day = $list['day'];
 } else {
-	print("Day not set... Defaulting to $day\n");
+	print("Day not set. Defaulting to $day\n");
 }
 
 $oldtime = time() - $day * 24 * 3600;
