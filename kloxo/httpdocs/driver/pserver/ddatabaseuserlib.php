@@ -66,7 +66,7 @@ class databaseusercorelib extends lxdb
 		$nname = $this->username;
 		
 		if (exists_in_db($parent->__masterserver, 'mysqldb', $nname)) {
-			throw new lxException($login->getThrow('database_user_already_exists'), '', $nname);
+		//	throw new lxException($login->getThrow('database_user_already_exists'), '', $nname);
 		}
 
 	}
