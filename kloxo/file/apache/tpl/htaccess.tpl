@@ -5,12 +5,12 @@
 ###   then remove '#' from '#<FilesMatch', '#</FilesMatch>' and one of '#SetHandler'
 
 #<FilesMatch \.php$>
-	#SetHandler x-httpd-php   .php
-	#SetHandler x-httpd-php52 .php
-	#SetHandler x-httpd-php53 .php
-	#SetHandler x-httpd-php54 .php
-	#SetHandler x-httpd-php55 .php
-	#SetHandler x-httpd-php56 .php
+	#SetHandler x-httpd-php
+	#SetHandler x-httpd-php52
+	#SetHandler x-httpd-php53
+	#SetHandler x-httpd-php54
+	#SetHandler x-httpd-php55
+	#SetHandler x-httpd-php56
 #</FilesMatch>
 
 ### end content - please not remove this line

@@ -10,6 +10,7 @@ if [ "${1}" == "" ] ; then
 	echo
 else
 	wget https://files.phpmyadmin.net/phpMyAdmin/${1}/phpMyAdmin-${1}-all-languages.zip
+	#unzip -o phpMyAdmin-${1}-all-languages.zip phpMyAdmin-${1}-all-languages/ ${rdir}/
 	unzip -o phpMyAdmin-${1}-all-languages.zip
 	cp -rf ${rdir}/phpMyAdmin-${1}-all-languages/* ${rdir}/
 	rm -rf ${rdir}/phpMyAdmin-${1}-all-languages

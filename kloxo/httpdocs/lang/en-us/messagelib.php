@@ -562,7 +562,7 @@ $__information['webserver_config'] =
 	"<ul>".
 		"<li>Add in .htaccess for using php 5.2 (change php52 to php53 if want using php 5.3 and so on):<br/>".
 		"&nbsp;&nbsp;&nbsp;&nbsp;&lt;FilesMatch \.php$&gt;<br/>".
-		"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetHandler x-httpd-php52 .php<br/>".
+		"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetHandler x-httpd-php52<br/>".
 		"&nbsp;&nbsp;&nbsp;&nbsp;&lt;/FileMatch&gt;".
 		"<li>If select <b>suphp/suphp_worker/suphp_event</b> and then select 'fix-ALL' to prevent '500 Internal server error'</li>".
 	"</ul></p>";

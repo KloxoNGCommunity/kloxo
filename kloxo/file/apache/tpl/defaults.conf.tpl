@@ -9,6 +9,9 @@ $trgtpath = "/etc";
 $trgtconfpath = "/etc/httpd/conf";
 $trgtconfdpath = "/etc/httpd/conf.d";
 
+// MR -- fix error 'Directory / is not owned by admin' for suphp
+exec("chown root.root /");
+
 // MR -- mod_ruid2 from epel use mod_ruid2.conf
 foreach (glob("{$trgtconfdpath}/mod_*.conf") as $file)
 {
