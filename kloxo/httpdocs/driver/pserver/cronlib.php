@@ -196,9 +196,7 @@ class Cron extends Lxdb
 
 	function PreUpdate($subaction, $param)
 	{
-		xprint($param);
 	}
-
 
 	function update($subaction, $param)
 	{
@@ -239,19 +237,20 @@ class Cron extends Lxdb
 			return $vlist;
 		}
 
-		$this->convertBack();
+	//	$this->convertBack();
+
 		$vlist["username"] = array('M', $this->username);
 
 		if ($parent->isClass('pserver') || $parent->getClientParentO()->priv->isOn('cron_minute_flag')) {
-			$vlist['minute'] = array('U', cron::$minutelist);
+			$vlist['minute'] = array('U', self::$minutelist);
 		} else {
 			$vlist['minute'] = array('M', $this->minute[0]);
 		}
 
-		$vlist["hour"] = array('U', cron::$hourlist);
-		$vlist["ddate"] = array('U', cron::$ddatelist);
-		$vlist["weekday"] = array('U', cron::$weekdaylist);
-		$vlist["month"] = array('U', cron::$monthlist);
+		$vlist["hour"] = array('U', self::$hourlist);
+		$vlist["ddate"] = array('U', self::$ddatelist);
+		$vlist["weekday"] = array('U', self::$weekdaylist);
+		$vlist["month"] = array('U', self::$monthlist);
 		$vlist["command"] = null;
 
 		return $vlist;
@@ -285,16 +284,16 @@ class Cron extends Lxdb
 			$vlist["username"] = array('M', $parent->username);
 
 			if ($parent->isClass('pserver') || $parent->priv->isOn('cron_minute_flag')) {
-				$vlist['minute'] = array('U', cron::$minutelist);
+				$vlist['minute'] = array('U', self::$minutelist);
 			} else {
 				$vlist['minute'] = array('m', 0);
 			}
 
-			$vlist["hour"] = array('U', cron::$hourlist);
+			$vlist["hour"] = array('U', self::$hourlist);
 
-			$vlist["ddate"] = array('U', cron::$ddatelist);
-			$vlist["weekday"] = array('U', cron::$weekdaylist);
-			$vlist["month"] = array('U', cron::$monthlist);
+			$vlist["ddate"] = array('U', self::$ddatelist);
+			$vlist["weekday"] = array('U', self::$weekdaylist);
+			$vlist["month"] = array('U', self::$monthlist);
 		}
 
 		$vlist["command"] = null;
@@ -319,20 +318,20 @@ class Cron extends Lxdb
 
 	function convertAll()
 	{
-		$this->month = cron::convertCronList($this->month, cron::$monthlist);
-		$this->weekday = cron::convertCronList($this->weekday, cron::$weekdaylist);
-		$this->ddate = cron::convertCronList($this->ddate, null);
-		$this->hour = cron::convertCronList($this->hour, null);
-		$this->minute = cron::convertCronList($this->minute, null);
+		$this->month = self::convertCronList($this->month, self::$monthlist);
+		$this->weekday = self::convertCronList($this->weekday, self::$weekdaylist);
+		$this->ddate = self::convertCronList($this->ddate, null);
+		$this->hour = self::convertCronList($this->hour, null);
+		$this->minute = self::convertCronList($this->minute, null);
 	}
 
 	function convertBack()
 	{
-		$this->month = cron::convertBackCronList($this->month, cron::$monthlist);
-		$this->weekday = cron::convertBackCronList($this->weekday, cron::$weekdaylist);
-		$this->ddate = cron::convertBackCronList($this->ddate, null);
-		$this->hour = cron::convertBackCronList($this->hour, null);
-		$this->minute = cron::convertBackCronList($this->minute, null);
+		$this->month = self::convertBackCronList($this->month, self::$monthlist);
+		$this->weekday = self::convertBackCronList($this->weekday, self::$weekdaylist);
+		$this->ddate = self::convertBackCronList($this->ddate, null);
+		$this->hour = self::convertBackCronList($this->hour, null);
+		$this->minute = self::convertBackCronList($this->minute, null);
 	}
 
 	static function convertBackCronList($list, $staticlist)
@@ -389,7 +388,7 @@ class Cron extends Lxdb
 
 	static function convertToAllIfExists($part)
 	{
-		if ((isset($part)) && (stripos('--all--', $part) !== false)) {
+		if ((isset($part)) && (stripos($part, '--all--') !== false)) {
 			$part = '--all--';
 		}
 
@@ -410,17 +409,8 @@ class Cron extends Lxdb
 			}
 		}
 
-
-
 		$param['username'] = $parent->username;
-	/*
-	//	if ($parent->is__table('pserver')) {
-		if ($parent->getClass() === 'pserver') {
-			$param['syncserver'] = $parent->nname;
-		} else {
-			$param['syncserver'] = $parent->syncserver;
-		}
-	*/
+
 		$parambase = implode("_", array($param['username'], $param['command']));
 		$parambase = fix_nname_to_be_variable($parambase);
 		$cronlist = $parent->getList('cron');
@@ -470,6 +460,7 @@ class Cron extends Lxdb
 
 		if (trim($this->$var) === "") {
 			throw new lxException($login->getThrow("can_not_be_null"));
+			return;
 		}
 	}
 
