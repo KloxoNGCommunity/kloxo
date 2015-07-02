@@ -11,6 +11,7 @@ if [ "$1" == "httpd24" ] ; then
 			service httpd stop
 			yum replace httpd --replace-with=httpd24u -y
 			yum replace mod_suphp --replace-with=mod24u_suphp -y
+			yum install mod24u_session -y
 			chkconfig httpd on
 		fi
 	else
@@ -32,6 +33,7 @@ elif [ "$1" == "httpd" ] ; then
 			service httpd stop
 			yum replace httpd24u --replace-with=httpd -y
 			yum replace mod24u_suphp --replace-with=mod_suphp -y
+			yum remove mod24u_session -y			
 			if [ "$(rpm -qa|grep 'mod24u_ruid2-')" != "" ] ; then
 				yum replace mod24u_ruid2 --replace-with=mod_ruid2 -y
 			fi

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+## run if found: ** Found 3 pre-existing rpmdb problem(s), 'yum check' output follows
+
+yum clean all
+rpm --rebuilddb
+yum update -y
+yum clean all
+yum reinstall glibc glibc-common libgcc -y
+yum upgrade -y
+yum install yum-utils -y
+package-cleanup --problems
+package-cleanup --dupes

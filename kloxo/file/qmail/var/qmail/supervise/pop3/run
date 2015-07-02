@@ -3,17 +3,19 @@
 PASSPROG="/home/vpopmail/bin/vchkpw"
 HOSTNAME=`hostname --fqdn`
 
-### MR -- incresing SOFTLIMITVAR if not enough (example: because 'login fail')
-if [ `uname -m` = 'x86_64' ] ; then
-	SOFTLIMITVAR="64000000"
+if [ -f /var/qmail/control/softlimit ] ; then
+	### MR -- softlimit file must content with '/usr/bin/softlimit -m SOFTLIMITVAR'
+	### where SOFTLIMITVAR is 72000000 for 64bit and 18000000
+	### Note: incresing SOFTLIMITVAR if not enough (example: because 'login fail')
+	SOFTLIMIT=$(cat /var/qmail/control/softlimit)
 else
-	SOFTLIMITVAR="16000000"
+	SOFTLIMIT=""
 fi
 
 IP=0
 PORT=110
 
-exec /usr/bin/softlimit -m $SOFTLIMITVAR \
+exec $SOFTLIMIT \
 	/usr/bin/tcpserver -v -R -c 200 $IP $PORT \
 	/var/qmail/bin/qmail-popup $HOSTNAME \
 	$PASSPROG /var/qmail/bin/qmail-pop3d Maildir 2>&1

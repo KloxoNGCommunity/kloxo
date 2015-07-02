@@ -6,20 +6,21 @@ rm -rf ./env/*;
 
 cat /etc/courier/imapd | /usr/bin/envconv
 
-### MR -- incresing SOFTLIMITVAR if not enough (example: because 'login fail')
-if [ `uname -m` = 'x86_64' ] ; then
-	SOFTLIMITVAR="64000000"
+if [ -f /var/qmail/control/softlimit ] ; then
+	### MR -- softlimit file must content with '/usr/bin/softlimit -m SOFTLIMITVAR'
+	### where SOFTLIMITVAR is 72000000 for 64bit and 18000000
+	### Note: incresing SOFTLIMITVAR if not enough (example: because 'login fail')
+	SOFTLIMIT=$(cat /var/qmail/control/softlimit)
 else
-	SOFTLIMITVAR="16000000"
+	SOFTLIMIT=""
 fi
 
 IP=0
 PORT=143
 
 exec /usr/bin/envdir ./env/ \
-	/usr/bin/softlimit -m $SOFTLIMITVAR \
+	$SOFTLIMIT \
 	/usr/bin/tcpserver -v -R -H -l $HOSTNAME $IP $PORT \
 	/usr/sbin/imaplogin \
 	/usr/bin/imapd Maildir 2>&1
-
 

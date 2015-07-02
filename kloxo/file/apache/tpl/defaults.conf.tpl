@@ -46,6 +46,8 @@ if ($out[0] !== null) {
 
 	// MR -- make blank content
 	exec("echo '' > /etc/sysconfig/httpd");
+
+	exec("sed -i 's/^LoadModule lbmethod_heartbeat_module/#LoadModule lbmethod_heartbeat_module/' /etc/httpd/conf.modules.d/00-proxy.conf");
 } else {
 	$httptype="httpd";
 
