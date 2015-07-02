@@ -30,8 +30,10 @@
 		// MR -- IPv6 still not work?
 	//	if (stripos($v, ':')) { continue; }
 
-		$text .= "    ip-address: $v\\n";
+		$text .= "    ip-address: $v@53\\n";
 	}
+
+	$text .= "    ip-address: 127.0.0.1@53\\n";
 
 	$begin = "    ## begin ip-address";
 	$end   = "    ## end ip-address";
