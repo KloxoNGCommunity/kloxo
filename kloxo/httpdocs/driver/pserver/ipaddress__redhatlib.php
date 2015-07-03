@@ -291,7 +291,14 @@ class Ipaddress__Redhat extends LxDriverclass
 		exec("/sbin/ifconfig {$devname}", $out);
 		$vifconfig = implode("\n", $out);
 		$out = null;
-		exec("/sbin/ip addr show | grep '{$devname}'", $out);
+
+		// MR -- use this trick to fix OpenVZ issue
+		if (stripos($devname, ':') !== false) {
+			exec("/sbin/ip addr show | grep '{$devname}'", $out);
+		} else {
+			exec("/sbin/ip addr show | grep '{$devname}'|grep -v '{$devname}:'", $out);
+		}
+
 		$vip = implode("\n", $out);
 		$out = null;
 
