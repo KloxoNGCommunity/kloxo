@@ -9,10 +9,16 @@ if [ "$1" == "httpd24" ] ; then
 			exit
 		else
 			service httpd stop
-			yum replace httpd --replace-with=httpd24u -y
-			yum replace mod_suphp --replace-with=mod24u_suphp -y
-			yum install mod24u_session -y
+			yum remove httpd-* mod_* -y
+			yum install httpd24u httpd24u-filesystem httpd24u-tools -y
+			yum install mod24u_suphp mod24u_ssl mod24u_session mod24u_ruid2 -y
+			cp -f /opt/configs/apache/etc/conf/httpd24.conf /etc/httpd/conf/httpd.conf
 			chkconfig httpd on
+
+			echo
+			echo "- Then, run 'sh /script/fixweb; sh /script/fixphp; sh /script/restart-web -y'"
+			echo
+			exit
 		fi
 	else
 		echo
@@ -31,14 +37,12 @@ elif [ "$1" == "httpd" ] ; then
 			exit
 		else
 			service httpd stop
-			yum replace httpd24u --replace-with=httpd -y
-			yum replace mod24u_suphp --replace-with=mod_suphp -y
-			yum remove mod24u_session -y			
-			if [ "$(rpm -qa|grep 'mod24u_ruid2-')" != "" ] ; then
-				yum replace mod24u_ruid2 --replace-with=mod_ruid2 -y
-			fi
-			yum install mod_ruid2 mod_fcgid mod_perl -y
+			yum remove httpd24u-* mod24u_* -y
+			yum install httpd httpd-tools -y
+			yum install mod_suphp mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_rpaf mod_define mod_perl -y
+			cp -f /opt/configs/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf
 			chkconfig httpd on
+
 			echo
 			echo "- Then, run 'sh /script/fixweb; sh /script/fixphp; sh /script/restart-web -y'"
 			echo
@@ -57,3 +61,4 @@ else
 	echo "- Execute: '$0 httpd' or '$0 httpd24'"
 	echo
 fi
+
