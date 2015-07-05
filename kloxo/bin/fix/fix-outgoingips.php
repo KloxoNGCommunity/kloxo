@@ -25,7 +25,14 @@ if (file_exists($flgfile)) {
 			foreach($dns->dns_record_a as $drec) {
 				if (($drec->ttype === 'a') && ($drec->hostname === '__base__')) {
 					print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
-					$t .= "{$dns->nname}:{$drec->param}\n";
+
+					if (stripos($drec->param, ":") !== false)) {
+						$ip = "[{$drec->param}]";
+					} else {
+						$ip = $drec->param;
+					}
+
+					$t .= "{$dns->nname}:{$ip}\n";
 				}
 			}
 

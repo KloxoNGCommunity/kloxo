@@ -275,48 +275,72 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
-		<Files "default.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !default.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $defaultdocroot; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
+			<Files "default.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !default.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $defaultdocroot; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $defaultdocroot; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Location "/">
 		Allow from all

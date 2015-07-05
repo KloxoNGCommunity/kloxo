@@ -203,48 +203,72 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		<Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $disablepath; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			<Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $disablepath; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $disablepath; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Location "/">
 		Allow from all
@@ -314,49 +338,73 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		<Files "cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $defaultdocroot; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $cpdocroot; ?>/cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			<Files "cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !cp.<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $defaultdocroot; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
 
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $defaultdocroot; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
+	
 	<Location "/">
 		Allow from all
 		# Options +Indexes +FollowSymlinks
@@ -465,48 +513,72 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		<Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $webmaildocroot; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			<Files "webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !webmail.<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $webmaildocroot; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $webmaildocroot; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Location "/">
 		Allow from all
@@ -655,54 +727,78 @@ foreach ($certnamelist as $ip => $certname) {
 		suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-		RMinUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+			RMinUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-	</IfModule>
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+		<IfModule itk.c>
+			AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-		<Location "/awstats/">
-		AssignUserId apache apache
-		</Location>
-	</IfModule>
+			<Location "/awstats/">
+				AssignUserId apache apache
+			</Location>
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		<Files "<?php echo $domainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !<?php echo $domainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $rootpath; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /<?php echo $domainname; ?>.<?php echo $count; ?>fake "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $rootpath; ?>/<?php echo $domainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			<Files "<?php echo $domainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !<?php echo $domainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $rootpath; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $rootpath; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Directory "<?php echo $rootpath; ?>/">
 		AllowOverride All
@@ -812,7 +908,9 @@ foreach ($certnamelist as $ip => $certname) {
 
 		if ($disablephp) {
 ?>
-	AddType application/x-httpd-php-source .php
+	<FilesMatch \.php$>
+		SetHandler application/x-httpd-php-source
+	</FilesMatch>
 <?php
 		}
 
@@ -920,54 +1018,78 @@ foreach ($certnamelist as $ip => $certname) {
 		suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-		RMinUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+			RMinUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-	</IfModule>
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+		<IfModule itk.c>
+			AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-		<Location "/awstats/">
-			AssignUserId apache apache
-		</Location>
-	</IfModule>
+			<Location "/awstats/">
+				AssignUserId apache apache
+			</Location>
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
-		<Files "<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $redirfullpath; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmport; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $redirfullpath; ?>/<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			<Files "<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $redirfullpath; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $redirfullpath; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Directory "<?php echo $redirfullpath; ?>/">
 		AllowOverride All
@@ -1097,48 +1219,72 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /webmailwebmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
-		<Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $disablepath; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /webmailwebmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
+			<Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $disablepath; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $disablepath; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Location "/">
 		Allow from all
@@ -1248,48 +1394,72 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
-		<Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $webmaildocroot; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
+			<Files "webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !webmail.<?php echo $parkdomainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $webmaildocroot; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $webmaildocroot; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Location "/">
 		Allow from all
@@ -1374,48 +1544,72 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
-		<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $disablepath; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $disablepath; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $disablepath; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $disablepath; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
 
 	<Location "/">
 		Allow from all
@@ -1525,49 +1719,73 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfModule mod_ruid2.c>
-		RMode config
-		RUidGid apache apache
-		RMinUidGid apache apache
-	</IfModule>
+	<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
 
-	<IfModule itk.c>
-		AssignUserId apache apache
-	</IfModule>
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
 
-	<IfModule mod_fastcgi.c>
-		Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
-		#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
-		FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
-		AddType application/x-httpd-fastphp .php
-		Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
-		<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
-			RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
-		</Files>
-	</IfModule>
-
-	<IfModule mod_fcgid.c>
-		<Directory "<?php echo $webmaildocroot; ?>/">
-			Options +ExecCGI
+		<IfModule mod_fastcgi.c>
+			Alias /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake"
+			#FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 300 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $webmaildocroot; ?>/webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 300 -pass-header Authorization
 			<FilesMatch \.php$>
-				SetHandler fcgid-script
+				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			FCGIWrapper /home/kloxo/client/php5.fcgi .php
-		</Directory>
-	</IfModule>
+			Action application/x-httpd-fastphp /webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			<Files "webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake">
+				RewriteCond %{REQUEST_URI} !webmail.<?php echo $redirdomainname; ?>.<?php echo $count; ?>fake
+			</Files>
+		</IfModule>
 
-	<IfModule mod_proxy_fcgi.c>
-		<FilesMatch \.php$>
-			SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
-		</FilesMatch>
-		<Proxy "fcgi://127.0.0.1/">
-			ProxySet timeout=600
-			ProxySet connectiontimeout=300
-			#ProxySet enablereuse=on
-			ProxySet max=25
-		</Proxy>
-	</IfModule>
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						<Directory "<?php echo $webmaildocroot; ?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>	
+		</IfModule>
+	</IfVersion>
 
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+			</FilesMatch>
+			<Proxy "fcgi://127.0.0.1/">
+				ProxySet timeout=600
+				ProxySet connectiontimeout=300
+				#ProxySet enablereuse=on
+				ProxySet max=25
+			</Proxy>
+		</IfModule>
+
+		<IfModule !mod_proxy_fcgi.c>
+			<IfModule mod_fcgid.c>
+				<Directory "<?php echo $webmaildocroot; ?>/">
+					Options +ExecCGI
+					<FilesMatch \.php$>
+						SetHandler fcgid-script
+					</FilesMatch>
+					FCGIWrapper /home/kloxo/client/php.fcgi .php
+				</Directory>
+			</IfModule>
+		</IfModule>
+	</IfVersion>
+	
 	<Location "/">
 		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch

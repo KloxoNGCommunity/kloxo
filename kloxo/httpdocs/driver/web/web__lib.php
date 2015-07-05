@@ -109,6 +109,8 @@ class web__ extends lxDriverClass
 					$blist[] = "mod_perl";
 					$blist[] = "perl-Taint-Runtime";
 				}
+
+				exec("sh /script/fixweb --target=defaults");
 			} elseif ($a === 'lighttpd') {
 				$blist[] = $a;
 				$blist[] = "{$a}-fastcgi";
@@ -1033,13 +1035,13 @@ class web__ extends lxDriverClass
 
 	static function setHttpdFcgid($input)
 	{
-		$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "php5.fcgi.tpl");
+		$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "php.fcgi.tpl");
 
 		$input['phpinipath'] = "/home/kloxo/client/{$input['user']}";
 
 		$input['phpcginame'] = (version_compare(getPhpVersion(), "5.3.0", "<")) ? 'php-cgi_pure' : 'php-cgi';
 
-		$tpltarget = "/home/kloxo/client/{$input['user']}/php5.fcgi";
+		$tpltarget = "/home/kloxo/client/{$input['user']}/php.fcgi";
 
 		$tpl = file_get_contents($tplsource);
 
@@ -1053,7 +1055,7 @@ class web__ extends lxDriverClass
 
 		$input['pathinipath'] = "/etc";
 
-		$tpltarget = "/home/kloxo/client/php5.fcgi";
+		$tpltarget = "/home/kloxo/client/php.fcgi";
 
 		$tpl = file_get_contents($tplsource);
 

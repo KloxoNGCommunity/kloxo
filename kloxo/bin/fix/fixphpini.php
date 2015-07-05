@@ -15,7 +15,7 @@ $list = $login->getList('client');
 
 $plist = $login->getList('pserver');
 
-log_cleanup("Fixing php.ini/php-fpm.conf/php5.fcgi/.htaccess", $nolog);
+log_cleanup("Fixing php.ini/php-fpm.conf/php.fcgi/.htaccess", $nolog);
 
 foreach($plist as $s) {
 	if ($client !== null) { continue; }
@@ -43,7 +43,7 @@ foreach($plist as $s) {
 	}
 
 	log_cleanup("- '/etc/php-fpm.d/default.conf' at '{$php->syncserver}'", $nolog);
-	log_cleanup("- '/home/kloxo/client/php5.fcgi' at '{$php->syncserver}'", $nolog);
+	log_cleanup("- '/home/kloxo/client/php.fcgi' at '{$php->syncserver}'", $nolog);
 
 	$php->was();
 }
@@ -85,7 +85,7 @@ foreach($list as $c) {
 			$php->setUpdateSubaction('ini_update');
 
 			log_cleanup("- '/home/kloxo/client/{$c->nname}/php.ini' at '{$php->syncserver}'", $nolog);
-			log_cleanup("- '/home/kloxo/client/{$c->nname}/php5.fcgi' at '{$php->syncserver}'", $nolog);
+			log_cleanup("- '/home/kloxo/client/{$c->nname}/php.fcgi' at '{$php->syncserver}'", $nolog);
 			log_cleanup("- '/home/kloxo/client/{$c->nname}/prefork.inc' at '{$php->syncserver}'", $nolog);
 			log_cleanup("- '/etc/php-fpm.d/{$c->nname}.conf' at '{$php->syncserver}'", $nolog);
 
