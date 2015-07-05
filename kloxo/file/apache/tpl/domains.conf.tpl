@@ -366,7 +366,7 @@ foreach ($certnamelist as $ip => $certname) {
 			<IfModule !mod_itk.c>
 				<IfModule !mod_fastcgi.c>
 					<IfModule mod_fcgid.c>
-						<Directory "<?php echo $defaultdocroot; ?>/">
+						<Directory "<?php echo $cpdocroot; ?>/">
 							Options +ExecCGI
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
@@ -394,7 +394,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 		<IfModule !mod_proxy_fcgi.c>
 			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $defaultdocroot; ?>/">
+				<Directory "<?php echo $cpdocroot; ?>/">
 					Options +ExecCGI
 					<FilesMatch \.php$>
 						SetHandler fcgid-script
