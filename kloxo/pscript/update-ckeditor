@@ -1,0 +1,23 @@
+#!/bin/sh
+
+rdir="/usr/local/lxlabs/kloxo/httpdocs/editor"
+
+cd ${rdir}
+
+if [ "${1}" == "" ] ; then
+	echo
+	echo "Need version info in format '${0} <version>'"
+	echo
+else
+	wget http://download.cksource.com/CKEditor/CKEditor/CKEditor%20${1}/ckeditor_${1}_full.zip
+	unzip -o ckeditor_${1}_full.zip
+	cp -rf ${rdir}/ckeditor/* ${rdir}/
+	rm -rf ${rdir}/ckeditor
+	rm -f ckeditor_${1}_full.zip*
+
+	chown -R lxlabs:lxlabs ${rdir}
+
+	echo
+	echo "* CKEditor update - finish process"
+	echo
+fi
