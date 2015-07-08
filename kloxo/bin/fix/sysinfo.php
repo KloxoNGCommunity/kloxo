@@ -80,10 +80,12 @@ if ($hiawathabranch) {
 	$apphiawatha = trim($out[0]);
 	$kloxohiawatha = $apphiawatha;
 
+	$out = null;
+
 	exec("chkconfig --list|grep 'hiawatha'|grep ':on'", $out);
 
 	if ($out[0] !== null) {
-		// no action
+		$apphiawatha = "--used--";
 	} else {
 	//	$apphiawatha .= " (also as webserver)";
 		$apphiawatha = "--unused--";

@@ -17,7 +17,7 @@
 ### OR
 
 ### 2. Using fcgid
-### - Copy between '#Options' to '#FCGIWrapper' and 
+### - Copy from '#Options' to '#FCGIWrapper' and 
 ###   then remove '#' one of from '#FCGIWrapper'
 
 #Options +ExecCGI
