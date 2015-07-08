@@ -1287,7 +1287,8 @@ STRIN;
 
 				$vlist['spam_driver'] = array('s', array('none', 'spamassassin', 'bogofilter'));
 
-				$vlist['no_fix_config'] = array('f', 'on', 'off');
+				// MR -- no needed under Kloxo-MR 7.0 because fix 'defaults' level
+			//	$vlist['no_fix_config'] = array('f', 'on', 'off');
 
 				$vlist['__v_updateall_button'] = array();
 
