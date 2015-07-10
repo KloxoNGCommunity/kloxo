@@ -9,15 +9,20 @@ if [ "${1}" == "" ] ; then
 	echo "Need version info in format '${0} <version>'"
 	echo
 else
-	wget http://download.cksource.com/CKEditor/CKEditor/CKEditor%20${1}/ckeditor_${1}_full.zip
-	unzip -o ckeditor_${1}_full.zip
-	cp -rf ${rdir}/ckeditor/* ${rdir}/
-	rm -rf ${rdir}/ckeditor
-	rm -f ckeditor_${1}_full.zip*
+	if [ -d ${rdir}/ckeditor ] ; then
+		wget http://download.cksource.com/CKEditor/CKEditor/CKEditor%20${1}/ckeditor_${1}_full.zip
+		unzip -o ckeditor_${1}_full.zip
+		mv -f ckeditor/config.js ckeditor/config.js.original
+		rm -f ckeditor_${1}_full.zip*
 
-	chown -R lxlabs:lxlabs ${rdir}
+		chown -R lxlabs:lxlabs ${rdir}
 
-	echo
-	echo "* CKEditor update - finish process"
-	echo
+		echo
+		echo "* CKEditor update - finish process"
+		echo
+	else
+		echo
+		echo "* Need install with 'yum install kloxomr-editor-ckeditor -y' first"
+		echo
+	fi
 fi
