@@ -22,11 +22,12 @@ foreach($list as $l) {
 	$l->write();
 }
 
+print("AllowedIp Sucessfully cleared for $class:$name\n");
+
 $list = $object->getList('blockedip');
 foreach($list as $l) {
 	$l->delete();
 	$l->write();
 }
 
-print("AllowedIp Sucessfully cleared for $class:$name\n");
-
+print("BlockedIp Sucessfully cleared for $class:$name\n");
