@@ -30,6 +30,7 @@ class Mmail extends Lxdb
 	static $__desc_enable_spf_flag = array("f", "", "enable_SPF");
 	static $__desc_spf_protocol = array("", "", "protocol_version_SPF");
 	static $__desc_text_spf_include = array("t", "", "additional_include_SPF_(one_per_line)");
+	static $__desc_text_spf_redirect = array("t", "", "additional_redirect_SPF_(one_per_line)");
 	static $__desc_text_spf_domain = array("t", "", "additional_domain_SPF_(one_per_line)");
 	static $__desc_enable_spf_autoip = array("f", "", "enable_autoip_SPF");
 	static $__desc_text_spf_ip = array("t", "", "additional_ip_SPF_(one_per_line)");
@@ -302,6 +303,16 @@ class Mmail extends Lxdb
 			}
 		}
 
+		$spfredirect = trim($param['text_spf_redirect']);
+
+		if ($spfredirect) {
+			$v = explode("\n", $spfredirect);
+			foreach ($v as $d) {
+				$d = trim($d);
+				$an .= " redirect:$d";
+			}
+		}
+
 		$nn = "txt__spf";
 
 		$spfproto = trim($param['spf_protocol']);
@@ -377,6 +388,8 @@ class Mmail extends Lxdb
 				$vlist['spf_protocol'] = null;
 
 				$vlist['text_spf_include'] = null;
+
+				$vlist['text_spf_redirect'] = null;
 
 				$vlist['text_spf_domain'] = null;
 				

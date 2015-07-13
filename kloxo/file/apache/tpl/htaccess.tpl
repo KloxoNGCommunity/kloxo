@@ -18,7 +18,7 @@
 
 ### 2. Using fcgid
 ### - Copy from '#Options' to '#FCGIWrapper' and 
-###   then remove '#' one of from '#FCGIWrapper'
+###   then remove '#' for one of '#FCGIWrapper'
 
 #Options +ExecCGI
 #<FilesMatch \.php$>
