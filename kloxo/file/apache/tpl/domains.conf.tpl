@@ -436,6 +436,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?php echo $domainname; ?>
 
 
+	DocumentRoot "<?php echo $webmaildocroot; ?>"
+
 	Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
 			if ($count !== 0) {
@@ -1131,6 +1133,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerAlias www.<?php echo $redirdomainname; ?>
 
 
+	DocumentRoot "<?php echo $rootpath; ?>"
+
 	Redirect / "<?php echo $protocol; ?><?php echo $domainname; ?>/"
 <?php
 					if ($count !== 0) {
@@ -1316,6 +1320,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerName webmail.<?php echo $parkdomainname; ?>
 
+
+	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
@@ -1641,6 +1647,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerName webmail.<?php echo $redirdomainname; ?>
 
+
+	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
