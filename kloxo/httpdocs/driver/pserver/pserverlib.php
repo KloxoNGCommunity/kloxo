@@ -345,7 +345,6 @@ class pserver extends pservercore {
 		
 	//	$alist['__title_nnn'] = 'Machine';
 		// MR -- move to under pserver
-	//	$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
 		$alist['__v_dialog_driver'] = "a=updateform&sa=update&o=driver";
 		$alist[] = "a=updateform&sa=reboot";
 		$alist[] = "a=updateform&sa=poweroff";
