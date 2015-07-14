@@ -4,6 +4,8 @@ function __cmd_desc_add($p, $parent = null)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
+	validate_cmd($p);
+
 	if (!$parent) {
 		if (isset($p['parent-class']) && isset($p['parent-name'])) {
 			$parent = new $p['parent-class'](null, 'localhost', $p['parent-name']);
@@ -37,11 +39,11 @@ function __cmd_desc_add($p, $parent = null)
 				$p['name'] = "$oldname$i";
 			}
 
-			$param = exec_class_method($class, "addCommand", $parent, $class, $p);
+			$p = exec_class_method($class, "addCommand", $parent, $class, $p);
 			unset($var['template-name']);
-			$param = lx_array_merge(array($param, $var));
+			$p = lx_array_merge(array($p, $var));
 
-			do_desc_add($parent, $class, $param);
+			do_desc_add($parent, $class, $p);
 		}
 
 		$parent->was();
@@ -49,11 +51,11 @@ function __cmd_desc_add($p, $parent = null)
 		exit;
 	}
 
-	$param = exec_class_method($class, "addCommand", $parent, $class, $p);
+	$p = exec_class_method($class, "addCommand", $parent, $class, $p);
 
 	unset($var['template-name']);
-	$param = lx_array_merge(array($param, $var));
-	do_desc_add($parent, $class, $param);
+	$p = lx_array_merge(array($p, $var));
+	do_desc_add($parent, $class, $p);
 
 	$parent->was();
 }
@@ -61,6 +63,8 @@ function __cmd_desc_add($p, $parent = null)
 function __cmd_desc_delete($p)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
+	validate_cmd($p);
 
 	$class = $p['class'];
 	$name = $p['name'];
@@ -84,6 +88,8 @@ function __cmd_desc_delete($p)
 function __cmd_desc_simplelist($p)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
+
+	validate_cmd($p);
 
 	ob_start();
 	$resource = $p['resource'];
@@ -153,7 +159,9 @@ function copy_nname_to_name(&$p)
 
 function __cmd_desc_update($p)
 {
-	global $gbl, $sgbl, $login, $ghtml; 
+	global $gbl, $sgbl, $login, $ghtml;
+
+	validate_cmd($p);
 
 	copy_nname_to_name($p);
 	$object = new $p['class'](null, 'localhost', $p['name']);
@@ -172,26 +180,28 @@ function __cmd_desc_update($p)
 
 	$tparam = $object->commandUpdate($subaction, $tparam);
 
-	$param = array();
+	$p = array();
 
 	foreach($tparam as $k => $v) {
 		$k = str_replace("-", "_s_", $k);
-		$param[$k] = $v;
+		$p[$k] = $v;
 	}
 
-	dprintr($param);
-	do_desc_update($object, $subaction, $param);
+	dprintr($p);
+	do_desc_update($object, $subaction, $p);
 
 	$object->was();
 }
 
-function __cmd_desc_getproperty($param)
+function __cmd_desc_getproperty($p)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	if (isset($param['name']) && isset($param['class'])) {
-		$name = $param['name'];
-		$class = $param['class'];
+	validate_cmd($p);
+
+	if (isset($p['name']) && isset($p['class'])) {
+		$name = $p['name'];
+		$class = $p['class'];
 		$object = new $class(null, 'localhost', $name);
 		$object->get();
 
@@ -201,10 +211,10 @@ function __cmd_desc_getproperty($param)
 	} else {
 		$object = $login;
 	}
-
+ 
 	$object->getHardProperty();
 
-	$vlist = get_variable($param);
+	$vlist = get_variable($p);
 
 	foreach($vlist as $k => $v) {
 		$nv = $k;
@@ -232,3 +242,15 @@ function __cmd_desc_getproperty($param)
 	return $result;
 }
 
+function validate_cmd($p)
+{
+	global $gbl, $sgbl, $login, $ghtml; 
+
+	if (($p['login-class'] === 'client') && ($p['login-name'] === 'admin')) {
+		//
+	} elseif (($p['login-class'] === 'auxiliary') && (stripos($p['login-name'], '.aux') !== false)) {
+		//
+	} else {
+		throw new lxException($login->getThrow('only_permit_for_admin_or_auxiliary_login'), '', $p['login-name']);	
+	}
+}
