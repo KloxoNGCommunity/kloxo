@@ -246,6 +246,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -254,10 +258,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $disablepath; ?>/">
 					Options +ExecCGI
@@ -381,6 +390,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -389,10 +402,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $cpdocroot; ?>/">
 					Options +ExecCGI
@@ -438,7 +456,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
-	Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
+	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
 			if ($count !== 0) {
 ?>
@@ -558,6 +576,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -566,10 +588,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $webmaildocroot; ?>/">
 					Options +ExecCGI
@@ -677,10 +704,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Alias /__kloxo "/home/<?php echo $user; ?>/kloxoscript/"
 
-	Redirect /kloxo "https://cp.<?php echo $domainname; ?>:<?php echo $kloxoportssl; ?>"
-	Redirect /kloxononssl "http://cp.<?php echo $domainname; ?>:<?php echo $kloxoportnonssl; ?>"
-	Redirect /webmail "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
-	Redirect /cp "<?php echo $protocol; ?>cp.<?php echo $domainname; ?>"
+	Redirect "/kloxo" "https://cp.<?php echo $domainname; ?>:<?php echo $kloxoportssl; ?>"
+	Redirect "/kloxononssl" "http://cp.<?php echo $domainname; ?>:<?php echo $kloxoportnonssl; ?>"
+	Redirect "/webmail" "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
+	Redirect "/cp" "<?php echo $protocol; ?>cp.<?php echo $domainname; ?>"
 <?php
 		if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
 ?>
@@ -703,13 +730,13 @@ foreach ($certnamelist as $ip => $certname) {
 				if ($rr[2] === 'both') {
 ?>
 
-	Redirect <?php echo $rr[0]; ?> "<?php echo $protocol; ?><?php echo $rr[1]; ?>"
+	Redirect "<?php echo $rr[0]; ?>" "<?php echo $protocol; ?><?php echo $rr[1]; ?>"
 <?php
 				} else {
 					$protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
 ?>
 
-	Redirect <?php echo $rr[0]; ?> "<?php echo $protocol2; ?><?php echo $rr[1]; ?>"
+	"Redirect" <?php echo $rr[0]; ?> "<?php echo $protocol2; ?><?php echo $rr[1]; ?>"
 <?php
 				}
 			}
@@ -778,6 +805,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -786,10 +817,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $rootpath; ?>/">
 					Options +ExecCGI
@@ -855,8 +891,8 @@ foreach ($certnamelist as $ip => $certname) {
 	Alias /awstatscss "/home/kloxo/httpd/awstats/wwwroot/css/"
 	Alias /awstatsicons "/home/kloxo/httpd/awstats/wwwroot/icon/"
 
-	Redirect /stats "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
-	Redirect /stats/ "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
+	Redirect "/stats" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
+	Redirect "/stats/" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
 
 	<Location "/stats/">
 		Options +Indexes
@@ -1069,6 +1105,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -1077,10 +1117,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $redirfullpath; ?>/">
 					Options +ExecCGI
@@ -1135,7 +1180,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?php echo $rootpath; ?>"
 
-	Redirect / "<?php echo $protocol; ?><?php echo $domainname; ?>/"
+	Redirect "/" "<?php echo $protocol; ?><?php echo $domainname; ?>/"
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -1266,6 +1311,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -1274,10 +1323,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $disablepath; ?>/">
 					Options +ExecCGI
@@ -1323,7 +1377,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
-	Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
+	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
 						if ($count !== 0) {
 ?>
@@ -1443,6 +1497,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -1451,10 +1509,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $webmaildocroot; ?>/">
 					Options +ExecCGI
@@ -1593,6 +1656,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -1601,10 +1668,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $disablepath; ?>/">
 					Options +ExecCGI
@@ -1650,7 +1722,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
-	Redirect / "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
+	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
 <?php
 						if ($count !== 0) {
 ?>
@@ -1770,6 +1842,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -1778,10 +1854,15 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $webmaildocroot; ?>/">
 					Options +ExecCGI

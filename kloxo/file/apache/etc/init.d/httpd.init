@@ -101,7 +101,7 @@ case "$1" in
   restart)
 	stop
 	start
-	# MR -- back to original because gracefull have a trouble with 2.2.23 version
+	# MR -- back to original because graceful have a trouble with 2.2.23 version
 	#$apachectl configtest
 	#echo -e $"Gracefully restarting"
 	#$apachectl graceful

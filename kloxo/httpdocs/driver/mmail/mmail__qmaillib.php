@@ -234,8 +234,6 @@ class Mmail__Qmail extends lxDriverClass
 		}
 
 		$this->updateQmaildefault();
-
-		lxshell_return("sh", "/script/fix-outgoingips");
 	}
 
 	function doesListExist()
@@ -323,24 +321,19 @@ class Mmail__Qmail extends lxDriverClass
 		$fdata = "| {$sgbl->__path_mail_root}/bin/vdelivermail '' {$catchallstring}\n";
 
 		lfile_put_contents($adminfile, $fdata);
-		//lfile_write_content($adminfile, $fdata, mmail__qmail::getUserGroup($this->main->nname));
+	//	lfile_write_content($adminfile, $fdata, mmail__qmail::getUserGroup($this->main->nname));
 	}
 
 	function delDomain()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 		
-		lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", "-f", $this->main->nname);
-	//	lxfile_rm_rec_content("/var/qmail/control/domainkeys/{$this->main->nname}");
-	//	lxshell_return("rm", "-rf", "/var/qmail/control/domainkeys/{$this->main->nname}");
+		lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", "-f","{$this->main->nname}");
 		exec("'rm' -f /var/qmail/control/domainkeys/{$this->main->nname}");
 
 		if ($this->doesListExist()) {
-		//	dprint("Lists exists. deleting list..\n");
 			lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", "lists.{$this->main->nname}");
 		}
-
-		lxshell_return("sh", "/script/fix-outgoingips");
 	}
 
 	function dbactionAdd()

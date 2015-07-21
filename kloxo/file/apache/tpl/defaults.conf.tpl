@@ -318,6 +318,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
@@ -326,6 +330,7 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
 				ProxySet max=25
+				ProxySet retry=0
 			</Proxy>
 		</IfModule>
 

@@ -21,6 +21,12 @@ else
 						if [ "${item}" == "qmail" ] ; then
 							ASQMAIL="qmail"
 							sh /script/restart-mail
+						elif [ "${item}" == "php-fpm" ] ; then
+							/etc/init.d/${item} stop
+							if [ "$(ps aux|grep 'kloxo-php-fpm.conf')" == "" ] then
+								pkill -9 php-fpm
+							fi
+							/etc/init.d/${item} start
 						else
 							/etc/init.d/${item} restart
 						fi
