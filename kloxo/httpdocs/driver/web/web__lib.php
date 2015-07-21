@@ -14,28 +14,29 @@ class web__ extends lxDriverClass
 
 		$l = $list[0];
 
-		if ($l === 'apache') { $l = 'httpd'; }
+		$a = ($l === 'apache') ? 'httpd' : $l;
 
-		lxshell_return("service", $l, "stop");
+		lxshell_return("service", $a, "stop");
 
 		$blist = getRpmBranchList($l);
 
 		if (!$blist) { $blist = array($l); }
 
-		$blist[] = "{$l}-devel";
-
 		// MR -- for fixed an issue version conflict!
 		// no action for hiawatha because used by Kloxo too
-		if ($l === 'httpd') {
-			$blist[] = "{$l}-tools";
-			$blist[] = "{$l}-filesystem";
+		if ($a === 'httpd') {
 		//	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+				$blist[] = "{$a}24u";
+				$blist[] = "{$a}24u-tools";
+				$blist[] = "{$a}24u-filesystem";
 				$blist[] = "mod24u_ssl";
 				$blist[] = "mod24u_session";
 				$blist[] = "mod24u_suphp";
 				$blist[] = "mod24u_ruid2";
 				$blist[] = "mod24u_fcgid";
 		//	} else {
+				$blist[] = "{$a}";
+				$blist[] = "{$a}-tools";
 				$blist[] = "mod_ssl";
 				$blist[] = "mod_rpaf";
 				$blist[] = "mod_ruid2";
@@ -45,28 +46,23 @@ class web__ extends lxDriverClass
 				$blist[] = "mod_define";
 				$blist[] = "mod_perl";
 		//	}
+		} elseif ($a === 'lighttpd') {
+			$blist[] = "{$a}";
+			$blist[] = "{$a}-fastcgi";
+		} elseif ($a === 'nginx') {
+			$blist[] = "{$a}";
+		} elseif ($a === 'hiawatha') {
+			// no action because also using by panel
+		}
 
-		} elseif ($l === 'lighttpd') {
-			$blist[] = "{$l}-fastcgi";
-		} elseif ($l === 'nginx') {
-			// no action
-		}
-	/*
-		foreach ($blist as $k => $v) {
-			// MR -- no remove for hiawatha
-			if ($v !== 'hiawatha') {
-				setRpmRemoved($v);
-			}
-		}
-	*/
 		$p = implode(" ", $blist);
 
 		exec("yum remove {$p} -y");
 
-		lxshell_return("chkconfig", $l, "off");
+		lxshell_return("chkconfig", $a, "off");
 
-		if (file_exists("/etc/init.d/{$l}")) {
-			lunlink("/etc/init.d/{$l}");
+		if (file_exists("/etc/init.d/{$a}")) {
+			lunlink("/etc/init.d/{$a}");
 		}
 	}
 
@@ -89,16 +85,17 @@ class web__ extends lxDriverClass
 
 			if ($a === 'httpd') {
 				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
-					$blist[] = "httpd24u";
-					$blist[] = "httpd24u-tools";
+					$blist[] = "{$a}24u";
+					$blist[] = "{$a}24u-tools";
+					$blist[] = "{$a}24u-filesystem";
 					$blist[] = "mod24u_ssl";
 					$blist[] = "mod24u_session";
 					$blist[] = "mod24u_suphp";
 					$blist[] = "mod24u_ruid2";
 					$blist[] = "mod24u_fcgid";
 				} else {
-					$blist[] = "httpd";
-					$blist[] = "httpd-tools";
+					$blist[] = "{$a}";
+					$blist[] = "{$a}-tools";
 					$blist[] = "mod_ssl";
 					$blist[] = "mod_rpaf";
 					$blist[] = "mod_ruid2";
@@ -110,7 +107,6 @@ class web__ extends lxDriverClass
 					$blist[] = "perl-Taint-Runtime";
 				}
 
-				exec("sh /script/fixweb --target=defaults");
 			} elseif ($a === 'lighttpd') {
 				$blist[] = $a;
 				$blist[] = "{$a}-fastcgi";
@@ -120,11 +116,7 @@ class web__ extends lxDriverClass
 			} elseif ($a === 'hiawatha') {
 				// no action
 			}
-		/*
-			foreach ($blist as $k => $v) {
-				setRpmInstalled($v);
-			}
-		*/
+
 			$p = implode(" ", $blist);
 
 			exec("yum install {$p} -y");
@@ -138,6 +130,8 @@ class web__ extends lxDriverClass
 		}
 
 		self::setInstallPhpfpm();
+
+		exec("sh /script/fixweb --target=defaults");
 	}
 
 	static function setBaseWebConfig($drivertype = null)
