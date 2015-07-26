@@ -105,7 +105,7 @@ request_slowlog_timeout = 30s
 slowlog = /var/log/php-fpm/slow.log
 rlimit_files = 1024
 rlimit_core = 0
-<?php echo $enable_chroot; ?>chroot = <?php echo $chroot_dir; ?>
+;<?php echo $enable_chroot; ?>chroot = <?php echo $chroot_dir; ?>
 
 ;chdir = /
 catch_workers_output = yes
