@@ -153,13 +153,45 @@ foreach($dns_records as $k => $o) {
 
             $value = str_replace("<%domain%>", $domainname, $value);
             $value = str_replace("__base__", $domainname, $value);
+
+            if (strpos($value, "v=DKIM1") !== false) {
+                // format for long dkim - quick and dirty
+                $x = explode(' p=', $value);
+
+                $v = str_split($x[1], 64);
+                $str  = '("' . $x[0] . ' "';
+                $str .= "\n    \"p=";
+                $itmp = 0;
+
+                foreach ($v as $t) {
+                    if (!$itmp) {
+                        $str .= $t . '"';
+                    } else {
+                        $str .= "\n    \"" . $t . '"';
+                    }
+
+                    $itmp++;
+                }
+
+                $str .= ')';
+
+                $value = $str;
+
+?>
+<?php echo $key; ?>. IN TXT <?php echo $value; ?>
+
+<?php
+            } else {
 ?>
 <?php echo $key; ?>. IN TXT "<?php echo $value; ?>"
 <?php
-            if (strpos($value, "v=spf1") !== false) {
+/*
+                if (strpos($value, "v=spf1") !== false) {
 ?>
 <?php echo $key; ?>. IN SPF "<?php echo $value; ?>"
 <?php
+                }
+*/
             }
 
             break;

@@ -173,11 +173,12 @@ foreach($dns_records as $k => $o) {
 			$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
 				"VALUES ('{$domain_id}', '{$key}', '{$value}', 'TXT', '{$ttl}', 'NULL');");
 
+		/*
 			if (strpos($value, "v=spf1") !== false) {
 				$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
 					"VALUES ('{$domain_id}', '{$key}', '{$value}', 'SPF', '{$ttl}', 'NULL');");
 			}
-
+		*/
 			break;
 	}
 }

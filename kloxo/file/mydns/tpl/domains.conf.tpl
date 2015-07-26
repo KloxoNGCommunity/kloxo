@@ -166,11 +166,12 @@ foreach($dns_records as $k => $o) {
 			$conn->query("INSERT INTO rr (zone, name, data, aux, ttl, type) " .
 				"VALUES ('{$zone}', '{$key}', '{$value}', 'NULL', '{$ttl}', 'TXT');");
 
+		/*
 			if (strpos($value, "v=spf1") !== false) {
 				$conn->query("INSERT INTO rr (zone, name, data, aux, ttl, type) " .
 					"VALUES ('{$zone}', '{$key}', '{$value}', 'NULL', '{$ttl}', 'SPF');");
 			}
-
+		*/
 			break;
 	}
 }

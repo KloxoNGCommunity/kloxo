@@ -18,14 +18,15 @@ class web__ extends lxDriverClass
 
 		lxshell_return("service", $a, "stop");
 
-		$blist = getRpmBranchList($l);
+	//	$blist = getRpmBranchList($l);
+	//	if (!$blist) { $blist = array($l); }
 
-		if (!$blist) { $blist = array($l); }
+		$blist = array();
 
 		// MR -- for fixed an issue version conflict!
 		// no action for hiawatha because used by Kloxo too
 		if ($a === 'httpd') {
-		//	if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 				$blist[] = "{$a}24u";
 				$blist[] = "{$a}24u-tools";
 				$blist[] = "{$a}24u-filesystem";
@@ -34,7 +35,7 @@ class web__ extends lxDriverClass
 				$blist[] = "mod24u_suphp";
 				$blist[] = "mod24u_ruid2";
 				$blist[] = "mod24u_fcgid";
-		//	} else {
+			} else {
 				$blist[] = "{$a}";
 				$blist[] = "{$a}-tools";
 				$blist[] = "mod_ssl";
@@ -45,7 +46,7 @@ class web__ extends lxDriverClass
 				$blist[] = "mod_fcgid";
 				$blist[] = "mod_define";
 				$blist[] = "mod_perl";
-		//	}
+			}
 		} elseif ($a === 'lighttpd') {
 			$blist[] = "{$a}";
 			$blist[] = "{$a}-fastcgi";
@@ -57,7 +58,9 @@ class web__ extends lxDriverClass
 
 		$p = implode(" ", $blist);
 
-		exec("yum remove {$p} -y");
+		if ($a !== 'hiawatha') {
+			exec("yum remove {$p} -y");
+		}
 
 		lxshell_return("chkconfig", $a, "off");
 

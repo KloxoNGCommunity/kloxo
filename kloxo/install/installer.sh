@@ -168,18 +168,13 @@ else
 	mariarepo="mratwork-mariadb-32"
 fi
 
-## it's mean centos 6 or equal
-#if [ "$(yum list *yum*|grep -i '@')" != "" ]  ; then
-#	yum -y install mysql mysql-server mysql-libs
-#else
-	#yum -y install mysql55 mysql55-server mysql55-libs
-	yum -y install MariaDB-server MariaDB-shared --enablerepo=$mariarepo
-	if ! [ -d /var/lib/mysqltmp ] ; then
-		mkdir -p /var/lib/mysqltmp
-	fi
+#yum -y install mysql55 mysql55-server mysql55-libs
+yum -y install MariaDB-server MariaDB-shared --enablerepo=$mariarepo
+if ! [ -d /var/lib/mysqltmp ] ; then
+	mkdir -p /var/lib/mysqltmp
+fi
 
-	chown mysql:mysql /var/lib/mysqltmp
-#fi
+chown mysql:mysql /var/lib/mysqltmp
 	
 # MR -- always disable mysql-aio
 sh /script/disable-mysql-aio

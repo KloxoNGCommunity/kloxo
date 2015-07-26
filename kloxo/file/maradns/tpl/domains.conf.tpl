@@ -142,12 +142,13 @@ foreach($dns_records as $k => $o) {
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?> TXT '<?php echo $value; ?>' ~
 <?php
+	/*
             if (strpos($value, "v=spf1") !== false) {
 ?>
 <?php echo $key; ?> <?php echo $ttl; ?>  SPF '<?php echo $value; ?>' ~
 <?php
             }
-
+	*/
             break;
         case "srv":
             $key = $o->hostname;
