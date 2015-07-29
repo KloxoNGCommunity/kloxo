@@ -23,7 +23,8 @@ else
 							sh /script/restart-mail
 						elif [ "${item}" == "php-fpm" ] ; then
 							/etc/init.d/${item} stop
-							if [ "$(ps aux|grep 'kloxo-php-fpm.conf')" == "" ] ; then
+							if [ "$(ps aux|grep 'kloxo-php-fpm.conf'|grep -v grep)" == "" ] ; then
+								echo "pkill to make sure stopped"
 								pkill -9 php-fpm
 							fi
 							/etc/init.d/${item} start

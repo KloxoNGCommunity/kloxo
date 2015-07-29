@@ -1,0 +1,12 @@
+#!/bin/sh
+
+ps -w -e --no-header -o uid,user \
+        | sort -u \
+        | while read uid user; do
+                echo -e "$user\t\t"$(
+                        ps --no-headers -u $uid --cumulative -o time \
+                                | sed -e s/:/*3600+/ -e s/:/*60+/ \
+                                | paste -sd+ \
+                                | bc
+                );
+        done

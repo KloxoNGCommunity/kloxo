@@ -214,6 +214,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -268,6 +270,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -326,6 +330,8 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -395,6 +401,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -436,6 +444,8 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -506,6 +516,8 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -682,6 +694,8 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -761,6 +775,8 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -844,6 +860,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -903,6 +921,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -970,6 +990,8 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -1055,6 +1077,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -1125,6 +1149,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
@@ -1194,6 +1220,8 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
+	CustomHeader = X-Frame-Options:sameorigin
+
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
 <?php
