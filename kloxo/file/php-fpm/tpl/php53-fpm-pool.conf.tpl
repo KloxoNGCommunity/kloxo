@@ -97,6 +97,8 @@ pm.max_children = <?php echo $maxchildren; ?>
 
 pm.max_requests = 1000
 
+pm.process_idle_timeout = 20s
+
 ;pm.status_path = /status
 ;ping.path = /ping
 ;ping.response = pong

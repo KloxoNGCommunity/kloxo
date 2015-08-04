@@ -7,9 +7,9 @@ echo "*** Process for PHP-FPM service ***"
 #	/etc/init.d/php-fpm restart
 #fi
 
-#echo "  - Process: reload"
-#/etc/rc.d/init.d/php-fpm reload
+echo "  - Process: reload"
+/etc/rc.d/init.d/php-fpm reload
 
-echo "  - Process: restart"
+#echo "  - Process: restart"
 #/etc/init.d/php-fpm restart
-sh /script/restart-php-fpm --force
+#sh /script/restart-php-fpm --force

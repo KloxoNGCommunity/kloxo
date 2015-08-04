@@ -27,7 +27,7 @@ lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 
 start () {
     echo -n $"Starting $prog: "
-    daemon --pidfile ${pidfile} $prog
+    daemon --pidfile ${pidfile} $prog --daemonize
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${lockfile}

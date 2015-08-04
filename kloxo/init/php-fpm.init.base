@@ -38,7 +38,7 @@ lockfile="/var/lock/subsys/php-fpm"
 
 start () {
     echo -n $"Starting $fpm_prog: "
-    daemon --pidfile ${pidfile} $fpm_prog --fpm-config $fpm_conf
+    daemon --pidfile ${pidfile} $fpm_prog --fpm-config $fpm_conf --daemonize
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${lockfile}
