@@ -217,7 +217,7 @@ class Mysqldb__mysql extends lxDriverClass
 		lunlink($vd);
 		mkdir($vd);
 
-		$docf = "$vd/mysql-{$dbname}.dump";
+		$docf = "{$vd}/mysql-{$dbname}.dump";
 
 		$arg[0] = $sgbl->__path_mysqldump_path;
 		$arg[1] = "--add-drop-table";

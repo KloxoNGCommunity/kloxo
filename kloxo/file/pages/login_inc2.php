@@ -1,5 +1,7 @@
 <?php
 	include_once("../lib/redirect.php");
+
+	$page = 'Login';
 ?>
 
 	<link href="/theme/css/common.css" rel="stylesheet" type="text/css" />

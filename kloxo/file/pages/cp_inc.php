@@ -12,7 +12,6 @@
 	} else {
 		$sslport = "7777";
 	}
-
 ?>
 		<br><br>
 		<div align="center">

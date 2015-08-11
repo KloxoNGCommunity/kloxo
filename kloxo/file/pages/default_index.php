@@ -55,20 +55,25 @@
 		} else {
 			$logo_url = "./images/logo.png";
 		}
+
+		if (isset($page)) {
+			$title = "Kloxo-MR {$page} page";
+		} else {
+			$title = "Kloxo-MR Page";
+		}
 ?>
 <html>
 
 <head>
-	<title>Kloxo-MR Page</title>
 	<meta http-equiv="Content-Language" content="en-us" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
 
 		if(isset($incfile2)) { include_once $incfile2 ; }
 
-$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
+		$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 
-$path = "../theme/background";
+		$path = "../theme/background";
 
 		// MR -- trick to make random background for login
 		if ((file_exists($path)) && (!file_exists("./.norandomimage"))) {
@@ -91,13 +96,13 @@ $path = "../theme/background";
 		}
 
 ?>
-
+	<title><?= $title; ?></title>
 <style>
 body {
 	font-family: Tahoma, Verdana, Arial, Helvertica, sans-serif;
 	font-size: 8pt;
 	font-weight: 100;
-<?= $bckgrnd ?>
+<?= $bckgrnd; ?>
 
 	background-color:#cccccc;
 	margin: 0;
