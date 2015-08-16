@@ -10,3 +10,8 @@ ps -w -e --no-header -o uid,user \
                                 | bc
                 );
         done
+
+
+echo
+echo "* Note: web servers also run under 'apache' username"
+echo

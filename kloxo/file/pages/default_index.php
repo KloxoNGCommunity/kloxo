@@ -55,12 +55,6 @@
 		} else {
 			$logo_url = "./images/logo.png";
 		}
-
-		if (isset($page)) {
-			$title = "Kloxo-MR {$page} page";
-		} else {
-			$title = "Kloxo-MR Page";
-		}
 ?>
 <html>
 
@@ -70,6 +64,12 @@
 <?php
 
 		if(isset($incfile2)) { include_once $incfile2 ; }
+
+		if (isset($page)) {
+			$title = "Kloxo-MR {$page} page";
+		} else {
+			$title = "Kloxo-MR Page";
+		}
 
 		$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 

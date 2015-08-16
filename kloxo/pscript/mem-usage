@@ -7,3 +7,7 @@ if [ "$(rpm -qa|grep smem)" == "" ] ; then
 fi
 
 smem -u -t -k
+
+echo
+echo "* Note: web servers also run under 'apache' username"
+echo

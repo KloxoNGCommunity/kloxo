@@ -10,6 +10,8 @@ function __cmd_desc_add($p, $parent = null)
 
 	$class = $p['class'];
 
+	$var = get_variable($p);
+
 	if (isset($p['count'])) {
 		$oldname = $p['name'];
 
@@ -20,24 +22,21 @@ function __cmd_desc_add($p, $parent = null)
 				$p['name'] = "$oldname$i";
 			}
 
-			$var = exec_class_method($class, "addCommand", $parent, $class, $p);
+			$param = exec_class_method($class, "addCommand", $parent, $class, $p);
 			unset($var['template-name']);
-			$p = array_merge(array($p, $var));
+			$param = array_merge(array($param, $var));
 
-			do_desc_add($parent, $class, $p);
+			do_desc_add($parent, $class, $param);
 		}
-
-		$parent->was();
 	} else {
-		$var = exec_class_method($class, "addCommand", $parent, $class, $p);
-
+		$param = exec_class_method($class, "addCommand", $parent, $class, $p);
 		unset($var['template-name']);
-		$p = array_merge(array($p, $var));
+		$param = array_merge(array($param, $var));
 
-		do_desc_add($parent, $class, $p);
-
-		$parent->was();
+		do_desc_add($parent, $class, $param);
 	}
+
+	$parent->was();
 }
 
 function __cmd_desc_delete($p)
@@ -225,26 +224,34 @@ function validate_current($p, $o)
 		throw new lxException($login->getThrow("no_object_under_{$p['login-name']}"));
 	}
 
-	// MR -- make possible only know parent nname
+	// MR -- only admin/auxiliary permit to know it
 	if (isset($p['v-parent_clname'])) {
-		foreach($p as $k => $v) {
-			if ((stripos($k, 'v-') !== false) && ($k !== 'v-parent_clname')) {
-				throw new lxException($login->getThrow("no_permit_get_value_for_{$p['v-parent_clname']}"));
+		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
+			foreach($p as $k => $v) {
+				if ((stripos($k, 'v-') !== false) && ($k !== 'v-parent_clname')) {
+					throw new lxException($login->getThrow("no_permit_get_value_for_parent_clname"));
+				}
 			}
 		}
 	}
 
-	// MR -- only admin to know it
-	if ((isset($p['dbadmin']) && (!$login->isAdmin()))) {
-		throw new lxException($login->getThrow("only_permit_for_admin"));
+	// MR -- only admin/auxiliary permit to know it
+	if (isset($p['dbadmin'])) {
+		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
+			throw new lxException($login->getThrow("only_permit_for_admin_or_auxiliary"));
+		}
 	}
 
-	// MR -- only admin permit to change cttype
-	if ((isset($p['v-cttype']) && (!$login->isAdmin()))) {
-		throw new lxException($login->getThrow("only_permit_for_admin"));
+	// MR -- only admin/auxiliary permit to change cttype
+	if (isset($p['v-cttype'])) {
+		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
+			throw new lxException($login->getThrow("only_permit_for_admin_or_auxiliary"));
+		}
 	}
 
-	if (($p['class'] === 'auxiliary') && (!$login->isAdmin())) {
-		throw new lxException($login->getThrow("only_permit_for_admin"));
+	if ($p['class'] === 'auxiliary') {
+		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
+			throw new lxException($login->getThrow("only_permit_for_admin_or_auxiliary"));
+		}
 	}
 }

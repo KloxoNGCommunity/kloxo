@@ -21,3 +21,7 @@ wait
 
 # print own CPU usage after all spawned processes completed
 top -b -n 1 -u "$OWN" | awk -v user=$OWN 'NR>7 { sum += $9; } END { print user, sum; }'
+
+echo
+echo "* Note: web servers also run under 'apache' username"
+echo
