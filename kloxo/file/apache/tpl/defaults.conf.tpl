@@ -200,6 +200,7 @@ Listen ${ip}:${portssl}
 }
 ?>
 
+## MR -- ruid2 not work dor userdir!
 <Ifmodule mod_userdir.c>
 	UserDir enabled
 	UserDir /home/*/public_html

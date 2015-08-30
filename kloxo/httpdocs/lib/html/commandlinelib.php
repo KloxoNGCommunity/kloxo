@@ -24,14 +24,16 @@ function __cmd_desc_add($p, $parent = null)
 
 			$param = exec_class_method($class, "addCommand", $parent, $class, $p);
 			unset($var['template-name']);
-			$param = array_merge(array($param, $var));
+			## MR -- must use lx_array_merge instead array_merge
+			$param = lx_array_merge(array($param, $var));
 
 			do_desc_add($parent, $class, $param);
 		}
 	} else {
 		$param = exec_class_method($class, "addCommand", $parent, $class, $p);
 		unset($var['template-name']);
-		$param = array_merge(array($param, $var));
+		## MR -- must use lx_array_merge instead array_merge
+		$param = lx_array_merge(array($param, $var));
 
 		do_desc_add($parent, $class, $param);
 	}
@@ -199,11 +201,11 @@ function validate_and_get_parent($p)
 		$parent->get();
 
 		if ($parent->dbaction === 'add') {
-			throw new lxException($login->getThrow("not_owner_of_{$p['parent-name']}_parent_object"));
+			throw new lxException("parent_doesnt_exist", "nname", $p['parent-name']);
 		}
 
 		if (!$parent->checkIfSomeParent($login->getClName())) {
-			throw new lxException($login->getThrow("not_owner_of_{$p['parent-name']}_parent_object"));
+			throw new lxException("you_are_not_the_owner_of_parent", "", $p['parent-name']);
 		}
 	} else {
 		$parent = $login;
@@ -217,11 +219,11 @@ function validate_current($p, $o)
 	global $login;
 
 	if ($o->dbaction === 'add') {
-		throw new lxException($login->getThrow("no_object_for_{$p['name']}"));
+		throw new lxException("parent_doesnt_exist", "nname", $p['parent-name']);
 	}
 
 	if (!$o->checkIfSomeParent($login->getClName())) {
-		throw new lxException($login->getThrow("no_object_under_{$p['login-name']}"));
+		throw new lxException("you_are_not_the_owner_of_parent", "", $p['parent-name']);
 	}
 
 	// MR -- only admin/auxiliary permit to know it
@@ -229,7 +231,7 @@ function validate_current($p, $o)
 		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
 			foreach($p as $k => $v) {
 				if ((stripos($k, 'v-') !== false) && ($k !== 'v-parent_clname')) {
-					throw new lxException($login->getThrow("no_permit_get_value_for_parent_clname"));
+					throw new lxException("no_permit_get_value_for_parent_clname", "v-parent_clname", $p['v-parent_clname']);
 				}
 			}
 		}
@@ -238,20 +240,20 @@ function validate_current($p, $o)
 	// MR -- only admin/auxiliary permit to know it
 	if (isset($p['dbadmin'])) {
 		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
-			throw new lxException($login->getThrow("only_permit_for_admin_or_auxiliary"));
+			throw new lxException("only_permit_for_admin_or_auxiliary", "dbadmin", $p['dbadmin']);
 		}
 	}
 
 	// MR -- only admin/auxiliary permit to change cttype
 	if (isset($p['v-cttype'])) {
 		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
-			throw new lxException($login->getThrow("only_permit_for_admin_or_auxiliary"));
+			throw new lxException("only_permit_for_admin_or_auxiliary", "v-cttype", $p['v-cttype']);
 		}
 	}
 
 	if ($p['class'] === 'auxiliary') {
 		if ((!$login->isAdmin()) && (!$login->isAuxiliary())) {
-			throw new lxException($login->getThrow("only_permit_for_admin_or_auxiliary"));
+			throw new lxException("only_permit_for_admin_or_auxiliary", "class", $p['class']);
 		}
 	}
 }
