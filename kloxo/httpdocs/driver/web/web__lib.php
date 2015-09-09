@@ -1380,7 +1380,8 @@ class web__ extends lxDriverClass
 
 				case "static_config_update":
 					$this->updateMainConfFile();
-				//	$this->createPhpFpmConfig();
+					// MR -- need it especially for create the first domain
+					$this->createPhpFpmConfig();
 					break;
 				case "remove_all_domain_configs":
 					$this->setRemoveAllDomainConfigs();
