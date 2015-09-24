@@ -1145,6 +1145,18 @@ class ClientBase extends ClientCore
 
 	function commandUpdate($subaction, $param)
 	{
+		// MR - taken from https://blogs.securiteam.com/index.php/archives/2603
+		// but this logic inside commandlinelib.php
+	/*
+		if_demo_throw_exception('info');
+
+		if (isset($param['cttype'])) {
+			if (!$this->isAdmin()) {
+				if ($this->getParentO()->isGt($param['cttype'])) {
+					throw new lxException("parent_doesnt_have_privileges", 'cttype', '');
+				}
+		}
+	*/
 		switch ($subaction) {
 			case "change_plan":
 				checkIfVariablesSetOr($param, $param, 'newresourceplan', array('resourceplan_name'));

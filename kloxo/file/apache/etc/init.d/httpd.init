@@ -42,12 +42,16 @@ INITLOG_ARGS=""
 apachectl=/usr/sbin/apachectl
 httpd=${HTTPD-/usr/sbin/httpd}
 prog=httpd
-pidfile=${PIDFILE-/var/run/httpd.pid}
+if [ "$(httpd -V|grep 'version'|grep '/2.4')" != "" ] ; then
+	pidfile=${PIDFILE-/var/run/httpd/httpd.pid}
+else
+	pidfile=${PIDFILE-/var/run/httpd.pid}
+fi
 lockfile=${LOCKFILE-/var/lock/subsys/httpd}
 RETVAL=0
 
 if [ -f /etc/sysconfig/custom.httpd ]; then
-        . /etc/sysconfig/custom.httpd
+	. /etc/sysconfig/custom.httpd
 fi
 
 # The semantics of these two functions differ from the way apachectl does
@@ -55,12 +59,12 @@ fi
 # when not running is also a failure.  So we just do it the way init scripts
 # are expected to behave here.
 start() {
-        echo -n $"Starting $prog: "
-        LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
-        RETVAL=$?
-        echo
-        [ $RETVAL = 0 ] && touch ${lockfile}
-        return $RETVAL
+	echo -n $"Starting $prog: "
+	LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
+	RETVAL=$?
+	echo
+	[ $RETVAL = 0 ] && touch ${lockfile}
+	return $RETVAL
 }
 
 # When stopping httpd a delay of >10 second is required before SIGKILLing the
@@ -74,53 +78,53 @@ stop() {
 	[ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
 }
 reload() {
-    echo -n $"Reloading $prog: "
-    if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t >&/dev/null; then
-        RETVAL=$?
-        echo $"not reloading due to configuration syntax error"
-        failure $"not reloading $httpd due to configuration syntax error"
-    else
-        killproc -p ${pidfile} $httpd -HUP
-        RETVAL=$?
-    fi
-    echo
+	echo -n $"Reloading $prog: "
+	if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t >&/dev/null; then
+		RETVAL=$?
+		echo $"not reloading due to configuration syntax error"
+		failure $"not reloading $httpd due to configuration syntax error"
+	else
+		killproc -p ${pidfile} $httpd -HUP
+		RETVAL=$?
+	fi
+	echo
 }
 
 # See how we were called.
 case "$1" in
-  start)
-	start
-	;;
-  stop)
-	stop
-	;;
-  status)
-       status $httpd
-	RETVAL=$?
-	;;
-  restart)
-	stop
-	start
-	# MR -- back to original because graceful have a trouble with 2.2.23 version
-	#$apachectl configtest
-	#echo -e $"Gracefully restarting"
-	#$apachectl graceful
-	#status $httpd
-	;;
-  condrestart)
-	if [ -f ${pidfile} ] ; then
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	status)
+		status $httpd
+		RETVAL=$?
+		;;
+	restart)
 		stop
 		start
-	fi
-	;;
-  force-reload|reload)
-        reload
-	;;
-  graceful|help|configtest|fullstatus)
-	$apachectl $@
-	RETVAL=$?
-	;;
-  *)
+		# MR -- back to original because graceful have a trouble with 2.2.23 version
+		#$apachectl configtest
+		#echo -e $"Gracefully restarting"
+		#$apachectl graceful
+		#status $httpd
+		;;
+	condrestart)
+		if [ -f ${pidfile} ] ; then
+			stop
+			start
+		fi
+		;;
+	force-reload|reload)
+		reload
+		;;
+	graceful|help|configtest|fullstatus)
+		$apachectl $@
+		RETVAL=$?
+		;;
+	*)
 	echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|graceful|help|configtest}"
 	RETVAL=3
 esac

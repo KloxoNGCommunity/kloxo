@@ -860,8 +860,14 @@ abstract class Lxclient extends Lxdb
 		$this->distributeChildQuota($oldv);
 		$this->changePlanSpecific($template);
 		$this->setUpdateSubaction('change_plan');
-		
-		return null;
+
+		$this->write();
+
+		// MR -- php-fpm config mod update until client create 1 domain or more
+		lxshell_return("sh", "/script/fixphp", "--client={$this->nname}", "--nolog");
+		createRestartFile('php-fpm');
+
+	//	return null;
 	}
 
 	static function defaultSort() { return 'ddate'; }
@@ -944,7 +950,7 @@ abstract class Lxclient extends Lxdb
 			lxshell_return("sh", "/script/fixphp", "--client={$this->nname}", "--nolog");
 			createRestartFile('php-fpm');
 		}
-		
+
 		if ($this->subaction === 'resendwelcome') {
 			$this->send_welcome_f = 'On';
 			$this->notifyObjects('add');
