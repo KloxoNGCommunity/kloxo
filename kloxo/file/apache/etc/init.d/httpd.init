@@ -23,8 +23,8 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-if [ -f /etc/sysconfig/httpd ]; then
-        . /etc/sysconfig/httpd
+if [ -f /etc/sysconfig/httpd ] ; then
+	. /etc/sysconfig/httpd
 fi
 
 # Start httpd in the C locale by default.
@@ -42,15 +42,11 @@ INITLOG_ARGS=""
 apachectl=/usr/sbin/apachectl
 httpd=${HTTPD-/usr/sbin/httpd}
 prog=httpd
-if [ "$(httpd -V|grep 'version'|grep '/2.4')" != "" ] ; then
-	pidfile=${PIDFILE-/var/run/httpd/httpd.pid}
-else
-	pidfile=${PIDFILE-/var/run/httpd.pid}
-fi
+pidfile=${PIDFILE-/var/run/httpd.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/httpd}
 RETVAL=0
 
-if [ -f /etc/sysconfig/custom.httpd ]; then
+if [ -f /etc/sysconfig/custom.httpd ] ; then
 	. /etc/sysconfig/custom.httpd
 fi
 

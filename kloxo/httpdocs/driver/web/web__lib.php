@@ -150,6 +150,16 @@ class web__ extends lxDriverClass
 
 		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$webserver}.init"),
 			"/etc/rc.d/init.d/{$webserver}");
+	
+		if ($webserver === 'httpd') {
+			exec("httpd -V|grep 'version'|grep '/2.4'", $out);
+
+			if ($out[0] !== '') {
+				exec("echo 'pidfile=\${PIDFILE-/var/run/httpd/httpd.pid}' > /etc/sysconfig/custom.httpd");
+			} else {
+				exec("rm -f /etc/sysconfig/custom.httpd");
+			}
+		}
 
 		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
 	}
