@@ -152,12 +152,12 @@ class web__ extends lxDriverClass
 			"/etc/rc.d/init.d/{$webserver}");
 	
 		if ($webserver === 'httpd') {
-			exec("httpd -V|grep 'version'|grep '/2.4'", $out);
+			exec("httpd -V|grep 'version'|grep '/2.4'", $out, $ret);
 
-			if ($out[0] !== '') {
-				exec("echo 'pidfile=\${PIDFILE-/var/run/httpd/httpd.pid}' > /etc/sysconfig/custom.httpd");
+			if ($ret === 0) {
+				exec("echo 'pidfile=\${PIDFILE-/var/run/httpd/httpd.pid}' > /etc/sysconfig/httpd24");
 			} else {
-				exec("rm -f /etc/sysconfig/custom.httpd");
+				exec("rm -f /etc/sysconfig/httpd24");
 			}
 		}
 

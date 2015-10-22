@@ -46,8 +46,8 @@ pidfile=${PIDFILE-/var/run/httpd.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/httpd}
 RETVAL=0
 
-if [ -f /etc/sysconfig/custom.httpd ] ; then
-	. /etc/sysconfig/custom.httpd
+if [ -f /etc/sysconfig/httpd24 ] ; then
+	. /etc/sysconfig/httpd24
 fi
 
 # The semantics of these two functions differ from the way apachectl does
@@ -75,7 +75,7 @@ stop() {
 }
 reload() {
 	echo -n $"Reloading $prog: "
-	if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t >&/dev/null; then
+	if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t >&/dev/null ; then
 		RETVAL=$?
 		echo $"not reloading due to configuration syntax error"
 		failure $"not reloading $httpd due to configuration syntax error"
@@ -83,7 +83,7 @@ reload() {
 		killproc -p ${pidfile} $httpd -HUP
 		RETVAL=$?
 	fi
-	echo
+    echo
 }
 
 # See how we were called.
@@ -101,11 +101,6 @@ case "$1" in
 	restart)
 		stop
 		start
-		# MR -- back to original because graceful have a trouble with 2.2.23 version
-		#$apachectl configtest
-		#echo -e $"Gracefully restarting"
-		#$apachectl graceful
-		#status $httpd
 		;;
 	condrestart)
 		if [ -f ${pidfile} ] ; then
@@ -120,9 +115,9 @@ case "$1" in
 		$apachectl $@
 		RETVAL=$?
 		;;
-	*)
-	echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|graceful|help|configtest}"
-	RETVAL=3
+		*)
+		echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|graceful|help|configtest}"
+		RETVAL=3
 esac
 
 exit $RETVAL
