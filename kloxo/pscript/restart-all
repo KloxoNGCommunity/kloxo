@@ -1,5 +1,17 @@
 #!/bin/sh
 
-list=(syslog rsyslog mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean qmail xinetd kloxo)
+#list=(syslog rsyslog mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean qmail xinetd kloxo)
 
-. /script/restart.inc
+if [ -f /script/custom.restart-list.inc ] ; then
+	. /script/custom.restart-list.inc
+else
+	. /script/restart-list.inc
+fi
+
+list=${list_all[*]}
+
+if [ -f /script/custom.restart.inc ] ; then
+	. /script/custom.restart.inc
+else
+	. /script/restart.inc
+fi

@@ -1,6 +1,10 @@
 #!/bin/sh
 
-. /script/fix.inc
+if [ -f /script/custom.fix.inc ] ; then
+	. /script/custom.fix.inc
+else
+	. /script/fix.inc
+fi
 
 . /script/directory
 lxphp.exe ../bin/fix/fixftpuser.php "$@"

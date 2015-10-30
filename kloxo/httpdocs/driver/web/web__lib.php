@@ -124,7 +124,7 @@ class web__ extends lxDriverClass
 
 			exec("yum install {$p} -y");
 
-			self::setWebserverInstall($a);
+		//	self::setWebserverInstall($a);
 			self::setBaseWebConfig($a);
 
 			lxshell_return("chkconfig", $a, "on");

@@ -1,0 +1,11 @@
+list_web=(varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean)
+list_syslog=(syslog rsyslog syslog-ng)
+list_services=(mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid httpd nginx lighttpd hiawatha qmail xinetd php-fpm)
+list_phpfpm=(php-fpm)
+list_mysql=(mysql mysqld)
+list_mail=(qmail)
+list_ftp=(xinetd)
+list_dns=(named djbdns pdns nsd mydns yadifad)
+list_all=(syslog rsyslog mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean qmail xinetd kloxo)
+list_kloxo=(kloxo)
+

@@ -14,8 +14,10 @@ else
 
 	for item in ${list[*]} ; do
 		if [ -f /etc/init.d/${item} ] ; then
-			for num in 0 1 2 3 4 5 6 ; do
-				if $(dir /etc/rc.d/rc${num}.d|grep -E 'S[0-9]{2}'${item} >/dev/null 2>&1) ; then
+			if [ "$(chkconfig --list ${item}|grep ':on')" != "" ] ; then
+			#if chkconfig --list ${item}|grep ':on' >/dev/null 2>&1 ; then
+			#for num in 0 1 2 3 4 5 6 ; do
+				#if $(dir /etc/rc.d/rc${num}.d|grep -E 'S[0-9]{2}'${item} >/dev/null 2>&1) ; then
 					echo ""
 					if [ "$1" == "--force" ] || [ "$1" == "-y" ] ; then
 						if [ "${item}" == "qmail" ] ; then
@@ -43,9 +45,10 @@ else
 
 					echo "-------------------------------------------------------------------"
 
-					break
-				fi
-			done
+					#break
+				#fi
+			#done
+			fi
 		fi
 	done
 

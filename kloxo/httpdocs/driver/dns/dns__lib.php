@@ -59,14 +59,14 @@ class dns__ extends lxDriverClass
 			setRpmInstalled("{$driver}-mysql");
 		}
 
-
+	/*
 		$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");
 
 		if (file_exists($initfile)) {
 			lxfile_cp($initfile, "/etc/init.d/{$driveralias}");
 			chmod("/etc/init.d/{$driveralias}", '0755');
 		}
-
+	*/
 		setCopyDnsConfFiles($driver);
 
 		if ($driver === 'djbdns') {
