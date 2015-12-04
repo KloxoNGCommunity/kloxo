@@ -237,7 +237,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -251,7 +252,9 @@ VirtualHost {
 			if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -293,7 +296,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -308,7 +312,9 @@ VirtualHost {
 			if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -353,7 +359,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -379,7 +386,9 @@ VirtualHost {
 			if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -424,7 +433,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -467,7 +477,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -493,7 +504,9 @@ VirtualHost {
 				if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -542,7 +555,8 @@ VirtualHost {
 	set var_user = <?php echo $user; ?>
 
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 <?php
@@ -643,7 +657,9 @@ VirtualHost {
 		if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -720,7 +736,8 @@ VirtualHost {
 	set var_user = <?php echo $user; ?>
 
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -748,7 +765,9 @@ VirtualHost {
 					if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -801,7 +820,8 @@ VirtualHost {
 	set var_user = <?php echo $user; ?>
 
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -829,7 +849,9 @@ VirtualHost {
 					if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -883,7 +905,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -898,7 +921,9 @@ VirtualHost {
 					if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -944,7 +969,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -968,7 +994,9 @@ VirtualHost {
 						if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -1013,7 +1041,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -1039,7 +1068,9 @@ VirtualHost {
 						if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -1100,7 +1131,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -1126,7 +1158,9 @@ VirtualHost {
 					if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -1172,7 +1206,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -1198,7 +1233,9 @@ VirtualHost {
 						if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php
@@ -1243,7 +1280,8 @@ VirtualHost {
 
 	set var_user = apache
 
-	UseGZfile = yes
+	## MR -- remove by Hiawatha 10+
+	#UseGZfile = yes
 
 	FollowSymlinks = no
 
@@ -1269,7 +1307,9 @@ VirtualHost {
 						if ($reverseproxy) {
 ?>
 
-	IgnoreDotHiawatha = yes
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
+	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
 <?php

@@ -406,9 +406,9 @@ class Mmail extends Lxdb
 				$vlist['enable_dmarc_flag'] = null;
 				$this->setDefaultValue('dmarc_protocol', 'DMARC1');
 				$vlist['dmarc_protocol'] = null;
-				$this->setDefaultValue('percentage_filtering', '50');
+				$this->setDefaultValue('percentage_filtering', '20');
 				$vlist['percentage_filtering'] = null;
-				$this->setDefaultValue('receiver_policy', 'quarantine');
+				$this->setDefaultValue('receiver_policy', 'none');
 				$vlist['receiver_policy'] = array('s', array('none', 'quarantine', 'reject'));
 			//	$this->setDefaultValue('mail_feedback', "admin@{$this->nname}");
 				$this->setDefaultValue('mail_feedback', "admin@__base__");

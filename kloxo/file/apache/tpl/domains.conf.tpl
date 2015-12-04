@@ -280,7 +280,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 
 	<Location "/">
-		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 
@@ -424,7 +423,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 	
 	<Location "/">
-		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
@@ -610,7 +608,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 
 	<Location "/">
-		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 
@@ -869,7 +866,6 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 	<Location "/">
-		Allow from all
 		Options <?php echo $dirindex; ?> -FollowSymlinks +SymLinksIfOwnerMatch
 
 		<IfModule mod_php5.c>
@@ -975,8 +971,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location "/">
 		Order deny,allow
 		Deny from <?php echo $blockips; ?>
-
-		Allow from all
 	</Location>
 <?php
 		}
@@ -1345,7 +1339,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 
 	<Location "/">
-		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 
@@ -1531,7 +1524,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 
 	<Location "/">
-		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 
@@ -1690,7 +1682,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 
 	<Location "/">
-		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 
@@ -1876,7 +1867,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 	
 	<Location "/">
-		Allow from all
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 

@@ -58,6 +58,8 @@ class ServerMail extends lxdb
 	static $__desc_dns_blacklists = array("t", "",  "dns_blacklists");
 	static $__desc_alt_smtp_sdyke_flag = array("f","","alt_smtp_sdyke");
 
+	static $__desc_defaultdnsblacklists_flag = array("f", "",  "enable_defaultdnsblacklists");
+
 	function createExtraVariables()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -86,9 +88,18 @@ class ServerMail extends lxdb
 	{
 		// We need to write because reads everything from the database.
 		$this->write();
+	}
 
-		if ($subaction === 'update') {
-			//
+	function updatespamdyke($param) {
+		$path = "/usr/local/lxlabs/kloxo/file/template";
+
+		if ($param['defaultdnsblacklists_flag'] === 'on') {
+			unlink ("{$path}/current.spamdyke_rbl.txt");
+		} else {
+			$content = $param['dns_blacklists'];
+			$file = "{$path}/current.spamdyke_rbl.txt";
+
+			file_put_contents($file, $content);
 		}
 	}
 
@@ -139,7 +150,18 @@ class ServerMail extends lxdb
 				$vlist['reject_ip_in_cc_rdns_flag'] = null;
 				$vlist['reject_missing_sender_mx_flag'] = null;
 				$vlist['reject_unresolvable_rdns_flag'] = null;
-				$vlist['dns_blacklists'] = array("t", lfile_get_contents("/usr/local/lxlabs/kloxo/file/template/spamdyke_rbl.txt"));
+
+				$path = "/usr/local/lxlabs/kloxo/file/template";
+
+				if (file_exists("{$path}/current.spamdyke_rbl.txt")) {
+					$file = "{$path}/current.spamdyke_rbl.txt";
+				} else {
+					$file = "{$path}/spamdyke_rbl.txt";
+				}
+
+				$vlist['dns_blacklists'] = array("t", lfile_get_contents($file));
+
+				$vlist['defaultdnsblacklists_flag'] = null;
 
 				break;
 		}

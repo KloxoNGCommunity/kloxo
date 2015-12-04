@@ -808,6 +808,7 @@ $__description["reject_ip_in_cc_rdns"] = array("Reject servers with IP address i
 $__description["reject_missing_sender_mx"] = array("Reject messages from server without MX records");
 $__description["reject_unresolvable_rdns"] = array("Reject servers with rDNS names not resolving to IP");
 $__description["dns_blacklists"] = array("Space separated DNS RBL servers");
+$__description["enable_defaultdnsblacklists"] = array("Enable default DNS RBL servers");
 
 $__description["FTP_config"] = array("FTP Configure");
 $__description["enable_anonymous_ftp"] = array("Enable Anonymous FTP");

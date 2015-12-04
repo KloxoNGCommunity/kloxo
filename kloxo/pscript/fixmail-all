@@ -108,12 +108,15 @@ sh /script/fix-outgoingips
 echo "--------------------------"
 sh /script/fixmail
 
-echo "--------------------------"
-sh /script/fixdomainkey
+#echo "--------------------------"
+## MR -- disabled it because trouble with cloudflare but give note
+#sh /script/fixdomainkey
 
 echo "--------------------------"
 sh /script/fixwebmail
 
+echo ""
+echo "- NOTE: use 'sh /script/fixdomainkey' if want to fix domainkeys"
 echo ""
 
 . /script/counter-end.inc

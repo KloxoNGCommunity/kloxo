@@ -66,7 +66,7 @@ disable_classes =
 expose_php = On
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
 ;error_reporting = E_ALL
-display_startup_errors = On
+display_startup_errors = Off
 log_errors_max_len = 1024
 ignore_repeated_errors = Off
 report_memleaks = On
@@ -149,7 +149,6 @@ max_input_vars = <?php echo $max_input_vars_flag; ?>
 
 ;### MR -- deprecated/disabled on php 5.3+
 ;<?php echo $php53disable; ?>register_long_arrays = Off
-
 
 [Syslog]
 define_syslog_variables = Off

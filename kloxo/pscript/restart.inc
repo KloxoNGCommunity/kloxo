@@ -4,8 +4,8 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo "  format: sh $0 [--force|-y]"
 	echo " ------------------------------------------------------------------------------"
 	echo "  --force or -y"
-	echo "      - running '/etc/init.d/httpd restart' instead custom 'restart' declare"
-	echo "        inside /etc/local/lxlabs/kloxo/etc/process"
+	echo "      - example: running '/etc/init.d/httpd restart' instead custom 'restart'"
+	echo "        declare inside /etc/local/lxlabs/kloxo/etc/process"
 	echo "      - use it if trouble restart without '--force' or '-y'"
 	echo ""
 	exit

@@ -18,7 +18,7 @@ echo
 echo "- For help, type '$0 --help'"
 
 if [ "$#" == 0 ] ; then
-	echo "- No argument supplied. Defaulting to optimize and 25% spare"
+	echo "- No argument supplied. Run 'sh $0 --help'"
 fi
 
 echo

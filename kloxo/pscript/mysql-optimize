@@ -15,7 +15,7 @@ if [ "$#" == 0 ] || [ "$1" == "--help" ] ; then
 	echo " ------------------------------------------------------------------------------"
 	echo "  format: sh $0 --select=<> --database=[]"
 	echo " ------------------------------------------------------------------------------"
-	echo "  --select - check/repair/optimize"
+	echo "  --select - check/repair/optimize/upgrade"
 	echo "  --database - database name; default: all databases"
 	echo
 	echo "  Must be running separately on each server (master and slave)"
@@ -25,7 +25,7 @@ fi
 request1=$1
 SELECT=${request1#--select\=}
 
-if [ ! "$SELECT" == 'check' ] && [ ! "$SELECT" == 'repair' ] && [ ! "$SELECT" == 'optimize' ] ; then
+if [ ! "$SELECT" == 'check' ] && [ ! "$SELECT" == 'repair' ] && [ ! "$SELECT" == 'optimize' ] && [ ! "$SELECT" == 'upgrade' ] ; then
 	echo "Wrong --select= entry..."
 	exit;
 fi

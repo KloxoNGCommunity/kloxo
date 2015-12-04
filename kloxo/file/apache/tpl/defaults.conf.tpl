@@ -349,7 +349,6 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfVersion>
 
 	<Location "/">
-		Allow from all
 		# Options +Indexes +FollowSymlinks
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>

@@ -5636,8 +5636,9 @@ abstract class Lxclass
 		// forum http://forum.lxcenter.org/index.php?t=msg&th=16875
 		// TODO!
 
+		// MR -- make restore without detect client!
 		if ($ob->getClName() !== $this->getClName()) {
-			throw new lxException($login->getThrow('objectclassname_does_not_match'), '', "{$ob->getClName()} - {$this->getClName()}");
+		//	throw new lxException($login->getThrow('objectclassname_does_not_match'), '', "{$ob->getClName()} - {$this->getClName()}");
 		}
 
 
