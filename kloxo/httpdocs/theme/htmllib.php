@@ -2140,9 +2140,15 @@ class HtmlLib
 			function sendchmod(a, b) {
 				b.frm_ffile_c_select_f.value = 'perm';
 				b.frm_ffile_c_file_permission_f.value = a.user.value + a.group.value + a.other.value;
-				b.frm_ffile_c_target_f.value = a.frm_ffile_c_target_f.value;
 
-				if (a.frm_ffile_c_recursive_f.checked) {
+				if (typeof a.frm_ffile_c_target_f != 'undefined') {
+					b.frm_ffile_c_target_f.value = a.frm_ffile_c_target_f.value;
+				} else {
+					b.frm_ffile_c_target_f.value = null;
+				}
+
+				if (typeof a.frm_ffile_c_recursive_f != 'undefined') {
+			//	if (a.frm_ffile_c_recursive_f.checked) {
 					if (confirm("<?=$login->getKeywordUC('permissions_confirm');?>")) {
 						b.frm_ffile_c_recursive_f.value = 'on';
 					} else {
@@ -2160,7 +2166,8 @@ class HtmlLib
 				b.frm_ffile_c_user_f.value = a.frm_ffile_c_user_f.value;
 				b.frm_ffile_c_group_f.value = a.frm_ffile_c_group_f.value;
 
-				if (a.frm_ffile_c_recursive_f.checked) {
+				if (typeof a.frm_ffile_c_recursive_f != 'undefined') {
+			//	if (a.frm_ffile_c_recursive_f.checked) {
 					if (confirm("<?=$login->getKeywordUC('ownership_confirm');?>")) {
 						b.frm_ffile_c_recursive_f.value = 'on';
 					} else {
