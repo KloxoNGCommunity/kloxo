@@ -181,7 +181,7 @@ class ClientBase extends ClientCore
 		global $gbl, $sgbl, $login, $ghtml;
 
 	//	if ($sgbl->isKloxo() && $this->isAdmin()) {
-	//	if ($sgbl->isKloxo() && ($login->nname === 'admin')) {
+		if ($sgbl->isKloxo() && ($login->nname === 'admin')) {
 			if (!is_unlimited($this->priv->maindomain_num) && ($this->priv->maindomain_num - $this->used->maindomain_num) < 6) {
 				$ghtml->__http_vars['frm_smessage'] = 'warn_license_limit';
 				$ghtml->__http_vars['frm_m_smessage_data'] = 'maindomain_num';
