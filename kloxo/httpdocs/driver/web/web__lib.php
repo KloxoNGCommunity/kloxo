@@ -30,26 +30,26 @@ class web__ extends lxDriverClass
 				$blist[] = "{$a}24u";
 				$blist[] = "{$a}24u-tools";
 				$blist[] = "{$a}24u-filesystem";
-				$blist[] = "mod24u_ssl";
-				$blist[] = "mod24u_session";
-				$blist[] = "mod24u_suphp";
-				$blist[] = "mod24u_ruid2";
-				$blist[] = "mod24u_fcgid";
+			//	$blist[] = "mod24u_ssl";
+			//	$blist[] = "mod24u_session";
+			//	$blist[] = "mod24u_suphp";
+			//	$blist[] = "mod24u_ruid2";
+			//	$blist[] = "mod24u_fcgid";
 			} else {
 				$blist[] = "{$a}";
 				$blist[] = "{$a}-tools";
-				$blist[] = "mod_ssl";
-				$blist[] = "mod_rpaf";
-				$blist[] = "mod_ruid2";
-				$blist[] = "mod_suphp";
-				$blist[] = "mod_fastcgi";
-				$blist[] = "mod_fcgid";
-				$blist[] = "mod_define";
-				$blist[] = "mod_perl";
+			//	$blist[] = "mod_ssl";
+			//	$blist[] = "mod_rpaf";
+			//	$blist[] = "mod_ruid2";
+			//	$blist[] = "mod_suphp";
+			//	$blist[] = "mod_fastcgi";
+			//	$blist[] = "mod_fcgid";
+			//	$blist[] = "mod_define";
+			//	$blist[] = "mod_perl";
 			}
 		} elseif ($a === 'lighttpd') {
 			$blist[] = "{$a}";
-			$blist[] = "{$a}-fastcgi";
+		//	$blist[] = "{$a}-fastcgi";
 		} elseif ($a === 'nginx') {
 			$blist[] = "{$a}";
 		} elseif ($a === 'hiawatha') {

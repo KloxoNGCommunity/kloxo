@@ -71,16 +71,16 @@ UrlToolkit {
 
 UrlToolkit {
 	ToolkitID = expire_needed
-	Match .*\.jpg$ Expire 1 weeks
-	Match .*\.png$ Expire 1 weeks
-	Match .*\.gif$ Expire 1 weeks
-	Match .*\.css$ Expire 1 weeks
-	Match .*\.js$ Expire 1 weeks
-	Match .*\.gif$ Expire 1 weeks
-	Match .*\.eot$ Expire 1 weeks
-	Match .*\.svg$ Expire 1 weeks
-	Match .*\.ttf$ Expire 1 weeks
-	Match .*\.ico$ Expire 1 weeks
+	#UseDirectory = static_file
+}
+
+Directory {
+	DirectoryID = static_file
+	Path = /.*\.(css|eot|gif|htm|html|ico|jpeg|jpg|js|otf|pdf|png|ps|psd|svg|swf|ttf|txt|woff|woff2)(/|$)
+    	## MR -- extension feature ready in 10.1
+	#Path = /
+	#Extension = css,eot,gif,htm,html,ico,jpeg,jpg,js,otf,pdf,png,ps,psd,svg,swf,ttf,txt,woff,woff2
+	ExpirePeriod = 1 weeks
 }
 
 Binding {
