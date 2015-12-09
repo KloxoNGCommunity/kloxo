@@ -180,14 +180,16 @@ class ClientBase extends ClientCore
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		if ($sgbl->isKloxo() && $this->isAdmin()) {
+	//	if ($sgbl->isKloxo() && $this->isAdmin()) {
+	//	if ($sgbl->isKloxo() && ($login->nname === 'admin')) {
 			if (!is_unlimited($this->priv->maindomain_num) && ($this->priv->maindomain_num - $this->used->maindomain_num) < 6) {
 				$ghtml->__http_vars['frm_smessage'] = 'warn_license_limit';
 				$ghtml->__http_vars['frm_m_smessage_data'] = 'maindomain_num';
 			}
 		}
 
-		if ($this->isAdmin()) {
+	//	if ($this->isAdmin()) {
+		if ($login->nname === 'admin') {
 			$v = db_get_value("sshconfig", "localhost", "without_password_flag");
 			$vv = db_get_value("sshconfig", "localhost", "config_flag");
 
@@ -218,33 +220,28 @@ class ClientBase extends ClientCore
 			if (!$gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web')) {
 				$ghtml->__http_vars['frm_emessage'] = "switch_program_not_set";
 			}
+		}
 
-			if ($login->sp_specialplay_o->specialplay_b->skin_name === 'simplicity') {
+		if ($login->sp_specialplay_o->specialplay_b->skin_name === 'simplicity') {
+		//	if ($this->isAdmin()) {
+			if ($login->nname === 'admin') {
 				$server = $this->syncserver;
 				$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-" . $server, "ser_phpini_flag_b")));
 
 				// MR -- pserver must set/update php.ini
-				if (!isset($server_phpini->session_save_path_flag)) {
+			//	if (!isset($server_phpini->session_save_path_flag)) {
+				if (!$server_phpini->session_save_path_flag) {
 					$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_pserver";
-				} else {
-					// MR -- double check for php.ini in client (especially for admin)
-					$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, "ser_phpini_flag_b")));
-
-					if (!isset($server_phpini->session_save_path_flag)) {
-						$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
-					}
 				}
-			}
-		} else {
-		/*
-			// MR -- disabled because still trouble in client level!
-			if ($login->sp_specialplay_o->specialplay_b->skin_name === 'simplicity') {
+
+				// MR -- double check for php.ini in client (especially for admin)
 				$server_phpini = unserialize(base64_decode(db_get_value("phpini", "client-" . $this->nname, "ser_phpini_flag_b")));
-				if (!isset($server_phpini->session_save_path_flag)) {
+
+			//	if (!isset($server_phpini->session_save_path_flag)) {
+				if (!$server_phpini->session_save_path_flag) {
 					$ghtml->__http_vars['frm_emessage'] = "phpini_not_set_client";
 				}
 			}
-		*/
 		}
 
 		parent::getAnyErrorMessage();
