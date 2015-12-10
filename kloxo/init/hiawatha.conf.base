@@ -77,7 +77,7 @@ UrlToolkit {
 #Directory {
 	#DirectoryID = static_file
 	#Path = /.*\.(css|eot|gif|htm|html|ico|jpeg|jpg|js|otf|pdf|png|ps|psd|svg|swf|ttf|txt|woff|woff2)(/|$)
-    ## MR -- extension feature ready in 10.1
+	## MR -- extension feature ready in 10.1
 	#Path = /
 	#Extension = css,eot,gif,htm,html,ico,jpeg,jpg,js,otf,pdf,png,ps,psd,svg,swf,ttf,txt,woff,woff2
 	#ExpirePeriod = 1 weeks
