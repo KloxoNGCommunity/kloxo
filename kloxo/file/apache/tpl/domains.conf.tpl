@@ -971,6 +971,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location "/">
 		Order deny,allow
 		Deny from <?php echo $blockips; ?>
+
 	</Location>
 <?php
 		}
