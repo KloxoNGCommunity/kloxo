@@ -101,6 +101,8 @@ class ServerMail extends lxdb
 
 			file_put_contents($file, $content);
 		}
+
+		return $param;
 	}
 
 	function updateform($subaction, $param)
