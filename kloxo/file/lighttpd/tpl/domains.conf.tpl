@@ -11,9 +11,26 @@ if (($webcache === 'none') || (!$webcache)) {
 }
 
 foreach ($certnamelist as $ip => $certname) {
-	if (file_exists("/home/kloxo/client/{$user}/ssl/{$domainname}.key")) {
+	$apath = "/etc/letsencrypt/archive/{$domainname}";
+	$lpath = "/etc/letsencrypt/live/{$domainname}";
+
+	if (file_exists("{$lpath}/cert.pem")) {
+		$enableletsencrypt = true;
+		$certnamelist[$ip] = $lpath;
+
+		if (!file_exists("{$lpath}/all.pem")) {
+			$tpostfix = str_replace("fullchain", "", basename(readlink("{$lpath}/fullchain.pem")));
+			$pemc = file_get_contents("{$apath}/fullchain{$tpostfix}");
+			$keyc = file_get_contents("{$apath}/privkey{$tpostfix}");
+			$allc = $keyc . $pemc;
+			file_put_contents("{$apath}/all{$tpostfix}", $allc);
+			exec("ln -sf {$apath}/all{$tpostfix} {$lpath}/all.pem");
+		}
+	} elseif (file_exists("/home/kloxo/client/{$user}/ssl/{$domainname}.key")) {
+		$enableletsencrypt = false;
 		$certnamelist[$ip] = "/home/kloxo/client/{$user}/ssl/{$domainname}";
 	} else {
+		$enableletsencrypt = false;
 		$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
 	}
 }
@@ -457,12 +474,20 @@ $SERVER["socket"] == ":" + var.portssl {
 
 	ssl.engine = "enable"
 
+<?php
+					if ($enableletsencrypt !== false) {
+?>
+	ssl.pemfile = "<?php echo $certname; ?>/all.pem"
+<?php
+					} else {
+?>
 	ssl.pemfile = "<?php echo $certname; ?>.pem"
 <?php
-					if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 	ssl.ca-file = "<?php echo $certname; ?>.ca"
 <?php
+						}
 					}
 ?>
 
