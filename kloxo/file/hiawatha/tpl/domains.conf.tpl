@@ -22,21 +22,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	if (file_exists("{$sslpath}/{$domainname}.key")) {
 		$certnamelist[$ip] = "{$sslpath}/{$domainname}";
-
-		if (!file_exists("{$sslpath}/{$domainname}-all.pem")) {
-			$pemc = file_get_contents("{$sslpath}/{$domainname}.pem");
-			$keyc = file_get_contents("{$sslpath}/{$domainname}.key");
-			$allc = $keyc . $pemc;
-			file_put_contents("{$sslpath}/{$domainname}-all.pem", $allc);
-		}
 	} else {
-		if (!file_exists("{$sslpathdef}/{$certname}-all.pem")) {
-			$pemc = file_get_contents("{$sslpathdef}/{$certname}.pem");
-			$keyc = file_get_contents("{$sslpathdef}/{$certname}.key");
-			$allc = $keyc . $pemc;
-			file_put_contents("{$sslpathdef}/{$certname}-all.pem", $allc);
-		}
-
 		$certnamelist[$ip] = "{$sslpathdef}/{$certname}";
 	}
 }
@@ -238,7 +224,7 @@ VirtualHost {
 <?php
 			if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -297,7 +283,7 @@ VirtualHost {
 <?php
 			if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -360,7 +346,7 @@ VirtualHost {
 <?php
 			if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -434,7 +420,7 @@ VirtualHost {
 <?php
 				if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 					if (file_exists("{$certname}.ca")) {
 ?>
@@ -478,7 +464,7 @@ VirtualHost {
 <?php
 				if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 					if (file_exists("{$certname}.ca")) {
 ?>
@@ -554,7 +540,7 @@ VirtualHost {
 		if ($count !== 0) {
 			if ($enablessl) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
@@ -735,7 +721,7 @@ VirtualHost {
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -819,7 +805,7 @@ VirtualHost {
 					if ($count !== 0) {
 						if ($enablessl) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -906,7 +892,7 @@ VirtualHost {
 <?php
 					if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
@@ -970,7 +956,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -1042,7 +1028,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -1132,7 +1118,7 @@ VirtualHost {
 <?php
 					if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
@@ -1207,7 +1193,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
@@ -1281,7 +1267,7 @@ VirtualHost {
 <?php
 						if ($count !== 0) {
 ?>
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>

@@ -134,7 +134,7 @@ Binding {
 		if ($count !== 0) {
 ?>
 
-	TLScertFile = <?php echo $certname; ?>-all.pem
+	TLScertFile = <?php echo $certname; ?>.pem
 <?php
 			if (file_exists("{$certname}.ca")) {
 ?>

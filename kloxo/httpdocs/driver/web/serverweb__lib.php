@@ -365,12 +365,14 @@ class serverweb__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile($haecdpath, "suphp2.conf"), $ehcdpath . "/suphp2.conf");
 			}
 
-			if (stripos($this->main->php_type, 'fcgid') !== false) {
-				lxfile_cp(getLinkCustomfile($haecdpath, "fcgid2.conf"), $ehcdpath . "/fcgid.conf");
-				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/fcgid2.conf");
-			} else {
-				lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/fcgid.conf");
-				lxfile_cp(getLinkCustomfile($haecdpath, "fcgid2.conf"), $ehcdpath . "/fcgid2.conf");
+			if (isWebProxy()) {
+				if (stripos($this->main->php_type, 'fcgid') !== false) {
+					lxfile_cp(getLinkCustomfile($haecdpath, "fcgid2.conf"), $ehcdpath . "/fcgid.conf");
+					lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/fcgid2.conf");
+				} else {
+					lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/fcgid.conf");
+					lxfile_cp(getLinkCustomfile($haecdpath, "fcgid2.conf"), $ehcdpath . "/fcgid2.conf");
+				}
 			}
 		} else {
 			lxfile_rm("{$ehcdpath}/suphp2.conf");

@@ -2,6 +2,8 @@
 
 . /script/counter-start.inc
 
+echo "*** Please wait...***"; echo -en "\e[1A\e[1A"
+
 if [ "$1" == "-y" ] ; then
 	sh /script/fix-service-list >/dev/null 2>&1
 fi

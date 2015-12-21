@@ -25,14 +25,14 @@ class sslipaddress__sync extends lxDriverClass
 	//	$contentpem = "$contentscer\n$contentskey";
 
 		// MR -- make the same as program.pem; like inside lighttpd.conf example inside
-		$contentpem = "$contentskey\n$contentscer";
+		$contentspem = "{$contentskey}\n{$contentscer}";
 
-		lfile_put_contents("$path/$name.pem", $contentpem);
+		lfile_put_contents("{$path}/{$name}.pem", $contentspem);
 
 		if ($contentsca) {
-			lfile_put_contents("$path/$name.ca", $contentsca);
+			lfile_put_contents("{$path}/{$name}.ca", $contentsca);
 		} else {
-			lxfile_cp("theme/filecore/program.ca", "$path/$name.ca");
+			lxfile_cp("theme/filecore/program.ca", "{$path}/{$name}.ca");
 		}
 
 	//	createRestartFile($this->main->__var_webdriver);
