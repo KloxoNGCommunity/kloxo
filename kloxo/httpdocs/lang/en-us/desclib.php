@@ -638,6 +638,7 @@ $__description["admin_user_name"] = array("Admin User Name");
 $__description["database_type"] = array("Database Type");
 $__description["admin_password"] = array("Admin Password");
 $__description["update_dbadmin"] = array("Update DBAdmin");
+
 $__description["ssl_configuration"] = array("SSL Configuration");
 $__description["client_template"] = array("Client Template");
 $__description["ssl_client"] = array("SSL Client");
@@ -651,19 +652,25 @@ $__description["organization"] = array("Organization");
 $__description["department_name"] = array("Department Name");
 $__description["common_name"] = array("Common Name (CN)");
 $__description["email_address"] = array("Email Address");
-$__description["subject_alt_name"] = array("Subject Alt Name (SAN)");
+$__description["subject_alt_name"] = array("Subject Alternative Name (SAN)");
+$__description["ssl_action"] = array("Action");
+$__description["ssl_parent"] = array("SSL Parent");
+$__description["ssl_uploadfile"] = array("SSL File");
+$__description["ssl_uploadtext"] = array("SSL Text");
+$__description["ssl_letsencrypt"] = array("Let's Encrypt");
+$__description["ssl_link"] = array("SSL Link");
 
 $__description["ssl_certificate"] = array("SSL Certificate");
-$__description["ssl_key_bits"] = array("SSL Key Bits");
-$__description["ssl_certificate_name"] = array("SSL Certificate Name");
+$__description["ssl_key_bits"] = array("Key Bits");
+$__description["ssl_certificate_name"] = array("Certificate Name");
 $__description["slave_ID (master_is_localhost)"] = array("Slave ID (master Is Localhost)");
 $__description["CSR"] = array("CSR");
-$__description["Key"] = array("Key");
-$__description["Certificate"] = array("Certificate");
-$__description["CACert"] = array("CACert");
-$__description["key_file"] = array("Key File");
-$__description["certificate_file"] = array("Certificate File");
-$__description["certificate_CA_file"] = array("Certificate CA File");
+$__description["Key"] = array("Key (---PRIVATE KEY---)");
+$__description["Certificate"] = array("Certificate (---CERTIFICATE---)");
+$__description["CACert"] = array("CACert (---CERTIFICATE---)");
+$__description["key_file"] = array("Key File (---PRIVATE KEY---)");
+$__description["certificate_file"] = array("Certificate File (---CERTIFICATE---)");
+$__description["certificate_CA_file"] = array("Certificate CA File (---CERTIFICATE---)");
 $__description["data"] = array("Data");
 $__description["upload File"] = array("Upload File");
 $__description["upload Txt"] = array("Upload Txt");
@@ -1384,3 +1391,4 @@ $__description["master_ip"] = array("Master IP Address");
 $__description["slave_domain"] = array("Slave Domain");
 
 $__description["allowedblocked_ip"] = array("Allowed / Blocked IP");
+

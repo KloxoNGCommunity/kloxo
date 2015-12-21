@@ -830,10 +830,13 @@ abstract class Lxclient extends Lxdb
 		}
 		
 		$url = "a=list&c=utmp";
-		$ilist['Last Login'] = "_lxinurl:$url:{$res[1]['ip_address']}:";
+	//	$ilist['Last Login'] = "_lxinurl:$url:{$res[1]['ip_address']}:";
+		$ilist[$this->getKeywordUc('info_lastloginip')] = "_lxinurl:$url:{$res[1]['ip_address']}:";
+
 	//	$date = @ date('h.i,d-M-Y', $res[1]['logintime']);
 		$date = @ date('Y-m-d H.i.s', $res[1]['logintime']);
-		$ilist['Last Login Time'] = "_lxinurl:$url:$date:";
+	//	$ilist['Last Login Time'] = "_lxinurl:$url:$date:";
+		$ilist[$this->getKeywordUc('info_lastlogintime')] = "_lxinurl:$url:$date:";
 	}
 
 	function updatechange_plan($param)

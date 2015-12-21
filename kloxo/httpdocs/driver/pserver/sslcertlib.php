@@ -40,7 +40,7 @@ class SslCert extends Lxdb
 //	static $__desc_ssl_ca_file_f =  array("F", "",  "authority_file");
 	static $__desc_upload = array("", "", "data");
 	static $__desc_upload_v_uploadfile = array("", "", "upload File");
-	static $__desc_upload_v_uploadtxt = array("", "", "upload Txt");
+	static $__desc_upload_v_uploadtext = array("", "", "upload Text");
 
 	static $__acdesc_update_update = array("", "", "certificate_info");
 	static $__acdesc_update_ssl_kloxo = array("", "", "set_ssl_for_kloxo");
@@ -133,7 +133,7 @@ class SslCert extends Lxdb
 		$alist[] = "a=list&c=$class";
 		$alist[] = "a=addform&c=$class";
 		$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=uploadfile";
-		$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=uploadtxt";
+		$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=uploadtext";
 
 		return $alist;
 	}
@@ -348,7 +348,7 @@ class SslCert extends Lxdb
 			$vlist['ssl_crt_file_f'] = null;
 			$vlist['ssl_ca_file_f'] = null;
 			$sgbl->method = 'post';
-		} else if ($typetd['val'] === 'uploadtxt') {
+		} else if ($typetd['val'] === 'uploadtext') {
 			$vlist['nname'] = $nname;
 			$vlist['text_crt_content'] = null;
 			$vlist['text_key_content'] = null;

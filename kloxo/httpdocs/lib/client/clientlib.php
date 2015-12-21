@@ -214,18 +214,23 @@ class Client extends ClientBase
 		
 		if (!$this->isAdmin()) {
 			if ($this->isLogin()) {
-				$ilist['Resource Plan'] = $resource;
+			//	$ilist['Resource Plan'] = $resource;
+				$ilist[$login->getKeywordUc('info_resourceplan')] = $resource;
 			} else {
-				$ilist['Resource Plan'] = "_lxinurl:a=updateform&sa=change_plan:$resource:";
+			//	$ilist['Resource Plan'] = "_lxinurl:a=updateform&sa=change_plan:$resource:";
+				$ilist[$login->getKeywordUc('info_resourceplan')] = "_lxinurl:a=updateform&sa=change_plan:$resource:";
 			}
 		}
 
 		if ($this->priv->isOn('webhosting_flag')) {
 			$url = "a=show&l[class]=ffile&l[nname]=/";
-			$ilist['Home'] = "_lxinurl:{$url}:/home/{$this->getPathFromName()}/:";
-			$ilist['Username'] = "_lxspan:{$this->username}:{$this->username}:";
+		//	$ilist['Home'] = "_lxinurl:{$url}:/home/{$this->getPathFromName()}/:";
+			$ilist[$login->getKeywordUc('info_home')] = "_lxinurl:{$url}:/home/{$this->getPathFromName()}/:";
+		//	$ilist['Username'] = "_lxspan:{$this->username}:{$this->username}:";
+			$ilist[$login->getKeywordUc('info_username')] = "_lxspan:{$this->username}:{$this->username}:";
 			$url = "&a=updateform&sa=default_domain";
-			$ilist['Default Domain'] = "_lxinurl:{$url}:{$this->default_domain}:";
+		//	$ilist['Default Domain'] = "_lxinurl:{$url}:{$this->default_domain}:";
+			$ilist[$login->getKeywordUc('info_defaultdomain')] = "_lxinurl:{$url}:{$this->default_domain}:";
 		}
 		
 		$this->getLastLogin($ilist);
@@ -233,7 +238,8 @@ class Client extends ClientBase
 		$skin = $this->getSpecialObject('sp_specialplay')->skin_name;
 		$skin = ucfirst($skin);
 		$url = "o=sp_specialplay&a=updateform&sa=skin";
-		$ilist['Skin'] = "_lxinurl:$url:$skin:";
+	//	$ilist['Skin'] = "_lxinurl:$url:$skin:";
+		$ilist[$login->getKeywordUc('info_skin')] = "_lxinurl:$url:$skin:";
 
 		if ($this->isNotCustomer()) {
 			return $ilist;

@@ -35,27 +35,27 @@ if ($reverseproxy) {
 }
 
 foreach ($certnamelist as $ip => $certname) {
-	$apath = "/etc/letsencrypt/archive/{$domainname}";
-	$lpath = "/etc/letsencrypt/live/{$domainname}";
+	$sslpathdef = "/home/kloxo/httpd/ssl";	
+	$sslpath = "/home/kloxo/client/{$user}/ssl";
 
-	if (file_exists("{$lpath}/cert.pem")) {
-		$enableletsencrypt = true;
-		$certnamelist[$ip] = $lpath;
+	if (file_exists("{$sslpath}/{$domainname}.key")) {
+		$certnamelist[$ip] = "{$sslpath}/{$domainname}";
 
-		if (!file_exists("{$lpath}/all.pem")) {
-			$tpostfix = str_replace("fullchain", "", basename(readlink("{$lpath}/fullchain.pem")));
-			$pemc = file_get_contents("{$apath}/fullchain{$tpostfix}");
-			$keyc = file_get_contents("{$apath}/privkey{$tpostfix}");
+		if (!file_exists("{$sslpath}/{$domainname}-all.pem")) {
+			$pemc = file_get_contents("{$sslpath}/{$domainname}.pem");
+			$keyc = file_get_contents("{$sslpath}/{$domainname}.key");
 			$allc = $keyc . $pemc;
-			file_put_contents("{$apath}/all{$tpostfix}", $allc);
-			exec("ln -sf {$apath}/all{$tpostfix} {$lpath}/all.pem");
+			file_put_contents("{$sslpath}/{$domainname}-all.pem", $allc);
 		}
-	} elseif (file_exists("/home/kloxo/client/{$user}/ssl/{$domainname}.key")) {
-		$enableletsencrypt = false;
-		$certnamelist[$ip] = "/home/kloxo/client/{$user}/ssl/{$domainname}";
 	} else {
-		$enableletsencrypt = false;
-		$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+		if (!file_exists("{$sslpathdef}/{$certname}-all.pem")) {
+			$pemc = file_get_contents("{$sslpathdef}/{$certname}.pem");
+			$keyc = file_get_contents("{$sslpathdef}/{$certname}.key");
+			$allc = $keyc . $pemc;
+			file_put_contents("{$sslpathdef}/{$certname}-all.pem", $allc);
+		}
+
+		$certnamelist[$ip] = "{$sslpathdef}/{$certname}";
 	}
 }
 
@@ -197,23 +197,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-				} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("{$certname}.ca")) {
-
+				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-					}
 				}
 ?>
 	</IfModule>
@@ -349,24 +339,14 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-			if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-			} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
 				if (file_exists("{$certname}.ca")) {
-
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
 				}
-			}
 ?>
 	</IfModule>
 <?php
@@ -500,23 +480,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-				} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("{$certname}.ca")) {
-
+				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-					}
 				}
 ?>
 	</IfModule>
@@ -552,23 +522,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-				} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("{$certname}.ca")) {
-
+				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-					}
 				}
 ?>
 	</IfModule>
@@ -716,23 +676,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-				} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-					if (file_exists("{$certname}.ca")) {
-
+				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-					}
 				}
 ?>
 	</IfModule>
@@ -1084,23 +1034,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-							} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
-
+							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
 							}
 ?>
 	</IfModule>
@@ -1258,23 +1198,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-							} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
-
+							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
 							}
 ?>
 	</IfModule>
@@ -1320,23 +1250,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-						if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-						} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-							if (file_exists("{$certname}.ca")) {
-
+						if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-							}
 						}
 ?>
 	</IfModule>
@@ -1471,23 +1391,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-							} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
-
+							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
 							}
 ?>
 		</IfModule>
@@ -1523,23 +1433,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-							} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
-
+							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
 							}
 ?>
 	</IfModule>
@@ -1690,23 +1590,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-						if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-						} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-							if (file_exists("{$certname}.ca")) {
-
+						if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-							}
 						}
 ?>
 	</IfModule>
@@ -1841,23 +1731,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-							} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
-
+							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
 							}
 ?>
 	</IfModule>
@@ -1893,23 +1773,13 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLHonorCipherOrder On
 		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-		SSLCertificateFile <?php echo $certname; ?>/fullchain.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>/privkey.pem
-<?php
-							} else {
-?>
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-								if (file_exists("{$certname}.ca")) {
-
+							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 <?php
-								}
 							}
 ?>
 	</IfModule>

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+kloxopath='/usr/local/lxlabs/kloxo'
+
+yum -y install python27 python27-devel python27-pip python27-setuptools python27-tools python27-virtualenv
+
+yum install -y python python-devel python-virtualenv
+
+# these would be installed automaticly by the client but I prefer to do it myself
+yum -y install gcc dialog augeas-libs openssl-devel libffi-devel redhat-rpm-config ca-certificates
+
+# install let
+yum -y install git
+cd ${kloxopath}
+if [ -d ${kloxopath}/letsencrypt ] ; then
+	rm -rf ${kloxopath}/letsencrypt
+	rm -rf /root/.local/share/letsencrypt
+fi
+git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt
+
+ln -sf /usr/local/lxlabs/kloxo/letsencrypt/letsencrypt-auto /usr/bin/letsencrypt-auto
+ln -sf /usr/local/lxlabs/kloxo/letsencrypt/py26reqs.txt /usr/bin/py26reqs.txt
+
+${kloxopath}/letsencrypt/letsencrypt-auto --verbose

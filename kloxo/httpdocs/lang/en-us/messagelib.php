@@ -387,20 +387,21 @@ $__information['domainipaddress_updateform_update_pre'] = "<p>This will allow yo
 $__information['sslipaddress_updateform_update_pre'] = "<p>To setup an ssl for an ipaddress, first upload/add an ssl certificate ".
 	"from <url:goback=2&a=list&c=sslcert>[here]</url>.</p>";
 
-$__information['sslcert_updateform_update_pre'] = "<p>Two option for SSL certifate:</p>" .
+$__information['sslcert_updateform_update_pre'] = "<p>Two option for SSL certificate:</p>" .
 		"<ul>" .
 			"<li><b>IP Address based</b>: must assign to certain IP address and possible access domain via IP address" .
 				"<p>To assign IP address, click <url:goback=2&a=list&c=ipaddress>[here]</url> and then go into an IP address, ".
 				"and click on <b>ssl certificate</b> tab and select an IP address.</p>" .
 				"<p>The admin will need to have assigned you an exclusive ipaddress for you to access this feature.</p></li>" .
 			"<li><b>Domain based</b>: possible every domains heve their owned ssl certifate without assign to IP address</li>" .
-		"</ul>" .
+		"</ul>";
+	/*
 		"<p><b>Note</b>:" .
 		"<ul>" .
 			"<li><b>Common Name</b>: Set wildcards (*) domain (ex: *.domain.com)</li>" .
 			"<li><b>Subject Alt Name</b>: Set primary domain (ex: domain.com) and other domains (separated by comma; including their wildcards if needed)</li>" .
 		"</ul>";
-
+	*/
 $__information['domain_not_customer'] = "<p>To add a domain, create a customer first, and you can add domains under him.</p>".
 	"<p>To add a customer, click <url:a=addform&c=client&dta[var]=cttype&dta[val]=customer>[here]</url>.</p>";
 
@@ -753,10 +754,31 @@ $__information['sslcert_list__pre'] = "<p>List certificate which you able to use
 $__information['sslcert_addform__pre'] = $__information['sslcert_updateform_update_pre'];
 
 $__information['sslcert_addform_uploadfile_pre'] = "<p>You can upload your certificate here.</p>".
-	"<p>As alternative, you can use 'Add Upload Txt' to copy-paste certificate contents.</p>";
+	"<p>As alternative, you can use 'Add SSL Text' to copy-paste certificate contents.</p>" .
+	"<p><b>Note</b>:" .
+		"<ul>" . 
+			"<li>You can combine/merge all '(---CERTIFICATE---)' file/text and upload/insert to 'Certificate File'/'Certificate'</li>" .
+		"</ul>";
 
-$__information['sslcert_addform_uploadtxt_pre'] = "<p>You can copy-paste your certificate contents here.</p>".
-	"<p>As alternative, you can use 'Add Upload File' to upload certificate files.</p>";
+$__information['sslcert_addform_uploadtext_pre'] = "<p>You can copy-paste your certificate contents here.</p>".
+	"<p>As alternative, you can use 'Add SSL File' to upload certificate files.</p>" .
+	"<p><b>Note</b>:" .
+	"<p><b>Note</b>:" .
+		"<ul>" . 
+			"<li>You can combine/merge all '(---CERTIFICATE---)' file/text and upload/insert to 'Certificate File'/'Certificate'</li>" .
+		"</ul>";
+
+$__information['sslcert_addform_letsencrypt_pre'] = "<p>You can <b>Let's Encrypt</b> free SSL here. </p>" . 
+	"Subdomain must be part of domain SSL. " .
+	"Possible 99 SAN (Subject Alternative Name) for each domain</p>" .
+	"<p><b>Note</b>:" .
+		"<ul>" .
+			"<li>Select 'test' for 'SSL Action' before make sure all running well</li>" .
+			"<li>Expire in 90 days and then need renew (update) before expire</li>" .
+			"<li>Use 'Add Link' to parent SSL (domain SSL) for subdomain SSL</li>" .
+		"</ul>";
+
+$__information['sslcert_addform_link_pre'] = "<p>For wildcards ('*') or 'Let's Encrypt' SSL, SSL for subdomain just link to their parent SSL";
 
 $__information['serverweb_updateform_edit_pre'] = $__information['webserver_config'];
 

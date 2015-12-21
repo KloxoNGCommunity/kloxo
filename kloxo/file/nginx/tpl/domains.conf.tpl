@@ -13,26 +13,27 @@ if (($webcache === 'none') || (!$webcache)) {
 $listens = array('listen_nonssl', 'listen_ssl');
 
 foreach ($certnamelist as $ip => $certname) {
-	$apath = "/etc/letsencrypt/archive/{$domainname}";
-	$lpath = "/etc/letsencrypt/live/{$domainname}";
+	$sslpathdef = "/home/kloxo/httpd/ssl";	
+	$sslpath = "/home/kloxo/client/{$user}/ssl";
 
-	if (file_exists("{$apath}/cert1.pem")) {
-		$enableletsencrypt = true;
-		$certnamelist[$ip] = $lpath;
+	if (file_exists("{$sslpath}/{$domainname}.key")) {
+		$certnamelist[$ip] = "{$sslpath}/{$domainname}";
 
-		if (!file_exists("{$apath}/all.pem")) {
-			$pemc = file_get_contents("{$apath}/fullchain1.pem");
-			$keyc = file_get_contents("{$apath}/privkey1.pem");
+		if (!file_exists("{$sslpath}/{$domainname}-all.pem")) {
+			$pemc = file_get_contents("{$sslpath}/{$domainname}.pem");
+			$keyc = file_get_contents("{$sslpath}/{$domainname}.key");
 			$allc = $keyc . $pemc;
-			file_put_contents("{$apath}/all.pem", $allc);
-			exec("ln -sf {$apath}/all.pem {$lpath}/all.pem");
+			file_put_contents("{$sslpath}/{$domainname}-all.pem", $allc);
 		}
-	} elseif (file_exists("/home/kloxo/client/{$user}/ssl/{$domainname}.key")) {
-		$enableletsencrypt = false;
-		$certnamelist[$ip] = "/home/kloxo/client/{$user}/ssl/{$domainname}";
 	} else {
-		$enableletsencrypt = false;
-		$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+		if (!file_exists("{$sslpathdef}/{$certname}-all.pem")) {
+			$pemc = file_get_contents("{$sslpathdef}/{$certname}.pem");
+			$keyc = file_get_contents("{$sslpathdef}/{$certname}.key");
+			$allc = $keyc . $pemc;
+			file_put_contents("{$sslpathdef}/{$certname}-all.pem", $allc);
+		}
+
+		$certnamelist[$ip] = "{$sslpathdef}/{$certname}";
 	}
 }
 
@@ -154,22 +155,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-				} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-					}
 				}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -210,22 +202,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-				} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-					}
 				}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -268,22 +251,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-				} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-					}
 				}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -327,22 +301,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-					if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-					} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-						if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-						}
 					}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -376,22 +341,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-					if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-					} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-						if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-						}
 					}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -444,22 +400,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-				if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-				} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-					if (file_exists("{$certname}.ca")) {
+				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-					}
 				}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -705,22 +652,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-							} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-								}
 							}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -779,22 +717,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-							} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-								}
 							}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -846,22 +775,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-						if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-						} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-							if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-							}
 						}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -905,22 +825,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-						if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-						} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-							if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-							}
 						}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -956,22 +867,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-							} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-								}
 							}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -1031,22 +933,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-						if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-						} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-							if (file_exists("{$certname}.ca")) {
+						if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-							}
 						}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -1090,22 +983,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-							} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-								}
 							}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -1139,22 +1023,13 @@ server {
 ?>
 
 	ssl on;
-<?php
-							if ($enableletsencrypt !== false) {
-?>
-	ssl_certificate <?php echo $certname; ?>/fullchain1.pem;
-	ssl_certificate_key <?php echo $certname; ?>/privkey1.pem;
-<?php
-							} else {
-?>
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
-								if (file_exists("{$certname}.ca")) {
+							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
-								}
 							}
 ?>
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;

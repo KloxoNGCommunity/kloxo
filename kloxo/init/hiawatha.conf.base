@@ -104,7 +104,7 @@ Binding {
 	## not able more than 100MB; hiawatha-9.3-2 able until 2GB
 	MaxUploadSize = 2000
 	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
-	TLScertFile = /usr/local/lxlabs/kloxo/etc/program.pem
+	TLScertFile = /usr/local/lxlabs/kloxo/etc/program-all.pem
 }
 
 ## CF - no need for Virtual Host, all default to this:

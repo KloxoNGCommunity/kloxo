@@ -1,6 +1,16 @@
 #!/bin/sh
 
-sh /script/fix-service-list >/dev/null 2>&1
+. /script/counter-start.inc
+
+if [ "$1" == "-y" ] ; then
+	sh /script/fix-service-list >/dev/null 2>&1
+fi
 
 . /script/directory
 lxphp.exe ../bin/fix/sysinfo.php $*
+
+. /script/counter-end.inc
+
+echo "* Note: run 'sh $0 -y' if you want run 'fix-service-list' also"
+echo "        (importance after Kloxo-MR update)"
+echo

@@ -8136,18 +8136,22 @@ class HtmlLib
 			$fontcolor = "#999";
 		}
 
-		if ($pinfo !== '') {
-			$baselink = "a=" . $type;
+		$baselink = "a=" . $type;
 
-			if ($extr !== '') { $baselink .= "&sa=" . $extr; }
+		if ($extr !== '') { $baselink .= "&sa=" . $extr; }
 
-			if ($class !== '') {
-				if ($type === 'show') {
-					$baselink .= "&o=" . $class;
-				} else {
-					$baselink .= "&c=" . $class;
-				}
+		if ($class !== '') {
+			if ($type === 'show') {
+				$baselink .= "&o=" . $class;
+			} else {
+				$baselink .= "&c=" . $class;
 			}
+		}
+
+		// MR -- to know help link
+	//	xprint('baselink: ' . $baselink . '; ' . 'info: ' . $info);
+
+		if ($pinfo !== '') {
 ?>
 		<div id="infomsg" style="display: none; width: 600px; margin: 10px auto">
 			<div style="padding: 4px 0; margin: 0 10px;"><span style="background-color: #f88; padding: 4px 8px; font-weight: bold; color: #ffc"><?= $login->getKeywordUc('help') ?>: <?= $this->getTitleOnly($baselink) ?></span> <!-- <?= $info ?> --></div>
