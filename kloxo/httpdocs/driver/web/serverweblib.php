@@ -69,7 +69,6 @@ class serverweb extends lxdb
 
 			// MR -- no need while under root
 		//	chown('/tmp/multiple_php_install.tmp', 'root:root');
-
 		}
 
 	}
@@ -212,8 +211,10 @@ class serverweb extends lxdb
 						$b = explode('_(', $v);
 						$a[$k] = $b[0];
 
-						if (strpos($a[$k], 'u') !== false) {
+						if (strrpos($a[$k], 'u') !== false) {
 							$c[] = str_replace('u', '', $a[$k]);
+						} elseif (strrpos($a[$k], 'w') !== false) {
+							$c[] = str_replace('w', '', $a[$k]);
 						}
 					}
 				}
@@ -221,7 +222,7 @@ class serverweb extends lxdb
 				$a = array_diff($a, $c);
 
 				foreach($a as $k => $v) {
-					$a[$k] = str_replace('u', '', $v) . "m";
+					$a[$k] = str_replace('w', '', str_replace('u', '', $v) . "m");
 				}
 
 				$d = $phpm;
