@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ ! -f /usr/local/maldetect/maldet ] ; then
+	cd /tmp
+
+	wget http://www.rfxn.com/downloads/maldetect-current.tar.gz
+	tar -zxvf maldetect-current.tar.gz
+	rm -rf maldetect-current.tar.gz
+	cd maldetect*/
+	./install.sh
+	cd ..
+	rm -rf maldetect*
+else
+	maldet -d
+fi
+
+if [ "$(cat /etc/cron.daily/maldet|grep '/home/?/,')" == "" ]; then
+	sed -i 's: /home?/?/public_html/,: /home/?/,/home?/?/public_html/,:' /etc/cron.daily/maldet
+fi

@@ -387,6 +387,10 @@ function kloxo_install_step1()
 
 	system("yum -y install $list");
 
+	print(">>> Adding MalDetect <<<\n");
+
+	system("sh /script/maldet-installer");
+
 	print(">>> Adding Kloxo-MR webmail/thirparty/stats <<<\n");
 
 	// MR -- it's include packages like kloxomr7-thirdparty

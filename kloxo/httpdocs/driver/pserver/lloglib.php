@@ -37,9 +37,14 @@ class Llog extends Lxclass {
 
 	function getFfileFromVirtualList($name)
 	{
-		$name = coreFfile::getRealpath($name);
-		$name = '/' . $name;
-		$ffile= new Ffile($this->__masterserver, $this->__readserver, "__path_log", $name, $this->getParentO()->username);
+		if (substr($name, 0, 1) !== '/') {
+			$name = coreFfile::getRealpath($name);
+			$name = '/' . $name;
+			$ffile= new Ffile($this->__masterserver, $this->__readserver, "__path_log", $name, $this->getParentO()->username);
+		} else {
+			$ffile= new Ffile($this->__masterserver, $this->__readserver, "/", $name, $this->getParentO()->username);
+		}
+
 		$ffile->__parent_o = $this;
 		$ffile->get();
 		$ffile->readonly = 'on';
@@ -95,6 +100,8 @@ class Llog extends Lxclass {
 			'pureftpd.log' => 'Pure-ftp',
 
 			'rkhunter/rkhunter.log' => 'RKHunter',
+
+			'/usr/local/maldetect/logs/event_log' => 'MalDetect',
 
 			'yum.log' => 'Yum');
 
