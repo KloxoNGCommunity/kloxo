@@ -47,6 +47,7 @@ class portconfig_b extends lxaclass
 	static $__desc_nonsslport = array("", "", "plain_port");
 	static $__desc_nonsslportdisable_flag = array("f", "", "disable_plainport");
 	static $__desc_redirectnonssl_flag = array("f", "", "redirect_non_ssl_to_ssl");
+	static $__desc_redirecttodomain = array("", "", "redirect_to_domain");
 }
 
 class kloxoconfig_b extends lxaclass
@@ -269,10 +270,22 @@ class General extends Lxdb
 		exec("echo '$sslport' > /home/kloxo/httpd/cp/.ssl.port");
 		exec("echo '$nonsslport' > /home/kloxo/httpd/cp/.nonssl.port");
 
+		$loginpath = "/usr/local/lxlabs/kloxo/httpdocs/login";
+
 		if ($param['portconfig_b-redirectnonssl_flag'] === 'on') {
-			touch("/usr/local/lxlabs/kloxo/httpdocs/login/redirect-to-ssl");
+			touch("{$loginpath}/redirect-to-ssl");
 		} else {
-			unlink("/usr/local/lxlabs/kloxo/httpdocs/login/redirect-to-ssl");
+			unlink("{$loginpath}/redirect-to-ssl");
+		}
+
+		if ($param['portconfig_b-redirecttodomain'] !== '') {
+			$dom = $param['portconfig_b-redirecttodomain'];
+
+			validate_domain_name($dom);
+
+			exec("echo '$dom' > {$loginpath}/redirect-to-domain");
+		} else {
+			exec("rm -f {$loginpath}/redirect-to-domain");
 		}
 
 		return $param;
@@ -361,6 +374,7 @@ class General extends Lxdb
 				$vlist['portconfig_b-nonsslport'] = null;
 			//	$vlist['portconfig_b-nonsslportdisable_flag'] = null;
 				$vlist['portconfig_b-redirectnonssl_flag'] = null;
+				$vlist['portconfig_b-redirecttodomain'] = null;
 
 				break;
 

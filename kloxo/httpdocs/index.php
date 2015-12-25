@@ -2,9 +2,6 @@
 
 include_once "lib/html/displayinclude.php";
 
-// redirect_to_domain();
-// redirect_to_https();
-
 include_once "lib/redirect.php";
 
 main_main();

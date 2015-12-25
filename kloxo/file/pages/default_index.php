@@ -1,27 +1,4 @@
 <?php
-/*
-	// MR -- copy this function and caller to redirect-ssl.php
-	// or you can use .htaccess if using apache or -proxy
-	
-	// RewriteEngine On
-	// RewriteCond %{HTTPS} off
-	// RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
-
-	function redirect_to_ssl() {
-		if(!isset($_SERVER["HTTPS"])) {
-			$host = $_SERVER["HTTP_HOST"];
-			$requesturi = $_SERVER["REQUEST_URI"];
-
-			header("HTTP/1.1 301 Moved Permanently");
-			header("Location: https://{$host}{$requesturi}");
-			exit();
-		}
-	}
-
-	// MR -- enabled in custom.index.php for redirect to https
-	redirect_to_ssl();
-*/
-
 	ini_set("display_errors","1");
 
 	if (file_exists("./custom-index.php")) {

@@ -1,34 +1,46 @@
 <?php
-	function redirect_to_hostname() {
-		$host = $_SERVER["HTTP_HOST"];
-		$scheme = $_SERVER["HTTP_SCHEME"];
-		$hostname = preg_replace('/(cp\.|webmail\.|www\.|mail\.)(.*)/i', "$2", $host);
-		$requesturi = $_SERVER["REQUEST_URI"];
+	$initpath = "/usr/local/lxlabs/kloxo/init";
+	$loginpath = "/usr/local/lxlabs/kloxo/httpdocs/login";
 
-		if (preg_match('/(cp\.|webmail\.|www\.|mail\.)(.*)/i', $host)) {
-			header("HTTP/1.1 301 Moved Permanently");
-			header("Location: {$scheme}://{$hostname}{$requesturi}");
-			exit();
+	$state = 0;
+
+	$host = $_SERVER["HTTP_HOST"];
+	$splitter = explode(":", $host);
+	$domain = $splitter[0];
+	$port = ($splitter[1]) ? $splitter[1] : '80';
+	$requesturi = $_SERVER["REQUEST_URI"];
+	$scheme = $_SERVER["HTTP_SCHEME"];
+
+//	if (file_exists("{$loginpath}/redirect-to-hostname")) {
+		$domain_pure = preg_replace('/(cp\.|webmail\.|www\.|mail\.)(.*)/i', "$2", $domain);
+
+		if ($domain_pure !== $domain) {
+			$state += 1;
+			$domain = $domain_pure;
+		}
+//	}
+
+	if (file_exists("{$loginpath}/redirect-to-ssl")) {
+		if ($_SERVER["HTTPS"] !== "on") {
+			$state += 2;
+			$port = str_replace("\n", "", file_get_contents("{$initpath}/port-ssl"));
+			$scheme = 'https';
 		}
 	}
 
-	function redirect_to_ssl() {
-		if($_SERVER["HTTPS"] !== "on") {
-			$fronthost = explode(":", $_SERVER["HTTP_HOST"]);
-			$port = file_get_contents("/usr/local/lxlabs/kloxo/init/port-ssl");
-			$requesturi = $_SERVER["REQUEST_URI"];
+	if (file_exists("{$loginpath}/redirect-to-domain")) {
+		// MR -- this domain always without ':port'
+		$domain = str_replace("\n", "", file_get_contents("{$loginpath}/redirect-to-domain"));
 
-			header("HTTP/1.1 301 Moved Permanently");
-			header("Location: https://{$fronthost[0]}:{$port}{$requesturi}");
-			exit();
+		if ($domain.':'.$port !== $host) {
+			$state += 4;
 		}
 	}
 
-	if (file_exists("/usr/local/lxlabs/kloxo/httpdocs/login/redirect-to-hostname")) {
-		// MR -- use address without www., cp., webmail. and mail. prefix
-		redirect_to_hostname();
-	}
+	if ($state !== 0) {
+	//	header("HTTP/1.1 301 Moved Permanently");
+	//	header("Location: {$scheme}://{$domain}:{$port}{$requesturi}");
+	//	exit();
 
-	if (file_exists("/usr/local/lxlabs/kloxo/httpdocs/login/redirect-to-ssl")) {
-		redirect_to_ssl();
+		echo "<script> location.replace('{$scheme}://{$domain}:{$port}{$requesturi}'); </script>";
 	}
