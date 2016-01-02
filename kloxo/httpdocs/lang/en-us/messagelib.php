@@ -175,7 +175,8 @@ $__information['lxguard_updateform_update_pre'] = "<p>Lxguard protects you again
 	"<p>If an IP is found in the whitelist, it won't be blocked, even if it has crossed the threshold of failed attempts.</p>".
 	"<p>To remove the warnings you get about Lxguard please click on the agreement checkbox below. </p>";
 
-$__information['general_updateform_generalsetting_pre'] = "<p>The 'HelpDesk URL' is a link to your HelpDesk, ".
+$__information['general_updateform_generalsetting_pre'] = "<p>Add multiple paths for 'Extra basedir' with separated by ':'. Example: /var/log/:/var/qmail:/opt/configs</p>" .
+	"<p>The 'HelpDesk URL' is a link to your HelpDesk, ".
 	"which will be used in place of the default help desk built into the software.</p>".
 	"<p>Community URL is the link the client will see on his left page, and in normal cases can point to your forum.</p>";
 
@@ -757,25 +758,27 @@ $__information['sslcert_addform_uploadfile_pre'] = "<p>You can upload your certi
 	"<p>As alternative, you can use 'Add SSL Text' to copy-paste certificate contents.</p>" .
 	"<p><b>Note</b>:" .
 		"<ul>" . 
-			"<li>You can combine/merge all '(---CERTIFICATE---)' file/text and upload/insert to 'Certificate File'/'Certificate'</li>" .
+			"<li>You can combine/merge all '(---CERTIFICATE---)' file/text and upload/insert to 'Certificate File'/'Certificate' or" .
+			" insert Certificate Authority/Chain/Intermediate file/text to 'Certificate Authority/Intermediate' file/text</li>" .
 		"</ul>";
 
 $__information['sslcert_addform_uploadtext_pre'] = "<p>You can copy-paste your certificate contents here.</p>".
 	"<p>As alternative, you can use 'Add SSL File' to upload certificate files.</p>" .
 	"<p><b>Note</b>:" .
-	"<p><b>Note</b>:" .
 		"<ul>" . 
-			"<li>You can combine/merge all '(---CERTIFICATE---)' file/text and upload/insert to 'Certificate File'/'Certificate'</li>" .
+			"<li>You can combine/merge all '(---CERTIFICATE---)' file/text and upload/insert to 'Certificate File'/'Certificate' or" .
+			" insert Certificate Authority/Chain/Intermediate file/text to 'Certificate Authority/Intermediate' file/text</li>" .
 		"</ul>";
 
-$__information['sslcert_addform_letsencrypt_pre'] = "<p>You can <b>Let's Encrypt</b> free SSL here. </p>" . 
-	"Subdomain must be part of domain SSL. " .
-	"Possible 99 SAN (Subject Alternative Name) for each domain</p>" .
+$__information['sslcert_addform_letsencrypt_pre'] = "<p>You can use <b>Let's Encrypt</b> free SSL here. </p>" . 
+	"Subdomain must be part of domain SSL and always create for domain only and add subdomain in SAN entry. " .
+	"</p>" .
 	"<p><b>Note</b>:" .
 		"<ul>" .
 			"<li>Select 'test' for 'SSL Action' before make sure all running well</li>" .
 			"<li>Expire in 90 days and then need renew (update) before expire</li>" .
-			"<li>Use 'Add Link' to parent SSL (domain SSL) for subdomain SSL</li>" .
+			"<li>Use 'Add SSL Link' to parent SSL (domain SSL) for activate subdomain SSL</li>" .
+			"<li>Possible 99 SANs (Subject Alternative Names) for each domain</li>" .
 		"</ul>";
 
 $__information['sslcert_addform_link_pre'] = "<p>For wildcards ('*') or 'Let's Encrypt' SSL, SSL for subdomain just link to their parent SSL";

@@ -98,3 +98,5 @@ ALTER TABLE `mmail` ADD `enable_spf_autoip` VARCHAR(255) NULL DEFAULT NULL AFTER
 ALTER TABLE `mmail` ADD `text_spf_include` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_spf_flag`;
 ALTER TABLE `mmail` ADD `text_spf_redirect` VARCHAR(255) NULL AFTER `text_spf_include`; 
 
+ALTER TABLE `sslcert` ADD `parent_domain` TEXT NULL AFTER `upload_status`;
+

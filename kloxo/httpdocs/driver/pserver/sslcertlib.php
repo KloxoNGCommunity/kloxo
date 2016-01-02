@@ -28,6 +28,7 @@ class SslCert extends Lxdb
 
 	static $__desc_nname = array("n", "", "ssl_certificate_name", URL_SHOW);
 	static $__desc_certname = array("n", "", "ssl_certificate_name", URL_SHOW);
+	static $__desc_parent_domain = array("n", "", "ssl_parent_domain", URL_SHOW);
 	static $__desc_syncserver = array("", "", "");
 	static $__desc_slave_id = array("", "", "slave_ID (master_is_localhost)");
 	static $__desc_text_csr_content = array("t", "", "CSR");
@@ -120,7 +121,8 @@ class SslCert extends Lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['nname'] = '80%';
+		$nlist['nname'] = '60%';
+		$nlist['parent_domain'] = '20%';
 		$nlist['syncserver'] = '20%';
 
 		return $nlist;
@@ -187,12 +189,10 @@ class SslCert extends Lxdb
 	static function setProgramSsl($contentpem, $contentsca, $contentscrt, $contentskey)
 	{
 		lfile_put_contents("../etc/program.pem", $contentcrt);
-		lfile_put_contents("../etc/program-all.pem", $contentpem);
 		lfile_put_contents("../etc/program.crt", $contentscrt);
 		lfile_put_contents("../etc/program.key", $contentskey);
 
 		lxfile_unix_chown("../etc/program.pem", "lxlabs:lxlabs");
-		lxfile_unix_chown("../etc/program-all.pem", "lxlabs:lxlabs");
 		lxfile_unix_chown("../etc/program.crt", "lxlabs:lxlabs");
 		lxfile_unix_chown("../etc/program.key", "lxlabs:lxlabs");
 
@@ -225,7 +225,7 @@ class SslCert extends Lxdb
 		//	$path = "/home/{$user}/ssl";
 			$path = "/home/kloxo/client/{$user}/ssl";
 
-			exec("'rm' -rf {$path}/{$name}*.*");
+			exec("'rm' -rf {$path}/{$name}.*");
 
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}", "--nolog");
 		//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
@@ -319,8 +319,7 @@ class SslCert extends Lxdb
 
 		$contentspem = "{$contentskey}\n{$contentscrt}";
 
-		lfile_put_contents("{$path}/{$name}.pem", $contentscrt);
-		lfile_put_contents("{$path}/{$name}-all.pem", $contentspem);
+		lfile_put_contents("{$path}/{$name}.pem", $contentspem);
 
 		if ($contentsca) {
 			lfile_put_contents("{$path}/{$name}.ca", $contentsca);
@@ -369,8 +368,8 @@ class SslCert extends Lxdb
 			$vlist['text_ca_content'] = null;
 		} else if ($typetd['val'] === 'letsencrypt') {
 			$vlist['nname'] = $nname;
-			$vlist['ssl_action'] = array("s", array("test", "final"));
-			$vlist['key_bits'] = array("s", array("4096", "2048"));
+			$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
+			$vlist['key_bits'] = array("s", array("2048", "4096"));
 			$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "www.{$parent->nname}");
 			$vlist["ssl_data_b_s_emailAddress_r"] = null;
 		} else if ($typetd['val'] === 'link') {

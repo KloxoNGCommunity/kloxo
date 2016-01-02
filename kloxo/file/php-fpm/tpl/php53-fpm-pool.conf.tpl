@@ -17,7 +17,7 @@
 		$userinfo = posix_getpwnam($user);
 		$fpmport = (50000 + $userinfo['uid']);
 		$openbasedir = "/home/$user/:/tmp/:/usr/share/pear/:/var/lib/php/session/:".
-			"/home/kloxo/httpd/script/:/home/kloxo/httpd/disable/";
+			"/home/kloxo/httpd/script/:/home/kloxo/httpd/disable/:{$extrabasedir}";
 	}
 
 	if ($user === 'apache') {

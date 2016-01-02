@@ -361,7 +361,7 @@ function kloxo_install_step1()
 	$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl-devel", "autoconf",
 		"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
 		"yum-plugin-replace", "crontabs", "make", "glibc-static", "net-snmp", "tmpwatch",
-		"rkhunter", "quota", "xinetd", "screen", "telnet", "ncdu", "sysstat");
+		"rkhunter", "quota", "xinetd", "screen", "telnet", "ncdu", "sysstat", "net-tools");
 
 	$list = implode(" ", $packages);
 
@@ -695,7 +695,14 @@ function install_yum_repo()
 
 	// MR -- need for OS (like fedora) where os version not the same with redhat/centos
 	if ($ret === 0) {
-		system("sed -i 's/\$releasever/6/' /etc/yum.repos.d/mratwork.repo");
+		$exec("rpm --qf '%{name}\n' -qf /sbin/init", $out2);
+
+		if ($out[0] === 'systemd') {
+			$ver = '7';
+		} else {
+			$ver = '6';
+		}
+		system("sed -i 's/\$releasever/{$ver}/' /etc/yum.repos.d/mratwork.repo");
 	} else {
 		system("sed -i 's/\$releasever/5/' /etc/yum.repos.d/mratwork.repo");
 	}
