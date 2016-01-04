@@ -937,7 +937,7 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
 		}
 
-		if ($disablephp) {
+		if (!$enablephp) {
 ?>
 	<FilesMatch \.php$>
 		SetHandler application/x-httpd-php-source
