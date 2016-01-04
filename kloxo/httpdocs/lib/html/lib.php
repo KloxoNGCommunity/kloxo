@@ -6257,21 +6257,20 @@ function setInitialPureftpConfig($nolog = null)
 	//	exec("chkconfig pure-ftpd off 2>/dev/null");
 	//	// MR --- chkconfig off not enough because can restart with 'service pure-ftpd start'
 	//	@lxfile_rm("/etc/init.d/pure-ftpd");
-		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/rc.d/init.d/pure-ftpd");
-		exec("chkconfig pure-ftpd on");
-		createRestartFile('restart-ftp');
+		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
+		exec("chkconfig pure-ftpd on; chmod 0755 /etc/init.d/pure-ftpd");
 	}
 
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {
 		log_cleanup("- Initialize /etc/pure-ftpd/pureftpd.passwd password database", $nolog);
 		lxfile_cp("/etc/pureftpd.passwd", "/etc/pure-ftpd/pureftpd.passwd");
 		lxshell_return("pure-pw", "mkdb");
-		createRestartFile("xinetd");
 	}
 
-	log_cleanup("- Restart xinetd service for pureftp", $nolog);
-	call_with_flag("restart_xinetd_for_pureftp");
-
+//	log_cleanup("- Restart xinetd service for pureftp", $nolog);
+//	call_with_flag("restart_xinetd_for_pureftp");
+	log_cleanup("- Restart pure-ftpd service", $nolog);
+	createRestartFile('restart-ftp');
 }
 
 function setInitialPhpMyAdmin($nolog = null)
