@@ -12,6 +12,7 @@
 	#SetHandler x-httpd-php54
 	#SetHandler x-httpd-php55
 	#SetHandler x-httpd-php56
+	#SetHandler x-httpd-php70
 #</FilesMatch>
 
 ### OR
@@ -30,5 +31,6 @@
 #FCGIWrapper /home/kloxo/client/php54.fcgi .php
 #FCGIWrapper /home/kloxo/client/php55.fcgi .php
 #FCGIWrapper /home/kloxo/client/php56.fcgi .php
+#FCGIWrapper /home/kloxo/client/php70.fcgi .php
 
 ### end content - please not remove this line

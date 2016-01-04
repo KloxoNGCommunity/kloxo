@@ -19,7 +19,9 @@ class serverftp__pureftp extends lxDriverclass
 			$anonval = "-E";
 		}
 
-		$txt = lfile_get_contents("../file/template/pureftp");
+	/*
+		// MR -- xinetd
+		$txt = lfile_get_contents("../file/pure-ftpd/etc/xinetd/pureftp");
 		$txt = str_replace("%lowport%", $this->main->lowport, $txt);
 		$txt = str_replace("%highport%", $this->main->highport, $txt);
 		$txt = str_replace("%maxclient%", $this->main->maxclient, $txt);
@@ -30,13 +32,24 @@ class serverftp__pureftp extends lxDriverclass
 		$begincomment[] = "### begin - add by Kloxo-MR";
 		$endcomment[] = "### end - add by Kloxo-MR";
 		$texttarget = "/etc/services";
-		$textcontent  = "pureftp {$this->main->defaultport}/tcp\n";
-		$textcontent .= "pureftp {$this->main->defaultport}/udp fsp fspd\n";
+		$textcontent  = "ftp {$this->main->defaultport}/tcp\n";
+		$textcontent .= "ftp {$this->main->defaultport}/udp fsp fspd\n";
 		$nowarning = true;
 
 		file_put_between_comments($this->main->defaultport, $begincomment, $endcomment,
 			$begincomment[0], $endcomment[0], $texttarget, $textcontent, $nowarning);
+	*/
 
-		createRestartFile('xinetd');
+		// MR -- init.d
+		$txt = lfile_get_contents("../file/pure-ftpd/etc/pure-ftpd/pure-ftpd.conf");
+		$txt = str_replace("%lowport%", $this->main->lowport, $txt);
+		$txt = str_replace("%highport%", $this->main->highport, $txt);
+		$txt = str_replace("%maxclient%", $this->main->maxclient, $txt);
+		$txt = str_replace("%port%", $this->main->defaultport, $txt);
+		$txt = str_replace("%anonymous%", $anonval, $txt);
+
+		lfile_put_contents("/etc/pure-ftpd/pure-ftpd.conf", $txt);
+
+		createRestartFile('restart-ftp');
 	}
 }

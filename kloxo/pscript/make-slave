@@ -1,4 +1,10 @@
 #!/bin/sh
-. /script/directory
-lxphp.exe ../bin/install/create.php --install-type=slave
-/script/restart
+
+if [ "$1" == "reverse" ] ;
+	mv -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db /usr/local/lxlabs/kloxo/etc/conf/slave-db.db.bck
+	sh /script/restart -y
+else
+	. /script/directory
+	lxphp.exe ../bin/install/create.php --install-type=slave
+	sh /script/restart -y
+fi

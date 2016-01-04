@@ -1,6 +1,6 @@
 #!/bin/sh
 
-php_rc='/etc'
+php_rc='/etc/php.ini'
 php_scan='/etc/php.d'
 php_prog='/usr/bin/php-cgi'
 

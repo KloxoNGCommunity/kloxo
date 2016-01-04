@@ -478,7 +478,8 @@ function lxfile_mkdir($dir)
  */
 function lxfile_cp($src, $dst)
 {
-	global $gbl, $sgbl, $login, $ghtml; 
+	global $gbl, $sgbl, $login, $ghtml;
+
 	$src = expand_real_root($src);
 	$dst = expand_real_root($dst);
 

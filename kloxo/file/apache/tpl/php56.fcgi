@@ -1,6 +1,6 @@
 #!/bin/sh
 
-php_rc='/opt/php56m/custom'
+php_rc='/opt/php56m/custom/php.ini'
 php_scan='/opt/php56m/etc/php.d'
 php_prog='/opt/php56m/usr/bin/php-cgi'
 

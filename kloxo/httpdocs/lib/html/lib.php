@@ -5020,10 +5020,12 @@ function changetoclient()
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	exec("service xinetd stop");
+//	exec("service xinetd stop");
+	exec("service pure-ftpd stop");
 	lxshell_return("__path_php_path", "../bin/changetoclientlogin.php", "--nolog");
 	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
-	restart_service("xinetd");
+//	restart_service("xinetd");
+	exec("service pure-ftpd start");
 	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
 
 //	createRestartFile($driverapp);
@@ -6229,9 +6231,12 @@ function setInitialPureftpConfig($nolog = null)
 		@lxfile_rm("/etc/xinetd.d/pure-ftpd");
 	}
 
-	if (!lxfile_exists("/etc/xinetd.d/pureftp")) {
-		log_cleanup("- Install /etc/xinetd.d/pureftp TCP Wrapper file", $nolog);
-		lxfile_cp("../file/xinetd.pureftp", "/etc/xinetd.d/pureftp");
+//	if (!lxfile_exists("/etc/xinetd.d/pureftp")) {
+	if (lxfile_exists("/etc/xinetd.d/pureftp")) {
+	//	log_cleanup("- Install /etc/xinetd.d/pureftp TCP Wrapper file", $nolog);
+	//	lxfile_cp("../file/xinetd.pureftp", "/etc/xinetd.d/pureftp");
+		log_cleanup("- Remove /etc/xinetd.d/pureftp service file", $nolog);
+		@lxfile_rm("/etc/xinetd.d/pureftp");
 	}
 
 	if (!lxfile_real("/etc/pki/pure-ftpd/pure-ftpd.pem")) {
@@ -6246,11 +6251,15 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
-	if (lxfile_exists("/etc/init.d/pure-ftpd")) {
-		log_cleanup("- Turn off and remove pure-ftpd service", $nolog);
-		exec("chkconfig pure-ftpd off 2>/dev/null");
-		// MR --- chkconfig off not enough because can restart with 'service pure-ftpd start'
-		@lxfile_rm("/etc/init.d/pure-ftpd");
+//	if (lxfile_exists("/etc/init.d/pure-ftpd")) {
+	if (!lxfile_exists("/etc/init.d/pure-ftpd")) {
+	//	log_cleanup("- Turn off and remove pure-ftpd service", $nolog);
+	//	exec("chkconfig pure-ftpd off 2>/dev/null");
+	//	// MR --- chkconfig off not enough because can restart with 'service pure-ftpd start'
+	//	@lxfile_rm("/etc/init.d/pure-ftpd");
+		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/rc.d/init.d/pure-ftpd");
+		exec("chkconfig pure-ftpd on");
+		createRestartFile('restart-ftp');
 	}
 
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {

@@ -739,7 +739,6 @@ foreach ($certnamelist as $ip => $certname) {
 
 		if ($enablephp) {
 ?>
-
 	<IfModule suexec.c>
 		SuexecUserGroup <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
