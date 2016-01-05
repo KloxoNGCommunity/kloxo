@@ -309,6 +309,7 @@ class Web extends Lxdb
 	static $__desc_email = array("", "", "email");
 	static $__desc_selist = array("", "", "search_engine_list");
 	static $__desc_force_www_redirect = array("f", "", "force_redirect_domain.com_to_www.domain.com");
+	static $__desc_force_https_redirect = array("f", "", "force_redirect_http_to_https");
 
 	static $__desc_ssl_flag = array("q", "", "enable_ssl_(only_on_linux)");
 	static $__desc_awstats_flag = array("q", "", "enable_awstats");
@@ -1312,6 +1313,7 @@ class Web extends Lxdb
 
 			case "configure_misc":
 				$vlist['force_www_redirect'] = null;
+				$vlist['force_https_redirect'] = null;				
 
 				if ($driverapp === 'apache') {
 					$vlist['webmisc_b-execcgi'] = null;

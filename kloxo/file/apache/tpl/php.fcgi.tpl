@@ -8,6 +8,10 @@
 ?>
 #!/bin/sh
 
+## MR -- for future generic wrapper
+#ps_out=$(ps aux|grep $0|grep -v 'grep')
+#user_out=$(echo $ps_out|awk '{print $1}')
+
 php_rc='<?php echo $phpinipath; ?>/php.ini'
 php_scan='<?php echo $phpscanpath; ?>'
 php_prog='<?php echo $phpcgipath; ?>'

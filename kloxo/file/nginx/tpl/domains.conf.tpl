@@ -431,6 +431,13 @@ server {
 <?php
 		}
 
+		if (($count === 0) && ($httpsredirect)) {
+?>
+
+	return 301 https://$host$request_uri;
+<?php
+		}
+
 		if ($disabled) {
 ?>
 

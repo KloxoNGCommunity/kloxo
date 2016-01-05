@@ -562,7 +562,14 @@ VirtualHost {
 	#UseGZfile = yes
 
 	FollowSymlinks = no
+
 <?php
+		if (($count === 0) && ($httpsredirect)) {
+?>
+	RequireSSL = yes
+<?php
+		}
+
 		if ($ip !== '*') {
 ?>
 

@@ -233,6 +233,7 @@ class web__ extends lxDriverClass
 
 		$input['stats'] = $this->getStats();
 		$input['wwwredirect'] = $this->getWwwRedirect();
+		$input['httpsredirect'] = $this->getHttpsRedirect();
 		$input['domainredirect'] = $this->getRedirectDomains();
 
 		$input['apacheextratext'] = $this->getApacheExtraText();
@@ -935,6 +936,17 @@ class web__ extends lxDriverClass
 	function getWwwRedirect()
 	{
 		if ($this->main->isOn('force_www_redirect')) {
+			$ret = true;
+		} else {
+			$ret = false;
+		}
+
+		return $ret;
+	}
+
+	function getHttpsRedirect()
+	{
+		if ($this->main->isOn('force_https_redirect')) {
 			$ret = true;
 		} else {
 			$ret = false;

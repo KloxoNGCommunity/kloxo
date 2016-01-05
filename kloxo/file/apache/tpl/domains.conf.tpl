@@ -676,7 +676,7 @@ foreach ($certnamelist as $ip => $certname) {
 			}
 		}
 
-	//	if (!$reverseproxy) {
+		if (!$reverseproxy) {
 			if ($wwwredirect) {
 ?>
 
@@ -685,7 +685,16 @@ foreach ($certnamelist as $ip => $certname) {
 	RewriteRule ^(.*)/$ <?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1 [R=301,L]
 <?php
 			}
-	//	}
+
+			if (($count === 0) && ($httpsredirect)) {
+?>
+
+	RewriteEngine On
+	RewriteCond %{HTTPS} off
+	RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+<?php
+			}
+		}
 
 		if ($disabled) {
 			$rootpath = $disablepath;

@@ -6237,6 +6237,7 @@ function setInitialPureftpConfig($nolog = null)
 	//	lxfile_cp("../file/xinetd.pureftp", "/etc/xinetd.d/pureftp");
 		log_cleanup("- Remove /etc/xinetd.d/pureftp service file", $nolog);
 		@lxfile_rm("/etc/xinetd.d/pureftp");
+		exec("service xinetd restart");
 	}
 
 	if (!lxfile_real("/etc/pki/pure-ftpd/pure-ftpd.pem")) {
