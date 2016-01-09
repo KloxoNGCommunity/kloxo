@@ -169,6 +169,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?php echo $domainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DocumentRoot "<?php echo $disablepath; ?>"
 
 	DirectoryIndex <?php echo $indexorder; ?>
@@ -310,6 +312,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerName cp.<?php echo $domainname; ?>
 
+
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
 
 	DocumentRoot "<?php echo $cpdocroot; ?>"
 
@@ -453,6 +457,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?php echo $domainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
@@ -493,6 +499,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerName webmail.<?php echo $domainname; ?>
 
+
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
 
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
@@ -649,6 +657,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName <?php echo $domainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	ServerAlias <?php echo $serveralias; ?>
 
 <?php
@@ -740,7 +750,7 @@ foreach ($certnamelist as $ip => $certname) {
 					$protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
 ?>
 
-	"Redirect" <?php echo $rr[0]; ?> "<?php echo $protocol2; ?><?php echo $rr[1]; ?>"
+	Redirect "<?php echo $rr[0]; ?>" "<?php echo $protocol2; ?><?php echo $rr[1]; ?>"
 <?php
 				}
 			}
@@ -748,6 +758,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 		if ($enablephp) {
 ?>
+
 	<IfModule suexec.c>
 		SuexecUserGroup <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
@@ -1013,6 +1024,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerAlias www.<?php echo $redirdomainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DocumentRoot "<?php echo $redirfullpath; ?>"
 
 	DirectoryIndex <?php echo $indexorder; ?>
@@ -1178,6 +1191,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerAlias www.<?php echo $redirdomainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DocumentRoot "<?php echo $rootpath; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $domainname; ?>/"
@@ -1229,6 +1244,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerName webmail.<?php echo $parkdomainname; ?>
 
+
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
 
 	DocumentRoot "<?php echo $disablepath; ?>"
 
@@ -1372,6 +1389,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?php echo $parkdomainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
@@ -1412,6 +1431,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerName webmail.<?php echo $parkdomainname; ?>
 
+
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
 
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
@@ -1570,6 +1591,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?php echo $redirdomainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DocumentRoot "<?php echo $disablepath; ?>"
 
 	DirectoryIndex <?php echo $indexorder; ?>
@@ -1712,6 +1735,8 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?php echo $redirdomainname; ?>
 
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
@@ -1752,6 +1777,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerName webmail.<?php echo $redirdomainname; ?>
 
+
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
 
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 

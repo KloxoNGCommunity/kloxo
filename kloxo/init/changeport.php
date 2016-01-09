@@ -1,5 +1,9 @@
 <?php
 
+if (!file_exists("/var/run/acme/acme-challenge")) {
+	exec("mkdir -p /var/run/acme/acme-challenge");
+}
+
 $kpath = "/usr/local/lxlabs/kloxo";
 
 if (file_exists("{$kpath}/httpdocs/lib/html/include.php")) {

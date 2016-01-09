@@ -109,6 +109,7 @@ Binding {
 
 ## CF - no need for Virtual Host, all default to this:
 Hostname = 0.0.0.0, ::
+Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
 WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
 StartFile = index.php
 SecureURL = no

@@ -12,6 +12,8 @@ if (($webcache === 'none') || (!$webcache)) {
 
 $listens = array('listen_nonssl', 'listen_ssl');
 
+$switches = array('', '_ssl');
+
 foreach ($certnamelist as $ip => $certname) {
 	$sslpathdef = "/home/kloxo/httpd/ssl";	
 	$sslpath = "/home/kloxo/client/{$user}/ssl";
@@ -162,6 +164,8 @@ server {
 
 	server_name cp.<?php echo $domainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'cp.<?php echo $domainname; ?>';
@@ -174,7 +178,7 @@ server {
 
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 
@@ -209,6 +213,8 @@ server {
 
 	server_name webmail.<?php echo $domainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $domainname; ?>';
@@ -220,7 +226,7 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php
@@ -258,6 +264,8 @@ server {
 
 	server_name cp.<?php echo $domainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'cp.<?php echo $domainname; ?>';
@@ -270,7 +278,7 @@ server {
 
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php
@@ -307,6 +315,8 @@ server {
 ?>
 
 	server_name webmail.<?php echo $domainname; ?>;
+
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
 
 	if ($host != '<?php echo $webmailremote; ?>') {
 		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
@@ -348,6 +358,8 @@ server {
 
 	server_name webmail.<?php echo $domainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $domainname; ?>';
@@ -359,7 +371,7 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php
@@ -417,6 +429,8 @@ server {
 <?php
 		}
 ?>
+
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -561,7 +575,7 @@ server {
 				} else {
 ?>
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 <?php
 				}
 			}
@@ -667,6 +681,8 @@ server {
 
 	server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain '<?php echo $redirdomainname; ?>';
@@ -678,7 +694,7 @@ server {
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php
@@ -731,6 +747,8 @@ server {
 ?>
 
 	server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
+
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -789,6 +807,8 @@ server {
 
 	server_name webmail.<?php echo $parkdomainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
@@ -800,7 +820,7 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php
@@ -838,6 +858,8 @@ server {
 ?>
 
 	server_name webmail.<?php echo $parkdomainname; ?>;
+
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
 
 	if ($host != '<?php echo $webmailremote; ?>') {
 		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
@@ -881,6 +903,8 @@ server {
 
 	server_name webmail.<?php echo $parkdomainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
@@ -892,7 +916,7 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php
@@ -947,6 +971,8 @@ server {
 
 	server_name webmail.<?php echo $redirdomainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
@@ -958,7 +984,7 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php
@@ -996,6 +1022,8 @@ server {
 ?>
 
 	server_name webmail.<?php echo $redirdomainname; ?>;
+
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
 
 	if ($host != '<?php echo $webmailremote; ?>') {
 		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
@@ -1037,6 +1065,8 @@ server {
 
 	server_name webmail.<?php echo $redirdomainname; ?>;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
@@ -1048,7 +1078,7 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
 
 <?php

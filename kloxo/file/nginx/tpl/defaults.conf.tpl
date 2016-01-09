@@ -2,12 +2,18 @@
 
 <?php
 
+if (!file_exists("/var/run/acme/acme-challenge")) {
+	exec("mkdir -p /var/run/acme/acme-challenge");
+}
+
 $srcconfpath = "/opt/configs/nginx/etc/conf";
 $srcconfdpath = "/opt/configs/nginx/etc/conf.d";
 $trgtconfpath = "/etc/nginx";
 $trgtconfdpath = "/etc/nginx/conf.d";
 
 $confs = array('nginx.conf', 'mime.types', 'fastcgi_params');
+
+$switches = array('', '_ssl');
 
 foreach ($confs as $k => $v) {
 	if (file_exists("{$srcconfpath}/custom.{$v}")) {
@@ -57,6 +63,7 @@ if ($out[0]) {
 
 if ($reverseproxy) {
 	$confs = array('proxy_standard' => 'switch_standard', 'proxy_wildcards' => 'switch_wildcards',
+	'proxy_standard_ssl' => 'switch_standard_ssl', 'proxy_wildcards_ssl' => 'switch_wildcards_ssl',
 		'stats_none' => 'stats', 'dirprotect_none' => 'dirprotect_stats');
 } else {
 	if ($stats['app'] === 'webalizer') {
@@ -133,6 +140,8 @@ server {
 
 	server_name _;
 
+	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain '';
@@ -145,7 +154,7 @@ server {
 
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 <?php
 		$count++;
 ?>

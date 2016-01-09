@@ -383,7 +383,13 @@ $__information['updateform_domainpserver_pre'] = "<p>These are the servers on wh
 $__information['updateform_exclusive_pre'] = "<p>IP address can be assigned to certain client exclusively.</p>";
 
 $__information['domainipaddress_updateform_update_pre'] = "<p>This will allow you to map a particular ipaddress to a domain.</p>".
-	"<p>That is, if someone accesses http://ip, then the document root of the domain configured here will be shown.</p>";
+	"<p>That is, if someone accesses http://ip, then the document root of the domain configured here will be shown.</p>" .
+	"<p><b>WARNING</b>:" .
+	"<ul>" .
+		"<li>Please always select '--Disabled--' if you ONLY have 1 IP</li>".
+		"<li>Need 1 IP as shared-IP (no assign to domain) if you have more than 1 IPs and other IP able to assign to domain</li>".
+	"</ul>" .
+	"</p>";
 
 $__information['sslipaddress_updateform_update_pre'] = "<p>To setup an ssl for an ipaddress, first upload/add an ssl certificate ".
 	"from <url:goback=2&a=list&c=sslcert>[here]</url>.</p>";

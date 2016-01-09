@@ -89,11 +89,11 @@ group = <?php echo $user; ?>
 pm = ondemand
 pm.max_children = <?php echo $maxchildren; ?>
 
-;pm.start_servers = <?php echo $startservers; ?>
+pm.start_servers = <?php echo $startservers; ?>
 
-;pm.min_spare_servers = <?php echo $minspareservers; ?>
+pm.min_spare_servers = <?php echo $minspareservers; ?>
 
-;pm.max_spare_servers = <?php echo $maxspareservers; ?>
+pm.max_spare_servers = <?php echo $maxspareservers; ?>
 
 pm.max_requests = 1000
 

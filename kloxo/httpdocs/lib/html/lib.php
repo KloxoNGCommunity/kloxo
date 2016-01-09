@@ -5928,8 +5928,9 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 	$ks = "kloxoscript";
 
 	if (file_exists("{$cdir}/{$ks}")) {
-		exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
-		log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/", $nolog);
+	//	exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
+		exec("find {$cdir}/{$ks} -not -user apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
+		log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/ EXCEPT apache:apache", $nolog);
 
 		exec("chown {$clname}:apache {$cdir}/{$ks}/");
 		log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/", $nolog);
@@ -5952,8 +5953,9 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 		$dom = $web->nname;
 
 		if (($select === "all") || ($select === 'chown')) {
-			exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
-			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/", $nolog);
+		//	exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
+			exec("find {$cdir}/{$docroot}/ -not -user apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
+			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/ EXCEPT apache:apache", $nolog);
 		}
 
 		if (($select === "all") || ($select === 'chmod')) {

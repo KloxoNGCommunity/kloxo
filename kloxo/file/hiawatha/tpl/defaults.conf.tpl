@@ -6,6 +6,10 @@
 
 <?php
 
+if (!file_exists("/var/run/acme/acme-challenge")) {
+	exec("mkdir -p /var/run/acme/acme-challenge");
+}
+
 $srcconfpath = "/opt/configs/hiawatha/etc/conf";
 $trgtconfpath = "/etc/hiawatha";
 
@@ -30,6 +34,8 @@ if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '8080';
 	$ports[] = '8443';
 }
+
+$reverseports = array('30080', '30443');
 
 $portnames = array('nonssl', 'ssl');
 
@@ -155,6 +161,8 @@ set var_user = apache
 
 Hostname = 0.0.0.0, ::
 WebsiteRoot = <?php echo $defaultdocroot; ?>
+
+Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
 
 EnablePathInfo = yes
 ## MR -- remove by Hiawatha 10+

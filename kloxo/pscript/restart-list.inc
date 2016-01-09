@@ -1,7 +1,7 @@
 list_web=(varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean)
 list_syslog=(syslog rsyslog syslog-ng)
 list_services=(mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid httpd nginx lighttpd hiawatha qmail pure-ftpd php-fpm)
-list_phpfpm=(php-fpm)
+list_phpfpm=(php-fpm phpm-fpm)
 list_mysql=(mysql mysqld)
 list_mail=(qmail)
 list_ftp=(pure-ftpd)

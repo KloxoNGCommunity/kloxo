@@ -105,12 +105,16 @@ if [ "${base_name}" == "php52s" ] || [ "${base_name}" == "php52m" ] ; then
 	else
 		'cp' -rf ${kipath}/php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf
 	fi
+
+	sed -i 's:/var/run/php-fpm.pid:/var/run/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf
 else
 	if [ -f ${kipath}/custom.php53-fpm.conf.base ] ; then
 		'cp' -rf ${kipath}/custom.php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf
 	else
 		'cp' -rf ${kipath}/php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf
 	fi
+
+	sed -i 's:/var/run/php-fpm/php-fpm.pid:/var/run/php-fpm/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf
 fi
 
 if [ -f ${kipath}/custom.php-fpm.init.base ] ; then

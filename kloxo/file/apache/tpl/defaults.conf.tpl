@@ -241,6 +241,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?php echo $defaultdocroot; ?>"
 
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
+
 	DirectoryIndex <?php echo $indexorder; ?>
 
 <?php

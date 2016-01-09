@@ -14,6 +14,9 @@ if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '8443';
 }
 
+$reverseports = array('30080', '30443');
+$protocols = array('http', 'https');
+
 $portnames = array("nonssl", "ssl");
 
 foreach ($certnamelist as $ip => $certname) {
@@ -250,6 +253,9 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
+
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 <?php
 			if ($reverseproxy) {
@@ -259,7 +265,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -310,6 +316,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 <?php
 			if ($reverseproxy) {
@@ -319,7 +327,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -373,6 +381,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $cpdocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 600
@@ -393,7 +403,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -447,6 +457,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
 				}
@@ -491,6 +503,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 600
@@ -511,7 +525,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 				} else {
 ?>
@@ -562,10 +576,10 @@ VirtualHost {
 	#UseGZfile = yes
 
 	FollowSymlinks = no
-
 <?php
 		if (($count === 0) && ($httpsredirect)) {
 ?>
+
 	RequireSSL = yes
 <?php
 		}
@@ -591,6 +605,8 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $rootpath; ?>
 
+
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
 
 	EnablePathInfo = yes
 
@@ -671,7 +687,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 		} else {
 			if ($enablephp) {
@@ -757,6 +773,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	UserWebsites = yes
@@ -779,7 +797,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -841,6 +859,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	UserWebsites = yes
@@ -863,7 +883,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -926,6 +946,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 <?php
 					if ($reverseproxy) {
@@ -935,7 +957,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -990,6 +1012,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	TimeForCGI = 600
 
 	Alias = /error:/home/kloxo/httpd/error
@@ -1008,7 +1032,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1062,6 +1086,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 600
@@ -1082,7 +1108,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1152,6 +1178,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 600
@@ -1172,7 +1200,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -1227,6 +1255,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 600
@@ -1247,7 +1277,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1301,6 +1331,8 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
+	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+
 	EnablePathInfo = yes
 
 	TimeForCGI = 600
@@ -1321,7 +1353,7 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>
