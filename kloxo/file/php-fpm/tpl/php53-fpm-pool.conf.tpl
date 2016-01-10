@@ -38,8 +38,15 @@
 		$maxchildren = '6';
 	}
 
+	if (!$phpselected) {
+		$phpcli = 'php';
+		$phpselected = 'php';
+	} else {
+		$phpcli = "{$phpcli}-cli";
+	}
+
 //	exec("php -r 'echo phpversion();'", $out, $ret);
-	exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
+	exec("{$phpcli} -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
 
 	if ($ret) {
 		$phpver = '5.4.0';
@@ -73,7 +80,7 @@
 ;catch_workers_output = yes
 ;listen = 127.0.0.1:<?php echo $fpmport; ?>
 
-listen = /opt/configs/php-fpm/sock/<?php echo $user; ?>.sock
+listen = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock
 listen.backlog = 65536
 listen.allowed_clients = 127.0.0.1
 listen.owner = <?php echo $user; ?>

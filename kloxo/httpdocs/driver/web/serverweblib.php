@@ -75,8 +75,6 @@ class serverweb extends lxdb
 
 	function updateform($subaction, $param)
 	{
-		$phpm = rl_exec_get(null, $this->syncserver, "glob", array("/opt/*m/usr/bin/php"));
-
 		switch($subaction) {
 			case "apache_optimize":
 				$this->apache_optimize = null;
@@ -207,42 +205,11 @@ class serverweb extends lxdb
 				$this->multiple_php_already_installed = null;
 				$this->multiple_php_install = null;
 
-				$a = getRpmBranchListOnList('php');
+			//	$a = rl_exec_get(null, $this->syncserver, "getCleanRpmBranchListOnList", array('php'));
+				$a = getCleanRpmBranchListOnList('php');
 
-				$c = array();
-
-				foreach ($a as $k => $v) {
-					if (strpos($v, 'php_(') !== false) {
-						unset($a[$k]);
-					} else {
-						$b = explode('_(', $v);
-						$a[$k] = $b[0];
-
-						if (strrpos($a[$k], 'u') !== false) {
-							$c[] = str_replace('u', '', $a[$k]);
-						} elseif (strrpos($a[$k], 'w') !== false) {
-							$c[] = str_replace('w', '', $a[$k]);
-						}
-					}
-				}
-
-				$a = array_diff($a, $c);
-
-				foreach($a as $k => $v) {
-					$a[$k] = str_replace('w', '', str_replace('u', '', $v) . "m");
-				}
-
-				$d = $phpm;
-
-				foreach ($d as $k => $v) {
-					$e = str_replace('/opt/', '', $v);
-					$e = str_replace('/usr/bin/php', '', $e);
-					$d[$k] = $e;
-				}
-
-				$f = array_diff($a, $d);
-
-				$g = implode(" ", $d);
+			//	$g = rl_exec_get(null, $this->syncserver, "getMultiplePhpList");
+				$g = implode(" ", getMultiplePhpList());
 
 				$vlist['multiple_php_already_installed'] = array("M", $g);
 
@@ -255,14 +222,10 @@ class serverweb extends lxdb
 			case "php_used":
 				$this->php_used = null;
 
-				$d = $phpm;
+				$d = getMultiplePhpList();
 
 				foreach ($d as $k => $v) {
-					$e = str_replace('/opt/', '', $v);
-					$e = str_replace('/usr/bin/php', '', $e);
-					$d[$k] = $e;
-
-					if ($e === 'php52m') {
+					if ($v === 'php52m') {
 						unset($d[$k]);
 					}
 				}

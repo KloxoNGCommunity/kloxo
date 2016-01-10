@@ -268,7 +268,7 @@ class SslCert extends Lxdb
 			$param['upload_status'] = 'off';
 
 			if ($parent->getClass() === 'web') {
-				$param['ssl_data_b_s_commonName_r'] = '*.' . $parent->nname;
+			//	$param['ssl_data_b_s_commonName_r'] = '*.' . $parent->nname;
 			//	$param['ssl_data_b_s_commonName_r'] = $parent->nname;
 				$param['ssl_data_b_s_subjectAltName_r'] = $parent->nname;
 			}
@@ -346,8 +346,7 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$nname = array('M', $parent->nname);
-			$cname = array('M', "*.{$parent->nname}");
-		//	$cname = array('M', $parent->nname);
+			$cname = array('t', "www.{$parent->nname}");
 			$saname = array('M', $parent->nname);
 		} else {
 			$nname = null;
@@ -406,6 +405,7 @@ class SslCert extends Lxdb
 			}
 
 			$vlist["ssl_data_b_s_commonName_r"] = $cname;
+
 		//	$vlist["ssl_data_b_s_subjectAltName_r"] = $saname;
 
 			$vlist["ssl_data_b_s_countryName_r"] = array("s", $temp);
@@ -433,6 +433,7 @@ class SslCert extends Lxdb
 			if (!cse($key, "_r")) {
 				continue;
 			}
+
 			$nk = strtil($key, "_r");
 			$temp[$nk] = $value;
 		}
@@ -444,7 +445,7 @@ class SslCert extends Lxdb
 			$user = $parent->customer_name;
 
 			$temp['name'] = $parent->nname;
-			$temp['commonName'] = "*.{$parent->nname}";
+		//	$temp['commonName'] = "*.{$parent->nname}";
 		//	$temp['commonName'] = $parent->nname;
 		//	$temp['subjectAltName'] = $parent->nname;
 		}

@@ -249,7 +249,7 @@ class phpini extends lxdb
 	function get_multiple_php_list()
 	{
 		global $login;
-
+/*
 		$a = array('52', '53', '54', '55', '56');
 
 		$e[] = false;
@@ -269,6 +269,9 @@ class phpini extends lxdb
 
 			throw new lxException($login->getThrow('need_install_phpXYm_series_for_multiple_php'), '', $this->syncserver);
 		}
+*/
+		$p = getCleanRpmBranchListOnList('php');
+	//	$p = rl_exec_get(null, $this->syncserver, "getCleanRpmBranchListOnList", array('php'));
 
 		return $p;
 	}

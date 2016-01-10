@@ -8189,3 +8189,49 @@ function ipv6_expand($ip){
 
     return $ip;
 }
+
+function getCleanRpmBranchListOnList($branchtype)
+{
+	$a = getRpmBranchListOnList($branchtype);
+
+	$c = array();
+
+	foreach ($a as $k => $v) {
+		if (strpos($v, 'php_(') !== false) {
+			unset($a[$k]);
+		} else {
+			$b = explode('_(', $v);
+			$a[$k] = $b[0];
+
+			if (strrpos($a[$k], 'u') !== false) {
+				$c[] = str_replace('u', '', $a[$k]);
+			} elseif (strrpos($a[$k], 'w') !== false) {
+				$c[] = str_replace('w', '', $a[$k]);
+			}
+		}
+	}
+
+	$a = array_diff($a, $c);
+
+	foreach($a as $k => $v) {
+		$a[$k] = str_replace('w', '', str_replace('u', '', $v) . "m");
+	}
+
+	return $a;
+}
+
+function getMultiplePhpList()
+{
+	$a = getCleanRpmBranchListOnList('php');
+	$phpm = glob("/opt/*m/usr/bin/php");
+
+	$d = $phpm;
+
+	foreach ($d as $k => $v) {
+		$e = str_replace('/opt/', '', $v);
+		$e = str_replace('/usr/bin/php', '', $e);
+		$d[$k] = $e;
+	}
+
+	return $d;
+}
