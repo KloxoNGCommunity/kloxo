@@ -6,6 +6,12 @@
 
 <?php
 
+if (!$phpselected) {
+	$phpselected = 'php';
+}
+
+$domclean = str_replace('-', '_', str_replace('.', '_', $domainname));
+
 if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '80';
 	$ports[] = '443';
@@ -205,6 +211,14 @@ if ($wwwredirect) {
 ?>
 }
 
+FastCGIserver {
+	FastCGIid = php_for_<?php echo $domclean; ?>
+
+	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock
+	Extension = php
+	SessionTimeout = 600
+}
+
 <?php
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
@@ -270,7 +284,7 @@ VirtualHost {
 			} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 			}
@@ -332,7 +346,7 @@ VirtualHost {
 			} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 			}
@@ -408,7 +422,7 @@ VirtualHost {
 			} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 			}
@@ -461,7 +475,7 @@ VirtualHost {
 
 	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
-				}
+}
 
 <?php
 			} else {
@@ -530,7 +544,7 @@ VirtualHost {
 				} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 				}
@@ -693,7 +707,8 @@ VirtualHost {
 			if ($enablephp) {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_<?php echo $domclean; ?>
+
 	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
 <?php
 			}
@@ -802,7 +817,8 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_<?php echo $domclean; ?>
+
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 					}
@@ -888,7 +904,8 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_<?php echo $domclean; ?>
+
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 					}
@@ -962,7 +979,7 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 					}
@@ -1037,7 +1054,7 @@ VirtualHost {
 						} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
@@ -1113,7 +1130,7 @@ VirtualHost {
 						} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
@@ -1205,7 +1222,7 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile
 <?php
 					}
@@ -1282,7 +1299,7 @@ VirtualHost {
 						} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}
@@ -1358,7 +1375,7 @@ VirtualHost {
 						} else {
 ?>
 
-	UseFastCGI = php_for_var_user
+	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, findindexfile, permalink
 <?php
 						}

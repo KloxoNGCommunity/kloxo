@@ -2,6 +2,10 @@
 
 <?php
 
+if (!$phpselected) {
+	$phpselected = 'php';
+}
+
 if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '80';
 	$ports[] = '443';
@@ -139,6 +143,7 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -155,6 +160,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -174,6 +180,7 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $cpdocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -204,6 +211,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -237,6 +245,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 	var.user = "<?php echo $sockuser; ?>"
 	var.fpmport = "<?php echo $fpmport; ?>"
 	var.rootdir = "<?php echo $redirfullpath; ?>/"
+	var.phpselected = "<?php echo $phpselected; ?>"
 
 	server.document-root = var.rootdir
 
@@ -293,6 +302,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -326,6 +336,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -362,6 +373,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -394,6 +406,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
+	var.phpselected = "php"
 
 	server.document-root = var.rootdir
 
@@ -484,6 +497,7 @@ $SERVER["socket"] == ":" + var.portssl {
 	var.domain = "<?php echo $domainname; ?>"
 	var.user = "<?php echo $sockuser; ?>"
 	var.fpmport = "<?php echo $fpmport; ?>"
+	var.phpselected = "<?php echo $phpselected; ?>"
 <?php
 		if ($disabled) {
 ?>

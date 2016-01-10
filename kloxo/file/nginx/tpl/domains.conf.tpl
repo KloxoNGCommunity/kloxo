@@ -2,6 +2,10 @@
 
 <?php
 
+if (!$phpselected) {
+	$phpselected = 'php';
+}
+
 if (($webcache === 'none') || (!$webcache)) {
     $ports[] = '80';
     $ports[] = '443';
@@ -169,14 +173,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'cp.<?php echo $domainname; ?>';
-
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
-
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -218,13 +221,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $domainname; ?>';
-
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -269,14 +272,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'cp.<?php echo $domainname; ?>';
-
 	set $var_rootdir '<?php echo $cpdocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
-
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -363,13 +365,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $domainname; ?>';
-
 	set $var_rootdir '<?php echo $webmaildocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -556,6 +558,7 @@ server {
 	# Extra Tags - end
 
 	set $var_fpmport '<?php echo $fpmport; ?>';
+	set $var_phpselected '<?php echo $phpselected; ?>';
 
 <?php
 		}
@@ -686,13 +689,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain '<?php echo $redirdomainname; ?>';
-
 	set $var_rootdir '<?php echo $redirfullpath; ?>';
 
 	root $var_rootdir;
 
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
+	set $var_phpselected '<?php echo $phpselected; ?>';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -812,13 +815,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
-
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -908,13 +911,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
-
 	set $var_rootdir '<?php echo $webmaildocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -976,13 +979,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
-
 	set $var_rootdir '<?php echo $disabledocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -1070,13 +1073,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
-
 	set $var_rootdir '<?php echo $webmaildocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }

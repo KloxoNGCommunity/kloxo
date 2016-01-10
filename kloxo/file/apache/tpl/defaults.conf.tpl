@@ -2,6 +2,10 @@
 
 <?php
 
+if (!$phpselected) {
+	$phpselected = 'php';
+}
+
 $srcpath = "/opt/configs/apache/etc";
 $srcconfpath = "/opt/configs/apache/etc/conf";
 $srcconfdpath = "/opt/configs/apache/etc/conf.d";
@@ -292,7 +296,7 @@ foreach ($certnamelist as $ip => $certname) {
 		<IfModule mod_fastcgi.c>
 			Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
 			#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-			FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/apache.sock -idle-timeout 120 -pass-header Authorization
+			FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/php-apache.sock -idle-timeout 120 -pass-header Authorization
 			<FilesMatch \.php$>
 				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
@@ -326,7 +330,7 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/php-apache.sock|fcgi://127.0.0.1/"
 			</FilesMatch>
 			<Proxy "fcgi://127.0.0.1/">
 				ProxySet timeout=600

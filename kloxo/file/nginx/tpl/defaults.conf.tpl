@@ -2,6 +2,10 @@
 
 <?php
 
+if (!$phpselected) {
+	$phpselected = 'php';
+}
+
 if (!file_exists("/var/run/acme/acme-challenge")) {
 	exec("mkdir -p /var/run/acme/acme-challenge");
 }
@@ -145,14 +149,13 @@ server {
 	index <?php echo $indexorder; ?>;
 
 	set $var_domain '';
-
 	set $var_rootdir '<?php echo $defaultdocroot; ?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
-
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_phpselected 'php';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 <?php

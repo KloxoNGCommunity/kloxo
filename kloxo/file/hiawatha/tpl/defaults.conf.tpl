@@ -6,6 +6,10 @@
 
 <?php
 
+if (!$phpselected) {
+	$phpselected = 'php';
+}
+
 if (!file_exists("/var/run/acme/acme-challenge")) {
 	exec("mkdir -p /var/run/acme/acme-challenge");
 }
@@ -88,6 +92,7 @@ UrlToolkit {
 	Match .* Rewrite /index.php
 }
 <?php
+/*
 foreach ($userlist as &$user) {
 	$userinfo = posix_getpwnam($user);
 
@@ -97,17 +102,26 @@ foreach ($userlist as &$user) {
 FastCGIserver {
 	FastCGIid = php_for_<?php echo $user; ?>
 
-	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $user; ?>.sock
+	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock
 	Extension = php
 	SessionTimeout = 600
 }
 <?php
 }
+*/
 ?>
 
 FastCGIserver {
 	FastCGIid = php_for_apache
-	ConnectTo = /opt/configs/php-fpm/sock/apache.sock
+
+	ConnectTo = /opt/configs/php-fpm/sock/php-apache.sock
+	Extension = php
+	SessionTimeout = 600
+}
+
+FastCGIserver {
+	FastCGIid = php_for_apache
+	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock
 	Extension = php
 	SessionTimeout = 600
 }

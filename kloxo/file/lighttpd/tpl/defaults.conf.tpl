@@ -3,6 +3,10 @@
 
 <?php
 
+if (!$phpselected) {
+	$phpselected = 'php';
+}
+
 $srcconfpath = "/opt/configs/lighttpd/etc/conf";
 $srcconfdpath = "/opt/configs/lighttpd/etc/conf.d";
 $trgtconfpath = "/etc/lighttpd";
@@ -109,6 +113,8 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 <?php echo $tabs[$count]; ?>	var.rootdir = "/home/kloxo/httpd/default/"
 <?php echo $tabs[$count]; ?>	var.user = "apache"
 <?php echo $tabs[$count]; ?>	var.fpmport = "<?php echo $fpmportapache; ?>"
+<?php echo $tabs[$count]; ?>	var.phpselected = "php"
+
 
 <?php echo $tabs[$count]; ?>	server.document-root = var.rootdir
 
