@@ -6,7 +6,7 @@
 
 <?php
 
-if (!$phpselected) {
+if (!isset($phpselected)) {
 	$phpselected = 'php';
 }
 
