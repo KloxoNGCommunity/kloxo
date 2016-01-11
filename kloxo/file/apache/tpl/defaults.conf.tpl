@@ -30,7 +30,10 @@ foreach (glob("{$trgtconfdpath}/mod_*.conf") as $file)
 
 $mpmlist = array('event', 'worker', 'itk');
 
-exec("httpd -v|grep 'version:'|grep '/2.4.'", $out);
+// @exec("httpd -v|grep 'version:'|grep '/2.4.'", $ret, $out);
+
+@exec("rpm -qa|grep -E '^httpd24-2.4', $ret, $out);
+
 
 if ($out[0] !== null) {
 	$httptype="httpd24";

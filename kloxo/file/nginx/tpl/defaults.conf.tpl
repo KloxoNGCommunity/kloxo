@@ -72,6 +72,7 @@ if ($reverseproxy) {
 } else {
 	if ($stats['app'] === 'webalizer') {
 		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
+		'php-fpm_standard_ssl' => 'switch_standard_ssl', 'php-fpm_wildcards_ssl' => 'switch_wildcards_ssl',
 		'stats_webalizer' => 'stats', 'dirprotect_webalizer' => 'dirprotect_stats');
 	} else {
 		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',

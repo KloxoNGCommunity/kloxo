@@ -535,6 +535,7 @@ server {
 
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
+	set $var_phpselected '<?php echo $phpselected; ?>';
 <?php
 		if ($enablestats) {
 ?>
@@ -557,9 +558,6 @@ server {
 
 	# Extra Tags - end
 
-	set $var_fpmport '<?php echo $fpmport; ?>';
-	set $var_phpselected '<?php echo $phpselected; ?>';
-
 <?php
 		}
 
@@ -573,7 +571,7 @@ server {
 				if ($wildcards) {
 ?>
 
-	include '<?php echo $globalspath; ?>/switch_wildcards.conf';
+	include '<?php echo $globalspath; ?>/switch_wildcards<?php echo $switches[$count]; ?>.conf';
 <?php
 				} else {
 ?>
