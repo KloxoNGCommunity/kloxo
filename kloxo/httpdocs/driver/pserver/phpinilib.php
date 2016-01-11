@@ -249,29 +249,9 @@ class phpini extends lxdb
 	function get_multiple_php_list()
 	{
 		global $login;
-/*
-		$a = array('52', '53', '54', '55', '56');
 
-		$e[] = false;
-
-		$p = array();
-
-		foreach ($a as $k => $v) {
-			if (file_exists("/opt/php{$v}m/usr/bin/php")) {
-				$p[] = 'php' . $v . 'm';
-				$e[] = true;
-			}
-
-		}
-
-		if (!isset($e)) {
-			$php->phpini_flag_b->multiple_php_flag = 'off';
-
-			throw new lxException($login->getThrow('need_install_phpXYm_series_for_multiple_php'), '', $this->syncserver);
-		}
-*/
-		$p = getCleanRpmBranchListOnList('php');
 	//	$p = rl_exec_get(null, $this->syncserver, "getCleanRpmBranchListOnList", array('php'));
+		$p = array_merge(array('--Use Php Used--'), getCleanRpmBranchListOnList('php'));
 
 		return $p;
 	}
@@ -374,19 +354,12 @@ class phpini extends lxdb
 			$vlist['web_selected'] = array("s", array('front-end', 'back-end'));
 
 			if (!isset($this->php_selected)) {
-				$this->php_selected = 'php54m';
+				$this->php_selected = '--Use Php Used--';
 			}
 
 			$l = $this->get_multiple_php_list();
 
-			foreach ($l as $k => $v) {
-				if (strpos($v, '-') !== false) { continue; }
-
-			//	$f[] = 'php' . str_replace('+', '', $v);
-				$f[] = $v;
-			}
-
-			$vlist['php_selected'] = array("s", $f);
+			$vlist['php_selected'] = array("s", $l);
 		}
 
 		// MR -- still not work (like in 'appearance')

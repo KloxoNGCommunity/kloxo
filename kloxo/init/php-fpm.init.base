@@ -33,8 +33,8 @@ else
 	fpm_conf="/opt/${custom_name}/custom/php-fpm.conf"
 fi
 
-pidfile="/var/run/php-fpm/${custom_name}-fpm.pid"
-lockfile="/var/lock/subsys/${custom_name}-fpm"
+pidfile="/var/run/php-fpm/php-fpm.pid"
+lockfile="/var/lock/subsys/php-fpm"
 
 start () {
     echo -n $"Starting $fpm_prog: "
