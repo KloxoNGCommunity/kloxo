@@ -14,6 +14,11 @@ if (($webcache === 'none') || (!$webcache)) {
     $ports[] = '8443';
 }
 
+$disabledocroot = "/home/kloxo/httpd/disable";
+$cpdocroot = "/home/kloxo/httpd/cp";
+
+$globalspath = "/opt/configs/nginx/conf/globals";
+
 if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 	$ssl_base = "custom.ssl_base";
 } else {
@@ -116,11 +121,6 @@ if ($out[0]) {
 } else {
 	$IPv6Enable = false;
 }
-
-$disabledocroot = "/home/kloxo/httpd/disable";
-$cpdocroot = "/home/kloxo/httpd/cp";
-
-$globalspath = "/opt/configs/nginx/conf/globals";
 
 if (file_exists("{$globalspath}/custom.generic.conf")) {
 	$genericconf = 'custom.generic.conf';

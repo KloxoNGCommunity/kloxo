@@ -15,6 +15,11 @@ $srcconfdpath = "/opt/configs/nginx/etc/conf.d";
 $trgtconfpath = "/etc/nginx";
 $trgtconfdpath = "/etc/nginx/conf.d";
 
+$defaultdocroot = "/home/kloxo/httpd/default";
+$cpdocroot = "/home/kloxo/httpd/cp";
+
+$globalspath = "/opt/configs/nginx/conf/globals";
+
 $confs = array('nginx.conf', 'mime.types', 'fastcgi_params');
 
 $switches = array('', '_ssl');
@@ -42,11 +47,6 @@ foreach ($certnamelist as $ip => $certname) {
 }
 
 $iplist = array('*');
-
-$defaultdocroot = "/home/kloxo/httpd/default";
-$cpdocroot = "/home/kloxo/httpd/cp";
-
-$globalspath = "/opt/configs/nginx/conf/globals";
 
 if ($indexorder) {
 	$indexorder = implode(' ', $indexorder);
