@@ -105,6 +105,12 @@ foreach ($confs as $k => $v) {
 	}
 }
 
+if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
+	$ssl_base = "custom.ssl_base";
+} else {
+	$ssl_base = "ssl_base";
+}
+
 $listens = array('listen_nonssl_default', 'listen_ssl_default');
 
 foreach ($certnamelist as $ip => $certname) {
@@ -132,12 +138,7 @@ server {
 <?php
 			}
 ?>
-	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-	#ssl_ciphers HIGH:!aNULL:!MD5;
-	#ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
-	ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
-	ssl_prefer_server_ciphers on;
-	ssl_session_cache builtin:1000 shared:SSL:10m;
+	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 		}
 
