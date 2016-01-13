@@ -30,6 +30,7 @@ class web__ extends lxDriverClass
 				$blist[] = "{$a}24u";
 				$blist[] = "{$a}24u-tools";
 				$blist[] = "{$a}24u-filesystem";
+				$blist[] = "mod24u_*";
 			//	$blist[] = "mod24u_ssl";
 			//	$blist[] = "mod24u_session";
 			//	$blist[] = "mod24u_suphp";
@@ -38,6 +39,7 @@ class web__ extends lxDriverClass
 			} else {
 				$blist[] = "{$a}";
 				$blist[] = "{$a}-tools";
+			 	$blist[] = "mod_*";			
 			//	$blist[] = "mod_ssl";
 			//	$blist[] = "mod_rpaf";
 			//	$blist[] = "mod_ruid2";
@@ -124,7 +126,7 @@ class web__ extends lxDriverClass
 
 			exec("yum install {$p} -y");
 
-		//	self::setWebserverInstall($a);
+			self::setWebserverInstall($a);
 			self::setBaseWebConfig($a);
 
 			lxshell_return("chkconfig", $a, "on");

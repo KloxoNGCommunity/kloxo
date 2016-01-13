@@ -149,8 +149,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 Define ipalloc <?php echo $ip; ?>
 
-NameVirtualHost ${ipalloc}:${port}
-NameVirtualHost ${ipalloc}:${portssl}
+<IfVersion < 2.4>
+	NameVirtualHost ${ipalloc}:${port}
+	NameVirtualHost ${ipalloc}:${portssl}
+</IfVersion>
 <?php
 		}
 	}
