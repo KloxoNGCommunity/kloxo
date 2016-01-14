@@ -5929,17 +5929,19 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 
 	if (file_exists("{$cdir}/{$ks}")) {
 	//	exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
-		exec("find {$cdir}/{$ks} -not -user apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
-		log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$ks}/ EXCEPT apache:apache", $nolog);
+		exec("find {$cdir}/{$ks} -not -user apache -not -group apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
+		log_cleanup("- chown {$clname}:{$clname} FOR DIRS INSIDE {$cdir}/{$ks}/ EXCEPT apache:apache", $nolog);
+		exec("find {$cdir}/{$ks} -not -user apache -not -group apache -type f -exec chown {$clname}:{$clname} \{\} \\;");
+		log_cleanup("- chown {$clname}:{$clname} FOR FILES INSIDE {$cdir}/{$ks}/ EXCEPT apache:apache", $nolog);
 
 		exec("chown {$clname}:apache {$cdir}/{$ks}/");
-		log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/", $nolog);
+		log_cleanup("- chown {$clname}:apache FOR {$cdir}/{$ks}/ DIR", $nolog);
 
 		exec("find {$cdir}/{$ks}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-		log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$ks}/", $nolog);
+		log_cleanup("- chmod {$phpfilechmod} FOR *.php* FILES INSIDE {$cdir}/{$ks}/", $nolog);
 
 		exec("find {$cdir}/{$ks} -type d -exec chmod {$domdirchmod} \{\} \\;");
-		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ AND INSIDE", $nolog);
+		log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$ks}/ DIR AND INSIDE", $nolog);
 	}
 
 	$docrootlist = array();
@@ -5954,31 +5956,33 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 
 		if (($select === "all") || ($select === 'chown')) {
 		//	exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
-			exec("find {$cdir}/{$docroot}/ -not -user apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
-			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$cdir}/{$docroot}/ EXCEPT apache:apache", $nolog);
+			exec("find {$cdir}/{$docroot}/ -not -user apache -not -group apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
+			log_cleanup("- chown {$clname}:{$clname} FOR DIRS INSIDE {$cdir}/{$docroot}/ EXCEPT apache:apache", $nolog);
+			exec("find {$cdir}/{$docroot}/ -not -user apache -not -group apache -type f -exec chown {$clname}:{$clname} \{\} \\;");
+			log_cleanup("- chown {$clname}:{$clname} FOR FILES INSIDE {$cdir}/{$docroot}/ EXCEPT apache:apache", $nolog);
 		}
 
 		if (($select === "all") || ($select === 'chmod')) {
 			exec("find {$cdir}/{$docroot}/ -type f -name \"*.php*\" -exec chmod {$phpfilechmod} \{\} \\;");
-			log_cleanup("- chmod {$phpfilechmod} FOR *.php* INSIDE {$cdir}/{$docroot}/", $nolog);
+			log_cleanup("- chmod {$phpfilechmod} FOR *.php* FILES INSIDE {$cdir}/{$docroot}/", $nolog);
 
 			exec("find {$cdir}/{$docroot}/ -type f  -regex " . '".*\.\(pl\|cgi\|py\|rb\)"' . " -exec chmod {$domdirchmod} \{\} \\;");
-			log_cleanup("- chmod {$domdirchmod} FOR *.pl/cgi/py/rb INSIDE {$cdir}/{$docroot}/", $nolog);
+			log_cleanup("- chmod {$domdirchmod} FOR *.pl/cgi/py/rb FILES INSIDE {$cdir}/{$docroot}/", $nolog);
 
 			exec("find {$cdir}/{$docroot}/ -type d -exec chmod {$domdirchmod} \{\} \\;");
-			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ AND INSIDE", $nolog);
+			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/ DIR AND INSIDE", $nolog);
 
 			// MR -- fix nginx permissions issue
 			exec("find {$sdir}/{$dom}/stats -type d -exec chmod {$statsdirchmod} \{\} \\;");
-			log_cleanup("- chmod {$statsdirchmod} FOR {$sdir}/{$dom}/stats AND INSIDE", $nolog);
+			log_cleanup("- chmod {$statsdirchmod} FOR {$sdir}/{$dom}/stats DIR AND INSIDE", $nolog);
 		}
 
 		exec("chown {$clname}:{$clname} {$cdir}/{$docroot}/");
-		log_cleanup("- chown {$clname}:{$clname} FOR {$cdir}/{$docroot}/", $nolog);
+		log_cleanup("- chown {$clname}:{$clname} FOR {$cdir}/{$docroot}/ DIR", $nolog);
 
 		if (lxfile_exists("{$cdir}/{$docroot}/cgi-bin")) {
 			exec("chmod -R {$domdirchmod} {$cdir}/{$docroot}/cgi-bin");
-			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin AND FILES", $nolog);
+			log_cleanup("- chmod {$domdirchmod} FOR {$cdir}/{$docroot}/cgi-bin DIR AND FILES", $nolog);
 		}
 
 		$docrootlist[] = "{$cdir}/{$docroot}";
@@ -6014,19 +6018,19 @@ function setFixChownChmodMailPerUser($select, $user, $nolog = null)
 		$dom = $web->nname;
 
 		exec("chown {$clname}:{$clname} {$mdir}/{$dom}/");
-		log_cleanup("- chown {$clname}:{$clname} FOR {$mdir}/{$dom}/", $nolog);
+		log_cleanup("- chown {$clname}:{$clname} FOR {$mdir}/{$dom}/ DIR", $nolog);
 
 		if (($select === "all") || ($select === 'chown')) {
 			exec("chown -R {$clname}:{$clname} {$mdir}/{$dom}/");
-			log_cleanup("- chown {$clname}:{$clname} FOR INSIDE {$mdir}/{$dom}/", $nolog);
+			log_cleanup("- chown {$clname}:{$clname} FOR DIR/FILES INSIDE {$mdir}/{$dom}/", $nolog);
 		}
 
 		if (($select === "all") || ($select === 'chmod')) {
 			exec("find {$mdir}/{$dom}/ -type f -name \"*\" -exec chmod {$mailfilechmod} \{\} \\;");
-			log_cleanup("- chmod {$mailfilechmod} FOR * INSIDE {$mdir}/{$dom}/", $nolog);
+			log_cleanup("- chmod {$mailfilechmod} FOR * FILES INSIDE {$mdir}/{$dom}/", $nolog);
 
 			exec("find {$mdir}/{$dom}/ -type d -exec chmod {$maildirchmod} \{\} \\;");
-			log_cleanup("- chmod {$maildirchmod} FOR {$mdir}/{$dom}/ AND INSIDE", $nolog);
+			log_cleanup("- chmod {$maildirchmod} FOR {$mdir}/{$dom}/ DIR AND INSIDE", $nolog);
 		}
 	}
 }
@@ -8235,3 +8239,25 @@ function getMultiplePhpList()
 
 	return $d;
 }
+
+ function glob_recursive($pattern, $flags = 0)
+ {
+	// Does not support flag GLOB_BRACE
+
+	$files = glob($pattern, $flags);
+   
+	foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+		$files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
+	}
+
+ 	return $files;
+ }
+ 
+ function replace_to_space($text)
+ {
+ 	$text = str_replace(",", " ", $text);
+ 	$text = str_replace("  ", " ", $text);	
+	$text = str_replace("\n", " ", $text);
+	
+	return $text;
+ }
