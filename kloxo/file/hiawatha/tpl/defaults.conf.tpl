@@ -87,37 +87,11 @@ UrlToolkit {
 	Match .*\?(.*) Rewrite /index.php?$1
 	Match .* Rewrite /index.php
 }
-<?php
-/*
-foreach ($userlist as &$user) {
-	$userinfo = posix_getpwnam($user);
-
-	if (!$userinfo) { continue; }
-?>
-
-FastCGIserver {
-	FastCGIid = php_for_<?php echo $user; ?>
-
-	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock
-	Extension = php
-	SessionTimeout = 600
-}
-<?php
-}
-*/
-?>
 
 FastCGIserver {
 	FastCGIid = php_for_apache
 
 	ConnectTo = /opt/configs/php-fpm/sock/php-apache.sock
-	Extension = php
-	SessionTimeout = 600
-}
-
-FastCGIserver {
-	FastCGIid = php_for_apache
-	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock
 	Extension = php
 	SessionTimeout = 600
 }
