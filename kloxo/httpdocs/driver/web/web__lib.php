@@ -974,7 +974,7 @@ class web__ extends lxDriverClass
 
 	function getWebSelected()
 	{
-		if (!isset($this->main->web_selected)) {
+		if (!isset($this->main->web_selected) || (!$this->main->web_selected)) {
 			$ret = 'back-end';
 		} else {
 			$ret = $this->main->web_selected;
@@ -985,7 +985,7 @@ class web__ extends lxDriverClass
 
 	function getPhpSelected()
 	{
-		if ((!isset($this->main->php_selected)) || (strtolower($this->main->php_selected) === '--default--')) {
+		if ((!isset($this->main->php_selected)) || (!$this->main->php_selected) || (strtolower($this->main->php_selected) === '--default--')) {
 			$ret = 'php';
 		} else {
 			$ret = $this->main->php_selected;
