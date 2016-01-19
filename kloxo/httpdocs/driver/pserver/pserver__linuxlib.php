@@ -252,6 +252,7 @@ class pserver__Linux extends lxDriverClass
 
 			lxshell_return("chkconfig", "xendomains", "on");
 			//lxshell_return("service", "xendomains", "restart");
+
 			$imdriver = $this->main->__var_xenimportdriver;
 			$importdriverfile = "{$sgbl->__path_program_htmlbase}/lib/xenimport/xenimport__$imdriver.php";
 			

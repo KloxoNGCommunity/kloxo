@@ -2,10 +2,6 @@
 
 <?php
 
-if (!isset($phpselected)) {
-	$phpselected = 'php';
-}
-
 if (($webcache === 'none') || (!$webcache)) {
     $ports[] = '80';
     $ports[] = '443';
@@ -513,16 +509,18 @@ server {
 	set $var_fpmport '<?php echo $fpmport; ?>';
 	set $var_phpselected '<?php echo $phpselected; ?>';
 <?php
-		if ($enablestats) {
+		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+			if ($enablestats) {
 ?>
 
 	include '<?php echo $globalspath; ?>/stats.conf';
 <?php
-			if ($statsprotect) {
+				if ($statsprotect) {
 ?>
 
 	include '<?php echo $globalspath; ?>/dirprotect_stats.conf';
 <?php
+				}
 			}
 		}
 
@@ -533,22 +531,39 @@ server {
 	<?php echo $nginxextratext; ?>
 
 	# Extra Tags - end
-
 <?php
 		}
 
-		if ($enablephp) {
-			if ((!$reverseproxy) && (file_exists("{$globalspath}/{$domainname}.conf"))) {
+		if ((!$reverseproxy) && (file_exists("{$globalspath}/{$domainname}.conf"))) {
+			if ($enablephp) {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $domainname; ?>.conf';
 <?php
-			} else {
-				if ($wildcards) {
+			}
+		} else {
+			if ($wildcards) {
+				if (($reverseproxy) && ($webselected === 'front-end')) {
+					if ($enablephp) {
+?>
+
+	include '<?php echo $globalspath; ?>/php-fpm_wildcards<?php echo $switches[$count]; ?>.conf';
+<?php
+					}
+				} else {
 ?>
 
 	include '<?php echo $globalspath; ?>/switch_wildcards<?php echo $switches[$count]; ?>.conf';
 <?php
+				}
+			} else {
+				if (($reverseproxy) && ($webselected === 'front-end')) {
+					if ($enablephp) {
+?>
+
+	include '<?php echo $globalspath; ?>/php-fpm_standard<?php echo $switches[$count]; ?>.conf';
+<?php
+					}
 				} else {
 ?>
 
@@ -665,8 +680,19 @@ server {
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
 	set $var_phpselected '<?php echo $phpselected; ?>';
+<?php
+					if (($reverseproxy) && ($webselected === 'front-end')) {
+?>
+
+	include '<?php echo $globalspath; ?>/php-fpm_standard<?php echo $switches[$count]; ?>.conf';
+<?php
+					} else {
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
+<?php
+					}
+?>
 }
 
 <?php

@@ -1,11 +1,13 @@
 #!/bin/sh
 
-#cd /tmp
-#'rm' -f installatron_setup.sh
-#'rm' -f installatron-plugin.sh
-#wget http://dal01.installatron.com/installatron-plugin.sh
-#chmod 755 installatron-plugin.sh
-#./installatron-plugin.sh -f
+cd /tmp
+if [ -f installatron_setup.sh ] ; then
+	'rm' -f installatron_setup.sh
+	'rm' -f installatron-plugin.sh
+fi
+wget http://dal01.installatron.com/installatron-plugin.sh
+chmod 755 installatron-plugin.sh
+./installatron-plugin.sh -f
 
 ### MR -- fix issue if Kloxo-MR 6.5.1 installed together with webmin
 
@@ -19,5 +21,4 @@
 #	#sed -i 's:admin=root:admin=admin:' $ini
 #fi
 
-rpm -Uvh http://data.installatron.com/installatron-plugin-kloxo-latest.noarch.rpm
-
+#rpm -Uvh http://data.installatron.com/installatron-plugin-kloxo-latest.noarch.rpm

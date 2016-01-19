@@ -172,7 +172,8 @@ exec("free -m", $meminfo);
 exec("df -h /", $diskinfo);
 
 echo "\n";
-echo "A. Kloxo-MR: " . $kloxomrver . "\n";
+echo "A. Control Panel:\";
+echo "   - Kloxo-MR: " . $kloxomrver . "\n";
 echo "   - Web: " . $kloxohiawatha . "\n";
 echo "   - PHP: " . $phpsbranch . "-" . $phpsver . "\n";
 //echo "\n";

@@ -850,7 +850,7 @@ class Domaind extends DomainBase
 
 		$this->generateDomainKey(true);
 
-	//	exec("sh /script/fixphp --domain={$this->nname} --nolog");
+	//	exec("sh /script/fixphp --domain={$this->nname}");
 	}
 
 	function generateDomainKey($dontwasflag)
@@ -1398,7 +1398,8 @@ class Domaind extends DomainBase
 
 	//	if ($php->phpini_flag_b->multiple_php_flag === 'on') {
 		if (file_exists('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg')) {
-			$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
+		//	$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
+			$alist['__v_dialog_webselector'] = "n=web&a=updateform&sa=webselector";
 		}
 
 		$alist['__v_dialog_sslcert'] = "n=web&a=list&c=sslcert";

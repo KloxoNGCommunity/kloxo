@@ -63,7 +63,7 @@ class DnsSlave extends Lxdb
 			lxshell_return("rm", "-rf", $path);
 		}
 
-		exec("sh /script/fixdns --server={$syncserver} --nolog");
+		exec("sh /script/fixdns --server={$syncserver}");
 	}
 
 	function deleteSpecific()
@@ -83,7 +83,7 @@ class DnsSlave extends Lxdb
 		}
 
 		exec("'rm' -rf {$path}/{$domain}");
-		exec("sh /script/fixdns --server={$syncserver} --nolog");
+		exec("sh /script/fixdns --server={$syncserver}");
 	}
 
 	static function AddListForm($parent, $class)

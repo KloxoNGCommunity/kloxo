@@ -2,10 +2,6 @@
 
 <?php
 
-if (!isset($phpselected)) {
-	$phpselected = 'php';
-}
-
 if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '80';
 	$ports[] = '443';

@@ -19,6 +19,12 @@ class serverftp__pureftp extends lxDriverclass
 			$anonval = "-E";
 		}
 
+		if ($this->main->isOn('enable_tls')) {
+			$tlsval = 1;
+		} else { 
+			$tlsval = 0;
+		}
+
 	/*
 		// MR -- xinetd
 		$txt = lfile_get_contents("../file/pure-ftpd/etc/xinetd/pureftp");
@@ -47,6 +53,8 @@ class serverftp__pureftp extends lxDriverclass
 		$txt = str_replace("%maxclient%", $this->main->maxclient, $txt);
 		$txt = str_replace("%port%", $this->main->defaultport, $txt);
 		$txt = str_replace("%anonymous%", $anonval, $txt);
+
+		$txt = str_replace("%enabletls%", $tlsval, $txt);
 
 		lfile_put_contents("/etc/pure-ftpd/pure-ftpd.conf", $txt);
 

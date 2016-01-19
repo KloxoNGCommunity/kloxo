@@ -267,7 +267,7 @@ class sp_basespecialplay extends LxspecialClass
 		$tsp->setUpdateSubaction('upload_logo');
 		$this->setUpdateSubaction('upload_logo');
 
-		exec("sh /script/fix-userlogo --nolog");
+		exec("sh /script/fix-userlogo");
 
 		return $param;
 	}

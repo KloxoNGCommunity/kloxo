@@ -349,6 +349,9 @@ class Web extends Lxdb
 	static $__desc_allinstallapp_l = array("", "", "");
 	static $__desc_ftpsession_l = array("v", "", "");
 
+	static $__desc_web_selected = array("", "", "web_selected");
+	static $__desc_php_selected = array("", "", "php_selected");
+
 	static $__acdesc_update_permalink = array("", "", "permalink");
 	static $__acdesc_update_sesubmit = array("", "", "search_engine");
 	static $__acdesc_update_blockip = array("", "", "block_ip");
@@ -387,6 +390,8 @@ class Web extends Lxdb
 	static $__desc_webhandler_l = array("", "", "handler");
 
 	static $__desc_sslcert_l = array("d", "", "");
+
+	static $__acdesc_update_webselector = array("", "", "web_selector");
 
 	function createExtraVariables()
 	{
@@ -896,9 +901,9 @@ class Web extends Lxdb
 		$this->getAndUnzipSkeleton("$user_home/", $this->__var_skelfile, $this->__var_skelmachine);
 
 		if (file_exists("/etc/php-fpm/{$this->customer_name}.conf")) {
-			exec("sh /script/fixphp --domain={$domname} --nolog");
+			exec("sh /script/fixphp --domain={$domname}");
 		} else {
-			exec("sh /script/fixphp --client={$this->customer_name} --nolog");
+			exec("sh /script/fixphp --client={$this->customer_name}");
 		}
 	}
 
@@ -1023,6 +1028,8 @@ class Web extends Lxdb
 			$alist['property'][] = "a=updateform&sa=dirindex";
 		} elseif ($ghtml->frm_subaction === 'custom_error') {
 			$alist['property'][] = "a=updateform&sa=custom_error";
+		} elseif ($ghtml->frm_subaction === 'webselector') {
+			$alist['property'][] = "a=updateform&sa=webselector";
 		}
 
 		return $alist;
@@ -1047,7 +1054,7 @@ class Web extends Lxdb
 
 	static function switchProgramPost($old, $new)
 	{
-		lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixweb.php", "--nolog");
+		lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixweb.php");
 	}
 
 	function createShowAlist(&$alist, $subaction = null)
@@ -1088,6 +1095,9 @@ class Web extends Lxdb
 		$alist['action'][] = "a=update&sa=backup";
 		$alist['action'][] = "a=updateform&sa=restore";
 	*/
+
+		$alist[] = "a=updateform&sa=webselector";
+
 		return $alist;
 	}
 
@@ -1226,6 +1236,24 @@ class Web extends Lxdb
 		return $param;
 	}
 
+	function updateWebselector($param)
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		$this->web_selected = $param['web_selected'];
+		$this->php_selected = $param['php_selected'];
+
+		return $param;
+	}
+
+	function postUpdate()
+	{
+		// We need to write because reads everything from the database.
+		$this->write();
+
+		exec("sh /script/fixweb --domain={$this->nname}");
+	}
+
 	function updateform($subaction, $param)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -1313,7 +1341,7 @@ class Web extends Lxdb
 
 			case "configure_misc":
 				$vlist['force_www_redirect'] = null;
-				$vlist['force_https_redirect'] = null;				
+				$vlist['force_https_redirect'] = null;
 
 				if ($driverapp === 'apache') {
 					$vlist['webmisc_b-execcgi'] = null;
@@ -1383,6 +1411,23 @@ class Web extends Lxdb
 				}
 
 				$vlist['ipaddress'] = array('s', $iplist);
+
+				return $vlist;
+
+			case "webselector":
+				$a = array('front-end', 'back-end');
+
+			//	$p = getCleanRpmBranchListOnList('php');
+				$t = '--Default--';
+			//	$l = array_merge(array($t), $p);
+				$l = array($t);
+				$vlist['web_selected'] = array("s", $a);
+				$vlist['php_selected'] = array("s", $l);
+
+				$this->setDefaultValue('web_selected', $a[1]);
+				$this->setDefaultValue('php_selected', $t);
+
+				$vlist['__v_updateall_button'] = array();
 
 				return $vlist;
 		}

@@ -6,10 +6,6 @@
 
 <?php
 
-if (!isset($phpselected)) {
-	$phpselected = 'php';
-}
-
 $domclean = str_replace('-', '_', str_replace('.', '_', $domainname));
 
 if (($webcache === 'none') || (!$webcache)) {
@@ -532,7 +528,7 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-				if ($reverseproxy) {
+			if ($reverseproxy) {
 ?>
 
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
@@ -646,7 +642,7 @@ VirtualHost {
 			}
 		}
 
-		if (!$reverseproxy) {
+		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
 			if ($enablestats) {
 ?>
 
@@ -694,7 +690,15 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-		if ($reverseproxy) {
+		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	UseFastCGI = php_for_<?php echo $domclean; ?>
+
+	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
+<?php
+		} else {
+			if ($enablephp) {
 ?>
 
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
@@ -702,14 +706,6 @@ VirtualHost {
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
 	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-<?php
-		} else {
-			if ($enablephp) {
-?>
-
-	UseFastCGI = php_for_<?php echo $domclean; ?>
-
-	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
 <?php
 			}
 		}
@@ -805,7 +801,7 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-					if ($reverseproxy) {
+					if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
 
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
@@ -892,7 +888,7 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-					if ($reverseproxy) {
+					if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
 
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+

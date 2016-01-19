@@ -2,10 +2,6 @@
 
 <?php
 
-if (!isset($phpselected)) {
-	$phpselected = 'php';
-}
-
 if (!file_exists("/var/run/acme/acme-challenge")) {
 	exec("mkdir -p /var/run/acme/acme-challenge");
 }

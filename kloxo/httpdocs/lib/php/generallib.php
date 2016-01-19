@@ -297,7 +297,7 @@ class General extends Lxdb
 		$this->write();
 
 		if ($this->subaction === 'generalsetting') {
-			exec("sh /script/fixphp --server=all --nolog; sh /script/fixweb --server=all --nolog");
+			exec("sh /script/fixphp --server=all; sh /script/fixweb --server=all");
 
 			$this->generalmisc_b->disableinstallapp = 'on';
 

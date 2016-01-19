@@ -163,4 +163,4 @@ if [ "${uname_m}" == "64" ] ; then
 	fi
 fi
 
-
+'cp' -f /opt/configs/php-fpm/etc/php-fpm.d/www.conf /opt/${base_name}/etc/php-fpm.d/www.conf

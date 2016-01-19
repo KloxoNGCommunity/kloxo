@@ -102,3 +102,10 @@ ALTER TABLE `mmail` ADD `text_spf_redirect` VARCHAR(255) NULL DEFAULT NULL AFTER
 ALTER TABLE `sslcert` ADD `parent_domain` TEXT NULL AFTER `upload_status`;
 
 ALTER TABLE `web` ADD `force_https_redirect` VARCHAR(255) NULL DEFAULT NULL AFTER `force_www_redirect`;
+
+ALTER TABLE `web` ADD `web_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `force_https_redirect`;
+ALTER TABLE `web` ADD `php_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `web_selected`;
+
+DELETE FROM phpini WHERE nname LIKE 'domain-%' OR nname LIKE 'web-%';
+
+ALTER TABLE `serverftp` ADD `enable_tls` VARCHAR(255) NULL DEFAULT NULL AFTER `defaultport`;

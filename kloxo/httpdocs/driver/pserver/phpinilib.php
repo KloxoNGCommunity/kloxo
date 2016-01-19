@@ -59,9 +59,6 @@ class phpini extends lxdb
 	static $__acdesc_update_extraedit = array("", "", "advanced_PHP_config");
 	static $__acdesc_show = array("", "", "PHP_config");
 
-	static $__desc_php_selected = array("s", "", "php_selected");
-	static $__desc_web_selected = array("s", "", "web_selected");
-
 	static function initThisObjectRule($parent, $class, $name = null)
 	{
 		return $parent->getClName();
@@ -97,22 +94,24 @@ class phpini extends lxdb
 			$list[] = 'multiple_php_flag';
 
 			if ($flag === 'on') {
-				$list[] = 'multiple_php_ratio';
+			//	$list[] = 'multiple_php_ratio';
 			}
 		} else {
+		/*
 		//	if (!$this->getParentO()->is__table('web')) {
 			if ($this->getParentO()->getClass() !== 'web') {
 				if ($flag === 'on') {
-					$list[] = 'multiple_php_ratio';
+				//	$list[] = 'multiple_php_ratio';
 				}
 			} else {
 				$list[] = 'web_selected';
 				$list[] = 'php_selected';
 			}
+		*/
 		}
 
 	//	if (!$this->getParentO()->is__table('web')) {
-		if ($this->getParentO()->getClass() !== 'web') {
+	//	if ($this->getParentO()->getClass() !== 'web') {
 			$list[] = 'display_error_flag';
 		//	$list[] = 'register_global_flag';
 			$list[] = 'log_errors_flag';
@@ -120,7 +119,7 @@ class phpini extends lxdb
 			$list[] = 'date_timezone_flag';
 		//	$list[] = 'session_autostart_flag' ;
 			$list[] = 'session_save_path_flag';
-		}
+	//	}
 	/*
 		$list[] = 'enable_xcache_flag';
 		$list[] = 'enable_zend_flag';
@@ -179,8 +178,8 @@ class phpini extends lxdb
 	function fixphpIniFlag()
 	{
 		if (!isset($this->phpini_flag_b) || get_class($this->phpini_flag_b) !== 'phpini_flag_b') {
-			if ($this->getParentO()->getClass() === 'web') { return; }
-			if ($this->getParentO()->getClass() === 'domain') { return; }
+		//	if ($this->getParentO()->getClass() === 'web') { return; }
+		//	if ($this->getParentO()->getClass() === 'domain') { return; }
 
 			$this->phpini_flag_b = new phpini_flag_b(null, null, $this->nname);
 			$this->setUpInitialValues();
@@ -203,7 +202,7 @@ class phpini extends lxdb
 			// MR -- trick for escape web-based php.ini
 		//	if ($this->getParentO()->is__table('web')) {
 			if ($this->getParentO()->getClass() === 'web') {
-				$this->__var_docrootpath = $this->getParentO()->getFullDocRoot();
+			//	$this->__var_docrootpath = $this->getParentO()->getFullDocRoot();
 			}
 
 			$list = $this->getInheritedList();
@@ -214,14 +213,14 @@ class phpini extends lxdb
 
 			// MR -- trick for escape web-based php.ini
 		//	if ($this->getParentO()->is__table('web')) {
-			if ($this->getParentO()->getClass() === 'web') {
-				$this->__var_web_user = $this->getParentO()->username;
-				$this->__var_customer_name = $this->getParentO()->customer_name;
-				$this->__var_disable_openbasedir = (isset($this->getParentO()->webmisc_b->disable_openbasedir)) ?
-					$this->getParentO()->webmisc_b->disable_openbasedir : null;
-			} else {
+		//	if ($this->getParentO()->getClass() === 'web') {
+		//		$this->__var_web_user = $this->getParentO()->username;
+		//		$this->__var_customer_name = $this->getParentO()->customer_name;
+		//		$this->__var_disable_openbasedir = (isset($this->getParentO()->webmisc_b->disable_openbasedir)) ?
+		//			$this->getParentO()->webmisc_b->disable_openbasedir : null;
+		//	} else {
 				$this->__var_web_user = $this->getParentO()->nname;
-			}
+		//	}
 		}
 
 		$this->__var_extrabasedir = $gen->extrabasedir;
@@ -233,9 +232,9 @@ class phpini extends lxdb
 	{
 		$alist['property'][] = 'a=show';
 
-		if ($this->getParentO()->getClass() !== 'web') {
+	//	if ($this->getParentO()->getClass() !== 'web') {
 			$alist['property'][] = 'a=updateform&sa=extraedit';
-		}
+	//	}
 	}
 
 
@@ -251,7 +250,8 @@ class phpini extends lxdb
 		global $login;
 
 	//	$p = rl_exec_get(null, $this->syncserver, "getCleanRpmBranchListOnList", array('php'));
-		$p = array_merge(array('--Use Php Used--'), getCleanRpmBranchListOnList('php'));
+	//	$p = array_merge(array('--Php Used (default)--'), getCleanRpmBranchListOnList('php'));
+		$p = getCleanRpmBranchListOnList('php');
 
 		return $p;
 	}
@@ -295,8 +295,8 @@ class phpini extends lxdb
 
 	function initPhpIni()
 	{
-		if ($this->getParentO()->getClass() === 'web') { return; }
-		if ($this->getParentO()->getClass() === 'domain') { return; }
+	//	if ($this->getParentO()->getClass() === 'web') { return; }
+	//	if ($this->getParentO()->getClass() === 'domain') { return; }
 
 		$this->setUpInitialValues();
 	}
@@ -309,14 +309,14 @@ class phpini extends lxdb
 
 		$parent = $this->getParentO();
 
-		if ($parent->getClass() !== 'web') {
+	//	if ($parent->getClass() !== 'web') {
 			$list = $this->get_multiple_php_list();
 
 			if ($subaction !== 'extraedit') {
 				// MR -- found error in debug because not exists in db but work
 				$vlist["phpini_flag_b-multiple_php_ready"] = array('M', implode(" ", $list));
 			}
-		}
+	//	}
 
 		if ($subaction === 'extraedit') {
 			$totallist = $this->getExtraList();
@@ -324,7 +324,7 @@ class phpini extends lxdb
 			$totallist = $this->getLocalList();
 		}
 
-		if ($parent->getClass() !== 'web') {
+	//	if ($parent->getClass() !== 'web') {
 			$inheritedlist = $this->getInheritedList();
 			$adminList = $this->getAdminList();
 
@@ -343,24 +343,26 @@ class phpini extends lxdb
 			//	$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
 				$vlist["phpini_flag_b-date_timezone_flag"] = array('s', getTimeZoneList());
 			}
-		}
+	//	}
 
 	//	if ($parent->is__table('web')) {
+	/*
 		if ($parent->getClass() === 'web') {
 			if (!isset($this->web_selected)) {
-				$this->web_selected = 'back-end';
+			//	$this->web_selected = 'back-end';
 			}
 
 			$vlist['web_selected'] = array("s", array('front-end', 'back-end'));
 
 			if (!isset($this->php_selected)) {
-				$this->php_selected = '--Use Php Used--';
+			//	$this->php_selected = '--Default--';
 			}
 
-			$l = $this->get_multiple_php_list();
+			$l = array_merge(array('--Default--'), $this->get_multiple_php_list());
 
 			$vlist['php_selected'] = array("s", $l);
 		}
+	*/
 
 		// MR -- still not work (like in 'appearance')
 		// still something wrong with 'updateall' process!
@@ -470,6 +472,9 @@ class phpini extends lxdb
 
 	//	$vlist['date_timezone_flag'] = array('s', timezone_identifiers_list());
 		$vlist['date_timezone_flag'] = array('s', getTimeZoneList());
+
+	//	$this->initialValue('web_selected', 'back-end');
+	//	$this->initialValue('php_selected', '--Php Used (default)--');
 	}
 
 	function initialValue($var, $val)

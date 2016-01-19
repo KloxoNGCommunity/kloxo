@@ -884,6 +884,14 @@ function validate_docroot($docroot)
 	}
 }
 
+function validate_filename($filename)
+{
+	if (!preg_match('/[^a-zA-Z0-9-_\.]$/', $filename)) {
+		throw new lxException($login->getThrow('invalid_filename'), '', $filename);
+	}
+
+}
+
 function execinstallappPhp($domain, $appname, $cmd)
 {
 	// TODO LxCenter: The created dir and file should be owned by the user
@@ -4819,7 +4827,7 @@ function fix_move_to_client()
 
 function addcustomername()
 {
-	lxshell_return("__path_php_path", "../bin/misc/addcustomername.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/misc/addcustomername.php");
 }
 
 function fix_phpini($nolog = null)
@@ -4827,7 +4835,7 @@ function fix_phpini($nolog = null)
 	log_cleanup("Fix php.ini", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxshell_return("__path_php_path", "../bin/fix/fixphpini.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixphpini.php");
 }
 
 function switchtoaliasnext()
@@ -4841,7 +4849,7 @@ function switchtoaliasnext()
 	}
 
 	lxfile_cp("../file/lighttpd/lighttpd.conf", "/etc/lighttpd/lighttpd.conf");
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
 
 }
 
@@ -4850,12 +4858,12 @@ function fix_awstats($nolog = null)
 	log_cleanup("Fix awstats", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
 }
 
 function fixdomainipissue()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
 }
 
 function fixrootquota()
@@ -4884,47 +4892,47 @@ function fixtotaldiskusageplan()
 
 function fixcmlistagain()
 {
-	lxshell_return("__path_php_path", "../bin/common/generatecmlist.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/common/generatecmlist.php");
 }
 
 function fixcmlist()
 {
-	lxshell_return("__path_php_path", "../bin/common/generatecmlist.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/common/generatecmlist.php");
 }
 
 function fixcgibin()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixcgibin.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixcgibin.php");
 }
 
 function fixsimpledocroot()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixsimpldocroot.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixsimpldocroot.php");
 }
 
 function installSuphp()
 {
-	lxshell_return("__path_php_path", "../bin/misc/installsuphp.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/misc/installsuphp.php");
 }
 
 function fixadminuser()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixadminuser.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixadminuser.php");
 }
 
 function fixphpinfo()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
 }
 
 function fixdirprotectagain()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
 }
 
 function fixdomainhomepermission()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
 }
 
 function createOSUserAdmin($nolog = null)
@@ -4990,7 +4998,7 @@ function fixIpAddress($nolog = null)
 	log_cleanup("Fix IP Address", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxshell_return("lxphp.exe", "../bin/fixIpAddress.php", "--nolog");
+	lxshell_return("lxphp.exe", "../bin/fixIpAddress.php");
 }
 
 function fixservice($nolog = null)
@@ -4998,22 +5006,22 @@ function fixservice($nolog = null)
 	log_cleanup("Fix Services", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxshell_return("__path_php_path", "../bin/fix/fixservice.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixservice.php");
 }
 
 function fixsslca()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
 }
 
 function dirprotectfix()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixdirprotect.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/fix/fixdirprotect.php");
 }
 
 function cronfix()
 {
-	lxshell_return("__path_php_path", "../bin/cronfix.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/cronfix.php");
 }
 
 function changetoclient()
@@ -5022,8 +5030,8 @@ function changetoclient()
 
 //	exec("service xinetd stop");
 	exec("service pure-ftpd stop");
-	lxshell_return("__path_php_path", "../bin/changetoclientlogin.php", "--nolog");
-	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
+	lxshell_return("__path_php_path", "../bin/changetoclientlogin.php");
+	lxshell_return("__path_php_path", "../bin/misc/fixftpuserclient.php");
 //	restart_service("xinetd");
 	exec("service pure-ftpd start");
 	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
@@ -6701,7 +6709,7 @@ function fix_cname($nolog = null)
 	log_cleanup("Initialize OS admin account description", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
-	lxshell_return("sh", "/script/fixdns", "--nolog");
+	lxshell_return("sh", "/script/fixdns");
 }
 
 function installChooser($nolog = null)
@@ -7019,7 +7027,7 @@ function setUpdateConfigWithVersionCheck($list, $servertype = null, $nolog = nul
 	foreach ($list as $k => $v) {
 		log_cleanup("- Fix {$v} services", $nolog);
 
-		$fixstr = "sh /script/fix{$v} --server=all --nolog";
+		$fixstr = "sh /script/fix{$v} --server=all";
 
 		if ($servertype !== 'slave') {
 			exec($fixstr);
@@ -8194,6 +8202,22 @@ function ipv6_expand($ip){
     return $ip;
 }
 
+function getMultiplePhpList()
+{
+	$a = getCleanRpmBranchListOnList('php');
+	$phpm = glob("/opt/*m/usr/bin/php");
+
+	$d = $phpm;
+
+	foreach ($d as $k => $v) {
+		$e = str_replace('/opt/', '', $v);
+		$e = str_replace('/usr/bin/php', '', $e);
+		$d[$k] = $e;
+	}
+
+	return $d;
+}
+
 function getCleanRpmBranchListOnList($branchtype)
 {
 	$a = getRpmBranchListOnList($branchtype);
@@ -8224,24 +8248,8 @@ function getCleanRpmBranchListOnList($branchtype)
 	return $a;
 }
 
-function getMultiplePhpList()
+function glob_recursive($pattern, $flags = 0)
 {
-	$a = getCleanRpmBranchListOnList('php');
-	$phpm = glob("/opt/*m/usr/bin/php");
-
-	$d = $phpm;
-
-	foreach ($d as $k => $v) {
-		$e = str_replace('/opt/', '', $v);
-		$e = str_replace('/usr/bin/php', '', $e);
-		$d[$k] = $e;
-	}
-
-	return $d;
-}
-
- function glob_recursive($pattern, $flags = 0)
- {
 	// Does not support flag GLOB_BRACE
 
 	$files = glob($pattern, $flags);
@@ -8251,13 +8259,13 @@ function getMultiplePhpList()
 	}
 
  	return $files;
- }
+}
  
- function replace_to_space($text)
- {
- 	$text = str_replace(",", " ", $text);
- 	$text = str_replace("  ", " ", $text);	
+function replace_to_space($text)
+{
+	$text = str_replace(",", " ", $text);
+	$text = str_replace("  ", " ", $text);
 	$text = str_replace("\n", " ", $text);
-	
+
 	return $text;
- }
+}

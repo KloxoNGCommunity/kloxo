@@ -108,7 +108,7 @@ class Ipaddress__Redhat extends LxDriverclass
 		$result = self::getCurrentIps();
 
 		// MR -- not needed because Kloxo-MR use *:port instead existing ip for webconfig
-	//	exec("sh /script/fixweb --target=defaults --nolog");
+	//	exec("sh /script/fixweb --target=defaults");
 	}
 
 	function dbactionUpdate($subaction)
@@ -178,7 +178,7 @@ class Ipaddress__Redhat extends LxDriverclass
 	//	web__apache::createWebDefaultConfig($result);
 
 		// MR -- not needed because Kloxo-MR use *:port instead existing ip for webconfig
-	//	exec("sh /script/fixweb --target=defaults --nolog");
+	//	exec("sh /script/fixweb --target=defaults");
 
 		$res = ipaddress::fixstatus($result);
 

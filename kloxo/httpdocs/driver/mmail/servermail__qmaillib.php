@@ -107,7 +107,8 @@ class Servermail__Qmail  extends lxDriverClass
 		//	lxshell_return("chkconfig", "clamav", "on");
 		//	os_service_manage("clamav", "restart");
 			os_service_manage("freshclam", "restart");
-			lxshell_return("chkconfig", "freshclam", "on");
+		//	lxshell_return("chkconfig", "freshclam", "on");
+			exec("chkconfig freshclam on");
 			lxfile_cp("../file/linux/simcontrol", "/var/qmail/control/");
 			lxshell_return("/var/qmail/bin/simscanmk");
 			lxshell_return("/var/qmail/bin/simscanmk", "-g");
@@ -115,7 +116,8 @@ class Servermail__Qmail  extends lxDriverClass
 		//	lxshell_return("chkconfig", "clamav", "off");
 		//	os_service_manage("clamav", "stop");
 			os_service_manage("freshclam", "stop");
-			lxshell_return("chkconfig", "freshclam", "off");
+		//	lxshell_return("chkconfig", "freshclam", "off");
+			exec("chkconfig freshclam off");
 
 			// MR -- don't need uninstall because possible used by other purpose
 		//	lxshell_return("rpm", "-e", "--nodeps", "clamav");

@@ -285,7 +285,8 @@ class serverweb__ extends lxDriverClass
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
 
-		lxshell_return("chkconfig", "php-fpm", "on");
+	//	lxshell_return("chkconfig", "php-fpm", "on");
+		exec("chkconfig php-fpm on");
 	}
 
 	function set_fcgid()

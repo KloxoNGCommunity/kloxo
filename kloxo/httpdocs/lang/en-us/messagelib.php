@@ -920,3 +920,9 @@ $__information['watchdog_addform__pre'] = "<p>Settings:" .
 		"<li>Action - command required to restart service</li>" .
 	"</ul></p>" .
 	"<p><b>Note</b>: - usually 'Action' to restart service is 'service XXX restart' or '/etc/init.d/XXX restart'.</p>";
+
+$__information['updateform_webselector_pre'] =
+	"<p>In web proxy (like Nginx-proxy), select 'back-end' in 'Web Selected' mean execute php in back side (Apache). " .
+	"Otherwise, select 'front-end' mean execute php in front side (like Nginx).</p>" .
+	"<p>If enable 'multiple php', possible select php for website under 'Php Selected'. " .
+	"Select '--Default--' mean use php where declare in 'Php Used' under 'Webserver Configure'.</p>";

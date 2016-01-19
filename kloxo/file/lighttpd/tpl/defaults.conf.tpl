@@ -3,10 +3,6 @@
 
 <?php
 
-if (!isset($phpselected)) {
-	$phpselected = 'php';
-}
-
 $srcconfpath = "/opt/configs/lighttpd/etc/conf";
 $srcconfdpath = "/opt/configs/lighttpd/etc/conf.d";
 $trgtconfpath = "/etc/lighttpd";

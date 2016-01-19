@@ -27,6 +27,7 @@ class web__ extends lxDriverClass
 		// no action for hiawatha because used by Kloxo too
 		if ($a === 'httpd') {
 			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+			/*
 				$blist[] = "{$a}24u";
 				$blist[] = "{$a}24u-tools";
 				$blist[] = "{$a}24u-filesystem";
@@ -36,7 +37,11 @@ class web__ extends lxDriverClass
 			//	$blist[] = "mod24u_suphp";
 			//	$blist[] = "mod24u_ruid2";
 			//	$blist[] = "mod24u_fcgid";
+			*/
+				$blist[] = "httpd24*";
+				$blist[] = "mod24*";
 			} else {
+			/*
 				$blist[] = "{$a}";
 				$blist[] = "{$a}-tools";
 			 	$blist[] = "mod_*";			
@@ -48,6 +53,10 @@ class web__ extends lxDriverClass
 			//	$blist[] = "mod_fcgid";
 			//	$blist[] = "mod_define";
 			//	$blist[] = "mod_perl";
+			*/
+				$blist[] = "httpd-*";
+				$blist[] = "mod_*";
+				$blist[] = "mod-*";
 			}
 		} elseif ($a === 'lighttpd') {
 			$blist[] = "{$a}";
@@ -64,7 +73,8 @@ class web__ extends lxDriverClass
 			exec("yum remove {$p} -y");
 		}
 
-		lxshell_return("chkconfig", $a, "off");
+	//	lxshell_return("chkconfig", $a, "off");
+		exec("chkconfig {$a} off");
 
 		if (file_exists("/etc/init.d/{$a}")) {
 			lunlink("/etc/init.d/{$a}");
@@ -129,7 +139,8 @@ class web__ extends lxDriverClass
 			self::setWebserverInstall($a);
 			self::setBaseWebConfig($a);
 
-			lxshell_return("chkconfig", $a, "on");
+		//	lxshell_return("chkconfig", $a, "on");
+			exec("chkconfig {$a} on");
 
 			setCopyWebConfFiles($l);
 		}
@@ -206,7 +217,8 @@ class web__ extends lxDriverClass
 			}
 		}
 
-		lxshell_return("chkconfig", "php-fpm", "on");
+	//	lxshell_return("chkconfig", "php-fpm", "on");
+		exec("chkconfig php-fpm on");
 	}
 
 	function createConfFile()
@@ -237,6 +249,9 @@ class web__ extends lxDriverClass
 		$input['wwwredirect'] = $this->getWwwRedirect();
 		$input['httpsredirect'] = $this->getHttpsRedirect();
 		$input['domainredirect'] = $this->getRedirectDomains();
+
+		$input['webselected'] = $this->getWebSelected();
+		$input['phpselected'] = $this->getPhpSelected();
 
 		$input['apacheextratext'] = $this->getApacheExtraText();
 		$input['lighttpdextratext'] = $this->getLighttpdExtraText();
@@ -957,6 +972,28 @@ class web__ extends lxDriverClass
 		return $ret;
 	}
 
+	function getWebSelected()
+	{
+		if (!isset($this->main->web_selected)) {
+			$ret = 'back-end';
+		} else {
+			$ret = $this->main->web_selected;
+		}
+
+		return $ret;
+	}
+
+	function getPhpSelected()
+	{
+		if ((!isset($this->main->php_selected)) || (strtolower($this->main->php_selected) === '--default--')) {
+			$ret = 'php';
+		} else {
+			$ret = $this->main->php_selected;
+		}
+
+		return $ret;
+	}
+
 	function getApacheExtraText()
 	{
 		if ($this->main->text_extra_tag) {
@@ -1296,7 +1333,7 @@ class web__ extends lxDriverClass
 		// MR -- no need for it except .htaccess per-domain!
 		$uname = $this->getUser();
 
-		exec("sh /script/fixphp --client={$uname} --nolog");
+		exec("sh /script/fixphp --client={$uname}");
 	}
 
 	function htaccessUpdate()
@@ -1305,7 +1342,7 @@ class web__ extends lxDriverClass
 		$domain = $this->getDomainname();
 	//	$uname = $this->getUser();
 
-		exec("sh /script/fixphp --domain={$domain} --nolog");
+		exec("sh /script/fixphp --domain={$domain}");
 
 	}
 
