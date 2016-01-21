@@ -8,7 +8,6 @@ if [ "$(rpm -qa|grep smem)" == "" ] ; then
 	yum install smem -y
 fi
 
-## trouble running smem in bash
 /usr/bin/smem -u -t -k -p
 
 echo ""

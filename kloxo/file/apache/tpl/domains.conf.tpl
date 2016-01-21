@@ -273,10 +273,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $disablepath; ?>/">
 					Options +ExecCGI
@@ -417,10 +413,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $cpdocroot; ?>/">
 					Options +ExecCGI
@@ -604,10 +596,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $webmaildocroot; ?>/">
 					Options +ExecCGI
@@ -842,10 +830,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $rootpath; ?>/">
 					Options +ExecCGI
@@ -1141,10 +1125,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $redirfullpath; ?>/">
 					Options +ExecCGI
@@ -1349,10 +1329,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $disablepath; ?>/">
 					Options +ExecCGI
@@ -1536,10 +1512,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $webmaildocroot; ?>/">
 					Options +ExecCGI
@@ -1695,10 +1667,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $disablepath; ?>/">
 					Options +ExecCGI
@@ -1882,10 +1850,6 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule !mod_proxy_fcgi.c>
-			ProxyRequests Off
-			ProxyErrorOverride On
-			ProxyPass /error !
-			ErrorDocument 500 /error/500.html
 			<IfModule mod_fcgid.c>
 				<Directory "<?php echo $webmaildocroot; ?>/">
 					Options +ExecCGI

@@ -15,6 +15,12 @@ $cpdocroot = "/home/kloxo/httpd/cp";
 
 $globalspath = "/opt/configs/nginx/conf/globals";
 
+if (file_exists("{$globalspath}/custom.gzip.conf")) {
+		$gzip_base = "custom.gzip";
+} else {
+		$gzip_base = "gzip";
+}
+
 if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 	$ssl_base = "custom.ssl_base";
 } else {
@@ -144,6 +150,8 @@ server {
 	#disable_symlinks if_not_owner;
 	
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 			if ($count !== 0) {
 ?>
@@ -187,6 +195,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 			if ($count !== 0) {
 ?>
@@ -233,6 +243,8 @@ server {
 	#disable_symlinks if_not_owner;
 	
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 			if ($count !== 0) {
 ?>
@@ -279,6 +291,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 				if ($count !== 0) {
 ?>
@@ -316,6 +330,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 				if ($count !== 0) {
 ?>
@@ -371,6 +387,8 @@ server {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 		if ($count !== 0) {
 			if ($enablessl) {
@@ -645,6 +663,8 @@ server {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -718,6 +738,8 @@ server {
 ?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -774,6 +796,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 					if ($count !== 0) {
 ?>
@@ -821,6 +845,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 			  		  if ($count !== 0) {
 ?>
@@ -860,6 +886,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 			  			if ($count !== 0) {
 ?>
@@ -923,6 +951,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 					if ($count !== 0) {
 ?>
@@ -970,6 +1000,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 			  			if ($count !== 0) {
 ?>
@@ -1007,6 +1039,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 			  			if ($count !== 0) {
 ?>

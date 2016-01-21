@@ -2,6 +2,10 @@
 
 <?php
 
+// MR -- need change ownership because change nginx user from nginx to apache
+exec("chown -R apache:apache /var/cache/nginx*/*");
+exec("chown -R apache:apache /tmp/nginx*/*");
+
 if (!file_exists("/var/run/acme/acme-challenge")) {
 	exec("mkdir -p /var/run/acme/acme-challenge");
 }
@@ -15,6 +19,12 @@ $defaultdocroot = "/home/kloxo/httpd/default";
 $cpdocroot = "/home/kloxo/httpd/cp";
 
 $globalspath = "/opt/configs/nginx/conf/globals";
+
+if (file_exists("{$globalspath}/custom.gzip.conf")) {
+		$gzip_base = "custom.gzip";
+} else {
+		$gzip_base = "gzip";
+}
 
 $confs = array('nginx.conf', 'mime.types', 'fastcgi_params');
 
@@ -120,6 +130,8 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+
+	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
 <?php
 		if ($count !== 0) {
 ?>

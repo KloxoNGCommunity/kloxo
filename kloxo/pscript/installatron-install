@@ -9,6 +9,8 @@ wget http://dal01.installatron.com/installatron-plugin.sh
 chmod 755 installatron-plugin.sh
 ./installatron-plugin.sh -f
 
+ln -sf /usr/local/lxlabs/kloxo/httpdocs/lib/html /var/installatron/frontend/htmllib
+
 ### MR -- fix issue if Kloxo-MR 6.5.1 installed together with webmin
 
 #source="/var/installatron/frontend"
