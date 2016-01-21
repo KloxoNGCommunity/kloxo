@@ -57,8 +57,10 @@ foreach($list as $c) {
 
 		if (!in_array($web->syncserver, $slist)) {
 			if (($target === 'all') || ($target === 'defaults')) {
-				log_cleanup("- 'defaults' pages at '{$web->syncserver}'", $nolog);
-				$web->setUpdateSubaction('static_config_update');
+				if ($counter === 0) {
+					log_cleanup("- 'defaults' pages at '{$web->syncserver}'", $nolog);
+					$web->setUpdateSubaction('static_config_update');
+				}
 			}
 
 			if (($target === 'all') || ($target === 'domains')) {
@@ -93,6 +95,8 @@ foreach($list as $c) {
 		}
 
 		$web->was();
+
+		$counter++;
 	}
 }
 

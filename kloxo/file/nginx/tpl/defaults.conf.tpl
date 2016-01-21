@@ -2,9 +2,11 @@
 
 <?php
 
-// MR -- need change ownership because change nginx user from nginx to apache
-exec("chown -R apache:apache /var/cache/nginx*/*");
-exec("chown -R apache:apache /tmp/nginx*/*");
+if (file_exists("/tmp/nginx")) {
+	// MR -- need change ownership because change nginx user from nginx to apache
+	@exec("chown -R apache:apache /var/cache/nginx*/*");
+	@exec("chown -R apache:apache /tmp/nginx/*");
+}
 
 if (!file_exists("/var/run/acme/acme-challenge")) {
 	exec("mkdir -p /var/run/acme/acme-challenge");
