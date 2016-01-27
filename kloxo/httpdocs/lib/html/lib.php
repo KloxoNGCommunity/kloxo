@@ -7598,15 +7598,21 @@ function setRealServiceBranchList($nolog = null)
 	$count = 0;
 
 	foreach ($dirs as $d) {
-		if (strpos($d, "set.") !== false) {
-			$t = str_replace("set.", "", $d);
+		if (strpos($d, "/set.") !== false) {
+			$f = str_replace("{$path}/", "", $d);
 
-			$n = str_replace("{$path}/", "", $t);
-			$n = str_replace(".lst", "", $n);
+			if (file_exists("{$path}/custom.{$f}")) {
+				$f = "custom.{$f}";
+				$t = str_replace("/custom.set.", "/", $d);
+			} else {
+				$t = str_replace("/set.", "/", $d);
+			}
+
+			$n = str_replace(".lst", "", $f);
 
 			log_cleanup("- List for '{$n}' branch", $nolog);
 
-			$sc = file_get_contents($d);
+			$sc = file_get_contents("{$path}/{$f}");
 
 			$sl = explode(",", str_replace(" ", "", $sc));
 

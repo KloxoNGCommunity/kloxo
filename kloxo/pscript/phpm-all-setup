@@ -1,6 +1,12 @@
 #!/bin/sh
 
-for i in 52 53 54 55 56 ; do
-	sh /script/phpm-config-setup php${i}m $1
-	sh /script/phpm-config-setup php${i}s $1
-done
+if [ "$1" == "--help" ] ; then
+	sh /script/phpm-config-setup --help
+else
+	for i in $(cat /usr/local/lxlabs/kloxo/etc/list/set.php.lst|tr ',', '\n'|sed 's/[wu]//g'|uniq) ; do
+		if [ "${i}" != "php" ] ; then
+			sh /script/phpm-config-setup php${i}m $*
+			sh /script/phpm-config-setup php${i}s $*
+		fi
+	done
+fi

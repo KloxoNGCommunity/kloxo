@@ -75,7 +75,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 }
 
 echo "\n";
-//echo " - Note: remove 'skip-innodb' from '/etc/my.cnf' and '/etc/my.cnf.d/my.cnf'.\n";
+//echo " - Note: remove 'skip-innodb' from '/etc/my.cnf' and '/etc/my.cnf.d/server.cnf'.\n";
 //echo "   Need reboot!.\n\n";
 
 echo "*** Change MySQL to MariaDB - end ***\n";

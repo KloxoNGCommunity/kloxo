@@ -25,8 +25,7 @@ B.1. Fresh Install
         rm -f mratwork*
 
         # get repo file -- no need for 6.5.0.c and after
-        wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-        rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+		rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 
         # move to /
         cd /
@@ -49,8 +48,7 @@ B.1. Fresh Install
         rm -f mratwork*
 
         # get repo file -- no need for 6.5.0.c and after
-        wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-        rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+		rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 
         # move to /
         cd /
