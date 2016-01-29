@@ -1,6 +1,33 @@
 #!/bin/sh
 
+if [ "$1" == "--help" ] ; then
+	echo
+	echo " ------------------------------------------------------------------------------"
+	echo "  format: sh $0 <phpXYm|phpXYs> [--force]"
+	echo " ------------------------------------------------------------------------------"
+	echo "  phpXYm/phpXYs"
+	echo "      - start from php52m/php52s"
+	echo "      - phpXYm for 'multiple php'"
+	echo "      - phpXYs for 'special php' for Kloxo-MR panel"
+	echo "  --force"
+	echo "      - for re-install"
+	echo
+	exit;
+fi
+
+if [ "$#" == 0 ] ; then
+	echo
+	echo "- For help, type '$0 --help'"
+	echo
+	exit
+fi
+
 base_name="${1}"
+
+if [ "echo '${base_name}'|grep 'php'|grep 's'" == "" ] || [ "echo '${base_name}'|grep 'php'|grep 'm'" == "" ] ; then
+	echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 70)"
+	exit
+fi
 
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
@@ -12,8 +39,8 @@ else
 fi
 
 x="- Disable certain modules (rename to .nonini) in 'php.d' and 'php-zts.d'"
-echo $x
-echo $x >>/opt/${base_name}/install.log
+echo ${x}
+echo ${x} >>/opt/${base_name}/install.log
 
 for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 	apc apcu imagick interbase ioncube-loader memcache memcached mssql debug \
@@ -59,20 +86,20 @@ done
 
 cd /opt/${base_name}
 
-mkdir -p /opt/${base_name}/custom
+mkdir -p /opt/${base_name}/custom >/dev/null 2>&1
 
 x="- Copy certain files to '/opt/${base_name}/custom'"
-echo $x
-echo $x >>/opt/${base_name}/install.log
+echo ${x}
+echo ${x} >>/opt/${base_name}/install.log
 
-'rm' -f  /opt/${base_name}/custom/php5*
+'rm' -f  /opt/${base_name}/custom/php5* >/dev/null 2>&1
 
 kipath="/usr/local/lxlabs/kloxo/init"
 
 if [ -f ${kipath}/custom.php.ini.base ] ; then
-	'cp' -rf ${kipath}/custom.php.ini.base /opt/${base_name}/custom/php.ini
+	'cp' -rf ${kipath}/custom.php.ini.base /opt/${base_name}/custom/php.ini >/dev/null 2>&1
 else
-	'cp' -rf ${kipath}/php.ini.base /opt/${base_name}/custom/php.ini
+	'cp' -rf ${kipath}/php.ini.base /opt/${base_name}/custom/php.ini >/dev/null 2>&1
 fi
 
 sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' /opt/${base_name}/custom/php.ini
@@ -91,27 +118,27 @@ fi
 
 for i in php-cgi.sh php-cli.sh php-fpm.sh php-ls.sh ; do
 	if [ -f ${kipath}/custom.${i}.base ] ; then
-		'cp' -rf ${kipath}/custom.${i}.base /opt/${base_name}/custom/${i}
+		'cp' -rf ${kipath}/custom.${i}.base /opt/${base_name}/custom/${i} >/dev/null 2>&1
 	else
-		'cp' -rf ${kipath}/${i}.base /opt/${base_name}/custom/${i}
+		'cp' -rf ${kipath}/${i}.base /opt/${base_name}/custom/${i} >/dev/null 2>&1
 	fi
 
-	sed -i 's:__phpm__:'${base_name}':' /opt/${base_name}/custom/${i}
+	sed -i 's:__phpm__:'${base_name}':' /opt/${base_name}/custom/${i} >/dev/null 2>&1
 done
 
 if [ "${base_name}" == "php52s" ] || [ "${base_name}" == "php52m" ] ; then
 	if [ -f ${kipath}/custom.php52-fpm.conf.base ] ; then
-		'cp' -rf ${kipath}/custom.php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf
+		'cp' -rf ${kipath}/custom.php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	else
-		'cp' -rf ${kipath}/php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf
+		'cp' -rf ${kipath}/php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	fi
 
-	sed -i 's:/var/run/php-fpm.pid:/var/run/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf
+	sed -i 's:/var/run/php-fpm.pid:/var/run/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 else
 	if [ -f ${kipath}/custom.php53-fpm.conf.base ] ; then
-		'cp' -rf ${kipath}/custom.php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf
+		'cp' -rf ${kipath}/custom.php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	else
-		'cp' -rf ${kipath}/php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf
+		'cp' -rf ${kipath}/php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	fi
 
 	sed -i 's:/var/run/php-fpm/php-fpm.pid:/var/run/php-fpm/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf
@@ -123,44 +150,44 @@ else
 	pcfile="${kipath}/php-fpm.init.base"
 fi
 
-'cp' -f ${pcfile} /opt/${base_name}/custom/php-fpm.init
+'cp' -f ${pcfile} /opt/${base_name}/custom/php-fpm.init >/dev/null 2>&1
 sed -i 's:__custom_name__:'${1}':' /opt/${base_name}/custom/php-fpm.init
 
 x="- Set .sh to 755"
-echo $x
-echo $x >>/opt/${base_name}/install.log
+echo ${x}
+echo ${x} >>/opt/${base_name}/install.log
 
 chmod 755 /opt/${base_name}/custom/*.sh
 
 x="- Create .sh symlink"
-echo $x
-echo $x >>/opt/${base_name}/install.log
+echo ${x}
+echo ${x} >>/opt/${base_name}/install.log
 
 for i in cgi cli ls fpm ; do
 	if [ -f /opt/${base_name}/custom/php-${i}.sh ] ;  then
 		x="-- From '/opt/${base_name}/custom/php-${i}.sh' to '/usr/bin/${base_name}-${i}'"
-		echo $x
-		echo $x >>/opt/${base_name}/install.log
+		echo ${x}
+		echo ${x} >>/opt/${base_name}/install.log
 
-		'rm' -f /usr/bin/${base_name}-${i}
-		ln -sf /opt/${base_name}/custom/php-${i}.sh /usr/bin/${base_name}-${i}
+		'rm' -f /usr/bin/${base_name}-${i} >/dev/null 2>&1
+		ln -sf /opt/${base_name}/custom/php-${i}.sh /usr/bin/${base_name}-${i} >/dev/null 2>&1
 	fi
 done
 
 if [ "${uname_m}" == "64" ] ; then
 	x="- Create symlink from /opt/${base_name}/usr/lib64 to /opt/${base_name}/usr/lib"
-	echo $x
-	echo $x >>/opt/${base_name}/install.log
+	echo ${x}
+	echo ${x} >>/opt/${base_name}/install.log
 
 	if [ -d /opt/${base_name}/usr/lib ] ; then
-		ln -sf /opt/${base_name}/usr/lib64/php /opt/${base_name}/usr/lib/php
+		ln -sf /opt/${base_name}/usr/lib64/php /opt/${base_name}/usr/lib/php >/dev/null 2>&1
 
 		if [ -d /opt/${base_name}/usr/lib64/php-zts ] ; then
-			ln -sf /opt/${base_name}/usr/lib64/php-zts /opt/${base_name}/usr/lib/php-zts
+			ln -sf /opt/${base_name}/usr/lib64/php-zts /opt/${base_name}/usr/lib/php-zts >/dev/null 2>&1
 		fi
 	else
-		ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib
+		ln -sf /opt/${base_name}/usr/lib64 /opt/${base_name}/usr/lib >/dev/null 2>&1
 	fi
 fi
 
-'cp' -f /opt/configs/php-fpm/etc/php-fpm.d/www.conf /opt/${base_name}/etc/php-fpm.d/www.conf
+'cp' -f /opt/configs/php-fpm/etc/php-fpm.d/www.conf /opt/${base_name}/etc/php-fpm.d/www.conf >/dev/null 2>&1

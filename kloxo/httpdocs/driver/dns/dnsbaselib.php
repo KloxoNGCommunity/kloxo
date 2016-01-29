@@ -169,8 +169,9 @@ class dns_record_a extends LxDnsClass
 			// Validates both ipv4 and ipv6
 			validate_ipaddress($param['param']);
 
-		//	$param['nname'] = "{$param['ttype']}_{$param['hostname']}_{$param['param']}";
-			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
+			// MR -- back to use old model (importance for round-robin 'A record'
+			$param['nname'] = "{$param['ttype']}_{$param['hostname']}_{$param['param']}";
+		//	$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		} elseif ($param['ttype'] === 'cname') {
 			// Validates hostname subdomain
 			validate_hostname_name($param['hostname']);

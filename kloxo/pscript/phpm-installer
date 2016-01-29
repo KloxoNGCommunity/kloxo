@@ -15,11 +15,9 @@ if [ "$1" == "--help" ] ; then
 	exit;
 fi
 
-echo
-echo "- For help, type '$0 --help'"
-
 if [ "$#" == 0 ] ; then
-	echo "- No argument supplied. Defaulting to localhost (master) servers"
+	echo
+	echo "- For help, type '$0 --help'"
 	echo
 	exit
 fi
@@ -27,7 +25,7 @@ fi
 base_name="${1}"
 
 if [ "echo '${base_name}'|grep 'php'|grep 's'" == "" ] || [ "echo '${base_name}'|grep 'php'|grep 'm'" == "" ] ; then
-	echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 56)"
+	echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 70)"
 	exit
 fi
 
