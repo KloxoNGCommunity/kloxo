@@ -115,7 +115,7 @@ if (!$reverseproxy) {
 ?>
 
 Directory {
-	Path = /home/kloxo/httpd/awstats/wwwroot/cgi-bin
+	Path = /awstats
 	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
 }
 
@@ -126,7 +126,7 @@ Directory {
 ?>
 
 Directory {
-	Path = /home/httpd/<?php echo $domainname; ?>/webstats
+	Path = /webstats
 	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
 }
 
