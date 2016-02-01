@@ -275,7 +275,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -337,7 +338,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -413,7 +415,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 			} else {
 ?>
@@ -535,7 +538,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 				} else {
 ?>
@@ -705,7 +709,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 			}
 		}
@@ -808,7 +813,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -895,7 +901,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -970,7 +977,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -1045,7 +1053,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1121,7 +1130,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1213,7 +1223,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 					} else {
 ?>
@@ -1290,7 +1301,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>
@@ -1366,7 +1378,8 @@ VirtualHost {
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
 <?php
 						} else {
 ?>

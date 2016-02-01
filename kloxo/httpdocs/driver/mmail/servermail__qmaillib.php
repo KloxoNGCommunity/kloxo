@@ -189,7 +189,7 @@ class Servermail__Qmail  extends lxDriverClass
 
 		lxfile_mkdir("/var/qmail/spamdyke/greylist/");
 
-		$bcont = lfile_get_contents("../file/template/spamdyke.conf");
+		$bcont = lfile_get_contents(getLinkCustomfile("../file/template", "spamdyke.conf"));
 		$bcont = str_replace("%lx_greet_delay%", sprintf("greeting-delay-secs=%d",$this->main->greet_delay), $bcont);
 		$bcont = str_replace("%lx_graylist_level%", $this->main->isOn('graylist_flag') ? "graylist-level=always-create-dir" : "graylist-level=none", $bcont);
 		$bcont = str_replace("%lx_graylist_min_secs%", sprintf("graylist-min-secs=%d",$this->main->graylist_min_secs), $bcont);

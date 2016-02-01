@@ -904,7 +904,7 @@ foreach ($certnamelist as $ip => $certname) {
 		 		if ($statsprotect) {
 ?>
 
-    <Location "/awstats/">
+	<Location "/awstats/">
 		AuthType Basic
 		AuthName "Awstats"
 		#AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
