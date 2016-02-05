@@ -1,0 +1,4 @@
+#!/bin/sh
+
+yum install hiawatha-addons -y
+cp -r /opt/hiawatha/urltoolkit/* /opt/configs/hiawatha/conf/toolkits

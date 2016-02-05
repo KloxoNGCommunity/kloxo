@@ -4,8 +4,8 @@
 /var/log/secure
 /var/log/spooler
 {
-#    sharedscripts
-#    postrotate
-#        /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
-#    endscript
+    sharedscripts
+    postrotate
+        /bin/kill -HUP `cat /var/run/syslogd.pid >/dev/null 2>&1 || true
+    endscript
 }
