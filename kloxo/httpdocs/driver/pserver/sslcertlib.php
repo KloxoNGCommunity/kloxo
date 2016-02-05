@@ -536,15 +536,13 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$shpath = "/home/kloxo/client/{$user}/ssl";
-			$shfile = "{$name}.sh";
 		} else {
 			$shpath = "/tmp";
-			$shfile = 'openssl.sh';
 		}
 
 		$tplsource = getLinkCustomfile("/opt/configs/openssl/tpl", "openssl.sh.tpl");
 
-		$tpltarget = "{$shpath}/{$shfile}";
+		$tpltarget = "{$shpath}/openssl.sh";
 
 		$tpl = lfile_get_contents($tplsource);
 
@@ -560,10 +558,10 @@ class SslCert extends Lxdb
 			lfile_put_contents($tpltarget, $tplparse);
 		}
 
-		exec("cd {$shpath}; sh {$shfile}", $out, $ret);
+		exec("cd {$shpath}; sh openssl.sh", $out, $ret);
 
 		if ($ret !== 0) {
-			throw new lxException($login->getThrow("certificate_create_failed"), '', $parent->nname);
+			throw new lxException($login->getThrow("create_certificate_failed"), '', $parent->nname);
 		}
 
 		$this->text_key_content = lfile_get_contents("{$shpath}/{$name}.key");
