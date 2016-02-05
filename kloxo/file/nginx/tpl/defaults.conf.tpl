@@ -8,8 +8,8 @@ if (file_exists("/tmp/nginx")) {
 	@exec("chown -R apache:apache /tmp/nginx");
 }
 
-if (!file_exists("/var/run/acme/acme-challenge")) {
-	exec("mkdir -p /var/run/acme/acme-challenge");
+if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
+	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
 }
 
 $srcconfpath = "/opt/configs/nginx/etc/conf";

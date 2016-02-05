@@ -7178,6 +7178,7 @@ function setInitialServices($nolog = null)
 	setInitialPhpFpmConfig($nolog);
 
 	setCopyOpenSSLConfFiles();
+	setCopyLetsEncryptConfFiles();
 
 	setInitialPureftpConfig($nolog);
 
@@ -7518,6 +7519,23 @@ function setCopyOpenSSLConfFiles()
 
 	if (file_exists("/home/openssl")) {
 		lxfile_rm_rec("/home/openssl");
+	}
+}
+
+function setCopyLetsEncryptConfFiles()
+{
+	$nolog = null;
+
+	$pathsrc = "/usr/local/lxlabs/kloxo/file/letsencrypt";
+	$pathdrv = "/opt/configs/letsencrypt";
+
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
+
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
+	exec("'cp' -rf {$pathsrc} /opt/configs");
+
+	if (file_exists("/home/letsencrypt")) {
+		lxfile_rm_rec("/home/letsencrypt");
 	}
 }
 

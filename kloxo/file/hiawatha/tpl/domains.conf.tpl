@@ -264,7 +264,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 <?php
@@ -327,7 +327,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 <?php
@@ -393,7 +393,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $cpdocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -470,7 +470,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
@@ -516,7 +516,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -620,7 +620,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $rootpath; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -789,7 +789,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -877,7 +877,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -966,7 +966,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 <?php
@@ -1033,7 +1033,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	TimeForCGI = 600
 
@@ -1108,7 +1108,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -1201,7 +1201,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -1279,7 +1279,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -1356,7 +1356,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 

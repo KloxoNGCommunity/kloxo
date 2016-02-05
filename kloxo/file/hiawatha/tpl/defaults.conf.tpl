@@ -6,8 +6,8 @@
 
 <?php
 
-if (!file_exists("/var/run/acme/acme-challenge")) {
-	exec("mkdir -p /var/run/acme/acme-challenge");
+if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
+	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
 }
 
 $srcconfpath = "/opt/configs/hiawatha/etc/conf";
@@ -146,7 +146,7 @@ set var_user = apache
 Hostname = 0.0.0.0, ::
 WebsiteRoot = <?php echo $defaultdocroot; ?>
 
-Alias = /.well-known/acme-challenge:/var/run/acme/acme-challenge
+Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 EnablePathInfo = yes
 ## MR -- remove by Hiawatha 10+

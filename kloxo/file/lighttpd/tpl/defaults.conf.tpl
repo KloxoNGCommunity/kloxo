@@ -3,6 +3,10 @@
 
 <?php
 
+if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
+	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
+}
+
 $srcconfpath = "/opt/configs/lighttpd/etc/conf";
 $srcconfdpath = "/opt/configs/lighttpd/etc/conf.d";
 $trgtconfpath = "/etc/lighttpd";
