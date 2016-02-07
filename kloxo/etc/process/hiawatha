@@ -22,5 +22,8 @@ else
 	echo "  - No need started"
 fi
 
-echo "  - Process: reload"
-/etc/rc.d/init.d/hiawatha reload
+#echo "  - Process: reload"
+#/etc/rc.d/init.d/hiawatha reload
+
+echo "  - Process: restart"
+/etc/rc.d/init.d/hiawatha restart

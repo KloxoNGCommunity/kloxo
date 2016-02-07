@@ -13,11 +13,9 @@
 		$req .= "--email {$emailAddress} ";
 	}
 
-	$san_lst = explode(" ", $subjectAltName);
-	
-	foreach ($san_lst as $k => $v) {
-		$req .= "--domain {$v} ";
-	}
+	$san = str_replace(" ", ",", $subjectAltName);
+
+	$req .= "--domains {$san} ";
 ?>
 #!/bin/sh
 

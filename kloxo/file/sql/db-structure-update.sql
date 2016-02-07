@@ -99,9 +99,12 @@ ALTER TABLE `mmail` ADD `enable_spf_autoip` VARCHAR(255) NULL DEFAULT NULL AFTER
 ALTER TABLE `mmail` ADD `text_spf_include` VARCHAR(255) NULL DEFAULT NULL AFTER `enable_spf_flag`;
 ALTER TABLE `mmail` ADD `text_spf_redirect` VARCHAR(255) NULL DEFAULT NULL AFTER `text_spf_include`; 
 
-ALTER TABLE `sslcert` ADD `parent_domain` TEXT NULL AFTER `upload_status`;
+ALTER TABLE `sslcert` ADD `parent_domain` VARCHAR(255) NULL DEFAULT NULL AFTER `upload_status`;
+ALTER TABLE `sslcert` ADD `add_type` VARCHAR(255) NULL DEFAULT NULL AFTER `parent_domain`;
 
 ALTER TABLE `web` ADD `force_https_redirect` VARCHAR(255) NULL DEFAULT NULL AFTER `force_www_redirect`;
+
+ALTER TABLE `sslcert` CHANGE `parent_domain` `parent_domain` VARCHAR(255) NULL DEFAULT NULL;
 
 ALTER TABLE `web` ADD `web_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `force_https_redirect`;
 ALTER TABLE `web` ADD `php_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `web_selected`;

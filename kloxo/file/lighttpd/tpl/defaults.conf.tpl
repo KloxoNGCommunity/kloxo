@@ -106,6 +106,8 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 <?php
 		}
 	}
+
+	if ($count === 0) {
 ?>
 
 <?php echo $tabs[$count]; ?>$HTTP["host"] =~ "^default\.*" {
@@ -114,7 +116,6 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 <?php echo $tabs[$count]; ?>	var.user = "apache"
 <?php echo $tabs[$count]; ?>	var.fpmport = "<?php echo $fpmportapache; ?>"
 <?php echo $tabs[$count]; ?>	var.phpselected = "php"
-
 
 <?php echo $tabs[$count]; ?>	server.document-root = var.rootdir
 
@@ -125,6 +126,8 @@ $SERVER["socket"] == ":" + <?php echo $portlist[$count]; ?> {
 <?php echo $tabs[$count]; ?>}
 
 <?php
+	}
+
 	if ($count !== 0) {
 ?>
 }

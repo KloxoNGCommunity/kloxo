@@ -5,8 +5,8 @@ if [ "$1" == "--help" ] ; then
 else
 	for i in $(cat /usr/local/lxlabs/kloxo/etc/list/set.php.lst|tr ',', '\n'|sed 's/[wu]//g'|uniq) ; do
 		if [ "${i}" != "php" ] ; then
-			sh /script/phpm-installer php${i}m $*
-			sh /script/phpm-installer php${i}s $*
+			sh /script/phpm-installer ${i}m $*
+			sh /script/phpm-installer ${i}s $*
 		fi
 	done
 fi

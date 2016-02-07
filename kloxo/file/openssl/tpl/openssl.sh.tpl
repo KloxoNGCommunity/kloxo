@@ -51,4 +51,8 @@ openssl req -new -sha256 \
 	-key <?php echo $name; ?>.key \
 	-out <?php echo $name; ?>.csr
 
+#openssl dhparam -out <?php echo $name; ?>.dhp <?php echo $key_bits; ?>
+
+
+#cat <?php echo $name; ?>.key <?php echo $name; ?>.crt <?php echo $name; ?>.dhp > <?php echo $name; ?>.pem
 cat <?php echo $name; ?>.key <?php echo $name; ?>.crt > <?php echo $name; ?>.pem
