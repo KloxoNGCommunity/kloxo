@@ -150,6 +150,7 @@ class phpini__sync extends Lxdriverclass
 
 				lxfile_unix_chmod($fcgid_target, "0755");
 			} else {
+			/*
 				$htaccess_parse = '';
 
 				$htaccess_target = "/home/{$user}/kloxoscript/.htaccess";
@@ -161,6 +162,7 @@ class phpini__sync extends Lxdriverclass
 					$nowarning);
 
 				lxfile_unix_chown($htaccess_target, "{$user}:apache");
+			*/
 			}
 		}
 
@@ -172,7 +174,6 @@ class phpini__sync extends Lxdriverclass
 		$pclass = $this->main->getParentClass();
 
 		$user = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';
-
 
 		$stlist[] = "###Start Kloxo PHP config Area";
 		$stlist[] = "###Start Lxdmin Area";
@@ -188,9 +189,8 @@ class phpini__sync extends Lxdriverclass
 
 		$htaccess_path = "/opt/configs/apache/tpl";
 
-		if ($pclass !== 'pserver') {
+		if ($pclass === 'web') {
 			$droot = $this->main->__var_docrootpath;
-
 			$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
 			$htaccess_parse = getParseInlinePhp($htaccess_cont, $input);
 

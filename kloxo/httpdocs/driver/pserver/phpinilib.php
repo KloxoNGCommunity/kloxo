@@ -202,7 +202,7 @@ class phpini extends lxdb
 			// MR -- trick for escape web-based php.ini
 		//	if ($this->getParentO()->is__table('web')) {
 			if ($this->getParentO()->getClass() === 'web') {
-			//	$this->__var_docrootpath = $this->getParentO()->getFullDocRoot();
+				$this->__var_docrootpath = $this->getParentO()->getFullDocRoot();
 			}
 
 			$list = $this->getInheritedList();
