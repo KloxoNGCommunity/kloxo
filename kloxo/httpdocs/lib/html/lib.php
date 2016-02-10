@@ -8239,17 +8239,15 @@ function ipv6_expand($ip){
 function getMultiplePhpList()
 {
 	$a = getCleanRpmBranchListOnList('php');
-	$phpm = glob("/opt/*m/usr/bin/php");
-
-	$d = $phpm;
+	$d = glob("/opt/*m/usr/bin/php");
 
 	foreach ($d as $k => $v) {
 		$e = str_replace('/opt/', '', $v);
 		$e = str_replace('/usr/bin/php', '', $e);
-		$d[$k] = $e;
+		$f[] = $e;
 	}
 
-	return $d;
+	return $f;
 }
 
 function getCleanRpmBranchListOnList($branchtype)
