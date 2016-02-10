@@ -6274,15 +6274,17 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
+/*
 //	if (lxfile_exists("/etc/init.d/pure-ftpd")) {
 	if (!lxfile_exists("/etc/init.d/pure-ftpd")) {
-	//	log_cleanup("- Turn off and remove pure-ftpd service", $nolog);
-	//	exec("chkconfig pure-ftpd off 2>/dev/null");
-	//	// MR --- chkconfig off not enough because can restart with 'service pure-ftpd start'
-	//	@lxfile_rm("/etc/init.d/pure-ftpd");
-		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
-		exec("chkconfig pure-ftpd on; chmod 0755 /etc/init.d/pure-ftpd");
+		log_cleanup("- Turn off and remove pure-ftpd service", $nolog);
+		exec("chkconfig pure-ftpd off 2>/dev/null");
+		// MR --- chkconfig off not enough because can restart with 'service pure-ftpd start'
+		@lxfile_rm("/etc/init.d/pure-ftpd");
 	}
+*/
+	lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
+	exec("chkconfig pure-ftpd on; chmod 0755 /etc/init.d/pure-ftpd");
 
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {
 		log_cleanup("- Initialize /etc/pure-ftpd/pureftpd.passwd password database", $nolog);
