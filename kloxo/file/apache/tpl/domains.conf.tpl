@@ -651,10 +651,10 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName <?php echo $domainname; ?>
 
 
-	Include <?php echo $globalspath; ?>/acme-challenge.conf
-
 	ServerAlias <?php echo $serveralias; ?>
 
+
+	Include <?php echo $globalspath; ?>/acme-challenge.conf
 <?php
 		if ($count !== 0) {
 			if ($enablessl) {
