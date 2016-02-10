@@ -213,14 +213,14 @@ class phpini extends lxdb
 
 			// MR -- trick for escape web-based php.ini
 		//	if ($this->getParentO()->is__table('web')) {
-		//	if ($this->getParentO()->getClass() === 'web') {
-		//		$this->__var_web_user = $this->getParentO()->username;
+			if ($this->getParentO()->getClass() === 'web') {
+				$this->__var_web_user = $this->getParentO()->username;
 		//		$this->__var_customer_name = $this->getParentO()->customer_name;
 		//		$this->__var_disable_openbasedir = (isset($this->getParentO()->webmisc_b->disable_openbasedir)) ?
 		//			$this->getParentO()->webmisc_b->disable_openbasedir : null;
-		//	} else {
+			} else {
 				$this->__var_web_user = $this->getParentO()->nname;
-		//	}
+			}
 		}
 
 		$this->__var_extrabasedir = $gen->extrabasedir;
