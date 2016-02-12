@@ -141,7 +141,7 @@ if (strpos($loginas, "@") !== false) {
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mysqldb"><?= $ghtml->getTitleOnly("a=list&c=all_mysqldb") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_cron"><?= $ghtml->getTitleOnly("a=list&c=all_cron") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_ftpuser"><?= $ghtml->getTitleOnly("a=list&c=all_ftpuser") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_maillinglist"><?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailinglist"><?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?></a><br/>
 <?php
 	} else {
 ?>
@@ -176,8 +176,8 @@ if (strpos($loginas, "@") !== false) {
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_ftpuser"><?= $clientid ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_maillinglist"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_maillinglist"><?= $clientid ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailinglist"><?= $loginas ?></a>
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mailinglist"><?= $clientid ?></a><br/>
 <?php
 	}
 ?>					</div>
