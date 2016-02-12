@@ -594,7 +594,7 @@ VirtualHost {
 		if (($count === 0) && ($httpsredirect)) {
 ?>
 
-	RequireSSL = yes
+	RequireTLS = yes
 <?php
 		}
 

@@ -4,5 +4,7 @@
 	delaycompress
 	rotate 52
 	missingok
-	#create 640 apache apache
+	#create 640 www-data www-data
+	sharedscripts
+	/usr/bin/killall -HUP hiawatha
 }
