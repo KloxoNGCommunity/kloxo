@@ -213,7 +213,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid apache apache
@@ -252,7 +252,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -270,18 +270,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $disablepath; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 
@@ -353,7 +341,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid apache apache
@@ -392,7 +380,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -410,18 +398,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $cpdocroot; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 	
@@ -536,7 +512,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid apache apache
@@ -575,7 +551,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -593,18 +569,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $webmaildocroot; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 
@@ -764,7 +728,7 @@ foreach ($certnamelist as $ip => $certname) {
 		suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
@@ -809,7 +773,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -827,18 +791,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $rootpath; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 
@@ -1059,7 +1011,7 @@ foreach ($certnamelist as $ip => $certname) {
 		suPHP_Configpath "/home/httpd/<?php echo $domainname; ?>/"
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid <?php echo $sockuser; ?> <?php echo $sockuser; ?>
@@ -1104,7 +1056,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -1122,18 +1074,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $redirfullpath; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/<?php echo $user; ?>/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 
@@ -1269,7 +1209,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid apache apache
@@ -1308,7 +1248,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -1326,18 +1266,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $disablepath; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 
@@ -1452,7 +1380,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid apache apache
@@ -1491,7 +1419,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -1509,18 +1437,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $webmaildocroot; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 
@@ -1607,7 +1523,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid apache apache
@@ -1646,7 +1562,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -1664,18 +1580,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $disablepath; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 
@@ -1790,7 +1694,7 @@ foreach ($certnamelist as $ip => $certname) {
 		SuPhp_UserGroup apache apache
 	</IfModule>
 
-	<IfVersion < 2.4>
+	#<IfVersion < 2.4>
 		<IfModule mod_ruid2.c>
 			RMode config
 			RUidGid apache apache
@@ -1829,7 +1733,7 @@ foreach ($certnamelist as $ip => $certname) {
 				</IfModule>
 			</IfModule>	
 		</IfModule>
-	</IfVersion>
+	#</IfVersion>
 
 	<IfVersion >= 2.4>
 		<IfModule mod_proxy_fcgi.c>
@@ -1847,18 +1751,6 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
-		</IfModule>
-
-		<IfModule !mod_proxy_fcgi.c>
-			<IfModule mod_fcgid.c>
-				<Directory "<?php echo $webmaildocroot; ?>/">
-					Options +ExecCGI
-					<FilesMatch \.php$>
-						SetHandler fcgid-script
-					</FilesMatch>
-					FCGIWrapper /home/kloxo/client/php.fcgi .php
-				</Directory>
-			</IfModule>
 		</IfModule>
 	</IfVersion>
 	

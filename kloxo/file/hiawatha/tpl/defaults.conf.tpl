@@ -52,6 +52,14 @@ $fpmportapache = 50000;
 ?>
 
 UrlToolkit {
+	ToolkitID = monitor
+	RequestURI isfile Return
+	Match ^/(css|files|fonts|images|js)(/|$) Return
+	Match ^/(favicon.ico|robots.txt)$ Return
+	Match [^?]*(\?.*)? Rewrite /index.php$1
+}
+
+UrlToolkit {
 	ToolkitID = block_shellshock
 	#Header * \(\)\s+\{ DenyAccess
 	Header User-Agent \(\)\s*\{ DenyAccess

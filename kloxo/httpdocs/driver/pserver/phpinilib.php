@@ -41,6 +41,8 @@ class phpini_flag_b extends lxaclass
 	static $__desc_multiple_php_ready = array("", "", "multiple_php_ready");
 	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
 
+	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
+
 	static $__desc_max_input_vars_flag = array("", "", "max_input_vars");
 
 	static $__desc_date_timezone_flag = array("s", "", "date_timezone");
@@ -245,17 +247,6 @@ class phpini extends lxdb
 		return $uflist;
 	}
 
-	function get_multiple_php_list()
-	{
-		global $login;
-
-	//	$p = rl_exec_get(null, $this->syncserver, "getCleanRpmBranchListOnList", array('php'));
-	//	$p = array_merge(array('--Php Used (default)--'), getCleanRpmBranchListOnList('php'));
-		$p = getCleanRpmBranchListOnList('php');
-
-		return $p;
-	}
-
 	function postUpdate()
 	{
 		// We need to write because the fixphpini reads everything from the database.
@@ -310,11 +301,12 @@ class phpini extends lxdb
 		$parent = $this->getParentO();
 
 	//	if ($parent->getClass() !== 'web') {
-			$list = $this->get_multiple_php_list();
-
 			if ($subaction !== 'extraedit') {
 				// MR -- found error in debug because not exists in db but work
-				$vlist["phpini_flag_b-multiple_php_ready"] = array('M', implode(" ", $list));
+				$vlist["phpini_flag_b-multiple_php_ready"] = array('M',
+					implode(" ", getCleanRpmBranchListOnList('php')));
+				$vlist['phpini_flag_b-multiple_php_already_installed'] = array("M",
+					implode(" ", getMultiplePhpList()));
 			}
 	//	}
 

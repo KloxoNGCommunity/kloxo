@@ -46,12 +46,35 @@ class pserver extends pservercore {
 		$a['spam'] = $param['spam_driver'];
 
 		$nofixconfig = $param['no_fix_config'];
-		$useapache24 = $param['use_apache24'];
 
-		if ($useapache24 === 'on') {
-			exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg");
+		$apachelist = getCleanRpmBranchListOnList('httpd');
+
+		$httpd24ready = false;
+
+		foreach ($apachelist as $k => $v) {
+			if (strpos($k, 'httpd24') {
+				$httpd24ready = true;
+				break;
+			}
+		}
+
+		$httpd24flag = "/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg";
+
+		// MR -- get httpd24u info
+		exec("cat '/usr/local/lxlabs/kloxo/etc/list/httpd.lst'|grep httpd24", $out);
+
+		if ($out[0] !== null) {
+			$useapache24 = $param['use_apache24'];
+
+			if ($useapache24 === 'on') {
+				exec("echo '' > {$httpd24flag}");
+			} else {
+				exec("'rm' -f {$httpd24flag}");
+			}
 		} else {
-			exec("'rm' -f /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg");
+			if (file_exists($httpd24flag)) {
+				exec("'rm' -f {$httpd24flag}");
+			}
 		}
 
 		// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
