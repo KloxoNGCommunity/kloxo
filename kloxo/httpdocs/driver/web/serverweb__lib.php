@@ -272,16 +272,19 @@ class serverweb__ extends lxDriverClass
 		$this->rename_to_nonconf();
 
 		$ver = getRpmVersion('httpd');
-
+	/*
 		if (version_compare($ver, "2.4.0", ">=") !== false) {
 			lxfile_cp(getLinkCustomfile($haecdpath, "proxy_fcgi.conf"), $ehcdpath . "/proxy_fcgi.conf");
 			lxfile_rm("{$ehcdpath}/proxy_fcgi.nonconf");
 		} else {
-			$phpbranch = getRpmBranchInstalled('php');
-
 			lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath . "/fastcgi.conf");
 			lxfile_rm("{$ehcdpath}/fastcgi.nonconf");
 		}
+	*/
+
+		lxfile_rm("{$ehcdpath}/proxy_fcgi.nonconf");
+		lxfile_rm("{$ehcdpath}/proxy_fcgi.conf");
+		lxfile_rm("{$ehcdpath}/fastcgi.nonconf");
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");
 
