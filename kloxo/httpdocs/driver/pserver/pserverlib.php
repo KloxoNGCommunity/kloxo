@@ -52,7 +52,7 @@ class pserver extends pservercore {
 		$httpd24ready = false;
 
 		foreach ($apachelist as $k => $v) {
-			if (strpos($k, 'httpd24') {
+			if (strpos($k, 'httpd24')) {
 				$httpd24ready = true;
 				break;
 			}
@@ -110,12 +110,10 @@ class pserver extends pservercore {
 
 					if ($nofixconfig === 'on') { continue; }
 
-					// MR -- original code not work, so change to, also must be the last process!
-					if ($fixc === 'webcache') {
-						lxshell_return("sh", "/script/fixweb", "--target=defaults", "--server={$this->nname}", "--nolog");
-					} elseif ($fixc === 'web') {
-						lxshell_return("sh", "/script/fix{$fixc}", "--target=defaults", "--server={$this->nname}", "--nolog");
+					exec("sh /script/fix{$fixc} --target=defaults --server={$this->nname} --nolog");
 
+					// MR -- original code not work, so change to, also must be the last process!
+					if ($fixc === 'web') {
 						if (isWebProxyOrApache()) {
 							$php_type = db_get_value("serverweb", "pserver-" . $this->nname, "php_type");
 
@@ -127,10 +125,6 @@ class pserver extends pservercore {
 						} else {
 							exec("chkconfig php-fpm on");
 						}
-				//	} elseif ($fixc === 'dns') {
-				//		// no action
-					} else {
-						lxshell_return("sh", "/script/fix{$fixc}", "--target=defaults", "--server={$this->nname}", "--nolog");
 					}
 				}
 			}

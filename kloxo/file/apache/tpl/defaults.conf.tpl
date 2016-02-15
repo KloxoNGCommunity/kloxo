@@ -11,17 +11,19 @@ if (!isset($phpselected)) {
 }
 
 $srcpath = "/opt/configs/apache/etc";
-$srcconfpath = "/opt/configs/apache/etc/conf";
-$srcconfdpath = "/opt/configs/apache/etc/conf.d";
+$srccpath = "/opt/configs/apache/etc/conf";
+$srccdpath = "/opt/configs/apache/etc/conf.d";
+$srccmdpath = "/opt/configs/apache/etc/conf.modules.d";
 $trgtpath = "/etc";
-$trgtconfpath = "/etc/httpd/conf";
-$trgtconfdpath = "/etc/httpd/conf.d";
+$trgtcpath = "/etc/httpd/conf";
+$trgtcdpath = "/etc/httpd/conf.d";
+$trgtcmdpath = "/etc/httpd/conf.modules.d";
 
 // MR -- fix error 'Directory / is not owned by admin' for suphp
 exec("chown root.root /");
 
 // MR -- mod_ruid2 from epel use mod_ruid2.conf
-foreach (glob("{$trgtconfdpath}/mod_*.conf") as $file)
+foreach (glob("{$trgtcdpath}/mod_*.conf") as $file)
 {
 	$newfile = str_replace('.conf', '.nonconf', $file);
 	
@@ -38,18 +40,18 @@ $mpmlist = array('event', 'worker', 'itk');
 // @exec("rpm -qa|grep -E '^httpd24-2.4', $out);
 
 
-if (file_exists("/etc/sysconfig/httpd24")) {
+if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 	$httptype="httpd24";
 	// MR -- enable all optional module
-	// exec("sed -i 's/^#LoadModule/LoadModule/' /etc/httpd/conf.modules.d/00-optional.conf");
+	// exec("sed -i 's/^#LoadModule/LoadModule/' {$trgtcmdpath}/00-optional.conf");
 	// MR -- disable deflate module; auto-enable by mod-pagespeed
-	exec("sed -i 's/^LoadModule deflate_module/#LoadModule deflate_module/' /etc/httpd/conf.modules.d/00-base.conf");
+	exec("sed -i 's/^LoadModule deflate_module/#LoadModule deflate_module/' {$trgtcmdpath}/00-base.conf");
 	// MR -- disabled all first; prefork not work because need 'special' php
-	exec("sed -i 's/^LoadModule mpm_/#LoadModule mpm_/' /etc/httpd/conf.modules.d/00-mpm.conf");
+	exec("sed -i 's/^LoadModule mpm_/#LoadModule mpm_/' {$trgtcmdpath}/00-mpm.conf");
 
 	foreach ($mpmlist as $k => $v) {
 		if (strpos($phptype, $v) !== false) {
-			exec("sed -i 's/^#LoadModule mpm_{$v}_module/LoadModule mpm_{$v}_module/' /etc/httpd/conf.modules.d/00-mpm.conf");
+			exec("sed -i 's/^#LoadModule mpm_{$v}_module/LoadModule mpm_{$v}_module/' {$trgtcmdpath}/00-mpm.conf");
 			break;
 		}
 	}
@@ -57,7 +59,10 @@ if (file_exists("/etc/sysconfig/httpd24")) {
 	// MR -- make blank content
 	exec("echo '' > /etc/sysconfig/httpd");
 
-	exec("sed -i 's/^LoadModule lbmethod_heartbeat_module/#LoadModule lbmethod_heartbeat_module/' /etc/httpd/conf.modules.d/00-proxy.conf");
+//	exec("sed -i 's/^LoadModule lbmethod_heartbeat_module/#LoadModule lbmethod_heartbeat_module/' {$trgtcmdpath}/00-proxy.conf");
+	if (file_exists("{$trgtcmdpath}/00-proxy.conf")) {
+		exec("'mv' -f {$trgtcmdpath}/00-proxy.conf {$trgtcmdpath}/00-proxy.nonconf");
+	}
 } else {
 	$httptype="httpd";
 
@@ -72,29 +77,29 @@ if (file_exists("/etc/sysconfig/httpd24")) {
 	}
 }
 
-if (file_exists("{$srcconfpath}/custom.{$httptype}.conf")) {
-	copy("{$srcconfpath}/custom.{$httptype}.conf", "{$trgtconfpath}/httpd.conf");
+if (file_exists("{$srccpath}/custom.{$httptype}.conf")) {
+	copy("{$srccpath}/custom.{$httptype}.conf", "{$trgtcpath}/httpd.conf");
 } else {
-	copy("{$srcconfpath}/{$httptype}.conf", "{$trgtconfpath}/httpd.conf");
+	copy("{$srccpath}/{$httptype}.conf", "{$trgtcpath}/httpd.conf");
 }
 
 $modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define", "_inactive_");
 
 foreach ($modlist as $k => $v) {
-	if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
-		copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+	if (file_exists("{$srccdpath}/custom.{$v}.conf")) {
+		copy("{$srccdpath}/custom.{$v}.conf", "{$trgtcdpath}/{$v}.conf");
 	} else {
 		if ($v !== '~lxcenter') {
-			copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+			copy("{$srccdpath}/{$v}.conf", "{$trgtcdpath}/{$v}.conf");
 		}
 	}
 }
 
 // MR -- because 'pure' mod_php disabled (security reason)
-if (file_exists("{$srcconfdpath}/custom._inactive_.conf")) {
-	copy("{$srcconfdpath}/custom._inactive_.conf", "{$trgtconfdpath}/php.conf");
+if (file_exists("{$srccdpath}/custom._inactive_.conf")) {
+	copy("{$srccdpath}/custom._inactive_.conf", "{$trgtcdpath}/php.conf");
 } else {
-	copy("{$srcconfdpath}/_inactive_.conf", "{$trgtconfdpath}/php.conf");
+	copy("{$srccdpath}/_inactive_.conf", "{$trgtcdpath}/php.conf");
 }
 
 $typelist = array('ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
@@ -107,16 +112,16 @@ foreach ($typelist as $k => $v) {
 	}
 
 	if (strpos($phptype, "{$w}") !== false) {
-		if (file_exists("{$srcconfdpath}/custom.{$v}.conf")) {
-			copy("{$srcconfdpath}/custom.{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+		if (file_exists("{$srccdpath}/custom.{$v}.conf")) {
+			copy("{$srccdpath}/custom.{$v}.conf", "{$trgtcdpath}/{$v}.conf");
 		} else {
-			copy("{$srcconfdpath}/{$v}.conf", "{$trgtconfdpath}/{$v}.conf");
+			copy("{$srccdpath}/{$v}.conf", "{$trgtcdpath}/{$v}.conf");
 		}
 	} else {
-		if (file_exists("{$srcconfdpath}/custom._inactive_.conf")) {
-			copy("{$srcconfdpath}/custom._inactive_.conf", "{$trgtconfdpath}/{$v}.conf");
+		if (file_exists("{$srccdpath}/custom._inactive_.conf")) {
+			copy("{$srccdpath}/custom._inactive_.conf", "{$trgtcdpath}/{$v}.conf");
 		} else {
-			copy("{$srcconfdpath}/_inactive_.conf", "{$trgtconfdpath}/{$v}.conf");
+			copy("{$srccdpath}/_inactive_.conf", "{$trgtcdpath}/{$v}.conf");
 		}
 	}
 }

@@ -18,49 +18,23 @@ class web__ extends lxDriverClass
 
 		lxshell_return("service", $a, "stop");
 
-	//	$blist = getRpmBranchList($l);
-	//	if (!$blist) { $blist = array($l); }
-
 		$blist = array();
 
 		// MR -- for fixed an issue version conflict!
 		// no action for hiawatha because used by Kloxo too
 		if ($a === 'httpd') {
 			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
-			/*
-				$blist[] = "{$a}24u";
-				$blist[] = "{$a}24u-tools";
-				$blist[] = "{$a}24u-filesystem";
-				$blist[] = "mod24u_*";
-			//	$blist[] = "mod24u_ssl";
-			//	$blist[] = "mod24u_session";
-			//	$blist[] = "mod24u_suphp";
-			//	$blist[] = "mod24u_ruid2";
-			//	$blist[] = "mod24u_fcgid";
-			*/
 				$blist[] = "httpd24*";
 				$blist[] = "mod24*";
+				$blist[] = "mod-*";
 			} else {
-			/*
-				$blist[] = "{$a}";
-				$blist[] = "{$a}-tools";
-			 	$blist[] = "mod_*";			
-			//	$blist[] = "mod_ssl";
-			//	$blist[] = "mod_rpaf";
-			//	$blist[] = "mod_ruid2";
-			//	$blist[] = "mod_suphp";
-			//	$blist[] = "mod_fastcgi";
-			//	$blist[] = "mod_fcgid";
-			//	$blist[] = "mod_define";
-			//	$blist[] = "mod_perl";
-			*/
 				$blist[] = "httpd-*";
 				$blist[] = "mod_*";
 				$blist[] = "mod-*";
 			}
 		} elseif ($a === 'lighttpd') {
 			$blist[] = "{$a}";
-		//	$blist[] = "{$a}-fastcgi";
+			$blist[] = "{$a}-fastcgi";
 		} elseif ($a === 'nginx') {
 			$blist[] = "{$a}";
 		} elseif ($a === 'hiawatha') {
@@ -73,7 +47,6 @@ class web__ extends lxDriverClass
 			exec("yum remove {$p} -y");
 		}
 
-	//	lxshell_return("chkconfig", $a, "off");
 		exec("chkconfig {$a} off");
 
 		if (file_exists("/etc/init.d/{$a}")) {
@@ -87,9 +60,7 @@ class web__ extends lxDriverClass
 
 		$list = getWebDriverList($drivertype);
 
-		$isproxyorapache = isWebProxyOrApache($drivertype);
-
-		if (!$isproxyorapache) {
+		if (!isWebProxyOrApache($drivertype)) {
 			self::uninstallMeTrue('apache');
 		}
 
@@ -108,6 +79,7 @@ class web__ extends lxDriverClass
 					$blist[] = "mod24u_suphp";
 					$blist[] = "mod24u_ruid2";
 					$blist[] = "mod24u_fcgid";
+					$blist[] = "mod24u_fastcgi";
 				} else {
 					$blist[] = "{$a}";
 					$blist[] = "{$a}-tools";
@@ -118,8 +90,8 @@ class web__ extends lxDriverClass
 					$blist[] = "mod_fastcgi";
 					$blist[] = "mod_fcgid";
 					$blist[] = "mod_define";
-					$blist[] = "mod_perl";
-					$blist[] = "perl-Taint-Runtime";
+				//	$blist[] = "mod_perl";
+				//	$blist[] = "perl-Taint-Runtime";
 				}
 
 			} elseif ($a === 'lighttpd') {
