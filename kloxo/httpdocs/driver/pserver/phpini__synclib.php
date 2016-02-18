@@ -107,8 +107,8 @@ class phpini__sync extends Lxdriverclass
 				exec("'rm' -f {$fcgid_target_old}");
 			}
 
-			exec("'cp' -f /opt/configs/apache/tpl/php5*.fcgi /home/kloxo/client");
-			exec("chmod 0775 /home/kloxo/client/php5*.fcgi");
+			exec("'cp' -f /opt/configs/apache/tpl/php*.fcgi /home/kloxo/client");
+			exec("chmod 0775 /home/kloxo/client/php*.fcgi");
 				
 			file_put_contents($phpfpm_target, $phpfpm_parse);
 

@@ -1417,10 +1417,18 @@ class Web extends Lxdb
 			case "webselector":
 				$a = array('front-end', 'back-end');
 
-			//	$p = getCleanRpmBranchListOnList('php');
 				$t = '--Default--';
-			//	$l = array_merge(array($t), $p);
-				$l = array($t);
+
+				if (file_exists('../etc/flag/enablemultiplephp.flg')) {
+					// MR -- WIP for multiple php
+				//	$p = getCleanRpmBranchListOnList('php');
+				//	$l = array_merge(array($t), $p);
+
+					$l = array($t);
+				} else {
+					$l = array($t);
+				}
+
 				$vlist['web_selected'] = array("s", $a);
 				$vlist['php_selected'] = array("s", $l);
 

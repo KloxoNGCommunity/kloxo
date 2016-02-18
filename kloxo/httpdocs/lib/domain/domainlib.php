@@ -1397,10 +1397,10 @@ class Domaind extends DomainBase
 	//	$php = $this->getParentO()->getObject('phpini');
 
 	//	if ($php->phpini_flag_b->multiple_php_flag === 'on') {
-		if (file_exists('../etc/flag/enablemultiplephp.flg')) {
+	//	if (file_exists('../etc/flag/enablemultiplephp.flg')) {
 		//	$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
 			$alist['__v_dialog_webselector'] = "n=web&a=updateform&sa=webselector";
-		}
+	//	}
 
 		$alist['__v_dialog_sslcert'] = "n=web&a=list&c=sslcert";
 
