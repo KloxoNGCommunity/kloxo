@@ -163,7 +163,7 @@ class serverweb__ extends lxDriverClass
 			}
 		}
 
-		$ullkfapath = '/usr/local/lxlabs/kloxo/file/apache';
+		$ullkfapath = '../file/apache';
 
 		$ehcpath = '/etc/httpd/conf';
 		$ehcdpath = '/etc/httpd/conf.d';

@@ -738,7 +738,7 @@ abstract class Lxclient extends Lxdb
 
 				$vlist['disable_notify'] = array('f', array('on', 'off'));
 
-				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/disablenotifyforquota.flg")) {
+				if (file_exists("../etc/flag/disablenotifyforquota.flg")) {
 					$this->setDefaultValue('disable_notify', 'on');
 				}
 
@@ -933,9 +933,9 @@ abstract class Lxclient extends Lxdb
 	function updateDisable_per($param)
 	{
 		if ($param['disable_notify'] === 'on') {
-			touch('/usr/local/lxlabs/kloxo/etc/flag/disablenotifyforquota.flg');
+			touch('../etc/flag/disablenotifyforquota.flg');
 		} else {
-			unlink('/usr/local/lxlabs/kloxo/etc/flag/disablenotifyforquota.flg');
+			unlink('../etc/flag/disablenotifyforquota.flg');
 		}
 
 		return $param;

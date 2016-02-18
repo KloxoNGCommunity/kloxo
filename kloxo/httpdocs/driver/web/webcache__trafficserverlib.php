@@ -24,7 +24,7 @@ class webcache__trafficserver extends webcache__
 	{
 		$nolog = null;
 
-		$pathsrc = "/usr/local/lxlabs/kloxo/file/trafficserver";
+		$pathsrc = "../file/trafficserver";
 		$pathdrv = "/opt/configs/trafficserver";
 		$pathetc = "/etc";
 

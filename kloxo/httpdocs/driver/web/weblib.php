@@ -1054,7 +1054,7 @@ class Web extends Lxdb
 
 	static function switchProgramPost($old, $new)
 	{
-		lxshell_return("lxphp.exe", "/usr/local/lxlabs/kloxo/bin/fix/fixweb.php");
+		lxshell_return("lxphp.exe", "../bin/fix/fixweb.php");
 	}
 
 	function createShowAlist(&$alist, $subaction = null)

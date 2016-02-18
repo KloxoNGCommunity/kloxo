@@ -91,7 +91,7 @@ class ServerMail extends lxdb
 	}
 
 	function updatespamdyke($param) {
-		$path = "/usr/local/lxlabs/kloxo/file/template";
+		$path = "../file/template";
 
 		if ($param['defaultdnsblacklists_flag'] === 'on') {
 			unlink ("{$path}/current.spamdyke_rbl.txt");
@@ -153,7 +153,7 @@ class ServerMail extends lxdb
 				$vlist['reject_missing_sender_mx_flag'] = null;
 				$vlist['reject_unresolvable_rdns_flag'] = null;
 
-				$path = "/usr/local/lxlabs/kloxo/file/template";
+				$path = "../file/template";
 
 				if (file_exists("{$path}/current.spamdyke_rbl.txt")) {
 					$file = "{$path}/current.spamdyke_rbl.txt";

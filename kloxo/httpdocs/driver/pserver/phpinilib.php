@@ -257,9 +257,9 @@ class phpini extends lxdb
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() === 'pserver') {
 			if ($this->phpini_flag_b->multiple_php_flag === 'on') {
-				@touch('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
+				@touch('../etc/flag/enablemultiplephp.flg');
 			} else {
-				@unlink('/usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg');
+				@unlink('../etc/flag/enablemultiplephp.flg');
 			}
 
 			lxshell_return("__path_php_path", "../bin/fix/fixphpini.php", 

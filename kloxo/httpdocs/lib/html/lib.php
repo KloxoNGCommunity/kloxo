@@ -1059,7 +1059,7 @@ function call_with_flag($func)
 	// need more investigate about it that no flag dir in slave
 	// meanwhile use this logic
 
-	$path = "__path_program_etc/flag";
+	$path = "../flag";
 
 	call_user_func($func);
 
@@ -5134,7 +5134,7 @@ function installinstallapp($nolog = null)
 	//--- trick for no install on kloxo install process
 	if (lxfile_exists("/var/cache/kloxo/kloxo-install-disableinstallapp.flg")) {
 		log_cleanup("- InstallApp is disabled by InstallApp Flag", $nolog);
-		exec("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+		exec("echo 1 > ../etc/flag/disableinstallapp.flg");
 
 		return;
 	}
@@ -5143,14 +5143,14 @@ function installinstallapp($nolog = null)
 			 $gen = $login->getObject('general')->generalmisc_b;
 			 $diflag = $gen->isOn('disableinstallapp');
 			 log_cleanup("- InstallApp is disabled by InstallApp Flag", $nolog);
-			 exec("echo 1 > /usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+			 exec("echo 1 > ../etc/flag/disableinstallapp.flg");
 		 } else {
 			 $diflag = false;
 			 log_cleanup("- InstallApp is not disabled by InstallApp Flag", $nolog);
-			 lxfile_rm("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+			 lxfile_rm("../etc/flag/disableinstallapp.flg");
 		 }
 	 */
-	if (lxfile_exists("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg")) {
+	if (lxfile_exists("../etc/flag/disableinstallapp.flg")) {
 		log_cleanup("- InstallApp is disabled, removing InstallApp", $nolog);
 		lxfile_rm_rec("/home/kloxo/httpd/installapp/");
 		lxfile_rm_rec("/home/kloxo/httpd/installappdata/");
@@ -5191,9 +5191,9 @@ function setDefaultPages($nolog = null)
 	log_cleanup("Initialize some skeletons", $nolog);
 
 	$httpdpath = "/home/kloxo/httpd";
-	$basefilepath="/usr/local/lxlabs/kloxo/file";
+	$basefilepath="../file";
 	$filepath = "{$basefilepath}/pages";
-	$hdocspath = "/usr/local/lxlabs/kloxo/httpdocs";
+	$hdocspath = "../httpdocs";
 
 	$sourcezip = "{$basefilepath}/skeleton.zip";
 	$targetzip = "{$httpdpath}/skeleton.zip";
@@ -5366,7 +5366,7 @@ function getRpmBranchInstalledOnList($rpm)
 
 function getRpmBranchList($pname)
 {
-	$p = "/usr/local/lxlabs/kloxo/etc/list";
+	$p = "../etc/list";
 	$f = getLinkCustomfile($p, "{$pname}.lst");
 
 //	if (!file_exists($f)) { return; }
@@ -5394,7 +5394,7 @@ function getRpmBranchList($pname)
 
 function getRpmBranchListOnList($pname)
 {
-	$p = "/usr/local/lxlabs/kloxo/etc/list";
+	$p = "../etc/list";
 	$f = getLinkCustomfile($p, "{$pname}.lst");
 	$c = trimSpaces(file_get_contents($f));
 
@@ -5584,7 +5584,7 @@ function setInitialAllDnsConfigs($nolog = null)
 
 function setInitialDnsConfig($type, $nolog = null)
 {
-	$fpath = "/usr/local/lxlabs/kloxo/file";
+	$fpath = "../file";
 
 	if (!file_exists("{$fpath}/{$type}")) {
 		return;
@@ -5648,7 +5648,7 @@ function setInitialAllWebConfigs($nolog = null)
 
 function setInitialWebConfig($type, $nolog = null)
 {
-	$fpath = "/usr/local/lxlabs/kloxo/file";
+	$fpath = "../file";
 
 	if (!file_exists("{$fpath}/{$type}")) {
 		return;
@@ -5733,7 +5733,7 @@ function setInitialWebCacheConfig($type, $nolog = null)
 
 function setInitialPhpIniConfig($nolog = null)
 {
-	$fpath = "/usr/local/lxlabs/kloxo/file/phpini";
+	$fpath = "../file/phpini";
 	$inipath = "/opt/configs/phpini";
 
 	exec("'cp' -rf {$fpath} /opt/configs");
@@ -5768,7 +5768,7 @@ function setInitialPhpFpmConfig($nolog = null)
 
 	// MR -- this portion using standard php-fpm
 
-	$fpath = "/usr/local/lxlabs/kloxo/file";
+	$fpath = "../file";
 	$fpmpath = "/opt/configs/php-fpm/etc";
 	$sockpath = "/opt/configs/php-fpm/sock";
 
@@ -5806,7 +5806,7 @@ function setInitialPhpFpmConfig($nolog = null)
 function setKloxoCexeChownChmod($nolog = null)
 {
 	$webdirchmod = '755';
-	$cexepath = '/usr/local/lxlabs/kloxo/cexe';
+	$cexepath = '../cexe';
 
 	log_cleanup("- chmod {$webdirchmod} FOR {$cexepath} AND INSIDE", $nolog);
 	lxfile_unix_chmod_rec("{$cexepath}/", $webdirchmod);
@@ -6301,7 +6301,7 @@ function setInitialPureftpConfig($nolog = null)
 function setInitialPhpMyAdmin($nolog = null)
 {
 	// MR -- kloxo.pass does not exist in slave
-	if (!lxfile_exists("/usr/local/lxlabs/kloxo/etc/conf/kloxo.pass")) {
+	if (!lxfile_exists("../etc/conf/kloxo.pass")) {
 		return;
 	}
 
@@ -6309,8 +6309,8 @@ function setInitialPhpMyAdmin($nolog = null)
 	lxfile_cp("../file/phpmyadmin/config.inc.php", "thirdparty/phpMyAdmin/config.inc.php");
 
 	log_cleanup("- phpMyAdmin: Set db password in configfile", $nolog);
-	$DbPass = file_get_contents("/usr/local/lxlabs/kloxo/etc/conf/kloxo.pass");
-	$phpMyAdminCfg = "/usr/local/lxlabs/kloxo/httpdocs/thirdparty/phpMyAdmin/config.inc.php";
+	$DbPass = file_get_contents("../etc/conf/kloxo.pass");
+	$phpMyAdminCfg = "../httpdocs/thirdparty/phpMyAdmin/config.inc.php";
 	$content = file_get_contents($phpMyAdminCfg);
 	$content = str_replace("# Kloxo-Marker",
 		"# Kloxo-Marker\n\$cfg['Servers'][\$i]['controlpass'] = '" . $DbPass . "';", $content);
@@ -6482,7 +6482,7 @@ function setInitialServer($nolog = null)
 
 	exec("yum -y install $list >/dev/null 2>&1");
 
-	lxfile_cp(getLinkCustomfile("/usr/local/lxlabs/kloxo/init", "kloxo.init"),
+	lxfile_cp(getLinkCustomfile("..init", "kloxo.init"),
 		"/etc/init.d/kloxo");
 
 	exec("chown root:root /etc/init.d/kloxo; chmod 755 /etc/init.d/kloxo");
@@ -7337,7 +7337,7 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 
 	$aliasdriver = ($dnsdriver === 'bind') ? 'named' : $dnsdriver;
 
-	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$dnsdriver}";
+	$pathsrc = "../file/{$dnsdriver}";
 	$pathdrv = "/opt/configs/{$dnsdriver}";
 	$pathetc = "/etc";
 
@@ -7411,7 +7411,7 @@ function setCopyWebCacheConfFiles($webcachedriver, $nolog = null)
 		return;
 	}
 
-	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$webcachedriver}";
+	$pathsrc = "../file/{$webcachedriver}";
 	$pathdrv = "/opt/configs/{$webcachedriver}";
 	$pathetc = "/etc";
 
@@ -7455,7 +7455,7 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 
 	$aliasdriver = ($webdriver === 'apache') ? 'httpd' : $webdriver;
 
-	$pathsrc = "/usr/local/lxlabs/kloxo/file/{$webdriver}";
+	$pathsrc = "../file/{$webdriver}";
 	$pathdrv = "/opt/configs/{$webdriver}";
 	$pathtpl = "/opt/configs/{$webdriver}/tpl";
 	$pathgbls = "/opt/configs/{$webdriver}/conf/globals";
@@ -7511,7 +7511,7 @@ function setCopyOpenSSLConfFiles()
 {
 	$nolog = null;
 
-	$pathsrc = "/usr/local/lxlabs/kloxo/file/openssl";
+	$pathsrc = "../file/openssl";
 	$pathdrv = "/opt/configs/openssl";
 
 	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
@@ -7528,7 +7528,7 @@ function setCopyLetsEncryptConfFiles()
 {
 	$nolog = null;
 
-	$pathsrc = "/usr/local/lxlabs/kloxo/file/letsencrypt";
+	$pathsrc = "../file/letsencrypt";
 	$pathdrv = "/opt/configs/letsencrypt";
 
 	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
@@ -7612,7 +7612,7 @@ function setRealServiceBranchList($nolog = null)
 {
 	log_cleanup("Update Services Branch List", $nolog);
 
-	$path = "/usr/local/lxlabs/kloxo/etc/list";
+	$path = "../etc/list";
 	$dirs = glob("{$path}/*.lst");
 
 	$count = 0;
@@ -7751,7 +7751,7 @@ function getKloxoType()
 {
 	if (file_exists("/var/lib/mysql/kloxo")) {
 		return 'master';
-	} elseif (file_exists("/usr/local/lxlabs/kloxo/etc/conf/slave-db.db")) {
+	} elseif (file_exists("../etc/conf/slave-db.db")) {
 		return 'slave';
 	} else {
 		return '';
@@ -8088,7 +8088,7 @@ function getFSBlockSizeInKb()
 // for security reason, shexec only permit execute with caller from inside /usr/local/lxlabs/kloxo
 function shexec($cmd)
 {
-	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
+	$caller = "../sbin/shexec";
 
 	// MR -- $cmd must be full command like: 'rm' -rf /tmp/del.txt
 	// no permit with "" (doublequote) because conflict
@@ -8097,7 +8097,7 @@ function shexec($cmd)
 
 function shexec_return($cmd)
 {
-	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
+	$caller = "../sbin/shexec";
 
 	exec("{$caller} \"$cmd\"", $out, $ret);
 
@@ -8106,11 +8106,9 @@ function shexec_return($cmd)
 
 function shexec_output($cmd)
 {
-	$caller = "/usr/local/lxlabs/kloxo/cexe/shexec";
+	$caller = "../sbin/shexec";
 
-	exec("{$caller} \"$cmd\"", $out, $ret);
-
-	return $out;
+	return shell_exec("{$caller} \"$cmd\"");
 }
 
 // MR -- needed especially in install step

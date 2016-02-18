@@ -261,9 +261,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -389,9 +389,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -560,9 +560,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -782,9 +782,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $sockuser; ?>.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -1065,9 +1065,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $sockuser; ?>.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $sockuser; ?>.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -1257,9 +1257,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -1428,9 +1428,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -1571,9 +1571,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on
@@ -1742,9 +1742,9 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
 			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://127.0.0.1/"
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock|fcgi://localhost"
 			</FilesMatch>
-			<Proxy "fcgi://127.0.0.1/">
+			<Proxy "fcgi://localhost">
 				ProxySet timeout=600
 				ProxySet connectiontimeout=300
 				#ProxySet enablereuse=on

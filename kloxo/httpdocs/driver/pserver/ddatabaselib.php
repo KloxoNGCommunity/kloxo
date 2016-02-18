@@ -178,7 +178,7 @@ class databasecore extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-//		$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
+//		$flagfile = "../etc/flag/user_sql_manager.flg";
 
 //		if (file_exists($flagfile)) {
 //			$url = file_get_contents($flagfile);

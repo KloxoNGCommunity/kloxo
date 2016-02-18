@@ -24,7 +24,7 @@ class webcache__varnish extends webcache__
 	{
 		$nolog = null;
 
-		$pathsrc = "/usr/local/lxlabs/kloxo/file/varnish";
+		$pathsrc = "../file/varnish";
 		$pathdrv = "/opt/configs/varnish";
 		$pathetc = "/etc";
 

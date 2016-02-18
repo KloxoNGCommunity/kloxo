@@ -1,6 +1,6 @@
 <?php
-	$initpath = "/usr/local/lxlabs/kloxo/init";
-	$loginpath = "/usr/local/lxlabs/kloxo/httpdocs/login";
+	$initpath = "../init";
+	$loginpath = "../httpdocs/login";
 
 	$state = 0;
 

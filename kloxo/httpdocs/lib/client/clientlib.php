@@ -345,7 +345,7 @@ class Client extends ClientBase
 
 	function getMysqlDbAdmin(&$alist)
 	{
-	//	$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
+	//	$flagfile = "../etc/flag/user_sql_manager.flg";
 
 	//	if (file_exists($flagfile)) {
 	//		$url = file_get_contents($flagfile);
@@ -446,7 +446,7 @@ class Client extends ClientBase
 	
 		if ($this->priv->isOn('webhosting_flag')) {
 			if ($this->priv->isOn('cron_manage_flag') && $this->isCustomer()) {
-				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+				if (file_exists("../etc/flag/enablecronforall.flg")) {
 					$alist[] = "a=list&c=cron";
 				}
 			}
@@ -565,7 +565,7 @@ class Client extends ClientBase
 			$alist[] = "a=show&l[class]=ffile&l[nname]=/";
 			$alist['__v_dialog_defd'] = "a=updateform&sa=default_domain";
 
-			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+			if (file_exists("../etc/flag/enablecronforall.flg")) {
 				$alist[] = "a=list&c=cron";
 			}
 

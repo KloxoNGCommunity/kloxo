@@ -4823,7 +4823,7 @@ abstract class Lxclass
 						$msg = "Warning: The Account {$this->nname} is using {$per}% of quota for {$var}.\n Limit: " .
 							"{$this->priv->$var}\nUsed: {$this->used->$var}\n";
 
-						if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/disablesendnotifyforquota.flg")) {
+						if (!file_exists("../etc/flag/disablesendnotifyforquota.flg")) {
 							$this->notifyAll($msg, false);
 						}
 					}
@@ -4843,7 +4843,7 @@ abstract class Lxclass
 			$msg = "The Account {$this->nname} has been disabled due to overquota";
 
 			if (!$sgbl->__var_just_db) {
-				if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/disablesendnotifyforquota.flg")) {
+				if (!file_exists("../etc/flag/disablesendnotifyforquota.flg")) {
 					$this->notifyAll($msg);
 				}
 			}
@@ -5872,7 +5872,7 @@ abstract class Lxclass
 		// Issue #671 - Fixed backup-restore issue
 		// change to tgz for default that make less space especially temp process
 
-		if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/backup_compress_disabled.flg")) {
+		if (file_exists("../etc/flag/backup_compress_disabled.flg")) {
 			return "tar";
 		} else {
 			return "tgz";

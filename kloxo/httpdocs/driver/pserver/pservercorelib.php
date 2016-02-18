@@ -1268,10 +1268,10 @@ STRIN;
 					'monkeyproxy'));
 
 				// MR -- get httpd24u info
-				exec("cat '/usr/local/lxlabs/kloxo/etc/list/httpd.lst'|grep httpd24", $out);
+				exec("cat '../etc/list/httpd.lst'|grep httpd24", $out);
 
 				if ($out[0] !== null) {
-					if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+					if (file_exists("../etc/flag/use_apache24.flg")) {
 						$this->use_apache24 = 'on';
 					} else {
 						$this->use_apache24 = 'off';

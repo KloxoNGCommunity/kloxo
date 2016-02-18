@@ -58,10 +58,10 @@ class pserver extends pservercore {
 			}
 		}
 
-		$httpd24flag = "/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg";
+		$httpd24flag = "../etc/flag/use_apache24.flg";
 
 		// MR -- get httpd24u info
-		exec("cat '/usr/local/lxlabs/kloxo/etc/list/httpd.lst'|grep httpd24", $out);
+		exec("cat '../etc/list/httpd.lst'|grep httpd24", $out);
 
 		if ($out[0] !== null) {
 			$useapache24 = $param['use_apache24'];
@@ -82,7 +82,8 @@ class pserver extends pservercore {
 	//	rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
 
 		foreach($param as $k => $v) {
-			if (($k === 'no_fix_config') || ($k === 'use_apache24')) { continue; }
+		//	if (($k === 'no_fix_config') || ($k === 'use_apache24')) { continue; }
+			if ($k === 'no_fix_config') { continue; }
 
 			if ($this->$k === $v) {
 				dprint("No change for $k: $v\n");
@@ -110,6 +111,7 @@ class pserver extends pservercore {
 
 					if ($nofixconfig === 'on') { continue; }
 
+				//	lxshell_return("sh", "/script/fix{$fixc}", "--target=defaults", "--server={$this->nname}", "--nolog");
 					exec("sh /script/fix{$fixc} --target=defaults --server={$this->nname} --nolog");
 
 					// MR -- original code not work, so change to, also must be the last process!
@@ -213,7 +215,7 @@ class pserver extends pservercore {
 
 	function getMysqlDbAdmin(&$alist)
 	{
-	//	$flagfile = "/usr/local/lxlabs/kloxo/etc/flag/user_sql_manager.flg";
+	//	$flagfile = "../etc/flag/user_sql_manager.flg";
 
 	//	if (file_exists($flagfile)) {
 	//		$url = file_get_contents($flagfile);

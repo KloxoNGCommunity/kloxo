@@ -7924,9 +7924,9 @@ class HtmlLib
 					}
 				}
 
-				if (file_exists("/usr/local/lxlabs/kloxo/httpdocs/editor/ckeditor/ckeditor.js")) {
-					$jsconfig = getLinkCustomfile("/usr/local/lxlabs/kloxo/httpdocs/editor/ckeditor", "kloxo.js");
-					$jsconfig = str_replace('/usr/local/lxlabs/kloxo/httpdocs', '', $jsconfig);
+				if (file_exists("../httpdocs/editor/ckeditor/ckeditor.js")) {
+					$jsconfig = getLinkCustomfile("../httpdocs/editor/ckeditor", "kloxo.js");
+					$jsconfig = str_replace('../httpdocs', '', $jsconfig);
 ?>
 
 <script type="text/javascript" src="/editor/ckeditor/ckeditor.js"></script>

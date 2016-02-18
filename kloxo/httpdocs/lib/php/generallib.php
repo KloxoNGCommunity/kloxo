@@ -197,7 +197,7 @@ class General extends Lxdb
 			throw new lxException($login->getThrow("could_not_save_file"), '', '../etc/conf/scavenge_time.conf');
 		}
 
-		$f = "/usr/local/lxlabs/kloxo/etc/flag/enablescavengesendmail.flg";
+		$f = "../etc/flag/enablescavengesendmail.flg";
 
 		if ($param['generalmisc_b-sendmailflag'] === 'on') {
 			touch($f);
@@ -270,7 +270,7 @@ class General extends Lxdb
 		exec("echo '$sslport' > /home/kloxo/httpd/cp/.ssl.port");
 		exec("echo '$nonsslport' > /home/kloxo/httpd/cp/.nonssl.port");
 
-		$loginpath = "/usr/local/lxlabs/kloxo/httpdocs/login";
+		$loginpath = "../httpdocs/login";
 
 		if ($param['portconfig_b-redirectnonssl_flag'] === 'on') {
 			touch("{$loginpath}/redirect-to-ssl");
@@ -301,13 +301,13 @@ class General extends Lxdb
 
 			$this->generalmisc_b->disableinstallapp = 'on';
 
-			touch("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+			touch("../etc/flag/disableinstallapp.flg");
 		}
 	}
 
 	function updateGeneralsetting($param)
 	{
-		$f = "/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg";
+		$f = "../etc/flag/enablecronforall.flg";
 
 		if ($param['enable_cronforall'] === 'on') {
 			touch($f);
@@ -418,7 +418,7 @@ class General extends Lxdb
 					$vlist['generalmisc_b-webstatisticsprogram'] = array('s', $list);
 
 					$this->generalmisc_b->disableinstallapp = 'on';
-					touch("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg");
+					touch("../etc/flag/disableinstallapp.flg");
 				//	$vlist['generalmisc_b-disableinstallapp'] = 'on';
 
 					$list = lx_merge_good('--chooser--', mmail::getWebmailProgList());
@@ -434,7 +434,7 @@ class General extends Lxdb
 
 				$vlist['enable_cronforall'] = array('f', array('on', 'off'));
 
-				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+				if (file_exists("../etc/flag/enablecronforall.flg")) {
 					$this->setDefaultValue('enable_cronforall', 'on');
 				}
 
@@ -520,7 +520,7 @@ class General extends Lxdb
 	function createShowAlist(&$alist, $subaction = null)
 	{
 		// MR --- process sync before enter to page -- related to installapp issue
-		if (lxfile_exists("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg")) {
+		if (lxfile_exists("../etc/flag/disableinstallapp.flg")) {
 			$this->generalmisc_b->disableinstallapp = 'on';
 		} else {
 			$this->generalmisc_b->disableinstallapp = 'off';

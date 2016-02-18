@@ -5,6 +5,7 @@ if (!file_exists("/var/run/acme/acme-challenge")) {
 }
 
 $kpath = "/usr/local/lxlabs/kloxo";
+$hpath = "/home/kloxo/httpd";
 
 if (file_exists("{$kpath}/httpdocs/lib/html/include.php")) {
 	include_once "{$kpath}/httpdocs/lib/html/include.php";
@@ -51,4 +52,7 @@ file_put_contents("{$kpath}/init/hiawatha.conf", $content);
 
 file_put_contents("{$kpath}/init/port-nonssl", $nonsslport);
 file_put_contents("{$kpath}/init/port-ssl", $sslport);
+
+file_put_contents("{$cpath}/cp/.nonssl.port", $nonsslport);
+file_put_contents("{$cpath}/cp/.ssl.port", $sslport);
 

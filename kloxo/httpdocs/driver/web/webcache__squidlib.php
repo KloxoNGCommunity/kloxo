@@ -24,7 +24,7 @@ class webcache__squid extends webcache__
 	{
 		$nolog = null;
 
-		$pathsrc = "/usr/local/lxlabs/kloxo/file/squid";
+		$pathsrc = "../file/squid";
 		$pathdrv = "/opt/configs/squid";
 		$pathetc = "/etc";
 

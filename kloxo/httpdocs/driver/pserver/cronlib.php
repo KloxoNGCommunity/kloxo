@@ -86,7 +86,7 @@ class Cron extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		if ($parent->getClass() !== 'pserver') {
-			if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+			if (!file_exists("../etc/flag/enablecronforall.flg")) {
 				return;
 			}
 		}
@@ -214,7 +214,7 @@ class Cron extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// MR --- for security reason, only enable for admin
-		if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+		if (!file_exists("../etc/flag/enablecronforall.flg")) {
 			if ($login->nname !== 'admin') { return; }
 		}
 
@@ -261,7 +261,7 @@ class Cron extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// MR --- for security reason, only enable for admin
-		if (!file_exists("/usr/local/lxlabs/kloxo/etc/flag/enablecronforall.flg")) {
+		if (!file_exists("../etc/flag/enablecronforall.flg")) {
 			if ($login->nname !== 'admin') { return; }
 		}
 		

@@ -23,7 +23,7 @@ class web__ extends lxDriverClass
 		// MR -- for fixed an issue version conflict!
 		// no action for hiawatha because used by Kloxo too
 		if ($a === 'httpd') {
-			if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+			if (file_exists("../etc/flag/use_apache24.flg")) {
 				$blist[] = "httpd24*";
 				$blist[] = "mod24*";
 				$blist[] = "mod-*";
@@ -70,7 +70,7 @@ class web__ extends lxDriverClass
 			$blist = array();
 
 			if ($a === 'httpd') {
-				if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+				if (file_exists("../etc/flag/use_apache24.flg")) {
 					$blist[] = "{$a}24u";
 					$blist[] = "{$a}24u-tools";
 					$blist[] = "{$a}24u-filesystem";
@@ -157,7 +157,7 @@ class web__ extends lxDriverClass
 
 	static function setInstallPhpfpm()
 	{
-		exec("'cp' -rf /usr/local/lxlabs/kloxo/file/php-fpm /opt/configs");
+		exec("'cp' -rf ../file/php-fpm /opt/configs");
 
 		$phpbranch = getRpmBranchInstalled('php');
 

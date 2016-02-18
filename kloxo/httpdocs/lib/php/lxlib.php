@@ -3305,9 +3305,9 @@ function create_database()
 		$pstring = "-p\"$pass\"";
 	}
 
-	$dbpath = '/usr/local/lxlabs/kloxo/file/sql';
+	$dbpath = '../file/sql';
 
-	system("mysql -f -u root $pstring < {$dbpath}/db-structure-base.sql & >/dev/null 2>&1");
+	exec("mysql -f -u root $pstring < {$dbpath}/db-structure-base.sql &");
 }
 
 function update_database()
@@ -3322,9 +3322,9 @@ function update_database()
 		$pstring = "-p\"$pass\"";
 	}
 
-	$dbpath = '/usr/local/lxlabs/kloxo/file/sql';
+	$dbpath = '../file/sql';
 
-	system("mysql -f -u root $pstring < {$dbpath}/db-structure-update.sql >/dev/null 2>&1");
+	exec("mysql -f -u root $pstring < {$dbpath}/db-structure-update.sql");
 }
 
 function get_default_fields()

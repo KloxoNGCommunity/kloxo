@@ -69,19 +69,12 @@ UrlToolkit {
 	Match ^([^?]*)/index\.htm(\?.*)?$ Rewrite $1/$2 Continue
 }
 
-#UrlToolkit {
-#	ToolkitID = expire_needed
-#	#UseDirectory = static_file
-#}
-
-#Directory {
-	#DirectoryID = static_file
-	#Path = /.*\.(css|eot|gif|htm|html|ico|jpeg|jpg|js|otf|pdf|png|ps|psd|svg|swf|ttf|txt|woff|woff2)(/|$)
-	## MR -- extension feature ready in 10.1
-	#Path = /
-	#Extension = css,eot,gif,htm,html,ico,jpeg,jpg,js,otf,pdf,png,ps,psd,svg,swf,ttf,txt,woff,woff2
-	#ExpirePeriod = 1 weeks
-#}
+Directory {
+	DirectoryID = static_file
+	Path = /
+	Extensions = css,eot,gif,htm,html,ico,jpeg,jpg,js,otf,pdf,png,ps,psd,svg,swf,ttf,txt,woff,woff2
+	ExpirePeriod = 1 weeks
+}
 
 Binding {
 	BindingId = port_nonssl
@@ -114,8 +107,8 @@ WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
 StartFile = index.php
 SecureURL = no
 __fpmdisabled__UseFastCGI = PHP5
-#UseToolkit = block_shellshock, findindexfile, expire_needed
 UseToolkit = block_shellshock, findindexfile
+UseDirectory = static_file
 TimeForCGI = 3600
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html
