@@ -23,15 +23,15 @@ class web__ extends lxDriverClass
 		// MR -- for fixed an issue version conflict!
 		// no action for hiawatha because used by Kloxo too
 		if ($a === 'httpd') {
-			if (file_exists("../etc/flag/use_apache24.flg")) {
+		//	if (file_exists("../etc/flag/use_apache24.flg")) {
 				$blist[] = "httpd24*";
 				$blist[] = "mod24*";
-				$blist[] = "mod-*";
-			} else {
+			//	$blist[] = "mod-*";
+		//	} else {
 				$blist[] = "httpd-*";
 				$blist[] = "mod_*";
-				$blist[] = "mod-*";
-			}
+			//	$blist[] = "mod-*";
+		//	}
 		} elseif ($a === 'lighttpd') {
 			$blist[] = "{$a}";
 			$blist[] = "{$a}-fastcgi";
