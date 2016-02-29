@@ -255,23 +255,23 @@ if ($phpmdirs) {
 	}
 }
 echo "      - Used: " . $phpused . "\n";
-echo "   3. Httpd: " .  $apphttpd . "\n";
-echo "      - PHP Type: " . $phptype . "\n";
-echo "   4. Web Used: " . slave_get_driver('web') . "\n";
+echo "   3. Web Used: " . slave_get_driver('web') . "\n";
 echo "     - Hiawatha: " .  $apphiawatha . "\n";
 echo "     - Lighttpd: " .  $applighttpd . "\n";
 echo "     - Nginx: " .  $appnginx . "\n";
-echo "   5. WebCache: " .  slave_get_driver('webcache') . "\n";
+echo "     - Httpd: " .  $apphttpd . "\n";
+echo "       - PHP Type: " . $phptype . "\n";
+echo "   4. WebCache: " .  slave_get_driver('webcache') . "\n";
 echo "     - ATS: " .  $appats . "\n";
 echo "     - Squid: " .  $appsquid . "\n";
 echo "     - Varnish: " .  $appvarnish . "\n";
-echo "   6. Dns: " .  slave_get_driver('dns') . "\n";
+echo "   5. Dns: " .  slave_get_driver('dns') . "\n";
 echo "     - Bind: " .  $appbind . "\n";
 echo "     - DJBDns: " .  $appdjbdns . "\n";
 echo "     - NSD: " .  $appnsd . "\n";
 echo "     - PowerDNS: " .  $apppdns . "\n";
 echo "     - Yadifa: " .  $appyadifa . "\n";
-echo "   7. Mail: " .  $appqmail . "\n";
+echo "   6. Mail: " .  $appqmail . "\n";
 
 if ($appdovecot !== '--uninstalled--') {
 	echo "      - with: " . $appdovecot  . "\n";
