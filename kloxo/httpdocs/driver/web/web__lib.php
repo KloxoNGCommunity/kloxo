@@ -424,7 +424,7 @@ class web__ extends lxDriverClass
 
 	function getUserList()
 	{
-		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', array($this->main->syncserver));
+		$clist = rl_exec_get('localhost', 'localhost', 'getAllClientList', array($this->main->__syncserver));
 
 		$users = array();
 
