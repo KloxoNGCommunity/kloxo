@@ -12,6 +12,10 @@ else
 	echo "  - No need started"
 fi
 
-echo "  - Process: reload"
-/etc/rc.d/init.d/nginx reload
+#echo "  - Process: reload"
+#/etc/rc.d/init.d/nginx reload
 
+echo "  - Process 'nginx': restart"
+/etc/rc.d/init.d/nginx stop
+pkill -9 nginx
+/etc/rc.d/init.d/nginx start

@@ -12,6 +12,8 @@ else
 	echo "  - No need started"
 fi
 
-echo "  - Process : restart"
+echo "  - Process 'named': restart"
 ## possible transfer zone with 'rndc retranfer' but need each zone - it's not practice
-/etc/rc.d/init.d/named restart
+/etc/rc.d/init.d/named stop
+pkill -9 named
+/etc/rc.d/init.d/named start

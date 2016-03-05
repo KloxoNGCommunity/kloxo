@@ -17,4 +17,6 @@ fi
 #echo "No message for graceful"
 
 echo "  - Process with 'httpd': restart"
-/etc/rc.d/init.d/httpd restart
+/etc/rc.d/init.d/httpd stop
+pkill -9 httpd
+/etc/rc.d/init.d/httpd start

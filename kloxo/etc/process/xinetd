@@ -12,5 +12,10 @@ else
 	echo "  - No need started"
 fi
 
-echo "  - Process: reload"
-/etc/rc.d/init.d/xinetd reload
+#echo "  - Process: reload"
+#/etc/rc.d/init.d/xinetd reload
+
+echo "  - Process 'xinetd': restart"
+/etc/rc.d/init.d/xinetd stop
+pkill -9 xinetd
+/etc/rc.d/init.d/xinetd start

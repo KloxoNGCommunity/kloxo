@@ -12,5 +12,10 @@ else
 	echo "  - No need started"
 fi
 
-echo "  - Process : reload"
-/etc/rc.d/init.d/yadifad reload
+#echo "  - Process : reload"
+#/etc/rc.d/init.d/yadifad reload
+
+echo "  - Process 'yadifad': restart"
+/etc/rc.d/init.d/yadifad stop
+pkill -9 yadifad
+/etc/rc.d/init.d/yadifad start

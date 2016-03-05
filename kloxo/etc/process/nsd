@@ -25,5 +25,9 @@ else
 		echo -n "    - ${i}: "
 		nsdc ${i}
 	done
+	echo "  - Process 'nsd': restart"
+	/etc/rc.d/init.d/nsd stop
+	pkill -9 nsd
+	/etc/rc.d/init.d/nsd start
 fi
 

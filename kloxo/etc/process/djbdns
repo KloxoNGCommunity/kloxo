@@ -17,3 +17,8 @@ for i in $(ls /opt/configs/djbdns/conf/master) ; do
 	sh /script/dnsnotify ${i}
 done
 
+echo "  - Process with 'djbdns': restart"
+/etc/rc.d/init.d/djbdns stop
+pkill -9 djbdns
+/etc/rc.d/init.d/djbdns start
+
