@@ -1,5 +1,8 @@
 #!/bin/sh
 
+## MR -- fix issue if running restart in cron
+ln -s /sbin/chkconfig /usr/bin/chkconfig
+
 . /script/counter-start.inc
 
 ## MR -- importance for CentOS 6+ for cp/mv/rm
