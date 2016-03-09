@@ -1,7 +1,9 @@
 #!/bin/sh
 
-## MR -- fix issue if running restart in cron
-ln -s /sbin/chkconfig /usr/bin/chkconfig
+if [ -f /sbin/chkconfig ] ; then
+	## MR -- fix issue if running restart in cron
+	ln -s /sbin/chkconfig /usr/bin/chkconfig
+fi
 
 . /script/counter-start.inc
 
