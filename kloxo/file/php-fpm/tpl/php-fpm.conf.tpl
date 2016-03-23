@@ -3,12 +3,23 @@
 		mkdir("/opt/configs/php-fpm/sock");
 	}
 
+	$startservers = (($sts = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $sts;
+	$minspareservers = (($mis = (int)($maxchildren / 3)) < 2) ? 2 : $mis;
+	$maxspareservers = (($mas = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $mas;
+	$maxchildren = (($mac = (int)($maxchildren)) < 2) ? 2 : $mac;
 
 	if (!$maxchildren) {
 		$maxchildren = '6';
 	}
 
 	$userlist[] = 'apache';
+
+	if (!$phpselected) {
+		$phpcli = 'php';
+		$phpselected = 'php';
+	} else {
+		$phpcli = "{$phpcli}-cli";
+	}
 
 	// because not work for parse for inline php
 	echo "<" . "?xml version=\"1.0\" ?" . ">" . "\n";
@@ -40,18 +51,24 @@
 		<section name="pool">
 			<value name="name"><?php echo $pool; ?></value>
 			<!-- <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value> -->
-			<value name="listen_address">/opt/configs/php-fpm/sock/<?php echo $user; ?>.sock</value>
+			<value name="listen_address">/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock</value>
 			<value name="listen_options">
 				<value name="backlog">65536</value>
 				<value name="owner"><?php echo $user; ?></value>
 				<value name="group"><?php echo $user; ?></value>
 				<value name="mode">0666</value>
 			</value>
-			<value name="user"><?php echo $user; ?></value>	   		 
-			<value name="group"><?php echo $user; ?></value>		
+			<value name="user"><?php echo $user; ?></value>
+			<value name="group"><?php echo $user; ?></value>
 			<value name="pm">
-				<value name="style">static</value>
+				<!-- <value name="style">static</value> -->
+				<value name="style">apache_like</value>
 				<value name="max_children"><?php echo $maxchildren; ?></value>
+				<value name="apache_like">
+					<value name="StartServers"><?php echo $startservers; ?></value>
+					<value name="MinSpareServers"><?php echo $minspareservers; ?></value>
+					<value name="MaxSpareServers"><?php echo $maxspareservers; ?></value>
+				</value>
 			</value>
 			<value name="request_terminate_timeout">120s</value>
 			<value name="request_slowlog_timeout">30s</value>

@@ -43,8 +43,8 @@ class SslCert extends Lxdb
 
 	static $__desc_ssl_action = array("", "", "ssl_action");
 	static $__desc_ssl_parent = array("s", "", "ssl_parent");
-	static $__desc_upload_v_uploadfile = array("", "", "ssl_uploadfile");
-	static $__desc_upload_v_uploadtext = array("", "", "ssl_uploadtext");
+	static $__desc_upload_v_file = array("", "", "ssl_file");
+	static $__desc_upload_v_text = array("", "", "ssl_text");
 	static $__desc_upload_v_letsencrypt = array("", "", "ssl_letsencrypt");
 	static $__desc_upload_v_link = array("", "", "ssl_link");
 
@@ -63,7 +63,9 @@ class SslCert extends Lxdb
 
 		$vlist['nname'] = $this->certname;
 
-		if ($this->isOn('upload_status')) {
+	//	if ($this->isOn('upload_status')) {
+		if (($this->add_type === 'text') || ($this->add_type === 'file')
+				|| ($this->add_type === 'on')) {
 			$string = null;
 			$res = openssl_x509_read($this->text_crt_content);
 			$ar = openssl_x509_parse($res);
@@ -72,6 +74,10 @@ class SslCert extends Lxdb
 			$vlist['text_crt_content'] = null;
 			$vlist['text_key_content'] = null;
 			$vlist['text_ca_content'] = null;
+		} elseif ($this->add_type === 'letsencrypt') {
+			// in progress
+		} elseif ($this->add_type === 'link') {
+			// in progress
 		} else {
 			$vlist["ssl_data_b_s_commonName_r"] = null;
 			$vlist["ssl_data_b_s_countryName_r"] = null;
@@ -139,8 +145,8 @@ class SslCert extends Lxdb
 	{
 		$alist[] = "a=list&c=$class";
 		$alist[] = "a=addform&c=$class";
-		$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=uploadfile";
-		$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=uploadtext";
+		$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=file";
+		$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=text";
 
 		if ($parent->getClass() === 'web') {
 			$alist[] = "a=addform&c=$class&dta[var]=upload&dta[val]=letsencrypt";
@@ -245,7 +251,9 @@ class SslCert extends Lxdb
 		}
 
 		if (isset($param['upload'])) {
-			if ($param['upload'] === 'uploadfile') {
+			if ($param['upload'] === 'file') {
+				$param['add_type'] = 'file';
+
 				$key_file = $_FILES['ssl_key_file_f']['tmp_name'];
 				$crt_file = $_FILES['ssl_crt_file_f']['tmp_name'];
 				$ca_file = $_FILES['ssl_ca_file_f']['tmp_name'];
@@ -260,17 +268,25 @@ class SslCert extends Lxdb
 				if ($ca_file && lxfile_exists($ca_file)) {
 					$param['text_ca_content'] = lfile_get_contents($ca_file);
 				}
-			} elseif ($param['upload'] === 'uploadtext') {
+			} elseif ($param['upload'] === 'text') {
+				$param['add_type'] = 'text';
+
 				self::checkAndThrow($param['text_crt_content'], $param['text_key_content']);
 			} elseif ($param['upload'] === 'letsencrypt') {
+				$param['add_type'] = 'letencrypt';
+
 				$param['ssl_data_b_s_subjectAltName_r'] = replace_to_space($param['ssl_data_b_s_subjectAltName_r']);
 			} elseif ($param['upload'] === 'link') {
+				$param['add_type'] = 'link';
+
 				// MR -- in progress
 			}
 
-			$param['upload_status'] = 'on';
+		//	$param['upload_status'] = 'on';
 		} else {
-			$param['upload_status'] = 'off';
+		//	$param['upload_status'] = 'off';
+
+			$param['add_type'] = 'self';
 
 			$param['ssl_data_b_s_commonName_r'] = replace_to_space($param['ssl_data_b_s_commonName_r']);
 
@@ -290,7 +306,8 @@ class SslCert extends Lxdb
 	{
 		$parent = $this->getParentO();
 
-		if (!$this->isOn('upload_status')) {
+	//	if (!$this->isOn('upload_status')) {
+		if ($this->add_type === 'self') {
 			$this->createNewcertificate();
 		}
 
@@ -363,13 +380,13 @@ class SslCert extends Lxdb
 			$email = null;
 		}
 
-		if ($typetd['val'] === 'uploadfile') {
+		if ($typetd['val'] === 'file') {
 			$vlist['nname'] = $nname;
 			$vlist['ssl_key_file_f'] = null;
 			$vlist['ssl_crt_file_f'] = null;
 			$vlist['ssl_ca_file_f'] = null;
 			$sgbl->method = 'post';
-		} else if ($typetd['val'] === 'uploadtext') {
+		} else if ($typetd['val'] === 'text') {
 			$vlist['nname'] = $nname;
 			$vlist['text_key_content'] = null;
 			$vlist['text_crt_content'] = null;
@@ -378,7 +395,7 @@ class SslCert extends Lxdb
 			$vlist['nname'] = $nname;
 			$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
 			$vlist['key_bits'] = array("s", array("2048", "4096"));
-			$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "{$parent->nname}\nwww.{$parent->nname}");
+			$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "{$parent->nname}\nwww.{$parent->nname}\ncp.{$parent->nname}\nwebmail.{$parent->nname}");
 			$vlist["ssl_data_b_s_emailAddress_r"] = array("m", "admin@{$parent->nname}");
 		} else if ($typetd['val'] === 'link') {
 			$vlist['nname'] = $nname;

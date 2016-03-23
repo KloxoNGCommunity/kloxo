@@ -361,8 +361,10 @@ if (strpos($loginas, "@") !== false) {
 					<div class="dropmenu">
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=list&c=sslcert") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcert") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=uploadfile&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&dta[var]=upload&dta[val]=uploadfile&c=sslcert") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=uploadtxt&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcerta=addform&dta[var]=upload&dta[val]=uploadtxt&c=sslcert") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=file&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&dta[var]=upload&dta[val]=file&c=sslcert") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=text&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcerta=addform&dta[var]=upload&dta[val]=text&c=sslcert") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=letencrypt&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcerta=addform&dta[var]=upload&dta[val]=letsencrypt&c=sslcert") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=link&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcerta=addform&dta[var]=upload&dta[val]=link&c=sslcert") ?></a><br/>
 					</div>
 <?php
 	}

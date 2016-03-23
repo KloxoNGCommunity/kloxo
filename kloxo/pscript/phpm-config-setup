@@ -69,7 +69,13 @@ for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhos
 
 					if [ -f /opt/${base_name}/etc/php.d/${k}mysql.ini ] ; then
 						'mv' -f /opt/${base_name}/etc/${j}/${k}mysql.ini /opt/${base_name}/etc/${j}/${k}mysql.nonini
+					fi
+
+					if [ -f /opt/${base_name}/etc/php.d/${k}mysqli.ini ] ; then
 						'mv' -f /opt/${base_name}/etc/${j}/${k}mysqli.ini /opt/${base_name}/etc/${j}/${k}mysqli.nonini
+					fi
+
+					if [ -f /opt/${base_name}/etc/php.d/${k}pdo_mysqlnd.ini ] ; then
 						'mv' -f /opt/${base_name}/etc/${j}/${k}pdo_mysql.ini /opt/${base_name}/etc/${j}/${k}pdo_mysql.nonini
 					fi
 				else

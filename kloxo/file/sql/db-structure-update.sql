@@ -112,3 +112,6 @@ ALTER TABLE `web` ADD IF NOT EXISTS `php_selected` VARCHAR(255) NULL DEFAULT NUL
 DELETE FROM phpini WHERE nname LIKE 'domain-%' OR nname LIKE 'web-%';
 
 ALTER TABLE `serverftp` ADD IF NOT EXISTS `enable_tls` VARCHAR(255) NULL DEFAULT NULL AFTER `defaultport`;
+
+ALTER TABLE `sslcert` DROP IF EXISTS `add_type`;
+ALTER TABLE `sslcert` CHANGE IF EXISTS `upload_status` `add_type` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

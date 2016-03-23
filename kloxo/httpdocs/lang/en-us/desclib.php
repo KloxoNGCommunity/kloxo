@@ -656,8 +656,8 @@ $__description["email_address"] = array("Email Address");
 $__description["subject_alt_name"] = array("Subject Alternative Name (SAN)");
 $__description["ssl_action"] = array("Action");
 $__description["ssl_parent"] = array("SSL Parent");
-$__description["ssl_uploadfile"] = array("SSL File");
-$__description["ssl_uploadtext"] = array("SSL Text");
+$__description["ssl_file"] = array("SSL File");
+$__description["ssl_text"] = array("SSL Text");
 $__description["ssl_letsencrypt"] = array("Let's Encrypt");
 $__description["ssl_link"] = array("SSL Link");
 
