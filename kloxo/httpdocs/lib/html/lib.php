@@ -7521,11 +7521,11 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	log_cleanup("- Copy etc/conf/{$s} to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
 
-	$confs = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "local.lighttpd", "default", "define");
-
 	// MR - remove unwanted files
 	if ($webdriver === 'apache') {
 		lxfile_rm("{$pathdrv}/etc/conf.d/_mpm.nonconf");
+		lxfile_rm("{$pathdrv}/etc/conf.d/perl.conf");
+		lxfile_rm("{$pathdrv}/etc/conf.d/perl.conf.original");
 	}
 }
 
