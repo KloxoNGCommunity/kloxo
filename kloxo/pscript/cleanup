@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -f /sbin/chkconfig ] ; then
+if [ ! -L /usr/bin/chkconfig ] ; then
 	## MR -- fix issue if running restart in cron
 	ln -s /sbin/chkconfig /usr/bin/chkconfig
 fi

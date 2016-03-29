@@ -459,12 +459,12 @@ class Client extends ClientBase
 
 		// MR -- don't care vps or dedi, reversedns always appear
 		// just need 'message box' warning
-		//	if ($this->isAdmin() && !lxfile_exists("/proc/user_beancounters") && !lxfile_exists("/proc/xen")) {
-		/*
-			if ($this->isAdmin()) {
-				$alist[] = "a=list&c=reversedns";
-			}
-		*/
+	//	if ($this->isAdmin() && !lxfile_exists("/proc/user_beancounters") && !lxfile_exists("/proc/xen")) {
+	/*
+		if ($this->isAdmin()) {
+			$alist[] = "a=list&c=reversedns";
+		}
+	*/
 
 		if (!$this->isAdmin()) {
 			if (!$this->isLogin()) {
@@ -557,7 +557,7 @@ class Client extends ClientBase
 			}
 		}
 
-		if ($this->isNotCustomer()) {
+	//	if ($this->isNotCustomer()) {
 			$alist['__title_domain_rec'] = $login->getKeywordUc('domain');
 			$alist[] = "a=list&c=ftpuser";
 			$this->getListActions($alist, 'mysqldb');
@@ -570,16 +570,16 @@ class Client extends ClientBase
 			}
 
 			$alist[] = "a=list&c=traceroute";
-		}
+	//	}
 
 		if (!$this->isAdmin() && !$this->isDisabled("shell")) {
 			$alist[] = "a=list&c=sshauthorizedkey";
 		}
-
+	/*
 		if ($this->isCustomer()) {
 			$this->getDomainAlist($alist);
 		}
-
+	*/
 		if ($this->isAdmin()) {
 			if ($this->isDomainOwnerMode()) {
 				$this->getDomainAlist($alist);
@@ -587,10 +587,13 @@ class Client extends ClientBase
 				$so = $this->getFromList('pserver', 'localhost');
 				$this->getAlistFromChild($so, $alist);
 			}
+	/*
 		} else {
+
 			if ($this->isLte('reseller') && $this->isDomainOwnerMode()) {
 				$this->getDomainAlist($alist);
 			}
+	*/
 		}
 
 		$alist['__title_advanced'] = $login->getKeywordUc('advanced');
