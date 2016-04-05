@@ -23,6 +23,8 @@ class Servermail__Qmail  extends lxDriverClass
 
 	function save_myname()
 	{
+		validate_domain_name($this->main->myname);
+
 		$rfile = "/var/qmail/control/me";
 		lfile_put_contents($rfile, $this->main->myname);
 		$rfile = "/var/qmail/control/defaulthost";
