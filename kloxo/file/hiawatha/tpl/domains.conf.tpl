@@ -230,7 +230,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -293,7 +296,10 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -359,7 +365,10 @@ VirtualHost {
 
 ## cp for '<?php echo $domainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -436,7 +445,10 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -482,7 +494,10 @@ VirtualHost {
 
 ## webmail for '<?php echo $domainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -560,7 +575,10 @@ VirtualHost {
 
 ## web for '<?php echo $domainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -752,7 +770,10 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -840,7 +861,10 @@ VirtualHost {
 
 ## web for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -932,7 +956,10 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -999,7 +1026,10 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -1074,7 +1104,10 @@ VirtualHost {
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -1167,7 +1200,10 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -1245,7 +1281,10 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
@@ -1322,7 +1361,10 @@ VirtualHost {
 
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 VirtualHost {
-	CustomHeader = X-Frame-Options:sameorigin
+	CustomHeader = X-Content-Type-Options:nosniff
+	CustomHeader = X-XSS-Protection:1;mode=block
+	CustomHeader = X-Frame-Options:SAMEORIGIN
+	CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 

@@ -264,6 +264,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Include <?php echo $globalspath; ?>/acme-challenge.conf
 
+	Include <?php echo $globalspath; ?>/header_base.conf
+
 	DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
