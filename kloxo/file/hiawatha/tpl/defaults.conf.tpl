@@ -148,10 +148,10 @@ Binding {
 }
 ?>
 
-CustomHeader = X-Content-Type-Options:nosniff
-CustomHeader = X-XSS-Protection:1;mode=block
-CustomHeader = X-Frame-Options:SAMEORIGIN
-CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
+#CustomHeader = X-Content-Type-Options:nosniff
+#CustomHeader = X-XSS-Protection:1;mode=block
+#CustomHeader = X-Frame-Options:SAMEORIGIN
+#CustomHeader = Strict-Transport-Security:max-age=31536000;includeSubdomains
 
 ### 'default' config
 set var_user = apache

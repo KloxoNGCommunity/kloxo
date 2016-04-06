@@ -58,6 +58,12 @@ foreach ($confs as $k => $v) {
 	}
 }
 
+if (file_exists("{$globalspath}/custom.header_base.conf")) {
+	$headerbase = "custom.header_base";
+} else {
+	$headerbase = "header_base";
+}
+
 foreach ($certnamelist as $ip => $certname) {
 	$cert_ip = $ip;
 	$cert_file = "/home/kloxo/httpd/ssl/{$certname}";
@@ -86,6 +92,8 @@ server.port = "<?php echo $ports[0]; ?>"
 $HTTP["host"] =~ "^default\.*" {
 
 	$HTTP["scheme"] == "https" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 		ssl.engine = "enable"
 

@@ -127,6 +127,12 @@ if (file_exists("{$globalspath}/custom.generic.conf")) {
 	$generic = "generic";
 }
 
+if (file_exists("{$globalspath}/custom.header_base.conf")) {
+	$headerbase = "custom.header_base";
+} else {
+	$headerbase = "header_base";
+}
+
 if ($disabled) {
 	$sockuser = 'apache';
 } else {
@@ -140,6 +146,8 @@ if ($disabled) {
 $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 		ssl.engine = "enable"
 
@@ -176,6 +184,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -213,6 +223,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 		ssl.engine = "enable"
 
@@ -252,6 +264,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -283,6 +297,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 		ssl.engine = "enable"
 
@@ -336,6 +352,8 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -386,6 +404,8 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -430,6 +450,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -469,6 +491,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -501,6 +525,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 		ssl.engine = "enable"
 
@@ -557,6 +583,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -596,6 +624,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -627,6 +657,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 		ssl.engine = "enable"
 
@@ -683,6 +715,8 @@ $HTTP["host"] =~ "<?php echo $domainname; ?><?php echo $ipssl; ?>" {
 
 	$HTTP["scheme"] == "https" {
 
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -718,6 +752,8 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 ?>
 
 	$HTTP["scheme"] == "https" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 		ssl.engine = "enable"
 

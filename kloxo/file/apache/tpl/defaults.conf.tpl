@@ -275,13 +275,13 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Include <?php echo $globalspath; ?>/<?php echo $acmechallenge; ?>.conf
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
-
 	DirectoryIndex <?php echo $indexorder; ?>
 
 <?php
 		if ($count !== 0) {
 ?>
+
+	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
