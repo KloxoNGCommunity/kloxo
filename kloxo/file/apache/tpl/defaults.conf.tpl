@@ -185,9 +185,9 @@ if ($indexorder) {
 }
 
 if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
-	$acmechallenge = "custom.acme-challenge.conf";
+	$acmechallenge = "custom.acme-challenge";
 } else {
-	$acmechallenge = "acme-challenge.conf";
+	$acmechallenge = "acme-challenge";
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
