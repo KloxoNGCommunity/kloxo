@@ -122,9 +122,9 @@ $cpdocroot = "/home/kloxo/httpd/cp";
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
 if (file_exists("{$globalspath}/custom.generic.conf")) {
-	$genericconf = 'custom.generic.conf';
+	$generic = "custom.generic";
 } else {
-	$genericconf = 'generic.conf';
+	$generic = "generic";
 }
 
 if ($disabled) {
@@ -854,7 +854,7 @@ if ($redirectionremote) {
 	var.kloxoportssl = "<?php echo $kloxoportssl; ?>"
 	var.kloxoportnonssl = "<?php echo $kloxoportnonssl; ?>"
 
-	include "<?php echo $globalspath; ?>/<?php echo $genericconf; ?>"
+	include "<?php echo $globalspath; ?>/<?php echo $generic; ?>.conf"
 
 	alias.url += ( "/" => var.rootdir )
 

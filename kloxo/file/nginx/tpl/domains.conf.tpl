@@ -27,6 +27,12 @@ if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 	$ssl_base = "ssl_base";
 }
 
+if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
+	$acme_challenge = "custom.acme-challenge";
+} else {
+	$acme_challenge = "acme-challenge";
+}
+
 $listens = array('listen_nonssl', 'listen_ssl');
 
 $switches = array('', '_ssl');
@@ -125,9 +131,9 @@ if ($out[0]) {
 }
 
 if (file_exists("{$globalspath}/custom.generic.conf")) {
-	$genericconf = 'custom.generic.conf';
+	$generic = 'custom.generic';
 } else {
-	$genericconf = 'generic.conf';
+	$generic = 'generic';
 }
 
 if ($disabled) {
@@ -173,7 +179,7 @@ server {
 
 	server_name cp.<?php echo $domainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -218,7 +224,7 @@ server {
 
 	server_name webmail.<?php echo $domainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -266,7 +272,7 @@ server {
 
 	server_name cp.<?php echo $domainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -314,7 +320,7 @@ server {
 
 	server_name webmail.<?php echo $domainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	if ($host != '<?php echo $webmailremote; ?>') {
 		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
@@ -353,7 +359,7 @@ server {
 
 	server_name webmail.<?php echo $domainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -422,7 +428,7 @@ server {
 		}
 ?>
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -629,7 +635,7 @@ server {
 	set $var_kloxoportssl '<?php echo $kloxoportssl; ?>';
 	set $var_kloxoportnonssl '<?php echo $kloxoportnonssl; ?>';
 
-	include '<?php echo $globalspath; ?>/<?php echo $genericconf; ?>';
+	include '<?php echo $globalspath; ?>/<?php echo $generic; ?>.conf';
 }
 
 <?php
@@ -688,7 +694,7 @@ server {
 
 	server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -763,7 +769,7 @@ server {
 
 	server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -819,7 +825,7 @@ server {
 
 	server_name webmail.<?php echo $parkdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -868,7 +874,7 @@ server {
 
 	server_name webmail.<?php echo $parkdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	if ($host != '<?php echo $webmailremote; ?>') {
 		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
@@ -909,7 +915,7 @@ server {
 
 	server_name webmail.<?php echo $parkdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -974,7 +980,7 @@ server {
 
 	server_name webmail.<?php echo $redirdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
@@ -1023,7 +1029,7 @@ server {
 
 	server_name webmail.<?php echo $redirdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	if ($host != '<?php echo $webmailremote; ?>') {
 		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
@@ -1062,7 +1068,7 @@ server {
 
 	server_name webmail.<?php echo $redirdomainname; ?>;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 

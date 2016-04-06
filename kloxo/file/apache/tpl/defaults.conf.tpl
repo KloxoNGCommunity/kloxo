@@ -178,11 +178,22 @@ $portnip = "Define port {$ports[0]}\nDefine portssl {$ports[1]}\nDefine ip {$tmp
 
 file_put_contents("{$globalspath}/portnip.conf", $portnip);
 
-
 $defaultdocroot = "/home/kloxo/httpd/default";
 
 if ($indexorder) {
 	$indexorder = implode(' ', $indexorder);
+}
+
+if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
+	$acmechallenge = "custom.acme-challenge.conf";
+} else {
+	$acmechallenge = "acme-challenge.conf";
+}
+
+if (file_exists("{$globalspath}/custom.header_base.conf")) {
+	$headerbase = "custom.header_base";
+} else {
+	$headerbase = "header_base";
 }
 
 // MR -- for future purpose, apache user have uid 50000
@@ -262,9 +273,9 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?php echo $defaultdocroot; ?>"
 
-	Include <?php echo $globalspath; ?>/acme-challenge.conf
+	Include <?php echo $globalspath; ?>/<?php echo $acmechallenge; ?>.conf
 
-	Include <?php echo $globalspath; ?>/header_base.conf
+	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
 
 	DirectoryIndex <?php echo $indexorder; ?>
 

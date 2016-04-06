@@ -119,6 +119,12 @@ if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 	$ssl_base = "ssl_base";
 }
 
+if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
+	$acme_challenge = "custom.acme-challenge";
+} else {
+	$acme_challenge = "acme-challenge";
+}
+
 $listens = array('listen_nonssl_default', 'listen_ssl_default');
 
 foreach ($certnamelist as $ip => $certname) {
@@ -156,7 +162,7 @@ server {
 
 	server_name _;
 
-	include '<?php echo $globalspath; ?>/acme-challenge.conf';
+	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
 
 	index <?php echo $indexorder; ?>;
 
