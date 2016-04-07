@@ -59,9 +59,9 @@ foreach ($confs as $k => $v) {
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$headerbase = "custom.header_base";
+	$header_base = "custom.header_base";
 } else {
-	$headerbase = "header_base";
+	$header_base = "header_base";
 }
 
 foreach ($certnamelist as $ip => $certname) {

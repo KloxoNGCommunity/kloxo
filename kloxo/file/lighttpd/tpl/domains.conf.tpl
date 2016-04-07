@@ -128,9 +128,9 @@ if (file_exists("{$globalspath}/custom.generic.conf")) {
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$headerbase = "custom.header_base";
+	$header_base = "custom.header_base";
 } else {
-	$headerbase = "header_base";
+	$header_base = "header_base";
 }
 
 if ($disabled) {
