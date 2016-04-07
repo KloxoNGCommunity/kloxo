@@ -78,8 +78,11 @@ CREATE TABLE IF NOT EXISTS `dnsslave` (
   KEY `parent_clname_dnsslave` (`parent_clname`)
 ) DEFAULT CHARSET=latin1;
 
-ALTER TABLE `client` CHANGE `priv_q_frontpage_flag` `priv_q_totalinode_flag` VARCHAR(255) NULL DEFAULT NULL;
-ALTER TABLE `client` CHANGE `used_q_frontpage_flag` `used_q_totalinode_flag` VARCHAR(255) NULL DEFAULT NULL;
+ALTER TABLE `client` ADD IF NOT EXISTS `priv_q_totalinode_flag` VARCHAR(255) DEFAULT NULL AFTER `priv_q_ftpuser_num`;
+ALTER TABLE `client` ADD IF NOT EXISTS `used_q_totalinode_flag` VARCHAR(255) DEFAULT NULL AFTER `used_q_ftpuser_num`;
+
+ALTER TABLE `client` ADD IF NOT EXISTS `priv_q_frontpage_flag` VARCHAR(255) DEFAULT NULL AFTER `priv_q_totalinode_flag`;
+ALTER TABLE `client` ADD IF NOT EXISTS `used_q_frontpage_flag` VARCHAR(255) DEFAULT NULL AFTER `used_q_totalinode_flag`;
 
 ALTER TABLE `dns` ADD IF NOT EXISTS `hostmaster` VARCHAR(255) NULL DEFAULT NULL AFTER `soanameserver`;
 
@@ -114,6 +117,3 @@ DELETE FROM phpini WHERE nname LIKE 'domain-%' OR nname LIKE 'web-%';
 ALTER TABLE `serverftp` ADD IF NOT EXISTS `enable_tls` VARCHAR(255) NULL DEFAULT NULL AFTER `defaultport`;
 
 ALTER TABLE `sslcert` ADD IF NOT EXISTS `upload_status` VARCHAR(255) NULL DEFAULT NULL AFTER `add_type`;
-
-ALTER TABLE `client` ADD IF NOT EXISTS `priv_q_frontpage_flag` VARCHAR(255) DEFAULT NULL AFTER `priv_q_totalinode_flag`;
-ALTER TABLE `client` ADD IF NOT EXISTS `used_q_frontpage_flag` VARCHAR(255) DEFAULT NULL AFTER `used_q_totalinode_flag`;
