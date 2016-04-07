@@ -126,9 +126,9 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$headerbase = "custom.header_base";
+	$header_base = "custom.header_base";
 } else {
-	$headerbase = "header_base";
+	$header_base = "header_base";
 }
 
 $listens = array('listen_nonssl_default', 'listen_ssl_default');

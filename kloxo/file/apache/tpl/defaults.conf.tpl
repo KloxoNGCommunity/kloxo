@@ -191,9 +191,9 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$headerbase = "custom.header_base";
+	$header_base = "custom.header_base";
 } else {
-	$headerbase = "header_base";
+	$header_base = "header_base";
 }
 
 // MR -- for future purpose, apache user have uid 50000
@@ -281,7 +281,7 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On

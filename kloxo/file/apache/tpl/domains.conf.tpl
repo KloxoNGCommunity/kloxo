@@ -116,9 +116,9 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$headerbase = "custom.header_base";
+	$header_base = "custom.header_base";
 } else {
-	$headerbase = "header_base";
+	$header_base = "header_base";
 }
 
 $userinfo = posix_getpwnam($user);
@@ -197,7 +197,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -327,7 +327,7 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine on
@@ -456,7 +456,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -502,7 +502,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -644,7 +644,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($enablessl) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -999,7 +999,7 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($enablessl) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -1151,7 +1151,7 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($enablessl) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -1207,7 +1207,7 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -1336,7 +1336,7 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -1382,7 +1382,7 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -1527,7 +1527,7 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -1656,7 +1656,7 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -1702,7 +1702,7 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $headerbase; ?>.conf
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
