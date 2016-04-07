@@ -103,14 +103,18 @@ class Servermail__Qmail  extends lxDriverClass
 
 			lxshell_return("yum", "install", "-y", "clamav", "clamd");
 
+
 			// MR -- clamav from epel use clamd instead clamav init
-		//	lxfile_cp("../file/clamav.init", "/etc/init.d/clamav");
-		//	lxfile_unix_chmod("/etc/init.d/clamav", "755");
-		//	lxshell_return("chkconfig", "clamav", "on");
-		//	os_service_manage("clamav", "restart");
-			os_service_manage("freshclam", "restart");
-		//	lxshell_return("chkconfig", "freshclam", "on");
-			exec("chkconfig freshclam on");
+			if (file_exists("/etc/rc.d/init.d/freshclam")) {
+			//	lxfile_cp("../file/clamav.init", "/etc/init.d/clamav");
+			//	lxfile_unix_chmod("/etc/init.d/clamav", "755");
+			//	lxshell_return("chkconfig", "clamav", "on");
+			//	os_service_manage("clamav", "restart");
+				os_service_manage("freshclam", "restart");
+			//	lxshell_return("chkconfig", "freshclam", "on");
+				exec("chkconfig freshclam on");
+			}
+	
 			lxfile_cp("../file/linux/simcontrol", "/var/qmail/control/");
 			lxshell_return("/var/qmail/bin/simscanmk");
 			lxshell_return("/var/qmail/bin/simscanmk", "-g");
