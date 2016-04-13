@@ -114,6 +114,8 @@ ALTER TABLE `web` ADD IF NOT EXISTS `php_selected` VARCHAR(255) NULL DEFAULT NUL
 
 DELETE FROM phpini WHERE nname LIKE 'domain-%' OR nname LIKE 'web-%';
 
+ALTER TABLE `serverweb` ADD IF NOT EXISTS `php_used` VARCHAR(255) NULL DEFAULT NULL AFTER `php_type`;
+
 ALTER TABLE `serverftp` ADD IF NOT EXISTS `enable_tls` VARCHAR(255) NULL DEFAULT NULL AFTER `defaultport`;
 
 ALTER TABLE `sslcert` ADD IF NOT EXISTS `upload_status` VARCHAR(255) NULL DEFAULT NULL AFTER `add_type`;
