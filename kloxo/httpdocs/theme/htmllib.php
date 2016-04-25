@@ -7855,7 +7855,7 @@ class HtmlLib
 				break;
 			default:
 			case "nomodify" :
-				$value = $variable->value;
+				$value = $variable->value . "&nbap;";
 				$value = self::fix_lt_gt($value);
 
 			//	if ($sgbl->isLxlabsClient()) {

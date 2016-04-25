@@ -125,8 +125,7 @@ Binding {
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 120
 	TimeForRequest = 600
-	MaxRequestSize = 2096128
-	## not able more than 100MB; hiawatha-9.3-2+ able until 2GB
+	MaxRequestSize = 20961280
 	MaxUploadSize = 2047
 <?php
 		if ($count !== 0) {
