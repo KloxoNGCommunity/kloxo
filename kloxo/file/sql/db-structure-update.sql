@@ -21,6 +21,7 @@ UPDATE `watchdog` SET `nname`='web___localhost',`parent_clname`='pserver-localho
 UPDATE `watchdog` SET `nname`='mail___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mail',`syncserver`='localhost',`port`='25',`action`='__driver_qmail',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mail___localhost';
 UPDATE `watchdog` SET `nname`='mysql___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mysql',`syncserver`='localhost',`port`='3306',`action`='__driver_mysql',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mysql___localhost';
 
+UPDATE `watchdog` SET `action` = '__driver_ftp' WHERE `nname` = 'ftp___localhost';
 
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (

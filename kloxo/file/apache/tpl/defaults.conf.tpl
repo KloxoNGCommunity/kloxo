@@ -55,6 +55,11 @@ if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 			}
 		}
 	}
+
+	// MR -- disable cgi module
+	if (file_exists("{$trgtcmdpath}/01-cgi.conf")) {
+		exec("sed -i 's/^LoadModule cgid_module/#LoadModule cgid_module/' {$trgtcmdpath}/01-cgi.conf");
+	}
 	
 	// MR -- make blank content
 	exec("echo '' > /etc/sysconfig/httpd");
@@ -70,6 +75,9 @@ if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 			break;
 		}
 	}
+
+	// MR -- disable cgi module
+	exec("sed -i 's/^LoadModule cgi_module/#LoadModule cgi_module/' {$trgtcpath}/httpd.conf");
 }
 
 if (file_exists("{$srccpath}/custom.{$httptype}.conf")) {
