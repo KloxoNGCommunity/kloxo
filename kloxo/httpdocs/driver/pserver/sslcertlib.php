@@ -29,7 +29,7 @@ class SslCert extends Lxdb
 	static $__desc_nname = array("n", "", "ssl_certificate_name", URL_SHOW);
 	static $__desc_certname = array("n", "", "ssl_certificate_name", URL_SHOW);
 	static $__desc_add_type = array("n", "", "ssl_add_type", URL_SHOW);
-	static $__desc_parent_domain = array("n", "", "ssl_parent_domain", URL_SHOW);
+	static $__desc_parent_domain = array("n", "", "parent_domain", URL_SHOW);
 	static $__desc_syncserver = array("", "", "");
 	static $__desc_slave_id = array("", "", "slave_ID (master_is_localhost)");
 	static $__desc_text_csr_content = array("t", "", "CSR");
@@ -43,7 +43,6 @@ class SslCert extends Lxdb
 	static $__desc_upload = array("", "", "data");
 
 	static $__desc_ssl_action = array("", "", "ssl_action");
-	static $__desc_ssl_parent = array("s", "", "ssl_parent");
 	static $__desc_upload_v_file = array("", "", "ssl_file");
 	static $__desc_upload_v_text = array("", "", "ssl_text");
 	static $__desc_upload_v_letsencrypt = array("", "", "ssl_letsencrypt");
@@ -76,8 +75,8 @@ class SslCert extends Lxdb
 			$vlist['upload'] = array('M', $string);
 			$vlist["ssl_data_b_s_subjectAltName_r"] = array("t", null);
 		} elseif ($this->add_type === 'link') {
-			$ssllist = self::getSSLParentList();
-			$vlist['ssl_parent'] = array("s", $ssllist);
+			$ssllist = self::getSSLParentList($param['nname']);
+			$vlist['parent_domain'] = array("s", $ssllist);
 		} else {
 			$string = $this->getCRTParse($validonly = true);
 			$vlist['upload'] = array('M', $string);
@@ -120,7 +119,9 @@ class SslCert extends Lxdb
 			}
 		}
 
-		$vlist['__v_button'] = array();
+		// MR -- disable it for enable 'update' button
+
+	//	$vlist['__v_button'] = array();
 
 		return $vlist;
 	}
@@ -155,8 +156,6 @@ class SslCert extends Lxdb
 				throw new lxException($login->getThrow("certificate_key_file_corrupted"), '', $throwname);
 			}
 		}
-
-	//	dprint("Succeesffully tested <br> <br> ");
 	}
 
 	static function checkKeyCert($public_key, $privatekey)
@@ -174,9 +173,9 @@ class SslCert extends Lxdb
 	static function createListNlist($parent, $view)
 	{
 		$nlist['nname'] = '50%';
-		$nlist['add_type'] = '10%';
+		$nlist['add_type'] = '15%';
 		$nlist['parent_domain'] = '20%';
-		$nlist['syncserver'] = '20%';
+		$nlist['syncserver'] = '15%';
 
 		return $nlist;
 	}
@@ -325,7 +324,6 @@ class SslCert extends Lxdb
 				$param['ssl_data_b_s_subjectAltName_r'] = replace_to_space($param['ssl_data_b_s_subjectAltName_r']);
 			} elseif ($param['upload'] === 'link') {
 				$param['add_type'] = 'link';
-				// MR -- TODO: work in progress
 			}
 		} else {
 			$param['add_type'] = 'self';
@@ -450,9 +448,11 @@ class SslCert extends Lxdb
 		} else if ($typetd['val'] === 'link') {
 			$vlist['nname'] = $nname;
 
-			$ssllist = self::getSSLParentList();
+			$ssllist = self::getSSLParentList($parent->nname);
 
-			$vlist['ssl_parent'] = array("s", $ssllist);
+			if ($ssllist[0] !== null) {
+				$vlist['parent_domain'] = array("s", $ssllist);
+			}
 		} else {
 			$vlist['nname'] = $nname;
 
@@ -475,28 +475,34 @@ class SslCert extends Lxdb
 		}
 
 		// MR -- TODO: link still disabled
-		if ($typetd['val'] !== 'link') {
+	//	if ($typetd['val'] !== 'link') {
 			$ret['action'] = 'add';
-		}
+	//	}
 
 		$ret['variable'] = $vlist;
 
 		return $ret;
 	}
 
-	static function getSSLParentList()
+	static function getSSLParentList($nname)
 	{
 		global $login;
 
 		if ($login->nname === 'admin') {
-			$filesearch = "/home/kloxo/client/*/ssl/*.key";
+			$filesearch = "/home/kloxo/client/*/ssl/*.ca";
 		} else {
-			$filesearch = "/home/kloxo/client/{$login->nname}/ssl/*.key";
+			$filesearch = "/home/kloxo/client/{$login->nname}/ssl/*.ca";
 		}
 	
 		foreach (glob($filesearch, GLOB_MARK) as $filename) {
 			if (!is_link($filename)) {
-				$ssllist[] = str_replace(".key", "", basename($filename));
+				$x = str_replace(".ca", "", basename($filename));
+
+				if ($x !== $nname) {
+					$ssllist[] = $x;
+				} else {
+					$ssllist[] = null;
+				}
 			}
 		}
 
@@ -719,6 +725,26 @@ class SslCert extends Lxdb
 
 	function createLink()
 	{
+		$parent = $this->getParentO();
+		$user = $parent->customer_name;
+
+		$filesearch = "/home/kloxo/client/*/ssl/{$this->parent_domain}.ca";
+	
+		foreach (glob($filesearch, GLOB_MARK) as $filename) {
+			$sslparent = str_replace(".ca", "", $filename);
+		}
+
+		$targetpath = "/home/kloxo/client/{$user}/ssl";
+
+		if (!file_exists($targetpath)) {
+			mkdir($targetpath);
+		}
+
+		$list = array('.ca', '.crt', '.key', '.pem');
+
+		foreach ($list as $k => $v) {
+			exec("ln -sf {$sslparent}{$v} {$targetpath}/{$parent->nname}{$v}");
+		}
 	}
 
 	static function getSslCertnameFromIP($ipname)
@@ -727,5 +753,10 @@ class SslCert extends Lxdb
 	}
 
 	function isSync() { return false; }
+}
+
+class all_SslCert extends SslCert
+{
+	// MR -- TODO: add in 'all' list
 }
 
