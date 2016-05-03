@@ -7855,14 +7855,14 @@ class HtmlLib
 				break;
 			default:
 			case "nomodify" :
-				$value = $variable->value . "&nbap;";
+				$value = $variable->value;
 				$value = self::fix_lt_gt($value);
 
 			//	if ($sgbl->isLxlabsClient()) {
 					$value = preg_replace("+(https://[^ \n]*)+", "<a href='$1' target='_blank' style='text-decoration:underline'> " . $login->getKeywordUc('click_here') . " </a>", $value);
 			//	}
 
-				$value = str_replace("\n", "\n<br /> ", $value);
+				$value = str_replace("\n", "\n<br />", trim($value, "\n")) . "&nbsp;";
 				$ttname = $variable->name;
 
 				// Don't ever make this hidden. It is absolutely not necessary. The value is available directly itself.

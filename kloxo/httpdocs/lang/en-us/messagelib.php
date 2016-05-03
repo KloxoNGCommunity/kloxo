@@ -778,10 +778,9 @@ $__information['sslcert_addform_letsencrypt_pre'] = "<p>You can use <b>Let's Enc
 	"</p>" .
 	"<p><b>Note</b>:" .
 		"<ul>" .
-			"<li>Select 'test' for 'SSL Action' before make sure all running well</li>" .
 			"<li>Expire in 90 days and then need renew (update) before expire</li>" .
 			"<li>Use 'Add SSL Link' to parent SSL (domain SSL) for activate subdomain SSL</li>" .
-			"<li>Possible 99 SANs (Subject Alternative Names) for each domain</li>" .
+			"<li>Possible 100 SANs (Subject Alternative Names) for each domain</li>" .
 		"</ul>";
 
 $__information['sslcert_addform_link_pre'] = "<p>For wildcards ('*') or 'Let's Encrypt' SSL, SSL for subdomain just link to their parent SSL";

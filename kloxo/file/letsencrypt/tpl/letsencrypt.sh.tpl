@@ -1,9 +1,9 @@
 <?php
 	$req = '';
+	$dom = '';
 
-	if ($action === 'test') || ($action === 'staging')) {
-		$req .= "--staging ";
-	}
+	// MR -- this is for testing
+//	$req .= "--staging ";
 
 	$req .= "--rsa-key-size {$key_bits} ";
 
@@ -13,12 +13,22 @@
 		$req .= "--email {$emailAddress} ";
 	}
 
+/*
 	$san = str_replace(" ", ",", $subjectAltName);
 
-	$req .= "--domains {$san} ";
+	$dom .= "--domains {$san} ";
+*/
+
+	$doms = explode(" ", $subjectAltName);
+
+	foreach ($doms as $k => $v) {
+		$dom .= "\t--domain $v  \\\n";
+	}
 ?>
 #!/bin/sh
 
-letsencrypt-auto certonly --agree-tos --text --renew-by-default --hsts \
-	--duplicate --webroot --webroot-path /var/run/letsencrypt \
-	<?php echo $req; ?> || exit 1
+letsencrypt-auto certonly --agree-tos --text --renew-by-default  \
+	--webroot --webroot-path /var/run/letsencrypt  \
+	<?php echo $req; ?> \
+<?php echo $dom; ?>
+	|| exit 1

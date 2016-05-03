@@ -28,6 +28,7 @@ class SslCert extends Lxdb
 
 	static $__desc_nname = array("n", "", "ssl_certificate_name", URL_SHOW);
 	static $__desc_certname = array("n", "", "ssl_certificate_name", URL_SHOW);
+	static $__desc_add_type = array("n", "", "ssl_add_type", URL_SHOW);
 	static $__desc_parent_domain = array("n", "", "ssl_parent_domain", URL_SHOW);
 	static $__desc_syncserver = array("", "", "");
 	static $__desc_slave_id = array("", "", "slave_ID (master_is_localhost)");
@@ -68,19 +69,12 @@ class SslCert extends Lxdb
 	//	if ($this->isOn('upload_status')) {
 		if (($this->add_type === 'text') || ($this->add_type === 'file')
 				|| ($this->add_type === 'on')) {
-
 			$string = $this->getCRTParse();
 			$vlist['upload'] = array('M', $string);
-			$vlist['text_key_content'] = null;
-			$vlist['text_crt_content'] = null;
-			$vlist['text_ca_content'] = null;
 		} elseif ($this->add_type === 'letsencrypt') {
 			$string = $this->getCRTParse($validonly = true);
 			$vlist['upload'] = array('M', $string);
-			$vlist["ssl_data_b_s_subjectAltName_r"] = null;
-			$vlist['text_key_content'] = null;
-			$vlist['text_crt_content'] = null;
-			$vlist['text_ca_content'] = null;
+			$vlist["ssl_data_b_s_subjectAltName_r"] = array("t", null);
 		} elseif ($this->add_type === 'link') {
 			$ssllist = self::getSSLParentList();
 			$vlist['ssl_parent'] = array("s", $ssllist);
@@ -88,7 +82,7 @@ class SslCert extends Lxdb
 			$string = $this->getCRTParse($validonly = true);
 			$vlist['upload'] = array('M', $string);
 
-			$vlist["ssl_data_b_s_commonName_r"] = array('t', null);
+			$vlist["ssl_data_b_s_commonName_r"] = null;
 
 			$temp = self::getCountryList();
 			$vlist["ssl_data_b_s_countryName_r"] = array("s", $temp);
@@ -100,15 +94,30 @@ class SslCert extends Lxdb
 			$vlist["ssl_data_b_s_emailAddress_r"] = null;
 		//	$vlist["ssl_data_b_s_subjectAltName_r"] = null;
 
-			$x['text_key_content'] = null;
-			$x['text_crt_content'] = null;
-			$x['text_csr_content'] = null;
+		}
 
-			$this->convertToUnmodifiable($x);
+		$x['text_key_content'] = null;
+		$x['text_crt_content'] = null;
 
-			$vlist['text_key_content'] = $x['text_key_content'];
-			$vlist['text_crt_content'] = $x['text_crt_content'];
-			$vlist['text_csr_content'] = $x['text_csr_content'];
+		if ($this->add_type !== 'link') {
+			if ($this->add_type === 'self') {
+				$x['text_csr_content'] = null;
+			} else {
+				$x['text_ca_content'] = null;
+			}
+		}
+
+		$this->convertToUnmodifiable($x);
+
+		$vlist['text_key_content'] = $x['text_key_content'];
+		$vlist['text_crt_content'] = $x['text_crt_content'];
+
+		if ($this->add_type !== 'link') {
+			if ($this->add_type === 'self') {
+				$vlist['text_csr_content'] = $x['text_csr_content'];
+			} else {
+				$vlist['text_ca_content'] = $x['text_ca_content'];
+			}
 		}
 
 		$vlist['__v_button'] = array();
@@ -164,7 +173,8 @@ class SslCert extends Lxdb
 
 	static function createListNlist($parent, $view)
 	{
-		$nlist['nname'] = '60%';
+		$nlist['nname'] = '50%';
+		$nlist['add_type'] = '10%';
 		$nlist['parent_domain'] = '20%';
 		$nlist['syncserver'] = '20%';
 
@@ -265,7 +275,7 @@ class SslCert extends Lxdb
 		//	$path = "/home/{$user}/ssl";
 			$path = "/home/kloxo/client/{$user}/ssl";
 
-			exec("'rm' -rf {$path}/{$name}.*");
+			exec("'rm' -rf {$path}/{$name}*.*");
 
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}");
 		//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
@@ -310,28 +320,17 @@ class SslCert extends Lxdb
 
 				self::checkAndThrow($param['text_crt_content'], $param['text_key_content']);
 			} elseif ($param['upload'] === 'letsencrypt') {
-				$param['add_type'] = 'letencrypt';
+				$param['add_type'] = 'letsencrypt';
 
 				$param['ssl_data_b_s_subjectAltName_r'] = replace_to_space($param['ssl_data_b_s_subjectAltName_r']);
 			} elseif ($param['upload'] === 'link') {
 				$param['add_type'] = 'link';
-
-				// MR -- in progress
+				// MR -- TODO: work in progress
 			}
-
-		//	$param['upload_status'] = 'on';
 		} else {
-		//	$param['upload_status'] = 'off';
-
 			$param['add_type'] = 'self';
 
 			$param['ssl_data_b_s_commonName_r'] = replace_to_space($param['ssl_data_b_s_commonName_r']);
-
-			if ($parent->getClass() === 'web') {
-			//	$param['ssl_data_b_s_commonName_r'] = '*.' . $parent->nname;
-			//	$param['ssl_data_b_s_commonName_r'] = $parent->nname;
-			//	$param['ssl_data_b_s_subjectAltName_r'] = $parent->nname;
-			}
 		}
 
 		$param['certname'] = $param['nname'];
@@ -341,15 +340,16 @@ class SslCert extends Lxdb
 
 	function postAdd()
 	{
-		$parent = $this->getParentO();
-
-	//	if (!$this->isOn('upload_status')) {
-		if ($this->add_type === 'self') {
-			$this->createNewcertificate();
-		}
-
-		if ($parent->getClass() === 'web') {
-			$this->createDomainSSL();
+		switch ($this->add_type) {
+			case 'self':
+				$this->createSelfCertificate();
+				break;
+			case 'letsencrypt':
+				$this->createLetsencrypt();
+				break;
+			case 'link':
+				$this->createLink();
+				break;
 		}
 	}
 
@@ -365,8 +365,14 @@ class SslCert extends Lxdb
 
 		$contentscrt = $this->text_crt_content;
 		$contentskey = $this->text_key_content;
-		$contentscsr = $this->text_csr_content;
-		$contentsca = trim($this->text_ca_content);
+
+		if (isset($this->text_csr_content)) {
+			$contentscsr = $this->text_csr_content;
+		}
+
+		if (isset($this->text_ca_content)) {
+			$contentsca = trim($this->text_ca_content);
+		}
 
 		if (!$contentscrt || !$contentskey) {
 			throw new lxException($login->getThrow("certificate_key_file_empty"));
@@ -376,15 +382,17 @@ class SslCert extends Lxdb
 
 		lfile_put_contents("{$path}/{$name}.crt", $contentscrt);
 		lfile_put_contents("{$path}/{$name}.key", $contentskey);
-		lfile_put_contents("{$path}/{$name}.csr", $contentscsr);
 
-		$contentspem = "{$contentskey}\n{$contentscrt}";
+		if (isset($this->text_csr_content)) {
+			lfile_put_contents("{$path}/{$name}.csr", $contentscsr);
+		}
 
-		lfile_put_contents("{$path}/{$name}.pem", $contentspem);
-
-		if ($contentsca) {
+		if (isset($this->text_ca_content)) {
 			lfile_put_contents("{$path}/{$name}.ca", $contentsca);
 		}
+
+		$contentspem = "{$contentskey}{$contentscrt}";
+		lfile_put_contents("{$path}/{$name}.pem", $contentspem);
 
 		exec("sh /script/fixweb --domain={$name}");
 	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
@@ -407,7 +415,7 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$nname = array('M', $parent->nname);
-			$cname = array('t', $parent->nname);
+			$cname = array('m', $parent->nname);
 			$saname = array('M', $parent->nname);
 			$email = array("m", "admin@{$parent->nname}");
 		} else {
@@ -430,7 +438,7 @@ class SslCert extends Lxdb
 			$vlist['text_ca_content'] = null;
 		} else if ($typetd['val'] === 'letsencrypt') {
 			$vlist['nname'] = $nname;
-			$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
+		//	$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
 			$vlist['key_bits'] = array("s", array("2048", "4096"));
 			$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "{$parent->nname}\nwww.{$parent->nname}\ncp.{$parent->nname}\nwebmail.{$parent->nname}");
 			$vlist["ssl_data_b_s_emailAddress_r"] = array("m", "admin@{$parent->nname}");
@@ -461,8 +469,8 @@ class SslCert extends Lxdb
 			$vlist["ssl_data_b_s_emailAddress_r"] = $email;
 		}
 
-		// MR -- TODO: letsencrypt and link still disabled
-		if (($typetd['val'] !== 'link') && ($typetd['val'] !== 'letsencrypt')) {
+		// MR -- TODO: link still disabled
+		if ($typetd['val'] !== 'link') {
 			$ret['action'] = 'add';
 		}
 
@@ -480,16 +488,11 @@ class SslCert extends Lxdb
 		} else {
 			$filesearch = "/home/kloxo/client/{$login->nname}/ssl/*.key";
 		}
-
+	
 		foreach (glob($filesearch, GLOB_MARK) as $filename) {
-		//	if (!is_link($filename)) {
-				$dom = str_replace(".key", "", basename($filename));
-				$subdom = str_replace($dom, "", $parent->nname);
-
-			//	if (strpos($subdom, ".", 1) !== false) {
-					$ssllist[] = $dom;
-			//	}
-		//	}
+			if (!is_link($filename)) {
+				$ssllist[] = str_replace(".key", "", basename($filename));
+			}
 		}
 
 		return $ssllist;
@@ -507,7 +510,7 @@ class SslCert extends Lxdb
 		return $a;
 	}
 
-	function createNewcertificate()
+	function createSelfCertificate()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
@@ -526,7 +529,6 @@ class SslCert extends Lxdb
 			$name = $temp['name'] = $parent->nname;
 			$user = $parent->customer_name;
 		} else {
-		//	$name = $temp['name'] = $parent->nname;
 			$name = $temp['name'] = 'openssl';
 		}
 
@@ -613,7 +615,7 @@ class SslCert extends Lxdb
 
 		$tplsource = getLinkCustomfile("/opt/configs/openssl/tpl", "openssl.sh.tpl");
 
-		$tpltarget = "{$shpath}/openssl.sh";
+		$tpltarget = "{$shpath}/{$name}_openssl.sh";
 
 		$tpl = lfile_get_contents($tplsource);
 
@@ -629,7 +631,7 @@ class SslCert extends Lxdb
 			lfile_put_contents($tpltarget, $tplparse);
 		}
 
-		exec("cd {$shpath}; sh openssl.sh", $out, $ret);
+		exec("cd {$shpath}; sh {$name}_openssl.sh", $out, $ret);
 
 		if ($ret !== 0) {
 			throw new lxException($login->getThrow("create_certificate_failed"), '', $parent->nname);
@@ -639,6 +641,79 @@ class SslCert extends Lxdb
 		$this->text_csr_content = lfile_get_contents("{$shpath}/{$name}.csr");
 		$this->text_crt_content = lfile_get_contents("{$shpath}/{$name}.crt");
 
+		if ($parent->getClass() === 'web') {
+			$this->createDomainSSL();
+		} 
+
+	}
+
+	function createLetsencrypt()
+	{
+		global $gbl, $sgbl, $login, $ghtml;
+
+		foreach ($this->ssl_data_b as $key => $value) {
+			if (!cse($key, "_r")) {
+				continue;
+			}
+
+			$nk = strtil($key, "_r");
+			$temp[$nk] = $value;
+		}
+
+		$parent = $this->getParentO();
+		$user = $parent->customer_name;
+
+		$name = $temp['name'] = $parent->nname;
+
+		$shpath = "/home/kloxo/client/{$user}/ssl";
+
+		foreach ($temp as $key => $t) {
+			if ($key === 'subjectAltName') {
+				$val = replace_to_space($t);
+			} else {
+				$val = $t;
+			}
+
+			$input[$key] = $val;
+		}
+
+		$input['key_bits'] = $this->key_bits;
+
+		$tplsource = getLinkCustomfile("/opt/configs/letsencrypt/tpl", "letsencrypt.sh.tpl");
+
+		$tpltarget = "{$shpath}/{$name}_letsencrypt.sh";
+
+		$tpl = lfile_get_contents($tplsource);
+
+		$tplparse = getParseInlinePhp($tpl, $input);
+
+		if (!file_exists($shpath)) {
+			mkdir($shpath);
+		}
+
+		if ($tplparse) {
+			lfile_put_contents($tpltarget, $tplparse);
+		}
+
+		exec("cd {$shpath}; sh {$name}_letsencrypt.sh", $out, $ret);
+
+		if ($ret !== 0) {
+			throw new lxException($login->getThrow("create_certificate_failed"), '', $parent->nname);
+		}
+
+		$lepath = "/etc/letsencrypt/live/{$name}";
+
+		$this->text_key_content = lfile_get_contents("{$lepath}/privkey.pem");
+		$this->text_crt_content = lfile_get_contents("{$lepath}/cert.pem");
+		$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
+
+		if ($parent->getClass() === 'web') {
+			$this->createDomainSSL();
+		}
+	}
+
+	function createLink()
+	{
 	}
 
 	static function getSslCertnameFromIP($ipname)
