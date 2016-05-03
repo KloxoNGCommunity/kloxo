@@ -147,8 +147,6 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -157,9 +155,12 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 	}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -184,8 +185,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -194,9 +193,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 	}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -224,8 +226,6 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -234,9 +234,12 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 	}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -264,8 +267,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -274,9 +275,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 		}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -298,8 +302,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -308,9 +310,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 		}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -352,8 +357,6 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -362,9 +365,12 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 ?>
 
 	 	ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 		}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -404,8 +410,6 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -414,9 +418,12 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 			}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -450,8 +457,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -460,9 +465,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 			}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -491,8 +499,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -501,9 +507,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 				}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -526,8 +535,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -536,9 +543,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 					}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -583,8 +593,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -593,9 +601,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 			}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -624,8 +635,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -634,9 +643,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 				}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -658,8 +670,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -668,9 +678,12 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 					}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -715,8 +728,6 @@ $HTTP["host"] =~ "<?php echo $domainname; ?><?php echo $ipssl; ?>" {
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -725,9 +736,12 @@ $HTTP["host"] =~ "<?php echo $domainname; ?><?php echo $ipssl; ?>" {
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 	}
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 
@@ -753,8 +767,6 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 
 	$HTTP["scheme"] == "https" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
 		ssl.engine = "enable"
 
 		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
@@ -763,6 +775,8 @@ if (file_exists("{$cert_file}.ca")) {
 ?>
 
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 }
 ?>

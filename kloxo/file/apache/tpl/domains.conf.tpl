@@ -197,8 +197,6 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -211,6 +209,8 @@ foreach ($certnamelist as $ip => $certname) {
 				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 				}
 ?>
@@ -327,8 +327,6 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine on
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -341,6 +339,8 @@ foreach ($certnamelist as $ip => $certname) {
 				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 				}
 ?>
@@ -456,8 +456,6 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -470,6 +468,8 @@ foreach ($certnamelist as $ip => $certname) {
 				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 				}
 ?>
@@ -502,8 +502,6 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -516,6 +514,8 @@ foreach ($certnamelist as $ip => $certname) {
 				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 				}
 ?>
@@ -644,8 +644,6 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($enablessl) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -658,6 +656,8 @@ foreach ($certnamelist as $ip => $certname) {
 				if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 				}
 ?>
@@ -999,8 +999,6 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($enablessl) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1013,6 +1011,8 @@ foreach ($certnamelist as $ip => $certname) {
 							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 							}
 ?>
@@ -1151,8 +1151,6 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($enablessl) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1165,6 +1163,8 @@ foreach ($certnamelist as $ip => $certname) {
 							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 							}
 ?>
@@ -1207,8 +1207,6 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1221,6 +1219,8 @@ foreach ($certnamelist as $ip => $certname) {
 						if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 						}
 ?>
@@ -1336,8 +1336,6 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1350,6 +1348,8 @@ foreach ($certnamelist as $ip => $certname) {
 							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 							}
 ?>
@@ -1382,8 +1382,6 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1396,6 +1394,8 @@ foreach ($certnamelist as $ip => $certname) {
 							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 							}
 ?>
@@ -1527,8 +1527,6 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1541,6 +1539,8 @@ foreach ($certnamelist as $ip => $certname) {
 						if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 						}
 ?>
@@ -1656,8 +1656,6 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1670,6 +1668,8 @@ foreach ($certnamelist as $ip => $certname) {
 							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 							}
 ?>
@@ -1702,8 +1702,6 @@ foreach ($certnamelist as $ip => $certname) {
 						if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-
 	<IfModule mod_ssl.c>
 		SSLEngine On
 		SSLProtocol ALL -SSLv2 -SSLv3
@@ -1716,6 +1714,8 @@ foreach ($certnamelist as $ip => $certname) {
 							if (file_exists("{$certname}.ca")) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 							}
 ?>

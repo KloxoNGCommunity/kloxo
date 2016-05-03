@@ -168,8 +168,6 @@ server {
 			if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -177,9 +175,12 @@ server {
 				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 				}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			}
@@ -215,8 +216,6 @@ server {
 			if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -224,9 +223,12 @@ server {
 				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 				}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			}
@@ -265,8 +267,6 @@ server {
 			if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -274,9 +274,12 @@ server {
 				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 				}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			}
@@ -315,8 +318,6 @@ server {
 				if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -324,9 +325,12 @@ server {
 					if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 					}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 				}
@@ -356,8 +360,6 @@ server {
 				if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -365,9 +367,12 @@ server {
 					if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 					}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 				}
@@ -416,8 +421,6 @@ server {
 			if ($enablessl) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -425,9 +428,12 @@ server {
 				if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 				}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			}
@@ -694,8 +700,6 @@ server {
 						if ($enablessl) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -703,9 +707,12 @@ server {
 							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 							}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 						}
@@ -771,8 +778,6 @@ server {
 						if ($enablessl) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -780,9 +785,12 @@ server {
 							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 							}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 						}
@@ -830,8 +838,6 @@ server {
 					if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -839,9 +845,12 @@ server {
 						if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 						}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 					}
@@ -881,8 +890,6 @@ server {
 			  		  if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -890,9 +897,12 @@ server {
 						if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 						}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			  		  }
@@ -924,8 +934,6 @@ server {
 			  			if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -933,9 +941,12 @@ server {
 							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 							}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			  			}
@@ -991,8 +1002,6 @@ server {
 					if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -1000,9 +1009,12 @@ server {
 						if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 						}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 					}
@@ -1042,8 +1054,6 @@ server {
 			  			if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -1051,9 +1061,12 @@ server {
 							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 							}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			  			}
@@ -1083,8 +1096,6 @@ server {
 			  			if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-
 	ssl on;
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
@@ -1092,9 +1103,12 @@ server {
 							if (file_exists("{$certname}.ca")) {
 ?>
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+
+	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 <?php
 							}
 ?>
+
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 <?php
 			  			}
