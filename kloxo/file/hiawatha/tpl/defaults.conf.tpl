@@ -135,7 +135,7 @@ Binding {
 <?php
 			if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 <?php
 			}
 		}

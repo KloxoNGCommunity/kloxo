@@ -240,7 +240,7 @@ VirtualHost {
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -309,7 +309,7 @@ VirtualHost {
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -381,7 +381,7 @@ VirtualHost {
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -464,7 +464,7 @@ VirtualHost {
 <?php
 					if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -516,7 +516,7 @@ VirtualHost {
 <?php
 					if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -601,7 +601,7 @@ VirtualHost {
 <?php
 				if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -799,7 +799,7 @@ VirtualHost {
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -893,7 +893,7 @@ VirtualHost {
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -990,7 +990,7 @@ VirtualHost {
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -1063,7 +1063,7 @@ VirtualHost {
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -1144,7 +1144,7 @@ VirtualHost {
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -1243,7 +1243,7 @@ VirtualHost {
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -1327,7 +1327,7 @@ VirtualHost {
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
@@ -1410,7 +1410,7 @@ VirtualHost {
 <?php
 							if (file_exists("{$certname}.ca")) {
 ?>
-	RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?php echo $certname; ?>.ca
 
 	CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff

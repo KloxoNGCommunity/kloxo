@@ -220,20 +220,20 @@ class SslCert extends Lxdb
 	{
 		global $login;
 
-		$contentscer = $this->text_crt_content;
+		$contentscrt = $this->text_crt_content;
 		$contentskey = $this->text_key_content;
 		$contentsca = trim($this->text_ca_content);
 
-		if (!$contentscer || !$contentskey) {
+		if (!$contentscrt || !$contentskey) {
 			throw new lxException($login->getThrow("certificate_key_file_empty"));
 		}
 
-		self::checkAndThrow($contentscer, $contentskey, null);
+		self::checkAndThrow($contentscrt, $contentskey, null);
 
 		// MR -- make the same as program.pem; like inside lighttpd.conf example inside
-		$contentspem = "$contentskey\n$contentscer";
+		$contentspem = "$contentskey\n$contentscrt";
 
-		rl_exec_get(null, $param['slave_id'], array("sslcert", "setProgramSsl"), array($contentspem, $contentsca, $contentscer, $contentskey));
+		rl_exec_get(null, $param['slave_id'], array("sslcert", "setProgramSsl"), array($contentspem, $contentsca, $contentscrt, $contentskey));
 	}
 
 	static function setProgramSsl($contentspem, $contentsca, $contentscrt, $contentskey)
@@ -391,7 +391,12 @@ class SslCert extends Lxdb
 			lfile_put_contents("{$path}/{$name}.ca", $contentsca);
 		}
 
-		$contentspem = "{$contentskey}{$contentscrt}";
+		if (isset($this->text_ca_content)) {
+			$contentspem = "{$contentskey}{$contentscrt}{$contentsca}";
+		} else {
+			$contentspem = "{$contentskey}{$contentscrt}";
+		}
+
 		lfile_put_contents("{$path}/{$name}.pem", $contentspem);
 
 		exec("sh /script/fixweb --domain={$name}");
