@@ -95,27 +95,32 @@ class SslCert extends Lxdb
 
 		}
 
-		$x['text_key_content'] = null;
-		$x['text_crt_content'] = null;
-
 		if ($this->add_type !== 'link') {
-			if ($this->add_type === 'self') {
-				$x['text_csr_content'] = null;
+			if (($this->add_type === 'text') || ($this->add_type === 'file')
+				|| ($this->add_type === 'on')) {
+				$vlist['text_key_content'] = null;
+				$vlist['text_crt_content'] = null;
+				$vlist['text_ca_content'] = null;
 			} else {
-				$x['text_ca_content'] = null;
-			}
-		}
+				$x['text_key_content'] = null;
+				$x['text_crt_content'] = null;
 
-		$this->convertToUnmodifiable($x);
+				if ($this->add_type === 'self') {
+					$x['text_csr_content'] = null;
+				} else {
+					$x['text_ca_content'] = null;
+				}
 
-		$vlist['text_key_content'] = $x['text_key_content'];
-		$vlist['text_crt_content'] = $x['text_crt_content'];
+				$this->convertToUnmodifiable($x);
 
-		if ($this->add_type !== 'link') {
-			if ($this->add_type === 'self') {
-				$vlist['text_csr_content'] = $x['text_csr_content'];
-			} else {
-				$vlist['text_ca_content'] = $x['text_ca_content'];
+				$vlist['text_key_content'] = $x['text_key_content'];
+				$vlist['text_crt_content'] = $x['text_crt_content'];
+
+				if ($this->add_type === 'self') {
+					$vlist['text_csr_content'] = $x['text_csr_content'];
+				} else {
+					$vlist['text_ca_content'] = $x['text_ca_content'];
+				}
 			}
 		}
 

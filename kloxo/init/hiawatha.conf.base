@@ -82,7 +82,7 @@ Binding {
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600
-	MaxRequestSize = 20961280
+	MaxRequestSize = 2096128
 	MaxUploadSize = 2047
 }
 
@@ -92,7 +92,7 @@ Binding {
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 3600
 	TimeForRequest = 3600
-	MaxRequestSize = 20961280
+	MaxRequestSize = 2096128
 	MaxUploadSize = 2047
 	#RequiredCA = /usr/local/lxlabs/kloxo/etc/program.ca
 	TLScertFile = /usr/local/lxlabs/kloxo/etc/program.pem

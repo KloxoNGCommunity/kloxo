@@ -21,7 +21,7 @@ fi
 git clone https://github.com/letsencrypt/letsencrypt
 cd letsencrypt
 
-ln -sf /usr/local/lxlabs/kloxo/letsencrypt/letsencrypt-auto /usr/bin/letsencrypt-auto
-ln -sf /usr/local/lxlabs/kloxo/letsencrypt/py26reqs.txt /usr/bin/py26reqs.txt
+ln -sf ${kloxopath}/letsencrypt/letsencrypt-auto /usr/bin/letsencrypt-auto
+ln -sf ${kloxopath}/letsencrypt/py26reqs.txt /usr/bin/py26reqs.txt
 
-${kloxopath}/letsencrypt/letsencrypt-auto --quiet
+${kloxopath}/letsencrypt/letsencrypt-auto --version

@@ -125,7 +125,7 @@ Binding {
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 120
 	TimeForRequest = 600
-	MaxRequestSize = 20961280
+	MaxRequestSize = 2096128
 	MaxUploadSize = 2047
 <?php
 		if ($count !== 0) {
