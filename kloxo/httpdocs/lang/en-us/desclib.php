@@ -703,7 +703,7 @@ $__description["mssql_database_name"] = array("MSSQL Database Name");
 $__description["mysql_database"] = array("MySQL Database");
 $__description["mysql_database_name"] = array("MySQL Database Name");
 $__description["mysqldisk:mysql_disk_usage"] = array("MySQLdisk:MySQL Disk Usage");
-$__description["all_mysql_database"] = array("All MySQL Database");
+$__description["all_mysql_database"] = array("All Database");
 $__description["database_user"] = array("Database User");
 $__description["database_user_name"] = array("Database User Name");
 $__description["resource_plan"] = array("Resource Plan");
@@ -1398,4 +1398,6 @@ $__description["master_ip"] = array("Master IP Address");
 $__description["slave_domain"] = array("Slave Domain");
 
 $__description["allowedblocked_ip"] = array("Allowed / Blocked IP");
+
+$__description["all_sslcert"] = array("All SSLCert");
 

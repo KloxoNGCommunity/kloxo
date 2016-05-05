@@ -1851,10 +1851,11 @@ class all_domain extends domaind
 			$alist[] = "a=list&c=all_addondomain";
 			$alist[] = "a=list&c=all_mailaccount";
 			$alist[] = "a=list&c=all_mailforward";
+			$alist[] = "a=list&c=all_mailinglist";
 			$alist[] = "a=list&c=all_mysqldb";
 			$alist[] = "a=list&c=all_cron";
 			$alist[] = "a=list&c=all_ftpuser";
-			$alist[] = "a=list&c=all_mailinglist";
+			$alist[] = "a=list&c=all_sslcert";
 		} else {
 			if ($parent->isLte('reseller')) {
 				$alist[] = "a=list&c=all_domain";

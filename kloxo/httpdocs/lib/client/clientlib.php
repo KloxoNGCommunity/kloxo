@@ -59,6 +59,8 @@ class Client extends ClientBase
 
 	static $__desc_dnsslave_l = array("", "", "");
 
+	static $__desc_all_sslcert_l = array("", "", "");
+
 	function isSync()
 	{
 		if ($this->subaction === 'boxpos') {

@@ -69,6 +69,8 @@ class Llog extends Lxclass {
 			'clamav/clamd.log' => 'Clamd',
 			'clamav/freshclam.log' => 'Freshclam',
 
+			'letsencrypt/letsencrypt.log' => 'Letsencrypt',
+
 			'maillog' => 'Mail log',
 
 			'httpd/access_log' => 'HTTP Access',

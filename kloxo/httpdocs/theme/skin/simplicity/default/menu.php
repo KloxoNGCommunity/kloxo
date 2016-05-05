@@ -138,46 +138,42 @@ if (strpos($loginas, "@") !== false) {
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_addondomain"><?= $ghtml->getTitleOnly("a=list&c=all_addondomain") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailaccount"><?= $ghtml->getTitleOnly("a=list&c=all_mailaccount") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailforward"><?= $ghtml->getTitleOnly("a=list&c=all_mailforward") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailinglist"><?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mysqldb"><?= $ghtml->getTitleOnly("a=list&c=all_mysqldb") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_cron"><?= $ghtml->getTitleOnly("a=list&c=all_cron") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_ftpuser"><?= $ghtml->getTitleOnly("a=list&c=all_ftpuser") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailinglist"><?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_sslcert"><?= $ghtml->getTitleOnly("a=list&c=all_sslcert") ?></a><br/>
 <?php
 	} else {
 ?>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_domain") ?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_domain"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_domain"><?= $clientid ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_domain"><?= $loginas ?></a><br/>
 
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_addondomain") ?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_addondomain"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_addondomain"><?= $clientid ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_addondomain"><?= $loginas ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailaccount") ?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailaccount"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mailaccount"><?= $clientid ?></a><br/>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailforward") ?>
-
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailforward"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mailforward"><?= $clientid ?></a><br/>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mysqldb") ?>
-
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mysqldb"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mysqldb"><?= $clientid ?></a><br/>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_cron") ?>
-
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_cron"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_cron"><?= $clientid ?></a><br/>
-						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_ftpuser") ?>
-
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_ftpuser"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_ftpuser"><?= $clientid ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailaccount"><?= $loginas ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailinglist") ?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailinglist"><?= $loginas ?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $clientquery ?>frm_o_cname=all_mailinglist"><?= $clientid ?></a><br/>
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailinglist"><?= $loginas ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mailforward") ?>
+
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mailforward"><?= $loginas ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_mysqldb") ?>
+
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_mysqldb"><?= $loginas ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_cron") ?>
+
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_cron"><?= $loginas ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_ftpuser") ?>
+
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_ftpuser"><?= $loginas ?></a><br/>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=all_sslcert") ?>
+
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&frm_o_cname=all_sslcert"><?= $loginas ?></a><br/>
 <?php
 	}
 ?>					</div>
