@@ -51,7 +51,7 @@ foreach ($confs as $k => $v) {
 }
 
 foreach ($certnamelist as $ip => $certname) {
-	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+	$certnamelist[$ip] = "/home/kloxo/ssl/{$certname}";
 }
 
 $iplist = array('*');

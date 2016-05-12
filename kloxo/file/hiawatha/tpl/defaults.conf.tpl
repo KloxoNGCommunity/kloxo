@@ -40,7 +40,7 @@ $reverseports = array('30080', '30443');
 $portnames = array('nonssl', 'ssl');
 
 foreach ($certnamelist as $ip => $certname) {
-	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+	$certnamelist[$ip] = "/home/kloxo/ssl/{$certname}";
 }
 
 $defaultdocroot = "/home/kloxo/httpd/default";
@@ -104,6 +104,12 @@ FastCGIserver {
 	SessionTimeout = 600
 }
 
+Directory {
+	DirectoryID = well_known
+	Path = /.well-known
+	AccessList = allow all
+}
+
 CGIhandler = /usr/bin/perl:pl
 #CGIhandler = /usr/bin/php-cgi:php
 CGIhandler = /usr/bin/python:py
@@ -147,6 +153,10 @@ Binding {
 }
 ?>
 
+
+Alias = /.well-known:/var/run/letsencrypt/.well-known
+UseDirectory = well_known
+
 #CustomHeader = X-Content-Type-Options:nosniff
 #CustomHeader = X-XSS-Protection:1;mode=block
 #CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -159,7 +169,6 @@ set var_user = apache
 Hostname = 0.0.0.0, ::
 WebsiteRoot = <?php echo $defaultdocroot; ?>
 
-Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 EnablePathInfo = yes
 ## MR -- remove by Hiawatha 10+

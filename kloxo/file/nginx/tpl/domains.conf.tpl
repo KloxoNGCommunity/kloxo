@@ -38,13 +38,12 @@ $listens = array('listen_nonssl', 'listen_ssl');
 $switches = array('', '_ssl');
 
 foreach ($certnamelist as $ip => $certname) {
-	$sslpathdef = "/home/kloxo/httpd/ssl";	
-	$sslpath = "/home/kloxo/client/{$user}/ssl";
+	$sslpath = "/home/kloxo/ssl";
 
 	if (file_exists("{$sslpath}/{$domainname}.key")) {
 		$certnamelist[$ip] = "{$sslpath}/{$domainname}";
 	} else {
-		$certnamelist[$ip] = "{$sslpathdef}/{$certname}";
+		$certnamelist[$ip] = "{$sslpath}/{$certname}";
 	}
 }
 

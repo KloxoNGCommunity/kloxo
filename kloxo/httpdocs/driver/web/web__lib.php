@@ -1255,7 +1255,7 @@ class web__ extends lxDriverClass
 		$uname = $this->getUser();
 
 		$spath="/home/{$uname}/ssl";
-		$dpath="/home/kloxo/client/{$uname}";
+		$dpath="/home/kloxo/ssl";
 
 		if (file_exists($spath)) {
 			exec("mv -f {$spath} {$dpath}");

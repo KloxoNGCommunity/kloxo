@@ -13,13 +13,12 @@ if (($webcache === 'none') || (!$webcache)) {
 foreach ($certnamelist as $ip => $certname) {
 	$cert_ip = $ip;
 
-	$sslpathdef = "/home/kloxo/httpd/ssl";
-	$sslpath = "/home/kloxo/client/{$user}/ssl";
+	$sslpath = "/home/kloxo/ssl";
 
 	if (file_exists("{$sslpath}/{$domainname}.key")) {
 		$cert_file = "{$sslpath}/{$domainname}";
 	} else {
-		$cert_file = "{$sslpathdef}/{$certname}";
+		$cert_file = "{$sslpath}/{$certname}";
 	}
 
 }
@@ -145,6 +144,8 @@ if ($disabled) {
 ## cp for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
 	$HTTP["scheme"] == "https" {
 
 		ssl.engine = "enable"
@@ -182,6 +183,8 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
+
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 
 	$HTTP["scheme"] == "https" {
 
@@ -223,6 +226,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 
 ## cp for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
+
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 
 	$HTTP["scheme"] == "https" {
 
@@ -300,6 +305,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 ## webmail for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
 	$HTTP["scheme"] == "https" {
 
 		ssl.engine = "enable"
@@ -355,6 +362,8 @@ if ($domainredirect) {
 ## web for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
 	$HTTP["scheme"] == "https" {
 
 		ssl.engine = "enable"
@@ -389,7 +398,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 			if ($enablephp) {
 ?>
 
-	 include "<?php echo $globalspath; ?>/switch_standard.conf"
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 <?php
 			}
 ?>
@@ -455,6 +464,8 @@ if ($parkdomains) {
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
 	$HTTP["scheme"] == "https" {
 
 		ssl.engine = "enable"
@@ -532,6 +543,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 
 ## webmail for parked '<?php echo $parkdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
+
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 
 	$HTTP["scheme"] == "https" {
 
@@ -591,6 +604,8 @@ if ($domainredirect) {
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
 	$HTTP["scheme"] == "https" {
 
 		ssl.engine = "enable"
@@ -668,6 +683,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 ## webmail for redirect '<?php echo $redirdomainname; ?>'
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
 	$HTTP["scheme"] == "https" {
 
 		ssl.engine = "enable"
@@ -699,6 +716,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 	index-file.names = ( <?php echo $indexorder; ?> )
 
 	include "<?php echo $globalspath; ?>/switch_standard.conf"
+
 }
 
 <?php
@@ -761,6 +779,8 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 
 ## web for '<?php echo $domainname; ?>'
 $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
+
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 <?php
 }
 ?>
@@ -939,6 +959,7 @@ if ($redirectionremote) {
 		## trick using 'microcache' not work; no different performance!
 		#expire.url = ( "" => "access 10 seconds" )
 	}
+
 }
 
 

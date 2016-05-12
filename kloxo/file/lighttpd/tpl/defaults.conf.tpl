@@ -66,7 +66,7 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 
 foreach ($certnamelist as $ip => $certname) {
 	$cert_ip = $ip;
-	$cert_file = "/home/kloxo/httpd/ssl/{$certname}";
+	$cert_file = "/home/kloxo/ssl/{$certname}";
 }
 
 if ($indexorder) {
@@ -90,6 +90,8 @@ server.port = "<?php echo $ports[0]; ?>"
 
 
 $HTTP["host"] =~ "^default\.*" {
+
+	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 
 	$HTTP["scheme"] == "https" {
 

@@ -23,5 +23,5 @@ fi
 
 echo "  - Process: restart"
 /etc/rc.d/init.d/hiawatha stop
-pkill -9 hiawatha
+#pkill -9 hiawatha
 /etc/rc.d/init.d/hiawatha start

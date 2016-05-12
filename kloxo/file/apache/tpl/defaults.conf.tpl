@@ -147,7 +147,7 @@ if (file_exists("{$srcpath}/custom.suphp.conf")) {
 }
 
 foreach ($certnamelist as $ip => $certname) {
-	$certnamelist[$ip] = "/home/kloxo/httpd/ssl/{$certname}";
+	$certnamelist[$ip] = "/home/kloxo/ssl/{$certname}";
 }
 
 if ($reverseproxy) {

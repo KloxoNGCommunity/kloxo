@@ -22,13 +22,12 @@ $protocols = array('http', 'https');
 $portnames = array("nonssl", "ssl");
 
 foreach ($certnamelist as $ip => $certname) {
-	$sslpathdef = "/home/kloxo/httpd/ssl";	
-	$sslpath = "/home/kloxo/client/{$user}/ssl";
+	$sslpath = "/home/kloxo/ssl";
 
 	if (file_exists("{$sslpath}/{$domainname}.key")) {
 		$certnamelist[$ip] = "{$sslpath}/{$domainname}";
 	} else {
-		$certnamelist[$ip] = "{$sslpathdef}/{$certname}";
+		$certnamelist[$ip] = "{$sslpath}/{$certname}";
 	}
 }
 
@@ -232,6 +231,9 @@ foreach ($certnamelist as $ip => $certname) {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 			if ($count !== 0) {
 ?>
@@ -242,7 +244,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -269,8 +271,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 <?php
@@ -301,6 +301,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 			if ($count !== 0) {
 ?>
@@ -311,7 +314,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -338,8 +341,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 <?php
@@ -373,6 +374,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 			if ($count !== 0) {
 ?>
@@ -383,7 +387,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -410,8 +414,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $cpdocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -456,6 +458,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 				if ($count !== 0) {
 ?>
@@ -466,7 +471,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -493,8 +498,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
@@ -508,6 +511,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 				if ($count !== 0) {
 ?>
@@ -518,7 +524,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -545,8 +551,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -592,6 +596,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 		if ($count !== 0) {
 			if ($enablessl) {
@@ -603,7 +610,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -655,8 +662,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $rootpath; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -790,6 +795,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -801,7 +809,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -830,8 +838,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -884,6 +890,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -895,7 +904,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -924,8 +933,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $redirfullpath; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -982,6 +989,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 ?>
@@ -992,7 +1002,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -1019,8 +1029,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 <?php
@@ -1055,6 +1063,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>
@@ -1065,7 +1076,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -1092,8 +1103,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	TimeForCGI = 600
 
@@ -1136,6 +1145,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>
@@ -1146,7 +1158,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -1173,8 +1185,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -1235,6 +1245,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 ?>
@@ -1245,7 +1258,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -1272,8 +1285,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $disabledocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -1319,6 +1330,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>
@@ -1329,7 +1343,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -1356,8 +1370,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 
@@ -1402,6 +1414,9 @@ VirtualHost {
 VirtualHost {
 	RequiredBinding = port_<?php echo $portnames[$count]; ?>
 
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>
@@ -1412,7 +1427,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	CustomHeader = Strict-Transport-Security:max-age=31536000
+	#CustomHeader = Strict-Transport-Security:max-age=31536000
 	CustomHeader = X-Content-Type-Options:nosniff
 	CustomHeader = X-XSS-Protection:1;mode=block
 	CustomHeader = X-Frame-Options:SAMEORIGIN
@@ -1439,8 +1454,6 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
-
-	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
 	EnablePathInfo = yes
 

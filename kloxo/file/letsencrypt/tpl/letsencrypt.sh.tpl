@@ -28,7 +28,7 @@
 #!/bin/sh
 
 letsencrypt-auto certonly --agree-tos --text --renew-by-default  \
-	--webroot --webroot-path /var/run/letsencrypt  \
+	--duplicate --webroot --webroot-path /var/run/letsencrypt  \
 	<?php echo $req; ?> \
 <?php echo $dom; ?>
 	|| exit 1

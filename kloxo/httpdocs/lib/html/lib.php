@@ -7215,9 +7215,6 @@ function setInitialServices($nolog = null)
 	setInitialPhpIniConfig($nolog);
 	setInitialPhpFpmConfig($nolog);
 
-	setCopyOpenSSLConfFiles();
-	setCopyLetsEncryptConfFiles();
-
 	setInitialPureftpConfig($nolog);
 
 	setInitialLogrotate($nolog);
@@ -7233,6 +7230,8 @@ function setInitialServices($nolog = null)
 	installChooser($nolog);
 
 	setInstallMailserver($nolog);
+
+	setAllSSLPortions($nolog);
 }
 
 function setRemoveAlias($nolog = null)
@@ -7574,6 +7573,23 @@ function setCopyLetsEncryptConfFiles()
 
 	if (file_exists("/home/letsencrypt")) {
 		lxfile_rm_rec("/home/letsencrypt");
+	}
+}
+
+function setCopyAcmeshConfFiles()
+{
+	$nolog = null;
+
+	$pathsrc = "../file/acme.sh";
+	$pathdrv = "/opt/configs/acme.sh";
+
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
+
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
+	exec("'cp' -rf {$pathsrc} /opt/configs");
+
+	if (file_exists("/home/acme.sh")) {
+		lxfile_rm_rec("/home/acme.sh");
 	}
 }
 
@@ -8336,4 +8352,40 @@ function replace_to_space($text)
 	$text = trim($text);
 
 	return $text;
+}
+
+function setFixSSLPath($nolog = null)
+{
+	exec("sh /script/fixsslpath");
+}
+
+function setInstallLetsencrypt($nolog = null)
+{
+	exec("sh /script/letsencrypt-installer");
+}
+
+function setInstallAcmesh($nolog = null)
+{
+	exec("sh /script/acme.sh-installer");
+}
+
+function setAllSSLPortions($nolog = null)
+{
+	log_cleanup("Setting All SSL Portions", $nolog);
+
+	log_cleanup("- Installing Letsencrypt-auto", $nolog);
+	setInstallLetsencrypt($nolog);
+	log_cleanup("- Installing acme.sh", $nolog);
+	setInstallLetsencrypt($nolog);
+
+	log_cleanup("- Fixing SSL path", $nolog);
+	setFixSSLPath($nolog);
+
+	log_cleanup("- Copying 'openssl' config Files", $nolog);
+	setCopyOpenSSLConfFiles();
+	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
+	setCopyLetsEncryptConfFiles();
+	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
+	setCopyAcmeshConfFiles();
+
 }
