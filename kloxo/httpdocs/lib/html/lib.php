@@ -8366,7 +8366,7 @@ function setInstallLetsencrypt($nolog = null)
 
 function setInstallAcmesh($nolog = null)
 {
-	exec("sh /script/acme.sh-installer");
+	exec("sh /script/acme.sh-installer; sh /script/acme.sh-setting");
 }
 
 function setAllSSLPortions($nolog = null)

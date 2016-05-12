@@ -29,14 +29,13 @@
 ?>
 #!/bin/sh
 
-/root/.acme.sh/acme.sh --force --renew --webroot /var/run/letsencrypt  \
+/root/.acme.sh/acme.sh --issue --webroot /var/run/letsencrypt  \
 <?php echo $dom; ?>
-	<?php echo $req; ?> >> /var/log/acme.sh/acme.sh.log
+	<?php echo $req; ?> >> /var/log/acme.sh/acme.sh.log \
+	&> /var/log/acme.sh/acme.sh.log
 
 if [ -f /root/.acme.sh/<?php echo $basedom; ?>/ca.cer ] ; then
 	cd /root/.acme.sh/<?php echo $basedom; ?>
 
 	cat <?php echo $basedom; ?>.key <?php echo $basedom; ?>.cer ca.cer > <?php echo $basedom; ?>.pem
-else
-	exit 1
 fi

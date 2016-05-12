@@ -479,7 +479,7 @@ class SslCert extends Lxdb
 				$vlist['nname'] = $nname;
 			//	$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
 				$vlist['key_bits'] = array("s", array("2048", "4096"));
-				$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "{$parent->nname}\nwww.{$parent->nname}\ncp.{$parent->nname}\nwebmail.{$parent->nname}");
+				$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
 				$vlist["ssl_data_b_s_emailAddress_r"] = array("m", "admin@{$parent->nname}");
 			} else if ($typetd['val'] === 'link') {
 				$vlist['nname'] = $nname;
@@ -680,9 +680,11 @@ class SslCert extends Lxdb
 
 		$input['key_bits'] = $this->key_bits;
 
-		$tplsource = getLinkCustomfile("/opt/configs/letsencrypt/tpl", "letsencrypt.sh.tpl");
+	//	$tplsource = getLinkCustomfile("/opt/configs/letsencrypt/tpl", "letsencrypt.sh.tpl");
+	//	$tpltarget = "{$shpath}/{$name}_letsencrypt.sh";
 
-		$tpltarget = "{$shpath}/{$name}_letsencrypt.sh";
+		$tplsource = getLinkCustomfile("/opt/configs/acme.sh/tpl", "acme.sh.tpl");
+		$tpltarget = "{$shpath}/{$name}_acme.sh";
 
 		$tpl = lfile_get_contents($tplsource);
 
@@ -696,17 +698,23 @@ class SslCert extends Lxdb
 			lfile_put_contents($tpltarget, $tplparse);
 		}
 
-		exec("cd {$shpath}; sh {$name}_letsencrypt.sh", $out, $ret);
+	//	exec("cd {$shpath}; sh {$name}_letsencrypt.sh", $out, $ret);
+		exec("cd {$shpath}; sh {$name}_acme.sh", $out, $ret);
 
 		if ($ret !== 0) {
 			throw new lxException($login->getThrow("create_certificate_failed"), '', $parent->nname);
 		}
 
-		$lepath = "/etc/letsencrypt/live/{$name}";
+	//	$lepath = "/etc/letsencrypt/live/{$name}";
+		$lepath = "/root/.acme.sh/{$name}";
 
-		$this->text_key_content = lfile_get_contents("{$lepath}/privkey.pem");
-		$this->text_crt_content = lfile_get_contents("{$lepath}/cert.pem");
-		$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
+	//	$this->text_key_content = lfile_get_contents("{$lepath}/privkey.pem");
+	//	$this->text_crt_content = lfile_get_contents("{$lepath}/cert.pem");
+	//	$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
+
+		$this->text_key_content = lfile_get_contents("{$lepath}/{$name}.key");
+		$this->text_crt_content = lfile_get_contents("{$lepath}/{$name}.cer");
+		$this->text_ca_content = lfile_get_contents("{$lepath}/ca.cer");
 
 		if ($parent->getClass() === 'web') {
 			$this->createDomainSSL();
