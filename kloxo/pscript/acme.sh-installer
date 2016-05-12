@@ -1,0 +1,30 @@
+#!/bin/sh
+
+kloxopath='/usr/local/lxlabs/kloxo'
+acmepath='/root/.acme.sh'
+
+# install let
+yum -y install git
+cd ${kloxopath}
+if [ -d ${kloxopath}/acme.sh ] ; then
+	rm -rf ${kloxopath}/acme.sh
+	rm -rf /root/.local/share/acme.sh
+fi
+git clone https://github.com/Neilpang/acme.sh.git
+cd ./acme.sh
+./acme.sh --install
+
+# reload bash
+exec bash
+
+${acmepath}/acme.sh  --uninstallcronjob
+
+if [ ! -d /var/log/acme.sh ] ; then
+	mkdir -p /var/log/acme.sh
+fi
+
+cp -f ${kloxopath}/file/acme.sh/acme-cron.sh ${acmepath}/acme-cron.sh
+cp -f ${kloxopath}/file/acme.sh/acme-pem.sh ${acmepath}/acme-pem.sh
+
+crontab -l | { cat; echo "0 0 * * * ${acmepath}/acme-cron.sh > /dev/null"; } | crontab -
+
