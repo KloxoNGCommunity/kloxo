@@ -17,6 +17,8 @@ class Ssl_data_b extends LxaClass
 	static $__desc_commonName_r = array("n", "", "common_name");
 	static $__desc_emailAddress_r = array("n", "", "email_address");
 	static $__desc_subjectAltName_r = array("n", "", "subject_alt_name");
+	static $__desc_key_bits_r = array("", "", "ssl_key_bits");
+
 }
 
 class SslCert extends Lxdb
@@ -24,8 +26,6 @@ class SslCert extends Lxdb
 	static $__table = 'sslcert';
 
 	static $__desc = array("", "", "ssl_certificate");
-
-	static $__desc_key_bits = array("", "", "ssl_key_bits");
 
 	static $__desc_nname = array("n", "", "ssl_certificate_name", URL_SHOW);
 	static $__desc_certname = array("n", "", "ssl_certificate_name", URL_SHOW);
@@ -69,6 +69,12 @@ class SslCert extends Lxdb
 
 		$this->convertToUnmodifiable($vlist);
 
+		if ($this->add_type !== 'link') {
+			$string = $this->getCRTParse();
+
+			$vlist['upload'] = array('M', $string);
+		}
+
 		$vlist['username'] = array("s", $this->getUserList());
 
 		if ($parent->getClass() === 'web') {
@@ -81,19 +87,15 @@ class SslCert extends Lxdb
 		//	if ($this->isOn('upload_status')) {
 			if (($this->add_type === 'text') || ($this->add_type === 'file')
 					|| ($this->add_type === 'on')) {
-				$string = $this->getCRTParse();
-				$vlist['upload'] = array('M', $string);
 			} elseif ($this->add_type === 'letsencrypt') {
-				$string = $this->getCRTParse($validonly = true);
-				$vlist['upload'] = array('M', $string);
+				$vlist['ssl_data_b_s_key_bits_r'] = array("s", array("2048", "4096", "ec-256", "ec-384"));
 				$vlist["ssl_data_b_s_subjectAltName_r"] = array("t", null);
 			} elseif ($this->add_type === 'link') {
 				$ssllist = self::getSSLParentList($param['nname']);
 				$vlist['parent_domain'] = array("s", $ssllist);
 			}
 		} else {
-			$string = $this->getCRTParse($validonly = true);
-			$vlist['upload'] = array('M', $string);
+			$vlist['ssl_data_b_s_key_bits_r'] = array("s", array("2048", "4096"));
 
 			$vlist["ssl_data_b_s_commonName_r"] = null;
 
@@ -163,7 +165,7 @@ class SslCert extends Lxdb
 		return $users;
 	}
 
-	function getCRTParse($validonly = null)
+	function getCRTParse()
 	{
 		$res = openssl_x509_read($this->text_crt_content);
 		$ar = openssl_x509_parse($res);
@@ -171,13 +173,17 @@ class SslCert extends Lxdb
 		$validfrom = date('Y-m-d', $ar['validFrom_time_t']);
 		$validto = date('Y-m-d', $ar['validTo_time_t']);
 
-		if ($validonly) {
-			$string = "- Valid: {$validfrom} - {$validto}";
+		$san = $ar['extensions']['subjectAltName'];
+
+		if (!isset($san)) {
+			$san = '-';
 		} else {
-			$string = "- Common Name: {$ar['subject']['CN']}\n" .
-				"- Subject Alt Name: {$ar['extensions']['subjectAltName']}\n" .
-				"- Valid: {$validfrom} - {$validto}";
+			$san = str_replace("DNS:", "", $san);
 		}
+	
+		$string = "- Common Name: {$ar['subject']['CN']}\n" .
+			"- Subject Alt Name: {$san}\n" .
+			"- Valid: {$validfrom} - {$validto}";
 
 		return $string;
 	}
@@ -478,7 +484,7 @@ class SslCert extends Lxdb
 			} else if ($typetd['val'] === 'letsencrypt') {
 				$vlist['nname'] = $nname;
 			//	$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
-				$vlist['key_bits'] = array("s", array("2048", "4096"));
+				$vlist['ssl_data_b_s_key_bits_r'] = array("s", array("2048", "4096", "ec-256", "ec-384"));
 				$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
 				$vlist["ssl_data_b_s_emailAddress_r"] = array("m", "admin@{$parent->nname}");
 			} else if ($typetd['val'] === 'link') {
@@ -500,8 +506,7 @@ class SslCert extends Lxdb
 			$vlist['nname'] = $nname;
 
 			// MR -- add key_bits options
-			$vlist['key_bits'] = array("s", array("2048", "1024", "512", "4096"));
-
+			$vlist['ssl_data_b_s_key_bits_r'] = array("s", array("2048", "4096"));
 
 			$vlist["ssl_data_b_s_commonName_r"] = $cname;
 
@@ -604,7 +609,8 @@ class SslCert extends Lxdb
 			$input[$key] = $val;
 		}
 
-		$input['key_bits'] = $this->key_bits;
+		// MR -- disable because use ssl_data_b for key_bits
+	//	$input['key_bits'] = $this->key_bits;
 
 		if ($parent->getClass() === 'web') {
 		//	$shpath = "/home/kloxo/client/{$user}/ssl";
@@ -678,7 +684,8 @@ class SslCert extends Lxdb
 			$input[$key] = $val;
 		}
 
-		$input['key_bits'] = $this->key_bits;
+		// MR -- disable because use ssl_data_b for key_bits
+	//	$input['key_bits'] = $this->key_bits;
 
 	//	$tplsource = getLinkCustomfile("/opt/configs/letsencrypt/tpl", "letsencrypt.sh.tpl");
 	//	$tpltarget = "{$shpath}/{$name}_letsencrypt.sh";

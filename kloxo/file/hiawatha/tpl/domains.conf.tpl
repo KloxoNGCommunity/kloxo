@@ -254,7 +254,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 			}
 ?>
@@ -324,7 +324,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 			}
 ?>
@@ -397,7 +397,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 			}
 ?>
@@ -481,7 +481,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 				}
 ?>
@@ -534,7 +534,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 				}
 ?>
@@ -620,7 +620,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 			}
 		}
@@ -819,7 +819,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 						}
 					}
@@ -914,7 +914,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 						}
 					}
@@ -1012,7 +1012,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 					}
 ?>
@@ -1086,7 +1086,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 						}
 ?>
@@ -1168,7 +1168,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 						}
 ?>
@@ -1268,7 +1268,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 					}
 ?>
@@ -1353,7 +1353,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 						}
 ?>
@@ -1437,7 +1437,7 @@ VirtualHost {
 ?>
 
 	SecureURL = no
-	#MinTLSversion = TLS1.0
+	#MinTLSversion = 1.0
 <?php
 						}
 ?>
