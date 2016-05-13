@@ -25,5 +25,20 @@ for i in ${ssl_file[*]} ; do
 		fi
 	done
 
-	rm -rf $(j%${d})
+	rm -rf ${j%${d}}
+done
+
+ssl_file2=$(dir -l /home/kloxo/httpd/ssl/*.pem 2>/dev/null|awk '{print $9}'|tr '\n' ' ')
+
+for n in ${ssl_file2[*]} ; do
+	o=${n%.pem}
+	r=$(basename ${n} .pem)
+
+	for q in .pem .key .crt .csr .ca ; do
+		if [ -f ${o}${q} ] ; then
+			mv -f ${o}${q} ${ssl_path}/${r}${q}
+		fi
+	done
+
+	rm -rf ${o%${r}}
 done
