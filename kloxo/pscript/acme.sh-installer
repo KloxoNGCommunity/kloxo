@@ -6,7 +6,7 @@ acmepath='/root/.acme.sh'
 cd /
 
 # install let
-yum -y install git nc netcat
+yum -y install git nc netcat > /dev/null 2>&1
 
 cd ${kloxopath}
 
@@ -15,15 +15,33 @@ if [ -d ${kloxopath}/acme.sh ] ; then
 	rm -rf /root/.local/share/acme.sh
 fi
 
+if [ ! -d ${acmepath}/acme.sh ] ; then
+	mkdir -p ${acmepath}/acme.sh
+fi
+
 wget https://github.com/Neilpang/acme.sh/archive/master.zip \
 	--no-check-certificate > /dev/null 2>&1
 unzip -oq master.zip > /dev/null 2>&1
 mv -f acme.sh-master acme.sh
 rm -f master.zip
 
+if [ -L /usr/bin/acme.sh ] ; then
+	rm -f /usr/bin/acme.sh
+fi
+
 cd acme.sh
 chmod 755 acme.sh
-acme.sh --install
+ln -sf ${kloxopath}/acme.sh/acme.sh /usr/bin/acme.sh
+
+if [ ! -d /var/log/acme.sh ] ; then
+	mkdir -p /var/log/acme.sh
+fi
+
+cp -f ${kloxopath}/file/acme.sh/acme-cron.sh ${kloxopath}/acme.sh/acme-cron.sh > /dev/null 2>&1
+
+if [ "$(cat /var/spool/cron/root|grep 'acme-cron.sh')" == "" ] ; then
+	crontab -l | { cat; echo "0 0 * * * ${kloxopath}/acme.sh/acme-cron.sh > /dev/null"; } | crontab -
+fi
 
 cd /
 

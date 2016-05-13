@@ -29,7 +29,7 @@
 ?>
 #!/bin/sh
 
-/root/.acme.sh/acme.sh --issue --webroot /var/run/letsencrypt  \
+/usr/bin/acme.sh --issue --webroot /var/run/letsencrypt  \
 <?php echo $dom; ?>
 	<?php echo $req; ?> >> /var/log/acme.sh/acme.sh.log \
 	&> /var/log/acme.sh/acme.sh.log

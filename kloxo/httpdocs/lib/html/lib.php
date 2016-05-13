@@ -8364,17 +8364,25 @@ function setInstallLetsencrypt($nolog = null)
 	exec("sh /script/letsencrypt-installer");
 }
 
+function setRemoveLetsencrypt($nolog = null)
+{
+	exec("sh /script/letsencrypt-remover");
+}
+
 function setInstallAcmesh($nolog = null)
 {
-	exec("sh /script/acme.sh-installer; sh /script/acme.sh-setting");
+	exec("sh /script/acme.sh-installer");
 }
 
 function setAllSSLPortions($nolog = null)
 {
 	log_cleanup("Setting All SSL Portions", $nolog);
 
-	log_cleanup("- Installing Letsencrypt-auto", $nolog);
-	setInstallLetsencrypt($nolog);
+//	log_cleanup("- Installing Letsencrypt-auto", $nolog);
+//	setInstallLetsencrypt($nolog);
+	log_cleanup("- Removing Letsencrypt-auto", $nolog);
+	setRemoveLetsencrypt($nolog);
+
 	log_cleanup("- Installing acme.sh", $nolog);
 	setInstallAcmesh($nolog);
 
@@ -8383,8 +8391,8 @@ function setAllSSLPortions($nolog = null)
 
 	log_cleanup("- Copying 'openssl' config Files", $nolog);
 	setCopyOpenSSLConfFiles();
-	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
-	setCopyLetsEncryptConfFiles();
+//	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
+//	setCopyLetsEncryptConfFiles();
 	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
 	setCopyAcmeshConfFiles();
 
