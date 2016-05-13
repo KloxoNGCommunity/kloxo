@@ -8376,7 +8376,7 @@ function setAllSSLPortions($nolog = null)
 	log_cleanup("- Installing Letsencrypt-auto", $nolog);
 	setInstallLetsencrypt($nolog);
 	log_cleanup("- Installing acme.sh", $nolog);
-	setInstallLetsencrypt($nolog);
+	setInstallAcmesh($nolog);
 
 	log_cleanup("- Fixing SSL path", $nolog);
 	setFixSSLPath($nolog);

@@ -2,16 +2,28 @@
 
 kloxopath='/usr/local/lxlabs/kloxo'
 acmepath='/root/.acme.sh'
+
+cd /
+
 # install let
-yum -y install git
+yum -y install git nc netcat
+
 cd ${kloxopath}
+
 if [ -d ${kloxopath}/acme.sh ] ; then
 	rm -rf ${kloxopath}/acme.sh
 	rm -rf /root/.local/share/acme.sh
 fi
-git clone https://github.com/Neilpang/acme.sh.git
-cd ./acme.sh
-./acme.sh --install > /dev/null 2>&1
-exec bash
 
+wget https://github.com/Neilpang/acme.sh/archive/master.zip \
+	--no-check-certificate > /dev/null 2>&1
+unzip -oq master.zip > /dev/null 2>&1
+mv -f acme.sh-master acme.sh
+rm -f master.zip
+
+cd acme.sh
+chmod 755 acme.sh
+acme.sh --install
+
+cd /
 

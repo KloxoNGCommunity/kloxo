@@ -14,4 +14,6 @@ cp -f ${kloxopath}/file/acme.sh/acme-pem.sh ${acmepath}/acme-pem.sh
 
 crontab -l | { cat; echo "0 0 * * * ${acmepath}/acme-cron.sh > /dev/null"; } | crontab -
 
+exec bash
+
 

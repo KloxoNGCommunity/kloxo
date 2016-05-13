@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ssl_file=$(dir -l /home/kloxo/client/*/ssl/*.pem|awk '{print $9}')
+ssl_file=$(dir -l /home/kloxo/client/*/ssl/*.pem 2>/dev/null|awk '{print $9}'|tr '\n' ' ')
 
 ssl_path="/home/kloxo/ssl"
 
