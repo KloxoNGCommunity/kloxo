@@ -394,6 +394,12 @@ class SslCert extends Lxdb
 			case 'link':
 				$this->createLink();
 				break;
+			default:
+				$parent = $this->getParentO();
+
+				if ($parent->getClass() === 'web') {
+					$this->createDomainSSL();
+				}
 		}
 	}
 
@@ -437,9 +443,9 @@ class SslCert extends Lxdb
 		}
 
 		if (isset($this->text_ca_content)) {
-			$contentspem = "{$contentskey}{$contentscrt}{$contentsca}";
+			$contentspem = "{$contentskey}\n{$contentscrt}\n{$contentsca}";
 		} else {
-			$contentspem = "{$contentskey}{$contentscrt}";
+			$contentspem = "{$contentskey}\n{$contentscrt}";
 		}
 
 		lfile_put_contents("{$path}/{$name}.pem", $contentspem);

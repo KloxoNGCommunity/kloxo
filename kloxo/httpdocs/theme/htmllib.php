@@ -7862,7 +7862,12 @@ class HtmlLib
 					$value = preg_replace("+(https://[^ \n]*)+", "<a href='$1' target='_blank' style='text-decoration:underline'> " . $login->getKeywordUc('click_here') . " </a>", $value);
 			//	}
 
-				$value = str_replace("\n", "\n<br />", trim($value, "\n")) . "&nbsp;";
+				if ($value !== "") {
+					$value = str_replace("\n", "\n<br />", trim($value, "\n"));
+				} else {
+					$value = "&nbsp;";
+				}
+
 				$ttname = $variable->name;
 
 				// Don't ever make this hidden. It is absolutely not necessary. The value is available directly itself.
