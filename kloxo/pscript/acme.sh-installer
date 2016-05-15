@@ -21,6 +21,12 @@ fi
 
 wget https://github.com/Neilpang/acme.sh/archive/master.zip \
 	--no-check-certificate > /dev/null 2>&1
+
+## MR -- need for CentOS 5
+if [ -f master ] ; then
+	mv -f master master.zip
+fi
+
 unzip -oq master.zip > /dev/null 2>&1
 mv -f acme.sh-master acme.sh
 rm -f master.zip
