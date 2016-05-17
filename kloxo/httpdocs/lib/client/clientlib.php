@@ -539,9 +539,9 @@ class Client extends ClientBase
 
 			$alist[] = "a=list&c=ipaddress";
 			
-			if ($this->getList('ipaddress')) {
+		//	if ($this->getList('ipaddress')) {
 				$alist[] = "a=list&c=sslcert";
-			}
+		//	}
 
 			if ($this->isCustomer()) {
 				$alist[] = "a=list&c=ftpuser";

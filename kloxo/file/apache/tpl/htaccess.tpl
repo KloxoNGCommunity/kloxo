@@ -1,5 +1,10 @@
 ### begin content - please not remove this line
 
+#<IfModule mod_rewrite.c>
+#	## MR -- authentically for letsencrypt for webroot-based
+#	RewriteRule /\.|^\.(?!well-known/) - [F]
+#</FilesMatch>
+
 ### MR -- using php version different with default php
 ### 1. Using suphp
 ### - Copy between '#<FilesMatch \.php$>' to '#</FilesMatch>' and 

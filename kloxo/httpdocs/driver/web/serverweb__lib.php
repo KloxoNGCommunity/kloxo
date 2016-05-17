@@ -462,7 +462,7 @@ class serverweb__ extends lxDriverClass
 		if (isWebProxyOrApache()) {
 			$p = $this->main->php_type;
 
-			if ($v !== '--Use PHP Branch--') {
+			if ($v !== '--PHP Branch--') {
 
 				if (strpos($p, 'php-fpm') !== false) {
 					// no action
@@ -473,7 +473,7 @@ class serverweb__ extends lxDriverClass
 		}
 
 		switch ($v) {
-			case "--Use PHP Branch--":
+			case "--PHP Branch--":
 				lxshell_return("sh", "/script/set-php-fpm", "php");
 				break;
 			default:

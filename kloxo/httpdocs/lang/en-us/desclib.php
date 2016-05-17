@@ -1296,7 +1296,8 @@ $__description["php_configuration"] = array("PHP Configuration");
 $__description["manage_php_configuration"] = array("Manage PHP Configuration");
 $__description["PHP_config"] = array("PHP Configure");
 $__description["advanced_PHP_config"] = array("Advanced PHP Configure");
-$__description["web_selector"] = array("Web / PHP Selector");
+$__description["web_selector"] = array("Web / PHP Selector and Timeout");
+//$__description["web_selector"] = array("Website Options");
 $__description["dav_user"] = array("DAV User");
 $__description["dav_user_name"] = array("DAV User Name");
 $__description["web_disk"] = array("Web Disk");
@@ -1378,6 +1379,7 @@ $__description["multiple_php_ready"] = array("Multiple PHP Ready");
 $__description["multiple_php_ratio"] = array("Multiple PHP Ratio");
 $__description["php_selected"] = array("PHP Selected");
 $__description["web_selected"] = array("Web Selected");
+$__description["time_out"] = array("Timeout");
 
 $__description["multiple_php_install"] = array("Multiple PHP Install");
 $__description["multiple_php_already_installed"] = array("Multiple PHP Already Installed");

@@ -18,5 +18,3 @@ echo "  - Process: restart"
 pkill -9 ${prog}
 pkill -9 mysqld_safe
 /etc/rc.d/init.d/${prog} start
-
-echo "No message for restart"

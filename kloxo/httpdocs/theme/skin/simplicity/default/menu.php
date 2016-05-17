@@ -41,6 +41,22 @@ if (isset($ghtml->frm_o_o[1]['class']) && ($ghtml->frm_o_o[1]['class'] === 'clie
 $serverquery = "frm_o_o[0][class]=pserver&frm_o_o[0][nname]={$syncserver}&";
 $localhostquery = "frm_o_o[0][class]=pserver&frm_o_o[0][nname]=localhost&";
 
+if (isset($ghtml->frm_o_o[0]['class']) && ($ghtml->frm_o_o[0]['class'] === 'domain')) {
+	$domainid = $ghtml->frm_o_o[0]['nname'];
+
+	$domainquery = "frm_o_o[0][class]=client&frm_o_o[0][nname]={$clientid}&";
+} else {
+	$domainquery = "";
+}
+
+if (isset($ghtml->frm_o_o[1]['class']) && ($ghtml->frm_o_o[1]['class'] === 'domain')) {
+	$domainid2 = $ghtml->frm_o_o[1]['nname'];
+
+	$domainquery2 = "frm_o_o[0][class]=client&frm_o_o[0][nname]={$clientid}&";
+} else {
+	$domainquery2 = "";
+}
+
 if (($clientquery !== '') || ($syncserver !== 'localhost')) {
 	$genwidth = "640";
 } else {
@@ -350,19 +366,37 @@ if (strpos($loginas, "@") !== false) {
 	}
 ?>
 					</div>
-<?php
-	if ($login->isAdmin()) {
-?>
+
 					<b><?= $login->getKeywordUc('ssl') ?></b>
+<?php
+	if ($clientquery === '') {
+		if ($domainquery === '') {
+?>
 					<div class="dropmenu">
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=list&c=sslcert") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcert") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=file&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&dta[var]=upload&dta[val]=file&c=sslcert") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=text&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcerta=addform&dta[var]=upload&dta[val]=text&c=sslcert") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=letencrypt&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcerta=addform&dta[var]=upload&dta[val]=letsencrypt&c=sslcert") ?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=addform&frm_dttype[var]=upload&frm_dttype[val]=link&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=addform&c=sslcerta=addform&dta[var]=upload&dta[val]=link&c=sslcert") ?></a><br/>
 					</div>
 <?php
+		} else {
+?>
+					<div class="dropmenu">
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_o[0][class]=domain&frm_o_o[0][nname]=<?= $domainid ?>&frm_o_o[1][class]=web&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=list&c=sslcert") ?></a><br/>
+					</div>
+<?php
+		}
+	} else {
+		if ($domainquery === '') {
+?>
+					<div class="dropmenu">
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $clientid ?>&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=list&c=sslcert") ?></a><br/>
+					</div>
+<?php
+		} else {
+?>
+					<div class="dropmenu">
+						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_o[0][class]=client&frm_o_o[0][nname]=<?= $clientid ?>&frm_o_o[1][class]=domain&frm_o_o[1][nname]=<?= $domainid ?>&frm_o_o[1][class]=domain&frm_o_o[1][nname]=<?= $domainid2 ?>&frm_o_o[2][class]=web&frm_o_cname=sslcert"><?= $ghtml->getTitleOnly("a=list&c=sslcert") ?></a><br/>
+					</div>
+<?php
+		}
 	}
 ?>
 					<b><?= $ghtml->getTitleOnly("a=list&c=ipaddress") ?></b>

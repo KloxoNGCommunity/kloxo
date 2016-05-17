@@ -205,7 +205,7 @@ class serverweb extends lxdb
 				$this->php_used = null;
 
 				$d = getMultiplePhpList();
-				$s = '--Use PHP Branch--';
+				$s = '--PHP Branch--';
             
 				if (isset($d)) {
 					foreach ($d as $k => $v) {
@@ -216,7 +216,7 @@ class serverweb extends lxdb
 
 					$d = array_merge(array($s), $d);
 				} else { 
-					$d = array('--Use PHP Branch--');
+					$d = array('--PHP Branch--');
 				}
 
 				$vlist['php_used'] = array('s', $d);
