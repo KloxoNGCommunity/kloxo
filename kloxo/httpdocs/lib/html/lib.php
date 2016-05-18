@@ -2800,7 +2800,9 @@ function install_if_package_not_exist($name)
 		return;
 	}
 
-	$ret = lxshell_return("rpm", "-q", $name);
+//	$ret = lxshell_return("rpm", "-q", $name);
+	$ret = lxshell_return("yum", "list", "installed", $name);
+
 
 	if ($ret) {
 		lxshell_return("yum", "-y", "install", $name);
@@ -6440,6 +6442,7 @@ function setCheckPackages($nolog = null)
 		$phpbranchmysql = "{$phpbranch}-mysqlnd";
 	}
 
+/*
 	$list = array("autorespond-toaster", $authlib_rpm, $imap_rpm,
 		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
 		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
@@ -6449,6 +6452,13 @@ function setCheckPackages($nolog = null)
 		"{$phpbranch}-pecl-geoip", "{$phpbranch}-gd",
 		"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "{$phpbranch}-bcmath", "{$phpbranch}-pgsql",
 		"webalizer", "dos2unix", "rrdtool", "xinetd", "lxjailshell");
+*/
+	$list = array("autorespond-toaster", $authlib_rpm, $imap_rpm,
+		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
+		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
+		"ripmime", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
+		"spamdyke", "spamdyke-utils", "pure-ftpd", "webalizer", "dos2unix", "rrdtool",
+		"xinetd", "lxjailshell");
 
 	foreach ($list as $l) {
 		if ($l === '') {
@@ -7126,8 +7136,7 @@ function updatecleanup($nolog = null)
 
 	setRealServiceBranchList($nolog);
 
-	// MR -- no need because 'yum update' in tmpupdatecleanup
-//	setCheckPackages($nolog);
+	setCheckPackages($nolog);
 
 	copy_script($nolog);
 
