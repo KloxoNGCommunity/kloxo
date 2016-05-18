@@ -2805,7 +2805,10 @@ function install_if_package_not_exist($name)
 
 
 	if ($ret) {
+		log_cleanup("- Installing for {$name} package", $nolog);
 		lxshell_return("yum", "-y", "install", $name);
+	} else {
+		log_cleanup("- {$name} package already installed", $nolog);
 	}
 }
 
@@ -6465,7 +6468,6 @@ function setCheckPackages($nolog = null)
 			continue;
 		}
 
-		log_cleanup("- For {$l} package", $nolog);
 		install_if_package_not_exist($l);
 	}
 }
