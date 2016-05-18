@@ -68,13 +68,15 @@ B.2. update from 6.5.0 to 7.0.0
 	
     # '-y' mean force
     sh /script/upcp -y
-	
+    sh /script/mysql-optimize --select=upgrade
+
 B.3. update from Kloxo Official 6.1.19
 
     ## follow step B.1.1 or B.1.2 and read 'WARNING' below before next step
 
     # '-y' mean force
     sh /script/upcp -y
+    sh /script/mysql-optimize --select=upgrade
 
 WARNING:
 
@@ -108,7 +110,7 @@ WARNING:
 
 5. Trouble with 'rpm -Uvh':
 
-    In CentOS 32bit msy trouble with:
+    In CentOS 32bit may trouble with:
 
         # install rpm (read Warning)
         rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
@@ -117,7 +119,6 @@ WARNING:
 
         cd /tmp
         # remove old rpm
-
         rm -f mratwork*
 
         # get rpm file
