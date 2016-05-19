@@ -40,6 +40,8 @@ fi
 
 cd acme.sh
 chmod 755 acme.sh
+## MR -- use port 60080 instead 80 for standalone (instead webroot)
+sed -i 's/HTTPPort\=80/HTTPPort\=60080/g' ${kloxopath}/acme.sh/acme.sh
 ln -sf ${kloxopath}/acme.sh/acme.sh ${acmeshfile}
 
 if [ ! -d ${logpath} ] ; then
@@ -50,6 +52,7 @@ cp -f ${kloxopath}/file/acme.sh/acme-cron.sh ${kloxopath}/acme.sh/acme-cron.sh >
 
 if [ -f ${cronfile} ] ; then
 	if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
+		## MR -- remove old cron
 		sed -i '/acme\-cron\.sh/d' ${cronfile}
 	fi
 fi

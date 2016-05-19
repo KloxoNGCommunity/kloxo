@@ -730,7 +730,8 @@ class SslCert extends Lxdb
 		$this->text_ca_content = lfile_get_contents("{$lepath}/ca.cer");
 
 		if ($parent->getClass() === 'web') {
-			$this->createDomainSSL();
+			// MR -- disable because proses inside domain.com_acme.sh
+		//	$this->createDomainSSL();
 		}
 	}
 

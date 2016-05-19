@@ -95,21 +95,6 @@ class phpini extends lxdb
 		if ($this->getParentO()->getClass() === 'pserver') {
 			$list[] = 'multiple_php_flag';
 
-			if ($flag === 'on') {
-			//	$list[] = 'multiple_php_ratio';
-			}
-		} else {
-		/*
-		//	if (!$this->getParentO()->is__table('web')) {
-			if ($this->getParentO()->getClass() !== 'web') {
-				if ($flag === 'on') {
-				//	$list[] = 'multiple_php_ratio';
-				}
-			} else {
-				$list[] = 'web_selected';
-				$list[] = 'php_selected';
-			}
-		*/
 		}
 
 	//	if (!$this->getParentO()->is__table('web')) {
@@ -337,25 +322,6 @@ class phpini extends lxdb
 			}
 	//	}
 
-	//	if ($parent->is__table('web')) {
-	/*
-		if ($parent->getClass() === 'web') {
-			if (!isset($this->web_selected)) {
-			//	$this->web_selected = 'back-end';
-			}
-
-			$vlist['web_selected'] = array("s", array('front-end', 'back-end'));
-
-			if (!isset($this->php_selected)) {
-			//	$this->php_selected = '--Default--';
-			}
-
-			$l = array_merge(array('--Default--'), $this->get_multiple_php_list());
-
-			$vlist['php_selected'] = array("s", $l);
-		}
-	*/
-
 		// MR -- still not work (like in 'appearance')
 		// still something wrong with 'updateall' process!
 	//	if ($parent->is__table('pserver')) {
@@ -465,9 +431,6 @@ class phpini extends lxdb
 
 	//	$vlist['date_timezone_flag'] = array('s', timezone_identifiers_list());
 		$vlist['date_timezone_flag'] = array('s', getTimeZoneList());
-
-	//	$this->initialValue('web_selected', 'back-end');
-	//	$this->initialValue('php_selected', '--Php Used (default)--');
 	}
 
 	function initialValue($var, $val)

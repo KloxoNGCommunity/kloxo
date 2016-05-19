@@ -30,8 +30,18 @@
 #!/bin/sh
 
 logdir="/var/log/acme.sh"
+rootpath="/root/.acme.sh"
+sslpath="/home/kloxo/ssl"
+maindom="<?php echo $basedom; ?>"
 
-/usr/bin/acme.sh --issue --webroot /var/run/letsencrypt  \
+if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
+	action="--force --renew"
+else
+	action="--issue"
+fi
+
+## MR -- change '--webroot /var/run/letsencrypt' to '--standalone'
+/usr/bin/acme.sh ${action} --standalone  \
 <?php echo $dom; ?>
 	<?php echo $req; ?> >> ${logdir}/acme.sh.log \
 	&> ${logdir}/acme.sh_temp.log
@@ -41,8 +51,19 @@ if [ -f ${logdir}/acme.sh_temp.log ] ; then
 	'rm' -f ${logdir}/acme.sh_temp.log
 fi
 
-if [ -f /root/.acme.sh/<?php echo $basedom; ?>/ca.cer ] ; then
-	cd /root/.acme.sh/<?php echo $basedom; ?>
+if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
+	cd ${rootpath}/${maindom}
 
-	cat <?php echo $basedom; ?>.key <?php echo $basedom; ?>.cer ca.cer > <?php echo $basedom; ?>.pem
+	cat ${maindom}.key ${maindom}.cer ca.cer > ${maindom}.pem
+
+	for i in .ca .crt .key .pem ; do
+		if [ "${i}" == ".ca" ] ; then
+			slink="ln -sf ${rootpath}/${maindom}/ca.crt ${sslpath}/${maindom}.ca"
+		else
+			slink="ln -sf ${rootpath}/${maindom}/${maindom}.${i} ${sslpath}/${maindom}.${i}"
+		fi
+
+		echo "${slink}" >> ${logdir}/acme.sh.log
+		${slink}
+	done
 fi
