@@ -29,16 +29,16 @@
 ?>
 #!/bin/sh
 
-log_dir="/var/log/acme.sh"
+logdir="/var/log/acme.sh"
 
 /usr/bin/acme.sh --issue --webroot /var/run/letsencrypt  \
 <?php echo $dom; ?>
-	<?php echo $req; ?> >> ${log_dir}/acme.sh.log \
-	&> ${log_dir}/acme.sh_temp.log
+	<?php echo $req; ?> >> ${logdir}/acme.sh.log \
+	&> ${logdir}/acme.sh_temp.log
 
-if [ -f ${log_dir}/acme.sh_temp.log ] ; then
-	cat ${log_dir}/acme.sh_temp.log >> ${log_dir}/acme.sh.log
-	'rm' -f ${log_dir}/acme.sh_temp.log
+if [ -f ${logdir}/acme.sh_temp.log ] ; then
+	cat ${logdir}/acme.sh_temp.log >> ${logdir}/acme.sh.log
+	'rm' -f ${logdir}/acme.sh_temp.log
 fi
 
 if [ -f /root/.acme.sh/<?php echo $basedom; ?>/ca.cer ] ; then
