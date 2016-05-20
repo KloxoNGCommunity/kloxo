@@ -234,6 +234,7 @@ FastCGIserver {
 	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock
 	Extension = php
 	SessionTimeout = <?php echo $timeout; ?>
+
 }
 
 <?php
