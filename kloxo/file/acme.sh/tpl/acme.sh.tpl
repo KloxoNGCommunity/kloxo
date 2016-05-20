@@ -49,6 +49,10 @@ fi
 if [ -f ${logdir}/acme.sh_temp.log ] ; then
 	cat ${logdir}/acme.sh_temp.log >> ${logdir}/acme.sh.log
 	'rm' -f ${logdir}/acme.sh_temp.log
+
+	err=1
+else
+	err=0
 fi
 
 if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
@@ -69,3 +73,5 @@ if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 		${slink}
 	done
 fi
+
+exit $err
