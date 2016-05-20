@@ -911,13 +911,13 @@ if ($redirectionremote) {
 			if ($enablephp) {
 ?>
 
-	include '<?php echo $globalspath; ?>/php-fpm_standard.conf';
+	include "<?php echo $globalspath; ?>/php-fpm_standard.conf"
 <?php
 			}
 		} else {
 ?>
 
-	include '<?php echo $globalspath; ?>/switch_standard.conf';
+	include "<?php echo $globalspath; ?>/switch_standard.conf"
 <?php
 		}
 	}

@@ -207,7 +207,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+			if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+			} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+			}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -256,7 +273,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+			if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+			} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+			}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -308,7 +342,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+			if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+			} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+			}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -402,7 +453,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+				if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+				} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+				}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -567,8 +635,24 @@ server {
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
 	set $var_phpselected '<?php echo $phpselected; ?>';
-	set $var_timeout '<?php echo $timeout; ?>s';
 <?php
+		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+		} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+		}
+
 		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
 			if ($enablestats) {
 ?>
@@ -745,8 +829,24 @@ server {
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
 	set $var_phpselected '<?php echo $phpselected; ?>';
-	set $var_timeout '<?php echo $timeout; ?>s';
 <?php
+					if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+					} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+					}
+
 					if (($reverseproxy) && ($webselected === 'front-end')) {
 ?>
 
@@ -883,7 +983,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+					if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+					} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+					}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -980,7 +1097,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+						if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+						} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+						}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -1049,7 +1183,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+					if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+					} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+					}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }
@@ -1144,7 +1295,24 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+<?php
+						if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+						} else {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+
+<?php
+						}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 }

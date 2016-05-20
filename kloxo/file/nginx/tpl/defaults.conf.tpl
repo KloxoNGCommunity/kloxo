@@ -190,7 +190,23 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
-	set $var_timeout '<?php echo $timeout; ?>s';
+
+<?php
+		if ($reverseproxy) {
+?>
+
+	proxy_connect_timeout <?php echo $timeout; ?>s;
+	proxy_send_timeout <?php echo $timeout; ?>s;
+	proxy_read_timeout <?php echo $timeout; ?>s;
+<?php
+		} else {
+?>
+	fastcgi_connect_timeout <?php echo $timeout; ?>s;
+	fastcgi_send_timeout <?php echo $timeout; ?>s;
+	fastcgi_read_timeout <?php echo $timeout; ?>s;
+<?php
+		}
+?>
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 <?php
