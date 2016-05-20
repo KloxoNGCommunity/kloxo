@@ -6,6 +6,21 @@
 
 <?php
 
+$error_handler="Alias = /error:/home/kloxo/httpd/error
+ErrorHandler = 401:/error/401.html
+ErrorHandler = 403:/error/403.html
+ErrorHandler = 404:/error/404.html
+ErrorHandler = 501:/error/501.html
+ErrorHandler = 503:/error/503.html";
+
+if (!isset($phpselected)) {
+	$phpselected = 'php';
+}
+
+if (!isset($timeout)) {
+	$timeout = '300';
+}
+
 if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
 	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
 }
@@ -101,7 +116,8 @@ FastCGIserver {
 
 	ConnectTo = /opt/configs/php-fpm/sock/php-apache.sock
 	Extension = php
-	SessionTimeout = 600
+	SessionTimeout = <?php echo $timeout; ?>
+
 }
 
 Directory {
@@ -130,7 +146,8 @@ Binding {
 
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 120
-	TimeForRequest = 600
+	TimeForRequest = <?php echo $timeout; ?>
+
 	MaxRequestSize = 2096128
 	MaxUploadSize = 2047
 <?php
@@ -157,12 +174,6 @@ Binding {
 Alias = /.well-known:/var/run/letsencrypt/.well-known
 UseDirectory = well_known
 
-#CustomHeader = X-Content-Type-Options:nosniff
-#CustomHeader = X-XSS-Protection:1;mode=block
-#CustomHeader = X-Frame-Options:SAMEORIGIN
-#CustomHeader = Strict-Transport-Security:max-age=31536000
-#CustomHeader = Access-Control-Allow-Origin:*
-
 ### 'default' config
 set var_user = apache
 
@@ -175,14 +186,11 @@ EnablePathInfo = yes
 #UseGZfile = yes
 FollowSymlinks = no
 
-TimeForCGI = 600
+TimeForCGI = <?php echo $timeout; ?>
 
-Alias = /error:/home/kloxo/httpd/error
-ErrorHandler = 401:/error/401.html
-ErrorHandler = 403:/error/403.html
-ErrorHandler = 404:/error/404.html
-ErrorHandler = 501:/error/501.html
-ErrorHandler = 503:/error/503.html
+
+<?php echo $error_handler; ?>
+
 <?php
 		if ($reverseproxy) {
 ?>
@@ -191,8 +199,8 @@ ErrorHandler = 503:/error/503.html
 UseLocalConfig = yes
 #IgnoreDotHiawatha = yes
 UseToolkit = block_shellshock, findindexfile
-#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ 300 keep-alive
+#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 <?php
 		} else {
 ?>

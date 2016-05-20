@@ -6,6 +6,28 @@
 
 <?php
 
+$custom_header="#CustomHeader = Strict-Transport-Security:max-age=31536000
+\tCustomHeader = X-Content-Type-Options:nosniff
+\tCustomHeader = X-XSS-Protection:1;mode=block
+\tCustomHeader = X-Frame-Options:SAMEORIGIN
+\tCustomHeader = Access-Control-Allow-Origin:*";
+
+$error_handler="Alias = /error:/home/kloxo/httpd/error
+\tErrorHandler = 401:/error/401.html
+\tErrorHandler = 403:/error/403.html
+\tErrorHandler = 404:/error/404.html
+\tErrorHandler = 501:/error/501.html
+\tErrorHandler = 503:/error/503.html";
+
+
+if (!isset($phpselected)) {
+	$phpselected = 'php';
+}
+
+if (!isset($timeout)) {
+	$timeout = '300';
+}
+
 $domclean = str_replace('-', '_', str_replace('.', '_', $domainname));
 
 if (($webcache === 'none') || (!$webcache)) {
@@ -211,7 +233,7 @@ FastCGIserver {
 
 	ConnectTo = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock
 	Extension = php
-	SessionTimeout = 600
+	SessionTimeout = <?php echo $timeout; ?>
 }
 
 <?php
@@ -244,11 +266,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 				}
 ?>
@@ -280,9 +299,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 			} else {
 ?>
@@ -314,11 +333,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 				}
 ?>
@@ -350,9 +366,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 			} else {
 ?>
@@ -387,11 +403,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 				}
 ?>
@@ -417,14 +430,11 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -434,9 +444,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 			} else {
 ?>
@@ -471,11 +481,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 					}
 ?>
@@ -524,11 +531,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 					}
 ?>
@@ -554,14 +558,11 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -571,9 +572,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 				} else {
 ?>
@@ -610,11 +611,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 				}
 ?>
@@ -724,14 +722,11 @@ VirtualHost {
 
 	UserWebsites = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -749,9 +744,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 			}
 		}
@@ -809,11 +804,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 							}
 ?>
@@ -843,14 +835,11 @@ VirtualHost {
 
 	UserWebsites = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -860,9 +849,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 					} else {
 ?>
@@ -904,11 +893,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 							}
 ?>
@@ -938,14 +924,11 @@ VirtualHost {
 
 	UserWebsites = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -955,9 +938,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 					} else {
 ?>
@@ -1002,11 +985,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 						}
 ?>
@@ -1038,9 +1018,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 					} else {
 ?>
@@ -1076,11 +1056,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 							}
 ?>
@@ -1104,14 +1081,11 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -1121,9 +1095,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 						} else {
 ?>
@@ -1158,11 +1132,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 							}
 ?>
@@ -1188,14 +1159,11 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -1205,9 +1173,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 						} else {
 ?>
@@ -1258,11 +1226,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 						}
 ?>
@@ -1288,14 +1253,11 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -1305,9 +1267,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 					} else {
 ?>
@@ -1343,11 +1305,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 							}
 ?>
@@ -1373,14 +1332,11 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -1390,9 +1346,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 						} else {
 ?>
@@ -1427,11 +1383,8 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	#CustomHeader = Strict-Transport-Security:max-age=31536000
-	CustomHeader = X-Content-Type-Options:nosniff
-	CustomHeader = X-XSS-Protection:1;mode=block
-	CustomHeader = X-Frame-Options:SAMEORIGIN
-	CustomHeader = Access-Control-Allow-Origin:*
+	<?php echo $custom_header; ?>
+
 <?php
 							}
 ?>
@@ -1457,14 +1410,11 @@ VirtualHost {
 
 	EnablePathInfo = yes
 
-	TimeForCGI = 600
+	TimeForCGI = <?php echo $timeout; ?>
 
-	Alias = /error:/home/kloxo/httpd/error
-	ErrorHandler = 401:/error/401.html
-	ErrorHandler = 403:/error/403.html
-	ErrorHandler = 404:/error/404.html
-	ErrorHandler = 501:/error/501.html
-	ErrorHandler = 503:/error/503.html
+
+	<?php echo $error_handler; ?>
+
 
 	ExecuteCGI = yes
 <?php
@@ -1474,9 +1424,9 @@ VirtualHost {
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
 	#IgnoreDotHiawatha = yes
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ 300 keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
-	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ 300 keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
+	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 <?php
 						} else {
 ?>

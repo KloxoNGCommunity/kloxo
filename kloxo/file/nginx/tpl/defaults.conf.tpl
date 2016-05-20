@@ -2,6 +2,14 @@
 
 <?php
 
+if (!isset($phpselected)) {
+	$phpselected = 'php';
+}
+
+if (!isset($timeout)) {
+	$timeout = '300';
+}
+
 if (file_exists("/tmp/nginx")) {
 	// MR -- need change ownership because change nginx user from nginx to apache
 	@exec("chown -R apache:apache /var/cache/nginx*");
@@ -182,6 +190,7 @@ server {
 	set $var_user 'apache';
 	set $var_fpmport '<?php echo $fpmportapache; ?>';
 	set $var_phpselected 'php';
+	set $var_timeout '<?php echo $timeout; ?>s';
 
 	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
 <?php

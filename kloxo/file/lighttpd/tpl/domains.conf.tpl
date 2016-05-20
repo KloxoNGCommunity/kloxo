@@ -2,6 +2,14 @@
 
 <?php
 
+if (!isset($phpselected)) {
+	$phpselected = 'php';
+}
+
+if (!isset($timeout)) {
+	$timeout = '300';
+}
+
 if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '80';
 	$ports[] = '443';
@@ -171,6 +179,7 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -211,6 +220,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -254,6 +264,7 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $cpdocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -332,6 +343,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -389,6 +401,7 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 	var.fpmport = "<?php echo $fpmport; ?>"
 	var.rootdir = "<?php echo $redirfullpath; ?>/"
 	var.phpselected = "<?php echo $phpselected; ?>"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -491,6 +504,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -571,6 +585,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -631,6 +646,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -710,6 +726,7 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $webmaildocroot; ?>/"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 
@@ -809,6 +826,7 @@ if (file_exists("{$cert_file}.ca")) {
 	var.user = "<?php echo $sockuser; ?>"
 	var.fpmport = "<?php echo $fpmport; ?>"
 	var.phpselected = "<?php echo $phpselected; ?>"
+	var.timeout = "<?php echo $timeout; ?>"
 <?php
 if ($disabled) {
 ?>
@@ -853,22 +871,21 @@ if ($redirectionremote) {
 
 	url.redirect += ( "^(/<?php echo $rr[0]; ?>/|/<?php echo $rr[0]; ?>$)" => "<?php echo $protocol2; ?><?php echo $rr[1]; ?>" )
 <?php
-				if ($enablestats) {
+				if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+					if ($enablestats) {
 ?>
 
 	include "<?php echo $globalspath; ?>/stats.conf"
 <?php
-	   			 }
-			}
-		}
-	}
-
-	if (!$reverseproxy) {
-		if ($statsprotect) {
+						if ($statsprotect) {
 ?>
 
 	include "<?php echo $globalspath; ?>/dirprotect_stats.conf"
 <?php
+						}
+	   				 }
+				}
+			}
 		}
 	}
 
@@ -882,11 +899,27 @@ if ($redirectionremote) {
 <?php
 	}
 
-	if ($enablephp) {
+	if ((!$reverseproxy) && (file_exists("{$globalspath}/{$domainname}.conf"))) {
+		if ($enablephp) {
 ?>
 
-	include "<?php echo $globalspath; ?>/switch_standard.conf"
+	include "<?php echo $globalspath; ?>/<?php echo $domainname; ?>.conf"
 <?php
+		}
+	} else {
+		if (($reverseproxy) && ($webselected === 'front-end')) {
+			if ($enablephp) {
+?>
+
+	include '<?php echo $globalspath; ?>/php-fpm_standard.conf';
+<?php
+			}
+		} else {
+?>
+
+	include '<?php echo $globalspath; ?>/switch_standard.conf';
+<?php
+		}
 	}
 
 	if (!$reverseproxy) {

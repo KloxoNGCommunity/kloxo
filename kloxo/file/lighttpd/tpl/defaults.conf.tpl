@@ -3,6 +3,14 @@
 
 <?php
 
+if (!isset($phpselected)) {
+	$phpselected = 'php';
+}
+
+if (!isset($timeout)) {
+	$timeout = '300';
+}
+
 if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
 	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
 }
@@ -117,6 +125,7 @@ if (file_exists("{$cert_file}.ca")) {
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.phpselected = "php"
+	var.timeout = "<?php echo $timeout; ?>"
 
 	server.document-root = var.rootdir
 

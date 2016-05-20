@@ -58,12 +58,14 @@ if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 
 	for i in .ca .crt .key .pem ; do
 		if [ "${i}" == ".ca" ] ; then
-			slink="ln -sf ${rootpath}/${maindom}/ca.crt ${sslpath}/${maindom}.ca"
+			slink="ln -sf ${rootpath}/${maindom}/ca.cer ${sslpath}/${maindom}${i}"
+		elif [ "${i}" == ".crt" ] ; then
+			slink="ln -sf ${rootpath}/${maindom}/${maindom}.cer ${sslpath}/${maindom}${i}"
 		else
-			slink="ln -sf ${rootpath}/${maindom}/${maindom}.${i} ${sslpath}/${maindom}.${i}"
+			slink="ln -sf ${rootpath}/${maindom}/${maindom}${i} ${sslpath}/${maindom}${i}"
 		fi
 
-		echo "${slink}" >> ${logdir}/acme.sh.log
+		echo "[$(date)] ${slink}" >> ${logdir}/acme.sh.log
 		${slink}
 	done
 fi

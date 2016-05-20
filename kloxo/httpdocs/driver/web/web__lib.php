@@ -224,6 +224,7 @@ class web__ extends lxDriverClass
 
 		$input['webselected'] = $this->getWebSelected();
 		$input['phpselected'] = $this->getPhpSelected();
+		$input['timeout'] = $this->getWebTimeout();
 
 		$input['apacheextratext'] = $this->getApacheExtraText();
 		$input['lighttpdextratext'] = $this->getLighttpdExtraText();
@@ -961,6 +962,17 @@ class web__ extends lxDriverClass
 			$ret = 'php';
 		} else {
 			$ret = $this->main->php_selected;
+		}
+
+		return $ret;
+	}
+
+	function getWebTimeout()
+	{
+		if ((!isset($this->main->time_out)) || (!$this->main->time_out) || (strtolower($this->main->time_out) === '300')) {
+			$ret = '300';
+		} else {
+			$ret = $this->main->time_out;
 		}
 
 		return $ret;

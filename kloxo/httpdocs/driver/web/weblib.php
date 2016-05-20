@@ -351,7 +351,7 @@ class Web extends Lxdb
 
 	static $__desc_web_selected = array("", "", "web_selected");
 	static $__desc_php_selected = array("", "", "php_selected");
-//	static $__desc_time_out = array("", "", "time_out");
+	static $__desc_time_out = array("", "", "time_out");
 
 	static $__acdesc_update_permalink = array("", "", "permalink");
 	static $__acdesc_update_sesubmit = array("", "", "search_engine");
@@ -512,9 +512,13 @@ class Web extends Lxdb
 
 	static function getIndexOrderDefault()
 	{
+	/*
 		return array('index.php', 'index.html', 'index.shtml', 'index.htm', 
 			'index.pl', 'index.py', 'index.cgi', 'index.rb', 
 			'default.htm', 'Default.aspx', 'Default.asp');
+	*/
+		return array('index.php', 'index.shtml', 'index.pl', 'index.py', 'index.cgi', 'index.rb', 
+			'Default.aspx', 'Default.asp', 'index.html', 'index.htm', 'default.htm', 'welcome.html');	
 	}
 	
 	function getQuotaNeedVar()
@@ -1243,7 +1247,7 @@ class Web extends Lxdb
 
 		$this->web_selected = $param['web_selected'];
 		$this->php_selected = $param['php_selected'];
-	//	$this->time_out = $param['time_out'];
+		$this->time_out = $param['time_out'];
 
 		return $param;
 	}
@@ -1422,22 +1426,23 @@ class Web extends Lxdb
 				$t = '--PHP Branch--';
 
 				if (file_exists('../etc/flag/enablemultiplephp.flg')) {
-					// MR -- WIP for multiple php
-					$p = getCleanRpmBranchListOnList('php');
+				//	$p = getCleanRpmBranchListOnList('php');
+					$p = getMultiplePhpList();
 					$l = array_merge(array($t), $p);
 
-				//	$l = array($t);
+					// MR -- disable if multiple php-fpm ready
+					$l = array($t);
 				} else {
 					$l = array($t);
 				}
 
 				$vlist['web_selected'] = array("s", $a);
 				$vlist['php_selected'] = array("s", $l);
-			//	$vlist['time_out'] = null;
+				$vlist['time_out'] = null;
 
 				$this->setDefaultValue('web_selected', $a[1]);
 				$this->setDefaultValue('php_selected', $t);
-			//	$this->setDefaultValue('time_out', '120s');
+				$this->setDefaultValue('time_out', '300');
 
 				$vlist['__v_updateall_button'] = array();
 

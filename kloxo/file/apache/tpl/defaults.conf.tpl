@@ -10,6 +10,10 @@ if (!isset($phpselected)) {
 	$phpselected = 'php';
 }
 
+if (!isset($timeout)) {
+	$timeout = '300';
+}
+
 $srcpath = "/opt/configs/apache/etc";
 $srccpath = "/opt/configs/apache/etc/conf";
 $srccdpath = "/opt/configs/apache/etc/conf.d";
@@ -333,8 +337,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 		<IfModule mod_fastcgi.c>
 			Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
-			#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout 120 -pass-header Authorization
-			FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/php-apache.sock -idle-timeout 120 -pass-header Authorization
+			#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout <?php echo $timeout; ?> -pass-header Authorization
+			FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/php-apache.sock -idle-timeout <?php echo $timeout; ?> -pass-header Authorization
 			<FilesMatch \.php$>
 				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
@@ -371,8 +375,10 @@ foreach ($certnamelist as $ip => $certname) {
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/php-apache.sock|fcgi://localhost"
 			</FilesMatch>
 			<Proxy "fcgi://localhost">
-				ProxySet timeout=600
-				ProxySet connectiontimeout=300
+				ProxySet timeout=<?php echo $timeout; ?>
+
+				ProxySet connectiontimeout=<?php echo $timeout; ?>
+
 				#ProxySet enablereuse=on
 				ProxySet max=25
 				ProxySet retry=0

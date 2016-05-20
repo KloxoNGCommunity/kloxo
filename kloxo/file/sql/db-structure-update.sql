@@ -112,6 +112,7 @@ ALTER TABLE `sslcert` CHANGE `parent_domain` `parent_domain` VARCHAR(255) NULL D
 
 ALTER TABLE `web` ADD IF NOT EXISTS `web_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `force_https_redirect`;
 ALTER TABLE `web` ADD IF NOT EXISTS `php_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `web_selected`;
+ALTER TABLE `web` ADD IF NOT EXISTS `time_out` VARCHAR(255) NULL DEFAULT NULL AFTER `php_selected`;
 
 DELETE FROM phpini WHERE nname LIKE 'domain-%' OR nname LIKE 'web-%';
 

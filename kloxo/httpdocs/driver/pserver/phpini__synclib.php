@@ -92,15 +92,12 @@ class phpini__sync extends Lxdriverclass
 			$input['phpcgipath'] = "/usr/bin/php-cgi";
 
 			$phpini_parse = getParseInlinePhp($phpini_cont, $input);
-			$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
-			$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
-
 			$phpini_target = '/etc/php.ini';
+			file_put_contents($phpini_target, $phpini_parse);
+
+			$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 			$fcgid_target = '/home/kloxo/client/php.fcgi';
 			$fcgid_target_old = '/home/kloxo/client/php5.fcgi';
-			$phpfpm_target = '/etc/php-fpm.d/default.conf';
-
-			file_put_contents($phpini_target, $phpini_parse);
 			file_put_contents($fcgid_target, $fcgid_parse);
 
 			if (file_exists($fcgid_target_old)) {
@@ -109,6 +106,9 @@ class phpini__sync extends Lxdriverclass
 
 			exec("'cp' -f /opt/configs/apache/tpl/php*.fcgi /home/kloxo/client");
 			exec("chmod 0775 /home/kloxo/client/php*.fcgi");
+
+			$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
+			$phpfpm_target = '/etc/php-fpm.d/default.conf';
 				
 			file_put_contents($phpfpm_target, $phpfpm_parse);
 
@@ -128,41 +128,27 @@ class phpini__sync extends Lxdriverclass
 				$input['maxchildren'] = $maxchildren;
 
 				$phpini_parse = getParseInlinePhp($phpini_cont, $input);
-				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
-				$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
-				$prefork_parse = getParseInlinePhp($prefork_cont, $input);
-
 				$phpini_target = "/home/kloxo/client/{$user}/php.ini";
-				$fcgid_target = "/home/kloxo/client/{$user}/php.fcgi";
-				$fcgid_target_old = "/home/kloxo/client/{$user}/php5.fcgi";				
-				$phpfpm_target = "/etc/php-fpm.d/{$user}.conf";
-				$prefork_target = "/home/kloxo/client/{$user}/prefork.inc";
-
 				file_put_contents($phpini_target, $phpini_parse);
+
+				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
+				$fcgid_target = "/home/kloxo/client/{$user}/php.fcgi";
+				$fcgid_target_old = "/home/kloxo/client/{$user}/php5.fcgi";
 				file_put_contents($fcgid_target, $fcgid_parse);
 				
 				if (file_exists($fcgid_target_old)) {
 					exec("'rm' -f {$fcgid_target_old}");
 				}
-				
-				file_put_contents($phpfpm_target, $phpfpm_parse);
-				file_put_contents($prefork_target, $prefork_parse);
 
 				lxfile_unix_chmod($fcgid_target, "0755");
-			} else {
-			/*
-				$htaccess_parse = '';
 
-				$htaccess_target = "/home/{$user}/kloxoscript/.htaccess";
+				$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
+				$phpfpm_target = "/etc/php-fpm.d/{$user}.conf";
+				file_put_contents($phpfpm_target, $phpfpm_parse);
 
-				$nowarning = true;
-
-				file_put_between_comments("{$user}:apache", $stlist, $endlist,
-					$startstring, $endstring, $htaccess_target, $htaccess_parse,
-					$nowarning);
-
-				lxfile_unix_chown($htaccess_target, "{$user}:apache");
-			*/
+				$prefork_parse = getParseInlinePhp($prefork_cont, $input);
+				$prefork_target = "/home/kloxo/client/{$user}/prefork.inc";
+				file_put_contents($prefork_target, $prefork_parse);
 			}
 		}
 

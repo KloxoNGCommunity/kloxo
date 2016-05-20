@@ -1,5 +1,3 @@
-#!/bin/sh
-
 if [ -f /script/custom.fix.inc ] ; then
 	. /script/custom.fix.inc
 else
@@ -8,3 +6,27 @@ fi
 
 . /script/directory
 lxphp.exe ../bin/fix/fixssl.php $*
+
+## MR - fix for Letsencrypt ssl files
+cd /
+a=$(dir -l /root/.acme.sh/*/ca.cer|awk '{print $9}')
+b="/root/.acme.sh"
+t="/home/kloxo/ssl"
+
+for i in ${a[*]} ; do
+	f=$(basename $i)
+	p=${i%/$f}
+	d=${p#$b/}
+
+	echo "- Processing for '${d}' ssl files"
+
+	for j in ca.cer $d.cer $d.key $d.pem ; do
+		if [ "${j}" == "ca.cer" ] ; then
+			ln -sf ${b}/${d}/${j} ${t}/${d}.ca
+		elif [ "${j}" == "${d}.cer" ] ; then
+			ln -sf ${b}/${d}/${j} ${t}/${d}.crt
+		else
+			ln -sf ${b}/${d}/${j} ${t}/${j}
+		fi
+	done
+done

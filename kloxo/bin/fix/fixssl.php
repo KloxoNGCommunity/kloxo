@@ -3,7 +3,7 @@
 include_once "lib/html/include.php"; 
 
 $kloxo_file_path = $sgbl->__path_program_root . "/file/ssl";
-$kloxo_ssl_path = "/home/kloxo/ssl/";
+$kloxo_ssl_path = "/home/kloxo/ssl";
 $kloxo_etc_path = $sgbl->__path_program_root . "/etc";
 
 $list = lscandir_without_dot_or_underscore($kloxo_ssl_path);
@@ -21,11 +21,21 @@ exec("cat {$kloxo_file_path}/default.key {$kloxo_file_path}/default.crt > {$klox
 
 // MR -- not use .ca because trouble with hiawatha and already expired
 foreach($newlist as $n) {
+	// MR -- bypass because letsencrypt
+	if (is_link("{$kloxo_ssl_path}/$n.pem")) { continue; }
+
+	// MR -- bypass because possible add from file/text
+	if (file_exists("{$kloxo_ssl_path}/$n.ca")) { continue; }
+
+	print("- Processing for '$n' ssl files\n");
+
 	lxfile_cp("{$kloxo_file_path}/default.crt", "{$kloxo_ssl_path}/$n.crt");
 	lxfile_cp("{$kloxo_file_path}/default.key", "{$kloxo_ssl_path}/$n.key");
 //	lxfile_cp("{$kloxo_file_path}/default.ca", "{$kloxo_ssl_path}/$n.ca");
 	lxfile_cp("{$kloxo_file_path}/default.pem", "{$kloxo_ssl_path}/$n.pem");
 }
+
+print("- Processing for 'program' ssl files\n");
 
 lxfile_cp("{$kloxo_file_path}/default.crt", "{$kloxo_etc_path}/program.crt");
 lxfile_cp("{$kloxo_file_path}/default.key", "{$kloxo_etc_path}/program.key");
