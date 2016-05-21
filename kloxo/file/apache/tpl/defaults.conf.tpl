@@ -293,7 +293,9 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($count !== 0) {
 ?>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+	<IfModule mod_http2.c>
+		Protocols h2 http/1.1
+	</IfModule>
 
 	<IfModule mod_ssl.c>
 		SSLEngine On
@@ -304,13 +306,22 @@ foreach ($certnamelist as $ip => $certname) {
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php
-				if (file_exists("{$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
+
+		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
-				}
+			}
 ?>
+	</IfModule>
+<?php
+		} else {
+?>
+
+	<IfModule mod_http2.c>
+		Protocols h2c http/1.1
 	</IfModule>
 <?php
 		}

@@ -21,14 +21,55 @@
 
 	$doms = explode(" ", $subjectAltName);
 
+	$count = 1;
+
 	foreach ($doms as $k => $v) {
+		if ($count === 1) {
+			$basedom = $v;
+		}
+
 		$dom .= "\t--domain $v  \\\n";
+
+		$count++;
 	}
 ?>
 #!/bin/sh
 
+logdir="/var/log/letsencrypt"
+lepath="/etc/letsencrypt/live"
+sslpath="/home/kloxo/ssl"
+maindom="<?php echo $basedom; ?>"
+
 letsencrypt-auto certonly --agree-tos --text --renew-by-default  \
 	--duplicate --webroot --webroot-path /var/run/letsencrypt  \
 	<?php echo $req; ?> \
-<?php echo $dom; ?>
-	|| exit 1
+<?php echo $dom; ?> >/dev/null 2>&1
+
+RETVAL=$?
+
+if [ -f ${lepath}/${maindom}/chain.pem ] ; then
+	cd ${lepath}/${maindom}
+
+	STAMP=$(date +%Y-%m-%d:%H:%M:%S)
+	merge="cat privkey.pem cert.pem chain.pem > all.pem"
+	${merge}
+	echo "${STAMP}:Merge files with '${merge}'" >> ${logdir}/letsencrypt.log
+
+	for i in privkey.pem cert.pem chain.pem all.pem ; do
+		if [ "${i}" == "privkey.pem" ] ; then
+			slink="ln -sf ${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key"
+		elif [ "${i}" == "cert.pem" ] ; then
+			slink="ln -sf ${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
+		elif [ "${i}" == "chain.pem" ] ; then
+			slink="ln -sf ${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca"
+		elif [ "${i}" == "all.pem" ] ; then
+			slink="ln -sf ${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem"
+		fi
+
+		STAMP=$(date +%Y-%m-%d:%H:%M:%S)
+		${slink}
+		echo "${STAMP}:Create symlink with '${slink}'" >> ${logdir}/letsencrypt.log
+	done
+fi
+
+exit $RETVAL

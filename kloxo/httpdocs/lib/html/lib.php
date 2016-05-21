@@ -8389,10 +8389,11 @@ function setAllSSLPortions($nolog = null)
 {
 	log_cleanup("Setting All SSL Portions", $nolog);
 
-//	log_cleanup("- Installing Letsencrypt-auto", $nolog);
-//	setInstallLetsencrypt($nolog);
-	log_cleanup("- Removing Letsencrypt-auto", $nolog);
-	setRemoveLetsencrypt($nolog);
+	log_cleanup("- Installing Letsencrypt-auto", $nolog);
+	setInstallLetsencrypt($nolog);
+
+//	log_cleanup("- Removing Letsencrypt-auto", $nolog);
+//	setRemoveLetsencrypt($nolog);
 
 	log_cleanup("- Installing acme.sh", $nolog);
 	setInstallAcmesh($nolog);

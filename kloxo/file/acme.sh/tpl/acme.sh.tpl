@@ -40,8 +40,7 @@ else
 	action="--issue"
 fi
 
-## MR -- change '--webroot /var/run/letsencrypt' to '--standalone'
-/usr/bin/acme.sh ${action} --standalone  \
+/usr/bin/acme.sh ${action} --webroot /var/run/letsencrypt \
 <?php echo $dom; ?>
 	<?php echo $req; ?> >> ${logdir}/acme.sh.log \
 	&> ${logdir}/acme.sh_temp.log
@@ -58,7 +57,9 @@ fi
 if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 	cd ${rootpath}/${maindom}
 
-	cat ${maindom}.key ${maindom}.cer ca.cer > ${maindom}.pem
+	merge="cat ${maindom}.key ${maindom}.cer ca.cer > ${maindom}.pem"
+	echo "[$(date)] ${merge}" >> ${logdir}/acme.sh.log
+	${merge}
 
 	for i in .ca .crt .key .pem ; do
 		if [ "${i}" == ".ca" ] ; then
