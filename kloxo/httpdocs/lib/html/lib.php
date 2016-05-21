@@ -2794,7 +2794,7 @@ function curl_get_file_contents($file)
 	return $retrievedhtml;
 }
 
-function install_if_package_not_exist($name)
+function install_if_package_not_exist($name, $nolog = null)
 {
 	if ($name === '') {
 		return;

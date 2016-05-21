@@ -37,3 +37,23 @@ ln -sf ${kloxopath}/certbot/certbot-auto /usr/bin/certbot-auto
 ln -sf ${kloxopath}/certbot/py26reqs.txt /usr/bin/py26reqs.txt
 
 ${kloxopath}/certbot/letsencrypt-auto --version
+
+cronfile='/var/spool/cron/root'
+
+cp -f ${kloxopath}/file/letsencrypt/letsencrypt-cron.sh ${kloxopath}/certbot/letsencrypt-cron.sh >/dev/null 2>&1
+
+if [ -f ${cronfile} ] ; then
+	if [ "$(cat ${cronfile}|grep 'letsencrypt-cron.sh')" != "" ] ; then
+		## MR -- remove old cron
+		sed -i '/letsencrypt\-cron\.sh/d' ${cronfile}
+	fi
+
+	if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
+		## MR -- remove old cron
+		sed -i '/acme\-cron\.sh/d' ${cronfile}
+	fi
+fi
+
+crontab -l | { cat; echo "0 0 1 * * ${kloxopath}/certbot/letsencrypt-cron.sh >/dev/null 2>&1"; } | crontab -
+
+cd /

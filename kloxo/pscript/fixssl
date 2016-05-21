@@ -1,3 +1,5 @@
+#!/bin/sh
+
 if [ -f /script/custom.fix.inc ] ; then
 	. /script/custom.fix.inc
 else
@@ -7,26 +9,24 @@ fi
 . /script/directory
 lxphp.exe ../bin/fix/fixssl.php $*
 
-## MR - fix for Letsencrypt ssl files
 cd /
-a=$(dir -l /root/.acme.sh/*/ca.cer|awk '{print $9}')
-b="/root/.acme.sh"
-t="/home/kloxo/ssl"
 
-for i in ${a[*]} ; do
-	f=$(basename $i)
-	p=${i%/$f}
-	d=${p#$b/}
+ssl_key=$(dir -l /etc/letsencrypt/live/*/chain.pem 2>/dev/null|awk '{print $9}'|tr '\n' ' ')
 
-	echo "- Processing for '${d}' ssl files"
+for i in ${ssl_key[*]} ; do
+	base_name=$(basename $i)
+	path_name=${i%/$base_name}
+	dom_name=${path_name#/etc/letsencrypt/live/}
 
-	for j in ca.cer $d.cer $d.key $d.pem ; do
-		if [ "${j}" == "ca.cer" ] ; then
-			ln -sf ${b}/${d}/${j} ${t}/${d}.ca
-		elif [ "${j}" == "${d}.cer" ] ; then
-			ln -sf ${b}/${d}/${j} ${t}/${d}.crt
-		else
-			ln -sf ${b}/${d}/${j} ${t}/${j}
-		fi
-	done
+	echo "- Processing for '${dom_name}' ssl files"
+
+	cd ${path_name}
+	cat privkey.pem cert.pem chain.pem > all.pem
+	
+
+	ln -sf ${path_name}/privkey.pem /home/kloxo/ssl/${dom_name}.key
+	ln -sf ${path_name}/cert.pem /home/kloxo/ssl/${dom_name}.crt
+	ln -sf ${path_name}/chain.pem /home/kloxo/ssl/${dom_name}.ca
+	ln -sf ${path_name}/all.pem /home/kloxo/ssl/${dom_name}.pem
 done
+
