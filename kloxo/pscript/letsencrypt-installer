@@ -54,6 +54,6 @@ if [ -f ${cronfile} ] ; then
 	fi
 fi
 
-crontab -l | { cat; echo "0 0 1 * * ${kloxopath}/certbot/letsencrypt-cron.sh >/dev/null 2>&1"; } | crontab -
+crontab -l | { cat; echo "0 0 1 * * sh ${kloxopath}/certbot/letsencrypt-cron.sh >/dev/null 2>&1"; } | crontab -
 
 cd /

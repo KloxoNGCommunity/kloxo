@@ -8338,7 +8338,7 @@ function getCleanRpmBranchListOnList($branchtype)
 		$a[$k] = str_replace('w', '', str_replace('u', '', $v) . "m");
 	}
 
-	return $a;
+	return array_unique($a);
 }
 
 function glob_recursive($pattern, $flags = 0)
