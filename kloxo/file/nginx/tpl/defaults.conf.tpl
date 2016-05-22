@@ -83,16 +83,16 @@ if ($out[0]) {
 
 if ($reverseproxy) {
 	$confs = array('proxy_standard' => 'switch_standard', 'proxy_wildcards' => 'switch_wildcards',
-	'proxy_standard_ssl' => 'switch_standard_ssl', 'proxy_wildcards_ssl' => 'switch_wildcards_ssl',
+		'proxy_standard_ssl' => 'switch_standard_ssl', 'proxy_wildcards_ssl' => 'switch_wildcards_ssl',
 		'stats_none' => 'stats', 'dirprotect_none' => 'dirprotect_stats');
 } else {
+	$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
+		'php-fpm_standard_ssl' => 'switch_standard_ssl', 'php-fpm_wildcards_ssl' => 'switch_wildcards_ssl');
+		
 	if ($stats['app'] === 'webalizer') {
-		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
-		'php-fpm_standard_ssl' => 'switch_standard_ssl', 'php-fpm_wildcards_ssl' => 'switch_wildcards_ssl',
-		'stats_webalizer' => 'stats', 'dirprotect_webalizer' => 'dirprotect_stats');
+		$confs = array_merge($confs, array('stats_webalizer' => 'stats', 'dirprotect_webalizer' => 'dirprotect_stats'));
 	} else {
-		$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
-		'stats_awstats' => 'stats', 'dirprotect_awstats' => 'dirprotect_stats');
+		$confs = array_merge($confs, array('stats_awstats' => 'stats', 'dirprotect_awstats' => 'dirprotect_stats'));
 	}
 
 }
