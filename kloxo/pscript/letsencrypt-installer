@@ -5,13 +5,13 @@ kloxopath='/usr/local/lxlabs/kloxo'
 yum -y install python27 python27-devel python27-pip python27-setuptools \
 	python27-virtualenv >/dev/null 2>&1
 
-yum install -y python python-devel python-virtualenvv >/dev/null 2>&1
+yum install -y python python-devel python-virtualenv >/dev/null 2>&1
 
-yum remove -y python27-toolsv >/dev/null 2>&1
+yum remove -y python27-tools >/dev/null 2>&1
 
 # these would be installed automaticly by the client but I prefer to do it myself
 yum -y install gcc dialog augeas-libs openssl-devel libffi-devel \
-	redhat-rpm-config ca-certificatesv >/dev/null 2>&1
+	redhat-rpm-config ca-certificates >/dev/null 2>&1
 
 # install let
 yum -y install git
