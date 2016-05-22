@@ -8395,17 +8395,19 @@ function setAllSSLPortions($nolog = null)
 //	log_cleanup("- Removing Letsencrypt-auto", $nolog);
 //	setRemoveLetsencrypt($nolog);
 
-	log_cleanup("- Installing acme.sh", $nolog);
-	setInstallAcmesh($nolog);
+//	log_cleanup("- Installing acme.sh", $nolog);
+//	setInstallAcmesh($nolog);
 
 	log_cleanup("- Fixing SSL path", $nolog);
 	setFixSSLPath($nolog);
 
 	log_cleanup("- Copying 'openssl' config Files", $nolog);
 	setCopyOpenSSLConfFiles();
-//	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
-//	setCopyLetsEncryptConfFiles();
-	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
-	setCopyAcmeshConfFiles();
+
+	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
+	setCopyLetsEncryptConfFiles();
+
+//	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
+//	setCopyAcmeshConfFiles();
 
 }
