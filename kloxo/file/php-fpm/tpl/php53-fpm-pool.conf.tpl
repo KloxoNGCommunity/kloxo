@@ -42,7 +42,11 @@
 		$phpcli = 'php';
 		$phpselected = 'php';
 	} else {
-		$phpcli = "{$phpcli}-cli";
+		if ($phpselected === 'php') {
+			$phpcli = "php";
+		} else {
+			$phpcli = "{$phpselected}-cli";
+		}
 	}
 
 //	exec("php -r 'echo phpversion();'", $out, $ret);

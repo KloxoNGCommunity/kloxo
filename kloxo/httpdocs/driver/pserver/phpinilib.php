@@ -255,12 +255,12 @@ class phpini extends lxdb
 
 			if (file_exists("../etc/flag/enablemultiplephp.flg")) {
 				exec("'cp' -f {$sp}/phpm-fpm.init {$tp}/phpm-fpm; " .
-					"chmod 755 {$tp}/phpm-fpm; chkconfig phpm-fpm on; "
+					"chmod 755 {$tp}/phpm-fpm; chkconfig phpm-fpm on; " .
 					"chkconfig php-fpm off; service php-fpm stop; " .
 					"service phpm-fpm start");
 			} else {
 				exec("'cp' -f {$sp}/phpm-fpm.init {$tp}/phpm-fpm; " .
-					"chmod 755 {$tp}/phpm-fpm; chkconfig phpm-fpm off; "
+					"chmod 755 {$tp}/phpm-fpm; chkconfig phpm-fpm off; " .
 					"chkconfig php-fpm on; service phpm-fpm stop; " .
 					"service php-fpm start");
 			}

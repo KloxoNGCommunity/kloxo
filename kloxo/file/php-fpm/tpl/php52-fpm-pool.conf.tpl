@@ -15,27 +15,21 @@
 	$userlist[] = 'apache';
 
 	if (!$phpselected) {
-		$phpcli = 'php';
 		$phpselected = 'php';
-	} else {
-		$phpcli = "{$phpcli}-cli";
 	}
 
-	$openbasedir = str_replace("/var/lib/php/session/", "{$session_save_path_flag}/", $openbasedir);
-
-	// because not work for parse for inline php
-	echo "<" . "?xml version=\"1.0\" ?" . ">" . "\n";
-
-	foreach ($userlist as &$user) {
-		if ($user === 'apache') {
-			// MR -- for future purpose, apache user have uid 50000
-			$fpmport = 50000;
-			$pool = 'default';
-		} else {
-			$userinfo = posix_getpwnam($user);
-			$fpmport = (50000 + $userinfo['uid']);
-			$pool = $user;
-		}
+	if ($user === 'apache') {
+		// MR -- for future purpose, apache user have uid 50000
+		$fpmport = 50000;
+		$openbasedir = "/home/:/tmp/:/usr/share/pear/:/var/lib/php/session/";
+		$pool = 'default';
+	} else {
+		$userinfo = posix_getpwnam($user);
+		$fpmport = (50000 + $userinfo['uid']);
+		$pool = $user;
+		$openbasedir = "/home/$user/:/tmp/:/usr/share/pear/:/var/lib/php/session/:".
+			"/home/kloxo/httpd/script/:/home/kloxo/httpd/disable/:{$extrabasedir}";
+	}
 ?>
 		<section name="pool">
 			<value name="name"><?php echo $pool; ?></value>
