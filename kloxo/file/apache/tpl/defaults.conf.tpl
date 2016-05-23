@@ -2,6 +2,11 @@
 
 <?php
 
+// MR -- disable cgi module
+if (file_exists('/etc/httpd/conf.modules.d/01-cgi.conf')) {
+	exec("'cp' -f /opt/configs/apache/etc/conf.modules.d/01-cgi.conf /etc/httpd/conf.modules.d/01-cgi.conf");
+}
+
 if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
 	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
 }

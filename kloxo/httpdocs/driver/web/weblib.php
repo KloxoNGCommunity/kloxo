@@ -1430,8 +1430,19 @@ class Web extends Lxdb
 					$p = getMultiplePhpList();
 					$l = array_merge(array($t), $p);
 
+				if (file_exists('../etc/flag/enablemultiplephp.flg')) {
+				//	$p = getCleanRpmBranchListOnList('php');
+					$p = getMultiplePhpList();
+					$l = array_merge(array($t), $p);
+			
 					// MR -- disable if multiple php-fpm ready
+				//	$l = array($t);
+
+					// MR -- unlisted php52m because trouble with php-fpm in phpm-fpm.init
+					$l = array_diff($l, array('php52m'));
+				} else {
 					$l = array($t);
+				}
 				} else {
 					$l = array($t);
 				}
