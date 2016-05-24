@@ -14,6 +14,18 @@ else
 
 	for item in ${list[*]} ; do
 		if [ -f /etc/init.d/${item} ] ; then
+			if [ "${item}" == "php-fpm" ] || [ "${item}" == "phpm-fpm" ] ; then
+				if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
+					chkconfig phpm-fpm on
+					chkconfig php-fpm off
+					service php-fpm stop >/dev/null 2>&1
+				else
+					chkconfig php-fpm on
+					chkconfig phpm-fpm off
+					service phpm-fpm stop >/dev/null 2>&1
+				fi
+			fi
+
 			if [ "$(chkconfig --list ${item}|grep ':on')" != "" ] ; then
 			#if chkconfig --list ${item}|grep ':on' >/dev/null 2>&1 ; then
 			#for num in 0 1 2 3 4 5 6 ; do

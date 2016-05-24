@@ -5791,16 +5791,16 @@ function setInitialPhpFpmConfig($nolog = null)
 		foreach ($d as $k => $v) {
 			$e = str_replace('/opt/', '', $v);
 			$e = str_replace('/usr/bin/php', '', $e);
-			$d[$k] = $e;
+			$g[$k] = $e;
 
 			if ($e === 'php52m') {
-				unset($d[$k]);
+				unset($g[$k]);
 			}
 		}
 
 		$custom_name = false;
 
-		foreach ($d as $k => $v) {
+		foreach ($g as $k => $v) {
 			$t = "'custom_name=\"{$v}\"'";
 
 			exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
