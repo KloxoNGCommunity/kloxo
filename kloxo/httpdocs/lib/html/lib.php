@@ -5822,7 +5822,7 @@ function getInitialPhpFpmConfig($nolog = null)
 
 		// customize php-fpm.init back to basic
 		foreach ($d as $k => $v) {
-			$t = "custom_name=\"{$v}-fpm\"";
+			$t = "custom_name=\"{$v}\"";
 		
 			exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
 
