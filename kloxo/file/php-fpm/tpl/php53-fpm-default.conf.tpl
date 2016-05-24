@@ -16,6 +16,11 @@ listen = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock
 
 listen.backlog = -1
 listen.allowed_clients = 127.0.0.1
+listen.backlog = 65536
+listen.allowed_clients = 127.0.0.1
+listen.owner = apache
+listen.group = apache
+listen.mode = 0666
 user = apache
 group = apache
 pm = dynamic
