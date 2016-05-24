@@ -75,3 +75,6 @@ else
 		fi
 	fi
 fi
+
+rm -f ${kpath}/etc/flag/use_php*.flg
+echo '' > ${kpath}/etc/flag/use_${php_target}.flg
