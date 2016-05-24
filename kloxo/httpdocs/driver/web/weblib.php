@@ -1439,7 +1439,7 @@ class Web extends Lxdb
 				//	$l = array($t);
 
 					// MR -- unlisted php52m because trouble with php-fpm in phpm-fpm.init
-					$l = array_diff($l, array('php52m'));
+				//	$l = array_diff($l, array('php52m'));
 				} else {
 					$l = array($t);
 				}
