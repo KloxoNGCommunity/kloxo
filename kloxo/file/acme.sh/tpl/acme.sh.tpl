@@ -59,7 +59,8 @@ if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 
 	merge="cat ${maindom}.key ${maindom}.cer ca.cer > ${maindom}.pem"
 	echo "[$(date)] ${merge}" >> ${logdir}/acme.sh.log
-	${merge}
+	## MR -- use this cat directly because troube if using like ${slink}
+	cat ${maindom}.key ${maindom}.cer ca.cer > ${maindom}.pem
 
 	for i in .ca .crt .key .pem ; do
 		if [ "${i}" == ".ca" ] ; then

@@ -51,8 +51,9 @@ if [ -f ${lepath}/${maindom}/chain.pem ] ; then
 	cd ${lepath}/${maindom}
 
 	STAMP=$(date +%Y-%m-%d:%H:%M:%S)
+	## MR -- use this cat directly because troube if using like ${slink}
+	cat privkey.pem cert.pem chain.pem > all.pem
 	merge="cat privkey.pem cert.pem chain.pem > all.pem"
-	${merge}
 	echo "${STAMP}:Merge files with '${merge}'" >> ${logdir}/letsencrypt.log
 
 	for i in privkey.pem cert.pem chain.pem all.pem ; do
