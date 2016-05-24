@@ -3,20 +3,24 @@
 		mkdir("/opt/configs/php-fpm/sock");
 	}
 
+/*
 	$startservers = (($sts = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $sts;
 	$minspareservers = (($mis = (int)($maxchildren / 3)) < 2) ? 2 : $mis;
 	$maxspareservers = (($mas = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $mas;
 	$maxchildren = (($mac = (int)($maxchildren)) < 2) ? 2 : $mac;
-
+*/
 	if (!$maxchildren) {
-		$maxchildren = '6';
+	//	$maxchildren = '6';
+		$maxchildren = '2';
+	} else {
+		$maxchildren = (int)$maxchildren / 3;
+
+		if ((int)$maxchildren < 1) {
+			$maxchildren = '1';
+		}
 	}
 
 	$userlist[] = 'apache';
-
-	if (!$phpselected) {
-		$phpselected = 'php';
-	}
 
 	if ($user === 'apache') {
 		// MR -- for future purpose, apache user have uid 50000
@@ -34,7 +38,7 @@
 		<section name="pool">
 			<value name="name"><?php echo $pool; ?></value>
 			<!-- <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value> -->
-			<value name="listen_address">/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock</value>
+			<value name="listen_address">/opt/configs/php-fpm/sock/php52m-<?php echo $user; ?>.sock</value>
 			<value name="listen_options">
 				<value name="backlog">65536</value>
 				<value name="owner"><?php echo $user; ?></value>
@@ -44,8 +48,8 @@
 			<value name="user"><?php echo $user; ?></value>
 			<value name="group"><?php echo $user; ?></value>
 			<value name="pm">
-				<!-- <value name="style">static</value> -->
-				<value name="style">apache_like</value>
+				<value name="style">static</value>
+				<!-- <value name="style">apache_like</value> -->
 				<value name="max_children"><?php echo $maxchildren; ?></value>
 				<value name="apache_like">
 					<value name="StartServers"><?php echo $startservers; ?></value>

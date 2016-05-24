@@ -963,6 +963,11 @@ class web__ extends lxDriverClass
 		} else {
 			$ret = $this->main->php_selected;
 		}
+	
+		// MR -- convert
+		if (strpos(strtolower($ret), 'php branch') !== false) {
+			$ret = 'php';
+		}
 
 		return $ret;
 	}

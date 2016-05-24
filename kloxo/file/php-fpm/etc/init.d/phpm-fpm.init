@@ -24,19 +24,23 @@ RETVAL=0
 
 count=0
 for i in php $(dir -l -d /opt/php*m/usr/bin/php|awk '{print $9}'|sed 's:/opt/::'|sed 's:/usr/bin/php::'|tr '\n' ' ') ; do
-	if [ "$i" != "php52m" ] ; then
-		prog[$count]="${i}-fpm"
-		pidfile[$count]=${PIDFILE-/var/run/php-fpm/${i}-fpm.pid}
-		lockfile[$count]=${LOCKFILE-/var/lock/subsys/${i}-fpm}
-		fpm_conf[$count]="/opt/configs/php-fpm/conf/${i}/php-fpm.conf"
-		((count++))
-	fi
+	prog[$count]="${i}-fpm"
+	pidfile[$count]=${PIDFILE-/var/run/php-fpm/${i}-fpm.pid}
+	lockfile[$count]=${LOCKFILE-/var/lock/subsys/${i}-fpm}
+	fpm_conf[$count]="/opt/configs/php-fpm/conf/${i}/php-fpm.conf"
+	((count++))
 done
 
 start () {
 	for (( c=0; c<count; c++ )) ; do
 		echo -n $"Starting ${prog[$c]}: "
-		daemon --pidfile ${pidfile[$c]} ${prog[$c]} --fpm-config ${fpm_conf[$c]} --daemonize
+		if [ "${prog[$c]}" == "php52m-fpm" ] ; then
+			${prog[$c]} --fpm-config ${fpm_conf[$c]}
+			sleep 2
+		else
+			daemon --pidfile ${pidfile[$c]} ${prog[$c]} --fpm-config ${fpm_conf[$c]} --daemonize
+		fi
+
 		RETVAL=$?
 		echo
 		[ $RETVAL -eq 0 ] && touch ${lockfile[$c]}
@@ -47,11 +51,12 @@ stop () {
 	for (( c=0; c<count; c++ )) ; do
 		echo -n $"Stopping ${prog[$c]}: "
 		killproc -p ${pidfile[$c]} ${prog[$c]}
+
 		RETVAL=$?
 		echo
 		if [ $RETVAL -eq 0 ] ; then
 			rm -f ${lockfile[$c]} ${pidfile[$c]}
-	fi
+		fi
 	done
 }
 

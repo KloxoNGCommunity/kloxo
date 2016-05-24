@@ -1,19 +1,7 @@
-<?php
-	if (!$phpselected) {
-		$phpcli = 'php';
-		$phpselected = 'php';
-	} else {
-		if ($phpselected === 'php') {
-			$phpcli = "php";
-		} else {
-			$phpcli = "{$phpselected}-cli";
-		}
-	}
-?>
 		<section name="pool">
 			<value name="name">default</value>
 			<!-- <value name="listen_address">127.0.0.1:50000</value> -->
-			<value name="listen_address">/opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock</value>
+			<value name="listen_address">/opt/configs/php-fpm/sock/php52m-apache.sock</value>
 			<value name="listen_options">
 				<value name="backlog">65536</value>
 				<value name="owner">apache</value>
@@ -23,13 +11,13 @@
 			<value name="user">apache</value>
 			<value name="group">apache</value>
 			<value name="pm">
-				<!-- <value name="style">static</value> -->
-				<value name="style">apache_like</value>
-				<value name="max_children">10</value>
+				<value name="style">static</value>
+				<!-- <value name="style">apache_like</value> -->
+				<value name="max_children">3</value>
 				<value name="apache_like">
-					<value name="StartServers">2</value>
-					<value name="MinSpareServers">2</value>
-					<value name="MaxSpareServers">4</value>
+					<value name="StartServers">1</value>
+					<value name="MinSpareServers">1</value>
+					<value name="MaxSpareServers">2</value>
 				</value>
 			</value>
 			<value name="request_terminate_timeout">120s</value>

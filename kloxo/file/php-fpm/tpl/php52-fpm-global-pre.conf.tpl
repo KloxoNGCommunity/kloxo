@@ -1,16 +1,14 @@
 <?php
 
-if (!$phpselected) {
-	$phpselected = 'php';
-}
-
 // because not work for parse for inline php
 echo "<" . "?xml version=\"1.0\" ?" . ">" . "\n";
 
 ?>
+
 <configuration>
+
 	<section name="global_options">
-		<value name="pid_file">/var/run/<?php echo $phpselected; ?>-fpm.pid</value>
+		<value name="pid_file">/var/run/php-fpm/php52m-fpm.pid</value>
 		<value name="error_log">/var/log/php-fpm/error.log</value>
 		<value name="log_level">notice</value>
 		<value name="emergency_restart_threshold">10</value>
