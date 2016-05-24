@@ -2531,16 +2531,16 @@ function lightyApacheLimit($server, $var)
 	}
 
 	if ($var === 'phpfcgi_flag' || $var === 'phpfcgiprocess_num') {
-		/*
-			//	$driverapp = $gbl->getSyncClass(null, $server, 'web');
-				$driverapp = slave_get_driver('web');
+	/*
+	//	$driverapp = $gbl->getSyncClass(null, $server, 'web');
+		$driverapp = slave_get_driver('web');
 
-				if ($driverapp === 'apache') {
-					return false;
-				} else {
-					return true;
-				}
-		*/
+		if ($driverapp === 'apache') {
+			return false;
+		} else {
+			return true;
+		}
+	*/
 		// always true because change to php-fpm purpose!
 		return true;
 	}
@@ -5782,64 +5782,74 @@ function setInitialPhpIniConfig($nolog = null)
 
 function setInitialPhpFpmConfig($nolog = null)
 {
-	// MR -- this portion for detect multiple php for using standard php-fpm
-	$d = glob("/opt/php*m/usr/bin/php");
+	if (file_exists("../etc/flag/enablemultiplephp.flg")) {
+		exec("sh /script/set-php-fpm >/dev/null 2>&1");
+	} else {
+		// MR -- this portion for detect multiple php for using standard php-fpm
+		$d = glob("/opt/php*m/usr/bin/php");
 
-	foreach ($d as $k => $v) {
-		$e = str_replace('/opt/', '', $v);
-		$e = str_replace('/usr/bin/php', '', $e);
-		$d[$k] = $e;
+		foreach ($d as $k => $v) {
+			$e = str_replace('/opt/', '', $v);
+			$e = str_replace('/usr/bin/php', '', $e);
+			$d[$k] = $e;
 
-		if ($e === 'php52m') {
-			unset($d[$k]);
+			if ($e === 'php52m') {
+				unset($d[$k]);
+			}
 		}
-	}
 
-	foreach ($d as $k => $v) {
-		$t = "'custom_name=\"{$v}\"'";
+		$custom_name = false;
 
-		exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
+		foreach ($d as $k => $v) {
+			$t = "'custom_name=\"{$v}\"'";
 
-		if ($ret === 0) {
-			exec("sh /script/set-php-fpm {$v}");
+			exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
 
-			return;
+			if ($ret === 0) {
+				exec("sh /script/set-php-fpm {$v} >/dev/null 2>&1");
+
+				$custome_name = true;
+				break;
+			}
 		}
-	}
 
-	// MR -- this portion using standard php-fpm
+		if ($custom_name === false) {
+			// MR -- this portion using standard php-fpm
 
-	$fpath = "../file";
-	$fpmpath = "/opt/configs/php-fpm/etc";
-	$sockpath = "/opt/configs/php-fpm/sock";
+			$fpath = "../file";
+			$fpmpath = "/opt/configs/php-fpm/etc";
+			$sockpath = "/opt/configs/php-fpm/sock";
 
-	if (!file_exists($sockpath)) {
-		exec("mkdir -p {$sockpath}");
-	}
+			if (!file_exists($sockpath)) {
+				exec("mkdir -p {$sockpath}");
+			}
 
-	exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
+			exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
 
 
-	log_cleanup("- Install /etc/php-fpm.conf", $nolog);
+			log_cleanup("- Install /etc/php-fpm.conf", $nolog);
 
-	$phpchoose = version_compare(getPhpVersion(), "5.3.2", ">") ? "php53" : "php";
+			$phpchoose = version_compare(getPhpVersion(), "5.3.2", ">") ? "php53" : "php";
 
-	$t = getLinkCustomfile("{$fpmpath}", "{$phpchoose}-fpm.conf");
-	if (file_exists($t)) {
-		lxfile_cp($t, "/etc/php-fpm.conf");
-	}
+			$t = getLinkCustomfile("{$fpmpath}", "{$phpchoose}-fpm.conf");
 
-	// MR -- no needed for 6.2.x+
-	if (file_exists("{$fpmpath}/logs")) {
-		lxfile_rm("{$fpmpath}/logs");
-	}
+			if (file_exists($t)) {
+				lxfile_cp($t, "/etc/php-fpm.conf");
+			}
 
-	log_cleanup("- Copy php-fpm init to /etc/init.d dir", $nolog);
-	$t = getLinkCustomfile("{$fpmpath}/init.d", "php-fpm.init");
+			// MR -- no needed for 6.2.x+
+			if (file_exists("{$fpmpath}/logs")) {
+				lxfile_rm("{$fpmpath}/logs");
+			}
 
-	if (file_exists($t)) {
-		if (file_exists("/etc/init.d/php-fpm")) {
-			lxfile_cp($t, "/etc/init.d/php-fpm");
+			log_cleanup("- Copy php-fpm init to /etc/init.d dir", $nolog);
+			$t = getLinkCustomfile("{$fpmpath}/init.d", "php-fpm.init");
+
+			if (file_exists($t)) {
+				if (file_exists("/etc/init.d/php-fpm")) {
+					lxfile_cp($t, "/etc/init.d/php-fpm");
+				}
+			}
 		}
 	}
 }

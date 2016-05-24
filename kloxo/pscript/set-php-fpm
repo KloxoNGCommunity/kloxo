@@ -35,13 +35,16 @@ if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
 	echo "- 'Multiple PHP' is enable. Using it"
 
 	chkconfig php-fpm off
-	service php-fpm stop
+	service php-fpm stop >/dev/null 2>&1
 	'cp' -f /opt/configs/php-fpm/etc/init.d/phpm-fpm.init ${eripath}/phpm-fpm
 	chown root:root ${eripath}/phpm-fpm
 	chmod 0755 ${eripath}/phpm-fpm
 	chkconfig phpm-fpm on
 	service phpm-fpm restart
 else
+	chkconfig phpm-fpm off
+	service phpm-fpm stop >/dev/null 2>&1
+
 	if [ "${php_target}" == "php" ] ; then
 		echo "- No argument and then use 'PHP Branch'"
 
@@ -57,24 +60,14 @@ else
 		else
 			echo "Set ${php_target} as php-fpm target"
 
-			if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
-				chkconfig php-fpm off
-				service php-fpm stop
-				'cp' -f /opt/configs/php-fpm/etc/init.d/phpm-fpm.init ${eripath}/phpm-fpm
-				chown root:root ${eripath}/phpm-fpm
-				chmod 0755 ${eripath}/phpm-fpm
-				chkconfig phpm-fpm on
-				service phpm-fpm restart
-			else
-				chkconfig phpm-fpm off
-				service phpm-fpm stop
-				'cp' -f ${pcfile} ${eripath}/php-fpm
-				sed -i 's:__custom_name__:'${php_target}':' ${eripath}/php-fpm
-				chown root:root ${eripath}/php-fpm
-				chmod 0755 ${eripath}/php-fpm
-				chkconfig php-fpm on
-				service php-fpm restart
-			fi
+			chkconfig phpm-fpm off
+			service phpm-fpm stop >/dev/null 2>&1
+			'cp' -f ${pcfile} ${eripath}/php-fpm
+			sed -i 's:__custom_name__:'${php_target}':' ${eripath}/php-fpm
+			chown root:root ${eripath}/php-fpm
+			chmod 0755 ${eripath}/php-fpm
+			chkconfig php-fpm on
+			service php-fpm restart
 		fi
 	fi
 fi
