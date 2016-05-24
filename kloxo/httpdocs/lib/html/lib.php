@@ -5803,31 +5803,30 @@ function getInitialPhpFpmConfig($nolog = null)
 		$b2 = str_replace('.flg', '', $b1);
 		$b3 = str_replace('use_', '', $b2);
 
-		// MR -- no need if exists
 	//	exec("sh /script/set-php-fpm {$b3}");
 
 		return $b3;
 	} else {
-		// customize php-fpm.init back to basic
+		// basic php-fpm.init
 		foreach ($d as $k => $v) {
-			$t = "custom_name=\"{$v}\"";
+			$t = "prog=\"{$v}-fpm\"";
 		
 			exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
 
-			if ($out[0] === $t) {
+			if (count($out) > 0) {
 				touch("../etc/flag/use_{$v}.flg");
 				exec("sh /script/set-php-fpm {$v}");
 				return $v;
 			}
 		}
 
-		// basic php-fpm.init
+		// customize php-fpm.init back to basic
 		foreach ($d as $k => $v) {
-			$t = "prog=\"{v}\"";
+			$t = "custom_name=\"{$v}-fpm\"";
 		
 			exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
 
-			if ($out[0] === $t) {
+			if (count($out) > 0) {
 				touch("../etc/flag/use_{$v}.flg");
 				exec("sh /script/set-php-fpm {$v}");
 				return $v;
