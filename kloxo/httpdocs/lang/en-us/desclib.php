@@ -1373,7 +1373,7 @@ $__description["change_name"] = array("Change Name");
 
 $__description["clientname_as_prefix"] = array("Clientname as Databasename Prefix (only first 16 chars if longer)");
 
-$__description["multiple_php_enable"] = array("Multiple PHP Enable");
+$__description["multiple_php_enable"] = array("Multiple PHP Enable (for 'php-fpm')");
 $__description["multiple_php_ready_server"] = array("Multiple PHP Ready (left blank to re-list)");
 $__description["multiple_php_ready"] = array("Multiple PHP Ready");
 $__description["multiple_php_ratio"] = array("Multiple PHP Ratio");

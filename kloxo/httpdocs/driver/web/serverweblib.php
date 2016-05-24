@@ -205,6 +205,8 @@ class serverweb extends lxdb
 				$this->php_used = null;
 
 				$d = getMultiplePhpList();
+				$g = getInitialPhpFpmConfig();
+
 				$s = '--PHP Branch--';
             
 				if (isset($d)) {
@@ -216,28 +218,18 @@ class serverweb extends lxdb
 
 					$d = array_merge(array($s), $d);
 				} else { 
-					$d = array('--PHP Branch--');
+					$d = array($s);
 				}
+
+				if ($g === 'php') {
+					$j = $s;
+				} else {
+					$j = $g;
+				}
+
+				$this->setDefaultValue('php_used', $j);
 
 				$vlist['php_used'] = array('s', $d);
-
-				foreach ($d as $k => $v) {
-
-					if ($v === $s) {
-						$t = "prog=\"php-fpm\"";
-					} else {
-						$t = "custom_name=\"{$v}\"";
-					}
-
-				//	exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
-		
-					$ret = rl_exec_get(null, $this->syncserver, "exec", array("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'"));
-
-					if ($ret === $t) {
-						$this->setDefaultValue('php_used', $v);
-						break;
-					}
-				}
 
 				break;
 

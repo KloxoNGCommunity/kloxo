@@ -5780,78 +5780,61 @@ function setInitialPhpIniConfig($nolog = null)
 	exec("'cp' -rf {$fpath} /opt/configs");
 }
 
-function setInitialPhpFpmConfig($nolog = null)
+function getInitialPhpFpmConfig($nolog = null)
 {
-	if (file_exists("../etc/flag/enablemultiplephp.flg")) {
-		exec("sh /script/set-php-fpm >/dev/null 2>&1");
-	} else {
-		// MR -- this portion for detect multiple php for using standard php-fpm
-		$d = glob("/opt/php*m/usr/bin/php");
+	$d = getMultiplePhpList();
 
+	if (isset($d)) {
 		foreach ($d as $k => $v) {
-			$e = str_replace('/opt/', '', $v);
-			$e = str_replace('/usr/bin/php', '', $e);
-			$g[$k] = $e;
-
-			if ($e === 'php52m') {
-				unset($g[$k]);
+			if ($v === 'php52m') {
+				unset($d[$k]);
 			}
 		}
 
-		$custom_name = false;
+		$d = array_merge(array('php'), $d);
+	} else { 
+		$d = array('php');
+	}
 
-		foreach ($g as $k => $v) {
-			$t = "'custom_name=\"{$v}\"'";
+	$a = glob("../etc/flag/use_php*.flg");
 
-			exec("cat /etc/rc.d/init.d/php-fpm|grep {$t}", $out, $ret);
+	if (count($a) > 0) {
+		$b1 = basename($a[0]);
+		$b2 = str_replace('.flg', '', $b1);
+		$b3 = str_replace('use_', '', $b2);
 
-			if ($ret === 0) {
-				exec("sh /script/set-php-fpm {$v} >/dev/null 2>&1");
+		exec("sh /script/set-php-fpm {$b3}");
 
-				$custome_name = true;
-				break;
+		return $b3;
+	} else {
+		// customize php-fpm.init back to basic
+		foreach ($d as $k => $v) {
+			$t = "custom_name=\"{$v}\"";
+		
+			exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
+
+			if ($out[0] === $t) {
+				touch("../etc/flag/use_{$v}.flg");
+				exec("sh /script/set-php-fpm {$v}");
+				return $v;
 			}
 		}
 
-		if ($custom_name === false) {
-			// MR -- this portion using standard php-fpm
+		// basic php-fpm.init
+		foreach ($d as $k => $v) {
+			$t = "prog=\"{v}\"";
+		
+			exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
 
-			$fpath = "../file";
-			$fpmpath = "/opt/configs/php-fpm/etc";
-			$sockpath = "/opt/configs/php-fpm/sock";
-
-			if (!file_exists($sockpath)) {
-				exec("mkdir -p {$sockpath}");
-			}
-
-			exec("'cp' -rf {$fpath}/php-fpm /opt/configs");
-
-
-			log_cleanup("- Install /etc/php-fpm.conf", $nolog);
-
-			$phpchoose = version_compare(getPhpVersion(), "5.3.2", ">") ? "php53" : "php";
-
-			$t = getLinkCustomfile("{$fpmpath}", "{$phpchoose}-fpm.conf");
-
-			if (file_exists($t)) {
-				lxfile_cp($t, "/etc/php-fpm.conf");
-			}
-
-			// MR -- no needed for 6.2.x+
-			if (file_exists("{$fpmpath}/logs")) {
-				lxfile_rm("{$fpmpath}/logs");
-			}
-
-			log_cleanup("- Copy php-fpm init to /etc/init.d dir", $nolog);
-			$t = getLinkCustomfile("{$fpmpath}/init.d", "php-fpm.init");
-
-			if (file_exists($t)) {
-				if (file_exists("/etc/init.d/php-fpm")) {
-					lxfile_cp($t, "/etc/init.d/php-fpm");
-				}
+			if ($out[0] === $t) {
+				touch("../etc/flag/use_{$v}.flg");
+				exec("sh /script/set-php-fpm {$v}");
+				return $v;
 			}
 		}
 	}
+
+	return 'php';
 }
 
 function setKloxoCexeChownChmod($nolog = null)
@@ -7234,7 +7217,7 @@ function setInitialServices($nolog = null)
 	setInitialAllWebCacheConfigs($nolog);
 
 	setInitialPhpIniConfig($nolog);
-	setInitialPhpFpmConfig($nolog);
+	getInitialPhpFpmConfig($nolog);
 
 	setInitialPureftpConfig($nolog);
 
