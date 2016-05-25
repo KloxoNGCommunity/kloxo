@@ -5796,6 +5796,8 @@ function getInitialPhpFpmConfig($nolog = null)
 		$d = array('php');
 	}
 
+	exec("'cp' -f /opt/configs/php-fpm/etc/init.d/phpm-fpm.init /etc/rc.d/init.d/phpm-fpm");
+
 	$a = glob("../etc/flag/use_php*.flg");
 
 	if (count($a) > 0) {
@@ -5803,9 +5805,7 @@ function getInitialPhpFpmConfig($nolog = null)
 		$b2 = str_replace('.flg', '', $b1);
 		$b3 = str_replace('use_', '', $b2);
 
-		if (!file_exists("/etc/rc.d/init.d/phpm-fpm")) {
-			exec("sh /script/set-php-fpm {$b3}");
-		}
+	//	exec("sh /script/set-php-fpm {$b3}");
 
 		return $b3;
 	} else {
