@@ -23,7 +23,7 @@ fi
 RETVAL=0
 
 count=0
-for i in php $(dir -l -d /opt/php*m/usr/bin/php|awk '{print $9}'|sed 's:/opt/::'|sed 's:/usr/bin/php::'|tr '\n' ' ') ; do
+for i in $(dir -l -d /opt/php*m/usr/bin/php|awk '{print $9}'|sed 's:/opt/::'|sed 's:/usr/bin/php::'|tr '\n' ' ') ; do
 	prog[$count]="${i}-fpm"
 	pidfile[$count]=${PIDFILE-/var/run/php-fpm/${i}-fpm.pid}
 	lockfile[$count]=${LOCKFILE-/var/lock/subsys/${i}-fpm}

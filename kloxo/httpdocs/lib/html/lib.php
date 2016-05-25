@@ -5803,7 +5803,9 @@ function getInitialPhpFpmConfig($nolog = null)
 		$b2 = str_replace('.flg', '', $b1);
 		$b3 = str_replace('use_', '', $b2);
 
-	//	exec("sh /script/set-php-fpm {$b3}");
+		if (!file_exists("/etc/rc.d/init.d/phpm-fpm")) {
+			exec("sh /script/set-php-fpm {$b3}");
+		}
 
 		return $b3;
 	} else {

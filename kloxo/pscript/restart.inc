@@ -17,8 +17,7 @@ else
 			if [ "${item}" == "php-fpm" ] || [ "${item}" == "phpm-fpm" ] ; then
 				if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
 					chkconfig phpm-fpm on
-					chkconfig php-fpm off
-					service php-fpm stop >/dev/null 2>&1
+					chkconfig php-fpm on
 				else
 					chkconfig php-fpm on
 					chkconfig phpm-fpm off
@@ -35,13 +34,6 @@ else
 						if [ "${item}" == "qmail" ] ; then
 							ASQMAIL="qmail"
 							sh /script/restart-mail
-						elif [ "${item}" == "php-fpm" ] ; then
-							/etc/init.d/${item} stop
-							if [ "$(ps aux|grep 'kloxo-php-fpm.conf'|grep -v grep)" == "" ] ; then
-								echo "pkill to make sure stopped"
-								pkill -9 php-fpm
-							fi
-							/etc/init.d/${item} start
 						else
 							/etc/init.d/${item} restart
 						fi

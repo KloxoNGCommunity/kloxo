@@ -30,7 +30,8 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 * OS: Redhat/CentOS 5 and 6 (32bit and 64bit) or their variants
 * Billing: AWBS, WHMCS, HostBill, TheHostingTool, AccountLab Plus, Blesta and BoxBilling (note: claim by billing's author)
-* Web server: Nginx, Nginx-Proxy and Lighttpd-proxy; beside Httpd and Lighttpd (in progress: Squid, Varnish, Hiawatha, ATS and Httpd 2.4) *)
+* Web server: Nginx, Nginx-Proxy and Lighttpd-proxy, Hiawatha, Hiawatha-proxy and Httpd 24; beside Httpd and Lighttpd *)
+* Webcache server: Squid, Varnish, Hiawatha and ATS *)
 * Php: Dual-php with php 5.3/5.4 as primary and php 5.2 as secondary (in progress: multiple-php) *)
 * PHP-type for Apache: php-fpm_worker/_event and fcgid_worker/_event; beside mod_php/_ruid2/_itk and suphp/_worker/_event
 * Mail server: qmail-toaster instead special qmail (in progress: change from courier-imap to dovecot as imap/pop3) *)
@@ -64,7 +65,7 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 - Web cache: Squid, Varnish and ATS (Apache Traffic Server) (since 3 Oct 2013)
 - DNS: Powerdns, NSD, MyDNS and Yadifa (since 16 Sep 2013)
 - Mail: Dovecot
-- Php: multiple Php versions (php-fpm/spawning base in progress; suphp base since 27 Jun 2014; fcgid base since 5 Jul 2015)
+- Php: multiple Php versions (php-fpm/spawning since 24 May 2016; suphp base since 27 Jun 2014; fcgid base since 5 Jul 2015)
 
 **) New features in Kloxo-MR 6.5.0 after released
 - Panel: Adminer, MyWebSql and SqlBuddy as alternative for Database management

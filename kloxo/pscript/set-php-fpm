@@ -36,8 +36,6 @@ fi
 if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
 	echo "- 'Multiple PHP' is enable. Using it"
 
-	chkconfig php-fpm off
-	service php-fpm stop >/dev/null 2>&1
 	'cp' -f /opt/configs/php-fpm/etc/init.d/phpm-fpm.init ${eripath}/phpm-fpm
 	chown root:root ${eripath}/phpm-fpm
 	chmod 0755 ${eripath}/phpm-fpm
@@ -55,10 +53,8 @@ if [ "${php_target}" == "php" ] ; then
 	sed -i 's:__custom_name__:'${php_target}':' ${eripath}/php-fpm
 	chown root:root ${eripath}/php-fpm
 	chmod 0755 ${eripath}/php-fpm
-	if [ ! -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
-		chkconfig php-fpm on
-		service php-fpm restart
-	fi
+	chkconfig php-fpm on
+	service php-fpm restart
 else
 	if [ ! -f /opt/${php_target}/usr/sbin/php-fpm ] ; then
 		echo "- Need ${php_target} installing with 'sh /script/phpm-installer ${php_target}'"
@@ -69,10 +65,8 @@ else
 		sed -i 's:__custom_name__:'${php_target}':' ${eripath}/php-fpm
 		chown root:root ${eripath}/php-fpm
 		chmod 0755 ${eripath}/php-fpm
-		if [ ! -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
-			chkconfig php-fpm on
-			service php-fpm restart
-		fi
+		chkconfig php-fpm on
+		service php-fpm restart
 	fi
 fi
 
