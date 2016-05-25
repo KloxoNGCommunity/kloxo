@@ -46,7 +46,7 @@ INSERT IGNORE INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servic
 ('nsd___localhost', 'pserver-localhost', '', 'nsd', 'NSD Dns Server', 'nsd', 'localhost', '', ''),
 ('mydns___localhost', 'pserver-localhost', '', 'mydns', 'MyDNS Dns Server', 'mydns', 'localhost', '', ''),
 ('yadifa___localhost', 'pserver-localhost', '', 'yadifad', 'YADIFA Dns Server', 'yadifad', 'localhost', '', ''),
-('php-fpm___localhost', 'pserver-localhost', '', 'php-fpm', 'Php Fastcgi Process Manager (Single Php)', 'php-fpm', 'localhost', '', ''),
+('php-fpm___localhost', 'pserver-localhost', '', 'php-fpm', 'Php Fastcgi Process Manager (Php Used)', 'php-fpm', 'localhost', '', ''),
 ('phpm-fpm___localhost', 'pserver-localhost', '', 'phpm-fpm', 'Php Fastcgi Process Manager (Multiple Php)', 'phpm-fpm', 'localhost', '', ''),
 ('httpd___localhost', 'pserver-localhost', '', 'httpd', 'Apache Web Server', 'httpd', 'localhost', '', ''),
 ('lighttpd___localhost', 'pserver-localhost', '', 'lighttpd', 'Lighttpd Web Server', 'lighttpd', 'localhost', '', ''),
@@ -60,7 +60,7 @@ INSERT IGNORE INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servic
 ('pureftpd___localhost', 'pserver-localhost', '', 'pure-ftpd', 'Pure-FTPD FTP server', 'pure-ftpd', 'localhost', '', ''),
 ('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', '');
 
-UPDATE `service` SET `description`='Php Fastcgi Process Manager (Single Php)' WHERE `nname`='php-fpm___localhost';
+UPDATE `service` SET `description`='Php Fastcgi Process Manager (Php Used)' WHERE `nname`='php-fpm___localhost';
 UPDATE `service` SET `description`='Php Fastcgi Process Manager (Multiple Php)' WHERE  `nname`='phpm-fpm___localhost';
 
 CREATE TABLE IF NOT EXISTS `jailed` (

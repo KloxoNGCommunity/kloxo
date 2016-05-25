@@ -5796,7 +5796,8 @@ function getInitialPhpFpmConfig($nolog = null)
 		$d = array('php');
 	}
 
-	exec("'cp' -f /opt/configs/php-fpm/etc/init.d/phpm-fpm.init /etc/rc.d/init.d/phpm-fpm");
+	exec("'cp' -f /opt/configs/php-fpm/etc/init.d/phpm-fpm.init /etc/rc.d/init.d/phpm-fpm; " .
+		"chmod 755 /etc/rc.d/init.d/phpm-fpm; chown root:root /etc/rc.d/init.d/phpm-fpm");
 
 	$a = glob("../etc/flag/use_php*.flg");
 

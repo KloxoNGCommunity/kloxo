@@ -33,7 +33,7 @@ done
 
 start () {
 	for (( c=0; c<count; c++ )) ; do
-		echo -n $"Starting ${prog[$c]}: "
+		echo -n $"Starting ${prog[$c]} (Multiple Php): "
 		if [ "${prog[$c]}" == "php52m-fpm" ] ; then
 			${prog[$c]} --fpm-config ${fpm_conf[$c]}
 			sleep 2
@@ -49,7 +49,7 @@ start () {
 
 stop () {
 	for (( c=0; c<count; c++ )) ; do
-		echo -n $"Stopping ${prog[$c]}: "
+		echo -n $"Stopping ${prog[$c]} (Multiple Php): "
 		killproc -p ${pidfile[$c]} ${prog[$c]}
 
 		RETVAL=$?
@@ -67,7 +67,7 @@ restart () {
 
 reload () {
 	for (( c=0; c<count; c++ )) ; do
-		echo -n $"Reloading ${prog[$c]}: "
+		echo -n $"Reloading ${prog[$c]} (Multiple Php): "
 		killproc -p ${pidfile[$c]} ${prog[$c]} -USR2
 		RETVAL=$?
 		echo

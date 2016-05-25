@@ -26,14 +26,14 @@ pidfile=${PIDFILE-/var/run/php-fpm/php-fpm.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 
 start () {
-    echo -n $"Starting $prog (for 'PHP Used'): "
+    echo -n $"Starting $prog (PHP Used): "
     daemon --pidfile ${pidfile} $prog
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${lockfile}
 }
 stop () {
-    echo -n $"Stopping $prog (for 'PHP Used'): "
+    echo -n $"Stopping $prog (PHP Used): "
     killproc -p ${pidfile} $prog
     RETVAL=$?
     echo
@@ -48,7 +48,7 @@ restart () {
 }
 
 reload () {
-    echo -n $"Reloading $prog (for 'PHP Used'): "
+    echo -n $"Reloading $prog (PHP Used): "
     killproc -p ${pidfile} $prog -USR2
     RETVAL=$?
     echo
