@@ -160,7 +160,7 @@ server {
 
 	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 
-	ssl on;
+	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 	ssl_certificate <?php echo $certname; ?>.pem;
 	ssl_certificate_key <?php echo $certname; ?>.key;
 <?php
@@ -169,9 +169,6 @@ server {
 	ssl_trusted_certificate <?php echo $certname; ?>.ca;
 <?php
 			}
-?>
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-<?php
 		}
 
 ?>
