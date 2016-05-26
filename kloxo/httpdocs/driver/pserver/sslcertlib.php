@@ -318,9 +318,13 @@ class SslCert extends Lxdb
 
 		//	$path = "/home/{$user}/ssl";
 		//	$path = "/home/kloxo/client/{$user}/ssl";
-			$path = "/home/kloxo/ssl";
+			$spath = "/home/kloxo/ssl";
+			$lpath = "/etc/letsencrypt";
 
-			exec("'rm' -rf {$path}/{$name}*.*");
+		//	exec("'rm' -rf {$spath}/{$name}*.*");
+		//	exec("letsencrypt-auto revoke --certpath /etc/letsencrypt/live/{$name}/fullchain.pem");
+			exec("'rm' -rf {$lpath}/live/{$name} {$lpath}/archive/{$name} {$lpath}/renew/{$name}.conf " .
+				"{$spath}/{$name}*.*");
 
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}");
 		//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));

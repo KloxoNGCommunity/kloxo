@@ -249,21 +249,22 @@ class phpini extends lxdb
 
 			lxshell_return("__path_php_path", "../bin/fix/fixphpini.php", 
 				"--server={$this->getParentO()->nname}");
-
+	/*
 			$sp = "/opt/configs/php-fpm/etc/init.d";
 			$tp = "/etc/rc.d/init.d";
 
 			if (file_exists("../etc/flag/enablemultiplephp.flg")) {
 				exec("'cp' -f {$sp}/phpm-fpm.init {$tp}/phpm-fpm; " .
 					"chmod 755 {$tp}/phpm-fpm; chkconfig phpm-fpm on; " .
-					"chkconfig php-fpm off; service php-fpm stop; " .
-					"service phpm-fpm start");
+					"sh /script/restart-php-fpm -y");
 			} else {
 				exec("'cp' -f {$sp}/phpm-fpm.init {$tp}/phpm-fpm; " .
 					"chmod 755 {$tp}/phpm-fpm; chkconfig phpm-fpm off; " .
 					"chkconfig php-fpm on; service phpm-fpm stop; " .
-					"service php-fpm start");
+					"sh /script/restart-php-fpm -y");
 			}
+	*/
+			exec("sh /script/set-php-fpm");
 		}
 	}
 

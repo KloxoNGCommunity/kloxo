@@ -22,15 +22,13 @@ if [ ! -d ${acmepath} ] ; then
 	mkdir -p ${acmepath} >/dev/null 2>&1
 fi
 
-wget https://github.com/Neilpang/acme.sh/archive/master.zip \
+wget https://github.com/Neilpang/acme.sh/archive/master.zip -O master.zip \
 	--no-check-certificate >/dev/null 2>&1
 
-## MR -- need for CentOS 5
-if [ -f master ] ; then
-	mv -f master master.zip >/dev/null 2>&1
-fi
-
-unzip -oq master.zip >/dev/null 2>&1
+## MR -- need for CentOS 5; change to use '-O' in wget
+#if [ -f master ] ; then
+#	mv -f master master.zip >/dev/null 2>&1
+#fiunzip -oq master.zip >/dev/null 2>&1
 mv -f acme.sh-master acme.sh >/dev/null 2>&1
 rm -f master.zip >/dev/null 2>&1
 

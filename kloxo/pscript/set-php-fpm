@@ -40,7 +40,7 @@ if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
 	chown root:root ${eripath}/phpm-fpm
 	chmod 0755 ${eripath}/phpm-fpm
 	chkconfig phpm-fpm on
-	service phpm-fpm restart
+	sh /script/add-restart-queue restart-php-fpm
 else
 	chkconfig phpm-fpm off
 	service phpm-fpm stop >/dev/null 2>&1
@@ -54,7 +54,7 @@ if [ "${php_target}" == "php" ] ; then
 	chown root:root ${eripath}/php-fpm
 	chmod 0755 ${eripath}/php-fpm
 	chkconfig php-fpm on
-	service php-fpm restart
+	sh /script/add-restart-queue restart-php-fpm
 else
 	if [ ! -f /opt/${php_target}/usr/sbin/php-fpm ] ; then
 		echo "- Need ${php_target} installing with 'sh /script/phpm-installer ${php_target}'"
@@ -66,7 +66,7 @@ else
 		chown root:root ${eripath}/php-fpm
 		chmod 0755 ${eripath}/php-fpm
 		chkconfig php-fpm on
-		service php-fpm restart
+		sh /script/add-restart-queue restart-php-fpm
 	fi
 fi
 

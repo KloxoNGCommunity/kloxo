@@ -26,8 +26,9 @@ if [ -d ${kloxopath}/certbot ] ; then
 	rm -rf /root/.local/share/certbot
 fi
 
-wget clone https://github.com/certbot/certbot/archive/master.zip \
+wget https://github.com/certbot/certbot/archive/master.zip - O master.zip \
 	--no-check-certificate > /dev/null 2>&1
+
 unzip -oq master.zip > /dev/null 2>&1
 mv -f certbot-master certbot
 rm -f master.zip
