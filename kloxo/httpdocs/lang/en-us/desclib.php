@@ -1383,6 +1383,7 @@ $__description["time_out"] = array("Timeout (seconds)");
 
 $__description["multiple_php_install"] = array("Multiple PHP Install");
 $__description["multiple_php_already_installed"] = array("Multiple PHP Already Installed");
+$__description["multiple_php_remove"] = array("Multiple PHP Remove");
 
 $__description["max_input_vars"] = array("Max Input Vars");
 

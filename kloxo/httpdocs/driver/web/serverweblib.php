@@ -23,6 +23,7 @@ class serverweb extends lxdb
 
 	static $__desc_multiple_php_install = array("", "", "multiple_php_install");
 	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
+	static $__desc_multiple_php_remove = array("", "", "multiple_php_remove");
 
 	function createShowUpdateform()
 	{
@@ -36,6 +37,7 @@ class serverweb extends lxdb
 			$uflist['php_branch'] = null;
 
 			$uflist['multiple_php_install'] = null;
+			$uflist['multiple_php_remove'] = null;
 
 			if (isWebProxyOrApache()) {
 				$uflist['php_type'] = null;
@@ -51,9 +53,11 @@ class serverweb extends lxdb
 
 		return $uflist;
 	}
-
+/*
 	function preUpdate($subaction, $param)
 	{
+		global $login;
+
 		// MR -- preUpdate (also preAdd) is new function; process before Update/Add
 
 		// MR -- still any trouble passing value so use this trick
@@ -62,6 +66,10 @@ class serverweb extends lxdb
 			// MR -- $this->multiple_php_install (frm_serverweb_c_multiple_php_install) still empty
 			// so, use frm_serverweb_b_multiple_php_install (second multiselect)
 			$this->multiple_php_install = $_POST['frm_serverweb_b_multiple_php_install'];
+
+			if ($this->multiple_php_install === '') {
+				throw new lxException($login->getThrow('no_options_selected'), '', $this->multiple_php_install);
+			}
 
 			$join = implode(',', $this->multiple_php_install);
 
@@ -72,7 +80,7 @@ class serverweb extends lxdb
 		}
 
 	}
-
+*/
 	function updateform($subaction, $param)
 	{
 		switch($subaction) {
@@ -197,9 +205,6 @@ class serverweb extends lxdb
 
 				$vlist['multiple_php_install'] = array("U", $a);
 
-				// MR -- not able to 'default' value
-			//	$this->setDefaultValue('multiple_php_install', $f);
-
 				break;
 			case "php_used":
 				$this->php_used = null;
@@ -230,6 +235,15 @@ class serverweb extends lxdb
 				$this->setDefaultValue('php_used', $j);
 
 				$vlist['php_used'] = array('s', $d);
+
+				break;
+
+			case "multiple_php_remove":
+				$this->multiple_php_remove = null;
+
+				$a = getCleanRpmBranchListOnList('php');
+
+				$vlist['multiple_php_remove'] = array("U", $a);
 
 				break;
 

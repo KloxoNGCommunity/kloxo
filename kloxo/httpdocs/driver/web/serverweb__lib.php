@@ -52,6 +52,11 @@ class serverweb__ extends lxDriverClass
 				$this->set_php_used();
 
 				break;
+
+			case "multiple_php_remove":
+				$this->set_multiple_php_remove();
+
+				break;
 		}
 	}
 
@@ -486,7 +491,11 @@ class serverweb__ extends lxDriverClass
 	{
 		global $login;
 
-		// MR -- see preUpdate in serverweblib.php for why using this trick!
+		$ins = $this->main->multiple_php_install;
+
+		if ($ins === '') {
+			throw new lxException($login->getThrow('no_options_selected'), '', 'blank');
+		}
 
 		$c = '/tmp/phpm-install-process.sh';
 
@@ -495,9 +504,13 @@ class serverweb__ extends lxDriverClass
 			return;
 		}
 
+	/*
+		// MR -- see preUpdate in serverweblib.php for why using this trick!
+
 		$s = '/tmp/multiple_php_install.tmp';
 
 		if (file_exists($s)) {
+
 			$a = explode(',', file_get_contents($s));
 
 			lxfile_rm($s);
@@ -510,13 +523,60 @@ class serverweb__ extends lxDriverClass
 
 			$b .= "'rm' -f {$c}\n";
 
+
 			file_put_contents($c, $b);
 
 			lxshell_background("sh", $c);
+			
 		}
+	*/
+
+		$list = explode(',', $ins);
+
+		$b = '';
+
+		foreach ($list as $k => $v) {
+			$b .= "sh /script/phpm-installer {$v}\n";
+		}
+
+		$b .= "sh /script/fixphp\n";
+		$b .= "sh /script/add-start-queue restart-php-fpm\n";
+		$b .= "'rm' -f {$c}\n";
+
+		file_put_contents($c, $b);
+
+		lxshell_background("sh", $c);
 
 		if (file_exists($c)) {
 			throw new lxException($login->getThrow('install_process_running_in_background'), '', $this->main->syncserver);
 		}
+
+	}
+
+	function set_multiple_php_remove()
+	{
+		global $login;
+
+		$rem = $this->main->multiple_php_remove;
+
+		if ($rem === '') {
+			throw new lxException($login->getThrow('no_options_selected'), '', 'blank');
+		}
+
+		$list = explode(',', $rem);
+
+		foreach ($list as $k => $v) {
+			if ($v === $this->main->php_used) {
+				throw new lxException($login->getThrow('php_already_in_used'), '', $v);
+			}
+		}
+
+		exec("sh /script/stop-php-fpm");
+
+		foreach ($list as $k => $v) {
+			exec("'rm' -rf /opt/{$v} /opt/configs/php-fpm/conf/{$v}");
+		}
+
+		exec("sh /script/start-php-fpm");
 	}
 }
