@@ -899,11 +899,13 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-			if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+		//	if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+			if ($enablecgi) {
 ?>
 		Options +ExecCGI
 		<FilesMatch \.(cgi|pl)$>
-			SetHandler cgi-script
+			#SetHandler cgi-script
+			SetHandler x-suphp-cgi
 		</FilesMatch>
 <?php
 			}
@@ -1201,11 +1203,13 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
 					}
 
-					if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+				//	if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+					if ($enablecgi) {
 ?>
 		Options +ExecCGI
 		<FilesMatch \.(cgi|pl)$>
-			SetHandler cgi-script
+			#SetHandler cgi-script
+			SetHandler x-suphp-cgi
 		</FilesMatch>
 <?php
 					}

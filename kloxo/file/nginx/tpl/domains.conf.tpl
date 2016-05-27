@@ -468,6 +468,7 @@ server {
 ?>
 
 	## MR -- 'enable-cgi' not implementing yet
+	## passing to apache in nginx-proxy before enable spawining mode
 <?php
 		}
 ?>
@@ -759,6 +760,7 @@ server {
 ?>
 
 	## MR -- 'enable-cgi' not implementing yet
+	## passing to apache in nginx-proxy before enable spawining mode
 <?php
 					}
 
@@ -851,6 +853,7 @@ server {
 ?>
 
 	## MR -- 'enable-cgi' not implementing yet
+	## passing to apache in nginx-proxy before enable spawining mode
 <?php
 					}
 ?>
