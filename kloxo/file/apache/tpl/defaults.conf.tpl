@@ -52,6 +52,8 @@ $mpmlist = array('prefork', 'itk', 'event', 'worker');
 if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 	$httptype="httpd24";
 
+	exec("'cp' -f /opt/configs/apache/etc/conf/httpd24.conf /etc/httpd/conf/httpd.conf");
+
 	if (file_exists("{$trgtcmdpath}/00-base.conf")) {
 		exec("sed -i 's/^LoadModule deflate_module/#LoadModule deflate_module/' {$trgtcmdpath}/00-base.conf");
 	}
@@ -74,6 +76,8 @@ if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 	exec("echo '' > /etc/sysconfig/httpd");
 } else {
 	$httptype="httpd";
+
+	exec("'cp' -f /opt/configs/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
 
 	// as 'httpd' as default mpm
 	exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
