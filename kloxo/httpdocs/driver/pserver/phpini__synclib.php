@@ -198,6 +198,11 @@ class phpini__sync extends Lxdriverclass
 					array_unique($input);
 
 					$path = "/opt/configs/php-fpm/conf/{$v}";
+
+					if (!file_exists("{$path}/php-fpm.d")) {
+						exec("mkdir -p {$path}/php-fpm.d");
+					}
+
 					$phpfpm_target = "{$path}/php-fpm.d/{$user}.conf";
 
 					$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);

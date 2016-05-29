@@ -44,7 +44,8 @@ class Ffile extends Lxclass
 	static $__desc_uid = array("", "", "user");
 	static $__desc_content = array("t", "", "file");
 	static $__desc___username_o = array("", "", "user_name");
-	static $__desc_other_username = array("", "", "owner");
+//	static $__desc_other_username = array("", "", "owner");
+	static $__desc_other_username = array("", "", "owner", "a=updateform&sa=perm");
 	static $__desc_pvrename = array("b", "", "ren", "a=updateform&sa=rename");
 	static $__desc_pvrename_v_rename = array("", "", "rename");
 	static $__desc_pvdownload = array("b", "", "dn", "a=update&sa=download");

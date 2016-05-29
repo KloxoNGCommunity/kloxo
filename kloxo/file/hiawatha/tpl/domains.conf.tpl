@@ -130,25 +130,37 @@ $disabledocroot = "/home/kloxo/httpd/disable";
 
 $domcleaner = str_replace('-', '_', str_replace('.', '_', $domainname));
 
-if (!$reverseproxy) {
+//if (!$reverseproxy) {
 	if ($statsapp === 'awstats') {
-		if ($statsprotect) {
 ?>
 
 Directory {
-	Path = /awstats
-	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
-}
+	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
 
+	Path = /awstats
+<?php
+		if ($statsprotect) {
+?>
+	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
 <?php
 		}
+?>
+}
+<?php
 	} elseif ($statsapp === 'webalizer') {
 		if ($statsprotect) {
 ?>
 
 Directory {
+	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
 	Path = /webstats
+<?php
+		if ($statsprotect) {
+?>
 	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
+<?php
+		}
+?>
 }
 
 <?php
@@ -172,7 +184,7 @@ Directory {
 <?php
 		}
 	}
-}
+//}
 
 if ($webmailremote) {
 ?>
@@ -185,6 +197,12 @@ UrlToolkit {
 <?php
 }
 ?>
+
+UrlToolkit {
+	ToolkitID = cgi_for_<?php echo $domcleaner; ?>
+
+	Match ^/.*\.(pl|cgi)(/|$) UseFastCGI cgi_for_apache
+}
 
 UrlToolkit {
 	ToolkitID = redirect_<?php echo $domcleaner; ?>
@@ -206,15 +224,15 @@ if ($redirectionremote) {
 	}
 }
 ?>
-	Match ^/kloxo/(.*) Redirect https://<?php echo $domainname; ?>:<?php echo $kloxoportssl; ?>/$1
-	Match ^/kloxononssl/(.*) Redirect http://<?php echo $domainname; ?>:<?php echo $kloxoportnonssl; ?>/$1
-	Match ^/webmail/(.*) Redirect http://webmail.<?php echo $domainname; ?>/$1
-	Match ^/cp/(.*) Redirect http://cp.<?php echo $domainname; ?>/$1
+	Match ^/kloxo(|/(.*))$ Redirect https://<?php echo $domainname; ?>:<?php echo $kloxoportssl; ?>/$1
+	Match ^/kloxononssl(|/(.*))$ Redirect http://<?php echo $domainname; ?>:<?php echo $kloxoportnonssl; ?>/$1
+	Match ^/webmail(|/(.*))$ Redirect http://webmail.<?php echo $domainname; ?>/$1
+	Match ^/cp(|/(.*))$ Redirect http://cp.<?php echo $domainname; ?>/$1
 <?php
 if ($enablestats) {
 	if ($statsapp === 'awstats') {
 ?>
-	Match ^/stats/(.*) Redirect http://<?php echo $domainname; ?>/awstats/awstats.pl
+	Match ^/stats(|/(.*))$ Redirect http://<?php echo $domainname ?>/awstats/awstats.pl$1
 <?php
 	}
 }
@@ -222,7 +240,7 @@ if ($enablestats) {
 if ($wwwredirect) {
 ?>
 
-	Match ^/(.*) Redirect http://www.<?php echo $domainname; ?>/$1
+	Match ^/(.*)$ Redirect http://www.<?php echo $domainname; ?>/$1
 <?php
 }
 ?>
@@ -669,10 +687,8 @@ VirtualHost {
 		if ($enablecgi) {
 ?>
 
-	WrapCGI = <?=$user;?>_wrapper
-
-	## MR -- don't use ScriptAlias but Alias because ScriptAlias not the same as in Apache
-	Alias = /cgi-bin:/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin
+	#WrapCGI = <?=$user;?>_wrapper
+	#UseToolkit = cgi_for_<?php echo $domcleaner; ?>
 <?php
 		}
 
@@ -692,6 +708,9 @@ VirtualHost {
 
 	AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log
 	ErrorLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log
+
+	UseDirectory = stats_dir_for_<?php echo $domclean; ?>
+
 <?php
 				if ($statsapp === 'awstats') {
 ?>

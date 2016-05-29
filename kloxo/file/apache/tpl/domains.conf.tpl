@@ -157,17 +157,18 @@ foreach ($certnamelist as $ip => $certname) {
 <IfVersion >= 2.4>
 	Include <?php echo $globalspath; ?>/portnip.conf
 </IfVersion>
+
 <?php
 	if (!$reverseproxy) {
 		if ($ip !== '*') {
 ?>
-
 Define ipalloc <?php echo $ip; ?>
 
 <IfVersion < 2.4>
 	NameVirtualHost ${ipalloc}:${port}
 	NameVirtualHost ${ipalloc}:${portssl}
 </IfVersion>
+
 <?php
 		}
 	}
@@ -324,7 +325,6 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
 		} else {
 ?>
-
 
 ## cp for '<?php echo $domainname; ?>'
 <VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
@@ -772,13 +772,6 @@ foreach ($certnamelist as $ip => $certname) {
 	Redirect "/webmail" "<?php echo $protocol; ?>webmail.<?php echo $domainname; ?>"
 	Redirect "/cp" "<?php echo $protocol; ?>cp.<?php echo $domainname; ?>"
 <?php
-		if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
-?>
-
-	ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
-<?php
-		}
-
 		if ($redirectionlocal) {
 			foreach ($redirectionlocal as $rl) {
 ?>
@@ -804,8 +797,6 @@ foreach ($certnamelist as $ip => $certname) {
 				}
 			}
 		}
-
-		if ($enablephp) {
 ?>
 
 	<IfModule suexec.c>
@@ -899,31 +890,40 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 <?php
-		//	if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
-			if ($enablecgi) {
+		if ($enablecgi) {
 ?>
 		Options +ExecCGI
 		<FilesMatch \.(cgi|pl)$>
-			#SetHandler cgi-script
-			SetHandler x-suphp-cgi
+			#<IfModule !mod_fastcgi.c>
+				<IfModule mod_suphp.c>
+					SuPhp_UserGroup <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+
+					SetHandler x-suphp-cgi
+				</IfModule>
+			#</IfModule>
 		</FilesMatch>
 <?php
-			}
+		}
 ?>
 	</Directory>
+<?php
+	//	if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+		if ($enablecgi) {
+?>
+
+	ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
+<?php
+		}
+?>
 
 	<IfModule mod_php5.c>
 		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
 		php_admin_value sendmail_from "<?php echo $domainname; ?>"
 		Include /home/kloxo/client/<?php echo $user; ?>/prefork.inc
 	</IfModule>
-<?php
-		}
-?>
 
 	<Location "/">
 		Options <?php echo $dirindex; ?> -FollowSymlinks +SymLinksIfOwnerMatch
-
 		<IfModule mod_php5.c>
 			php_admin_value open_basedir "/home/<?php echo $user; ?>:/tmp:/usr/share/pear:/var/lib/php/session/:/home/kloxo/httpd/script:/home/kloxo/httpd/disable/:<?php echo $extrabasedir; ?>"
 		</IfModule>
@@ -937,6 +937,27 @@ foreach ($certnamelist as $ip => $certname) {
 <?php
 			if ($statsapp === 'awstats') {
 ?>
+
+	<Directory "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+
+		Options +ExecCGI
+		<FilesMatch \.(cgi|pl)$>
+			#<IfModule !mod_fastcgi.c>
+				<IfModule mod_suphp.c>
+					SuPhp_UserGroup apache apache
+					SetHandler x-suphp-cgi
+				</IfModule>
+			#</IfModule>
+		</FilesMatch>
+	</Directory>
 
 	ScriptAlias /awstats/ "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/"
 
@@ -1208,13 +1229,27 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		Options +ExecCGI
 		<FilesMatch \.(cgi|pl)$>
-			#SetHandler cgi-script
-			SetHandler x-suphp-cgi
+			#<IfModule !mod_fastcgi.c>
+				<IfModule mod_suphp.c>
+					SuPhp_UserGroup a <?php echo $sockuser; ?> <?php echo $sockuser; ?>
+
+					SetHandler x-suphp-cgi
+				</IfModule>
+			#</IfModule>
 		</FilesMatch>
 <?php
 					}
 ?>
 	</Directory>
+<?php
+				//	if (($enablecgi) && ($driver[0] !== 'hiawatha')) {
+					if ($enablecgi) {
+?>
+
+	ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $redirdomainname; ?>/cgi-bin/"
+<?php
+					}
+?>
 
 </VirtualHost>
 

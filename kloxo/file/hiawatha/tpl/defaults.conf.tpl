@@ -101,9 +101,7 @@ UrlToolkit {
 	ToolkitID = permalink
 	RequestURI exists Return
 	## process for 'special dirs' of Kloxo-MR
-	Match ^/(stats|awstats|awstatscss|awstats)(/|$) Return
-	## process for 'special dirs' of Kloxo-MR
-	Match ^/(cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
+	Match ^/(stats|awstats|cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
 	Match ^/(css|files|images|js)(/|$) Return
 	Match ^/(favicon.ico|robots.txt|sitemap.xml)$ Return
 	Match /(.*)\?(.*) Rewrite /index.php?path=$1&$2
@@ -116,6 +114,15 @@ FastCGIserver {
 
 	ConnectTo = /opt/configs/php-fpm/sock/php-apache.sock
 	Extension = php
+	SessionTimeout = <?php echo $timeout; ?>
+
+}
+
+FastCGIserver {
+	FastCGIid = cgi_for_apache
+
+	ConnectTo = /tmp/fcgiwrap.sock
+	Extension = pl,cgi
 	SessionTimeout = <?php echo $timeout; ?>
 
 }
