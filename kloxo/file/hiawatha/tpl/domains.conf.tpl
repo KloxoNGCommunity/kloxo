@@ -153,6 +153,7 @@ Directory {
 
 Directory {
 	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
+
 	Path = /webstats
 <?php
 		if ($statsprotect) {
