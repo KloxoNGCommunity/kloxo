@@ -463,15 +463,7 @@ server {
 ## web for '<?php echo $domainname; ?>'
 server {
 	#disable_symlinks if_not_owner;
-<?php
-		if ($enablecgi) {
-?>
 
-	## MR -- 'enable-cgi' not implementing yet
-	## passing to apache in nginx-proxy before enable spawining mode
-<?php
-		}
-?>
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 
@@ -576,6 +568,13 @@ server {
 
 	root $var_rootdir;
 <?php
+		if ($enablecgi) {
+?>
+
+	include '<?php echo $globalspath; ?>/cgi.conf';
+<?php
+		}
+
 		if ($redirectionlocal) {
 			foreach ($redirectionlocal as $rl) {
 ?>
@@ -755,17 +754,6 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-<?php
-					if ($enablecgi) {
-?>
-
-	## MR -- 'enable-cgi' not implementing yet
-	## passing to apache in nginx-proxy before enable spawining mode
-<?php
-					}
-
-?>
-
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 
 	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
@@ -799,6 +787,15 @@ server {
 	set $var_rootdir '<?php echo $redirfullpath; ?>';
 
 	root $var_rootdir;
+<?php
+
+					if ($enablecgi) {
+?>
+
+	include '<?php echo $globalspath; ?>/cgi.conf';
+<?php
+					}
+?>
 
 	set $var_user '<?php echo $user; ?>';
 	set $var_fpmport '<?php echo $fpmport; ?>';
@@ -848,16 +845,6 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-<?php
-					if ($enablecgi) {
-?>
-
-	## MR -- 'enable-cgi' not implementing yet
-	## passing to apache in nginx-proxy before enable spawining mode
-<?php
-					}
-?>
-
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 
 	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
@@ -892,6 +879,14 @@ server {
 	set $var_rootdir '<?php echo $redirfullpath; ?>';
 
 	root $var_rootdir;
+<?php
+					if ($enablecgi) {
+?>
+
+	include '<?php echo $globalspath; ?>/cgi.conf';
+<?php
+					}
+?>
 
 	if ($host != '<?php echo $domainname; ?>') {
 		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $domainname; ?>/$1';

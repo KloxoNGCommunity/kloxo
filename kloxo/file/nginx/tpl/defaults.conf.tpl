@@ -2,6 +2,10 @@
 
 <?php
 
+$srcpath = "/opt/configs/nginx";
+
+exec("'cp' -f {$srcpath}/etc/sysconfig/spawn-fcgi /etc/sysconfig/spawfcgi");
+
 if (!isset($phpselected)) {
 	$phpselected = 'php';
 }
@@ -20,15 +24,15 @@ if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
 	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
 }
 
-$srcconfpath = "/opt/configs/nginx/etc/conf";
-$srcconfdpath = "/opt/configs/nginx/etc/conf.d";
+$srcconfpath = "{$srcpath}/etc/conf";
+$srcconfdpath = "{$srcpath}/etc/conf.d";
 $trgtconfpath = "/etc/nginx";
-$trgtconfdpath = "/etc/nginx/conf.d";
+$trgtconfdpath = "{$trgtconfpath}/conf.d";
 
 $defaultdocroot = "/home/kloxo/httpd/default";
 $cpdocroot = "/home/kloxo/httpd/cp";
 
-$globalspath = "/opt/configs/nginx/conf/globals";
+$globalspath = "{$srcpath}/conf/globals";
 
 if (file_exists("{$globalspath}/custom.gzip.conf")) {
 		$gzip_base = "custom.gzip";
@@ -83,18 +87,16 @@ if ($out[0]) {
 
 if ($reverseproxy) {
 	$confs = array('proxy_standard' => 'switch_standard', 'proxy_wildcards' => 'switch_wildcards',
-		'proxy_standard_ssl' => 'switch_standard_ssl', 'proxy_wildcards_ssl' => 'switch_wildcards_ssl',
-		'stats_none' => 'stats', 'dirprotect_none' => 'dirprotect_stats');
+		'proxy_standard_ssl' => 'switch_standard_ssl', 'proxy_wildcards_ssl' => 'switch_wildcards_ssl');
 } else {
 	$confs = array('php-fpm_standard' => 'switch_standard', 'php-fpm_wildcards' => 'switch_wildcards',
 		'php-fpm_standard_ssl' => 'switch_standard_ssl', 'php-fpm_wildcards_ssl' => 'switch_wildcards_ssl');
-		
-	if ($stats['app'] === 'webalizer') {
-		$confs = array_merge($confs, array('stats_webalizer' => 'stats', 'dirprotect_webalizer' => 'dirprotect_stats'));
-	} else {
-		$confs = array_merge($confs, array('stats_awstats' => 'stats', 'dirprotect_awstats' => 'dirprotect_stats'));
-	}
+}
 
+if ($stats['app'] === 'webalizer') {
+	$confs = array_merge($confs, array('stats_webalizer' => 'stats', 'dirprotect_webalizer' => 'dirprotect_stats'));
+} else {
+	$confs = array_merge($confs, array('stats_awstats' => 'stats', 'dirprotect_awstats' => 'dirprotect_stats'));
 }
 
 foreach ($confs as $k => $v) {
