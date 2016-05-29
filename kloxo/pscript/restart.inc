@@ -10,12 +10,16 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo ""
 	exit
 else
+	ppath="/usr/local/lxlabs/kloxo/etc/process"
+	ipath="/etc/rc.d/init.d"
+	fpath="/usr/local/lxlabs/kloxo/etc/flag"
+	
 	ASQMAIL=""
 
 	for item in ${list[*]} ; do
-		if [ -f /etc/init.d/${item} ] ; then
+		if [ -f ${ipath}/${item} ] ; then
 			if [ "${item}" == "php-fpm" ] || [ "${item}" == "phpm-fpm" ] ; then
-				if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
+				if [ -f ${fpath}/enablemultiplephp.flg ] ; then
 					chkconfig phpm-fpm on
 					chkconfig php-fpm on
 				else
@@ -26,32 +30,29 @@ else
 			fi
 
 			if [ "$(chkconfig --list ${item}|grep ':on')" != "" ] ; then
-			#if chkconfig --list ${item}|grep ':on' >/dev/null 2>&1 ; then
-			#for num in 0 1 2 3 4 5 6 ; do
-				#if $(dir /etc/rc.d/rc${num}.d|grep -E 'S[0-9]{2}'${item} >/dev/null 2>&1) ; then
 					echo ""
 					if [ "$1" == "--force" ] || [ "$1" == "-y" ] ; then
 						if [ "${item}" == "qmail" ] ; then
 							ASQMAIL="qmail"
 							sh /script/restart-mail
 						else
-							/etc/init.d/${item} restart
+							${ipath}/${item} restart
 						fi
 					else
-						if [ -f /usr/local/lxlabs/kloxo/etc/process/custom.${item} ] ; then
-							sh /usr/local/lxlabs/kloxo/etc/process/custom.${item}
-						elif [ -f /usr/local/lxlabs/kloxo/etc/process/${item} ] ; then
-							sh /usr/local/lxlabs/kloxo/etc/process/${item}
+						if [ -f ${ppath}/custom.${item} ] ; then
+							sh ${ppath}/custom.${item}
+						elif [ -f ${ppath}/${item} ] ; then
+							sh ${ppath}/${item}
 						else
-							/etc/init.d/${item} restart
+							${ipath}/${item} restart
 						fi
 					fi
 
 					echo "-------------------------------------------------------------------"
-
-					#break
-				#fi
-			#done
+			else
+				if [ "$(${ipath}/${item} status|grep '(pid')" != "" ] || [ "$(${ipath}/${item} status|grep 'dead but')" != "" ] ; then
+					${ipath}/${item} stop
+				fi
 			fi
 		fi
 	done
