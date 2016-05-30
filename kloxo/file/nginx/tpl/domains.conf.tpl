@@ -217,7 +217,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 			}
 ?>
@@ -279,7 +278,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 			}
 ?>
@@ -344,7 +342,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 			}
 ?>
@@ -447,7 +444,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 				}
 ?>
@@ -463,7 +459,6 @@ server {
 ## web for '<?php echo $domainname; ?>'
 server {
 	#disable_symlinks if_not_owner;
-
 
 	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
 
@@ -625,22 +620,19 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 		}
 
-		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-			if ($enablestats) {
+		if ($enablestats) {
 ?>
 
 	include '<?php echo $globalspath; ?>/stats.conf';
 <?php
-				if ($statsprotect) {
+			if ($statsprotect) {
 ?>
 
 	include '<?php echo $globalspath; ?>/dirprotect_stats.conf';
 <?php
-				}
 			}
 		}
 
@@ -814,7 +806,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 					}
 
@@ -959,7 +950,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 					}
 ?>
@@ -1065,7 +1055,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 						}
 ?>
@@ -1147,7 +1136,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 					}
 ?>
@@ -1251,7 +1239,6 @@ server {
 	proxy_connect_timeout <?php echo $timeout; ?>s;
 	proxy_send_timeout <?php echo $timeout; ?>s;
 	proxy_read_timeout <?php echo $timeout; ?>s;
-
 <?php
 						}
 ?>
