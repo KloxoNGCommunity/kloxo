@@ -8365,7 +8365,9 @@ function setFixSSLPath($nolog = null)
 
 function setInstallLetsencrypt($nolog = null)
 {
-	exec("sh /script/letsencrypt-installer");
+	if (!file_exists("/usr/bin/letsencrypt-auto")) {
+		exec("sh /script/letsencrypt-installer");
+	}
 }
 
 function setRemoveLetsencrypt($nolog = null)
@@ -8375,7 +8377,9 @@ function setRemoveLetsencrypt($nolog = null)
 
 function setInstallAcmesh($nolog = null)
 {
-	exec("sh /script/acme.sh-installer");
+	if (!file_exists("/root/.acme.sh/acme.sh/acme.sh")) {
+		exec("sh /script/acme.sh-installer");
+	}
 }
 
 function setAllSSLPortions($nolog = null)

@@ -117,6 +117,10 @@ class phpini__sync extends Lxdriverclass
 				$phpfpm_path_etc = "/opt/configs/php-fpm/etc";
 				$phpfpm_path = "/opt/configs/php-fpm/tpl";
 
+				$phpmfpminit_src = file_get_contents(getLinkCustomfile("{$phpfpm_path_etc}/init.d", "phpm-fpm.init"));
+				$phpmfpminit_target = "/etc/rc.d/init.d/phpm-fpm";
+				exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}");
+
 				$phpfpm_target_default = "{$path}/php-fpm.d/default.conf";
 
 				if ($v === 'php52m') {
