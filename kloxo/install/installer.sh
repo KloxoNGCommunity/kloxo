@@ -49,6 +49,9 @@ else
 	'rm' -rf /etc/yum.repos.d/epel*.repo
 fi
 
+## trouble with mysql55 for qmail-toaster
+sed -i 's/exclude\=mysql51/exclude\=mysql5/g' /etc/yum.repos.d/mratwork.repo
+
 cd / 
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')

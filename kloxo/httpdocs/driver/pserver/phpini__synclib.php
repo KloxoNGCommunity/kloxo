@@ -110,7 +110,7 @@ class phpini__sync extends Lxdriverclass
 
 			$phpmfpminit_src = getLinkCustomfile("{$phpfpm_path_etc}/init.d", "phpm-fpm.init");
 			$phpmfpminit_target = "/etc/rc.d/init.d/phpm-fpm";
-			exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}");
+			exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}; chmod 755 {$phpmfpminit_target}");
 
 			$phps = getMultiplePhpList();
 
