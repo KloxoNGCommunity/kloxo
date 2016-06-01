@@ -1258,6 +1258,7 @@ class Web extends Lxdb
 		$this->write();
 
 		exec("sh /script/fixweb --domain={$this->nname}");
+		createRestartFile('restart-web');
 	}
 
 	function updateform($subaction, $param)
