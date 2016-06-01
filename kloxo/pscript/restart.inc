@@ -20,12 +20,16 @@ else
 		if [ -f ${ipath}/${item} ] ; then
 			if [ "${item}" == "php-fpm" ] || [ "${item}" == "phpm-fpm" ] ; then
 				if [ -f ${fpath}/enablemultiplephp.flg ] ; then
-					chkconfig phpm-fpm on
+					if [ -f ${ipath}/phpm-fpm ] ; then
+						chkconfig phpm-fpm on
+					fi
 					chkconfig php-fpm on
 				else
 					chkconfig php-fpm on
-					chkconfig phpm-fpm off
-					service phpm-fpm stop >/dev/null 2>&1
+					if [ -f ${ipath}/phpm-fpm ] ; then
+						chkconfig phpm-fpm off
+						service phpm-fpm stop >/dev/null 2>&1
+					fi
 				fi
 			fi
 

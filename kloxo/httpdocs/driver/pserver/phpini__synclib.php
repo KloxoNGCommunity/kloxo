@@ -101,7 +101,19 @@ class phpini__sync extends Lxdriverclass
 			exec("'cp' -f /opt/configs/apache/tpl/php*.fcgi /home/kloxo/client");
 			exec("chmod 0775 /home/kloxo/client/php*.fcgi");
 
+			if (!file_exists("/opt/configs/php-fpm/sock")) {
+				exec("mkdir -p /opt/configs/php-fpm/sock");
+			}
+
+			$phpfpm_path_etc = "/opt/configs/php-fpm/etc";
+			$phpfpm_path = "/opt/configs/php-fpm/tpl";
+
+			$phpmfpminit_src = getLinkCustomfile("{$phpfpm_path_etc}/init.d", "phpm-fpm.init");
+			$phpmfpminit_target = "/etc/rc.d/init.d/phpm-fpm";
+			exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}");
+
 			$phps = getMultiplePhpList();
+
 			$phps = array_merge(array('php'), $phps);
 
 			foreach ($phps as $k => $v) {
@@ -113,13 +125,6 @@ class phpini__sync extends Lxdriverclass
 				if (!file_exists("{$path}/php-fpm.d")) {
 					exec("mkdir -p {$path}/php-fpm.d");
 				}
-
-				$phpfpm_path_etc = "/opt/configs/php-fpm/etc";
-				$phpfpm_path = "/opt/configs/php-fpm/tpl";
-
-				$phpmfpminit_src = file_get_contents(getLinkCustomfile("{$phpfpm_path_etc}/init.d", "phpm-fpm.init"));
-				$phpmfpminit_target = "/etc/rc.d/init.d/phpm-fpm";
-				exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}");
 
 				$phpfpm_target_default = "{$path}/php-fpm.d/default.conf";
 
