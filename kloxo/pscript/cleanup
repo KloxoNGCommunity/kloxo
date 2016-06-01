@@ -1,5 +1,8 @@
 #!/bin/sh
 
+## trouble with mysql55 for qmail-toaster
+sed -i 's/exclude\=mysql51/exclude\=mysql5/g' /etc/yum.repos.d/mratwork.repo
+
 if [ ! -L /usr/bin/chkconfig ] ; then
 	## MR -- fix issue if running restart in cron
 	ln -s /sbin/chkconfig /usr/bin/chkconfig
