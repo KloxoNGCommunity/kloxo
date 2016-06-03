@@ -103,20 +103,12 @@ if ($stats['app'] === 'webalizer') {
 	$confs = array_merge($confs, array('stats_awstats' => 'stats', 'dirprotect_awstats' => 'dirprotect_stats'));
 }
 
-foreach ($confs as $k => $v) {
-	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
-		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
-	} else {
-		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
-	}
-}
-
 if (($webcache === 'none') || (!$webcache)) {
-	$confs = array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front' => 'listen_ssl',
-		'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default' => 'listen_ssl_default');
+	$confs = array_merge($confs, array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front' => 'listen_ssl',
+		'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default' => 'listen_ssl_default'));
 } else {
-	$confs = array('listen_nonssl_back' => 'listen_nonssl', 'listen_ssl_back' => 'listen_ssl',
-		'listen_nonssl_back_default' => 'listen_nonssl_default', 'listen_ssl_back_default' => 'listen_ssl_default');
+	$confs = array_merge($confs, array('listen_nonssl_back' => 'listen_nonssl', 'listen_ssl_back' => 'listen_ssl',
+		'listen_nonssl_back_default' => 'listen_nonssl_default', 'listen_ssl_back_default' => 'listen_ssl_default'));
 }
 
 foreach ($confs as $k => $v) {

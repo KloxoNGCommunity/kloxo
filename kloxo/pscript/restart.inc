@@ -18,7 +18,7 @@ else
 
 	for item in ${list[*]} ; do
 		if [ -f ${ipath}/${item} ] ; then
-			if [ "${item}" == "php-fpm" ] || [ "${item}" == "phpm-fpm" ] ; then
+			if [ "${item}" == "phpm-fpm" ] ; then
 				if [ -f ${fpath}/enablemultiplephp.flg ] ; then
 					if [ -f ${ipath}/phpm-fpm ] ; then
 						chkconfig phpm-fpm on
@@ -28,7 +28,9 @@ else
 					chkconfig php-fpm on
 					if [ -f ${ipath}/phpm-fpm ] ; then
 						chkconfig phpm-fpm off
-						service phpm-fpm stop >/dev/null 2>&1
+						if [ "$(${ipath}/${item} status|grep '(pid')" != "" ] || [ "$(${ipath}/${item} status|grep 'dead but')" != "" ] ; then
+							service phpm-fpm stop >/dev/null 2>&1
+						fi
 					fi
 				fi
 			fi

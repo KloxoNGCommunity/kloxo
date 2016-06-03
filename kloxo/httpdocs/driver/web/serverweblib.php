@@ -199,11 +199,15 @@ class serverweb extends lxdb
 				$a = getCleanRpmBranchListOnList('php');
 
 			//	$g = rl_exec_get(null, $this->syncserver, "getMultiplePhpList");
-				$g = implode(" ", getMultiplePhpList());
+				$g = getMultiplePhpList();
 
-				$vlist['multiple_php_already_installed'] = array("M", $g);
+				$u = array_diff($a, $g);
 
-				$vlist['multiple_php_install'] = array("U", $a);
+				$h = implode(" ", getMultiplePhpList());
+
+				$vlist['multiple_php_already_installed'] = array("M", $h);
+
+				$vlist['multiple_php_install'] = array("U", $u);
 
 				break;
 			case "php_used":
@@ -241,7 +245,7 @@ class serverweb extends lxdb
 			case "multiple_php_remove":
 				$this->multiple_php_remove = null;
 
-				$a = getCleanRpmBranchListOnList('php');
+				$a = getMultiplePhpList();
 
 				$vlist['multiple_php_remove'] = array("U", $a);
 
