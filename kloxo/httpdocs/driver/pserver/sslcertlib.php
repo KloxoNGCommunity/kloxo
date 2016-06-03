@@ -323,8 +323,7 @@ class SslCert extends Lxdb
 
 		//	exec("'rm' -rf {$spath}/{$name}*.*");
 		//	exec("letsencrypt-auto revoke --certpath /etc/letsencrypt/live/{$name}/fullchain.pem");
-			exec("'rm' -rf {$lpath}/live/{$name}* {$lpath}/archive/{$name}* {$lpath}/renew/{$name}*.conf " .
-				"{$spath}/{$name}*.*");
+			exec("'rm' -rf {$lpath}/{live,archive,renewal}/{$name}* {$spath}/{$name}*");
 
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}");
 		//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
