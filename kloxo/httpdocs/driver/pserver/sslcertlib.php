@@ -323,7 +323,7 @@ class SslCert extends Lxdb
 
 		//	exec("'rm' -rf {$spath}/{$name}*.*");
 		//	exec("letsencrypt-auto revoke --certpath /etc/letsencrypt/live/{$name}/fullchain.pem");
-			exec("'rm' -rf {$lpath}/live/{$name} {$lpath}/archive/{$name} {$lpath}/renew/{$name}.conf " .
+			exec("'rm' -rf {$lpath}/live/{$name}* {$lpath}/archive/{$name}* {$lpath}/renew/{$name}*.conf " .
 				"{$spath}/{$name}*.*");
 
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}");
@@ -733,10 +733,10 @@ class SslCert extends Lxdb
 	//	$this->text_crt_content = lfile_get_contents("{$lepath}/{$name}.cer");
 	//	$this->text_ca_content = lfile_get_contents("{$lepath}/ca.cer");
 
-		if ($parent->getClass() === 'web') {
-			// MR -- disable because proses inside domain.com_acme.sh
-		//	$this->createDomainSSL();
-		}
+	// MR -- no need because include in [domain]_letsencrypt.sh
+	//	exec("sh /script/fixweb --domain={$name}");
+	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
+	//	createRestartFile("restart-web");
 	}
 
 	function createLink()
