@@ -185,7 +185,7 @@ class serverweb extends lxdb
 			case "php_branch":
 				$this->php_branch = null;
 
-				$a = getRpmBranchListOnList('php');
+				$a = getListOnList('php');
 				$vlist['php_branch'] = array('s', $a);
 
 				$this->setDefaultValue('php_branch', getRpmBranchInstalledOnList('php'));

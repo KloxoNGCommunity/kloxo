@@ -5383,7 +5383,7 @@ function getRpmBranchInstalled($rpm)
 
 function getRpmBranchInstalledOnList($rpm)
 {
-	$a = getRpmBranchListOnList($rpm);
+	$a = getListOnList($rpm);
 
 	foreach ($a as $k => $e) {
 		$s = preg_replace('/(.*)\_\(as\_(.*)\)/', '$1', $e);
@@ -5431,21 +5431,6 @@ function getRpmBranchList($pname)
 	}
 
 	return $n;
-}
-
-function getRpmBranchListOnList($pname)
-{
-	$p = "../etc/list";
-	$f = getLinkCustomfile($p, "{$pname}.lst");
-	$c = trimSpaces(file_get_contents($f));
-
-	$a = explode(",", $c);
-
-	if (!$a) {
-		$a = array($c);
-	}
-
-	return $a;
 }
 
 function getRpmVersion($rpmname)
@@ -8292,7 +8277,6 @@ function ipv6_expand($ip){
 
 function getMultiplePhpList()
 {
-	$a = getCleanRpmBranchListOnList('php');
 	$d = glob("/opt/*m/usr/bin/php");
 
 	foreach ($d as $k => $v) {
@@ -8306,7 +8290,7 @@ function getMultiplePhpList()
 
 function getCleanRpmBranchListOnList($branchtype)
 {
-	$a = getRpmBranchListOnList($branchtype);
+	$a = getListOnList($branchtype);
 
 	$c = array();
 
@@ -8407,4 +8391,19 @@ function setAllSSLPortions($nolog = null)
 //	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
 //	setCopyAcmeshConfFiles();
 
+}
+
+function getListOnList($pname)
+{
+	$p = "../etc/list";
+	$f = getLinkCustomfile($p, "{$pname}.lst");
+	$c = trimSpaces(file_get_contents($f));
+
+	$a = explode(",", $c);
+
+	if (!$a) {
+		$a = array($c);
+	}
+
+	return $a;
 }

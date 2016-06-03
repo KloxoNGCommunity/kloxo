@@ -120,8 +120,7 @@ function updatecleanup_main()
 		setInitialServices();
 
 		log_cleanup("Fix services");
-		$fixapps = array("dns", "webcache", "web", "php", "mail-all", "ftp-all", "skeleton");
-		setUpdateConfigWithVersionCheck($fixapps, $opt['type']);
+		setUpdateConfigWithVersionCheck(getListOnList('fix'), $opt['type']);
 	}
 
 	// MR -- installatron need ownership as root:root
