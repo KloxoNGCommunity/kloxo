@@ -5657,9 +5657,10 @@ function setInitialDnsConfig($type, $nolog = null)
 	}
 
 	// MR -- remove old dirs
-	$htpath_old = "/home/{$type}";
-
-	lxfile_rm_rec($htpath_old);
+	if ($type !== 'djbdns') {
+		$htpath_old = "/home/{$type}";
+		lxfile_rm_rec($htpath_old);
+	}
 }
 
 function setInitialAllWebConfigs($nolog = null)
@@ -7372,7 +7373,7 @@ function setCopyDnsConfFiles($dnsdriver, $nolog = null)
 
 	if ($aliasdriver === 'djbdns') {
 		if (file_exists("/home/djbdns/tinydns")) {
-			lxfile_mv("/home/djbdns", "/opt/configs/djbdns");
+		//	lxfile_mv("/home/djbdns", "/opt/configs/djbdns");
 		}
 /*
 	} elseif ($aliasdriver === 'maradns') {
