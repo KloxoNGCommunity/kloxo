@@ -23,7 +23,7 @@ fi
 RETVAL=0
 
 count=0
-arr=$(dir -l -d /opt/php*m/usr/bin/php|awk '{print $9}'|sed 's:/opt/::'|sed 's:/usr/bin/php::'|tr '\n' ' ')
+arr=$(dir -l -d /opt/php*m/usr/bin/php 2>/dev/null|awk '{print $9}'|sed 's:/opt/::'|sed 's:/usr/bin/php::'|tr '\n' ' ')
 
 #if [ ${#arr[@]} -eq 0 ] ; then
 if [ "${arr}" == "" ] ; then

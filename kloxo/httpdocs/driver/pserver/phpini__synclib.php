@@ -54,7 +54,7 @@ class phpini__sync extends Lxdriverclass
 		}
 
 		$user = $input['user'] = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';
-		$extrabasedir = $input['extrabasedir'] = (isset($this->main->__var_extrabasedir)) ? $this->main->__var_extrabasedir : '';
+	//	$extrabasedir = $input['extrabasedir'] = (isset($this->main->__var_extrabasedir)) ? $this->main->__var_extrabasedir : '';
 
 		$phpini_path = "/opt/configs/phpini/tpl";
 		$phpini_cont = file_get_contents(getLinkCustomfile($phpini_path, "php.ini.tpl"));
@@ -77,9 +77,6 @@ class phpini__sync extends Lxdriverclass
 		$endlist[] = "###End Kloxo PHP config Area";
 		$endlist[] = "###End Kloxo Area";
 		$endlist[] = "###End Lxadmin PHP config Area";
-
-		$endstring = $endlist[0];
-		$startstring = $stlist[0];
 
 		if ($pclass === 'pserver') {
 			$input['phpinipath'] = "/etc";
@@ -141,6 +138,8 @@ class phpini__sync extends Lxdriverclass
 
 					$phpfpm_parse_global_post = getParseInlinePhp($phpfpm_global_post, $input);
 					file_put_contents($phpfpm_target_global_post, $phpfpm_parse_global_post);
+
+					exec("cat {$phpfpm_target_global_pre} {$path}/php-fpm.d/*.conf {$phpfpm_target_global_post} > {$path}/php-fpm.conf");
 				} else {
 					$phpfpm_global = file_get_contents(getLinkCustomfile($phpfpm_path, "php53-fpm-global.conf.tpl"));
 					$phpfpm_default = file_get_contents(getLinkCustomfile($phpfpm_path, "php53-fpm-default.conf.tpl"));
@@ -149,18 +148,14 @@ class phpini__sync extends Lxdriverclass
 
 					$phpfpm_parse_global = getParseInlinePhp($phpfpm_global, $input);
 					file_put_contents($phpfpm_target_global, $phpfpm_parse_global);
+
+					if ($v === 'php') {
+						exec("'cp' -f {$path}/php-fpm.conf /etc/php-fpm.conf");
+					}
 				}
 
 				$phpfpm_parse_default = getParseInlinePhp($phpfpm_default, $input);
 				file_put_contents($phpfpm_target_default, $phpfpm_parse_default);
-
-				if ($v === 'php52m') {
-					exec("cat {$phpfpm_target_global_pre} {$path}/php-fpm.d/*.conf {$phpfpm_target_global_post} > {$path}/php-fpm.conf");
-				}
-
-				if ($v === 'php') {
-					exec("'cp' -f {$path}/php-fpm.conf /etc/php-fpm.conf");
-				}
 			}
 		} else {
 			$input['phpinipath'] = "/home/kloxo/client/{$user}";
@@ -194,7 +189,6 @@ class phpini__sync extends Lxdriverclass
 				$phps = array_merge(array('php'), $phps);
 
 				foreach ($phps as $k => $v) {
-					$phpfpm_path_etc = "/opt/configs/php-fpm/etc";
 					$phpfpm_path = "/opt/configs/php-fpm/tpl";
 
 					if ($v === 'php52m') {
