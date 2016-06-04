@@ -32,17 +32,25 @@ foreach($newlist as $n) {
 
 	print("- Processing for '$n' ssl files\n");
 
-	lxfile_cp("{$kloxo_file_path}/default.crt", "{$kloxo_ssl_path}/$n.crt");
-	lxfile_cp("{$kloxo_file_path}/default.key", "{$kloxo_ssl_path}/$n.key");
-	lxfile_cp("{$kloxo_file_path}/default.pem", "{$kloxo_ssl_path}/$n.pem");
+	$list = array('key', 'crt', 'ca', 'pem');
+
+	foreach ($list as $k => $v) {
+		if (file_exists("{$kloxo_file_path}/default.{$v}")) {
+			exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_ssl_path}/$n.{$v}");
+		}
+	}
 }
 
 print("- Processing for 'program' ssl files\n");
 
 if (!is_link("{$kloxo_etc_path}/program.pem")) {
-	xfile_cp("{$kloxo_file_path}/default.crt", "{$kloxo_etc_path}/program.crt");
-	xfile_cp("{$kloxo_file_path}/default.key", "{$kloxo_etc_path}/program.key");
-	xfile_cp("{$kloxo_file_path}/default.pem", "{$kloxo_etc_path}/program.pem");
+	$list = array('key', 'crt', 'ca', 'pem');
+
+	foreach ($list as $k => $v) {
+		if (file_exists("{$kloxo_file_path}/default.{$v}")) {
+			exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_etc_path}/program.{$v}");
+		}
+	}
 }
 
 $login->loadAllObjects('sslcert');
@@ -64,18 +72,23 @@ foreach($list as $b) {
 		if ($b->parent_domain) {
 			$par = $b->parent_domain;
 
-			exec("ln -sf {$sslpath}/{$par}.key {$sslpath}/{$dom}.key");
-			exec("ln -sf {$sslpath}/{$par}.crt {$sslpath}/{$dom}.crt");
-			exec("ln -sf {$sslpath}/{$par}.ca {$sslpath}/{$dom}.ca");
-			exec("ln -sf {$sslpath}/{$par}.pem {$sslpath}/{$dom}.pem");
+			$list = array('key', 'crt', 'ca', 'pem');
+
+			foreach ($list as $k => $v) {
+				if (file_exists("{$sslpath}/{$par}.{$v}")) {
+					exec("ln -sf {$sslpath}/{$par}.{$v} {$sslpath}/{$dom}.{$v}");
+				}
+			}
 		} else {
 			$keyc = $b->text_key_content;
 			$crtc = $b->text_crt_content;
 			$cac = $b->text_ca_content;
 
-			exec("echo '{$keyc}' >{$sslpath}/{$dom}.key");
-			exec("echo '{$crtc}' >{$sslpath}/{$dom}.crt");
-			exec("echo '{$cac}' >{$sslpath}/{$dom}.ca");
+			$list = array('key' => $keyc, 'crt' => $crtc, 'ca' => $cac);
+
+			foreach($list as $k => $v) {
+					exec("echo '{$v}' >{$sslpath}/{$dom}.{$k}");
+			}
 
 			exec("echo '{$keyc}{$crtc}{$cac}' >{$sslpath}/{$dom}.pem");
 		}

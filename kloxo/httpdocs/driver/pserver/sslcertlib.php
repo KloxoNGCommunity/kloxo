@@ -277,22 +277,19 @@ class SslCert extends Lxdb
 		// MR -- make the same as program.pem; like inside lighttpd.conf example inside
 		$contentspem = "$contentskey\n$contentscrt";
 
-		rl_exec_get(null, $param['slave_id'], array("sslcert", "setProgramSsl"), array($contentspem, $contentsca, $contentscrt, $contentskey));
+		rl_exec_get(null, $param['slave_id'], array("sslcert", "setProgramSsl"),
+			array($contentspem, $contentsca, $contentscrt, $contentskey));
 	}
 
 	static function setProgramSsl($contentspem, $contentsca, $contentscrt, $contentskey)
 	{
-		lfile_put_contents("../etc/program.pem", $contentspem);
-		lfile_put_contents("../etc/program.crt", $contentscrt);
-		lfile_put_contents("../etc/program.key", $contentskey);
+		$list = array('key' => $contentskey, 'crt' => $contentscrt, 'pem' => $contentspem, 'ca' => $contentsca);
 
-		lxfile_unix_chown("../etc/program.pem", "lxlabs:lxlabs");
-		lxfile_unix_chown("../etc/program.crt", "lxlabs:lxlabs");
-		lxfile_unix_chown("../etc/program.key", "lxlabs:lxlabs");
-
-		if ($contentsca) {
-			lfile_put_contents("../etc/program.ca", $contentsca);
-			lxfile_unix_chown("../etc/program.ca", "lxlabs:lxlabs");
+		foreach ($list as $k => $v) {
+			if ($v) {
+				lfile_put_contents("../etc/program.{$k}", $v);
+				lxfile_unix_chown("../etc/program.{$k}", "lxlabs:lxlabs");
+			}
 		}
 	}
 
@@ -312,10 +309,13 @@ class SslCert extends Lxdb
 			$tpath = $sgbl->__path_program_etc;
 			$dom = $this->nname;
 
-			exec("ln -sf {$spath}/{$this->nname}.key {$tpath}/program.key");
-			exec("ln -sf {$spath}/{$this->nname}.crt {$tpath}/program.crt");
-			exec("ln -sf {$spath}/{$this->nname}.ca {$tpath}/program.ca");
-			exec("ln -sf {$spath}/{$this->nname}.pem {$tpath}/program.pem");
+			$list = array('key', 'crt', 'ca', 'pem');
+			
+			foreach ($list as $k => $v) {
+				if (file_exists("{$spath}/{$dom}.{$v}")) {
+					exec("ln -sf {$spath}/{$dom}.{$v} {$tpath}/program.{$v}");
+				}
+			}
 		} else {
 			$this->updateSetProgramSSL($param);
 		}
@@ -427,7 +427,7 @@ class SslCert extends Lxdb
 
 		$parent = $this->getParentO();
 		$name = $parent->nname;
-		$user = $parent->customer_name;
+	//	$user = $parent->customer_name;
 
 	//	$path = "/home/kloxo/client/{$user}/ssl";
 		$path = "/home/kloxo/ssl";
@@ -449,15 +449,12 @@ class SslCert extends Lxdb
 
 		self::checkAndThrow($contentscrt, $contentskey, $name);
 
-		lfile_put_contents("{$path}/{$name}.crt", $contentscrt);
-		lfile_put_contents("{$path}/{$name}.key", $contentskey);
+		$list = array('key' => $contentskey, 'crt' => $contentscrt, 'csr' => $contentscsr, 'ca' => $contentsca);
 
-		if (isset($this->text_csr_content)) {
-			lfile_put_contents("{$path}/{$name}.csr", $contentscsr);
-		}
-
-		if (isset($this->text_ca_content)) {
-			lfile_put_contents("{$path}/{$name}.ca", $contentsca);
+		foreach ($list as $k => $v) {
+			if ($v) {
+				lfile_put_contents("{$path}/{$name}.{$k}", $v);
+			}
 		}
 
 		if (isset($this->text_ca_content)) {
@@ -477,10 +474,10 @@ class SslCert extends Lxdb
 	{
 		return true;
 
-		$db = new Sqlite($this->__masterserver, "sslipaddress");
-		$res = $db->getRowsWhere("sslcert = '$this->certname'", array('nname'));
+	//	$db = new Sqlite($this->__masterserver, "sslipaddress");
+	//	$res = $db->getRowsWhere("sslcert = '$this->certname'", array('nname'));
 
-		return ($res ? false : true);
+	//	return ($res ? false : true);
 	}
 
 	static function addform($parent, $class, $typetd = null)
@@ -489,9 +486,6 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$nname = array('M', $parent->nname);
-			$cname = array('m', $parent->nname);
-			$saname = array('M', $parent->nname);
-			$email = array("m", "admin@{$parent->nname}");
 			$vlist['username'] = array("h", $parent->getParentO()->__parent_o->nname);
 
 			if ($typetd['val'] === 'file') {
@@ -509,7 +503,8 @@ class SslCert extends Lxdb
 				$vlist['nname'] = $nname;
 			//	$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
 				$vlist['ssl_data_b_s_key_bits_r'] = array("s", array("2048", "4096", "ec-256", "ec-384"));
-				$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
+				$vlist["ssl_data_b_s_subjectAltName_r"] =
+					array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
 				$vlist["ssl_data_b_s_emailAddress_r"] = array("m", "admin@{$parent->nname}");
 			} else if ($typetd['val'] === 'link') {
 				$vlist['nname'] = $nname;
@@ -668,8 +663,8 @@ class SslCert extends Lxdb
 		}
 
 		$this->text_key_content = lfile_get_contents("{$shpath}/{$name}.key");
-		$this->text_csr_content = lfile_get_contents("{$shpath}/{$name}.csr");
 		$this->text_crt_content = lfile_get_contents("{$shpath}/{$name}.crt");
+		$this->text_csr_content = lfile_get_contents("{$shpath}/{$name}.csr");
 
 		if ($parent->getClass() === 'web') {
 			$this->createDomainSSL();
@@ -691,7 +686,7 @@ class SslCert extends Lxdb
 		}
 
 		$parent = $this->getParentO();
-		$user = $parent->customer_name;
+	//	$user = $parent->customer_name;
 
 		$name = $temp['name'] = $parent->nname;
 
@@ -737,16 +732,17 @@ class SslCert extends Lxdb
 		}
 
 		$lepath = "/etc/letsencrypt/live/{$name}";
-	//	$lepath = "/root/.acme.sh/{$name}";
 
 		$this->text_key_content = lfile_get_contents("{$lepath}/privkey.pem");
 		$this->text_crt_content = lfile_get_contents("{$lepath}/cert.pem");
 		$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
 
-	//	$this->text_key_content = lfile_get_contents("{$lepath}/{$name}.key");
-	//	$this->text_crt_content = lfile_get_contents("{$lepath}/{$name}.cer");
-	//	$this->text_ca_content = lfile_get_contents("{$lepath}/ca.cer");
+	//	$acpath = "/root/.acme.sh/{$name}";
 
+	//	$this->text_key_content = lfile_get_contents("{$acpath}/{$name}.key");
+	//	$this->text_crt_content = lfile_get_contents("{$acpath}/{$name}.cer");
+	//	$this->text_ca_content = lfile_get_contents("{$acpath}/ca.cer");
+	
 	// MR -- no need because include in [domain]_letsencrypt.sh
 	//	exec("sh /script/fixweb --domain={$name}");
 	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
@@ -756,7 +752,7 @@ class SslCert extends Lxdb
 	function createLink()
 	{
 		$parent = $this->getParentO();
-		$user = $parent->customer_name;
+	//	$user = $parent->customer_name;
 
 	//	$filesearch = "/home/kloxo/client/*/ssl/{$this->parent_domain}.ca";
 		$filesearch = "/home/kloxo/ssl/{$this->parent_domain}.ca";
@@ -772,10 +768,12 @@ class SslCert extends Lxdb
 			mkdir($targetpath);
 		}
 
-		$list = array('.ca', '.crt', '.key', '.pem');
+		$list = array('key', 'crt', 'ca', 'pem');
 
 		foreach ($list as $k => $v) {
-			exec("ln -sf {$sslparent}{$v} {$targetpath}/{$parent->nname}{$v}");
+			if (file_exists("{$sslparent}.{$v}")) {
+				exec("ln -sf {$sslparent}.{$v} {$targetpath}/{$parent->nname}.{$v}");
+			}
 		}
 	}
 
