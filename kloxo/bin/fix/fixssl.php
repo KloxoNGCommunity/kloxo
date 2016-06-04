@@ -17,11 +17,13 @@ foreach($ilist as $b) {
 
 		print("- Processing for '{$n}' ssl files\n");
 
-		$list = array('key', 'crt', 'ca', 'pem');
+		if (!is_link("{$kloxo_ssl_path}/$n.pem")) {
+			$list = array('key', 'crt', 'ca', 'pem');
 
-		foreach ($list as $k => $v) {
-			if (file_exists("{$kloxo_file_path}/default.{$v}")) {
-				exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_ssl_path}/$n.{$v}");
+			foreach ($list as $k => $v) {
+				if (file_exists("{$kloxo_file_path}/default.{$v}")) {
+					exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_ssl_path}/$n.{$v}");
+				}
 			}
 		}
 	}
