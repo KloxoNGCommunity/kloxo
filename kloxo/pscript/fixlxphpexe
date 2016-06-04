@@ -12,7 +12,7 @@ fi
 INIT_DIR="/usr/local/lxlabs/kloxo/init"
 
 if [ "$1" != "" ] ; then
-	if [ "$1" != "php"* ] ;then
+	 if [[ "$1" != "php"* ]] ; then
 		echo "Use 'sh $0 --help'"
 		exit
 	fi
