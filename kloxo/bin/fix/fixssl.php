@@ -8,35 +8,21 @@ $kloxo_file_path = $sgbl->__path_program_root . "/file/ssl";
 $kloxo_ssl_path = "/home/kloxo/ssl";
 $kloxo_etc_path = $sgbl->__path_program_root . "/etc";
 
-$list = lscandir_without_dot_or_underscore($kloxo_ssl_path);
+$login->loadAllObjects('ipaddress');
+$ilist = $login->getList('ipaddress');
 
-foreach($list as $l) {
-	if (cse($l, ".crt")) {
-		$newlist[] = basename($l, ".crt");
-	} else {
-		continue;
-	}
-}
+foreach($ilist as $b) {
+	if (strrpos($b->nname, '__localhost')) {
+		$n = $b->nname;
 
-// MR -- using exec because lxshell_return not work!
-exec("cat {$kloxo_file_path}/default.key {$kloxo_file_path}/default.crt " .
-	"> {$kloxo_file_path}/default.pem");
+		print("- Processing for '{$n}' ssl files\n");
 
-// MR -- not use .ca because trouble with hiawatha and already expired
-foreach($newlist as $n) {
-	// MR -- bypass because letsencrypt
-	if (is_link("{$kloxo_ssl_path}/$n.pem")) { continue; }
+		$list = array('key', 'crt', 'ca', 'pem');
 
-	// MR -- bypass because possible add from file/text
-	if (file_exists("{$kloxo_ssl_path}/$n.ca")) { continue; }
-
-	print("- Processing for '$n' ssl files\n");
-
-	$list = array('key', 'crt', 'ca', 'pem');
-
-	foreach ($list as $k => $v) {
-		if (file_exists("{$kloxo_file_path}/default.{$v}")) {
-			exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_ssl_path}/$n.{$v}");
+		foreach ($list as $k => $v) {
+			if (file_exists("{$kloxo_file_path}/default.{$v}")) {
+				exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_ssl_path}/$n.{$v}");
+			}
 		}
 	}
 }
@@ -54,12 +40,12 @@ if (!is_link("{$kloxo_etc_path}/program.pem")) {
 }
 
 $login->loadAllObjects('sslcert');
-$list = $login->getList('sslcert');
+$slist = $login->getList('sslcert');
 
 $sslpath = "/home/kloxo/ssl";
 $lepath = "/etc/letsencrypt";
 
-foreach($list as $b) {
+foreach($slist as $b) {
 	if (csb($b->parent_clname, 'web-')) {
 		$dom = $b->nname;
 		print("- Processing for '{$dom}' ssl files\n");
