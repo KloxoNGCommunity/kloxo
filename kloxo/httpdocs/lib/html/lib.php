@@ -8279,6 +8279,8 @@ function getMultiplePhpList()
 {
 	$d = glob("/opt/*m/usr/bin/php");
 
+	if (empty($d)) { return array(); }
+
 	foreach ($d as $k => $v) {
 		$e = str_replace('/opt/', '', $v);
 		$e = str_replace('/usr/bin/php', '', $e);
