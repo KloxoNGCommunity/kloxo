@@ -142,7 +142,7 @@ class SslCert extends Lxdb
 
 		// MR -- disable it for enable 'update' button
 
-	//	$vlist['__v_button'] = array();
+		$vlist['__v_button'] = array();
 
 		return $vlist;
 	}
@@ -303,7 +303,22 @@ class SslCert extends Lxdb
 
 	function updatessl_kloxo($param)
 	{
-		$this->updateSetProgramSSL($param);
+		global $login, $sgbl;
+
+		$parent = $this->getParentO();
+
+		if ($parent->getClass() === 'web') {
+			$spath = "/home/kloxo/ssl";
+			$tpath = $sgbl->__path_program_etc;
+			$dom = $this->nname;
+
+			exec("ln -sf {$spath}/{$this->nname}.key {$tpath}/program.key");
+			exec("ln -sf {$spath}/{$this->nname}.crt {$tpath}/program.crt");
+			exec("ln -sf {$spath}/{$this->nname}.ca {$tpath}/program.ca");
+			exec("ln -sf {$spath}/{$this->nname}.pem {$tpath}/program.pem");
+		} else {
+			$this->updateSetProgramSSL($param);
+		}
 	}
 
 	function deleteSpecific()

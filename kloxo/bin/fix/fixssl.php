@@ -39,9 +39,11 @@ foreach($newlist as $n) {
 
 print("- Processing for 'program' ssl files\n");
 
-lxfile_cp("{$kloxo_file_path}/default.crt", "{$kloxo_etc_path}/program.crt");
-lxfile_cp("{$kloxo_file_path}/default.key", "{$kloxo_etc_path}/program.key");
-lxfile_cp("{$kloxo_file_path}/default.pem", "{$kloxo_etc_path}/program.pem");
+if (!is_link("{$kloxo_etc_path}/program.pem")) {
+	xfile_cp("{$kloxo_file_path}/default.crt", "{$kloxo_etc_path}/program.crt");
+	xfile_cp("{$kloxo_file_path}/default.key", "{$kloxo_etc_path}/program.key");
+	xfile_cp("{$kloxo_file_path}/default.pem", "{$kloxo_etc_path}/program.pem");
+}
 
 $login->loadAllObjects('sslcert');
 $list = $login->getList('sslcert');
