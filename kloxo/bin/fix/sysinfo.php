@@ -224,7 +224,7 @@ exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out
 if ($out[0] !== null) {
 	$phpused = $out[0];
 
-	if ($phpused = "php-fpm") {
+	if ($phpused === "php-fpm") {
 		$phpused = '--PHP Branch--';
 	}
 } else {
