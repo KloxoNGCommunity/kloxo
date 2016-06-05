@@ -163,14 +163,8 @@ if id -u postfix >/dev/null 2>&1 ; then
 	userdel postfix
 fi
 
-if [ "$(uname -m)" == "x86_64" ] ; then
-	mariarepo="mratwork-mariadb-64"
-else
-	mariarepo="mratwork-mariadb-32"
-fi
-
 #yum -y install mysql55 mysql55-server mysql55-libs
-yum -y install MariaDB-server MariaDB-shared mysqlclient15 mysqlclient16 --enablerepo=$mariarepo
+yum -y install MariaDB-server MariaDB-shared mysqlclient15 mysqlclient16
 if ! [ -d /var/lib/mysqltmp ] ; then
 	mkdir -p /var/lib/mysqltmp
 fi
