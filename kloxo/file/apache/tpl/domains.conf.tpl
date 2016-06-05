@@ -765,7 +765,7 @@ foreach ($certnamelist as $ip => $certname) {
 	DirectoryIndex <?php echo $indexorder; ?>
 
 
-	Alias /__kloxo "/home/<?php echo $user; ?>/kloxoscript/"
+	AliasMatch "/__kloxo(/|$)(.*)" "/home/<?php echo $user; ?>/kloxoscript$1$2"
 
 	Redirect "/kloxo" "https://cp.<?php echo $domainname; ?>:<?php echo $kloxoportssl; ?>"
 	Redirect "/kloxononssl" "http://cp.<?php echo $domainname; ?>:<?php echo $kloxoportnonssl; ?>"
@@ -776,7 +776,7 @@ foreach ($certnamelist as $ip => $certname) {
 			foreach ($redirectionlocal as $rl) {
 ?>
 
-	Alias <?php echo $rl[0]; ?> "<?php echo $rootpath; ?><?php echo $rl[1]; ?>/"
+	AliasMatch "<?php echo $rl[0]; ?>(/|$)(.*)" "<?php echo $rootpath; ?><?php echo $rl[1]; ?>$1$2"
 <?php
 			}
 		}
@@ -911,7 +911,7 @@ foreach ($certnamelist as $ip => $certname) {
 		if ($enablecgi) {
 ?>
 
-	ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin/"
+	ScriptAliasMatch "/cgi-bin(/|$)(.*)" "/home/<?php echo $user; ?>/<?php echo $domainname; ?>/cgi-bin$1$2"
 <?php
 		}
 ?>
@@ -959,10 +959,10 @@ foreach ($certnamelist as $ip => $certname) {
 		</FilesMatch>
 	</Directory>
 
-	ScriptAlias /awstats/ "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/"
+	ScriptAliasMatch "/awstats(/|$)(.*)" "/home/kloxo/httpd/awstats/wwwroot/cgi-bin$1$2"
 
-	Alias /awstatscss "/home/kloxo/httpd/awstats/wwwroot/css/"
-	Alias /awstatsicons "/home/kloxo/httpd/awstats/wwwroot/icon/"
+	AliasMatch "/awstatscss(/|$)(.*)" "/home/kloxo/httpd/awstats/wwwroot/css$1$2"
+	AliasMatch "/awstatsicons(/|$)(.*)" "/home/kloxo/httpd/awstats/wwwroot/icon$1$2"
 
 	Redirect "/stats" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
 	Redirect "/stats/" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
@@ -986,7 +986,7 @@ foreach ($certnamelist as $ip => $certname) {
 			} elseif ($statsapp === 'webalizer') {
 ?>
 
-	Alias /stats "/home/httpd/<?php echo $domainname; ?>/webstats/"
+	AliasMatch "/stats(/|$)(.*)" "/home/httpd/<?php echo $domainname; ?>/webstats$1$2"
 
 	<Location "/stats/">
 		Options +Indexes
@@ -1246,7 +1246,7 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($enablecgi) {
 ?>
 
-	ScriptAlias /cgi-bin/ "/home/<?php echo $user; ?>/<?php echo $redirdomainname; ?>/cgi-bin/"
+	ScriptAliasMatch "/cgi-bin(/|$)(.*)" "/home/<?php echo $user; ?>/<?php echo $redirdomainname; ?>/cgi-bin$1$2"
 <?php
 					}
 ?>
