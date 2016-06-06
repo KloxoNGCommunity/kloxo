@@ -8392,9 +8392,8 @@ function setAllSSLPortions($nolog = null)
 	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
 	setCopyLetsEncryptConfFiles();
 
-//	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
-//	setCopyAcmeshConfFiles();
-
+	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
+	setCopyAcmeshConfFiles();
 }
 
 function getListOnList($pname)

@@ -54,28 +54,25 @@ if [ -f ${lepath}/${maindom}/chain.pem ] ; then
 	## MR -- use this cat directly because troube if using like ${slink}
 	cat privkey.pem cert.pem chain.pem > all.pem
 	merge="cat privkey.pem cert.pem chain.pem > all.pem"
-	echo "${STAMP}:Merge files with '${merge}'" >> ${logdir}/letsencrypt.log
+	echo "${STAMP}:Merge with '${merge}'" >> ${logdir}/letsencrypt.log
 
 	for i in privkey.pem cert.pem chain.pem all.pem ; do
 		if [ "${i}" == "privkey.pem" ] ; then
-			#slink="ln -sf ${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key"
-			scopy="cp -f ${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key"
+			scopy="cp -f${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key"
+			cp -f${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key
 		elif [ "${i}" == "cert.pem" ] ; then
-			#slink="ln -sf ${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
-			scopy="cp -f ${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
+			scopy="cp -f${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
+			scopy="cp -f${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
 		elif [ "${i}" == "chain.pem" ] ; then
-			#slink="ln -sf ${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca"
-			scopy="cp -f ${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca"
+			scopy="cp -f${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca"
+			cp -f${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca
 		elif [ "${i}" == "all.pem" ] ; then
-			#slink="ln -sf ${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem"
-			scopy="cp -f ${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem"
+			scopy="cp -f${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem"
+			cp -f${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem
 		fi
 
 		STAMP=$(date +%Y-%m-%d:%H:%M:%S)
-		#${slink}
-		#echo "${STAMP}:Create symlink with '${slink}'" >> ${logdir}/letsencrypt.log
-		${scopy}
-		echo "${STAMP}:Copy with '${scopy}'" >> ${logdir}/letsencrypt.log
+		echo "${STAMP}:Copy with '${slink}'" >> ${logdir}/letsencrypt.log
 	done
 fi
 

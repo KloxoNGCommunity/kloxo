@@ -812,6 +812,7 @@ function process_server_input($total)
 
 function do_local_action($rmt)
 {
+/*
 	$sudoClass= array("ffile");
 
 	if (isset($rmt->robject)) {
@@ -831,6 +832,7 @@ function do_local_action($rmt)
 	}
 
 	// This code never executes
+*/
 	if ($rmt->action === "set") {
 		$object = $rmt->robject;
 		return $object->doSyncToSystem();

@@ -587,7 +587,7 @@ class web__ extends lxDriverClass
 	}
 	function AddExtraBaseDir()
 	{
-		$extrabasedir = $this->main->__var_extrabasedir;
+		$extrabasedir = ($this->main->__var_extrabasedir) ? $this->main->__var_extrabasedir : '';
 
 		return trim($extrabasedir);
 	}

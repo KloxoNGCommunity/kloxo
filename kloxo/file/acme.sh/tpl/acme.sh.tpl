@@ -40,7 +40,7 @@ else
 	action="--issue"
 fi
 
-/usr/bin/acme.sh ${action} --webroot /var/run/letsencrypt \
+${rootpath}/acme.sh ${action} --webroot /var/run/letsencrypt \
 <?php echo $dom; ?>
 	<?php echo $req; ?> >> ${logdir}/acme.sh.log \
 	&> ${logdir}/acme.sh_temp.log
@@ -49,37 +49,34 @@ if [ -f ${logdir}/acme.sh_temp.log ] ; then
 	cat ${logdir}/acme.sh_temp.log >> ${logdir}/acme.sh.log
 	'rm' -f ${logdir}/acme.sh_temp.log
 
-	exit 1
+	ls | bogus_command  2>/dev/null
+	RETVAL=$?
 else
 	if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 		cd ${rootpath}/${maindom}
 
 		merge="cat ${maindom}.key ${maindom}.cer ca.cer > ${maindom}.pem"
-		echo "[$(date)] ${merge}" >> ${logdir}/acme.sh.log
-		## MR -- use this cat directly because troube if using like ${slink}
+		echo "[$(date)] Merge with '${merge}'" >> ${logdir}/acme.sh.log
 		cat ${maindom}.key ${maindom}.cer ca.cer > ${maindom}.pem
 
 		for i in .ca .crt .key .pem ; do
 			if [ "${i}" == ".ca" ] ; then
-				#slink="ln -sf ${rootpath}/${maindom}/ca.cer ${sslpath}/${maindom}${i}"
-				scopy=="cp -f ${rootpath}/${maindom}/ca.cer ${sslpath}/${maindom}${i}"
+				scopy="cp -f ${rootpath}/${maindom}/ca.cer ${sslpath}/${maindom}${i}"
+				cp -f ${rootpath}/${maindom}/ca.cer ${sslpath}/${maindom}${i}
 			elif [ "${i}" == ".crt" ] ; then
-				#slink="ln -sf ${rootpath}/${maindom}/${maindom}.cer ${sslpath}/${maindom}${i}"
 				scopy="cp -f ${rootpath}/${maindom}/${maindom}.cer ${sslpath}/${maindom}${i}"
+				cp -f ${rootpath}/${maindom}/${maindom}.cer ${sslpath}/${maindom}${i}
 			else
-				#slink="ln -sf ${rootpath}/${maindom}/${maindom}${i} ${sslpath}/${maindom}${i}"
-				scopy="cp -f ${rootpath}/${maindom}/${maindom}${i} ${sslpath}/${maindom}${i}"				
+				scopy="cp -f ${rootpath}/${maindom}/${maindom}${i} ${sslpath}/${maindom}${i}"
+				cp -f ${rootpath}/${maindom}/${maindom}${i} ${sslpath}/${maindom}${i}
 			fi
 
-			#echo "[$(date)] ${slink}" >> ${logdir}/acme.sh.log
-			#${slink}
-			echo "[$(date)] ${scopy}" >> ${logdir}/acme.sh.log
-			${scopy}
+			echo "[$(date)] Copy with '${scopy}'" >> ${logdir}/acme.sh.log
 		done
 	fi
 
-	sh /script/fixweb --domain=${maindom} >/dev/null 2>&1
-	sh /script/add-restart-queue restart-web
-
-	exit 0
+	!ls | bogus_command  2>/dev/null
+	RETVAL=$?
 fi
+
+exit $RETVAL

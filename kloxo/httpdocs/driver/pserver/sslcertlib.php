@@ -337,20 +337,10 @@ class SslCert extends Lxdb
 			$cpath = "/root/.acme.sh";
 			$lpath = "/etc/letsencrypt";
 
-			if (file_exists("{$cpath}/acme.sh")) {
-				$use_acmesh = true;
-			} else {
-				$use_acmesh = false;
-			}
+			exec("'rm' -rf {$cpath}/{$name}*");
+			exec("'rm' -rf {$lpath}/{live,archive,renewal}/{$name}* {$spath}/{$name}*");
 
-			if ($use_acmesh) {
-				exec("'rm' -rf {$cpath}/{$name}* {$spath}/{$name}*");
-			} else {
-				exec("'rm' -rf {$lpath}/{live,archive,renewal}/{$name}* {$spath}/{$name}*");
-			}
-	
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}");
-		//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
 			createRestartFile("restart-web");
 		}
 	}
@@ -764,7 +754,7 @@ class SslCert extends Lxdb
 			$this->text_crt_content = lfile_get_contents("{$lepath}/cert.pem");
 			$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
 		}
-	
+
 		// MR -- no need because include in [domain]_letsencrypt.sh
 	//	exec("sh /script/fixweb --domain={$name}");
 	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
