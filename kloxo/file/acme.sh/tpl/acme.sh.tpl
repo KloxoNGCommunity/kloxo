@@ -42,16 +42,15 @@ fi
 
 ${rootpath}/acme.sh ${action} --webroot /var/run/letsencrypt \
 <?php echo $dom; ?>
-	<?php echo $req; ?> >> ${logdir}/acme.sh.log \
-	&> ${logdir}/acme.sh_temp.log
+	<?php echo $req; ?> >> /dev/null \
+	&> ${logdir}/acme.sh_tmp.log
 
-if [ -f ${logdir}/acme.sh_temp.log ] ; then
-	cat ${logdir}/acme.sh_temp.log >> ${logdir}/acme.sh.log
-	'rm' -f ${logdir}/acme.sh_temp.log
+RETVAL=$?
 
-	ls | bogus_command  2>/dev/null
-	RETVAL=$?
-else
+cat ${logdir}/acme.sh_tmp.log >> ${logdir}/acme.sh.log
+'rm' -f ${logdir}/acme.sh_tmp.log
+
+if [ ${RETVAL} -eq 0 ] ; then
 	if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 		cd ${rootpath}/${maindom}
 
@@ -74,9 +73,6 @@ else
 			echo "[$(date)] Copy with '${scopy}'" >> ${logdir}/acme.sh.log
 		done
 	fi
-
-	!ls | bogus_command  2>/dev/null
-	RETVAL=$?
 fi
 
-exit $RETVAL
+exit ${RETVAL}
