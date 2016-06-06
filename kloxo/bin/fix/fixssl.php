@@ -75,7 +75,9 @@ foreach($slist as $b) {
 			$list = array('key' => $keyc, 'crt' => $crtc, 'ca' => $cac);
 
 			foreach($list as $k => $v) {
+				if (strpos($v, '-----BEGIN') !== false) {
 					exec("echo '{$v}' >{$sslpath}/{$dom}.{$k}");
+				}
 			}
 
 			exec("echo '{$keyc}{$crtc}{$cac}' >{$sslpath}/{$dom}.pem");

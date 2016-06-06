@@ -18,7 +18,7 @@ if [ -d ${kloxopath}/acme.sh} ] ; then
 fi
 
 if [ -d ${acmepath} ] ; then
-	rm -rf ${kloxopath}/acme.sh >/dev/null 2>&1
+	rm -rf ${acmepath} >/dev/null 2>&1
 fi
 
 wget https://github.com/Neilpang/acme.sh/archive/master.zip -O master.zip \
@@ -47,10 +47,15 @@ if [ -f ${cronfile} ] ; then
 	if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
 		## MR -- remove old cron
 		sed -i '/acme\-cron\.sh/d' ${cronfile} >/dev/null 2>&1
+		## MR -- remove cron created by 'acme.sh --install'
+		sed -i '/acme.sh \-\-cron/d' ${cronfile} >/dev/null 2>&1
+		## MR -- remove letsencrypt-auto cron because priority for acme.sh
+		sed -i '/letsencrypt\-cron\.sh/d' ${cronfile}
 	fi
 fi
 
-crontab -l | { cat; echo "0 0 * * * sh ${kloxopath}/acme.sh/acme-cron.sh"; } | crontab -
+cmd="sh ${kloxopath}/acme.sh/acme-cron.sh"
+crontab -l | { cat; echo "0 0 * * * ${cmd} >/dev/null 2>&1"; } | crontab -
 
 cd /
 

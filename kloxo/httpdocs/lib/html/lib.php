@@ -166,6 +166,7 @@ function db_set_value($table, $set, $where, $extra = null)
 	}
 
 	$sq->rawQuery("update $table set $set where $where $extra");
+//	$sq->rawQuery("INSERT INTO $table SET $set WHERE $where $extra ON DUPLICATE KEY UPDATE $where");
 }
 
 function db_get_value($table, $nname, $var)
@@ -8409,4 +8410,24 @@ function getListOnList($pname)
 	}
 
 	return $a;
+}
+
+function callWithSudo($res, $username=null)
+{
+	if(!isset($username)){
+		$username = $res->arglist[0];
+	}
+ 
+	if(isset($res->func)) {
+		log_log("sudo_action", "Running: ".serialize($res->func)." as $username ");
+	} else if(isset($res->robject)) {
+		log_log("sudo_action", "Running: ".serialize($res->robject)." as $username ");
+	}
+
+	$var = lxshell_output("sudo",  "-u", $username,  "__path_php_path", "../bin/common/sudo_action.php",
+			escapeshellarg(base64_encode(serialize($res))));
+
+	$rmt = unserialize(base64_decode($var));
+
+	return $rmt;
 }

@@ -58,18 +58,24 @@ if [ -f ${lepath}/${maindom}/chain.pem ] ; then
 
 	for i in privkey.pem cert.pem chain.pem all.pem ; do
 		if [ "${i}" == "privkey.pem" ] ; then
-			slink="ln -sf ${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key"
+			#slink="ln -sf ${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key"
+			scopy="cp -f ${lepath}/${maindom}/privkey.pem ${sslpath}/${maindom}.key"
 		elif [ "${i}" == "cert.pem" ] ; then
-			slink="ln -sf ${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
+			#slink="ln -sf ${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
+			scopy="cp -f ${lepath}/${maindom}/cert.pem ${sslpath}/${maindom}.crt"
 		elif [ "${i}" == "chain.pem" ] ; then
-			slink="ln -sf ${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca"
+			#slink="ln -sf ${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca"
+			scopy="cp -f ${lepath}/${maindom}/chain.pem ${sslpath}/${maindom}.ca"
 		elif [ "${i}" == "all.pem" ] ; then
-			slink="ln -sf ${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem"
+			#slink="ln -sf ${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem"
+			scopy="cp -f ${lepath}/${maindom}/all.pem ${sslpath}/${maindom}.pem"
 		fi
 
 		STAMP=$(date +%Y-%m-%d:%H:%M:%S)
-		${slink}
-		echo "${STAMP}:Create symlink with '${slink}'" >> ${logdir}/letsencrypt.log
+		#${slink}
+		#echo "${STAMP}:Create symlink with '${slink}'" >> ${logdir}/letsencrypt.log
+		${scopy}
+		echo "${STAMP}:Copy with '${scopy}'" >> ${logdir}/letsencrypt.log
 	done
 fi
 

@@ -41,7 +41,9 @@ ${kloxopath}/certbot/letsencrypt-auto --version
 
 cronfile='/var/spool/cron/root'
 
-cp -f ${kloxopath}/file/letsencrypt/letsencrypt-cron.sh ${kloxopath}/certbot/letsencrypt-cron.sh >/dev/null 2>&1
+cp -f ${kloxopath}/file/letsencrypt/letsencrypt-cron.sh \
+	${kloxopath}/certbot/letsencrypt-cron.sh \
+	>/dev/null 2>&1
 
 if [ -f ${cronfile} ] ; then
 	if [ "$(cat ${cronfile}|grep 'letsencrypt-cron.sh')" != "" ] ; then
@@ -49,12 +51,16 @@ if [ -f ${cronfile} ] ; then
 		sed -i '/letsencrypt\-cron\.sh/d' ${cronfile}
 	fi
 
-	if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
-		## MR -- remove old cron
-		sed -i '/acme\-cron\.sh/d' ${cronfile}
+	## MR -- use it because priority for acme.sh if exists
+	if [ ! -f /root/.acme.sh/acme.sh ] ; then
+		if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
+			## MR -- remove old cron
+			sed -i '/acme\-cron\.sh/d' ${cronfile}
+		fi
+
+		cmd="sh ${kloxopath}/certbot/letsencrypt-cron.sh"
+		crontab -l | { cat; echo "0 0 1 * * ${cmd} >/dev/null 2>&1"; } | crontab -
 	fi
 fi
-
-crontab -l | { cat; echo "0 0 1 * * sh ${kloxopath}/certbot/letsencrypt-cron.sh >/dev/null 2>&1"; } | crontab -
 
 cd /

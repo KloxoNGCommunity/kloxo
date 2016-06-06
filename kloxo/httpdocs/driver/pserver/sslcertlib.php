@@ -334,12 +334,21 @@ class SslCert extends Lxdb
 		//	$path = "/home/{$user}/ssl";
 		//	$path = "/home/kloxo/client/{$user}/ssl";
 			$spath = "/home/kloxo/ssl";
+			$cpath = "/root/.acme.sh";
 			$lpath = "/etc/letsencrypt";
 
-		//	exec("'rm' -rf {$spath}/{$name}*.*");
-		//	exec("letsencrypt-auto revoke --certpath /etc/letsencrypt/live/{$name}/fullchain.pem");
-			exec("'rm' -rf {$lpath}/{live,archive,renewal}/{$name}* {$spath}/{$name}*");
+			if (file_exists("{$cpath}/acme.sh")) {
+				$use_acmesh = true;
+			} else {
+				$use_acmesh = false;
+			}
 
+			if ($use_acmesh) {
+				exec("'rm' -rf {$cpath}/{$name}* {$spath}/{$name}*");
+			} else {
+				exec("'rm' -rf {$lpath}/{live,archive,renewal}/{$name}* {$spath}/{$name}*");
+			}
+	
 			lxshell_return("sh", "/script/fixweb", "--domain={$name}");
 		//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
 			createRestartFile("restart-web");
@@ -706,11 +715,19 @@ class SslCert extends Lxdb
 		// MR -- disable because use ssl_data_b for key_bits
 	//	$input['key_bits'] = $this->key_bits;
 
-		$tplsource = getLinkCustomfile("/opt/configs/letsencrypt/tpl", "letsencrypt.sh.tpl");
-		$tpltarget = "{$shpath}/{$name}_letsencrypt.sh";
+		if (file_exists("/root/.acme.sh/acme.sh")) {
+			$use_acmesh = true;
+		} else {
+			$use_acmesh = false;
+		}
 
-	//	$tplsource = getLinkCustomfile("/opt/configs/acme.sh/tpl", "acme.sh.tpl");
-	//	$tpltarget = "{$shpath}/{$name}_acme.sh";
+		if ($use_acmesh) {
+			$tplsource = getLinkCustomfile("/opt/configs/acme.sh/tpl", "acme.sh.tpl");
+			$tpltarget = "{$shpath}/{$name}_acme.sh";
+		} else {
+			$tplsource = getLinkCustomfile("/opt/configs/letsencrypt/tpl", "letsencrypt.sh.tpl");
+			$tpltarget = "{$shpath}/{$name}_letsencrypt.sh";
+		}
 
 		$tpl = lfile_get_contents($tplsource);
 
@@ -724,26 +741,31 @@ class SslCert extends Lxdb
 			lfile_put_contents($tpltarget, $tplparse);
 		}
 
-		exec("cd {$shpath}; sh {$name}_letsencrypt.sh", $out, $ret);
-	//	exec("cd {$shpath}; sh {$name}_acme.sh", $out, $ret);
+		if ($use_acmesh) {
+			exec("cd {$shpath}; sh {$name}_acme.sh", $out, $ret);
+		} else {
+			exec("cd {$shpath}; sh {$name}_letsencrypt.sh", $out, $ret);
+		}
 
 		if ($ret !== 0) {
 			throw new lxException($login->getThrow("create_certificate_failed"), '', $parent->nname);
 		}
 
-		$lepath = "/etc/letsencrypt/live/{$name}";
+		if ($use_acmesh) {
+			$acpath = "/root/.acme.sh/{$name}";
 
-		$this->text_key_content = lfile_get_contents("{$lepath}/privkey.pem");
-		$this->text_crt_content = lfile_get_contents("{$lepath}/cert.pem");
-		$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
+			$this->text_key_content = lfile_get_contents("{$acpath}/{$name}.key");
+			$this->text_crt_content = lfile_get_contents("{$acpath}/{$name}.cer");
+			$this->text_ca_content = lfile_get_contents("{$acpath}/ca.cer");
+		} else {
+			$lepath = "/etc/letsencrypt/live/{$name}";
 
-	//	$acpath = "/root/.acme.sh/{$name}";
-
-	//	$this->text_key_content = lfile_get_contents("{$acpath}/{$name}.key");
-	//	$this->text_crt_content = lfile_get_contents("{$acpath}/{$name}.cer");
-	//	$this->text_ca_content = lfile_get_contents("{$acpath}/ca.cer");
+			$this->text_key_content = lfile_get_contents("{$lepath}/privkey.pem");
+			$this->text_crt_content = lfile_get_contents("{$lepath}/cert.pem");
+			$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
+		}
 	
-	// MR -- no need because include in [domain]_letsencrypt.sh
+		// MR -- no need because include in [domain]_letsencrypt.sh
 	//	exec("sh /script/fixweb --domain={$name}");
 	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
 	//	createRestartFile("restart-web");
