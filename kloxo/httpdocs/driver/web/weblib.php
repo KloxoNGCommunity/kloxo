@@ -1428,28 +1428,48 @@ class Web extends Lxdb
 
 		//	case "webselector":
 			case "webfeatures":
-				$phptype = db_get_value('serverweb', "pserver-{$this->syncserver}", 
-					'php_type');
+				$phptype = db_get_value('serverweb', "pserver-{$this->syncserver}", 'php_type');
 
-				$a = array('front-end', 'back-end');
-				$vlist['web_selected'] = array("s", $a);
-				$this->setDefaultValue('web_selected', $a[1]);
+				if (strpos($driverapp, 'proxy') !== false) {
+					$a = array('front-end', 'back-end');
 
-				$t = '--PHP Branch--';
+					$vlist['web_selected'] = array("s", $a);
+					$this->setDefaultValue('web_selected', $a[1]);
+				} else {
+					$x['web_selected'] = "none (as '" . $this->web_selected . "' in proxy)";
+					$this->convertToUnmodifiable($x);
+					$vlist['web_selected'] = $x['web_selected'];
+				}
 
-			//	if (strpos($phptype, 'php-fpm') !== false) {
-					if (file_exists('../etc/flag/enablemultiplephp.flg')) {
-						$p = getMultiplePhpList();
-						$l = array_merge(array($t), $p);
-			
+				$l = self::getPhpSelectedList();
+
+				if (($driverapp === 'apache') || 
+						((strpos($driverapp, 'proxy') !== false) && 
+						($this->web_selected === 'back-end'))) {
+					if (strpos($phptype, 'php-fpm') !== false) {
+						if (count($l) === 1) {
+							$y['php_selected'] = $l[0];
+							$this->convertToUnmodifiable($y);
+							$vlist['php_selected'] = $y['php_selected'];
+						} else {
+							$vlist['php_selected'] = array("s", $l);
+							$this->setDefaultValue('php_selected', $l[0]);
+						}
 					} else {
-						$l = array($t);
+						$y['php_selected'] = '--PHP Branch--';
+						$this->convertToUnmodifiable($y);
+						$vlist['php_selected'] = $y['php_selected'];
 					}
-			//	}
-
-
-				$vlist['php_selected'] = array("s", $l);
-				$this->setDefaultValue('php_selected', $t);
+				} else {
+					if (count($l) === 1) {
+						$y['php_selected'] = $l[0];
+						$this->convertToUnmodifiable($y);
+						$vlist['php_selected'] = $y['php_selected'];
+					} else {
+						$vlist['php_selected'] = array("s", $l);
+						$this->setDefaultValue('php_selected', $l[0]);
+					}
+				}
 
 				$vlist['time_out'] = null;
 				$this->setDefaultValue('time_out', '300');
@@ -1461,6 +1481,20 @@ class Web extends Lxdb
 
 		// MR -- this is for what?
 	//	return parent::updateform($subaction, $param);
+	}
+
+	static function getPhpSelectedList()
+	{
+		$t = '--PHP Used--';
+
+		if (file_exists('../etc/flag/enablemultiplephp.flg')) {
+			$p = getMultiplePhpList();
+			$l = array_merge(array($t), $p);
+		} else {
+			$l = array($t);
+		}
+
+		return $l;
 	}
 
 	static function getSelectList($parent, $var)
