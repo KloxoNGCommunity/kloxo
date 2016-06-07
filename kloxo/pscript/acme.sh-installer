@@ -48,7 +48,7 @@ if [ -f ${cronfile} ] ; then
 		## MR -- remove old cron
 		sed -i '/acme\-cron\.sh/d' ${cronfile} >/dev/null 2>&1
 		## MR -- remove cron created by 'acme.sh --install'
-		sed -i '/acme.sh \-\-cron/d' ${cronfile} >/dev/null 2>&1
+		sed -i '/acme\.sh \-\-cron/d' ${cronfile} >/dev/null 2>&1
 		## MR -- remove letsencrypt-auto cron because priority for acme.sh
 		sed -i '/letsencrypt\-cron\.sh/d' ${cronfile}
 	fi
