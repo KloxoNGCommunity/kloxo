@@ -108,7 +108,7 @@ class web__ extends lxDriverClass
 
 			exec("yum install {$p} -y");
 
-		//	self::setWebserverInstall($a);
+			self::setWebserverInstall($a);
 			self::setBaseWebConfig($a);
 
 		//	lxshell_return("chkconfig", $a, "on");
@@ -130,12 +130,12 @@ class web__ extends lxDriverClass
 	static function setWebserverInstall($webserver)
 	{
 		// MR -- overwrite init
-	/*
+
 		$altname = ($webserver === 'httpd') ? 'apache' : $webserver;
 
 		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$webserver}.init"),
 			"/etc/rc.d/init.d/{$webserver}");
-	
+	/*	
 		if ($webserver === 'httpd') {
 			exec("httpd -V|grep 'version'|grep '/2.4'", $out, $ret);
 
