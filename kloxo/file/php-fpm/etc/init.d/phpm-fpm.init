@@ -59,7 +59,7 @@ start () {
 stop () {
 	for (( c=0; c<count; c++ )) ; do
 		echo -n $"Stopping ${prog[$c]} (Multiple Php): "
-		killproc -p ${pidfile[$c]} ${prog[$c]}
+		killproc -p ${pidfile[$c]} -d 10 ${prog[$c]}
 
 		RETVAL=$?
 		echo
@@ -78,7 +78,7 @@ restart () {
 reload () {
 	for (( c=0; c<count; c++ )) ; do
 		echo -n $"Reloading ${prog[$c]} (Multiple Php): "
-		killproc -p ${pidfile[$c]} ${prog[$c]} -USR2
+		killproc -p ${pidfile[$c]} -d 10 ${prog[$c]} -USR2
 		RETVAL=$?
 		echo
 	done

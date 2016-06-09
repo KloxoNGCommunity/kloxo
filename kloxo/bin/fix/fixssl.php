@@ -80,7 +80,7 @@ foreach($slist as $b) {
 				}
 			}
 
-			exec("echo '{$keyc}{$crtc}{$cac}' >{$sslpath}/{$dom}.pem");
+			exec("echo '{$keyc}\n{$crtc}\n{$cac}' >{$sslpath}/{$dom}.pem");
 		}
 	}
 }
