@@ -965,7 +965,7 @@ class web__ extends lxDriverClass
 		}
 	
 		// MR -- convert
-		if (strpos(strtolower($ret), 'php branch') !== false) {
+		if (strpos(strtolower($ret), 'php used') !== false) {
 			$ret = 'php';
 		}
 

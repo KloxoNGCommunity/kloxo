@@ -1456,7 +1456,7 @@ class Web extends Lxdb
 							$this->setDefaultValue('php_selected', $l[0]);
 						}
 					} else {
-						$y['php_selected'] = '--PHP Branch--';
+						$y['php_selected'] = '--PHP Used--';
 						$this->convertToUnmodifiable($y);
 						$vlist['php_selected'] = $y['php_selected'];
 					}
