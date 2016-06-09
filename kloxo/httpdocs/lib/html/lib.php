@@ -165,8 +165,15 @@ function db_set_value($table, $set, $where, $extra = null)
 		$extra = "AND $extra";
 	}
 
-	$sq->rawQuery("update $table set $set where $where $extra");
-//	$sq->rawQuery("INSERT INTO $table SET $set WHERE $where $extra ON DUPLICATE KEY UPDATE $where");
+	$count = db_get_count($table, $where);
+
+	if ($count < 1) {
+		$data = str_replace("AND", ",", $set . " " . $extra);
+
+		$sq->rawQuery("INSERT INTO $table SET $data");
+	} else {
+		$sq->rawQuery("UPDATE $table SET $set WHERE $where $extra");
+	}
 }
 
 function db_get_value($table, $nname, $var)

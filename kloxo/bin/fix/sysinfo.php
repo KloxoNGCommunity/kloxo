@@ -234,6 +234,9 @@ if ($out[0] !== null) {
 $out = null;
 
 $spamapp = slave_get_driver('spam');
+if ($spamapp === 'spamassassin') {
+	$spamapp === 'spamassassin-toaster';
+}
 exec("rpm -q $spamapp", $out);
 
 if ($out[0] !== null) {
