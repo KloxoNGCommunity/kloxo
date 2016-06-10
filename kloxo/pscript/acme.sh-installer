@@ -13,7 +13,7 @@ yum -y install git nc >/dev/null 2>&1
 
 cd ${kloxopath}
 
-if [ -d ${kloxopath}/acme.sh} ] ; then
+if [ -d ${kloxopath}/acme.sh ] ; then
 	'rm' -rf ${kloxopath}/acme.sh >/dev/null 2>&1
 fi
 
@@ -25,7 +25,6 @@ wget https://github.com/Neilpang/acme.sh/archive/master.zip -O master.zip \
 	--no-check-certificate >/dev/null 2>&1
 
 unzip -oq master.zip >/dev/null 2>&1
-'rm' -rf acme.sh
 'mv' -f acme.sh-master acme.sh >/dev/null 2>&1
 'rm' -f master.zip >/dev/null 2>&1
 

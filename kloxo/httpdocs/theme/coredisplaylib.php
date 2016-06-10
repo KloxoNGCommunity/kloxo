@@ -1117,6 +1117,12 @@ function do_updateform($object, $subaction)
 			return;
 		}
 
+		if (isset($vlist['file_ownership_f'])) {
+			$ghtml->print_file_ownership($object);
+
+			return;
+		}
+
 		$string[] = $ghtml->object_variable_startblock($object, null, $title);
 		$string[] = $ghtml->object_inherit_classpath();
 		$ret['variable'] = $vlist;

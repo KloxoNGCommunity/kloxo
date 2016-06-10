@@ -2142,7 +2142,6 @@ class HtmlLib
 
 		<script>
 			function sendchmod(a, b) {
-				b.frm_ffile_c_select_f.value = 'perm';
 				b.frm_ffile_c_file_permission_f.value = a.user.value + a.group.value + a.other.value;
 
 				if (typeof a.frm_ffile_c_target_f != 'undefined') {
@@ -2164,25 +2163,6 @@ class HtmlLib
 
 				b.submit();
 			}
-
-			function sendchown(a, b) {
-				b.frm_ffile_c_select_f.value = 'own';
-				b.frm_ffile_c_user_f.value = a.frm_ffile_c_user_f.value;
-				b.frm_ffile_c_group_f.value = a.frm_ffile_c_group_f.value;
-
-				if (typeof a.frm_ffile_c_recursive_f != 'undefined') {
-			//	if (a.frm_ffile_c_recursive_f.checked) {
-					if (confirm("<?=$login->getKeywordUC('ownership_confirm');?>")) {
-						b.frm_ffile_c_recursive_f.value = 'on';
-					} else {
-						b.frm_ffile_c_recursive_f.value = 'off';
-					}
-				} else {
-					b.frm_ffile_c_recursive_f.value = 'off';
-				}
-
-				b.submit();
-			}
 		</script>
 
 		<form name="frmsend" method="post" action="/display.php" accept-charset="utf-8">
@@ -2192,93 +2172,11 @@ class HtmlLib
 		$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
 		$this->print_input_vars($post);
 ?>
-			<input type="hidden" id="frm_ffile_c_select_f" name="frm_ffile_c_select_f" value="perm">
-
-			<input type="hidden" id="frm_ffile_c_user_f" name="frm_ffile_c_user_f" value="">
-			<input type="hidden" id="frm_ffile_c_group_f" name="frm_ffile_c_group_f" value="">
-
-			<input type="hidden" id="frm_ffile_c_target_f" name="frm_ffile_c_target_f" value="all">
 			<input type="hidden" id="frm_ffile_c_recursive_f" name="frm_ffile_c_recursive_f" value="Off">
-
-
+			<input type="hidden" id="frm_ffile_c_target_f" name="frm_ffile_c_target_f" value="all">
 			<input type="hidden" id="frm_action" name="frm_action" value="update">
 			<input type="hidden" id="frm_subaction" name="frm_subaction" value="perm">
 		</form>
-
-<div style="padding:0px; border:1px solid #eee; background-color: #def; width: 330px; margin: 0 auto;">
-	<table cellpadding="10" cellspacing="5" border="0" width="100%" style="background-color:#efead8;">
-		<tr>
-			<td nowrap width="100%" align="center"><?=$login->getKeywordUC('ownership_change');?></td>
-		</tr>
-	</table>
-	<form name="chown" method="get" action="/display.php" accept-charset="utf-8">
-		<table cellpadding="0" cellspacing="0" border="0" width="100%">
-			<tr>
-				<td colspan="4" height="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="1">&nbsp;&nbsp;<?=$login->getKeywordUC('ownership_current');?>:</td>
-				<td colspan="3"><?=$ffile->other_username;?></td>
-			</tr>
-			<tr>
-				<td colspan="4" height="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="1">&nbsp;&nbsp;<?=$login->getKeywordUC('ownership_user');?>:</td>
-				<td colspan="3"><select name="frm_ffile_c_user_f">
-						<option SELECTED value="<?=$ffile->__username_o;?>"><?=$ffile->__username_o;?></option>
-						<option value="apache">apache</option>
-<?php
-	if ($login->isAdmin()) {
-?>
-						<option value="root">root</option>
-<?php
-	}
-?>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="4" height="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="1">&nbsp;&nbsp;<?=$login->getKeywordUC('ownership_group');?>:</td>
-				<td colspan="3"><select name="frm_ffile_c_group_f">
-						<option SELECTED value="<?=$ffile->__username_o;?>"><?=$ffile->__username_o;?></option>
-						<option value="apache">apache</option>
-<?php
-	if ($login->isAdmin()) {
-?>
-						<option value="root">root</option>
-<?php
-	}
-?>
-					</select>
-				</td>
-			</tr>
-<?php
-	if ($ffile->ttype === 'directory') {
-?>
-			<tr>
-				<td colspan="4" height="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4">&nbsp;&nbsp;<input type="checkbox" name="frm_ffile_c_recursive_f">&nbsp;<?=$login->getKeywordUC('ownership_recursively');?></td>
-			</tr>
-<?php
-	}
-?>
-			<tr>
-				<td colspan="4" height="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4" align="right"><input style="margin:5px" type="button" onclick="sendchown(document.chown,document.frmsend)" class="submitbutton" name="change" value="&nbsp;&nbsp;Change&nbsp;&nbsp;"></td>
-			</tr>
-		</table>
-	</form>
-</div>
-
-<br/>
 
 <div style="padding:0px; border:1px solid #eee; background-color: #def; width: 330px; margin: 0 auto;">
 	<table cellpadding="10" cellspacing="5" border="0" width="100%" style="background-color:#efead8;">
@@ -2375,6 +2273,129 @@ class HtmlLib
 	</script>
 
 </div>
+<?php
+	}
+
+	function print_file_ownership($ffile)
+	{
+		global $gbl, $sgbl, $login;
+
+		$imgheadleft = $login->getSkinDir() . '/images/top_lt.gif';
+		$imgheadright = $login->getSkinDir() . '/images/top_rt.gif';
+		$imgheadbg = $login->getSkinDir() . 'top_bg.gif';
+		$imgtopline = $login->getSkinDir() . '/images/top_line.gif';
+		$tablerow_head = $login->getSkinDir() . '/images/tablerow_head.gif';
+
+		$img_url = $this->get_expand_url();
+?>
+
+		<script>
+			function sendchown(a, b) {
+				b.frm_ffile_c_user_f.value = a.frm_ffile_c_user_f.value;
+				b.frm_ffile_c_group_f.value = a.frm_ffile_c_group_f.value;
+
+				if (typeof a.frm_ffile_c_recursive_f != 'undefined') {
+			//	if (a.frm_ffile_c_recursive_f.checked) {
+					if (confirm("<?=$login->getKeywordUC('ownership_confirm');?>")) {
+						b.frm_ffile_c_recursive_f.value = 'on';
+					} else {
+						b.frm_ffile_c_recursive_f.value = 'off';
+					}
+				} else {
+					b.frm_ffile_c_recursive_f.value = 'off';
+				}
+
+				b.submit();
+			}
+		</script>
+
+		<form name="frmsend" method="post" action="/display.php" accept-charset="utf-8">
+			<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
+			<input type="hidden" name="frm_ffile_c_file_ownership_f">
+<?php
+		$post['frm_o_o'] = $this->__http_vars['frm_o_o'];
+		$this->print_input_vars($post);
+?>
+			<input type="hidden" id="frm_ffile_c_user_f" name="frm_ffile_c_user_f" value="">
+			<input type="hidden" id="frm_ffile_c_group_f" name="frm_ffile_c_group_f" value="">
+			<input type="hidden" id="frm_ffile_c_recursive_f" name="frm_ffile_c_recursive_f" value="Off">
+			<input type="hidden" id="frm_action" name="frm_action" value="update">
+			<input type="hidden" id="frm_subaction" name="frm_subaction" value="own">
+		</form>
+
+<div style="padding:0px; border:1px solid #eee; background-color: #def; width: 330px; margin: 0 auto;">
+	<table cellpadding="10" cellspacing="5" border="0" width="100%" style="background-color:#efead8;">
+		<tr>
+			<td nowrap width="100%" align="center"><?=$login->getKeywordUC('ownership_change');?></td>
+		</tr>
+	</table>
+	<form name="chown" method="get" action="/display.php" accept-charset="utf-8">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+				<td colspan="4" height="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="1">&nbsp;&nbsp;<?=$login->getKeywordUC('ownership_current');?>:</td>
+				<td colspan="3"><?=$ffile->other_username;?></td>
+			</tr>
+			<tr>
+				<td colspan="4" height="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="1">&nbsp;&nbsp;<?=$login->getKeywordUC('ownership_user');?>:</td>
+				<td colspan="3"><select name="frm_ffile_c_user_f">
+						<option SELECTED value="<?=$ffile->__username_o;?>"><?=$ffile->__username_o;?></option>
+						<option value="apache">apache</option>
+<?php
+	if ($login->isAdmin()) {
+?>
+						<option value="root">root</option>
+<?php
+	}
+?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" height="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="1">&nbsp;&nbsp;<?=$login->getKeywordUC('ownership_group');?>:</td>
+				<td colspan="3"><select name="frm_ffile_c_group_f">
+						<option SELECTED value="<?=$ffile->__username_o;?>"><?=$ffile->__username_o;?></option>
+						<option value="apache">apache</option>
+<?php
+	if ($login->isAdmin()) {
+?>
+						<option value="root">root</option>
+<?php
+	}
+?>
+					</select>
+				</td>
+			</tr>
+<?php
+	if ($ffile->ttype === 'directory') {
+?>
+			<tr>
+				<td colspan="4" height="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4">&nbsp;&nbsp;<input type="checkbox" name="frm_ffile_c_recursive_f">&nbsp;<?=$login->getKeywordUC('ownership_recursively');?></td>
+			</tr>
+<?php
+	}
+?>
+			<tr>
+				<td colspan="4" height="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4" align="right"><input style="margin:5px" type="button" onclick="sendchown(document.chown,document.frmsend)" class="submitbutton" name="change" value="&nbsp;&nbsp;Change&nbsp;&nbsp;"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
 <?php
 	}
 
