@@ -14,22 +14,23 @@ yum -y install git nc >/dev/null 2>&1
 cd ${kloxopath}
 
 if [ -d ${kloxopath}/acme.sh} ] ; then
-	rm -rf ${kloxopath}/acme.sh >/dev/null 2>&1
+	'rm' -rf ${kloxopath}/acme.sh >/dev/null 2>&1
 fi
 
 if [ -d ${acmepath} ] ; then
-	rm -rf ${acmepath} >/dev/null 2>&1
+	'rm' -rf ${acmepath} >/dev/null 2>&1
 fi
 
 wget https://github.com/Neilpang/acme.sh/archive/master.zip -O master.zip \
 	--no-check-certificate >/dev/null 2>&1
 
 unzip -oq master.zip >/dev/null 2>&1
-mv -f acme.sh-master acme.sh >/dev/null 2>&1
-rm -f master.zip >/dev/null 2>&1
+'rm' -rf acme.sh
+'mv' -f acme.sh-master acme.sh >/dev/null 2>&1
+'rm' -f master.zip >/dev/null 2>&1
 
 if [ -L ${acmeshfile} ] ; then
-	rm -f ${acmeshfile} >/dev/null 2>&1
+	'rm' -f ${acmeshfile} >/dev/null 2>&1
 fi
 
 cd ${kloxopath}/acme.sh
@@ -41,7 +42,7 @@ if [ ! -d ${logpath} ] ; then
 	mkdir -p ${logpath} >/dev/null 2>&1
 fi
 
-cp -f ${kloxopath}/file/acme.sh/acme-cron.sh ${kloxopath}/acme.sh/acme-cron.sh >/dev/null 2>&1
+'cp' -f ${kloxopath}/file/acme.sh/acme-cron.sh ${kloxopath}/acme.sh/acme-cron.sh >/dev/null 2>&1
 
 if [ -f ${cronfile} ] ; then
 	if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then

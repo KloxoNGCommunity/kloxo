@@ -17,21 +17,22 @@ yum -y install gcc dialog augeas-libs openssl-devel libffi-devel \
 yum -y install git
 cd ${kloxopath}
 if [ -d ${kloxopath}/letsencrypt ] ; then
-	rm -rf ${kloxopath}/letsencrypt
-	rm -rf /root/.local/share/letsencrypt
+	'rm' -rf ${kloxopath}/letsencrypt
+	'rm' -rf /root/.local/share/letsencrypt
 fi
 
 if [ -d ${kloxopath}/certbot ] ; then
-	rm -rf ${kloxopath}/certbot
-	rm -rf /root/.local/share/certbot
+	'rm' -rf ${kloxopath}/certbot
+	'rm' -rf /root/.local/share/certbot
 fi
 
 wget https://github.com/certbot/certbot/archive/master.zip -O master.zip \
 	--no-check-certificate > /dev/null 2>&1
 
 unzip -oq master.zip > /dev/null 2>&1
-mv -f certbot-master certbot
-rm -f master.zip
+'rm' -rf certbot
+'mv' -f certbot-master certbot
+'rm' -f master.zip
 
 ln -sf ${kloxopath}/certbot/letsencrypt-auto /usr/bin/letsencrypt-auto
 ln -sf ${kloxopath}/certbot/certbot-auto /usr/bin/certbot-auto
@@ -41,7 +42,7 @@ ${kloxopath}/certbot/letsencrypt-auto --version
 
 cronfile='/var/spool/cron/root'
 
-cp -f ${kloxopath}/file/letsencrypt/letsencrypt-cron.sh \
+'cp' -f ${kloxopath}/file/letsencrypt/letsencrypt-cron.sh \
 	${kloxopath}/certbot/letsencrypt-cron.sh \
 	>/dev/null 2>&1
 
