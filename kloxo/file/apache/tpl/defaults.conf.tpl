@@ -217,6 +217,12 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "header_base";
 }
 
+if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
+	$ssl_base = "custom.ssl_base";
+} else {
+	$ssl_base = "ssl_base";
+}
+
 // MR -- for future purpose, apache user have uid 50000
 // $userinfoapache = posix_getpwnam('apache');
 // $fpmportapache = (50000 + $userinfoapache['uid']);
@@ -307,11 +313,8 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		SSLEngine On
-		SSLProtocol ALL -SSLv2 -SSLv3
-		SSLHonorCipherOrder On
-		#SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-		SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL 
+		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
+
 		SSLCertificateFile <?php echo $certname; ?>.pem
 		SSLCertificateKeyFile <?php echo $certname; ?>.key
 <?php

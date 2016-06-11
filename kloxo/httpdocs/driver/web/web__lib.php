@@ -133,19 +133,15 @@ class web__ extends lxDriverClass
 
 		$altname = ($webserver === 'httpd') ? 'apache' : $webserver;
 
-		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$webserver}.init"),
-			"/etc/rc.d/init.d/{$webserver}");
-	/*	
-		if ($webserver === 'httpd') {
-			exec("httpd -V|grep 'version'|grep '/2.4'", $out, $ret);
-
-			if ($ret === 0) {
-				exec("echo 'pidfile=\${PIDFILE-/var/run/httpd/httpd.pid}' > /etc/sysconfig/httpd24");
-			} else {
-				exec("rm -f /etc/sysconfig/httpd24");
-			}
+		if (($altname === 'apache') && (file_exists("../etc/flag/use_apache24.flg"))) {
+			$src = 'httpd24';
+		} else {
+			$src = $webserver;
 		}
-	*/
+
+		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$src}.init"),
+			"/etc/rc.d/init.d/{$webserver}");
+				
 		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
 	}
 

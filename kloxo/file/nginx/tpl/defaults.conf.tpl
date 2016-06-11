@@ -5,9 +5,9 @@
 $srcpath = "/opt/configs/nginx";
 
 if (file_exists("{$srcpath}/etc/sysconfig/custom.spawn-fcgi")) {
-	exec("'cp' -f {$srcpath}/etc/sysconfig/custom.spawn-fcgi /etc/sysconfig/spawfcgi");
+	exec("'cp' -f {$srcpath}/etc/sysconfig/custom.spawn-fcgi /etc/sysconfig/spawn-fcgi");
 } else {
-	exec("'cp' -f {$srcpath}/etc/sysconfig/spawn-fcgi /etc/sysconfig/spawfcgi");
+	exec("'cp' -f {$srcpath}/etc/sysconfig/spawn-fcgi /etc/sysconfig/spawn-fcgi");
 }
 
 if (!isset($phpselected)) {
