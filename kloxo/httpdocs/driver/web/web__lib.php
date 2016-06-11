@@ -141,7 +141,7 @@ class web__ extends lxDriverClass
 
 		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$src}.init"),
 			"/etc/rc.d/init.d/{$webserver}");
-				
+
 		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
 	}
 
