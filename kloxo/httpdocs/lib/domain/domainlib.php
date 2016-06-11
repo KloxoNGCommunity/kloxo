@@ -1848,6 +1848,7 @@ class all_domain extends domaind
 	//	$alist[] = "a=show";
 
 		if ($parent->isAdmin()) {
+			$alist[] = "a=list&c=all_client";
 			$alist[] = "a=list&c=all_domain";
 			$alist[] = "a=list&c=all_addondomain";
 			$alist[] = "a=list&c=all_mailaccount";
@@ -1859,6 +1860,7 @@ class all_domain extends domaind
 			$alist[] = "a=list&c=all_sslcert";
 		} else {
 			if ($parent->isLte('reseller')) {
+				$alist[] = "a=list&c=all_client";
 				$alist[] = "a=list&c=all_domain";
 			}
 		}
@@ -1881,7 +1883,7 @@ class all_domain extends domaind
 			$nlist['mmailpserver'] = array('s', $rs);
 			$nlist['dnspserver'] = array('s', $rs);
 		}
-		
+
 		return $nlist;
 	}
 

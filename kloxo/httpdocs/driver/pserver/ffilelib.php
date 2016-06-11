@@ -1012,7 +1012,11 @@ class Ffile extends Lxclass
 
 		$alist['property'][] = "a=updateform&sa=perm";
 		$alist['property'][] = "a=updateform&sa=own";
-		
+
+		if ($this->nname !== '/') {
+			$alist['property'][] = "a=updateform&sa=rename";
+		}
+
 		if ($this->isOn('readonly')) {
 			if (!$this->is_dir()) {
 				$alist['property'][] = "a=update&sa=download";
