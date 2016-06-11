@@ -108,7 +108,6 @@ class SslCert extends Lxdb
 			$vlist["ssl_data_b_s_organizationalUnitName_r"] = null;
 			$vlist["ssl_data_b_s_emailAddress_r"] = null;
 		//	$vlist["ssl_data_b_s_subjectAltName_r"] = null;
-
 		}
 
 		if ($this->add_type !== 'link') {
@@ -667,8 +666,7 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$this->createDomainSSL();
-		} 
-
+		}
 	}
 
 	function createLetsencrypt()
@@ -755,10 +753,9 @@ class SslCert extends Lxdb
 			$this->text_ca_content = lfile_get_contents("{$lepath}/chain.pem");
 		}
 
-		// MR -- no need because include in [domain]_letsencrypt.sh
-	//	exec("sh /script/fixweb --domain={$name}");
+		exec("sh /script/fixweb --domain={$name}");
 	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
-	//	createRestartFile("restart-web");
+		createRestartFile("restart-web");
 	}
 
 	function createLink()
@@ -787,6 +784,10 @@ class SslCert extends Lxdb
 				exec("ln -sf {$sslparent}.{$v} {$targetpath}/{$parent->nname}.{$v}");
 			}
 		}
+	
+		exec("sh /script/fixweb --domain={$this->parent_domain}");
+	//	createRestartFile($gbl->getSyncClass(null, $this->syncserver, 'web'));
+		createRestartFile("restart-web");
 	}
 
 	static function getSslCertnameFromIP($ipname)
