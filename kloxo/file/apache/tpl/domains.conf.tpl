@@ -124,10 +124,23 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "header_base";
 }
 
-if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
-	$ssl_base = "custom.ssl_base";
+if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+	$use_httpd24 = true;
 } else {
-	$ssl_base = "ssl_base";
+	$use_httpd24 = false;
+}
+
+if ($use_http24) {
+	if (file_exists("{$globalspath}/custom.ssl_base24.conf")) {
+		$ssl_base = "custom.ssl_base24";
+	} else {
+		$ssl_base = "ssl_base24";
+	}
+} else {
+	if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
+		$ssl_base = "custom.ssl_base";
+	} else {
+		$ssl_base = "ssl_base";
 }
 
 $userinfo = posix_getpwnam($user);

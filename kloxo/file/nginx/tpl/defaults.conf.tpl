@@ -104,8 +104,16 @@ if ($stats['app'] === 'webalizer') {
 }
 
 if (($webcache === 'none') || (!$webcache)) {
-	$confs = array_merge($confs, array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front' => 'listen_ssl',
-		'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default' => 'listen_ssl_default'));
+	$out = null;
+	exec("echo $(2>&1 nginx -V | tr -- - '\n' | grep _module)|tr ' ' '\n'|grep 'http_v2_module'", $out);
+
+	if ($out[0] !== null) {
+		$confs = array_merge($confs, array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front24' => 'listen_ssl',
+			'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default24' => 'listen_ssl_default'));
+	} else {
+		$confs = array_merge($confs, array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front' => 'listen_ssl',
+			'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default' => 'listen_ssl_default'));
+	}
 } else {
 	$confs = array_merge($confs, array('listen_nonssl_back' => 'listen_nonssl', 'listen_ssl_back' => 'listen_ssl',
 		'listen_nonssl_back_default' => 'listen_nonssl_default', 'listen_ssl_back_default' => 'listen_ssl_default'));

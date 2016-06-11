@@ -50,7 +50,7 @@ $mpmlist = array('prefork', 'itk', 'event', 'worker');
 
 
 if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
-	$httptype="httpd24";
+	$use_httpd24 = true;
 
 	exec("'cp' -f /opt/configs/apache/etc/conf/httpd24.conf /etc/httpd/conf/httpd.conf");
 
@@ -75,7 +75,7 @@ if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 	// MR -- make blank content
 	exec("echo '' > /etc/sysconfig/httpd");
 } else {
-	$httptype="httpd";
+	$use_httpd24 = false;
 
 	exec("'cp' -f /opt/configs/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
 
@@ -217,10 +217,17 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "header_base";
 }
 
-if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
-	$ssl_base = "custom.ssl_base";
+if ($use_http24) {
+	if (file_exists("{$globalspath}/custom.ssl_base24.conf")) {
+		$ssl_base = "custom.ssl_base24";
+	} else {
+		$ssl_base = "ssl_base24";
+	}
 } else {
-	$ssl_base = "ssl_base";
+	if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
+		$ssl_base = "custom.ssl_base";
+	} else {
+		$ssl_base = "ssl_base";
 }
 
 // MR -- for future purpose, apache user have uid 50000
