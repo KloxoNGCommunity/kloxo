@@ -97,6 +97,19 @@ server.port = "<?php echo $ports[0]; ?>"
 <?php echo $portlist[1]; ?> = "<?php echo $ports[1]; ?>"
 
 
+
+$SERVER["socket"] == ":" + var.portssl {
+	ssl.pemfile = "<?php echo $cert_file; ?>.pem"
+<?php
+if (file_exists("{$cert_file}.ca")) {
+?>
+	ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+<?php
+}
+?>
+}
+
+
 $HTTP["host"] =~ "^default\.*" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
@@ -111,11 +124,11 @@ $HTTP["host"] =~ "^default\.*" {
 <?php
 if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 <?php
 }
 ?>
+
 		ssl.use-sslv2 = "disable"
 		ssl.use-sslv3 = "disable"
 

@@ -162,7 +162,6 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 <?php
 	if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -203,7 +202,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 <?php
 	if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -247,7 +245,6 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 <?php
 	if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -289,7 +286,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 <?php
 		if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -326,7 +322,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 <?php
 		if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -384,7 +379,6 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 <?php
 		if (file_exists("{$cert_file}.ca")) {
 ?>
-
 	 	ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -438,7 +432,6 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 <?php
 			if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -487,7 +480,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 <?php
 			if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -530,7 +522,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 <?php
 				if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -568,7 +559,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 <?php
 					if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -629,7 +619,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 <?php
 			if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -672,7 +661,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 <?php
 				if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -709,7 +697,6 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 <?php
 					if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -769,7 +756,6 @@ $HTTP["host"] =~ "<?php echo $domainname; ?><?php echo $ipssl; ?>" {
 <?php
 	if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
@@ -810,7 +796,6 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 <?php
 if (file_exists("{$cert_file}.ca")) {
 ?>
-
 		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 
 		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
