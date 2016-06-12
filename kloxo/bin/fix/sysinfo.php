@@ -247,6 +247,12 @@ if ($out[0] !== null) {
 
 $out = null;
 
+if (file_exists("/etc/httpd/conf.d/suphp2.conf")) {
+	$secondary_php = 'On';
+} else {
+	$secondary_php = 'Off';
+}
+
 exec("free -m", $meminfo);
 
 exec("df -h /", $diskinfo);
@@ -292,6 +298,7 @@ echo "     - Lighttpd: " .  $applighttpd . "\n";
 echo "     - Nginx: " .  $appnginx . "\n";
 echo "     - Httpd: " .  $apphttpd . "\n";
 echo "       - PHP Type: " . $phptype . "\n";
+echo "       - Secondary PHP: " . $secondary_php . "\n";
 echo "   4. WebCache: " .  slave_get_driver('webcache') . "\n";
 echo "     - ATS: " .  $appats . "\n";
 echo "     - Squid: " .  $appsquid . "\n";

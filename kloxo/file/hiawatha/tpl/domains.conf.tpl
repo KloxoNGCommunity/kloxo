@@ -275,7 +275,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 			if ($count !== 0) {
 ?>
@@ -342,7 +341,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 			if ($count !== 0) {
 ?>
@@ -412,7 +410,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 			if ($count !== 0) {
 ?>
@@ -490,7 +487,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 				if ($count !== 0) {
 ?>
@@ -540,7 +536,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 				if ($count !== 0) {
 ?>
@@ -619,7 +614,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 		if ($count !== 0) {
 			if ($enablessl) {
@@ -813,7 +807,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -902,7 +895,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -995,7 +987,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 ?>
@@ -1066,7 +1057,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>
@@ -1142,7 +1132,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>
@@ -1236,7 +1225,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 					if ($count !== 0) {
 ?>
@@ -1315,7 +1303,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>
@@ -1393,7 +1380,6 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
-	UseDirectory = well_known
 <?php
 						if ($count !== 0) {
 ?>

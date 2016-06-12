@@ -104,6 +104,7 @@ UrlToolkit {
 	Match ^/(stats|awstats|cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
 	Match ^/(css|files|images|js)(/|$) Return
 	Match ^/(favicon.ico|robots.txt|sitemap.xml)$ Return
+	Match ^/.well-known/(.*) Return
 	Match /(.*)\?(.*) Rewrite /index.php?path=$1&$2
 	Match .*\?(.*) Rewrite /index.php?$1
 	Match .* Rewrite /index.php
@@ -125,12 +126,6 @@ FastCGIserver {
 	Extension = pl,cgi
 	SessionTimeout = <?php echo $timeout; ?>
 
-}
-
-Directory {
-	DirectoryID = well_known
-	Path = /.well-known
-	AccessList = allow all
 }
 
 CGIhandler = /usr/bin/perl:pl
@@ -179,7 +174,6 @@ Binding {
 
 
 Alias = /.well-known:/var/run/letsencrypt/.well-known
-UseDirectory = well_known
 
 ### 'default' config
 set var_user = apache
