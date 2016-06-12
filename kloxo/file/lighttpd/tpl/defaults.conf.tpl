@@ -20,6 +20,8 @@ $srcconfdpath = "/opt/configs/lighttpd/etc/conf.d";
 $trgtconfpath = "/etc/lighttpd";
 $trgtconfdpath = "/etc/lighttpd/conf.d";
 
+$sslpath = "/home/kloxo/ssl";
+
 if (file_exists("{$srcconfpath}/custom.lighttpd.conf")) {
 	copy("{$srcconfpath}/custom.lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
 } else if (file_exists("{$srcconfpath}/lighttpd.conf")) {
@@ -74,7 +76,7 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 
 foreach ($certnamelist as $ip => $certname) {
 	$cert_ip = $ip;
-	$cert_file = "/home/kloxo/ssl/{$certname}";
+	$cert_file = "{$sslpath}/{$certname}";
 }
 
 if ($indexorder) {
@@ -94,11 +96,12 @@ $count = 0;
 $tabs = array("", "\t");
 ?>
 server.port = "<?php echo $ports[0]; ?>"
-<?php echo $portlist[1]; ?> = "<?php echo $ports[1]; ?>"
 
 
+$SERVER["socket"] == ":<?php echo $ports[1]; ?>" {
 
-$SERVER["socket"] == ":" + var.portssl {
+	ssl.engine = "enable"
+
 	ssl.pemfile = "<?php echo $cert_file; ?>.pem"
 <?php
 if (file_exists("{$cert_file}.ca")) {
@@ -106,33 +109,48 @@ if (file_exists("{$cert_file}.ca")) {
 	ssl.ca-file = "<?php echo $cert_file; ?>.ca"
 <?php
 }
+
+$dirs = glob("{$sslpath}/*.pem", GLOB_MARK);
+
+if (count($dirs) > 0) {
+	foreach($dirs as $k => $v) {
+		$f = str_replace(".pem", "", $v);
+		$d = str_replace("{$sslpath}/", "", $f);
+
+		if ($certname === $d) { continue; }
 ?>
+
+	$HTTP["host"] =~ "(^|www\.|cp\.|webmail\.)<?php echo $d; ?>" {
+
+		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
+		ssl.pemfile = "<?php echo $v; ?>"
+<?php
+		if (file_exists("{$f}.ca")) {
+?>
+		ssl.ca-file = "<?php echo $f; ?>.ca"
+<?php
+		}
+?>
+
+		ssl.use-sslv2 = "disable"
+		ssl.use-sslv3 = "disable"
+		sl.use-compression = "disable"
+		ssl.honor-cipher-order = "enable"
+		ssl.cipher-list = "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS"
+
+	}
+<?php
+	}
+}
+?>
+
 }
 
 
 $HTTP["host"] =~ "^default\.*" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
-
-	$HTTP["scheme"] == "https" {
-
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
-
-		ssl.engine = "enable"
-
-		ssl.pemfile = "<?php echo $cert_file; ?>.pem"
-<?php
-if (file_exists("{$cert_file}.ca")) {
-?>
-		ssl.ca-file = "<?php echo $cert_file; ?>.ca"
-<?php
-}
-?>
-
-		ssl.use-sslv2 = "disable"
-		ssl.use-sslv3 = "disable"
-
-	}
 
 	var.rootdir = "/home/kloxo/httpd/default/"
 	var.user = "apache"

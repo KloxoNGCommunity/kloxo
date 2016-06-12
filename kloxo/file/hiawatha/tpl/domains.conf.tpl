@@ -6,7 +6,7 @@
 
 <?php
 
-$custom_header="#CustomHeader = Strict-Transport-Security:max-age=31536000
+$custom_header="CustomHeader = Strict-Transport-Security:max-age=604800;preload
 \tCustomHeader = X-Content-Type-Options:nosniff
 \tCustomHeader = X-XSS-Protection:1;mode=block
 \tCustomHeader = X-Frame-Options:SAMEORIGIN

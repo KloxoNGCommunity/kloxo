@@ -28,6 +28,9 @@ $trgtcpath = "/etc/httpd/conf";
 $trgtcdpath = "/etc/httpd/conf.d";
 $trgtcmdpath = "/etc/httpd/conf.modules.d";
 
+$sslpath = "/home/kloxo/ssl";
+$kloxopath = "/usr/local/lxlabs/kloxo";
+
 // MR -- fix error 'Directory / is not owned by admin' for suphp
 exec("chown root.root /");
 
@@ -49,10 +52,10 @@ $mpmlist = array('prefork', 'itk', 'event', 'worker');
 // @exec("rpm -qa|grep -E '^httpd24-2.4', $out);
 
 
-if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 	$use_httpd24 = true;
 
-	exec("'cp' -f /opt/configs/apache/etc/conf/httpd24.conf /etc/httpd/conf/httpd.conf");
+	exec("'cp' -f {$srccpath}/httpd24.conf /{$trgtcpath}/httpd.conf");
 
 	if (file_exists("{$trgtcmdpath}/00-base.conf")) {
 		exec("sed -i 's/^LoadModule deflate_module/#LoadModule deflate_module/' {$trgtcmdpath}/00-base.conf");
@@ -77,7 +80,7 @@ if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 } else {
 	$use_httpd24 = false;
 
-	exec("'cp' -f /opt/configs/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
+	exec("'cp' -f {$srccpath}/httpd.conf {$trgtcpath}/httpd.conf");
 
 	// as 'httpd' as default mpm
 	exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
@@ -170,7 +173,7 @@ if (file_exists("{$srcpath}/custom.suphp.conf")) {
 }
 
 foreach ($certnamelist as $ip => $certname) {
-	$certnamelist[$ip] = "/home/kloxo/ssl/{$certname}";
+	$certnamelist[$ip] = "{$sslpath}/{$certname}";
 }
 
 if ($reverseproxy) {

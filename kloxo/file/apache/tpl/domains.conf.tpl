@@ -11,6 +11,8 @@ if (!isset($timeout)) {
 }
 
 $globalspath = "/opt/configs/apache/conf/globals";
+$sslpath = "/home/kloxo/ssl";
+$kloxopath = "/usr/local/lxlabs/kloxo";
 
 if ($reverseproxy) {
 	$ports[] = '30080';
@@ -43,8 +45,6 @@ if ($reverseproxy) {
 }
 
 foreach ($certnamelist as $ip => $certname) {
-	$sslpath = "/home/kloxo/ssl";
-
 	if (file_exists("{$sslpath}/{$domainname}.key")) {
 		$certnamelist[$ip] = "{$sslpath}/{$domainname}";
 	} else {
@@ -124,7 +124,7 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "header_base";
 }
 
-if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
+if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 	$use_httpd24 = true;
 } else {
 	$use_httpd24 = false;
