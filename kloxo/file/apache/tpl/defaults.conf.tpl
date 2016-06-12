@@ -93,10 +93,18 @@ if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 	exec("sed -i 's/^LoadModule cgi_module/#LoadModule cgi_module/' {$trgtcpath}/httpd.conf");
 }
 
-if (file_exists("{$srccpath}/custom.{$httptype}.conf")) {
-	copy("{$srccpath}/custom.{$httptype}.conf", "{$trgtcpath}/httpd.conf");
+if ($use_httpd24) {
+	if (file_exists("{$srccpath}/custom.httpd24.conf")) {
+		copy("{$srccpath}/custom.httpd24.conf", "{$trgtcpath}/httpd.conf");
+	} else if (file_exists("{$srccpath}/httpd24.conf")) {
+		copy("{$srccpath}/httpd24.conf", "{$trgtcpath}/httpd.conf");
+	}
 } else {
-	copy("{$srccpath}/{$httptype}.conf", "{$trgtcpath}/httpd.conf");
+	if (file_exists("{$srccpath}/custom.httpd.conf")) {
+		copy("{$srccpath}/custom.httpd.conf", "{$trgtcpath}/httpd.conf");
+	} else if (file_exists("{$srccpath}/httpd.conf")) {
+		copy("{$srccpath}/httpd.conf", "{$trgtcpath}/httpd.conf");
+	}
 }
 
 $modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define", "_inactive_");
@@ -104,7 +112,7 @@ $modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define", "_in
 foreach ($modlist as $k => $v) {
 	if (file_exists("{$srccdpath}/custom.{$v}.conf")) {
 		copy("{$srccdpath}/custom.{$v}.conf", "{$trgtcdpath}/{$v}.conf");
-	} else {
+	} else if (file_exists("{$srccdpath}/{$v}.conf")) {
 		if ($v !== '~lxcenter') {
 			copy("{$srccdpath}/{$v}.conf", "{$trgtcdpath}/{$v}.conf");
 		}
@@ -130,23 +138,25 @@ foreach ($typelist as $k => $v) {
 	if (strpos($phptype, "{$w}") !== false) {
 		if (file_exists("{$srccdpath}/custom.{$v}.conf")) {
 			copy("{$srccdpath}/custom.{$v}.conf", "{$trgtcdpath}/{$v}.conf");
-		} else {
+		} else if (file_exists("{$srccdpath}/{$v}.conf")) {
 			copy("{$srccdpath}/{$v}.conf", "{$trgtcdpath}/{$v}.conf");
 		}
 	} else {
 		if ($v === 'proxy_fcgi') {
 			if (file_exists("{$srccmdpath}/custom._inactive_.conf")) {
 				copy("{$srccmdpath}/custom._inactive_.conf", "{$trgtcmdpath}/00-proxy.conf");
-			} else {
+			} else if (file_exists("{$srccmdpath}/_inactive_.conf")) {
 				copy("{$srccmdpath}/_inactive_.conf", "{$trgtcmdpath}/00-proxy.conf");
 			}
 
-			unlink("{$trgtcdpath}/{$v}.conf");
-			unlink("{$trgtcdpath}/{$v}.nonconf");
+			if (file_exists("{$trgtcdpath}/{$v}.conf")) {
+				unlink("{$trgtcdpath}/{$v}.conf");
+				unlink("{$trgtcdpath}/{$v}.nonconf");
+			}
 		} else {
 			if (file_exists("{$srccdpath}/custom._inactive_.conf")) {
 				copy("{$srccdpath}/custom._inactive_.conf", "{$trgtcdpath}/{$v}.conf");
-			} else {
+			} else if (file_exists("{$srccdpath}/_inactive_.conf")) {
 				copy("{$srccdpath}/_inactive_.conf", "{$trgtcdpath}/{$v}.conf");
 			}
 		}
@@ -155,7 +165,7 @@ foreach ($typelist as $k => $v) {
 
 if (file_exists("{$srcpath}/custom.suphp.conf")) {
 	copy("{$srcpath}/custom.suphp.conf", "{$trgtpath}/suphp.conf");
-} else {
+} else if (file_exists("{$srcpath}/suphp.conf")) {
 	copy("{$srcpath}/suphp.conf", "{$trgtpath}/suphp.conf");
 }
 
@@ -207,27 +217,28 @@ if ($indexorder) {
 
 if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 	$acmechallenge = "custom.acme-challenge";
-} else {
+} else if (file_exists("{$globalspath}/acme-challenge.conf")) {
 	$acmechallenge = "acme-challenge";
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "custom.header_base";
-} else {
+} else if (file_exists("{$globalspath}/header_base.conf")) {
 	$header_base = "header_base";
 }
 
-if ($use_http24) {
+if ($use_httpd24) {
 	if (file_exists("{$globalspath}/custom.ssl_base24.conf")) {
 		$ssl_base = "custom.ssl_base24";
-	} else {
+	} else if (file_exists("{$globalspath}/ssl_base24.conf")) {
 		$ssl_base = "ssl_base24";
 	}
 } else {
 	if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 		$ssl_base = "custom.ssl_base";
-	} else {
+	} else if (file_exists("{$globalspath}/ssl_base.conf")) {
 		$ssl_base = "ssl_base";
+	}
 }
 
 // MR -- for future purpose, apache user have uid 50000

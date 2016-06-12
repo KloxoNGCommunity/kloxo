@@ -114,13 +114,13 @@ if ($blockips) {
 
 if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 	$acmechallenge = "custom.acme-challenge";
-} else {
+} else if (file_exists("{$globalspath}/acme-challenge.conf")) {
 	$acmechallenge = "acme-challenge";
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "custom.header_base";
-} else {
+} else if (file_exists("{$globalspath}/header_base.conf")) {
 	$header_base = "header_base";
 }
 
@@ -130,17 +130,18 @@ if (file_exists("/usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg")) {
 	$use_httpd24 = false;
 }
 
-if ($use_http24) {
+if ($use_httpd24) {
 	if (file_exists("{$globalspath}/custom.ssl_base24.conf")) {
 		$ssl_base = "custom.ssl_base24";
-	} else {
+	} else if (file_exists("{$globalspath}/ssl_base24.conf")) {
 		$ssl_base = "ssl_base24";
 	}
 } else {
 	if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 		$ssl_base = "custom.ssl_base";
-	} else {
+	} else if (file_exists("{$globalspath}/ssl_base.conf")) {
 		$ssl_base = "ssl_base";
+	}
 }
 
 $userinfo = posix_getpwnam($user);

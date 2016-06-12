@@ -25,19 +25,19 @@ $globalspath = "/opt/configs/nginx/conf/globals";
 
 if (file_exists("{$globalspath}/custom.gzip.conf")) {
 		$gzip_base = "custom.gzip";
-} else {
+} else if (file_exists("{$globalspath}/gzip.conf")) {
 		$gzip_base = "gzip";
 }
 
 if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 	$ssl_base = "custom.ssl_base";
-} else {
+} else if (file_exists("{$globalspath}/ssl_base.conf")) {
 	$ssl_base = "ssl_base";
 }
 
 if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 	$acme_challenge = "custom.acme-challenge";
-} else {
+} else if (file_exists("{$globalspath}/acme-challenge.conf")) {
 	$acme_challenge = "acme-challenge";
 }
 
@@ -139,13 +139,13 @@ if ($out[0]) {
 
 if (file_exists("{$globalspath}/custom.generic.conf")) {
 	$generic = 'custom.generic';
-} else {
+} else if (file_exists("{$globalspath}/generic.conf")) {
 	$generic = 'generic';
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "custom.header_base";
-} else {
+} else if (file_exists("{$globalspath}/header_base.conf")) {
 	$header_base = "header_base";
 }
 

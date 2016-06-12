@@ -6,7 +6,7 @@ $srcpath = "/opt/configs/nginx";
 
 if (file_exists("{$srcpath}/etc/sysconfig/custom.spawn-fcgi")) {
 	exec("'cp' -f {$srcpath}/etc/sysconfig/custom.spawn-fcgi /etc/sysconfig/spawn-fcgi");
-} else {
+} else if (file_exists("{$srcpath}/etc/sysconfig/spawn-fcgi")) {
 	exec("'cp' -f {$srcpath}/etc/sysconfig/spawn-fcgi /etc/sysconfig/spawn-fcgi");
 }
 
@@ -40,7 +40,7 @@ $globalspath = "{$srcpath}/conf/globals";
 
 if (file_exists("{$globalspath}/custom.gzip.conf")) {
 		$gzip_base = "custom.gzip";
-} else {
+} else if (file_exists("{$globalspath}/gzip.conf")) {
 		$gzip_base = "gzip";
 }
 
@@ -51,7 +51,7 @@ $switches = array('', '_ssl');
 foreach ($confs as $k => $v) {
 	if (file_exists("{$srcconfpath}/custom.{$v}")) {
 		copy("{$srcconfpath}/custom.{$v}", "{$trgtconfpath}/{$v}");
-	} else {
+	} else if (file_exists("{$srcconfpath}/{$v}")) {
 		copy("{$srcconfpath}/{$v}", "{$trgtconfpath}/{$v}");
 	}
 }
@@ -61,7 +61,7 @@ $confs = array('~lxcenter.conf', 'default.conf');
 foreach ($confs as $k => $v) {
 	if (file_exists("{$srcconfdpath}/custom.{$v}")) {
 		copy("{$srcconfdpath}/custom.{$v}", "{$trgtconfdpath}/{$v}");
-	} else {
+	} else if (file_exists("{$srcconfdpath}/{$v}")) {
 		copy("{$srcconfdpath}/{$v}", "{$trgtconfdpath}/{$v}");
 	}
 }
@@ -122,26 +122,26 @@ if (($webcache === 'none') || (!$webcache)) {
 foreach ($confs as $k => $v) {
 	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
 		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
-	} else {
+	} else if (file_exists("{$globalspath}/{$k}.conf")) {
 		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
 	}
 }
 
 if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
 	$ssl_base = "custom.ssl_base";
-} else {
+} else if (file_exists("{$globalspath}/ssl_base.conf")) {
 	$ssl_base = "ssl_base";
 }
 
 if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 	$acme_challenge = "custom.acme-challenge";
-} else {
+} else if (file_exists("{$globalspath}/acme-challenge.conf")) {
 	$acme_challenge = "acme-challenge";
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "custom.header_base";
-} else {
+} else if (file_exists("{$globalspath}/header_base.conf")) {
 	$header_base = "header_base";
 }
 

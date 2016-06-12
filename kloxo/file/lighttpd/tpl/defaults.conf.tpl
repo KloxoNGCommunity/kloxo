@@ -22,13 +22,13 @@ $trgtconfdpath = "/etc/lighttpd/conf.d";
 
 if (file_exists("{$srcconfpath}/custom.lighttpd.conf")) {
 	copy("{$srcconfpath}/custom.lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
-} else {
+} else if (file_exists("{$srcconfpath}/lighttpd.conf")) {
 	copy("{$srcconfpath}/lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
 }
 
 if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
 	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-} else {
+} else if (file_exists("{$srcconfdpath}/~lxcenter.conf")) {
 	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
 }
 
@@ -61,14 +61,14 @@ if ($reverseproxy) {
 foreach ($confs as $k => $v) {
 	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
 		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
-	} else {
+	} else if (file_exists("{$globalspath}/{$k}.conf")) {
 		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
 	}
 }
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "custom.header_base";
-} else {
+} else if (file_exists("{$globalspath}/header_base.conf")) {
 	$header_base = "header_base";
 }
 
