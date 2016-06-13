@@ -101,7 +101,7 @@ UrlToolkit {
 	ToolkitID = permalink
 	RequestURI exists Return
 	## process for 'special dirs' of Kloxo-MR
-	Match ^/(stats|awstats|cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
+	Match ^/(stats|cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
 	Match ^/(css|files|images|js)(/|$) Return
 	Match ^/(favicon.ico|robots.txt|sitemap.xml)$ Return
 	Match ^/.well-known/(.*) Return

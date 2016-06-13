@@ -51,11 +51,9 @@ if ($reverseproxy) {
 		'dirprotect_none' => 'dirprotect_stats');
 } else {
 	if ($stats['app'] === 'webalizer') {
-		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_webalizer' => 'stats',
-			'dirprotect_webalizer' => 'dirprotect_stats');
+		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_webalizer' => 'stats');
 	} else {
-		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_awstats' => 'stats',
-			'dirprotect_awstats' => 'dirprotect_stats');
+		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_awstats' => 'stats');
 	}
 
 }

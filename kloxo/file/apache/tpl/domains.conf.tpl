@@ -827,7 +827,7 @@ foreach ($certnamelist as $ip => $certname) {
 		<IfModule itk.c>
 			AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-			<Location "/awstats/">
+			<Location "/stats/">
 				AssignUserId apache apache
 			</Location>
 		</IfModule>
@@ -971,45 +971,31 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Redirect "/stats" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
 	Redirect "/stats/" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
-
-	<Location "/stats/">
-		Options +Indexes
-	</Location>
 <?php
-		 		if ($statsprotect) {
-?>
-
-	<Location "/awstats/">
-		AuthType Basic
-		AuthName "Awstats"
-		#AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
-		AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
-		require valid-user
-	</Location>
-<?php
-				}
 			} elseif ($statsapp === 'webalizer') {
 ?>
 
 	AliasMatch "/stats(/|$)(.*)" "/home/httpd/<?php echo $domainname; ?>/webstats$1$2"
-
-	<Location "/stats/">
-		Options +Indexes
-	</Location>
 <?php
-				if ($statsprotect) {
+			}
 ?>
 
 	<Location "/stats/">
+		Options +Indexes
+<?php
+			if ($statsprotect) {
+?>
+
 		AuthType Basic
-		AuthName "stats"
+		AuthName "AuthStats"
 		#AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
 		AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
 		require valid-user
+<?php
+			}
+?>
 	</Location>
 <?php
-				}
-			}
 		}
 
 		if ($apacheextratext) {
@@ -1156,7 +1142,7 @@ foreach ($certnamelist as $ip => $certname) {
 		<IfModule itk.c>
 			AssignUserId <?php echo $sockuser; ?> <?php echo $sockuser; ?>
 
-			<Location "/awstats/">
+			<Location "/stats/">
 				AssignUserId apache apache
 			</Location>
 		</IfModule>

@@ -98,9 +98,9 @@ if ($reverseproxy) {
 }
 
 if ($stats['app'] === 'webalizer') {
-	$confs = array_merge($confs, array('stats_webalizer' => 'stats', 'dirprotect_webalizer' => 'dirprotect_stats'));
+	$confs = array_merge($confs, array('stats_webalizer' => 'stats'));
 } else {
-	$confs = array_merge($confs, array('stats_awstats' => 'stats', 'dirprotect_awstats' => 'dirprotect_stats'));
+	$confs = array_merge($confs, array('stats_awstats' => 'stats'));
 }
 
 if (($webcache === 'none') || (!$webcache)) {

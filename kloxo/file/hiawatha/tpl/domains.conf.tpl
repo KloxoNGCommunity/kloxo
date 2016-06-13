@@ -131,13 +131,12 @@ $disabledocroot = "/home/kloxo/httpd/disable";
 $domcleaner = str_replace('-', '_', str_replace('.', '_', $domainname));
 
 //if (!$reverseproxy) {
-	if ($statsapp === 'awstats') {
 ?>
 
 Directory {
 	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
 
-	Path = /awstats
+	Path = /stats
 <?php
 		if ($statsprotect) {
 ?>
@@ -147,26 +146,6 @@ Directory {
 ?>
 }
 <?php
-	} elseif ($statsapp === 'webalizer') {
-		if ($statsprotect) {
-?>
-
-Directory {
-	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
-
-	Path = /webstats
-<?php
-		if ($statsprotect) {
-?>
-	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
-<?php
-		}
-?>
-}
-
-<?php
-		}
-	}
 
 	if ($dirprotect) {
 		foreach ($dirprotect as $k) {
@@ -703,9 +682,6 @@ VirtualHost {
 
 	AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log
 	ErrorLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log
-
-	UseDirectory = stats_dir_for_<?php echo $domclean; ?>
-
 <?php
 				if ($statsapp === 'awstats') {
 ?>
@@ -721,6 +697,11 @@ VirtualHost {
 	Alias = /stats:/home/httpd/<?php echo $domainname; ?>/webstats
 <?php
 				}
+?>
+
+	UseDirectory = stats_dir_for_<?php echo $domclean; ?>
+
+<?php
 			}
 		}
 
