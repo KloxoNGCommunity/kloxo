@@ -31,7 +31,7 @@ class sslipaddress__sync extends lxDriverClass
 		if ($contentsca) {
 			lfile_put_contents("{$path}/{$name}.ca", $contentsca);
 		} else {
-			lxfile_cp("theme/filecore/program.ca", "{$path}/{$name}.ca");
+			lxfile_cp("../file/ssl/default.ca", "{$path}/{$name}.ca");
 		}
 
 	//	createRestartFile($this->main->__var_webdriver);

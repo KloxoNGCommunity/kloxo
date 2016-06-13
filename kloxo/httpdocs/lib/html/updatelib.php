@@ -149,7 +149,4 @@ function doUpdates()
 	getKloxoLicenseInfo();
 
 	createDatabaseInterfaceTemplate();
-
-//	fix_self_ssl();
-
 }

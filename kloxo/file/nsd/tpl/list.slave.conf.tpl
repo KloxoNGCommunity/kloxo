@@ -35,6 +35,7 @@
 		$zone .= "    zonefile: slave/{$v}\n";
 		$zone .= "    allow-notify: {$c} NOKEY\n";
 		$zone .= "    request-xfr: {$c}@53 NOKEY\n";
+		$zone .= "    notify-retry: 5\n";
 
 		$str .= $zone . "\n";
 	}

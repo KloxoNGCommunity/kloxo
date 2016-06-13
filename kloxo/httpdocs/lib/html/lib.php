@@ -4172,16 +4172,6 @@ function addLineIfNotExistPattern($filename, $searchpattern, $pattern)
 
 }
 
-function fix_self_ssl($nolog = null)
-{
-	global $gbl, $sgbl, $login, $ghtml;
-
-	log_cleanup("Fix Self SSL", $nolog);
-	log_cleanup("- Fix process", $nolog);
-
-	lxfile_cp("theme/filecore/program.pem", "../etc/program.pem");
-}
-
 function remove_line($filename, $pattern)
 {
 	$list = lfile($filename);
