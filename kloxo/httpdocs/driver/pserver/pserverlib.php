@@ -109,7 +109,7 @@ class pserver extends pservercore {
 					$a[$class] = $v;
 					rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
 
-					if ($nofixconfig === 'on') { continue; }
+				//	if ($nofixconfig === 'on') { continue; }
 
 				//	lxshell_return("sh", "/script/fix{$fixc}", "--target=defaults", "--server={$this->nname}", "--nolog");
 					exec("sh /script/fix{$fixc} --target=defaults --server={$this->nname} --nolog");

@@ -296,6 +296,15 @@ function lxshell_zip_core($updateflag, $dir, $zipname, $filelist)
 	} else if ($updateflag === 'tar') {
 		$command = "tar -cf";
 		$command2 = '--ignore-failed-read';
+	} else if (($updateflag === 'tgz') || ($updateflag === 'tar.gz')) {
+		$command = "tar -cxf";
+		$command2 = '--ignore-failed-read';
+	} else if (($updateflag === 'tbz2') || ($updateflag === 'tar.bz2')) {
+		$command = "tar -cjf";
+		$command2 = '--ignore-failed-read';
+	} else if (($updateflag === 'txz') || ($updateflag === 'tar.xz')) {
+		$command = "tar -cJf";
+		$command2 = '--ignore-failed-read';
 	} else if ($updateflag === 'p7z') {
 		$command = "7za a -y";
 		$command2 = '';

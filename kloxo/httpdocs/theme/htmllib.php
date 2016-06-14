@@ -20,11 +20,13 @@ class HtmlLib
 
 		if (csa($value, "<") || csa($value, ">") || csa($value, "(") || csa($value, ")")) {
 			log_security("XSS attempt: $value");
+
 			exit;
 		}
 
 		if (csa($value, "'")) {
 			log_security("SQL injection attempt: $value");
+
 			exit;
 		}
 	}
@@ -42,9 +44,11 @@ class HtmlLib
 				if (isset($k)) {
 					self::checkForScript($k);
 				}
+
 				if (isset($v['class'])) {
 					self::checkForScript($v['class']);
 				}
+
 				if (isset($v['nname'])) {
 					self::checkForScript($v['nname']);
 				}
@@ -97,6 +101,7 @@ class HtmlLib
 				$arvar = substr($key, 0, strpos($key, "_aaa_"));
 				$arkey = substr($key, strpos($key, "_aaa_") + 5);
 				$arval = $value;
+
 				if (!csa($arvar, "password") && !csa($arvar, "text")) {
 					$hvar[$arvar][$arkey] = $arval;
 				} else {
@@ -179,7 +184,9 @@ class HtmlLib
 			if (is_array($value)) {
 				foreach ($value as $k => &$v) {
 					if (is_array($v)) {
-						foreach ($v as $nk => &$nv) $nv = urldecode($nv);
+						foreach ($v as $nk => &$nv) {
+							$nv = urldecode($nv);
+						}
 					} else {
 						$v = urldecode($v);
 					}
@@ -271,7 +278,9 @@ class HtmlLib
 		$v = $this->__http_vars[$newkey];
 
 		if (is_array($v)) {
-			foreach ($v as $kk => $vv) $nv[$kk] = $vv;
+			foreach ($v as $kk => $vv) {
+				$nv[$kk] = $vv;
+			}
 		} else {
 			$nv = $v;
 		}
@@ -2745,7 +2754,7 @@ class HtmlLib
 	{
 		$this->fix_stuff_or_class($stuff, $variable, $class, $nvalue);
 		$name = "frm_{$class}_c_{$variable}";
-
+/*
 		if (!$value) {
 			$value = $nvalue;
 		}
@@ -2753,7 +2762,7 @@ class HtmlLib
 		if ($nonameflag) {
 			$name = null;
 		}
-
+*/
 		$descr = $this->get_classvar_description_after_overload($class, $variable);
 		$val = exec_class_method($class, 'getTextAreaProperties', $variable);
 
@@ -5254,16 +5263,14 @@ class HtmlLib
 		$noselect = (isset($button[1]) && $button[1]) ? 1 : 0;
 		$doconfirm = (isset($button[3]) && $button[3]) ? 1 : 0;
 		$imgbtnsep = $login->getSkinDir() . "/images/btn_sep.gif";
-
 ?>
 
 		<td width=10></td>
 		<td align="center" valign=bottom>
 
-			<form name="form<?= $form_name ?>" method="post" action="<?= $path ?>">
+			<form name="form<?= $form_name ?>" method="post" action="<?= $url ?>">
 				<input type='hidden' name='frm_token' value='<?= getCSRFToken(); ?>'>
 <?php
-
 		$this->print_input_vars($post);
 
 		if (!$noselect) {
@@ -6902,7 +6909,7 @@ class HtmlLib
 			if (strpos($varname, '_num') !== false) {
 				$maxval_view = $maxval;
 			} else {
-				$maxval_view = number_format($maxval, 0, '', ',');
+				$maxval_view = number_format((int)$maxval, 0, '', ',');
 			}
 		}
 
@@ -6914,7 +6921,7 @@ class HtmlLib
 			}
 		} else {
 			if ($val) {
-				$val_view = number_format($val, 2, '.', ',');
+				$val_view = number_format((int)$val, 2, '.', ',');
 			} else {
 				$val_view = '0.00';
 			}

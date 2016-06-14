@@ -1,5 +1,6 @@
 <?php 
 $__description["owner"] = array("Owner");
+$__description["ownership"] = array("Ownership");
 $__description["command_center"] = array("Command Center");
 $__description["Command"] = array("Command");
 $__description["Confirm"] = array("Confirm");
@@ -514,6 +515,7 @@ $__description["size_(k)"] = array("Size (k)");
 $__description["new_name"] = array("New Name");
 $__description["folder_name"] = array("Folder Name");
 $__description["zip_file_name"] = array("Zip File Name");
+$__description["zip_file_type"] = array("Zip Type");
 $__description["upload_file"] = array("Upload File");
 $__description["overwrite_existing_file"] = array("Overwrite Existing File");
 $__description["overwrite_existing_files"] = array("Overwrite Existing Files");
@@ -532,8 +534,8 @@ $__description["html_edit"] = array("Html Edit");
 $__description["cut"] = array("Cut");
 $__description["change_permissions"] = array("Permissions");
 $__description["change_ownership"] = array("Ownership");
-$__description["newdir"] = array("Newdir");
-$__description["newfile"] = array("Newfile");
+$__description["newdir"] = array("New dir");
+$__description["newfile"] = array("New file");
 $__description["Remove"] = array("Remove");
 $__description["home"] = array("Home");
 $__description["up"] = array("Up");

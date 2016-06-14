@@ -18,6 +18,8 @@ class web__ extends lxDriverClass
 
 		lxshell_return("service", $a, "stop");
 
+	/*	// MR -- no neeed 'yum remove' because all installed
+
 		$blist = array();
 
 		// MR -- for fixed an issue version conflict!
@@ -46,7 +48,7 @@ class web__ extends lxDriverClass
 		if ($a !== 'hiawatha') {
 			exec("yum remove {$p} -y");
 		}
-
+	*/
 		exec("chkconfig {$a} off");
 
 		if (file_exists("/etc/init.d/{$a}")) {
@@ -60,13 +62,15 @@ class web__ extends lxDriverClass
 
 		$list = getWebDriverList($drivertype);
 
+		setAllWebserverInstall();
+
 		if (!isWebProxyOrApache($drivertype)) {
 			self::uninstallMeTrue('apache');
 		}
 
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
-
+		/*
 			$blist = array();
 
 			if ($a === 'httpd') {
@@ -107,11 +111,10 @@ class web__ extends lxDriverClass
 			$p = implode(" ", $blist);
 
 			exec("yum install {$p} -y");
-
+		*/
 			self::setWebserverInstall($a);
 			self::setBaseWebConfig($a);
 
-		//	lxshell_return("chkconfig", $a, "on");
 			exec("chkconfig {$a} on");
 
 			setCopyWebConfFiles($l);

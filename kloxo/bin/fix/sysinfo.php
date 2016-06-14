@@ -81,17 +81,18 @@ if ($hiawathabranch) {
 	exec("rpm -q {$hiawathabranch}", $out);
 	$apphiawatha = trim($out[0]);
 	$kloxohiawatha = $apphiawatha;
-
+/*
 	$out = null;
 
 	exec("chkconfig --list|grep 'hiawatha'|grep ':on'", $out);
 
-	if ($out[0] !== null) {
+	if (count($out) > 0) {
 		$apphiawatha = "--used--";
 	} else {
 	//	$apphiawatha .= " (also as webserver)";
 		$apphiawatha = "--unused--";
 	}
+*/
 } else {
 	$apphiawatha = '--uninstalled--';
 }
@@ -272,31 +273,32 @@ echo "   - Hostname: " . gethostname() . "\n";
 echo "C. Services:\n";
 echo "   1. MySQL: " .  $appmysql . "\n";
 echo "   2. PHP: \n";
-echo "      - 'Branch' installed: " .  $appphp . "\n";
+echo "      - Installed:\n";
+echo "        - Branch: " .  $appphp . "\n";
 if ($phpmdirs) {
-	echo "      - 'Multiple' installed: \n";
+	echo "        - Multiple: \n";
 	foreach ($phpmdirs as $k => $v) {
 		$v1 = str_replace("/", "", str_replace("/opt/", "", $v));
 		$v2  = file_get_contents($v . "/version");
-		echo "        * " . $v1 . "-" . str_replace("\n", "", $v2) . "\n";
+		echo "          * " . $v1 . "-" . str_replace("\n", "", $v2) . "\n";
 	}
 }
-echo "      - 'Used' selected: " . $phpused . "\n";
+echo "      - Used: " . $phpused . "\n";
 
 $out = null;
 exec("chkconfig --list 'phpm-fpm'|grep ':on'", $out);
 
 if ($out[0] !== null) {
-	echo "      - 'Multiple' status: enable\n";
+	echo "      - Multiple: enable\n";
 } else {
-	echo "      - 'Multiple' status: disable\n";
+	echo "      - Multiple: disable\n";
 }
 
 echo "   3. Web Used: " . slave_get_driver('web') . "\n";
 echo "     - Hiawatha: " .  $apphiawatha . "\n";
 echo "     - Lighttpd: " .  $applighttpd . "\n";
 echo "     - Nginx: " .  $appnginx . "\n";
-echo "     - Httpd: " .  $apphttpd . "\n";
+echo "     - Apache: " .  $apphttpd . "\n";
 echo "       - PHP Type: " . $phptype . "\n";
 echo "       - Secondary PHP: " . $secondary_php . "\n";
 echo "   4. WebCache: " .  slave_get_driver('webcache') . "\n";
