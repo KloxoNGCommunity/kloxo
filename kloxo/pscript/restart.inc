@@ -46,7 +46,6 @@ else
 							'rm' -f /opt/configs/php-fpm/sock/php-*.sock
 							${ipath}/${item} start
 						elif [ "${item}" == "nsd" ] ; then
-							${ipath}/${item} reload
 							${ipath}/${item} restart
 						else
 							${ipath}/${item} restart

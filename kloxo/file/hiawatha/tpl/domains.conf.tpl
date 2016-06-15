@@ -290,13 +290,13 @@ VirtualHost {
 
 
 	EnablePathInfo = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 			if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -356,13 +356,13 @@ VirtualHost {
 
 
 	EnablePathInfo = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 			if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -433,13 +433,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 			if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -559,13 +559,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 			if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -732,14 +732,14 @@ VirtualHost {
 	UseFastCGI = php_for_<?php echo $domclean; ?>
 
 	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 		} else {
 			if ($enablephp) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -837,13 +837,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 					if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -925,13 +925,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 					if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -1004,13 +1004,13 @@ VirtualHost {
 
 
 	EnablePathInfo = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 					if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -1080,13 +1080,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 						if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -1157,13 +1157,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 						if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -1250,13 +1250,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 					if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -1328,13 +1328,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 						if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
@@ -1405,13 +1405,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
+
+	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+	UseLocalConfig = yes
 <?php
 						if ($reverseproxy) {
 ?>
 
-	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-	UseLocalConfig = yes
-	#IgnoreDotHiawatha = yes
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive
 	ReverseProxy ^/.* <?php echo $protocols[$count]; ?>://127.0.0.1:<?php echo $reverseports[$count]; ?>/ <?php echo $timeout; ?> keep-alive

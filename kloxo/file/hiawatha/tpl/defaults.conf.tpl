@@ -190,15 +190,15 @@ FollowSymlinks = no
 TimeForCGI = <?php echo $timeout; ?>
 
 
+## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
+UseLocalConfig = yes
+
 <?php echo $error_handler; ?>
 
 <?php
 		if ($reverseproxy) {
 ?>
 
-## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
-UseLocalConfig = yes
-#IgnoreDotHiawatha = yes
 UseToolkit = block_shellshock, findindexfile
 #ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
