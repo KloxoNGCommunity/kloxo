@@ -2,4 +2,4 @@
 
 PATH="/usr/bin:/bin"
 
-exec /usr/local/sbin/dovecot -F 2>&1
+exec /usr/sbin/dovecot -F 2>&1

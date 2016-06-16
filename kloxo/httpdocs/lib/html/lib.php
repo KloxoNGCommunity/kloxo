@@ -4754,7 +4754,8 @@ function lxguard_main($clearflag = false, $since = false)
 
 	$list = lfile_get_unserialize("$lxgpath/access.info");
 
-	$type = array('sshd' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages');
+	$type = array('sshd' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages',
+		'vpopmail' => '/var/log/maillog');
 
 	foreach ($type as $key => $file) {
 		if (file_exists($file)) {
@@ -4768,6 +4769,8 @@ function lxguard_main($clearflag = false, $since = false)
 					parse_ssh_log($fp, $list);
 				} elseif ($key === 'pure-ftpd') {
 					parse_ftp_log($fp, $list);
+				} elseif ($key === 'vpopmail') {
+					parse_mail_log($fp, $list);
 				}
 
 				lfile_put_serialize("$lxgpath/access.info", $list);

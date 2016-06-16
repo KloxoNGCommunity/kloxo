@@ -134,6 +134,14 @@ $domcleaner = str_replace('-', '_', str_replace('.', '_', $domainname));
 ?>
 
 Directory {
+    DirectoryID = cache_expire
+    Path = <?php echo $rootpath; ?>
+
+    Extensions = jpeg, jpg, gif, png, ico, css, js
+    ExpirePeriod 1 week
+}
+
+Directory {
 	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
 
 	Path = /stats
@@ -653,6 +661,8 @@ VirtualHost {
 
 	WebsiteRoot = <?php echo $rootpath; ?>
 
+
+	UseDirectory = cache_expire
 
 	EnablePathInfo = yes
 
