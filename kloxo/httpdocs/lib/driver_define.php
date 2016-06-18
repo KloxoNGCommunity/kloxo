@@ -85,3 +85,7 @@ $gl_class_array['serverweb__none'] = "driver/web/serverweb__nonelib.php";
 
 $gl_class_array['rubyrails__linux'] = "driver/web/rubyrails__linuxlib.php";
 
+$gl_class_array['mailin__courier'] = "driver/mmail/mailin__courierlib.php";
+$gl_class_array['mailin__dovecot'] = "driver/mmail/mailin__dovecot.php";
+$gl_class_array['mailin__none'] = "driver/mmail/mailin__nonelib.php";
+

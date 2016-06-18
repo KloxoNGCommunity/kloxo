@@ -164,7 +164,7 @@ if id -u postfix >/dev/null 2>&1 ; then
 fi
 
 #yum -y install mysql55 mysql55-server mysql55-libs
-yum -y install MariaDB-server MariaDB-shared mysqlclient15 mysqlclient16
+yum -y install MariaDB MariaDB-shared mysqlclient15 mysqlclient16
 if ! [ -d /var/lib/mysqltmp ] ; then
 	mkdir -p /var/lib/mysqltmp
 fi

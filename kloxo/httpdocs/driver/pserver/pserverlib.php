@@ -4,10 +4,11 @@ class pserver extends pservercore {
 
 	static $__desc_mailqueue_l = array('', '', '', '');
 	static $__desc_clientmail_l = array('', '', '', '');
-	static $__desc_web_driver = array('', '', 'web', '');
-	static $__desc_webcache_driver = array('', '', 'webcache', '');
-	static $__desc_dns_driver = array('', '', 'dns', '');
-	static $__desc_spam_driver = array('', '', 'spam', '');
+	static $__desc_web_driver = array('', '', 'web_driver', '');
+	static $__desc_webcache_driver = array('', '', 'webcache_driver', '');
+	static $__desc_dns_driver = array('', '', 'dns_driver', '');
+	static $__desc_mailin_driver = array('', '', 'mailin_driver', '');
+	static $__desc_spam_driver = array('', '', 'spam_driver', '');
 	static $__acdesc_update_switchprogram = array('', '', 'switch_program', '');
 	static $__acdesc_update_mailqueuedelete = array('', '', 'delete', '');
 	static $__acdesc_update_mailqueueflush = array('', '', 'flush', '');
@@ -90,7 +91,8 @@ class pserver extends pservercore {
 			} else {
 				$t = str_replace("proxy", "", $v);
 
-				if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver') && ($t !== 'none')) {
+			//	if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver') && ($t !== 'none')) {
+				if ($k === 'mailin_driver') {
 					throw new lxException($login->getThrow("not_ready_to_use"), '', $v);
 				} else {
 					dprint("Change for $k: $v\n");
@@ -105,6 +107,8 @@ class pserver extends pservercore {
 					$fixc = $class;
 
 					if ($class === 'spam') { $fixc = "mmail"; }
+
+					if ($class === 'mailin') { $fixc = "mmail"; }
 
 					$a[$class] = $v;
 					rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
@@ -321,7 +325,7 @@ class pserver extends pservercore {
 		$alist[] = "a=list&c=service";
 		$alist[] = "a=list&c=cron";
 		$alist[] = "a=list&c=process";
-		$alist[] = "a=list&c=component";
+	//	$alist[] = "a=list&c=component";
 		$alist[] = "a=list&c=ipaddress";
 		$alist[] = "a=updateform&sa=commandcenter";
 		$alist[] = "a=updateform&sa=switchprogram";

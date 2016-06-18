@@ -339,7 +339,7 @@ class Web extends Lxdb
 	static $__desc_dirprotect_l = array('db', '', '', '');
 	static $__desc_ftpuser_l = array("Rqdtb", "", "");
 //	static $__desc_installappsnapshot_l = array("d", "", "");
-	static $__desc_component_l = array("", "", "");
+//	static $__desc_component_l = array("", "", "");
 	static $__desc_rubyrails_l = array("qdb", "", "");
 	static $__desc_odbc_l = array("db", "", "");
 	static $__desc_davuser_l = array("db", "", "");
@@ -1093,7 +1093,7 @@ class Web extends Lxdb
 
 	//	$alist[] = "a=show&o=phpini";
 	//	$alist[] = "a=updateform&sa=lighty_rewrite";
-		$alist[] = "a=list&c=component";
+	//	$alist[] = "a=list&c=component";
 
 		$alist[] = "a=updateform&sa=permalink";
 

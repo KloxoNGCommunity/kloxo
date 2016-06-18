@@ -66,7 +66,6 @@ $__description["rebuild"] = array("Rebuild");
 $__description["DNS"] = array("DNS");
 $__description["domain_name"] = array("Domain Name");
 $__description["manage_dns"] = array("Manage DNS");
-$__description["dns"] = array("DNS");
 
 // Added Kloxo Version 6.1.6
 $__description["SRV"] = array("SRV");
@@ -199,7 +198,7 @@ $__description["logout_time"] = array("Logout Time");
 $__description["auxiliary_id"] = array("Auxiliary Id");
 $__description["consuming_parent"] = array("Consuming Parent");
 $__description["logout_reason"] = array("Logout Reason");
-$__description["Information"] = array("Information");
+$__description["information"] = array("Information");
 $__description["."] = array(".");
 $__description["permission"] = array("Permission");
 $__description["s"] = array("S");
@@ -937,10 +936,14 @@ $__description["re_load_driver_info"] = array("Re Load Driver Info");
 $__description["mysql_password_reset"] = array("MySQL Password Reset");
 $__description["domain_list"] = array("Domain List");
 $__description["kloxo_smtp"] = array("Kloxo SMTP");
-$__description["web"] = array("Web");
-$__description["webcache"] = array("Cache");
-$__description["spam"] = array("Spam");
+
+$__description["web_driver"] = array("Web");
+$__description["webcache_driver"] = array("Cache");
+$__description["dns_driver"] = array("DNS");
+$__description["spam_driver"] = array("Spam");
+$__description["mailin_driver"] = array("Pop3/Imap4");
 $__description["switch_program"] = array("Switch Program");
+
 $__description["delete"] = array("Delete");
 $__description["flush"] = array("Flush");
 $__description["st"] = array("St");

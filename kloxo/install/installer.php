@@ -227,7 +227,9 @@ function install_database()
 
 	if (strpos($mysql, 'MariaDB') !== false) {
 		// MR -- need separated becuase 'yum install MariaDB' will be install Galera
-		system("yum -y install {$mysql}-server {$mysql}-shared");
+	//	system("yum -y install {$mysql}-server {$mysql}-shared");
+		// MR -- already fix by MariaDB
+	//	system("yum -y install {$mysql} {$mysql}-shared");		
 	} else {
 		system("yum -y install {$mysql} {$mysql}-server {$mysql}-libs");
 	}
@@ -270,7 +272,7 @@ function install_mail()
 
 	$s = "autorespond-toaster courier-authlib-toaster courier-imap-toaster " .
 		"daemontools-toaster ezmlm-toaster libdomainkeys-toaster libsrs2-toaster " .
-		"maildrop-toaster qmail-pop3d-toaster qmail-toaster " .
+		"maildrop-toaster qmail-toaster " .
 		"ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter";
 
 	system("yum -y install {$s}");
@@ -504,7 +506,7 @@ function kloxo_install_step2()
 
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
-			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";}}';
+			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";s:6:"mailin";s:7:"courier";}}';
 	//	system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
 	}
 
