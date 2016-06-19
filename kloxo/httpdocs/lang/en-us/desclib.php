@@ -941,7 +941,9 @@ $__description["web_driver"] = array("Web");
 $__description["webcache_driver"] = array("Cache");
 $__description["dns_driver"] = array("DNS");
 $__description["spam_driver"] = array("Spam");
-$__description["mailin_driver"] = array("Pop3/Imap4");
+$__description["mailincoming_driver"] = array("Pop3/Imap4");
+$__description["mailoutgoing_driver"] = array("Smtp/Submission");
+
 $__description["switch_program"] = array("Switch Program");
 
 $__description["delete"] = array("Delete");

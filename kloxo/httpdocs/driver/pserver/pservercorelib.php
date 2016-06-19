@@ -1248,27 +1248,29 @@ STRIN;
 				$this->webcache_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('webcache'));
 				$this->dns_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('dns'));
 				$this->spam_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('spam'));
-				$this->mailin_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('mailin'));
+				$this->mailincoming_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('mailincoming'));
+				$this->mailoutgoing_driver = rl_exec_get('localhost', $this->syncserver, 'slave_get_driver', array('mailoutgoing'));
 
 				if (!isset($this->web_driver)) {
 					$this->web_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'web');
 					$this->webcache_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'webcache');
 					$this->dns_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'dns');
 					$this->spam_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'spam');
-					$this->mailin_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'mailin');
+					$this->mailincoming_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'mailincoming');
+					$this->mailoutgoing_driver = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'mailoutgoing');
 				}
 
-				if (!isset($this->mailin_driver)) {
-					$a['web'] = $this->web_driver;
-					$a['webcache'] = $this->webcache_driver;
-					$a['dns'] = $this->dns_driver;
-					$a['spam'] = $this->spam_driver;
-					$a['mailin'] = 'courier';
+				$a['web'] = $this->web_driver;
+				$a['webcache'] = $this->webcache_driver;
+				$a['dns'] = $this->dns_driver;
+				$a['spam'] = $this->spam_driver;
+				$a['mailincoming'] = (isset($this->mailincoming_driver)) ? $this->mailincoming_driver : 'courier';
+				$a['mailoutgoing'] = (isset($this->mailoutgoing_driver)) ? $this->mailoutgoing_driver : 'qmail';
 
-					$this->mailin_driver = $a['mailin'];
+				$this->mailincoming_driver = $a['mailincoming'];
+				$this->mailincoming_driver = $a['mailincoming'];
 
-					rl_exec_get('localhost', $this->syncserver, 'slave_save_db', array('driver', $a));
-				}
+				rl_exec_get('localhost', $this->syncserver, 'slave_save_db', array('driver', $a));
 
 				$this->was();
 
@@ -1305,7 +1307,8 @@ STRIN;
 
 				$vlist['spam_driver'] = array('s', array('none', 'spamassassin', 'bogofilter'));
 
-				$vlist['mailin_driver'] = array('s', array('none', 'courier', 'dovecot'));
+				$vlist['mailincoming_driver'] = array('s', array('none', 'courier', 'dovecot'));
+				$vlist['mailoutgoing_driver'] = array('s', array('none', 'qmail'));
 
 				// MR -- no needed under Kloxo-MR 7.0 because fix 'defaults' level
 			//	$vlist['no_fix_config'] = array('f', 'on', 'off');

@@ -48,7 +48,7 @@ class Ffile extends Lxclass
 	static $__desc_content = array("t", "", "file");
 	static $__desc___username_o = array("", "", "user_name");
 //	static $__desc_other_username = array("", "", "owner");
-	static $__desc_other_username = array("", "", "owner", "a=updateform&sa=own");
+	static $__desc_other_username = array("", "", "ownership", "a=updateform&sa=own");
 	static $__desc_pvrename = array("b", "", "ren", "a=updateform&sa=rename");
 	static $__desc_pvrename_v_rename = array("", "", "rename");
 	static $__desc_pvdownload = array("b", "", "dn", "a=update&sa=download");
@@ -82,6 +82,10 @@ class Ffile extends Lxclass
 	static $__desc_fake_f = array("", "", "");
 	static $__desc_new_format_f = array("", "", "convert_to_format");
 
+//	static $__desc_zip_file = array("", "", "zip", "a=updateform&sa=zip_file");
+	static $__desc_zip_type = array("", "", "zip_file_type");
+	static $__acdesc_update_zip_file = array("", "", "zip");
+
 	static $__desc_image_content = array("", "", "image");
 	static $__desc_image_height = array("", "", "height");
 	static $__desc_image_width = array("", "", "width");
@@ -110,7 +114,6 @@ class Ffile extends Lxclass
 	static $__acdesc_update_go_home = array("", "", "home");
 	static $__acdesc_update_go_up = array("", "", "up");
 	static $__acdesc_update_restore_trash = array("", "", "restore");
-	static $__acdesc_update_zip_file = array("", "", "zip");
 	static $__acdesc_update_clear_trash = array("", "", "clear");
 	static $__acdesc_update_unzip = array("", "", "unzip");
 	static $__acdesc_update_thumbnail = array("", "", "thumbnail");
@@ -787,7 +790,14 @@ class Ffile extends Lxclass
 				break;
 
 			case "zip_file":
-				$vlist['zip_file_f'] = null;
+				$vlist['zip_file_f'] = array('h', null);
+
+				$this->zip_type = null;
+
+				$ziptype = array('zip', 'rar', 'p7z', 'tar.gz', 'tar.bz2', 'tar.xz');
+
+				$vlist['zip_type'] = array('s', $ziptype);
+				$this->setDefaultValue('zip_type', 'zip');
 
 				break;
 
@@ -971,6 +981,8 @@ class Ffile extends Lxclass
 
 	function createShowPropertyList(&$alist)
 	{
+		global $ghtml;
+
 		if ($this->base === ".trash") {
 			$alist['property'][] = 'a=show';
 
@@ -1010,11 +1022,10 @@ class Ffile extends Lxclass
 
 		$alist['property'][] = 'a=show';
 
-		$alist['property'][] = "a=updateform&sa=perm";
-		$alist['property'][] = "a=updateform&sa=own";
-
 		if ($this->nname !== '/') {
-			$alist['property'][] = "a=updateform&sa=rename";
+			if ($ghtml->frm_subaction === 'rename') {
+				$alist['property'][] = "a=updateform&sa=rename";
+			}
 		}
 
 		if ($this->isOn('readonly')) {
@@ -1027,16 +1038,33 @@ class Ffile extends Lxclass
 			return $alist;
 		}
 
+		if ($ghtml->frm_subaction === 'perm') {
+			$alist['property'][] = "a=updateform&sa=perm";
+		}
+
+		if ($ghtml->frm_subaction === 'own') {
+			$alist['property'][] = "a=updateform&sa=own";
+		}
+
+
 		if ($this->is_dir()) {
+			if ($ghtml->frm_subaction === 'newdir') {
+				$alist['property'][] = "a=updateform&sa=newdir";
+			}
+
+			if ($ghtml->frm_subaction === 'newfile') {
+				$alist['property'][] = "a=updateform&sa=newfile";
+			}
+
 			$alist['property'][] = "a=update&sa=diskspace";
 			$alist['property'][] = "a=updateform&sa=upload";
 			$alist['property'][] = "a=updateForm&sa=thumbnail";
 		} else {
 			if ($this->is_image()) {
-				$alist['property'][] = "a=updateForm&sa=convert_image";
+				$alist['property'][] = "a=updateform&sa=convert_image";
 			} else if (!$this->is_zip()) {
-				$alist['property'][] = "a=updateForm&sa=edit";
-				$alist['property'][] = "a=updateForm&sa=fancyedit";
+				$alist['property'][] = "a=updateform&sa=edit";
+				$alist['property'][] = "a=updateform&sa=fancyedit";
 			}
 
 			$alist['property'][] = "a=update&sa=download";
@@ -1506,7 +1534,7 @@ class Ffile extends Lxclass
 			$blist[] = array("a=update&sa=filedelete");
 			$blist[] = array("a=update&sa=filerealdelete", 0, NULL, 1);
 
-			$blist[] = array("a=update&sa=zip_file");
+			$blist[] = array("a=updateform&sa=zip_file");
 		}
 
 		return $blist;

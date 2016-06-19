@@ -7,7 +7,8 @@ class pserver extends pservercore {
 	static $__desc_web_driver = array('', '', 'web_driver', '');
 	static $__desc_webcache_driver = array('', '', 'webcache_driver', '');
 	static $__desc_dns_driver = array('', '', 'dns_driver', '');
-	static $__desc_mailin_driver = array('', '', 'mailin_driver', '');
+	static $__desc_mailincoming_driver = array('', '', 'mailincoming_driver', '');
+	static $__desc_mailoutgoing_driver = array('', '', 'mailoutgoing_driver', '');
 	static $__desc_spam_driver = array('', '', 'spam_driver', '');
 	static $__acdesc_update_switchprogram = array('', '', 'switch_program', '');
 	static $__acdesc_update_mailqueuedelete = array('', '', 'delete', '');
@@ -92,9 +93,9 @@ class pserver extends pservercore {
 				$t = str_replace("proxy", "", $v);
 
 			//	if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver') && ($t !== 'none')) {
-				if ($k === 'mailin_driver') {
-					throw new lxException($login->getThrow("not_ready_to_use"), '', $v);
-				} else {
+			//	if (($k === 'mailincoming_driver') || ($k === 'mailoutgoing_driver')) {
+			//		throw new lxException($login->getThrow("not_ready_to_use"), '', $v);
+			//	} else {
 					dprint("Change for $k: $v\n");
 
 					$class = strtilfirst($k, "_");
@@ -108,7 +109,9 @@ class pserver extends pservercore {
 
 					if ($class === 'spam') { $fixc = "mmail"; }
 
-					if ($class === 'mailin') { $fixc = "mmail"; }
+					if ($class === 'mailincoming') { $fixc = "mmail"; }
+
+					if ($class === 'mailoutgoing') { $fixc = "mmail"; }
 
 					$a[$class] = $v;
 					rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
@@ -133,7 +136,7 @@ class pserver extends pservercore {
 						}
 					}
 				}
-			}
+			//}
 		}
 	}
 

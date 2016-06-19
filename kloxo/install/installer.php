@@ -506,7 +506,8 @@ function kloxo_install_step2()
 
 	if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
-			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";s:6:"mailin";s:7:"courier";}}';
+			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";s:12:' .
+			'"mailincoming";s:7:"courier";s:12:"mailoutgoing";s:5:"qmail";}}';
 	//	system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
 	}
 
