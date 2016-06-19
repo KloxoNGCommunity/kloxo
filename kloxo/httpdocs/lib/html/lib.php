@@ -6410,7 +6410,15 @@ function setCheckPackages($nolog = null)
 	$phpbranch = getRpmBranchInstalled('php');
 
 	log_cleanup("Checking for rpm packages", $nolog);
-
+/*
+	if (isRpmInstalled("dovecot-toaster")) {
+		$imap_rpm = "";
+		$authlib_rpm = "";
+	} else {
+		$imap_rpm = "courier-imap-toaster";
+		$authlib_rpm = "courier-authlib-toaster";
+	}
+*/
 	if ((strpos($phpbranch, '52') !== false) || (strpos($phpbranch, '53') !== false)) {
 		$phpbranchmysql = "{$phpbranch}-mysql";
 	} else {
@@ -6428,10 +6436,11 @@ function setCheckPackages($nolog = null)
 		"{$phpbranch}-mcrypt", "{$phpbranch}-xml", "{$phpbranch}-bcmath", "{$phpbranch}-pgsql",
 		"webalizer", "dos2unix", "rrdtool", "xinetd", "lxjailshell");
 */
-	$list = array("autorespond-toaster", "daemontools-toaster", "libdomainkeys-toaster",
-		"libsrs2-toaster", "qmail-toaster", "ripmime", "ucspi-tcp-toaster", "vpopmail-toaster",
-		"fetchmail", "bogofilter", "courier-imap-toaster", "dovecot-toaster", "maildrop-toaster",
-		"ezmlm-toaster", "spamdyke", "spamdyke-utils", "pure-ftpd", "webalizer", "dos2unix", "rrdtool",
+	$list = array("autorespond-toaster", "courier-imap-toaster", "dovecot-toaster",
+		"daemontools-toaster", "ezmlm-toaster", "libdomainkeys-toaster",
+		"libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster", "qmail-toaster",
+		"ripmime", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter",
+		"spamdyke", "spamdyke-utils", "pure-ftpd", "webalizer", "dos2unix", "rrdtool",
 		"xinetd", "lxjailshell");
 
 	foreach ($list as $l) {
@@ -8157,7 +8166,11 @@ function setSyncDrivers($nolog = null)
 
 //	include "../file/driver/rhel.inc";
 
-	$classlist = array('web' => 'apache', 'webcache' => 'none', 'dns' => 'bind', 'spam' => 'bogofilter');
+//	$classlist = array('web' => 'apache', 'webcache' => 'none', 'dns' => 'bind', 
+//		'pop3' => 'courier', 'imap4' => 'courier', 'smtp' => 'qmail', 'spam' => 'bogofilter');
+
+	$classlist = array('web' => 'apache', 'webcache' => 'none', 'dns' => 'bind', 
+		'pop3' => 'courier', 'smtp' => 'qmail', 'spam' => 'bogofilter');
 
 //	$server = $login->getFromList('pserver', 'localhost');
 //	$driverobject = $server->getObject('driver');

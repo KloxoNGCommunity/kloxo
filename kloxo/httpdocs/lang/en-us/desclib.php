@@ -941,8 +941,9 @@ $__description["web_driver"] = array("Web");
 $__description["webcache_driver"] = array("Cache");
 $__description["dns_driver"] = array("DNS");
 $__description["spam_driver"] = array("Spam");
-$__description["mailincoming_driver"] = array("Pop3/Imap4");
-$__description["mailoutgoing_driver"] = array("Smtp/Submission");
+$__description["pop3_driver"] = array("Pop3/Imap4");
+//$__description["imap4_driver"] = array("Pop3/Imap4");
+$__description["smtp_driver"] = array("Smtp/Submission");
 
 $__description["switch_program"] = array("Switch Program");
 

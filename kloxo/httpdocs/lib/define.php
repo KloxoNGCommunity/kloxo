@@ -90,5 +90,6 @@ $gl_class_array["rubyrails"] = "driver/web/rubyrailslib.php";
 
 $gl_class_array["dnsslave"] = "lib/php/dnsslavelib.php";
 
-$gl_class_array["mailin"] = "driver/mmail/mailincominglib.php";
-$gl_class_array["mailin"] = "driver/mmail/mailoutgoinglib.php";
+$gl_class_array["pop3"] = "driver/mmail/pop3lib.php";
+//$gl_class_array["imap4"] = "driver/mmail/imaplib.php";
+$gl_class_array["smtp"] = "driver/mmail/smtplib.php";

@@ -7,8 +7,9 @@ class pserver extends pservercore {
 	static $__desc_web_driver = array('', '', 'web_driver', '');
 	static $__desc_webcache_driver = array('', '', 'webcache_driver', '');
 	static $__desc_dns_driver = array('', '', 'dns_driver', '');
-	static $__desc_mailincoming_driver = array('', '', 'mailincoming_driver', '');
-	static $__desc_mailoutgoing_driver = array('', '', 'mailoutgoing_driver', '');
+	static $__desc_pop3_driver = array('', '', 'pop3_driver', '');
+//	static $__desc_imap4_driver = array('', '', 'pop3_driver', '');
+	static $__desc_smtp_driver = array('', '', 'smtp_driver', '');
 	static $__desc_spam_driver = array('', '', 'spam_driver', '');
 	static $__acdesc_update_switchprogram = array('', '', 'switch_program', '');
 	static $__acdesc_update_mailqueuedelete = array('', '', 'delete', '');
@@ -41,11 +42,19 @@ class pserver extends pservercore {
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// MR -- change and add nofixconfig
-
+	/*
+		// MR -- trick if using setdriver script
+		if ($param['imap4_driver']) {
+			$param['pop3_driver'] = $param['imap4_driver'];
+			unset($param['imap4_driver']);
+		}
+	*/
 		$a['web'] = $param['web_driver'];
 		$a['webcache'] = $param['webcache_driver'];
 		$a['dns'] = $param['dns_driver'];
 		$a['spam'] = $param['spam_driver'];
+		$a['pop3'] = $param['pop3_driver'];
+		$a['smtp'] = $param['smtp_driver'];
 
 	//	$nofixconfig = $param['no_fix_config'];
 
@@ -93,7 +102,7 @@ class pserver extends pservercore {
 				$t = str_replace("proxy", "", $v);
 
 			//	if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver') && ($t !== 'none')) {
-			//	if (($k === 'mailincoming_driver') || ($k === 'mailoutgoing_driver')) {
+			//	if (($k === 'pop3_driver') || ($k === 'imap4_driver') || ($k === 'smtp_driver')) {
 			//		throw new lxException($login->getThrow("not_ready_to_use"), '', $v);
 			//	} else {
 					dprint("Change for $k: $v\n");
@@ -107,11 +116,10 @@ class pserver extends pservercore {
 
 					$fixc = $class;
 
-					if ($class === 'spam') { $fixc = "mmail"; }
-
-					if ($class === 'mailincoming') { $fixc = "mmail"; }
-
-					if ($class === 'mailoutgoing') { $fixc = "mmail"; }
+				//	if (($class === 'spam') || ($class === 'pop3') || ($class === 'imap4') || ($class === 'smtp')) {
+					if (($class === 'spam') || ($class === 'pop3') || ($class === 'smtp')) {
+						$fixc = "mmail";
+					}
 
 					$a[$class] = $v;
 					rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
