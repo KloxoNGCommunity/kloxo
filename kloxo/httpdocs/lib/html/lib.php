@@ -8189,18 +8189,20 @@ function setSyncDrivers($nolog = null)
 			$driver_from_slavedb = slave_get_driver($key);
 		}
 
-
 		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $key);
 
 		if ($driver_from_table !== $driver_from_slavedb) {
 			$driver_from_table = $driver_from_slavedb;
+
+			if (!$driver_from_table) {
+				$driver_from_table = $val;
+			}
 
 			log_cleanup("- Synchronize for '{$key}' to '{$driver_from_table}'", $nolog);
 			exec("sh /script/setdriver --server=localhost --class={$key} --driver={$driver_from_table}");
 		} else {
 			log_cleanup("- No need synchronize for '{$key}' - already using '{$driver_from_table}'", $nolog);
 		}
-		
 	}
 }
 

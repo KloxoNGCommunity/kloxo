@@ -6,7 +6,7 @@ class Pop3__courier extends lxDriverClass
 	{
 		$spath = '/var/qmail/supervise';
 
-		$darray = array('pop3', 'pop3-ssl', 'imap4', 'imap4-ssl');
+		$darray = array('authlib', 'pop3', 'pop3-ssl', 'imap4', 'imap4-ssl');
 
 		foreach ($darray as $k => $v) {
 			rename("{$spath}/{$v}/down", "{$spath}/{$v}/run");
@@ -18,7 +18,7 @@ class Pop3__courier extends lxDriverClass
 	{
 		$spath = '/var/qmail/supervise';
 
-		$darray = array('pop3', 'pop3-ssl', 'imap4', 'imap4-ssl');
+		$darray = array('authlib', 'pop3', 'pop3-ssl', 'imap4', 'imap4-ssl');
 
 		foreach ($darray as $k => $v) {
 			rename("{$spath}/{$v}/run", "{$spath}/{$v}/down");
