@@ -310,19 +310,15 @@ class ffile__common
 	{
 		global $login;
 
-		$filelist = $this->main->zip_file_list;
-	/*
-		foreach ($filelist as &$_t_f) {
+		foreach ($this->main->zip_file_list as &$_t_f) {
 			$_t_f = coreFfile::removeLeadingSlash($_t_f);
 			$_t_f = basename($_t_f);
 			$_t_f = "\"$_t_f\"";
 		}
-	
+		
 		$list = implode(" ", $this->main->zip_file_list);
 		$oldir = getcwd();
 		$fullpath = expand_real_root($this->main->fullpath);
-	*/
-
 	/*
 		$fz = $fullpath . "/" . $this->main->zip_file_f;
 	
@@ -335,11 +331,9 @@ class ffile__common
 	//	check_file_if_owned_by_and_throw("NewArchive_$date.zip", $this->main->__username_o);
 
 	//	$ret = new_process_cmd($this->main->__username_o, $fullpath, "zip -qu -r NewArchive_$date $list");
-	//	$ret = new_process_cmd('__system__', $fullpath, "zip -qu -r NewArchive_$date $list");
+		$ret = new_process_cmd('__system__', $fullpath, "zip -qu -r NewArchive_$date $list");
 
-	//	return "$fullpath/NewArchive_$date.zip";
-
-		return lxshell_zip_core($this->main->zip_type, "NewArchive_$date", $filelist);
+		return "$fullpath/NewArchive_$date.zip";
 	}
 
 	function newDir()
