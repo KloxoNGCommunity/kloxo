@@ -81,18 +81,6 @@ if ($hiawathabranch) {
 	exec("rpm -q {$hiawathabranch}", $out);
 	$apphiawatha = trim($out[0]);
 	$kloxohiawatha = $apphiawatha;
-/*
-	$out = null;
-
-	exec("chkconfig --list|grep 'hiawatha'|grep ':on'", $out);
-
-	if (count($out) > 0) {
-		$apphiawatha = "--used--";
-	} else {
-	//	$apphiawatha .= " (also as webserver)";
-		$apphiawatha = "--unused--";
-	}
-*/
 } else {
 	$apphiawatha = '--uninstalled--';
 }
@@ -234,6 +222,30 @@ if ($out[0] !== null) {
 
 $out = null;
 
+$pop3app = slave_get_driver('pop3');
+
+exec("rpm -q $pop3app-toaster", $out);
+
+if ($out[0] !== null) {
+	$pop3app = $out[0];
+} else {
+	$pop3app = 'none';
+}
+
+$out = null;
+
+$smtpapp = slave_get_driver('smtp');
+
+exec("rpm -q $smtpapp-toaster", $out);
+
+if ($out[0] !== null) {
+	$smtpapp = $out[0];
+} else {
+	$smtpapp = 'none';
+}
+
+$out = null;
+
 $spamapp = slave_get_driver('spam');
 if ($spamapp === 'spamassassin') {
 	$spamapp === 'spamassassin-toaster';
@@ -249,9 +261,9 @@ if ($out[0] !== null) {
 $out = null;
 
 if (file_exists("/etc/httpd/conf.d/suphp2.conf")) {
-	$secondary_php = 'On';
+	$secondary_php = 'on';
 } else {
-	$secondary_php = 'Off';
+	$secondary_php = 'off';
 }
 
 exec("free -m", $meminfo);
@@ -316,10 +328,9 @@ echo "   6. Mail: " .  $appqmail . "\n";
 if ($appdovecot !== '--uninstalled--') {
 	echo "      - with: " . $appdovecot  . "\n";
 }
-if ($appcourierimap !== '--uninstalled--') {
-	echo "      - pop3/imap4: " . $appcourierimap  . "\n";
-}
 
+echo "      - pop3/imap4: " . $pop3app  . "\n";
+echo "      - smtp: " . $smtpapp  . "\n";
 echo "      - spam: " . $spamapp  . "\n";
 
 //echo "\n";
