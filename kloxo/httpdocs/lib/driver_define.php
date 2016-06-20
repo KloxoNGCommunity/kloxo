@@ -93,6 +93,6 @@ $gl_class_array['pop3__none'] = "driver/mmail/pop3__nonelib.php";
 //$gl_class_array['imap4__dovecot'] = "driver/mmail/imap4__dovecotlib.php";
 //$gl_class_array['imap4__none'] = "driver/mmail/imap4__nonelib.php";
 
-$gl_class_array['smtp_qmail'] = "driver/mmail/smtp__qmaillib.php";
+$gl_class_array['smtp__qmail'] = "driver/mmail/smtp__qmaillib.php";
 $gl_class_array['smtp__none'] = "driver/mmail/smtp__nonelib.php";
 

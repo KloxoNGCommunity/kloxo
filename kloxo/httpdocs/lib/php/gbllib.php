@@ -107,7 +107,7 @@ class Gbllib  extends Lxclass
 
 		if (isset($pgm->$class_var)) {
 			$str = $pgm->$class_var;
-			
+
 			if (csb($str, "__v_")) {
 				$class_var = "pg_" . strtolower(strfrom($str, "__v_"));
 			}

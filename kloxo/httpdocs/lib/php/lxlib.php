@@ -2129,10 +2129,7 @@ function lx_exception_handler($e)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	print("Notice : The resource you have requested doesn't exist. The server returned the error message: <br> ");
-
-	print(" {$e->getMessage()} $e->variable $e->value ");
-	print("<br>\n\n");
+	print("Error message: {$e->getMessage()} {$e->variable} {$e->value}\n");
 
 	if ($sgbl->dbg <= 0) {
 		return;

@@ -430,14 +430,14 @@ function changeDriverFunc($server, $class, $pgm)
 
 	if (is_array($driver[$class])) {
 		if (!array_search_bool($pgm, $driver[$class])) {
-			$str = implode(" ", $driver[$class]);
-			print("The driver name isn't correct: Available drivers for $class: $str\n");
+			$str = "'" . implode("', '", $driver[$class]) . "'";
+			print("\nAvailable drivers for $class: $str\n");
 
 			return;
 		}
 	} else {
 		if ($driver[$class] !== $pgm) {
-			print("The driver name isn't correct: Available driver for $class: {$driver[$class]}\n");
+			print("\nAvailable driver for '$class': '{$driver[$class]}'\n");
 
 			return;
 		}
@@ -452,7 +452,7 @@ function changeDriverFunc($server, $class, $pgm)
 
 	$dr->write();
 
-	print("Successfully changed Driver for $class on $server->nname to $pgm\n");
+	print("Successfully changed driver for '$class' on '$server->nname' to '$pgm'\n");
 }
 
 function slave_get_db_pass()
@@ -4999,17 +4999,6 @@ function setWatchdogDefaults($nolog = null)
 	log_cleanup("- Set process", $nolog);
 
 	watchdog::addDefaultWatchdog('localhost');
-	$a = null;
-	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
-	$a['web'] = $driverapp;
-	$driverapp = $gbl->getSyncClass(null, 'localhost', 'spam');
-	$a['spam'] = $driverapp;
-	$driverapp = $gbl->getSyncClass(null, 'localhost', 'dns');
-	$a['dns'] = $driverapp;
-	$driverapp = $gbl->getSyncClass(null, 'localhost', 'webcache');
-	$a['webcache'] = $driverapp;
-
-	slave_save_db("driver", $a);
 }
 
 function fixMySQLRootPassword($nolog = null)
@@ -7079,7 +7068,8 @@ function updatecleanup($nolog = null)
 
 	setPrepareKloxo($nolog);
 
-	install_bogofilter($nolog);
+	// MR -- disable (from 'old' Kloxo style)
+//	install_bogofilter($nolog);
 
 	setRemoveOldDirs($nolog);
 
@@ -8184,26 +8174,37 @@ function setSyncDrivers($nolog = null)
 
 	foreach ($classlist as $key => $val) {
 		if ($nodriver) {
-			$driver_from_slavedb = $classlist[$key];
+			$driver_from_slavedb = $val;
 		} else {
 			$driver_from_slavedb = slave_get_driver($key);
+
+			if (!$driver_from_slavedb) {
+				$driver_from_slavedb = $val;
+			}
 		}
 
 		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $key);
 
 		if ($driver_from_table !== $driver_from_slavedb) {
-			$driver_from_table = $driver_from_slavedb;
+		//	$driver_from_table = $driver_from_slavedb;
 
 			if (!$driver_from_table) {
-				$driver_from_table = $val;
+				$realval[$key] = $val;
+			} else {
+				$realval[$key] = $driver_from_table;
 			}
 
-			log_cleanup("- Synchronize for '{$key}' to '{$driver_from_table}'", $nolog);
-			exec("sh /script/setdriver --server=localhost --class={$key} --driver={$driver_from_table}");
+			log_cleanup("- Synchronize for '{$key}' to '{$realval[$key]}'", $nolog);
 		} else {
-			log_cleanup("- No need synchronize for '{$key}' - already using '{$driver_from_table}'", $nolog);
+			$realval[$key] = $driver_from_table;
+
+			log_cleanup("- No need synchronize for '{$key}' - already using '{$realval[$key]}'", $nolog);
 		}
+
+		exec("sh /script/setdriver --server=localhost --class={$key} --driver={$realval}");
 	}
+
+	slave_save_db('driver', $realval);
 }
 
 function setEnableQuota($nolog = null)

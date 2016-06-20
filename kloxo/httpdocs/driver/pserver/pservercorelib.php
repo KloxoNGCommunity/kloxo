@@ -959,6 +959,7 @@ class pservercore extends Lxclient
 		if ($ob->dbaction === 'clean') {
 			$ob->dbaction = 'update';
 		}
+
 		$ob->parent_clname = $this->getClName();
 
 		$ob->write();
