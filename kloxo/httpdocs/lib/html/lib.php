@@ -2359,7 +2359,8 @@ function exit_if_another_instance_running()
 
 function lx_core_lock($file = null)
 {
-	global $argv;
+	global $argv, $sgbl;
+
 	$prog = basename($argv[0]);
 
 	// This is a hack.. If we can't get the arg, then that means we are in the cgi mode,
@@ -2376,17 +2377,19 @@ function lx_core_lock($file = null)
 		$file = basename($file);
 	}
 
-	$pidfile = "__path_program_root/pid/$file";
+	$pidfile = "$sgbl->__path_program_root/pid/$file";
 	$pid = null;
 
 	if (lxfile_exists($pidfile)) {
 		$pid = lfile_get_contents($pidfile);
 	}
 
-	dprint("PID#:  " . $pid . "\n");
+	$str  = "-----------------------------\n";
+	
+	$str .= "PID#:  " . $pid . "\n";
 
 	if (!$pid) {
-		dprint("\n$prog:$file\nNo pid file $pidfile detected..\n");
+		$str .= "$prog:$file\nNo pid file $pidfile detected..\n";
 		lfile_put_contents($pidfile, os_getpid());
 
 		return false;
@@ -2401,18 +2404,24 @@ function lx_core_lock($file = null)
 
 	if (!$name || $name !== $prog) {
 		if (!$name) {
-			dprint("\n$prog:$file\nStale Lock file detected.\n$pidfile\nRemoving it...\n ");
+			$str .= "$prog:$file\nStale Lock file detected.\n$pidfile\nRemoving it...\n";
 		} else {
-			dprint("\n$prog:$file\nStale lock file found.\nAnother program $name is running on it..\n");
+			$str .= "$prog:$file\nStale lock file found.\nAnother program $name is running on it..\n";
 		}
 
 		lxfile_rm($pidfile);
 		lfile_put_contents($pidfile, os_getpid());
-
-		return false;
+		
+		$ret = false;
+	} else {
+		$ret = true;
 	}
 
-	return true;
+	$str .= "-----------------------------\n";
+
+	dprint($str);
+		
+	return $ret;
 }
 
 function lx_core_lock_check_only($prog, $file = null)
@@ -8186,8 +8195,6 @@ function setSyncDrivers($nolog = null)
 		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $key);
 
 		if ($driver_from_table !== $driver_from_slavedb) {
-		//	$driver_from_table = $driver_from_slavedb;
-
 			if (!$driver_from_table) {
 				$realval[$key] = $val;
 			} else {
@@ -8201,7 +8208,7 @@ function setSyncDrivers($nolog = null)
 			log_cleanup("- No need synchronize for '{$key}' - already using '{$realval[$key]}'", $nolog);
 		}
 
-		exec("sh /script/setdriver --server=localhost --class={$key} --driver={$realval}");
+		exec("sh /script/setdriver --server=localhost --class={$key} --driver={$realval[$key]}");
 	}
 
 	slave_save_db('driver', $realval);
