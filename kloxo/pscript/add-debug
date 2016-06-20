@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ "$1" != "" ] ; then
+	level=$1
+else
+	level=2
+fi
+
+echo $level > /usr/local/lxlabs/kloxo/httpdocs/commands.php
