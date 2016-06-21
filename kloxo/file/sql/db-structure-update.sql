@@ -127,3 +127,5 @@ ALTER TABLE `serverftp` ADD COLUMN IF NOT EXISTS `enable_tls` VARCHAR(255) NULL 
 ALTER TABLE `sslcert` ADD COLUMN IF NOT EXISTS `upload_status` VARCHAR(255) NULL DEFAULT NULL AFTER `add_type`;
 
 ALTER TABLE `sslcert` ADD COLUMN IF NOT EXISTS `username` VARCHAR(255) NULL DEFAULT NULL AFTER `parent_cmlist`;
+
+UPDATE `lxguardhit` SET `access` = 'smtp' WHERE `access` = 'mail';

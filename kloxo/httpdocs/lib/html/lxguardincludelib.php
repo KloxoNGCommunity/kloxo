@@ -203,7 +203,7 @@ function ftpLogString($string, &$list)
 	$list[$ip][$time] = array('service' => 'ftp', 'user' => $user, 'access' => $access);
 }
 
-function parse_mail_log($fp, &$list)
+function parse_smtp_log($fp, &$list)
 {
 	$count = 0;
 	$string = '';
@@ -215,14 +215,14 @@ function parse_mail_log($fp, &$list)
 
 		$string = fgets($fp);
 
-		if (strpos($string, 'vpopmail') !== false) {
-			mailLogString($string, $list);
+		if (strpos($string, 'vchkpw-smtp') !== false) {
+			smtpLogString($string, $list);
 		}
 	}
 }
 
 // MR -- REF: http://ossec-docs.readthedocs.io/en/latest/log_samples/email/vpopmail.html
-function mailLogString($string, &$list)
+function smtpLogString($string, &$list)
 {
 	$str = array('invaliduser' => "vpopmail user not found", 'nopassword' => "null password given", 
 		'fail' => "password fail", 'success' => "login success");
@@ -241,14 +241,23 @@ function mailLogString($string, &$list)
 
 	$time = getTimeFromSysLogString($string);
 
-	if ($access === 'invaliduser') {
-		preg_match("/.* vpopmail user not found ([^ ]*):([^ ]*)/", $string, $match);
-	} else if ($access === 'nopassword') {
-		preg_match("/.* null password given ([^ ]*):([^ ]*)/", $string, $match);
-	} else if ($access === 'fail') {
-		preg_match("/.* password fail \(.*\) ([^ ]*):([^ ]*)/", $string, $match);
-	} else {
-		preg_match("/.* login success ([^ ]*):([^ ]*)/", $string, $match);
+	switch ($access) {
+		case 'invaliduser':
+			preg_match("/.* vpopmail user not found ([^ ]*):([^ ]*)/", $string, $match);
+			$state = 'fail';
+			break;
+		case 'nopassword':
+			preg_match("/.* null password given ([^ ]*):([^ ]*)/", $string, $match);
+			$state = 'fail';
+			break;
+		case 'fail':
+			preg_match("/.* password fail \(.*\) ([^ ]*):([^ ]*)/", $string, $match);
+			$state = 'fail';
+			break;
+		default:
+			preg_match("/.* login success ([^ ]*):([^ ]*)/", $string, $match);
+			$state = 'success';
+			break;
 	}
 
 	if (!$match) { return; }
@@ -258,7 +267,8 @@ function mailLogString($string, &$list)
 
 	if ((csb($ip, "127")) || ($ip === '[::1]')) { return; }
 
-	$list[$ip][$time] = array('service' => 'mail', 'user' => $user, 'access' => $access);
+	// MR -- use 'state' instead 'access' because only 1 success between 4 options
+	$list[$ip][$time] = array('service' => 'smtp', 'user' => $user, 'access' => $state);
 }
 
 

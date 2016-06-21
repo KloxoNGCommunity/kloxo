@@ -4779,7 +4779,7 @@ function lxguard_main($clearflag = false, $since = false)
 				} elseif ($key === 'pure-ftpd') {
 					parse_ftp_log($fp, $list);
 				} elseif ($key === 'vpopmail') {
-					parse_mail_log($fp, $list);
+					parse_smtp_log($fp, $list);
 				}
 
 				lfile_put_serialize("$lxgpath/access.info", $list);
@@ -4797,33 +4797,37 @@ function lxguard_main($clearflag = false, $since = false)
 	$hdn = lfile_get_unserialize("$lxgpath/hostdeny.info");
 	$deny = lx_array_merge(array($deny, $hdn));
 
-	$string = null;
+	$str_host = null;
+	$str_smtp = null;
 
 	foreach ($deny as $k => $v) {
 		if (csb($k, "127")) {
 			continue;
 		}
 
-		$string .= "ALL : $k\n";
+		// MR -- make sure no LF
+		$k = str_replace("\n", "", $k);
+
+		$str_host .= "ALL : $k\n";
+		$str_smtp .= "$k:deny\n";
 	}
 
-//	if (!$string) { return; }
+	dprint("Debug: \str_host is:\n$str_host\n");
 
-	dprint("Debug: \$string is:\n" . $string . "\n");
+	$start_host[] = "###Start Program Hostdeny config Area";
+	$start_str_host = $start_host[0];
+	$end_host[] = "###End Program HostDeny config Area";
+	$end_str_host = $end_host[0];
 
-	$stlist[] = "###Start Program Hostdeny config Area";
-	$stlist[] = "###Start Lxdmin Area";
-	$stlist[] = "###Start Kloxo Area";
-	$stlist[] = "###Start Lxadmin Area";
+	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $str_host);
 
-	$endlist[] = "###End Program HostDeny config Area";
-	$endlist[] = "###End Kloxo Area";
-	$endlist[] = "###End Lxadmin Area";
+	$start_smtp[] = "###Start Program tcp.smtp config Area";
+	$start_str_smtp = $start_smtp[0];
+	$end_smtp[] = "###End Program tcp.smtp config Area";
+	$end_str_smtp = $end_smtp[0];
 
-	$startstring = $stlist[0];
-	$endstring = $endlist[0];
-
-	file_put_between_comments("root", $stlist, $endlist, $startstring, $endstring, "/etc/hosts.deny", $string);
+	file_put_between_comments("root", $start_smtp, $end_smtp, $start_str_smtp, $end_str_smtp, "/etc/tcprules.d/tcp.smtp", $str_smtp);
+	exec("/usr/bin/qmailctl cdb");
 
 	if ($clearflag) {
 		lxfile_rm("$lxgpath/access.info");
@@ -6034,7 +6038,7 @@ function setFixChownChmodMailPerUser($select, $user, $nolog = null)
 	$list = $login->getList('client');
 
 	foreach ($list as $c) {
-		if ($c->nname = $user) {
+		if ($c->nname === $user) {
 			$clname = $c->getPathFromName('nname');
 
 			$cdir = "/home/{$clname}";
