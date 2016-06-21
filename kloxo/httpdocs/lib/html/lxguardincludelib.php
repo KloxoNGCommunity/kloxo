@@ -60,7 +60,7 @@ function count_fail($v)
 	$count = 0;
 
 	foreach($v as $vv) {
-		if ($vv['access'] === 'fail') {
+		if ($vv['access'] !== 'success') {
 			$count++;
 		}
 	}
@@ -146,7 +146,7 @@ function sshLogString($string, &$list)
 		$ip = strfrom($ip, "::ffff:");
 	}
 
-	if ((csb($ip, "127") || ($ip === '[::1]')) { return; }
+	if ((csb($ip, "127")) || ($ip === '[::1]')) { return; }
 
 	$list[$ip][$time] = array('service' => 'ssh', 'user' => $user, 'access' => $access);
 }
@@ -198,7 +198,7 @@ function ftpLogString($string, &$list)
 	$ip = $match[1];
 	$user = $match[2];
 
-	if ((csb($ip, "127") || ($ip === '[::1]')) { return; }
+	if ((csb($ip, "127")) || ($ip === '[::1]')) { return; }
 
 	$list[$ip][$time] = array('service' => 'ftp', 'user' => $user, 'access' => $access);
 }
@@ -256,7 +256,7 @@ function mailLogString($string, &$list)
 	$ip = ($match[2]) ? $match[2] : '127.0.0.1' ;
 	$user = $match[1];
 
-	if ((csb($ip, "127") || ($ip === '[::1]')) { return; }
+	if ((csb($ip, "127")) || ($ip === '[::1]')) { return; }
 
 	$list[$ip][$time] = array('service' => 'mail', 'user' => $user, 'access' => $access);
 }
