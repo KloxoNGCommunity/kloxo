@@ -203,9 +203,7 @@ $b = implode("", $a);
 
 $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
-if (!isset($phptype)) {
-	$phptype = '[unknown]';
-}
+if (!isset($phptype)) { 	$phptype = '[unknown]'; }
 
 $seddata = 's/^prog=\"\(.*\)\"/\1/';
 exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);
@@ -223,6 +221,8 @@ if ($out[0] !== null) {
 $out = null;
 
 $pop3app = slave_get_driver('pop3');
+
+if (pop3app === 'courier') { $pop3app = 'courier-imap'; }
 
 exec("rpm -q $pop3app-toaster", $out);
 
@@ -247,9 +247,9 @@ if ($out[0] !== null) {
 $out = null;
 
 $spamapp = slave_get_driver('spam');
-if ($spamapp === 'spamassassin') {
-	$spamapp === 'spamassassin-toaster';
-}
+
+if ($spamapp === 'spamassassin') { $spamapp === 'spamassassin-toaster'; }
+
 exec("rpm -q $spamapp", $out);
 
 if ($out[0] !== null) {
