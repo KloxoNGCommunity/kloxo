@@ -27,9 +27,9 @@
 	}
 
 	if ($maxchildren) {
-		$startservers = (($sts = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $sts;
-		$minspareservers = (($mis = (int)($maxchildren / 3)) < 2) ? 2 : $mis;
-		$maxspareservers = (($mas = (int)($maxchildren / 3 * 2)) < 2) ? 2 : $mas;
+		$startservers = (($sts = (int)($maxchildren / 3)) < 2) ? 2 : $sts;
+		$minspareservers = (($mis = (int)($maxchildren / 6)) < 2) ? 2 : $mis;
+		$maxspareservers = (($mas = (int)($maxchildren / 3)) < 2) ? 2 : $mas;
 		$maxchildren = (($mac = (int)($maxchildren)) < 2) ? 2 : $mac;
 	} else {
 		$startservers = '4';

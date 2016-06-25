@@ -11,7 +11,7 @@ $header_base="CustomHeader = X-Content-Type-Options:nosniff
 \tCustomHeader = X-Frame-Options:SAMEORIGIN
 \tCustomHeader = Access-Control-Allow-Origin:*
 \t#CustomHeader = Content-Security-Policy:script-src 'self'
-\tCustomHeader = X-Support-By:Kloxo-MR 7.0";
+\tCustomHeader = X-Supported-By:Kloxo-MR 7.0";
 
 $header_ssl="CustomHeader = Strict-Transport-Security:max-age=2592000;preload";
 
