@@ -1631,9 +1631,9 @@ function create_xml($object, $stuff, $ret)
 		$gbl->c_session->write();
 	}
 */
-	$token = getCSRFToken();
+//	$token = getCSRFToken();
 
-	$string[] = $ghtml->object_variable_hidden("frm_token", $token);
+//	$string[] = $ghtml->object_variable_hidden("frm_token", $token);
 
 	$string[] = $ghtml->object_variable_hidden("frm_action", $action);
 
@@ -1926,7 +1926,7 @@ function print_navigation($navig)
 ?>
 	</div>
 </td>
-<td align="right"><div style="padding: 2px"><span style='font-weight: bold; color: #3498db'>::&nbsp;<?php echo $login->getKeywordUc('click_help'); ?><span>&nbsp;::&nbsp;</div></td>
+<td align="right"><div style="padding: 2px"><span style='font-weight: bold; color: #3498db'><?php echo $login->getKeywordUc('login_as'); ?>&nbsp;'<?php echo $login->nname; ?>'&nbsp;&mdash;&nbsp;<?php echo $login->getKeywordUc('click_help'); ?><span>&nbsp;</div></td>
 </tr></table>
 
 <?php

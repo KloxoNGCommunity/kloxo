@@ -1914,7 +1914,7 @@ class HtmlLib
 		$realv = $variable;
 
 		//hack hack...
-		if ($class === 'installapp') {
+		if ($class === 'easyinstaller') {
 			if (strstr($variable, "addform")) {
 				$variable = strfrom($variable, "_");
 			}
@@ -3479,7 +3479,7 @@ class HtmlLib
 			}
 		}
 
-		// Ka has to come AFTER n. Otherwise it won't work in the getshowalist, especially for web/installapp combo.
+		// Ka has to come AFTER n. Otherwise it won't work in the getshowalist, especially for web/easyinstaller combo.
 		if (isset($post['k'])) {
 			$desc = get_classvar_description($post['k']['class']);
 

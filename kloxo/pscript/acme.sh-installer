@@ -34,7 +34,7 @@ fi
 
 cd ${kloxopath}/acme.sh
 chmod 755 ${kloxopath}/acme.sh/acme.sh >/dev/null 2>&1
-${kloxopath}/acme.sh/acme.sh --install >/dev/null 2>&1
+${kloxopath}/acme.sh/acme.sh --install --nocron >/dev/null 2>&1
 #exec bash >/dev/null 2>&1
 
 if [ ! -d ${logpath} ] ; then
@@ -47,7 +47,7 @@ if [ -f ${cronfile} ] ; then
 	if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
 		## MR -- remove old cron
 		sed -i '/acme\-cron\.sh/d' ${cronfile} >/dev/null 2>&1
-		## MR -- remove cron created by 'acme.sh --install'
+		## MR -- remove cron created by 'acme.sh --install'; still execute whatever exist '--nocron'
 		sed -i '/acme\.sh \-\-cron/d' ${cronfile} >/dev/null 2>&1
 		## MR -- remove letsencrypt-auto cron because priority for acme.sh
 		sed -i '/letsencrypt\-cron\.sh/d' ${cronfile}

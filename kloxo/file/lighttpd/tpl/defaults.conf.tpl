@@ -72,6 +72,12 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "header_base";
 }
 
+if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
+	$header_ssl = "custom.header_ssl";
+} else if (file_exists("{$globalspath}/header_ssl.conf")) {
+	$header_ssl = "header_ssl";
+}
+
 foreach ($certnamelist as $ip => $certname) {
 	$cert_ip = $ip;
 	$cert_file = "{$sslpath}/{$certname}";
@@ -120,7 +126,7 @@ if (count($dirs) > 0) {
 
 	$HTTP["host"] =~ "(^|www\.|cp\.|webmail\.)<?php echo $d; ?>" {
 
-		include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+		include "<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf"
 
 		ssl.pemfile = "<?php echo $v; ?>"
 <?php

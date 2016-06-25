@@ -357,11 +357,10 @@ $__information['rubyrails_addform__pre'] = "<p>The application would be normally
 	"<p>The path would be /home/client/ror/domain.com/applicationname. If you specify the <b>accessible directly</b> flag, ".
 	"then the application would be accessible at http://domain.com itself.</p>";
 
-$__information['installapp_addform__pre'] = "<p>To install an application in the document root, please leave the <b>Location</b> blank.</p>".
+$__information['easyinstaller_addform__pre'] = "<p>To install an application in the document root, please leave the <b>Location</b> blank.</p>".
 	"<p>To install the same application for another domain, please use the select box on the top, and change the domain to another, ".
 	"and you will be able to get same form with the new domain as the parent.</p>".
-	"<p>A message with login and url information will be sent to the contact email address you provide here.</p>".
-	"<p><b><span style='color: red;'>WARNING:</span></b> InstallApp is deprecated. Use Installatron or SpectrApps instead.</p>";
+	"<p>A message with login and url information will be sent to the contact email address you provide here.</p>";
 
 $__information['mysqldb_updateform_restore_pre'] = "<p>You can use this only to restore the backups that were explicitly taken in Kloxo-MR ".
 	"itself using the <b>Get Backup</b> tab.</p>".
@@ -487,7 +486,7 @@ $__information['spam_updateform_update_pre'] = "<p>The 'score'--which can be 1-1
 
 $__information['web_updateform_enable_frontpage_flag_pre'] = "<p>The front page password will be the same as that of the system user (main ftp user).</p>";
 
-$__information['installappsnapshot_list__pre'] = "<p>Snapshots are the exact copy of the database and the files of your application at a particular time.</p>".
+$__information['easyinstallersnapshot_list__pre'] = "<p>Snapshots are the exact copy of the database and the files of your application at a particular time.</p>".
 	"<p>You can restore your application to a particular snapshot by clicking on the <b>restore</b> button.</p>";
 
 $__information['sshclient_updateform_disabled_pre'] = "<p>Your admin hasn't enabled shell access for you.</p>".

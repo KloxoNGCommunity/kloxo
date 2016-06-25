@@ -142,7 +142,7 @@ class Gbllib  extends Lxclass
 			return;
 		}
 
-		if (cse($file, 'installapp')) {
+		if (cse($file, 'easyinstaller')) {
 			return;
 		}
 

@@ -1,6 +1,6 @@
 <?php
 
-class installappmisc_b extends Lxaclass 
+class easyinstallermisc_b extends Lxaclass 
 {
 	static $__desc = array("", "",  "web");
 	static $__desc_title = array("", "",  "title");
@@ -16,7 +16,7 @@ class installappmisc_b extends Lxaclass
 	static $__desc_user_name = array("n", "",  "real_name");
 }
 
-class installapp extends Lxdb 
+class easyinstaller extends Lxdb 
 {
 	static $__desc  = array("","",  "installed_application");
 	static $__desc_nname  = array("","",  "Application");
@@ -65,7 +65,7 @@ class installapp extends Lxdb
 	{
 		switch($subaction) {
 			case "update":
-				$v = allinstallapp::getAllInformation($this->appname);
+				$v = all_easyinstaller::getAllInformation($this->appname);
 				$latest = $v['pversion'];
 				$vlist['appname'] = array('M', null);
 				$vlist['version'] = array('M', null);
@@ -91,7 +91,7 @@ class installapp extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		// Don't do anything if it is syncadd or if it is restore... 
-		// When restoring, installapp is handled by the database, and then the web backup.
+		// When restoring, easyinstaller is handled by the database, and then the web backup.
 		if ($this->dbaction === 'syncadd') {
 			return false;
 		}
@@ -120,7 +120,7 @@ class installapp extends Lxdb
 		}
 
 		if ($var === 'adminarea') {
-			$v = allinstallapp::getAllInformation($this->appname);
+			$v = all_easyinstaller::getAllInformation($this->appname);
 
 			if ($v['padminarea']) {
 				$admin = $v['padminarea'];
@@ -137,7 +137,7 @@ class installapp extends Lxdb
 
 	function showRawPrint($subaction = null)
 	{
-	//  allinstallapp::showDescription($this->appname);
+	//  all_easyinstaller::showDescription($this->appname);
 	}
 
 	function createExtraVariables()
@@ -156,7 +156,7 @@ class installapp extends Lxdb
 		$this->__var_dbuser = $db->dbname;
 		$this->__var_dbpass = $db->dbpassword;
 
-		$this->__var_snapbase = "__path_customer_root/$this->customer_name/__installappsnapshot/$web->nname";
+		$this->__var_snapbase = "__path_customer_root/$this->customer_name/__easyinstallersnapshot/$web->nname";
 	}
 
 	static function createParentShowList($parent, $class)
@@ -169,19 +169,18 @@ class installapp extends Lxdb
 	static function createAddformAlist($parent, $class, $typetd = null)
 	{
 		dprintr($typetd);
-	//  $alist[] = "a=list&c=allinstallapp";
-		$alist[] = "a=show&k[class]=allinstallapp&k[nname]={$typetd['val']}";
-		$alist[] = "a=list&c=installapp";
+	//	$alist[] = "a=list&c=all_easyinstaller";
+		$alist[] = "a=show&k[class]=all_easyinstaller&k[nname]={$typetd['val']}";
+		$alist[] = "a=list&c=easyinstaller";
 
 		return $alist;
 	}
 
 	static function createListAlist($parent, $class)
 	{
-	//  $alist[] = "a=list&c=allinstallapp";
-		$alist[] = "a=show&k[class]=allinstallapp&k[nname]=installapp";
-		$alist[] = "a=list&c=installapp";
-		$alist[] = "a=list&c=installappsnapshot";
+		$alist[] = "a=show&k[class]=all_easyinstaller&k[nname]=easyinstaller";
+		$alist[] = "a=list&c=easyinstaller";
+		$alist[] = "a=list&c=easyinstallersnapshot";
 
 		return $alist;
 	}
@@ -202,9 +201,9 @@ class installapp extends Lxdb
 		$res['dbtype'] = $dbtype;
 		$res['username'] = $dbname;
 		$res['dbpassword'] = $dbpass;
-		$res['installapp_flag'] = 'on';
+		$res['easyinstaller_flag'] = 'on';
 		$res['used_by'] = $appname;
-		$res['installapp_app'] = $this->getClName();
+		$res['easyinstaller_app'] = $this->getClName();
 		$res['parent_clname'] = $dom->getClientParentO()->getClName();
 		$ddatabase->create($res);
 		$dom->addToList('mysqldb', $ddatabase);
@@ -217,7 +216,7 @@ class installapp extends Lxdb
 	{
 		global $login;
 
-		$list = $this->getParentO()->getList('installapp');
+		$list = $this->getParentO()->getList('easyinstaller');
 
 		foreach($list as $l) {
 			if ($l->nname === $this->nname) {
@@ -229,17 +228,17 @@ class installapp extends Lxdb
 			}
 		}
 
-		$list = allinstallapp::getAllInformation($this->appname);
+		$list = all_easyinstaller::getAllInformation($this->appname);
 		$this->version = $list['pversion'];
 
-		$list = installapp::getVariablelist($this->appname);
+		$list = easyinstaller::getVariablelist($this->appname);
 
 		foreach($list as $l) {
 			if (csa($l, "_static_")) {
 				$var = strtil($l, "_static_");
 				$val = strfrom($l, "_static_");
 				$val = self::getRealMessage($val);
-				$this->installappmisc_b->$var = $val;
+				$this->easyinstallermisc_b->$var = $val;
 			}
 		}
 
@@ -303,23 +302,23 @@ class installapp extends Lxdb
 			throw new lxException($login->getThrow('mysqldb_quota_exceeded'), '', $client->used->mysqldb_num);
 		}
 
-		if (isset($param['installappmisc_b_s_admin_email'])) {
-			$param['installappmisc_b_s_admin_email'] = trim($param['installappmisc_b_s_admin_email']);
+		if (isset($param['easyinstallermisc_b_s_admin_email'])) {
+			$param['easyinstallermisc_b_s_admin_email'] = trim($param['easyinstallermisc_b_s_admin_email']);
 
-			if (!validate_email($param['installappmisc_b_s_admin_email'])) {
-				throw new lxException($login->getThrow('invalid_email'), '', $param['installappmisc_b_s_admin_email']);
+			if (!validate_email($param['easyinstallermisc_b_s_admin_email'])) {
+				throw new lxException($login->getThrow('invalid_email'), '', $param['easyinstallermisc_b_s_admin_email']);
 			}
 		}
 
-		if (isset($param['installappmisc_b_s_admin_email_login'])) {
-			$param['installappmisc_b_s_admin_email_login'] = trim($param['installappmisc_b_s_admin_email_login']);
+		if (isset($param['easyinstallermisc_b_s_admin_email_login'])) {
+			$param['easyinstallermisc_b_s_admin_email_login'] = trim($param['easyinstallermisc_b_s_admin_email_login']);
 
-			if (!validate_email($param['installappmisc_b_s_admin_email_login'])) {
-				throw new lxException($login->getThrow('invalid_email'), '', $param['installappmisc_b_s_admin_email_login']);
+			if (!validate_email($param['easyinstallermisc_b_s_admin_email_login'])) {
+				throw new lxException($login->getThrow('invalid_email'), '', $param['easyinstallermisc_b_s_admin_email_login']);
 			}
 		}
 
-		$list = allinstallapp::getAllInformation($param['appname']);
+		$list = all_easyinstaller::getAllInformation($param['appname']);
 		$var = $list['pvar'];
 
 		if (csa($var, "__db")) {
@@ -327,8 +326,8 @@ class installapp extends Lxdb
 			$param['dbuser'] = $param['dbname'];
 		}
 
-		if (isset($param['installappmisc_b_s_admin_password_dbpass'])) {
-			$param['dbpass'] = $param['installappmisc_b_s_admin_password_dbpass'];
+		if (isset($param['easyinstallermisc_b_s_admin_password_dbpass'])) {
+			$param['dbpass'] = $param['easyinstallermisc_b_s_admin_password_dbpass'];
 		}
 
 		$param['domain_name'] = $dom->nname;
@@ -341,7 +340,7 @@ class installapp extends Lxdb
 
 	static function getVariablelist($name)
 	{
-		$list = allinstallapp::getAllInformation($name);
+		$list = all_easyinstaller::getAllInformation($name);
 
 		$var = $list['pvar'];
 
@@ -371,25 +370,25 @@ class installapp extends Lxdb
 	function postSync()
 	{
 		if ($this->dbaction === 'add') {
-			$list = installapp::getVariablelist($this->appname);
+			$list = easyinstaller::getVariablelist($this->appname);
 
-			if (!isset($list['admin_message_static_password_sent_to_email']) && $this->installappmisc_b->admin_email) {
+			if (!isset($list['admin_message_static_password_sent_to_email']) && $this->easyinstallermisc_b->admin_email) {
 				$string  = null;
 				$string .= "Application: $this->appname\n";
 				$string .= "Url: http://{$this->getParentO()->nname}/$this->installdir\n";
-				$v = allinstallapp::getAllInformation($this->appname);
+				$v = all_easyinstaller::getAllInformation($this->appname);
 
 				if ($v['padminarea']) {
 					$ar = remove_extra_slash("{$this->getParentO()->nname}/$this->installdir/{$v['padminarea']}");
 					$string .= "Admin Area: http://$ar\n";
 				}
 
-				$string .= "Admin Username: {$this->installappmisc_b->admin_name}\n";
-				$string .= "Admin Password: {$this->installappmisc_b->admin_password}\n";
+				$string .= "Admin Username: {$this->easyinstallermisc_b->admin_name}\n";
+				$string .= "Admin Password: {$this->easyinstallermisc_b->admin_password}\n";
 
 				$subject = "Application $this->appname installed on {$this->getParentO()->nname}";
 
-				callInBackground("lx_mail", array(null, $this->installappmisc_b->admin_email, $subject, $string));
+				callInBackground("lx_mail", array(null, $this->easyinstallermisc_b->admin_email, $subject, $string));
 			}
 		}
 	}
@@ -407,12 +406,12 @@ class installapp extends Lxdb
 			$contact = $login->contactemail;
 		}
 
-		$infolist = allinstallapp::getAllInformation($typetd['val']);
+		$infolist = all_easyinstaller::getAllInformation($typetd['val']);
 		$version = $infolist['pversion'];
 		$vlist['appname_f'] = array('M', $typetd['val']);
 		$vlist['installdir'] = array('m', array("pretext" => "http://$parent->nname/"));
 		$vlist['latest_f'] = array('M', $version);
-		$vlist["installappmisc_b_s_admin_email"] = array('m', $contact);
+		$vlist["easyinstallermisc_b_s_admin_email"] = array('m', $contact);
 
 		$list = self::getVariablelist($typetd['val']);
 
@@ -431,22 +430,22 @@ class installapp extends Lxdb
 				$var = strtil($l, "_static_");
 				$val = strfrom($l, "_static_");
 				$val = self::getRealMessage($val);
-				$vlist["installappmisc_b_s_{$var}"] = array('M', $val);
+				$vlist["easyinstallermisc_b_s_{$var}"] = array('M', $val);
 			} else {
 				if ($l === 'admin_email') {
 					// admin email is set anyways.
 				} else if ($l === 'admin_username') {
-					$vlist["installappmisc_b_s_admin_name"] = array('m', 'admin');
+					$vlist["easyinstallermisc_b_s_admin_name"] = array('m', 'admin');
 				} else if ($l === 'admin_password') {
-					$vlist["installappmisc_b_s_{$l}"] = array('m', 'admin');
+					$vlist["easyinstallermisc_b_s_{$l}"] = array('m', 'admin');
 				} else {
-					$vlist["installappmisc_b_s_{$l}"] = null;
+					$vlist["easyinstallermisc_b_s_{$l}"] = null;
 				}
 			}
 		}
 
 		if (isset($infolist['padminarea'])) {
-		//  $vlist['installappmisc_b_s_adminarea'] = array('M', $infolist['padminarea']);
+		//  $vlist['easyinstallermisc_b_s_adminarea'] = array('M', $infolist['padminarea']);
 		}
 
 		$vlist['__v_button'] = 'Install';
@@ -467,7 +466,7 @@ class installapp extends Lxdb
 		$dom = $web->getParentO();
 		$client = $dom->getRealClientParentO();
 		$sq = new Sqlite($this->__masterserver, 'mysqldb');
-		$res = $sq->getRowsWhere("installapp_app = '{$this->getClName()}'");
+		$res = $sq->getRowsWhere("easyinstaller_app = '{$this->getClName()}'");
 
 		if (!$res) {
 			return;
@@ -487,7 +486,7 @@ class installapp extends Lxdb
 		$nlist['appname'] = '100%';
 		$nlist['abutton_update_s_snapshot'] = '10%';
 		$nlist['version'] = '10%';
-	//  $nlist['subdom'] = '100%';
+	//	$nlist['subdom'] = '100%';
 
 		if (check_if_many_server()) {
 			$nlist['dbhost'] = '10%';
@@ -502,3 +501,4 @@ class installapp extends Lxdb
 		return $nlist;
 	}
 }
+

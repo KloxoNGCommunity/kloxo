@@ -688,7 +688,7 @@ function check_if_port_on($port)
 	return false;
 }
 
-function installAppPHP($var, $cmd)
+function EasyinstallerPHP($var, $cmd)
 {
 	// TODO LxCenter: The created dir and file should be owned by the user
 	global $gbl, $sgbl, $login, $ghtml;
@@ -696,11 +696,11 @@ function installAppPHP($var, $cmd)
 	$domain = $var['domain'];
 	$appname = $var['appname'];
 
-	lxfile_mkdir("/home/httpd/$domain/httpdocs/__installapplog");
+	lxfile_mkdir("/home/httpd/$domain/httpdocs/__easyinstallerlog");
 	$i = 0;
 
 	while (1) {
-		$file = "/home/httpd/$domain/httpdocs/__installapplog/$appname$i.html";
+		$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 		if (!lxfile_exists($file)) {
 			break;
 		}
@@ -900,16 +900,16 @@ function validate_filename($filename)
 
 }
 
-function execinstallappPhp($domain, $appname, $cmd)
+function execEasyinstallerPhp($domain, $appname, $cmd)
 {
 	// TODO LxCenter: The created dir and file should be owned by the user
 	global $gbl, $sgbl, $login, $ghtml;
 
-	lxfile_mkdir("/home/httpd/$domain/httpdocs/__installapplog");
+	lxfile_mkdir("/home/httpd/$domain/httpdocs/__easyinstallerlog");
 	$i = 0;
 
 	while (1) {
-		$file = "/home/httpd/$domain/httpdocs/__installapplog/$appname$i.html";
+		$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 
 		if (!lxfile_exists($file)) {
 			break;
@@ -4798,7 +4798,8 @@ function lxguard_main($clearflag = false, $since = false)
 	$deny = lx_array_merge(array($deny, $hdn));
 
 	$str_host = null;
-	$str_smtp = null;
+	$str_tcprules = null;
+	$str_spamdyke = null;
 
 	foreach ($deny as $k => $v) {
 		if (csb($k, "127")) {
@@ -4809,7 +4810,9 @@ function lxguard_main($clearflag = false, $since = false)
 		$k = str_replace("\n", "", $k);
 
 		$str_host .= "ALL : $k\n";
-		$str_smtp .= "$k:deny\n";
+		$str_tcprules .= "$k:deny\n";
+	//	$str_tcprules .= "$k:allow,RBLSMTP=\"Your Are Blocked. Go away!\"\n";
+		$str_spamdyke .= "$k\n";
 	}
 
 	dprint("Debug: \str_host is:\n$str_host\n");
@@ -4821,13 +4824,15 @@ function lxguard_main($clearflag = false, $since = false)
 
 	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $str_host);
 
-	$start_smtp[] = "###Start Program tcp.smtp config Area";
-	$start_str_smtp = $start_smtp[0];
-	$end_smtp[] = "###End Program tcp.smtp config Area";
-	$end_str_smtp = $end_smtp[0];
+	$start_tcprules[] = "###Start Program tcp.smtp config Area";
+	$start_str_tcprules = $start_tcprules[0];
+	$end_tcprules[] = "###End Program tcp.smtp config Area";
+	$end_str_tcprules = $end_smtp[0];
 
-	file_put_between_comments("root", $start_smtp, $end_smtp, $start_str_smtp, $end_str_smtp, "/etc/tcprules.d/tcp.smtp", $str_smtp);
+	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $str_tcprules);
 	exec("/usr/bin/qmailctl cdb");
+
+	file_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
 
 	if ($clearflag) {
 		lxfile_rm("$lxgpath/access.info");
@@ -5166,67 +5171,68 @@ function fixupDnsRec($l)
 	$l->write();
 }
 
-function installinstallapp($nolog = null)
+function installEasyinstaller($nolog = null)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	// Install/Update installapp if needed or remove installapp when installapp is disabled.
+	// Install/Update easyinstaller if needed or remove easyinstaller when easyinstaller is disabled.
 	// Added in Kloxo 6.1.4
 
-	log_cleanup("Initialize InstallApp", $nolog);
+	log_cleanup("Initialize 'Easy Installer'", $nolog);
 
 	//--- trick for no install on kloxo install process
-	if (lxfile_exists("/var/cache/kloxo/kloxo-install-disableinstallapp.flg")) {
-		log_cleanup("- InstallApp is disabled by InstallApp Flag", $nolog);
-		exec("echo 1 > ../etc/flag/disableinstallapp.flg");
+	if (lxfile_exists("/var/cache/kloxo/kloxo-install-disableeasyinstaller.flg")) {
+		log_cleanup("- 'Easy Installer' is disabled by Flag", $nolog);
+		exec("echo 1 > ../etc/flag/disableeasyinstaller.flg");
 
 		return;
 	}
-	/*
-		 if ($sgbl->is_this_master()) {
-			 $gen = $login->getObject('general')->generalmisc_b;
-			 $diflag = $gen->isOn('disableinstallapp');
-			 log_cleanup("- InstallApp is disabled by InstallApp Flag", $nolog);
-			 exec("echo 1 > ../etc/flag/disableinstallapp.flg");
-		 } else {
-			 $diflag = false;
-			 log_cleanup("- InstallApp is not disabled by InstallApp Flag", $nolog);
-			 lxfile_rm("../etc/flag/disableinstallapp.flg");
-		 }
-	 */
-	if (lxfile_exists("../etc/flag/disableinstallapp.flg")) {
-		log_cleanup("- InstallApp is disabled, removing InstallApp", $nolog);
-		lxfile_rm_rec("/home/kloxo/httpd/installapp/");
-		lxfile_rm_rec("/home/kloxo/httpd/installappdata/");
-		exec("cd /var/cache/kloxo/ ; rm -f installapp*.tar.gz;");
+
+	if ($sgbl->is_this_master()) {
+		$gen = $login->getObject('general')->generalmisc_b;
+		$diflag = $gen->isOn('disableeasyinstaller');
+		log_cleanup("- 'Easy Installer' is disabled by Flag", $nolog);
+		exec("echo 1 > ../etc/flag/disableeasyinstaller.flg");
+	} else {
+		$diflag = false;
+		log_cleanup("- 'Easy Installer' is not disabled by Flag", $nolog);
+		lxfile_rm("../etc/flag/disableeasyinstaller.flg");
+	}
+
+	if (lxfile_exists("../etc/flag/disableeasyinstaller.flg")) {
+		log_cleanup("- 'Easy Installer' is disabled, removing 'Easy Installer'", $nolog);
+		lxfile_rm_rec("/home/kloxo/httpd/easyinstaller/");
+		lxfile_rm_rec("/home/kloxo/httpd/easyinstallerdata/");
+		exec("cd /var/cache/kloxo/ ; rm -f easyinstaller*.tar.gz;");
 
 		return;
 	} else {
-		if (!lxfile_exists("__path_kloxo_httpd_root/installappdata")) {
-			log_cleanup("- Update InstallApp data", $nolog);
-			installapp_data_update();
+		if (!lxfile_exists("__path_kloxo_httpd_root/easyinstallerdata")) {
+			log_cleanup("- Update 'Easy Installer' data", $nolog);
+			easyinstaller_data_update();
 		}
 
-		if (lfile_exists("../etc/remote_installapp")) {
-			log_cleanup("- Remote InstallApp detected, removing InstallApp", $nolog);
-			lxfile_rm_rec("/home/kloxo/httpd/installapp/");
-			exec("cd /var/cache/kloxo/ ; rm -f installapp*.tar.gz;");
+		if (lfile_exists("../etc/remote_easyinstaller")) {
+			log_cleanup("- Remote 'Easy Installer' detected, removing 'Easy Installer'", $nolog);
+			lxfile_rm_rec("/home/kloxo/httpd/easyinstaller/");
+			exec("cd /var/cache/kloxo/ ; rm -f easyinstaller*.tar.gz;");
 
 			return;
 		}
 
 		// Line below Removed in Kloxo 6.1.4
 		return;
-		/*
-			 log_cleanup("- Creating installapp dir", $nolog);
-			 lxfile_mkdir("__path_kloxo_httpd_root/installapp");
+	/*
+		log_cleanup("- Creating easyinstaller dir", $nolog);
+		lxfile_mkdir("__path_kloxo_httpd_root/easyinstaller");
 
-			 if (!lxfile_exists("__path_kloxo_httpd_root/installapp/wordpress")) {
-				 log_cleanup("- Install/Update InstallApp", $nolog);
-				 lxshell_php("../bin/installapp-update.php");
-			 }
-			 return;
-		 */
+		if (!lxfile_exists("__path_kloxo_httpd_root/easyinstaller/wordpress")) {
+			log_cleanup("- Install/Update easyinstaller", $nolog);
+			lxshell_php("../bin/easyinstaller-update.php");
+		}
+
+		 return;
+	 */
 	}
 }
 
@@ -7176,7 +7182,7 @@ function updatecleanup($nolog = null)
 	log_cleanup("- Remove process", $nolog);
 	remove_ssh_self_host_key();
 
-//	installInstallApp($nolog);
+//	installEasyinstaller($nolog);
 }
 
 function setInitialServices($nolog = null)

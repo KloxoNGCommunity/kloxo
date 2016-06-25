@@ -3,18 +3,18 @@
 include_once "lib/html/include.php"; 
 
 
-installapp_update_main();
+easyinstaller_update_main();
 
 
-function installapp_update_main()
+function easyinstaller_update_main()
 {
-	// check/install/update installapp applications
-	if (lxfile_exists("/home/kloxo/httpd/installapp") || lxfile_exists("/home/kloxo/httpd/remote-installapp")) {
+	// check/install/update easyinstaller applications
+	if (lxfile_exists("/home/kloxo/httpd/easyinstaller") || lxfile_exists("/home/kloxo/httpd/remote-easyinstaller")) {
 		application_update();
 	}
 
-	// check/install/update installapp data
-	installapp_data_update();
+	// check/install/update easyinstaller data
+	easyinstaller_data_update();
 }
 
 
@@ -24,21 +24,21 @@ function application_update()
 
 /*
 	$checkflag = $gbl->getObject('general')->generalmisc_b;
-	$installappflag = $checkflag->isOn('disableinstallapp');
+	$easyinstallerflag = $checkflag->isOn('disableeasyinstaller');
 
-	if ($installappflag)	{
-		print("InstallApp is disabled.\n");
+	if ($easyinstallerflag)	{
+		print("'Easy Installer' is disabled.\n");
 		exit;
 	}
 */
 
-	if (lxfile_exists("/usr/local/lxlabs/kloxo/etc/flag/disableinstallapp.flg")) {
-		print("InstallApp is disabled.\n");
+	if (lxfile_exists("/usr/local/lxlabs/kloxo/etc/flag/disableeasyinstaller.flg")) {
+		print("'Easy Installer' is disabled.\n");
 		exit;
 	}
 
-	print(fill_string("Fetch current InstallApp version", 50));
-	$string = file_get_contents("http://download.lxcenter.org/download/installapp/version.list");
+	print(fill_string("Fetch current 'Easy Installer' version", 50));
+	$string = file_get_contents("http://download.lxcenter.org/download/easyinstaller/version.list");
 	$rmt = unserialize($string);
 
 	if (!$rmt) { 
@@ -48,27 +48,27 @@ function application_update()
 
 	print(" OK ");
 
-	$remver = $rmt->applist['installapp'];
+	$remver = $rmt->applist['easyinstaller'];
 	print("version is $remver\n");
 
-	print(fill_string("Fetch local InstallApp version", 50));
+	print(fill_string("Fetch local 'Easy Installer' version", 50));
 	$loc = get_local_application_version_list();
-	$locver = $loc->applist['installapp'];
+	$locver = $loc->applist['easyinstaller'];
 	print(" OK version is $locver\n");
 
 	$updatelist = null;
 	$notexisting = null;
 
 	foreach($rmt->applist as $k => $v) {
-		if ($k === 'installapp') { continue; }
+		if ($k === 'easyinstaller') { continue; }
 
-		if (lxfile_exists("/home/kloxo/httpd/remote-installapp")) {
-			if (!lxfile_exists("/home/kloxo/httpd/remote-installapp/$k.zip")) {
+		if (lxfile_exists("/home/kloxo/httpd/remote-easyinstaller")) {
+			if (!lxfile_exists("/home/kloxo/httpd/remote-easyinstaller/$k.zip")) {
 				$notexisting[$k] = true;
 				continue;
 			}
 		} else {
-			if (!lxfile_exists("/home/kloxo/httpd/installapp/$k")) {
+			if (!lxfile_exists("/home/kloxo/httpd/easyinstaller/$k")) {
 				$notexisting[$k] = true;
 				continue;
 			}
@@ -107,7 +107,7 @@ function application_update()
 
 function update_application($appname)
 {
-	if (lxfile_exists("/home/kloxo/httpd/remote-installapp/")) {
+	if (lxfile_exists("/home/kloxo/httpd/remote-easyinstaller/")) {
 		update_remote_application($appname);
 	} else {
 		do_update_application($appname);
@@ -123,16 +123,16 @@ function do_update_application($appname)
 		lxfile_rm("/tmp/".$appname.".zip");
 	}
 
-	system("cd /tmp ;  wget -q http://download.lxcenter.org/download/installapp/".$appname.".zip");
+	system("cd /tmp ;  wget -q http://download.lxcenter.org/download/easyinstaller/".$appname.".zip");
 
 	if (!lxfile_real("/tmp/".$appname.".zip")) { 
 		print("Could not download $appname\n");
 		return; 
 	}
 
-	lxfile_rm_rec("/home/kloxo/httpd/installapp/$appname");
+	lxfile_rm_rec("/home/kloxo/httpd/easyinstaller/$appname");
 
-	system("cd /home/kloxo/httpd/installapp ; unzip -qq /tmp/".$appname.".zip");
+	system("cd /home/kloxo/httpd/easyinstaller ; unzip -qq /tmp/".$appname.".zip");
 
 	lxfile_rm("/tmp/".$appname.".zip");
 
@@ -147,14 +147,14 @@ function update_remote_application($appname)
 		lxfile_rm("/tmp/".$appname.".zip");
 	}
 
-	system("cd /tmp ; wget -q http://download.lxcenter.org/download/installapp/$appname.zip");
+	system("cd /tmp ; wget -q http://download.lxcenter.org/download/easyinstaller/$appname.zip");
 
 	if (!lxfile_real("/tmp/$appname.zip")) { 
 		print("Could not download $appname\n");
 		return; 
 	}
 
-	$app = "/home/kloxo/httpd/remote-installapp/$appname.zip";
+	$app = "/home/kloxo/httpd/remote-easyinstaller/$appname.zip";
 
 	lxfile_rm($app);
 	lxfile_mv("/tmp/$appname.zip", $app);

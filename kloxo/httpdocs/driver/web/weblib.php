@@ -315,7 +315,7 @@ class Web extends Lxdb
 	static $__desc_awstats_flag = array("q", "", "enable_awstats");
 	static $__desc_dotnet_flag = array("q", "", "enable_asp.net_(windows_only)");
 	static $__desc_cron_manage_flag = array("q", "", "allow_scheduler_management");
-	static $__desc_installapp_flag = array("q", "", "enable_installapp");
+	static $__desc_easyinstaller_flag = array("q", "", "enable_easyinstaller");
 	static $__desc_text_lighty_rewrite = array("t", "", "lighttp_rewrite_rule");
 //	static $__desc_subweb_a_num = array("q", "",  "number_of_subdomains");
 	static $__desc_cron_minute_flag = array("q", "", "allow_minute_management_for_cron");
@@ -338,15 +338,15 @@ class Web extends Lxdb
 	static $__desc_ffile_o = array('', '', '', '');
 	static $__desc_dirprotect_l = array('db', '', '', '');
 	static $__desc_ftpuser_l = array("Rqdtb", "", "");
-//	static $__desc_installappsnapshot_l = array("d", "", "");
+	static $__desc_easyinstallersnapshot_l = array("d", "", "");
 //	static $__desc_component_l = array("", "", "");
 	static $__desc_rubyrails_l = array("qdb", "", "");
 	static $__desc_odbc_l = array("db", "", "");
 	static $__desc_davuser_l = array("db", "", "");
 	static $__desc_phpini_o = array("db", "", "");
 	static $__desc_cron_l = array("db", "", "");
-	static $__desc_installapp_l = array("db", "", "");
-	static $__desc_allinstallapp_l = array("", "", "");
+	static $__desc_easyinstaller_l = array("db", "", "");
+	static $__desc_all_easyinstaller_l = array("", "", "");
 	static $__desc_ftpsession_l = array("v", "", "");
 
 	static $__desc_web_selected = array("", "", "web_selected");
@@ -1097,7 +1097,7 @@ class Web extends Lxdb
 
 		$alist[] = "a=updateform&sa=permalink";
 
-	//	$alist[] = "a=show&k[class]=allinstallapp&k[nname]=installapp";
+	//	$alist[] = "a=show&k[class]=all_easyinstaller&k[nname]=easyinstaller";
 
 	/*
 		$alist['action'][] = "a=update&sa=backup";

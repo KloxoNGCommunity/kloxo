@@ -3,7 +3,7 @@
 include_once "lib/html/include.php"; 
 
 if (!isset($argv[1])) {
-	print("Usage: installapp-upload acccount\n");
+	print("Usage: easyinstaller-upload acccount\n");
 	exit;
 }
 
@@ -17,14 +17,14 @@ function i_download_file($dir, $file)
 {
 	global $g_acc;
 
-	system("cd $dir ; rm -f $file ; scp $g_acc@download.lxlabs.com:installapp/$file .");
+	system("cd $dir ; rm -f $file ; scp $g_acc@download.lxlabs.com:easyinstaller/$file .");
 }
 
 
 function upload_file($file)
 {
 	global $g_acc;
-	system("scp $file $g_acc@download.lxlabs.com:installapp/");
+	system("scp $file $g_acc@download.lxlabs.com:easyinstaller/");
 }
 
 
@@ -45,7 +45,7 @@ function application_upload()
 	}
 
 
-	chdir("/home/kloxo/httpd/installapp/");
+	chdir("/home/kloxo/httpd/easyinstaller/");
 	$uploadlist = null;
 	foreach($loc->applist as $k => $v) {
 		if (app_version_cmp($rmt->applist[$k], $v) === -1) {
@@ -73,10 +73,10 @@ function application_upload()
 function data_upload()
 {
 	print("Uploading data\n");
-	lxfile_rm("/home/kloxo/httpd/installappdata.zip");
-	system("cd /home/kloxo/httpd/installappdata/ ; zip -r ../installappdata.zip * > /dev/null;");
-	upload_file("/home/kloxo/httpd/installappdata.zip");
-	lxfile_rm("/home/kloxo/httpd/installappdata.zip");
+	lxfile_rm("/home/kloxo/httpd/easyinstallerdata.zip");
+	system("cd /home/kloxo/httpd/easyinstallerdata/ ; zip -r ../easyinstallerdata.zip * > /dev/null;");
+	upload_file("/home/kloxo/httpd/easyinstallerdata.zip");
+	lxfile_rm("/home/kloxo/httpd/easyinstallerdata.zip");
 }
 
 

@@ -124,6 +124,12 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "header_base";
 }
 
+if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
+	$header_ssl = "custom.header_ssl";
+} else if (file_exists("{$globalspath}/header_ssl.conf")) {
+	$header_ssl = "header_ssl";
+}
+
 if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 	$use_httpd24 = true;
 } else {
@@ -225,6 +231,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -235,7 +243,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 				}
 ?>
@@ -365,6 +373,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -375,7 +385,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 			}
 ?>
@@ -506,6 +516,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -516,7 +528,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 				}
 ?>
@@ -560,6 +572,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -570,7 +584,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 				}
 ?>
@@ -714,6 +728,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -724,7 +740,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 				}
 ?>
@@ -1090,6 +1106,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1100,7 +1118,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 							}
 ?>
@@ -1270,6 +1288,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1280,7 +1300,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 							}
 ?>
@@ -1334,6 +1354,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1344,7 +1366,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 						}
 ?>
@@ -1475,6 +1497,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1485,7 +1509,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 							}
 ?>
@@ -1529,6 +1553,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1539,7 +1565,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 							}
 ?>
@@ -1686,6 +1712,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1696,7 +1724,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 						}
 ?>
@@ -1827,6 +1855,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1837,7 +1867,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 							}
 ?>
@@ -1881,6 +1911,8 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -1891,7 +1923,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?php echo $certname; ?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf
 <?php
 							}
 ?>

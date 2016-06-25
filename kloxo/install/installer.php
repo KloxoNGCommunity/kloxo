@@ -519,11 +519,11 @@ function kloxo_install_step2()
 		"--install-type={$installtype} --db-rootuser={$dbroot} --db-rootpassword={$dbpass}");
 }
 
-function kloxo_install_installapp()
+function kloxo_install_easyinstaller()
 {
-	print(">>> Installing InstallApp <<<\n");
-	@system("/script/installapp-update"); // First run (gets installappdata)
-	@system("/script/installapp-update"); // Second run (gets applications)
+	print(">>> Installing 'Easy Installer' <<<\n");
+	@system("/script/easyinstaller-update"); // First run (gets easyinstallerdata)
+	@system("/script/easyinstaller-update"); // Second run (gets applications)
 }
 
 function kloxo_prepare_kloxo_httpd_dir()

@@ -145,6 +145,12 @@ if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "header_base";
 }
 
+if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
+	$header_ssl = "custom.header_ssl";
+} else if (file_exists("{$globalspath}/header_ssl.conf")) {
+	$header_ssl = "header_ssl";
+}
+
 $listens = array('listen_nonssl_default', 'listen_ssl_default');
 
 foreach ($certnamelist as $ip => $certname) {
@@ -163,8 +169,6 @@ server {
 <?php
 		if ($count !== 0) {
 ?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
 
 	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
 	ssl_certificate <?php echo $certname; ?>.pem;

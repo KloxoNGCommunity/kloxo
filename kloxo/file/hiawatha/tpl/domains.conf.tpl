@@ -6,11 +6,14 @@
 
 <?php
 
-$custom_header="CustomHeader = Strict-Transport-Security:max-age=604800;preload
-\tCustomHeader = X-Content-Type-Options:nosniff
+$header_base="CustomHeader = X-Content-Type-Options:nosniff
 \tCustomHeader = X-XSS-Protection:1;mode=block
 \tCustomHeader = X-Frame-Options:SAMEORIGIN
-\tCustomHeader = Access-Control-Allow-Origin:*";
+\tCustomHeader = Access-Control-Allow-Origin:*
+\t#CustomHeader = Content-Security-Policy:script-src 'self'
+\tCustomHeader = X-Support-By:Kloxo-MR 7.0";
+
+$header_ssl="CustomHeader = Strict-Transport-Security:max-age=2592000;preload";
 
 $error_handler="Alias = /error:/home/kloxo/httpd/error
 \tErrorHandler = 401:/error/401.html
@@ -262,6 +265,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 			if ($count !== 0) {
 ?>
@@ -272,7 +278,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 				}
@@ -328,6 +334,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 			if ($count !== 0) {
 ?>
@@ -338,7 +347,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 				}
@@ -397,6 +406,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 			if ($count !== 0) {
 ?>
@@ -407,7 +419,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 				}
@@ -474,6 +486,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 				if ($count !== 0) {
 ?>
@@ -484,7 +499,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 					}
@@ -523,6 +538,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 				if ($count !== 0) {
 ?>
@@ -533,7 +551,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 					}
@@ -601,6 +619,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 		if ($count !== 0) {
 			if ($enablessl) {
@@ -612,7 +633,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 				}
@@ -798,6 +819,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -809,7 +833,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 							}
@@ -886,6 +910,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -897,7 +924,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 							}
@@ -978,6 +1005,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 					if ($count !== 0) {
 ?>
@@ -988,7 +1018,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 						}
@@ -1048,6 +1078,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 						if ($count !== 0) {
 ?>
@@ -1058,7 +1091,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 							}
@@ -1123,6 +1156,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 						if ($count !== 0) {
 ?>
@@ -1133,7 +1169,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 							}
@@ -1216,6 +1252,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 					if ($count !== 0) {
 ?>
@@ -1226,7 +1265,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 						}
@@ -1294,6 +1333,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 						if ($count !== 0) {
 ?>
@@ -1304,7 +1346,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 							}
@@ -1371,6 +1413,9 @@ VirtualHost {
 
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?php echo $header_base; ?>
+
 <?php
 						if ($count !== 0) {
 ?>
@@ -1381,7 +1426,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?php echo $certname; ?>.ca
 
-	<?php echo $custom_header; ?>
+	<?php echo $header_ssl; ?>
 
 <?php
 							}

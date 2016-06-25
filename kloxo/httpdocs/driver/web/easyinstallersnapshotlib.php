@@ -1,6 +1,6 @@
 <?php 
 
-class installappsnapshot extends lxclass
+class easyinstallersnapshot extends lxclass
 {
 
 	static $__desc = array("n", "",  "snapshot");
@@ -18,7 +18,7 @@ class installappsnapshot extends lxclass
 	function createExtraVariables()
 	{
 		$parent = $this->getParentO();
-		$path = "__path_customer_root/$parent->customer_name/__installappsnapshot/$parent->nname/";
+		$path = "__path_customer_root/$parent->customer_name/__easyinstallersnapshot/$parent->nname/";
 		$this->__var_snapbase = $path;
 	}
 
@@ -26,7 +26,7 @@ class installappsnapshot extends lxclass
 	{
 		global $login;
 
-		$ip = new installapp(null, null, $this->app_real_nname);
+		$ip = new easyinstaller(null, null, $this->app_real_nname);
 		$ip->get();
 
 		if ($ip->ddate !== $this->app_real_date) {
@@ -42,9 +42,9 @@ class installappsnapshot extends lxclass
 
 	function createShowPropertyList(&$alist)
 	{
-		$alist['property'][] = "goback=1&a=show&k[class]=allinstallapp&k[nname]=installapp";
-		$alist['property'][] = "goback=1&a=list&c=installapp";
-		$alist['property'][] = "goback=1&a=list&c=installappsnapshot";
+		$alist['property'][] = "goback=1&a=show&k[class]=all_easyinstaller&k[nname]=easyinstaller";
+		$alist['property'][] = "goback=1&a=list&c=easyinstaller";
+		$alist['property'][] = "goback=1&a=list&c=easyinstallersnapshot";
 	}
 
 	function updateform($subaction, $param)
@@ -57,7 +57,7 @@ class installappsnapshot extends lxclass
 
 	static function createListAlist($parent, $class)
 	{
-		return installapp::createListAlist($parent, $class);
+		return easyinstaller::createListAlist($parent, $class);
 	}
 
 	static function createListNlist($parent, $view)
@@ -75,8 +75,8 @@ class installappsnapshot extends lxclass
 
 	static function initThisList($parent, $class)
 	{
-		$path = "__path_customer_root/$parent->customer_name/__installappsnapshot/$parent->nname/";
-		$res = rl_exec_in_driver($parent, 'installappsnapshot', "getSnapList", array($path));
+		$path = "__path_customer_root/$parent->customer_name/__easyinstallersnapshot/$parent->nname/";
+		$res = rl_exec_in_driver($parent, 'easyinstallersnapshot', "getSnapList", array($path));
 
 		foreach($res as &$r) {
 			$r['parent_clname'] = $parent->getClName();

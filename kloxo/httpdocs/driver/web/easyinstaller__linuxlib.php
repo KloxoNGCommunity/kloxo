@@ -1,6 +1,6 @@
 <?php
 
-class installapp__linux extends LxDriverclass
+class easyinstaller__linux extends LxDriverclass
 {
 	function dbactionAdd()
 	{
@@ -17,7 +17,7 @@ class installapp__linux extends LxDriverclass
 			}
 		}
 
-		$res['src'] = "$sgbl->__path_kloxo_httpd_root/installapp/{$this->main->appname}";
+		$res['src'] = "$sgbl->__path_kloxo_httpd_root/easyinstaller/{$this->main->appname}";
 
 	/*
 		if (!lxfile_exists($res['src'])) {
@@ -25,17 +25,17 @@ class installapp__linux extends LxDriverclass
 		}
 	*/
 
-		$res['title']=$this->main->installappmisc_b->title;
-		$res['email']=$this->main->installappmisc_b->admin_email;
-		$res['company']=$this->main->installappmisc_b->admin_company;
-		$res['realname']=$this->main->installappmisc_b->real_name;
+		$res['title']=$this->main->easyinstallermisc_b->title;
+		$res['email']=$this->main->easyinstallermisc_b->admin_email;
+		$res['company']=$this->main->easyinstallermisc_b->admin_company;
+		$res['realname']=$this->main->easyinstallermisc_b->real_name;
 		$res['appname'] = $this->main->appname;
 		$res['customer_name'] = $this->main->customer_name;
 		$res['full_document_root'] = $this->main->__var_full_documentroot;
 
-		$res['adminname']= $this->main->installappmisc_b->admin_name;
-		$res['adminpass']= $this->main->installappmisc_b->admin_password;
-		$res['admin_email_login']= $this->main->installappmisc_b->admin_email_login;
+		$res['adminname']= $this->main->easyinstallermisc_b->admin_name;
+		$res['adminpass']= $this->main->easyinstallermisc_b->admin_password;
+		$res['admin_email_login']= $this->main->easyinstallermisc_b->admin_email_login;
 
 		$res['dbname'] = $this->main->dbname;
 		$res['dbuser'] = $this->main->dbuser;
@@ -47,7 +47,7 @@ class installapp__linux extends LxDriverclass
 		$res['systemuser'] = $this->main->__var_username;
 		$res['installdir']=  $this->main->installdir;
 		$res['path'] =$this->main->__var_full_documentroot;
-		$res['src'] = "$sgbl->__path_kloxo_httpd_root/installapp/{$this->main->appname}";
+		$res['src'] = "$sgbl->__path_kloxo_httpd_root/easyinstaller/{$this->main->appname}";
 
 		if ($this->main->dbname) {
 			$__tmpr = new mysqli($this->main->realhost, $this->main->dbuser, $this->main->dbpass);
@@ -64,10 +64,10 @@ class installapp__linux extends LxDriverclass
 		dprint("Copying ... $source to $dompath/$dir...\n");
 		lxfile_rm_rec("$dompath/$dir/__kloxo");
 
-		if (lxfile_exists("../etc/remote_installapp")) {
-			$url = lfile_get_contents("../etc/remote_installapp");
+		if (lxfile_exists("../etc/remote_easyinstaller")) {
+			$url = lfile_get_contents("../etc/remote_easyinstaller");
 			$url = trim($url);
-			$tf = lx_tmp_file("installapp");
+			$tf = lx_tmp_file("easyinstaller");
 			download_file("$url/{$this->main->appname}.zip", $tf);
 			$type = os_getZipType($tf);
 
@@ -78,7 +78,7 @@ class installapp__linux extends LxDriverclass
 				throw new lxException($login->getThrow('could_not_download_application_archive'), '', $this->main->appname);
 			}
 
-			$vd = createTempDir("/tmp", "installappdir");
+			$vd = createTempDir("/tmp", easyinstallerdir");
 			lxshell_unzip("__system__", $vd, $tf);
 			lxfile_cp_content("$vd/{$this->main->appname}", "$dompath/$dir");
 			$filelist = lscandir_without_dot("$vd/{$this->main->appname}");
@@ -178,7 +178,7 @@ class installapp__linux extends LxDriverclass
 		$this->do_snapshot();
 
 		if (!function_exists("__lxupdater_{$this->main->appname}")) {
-			include_once  "$sgbl->__path_kloxo_httpd_root/installapp/{$this->main->appname}/lxinstaller.inc";
+			include_once  "$sgbl->__path_kloxo_httpd_root/easyinstaller/{$this->main->appname}/lxinstaller.inc";
 		}
 
 		if (!function_exists("__lxupdater_{$this->main->appname}")) {

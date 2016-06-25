@@ -136,8 +136,14 @@ if (file_exists("{$globalspath}/custom.generic.conf")) {
 
 if (file_exists("{$globalspath}/custom.header_base.conf")) {
 	$header_base = "custom.header_base";
-} else {
+} else if (file_exists("{$globalspath}/header_base.conf")) {
 	$header_base = "header_base";
+}
+
+if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
+	$header_ssl = "custom.header_ssl";
+} else if (file_exists("{$globalspath}/header_ssl.conf")) {
+	$header_ssl = "header_ssl";
 }
 
 if ($disabled) {
@@ -153,6 +159,8 @@ if ($disabled) {
 $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
@@ -173,6 +181,8 @@ $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
@@ -196,6 +206,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 $HTTP["host"] =~ "^cp\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
@@ -230,6 +242,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" 
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $domainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
@@ -267,6 +281,8 @@ if ($domainredirect) {
 $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 	var.user = "<?php echo $sockuser; ?>"
 	var.fpmport = "<?php echo $fpmport; ?>"
@@ -327,6 +343,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
@@ -363,6 +381,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); 
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $parkdomainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
@@ -404,6 +424,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
 	var.rootdir = "<?php echo $disabledocroot; ?>/"
@@ -439,6 +461,8 @@ $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname);
 $HTTP["host"] =~ "^webmail\.<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
 	var.user = "apache"
 	var.fpmport = "<?php echo $fpmportapache; ?>"
@@ -493,6 +517,8 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+
+	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 <?php
 }
 ?>

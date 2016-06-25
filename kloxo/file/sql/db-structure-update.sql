@@ -112,7 +112,7 @@ ALTER TABLE `sslcert` ADD COLUMN IF NOT EXISTS `add_type` VARCHAR(255) NULL DEFA
 
 ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `force_https_redirect` VARCHAR(255) NULL DEFAULT NULL AFTER `force_www_redirect`;
 
-ALTER TABLE `sslcert` CHANGE `parent_domain` `parent_domain` VARCHAR(255) NULL DEFAULT NULL;
+ALTER TABLE `sslcert` CHANGE COLUMN IF EXISTS `parent_domain` `parent_domain` VARCHAR(255) NULL DEFAULT NULL;
 
 ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `web_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `force_https_redirect`;
 ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `php_selected` VARCHAR(255) NULL DEFAULT NULL AFTER `web_selected`;
@@ -129,3 +129,15 @@ ALTER TABLE `sslcert` ADD COLUMN IF NOT EXISTS `upload_status` VARCHAR(255) NULL
 ALTER TABLE `sslcert` ADD COLUMN IF NOT EXISTS `username` VARCHAR(255) NULL DEFAULT NULL AFTER `parent_cmlist`;
 
 UPDATE `lxguardhit` SET `access` = 'smtp' WHERE `access` = 'mail';
+
+ALTER TABLE `client` CHANGE COLUMN IF EXISTS `priv_q_installapp_flag` `priv_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
+ALTER TABLE `client` CHANGE COLUMN IF EXISTS `used_q_installapp_flag` `used_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
+
+ALTER TABLE `domain` CHANGE COLUMN IF EXISTS `priv_q_installapp_flag` `priv_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
+ALTER TABLE `domain` CHANGE COLUMN IF EXISTS `used_q_installapp_flag` `used_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
+
+ALTER TABLE `web` CHANGE COLUMN IF EXISTS `priv_q_installapp_flag` `priv_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
+ALTER TABLE `web` CHANGE COLUMN IF EXISTS `used_q_installapp_flag` `used_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
+
+
+

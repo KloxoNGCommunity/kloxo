@@ -1469,10 +1469,10 @@ class Domaind extends DomainBase
 			}
 		}
 	*/
-		$alist['__v_dialog_comp'] = "n=web&a=list&c=component";
+	//	$alist['__v_dialog_comp'] = "n=web&a=list&c=component";
 
-		if (!$gen->isOn('disableinstallapp') && $this->getClientParentO()->priv->isOn('installapp_flag')) {
-			$alist[] = "n=web&a=show&k[class]=allinstallapp&k[nname]=installapp";
+		if (!$gen->isOn('disableeasyinstaller') && $this->getClientParentO()->priv->isOn('easyinstaller_flag')) {
+			$alist[] = "n=web&a=show&k[class]=all_easyinstaller&k[nname]=easyinstaller";
 		}
 	/*
 		$alist['action'][] = "a=update&sa=backup";

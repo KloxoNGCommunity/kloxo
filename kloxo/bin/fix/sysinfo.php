@@ -203,7 +203,7 @@ $b = implode("", $a);
 
 $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
-if (!isset($phptype)) { 	$phptype = '[unknown]'; }
+if (!isset($phptype)) { $phptype = 'php-fpm_event (default)'; }
 
 $seddata = 's/^prog=\"\(.*\)\"/\1/';
 exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);

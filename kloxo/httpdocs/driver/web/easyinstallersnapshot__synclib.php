@@ -1,6 +1,6 @@
 <?php 
 
-class installappsnapshot__sync extends Lxdriverclass
+class easyinstallersnapshot__sync extends Lxdriverclass
 {
 	function dbactionDelete()
 	{
