@@ -81,9 +81,10 @@ if ($indexorder) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
+$out = null;
 exec("ip -6 addr show", $out);
 
-if ($out[0]) {
+if (count($out) > 0) {
 	$IPv6Enable = true;
 } else {
 	$IPv6Enable = false;
@@ -107,9 +108,9 @@ if (($webcache === 'none') || (!$webcache)) {
 	$out = null;
 	exec("echo $(2>&1 nginx -V | tr -- - '\n' | grep _module)|tr ' ' '\n'|grep 'http_v2_module'", $out);
 
-	if ($out[0] !== null) {
-		$confs = array_merge($confs, array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front24' => 'listen_ssl',
-			'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default24' => 'listen_ssl_default'));
+	if (count($out) > 0) {
+		$confs = array_merge($confs, array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front_h2' => 'listen_ssl',
+			'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default_h2' => 'listen_ssl_default'));
 	} else {
 		$confs = array_merge($confs, array('listen_nonssl_front' => 'listen_nonssl', 'listen_ssl_front' => 'listen_ssl',
 			'listen_nonssl_front_default' => 'listen_nonssl_default', 'listen_ssl_front_default' => 'listen_ssl_default'));

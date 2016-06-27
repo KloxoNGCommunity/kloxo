@@ -1436,7 +1436,9 @@ class Web extends Lxdb
 					$vlist['web_selected'] = array("s", $a);
 					$this->setDefaultValue('web_selected', $a[1]);
 				} else {
-					$x['web_selected'] = "none (as '" . $this->web_selected . "' in proxy)";
+					$s = ($this->web_selected) ? $this->web_selected : 'back-end';
+
+					$x['web_selected'] = "none (as '{$s}' in proxy)";
 					$this->convertToUnmodifiable($x);
 					$vlist['web_selected'] = $x['web_selected'];
 				}
