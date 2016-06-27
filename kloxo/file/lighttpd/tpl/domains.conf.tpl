@@ -284,6 +284,10 @@ $HTTP["host"] =~ "^<?php echo str_replace(".", "\.", $redirdomainname); ?>" {
 
 	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
 
+	$HTTP["scheme"] == "https" {
+		include "/opt/configs/lighttpd/conf/globals/header_ssl.conf"
+	}
+
 	var.user = "<?php echo $sockuser; ?>"
 	var.fpmport = "<?php echo $fpmport; ?>"
 	var.rootdir = "<?php echo $redirfullpath; ?>/"
@@ -519,6 +523,10 @@ $HTTP["host"] =~ "<?php echo $serveralias; ?><?php echo $ipssl; ?>" {
 	include "<?php echo $globalspath; ?>/acme-challenge.conf"
 
 	include "<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf"
+
+	$HTTP["scheme"] == "https" {
+		include "/opt/configs/lighttpd/conf/globals/header_ssl.conf"
+	}
 <?php
 }
 ?>
