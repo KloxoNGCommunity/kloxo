@@ -149,6 +149,11 @@ class web__ extends lxDriverClass
 				if (count($out) < 1) {
 					exec("yum -y install mod-pagespeed-stable");
 				}
+
+				lxfile_cp(getLinkCustomfile("/opt/configs/apache/etc/conf.d", "pagespeed.conf"),
+					"/etc/httpd/conf.d/pagespeed.conf");
+			} else {
+					lxfile_rm("/etc/httpd/conf.d/pagespeed.conf");
 			}
 		}
 
