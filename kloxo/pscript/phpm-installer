@@ -130,7 +130,7 @@ echo $x
 echo $x >>/opt/${base_name}/install.log
 yum -y install $(cat /opt/${base_name}/dependencies) >>/opt/${base_name}/install.log
 
-x="- Download all rpms (debug and devel will be deleted)... Please wait!"
+x="- Download all rpms (debug will be deleted)... Please wait!"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
@@ -140,7 +140,7 @@ fi
 
 yumdownloader ${pack_name}-* >>/opt/${base_name}/install.log
 'rm' -rf *-debug*
-'rm' -rf *-devel*
+#'rm' -rf *-devel*
 
 x="- Extract all rpms to '/opt/${base_name}'"
 echo $x

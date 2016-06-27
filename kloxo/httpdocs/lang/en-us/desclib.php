@@ -1359,6 +1359,7 @@ $__description["no_fix_config"] = array("No fix config (Select to execute)");
 
 // MR -- in 'switch program'
 $__description["use_apache24"] = array("Use Apache 2.4");
+$__description["use_pagespeed"] = array("Use Pagespeed (if possible)");
 
 // MR -- in 'webservr config'
 $__description["php_branch"] = array("PHP Branch");

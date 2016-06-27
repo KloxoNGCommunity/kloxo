@@ -142,6 +142,16 @@ class web__ extends lxDriverClass
 			$src = $webserver;
 		}
 
+		if ($webserver === 'httpd') {
+			if (file_exists("../etc/flag/use_pagespeed.flg")) {
+				exec("rpm -qa|grep pagespeed", $out);
+
+				if (count($out) < 1) {
+					exec("yum -y install mod-pagespeed-stable");
+				}
+			}
+		}
+
 		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$src}.init"),
 			"/etc/rc.d/init.d/{$webserver}");
 

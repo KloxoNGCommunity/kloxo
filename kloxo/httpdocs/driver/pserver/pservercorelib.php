@@ -110,7 +110,6 @@ class pservercore extends Lxclient
 	static $__desc_ps_password = array("", "", "password");
 	static $__desc_ddate = array("", "", "date");
 
-
 	static $__desc_retype_admin_p_f = array("", "", "retype_admin_or_server_password");
 	static $__desc_button_dbpassword_f = array("b", "", "", 'a=updateform&sa=dbpassword');
 	static $__desc_button_list_process_f = array("b", "", "", 'a=list&c=process');
@@ -169,6 +168,7 @@ class pservercore extends Lxclient
 	static $__desc_pserver_o = array('d', '', '', '');
 
 	static $__desc_use_apache24 = array("f", "", "use_apache24");
+	static $__desc_use_pagespeed = array("f", "", "use_pagespeed");
 
 	function __construct($masterserver, $readserver, $name)
 	{
@@ -1309,6 +1309,14 @@ STRIN;
 
 					$vlist['use_apache24'] = array('f', 'on', 'off');
 				}
+
+				if (file_exists("../etc/flag/use_pagespeed.flg")) {
+					$this->use_pagespeed = 'on';
+				} else {
+					$this->use_pagespeed = 'off';
+				}
+
+				$vlist['use_pagespeed'] = array('f', 'on', 'off');
 
 				$vlist['webcache_driver'] = array('s', array('none', 'squid', 'trafficserver', 'varnish'));
 

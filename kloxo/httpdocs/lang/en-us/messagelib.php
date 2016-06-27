@@ -444,8 +444,7 @@ $__information['updateform_switchprogram_pre'] = "<p>Switching Programs will tak
 	"<p>You will need to wait one minute before the new service properly restarts.</p>".
 	"<p>Add '<b>&lt;?php header(\"X-Hiawatha-Cache: 10\"); ?&gt;</b>' in top of index.php to boosting Hiawatha performance. ".
 	"Only Nginx and Hiawatha able to use 'microcache' at this moment.</p>".
-	"<p>Enable '<b>No fix config</b>' will perform no action to fix configuration where important for huge amount for domains; ".
-	"you must run '<b>sh /script/fix-all; sh /script/restart-all</b>' from ssh manually.</p>";
+	"<p>All web servers already installed and it's make faster switch between them. If select/unselect 'Use Apache 2.4' and or 'Use Pagespeed' better choose other webserver (other than Apache or Proxy) and then select back to previous.</p>";
 
 $__information['updateform_permalink_pre'] = "<p>Kloxo-MR comes with default permalink configuration for many apps.</p>".
 	"<p>Please select the application and the directory where you have installed it, ".

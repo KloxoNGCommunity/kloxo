@@ -88,6 +88,15 @@ class pserver extends pservercore {
 			}
 		}
 
+		$pagespeedflag = "../etc/flag/use_pagespeed.flg";
+		$usepagespeed = $param['use_pagespeed'];
+
+		if ($usepagespeed === 'on') {
+			exec("echo '' > {$pagespeedflag}");
+		} else {
+			exec("'rm' -f {$pagespeedflag}");
+		}
+
 		// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
 	//	$a['pserver'] = $this->nname;
 	//	rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
