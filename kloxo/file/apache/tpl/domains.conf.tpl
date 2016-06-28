@@ -987,19 +987,11 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Redirect "/stats" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
 	Redirect "/stats/" "<?php echo $protocol; ?><?php echo $domainname; ?>/awstats/awstats.pl"
-<?php
-			} elseif ($statsapp === 'webalizer') {
-?>
 
-	AliasMatch "/stats(/|$)(.*)" "/home/httpd/<?php echo $domainname; ?>/webstats$1$2"
-<?php
-			}
-?>
-
-	<Location "/stats/">
+	<Location "/awstats/">
 		Options +Indexes
 <?php
-			if ($statsprotect) {
+				if ($statsprotect) {
 ?>
 
 		AuthType Basic
@@ -1008,10 +1000,32 @@ foreach ($certnamelist as $ip => $certname) {
 		AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
 		require valid-user
 <?php
-			}
+				}
 ?>
 	</Location>
 <?php
+			} elseif ($statsapp === 'webalizer') {
+?>
+
+	AliasMatch "/stats(/|$)(.*)" "/home/httpd/<?php echo $domainname; ?>/webstats$1$2"
+
+	<Location "/stats/">
+		Options +Indexes
+<?php
+				if ($statsprotect) {
+?>
+
+		AuthType Basic
+		AuthName "AuthStats"
+		#AuthUserFile "/home/<?php echo $user; ?>/__dirprotect/__stats"
+		AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
+		require valid-user
+<?php
+				}
+?>
+	</Location>
+<?php
+			}
 		}
 
 		if ($apacheextratext) {

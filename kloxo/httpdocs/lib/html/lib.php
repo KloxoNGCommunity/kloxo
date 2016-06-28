@@ -8511,7 +8511,7 @@ function setAllWebserverInstall($nolog = null)
 
 			log_cleanup("- Installing '{$v}'", $nolog);
 
-			log_cleanup("- Inactivating 'httpd'", $nolog);
+			log_cleanup("- Inactivating '{$v}'", $nolog);
 			exec("chkconfig {$v} off");
 		}
 	}

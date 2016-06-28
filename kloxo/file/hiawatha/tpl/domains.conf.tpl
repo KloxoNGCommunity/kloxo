@@ -143,6 +143,25 @@ Directory {
     Extensions = jpeg, jpg, gif, png, ico, css, js
     ExpirePeriod 1 week
 }
+<?php
+	if ($statsapp === 'awstats') {
+?>
+
+Directory {
+	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
+
+	Path = /awstats
+<?php
+		if ($statsprotect) {
+?>
+	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
+<?php
+		}
+?>
+}
+<?php
+	} elseif ($statsapp === 'webalizer') {
+?>
 
 Directory {
 	DirectoryId = stats_dir_for_<?php echo $domclean; ?>
@@ -157,6 +176,7 @@ Directory {
 ?>
 }
 <?php
+	}
 
 	if ($dirprotect) {
 		foreach ($dirprotect as $k) {
