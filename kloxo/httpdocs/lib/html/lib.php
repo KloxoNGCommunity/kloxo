@@ -5504,22 +5504,9 @@ function setRpmReplaced($rpmname, $replacewith)
 
 function isRpmInstalled($rpmname)
 {
-	/*
-		// MR -- exec not work and must '-q' instead '-qa' to know true/false
-		$ret = lxshell_return("rpm", "-q", $rpmname);
+	exec("rpm -qa {$rpmname}", $out);
 
-		if ($ret) {
-			return false;
-		} else {
-			return true;
-		}
-	*/
-	exec("rpm -q {$rpmname}", $out);
-
-	$ret = strpos($out[0], "{$rpmname}-");
-
-	// MR -- must be '!== 0' because no exist sometimes with value > 0; 0 because position in 0
-	if ($ret !== 0) {
+	if (count($out) < 1) {
 		return false;
 	} else {
 		return true;
@@ -8465,7 +8452,7 @@ function setAllWebserverInstall($nolog = null)
 
 	$list = getAllWebDriverList();
 
-	$ws = array('nginx' => 'nginx nginx-module* GeoIP', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
+	$ws = array('nginx' => 'nginx nginx-module* GeoIP spawn-fcgi fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
 		'hiawatha' => 'hiawatha hiawatha-addons', 'httpd' => 'httpd httpd-tools',
 		'httpd24u' => 'httpd24u httpd24u-tools httpd24u-filesystem');
 
@@ -8492,57 +8479,39 @@ function setAllWebserverInstall($nolog = null)
 
 					log_cleanup("- Replacing 'httpd' to 'httpd24u'", $nolog);
 				} else {
-					$out2 = null;
-
-					exec("rpm -qa httpd24u", $out2);
-
-					if (count($out2) < 1) {
-						exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']}");
-						log_cleanup("- Installing 'httpd24u'", $nolog);
-					} else {
-						log_cleanup("- No need installing 'httpd24u'", $nolog);
-					}
+					exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']}");
+					log_cleanup("- Installing 'httpd24u'", $nolog);
 				}
 			} else {
-				if (count($out) < 1) {
-					$out2 = null;
+				$out2 = null;
 
-					exec("rpm -qa httpd24u", $out2);
+				exec("rpm -qa httpd24u", $out2);
 
-					if (count($out2) > 0) {
-						exec("yum -y replace httpd24u --replace-with=httpd;" .
-							"yum -y remove {$hm['httpd24u']};" .
-							"yum -y install {$hm['httpd']}");
+				if (count($out2) > 0) {
+					exec("yum -y replace httpd24u --replace-with=httpd;" .
+						"yum -y remove {$hm['httpd24u']};" .
+						"yum -y install {$hm['httpd']}");
 
-						log_cleanup("- Replacing 'httpd24' to 'httpd'", $nolog);
-					} else {
-						exec("yum -y install {$ws['httpd']} {$hm['httpd']}");
-
-						log_cleanup("- Installing 'httpd24u'", $nolog);
-					}
-
-					log_cleanup("- Installing 'httpd'", $nolog);
+					log_cleanup("- Replacing 'httpd24' to 'httpd'", $nolog);
 				} else {
-					log_cleanup("- No need installing 'httpd24u'", $nolog);
+					exec("yum -y install {$ws['httpd']} {$hm['httpd']}");
+
+					log_cleanup("- Installing 'httpd24u'", $nolog);
 				}
+
+				log_cleanup("- Installing 'httpd'", $nolog);
 			}
 
 			log_cleanup("- Inactivating 'httpd'", $nolog);
 			exec("chkconfig httpd off");
 		} else {
-			exec("rpm -qa {$v}", $out);
+			$t = $ws[$v];
 
-			if (count($out) < 1) {
-				$t = $ws[$v];
+			exec("yum -y install {$t}; chkconfig {$v} off");
 
-				exec("yum -y install {$t}; chkconfig {$v} off");
+			log_cleanup("- Installing '{$v}'", $nolog);
 
-				log_cleanup("- Installing '{$v}'", $nolog);
-			} else {
-				log_cleanup("- No need installing '{$v}'", $nolog);
-			}
-
-			log_cleanup("- Inactivating '{$v}'", $nolog);
+			log_cleanup("- Inactivating 'httpd'", $nolog);
 			exec("chkconfig {$v} off");
 		}
 	}
@@ -8553,6 +8522,10 @@ function setAllWebserverInstall($nolog = null)
 		if ($v === 'apache') { $v = 'httpd'; }
 
 		log_cleanup("- Activating '{$v}' as Web server", $nolog);
-		exec("chkconfig {$v} on");	
+		exec("chkconfig {$v} on");
+
+		if ($v === 'nginx') {
+			exec("chkconfig spawn-fcgi on");
+		}
 	}
 }
