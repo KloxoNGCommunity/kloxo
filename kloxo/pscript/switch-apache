@@ -9,9 +9,9 @@ if [ "$1" == "httpd24" ] ; then
 			exit
 		else
 			service httpd stop
-			yum remove httpd-* mod_* -y
-			yum install httpd24u httpd24u-filesystem httpd24u-tools -y
-			yum install mod24u_suphp mod24u_ssl mod24u_session mod24u_ruid2 -y
+			yum -y replace httpd --replace-with=httpd24u
+			yum -y remove mod_ssl mod_rpaf mod_ruid2 mod_suphp mod_fastcgi mod_fcgid mod_define
+			yum -y install mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi
 			cp -f /opt/configs/apache/etc/conf/httpd24.conf /etc/httpd/conf/httpd.conf
 			chkconfig httpd on
 
@@ -37,9 +37,9 @@ elif [ "$1" == "httpd" ] ; then
 			exit
 		else
 			service httpd stop
-			yum remove httpd24u-* mod24u_* -y
-			yum install httpd httpd-tools -y
-			yum install mod_suphp mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_rpaf mod_define mod_perl -y
+			yum -y replace httpd24u --replace-with=httpd
+			yum -y remove mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi
+			yum -y install mod_ssl mod_rpaf mod_ruid2 mod_suphp mod_fastcgi mod_fcgid mod_define
 			cp -f /opt/configs/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf
 			chkconfig httpd on
 

@@ -7582,6 +7582,23 @@ function setCopyAcmeshConfFiles()
 	}
 }
 
+function setCopyStartapishConfFiles()
+{
+	$nolog = null;
+
+	$pathsrc = "../file/startapi.sh";
+	$pathdrv = "/opt/configs/startapi.sh";
+
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
+
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
+	exec("'cp' -rf {$pathsrc} /opt/configs");
+
+	if (file_exists("/home/startapi.sh")) {
+		lxfile_rm_rec("/home/startapi.sh");
+	}
+}
+
 function isWebProxy($drivertype = null)
 {
 	$driverapp = ($drivertype) ? $drivertype : slave_get_driver('web');
@@ -8383,6 +8400,23 @@ function setInstallAcmesh($nolog = null)
 	}
 }
 
+function setRemoveAcmesh($nolog = null)
+{
+	exec("sh /script/acme.sh-remover");
+}
+
+function setInstallStartapish($nolog = null)
+{
+	if (!file_exists("/root/.startapi.sh/startapi.sh/startapi.sh")) {
+		exec("sh /script/startapi.sh-installer");
+	}
+}
+
+function setRemoveStartapish($nolog = null)
+{
+	exec("sh /script/startapi.sh-remover");
+}
+
 function setAllSSLPortions($nolog = null)
 {
 	log_cleanup("Setting All SSL Portions", $nolog);
@@ -8396,6 +8430,9 @@ function setAllSSLPortions($nolog = null)
 //	log_cleanup("- Installing acme.sh", $nolog);
 //	setInstallAcmesh($nolog);
 
+	log_cleanup("- Installing startapi.sh", $nolog);
+	setInstallStartapish($nolog);
+
 	log_cleanup("- Fixing SSL path", $nolog);
 	setFixSSLPath($nolog);
 
@@ -8407,6 +8444,9 @@ function setAllSSLPortions($nolog = null)
 
 	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
 	setCopyAcmeshConfFiles();
+
+	log_cleanup("- Copying 'startapi.sh' config Files", $nolog);
+	setCopyStartapishConfFiles();
 }
 
 function getListOnList($pname)

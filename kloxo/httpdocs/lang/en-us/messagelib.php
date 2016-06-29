@@ -782,6 +782,16 @@ $__information['sslcert_addform_letsencrypt_pre'] = "<p>You can use <b>Let's Enc
 			"<li>If using 'Remote Mail' for domain, remove 'webmail.domain.com' from 'Subject Alternative Name (SAN)'</li>" .			
 		"</ul>";
 
+$__information['sslcert_addform_startapi_pre'] = "<p>You can use <b>StartSSL API</b> free SSL here. </p>" . 
+	"Subdomain must be part of domain SSL and always create for domain only and add subdomain in SAN entry. " .
+	"</p>" .
+	"<p><b>Note</b>:" .
+		"<ul>" .
+			"<li>Expire in 365 days and then need renew (update) before expire</li>" .
+			"<li>Max 5 SANs per-domain</li>" .	
+			"<li>Need setting Key and token via 'sh /script/startapi.sh-account'</li>" .	
+		"</ul>";
+
 $__information['sslcert_addform_link_pre'] = "<p>For wildcards ('*') or 'Let's Encrypt' SSL, SSL for subdomain just link to their parent SSL";
 
 $__information['serverweb_updateform_edit_pre'] = $__information['webserver_config'];

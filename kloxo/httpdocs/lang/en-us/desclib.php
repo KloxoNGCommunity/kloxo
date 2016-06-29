@@ -663,6 +663,7 @@ $__description["ssl_parent"] = array("SSL Parent");
 $__description["ssl_file"] = array("SSL File");
 $__description["ssl_text"] = array("SSL Text");
 $__description["ssl_letsencrypt"] = array("Let's Encrypt");
+$__description["ssl_startapi"] = array("StartAPI SSL");
 $__description["ssl_link"] = array("SSL Link");
 
 $__description["ssl_certificate"] = array("SSL Certificate");
