@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$1" == "httpd24" ] ; then
-	if [ "$(rpm -qa|grep 'httpd24u-')" == "" ] ; then
+	if [ "$(rpm -qa httpd24u)" == "" ] ; then
 		if [ "$(rpm -qa|grep 'httpd-')" == "" ] ; then
 			echo
 			echo "- Need select apache or proxy in 'Switch Programs'"
@@ -29,7 +29,7 @@ if [ "$1" == "httpd24" ] ; then
 
 	cat '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg
 elif [ "$1" == "httpd" ] ; then
-	if [ "$(rpm -qa|grep 'httpd-')" == "" ] ; then
+	if [ "$(rpm -qa httpd)" == "" ] ; then
 		if [ "$(rpm -qa|grep 'httpd24u-')" == "" ] ; then
 			echo
 			echo "- Need select apache or proxy in 'Switch Programs'"
