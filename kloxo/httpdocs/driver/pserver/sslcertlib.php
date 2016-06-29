@@ -48,6 +48,7 @@ class SslCert extends Lxdb
 	static $__desc_upload_v_text = array("", "", "ssl_text");
 	static $__desc_upload_v_letsencrypt = array("", "", "ssl_letsencrypt");
 	static $__desc_upload_v_startapi = array("", "", "ssl_startapi");
+	static $__desc_upload_v_link = array("", "", "ssl_link");
 	static $__acdesc_update_update = array("", "", "certificate_info");
 	static $__acdesc_update_ssl_kloxo = array("", "", "set_ssl_for_kloxo");
 	static $__acdesc_update_ssl_hypervm = array("", "", "set_ssl_for_hypervm");
