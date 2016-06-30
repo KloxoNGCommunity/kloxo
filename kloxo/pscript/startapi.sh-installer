@@ -8,9 +8,9 @@ logpath='/var/log/startapi.sh'
 
 cd /
 
-if [ -f /root/.startapi.sh/startapi.sh ] ; then
-	/root/.startapi.sh/startapi.sh --upgrade
-	'cp' -f /root/.startapi.sh/startapi.sh ${kloxopath}/startapi.sh/startapi.sh
+if [ -f ${startapipath}/startapi.sh ] ; then
+	${startapipath}/startapi.sh --upgrade >/dev/null 2>&1
+	'cp' -f ${startapipath}/startapi.sh ${kloxopath}/startapi.sh/startapi.sh
 else
 	yum -y install git nc >/dev/null 2>&1
 
@@ -53,6 +53,8 @@ else
 	cd /
 fi
 
+echo
+${startapipath}/startapi.sh --version
 echo
 echo "*** 'startapi.sh' installed (need run 'exec bash' or 'reboot') ***"
 echo

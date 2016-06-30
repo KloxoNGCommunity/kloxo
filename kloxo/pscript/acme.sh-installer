@@ -8,10 +8,17 @@ logpath='/var/log/acme.sh'
 
 cd /
 
-if [ -f /root/.acme.sh/acme.sh ] ; then
-	${acmepath}/acme.sh --upgrade
-	'cp' -f ${acmepath}/acme.sh ${kloxopath}/acme.sh/acme.sh
-else
+newinstall=1
+
+if [ -f ${acmepath}/acme.sh ] ; then
+	if [ "$(${acmepath}/acme.sh --help|grep '\-\-upgrade')" != "" ] ; then
+		${acmepath}/acme.sh --upgrade >/dev/null 2>&1
+		'cp' -f ${acmepath}/acme.sh ${kloxopath}/acme.sh/acme.sh
+		newinstall=0
+	fi
+fi
+
+if [ "$newinstall" == "1" ] ; then
 	yum -y install git nc >/dev/null 2>&1
 
 	cd ${kloxopath}
@@ -64,5 +71,8 @@ else
 fi
 
 echo
+${acmepath}/acme.sh --version
+echo
 echo "*** 'acme.sh' installed (need run 'exec bash' or 'reboot') ***"
 echo
+
