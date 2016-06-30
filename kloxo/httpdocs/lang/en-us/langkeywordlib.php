@@ -187,6 +187,8 @@ $__keyword["info_skin"] = "Skin";
 $__keyword["click_help"] = "Click 'Help' for more info";
 $__keyword["login_as"] = "Login as";
 
+$__keyword['startapi_warning'] = "StartAPI: 'issue' is free but 're-issue' (before expire) and 'revoke' may payed";
+
 $__throw["domain_is_already_owned"] = "Domain is already owned. Please enable: [b]I Confirm That I Am The Owner Of Domain[/b]";
 $__throw["invalid_domain_name"] = "Invalid domain name";
 $__throw["not_permit_as_subdomain"] = "Not permit webmail/mail/lists/cp/www/default as subdomain";

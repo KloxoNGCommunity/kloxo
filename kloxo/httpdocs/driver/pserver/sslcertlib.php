@@ -49,6 +49,10 @@ class SslCert extends Lxdb
 	static $__desc_upload_v_letsencrypt = array("", "", "ssl_letsencrypt");
 	static $__desc_upload_v_startapi = array("", "", "ssl_startapi");
 	static $__desc_upload_v_link = array("", "", "ssl_link");
+
+	static $__desc_warning = array("", "", "ssl_warning");
+
+
 	static $__acdesc_update_update = array("", "", "certificate_info");
 	static $__acdesc_update_ssl_kloxo = array("", "", "set_ssl_for_kloxo");
 	static $__acdesc_update_ssl_hypervm = array("", "", "set_ssl_for_hypervm");
@@ -494,6 +498,9 @@ class SslCert extends Lxdb
 
 		if ($parent->getClass() === 'web') {
 			$nname = array('M', $parent->nname);
+			$action = array("s", array("test", "add", "renew", "revoke"));
+			$keybits = array("s", array("2048", "4096", "ec-256", "ec-384"));
+			$warning = array('M', $login->getKeywordUc('startapi_warning'));
 
 			$vlist['username'] = array("h", $parent->getParentO()->__parent_o->nname);
 
@@ -510,15 +517,16 @@ class SslCert extends Lxdb
 				$vlist['text_ca_content'] = null;
 			} else if ($typetd['val'] === 'letsencrypt') {
 				$vlist['nname'] = $nname;
-			//	$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
-				$vlist['ssl_data_b_s_key_bits_r'] = array("s", array("2048", "4096", "ec-256", "ec-384"));
+			//	$vlist['ssl_action'] = $action;
+				$vlist['ssl_data_b_s_key_bits_r'] = $keybits;
 				$vlist["ssl_data_b_s_subjectAltName_r"] =
 					array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
 				$vlist["ssl_data_b_s_emailAddress_r"] = array("m", "admin@{$parent->nname}");
 			} else if ($typetd['val'] === 'startapi') {
+				$vlist['warning'] = $warning;
 				$vlist['nname'] = $nname;
-			//	$vlist['ssl_action'] = array("s", array("test", "add", "renew", "revoke"));
-				$vlist['ssl_data_b_s_key_bits_r'] = array("s", array("2048", "4096", "ec-256", "ec-384"));
+			//	$vlist['ssl_action'] = $action;;
+				$vlist['ssl_data_b_s_key_bits_r'] = $keybits;
 				$vlist["ssl_data_b_s_subjectAltName_r"] =
 					array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
 			} else if ($typetd['val'] === 'link') {

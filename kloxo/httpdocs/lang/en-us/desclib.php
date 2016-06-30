@@ -666,6 +666,8 @@ $__description["ssl_letsencrypt"] = array("Let's Encrypt");
 $__description["ssl_startapi"] = array("StartAPI SSL");
 $__description["ssl_link"] = array("SSL Link");
 
+$__description["ssl_warning"] = array("Warning");
+
 $__description["ssl_certificate"] = array("SSL Certificate");
 $__description["ssl_key_bits"] = array("Key Bits");
 $__description["ssl_certificate_name"] = array("Certificate Name");
