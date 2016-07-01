@@ -1552,6 +1552,12 @@ function create_xml($object, $stuff, $ret)
 
 				continue;
 			}
+
+			if (csa($v[0], 'W')) {
+				$string[] = $ghtml->object_variable_warning($stuff, $k, $v[1]);
+
+				continue;
+			}
 		}
 
 		if (csa($descr[0], 'F')) {

@@ -500,7 +500,7 @@ class SslCert extends Lxdb
 			$nname = array('M', $parent->nname);
 			$action = array("s", array("test", "add", "renew", "revoke"));
 			$keybits = array("s", array("2048", "4096", "ec-256", "ec-384"));
-			$warning = array('M', $login->getKeywordUc('startapi_warning'));
+			$warning = array('W', $login->getKeywordUc('startapi_warning'));
 
 			$vlist['username'] = array("h", $parent->getParentO()->__parent_o->nname);
 

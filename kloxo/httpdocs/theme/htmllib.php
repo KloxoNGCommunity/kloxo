@@ -2656,6 +2656,36 @@ class HtmlLib
 		return $rvr;
 	}
 
+	function object_variable_warning($stuff, $variable, $value = null)
+	{
+		$this->fix_stuff_or_class($stuff, $variable, $class, $svalue);
+
+		if ($value === null) {
+			$value = $svalue;
+		}
+
+		if ($this->is_special_variable($value)) {
+			$descr = $value->descr;
+			$value = $value->value;
+		} else {
+			$descr = $this->get_classvar_description_after_overload($class, $variable);
+		}
+
+		$desc = $descr[2];
+
+		if (is_array($value)) {
+			$value = implode('\n', $value);
+		}
+
+		$rvr = new FormVar();
+		$rvr->name = "frm_{$class}_c_$variable";
+		$rvr->desc = $desc;
+		$rvr->type = 'warning';
+		$rvr->value = $value;
+
+		return $rvr;
+	}
+
 	function xml_variable_endblock()
 	{
 		return ' </block> </start>';
@@ -7899,6 +7929,30 @@ class HtmlLib
 
 					<?= $variable_description ?>
 					<div style='border: 1px solid #aaa; background-color: #dfe; padding: 2px'><?= $value ?></div>
+
+<?php
+				break;
+			case "warning" :
+				$value = $variable->value;
+				$value = self::fix_lt_gt($value);
+
+			//	if ($sgbl->isLxlabsClient()) {
+					$value = preg_replace("+(https://[^ \n]*)+", "<a href='$1' target='_blank' style='text-decoration:underline'> " . $login->getKeywordUc('click_here') . " </a>", $value);
+			//	}
+
+				if ($value !== "") {
+					$value = str_replace("\n", "\n<br />", trim($value, "\n"));
+				} else {
+					$value = "&nbsp;";
+				}
+
+				$ttname = $variable->name;
+
+				// Don't ever make this hidden. It is absolutely not necessary. The value is available directly itself.
+?>
+
+					<span style="color:#f11;font-weight:bold"><?= $variable_description ?></span>
+					<div style='border: 1px solid #aaa; background-color: #fcc; padding: 2px'><?= $value ?></div>
 
 <?php
 				break;
