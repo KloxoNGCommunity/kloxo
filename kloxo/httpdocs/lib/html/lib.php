@@ -7201,6 +7201,8 @@ function setInitialServices($nolog = null)
 	setInitialAllWebConfigs($nolog);
 	setInitialAllWebCacheConfigs($nolog);
 
+	setPhpUpdate();
+
 	setInitialPhpIniConfig($nolog);
 	getInitialPhpFpmConfig($nolog);
 
@@ -8568,4 +8570,11 @@ function setAllWebserverInstall($nolog = null)
 			exec("chkconfig spawn-fcgi on");
 		}
 	}
+}
+
+function setPhpUpdate()
+{
+	log_cleanup("Updating All Php (branch and multiple)", $nolog);
+
+	exec("yum -y update php*; sh /script/phpm-updater");
 }
