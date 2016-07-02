@@ -139,5 +139,4 @@ ALTER TABLE `domain` CHANGE COLUMN IF EXISTS `used_q_installapp_flag` `used_q_ea
 ALTER TABLE `web` CHANGE COLUMN IF EXISTS `priv_q_installapp_flag` `priv_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
 ALTER TABLE `web` CHANGE COLUMN IF EXISTS `used_q_installapp_flag` `used_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
 
-
-
+DROP TABLE IF EXISTS component;

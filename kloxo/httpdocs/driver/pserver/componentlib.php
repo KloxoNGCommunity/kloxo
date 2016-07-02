@@ -1,6 +1,6 @@
 <?php
 
-class Component extends Lxdb 
+class Component extends Lxclass
 {
 	// Core
 
@@ -20,6 +20,10 @@ class Component extends Lxdb
 	// Objects
 
 	// Lists
+
+	function get() { }
+
+	function write() { }
 
 	function createShowAlist(&$alist, $subaction = null)
 	{
@@ -67,8 +71,8 @@ class Component extends Lxdb
 	static function createListNlist($parent, $view)
 	{
 		$nlist['status'] = '5%';
-		$nlist['componentname'] = '30%';
-		$nlist['version'] = '65%';
+		$nlist['componentname'] = '25%';
+		$nlist['version'] = '100%';
 
 		return $nlist;
 	}
