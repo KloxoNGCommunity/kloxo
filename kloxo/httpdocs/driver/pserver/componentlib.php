@@ -5,7 +5,7 @@ class Component extends Lxclass
 	// Data
 	static $__desc =  array("", "",  "component");
 	static $__desc_nname =  array("","",  "component_name");
-	static $__desc_type =  array("s","",  "component_type");
+	static $__desc_type =  array("","",  "component_type");
 	static $__desc_componentname =  array("","",  "component_name");
 	static $__desc_version =  array("", "",  "component_version");
 	static $__desc_full_version =  array("tS", "",  "detailed_component_info");
