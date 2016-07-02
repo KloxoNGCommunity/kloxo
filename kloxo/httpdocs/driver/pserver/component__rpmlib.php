@@ -75,91 +75,113 @@ class Component__rpm extends lxDriverClass
 		return $ret;
 */
 
-		$mysql_list = explode(",", file_get_contents("../etc/list/set.mysql.lst"));
-		$mysql_list[] = 'sqlite';
-		$mysql_list[] = 'postgresql';
+		$db_list = explode(",", trim(file_get_contents("../etc/list/set.mysql.lst"), "\n"));
+		$db_list[] = 'sqlite';
+		$db_list[] = 'postgresql';
+
+		$db_list = array_values(array_unique($db_list));
 
 		$out = null;
-		exec('rpm -q ' . implode(" ", $mysql_list), $out);
+		exec('rpm -q ' . implode(" ", $db_list), $out);
 
-		foreach ($mysql_list as $k => $v) {
+		foreach ($db_list as $k => $v) {
 			$nname = "{$v}___{$syncserver}";
+			$type = "database";
 			$componentname = $v;
 			$version = $out[$k];
 			$status = (strpos($out[$k], 'is not installed') !== false) ? 'off' : 'on';
 
 			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
-				'version' => "[Database] ". $version, 'status' => $status);
+				'version' => $version, 'status' => $status,
+				'type' => $type);
 		}
 
-		$web_list = explode(",", file_get_contents("../etc/list/set.web.lst"));
+		$web_list = explode(",", trim(file_get_contents("../etc/list/set.web.lst"), "\n"));
+
+		$web_list = array_values(array_unique($web_list));
 
 		$out = null;
 		exec('rpm -q ' . implode(" ", $web_list), $out);
 
 		foreach ($web_list as $k => $v) {
 			$nname = "{$v}___{$syncserver}";
+			$type = "web";
 			$componentname = $v;
 			$version = $out[$k];
 			$status = (strpos($out[$k], 'is not installed') !== false) ? 'off' : 'on';
 
 			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
-				'version' => "[Web] ". $version, 'status' => $status);
+				'version' => $version, 'status' => $status,
+				'type' => $type);
 		}
 
-		$webcache_list = explode(",", file_get_contents("../etc/list/set.webcache.lst"));
+		$webcache_list = explode(",", trim(file_get_contents("../etc/list/set.webcache.lst"), "\n"));
+
+		$webcache_list = array_values(array_unique($webcache_list));
 
 		$out = null;
 		exec('rpm -q ' . implode(" ", $webcache_list), $out);
 
 		foreach ($webcache_list as $k => $v) {
 			$nname = "{$v}___{$syncserver}";
+			$type = "webcache";
 			$componentname = $v;
 			$version = $out[$k];
 			$status = (strpos($out[$k], 'is not installed') !== false) ? 'off' : 'on';
 
 			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
-				'version' => "[Webcache] ". $version, 'status' => $status);
+				'version' => $version, 'status' => $status,
+				'type' => $type);
 		}
 
-		$dns_list = explode(",", file_get_contents("../etc/list/set.dns.lst"));
+		$dns_list = explode(",", trim(file_get_contents("../etc/list/set.dns.lst"), "\n"));
+
+		$dns_list = array_values(array_unique($dns_list));
 
 		$out = null;
 		exec('rpm -q ' . implode(" ", $dns_list), $out);
 
 		foreach ($dns_list as $k => $v) {
 			$nname = "{$v}___{$syncserver}";
+			$type = "dns";
 			$componentname = $v;
 			$version = $out[$k];
 			$status = (strpos($out[$k], 'is not installed') !== false) ? 'off' : 'on';
 
 			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
-				'version' => "[DNS] ". $version, 'status' => $status);
+				'version' => $version, 'status' => $status,
+				'type' => $type);
 		}
 
-		$smtp_list = explode(",", file_get_contents("../etc/list/set.smtp.lst"));
-		$spam_list = explode(",", file_get_contents("../etc/list/set.spam.lst"));
-		$pop_list = explode(",", file_get_contents("../etc/list/set.pop.lst"));
-		$imap_list = explode(",", file_get_contents("../etc/list/set.imap.lst"));
+		$smtp_list = explode(",", trim(file_get_contents("../etc/list/set.smtp.lst"), "\n"));
+		$spam_list = explode(",", trim(file_get_contents("../etc/list/set.spam.lst"), "\n"));
+		$pop_list = explode(",", trim(file_get_contents("../etc/list/set.pop.lst"), "\n"));
+		$imap_list = explode(",", trim(file_get_contents("../etc/list/set.imap.lst"), "\n"));
 		$other_list = array('qmail-toaster');
 
 		$mail_list = array_merge($smtp_list, $spam_list, $pop_list, $imap_list, $other_list);
+
+		$mail_list = array_values(array_unique($mail_list));
 
 		$out = null;
 		exec('rpm -q ' . implode(" ", $mail_list), $out);
 
 		foreach ($mail_list as $k => $v) {
 			$nname = "{$v}___{$syncserver}";
+			$type = "mail";
 			$componentname = $v;
 			$version = $out[$k];
 			$status = (strpos($out[$k], 'is not installed') !== false) ? 'off' : 'on';
 
 			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
-				'version' => "[Mail] ". $version, 'status' => $status);
+				'version' => $version, 'status' => $status,
+				'type' => $type);
 		}
 
-		$php_list = explode(",", file_get_contents("../etc/list/set.php.lst"));
+		$php_list = explode(",", trim(file_get_contents("../etc/list/set.php.lst"), "\n"));
 		$php_list = array_map(function($value) { return "{$value}-cli"; }, $php_list);
+
+		$php_list = array_values(array_unique($php_list));
 
 		$out = null;
 		exec('rpm -q ' . implode(" ", $php_list), $out);
@@ -167,12 +189,14 @@ class Component__rpm extends lxDriverClass
 		foreach ($php_list as $k => $v) {
 			$v = str_replace('-cli', '', $v);
 			$nname = "{$v}___{$syncserver}";
+			$type = "php-branch";
 			$componentname = $v;
 			$version = $out[$k];
 			$status = (strpos($out[$k], 'is not installed') !== false) ? 'off' : 'on';
 
 			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
-				'version' => "[PHP Branch] " . $version, 'status' => $status);
+				'version' => $version, 'status' => $status,
+				'type' => $type);
 		}
 
 	//	$phpm_list = getMultiplePhpList();
@@ -180,6 +204,7 @@ class Component__rpm extends lxDriverClass
 
 		foreach ($phpm_list as $k => $v) {
 			$nname = "{$v}___{$syncserver}";
+			$type = "multiple-php";
 			$componentname = $v;
 
 			if (file_exists("/opt/{$v}/version")) {
@@ -191,10 +216,10 @@ class Component__rpm extends lxDriverClass
 			}
 
 			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
-				'version' => "[Multiple PHP] " . $version, 'status' => $status);
+				'version' => $version, 'status' => $status,
+				'type' => $type);
 		}
 
 		return $t;
 	}
 }
-

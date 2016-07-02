@@ -4,9 +4,10 @@ class Component extends Lxclass
 {
 	// Data
 	static $__desc =  array("", "",  "component");
-	static $__desc_nname =  array("S","",  "component_name");
-	static $__desc_componentname =  array("S","",  "component_name");
-	static $__desc_version =  array("S", "",  "component_version");
+	static $__desc_nname =  array("","",  "component_name");
+	static $__desc_type =  array("s","",  "component_type");
+	static $__desc_componentname =  array("","",  "component_name");
+	static $__desc_version =  array("", "",  "component_version");
 	static $__desc_full_version =  array("tS", "",  "detailed_component_info");
 	static $__desc_status =  array("eS", "",  "s:status");
 	static $__desc_status_v_on =  array("eS", "",  "is_installed");
@@ -65,7 +66,8 @@ class Component extends Lxclass
 	static function createListNlist($parent, $view)
 	{
 		$nlist['status'] = '5%';
-		$nlist['componentname'] = '25%';
+		$nlist['componentname'] = '20%';
+		$nlist['type'] = '10%';
 		$nlist['version'] = '100%';
 
 		return $nlist;
