@@ -345,7 +345,7 @@ class pserver extends pservercore {
 		$alist[] = "a=list&c=service";
 		$alist[] = "a=list&c=cron";
 		$alist[] = "a=list&c=process";
-	//	$alist[] = "a=list&c=component";
+		$alist[] = "a=list&c=component";
 		$alist[] = "a=list&c=ipaddress";
 		$alist[] = "a=updateform&sa=commandcenter";
 		$alist[] = "a=updateform&sa=switchprogram";

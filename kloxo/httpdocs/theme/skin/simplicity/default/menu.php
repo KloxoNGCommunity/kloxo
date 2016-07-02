@@ -704,10 +704,10 @@ if (strpos($loginas, "@") !== false) {
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=process">localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=process"><?= $syncserver ?></a><br/>
-						<!-- &#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=component") ?>
+						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=list&c=component") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $localhostquery ?>frm_o_cname=component">localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=component"><?= $syncserver ?></a><br/> -->
+							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=component"><?= $syncserver ?></a><br/>
 						&#x00bb;&nbsp;<?= $ghtml->getTitleOnly("a=show&o=llog") ?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $localhostquery ?>frm_o_o[1][class]=llog">localhost</a>
@@ -723,7 +723,7 @@ if (strpos($loginas, "@") !== false) {
 ?>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=service"><?= $ghtml->getTitleOnly("a=list&c=service") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=process"><?= $ghtml->getTitleOnly("a=list&c=process") ?></a><br/>
-						<!-- &#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=component"><?= $ghtml->getTitleOnly("a=list&c=component") ?></a><br/> -->
+						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=list&<?= $serverquery ?>frm_o_cname=component"><?= $ghtml->getTitleOnly("a=list&c=component") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=show&<?= $serverquery ?>frm_o_o[1][class]=llog"><?= $ghtml->getTitleOnly("a=show&o=llog") ?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?= $consumedlogin ?>frm_action=updateform&frm_subaction=update&<?= $serverquery ?>frm_o_o[1][class]=driver"><?= $ghtml->getTitleOnly("a=updateform&sa=update&o=driver") ?></a><br/>
 <?php
