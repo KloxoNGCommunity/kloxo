@@ -123,7 +123,10 @@ else
 fi
 
 sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' /opt/${base_name}/custom/php.ini
-sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' /opt/${base_name}/custom/php-fpm.ini
+
+if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
+	sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' /opt/${base_name}/custom/php-fpm.ini
+fi
 
 if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
 	sed -i 's:__disable_functions__::' /opt/${base_name}/custom/php.ini
