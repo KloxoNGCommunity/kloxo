@@ -178,6 +178,25 @@ class Component__rpm extends lxDriverClass
 				'type' => $type);
 		}
 
+		$ftp_list = explode(",", trim(file_get_contents("../etc/list/set.ftp.lst"), "\n"));
+
+		$ftp_list = array_values(array_unique($ftp_list));
+
+		$out = null;
+		exec('rpm -q ' . implode(" ", $ftp_list), $out);
+
+		foreach ($ftp_list as $k => $v) {
+			$nname = "{$v}___{$syncserver}";
+			$type = "ftp";
+			$componentname = $v;
+			$version = $out[$k];
+			$status = (strpos($out[$k], 'is not installed') !== false) ? 'off' : 'on';
+
+			$t[] = array('nname' => $nname, 'componentname' => $componentname, 
+				'version' => $version, 'status' => $status,
+				'type' => $type);
+		}
+
 		$php_list = explode(",", trim(file_get_contents("../etc/list/set.php.lst"), "\n"));
 		$php_list = array_map(function($value) { return "{$value}-cli"; }, $php_list);
 
