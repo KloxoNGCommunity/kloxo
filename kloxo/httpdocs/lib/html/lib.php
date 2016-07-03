@@ -7533,10 +7533,8 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	}
 }
 
-function setCopyOpenSSLConfFiles()
+function setCopyOpenSSLConfFiles($nolog = null)
 {
-	$nolog = null;
-
 	$pathsrc = "../file/openssl";
 	$pathdrv = "/opt/configs/openssl";
 
@@ -7550,10 +7548,8 @@ function setCopyOpenSSLConfFiles()
 	}
 }
 
-function setCopyLetsEncryptConfFiles()
+function setCopyLetsEncryptConfFiles($nolog = null)
 {
-	$nolog = null;
-
 	$pathsrc = "../file/letsencrypt";
 	$pathdrv = "/opt/configs/letsencrypt";
 
@@ -7567,10 +7563,8 @@ function setCopyLetsEncryptConfFiles()
 	}
 }
 
-function setCopyAcmeshConfFiles()
+function setCopyAcmeshConfFiles($nolog = null)
 {
-	$nolog = null;
-
 	$pathsrc = "../file/acme.sh";
 	$pathdrv = "/opt/configs/acme.sh";
 
@@ -7584,10 +7578,8 @@ function setCopyAcmeshConfFiles()
 	}
 }
 
-function setCopyStartapishConfFiles()
+function setCopyStartapishConfFiles($nolog = null)
 {
-	$nolog = null;
-
 	$pathsrc = "../file/startapi.sh";
 	$pathdrv = "/opt/configs/startapi.sh";
 
@@ -8572,7 +8564,7 @@ function setAllWebserverInstall($nolog = null)
 	}
 }
 
-function setPhpUpdate()
+function setPhpUpdate($nolog = null)
 {
 	log_cleanup("Updating All Php (branch and multiple)", $nolog);
 
