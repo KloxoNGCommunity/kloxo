@@ -717,6 +717,16 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerAlias <?php echo $serveralias; ?>
 
+<?php
+			if (intval($microcache_time) > 0) {
+?>
+
+	<IfModule mod_headers.c>
+		Header always set X-Hiawatha-Cache "<?php echo $microcache_time; ?>"
+	</IfModule>
+<?php
+			}
+?>
 
 	Include <?php echo $globalspath; ?>/<?php echo $acmechallenge; ?>.conf
 <?php
