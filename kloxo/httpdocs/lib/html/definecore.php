@@ -124,3 +124,5 @@ $gl_class_array['browsebackup'] = "lib/html/browsebackuplib.php";
 
 $gl_class_array['jailed'] = "driver/pserver/jailedlib.php";
 
+// $gl_class_array["phpmodule"] = "driver/pserver/phpmodulelib.php";
+

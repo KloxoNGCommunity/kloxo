@@ -149,6 +149,7 @@ class pservercore extends Lxclient
 	static $__desc_llog_o = array('d', '', '', '');
 	static $__desc_sshconfig_o = array('d', '', '', '');
 
+//	static $__desc_phpmodule_l = array("v", "", "virtual");
 
 	static $__acdesc_update_cron_mailto = array("", "", "cron_mail");
 	static $__acdesc_update_dbpassword = array("", "", "db_admin");
@@ -768,8 +769,6 @@ class pservercore extends Lxclient
 		$alist['property'][] = "a=updateform&sa=password";
 	//	$this->getCPToggleUrl($alist);
 		$alist[] = "a=updateform&sa=showused";
-
-	//	$alist[] = "a=list&c=component";
 
 		$cnl = array('ipaddress', 'dbadmin');
 

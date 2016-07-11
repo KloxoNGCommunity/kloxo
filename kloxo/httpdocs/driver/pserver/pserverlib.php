@@ -375,6 +375,7 @@ class pserver extends pservercore {
 
 		if ($ghtml->frm_o_o['0']['class'] === 'pserver') {
 			$alist[] = "a=show&o=phpini";
+//			$alist[] = "a=list&c=phpmodule";
 		}
 
 		$alist[] = "a=show&o=serverweb";

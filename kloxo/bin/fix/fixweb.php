@@ -25,8 +25,9 @@ $slist = array();
 $counter = 0;
 
 foreach($list as $c) {
-	$driverapp = $gbl->getSyncClass(null, $c->syncserver, 'web');
 /*
+	$driverapp = $gbl->getSyncClass(null, $c->syncserver, 'web');
+
 	if ($driverapp === 'none') {
 		log_cleanup("- No process because using 'NONE' driver for '{$c->syncserver}'", $nolog);
 
@@ -70,15 +71,6 @@ foreach($list as $c) {
 					log_cleanup("- remove all domains configs at '{$web->syncserver}'", $nolog);
 					$web->setUpdateSubaction('remove_all_domain_configs');
 				}
-			}
-
-			if (strpos($driverapp, 'lighttpd') !== false) {
-				// MR - also fix for lighttpd
-				if (!file_exists("/var/log/lighttpd")) {
-					mkdir("/var/log/lighttpd",0777);
-				}
-
-				chmod("/var/log/lighttpd", 0777);
 			}
 
 			$slist[] = $web->syncserver;

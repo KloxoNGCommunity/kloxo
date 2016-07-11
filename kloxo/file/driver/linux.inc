@@ -22,3 +22,5 @@ $driver['cron'] = "linux";
 $driver['llog'] = "linux";
 $driver['davuser'] = 'lighttpd';
 $driver['sshconfig'] = 'linux';
+
+// $driver['phpmodule'] = "linux";

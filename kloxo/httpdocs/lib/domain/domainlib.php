@@ -1469,7 +1469,6 @@ class Domaind extends DomainBase
 			}
 		}
 	*/
-	//	$alist['__v_dialog_comp'] = "n=web&a=list&c=component";
 
 		if (!$gen->isOn('disableeasyinstaller') && $this->getClientParentO()->priv->isOn('easyinstaller_flag')) {
 			$alist[] = "n=web&a=show&k[class]=all_easyinstaller&k[nname]=easyinstaller";

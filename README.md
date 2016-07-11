@@ -67,9 +67,9 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 - DNS server: Powerdns, NSD, MyDNS and Yadifa (since 16 Sep 2013)
 - Mail server: Dovecot (since 19 Jun 2016)
 - Php: multiple Php versions
-  * suphp base since 27 Jun 2014
-  * fcgid base since 5 Jul 2015
-  * php-fpm/spawning base since 24 May 2016
+  * suphp base (since 27 Jun 2014)
+  * fcgid base (since 5 Jul 2015)
+  * php-fpm/spawning base (since 24 May 2016)
 - Free SSL:
   * Let's Encrypt (since 4 May 2016)
   * StartAPI (since 29 Jun 2016)

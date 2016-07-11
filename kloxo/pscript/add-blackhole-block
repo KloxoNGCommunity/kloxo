@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [ "${1}" != "" ] ; then
+	echo "- Adding ${1} to IP blackhole blocked"
+	route add -host ${1} reject
+fi

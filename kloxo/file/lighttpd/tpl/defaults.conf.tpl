@@ -3,6 +3,12 @@
 
 <?php
 
+if (!file_exists("/var/log/lighttpd")) {
+	mkdir("/var/log/lighttpd",0777);
+}
+
+chmod("/var/log/lighttpd", 0777);
+
 if (!isset($phpselected)) {
 	$phpselected = 'php';
 }

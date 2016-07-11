@@ -240,6 +240,9 @@ class web__ extends lxDriverClass
 		$input['phpselected'] = $this->getPhpSelected();
 		$input['timeout'] = $this->getWebTimeout();
 
+		$input['microcache_time'] = $this->getMicrocacheTime();
+	//	$input['microcache_insert_into'] = $this->getMicrocacheInsertInto();
+
 		$input['apacheextratext'] = $this->getApacheExtraText();
 		$input['lighttpdextratext'] = $this->getLighttpdExtraText();
 		$input['nginxextratext'] = $this->getNginxExtraText();
@@ -992,6 +995,28 @@ class web__ extends lxDriverClass
 			$ret = '300';
 		} else {
 			$ret = $this->main->time_out;
+		}
+
+		return $ret;
+	}
+
+	function getMicrocacheTime()
+	{
+		if ((!isset($this->main->microcache_time)) || (!$this->main->microcache_time) || (strtolower($this->main->microcache_time) === '5')) {
+			$ret = '5';
+		} else {
+			$ret = $this->main->tmicrocache_time;
+		}
+
+		return $ret;
+	}
+
+	function getMicrocacheInsertInto()
+	{
+		if ((!isset($this->main->microcache_insert_into)) || (!$this->main->microcache_insert_into) || (strtolower($this->main->microcache_insert_into) === '/index.php')) {
+			$ret = '/index.php';
+		} else {
+			$ret = $this->main->microcache_insert_into;
 		}
 
 		return $ret;

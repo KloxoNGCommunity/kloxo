@@ -4750,8 +4750,8 @@ function lxguard_main($clearflag = false, $since = false)
 			// MR -- since 10 minutes
 			$oldtime = time() - (60 * 10);
 		} else {
-			// MR -- 3 months
-			$oldtime = time() - (60 * 60 * 24 * 30 * 3);
+			// MR -- 3 months -- change 1 month
+			$oldtime = time() - (60 * 60 * 24 * 30 * 1);
 		}
 	}
 
@@ -4801,10 +4801,16 @@ function lxguard_main($clearflag = false, $since = false)
 	$str_tcprules = null;
 	$str_spamdyke = null;
 
+	// MR -- remove blackhole blocked
+	exec("sh /script/remove-blackhole-block");
+
 	foreach ($deny as $k => $v) {
 		if (csb($k, "127")) {
 			continue;
 		}
+
+		// MR -- add blackhole blocked
+		exec("sh /script/add-blackhole-block {$k}");
 
 		// MR -- make sure no LF
 		$k = str_replace("\n", "", $k);

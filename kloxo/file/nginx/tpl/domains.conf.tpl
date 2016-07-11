@@ -748,6 +748,20 @@ server {
 	set $var_kloxoportnonssl '<?php echo $kloxoportnonssl; ?>';
 
 	include '<?php echo $globalspath; ?>/<?php echo $generic; ?>.conf';
+<?php
+		if (intval($microcache_time) > 0) {
+?>
+
+	## for microcache
+	fastcgi_cache_valid 200 <?php echo $microcache_time; ?>s;
+	fastcgi_cache_use_stale updating;
+	fastcgi_max_temp_file_size 10M;
+	proxy_cache_valid 200 <?php echo $microcache_time; ?>s;
+	proxy_cache_use_stale updating;
+	proxy_max_temp_file_size 10M;
+<?php
+		}
+?>
 }
 
 <?php

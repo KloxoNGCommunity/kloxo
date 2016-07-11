@@ -208,7 +208,7 @@ if (!isset($phptype)) { $phptype = 'php-fpm_event (default)'; }
 $seddata = 's/^prog=\"\(.*\)\"/\1/';
 exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);
 
-if ($out[0] !== null) {
+if (count($out) > 0) {
 	$phpused = $out[0];
 
 	if ($phpused === "php-fpm") {
@@ -222,11 +222,11 @@ $out = null;
 
 $pop3app = slave_get_driver('pop3');
 
-if (pop3app === 'courier') { $pop3app = 'courier-imap'; }
+if ($pop3app === 'courier') { $pop3app = 'courier-imap'; }
 
 exec("rpm -q $pop3app-toaster", $out);
 
-if ($out[0] !== null) {
+if (count($out) > 0) {
 	$pop3app = $out[0];
 } else {
 	$pop3app = 'none';
@@ -238,7 +238,7 @@ $smtpapp = slave_get_driver('smtp');
 
 exec("rpm -q $smtpapp-toaster", $out);
 
-if ($out[0] !== null) {
+if (count($out) > 0) {
 	$smtpapp = $out[0];
 } else {
 	$smtpapp = 'none';
@@ -252,7 +252,7 @@ if ($spamapp === 'spamassassin') { $spamapp === 'spamassassin-toaster'; }
 
 exec("rpm -q $spamapp", $out);
 
-if ($out[0] !== null) {
+if (count($out) > 0) {
 	$spamapp = $out[0];
 } else {
 	$spamapp = '--uninstalled--';
@@ -300,7 +300,7 @@ echo "      - Used: " . $phpused . "\n";
 $out = null;
 exec("chkconfig --list 'phpm-fpm'|grep ':on'", $out);
 
-if ($out[0] !== null) {
+if (count($out) > 0) {
 	echo "      - Multiple: enable\n";
 } else {
 	echo "      - Multiple: disable\n";

@@ -1,10 +1,21 @@
 ### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line
 
 
-## MR - NOTE:
-## add 'header("X-Hiawatha-Cache: 10");' to index.php
-
 <?php
+
+/*
+// MR -- change to CustomHeader
+$mfile = "{$rootpath}/{$microcache_insert_into}";
+
+if (file_exists($mfile)) {
+	@exec("sed -i '/X-Hiawatha-Cache:/d' {$mfile}");
+
+	if (intval($microcache_time) > 0) {
+		@exec("sed -i '1s/^/<" . "?php header(\"X-Hiawatha-Cache: {$microcache_time}\"); " . "?>\\n/' " . 
+			"{$mfile}");
+	}
+}
+*/
 
 $header_base="CustomHeader = X-Content-Type-Options:nosniff
 \tCustomHeader = X-XSS-Protection:1;mode=block
@@ -811,7 +822,14 @@ VirtualHost {
 
 	ShowIndex = no
 <?php
+		}
 
+		if (intval($microcache_time) > 0) {
+?>
+
+	CustomHeader = X-Hiawatha-Cache:<?php echo $microcache_time; ?>
+
+<?php
 		}
 ?>
 }

@@ -140,3 +140,6 @@ ALTER TABLE `web` CHANGE COLUMN IF EXISTS `priv_q_installapp_flag` `priv_q_easyi
 ALTER TABLE `web` CHANGE COLUMN IF EXISTS `used_q_installapp_flag` `used_q_easyinstaller_flag` VARCHAR(255) NULL DEFAULT NULL;
 
 DROP TABLE IF EXISTS component;
+
+ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `microcache_time` VARCHAR(255) NULL DEFAULT NULL AFTER `time_out`;
+ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `microcache_insert_into` VARCHAR(255) NULL DEFAULT NULL AFTER `microcache_time`;

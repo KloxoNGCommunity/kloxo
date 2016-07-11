@@ -70,3 +70,5 @@ $gl_class_array['watchdog__sync'] = "driver/pserver/watchdog__synclib.php";
 $gl_class_array['lxguard__sync'] = "driver/pserver/lxguard__synclib.php";
 $gl_class_array['lxguardwhitelist__sync'] = "driver/pserver/lxguardwhitelist__synclib.php";
 $gl_class_array['sshconfig__linux'] = "driver/pserver/sshconfig__linuxlib.php";
+
+// $gl_class_array['phpmodule__linux'] = "driver/pserver/phpmodule__linuxlib.php";

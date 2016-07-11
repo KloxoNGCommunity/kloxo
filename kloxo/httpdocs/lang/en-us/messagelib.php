@@ -926,8 +926,10 @@ $__information['watchdog_addform__pre'] = "<p>Settings:" .
 	"</ul></p>" .
 	"<p><b>Note</b>: - usually 'Action' to restart service is 'service XXX restart' or '/etc/init.d/XXX restart'.</p>";
 
-$__information['updateform_webselector_pre'] =
+$__information['updateform_webfeatures_pre'] =
 	"<p>In web proxy (like Nginx-proxy), select 'back-end' in 'Web Selected' mean execute php in back side (Apache). " .
 	"Otherwise, select 'front-end' mean execute php in front side (like Nginx).</p>" .
 	"<p>If enable 'multiple php', possible select php for website under 'Php Selected'. " .
-	"Select '--Default--' mean use php where declare in 'Php Used' under 'Webserver Configure'.</p>";
+	"Select '--Default--' mean use php where declare in 'Php Used' under 'Webserver Configure'.</p>" .
+	"<p>Set 'Timeout' (in seconds) to modified 'idle timeout' for php process.</p>" .
+	"<p>Set 'Microcache Time' (in seconds) to implemented microcache for nginx or hiawatha.</p>";
