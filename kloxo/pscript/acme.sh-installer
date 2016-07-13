@@ -47,10 +47,6 @@ if [ "$newinstall" == "1" ] ; then
 	${kloxopath}/acme.sh/acme.sh --install --nocron >/dev/null 2>&1
 	#exec bash >/dev/null 2>&1
 
-	if [ ! -d ${logpath} ] ; then
-		mkdir -p ${logpath} >/dev/null 2>&1
-	fi
-
 	'cp' -f ${kloxopath}/file/acme.sh/acme-cron.sh ${kloxopath}/acme.sh/acme-cron.sh >/dev/null 2>&1
 
 	if [ -f ${cronfile} ] ; then
@@ -68,6 +64,10 @@ if [ "$newinstall" == "1" ] ; then
 	crontab -l | { cat; echo "0 0 * * * ${cmd} >/dev/null 2>&1"; } | crontab -
 
 	cd /
+fi
+
+if [ ! -d ${logpath} ] ; then
+	mkdir -p ${logpath} >/dev/null 2>&1
 fi
 
 echo

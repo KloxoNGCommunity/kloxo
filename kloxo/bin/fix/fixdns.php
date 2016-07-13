@@ -24,8 +24,9 @@ $login->loadAllObjects('client');
 $clist = $login->getList('client');
 
 foreach($clist as $c) {
-	$driverapp = $gbl->getSyncClass(null, $c->syncserver, 'dns');
 /*
+	$driverapp = $gbl->getSyncClass(null, $c->syncserver, 'dns');
+
 	if ($driverapp === 'none') {
 		log_cleanup("- No process because using 'NONE' driver for '{$c->syncserver}'", $nolog);
 

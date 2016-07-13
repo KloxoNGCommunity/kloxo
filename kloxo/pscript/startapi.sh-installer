@@ -32,10 +32,6 @@ else
 	${kloxopath}/startapi.sh/startapi.sh --install --nocron >/dev/null 2>&1
 	#exec bash >/dev/null 2>&1
 
-	if [ ! -d ${logpath} ] ; then
-		mkdir -p ${logpath} >/dev/null 2>&1
-	fi
-
 	'cp' -f ${kloxopath}/file/startapi.sh/startapi-cron.sh ${kloxopath}/startapi.sh/startapi-cron.sh >/dev/null 2>&1
 
 	if [ -f ${cronfile} ] ; then
@@ -51,6 +47,10 @@ else
 	crontab -l | { cat; echo "0 0 * * * ${cmd} >/dev/null 2>&1"; } | crontab -
 
 	cd /
+fi
+
+if [ ! -d ${logpath} ] ; then
+	mkdir -p ${logpath} >/dev/null 2>&1
 fi
 
 echo

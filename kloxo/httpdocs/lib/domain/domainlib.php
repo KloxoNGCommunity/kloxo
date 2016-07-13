@@ -1471,7 +1471,7 @@ class Domaind extends DomainBase
 	*/
 
 		if (!$gen->isOn('disableeasyinstaller') && $this->getClientParentO()->priv->isOn('easyinstaller_flag')) {
-			$alist[] = "n=web&a=show&k[class]=all_easyinstaller&k[nname]=easyinstaller";
+		//	$alist[] = "n=web&a=show&k[class]=all_easyinstaller&k[nname]=easyinstaller";
 		}
 	/*
 		$alist['action'][] = "a=update&sa=backup";
