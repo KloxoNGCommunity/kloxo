@@ -28,6 +28,10 @@ lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 start () {
     echo -n $"Starting $prog (PHP Used): "
     daemon --pidfile ${pidfile} $prog
+    if [ "$prog" == "php-fpm" ] ; then
+        ## MR -- bug fix for handle 'php branch'
+        export PHP_INI_SCAN_DIR="/etc/php.d"
+    fi
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch ${lockfile}
