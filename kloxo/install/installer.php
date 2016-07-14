@@ -67,6 +67,7 @@ function lxins_main()
 		"fs.file-max = 1048576\n" .
 		"net.ipv4.tcp_syncookies = 1\n" .
 		"net.ipv4.tcp_max_syn_backlog = 2048\n" .
+		"net.ipv4.tcp_synack_retries = 3\n" .
 		"#vm.swappiness = 10\n" .
 		"#vm.vfs_cache_pressure = 100\n" .
 		"#vm.dirty_background_ratio = 15\n" .

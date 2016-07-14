@@ -71,6 +71,7 @@ class Llog extends Lxclass {
 
 			'letsencrypt/letsencrypt.log' => 'Letsencrypt (certbot)',
 			'acme.sh/acme.sh.log' => 'Letsencrypt (acme.sh)',
+			'startapi.sh/startapi.sh.log' => 'StartAPI SSL',
 
 			'maillog' => 'Mail log',
 

@@ -1182,7 +1182,7 @@ function execCom($ob, $func, $exception)
 {
 	try {
 		$ret = $ob->$func();
-	} catch (exception $e) {
+	} catch (Exception $e) {
 		if (!$exception) {
 			return null;
 		}
@@ -1282,7 +1282,7 @@ function testAllServersWithMessage()
 
 	try {
 		testAllServers();
-	} catch (exception $e) {
+	} catch (Exception $e) {
 		print("Connecting to these servers failed due to....\n");
 		print_r($e->value);
 
@@ -1306,7 +1306,7 @@ function testAllServers()
 	foreach ($nlist as $l) {
 		try {
 			rl_exec_get(null, $l, 'test_remote_func', null);
-		} catch (exception $e) {
+		} catch (Exception $e) {
 			$flist[$l] = $e->getMessage();
 		}
 	}
@@ -4261,7 +4261,7 @@ function fix_mysql_root_password($server)
 
 	try {
 		$dbadmin->was();
-	} catch (exception $e) {
+	} catch (Exception $e) {
 	}
 }
 
@@ -4308,14 +4308,14 @@ function checkClusterDiskQuota()
 	foreach ($maclist as $mc) {
 		try {
 			rl_exec_get(null, $mc->nname, "remove_old_serve_file", null);
-		} catch (exception $e) {
+		} catch (Exception $e) {
 		}
 
 		$driverapp = $gbl->getSyncClass(null, $mc->nname, 'diskusage');
 
 		try {
 			$list = rl_exec_get(null, $mc->nname, array("diskusage__$driverapp", "getDiskUsage"));
-		} catch (exception $e) {
+		} catch (Exception $e) {
 			$mess .= "Failed to connect to Slave $mc->nname: {$e->getMessage()}\n";
 			continue;
 		}
@@ -5623,7 +5623,7 @@ function setInitialDnsConfig($type, $nolog = null)
 	if ($type === 'pdns') {
 		PreparePowerdnsDb($nolog);
 	} elseif ($type === 'mydns') {
-		PrepareMydnsDb($nolog);
+		PrepareMyDnsDb($nolog);
 	} else {
 		$path = "/opt/configs/{$type}/conf";
 
@@ -7267,7 +7267,7 @@ function update_all_slave()
 		try {
 			print("Upgrading Slave {$l['nname']}...\n");
 			rl_exec_get(null, $l['nname'], 'remotetestfunc', null);
-		} catch (exception $e) {
+		} catch (Exception $e) {
 			print($e->getMessage());
 			print("\n");
 		}
@@ -8490,6 +8490,8 @@ function setAllWebserverInstall($nolog = null)
 
 //	$list = array('httpd', 'lighttpd' , 'nginx', 'hiawatha');
 
+	$initpath = '/etc/rc.d/init.d';
+
 	$list = getAllWebDriverList();
 
 	$ws = array('nginx' => 'nginx nginx-module* GeoIP spawn-fcgi fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
@@ -8519,8 +8521,20 @@ function setAllWebserverInstall($nolog = null)
 
 					log_cleanup("- Replacing 'httpd' to 'httpd24u'", $nolog);
 				} else {
-					exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']}");
-					log_cleanup("- Installing 'httpd24u'", $nolog);
+					$out3 = null;
+
+					exec("rpm -qa httpd24u", $out3);
+
+					if (count($out3) > 0) {
+						if (!file_exists("{$initpath}/httpd")) {
+							exec("yum -y reinstall httpd24u");
+
+							log_cleanup("- Reinstalling 'httpd24u'", $nolog);
+						}
+					} else {
+						exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']}");
+						log_cleanup("- Installing 'httpd24u'", $nolog);
+					}
 				}
 			} else {
 				$out2 = null;
@@ -8534,12 +8548,22 @@ function setAllWebserverInstall($nolog = null)
 
 					log_cleanup("- Replacing 'httpd24' to 'httpd'", $nolog);
 				} else {
-					exec("yum -y install {$ws['httpd']} {$hm['httpd']}");
+					$out3 = null;
 
-					log_cleanup("- Installing 'httpd24u'", $nolog);
+					exec("rpm -qa httpd", $out3);
+
+					if (count($out3) > 0) {
+						if (!file_exists("{$initpath}/httpd")) {
+							exec("yum -y reinstall httpd");
+
+							log_cleanup("- Reinstalling 'httpd'", $nolog);
+						}
+					} else {
+						exec("yum -y install {$ws['httpd']} {$hm['httpd']}");
+
+						log_cleanup("- Installing 'httpd'", $nolog);
+					}
 				}
-
-				log_cleanup("- Installing 'httpd'", $nolog);
 			}
 
 			log_cleanup("- Inactivating 'httpd'", $nolog);
@@ -8547,9 +8571,21 @@ function setAllWebserverInstall($nolog = null)
 		} else {
 			$t = $ws[$v];
 
-			exec("yum -y install {$t}; chkconfig {$v} off");
+			$out3 = null;
 
-			log_cleanup("- Installing '{$v}'", $nolog);
+			exec("rpm -qa {$v}", $out3);
+
+			if (count($out3) > 0) {
+				if (!file_exists("{$initpath}/{$v}")) {
+					exec("yum -y reinstall {$v}");
+
+					log_cleanup("- Reinstalling '{$v}'", $nolog);
+				}
+			} else {
+				exec("yum -y install {$t}");
+
+				log_cleanup("- Installing '{$v}'", $nolog);
+			}
 
 			log_cleanup("- Inactivating '{$v}'", $nolog);
 			exec("chkconfig {$v} off");
