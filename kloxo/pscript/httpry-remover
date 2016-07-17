@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ "$(rpm -qa httpry)" == "" ] ; then
+	yum -y remove httpry
+fi
+
+if [ -f /etc/logrotate.d/httpry ] ; then
+	'rm' -f /etc/logrotate.d/httpry
+fi
+
+if [ -f /etc/rc.d/init.d/httpry ] ; then
+	chkconfig httpry on
+	service httpry stop
+	'rm' -f /etc/rc.d/init.d/httpry
+fi
+

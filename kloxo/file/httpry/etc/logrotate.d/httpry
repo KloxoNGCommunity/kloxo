@@ -1,0 +1,13 @@
+/var/log/httpry.log {
+  daily
+  missingok
+  rotate 7
+  compress
+  delaycompress
+  notifempty
+  create 644 motorrobot motorrobot
+  sharedscripts
+  postrotate
+    [ -f /var/run/httpry.pid ] && kill -HUP $(cat /var/run/httpry.pid)
+  endscript
+}

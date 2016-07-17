@@ -1,5 +1,5 @@
 list_web=(varnish trafficserver squid php-fpm phpm-fpm spawn-fcgi memcached lighttpd nginx hiawatha httpd htcacheclean)
-list_syslog=(syslog rsyslog syslog-ng)
+list_syslog=(syslog rsyslog syslog-ng httpry)
 list_services=(mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid httpd nginx lighttpd hiawatha qmail pure-ftpd php-fpm phpm-fpm)
 list_phpfpm=(php-fpm phpm-fpm)
 list_spawncgi=(spawn-fcgi)

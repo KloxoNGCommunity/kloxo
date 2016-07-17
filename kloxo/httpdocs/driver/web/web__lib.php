@@ -18,7 +18,8 @@ class web__ extends lxDriverClass
 
 		lxshell_return("service", $a, "stop");
 
-	/*	// MR -- no neeed 'yum remove' because all installed
+	/*
+		// MR -- no neeed 'yum remove' because all installed
 
 		$blist = array();
 
@@ -48,12 +49,15 @@ class web__ extends lxDriverClass
 		if ($a !== 'hiawatha') {
 			exec("yum remove {$p} -y");
 		}
-	*/
+
 		exec("chkconfig {$a} off");
 
 		if (file_exists("/etc/init.d/{$a}")) {
 			lunlink("/etc/init.d/{$a}");
 		}
+	*/
+
+		exec("chkconfig {$a} off");
 	}
 
 	static function installMeTrue($drivertype = null)

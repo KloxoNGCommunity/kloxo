@@ -5154,7 +5154,7 @@ abstract class Lxclass
 
 	function getExtraId() { return null; }
 
-	function  getChildShowActions(&$alist)
+	function getChildShowActions(&$alist)
 	{
 		global $gl_parent_array;
 
@@ -5792,6 +5792,7 @@ abstract class Lxclass
 				if (strpos($d->nname, '@') !== false) { continue; }
 
 				if (($d->get__table() === 'client') && ($d->nname === 'backuper')) { continue; }
+				if (($d->get__table() === 'client') && ($d->nname === 'rpms')) { continue; }
 
 				print("Taking backup of '{$d->get__table()}:{$d->nname}'\n");
 				log_log("backup", "Taking backup of '{$d->get__table()}:{$d->nname}'");

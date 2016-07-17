@@ -1,0 +1,94 @@
+#! /bin/sh
+#
+# chkconfig: - 84 16
+# description:  Httpry
+# processname: httpry
+# pidfile: /var/run/httpry.pid
+
+# Standard LSB functions
+#. /lib/lsb/init-functions
+
+# Source function library.
+. /etc/init.d/functions
+
+# Check that networking is up.
+. /etc/sysconfig/network
+
+if [ "$NETWORKING" = "no" ] ; then
+    exit 0
+fi
+
+if [ ! -d /var/log/httpry ] ; then
+    mkdir -p /var/log/httpry
+fi
+
+RETVAL=0
+prog="httpry"
+pidfile=${PIDFILE-/var/run/httpry.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/httpry}
+logfile="/var/log/httpry/httpry.log"
+
+start () {
+    echo -n $"Starting $prog: "
+    daemon "httpry -d -q -P $pidfile -o $logfile"
+    if [ -f /var/log/httpry/httpry.log ] ; then
+        awk '{if (++dup[$0] == 1) print $0;}' /var/log/httpry/httpry.log > /var/log/httpry/httpry2.log
+        'rm' -f /var/log/httpry/httpry.log
+        'mv' -f /var/log/httpry/httpry2.log /var/log/httpry/httpry.log
+    fi
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && touch ${lockfile}
+    return $RETVAL
+}
+stop () {
+    echo -n $"Stopping $prog: "
+    killproc -p ${pidfile} -d 10 $prog
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ] ; then
+        rm -f ${pidfile}
+    fi
+}
+
+restart () {
+    stop
+    start
+}
+
+reload () {
+    echo -n $"Reloading $prog: "
+    killproc -p ${pidfile} -d 10 $prog -USR2
+    RETVAL=$?
+    echo
+}
+
+
+# See how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status -p ${pidfile} $prog
+        RETVAL=$?
+        ;;
+    restart)
+        restart
+        ;;
+    reload|force-reload)
+        reload
+        ;;
+    condrestart|try-restart)
+        [ -f ${lockfile} ] && restart || :
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|try-restart}"
+        RETVAL=2
+        ;;
+esac
+
+exit $RETVAL

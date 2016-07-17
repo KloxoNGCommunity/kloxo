@@ -242,7 +242,7 @@ class lxbackup extends Lxdb
 					$vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
 				}
 
-			//  $vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
+			//	$vlist['__v_resourcefunc'] = "getDisplayBackupChildList";
 
 				$vlist['__v_param'] = $param;
 				$vlist['__v_button'] = 'Restore Now';
@@ -464,13 +464,13 @@ class lxbackup extends Lxdb
 
 		$this->updateBackupRestore($param, "restore");
 
-	//  if (csa($file, "__lx_temperoryftp_file")) { unlink($file); }
+	//	if (csa($file, "__lx_temperoryftp_file")) { unlink($file); }
 	}
 
 	function construct_tarfilename($name)
 	{
-	//  $date = date("Y-m-d-H-i");
-	//  $tim = time();
+	//	$date = date("Y-m-d-H-i");
+	//	$tim = time();
 
 		$date = '';
 		$tim = '';

@@ -7229,6 +7229,8 @@ function setInitialServices($nolog = null)
 	setInstallMailserver($nolog);
 
 	setAllSSLPortions($nolog);
+
+	setHttpry($nolog);
 }
 
 function setRemoveAlias($nolog = null)
@@ -7596,6 +7598,21 @@ function setCopyStartapishConfFiles($nolog = null)
 
 	if (file_exists("/home/startapi.sh")) {
 		lxfile_rm_rec("/home/startapi.sh");
+	}
+}
+
+function setCopyHttpryConfFiles($nolog = null)
+{
+	$pathsrc = "../file/httpry";
+	$pathdrv = "/opt/configs/httpry";
+
+	log_cleanup("Copy all contents from {$pathsrc}", $nolog);
+
+	log_cleanup("- Copy to {$pathdrv}", $nolog);
+	exec("'cp' -rf {$pathsrc} /opt/configs");
+
+	if (file_exists("/home/httpry")) {
+		lxfile_rm_rec("/home/httpry");
 	}
 }
 
@@ -8417,9 +8434,26 @@ function setRemoveStartapish($nolog = null)
 	exec("sh /script/startapi.sh-remover");
 }
 
+function setInstallHttpry($nolog = null)
+{
+	exec("sh /script/httpry-installer");
+}
+
 function setAllSSLPortions($nolog = null)
 {
 	log_cleanup("Setting All SSL Portions", $nolog);
+
+	log_cleanup("- Copying 'openssl' config Files", $nolog);
+	setCopyOpenSSLConfFiles();
+
+	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
+	setCopyLetsEncryptConfFiles();
+
+	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
+	setCopyAcmeshConfFiles();
+
+	log_cleanup("- Copying 'startapi.sh' config Files", $nolog);
+	setCopyStartapishConfFiles();
 
 	log_cleanup("- Installing Letsencrypt-auto", $nolog);
 	setInstallLetsencrypt($nolog);
@@ -8435,18 +8469,15 @@ function setAllSSLPortions($nolog = null)
 
 	log_cleanup("- Fixing SSL path", $nolog);
 	setFixSSLPath($nolog);
+}
 
-	log_cleanup("- Copying 'openssl' config Files", $nolog);
-	setCopyOpenSSLConfFiles();
+function setHttpry($nolog = null)
+{
+	log_cleanup("- Copying 'httpry' config Files", $nolog);
+	setCopyHttpryConfFiles();
 
-	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
-	setCopyLetsEncryptConfFiles();
-
-	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
-	setCopyAcmeshConfFiles();
-
-	log_cleanup("- Copying 'startapi.sh' config Files", $nolog);
-	setCopyStartapishConfFiles();
+	log_cleanup("- Installing httpry", $nolog);
+	setInstallHttpry($nolog);
 }
 
 function getListOnList($pname)
@@ -8499,7 +8530,7 @@ function setAllWebserverInstall($nolog = null)
 		'httpd24u' => 'httpd24u httpd24u-tools httpd24u-filesystem');
 
 	$hm = array('httpd' => 'mod_ssl mod_rpaf mod_ruid2 mod_suphp mod_fastcgi mod_fcgid mod_define',
-		'httpd24u' => 'mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi');
+		'httpd24u' => 'mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive');
 
 	if (file_exists("../etc/flag/use_apache24.flg")) {
 		$use_apache24 = true;
@@ -8508,6 +8539,8 @@ function setAllWebserverInstall($nolog = null)
 	}
 
 	foreach ($list as $k => $v) {
+		$confpath = "/opt/configs/{$v}/etc/conf";
+
 		$out = null;
 
 		if ($v === 'apache') {
@@ -8536,6 +8569,9 @@ function setAllWebserverInstall($nolog = null)
 						log_cleanup("- Installing 'httpd24u'", $nolog);
 					}
 				}
+
+				$conffile = getLinkCustomfile("{$confpath}", "httpd24.conf");
+				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
 			} else {
 				$out2 = null;
 
@@ -8564,6 +8600,9 @@ function setAllWebserverInstall($nolog = null)
 						log_cleanup("- Installing 'httpd'", $nolog);
 					}
 				}
+
+				$conffile = getLinkCustomfile("{$confpath}", "httpd.conf");
+				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
 			}
 
 			log_cleanup("- Inactivating 'httpd'", $nolog);
