@@ -105,8 +105,8 @@ class Llog extends Lxclass {
 			'pureftpd.log' => 'Pure-ftp',
 
 			'rkhunter/rkhunter.log' => 'RKHunter',
-
 			'/usr/local/maldetect/logs/event_log' => 'MalDetect',
+			'httpry/httpry.log' => 'Httpry',
 
 			'yum.log' => 'Yum');
 
