@@ -7,6 +7,6 @@ list_mysql=(mysql mysqld)
 list_mail=(qmail)
 list_ftp=(pure-ftpd)
 list_dns=(named djbdns pdns nsd mydns yadifad)
-list_all=(syslog rsyslog mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid php-fpm phpm-fpm memcached lighttpd nginx hiawatha httpd htcacheclean qmail pure-ftpd kloxo)
+list_all=(syslog rsyslog syslog-ng httpry mysql mysqld named djbdns pdns nsd mydns yadifad varnish trafficserver squid php-fpm phpm-fpm spawn-fcgi memcached lighttpd nginx hiawatha httpd htcacheclean qmail pure-ftpd kloxo)
 list_kloxo=(kloxo)
 

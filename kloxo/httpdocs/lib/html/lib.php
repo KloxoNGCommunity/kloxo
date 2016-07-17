@@ -8437,6 +8437,10 @@ function setRemoveStartapish($nolog = null)
 function setInstallHttpry($nolog = null)
 {
 	exec("sh /script/httpry-installer");
+	
+	if (!file_exists("/var/log/httpry")) {
+		exec("mkdir -p /var/log/httpry");
+	}
 }
 
 function setAllSSLPortions($nolog = null)
