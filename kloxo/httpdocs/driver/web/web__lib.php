@@ -27,21 +27,14 @@ class web__ extends lxDriverClass
 
 		$list = getWebDriverList($drivertype);
 
-		setAllWebserverInstall();
-
-		if (!isWebProxyOrApache($drivertype)) {
-			self::uninstallMeTrue('apache');
-		}
-
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
 			self::setWebserverInstall($a);
-			self::setBaseWebConfig($a);
+
+			self::setBaseWebConfig($l);
 
 			exec("chkconfig {$a} on");
-
-			setCopyWebConfFiles($l);
 		}
 
 		self::setInstallPhpfpm();
@@ -51,7 +44,12 @@ class web__ extends lxDriverClass
 
 	static function setBaseWebConfig($drivertype = null)
 	{
-		setCopyWebConfFiles($drivertype);
+		// MR -- only need here for apache because switch between apache 2.2 and 2.4
+		if ($drivertype === 'apache') {
+			setAllWebserverInstall();
+
+			setCopyWebConfFiles($drivertype);
+		}
 	}
 
 	static function setWebserverInstall($webserver)
@@ -77,7 +75,8 @@ class web__ extends lxDriverClass
 				lxfile_cp(getLinkCustomfile("/opt/configs/apache/etc/conf.d", "pagespeed.conf"),
 					"/etc/httpd/conf.d/pagespeed.conf");
 			} else {
-					lxfile_rm("/etc/httpd/conf.d/pagespeed.conf");
+			//		lxfile_rm("/etc/httpd/conf.d/pagespeed.conf");
+					lxfile_cp("/etc/httpd/conf.d/_inactive_.conf", "/etc/httpd/conf.d/pagespeed.conf");
 			}
 		}
 
