@@ -50,28 +50,30 @@
 
 		$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 
-		$path = "../theme/background";
+		if (basename(getcwd()) === 'login') {
 
-		// MR -- trick to make random background for login
-		if ((file_exists($path)) && (!file_exists("./.norandomimage"))) {
-			try {
-				$dirs = glob("{$path}/*", GLOB_MARK);
+			$path = "../theme/background";
 
-				if ($dirs) {
-					$count = count($dirs);
-					$selnum = rand(0, ($count - 1));
+			// MR -- trick to make random background for login
+			if ((file_exists($path)) && (!file_exists("./.norandomimage"))) {
+				try {
+					$dirs = glob("{$path}/*", GLOB_MARK);
 
-					$selimg = $dirs[$selnum];
+					if ($dirs) {
+						$count = count($dirs);
+						$selnum = rand(0, ($count - 1));
 
-					$bckgrnd = "\tbackground-image: url({$selimg});\n".
-						"\tbackground-size: cover;\n".
-						"\tbackground-attachment: fixed;";
+						$selimg = $dirs[$selnum];
+
+						$bckgrnd = "\tbackground-image: url({$selimg});\n".
+							"\tbackground-size: cover;\n".
+							"\tbackground-attachment: fixed;";
+					}
+				} catch (Exception $e) {
+					$bckgrnd = $bckgrnd;
 				}
-			} catch (Exception $e) {
-				$bckgrnd = $bckgrnd;
 			}
 		}
-
 ?>
 	<title><?= $title; ?></title>
 <style>

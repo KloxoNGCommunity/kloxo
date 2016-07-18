@@ -10,54 +10,15 @@ class web__ extends lxDriverClass
 	{
 		if ($drivertype === 'none') { return; }
 
-		$list = getWebDriverList($drivertype);
+		$list = getAllWebDriverList();
 
-		$l = $list[0];
+		foreach ($list as &$l) {
+			$a = ($l === 'apache') ? 'httpd' : $l;
 
-		$a = ($l === 'apache') ? 'httpd' : $l;
+			lxshell_return("service", $a, "stop");
 
-		lxshell_return("service", $a, "stop");
-
-	/*
-		// MR -- no neeed 'yum remove' because all installed
-
-		$blist = array();
-
-		// MR -- for fixed an issue version conflict!
-		// no action for hiawatha because used by Kloxo too
-		if ($a === 'httpd') {
-		//	if (file_exists("../etc/flag/use_apache24.flg")) {
-				$blist[] = "httpd24*";
-				$blist[] = "mod24*";
-			//	$blist[] = "mod-*";
-		//	} else {
-				$blist[] = "httpd-*";
-				$blist[] = "mod_*";
-			//	$blist[] = "mod-*";
-		//	}
-		} elseif ($a === 'lighttpd') {
-			$blist[] = "{$a}";
-			$blist[] = "{$a}-fastcgi";
-		} elseif ($a === 'nginx') {
-			$blist[] = "{$a}";
-		} elseif ($a === 'hiawatha') {
-			// no action because also using by panel
+			exec("chkconfig {$a} off");
 		}
-
-		$p = implode(" ", $blist);
-
-		if ($a !== 'hiawatha') {
-			exec("yum remove {$p} -y");
-		}
-
-		exec("chkconfig {$a} off");
-
-		if (file_exists("/etc/init.d/{$a}")) {
-			lunlink("/etc/init.d/{$a}");
-		}
-	*/
-
-		exec("chkconfig {$a} off");
 	}
 
 	static function installMeTrue($drivertype = null)
@@ -74,48 +35,7 @@ class web__ extends lxDriverClass
 
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
-		/*
-			$blist = array();
 
-			if ($a === 'httpd') {
-				if (file_exists("../etc/flag/use_apache24.flg")) {
-					$blist[] = "{$a}24u";
-					$blist[] = "{$a}24u-tools";
-					$blist[] = "{$a}24u-filesystem";
-					$blist[] = "mod24u_ssl";
-					$blist[] = "mod24u_session";
-					$blist[] = "mod24u_suphp";
-					$blist[] = "mod24u_ruid2";
-					$blist[] = "mod24u_fcgid";
-					$blist[] = "mod24u_fastcgi";
-				} else {
-					$blist[] = "{$a}";
-					$blist[] = "{$a}-tools";
-					$blist[] = "mod_ssl";
-					$blist[] = "mod_rpaf";
-					$blist[] = "mod_ruid2";
-					$blist[] = "mod_suphp";
-					$blist[] = "mod_fastcgi";
-					$blist[] = "mod_fcgid";
-					$blist[] = "mod_define";
-				//	$blist[] = "mod_perl";
-				//	$blist[] = "perl-Taint-Runtime";
-				}
-
-			} elseif ($a === 'lighttpd') {
-				$blist[] = $a;
-				$blist[] = "{$a}-fastcgi";
-			} elseif ($a === 'nginx') {
-				$blist[] = $a;
-				$blist[] = "GeoIP";
-			} elseif ($a === 'hiawatha') {
-				// no action
-			}
-
-			$p = implode(" ", $blist);
-
-			exec("yum install {$p} -y");
-		*/
 			self::setWebserverInstall($a);
 			self::setBaseWebConfig($a);
 

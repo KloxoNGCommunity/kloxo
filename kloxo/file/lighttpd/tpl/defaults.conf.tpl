@@ -105,6 +105,9 @@ $count = 0;
 
 $tabs = array("", "\t");
 ?>
+evasive.max-conns-per-ip = 25
+server.errorfile-prefix = "/home/kloxo/httpd/error/"
+
 server.port = "<?php echo $ports[0]; ?>"
 
 

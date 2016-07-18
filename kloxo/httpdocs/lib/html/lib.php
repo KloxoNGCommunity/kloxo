@@ -8637,6 +8637,8 @@ function setAllWebserverInstall($nolog = null)
 
 	$webs = getWebDriverList();
 
+	$spawnok = false;
+
 	foreach ($webs as $k => $v) {
 		if ($v === 'apache') { $v = 'httpd'; }
 
@@ -8644,8 +8646,14 @@ function setAllWebserverInstall($nolog = null)
 		exec("chkconfig {$v} on");
 
 		if ($v === 'nginx') {
-			exec("chkconfig spawn-fcgi on");
+			$spawnok = true;
 		}
+	}
+
+	if ($spawnok) {
+		exec("chkconfig spawn-fcgi on");
+	} else {
+		exec("chkconfig spawn-fcgi off");
 	}
 }
 
