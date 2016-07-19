@@ -794,7 +794,9 @@ class Domaind extends DomainBase
 		$mmail->remotelocalflag = 'local';
 
 		$web->stats_username = $this->nname;
-		$web->stats_password = null;
+	//	$web->stats_password = null;
+		// MR -- stats always protected by default
+		$web->stats_password = randomString(8);
 
 		// Gotta Add postmaster...
 		$mailaccount = new Mailaccount($this->__masterserver, $this->__readserver, "postmaster@$this->nname");

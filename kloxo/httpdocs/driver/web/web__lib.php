@@ -851,11 +851,13 @@ class web__ extends lxDriverClass
 	{
 		$prog = ($this->main->__var_statsprog) ? $this->main->__var_statsprog : 'awstats';
 
+		// MR -- back to original code but add random password in domainlib.php (add new website)
+	/*
 		// MR -- by default stats dir always protected
 		if (!$this->main->stats_password) {
 			$this->main->stats_password = randomString(8);
 		}
-
+	*/
 		$prot = ($this->main->stats_password) ? $this->main->stats_password : null;
 
 		web::createstatsConf($this->getDomainname(), $this->main->stats_username, $this->main->stats_password);

@@ -30,7 +30,7 @@ logfile="/var/log/httpry/httpry.log"
 
 start () {
     echo -n $"Starting $prog: "
-    daemon "httpry -d -q -P $pidfile -o $logfile"
+    daemon --pidfile=$pidfile "httpry -d -q -P $pidfile -F -o $logfile"
     if [ -f /var/log/httpry/httpry.log ] ; then
         awk '{if (++dup[$0] == 1) print $0;}' /var/log/httpry/httpry.log > /var/log/httpry/httpry2.log
         'rm' -f /var/log/httpry/httpry.log
