@@ -55,8 +55,7 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 ### How to install
 
-* Read https://github.com/mustafaramadhan/kloxo/blob/release/how-to-install.txt
-
+* Read https://github.com/mustafaramadhan/kloxo/blob/dev/how-to-install.txt
 
 ### Notes
 *) New features in Kloxo-MR 7.0.0 (aka Kloxo-MR 7)
