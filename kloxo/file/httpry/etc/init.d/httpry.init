@@ -46,9 +46,7 @@ stop () {
     killproc -p ${pidfile} -d 10 $prog
     RETVAL=$?
     echo
-    if [ $RETVAL -eq 0 ] ; then
-        rm -f ${pidfile}
-    fi
+    [ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
 }
 
 restart () {

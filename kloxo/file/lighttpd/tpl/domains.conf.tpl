@@ -558,7 +558,7 @@ if ($redirectionlocal) {
 	foreach ($redirectionlocal as $rl) {
 ?>
 
-	alias.url  += ( "<?php echo $rl[0]; ?>" => "$rootdir<?php echo str_replace("//", "/", $rl[1]); ?>" )
+	alias.url  += ( "<?php echo $rl[0]; ?>/" => "$rootdir<?php echo str_replace("//", "/", $rl[1]); ?>" )
 <?php
 	}
 }
@@ -580,23 +580,28 @@ if ($redirectionremote) {
 
 	url.redirect += ( "^(/<?php echo $rr[0]; ?>/|/<?php echo $rr[0]; ?>$)" => "<?php echo $protocol2; ?><?php echo $rr[1]; ?>" )
 <?php
-				if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-					if ($enablestats) {
+		}
+	}
+}
+
+if ($enablestats) {
+?>
+
+	include "<?php echo $globalspath; ?>/stats_log.conf"
+<?php
+//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
 ?>
 
 	include "<?php echo $globalspath; ?>/stats.conf"
 <?php
-						if ($statsprotect) {
+		if ($statsprotect) {
 ?>
 
 	include "<?php echo $globalspath; ?>/dirprotect_stats.conf"
 <?php
-						}
-	   				 }
-				}
-			}
 		}
-	}
+//	}
+}
 
 	if ($lighttpdextratext) {
 ?>

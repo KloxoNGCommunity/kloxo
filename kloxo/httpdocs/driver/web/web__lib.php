@@ -15,20 +15,18 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
-			lxshell_return("service", $a, "stop");
-
-			exec("chkconfig {$a} off");
+			exec("service {$a} stop; chkconfig {$a} off");
 		}
 	}
 
 	static function installMeTrue($drivertype = null)
 	{
 		if ($drivertype === 'none') { return; }
-
+	
 		$list = getWebDriverList($drivertype);
 
-		foreach ($list as &$l) {
-			$a = ($l === 'apache') ? 'httpd' : $l;
+		foreach ($list as $k => $v) {
+			$a = ($v === 'apache') ? 'httpd' : $v;
 
 			self::setWebserverInstall($a);
 
@@ -36,10 +34,15 @@ class web__ extends lxDriverClass
 
 			exec("chkconfig {$a} on");
 		}
-
+	
 		self::setInstallPhpfpm();
 
-		exec("sh /script/fixweb --target=defaults");
+		if (($drivertype === 'hiawatha') || (count($list) > 1)) {
+			// MR -- fixweb for domains also if hiawatha or proxy
+			exec("sh /script/fixweb");
+		} else {
+			exec("sh /script/fixweb --target=defaults");
+		}
 	}
 
 	static function setBaseWebConfig($drivertype = null)
@@ -47,7 +50,6 @@ class web__ extends lxDriverClass
 		// MR -- only need here for apache because switch between apache 2.2 and 2.4
 		if ($drivertype === 'apache') {
 			setAllWebserverInstall();
-
 			setCopyWebConfFiles($drivertype);
 		}
 	}

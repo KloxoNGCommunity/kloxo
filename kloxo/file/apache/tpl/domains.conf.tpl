@@ -961,12 +961,13 @@ foreach ($certnamelist as $ip => $certname) {
 	</Location>
 <?php
 		if ($enablestats) {
+			if (!$reverseproxy) {
 ?>
 
 	CustomLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log" combined
 	ErrorLog "/home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log"
 <?php
-			if ($statsapp === 'awstats') {
+				if ($statsapp === 'awstats') {
 ?>
 
 	<Directory "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/">
@@ -1001,7 +1002,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location "/awstats/">
 		Options +Indexes
 <?php
-				if ($statsprotect) {
+					if ($statsprotect) {
 ?>
 
 		AuthType Basic
@@ -1010,19 +1011,30 @@ foreach ($certnamelist as $ip => $certname) {
 		AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
 		require valid-user
 <?php
-				}
+					}
 ?>
 	</Location>
 <?php
-			} elseif ($statsapp === 'webalizer') {
+				} elseif ($statsapp === 'webalizer') {
 ?>
 
 	AliasMatch "/stats(/|$)(.*)" "/home/httpd/<?php echo $domainname; ?>/webstats$1$2"
 
+	<Directory "/home/httpd/<?php echo $domainname; ?>/webstats/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+	</Directory>
+
 	<Location "/stats/">
 		Options +Indexes
 <?php
-				if ($statsprotect) {
+					if ($statsprotect) {
 ?>
 
 		AuthType Basic
@@ -1031,10 +1043,11 @@ foreach ($certnamelist as $ip => $certname) {
 		AuthUserFile "/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats"
 		require valid-user
 <?php
-				}
+					}
 ?>
 	</Location>
 <?php
+				}
 			}
 		}
 

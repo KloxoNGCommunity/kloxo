@@ -7202,6 +7202,8 @@ function setInitialServices($nolog = null)
 	setInitialAdminAccount($nolog);
 
 	setAllWebserverInstall($nolog);
+	setAllInactivateWebServer($nolog);
+	setActivateWebServer($nolog);
 
 	setInitialAllDnsConfigs($nolog);
 	setInitialAllWebConfigs($nolog);
@@ -8608,9 +8610,6 @@ function setAllWebserverInstall($nolog = null)
 				$conffile = getLinkCustomfile("{$confpath}", "httpd.conf");
 				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
 			}
-
-			log_cleanup("- Inactivating 'httpd'", $nolog);
-			exec("chkconfig httpd off");
 		} else {
 			$t = $ws[$v];
 
@@ -8629,13 +8628,25 @@ function setAllWebserverInstall($nolog = null)
 
 				log_cleanup("- Installing '{$v}'", $nolog);
 			}
-
-			log_cleanup("- Inactivating '{$v}'", $nolog);
-			exec("chkconfig {$v} off");
 		}
 	}
+}
 
-	$webs = getWebDriverList();
+function setAllInactivateWebServer($nolog = null)
+{
+	$list = getAllWebDriverList();
+
+	foreach ($list as $k => $v) {
+		if ($v === 'apache') { $v = 'httpd'; }
+		
+		log_cleanup("- Inactivating '$v'", $nolog);
+		exec("chkconfig $v off");
+	}
+}
+
+function setActivateWebServer($nolog = null)
+{
+	log_cleanup("Activating Web servers", $nolog);
 
 	$spawnok = false;
 

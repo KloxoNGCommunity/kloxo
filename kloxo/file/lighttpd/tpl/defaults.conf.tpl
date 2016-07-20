@@ -52,17 +52,16 @@ $portlist = array('var.port', 'var.portssl');
 
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
-if ($reverseproxy) {
-	$confs = array('proxy_standard' => 'switch_standard', 'stats_none' => 'stats', 
-		'dirprotect_none' => 'dirprotect_stats');
-} else {
+//if ($reverseproxy) {
+//	$confs = array('proxy_standard' => 'switch_standard', 'stats_none' => 'stats', 
+//		'dirprotect_none' => 'dirprotect_stats');
+//} else {
 	if ($stats['app'] === 'webalizer') {
 		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_webalizer' => 'stats');
 	} else {
 		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_awstats' => 'stats');
 	}
-
-}
+//}
 
 foreach ($confs as $k => $v) {
 	if (file_exists("{$globalspath}/custom.{$k}.conf")) {

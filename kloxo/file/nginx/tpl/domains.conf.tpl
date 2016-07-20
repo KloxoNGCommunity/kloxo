@@ -650,14 +650,20 @@ server {
 		if ($enablestats) {
 ?>
 
+	include '<?php echo $globalspath; ?>/stats_log.conf';
+<?php
+		//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
 	include '<?php echo $globalspath; ?>/stats.conf';
 <?php
-			if ($statsprotect) {
+				if ($statsprotect) {
 ?>
 
 	include '<?php echo $globalspath; ?>/dirprotect_stats.conf';
 <?php
-			}
+				}
+		//	}
 		}
 
 		if ($nginxextratext) {

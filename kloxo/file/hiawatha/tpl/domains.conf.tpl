@@ -163,11 +163,11 @@ Directory {
 
 	Path = /awstats
 <?php
-		if ($statsprotect) {
+	//	if ($statsprotect) {
 ?>
 	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
 <?php
-		}
+	//	}
 ?>
 }
 <?php
@@ -179,11 +179,11 @@ Directory {
 
 	Path = /stats
 <?php
-		if ($statsprotect) {
+	//	if ($statsprotect) {
 ?>
 	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
 <?php
-		}
+	//	}
 ?>
 }
 <?php
@@ -738,13 +738,13 @@ VirtualHost {
 			}
 		}
 
-		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-			if ($enablestats) {
+		if ($enablestats) {
 ?>
 
 	AccessLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-custom_log
 	ErrorLogfile = /home/httpd/<?php echo $domainname ?>/stats/<?php echo $domainname ?>-error_log
 <?php
+		//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
 				if ($statsapp === 'awstats') {
 ?>
 
@@ -759,12 +759,15 @@ VirtualHost {
 	Alias = /stats:/home/httpd/<?php echo $domainname; ?>/webstats
 <?php
 				}
+
+				if ($statsprotect) {
 ?>
 
 	UseDirectory = stats_dir_for_<?php echo $domclean; ?>
 
 <?php
-			}
+				}
+		//	}
 		}
 
 		if ($blockips) {
