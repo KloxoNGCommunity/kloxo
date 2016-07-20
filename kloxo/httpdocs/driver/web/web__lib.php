@@ -29,8 +29,7 @@ class web__ extends lxDriverClass
 			$a = ($v === 'apache') ? 'httpd' : $v;
 
 			self::setWebserverInstall($a);
-
-			self::setBaseWebConfig($l);
+			self::setBaseWebConfig($v);
 
 			exec("chkconfig {$a} on");
 		}
@@ -45,12 +44,12 @@ class web__ extends lxDriverClass
 		}
 	}
 
-	static function setBaseWebConfig($drivertype = null)
+	static function setBaseWebConfig($webtype)
 	{
 		// MR -- only need here for apache because switch between apache 2.2 and 2.4
-		if ($drivertype === 'apache') {
+		if ($webtype === 'apache') {
 			setAllWebserverInstall();
-			setCopyWebConfFiles($drivertype);
+			setCopyWebConfFiles($webtype);
 		}
 	}
 

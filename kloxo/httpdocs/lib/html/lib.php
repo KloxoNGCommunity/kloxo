@@ -7487,9 +7487,7 @@ function setCopyWebCacheConfFiles($webcachedriver, $nolog = null)
 
 function setCopyWebConfFiles($webdriver, $nolog = null)
 {
-	if ($webdriver === 'none') {
-		return;
-	}
+	if ($webdriver === 'none') { return; }
 
 	$aliasdriver = ($webdriver === 'apache') ? 'httpd' : $webdriver;
 
