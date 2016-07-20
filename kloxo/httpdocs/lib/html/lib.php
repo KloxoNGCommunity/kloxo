@@ -8650,7 +8650,9 @@ function setActivateWebServer($nolog = null)
 
 	$spawnok = false;
 
-	foreach ($webs as $k => $v) {
+	$list = getWebDriverList();
+
+	foreach ($list as $k => $v) {
 		if ($v === 'apache') { $v = 'httpd'; }
 
 		log_cleanup("- Activating '{$v}' as Web server", $nolog);
