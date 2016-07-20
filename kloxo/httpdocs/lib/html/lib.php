@@ -5307,11 +5307,13 @@ function setDefaultPages($nolog = null)
 	lxfile_unix_chown("{$hdocspath}/login/inc2.php", "lxlabs:lxlabs");
 	lxfile_unix_chmod("{$hdocspath}/login/inc2.php", "0644");
 
-	log_cleanup("- Skeleton for login web page", $nolog);
+	log_cleanup("- Skeleton for panel login web page", $nolog);
 	lxshell_unzip("__system__", "{$hdocspath}/login", $sourcezip);
 
-	log_cleanup("- Files for error web pages", $nolog);
+	log_cleanup("- Skeleton for panel root web page", $nolog);
+	lxshell_unzip("__system__", "{$hdocspath}", $sourcezip);
 
+	log_cleanup("- Files for error web pages", $nolog);
 	lxfile_unix_chown("{$hdocspath}/error", "lxlabs:lxlabs");
 	lxfile_unix_chmod("{$hdocspath}/error", "0755");
 
