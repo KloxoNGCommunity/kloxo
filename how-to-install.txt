@@ -25,7 +25,7 @@ B.1. Fresh Install
         rm -f mratwork*
 
         # install rpm (read Warning)
-        rpm -Uvh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
         # move to /
         cd /
 
@@ -47,7 +47,7 @@ B.1. Fresh Install
         rm -f mratwork*
 
         # install rpm (read Warning)
-        rpm -Uvh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 
         # move to /
         cd /
@@ -112,7 +112,7 @@ WARNING:
     In CentOS 32bit may trouble with:
 
         # install rpm (read Warning)
-        rpm -Uvh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 
     and then use:
 
@@ -121,6 +121,6 @@ WARNING:
         rm -f mratwork*
 
         # get rpm file
-        wget https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+        wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
 
         rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
