@@ -81,6 +81,12 @@ UrlToolkit {
 	Header Referer \(\)\s*\{ DenyAccess
 }
 
+## MR -- ref: https://www.hiawatha-webserver.org/weblog/115
+UrlToolkit {
+	ToolkitID = block_httpoxy
+	Header Proxy .* DenyAccess
+}
+
 UrlToolkit {
 	ToolkitID = findindexfile
 <?php
@@ -210,7 +216,7 @@ ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ <?php echo $timeout
 #UserWebsites = yes
 
 UseFastCGI = php_for_var_user
-UseToolkit = block_shellshock, findindexfile, permalink
+UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 		}
 ?>

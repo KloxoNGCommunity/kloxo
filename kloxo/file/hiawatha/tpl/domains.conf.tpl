@@ -350,7 +350,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 			}
 ?>
@@ -419,7 +419,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 			}
 ?>
@@ -499,7 +499,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 			}
 ?>
@@ -555,7 +555,7 @@ VirtualHost {
 	WebsiteRoot = <?php echo $webmaildocroot; ?>
 
 
-	useToolkit = block_shellshock, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
+	useToolkit = block_shellshock, block_httpoxy, redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
 }
 
@@ -631,7 +631,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 				}
 ?>
@@ -796,7 +796,7 @@ VirtualHost {
 
 	UseFastCGI = php_for_<?php echo $domclean; ?>
 
-	UseToolkit = block_shellshock, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
 
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
@@ -928,7 +928,7 @@ VirtualHost {
 
 	UseFastCGI = php_for_<?php echo $domclean; ?>
 
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 					}
 ?>
@@ -1019,7 +1019,7 @@ VirtualHost {
 
 	UseFastCGI = php_for_<?php echo $domclean; ?>
 
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 					}
 ?>
@@ -1100,7 +1100,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 					}
 ?>
@@ -1179,7 +1179,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 						}
 ?>
@@ -1259,7 +1259,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 						}
 ?>
@@ -1355,7 +1355,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile
 <?php
 					}
 ?>
@@ -1436,7 +1436,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 						}
 ?>
@@ -1516,7 +1516,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 						}
 ?>

@@ -104,6 +104,10 @@ $count = 0;
 
 $tabs = array("", "\t");
 ?>
+## MR -- ref: https://www.kb.cert.org/vuls/id/JLAD-ABZJ3A
+server.modules += ( "mod_magnet" )
+magnet.attract-raw-url-to = ( "/opt/configs/lighttpd/conf/global/deny-proxy.lua" )
+
 evasive.max-conns-per-ip = 25
 server.errorfile-prefix = "/home/kloxo/httpd/error/"
 
