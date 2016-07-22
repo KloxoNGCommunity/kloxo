@@ -7203,10 +7203,6 @@ function setInitialServices($nolog = null)
 
 	setInitialAdminAccount($nolog);
 
-	setAllWebserverInstall($nolog);
-	setAllInactivateWebServer($nolog);
-	setActivateWebServer($nolog);
-
 	setInitialAllDnsConfigs($nolog);
 	setInitialAllWebConfigs($nolog);
 	setInitialAllWebCacheConfigs($nolog);
@@ -7219,6 +7215,10 @@ function setInitialServices($nolog = null)
 	setInitialPureftpConfig($nolog);
 
 	setInitialLogrotate($nolog);
+
+	setAllWebserverInstall($nolog);
+	setAllInactivateWebServer($nolog);
+	setActivateWebServer($nolog);
 
 	exec("sh /script/setup-roundcube");
 	exec("sh /script/setup-horde");

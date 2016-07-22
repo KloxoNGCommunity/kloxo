@@ -59,6 +59,11 @@ UrlToolkit {
 }
 
 UrlToolkit {
+	ToolkitID = block_httpoxy
+	Header Proxy .* DenyAccess
+}
+
+UrlToolkit {
 	ToolkitID = findindexfile
 	Match ^([^?]*)/(\?.*)?$ Rewrite $1/index.php$2 Continue
 	RequestURI isfile Return
@@ -105,7 +110,7 @@ WebsiteRoot = /usr/local/lxlabs/kloxo/httpdocs
 StartFile = index.php
 SecureURL = no
 __fpmdisabled__UseFastCGI = PHP5
-UseToolkit = block_shellshock, findindexfile
+UseToolkit = block_shellshock, block_httpoxy, findindexfile
 UseDirectory = static_file
 TimeForCGI = 3600
 ErrorHandler = 401:/error/401.html
