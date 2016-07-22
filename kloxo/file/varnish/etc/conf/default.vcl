@@ -9,6 +9,9 @@ backend default_ssl{
 }
 
 sub vcl_recv {
+	## MR -- ref: https://httpoxy.org/
+    unset req.http.proxy;
+
 	if (req.restarts == 0) {
 		if (req.http.x-forwarded-for) {
 			set req.http.X-Forwarded-For =
