@@ -205,9 +205,11 @@ UseLocalConfig = yes
 		if ($reverseproxy) {
 ?>
 
-UseToolkit = block_shellshock, findindexfile
+UseToolkit = block_shellshock, block_httpoxy
+
 #ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
-ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+#ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 <?php
 		} else {
 ?>
