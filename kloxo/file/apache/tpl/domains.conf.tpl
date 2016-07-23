@@ -223,6 +223,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 			if ($count !== 0) {
 ?>
@@ -231,8 +233,6 @@ foreach ($certnamelist as $ip => $certname) {
 		Protocols h2 http/1.1
 	</IfModule>
 
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
-		
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
 
@@ -365,6 +365,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 		if ($count !== 0) {
 ?>
@@ -372,8 +374,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -508,6 +508,8 @@ foreach ($certnamelist as $ip => $certname) {
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 			if ($count !== 0) {
 ?>
@@ -515,8 +517,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -564,6 +564,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 			if ($count !== 0) {
 ?>
@@ -571,8 +573,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -717,6 +717,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerAlias <?php echo $serveralias; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 			if (intval($microcache_time) > 0) {
 ?>
@@ -737,8 +739,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1134,6 +1134,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -1142,8 +1144,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1316,6 +1316,8 @@ foreach ($certnamelist as $ip => $certname) {
 	DocumentRoot "<?php echo $rootpath; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $domainname; ?>/"
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -1324,8 +1326,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1383,6 +1383,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 					if ($count !== 0) {
 ?>
@@ -1390,8 +1391,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1526,6 +1525,8 @@ foreach ($certnamelist as $ip => $certname) {
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 						if ($count !== 0) {
 ?>
@@ -1533,8 +1534,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1582,6 +1581,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 						if ($count !== 0) {
 ?>
@@ -1589,8 +1590,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1741,6 +1740,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 					if ($count !== 0) {
 ?>
@@ -1748,8 +1749,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1884,6 +1883,8 @@ foreach ($certnamelist as $ip => $certname) {
 	DocumentRoot "<?php echo $webmaildocroot; ?>"
 
 	Redirect "/" "<?php echo $protocol; ?><?php echo $webmailremote; ?>"
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 						if ($count !== 0) {
 ?>
@@ -1891,8 +1892,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
@@ -1940,6 +1939,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DirectoryIndex <?php echo $indexorder; ?>
 
+
+	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
 						if ($count !== 0) {
 ?>
@@ -1947,8 +1948,6 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_http2.c>
 		Protocols h2 http/1.1
 	</IfModule>
-
-	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 
 	<IfModule mod_ssl.c>
 		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
