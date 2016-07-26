@@ -93,7 +93,7 @@ ln -sf ${phpcgi_file} ${phpcgi_symlink}
 
 if [ "${php_active}" == "php52s" ] || [ "${php_active}" == "php52m" ] ; then
 	phpcgi_spawn="/usr/bin/spawn-fcgi -f ${phpcgi_symlink} -s ${phpcgi_sockfile} \
-		-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user}  -P $phpcgi_pidfile \
+		-C ${phpcgi_child} -u ${phpcgi_user} -g ${phpcgi_user} -P $phpcgi_pidfile \
 		> /dev/null 2>&1"
 else
 	phpcgi_spawn="${phpcgi_symlink} -y ${phpcgi_conf} -c ${phpcgi_ini} -R"

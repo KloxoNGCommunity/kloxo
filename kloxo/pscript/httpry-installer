@@ -1,16 +1,20 @@
 #!/bin/sh
 
-if [ "$(rpm -qa httpry)" == "" ] ; then
-	yum -y install httpry
+if [ "$(yum list|grep 'httpry')" != "" ] ; then
+	if [ "$(rpm -qa httpry)" == "" ] ; then
+		yum -y install httpry
+	else
+		yum -y update httpry
+	fi
+
+	'cp' -f /opt/configs/httpry/etc/init.d/httpry.init /etc/rc.d/init.d/httpry
+	'cp' -f /opt/configs/httpry/etc/logrotate.d/httpry /etc/logrotate.d/httpry
+
+	chmod 755 /etc/rc.d/init.d/httpry
+	chkconfig httpry on
+	#sh /script/restart-syslog -y
 else
-	yum -y update httpry
+	sh /script/httpry-remover
 fi
-
-'cp' -f /opt/configs/httpry/etc/init.d/httpry.init /etc/rc.d/init.d/httpry
-'cp' -f /opt/configs/httpry/etc/logrotate.d/httpry /etc/logrotate.d/httpry
-
-chmod 755 /etc/rc.d/init.d/httpry
-chkconfig httpry on
-#sh /script/restart-syslog -y
 
 

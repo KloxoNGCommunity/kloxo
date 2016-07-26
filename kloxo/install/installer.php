@@ -10,9 +10,11 @@ $iptp = '/etc/sysconfig';
 $ipts = array('iptables', 'ip6tables');
 
 foreach ($ipts as &$ipt) {
-	if (file_exists("{$iptp}/{$ipt}")) {
-		@system("'mv' -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave; chkconfig --del {$ipt}; service {$ipt} stop");
+	if (!file_exists("{$iptp}/{$ipt}")) {
+		@system("service iptables save");
 	}
+
+	@system("'mv' -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave; chkconfig --del {$ipt}; service {$ipt} stop");
 }
 
 $lxlabspath = "/usr/local/lxlabs";

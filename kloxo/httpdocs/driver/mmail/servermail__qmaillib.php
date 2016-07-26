@@ -205,7 +205,10 @@ class Servermail__Qmail  extends lxDriverClass
 		$bcont = str_replace("%lx_dns_blacklist_entries%", $this->writeDnsBlist(), $bcont);
 
 		lfile_put_contents("/etc/spamdyke.conf", $bcont);
-		lfile_put_contents("/var/qmail/spamdyke/blacklist_ip", $this->writeDnsBlist());
+
+		// MR -- it's wrong. SO disabled and remove blaclist_ip entry
+	//	lfile_put_contents("/var/qmail/spamdyke/blacklist_ip", $this->writeDnsBlist());
+		exec("sed '/dns-blacklist-entry=/d' /var/qmail/spamdyke/blacklist_ip");
 	}
 
 	function deleteQueue()

@@ -90,11 +90,13 @@ class ServerMail extends lxdb
 		$this->write();
 	}
 
-	function updatespamdyke($param) {
+	function updatespamdyke($param) 
+	{
 		$path = "../file/template";
 
 		if ($param['defaultdnsblacklists_flag'] === 'on') {
 			unlink ("{$path}/current.spamdyke_rbl.txt");
+			$param['dns_blacklists'] = file_get_contents("{$path}/spamdyke_rbl.txt");
 		} else {
 			$content = $param['dns_blacklists'];
 			$file = "{$path}/current.spamdyke_rbl.txt";
