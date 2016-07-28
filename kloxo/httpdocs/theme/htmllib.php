@@ -8042,12 +8042,23 @@ class HtmlLib
 
 				if ($variable->height != "") {
 					$rows = trim($variable->height);
+
+					if ($ghtml->frm_subaction === 'edit') {
+						$height = '300px';
+					} else {
+						$height = '120px';
+					}
 				} else {
 					$rows = "5";
+					$height = '120px';
 				}
 
 				if ($variable->width != "") {
-					$cols = trim($variable->width);
+					if ($ghtml->frm_subaction === 'edit') {
+						$cols = '100%';
+					} else {
+						$cols = trim($variable->width);
+					}
 				} else {
 					$cols = "85%";
 				}
@@ -8069,7 +8080,7 @@ class HtmlLib
 				}
 ?>
 
-					<textarea nowrap id="textarea_<?= $variable->name ?>" class="<?= $rclass ?>" rows="<?= $rows ?>" style="margin:2px 0 2px 0;width:<?= $cols ?>;height:120px; border: 1px solid #aaa; padding: 2px;" name="<?= $variable->name ?>" <?= $readonly ?> size="30"><?= $value ?></textarea>
+					<textarea nowrap id="textarea_<?= $variable->name ?>" class="<?= $rclass ?>" rows="<?= $rows ?>" style="margin:2px 0 2px 0;width:<?= $cols ?>;height:<?= $height ?>; border: 1px solid #aaa; padding: 2px;" name="<?= $variable->name ?>" <?= $readonly ?> size="30"><?= $value ?></textarea>
 
 					<script type="text/javascript">
 						// createTextAreaWithLines('textarea_<?=$variable->name?>');

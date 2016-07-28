@@ -720,6 +720,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
 <?php
+		/*
 			if (intval($microcache_time) > 0) {
 ?>
 
@@ -728,8 +729,8 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 <?php
 			}
+		*/
 ?>
-
 	Include <?php echo $globalspath; ?>/<?php echo $acmechallenge; ?>.conf
 <?php
 		if ($count !== 0) {

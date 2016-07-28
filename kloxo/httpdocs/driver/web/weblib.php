@@ -353,9 +353,8 @@ class Web extends Lxdb
 	static $__desc_php_selected = array("", "", "php_selected");
 	static $__desc_time_out = array("", "", "time_out");
 
-//	static $__desc_microcache_flag = array("", "", "enable_microcache");
 	static $__desc_microcache_time = array("", "", "microcache_time");
-//	static $__desc_microcache_insert_into = array("", "", "microcache_insert_into");
+	static $__desc_microcache_insert_into = array("", "", "microcache_insert_into");
 
 	static $__acdesc_update_permalink = array("", "", "permalink");
 	static $__acdesc_update_sesubmit = array("", "", "search_engine");
@@ -1260,8 +1259,7 @@ class Web extends Lxdb
 		$this->php_selected = $param['php_selected'];
 		$this->time_out = $param['time_out'];
 
-	//	$this->microcache_flag = $param['microcache_flag'];
-	//	$this->microcache_time = $param['microcache_time'];
+		$this->microcache_time = $param['microcache_time'];
 		$this->microcache_insert_into = $param['microcache_insert_into'];
 
 		return $param;
@@ -1488,8 +1486,8 @@ class Web extends Lxdb
 
 				$vlist['microcache_time'] = null;
 				$this->setDefaultValue('microcache_time', '5');
-			//	$vlist['microcache_insert_into'] = null;
-			//	$this->setDefaultValue('microcache_insert_into', '/index.php');
+				$vlist['microcache_insert_into'] = null;
+				$this->setDefaultValue('microcache_insert_into', '/index.php');
 
 				$vlist['__v_updateall_button'] = array();
 

@@ -3,19 +3,17 @@
 
 <?php
 
-/*
-// MR -- change to CustomHeader
 $mfile = "{$rootpath}/{$microcache_insert_into}";
 
 if (file_exists($mfile)) {
 	@exec("sed -i '/X-Hiawatha-Cache:/d' {$mfile}");
 
-	if (intval($microcache_time) > 0) {
-		@exec("sed -i '1s/^/<" . "?php header(\"X-Hiawatha-Cache: {$microcache_time}\"); " . "?>\\n/' " . 
-			"{$mfile}");
+	if (intval($microcache_time) > -1) {
+		@exec("sed -i '1s/^/<" . "?php header(\"X-Hiawatha-Cache: {$microcache_time}\"); " . "?>\\n/' {$mfile}");
+	} else {
+		@exec("sed -i '/header(\"X-Hiawatha-Cache:/d' {$mfile}");
 	}
 }
-*/
 
 $header_base="CustomHeader = X-Content-Type-Options:nosniff
 \tCustomHeader = X-XSS-Protection:1;mode=block
@@ -840,7 +838,8 @@ VirtualHost {
 		if (intval($microcache_time) > 0) {
 ?>
 
-	CustomHeader = X-Hiawatha-Cache:<?php echo $microcache_time; ?>
+	## MR -- it's not work from here. Need insert to php file (usually index.php)
+	#CustomHeader = X-Hiawatha-Cache:<?php echo $microcache_time; ?>
 
 <?php
 		}

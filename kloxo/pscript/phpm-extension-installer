@@ -24,7 +24,8 @@ if [ "$#" == 0 ] ; then
 	echo " ---------------------------------------------------------------------------"
 	echo "  format: sh $0 <version_target> <extension_name>"
 	echo " ---------------------------------------------------------------------------"
-	echo " - Better use the same version; Example: 'sh $0 php52m php52-xcache'"
+	echo " - Better use the same version"
+	echo "   * Example: 'sh $0 php52m php52-xcache'"
 	echo "   select 'php' for 'version_target' if want install to 'standard' php"
 	echo
 	echo " - Testing with '${base_name} -m'"

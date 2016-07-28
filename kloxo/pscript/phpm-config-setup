@@ -143,6 +143,8 @@ else
 	sed -i 's:__for_phpm__:;:' /opt/${base_name}/custom/php.ini
 	sed -i 's:__for_phps__::' /opt/${base_name}/custom/php.ini
 	sed -i 's:__session_save_path__:/usr/local/lxlabs/kloxo/session:' /opt/${base_name}/custom/php.ini
+
+	'cp' -rf /opt/${base_name}/custom/php.ini /opt/${base_name}/custom/php-fpm.ini >/dev/null 2>&1
 fi
 
 for i in php-cgi.sh php-cli.sh php-fpm.sh php-ls.sh ; do

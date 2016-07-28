@@ -165,7 +165,7 @@ class web__ extends lxDriverClass
 		$input['timeout'] = $this->getWebTimeout();
 
 		$input['microcache_time'] = $this->getMicrocacheTime();
-	//	$input['microcache_insert_into'] = $this->getMicrocacheInsertInto();
+		$input['microcache_insert_into'] = $this->getMicrocacheInsertInto();
 
 		$input['apacheextratext'] = $this->getApacheExtraText();
 		$input['lighttpdextratext'] = $this->getLighttpdExtraText();
@@ -931,7 +931,7 @@ class web__ extends lxDriverClass
 		if ((!isset($this->main->microcache_time)) || (!$this->main->microcache_time) || (strtolower($this->main->microcache_time) === '5')) {
 			$ret = '5';
 		} else {
-			$ret = $this->main->tmicrocache_time;
+			$ret = $this->main->microcache_time;
 		}
 
 		return $ret;

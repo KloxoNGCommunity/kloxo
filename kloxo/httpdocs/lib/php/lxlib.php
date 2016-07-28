@@ -3220,7 +3220,8 @@ function getDbvariable($listvar, $mainvar)
 	static $var;
 
 	if (!$var) {
-		$var = unserialize(lfile_get_contents("__path_dbschema"));
+	//	$var = unserialize(lfile_get_contents("__path_dbschema"));
+		include_once "../file/sql/db_schema.php";
 	}
 
 	if (isset($var[$listvar][$mainvar])) {

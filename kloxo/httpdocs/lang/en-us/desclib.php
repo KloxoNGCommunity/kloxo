@@ -1398,7 +1398,7 @@ $__description["php_selected"] = array("PHP Selected");
 $__description["web_selected"] = array("Web Selected");
 $__description["time_out"] = array("Timeout (seconds)");
 
-$__description["microcache_time"] = array("Microcache Time (seconds; 0 to disabled)");
+$__description["microcache_time"] = array("Microcache Time (seconds; -1 to disabled; 0 to reset)");
 $__description["microcache_insert_into"] = array("Microcache Insert into");
 
 $__description["multiple_php_install"] = array("Multiple PHP Install");
