@@ -7972,7 +7972,7 @@ class HtmlLib
 
 				break;
 			case "file":
-				if ($ghtml->frm_subaction === 'upload') {
+				if ($block->form === 'upload_') {
 // MR -- 'progress bar' taken from https://www.script-tutorials.com/pure-html5-file-upload/ and then modified
 ?>
 
@@ -8324,6 +8324,8 @@ function uploadAbort(e) { // upload abort
 				$bgcolor = null;
 				$onclick = null;
 
+				$type = 'submit';
+
 				if (strtolower($variable->value) === 'updateall') {
 				//	$string = "Click Here to Update all the objects that appear in the top selectbox with the above values";
 					$string = $login->getKeywordUc("update_all");
@@ -8336,15 +8338,16 @@ function uploadAbort(e) { // upload abort
 					</script>
 <?php
 				} else {
-					if ($ghtml->frm_subaction === 'upload') {
+					if ($block->form === 'upload_') {
 						$onclick = "onclick='startUploading()'";
+						$type = 'button';
 					}
 				}
 ?>
 
 					<?= $string ?>
 
-					<input <?= $blackstyle ?> class="submitbutton" type="button" <?= $onclick ?> id="<?= $variable->name ?>" name="<?= $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
+					<input <?= $blackstyle ?> class="submitbutton" type="<?= $type ?>" <?= $onclick ?> id="<?= $variable->name ?>" name="<?= $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
 <?php
 
 				break;
