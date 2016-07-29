@@ -7972,12 +7972,231 @@ class HtmlLib
 
 				break;
 			case "file":
+				if ($ghtml->frm_subaction === 'upload') {
+// MR -- 'progress bar' taken from https://www.script-tutorials.com/pure-html5-file-upload/ and then modified
+?>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+}
+#speed,#remaining {
+    float:left;
+    width:100px;
+}
+#b_transfered {
+    float:right;
+    text-align:right;
+}
+.clear_both {
+    clear:both;
+}
+#progress_info {
+    font-size:10pt;
+    width:450px;
+}
+#fileinfo,#error2,#abort,#warnsize {
+    color:#aaa;
+    display:none;
+    font-size:10pt;
+    font-style:italic;
+    margin-top:10px;
+}
+#progress {
+    //border:1px solid #ccc;
+    display:none;
+    float:left;
+    height:14px;
+
+    background: -moz-linear-gradient(#66cc00, #4b9500);
+    background: -ms-linear-gradient(#66cc00, #4b9500);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #66cc00), color-stop(100%, #4b9500));
+    background: -webkit-linear-gradient(#66cc00, #4b9500);
+    background: -o-linear-gradient(#66cc00, #4b9500);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500');
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500')";
+    background: linear-gradient(#66cc00, #4b9500);
+}
+#progress_percent {
+    float:right;
+}
+</style>
+<script>
+// common variables
+var iBytesUploaded = 0;
+var iBytesTotal = 0;
+var iPreviousBytesLoaded = 0;
+var iMaxFilesize = 2146435072; // 2047MB
+var oTimer = 0;
+var sResultFileSize = '';
+
+function secondsToTime(secs) { // we will use this function to convert seconds in normal time format
+    var hr = Math.floor(secs / 3600);
+    var min = Math.floor((secs - (hr * 3600))/60);
+    var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+
+    if (hr < 10) {hr = "0" + hr; }
+    if (min < 10) {min = "0" + min;}
+    if (sec < 10) {sec = "0" + sec;}
+    if (hr) {hr = "00";}
+    return hr + ':' + min + ':' + sec;
+};
+
+function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+};
+
+function fileSelected() {
+
+    // hide different warnings
+    document.getElementById('error2').style.display = 'none';
+    document.getElementById('abort').style.display = 'none';
+    document.getElementById('warnsize').style.display = 'none';
+
+    document.getElementById('progress').style.width = '0';
+    document.getElementById('progress_percent').innerHTML = '&nbsp;';
+    document.getElementById('speed').innerHTML = '&nbsp;';
+    document.getElementById('remaining').innerHTML = '&nbsp;';
+    document.getElementById('b_transfered').innerHTML = '&nbsp;';
+
+    // get selected file element
+    var oFile = document.getElementById('<?= $variable->name ?>').files[0];
+
+    // little test for filesize
+    if (oFile.size > iMaxFilesize) {
+        document.getElementById('warnsize').style.display = 'block';
+        return;
+    }
+
+    if (typeof FileReader === "undefined") {
+        document.getElementById('error2').style.display = 'block';
+        document.getElementById('error2').innerHTML = 'Upload progress bar not work';
+    } else {
+        // prepare HTML5 FileReader
+        var oReader = new FileReader();
+        // read selected file as DataURL
+        oReader.readAsDataURL(oFile);
+    }
+}
+
+function startUploading() {
+    // cleanup all temp states
+    iPreviousBytesLoaded = 0;
+    document.getElementById('error2').style.display = 'none';
+    document.getElementById('abort').style.display = 'none';
+    document.getElementById('warnsize').style.display = 'none';
+    document.getElementById('progress_percent').innerHTML = '';
+    var oProgress = document.getElementById('progress');
+    oProgress.style.display = 'block';
+    oProgress.style.width = '0px';
+
+    if (typeof FormData !== "undefined") {
+        // get form data for POSTing
+        var vFD = new FormData(document.getElementById('upload_')); 
+
+        // create XMLHttpRequest object, adding few event listeners, and POSTing our data
+        var oXHR = new XMLHttpRequest();        
+        oXHR.upload.addEventListener('progress', uploadProgress, false);
+        oXHR.addEventListener('load', uploadFinish, false);
+        oXHR.addEventListener('abort', uploadAbort, false);
+        oXHR.open('POST', '/display.php');
+        oXHR.send(vFD);
+
+        // set inner timer
+        oTimer = setInterval(doInnerUpdates, 300);
+   }
+}
+
+function doInnerUpdates() { // we will use this function to display upload speed
+    var iCB = iBytesUploaded;
+    var iDiff = iCB - iPreviousBytesLoaded;
+
+    // if nothing new loaded - exit
+    if (iDiff == 0)
+        return;
+
+    iPreviousBytesLoaded = iCB;
+    iDiff = iDiff * 2;
+    var iBytesRem = iBytesTotal - iPreviousBytesLoaded;
+    var secondsRemaining = iBytesRem / iDiff;
+
+    // update speed info
+    var iSpeed = iDiff.toString() + 'B/s';
+    if (iDiff > 1024 * 1024) {
+        iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + 'MB/s';
+    } else if (iDiff > 1024) {
+        iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + 'KB/s';
+    }
+
+    document.getElementById('speed').innerHTML = iSpeed;
+    document.getElementById('remaining').innerHTML = '| ' + secondsToTime(secondsRemaining);        
+}
+
+function uploadProgress(e) { // upload process in progress
+    if (e.lengthComputable) {
+        iBytesUploaded = e.loaded;
+        iBytesTotal = e.total;
+        var iPercentComplete = Math.round(e.loaded * 100 / e.total);
+        var iBytesTransfered = bytesToSize(iBytesUploaded);
+
+        document.getElementById('progress_percent').innerHTML = iPercentComplete.toString() + '%';
+        document.getElementById('progress').style.width = (iPercentComplete * 4).toString() + 'px';
+        document.getElementById('b_transfered').innerHTML = iBytesTransfered;
+    } else {
+        document.getElementById('progress').innerHTML = 'unable to compute';
+    }
+}
+
+function uploadFinish(e) { // upload successfully finished
+    document.getElementById('progress_percent').innerHTML = '100%';
+    document.getElementById('progress').style.width = '400px';
+    document.getElementById('filesize').innerHTML = sResultFileSize;
+    document.getElementById('remaining').innerHTML = '| 00:00:00';
+
+    clearInterval(oTimer);
+}
+
+function uploadError(e) { // upload error
+    document.getElementById('error2').style.display = 'block';
+    clearInterval(oTimer);
+}  
+
+function uploadAbort(e) { // upload abort
+    document.getElementById('abort').style.display = 'block';
+    clearInterval(oTimer);
+}
+</script>
+
+					<?= $variable_description ?> <?= $myneedstring ?> <br/>
+					<input class="filebox" type="file" name="<?= $variable->name ?>" id="<?= $variable->name ?>" size="30"  onclick="fileSelected();">
+<div>&nbsp;</div>
+                    <div id="error2">An error occurred while uploading the file</div>
+                    <div id="abort">The upload has been canceled by the user or the browser dropped the connection</div>
+                    <div id="warnsize">Your file is very big. We can't accept it. Please select more small file</div>
+
+                    <div id="progress_info">
+                        <div id="progress"></div>
+                        <div id="progress_percent">&nbsp;</div>
+                        <div class="clear_both"></div>
+                        <div>
+                            <div id="speed">&nbsp;</div>
+                            <div id="remaining">&nbsp;</div>
+                            <div id="b_transfered">&nbsp;</div>
+                            <div class="clear_both"></div>
+                        </div>
+                    </div>
+<?php
+				} else {
 ?>
 
 					<?= $variable_description ?> <?= $myneedstring ?> <br/>
 					<input class="filebox" type="file" name="<?= $variable->name ?>" size="30">
 <?php
-
+				}
 				break;
 			case "htmltextarea":
 				if ($variable->height != "") {
@@ -8116,12 +8335,16 @@ class HtmlLib
 						var updateallwarning2 = "<?= $login->getKeywordUc('updateall_warning2') ?>";
 					</script>
 <?php
+				} else {
+					if ($ghtml->frm_subaction === 'upload') {
+						$onclick = "onclick='startUploading()'";
+					}
 				}
 ?>
 
 					<?= $string ?>
 
-					<input <?= $blackstyle ?> class="submitbutton" type="submit" <?= $onclick ?> id="<?= $variable->name ?>" name="<?= $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
+					<input <?= $blackstyle ?> class="submitbutton" type="button" <?= $onclick ?> id="<?= $variable->name ?>" name="<?= $variable->name ?>" value="&nbsp;&nbsp;<?= $variable->value ?>&nbsp;&nbsp;">
 <?php
 
 				break;

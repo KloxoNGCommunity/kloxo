@@ -1259,6 +1259,8 @@ class Web extends Lxdb
 		$this->php_selected = $param['php_selected'];
 		$this->time_out = $param['time_out'];
 
+		if ($param['microcache_time'] === '0') { $param['microcache_time'] = '5'; }	
+
 		$this->microcache_time = $param['microcache_time'];
 		$this->microcache_insert_into = $param['microcache_insert_into'];
 
