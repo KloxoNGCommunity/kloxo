@@ -75,7 +75,7 @@ class Ffile extends Lxclass
 	static $__desc_newfile_f = array("", "", "file_name");
 	static $__desc_zip_file_f = array("", "", "zip_file_name");
 	static $__desc_upload_file_f = array("F", "", "upload_file");
-	static $__desc_upload_overwrite_f = array("f", "", "overwrite_existing_file");
+	static $__desc_upload_overwrite_f = array("", "", "overwrite_file");
 	static $__desc_zip_overwrite_f = array("f", "", "overwrite_existing_files");
 	static $__desc_zip_extract_dir_f = array("", "", "extract_zip_to_here");
 	static $__desc_extract_to_tar_f = array("f", "", "extract_to_tar_file");
@@ -300,7 +300,7 @@ class Ffile extends Lxclass
 		$this->upload_file_name = str_replace("'", "", $this->upload_file_name);
 		$this->setUpdateSubaction('upload_s');
 		$gbl->__this_redirect = $this->getCurDirUrl();
-		$this->upload_overwrite_f = $param['upload_overwrite_f'];
+	//	$this->upload_overwrite_f = $param['upload_overwrite_f'];
 
 		return null;
 	}
@@ -760,6 +760,8 @@ class Ffile extends Lxclass
 
 	function updateform($subaction, $param)
 	{
+		global $login;
+
 		$vlist = null;
 
 		switch ($subaction) {
@@ -869,11 +871,11 @@ class Ffile extends Lxclass
 
 				break;
 
-			case "upload_s":
+			case "upload_s":	
+				// MR -- overwrite not work for upload with progress bar
+				$vlist['upload_overwrite_f'] = array('W', $login->getKeywordUc('upload_overwrite_warning'));
 				$vlist['upload_file_f'] = null;
-				$vlist['upload_overwrite_f'] = null;
 				$vlist['__v_button'] = "Upload";
-				
 				break;
 
 			case "download_from_ftp":

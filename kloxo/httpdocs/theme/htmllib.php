@@ -7951,8 +7951,8 @@ class HtmlLib
 				// Don't ever make this hidden. It is absolutely not necessary. The value is available directly itself.
 ?>
 
-					<span style="color:#f11;font-weight:bold"><?= $variable_description ?></span>
-					<div style='border: 1px solid #aaa; background-color: #fcc; padding: 2px'><?= $value ?></div>
+					<span style="color:#f22;font-weight:bold"><?= $variable_description ?></span>
+					<div style='border: 1px solid #ccc; background-color: #fdd; padding: 2px'><?= $value ?></div>
 
 <?php
 				break;
@@ -7981,11 +7981,15 @@ class HtmlLib
     margin:0;
     padding:0;
 }
-#speed,#remaining {
+#progress_speed {
     float:left;
     width:100px;
 }
-#b_transfered {
+#progress_remaining,#progress_percent {
+    float:left;
+    width:80px;
+}
+#transfered {
     float:right;
     text-align:right;
 }
@@ -7996,7 +8000,10 @@ class HtmlLib
     font-size:10pt;
     width:450px;
 }
-#fileinfo,#error2,#abort,#warnsize {
+#progress_data {
+    width:400px;
+}
+#progress_error2,#progress_abort,#progress_warnsize {
     color:#aaa;
     display:none;
     font-size:10pt;
@@ -8006,8 +8013,10 @@ class HtmlLib
 #progress {
     //border:1px solid #ccc;
     display:none;
-    float:left;
-    height:14px;
+    //float:left;
+    height:18px;
+    text-align: center;
+    color: #fd0;
 
     background: -moz-linear-gradient(#66cc00, #4b9500);
     background: -ms-linear-gradient(#66cc00, #4b9500);
@@ -8018,8 +8027,11 @@ class HtmlLib
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500')";
     background: linear-gradient(#66cc00, #4b9500);
 }
-#progress_percent {
-    float:right;
+#progress_base {
+    width:400px;
+    height:18px;
+    background:#abc;
+    float:left;
 }
 </style>
 <script>
@@ -8050,31 +8062,31 @@ function bytesToSize(bytes) {
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 };
 
-function fileSelected() {
+function fileSelected(e) {
 
     // hide different warnings
-    document.getElementById('error2').style.display = 'none';
-    document.getElementById('abort').style.display = 'none';
-    document.getElementById('warnsize').style.display = 'none';
+    document.getElementById('progress_error2').style.display = 'none';
+    document.getElementById('progress_abort').style.display = 'none';
+    document.getElementById('progress_warnsize').style.display = 'none';
 
     document.getElementById('progress').style.width = '0';
-    document.getElementById('progress_percent').innerHTML = '&nbsp;';
-    document.getElementById('speed').innerHTML = '&nbsp;';
-    document.getElementById('remaining').innerHTML = '&nbsp;';
-    document.getElementById('b_transfered').innerHTML = '&nbsp;';
+    document.getElementById('progress_percent').innerHTML = '0%';
+    document.getElementById('progress_speed').innerHTML = '0 KB/s';
+    document.getElementById('progress_remaining').innerHTML = '00:00:00';
+    document.getElementById('transfered').innerHTML = '0 KB / 0 KB';
 
     // get selected file element
-    var oFile = document.getElementById('<?= $variable->name ?>').files[0];
+    var oFile = document.getElementById(e.id).files[0];
 
     // little test for filesize
     if (oFile.size > iMaxFilesize) {
-        document.getElementById('warnsize').style.display = 'block';
+        document.getElementById('progress_warnsize').style.display = 'block';
         return;
     }
 
     if (typeof FileReader === "undefined") {
-        document.getElementById('error2').style.display = 'block';
-        document.getElementById('error2').innerHTML = 'Upload progress bar not work';
+        document.getElementById('progress_error2').style.display = 'block';
+        document.getElementById('progress_error2').innerHTML = 'Upload progress bar not work';
     } else {
         // prepare HTML5 FileReader
         var oReader = new FileReader();
@@ -8083,12 +8095,12 @@ function fileSelected() {
     }
 }
 
-function startUploading() {
+function startUploading(e) {
     // cleanup all temp states
     iPreviousBytesLoaded = 0;
-    document.getElementById('error2').style.display = 'none';
-    document.getElementById('abort').style.display = 'none';
-    document.getElementById('warnsize').style.display = 'none';
+    document.getElementById('progress_error2').style.display = 'none';
+    document.getElementById('progress_abort').style.display = 'none';
+    document.getElementById('progress_warnsize').style.display = 'none';
     document.getElementById('progress_percent').innerHTML = '';
     var oProgress = document.getElementById('progress');
     oProgress.style.display = 'block';
@@ -8096,13 +8108,13 @@ function startUploading() {
 
     if (typeof FormData !== "undefined") {
         // get form data for POSTing
-        var vFD = new FormData(document.getElementById('upload_')); 
+        var vFD = new FormData(document.getElementById(e.form.id)); 
 
         // create XMLHttpRequest object, adding few event listeners, and POSTing our data
         var oXHR = new XMLHttpRequest();        
         oXHR.upload.addEventListener('progress', uploadProgress, false);
         oXHR.addEventListener('load', uploadFinish, false);
-        oXHR.addEventListener('abort', uploadAbort, false);
+        oXHR.addEventListener('progress_abort', uploadAbort, false);
         oXHR.open('POST', '/display.php');
         oXHR.send(vFD);
 
@@ -8125,15 +8137,15 @@ function doInnerUpdates() { // we will use this function to display upload speed
     var secondsRemaining = iBytesRem / iDiff;
 
     // update speed info
-    var iSpeed = iDiff.toString() + 'B/s';
+    var iSpeed = iDiff.toString() + ' B/s';
     if (iDiff > 1024 * 1024) {
-        iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + 'MB/s';
+        iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + ' MB/s';
     } else if (iDiff > 1024) {
-        iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + 'KB/s';
+        iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + ' KB/s';
     }
 
-    document.getElementById('speed').innerHTML = iSpeed;
-    document.getElementById('remaining').innerHTML = '| ' + secondsToTime(secondsRemaining);        
+    document.getElementById('progress_speed').innerHTML = iSpeed;
+    document.getElementById('progress_remaining').innerHTML = secondsToTime(secondsRemaining);        
 }
 
 function uploadProgress(e) { // upload process in progress
@@ -8142,50 +8154,52 @@ function uploadProgress(e) { // upload process in progress
         iBytesTotal = e.total;
         var iPercentComplete = Math.round(e.loaded * 100 / e.total);
         var iBytesTransfered = bytesToSize(iBytesUploaded);
+        var iBytesiBytesTotal = bytesToSize(iBytesTotal);
 
-        document.getElementById('progress_percent').innerHTML = iPercentComplete.toString() + '%';
         document.getElementById('progress').style.width = (iPercentComplete * 4).toString() + 'px';
-        document.getElementById('b_transfered').innerHTML = iBytesTransfered;
+        document.getElementById('progress').innerHTML = iPercentComplete.toString() + '%';
+        document.getElementById('progress_percent').innerHTML = document.getElementById('progress').innerHTML;
+        document.getElementById('transfered').innerHTML = iBytesTransfered + ' / ' + iBytesiBytesTotal;
     } else {
         document.getElementById('progress').innerHTML = 'unable to compute';
     }
 }
 
 function uploadFinish(e) { // upload successfully finished
-    document.getElementById('progress_percent').innerHTML = '100%';
+    //document.getElementById('progress_percent').innerHTML = '100%';
     document.getElementById('progress').style.width = '400px';
     document.getElementById('filesize').innerHTML = sResultFileSize;
-    document.getElementById('remaining').innerHTML = '| 00:00:00';
+    document.getElementById('progress_remaining').innerHTML = '00:00:00';
 
     clearInterval(oTimer);
 }
 
 function uploadError(e) { // upload error
-    document.getElementById('error2').style.display = 'block';
+    document.getElementById('progress_error2').style.display = 'block';
     clearInterval(oTimer);
 }  
 
 function uploadAbort(e) { // upload abort
-    document.getElementById('abort').style.display = 'block';
+    document.getElementById('progress_abort').style.display = 'block';
     clearInterval(oTimer);
 }
 </script>
 
 					<?= $variable_description ?> <?= $myneedstring ?> <br/>
-					<input class="filebox" type="file" name="<?= $variable->name ?>" id="<?= $variable->name ?>" size="30"  onclick="fileSelected();">
-<div>&nbsp;</div>
-                    <div id="error2">An error occurred while uploading the file</div>
-                    <div id="abort">The upload has been canceled by the user or the browser dropped the connection</div>
-                    <div id="warnsize">Your file is very big. We can't accept it. Please select more small file</div>
+					<input class="filebox" type="file" name="<?= $variable->name ?>" id="<?= $variable->name ?>" size="30"  onclick="fileSelected(this);">
+					<div>&nbsp;</div>
+                    <div id="progress_error2">An error occurred while uploading the file</div>
+                    <div id="progress_abort">The upload has been canceled by the user or the browser dropped the connection</div>
+                    <div id="progress_warnsize">Your file is very big. We can't accept it. Please select more small file</div>
 
                     <div id="progress_info">
-                        <div id="progress"></div>
-                        <div id="progress_percent">&nbsp;</div>
+                        <div id="progress_base"><div id="progress">0%</div></div>
                         <div class="clear_both"></div>
-                        <div>
-                            <div id="speed">&nbsp;</div>
-                            <div id="remaining">&nbsp;</div>
-                            <div id="b_transfered">&nbsp;</div>
+                        <div id="progress_data">
+                            <div id="progress_speed">0 KB/s</div>
+                            <div id="progress_remaining">00:00:00</div>
+                            <div id="progress_percent">0%</div>
+                            <div id="transfered">0 KB / 0 KB</div>
                             <div class="clear_both"></div>
                         </div>
                     </div>
@@ -8339,7 +8353,7 @@ function uploadAbort(e) { // upload abort
 <?php
 				} else {
 					if ($block->form === 'upload_') {
-						$onclick = "onclick='startUploading()'";
+						$onclick = "onclick='startUploading(this)'";
 						$type = 'button';
 					}
 				}
