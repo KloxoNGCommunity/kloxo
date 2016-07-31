@@ -701,7 +701,7 @@ function install_yum_repo()
 	@exec("yum list *yum*|grep '@'", $out, $ret);
 
 	// MR -- need for OS (like fedora) where os version not the same with redhat/centos
-	if ($ret === 0) {
+	if (count($out) > 0) {
 		$exec("rpm --qf '%{name}\n' -qf /sbin/init", $out2);
 
 		if ($out[0] === 'systemd') {

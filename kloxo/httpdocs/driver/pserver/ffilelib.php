@@ -301,6 +301,7 @@ class Ffile extends Lxclass
 		$this->setUpdateSubaction('upload_s');
 		$gbl->__this_redirect = $this->getCurDirUrl();
 	//	$this->upload_overwrite_f = $param['upload_overwrite_f'];
+		$this->upload_overwrite_f = 'on';
 
 		return null;
 	}

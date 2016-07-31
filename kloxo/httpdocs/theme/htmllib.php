@@ -7978,60 +7978,60 @@ class HtmlLib
 
 <style>
 *{
-    margin:0;
-    padding:0;
+	margin:0;
+	padding:0;
 }
 #progress_speed {
-    float:left;
-    width:100px;
+	float:left;
+	width:100px;
 }
 #progress_remaining,#progress_percent {
-    float:left;
-    width:80px;
+	float:left;
+	width:80px;
 }
 #transfered {
-    float:right;
-    text-align:right;
+	float:right;
+	text-align:right;
 }
 .clear_both {
-    clear:both;
+	clear:both;
 }
 #progress_info {
-    font-size:10pt;
-    width:450px;
+	font-size:10pt;
+	width:450px;
 }
 #progress_data {
-    width:400px;
+	width:400px;
 }
 #progress_error2,#progress_abort,#progress_warnsize {
-    color:#aaa;
-    display:none;
-    font-size:10pt;
-    font-style:italic;
-    margin-top:10px;
+	color:#aaa;
+	display:none;
+	font-size:10pt;
+	font-style:italic;
+	margin-top:10px;
 }
 #progress {
-    //border:1px solid #ccc;
-    display:none;
-    //float:left;
-    height:18px;
-    text-align: center;
-    color: #fd0;
+	//border:1px solid #ccc;
+	display:none;
+	//float:left;
+	height:18px;
+	text-align: center;
+	color: #fd0;
 
-    background: -moz-linear-gradient(#66cc00, #4b9500);
-    background: -ms-linear-gradient(#66cc00, #4b9500);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #66cc00), color-stop(100%, #4b9500));
-    background: -webkit-linear-gradient(#66cc00, #4b9500);
-    background: -o-linear-gradient(#66cc00, #4b9500);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500');
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500')";
-    background: linear-gradient(#66cc00, #4b9500);
+	background: -moz-linear-gradient(#66cc00, #4b9500);
+	background: -ms-linear-gradient(#66cc00, #4b9500);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #66cc00), color-stop(100%, #4b9500));
+	background: -webkit-linear-gradient(#66cc00, #4b9500);
+	background: -o-linear-gradient(#66cc00, #4b9500);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#66cc00', endColorstr='#4b9500')";
+	background: linear-gradient(#66cc00, #4b9500);
 }
 #progress_base {
-    width:400px;
-    height:18px;
-    background:#abc;
-    float:left;
+	width:400px;
+	height:18px;
+	background:#abc;
+	float:left;
 }
 </style>
 <script>
@@ -8044,165 +8044,174 @@ var oTimer = 0;
 var sResultFileSize = '';
 
 function secondsToTime(secs) { // we will use this function to convert seconds in normal time format
-    var hr = Math.floor(secs / 3600);
-    var min = Math.floor((secs - (hr * 3600))/60);
-    var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+	var hr = Math.floor(secs / 3600);
+	var min = Math.floor((secs - (hr * 3600))/60);
+	var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
 
-    if (hr < 10) {hr = "0" + hr; }
-    if (min < 10) {min = "0" + min;}
-    if (sec < 10) {sec = "0" + sec;}
-    if (hr) {hr = "00";}
-    return hr + ':' + min + ':' + sec;
-};
+	if (hr < 10) {hr = "0" + hr; }
+	if (min < 10) {min = "0" + min;}
+	if (sec < 10) {sec = "0" + sec;}
+	if (hr) {hr = "00";}
+	return hr + ':' + min + ':' + sec;
+}
 
 function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB'];
-    if (bytes == 0) return 'n/a';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
-};
+	var sizes = ['Bytes', 'KB', 'MB'];
+	if (bytes == 0) return 'n/a';
+	var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+	return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+}
 
 function fileSelected(e) {
 
-    // hide different warnings
-    document.getElementById('progress_error2').style.display = 'none';
-    document.getElementById('progress_abort').style.display = 'none';
-    document.getElementById('progress_warnsize').style.display = 'none';
+	// hide different warnings
+	document.getElementById('progress_error2').style.display = 'none';
+	document.getElementById('progress_abort').style.display = 'none';
+	document.getElementById('progress_warnsize').style.display = 'none';
 
-    document.getElementById('progress').style.width = '0';
-    document.getElementById('progress_percent').innerHTML = '0%';
-    document.getElementById('progress_speed').innerHTML = '0 KB/s';
-    document.getElementById('progress_remaining').innerHTML = '00:00:00';
-    document.getElementById('transfered').innerHTML = '0 KB / 0 KB';
+	document.getElementById('progress').style.width = '0';
+	document.getElementById('progress').innerHTML = '';
+	document.getElementById('progress_percent').innerHTML = '0%';
+	document.getElementById('progress_speed').innerHTML = '0 KB/s';
+	document.getElementById('progress_remaining').innerHTML = '00:00:00';
+	document.getElementById('transfered').innerHTML = '0 KB / 0 KB';
 
-    // get selected file element
-    var oFile = document.getElementById(e.id).files[0];
+	// get selected file element
+	var oFile = document.getElementById(e.id).files[0];
 
-    // little test for filesize
-    if (oFile.size > iMaxFilesize) {
-        document.getElementById('progress_warnsize').style.display = 'block';
-        return;
-    }
+	// little test for filesize
+	if (oFile.size > iMaxFilesize) {
+		document.getElementById('progress_warnsize').style.display = 'block';
+		return;
+	}
 
-    if (typeof FileReader === "undefined") {
-        document.getElementById('progress_error2').style.display = 'block';
-        document.getElementById('progress_error2').innerHTML = 'Upload progress bar not work';
-    } else {
-        // prepare HTML5 FileReader
-        var oReader = new FileReader();
-        // read selected file as DataURL
-        oReader.readAsDataURL(oFile);
-    }
+	if (typeof FileReader === "undefined") {
+		document.getElementById('progress_error2').style.display = 'block';
+		document.getElementById('progress_error2').innerHTML = 'Upload progress bar not work';
+	} else {
+		// prepare HTML5 FileReader
+		var oReader = new FileReader();
+		// read selected file as DataURL
+		oReader.readAsDataURL(oFile);
+	}
 }
 
 function startUploading(e) {
-    // cleanup all temp states
-    iPreviousBytesLoaded = 0;
-    document.getElementById('progress_error2').style.display = 'none';
-    document.getElementById('progress_abort').style.display = 'none';
-    document.getElementById('progress_warnsize').style.display = 'none';
-    document.getElementById('progress_percent').innerHTML = '';
-    var oProgress = document.getElementById('progress');
-    oProgress.style.display = 'block';
-    oProgress.style.width = '0px';
+	// cleanup all temp states
+	iPreviousBytesLoaded = 0;
+	document.getElementById('progress_error2').style.display = 'none';
+	document.getElementById('progress_abort').style.display = 'none';
+	document.getElementById('progress_warnsize').style.display = 'none';
+	document.getElementById('progress_percent').innerHTML = '0%';
+	var oProgress = document.getElementById('progress');
+	oProgress.style.display = 'block';
+	oProgress.style.width = '0px';
 
-    if (typeof FormData !== "undefined") {
-        // get form data for POSTing
-        var vFD = new FormData(document.getElementById(e.form.id)); 
+	if (typeof FormData !== "undefined") {
+		// get form data for POSTing
+		var vFD = new FormData(document.getElementById(e.form.id)); 
 
-        // create XMLHttpRequest object, adding few event listeners, and POSTing our data
-        var oXHR = new XMLHttpRequest();        
-        oXHR.upload.addEventListener('progress', uploadProgress, false);
-        oXHR.addEventListener('load', uploadFinish, false);
-        oXHR.addEventListener('progress_abort', uploadAbort, false);
-        oXHR.open('POST', '/display.php');
-        oXHR.send(vFD);
+		// create XMLHttpRequest object, adding few event listeners, and POSTing our data
+		var oXHR = new XMLHttpRequest();		
+		oXHR.upload.addEventListener('progress', uploadProgress, false);
+		oXHR.addEventListener('load', uploadFinish, false);
+		oXHR.addEventListener('progress_abort', uploadAbort, false);
+		oXHR.open('POST', '/display.php');
+		oXHR.send(vFD);
 
-        // set inner timer
-        oTimer = setInterval(doInnerUpdates, 300);
+		// set inner timer
+		oTimer = setInterval(doInnerUpdates, 300);
    }
 }
 
 function doInnerUpdates() { // we will use this function to display upload speed
-    var iCB = iBytesUploaded;
-    var iDiff = iCB - iPreviousBytesLoaded;
+	var iCB = iBytesUploaded;
+	var iDiff = iCB - iPreviousBytesLoaded;
 
-    // if nothing new loaded - exit
-    if (iDiff == 0)
-        return;
+	// if nothing new loaded - exit
+	if (iDiff == 0)
+		return;
 
-    iPreviousBytesLoaded = iCB;
-    iDiff = iDiff * 2;
-    var iBytesRem = iBytesTotal - iPreviousBytesLoaded;
-    var secondsRemaining = iBytesRem / iDiff;
+	iPreviousBytesLoaded = iCB;
+	iDiff = iDiff * 2;
+	var iBytesRem = iBytesTotal - iPreviousBytesLoaded;
+	var secondsRemaining = iBytesRem / iDiff;
 
-    // update speed info
-    var iSpeed = iDiff.toString() + ' B/s';
-    if (iDiff > 1024 * 1024) {
-        iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + ' MB/s';
-    } else if (iDiff > 1024) {
-        iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + ' KB/s';
-    }
+	// update speed info
+	var iSpeed = iDiff.toString() + ' B/s';
+	if (iDiff > 1024 * 1024) {
+		iSpeed = (Math.round(iDiff * 100/(1024*1024))/100).toString() + ' MB/s';
+	} else if (iDiff > 1024) {
+		iSpeed =  (Math.round(iDiff * 100/1024)/100).toString() + ' KB/s';
+	}
 
-    document.getElementById('progress_speed').innerHTML = iSpeed;
-    document.getElementById('progress_remaining').innerHTML = secondsToTime(secondsRemaining);        
+	document.getElementById('progress_speed').innerHTML = iSpeed;
+	document.getElementById('progress_remaining').innerHTML = secondsToTime(secondsRemaining);		
 }
 
 function uploadProgress(e) { // upload process in progress
-    if (e.lengthComputable) {
-        iBytesUploaded = e.loaded;
-        iBytesTotal = e.total;
-        var iPercentComplete = Math.round(e.loaded * 100 / e.total);
-        var iBytesTransfered = bytesToSize(iBytesUploaded);
-        var iBytesiBytesTotal = bytesToSize(iBytesTotal);
+	if (e.lengthComputable) {
+		iBytesUploaded = e.loaded;
+		iBytesTotal = e.total;
+		var iPercentComplete = Math.round(e.loaded * 100 / e.total);
+		var iBytesTransfered = bytesToSize(iBytesUploaded);
+		var iBytesiBytesTotal = bytesToSize(iBytesTotal);
 
-        document.getElementById('progress').style.width = (iPercentComplete * 4).toString() + 'px';
-        document.getElementById('progress').innerHTML = iPercentComplete.toString() + '%';
-        document.getElementById('progress_percent').innerHTML = document.getElementById('progress').innerHTML;
-        document.getElementById('transfered').innerHTML = iBytesTransfered + ' / ' + iBytesiBytesTotal;
-    } else {
-        document.getElementById('progress').innerHTML = 'unable to compute';
-    }
+		document.getElementById('progress').style.width = (iPercentComplete * 4).toString() + 'px';
+		document.getElementById('progress').innerHTML = iPercentComplete.toString() + '%';
+		document.getElementById('progress_percent').innerHTML = document.getElementById('progress').innerHTML;
+		document.getElementById('transfered').innerHTML = iBytesTransfered + ' / ' + iBytesiBytesTotal;
+
+		if (iPercentComplete == 100) {
+			document.getElementById('progress_info').style.backgroundColor = '#eee';
+			document.getElementById('progress_info').style.textAlign = 'center';
+			document.getElementById('progress_info').innerHTML = 'Wait for redirecting...';
+		}
+	} else {
+		document.getElementById('progress').innerHTML = 'unable to compute';
+	}
 }
 
 function uploadFinish(e) { // upload successfully finished
-    //document.getElementById('progress_percent').innerHTML = '100%';
-    document.getElementById('progress').style.width = '400px';
-    document.getElementById('filesize').innerHTML = sResultFileSize;
-    document.getElementById('progress_remaining').innerHTML = '00:00:00';
+	window.location.href = '/display.php?<?php echo str_replace("frm_action=updateform&frm_subaction=upload", "frm_action=show", $_SERVER['QUERY_STRING']); ?>';
 
-    clearInterval(oTimer);
+	document.getElementById('progress_percent').innerHTML = '100%';
+	document.getElementById('progress').style.width = '400px';
+	document.getElementById('filesize').innerHTML = sResultFileSize;
+	document.getElementById('progress_remaining').innerHTML = '00:00:00';
+
+	clearInterval(oTimer);
 }
 
 function uploadError(e) { // upload error
-    document.getElementById('progress_error2').style.display = 'block';
-    clearInterval(oTimer);
+	document.getElementById('progress_error2').style.display = 'block';
+	clearInterval(oTimer);
 }  
 
 function uploadAbort(e) { // upload abort
-    document.getElementById('progress_abort').style.display = 'block';
-    clearInterval(oTimer);
+	document.getElementById('progress_abort').style.display = 'block';
+	clearInterval(oTimer);
 }
 </script>
 
 					<?= $variable_description ?> <?= $myneedstring ?> <br/>
 					<input class="filebox" type="file" name="<?= $variable->name ?>" id="<?= $variable->name ?>" size="30"  onclick="fileSelected(this);">
 					<div>&nbsp;</div>
-                    <div id="progress_error2">An error occurred while uploading the file</div>
-                    <div id="progress_abort">The upload has been canceled by the user or the browser dropped the connection</div>
-                    <div id="progress_warnsize">Your file is very big. We can't accept it. Please select more small file</div>
+					<div id="progress_error2">An error occurred while uploading the file</div>
+					<div id="progress_abort">The upload has been canceled by the user or the browser dropped the connection</div>
+					<div id="progress_warnsize">Your file is very big. We can't accept it. Please select more small file</div>
 
-                    <div id="progress_info">
-                        <div id="progress_base"><div id="progress">0%</div></div>
-                        <div class="clear_both"></div>
-                        <div id="progress_data">
-                            <div id="progress_speed">0 KB/s</div>
-                            <div id="progress_remaining">00:00:00</div>
-                            <div id="progress_percent">0%</div>
-                            <div id="transfered">0 KB / 0 KB</div>
-                            <div class="clear_both"></div>
-                        </div>
-                    </div>
+					<div id="progress_info">
+						<div id="progress_base"><div id="progress">0%</div></div>
+						<div class="clear_both"></div>
+						<div id="progress_data">
+							<div id="progress_speed">0 KB/s</div>
+							<div id="progress_remaining">00:00:00</div>
+							<div id="progress_percent">0%</div>
+							<div id="transfered">0 KB / 0 KB</div>
+							<div class="clear_both"></div>
+						</div>
+					</div>
 <?php
 				} else {
 ?>
