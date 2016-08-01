@@ -734,18 +734,24 @@ class Ffile extends Lxclass
 		$this->getContent();
 
 		if (coreFfile::is_image($this->nname)) {
+			$name = basename($this->nname);
 			remove_if_older_than_a_minute_dir("tmp");
+			if (!file_exists("tmp/")) {
+				mkdir("tmp/");
+			}
 			$thumb = tempnam("tmp/", "image");
+			lxfile_mv($thumb, "$thumb.$name");
+			$thumb = "$thumb.$name";
 			lfile_put_contents($thumb, $this->image_content);
+			$thumb = "tmp/" . basename($thumb);
 			lxfile_generic_chmod($thumb, "0755");
-			$vlist['image_content'] = array('I', array("width" => 50, "height" => 50, "value" => "$thumb"));
+			$vlist['image_content'] = array('I', array("width" => "400", "height" => "100%", "value" => "$thumb"));
 			$vlist['image_width'] = null;
 			$vlist['image_height'] = null;
 		//	$vlist['image_type'] = null;
 			$vlist['copy_old_image_flag_f'] = null;
 			$dir = dirname($this->nname);
-			$name = basename($this->nname);
-			$vlist['old_image_name_f'] = array('m', "$dir/copy-$name");
+			$vlist['old_image_name_f'] = array('m', str_replace("//", "/", "$dir/copy-$name"));
 			$vlist['__v_button'] = "Resize";
 		} else {
 			if ($this->isOn('not_full_size')) {

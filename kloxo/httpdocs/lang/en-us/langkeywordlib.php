@@ -189,7 +189,7 @@ $__keyword["login_as"] = "Login as";
 
 $__keyword['startapi_warning'] = "StartAPI: 'issue' is free but 're-issue' (before expire) and 'revoke' may payed";
 
-$__keyword['upload_overwrite_warning'] = "WARNING: Existing file will be overwrite by upload file";
+$__keyword['upload_overwrite_warning'] = "WARNING: Existing file will be overwritten by uploaded file";
 
 $__throw["domain_is_already_owned"] = "Domain is already owned. Please enable: [b]I Confirm That I Am The Owner Of Domain[/b]";
 $__throw["invalid_domain_name"] = "Invalid domain name";
