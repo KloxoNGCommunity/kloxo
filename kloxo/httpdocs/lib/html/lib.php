@@ -3437,11 +3437,13 @@ function getGBOrMB($val)
 //	$val = (isset($val)) ? $val : 0;
 	$val = (float)$val;
 
-	if ($val > 1014) {
-		return round($val / 1024, 2) . " GB";
+	if ($val > 1048576) {
+		return number_format(round($val / 1048576, 2), 2) . " TB";
+	} else if ($val > 1014) {
+		return number_format(round($val / 1024, 2), 2) . " GB";
+	} else {
+		return number_format(round($val, 2), 2) . " MB";
 	}
-
-	return "$val MB";
 }
 
 function createClName($class, $name)

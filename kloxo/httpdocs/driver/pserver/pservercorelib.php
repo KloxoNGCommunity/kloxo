@@ -502,17 +502,22 @@ class pservercore extends Lxclient
 		// Rlist takes an array...
 		$rlist[] = array('memory_usage', "Total Mem:Memory Usage (MB)", $l['used_s_memory'], $l['priv_s_memory']);
 
-		$rlist[] = array('membuffers_usage', "Buffers:Memory Buffers Usage (MB)", $l['used_s_membuffers'] . ' MB', $l['priv_s_memory'] . ' MB');
-		$rlist[] = array('memcached_usage', "Cached:Memory Cached Usage (MB)", $l['used_s_memcached'] . ' MB', $l['priv_s_memory'] . ' MB');
+	//	$rlist[] = array('membuffers_usage', "Buffers:Memory Buffers Usage (MB)", $l['used_s_membuffers'] . ' MB', $l['priv_s_memory'] . ' MB');
+	//	$rlist[] = array('memcached_usage', "Cached:Memory Cached Usage (MB)", $l['used_s_memcached'] . ' MB', $l['priv_s_memory'] . ' MB');
+	//	$rlist[] = array('real_usage', "Real Mem:Real Usage (MB)", $l['used_s_realused'] . ' MB', $l['priv_s_memory'] . ' MB');
 
-		$rlist[] = array('real_usage', "Real Mem:Real Usage (MB)", $l['used_s_realused'] . ' MB', $l['priv_s_memory'] . ' MB');
+		$rlist[] = array('membuffers_usage', "Buffers:Memory Buffers Usage", getGBOrMB($l['used_s_membuffers']), getGBOrMB($l['priv_s_memory']));
+		$rlist[] = array('memcached_usage', "Cached:Memory Cached Usage", getGBOrMB($l['used_s_memcached']), getGBOrMB($l['priv_s_memory']));
+		$rlist[] = array('real_usage', "Real Mem:Real Usage", getGBOrMB($l['used_s_realused']), getGBOrMB($l['priv_s_memory']));
 
 		if (isset($l['used_s_swap'])) {
-			$rlist[] = array('swap_usage', "Swap:Swap Usage (MB)", $l['used_s_swap'], $l['priv_s_swap']);
+		//	$rlist[] = array('swap_usage', "Swap:Swap Usage (MB)", $l['used_s_swap'], $l['priv_s_swap']);
+			$rlist[] = array('swap_usage', "Swap:Swap Usage", $l['used_s_swap'], $l['priv_s_swap']);
 		}
 
 		if (isset($l['used_s_virtual'])) {
-			$rlist[] = array('Virtual Memory', "Virtual:Virtual Memory Usage (MB)", $l['used_s_virtual'], $l['priv_s_virtual']);
+		//	$rlist[] = array('Virtual Memory', "Virtual:Virtual Memory Usage (MB)", $l['used_s_virtual'], $l['priv_s_virtual']);
+			$rlist[] = array('Virtual Memory', "Virtual:Virtual Memory Usage", getGBOrMB($l['used_s_virtual']), getGBOrMB($l['priv_s_virtual']));
 		}
 
 		$rlist[] = array('Server Traffic', "Traffic:Server Traffic For Current Month", $this->used->server_traffic_usage, '-');
@@ -528,9 +533,9 @@ class pservercore extends Lxclient
 
 		$loadavg = sys_getloadavg();
 
-		$rlist[] = array('loadavg', "LoadAvg1:Load Average in 1 minutes", "{$loadavg['0']} %", '100 %');
-		$rlist[] = array('loadavg', "LoadAvg5:Load Average in 5 minutes", "{$loadavg['1']} %", '100 %');
-		$rlist[] = array('loadavg', "LoadAvg15:Load Average in 15 minutes", "{$loadavg['2']} %", '100 %');
+		$rlist[] = array('loadavg', "LoadAvg1:Load Average in 1 minutes", number_format($loadavg['0'], 2) . " %", '100 %');
+		$rlist[] = array('loadavg', "LoadAvg5:Load Average in 5 minutes", number_format($loadavg['1'], 2) . " %", '100 %');
+		$rlist[] = array('loadavg', "LoadAvg15:Load Average in 15 minutes", number_format($loadavg['2'], 2) . " %", '100 %');
 		
 
 		return $rlist;

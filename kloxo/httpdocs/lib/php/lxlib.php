@@ -1633,6 +1633,22 @@ function get_namelist_from_arraylist($ol, $key = null, $val = null)
 	return $name;
 }
 
+function getNumericValue($var)
+{
+	// MR -- back to calculate
+
+	$list = array("GB" => 1048576, "MB" => 1024, "KB" => 1, "%" => 1);
+
+	foreach ($list as $k => $v) {
+		if (strpos($var, " {$k}") !== false) {
+			$var = (float)$var * $v;
+			return $var;
+		}
+	}
+
+	return $var;
+}
+
 function isQuotaGreaterThanOrEq($used, $priv)
 {
 	if (is_unlimited($priv)) {
@@ -1647,7 +1663,11 @@ function isQuotaGreaterThanOrEq($used, $priv)
 	if (isOn($used)) {
 		return true;
 	}
-	return ($used >= $priv) ? true : false;
+
+	$used = getNumericValue($used);
+	$priv = getNumericValue($priv);
+
+	return ((float)$used >= (float)$priv) ? true : false;
 }
 
 function isQuotaGreaterThan($used, $priv)
@@ -1664,7 +1684,11 @@ function isQuotaGreaterThan($used, $priv)
 	if (isOn($used)) {
 		return true;
 	}
-	return ($used > $priv) ? true : false;
+
+	$used = getNumericValue($used);
+	$priv = getNumericValue($priv);
+
+	return ((float)$used > (float)$priv) ? true : false;
 }
 
 function is_unlimited($val)
