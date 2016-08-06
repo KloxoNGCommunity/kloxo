@@ -1,0 +1,27 @@
+#!/bin/sh
+
+rdir="/home/kloxo/httpd/webmail"
+
+cd ${rdir}
+
+if [ -d ${rdir}/afterlogic ] ; then
+	wget -q https://github.com/afterlogic/webmail-lite/archive/master.zip --no-check-certificate
+	unzip -o -q master.zip
+	'cp' -rf ./webmail-lite-master/* ./afterlogic
+	'rm' -rf ./webmail-lite-master ./master.zip
+	'rm' -rf ./afterlogic/@@@install@@@/*
+	'mv' -f ./afterlogic/install/* ./afterlogic/@@@install@@@
+	'mv' -f ./afterlogic/@@@install@@@/installer.php ./afterlogic/@@@install@@@/installer.php.bck
+	'rm' -rf ./afterlogic/install
+
+	chown -R apache:apache ${rdir}/afterlogic
+
+	echo
+	echo "* Afterlogic Webmail Lite update - finish process"
+	echo "  Run 'sh /script/setup-afterlogic' to update configuration"
+	echo
+else
+	echo
+	echo "* Need install with 'yum install kloxomr-webmail-afterlogic -y' first"
+	echo
+fi

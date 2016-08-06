@@ -1,0 +1,22 @@
+#!/bin/sh
+
+rdir="/home/kloxo/httpd/webmail"
+
+cd ${rdir}/rainloop
+
+if [ -d ${rdir}/rainloop ] ; then
+	wget -q http://repository.rainloop.net/v2/webmail/rainloop-community-latest.zip
+	unzip -o -q rainloop-community-latest.zip
+	'rm' -rf ./rainloop-community-latest.zip
+
+	chown -R apache:apache ${rdir}/rainloop
+
+	echo
+	echo "* Rainloop Webmail update - finish process"
+	echo "  Run 'sh /script/setup-rainloop' to update configuration"
+	echo
+else
+	echo
+	echo "* Need install with 'yum install kloxomr-webmail-rainloop -y' first"
+	echo
+fi

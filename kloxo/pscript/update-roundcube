@@ -1,0 +1,23 @@
+#!/bin/sh
+
+rdir="/home/kloxo/httpd/webmail"
+
+cd ${rdir}
+
+if [ -d ${rdir}/roundcube ] ; then
+	wget -q https://github.com/roundcube/roundcubemail/archive/master.zip --no-check-certificate
+	unzip -o -q master.zip
+	'cp' -rf ./roundcubemail-master/* ./roundcube
+	'rm' -rf ./roundcubemail-master ./master.zip
+
+	chown -R apache:apache ${rdir}/roundcube
+
+	echo
+	echo "* Roundcube Webmail update - finish process"
+	echo "  Run 'sh /script/setup-roundcube' to update configuration"
+	echo
+else
+	echo
+	echo "* Need install with 'yum install kloxomr-webmail-roundcube -y' first"
+	echo
+fi
