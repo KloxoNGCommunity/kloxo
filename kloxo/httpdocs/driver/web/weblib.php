@@ -348,6 +348,7 @@ class Web extends Lxdb
 	static $__desc_easyinstaller_l = array("db", "", "");
 	static $__desc_all_easyinstaller_l = array("", "", "");
 	static $__desc_ftpsession_l = array("v", "", "");
+	static $__desc_weblastvisit_l = array("", "", "");
 
 	static $__desc_web_selected = array("", "", "web_selected");
 	static $__desc_php_selected = array("", "", "php_selected");
@@ -521,8 +522,14 @@ class Web extends Lxdb
 			'index.pl', 'index.py', 'index.cgi', 'index.rb', 
 			'default.htm', 'Default.aspx', 'Default.asp');
 	*/
+	/*
 		return array('index.php', 'index.shtml', 'index.pl', 'index.py', 'index.cgi', 'index.rb', 
 			'Default.aspx', 'Default.asp', 'index.html', 'index.htm', 'default.htm', 'welcome.html');	
+	*/
+		$c = file_get_contents(getLinkCustomfile("../etc/list", "index.lst"));
+		$a = str_replace(" ", "", str_replace("\n", "", $c));
+
+		return explode(",", $a);
 	}
 	
 	function getQuotaNeedVar()
@@ -1220,7 +1227,8 @@ class Web extends Lxdb
 
 	function updateDirindex($param)
 	{
-		$param['indexfile_list'] = lxclass::fixListVariable($param['indexfile_list']);
+	//	$param['indexfile_list'] = lxclass::fixListVariable($param['indexfile_list']);
+		$param['indexfile_list'] = lxclass::fixListVariable(explode(" ", $param['indexfile_list']));
 
 		return $param;
 	}
@@ -1386,8 +1394,11 @@ class Web extends Lxdb
 				$ol = self::getIndexOrderDefault();
 				$dirin = $login->getObject('genlist')->dirindexlist_a;
 				$list = get_namelist_from_objectlist($dirin);
-				$index = lx_array_merge(array($list, $ol));
-				$vlist['indexfile_list'] = array('U', $index);
+				$index = array_values(array_merge($list, $ol));
+
+			//	$vlist['indexfile_list'] = array('U', $index);
+				$vlist['indexfile_list'] = array('t', implode(" ", $index));
+	
 				$vlist['__v_updateall_button'] = array();
 
 				return $vlist;

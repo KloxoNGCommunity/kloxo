@@ -270,6 +270,9 @@ exec("free -m", $meminfo);
 
 exec("df -h /", $diskinfo);
 
+$gen = $login->getObject('general')->generalmisc_b;
+$webstatsprog = ($gen->webstatisticsprogram) ? $gen->webstatisticsprogram : 'awstats';
+
 echo "";
 echo "\n";
 echo "A. Control Panel:" .
@@ -332,6 +335,8 @@ if ($appdovecot !== '--uninstalled--') {
 echo "      - pop3/imap4: " . $pop3app  . "\n";
 echo "      - smtp: " . $smtpapp  . "\n";
 echo "      - spam: " . $spamapp  . "\n";
+
+echo "   7. Stats: " .  $webstatsprog . "\n";
 
 //echo "\n";
 echo "D. Memory:\n";

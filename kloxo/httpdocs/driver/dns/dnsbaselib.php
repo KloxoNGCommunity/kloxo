@@ -310,6 +310,7 @@ abstract class Dnsbase extends Lxdb
 		$this->addRec("cn", "www", "__base__");
 	//	$this->addRec("cn", "ftp", "__base__");
 		$this->addRec("a", "ftp", $webipaddress);
+		$this->addRec("a", "stats", $webipaddress);
 		$this->addRec("cn", "webmail", "mail");
 		$this->addRec("cn", "lists", "mail");
 		$this->addRec("fcname", "smtp", "mail.$this->nname");

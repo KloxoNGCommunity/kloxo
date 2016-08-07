@@ -6542,24 +6542,25 @@ function setSomePermissions($nolog = null)
 	log_cleanup("Install/Fix Services/Permissions/Configfiles", $nolog);
 
 	log_cleanup("- Set permissions for /usr/bin/php-cgi", $nolog);
-	lxfile_unix_chmod("/usr/bin/php-cgi", "0755");
+	@lxfile_unix_chmod("/usr/bin/php-cgi", "0755");
 
 	log_cleanup("- Set permissions for closeinput binary", $nolog);
-	lxfile_unix_chmod("../cexe/closeinput", "0755");
+	@lxfile_unix_chmod("../cexe/closeinput", "0755");
 
 	log_cleanup("- Set permissions for phpsuexec.sh script", $nolog);
-	lxfile_unix_chmod("../file/phpsuexec.sh", "0755");
+	@lxfile_unix_chmod("../file/phpsuexec.sh", "0755");
 
 	log_cleanup("- Set permissions for /var/lib/php/session/ dir", $nolog);
-	lxfile_unix_chmod("/var/lib/php/session/", "777");
+	@lxfile_unix_chmod("/var/lib/php/session/", "777");
+	@exec("chmod o+t /var/lib/php/session/");
 
-	exec("chmod o+t /var/lib/php/session/");
-	log_cleanup("- Set permissions for /var/bogofilter/ dir", $nolog);
-	lxfile_unix_chmod("/var/bogofilter/", "777");
-	exec("chmod o+t /var/bogofilter/");
+	// MR -- this dir not exists
+//	log_cleanup("- Set permissions for /var/bogofilter/ dir", $nolog);
+//	lxfile_unix_chmod("/var/bogofilter/", "777");
+//	@exec("chmod o+t /var/bogofilter/");
 
 	log_cleanup("- Kill sisinfoc system process", $nolog);
-	exec("pkill -f sisinfoc");
+	@exec("pkill -f sisinfoc");
 }
 
 function setJailshellSystem($nolog = null)
@@ -7707,7 +7708,7 @@ function setRealServiceBranchList($nolog = null)
 				$t = str_replace("/set.", "/", $d);
 			}
 
-			$n = str_replace(".lst", "", $f);
+			$n = str_replace("set.", "", str_replace(".lst", "", $f));
 
 			log_cleanup("- List for '{$n}' branch", $nolog);
 
@@ -7798,11 +7799,11 @@ function setPhpBranch($select, $nolog = null)
 
 		log_cleanup("-- Replace using 'yum replace {$phpbranch} --replace-with={$select}'", $nolog);
 		setRpmReplaced("{$phpbranch}-cli","{$select}-cli");
-		/*
-			if ($phpmodules[0] === $phpbranch) {
-				unset($phpmodules[0]);
-			}
-		*/
+	/*
+		if ($phpmodules[0] === $phpbranch) {
+			unset($phpmodules[0]);
+		}
+	*/
 		foreach ($phpmodules as $k => $v) {
 			if ($phpmodules[0] === $phpbranch) {
 				continue;

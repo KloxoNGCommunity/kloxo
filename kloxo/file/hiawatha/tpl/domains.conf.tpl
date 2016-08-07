@@ -102,10 +102,6 @@ $webmailremote = str_replace("https://", "", $webmailremote);
 
 $cpdocroot = "/home/kloxo/httpd/cp";
 
-if ($indexorder) {
-	$indexorder = implode(', ', $indexorder);
-}
-
 if ($blockips) {
 	$biptemp = array();
 	foreach ($blockips as &$bip) {
@@ -205,9 +201,29 @@ Directory {
 		}
 	}
 //}
+?>
+
+UrlToolkit {
+	ToolkitID = findindexfile_for_<?php echo $domcleaner; ?>
+
+<?php
+	$v2 = "";
+
+	foreach ($indexorder as $k => $v) {
+?>
+	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/<?php echo $v; ?>$2 Continue
+	RequestURI isfile Return
+<?php
+		$v2 = str_replace(".", "\.", $v);
+	}
+?>
+	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/$2 Continue
+}
+<?php
 
 if ($webmailremote) {
 ?>
+
 UrlToolkit {
 	ToolkitID = redirect_<?php echo str_replace('.', '_', $webmailremote); ?>
 
@@ -350,7 +366,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 			}
 ?>
@@ -421,7 +437,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 			}
 ?>
@@ -503,7 +519,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 			}
 ?>
@@ -637,7 +653,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 				}
 ?>
@@ -802,7 +818,7 @@ VirtualHost {
 
 	UseFastCGI = php_for_<?php echo $domclean; ?>
 
-	UseToolkit = block_shellshock, block_httpoxy, redirect_<?php echo $domcleaner; ?>, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?php echo $domcleaner; ?>, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 
 	## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 	UseLocalConfig = yes
@@ -939,7 +955,7 @@ VirtualHost {
 
 	UseFastCGI = php_for_<?php echo $domclean; ?>
 
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 					}
 ?>
@@ -1032,7 +1048,7 @@ VirtualHost {
 
 	UseFastCGI = php_for_<?php echo $domclean; ?>
 
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 					}
 ?>
@@ -1115,7 +1131,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 					}
 ?>
@@ -1196,7 +1212,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 						}
 ?>
@@ -1278,7 +1294,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 						}
 ?>
@@ -1376,7 +1392,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 					}
 ?>
@@ -1459,7 +1475,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 						}
 ?>
@@ -1541,7 +1557,7 @@ VirtualHost {
 ?>
 
 	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?php echo $domcleaner; ?>, permalink
 <?php
 						}
 ?>

@@ -19,6 +19,7 @@ class pserver extends pservercore {
 	static $__desc_phpini_o = array("db", "", "");
 	static $__desc_serverweb_o = array("db", "", "");
 	static $__desc_lxguard_o = array("db", "", "");
+	static $__desc_phpmodule_l = array("", "", "");
 
 	Function display($var)
 	{
@@ -375,16 +376,18 @@ class pserver extends pservercore {
 
 		if ($ghtml->frm_o_o['0']['class'] === 'pserver') {
 			$alist[] = "a=show&o=phpini";
-//			$alist[] = "a=list&c=phpmodule";
 		}
 
 		$alist[] = "a=show&o=serverweb";
 		$alist[] = "a=show&o=serverftp";
+
+		if ($login->isAdmin()) {
+			$alist[] = "a=list&c=phpmodule";
+		}
+
 		$this->getMysqlDbAdmin($alist);
 		$alist[] = "a=updateform&sa=mysqlpasswordreset";
 		$alist[] = "a=list&c=dbadmin";
-
-
 	/*
 		
 	//	$alist['__title_nnn'] = 'Machine';

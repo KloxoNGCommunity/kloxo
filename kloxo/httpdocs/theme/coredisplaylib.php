@@ -886,7 +886,7 @@ function __ac_desc_Update($object)
 			$ret = do_update($object, $subaction, $list);
 		} else {
 			if (!$list) {
-				print_die("List not set for Multiple Update");
+			//	print_die("List not set for Multiple Update");
 			}
 
 			foreach ($list as $l) {

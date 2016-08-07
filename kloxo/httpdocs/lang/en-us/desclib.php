@@ -1425,3 +1425,13 @@ $__description["allowedblocked_ip"] = array("Allowed / Blocked IP");
 $__description["all_sslcert"] = array("All SSLCert");
 
 $__description["phpfpm_type"] = array("PHP-fpm type");
+
+$__description["phpmodule"] = array("PHP Module");
+$__description["phpmodule_name"] = array("Module");
+$__description["phpmodule_target"] = array("Target");
+$__description["phpmodule_type"] = array("Type");
+$__description["phpmodule_fullfile"] = array("File");
+$__description["phpmodule_status"] = array("PHP Module Status");
+$__description["phpmodule_restart"] = array("Restart");
+
+

@@ -16,7 +16,7 @@ class sshclient extends lxclass
 
 		$parent = $this->getParentO();
 
-		$v = lfile_get_contents("theme/filecore/sshterm-applet.htm");
+		$v = lfile_get_contents("thirdparty/sshterm-applet/sshterm-applet.htm");
 
 	//	if ($parent->is__table('pserver')) {
 		if ($parent->getClass() === 'pserver') {

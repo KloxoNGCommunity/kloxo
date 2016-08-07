@@ -3891,9 +3891,11 @@ class HtmlLib
 									$tcol = '#c33';
 								} elseif (strpos($name, 'restart') !== false) {
 									$tcol = '#33c';
-								}
-
-								$a = array('password' => '&#xf03f;', 'process' => '&#xf4f2;', 'ip' => '&#xf51c;',
+								} elseif (strpos($name, 'enable') !== false) {
+									$tcol = '#3c3';
+								} elseif (strpos($name, 'disable') !== false) {
+									$tcol = '#c33';
+								}								$a = array('password' => '&#xf03f;', 'process' => '&#xf4f2;', 'ip' => '&#xf51c;',
 									'service' => '&#xf014;', 'usage' => '&#xf000;', 'file' => '&#xf095;',
 									'information' => '&#xf15a;', 'ticket' => '&#xf3dc;', 'utmp' => '&#xf0c1;',
 									'limit' => '&#xf189;', 'phpmyadmin' => '&#xf00b;', 'dns' => '&#xf07f;',
@@ -5371,6 +5373,8 @@ class HtmlLib
 					$icon = "&#xf4c6;";
 				} elseif (strpos($var, '_remove') !== false) {
 					$icon = "&#xf5d0;";
+				} elseif (strpos($var, 'restart') !== false) {
+					$icon = "&#xf66c;";
 				} else {
 					$icon = "&#xf0a3;";
 				}

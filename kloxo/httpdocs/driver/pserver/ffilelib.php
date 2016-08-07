@@ -968,7 +968,7 @@ class Ffile extends Lxclass
 
 	function getContent()
 	{
-	//	$stat['mode'] = $this->mode;
+		$stat['mode'] = $this->mode;
 		$stat['ttype'] = $this->ttype;
 	//	$stat['ttype'] = os_getZipType($this->getFullPath());
 

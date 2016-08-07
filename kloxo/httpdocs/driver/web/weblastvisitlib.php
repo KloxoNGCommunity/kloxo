@@ -122,7 +122,8 @@ class WebLastVisit extends Lxaclass
 		$ncount = 0;
 
 		foreach($res as $r) {
-			if (!$r['Time']) {
+		//	if (!$r['Time']) {
+			if (!isset($r['Time'])) {
 				continue;
 			}
 
