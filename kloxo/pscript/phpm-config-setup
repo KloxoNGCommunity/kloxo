@@ -51,7 +51,7 @@ for j in php.d php-zts.d ; do
 
 			## MR -- remove path in 'extension='
 			sed -i 's:extension = /:extension=/:' /opt/${base_name}/etc/${j}/${a}
-			sed -i 's:/usr/lib'${uname_m}'/php/modules::' /opt/${base_name}/etc/${j}/${a}
+			sed -ri 's:extension=/(.*)/:extension=:g' /opt/${base_name}/etc/${j}/${a}
 
 			## MR -- re-add path in 'zend_extension='
 			if [ "$(cat /opt/${base_name}/etc/${j}/${a}|grep 'zend_extension=/')" == "" ] ; then
@@ -65,45 +65,33 @@ done
 
 for j in php.d php-zts.d ; do
 	if [ -d /opt/${base_name}/etc/${j} ] ; then
-		for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
-			apc apcu imagick interbase ioncube-loader memcache memcached z-memcached mssql debug \
-			pdo_dblib pdo_firebird mysqlnd_ms mysqlnd_mysql mysqlnd_mysqli mysqlnd pdo_mysqlnd \
-			xdebug xcache opcache lzf redis enchant wddx ; do
+		a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.nonini"|grep -v "_nonused."|awk '{print $9}'|tr '\n' ' ')
 
-			a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ');
+		for b in $a ; do
+			mv -f /opt/${base_name}/etc/${j}/${b} /opt/${base_name}/etc/${j}/${b%.nonini}.ini
+		done
 
-			if [ "$(echo ${a}|grep 'mysqlnd')" != "" ] ; then
-				for c in $a ; do
-					for k in mysql.ini mysqli.ini pdo_mysql.ini ; do
-						if [[ ( "$(echo ${c}|grep 'pdo_')" == "" && "${k}" == "pdo_mysql.ini" ) \
-								|| ( "$(echo ${c}|grep 'pdo_')" != "" && "${k}" != "pdo_mysql.ini" ) ]] ; then
-							continue
-						fi
+		if [ -d /opt/${base_name}/etc/${j} ] ; then
+			for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
+				apc apcu imagick interbase ioncube-loader memcache memcached z-memcached mssql debug \
+				pdo_dblib pdo_firebird xdebug xcache opcache lzf redis enchant wddx ; do
 
-						## MR -- using mysqlnd instead mysql/mysqli in php54s
-						x="-- Enable '${c%.ini}' instead '${k%.ini}' in '/etc/${base_name}/etc/${j}'"
+				a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ')
+
+				for b in $a ; do
+					c=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ');
+
+					for d in $c ; do
+						x="-- Disable '${i}' in '/etc/${base_name}/etc/${j}'"
 						echo $x
 						echo $x >>/opt/${base_name}/install.log
 
-						b=$(dir -l /opt/${base_name}/etc/${j}|grep "${k}"|grep -v "mysqlnd"|awk '{print $9}');
-
-						if [ "${b}" != "" ] ; then
-							'mv' -f /opt/${base_name}/etc/${j}/${b} /opt/${base_name}/etc/${j}/${b%.ini}.nonini
-						fi
+						'mv' -f /opt/${base_name}/etc/${j}/${d} /opt/${base_name}/etc/${j}/${d%.ini}.nonini
 					done
 				done
-			else
-				x="-- Disable '${i}' in '/etc/${base_name}/etc/${j}'"
-				echo $x
-				echo $x >>/opt/${base_name}/install.log
 
-				b=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.ini"|awk '{print $9}');
-
-				if [ "${b}" != "" ] ; then
-					'mv' -f /opt/${base_name}/etc/${j}/${b} /opt/${base_name}/etc/${j}/${b%.ini}.nonini
-				fi
-			fi
-		done
+			done
+		fi
 	fi
 done
 
