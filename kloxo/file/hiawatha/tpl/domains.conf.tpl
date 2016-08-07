@@ -149,7 +149,8 @@ Directory {
     ExpirePeriod 1 week
 }
 <?php
-	if ($statsapp === 'awstats') {
+	if ($enablestats) {
+		if ($statsapp === 'awstats') {
 ?>
 
 Directory {
@@ -157,15 +158,15 @@ Directory {
 
 	Path = /awstats
 <?php
-	//	if ($statsprotect) {
+		//	if ($statsprotect) {
 ?>
 	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
 <?php
-	//	}
+		//	}
 ?>
 }
 <?php
-	} elseif ($statsapp === 'webalizer') {
+		} elseif ($statsapp === 'webalizer') {
 ?>
 
 Directory {
@@ -173,14 +174,15 @@ Directory {
 
 	Path = /stats
 <?php
-	//	if ($statsprotect) {
+		//	if ($statsprotect) {
 ?>
 	PasswordFile = basic:/home/httpd/<?php echo $domainname ?>/__dirprotect/__stats
 <?php
-	//	}
+		//	}
 ?>
 }
 <?php
+		}
 	}
 
 	if ($dirprotect) {
