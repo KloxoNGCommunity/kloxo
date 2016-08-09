@@ -7,7 +7,7 @@
 		exec("mkdir -p /var/log/named");
 	}
 	
-	exec("chown named:named /var/log/named; chmod 755 /var/log/named");
+	exec("chown named:named /var/log/named; chmod 755 /var/log/named; chkconfig named on");
 
 	exec("sed -i 's/rndckey/rndc-key/' /etc/rndc.key");
 

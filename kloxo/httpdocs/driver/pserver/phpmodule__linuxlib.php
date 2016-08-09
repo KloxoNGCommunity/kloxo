@@ -2,7 +2,7 @@
 
 class PhpModule__linux extends lxDriverClass
 {
-	static function getListDetail($syncserver, $list = null)
+	static function getListDetail($syncserver)
 	{
 		global $sgbl;
 
@@ -17,7 +17,7 @@ class PhpModule__linux extends lxDriverClass
 
 			$n = preg_replace("(\_used|\_unused|\.ini|\.nonini)", "", $b);
 
-			$nname = "{$p}_{$n}___{$syncserver}";
+			$nname = "{$p}-{$n}___{$syncserver}";
 
 			$modulename = $n;
 

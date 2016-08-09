@@ -3885,16 +3885,21 @@ class HtmlLib
 								$tcol = '#333';
 								$tico = '&#xf0d3;';
 
-								if (strpos($name, 'start') !== false) {
+								if (strpos($name, '_start') !== false) {
 									$tcol = '#3c3';
-								} elseif (strpos($name, 'stop') !== false) {
+									$tico = '&#xf571;';
+								} elseif (strpos($name, '_stop') !== false) {
 									$tcol = '#c33';
-								} elseif (strpos($name, 'restart') !== false) {
+									$tico = '&#xf572;';
+								} elseif (strpos($name, '_restart') !== false) {
 									$tcol = '#33c';
-								} elseif (strpos($name, 'enable') !== false) {
+									$tico = '&#xf11f;';
+								} elseif (strpos($name, '_enable') !== false) {
 									$tcol = '#3c3';
-								} elseif (strpos($name, 'disable') !== false) {
+									$tico = '&#xf571;';
+								} elseif (strpos($name, '_disable') !== false) {
 									$tcol = '#c33';
+									$tico = '&#xf572;';
 								}								$a = array('password' => '&#xf03f;', 'process' => '&#xf4f2;', 'ip' => '&#xf51c;',
 									'service' => '&#xf014;', 'usage' => '&#xf000;', 'file' => '&#xf095;',
 									'information' => '&#xf15a;', 'ticket' => '&#xf3dc;', 'utmp' => '&#xf0c1;',

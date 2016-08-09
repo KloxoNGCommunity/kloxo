@@ -933,3 +933,10 @@ $__information['updateform_webfeatures_pre'] =
 	"Select '--Default--' mean use php where declare in 'Php Used' under 'Webserver Configure'.</p>" .
 	"<p>Set 'Timeout' (in seconds) to modified 'idle timeout' for php process.</p>" .
 	"<p>Set 'Microcache Time' (in seconds) to implemented microcache for nginx or hiawatha.</p>";
+
+$__information['phpmodule_list__pre'] = "<p>Click 'enable' ('+' sign) to enable module; click 'disable' ('-' sign) to disable module.</p>" .
+	"<p><b>Note</b>: need click 'restart' ('*' sign) to restart 'php-fpm' service (all changes impact to 'php-fpm' service).</p>" .
+	"<p>By default, certain modules already enabled ('.ini'; example: 'bcmath.ini') and others already disabled ('.nonini'; example: 'dba.nonini').</p>" .
+	"<p>Disabled for enable modules will change their config file from '*.ini' to '*_unused.nonini' (example: 'bcmatch.ini' to 'bcmath_unused.nonini').</p>" .
+	"<p>Otherwise, enabled for disable module will be change '*.nonini' to '*_used.ini' (example: 'dba.nonini' to 'dba_used.nonini').</p>";
+

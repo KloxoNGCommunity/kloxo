@@ -16,17 +16,19 @@ class PhpModule extends lxclass
 	static $__desc_status_v_on = array("eS", "",  "is_installed");
 	static $__desc_status_v_off = array("eS", "",  "is_not_installed");
 
-	static $__rewrite_nname_const = array("modulename", "syncserver");
+//	static $__rewrite_nname_const = array("modulename", "syncserver");
 
 	static $__desc_button_enable_f = array("b", "", "", "a=update&sa=enable");
 	static $__desc_button_disable_f = array("b", "", "", "a=update&sa=disable");
+	static $__desc_button_restart_f = array("b", "", "", "a=update&sa=restart");
 
 	static $__acdesc_update_enable = array("", "", "enable");
 	static $__acdesc_update_disable = array("", "", "disable");
+	static $__acdesc_update_restart = array("", "", "restart");
 
 	static $__acdesc_list = array("", "",  "phpmodule_status");
 
-	static $__acdesc_update_restart = array("", "",  "phpmodule_restart");
+//	static $__acdesc_update_restart = array("", "",  "phpmodule_restart");
 
 	function get() { }
 
@@ -63,13 +65,9 @@ class PhpModule extends lxclass
 
 		$nlist["button_enable_f"] = '5%';
 		$nlist["button_disable_f"] = '5%';
+		$nlist["button_restart_f"] = '5%';
 
 		return $nlist;
-	}
-
-	function updateRestart($param)
-	{
-		createRestartFile("restart-php-fpm");
 	}
 
 	static function perPage()
@@ -77,17 +75,16 @@ class PhpModule extends lxclass
 		return 80;
 	}
 
-	function updateform($subaction, $param)
-	{
-		$vlist['full_version'] = null;
-
-		return $vlist;
-	}
 	function createShowUpdateform()
 	{
 		$uform['update'] = null;
 
 		return $uform;
+	}
+
+	static function searchVar()
+	{
+		return "nname";
 	}
 
 	static function initThisObject($parent, $class, $name = null)
@@ -99,9 +96,7 @@ class PhpModule extends lxclass
 		return $o;
 	}
 
-	static function canGetSingle() {	return true; }
-
-	function canGetSelfList() { return false; }
+	static function canGetSingle() { return false; }
 
 	static function initThisListRule($parent, $class) { return null; }
 
@@ -116,5 +111,51 @@ class PhpModule extends lxclass
 		return $res;
 	}
 
-	static function initThisArray($parent, $class, $fieldlist) { }
+	function updateform($subaction, $param)
+	{
+	}
+
+	function update($subaction, $param)
+	{
+		global $login;
+
+		switch ($subaction) {
+			case "enable":
+				if ($this->status === 'off') {
+					$s = $this->fullfile;
+
+					if (strrpos($s, '_unused.nonini') !== false) {
+						$t = str_replace("_unused.nonini", ".ini", $s);
+					} else {
+						$t = str_replace(".nonini", "_used.ini", $s);
+					}
+
+					exec("'mv' -f {$s} {$t}");
+				}
+
+			//	throw new lxException($login->getThrow('enable'), '', $subaction);
+				break;
+			case "disable":
+				if ($this->status === 'on') {
+					$s = $this->fullfile;
+
+					if (strrpos($s, '_used.ini') !== false) {
+						$t = str_replace("_used.ini", ".nonini", $s);
+					} else {
+						$t = str_replace(".ini", "_unused.nonini", $s);
+					}
+
+					exec("'mv' -f {$s} {$t}");
+				}
+
+			//	throw new lxException($login->getThrow('disable'), '', $subaction);
+				break;
+			case "restart":
+				exec("sh /script/restart-php-fpm -y");
+				break;
+		}
+
+		return $param;
+	}
+
 }
