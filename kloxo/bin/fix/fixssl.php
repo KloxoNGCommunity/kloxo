@@ -17,7 +17,7 @@ foreach($ilist as $b) {
 
 		print("- Processing for '{$n}' ssl files\n");
 
-		if (!is_link("{$kloxo_ssl_path}/$n.pem")) {
+		if (!is_link("{$kloxo_ssl_path}/{$n}.pem")) {
 			$list = array('key', 'crt', 'ca', 'pem');
 
 			foreach ($list as $k => $v) {
@@ -31,11 +31,13 @@ foreach($ilist as $b) {
 
 print("- Processing for 'program' ssl files\n");
 
-if (!is_link("{$kloxo_etc_path}/program.pem")) {
+if ((!is_link("{$kloxo_etc_path}/program.pem")) ||
+		((is_link("{$kloxo_etc_path}/program.pem")) && (!file_exists("{$kloxo_etc_path}/program.pem")))) {
 	$list = array('key', 'crt', 'ca', 'pem');
 
 	foreach ($list as $k => $v) {
 		if (file_exists("{$kloxo_file_path}/default.{$v}")) {
+			exec("'rm' -f {$kloxo_etc_path}/program.{$v}");
 			exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_etc_path}/program.{$v}");
 		}
 	}
@@ -86,3 +88,4 @@ foreach($slist as $b) {
 		}
 	}
 }
+

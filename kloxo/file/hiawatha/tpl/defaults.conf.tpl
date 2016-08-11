@@ -189,14 +189,11 @@ WebsiteRoot = <?=$defaultdocroot;?>
 
 
 EnablePathInfo = yes
-## MR -- remove by Hiawatha 10+
-#UseGZfile = yes
 FollowSymlinks = no
 
 TimeForCGI = <?=$timeout;?>
 
 
-## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 UseLocalConfig = yes
 
 <?=$error_handler;?>
