@@ -6,7 +6,7 @@
 
 <?php
 
-$error_handler="Alias = /error:/home/kloxo/httpd/error
+$error_handler = "Alias = /error:/home/kloxo/httpd/error
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html
 ErrorHandler = 404:/error/404.html
@@ -90,17 +90,17 @@ UrlToolkit {
 UrlToolkit {
 	ToolkitID = findindexfile
 <?php
-	$v2 = "";
+$v2 = "";
 
-	foreach ($indexorder as $k => $v) {
+foreach ($indexorder as $k => $v) {
 ?>
-	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/<?php echo $v; ?>$2 Continue
+	Match ^([^?]*)/<?=$v2;?>(\?.*)?$ Rewrite $1/<?=$v;?>$2 Continue
 	RequestURI isfile Return
 <?php
-		$v2 = str_replace(".", "\.", $v);
-	}
+	$v2 = str_replace(".", "\.", $v);
+}
 ?>
-	Match ^([^?]*)/<?php echo $v2; ?>(\?.*)?$ Rewrite $1/$2 Continue
+	Match ^([^?]*)/<?=$v2;?>(\?.*)?$ Rewrite $1/$2 Continue
 }
 
 UrlToolkit {
@@ -121,7 +121,7 @@ FastCGIserver {
 
 	ConnectTo = /opt/configs/php-fpm/sock/php-apache.sock
 	Extension = php
-	SessionTimeout = <?php echo $timeout; ?>
+	SessionTimeout = <?=$timeout;?>
 
 }
 
@@ -130,7 +130,7 @@ FastCGIserver {
 
 	ConnectTo = /tmp/fcgiwrap.sock
 	Extension = pl,cgi
-	SessionTimeout = <?php echo $timeout; ?>
+	SessionTimeout = <?=$timeout;?>
 
 }
 
@@ -148,13 +148,13 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 Binding {
-	BindingId = port_<?php echo $portnames[$count]; ?>
+	BindingId = port_<?=$portnames[$count];?>
 
-	Port = <?php echo $ports[$count]; ?>
+	Port = <?=$ports[$count];?>
 
 	#Interface = 0.0.0.0
 	MaxKeepAlive = 120
-	TimeForRequest = <?php echo $timeout; ?>
+	TimeForRequest = <?=$timeout;?>
 
 	MaxRequestSize = 2096128
 	MaxUploadSize = 2047
@@ -162,11 +162,11 @@ Binding {
 		if ($count !== 0) {
 ?>
 
-	TLScertFile = <?php echo $certname; ?>.pem
+	TLScertFile = <?=$certname;?>.pem
 <?php
 			if (file_exists("{$certname}.ca")) {
 ?>
-	#RequiredCA = <?php echo $certname; ?>.ca
+	#RequiredCA = <?=$certname;?>.ca
 <?php
 			}
 		}
@@ -185,7 +185,7 @@ Alias = /.well-known:/var/run/letsencrypt/.well-known
 set var_user = apache
 
 Hostname = 0.0.0.0, ::
-WebsiteRoot = <?php echo $defaultdocroot; ?>
+WebsiteRoot = <?=$defaultdocroot;?>
 
 
 EnablePathInfo = yes
@@ -193,25 +193,24 @@ EnablePathInfo = yes
 #UseGZfile = yes
 FollowSymlinks = no
 
-TimeForCGI = <?php echo $timeout; ?>
+TimeForCGI = <?=$timeout;?>
 
 
 ## MR -- change IgnoreDotHiawatha to UseLocalConfig in Hiawatha 10+
 UseLocalConfig = yes
 
-<?php echo $error_handler; ?>
+<?=$error_handler;?>
 
 <?php
-		if ($reverseproxy) {
+if ($reverseproxy) {
 ?>
 
 UseToolkit = block_shellshock, block_httpoxy
 
-#ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
-#ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
-ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
+#ReverseProxy !\.(pl|cgi|py|rb|shmtl) http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
+ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
 <?php
-		} else {
+} else {
 ?>
 
 #UserDirectory = public_html
@@ -220,7 +219,7 @@ ReverseProxy ^/.* http://127.0.0.1:30080/ <?php echo $timeout; ?> keep-alive
 UseFastCGI = php_for_var_user
 UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
-		}
+}
 ?>
 
 #StartFile = index.php

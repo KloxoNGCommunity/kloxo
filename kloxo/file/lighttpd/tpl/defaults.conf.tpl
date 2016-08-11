@@ -111,18 +111,18 @@ magnet.attract-raw-url-to = ( "/opt/configs/lighttpd/conf/globals/deny-proxy.lua
 evasive.max-conns-per-ip = 25
 server.errorfile-prefix = "/home/kloxo/httpd/error/"
 
-server.port = "<?php echo $ports[0]; ?>"
+server.port = "<?=$ports[0];?>"
 
 
-$SERVER["socket"] == ":<?php echo $ports[1]; ?>" {
+$SERVER["socket"] == ":<?=$ports[1];?>" {
 
 	ssl.engine = "enable"
 
-	ssl.pemfile = "<?php echo $cert_file; ?>.pem"
+	ssl.pemfile = "<?=$cert_file;?>.pem"
 <?php
 if (file_exists("{$cert_file}.ca")) {
 ?>
-	ssl.ca-file = "<?php echo $cert_file; ?>.ca"
+	ssl.ca-file = "<?=$cert_file;?>.ca"
 <?php
 }
 
@@ -136,13 +136,13 @@ if (count($dirs) > 0) {
 		if ($certname === $d) { continue; }
 ?>
 
-	$HTTP["host"] =~ "(^|www\.|cp\.|webmail\.)<?php echo str_replace(".", "\.", $d); ?>" {
+	$HTTP["host"] =~ "(^|www\.|cp\.|webmail\.)<?=str_replace(".", "\.", $d);?>" {
 
-		ssl.pemfile = "<?php echo $v; ?>"
+		ssl.pemfile = "<?=$v;?>"
 <?php
 		if (file_exists("{$f}.ca")) {
 ?>
-		ssl.ca-file = "<?php echo $f; ?>.ca"
+		ssl.ca-file = "<?=$f;?>.ca"
 <?php
 		}
 ?>
@@ -164,19 +164,19 @@ if (count($dirs) > 0) {
 
 $HTTP["host"] =~ "^default\.*" {
 
-	include "<?php echo $globalspath; ?>/acme-challenge.conf"
+	include "<?=$globalspath;?>/acme-challenge.conf"
 
 	var.rootdir = "/home/kloxo/httpd/default/"
 	var.user = "apache"
-	var.fpmport = "<?php echo $fpmportapache; ?>"
+	var.fpmport = "<?=$fpmportapache;?>"
 	var.phpselected = "php"
-	var.timeout = "<?php echo $timeout; ?>"
+	var.timeout = "<?=$timeout;?>"
 
 	server.document-root = var.rootdir
 
-	index-file.names = ( <?php echo $indexorder; ?> )
+	index-file.names = ( <?=$indexorder;?> )
 
-	include "<?php echo $globalspath; ?>/switch_standard.conf"
+	include "<?=$globalspath;?>/switch_standard.conf"
 
 }
 

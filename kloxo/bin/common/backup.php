@@ -12,7 +12,8 @@ function backup_main()
 	$progname = $sgbl->__var_program_name;
 
 	if ($argc === 1) {
-		print("Usage: $argv[0] --class= --name= --v-backup_file_name= \n");
+	//	print("Usage: $argv[0] --class= --name= --v-backup_file_name= \n");
+		print("Usage: sh /script/backup --class= --name= --v-backup_file_name= \n");
 		exit;
 	}
 

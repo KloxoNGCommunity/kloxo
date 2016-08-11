@@ -1,7 +1,7 @@
 /var/log/httpry.log {
   daily
   missingok
-  rotate 7
+  #rotate 7
   compress
   delaycompress
   notifempty

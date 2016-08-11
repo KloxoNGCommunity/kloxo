@@ -154,6 +154,10 @@ if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
 
 $listens = array('listen_nonssl_default', 'listen_ssl_default');
 
+if ($disabled) {
+	$cpdocroot = $webmaildocroot = $webdocroot = $disabledocroot;
+}
+
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
 
@@ -164,20 +168,20 @@ foreach ($certnamelist as $ip => $certname) {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 <?php
 		if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
+	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	ssl_certificate <?=$certname;?>.pem;
+	ssl_certificate_key <?=$certname;?>.key;
 <?php
 			if (file_exists("{$certname}.ca")) {
 ?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+	ssl_trusted_certificate <?=$certname;?>.ca;
 <?php
 			}
 		}
@@ -186,37 +190,37 @@ server {
 
 	server_name _;
 
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
+	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
 
-	index <?php echo $indexorder; ?>;
+	index <?=$indexorder;?>;
 
 	set $var_domain '';
-	set $var_rootdir '<?php echo $defaultdocroot; ?>';
+	set $var_rootdir '<?=$defaultdocroot;?>';
 
 	root $var_rootdir;
 
 	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
+	set $var_fpmport '<?=$fpmportapache;?>';
 	set $var_phpselected 'php';
 <?php
 		//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
 ?>
 
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
+	proxy_connect_timeout <?=$timeout;?>s;
+	proxy_send_timeout <?=$timeout;?>s;
+	proxy_read_timeout <?=$timeout;?>s;
 <?php
 		//} else {
 ?>
 
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
+	fastcgi_connect_timeout <?=$timeout;?>s;
+	fastcgi_send_timeout <?=$timeout;?>s;
+	fastcgi_read_timeout <?=$timeout;?>s;
 <?php
 		//}
 ?>
 
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
+	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
 <?php
 		$count++;
 ?>

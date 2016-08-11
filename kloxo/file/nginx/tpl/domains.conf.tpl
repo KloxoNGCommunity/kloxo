@@ -1,6 +1,16 @@
-### begin - web of '<?php echo $domainname; ?>' - do not remove/modify this line
+### begin - web of '<?=$domainname;?>' - do not remove/modify this line
 
 <?php
+
+$conn_timeout = "fastcgi_connect_timeout {$timeout}s;
+\tfastcgi_send_timeout {$timeout}s;
+\tfastcgi_read_timeout {$timeout}s;
+
+\tproxy_connect_timeout {$timeout}s;
+\tproxy_send_timeout {$timeout}s;
+\tproxy_read_timeout {$timeout}s;";
+
+$webdocroot = $rootpath;
 
 if (!isset($phpselected)) {
 	$phpselected = 'php';
@@ -11,11 +21,11 @@ if (!isset($timeout)) {
 }
 
 if (($webcache === 'none') || (!$webcache)) {
-    $ports[] = '80';
-    $ports[] = '443';
+	$ports[] = '80';
+	$ports[] = '443';
 } else {
-    $ports[] = '8080';
-    $ports[] = '8443';
+	$ports[] = '8080';
+	$ports[] = '8443';
 }
 
 $disabledocroot = "/home/kloxo/httpd/disable";
@@ -24,9 +34,9 @@ $cpdocroot = "/home/kloxo/httpd/cp";
 $globalspath = "/opt/configs/nginx/conf/globals";
 
 if (file_exists("{$globalspath}/custom.gzip.conf")) {
-		$gzip_base = "custom.gzip";
+	$gzip_base = "custom.gzip";
 } else if (file_exists("{$globalspath}/gzip.conf")) {
-		$gzip_base = "gzip";
+	$gzip_base = "gzip";
 }
 
 if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
@@ -61,7 +71,7 @@ $statsprotect = ($stats['protect']) ? true : false;
 
 $serveralias = "{$domainname} www.{$domainname}";
 
-$excludedomains = array("cp","webmail");
+$excludedomains = array("cp", "webmail");
 
 $excludealias = implode("|", $excludedomains);
 
@@ -131,7 +141,7 @@ $fpmportapache = 50000;
 
 exec("ip -6 addr show", $out);
 
-if ($out[0]) {
+if (count($out) > 0) {
 	$IPv6Enable = true;
 } else {
 	$IPv6Enable = false;
@@ -156,7 +166,7 @@ if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
 }
 
 if ($disabled) {
-	$user = 'apache';
+	$cpdocroot = $webmaildocroot = $webdocroot = $disabledocroot;
 }
 
 $count = 0;
@@ -166,1169 +176,610 @@ foreach ($certnamelist as $ip => $certname) {
 
 	foreach ($listens as &$listen) {
 		$protocol = ($count === 0) ? "http://" : "https://";
-
-		if ($disabled) {
 ?>
 
-## cp for '<?php echo $domainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-	
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-			if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-				if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-				}
-			}
-?>
-
-	server_name cp.<?php echo $domainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain 'cp.<?php echo $domainname; ?>';
-	set $var_rootdir '<?php echo $disabledocroot; ?>';
-
-	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
-<?php
-			//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-			//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-			//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-
-## webmail for '<?php echo $domainname; ?>'
+## cp for '<?=$domainname;?>'
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-			if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-				if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-				}
-			}
-?>
-
-	server_name webmail.<?php echo $domainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain 'webmail.<?php echo $domainname; ?>';
-	set $var_rootdir '<?php echo $disabledocroot; ?>';
-
-	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
-<?php
-			//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-			//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-			//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-<?php
-		} else {
-?>
-
-## cp for '<?php echo $domainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-	
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-			if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-				if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-				}
-			}
-?>
-
-	server_name cp.<?php echo $domainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain 'cp.<?php echo $domainname; ?>';
-	set $var_rootdir '<?php echo $cpdocroot; ?>';
-
-	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
-<?php
-			//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-			//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-			//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-<?php
-			if ($webmailremote) {
-?>
-
-## webmail for '<?php echo $domainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-				if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-					if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-					}
-				}
-?>
-
-	server_name webmail.<?php echo $domainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	if ($host != '<?php echo $webmailremote; ?>') {
-		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
-	}
-}
-
-<?php
-			} else {
-?>
-
-## webmail for '<?php echo $domainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-				if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-					if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-					}
-				}
-?>
-
-	server_name webmail.<?php echo $domainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain 'webmail.<?php echo $domainname; ?>';
-	set $var_rootdir '<?php echo $webmaildocroot; ?>';
-
-	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
-<?php
-				//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-				//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-				//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-<?php
-			}
-		}
-?>
-
-## web for '<?php echo $domainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
 <?php
 		if ($count !== 0) {
-			if ($enablessl) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
 
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
+	ssl_certificate <?=$certname;?>.pem;
+	ssl_certificate_key <?=$certname;?>.key;
 <?php
-				if (file_exists("{$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 ?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
+	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
 <?php
-				}
 			}
 		}
-
-		if ($ip === '*') {
 ?>
 
-	server_name <?php echo $serveralias; ?>;
+	server_name cp.<?=$domainname;?>;
+
+	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+
+	index <?=$indexorder;?>;
+
+	set $var_domain 'cp.<?=$domainname;?>';
+	set $var_rootdir '<?=$cpdocroot;?>';
+
+	root $var_rootdir;
+
+	set $var_user 'apache';
+	set $var_fpmport '<?=$fpmportapache;?>';
+	set $var_phpselected 'php';
+
+	<?=$conn_timeout;?>
+
+
+	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+}
+
+
+## webmail for '<?=$domainname;?>'
+server {
+	#disable_symlinks if_not_owner;
+
+	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+
+	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
 <?php
-		} else {
+		if ($count !== 0) {
 ?>
 
-	server_name <?php echo $serveralias; ?> <?php echo $ip; ?>;
+	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+
+	ssl_certificate <?=$certname;?>.pem;
+	ssl_certificate_key <?=$certname;?>.key;
 <?php
+			if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?=$certname;?>.ca;
+
+	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?php
+			}
 		}
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
+	server_name webmail.<?=$domainname;?>;
 
-	index <?php echo $indexorder; ?>;
+	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
 
-	set $var_domain <?php echo $domainname; ?>;
+	index <?=$indexorder;?>;
+
+	set $var_domain 'webmail.<?=$domainname;?>';
+	set $var_rootdir '<?=$webmaildocroot;?>';
+
+	root $var_rootdir;
+
+	set $var_user 'apache';
+	set $var_fpmport '<?=$fpmportapache;?>';
+	set $var_phpselected 'php';
+
+	<?=$conn_timeout;?>
+
+
+	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
 <?php
-		if ($wwwredirect) {
+
+		if ($webmailremote) {
 ?>
 
-	if ($host ~* ^(<?php echo $domainname; ?>)$) {
-		rewrite ^/(.*) '<?php echo $protocol; ?>www.<?php echo $domainname; ?>/$1' permanent;
+	if ($host != '<?=$webmailremote;?>') {
+		rewrite ^/(.*) '<?=$protocol;?><?=$webmailremote;?>/$1' permanent;
 	}
 <?php
 		}
+	}
+?>
+}
 
-		if (($count === 0) && ($httpsredirect)) {
+
+## web for '<?=$domainname;?>'
+server {
+	#disable_symlinks if_not_owner;
+
+	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+
+	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?php
+	if ($count !== 0) {
+		if ($enablessl) {
+?>
+
+	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+
+	ssl_certificate <?=$certname;?>.pem;
+	ssl_certificate_key <?=$certname;?>.key;
+<?php
+			if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?=$certname;?>.ca;
+
+	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?php
+			}
+		}
+	}
+
+	if ($ip === '*') {
+?>
+
+	server_name <?=$serveralias;?>;
+<?php
+	} else {
+?>
+
+	server_name <?=$serveralias;?> <?=$ip;?>;
+<?php
+	}
+?>
+
+	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+
+	index <?=$indexorder;?>;
+
+	set $var_domain <?=$domainname;?>;
+<?php
+	if ($wwwredirect) {
+?>
+
+	if ($host ~* ^(<?=$domainname;?>)$) {
+		rewrite ^/(.*) '<?=$protocol;?>www.<?=$domainname;?>/$1' permanent;
+	}
+<?php
+	}
+
+	if (($count === 0) && ($httpsredirect)) {
 ?>
 
 	return 301 https://$host$request_uri;
 <?php
-		}
+	}
 
-		if ($disabled) {
-?>
-
-	set $var_rootdir '<?php echo $disabledocroot; ?>';
-<?php
-		} else {
-			if ($wildcards) {
+	if ($wildcards) {
 ?>
 
-	set $var_rootdir '<?php echo $rootpath; ?>';
+	set $var_rootdir '<?=$webdocroot;?>';
 <?php
-				foreach ($excludedomains as &$ed) {
+		foreach ($excludedomains as &$ed) {
 ?>
 
-	if ($host ~* ^(<?php echo $ed; ?>.<?php echo $domainname; ?>)$) {
+	if ($host ~* ^(<?=$ed;?>.<?=$domainname;?>)$) {
 <?php
-					if ($ed !== 'webmail') {
+			if ($ed !== 'webmail') {
 ?>
-		set $var_rootdir '/home/kloxo/httpd/<?php echo $ed; ?>/';
+		set $var_rootdir '/home/kloxo/httpd/<?=$ed;?>/';
 <?php
-					} else {
-			  			if ($webmailremote) {
+			} else {
+				if ($webmailremote) {
 ?>
-		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1' permanent;
+		rewrite ^/(.*) '<?=$protocol;?><?=$webmailremote;?>/$1' permanent;
 <?php
-			  			} else {
+				} else {
 ?>
-		set $var_rootdir '<?php echo $webmaildocroot; ?>';
+		set $var_rootdir '<?=$webmaildocroot;?>';
 <?php
-			  			}
-  				  	}
+				}
+			}
 ?>
 	}
 <?php
-				}
-			} else {
+		}
+	} else {
 ?>
 
-	set $var_rootdir '<?php echo $rootpath; ?>';
+	set $var_rootdir '<?=$webdocroot;?>';
 <?php
-			}
-		}
+	}
 ?>
 
 	root $var_rootdir;
 <?php
-		if ($enablecgi) {
+	if ($enablecgi) {
 ?>
 
-	include '<?php echo $globalspath; ?>/cgi.conf';
+	include '<?=$globalspath;?>/cgi.conf';
 <?php
-		}
+	}
 
-		if ($redirectionlocal) {
-			foreach ($redirectionlocal as $rl) {
+	if ($redirectionlocal) {
+		foreach ($redirectionlocal as $rl) {
 ?>
 
-	location ~ ^<?php echo $rl[0]; ?>/(.*)$ {
-		alias <?php echo str_replace("//", "/", $rl[1]); ?>/$1;
+	location ~ ^<?=$rl[0];?>/(.*)$ {
+		alias <?=str_replace("//", "/", $rl[1]);?>/$1;
 	}
 <?php
+		}
+	}
+
+	if ($redirectionremote) {
+		foreach ($redirectionremote as $rr) {
+			if ($rr[0] === '/') {
+				$rr[0] = '';
+			}
+
+			if ($rr[2] === 'both') {
+?>
+
+	rewrite ^<?=$rr[0];?>/(.*) '<?=$protocol;?><?=$rr[1];?>/$1' permanent;
+<?php
+			} else {
+				$protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
+?>
+
+	rewrite ^<?=$rr[0];?>/(.*) '<?=$protocol2;?><?=$rr[1];?>/$1' permanent;
+<?php
 			}
 		}
-
-		if ($redirectionremote) {
-			foreach ($redirectionremote as $rr) {
-				if ($rr[0] === '/') {
-					$rr[0] = '';
-				}
-
-			  	if ($rr[2] === 'both') {
+	}
 ?>
 
-	rewrite ^<?php echo $rr[0]; ?>/(.*) '<?php echo $protocol; ?><?php echo $rr[1]; ?>/$1' permanent;
+	set $var_user '<?=$user;?>';
+	set $var_fpmport '<?=$fpmport;?>';
+	set $var_phpselected '<?=$phpselected;?>';
+
+	<?=$conn_timeout;?>
+
 <?php
-				} else {
-					$protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
+	if ($enablestats) {
 ?>
 
-	rewrite ^<?php echo $rr[0]; ?>/(.*) '<?php echo $protocol2; ?><?php echo $rr[1]; ?>/$1' permanent;
+	include '<?=$globalspath;?>/stats_log.conf';
+
+	include '<?=$globalspath;?>/stats.conf';
 <?php
-				}
-			}
+		if ($statsprotect) {
+?>
+
+	include '<?=$globalspath;?>/dirprotect_stats.conf';
+<?php
 		}
-?>
+	}
 
-	set $var_user '<?php echo $user; ?>';
-	set $var_fpmport '<?php echo $fpmport; ?>';
-	set $var_phpselected '<?php echo $phpselected; ?>';
-<?php
-		//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-		//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-		//}
-
-		if ($enablestats) {
-?>
-
-	include '<?php echo $globalspath; ?>/stats_log.conf';
-<?php
-		//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	include '<?php echo $globalspath; ?>/stats.conf';
-<?php
-				if ($statsprotect) {
-?>
-
-	include '<?php echo $globalspath; ?>/dirprotect_stats.conf';
-<?php
-				}
-		//	}
-		}
-
-		if ($nginxextratext) {
+	if ($nginxextratext) {
 ?>
 
 	# Extra Tags - begin
-	<?php echo $nginxextratext; ?>
+	<?=$nginxextratext;?>
 
 	# Extra Tags - end
 <?php
+	}
+
+	if ((!$reverseproxy) && (file_exists("{$globalspath}/{$domainname}.conf"))) {
+		if ($enablephp) {
+?>
+
+	include '<?=$globalspath;?>/<?=$domainname;?>.conf';
+<?php
 		}
-
-		if ((!$reverseproxy) && (file_exists("{$globalspath}/{$domainname}.conf"))) {
-			if ($enablephp) {
+	} else {
+		if ($wildcards) {
+			if (($reverseproxy) && ($webselected === 'front-end')) {
+				if ($enablephp) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $domainname; ?>.conf';
-<?php
-			}
-		} else {
-			if ($wildcards) {
-				if (($reverseproxy) && ($webselected === 'front-end')) {
-					if ($enablephp) {
-?>
-
-	include '<?php echo $globalspath; ?>/php-fpm_wildcards<?php echo $switches[$count]; ?>.conf';
-<?php
-					}
-				} else {
-?>
-
-	include '<?php echo $globalspath; ?>/switch_wildcards<?php echo $switches[$count]; ?>.conf';
+	include '<?=$globalspath;?>/php-fpm_wildcards<?=$switches[$count];?>.conf';
 <?php
 				}
 			} else {
-				if (($reverseproxy) && ($webselected === 'front-end')) {
-					if ($enablephp) {
 ?>
 
-	include '<?php echo $globalspath; ?>/php-fpm_standard<?php echo $switches[$count]; ?>.conf';
+	include '<?=$globalspath;?>/switch_wildcards<?=$switches[$count];?>.conf';
 <?php
-					}
-				} else {
+			}
+		} else {
+			if (($reverseproxy) && ($webselected === 'front-end')) {
+				if ($enablephp) {
 ?>
 
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
+	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
 <?php
 				}
-			}
-		}
-
-		if (!$reverseproxy) {
-			if ($dirprotect) {
-				foreach ($dirprotect as $k) {
-					$protectpath = $k['path'];
-					$protectauthname = $k['authname'];
-					$protectfile = str_replace('/', '_', $protectpath) . '_';
+			} else {
 ?>
 
-	set $var_std_protectpath     '<?php echo $protectpath; ?>';
-	set $var_std_protectauthname '<?php echo $protectauthname; ?>';
-	set $var_std_protectfile     '<?php echo $protectfile; ?>';
-
-	include '<?php echo $globalspath; ?>/dirprotect_standard.conf';
+	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
 <?php
-				}
 			}
 		}
+	}
 
-		if ($blockips) {
+	if (!$reverseproxy) {
+		if ($dirprotect) {
+			foreach ($dirprotect as $k) {
+				$protectpath = $k['path'];
+				$protectauthname = $k['authname'];
+				$protectfile = str_replace('/', '_', $protectpath) . '_';
+?>
+
+	set $var_std_protectpath '<?=$protectpath;?>';
+	set $var_std_protectauthname '<?=$protectauthname;?>';
+	set $var_std_protectfile '<?=$protectfile;?>';
+
+	include '<?=$globalspath;?>/dirprotect_standard.conf';
+<?php
+			}
+		}
+	}
+
+	if ($blockips) {
 ?>
 
 	location ^~ /(.*) {
 <?php
-			foreach ($blockips as &$bip) {
+		foreach ($blockips as &$bip) {
 ?>
-		deny   <?php echo $bip; ?>;
+		deny   <?=$bip;?>;
 <?php
-			}
+		}
 ?>
 		allow  all;
 	}
 <?php
-		}
+	}
 ?>
 
-	set $var_kloxoportssl '<?php echo $kloxoportssl; ?>';
-	set $var_kloxoportnonssl '<?php echo $kloxoportnonssl; ?>';
+	set $var_kloxoportssl '<?=$kloxoportssl;?>';
+	set $var_kloxoportnonssl '<?=$kloxoportnonssl;?>';
 
-	include '<?php echo $globalspath; ?>/<?php echo $generic; ?>.conf';
+	include '<?=$globalspath;?>/<?=$generic;?>.conf';
 <?php
-		if (intval($microcache_time) > 0) {
+	if (intval($microcache_time) > 0) {
 ?>
 
 	## for microcache
-	fastcgi_cache_valid 200 <?php echo $microcache_time; ?>s;
+	fastcgi_cache_valid 200 <?=$microcache_time;?>s;
 	fastcgi_cache_use_stale updating;
 	fastcgi_max_temp_file_size 10M;
-	proxy_cache_valid 200 <?php echo $microcache_time; ?>s;
+
+	proxy_cache_valid 200 <?=$microcache_time;?>s;
 	proxy_cache_use_stale updating;
 	proxy_max_temp_file_size 10M;
 <?php
-		}
-?>
-}
-
-<?php
-
-		if ($domainredirect) {
-			foreach ($domainredirect as $domredir) {
-				$redirdomainname = $domredir['redirdomain'];
-				$redirpath = ($domredir['redirpath']) ? $domredir['redirpath'] : null;
-				$webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
-
-				if ($redirpath) {
-					if ($disabled) {
-			  		  $$redirfullpath = $disablepath;
-					} else {
-			  		  $redirfullpath = str_replace('//', '/', $rootpath . '/' . $redirpath);
-					}
-?>
-
-## web for redirect '<?php echo $redirdomainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-					if ($count !== 0) {
-						if ($enablessl) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-							if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-							}
-						}
-					}
-?>
-
-	server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain '<?php echo $redirdomainname; ?>';
-	set $var_rootdir '<?php echo $redirfullpath; ?>';
-
-	root $var_rootdir;
-<?php
-
-					if ($enablecgi) {
-?>
-
-	include '<?php echo $globalspath; ?>/cgi.conf';
-<?php
-					}
-?>
-
-	set $var_user '<?php echo $user; ?>';
-	set $var_fpmport '<?php echo $fpmport; ?>';
-	set $var_phpselected '<?php echo $phpselected; ?>';
-<?php
-					//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-					//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-					//}
-
-					if (($reverseproxy) && ($webselected === 'front-end')) {
-?>
-
-	include '<?php echo $globalspath; ?>/php-fpm_standard<?php echo $switches[$count]; ?>.conf';
-<?php
-					} else {
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-<?php
-					}
-?>
-}
-
-<?php
-				} else {
-					if ($disabled) {
-			  			$$redirfullpath = $disablepath;
-					} else {
-			  			$redirfullpath = $rootpath;
-					}
-?>
-
-## web for redirect '<?php echo $redirdomainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-					if ($count !== 0) {
-						if ($enablessl) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-							if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-							}
-						}
-					}
-?>
-
-	server_name <?php echo $redirdomainname; ?> www.<?php echo $redirdomainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain '<?php echo $redirdomainname; ?>';
-
-	set $var_rootdir '<?php echo $redirfullpath; ?>';
-
-	root $var_rootdir;
-<?php
-					if ($enablecgi) {
-?>
-
-	include '<?php echo $globalspath; ?>/cgi.conf';
-<?php
-					}
-?>
-
-	if ($host != '<?php echo $domainname; ?>') {
-		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $domainname; ?>/$1';
 	}
+?>
 }
 
 <?php
-				}
-			}
-		}
 
-		if ($parkdomains) {
-			foreach ($parkdomains as $dompark) {
-				$parkdomainname = $dompark['parkdomain'];
-				$webmailmap = ($dompark['mailflag'] === 'on') ? true : false;
+	if ($domainredirect) {
+		foreach ($domainredirect as $domredir) {
+			$redirdomainname = $domredir['redirdomain'];
+			$redirpath = ($domredir['redirpath']) ? $domredir['redirpath'] : null;
+			$webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
 
+			if ($redirpath) {
 				if ($disabled) {
-?>
-
-## webmail for parked '<?php echo $parkdomainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-					if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-						if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-						}
-					}
-?>
-
-	server_name webmail.<?php echo $parkdomainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
-	set $var_rootdir '<?php echo $disabledocroot; ?>';
-
-	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
-<?php
-					//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-					//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-					//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-<?php
+					$$redirfullpath = $disablepath;
 				} else {
-					if ($webmailremote) {
+					$redirfullpath = str_replace('//', '/', $webdocroot . '/' . $redirpath);
+				}
 ?>
 
-## webmail for parked '<?php echo $parkdomainname; ?>'
+## web for redirect '<?=$redirdomainname;?>'
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
 <?php
-			  		  if ($count !== 0) {
+				if ($count !== 0) {
+					if ($enablessl) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
 
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
+	ssl_certificate <?=$certname;?>.pem;
+	ssl_certificate_key <?=$certname;?>.key;
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
+	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
 <?php
 						}
-			  		  }
-?>
-
-	server_name webmail.<?php echo $parkdomainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	if ($host != '<?php echo $webmailremote; ?>') {
-		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
-	}
-}
-
-<?php
-
-					} elseif ($webmailmap) {
-
-?>
-
-## webmail for parked '<?php echo $parkdomainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-			  			if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-							if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-							}
-			  			}
-?>
-
-	server_name webmail.<?php echo $parkdomainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain 'webmail.<?php echo $parkdomainname; ?>';
-	set $var_rootdir '<?php echo $webmaildocroot; ?>';
-
-	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
-<?php
-						//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-						//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-						//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-<?php
-
-					} else {
-?>
-
-## No mail map for parked '<?php echo $parkdomainname; ?>'
-
-<?php
 					}
 				}
-			}
-		}
+?>
 
-		if ($domainredirect) {
-			foreach ($domainredirect as $domredir) {
-				$redirdomainname = $domredir['redirdomain'];
-				$webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
+	server_name <?=$redirdomainname;?> www.<?=$redirdomainname;?>;
 
+	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+
+	index <?=$indexorder;?>;
+
+	set $var_domain '<?=$redirdomainname;?>';
+	set $var_rootdir '<?=$redirfullpath;?>';
+
+	root $var_rootdir;
+<?php
+
+				if ($enablecgi) {
+?>
+
+	include '<?=$globalspath;?>/cgi.conf';
+<?php
+				}
+?>
+
+	set $var_user '<?=$user;?>';
+	set $var_fpmport '<?=$fpmport;?>';
+	set $var_phpselected '<?=$phpselected;?>';
+
+	<?=$conn_timeout;?>
+
+<?php
+
+				if (($reverseproxy) && ($webselected === 'front-end')) {
+?>
+
+	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
+<?php
+				} else {
+?>
+
+	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+<?php
+				}
+?>
+}
+
+<?php
+			} else {
 				if ($disabled) {
+					$$redirfullpath = $disablepath;
+				} else {
+					$redirfullpath = $webdocroot;
+				}
 ?>
 
-## webmail for redirect '<?php echo $redirdomainname; ?>'
+## web for redirect '<?=$redirdomainname;?>'
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
 <?php
-					if ($count !== 0) {
+				if ($count !== 0) {
+					if ($enablessl) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
 
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
+	ssl_certificate <?=$certname;?>.pem;
+	ssl_certificate_key <?=$certname;?>.key;
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
+	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
 <?php
 						}
 					}
+				}
 ?>
 
-	server_name webmail.<?php echo $redirdomainname; ?>;
+	server_name <?=$redirdomainname;?> www.<?=$redirdomainname;?>;
 
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
+	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
 
-	index <?php echo $indexorder; ?>;
+	index <?=$indexorder;?>;
 
-	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
-	set $var_rootdir '<?php echo $disabledocroot; ?>';
+	set $var_domain '<?=$redirdomainname;?>';
+
+	set $var_rootdir '<?=$redirfullpath;?>';
 
 	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
 <?php
-					//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+				if ($enablecgi) {
 ?>
 
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
+	include '<?=$globalspath;?>/cgi.conf';
 <?php
-					//} else {
+				}
 ?>
 
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-					//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-<?php
-				} else {
-					if ($webmailremote) {
-?>
-
-## webmail for redirect '<?php echo $redirdomainname; ?>'
-server {
-	#disable_symlinks if_not_owner;
-
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
-<?php
-			  			if ($count !== 0) {
-?>
-
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
-
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
-<?php
-							if (file_exists("{$certname}.ca")) {
-?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
-
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-							}
-			  			}
-?>
-
-	server_name webmail.<?php echo $redirdomainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	if ($host != '<?php echo $webmailremote; ?>') {
-		rewrite ^/(.*) '<?php echo $protocol; ?><?php echo $webmailremote; ?>/$1';
+	if ($host != '<?=$domainname;?>') {
+		rewrite ^/(.*) '<?=$protocol;?><?=$domainname;?>/$1';
 	}
 }
 
 <?php
-					} elseif ($webmailmap) {
+			}
+		}
+	}
+
+	if ($parkdomains) {
+		foreach ($parkdomains as $dompark) {
+			$parkdomainname = $dompark['parkdomain'];
+			$webmailmap = ($dompark['mailflag'] === 'on') ? true : false;
+
+			if (($webmailremote) || ($webmailmap)) {
 ?>
 
-## webmail for redirect '<?php echo $redirdomainname; ?>'
+## webmail for parked '<?=$parkdomainname;?>'
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?php echo $globalspath; ?>/<?php echo $listen; ?>.conf';
+	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $gzip_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
 <?php
-			  			if ($count !== 0) {
+				if ($count !== 0) {
 ?>
 
-	include '<?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf';
+	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
 
-	ssl_certificate <?php echo $certname; ?>.pem;
-	ssl_certificate_key <?php echo $certname; ?>.key;
+	ssl_certificate <?=$certname;?>.pem;
+	ssl_certificate_key <?=$certname;?>.key;
 <?php
-							if (file_exists("{$certname}.ca")) {
+					if (file_exists("{$certname}.ca")) {
 ?>
-	ssl_trusted_certificate <?php echo $certname; ?>.ca;
+	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?php echo $globalspath; ?>/<?php echo $header_ssl; ?>.conf';
-<?php
-							}
-			  			}
-?>
-
-	server_name webmail.<?php echo $redirdomainname; ?>;
-
-	include '<?php echo $globalspath; ?>/<?php echo $acme_challenge; ?>.conf';
-
-	index <?php echo $indexorder; ?>;
-
-	set $var_domain 'webmail.<?php echo $redirdomainname; ?>';
-	set $var_rootdir '<?php echo $webmaildocroot; ?>';
-
-	root $var_rootdir;
-
-	set $var_user 'apache';
-	set $var_fpmport '<?php echo $fpmportapache; ?>';
-	set $var_phpselected 'php';
-<?php
-						//if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	fastcgi_connect_timeout <?php echo $timeout; ?>s;
-	fastcgi_send_timeout <?php echo $timeout; ?>s;
-	fastcgi_read_timeout <?php echo $timeout; ?>s;
-<?php
-						//} else {
-?>
-
-	proxy_connect_timeout <?php echo $timeout; ?>s;
-	proxy_send_timeout <?php echo $timeout; ?>s;
-	proxy_read_timeout <?php echo $timeout; ?>s;
-<?php
-						//}
-?>
-
-	include '<?php echo $globalspath; ?>/switch_standard<?php echo $switches[$count]; ?>.conf';
-}
-
-<?php
-					} else {
-?>
-
-## No mail map for redirect '<?php echo $redirdomainname; ?>'
-
+	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
 <?php
 					}
 				}
-			}
-		}
+?>
 
-		$count++;
+	server_name webmail.<?=$parkdomainname;?>;
+
+	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+
+<?php
+				if ($webmailremote) {
+?>
+	if ($host != '<?=$webmailremote;?>') {
+		rewrite ^/(.*) '<?=$protocol;?><?=$webmailremote;?>/$1';
+	}
+}
+
+<?php
+				}
+
+			} else {
+?>
+
+## No mail map for redirect '<?=$redirdomainname;?>'
+
+<?php
+			}
+
+			$count++;
+		}
 	}
 }
 ?>
 
-### end - web of '<?php echo $domainname; ?>' - do not remove/modify this line
+### end - web of '<?=$domainname;?>' - do not remove/modify this line

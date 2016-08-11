@@ -242,9 +242,10 @@ class web__ extends lxDriverClass
 	{
 		global $login;
 
-		$webmailapp = $login->getObject('general')->generalmisc_b->webmail_system_default;
+		$webmailapp = (isset($login->getObject('general')->generalmisc_b->webmail_system_default)) ?
+			$login->getObject('general')->generalmisc_b->webmail_system_default : null;
 
-		if (($webmailapp === '--chooser--') || (!isset($webmailapp))) {
+		if (($webmailapp === '--chooser--') || ($webmailapp)) {
 			$ret = '';
 		} else {
 			$ret = $webmailapp;

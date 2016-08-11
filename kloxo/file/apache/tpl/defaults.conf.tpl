@@ -259,11 +259,11 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 <IfVersion < 2.4>
-	Define global::port <?php echo $ports[0]; ?>
+	Define global::port <?=$ports[0]; ?>
 
-	Define global::portssl <?php echo $ports[1]; ?>
+	Define global::portssl <?=$ports[1];?>
 
-	Define global::ip <?php echo $ip; ?>
+	Define global::ip <?=$ip;?>
 
 
 	Define port ${global::port}
@@ -272,7 +272,7 @@ foreach ($certnamelist as $ip => $certname) {
 </IfVersion>
 
 <IfVersion >= 2.4>
-	Include <?php echo $globalspath; ?>/portnip.conf
+	Include <?=$globalspath;?>/portnip.conf
 </IfVersion>
 
 Listen ${ip}:${port}
@@ -298,9 +298,9 @@ Listen ${ip}:${portssl}
 			continue;
 		}
 ?>
-	<Location "/~<?php echo $user; ?>">
+	<Location "/~<?=$user;?>">
 		<IfModule mod_suphp.c>
-			SuPhp_UserGroup <?php echo $user; ?> <?php echo $user; ?>
+			SuPhp_UserGroup <?=$user;?> <?=$user;?>
 
 		</IfModule>
 	</Location>
@@ -317,7 +317,7 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 
 ### 'default' config
-<VirtualHost ${ip}:<?php echo $portlist[$count]; ?> >
+<VirtualHost ${ip}:<?=$portlist[$count];?> >
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -325,11 +325,11 @@ foreach ($certnamelist as $ip => $certname) {
 
 	ServerAlias default.*
 
-	DocumentRoot "<?php echo $defaultdocroot; ?>"
+	DocumentRoot "<?=$defaultdocroot;?>"
 
-	Include <?php echo $globalspath; ?>/<?php echo $acmechallenge; ?>.conf
+	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
 
-	DirectoryIndex <?php echo $indexorder; ?>
+	DirectoryIndex <?=$indexorder;?>
 
 <?php
 		if ($count !== 0) {
@@ -340,17 +340,17 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?php echo $globalspath; ?>/<?php echo $ssl_base; ?>.conf
+		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
 
-		SSLCertificateFile <?php echo $certname; ?>.pem
-		SSLCertificateKeyFile <?php echo $certname; ?>.key
+		SSLCertificateFile <?=$certname;?>.pem
+		SSLCertificateKeyFile <?=$certname;?>.key
 <?php
 			if (file_exists("{$certname}.ca")) {
 
 ?>
-		SSLCACertificatefile <?php echo $certname; ?>.ca
+		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?php echo $globalspath; ?>/<?php echo $header_base; ?>.conf
+		Include <?=$globalspath;?>/<?=$header_base;?>.conf
 <?php
 			}
 ?>
@@ -386,15 +386,18 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfModule>
 
 		<IfModule mod_fastcgi.c>
-			Alias /default.<?php echo $count; ?>fake "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake"
-			#FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -host 127.0.0.1:<?php echo $fpmportapache; ?> -idle-timeout <?php echo $timeout; ?> -pass-header Authorization
-			FastCGIExternalServer "<?php echo $defaultdocroot; ?>/default.<?php echo $count; ?>fake" -socket /opt/configs/php-fpm/sock/php-apache.sock -idle-timeout <?php echo $timeout; ?> -pass-header Authorization
+			Alias /default.<?=$count;?>fake "<?=$defaultdocroot;?>/default.<?=$count;?>fake"
+			#FastCGIExternalServer "<?=$defaultdocroot;?>/default.<?=$count;?>fake" \
+			#	-host 127.0.0.1:<?=$fpmportapache;?> -idle-timeout <?=$timeout;?> -pass-header Authorization
+			FastCGIExternalServer "<?=$defaultdocroot;?>/default.<?=$count;?>fake" \
+				-socket /opt/configs/php-fpm/sock/php-apache.sock \
+				-idle-timeout <?=$timeout;?> -pass-header Authorization
 			<FilesMatch \.php$>
 				SetHandler application/x-httpd-fastphp
 			</FilesMatch>
-			Action application/x-httpd-fastphp /default.<?php echo $count; ?>fake
-			<Files "default.<?php echo $count; ?>fake">
-				RewriteCond %{REQUEST_URI} !default.<?php echo $count; ?>fake
+			Action application/x-httpd-fastphp /default.<?=$count;?>fake
+			<Files "default.<?=$count;?>fake">
+				RewriteCond %{REQUEST_URI} !default.<?=$count;?>fake
 			</Files>
 		</IfModule>
 
@@ -402,7 +405,7 @@ foreach ($certnamelist as $ip => $certname) {
 			<IfModule !mod_itk.c>
 				<IfModule !mod_fastcgi.c>
 					<IfModule mod_fcgid.c>
-						<Directory "<?php echo $defaultdocroot; ?>/">
+						<Directory "<?=$defaultdocroot;?>/">
 							Options +ExecCGI
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
@@ -425,9 +428,9 @@ foreach ($certnamelist as $ip => $certname) {
 				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/php-apache.sock|fcgi://localhost"
 			</FilesMatch>
 			<Proxy "fcgi://localhost">
-				ProxySet timeout=<?php echo $timeout; ?>
+				ProxySet timeout=<?=$timeout;?>
 
-				ProxySet connectiontimeout=<?php echo $timeout; ?>
+				ProxySet connectiontimeout=<?=$timeout;?>
 
 				#ProxySet enablereuse=on
 				ProxySet max=25
@@ -441,7 +444,7 @@ foreach ($certnamelist as $ip => $certname) {
 		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
 	</Location>
 
-	<Directory "<?php echo $defaultdocroot; ?>/">
+	<Directory "<?=$defaultdocroot;?>/">
 		AllowOverride All
 		<IfVersion < 2.4>
 			Order allow,deny

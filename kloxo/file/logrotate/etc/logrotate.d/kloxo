@@ -1,4 +1,4 @@
-#
+/.#
 # Kloxo LogRotate
 # Initial version
 # Needs cleanup
@@ -14,7 +14,6 @@
 /usr/local/lxlabs/kloxo/log/*
 {
     daily
-    rotate 30
     #create 0664 apache apache
     compress
     notifempty

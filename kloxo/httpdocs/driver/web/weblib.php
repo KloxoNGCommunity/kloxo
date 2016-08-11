@@ -406,7 +406,7 @@ class Web extends Lxdb
 		$gen = $login->getObject('general')->generalmisc_b;
 		$port = $login->getObject('general')->portconfig_b;
 
-		$webstatsprog = $gen->webstatisticsprogram;
+		$webstatsprog = (isset($gen->webstatisticsprogram)) ? $gen->webstatisticsprogram : null;
 
 		if (!$webstatsprog) {
 			$webstatsprog = "awstats";
@@ -435,7 +435,7 @@ class Web extends Lxdb
 			$this->corelocation = "__path_customer_root";
 		}
 
-		$this->__var_extrabasedir = $gen->extrabasedir;
+		$this->__var_extrabasedir = (isset($gen->extrabasedir)) ? $gen->extrabasedir : '';
 		$this->__var_dirprotect = $this->getList("dirprotect");
 
 		if (!$this->isDeleted()) {
