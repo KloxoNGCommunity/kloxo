@@ -171,7 +171,7 @@ if ($userinfo) {
 // $fpmportapache = (50000 + $userinfoapache['uid']);
 $fpmportapache = 50000;
 
-$disableddocroot = "/home/kloxo/httpd/disable";
+$disabledocroot = "/home/kloxo/httpd/disable";
 
 if ($disabled) {
 	$sockuser = 'apache';
@@ -984,7 +984,7 @@ foreach ($certnamelist as $ip => $certname) {
 				$randnum = rand(0, 32767);
 
 				if ($disabled) {
-					$$redirfullpath = $disableddocroot;
+					$$redirfullpath = $disabledocroot;
 				} else {
 					if ($redirpath) {
 						$redirfullpath = str_replace('//', '/', $webdocroot . '/' . $redirpath);
@@ -1063,49 +1063,49 @@ foreach ($certnamelist as $ip => $certname) {
 				if (($webmailremote) || ($webmailmap)) {
 ?>
 
-					## webmail for parked '<?=$parkdomainname;?>'
-					<VirtualHost ${ip}:<?=$portlist[$count];?> >
+## webmail for parked '<?=$parkdomainname;?>'
+<VirtualHost ${ip}:<?=$portlist[$count];?> >
 
-						SetEnvIf X-Forwarded-Proto https HTTPS=1
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
-						ServerName webmail.<?=$parkdomainname;?>
+	ServerName webmail.<?=$parkdomainname;?>
 
 
-						Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
 
-						DocumentRoot "<?=$webmaildocroot;?>"
+	DocumentRoot "<?=$webmaildocroot;?>"
 
-						Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	Include <?=$globalspath;?>/<?=$header_base;?>.conf
 <?php
 					if ($count !== 0) {
 ?>
 
-							<IfModule mod_http2.c>
-								Protocols h2 http/1.1
-							</IfModule>
+	<IfModule mod_http2.c>
+		Protocols h2 http/1.1
+	</IfModule>
 
-							<IfModule mod_ssl.c>
-								Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+	<IfModule mod_ssl.c>
+		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
 
-								SSLCertificateFile <?=$certname;?>.pem
-								SSLCertificateKeyFile <?=$certname;?>.key
+		SSLCertificateFile <?=$certname;?>.pem
+		SSLCertificateKeyFile <?=$certname;?>.key
 <?php
 						if (file_exists("{$certname}.ca")) {
 ?>
-									SSLCACertificatefile <?=$certname;?>.ca
+		SSLCACertificatefile <?=$certname;?>.ca
 
-									Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
 <?php
 						}
 ?>
-							</IfModule>
+	</IfModule>
 <?php
 					} else {
 ?>
 
-							<IfModule mod_http2.c>
-								Protocols h2c http/1.1
-							</IfModule>
+	<IfModule mod_http2.c>
+		Protocols h2c http/1.1
+	</IfModule>
 <?php
 					}
 						
@@ -1207,10 +1207,13 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfVersion>
 	</Directory>
 
+<?php
+					}
+?>
+
 </VirtualHost>
 
 <?php
-					}
 				} else {
 ?>
 
@@ -1374,10 +1377,13 @@ foreach ($certnamelist as $ip => $certname) {
 		</IfVersion>
 	</Directory>
 
+<?php
+					}
+?>
+
 </VirtualHost>
 
 <?php
-					}
 				} else {
 ?>
 

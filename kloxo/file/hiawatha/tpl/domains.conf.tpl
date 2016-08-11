@@ -257,7 +257,7 @@ if ($redirectionremote) {
 	foreach ($redirectionremote as $rr) {
 		if ($rr[2] === 'both') {
 ?>
-	Match /^<?=$rr[0];?>/(.*) Redirect <?=$protocol;?><?=$rr[1];?>/$1
+	Match /^<?=$rr[0];?>/(.*) Redirect http://<?=$rr[1];?>/$1
 <?php
 		} else {
 			$protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
