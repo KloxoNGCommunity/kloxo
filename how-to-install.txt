@@ -25,7 +25,7 @@ B.1. Fresh Install
         rm -f mratwork*
 
         # install rpm (read Warning)
-        rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
         # move to /
         cd /
 
@@ -47,7 +47,7 @@ B.1. Fresh Install
         rm -f mratwork*
 
         # install rpm (read Warning)
-        rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        rpm -ivh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
 
         # move to /
         cd /
