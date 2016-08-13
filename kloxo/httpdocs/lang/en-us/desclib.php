@@ -232,6 +232,7 @@ $__description["directory"] = array("Directory");
 $__description["upload_type"] = array("Upload Type");
 $__description["allow_schedule_backup"] = array("Allow Schedule Backup");
 $__description["schedule_backup"] = array("Schedule Backup");
+$__description["schedule_backup_time"] = array("Time to Backup");
 $__description["backup_from_file"] = array("Backup From File");
 $__description["filename_on_the_ftp_server"] = array("Filename On The FTP Server");
 $__description["backup_file_initial_string"] = array("Backup File Initial String");

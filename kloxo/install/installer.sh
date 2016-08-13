@@ -103,37 +103,37 @@ clear
 
 # Check if user is root.
 if [ "$UID" -ne "0" ] ; then
-	echo -en "Installing as \"root\"	" $C_NO
+	echo -en "Installing as \"root\"   " $C_NO
 	echo -e "\a\nYou must be \"root\" to install $APP_NAME.\n\nAborting ...\n"
 	exit $E_NOTROOT
 else
-	echo -en "Installing as \"root\"	" $C_OK
+	echo -en "Installing as \"root\"   " $C_OK
 fi
 
 # Check if selinuxenabled exists
 if [ ! -f $SELINUX_CHECK ] ; then
-	echo -en "SELinux not installed	   " $C_MISS
+	echo -en "SELinux not installed      " $C_MISS
 else
 	# Check if SElinux is enabled from exit status. 0 = Enabled; 1 = Disabled;
 	eval $SELINUX_CHECK
 	OUT=$?
 	if [ $OUT -eq "0" ] ; then
-		echo -en "SELinux disabled	   	 " $C_NO
+		echo -en "SELinux disabled       " $C_NO
 		setenforce 0
 		echo "SELINUX=disabled" > $SELINUX_CFG
 		echo -e "SELinux disabled successfully\n"
 	elif [ $OUT -eq "1" ] ; then
-		echo -en "SELinux disabled	   	 " $C_OK
+		echo -en "SELinux disabled       " $C_OK
 	fi
 fi
 
 # Check if yum is installed.
 if ! [ -f /usr/sbin/yum ] && ! [ -f /usr/bin/yum ] ; then
-	echo -en "Yum installed	   		" $C_NO
+	echo -en "Yum installed          " $C_NO
 	echo -e "\a\nThe installer requires YUM to continue. Please install it and try again.\nAborting ...\n"
 	exit $E_NOYUM
 else
-	echo -en "Yum installed	   		" $C_OK
+	echo -en "Yum installed          " $C_OK
 fi
 
 echo
@@ -152,7 +152,7 @@ cd /
 #yum clean all
 
 yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
-yum remove -y bind* nsd* pdns* mydns* yadifa* maradns djbdns*  mysql* mariadb* MariaDB* php* \
+yum remove -y bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
 		httpd* mod_* nginx* lighttpd* varnish* squid* trafficserver \
 		*-toaster postfix exim libmhash
 rpm -e pure-ftpd --noscripts

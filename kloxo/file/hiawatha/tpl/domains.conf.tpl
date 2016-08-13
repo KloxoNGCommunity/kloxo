@@ -1,6 +1,5 @@
 ### begin - web of '<?=$domainname;?>' - do not remove/modify this line
 
-
 <?php
 
 $webdocroot = $rootpath;
@@ -32,7 +31,6 @@ $error_handler = "Alias = /error:/home/kloxo/httpd/error
 \tErrorHandler = 404:/error/404.html
 \tErrorHandler = 501:/error/501.html
 \tErrorHandler = 503:/error/503.html";
-
 
 if (!isset($phpselected)) {
 	$phpselected = 'php';
@@ -85,7 +83,7 @@ if ($serveraliases) {
 if ($parkdomains) {
 	foreach ($parkdomains as $pk) {
 		$pa = $pk['parkdomain'];
-		$serveralias .= ", {$pa} www.{$pa}";
+		$serveralias .= ", {$pa}, www.{$pa}";
 	}
 }
 
@@ -164,11 +162,11 @@ Directory {
 
 	Path = /awstats
 <?php
-		//	if ($statsprotect) {
+	//	if ($statsprotect) {
 ?>
 	PasswordFile = basic:/home/httpd/<?=$domainname;?>/__dirprotect/__stats
 <?php
-		//	}
+	//	}
 ?>
 }
 <?php
@@ -180,11 +178,11 @@ Directory {
 
 	Path = /stats
 <?php
-		//	if ($statsprotect) {
+	//	if ($statsprotect) {
 ?>
 	PasswordFile = basic:/home/httpd/<?=$domainname;?>/__dirprotect/__stats
 <?php
-		//	}
+	//	}
 ?>
 }
 <?php
@@ -230,15 +228,17 @@ foreach ($indexorder as $k => $v) {
 <?php
 
 if ($webmailremote) {
+	foreach ($protocols as $k => $v) {
 ?>
 
 UrlToolkit {
-	ToolkitID = redirect_<?=str_replace('.', '_', $webmailremote);?>
+	ToolkitID = redirect_<?=str_replace('.', '_', $webmailremote);?>_<?=$v;?>
 
 	#RequestURI exists Return
-	Match ^/(.*) Redirect http://<?=$webmailremote;?>/$1
+	Match ^/(.*) Redirect <?=$v;?>://<?=$webmailremote;?>/$1
 }
 <?php
+	}
 }
 ?>
 
@@ -247,48 +247,59 @@ UrlToolkit {
 
 	Match ^/.*\.(pl|cgi)(/|$) UseFastCGI cgi_for_apache
 }
+<?php
+foreach ($protocols as $k => $v) {
+?>
 
 UrlToolkit {
-	ToolkitID = redirect_<?=$domcleaner;?>
+	ToolkitID = redirect_<?=$domcleaner;?>_<?=$v;?>
 
 	#RequestURI exists Return
 <?php
-if ($redirectionremote) {
-	foreach ($redirectionremote as $rr) {
-		if ($rr[2] === 'both') {
+	if ($redirectionremote) {
+		foreach ($redirectionremote as $rr) {
+			if ($rr[2] === 'both') {
+				if ($rr[0] === '/') {
+					$rr0 = '^/(.*)';
+				} else {
+					$rr0 = '^/'.$rr[0].'/(.*)';
+				}
 ?>
-	Match /^<?=$rr[0];?>/(.*) Redirect http://<?=$rr[1];?>/$1
+	Match <?=$rr0;?> Redirect <?=$v;?>://<?=$rr[1];?>/$1
 <?php
-		} else {
-			$protocol2 = ($rr[2] === 'https') ? "https://" : "http://";
+			} else {
+				$protocol2 = ($rr[2] === 'https') ? "https" : "http";
 ?>
-	Match ^/<?=$rr[0];?>/(.*) Redirect <?=$protocol2;?><?=$rr[1];?>/$1
+	Match <?=$rr0;?> Redirect <?=$protocol2;?>://<?=$rr[1];?>/$1
+<?php
+			}
+		}
+	}
+?>
+	Match ^/kloxo(|/(.*))$ Redirect <?=$v;?>://<?=$domainname;?>:<?=$kloxoportssl;?>/$1
+	Match ^/webmail(|/(.*))$ Redirect <?=$v;?>://webmail.<?=$domainname;?>/$1
+	Match ^/cp(|/(.*))$ Redirect <?=$v;?>://cp.<?=$domainname;?>/$1
+<?php
+	if ($enablestats) {
+		if ($statsapp === 'awstats') {
+?>
+	Match ^/stats(|/(.*))$ Redirect <?=$v;?>://<?=$domainname;?>/awstats/awstats.pl$1
 <?php
 		}
 	}
-}
+
+
+	if ($wwwredirect) {
 ?>
-	Match ^/kloxo(|/(.*))$ Redirect https://<?=$domainname;?>:<?=$kloxoportssl;?>/$1
-	Match ^/kloxononssl(|/(.*))$ Redirect http://<?=$domainname;?>:<?=$kloxoportnonssl;?>/$1
-	Match ^/webmail(|/(.*))$ Redirect http://webmail.<?=$domainname;?>/$1
-	Match ^/cp(|/(.*))$ Redirect http://cp.<?=$domainname;?>/$1
-<?php
-if ($enablestats) {
-	if ($statsapp === 'awstats') {
-?>
-	Match ^/stats(|/(.*))$ Redirect http://<?=$domainname;?>/awstats/awstats.pl$1
+
+	Match ^/(.*)$ Redirect <?=$v;?>://www.<?=$domainname;?>/$1
 <?php
 	}
-}
-
-if ($wwwredirect) {
 ?>
-
-	Match ^/(.*)$ Redirect http://www.<?=$domainname;?>/$1
+}
 <?php
 }
 ?>
-}
 
 FastCGIserver {
 	FastCGIid = php_for_<?=$domclean;?>
@@ -315,9 +326,9 @@ foreach ($certnamelist as $ip => $certname) {
 
 	foreach ($ports as &$port) {
 
-		//	if ($count !== 0) { continue; }
+	//	if ($count !== 0) { continue; }
 
-		$protocol = ($count === 0) ? "http://" : "https://";
+		$protocol = ($count === 0) ? "http" : "https";
 
 ?>
 
@@ -406,25 +417,25 @@ VirtualHost {
 	<?=$header_base;?>
 
 <?php
-	if ($count !== 0) {
+		if ($count !== 0) {
 ?>
 
 	TLScertFile = <?=$certname;?>.pem
 <?php
-		if (file_exists("{$certname}.ca")) {
+			if (file_exists("{$certname}.ca")) {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
 	<?=$header_ssl;?>
 
 <?php
-		}
+			}
 ?>
 
 	SecureURL = no
 	#MinTLSversion = 1.0
 <?php
-	}
+		}
 ?>
 
 	set var_user = apache
@@ -449,7 +460,7 @@ VirtualHost {
 
 	UseLocalConfig = yes
 <?php
-	if ($reverseproxy) {
+		if ($reverseproxy) {
 ?>
 
 	UseToolkit = block_shellshock, block_httpoxy
@@ -458,25 +469,29 @@ VirtualHost {
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
 	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
 <?php
-	} else {
+		} else {
 ?>
 
 	UseFastCGI = php_for_apache
 <?php
-		if ($webmailremote) {
+			if ($webmailremote) {
 ?>
-	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>
+
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>_<?=$protocols[$count];?>
+
 <?php
-		} else {
+			} else {
 ?>
+
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
 <?php
+			}
 		}
-	}
 ?>
 
 	#StartFile = index.php
 }
+
 
 ## web for '<?=$domainname;?>'
 VirtualHost {
@@ -571,8 +586,8 @@ VirtualHost {
 	AccessLogfile = /home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-custom_log
 	ErrorLogfile = /home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-error_log
 <?php
-			//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-			if ($statsapp === 'awstats') {
+		//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+				if ($statsapp === 'awstats') {
 ?>
 
 	Alias = /awstats:/home/kloxo/httpd/awstats/wwwroot/cgi-bin
@@ -580,32 +595,30 @@ VirtualHost {
 	Alias = /awstatscss:/home/kloxo/httpd/awstats/wwwroot/css
 	Alias = /awstatsicons:/home/kloxo/httpd/awstats/wwwroot/icon
 <?php
-			} elseif ($statsapp === 'webalizer') {
+				} elseif ($statsapp === 'webalizer') {
 ?>
 
 	Alias = /stats:/home/httpd/<?=$domainname;?>/webstats
 <?php
-			}
+				}
 
-			if ($statsprotect) {
+				if ($statsprotect) {
 ?>
 
 	UseDirectory = stats_dir_for_<?=$domclean;?>
 
 <?php
-			}
-			//	}
-		}
+				}
 
-		if ($blockips) {
+				if ($blockips) {
 ?>
 
-	# BanlistMask = <?=$blockips;?>
+			# BanlistMask = <?=$blockips;?>
 
-	AccessList = <?=$blockips;?>
+			AccessList = <?=$blockips;?>
 
 <?php
-		}
+				}
 ?>
 
 	UserWebsites = yes
@@ -618,17 +631,17 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-		if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+				if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
 ?>
 
 	UseFastCGI = php_for_<?=$domclean;?>
 
-	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=$domcleaner;?>, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=$domcleaner;?>_<?=$protocol;?>, findindexfile_for_<?=$domcleaner;?>, permalink
 
 	UseLocalConfig = yes
 <?php
-		} else {
-			if ($enablephp) {
+				} else {
+					if ($enablephp) {
 ?>
 
 	UseToolkit = block_shellshock, block_httpoxy
@@ -637,7 +650,9 @@ VirtualHost {
 	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
 	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
 <?php
-			}
+					}
+				}
+		//	}
 		}
 ?>
 
@@ -846,7 +861,7 @@ VirtualHost {
 						if ($webmailremote) {
 ?>
 
-	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>_<?=$protocols[$count];?>
 
 <?php
 						} else {
@@ -865,7 +880,7 @@ VirtualHost {
 				} else {
 ?>
 
-	## No mail map for parked '<?=$parkdomainname;?>'
+## No mail map for parked '<?=$parkdomainname;?>'
 
 <?php
 				}
@@ -952,7 +967,7 @@ VirtualHost {
 						if ($webmailremote) {
 ?>
 
-	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>_<?=$protocols[$count];?>
 
 <?php
 						} else {

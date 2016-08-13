@@ -153,7 +153,7 @@ class web__ extends lxDriverClass
 		$input['dirprotect'] = $this->getDirprotect();
 		$input['dirindex'] = $this->getDirIndex();
 		$input['certnamelist'] = ($this->getSslCertNameList()) ?
-		$this->getSslCertNameList() : $this->getSslCertNameList('*');
+			$this->getSslCertNameList() : $this->getSslCertNameList('*');
 
 		$input['stats'] = $this->getStats();
 		$input['wwwredirect'] = $this->getWwwRedirect();
@@ -714,6 +714,8 @@ class web__ extends lxDriverClass
 		$dirprotect = (isset($this->main->__var_dirprotect)) ?
 			$this->main->__var_dirprotect : null;
 
+		$input = array();
+
 		if ($dirprotect) {
 			$input = array();
 
@@ -725,11 +727,9 @@ class web__ extends lxDriverClass
 				$input[] = array('authname' => $prot->authname,
 					'path' => $prot->path, 'file' => $prot->getFileName());
 			}
-
-			return $input;
-		} else {
-			return null;
 		}
+
+		return $input;
 	}
 
 	function getDirIndex()
@@ -761,7 +761,7 @@ class web__ extends lxDriverClass
 		if ($list) {
 			$string = $list;
 		} else {
-			$string = null;
+			$string = array();
 		}
 
 		return $string;
@@ -790,6 +790,8 @@ class web__ extends lxDriverClass
 	{
 		$serveralias = (isset($this->main->server_alias_a)) ?	$this->main->server_alias_a : null;
 
+		$list = array();
+
 		if ($serveralias) {
 			$list = array();
 
@@ -798,8 +800,6 @@ class web__ extends lxDriverClass
 					$list[] = $val->nname . '.' . $this->getDomainname();
 				}
 			}
-		} else {
-			$list = null;
 		}
 
 		return $list;
@@ -809,6 +809,8 @@ class web__ extends lxDriverClass
 	{
 		$addonlist = (isset($this->main->__var_addonlist)) ?
 			$this->main->__var_addonlist : null;
+
+		$list = array();
 
 		if ($addonlist) {
 			$list = array();
@@ -820,8 +822,6 @@ class web__ extends lxDriverClass
 
 				$list[] = array('parkdomain' => $val->nname, 'mailflag' => $val->mail_flag);
 			}
-		} else {
-			$list = null;
 		}
 
 		return $list;
@@ -830,6 +830,8 @@ class web__ extends lxDriverClass
 	function getRedirectDomains()
 	{
 		$addonlist = (isset($this->main->__var_addonlist)) ? $this->main->__var_addonlist : null;
+
+		$list = array();
 
 		if ($addonlist) {
 			$list = array();
@@ -842,8 +844,6 @@ class web__ extends lxDriverClass
 				$list[] = array('redirdomain' => $val->nname, 'redirpath' => $val->destinationdir,
 					'mailflag' => $val->mail_flag);
 			}
-		} else {
-			$list = null;
 		}
 
 		return $list;
@@ -1241,7 +1241,7 @@ class web__ extends lxDriverClass
 		$dpath="/home/kloxo/ssl";
 
 		if (file_exists($spath)) {
-			exec("mv -f {$spath} {$dpath}");
+			exec("'mv' -f {$spath} {$dpath}");
 		}
 	}
 
