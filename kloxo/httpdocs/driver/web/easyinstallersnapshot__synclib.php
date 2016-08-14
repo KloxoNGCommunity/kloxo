@@ -9,7 +9,11 @@ class easyinstallersnapshot__sync extends Lxdriverclass
 
 	static function getSnapList($path) 
 	{
+		if (!file_exists($path)) { return null; }
+
 		$list = lscandir_without_dot($path);
+
+		if (!$list) { return null; }
 
 		foreach($list as $l) {
 			$res['nname'] = $l;

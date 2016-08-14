@@ -1,3 +1,11 @@
+<?php
+$altconf = "/opt/configs/nginx/conf/customs/{$domainname}.conf";
+
+if (file_exists($altconf)) {
+	print("## MR - Use '{$altconf}' instead this file");
+	return;
+}
+?>
 ### begin - web of '<?= $domainname; ?>' - do not remove/modify this line
 
 <?php

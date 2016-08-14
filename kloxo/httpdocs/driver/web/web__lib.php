@@ -209,6 +209,12 @@ class web__ extends lxDriverClass
 		self::setCreateConfFile($input);
 
 		$this->setLogfile();
+
+		$st = "/home/kloxo/httpd/default/{$input['domainname']}";
+
+		if (!file_exists($st)) {
+			lxfile_symlink($input['rootpath'], $st);
+		}
 	}
 
 // MR -- (1) related to create conf file

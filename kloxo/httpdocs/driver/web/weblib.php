@@ -715,6 +715,8 @@ class Web extends Lxdb
 		if ((int)$c === 1) {
 			exec("'rm' -rf {$this->getFullDocRoot()}");
 		}
+
+		exec("'rm' -f /home/kloxo/httpd/default/{$this->nname}");
 	}
 
 	// MR -- web__xxxlib call this function but no exists

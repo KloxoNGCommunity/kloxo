@@ -189,7 +189,8 @@ WebsiteRoot = <?=$defaultdocroot;?>
 
 
 EnablePathInfo = yes
-FollowSymlinks = no
+## MR -- need symlink because make possible access to http://ip/domainname
+FollowSymlinks = yes
 
 TimeForCGI = <?=$timeout;?>
 

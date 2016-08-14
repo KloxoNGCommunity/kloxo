@@ -441,7 +441,9 @@ foreach ($certnamelist as $ip => $certname) {
 
 	<Location "/">
 		# Options +Indexes +FollowSymlinks
-		Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		# Options -Indexes -FollowSymlinks +SymLinksIfOwnerMatch
+		## MR -- need symlink because make possible access to http://ip/domainname
+		Options -Indexes
 	</Location>
 
 	<Directory "<?=$defaultdocroot;?>/">

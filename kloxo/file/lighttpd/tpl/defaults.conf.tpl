@@ -164,6 +164,8 @@ if (count($dirs) > 0) {
 
 $HTTP["host"] =~ "^default\.*" {
 
+	server.follow-symlink = "enable"
+
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
 	var.rootdir = "/home/kloxo/httpd/default/"

@@ -12,6 +12,7 @@ class lxbackup extends Lxdb
 	static $__desc_upload_type = array("", "", "upload_type");
 	static $__desc_backupschedule_flag = array("q", "", "allow_schedule_backup");
 	static $__desc_backupschedule_type = array("", "", "schedule_backup");
+	static $__desc_backupschedule_time = array("", "", "schedule_backup_time");
 	static $__desc_backup_from_file_f = array("n", "", "backup_from_file");
 	static $__desc_backup_ftp_file_f = array("n", "", "filename_on_the_ftp_server");
 	static $__desc_backup_to_file_f = array("n", "", "backup_file_initial_string");
@@ -291,6 +292,11 @@ class lxbackup extends Lxdb
 					$vlist['backupschedule_type'] = array('M', 'Disabled');
 				}
 
+				$time = range(0, 23);
+
+				$vlist['backupschedule_time'] = array('s', $time);
+				$this->setDefaultValue('backupschedule_time', 0);
+
 				$vlist['rm_last_number'] = null;
 				$vlist['__v_updateall_button'] = array();
 
@@ -518,12 +524,13 @@ class lxbackup extends Lxdb
 
 		$parent = $this->getParentO();
 
-		$ver = $sgbl->__ver_major_minor;
+	//	$ver = $sgbl->__ver_major_minor;
 		$name = str_replace("/", "", $name);
 		$name = str_replace(";", "", $name);
 		$date = @ date('Y-M-d');
 		$time = time();
-		$bfile = "$name-{$ver}-{$parent->nname}-$date-$time";
+	//	$bfile = "$name-{$ver}-{$parent->nname}-$date-$time";
+		$bfile = "{$name}-{$parent->nname}-$date-$time";
 
 		return $bfile;
 	}
@@ -602,9 +609,11 @@ class lxbackup extends Lxdb
 		print("Deleting Old backups.... Will retain $num.\n");
 		$bpath = "__path_program_home/$class/$name/__backup";
 
-		foreach ($dellist as $k => $v) {
-			print("deleting $v\n");
-			lunlink("$bpath/$v");
+		if (!empty($dellist)) {
+			foreach ($dellist as $k => $v) {
+				print("deleting $v\n");
+				lunlink("$bpath/$v");
+			}
 		}
 
 		print("deleting old backups from ftp server\n");
@@ -612,7 +621,7 @@ class lxbackup extends Lxdb
 		$fn = null;
 		$mylogin = null;
 
-		if (!$object->ftp_server) {
+		if (!isset($object->ftp_server)) {
 			return;
 		}
 

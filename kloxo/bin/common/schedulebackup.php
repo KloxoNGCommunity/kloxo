@@ -47,10 +47,40 @@ function schedulebackup_main()
 			continue;
 		}
 
+		if ($l->backupschedule_time) {
+			$h1 = intval($l->backupschedule_time);
+			$h2 = intval(date('G'));
+			if (h1 != h2) {
+				continue;
+			} else {
+			/*
+				// MR -- it's because scavenge in every 5 miutes
+				if (intval(date('i')) > 9) {
+					continue;
+				}
+			*/
+			}
+		} else {
+			if ($name === 'admin') {
+				if ($h2 != 0) {
+					continue;
+				}
+			} else {
+				if ($h2 != 13) {
+					continue;
+				}
+			}
+		/*
+			// MR -- it's because scavenge in every 5 miutes
+			if (intval(date('i')) > 9) {
+				continue;
+			}
+		*/
+		}
 
 	/*
 		try {
-			$param['backup_to_file_f'] = "$progname-scheduled";
+			$param['backup_to_file_f'] = "{$progname}-scheduled";
 			$param['upload_to_ftp'] = $l->upload_to_ftp;
 			$backup = $l;
 			$object = $l->getParentO();
@@ -58,20 +88,17 @@ function schedulebackup_main()
 			$backup->backupstage = 'done';
 		} catch (exception $e) {
 			$mess = "{$e->__full_message}\n";
-			$backup->backupstage = "Failed due to: $mess";
+			$backup->backupstage = "Failed due to: {$mess}";
 
-			lx_mail($progname, $object->contactemail, "Backup Failed..", "Backup Failed for $object->nname with the Message $mess");
+			lx_mail($progname, $object->contactemail, "Backup Failed..", "Backup Failed for {$object->nname} with the Message {$mess}");
 		}
 	*/
-
 		$class = $l->getParentClass();
 		$name = $l->getParentName();
-		$fname = "$progname-scheduled";
+		$fname = "{$progname}-scheduled";
 
-		print("Scheduling for $class $name\n");
-		lxshell_return("$sgbl->__path_php_path", "../bin/common/backup.php", "--class=$class", "--name=$name", "--v-backup_file_name=$fname");
-
+		print("Scheduling for {$class} {$name}\n");
+		lxshell_return("$sgbl->__path_php_path", "../bin/common/backup.php", "--class={$class}", "--name={$name}", "--v-backup_file_name={$fname}");
 
 	}
-
 }

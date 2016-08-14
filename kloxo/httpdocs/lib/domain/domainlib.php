@@ -477,7 +477,7 @@ class Domaind extends DomainBase
 
 		if ($parent->priv->isOn('webhosting_flag')) {
 			$gen = $login->getObject('general')->generalmisc_b;
-			$webstatsprog = $gen->webstatisticsprogram;
+			$webstatsprog = (isset($gen->webstatisticsprogram)) ? $gen->webstatisticsprogram : null;
 			
 			if (!$webstatsprog) {
 				$webstatsprog = "awstats";
@@ -603,9 +603,7 @@ class Domaind extends DomainBase
 
 		$web->ftpusername = substr($dname, 0, 31);
 
-		$gen = $login->getObject('general')->generalmisc_b;
-
-		$web->__var_extrabasedir = $gen->extrabasedir;
+		$web->__var_extrabasedir = (isset($gen->extrabasedir)) ? $gen->extrabasedir : null;
 
 		$this->cpstatus = 'on';
 
@@ -1300,7 +1298,7 @@ class Domaind extends DomainBase
 		}
 
 		$gen = $login->getObject('general')->generalmisc_b;
-		$webstatsprog = $gen->webstatisticsprogram;
+		$webstatsprog = (isset($gen->webstatisticsprogram)) ? $gen->webstatisticsprogram : null;
 		
 		if (!$webstatsprog) {
 			$webstatsprog = "awstats";

@@ -1,6 +1,20 @@
-### begin - web of '<?=$domainname;?>' - do not remove/modify this line
+<?php
+$altconf = "/opt/configs/apache/conf/customs/{$domainname}.conf";
+
+if (file_exists($altconf)) {
+	print("## MR - Use '{$altconf}' instead this file");
+	return;
+}
+?>
+### begin - web of '<?= $domainname; ?>' - do not remove/modify this line
 
 <?php
+
+$altconf = "/opt/configs/apache/conf/customs/{$domainname}.conf";
+
+if (file_exists($altconf)) {
+	print("## MR - Use {$altconf} instead this file");	
+}
 
 $webdocroot = $rootpath;
 
@@ -1206,7 +1220,6 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 	</Directory>
-
 <?php
 					}
 ?>
@@ -1376,7 +1389,6 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 	</Directory>
-
 <?php
 					}
 ?>

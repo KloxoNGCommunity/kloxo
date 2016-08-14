@@ -207,7 +207,7 @@ class phpini extends lxdb
 			}
 		}
 
-		$this->__var_extrabasedir = $gen->extrabasedir;
+		$this->__var_extrabasedir = (isset($gen->extrabasedir)) ? $gen->extrabasedir : null;
 		$driverapp = $gbl->getSyncClass(null, $this->syncserver, 'web');
 		$this->__var_webdriver = $driverapp;
 	}

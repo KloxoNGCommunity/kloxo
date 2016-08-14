@@ -17,7 +17,7 @@ function backup_main()
 		exit;
 	}
 
-	//sleep(60);
+//	sleep(60);
 	$opt = parse_opt($argv);
 
 	$class = $opt['class'];
@@ -34,17 +34,17 @@ function backup_main()
 
 	if (!$object->isLxclient()) {
 		print("This is not a backupable object... This object alone cannot be backed up\n");
-		//exit;
+	//	exit;
 	}
 
 
 	$backup = $object->getObject('lxbackup');
 
-	if (lx_core_lock("$class-$name.backup")) {
+	if (lx_core_lock("{$class}-{$name}.backup")) {
 		exit;
 	}
 
-	/*
+/*
 	if (!testAllServersWithMessage()) {
 		mail($object->contactemail, "Backup Failed..", "Could not connect to slave servers.");
 		$backup->backupstage = "Failed due to: could not connect to slave servers";
@@ -55,20 +55,21 @@ function backup_main()
 
 	if ($object->dbaction === 'add') {
 		print("object $name doesn exist\n");
-		$backup->backupstage = "Failed due to: $name doesn't exist";
+		$backup->backupstage = "Failed due to: {$name} doesn't exist";
 		clearLxbackup($backup);
-		log_error("Backup.php Client $name doesnt exist");
+		log_error("Backup.php Client {$name} doesnt exist");
 		exit;
 	}
 
 	if (isset($opt['priority']) && $opt['priority'] === 'low') {
-		//sleep(20);
+	//	sleep(20);
 	}
 
 	if ($opt['v-backup_file_name']) {
 		$param['backup_to_file_f'] = $opt['v-backup_file_name'];
 	} else {
-		$param['backup_to_file_f'] = "$progname-scheduled";
+	//	$param['backup_to_file_f'] = "$progname-scheduled";
+		$param['backup_to_file_f'] = "kloxomr70-scheduled";
 	}
 
 	foreach($opt as $k => $v) {
@@ -83,12 +84,12 @@ function backup_main()
 	try {
 		$backup->doUpdateBackup($param);
 		$backup->backupstage = 'done';
-		print("Backup has been saved in $sgbl->__path_program_home/{$backup->getParentO()->get__table()}/{$backup->getParentO()->nname}/__backup/{$param['backup_to_file_f']}\n");
+		print("Backup has been saved in {$sgbl->__path_program_home}/{$backup->getParentO()->get__table()}/{$backup->getParentO()->nname}/__backup/{$param['backup_to_file_f']}\n");
 	} catch (exception $e) {
 		$mess = "{$e->__full_message}\n";
-		$backup->backupstage = "Failed due to: $mess";
-		print("Backup failed due to: $mess\n");
-		mail($object->contactemail, "Backup Failed..", "Backup Failed for $object->nname with the Message $mess");
+		$backup->backupstage = "Failed due to: {$mess}";
+		print("Backup failed due to: {$mess}\n");
+		mail($object->contactemail, "Backup Failed..", "Backup Failed for {$object->nname} with the Message {$mess}");
 	}
 
 	clearLxbackup($backup);

@@ -779,7 +779,8 @@ $__information['sslcert_addform_letsencrypt_pre'] = "<p>You can use <b>Let's Enc
 			"<li>Expire in 90 days and then need renew (update) before expire</li>" .
 			"<li>Use 'Add SSL Link' to parent SSL (domain SSL) for activate subdomain SSL</li>" .
 			"<li>Possible 100 SANs (Subject Alternative Names) for each domain</li>" .
-			"<li>If using 'Remote Mail' for domain, remove 'webmail.domain.com' from 'Subject Alternative Name (SAN)'</li>" .			
+			"<li>If using 'Remote Mail' for domain, remove 'webmail.domain.com' from 'Subject Alternative Name (SAN)'</li>" .
+			"<li>Don't use 'redirect' for listing in 'Subject Alternative Name (SAN)' because may trouble to verifying token. Or remove it from listing</li>" .
 		"</ul>";
 
 $__information['sslcert_addform_startapi_pre'] = "<p>You can use <b>StartSSL API</b> free SSL here. </p>" . 

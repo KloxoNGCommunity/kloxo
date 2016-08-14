@@ -93,7 +93,7 @@ class Service__Redhat extends lxDriverClass
 		$ps = lxshell_output("ps", "ax");
 		$run = Service__linux::getRunLevel();
 		$rclist = lscandir_without_dot("{$sgbl->__path_real_etc_root}/rc$run.d/");
-		
+
 		foreach ($list as &$__l) {
 			$__l['install_state'] = 'dull';
 			$__l['state'] = 'off';
@@ -107,20 +107,26 @@ class Service__Redhat extends lxDriverClass
 			if (self::checkServiceInRc($rclist, $__l['servicename'])) {
 				$__l['boot_state'] = 'on';
 			}
+
 			if ($__l['grepstring']) {
 				if (preg_match("/[\/ ]{$__l['grepstring']}/i", $ps)) {
 					$__l['state'] = 'on';
 				}
-			} else {
-				$ret = lxshell_return("/etc/init.d/{$__l['servicename']}", "status");
-				
-				if ($ret) {
-					$__l['state'] = 'off';
-				} else {
-					$__l['state'] = 'on';
-				}
 			}
 
+			// MR -- recheck with 'service status' if state is off
+			if ($__l['state'] === 'off') {
+				$out = null;
+			//	$ret = lxshell_return("/etc/init.d/{$__l['servicename']}", "status");
+				exec("/etc/init.d/{$__l['servicename']} status|grep '(pid '", $out);
+
+			//	if ($ret) {
+				if (count($out) > 0) {
+					$__l['state'] = 'on';
+				} else {
+					$__l['state'] = 'off';
+				}
+			}
 		}
 		
 		return $list;

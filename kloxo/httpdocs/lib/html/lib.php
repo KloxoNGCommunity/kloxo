@@ -6554,10 +6554,12 @@ function setSomePermissions($nolog = null)
 	@lxfile_unix_chmod("/var/lib/php/session/", "777");
 	@exec("chmod o+t /var/lib/php/session/");
 
-	// MR -- this dir not exists
-//	log_cleanup("- Set permissions for /var/bogofilter/ dir", $nolog);
-//	lxfile_unix_chmod("/var/bogofilter/", "777");
-//	@exec("chmod o+t /var/bogofilter/");
+	log_cleanup("- Set permissions for /var/bogofilter/ dir", $nolog);
+	if (!file_exists("/var/bogofilter")) {
+		mkdir("/var/bogofilter");
+	}
+	lxfile_unix_chmod("/var/bogofilter/", "777");
+	@exec("chmod o+t /var/bogofilter/");
 
 	log_cleanup("- Kill sisinfoc system process", $nolog);
 	@exec("pkill -f sisinfoc");

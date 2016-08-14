@@ -519,8 +519,17 @@ class SslCert extends Lxdb
 				$vlist['nname'] = $nname;
 			//	$vlist['ssl_action'] = $action;
 				$vlist['ssl_data_b_s_key_bits_r'] = $keybits;
-				$vlist["ssl_data_b_s_subjectAltName_r"] =
-					array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
+
+				$san = "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}";
+
+				// MR -- include parked domains
+				foreach ((array)$parent->getParentO()->getList('addondomain') as $k => $v) {
+					if ($v->ttype === 'parked') {
+						$san .= " $k www.$k cp.$k webmail.$k";
+					}
+				}
+
+				$vlist["ssl_data_b_s_subjectAltName_r"] = array('t', $san);
 				$vlist["ssl_data_b_s_emailAddress_r"] = array("m", "admin@{$parent->nname}");
 			} else if ($typetd['val'] === 'startapi') {
 				$vlist['warning'] = $warning;

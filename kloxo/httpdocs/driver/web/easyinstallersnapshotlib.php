@@ -76,7 +76,12 @@ class easyinstallersnapshot extends lxclass
 	static function initThisList($parent, $class)
 	{
 		$path = "__path_customer_root/$parent->customer_name/__easyinstallersnapshot/$parent->nname/";
+
+		if (!file_exists($path)) { return null; }
+
 		$res = rl_exec_in_driver($parent, 'easyinstallersnapshot', "getSnapList", array($path));
+
+		if (!$res) { return null; }
 
 		foreach($res as &$r) {
 			$r['parent_clname'] = $parent->getClName();

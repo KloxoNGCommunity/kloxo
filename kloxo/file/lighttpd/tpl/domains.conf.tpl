@@ -1,6 +1,21 @@
-### begin - web of '<?=$domainname;?>' - do not remove/modify this line
+<?php
+$altconf = "/opt/configs/lighttpd/conf/customs/{$domainname}.conf";
+
+if (file_exists($altconf)) {
+	print("## MR - Use '{$altconf}' instead this file");
+	return;
+}
+?>
+### begin - web of '<?= $domainname; ?>' - do not remove/modify this line
 
 <?php
+
+$altconf = "/opt/configs/lighttpd/conf/customs/{$domainname}.conf";
+
+if (file_exists($altconf)) {
+	print("## MR - Use {$altconf} instead this file");
+	return;
+}
 
 $webdocroot = $rootpath;
 
@@ -163,6 +178,8 @@ if ($disabled) {
 ## cp for '<?=$domainname;?>'
 $HTTP["host"] =~ "^cp\.<?=str_replace(".", "\.", $domainname);?>" {
 
+	server.follow-symlink = "disable"
+
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
 	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
@@ -198,6 +215,8 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $domainname);?>" {
 
 ## webmail for '<?=$domainname;?>'
 $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $domainname);?>" {
+
+	server.follow-symlink = "disable"
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
@@ -236,6 +255,8 @@ if ($domainredirect) {
 
 ## web for redirect '<?=$redirdomainname;?>'
 $HTTP["host"] =~ "^<?=str_replace(".", "\.", $redirdomainname);?>" {
+
+	server.follow-symlink = "disable"
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
@@ -278,6 +299,8 @@ $HTTP["host"] =~ "^<?=str_replace(".", "\.", $redirdomainname);?>" {
 ## web for redirect '<?=$redirdomainname;?>'
 $HTTP["host"] =~ "^<?=str_replace(".", "\.", $redirdomainname);?>" {
 
+	server.follow-symlink = "disable"
+
 	var.rootdir = "<?=$redirfullpath;?>/"
 
 	server.document-root = var.rootdir
@@ -302,6 +325,8 @@ if ($parkdomains) {
 ## webmail for parked '<?=$parkdomainname;?>'
 $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $parkdomainname);?>" {
 
+	server.follow-symlink = "disable"
+
 	url.redirect = ( "/" =>  "http://<?=$webmailremote;?>/" )
 
 }
@@ -314,6 +339,8 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $parkdomainname);?>" {
 
 ## webmail for parked '<?=$parkdomainname;?>'
 $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $parkdomainname);?>" {
+
+	server.follow-symlink = "disable"
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
@@ -356,6 +383,8 @@ if ($domainredirect) {
 ## webmail for redirect '<?=$redirdomainname;?>'
 $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $redirdomainname);?>" {
 
+	server.follow-symlink = "disable"
+
 	url.redirect = ( "/" =>  "http://<?=$webmailremote;?>/" )
 
 }
@@ -367,6 +396,8 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $redirdomainname);?>" {
 
 ## webmail for redirect '<?=$redirdomainname;?>'
 $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $redirdomainname);?>" {
+
+	server.follow-symlink = "disable"
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
@@ -410,18 +441,24 @@ if ($wwwredirect) {
 ## web for '<?=$domainname;?>'
 $HTTP["host"] =~ "<?=$domainname;?><?=$ipssl;?>" {
 
+	server.follow-symlink = "disable"
+
 	url.redirect = ( "^/(.*)" => "http://www.<?=$domainname;?>/$1" )
 }
 
 
 ## web for '<?=$domainname;?>'
 $HTTP["host"] =~ "<?=$serveralias;?><?=$ipssl;?>" {
+
+	server.follow-symlink = "disable"
 <?php
 } else {
 ?>
 
 ## web for '<?=$domainname;?>'
 $HTTP["host"] =~ "<?=$serveralias;?><?=$ipssl;?>" {
+
+	server.follow-symlink = "disable"
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
