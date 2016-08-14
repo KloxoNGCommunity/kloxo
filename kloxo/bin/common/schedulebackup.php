@@ -62,11 +62,11 @@ function schedulebackup_main()
 			}
 		} else {
 			if ($name === 'admin') {
-				if ($h2 != 0) {
+				if ($h2 != 6) {
 					continue;
 				}
 			} else {
-				if ($h2 != 13) {
+				if ($h2 != 18) {
 					continue;
 				}
 			}

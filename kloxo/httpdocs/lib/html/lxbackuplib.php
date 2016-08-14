@@ -294,8 +294,17 @@ class lxbackup extends Lxdb
 
 				$time = range(0, 23);
 
-				$vlist['backupschedule_time'] = array('s', $time);
-				$this->setDefaultValue('backupschedule_time', 0);
+				if ($login->isAdmin()) {
+					$vlist['backupschedule_time'] = array('s', $time);
+				} else {
+					$vlist['backupschedule_time'] = array('M', null);
+				}
+
+				if ($parent->nname === 'admin') {
+					$this->setDefaultValue('backupschedule_time', 6);
+				} else {
+					$this->setDefaultValue('backupschedule_time', 18);
+				}
 
 				$vlist['rm_last_number'] = null;
 				$vlist['__v_updateall_button'] = array();

@@ -147,3 +147,4 @@ ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `microcache_insert_into` VARCHAR(255)
 ALTER TABLE `servermail` ADD COLUMN IF NOT EXISTS `smtp_relay` text AFTER `concurrencyremote`;
 
 ALTER TABLE `lxbackup` ADD COLUMN IF NOT EXISTS `backupschedule_time` INT NULL AFTER `backupschedule_type`;
+ALTER TABLE `lxbackup` CHANGE COLUMN IF EXISTS `backupschedule_time` `backupschedule_time` VARCHAR(255) NULL DEFAULT NULL;
