@@ -177,8 +177,6 @@ if ($disabled) {
 	$cpdocroot = $webmaildocroot = $webdocroot = $disabledocroot;
 }
 
-$count = 0;
-
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;
 
@@ -784,9 +782,10 @@ server {
 <?php
 				}
 
-				$count++;
 			}
 		}
+
+		$count++;
 	}
 }
 ?>
