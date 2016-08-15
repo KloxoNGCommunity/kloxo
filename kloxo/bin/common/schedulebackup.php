@@ -49,9 +49,11 @@ function schedulebackup_main()
 			continue;
 		}
 
+		$h2 = intval(date('G'));
+
 		if ($l->backupschedule_time) {
 			$h1 = intval($l->backupschedule_time);
-			$h2 = intval(date('G'));
+
 			if ($h1 != $h2) {
 				print("$name - set time '$h1' not match with current time '$h2'\n");
 				continue;
@@ -64,16 +66,16 @@ function schedulebackup_main()
 		*/
 		} else {
 			if ($name === 'admin') {
-				if ($h2 != 6) {
-					print("$name - set time '$h1' not match with current time '$h2'\n");
-					continue;
-				}
+				$h1 = 6;
 			} else {
-				if ($h2 != 18) {
-					print("$name - set time '$h1' not match with current time '$h2'\n");
-					continue;
-				}
+				$h1 = 18;
 			}
+
+			if ($h2 != $h1) {
+				print("$name - set time '$h1' not match with current time '$h2'\n");
+				continue;
+			}
+
 		/*
 			// MR -- it's because scavenge in every 5 miutes
 			if (intval(date('i')) > 9) {
