@@ -1393,20 +1393,15 @@ class Web extends Lxdb
 				//	$this->indexfile_list = get_web_index_list();
 				}
 
-				$ol = self::getIndexOrderDefault();
-
-				if (isset($login->getObject('genlist')->dirindexlist_a)) {
-					$dirin = $login->getObject('genlist')->dirindexlist_a;
-					$list = get_namelist_from_objectlist($dirin);
-
-					$index = array_values(array_merge($list, $ol));
+				if (isset($this->indexfile_list)) {
+					$index = $this->indexfile_list;
 				} else {
-					$index = $ol;
+					$index = self::getIndexOrderDefault();
 				}
 
 			//	$vlist['indexfile_list'] = array('U', $index);
 				$vlist['indexfile_list'] = array('t', implode(" ", $index));
-	
+
 				$vlist['__v_updateall_button'] = array();
 
 				return $vlist;
