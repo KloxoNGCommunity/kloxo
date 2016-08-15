@@ -1390,13 +1390,19 @@ class Web extends Lxdb
 				$vlist['webmisc_b-dirindex'] = null;
 
 				if (!$this->indexfile_list) {
-					//$this->indexfile_list = get_web_index_list();
+				//	$this->indexfile_list = get_web_index_list();
 				}
 
 				$ol = self::getIndexOrderDefault();
-				$dirin = $login->getObject('genlist')->dirindexlist_a;
-				$list = get_namelist_from_objectlist($dirin);
-				$index = array_values(array_merge($list, $ol));
+
+				if (isset($login->getObject('genlist')->dirindexlist_a)) {
+					$dirin = $login->getObject('genlist')->dirindexlist_a;
+					$list = get_namelist_from_objectlist($dirin);
+
+					$index = array_values(array_merge($list, $ol));
+				} else {
+					$index = $ol;
+				}
 
 			//	$vlist['indexfile_list'] = array('U', $index);
 				$vlist['indexfile_list'] = array('t', implode(" ", $index));
