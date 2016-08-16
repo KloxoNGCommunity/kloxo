@@ -199,7 +199,7 @@ $__information['resourceplan_addform__pre'] = "<p>You can set 'Resource Plan' he
 
 $__information['lxbackup_updateform_backup_pre'] = "<p>The backup file will appear in the __backup directory of your client area. ".
 	"You can access it by clicking on the 'File Manager' Tab.</p>".
-	"<p>To restore a backup, you can first upload it to the server using the <b>upload</b> tab.</p>".
+	"<p>To restore a backup, you can first upload it to the server using the <b>upload</b> tab or use 'Restore from FTP' (not recommended for big size backup file).</p>".
 	"<p>Please note that Kloxo-MR backup is heirarchical. ".
 	"If you take backup of a particular resource, everything under it is automatically included. ".
 	"Thus if you take backup of admin, then you need not take backups of clients under you separately.</p>";

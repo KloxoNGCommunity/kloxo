@@ -1,9 +1,9 @@
 <?php 
 include_once "lib/html/include.php";
 
-backup_main();
+restore_main();
 
-function backup_main()
+function restore_main()
 {
 	global $argc, $argv;
 	global $gbl, $login, $ghtml; 

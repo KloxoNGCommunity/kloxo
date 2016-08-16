@@ -115,13 +115,13 @@ abstract class Lxdb extends Lxclass
 		switch($subaction) {
 			case "switchserver":
 				$serverlist = $login->getServerList($this->get__table());
-
+			/*
 				if (!$this->checkIfLockedForAction('switchserver')) {
 					if ($this->olddeleteflag === 'doing') {
 						$this->olddeleteflag = 'program_interrupted';
 					}
 				}
-
+			*/
 				$vlist['olddeleteflag'] = array('M', null);
 				$psi = pserver::createServerInfo($serverlist, $this->get__table());
 				$psi = get_warning_for_server_info($login, $psi);

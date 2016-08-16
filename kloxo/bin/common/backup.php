@@ -61,11 +61,11 @@ function backup_main()
 		exit;
 	}
 
-	if (isset($opt['priority']) && $opt['priority'] === 'low') {
+	if (($opt['priority']) && ($opt['priority'] === 'low')) {
 	//	sleep(20);
 	}
 
-	if (isset($opt['v-backup_file_name'])) {
+	if ($opt['v-backup_file_name']) {
 		$param['backup_to_file_f'] = $opt['v-backup_file_name'];
 	} else {
 	//	$param['backup_to_file_f'] = "$progname-scheduled";

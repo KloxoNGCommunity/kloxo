@@ -158,7 +158,7 @@ class lxbackup extends Lxdb
 		print_time("check_cons");
 		$trulist = null;
 
-		if (isset($param['_accountselect'])) {
+		if ($param['_accountselect']) {
 			$trulist = $param['_accountselect'];
 		}
 
@@ -221,13 +221,13 @@ class lxbackup extends Lxdb
 				} else {
 					$vlist['upload_to_ftp'] = array('M', "Ftp Server Not Set");
 				}
-
+			/*
 				if (!$parent->checkIfLockedForAction('backup')) {
 					if ($this->backupstage === 'doing') {
 						$this->backupstage = 'program_interrupted';
 					}
 				}
-
+			*/
 				$this->backupstage = fix_nname_to_be_variable($this->backupstage);
 				$vlist['backupstage'] = array('M', null);
 				$vlist['backup_to_file_f'] = null;
@@ -341,23 +341,31 @@ class lxbackup extends Lxdb
 					$vlist['ftp_server'] = array("M", "Ftp Server is Not Set");
 					break;
 				}
-
-				$vlist['ftp_server'] = array('M', null);
-				$vlist['rm_username'] = array('M', null);
-				$vlist['rm_password'] = array('M', "****");
-				$vlist['backup_ftp_file_f'] = null;
-				$vlist['__v_next'] = 'restore_confirm';
-				$vlist['__v_button'] = 'Continue';
-
-				break;
-
-			case "restore_from_file":
+			/*
 				if (!$parent->checkIfLockedForAction('restore')) {
 					if ($this->restorestage === 'doing') {
 						$this->restorestage = 'program_interrupted';
 					}
 				}
+			*/
+				$vlist['ftp_server'] = array('M', null);
+				$vlist['rm_username'] = array('M', null);
+				$vlist['rm_password'] = array('M', "****");
+				$vlist['restorestage'] = array('M', null);
+				$vlist['backup_ftp_file_f'] = null;
+				$vlist['__v_next'] = 'restore_confirm';
+				$vlist['__v_button'] = 'Start Restore Process';
 
+				break;
+
+			case "restore_from_file":
+			/*
+				if (!$parent->checkIfLockedForAction('restore')) {
+					if ($this->restorestage === 'doing') {
+						$this->restorestage = 'program_interrupted';
+					}
+				}
+			*/
 				$vlist['restorestage'] = array('M', null);
 				$vlist['backup_from_file_f'] = array('L', "/");
 				$vlist['__v_next'] = 'restore_confirm';
@@ -400,6 +408,7 @@ class lxbackup extends Lxdb
 	{
 		$uflist['backup'] = null;
 		$uflist['restore_from_file'] = null;
+		$uflist['restore_from_ftp'] = null;
 
 		return $uflist;
 	}
@@ -450,11 +459,13 @@ class lxbackup extends Lxdb
 			throw new lxException($login->getThrow("backup_has_been_scheduled"));
 		} else {
 			$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
-			$fname = $param['backup_from_file_f'];
+			// MR -- if no exists for backup_from_file_f mean exists backup_ftp_file_f
+			$fname = ($param['backup_from_file_f'])
+				? $param['backup_from_file_f'] : '_RESTORE_' . basename($param['backup_ftp_file_f']);
 			$fname = str_replace("/", "", $fname);
 			$fname = str_replace(";", "", $fname);
 			$fname = str_replace(" ", "", $fname);
-			$file = "$bpath/$fname";
+			$file = "{$bpath}/{$fname}";
 			
 			rl_exec_get(null, null, array("lxbackup", "execrestorephp"), array($this->getParentClass(), $this->getParentName(), $file, $param));
 
@@ -576,7 +587,8 @@ class lxbackup extends Lxdb
 		$object = clone($this);
 		lxclass::clearChildrenAndParent($object);
 
-		if ($object->isOn('upload_to_ftp')) {
+	//	if ($object->isOn('upload_to_ftp')) {
+		if ($object->upload_to_ftp === 'on') {
 			try {
 				if ($parent->isClient() || $parent->isLocalhost()) {
 					self::upload_to_server($bfile, basename($bfile), $object);
@@ -598,7 +610,8 @@ class lxbackup extends Lxdb
 			rl_exec_get(null, $parent->syncserver, array('lxbackup', 'clear_extra_backups'), array($parent->get__table(), $parent->nname, $object));
 		}
 
-		if ($object->isOn('upload_to_ftp')) {
+	//	if ($object->isOn('upload_to_ftp')) {
+		if ($object->upload_to_ftp === 'on') {
 			$tobackup = $object->ftp_server;
 		} else {
 			$tobackup = 'local backup';
@@ -641,7 +654,7 @@ class lxbackup extends Lxdb
 		$fn = null;
 		$mylogin = null;
 
-		if (!isset($object->ftp_server)) {
+		if (!$object->ftp_server) {
 			return;
 		}
 
@@ -730,21 +743,31 @@ class lxbackup extends Lxdb
 
 	function getFtpOrLocal($param)
 	{
+		global $sgbl;
+
 		$parent = $this->getParentO();
 
-		if (isset($param['backup_ftp_file_f'])) {
+		$bpath = "$sgbl->__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
+
+		if ($param['backup_ftp_file_f']) {
+		/*
 			$file = tempnam("/tmp/", "__lx_temperoryftp_file");
 			lunlink($file);
 			$file .= ".zip";
 			$this->download_from_server($param['backup_ftp_file_f'], $file);
 			$ftp = true;
+		*/
+			$file = '_RESTORE_' . basename($param['backup_ftp_file_f']);
+			$file = "{$bpath}/{$file}";
+			$this->download_from_server($param['backup_ftp_file_f'], $file);
+			$ftp = true;
 		} else {
-			$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
+		//	$bpath = "__path_program_home/{$parent->get__table()}/{$parent->nname}/__backup";
 			$file = $param['backup_from_file_f'];
 			$file = str_replace(";", "", $file);
 			$file = str_replace("/", "", $file);
 			$file = str_replace(" ", "", $file);
-			$file = "$bpath/$file";
+			$file = "{$bpath}/{$file}";
 			$ftp = false;
 		}
 
