@@ -2,8 +2,10 @@
 
 include_once "lib/html/displayinclude.php";
 
-schedulebackup_main();
+echo("*** No this function because using cron instead scavenge for 'schedule backup'\n");
+return;
 
+schedulebackup_main();
 
 function schedulebackup_main()
 {

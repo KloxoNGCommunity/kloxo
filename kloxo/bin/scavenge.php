@@ -39,12 +39,18 @@ function scavenge_main() {
 	passthru("$sgbl->__path_php_path ../bin/gettraffic.php");
 	log_shell("Scavenge: Collect Quota");
 	passthru("$sgbl->__path_php_path ../bin/collectquota.php");
+
+/*
+	// MR -- moving scavenge for backup to cron setting in /etc/cron.d/backup
+
 	log_shell("Scavenge: Schedule backups");
 	passthru("$sgbl->__path_php_path ../bin/common/schedulebackup.php");
 	log_shell("Scavenge: Clear Sessions");
 	passthru("$sgbl->__path_php_path ../bin/common/clearsession.php");
 	log_shell("Scavenge: Self backup");
 	passthru("$sgbl->__path_php_path ../bin/common/mebackup.php");
+*/
+
 	log_shell("Scavenge: Check Cluster Disk Quota");
 	checkClusterDiskQuota();
 

@@ -97,6 +97,17 @@ class lxbackup extends Lxdb
 		return $param;
 	}
 
+	function postUpdate()
+	{
+		// We need to write because the fixphpini reads everything from the database.
+		$this->write();
+
+		if ($this->subaction === 'schedule_conf') {
+			exec("sh /script/fix-cron-backup");
+
+		}
+	}
+
 	static function getMetaData($file)
 	{
 		global $gbl, $sgbl, $login, $ghtml;

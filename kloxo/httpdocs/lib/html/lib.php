@@ -179,9 +179,14 @@ function db_set_value($table, $set, $where, $extra = null)
 function db_get_value($table, $nname, $var)
 {
 	$sql = new Sqlite(null, $table);
-	$row = $sql->getRowsWhere("nname = '$nname'", array($var));
 
-	return $row[0][$var];
+	if (is_array($var)) {
+		$row = $sql->getRowsWhere("nname = '$nname'", $var);
+		return $row[0];
+	} else {
+		$row = $sql->getRowsWhere("nname = '$nname'", array($var));
+		return $row[0][$var];
+	}
 }
 
 function db_get_count($table, $query)
@@ -6552,17 +6557,17 @@ function setSomePermissions($nolog = null)
 
 	log_cleanup("- Set permissions for /var/lib/php/session/ dir", $nolog);
 	@lxfile_unix_chmod("/var/lib/php/session/", "777");
-	@exec("chmod o+t /var/lib/php/session/");
+	exec("chmod o+t /var/lib/php/session/");
 
 	log_cleanup("- Set permissions for /var/bogofilter/ dir", $nolog);
 	if (!file_exists("/var/bogofilter")) {
 		mkdir("/var/bogofilter");
 	}
 	lxfile_unix_chmod("/var/bogofilter/", "777");
-	@exec("chmod o+t /var/bogofilter/");
+	exec("chmod o+t /var/bogofilter/");
 
 	log_cleanup("- Kill sisinfoc system process", $nolog);
-	@exec("pkill -f sisinfoc");
+	exec("pkill -f sisinfoc");
 }
 
 function setJailshellSystem($nolog = null)
@@ -6608,7 +6613,7 @@ function setInitialLogrotate($nolog = null)
 {
 	log_cleanup("Initialize logrotates", $nolog);
 
-	@exec("cp -f ../file/logrotate/etc/logrotate.d/* /etc/logrotate.d");
+	exec("cp -f ../file/logrotate/etc/logrotate.d/* /etc/logrotate.d");
 
 	// MR -- sometimes this file corrupt and make high cpu usage
 	lxfile_rm("/var/lib/logrotate.status");
@@ -7240,6 +7245,8 @@ function setInitialServices($nolog = null)
 	setAllSSLPortions($nolog);
 
 	setHttpry($nolog);
+
+	setCronBackup($nolog);
 }
 
 function setRemoveAlias($nolog = null)
@@ -8491,6 +8498,12 @@ function setHttpry($nolog = null)
 
 	log_cleanup("- Installing httpry", $nolog);
 	setInstallHttpry($nolog);
+}
+
+function setCronBackup($nolog = null)
+{
+	log_cleanup("- Fixing 'Cron Backup' Files", $nolog);
+	exec("sh /script/fix-cron-backup");
 }
 
 function getListOnList($pname)

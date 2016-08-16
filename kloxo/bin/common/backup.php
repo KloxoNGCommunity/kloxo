@@ -65,7 +65,7 @@ function backup_main()
 	//	sleep(20);
 	}
 
-	if ($opt['v-backup_file_name']) {
+	if (isset($opt['v-backup_file_name'])) {
 		$param['backup_to_file_f'] = $opt['v-backup_file_name'];
 	} else {
 	//	$param['backup_to_file_f'] = "$progname-scheduled";
