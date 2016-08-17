@@ -17,3 +17,6 @@ if [ ! -L /usr/bin/chkconfig ] ; then
 	## MR -- fix issue if running restart in cron
 	ln -s /sbin/chkconfig /usr/bin/chkconfig
 fi
+
+## MR -- importance for CentOS 6+ for cp/mv/rm
+# sh /script/disable-alias

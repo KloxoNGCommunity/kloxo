@@ -1,11 +1,16 @@
 #!/bin/sh
 
+if [ "$(dir -l /usr/bin/lxphp.exe|grep 'php-cli.sh')" == "" ] ; then
+	echo
+	echo "* No 'lxphp.exe' exists"
+	echo "  - Need install Kloxo-MR 7.0 perfectly with 'sh /script/upcp -y'"
+	echo
+	exit
+fi
+
 . /script/fix-urgent
 
 . /script/counter-start.inc
-
-## MR -- importance for CentOS 6+ for cp/mv/rm
-# sh /script/disable-alias
 
 t=$(mysql -V|awk '{print $5}'|grep -i '5.0.')
 
