@@ -7,7 +7,7 @@ if [ "$(rpm -qa|grep 'yum-presto')" == "" ] ; then
 fi
 
 ## trouble with mysql55 for qmail-toaster
-sed -i 's/exclude\=mysql51/exclude\=mysql5/g' /etc/yum.repos.d/mratwork.repo
+sed -i 's/\(exclude\=\)\(.*\)\(mysql5\*\|mysql5?\*\|MariaDB\*\|dovecot\*\)\(.*\)/\1\4 mysql5\*/g' /etc/yum.conf
 
 if [ ! -L /usr/bin/chkconfig ] ; then
 	## MR -- fix issue if running restart in cron
