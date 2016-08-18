@@ -762,17 +762,83 @@ server {
 	server_name webmail.<?= $parkdomainname; ?>;
 
 	include '<?= $globalspath; ?>/<?= $acme_challenge; ?>.conf';
-
 <?php
 					if ($webmailremote) {
 ?>
+
 	if ($host != '<?= $webmailremote; ?>') {
 		rewrite ^/(.*) '<?= $protocol; ?><?= $webmailremote; ?>/$1';
 	}
+<?php
+					}
+?>
 }
 
 <?php
+
+				} else {
+?>
+
+## No mail map for parked '<?= $parkedomainname; ?>'
+
+<?php
+				}
+
+			}
+		}
+
+		if ($domainredirect) {
+			foreach ($domainredirect as $domredir) {
+				$redirdomainname = $domredir['redirdomain'];
+				$webmailmap = ($domredir['mailflag'] === 'on') ? true : false;
+
+				if ($webmailremote) {
+?>
+
+## webmail for redirect '<?=$redirdomainname;?>'
+server {
+	#disable_symlinks if_not_owner;
+
+	include '<?= $globalspath; ?>/<?= $listen; ?>.conf';
+
+	include '<?= $globalspath; ?>/<?= $gzip_base; ?>.conf';
+
+	include '<?= $globalspath; ?>/<?= $header_base; ?>.conf';
+<?php
+					if ($count !== 0) {
+?>
+
+	include '<?= $globalspath; ?>/<?= $ssl_base; ?>.conf';
+
+	ssl_certificate <?= $certname; ?>.pem;
+	ssl_certificate_key <?= $certname; ?>.key;
+<?php
+						if (file_exists("{$certname}.ca")) {
+?>
+	ssl_trusted_certificate <?= $certname; ?>.ca;
+
+	include '<?= $globalspath; ?>/<?= $header_ssl; ?>.conf';
+<?php
+						}
 					}
+?>
+
+	server_name webmail.<?= $redirdomainname; ?>;
+
+	include '<?= $globalspath; ?>/<?= $acme_challenge; ?>.conf';
+<?php
+					if ($webmailremote) {
+?>
+
+	if ($host != '<?= $webmailremote; ?>') {
+		rewrite ^/(.*) '<?= $protocol; ?><?= $webmailremote; ?>/$1';
+	}
+<?php
+					}
+?>
+}
+
+<?php
 
 				} else {
 ?>
