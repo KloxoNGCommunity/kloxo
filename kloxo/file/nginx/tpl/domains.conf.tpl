@@ -306,6 +306,13 @@ server {
 
 	include '<?= $globalspath; ?>/<?= $header_base; ?>.conf';
 <?php
+		if ($dirindex) {
+?>
+
+	autoindex on;
+<?php
+		}
+
 		if ($count !== 0) {
 			if ($enablessl) {
 ?>
