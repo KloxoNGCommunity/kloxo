@@ -56,14 +56,16 @@ class phpini__sync extends Lxdriverclass
 		$user = $input['user'] = (isset($this->main->__var_web_user)) ? $this->main->__var_web_user : 'apache';
 		$extrabasedir = $input['extrabasedir'] = (isset($this->main->__var_extrabasedir)) ? $this->main->__var_extrabasedir : '';
 
+		$input['phpmlist'] = getMultiplePhpList();
+
 		$phpini_path = "/opt/configs/phpini/tpl";
+		$apache_path = "/opt/configs/apache/tpl";
+
 		$phpini_cont = file_get_contents(getLinkCustomfile($phpini_path, "php.ini.tpl"));
+		$fcgid_cont = file_get_contents(getLinkCustomfile($apache_path, "php.fcgi.tpl"));
+		$prefork_cont = file_get_contents(getLinkCustomfile($apache_path, "prefork.inc.tpl"));
 
-		$fcgid_path = "/opt/configs/apache/tpl";
-		$fcgid_cont = file_get_contents(getLinkCustomfile($fcgid_path, "php.fcgi.tpl"));
-
-		$prefork_path = "/opt/configs/apache/tpl";
-		$prefork_cont = file_get_contents(getLinkCustomfile($prefork_path, "prefork.inc.tpl"));
+		$suphp_cont = file_get_contents(getLinkCustomfile($apache_path, "etc_suphp.conf.tpl"));
 
 		if (!file_exists("/etc/php-fpm.d")) {
 			lxfile_mkdir("/etc/php-fpm.d");
@@ -98,6 +100,10 @@ class phpini__sync extends Lxdriverclass
 			exec("'cp' -f /opt/configs/apache/tpl/php*.fcgi /home/kloxo/client");
 			exec("chmod 0775 /home/kloxo/client/php*.fcgi");
 
+			$suphp_parse = getParseInlinePhp($suphp_cont, $input);
+			$suphp_target = '/etc/suphp.conf';
+			file_put_contents($suphp_target, $suphp_parse);
+
 			if (!file_exists("/opt/configs/php-fpm/sock")) {
 				exec("mkdir -p /opt/configs/php-fpm/sock");
 			}
@@ -109,9 +115,7 @@ class phpini__sync extends Lxdriverclass
 			$phpmfpminit_target = "/etc/rc.d/init.d/phpm-fpm";
 			exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}; chmod 755 {$phpmfpminit_target}");
 
-			$phps = getMultiplePhpList();
-
-			$phps = array_merge(array('php'), $phps);
+			$phps = array_merge(array('php'), $input);
 
 			foreach ($phps as $k => $v) {
 				$input['phpselected'] = $v;
@@ -240,12 +244,15 @@ class phpini__sync extends Lxdriverclass
 		$endstring = $endlist[0];
 		$startstring = $stlist[0];
 
+		$input['phpmlist'] = getMultiplePhpList();
+
 		$htaccess_path = "/opt/configs/apache/tpl";
+		$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
 
 		if ($pclass === 'web') {
 			$droot = $this->main->__var_docrootpath;
-			$htaccess_cont = file_get_contents(getLinkCustomfile($htaccess_path, "htaccess.tpl"));
-			$htaccess_parse = getParseInlinePhp($htaccess_cont, array(''));
+
+			$htaccess_parse = getParseInlinePhp($htaccess_cont, $input);
 
 			$htaccess_target = "{$droot}/.htaccess";
 

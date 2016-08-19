@@ -50,6 +50,8 @@ foreach($plist as $s) {
 
 			log_cleanup("- '/home/{$c->nname}/{$web->docroot}/.htaccess' ('{$c->nname}') at '{$php->syncserver}'", $nolog);
 
+		//	$php->was();
+
 			if (!in_array($c->nname, $clist)) {
 				$php = $c->getObject('phpini');
 				$php->initPhpIni();
@@ -60,15 +62,11 @@ foreach($plist as $s) {
 				log_cleanup("- '/home/kloxo/client/{$c->nname}/prefork.inc' at '{$php->syncserver}'", $nolog);
 				log_cleanup("- '/etc/php-fpm.d/{$c->nname}.conf' (also for 'multiple php') at '{$php->syncserver}'", $nolog);
 
-				$php->was();
 
 				$clist[] = $c->nname;
 				array_unique($clist);
 			}
 
-			$php->was();
-
-			$web->was();
 		}
 	}
 
@@ -93,7 +91,6 @@ foreach($plist as $s) {
 	log_cleanup("- '/etc/php-fpm.d/default.conf' at '{$php->syncserver}'", $nolog);
 	log_cleanup("- '/home/kloxo/client/php.fcgi' at '{$php->syncserver}'", $nolog);
 
-	$php->was();
 
 	// MR - fix for php-fpm and fastcgi session issue
 	if (!file_exists("/var/log/php-fpm")) {
@@ -107,6 +104,4 @@ foreach($plist as $s) {
 	chmod("/var/lib/php/session", 0777);
 	chown("/var/lib/php/session", "apache");
 }
-
-
 

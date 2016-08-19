@@ -55,7 +55,6 @@ foreach($list as $c) {
 			$da = explode(",", $domain);
 			if (!in_array($web->nname, $da)) { continue; }
 		}
-
 		if (!in_array($web->syncserver, $slist)) {
 			if (($target === 'all') || ($target === 'defaults')) {
 				if ($counter === 0) {
@@ -80,13 +79,13 @@ foreach($list as $c) {
 		if (($target === 'all') || ($target === 'domains')) {
 			log_cleanup("- '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
 			$web->setUpdateSubaction('full_update');
-
 			// MR -- disabled because include inside fixphp
 		//	log_cleanup("- '.htaccess' for '{$web->nname}' ('{$c->nname}') at '{$web->syncserver}'", $nolog);
 		//	$web->setUpdateSubaction('htaccess_update');
 		}
 
-		$web->was();
+		// MR -- make error in debug if enable because exists '$this->write' in postUpdate/postAdd
+	//	$web->was();
 
 		$counter++;
 	}

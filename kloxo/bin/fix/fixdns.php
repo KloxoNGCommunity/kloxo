@@ -72,6 +72,7 @@ foreach($clist as $c) {
 			$dns->setUpdateSubaction('allowed_transfer');
 		}
 
-		$dns->was();
+		// MR -- make error in debug if enable because exists '$this->write' in postUpdate/postAdd
+	//	$dns->was();
 	}
 }

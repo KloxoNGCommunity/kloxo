@@ -12,12 +12,15 @@
 
 #<FilesMatch \.php$>
 	#SetHandler x-httpd-php
-	#SetHandler x-httpd-php52
-	#SetHandler x-httpd-php53
-	#SetHandler x-httpd-php54
-	#SetHandler x-httpd-php55
-	#SetHandler x-httpd-php56
-	#SetHandler x-httpd-php70
+<?php
+		foreach($phpmlist as $k => $v) {
+			$v = str_replace('m', '', $v);
+?>
+	#SetHandler x-httpd-<?=$v;?>
+
+<?php
+		}
+?>
 #</FilesMatch>
 
 ### OR
@@ -31,11 +34,12 @@
 #	SetHandler fcgid-script
 #</FilesMatch>
 #FCGIWrapper /usr/bin/php-cgi .php
-#FCGIWrapper /usr/bin/php52m-cgi .php
-#FCGIWrapper /usr/bin/php53m-cgi .php
-#FCGIWrapper /usr/bin/php54m-cgi .php
-#FCGIWrapper /usr/bin/php55m-cgi .php
-#FCGIWrapper /usr/bin/php56m-cgi .php
-#FCGIWrapper /usr/bin/php70m-cgi .php
+<?php
+		foreach($phpmlist as $k => $v) {
+?>
+#FCGIWrapper /usr/bin/<?=$v;?>-cgi .php
+<?php
+		}
+?>
 
 ### end content - please not remove this line

@@ -127,7 +127,7 @@ echo $x
 echo $x >>/opt/${base_name}/install.log
 yum -y install $(cat /opt/${base_name}/dependencies) >>/opt/${base_name}/install.log
 
-x="- Download all rpms (debug will be deleted)... Please wait!"
+x="- Download all rpms (not including debuginfo)... Please wait!"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
@@ -135,9 +135,8 @@ if [ -f /opt/${base_name}/etc ] ; then
 	find /opt/${base_name}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
-yumdownloader ${pack_name}-* >>/opt/${base_name}/install.log
-'rm' -rf *-debug*
-#'rm' -rf *-devel*
+yumdownloader ${pack_name}-* -x *debuginfo* >>/opt/${base_name}/install.log
+#'rm' -rf *-debuginfo*
 
 x="- Extract all rpms to '/opt/${base_name}'"
 echo $x

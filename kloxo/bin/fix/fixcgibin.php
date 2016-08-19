@@ -35,7 +35,9 @@ foreach($list as $c) {
 		lxfile_mv_rec("$cdir/cgi-bin/$l->nname", "$cdir/$l->nname/cgi-bin");
 
 		$web->setUpdateSubaction('full_update');
-		$web->was();
+
+		// MR -- make error in debug if enable because exists '$this->write' in postUpdate/postAdd
+	//	$web->was();
 	}
 }
 
