@@ -33,25 +33,6 @@ function resetQmailAssign($nolog = null)
 		$n[$row['pw_domain']] = $mpath . "/" . str_replace("/" . $row['pw_name'], '', $temp);
 	}
 
-
-	$con->select_db("kloxo");
-
-	$result2 = $con->query("SELECT nname FROM mmail WHERE remotelocalflag = 'remote'");
-
-	$n2 = array();
-
-	while ($row2 = $result2->fetch_array(MYSQLI_ASSOC)) {
-		$n2[$row2['nname']] = '1';
-	}
-
-	foreach ($n as $k => $v) {
-		foreach ($n2 as $k2 => $v2) {
-			if ($k === $k2) {
-				unset($n[$k]);
-			}
-		}
-	}
-
 	$ua = '';
 	$rh = '';
 	$vd = '';
@@ -81,12 +62,32 @@ function resetQmailAssign($nolog = null)
 
 		log_cleanup("- rcpthosts/morercpthosts for '{$k}'", $nolog);
 		$rh .= "{$k}\n";
-
-		log_cleanup("- virtualdomains for '{$k}'", $nolog);
-		$vd .= "{$k}:{$k}\n";
 	}
 
 	$ua .= ".";
+
+	$con->select_db("kloxo");
+
+	$result2 = $con->query("SELECT nname FROM mmail WHERE remotelocalflag = 'remote'");
+
+	$n2 = array();
+
+	while ($row2 = $result2->fetch_array(MYSQLI_ASSOC)) {
+		$n2[$row2['nname']] = '1';
+	}
+
+	foreach ($n as $k => $v) {
+		foreach ($n2 as $k2 => $v2) {
+			if ($k === $k2) {
+				unset($n[$k]);
+			}
+		}
+	}
+
+	foreach ($n as $k => $v) {
+		log_cleanup("- virtualdomains for '{$k}'", $nolog);
+		$vd .= "{$k}:{$k}\n";
+	}
 
 	exec("echo '{$ua}' > {$upath}/assign");
 	// MR -- moving list to morercpthosts
