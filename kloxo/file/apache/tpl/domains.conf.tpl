@@ -713,6 +713,8 @@ foreach ($certnamelist as $ip => $certname) {
 					}
 				}
 			}
+
+			if ($enablephp) {
 ?>
 
 	<IfModule suexec.c>
@@ -798,7 +800,9 @@ foreach ($certnamelist as $ip => $certname) {
 			</Proxy>
 		</IfModule>
 	</IfVersion>
-
+<?php
+			}
+?>
 	<Directory "<?=$webdocroot;?>/">
 		AllowOverride All
 		<IfVersion < 2.4>

@@ -7986,10 +7986,7 @@ class HtmlLib
 ?>
 
 <style>
-*{
-	margin:0;
-	padding:0;
-}
+/* * { margin:0; padding:0; } */
 #progress_speed {
 	float:left;
 	width:100px;

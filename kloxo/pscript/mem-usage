@@ -8,12 +8,25 @@ if [ "$(rpm -qa|grep smem)" == "" ] ; then
 	yum install smem -y
 fi
 
-if ["$1" == "" ] ; then
+echo "*************************************************************************"
+echo ""
+free -m
+echo ""
+echo "*************************************************************************"
+echo ""
+if [ "$1" == "" ] ; then
 	/usr/bin/smem -u -t -k -p
 else
 	/usr/bin/smem $1
 fi
-
 echo ""
-echo "* Note: memory size in MB; web servers also run under 'apache'"
+echo "* Under: "
+echo "  - root:   dns server, php-fpm master, qmail supervise, ftp server,"
+echo "            nginx master"
+echo "  - apache: hiawatha, lighttpd, httpd, 'default' php-fpm, fcgiwrap,"
+echo "            nginx worker/cache manager"
+echo "  - lxlabs: hiawatha for Kloxo-MR panel"
 echo ""
+echo "  - Others services may running under root and apache"
+echo ""
+echo "*************************************************************************"
