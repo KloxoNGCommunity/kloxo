@@ -7143,6 +7143,7 @@ function setInitialServices($nolog = null)
 	exec("sh /script/setup-squirrelmail");
 	exec("sh /script/setup-telaen");
 	exec("sh /script/setup-rainloop");
+	exec("sh /script/fix-rainloop-domains");
 
 	installChooser($nolog);
 
