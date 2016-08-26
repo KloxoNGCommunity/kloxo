@@ -36,8 +36,7 @@ foreach($list as $c) {
 
 		$web->setUpdateSubaction('full_update');
 
-		// MR -- make error in debug if enable because exists '$this->write' in postUpdate/postAdd
-	//	$web->was();
+		$web->was();
 	}
 }
 

@@ -717,6 +717,9 @@ class Web extends Lxdb
 		}
 
 		exec("'rm' -f /home/kloxo/httpd/default/{$this->nname}");
+
+		// MR -- del rainloop webmail ini for this domain
+		exec("sh /script/del-rainloop-domains --domain={$this->nname}");
 	}
 
 	// MR -- web__xxxlib call this function but no exists
@@ -923,6 +926,9 @@ class Web extends Lxdb
 		} else {
 			exec("sh /script/fixphp --client={$this->customer_name}");
 		}
+
+		// MR -- add rainloop webmail ini for this domain
+		exec("sh /script/add-rainloop-domains --domain={$domname}");
 	}
 
 	static function createstatsConf($domname, $stats_name, $stats_password)

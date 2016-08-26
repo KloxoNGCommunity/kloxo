@@ -115,7 +115,7 @@ class phpini__sync extends Lxdriverclass
 			$phpmfpminit_target = "/etc/rc.d/init.d/phpm-fpm";
 			exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}; chmod 755 {$phpmfpminit_target}");
 
-			$phps = array_merge(array('php'), $input);
+			$phps = array_merge(array('php'), $input['phpmlist']);
 
 			foreach ($phps as $k => $v) {
 				$input['phpselected'] = $v;
@@ -189,8 +189,7 @@ class phpini__sync extends Lxdriverclass
 
 				lxfile_unix_chmod($fcgid_target, "0755");
 
-				$phps = getMultiplePhpList();
-				$phps = array_merge(array('php'), $phps);
+				$phps = array_merge(array('php'), $input['phpmlist']);
 
 				foreach ($phps as $k => $v) {
 					$phpfpm_path = "/opt/configs/php-fpm/tpl";

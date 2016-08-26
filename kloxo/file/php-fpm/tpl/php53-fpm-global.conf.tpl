@@ -8,7 +8,7 @@
 ?>
 
 [global]
-pid=/var/run/php-fpm/<?php echo $phpselected;?>-fpm.pid
+pid=/var/run/php-fpm/<?=$phpselected;?>-fpm.pid
 error_log=/var/log/php-fpm/error.log
 log_level=error
 
@@ -24,5 +24,5 @@ events.mechanism=epoll
 
 daemonize=yes
 
-include=<?php echo $phpinc; ?>/*.conf
+include=<?=$phpinc;?>/*.conf
 

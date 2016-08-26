@@ -5,4 +5,5 @@ initProgram('admin');
 
 $server = $login->getfromList('pserver', 'localhost');
 $server->getandWriteService();
+
 $server->was();

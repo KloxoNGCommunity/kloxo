@@ -13,6 +13,7 @@ function moveToClient()
 	foreach($l as $b) {
 		if (csb($b->parent_clname, 'web-')) {
 			list($parentclass, $parentname) = getParentNameAndClass($b->parent_clname);
+
 			$d = new Domain(null, null, $parentname);
 			$d->get();
 			$b->parent_clname = $d->parent_clname;
@@ -20,6 +21,7 @@ function moveToClient()
 			$b->directory = "{$w->docroot}/{$b->directory}";
 			$b->directory = remove_extra_slash($b->directory);
 			$b->setUpdateSubaction();
+
 			$b->write();
 		}
 	}
@@ -29,10 +31,12 @@ function moveToClient()
 	foreach($l as $b) {
 		if (csb($b->parent_clname, 'domain-')) {
 			list($parentclass, $parentname) = getParentNameAndClass($b->parent_clname);
+
 			$d = new Domain(null, null, $parentname);
 			$d->get();
 			$b->parent_clname = $d->parent_clname;
 			$b->setUpdateSubaction();
+
 			$b->write();
 		}
 	}

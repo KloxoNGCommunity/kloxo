@@ -86,31 +86,31 @@
 
 	$openbasedir = str_replace("/var/lib/php/session/", "{$session_save_path_flag}/", $openbasedir);
 ?>
-[<?php echo $pool; ?>]
+[<?=$pool;?>]
 ;catch_workers_output = yes
-;listen = 127.0.0.1:<?php echo $fpmport; ?>
+;listen = 127.0.0.1:<?=$fpmport;?>
 
-listen = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-<?php echo $user; ?>.sock
+listen = /opt/configs/php-fpm/sock/<?=$phpselected;?>-<?=$user;?>.sock
 listen.backlog = 65536
 listen.allowed_clients = 127.0.0.1
-listen.owner = <?php echo $user; ?>
+listen.owner = <?=$user;?>
 
-listen.group = <?php echo $user; ?>
+listen.group = <?=$user;?>
 
 listen.mode = 0666
-user = <?php echo $user; ?>
+user = <?=$user;?>
 
-group = <?php echo $user; ?>
+group = <?=$user;?>
 
-pm = <?php echo $phpfpm_type_flag; ?>
+pm = <?=$phpfpm_type_flag;?>
 
-pm.max_children = <?php echo $maxchildren; ?>
+pm.max_children = <?=$maxchildren;?>
 
-pm.start_servers = <?php echo $startservers; ?>
+pm.start_servers = <?=$startservers;?>
 
-pm.min_spare_servers = <?php echo $minspareservers; ?>
+pm.min_spare_servers = <?=$minspareservers;?>
 
-pm.max_spare_servers = <?php echo $maxspareservers; ?>
+pm.max_spare_servers = <?=$maxspareservers;?>
 
 pm.max_requests = 1000
 pm.process_idle_timeout = 20s
@@ -123,7 +123,7 @@ request_slowlog_timeout = 30s
 slowlog = /var/log/php-fpm/slow.log
 rlimit_files = 1024
 rlimit_core = 0
-;<?php echo $enable_chroot; ?>chroot = <?php echo $chroot_dir; ?>
+;<?=$enable_chroot;?>chroot = <?=$chroot_dir;?>
 
 ;chdir = /
 catch_workers_output = yes
@@ -138,44 +138,44 @@ env[OSTYPE] = $OSTYPE
 env[MACHTYPE] = $MACHTYPE
 env[MALLOC_CHECK_] = 2
 
-php_flag[zlib.output_compression] = <?php echo $output_compression_flag; ?>
+php_flag[zlib.output_compression] = <?=$output_compression_flag;?>
 
-php_admin_value[disable_functions] = <?php echo $disable_functions; ?>
+php_admin_value[disable_functions] = <?=$disable_functions;?>
 
-php_flag[display_errors] = <?php echo $display_error_flag; ?>
+php_flag[display_errors] = <?=$display_error_flag;?>
 
-php_flag[file_uploads] = <?php echo $file_uploads_flag; ?>
+php_flag[file_uploads] = <?=$file_uploads_flag;?>
 
-php_admin_value[upload_max_filesize] = <?php echo $upload_max_filesize; ?>
+php_admin_value[upload_max_filesize] = <?=$upload_max_filesize;?>
 
-php_flag[log_errors] = <?php echo $log_errors_flag; ?>
+php_flag[log_errors] = <?=$log_errors_flag;?>
 
-php_flag[output_buffering] = <?php echo $output_buffering_flag; ?>
+php_flag[output_buffering] = <?=$output_buffering_flag;?>
 
-php_flag[register_argc_argv] = <?php echo $register_argc_argv_flag; ?>
+php_flag[register_argc_argv] = <?=$register_argc_argv_flag;?>
 
-php_flag[mysql.allow_persistent] = <?php echo $mysql_allow_persistent_flag; ?>
+php_flag[mysql.allow_persistent] = <?=$mysql_allow_persistent_flag;?>
 
-php_admin_value[max_execution_time] = <?php echo $max_execution_time_flag; ?>
+php_admin_value[max_execution_time] = <?=$max_execution_time_flag;?>
 
-php_admin_value[max_input_time] = <?php echo $max_input_time_flag; ?>
+php_admin_value[max_input_time] = <?=$max_input_time_flag;?>
 
-php_admin_value[memory_limit] = <?php echo $memory_limit_flag; ?>
+php_admin_value[memory_limit] = <?=$memory_limit_flag;?>
 
-php_admin_value[post_max_size] = <?php echo $post_max_size_flag; ?>
+php_admin_value[post_max_size] = <?=$post_max_size_flag;?>
 
-php_flag[allow_url_fopen] = <?php echo $allow_url_fopen_flag; ?>
+php_flag[allow_url_fopen] = <?=$allow_url_fopen_flag;?>
 
-php_flag[allow_url_include] = <?php echo $allow_url_include_flag; ?>
+php_flag[allow_url_include] = <?=$allow_url_include_flag;?>
 
-php_admin_value[session.save_path] = <?php echo $session_save_path_flag; ?>
+php_admin_value[session.save_path] = <?=$session_save_path_flag;?>
 
-php_flag[cgi.force_redirect] = <?php echo $cgi_force_redirect_flag; ?>
+php_flag[cgi.force_redirect] = <?=$cgi_force_redirect_flag;?>
 
-php_flag[enable_dl] = <?php echo $enable_dl_flag; ?>
+php_flag[enable_dl] = <?=$enable_dl_flag;?>
 
-php_admin_value[open_basedir] = <?php echo $openbasedir; ?>
+php_admin_value[open_basedir] = <?=$openbasedir;?>
 
-php_admin_value[max_input_vars] = <?php echo $max_input_vars_flag; ?>
+php_admin_value[max_input_vars] = <?=$max_input_vars_flag;?>
 
-php_admin_value[date.timezone] = "<?php echo $date_timezone_flag; ?>"
+php_admin_value[date.timezone] = "<?=$date_timezone_flag;?>"

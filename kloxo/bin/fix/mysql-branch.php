@@ -11,4 +11,3 @@ $nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
 
 setMysqlBranch($select, $nolog);
 
-

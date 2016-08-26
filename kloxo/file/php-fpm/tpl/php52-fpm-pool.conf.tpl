@@ -36,25 +36,25 @@
 	}
 ?>
 		<section name="pool">
-			<value name="name"><?php echo $pool; ?></value>
-			<!-- <value name="listen_address">127.0.0.1:<?php echo $fpmport; ?></value> -->
-			<value name="listen_address">/opt/configs/php-fpm/sock/php52m-<?php echo $user; ?>.sock</value>
+			<value name="name"><?=$pool;?></value>
+			<!-- <value name="listen_address">127.0.0.1:<?=$fpmport;?></value> -->
+			<value name="listen_address">/opt/configs/php-fpm/sock/php52m-<?=$user;?>.sock</value>
 			<value name="listen_options">
 				<value name="backlog">65536</value>
-				<value name="owner"><?php echo $user; ?></value>
-				<value name="group"><?php echo $user; ?></value>
+				<value name="owner"><?=$user;?></value>
+				<value name="group"><?=$user;?></value>
 				<value name="mode">0666</value>
 			</value>
-			<value name="user"><?php echo $user; ?></value>
-			<value name="group"><?php echo $user; ?></value>
+			<value name="user"><?=$user;?></value>
+			<value name="group"><?=$user;?></value>
 			<value name="pm">
 				<value name="style">static</value>
 				<!-- <value name="style">apache_like</value> -->
-				<value name="max_children"><?php echo $maxchildren; ?></value>
+				<value name="max_children"><?=$maxchildren;?></value>
 				<value name="apache_like">
-					<value name="StartServers"><?php echo $startservers; ?></value>
-					<value name="MinSpareServers"><?php echo $minspareservers; ?></value>
-					<value name="MaxSpareServers"><?php echo $maxspareservers; ?></value>
+					<value name="StartServers"><?=$startservers;?></value>
+					<value name="MinSpareServers"><?=$minspareservers;?></value>
+					<value name="MaxSpareServers"><?=$maxspareservers;?></value>
 				</value>
 			</value>
 			<value name="request_terminate_timeout">120s</value>
@@ -78,27 +78,27 @@
 				<value name="MALLOC_CHECK_">2</value>
 			</value>
 			<value name="php_defines">
-				<value name="zlib.output_compression"><?php echo $output_compression_flag; ?></value>
-				<value name="disable_functions"><?php echo $disable_functions; ?></value>
-				<value name="display_errors"><?php echo $display_error_flag; ?></value>
-				<value name="file_uploads"><?php echo $file_uploads_flag; ?></value>
-				<value name="upload_max_filesize"><?php echo $upload_max_filesize; ?></value>
-				<value name="log_errors"><?php echo $log_errors_flag; ?></value>
-				<value name="output_buffering"><?php echo $output_buffering_flag; ?></value>
-				<value name="register_argc_argv"><?php echo $register_argc_argv_flag; ?></value>
-				<value name="mysql.allow_persistent"><?php echo $mysql_allow_persistent_flag; ?></value>
-				<value name="max_execution_time"><?php echo $max_execution_time_flag; ?></value>
-				<value name="max_input_time"><?php echo $max_input_time_flag; ?></value>
-				<value name="memory_limit"><?php echo $memory_limit_flag; ?></value>
-				<value name="post_max_size"><?php echo $post_max_size_flag; ?></value>
-				<value name="allow_url_fopen"><?php echo $allow_url_fopen_flag; ?></value>
-				<value name="allow_url_include"><?php echo $allow_url_include_flag; ?></value>
-				<value name="session.save_path"><?php echo $session_save_path_flag; ?></value>
-				<value name="cgi.force_redirect"><?php echo $cgi_force_redirect_flag; ?></value>
-				<value name="enable_dl"><?php echo $enable_dl_flag; ?></value>
-				<value name="open_basedir"><?php echo $openbasedir; ?></value>
-				<value name="max_input_vars"><?php echo $max_input_vars_flag; ?></value>
-				<value name="date.timezone"><?php echo $date_timezone_flag; ?></value>
+				<value name="zlib.output_compression"><?=$output_compression_flag;?></value>
+				<value name="disable_functions"><?=$disable_functions;?></value>
+				<value name="display_errors"><?=$display_error_flag;?></value>
+				<value name="file_uploads"><?=$file_uploads_flag;?></value>
+				<value name="upload_max_filesize"><?=$upload_max_filesize;?></value>
+				<value name="log_errors"><?=$log_errors_flag;?></value>
+				<value name="output_buffering"><?=$output_buffering_flag;?></value>
+				<value name="register_argc_argv"><?=$register_argc_argv_flag;?></value>
+				<value name="mysql.allow_persistent"><?=$mysql_allow_persistent_flag;?></value>
+				<value name="max_execution_time"><?=$max_execution_time_flag;?></value>
+				<value name="max_input_time"><?=$max_input_time_flag;?></value>
+				<value name="memory_limit"><?=$memory_limit_flag;?></value>
+				<value name="post_max_size"><?=$post_max_size_flag;?></value>
+				<value name="allow_url_fopen"><?=$allow_url_fopen_flag;?></value>
+				<value name="allow_url_include"><?=$allow_url_include_flag;?></value>
+				<value name="session.save_path"><?=$session_save_path_flag;?></value>
+				<value name="cgi.force_redirect"><?=$cgi_force_redirect_flag;?></value>
+				<value name="enable_dl"><?=$enable_dl_flag;?></value>
+				<value name="open_basedir"><?=$openbasedir;?></value>
+				<value name="max_input_vars"><?=$max_input_vars_flag;?></value>
+				<value name="date.timezone"><?=$date_timezone_flag;?></value>
 			</value>
 		</section>
 

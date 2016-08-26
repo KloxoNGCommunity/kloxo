@@ -712,20 +712,20 @@ class Domaind extends DomainBase
 		$web->fixSyncServer();
 		$dns->fixSyncServer();
 
-		$skelf = "__path_client_root/$parent->nname/skeleton.zip";
+		$skelf = "{$sgbl->__path_client_root}/{$parent->nname}/skeleton.zip";
 		
 		if (!lxfile_exists($skelf)) {
-			$skelf = "__path_client_root/admin/skeleton.zip";
+			$skelf = "{$sgbl->__path_client_root}/admin/skeleton.zip";
 		}
 
 		//--- for new user-skeleton (since 6.1.7)
 		if (!lxfile_exists($skelf)) {
 			// MR -- must using \- for zip name
-			$skelf = "__path_kloxo_httpd_root/" . "user\-skeleton.zip";
+			$skelf = "{$sgbl->__path_kloxo_httpd_root}/" . "user\-skeleton.zip";
 		}
 
 		if (!lxfile_exists($skelf)) {
-			$skelf = "__path_kloxo_httpd_root/skeleton.zip";
+			$skelf = "{$sgbl->__path_kloxo_httpd_root}/skeleton.zip";
 		}
 		if (!lxfile_exists($skelf)) {
 			$skelf = null;
@@ -844,7 +844,7 @@ class Domaind extends DomainBase
 		$this->AddObject('lxbackup', $backup);
 	*/
 
-	//	lxfile_mkdir("__path_program_home/domain/$this->nname/__backup");
+	//	lxfile_mkdir("{$sgbl->__path_program_home}/domain/{$this->nname}/__backup");
 
 		$this->lxclientpostAdd();
 

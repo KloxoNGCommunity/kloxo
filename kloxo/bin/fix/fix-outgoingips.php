@@ -36,8 +36,7 @@ if (file_exists($flgfile)) {
 				}
 			}
 
-		// MR -- make error in debug if enable because exists '$this->write' in postUpdate/postAdd
-		//	$dns->was();
+			$dns->was();
 		}
 	
 		file_put_contents("/var/qmail/control/outgoingips", $t);

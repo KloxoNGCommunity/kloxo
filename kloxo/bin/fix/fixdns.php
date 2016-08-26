@@ -14,8 +14,10 @@ log_cleanup("Fixing DNS server config (including their parked/redirect domains)"
 if (isset($list['new_dnstemplate'])) {
 	$dnst = new Dnstemplate(null, null, $list['new_dnstemplate']);
 	$dnst->get();
+
 	if ($dnst->dbaction === 'add') {
 		log_cleanup("- DNS template doesn't exist", $nolog);
+
 		exit;
 	}
 }
@@ -72,7 +74,6 @@ foreach($clist as $c) {
 			$dns->setUpdateSubaction('allowed_transfer');
 		}
 
-		// MR -- make error in debug if enable because exists '$this->write' in postUpdate/postAdd
-	//	$dns->was();
+		$dns->was();
 	}
 }

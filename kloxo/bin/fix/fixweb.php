@@ -84,11 +84,9 @@ foreach($list as $c) {
 		//	$web->setUpdateSubaction('htaccess_update');
 		}
 
-		// MR -- make error in debug if enable because exists '$this->write' in postUpdate/postAdd
-	//	$web->was();
+		$web->was();
 
 		$counter++;
 	}
 }
-
 

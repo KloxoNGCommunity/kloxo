@@ -16,9 +16,8 @@ foreach($list as $c) {
 
 		foreach($dplist as $dp) {
 			$dp->setUpdateSubaction('full_update');
+
 			$dp->was();
 		}
 	}
 }
-
-

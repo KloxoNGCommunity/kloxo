@@ -15,6 +15,7 @@ foreach($list as $c) {
 	foreach($dlist as $l) {
 		$web = $l->getObject('web');
 		$web->setUpdateSubaction('full_update');
+
 		$web->was();
 	}
 }

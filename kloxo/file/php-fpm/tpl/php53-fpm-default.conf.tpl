@@ -12,7 +12,7 @@
 ?>
 [default]
 ; listen = 127.0.0.1:50000
-listen = /opt/configs/php-fpm/sock/<?php echo $phpselected; ?>-apache.sock
+listen = /opt/configs/php-fpm/sock/<?=$phpselected;?>-apache.sock
 
 listen.backlog = -1
 listen.allowed_clients = 127.0.0.1
