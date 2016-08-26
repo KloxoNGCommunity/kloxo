@@ -70,7 +70,8 @@ class mailqueue__qmail extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		lxfile_unix_chmod("{$sgbl->__path_program_root}/bin/misc/qmHandle", "0755");
-		$res = lxshell_output("{$sgbl->__path_program_root}/bin/misc/qmHandle", "-l");
+	//	$res = lxshell_output("{$sgbl->__path_program_root}/bin/misc/qmHandle", "-l");
+		$res = lxshell_output("sh", "/script/mailqueue", "-l");
 
 		$list = array('subject', 'to', 'from', 'date', 'size');
 

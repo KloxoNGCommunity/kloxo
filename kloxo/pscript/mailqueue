@@ -1,4 +1,6 @@
 #!/bin/sh
 
-chmod 755 /usr/local/lxlabs/kloxo/bin/misc/qmHandle
-/usr/local/lxlabs/kloxo/bin/misc/qmHandle $@
+. /script/directory
+
+chmod 755 ../bin/misc/qmHandle
+../bin/misc/qmHandle $*
