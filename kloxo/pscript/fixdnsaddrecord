@@ -14,7 +14,7 @@ if [ "$#" == 0 ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
 	echo "  format:"
-	echo "    sh $0 --type=<> --key=<> [--client=<>]"
+	echo "    sh $0 --type=<> --key=<> --value=<> [--client=<>]"
 	echo " ------------------------------------------------------------------------------"
 	echo
 	echo " Formula: 'key IN type value' (example 'spf IN TXT \"v=spf1 a mx ~all\"')"
@@ -30,6 +30,9 @@ REC_TYPE=${request1#--type\=}
 request2=$2
 REC_KEY=${request2#--key\=}
 
+request3=$3
+REC_VALUE=${request3#--value\=}
+
 if [ "$REC_TYPE" == "" ] ; then
 	echo "Empty --type= entry..."
 	exit
@@ -40,5 +43,10 @@ if [ "$REC_KEY" == "" ] ; then
 	exit
 fi
 
+if [ "$REC_VALUE" == "" ] ; then
+	echo "Empty --value= entry..."
+	exit
+fi
+
 . /script/directory
-lxphp.exe ../bin/misc/fixdnsremoverecord.php $*
+lxphp.exe ../bin/misc/fixdnsaddrecord.php $*

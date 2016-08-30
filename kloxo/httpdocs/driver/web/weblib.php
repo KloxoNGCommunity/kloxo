@@ -1468,7 +1468,7 @@ class Web extends Lxdb
 				} else {
 					$s = ($this->web_selected) ? $this->web_selected : 'back-end';
 
-					$x['web_selected'] = "none (as '{$s}' in proxy)";
+					$x['web_selected'] = "--None-- (use '{$driverapp}' and as '{$s}' in proxy)";
 					$this->convertToUnmodifiable($x);
 					$vlist['web_selected'] = $x['web_selected'];
 				}
@@ -1488,7 +1488,7 @@ class Web extends Lxdb
 							$this->setDefaultValue('php_selected', $l[0]);
 						}
 					} else {
-						$y['php_selected'] = '--PHP Used--';
+						$y['php_selected'] = $l[0];
 						$this->convertToUnmodifiable($y);
 						$vlist['php_selected'] = $y['php_selected'];
 					}
@@ -1522,13 +1522,23 @@ class Web extends Lxdb
 
 	static function getPhpSelectedList()
 	{
-		$t = '--PHP Used--';
+		$t = "--PHP Used--";
+
+		$g = glob("../etc/flag/use_php*m.flg");
+
+		if (!empty($g)) {
+			$f = str_replace('.flg', '', str_replace('use_', '', basename($g[0])));
+			$u = $t . " (use '{$f}')";
+		} else {
+			$v = getPhpVersion();
+			$u = $t . " (use 'PHP Branch' version '{$v}')";
+		}
 
 		if (file_exists('../etc/flag/enablemultiplephp.flg')) {
 			$p = getMultiplePhpList();
 			$l = array_merge(array($t), $p);
 		} else {
-			$l = array($t);
+			$l = array($u);
 		}
 
 		return $l;

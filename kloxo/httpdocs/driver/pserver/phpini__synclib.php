@@ -4,11 +4,11 @@ class phpini__sync extends Lxdriverclass
 {
 	function initString()
 	{
-		//	$pclass = $this->main->getParentClass();
+	//	$pclass = $this->main->getParentClass();
 
 		$this->main->fixphpIniFlag();
 
-		//	$this->setInitString();
+	//	$this->setInitString();
 
 	}
 

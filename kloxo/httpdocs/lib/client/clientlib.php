@@ -494,6 +494,7 @@ class Client extends ClientBase
 
 
 		$alist[] = "a=show&o=phpini";
+		$alist[] = "a=updateform&sa=extraedit&o=phpini";
 
 		$alist[] = "a=updateform&sa=update&o=domaindefault";
 		$alist[] = "a=list&c=auxiliary";

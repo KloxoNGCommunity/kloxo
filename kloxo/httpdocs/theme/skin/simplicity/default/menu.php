@@ -278,12 +278,6 @@ if (strpos($loginas, "@") !== false) {
 					<div class="dropmenu">
 						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=custombutton"><?=$ghtml->getTitleOnly("a=list&c=custombutton");?></a><br/>
 					</div>
-<!--
-					<b><?=$login->getKeywordUc('reversedns');?></b>
-					<div class="dropmenu">
-						&#x00bb;&nbsp;<a href="/display.php?frm_action=list&frm_o_cname=reversedns"><?=$ghtml->getTitleOnly("a=list&c=reversedns");?></a><br/>
-					</div>
--->
 <?php
 	}
 
@@ -840,10 +834,6 @@ if (strpos($loginas, "@") !== false) {
 
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$localhostquery;?>frm_o_cname=sshauthorizedkey">localhost</a>
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$serverquery;?>frm_o_cname=sshauthorizedkey"><?=$syncserver;?></a><br/>
-						<!-- &#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=show&o=jailed");?>
-
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$localhostquery;?>frm_o_o[1][class]=jailed">localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>frm_o_o[1][class]=jailed"><?=$syncserver;?></a><br/> -->
 <?php
 		} else {
 ?>
@@ -851,7 +841,6 @@ if (strpos($loginas, "@") !== false) {
 						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$serverquery;?>frm_o_cname=watchdog"><?=$ghtml->getTitleOnly("a=list&c=watchdog");?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$serverquery;?>frm_o_cname=hostdeny"><?=$ghtml->getTitleOnly("a=list&c=hostdeny");?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$serverquery;?>frm_o_cname=sshauthorizedkey"><?=$ghtml->getTitleOnly("a=list&c=sshauthorizedkey");?></a><br/>
-						<!-- &#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>frm_o_o[1][class]=jailed"><?=$ghtml->getTitleOnly("a=show&o=jailed");?></a><br/> -->
 <?php
 		}
 ?>
@@ -877,13 +866,11 @@ if (strpos($loginas, "@") !== false) {
 						&#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=show&o=phpini");?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$localhostquery;?>frm_o_o[1][class]=phpini">localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>frm_o_o[1][class]=phpini"><?=$syncserver;?></a>
-						<!-- &#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>frm_o_o[1][class]=phpini"><?=$clientid;?></a>--><br/>
-						<!-- &#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini");?>
+							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>frm_o_o[1][class]=phpini"><?=$syncserver;?></a><br/>
+						&#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini");?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=extraedit&<?=$localhostquery;?>frm_o_o[1][class]=phpini">localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=extraedit&<?=$serverquery;?>frm_o_o[1][class]=phpini"><?=$syncserver;?></a>
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=extraedit&<?=$serverquery;?>&<?=$clientquery;?>frm_o_o[1][class]=phpini"><?=$clientid;?></a><br/> -->
+							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=extraedit&<?=$serverquery;?>frm_o_o[1][class]=phpini"><?=$syncserver;?></a><br/>
 						&#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=show&o=serverweb");?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$localhostquery;?>frm_o_o[1][class]=serverweb">localhost</a>
@@ -901,12 +888,10 @@ if (strpos($loginas, "@") !== false) {
 ?>
 						&#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=show&o=phpini");?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$localhostquery;?>frm_o_o[1][class]=phpini">localhost</a>
-						<!-- &#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>&<?=$clientquery;?>frm_o_o[1][class]=phpini"><?=$clientid;?></a>--><br/>
-						<!-- &#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini");?>
+							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$localhostquery;?>frm_o_o[1][class]=phpini">localhost</a><br/>
+						&#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=updateform&sa=extraedit&o=phpini");?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=extraedit&<?=$localhostquery;?>frm_o_o[1][class]=phpini">localhost</a>
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=extraedit&<?=$serverquery;?>&<?=$clientquery;?>frm_o_o[1][class]=phpini"><?=$clientid;?></a><br/> -->
+							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=extraedit&<?=$localhostquery;?>frm_o_o[1][class]=phpini">localhost</a><br/>
 
 						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>frm_o_o[1][class]=serverweb"><?=$ghtml->getTitleOnly("a=show&o=serverweb");?></a><br/>
 						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=show&<?=$serverquery;?>frm_o_o[1][class]=serverftp"><?=$ghtml->getTitleOnly("a=show&o=serverftp");?></a><br/>

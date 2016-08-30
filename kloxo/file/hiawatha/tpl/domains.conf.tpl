@@ -158,16 +158,19 @@ if ($disabled) {
 }
 
 //if (!$reverseproxy) {
+/*
 ?>
 
 Directory {
 	DirectoryID = cache_expire
-	Path = <?=$webdocroot;?>
 
-	Extensions = jpeg, jpg, gif, png, ico, css, js
+	Path = /
+
+	Extensions = jpeg, jpg, gif, png, ico, css, js, pdf
 	ExpirePeriod 1 week
 }
 <?php
+*/
 if ($enablestats) {
 	if ($statsapp === 'awstats') {
 ?>

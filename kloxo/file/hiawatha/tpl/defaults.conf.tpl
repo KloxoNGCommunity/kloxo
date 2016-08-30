@@ -66,6 +66,15 @@ $defaultdocroot = "/home/kloxo/httpd/default";
 $fpmportapache = 50000;
 ?>
 
+Directory {
+	DirectoryID = cache_expire
+
+	Path = /
+
+	Extensions = jpeg, jpg, gif, png, ico, css, js, pdf
+	ExpirePeriod 1 week
+}
+
 UrlToolkit {
 	ToolkitID = monitor
 	RequestURI isfile Return
