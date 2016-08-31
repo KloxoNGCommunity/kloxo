@@ -507,7 +507,8 @@ if (strpos($loginas, "@") !== false) {
 	if ($clientquery === "") {
 ?>
 						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=update&frm_o_o[0][class]=domaindefault"><?=$ghtml->getTitleOnly("a=updateform&sa=update&o=domaindefault");?></a><br/>
-						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$serverquery;?>frm_o_cname=ftpsession"><?=$ghtml->getTitleOnly("a=list&c=ftpsession");?></a><br/>
+						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&frm_o_cname=ftpsession"><?=$ghtml->getTitleOnly("a=list&c=ftpsession");?></a><br/>
+
 						&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=shell_access"><?=$ghtml->getTitleOnly("a=updateform&sa=shell_access&o=client");?></a><br/>
 <?php
 	} else {
@@ -518,8 +519,9 @@ if (strpos($loginas, "@") !== false) {
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=update&<?=$clientquery;?>frm_o_o[1][class]=domaindefault"><?=$clientid;?></a><br/>
 						&#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=list&c=ftpsession");?>
 
-							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$serverquery;?>frm_o_cname=ftpsession"><?=$loginas;?></a>
+							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&frm_o_cname=ftpsession"><?=$loginas;?></a>
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=list&<?=$clientquery;?>frm_o_cname=ftpsession"><?=$clientid;?></a><br/>
+
 						&#x00bb;&nbsp;<?=$ghtml->getTitleOnly("a=updateform&sa=shell_access&o=client");?>
 
 							&#x00bb;&nbsp;<a href="/display.php?<?=$consumedlogin;?>frm_action=updateform&frm_subaction=shell_access"><?=$loginas;?></a>

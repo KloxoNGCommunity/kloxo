@@ -367,9 +367,21 @@ abstract class ClientCore extends Resourcecore
 				$res = add_disabled($res);
 
 				$vlist['nname'] = array('M', null);
-				$vlist['disable_system_flag'] = null;
-				$vlist['shell'] = array('s', $res);
-				$vlist['__v_updateall_button'] = array();
+
+				$this->setDefaultValue('shell', $res[0]);
+				$this->setDefaultValue('disable_system_flag', 'off');
+
+				if ($login->isAdmin()) {
+					$vlist['disable_system_flag'] = null;
+
+					$vlist['shell'] = array('s', $res);
+
+					$vlist['__v_updateall_button'] = array();
+				} else {
+					$vlist['disable_system_flag'] = array('M', null);
+
+					$vlist['shell'] = array('M', null);
+				}
 
 				return $vlist;
 

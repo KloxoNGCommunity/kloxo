@@ -1588,6 +1588,8 @@ class Web extends Lxdb
 //	function getAndUnzipSkeleton($ip, $filepass, $dir)
 	function getAndUnzipSkeleton($dir, $filepass = null, $ip = null)
 	{
+		global $sgbl;
+
 		$oldir = getcwd();
 		// File may be a variable path.
 		//	dprintr($filepass);
@@ -1600,7 +1602,7 @@ class Web extends Lxdb
 			if (file_exists("/home/{$this->username}/skeleton.zip")) {
 				lxfile_cp("/home/{$this->username}/skeleton.zip", "{$dir}/{$file}");
 			} else {
-				lxfile_cp("__path_program_root/file/skeleton.zip", "{$dir}/{$file}");
+				lxfile_cp("{$sgbl->__path_program_root}/file/skeleton.zip", "{$dir}/{$file}");
 			}
 		}
 
@@ -1608,17 +1610,21 @@ class Web extends Lxdb
 			// The thing is this needs to be executed even on secondary master and then the primary master would be down.
 			// So if we cannot connect back, we just continue. Skeleton is not an important thing.
 			try {
-				getFromFileserv($ip, $filepass, "$dir/$file");
+				getFromFileserv($ip, $filepass, "{$dir}/{$file}");
 			} catch (exception $e) {
 				return;
 			}
 		}
 
-		lxfile_generic_chown("$dir/$file", $this->username);
-		lxshell_unzip($this->username, $dir, "$dir/$file");
-		lunlink("$dir/$file");
+		lxfile_generic_chown("{$dir}/{$file}", $this->username);
 
-		$this->replaceVariables("$dir/index.html");
+		if (!file_exists("{$dir}/index.html")) {
+			lxshell_unzip($this->username, $dir, "{$dir}/{$file}");
+
+			lunlink("{$dir}/{$file}");
+
+			$this->replaceVariables("$dir/index.html");
+		}
 
 		// --- also copy /home/kloxo/httpd/user-logo.png to each domain path
 		if (lxfile_exists("../file/user-logo.png")) {

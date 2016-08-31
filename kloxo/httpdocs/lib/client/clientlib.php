@@ -500,9 +500,9 @@ class Client extends ClientBase
 		$alist[] = "a=list&c=auxiliary";
 
 		$alist[] = "a=list&c=utmp";
-		if ($login->isAdmin()) {
+	//	if ($login->isAdmin()) {
 			$alist['__v_dialog_shell'] = "a=updateform&sa=shell_access";
-		}
+	//	}
 
 		if (check_if_many_server()) {
 			if (!$this->isLogin() && !$this->isAdmin()) {

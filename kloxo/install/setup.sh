@@ -30,7 +30,9 @@ if ! [ -d ${ppath}/log ] ; then
 	mkdir -p ${ppath}/log
 fi
 
-'rm' -f /var/run/yum.pid
+if [ -e /var/run/yum.pid ] ; then
+	'rm' -f /var/run/yum.pid
+fi
 
 cd /
 

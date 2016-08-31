@@ -530,6 +530,7 @@ $__description["copy_name"] = array("Copy Name");
 $__description["paste"] = array("Paste");
 $__description["upload_(http)"] = array("Upload (http)");
 $__description["upload_(ftp)"] = array("Upload (ftp)");
+$__description["upload_remote"] = array("Remote Upload");
 $__description["copy"] = array("Copy");
 $__description["html_edit"] = array("Html Edit");
 $__description["cut"] = array("Cut");

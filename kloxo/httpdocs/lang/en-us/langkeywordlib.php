@@ -209,6 +209,7 @@ $__throw["could_not_create_tmp_dir"] = "Could not create TMP dir";
 $__throw["corrupted_file"] = "Corrupted File";
 $__throw["need"] = "Need";
 $__throw["could_not_connect_to_ftp_server"] = "Could not connect to FTP server";
+$__throw["could_not_connect_to_server"] = "Could not connect to server";
 $__throw["file_download_failed"] = "File download failed";
 $__throw["install_failed"] = "Install failed";
 $__throw["remove_failed"] = "Remove failed";

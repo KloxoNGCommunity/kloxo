@@ -1,0 +1,62 @@
+#!/bin/sh
+
+echo "*** Install ioncube-loader ***"
+
+cd /opt
+
+install='no'
+
+if [ ! -d ./ioncube ] ; then
+	install='yes'
+fi
+
+if [ "${1}" == "-y" ] || [ "${1}" == "--force" ] ; then
+	install='yes'
+fi
+
+if [ "${install}" == 'yes' ] ; then
+	echo "- Getting ioncube-loader from ioncube.com and extracting"
+	if [ -d ./ioncube ] ; then
+		mv -f ./ioncube ./ioncube.old >/dev/null 2>&1
+	fi
+
+	if [ "$(uname -m)" == "x86_64" ] ; then
+		wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz >/dev/null 2>&1
+		tar xvfz ioncube_loaders_lin_x86-64.tar.gz >/dev/null 2>&1
+		'rm' -f tar xvfz ioncube_loaders_lin_x86-64.tar.gz >/dev/null 2>&1
+	else
+		wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86.tar.gz >/dev/null 2>&1
+		tar xvfz ioncube_loaders_lin_x86.tar.gz >/dev/null 2>&1
+		'rm' -f tar xvfz ioncube_loaders_lin_x86.tar.gz >/dev/null 2>&1
+	fi
+
+	chown -R root:root ./ioncube >/dev/null 2>&1
+	'rm' -rf ./ioncube.old >/dev/null 2>&1
+fi
+
+sover=$(dir -l /opt/ioncube/*.so 2>/dev/null|grep -v '_ts'|awk '{print $9}'|sed -e 's:/opt/ioncube/ioncube_loader_lin_::'|sed -e 's:.so::'|tr '\n' ' ')
+
+for i in $sover ; do
+	t=$(echo $i|sed -e 's:\.::')
+
+	for j in s m ; do
+		if [ -d /opt/php${t}${j} ] ; then
+			inifile=$(dir -l /opt/php${t}${j}/etc/php.d/*ioncube* 2>/dev/null|awk '{print $9}'|tr '\n' ' ')
+
+			if [ "${inifile}" == "" ] ; then
+				if [ "${t}" == "55" ] ; then
+					f="/opt/php${t}${j}/etc/php.d/01-ioncube-loader.nonini"
+				else
+					f="/opt/php${t}${j}/etc/php.d/ioncube-loader.nonini"
+				fi
+				echo "- Creating '${f}'"
+				echo 'zend_extension=/opt/ioncube/ioncube_loader_lin_'${i}'.so' > $f
+			else
+				for k in $inifile ; do
+					echo "- Overwriting '${k}'"
+					echo 'zend_extension=/opt/ioncube/ioncube_loader_lin_'${i}'.so' > $k
+				done
+			fi
+		fi
+	done
+done
