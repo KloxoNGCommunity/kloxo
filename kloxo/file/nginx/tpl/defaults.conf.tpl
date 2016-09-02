@@ -34,7 +34,6 @@ $trgtconfpath = "/etc/nginx";
 $trgtconfdpath = "{$trgtconfpath}/conf.d";
 
 $defaultdocroot = "/home/kloxo/httpd/default";
-$cpdocroot = "/home/kloxo/httpd/cp";
 
 $globalspath = "{$srcpath}/conf/globals";
 
@@ -153,10 +152,6 @@ if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
 }
 
 $listens = array('listen_nonssl_default', 'listen_ssl_default');
-
-if ($disabled) {
-	$cpdocroot = $webmaildocroot = $webdocroot = $disabledocroot;
-}
 
 foreach ($certnamelist as $ip => $certname) {
 	$count = 0;

@@ -143,6 +143,13 @@ if ($reverseproxy) {
 $disabledocroot = "/home/kloxo/httpd/disable";
 $cpdocroot = "/home/kloxo/httpd/cp";
 
+if ($statsapp === 'webalizer') {
+	$statsdocroot = "/home/httpd/{$domainname}/webstats";
+} else {
+	$statsdocroot_base = "/home/kloxo/httpd/awstats/wwwroot";
+	$statsdocroot = "{$statsdocroot_base}/cgi-bin";
+}
+
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
 if (file_exists("{$globalspath}/custom.generic.conf")) {
@@ -170,7 +177,7 @@ if ($disabled) {
 }
 
 if ($disabled) {
-	$cpdocroot = $webmaildocroot = $webdocroot = $disabledocroot;
+	$cpdocroot = $statsdocroot = $webmaildocroot = $webdocroot = $disabledocroot;
 }
 
 ?>
@@ -196,6 +203,44 @@ $HTTP["host"] =~ "^cp\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	include "<?=$globalspath;?>/switch_standard.conf"
 
+}
+
+
+## stats for '<?=$domainname;?>'
+$HTTP["host"] =~ "^stats\.<?=str_replace(".", "\.", $domainname);?>" {
+
+	server.follow-symlink = "disable"
+
+	include "<?=$globalspath;?>/acme-challenge.conf"
+
+	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+
+	var.domain = "stats.<?=$domainname;?>"
+	var.user = "apache"
+	var.fpmport = "<?=$fpmportapache;?>"
+	var.rootdir = "<?=$statsdocroot;?>/"
+	var.phpselected = "php"
+	var.timeout = "<?=$timeout;?>"
+
+	server.document-root = var.rootdir
+
+	index-file.names = ( <?=$indexorder;?> )
+<?php
+if ($enablestats) {
+//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+?>
+
+	include "<?=$globalspath;?>/stats.conf"
+<?php
+		if ($statsprotect) {
+?>
+
+	include "<?=$globalspath;?>/dirprotect_stats.conf"
+<?php
+		}
+//	}
+}
+?>
 }
 
 <?php
@@ -513,25 +558,6 @@ if ($redirectionremote) {
 	}
 }
 
-if ($enablestats) {
-?>
-
-	include "<?=$globalspath;?>/stats_log.conf"
-<?php
-//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
-?>
-
-	include "<?=$globalspath;?>/stats.conf"
-<?php
-		if ($statsprotect) {
-?>
-
-	include "<?=$globalspath;?>/dirprotect_stats.conf"
-<?php
-		}
-//	}
-}
-
 	if ($lighttpdextratext) {
 ?>
 
@@ -611,6 +637,15 @@ if ($enablestats) {
 		#cgi.assign = ( "" => "/home/httpd/" + var.domain + "/perlsuexec.sh" )
 		cgi.assign = ( "" => "/usr/bin/perl" )
 	}
+<?php
+	}
+
+	if ($enablestats) {
+?>
+
+	include "<?=$globalspath;?>/stats_log.conf"
+
+	url.redirect += ( "^(/stats/|/stats$)" => "//stats." + var.domain + "/" )
 <?php
 	}
 ?>

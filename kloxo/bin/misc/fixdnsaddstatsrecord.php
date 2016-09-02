@@ -7,24 +7,12 @@ initProgram('admin');
 $login->loadAllObjects('client');
 $list = $login->getList('client');
 
-$par = parse_opt($argv);
-
-if (isset($par['type'])) {
-	$ttype = strtolower($par['type']);
-}
-
-if (isset($par['key'])) {
-	$hostname = strtolower($par['key']);
-}
-
-if (isset($par['value'])) {
-	$param = strtolower($par['value']);
-}
-
-$client = (isset($par['client'])) ? $par['client'] : null;
 $clist = array();
 
 $nolog = false;
+
+$ttype = 'a';
+$hostname = 'stats';
 
 log_cleanup("*** Add DNS record for '{$hostname}' key in '{$ttype}' type ***", $nolog);
 
@@ -44,11 +32,16 @@ foreach($list as $c) {
 		print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
 
 		$added = true;
+		$param = '';
 
 		foreach($dns->dns_record_a as $drec) {
 			if (($drec->ttype === $ttype) && ($drec->hostname === $hostname)) {
 				print("  * already exists of '{$hostname}' key in '{$ttype}' type\n");
 				$added = false;
+			}
+
+			if (($drec->ttype === $ttype) && ($drec->hostname === '__base__')) {
+				$param = $drec->param;
 			}
 		}
 

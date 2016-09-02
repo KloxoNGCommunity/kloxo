@@ -19,7 +19,7 @@ if (isset($par['newip'])) {
 	$newip = $par['newip'];
 }
 
-log_cleanup("Changing DNS 'A record' IP", $nolog);
+log_cleanup("*** Changing DNS 'A record' IP ***", $nolog);
 
 foreach($list as $c) {
 	$dlist = $c->getList('domain');
@@ -41,7 +41,7 @@ foreach($list as $c) {
 				if ($drec->param === $oldip) {
 					$sub = str_replace("a_", "", $drec->nname);
 
-					print("-- old '{$oldip}' to new '{$newip}' for '{$sub}'\n");
+					print("  * old '{$oldip}' to new '{$newip}' for '{$sub}'\n");
 
 					$drec->param = $newip;
 
@@ -51,7 +51,7 @@ foreach($list as $c) {
 		}
 
 		if ($changed === false) {
-			print("-- NO exists of old '{$oldip}' for '{$dns->nname}'\n");
+			print("  * no exists of old '{$oldip}' for '{$dns->nname}'\n");
 		}
 
 		$dns->was();

@@ -54,3 +54,9 @@ echo
 
 . /script/counter-end.inc
 
+echo ""
+echo "REMARK:"
+echo " - run 'sh /script/fixdnsaddstatsrecord' to make sure dns records including"
+echo "   'A record' for 'stats'"
+echo " - 'http://domain.com/stats' will be redirect to 'http://stats.domain.com'"
+

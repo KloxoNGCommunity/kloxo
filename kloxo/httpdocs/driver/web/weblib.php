@@ -1468,7 +1468,7 @@ class Web extends Lxdb
 				} else {
 					$s = ($this->web_selected) ? $this->web_selected : 'back-end';
 
-					$x['web_selected'] = "--None-- (use '{$driverapp}' and as '{$s}' in proxy)";
+					$x['web_selected'] = "--None-- (use '{$driverapp}' but default as '{$s}' in proxy)";
 					$this->convertToUnmodifiable($x);
 					$vlist['web_selected'] = $x['web_selected'];
 				}

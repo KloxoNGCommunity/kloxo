@@ -105,6 +105,13 @@ $webmailremote = str_replace("https://", "", $webmailremote);
 
 $cpdocroot = "/home/kloxo/httpd/cp";
 
+if ($statsapp === 'webalizer') {
+	$statsdocroot = "/home/httpd/{$domainname}/webstats";
+} else {
+	$statsdocroot_base = "/home/kloxo/httpd/awstats/wwwroot";
+	$statsdocroot = "{$statsdocroot_base}/cgi-bin";
+}
+
 if ($indexorder) {
 	$indexorder = implode(' ', $indexorder);
 }
@@ -231,6 +238,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	foreach ($ports as &$port) {
 		$protocol = ($count === 0) ? "http://" : "https://";
+		$kloxoport = ($count === 0) ? $kloxoportnonssl : $kloxoportssl;
 ?>
 
 ## cp for '<?=$domainname;?>'
@@ -373,6 +381,219 @@ foreach ($certnamelist as $ip => $certname) {
 			Require all granted
 		</IfVersion>
 	</Directory>
+
+</VirtualHost>
+
+
+## stats for '<?=$domainname;?>'
+<VirtualHost ${ip}:<?=$portlist[$count];?> >
+
+	SetEnvIf X-Forwarded-Proto https HTTPS=1
+
+	ServerName stats.<?=$domainname;?>
+
+
+	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+
+	DocumentRoot "<?=$statsdocroot;?>"
+
+	DirectoryIndex <?=$indexorder;?>
+
+
+	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+<?php
+			if ($count !== 0) {
+?>
+
+	<IfModule mod_http2.c>
+		Protocols h2 http/1.1
+	</IfModule>
+
+	<IfModule mod_ssl.c>
+		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+
+		SSLCertificateFile <?=$certname;?>.pem
+		SSLCertificateKeyFile <?=$certname;?>.key
+<?php
+					if (file_exists("{$certname}.ca")) {
+?>
+		SSLCACertificatefile <?=$certname;?>.ca
+
+		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+<?php
+					}
+?>
+	</IfModule>
+<?php
+			} else {
+?>
+
+	<IfModule mod_http2.c>
+		Protocols h2c http/1.1
+	</IfModule>
+<?php
+			}
+?>
+
+	<IfModule suexec.c>
+		SuexecUserGroup apache apache
+	</IfModule>
+
+	<IfModule mod_suphp.c>
+		SuPhp_UserGroup apache apache
+	</IfModule>
+
+	#<IfVersion < 2.4>
+		<IfModule mod_ruid2.c>
+			RMode config
+			RUidGid apache apache
+			RMinUidGid apache apache
+		</IfModule>
+
+		<IfModule itk.c>
+			AssignUserId apache apache
+		</IfModule>
+
+		<IfModule mod_fastcgi.c>
+			Alias /stats.<?=$domainname;?>.<?=$count;?>fake "<?=$statsdocroot;?>/stats.<?=$domainname;?>.<?=$count;?>fake"
+			#FastCGIExternalServer "<?=$statsdocroot;?>/stats.<?=$domainname;?>.<?=$count;?>fake" \
+			#	-host 127.0.0.1:<?=$fpmportapache;?> -idle-timeout <?=$timeout;?> -pass-header Authorization
+			FastCGIExternalServer "<?=$statsdocroot;?>/stats.<?=$domainname;?>.<?=$count;?>fake" \
+				-socket /opt/configs/php-fpm/sock/<?=$phpselected;?>-apache.sock \
+				-idle-timeout <?=$timeout;?> -pass-header Authorization
+			<FilesMatch \.php$>
+				SetHandler application/x-httpd-fastphp
+			</FilesMatch>
+			Action application/x-httpd-fastphp /stats.<?=$domainname;?>.<?=$count;?>fake
+			<Files "stats.<?=$domainname;?>.<?=$count;?>fake">
+				RewriteCond %{REQUEST_URI} !stats.<?=$domainname;?>.<?=$count;?>fake
+			</Files>
+		</IfModule>
+
+		<IfModule !mod_ruid2.c>
+			<IfModule !mod_itk.c>
+				<IfModule !mod_fastcgi.c>
+					<IfModule mod_fcgid.c>
+						FcgidIOTimeout <?=$timeout;?>
+
+						<Directory "<?=$cpdocroot;?>/">
+							Options +ExecCGI
+							<FilesMatch \.php$>
+								SetHandler fcgid-script
+							</FilesMatch>
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
+						</Directory>
+					</IfModule>
+				</IfModule>
+			</IfModule>
+		</IfModule>
+	#</IfVersion>
+
+	<IfVersion >= 2.4>
+		<IfModule mod_proxy_fcgi.c>
+			ProxyRequests Off
+			ProxyErrorOverride On
+			ProxyPass /error !
+			ErrorDocument 500 /error/500.html
+			<FilesMatch \.php$>
+				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/<?=$phpselected;?>-apache.sock|fcgi://localhost"
+			</FilesMatch>
+			<Proxy "fcgi://localhost">
+				ProxySet timeout=<?=$timeout;?>
+
+				ProxySet connectiontimeout=<?=$timeout;?>
+
+				#ProxySet enablereuse=on
+				ProxySet max=25
+				ProxySet retry=0
+			</Proxy>
+		</IfModule>
+	</IfVersion>
+<?php
+			if ($enablestats) {
+				if (!$reverseproxy) {
+					if ($statsapp === 'awstats') {
+?>
+
+	<IfModule mod_rewrite.c>
+		RewriteEngine on
+		RewriteRule ^/$ /awstats.pl?config=<?=$domainname;?> [R]
+	</IfModule>
+
+	AliasMatch "^/awstatscss(/|$)(.*)" "<?=$statsdocroot_base;?>/css$1$2"
+	AliasMatch "^/awstatsicons(/|$)(.*)" "<?=$statsdocroot_base;?>/icon$1$2"
+
+	<Directory "<?=$statsdocroot_base;?>/css/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+	</Directory>
+
+	<Directory "<?=$statsdocroot_base;?>/icon/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+	</Directory>
+<?php
+					}
+?>
+
+	<Directory "<?=$statsdocroot;?>/">
+		AllowOverride All
+		<IfVersion < 2.4>
+			Order allow,deny
+			Allow from all
+		</IfVersion>
+		<IfVersion >= 2.4>
+			Require all granted
+		</IfVersion>
+
+<?php
+					if ($statsapp === 'awstats') {
+?>
+		Options +ExecCGI
+		<FilesMatch \.(cgi|pl)$>
+			#<IfModule !mod_fastcgi.c>
+				<IfModule mod_suphp.c>
+					SuPhp_UserGroup apache apache
+					SetHandler x-suphp-cgi
+				</IfModule>
+			#</IfModule>
+		</FilesMatch>
+<?php
+					}
+?>
+	</Directory>
+
+	<Location "/">
+		Options -Indexes
+<?php
+				//	if ($statsprotect) {
+?>
+
+		AuthType Basic
+		AuthName "AuthStats"
+		#AuthUserFile "/home/<?=$user;?>/__dirprotect/__stats"
+		AuthUserFile "/home/httpd/<?=$domainname;?>/__dirprotect/__stats"
+		Require valid-user
+<?php
+				//	}
+?>
+	</Location>
+<?php
+				}
+			}
+?>
 
 </VirtualHost>
 
@@ -683,10 +904,11 @@ foreach ($certnamelist as $ip => $certname) {
 
 	AliasMatch "/__kloxo(/|$)(.*)" "/home/<?=$user;?>/kloxoscript$1$2"
 
-	Redirect "/kloxo" "https://cp.<?=$domainname;?>:<?=$kloxoportssl;?>"
-	Redirect "/kloxononssl" "http://cp.<?=$domainname;?>:<?=$kloxoportnonssl;?>"
+	Redirect "/kloxo" "<?=$protocol;?><?=$domainname;?>:<?=$kloxoport;?>"
 	Redirect "/webmail" "<?=$protocol;?>webmail.<?=$domainname;?>"
 	Redirect "/cp" "<?=$protocol;?>cp.<?=$domainname;?>"
+
+	Redirect "/stats" "<?=$protocol;?>stats.<?=$domainname;?>/"
 <?php
 			if ($redirectionlocal) {
 				foreach ($redirectionlocal as $rl) {
@@ -858,88 +1080,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 	CustomLog "/home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-custom_log" combined
 	ErrorLog "/home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-error_log"
+
+	Redirect "/stats" "<?=$protocol;?>stats.<?=$domainname;?>/"
+	Redirect "/stats/" "<?=$protocol;?>stats.<?=$domainname;?>/"
 <?php
-					if ($statsapp === 'awstats') {
-?>
-
-	<Directory "/home/kloxo/httpd/awstats/wwwroot/cgi-bin/">
-		AllowOverride All
-		<IfVersion < 2.4>
-			Order allow,deny
-			Allow from all
-		</IfVersion>
-		<IfVersion >= 2.4>
-			Require all granted
-		</IfVersion>
-
-		Options +ExecCGI
-		<FilesMatch \.(cgi|pl)$>
-			#<IfModule !mod_fastcgi.c>
-				<IfModule mod_suphp.c>
-					SuPhp_UserGroup apache apache
-					SetHandler x-suphp-cgi
-				</IfModule>
-			#</IfModule>
-		</FilesMatch>
-	</Directory>
-
-	ScriptAliasMatch "/awstats(/|$)(.*)" "/home/kloxo/httpd/awstats/wwwroot/cgi-bin$1$2"
-
-	AliasMatch "/awstatscss(/|$)(.*)" "/home/kloxo/httpd/awstats/wwwroot/css$1$2"
-	AliasMatch "/awstatsicons(/|$)(.*)" "/home/kloxo/httpd/awstats/wwwroot/icon$1$2"
-
-	Redirect "/stats" "<?=$protocol;?><?=$domainname;?>/awstats/awstats.pl"
-	Redirect "/stats/" "<?=$protocol;?><?=$domainname;?>/awstats/awstats.pl"
-
-	<Location "/awstats/">
-		Options +Indexes
-<?php
-						if ($statsprotect) {
-?>
-
-		AuthType Basic
-		AuthName "AuthStats"
-		#AuthUserFile "/home/<?=$user;?>/__dirprotect/__stats"
-		AuthUserFile "/home/httpd/<?=$domainname;?>/__dirprotect/__stats"
-		Require valid-user
-<?php
-						}
-?>
-	</Location>
-<?php
-					} elseif ($statsapp === 'webalizer') {
-?>
-
-	AliasMatch "/stats(/|$)(.*)" "/home/httpd/<?=$domainname;?>/webstats$1$2"
-
-	<Directory "/home/httpd/<?=$domainname;?>/webstats/">
-		AllowOverride All
-		<IfVersion < 2.4>
-           Order allow,deny
-           Allow from all
-		</IfVersion>
-		<IfVersion >= 2.4>
-			Require all granted
-		</IfVersion>
-	</Directory>
-
-	<Location "/stats/">
-		Options +Indexes
-<?php
-						if ($statsprotect) {
-?>
-
-		AuthType Basic
-		AuthName "AuthStats"
-		#AuthUserFile "/home/<?=$user;?>/__dirprotect/__stats"
-		AuthUserFile "/home/httpd/<?=$domainname;?>/__dirprotect/__stats"
-		Require valid-user
-<?php
-						}
-?>
-	</Location>
-<?php
-					}
 				}
 			}
 

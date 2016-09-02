@@ -117,6 +117,13 @@ $webmailremote = str_replace("https://", "", $webmailremote);
 
 $cpdocroot = "/home/kloxo/httpd/cp";
 
+if ($statsapp === 'webalizer') {
+	$statsdocroot = "/home/httpd/{$domainname}/webstats";
+} else {
+	$statsdocroot_base = "/home/kloxo/httpd/awstats/wwwroot";
+	$statsdocroot = "{$statsdocroot_base}/cgi-bin";
+}
+
 if ($blockips) {
 	$biptemp = array();
 	foreach ($blockips as &$bip) {
@@ -172,39 +179,15 @@ Directory {
 <?php
 */
 if ($enablestats) {
-	if ($statsapp === 'awstats') {
 ?>
 
 Directory {
 	DirectoryId = stats_dir_for_<?=$domclean;?>
 
-	Path = /awstats
-<?php
-	//	if ($statsprotect) {
-?>
+	Path = /
 	PasswordFile = basic:/home/httpd/<?=$domainname;?>/__dirprotect/__stats
-<?php
-	//	}
-?>
 }
 <?php
-	} elseif ($statsapp === 'webalizer') {
-?>
-
-Directory {
-	DirectoryId = stats_dir_for_<?=$domclean;?>
-
-	Path = /stats
-<?php
-	//	if ($statsprotect) {
-?>
-	PasswordFile = basic:/home/httpd/<?=$domainname;?>/__dirprotect/__stats
-<?php
-	//	}
-?>
-}
-<?php
-	}
 }
 
 if ($dirprotect) {
@@ -244,7 +227,6 @@ foreach ($indexorder as $k => $v) {
 	Match ^([^?]*)/<?=$v2;?>(\?.*)?$ Rewrite $1/$2 Continue
 }
 <?php
-
 if ($webmailremote) {
 	foreach ($protocols as $k => $v) {
 ?>
@@ -297,16 +279,10 @@ UrlToolkit {
 	Match ^/kloxo(|/(.*))$ Redirect <?=$v;?>://<?=$domainname;?>:<?=$kloxoportssl;?>/$1
 	Match ^/webmail(|/(.*))$ Redirect <?=$v;?>://webmail.<?=$domainname;?>/$1
 	Match ^/cp(|/(.*))$ Redirect <?=$v;?>://cp.<?=$domainname;?>/$1
-<?php
-	if ($enablestats) {
-		if ($statsapp === 'awstats') {
-?>
-	Match ^/stats(|/(.*))$ Redirect <?=$v;?>://<?=$domainname;?>/awstats/awstats.pl$1
-<?php
-		}
-	}
 
+	Match ^/stats(|/(.*))$ Redirect <?=$v;?>://stats.<?=$domainname;?>/$1
 
+<?php
 	if ($wwwredirect) {
 ?>
 
@@ -316,6 +292,17 @@ UrlToolkit {
 ?>
 }
 <?php
+	if ($statsapp === 'awstats') {
+?>
+
+UrlToolkit {
+	ToolkitID = redirect_stats_<?=$domcleaner;?>_<?=$v;?>
+
+	#Match .* Rewrite /awstats.pl?config=<?=$domainname;?>
+
+}
+<?php
+	}
 }
 ?>
 
@@ -425,6 +412,99 @@ VirtualHost {
 }
 
 
+## stats for '<?=$domainname;?>'
+VirtualHost {
+	RequiredBinding = port_<?=$portnames[$count];?>
+
+
+	Alias = /.well-known:/var/run/letsencrypt/.well-known
+
+	<?=$header_base;?>
+
+<?php
+		if ($count !== 0) {
+?>
+
+	TLScertFile = <?=$certname;?>.pem
+<?php
+			if (file_exists("{$certname}.ca")) {
+?>
+	#RequiredCA = <?=$certname;?>.ca
+
+	<?=$header_ssl;?>
+
+<?php
+			}
+?>
+
+	SecureURL = no
+	#MinTLSversion = 1.0
+<?php
+		}
+?>
+
+	set var_user = apache
+
+	FollowSymlinks = no
+
+	Hostname = stats.<?=$domainname;?>
+
+
+	WebsiteRoot = <?=$statsdocroot;?>
+
+<?php
+		if ($statsapp === 'awstats') {
+?>
+
+	Alias = /awstatscss:<?=$statsdocroot_base;?>/css
+	Alias = /awstatsicons:<?=$statsdocroot_base;?>/icon
+<?php
+		}
+?>
+
+	EnablePathInfo = yes
+
+	TimeForCGI = <?=$timeout;?>
+
+
+	<?=$error_handler;?>
+
+
+	ExecuteCGI = yes
+
+	UseLocalConfig = yes
+<?php
+		if ($reverseproxy) {
+?>
+	UseToolkit = block_shellshock, block_httpoxy
+
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+<?php
+		} else {
+?>
+
+	UseFastCGI = php_for_apache
+<?php
+			if ($statsapp === 'awstats') {
+?>
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, redirect_stats_<?=$domcleaner;?>_<?=$protocol;?>
+
+<?php
+			} else {
+?>
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
+<?php
+			}
+		}
+?>
+	UseDirectory = stats_dir_for_<?=$domclean;?>
+
+
+	#StartFile = index.php
+}
+
 ## webmail for '<?=$domainname;?>'
 VirtualHost {
 	RequiredBinding = port_<?=$portnames[$count];?>
@@ -494,13 +574,11 @@ VirtualHost {
 <?php
 			if ($webmailremote) {
 ?>
-
 	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>_<?=$protocols[$count];?>
 
 <?php
 			} else {
 ?>
-
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
 <?php
 			}
@@ -605,6 +683,7 @@ VirtualHost {
 	ErrorLogfile = /home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-error_log
 <?php
 		//	if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+/*
 				if ($statsapp === 'awstats') {
 ?>
 
@@ -619,7 +698,7 @@ VirtualHost {
 	Alias = /stats:/home/httpd/<?=$domainname;?>/webstats
 <?php
 				}
-
+*/
 				if ($statsprotect) {
 ?>
 
@@ -878,13 +957,11 @@ VirtualHost {
 <?php
 						if ($webmailremote) {
 ?>
-
 	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>_<?=$protocols[$count];?>
 
 <?php
 						} else {
 ?>
-
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
 <?php
 						}
@@ -984,13 +1061,11 @@ VirtualHost {
 <?php
 						if ($webmailremote) {
 ?>
-
 	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=str_replace('.', '_', $webmailremote);?>_<?=$protocols[$count];?>
 
 <?php
 						} else {
 ?>
-
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
 <?php
 						}

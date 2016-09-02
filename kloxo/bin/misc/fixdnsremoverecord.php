@@ -22,7 +22,7 @@ $clist = array();
 
 $nolog = false;
 
-log_cleanup("Remove DNS record for '{$hostname}' key in '{$ttype}' type", $nolog);
+log_cleanup("*** Remove DNS record for '{$hostname}' key in '{$ttype}' type ***", $nolog);
 
 foreach($list as $c) {
 	if ($client) {
@@ -43,7 +43,7 @@ foreach($list as $c) {
 
 		foreach($dns->dns_record_a as $drec) {
 			if (($drec->ttype === $ttype) && ($drec->hostname === $hostname)) {
-				print("-- remove '{$drec->hostname}' key in '{$drec->ttype}' type\n");
+				print("  * remove '{$drec->hostname}' key in '{$drec->ttype}' type\n");
 				$removed = true;
 			} else {
 				$x[] = $drec;
@@ -51,7 +51,7 @@ foreach($list as $c) {
 		}
 
 		if ($removed === false) {
-			print("-- NO exists of '{$hostname}' key in '{$ttype}' type\n");
+			print("  * nO exists of '{$hostname}' key in '{$ttype}' type\n");
 		}
 
 		$dns->dns_record_a = $x;

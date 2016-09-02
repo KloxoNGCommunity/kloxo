@@ -4872,7 +4872,7 @@ function fix_phpini($nolog = null)
 
 function switchtoaliasnext()
 {
-	global $gbl;
+	global $gbl, $sgbl;
 
 	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
 
@@ -4881,21 +4881,25 @@ function switchtoaliasnext()
 	}
 
 	lxfile_cp("../file/lighttpd/lighttpd.conf", "/etc/lighttpd/lighttpd.conf");
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixweb.php");
 
 }
 
 function fix_awstats($nolog = null)
 {
+	global $sgbl;
+
 	log_cleanup("Fix awstats", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixweb.php");
 }
 
 function fixdomainipissue()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixweb.php");
 }
 
 function fixrootquota()
@@ -4924,42 +4928,58 @@ function fixtotaldiskusageplan()
 
 function fixcmlistagain()
 {
-	lxshell_return("__path_php_path", "../bin/common/generatecmlist.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/common/generatecmlist.php");
 }
 
 function fixcmlist()
 {
-	lxshell_return("__path_php_path", "../bin/common/generatecmlist.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/common/generatecmlist.php");
 }
 
 function fixcgibin()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixcgibin.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixcgibin.php");
 }
 
 function fixsimpledocroot()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixsimpledocroot.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixsimpledocroot.php");
 }
 
 function fixadminuser()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixadminuser.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixadminuser.php");
 }
 
 function fixphpinfo()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixweb.php");
 }
 
 function fixdirprotectagain()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixweb.php");
 }
 
 function fixdomainhomepermission()
 {
-	lxshell_return("__path_php_path", "../bin/fix/fixweb.php");
+	global $sgbl;
+
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixweb.php");
 }
 
 function createOSUserAdmin($nolog = null)
@@ -7131,6 +7151,8 @@ function setInitialServices($nolog = null)
 	setAllInactivateWebServer($nolog);
 	setActivateWebServer($nolog);
 
+	setCopyIndexFileToAwstatsDir($nolog);
+
 	exec("sh /script/setup-roundcube");
 	exec("sh /script/setup-horde");
 	exec("sh /script/setup-t-dah");
@@ -8596,4 +8618,16 @@ function setPhpUpdate($nolog = null)
 	log_cleanup("Updating All Php (branch and multiple)", $nolog);
 
 	exec("yum -y update php*; sh /script/phpm-updater");
+}
+
+function setCopyIndexFileToAwstatsDir($nolog = null)
+{
+	$tdir = "/home/kloxo/httpd/awstats/wwwroot/cgi-bin";
+	$sdir = "../file/stats";
+
+	if (file_exists($tdir)) {
+		log_cleanup("Copying awstats_index.php to {$tdir}", $nolog);
+		$file = getLinkCustomfile($sdir, "awstats_index.php");
+		copy($file, "{$tdir}/index.php");
+	}
 }
