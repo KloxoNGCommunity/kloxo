@@ -15,7 +15,7 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
-			exec("service {$a} stop; chkconfig {$a} off");
+			@exec("service {$a} stop; chkconfig {$a} off; 'rm' -f /var/lock/subsys/{$a}");
 		}
 	}
 
@@ -36,12 +36,16 @@ class web__ extends lxDriverClass
 	
 		self::setInstallPhpfpm();
 
+	/*
 		if (($drivertype === 'hiawatha') || (count($list) > 1)) {
 			// MR -- fixweb for domains also if hiawatha or proxy
 			exec("sh /script/fixweb");
 		} else {
 			exec("sh /script/fixweb --target=defaults");
 		}
+	*/
+
+		@exec("sh /script/fixweb --target=defaults");
 	}
 
 	static function setBaseWebConfig($webtype)

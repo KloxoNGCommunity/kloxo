@@ -578,16 +578,15 @@ foreach ($certnamelist as $ip => $certname) {
 	<Location "/">
 		Options -Indexes
 <?php
-				//	if ($statsprotect) {
+					if ($statsprotect) {
 ?>
 
 		AuthType Basic
 		AuthName "AuthStats"
-		#AuthUserFile "/home/<?=$user;?>/__dirprotect/__stats"
 		AuthUserFile "/home/httpd/<?=$domainname;?>/__dirprotect/__stats"
 		Require valid-user
 <?php
-				//	}
+					}
 ?>
 	</Location>
 <?php

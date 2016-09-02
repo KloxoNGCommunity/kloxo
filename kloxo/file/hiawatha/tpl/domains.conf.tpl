@@ -185,7 +185,13 @@ Directory {
 	DirectoryId = stats_dir_for_<?=$domclean;?>
 
 	Path = /
+<?php
+	if ($statsprotect) {
+?>
 	PasswordFile = basic:/home/httpd/<?=$domainname;?>/__dirprotect/__stats
+<?php
+	}
+?>
 }
 <?php
 }
@@ -474,6 +480,7 @@ VirtualHost {
 
 	UseLocalConfig = yes
 <?php
+/*
 		if ($reverseproxy) {
 ?>
 	UseToolkit = block_shellshock, block_httpoxy
@@ -483,6 +490,7 @@ VirtualHost {
 	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
 <?php
 		} else {
+*/
 ?>
 
 	UseFastCGI = php_for_apache
@@ -497,7 +505,7 @@ VirtualHost {
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
 <?php
 			}
-		}
+//		}
 ?>
 	UseDirectory = stats_dir_for_<?=$domclean;?>
 

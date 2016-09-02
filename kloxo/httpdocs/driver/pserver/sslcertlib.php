@@ -520,12 +520,12 @@ class SslCert extends Lxdb
 			//	$vlist['ssl_action'] = $action;
 				$vlist['ssl_data_b_s_key_bits_r'] = $keybits;
 
-				$san = "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}";
+				$san = "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} stats.{$parent->nname} webmail.{$parent->nname}";
 
 				// MR -- include parked domains
 				foreach ((array)$parent->getParentO()->getList('addondomain') as $k => $v) {
 					if ($v->ttype === 'parked') {
-						$san .= " $k www.$k cp.$k webmail.$k";
+						$san .= " {$k} www.{$k} stats.{$k} cp.{$k} webmail.{$k}";
 					}
 				}
 
@@ -537,7 +537,7 @@ class SslCert extends Lxdb
 			//	$vlist['ssl_action'] = $action;;
 				$vlist['ssl_data_b_s_key_bits_r'] = $keybits;
 				$vlist["ssl_data_b_s_subjectAltName_r"] =
-					array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} webmail.{$parent->nname}");
+					array('t', "{$parent->nname} www.{$parent->nname} cp.{$parent->nname} stats.{$parent->nname} webmail.{$parent->nname}");
 			} else if ($typetd['val'] === 'link') {
 				$vlist['nname'] = $nname;
 
