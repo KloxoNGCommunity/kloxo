@@ -502,7 +502,8 @@ VirtualHost {
 <?php
 			} else {
 ?>
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>
+
 <?php
 			}
 //		}
