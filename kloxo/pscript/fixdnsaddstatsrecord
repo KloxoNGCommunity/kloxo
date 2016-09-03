@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# release on Kloxo-MR 7.0.0
+# by mustafa.ramadhan@lxcenter.org
+
+. /script/directory
+lxphp.exe ../bin/misc/fixdnsaddstatsrecord.php $*

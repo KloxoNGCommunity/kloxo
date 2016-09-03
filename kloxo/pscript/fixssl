@@ -6,6 +6,10 @@ else
 	. /script/fix.inc
 fi
 
+if [ ! -f /etc/cron.d/update_ssl ] ; then
+	sh /script/fix-cron-ssl
+fi
+
 . /script/directory
 lxphp.exe ../bin/fix/fixssl.php $*
 
