@@ -517,18 +517,9 @@ server {
 ?>
 
 	include '<?=$globalspath;?>/stats_log.conf';
-<?php
-			if ($statsapp === 'awstats') {
-?>
-
-	rewrite ^/stats(/|) <?=$protocol;?>stats.$var_domain/awstats/awstats.pl?config=<?=$domainname;?> permanent;
-<?php
-			} else {
-?>
 
 	rewrite ^/stats(/|) <?=$protocol;?>stats.$var_domain/ permanent;
 <?php
-			}
 		}
 
 		if ($nginxextratext) {

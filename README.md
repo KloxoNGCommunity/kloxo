@@ -71,6 +71,8 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 - Free SSL:
   * Let's Encrypt (since 4 May 2016)
   * StartAPI (since 29 Jun 2016)
+- Stats:
+  * Change URL from 'domain.com/stats' to 'stats.domain.com' (since 3 Sep 2016)
 
 **) New features in Kloxo-MR 6.5.0 after released
 - Panel: Adminer, MyWebSql and SqlBuddy as alternative for Database management
