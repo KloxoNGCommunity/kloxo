@@ -1499,7 +1499,8 @@ class Domaind extends DomainBase
 	//	}
 		
 		$alist[] = "n=web&a=list&c=redirect_a";
-		$alist['__v_dialog_error'] = "n=web&a=updateform&sa=custom_error";
+		// MR -- disable for awhile; TODO
+	//	$alist['__v_dialog_error'] = "n=web&a=updateform&sa=custom_error";
 	/*
 		if ($this->getClientParentO()->priv->isOn('cron_manage_flag')) {
 			if ($this->getObject('web')->__driverappclass === 'apache' || $this->getObject('web')->__driverappclass === 'lighttpd') {

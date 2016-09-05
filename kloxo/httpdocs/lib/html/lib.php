@@ -804,7 +804,7 @@ function validate_server_alias($name, $bypass = null)
 	global $login;
 
 	// MR -- enough * for all subdomain!
-	if (!preg_match('/^([0-9a-z_]{1,1}[0-9a-z_\-\.]{0,126}[0-9a-z]{0,1})$/i', $name) && $name != "__base__") {
+	if (!preg_match('/^([0-9a-z_]{1,1}[0-9a-z_\-\.]{0,126}[0-9a-z]{0,1})$/i', $name) && $name != "__base__" && $name != "*") {
 		throw new lxException($login->getThrow('invalid_subdomain'), '', $name);
 	}
 

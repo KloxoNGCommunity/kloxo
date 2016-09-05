@@ -17,7 +17,7 @@ $out = null;
 
 $mysqlbranch = getRpmBranchInstalled('mysql');
 if ($mysqlbranch) {
-	exec("rpm -q {$mysqlbranch}", $out);
+	exec("rpm -qa {$mysqlbranch}", $out);
 	$appmysql = trim($out[0]);
 } else {
 	$appmysql = '--uninstalled--';
@@ -27,7 +27,7 @@ $out = null;
 
 $phpbranch = getRpmBranchInstalled('php');
 if ($phpbranch) {
-	exec("rpm -q {$phpbranch}-cli", $out);
+	exec("rpm -qa {$phpbranch}-cli", $out);
 	$appphp = trim($out[0]);
 } else {
 	$appphp = '--uninstalled--';
@@ -48,7 +48,7 @@ if (file_exists("{$kloxopath}/init/kloxo_use_php-cgi")) {
 
 $httpdbranch = getRpmBranchInstalled('httpd');
 if ($httpdbranch) {
-	exec("rpm -q {$httpdbranch}", $out);
+	exec("rpm -qa {$httpdbranch}", $out);
 	$apphttpd = trim($out[0]);
 } else {
 	$apphttpd = '--uninstalled--';
@@ -58,7 +58,7 @@ $out = null;
 
 $lighttpdbranch = getRpmBranchInstalled('lighttpd');
 if ($lighttpdbranch) {
-	exec("rpm -q {$lighttpdbranch}", $out);
+	exec("rpm -qa {$lighttpdbranch}", $out);
 	$applighttpd = trim($out[0]);
 } else {
 	$applighttpd = '--uninstalled--';
@@ -68,7 +68,7 @@ $out = null;
 
 $nginxbranch = getRpmBranchInstalled('nginx');
 if ($nginxbranch) {
-	exec("rpm -q {$nginxbranch}", $out);
+	exec("rpm -qa {$nginxbranch}", $out);
 	$appnginx = trim($out[0]);
 } else {
 	$appnginx = '--uninstalled--';
@@ -78,7 +78,7 @@ $out = null;
 
 $hiawathabranch = getRpmBranchInstalled('hiawatha');
 if ($hiawathabranch) {
-	exec("rpm -q {$hiawathabranch}", $out);
+	exec("rpm -qa {$hiawathabranch}", $out);
 	$apphiawatha = trim($out[0]);
 	$kloxohiawatha = $apphiawatha;
 } else {
@@ -89,7 +89,7 @@ $out = null;
 
 $atsbranch = getRpmBranchInstalled('trafficserver');
 if ($atsbranch) {
-	exec("rpm -q {$atsbranch}", $out);
+	exec("rpm -qa {$atsbranch}", $out);
 	$appats = trim($out[0]);
 } else {
 	$appats = '--uninstalled--';
@@ -99,7 +99,7 @@ $out = null;
 
 $squidbranch = getRpmBranchInstalled('squid');
 if ($squidbranch) {
-	exec("rpm -q {$squidbranch}", $out);
+	exec("rpm -qa {$squidbranch}", $out);
 	$appsquid = trim($out[0]);
 } else {
 	$appsquid = '--uninstalled--';
@@ -109,7 +109,7 @@ $out = null;
 
 $varnishbranch = getRpmBranchInstalled('varnish');
 if ($varnishbranch) {
-	exec("rpm -q {$varnishbranch}", $out);
+	exec("rpm -qa {$varnishbranch}", $out);
 	$appvarnish = trim($out[0]);
 } else {
 	$appvarnish = '--uninstalled--';
@@ -119,7 +119,7 @@ $out = null;
 
 $bindbranch = getRpmBranchInstalled('bind');
 if ($bindbranch) {
-	exec("rpm -q {$bindbranch}", $out);
+	exec("rpm -qa {$bindbranch}", $out);
 	$appbind = trim($out[0]);
 } else {
 	$appbind = '--uninstalled--';
@@ -129,7 +129,7 @@ $out = null;
 
 $djbdnsbranch = getRpmBranchInstalled('djbdns');
 if ($djbdnsbranch) {
-	exec("rpm -q {$djbdnsbranch}", $out);
+	exec("rpm -qa {$djbdnsbranch}", $out);
 	$appdjbdns = trim($out[0]);
 } else {
 	$appdjbdns = '--uninstalled--';
@@ -139,7 +139,7 @@ $out = null;
 
 $nsdbranch = getRpmBranchInstalled('nsd');
 if ($nsdbranch) {
-	exec("rpm -q {$nsdbranch}", $out);
+	exec("rpm -qa {$nsdbranch}", $out);
 	$appnsd = trim($out[0]);
 } else {
 	$appnsd = '--uninstalled--';
@@ -149,7 +149,7 @@ $out = null;
 
 $pdnsbranch = getRpmBranchInstalled('pdns');
 if ($pdnsbranch) {
-	exec("rpm -q {$pdnsbranch}", $out);
+	exec("rpm -qa {$pdnsbranch}", $out);
 	$apppdns = trim($out[0]);
 } else {
 	$apppdns = '--uninstalled--';
@@ -159,7 +159,7 @@ $out = null;
 
 $yadifabranch = getRpmBranchInstalled('yadifa');
 if ($yadifabranch) {
-	exec("rpm -q {$yadifabranch}", $out);
+	exec("rpm -qa {$yadifabranch}", $out);
 	$appyadifa = trim($out[0]);
 } else {
 	$appyadifa = '--uninstalled--';
@@ -169,7 +169,7 @@ $out = null;
 
 $qmailbranch = getRpmBranchInstalled('qmail-toaster');
 if ($qmailbranch) {
-	exec("rpm -q {$qmailbranch}", $out);
+	exec("rpm -qa {$qmailbranch}", $out);
 	$appqmail = trim($out[0]);
 } else {
 	$appqmail = '--uninstalled--';
@@ -179,7 +179,7 @@ $out = null;
 
 $dovecotbranch = getRpmBranchInstalled('dovecot');
 if ($dovecotbranch) {
-	exec("rpm -q {$dovecotbranch}", $out);
+	exec("rpm -qa {$dovecotbranch}", $out);
 	$appdovecot = trim($out[0]);
 } else {
 	$appdovecot = '--uninstalled--';
@@ -190,7 +190,7 @@ $out = null;
 $courierimapbranch = 'courier-imap-toaster';
 $isinstalled = isRpmInstalled($courierimapbranch);
 if ($isinstalled) {
-	exec("rpm -q {$courierimapbranch}", $out);
+	exec("rpm -qa {$courierimapbranch}", $out);
 	$appcourierimap = trim($out[0]);
 } else {
 	$appcourierimap = '--uninstalled--';
@@ -224,7 +224,7 @@ $pop3app = slave_get_driver('pop3');
 
 if ($pop3app === 'courier') { $pop3app = 'courier-imap'; }
 
-exec("rpm -q $pop3app-toaster", $out);
+exec("rpm -qa {$pop3app}-toaster", $out);
 
 if (count($out) > 0) {
 	$pop3app = $out[0];
@@ -236,7 +236,7 @@ $out = null;
 
 $smtpapp = slave_get_driver('smtp');
 
-exec("rpm -q $smtpapp-toaster", $out);
+exec("rpm -qa {$smtpapp}-toaster", $out);
 
 if (count($out) > 0) {
 	$smtpapp = $out[0];
@@ -250,7 +250,7 @@ $spamapp = slave_get_driver('spam');
 
 if ($spamapp === 'spamassassin') { $spamapp === 'spamassassin-toaster'; }
 
-exec("rpm -q $spamapp", $out);
+exec("rpm -qa {$spamapp}", $out);
 
 if (count($out) > 0) {
 	$spamapp = $out[0];
