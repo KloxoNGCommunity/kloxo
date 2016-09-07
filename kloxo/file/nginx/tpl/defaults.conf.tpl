@@ -18,14 +18,24 @@ if (!isset($timeout)) {
 	$timeout = '300';
 }
 
-if (file_exists("/tmp/nginx")) {
-	// MR -- need change ownership because change nginx user from nginx to apache
-	@exec("chown -R apache:apache /var/cache/nginx*");
-	@exec("chown -R apache:apache /tmp/nginx");
+@exec("chown -R apache:apache /var/cache/nginx*");
+
+$vsnpath = "/var/cache/nginx";
+
+if (!file_exists("{$vsnpath}/proxy_temp")) {
+	exec("mkdir -p {$vsnpath}/proxy_temp");
+	@exec("chown -R apache:apache {$vsnpath}/proxy_temp");
 }
 
-if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
-	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
+if (!file_exists("{$vsnpath}/fastcgi_temp")) {
+	exec("mkdir -p {$vsnpath}/fastcgi_temp");
+	@exec("chown -R apache:apache {$vsnpath}/fastcgi_temp");
+}
+
+$vrlw = "/var/run/letsencrypt/.well-known/acme-challenge";
+
+if (!file_exists($vrlw)) {
+	exec("mkdir -p {$vrlw}");
 }
 
 $srcconfpath = "{$srcpath}/etc/conf";

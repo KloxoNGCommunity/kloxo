@@ -708,14 +708,6 @@ VirtualHost {
 <?php
 				}
 */
-				if ($statsprotect) {
-?>
-
-	UseDirectory = stats_dir_for_<?=$domclean;?>
-
-<?php
-				}
-
 				if ($blockips) {
 ?>
 

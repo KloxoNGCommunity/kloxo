@@ -210,6 +210,10 @@ class Customerror_b extends lxaClass
 	static $__desc_url_403 = array("", "", "403_(forbidden)");
 	static $__desc_url_404 = array("", "", "404_(not_found)");
 	static $__desc_url_500 = array("", "", "500_(internal_server_error)");
+	static $__desc_url_501 = array("", "", "501_(not_implemented)");
+	static $__desc_url_502 = array("", "", "502_(bad_gateway)");
+	static $__desc_url_503 = array("", "", "503_(service_unavailable)");
+	static $__desc_url_504 = array("", "", "504_(gateway_timeout)");
 }
 
 class Server_Alias_a extends Lxaclass
@@ -1036,6 +1040,45 @@ class Web extends Lxdb
 	//	$alist['property'][] = "goback=1&o=mmail&a=list&c=mailaccount";
 	//	$alist['property'][] = 'goback=1&a=show&sa=config';
 
+		switch ($ghtml->frm_subaction) {
+			case 'stats_protect':
+				$alist['property'][] = "a=updateform&sa=stats_protect";
+				break;
+			case 'statsconfig':
+				$alist['property'][] = "a=updateform&sa=statsconfig";
+				break;
+			case 'run_stats':
+				$alist['property'][] = "a=updateform&sa=run_stats";
+				break;
+			case 'hotlink_protection':
+				$alist['property'][] = "a=updateform&sa=hotlink_protection";
+				break;
+			case 'blockip':
+				$alist['property'][] = "a=updateform&sa=blockip";
+				break;
+			case 'docroot':
+				$alist['property'][] = "a=updateform&sa=docroot";
+				break;
+			case 'configure_misc':
+				$alist['property'][] = "a=updateform&sa=configure_misc";
+				break;
+			case 'dirindex':
+				$alist['property'][] = "a=updateform&sa=dirindex";
+				break;
+		/*
+			case 'custom_error':
+				$alist['property'][] = "a=updateform&sa=custom_error";
+				break;
+			case 'webselector':
+				$alist['property'][] = "a=updateform&sa=webselector";
+				break;
+		*/
+			case 'webfeatures':
+				$alist['property'][] = "a=updateform&sa=webfeatures";
+				break;
+		}
+
+	/*
 		if ($ghtml->frm_subaction === 'stats_protect') {
 			$alist['property'][] = "a=updateform&sa=stats_protect";
 		} elseif ($ghtml->frm_subaction === 'statsconfig') {
@@ -1052,13 +1095,14 @@ class Web extends Lxdb
 			$alist['property'][] = "a=updateform&sa=configure_misc";
 		} elseif ($ghtml->frm_subaction === 'dirindex') {
 			$alist['property'][] = "a=updateform&sa=dirindex";
-		} elseif ($ghtml->frm_subaction === 'custom_error') {
-			$alist['property'][] = "a=updateform&sa=custom_error";
+	//	} elseif ($ghtml->frm_subaction === 'custom_error') {
+	//		$alist['property'][] = "a=updateform&sa=custom_error";
 	//	} elseif ($ghtml->frm_subaction === 'webselector') {
 	//		$alist['property'][] = "a=updateform&sa=webselector";
 		} elseif ($ghtml->frm_subaction === 'webfeatures') {
 			$alist['property'][] = "a=updateform&sa=webfeatures";
 		}
+	*/
 
 		return $alist;
 	}
@@ -1418,14 +1462,19 @@ class Web extends Lxdb
 				return $vlist;
 
 			case "custom_error":
-				if ($driverapp !== 'lighttpd') {
+			//	if ($driverapp !== 'lighttpd') {
 					$vlist['customerror_b_s_url_400'] = array("L", "/");
 					$vlist['customerror_b_s_url_401'] = array("L", "/");
 					$vlist['customerror_b_s_url_403'] = array("L", "/");
+					$vlist['customerror_b_s_url_404'] = array("L", "/");
 					$vlist['customerror_b_s_url_500'] = array("L", "/");
-				}
+					$vlist['customerror_b_s_url_501'] = array("L", "/");
+					$vlist['customerror_b_s_url_502'] = array("L", "/");
+					$vlist['customerror_b_s_url_503'] = array("L", "/");
+					$vlist['customerror_b_s_url_504'] = array("L", "/");
+			//	}
 
-				$vlist['customerror_b_s_url_404'] = array("L", "/");
+			//	$vlist['customerror_b_s_url_404'] = array("L", "/");
 				$vlist['__v_updateall_button'] = array();
 
 				return $vlist;
@@ -1594,31 +1643,35 @@ class Web extends Lxdb
 		// File may be a variable path.
 		//	dprintr($filepass);
 
-		if ($filepass !== null) {
-			$file = $filepass['file'];
-		} else {
-			$file = "skeleton.zip";
-
-			if (file_exists("/home/{$this->username}/skeleton.zip")) {
-				lxfile_cp("/home/{$this->username}/skeleton.zip", "{$dir}/{$file}");
-			} else {
-				lxfile_cp("{$sgbl->__path_program_root}/file/skeleton.zip", "{$dir}/{$file}");
-			}
+		if (file_exists("{$dir}/skeleton.zip")) {
+			lxfile_rm("{$dir}/skeleton.zip");
 		}
-
-		if ($ip !== null) {
-			// The thing is this needs to be executed even on secondary master and then the primary master would be down.
-			// So if we cannot connect back, we just continue. Skeleton is not an important thing.
-			try {
-				getFromFileserv($ip, $filepass, "{$dir}/{$file}");
-			} catch (exception $e) {
-				return;
-			}
-		}
-
-		lxfile_generic_chown("{$dir}/{$file}", $this->username);
 
 		if (!file_exists("{$dir}/index.html")) {
+			if ($filepass !== null) {
+				$file = $filepass['file'];
+			} else {
+				$file = "skeleton.zip";
+
+				if (file_exists("/home/{$this->username}/skeleton.zip")) {
+					lxfile_cp("/home/{$this->username}/skeleton.zip", "{$dir}/{$file}");
+				} else {
+					lxfile_cp("{$sgbl->__path_program_root}/file/skeleton.zip", "{$dir}/{$file}");
+				}
+			}
+
+			if ($ip !== null) {
+				// The thing is this needs to be executed even on secondary master and then the primary master would be down.
+				// So if we cannot connect back, we just continue. Skeleton is not an important thing.
+				try {
+					getFromFileserv($ip, $filepass, "{$dir}/{$file}");
+				} catch (exception $e) {
+					return;
+				}
+			}
+
+			lxfile_generic_chown("{$dir}/{$file}", $this->username);
+
 			lxshell_unzip($this->username, $dir, "{$dir}/{$file}");
 
 			lunlink("{$dir}/{$file}");

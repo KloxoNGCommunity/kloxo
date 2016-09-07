@@ -7,11 +7,15 @@
 <?php
 
 $error_handler = "Alias = /error:/home/kloxo/httpd/error
+#ErrorHandler = 400:/error/400.html
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html
 ErrorHandler = 404:/error/404.html
+ErrorHandler = 500:/error/501.html
 ErrorHandler = 501:/error/501.html
-ErrorHandler = 503:/error/503.html";
+#ErrorHandler = 502:/error/502.html
+ErrorHandler = 503:/error/503.html
+#ErrorHandler = 504:/error/504.html";
 
 if (!isset($phpselected)) {
 	$phpselected = 'php';
@@ -115,6 +119,7 @@ foreach ($indexorder as $k => $v) {
 UrlToolkit {
 	ToolkitID = permalink
 	RequestURI exists Return
+	RequestURI isfile Return
 	## process for 'special dirs' of Kloxo-MR
 	Match ^/(stats|cp|error|webmail|__kloxo|kloxo|kloxononssl|cgi-bin)(/|$) Return
 	Match ^/(css|files|images|js)(/|$) Return

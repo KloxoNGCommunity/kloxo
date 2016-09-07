@@ -1494,8 +1494,9 @@ class Domaind extends DomainBase
 		$alist[] = "n=web&a=list&c=server_alias_a";
 		
 	//	if ($web->__driverappclass !== 'lighttpd') {
-			$alist[] = "n=web&a=list&c=webhandler";
-			$alist[] = "n=web&a=list&c=webmimetype";
+			// MR -- disable for awhile; TODO
+		//	$alist[] = "n=web&a=list&c=webhandler";
+		//	$alist[] = "n=web&a=list&c=webmimetype";
 	//	}
 		
 		$alist[] = "n=web&a=list&c=redirect_a";

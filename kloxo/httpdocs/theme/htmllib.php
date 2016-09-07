@@ -3664,7 +3664,7 @@ class HtmlLib
 					}
 				} elseif (csa($pname, "_lxurl:")) {
 					if (strtolower($classdesc[2]) !== 'information') {
-						$pname = preg_replace("/_lxurl:([^:]*):([^:]*):/", "<a title='{$variable}$2' class='insidelist' target='_blank' href='http://$1'> $2 </a>", $pname);
+						$pname = preg_replace("/_lxurl:([^:]*):([^:]*):/", "<a title='{$variable}$2' class='insidelist' target='_blank' href='//$1'> $2 </a>", $pname);
 					} else {
 						$x1 = preg_replace("/_lxurl:([^:]*):([^:]*):/", "$1", $pname);
 						$x2 = preg_replace("/_lxurl:([^:]*):([^:]*):/", "$2", $pname);
@@ -3675,7 +3675,7 @@ class HtmlLib
 							$x3 = $x2;
 						}
 
-						$pname = "<a title='{$variable}{$x2}' class='insidelist' target='_blank' href='http://{$x1}'> {$x3} </a>";
+						$pname = "<a title='{$variable}{$x2}' class='insidelist' target='_blank' href='//{$x1}'> {$x3} </a>";
 					}
 				} elseif (csa($pname, "_lxinurl:")) {
 					$url = preg_replace("/_lxinurl:([^:]*):([^:]*):/", "$1", $pname);
@@ -9545,7 +9545,7 @@ function uploadAbort(e) { // upload abort
 <?php include_once "{$simplicity_topbar_right}"; ?>
 			</div>
 
-			<div class="div_fixed_logo_right"><a href="http://mratwork.com"><img src="/login/images/kloxo-mr.png" height="40"/></a></div>
+			<div class="div_fixed_logo_right"><a href="//mratwork.com"><img src="/login/images/kloxo-mr.png" height="40"/></a></div>
 <?php
 		}
 
