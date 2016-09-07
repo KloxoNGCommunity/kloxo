@@ -140,7 +140,7 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 		}
 	}
 
-	if ($outlist) {
+	if (count($outlist) > 1) {
 		$outstring = implode("\n", $outlist);
 	}
 
