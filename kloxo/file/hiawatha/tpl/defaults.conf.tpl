@@ -11,7 +11,7 @@ $error_handler = "Alias = /error:/home/kloxo/httpd/error
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html
 ErrorHandler = 404:/error/404.html
-ErrorHandler = 500:/error/501.html
+#ErrorHandler = 500:/error/500.html
 ErrorHandler = 501:/error/501.html
 #ErrorHandler = 502:/error/502.html
 ErrorHandler = 503:/error/503.html
