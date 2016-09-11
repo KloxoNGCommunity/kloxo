@@ -13,6 +13,8 @@ $cgi_password = $ghtml->frm_password;
 $cgi_forgotpwd = $ghtml->frm_forgotpwd;
 $cgi_email = $ghtml->frm_email;
 
+$cgi_token = $ghtml->frm_token;
+
 $cgi_classname = 'client';
 
 if ($cgi_class) {
@@ -32,7 +34,11 @@ $logfo = db_get_value("general", "admin", "login_pre");
 $logfo = str_replace("<%programname%>", $sgbl->__var_program_name, $logfo);
 
 if (!$cgi_forgotpwd) {
+	session_start();
+
 	$ghtml->print_message();
+
+	$_SESSION['frm_token'] = mt_rand();
 ?>
 <!--- include start --->
 
@@ -50,7 +56,7 @@ if (!$cgi_forgotpwd) {
  		 		<div class="inputlabel">Password</div>
 	 		 		<input name="frm_password" type="password" class="passbox" size="30"/>
  			 		<br/>
-	 		 		<input type="hidden" name="id" value="<?php echo mt_rand() ?>"/>
+	 		 		<input type="hidden" name="frm_token" value="<?php echo $_SESSION['frm_token']; ?>"/>
 	 		 		<div align="left"><input type="submit" class="button" name="login" value="Login"/></div>
 				</div>
 		 	 </form>

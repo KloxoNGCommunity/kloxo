@@ -44,7 +44,7 @@ for i in $sover ; do
 			inifile=$(dir -l /opt/php${t}${j}/etc/php.d/*ioncube* 2>/dev/null|awk '{print $9}'|tr '\n' ' ')
 
 			if [ "${inifile}" == "" ] ; then
-				if [ "${t}" == "55" ] ; then
+				if [ "${t}" == "55" ] || [ "${t}" == "56" ] ; then
 					f="/opt/php${t}${j}/etc/php.d/01-ioncube-loader.nonini"
 				else
 					f="/opt/php${t}${j}/etc/php.d/ioncube-loader.nonini"

@@ -7071,11 +7071,11 @@ function updatecleanup($nolog = null)
 	lxfile_unix_chmod("/home", "0755");
 
 	setKloxoHttpdChownChmod($nolog);
-
+/*
 	log_cleanup("Enable xinetd service", $nolog);
 	log_cleanup("- Enable process", $nolog);
 	call_with_flag("enable_xinetd");
-
+*/
 	fix_suexec($nolog);
 
 	if (!lxfile_exists("/usr/bin/php-cgi")) {

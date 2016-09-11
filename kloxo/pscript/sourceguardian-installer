@@ -1,0 +1,68 @@
+#!/bin/sh
+
+echo "*** Install sourceguardian-loader ***"
+
+cd /opt
+
+install='no'
+
+if [ ! -d ./sourceguardian ] ; then
+	install='yes'
+fi
+
+if [ "${1}" == "-y" ] || [ "${1}" == "--force" ] ; then
+	install='yes'
+fi
+
+if [ "${install}" == 'yes' ] ; then
+	echo "- Getting sourceguardian-loader from sourceforge and extracting"
+	if [ -d ./sourceguardian ] ; then
+		mv -f ./sourceguardian ./sourceguardian.old >/dev/null 2>&1
+	fi
+
+	mkdir -p ./sourceguardian
+
+	cd ./sourceguardian
+
+	if [ "$(uname -m)" == "x86_64" ] ; then
+		wget http://www.sourceguardian.com/loaders/download/loaders.linux-x86_64.tar.gz >/dev/null 2>&1
+		tar xvfz loaders.linux-x86_64.tar.gz >/dev/null 2>&1
+		'rm' -f tar xvfz loaders.linux-x86_64.tar.gz >/dev/null 2>&1
+	else
+		wget http://www.sourceguardian.com/loaders/download/loaders.linux-i386.tar.gz >/dev/null 2>&1
+		tar xvfz loaders.linux-i386.tar.gz >/dev/null 2>&1
+		'rm' -f tar xvfz loaders.linux-i386.tar.gz >/dev/null 2>&1
+	fi
+
+	cd ../
+
+	chown -R root:root ./sourceguardian >/dev/null 2>&1
+	'rm' -rf ./sourceguardian.old >/dev/null 2>&1
+fi
+
+sover=$(dir -l /opt/sourceguardian/*.lin 2>/dev/null|grep -v 'ts.'|awk '{print $9}'|sed -e 's:/opt/sourceguardian/ixed.::'|sed -e 's:.lin::'|tr '\n' ' ')
+
+for i in $sover ; do
+	t=$(echo $i|sed -e 's:\.::')
+
+	for j in s m ; do
+		if [ -d /opt/php${t}${j} ] ; then
+			inifile=$(dir -l /opt/php${t}${j}/etc/php.d/*sourceguardian* 2>/dev/null|awk '{print $9}'|tr '\n' ' ')
+
+			if [ "${inifile}" == "" ] ; then
+				if [ "${t}" == "55" ] || [ "${t}" == "56" ] ; then
+					f="/opt/php${t}${j}/etc/php.d/01-sourceguardian.nonini"
+				else
+					f="/opt/php${t}${j}/etc/php.d/sourceguardian.nonini"
+				fi
+				echo "- Creating '${f}'"
+				echo 'zend_extension=/opt/sourceguardian/ixed.'${i}'.lin' > $f
+			else
+				for k in $inifile ; do
+					echo "- Overwriting '${k}'"
+					echo 'zend_extension=/opt/sourceguardian/ixed.'${i}'.lin' > $k
+				done
+			fi
+		fi
+	done
+done

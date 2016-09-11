@@ -136,7 +136,7 @@ function doUpdates()
 
 	call_with_flag("fix_phpini");
 
-	call_with_flag("fix_awstats");
+//	call_with_flag("fix_awstats");
 
 	call_with_flag("fix_domainkey");
 

@@ -101,15 +101,12 @@ function session_login()
 
 				$ghtml->print_redirect("/login/");
 			}
-		} 
-	}
-
-	$success = doLogin(); // your check login function
-
-	if ($success) {
-		$_SESSION['num_login_fail'] = 0;
+		} else {
+			$_SESSION['num_login_fail'] ++;
+			$_SESSION['last_login_time'] = time();
+		}
 	} else {
-		$_SESSION['num_login_fail'] ++;
+		$_SESSION['num_login_fail'] = 1;
 		$_SESSION['last_login_time'] = time();
 
 		$ghtml->print_redirect("/login/?frm_emessage=login_error");
@@ -137,6 +134,15 @@ function print_index()
 	$cgi_email = $ghtml->frm_email;
 	$cgi_key = $ghtml->frm_login_key;
 
+	$cgi_token = $ghtml->frm_token;
+	session_start();
+	$sess_token = $_SESSION['frm_token'];
+
+	// MR -- use != instead !==  because compare numeric
+	if ($cgi_token != $sess_token) {
+		$ghtml->print_redirect("/login/?frm_emessage=token_not_match");
+	}
+
 	if (!$cgi_password || !$cgi_clientname) {
 		$ghtml->print_redirect("/login/?frm_emessage=login_error");
 	}
@@ -146,7 +152,6 @@ function print_index()
 	if ($cgi_class) {
 		$cgi_classname = $cgi_class;
 	}
-
 
 	if ($cgi_clientname == "" || ($cgi_password == "" && $cgi_key == "")) { 
 		$cgi_forgotpwd = $ghtml->frm_forgotpwd;
@@ -160,22 +165,16 @@ function print_index()
 	}
 
 	log_log("login_success", "Successful Login to $cgi_clientname from " .  $_SERVER['REMOTE_ADDR']);
-/*
-	try {
-		$att = $gbl->g->getFromList("loginattempt", $ip);
-		$att->delete();
-	} catch (Exception $e) {
-	}
-*/
+
 	if (check_disable_admin($cgi_clientname)) {
 		$ghtml->print_redirect("/login/?frm_emessage=login_error");
 		exit;
 	}
 
 	if (get_login($cgi_classname, $cgi_clientname)){
+		check_blocked_ip();
 		do_login($cgi_classname, $cgi_clientname);
 		$login->was();
-		check_blocked_ip();
 		$ghtml->print_redirect("/");
 	} else  {
 		$ghtml->cgiset("frm_emessage", "login_error");
@@ -192,6 +191,7 @@ function check_login_success($cgi_classname, $cgi_clientname, $cgi_password, $cg
 		if (check_raw_password($cgi_classname, $cgi_clientname, $cgi_password)) {
 			return true;
 		} else {
+			session_login();
 			log_log("login_fail", "Failed Login attempt to $cgi_clientname from " .  $_SERVER['REMOTE_ADDR']);
 			$ghtml->print_redirect("/login/?frm_emessage=login_error");
 			return false; 
