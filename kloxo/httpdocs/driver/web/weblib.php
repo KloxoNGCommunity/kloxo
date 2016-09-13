@@ -365,6 +365,8 @@ class Web extends Lxdb
 	static $__desc_https_header = array("t", "", "https_header");
 	static $__desc_static_files_expire = array("", "", "static_files_expire");
 
+	static $__desc_disable_pagespeed = array("f", "", "disable_pagespeed");
+
 	static $__acdesc_update_permalink = array("", "", "permalink");
 	static $__acdesc_update_sesubmit = array("", "", "search_engine");
 	static $__acdesc_update_blockip = array("", "", "block_ip");
@@ -1571,6 +1573,9 @@ class Web extends Lxdb
 
 				$vlist['static_files_expire'] = null;
 				$this->setDefaultValue('static_files_expire', self::getStaticFilesExpireDefault());
+
+				$vlist['disable_pagespeed'] = null;
+				$this->setDefaultValue('disable_pagespeed', 'off');
 
 				$vlist['__v_updateall_button'] = array();
 

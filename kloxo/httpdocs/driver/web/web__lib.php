@@ -175,6 +175,9 @@ class web__ extends lxDriverClass
 		$input['https_header'] = $this->getHttpsHeader();
 		$input['static_files_expire'] = $this->getStaticFilesExpire();
 
+		$input['disable_pagespeed'] = $this->getDisablePagespeed();
+		$input['pagespeed_ready'] = $this->getPagespeedReady();
+
 		$input['apacheextratext'] = $this->getApacheExtraText();
 		$input['lighttpdextratext'] = $this->getLighttpdExtraText();
 		$input['nginxextratext'] = $this->getNginxExtraText();
@@ -991,6 +994,28 @@ class web__ extends lxDriverClass
 			$ret = $this->main->getStaticFilesExpireDefault();
 		} else {
 			$ret = $this->main->static_files_expire;
+		}
+
+		return $ret;
+	}
+
+	function getDisablePagespeed()
+	{
+		if ($this->main->isOn('disable_pagespeed')) {
+			$ret = true;
+		} else {
+			$ret = false;
+		}
+
+		return $ret;
+	}
+
+	function getPagespeedReady()
+	{
+		if (file_exists("../etc/flag/use_pagespeed.flg")) {
+			$ret = true;
+		} else {
+			$ret = false;
 		}
 
 		return $ret;

@@ -224,18 +224,6 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 	$acmechallenge = "acme-challenge";
 }
 
-if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$header_base = "custom.header_base";
-} else if (file_exists("{$globalspath}/header_base.conf")) {
-	$header_base = "header_base";
-}
-
-if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
-	$header_ssl = "custom.header_ssl";
-} else if (file_exists("{$globalspath}/header_ssl.conf")) {
-	$header_ssl = "header_ssl";
-}
-
 if ($use_httpd24) {
 	if (file_exists("{$globalspath}/custom.ssl_base24.conf")) {
 		$ssl_base = "custom.ssl_base24";
@@ -349,8 +337,6 @@ foreach ($certnamelist as $ip => $certname) {
 
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
-
-		Include <?=$globalspath;?>/<?=$header_base;?>.conf
 <?php
 			}
 ?>

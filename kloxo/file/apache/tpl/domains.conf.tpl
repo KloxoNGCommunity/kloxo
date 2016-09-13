@@ -272,6 +272,14 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## cp for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+<?php
+			if ($pagespeed_ready) {
+?>
+
+	ModPageSpeed Off
+<?php
+			}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -418,6 +426,14 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## stats for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+<?php
+			if ($pagespeed_ready) {
+?>
+
+	ModPageSpeed Off
+<?php
+			}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -635,6 +651,14 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## webmail for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+<?php
+			if ($pagespeed_ready) {
+?>
+
+	ModPageSpeed Off
+<?php
+			}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -692,6 +716,14 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## webmail for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+<?php
+			if ($pagespeed_ready) {
+?>
+
+	ModPageSpeed Off
+<?php
+			}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -851,6 +883,16 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## web for '<?=$domainname;?>'
 <VirtualHost <?=$ip_special;?>:<?=$portlist[$count];?> >
+<?php
+		if ($pagespeed_ready) {
+			if ($disable_pagespeed) {
+?>
+
+	ModPageSpeed Off
+<?php
+			}
+		}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1199,6 +1241,14 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## web for redirect '<?=$redirdomainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+<?php
+				if ($pagespeed_ready) {
+?>
+
+	ModPageSpeed Off
+<?php
+				}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1270,6 +1320,14 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## webmail for parked '<?=$parkdomainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+<?php
+					if ($pagespeed_ready) {
+?>
+
+	ModPageSpeed Off
+<?php
+					}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
@@ -1441,6 +1499,14 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## webmail for redirect '<?=$redirdomainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+<?php
+					if ($pagespeed_ready) {
+?>
+
+	ModPageSpeed Off
+<?php
+					}
+?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
