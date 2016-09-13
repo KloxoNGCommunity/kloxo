@@ -234,7 +234,8 @@ server {
 	set $var_fpmport '<?=$fpmportapache;?>';
 	set $var_phpselected 'php';
 
-	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+//	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
 }
 
 
@@ -340,7 +341,8 @@ server {
 	set $var_fpmport '<?=$fpmportapache;?>';
 	set $var_phpselected 'php';
 
-	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+//	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
 <?php
 
 		if ($webmailremote) {

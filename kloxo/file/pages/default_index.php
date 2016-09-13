@@ -32,6 +32,11 @@
 		} else {
 			$logo_url = "./images/logo.png";
 		}
+
+		if ((isset($_GET['frm_emessage'])) && ($_GET['frm_emessage'] === 'token_not_match')) {
+			print('<p>Token not match. No permit for remote login</p>');
+			exit;
+		}
 ?>
 <html>
 
@@ -63,7 +68,11 @@
 						$count = count($dirs);
 						$selnum = rand(0, ($count - 1));
 
-						$selimg = $dirs[$selnum];
+						if ((isset($_GET['frm_emessage'])) && ($_GET['frm_emessage'] === 'login_error')) {
+							$selimg = "{$path}/abstract_003.jpg";
+						} else {
+							$selimg = $dirs[$selnum];
+						}
 
 						$bckgrnd = "\tbackground-image: url({$selimg});\n".
 							"\tbackground-size: cover;\n".

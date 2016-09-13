@@ -201,8 +201,8 @@ $HTTP["host"] =~ "^cp\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	index-file.names = ( <?=$indexorder;?> )
 
-	include "<?=$globalspath;?>/switch_standard.conf"
-
+//	include "<?=$globalspath;?>/switch_standard.conf"
+	include "<?=$globalspath;?>/php-fpm_standard.conf"
 }
 
 
@@ -277,8 +277,8 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	index-file.names = ( <?=$indexorder;?> )
 
-	include "<?=$globalspath;?>/switch_standard.conf"
-
+//	include "<?=$globalspath;?>/switch_standard.conf"
+	include "<?=$globalspath;?>/php-fpm_standard.conf"
 }
 
 <?php

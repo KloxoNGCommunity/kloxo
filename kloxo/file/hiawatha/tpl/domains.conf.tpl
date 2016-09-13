@@ -396,6 +396,7 @@ VirtualHost {
 
 	UseLocalConfig = yes
 <?php
+/*
 		if ($reverseproxy) {
 ?>
 
@@ -406,12 +407,13 @@ VirtualHost {
 	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
 <?php
 		} else {
+*/
 ?>
 
 	UseFastCGI = php_for_apache
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
 <?php
-		}
+//		}
 ?>
 
 	#StartFile = index.php
@@ -567,6 +569,7 @@ VirtualHost {
 
 	UseLocalConfig = yes
 <?php
+/*
 		if ($reverseproxy) {
 ?>
 
@@ -577,6 +580,7 @@ VirtualHost {
 	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
 <?php
 		} else {
+*/
 ?>
 
 	UseFastCGI = php_for_apache
@@ -591,7 +595,7 @@ VirtualHost {
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
 <?php
 			}
-		}
+//		}
 ?>
 
 	#StartFile = index.php

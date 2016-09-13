@@ -11,7 +11,7 @@
 	- [%_domain_%] - translate to current domain (example: domain.com)
 */
 
-$__emessage['token_not_match'] = "Token not match. No permit from remote login";
+$__emessage['token_not_match'] = "Token not match. No permit for remote login";
 $__emessage['blocked'] = "Your address is blocked. Wait 10 minutes to login again.";
 $__emessage['no_server'] = "Could not connect to the Server.";
 $__emessage['set_emailid'] = "Please Set Your EmailId Properly ";
