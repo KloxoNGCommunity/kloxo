@@ -171,6 +171,10 @@ class web__ extends lxDriverClass
 		$input['microcache_time'] = $this->getMicrocacheTime();
 		$input['microcache_insert_into'] = $this->getMicrocacheInsertInto();
 
+		$input['general_header'] = $this->getGeneralHeader();
+		$input['https_header'] = $this->getHttpsHeader();
+		$input['static_files_expire'] = $this->getStaticFilesExpire();
+
 		$input['apacheextratext'] = $this->getApacheExtraText();
 		$input['lighttpdextratext'] = $this->getLighttpdExtraText();
 		$input['nginxextratext'] = $this->getNginxExtraText();
@@ -940,7 +944,7 @@ class web__ extends lxDriverClass
 	function getMicrocacheTime()
 	{
 		if ((!isset($this->main->microcache_time)) || (!$this->main->microcache_time) || (strtolower($this->main->microcache_time) === '5')) {
-			$ret = '5';
+			$ret = $this->main->getMicrocacheTimeDefault();
 		} else {
 			$ret = $this->main->microcache_time;
 		}
@@ -951,9 +955,42 @@ class web__ extends lxDriverClass
 	function getMicrocacheInsertInto()
 	{
 		if ((!isset($this->main->microcache_insert_into)) || (!$this->main->microcache_insert_into) || (strtolower($this->main->microcache_insert_into) === '/index.php')) {
-			$ret = '/index.php';
+			$ret = $this->main->getMicrocacheInsertIntoDefault();
 		} else {
 			$ret = $this->main->microcache_insert_into;
+		}
+
+		return $ret;
+	}
+
+	function getGeneralHeader()
+	{
+		if ((!isset($this->main->general_header)) || (!$this->main->general_header)) {
+			$ret = $this->main->getGeneralHeaderDefault();
+		} else {
+			$ret = $this->main->general_header;
+		}
+
+		return $ret;
+	}
+
+	function getHttpsHeader()
+	{
+		if ((!isset($this->main->https_header)) || (!$this->main->https_header)) {
+			$ret = $this->main->getHttpsHeaderDefault();
+		} else {
+			$ret = $this->main->https_header;
+		}
+
+		return $ret;
+	}
+
+	function getStaticFilesExpire()
+	{
+		if ((!isset($this->main->static_files_expire)) || (!$this->main->static_files_expire)) {
+			$ret = $this->main->getStaticFilesExpireDefault();
+		} else {
+			$ret = $this->main->static_files_expire;
 		}
 
 		return $ret;

@@ -158,16 +158,28 @@ if (file_exists("{$globalspath}/custom.generic.conf")) {
 	$generic = "generic";
 }
 
-if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$header_base = "custom.header_base";
-} else if (file_exists("{$globalspath}/header_base.conf")) {
-	$header_base = "header_base";
+if ($general_header) {
+	$general_header_text = "";
+
+	foreach ($general_header as $k => $v) {
+		list($key, $value) = explode(" \"", $v);
+		$general_header_text .= "\tsetenv.add-response-header += ( \"{$key}\" => \"{$value} )\n";
+	}
 }
 
-if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
-	$header_ssl = "custom.header_ssl";
-} else if (file_exists("{$globalspath}/header_ssl.conf")) {
-	$header_ssl = "header_ssl";
+if ($https_header) {
+	$https_header_text = "";
+
+	foreach ($https_header as $k => $v) {
+		list($key, $value) = explode(" \"", $v);
+		$https_header_text .= "\t\tsetenv.add-response-header += ( \"{$key}\" => \"{$value} )\n";
+	}
+}
+
+if ($static_files_expire) {
+	$static_files_expire_text = "\t\$HTTP[\"url\"] =~ \".(jpe?g|gif|png|ico|css|pdf|js)\" {\n" .
+		"\t\texpire.url = ( \"\" => \"access plus {$static_files_expire} days\" )\n" .
+		"\t}";
 }
 
 if ($disabled) {
@@ -189,7 +201,7 @@ $HTTP["host"] =~ "^cp\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
-	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+<?=$general_header_text;?>
 
 	var.user = "apache"
 	var.fpmport = "<?=$fpmportapache;?>"
@@ -203,6 +215,7 @@ $HTTP["host"] =~ "^cp\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	#include "<?=$globalspath;?>/switch_standard.conf"
 	include "<?=$globalspath;?>/php-fpm_standard.conf"
+
 }
 
 
@@ -213,7 +226,7 @@ $HTTP["host"] =~ "^stats\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
-	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+<?=$general_header_text;?>
 
 	var.domain = "stats.<?=$domainname;?>"
 	var.user = "apache"
@@ -241,6 +254,7 @@ if ($enablestats) {
 //	}
 }
 ?>
+
 }
 
 <?php
@@ -265,7 +279,7 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
-	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+<?=$general_header_text;?>
 
 	var.user = "apache"
 	var.fpmport = "<?=$fpmportapache;?>"
@@ -279,6 +293,7 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	#include "<?=$globalspath;?>/switch_standard.conf"
 	include "<?=$globalspath;?>/php-fpm_standard.conf"
+
 }
 
 <?php
@@ -305,10 +320,10 @@ $HTTP["host"] =~ "^<?=str_replace(".", "\.", $redirdomainname);?>" {
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
-	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+<?=$general_header_text;?>
 
 	$HTTP["scheme"] == "https" {
-		include "/opt/configs/lighttpd/conf/globals/header_ssl.conf"
+<?=$https_header_text;?>
 	}
 
 	var.user = "<?=$sockuser;?>"
@@ -389,7 +404,7 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $parkdomainname);?>" {
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
-	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+<?=$general_header_text;?>
 
 	var.user = "apache"
 	var.fpmport = "<?=$fpmportapache;?>"
@@ -446,7 +461,7 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $redirdomainname);?>" {
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
-	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+<?=$general_header_text;?>
 
 	var.user = "apache"
 	var.fpmport = "<?=$fpmportapache;?>"
@@ -507,10 +522,11 @@ $HTTP["host"] =~ "<?=$serveralias;?><?=$ipssl;?>" {
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
 
-	include "<?=$globalspath;?>/<?=$header_base;?>.conf"
+<?=$general_header_text;?>
 
 	$HTTP["scheme"] == "https" {
-		include "/opt/configs/lighttpd/conf/globals/header_ssl.conf"
+<?=$https_header_text;?>
+
 	}
 <?php
 }
@@ -669,6 +685,9 @@ if ($redirectionremote) {
 		## trick using 'microcache' not work; no different performance!
 		#expire.url = ( "" => "access 10 seconds" )
 	}
+
+<?=$static_files_expire_text;?>
+
 
 }
 

@@ -147,16 +147,41 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 	$acmechallenge = "acme-challenge";
 }
 
-if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$header_base = "custom.header_base";
-} else if (file_exists("{$globalspath}/header_base.conf")) {
-	$header_base = "header_base";
+if ($general_header) {
+	$general_header_text = "<IfModule mod_headers.c>\n";
+
+	foreach ($general_header as $k => $v) {
+		$general_header_text .= "\t\tHeader always set {$v}\n";
+	}
+
+	$general_header_text .= "\t\tHeader always set X-Supported-By \"Kloxo-MR 7.0\"\n" .
+		"\t\tRequestHeader unset Proxy early\n" . 
+		"\t</IfModule>";
 }
 
-if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
-	$header_ssl = "custom.header_ssl";
-} else if (file_exists("{$globalspath}/header_ssl.conf")) {
-	$header_ssl = "header_ssl";
+if ($https_header) {
+	$https_header_text = "<IfModule mod_headers.c>\n";
+
+	foreach ($https_header as $k => $v) {
+		$https_header_text .= "\t\t\tHeader always set {$v}\n";
+	}
+
+	$https_header_text .= "\t\t</IfModule>";
+}
+
+if ($static_files_expire) {
+	$static_files_expire_text = "<IfModule mod_expires.c>\n" .
+		"\t\tExpiresActive On\n" .
+		"\t\tExpiresByType image/x-icon \"access plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresByType image/gif \"accesss plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresByType image/png \"access plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresByType image/jpg \"access plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresByType image/jpeg \"access plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresByType text/css \"access plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresByType application/pdf \"access plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresByType text/x-javascript \"access plus {$static_files_expire} days\"\n" .
+		"\t\tExpiresDefault \"access plus {$static_files_expire} days\"\n" .
+		"\t</IfModule>";
 }
 
 if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
@@ -256,7 +281,8 @@ foreach ($certnamelist as $ip => $certname) {
 	DirectoryIndex <?=$indexorder;?>
 
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
 <?php
 			if ($count !== 0) {
 ?>
@@ -275,7 +301,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 					}
 ?>
@@ -400,7 +427,8 @@ foreach ($certnamelist as $ip => $certname) {
 	DirectoryIndex <?=$indexorder;?>
 
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
 <?php
 			if ($count !== 0) {
 ?>
@@ -419,7 +447,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 					}
 ?>
@@ -614,7 +643,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Redirect "/" "<?=$protocol;?><?=$webmailremote;?>"
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
 <?php
 				if ($count !== 0) {
 ?>
@@ -633,7 +663,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 						}
 ?>
@@ -670,7 +701,8 @@ foreach ($certnamelist as $ip => $certname) {
 	DirectoryIndex <?=$indexorder;?>
 
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
 <?php
 				if ($count !== 0) {
 ?>
@@ -689,7 +721,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 						}
 ?>
@@ -826,7 +859,11 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerAlias <?=$serveralias;?>
 
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
+
+	<?=$static_files_expire_text;?>
+
 <?php
 		/*
 			if (intval($microcache_time) > 0) {
@@ -859,7 +896,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 					}
 ?>
@@ -1172,7 +1210,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	Redirect "/" "<?=$protocol;?><?=$domainname;?>/"
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
 <?php
 				if ($count !== 0) {
 					if ($enablessl) {
@@ -1192,7 +1231,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 						}
 ?>
@@ -1236,7 +1276,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?=$webmaildocroot;?>"
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
 <?php
 					if ($count !== 0) {
 ?>
@@ -1255,7 +1296,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 						}
 ?>
@@ -1405,7 +1447,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?=$webmaildocroot;?>"
 
-	Include <?=$globalspath;?>/<?=$header_base;?>.conf
+	<?=$general_header_text;?>
+
 <?php
 					if ($count !== 0) {
 ?>
@@ -1424,7 +1467,8 @@ foreach ($certnamelist as $ip => $certname) {
 ?>
 		SSLCACertificatefile <?=$certname;?>.ca
 
-		Include <?=$globalspath;?>/<?=$header_ssl;?>.conf
+		<?=$https_header_text;?>
+
 <?php
 						}
 ?>

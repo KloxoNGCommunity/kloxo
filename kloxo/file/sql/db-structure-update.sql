@@ -148,3 +148,7 @@ ALTER TABLE `servermail` ADD COLUMN IF NOT EXISTS `smtp_relay` text AFTER `concu
 
 ALTER TABLE `lxbackup` ADD COLUMN IF NOT EXISTS `backupschedule_time` INT NULL AFTER `backupschedule_type`;
 ALTER TABLE `lxbackup` CHANGE COLUMN IF EXISTS `backupschedule_time` `backupschedule_time` VARCHAR(255) NULL DEFAULT NULL;
+
+ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `general_header` TEXT NULL DEFAULT NULL AFTER `microcache_insert_into`;
+ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `https_header` TEXT NULL DEFAULT NULL AFTER `general_header`;
+ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `static_files_expire` VARCHAR(255) NULL DEFAULT NULL AFTER `https_header`;

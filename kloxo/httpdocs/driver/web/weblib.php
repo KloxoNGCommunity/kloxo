@@ -361,6 +361,10 @@ class Web extends Lxdb
 	static $__desc_microcache_time = array("", "", "microcache_time");
 	static $__desc_microcache_insert_into = array("", "", "microcache_insert_into");
 
+	static $__desc_general_header = array("t", "", "general_header");
+	static $__desc_https_header = array("t", "", "https_header");
+	static $__desc_static_files_expire = array("", "", "static_files_expire");
+
 	static $__acdesc_update_permalink = array("", "", "permalink");
 	static $__acdesc_update_sesubmit = array("", "", "search_engine");
 	static $__acdesc_update_blockip = array("", "", "block_ip");
@@ -1319,7 +1323,7 @@ class Web extends Lxdb
 		$this->php_selected = $param['php_selected'];
 		$this->time_out = $param['time_out'];
 
-		if ($param['microcache_time'] === '0') { $param['microcache_time'] = '5'; }	
+		if ($param['microcache_time'] === '0') { $param['microcache_time'] = self::getMicrocacheInsertIntoDefault(); }
 
 		$this->microcache_time = $param['microcache_time'];
 		$this->microcache_insert_into = $param['microcache_insert_into'];
@@ -1556,9 +1560,17 @@ class Web extends Lxdb
 				$this->setDefaultValue('time_out', '300');
 
 				$vlist['microcache_time'] = null;
-				$this->setDefaultValue('microcache_time', '5');
+				$this->setDefaultValue('microcache_time', self::getMicrocacheTimeDefault());
 				$vlist['microcache_insert_into'] = null;
-				$this->setDefaultValue('microcache_insert_into', '/index.php');
+				$this->setDefaultValue('microcache_insert_into', self::getMicrocacheInsertIntoDefault());
+
+				$vlist['general_header'] = null;
+				$this->setDefaultValue('general_header', self::getGeneralHeaderDefault());
+				$vlist['https_header'] = null;
+				$this->setDefaultValue('https_header', self::getHttpsHeaderDefault());
+
+				$vlist['static_files_expire'] = null;
+				$this->setDefaultValue('static_files_expire', self::getStaticFilesExpireDefault());
 
 				$vlist['__v_updateall_button'] = array();
 
@@ -1703,6 +1715,34 @@ class Web extends Lxdb
 		}
 
 		return null;
+	}
+
+	static function getMicrocacheTimeDefault()
+	{
+		return '/index.php';
+	}
+
+	static function getMicrocacheInsertIntoDefault()
+	{
+		return '5';
+	}
+
+	static function getGeneralHeaderDefault()
+	{
+		return 'X-Content-Type-Options "nosniff"
+X-XSS-Protection "1;mode=block"
+X-Frame-Options "SAMEORIGIN"
+Access-Control-Allow-Origin "*"';
+	}
+
+	static function getHttpsHeaderDefault()
+	{
+		return 'Strict-Transport-Security "max-age=2592000; preload"';
+	}
+
+	static function getStaticFilesExpireDefault()
+	{
+		return '7';
 	}
 }
 

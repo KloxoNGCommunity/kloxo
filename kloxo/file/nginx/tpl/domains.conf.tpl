@@ -168,16 +168,36 @@ if (file_exists("{$globalspath}/custom.generic.conf")) {
 	$generic = 'generic';
 }
 
-if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$header_base = "custom.header_base";
-} else if (file_exists("{$globalspath}/header_base.conf")) {
-	$header_base = "header_base";
+if ($general_header) {
+	$x = array();
+
+	foreach ($general_header as $k => $v) {
+		$x[] = "\tadd_header {$v};";
+	}
+
+	$x[] = "\tadd_header X-Supported-By \"Kloxo-MR 7.0\";";
+
+	$general_header_text = implode("\n", $x);
 }
 
-if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
-	$header_ssl = "custom.header_ssl";
-} else if (file_exists("{$globalspath}/header_ssl.conf")) {
-	$header_ssl = "header_ssl";
+if ($https_header) {
+	$x = array();
+
+	foreach ($https_header as $k => $v) {
+		$x[] = "\tadd_header {$v};";
+	}
+
+	$https_header_text = implode("\n", $x);
+}
+
+if ($static_files_expire) {
+
+	### MR -- Enable this if not using nginx cache and not for wordpress
+	$static_files_expire_text = "\tlocation ~* ^.+\.(jpe?g|gif|png|ico|css|pdf|js)$ {\n" .
+		"\t\texpires {$static_files_expire}d;\n" .
+		"\t\taccess_log off;\n" .
+		"\t\troot \$var_rootdir;\n" .
+		"\t}";
 }
 
 if ($disabled) {
@@ -199,7 +219,8 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
+
 <?php
 		if ($count !== 0) {
 ?>
@@ -213,7 +234,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 			}
 		}
@@ -247,7 +269,8 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
+
 <?php
 		if ($count !== 0) {
 ?>
@@ -261,7 +284,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 			}
 		}
@@ -306,7 +330,8 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
+
 <?php
 		if ($count !== 0) {
 ?>
@@ -320,7 +345,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 			}
 		}
@@ -366,7 +392,8 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
+
 <?php
 		if ($dirindex) {
 ?>
@@ -388,7 +415,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 				}
 			}
@@ -627,6 +655,9 @@ server {
 <?php
 		}
 ?>
+
+<?=$static_files_expire_text;?>
+
 }
 
 <?php
@@ -652,7 +683,7 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -667,7 +698,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 							}
 						}
@@ -733,7 +765,8 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
+
 <?php
 					if ($count !== 0) {
 						if ($enablessl) {
@@ -748,7 +781,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 							}
 						}
@@ -801,7 +835,8 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
+
 <?php
 					if ($count !== 0) {
 ?>
@@ -815,7 +850,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 						}
 					}
@@ -865,7 +901,8 @@ server {
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$header_base;?>.conf';
+<?=$general_header_text;?>
+
 <?php
 					if ($count !== 0) {
 ?>
@@ -879,7 +916,8 @@ server {
 ?>
 	ssl_trusted_certificate <?=$certname;?>.ca;
 
-	include '<?=$globalspath;?>/<?=$header_ssl;?>.conf';
+<?=$https_header_text;?>
+
 <?php
 						}
 					}

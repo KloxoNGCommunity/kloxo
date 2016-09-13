@@ -1440,4 +1440,6 @@ $__description["phpmodule_fullfile"] = array("File");
 $__description["phpmodule_status"] = array("PHP Module Status");
 $__description["phpmodule_restart"] = array("Restart");
 
-
+$__description["general_header"] = array("General Header (in Apache format)");
+$__description["https_header"] = array("HTTPS Header (in Apache format)");
+$__description["static_files_expire"] = array("Static Files Expire (in days)");

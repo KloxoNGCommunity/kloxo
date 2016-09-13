@@ -70,15 +70,6 @@ $defaultdocroot = "/home/kloxo/httpd/default";
 $fpmportapache = 50000;
 ?>
 
-Directory {
-	DirectoryID = cache_expire
-
-	Path = /
-
-	Extensions = jpeg, jpg, gif, png, ico, css, js, pdf
-	ExpirePeriod 1 week
-}
-
 UrlToolkit {
 	ToolkitID = monitor
 	RequestURI isfile Return
@@ -131,7 +122,7 @@ UrlToolkit {
 }
 
 FastCGIserver {
-	FastCGIid = php_for_apache
+	FastCGIid = php_apache
 
 	ConnectTo = /opt/configs/php-fpm/sock/php-apache.sock
 	Extension = php
@@ -140,7 +131,7 @@ FastCGIserver {
 }
 
 FastCGIserver {
-	FastCGIid = cgi_for_apache
+	FastCGIid = cgi_apache
 
 	ConnectTo = /tmp/fcgiwrap.sock
 	Extension = pl,cgi
@@ -228,7 +219,7 @@ ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
 #UserDirectory = public_html
 #UserWebsites = yes
 
-UseFastCGI = php_for_var_user
+UseFastCGI = php_var_user
 UseToolkit = block_shellshock, block_httpoxy, findindexfile, permalink
 <?php
 }

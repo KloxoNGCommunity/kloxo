@@ -31,14 +31,31 @@ if (file_exists($mfile)) {
 	}
 }
 
-$header_base = "CustomHeader = X-Content-Type-Options:nosniff
-\tCustomHeader = X-XSS-Protection:1;mode=block
-\tCustomHeader = X-Frame-Options:SAMEORIGIN
-\tCustomHeader = Access-Control-Allow-Origin:*
-\t#CustomHeader = Content-Security-Policy:script-src 'self'
-\tCustomHeader = X-Supported-By:Kloxo-MR 7.0";
+if ($general_header) {
+	$x = array();
 
-$header_ssl = "CustomHeader = Strict-Transport-Security:max-age=2592000;preload";
+	foreach ($general_header as $k => $v) {
+		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
+
+		$x[] = "\tCustomHeader = {$v}";
+	}
+
+	$x[] = "\tCustomHeader = X-Supported-By:Kloxo-MR 7.0";
+
+	$general_header_text = implode("\n", $x);
+}
+
+if ($https_header) {
+	$x = array();
+
+	foreach ($https_header as $k => $v) {
+		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
+
+		$x[] = "\tCustomHeader = {$v}";
+	}
+
+	$https_header_text = implode("\n", $x);
+}
 
 $error_handler = "Alias = /error:/home/kloxo/httpd/error
 \tErrorHandler = 401:/error/401.html
@@ -165,24 +182,27 @@ if ($disabled) {
 }
 
 //if (!$reverseproxy) {
-/*
 ?>
 
 Directory {
-	DirectoryID = cache_expire
+	DirectoryID = cache_expire_<?=$domclean;?>
 
 	Path = /
-
+<?php
+	if ($static_files_expire) {
+?>
 	Extensions = jpeg, jpg, gif, png, ico, css, js, pdf
-	ExpirePeriod 1 week
+	ExpirePeriod <?=$static_files_expire;?> days
+<?php
+	}
+?>
 }
 <?php
-*/
 if ($enablestats) {
 ?>
 
 Directory {
-	DirectoryId = stats_dir_for_<?=$domclean;?>
+	DirectoryId = stats_dir_<?=$domclean;?>
 
 	Path = /
 <?php
@@ -217,7 +237,7 @@ Directory {
 ?>
 
 UrlToolkit {
-	ToolkitID = findindexfile_for_<?=$domcleaner;?>
+	ToolkitID = findindexfile_<?=$domcleaner;?>
 
 <?php
 $v2 = "";
@@ -249,9 +269,9 @@ UrlToolkit {
 ?>
 
 UrlToolkit {
-	ToolkitID = cgi_for_<?=$domcleaner;?>
+	ToolkitID = cgi_<?=$domcleaner;?>
 
-	Match ^/.*\.(pl|cgi)(/|$) UseFastCGI cgi_for_apache
+	Match ^/.*\.(pl|cgi)(/|$) UseFastCGI cgi_apache
 }
 <?php
 foreach ($protocols as $k => $v) {
@@ -287,7 +307,6 @@ UrlToolkit {
 	Match ^/cp(|/(.*))$ Redirect <?=$v;?>://cp.<?=$domainname;?>/$1
 
 	Match ^/stats(|/(.*))$ Redirect <?=$v;?>://stats.<?=$domainname;?>/$1
-
 <?php
 	if ($wwwredirect) {
 ?>
@@ -313,7 +332,7 @@ UrlToolkit {
 ?>
 
 FastCGIserver {
-	FastCGIid = php_for_<?=$domclean;?>
+	FastCGIid = php_<?=$domclean;?>
 
 <?php
 if ($disabled) {
@@ -350,7 +369,7 @@ VirtualHost {
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
-	<?=$header_base;?>
+<?=$general_header_text;?>
 
 <?php
 		if ($count !== 0) {
@@ -362,7 +381,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
-	<?=$header_ssl;?>
+<?=$https_header_text;?>
 
 <?php
 			}
@@ -410,8 +429,8 @@ VirtualHost {
 */
 ?>
 
-	UseFastCGI = php_for_apache
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseFastCGI = php_apache
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>, permalink
 <?php
 //		}
 ?>
@@ -427,7 +446,7 @@ VirtualHost {
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
-	<?=$header_base;?>
+<?=$general_header_text;?>
 
 <?php
 		if ($count !== 0) {
@@ -439,7 +458,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
-	<?=$header_ssl;?>
+<?=$https_header_text;?>
 
 <?php
 			}
@@ -495,22 +514,22 @@ VirtualHost {
 */
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_apache
 <?php
 			if ($statsapp === 'awstats') {
 ?>
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, redirect_stats_<?=$domcleaner;?>_<?=$protocol;?>
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>, redirect_stats_<?=$domcleaner;?>_<?=$protocol;?>
 
 <?php
 			} else {
 ?>
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>
 
 <?php
 			}
 //		}
 ?>
-	UseDirectory = stats_dir_for_<?=$domclean;?>
+	UseDirectory = stats_dir_<?=$domclean;?>
 
 
 	#StartFile = index.php
@@ -523,7 +542,7 @@ VirtualHost {
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
-	<?=$header_base;?>
+<?=$general_header_text;?>
 
 <?php
 		if ($count !== 0) {
@@ -535,7 +554,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
-	<?=$header_ssl;?>
+<?=$https_header_text;?>
 
 <?php
 			}
@@ -583,7 +602,7 @@ VirtualHost {
 */
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_apache
 <?php
 			if ($webmailremote) {
 ?>
@@ -592,7 +611,7 @@ VirtualHost {
 <?php
 			} else {
 ?>
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>, permalink
 <?php
 			}
 //		}
@@ -609,7 +628,7 @@ VirtualHost {
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
-	<?=$header_base;?>
+<?=$general_header_text;?>
 
 <?php
 		if ($count !== 0) {
@@ -622,7 +641,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
-	<?=$header_ssl;?>
+<?=$https_header_text;?>
 
 <?php
 				}
@@ -665,7 +684,8 @@ VirtualHost {
 	WebsiteRoot = <?=$webdocroot;?>
 
 
-	UseDirectory = cache_expire
+	UseDirectory = cache_expire_<?=$domclean;?>
+
 
 	EnablePathInfo = yes
 
@@ -675,7 +695,7 @@ VirtualHost {
 ?>
 
 	#WrapCGI = <?=$user;?>_wrapper
-	#UseToolkit = cgi_for_<?=$domcleaner;?>
+	#UseToolkit = cgi_<?=$domcleaner;?>
 <?php
 		}
 
@@ -736,9 +756,9 @@ VirtualHost {
 				if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
 ?>
 
-	UseFastCGI = php_for_<?=$domclean;?>
+	UseFastCGI = php_<?=$domclean;?>
 
-	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=$domcleaner;?>_<?=$protocol;?>, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=$domcleaner;?>_<?=$protocol;?>, findindexfile_<?=$domcleaner;?>, permalink
 
 	UseLocalConfig = yes
 <?php
@@ -810,7 +830,7 @@ VirtualHost {
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
-	<?=$header_base;?>
+<?=$general_header_text;?>
 
 <?php
 				if ($count !== 0) {
@@ -823,7 +843,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
-	<?=$header_ssl;?>
+<?=$https_header_text;?>
 
 <?php
 						}
@@ -873,9 +893,9 @@ VirtualHost {
 				} else {
 ?>
 
-	UseFastCGI = php_for_<?=$domclean;?>
+	UseFastCGI = php_<?=$domclean;?>
 
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>, permalink
 <?php
 				}
 ?>
@@ -902,7 +922,7 @@ VirtualHost {
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
-	<?=$header_base;?>
+<?=$general_header_text;?>
 
 <?php
 					if ($count !== 0) {
@@ -914,7 +934,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
-	<?=$header_ssl;?>
+<?=$https_header_text;?>
 
 <?php
 						}
@@ -958,7 +978,7 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_apache
 <?php
 						if ($webmailremote) {
 ?>
@@ -967,7 +987,7 @@ VirtualHost {
 <?php
 						} else {
 ?>
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>, permalink
 <?php
 						}
 					}
@@ -1004,7 +1024,7 @@ VirtualHost {
 
 	Alias = /.well-known:/var/run/letsencrypt/.well-known
 
-	<?=$header_base;?>
+<?=$general_header_text;?>
 
 <?php
 					if ($count !== 0) {
@@ -1016,7 +1036,7 @@ VirtualHost {
 ?>
 	#RequiredCA = <?=$certname;?>.ca
 
-	<?=$header_ssl;?>
+<?=$https_header_text;?>
 
 <?php
 						}
@@ -1062,7 +1082,7 @@ VirtualHost {
 					} else {
 ?>
 
-	UseFastCGI = php_for_apache
+	UseFastCGI = php_apache
 <?php
 						if ($webmailremote) {
 ?>
@@ -1071,7 +1091,7 @@ VirtualHost {
 <?php
 						} else {
 ?>
-	UseToolkit = block_shellshock, block_httpoxy, findindexfile_for_<?=$domcleaner;?>, permalink
+	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>, permalink
 <?php
 						}
 					}
