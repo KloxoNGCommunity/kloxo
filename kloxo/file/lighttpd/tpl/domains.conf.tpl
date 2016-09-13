@@ -159,18 +159,22 @@ if (file_exists("{$globalspath}/custom.generic.conf")) {
 }
 
 if ($general_header) {
+	$gh = explode("\n", trim($general_header, "\n"));
+
 	$general_header_text = "";
 
-	foreach ($general_header as $k => $v) {
+	foreach ($gh as $k => $v) {
 		list($key, $value) = explode(" \"", $v);
 		$general_header_text .= "\tsetenv.add-response-header += ( \"{$key}\" => \"{$value} )\n";
 	}
 }
 
 if ($https_header) {
+	$hh = explode("\n", trim($https_header, "\n"));
+
 	$https_header_text = "";
 
-	foreach ($https_header as $k => $v) {
+	foreach ($hh as $k => $v) {
 		list($key, $value) = explode(" \"", $v);
 		$https_header_text .= "\t\tsetenv.add-response-header += ( \"{$key}\" => \"{$value} )\n";
 	}

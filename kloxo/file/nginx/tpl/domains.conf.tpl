@@ -169,9 +169,11 @@ if (file_exists("{$globalspath}/custom.generic.conf")) {
 }
 
 if ($general_header) {
+	$gh = explode("\n", trim($general_header, "\n"));
+
 	$x = array();
 
-	foreach ($general_header as $k => $v) {
+	foreach ($gh as $k => $v) {
 		$x[] = "\tadd_header {$v};";
 	}
 
@@ -181,9 +183,11 @@ if ($general_header) {
 }
 
 if ($https_header) {
+	$hh = explode("\n", trim($https_header, "\n"));
+
 	$x = array();
 
-	foreach ($https_header as $k => $v) {
+	foreach ($hh as $k => $v) {
 		$x[] = "\tadd_header {$v};";
 	}
 

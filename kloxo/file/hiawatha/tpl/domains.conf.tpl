@@ -34,9 +34,10 @@ if (file_exists($mfile)) {
 if ($general_header) {
 	$x = array();
 
-	foreach ($general_header as $k => $v) {
-		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
+	$gh = explode("\n", trim($general_header, "\n"));
 
+	foreach ($gh as $k => $v) {
+		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
 		$x[] = "\tCustomHeader = {$v}";
 	}
 
@@ -48,7 +49,9 @@ if ($general_header) {
 if ($https_header) {
 	$x = array();
 
-	foreach ($https_header as $k => $v) {
+	$hh = explode("\n", trim($https_header, "\n"));
+
+	foreach ($hh as $k => $v) {
 		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
 
 		$x[] = "\tCustomHeader = {$v}";

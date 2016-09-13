@@ -148,9 +148,11 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 }
 
 if ($general_header) {
+	$gh = explode("\n", trim($general_header, "\n"));
+
 	$general_header_text = "<IfModule mod_headers.c>\n";
 
-	foreach ($general_header as $k => $v) {
+	foreach ($gh as $k => $v) {
 		$general_header_text .= "\t\tHeader always set {$v}\n";
 	}
 
@@ -160,9 +162,11 @@ if ($general_header) {
 }
 
 if ($https_header) {
+	$hh = explode("\n", trim($https_header, "\n"));
+
 	$https_header_text = "<IfModule mod_headers.c>\n";
 
-	foreach ($https_header as $k => $v) {
+	foreach ($hh as $k => $v) {
 		$https_header_text .= "\t\t\tHeader always set {$v}\n";
 	}
 
