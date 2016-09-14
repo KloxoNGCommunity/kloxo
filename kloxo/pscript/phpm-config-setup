@@ -57,7 +57,9 @@ for j in php.d php-zts.d ; do
 			if [ "$(cat /opt/${base_name}/etc/${j}/${a}|grep 'zend_extension=/')" == "" ] ; then
 				sed -i 's:zend_extension=:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${a}
 			else
-				sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${a}
+				if [ "$(cat /opt/${base_name}/etc/${j}/${a}|grep 'zend_extension=/opt/')" == "" ] ; then
+					sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${a}
+				fi
 			fi
 		done
 	fi

@@ -8,6 +8,14 @@ else
 	. /script/restart-list.inc
 fi
 
+bpath="/usr/local/lxlabs/kloxo"
+spath="${bpath}/file/pages"
+tpath="${bpath}/httpdocs/login"
+
+cp -f ${spath}/default_index.php ${tpath}/index.php
+cp -f ${spath}/login_inc.php ${tpath}/inc.php
+cp -f ${spath}/login_inc2.php ${tpath}/inc2.php
+
 list=${list_kloxo[*]}
 
 if [ -f /script/custom.restart.inc ] ; then

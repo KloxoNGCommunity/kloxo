@@ -922,6 +922,7 @@ foreach ($certnamelist as $ip => $certname) {
 			}
 		*/
 ?>
+
 	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
 <?php
 			if ($count !== 0) {
