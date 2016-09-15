@@ -33,54 +33,14 @@
 			$logo_url = "./images/logo.png";
 		}
 
-		if (!file_exists("./no_need_token")) {
-			if ((isset($_GET['frm_emessage'])) && ($_GET['frm_emessage'] === 'token_not_match')) {
+		session_start();
+
+		if (!file_exists('./no_need_token')) {
+			if (((isset($_GET['frm_emessage'])) && ($_GET['frm_emessage'] === 'token_not_match')) ||
+					((isset($_SESSION['no_token'])) && ($_SESSION['no_token'] == 1))) {
 				print('<div align="center">*** Token not match. No permit for remote login ***</div>');
 				exit;
 			}
-		}
-	
-		if ((isset($_GET['frm_emessage'])) && ($_GET['frm_emessage'] === 'blocked')) {
-			// MR -- js script taken from http://jsfiddle.net/JFYaq/1/
-			$msg = '
-<div align="center">*** Your address is blocked and need waiting 10 minutes to login again ***</div>
-<div id="countdown" align="center"></div>
-<script>
-var countdown = document.getElementById("countdown");
-var totalTime = 600;
-function pad(n) {
-	return n > 9 ? "" + n : "0" + n;
-}
-var original = totalTime;
-function padMinute(n) {
-	return original >= 600 && n <= 9 ? "0" + n : "" + n;
-}
-var interval = setInterval(function() {
-	updateTime();
-	if(totalTime == -1) {
-		clearInterval(interval);
-	//	return;
-	//	self.location = self.location.href;
-		self.location = "/";
-	}
-}, 1000);
-
-function displayTime() {
-	var minutes = Math.floor(totalTime / 60);
-	var seconds = totalTime % 60;
-	minutes = "<span>" + padMinute(minutes).split("").join("</span><span>") + "</span>";
-	seconds = "<span>" + pad(seconds).split("").join("</span><span>") + "</span>";
-	countdown.innerHTML = "Remaining: " + minutes + ":" + seconds;
-}
-function updateTime() {
-	displayTime();
-	totalTime--;
-}
-updateTime();
-</script>
-';
-			print($msg);
-			exit;
 		}
 ?>
 <html>
@@ -113,8 +73,12 @@ updateTime();
 						$count = count($dirs);
 						$selnum = rand(0, ($count - 1));
 
-						if ((isset($_GET['frm_emessage'])) && ($_GET['frm_emessage'] === 'login_error')) {
-							$selimg = "{$path}/abstract_003.jpg";
+						if ((isset($_SESSION['last_login_time'])) && (isset($_SESSION['num_login_fail']))) {
+							if ($_SESSION['num_login_fail'] == 5) {
+								$selimg = "{$path}/abstract_003.jpg";
+							} else {
+								$selimg = $dirs[$selnum];
+							}
 						} else {
 							$selimg = $dirs[$selnum];
 						}

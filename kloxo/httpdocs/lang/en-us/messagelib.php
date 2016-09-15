@@ -12,7 +12,9 @@
 */
 
 $__emessage['token_not_match'] = "Token not match. No permit for remote login";
-$__emessage['blocked'] = "Your address is blocked and need waiting 10 minutes to login again";
+//$__emessage['blocked'] = "Your address is blocked. Wait 10 minutes to login again.";
+$__emessage['blocked'] = "Your IP address is blocked.";
+$__emessage['blocked_remaining'] = "Wait until";
 $__emessage['no_server'] = "Could not connect to the Server.";
 $__emessage['set_emailid'] = "Please Set Your EmailId Properly ";
 $__emessage['no_socket_connect_to_server'] = "Could not Connect to the server [%s]. This is most likely due to underlying network problem. Make sure that the server is accessible from this particular node by running <b>telnet slave-id 7779</b>   ";

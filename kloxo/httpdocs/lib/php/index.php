@@ -88,13 +88,18 @@ function checkAttempt()
 
 function session_login()
 {
-	global $gbl, $sgbl, $login, $ghtml; 
+	global $gbl, $sgbl, $login, $ghtml;
+
+	session_start();
+
+	$_SESSION['last_login_time'] = time();
 
 	if (isset($_SESSION['num_login_fail'])) {
 		if($_SESSION['num_login_fail'] == 5) {
-			if(time() - $_SESSION['last_login_time'] < 10*60*60 ) {
+			// MR -- need reduce 15 secs to sync js time remaining
+			if((time() - $_SESSION['last_login_time']) < ((10*60)-15)) {
 				// alert to user wait for 10 minutes afer
-				$ghtml->print_redirect("/login/?frm_emessage=blocked");
+			//	$ghtml->print_redirect("/login/?frm_emessage=blocked");
 			} else {
 				// after 10 minutes
 				$_SESSION['num_login_fail'] = 0;
@@ -103,11 +108,11 @@ function session_login()
 			}
 		} else {
 			$_SESSION['num_login_fail'] ++;
-			$_SESSION['last_login_time'] = time();
+		//	$_SESSION['last_login_time'] = time();
 		}
 	} else {
 		$_SESSION['num_login_fail'] = 1;
-		$_SESSION['last_login_time'] = time();
+	//	$_SESSION['last_login_time'] = time();
 
 		$ghtml->print_redirect("/login/?frm_emessage=login_error");
 	}
@@ -140,7 +145,13 @@ function print_index()
 
 	// MR -- use != instead !==  because compare numeric
 	if ($cgi_token != $sess_token) {
+		$_SESSION['no_token'] = 1;
+
 		$ghtml->print_redirect("/login/?frm_emessage=token_not_match");
+	} else {
+		if (isset($_SESSION['no_token'])) {
+			unset($_SESSION['no_token']);
+		}
 	}
 
 	if (!$cgi_password || !$cgi_clientname) {

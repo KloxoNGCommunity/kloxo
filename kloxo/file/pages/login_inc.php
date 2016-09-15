@@ -42,6 +42,69 @@ if (!$cgi_forgotpwd) {
 ?>
 <!--- include start --->
 
+<?php
+
+	if ((isset($_SESSION['last_login_time'])) && (isset($_SESSION['num_login_fail']))) {
+		$t = time();
+		$s = $_SESSION['last_login_time'];
+		$d = $t - $s;
+		$n = $_SESSION['num_login_fail'];
+
+		$m = $g_language_mes->__emessage['blocked'];
+		$r = $g_language_mes->__emessage['blocked_remaining'];
+
+		if ($n == 5) {
+			if (intval($t - $s) < intval(10*60)) {
+				$msg = '
+<div style="margin: 4px auto; width: 450px; padding: 4px; color: #000; background-color: #fdb; border: 1px solid #ccc">
+<div id="countdown" align="center"></div>
+<script>
+	var countdown = document.getElementById("countdown");
+	//var totalTime = 600;
+	var totalTime = ' . intval(600 - $d) . ';
+	function pad(n) {
+		return n > 9 ? "" + n : "0" + n;
+	}
+	var original = totalTime;
+	function padMinute(n) {
+		return original >= 600 && n <= 9 ? "0" + n : "" + n;
+	}
+	var interval = setInterval(function() {
+		updateTime();
+		if(totalTime == -1) {
+			clearInterval(interval);
+		//	return;
+		//	self.location = self.location.href;
+			self.location = "/login/";
+		}
+	}, 1000);
+
+	function displayTime() {
+		var minutes = Math.floor(totalTime / 60);
+		var seconds = totalTime % 60;
+		minutes = "<span>" + padMinute(minutes).split("").join("</span><span>") + "</span>";
+		seconds = "<span>" + pad(seconds).split("").join("</span><span>") + "</span>";
+	//	countdown.innerHTML = "Blocked remaining: " + minutes + ":" + seconds;
+		countdown.innerHTML = "' . $m . ' ' . $r . ': " + minutes + ":" + seconds;
+	}
+	function updateTime() {
+		displayTime();
+		totalTime--;
+	}
+	updateTime();
+</script>
+</div>';
+			} else {
+				$_SESSION['num_login_fail'] = 0 ;
+			}
+		} else {
+			$_SESSION['last_login_time'] = time();
+		}
+	} else {
+		$msg="";
+	}
+?>
+
 <div align="center">
 	<div class="login">
 		<div class="login-form">
@@ -76,6 +139,9 @@ if (!$cgi_forgotpwd) {
 		<div class="clr"></div>
 	</div>
 	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">Kloxo-MR <?php echo $kloxo_mr_version ?></div>
+<?php echo $msg;?>
+<!-- <div><?=$t;?> - <?=$s;?> = <?=$d;?></div> -->
+
 </div>
 
 <div id="break"></div>
