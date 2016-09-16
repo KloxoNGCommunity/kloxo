@@ -129,7 +129,7 @@ class Redirect_a extends LxaClass
 			$vlist['httporssl'] = array('s', array('both', 'http', 'https'));
 		}
 
-		$vlist['nname'] = array('m', array('pretext' => "$parent->nname/"));
+		$vlist['nname'] = array('m', array('pretext' => "{$parent->nname}/"));
 
 		if ($typetd['val'] === 'local') {
 			$vlist['redirect'] = array('L', "/");
@@ -408,6 +408,8 @@ class Web extends Lxdb
 
 //	static $__acdesc_update_webselector = array("", "", "web_selector");
 	static $__acdesc_update_webfeatures = array("", "", "web_features");
+
+	static $__acdesc_update_webbasics = array("", "", "web_basics");
 
 	function createExtraVariables()
 	{
@@ -1062,6 +1064,8 @@ class Web extends Lxdb
 			case 'blockip':
 				$alist['property'][] = "a=updateform&sa=blockip";
 				break;
+		/*
+			// MR -- merge to 'web_basics'
 			case 'docroot':
 				$alist['property'][] = "a=updateform&sa=docroot";
 				break;
@@ -1071,6 +1075,7 @@ class Web extends Lxdb
 			case 'dirindex':
 				$alist['property'][] = "a=updateform&sa=dirindex";
 				break;
+		*/
 		/*
 			case 'custom_error':
 				$alist['property'][] = "a=updateform&sa=custom_error";
@@ -1082,33 +1087,10 @@ class Web extends Lxdb
 			case 'webfeatures':
 				$alist['property'][] = "a=updateform&sa=webfeatures";
 				break;
+			case 'webbasics':
+				$alist['property'][] = "a=updateform&sa=webbasics";
+				break;
 		}
-
-	/*
-		if ($ghtml->frm_subaction === 'stats_protect') {
-			$alist['property'][] = "a=updateform&sa=stats_protect";
-		} elseif ($ghtml->frm_subaction === 'statsconfig') {
-			$alist['property'][] = "a=updateform&sa=statsconfig";
-		} elseif ($ghtml->frm_subaction === 'run_stats') {
-			$alist['property'][] = "a=updateform&sa=run_stats";
-		} elseif ($ghtml->frm_subaction === 'hotlink_protection') {
-			$alist['property'][] = "a=updateform&sa=hotlink_protection";
-		} elseif ($ghtml->frm_subaction === 'blockip') {
-			$alist['property'][] = "a=updateform&sa=blockip";
-		} elseif ($ghtml->frm_subaction === 'docroot') {
-			$alist['property'][] = "a=updateform&sa=docroot";
-		} elseif ($ghtml->frm_subaction === 'configure_misc') {
-			$alist['property'][] = "a=updateform&sa=configure_misc";
-		} elseif ($ghtml->frm_subaction === 'dirindex') {
-			$alist['property'][] = "a=updateform&sa=dirindex";
-	//	} elseif ($ghtml->frm_subaction === 'custom_error') {
-	//		$alist['property'][] = "a=updateform&sa=custom_error";
-	//	} elseif ($ghtml->frm_subaction === 'webselector') {
-	//		$alist['property'][] = "a=updateform&sa=webselector";
-		} elseif ($ghtml->frm_subaction === 'webfeatures') {
-			$alist['property'][] = "a=updateform&sa=webfeatures";
-		}
-	*/
 
 		return $alist;
 	}
@@ -1173,6 +1155,8 @@ class Web extends Lxdb
 		$alist['action'][] = "a=update&sa=backup";
 		$alist['action'][] = "a=updateform&sa=restore";
 	*/
+
+		$alist[] = "a=updateform&sa=webbasics";
 
 	//	$alist[] = "a=updateform&sa=webselector";
 		$alist[] = "a=updateform&sa=webfeatures";
@@ -1316,6 +1300,26 @@ class Web extends Lxdb
 		return $param;
 	}
 
+	function updateWebbasics($param)
+	{
+		// MR -- dirindex
+		$param['indexfile_list'] = lxclass::fixListVariable(explode(" ", $param['indexfile_list']));
+
+		// MR -- docroot
+		$param['docroot'] = trim($param['docroot']);
+		validate_docroot($param['docroot']);
+		$this->docroot = $param['docroot'];
+
+		// MR -- configure_misc
+		$this->force_www_redirect = $param['force_www_redirect'];
+		$this->force_https_redirect = $param['force_https_redirect'];
+	/*
+		$this->webmisc_b->execcgi = $param['webmisc_b-execcgi'];
+		$this->webmisc_b->disable_openbasedir = $param['webmisc_b-disable_openbasedir'];
+	*/
+		return $param;
+	}
+
 //	function updateWebselector($param)
 	function updateWebfeatures($param)
 	{
@@ -1325,10 +1329,16 @@ class Web extends Lxdb
 		$this->php_selected = $param['php_selected'];
 		$this->time_out = $param['time_out'];
 
-		if ($param['microcache_time'] === '0') { $param['microcache_time'] = self::getMicrocacheInsertIntoDefault(); }
+		if ($param['microcache_time'] === '0') { $param['microcache_time'] = self::getMicrocacheTimeDefault(); }
 
 		$this->microcache_time = $param['microcache_time'];
 		$this->microcache_insert_into = $param['microcache_insert_into'];
+
+		$this->general_header = $param['general_header'];
+		$this->https_header = $param['https_header'];
+
+		$this->static_files_expire = $param['static_files_expire'];
+		$this->disable_pagespeed = $param['disable_pagespeed'];
 
 		return $param;
 	}
@@ -1368,7 +1378,8 @@ class Web extends Lxdb
 				return $vlist;
 
 			case "docroot":
-				$vlist['docroot'] = null;
+			//	$vlist['docroot'] = null;
+				$vlist['docroot'] = array('m', array('pretext' => "/home/{$this->getParentO()->getParentO()->nname}/"));;
 
 				return $vlist;
 
@@ -1430,14 +1441,17 @@ class Web extends Lxdb
 			case "configure_misc":
 				$vlist['force_www_redirect'] = null;
 				$vlist['force_https_redirect'] = null;
-
-				if ($driverapp === 'apache') {
+			/*
+			//	if ($driverapp === 'apache') {
+				if (($driverapp === 'apache') || 
+						((strpos($driverapp, 'proxy') !== false) && 
+						($this->web_selected === 'back-end'))) {
 					$vlist['webmisc_b-execcgi'] = null;
 					if ($login->isAdmin()) {
 						$vlist['webmisc_b-disable_openbasedir'] = null;
 					}
 				}
-
+			*/
 				$vlist['__v_updateall_button'] = array();
 
 				return $vlist;
@@ -1511,6 +1525,44 @@ class Web extends Lxdb
 
 				return $vlist;
 
+			case "webbasics":
+				// MR -- docroot
+			//	$vlist['docroot'] = null;
+				$vlist['docroot'] = array('m', array('pretext' => "/home/{$this->getParentO()->getParentO()->nname}/"));;
+
+				// MR -- dirindex
+				$vlist['webmisc_b-dirindex'] = null;
+
+				if (!$this->indexfile_list) {
+				//	$this->indexfile_list = get_web_index_list();
+				}
+
+				if (isset($this->indexfile_list)) {
+					$index = $this->indexfile_list;
+				} else {
+					$index = self::getIndexOrderDefault();
+				}
+
+			//	$vlist['indexfile_list'] = array('U', $index);
+				$vlist['indexfile_list'] = array('t', implode(" ", $index));
+
+				// MR -- configure_misc
+				$vlist['force_www_redirect'] = null;
+				$vlist['force_https_redirect'] = null;
+			/*
+				if (($driverapp === 'apache') || 
+						((strpos($driverapp, 'proxy') !== false) && 
+						($this->web_selected === 'back-end'))) {
+					$vlist['webmisc_b-execcgi'] = null;
+					if ($login->isAdmin()) {
+						$vlist['webmisc_b-disable_openbasedir'] = null;
+					}
+				}
+			*/
+				$vlist['__v_updateall_button'] = array();
+
+				return $vlist;
+
 		//	case "webselector":
 			case "webfeatures":
 				$phptype = db_get_value('serverweb', "pserver-{$this->syncserver}", 'php_type');
@@ -1558,14 +1610,6 @@ class Web extends Lxdb
 					}
 				}
 
-				$vlist['time_out'] = null;
-				$this->setDefaultValue('time_out', '300');
-
-				$vlist['microcache_time'] = null;
-				$this->setDefaultValue('microcache_time', self::getMicrocacheTimeDefault());
-				$vlist['microcache_insert_into'] = null;
-				$this->setDefaultValue('microcache_insert_into', self::getMicrocacheInsertIntoDefault());
-
 				$vlist['general_header'] = null;
 				$this->setDefaultValue('general_header', self::getGeneralHeaderDefault());
 				$vlist['https_header'] = null;
@@ -1573,6 +1617,15 @@ class Web extends Lxdb
 
 				$vlist['static_files_expire'] = null;
 				$this->setDefaultValue('static_files_expire', self::getStaticFilesExpireDefault());
+
+				$vlist['time_out'] = null;
+				$this->setDefaultValue('time_out', '300');
+
+				$vlist['microcache_time'] = null;
+				$this->setDefaultValue('microcache_time', self::getMicrocacheTimeDefault());
+//				$vlist['microcache_insert_into'] = null;
+				$vlist['microcache_insert_into'] = array('m', array('pretext' => "{$this->getFullDocRoot()}"));;
+				$this->setDefaultValue('microcache_insert_into', self::getMicrocacheInsertIntoDefault());
 
 				$vlist['disable_pagespeed'] = null;
 				$this->setDefaultValue('disable_pagespeed', 'off');
@@ -1724,12 +1777,12 @@ class Web extends Lxdb
 
 	static function getMicrocacheTimeDefault()
 	{
-		return '/index.php';
+		return '5';
 	}
 
 	static function getMicrocacheInsertIntoDefault()
 	{
-		return '5';
+		return '/index.php';
 	}
 
 	static function getGeneralHeaderDefault()

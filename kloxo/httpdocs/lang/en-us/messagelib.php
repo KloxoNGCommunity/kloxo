@@ -930,6 +930,15 @@ $__information['watchdog_addform__pre'] = "<p>Settings:" .
 	"</ul></p>" .
 	"<p><b>Note</b>: - usually 'Action' to restart service is 'service XXX restart' or '/etc/init.d/XXX restart'.</p>";
 
+$__information['updateform_webbasics_pre'] =
+	"<p>By default, document root location is '/home/[user]/[domain]'.</p>" .
+	"<p>Click 'Enable Directory Index' if want listing directories.</p>" .
+	"<p>Attention:" .
+		"<ul>" .
+			"<li>If using 'authorize' SSL (like Let's Encrypt SSL), browser automatically redirect to https</li>" .
+		"</ul>" .
+	"</p>";
+
 $__information['updateform_webfeatures_pre'] =
 	"<p>In web proxy (like Nginx-proxy), select 'back-end' in 'Web Selected' mean execute php in back side (Apache). " .
 	"Otherwise, select 'front-end' mean execute php in front side (like Nginx).</p>" .

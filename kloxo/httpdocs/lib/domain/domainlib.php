@@ -1399,6 +1399,7 @@ class Domaind extends DomainBase
 	//	if ($php->phpini_flag_b->multiple_php_flag === 'on') {
 	//	if (file_exists('../etc/flag/enablemultiplephp.flg')) {
 		//	$alist['__v_dialog_phpini'] = "n=web&o=phpini&a=show";
+			$alist['__v_dialog_webbasics'] = "n=web&a=updateform&sa=webbasics";
 		//	$alist['__v_dialog_webselector'] = "n=web&a=updateform&sa=webselector";
 			$alist['__v_dialog_webfeatures'] = "n=web&a=updateform&sa=webfeatures";
 	//	}
@@ -1411,13 +1412,16 @@ class Domaind extends DomainBase
 		$alist[] = "n=web&a=list&c=dirprotect";
 		$alist['__v_dialog_hotlink'] = "n=web&a=updateform&sa=hotlink_protection";
 		$alist['__v_dialog_ipblock'] = "n=web&a=updateform&sa=blockip";
-		
+
+	/*
+		// MR -- merge to 'web_basics'		
 		if ($login->priv->isOn('document_root_flag')) {
 			$alist[''] = "n=web&a=updateform&sa=docroot";
 		}
 		
 		$alist['__v_dialog_misc'] = "n=web&a=updateform&sa=configure_misc";
 		$alist['__v_dialog_dirin'] = "n=web&a=updateform&sa=dirindex";
+	*/
 		$alist[] = "n=web&a=show&l[class]=ffile&l[nname]=/";
 		$driverapp = $gbl->getSyncClass($this->__masterserver, $this->syncserver, 'ftpuser');
 	//	$alist[] = "n=web&a=list&c=ftpuser";
@@ -1597,7 +1601,7 @@ class Domaind extends DomainBase
 		$alist['__title_extra'] = $login->getKeywordUc('extra');
 		$alist[] = "n=web&a=list&c=server_alias_a";
 		$alist[] = "n=web&a=list&c=redirect_a";
-		$alist[] = "n=web&a=updateform&sa=configure_misc";
+	//	$alist[] = "n=web&a=updateform&sa=configure_misc";
 		$alist[] = "n=web&a=updateform&sa=custom_error";
 		$alist[] = "n=web&a=list&c=cron";
 

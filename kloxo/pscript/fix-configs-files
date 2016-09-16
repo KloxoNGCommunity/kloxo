@@ -1,0 +1,14 @@
+#!/bin/sh
+
+. /script/counter-start.inc
+
+if [ -f /script/custom.fix.inc ] ; then
+	. /script/custom.fix.inc
+else
+	. /script/fix.inc
+fi
+
+. /script/directory
+lxphp.exe ../bin/fix/fix-configs-files.php $*
+
+. /script/counter-end.inc

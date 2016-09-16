@@ -7113,6 +7113,16 @@ function updatecleanup($nolog = null)
 //	installEasyinstaller($nolog);
 }
 
+function setConfigsServices($nolog = null)
+{
+	setInitialAllDnsConfigs($nolog);
+	setInitialAllWebConfigs($nolog);
+	setInitialAllWebCacheConfigs($nolog);
+
+	setInitialPhpIniConfig($nolog);
+	getInitialPhpFpmConfig($nolog);
+}
+
 function setInitialServices($nolog = null)
 {
 	// MR -- no needed because using disable temporal alias (\cp, \mv and \rm)

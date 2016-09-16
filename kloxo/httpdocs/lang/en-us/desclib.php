@@ -1320,6 +1320,7 @@ $__description["advanced_PHP_config"] = array("Advanced PHP Configure");
 //$__description["web_selector"] = array("Web / PHP Selector and Timeout");
 //$__description["web_selector"] = array("Web Features");
 $__description["web_features"] = array("Web Features");
+$__description["web_basics"] = array("Web Basics");
 $__description["dav_user"] = array("DAV User");
 $__description["dav_user_name"] = array("DAV User Name");
 $__description["web_disk"] = array("Web Disk");
