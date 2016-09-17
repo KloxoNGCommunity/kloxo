@@ -103,8 +103,8 @@ function lxins_main()
 
 	install_yum_repo();
 
-	// MR -- also issue on Centos 5.9 - prevent for update!
 	if (php_uname('m') === 'x86_64') {
+	/*
 		if (isRpmInstalled('mysql.i386')) {
 			system("yum remove mysql*.i386 -y");
 		}
@@ -112,6 +112,9 @@ function lxins_main()
 		if (isRpmInstalled('mysql.i686')) {
 			system("yum remove mysql*.i686 -y");
 		}
+	*/
+		// MR -- remove because make conflict
+		system("yum remove *.i386 *.i686 -y");
 	}
 
 	if ($kloxostate !== 'none') {

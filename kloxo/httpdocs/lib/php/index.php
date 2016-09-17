@@ -121,6 +121,7 @@ function session_login()
 function print_index() 
 {
 	global $gbl, $sgbl, $ghtml, $login;
+	global $g_language_mes;
 
 	ob_start();
 
@@ -145,12 +146,11 @@ function print_index()
 
 	// MR -- use != instead !==  because compare numeric
 	if ($cgi_token != $sess_token) {
-		$_SESSION['no_token'] = 1;
-
-		$ghtml->print_redirect("/login/?frm_emessage=token_not_match");
-	} else {
-		if (isset($_SESSION['no_token'])) {
-			unset($_SESSION['no_token']);
+		if (!file_exists('./no_need_token')) {
+			if ((!$cgi_token) || (!$sess_token) || ($cgi_token != $sess_token)) {
+				print("<div align=\"center\">*** {$g_language_mes->__emessage['token_not_match']} ***</div>");
+				exit;
+			}
 		}
 	}
 

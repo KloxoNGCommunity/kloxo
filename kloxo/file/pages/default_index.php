@@ -34,14 +34,6 @@
 		}
 
 		session_start();
-
-		if (!file_exists('./no_need_token')) {
-			if (((isset($_GET['frm_emessage'])) && ($_GET['frm_emessage'] === 'token_not_match')) ||
-					((isset($_SESSION['no_token'])) && ($_SESSION['no_token'] == 1))) {
-				print('<div align="center">*** Token not match. No permit for remote login ***</div>');
-				exit;
-			}
-		}
 ?>
 <html>
 

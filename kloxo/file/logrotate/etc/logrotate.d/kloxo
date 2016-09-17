@@ -1,4 +1,3 @@
-/.#
 # Kloxo LogRotate
 # Initial version
 # Needs cleanup
@@ -15,7 +14,9 @@
 {
     daily
     #create 0664 apache apache
+    #rotate 52
     compress
+    delaycompress
     notifempty
     missingok
     sharedscripts
