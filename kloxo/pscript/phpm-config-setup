@@ -51,13 +51,16 @@ for j in php.d php-zts.d ; do
 
 			## MR -- remove path in 'extension='
 			sed -i 's:extension = /:extension=/:' /opt/${base_name}/etc/${j}/${a}
-			sed -ri 's:extension=/(.*)/:extension=:g' /opt/${base_name}/etc/${j}/${a}
+
+			if [ "$(cat /opt/${base_name}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=')" == "" ] ; then
+				sed -ri 's:extension=/(.*)/:extension=:g' /opt/${base_name}/etc/${j}/${a}
+			fi
 
 			## MR -- re-add path in 'zend_extension='
-			if [ "$(cat /opt/${base_name}/etc/${j}/${a}|grep 'zend_extension=/')" == "" ] ; then
+			if [ "$(cat /opt/${base_name}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=/')" == "" ] ; then
 				sed -i 's:zend_extension=:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${a}
 			else
-				if [ "$(cat /opt/${base_name}/etc/${j}/${a}|grep 'zend_extension=/opt/')" == "" ] ; then
+				if [ "$(cat /opt/${base_name}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=/opt/')" == "" ] ; then
 					sed -i 's:zend_extension=/:zend_extension=/opt/'${base_name}'/usr/lib'${uname_m}'/php/modules/:' /opt/${base_name}/etc/${j}/${a}
 				fi
 			fi
@@ -75,8 +78,8 @@ for j in php.d php-zts.d ; do
 
 		if [ -d /opt/${base_name}/etc/${j} ] ; then
 			for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
-				apc apcu imagick interbase ioncube-loader memcache memcached z-memcached mssql debug \
-				pdo_dblib pdo_firebird xdebug xcache opcache lzf redis enchant wddx ; do
+				apc apcu imagick interbase ioncube-loader sourceguardian memcache memcached \
+				z-memcached mssql debug pdo_dblib pdo_firebird xdebug xcache opcache lzf redis enchant wddx ; do
 
 				a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ')
 
