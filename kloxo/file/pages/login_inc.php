@@ -34,7 +34,10 @@ $logfo = db_get_value("general", "admin", "login_pre");
 $logfo = str_replace("<%programname%>", $sgbl->__var_program_name, $logfo);
 
 if (!$cgi_forgotpwd) {
-	session_start();
+//	if (session_status() == PHP_SESSION_NONE) {
+	if(!isset($_SESSION)) {
+		session_start();
+	}
 
 	$ghtml->print_message();
 
@@ -140,7 +143,6 @@ if (!$cgi_forgotpwd) {
 	</div>
 	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">Kloxo-MR <?php echo $kloxo_mr_version ?></div>
 <?php echo $msg;?>
-<!-- <div><?=$t;?> - <?=$s;?> = <?=$d;?></div> -->
 
 </div>
 
