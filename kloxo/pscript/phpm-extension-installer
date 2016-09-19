@@ -36,7 +36,7 @@ fi
 . /script/counter-start.inc
 echo "=== BEGIN '$2' install ==="
 
-if rpm -qa|grep 'yum-utils' >/dev/null 2>&1 ; then
+if [ "$(rpm -qa yum-utils)" != "" ] ; then
 	echo "- 'yum-utils' already exists"
 else
 	echo "- Installing 'yum-utils'"

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$(grep envID /proc/self/status)" == "" ] ; then
-	if [ "$(rpm -qa|grep kexec-tools)" == "" ] ; then
+	if [ "$(rpm -qa kexec-tools)" == "" ] ; then
 		yum install kexec-tools -y
 	fi
 

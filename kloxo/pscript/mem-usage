@@ -4,7 +4,7 @@
 
 #ps -eo user,pid,ppid,rss,vsize,pcpu,pmem,command --sort vsize
 
-if [ "$(rpm -qa|grep smem)" == "" ] ; then
+if [ "$(rpm -qa smem)" == "" ] ; then
 	yum install smem -y
 fi
 

@@ -86,7 +86,7 @@ prog_wrapper="kloxo-wrapper.sh"
 wrapper_pidfile="/usr/local/lxlabs/kloxo/pid/wrapper.pid"
 
 if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
-	yum install spawn-fcgi -y
+	yum install spawn-fcgi fcgiwrap -y
 fi
 
 ln -sf ${phpcgi_file} ${phpcgi_symlink}

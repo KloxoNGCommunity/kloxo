@@ -14,9 +14,7 @@ if [ "$(hostname)" == "$(hostname -s)" ] ; then
 	exit
 fi
 
-if rpm -qa|grep 'yum-plugin-replace' >/dev/null 2>&1 ; then
-	echo ""
-else
+if [ "$(rpm -qa yum-plugin-replace)" == "" ] ; then
 	yum -y install yum-plugin-replace
 fi
 
@@ -38,7 +36,7 @@ if [ ! -f /script/programname ] ; then
 	echo 'kloxo' > /script/programname
 fi
 
-if rpm -qa|grep lxphp >/dev/null 2>&1 ; then
+if [ "$(rpm -qa lxphp)" != "" ] ; then
 	rpm -e lxphp --nodeps
 	rpm -e lxlighttpd --nodeps
 	rpm -e lxzend --nodeps
@@ -46,28 +44,28 @@ if rpm -qa|grep lxphp >/dev/null 2>&1 ; then
 	'rm' -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
 
-if rpm -qa|grep php52s >/dev/null 2>&1 ; then
+if [ "$(rpm -qa php52s)" != "" ] ; then
 	yum remove php52s -y
 	sh /script/phpm-installer php53s
 fi
 
-if rpm -qa|grep php53s >/dev/null 2>&1 ; then
+if [ "$(rpm -qa php53s)" != "" ] ; then
 	yum remove php53s* -y
 	rpm -e php53s-fpm --noscript
 
 	sh /script/phpm-installer php53s
 fi
 
-if rpm -qa|grep mysql56u >/dev/null 2>&1 ; then
+if [ "$(rpm -qa mysql56u)" != "" ] ; then
 	echo "Already use mysql56u. No replace"
-elif rpm -qa|grep mysql55 >/dev/null 2>&1 ; then
+elif [ "$(rpm -qa mysql55)" != "" ] ; then
 	echo "Already use mysql55. No replace"
-elif rpm -qa|grep MariaDB-server >/dev/null 2>&1 ; then
+elif [ "$(rpm -qa MariaDB-server)" != "" ] ; then
 	echo "Already use MariaDB. No replace"
 else
-	if rpm -qa|grep mysql >/dev/null 2>&1 ; then
-		echo "Replace mysql to mysql56u"
-		yum replace mysql --replace-with=mysql56u -y
+	if [ "$(rpm -qa mysql)" != "" ] ; then
+		echo "Replace mysql to MariaDB-server"
+		yum replace mysql --replace-with=MariaDB-server -y
 	fi
 fi
 

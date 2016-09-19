@@ -359,6 +359,11 @@ class HtmlLib
 
 		$skin_name = $login->getSpecialObject('sp_specialplay')->skin_name;
 
+		// MR -- because 'default' skin removed
+		if ($skin_name === 'default') {
+			$skin_name = 'feather';
+		}
+
 		$path = getLinkCustomfile("theme", "tab_{$skin_name}.php");
 
 		include_once $path;

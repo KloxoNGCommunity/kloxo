@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(rpm -qa|grep 'yum-presto')" == "" ] ; then
+if [ "$(rpm -qa yum-presto)" == "" ] ; then
 	if [ "$(yum list *yum*|grep '@')" != "" ] ; then
 		yum install -y yum-presto deltarpm
 	fi

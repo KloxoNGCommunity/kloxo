@@ -9,17 +9,19 @@ else
 	delpf="no"
 fi
 
-
-if rpm -qa|grep 'qmail-toaster' >/dev/null 2>&1 ; then
-	if [ $delpf == 'yes' ] ; then
-		yum -y reinstall *-toaster
+if [ "$1" == "--force" ] || [ "$1" == "-y" ] ; then
+	if [ "$(rpm -qa qmail-toaster)" != "" ] ; then
+		if [ $delpf == 'yes' ] ; then
+			yum -y reinstall *-toaster
+		fi
+	else
+		yum -y install autorespond-toaster courier-authlib-toaster \
+			courier-imap-toaster dovecot-toaster daemontools-toaster \
+			ezmlm-toaster libdomainkeys-toaster libsrs2-toaster \
+			maildrop-toaster qmail-pop3d-toaster qmail-toaster \
+			ripmime-toaster ucspi-tcp-toaster vpopmail-toaster \
+			fetchmail bogofilter
 	fi
-else
-	yum -y install autorespond-toaster courier-authlib-toaster \
-		courier-imap-toaster daemontools-toaster ezmlm-toaster \
-		libdomainkeys-toaster libsrs2-toaster maildrop-toaster \
-		qmail-pop3d-toaster qmail-toaster ripmime-toaster ucspi-tcp-toaster \
-		vpopmail-toaster fetchmail bogofilter
 fi
 
 ULLKFPATH="/usr/local/lxlabs/kloxo/file"
