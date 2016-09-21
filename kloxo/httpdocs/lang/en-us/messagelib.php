@@ -945,7 +945,7 @@ $__information['updateform_webfeatures_pre'] =
 	"<p>If enable 'multiple php', possible select php for website under 'Php Selected'. " .
 	"Select '--Default--' mean use php where declare in 'Php Used' under 'Webserver Configure'.</p>" .
 	"<p>Set 'Timeout' (in seconds) to modified 'idle timeout' for php process.</p>" .
-	"<p>Set 'Microcache Time' (in seconds) to implemented microcache for nginx or hiawatha.</p>" .
+	"<p>Set 'Microcache Time' (in seconds) to implement microcache for nginx or hiawatha.</p>" .
 	"<p>Use 'General Header' and 'HTTPS Header' default value for securing website in 'medium' level.</p>";
 
 $__information['phpmodule_list__pre'] = "<p>Click 'enable' ('+' sign) to enable module; click 'disable' ('-' sign) to disable module.</p>" .

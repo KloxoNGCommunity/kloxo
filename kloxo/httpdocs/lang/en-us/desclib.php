@@ -1443,6 +1443,6 @@ $__description["phpmodule_restart"] = array("Restart");
 
 $__description["general_header"] = array("General Header (in Apache format)");
 $__description["https_header"] = array("HTTPS Header (in Apache format)");
-$__description["static_files_expire"] = array("Static Files Expire (in days)");
+$__description["static_files_expire"] = array("Static Files Expire (in days; -1 to disabled; 0 to reset)");
 
 $__description["disable_pagespeed"] = array("Disable Pagespeed (if used)");

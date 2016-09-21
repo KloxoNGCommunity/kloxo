@@ -194,14 +194,14 @@ if ($https_header) {
 	$https_header_text = implode("\n", $x);
 }
 
-if ($static_files_expire) {
-
-	### MR -- Enable this if not using nginx cache and not for wordpress
+if (intval($static_files_expire) > -1) {
 	$static_files_expire_text = "\tlocation ~* ^.+\.(jpe?g|gif|png|ico|css|pdf|js)$ {\n" .
 		"\t\texpires {$static_files_expire}d;\n" .
 		"\t\taccess_log off;\n" .
 		"\t\troot \$var_rootdir;\n" .
 		"\t}";
+} else {
+	$static_files_expire_text = '# No static files expire';
 }
 
 if ($disabled) {

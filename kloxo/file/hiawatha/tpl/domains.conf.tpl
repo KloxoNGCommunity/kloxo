@@ -192,10 +192,14 @@ Directory {
 
 	Path = /
 <?php
-	if ($static_files_expire) {
+	if (intval($static_files_expire) > -1) {
 ?>
 	Extensions = jpeg, jpg, gif, png, ico, css, js, pdf
 	ExpirePeriod <?=$static_files_expire;?> days
+<?php
+	} else {
+?>
+	# No static files expire
 <?php
 	}
 ?>

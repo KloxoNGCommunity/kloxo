@@ -173,7 +173,7 @@ if ($https_header) {
 	$https_header_text .= "\t\t</IfModule>";
 }
 
-if ($static_files_expire) {
+if (intval($static_files_expire) > -1) {
 	$static_files_expire_text = "<IfModule mod_expires.c>\n" .
 		"\t\tExpiresActive On\n" .
 		"\t\tExpiresByType image/x-icon \"access plus {$static_files_expire} days\"\n" .
@@ -186,6 +186,8 @@ if ($static_files_expire) {
 		"\t\tExpiresByType text/x-javascript \"access plus {$static_files_expire} days\"\n" .
 		"\t\tExpiresDefault \"access plus {$static_files_expire} days\"\n" .
 		"\t</IfModule>";
+} else {
+	$static_files_expire_text = '# No static files expire';
 }
 
 if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {

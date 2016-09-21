@@ -1337,6 +1337,8 @@ class Web extends Lxdb
 		$this->general_header = $param['general_header'];
 		$this->https_header = $param['https_header'];
 
+		if ($param['static_files_expire'] === '0') { $param['static_files_expire'] = self::getStaticFilesExpireDefault(); }
+
 		$this->static_files_expire = $param['static_files_expire'];
 		$this->disable_pagespeed = $param['disable_pagespeed'];
 

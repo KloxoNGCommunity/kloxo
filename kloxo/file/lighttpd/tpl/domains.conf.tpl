@@ -180,10 +180,12 @@ if ($https_header) {
 	}
 }
 
-if ($static_files_expire) {
+if (intval($static_files_expire) > -1) {
 	$static_files_expire_text = "\t\$HTTP[\"url\"] =~ \".(jpe?g|gif|png|ico|css|pdf|js)\" {\n" .
 		"\t\texpire.url = ( \"\" => \"access plus {$static_files_expire} days\" )\n" .
 		"\t}";
+} else {
+	$static_files_expire_text = '# No static files expire';
 }
 
 if ($disabled) {
