@@ -548,9 +548,12 @@ server {
 
 <?php
 		if ($enablestats) {
+		// MR - bug for nginx where error if using 'include stats_log.conf' (use $var_domain)
 ?>
 
-	include '<?=$globalspath;?>/stats_log.conf';
+	#include '<?=$globalspath;?>/stats_log.conf';
+	access_log /home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-custom_log main;
+	error_log /home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-error_log error;
 
 	rewrite ^/stats(/|) <?=$protocol;?>stats.$var_domain/ permanent;
 <?php

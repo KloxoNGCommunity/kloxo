@@ -8592,14 +8592,14 @@ function setAllInactivateWebServer($nolog = null)
 
 		log_cleanup("- Inactivating '$v'", $nolog);
 		exec("chkconfig $v off");
+
+		exec("chkconfig spawn-fcgi off");
 	}
 }
 
 function setActivateWebServer($nolog = null)
 {
 	log_cleanup("Activating Web servers", $nolog);
-
-	$spawnok = false;
 
 	$list = getWebDriverList();
 
@@ -8612,14 +8612,8 @@ function setActivateWebServer($nolog = null)
 		exec("chkconfig {$v} on");
 
 		if ($v === 'nginx') {
-			$spawnok = true;
+			exec("chkconfig spawn-fcgi on");
 		}
-	}
-
-	if ($spawnok) {
-		exec("chkconfig spawn-fcgi on");
-	} else {
-		exec("chkconfig spawn-fcgi off");
 	}
 }
 
