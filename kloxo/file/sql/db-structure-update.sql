@@ -154,3 +154,13 @@ ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `https_header` TEXT NULL DEFAULT NULL
 ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `static_files_expire` VARCHAR(255) NULL DEFAULT NULL AFTER `https_header`;
 
 ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `disable_pagespeed` VARCHAR(255) NULL DEFAULT NULL AFTER `static_files_expire`;
+
+CREATE TABLE IF NOT EXISTS `sendmailban` (
+  `nname` varchar(255) NOT NULL,
+  `parent_clname` varchar(255) DEFAULT NULL,
+  `parent_cmlist` text,
+  `target` varchar(255) DEFAULT NULL,
+  `syncserver` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nname`),
+  KEY `parent_clname_sendmailban` (`parent_clname`)
+) DEFAULT CHARSET=latin1;

@@ -92,3 +92,5 @@ $gl_class_array["dnsslave"] = "lib/php/dnsslavelib.php";
 $gl_class_array["pop3"] = "driver/mmail/pop3lib.php";
 //$gl_class_array["imap4"] = "driver/mmail/imaplib.php";
 $gl_class_array["smtp"] = "driver/mmail/smtplib.php";
+
+$gl_class_array["sendmailban"] = "lib/php/sendmailbanlib.php";

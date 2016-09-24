@@ -54,6 +54,8 @@ for j in php.d php-zts.d ; do
 
 			if [ "$(cat /opt/${base_name}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=')" == "" ] ; then
 				sed -ri 's:extension=/(.*)/:extension=:g' /opt/${base_name}/etc/${j}/${a}
+			else
+				sed -ri 's:extension=/opt/'${base_name}'/:extension=:g' /opt/${base_name}/etc/${j}/${a}		
 			fi
 
 			## MR -- re-add path in 'zend_extension='

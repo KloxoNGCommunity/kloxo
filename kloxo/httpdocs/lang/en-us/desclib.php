@@ -1446,3 +1446,6 @@ $__description["https_header"] = array("HTTPS Header (in Apache format)");
 $__description["static_files_expire"] = array("Static Files Expire (in days; -1 to disabled; 0 to reset)");
 
 $__description["disable_pagespeed"] = array("Disable Pagespeed (if used)");
+
+$__description["sendmailban"] = array("Sendmail to ban");
+$__description["sendmailban_target"] = array("Target");

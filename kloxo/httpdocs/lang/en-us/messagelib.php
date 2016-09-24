@@ -954,3 +954,7 @@ $__information['phpmodule_list__pre'] = "<p>Click 'enable' ('+' sign) to enable 
 	"<p>Disabled for enable modules will change their config file from '*.ini' to '*_unused.nonini' (example: 'bcmatch.ini' to 'bcmath_unused.nonini').</p>" .
 	"<p>Otherwise, enabled for disable module will be change '*.nonini' to '*_used.ini' (example: 'dba.nonini' to 'dba_used.nonini').</p>";
 
+$__information['sendmailban_addform__pre'] = "<p>Add 'Target' directory to ban PHP's sendmail.</p>" .
+	"<p>If select '/' that mean ban all sendmails from all domains under this client.</p>";
+
+

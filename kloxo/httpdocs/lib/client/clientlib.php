@@ -61,6 +61,8 @@ class Client extends ClientBase
 
 	static $__desc_all_sslcert_l = array("", "", "");
 
+	static $__desc_sendmailban_l = array("", "", "");
+
 	function isSync()
 	{
 		if ($this->subaction === 'boxpos') {
@@ -684,6 +686,8 @@ class Client extends ClientBase
 		}
 
 		$alist[] = "a=list&c=dnsslave";
+
+		$alist[] = "a=list&c=sendmailban";
 
 		$this->getCustomButton($alist);
 
