@@ -4703,6 +4703,13 @@ function lxguard_clear($list)
 
 function lxguard_main($clearflag = false, $since = false)
 {
+	$hl_file = "/home/kloxo/lxguard/hitlist.info";
+
+	if ((file_exists($hl_file)) && (strpos(file_get_contents($hl_file), "\n\"") !== false)) {
+		exec("sh /script/fix-lxguardhit-db");
+
+	}
+
 	include_once "lib/html/lxguardincludelib.php";
 
 	lxfile_mkdir("__path_home_root/lxguard");
@@ -4722,13 +4729,13 @@ function lxguard_main($clearflag = false, $since = false)
 		}
 	}
 
-	$rmt = lfile_get_unserialize("$lxgpath/hitlist.info");
+	$rmt =  array_map('trim', lfile_get_unserialize("$lxgpath/hitlist.info"));
 
 	if ($rmt) {
 		$oldtime = max((int)$oldtime, (int)$rmt->ddate);
 	}
 
-	$list = lfile_get_unserialize("$lxgpath/access.info");
+	$list = array_map('trim', lfile_get_unserialize("$lxgpath/access.info"));
 
 	$type = array('sshd' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages', 'vpopmail' => '/var/log/maillog');
 
@@ -4760,7 +4767,7 @@ function lxguard_main($clearflag = false, $since = false)
 	dprint_r("Debug: Total: " . count($total) . "\n");
 
 	$deny = get_deny_list($total);
-	$hdn = lfile_get_unserialize("$lxgpath/hostdeny.info");
+	$hdn = array_map('trim', lfile_get_unserialize("$lxgpath/hostdeny.info"));
 	$deny = lx_array_merge(array($deny, $hdn));
 
 	$str_host = null;
@@ -4794,17 +4801,23 @@ function lxguard_main($clearflag = false, $since = false)
 	$end_host[] = "###End Program HostDeny config Area";
 	$end_str_host = $end_host[0];
 
-	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $str_host);
+	// MR -- no need this action where enough 'route host'
+//	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $str_host);
+	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", '# MR -- enough using route to null');
 
+	// MR -- no need this action where enough 'route host'
 	$start_tcprules[] = "###Start Program tcp.smtp config Area";
-	$start_str_tcprules = $start_tcprules[0];
+//	$start_str_tcprules = $start_tcprules[0];
+	$start_str_tcprules = '# MR -- enough using route to null';
 	$end_tcprules[] = "###End Program tcp.smtp config Area";
 	$end_str_tcprules = $end_smtp[0];
 
 	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $str_tcprules);
 	exec("/usr/bin/qmailctl cdb");
 
-	file_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
+	// MR -- no need this action where enough 'route host'
+//	file_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
+	file_put_contents('/var/qmail/spamdyke/blacklist_ip', '# MR -- enough using route to null');
 
 	if ($clearflag) {
 		lxfile_rm("$lxgpath/access.info");

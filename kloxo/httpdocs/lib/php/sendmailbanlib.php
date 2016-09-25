@@ -30,8 +30,15 @@ class Sendmailban extends Lxdb
 
 	static function add($parent, $class, $param)
 	{
-		$param['nname'] = $parent->nname . str_replace('/', '_', $param['target']);
-		$param['sendmailban_source'] = '/home/' . $parent->nname . $param['target'];
+		$user = $parent->nname;
+		$target = '/home/' . $parent->nname . $param['target'];
+
+		if (is_file($target)) {
+			$target = dirname($target);
+		}
+
+		$param['nname'] = $user . str_replace('/', '_', str_replace("/home/{$user}", '', $target));
+		$param['target'] = $target;
 
 		return $param;
 	}

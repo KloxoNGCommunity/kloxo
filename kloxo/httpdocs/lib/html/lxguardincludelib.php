@@ -127,12 +127,12 @@ function sshLogString($string, &$list)
 	if ($access === 'fail') {
 		preg_match("/.*Failed password for( invalid user)? (.*) from ([^ ]*).*/", $string, $match);
 
-		$ip = $match[3];
+		$ip = trim($match[3]);
 		$user = $match[2];
 	} else {
 		preg_match("/.*Accepted password for (.*) from ([^ ]*).*/", $string, $match);
 
-		$ip = $match[2];
+		$ip = trim($match[2]);
 		$user = $match[1];
 	}
 
@@ -195,7 +195,7 @@ function ftpLogString($string, &$list)
 
 	if (!$match) { return; }
 
-	$ip = $match[1];
+	$ip = trim($match[1]);
 	$user = $match[2];
 
 	if ((csb($ip, "127")) || ($ip === '[::1]')) { return; }
@@ -262,7 +262,7 @@ function smtpLogString($string, &$list)
 
 	if (!$match) { return; }
 
-	$ip = ($match[2]) ? $match[2] : '127.0.0.1' ;
+	$ip = ($match[2]) ? trim($match[2]) : '127.0.0.1' ;
 	$user = $match[1];
 
 	if ((csb($ip, "127")) || ($ip === '[::1]')) { return; }
@@ -270,5 +270,3 @@ function smtpLogString($string, &$list)
 	// MR -- use 'state' instead 'access' because only 1 success between 4 options
 	$list[$ip][$time] = array('service' => 'smtp', 'user' => $user, 'access' => $state);
 }
-
-
