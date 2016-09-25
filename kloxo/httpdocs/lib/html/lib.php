@@ -145,7 +145,7 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 	}
 
 	$afterstring = implode("\n", $afterlist);
-	$outstring = "{$outstring}\n{$startstring}\n{$startcomment}\n{$string}\n{$endstring}\n$afterstring\n";
+	$outstring = str_replace("\n\n", "\n", "{$outstring}\n{$startstring}\n{$startcomment}\n{$string}\n{$endstring}\n$afterstring\n");
 
 	lxuser_put_contents($username, $file, $outstring);
 }
@@ -4774,8 +4774,13 @@ function lxguard_main($clearflag = false, $since = false)
 	$str_tcprules = null;
 	$str_spamdyke = null;
 
+	$note = "## blocked IP enough to use 'null routing'\n";
+
 	// MR -- remove blackhole blocked
 	exec("sh /script/remove-blackhole-block");
+
+//	exec("cat /etc/tcprules.d/tcp.smtp|grep -v ':deny'|grep -v '# MR'|grep -E ':allow,|:deny,'", $out);
+	exec("cat /etc/tcprules.d/tcp.smtp|grep -E ':allow,|:deny,' > /etc/tcprules.d/tcp.smtp2; mv -f /etc/tcprules.d/tcp.smtp2 /etc/tcprules.d/tcp.smtp");
 
 	foreach ($deny as $k => $v) {
 		if (csb($k, "127")) {
@@ -4803,21 +4808,21 @@ function lxguard_main($clearflag = false, $since = false)
 
 	// MR -- no need this action where enough 'route host'
 //	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $str_host);
-	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", '# MR -- enough using route to null');
+	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $note);
 
 	// MR -- no need this action where enough 'route host'
 	$start_tcprules[] = "###Start Program tcp.smtp config Area";
-//	$start_str_tcprules = $start_tcprules[0];
-	$start_str_tcprules = '# MR -- enough using route to null';
+	$start_str_tcprules = $start_tcprules[0];
 	$end_tcprules[] = "###End Program tcp.smtp config Area";
-	$end_str_tcprules = $end_smtp[0];
+	$end_str_tcprules = $end_tcprules[0];
 
-	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $str_tcprules);
+//	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $str_tcprules);
+	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $note);
 	exec("/usr/bin/qmailctl cdb");
 
 	// MR -- no need this action where enough 'route host'
 //	file_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
-	file_put_contents('/var/qmail/spamdyke/blacklist_ip', '# MR -- enough using route to null');
+	file_put_contents('/var/qmail/spamdyke/blacklist_ip', '');
 
 	if ($clearflag) {
 		lxfile_rm("$lxgpath/access.info");
