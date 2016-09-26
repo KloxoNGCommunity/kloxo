@@ -6,13 +6,18 @@ class sshauthorizedkey__sync extends Lxdriverclass
 	{
 		$username = $this->main->username;
 
-		lxfile_mkdir($username, "/root/.ssh");
-		lxuser_chmod($username, "/root/.ssh", "0755");
+	//	lxfile_mkdir($username, "/root/.ssh");
+	//	lxuser_chmod($username, "/root/.ssh", "0755");
+
+		if (!file_exists('/root/.ssh')) {
+			exec("mkdir -p /root/.ssh");
+		}
+
 		$f = "/root/.ssh/{$username}.authorized_keys";
 
 		file_put_contents($f, $key);
 
-		lxuser_chmod($username, $f, "0644");
+	//	lxuser_chmod($username, $f, "0644");
 
 		$t = '';
 
@@ -116,6 +121,8 @@ class sshauthorizedkey__sync extends Lxdriverclass
 		} else {
 			$v = self::readAuthorizedKey($username);
 		}
+
+		if (!$v) { return; }
 
 		$list = explode("\n", $v);
 

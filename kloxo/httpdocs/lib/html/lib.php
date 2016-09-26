@@ -2876,34 +2876,30 @@ function download_source($file)
 	download_file("$server/$file");
 }
 
-function download_remote($url, $user, $pass, $file = null, $localfile = null)
+function download_remote($url, $user, $pass, $localfile = null)
 {
 	list($protocol, $rest) = explode("://", $url);
 
 	switch ($protocol) {
 		case 'ftp':
 		case 'ftps':
-			download_from_ftp($url, $user, $pass, $file, $localfile);
+			download_from_ftp($url, $user, $pass, $localfile);
 			break;
 		case 'scp':
 		case 'sftp':
-			download_from_scp($url, $user, $pass, $file, $localfile);
+			download_from_scp($url, $user, $pass, $localfile);
 			break;
 		default:
-			download_file($url, $file, $localfile);
+			download_file($url, $localfile);
 			break;
 	}
 }
 
-function download_from_ftp($url, $user, $pass, $file = null, $localfile = null)
+function download_from_ftp($url, $user, $pass, $localfile = null)
 {
 	global $login;
 
 	log_log("download", "$url $localfile");
-
-	if (!$file) {
-		$file = basename($url);
-	}
 
 	if (!$localfile) {
 		$localfile = basename($url);
@@ -2920,22 +2916,18 @@ function download_from_ftp($url, $user, $pass, $file = null, $localfile = null)
 	ftp_pasv($fn, true);
 	$fp = lfopen($localfile, "w");
 
-	if (!ftp_fget($fn, $fp, $file, FTP_BINARY)) {
-		throw new lxException($login->getThrow('file_download_failed'), '', $file);
+	if (!ftp_fget($fn, $fp, $localfile, FTP_BINARY)) {
+		throw new lxException($login->getThrow('file_download_failed'), '', $localfile);
 	}
 
 	fclose($fp);
 }
 
-function download_from_scp($url, $user, $pass, $file = null, $localfile = null)
+function download_from_scp($url, $user, $pass, $localfile = null)
 {
 	global $login;
 
 	log_log("download", "$url $localfile");
-
-	if (!$file) {
-		$file = basename($url);
-	}
 
 	if (!$localfile) {
 		$localfile = basename($url);
@@ -2952,21 +2944,17 @@ function download_from_scp($url, $user, $pass, $file = null, $localfile = null)
 	$fp = lfopen($localfile, "w");
 
 	if (!ssh2_scp_recv($fn, $fp, $localfile)) {
-		throw new lxException($login->getThrow('file_download_failed'), '', $file);
+		throw new lxException($login->getThrow('file_download_failed'), '', $localfile);
 	}
 
 	fclose($fp);
 }
 
-function download_file($url, $file = null, $localfile = null)
+function download_file($url, $localfile = null)
 {
 	log_log("download", "$url $localfile");
 
 	$ch = curl_init($url);
-
-	if (!$file) {
-		$file = basename($url);
-	}
 
 	if (!$localfile) {
 		$localfile = basename($url);
