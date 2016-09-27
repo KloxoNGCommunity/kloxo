@@ -57,6 +57,11 @@ class serverweb__ extends lxDriverClass
 				$this->set_multiple_php_remove();
 
 				break;
+
+			case "pagespeed_clear_cache":
+				$this->set_pagespeed_clear_cache();
+
+				break;
 		}
 	}
 
@@ -578,5 +583,18 @@ class serverweb__ extends lxDriverClass
 		}
 
 		exec("sh /script/start-php-fpm");
+	}
+
+	function set_pagespeed_clear_cache()
+	{
+		global $login;
+
+		$rem = $this->main->pagespeed_cache;
+
+		if ($rem === '') {
+			throw new lxException($login->getThrow('no_options_selected'), '', 'blank');
+		} else {
+			exec("sh /script/clearcache-pagespeed");
+		}
 	}
 }

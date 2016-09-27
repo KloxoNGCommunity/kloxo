@@ -201,7 +201,7 @@ if (intval($static_files_expire) > -1) {
 		"\t\troot \$var_rootdir;\n" .
 		"\t}";
 } else {
-	$static_files_expire_text = '# No static files expire';
+	$static_files_expire_text = "\t# No static files expire";
 }
 
 if ($disabled) {
@@ -393,8 +393,14 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+<?php
+		if ((!$reverseproxy) || ($webselected === 'front-end')) {
+?>
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+<?php
+		}
+?>
 
 <?=$general_header_text;?>
 
@@ -687,8 +693,14 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+<?php
+					if ((!$reverseproxy) || ($webselected === 'front-end')) {
+?>
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+<?php
+					}
+?>
 
 <?=$general_header_text;?>
 <?php
@@ -769,8 +781,14 @@ server {
 	#disable_symlinks if_not_owner;
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+<?php
+		if ((!$reverseproxy) || ($webselected === 'front-end')) {
+?>
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+<?php
+		}
+?>
 
 <?=$general_header_text;?>
 

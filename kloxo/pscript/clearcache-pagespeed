@@ -1,0 +1,14 @@
+#!/bin/sh
+
+p='/var/cache/mod_pagespeed'
+
+#f="${p}/cache.flush"
+#touch $f
+#chown apache:apache $f
+#sleep 10
+#'rm' -f $f
+
+if [ -d ${p} ] ; then
+	rm -rf ${p}/*
+	sh add-restart-queue restart-web
+fi

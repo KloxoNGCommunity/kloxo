@@ -25,6 +25,8 @@ class serverweb extends lxdb
 	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
 	static $__desc_multiple_php_remove = array("", "", "multiple_php_remove");
 
+	static $__desc_pagespeed_cache = array("", "", "pagespeed_cache");
+
 	function createShowUpdateform()
 	{
 		global $login;
@@ -47,6 +49,8 @@ class serverweb extends lxdb
 			$uflist['mysql_convert'] = null;
 
 			$uflist['fix_chownchmod'] = null;
+
+			$uflist['pagespeed_clear_cache'] = null;
 		} else {
 			$uflist['fix_chownchmod_user'] = null;
 		}
@@ -248,6 +252,13 @@ class serverweb extends lxdb
 				$a = getMultiplePhpList();
 
 				$vlist['multiple_php_remove'] = array("U", $a);
+
+				break;
+
+			case "pagespeed_clear_cache":
+				$this->pagespeed_cache = null;
+
+				$vlist['pagespeed_cache'] = array('s', array( 'clear'));
 
 				break;
 

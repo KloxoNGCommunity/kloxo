@@ -152,6 +152,12 @@ if ($statsapp === 'webalizer') {
 
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
+if (file_exists("{$globalspath}/custom.gzip.conf")) {
+	$gzip_base = "custom.gzip";
+} else if (file_exists("{$globalspath}/gzip.conf")) {
+	$gzip_base = "gzip";
+}
+
 if (file_exists("{$globalspath}/custom.generic.conf")) {
 	$generic = "custom.generic";
 } else {
@@ -325,6 +331,14 @@ $HTTP["host"] =~ "^<?=str_replace(".", "\.", $redirdomainname);?>" {
 	server.follow-symlink = "disable"
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
+<?php
+		if ((!$reverseproxy) || ($webselected === 'front-end')) {
+?>
+
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+<?php
+		}
+?>
 
 <?=$general_header_text;?>
 
@@ -527,6 +541,14 @@ $HTTP["host"] =~ "<?=$serveralias;?><?=$ipssl;?>" {
 	server.follow-symlink = "disable"
 
 	include "<?=$globalspath;?>/acme-challenge.conf"
+<?php
+		if ((!$reverseproxy) || ($webselected === 'front-end')) {
+?>
+
+	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+<?php
+		}
+?>
 
 <?=$general_header_text;?>
 

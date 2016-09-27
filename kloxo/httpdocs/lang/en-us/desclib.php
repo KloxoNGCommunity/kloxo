@@ -1449,3 +1449,5 @@ $__description["disable_pagespeed"] = array("Disable Pagespeed (if used)");
 
 $__description["sendmailban"] = array("Sendmail to ban");
 $__description["sendmailban_target"] = array("Target");
+
+$__description["pagespeed_cache"] = array("Pagespeed cache (if used)");
