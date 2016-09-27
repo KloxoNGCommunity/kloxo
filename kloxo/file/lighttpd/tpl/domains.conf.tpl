@@ -335,7 +335,7 @@ $HTTP["host"] =~ "^<?=str_replace(".", "\.", $redirdomainname);?>" {
 		if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include "<?=$globalspath;?>/<?=$gzip_base;?>.conf"
 <?php
 		}
 ?>
@@ -545,7 +545,7 @@ $HTTP["host"] =~ "<?=$serveralias;?><?=$ipssl;?>" {
 		if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include "<?=$globalspath;?>/<?=$gzip_base;?>.conf"
 <?php
 		}
 ?>
