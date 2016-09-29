@@ -108,7 +108,7 @@ $tabs = array("", "\t");
 #server.modules += ( "mod_magnet" )
 magnet.attract-raw-url-to = ( "/opt/configs/lighttpd/conf/globals/deny-proxy.lua" )
 
-evasive.max-conns-per-ip = 25
+evasive.max-conns-per-ip = 50
 server.errorfile-prefix = "/home/kloxo/httpd/error/"
 
 server.port = "<?=$ports[0];?>"

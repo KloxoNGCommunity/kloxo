@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "*** Process for NSD service ***"
+
+if [ ! -f /tmp/fcgiwrap.sock ] ; then
+	'rm' -f /tmp/fcgiwrap.sock
+fi
+
+echo "  - Process 'spawn-fcgi': restart"
+/etc/rc.d/init.d/spawn-fcgi restart
+
+

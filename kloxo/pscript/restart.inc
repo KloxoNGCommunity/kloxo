@@ -47,6 +47,9 @@ else
 							${ipath}/${item} start
 						elif [ "${item}" == "nsd" ] ; then
 							${ipath}/${item} restart
+						elif [ "${item}" == "spawn-fcgi" ] ; then
+							'rm' -f /tmp/fcgiwrap.sock
+							${ipath}/${item} restart
 						else
 							${ipath}/${item} restart
 						fi
