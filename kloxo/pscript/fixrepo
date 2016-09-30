@@ -1,5 +1,7 @@
 #!/bin/sh
 
+yum clean all
+
 if [ "$(rpm -qa|grep 'mratwork-')" != "" ] ; then
 	yum update mratwork* -y
 else
@@ -15,12 +17,4 @@ else
 	wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
 	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
 	yum update mratwork-* -y
-fi
-
-identify=$(yum list *yum*|grep '@')
-
-if [ "${identify}" == "" ] ; then
-	sed -i 's:$releasever:5:' /etc/yum.repos.d/mratwork.repo
-else
-	sed -i 's:$releasever:6:' /etc/yum.repos.d/mratwork.repo
 fi
