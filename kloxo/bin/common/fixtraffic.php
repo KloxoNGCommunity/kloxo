@@ -29,7 +29,6 @@ $sq = new Sqlite(null, "{$class}traffic");
 $res = $sq->getTable();
 
 foreach($res as $r) {
-
 	if (!csa($r['nname'], ":")) {
 		continue;
 	}
@@ -37,6 +36,7 @@ foreach($res as $r) {
 	$t = explode(":", $r['nname']);
 
 	$ot = $t[1];
+
 	if ($ot > $oldtime) {
 		print("deleting $oldtime {$r['nname']}\n");
 		$sq->rawQuery("delete from {$class}traffic where nname = '{$r['nname']}'");
@@ -58,7 +58,4 @@ if ($laccess->timestamp > $oldtime) {
 
 system("lxphp.exe ../bin/gettraffic.php");
 system("lxphp.exe ../bin/collectquota.php");
-
-
-
 

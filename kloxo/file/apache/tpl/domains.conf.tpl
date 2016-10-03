@@ -148,29 +148,37 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 }
 
 if ($general_header) {
-	$gh = explode("\n", trim($general_header, "\n"));
+	if (!reverseproxy) {
+		$gh = explode("\n", trim($general_header, "\n"));
 
-	$general_header_text = "<IfModule mod_headers.c>\n";
+		$general_header_text = "<IfModule mod_headers.c>\n";
 
-	foreach ($gh as $k => $v) {
-		$general_header_text .= "\t\tHeader always set {$v}\n";
+		foreach ($gh as $k => $v) {
+			$general_header_text .= "\t\tHeader always set {$v}\n";
+		}
+
+		$general_header_text .= "\t\tHeader always set X-Supported-By \"Kloxo-MR 7.0\"\n" .
+			"\t\tRequestHeader unset Proxy early\n" . 
+			"\t</IfModule>";
+	} else {
+		$general_header_text = "# No need 'general header' for proxy";
 	}
-
-	$general_header_text .= "\t\tHeader always set X-Supported-By \"Kloxo-MR 7.0\"\n" .
-		"\t\tRequestHeader unset Proxy early\n" . 
-		"\t</IfModule>";
 }
 
 if ($https_header) {
-	$hh = explode("\n", trim($https_header, "\n"));
+	if (!reverseproxy) {
+		$hh = explode("\n", trim($https_header, "\n"));
 
-	$https_header_text = "<IfModule mod_headers.c>\n";
+		$https_header_text = "<IfModule mod_headers.c>\n";
 
-	foreach ($hh as $k => $v) {
-		$https_header_text .= "\t\t\tHeader always set {$v}\n";
+		foreach ($hh as $k => $v) {
+			$https_header_text .= "\t\t\tHeader always set {$v}\n";
+		}
+
+		$https_header_text .= "\t\t</IfModule>";
+	} else {
+		$https_header_text = "# No need 'https header' for proxy";
 	}
-
-	$https_header_text .= "\t\t</IfModule>";
 }
 
 if (intval($static_files_expire) > -1) {

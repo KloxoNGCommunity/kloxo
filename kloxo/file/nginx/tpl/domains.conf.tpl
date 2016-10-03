@@ -594,8 +594,8 @@ server {
 				} else {
 ?>
 
-	#include '<?=$globalspath;?>/switch_wildcards<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/switch_wildcards.conf';
+	include '<?=$globalspath;?>/switch_wildcards<?=$switches[$count];?>.conf';
+	#include '<?=$globalspath;?>/switch_wildcards.conf';
 <?php
 				}
 			} else {
@@ -609,8 +609,8 @@ server {
 				} else {
 ?>
 
-	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/switch_standard.conf';
+	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	#include '<?=$globalspath;?>/switch_standard.conf';
 <?php
 				}
 			}
@@ -763,8 +763,8 @@ server {
 					} else {
 ?>
 
-	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/switch_standard.conf';
+	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	#include '<?=$globalspath;?>/switch_standard.conf';
 <?php
 					}
 ?>
