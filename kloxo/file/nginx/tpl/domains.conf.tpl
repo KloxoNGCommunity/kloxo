@@ -195,7 +195,7 @@ if ($https_header) {
 }
 
 if (intval($static_files_expire) > -1) {
-	$static_files_expire_text = "\tlocation ~* ^.+\.(jpe?g|gif|png|ico|css|pdf|js)$ {\n" .
+	$static_files_expire_text = "\tlocation ~* ^.+\.(?:jpe?g|gif|png|ico|css|pdf|js)$ {\n" .
 		"\t\texpires {$static_files_expire}d;\n" .
 		"\t\taccess_log off;\n" .
 		"\t\troot \$var_rootdir;\n" .
@@ -394,12 +394,12 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 <?php
-		if ((!$reverseproxy) || ($webselected === 'front-end')) {
+	//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 <?php
-		}
+	//	}
 ?>
 
 <?=$general_header_text;?>
@@ -594,7 +594,8 @@ server {
 				} else {
 ?>
 
-	include '<?=$globalspath;?>/switch_wildcards<?=$switches[$count];?>.conf';
+	#include '<?=$globalspath;?>/switch_wildcards<?=$switches[$count];?>.conf';
+	include '<?=$globalspath;?>/switch_wildcards.conf';
 <?php
 				}
 			} else {
@@ -608,7 +609,8 @@ server {
 				} else {
 ?>
 
-	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	include '<?=$globalspath;?>/switch_standard.conf';
 <?php
 				}
 			}
@@ -694,12 +696,12 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 <?php
-					if ((!$reverseproxy) || ($webselected === 'front-end')) {
+				//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 <?php
-					}
+				//	}
 ?>
 
 <?=$general_header_text;?>
@@ -761,7 +763,8 @@ server {
 					} else {
 ?>
 
-	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	include '<?=$globalspath;?>/switch_standard.conf';
 <?php
 					}
 ?>
@@ -782,12 +785,12 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 <?php
-		if ((!$reverseproxy) || ($webselected === 'front-end')) {
+	//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
 	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
 <?php
-		}
+	//	}
 ?>
 
 <?=$general_header_text;?>

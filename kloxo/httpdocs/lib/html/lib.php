@@ -8365,7 +8365,7 @@ function setRemoveLetsencrypt($nolog = null)
 
 function setInstallAcmesh($nolog = null)
 {
-	if (!file_exists("/root/.acme.sh/acme.sh/acme.sh")) {
+	if (!file_exists("/root/.acme.sh/acme.sh")) {
 		exec("sh /script/acme.sh-installer");
 	}
 }
@@ -8377,7 +8377,7 @@ function setRemoveAcmesh($nolog = null)
 
 function setInstallStartapish($nolog = null)
 {
-	if (!file_exists("/root/.startapi.sh/startapi.sh/startapi.sh")) {
+	if (!file_exists("/root/.startapi.sh/startapi.sh")) {
 		exec("sh /script/startapi.sh-installer");
 	}
 }

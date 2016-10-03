@@ -931,7 +931,7 @@ function setUsingMyIsam()
 		}
 
 		$string_source = "[mysqld]\n";
-		$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\nperformance_schema=on\n";
+		$string_replace = "[mysqld]\nskip-innodb\ndefault-storage-engine=myisam\n#performance_schema=on\n";
 
 		$string_collect = str_replace($string_source, $string_replace, $string_collect);
 

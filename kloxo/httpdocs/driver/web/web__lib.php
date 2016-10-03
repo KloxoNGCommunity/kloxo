@@ -69,6 +69,11 @@ class web__ extends lxDriverClass
 			$src = $webserver;
 		}
 
+		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$src}.init"),
+			"/etc/rc.d/init.d/{$webserver}");
+
+		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
+
 		if ($webserver === 'httpd') {
 			if (file_exists("../etc/flag/use_pagespeed.flg")) {
 				exec("rpm -qa|grep pagespeed", $out);
@@ -84,11 +89,6 @@ class web__ extends lxDriverClass
 					lxfile_cp("/etc/httpd/conf.d/_inactive_.conf", "/etc/httpd/conf.d/pagespeed.conf");
 			}
 		}
-
-		lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$src}.init"),
-			"/etc/rc.d/init.d/{$webserver}");
-
-		exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
 	}
 
 	static function setUnnstallPhpfpm()
