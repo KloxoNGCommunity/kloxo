@@ -25,14 +25,20 @@ Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?p
 foreach($dns_records as $k => $o) {
     switch($o->ttype) {
         case "ns":
+            $key = $o->hostname;
             $value = $o->param;
-            if ($o->param === $o->hostname) {
+
+            if ($key === $value) {
                 $key = $domainname;
             } else {
-                if (($o->hostname === '') || (!$o->hostname) || ($o->hostname === '__base__')) {
+                if (($key === '') || (!$key) || ($key === '__base__')) {
                     $key = $domainname;
                 } else {
-                    $key = str_replace('__base__', $domainname, $o->hostname);
+                    if (strpos($key, '__base__') !== false) {
+                        $key = str_replace('__base__', $domainname, $key);
+                    } else {
+                        $key = "{$key}.{$domainname}";
+                    }
                 }
             }
 ?>

@@ -53,14 +53,14 @@ class webtraffic extends lxclass
 				if ($statsprog === 'webalizer') {
 					print("webalizer: $p->nname\n");
 
-					lxshell_return("nice", "-n", "15", "webalizer", "-p", "-n", $p->nname, "-t", $p->nname, "-c", 
+					lxshell_return("nice", "-n", "10", "webalizer", "-p", "-n", $p->nname, "-t", $p->nname, "-c", 
 						"__path_real_etc_root/webalizer/webalizer.{$p->nname}.conf");
 				} else {
 					print("awstats: $p->nname\n");
 
 					putenv("GATEWAY_INTERFACE=");
 
-					lxshell_return("nice", "-n", "15", "perl", "__path_kloxo_httpd_root/awstats/wwwroot/cgi-bin/awstats.pl", 
+					lxshell_return("nice", "-n", "10", "perl", "__path_kloxo_httpd_root/awstats/wwwroot/cgi-bin/awstats.pl", 
 						"-update", "-config=$name");
 				}
 			}

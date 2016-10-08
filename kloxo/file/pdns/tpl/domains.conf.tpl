@@ -58,16 +58,22 @@ $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " 
 foreach($dns_records as $k => $o) {
 	switch ($o->ttype) {
 		case "ns":
-			$value = $o->param;
-			if ($o->param === $o->hostname) {
-				$key = $domainname;
-			} else {
-				if (($o->hostname === '') || (!$o->hostname) || ($o->hostname === '__base__')) {
-					$key = $domainname;
-				} else {
-					$key = str_replace('__base__', $domainname, $o->hostname);
-				}
-			}
+            $key = $o->hostname;
+            $value = $o->param;
+
+            if ($key === $value) {
+                $key = $domainname;
+            } else {
+                if (($key === '') || (!$key) || ($key === '__base__')) {
+                    $key = $domainname;
+                } else {
+                    if (strpos($key, '__base__') !== false) {
+                        $key = str_replace('__base__', $domainname, $key);
+                    } else {
+                        $key = "{$key}.{$domainname}";
+                    }
+                }
+            }
 
 			$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
 				"VALUES ('{$domain_id}', '{$key}', '{$value}', 'NS', '{$ttl}', 'NULL');");
