@@ -1,6 +1,8 @@
 <?php
 	ini_set("display_errors","1");
 
+	session_start();
+
 	if (file_exists("./custom-index.php")) {
 		include_once "./custom-index.php";
 	} elseif (file_exists("./custom.index.php")) {
@@ -32,8 +34,6 @@
 		} else {
 			$logo_url = "./images/logo.png";
 		}
-
-		session_start();
 ?>
 <html>
 
