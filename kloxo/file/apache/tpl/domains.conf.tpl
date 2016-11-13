@@ -893,6 +893,8 @@ foreach ($certnamelist as $ip => $certname) {
 
 ## web for '<?=$domainname;?>'
 <VirtualHost <?=$ip_special;?>:<?=$portlist[$count];?> >
+
+	LimitInternalRecursion 100
 <?php
 		if ($pagespeed_ready) {
 			if ($disable_pagespeed) {

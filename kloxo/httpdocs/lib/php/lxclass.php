@@ -5787,7 +5787,22 @@ abstract class Lxclass
 		print("Done\n");
 
 		try {
-			foreach ((array)$gbl->__var_objectbackuplist as $d) {
+			// MR - use getRpmBranchList for the trick find out array
+			$unbackaper = getRpmBranchList(getLinkCustomfile("../etc/list", "unbackup.lst"));
+
+			$c = array();
+
+			foreach ((array)$gbl->__var_objectbackuplist as $a) {
+				foreach ($unbackaper as $b) {
+					if (($d->get__table() === 'client') && ($a->nname === $b)) {
+						// no action
+					} else {
+						$c[] = $a;
+					}
+				}
+			}
+			
+			foreach ($c as $d) {
 				// MR -- bypass to make xxx@yyy.zzz.tgz file
 				if (strpos($d->nname, '@') !== false) { continue; }
 

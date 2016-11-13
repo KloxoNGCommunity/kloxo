@@ -70,6 +70,10 @@ class ftpuser extends Lxclient
 
 		$param['password'] = crypt($param['password']);
 
+		if ($param['directory'] === '') {
+			$param['directory'] = '/';
+		}
+
 		return $param;
 	}
 
@@ -143,8 +147,12 @@ class ftpuser extends Lxclient
 
 	function updateform($subaction, $param)
 	{
+	//	global $gbl, $sgbl, $login, $ghtml;
+
 		if ($subaction === 'edit') {
 			$vlist['directory'] = null;
+			// MR -- not used because trouble for non-static function
+		//	$vlist['directory'] = array('L', array('pretext' => "/home/{$this->nname}/"));
 			$vlist['ftp_disk_usage'] = null;
 
 			return $vlist;

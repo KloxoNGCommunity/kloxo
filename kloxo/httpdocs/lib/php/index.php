@@ -145,8 +145,8 @@ function print_index()
 	$sess_token = $_SESSION['frm_token'];
 
 	// MR -- use != instead !==  because compare numeric
-	if ($cgi_token != $sess_token) {
-		if (!file_exists('./no_need_token')) {
+	if (!file_exists('./lib/php/no_need_token')) {
+		if ($cgi_token != $sess_token) {
 			if ((!$cgi_token) || (!$sess_token) || ($cgi_token != $sess_token)) {
 				print("<div align=\"center\">*** {$g_language_mes->__emessage['token_not_match']} ***</div>");
 				exit;

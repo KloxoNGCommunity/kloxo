@@ -547,14 +547,14 @@ class Client extends ClientBase
 		//	}
 
 			if ($this->isCustomer()) {
-				$alist[] = "a=list&c=ftpuser";
+			//	$alist[] = "a=list&c=ftpuser";
 				$alist[] = 'a=list&c=ftpsession';
-				$alist[] = "a=show&l[class]=ffile&l[nname]=/";
-				$alist['__v_dialog_defd'] = "a=updateform&sa=default_domain";
+			//	$alist[] = "a=show&l[class]=ffile&l[nname]=/";
+			//	$alist['__v_dialog_defd'] = "a=updateform&sa=default_domain";
 				$alist[] = "a=show&o=sshclient";
-				$alist[] = "a=list&c=traceroute";
-				$this->getListActions($alist, 'mysqldb');
-				$this->getMysqlDbAdmin($alist);
+			//	$alist[] = "a=list&c=traceroute";
+			//	$this->getListActions($alist, 'mysqldb');
+			//	$this->getMysqlDbAdmin($alist);
 			}
 			
 			if ($login->priv->isOn('domain_add_flag')) {
