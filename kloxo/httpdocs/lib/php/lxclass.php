@@ -5765,7 +5765,7 @@ abstract class Lxclass
 		$this->loadBackupAll();
 		print("Done\n");
 
-		$vd = createTempDir("/tmp", "backup");
+		$vd = createTempDir($sgbl->__path_serverfile, "backup");
 
 		$rem = new Remote();
 		$ver = $sgbl->__ver_major_minor;
@@ -5788,31 +5788,32 @@ abstract class Lxclass
 
 		try {
 			// MR - use getRpmBranchList for the trick find out array
-			$unbackaper = getRpmBranchList(getLinkCustomfile("../etc/list", "unbackup.lst"));
+			$unbackuper = getRpmBranchList(unbackup);
 
-			$c = array();
+			foreach ((array)$gbl->__var_objectbackuplist as $d) {
+				$e = true;
 
-			foreach ((array)$gbl->__var_objectbackuplist as $a) {
-				foreach ($unbackaper as $b) {
-					if (($d->get__table() === 'client') && ($a->nname === $b)) {
-						// no action
-					} else {
-						$c[] = $a;
+				foreach ($unbackuper as $b) {
+					if (($d->get__table() === 'client') && ($d->nname === $b)) {
+						$e = false;
 					}
 				}
-			}
-			
-			foreach ($c as $d) {
-				// MR -- bypass to make xxx@yyy.zzz.tgz file
-				if (strpos($d->nname, '@') !== false) { continue; }
 
-				if (($d->get__table() === 'client') && ($d->nname === 'backuper')) { continue; }
-				if (($d->get__table() === 'client') && ($d->nname === 'rpms')) { continue; }
+				if ($e) {
+					// MR -- bypass to make xxx@yyy.zzz.tgz file
+					if (strpos($d->nname, '@') !== false) { continue; }
 
-				print("Taking backup of '{$d->get__table()}:{$d->nname}'\n");
-				log_log("backup", "Taking backup of '{$d->get__table()}:{$d->nname}'");
-				$d->backMeUp($vd, $rem->ddate);
+				//	if (($d->get__table() === 'client') && ($d->nname === 'backuper')) { continue; }
+				//	if (($d->get__table() === 'client') && ($d->nname === 'rpms')) { continue; }
+
+					print("Taking backup of '{$d->get__table()}:{$d->nname}'\n");
+					log_log("backup", "Taking backup of '{$d->get__table()}:{$d->nname}'");
+					$d->backMeUp($vd, $rem->ddate);
+				}
 			}
+
+			print("Wait for zipping (and send to remote server if enable) process...\n");
+
 		} catch (Exception $e) {
 		//	lxfile_tmp_rm_rec($vd);
 		//	throw $e;
