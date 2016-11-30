@@ -148,7 +148,7 @@ if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
 }
 
 if ($general_header) {
-	if (!reverseproxy) {
+//	if (!reverseproxy) {
 		$gh = explode("\n", trim($general_header, "\n"));
 
 		$general_header_text = "<IfModule mod_headers.c>\n";
@@ -160,13 +160,13 @@ if ($general_header) {
 		$general_header_text .= "\t\tHeader always set X-Supported-By \"Kloxo-MR 7.0\"\n" .
 			"\t\tRequestHeader unset Proxy early\n" . 
 			"\t</IfModule>";
-	} else {
-		$general_header_text = "# No need 'general header' for proxy";
-	}
+//	} else {
+//		$general_header_text = "# No need 'general header' for proxy";
+//	}
 }
 
 if ($https_header) {
-	if (!reverseproxy) {
+//	if (!reverseproxy) {
 		$hh = explode("\n", trim($https_header, "\n"));
 
 		$https_header_text = "<IfModule mod_headers.c>\n";
@@ -176,9 +176,9 @@ if ($https_header) {
 		}
 
 		$https_header_text .= "\t\t</IfModule>";
-	} else {
-		$https_header_text = "# No need 'https header' for proxy";
-	}
+//	} else {
+//		$https_header_text = "# No need 'https header' for proxy";
+//	}
 }
 
 if (intval($static_files_expire) > -1) {

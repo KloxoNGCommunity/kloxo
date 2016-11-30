@@ -107,6 +107,10 @@ class Llog extends Lxclass {
 			'rkhunter/rkhunter.log' => 'RKHunter',
 			'/usr/local/maldetect/logs/event_log' => 'MalDetect',
 			'httpry/httpry.log' => 'Httpry',
+			'/var/ossec/logs/alerts/alerts.log' => 'OSSec',
+
+			'/usr/local/lxlabs/kloxo/log/backup' => 'Backup',
+			'/usr/local/lxlabs/kloxo/log/restore' => 'Restore',
 
 			'yum.log' => 'Yum');
 

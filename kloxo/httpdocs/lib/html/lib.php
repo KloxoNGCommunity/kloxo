@@ -4691,6 +4691,8 @@ function lxguard_clear($list)
 
 function lxguard_main($clearflag = false, $since = false)
 {
+	global $sgbl;
+
 	$hl_file = "/home/kloxo/lxguard/hitlist.info";
 
 	if ((file_exists($hl_file)) && (strpos(file_get_contents($hl_file), "\n\"") !== false)) {
@@ -4700,15 +4702,15 @@ function lxguard_main($clearflag = false, $since = false)
 
 	include_once "lib/html/lxguardincludelib.php";
 
-	lxfile_mkdir("__path_home_root/lxguard");
-	$lxgpath = "__path_home_root/lxguard";
+	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
+	lxfile_mkdir($lxgpath);
 
 	$newtime = time();
 
 	if ($since !== false) {
 		$oldtime = time() - intval($since);
 	} else {
-		if (file_exists("$lxgpath/hitlist.info")) {
+		if (file_exists("{$lxgpath}/hitlist.info")) {
 			// MR -- since 10 minutes
 			$oldtime = time() - (60 * 10);
 		} else {
@@ -4717,13 +4719,13 @@ function lxguard_main($clearflag = false, $since = false)
 		}
 	}
 
-	$rmt =  array_map('trim', lfile_get_unserialize("$lxgpath/hitlist.info"));
+	$rmt =  array_map('trim', lfile_get_unserialize("{$lxgpath}/hitlist.info"));
 
 	if ($rmt) {
 		$oldtime = max((int)$oldtime, (int)$rmt->ddate);
 	}
 
-	$list = array_map('trim', lfile_get_unserialize("$lxgpath/access.info"));
+	$list = array_map('trim', lfile_get_unserialize("{$lxgpath}/access.info"));
 
 	$type = array('sshd' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages', 'vpopmail' => '/var/log/maillog');
 
@@ -4743,7 +4745,7 @@ function lxguard_main($clearflag = false, $since = false)
 					parse_smtp_log($fp, $list);
 				}
 
-				lfile_put_serialize("$lxgpath/access.info", $list);
+				lfile_put_serialize("{$lxgpath}/access.info", $list);
 			}
 		}
 	}
@@ -4755,7 +4757,7 @@ function lxguard_main($clearflag = false, $since = false)
 	dprint_r("Debug: Total: " . count($total) . "\n");
 
 	$deny = get_deny_list($total);
-	$hdn = array_map('trim', lfile_get_unserialize("$lxgpath/hostdeny.info"));
+	$hdn = array_map('trim', lfile_get_unserialize("{$lxgpath}/hostdeny.info"));
 	$deny = lx_array_merge(array($deny, $hdn));
 
 	$str_host = null;
@@ -4795,8 +4797,8 @@ function lxguard_main($clearflag = false, $since = false)
 	$end_str_host = $end_host[0];
 
 	// MR -- no need this action where enough 'route host'
-//	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $str_host);
-	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $note);
+	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $str_host);
+//	file_put_between_comments("root", $start_host, $end_host, $start_str_host, $end_str_host, "/etc/hosts.deny", $note);
 
 	// MR -- no need this action where enough 'route host'
 	$start_tcprules[] = "###Start Program tcp.smtp config Area";
@@ -4804,20 +4806,20 @@ function lxguard_main($clearflag = false, $since = false)
 	$end_tcprules[] = "###End Program tcp.smtp config Area";
 	$end_str_tcprules = $end_tcprules[0];
 
-//	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $str_tcprules);
-	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $note);
+	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $str_tcprules);
+//	file_put_between_comments("root", $start_tcprules, $end_tcprules, $start_str_tcprules, $end_str_tcprules, "/etc/tcprules.d/tcp.smtp", $note);
 	exec("/usr/bin/qmailctl cdb");
 
 	// MR -- no need this action where enough 'route host'
-//	file_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
-	file_put_contents('/var/qmail/spamdyke/blacklist_ip', '');
+	file_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
+//	file_put_contents('/var/qmail/spamdyke/blacklist_ip', '');
 
 	if ($clearflag) {
-		lxfile_rm("$lxgpath/access.info");
+		lxfile_rm("{$lxgpath}/access.info");
 		$rmt = new Remote();
 		$rmt->hl = $total;
 		$rmt->ddate = time();
-		lfile_put_serialize("$lxgpath/hitlist.info", $rmt);
+		lfile_put_serialize("{$lxgpath}/hitlist.info", $rmt);
 	}
 
 	return $list;
@@ -4829,13 +4831,14 @@ function lxguard_save_hitlist($hl)
 
 	include_once "lib/html/lxguardincludelib.php";
 
-	lxfile_mkdir("__path_home_root/lxguard");
-	$lxgpath = "$sgbl->__path_home_root/lxguard";
+	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
+	lxfile_mkdir($lxgpath);
+
 	$rmt = new Remote();
 	$rmt->hl = $hl;
 	$rmt->ddate = time();
 
-	lfile_put_serialize("$lxgpath/hitlist.info", $rmt);
+	lfile_put_serialize("{$lxgpath}/hitlist.info", $rmt);
 
 	lxguard_main();
 }
