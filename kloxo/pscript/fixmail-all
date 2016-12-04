@@ -94,6 +94,14 @@ for i in me defaultdomain defaulthost ; do
 	echo "Set '${VQCPATH}/${i}' with '${host_name}'"
 	echo ${host_name} > ${VQCPATH}/${i}
 done
+
+echo "--------------------------"
+echo "Rename ${VQCPATH}/tlshosts to Rename ${VQCPATH}/tlshosts.old"
+if [ -d ${VQCPATH}/tlshosts ] ; then
+	mv -f ${VQCPATH}/tlshosts ${VQCPATH}/tlshosts.old
+fi
+
+
 echo "--------------------------"
 echo " Fix Qmail cdb"
 qmailctl cdb

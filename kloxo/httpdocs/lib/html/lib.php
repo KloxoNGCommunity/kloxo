@@ -8408,8 +8408,8 @@ function setAllSSLPortions($nolog = null)
 	log_cleanup("- Copying 'openssl' config Files", $nolog);
 	setCopyOpenSSLConfFiles();
 
-	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
-	setCopyLetsEncryptConfFiles();
+//	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
+//	setCopyLetsEncryptConfFiles();
 
 	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
 	setCopyAcmeshConfFiles();
@@ -8417,14 +8417,14 @@ function setAllSSLPortions($nolog = null)
 	log_cleanup("- Copying 'startapi.sh' config Files", $nolog);
 	setCopyStartapishConfFiles();
 
-	log_cleanup("- Installing Letsencrypt-auto", $nolog);
-	setInstallLetsencrypt($nolog);
+//	log_cleanup("- Installing Letsencrypt-auto", $nolog);
+//	setInstallLetsencrypt($nolog);
 
 //	log_cleanup("- Removing Letsencrypt-auto", $nolog);
 //	setRemoveLetsencrypt($nolog);
 
-//	log_cleanup("- Installing acme.sh", $nolog);
-//	setInstallAcmesh($nolog);
+	log_cleanup("- Installing acme.sh", $nolog);
+	setInstallAcmesh($nolog);
 
 	log_cleanup("- Installing startapi.sh", $nolog);
 	setInstallStartapish($nolog);

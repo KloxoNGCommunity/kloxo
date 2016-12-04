@@ -7,9 +7,8 @@ rpm -qa | grep -q bind-utils || yum -y install bind-utils
 
 dom=$1
 
-soarec=$(dig $dom SOA|grep -v '<<>>'|grep -v ';'|grep -i $dom|awk '{print $5}')
-
-nsrec=$(dig $dom NS|grep -v '<<>>'|grep -v ';'|grep -i $dom|awk '{print $5}')
+soarec=$(dig $dom SOA|grep -v '<<>>'|grep -v ';'|grep -i 'SOA'|grep -i ^$dom|awk '{print $5}')
+nsrec=$(dig $dom NS|grep -v '<<>>'|grep -v ';'|grep -i 'NS'|grep -i ^$dom|awk '{print $5}')
 
 for i in $nsrec; do
 	if [ "$i" != "$soarec" ] ; then
