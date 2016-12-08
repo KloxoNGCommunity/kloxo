@@ -444,7 +444,7 @@ class Web extends Lxdb
 		}
 
 		if (!isset($this->corelocation)) {
-			$this->corelocation = "__path_customer_root";
+			$this->corelocation = $sgbl->__path_customer_root;
 		}
 
 		$this->__var_extrabasedir = (isset($gen->extrabasedir)) ? $gen->extrabasedir : '';
@@ -591,12 +591,14 @@ class Web extends Lxdb
 
 	function getFfileFromVirtualList($name)
 	{
+		global $sgbl;
+
 		$name = coreFfile::getRealpath($name);
 		$htroot = $this->getFullDocRoot();
-		$confroot = "__path_httpd_root/$this->nname/";
+		$confroot = "{$sgbl->__path_httpd_root}/{$this->nname}/";
 
 		if ($name === '__lx_error_log') {
-			$root = "$confroot/stats/";
+			$root = "{$confroot}/stats/";
 			$name = "{$this->nname}-error_log";
 			$readonly = 'on';
 			$showheader = false;
@@ -686,10 +688,10 @@ class Web extends Lxdb
 
 		return;
 
-	//	$path[] = "__path_customer_root/$customer_name/$domainname";
-		$path[] = "__path_customer_root/$customer_name/__processed_stats/$domainname";
-		$path[] = "__path_program_home/domain/$domainname/__backup/";
-	//	$path[] = "__path_httpd_root/$domainname";
+	//	$path[] = "{$sgbl->__path_customer_root}/{$customer_name}/{$domainname}";
+		$path[] = "{$sgbl->__path_customer_root}/{$customer_name}/__processed_stats/{$domainname}";
+		$path[] = "{$sgbl->__path_program_home}/domain/{$domainname}/__backup/";
+	//	$path[] = "{$sgbl->__path_httpd_root}/{$domainname}";
 
 		$t = 0;
 		foreach ($path as $p) {
@@ -740,22 +742,26 @@ class Web extends Lxdb
 
 	function webChangeOwner()
 	{
+		global $sgbl;
+
 		if (!lxfile_exists("{$this->getFullDocRoot()}")) {
-			lxfile_cp_rec("__path_customer_root/$this->__var_oldcustomer_name/$this->docroot", "{$this->getFullDocRoot()}");
+			lxfile_cp_rec("{$sgbl->__path_customer_root}/{$this->__var_oldcustomer_name}/{$this->docroot}", $this->getFullDocRoot());
 		}
 
-		lxfile_unix_chown_rec("{$this->getFullDocRoot()}", "$this->username:$this->username");
+		lxfile_unix_chown_rec($this->getFullDocRoot(), "{$this->username}:{$this->username}");
 
-		lunlink("__path_httpd_root/$this->nname/httpdocs");
+		lunlink("{$sgbl->__path_httpd_root}/{$this->nname}/httpdocs");
 	}
 
 	function getFullDocRoot()
 	{
+		global $sgbl;
+
 		if (!$this->docroot) {
 			$this->docroot = $this->nname;
 		}
 
-		$path = "__path_customer_root/$this->customer_name/$this->docroot";
+		$path = "{$sgbl->__path_customer_root}/{$this->customer_name}/{$this->docroot}";
 		$path = expand_real_root($path);
 
 		return $path;
@@ -763,6 +769,8 @@ class Web extends Lxdb
 
 	function getParentFullDocRoot()
 	{
+		global $sgbl;
+
 		if (!$this->docroot) {
 			$parent = $this->nname;
 		} else {
@@ -773,7 +781,7 @@ class Web extends Lxdb
 			}
 		}
 
-		$path = "__path_customer_root/$this->customer_name/$parent";
+		$path = "{$sgbl->__path_customer_root}/{$this->customer_name}/{$parent}";
 		$path = expand_real_root($path);
 
 		return $path;
@@ -781,7 +789,9 @@ class Web extends Lxdb
 
 	function getCustomerRoot()
 	{
-		$path = "__path_customer_root/$this->customer_name";
+		global $sgbl;
+		
+		$path = "{$sgbl->__path_customer_root}/{$this->customer_name}";
 		$path = expand_real_root($path);
 
 		return $path;
@@ -805,10 +815,10 @@ class Web extends Lxdb
 
 	function do_backup()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $sgbl;
 
 		$name = $this->nname;
-		$fullpath = "$sgbl->__path_customer_root/{$this->customer_name}/$name/";
+		$fullpath = "{$sgbl->__path_customer_root}/{$this->customer_name}/{$name}/";
 		lxfile_mkdir($fullpath);
 		$list = lscandir_without_dot_or_underscore($fullpath);
 
@@ -817,10 +827,10 @@ class Web extends Lxdb
 
 	function do_restore($docd)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $sgbl;
 
 		$name = $this->nname;
-		$fullpath = "$sgbl->__path_customer_root/{$this->customer_name}/$name/";
+		$fullpath = "{$sgbl->__path_customer_root}/{$this->customer_name}/{$name}/";
 		lxfile_mkdir($fullpath);
 
 	//	lxshell_unzip_with_throw($fullpath, $docd);
@@ -844,12 +854,16 @@ class Web extends Lxdb
 
 	function createPhpInfo()
 	{
+		global $sgbl;
+	
 		$domname = $this->nname;
 
-		if (!lxfile_exists("__path_customer_root/{$this->username}/kloxoscript")) {
-			lxfile_mkdir("__path_customer_root/{$this->username}/kloxoscript/");
-			lxfile_cp("../file/script/phpinfo.php", "__path_customer_root/{$this->username}/kloxoscript/phpinfo.php");
-			lxfile_unix_chown_rec("__path_customer_root/$this->username/kloxoscript", "{$this->username}:{$this->username}");
+		$path = "{$sgbl->__path_customer_root}/{$this->username}/kloxoscript";
+
+		if (!lxfile_exists($path)) {
+			lxfile_mkdir($path);
+			lxfile_cp("../file/script/phpinfo.php", "{$path}/phpinfo.php");
+			lxfile_unix_chown_rec($path, "{$this->username}:{$this->username}");
 		}
 	}
 
@@ -927,11 +941,11 @@ class Web extends Lxdb
 		//	lxfile_symlink("{$web_home}/{$this->nname}/httpdocs", "{$web_home}/{$this->nname}/{$this->nname}");
 		}
 
-		$this->createstatsConf($this->nname, $this->stats_username, $this->stats_password);
+		self::createstatsConf($this->nname, $this->stats_username, $this->stats_password);
 
 		// MR -- must be running here!
-	//	$this->getAndUnzipSkeleton($this->__var_skelmachine, $this->__var_skelfile, "$user_home/");
-		$this->getAndUnzipSkeleton("$user_home/", $this->__var_skelfile, $this->__var_skelmachine);
+	//	$this->getAndUnzipSkeleton($this->__var_skelmachine, $this->__var_skelfile, "{$user_home}/");
+		$this->getAndUnzipSkeleton("{$user_home}/", $this->__var_skelfile, $this->__var_skelmachine);
 
 		if (file_exists("/etc/php-fpm/{$this->customer_name}.conf")) {
 			exec("sh /script/fixphp --domain={$domname}");
@@ -947,17 +961,17 @@ class Web extends Lxdb
 	{
 		global $sgbl;
 
-		$inp = getLinkCustomfile("$sgbl->__path_program_root/file/stats", "webalizer.model.conf");
-		$outp = "$sgbl->__path_real_etc_root/webalizer/webalizer.$domname.conf";
+		$inp = getLinkCustomfile("{$sgbl->__path_program_root}/file/stats", "webalizer.model.conf");
+		$outp = "{$sgbl->__path_real_etc_root}/webalizer/webalizer.{$domname}.conf";
 		self::docreatestatsConf($inp, $outp, $domname, $stats_name, $stats_password);
-		lxfile_mkdir("/var/lib/webalizer/$domname");
-		lxfile_mkdir("$sgbl->__path_httpd_root/$domname/webstats/webalizer/");
+		lxfile_mkdir("/var/lib/webalizer/{$domname}");
+		lxfile_mkdir("{$sgbl->__path_httpd_root}/{$domname}/webstats/webalizer/");
 
-		$inp = getLinkCustomfile("$sgbl->__path_program_root/file/stats", "awstats.model.conf");
-		$outp = "$sgbl->__path_real_etc_root/awstats/awstats.$domname.conf";
+		$inp = getLinkCustomfile("{$sgbl->__path_program_root}/file/stats", "awstats.model.conf");
+		$outp = "{$sgbl->__path_real_etc_root}/awstats/awstats.{$domname}.conf";
 		self::docreatestatsConf($inp, $outp, $domname, $stats_name, $stats_password);
-	//	lxfile_cp("__path_real_etc_root/awstats/awstats.$domname.conf", "__path_real_etc_root/awstats/awstats.www.$domname.conf");
-		lxfile_mkdir("/home/kloxo/httpd/awstats/dirdata/$domname");
+	//	lxfile_cp("{$sgbl->__path_real_etc_root}/awstats/awstats.{$domname}.conf", "{$sgbl->__path_real_etc_root}/awstats/awstats.www.{$domname}.conf");
+		lxfile_mkdir("/home/kloxo/httpd/awstats/dirdata/{$domname}");
 	}
 
 	static function docreatestatsConf($inp, $outp, $domain, $stats_name, $stats_password)

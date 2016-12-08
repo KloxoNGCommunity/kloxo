@@ -12,10 +12,10 @@ function fixlogdir_main()
 
 	$logl = lscandir_without_dot("../log");
 	lxfile_mkdir("../processed_log");
-	@ lunlink("../log/access_log");
-	@ lunlink("/opt/php52s/error.log");
-	@ lunlink("/opt/php53s/error.log");
-	@ lunlink("/opt/php54s/error.log");
+//	@ lunlink("../log/access_log");
+//	@ lunlink("/opt/php52s/error.log");
+//	@ lunlink("/opt/php53s/error.log");
+//	@ lunlink("/opt/php54s/error.log");
 	$dir = getNotexistingFile("../processed_log", "proccessed");
 	system("'mv' -f ../log ../processed_log/$dir");
 	mkdir("../log");
