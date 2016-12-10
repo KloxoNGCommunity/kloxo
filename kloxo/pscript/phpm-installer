@@ -78,7 +78,7 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 	'rm' -f /opt/${base_name}/${base_name}
 fi
 
-pack_verrel=$(repoquery --qf='%{version}-%{release}' $pack_name)
+pack_verrel=$(repoquery --qf='%{version}-%{release}' ${pack_name}-cli)
 
 if [ -f /opt/${base_name}/version ] ; then
 	if [ "${2}" == "-y" ] || [ "${2}" == "--force" ] ; then
@@ -120,7 +120,7 @@ x="-- Check dependencies rpms"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
-repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl)(.*)'|sort -u > /opt/${base_name}/dependencies
+repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx)(.*)'|sort -u > /opt/${base_name}/dependencies
 
 x="-- Install dependencies rpms"
 echo $x
