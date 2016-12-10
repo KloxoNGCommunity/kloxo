@@ -7671,10 +7671,18 @@ function setRealServiceBranchList($nolog = null)
 			$a = array();
 
 			foreach ($sl as $s) {
-				$ret = lxshell_return("yum", "list", "{$s}");
+				if (strpos($s, 'php') !== false) {
+					$ret = lxshell_return("yum", "list", "{$s}-cli");
+				} else {
+					$ret = lxshell_return("yum", "list", "{$s}");
+				}
 
 				if ($ret === 0) {
-					$ver = getRpmVersionViaYum($s);
+					if (strpos($s, 'php') !== false) {
+						$ver = getRpmVersionViaYum("{$s}-cli");
+					} else {
+						$ver = getRpmVersionViaYum($s);
+					}
 
 					if ($ver !== '') {
 						$a[] = $s . "_(as_" . $ver . ")";

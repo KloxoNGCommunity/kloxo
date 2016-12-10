@@ -25,7 +25,7 @@ fi
 base_name="${1}"
 
 if [ "echo '${base_name}'|grep 'php'|grep 's'" == "" ] || [ "echo '${base_name}'|grep 'php'|grep 'm'" == "" ] ; then
-	echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 70)"
+	echo "* WARNING: only for phpXYm or phpXYs (change XY from 52)"
 	exit
 fi
 
@@ -51,11 +51,11 @@ x="=== BEGIN '$1' install ==="
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
-if yum list ${src_name}u >/dev/null 2>&1 ; then
+if yum list ${src_name}u-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}u"
-elif yum list ${src_name} >/dev/null 2>&1 ; then
+elif yum list ${src_name}-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}"
-elif yum list ${src_name}w >/dev/null 2>&1 ; then
+elif yum list ${src_name}w-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}w"
 else
 	echo "- No PHP packages exists. Only detecting '${src_name}u', '${src_name}' or '${src_name}w'. Exit"
