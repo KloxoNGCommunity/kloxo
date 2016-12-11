@@ -82,23 +82,23 @@ class phpini__sync extends Lxdriverclass
 
 		if ($pclass === 'pserver') {
 			$input['phpinipath'] = "/etc";
+			$phpscanpath = "/etc/php.d";
 			$input['phpcgipath'] = "/usr/bin/php-cgi";
 
 			$phpini_parse = getParseInlinePhp($phpini_cont, $input);
 			$phpini_target = '/etc/php.ini';
 			file_put_contents($phpini_target, $phpini_parse);
 
+			$fcgid_target_old = '/home/kloxo/client/*.fcgi';
+			@exec("'rm' -f {$fcgid_target_old}");
+
 			$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 			$fcgid_target = '/home/kloxo/client/php.fcgi';
-			$fcgid_target_old = '/home/kloxo/client/php5.fcgi';
+
 			file_put_contents($fcgid_target, $fcgid_parse);
 
-			if (file_exists($fcgid_target_old)) {
-				exec("'rm' -f {$fcgid_target_old}");
-			}
-
-			exec("'cp' -f /opt/configs/apache/tpl/php*.fcgi /home/kloxo/client");
-			exec("chmod 0775 /home/kloxo/client/php*.fcgi");
+		//	exec("'cp' -f /opt/configs/apache/tpl/php*.fcgi /home/kloxo/client");
+			lxfile_unix_chmod($fcgid_target, "0755");
 
 			$suphp_parse = getParseInlinePhp($suphp_cont, $input);
 			$suphp_target = '/etc/suphp.conf';
@@ -118,6 +118,19 @@ class phpini__sync extends Lxdriverclass
 			$phps = array_merge(array('php'), $input['phpmlist']);
 
 			foreach ($phps as $k => $v) {
+				$input['phpinipath'] = "/opt/{$v}/custom";
+				$input['phpscanpath'] = "/opt/{$v}/etc/php.d";
+				$input['phpcgipath'] = "/opt/{$v}/usr/bin/php-cgi";
+				array_unique($input);
+
+				$w = str_replace('m', '', $v);
+
+				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
+				$fcgid_target = "/home/kloxo/client/{$w}.fcgi";
+				file_put_contents($fcgid_target, $fcgid_parse);
+
+				lxfile_unix_chmod($fcgid_target, "0755");
+
 				$input['phpselected'] = $v;
 				array_unique($input);
 
@@ -178,14 +191,12 @@ class phpini__sync extends Lxdriverclass
 				$phpini_target = "/home/kloxo/client/{$user}/php.ini";
 				file_put_contents($phpini_target, $phpini_parse);
 
+				$fcgid_target_old = "/home/kloxo/client/{$user}/*.fcgi";
+				@exec("'rm' -f {$fcgid_target_old}");
+
 				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 				$fcgid_target = "/home/kloxo/client/{$user}/php.fcgi";
-				$fcgid_target_old = "/home/kloxo/client/{$user}/php5.fcgi";
 				file_put_contents($fcgid_target, $fcgid_parse);
-				
-				if (file_exists($fcgid_target_old)) {
-					exec("'rm' -f {$fcgid_target_old}");
-				}
 
 				lxfile_unix_chmod($fcgid_target, "0755");
 

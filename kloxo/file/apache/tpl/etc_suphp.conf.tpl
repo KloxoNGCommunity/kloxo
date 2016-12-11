@@ -28,8 +28,9 @@ errors_to_browser=false
 x-httpd-php="php:/usr/bin/php-cgi"
 <?php
 		foreach($phpmlist as $k => $v) {
+			$w = str_replace('m', '', $v);
 ?>
-x-httpd-php52="php:/usr/bin/<?=$v;?>-cgi"
+x-httpd-<?=$w;?>="php:/usr/bin/<?=$v;?>-cgi"
 <?php
 		}
 ?>

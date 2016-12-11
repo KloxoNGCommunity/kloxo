@@ -41,9 +41,19 @@ function setSetupApp()
 		lxfile_rm("{$path}/data/settings/settings.xml");
 		lxfile_cp("{$path}/data/settings/afterlogic_settings.xml.php", "{$path}/data/settings/settings.xml.php");
 		$cfgfile = "{$path}/data/settings/settings.xml.php";
+
+		$basefile = "{$path}/libraries/afterlogic/common/settings.php";
+
+		log_cleanup("- Rename 'setting.xml' to 'settings.xml.php'", $nolog);
+
+		$content = lfile_get_contents($basefile);
+		$content = str_replace("'/settings/settings.xml'", "'/settings/settings.xml.php'", $content);
+
+		lfile_put_contents($basefile, $content);
 	} else {
 		lxfile_cp("{$path}/data/settings/afterlogic_settings.xml", "{$path}/data/settings/settings.xml");
 		$cfgfile = "{$path}/data/settings/settings.xml";
+		$basefile = "{$path}/libraries/afterlogic/common/settings.php";
 	}
 
 	log_cleanup("- Generating password", $nolog);
@@ -58,8 +68,6 @@ function setSetupApp()
 
 	$result = $link->query("GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '{$pass}'");
 	$link->query("flush privileges");
-
-	lfile_put_contents($cfgfile, $content);
 
 	if (!$result) {
 		print("- Could not grant privileges. Script Abort");
