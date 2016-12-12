@@ -37,7 +37,7 @@ class cron__Linux extends lxDriverClass
 		global $gbl, $sgbl, $login, $ghtml;
 		global $global_shell_error;
 
-		$conf_file = "__path_cron_root/{$this->main->username}";
+		$conf_file = "{$sgbl->__path_cron_root}/{$this->main->username}";
 		$list = array('minute', 'hour', 'weekday', 'ddate', 'month');
 
 		$tfile = lx_tmp_file($conf_file);
@@ -98,6 +98,8 @@ class cron__Linux extends lxDriverClass
 			$cmd .= "\n";
 		}
 
+		$cmd = str_replace('--all--', '*', $cmd);
+
 		lfile_put_contents($tfile, $cmd);
 
 		if (!posix_getpwnam($this->main->username)) {
@@ -107,8 +109,8 @@ class cron__Linux extends lxDriverClass
 		}
 
 		try {
-			lxshell_return("crontab", "-u", $this->main->username, $tfile);
-		//	exec("crontab -u {$this->main->username} {$tfile}");
+		//	lxshell_return("/usr/bin/crontab", "-u", $this->main->username, $tfile);
+			exec("/usr/bin/crontab -u {$this->main->username} {$tfile}");
 		} catch (Exception $e) {
 			throw new lxException($e);
 		}

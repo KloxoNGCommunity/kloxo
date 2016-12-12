@@ -237,7 +237,7 @@ class Cron extends Lxdb
 			return $vlist;
 		}
 
-	//	$this->convertBack();
+		$this->convertBack();
 
 		$vlist["username"] = array('M', $this->username);
 
@@ -389,6 +389,10 @@ class Cron extends Lxdb
 	static function convertToAllIfExists($part)
 	{
 		if ((isset($part)) && (stripos($part, '--all--') !== false)) {
+			$part = '--all--';
+		}
+
+		if ((!isset($part)) || ($part === '')) {
 			$part = '--all--';
 		}
 
