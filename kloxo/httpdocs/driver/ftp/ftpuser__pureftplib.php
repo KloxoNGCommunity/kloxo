@@ -66,16 +66,16 @@ class ftpuser__pureftp extends lxDriverClass
 
 
 		$u = $this->main->__var_username;
+		$n = $this->main->nname;
 
-		$d = str_replace("/home/{$u}/", "", $this->main->__var_full_directory);
+		$c = db_get_count("ftpuser", "nname = '{$n}' AND username = '{$u}'");
+		$d = db_get_count("web", "nname = '{$n}' AND username = '{$u}'");
 
-		$c = db_get_count("web", "customer_name = '{$u}' AND docroot = '{$d}'");
-
-		if ((int)$c !== 0) {
-			throw new lxException($login->getThrow("no_permit_to_delete_main_ftpuser"), '', $this->main->nname);
+		if (((int)$c !== 0) && ((int)$d !== 0)) {
+			throw new lxException($login->getThrow("no_permit_to_delete_main_ftpuser"), '', $n);
 		}
 
-		lxshell_return("pure-pw", "userdel", $this->main->nname, "-m");
+		lxshell_return("pure-pw", "userdel", $n, "-m");
 	}
 
 	function toggleStatus()
