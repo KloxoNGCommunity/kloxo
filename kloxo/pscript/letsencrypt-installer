@@ -48,18 +48,17 @@ if [ -f ${cronfile} ] ; then
 		## MR -- remove old cron
 		sed -i '/letsencrypt\-cron\.sh/d' ${cronfile}
 	fi
+fi
 
-	## MR -- use it because priority for acme.sh if exists
-	if [ ! -f /root/.acme.sh/acme.sh ] ; then
-		if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
-			## MR -- remove old cron
-			sed -i '/acme\-cron\.sh/d' ${cronfile}
-		fi
-
-		cmd="sh ${kloxopath}/certbot/letsencrypt-cron.sh"
-		crontab -l | { cat; echo "0 0 1 * * ${cmd} >/dev/null 2>&1"; } | crontab -
+## MR -- use it because priority for acme.sh if exists
+if [ ! -f /root/.acme.sh/acme.sh ] ; then
+	if [ "$(cat ${cronfile}|grep 'acme-cron.sh')" != "" ] ; then
+		## MR -- remove old cron
+		sed -i '/acme\-cron\.sh/d' ${cronfile}
 	fi
 fi
+
+sh /script/fix-cron-ssl
 
 cd /
 

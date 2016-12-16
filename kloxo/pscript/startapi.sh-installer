@@ -42,12 +42,11 @@ else
 			sed -i '/startapi\.sh \-\-cron/d' ${cronfile} >/dev/null 2>&1
 		fi
 	fi
-
-	cmd="sh ${kloxopath}/startapi.sh/startapi-cron.sh"
-	crontab -l | { cat; echo "0 0 * * * ${cmd} >/dev/null 2>&1"; } | crontab -
-
-	cd /
 fi
+
+sh /script/fix-cron-ssl
+
+cd /
 
 if [ ! -d ${logpath} ] ; then
 	mkdir -p ${logpath} >/dev/null 2>&1

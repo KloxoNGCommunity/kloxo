@@ -11,10 +11,12 @@ cd /
 newinstall=1
 
 if [ -f ${acmepath}/acme.sh ] ; then
-	if [ "$(${acmepath}/acme.sh --help|grep '\-\-upgrade')" != "" ] ; then
-		${acmepath}/acme.sh --upgrade >/dev/null 2>&1
-		'cp' -f ${acmepath}/acme.sh ${kloxopath}/acme.sh/acme.sh
-		newinstall=0
+	if [ "$1" != "-y" ] && [ "$1" != "--force" ] ; then
+		if [ "$(${acmepath}/acme.sh --help|grep '\-\-upgrade')" != "" ] ; then
+			${acmepath}/acme.sh --upgrade >/dev/null 2>&1
+			'cp' -f ${acmepath}/acme.sh ${kloxopath}/acme.sh/acme.sh
+			newinstall=0
+		fi
 	fi
 fi
 
@@ -59,12 +61,11 @@ if [ "$newinstall" == "1" ] ; then
 			sed -i '/letsencrypt\-cron\.sh/d' ${cronfile}
 		fi
 	fi
-
-	cmd="sh ${kloxopath}/acme.sh/acme-cron.sh"
-	crontab -l | { cat; echo "0 0 * * * ${cmd} >/dev/null 2>&1"; } | crontab -
-
-	cd /
 fi
+
+sh /script/fix-cron-ssl
+
+cd /
 
 if [ ! -d ${logpath} ] ; then
 	mkdir -p ${logpath} >/dev/null 2>&1
