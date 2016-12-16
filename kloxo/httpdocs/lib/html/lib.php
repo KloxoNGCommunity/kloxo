@@ -8376,9 +8376,9 @@ function setRemoveLetsencrypt($nolog = null)
 
 function setInstallAcmesh($nolog = null)
 {
-	if (!file_exists("/root/.acme.sh/acme.sh")) {
+//	if (!file_exists("/root/.acme.sh/acme.sh")) {
 		exec("sh /script/acme.sh-installer");
-	}
+//	}
 }
 
 function setRemoveAcmesh($nolog = null)
