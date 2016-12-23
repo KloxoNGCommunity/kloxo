@@ -1363,10 +1363,10 @@ class Domaind extends DomainBase
 
 		if ($webstatsprog === 'awstats') {
 		//	$alist[] = create_simpleObject(array('url' => "http://$this->nname/awstats/awstats.pl?config=$this->nname", 'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target='_blank'"));
-			$alist[] = create_simpleObject(array('url' => "http://$this->nname/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));
+			$alist[] = create_simpleObject(array('url' => "http://stats.$this->nname/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));
 		} else {
 			if ($webstatsprog === 'webalizer') {
-				$alist[] = create_simpleObject(array('url' => "http://$this->nname/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));
+				$alist[] = create_simpleObject(array('url' => "http://stats.$this->nname/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));
 			}
 		}
 
