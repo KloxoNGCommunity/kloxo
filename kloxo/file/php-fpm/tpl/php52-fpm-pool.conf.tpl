@@ -57,7 +57,7 @@
 					<value name="MaxSpareServers"><?=$maxspareservers;?></value>
 				</value>
 			</value>
-			<value name="request_terminate_timeout">120s</value>
+			<value name="request_terminate_timeout"><?=$max_execution_time_flag;?>s</value>
 			<value name="request_slowlog_timeout">30s</value>
 			<value name="slowlog">/var/log/php-fpm/slow.log</value>
 			<value name="rlimit_files">1024</value>

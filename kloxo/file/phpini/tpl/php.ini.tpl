@@ -117,7 +117,7 @@ upload_max_filesize = <?php echo $upload_max_filesize; ?>
 
 log_errors = <?php echo $log_errors_flag; ?>
 
-error_log = /var/log/php_error.log
+error_log = /var/log/php-error.log
 output_buffering = <?php echo $output_buffering_flag; ?>
 
 register_argc_argv = <?php echo $register_argc_argv_flag; ?>

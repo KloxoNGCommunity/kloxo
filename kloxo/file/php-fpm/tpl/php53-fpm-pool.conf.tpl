@@ -87,7 +87,7 @@
 	$openbasedir = str_replace("/var/lib/php/session/", "{$session_save_path_flag}/", $openbasedir);
 ?>
 [<?=$pool;?>]
-;catch_workers_output = yes
+catch_workers_output = yes
 ;listen = 127.0.0.1:<?=$fpmport;?>
 
 listen = /opt/configs/php-fpm/sock/<?=$phpselected;?>-<?=$user;?>.sock
@@ -118,7 +118,7 @@ pm.process_idle_timeout = 20s
 ;pm.status_path = /status
 ;ping.path = /ping
 ;ping.response = pong
-request_terminate_timeout = 120s
+request_terminate_timeout = <?=$max_execution_time_flag;?>s
 request_slowlog_timeout = 30s
 slowlog = /var/log/php-fpm/slow.log
 rlimit_files = 1024

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+echo "*** Enable SELinux (in permissive mode)"
+
+if [ "$(grep envID /proc/self/status)" == "" ] ; then
+	echo "- Not work under OpenVZ VPS"
+	exit
+fi
+
+for i in policycoreutils setroubleshoot setools ; do
+	if [ "$(rpm -q $i)" == "" ] ; then
+		echo "- Installing $i"
+		yum -y install $i
+	fi
+done
+
+if [ "$(cat /etc/selinux/config|grep '^SELINUXTYPE=targeted')" == "" ] ; then
+	echo "- Creating/Overwriting /etc/selinux/config and then 'reboot' and rerun '$0'"
+	echo "- And then 'reboot' and rerun '$0'"
+	echo -e "SELINUX=permissive\nSELINUXTYPE=targeted" > /etc/selinux/config
+	reboot
+fi
+
+if [ -f /.autorelabel ] ; then
+	#touch /.autorelabel
+	rm -f /.autorelabel
+fi
+
+if [ "$1" == "--relabel" ] ; then
+	echo "- Relabeling... Wait!"
+	restorecon -Rv -n /
+	fixfiles relabel /
+fi
+
+echo "- Need 'reboot'"
+#reboot
+
+echo "WARNING: - Run with '$0 --relabel' if want relabel files/directories"

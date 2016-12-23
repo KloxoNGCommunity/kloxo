@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#kill -9 $(ps j | awk 'NR>1 && $7 ~ "Z" {print $2}')
+
+for p in $(ps jauxww | grep Z | grep -v PID | awk '{print $3}'); do
+    for e in $(ps auxw | grep $p | grep cron | awk '{print $2}'); do
+        kill -9 $e;
+    done;
+done;

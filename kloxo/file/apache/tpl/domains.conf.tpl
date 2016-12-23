@@ -897,7 +897,7 @@ foreach ($certnamelist as $ip => $certname) {
 	LimitInternalRecursion 100
 <?php
 		if ($pagespeed_ready) {
-			if ($disable_pagespeed) {
+			if (($disable_pagespeed) || (($driver[0] === 'nginx') && (file_exists("/etc/nginx/conf.d/pagespeed.conf")))) {
 ?>
 
 	ModPageSpeed Off

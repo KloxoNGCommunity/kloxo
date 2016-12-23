@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "*** Change Qmail certificate ***"
+
+if [ "$1" == "" ] ; then
+	echo "- Execute with '$0 yourdomainname'"
+	exit
+fi
+
+sp="/home/kloxo/ssl"
+tp="/var/qmail/control"
+
+if [ -f ${tp}/servercert.pem ] ; then
+	mv -f ${tp}/servercert.pem ${tp}/servercert.pem.old
+fi
+
+if [ -f ${sp}/${1}.pem ] ; then
+	echo "- Symlinking ${sp}/${1}.pem file to '${tp}/servercert.pem'"
+	ln -sf ${sp}/${1}.pem ${tp}/servercert.pem
+else
+	echo "- No ${1}.pem file in ${sp}"
+fi

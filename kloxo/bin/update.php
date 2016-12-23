@@ -10,9 +10,7 @@
 
 // MR -- just enough running cleanup!
 // have a problem if restart kloxo service and then bypass it.
-exec("sh /script/cleanup-nokloxorestart");
+exec("yum clean all; yum update kloxomr7 -y; sh /script/cleanup-nokloxorestart");
 
 createRestartFile('kloxo');
-
-
 

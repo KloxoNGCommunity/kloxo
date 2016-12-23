@@ -191,6 +191,8 @@ $__keyword['startapi_warning'] = "StartAPI: 'issue' is free but 're-issue' (befo
 
 $__keyword['upload_overwrite_warning'] = "WARNING: Existing file will be overwritten by uploaded file";
 
+$__keyword['panel_update_warning'] = "Update process including rpm (package) update and then run cleanup. This takes quite a long time";
+
 $__throw["domain_is_already_owned"] = "Domain is already owned. Please enable: [b]I Confirm That I Am The Owner Of Domain[/b]";
 $__throw["invalid_domain_name"] = "Invalid domain name";
 $__throw["not_permit_as_subdomain"] = "Not permit webmail/mail/lists/cp/www/default as subdomain";

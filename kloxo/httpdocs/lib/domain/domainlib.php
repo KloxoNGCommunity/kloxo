@@ -274,11 +274,13 @@ class Domaind extends DomainBase
 		}
 		
 		if ($name === '__stub_domain_stats') {
-			return create_simpleObject(array('url' => "http://[%s]/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target=_blank"));
+		//	return create_simpleObject(array('url' => "http://[%s]/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "http://stats.[%s]/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target=_blank"));
 		}
 
 		if ($name === '__stub_domain_awstats') {
-			return create_simpleObject(array('url' => "http://[%s]/awstats/awstats.pl?config=[%s]", 'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target=_blank"));
+		//	return create_simpleObject(array('url' => "http://[%s]/awstats/awstats.pl?config=[%s]", 'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target=_blank"));
+			return create_simpleObject(array('url' => "http://stats.[%s]/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target=_blank"));
 		}
 		
 		if ($name === '__stub_check_dns') {
@@ -1360,7 +1362,8 @@ class Domaind extends DomainBase
 		$alist[] = create_simpleObject(array('url' => "$tmpurl", 'purl' => "o=web&a=updateform&sa=php_log", 'target' => "", '__internal' => true));
 
 		if ($webstatsprog === 'awstats') {
-			$alist[] = create_simpleObject(array('url' => "http://$this->nname/awstats/awstats.pl?config=$this->nname", 'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target='_blank'"));
+		//	$alist[] = create_simpleObject(array('url' => "http://$this->nname/awstats/awstats.pl?config=$this->nname", 'purl' => 'c=domain&a=updateform&sa=show_awstats', 'target' => "target='_blank'"));
+			$alist[] = create_simpleObject(array('url' => "http://$this->nname/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));
 		} else {
 			if ($webstatsprog === 'webalizer') {
 				$alist[] = create_simpleObject(array('url' => "http://$this->nname/stats/", 'purl' => 'c=domain&a=updateform&sa=show_stats', 'target' => "target='_blank'"));

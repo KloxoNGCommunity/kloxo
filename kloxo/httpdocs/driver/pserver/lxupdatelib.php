@@ -6,9 +6,9 @@ class Lxupdate extends lxClass
 	static $__desc = array("S", "",  "update");
 
 	// Mysql
-	static $__desc_nname =     array("n", "",  "_version", "a=show");
-	static $__desc_state =     array("e", "",  "state", "a=show");
-	static $__desc_schedule =     array("n", "",  "_schedule_update_later", "a=show");
+	static $__desc_nname = array("n", "",  "_version", "a=show");
+	static $__desc_state = array("e", "",  "state", "a=show");
+	static $__desc_schedule = array("n", "",  "_schedule_update_later", "a=show");
 
 	static $__desc_detected_version_f = array("", "",  "detected_version");
 	static $__desc_installed_rpm_version_f = array("", "",  "installed_rpm_version");
@@ -21,6 +21,8 @@ class Lxupdate extends lxClass
 	static $__desc_step_f = array("", "",  "step");
 	static $__desc_name_f = array("", "",  "Name");
 	static $__desc_note_f = array("", "",  "Note");
+
+	static $__desc_updatewarning_f = array("", "",  "Attention");
 
 	static $__acdesc_update_lxupdateinfo = array("", "",  "update");
 	static $__acdesc_update_bugs = array("", "",  "bugs");
@@ -73,6 +75,7 @@ class Lxupdate extends lxClass
 				if ($vlist['installed_rpm_version_f'] === $vlist['latest_rpm_version_f']) {
 					$vlist['__v_button'] = array();
 				} else {
+					$vlist['updatewarning_f'] = array('W', $login->getKeywordUc('panel_update_warning'));
 					$vlist['__v_button'] = "Update Now";
 				}
 

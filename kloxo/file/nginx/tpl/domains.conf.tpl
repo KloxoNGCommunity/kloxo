@@ -1,4 +1,13 @@
 <?php
+
+//exec("rpm -qa|grep nginx|grep pagespeed", $out, $ret);
+
+$nginx_pagespeed_ready = false;
+
+if (file_exists("/etc/nginx/conf.d/pagespeed.conf")) {
+	$nginx_pagespeed_ready = true;
+}
+
 $altconf = "/opt/configs/nginx/conf/customs/{$domainname}.conf";
 
 if (file_exists($altconf)) {
@@ -391,6 +400,18 @@ server {
 ## web for '<?=$domainname;?>'
 server {
 	#disable_symlinks if_not_owner;
+<?php
+		if ($pagespeed_ready) {
+			if (!$disable_pagespeed) {
+				if ($nginx_pagespeed_ready) {
+?>
+
+	include '<?=$globalspath;?>/pagespeed.conf';
+<?php
+				}
+			}
+	}
+?>
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 <?php
@@ -694,6 +715,7 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
+	include '<?=$globalspath;?>/pagespeed.conf';
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 <?php
 				//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
