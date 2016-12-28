@@ -20,7 +20,7 @@ emergency_restart_threshold=10
 emergency_restart_interval=1m
 process_control_timeout=10s
 
-events.mechanism=epoll
+;events.mechanism=epoll
 
 daemonize=yes
 

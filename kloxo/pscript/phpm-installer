@@ -125,7 +125,7 @@ repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mys
 x="-- Install dependencies rpms"
 echo $x
 echo $x >>/opt/${base_name}/install.log
-yum -y install $(cat /opt/${base_name}/dependencies) >>/opt/${base_name}/install.log
+yum -y install $(cat /opt/${base_name}/dependencies) --skip-broken >>/opt/${base_name}/install.log
 
 x="- Download all rpms (not including debuginfo)... Please wait!"
 echo $x

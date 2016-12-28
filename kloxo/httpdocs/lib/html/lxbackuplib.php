@@ -575,7 +575,7 @@ class lxbackup extends Lxdb
 				}
 			} catch (Exception $e) {
 				$text1 = "$cprogname Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') . " Hours";
-				$text2 = "$cprogname Backup upload Failed due to '{$e->getMessage()}'";
+				$text2 = "$cprogname Backup upload Failed for '{$parent->nname}' due to '{$e->getMessage()}'";
 
 				lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
 				log_log("backup", "* " . $text1 . " - " . $text2);
