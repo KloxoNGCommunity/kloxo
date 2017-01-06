@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ "$1" == "" ] ; then
+	echo "Format '$0 <mysql-root-password>'"
+	exit
+fi
+
+mysql -u root -p$1 -e "PURGE BINARY LOGS BEFORE '2016-12-23 00:00:00';"
+mysql -u root -p$1 -e "PURGE BINARY LOGS BEFORE NOW();"

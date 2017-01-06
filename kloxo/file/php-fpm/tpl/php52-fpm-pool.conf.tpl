@@ -60,7 +60,7 @@
 			<value name="request_terminate_timeout"><?=$max_execution_time_flag;?>s</value>
 			<value name="request_slowlog_timeout">30s</value>
 			<value name="slowlog">/var/log/php-fpm/slow.log</value>
-			<value name="rlimit_files">1024</value>
+			<value name="rlimit_files">10240</value>
 			<value name="rlimit_core">0</value>
 			<value name="chroot"></value>
 			<value name="chdir"></value>
@@ -86,7 +86,6 @@
 				<value name="log_errors"><?=$log_errors_flag;?></value>
 				<value name="output_buffering"><?=$output_buffering_flag;?></value>
 				<value name="register_argc_argv"><?=$register_argc_argv_flag;?></value>
-				<value name="mysql.allow_persistent"><?=$mysql_allow_persistent_flag;?></value>
 				<value name="max_execution_time"><?=$max_execution_time_flag;?></value>
 				<value name="max_input_time"><?=$max_input_time_flag;?></value>
 				<value name="memory_limit"><?=$memory_limit_flag;?></value>

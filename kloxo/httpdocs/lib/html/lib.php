@@ -648,26 +648,29 @@ function check_if_port_on($port)
 {
 	$list = explode("||", $port);
 
+	$ret = false;
+
 	foreach ($list as $k => $v) {
 		if (strpos($v, '.sock') !== false) {
 			// unix socket -> /var/lib/mysql/mysql.sock for mysql
-			//	$socket = fsockopen('unix://{$v}', '-1', $errno, $errstr, 5);
+			// $socket = fsockopen('unix://{$v}', '-1', $errno, $errstr, 5);
 			$socket = fsockopen('unix://{$v}', '-1', $errno, $errstr);
 
 			if ($socket) {
 				fclose($socket);
 
-				return true;
+				$ret = true;
+
 			}
 		} elseif (strpos($v, '.pid') !== false) {
 			if (filesize($v) !== 0) {
-				return true;
+				$ret = true;
 			}
 		} elseif (strpos($v, ' status') !== false) {
 			exec($v, $out, $ret);
 
 			if (strpos($out[0], '(pid ') !== false) {
-				return true;
+				$ret = true;
 			}
 		} else {
 			// standard port -> 3306 for mysql
@@ -676,13 +679,13 @@ function check_if_port_on($port)
 			if ($socket) {
 				fclose($socket);
 
-				return true;
+				$ret = true;
 			}
 
 		}
 	}
 
-	return false;
+	return $ret;
 }
 
 function EasyinstallerPHP($var, $cmd)

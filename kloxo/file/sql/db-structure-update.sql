@@ -20,8 +20,7 @@ UPDATE `watchdog` SET `nname`='dns___localhost',`parent_clname`='pserver-localho
 UPDATE `watchdog` SET `nname`='web___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='web',`syncserver`='localhost',`port`='80',`action`='__driver_web',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='web___localhost';
 UPDATE `watchdog` SET `nname`='mail___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mail',`syncserver`='localhost',`port`='25',`action`='__driver_qmail',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mail___localhost';
 UPDATE `watchdog` SET `nname`='mysql___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mysql',`syncserver`='localhost',`port`='3306',`action`='__driver_mysql',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mysql___localhost';
-
-UPDATE `watchdog` SET `action` = '__driver_ftp' WHERE `nname` = 'ftp___localhost';
+UPDATE `watchdog` SET `nname`='ftp___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='ftp',`syncserver`='localhost',`port`='/etc/init.d/pure-ftpd status',`action`='__driver_ftp',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='ftp___localhost';
 
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (

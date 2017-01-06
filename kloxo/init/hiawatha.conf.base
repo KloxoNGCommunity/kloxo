@@ -6,11 +6,11 @@ ServerString = Hiawatha_for_Kloxo-MR
 ServerId = lxlabs
 ConnectionsTotal = 2048
 ConnectionsPerIP = 64
-SystemLogfile = /var/log/hiawatha/system.log
-GarbageLogfile = /var/log/hiawatha/garbage.log
-ExploitLogfile = /var/log/hiawatha/exploit.log
-ErrorLogfile = /var/log/hiawatha/error.log
-AccessLogfile = /var/log/hiawatha/access.log
+SystemLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-system.log
+GarbageLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-garbage.log
+ExploitLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-exploit.log
+ErrorLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-error.log
+AccessLogfile = /usr/local/lxlabs/kloxo/log/hiawatha-access.log
 
 MaxUrlLength = 65536
 

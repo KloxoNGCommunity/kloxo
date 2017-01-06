@@ -26,7 +26,7 @@ class phpini_flag_b extends lxaclass
 	static $__desc_enable_dl_flag = array("f", "", "enable_dl");
 	static $__desc_sendmail_from = array("", "", "sendmail_from");
 	static $__desc_cgi_force_redirect_flag = array("f", "", "cgi_force_redirect");
-	static $__desc_mysql_allow_persistent_flag = array("f", "", "mysql_allow_persistent_flag");
+//	static $__desc_mysql_allow_persistent_flag = array("f", "", "mysql_allow_persistent_flag");
 	static $__desc_disable_functions = array("t", "", "disable_functions");
 	static $__desc_max_execution_time_flag = array("", "", "max_execution_time");
 	static $__desc_max_input_time_flag = array("", "", "max_input_time");
@@ -122,7 +122,7 @@ class phpini extends lxdb
 		$list[] = 'allow_url_include_flag';
 		$list[] = 'register_argc_argv_flag';
 	//	$list[] = 'magic_quotes_gpc_flag';
-		$list[] = 'mysql_allow_persistent_flag';
+	//	$list[] = 'mysql_allow_persistent_flag';
 		$list[] = 'disable_functions';
 		$list[] = 'max_execution_time_flag';
 		$list[] = 'max_input_time_flag';
@@ -398,7 +398,7 @@ class phpini extends lxdb
 
 		$this->initialValue('upload_max_filesize', '16M');
 		$this->initialValue('register_global_flag', 'off');
-		$this->initialValue('mysql_allow_persistent_flag', 'off');
+	//	$this->initialValue('mysql_allow_persistent_flag', 'off');
 
 		$this->phpini_flag_b->session_save_path_flag = '/var/lib/php/session';
 		$this->initialValue('session_save_path_flag', $this->phpini_flag_b->session_save_path_flag);

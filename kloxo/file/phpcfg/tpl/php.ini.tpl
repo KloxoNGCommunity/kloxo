@@ -126,8 +126,6 @@ output_buffering = <?php echo $output_buffering_flag; ?>
 
 register_argc_argv = <?php echo $register_argc_argv_flag; ?>
 
-mysql.allow_persistent = <?php echo $mysql_allow_persistent_flag; ?>
-
 max_execution_time = <?php echo $max_execution_time_flag; ?>
 
 max_input_time = <?php echo $max_input_time_flag; ?>

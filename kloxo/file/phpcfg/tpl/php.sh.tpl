@@ -36,7 +36,6 @@ exec <?=$php_prog;?> -c $php_rc -b <?=$php_rc;?>/<?=$user;?>.sock \
 	-d log_errors=<?php echo $log_errors_flag; ?> \
 	-d output_buffering=<?php echo $output_buffering_flag; ?> \
 	-d register_argc_argv=<?php echo $register_argc_argv_flag; ?> \
-	-d mysql.allow_persistent=<?php echo $mysql_allow_persistent_flag; ?> \
 	-d max_execution_time=<?php echo $max_execution_time_flag; ?> \
 	-d max_input_time=<?php echo $max_input_time_flag; ?> \
 	-d memory_limit=<?php echo $memory_limit_flag; ?> \
@@ -68,7 +67,6 @@ exec $php_prog -c $php_rc \
 	-d log_errors=<?php echo $log_errors_flag; ?> \
 	-d output_buffering=<?php echo $output_buffering_flag; ?> \
 	-d register_argc_argv=<?php echo $register_argc_argv_flag; ?> \
-	-d mysql.allow_persistent=<?php echo $mysql_allow_persistent_flag; ?> \
 	-d max_execution_time=<?php echo $max_execution_time_flag; ?> \
 	-d max_input_time=<?php echo $max_input_time_flag; ?> \
 	-d memory_limit=<?php echo $memory_limit_flag; ?> \

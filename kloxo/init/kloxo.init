@@ -201,7 +201,7 @@ function hiawatha_start() {
 		ln -s ${hiawatha_prog} ${hiawatha_symlink}
 	fi
 	
-	if [ "$(ps aux |grep 'kloxo-hiawatha'|grep 'lxlabs')" != "" ] ; then
+	if [ "$(ps aux |grep 'kloxo-hiawatha'|grep -v 'grep')" != "" ] ; then
 		hiawatha_stop
 	fi
 
@@ -215,7 +215,7 @@ function hiawatha_start() {
 }
 
 function hiawatha_stop() {
-	if [ "$(ps aux |grep 'kloxo-hiawatha'|grep 'lxlabs')" == "" ] ; then
+	if [ "$(ps aux |grep 'kloxo-hiawatha'|grep -v 'grep')" == "" ] ; then
 		return 1
 	fi
 

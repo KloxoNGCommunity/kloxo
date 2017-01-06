@@ -66,6 +66,7 @@ class phpini__sync extends Lxdriverclass
 		$prefork_cont = file_get_contents(getLinkCustomfile($apache_path, "prefork.inc.tpl"));
 
 		$suphp_cont = file_get_contents(getLinkCustomfile($apache_path, "etc_suphp.conf.tpl"));
+		$suphp2_cont = file_get_contents(getLinkCustomfile($apache_path, "suphp2.conf.tpl"));
 
 		if (!file_exists("/etc/php-fpm.d")) {
 			lxfile_mkdir("/etc/php-fpm.d");
@@ -102,7 +103,15 @@ class phpini__sync extends Lxdriverclass
 
 			$suphp_parse = getParseInlinePhp($suphp_cont, $input);
 			$suphp_target = '/etc/suphp.conf';
+
 			file_put_contents($suphp_target, $suphp_parse);
+	
+			$suphp2_parse = getParseInlinePhp($suphp2_cont, $input);
+			$suphp2_target = '/etc/httpd/conf.d/suphp2.conf';
+
+			if (file_exists($suphp2_target)) {
+				file_put_contents($suphp2_target, $suphp2_parse);
+			}
 
 			if (!file_exists("/opt/configs/php-fpm/sock")) {
 				exec("mkdir -p /opt/configs/php-fpm/sock");

@@ -39,8 +39,6 @@ php_flag log_errors <?php echo $log_errors_flag; ?>
 
 php_flag output_buffering <?php echo $output_buffering_flag; ?>
 
-php_flag mysql.allow_persistent <?php echo $mysql_allow_persistent_flag; ?>
-
 php_flag allow_url_fopen <?php echo $allow_url_fopen_flag; ?>
 
 php_flag cgi.force_redirect <?php echo $cgi_force_redirect_flag; ?>

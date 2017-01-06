@@ -120,7 +120,7 @@ pm.process_idle_timeout = 20s
 request_terminate_timeout = <?=$max_execution_time_flag;?>s
 request_slowlog_timeout = 30s
 slowlog = /var/log/php-fpm/slow.log
-rlimit_files = 1024
+rlimit_files = 10240
 rlimit_core = 0
 ;<?=$enable_chroot;?>chroot = <?=$chroot_dir;?>
 
@@ -152,8 +152,6 @@ php_flag[log_errors] = <?=$log_errors_flag;?>
 php_flag[output_buffering] = <?=$output_buffering_flag;?>
 
 php_flag[register_argc_argv] = <?=$register_argc_argv_flag;?>
-
-php_flag[mysql.allow_persistent] = <?=$mysql_allow_persistent_flag;?>
 
 php_admin_value[max_execution_time] = <?=$max_execution_time_flag;?>
 
