@@ -1,0 +1,6 @@
+/var/log/php*.log {
+	missingok
+	notifempty
+	sharedscripts
+	delaycompress
+}

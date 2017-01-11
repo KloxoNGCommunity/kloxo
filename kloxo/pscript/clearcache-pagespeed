@@ -10,5 +10,5 @@ p='/var/cache/mod_pagespeed'
 
 if [ -d ${p} ] ; then
 	rm -rf ${p}/*
-	sh add-restart-queue restart-web
+	sh /script/add-restart-queue restart-web
 fi

@@ -894,7 +894,7 @@ foreach ($certnamelist as $ip => $certname) {
 ## web for '<?=$domainname;?>'
 <VirtualHost <?=$ip_special;?>:<?=$portlist[$count];?> >
 
-	LimitInternalRecursion 100
+	LimitInternalRecursion 256
 <?php
 		if ($pagespeed_ready) {
 			if (($disable_pagespeed) || (($driver[0] === 'nginx') && (file_exists("/etc/nginx/conf.d/pagespeed.conf")))) {

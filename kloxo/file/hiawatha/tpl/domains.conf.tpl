@@ -428,9 +428,12 @@ VirtualHost {
 
 	UseToolkit = block_shellshock, block_httpoxy
 
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
-	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
+
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
+	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
 <?php
 		} else {
 */
@@ -513,9 +516,12 @@ VirtualHost {
 ?>
 	UseToolkit = block_shellshock, block_httpoxy
 
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
-	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
+
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
+	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
 <?php
 		} else {
 */
@@ -601,9 +607,12 @@ VirtualHost {
 
 	UseToolkit = block_shellshock, block_httpoxy
 
-	ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
-	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
+
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
+	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
 <?php
 		} else {
 */
@@ -775,9 +784,12 @@ VirtualHost {
 
 	UseToolkit = block_shellshock, block_httpoxy
 
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
-	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
+
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
+	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
 <?php
 					}
 				}
@@ -893,9 +905,12 @@ VirtualHost {
 
 	UseToolkit = block_shellshock, block_httpoxy
 
-	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
-	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
+
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
+	ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
 <?php
 				} else {
 ?>
@@ -978,9 +993,12 @@ VirtualHost {
 
 	UseToolkit = block_shellshock, block_httpoxy
 
-	ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
-	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
+
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
+	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
 <?php
 					} else {
 ?>
@@ -1082,9 +1100,12 @@ VirtualHost {
 
 	UseToolkit = block_shellshock, block_httpoxy
 
-	ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?> keep-alive
-	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
-	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?> keep-alive
+	ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
+
+	#ReverseProxy !\.(pl|cgi|py|rb|shmtl) <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
+	#ReverseProxy ^/.* <?=$protocols[$count];?>://127.0.0.1:<?=$reverseports[$count];?>/ <?=$timeout;?>
+
 <?php
 					} else {
 ?>

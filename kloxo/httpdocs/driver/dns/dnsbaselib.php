@@ -282,7 +282,9 @@ abstract class Dnsbase extends Lxdb
 	{
 		global $login;
 
-		$this->ttl = "86000";
+	//	$this->ttl = "86000";
+		// MR -- based on https://www.ietf.org/rfc/rfc1912.txt
+		$this->ttl = "1209600";
 
 		validate_domain_name($nameserver);
 

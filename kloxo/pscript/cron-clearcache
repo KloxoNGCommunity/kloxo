@@ -14,9 +14,9 @@ if [ "$(ps aux|grep 'backup'|grep -v 'grep')" == "" ] ; then
 	e=$(echo "$j>=$t"|bc)
 
 	if [ "$e" == "1" ] ; then
-		s="- Clear memory ('$j' >= '$t' usage)"
+		s="- Clear memory ('$j' >= '$t' usage) with restart-all"
 		sh /script/clearcache3
-		#sh /script/restart-all
+		sh /script/restart-all
 	else
 		s="- No clear memory ('$j' < '$t' usage)"
 	fi
