@@ -401,14 +401,12 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 <?php
-		if ($pagespeed_ready) {
+		if ($nginx_pagespeed_ready) {
 			if (!$disable_pagespeed) {
-				if ($nginx_pagespeed_ready) {
 ?>
 
 	include '<?=$globalspath;?>/pagespeed.conf';
 <?php
-				}
 			} else {
 ?>
 	pagespeed off;
