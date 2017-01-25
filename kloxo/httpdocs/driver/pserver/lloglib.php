@@ -56,6 +56,16 @@ class Llog extends Lxclass {
 
 	function createShowSclist()
 	{
+		$phplist = getMultiplePhpList();
+
+		$phploglist = array('php-error.log' => 'php error');
+		$phpfpmloglist = array('php-fpm/php-error.log' => 'php-fpm error');
+
+		foreach ($phplist as $k => $v) {
+			$phploglist["{$v}-error.log"] = "{$v} error";
+			$phpfpmloglist["php-fpm/{$v}-error.log"] = "{$v}-fpm error"; 
+		}
+
 		// MR -- only list maillog for mail because change multilog to splogger for qmail-toaster
 		$sclist['ffile'] = array(
 			'audit/audit.log' => 'Audit',
@@ -96,10 +106,6 @@ class Llog extends Lxclass {
 			'pdns.log' => 'PowerDNS',
 			'yadifa/' => 'Yadifa',
 
-			'php-error.log' => 'PHP Error',
-			'php-fpm/error.log' => 'PHP-FPM Error',
-			'php-fpm/slow.log' => 'PHP-FPM Slow',
-
 			'mysqld.log' => 'MySQL',
 
 			'pureftpd.log' => 'Pure-ftp',
@@ -112,7 +118,11 @@ class Llog extends Lxclass {
 			'/usr/local/lxlabs/kloxo/log/backup' => 'Backup',
 			'/usr/local/lxlabs/kloxo/log/restore' => 'Restore',
 
-			'yum.log' => 'Yum');
+			'yum.log' => 'Yum',
+
+			'php-fpm/slow.log' => 'php-fpm slow (all)');
+
+		$sclist['ffile'] = array_merge($sclist['ffile'], $phpfpmloglist, $phploglist);
 
 		return $sclist;
 	}

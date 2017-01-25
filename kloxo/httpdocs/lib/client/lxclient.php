@@ -833,6 +833,8 @@ abstract class Lxclient extends Lxdb
 	//	$ilist['Last Login'] = "_lxinurl:$url:{$res[1]['ip_address']}:";
 		$ilist[$this->getKeywordUc('info_lastloginip')] = "_lxinurl:$url:{$res[1]['ip_address']}:";
 
+		$ilist[$this->getKeywordUc('info_currentloginip')] = getRemoteIp();
+
 	//	$date = @ date('h.i,d-M-Y', $res[1]['logintime']);
 		$date = @ date('Y-m-d H.i.s', $res[1]['logintime']);
 	//	$ilist['Last Login Time'] = "_lxinurl:$url:$date:";

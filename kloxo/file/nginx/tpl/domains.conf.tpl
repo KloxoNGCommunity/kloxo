@@ -409,8 +409,12 @@ server {
 	include '<?=$globalspath;?>/pagespeed.conf';
 <?php
 				}
+			} else {
+?>
+	pagespeed off;
+<?php
 			}
-	}
+		}
 ?>
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';

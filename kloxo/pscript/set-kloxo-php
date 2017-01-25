@@ -27,4 +27,9 @@ else
 	fi
 fi
 
+#if [ ! -f /etc/sudoers.d/mount ] ; then
+	echo 'lxlabs ALL=(ALL:ALL) NOPASSWD:/usr/local/lxlabs/kloxo' > /etc/sudoers.d/mount
+	chmod 0440 /etc/sudoers.d/mount
+#fi
+
 sh /script/restart -y

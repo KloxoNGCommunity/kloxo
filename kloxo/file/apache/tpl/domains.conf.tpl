@@ -286,7 +286,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($pagespeed_ready) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 			}
 ?>
@@ -440,7 +440,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($pagespeed_ready) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 			}
 ?>
@@ -665,7 +665,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($pagespeed_ready) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 			}
 ?>
@@ -730,7 +730,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($pagespeed_ready) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 			}
 ?>
@@ -900,7 +900,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if (($disable_pagespeed) || (($driver[0] === 'nginx') && (file_exists("/etc/nginx/conf.d/pagespeed.conf")))) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 			}
 		}
@@ -1258,7 +1258,7 @@ foreach ($certnamelist as $ip => $certname) {
 				if ($pagespeed_ready) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 				}
 ?>
@@ -1337,7 +1337,7 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($pagespeed_ready) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 					}
 ?>
@@ -1516,7 +1516,7 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($pagespeed_ready) {
 ?>
 
-	ModPageSpeed Off
+	ModPageSpeed unplugged
 <?php
 					}
 ?>

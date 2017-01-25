@@ -177,6 +177,7 @@ $__keyword["ownership_recursively"] = "Change Ownership Recursively";
 $__keyword["ownership_confirm"] = "Do You Really want to set this ownership Recursively?";
 
 $__keyword["info_lastloginip"] = "Last Login IP";
+$__keyword["info_currentloginip"] = "Current Login IP";
 $__keyword["info_lastlogintime"] = "Last Login Time";
 $__keyword["info_defaultdomain"] = "Default Domain";
 $__keyword["info_username"] = "Username";

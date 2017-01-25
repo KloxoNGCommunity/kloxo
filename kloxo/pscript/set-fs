@@ -9,8 +9,8 @@ else
 
 	echo "" >> ${sysctlf}
 	echo "### begin -- add by Kloxo-MR" >> ${sysctlf}
-	echo "fs.aio-max-nr = 1048576" >> ${sysctlf}
-	echo "fs.file-max = 1048576" >> ${sysctlf}
+	echo "fs.aio-max-nr = 65536" >> ${sysctlf}
+	echo "fs.file-max = 65536" >> ${sysctlf}
 	echo "#vm.swappiness = 10" >> ${sysctlf}
 	echo "#vm.vfs_cache_pressure = 100" >> ${sysctlf}
 	echo "#vm.dirty_background_ratio = 15" >> ${sysctlf}
@@ -28,9 +28,11 @@ else
 	echo "- add parameters between 'add by Kloxo-MR' in ${limitsf}"
 	echo "" >> ${limitsf}
 	echo "### begin -- add by Kloxo-MR" >> ${limitsf}
-	echo "*                soft   nofile           20480" >> ${limitsf}
-	echo "*                hard   nofile           40960" >> ${limitsf}
+	echo "*     soft  nofile  65536" >> ${limitsf}
+	echo "*     hard  nofile  65536" >> ${limitsf}
+	echo "root  soft  nofile  65536" >> ${limitsf}
+	echo "root  hard  nofile  65536" >> ${limitsf}
 	echo "### end -- add by Kloxo-MR" >> ${limitsf}
 
-	ulimit -n 10240 >/dev/null 2>&1
+	ulimit -n 65536 >/dev/null 2>&1
 fi

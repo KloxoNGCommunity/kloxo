@@ -9,7 +9,7 @@
 
 [global]
 pid=/var/run/php-fpm/<?=$phpselected;?>-fpm.pid
-error_log=/var/log/php-fpm/error.log
+error_log=/var/log/php-fpm/<?=$phpselected;?>-error.log
 log_level=error
 
 ;emergency_restart_threshold=0

@@ -4,12 +4,14 @@
 # by mustafa.ramadhan@lxcenter.org
 
 if [ "$1" == "--help" ] ; then
+	select=$(cat /usr/local/lxlabs/kloxo/etc/list/php.lst|tr ',' '\n'|tr '_(as' ' '|awk '{print $1}'|tr '\n' ' '|xargs|tr ' ' '/')
 	echo
 	echo " ---------------------------------------------------------------------------"
 	echo "  format: sh $0 --select=<>"
 	echo " ---------------------------------------------------------------------------"
 	echo
-	echo " --select: php/php52/php53/php53u/php54/php55u/php56u"
+	echo " --select:"
+	echo "   ${select}"
 	echo
 	exit;
 fi

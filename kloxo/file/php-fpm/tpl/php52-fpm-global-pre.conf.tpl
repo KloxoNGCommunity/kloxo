@@ -9,7 +9,7 @@ echo "<" . "?xml version=\"1.0\" ?" . ">" . "\n";
 
 	<section name="global_options">
 		<value name="pid_file">/var/run/php-fpm/php52m-fpm.pid</value>
-		<value name="error_log">/var/log/php-fpm/error.log</value>
+		<value name="error_log">/var/log/php-fpm/php52m-error.log</value>
 		<value name="log_level">error</value>
 		<value name="emergency_restart_threshold">10</value>
 		<value name="emergency_restart_interval">1m</value>
