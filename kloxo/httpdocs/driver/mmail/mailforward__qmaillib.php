@@ -15,21 +15,21 @@ class Mailforward__Qmail  extends lxDriverClass
 		$mailpath = mmail__qmail::getDir($domain);
 		$mailpath = str_replace($sgbl->__path_mail_root, $sgbl->__path_mail_data, $mailpath);
 
-	/*	// MR -- why using this trap?.
-		if (lxfile_exists("$mailpath/$account")) {
-			throw new lxException($login->getThrow("mailaccount_exists"), '', $account);
-		}
-	*/
 		$name = $account;
 		$name = str_replace(".", ":", $name);
 
-		$qmailfile = "$mailpath/.qmail-$name";
+		$qmailfile = "{$mailpath}/.qmail-{$name}";
 		$mailaccount = trim($this->main->forwardaddress);
 
 		if (csb($mailaccount, "|")) {
 			$tdat =  $mailaccount ;
 		} else {
 			$tdat = "&". $mailaccount ;
+		}
+
+		if (lxfile_exists("$mailpath/$account")) {
+		//	throw new lxException($login->getThrow("mailaccount_exists"), '', $account);
+			lxfile_rm($qmailfile);
 		}
 
 		lfile_write_content($qmailfile, $tdat, mmail__qmail::getUserGroup($domain));
