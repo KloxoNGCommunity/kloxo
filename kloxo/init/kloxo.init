@@ -202,7 +202,7 @@ function hiawatha_start() {
 	fi
 	
 	#if [ "$(ps aux |grep 'kloxo-hiawatha'|grep -v 'grep')" != "" ] ; then
-	if [ "$(pgrep 'kloxo-hiawatha)" != "" ] ; then
+	if [ "$(pgrep 'kloxo-hiawatha')" != "" ] ; then
 		hiawatha_stop
 	fi
 
@@ -217,7 +217,7 @@ function hiawatha_start() {
 
 function hiawatha_stop() {
 	#if [ "$(ps aux |grep 'kloxo-hiawatha'|grep -v 'grep')" == "" ] ; then
-	if [ "$(pgrep 'kloxo-hiawatha)" == "" ] ; then
+	if [ "$(pgrep 'kloxo-hiawatha')" == "" ] ; then
 		return 1
 	fi
 
