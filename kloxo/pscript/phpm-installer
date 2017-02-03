@@ -120,7 +120,9 @@ x="-- Check dependencies rpms"
 echo $x
 echo $x >>/opt/${base_name}/install.log
 
-repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx)(.*)'|sort -u > /opt/${base_name}/dependencies
+repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine)(.*)'|sort -u > /opt/${base_name}/dependencies
+
+sed -i 's/libmemcached10/libmemcached/' /opt/${base_name}/dependencies /opt/${base_name}/dependencies
 
 x="-- Install dependencies rpms"
 echo $x
