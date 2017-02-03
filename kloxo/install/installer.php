@@ -944,12 +944,15 @@ function setUsingMyIsam()
 function isMysqlRunning()
 {
 	if (file_exists("/etc/rc.d/init.d/mysql")) {
-		@exec("service mysql status|grep -i '(pid'", $out, $ret);
+	//	@exec("service mysql status|grep -i '(pid'", $out, $ret);
+		@exec("pgrep ^mysql", $out);
 	} else {
-		@exec("service mysqld status|grep -i '(pid'", $out, $ret);
+	//	@exec("service mysqld status|grep -i '(pid'", $out, $ret);
+		@exec("pgrep ^mysqld", $out);
 	}
 
-	if ($ret === 0) {
+//	if ($ret === 0) {
+	if (count($out) > 0) {
 		return true;
 	} else {
 		return false;

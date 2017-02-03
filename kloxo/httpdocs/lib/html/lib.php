@@ -669,8 +669,16 @@ function check_if_port_on($port)
 		} elseif (strpos($v, ' status') !== false) {
 			exec($v, $out, $ret);
 
-			if (strpos($out[0], '(pid ') !== false) {
+		//	if (strpos($out[0], '(pid ') !== false) {
+		//	if (strpos($out[0], 'running') !== false) {
+			if (count($out) > 0) {
 				$ret = true;
+			}
+		} elseif (strpos($v, 'pgrep') !== false) {
+			exec($v, $out, $ret);
+
+			if (count($out) > 0) {
+				return true;
 			}
 		} else {
 			// standard port -> 3306 for mysql
@@ -7704,7 +7712,9 @@ function setRealServiceBranchList($nolog = null)
 
 function isServiceRunning($srvc)
 {
-	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'(pid'");
+//	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'(pid'");
+//	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'running'");
+	$ret = lxshell_return("pgrep", "^{$srvc}");
 
 	if ($ret) {
 		return false;

@@ -178,8 +178,14 @@ chown mysql:mysql /var/lib/mysqltmp
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
-yum -y install php54 php54-mysqlnd
-
+if [ "$(yum list|grep 'php54')" == "" ] ; then
+	phpused="php56"
+	yum -y install ${phpused}u ${phpused}u-mysqlnd
+else
+	phpused="php54"
+	yum -y install ${phpused} ${phpused}-mysqlnd
+fi
+	
 if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php
 fi
@@ -194,9 +200,9 @@ if [ "$1" == "--with-php52s" ] || [ "$2" == "--with-php52s" ] || [ "$3" == "--wi
 else
 	with_php52s="no"
 
-	mkdir -p /opt/php54s/custom
-	sh /script/phpm-installer php54s -y
-	sh /script/fixlxphpexe php54s
+	mkdir -p /opt/${phpused}s/custom
+	sh /script/phpm-installer ${phpused}s -y
+	sh /script/fixlxphpexe ${phpused}s
 fi
 
 cd /
@@ -215,8 +221,8 @@ sh /script/set-fs >/dev/null 2>&1
 
 echo
 if [ "${with_php52s}" != "no" ] ; then
-	echo "... Wait until finished (switch to php54s and restart services) ..."
-	sh /script/phpm-installer php54s -y >/dev/null 2>&1
+	echo "... Wait until finished (switch to ${phpused}s and restart services) ..."
+	sh /script/phpm-installer ${phpused}s -y >/dev/null 2>&1
 else
 	echo "... Wait until finished (restart services) ..."
 fi

@@ -118,7 +118,9 @@ class Service__Redhat extends lxDriverClass
 			if ($__l['state'] === 'off') {
 				$out = null;
 			//	$ret = lxshell_return("/etc/init.d/{$__l['servicename']}", "status");
-				exec("/etc/init.d/{$__l['servicename']} status|grep '(pid '", $out);
+			//	exec("/etc/init.d/{$__l['servicename']} status|grep '(pid '", $out);
+			//	exec("/etc/init.d/{$__l['servicename']} status|grep 'running'", $out);
+				exec("pgrep ^{$__l['servicename']}", $out);
 
 			//	if ($ret) {
 				if (count($out) > 0) {
