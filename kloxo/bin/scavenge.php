@@ -45,11 +45,11 @@ function scavenge_main() {
 
 	log_shell("Scavenge: Schedule backups");
 	passthru("$sgbl->__path_php_path ../bin/common/schedulebackup.php");
-	log_shell("Scavenge: Clear Sessions");
-	passthru("$sgbl->__path_php_path ../bin/common/clearsession.php");
 	log_shell("Scavenge: Self backup");
 	passthru("$sgbl->__path_php_path ../bin/common/mebackup.php");
 */
+	log_shell("Scavenge: Clear Sessions");
+	passthru("$sgbl->__path_php_path ../bin/common/clearsession.php");
 
 	log_shell("Scavenge: Check Cluster Disk Quota");
 	checkClusterDiskQuota();

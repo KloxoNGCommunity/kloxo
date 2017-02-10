@@ -29,7 +29,7 @@ else
 					if [ -f ${ipath}/phpm-fpm ] ; then
 						chkconfig phpm-fpm off
 						#if [ "$(${ipath}/${item} status|grep '(pid')" != "" ] || [ "$(${ipath}/${item} status|grep 'dead but')" != "" ] ; then
-						if [ "$(pgrep ${item})" != "" ] ; then
+						if [ "$(pgrep ^${item})" != "" ] ; then
 							service phpm-fpm stop >/dev/null 2>&1
 						fi
 					fi
@@ -67,7 +67,7 @@ else
 					echo "-------------------------------------------------------------------"
 			else
 				#if [ "$(${ipath}/${item} status|grep '(pid')" != "" ] || [ "$(${ipath}/${item} status|grep 'dead but')" != "" ] ; then
-				if [ "$(pgrep ${item})" != "" ] ; then
+				if [ "$(pgrep ^${item})" != "" ] ; then
 					${ipath}/${item} stop
 				fi
 			fi
