@@ -18,14 +18,15 @@
 # Check that networking is up.
 [ "$NETWORKING" = "no" ] && exit 0
 
-INIT_DIR='/usr/local/lxlabs/kloxo/init'
+MAIN_DIR="/usr/local/lxlabs/kloxo"
+INIT_DIR="${MAIN_DIR}/init"
 
 if [ ! -d ${INIT_DIR} ] ; then
 	mkdir -p ${INIT_DIR}
 	chown -R lxlabs:lxlabs ${INIT_DIR}
 fi
 
-PID_DIR=${INIT_DIR}
+PID_DIR="${MAIN_DIR}/pid"
 
 if [ ! -d ${PID_DIR} ] ; then
 	mkdir -p ${PID_DIR}
@@ -40,18 +41,18 @@ WEBUSED=$(cat ${INIT_DIR}/webused.txt)
 
 ### 1. PHP-CGI portion
 
-if [ -f /usr/local/lxlabs/kloxo/init/php_active ] ; then
-	mv -f /usr/local/lxlabs/kloxo/init/php_active /usr/local/lxlabs/kloxo/init/kloxo_php_active
+if [ -f ${INIT_DIR}/php_active ] ; then
+	mv -f ${INIT_DIR}/php_active ${INIT_DIR}/kloxo_php_active
 fi
 
-php_active=$(cat /usr/local/lxlabs/kloxo/init/kloxo_php_active)
+php_active=$(cat ${INIT_DIR}/kloxo_php_active)
 
 if [ "${1}" == "start" ] ; then
 	sh /script/fixlxphpexe ${php_active}
 else
-	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_php_active ] ; then
+	if [ ! -f ${INIT_DIR}/kloxo_php_active ] ; then
 		sh /script/fixlxphpexe
-		php_active=$(cat /usr/local/lxlabs/kloxo/init/kloxo_php_active)
+		php_active=$(cat ${INIT_DIR}/kloxo_php_active)
 	fi
 fi
 
@@ -65,7 +66,7 @@ phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
 
 phpcgi_ini="/opt/${php_active}/custom/php.ini"
 
-cd /usr/local/lxlabs/kloxo/httpdocs
+cd ${MAIN_DIR}/httpdocs
 lxphp.exe -f ../init/changeport.php
 
 phpcgi_pidfile="${INIT_DIR}/kloxo-phpcgi.pid"
@@ -83,7 +84,7 @@ phpcgi_lockfile="/var/lock/subsys/${phpcgi_name}"
 phpcgi_prog="kloxo-phpcgi"
 prog_as_slave="/usr/local/lxlabs/${prog}/etc/conf/slave-db.db"
 prog_wrapper="kloxo-wrapper.sh"
-wrapper_pidfile="/usr/local/lxlabs/kloxo/pid/wrapper.pid"
+wrapper_pidfile="${PID_DIR}/wrapper.pid"
 
 if [ "$(rpm -qa spawn-fcgi)" == "" ] ; then
 	yum install spawn-fcgi fcgiwrap -y
@@ -106,7 +107,7 @@ function phpcgi_start() {
 		phpcgi_stop
 	fi
 
-	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
 		echo -n $"Starting ${phpcgi_prog} ('${php_active}' in 'fpm' mode): "
 
 		daemon ${phpcgi_spawn}
@@ -121,7 +122,7 @@ function phpcgi_start() {
 }
 
 function phpcgi_stop() {
-	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
 		echo -n $"Stopping ${phpcgi_prog}: "
 
 		## hidden for wrapper only
@@ -143,7 +144,7 @@ function phpcgi_restart() {
 }
 
 function phpcgi_reload() {
-	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
 		echo -n $"Reloading ${phpcgi_prog}: "
 		killproc -p ${phpcgi_pidfile} -d 10 ${phpcgi_name} -USR2
 		RETVAL=$?
@@ -154,13 +155,13 @@ function phpcgi_reload() {
 }
 
 function phpcli_load_wrapper() {
-	cd /usr/local/lxlabs/kloxo/httpdocs
+	cd ${MAIN_DIR}/httpdocs
 	chmod 755 ../sbin/kloxo-wrapper.sh
 	../sbin/kloxo-wrapper.sh &
 }
 
 function phpcgi_rh_status() {
-	if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
 		status ${phpcgi_name}
 	fi
 }
@@ -332,5 +333,7 @@ case "$1" in
 		;;
 	*)
 		echo $"Usage: $0 {start|stop|status|restart|reload|update}"
-		exit 2
+		retval=2
 esac
+
+exit ${retval}

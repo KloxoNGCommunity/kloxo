@@ -541,7 +541,7 @@ class serverweb__ extends lxDriverClass
 		$b = '';
 
 		foreach ($list as $k => $v) {
-			$b .= "sh /script/phpm-installer {$v}\n";
+			$b .= "sh /script/phpm-installer {$v} -y\n";
 		}
 
 		$b .= "sh /script/fixphp\n";

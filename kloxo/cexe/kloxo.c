@@ -109,7 +109,7 @@ int run_php_prog_ssl(SSL *ssl, int sock)
 	if (pid == 0) {
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
-		execl("/usr/bin/lxphp.exe", "lxphp.exe", "../bin/common/process_single.php", ftempname, NULL);
+		execl("/usr/bin/lxphp.exe", "lxphp.exe", "/usr/local/lxlabs/kloxo/bin/common/process_single.php", ftempname, NULL);
 		printf("Exec failed\n");
 		exit(0);
 	} else {
@@ -180,7 +180,8 @@ SSL_CTX * ssl_init()
 	SSL_load_error_strings();
 
 	/* Create a SSL_METHOD structure (choose a SSL/TLS protocol version) */
-	meth = TLSv1_method();
+	//meth = TLSv1_method();
+	meth = SSLv23_method();
 
 	/* Create a SSL_CTX structure */
 	ctx = SSL_CTX_new(meth);
@@ -389,7 +390,7 @@ int check_restart()
 
 	printf("Checking Restarts...\n");
 
-	n = scandir("../etc/.restart/", &namelist, 0, alphasort);
+	n = scandir("/usr/local/lxlabs/kloxo/etc/.restart/", &namelist, 0, alphasort);
 	if (n < 0) {
 		perror("scandir");
 		return 1;
@@ -401,16 +402,16 @@ int check_restart()
 			neededstring = position + 10;
 			if (!strcmp(neededstring, "lxcollectquota")) {
 				printf("Running CollectQuota\n");
-				close_and_system("/usr/bin/lxphp.exe ../bin/collectquota.php --just-db=true &");
+				close_and_system("/usr/bin/lxphp.exe /usr/local/lxlabs/kloxo/bin/collectquota.php --just-db=true &");
 			} else if (!strcmp(neededstring, "openvz_tc")) {
 				printf("Running Openvz\n");
-				close_and_system("sh ../etc/openvz_tc.sh");
+				close_and_system("sh /usr/local/lxlabs/kloxo/etc/openvz_tc.sh");
 			} else {
 				printf("Restarting %s\n", neededstring);
 				snprintf(cmd, sizeof(cmd), "/etc/init.d/%s restart &", neededstring);
 				close_and_system(cmd);
 			}
-			snprintf(cmd, sizeof(cmd), "../etc/.restart/%s", namelist[n]->d_name);
+			snprintf(cmd, sizeof(cmd), "/usr/local/lxlabs/kloxo/etc/.restart/%s", namelist[n]->d_name);
 			unlink(cmd);
 		}
 		free(namelist[n]);
@@ -430,7 +431,7 @@ int exec_sisinfoc()
 	}
 
 	printf("Executing Sisinfoc...\n");
-	close_and_system("/usr/bin/lxphp.exe ../bin/sisinfoc.php >/dev/null 2>&1 &");
+	close_and_system("/usr/bin/lxphp.exe /usr/local/lxlabs/kloxo/bin/sisinfoc.php >/dev/null 2>&1 &");
 
 	sisinfoc_timer = now;
 }
@@ -460,8 +461,8 @@ int exec_scavenge()
 
 	printf("Loading Scavenge time configuation...\n");
 
-	if (!access("../etc/conf/scavenge_time.conf", R_OK)) {
-		fp = fopen("../etc/conf/scavenge_time.conf", "r");
+	if (!access("/usr/local/lxlabs/kloxo/etc/conf/scavenge_time.conf", R_OK)) {
+		fp = fopen("/usr/local/lxlabs/kloxo/etc/conf/scavenge_time.conf", "r");
 		if (fp) {
 			fscanf(fp, "%d %d", &hour, &min);
 			fclose(fp);
@@ -489,7 +490,7 @@ int exec_scavenge()
 
 	if (time_match) {
 		printf("Executing Scavenge...\n");
-		close_and_system("/usr/bin/lxphp.exe ../bin/scavenge.php >/dev/null 2>&1 &");
+		close_and_system("/usr/bin/lxphp.exe /usr/local/lxlabs/kloxo/bin/scavenge.php >/dev/null 2>&1 &");
 		scavenge_timer = now + interval * 60;
 	}
 	else {

@@ -7,11 +7,7 @@ if (!file_exists("/var/run/acme/acme-challenge")) {
 $kpath = "/usr/local/lxlabs/kloxo";
 $hpath = "/home/kloxo/httpd";
 
-if (file_exists("{$kpath}/httpdocs/lib/html/include.php")) {
-	include_once "{$kpath}/httpdocs/lib/html/include.php";
-} else {
-	include_once "{$kpath}/httpdocs/htmllib/lib/include.php";
-}
+include_once "{$kpath}/httpdocs/lib/html/include.php";
 
 initProgram('admin');
 
