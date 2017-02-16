@@ -66,8 +66,8 @@ phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
 
 phpcgi_ini="/opt/${php_active}/custom/php.ini"
 
-cd ${MAIN_DIR}/httpdocs
-lxphp.exe -f ../init/changeport.php
+#cd ${MAIN_DIR}/httpdocs
+#lxphp.exe -f ../init/changeport.php
 
 phpcgi_pidfile="${INIT_DIR}/kloxo-phpcgi.pid"
 phpcgi_symlink="${INIT_DIR}/kloxo-phpcgi"
@@ -101,7 +101,7 @@ else
 fi
 
 function phpcgi_start() {
-	phpcli_load_wrapper
+	#phpcli_load_wrapper
 
 	if [ -f ${phpcgi_pidfile} ] ; then
 		phpcgi_stop
@@ -126,7 +126,7 @@ function phpcgi_stop() {
 		echo -n $"Stopping ${phpcgi_prog}: "
 
 		## hidden for wrapper only
-		killproc -p ${wrapper_pidfile} >/dev/null 2>&1
+		#killproc -p ${wrapper_pidfile} >/dev/null 2>&1
 		killproc -p ${phpcgi_pidfile} -d 10
 
 		retval=$?

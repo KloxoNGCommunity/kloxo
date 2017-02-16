@@ -24,7 +24,7 @@ fi
 
 base_name="${1}"
 
-if [ "echo '${base_name}'|grep 'php'|grep 's'" == "" ] || [ "echo '${base_name}'|grep 'php'|grep 'm'" == "" ] ; then
+if [ "$(grep 's' <<<${base_name})" == "" ] && [ "$(grep 'm' <<<${base_name})" == "" ] ; then
 	echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 70)"
 	exit
 fi
@@ -76,7 +76,7 @@ done
 
 for j in php.d php-zts.d ; do
 	if [ -d /opt/${base_name}/etc/${j} ] ; then
-		a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.nonini"|grep -v "_nonused."|awk '{print $9}'|tr '\n' ' ')
+		a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.nonini"|grep -v "_unused."|awk '{print $9}'|tr '\n' ' ')
 
 		for b in $a ; do
 			mv -f /opt/${base_name}/etc/${j}/${b} /opt/${base_name}/etc/${j}/${b%.nonini}.ini
@@ -120,6 +120,20 @@ for j in php.d php-zts.d ; do
 	fi
 done
 
+for j in php.d php-zts.d ; do
+	if [ -d /opt/${base_name}/etc/${j} ] ; then
+		for i in $(dir -l /opt/${base_name}/etc/${j}|grep "\.nonini"|awk '{print $9}') ; do
+			if [ -f /opt/${base_name}/etc/${j}/${i%.nonini}_used.ini ] ; then
+				x="-- Remove '${i}' in '/etc/${base_name}/etc/${j}'"
+				echo $x
+				echo $x >>/opt/${base_name}/install.log
+
+				'rm' -f /opt/${base_name}/etc/${j}/${i}
+			fi
+		done
+	fi
+done
+
 cd /opt/${base_name}
 
 mkdir -p /opt/${base_name}/custom >/dev/null 2>&1
@@ -130,29 +144,35 @@ echo ${x} >>/opt/${base_name}/install.log
 
 'rm' -f  /opt/${base_name}/custom/php5* >/dev/null 2>&1
 
-kipath="/usr/local/lxlabs/kloxo/init"
+kpath="/usr/local/lxlabs/kloxo"
 
-if [ -f ${kipath}/custom.php.ini.base ] ; then
-	'cp' -rf ${kipath}/custom.php.ini.base /opt/${base_name}/custom/php.ini >/dev/null 2>&1
+x="-- Processing for 'php.ini.base'"
+echo ${x}
+echo ${x} >>/opt/${base_name}/install.log
 
-	if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
-		'cp' -rf ${kipath}/custom.php.ini.base /opt/${base_name}/custom/php-fpm.ini >/dev/null 2>&1
+'rm' -f  /opt/${base_name}/custom/php5* >/dev/null 2>&1
+
+if [ -f ${kpath}/init/custom.php.ini.base ] ; then
+	'cp' -rf ${kpath}/init/custom.php.ini.base /opt/${base_name}/custom/php.ini >/dev/null 2>&1
+
+	if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
+		'cp' -rf ${kpath}/init/custom.php.ini.base /opt/${base_name}/custom/php-fpm.ini >/dev/null 2>&1
 	fi
 else
-	'cp' -rf ${kipath}/php.ini.base /opt/${base_name}/custom/php.ini >/dev/null 2>&1
+	'cp' -rf ${kpath}/init/php.ini.base /opt/${base_name}/custom/php.ini >/dev/null 2>&1
 
-	if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
-		'cp' -rf ${kipath}/php.ini.base /opt/${base_name}/custom/php-fpm.ini >/dev/null 2>&1
+	if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
+		'cp' -rf ${kpath}/init/php.ini.base /opt/${base_name}/custom/php-fpm.ini >/dev/null 2>&1
 	fi
 fi
 
 sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' /opt/${base_name}/custom/php.ini
 
-if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
+if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
 	sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' /opt/${base_name}/custom/php-fpm.ini
 fi
 
-if [ "$(echo ${base_name}|grep 'php'|grep 's')" == "" ] ; then
+if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
 	sed -i 's:__disable_functions__::' /opt/${base_name}/custom/php.ini
 	sed -i 's:__for_phpm__::' /opt/${base_name}/custom/php.ini
 	sed -i 's:__for_phps__:;:' /opt/${base_name}/custom/php.ini
@@ -178,50 +198,93 @@ else
 	sed -i 's:/var/log/php-error.log:/usr/local/lxlabs/kloxo/log/php-error.log:' /opt/${base_name}/custom/php.ini
 fi
 
+x="-- Processing for 'php-cgi.sh/php-cli.sh/php-fpm.sh/php-ls.sh'"
+echo ${x}
+echo ${x} >>/opt/${base_name}/install.log
+
 for i in php-cgi.sh php-cli.sh php-fpm.sh php-ls.sh ; do
-	if [ -f ${kipath}/custom.${i}.base ] ; then
-		'cp' -rf ${kipath}/custom.${i}.base /opt/${base_name}/custom/${i} >/dev/null 2>&1
+	if [ -f ${kpath}/init/custom.${i}.base ] ; then
+		'cp' -rf ${kpath}/init/custom.${i}.base /opt/${base_name}/custom/${i} >/dev/null 2>&1
 	else
-		'cp' -rf ${kipath}/${i}.base /opt/${base_name}/custom/${i} >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/${i}.base /opt/${base_name}/custom/${i} >/dev/null 2>&1
 	fi
 
 	sed -i 's:__phpm__:'${base_name}':' /opt/${base_name}/custom/${i} >/dev/null 2>&1
 done
 
+x="-- Processing for 'php52-fpm.conf.base/php53-fpm.conf.base'"
+echo ${x}
+echo ${x} >>/opt/${base_name}/install.log
+
 if [ "${base_name}" == "php52s" ] || [ "${base_name}" == "php52m" ] ; then
-	if [ -f ${kipath}/custom.php52-fpm.conf.base ] ; then
-		'cp' -rf ${kipath}/custom.php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
+	if [ -f ${kpath}/init/custom.php52-fpm.conf.base ] ; then
+		'cp' -rf ${kpath}/init/custom.php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	else
-		'cp' -rf ${kipath}/php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/php52-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	fi
 
 	sed -i 's:/var/run/php-fpm.pid:/var/run/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 else
-	if [ -f ${kipath}/custom.php53-fpm.conf.base ] ; then
-		'cp' -rf ${kipath}/custom.php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
+	if [ -f ${kpath}/init/custom.php53-fpm.conf.base ] ; then
+		'cp' -rf ${kpath}/init/custom.php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	else
-		'cp' -rf ${kipath}/php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/php53-fpm.conf.base /opt/${base_name}/custom/php-fpm.conf >/dev/null 2>&1
 	fi
 
 	sed -i 's:/var/run/php-fpm/php-fpm.pid:/var/run/php-fpm/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf
 fi
 
-if [ -f ${kipath}/custom.php-fpm.init.base ] ; then
-	pcfile="${kipath}/custom.php-fpm.init.base"
+if [ "$(command -v systemctl)" != "" ] ; then
+	if [ -f ${kpath}/init/custom.php-fpm.service.base ] ; then
+		pcfile="${kpath}/init/custom.php-fpm.service.base"
+	else
+		pcfile="${kpath}/init/php-fpm.service.base"
+	fi
+
+	'cp' -f ${pcfile} /opt/${base_name}/custom/php-fpm.service >/dev/null 2>&1
+	sed -i 's:__custom_name__:'${1}':g' /opt/${base_name}/custom/php-fpm.service
+
+	if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
+		x="--- Copy '${base_name}-fpm.service'"
+		echo ${x}
+		echo ${x} >>/opt/${base_name}/install.log
+		'cp' -f /opt/${base_name}/custom/php-fpm.service /usr/lib/systemd/system/${base_name}-fpm.service >/dev/null 2>&1
+
+		if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
+			chkconfig ${base_name}-fpm on >/dev/null 2>&1
+			systemctl daemon-reload >/dev/null 2>&1
+		fi
+	fi
 else
-	pcfile="${kipath}/php-fpm.init.base"
+	if [ -f ${kpath}/init/custom.php-fpm.init.base ] ; then
+		pcfile="${kpath}/init/custom.php-fpm.init.base"
+	else
+		pcfile="${kpath}/init/php-fpm.init.base"
+	fi
+
+	'cp' -f ${pcfile} /opt/${base_name}/custom/php-fpm.init >/dev/null 2>&1
+	sed -i 's:__custom_name__:'${1}':g' /opt/${base_name}/custom/php-fpm.init
+
+	#if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
+	#	x="--- Copy '${base_name}-fpm.init'"
+	#	echo ${x}
+	#	echo ${x} >>/opt/${base_name}/install.log
+	#	'cp' -f /opt/${base_name}/custom/php-fpm.init /etc/rc.d/init.d/${base_name}-fpm >/dev/null 2>&1
+
+	#	if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
+	#		chkconfig ${base_name}-fpm on >/dev/null 2>&1
+	#	fi
+	#fi
 fi
 
-'cp' -f ${pcfile} /opt/${base_name}/custom/php-fpm.init >/dev/null 2>&1
-sed -i 's:__custom_name__:'${1}':' /opt/${base_name}/custom/php-fpm.init
 
-x="- Set .sh to 755"
+x="- Setting .sh to 755"
 echo ${x}
 echo ${x} >>/opt/${base_name}/install.log
 
 chmod 755 /opt/${base_name}/custom/*.sh
 
-x="- Create .sh symlink"
+x="- Creating .sh symlink"
 echo ${x}
 echo ${x} >>/opt/${base_name}/install.log
 
@@ -233,6 +296,13 @@ for i in cgi cli ls fpm ; do
 
 		'rm' -f /usr/bin/${base_name}-${i} >/dev/null 2>&1
 		ln -sf /opt/${base_name}/custom/php-${i}.sh /usr/bin/${base_name}-${i} >/dev/null 2>&1
+
+		x="-- From '/opt/${base_name}/custom/php-${i}.sh' to '/usr/sbin/${base_name}-${i}'"
+		echo ${x}
+		echo ${x} >>/opt/${base_name}/install.log
+
+		'rm' -f /usr/sbin/${base_name}-${i} >/dev/null 2>&1
+		ln -sf /opt/${base_name}/custom/php-${i}.sh /usr/sbin/${base_name}-${i} >/dev/null 2>&1
 	fi
 done
 

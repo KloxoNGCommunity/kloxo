@@ -169,7 +169,8 @@ SSL_CTX * ssl_init()
 	char buf[4096];
 	SSL_CTX *ctx;
 	SSL *ssl;
-	SSL_METHOD *meth;
+	//SSL_METHOD *meth;
+	const SSL_METHOD *meth;
 	X509 *client_cert = NULL;
 
 	/*----------------------------------------------------------------*/
@@ -408,7 +409,11 @@ int check_restart()
 				close_and_system("sh /usr/local/lxlabs/kloxo/etc/openvz_tc.sh");
 			} else {
 				printf("Restarting %s\n", neededstring);
-				snprintf(cmd, sizeof(cmd), "/etc/init.d/%s restart &", neededstring);
+				if (strstr(neededstring, "restart-")) {
+					snprintf(cmd, sizeof(cmd), "sh /script/%s &", neededstring);
+				} else {
+					snprintf(cmd, sizeof(cmd), "service %s restart &", neededstring);
+				}
 				close_and_system(cmd);
 			}
 			snprintf(cmd, sizeof(cmd), "/usr/local/lxlabs/kloxo/etc/.restart/%s", namelist[n]->d_name);

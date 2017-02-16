@@ -1,4 +1,6 @@
 all:
+	#yum install openssl-devel -y
+
 	rm -f closeinput
 	rm -f closeallinput
 
@@ -8,7 +10,7 @@ all:
 	cc -static -o closeinput closeinput.c
 	cc -static -o closeallinput closeallinput.c
 
-	gcc -o kloxo.exe kloxo.c -lssl
+	gcc -o kloxo.exe kloxo.c -lssl -lcrypto
 
 	chmod 0755 closeinput
 	chmod ug+s closeinput

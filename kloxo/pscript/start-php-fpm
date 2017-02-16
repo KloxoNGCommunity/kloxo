@@ -21,8 +21,17 @@ else
 	ASQMAIL=""
 
 	for item in ${list[*]} ; do
+		svc_on='no'
 		if [ "$(chkconfig --list ${item}|grep ':on')" != "" ] ; then
-			/etc/init.d/${item} start
+			svc_on='yes'
+		fi
+		if [ "$(command -v systemctl)" != "" ] ; then
+			if [ "$(systemctl list-daemon|grep ${item}|grep 'enabled')" != "" ] ; then
+				svc_on='yes'
+			fi
+		fi
+		if [ "${svc_on}" == 'yes' ] ; then
+			service ${item} start
 		fi
 	done
 fi

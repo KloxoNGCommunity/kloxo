@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ "$(yum list installed|grep 'openssl-devel')" == "" ] ; then
+	yum install openssl-devel -y
+fi
+
+cd /usr/local/lxlabs/kloxo/cexe
+mv _Makefile Makefile
+make
+mv Makefile _Makefile

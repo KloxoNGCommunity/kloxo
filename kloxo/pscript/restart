@@ -12,6 +12,21 @@ bpath="/usr/local/lxlabs/kloxo"
 spath="${bpath}/file/pages"
 tpath="${bpath}/httpdocs/login"
 
+opath="$(dirname $0)"
+
+if [ ! -f ${bpath}/sbin/kloxo.exe ] ; then
+	sh /script/create-kloxoexe
+fi
+
+#cd ${bpath}/httpdocs
+/usr/bin/lxphp.exe -f ${bpath}/init/changeport.php
+
+if [ ! -f /etc/cron.d/kloxo-wrapper ] ; then
+	'cp' -f ${bpath}/init/kloxo-wrapper.cron /etc/cron.d/kloxo-wrapper
+	chown root:root /etc/cron.d/kloxo-wrapper
+	sh /script/run-kloxo-wrapper
+fi
+
 cp -f ${spath}/default_index.php ${tpath}/index.php
 cp -f ${spath}/login_inc.php ${tpath}/inc.php
 cp -f ${spath}/login_inc2.php ${tpath}/inc2.php

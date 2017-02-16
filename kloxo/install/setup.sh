@@ -36,6 +36,8 @@ fi
 
 cd /
 
+yum clean all
+
 if rpm -qa|grep 'mratwork-' >/dev/null 2>&1 ; then
 	yum update mratwork* -y
 else

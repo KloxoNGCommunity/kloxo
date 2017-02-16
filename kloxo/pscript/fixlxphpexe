@@ -37,7 +37,7 @@ else
 
 		if [ ! -f /opt/${base_name}/custom/php-cli.sh ] ; then
 			echo "File: '/opt/${base_name}/custom/php-cli.sh' not exists. Installing..."
-			sh /script/phpm-installer ${base_name}
+			sh /script/phpm-installer ${base_name} -y
 		fi
 
 		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active
@@ -58,8 +58,13 @@ chown -R root:root /opt/${base_name}
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lphp.exe
 ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lxphp.exe
 
-'cp' -f ${INIT_DIR}/kloxo.init /etc/rc.d/init.d/kloxo
-chown root:root /etc/rc.d/init.d/kloxo
-chmod 0775 /etc/rc.d/init.d/kloxo
-
+if [ "$(command -v systemctl)" != "" ] ; then
+	'cp' -f ${INIT_DIR}/kloxo.service /usr/lib/systemd/system/kloxo.service
+	chown root:root /usr/lib/systemd/system/kloxo.service
+	chmod 0644 /usr/lib/systemd/system/kloxo.service
+else
+	'cp' -f ${INIT_DIR}/kloxo.init /etc/rc.d/init.d/kloxo
+	chown root:root /etc/rc.d/init.d/kloxo
+	chmod 0775 /etc/rc.d/init.d/kloxo
+fi
 echo "Execute fixlxphpexe for ${base_name}..."

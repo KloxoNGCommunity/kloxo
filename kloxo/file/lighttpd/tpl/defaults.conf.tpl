@@ -119,6 +119,7 @@ $SERVER["socket"] == ":<?=$ports[1];?>" {
 	ssl.engine = "enable"
 
 	ssl.pemfile = "<?=$cert_file;?>.pem"
+	ssl.dh-file = "/etc/ssl/certs/dhparam.pem"
 <?php
 if (file_exists("{$cert_file}.ca")) {
 ?>

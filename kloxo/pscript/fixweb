@@ -2,6 +2,12 @@
 
 . /script/counter-start.inc
 
+if [ ! -f /etc/ssl/certs/dhparam.pem ] ; then
+	echo "Wait for dh-parm key for ssl create..."
+	cd /etc/ssl/certs
+	openssl dhparam -out dhparam.pem 2048
+fi
+
 if [ -f /script/custom.fix.inc ] ; then
 	. /script/custom.fix.inc
 else

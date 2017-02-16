@@ -4,7 +4,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo "  format: sh $0 [--force|-y]"
 	echo " ------------------------------------------------------------------------------"
 	echo "  --force or -y"
-	echo "      - example: running '/etc/init.d/httpd restart' instead custom 'restart'"
+	echo "      - example: running 'service httpd restart' instead custom 'restart'"
 	echo "        declare inside /etc/local/lxlabs/kloxo/etc/process"
 	echo "      - use it if trouble restart without '--force' or '-y'"
 	echo ""
@@ -13,46 +13,60 @@ else
 	ppath="/usr/local/lxlabs/kloxo/etc/process"
 	ipath="/etc/rc.d/init.d"
 	fpath="/usr/local/lxlabs/kloxo/etc/flag"
+	spath="/usr/lib/systemd/system"
 	
 	ASQMAIL=""
 
 	for item in ${list[*]} ; do
+		svc_ok='no'
 		if [ -f ${ipath}/${item} ] ; then
+			svc_ok='yes'
+		fi
+		if [ "$(command -v systemctl)" != "" ] ; then
+			if [ -f ${spath}/${item}.service ] ; then
+				svc_ok='yes'
+			fi
+		fi
+		if [ "${svc_ok}" == 'yes' ] ; then
 			if [ "${item}" == "phpm-fpm" ] ; then
 				if [ -f ${fpath}/enablemultiplephp.flg ] ; then
-					if [ -f ${ipath}/phpm-fpm ] ; then
-						chkconfig phpm-fpm on
-					fi
+					chkconfig phpm-fpm on
 					chkconfig php-fpm on
 				else
 					chkconfig php-fpm on
-					if [ -f ${ipath}/phpm-fpm ] ; then
-						chkconfig phpm-fpm off
-						#if [ "$(${ipath}/${item} status|grep '(pid')" != "" ] || [ "$(${ipath}/${item} status|grep 'dead but')" != "" ] ; then
-						if [ "$(pgrep ^${item})" != "" ] ; then
-							service phpm-fpm stop >/dev/null 2>&1
-						fi
+					chkconfig phpm-fpm off
+					if [ "$(pgrep ^${item})" != "" ] ; then
+						service phpm-fpm stop >/dev/null 2>&1
 					fi
 				fi
 			fi
-
+			svc_on='no'
 			if [ "$(chkconfig --list ${item}|grep ':on')" != "" ] ; then
+				svc_on='yes'
+			fi
+			if [ "$(command -v systemctl)" != "" ] ; then
+				if [ "$(systemctl list-daemon|grep ${item}|grep 'enabled')" != "" ] ; then
+					svc_on='yes'
+				fi
+			fi
+
+			if [ "${svc_on}" == 'yes' ] ; then
 					echo ""
 					if [ "$1" == "--force" ] || [ "$1" == "-y" ] ; then
 						if [ "${item}" == "qmail" ] ; then
 							ASQMAIL="qmail"
 							sh /script/restart-mail
 						elif [ "${item}" == "php-fpm" ] ; then
-							${ipath}/${item} stop
+							service ${item} stop
 							'rm' -f /opt/configs/php-fpm/sock/php-*.sock
-							${ipath}/${item} start
+							service ${item} start
 						elif [ "${item}" == "nsd" ] ; then
-							${ipath}/${item} restart
+							service ${item} restart
 						elif [ "${item}" == "spawn-fcgi" ] ; then
 							'rm' -f /tmp/fcgiwrap.sock
-							${ipath}/${item} restart
+							service ${item} restart
 						else
-							${ipath}/${item} restart
+							service ${item} restart
 						fi
 					else
 						if [ -f ${ppath}/custom.${item} ] ; then
@@ -60,15 +74,14 @@ else
 						elif [ -f ${ppath}/${item} ] ; then
 							sh ${ppath}/${item}
 						else
-							${ipath}/${item} restart
+							service ${item} restart
 						fi
 					fi
 
 					echo "-------------------------------------------------------------------"
 			else
-				#if [ "$(${ipath}/${item} status|grep '(pid')" != "" ] || [ "$(${ipath}/${item} status|grep 'dead but')" != "" ] ; then
 				if [ "$(pgrep ^${item})" != "" ] ; then
-					${ipath}/${item} stop
+					service ${item} stop
 				fi
 			fi
 		fi

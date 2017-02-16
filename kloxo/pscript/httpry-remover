@@ -14,3 +14,10 @@ if [ -f /etc/rc.d/init.d/httpry ] ; then
 	'rm' -f /etc/rc.d/init.d/httpry
 fi
 
+if [ -f /usr/lib/systemd/system/httpry.service ] ; then
+	service httpry stop
+	chkconfig --del httpry
+	'rm' -f /usr/lib/systemd/system/httpry.service
+	systemctl daemon-reload
+fi
+

@@ -1,0 +1,21 @@
+[Unit]
+Description=Startup script for Kloxo-MR.
+Documentation=https://forum.mratwork.com/
+After=network.target remote-fs.target nss-lookup.target
+ 
+[Service]
+Type=forking
+PIDFile=/usr/local/lxlabs/kloxo/pid/hiawatha.pid
+ExecStartPre=/bin/cd /usr/local/lxlabs/kloxo/httpdocs
+#ExecStartPre=/bin/chmod 755 /usr/local/lxlabs/kloxo/sbin/kloxo-wrapper.sh
+ExecStartPre=/usr/local/lxlabs/kloxo/sbin/kloxo-wrapper.sh &
+ExecStartPre=/usr/local/lxlabs/kloxo/init/kloxo-phpcgi -y /usr/local/lxlabs/kloxo/init/kloxo-php-fpm.conf -c /opt/php54s/custom/php.ini -R
+ExecStart=/usr/local/lxlabs/kloxo/init/kloxo-hiawatha -c /usr/local/lxlabs/kloxo/init
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+ExecStopPost=/bin/pkill -F /usr/local/lxlabs/kloxo/pid/wrapper.pid
+ExecStopPost=/bin/pkill -F /usr/local/lxlabs/kloxo/pid/phpcgi.pid
+PrivateTmp=true
+ 
+[Install]
+WantedBy=multi-user.target
