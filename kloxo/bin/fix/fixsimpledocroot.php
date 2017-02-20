@@ -46,5 +46,6 @@ foreach($list as $c) {
 	}
 }
 
-lxshell_return("$sgbl->__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
+//lxshell_return("$sgbl->__path_php_path", "../bin/misc/fixftpuserclient.php", "--nolog");
+lxshell_return("$sgbl->__path_php_path", "../bin/fix/fixftpuser.php", "--nolog");
 

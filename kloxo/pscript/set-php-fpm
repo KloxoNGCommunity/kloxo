@@ -42,8 +42,10 @@ if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
 	chkconfig phpm-fpm on
 	sh /script/add-restart-queue restart-php-fpm
 else
-	chkconfig phpm-fpm off
-	service phpm-fpm stop >/dev/null 2>&1
+	if [ -f ${eripath}/phpm-fpm ] ; then
+		chkconfig phpm-fpm off
+		service phpm-fpm stop >/dev/null 2>&1
+	fi
 fi
 
 if [ "${php_target}" == "php" ] ; then

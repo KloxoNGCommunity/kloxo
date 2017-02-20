@@ -5092,7 +5092,8 @@ function changetoclient()
 //	exec("service xinetd stop");
 	exec("service pure-ftpd stop");
 	lxshell_return($sgbl->__path_php_path, "../bin/changetoclientlogin.php");
-	lxshell_return($sgbl->__path_php_path, "../bin/misc/fixftpuserclient.php");
+//	lxshell_return($sgbl->__path_php_path, "../bin/misc/fixftpuserclient.php");
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixftpuser.php");
 //	restart_service("xinetd");
 	exec("service pure-ftpd start");
 //	$driverapp = $gbl->getSyncClass(null, 'localhost', 'web');
@@ -6268,13 +6269,13 @@ function setInitialPureftpConfig($nolog = null)
 
 	lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
 	exec("chkconfig pure-ftpd on; chmod 0755 /etc/init.d/pure-ftpd");
-
+/*
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {
 		log_cleanup("- Initialize /etc/pure-ftpd/pureftpd.passwd password database", $nolog);
 		lxfile_cp("/etc/pureftpd.passwd", "/etc/pure-ftpd/pureftpd.passwd");
 		lxshell_return("pure-pw", "mkdb");
 	}
-
+*/
 	log_cleanup("- Restart pure-ftpd service", $nolog);
 	createRestartFile('restart-ftp');
 }
@@ -8162,11 +8163,14 @@ function setSyncDrivers($nolog = null)
 		$driver_from_table = $gbl->getSyncClass(null, 'localhost', $key);
 
 		if ($driver_from_table !== $driver_from_slavedb) {
+		/*
 			if (!$driver_from_table) {
 				$realval[$key] = $val;
 			} else {
 				$realval[$key] = $driver_from_table;
 			}
+		*/
+			$realval[$key] = $driver_from_slavedb;
 
 			log_cleanup("- Synchronize for '{$key}' to '{$realval[$key]}'", $nolog);
 		} else {
