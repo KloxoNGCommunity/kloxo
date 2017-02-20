@@ -22,8 +22,8 @@ fi
 
 RETVAL=0
 prog="__custom_name__-fpm"
-pidfile=${PIDFILE-/var/run/php-fpm/__custom_name__-fpm.pid}
-lockfile=${LOCKFILE-/var/lock/subsys/__custom_name__-fpm}
+pidfile=${PIDFILE-/var/run/php-fpm/php-fpm.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 
 start () {
     echo -n $"Starting $prog (PHP Used): "

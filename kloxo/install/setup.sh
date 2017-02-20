@@ -183,7 +183,6 @@ sh /script/set-mysql-default
 if [ "$(yum list|grep 'php56')" != "" ] ; then
 	phpused="php56"
 	yum -y install ${phpused}u ${phpused}u-mysqlnd php56u-fpm
-	chkconfig nginx off
 else
 	phpused="php54"
 	yum -y install ${phpused} ${phpused}-mysqlnd

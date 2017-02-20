@@ -10,10 +10,16 @@ list_all=(syslog rsyslog syslog-ng httpry mysql mysqld named djbdns pdns nsd myd
 #list_kloxo=(kloxo-web kloxo-php)
 list_kloxo=(kloxo)
 
-if [ "$(command -v systemctl)" != "" ] ; then
-	list_phpfpm=$(ls -ld /usr/lib/systemd/system/php*-fpm.service | awk '{print $9}' | sed 's:/usr/lib/systemd/system/::g' | sed 's:/.service/::g' | tr '\n' ' ')
+#if [ "$(command -v systemctl)" != "" ] ; then
+#	list_phpfpm=$(ls -ld /usr/lib/systemd/system/php*-fpm.service | awk '{print $9}' | sed 's:/usr/lib/systemd/system/::g' | sed 's:/.service/::g' | tr '\n' ' ')
+#else
+#	#list_phpfpm=$(ls -ld /etc/rc.d/init.d/php*-fpm | awk '{print $9}' | sed 's:/etc/rc.d/init.d/::g' | tr '\n' ' ')
+#	list_phpfpm=(php-fpm phpm-fpm)
+#fi
+
+if [ -f /script/php-fpm-list.inc ] ; then
+	. /script/php-fpm-list.inc
 else
-	#list_phpfpm=$(ls -ld /etc/rc.d/init.d/php*-fpm | awk '{print $9}' | sed 's:/etc/rc.d/init.d/::g' | tr '\n' ' ')
 	list_phpfpm=(php-fpm phpm-fpm)
 fi
 
