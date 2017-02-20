@@ -2,19 +2,19 @@
 
 echo "*** Process for MYSQL/MARIADB service ***"
 
-if [ -f /etc/rc.d/init.d/mysql ] ; then
-	prog="mysql"
-else
+if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ]; then
 	prog="mysqld"
+elif [ -f /etc/rc.d/init.d/mysql ] || [ -f /usr/lib/systemd/system/mysql.service ]; then
+	prog="mysql"
 fi
 
-if [ "$(/etc/rc.d/init.d/${prog} status|grep pid)" == "" ] ; then
-	/etc/rc.d/init.d/${prog} start
+if [ "$(pgrep ^${prog})" == "" ] ; then
+	service ${prog} start
 fi
 sleep 1
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/${prog} stop
+service ${prog} stop
 pkill -9 ${prog}
 pkill -9 mysqld_safe
-/etc/rc.d/init.d/${prog} start
+service ${prog} start

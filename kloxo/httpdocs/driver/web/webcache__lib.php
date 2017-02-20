@@ -10,13 +10,13 @@ class webcache__ extends lxDriverClass
 	{
 		lxshell_return("service", $drivertype, "stop");
 
-	//	lxshell_return("chkconfig", $drivertype, "off");
 		exec("chkconfig {$drivertype} off");
 		
 		setRpmRemovedViaYum($drivertype);
 
-		if (file_exists("/etc/init.d/{$drivertype}")) {
+		if (isServiceExists($drivertype)) {
 			lunlink("/etc/init.d/{$drivertype}");
+			lunlink("/usr/lib/systemd/system/{$drivertype}.service");
 		}
 	}
 
@@ -24,10 +24,8 @@ class webcache__ extends lxDriverClass
 	{
 		setRpmInstalled($drivertype);
 
-	//	lxshell_return("chkconfig", $drivertype, "on");
 		exec("chkconfig {$drivertype} on");
 
-	//	createRestartFile($drivertype);
 		createRestartFile("restart-web");
 	}
 }

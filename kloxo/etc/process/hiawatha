@@ -20,6 +20,6 @@ if [ ! -f /var/run/hiawatha.pid ] ; then
 fi
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/hiawatha stop
+service hiawatha stop
 #pkill -9 hiawatha
-/etc/rc.d/init.d/hiawatha start
+service hiawatha start

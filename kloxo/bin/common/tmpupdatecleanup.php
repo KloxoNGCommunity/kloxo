@@ -59,40 +59,19 @@ function updatecleanup_main()
 	// MR -- mysql not start after kloxo slave install
 	log_cleanup("- Preparing MySQL/MariaDB service");
 
-	if (file_exists("/etc/rc.d/init.d/mysqld")) {
+	if (isServiceExists('mysqld')) {
 		log_cleanup("- MySQL activated");
 		exec("chkconfig mysql off >/dev/null 2>&1");
 		exec("chkconfig mysqld on");
 	
-	//	log_cleanup("- MySQL restarted");
-	//	exec("service mysqld restart");
-	} elseif (file_exists("/etc/rc.d/init.d/mysql")) {
+	} else {
 		log_cleanup("- MariaDB activated");
 		exec("chkconfig mysqld off >/dev/null 2>&1");
 		exec("chkconfig mysql on");
-	
-	//	log_cleanup("- MariaDB restarted");
-	//	exec("service mysql restart");
 	}
 
 	log_cleanup("- Updating Main services");
 
-/*	
-	$slist = array(
-		"kloxomr7",
-		"httpd* lighttpd* nginx* hiawatha* openlitespeed* monkey*",
-		"mod_* mysql* mariadb* MariaDB* php*",
-		"bind* djbdns* pdns* nsd* maradns* mydns yadifa*",
-		"varnish* trafficserver* squid*",
-		"pure-ftpd* *-toaster bogofilter",
-		"kloxomr-webmail-*.noarch",
-		"kloxomr-thirdparty-*.noarch",
-		"kloxomr7-thirdparty-*.noarch",
-		"kloxomr-editor-*.noarch"
-	);
-
-	setUpdateServices($slist);
-*/
 	## MR -- change to update all
 
 	log_cleanup('Updating All packages - WAIT to process...');
@@ -105,14 +84,6 @@ function updatecleanup_main()
 	} else {
 		log_cleanup("- New version of packages installed");
 	}
-/*
-	// MR -- use this trick for qmail non-daemontools based
-	log_cleanup("- Preparing some services again");
-	
-	log_cleanup("- qmail enabled and restart queue");
-	exec("chkconfig qmail on");
-	createRestartFile("qmail");
-*/
 
 	if (isset($opt['without-services'])) {
 		// no action

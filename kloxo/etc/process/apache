@@ -9,6 +9,6 @@ if [ ! -f /var/run/httpd.pid ] ; then
 fi
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/httpd stop
+service httpd stop
 pkill -9 httpd
-/etc/rc.d/init.d/httpd start
+service httpd start

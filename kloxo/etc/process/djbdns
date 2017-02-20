@@ -14,7 +14,7 @@ for i in $(ls /opt/configs/djbdns/conf/master) ; do
 done
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/djbdns stop
+service djbdns stop
 pkill -9 djbdns
-/etc/rc.d/init.d/djbdns start
+service djbdns start
 

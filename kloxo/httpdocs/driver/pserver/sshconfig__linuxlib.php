@@ -47,7 +47,7 @@ class sshconfig__linux extends lxDriverClass
 					throw new lxException($login->getThrow('could_not_write_config_file'), '', '/etc/ssh/sshd_config');
 				}
 
-				exec_with_all_closed("/etc/init.d/sshd restart");
+				exec_with_all_closed("service sshd restart");
 
 				break;
 			case "ssh_password":

@@ -1199,9 +1199,9 @@ function fix_vgname($vgname)
 
 function restart_mysql()
 {
-	if (file_exists("/etc/init.d/mysqld")) {
+	if (isServiceExists('mysqld')) {
 		exec_with_all_closed("service mysqld restart >/dev/null 2>&1");
-	} elseif (file_exists("/etc/init.d/mysql")) {
+	} else {
 		exec_with_all_closed("service mysql restart >/dev/null 2>&1");
 	}
 }
@@ -3514,8 +3514,8 @@ function manage_service($service, $state)
 	$servicename = "__var_programname_$service";
 	$program = $gbl->$servicename;
 
-	if (file_exists("/etc/init.d/$program")) {
-		lxshell_return("/etc/init.d/$program", $state);
+	if (isServiceExists($program)) {
+		exec_with_all_closed("service {$program} restart >/dev/null 2>&1");
 	}
 }
 
@@ -4858,14 +4858,18 @@ function lxguard_save_hitlist($hl)
 
 function fix_domainkey($nolog = null)
 {
-	log_cleanup("Fix Domainkeys", $nolog);
-	log_cleanup("- Fix process", $nolog);
+	$c = db_get_count('domain', "nname LIKE '%%'");
 
-	$svm = new ServerMail(null, null, "localhost");
-	$svm->get();
-	$svm->domainkey_flag = 'on';
-	$svm->setUpdateSubaction('update');
-	$svm->was();
+	if (intval($c) > 0) {
+		log_cleanup("Fix Domainkeys", $nolog);
+		log_cleanup("- Fix process", $nolog);
+
+		$svm = new ServerMail(null, null, "localhost");
+		$svm->get();
+		$svm->domainkey_flag = 'on';
+		$svm->setUpdateSubaction('update');
+		$svm->was();
+	}
 }
 
 function fix_move_to_client()
@@ -5794,33 +5798,12 @@ function getInitialPhpFpmConfig($nolog = null)
 
 		return $b3;
 	} else {
-		// basic php-fpm.init
 		foreach ($d as $k => $v) {
-			$t = "prog=\"{$v}-fpm\"";
+			exec("sh /script/set-php-fpm {$v}");
 
-			exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
-
-			if (count($out) > 0) {
-				touch("../etc/flag/use_{$v}.flg");
-				exec("sh /script/set-php-fpm {$v}");
-
-				return $v;
-			}
+			return $v;
 		}
 
-		// customize php-fpm.init back to basic
-		foreach ($d as $k => $v) {
-			$t = "custom_name=\"{$v}\"";
-
-			exec("cat /etc/rc.d/init.d/php-fpm|grep '{$t}'", $out, $ret);
-
-			if (count($out) > 0) {
-				touch("../etc/flag/use_{$v}.flg");
-				exec("sh /script/set-php-fpm {$v}");
-
-				return $v;
-			}
-		}
 	}
 
 	return 'php';
@@ -6278,15 +6261,6 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
-/*
-//	if (lxfile_exists("/etc/init.d/pure-ftpd")) {
-	if (!lxfile_exists("/etc/init.d/pure-ftpd")) {
-		log_cleanup("- Turn off and remove pure-ftpd service", $nolog);
-		exec("chkconfig pure-ftpd off 2>/dev/null");
-		// MR --- chkconfig off not enough because can restart with 'service pure-ftpd start'
-		@lxfile_rm("/etc/init.d/pure-ftpd");
-	}
-*/
 	lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
 	exec("chkconfig pure-ftpd on; chmod 0755 /etc/init.d/pure-ftpd");
 
@@ -6296,8 +6270,6 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
-//	log_cleanup("- Restart xinetd service for pureftp", $nolog);
-//	call_with_flag("restart_xinetd_for_pureftp");
 	log_cleanup("- Restart pure-ftpd service", $nolog);
 	createRestartFile('restart-ftp');
 }
@@ -6476,7 +6448,7 @@ function setInitialServer($nolog = null)
 
 function fix_hiawatha()
 {
-	if (file_exists("/etc/init.d/hiawatha")) {
+	if (isServiceExists('hiawatha')) {
 		$webdrv = slave_get_driver('web');
 
 		if (strpos($webdrv, 'hiawatha') !== false) {
@@ -6541,11 +6513,11 @@ function setSomeScript($nolog = null)
 		exec("sh ../bin/misc/lxpopuser.sh");
 	}
 
-	log_cleanup("- Remove /home/kloxo/httpd/script dir", $nolog);
-	lxfile_rm_content("__path_home_root/httpd/script/");
-
 	log_cleanup("- Initialize /home/kloxo/httpd/script dir", $nolog);
 	lxfile_mkdir("/home/kloxo/httpd/script");
+
+	log_cleanup("- Remove /home/kloxo/httpd/script dir", $nolog);
+	lxfile_rm_content("/home/kloxo/httpd/script/");
 
 	log_cleanup("- Set ownership apache:apache for /home/kloxo/httpd/script dir", $nolog);
 	lxfile_unix_chown_rec("/home/kloxo/httpd/script", "apache:apache");
@@ -6633,7 +6605,7 @@ function removeOtherDrivers($class = null, $nolog = null)
 
 				if (class_exists("{$k}__{$o}")) {
 					if ($o === 'hiawatha') {
-						exec_with_all_closed("chkconfig hiawatha off; /etc/init.d/hiawatha stop");
+						exec_with_all_closed("service hiawatha stop; chkconfig hiawatha off");
 						log_cleanup("- Deactivated {$k}__{$o}", $nolog);
 					} else {
 						log_cleanup("- Uninstall {$k}__{$o}", $nolog);
@@ -6694,7 +6666,7 @@ function fix_secure_log($nolog = null)
 	lxfile_cp("../file/linux/syslog.conf", "/etc/syslog.conf");
 	lxfile_cp("../file/linux/rsyslog.conf", "/etc/rsyslog.conf");
 
-	if (file_exists("/etc/init.d/syslog")) {
+	if (isServiceExists('syslog')) {
 		createRestartFile('syslog');
 	} else {
 		createRestartFile('rsyslog');
@@ -7054,8 +7026,7 @@ function updatecleanup($nolog = null)
 	log_cleanup("- Clean process", $nolog);
 	call_with_flag("remove_host_deny");
 
-//	if (isRpmInstalled("gpm")) {
-	if (file_exists("/etc/rc.d/init.d/gpm")) {
+	if (isServiceExists('gpm')) {
 		log_cleanup("Turn off mouse daemon", $nolog);
 		log_cleanup("- Turn off process", $nolog);
 		exec("chkconfig gpm off");
@@ -7461,11 +7432,7 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 
 	$pathsrc = "../file/{$webdriver}";
 	$pathdrv = "/opt/configs/{$webdriver}";
-//	$pathtpl = "/opt/configs/{$webdriver}/tpl";
-//	$pathgbls = "/opt/configs/{$webdriver}/conf/globals";
-//	$pathdef = "/opt/configs/{$webdriver}/conf/defaults";
 	$pathetc = "/etc/{$aliasdriver}";
-//	$pathinit = "/etc/init.d";
 	$pathconfd = "{$pathetc}/conf.d";
 	$pathconf = ($webdriver === 'apache') ? "{$pathetc}/conf" : "{$pathetc}";
 
@@ -7717,19 +7684,6 @@ function setRealServiceBranchList($nolog = null)
 	}
 }
 
-function isServiceRunning($srvc)
-{
-//	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'(pid'");
-//	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'running'");
-	$ret = lxshell_return("pgrep", "^{$srvc}");
-
-	if ($ret) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
 function getRpmVersionViaYum($rpm)
 {
 	exec("yum info {$rpm} | grep 'Version' | awk '{print $3}'", $out, $ret);
@@ -7802,7 +7756,7 @@ function setPhpBranch($select, $nolog = null)
 
 	exec("sh /script/fixphp");
 
-	if (file_exists('/etc/init.d/php-fpm')) {
+	if (isServiceExists('php-fpm')) {
 		createRestartFile('php-fpm');
 	}
 }
@@ -8553,7 +8507,7 @@ function setAllWebserverInstall($nolog = null)
 					exec("rpm -qa httpd24u", $out3);
 
 					if (count($out3) > 0) {
-						if (!file_exists("{$initpath}/httpd")) {
+						if (isServiceExists('httpd')) {
 							exec("yum -y reinstall httpd24u");
 
 							log_cleanup("- Reinstalling 'httpd24u'", $nolog);
@@ -8572,7 +8526,8 @@ function setAllWebserverInstall($nolog = null)
 				exec("rpm -qa httpd24u", $out2);
 
 				if (count($out2) > 0) {
-					exec("yum -y replace httpd24u --replace-with=httpd;" . "yum -y remove {$hm['httpd24u']};" . "yum -y install {$hm['httpd']}");
+					exec("yum -y replace httpd24u --replace-with=httpd;" .
+						"yum -y remove {$hm['httpd24u']};" . "yum -y install {$hm['httpd']}");
 
 					log_cleanup("- Replacing 'httpd24' to 'httpd'", $nolog);
 				} else {
@@ -8581,7 +8536,7 @@ function setAllWebserverInstall($nolog = null)
 					exec("rpm -qa httpd", $out3);
 
 					if (count($out3) > 0) {
-						if (!file_exists("{$initpath}/httpd")) {
+						if (isServiceExists('httpd')) {
 							exec("yum -y reinstall httpd");
 
 							log_cleanup("- Reinstalling 'httpd'", $nolog);
@@ -8604,7 +8559,7 @@ function setAllWebserverInstall($nolog = null)
 			exec("rpm -qa {$v}", $out3);
 
 			if (count($out3) > 0) {
-				if (!file_exists("{$initpath}/{$v}")) {
+				if (isServiceExists($v)) {
 					exec("yum -y reinstall {$v}");
 
 					log_cleanup("- Reinstalling '{$v}'", $nolog);
@@ -8684,4 +8639,73 @@ function getRemoteIp()
 	}
 
 	return $ip;
+}
+
+function isServiceExists($target)
+{
+	if ((file_exists("/etc/rc.d/init.d/{$target}")) ||
+			(file_exists("/usr/lib/systemd/system/{$target}.service"))) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function isServiceEnabled($target)
+{
+	$ret = false;
+
+	exec("command -v systemctl", $test);
+
+	if (count($test) > 0) {
+		exec("systemctl list-unit-files --type=service|grep ^{$target}|grep 'enabled'", $val2);
+
+		if (count($val2) > 0) {
+			$ret = true;
+		}
+	}
+
+	exec("chkconfig --list --type=sysv|grep ^{$target}|grep ':on'", $val1);
+
+	if (count($val1) > 0) {
+		$ret = true;
+	}
+	
+	return $ret;
+}
+
+function getServiceType($target)
+{
+	$ret = '';
+
+	exec("command -v systemctl", $test);
+
+	if (count($test) > 0) {
+		exec("systemctl list-unit-files --type=service|grep ^{$target}", $val2);
+
+		if (count($val2) > 0) {
+			$ret = 'systemd';
+		}
+	}
+ 
+	exec("chkconfig --list --type=sysv|grep ^{$target}", $val1);
+
+	if (count($val1) > 0) {
+		$ret = 'sysv';
+	}
+
+	return $ret;
+}
+
+function isServiceRunning($srvc)
+{
+//	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'(pid'");
+//	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'running'");
+	$ret = lxshell_return("pgrep", "^{$srvc}");
+
+	if ($ret) {
+		return false;
+	} else {
+		return true;
+	}
 }

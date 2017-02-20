@@ -18,8 +18,6 @@ class Service__Redhat extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//	exec_with_all_closed("{$sgbl->__path_real_etc_root}/init.d/{$this->main->servicename} $act");
-
 		$cmd = $this->main->servicename;
 
 		if (strpos($cmd, 'proxy') !== false) {
@@ -30,7 +28,7 @@ class Service__Redhat extends lxDriverClass
 		}
 
 		foreach ($cmdlist as $key => $cmd) {
-			exec_with_all_closed("{$sgbl->__path_real_etc_root}/init.d/{$cmd} $act");
+			exec_with_all_closed("service {$cmd} {$act}");
 		}
 	}
 
@@ -99,7 +97,7 @@ class Service__Redhat extends lxDriverClass
 			$__l['state'] = 'off';
 			$__l['boot_state'] = 'off';
 			
-			if (lxfile_exists("{$sgbl->__path_real_etc_root}/init.d/{$__l['servicename']}")) {
+			if (isServiceExists($__l['servicename'])) {
 				$__l['install_state'] = 'on';
 			} else {
 				continue;

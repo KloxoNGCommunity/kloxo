@@ -11,22 +11,22 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	exit
 else
 	ppath="/usr/local/lxlabs/kloxo/etc/process"
-	ipath="/etc/rc.d/init.d"
 	fpath="/usr/local/lxlabs/kloxo/etc/flag"
-	spath="/usr/lib/systemd/system"
 	
 	ASQMAIL=""
 
 	for item in ${list[*]} ; do
 		svc_ok='no'
-		if [ -f ${ipath}/${item} ] ; then
+		if [ "$(chkconfig --list --type=sysv|grep ^${item})" != "" ] ; then
 			svc_ok='yes'
 		fi
 		if [ "$(command -v systemctl)" != "" ] ; then
-			if [ -f ${spath}/${item}.service ] ; then
+			if [ "$(systemctl list-unit-files --type=service|grep ^${item})" != "" ] ; then
+
 				svc_ok='yes'
 			fi
 		fi
+
 		if [ "${svc_ok}" == 'yes' ] ; then
 			if [ "${item}" == "phpm-fpm" ] ; then
 				if [ -f ${fpath}/enablemultiplephp.flg ] ; then
@@ -41,11 +41,11 @@ else
 				fi
 			fi
 			svc_on='no'
-			if [ "$(chkconfig --list ${item}|grep ':on')" != "" ] ; then
+			if [ "$(chkconfig --list --type=sysv|grep ^${item}|grep ':on')" != "" ] ; then
 				svc_on='yes'
 			fi
 			if [ "$(command -v systemctl)" != "" ] ; then
-				if [ "$(systemctl list-daemon|grep ${item}|grep 'enabled')" != "" ] ; then
+				if [ "$(systemctl list-unit-files --type=service|grep ^${item}|grep 'enabled')" != "" ] ; then
 					svc_on='yes'
 				fi
 			fi

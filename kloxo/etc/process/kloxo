@@ -19,8 +19,8 @@ if [ ! -f /usr/local/lxlabs/kloxo/init/kloxo_use_php-cgi ] ; then
 fi
 
 if [ "${ret}" == "yes" ] ; then
-	/etc/rc.d/init.d/kloxo start
+	service kloxo start
 fi
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/kloxo restart
+service kloxo restart

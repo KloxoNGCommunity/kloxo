@@ -24,8 +24,9 @@ fi
 if [ ! -f /etc/cron.d/kloxo-wrapper ] ; then
 	'cp' -f ${bpath}/init/kloxo-wrapper.cron /etc/cron.d/kloxo-wrapper
 	chown root:root /etc/cron.d/kloxo-wrapper
-	sh /script/run-kloxo-wrapper
 fi
+
+sh /script/run-kloxo-wrapper &
 
 cp -f ${spath}/default_index.php ${tpath}/index.php
 cp -f ${spath}/login_inc.php ${tpath}/inc.php

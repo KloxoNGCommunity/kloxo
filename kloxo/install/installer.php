@@ -943,15 +943,8 @@ function setUsingMyIsam()
 
 function isMysqlRunning()
 {
-	if (file_exists("/etc/rc.d/init.d/mysql")) {
-	//	@exec("service mysql status|grep -i '(pid'", $out, $ret);
-		@exec("pgrep ^mysql", $out);
-	} else {
-	//	@exec("service mysqld status|grep -i '(pid'", $out, $ret);
-		@exec("pgrep ^mysqld", $out);
-	}
+	@exec("pgrep ^mysql", $out);
 
-//	if ($ret === 0) {
 	if (count($out) > 0) {
 		return true;
 	} else {
@@ -961,10 +954,10 @@ function isMysqlRunning()
 
 function actionMysql($action)
 {
-	if (file_exists("/etc/rc.d/init.d/mysql")) {
-		system("service mysql {$action}");
-	} else {
+	if ((file_exists("/etc/rc.d/init.d/mysqld")) || (file_exists("/usr/lib/systemd/system/mysqld.service"))) {
 		system("service mysqld {$action}");
+	} else {
+		system("service mysql {$action}");
 	}
 }
 

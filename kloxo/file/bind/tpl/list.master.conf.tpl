@@ -37,6 +37,6 @@
 
 	file_put_contents($file, $str);
 
-	if (!file_exists("/etc/rc.d/init.d/named")) { return; }
+	if (!isServiceExists('named')) { return; }
 
 	createRestartFile("restart-dns");

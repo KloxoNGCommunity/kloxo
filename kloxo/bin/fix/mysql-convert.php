@@ -46,11 +46,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 		}
 	}
 
-	if (file_exists("/etc/init.d/mysql")) {
-		exec("service mysql restart");
-	} else {
-		exec("service mysqld restart");
-	}
+	exec("sh /script/restart-mysql");
 
 	$conn = new mysqli('localhost', 'root', $pass);
 
@@ -137,11 +133,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 		}
 	}
 
-	if (file_exists("/etc/init.d/mysql")) {
-		exec("service mysql restart");
-	} else {
-		exec("service mysqld restart");
-	}
+	exec("sh /script/restart-mysql");
 
 	if ($config === 'yes') {
 		if ($database === '_all_') {
@@ -187,7 +179,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 								@exec("echo never > {$tdir}/enabled");
 								@exec("grep -q -F 'echo never > {$tdir}/enabled' /etc/rc.d/rc.local || ".
 										"echo 'echo never > {$tdir}/enabled\n".
-										"if [ -f /etc/rc.d/init.d/mysql ] ; then\n".
+										"if [ -f /etc/rc.d/init.d/mysql ] || [ -f /usr/lib/systemd/system/mysql.service ] ; then\n".
 										"\tservice mysql restart".
 										"fi".
 										"' >>  /etc/rc.d/rc.local");
@@ -215,11 +207,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 
 	log_cleanup("- MySQL Service restarted");
 
-	if (file_exists("/etc/init.d/mysql")) {
-		exec("service mysql restart");
-	} else {
-		exec("service mysqld restart");
-	}
+	exec("sh /script/restart-mysql");
 	
 	print("\n* Note: Better reboot after first running this script and then run again\n");
 }

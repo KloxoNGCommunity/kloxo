@@ -6,13 +6,25 @@ class Service__Linux extends Lxlclass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 		
-		$val = lscandir_without_dot("{$sgbl->__path_real_etc_root}/init.d");
+	//	$val = lscandir_without_dot("{$sgbl->__path_real_etc_root}/init.d");
 	/*
 		$val = array_remove($val, $sgbl->__var_programname_web);
 		$val = array_remove($val, $sgbl->__var_programname_dns);
 		$val = array_remove($val, $sgbl->__var_programname_imap);
 		$val = array_remove($val, $sgbl->__var_programname_mmail);
 	*/
+		exec("chkconfig --list --type=sysv|awk '{print $1}'", $val1);
+
+		$val2 = array();
+
+		exec("command -v systemctl", $test);
+
+		if (count($test) > 0) {
+			exec("systemctl list-unit-files --type=service|awk '{print $1}'|sed 's/\.service//g'", $val2);
+		}
+
+		$val = lx_array_merge($val1, $val2);
+
 		$nval = self::getMainServiceList();
 		$nval = lx_array_merge(array($nval, $val));
 		
@@ -58,14 +70,17 @@ class Service__Linux extends Lxlclass
 	static function checkService($name)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
-
+	/*
 		if ($name === 'qmail') {
 			$ret = lxshell_return("qmailctl", "stat");
 		} else {
-			$ret = lxshell_return("{$sgbl->__path_real_etc_root}/init.d/{$name}", "status");
+			$ret = lxshell_return("service". $name, "status");
 		}
+	*/
+		exec("pgrep ^{$name}", $out);
 
-		$state = ($ret) ? "off" : "on";
+	//	$state = ($ret) ? "off" : "on";
+		$state = (count($out) > 0) ? "off" : "on";
 
 		return $state;
 	}

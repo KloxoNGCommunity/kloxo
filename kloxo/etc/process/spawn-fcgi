@@ -7,6 +7,6 @@ if [ ! -f /tmp/fcgiwrap.sock ] ; then
 fi
 
 echo "  - Process 'spawn-fcgi': restart"
-/etc/rc.d/init.d/spawn-fcgi restart
+service spawn-fcgi restart
 
 

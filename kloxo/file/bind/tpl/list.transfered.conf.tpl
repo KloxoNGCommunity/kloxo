@@ -9,7 +9,7 @@
 	
 	exec("chown named:named /var/log/named; chmod 755 /var/log/named");
 
-	if (file_exists("/etc/rc.d/init.d/named")) {
+	if (isServiceExists('named')) {
 		exec("chkconfig named on");
 	}
 

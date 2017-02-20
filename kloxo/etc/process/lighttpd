@@ -11,6 +11,6 @@ if [ ! -f /var/run/lighttpd.pid ] ; then
 fi
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/lighttpd stop
+service lighttpd stop
 pkill -9 lighttpd
-/etc/rc.d/init.d/lighttpd start
+service lighttpd start

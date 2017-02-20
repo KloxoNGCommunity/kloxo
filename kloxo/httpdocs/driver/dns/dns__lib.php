@@ -27,9 +27,11 @@ class dns__ extends lxDriverClass
 			foreach ($a as $v) {
 				exec("service {$driveralias}{$v} stop");
 				lunlink("/etc/init.d/{$driveralias}{$v}");
+				lunlink("/usr/lib/systemd/system/{$driveralias}{$v}.service");
 			}
 		} else {
 			lunlink("/etc/init.d/{$driveralias}");
+			lunlink("/usr/lib/systemd/system/{$driveralias}.service");
 		}
 	}
 
@@ -59,14 +61,6 @@ class dns__ extends lxDriverClass
 			setRpmInstalled("{$driver}-mysql");
 		}
 
-	/*
-		$initfile = getLinkCustomfile("/opt/configs/{$driver}/etc/init.d", "{$driveralias}.init");
-
-		if (file_exists($initfile)) {
-			lxfile_cp($initfile, "/etc/init.d/{$driveralias}");
-			chmod("/etc/init.d/{$driveralias}", '0755');
-		}
-	*/
 		setCopyDnsConfFiles($driver);
 
 		if ($driver === 'djbdns') {

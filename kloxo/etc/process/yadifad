@@ -9,6 +9,6 @@ if [ ! -f /var/run/yadifad.pid ] ; then
 fi
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/yadifad stop
+service yadifad stop
 pkill -9 yadifad
-/etc/rc.d/init.d/yadifad start
+service yadifad start

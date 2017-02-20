@@ -180,7 +180,7 @@ chown mysql:mysql /var/lib/mysqltmp
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
-if [ "$(yum list|grep 'php54')" == "" ] ; then
+if [ "$(yum list|grep 'php56')" != "" ] ; then
 	phpused="php56"
 	yum -y install ${phpused}u ${phpused}u-mysqlnd
 else

@@ -9,6 +9,6 @@ if [ ! -f /var/run/nginx.pid ] ; then
 fi
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/nginx stop
+service nginx stop
 pkill -9 nginx
-/etc/rc.d/init.d/nginx start
+service nginx start

@@ -19,10 +19,10 @@ $text = str_replace("'PASSWORD'", "'{$pass}'", $text);
 file_put_contents("/tmp/reset-mysql-password.sql", $text);
 
 print("Stop MySQL service...\n");
-if (file_exists("/etc/init.d/mysql")) {
-	exec("service mysql stop");
-} else {
+if (isServiceExists('mysqld')) {
 	exec("service mysqld stop");
+} else {
+	exec("service mysql stop");
 }
 
 print("MySQL ROOT password reset...\n");
@@ -31,10 +31,10 @@ system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &"
 sleep(15);
 
 print("Start MySQL service...\n");
-if (file_exists("/etc/init.d/mysql")) {
-	exec("service mysql start");
-} else {
+if (isServiceExists('mysqld')) {
 	exec("service mysqld start");
+} else {
+	exec("service mysql start");
 }
 
 exec("'rm' -f /tmp/reset-mysql-password.sql");

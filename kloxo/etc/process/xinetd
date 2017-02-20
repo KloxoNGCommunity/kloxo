@@ -9,6 +9,6 @@ if [ ! -f /var/run/xinetd.pid ] ; then
 fi
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/xinetd stop
+service xinetd stop
 pkill -9 xinetd
-/etc/rc.d/init.d/xinetd start
+service xinetd start

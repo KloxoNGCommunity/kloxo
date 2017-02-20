@@ -3,6 +3,6 @@
 echo "*** Process for PHP-FPM service ***"
 
 echo "  - Process: restart"
-/etc/rc.d/init.d/php-fpm stop
+service php-fpm stop
 'rm' -f /opt/configs/php-fpm/sock/php-*.sock
-/etc/rc.d/init.d/php-fpm start
+service php-fpm start

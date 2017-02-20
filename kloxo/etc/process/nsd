@@ -9,6 +9,6 @@ if [ ! -f /var/run/nsd/nsd.pid ] ; then
 fi
 
 echo "  - Process 'nsd': restart"
-/etc/rc.d/init.d/nsd restart
+service nsd restart
 
 

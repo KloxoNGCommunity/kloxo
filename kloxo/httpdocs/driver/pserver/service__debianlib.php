@@ -22,9 +22,11 @@ function dbactionUpdate($subaction)
 			{
 
 				if ($this->main->isOn('status')) {
-					lxshell_return("update-rc.d", $this->main->servicename, 'defaults');
+				//	lxshell_return("update-rc.d", $this->main->servicename, 'defaults');
+					lxshell_return("chkconfig", $this->main->servicename, 'on');
 				} else {
-					lxshell_return("update-rc.d", "-f", $this->main->servicename, 'remove');
+				//	lxshell_return("update-rc.d", "-f", $this->main->servicename, 'remove');
+					lxshell_return("chkconfig", $this->main->servicename, 'off');
 				}
 
 				break;
@@ -33,9 +35,9 @@ function dbactionUpdate($subaction)
 		case "toggle_state":
 			{
 				if ($this->main->isOn('state')) {
-					lxshell_return("__path_real_etc_root/init.d/{$this->main->servicename}", "start");
+					lxshell_return("service", "{$this->main->servicename}", "start");
 				} else {
-					lxshell_return("__path_real_etc_root/init.d/{$this->main->servicename}", "stop");
+					lxshell_return("service", "{$this->main->servicename}", "stop");
 				}
 				break;
 			}

@@ -1,7 +1,11 @@
 #!/bin/sh
 
 if [ "$(grep -R 'hiawatha' '/usr/local/lxlabs/kloxo/etc/slavedb/driver')" == "" ] ; then
-	if [ -f /etc/rc.d/init.d/hiawatha ] ; then
+	if [ -f /etc/rc.d/init.d/hiawatha ] || [ -f /usr/lib/systemd/system/hiawatha.service ] ; then
 		chkconfig hiawatha off
+
+		if [ -f /usr/lib/systemd/system/hiawatha.service ] ; then
+			systemctl daemon-reload
+		fi
 	fi
 fi

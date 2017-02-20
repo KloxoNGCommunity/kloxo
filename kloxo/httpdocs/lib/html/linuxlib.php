@@ -296,17 +296,22 @@ function os_create_system_user($basename, $password, $id, $shell, $dir = "/tmp")
 
 function os_service_manage($serv, $act)
 {
-	exec_with_all_closed("/etc/init.d/$serv $act");
+	exec_with_all_closed("service {$serv} {$act}");
 }
 
 function os_create_program_service()
 {
-	global $gbl, $sgbl, $login, $ghtml; 
+	global $gbl, $sgbl, $login, $ghtml;
+
+	// MR -- this is for kloxo service!
+	// still also initd instead systemd in CentOS 7
+
 	$pgm = $sgbl->__var_program_name;
 
-	$pgminit = "__path_program_root/init/$pgm.init";
-	
-	lxfile_unix_chmod("/etc/init.d/$pgm", "0755");
+	$pgminit = "{$sgbl->__path_program_root}/init/{$pgm}.init";
+
+	lxfile_cp($pgminit, "/etc/rc.d/init.d/{$pgm}");
+	lxfile_unix_chmod("/etc/rc.d/init.d/{$pgm}", "0755");
 }
 
 function os_is_arch_sixfour()

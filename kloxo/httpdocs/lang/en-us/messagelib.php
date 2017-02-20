@@ -928,7 +928,7 @@ $__information['watchdog_addform__pre'] = "<p>Settings:" .
 		"<li>Port - service port number</li>" .
 		"<li>Action - command required to restart service</li>" .
 	"</ul></p>" .
-	"<p><b>Note</b>: - usually 'Action' to restart service is 'service XXX restart' or '/etc/init.d/XXX restart'.</p>";
+	"<p><b>Note</b>: - usually 'Action' to restart service is 'service XXX restart'.</p>";
 
 $__information['updateform_webbasics_pre'] =
 	"<p>By default, document root location is '/home/[user]/[domain]'.</p>" .

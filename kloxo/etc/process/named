@@ -10,6 +10,6 @@ fi
 
 echo "  - Process: restart"
 ## possible transfer zone with 'rndc retranfer' but need each zone - it's not practice
-/etc/rc.d/init.d/named stop
+service named stop
 pkill -9 named
-/etc/rc.d/init.d/named start
+service named start

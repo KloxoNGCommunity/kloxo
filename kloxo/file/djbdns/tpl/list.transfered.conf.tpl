@@ -30,19 +30,16 @@
 		touch("{$datadir}/reverse");
 	}
 
-	if (!file_exists("/etc/rc.d/init.d/djbdns")) { return; }
+	if (!isServiceExists('djbdns')) { return; }
 
 	exec("cd {$datadir}; cat master slave reverse > data; make");
 
-	if (file_exists("/etc/rc.d/init.d/djbdns")) {
-		createRestartFile("restart-dns");
+	createRestartFile("restart-dns");
 
-		$path = "/opt/configs/djbdns/conf/master";
-		$dirs = glob("{$path}/*");
+	$path = "/opt/configs/djbdns/conf/master";
+	$dirs = glob("{$path}/*");
 
-		foreach ($dirs as $d) {
-			$d = str_replace("{$path}/", "", $d);
-
+	foreach ($dirs as $d) {
+		$d = str_replace("{$path}/", "", $d);
 			exec_with_all_closed("sh /script/dnsnotify {$d}");
-		}
 	}

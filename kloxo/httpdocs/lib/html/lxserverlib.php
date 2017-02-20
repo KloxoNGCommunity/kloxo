@@ -182,8 +182,8 @@ function checkRestart()
 						if (strpos($cmd, 'restart-') !== false) {
 							exec_with_all_closed("sh /script/{$cmd} -y");
 						} else {
-							exec_with_all_closed("/etc/init.d/{$cmd} restart");
-						//	exec("/etc/init.d/{$cmd} restart");
+						//	exec("service {$cmd} restart");
+							exec_with_all_closed("service {$cmd} restart");
 						}
 					}
 				}
@@ -204,7 +204,7 @@ function special_bind_restart($cmd)
 
 	if (myPcntl_fork() === 0) {
 		socket_close($sgbl->__local_socket);
-		exec("/etc/init.d/$cmd restart  </dev/null >/dev/null 2>&1 &");
+		exec("service $cmd restart  </dev/null >/dev/null 2>&1 &");
 		exit;
 	} else {
 		myPcntl_wait();

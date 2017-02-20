@@ -36,6 +36,5 @@
 
 	file_put_contents($file, $str);
 
-	if (!file_exists("/etc/rc.d/init.d/nsd")) { return; }
-
+	if (!isServiceExists('nsd')) { return; }
 	createRestartFile("restart-dns");

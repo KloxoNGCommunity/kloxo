@@ -70,5 +70,9 @@ else
 	fi
 fi
 
+if [ ! f /etc/php-fpm.d/default.conf ] ; then
+	'cp' -f /opt/configs/php-fpm/conf/php/php-fpm.d/default.php /etc/php-fpm.d/default.conf
+fi
+
 rm -f ${kpath}/etc/flag/use_php*.flg
 echo '' > ${kpath}/etc/flag/use_${php_target}.flg
