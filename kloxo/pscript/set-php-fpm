@@ -70,7 +70,7 @@ else
 	fi
 fi
 
-if [ ! f /etc/php-fpm.d/default.conf ] ; then
+if [ ! -f /etc/php-fpm.d/default.conf ] ; then
 	'cp' -f /opt/configs/php-fpm/conf/php/php-fpm.d/default.php /etc/php-fpm.d/default.conf
 fi
 

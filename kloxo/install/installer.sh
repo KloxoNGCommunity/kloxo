@@ -179,14 +179,15 @@ chown mysql:mysql /var/lib/mysqltmp
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
-if [ "$(yum list|grep 'php54')" == "" ] ; then
+if [ "$(yum list|grep 'php56')" != "" ] ; then
 	phpused="php56"
-	yum -y install ${phpused}u ${phpused}u-mysqlnd
+	yum -y install ${phpused}u ${phpused}u-mysqlnd php56u-fpm
+	chkconfig nginx off
 else
 	phpused="php54"
 	yum -y install ${phpused} ${phpused}-mysqlnd
 fi
-
+	
 if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php
 fi
@@ -230,6 +231,7 @@ fi
 
 ## fix driver - always set default
 sh /script/setdriver --server=localhost --class=web --driver=apache >/dev/null 2>&1
+chkconfig httpd on >/dev/null 2>&1
 sh /script/setdriver --server=localhost --class=webcache --driver=none >/dev/null 2>&1
 sh /script/setdriver --server=localhost --class=dns --driver=bind >/dev/null 2>&1
 sh /script/setdriver --server=localhost --class=spam --driver=bogofilter >/dev/null 2>&1
@@ -240,3 +242,4 @@ sh /script/set-kloxo-php >/dev/null 2>&1
 sh /script/restart-all --force >/dev/null 2>&1
 
 echo
+

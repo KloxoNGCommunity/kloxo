@@ -111,7 +111,9 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 	$outlist = null;
 	$afterlist = null;
 	$outstring = null;
+	$afterstring = null;
 	$afterend = false;
+	
 
 	if (lxfile_exists($file)) {
 		$list = lfile_trim($file);
@@ -140,11 +142,14 @@ function file_put_between_comments($username, $stlist, $endlist, $startstring, $
 		}
 	}
 
-	if (count($outlist) > 1) {
+	if (count($outlist) > 0) {
 		$outstring = implode("\n", $outlist);
 	}
 
-	$afterstring = implode("\n", $afterlist);
+	if (count($afterlist) > 0) {
+		$afterstring = implode("\n", $afterlist);
+	}
+
 	$outstring = str_replace("\n\n", "\n", "{$outstring}\n{$startstring}\n{$startcomment}\n{$string}\n{$endstring}\n$afterstring\n");
 
 	lxuser_put_contents($username, $file, $outstring);
