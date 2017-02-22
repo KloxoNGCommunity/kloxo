@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#list=(pure-ftpd)
-
 if [ -f /script/custom.restart-list.inc ] ; then
 	. /script/custom.restart-list.inc
 else

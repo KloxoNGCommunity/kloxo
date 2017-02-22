@@ -17,4 +17,4 @@ list_syslog=(syslog rsyslog syslog-ng httpry)
 
 list_services=("${list_mysql[@]}" "${list_dns[@]}" "${list_web[@]}" "${list_mail[@]}" "${list_ftp[@]}")
 
-list_all=("${list_syslog[@]}" "${list_services[@]}" "${list_web[@]}" "${list_kloxo[@]}")
+list_all=("${list_syslog[@]}" "${list_services[@]}" "${list_kloxo[@]}")

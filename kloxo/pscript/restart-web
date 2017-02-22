@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#list=(varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean)
-
 if [ -f /script/custom.restart-list.inc ] ; then
 	. /script/custom.restart-list.inc
 else

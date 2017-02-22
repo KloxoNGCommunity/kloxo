@@ -28,18 +28,6 @@ else
 		fi
 
 		if [ "${svc_ok}" == 'yes' ] ; then
-			if [ "${item}" == "phpm-fpm" ] ; then
-				if [ -f ${fpath}/enablemultiplephp.flg ] ; then
-					chkconfig phpm-fpm on 2>/dev/null
-					chkconfig php-fpm on 2>/dev/null
-				else
-					chkconfig php-fpm on 2>/dev/null
-					chkconfig phpm-fpm off 2>/dev/null
-					if [ "$(pgrep ^${item})" != "" ] ; then
-						service phpm-fpm stop >/dev/null 2>&1
-					fi
-				fi
-			fi
 			svc_on='no'
 			if [ "$(chkconfig --list --type=sysv 2>/dev/null|grep ^${item}|grep ':on')" != "" ] ; then
 				svc_on='yes'
@@ -56,10 +44,6 @@ else
 						if [ "${item}" == "qmail" ] ; then
 							ASQMAIL="qmail"
 							sh /script/restart-mail
-						elif [ "${item}" == "php-fpm" ] ; then
-							service ${item} stop
-							'rm' -f /opt/configs/php-fpm/sock/php-*.sock
-							service ${item} start
 						elif [ "${item}" == "nsd" ] ; then
 							service ${item} restart
 						elif [ "${item}" == "spawn-fcgi" ] ; then

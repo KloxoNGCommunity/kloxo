@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#list=(mysql mysqld)
-
 if [ -f /script/custom.restart-list.inc ] ; then
 	. /script/custom.restart-list.inc
 else

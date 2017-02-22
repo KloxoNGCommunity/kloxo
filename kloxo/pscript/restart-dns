@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#list=(named djbdns pdns nsd mydns yadifad)
-
 if [ -f /script/custom.restart-list.inc ] ; then
 	. /script/custom.restart-list.inc
 else

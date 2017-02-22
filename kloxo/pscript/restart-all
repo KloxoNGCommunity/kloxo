@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#list=(syslog rsyslog mysqld mysql named djbdns pdns nsd mydns yadifad varnish trafficserver squid php-fpm memcached lighttpd nginx hiawatha httpd htcacheclean qmail pure-ftpd kloxo)
-
 if [ -f /script/custom.restart-list.inc ] ; then
 	. /script/custom.restart-list.inc
 else

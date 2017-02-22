@@ -22,6 +22,10 @@ cp -f ${spath}/default_index.php ${tpath}/index.php
 cp -f ${spath}/login_inc.php ${tpath}/inc.php
 cp -f ${spath}/login_inc2.php ${tpath}/inc2.php
 
+for i in kloxo-web kloxo-php kloxo-wrap ; do
+	chkconfig ${i} on  >/dev/null 2>&1
+done
+
 if [ -f ${bpath}/init/kloxo_use_php-cgi ] ; then
 	chkconfig kloxo-php off >/dev/null 2>&1
 	service kloxo-php stop >/dev/null 2>&1

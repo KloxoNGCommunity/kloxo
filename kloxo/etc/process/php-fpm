@@ -1,8 +1,0 @@
-#!/bin/sh
-
-echo "*** Process for PHP-FPM service ***"
-
-echo "  - Process: restart"
-service php-fpm stop
-'rm' -f /opt/configs/php-fpm/sock/php-*.sock
-service php-fpm start

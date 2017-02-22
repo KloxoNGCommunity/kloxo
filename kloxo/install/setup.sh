@@ -185,8 +185,10 @@ if [ "$(yum list|grep 'php56')" != "" ] ; then
 	yum -y install ${phpused}u ${phpused}u-mysqlnd php56u-fpm
 else
 	phpused="php54"
-	yum -y install ${phpused} ${phpused}-mysqlnd
+	yum -y install ${phpused} ${phpused}-mysqlnd php54-fpm
 fi
+
+chkconfig php-fpm on >/dev/null 2>&1
 	
 if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php
