@@ -95,7 +95,7 @@ else
 
 		chown root:root /etc/rc.d/init.d/kloxo-${i}
 		chmod 0775 /etc/rc.d/init.d/kloxo-${i}
-	fi
+	done
 fi
 
 echo "Execute fixlxphpexe for ${base_name}..."

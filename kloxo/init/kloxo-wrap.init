@@ -23,10 +23,13 @@ prog_wrapper="kloxo-wrapper.sh"
 wrapper_pidfile="${PID_DIR}/wrapper.pid"
 
 function wrapper_start() {
+	echo "Kloxo Wrapper -> START"
 	phpcli_load_wrapper
+
 }
 
 function wrapper_stop() {
+	echo "Kloxo Wrapper -> STOP"
 	killproc -p ${wrapper_pidfile} >/dev/null 2>&1
 }
 

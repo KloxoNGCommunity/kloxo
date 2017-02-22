@@ -303,15 +303,28 @@ function os_create_program_service()
 {
 	global $gbl, $sgbl, $login, $ghtml;
 
-	// MR -- this is for kloxo service!
-	// still also initd instead systemd in CentOS 7
-
 	$pgm = $sgbl->__var_program_name;
 
-	$pgminit = "{$sgbl->__path_program_root}/init/{$pgm}.init";
+	$a = array('web', 'php', 'wrap');
 
-	lxfile_cp($pgminit, "/etc/rc.d/init.d/{$pgm}");
-	lxfile_unix_chmod("/etc/rc.d/init.d/{$pgm}", "0755");
+	exec("command -v systemctl", $test);
+
+	if (count($test) > 0) {
+		foreach ($a as $k => $v) {
+			lxfile_cp("{$sgbl->__path_program_root}/init/{$pgm}-{$v}.service", "/etc/rc.d/init.d/{$pgm}-{$v}.service");
+			lxfile_unix_chmod("/etc/rc.d/init.d/{$pgm}-{$v}.service", "0644");
+			exec("chkconfig {$pgm}-{$v} on  >/dev/null 2>&1");
+		}
+
+		exec("systemctl daemon-reload");
+
+	} else {
+		foreach ($a as $k => $v) {
+			lxfile_cp("{$sgbl->__path_program_root}/init/{$pgm}-{$v}.init", "/etc/rc.d/init.d/{$pgm}-{$v}");
+			lxfile_unix_chmod("/etc/rc.d/init.d/{$pgm}-{$v}", "0755");
+			exec("chkconfig {$pgm}-{$v} on  >/dev/null 2>&1");
+		}
+	}
 }
 
 function os_is_arch_sixfour()
