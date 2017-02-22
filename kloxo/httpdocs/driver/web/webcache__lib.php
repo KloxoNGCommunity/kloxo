@@ -10,7 +10,7 @@ class webcache__ extends lxDriverClass
 	{
 		lxshell_return("service", $drivertype, "stop");
 
-		exec("chkconfig {$drivertype} off");
+		exec("chkconfig {$drivertype} off >/dev/null 2>&1");
 		
 		setRpmRemovedViaYum($drivertype);
 

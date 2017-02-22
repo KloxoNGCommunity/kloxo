@@ -1,0 +1,154 @@
+#!/bin/bash
+#
+# Startup script for Kloxo-MR
+#
+# chkconfig: - 85 15
+# description: The Kloxo-MR is Web hosting control panel
+# processname: kloxo
+# config: /etc/httpd/conf/kloxo.conf
+# pidfile: /var/run/kloxo-hiawatha.pid
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+MAIN_DIR="/usr/local/lxlabs/kloxo"
+INIT_DIR="${MAIN_DIR}/init"
+
+if [ ! -d ${INIT_DIR} ] ; then
+	mkdir -p ${INIT_DIR}
+	chown -R lxlabs:lxlabs ${INIT_DIR}
+fi
+
+PID_DIR="${MAIN_DIR}/pid"
+
+if [ ! -d ${PID_DIR} ] ; then
+	mkdir -p ${PID_DIR}
+	chown -R lxlabs:lxlabs ${PID_DIR}
+fi
+
+if [ -f ${INIT_DIR}/php_active ] ; then
+	mv -f ${INIT_DIR}/php_active ${INIT_DIR}/kloxo_php_active
+fi
+
+php_active=$(cat ${INIT_DIR}/kloxo_php_active)
+
+if [ "${1}" == "start" ] ; then
+	sh /script/fixlxphpexe ${php_active}
+else
+	if [ ! -f ${INIT_DIR}/kloxo_php_active ] ; then
+		sh /script/fixlxphpexe
+		php_active=$(cat ${INIT_DIR}/kloxo_php_active)
+	fi
+fi
+
+phpcgi_file="/opt/${php_active}/custom/php-fpm.sh"
+
+phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
+
+phpcgi_ini="/opt/${php_active}/custom/php.ini"
+
+phpcgi_pidfile="${INIT_DIR}/kloxo-phpcgi.pid"
+phpcgi_symlink="${INIT_DIR}/kloxo-phpcgi"
+
+phpcgi_name=$(basename ${phpcgi_symlink})
+
+phpcgi_sockfile="${INIT_DIR}/${phpcgi_name}.sock"
+
+phpcgi_lockfile="/var/lock/subsys/${phpcgi_name}"
+
+phpcgi_prog="kloxo-phpcgi"
+prog_as_slave="/usr/local/lxlabs/${prog}/etc/conf/slave-db.db"
+
+ln -sf ${phpcgi_file} ${phpcgi_symlink}
+
+phpcgi_spawn="${phpcgi_symlink} -y ${phpcgi_conf} -c ${phpcgi_ini} -R"
+
+function phpcgi_start() {
+	if [ -f ${phpcgi_pidfile} ] ; then
+		phpcgi_stop
+	fi
+
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
+		echo -n $"Starting ${phpcgi_prog} ('${php_active}' in 'fpm' mode): "
+
+		daemon ${phpcgi_spawn}
+
+		retval=$?
+		echo
+		[ ${retval} -eq 0 ] && touch ${phpcgi_lockfile} && touch ${phpcgi_sockfile}
+		return ${retval}
+	else
+		echo $"* ${phpcgi_prog} ('${php_active}' in 'cgi' mode): No need to start"
+	fi
+}
+
+function phpcgi_stop() {
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
+		echo -n $"Stopping ${phpcgi_prog}: "
+
+		killproc -p ${phpcgi_pidfile} -d 10
+
+		retval=$?
+		echo
+		[ ${retval} -eq 0 ] && rm -f ${phpcgi_lockfile} && rm -f ${phpcgi_sockfile}
+		return ${retval}
+	fi
+}
+
+function phpcgi_restart() {
+	phpcgi_stop
+	phpcgi_start
+
+	also_mysql
+}
+
+function phpcgi_reload() {
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
+		echo -n $"Reloading ${phpcgi_prog}: "
+		killproc -p ${phpcgi_pidfile} -d 10 ${phpcgi_name} -USR2
+		RETVAL=$?
+		echo
+	fi
+
+	also_mysql
+}
+
+function phpcgi_rh_status() {
+	if [ ! -f ${INIT_DIR}/kloxo_use_php-cgi ] ; then
+		status ${phpcgi_name}
+	fi
+}
+
+function phpcgi_rh_status_q() {
+	phpcgi_rh_status >/dev/null 2>&1
+}
+
+case "$1" in
+	start)
+		phpcgi_$1
+		;;
+	stop)
+		phpcgi_$1
+		;;
+	restart)
+		phpcgi_$1
+		;;
+	reload)
+		phpcgi_$1
+		;;
+	status)
+		phpcgi_rh_$1
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|status|restart|reload}"
+		retval=2
+esac
+
+exit ${retval}

@@ -13,7 +13,7 @@ class Service__Linux extends Lxlclass
 		$val = array_remove($val, $sgbl->__var_programname_imap);
 		$val = array_remove($val, $sgbl->__var_programname_mmail);
 	*/
-		exec("chkconfig --list --type=sysv|awk '{print $1}'", $val1);
+		exec("chkconfig --list --type=sysv 2>/dev/null|awk '{print $1}'", $val1);
 
 		$val2 = array();
 

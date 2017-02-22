@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+# Startup script for Kloxo-MR
+#
+# chkconfig: - 85 15
+# description: The Kloxo-MR is Web hosting control panel
+# processname: kloxo
+# config: /etc/httpd/conf/kloxo.conf
+# pidfile: /var/run/kloxo-hiawatha.pid
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+MAIN_DIR="/usr/local/lxlabs/kloxo"
+prog_wrapper="kloxo-wrapper.sh"
+wrapper_pidfile="${PID_DIR}/wrapper.pid"
+
+function wrapper_start() {
+	phpcli_load_wrapper
+}
+
+function wrapper_stop() {
+	killproc -p ${wrapper_pidfile} >/dev/null 2>&1
+}
+
+function wrapper_restart() {
+	wrapper_stop
+	wrapper_start
+}
+
+function wrapper_reload() {
+	wrapper_stop
+	wrapper_start
+}
+
+function phpcli_load_wrapper() {
+	cd ${MAIN_DIR}/httpdocs
+	chmod 755 ../sbin/kloxo-wrapper.sh
+	../sbin/kloxo-wrapper.sh &
+}
+
+case "$1" in
+	start)
+		wrapper_$1
+		;;
+	stop)
+		wrapper_$1
+		;;
+	restart)
+		wrapper_$1
+		;;
+	reload)
+		wrapper_$1
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|restart|reload}"
+		retval=2
+esac
+
+exit ${retval}

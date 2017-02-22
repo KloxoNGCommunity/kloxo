@@ -1,0 +1,17 @@
+#!/bin/sh
+
+for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
+	if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
+		chkconfig ${i}-fpm on >/dev/null 2>&1
+	else
+		if [ "${i}" != "php" ] ; then
+			chkconfig ${i}-fpm on >/dev/null 2>&1
+		else
+			chkconfig ${i}-fpm off >/dev/null 2>&1
+		fi
+	fi
+done
+
+if [ "$(command -v systemctl)" != "" ] ; then
+	systemctl daemon-reload >/dev/null 2>&1
+fi

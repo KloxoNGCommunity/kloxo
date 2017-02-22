@@ -65,7 +65,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		system("chmod 777 /var/lib/mysqltmp");
 
 		echo "- Restart MariaDB\n";
-		system("chkconfig mysql on");
+		system("chkconfig mysql on >/dev/null 2>&1");
 		system("service mysql restart");
 //	}
 }

@@ -15,7 +15,7 @@ class web__ extends lxDriverClass
 		foreach ($list as &$l) {
 			$a = ($l === 'apache') ? 'httpd' : $l;
 
-			@exec("service {$a} stop; chkconfig {$a} off; 'rm' -f /var/lock/subsys/{$a}");
+			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
 		}
 	}
 
@@ -31,7 +31,7 @@ class web__ extends lxDriverClass
 			self::setWebserverInstall($a);
 			self::setBaseWebConfig($v);
 
-			exec("chkconfig {$a} on");
+			exec("chkconfig {$a} on >/dev/null 2>&1");
 		}
 	
 		self::setInstallPhpfpm();
@@ -136,7 +136,7 @@ class web__ extends lxDriverClass
 		}
 
 	//	lxshell_return("chkconfig", "php-fpm", "on");
-		exec("chkconfig php-fpm on");
+		exec("chkconfig php-fpm on >/dev/null 2>&1");
 	}
 
 	function createConfFile()

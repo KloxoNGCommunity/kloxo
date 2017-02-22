@@ -48,7 +48,7 @@ start () {
 			daemonize="--daemonize"
 		fi
 
-		daemon --pidfile ${pidfile[$c]} ${prog[$c]} --fpm-config ${fpm_conf[$c]} $daemonize
+		daemon --pidfile ${pidfile[$c]} ${prog[$c]} -y ${fpm_conf[$c]} $daemonize
 
 		RETVAL=$?
 		echo

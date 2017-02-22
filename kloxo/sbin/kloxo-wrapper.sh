@@ -48,7 +48,6 @@ wrapper_main() {
 		string="master";
 	fi
 
-
 	mkdir ../log 2>/dev/null;
 	mkdir ../pid 2>/dev/null;
 
@@ -58,8 +57,9 @@ wrapper_main() {
 			/bin/cp ${__path_server_exe}.core ${__path_server_exe};
 			chmod 755 ${__path_server_exe};
 			exec ${__path_server_exe} ${string} >/dev/null 2>&1;
-		else 
-			exec ${__path_php_path} ${__path_server_path} ${string} >/dev/null 2>&1;
+		else
+			cd ${__path_program_root}/httpdocs
+			exec ${__path_php_path} -f ${__path_server_path} ${string} >/dev/null 2>&1;
 		fi
 
 		sleep 10;

@@ -78,7 +78,7 @@ class dns__ extends lxDriverClass
 		}
 
 	//	lxshell_return("chkconfig", $driveralias, "on");
-		exec("chkconfig {$driveralias} on");
+		exec("chkconfig {$driveralias} on >/dev/null 2>&1");
 
 		// MR -- disable here because execute in switchProgramPost()
 	//	createRestartFile($driveralias);

@@ -145,12 +145,12 @@ class pserver extends pservercore {
 							$php_type = db_get_value("serverweb", "pserver-" . $this->nname, "php_type");
 
 							if (stripos($php_type, 'php-fpm') !== false) {
-								exec("chkconfig php-fpm on");
+								exec("chkconfig php-fpm on >/dev/null 2>&1");
 							} else {
-								exec("chkconfig php-fpm off");
+								exec("chkconfig php-fpm off >/dev/null 2>&1");
 							}
 						} else {
-							exec("chkconfig php-fpm on");
+							exec("chkconfig php-fpm on >/dev/null 2>&1");
 						}
 					}
 				}

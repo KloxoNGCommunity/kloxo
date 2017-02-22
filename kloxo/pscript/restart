@@ -18,19 +18,14 @@ if [ ! -f ${bpath}/sbin/kloxo.exe ] ; then
 	sh /script/create-kloxoexe
 fi
 
-#cd ${bpath}/httpdocs
-/usr/bin/lxphp.exe -f ${bpath}/init/changeport.php
-
-if [ ! -f /etc/cron.d/kloxo-wrapper ] ; then
-	'cp' -f ${bpath}/init/kloxo-wrapper.cron /etc/cron.d/kloxo-wrapper
-	chown root:root /etc/cron.d/kloxo-wrapper
-fi
-
-sh /script/run-kloxo-wrapper &
-
 cp -f ${spath}/default_index.php ${tpath}/index.php
 cp -f ${spath}/login_inc.php ${tpath}/inc.php
 cp -f ${spath}/login_inc2.php ${tpath}/inc2.php
+
+if [ -f ${bpath}/init/kloxo_use_php-cgi ] ; then
+	chkconfig kloxo-php off >/dev/null 2>&1
+	service kloxo-php stop >/dev/null 2>&1
+fi
 
 list=${list_kloxo[*]}
 

@@ -12,8 +12,8 @@ After=syslog.target network.target
 
 [Service]
 Type=notify
-PIDFile=/run/php-fpm/php-fpm.pid
-ExecStart=/usr/sbin/php-fpm -y /opt/configs/php-fpm/conf/php/php-fpm.conf --nodaemonize
+PIDFile=/run/php-fpm/__custom_name__-fpm.pid
+ExecStart=/usr/sbin/__custom_name__-fpm -y /opt/configs/php-fpm/conf/__custom_name__/php-fpm.conf --nodaemonize
 ExecReload=/bin/kill -USR2 $MAINPID
 PrivateTmp=true
 

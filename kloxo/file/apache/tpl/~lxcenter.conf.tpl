@@ -4,10 +4,17 @@
 
 	$factor = 1;
 
-	// check memory -- $2=total, $3=used, $4=free, $5=shared, $6=buffers, $7=cached
 	$total = (int)shell_exec("free -m | grep Mem: | awk '{print $2}'");
 	$spare = ($spare) ? $spare : ($total * 0.25);
-	$apps  = (int)shell_exec("free -m | grep buffers/cache: | awk '{print $3}'");
+
+	$comtype = shell_exec("command -v systemctl");
+
+	if (count($comtype) > 0) {
+		$apps  = (int)shell_exec("free -m | grep 'Mem:' | awk '{print $7}'");
+	} else {
+		$apps  = (int)shell_exec("free -m | grep 'buffers/cache:' | awk '{print $3}'");
+	}
+
 	$avail = $total - $spare - $apps;
 
 	if ($select === 'low') {
@@ -154,5 +161,5 @@ KeepAliveTimeout 15
 Include /opt/configs/apache/conf/defaults/*.conf
 Include /opt/configs/apache/conf/domains/*.conf
 
-### selected: __optimize__ ###
+### selected: <?php echo $select; ?> ###
 

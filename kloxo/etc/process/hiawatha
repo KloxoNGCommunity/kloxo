@@ -4,13 +4,13 @@ echo "*** Process for HIAWATHA service ***"
 
 ## tricky detect if hiawatha as web server
 if [ "$(grep 'hiawatha' /usr/local/lxlabs/kloxo/etc/slavedb/driver)" == "" ] ; then
-	chkconfig hiawatha off
+	chkconfig hiawatha off >/dev/null 2>&1
 	#if [ "$(service hiawatha status|grep '(pid')" == "" ] ; then
 	if [ "$(pgrep ^hiawatha)" == "" ] ; then
 		/etc/init.d/hiawatha stop >/dev/null 2>&1
 	fi
 else
-	chkconfig hiawatha on
+	chkconfig hiawatha on >/dev/null 2>&1
 fi
 
 if [ ! -f /var/run/hiawatha.pid ] ; then

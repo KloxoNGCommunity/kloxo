@@ -88,7 +88,7 @@ class serverweb__ extends lxDriverClass
 				break;
 		}
 
-		exec("sed -i 's:__optimize__:{$this->main->apache_optimize}:' /etc/httpd/conf.d/~lxcenter.conf");
+	//	exec("sed -i 's:__optimize__:{$this->main->apache_optimize}:' /etc/httpd/conf.d/~lxcenter.conf");
 	}
 
 	function set_fix_chownchmod()
@@ -208,9 +208,9 @@ class serverweb__ extends lxDriverClass
 			}
 
 			if (stripos($t, 'php-fpm') !== false) {
-				exec("chkconfig php-fpm on");
+				exec("chkconfig php-fpm on >/dev/null 2>&1");
 			} else {
-				exec("chkconfig php-fpm off");
+				exec("chkconfig php-fpm off >/dev/null 2>&1");
 			}
 
 		//	$this->set_mpm($t);
@@ -279,7 +279,7 @@ class serverweb__ extends lxDriverClass
 		lxfile_cp(getLinkCustomfile($haecdpath, "fastcgi.conf"), $ehcdpath . "/fastcgi.conf");
 
 	//	lxshell_return("chkconfig", "php-fpm", "on");
-		exec("chkconfig php-fpm on");
+		exec("chkconfig php-fpm on >/dev/null 2>&1");
 	}
 
 	function set_fcgid()
@@ -311,7 +311,7 @@ class serverweb__ extends lxDriverClass
 	function remove_phpfpm()
 	{
 		// MR -- no remove and just off/disable
-		exec("chkconfig php-fpm off; service php-fpm stop");
+		exec("chkconfig php-fpm off >/dev/null 2>&1; service php-fpm stop");
 	}
 
 	function rename_to_nonconf()

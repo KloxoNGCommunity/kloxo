@@ -1,0 +1,169 @@
+#!/bin/bash
+#
+# Startup script for Kloxo-MR
+#
+# chkconfig: - 85 15
+# description: The Kloxo-MR is Web hosting control panel
+# processname: kloxo
+# config: /etc/httpd/conf/kloxo.conf
+# pidfile: /var/run/kloxo-hiawatha.pid
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+MAIN_DIR="/usr/local/lxlabs/kloxo"
+INIT_DIR="${MAIN_DIR}/init"
+
+if [ ! -d ${INIT_DIR} ] ; then
+	mkdir -p ${INIT_DIR}
+	chown -R lxlabs:lxlabs ${INIT_DIR}
+fi
+
+PID_DIR="${MAIN_DIR}/pid"
+
+if [ ! -d ${PID_DIR} ] ; then
+	mkdir -p ${PID_DIR}
+	chown -R lxlabs:lxlabs ${PID_DIR}
+fi
+
+if [ -f /opt/hiawatha/usr/sbin/hiawatha ] ; then
+	hiawatha_prog="/opt/hiawatha/usr/sbin/hiawatha"
+	wigwam_prog="/opt/hiawatha/usr/sbin/wigwam"
+else
+	hiawatha_prog="/usr/sbin/hiawatha"
+	wigwam_prog="/usr/sbin/wigwam"
+fi
+
+hiawatha_symlink="${INIT_DIR}/kloxo-hiawatha"
+wigwam_symlink="${INIT_DIR}/kloxo-wigwam"
+hiawatha_name=$(basename ${hiawatha_symlink})
+wigwam_name=$(basename ${wigwam_symlink})
+
+hiawatha_conf=${INIT_DIR}
+
+hiawatha_pidfile="${INIT_DIR}/kloxo-hiawatha.pid"
+hiawatha_lockfile="/var/lock/subsys/kloxo-hiawatha"
+
+if [ ! -f ${hiawatha_prog} ]; then
+	echo -e "${hiawatha_prog} not found."
+	exit 1;
+else
+	sh /script/hiawatha-off
+fi
+
+function hiawatha_start() {
+	cd ${MAIN_DIR}/httpdocs
+	lxphp.exe -f ../init/changeport.php
+
+	if [ ! -L ${hiawatha_symlink} ] ; then
+		ln -s ${hiawatha_prog} ${hiawatha_symlink}
+	fi
+	
+	if [ "$(pgrep 'kloxo-hiawatha')" != "" ] ; then
+		hiawatha_stop
+	fi
+
+	echo -n "Starting ${hiawatha_name}: "
+	daemon "${hiawatha_symlink} -c ${hiawatha_conf}"
+
+	retval=$?
+	echo
+	[ ${retval} -eq 0 ] && touch ${hiawatha_lockfile}
+	return ${retval}
+}
+
+function hiawatha_stop() {
+	if [ "$(pgrep 'kloxo-hiawatha')" == "" ] ; then
+		return 1
+	fi
+
+	echo -en "Stopping ${hiawatha_name}: "
+
+	killproc ${hiawatha_name}
+
+	retval=$?
+	echo
+	[ ${retval} -eq 0 ] && rm -f ${hiawatha_lockfile}
+	return ${retval}
+}
+
+function hiawatha_restart() {
+	hiawatha_stop
+	hiawatha_start
+}
+
+function hiawatha_reload() {
+	echo -n $"Reloading ${hiawatha_name}: "
+	killproc ${hiawatha_name} -USR1
+	RETVAL=$?
+	echo
+	return $RETVAL
+}
+
+function hiawatha_config_check() {
+	echo -e "Configuration check via ${wigwam_name}..."
+	${wigwam_symlink} -c ${hiawatha_conf}
+	echo
+	echo -e "Configuration check via ${hiawatha_name}..."
+	${hiawatha_symlink} -c ${hiawatha_conf} -k
+}
+
+function hiawatha_status() {
+	pidnum=$(cat ${hiawatha_pidfile})
+
+	if [ -f $hiawatha_pidfile ] && ps ${pidnum} >/dev/null 2>&1 ; then
+		echo -e "${hiawatha_name} (pid  ${pidnum}) is running..."
+	else
+		echo -e "${hiawatha_name} is not running..."
+	fi
+}
+
+function install_hiawatha() {
+	if [ ! -f /usr/sbin/hiawatha ] ; then
+		reinstall_hiawatha
+	fi
+}
+
+function reinstall_hiawatha() {
+	if [ ! -f /usr/sbin/hiawatha ] ; then
+		YUM_ACTION='reinstall'
+	else
+		YUM_ACTION='install'
+	fi
+
+	yum ${YUM_ACTION} hiawatha -y
+	chkconfig hiawatha off
+}
+
+case "$1" in
+	start)
+		hiawatha_$1
+		;;
+	stop)
+		hiawatha_$1
+		;;
+	restart)
+		hiawatha_$1
+		;;
+	reload)
+		hiawatha_$1
+		;;
+	update)
+		reinstall_hiawatha
+		;;
+	status)
+		hiawatha_status
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|status|restart|reload}"
+		retval=2
+esac
+
+exit ${retval}

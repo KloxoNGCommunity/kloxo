@@ -205,9 +205,13 @@ $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
 if (!isset($phptype)) { $phptype = 'php-fpm_event (default)'; }
 
-$seddata = 's/^prog=\"\(.*\)\"/\1/';
-exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);
-
+if (getServiceType('php-fpn') === 'sysv') {
+	$seddata = 's:^prog=\"\(.*\)\":\1:';
+	exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);
+} else {
+	$seddata = 's:^ExecStart=/usr/sbin/\(.*\)-fpm \(.*\):\1:';
+	exec("cat /usr/lib/systemd/system/php-fpm.service|grep 'ExecStart='|sed -e '" . $seddata . "'", $out);
+}
 if (count($out) > 0) {
 	$phpused = $out[0];
 
@@ -300,10 +304,7 @@ if ($phpmdirs) {
 }
 echo "      - Used: " . $phpused . "\n";
 
-$out = null;
-exec("chkconfig --list 'phpm-fpm'|grep ':on'", $out);
-
-if (count($out) > 0) {
+if (file_exists("{$kloxopath}/etc/flag/enablemultiplephp.flg")) {
 	echo "      - Multiple: enable\n";
 } else {
 	echo "      - Multiple: disable\n";
@@ -341,11 +342,13 @@ echo "   7. Stats: " .  $webstatsprog . "\n";
 //echo "\n";
 echo "D. Memory:\n";
 foreach ($meminfo as $k => $v) {
-	echo "   " . $v . "\n";
+//	echo "   " . $v . "\n";
+	echo $v . "\n";
 }
 //echo "\n";
 echo "E. Disk Space:\n";
 foreach ($diskinfo as $k => $v) {
-	echo "   " . $v . "\n";
+//	echo "   " . $v . "\n";
+	echo $v . "\n";
 }
 echo "\n";

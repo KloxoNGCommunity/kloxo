@@ -46,7 +46,7 @@ if (strpos($mysqlbranch, "mysql") !== false) {
 		}
 
 		echo "- Restart MySQL\n";
-		system("chkconfig mysqld on");
+		system("chkconfig mysqld on >/dev/null 2>&1");
 		system("service mysqld restart");
 //	}
 }

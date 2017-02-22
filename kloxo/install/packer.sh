@@ -57,6 +57,10 @@ if [ "$(rpm -qa|grep unzip)" == "" ] ; then
 	yum install zip unzip -y
 fi
 
+if [ "$(rpm -qa|grep wget)" == "" ] ; then
+	yum install wget -y
+fi
+
 if [ ! -d ./kloxo/httpdocs ] ; then
 	echo "Download git"
 	'rm' -rf ${kloxo_branch}* > /dev/null 2>&1

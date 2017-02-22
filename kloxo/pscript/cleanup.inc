@@ -21,7 +21,9 @@ if [ "$t" != "" ] ; then
 	exit
 fi
 
-chkconfig kloxo on
+for i in kloxo-web kloxo-php kloxo-wrap ; do
+	chkconfig ${i} on 2>/dev/null
+done
 
 for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
 	if [ "$(readlink /usr/bin/${i}-cli)" == "/opt/${i}/custom/${i}-cli.sh" ] ; then

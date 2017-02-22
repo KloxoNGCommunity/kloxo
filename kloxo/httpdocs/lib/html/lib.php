@@ -6443,11 +6443,7 @@ function setInitialServer($nolog = null)
 
 	exec("yum -y install $list >/dev/null 2>&1");
 
-	lxfile_cp(getLinkCustomfile("../init", "kloxo.init"),
-		"/etc/init.d/kloxo");
-
-	exec("chown root:root /etc/init.d/kloxo; chmod 755 /etc/init.d/kloxo");
-	exec("chkconfig kloxo on");
+	exec("sh /script/fixlxphpexe");
 
 	fix_hiawatha();
 }
@@ -8674,7 +8670,7 @@ function isServiceEnabled($target)
 		}
 	}
 
-	exec("chkconfig --list --type=sysv|grep ^{$target}|grep ':on'", $val1);
+	exec("chkconfig --list --type=sysv 2>/dev/null|grep ^{$target}|grep ':on'", $val1);
 
 	if (count($val1) > 0) {
 		$ret = true;
@@ -8697,7 +8693,7 @@ function getServiceType($target)
 		}
 	}
  
-	exec("chkconfig --list --type=sysv|grep ^{$target}", $val1);
+	exec("chkconfig --list --type=sysv 2>/dev/null|grep ^{$target}", $val1);
 
 	if (count($val1) > 0) {
 		$ret = 'sysv';

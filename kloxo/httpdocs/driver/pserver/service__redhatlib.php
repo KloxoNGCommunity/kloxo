@@ -11,7 +11,7 @@ class Service__Redhat extends lxDriverClass
 	function dbactionAdd()
 	{
 	//	lxshell_return("chkconfig", $this->main->servicename, 'on');
-		exec("chkconfig {$this->main->servicename} on");
+		exec("chkconfig {$this->main->servicename} on >/dev/null 2>&1");
 	}
 
 	function startStopService($act)
@@ -54,10 +54,10 @@ class Service__Redhat extends lxDriverClass
 				if ($this->main->servicename !== 'hiawatha') {
 					if ($this->main->isOn('boot_state')) {
 					//	lxshell_return("chkconfig", $this->main->servicename, 'on');
-						exec("chkconfig {$this->main->servicename} on");
+						exec("chkconfig {$this->main->servicename} on >/dev/null 2>&1");
 					} else {
 					//	lxshell_return("chkconfig", $this->main->servicename, 'off');
-						exec("chkconfig {$this->main->servicename} off");
+						exec("chkconfig {$this->main->servicename} off >/dev/null 2>&1");
 					}
 				}
 				

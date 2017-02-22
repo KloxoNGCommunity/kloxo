@@ -122,7 +122,12 @@ echo $x >>/opt/${base_name}/install.log
 
 repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine)(.*)'|sort -u > /opt/${base_name}/dependencies
 
-libm1=$(yum info libmemcached10${v}|grep Version|awk '{print $3}')
+if [ "$(yum list|grep libmemcached10)" != "" ] ; then
+	libm1=$(yum info libmemcached10${v}|grep Version|awk '{print $3}')
+else
+	libml="0.0.0"
+fi
+
 libm2=$(yum info libmemcached${v}|grep Version|awk '{print $3}')
 
 if [[ $libm1 < $libm2 ]] ; then

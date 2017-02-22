@@ -17,7 +17,7 @@ else
 
 	for item in ${list[*]} ; do
 		svc_ok='no'
-		if [ "$(chkconfig --list --type=sysv|grep ^${item})" != "" ] ; then
+		if [ "$(chkconfig --list --type=sysv 2>/dev/null|grep ^${item})" != "" ] ; then
 			svc_ok='yes'
 		fi
 		if [ "$(command -v systemctl)" != "" ] ; then
@@ -30,18 +30,18 @@ else
 		if [ "${svc_ok}" == 'yes' ] ; then
 			if [ "${item}" == "phpm-fpm" ] ; then
 				if [ -f ${fpath}/enablemultiplephp.flg ] ; then
-					chkconfig phpm-fpm on
-					chkconfig php-fpm on
+					chkconfig phpm-fpm on 2>/dev/null
+					chkconfig php-fpm on 2>/dev/null
 				else
-					chkconfig php-fpm on
-					chkconfig phpm-fpm off
+					chkconfig php-fpm on 2>/dev/null
+					chkconfig phpm-fpm off 2>/dev/null
 					if [ "$(pgrep ^${item})" != "" ] ; then
 						service phpm-fpm stop >/dev/null 2>&1
 					fi
 				fi
 			fi
 			svc_on='no'
-			if [ "$(chkconfig --list --type=sysv|grep ^${item}|grep ':on')" != "" ] ; then
+			if [ "$(chkconfig --list --type=sysv 2>/dev/null|grep ^${item}|grep ':on')" != "" ] ; then
 				svc_on='yes'
 			fi
 			if [ "$(command -v systemctl)" != "" ] ; then

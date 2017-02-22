@@ -9,7 +9,7 @@ class Hostdeny extends Lxdb
 	static $__desc_nname = array("", "",  "blocked_host");
 	static $__desc_parent_name  = array("", "",  "blocked_host");
 	static $__desc_syncserver = array("", "",  "blocked_host");
-	static $__desc_hostname = array("", "",  "host_name");
+	static $__desc_hostname = array("", "",  "blocked_host_name");
 
 	static $__rewrite_nname_const  = array("hostname","syncserver");
 

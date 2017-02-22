@@ -5,16 +5,27 @@ rm_if_exists("/var/run/yum.pid");
 // MR -- make sure no issue with yum
 system("yum-complete-transaction");
 
-// MR -- make inactive iptables
-$iptp = '/etc/sysconfig';
-$ipts = array('iptables', 'ip6tables');
+exec("command -v firewalld", $test1);
 
-foreach ($ipts as &$ipt) {
-	if (!file_exists("{$iptp}/{$ipt}")) {
-		@system("service iptables save");
+if (count($test1) > 0) {
+	// MR -- make inactive firewalld (in CentOS 7)
+	exec("chkconfig firewalld off 2>/dev/null; service firewalld stop");
+}
+
+exec("command -v iptables", $test2);
+
+if (count($test2) > 0) {
+	// MR -- make inactive iptables
+	$iptp = '/etc/sysconfig';
+	$ipts = array('iptables', 'ip6tables');
+
+	foreach ($ipts as &$ipt) {
+		if (!file_exists("{$iptp}/{$ipt}")) {
+			@system("service iptables save");
+		}
+
+		exec("'mv' -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave; chkconfig --del {$ipt}; service {$ipt} stop");
 	}
-
-	@system("'mv' -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave; chkconfig --del {$ipt}; service {$ipt} stop");
 }
 
 $lxlabspath = "/usr/local/lxlabs";
@@ -179,9 +190,11 @@ function kloxo_service_init()
 {
 	global $kloxopath;
 
-	print(">>> Copy Kloxo-MR service init <<<\n");
-	@copy("{$kloxopath}/init/kloxo.init", "/etc/rc.d/init.d/kloxo");
-	@system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
+	print(">>> Copy Kloxo-MR service <<<\n");
+//	@copy("{$kloxopath}/init/kloxo.init", "/etc/rc.d/init.d/kloxo");
+//	@system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
+
+	exec("sh /script/fixlxphpexe");
 }
 
 // ==== kloxo_all portion ===

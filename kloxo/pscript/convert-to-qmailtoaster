@@ -21,7 +21,7 @@ yum install *toaster -y
 
 sh /script/fix-qmail-assign
 'rm' -f /etc/xinetd.d/*_lxa
-chkconfig courier-imap off
+chkconfig courier-imap off 2>/dev/null
 
 'rm' -f /etc/rc.d/init.d/courier-imap
 

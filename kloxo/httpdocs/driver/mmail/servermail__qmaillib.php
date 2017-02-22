@@ -107,7 +107,7 @@ class Servermail__Qmail  extends lxDriverClass
 
 			// MR -- clamav from epel use clamd instead clamav init
 			if (isServiceExists("freshclam")) {
-				exec("chkconfig freshclam on");
+				exec("chkconfig freshclam on >/dev/null 2>&1");
 				os_service_manage("freshclam", "restart");
 			}
 	
@@ -116,7 +116,7 @@ class Servermail__Qmail  extends lxDriverClass
 			lxshell_return("/var/qmail/bin/simscanmk", "-g");
 		} else {
 			if (isServiceExists("freshclam")) {
-				exec("chkconfig freshclam off");
+				exec("chkconfig freshclam off >/dev/null 2>&1");
 				os_service_manage("freshclam", "stop");
 
 				// MR -- don't need uninstall because possible used by other purpose

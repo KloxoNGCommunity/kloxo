@@ -22,11 +22,11 @@ else
 
 	for item in ${list[*]} ; do
 		svc_on='no'
-		if [ "$(chkconfig --list ${item}|grep ':on')" != "" ] ; then
+		if [ "$(chkconfig --list ${item} 2>/dev/null|grep ':on')" != "" ] ; then
 			svc_on='yes'
 		fi
 		if [ "$(command -v systemctl)" != "" ] ; then
-			if [ "$(systemctl list-daemon|grep ${item}|grep 'enabled')" != "" ] ; then
+			if [ "$(systemctl list-unit-files|grep ${item}|grep 'enabled')" != "" ] ; then
 				svc_on='yes'
 			fi
 		fi
