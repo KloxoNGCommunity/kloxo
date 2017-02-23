@@ -1,7 +1,7 @@
 list_kloxo=(kloxo-web kloxo-php kloxo-wrap)
 
 if [ "$(command -v systemctl)" != "" ] ; then
-	list_phpfpm=($(ls -ld /usr/lib/systemd/system/php*-fpm.service | awk '{print $9}' | sed 's:/usr/lib/systemd/system/::g' | sed 's:/.service/::g' | tr '\n' ' '))
+	list_phpfpm=($(ls -ld /usr/lib/systemd/system/php*-fpm.service | awk '{print $9}' | sed 's:/usr/lib/systemd/system/::g' | sed 's:.service::g' | tr '\n' ' '))
 else
 	list_phpfpm=($(ls -ld /etc/rc.d/init.d/php*-fpm | awk '{print $9}' | sed 's:/etc/rc.d/init.d/::g' | tr '\n' ' '))
 fi

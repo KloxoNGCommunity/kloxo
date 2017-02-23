@@ -81,10 +81,10 @@ if [ "$(command -v systemctl)" != "" ] ; then
 
 		chown root:root /usr/lib/systemd/system/kloxo-${i}.service
 		chmod 0644 /usr/lib/systemd/system/kloxo-${i}.service
-		chkconfig kloxo-${i} on
+		chkconfig kloxo-${i} on 2>/dev/null
 	done
 
-	systemctl deamon-load
+	systemctl daemon-reload
 else
 	for i in web php wrap ; do
 		if [ -f ${INIT_DIR}/custom.kloxo-${i}.init ] ; then
@@ -95,6 +95,7 @@ else
 
 		chown root:root /etc/rc.d/init.d/kloxo-${i}
 		chmod 0775 /etc/rc.d/init.d/kloxo-${i}
+		chkconfig kloxo-${i} on 2>/dev/null
 	done
 fi
 

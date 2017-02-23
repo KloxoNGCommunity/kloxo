@@ -6267,8 +6267,10 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
-	lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
-	exec("chkconfig pure-ftpd on; chmod 0755 /etc/init.d/pure-ftpd");
+	if (getServiceType('pure-ftpd') === 'sysv') {
+		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
+		exec("chkconfig pure-ftpd on >/dev/null 2>&1; chmod 0755 /etc/init.d/pure-ftpd");
+	}
 /*
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {
 		log_cleanup("- Initialize /etc/pure-ftpd/pureftpd.passwd password database", $nolog);
@@ -6454,9 +6456,9 @@ function fix_hiawatha()
 		$webdrv = slave_get_driver('web');
 
 		if (strpos($webdrv, 'hiawatha') !== false) {
-			exec("chkconfig hiawatha on");
+			exec("chkconfig hiawatha on >/dev/null 2>&1");
 		} else {
-			exec("chkconfig hiawatha off; service hiawatha stop");
+			exec("chkconfig hiawatha off >/dev/null 2>&1; service hiawatha stop");
 		}
 	}
 }
@@ -6607,7 +6609,7 @@ function removeOtherDrivers($class = null, $nolog = null)
 
 				if (class_exists("{$k}__{$o}")) {
 					if ($o === 'hiawatha') {
-						exec_with_all_closed("service hiawatha stop; chkconfig hiawatha off");
+						exec_with_all_closed("service hiawatha stop; chkconfig hiawatha off >/dev/null 2>&1");
 						log_cleanup("- Deactivated {$k}__{$o}", $nolog);
 					} else {
 						log_cleanup("- Uninstall {$k}__{$o}", $nolog);
@@ -7031,7 +7033,7 @@ function updatecleanup($nolog = null)
 	if (isServiceExists('gpm')) {
 		log_cleanup("Turn off mouse daemon", $nolog);
 		log_cleanup("- Turn off process", $nolog);
-		exec("chkconfig gpm off");
+		exec("chkconfig gpm off >/dev/null 2>&1");
 	}
 
 	if (lxfile_exists("phpinfo.php")) {
@@ -7051,11 +7053,6 @@ function updatecleanup($nolog = null)
 	setCheckPackages($nolog);
 
 	copy_script($nolog);
-
-	log_cleanup("Install Kloxo service", $nolog);
-	log_cleanup("- Install process", $nolog);
-	lxfile_unix_chmod("/etc/init.d/kloxo", "0755");
-	exec("chkconfig kloxo on");
 
 	setJailshellSystem($nolog);
 
@@ -8474,10 +8471,6 @@ function setAllWebserverInstall($nolog = null)
 {
 	log_cleanup("Installing All Web servers", $nolog);
 
-//	$list = array('httpd', 'lighttpd' , 'nginx', 'hiawatha');
-
-	$initpath = '/etc/rc.d/init.d';
-
 	$list = getAllWebDriverList();
 
 	$ws = array('nginx' => 'nginx nginx-module* GeoIP spawn-fcgi fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
@@ -8588,9 +8581,9 @@ function setAllInactivateWebServer($nolog = null)
 		}
 
 		log_cleanup("- Inactivating '$v'", $nolog);
-		exec("chkconfig $v off");
+		exec("chkconfig $v off >/dev/null 2>&1");
 
-		exec("chkconfig spawn-fcgi off");
+		exec("chkconfig spawn-fcgi off >/dev/null 2>&1");
 	}
 }
 
@@ -8606,10 +8599,10 @@ function setActivateWebServer($nolog = null)
 		}
 
 		log_cleanup("- Activating '{$v}' as Web server", $nolog);
-		exec("chkconfig {$v} on");
+		exec("chkconfig {$v} on >/dev/null 2>&1");
 
 		if ($v === 'nginx') {
-			exec("chkconfig spawn-fcgi on");
+			exec("chkconfig spawn-fcgi on >/dev/null 2>&1");
 		}
 	}
 }

@@ -234,62 +234,6 @@ else
 	sed -i 's:/var/run/php-fpm/php-fpm.pid:/var/run/php-fpm/'${base_name}'-fpm.pid:' /opt/${base_name}/custom/php-fpm.conf
 fi
 
-if [ -f /etc/rc.d/init.d/phpm-fpm ] ; then
-	chkconfig phpm-fpm off >/dev/null 2>&1
-	'rm' -f /etc/rc.d/init.d/phpm-fpm >/dev/null 2>&1
-fi
-
-if [ -f /usr/lib/systemd/system/phpm-fpm.service ] ; then
-	chkconfig phpm-fpm off >/dev/null 2>&1
-	'rm' -f /usr/lib/systemd/system/phpm-fpm.service >/dev/null 2>&1
-	systemctl daemon-reload
-fi
-
-	if [ -f ${kpath}/init/custom.php-fpm.service.base ] ; then
-		pcfile="${kpath}/init/custom.phpm-fpm.service.base"
-	else
-		pcfile="${kpath}/init/phpm-fpm.service.base"
-	fi
-
-	'cp' -f ${pcfile} /opt/${base_name}/custom/php-fpm.service >/dev/null 2>&1
-	sed -i 's:__custom_name__:'${1}':g' /opt/${base_name}/custom/php-fpm.service
-
-	if [ -f ${kpath}/init/custom.php-fpm.init.base ] ; then
-		pcfile="${kpath}/init/custom.phpm-fpm.init.base"
-	else
-		pcfile="${kpath}/init/phpm-fpm.init.base"
-	fi
-
-	'cp' -f ${pcfile} /opt/${base_name}/custom/php-fpm.init >/dev/null 2>&1
-	sed -i 's:__custom_name__:'${1}':g' /opt/${base_name}/custom/php-fpm.init
-
-if [ "$(command -v systemctl)" != "" ] ; then
-	if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
-		x="--- Copy '${base_name}-fpm.service'"
-		echo ${x}
-		echo ${x} >>/opt/${base_name}/install.log
-		'cp' -f /opt/${base_name}/custom/php-fpm.service /usr/lib/systemd/system/${base_name}-fpm.service >/dev/null 2>&1
-
-		#if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
-		#	chkconfig ${base_name}-fpm on >/dev/null 2>&1
-		#	systemctl daemon-reload >/dev/null 2>&1
-		#fi
-	fi
-else
-	if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
-		x="--- Copy '${base_name}-fpm.init'"
-		echo ${x}
-		echo ${x} >>/opt/${base_name}/install.log
-		'cp' -f /opt/${base_name}/custom/php-fpm.init /etc/rc.d/init.d/${base_name}-fpm >/dev/null 2>&1
-
-		#if [ -f ${kpath}/etc/flag/enablemultiplephp.flg ] ; then
-		#	chkconfig ${base_name}-fpm on >/dev/null 2>&1
-		#fi
-	fi
-fi
-
-sh /script/enable-php-fpm
-
 x="- Setting .sh to 755"
 echo ${x}
 echo ${x} >>/opt/${base_name}/install.log

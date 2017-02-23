@@ -167,6 +167,9 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 	'rm' -f /opt/${base_name}/${base_name}
 fi
 
+sh /script/set-php-fpm $base_name
+sh /script/enable-php-fpm
+
 x="=== END '$1' install ==="
 echo $x
 echo $x >>/opt/${base_name}/install.log
