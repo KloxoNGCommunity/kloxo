@@ -180,12 +180,12 @@ chown mysql:mysql /var/lib/mysqltmp
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
-if [ "$(yum list|grep 'php56')" != "" ] ; then
+if [ "$(yum list|grep 'php56u')" != "" ] ; then
 	phpused="php56"
-	yum -y install ${phpused}u ${phpused}u-mysqlnd php56u-fpm
+	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
 else
 	phpused="php54"
-	yum -y install ${phpused} ${phpused}-mysqlnd php54-fpm
+	yum -y install ${phpused}-cli ${phpused}-mysqlnd ${phpused}-fpm
 fi
 
 chkconfig php-fpm on >/dev/null 2>&1
