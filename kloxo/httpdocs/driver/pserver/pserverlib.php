@@ -282,7 +282,6 @@ class pserver extends pservercore {
 			$dbad = $this->getFromList('dbadmin', "mysql___{$this->syncserver}");
 			$user = $dbad->dbadmin_name;
 			$pass = $dbad->dbpassword;
-		//	$pass = crypt($dbad->dbpassword);
 
 			if (if_demo()) {
 				$pass = "demopass";

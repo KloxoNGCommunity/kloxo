@@ -84,7 +84,7 @@ class web__ extends lxDriverClass
 
 			//	if (count($out) < 1) {
 				// MR -- this is a trick to use isRpmInstalled
-				if (isRpmInstalled('| grep pagespeed') {
+				if (isRpmInstalled('| grep pagespeed')) {
 					exec("yum -y install mod-pagespeed-stable");
 				}
 

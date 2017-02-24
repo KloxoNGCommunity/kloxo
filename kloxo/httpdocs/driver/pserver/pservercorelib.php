@@ -1315,9 +1315,9 @@ STRIN;
 						$vlist['use_apache24'] = array('M', 'on', 'off');
 					} else {
 						if (version_compare(getRpmVersionFromYum('httpd24u'), '2.4.0', '>')) {
-							$vlist['use_apache24'] = array('M', 'on', 'off');
-						} else{
 							$vlist['use_apache24'] = array('f', 'on', 'off');
+						} else{
+							$vlist['use_apache24'] = array('M', 'on', 'off');
 						}
 					}
 				}

@@ -7061,9 +7061,9 @@ function updatecleanup($nolog = null)
 
 	setSyncDrivers($nolog);
 
-//	setRealServiceBranchList($nolog);
+	setRealServiceBranchList($nolog);
 
-//	setCheckPackages($nolog);
+	setCheckPackages($nolog);
 
 	copy_script($nolog);
 
