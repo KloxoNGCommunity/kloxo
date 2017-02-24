@@ -155,7 +155,7 @@ cd /
 
 yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
 yum remove -y bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
-		httpd* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver \
+		httpd-* mod_* httpd24u-* mod24u_* nginx* lighttpd* varnish* squid* trafficserver \
 		*-toaster postfix exim libmhash
 rpm -e pure-ftpd --noscripts
 userdel postfix
@@ -181,10 +181,10 @@ sh /script/set-mysql-default
 
 if [ "$(yum list|grep 'php56')" != "" ] ; then
 	phpused="php56"
-	yum -y install ${phpused}u ${phpused}u-mysqlnd php56u-fpm
+	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
 else
 	phpused="php54"
-	yum -y install ${phpused} ${phpused}-mysqlnd php54-fpm
+	yum -y install ${phpused}-cli ${phpused}-mysqlnd ${phpused}-fpm
 fi
 
 chkconfig php-fpm on >/dev/null 2>&1

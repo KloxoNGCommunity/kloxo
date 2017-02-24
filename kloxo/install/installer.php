@@ -9,23 +9,13 @@ exec("command -v firewalld", $test1);
 
 if (count($test1) > 0) {
 	// MR -- make inactive firewalld (in CentOS 7)
-	exec("chkconfig firewalld off 2>/dev/null; service firewalld stop");
+	exec("chkconfig firewalld off 2>/dev/null; chkconfig --del firewalld 2>/dev/null; service firewalld stop 2>/dev/null");
 }
 
 exec("command -v iptables", $test2);
 
 if (count($test2) > 0) {
-	// MR -- make inactive iptables
-	$iptp = '/etc/sysconfig';
-	$ipts = array('iptables', 'ip6tables');
-
-	foreach ($ipts as &$ipt) {
-		if (!file_exists("{$iptp}/{$ipt}")) {
-			@system("service iptables save");
-		}
-
-		exec("'mv' -f {$iptp}/{$ipt} {$iptp}/{$ipt}.kloxosave; chkconfig --del {$ipt}; service {$ipt} stop");
-	}
+	exec("chkconfig {$ipt} off 2>/dev/null; chkconfig --del {$ipt} 2>/dev/null; service {$ipt} stop 2>/dev/null");
 }
 
 $lxlabspath = "/usr/local/lxlabs";
@@ -212,6 +202,7 @@ function installcomp_mail()
 function install_main()
 {
 	install_web();
+	install_php();
 	install_database();
 	install_dns();
 	install_mail();
@@ -226,22 +217,42 @@ function install_web()
 
 	$apache = getApacheBranch();
 
-	system("yum -y install {$apache} mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
-/*
-	exec("yum list httpd|grep 'httpd.'|awk '{print \$2}'|awk -F'-'  '{print \$1}'", $ver);
-
-	if (version_compare($ver[0], '2.4.0', '>')) {
-		system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
-		exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/ok_use_apache24.flg");
-	}	
-*/
 	exec("yum list|grep ^httpd24u", $test);
 
 	if (count($test) > 0) {
+		system("yum remove -y mod_*");
 		system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
 		exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/ok_use_apache24.flg");
+	} else {
+		system("yum -y install httpd mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
 	}
 
+}
+
+function install_php()
+{
+	print(">>> Adding Standard PHP components and Hiawatha <<<\n");
+	// MR -- xcache, zend, ioncube, suhosin and zts not default install
+
+	// MR -- for accept for php and apache branch rpm
+	$phpbranch = getPhpBranch();
+	
+	if ((strpos($phpbranch, '52') !== false) || (strpos($phpbranch, '53') !== false)) {
+		$phpbranchmysql = "{$phpbranch}-mysql";
+	} else {
+		$phpbranchmysql = "{$phpbranch}-mysqlnd";
+	}
+
+	$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranchmysql}", "{$phpbranch}-pear",
+		"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
+		"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
+		"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
+		"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
+		"{$phpbranch}-xmlrpc", "{$phpbranch}-gd", "{$phpbranch}-ioncube-loader", "hiawatha");
+
+	$list = implode(" ", $packages);
+
+	system("yum -y install $list");
 }
 
 function install_database()
@@ -379,9 +390,6 @@ function kloxo_install_step1()
 		rm_if_exists("/usr/local/lxlabs/ext");
 	}
 
-	// MR -- for accept for php and apache branch rpm
-	$phpbranch = getPhpBranch();
-
 	print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
 	// MR -- xcache, zend, ioncube, suhosin and zts not default install
 	// install curl-devel (need by php-common) will be install curl-devel in CentOS 5 and libcurl-devel in CentOS 6
@@ -394,26 +402,6 @@ function kloxo_install_step1()
 	$list = implode(" ", $packages);
 
 	system("yum -y install $list; rkhunter --update");
-
-	print(">>> Adding Standard PHP components and Hiawatha <<<\n");
-	// MR -- xcache, zend, ioncube, suhosin and zts not default install
-	
-	if ((strpos($phpbranch, '52') !== false) || (strpos($phpbranch, '53') !== false)) {
-		$phpbranchmysql = "{$phpbranch}-mysql";
-	} else {
-		$phpbranchmysql = "{$phpbranch}-mysqlnd";
-	}
-
-	$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranchmysql}", "{$phpbranch}-pear",
-		"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
-		"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
-		"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
-		"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
-		"{$phpbranch}-xmlrpc", "{$phpbranch}-gd", "{$phpbranch}-ioncube-loader", "hiawatha");
-
-	$list = implode(" ", $packages);
-
-	system("yum -y install $list");
 
 	print(">>> Adding MalDetect <<<\n");
 
