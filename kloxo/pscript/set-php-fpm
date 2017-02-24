@@ -84,20 +84,22 @@ else
 	else
 		echo "- Set ${php_target} as php-fpm target for 'PHP Used'"
 
-		if [ "$(command -v systemctl)" != "" ] ; then
-			'cp' -f ${mulsfile} ${ulspath}/${php_target}-fpm.service
-			sed -i 's:__custom_name__:'${php_target}':g' ${ulspath}/${php_target}-fpm.service
-			chown root:root ${ulspath}/php-fpm.service
-			chmod 0644 ${ulspath}/php-fpm.service
-			chkconfig php-fpm on >/dev/null 2>&1
-			sh /script/add-restart-queue restart-php-fpm
-		else
-			'cp' -f ${erifile} ${eripath}/${php_target}-fpm
-			sed -i 's:__custom_name__:'${php_target}':g' ${eripath}/${php_target}-fpm
-			chown root:root ${eripath}/${php_target}-fpm
-			chmod 0755 ${eripath}/${php_target}-fpm
-			chkconfig ${php_target}-fpm on >/dev/null 2>&1
-			sh /script/add-restart-queue restart-php-fpm
+		if [ "$(grep 's' <<<${php_target})" == "" ] ; then
+			if [ "$(command -v systemctl)" != "" ] ; then
+				'cp' -f ${mulsfile} ${ulspath}/${php_target}-fpm.service
+				sed -i 's:__custom_name__:'${php_target}':g' ${ulspath}/${php_target}-fpm.service
+				chown root:root ${ulspath}/php-fpm.service
+				chmod 0644 ${ulspath}/php-fpm.service
+				chkconfig php-fpm on >/dev/null 2>&1
+				sh /script/add-restart-queue restart-php-fpm
+			else
+				'cp' -f ${erifile} ${eripath}/${php_target}-fpm
+				sed -i 's:__custom_name__:'${php_target}':g' ${eripath}/${php_target}-fpm
+				chown root:root ${eripath}/${php_target}-fpm
+				chmod 0755 ${eripath}/${php_target}-fpm
+				chkconfig ${php_target}-fpm on >/dev/null 2>&1
+				sh /script/add-restart-queue restart-php-fpm
+			fi
 		fi
 	fi
 fi

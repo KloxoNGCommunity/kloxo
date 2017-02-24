@@ -43,12 +43,12 @@ if [ ! -d ${HLMDPATH} ] ; then
 fi
 
 echo ""
-echo "Change qmail.init"
+echo "Changing qmail.init"
 cp -rf ${ULLKFPATH}/qmail/etc/init.d/qmail.init ${ERIPATH}/qmail
 chmod -f 0755 ${ERIPATH}/qmail
 
 echo "--------------------------"
-echo "Fix '89' uid to vpopmail:vchkpw ownership"
+echo "Fixing '89' uid to vpopmail:vchkpw ownership"
 
 if id -u postfix >/dev/null 2>&1 ; then
 	userdel postfix >/dev/null 2>&1
@@ -68,11 +68,11 @@ if id -u vpopmail >/dev/null 2>&1 ; then
 fi
 
 echo "--------------------------"
-echo "Set '${HVBPATH}/vchkpw' for root:root ownership"
+echo "Setting '${HVBPATH}/vchkpw' for root:root ownership"
 chown -f root:root ${HVBPATH}/vchkpw
 
 echo "--------------------------"
-echo "Set '${HVPATH}' for 755 permissions"
+echo "Setting '${HVPATH}' for 755 permissions"
 chmod 755 ${HVPATH}
 echo "Set '${HVDPATH}' for 755 permissions"
 chmod 755 ${HVDPATH}
@@ -83,12 +83,12 @@ chmod 755 ${HLMPATH}
 echo "Set '${HLMDPATH}' for 755 permissions"
 chmod 755 ${HLMDPATH}
 
-echo "Set '${HVBPATH}/vchkpw' for 4751 permissions"
+echo "Setting '${HVBPATH}/vchkpw' for 4751 permissions"
 chmod -f 4755 ${HVBPATH}/vchkpw
 
 echo "--------------------------"
 host_name=$(hostname)
-echo "Set '${VQCPATH}/locals' with 'localhost'"
+echo "Setting '${VQCPATH}/locals' with 'localhost'"
 echo 'localhost' > ${VQCPATH}/locals
 for i in me defaultdomain defaulthost ; do
 	echo "Set '${VQCPATH}/${i}' with '${host_name}'"
@@ -96,20 +96,25 @@ for i in me defaultdomain defaulthost ; do
 done
 
 echo "--------------------------"
-echo "Rename ${VQCPATH}/tlshosts to Rename ${VQCPATH}/tlshosts.old"
+echo "Renaming tlshosts to tlshosts.old in '${VQCPATH}'"
+if [ -d ${VQCPATH}/tlshosts.old ] ; then
+	'rm' -rf ${VQCPATH}/tlshosts.old
+fi
+
 if [ -d ${VQCPATH}/tlshosts ] ; then
 	mv -f ${VQCPATH}/tlshosts ${VQCPATH}/tlshosts.old
 fi
 
 
 echo "--------------------------"
-echo " Fix Qmail cdb"
+echo "Fixing Qmail cdb"
 qmailctl cdb
 
 echo "--------------------------"
 sh /script/fixvpop
 
 echo "--------------------------"
+echo "Fixing Qmail Assign"
 sh /script/fix-qmail-assign
 
 echo "--------------------------"

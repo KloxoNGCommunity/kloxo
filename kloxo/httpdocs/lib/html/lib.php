@@ -5390,7 +5390,7 @@ function getRpmBranchInstalled($rpm)
 
 	foreach ($a as $k => $e) {
 		if (strpos($e, 'php') !== false) {
-			if (isRpmInstalled("{$e}")) {
+			if (isRpmInstalled($e)) {
 				return $e;
 			} else {
 				if (isRpmInstalled("{$e}-cli")) {
@@ -5469,6 +5469,19 @@ function getRpmVersion($rpmname)
 	}
 
 	return $ver;
+}
+
+function getRpmVersionFromYum($rpmname)
+{
+	exec("yum list {$rpmname}|grep '{$rpmname}.'|awk '{print \$2}'|awk -F'-'  '{print \$1}'", $ver);
+
+	if (strpos($ver[0], 'Error:') !== false) {
+		$ret = '0.0.0';
+	} else {
+		$ret = $ver[0];
+	}
+
+	return $ret;
 }
 
 function setRpmInstalled($rpmname)
@@ -7048,9 +7061,9 @@ function updatecleanup($nolog = null)
 
 	setSyncDrivers($nolog);
 
-	setRealServiceBranchList($nolog);
+//	setRealServiceBranchList($nolog);
 
-	setCheckPackages($nolog);
+//	setCheckPackages($nolog);
 
 	copy_script($nolog);
 
@@ -7138,7 +7151,7 @@ function setInitialServices($nolog = null)
 	setInitialAllWebConfigs($nolog);
 	setInitialAllWebCacheConfigs($nolog);
 
-	setPhpUpdate();
+//	setPhpUpdate();
 
 	setInitialPhpIniConfig($nolog);
 	getInitialPhpFpmConfig($nolog);
@@ -8489,29 +8502,21 @@ function setAllWebserverInstall($nolog = null)
 	foreach ($list as $k => $v) {
 		$confpath = "/opt/configs/{$v}/etc/conf";
 
-		$out = null;
-
 		if ($v === 'apache') {
-			exec("rpm -qa httpd", $out);
-
 			if ($use_apache24) {
-				if (count($out) > 0) {
-					exec("yum -y replace httpd --replace-with=httpd24u;" . "yum -y remove {$hm['httpd']};" . "yum -y install {$hm['httpd24u']}");
+				if (isRpmInstalled('httpd')) {
+					exec("yum -y replace httpd --replace-with=httpd24u >/dev/null 2>&1;" . "yum -y remove {$hm['httpd']} >/dev/null 2>&1;" . "yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
 
 					log_cleanup("- Replacing 'httpd' to 'httpd24u'", $nolog);
 				} else {
-					$out3 = null;
-
-					exec("rpm -qa httpd24u", $out3);
-
-					if (count($out3) > 0) {
+					if (isRpmInstalled('httpd24u')) {
 						if (isServiceExists('httpd')) {
-							exec("yum -y reinstall httpd24u");
+							exec("yum -y reinstall httpd24u >/dev/null 2>&1");
 
 							log_cleanup("- Reinstalling 'httpd24u'", $nolog);
 						}
 					} else {
-						exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']}");
+						exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']} >/dev/null 2>&1");
 						log_cleanup("- Installing 'httpd24u'", $nolog);
 					}
 				}
@@ -8519,28 +8524,20 @@ function setAllWebserverInstall($nolog = null)
 				$conffile = getLinkCustomfile("{$confpath}", "httpd24.conf");
 				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
 			} else {
-				$out2 = null;
-
-				exec("rpm -qa httpd24u", $out2);
-
-				if (count($out2) > 0) {
-					exec("yum -y replace httpd24u --replace-with=httpd;" .
-						"yum -y remove {$hm['httpd24u']};" . "yum -y install {$hm['httpd']}");
+				if (isRpmInstalled('httpd24u')) {
+					exec("yum -y replace httpd24u --replace-with=httpd >/dev/null 2>&1;" .
+						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" . "yum -y install {$hm['httpd']} >/dev/null 2>&1");
 
 					log_cleanup("- Replacing 'httpd24' to 'httpd'", $nolog);
 				} else {
-					$out3 = null;
-
-					exec("rpm -qa httpd", $out3);
-
-					if (count($out3) > 0) {
+					if (isRpmInstalled('httpd')) {
 						if (isServiceExists('httpd')) {
-							exec("yum -y reinstall httpd");
+							exec("yum -y reinstall httpd >/dev/null 2>&1");
 
 							log_cleanup("- Reinstalling 'httpd'", $nolog);
 						}
 					} else {
-						exec("yum -y install {$ws['httpd']} {$hm['httpd']}");
+						exec("yum -y install {$ws['httpd']} {$hm['httpd']} >/dev/null 2>&1");
 
 						log_cleanup("- Installing 'httpd'", $nolog);
 					}
@@ -8552,18 +8549,14 @@ function setAllWebserverInstall($nolog = null)
 		} else {
 			$t = $ws[$v];
 
-			$out3 = null;
-
-			exec("rpm -qa {$v}", $out3);
-
-			if (count($out3) > 0) {
+			if (isRpmInstalled($v)) {
 				if (isServiceExists($v)) {
-					exec("yum -y reinstall {$v}");
+					exec("yum -y reinstall {$v} >/dev/null 2>&1");
 
 					log_cleanup("- Reinstalling '{$v}'", $nolog);
 				}
 			} else {
-				exec("yum -y install {$t}");
+				exec("yum -y install {$t} >/dev/null 2>&1");
 
 				log_cleanup("- Installing '{$v}'", $nolog);
 			}

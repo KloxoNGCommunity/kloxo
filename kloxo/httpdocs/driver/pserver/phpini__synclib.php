@@ -132,7 +132,6 @@ class phpini__sync extends Lxdriverclass
 				$input['phpinipath'] = "/opt/{$v}/custom";
 				$input['phpscanpath'] = "/opt/{$v}/etc/php.d";
 				$input['phpcgipath'] = "/opt/{$v}/usr/bin/php-cgi";
-				array_unique($input);
 
 				$w = str_replace('m', '', $v);
 

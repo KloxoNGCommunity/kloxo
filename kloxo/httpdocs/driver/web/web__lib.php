@@ -80,9 +80,11 @@ class web__ extends lxDriverClass
 
 		if ($webserver === 'httpd') {
 			if (file_exists("../etc/flag/use_pagespeed.flg")) {
-				exec("rpm -qa|grep pagespeed", $out);
+			//	exec("rpm -qa|grep pagespeed", $out);
 
-				if (count($out) < 1) {
+			//	if (count($out) < 1) {
+				// MR -- this is a trick to use isRpmInstalled
+				if (isRpmInstalled('| grep pagespeed') {
 					exec("yum -y install mod-pagespeed-stable");
 				}
 

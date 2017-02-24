@@ -92,22 +92,28 @@ class serverweb extends lxdb
 				$this->apache_optimize = null;
 
 				exec("cat /etc/httpd/conf.d/~lxcenter.conf | grep '### selected:'", $out);
-				
-				if (strpos($out[0], 'customize') !== false) {
-					$a = array('default', 'low', 'medium', 'high', 'customize');
+
+				if (count($out) > 0) {
+					if (strpos($out[0], 'customize') !== false) {
+						$a = array('default', 'low', 'medium', 'high', 'customize');
+					} else {
+						$a = array('default', 'low', 'medium', 'high');
+					}
 				} else {
 					$a = array('default', 'low', 'medium', 'high');
 				}
-				
+			
 				$vlist['apache_optimize'] = array('s', $a);
 
 				$b = '';
 				
-				foreach ($a as $k => $v) {
-					if (strpos($out[0], $v) !== false) {
-						$b = $v;
+				if (count($out) > 0) {
+					foreach ($a as $k => $v) {
+						if (strpos($out[0], $v) !== false) {
+							$b = $v;
 
-						break;
+							break;
+						}
 					}
 				}
 

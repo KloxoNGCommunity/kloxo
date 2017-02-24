@@ -236,6 +236,21 @@ function install_web()
 	$apache = getApacheBranch();
 
 	system("yum -y install {$apache} mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
+/*
+	exec("yum list httpd|grep 'httpd.'|awk '{print \$2}'|awk -F'-'  '{print \$1}'", $ver);
+
+	if (version_compare($ver[0], '2.4.0', '>')) {
+		system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
+		exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/ok_use_apache24.flg");
+	}	
+*/
+	exec("yum list|grep ^httpd24u", $test);
+
+	if (count($test) > 0) {
+		system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
+		exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/ok_use_apache24.flg");
+	}
+
 }
 
 function install_database()
