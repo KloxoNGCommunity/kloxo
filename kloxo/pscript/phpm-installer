@@ -47,6 +47,15 @@ cd /opt/${base_name} >/dev/null 2>&1
 
 rm -f /opt/${base_name}/install.log >/dev/null 2>&1
 
+## MR -- use 'echo "$var"' instead 'echo $var'!!!
+end_note="
+Note:
+- See '/opt/${base_name}/install.log' for detail install process
+- Example: copy 'xcache.nonini' to '_xcache.ini' or 'xcache_used.ini'
+           for enable 'xcache' module in '/etc/${base_name}/etc/php.d'
+- For config setup only, run 'sh /script/phpm-config-setup ${base_name}
+"
+
 x="=== BEGIN '$1' install ==="
 echo $x
 echo $x >>/opt/${base_name}/install.log
@@ -100,6 +109,8 @@ if [ -f /opt/${base_name}/version ] ; then
 
 			cd /
 			sh /script/phpm-config-setup $base_name
+
+			echo -e "$end_note"
 
 			exit
 		fi
@@ -167,7 +178,7 @@ if [ -f /opt/${base_name}/${base_name} ] ; then
 	'rm' -f /opt/${base_name}/${base_name}
 fi
 
-sh /script/set-php-fpm $base_name
+#sh /script/set-php-fpm $base_name
 sh /script/enable-php-fpm
 
 x="=== END '$1' install ==="
@@ -176,11 +187,4 @@ echo $x >>/opt/${base_name}/install.log
 
 . /script/counter-end.inc
 
-echo
-
-echo "Note:"
-echo " - See '/opt/${base_name}/install.log' for detail install process"
-echo " - Example: copy 'xcache.nonini' to '_xcache.ini' or 'xcache_used.ini'"
-echo "      for enable 'xcache' module in '/etc/${base_name}/etc/php.d'"
-echo " - For config setup only, run 'sh /script/phpm-config-setup ${base_name}"
-echo
+echo -e "$end_note"

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ "{$1}" == "" ] ; then
+	echo "Disable for all php-fpm (branch and multiple phps)"
+	for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
+		echo "- For ${i}-fpm"
+		if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
+			chkconfig ${i}-fpm off >/dev/null 2>&1
+			chkconfig --del ${i}-fpm >/dev/null 2>&1
+		fi
+	done
+else
+	echo "Disable for ${1}-fpm"
+	chkconfig ${1}-fpm off >/dev/null 2>&1
+	chkconfig --del ${1}-fpm >/dev/null 2>&1
+fi
+
+if [ "$(command -v systemctl)" != "" ] ; then
+	systemctl daemon-reload >/dev/null 2>&1
+fi

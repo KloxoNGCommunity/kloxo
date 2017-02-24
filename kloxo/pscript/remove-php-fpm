@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ "${1}" == "-y" ] || [ "${1}" == "-force" ] ; then
+	echo "- Remove for all multiple php-fpm"
+	for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
+		if [ "${i}" != "php" ] ; then
+			echo "-- For ${i}-fpm"
+			chkconfig ${i}-fpm off >/dev/null 2>&1
+			chkconfig --del ${i}-fpm >/dev/null 2>&1
+			if [ "$(command -v systemctl)" != "" ] ; then
+				'rm' -f /usr/lib/systemd/system/${i}-fpm.service
+			else
+				'rm' -f /etc/rc.d/init.d/${i}-fpm
+			fi
+
+			'rm' -rf /opt/configs/php-fpm/conf/${i}
+		fi
+	done
+else
+	if [ "${1}" == "" ] ; then
+		echo "- Need add '-y' or '--force' or 'phpXYm' (change XY to 52 for php52)"
+	else
+		echo "- Disable for ${1}-fpm"
+		chkconfig ${1}-fpm off >/dev/null 2>&1
+		chkconfig --del ${1}-fpm >/dev/null 2>&1
+		'rm' -f /etc/rc.d/init.d/${1}-fpm
+		'rm' -rf /opt/configs/php-fpm/conf/${1}
+	fi
+fi
+
+if [ "$(command -v systemctl)" != "" ] ; then
+	systemctl daemon-reload >/dev/null 2>&1
+fi

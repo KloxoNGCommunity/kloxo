@@ -120,12 +120,6 @@ class phpini__sync extends Lxdriverclass
 			$phpfpm_path_etc = "/opt/configs/php-fpm/etc";
 			$phpfpm_path = "/opt/configs/php-fpm/tpl";
 
-			if (file_exists("../etc/flag/enablemultiplephp.flg")) {
-				$phpmfpminit_src = getLinkCustomfile("{$phpfpm_path_etc}/init.d", "phpm-fpm.init");
-				$phpmfpminit_target = "/etc/rc.d/init.d/phpm-fpm";
-				exec("'cp' -f {$phpmfpminit_src} {$phpmfpminit_target}; chmod 755 {$phpmfpminit_target}");
-			}
-
 			$phps = array_merge(array('php'), $input['phpmlist']);
 
 			foreach ($phps as $k => $v) {
@@ -142,7 +136,7 @@ class phpini__sync extends Lxdriverclass
 				lxfile_unix_chmod($fcgid_target, "0755");
 
 				$input['phpselected'] = $v;
-				array_unique($input);
+			//	array_unique($input);
 
 				$path = "/opt/configs/php-fpm/conf/{$v}";
 
@@ -166,6 +160,10 @@ class phpini__sync extends Lxdriverclass
 					$phpfpm_parse_global_post = getParseInlinePhp($phpfpm_global_post, $input);
 					file_put_contents($phpfpm_target_global_post, $phpfpm_parse_global_post);
 
+					// MR -- don't move after 'merge' .conf
+					$phpfpm_parse_default = getParseInlinePhp($phpfpm_default, $input);
+					file_put_contents($phpfpm_target_default, $phpfpm_parse_default);
+
 					exec("cat {$phpfpm_target_global_pre} {$path}/php-fpm.d/*.conf {$phpfpm_target_global_post} > {$path}/php-fpm.conf");
 				} else {
 					$phpfpm_global = file_get_contents(getLinkCustomfile($phpfpm_path, "php53-fpm-global.conf.tpl"));
@@ -176,13 +174,13 @@ class phpini__sync extends Lxdriverclass
 					$phpfpm_parse_global = getParseInlinePhp($phpfpm_global, $input);
 					file_put_contents($phpfpm_target_global, $phpfpm_parse_global);
 
+					$phpfpm_parse_default = getParseInlinePhp($phpfpm_default, $input);
+					file_put_contents($phpfpm_target_default, $phpfpm_parse_default);
+
 					if ($v === 'php') {
 						exec("'cp' -f {$path}/php-fpm.conf /etc/php-fpm.conf");
 					}
 				}
-
-				$phpfpm_parse_default = getParseInlinePhp($phpfpm_default, $input);
-				file_put_contents($phpfpm_target_default, $phpfpm_parse_default);
 			}
 		} else {
 			$input['phpinipath'] = "/home/kloxo/client/{$user}";
@@ -222,7 +220,7 @@ class phpini__sync extends Lxdriverclass
 					}
 
 					$input['phpselected'] = $v;
-					array_unique($input);
+				//	array_unique($input);
 
 					$path = "/opt/configs/php-fpm/conf/{$v}";
 
@@ -243,7 +241,7 @@ class phpini__sync extends Lxdriverclass
 			}
 		}
 
-		createRestartFile("restart-web");
+		createRestartFile("restart-php-fpm");
 	}
 
 	function removeHtaccessOldPart()
