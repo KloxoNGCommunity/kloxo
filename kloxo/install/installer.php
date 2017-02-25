@@ -211,18 +211,20 @@ function install_main()
 
 function install_web()
 {
-	print(">>> Installing Apache and Hiawatha<<<\n");
+	global $kloxopath;
 
-	$apache = getApacheBranch();
+	print(">>> Installing Apache and Hiawatha<<<\n");
 
 	exec("yum list|grep ^httpd24u", $test);
 
 	if (count($test) > 0) {
-		system("yum remove -y mod_*");
-		system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
-		exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg");
+		system("yum remove -y httpd-* mod_*");
+		system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem " .
+			"mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
+		system("echo '' > {$kloxopath}/etc/flag/use_apache24.flg");
 	} else {
-		system("yum install -y httpd mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
+		system("yum install -y httpd httpd-tools " .
+			"mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
 	}
 
 	system("yum install -y hiawatha");
@@ -242,12 +244,13 @@ function install_php()
 		$phpbranchmysql = "{$phpbranch}-mysqlnd";
 	}
 
-	system("yum install -y {$phpbranch}-cli {$phpbranch}-mbstring {$phpbranchmysql} {$phpbranch}-pear " .
+	system("yum install -y {$phpbranch} {$phpbranch}-cli {$phpbranch}-mbstring {$phpbranchmysql} {$phpbranch}-pear " .
 		"{$phpbranch}-pecl-geoip {$phpbranch}-mcrypt {$phpbranch}-xml {$phpbranch}-embedded " .
 		"{$phpbranch}-imap {$phpbranch}-intl {$phpbranch}-ldap {$phpbranch}-fpm " . 
 		"{$phpbranch}-litespeed {$phpbranch}-process {$phpbranch}-pspell {$phpbranch}-recode " .
 		"{$phpbranch}-snmp {$phpbranch}-soap {$phpbranch}-tidy {$phpbranch}-xmlrpc " . 
-		"{$phpbranch}-gd {$phpbranch}-ioncube-loader");
+		"{$phpbranch}-gd {$phpbranch}-ioncube-loader " .
+		"-skip-broken");
 }
 
 function install_database()
@@ -828,20 +831,6 @@ function getPhpBranch()
 	}
 
 	return 'php';
-}
-
-// MR -- taken from lib.php
-function getApacheBranch()
-{
-	$a = array('httpd', 'httpd24', 'httpd24u');
-
-	foreach ($a as &$e) {
-		if (isRpmInstalled($e)) {
-			return $e;
-		}
-	}
-
-	return 'httpd';
 }
 
 // MR -- taken from lib.php

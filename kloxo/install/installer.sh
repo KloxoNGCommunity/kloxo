@@ -214,7 +214,7 @@ export PATH=/usr/bin:/usr/sbin:/sbin:$PATH
 
 cd ${ppath}/install
 
-/usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup $*
+lxphp.exe installer.php --install-type=$APP_TYPE $* | tee kloxo-mr_install.log
 
 ## set skin to simplicity
 sh /script/skin-set-for-all >/dev/null 2>&1
