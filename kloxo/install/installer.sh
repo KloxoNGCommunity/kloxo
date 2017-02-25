@@ -153,7 +153,7 @@ cd /
 
 #yum clean all
 
-yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl
+yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl sudo
 yum remove -y bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
 		httpd-* mod_* httpd24u-* mod24u_* nginx* lighttpd* varnish* squid* trafficserver \
 		*-toaster postfix exim libmhash

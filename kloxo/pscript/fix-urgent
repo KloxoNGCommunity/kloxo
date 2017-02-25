@@ -18,5 +18,10 @@ if [ ! -L /usr/bin/chkconfig ] ; then
 	ln -s /sbin/chkconfig /usr/bin/chkconfig
 fi
 
+if [ "$(rpm -qa sudo)" == "" ] ; then
+	## Add sudo
+	yum install -y sudo
+fi
+
 ## MR -- importance for CentOS 6+ for cp/mv/rm
 # sh /script/disable-alias
