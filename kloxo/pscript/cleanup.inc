@@ -33,9 +33,6 @@ done
 
 sh /script/fixlxphpexe
 
-## MR -- no need always use 'fpm' mode
-#sh /script/set-kloxo-php
-
 . /script/directory
 	
 if [ "${1}" == "simple" ] ; then

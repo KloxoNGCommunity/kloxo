@@ -5743,6 +5743,8 @@ function setInitialWebConfig($type, $nolog = null)
 		}
 	}
 
+	exec("echo '## MR -- blank only' > {$htcpath}/domains/__blank__.conf");
+
 	$oldlist = array("{$htcpath}/redirects", "{$htcpath}/exclusive", "{$htcpath}/wildcards",
 		"{$htcpath}/webmails", "{$htpath}/sock", "{$htpath}/socks", "{$eatpath}/conf/kloxo",
 		"{$htpath}/tmp", "{$htpath}/logs", "{$htpath}/cache");

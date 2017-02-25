@@ -92,10 +92,16 @@ class pserver extends pservercore {
 		$pagespeedflag = "../etc/flag/use_pagespeed.flg";
 		$usepagespeed = $param['use_pagespeed'];
 
-		if ($usepagespeed === 'on') {
-			exec("echo '' > {$pagespeedflag}");
-		} else {
-			exec("'rm' -f {$pagespeedflag}");
+		if (isWebProxyOrApache()) {
+			if ($usepagespeed === 'on') {
+				exec("echo '' > {$pagespeedflag}");
+
+				web__apache::setWebserverInstall('httpd');
+			} else {
+				exec("'rm' -f {$pagespeedflag}");
+
+				web__apache::setWebserverInstall('httpd');
+			}
 		}
 
 		// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
@@ -111,50 +117,45 @@ class pserver extends pservercore {
 			} else {
 				$t = str_replace("proxy", "", $v);
 
-			//	if ((!file_exists("{$sgbl->__path_program_root}/file/{$t}")) && ($k !== 'spam_driver') && ($t !== 'none')) {
-			//	if (($k === 'pop3_driver') || ($k === 'imap4_driver') || ($k === 'smtp_driver')) {
-			//		throw new lxException($login->getThrow("not_ready_to_use"), '', $v);
-			//	} else {
-					dprint("Change for $k: $v\n");
+				dprint("Change for $k: $v\n");
 
-					$class = strtilfirst($k, "_");
-					$drstring = "{$class}_driver";
+				$class = strtilfirst($k, "_");
+				$drstring = "{$class}_driver";
 
-					rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $this->$drstring, $v));
+				rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $this->$drstring, $v));
 
-					changeDriver($this->nname, $class, $v);
+				changeDriver($this->nname, $class, $v);
 
-					$fixc = $class;
+				$fixc = $class;
 
-				//	if (($class === 'spam') || ($class === 'pop3') || ($class === 'imap4') || ($class === 'smtp')) {
-					if (($class === 'spam') || ($class === 'pop3') || ($class === 'smtp')) {
-						$fixc = "mmail";
-					}
+			//	if (($class === 'spam') || ($class === 'pop3') || ($class === 'imap4') || ($class === 'smtp')) {
+				if (($class === 'spam') || ($class === 'pop3') || ($class === 'smtp')) {
+					$fixc = "mmail";
+				}
 
-					$a[$class] = $v;
-					rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
+				$a[$class] = $v;
+				rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
 
-				//	if ($nofixconfig === 'on') { continue; }
+			//	if ($nofixconfig === 'on') { continue; }
 
-				//	lxshell_return("sh", "/script/fix{$fixc}", "--target=defaults", "--server={$this->nname}", "--nolog");
-					exec("sh /script/fix{$fixc} --target=defaults --server={$this->nname} --nolog");
+			//	lxshell_return("sh", "/script/fix{$fixc}", "--target=defaults", "--server={$this->nname}", "--nolog");
+				exec("sh /script/fix{$fixc} --target=defaults --server={$this->nname} --nolog");
 
-					// MR -- original code not work, so change to, also must be the last process!
-					if ($fixc === 'web') {
-						if (isWebProxyOrApache()) {
-							$php_type = db_get_value("serverweb", "pserver-" . $this->nname, "php_type");
+				// MR -- original code not work, so change to, also must be the last process!
+				if ($fixc === 'web') {
+					if (isWebProxyOrApache()) {
+						$php_type = db_get_value("serverweb", "pserver-" . $this->nname, "php_type");
 
-							if (stripos($php_type, 'php-fpm') !== false) {
-								exec("chkconfig php-fpm on >/dev/null 2>&1");
-							} else {
-								exec("chkconfig php-fpm off >/dev/null 2>&1");
-							}
-						} else {
+						if (stripos($php_type, 'php-fpm') !== false) {
 							exec("chkconfig php-fpm on >/dev/null 2>&1");
+						} else {
+							exec("chkconfig php-fpm off >/dev/null 2>&1");
 						}
+					} else {
+						exec("chkconfig php-fpm on >/dev/null 2>&1");
 					}
 				}
-			//}
+			}
 		}
 	}
 

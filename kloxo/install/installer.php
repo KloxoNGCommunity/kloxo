@@ -207,13 +207,11 @@ function install_main()
 	install_dns();
 	install_mail();
 	install_others();
-
-	@system("'cp' -rf /usr/local/lxlabs/kloxo/file/apache/etc/conf/httpd.conf /etc/httpd/conf/httpd.conf");
 }
 
 function install_web()
 {
-	print(">>> Installing Web services <<<\n");
+	print(">>> Installing Apache and Hiawatha<<<\n");
 
 	$apache = getApacheBranch();
 
@@ -224,14 +222,15 @@ function install_web()
 		system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
 		exec("echo '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg");
 	} else {
-		system("yum -y install httpd mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
+		system("yum install -y httpd mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
 	}
 
+	system("yum install -y hiawatha");
 }
 
 function install_php()
 {
-	print(">>> Adding Standard PHP components and Hiawatha <<<\n");
+	print(">>> Adding Standard PHP components<<<\n");
 	// MR -- xcache, zend, ioncube, suhosin and zts not default install
 
 	// MR -- for accept for php and apache branch rpm
@@ -243,16 +242,12 @@ function install_php()
 		$phpbranchmysql = "{$phpbranch}-mysqlnd";
 	}
 
-	$packages = array("{$phpbranch}", "{$phpbranch}-mbstring", "{$phpbranchmysql}", "{$phpbranch}-pear",
-		"{$phpbranch}-pecl-geoip", "{$phpbranch}-mcrypt", "{$phpbranch}-xml",
-		"{$phpbranch}-embedded", "{$phpbranch}-imap", "{$phpbranch}-intl",
-		"{$phpbranch}-ldap", "{$phpbranch}-litespeed", "{$phpbranch}-process", "{$phpbranch}-pspell",
-		"{$phpbranch}-recode", "{$phpbranch}-snmp", "{$phpbranch}-soap", "{$phpbranch}-tidy",
-		"{$phpbranch}-xmlrpc", "{$phpbranch}-gd", "{$phpbranch}-ioncube-loader", "hiawatha");
-
-	$list = implode(" ", $packages);
-
-	system("yum -y install $list");
+	system("yum install -y {$phpbranch}-cli {$phpbranch}-mbstring {$phpbranchmysql} {$phpbranch}-pear " .
+		"{$phpbranch}-pecl-geoip {$phpbranch}-mcrypt {$phpbranch}-xml {$phpbranch}-embedded " .
+		"{$phpbranch}-imap {$phpbranch}-intl {$phpbranch}-ldap {$phpbranch}-fpm " . 
+		"{$phpbranch}-litespeed {$phpbranch}-process {$phpbranch}-pspell {$phpbranch}-recode " .
+		"{$phpbranch}-snmp {$phpbranch}-soap {$phpbranch}-tidy {$phpbranch}-xmlrpc " . 
+		"{$phpbranch}-gd {$phpbranch}-ioncube-loader");
 }
 
 function install_database()
@@ -397,7 +392,7 @@ function kloxo_install_step1()
 		"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
 		"yum-plugin-replace", "crontabs", "make", "glibc-static", "net-snmp", "tmpwatch",
 		"rkhunter", "quota", "xinetd", "screen", "telnet", "ncdu", "sysstat", "net-tools",
-		"xz", "xz-libs", "p7zip", "p7zip-plugins", "rar", "unrar", "lxjailshell");
+		"xz", "xz-libs", "p7zip", "p7zip-plugins", "rar", "unrar", "lxjailshell", "yum-presto", "deltarpm");
 
 	$list = implode(" ", $packages);
 
@@ -827,7 +822,7 @@ function getPhpBranch()
 		'php52w', 'php53w', 'php54w', 'php55w', 'php56w');
 
 	foreach ($a as &$e) {
-		if (isRpmInstalled($e)) {
+		if (isRpmInstalled("{$e}-cli")) {
 			return $e;
 		}
 	}
@@ -863,10 +858,10 @@ function getMysqlBranch()
 	return 'mysql';
 }
 
-// MR -- taken from lib.php
 function getRpmVersion($rpmname)
 {
-	@exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
+
+	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
 	if ($ret === 0) {
 		$ver = $out[0];
@@ -877,22 +872,23 @@ function getRpmVersion($rpmname)
 	return $ver;
 }
 
-// MR -- taken from lib.php
 function getPhpVersion()
 {
-	@exec("php -r 'echo phpversion();'", $out, $ret);
+	exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
 
-	return $out[0];
+	// MR -- 'php -v' may not work when php 5.4/5.5 using php.ini from 5.2/5.3
+	if ($ret === 0) {
+		return $out[0];
+	} else {
+		return '5.4.0';
+	}
 }
 
 function isRpmInstalled($rpmname)
 {
-	@exec("rpm -q {$rpmname}", $out);
+	exec("rpm -qa {$rpmname}", $out);
 
-	$ret = strpos($out[0], "{$rpmname}-");
-
-	// MR -- must be '!== 0' because no exist sometimes with value > 0; 0 because position in 0
-	if ($ret !== 0) {
+	if (count($out) < 1) {
 		return false;
 	} else {
 		return true;
