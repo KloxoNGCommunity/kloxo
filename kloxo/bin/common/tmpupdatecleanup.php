@@ -92,6 +92,9 @@ function updatecleanup_main()
 
 		log_cleanup("Fix services");
 		setUpdateConfigWithVersionCheck(getListOnList('fix'), $opt['type']);
+
+		log_cleanup("- Update Multiple Php");
+		exec("sh /script/phpm-updater -y");
 	}
 
 	// MR -- installatron need ownership as root:root
@@ -100,7 +103,7 @@ function updatecleanup_main()
 		symlink("/var/installatron/frontend", "/usr/local/lxlabs/kloxo/httpdocs/installatron");
 	}
 
-	log_cleanup("Fixing Hiawatha service");
+	log_cleanup("- Fixing Hiawatha service");
 	fix_hiawatha();
 
 	log_cleanup("*** Executing Update (cleanup) - END ***");

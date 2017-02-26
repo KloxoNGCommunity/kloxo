@@ -5,7 +5,7 @@
 if [ ! -f /etc/ssl/certs/dhparam.pem ] ; then
 	echo "Wait for dh-parm key for ssl create..."
 	cd /etc/ssl/certs
-	openssl dhparam -out dhparam.pem 2048
+	openssl dhparam -out dhparam.pem 2048 >/dev/null 2>&1
 fi
 
 if [ -f /script/custom.fix.inc ] ; then
