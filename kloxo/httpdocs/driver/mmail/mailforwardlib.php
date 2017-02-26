@@ -21,7 +21,7 @@ class MailForward extends Lxdb
 	{
 		$mlist = get_namelist_from_objectlist($parent->getList('mailaccount'));
 
-		if ($typetd['val'] === 'alias') {
+	//	if ($typetd['val'] === 'alias') {
 			if ($parent->isClient()) {
 				$list = get_namelist_from_objectlist($parent->getList('domain'));
 				$vv = array('var' => 'real_clparent_f', 'val' => array('s', $list));
@@ -29,9 +29,9 @@ class MailForward extends Lxdb
 			} else {
 				$vlist['nname'] = array('m', array('posttext' => "@$parent->nname"));
 			}
-		} else {
-			$vlist['nname'] = array('s', $mlist);
-		}
+	//	} else {
+	//		$vlist['nname'] = array('s', $mlist);
+	//	}
 
 		if ($typetd['val'] === 'alias') {
 			$vlist['forwardaddress'] = array('s', $mlist);

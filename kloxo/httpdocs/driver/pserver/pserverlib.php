@@ -72,18 +72,26 @@ class pserver extends pservercore {
 
 		$httpd24flag = "../etc/flag/use_apache24.flg";
 
+		if (file_exists($httpd24flag)) {
+			$current_useapache24 = 'on';
+		} else {
+			$current_useapache24 = 'off';
+		}
+
 		// MR -- get httpd24u info
 		exec("cat '../etc/list/httpd.lst'|grep httpd24", $out);
 
 		if ($out[0] !== null) {
-			$useapache24 = $param['use_apache24'];
+			$next_useapache24 = $param['use_apache24'];
 
-			if ($useapache24 === 'on') {
+			if ($next_useapache24 === 'on') {
 				exec("echo '' > {$httpd24flag}");
 			} else {
 				exec("'rm' -f {$httpd24flag}");
 			}
 		} else {
+			$next_useapache24 = 'off';
+
 			if (file_exists($httpd24flag)) {
 				exec("'rm' -f {$httpd24flag}");
 			}
@@ -109,8 +117,18 @@ class pserver extends pservercore {
 	//	rl_exec_get(null, $this->nname, 'slave_save_db', array('driver', $a));
 
 		foreach($param as $k => $v) {
-		//	if (($k === 'no_fix_config') || ($k === 'use_apache24')) { continue; }
+		//	if ($k === 'no_fix_config') { continue; }
 			if ($k === 'use_apache24') { continue; }
+
+			$class = strtilfirst($k, "_");
+			$drstring = "{$class}_driver";
+
+			if (($class === 'web') && (isWebProxyOrApache())) {
+				if ($current_useapache24 !== $next_useapache24) {
+					dprint("Change 'Use Apache24' from '{$current_useapache24}' to '{$next_useapache24}'\n");
+					rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $v, $v));
+				}
+			}
 
 			if ($this->$k === $v) {
 				dprint("No change for $k: $v\n");
@@ -118,11 +136,6 @@ class pserver extends pservercore {
 				$t = str_replace("proxy", "", $v);
 
 				dprint("Change for $k: $v\n");
-
-				$class = strtilfirst($k, "_");
-				$drstring = "{$class}_driver";
-
-				rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $this->$drstring, $v));
 
 				changeDriver($this->nname, $class, $v);
 
