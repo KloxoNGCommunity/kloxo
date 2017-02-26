@@ -17,7 +17,7 @@ else
 
 	for item in ${list[*]} ; do
 		svc_ok='no'
-		if [ "$(chkconfig --list --type=sysv 2>/dev/null|grep ^${item})" != "" ] ; then
+		if [ "$(chkconfig --list 2>/dev/null|grep ^${item})" != "" ] ; then
 			svc_ok='yes'
 		fi
 		if [ "$(command -v systemctl)" != "" ] ; then
@@ -29,7 +29,7 @@ else
 
 		if [ "${svc_ok}" == 'yes' ] ; then
 			svc_on='no'
-			if [ "$(chkconfig --list --type=sysv 2>/dev/null|grep ^${item}|grep ':on')" != "" ] ; then
+			if [ "$(chkconfig --list 2>/dev/null|grep ^${item}|grep ':on')" != "" ] ; then
 				svc_on='yes'
 			fi
 			if [ "$(command -v systemctl)" != "" ] ; then

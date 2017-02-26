@@ -31,3 +31,12 @@ echo 'sslverify=false' >> /etc/yum.conf
 
 ## MR -- importance for CentOS 6+ for cp/mv/rm
 # sh /script/disable-alias
+
+
+## MR -- make install x86_64 only in 64bit OS
+echo "%_query_all_fmt %%{name}-%%{version}-%%{release}.%%{arch}" >> ~/.rpmmacros
+
+## MR -- remove 32bit packages in 64bit OS
+if [ "$(uname -m)" == "x86_64" ] ; then
+	yum remove -y *.i386 *.i686
+fi

@@ -13,7 +13,8 @@ class Service__Linux extends Lxlclass
 		$val = array_remove($val, $sgbl->__var_programname_imap);
 		$val = array_remove($val, $sgbl->__var_programname_mmail);
 	*/
-		exec("chkconfig --list --type=sysv 2>/dev/null|awk '{print $1}'", $val1);
+		// MR not use option '--type=sysv' because trouble in CentOS 5
+		exec("chkconfig --list 2>/dev/null|awk '{print $1}'|grep -v ':'", $val1);
 
 		$val2 = array();
 
@@ -27,6 +28,8 @@ class Service__Linux extends Lxlclass
 
 		$nval = self::getMainServiceList();
 		$nval = lx_array_merge(array($nval, $val));
+
+		array_unique($nval);
 		
 		return $nval;
 	}

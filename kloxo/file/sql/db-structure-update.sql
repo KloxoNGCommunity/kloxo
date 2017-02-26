@@ -60,7 +60,6 @@ INSERT IGNORE INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servic
 ('iptables___localhost', 'pserver-localhost', '', 'iptables', 'IPTables Firewall', 'iptables', 'localhost', '', '');
 
 UPDATE `service` SET `description`='Php Fastcgi Process Manager (Php Used)' WHERE `nname`='php-fpm___localhost';
-UPDATE `service` SET `description`='Php Fastcgi Process Manager (Multiple Php)' WHERE  `nname`='phpm-fpm___localhost';
 
 CREATE TABLE IF NOT EXISTS `jailed` (
   `nname` varchar(255) NOT NULL,

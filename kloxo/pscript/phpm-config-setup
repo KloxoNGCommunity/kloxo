@@ -306,6 +306,7 @@ if [ -f ${eripath}/phpm-fpm ] ; then
 	chkconfig phpm-fpm off >/dev/null 2>&1
 	service phpm-fpm stop >/dev/null 2>&1
 	chkconfig -del phpm-fpm >/dev/null 2>&1
+	'rm' -f ${eripath}/phpm-fpm
 fi
 
 if [ "$(command -v systemctl)" != "" ] ; then
