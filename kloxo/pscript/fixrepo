@@ -18,3 +18,5 @@ else
 	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
 	yum update mratwork-* -y
 fi
+
+. /script/fix-urgent

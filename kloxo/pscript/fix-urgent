@@ -23,5 +23,11 @@ if [ "$(rpm -qa sudo)" == "" ] ; then
 	yum install -y sudo
 fi
 
+if [ "$(cat /etc/yum.conf|grep 'sslverify')" != "" ] ; then
+	sed -i '/sslverify/d' /etc/yum.conf
+fi
+
+echo 'sslverify=false' >> /etc/yum.conf
+
 ## MR -- importance for CentOS 6+ for cp/mv/rm
 # sh /script/disable-alias

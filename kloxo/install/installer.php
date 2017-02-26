@@ -254,7 +254,7 @@ function install_php()
 		"{$phpbranch}-litespeed {$phpbranch}-process {$phpbranch}-pspell {$phpbranch}-recode " .
 		"{$phpbranch}-snmp {$phpbranch}-soap {$phpbranch}-tidy {$phpbranch}-xmlrpc " . 
 		"{$phpbranch}-gd {$phpbranch}-ioncube-loader " .
-		"-skip-broken");
+		"--skip-broken");
 }
 
 function install_database()
