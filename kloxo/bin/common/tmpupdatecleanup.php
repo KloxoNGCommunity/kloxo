@@ -92,9 +92,6 @@ function updatecleanup_main()
 
 		log_cleanup("Fix services");
 		setUpdateConfigWithVersionCheck(getListOnList('fix'), $opt['type']);
-
-		log_cleanup("- Update Multiple Php");
-		exec("sh /script/phpm-updater -y");
 	}
 
 	// MR -- installatron need ownership as root:root

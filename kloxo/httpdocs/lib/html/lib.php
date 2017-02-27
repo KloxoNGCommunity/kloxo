@@ -487,7 +487,7 @@ function slave_get_driver($class)
 
 function PreparePowerdnsDb($nolog = null)
 {
-	log_cleanup("Preparing PowerDNS database", $nolog);
+	log_cleanup("Prepare PowerDNS database", $nolog);
 
 	log_cleanup("- Install MySQL and Geo Backend", $nolog);
 
@@ -509,7 +509,7 @@ function PreparePowerdnsDb($nolog = null)
 		$pstring = "-p\"$pass\"";
 	}
 
-	log_cleanup("- Fixing MySQL commands in import files", $nolog);
+	log_cleanup("- Fix MySQL commands in import files", $nolog);
 
 	$pdnspath = "/opt/configs/pdns";
 
@@ -520,7 +520,7 @@ function PreparePowerdnsDb($nolog = null)
 
 	$content = file_get_contents($sfile);
 
-	log_cleanup("- Generating password", $nolog);
+	log_cleanup("- Generate password", $nolog);
 	$pass = randomString(8);
 
 	$link->query("GRANT ALL ON powerdns.* TO powerdns@localhost IDENTIFIED BY '{$pass}'");
@@ -535,7 +535,7 @@ function PreparePowerdnsDb($nolog = null)
 
 function PrepareMyDnsDb($nolog = null)
 {
-	log_cleanup("Preparing MyDns database", $nolog);
+	log_cleanup("Prepare MyDns database", $nolog);
 
 	$pass = slave_get_db_pass();
 	$user = "root";
@@ -555,7 +555,7 @@ function PrepareMyDnsDb($nolog = null)
 		$pstring = "-p\"$pass\"";
 	}
 
-	log_cleanup("- Fixing MySQL commands in import files", $nolog);
+	log_cleanup("- Fix MySQL commands in import files", $nolog);
 
 	$mydnspath = "/opt/configs/mydns";
 
@@ -566,7 +566,7 @@ function PrepareMyDnsDb($nolog = null)
 
 	$content = file_get_contents($sfile);
 
-	log_cleanup("- Generating password", $nolog);
+	log_cleanup("- Generate password", $nolog);
 	$pass = randomString(8);
 
 	$link->query("GRANT ALL ON mydns.* TO mydns@localhost IDENTIFIED BY '{$pass}'");
@@ -1220,7 +1220,7 @@ function remove_old_serve_file()
 {
 	global $sgbl;
 
-	log_log("remove_oldfile", "Removing old files");
+	log_log("remove_oldfile", "Remove old files");
 	$list = lscandir_without_dot("{$sgbl->__path_serverfile}/tmp");
 
 	foreach ($list as $l) {
@@ -1277,12 +1277,12 @@ function mysql_upload_file_to_db($dbhost, $dbuser, $dbpassword, $dbname, $file)
 
 function testAllServersWithMessage()
 {
-	print("Testing All servers.... ");
+	print("Test All servers.... ");
 
 	try {
 		testAllServers();
 	} catch (Exception $e) {
-		print("Connecting to these servers failed due to....\n");
+		print("Connect to these servers failed due to....\n");
 		print_r($e->value);
 
 		return false;
@@ -1617,7 +1617,7 @@ function cp_fileserv($file)
 	lxfile_generic_chown($path, "lxlabs:lxlabs");
 
 	$file = expand_real_root($file);
-	dprint("Fileserv copying file $file\n");
+	dprint("Fileserv copy file $file\n");
 
 	if (is_dir($file)) {
 		$list = lscandir_without_dot($file);
@@ -1718,7 +1718,7 @@ function fileserv_unlink_if_tmp($file)
 	$base = dirname($file);
 
 	if (expand_real_root($base) === expand_real_root("$sgbl->__path_serverfile/tmp")) {
-		log_log("servfile", "Deleting tmp servfile $file");
+		log_log("servfile", "Delete tmp servfile $file");
 		lunlink($file);
 	}
 }
@@ -1772,7 +1772,7 @@ function doRealGetFromFileServ($cmd, $serv, $filepass, $copyto = null)
 	if ($serv === 'localhost') {
 		$array = lfile_get_unserialize($path);
 		$realfile = $array['filename'];
-		log_log("servfile", "getting local file $realfile");
+		log_log("servfile", "get local file $realfile");
 
 		if (lxfile_exists($realfile) && lis_readable($realfile)) {
 			lunlink("$sgbl->__path_serverfile/$base");
@@ -1827,7 +1827,7 @@ function doGetOrPrintFromFileServ($serv, $filepass, $type, $fd)
 	$info = new Remote;
 	$info->password = $pass;
 	$info->filename = $file;
-	log_log("servfile", "Start Getting $serv $type $file $size");
+	log_log("servfile", "Start Get $serv $type $file $size");
 
 	$val = base64_encode(serialize($info));
 	$string = "__file::$val";
@@ -2780,7 +2780,7 @@ function install_if_package_not_exist($name, $nolog = null)
 
 
 	if ($ret) {
-		log_cleanup("- Installing for {$name} package", $nolog);
+		log_cleanup("- Install for {$name} package", $nolog);
 		lxshell_return("yum", "-y", "install", $name);
 	} else {
 		log_cleanup("- {$name} package already installed", $nolog);
@@ -3451,7 +3451,7 @@ function exit_program()
 function install_general($value)
 {
 	$value = implode(" ", $value);
-	print("Installing $value ....\n");
+	print("Install $value ....\n");
 	exec("up2date-nox --nosig $value");
 }
 
@@ -3515,7 +3515,7 @@ function manage_service($service, $state)
 {
 	global $gbl;
 
-	print("Sending $state to $service\n");
+	print("Send $state to $service\n");
 	$servicename = "__var_programname_$service";
 	$program = $gbl->$servicename;
 
@@ -5236,7 +5236,7 @@ function installEasyinstaller($nolog = null)
 		// Line below Removed in Kloxo 6.1.4
 		return;
 	/*
-		log_cleanup("- Creating easyinstaller dir", $nolog);
+		log_cleanup("- Create easyinstaller dir", $nolog);
 		lxfile_mkdir("__path_kloxo_httpd_root/easyinstaller");
 
 		if (!lxfile_exists("__path_kloxo_httpd_root/easyinstaller/wordpress")) {
@@ -6387,7 +6387,7 @@ function setCheckPackages($nolog = null)
 {
 	$phpbranch = getRpmBranchInstalled('php');
 
-	log_cleanup("Checking for rpm packages", $nolog);
+	log_cleanup("Check for rpm packages", $nolog);
 
 	$list = array("autorespond-toaster", "courier-imap-toaster", "dovecot-toaster", "daemontools-toaster",
 		"ezmlm-toaster", "libdomainkeys-toaster", "libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster",
@@ -6508,10 +6508,10 @@ function setSomePermissions($nolog = null)
 
 function setJailshellSystem($nolog = null)
 {
-	log_cleanup("Installing jailshell to system", $nolog);
+	log_cleanup("Install jailshell to system", $nolog);
 
 	if (!lxfile_exists("/usr/bin/execzsh.sh")) {
-		log_cleanup("- Installing process", $nolog);
+		log_cleanup("- Install process", $nolog);
 		addLineIfNotExistInside("/etc/shells", "/usr/bin/lxjailshell", "");
 		lxfile_cp("theme/filecore/execzsh.sh", "/usr/bin/execzsh.sh");
 		lxfile_unix_chmod("/usr/bin/execzsh.sh", "0755");
@@ -6548,6 +6548,7 @@ function setSomeScript($nolog = null)
 function setInitialLogrotate($nolog = null)
 {
 	log_cleanup("Initialize logrotates", $nolog);
+	log_cleanup("- Initialize process", $nolog);
 
 	exec("cp -f ../file/logrotate/etc/logrotate.d/* /etc/logrotate.d");
 
@@ -6838,7 +6839,7 @@ function add_domain_backup_dir($nolog = null)
 
 function changeColumn($tbl_name, $changelist)
 {
-	dprint("Changing Column.............\n");
+	dprint("Change Column.............\n");
 	$db = new Sqlite($tbl_name);
 	$columnold = $db->getColumnTypes();
 //	$oldcolumns = array_keys($columnold);
@@ -6883,14 +6884,14 @@ function changeValues($res, $tbl_name, $db, $newfields)
 
 function droptable($tbl_name)
 {
-	dprint("Dropping table...............\n");
+	dprint("Drop table...............\n");
 	$db = new Sqlite($tbl_name);
 	$db->rawQuery("drop table " . $tbl_name);
 }
 
 function dropcolumn($tbl_name, $column)
 {
-	dprint("Dropping Column...............\n");
+	dprint("Drop Column...............\n");
 
 	$db = new Sqlite($tbl_name);
 	$columnold = $db->getColumnTypes();
@@ -6990,7 +6991,7 @@ function setUpdateServices($list, $nolog = null)
 		$l = $list;
 	}
 
-	log_cleanup('Updating Core packages', $nolog);
+	log_cleanup('Update Core packages', $nolog);
 
 	foreach ($l as $k => $v) {
 		exec("yum list installed {$v}", $out, $ret);
@@ -7004,7 +7005,7 @@ function setUpdateServices($list, $nolog = null)
 	}
 }
 
-// Issue #769 - Fixing services when updating Kloxo
+// Issue #769 - Fix services when updating Kloxo
 // MR -- TODO: automatic update found different version of config
 
 function setUpdateConfigWithVersionCheck($list, $servertype = null, $nolog = null)
@@ -7057,8 +7058,8 @@ function updatecleanup($nolog = null)
 		lxfile_rm("phpinfo.php");
 	}
 
-//	log_cleanup("Killing gettraffic system process", $nolog);
-//	log_cleanup("- Killing process", $nolog);
+//	log_cleanup("Kill gettraffic system process", $nolog);
+//	log_cleanup("- Kill process", $nolog);
 //	exec("pkill -f gettraffic");
 
 	setSyncDrivers($nolog);
@@ -7108,7 +7109,7 @@ function updatecleanup($nolog = null)
 	lxfile_mkdir("/home/kloxo/httpd/awstats/dirdata");
 
 	log_cleanup("Update Kloxo database", $nolog);
-	log_cleanup("- Updating process", $nolog);
+	log_cleanup("- Update process", $nolog);
 	update_database();
 
 	log_cleanup("Remove old lxlabs ssh key", $nolog);
@@ -7153,7 +7154,7 @@ function setInitialServices($nolog = null)
 	setInitialAllWebConfigs($nolog);
 	setInitialAllWebCacheConfigs($nolog);
 
-//	setPhpUpdate();
+	setPhpUpdate();
 
 	setInitialPhpIniConfig($nolog);
 	getInitialPhpFpmConfig($nolog);
@@ -7193,7 +7194,7 @@ function setRemoveAlias($nolog = null)
 	log_cleanup("Remove cp/mv/rm alias", $nolog);
 
 	// MR -- importance for Centos 6
-	log_cleanup("- Unaliasing process", $nolog);
+	log_cleanup("- Unalias process", $nolog);
 	exec("unalias cp > /dev/null 2>&1; unalias mv > /dev/null 2>&1; unalias rm > /dev/null 2>&1");
 }
 
@@ -7222,7 +7223,7 @@ function update_all_slave()
 			continue;
 		}
 		try {
-			print("Upgrading Slave {$l['nname']}...\n");
+			print("Upgrade Slave {$l['nname']}...\n");
 			rl_exec_get(null, $l['nname'], 'remotetestfunc', null);
 		} catch (Exception $e) {
 			print($e->getMessage());
@@ -7260,7 +7261,7 @@ function findNextVersion($lastversion = null)
 		return 0;
 	}
 
-	print("Upgrading from $thisversion to $upgrade\n");
+	print("Upgrade from $thisversion to $upgrade\n");
 
 	return $upgrade;
 }
@@ -8143,7 +8144,7 @@ function setSyncDrivers($nolog = null)
 {
 	global $gbl;
 
-	log_cleanup("Synchronizing driver between table and slavedb", $nolog);
+	log_cleanup("Synchronize driver between table and slavedb", $nolog);
 
 //	include "../file/driver/rhel.inc";
 
@@ -8195,19 +8196,19 @@ function setSyncDrivers($nolog = null)
 
 function setEnableQuota($nolog = null)
 {
-	log_cleanup("Enabling Disk Quota\n", $nolog);
+	log_cleanup("Enable Disk Quota\n", $nolog);
 
 	if (isRpmInstalled('quota')) {
 		log_cleanup("- Already installed\n", $nolog);
 	} else {
-		log_cleanup("- Installing...\n", $nolog);
+		log_cleanup("- Install process\n", $nolog);
 		setRpmInstalled('quota');
 	}
 
 	exec("quotaon -pa|grep 'off'", $out);
 
 	if ($out[0] !== '') {
-		log_cleanup("- Enabling...\n", $nolog);
+		log_cleanup("- set to enable\n", $nolog);
 		exec("quotaon -vaug, $nolog");
 	} else {
 		log_cleanup("- Already enabled\n", $nolog);
@@ -8216,9 +8217,9 @@ function setEnableQuota($nolog = null)
 
 function setRemoveHttpdocsSymlink($nolog)
 {
-	log_cleanup("Removing /home/httpd/*/httpdocs\n", $nolog);
+	log_cleanup("Remove /home/httpd/*/httpdocs\n", $nolog);
 
-	log_cleanup("- Removing...\n", $nolog);
+	log_cleanup("- Remove process\n", $nolog);
 
 	// MR -- script also remove /home/httpd/*/conf
 	exec("sh /script/remove-httpdocs-symlink");
@@ -8402,48 +8403,48 @@ function setInstallHttpry($nolog = null)
 
 function setAllSSLPortions($nolog = null)
 {
-	log_cleanup("Setting All SSL Portions", $nolog);
+	log_cleanup("Set All SSL Portions", $nolog);
 
-	log_cleanup("- Copying 'openssl' config Files", $nolog);
+	log_cleanup("- Copy 'openssl' config Files", $nolog);
 	setCopyOpenSSLConfFiles();
 
-//	log_cleanup("- Copying 'letsencrypt-auto' config Files", $nolog);
+//	log_cleanup("- Copy 'letsencrypt-auto' config Files", $nolog);
 //	setCopyLetsEncryptConfFiles();
 
-	log_cleanup("- Copying 'acme.sh' config Files", $nolog);
+	log_cleanup("- Copy 'acme.sh' config Files", $nolog);
 	setCopyAcmeshConfFiles();
 
-	log_cleanup("- Copying 'startapi.sh' config Files", $nolog);
+	log_cleanup("- Copy 'startapi.sh' config Files", $nolog);
 	setCopyStartapishConfFiles();
 
-//	log_cleanup("- Installing Letsencrypt-auto", $nolog);
+//	log_cleanup("- Install Letsencrypt-auto", $nolog);
 //	setInstallLetsencrypt($nolog);
 
-//	log_cleanup("- Removing Letsencrypt-auto", $nolog);
+//	log_cleanup("- Remove Letsencrypt-auto", $nolog);
 //	setRemoveLetsencrypt($nolog);
 
-	log_cleanup("- Installing acme.sh", $nolog);
+	log_cleanup("- Install acme.sh", $nolog);
 	setInstallAcmesh($nolog);
 
-	log_cleanup("- Installing startapi.sh", $nolog);
+	log_cleanup("- Install startapi.sh", $nolog);
 	setInstallStartapish($nolog);
 
-	log_cleanup("- Fixing SSL path", $nolog);
+	log_cleanup("- Fix SSL path", $nolog);
 	setFixSSLPath($nolog);
 }
 
 function setHttpry($nolog = null)
 {
-	log_cleanup("- Copying 'httpry' config Files", $nolog);
+	log_cleanup("- Copy 'httpry' config Files", $nolog);
 	setCopyHttpryConfFiles();
 
-	log_cleanup("- Installing httpry", $nolog);
+	log_cleanup("- Install httpry", $nolog);
 	setInstallHttpry($nolog);
 }
 
 function setCronBackup($nolog = null)
 {
-	log_cleanup("- Fixing 'Cron Backup' Files", $nolog);
+	log_cleanup("- Fix 'Cron Backup' Files", $nolog);
 	exec("sh /script/fix-cron-backup");
 }
 
@@ -8484,7 +8485,7 @@ function callWithSudo($res, $username = null)
 
 function setAllWebserverInstall($nolog = null)
 {
-	log_cleanup("Installing All Web servers", $nolog);
+	log_cleanup("Install All Web servers", $nolog);
 
 	$list = getAllWebDriverList();
 
@@ -8509,17 +8510,17 @@ function setAllWebserverInstall($nolog = null)
 				if (isRpmInstalled('httpd')) {
 					exec("yum -y replace httpd --replace-with=httpd24u >/dev/null 2>&1;" . "yum -y remove {$hm['httpd']} >/dev/null 2>&1;" . "yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
 
-					log_cleanup("- Replacing 'httpd' to 'httpd24u'", $nolog);
+					log_cleanup("- Replace 'httpd' to 'httpd24u'", $nolog);
 				} else {
 					if (isRpmInstalled('httpd24u')) {
 						if (isServiceExists('httpd')) {
 							exec("yum -y reinstall httpd24u >/dev/null 2>&1");
 
-							log_cleanup("- Reinstalling 'httpd24u'", $nolog);
+							log_cleanup("- Reinstall 'httpd24u'", $nolog);
 						}
 					} else {
 						exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']} >/dev/null 2>&1");
-						log_cleanup("- Installing 'httpd24u'", $nolog);
+						log_cleanup("- Install 'httpd24u'", $nolog);
 					}
 				}
 
@@ -8530,18 +8531,18 @@ function setAllWebserverInstall($nolog = null)
 					exec("yum -y replace httpd24u --replace-with=httpd >/dev/null 2>&1;" .
 						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" . "yum -y install {$hm['httpd']} >/dev/null 2>&1");
 
-					log_cleanup("- Replacing 'httpd24' to 'httpd'", $nolog);
+					log_cleanup("- Replace 'httpd24' to 'httpd'", $nolog);
 				} else {
 					if (isRpmInstalled('httpd')) {
 						if (isServiceExists('httpd')) {
 							exec("yum -y reinstall httpd >/dev/null 2>&1");
 
-							log_cleanup("- Reinstalling 'httpd'", $nolog);
+							log_cleanup("- Reinstall 'httpd'", $nolog);
 						}
 					} else {
 						exec("yum -y install {$ws['httpd']} {$hm['httpd']} >/dev/null 2>&1");
 
-						log_cleanup("- Installing 'httpd'", $nolog);
+						log_cleanup("- Install 'httpd'", $nolog);
 					}
 				}
 
@@ -8555,12 +8556,12 @@ function setAllWebserverInstall($nolog = null)
 				if (isServiceExists($v)) {
 					exec("yum -y reinstall {$v} >/dev/null 2>&1");
 
-					log_cleanup("- Reinstalling '{$v}'", $nolog);
+					log_cleanup("- Reinstall '{$v}'", $nolog);
 				}
 			} else {
 				exec("yum -y install {$t} >/dev/null 2>&1");
 
-				log_cleanup("- Installing '{$v}'", $nolog);
+				log_cleanup("- Install '{$v}'", $nolog);
 			}
 		}
 	}
@@ -8575,7 +8576,7 @@ function setAllInactivateWebServer($nolog = null)
 			$v = 'httpd';
 		}
 
-		log_cleanup("- Inactivating '$v'", $nolog);
+		log_cleanup("- Inactivate '$v'", $nolog);
 		exec("chkconfig $v off >/dev/null 2>&1");
 
 		exec("chkconfig spawn-fcgi off >/dev/null 2>&1");
@@ -8584,7 +8585,7 @@ function setAllInactivateWebServer($nolog = null)
 
 function setActivateWebServer($nolog = null)
 {
-	log_cleanup("Activating Web servers", $nolog);
+	log_cleanup("Activate Web servers", $nolog);
 
 	$list = getWebDriverList();
 
@@ -8593,7 +8594,7 @@ function setActivateWebServer($nolog = null)
 			$v = 'httpd';
 		}
 
-		log_cleanup("- Activating '{$v}' as Web server", $nolog);
+		log_cleanup("- Activate '{$v}' as Web server", $nolog);
 		exec("chkconfig {$v} on >/dev/null 2>&1");
 
 		if ($v === 'nginx') {
@@ -8604,8 +8605,8 @@ function setActivateWebServer($nolog = null)
 
 function setPhpUpdate($nolog = null)
 {
-	log_cleanup("Updating All Php (branch and multiple)", $nolog);
-
+	log_cleanup("Update All Php (branch and multiple)", $nolog);
+	log_cleanup("- Update process", $nolog);
 	exec("yum -y update php*; sh /script/phpm-updater");
 }
 
@@ -8615,7 +8616,7 @@ function setCopyIndexFileToAwstatsDir($nolog = null)
 	$sdir = "../file/stats";
 
 	if (file_exists($tdir)) {
-		log_cleanup("Copying awstats_index.php to {$tdir}", $nolog);
+		log_cleanup("Copy awstats_index.php to {$tdir}", $nolog);
 		$file = getLinkCustomfile($sdir, "awstats_index.php");
 		copy($file, "{$tdir}/index.php");
 	}
