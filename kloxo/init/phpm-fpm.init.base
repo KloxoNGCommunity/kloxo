@@ -26,7 +26,7 @@ pidfile=${PIDFILE-/var/run/php-fpm/__custom_name__-fpm.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/__custom_name__-fpm}
 
 start () {
-    echo -n $"Starting $prog (PHP Used): "
+    echo -n $"Starting $prog (Multiple Php): "
     if [ "$prog" == "php-fpm" ] ; then
         ## MR -- bug fix for handle 'php branch'
         export PHP_INI_SCAN_DIR="/etc/php.d"
@@ -37,7 +37,7 @@ start () {
     [ $RETVAL -eq 0 ] && touch ${lockfile}
 }
 stop () {
-    echo -n $"Stopping $prog (PHP Used): "
+    echo -n $"Stopping $prog (Multiple Php): "
     killproc -p ${pidfile} -d 10 $prog
     RETVAL=$?
     echo
@@ -52,7 +52,7 @@ restart () {
 }
 
 reload () {
-    echo -n $"Reloading $prog (PHP Used): "
+    echo -n $"Reloading $prog (Multiple Php): "
     killproc -p ${pidfile} -d 10 $prog -USR2
     RETVAL=$?
     echo

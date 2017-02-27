@@ -10,16 +10,20 @@ $server = (isset($list['server'])) ? $list['server'] : 'localhost';
 $client = (isset($list['client'])) ? $list['client'] : null;
 $nolog  = (isset($list['nolog']))  ? $list['nolog'] : null;
 
-if (file_exists("/etc/pure-ftpd/pureftpd.passwd")) {
-	lxfile_mv("/etc/pure-ftpd/pureftpd.passwd", "/etc/pure-ftpd/pureftpd.passwd.oldsaved");
+$basefile = '/etc/pure-ftpd/pureftpd';
 
-	if (file_exists("/etc/pure-ftpd/pureftpd.pdb")) {
-		lunlink("/etc/pure-ftpd/pureftpd.pdb");
+if (file_exists("{$basefile}.passwd")) {
+	lxfile_mv("{$basefile}.passwd", "{$basefile}.passwd.oldsaved");
+
+	if (file_exists("{$basefile}.pdb")) {
+		lunlink("{$basefile}.pdb");
 	}
 
-	if (file_exists("/etc/pure-ftpd/pureftpd.passwd.tmp")) {
-		lunlink("/etc/pure-ftpd/pureftpd.passwd.tmp");
+	if (file_exists("{$basefile}.passwd.tmp")) {
+		lunlink("{$basefile}.passwd.tmp");
 	}
+
+	exec("echo '' > {$basefile}.passwd");
 }
 
 $login->loadAllObjects('client');
