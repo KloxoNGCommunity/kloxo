@@ -8512,6 +8512,7 @@ function setAllWebserverInstall($nolog = null)
 
 					log_cleanup("- Replace 'httpd' to 'httpd24u'", $nolog);
 				} else {
+				/*
 					if (isRpmInstalled('httpd24u')) {
 						if (isServiceExists('httpd')) {
 							exec("yum -y reinstall httpd24u >/dev/null 2>&1");
@@ -8522,6 +8523,8 @@ function setAllWebserverInstall($nolog = null)
 						exec("yum -y install {$ws['httpd24u']} {$hm['httpd24u']} >/dev/null 2>&1");
 						log_cleanup("- Install 'httpd24u'", $nolog);
 					}
+				*/
+					log_cleanup("- No process for 'httpd24u'", $nolog);
 				}
 
 				$conffile = getLinkCustomfile("{$confpath}", "httpd24.conf");
@@ -8533,6 +8536,7 @@ function setAllWebserverInstall($nolog = null)
 
 					log_cleanup("- Replace 'httpd24' to 'httpd'", $nolog);
 				} else {
+				/*
 					if (isRpmInstalled('httpd')) {
 						if (isServiceExists('httpd')) {
 							exec("yum -y reinstall httpd >/dev/null 2>&1");
@@ -8541,9 +8545,11 @@ function setAllWebserverInstall($nolog = null)
 						}
 					} else {
 						exec("yum -y install {$ws['httpd']} {$hm['httpd']} >/dev/null 2>&1");
-
-						log_cleanup("- Install 'httpd'", $nolog);
+						log_cleanup("- Install 'httpd' again", $nolog);
 					}
+				*/
+
+					log_cleanup("- No process for 'httpd'", $nolog);
 				}
 
 				$conffile = getLinkCustomfile("{$confpath}", "httpd.conf");
@@ -8554,13 +8560,12 @@ function setAllWebserverInstall($nolog = null)
 
 			if (isRpmInstalled($v)) {
 				if (isServiceExists($v)) {
-					exec("yum -y reinstall {$v} >/dev/null 2>&1");
-
-					log_cleanup("- Reinstall '{$v}'", $nolog);
+				//	exec("yum -y install {$v} >/dev/null 2>&1");
+				//	log_cleanup("- Install '{$v}' again", $nolog);
+					log_cleanup("- No process for '{$v}' again", $nolog);
 				}
 			} else {
 				exec("yum -y install {$t} >/dev/null 2>&1");
-
 				log_cleanup("- Install '{$v}'", $nolog);
 			}
 		}

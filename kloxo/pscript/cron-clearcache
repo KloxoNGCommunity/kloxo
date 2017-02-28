@@ -5,7 +5,7 @@ echo "*** Clear memory cache/buffers (recommended: per-hour) ***"
 if [ "$1" != "" ] ; then
 	t=$1
 else
-	t="0.80"
+	t="0.90"
 fi
 
 if [ "$(ps aux|grep 'backup'|grep -v 'grep')" == "" ] ; then
