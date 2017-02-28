@@ -4,6 +4,9 @@
 
 if [ ! -f /etc/ssl/certs/dhparam.pem ] ; then
 	echo "Wait for dh-parm key for ssl create..."
+	if [ ! -d /etc/ssl/certs ] ; then
+		mkdir -p /etc/ssl/certs
+	fi
 	cd /etc/ssl/certs
 	openssl dhparam -out dhparam.pem 2048 >/dev/null 2>&1
 fi
