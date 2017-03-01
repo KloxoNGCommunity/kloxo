@@ -63,6 +63,7 @@ function scavenge_main() {
 */
 	log_shell("Scavenge: Fix log dir");
 	passthru("$sgbl->__path_php_path ../bin/common/fixlogdir.php");
+
 	log_shell("Scavenge: 'Easy Installer' update");
 //	passthru("$sgbl->__path_php_path ../bin/easyinstaller-update.php");
 

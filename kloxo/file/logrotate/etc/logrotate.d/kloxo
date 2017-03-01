@@ -10,7 +10,9 @@
 
 /home/httpd/*/stats/*_log
 /home/*/__processed_stats/*_log
-/usr/local/lxlabs/kloxo/log/*
+## MR -- disable for kloxo because using fixlogdir in scavenge
+#/usr/local/lxlabs/kloxo/log/*
+#/usr/local/lxlabs/kloxo/processed_log/*
 {
     daily
     #create 0664 apache apache
@@ -21,7 +23,7 @@
     missingok
     sharedscripts
     postrotate
-        sh /scripr/restart-web -y >/dev/null 2>&1 || true
-        sh /scripr/restart -y >/dev/null 2>&1 || true
+        sh /script/restart-web -y >/dev/null 2>&1 || true
+        sh /script/restart -y >/dev/null 2>&1 || true
     endscript
 }

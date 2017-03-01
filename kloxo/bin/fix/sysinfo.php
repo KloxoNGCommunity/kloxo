@@ -205,11 +205,11 @@ $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
 if (!isset($phptype)) { $phptype = 'php-fpm_event (default)'; }
 
-if (getServiceType('php-fpn') === 'sysv') {
+if (getServiceType('php-fpm') === 'sysv') {
 	$seddata = 's:^prog=\"\(.*\)\":\1:';
 	exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);
 } else {
-	$seddata = 's:^ExecStart=/usr/sbin/\(.*\)-fpm \(.*\):\1:';
+	$seddata = 's:^ExecStart=/usr/sbin/\(.*\) \(.*\):\1:';
 	exec("cat /usr/lib/systemd/system/php-fpm.service|grep 'ExecStart='|sed -e '" . $seddata . "'", $out);
 }
 if (count($out) > 0) {
