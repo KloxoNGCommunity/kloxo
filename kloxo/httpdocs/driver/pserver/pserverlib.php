@@ -137,6 +137,8 @@ class pserver extends pservercore {
 
 				dprint("Change for $k: $v\n");
 
+				rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $this->$drstring, $v));
+
 				changeDriver($this->nname, $class, $v);
 
 				$fixc = $class;

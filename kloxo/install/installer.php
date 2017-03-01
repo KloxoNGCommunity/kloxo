@@ -172,8 +172,6 @@ function kloxo_service_init()
 	global $kloxopath;
 
 	print(">>> Copy Kloxo-MR service <<<\n");
-//	@copy("{$kloxopath}/init/kloxo.init", "/etc/rc.d/init.d/kloxo");
-//	@system("chmod 755 /etc/init.d/kloxo; chkconfig kloxo on");
 
 	exec("sh /script/fixlxphpexe");
 }

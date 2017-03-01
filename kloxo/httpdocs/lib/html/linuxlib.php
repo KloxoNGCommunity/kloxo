@@ -307,9 +307,10 @@ function os_create_program_service()
 
 	$a = array('web', 'php', 'wrap');
 
-	exec("command -v systemctl", $test);
+//	exec("command -v systemctl", $test);
 
-	if (count($test) > 0) {
+//	if (count($test) > 0) {
+	if (getServiceType() === 'systemd') {
 		foreach ($a as $k => $v) {
 			lxfile_cp("{$sgbl->__path_program_root}/init/{$pgm}-{$v}.service", "/usr/lib/systemd/system/{$pgm}-{$v}.service");
 			lxfile_unix_chmod("/usr/lib/systemd/system/{$pgm}-{$v}.service", "0644");

@@ -15,12 +15,16 @@ else
 	
 	ASQMAIL=""
 
+	stype=$(ps --no-headers -o comm 1)
+
 	for item in ${list[*]} ; do
 		svc_ok='no'
 		if [ "$(chkconfig --list 2>/dev/null|grep ^${item})" != "" ] ; then
 			svc_ok='yes'
 		fi
-		if [ "$(command -v systemctl)" != "" ] ; then
+		#if [ "$(command -v systemctl)" != "" ] ; then
+		#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
+		if [ "${stype}" == "systemd" ] ; then
 			if [ "$(systemctl list-unit-files --type=service|grep ^${item})" != "" ] ; then
 
 				svc_ok='yes'
@@ -32,7 +36,9 @@ else
 			if [ "$(chkconfig --list 2>/dev/null|grep ^${item}|grep ':on')" != "" ] ; then
 				svc_on='yes'
 			fi
-			if [ "$(command -v systemctl)" != "" ] ; then
+			#if [ "$(command -v systemctl)" != "" ] ; then
+			#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
+			if [ "${stype}" == "systemd" ] ; then
 				if [ "$(systemctl list-unit-files --type=service|grep ^${item}|grep 'enabled')" != "" ] ; then
 					svc_on='yes'
 				fi

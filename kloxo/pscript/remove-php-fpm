@@ -7,7 +7,8 @@ if [ "${1}" == "-y" ] || [ "${1}" == "-force" ] ; then
 			echo "-- For ${i}-fpm"
 			chkconfig ${i}-fpm off >/dev/null 2>&1
 			chkconfig --del ${i}-fpm >/dev/null 2>&1
-			if [ "$(command -v systemctl)" != "" ] ; then
+			#if [ "$(command -v systemctl)" != "" ] ; then
+			if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
 				'rm' -f /usr/lib/systemd/system/${i}-fpm.service
 			else
 				'rm' -f /etc/rc.d/init.d/${i}-fpm

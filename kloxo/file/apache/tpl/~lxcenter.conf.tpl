@@ -7,9 +7,11 @@
 	$total = (int)shell_exec("free -m | grep Mem: | awk '{print $2}'");
 	$spare = ($spare) ? $spare : ($total * 0.25);
 
-	$comtype = shell_exec("command -v systemctl");
+//	$comtype = shell_exec("command -v systemctl");
 
-	if (count($comtype) > 0) {
+
+//	if (count($comtype) > 0) {
+	if (getServiceType() === 'systemd') {
 		$apps  = (int)shell_exec("free -m | grep 'Mem:' | awk '{print $7}'");
 	} else {
 		$apps  = (int)shell_exec("free -m | grep 'buffers/cache:' | awk '{print $3}'");

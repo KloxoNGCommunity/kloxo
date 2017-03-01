@@ -317,7 +317,11 @@ if [ -f ${eripath}/phpm-fpm ] ; then
 	'rm' -f ${eripath}/phpm-fpm
 fi
 
-if [ "$(command -v systemctl)" != "" ] ; then
+stype=$(ps --no-headers -o comm 1)
+
+#if [ "$(command -v systemctl)" != "" ] ; then
+#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
+if [ "${stype}" == "systemd" ] ; then
 	if [ -f ${ulspath}/phpm-fpm.service ] ; then
 		chkconfig phpm-fpm off >/dev/null 2>&1
 		service phpm-fpm stop >/dev/null 2>&1
@@ -330,7 +334,9 @@ fi
 if [ "${base_name}" == "php" ] ; then
 	echo "- No argument and then use 'PHP Branch'"
 
-	if [ "$(command -v systemctl)" != "" ] ; then
+	#if [ "$(command -v systemctl)" != "" ] ; then
+	#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
+	if [ "${stype}" == "systemd" ] ; then
 		'cp' -f ${ulsfile} ${ulspath}/php-fpm.service
 		sed -i 's:__custom_name__:'${base_name}':g' ${ulspath}/php-fpm.service
 		chown root:root ${ulspath}/php-fpm.service
@@ -352,7 +358,9 @@ else
 		echo "- Create and enable service for ${base_name}"
 
 		if [ "$(grep 's' <<<${base_name})" == "" ] ; then
-			if [ "$(command -v systemctl)" != "" ] ; then
+			#if [ "$(command -v systemctl)" != "" ] ; then
+			#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
+			if [ "${stype}" == "systemd" ] ; then
 				'cp' -f ${mulsfile} ${ulspath}/${base_name}-fpm.service
 				sed -i 's:__custom_name__:'${base_name}':g' ${ulspath}/${base_name}-fpm.service
 				chown root:root ${ulspath}/php-fpm.service

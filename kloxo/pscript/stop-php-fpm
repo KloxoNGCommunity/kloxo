@@ -23,7 +23,8 @@ else
 		if [ "$(chkconfig --list ${item} 2>/dev/null|grep ':on')" != "" ] ; then
 			svc_on='yes'
 		fi
-		if [ "$(command -v systemctl)" != "" ] ; then
+		#if [ "$(command -v systemctl)" != "" ] ; then
+		if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
 			if [ "$(systemctl list-unit-files|grep ${item}|grep 'enabled')" != "" ] ; then
 				svc_on='yes'
 			fi

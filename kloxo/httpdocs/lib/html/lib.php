@@ -5534,10 +5534,10 @@ function isRpmInstalled($rpmname)
 {
 	exec("rpm -qa {$rpmname}", $out);
 
-	if (count($out) < 1) {
-		return false;
-	} else {
+	if (count($out) > 0) {
 		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -6282,9 +6282,9 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
-	if (getServiceType('pure-ftpd') === 'sysv') {
-		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/init.d/pure-ftpd");
-		exec("chkconfig pure-ftpd on >/dev/null 2>&1; chmod 0755 /etc/init.d/pure-ftpd");
+	if (getServiceType('pure-ftpd') === 'init') {
+		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/rc.d/init.d/pure-ftpd");
+		exec("chkconfig pure-ftpd on >/dev/null 2>&1; chmod 0755 /etc/rc.d/init.d/pure-ftpd");
 	}
 /*
 	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {
@@ -8499,7 +8499,12 @@ function setAllWebserverInstall($nolog = null)
 	if (file_exists("../etc/flag/use_apache24.flg")) {
 		$use_apache24 = true;
 	} else {
-		$use_apache24 = false;
+		if (version_compare(getRpmVersion('httpd'), '2.4.0', '>')) {
+			$use_apache24 = true;
+			exec("echo '' > ../etc/flag/use_apache24.flg");
+		} else {
+			$use_apache24 = false;
+		}
 	}
 
 	foreach ($list as $k => $v) {
@@ -8673,24 +8678,30 @@ function isServiceEnabled($target)
 	return $ret;
 }
 
-function getServiceType($target)
+function getServiceType($target = null)
 {
 	$ret = '';
 
-	exec("command -v systemctl", $test);
+	if ($target) {
+		exec("command -v systemctl", $test);
 
-	if (count($test) > 0) {
-		exec("systemctl list-unit-files --type=service|grep ^{$target}", $val2);
+		if (count($test) > 0) {
+			exec("systemctl list-unit-files --type=service|grep ^{$target}", $val2);
 
-		if (count($val2) > 0) {
-			$ret = 'systemd';
+			if (count($val2) > 0) {
+				$ret = 'systemd';
+			}
 		}
-	}
- 
-	exec("chkconfig --list 2>/dev/null|grep ^{$target}", $val1);
 
-	if (count($val1) > 0) {
-		$ret = 'sysv';
+		exec("chkconfig --list 2>/dev/null|grep ^{$target}", $val1);
+
+		if (count($val1) > 0) {
+			$ret = 'init';
+		}
+	} else {
+		exec("ps --no-headers -o comm 1", $test);
+		
+		$ret = $test[0];
 	}
 
 	return $ret;

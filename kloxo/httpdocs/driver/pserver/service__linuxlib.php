@@ -18,9 +18,10 @@ class Service__Linux extends Lxlclass
 
 		$val2 = array();
 
-		exec("command -v systemctl", $test);
+	//	exec("command -v systemctl", $test);
 
-		if (count($test) > 0) {
+	//	if (count($test) > 0) {
+		if (getServiceType() === 'systemd') {
 			exec("systemctl list-unit-files --type=service|awk '{print $1}'|sed 's/\.service//g'", $val2);
 		}
 

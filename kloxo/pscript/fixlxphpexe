@@ -71,7 +71,8 @@ if [ -f /etc/rc.d/init.d/kloxo ] ; then
 	'rm' -f /etc/rc.d/init.d/kloxo
 fi
 
-if [ "$(command -v systemctl)" != "" ] ; then
+#if [ "$(command -v systemctl)" != "" ] ; then
+if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
 	for i in web php wrap ; do
 		if [ -f ${INIT_DIR}/custom.kloxo-${i}.service ] ; then
 			'cp' -f ${INIT_DIR}/custom.kloxo-${i}.service /usr/lib/systemd/system/kloxo-${i}.service

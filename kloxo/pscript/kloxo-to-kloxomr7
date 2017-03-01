@@ -4,7 +4,8 @@ for i in mysqld mysql ; do
 	if [ -f /etc/rc.init.d/${item} ] ; then
 		cmdf=${i}
 	fi
-	if [ "$(command -v systemctl)" != "" ] ; then
+	#if [ "$(command -v systemctl)" != "" ] ; then
+	if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
 		if [ -f /usr/lib/systemd/system/${item}.service ] ; then
 			cmdf=${i}
 		fi

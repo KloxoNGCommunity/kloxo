@@ -205,12 +205,12 @@ $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 
 if (!isset($phptype)) { $phptype = 'php-fpm_event (default)'; }
 
-if (getServiceType('php-fpm') === 'sysv') {
-	$seddata = 's:^prog=\"\(.*\)\":\1:';
-	exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);
-} else {
+if (getServiceType('php-fpm') === 'systemd') {
 	$seddata = 's:^ExecStart=/usr/sbin/\(.*\) \(.*\):\1:';
 	exec("cat /usr/lib/systemd/system/php-fpm.service|grep 'ExecStart='|sed -e '" . $seddata . "'", $out);
+} else {
+	$seddata = 's:^prog=\"\(.*\)\":\1:';
+	exec("cat /etc/rc.d/init.d/php-fpm|grep 'prog='|sed -e '" . $seddata . "'", $out);
 }
 if (count($out) > 0) {
 	$phpused = $out[0];
