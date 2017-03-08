@@ -29,4 +29,80 @@ fi
 echo
 
 rm -f ${kpath}/etc/flag/use_php*.flg
-echo '' > ${kpath}/etc/flag/use_${php_target}.flg
+
+if [ -f ${kpath}/init/custom.php-fpm.init.base ] ; then
+	erifile="${kpath}/init/custom.php-fpm.init.base"
+else
+	erifile="${kpath}/init/php-fpm.init.base"
+fi
+
+if [ -f ${kpath}/init/custom.php-fpm.service.base ] ; then
+	ulsfile="${kpath}/init/custom.php-fpm.service.base"
+else
+	ulsfile="${kpath}/init/php-fpm.service.base"
+fi
+
+if [ -f ${eripath}/phpm-fpm ] ; then
+	chkconfig phpm-fpm off >/dev/null 2>&1
+	service phpm-fpm stop >/dev/null 2>&1
+	chkconfig -del phpm-fpm >/dev/null 2>&1
+	'rm' -f ${eripath}/phpm-fpm
+fi
+
+stype=$(ps --no-headers -o comm 1)
+
+#if [ "$(command -v systemctl)" != "" ] ; then
+#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
+if [ "${stype}" == "systemd" ] ; then
+	if [ -f ${ulspath}/phpm-fpm.service ] ; then
+		chkconfig phpm-fpm off >/dev/null 2>&1
+		service phpm-fpm stop >/dev/null 2>&1
+		chkconfig -del phpm-fpm >/dev/null 2>&1
+		'rm' -f ${ulspath}/phpm-fpm.service
+		systemctl daemon-reload
+	fi
+fi
+
+set_ok='no'
+
+if [ "${php_target}" == "php" ] ; then
+	echo "- No argument and then use 'PHP Branch'"
+	set_ok='yes'
+else
+	if [ ! -f /opt/${php_target}/usr/sbin/php-fpm ] ; then
+		echo "- Need ${php_target} installing with 'sh /script/phpm-installer ${php_target}'"
+		exit
+	else
+		echo "- Create and enable service for ${php_target}"
+
+		if [ "$(grep 's' <<<${php_target})" == "" ] ; then
+			set_ok='yes'
+		fi
+	fi
+fi
+
+if [ "${set_ok}" == 'yes' ] ; then
+	#if [ "$(command -v systemctl)" != "" ] ; then
+	#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
+	if [ "${stype}" == "systemd" ] ; then
+		'cp' -f ${ulsfile} ${ulspath}/php-fpm.service
+		sed -i 's:__custom_name__:'${php_target}':g' ${ulspath}/php-fpm.service
+		chown root:root ${ulspath}/php-fpm.service
+		chmod 0644 ${ulspath}/php-fpm.service
+		chkconfig php-fpm on >/dev/null 2>&1
+		sh /script/add-restart-queue restart-php-fpm
+	else
+		'cp' -f ${erifile} ${eripath}/php-fpm
+		sed -i 's:__custom_name__:'${php_target}':g' ${eripath}/php-fpm
+		chown root:root ${eripath}/php-fpm
+		chmod 0755 ${eripath}/php-fpm
+		chkconfig php-fpm on >/dev/null 2>&1
+		sh /script/add-restart-queue restart-php-fpm
+	fi
+
+	if [ ! -f /etc/php-fpm.d/default.conf ] ; then
+		'cp' -f /opt/configs/php-fpm/conf/php/php-fpm.d/default.conf /etc/php-fpm.d/default.conf
+	fi
+
+	echo '' > ${kpath}/etc/flag/use_${php_target}.flg
+fi
