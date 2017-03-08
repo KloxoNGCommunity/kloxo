@@ -87,10 +87,14 @@ class watchdog extends lxdb
 		self::addOneWatchdog($pserver, "web", "80", "__driver_web");
 		self::addOneWatchdog($pserver, "mail", "25", "__driver_qmail");
 		self::addOneWatchdog($pserver, "mysql", "3306", "__driver_mysql");
-		self::addOneWatchdog($pserver, "ftp", "21", "__driver_ftp");
+		self::addOneWatchdog($pserver, "ftp", "pgrep ^pure-ftpd", "__driver_ftp");
+		self::addOneWatchdog($pserver, "php-fpm", "pgrep ^php-fpm", "__driver_php-fpm");
+
+		self::addOneWatchdog($pserver, "webproxy", "30080", "__driver_web", "off");
+		self::addOneWatchdog($pserver, "webcache", "8080", "__driver_web", "off");
 	}
 
-	static function addOneWatchdog($pserver, $service, $port, $command)
+	static function addOneWatchdog($pserver, $service, $port, $command, $status = null)
 	{
 		$v = new watchdog(null, $pserver, "{$service}___$pserver");
 		$v->get();
@@ -103,7 +107,7 @@ class watchdog extends lxdb
 		$v->servicename = $service;
 		$v->port = $port;
 		$v->action = $command;
-		$v->status = "on";
+		$v->status = ($status) ? $status : "on";
 		$v->added_by_system = "on";
 		$v->syncserver = $pserver;
 		$v->parent_clname = createClName('pserver', $pserver);

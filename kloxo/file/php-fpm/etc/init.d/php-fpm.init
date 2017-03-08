@@ -37,7 +37,7 @@ start () {
     [ $RETVAL -eq 0 ] && touch ${lockfile}
 }
 stop () {
-    echo -n $"Stopping $prog: "
+    echo -n $"Stopping (PHP Used): "
     killproc -p ${pidfile} -d 10 $prog
     RETVAL=$?
     echo
@@ -52,7 +52,7 @@ restart () {
 }
 
 reload () {
-    echo -n $"Reloading $prog: "
+    echo -n $"Reloading $prog (PHP Used): "
     killproc -p ${pidfile} -d 10 $prog -USR2
     RETVAL=$?
     echo

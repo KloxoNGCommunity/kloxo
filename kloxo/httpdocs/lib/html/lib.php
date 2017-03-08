@@ -7187,6 +7187,8 @@ function setInitialServices($nolog = null)
 	setHttpry($nolog);
 
 	setCronBackup($nolog);
+
+	setWatchdogDefaults($nolog);
 }
 
 function setRemoveAlias($nolog = null)
@@ -7596,6 +7598,16 @@ function isWebProxyOrApache($drivertype = null)
 
 	return $ret;
 }
+
+function isWebCache($drivertype = null)
+{
+	$driverapp = ($drivertype) ? $drivertype : slave_get_driver('webcache');
+
+	$ret = ($driverapp !== 'none') ? true : false;
+
+	return $ret;
+}
+
 
 function getWebDriverList($drivertype = null)
 {

@@ -3,19 +3,21 @@
 if [ "${1}" == "" ] ; then
 	echo "- Enable for all php-fpm (branch and multiple phps)"
 	for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
-		echo "- For ${i}-fpm"
 		if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
+			echo "-- Enable for ${i}-fpm"
 			chkconfig ${i}-fpm on >/dev/null 2>&1
 		else
 			if [ "${i}" != "php" ] ; then
+				echo "-- Enable for ${i}-fpm"
 				chkconfig ${i}-fpm on >/dev/null 2>&1
 			else
+				echo "-- Disable for ${i}-fpm"
 				chkconfig ${i}-fpm off >/dev/null 2>&1
 			fi
 		fi
 	done
 else
-	echo "- Enable for all php-fpm"
+	echo "- Enable for ${1}-fpm"
 	chkconfig ${1}-fpm on >/dev/null 2>&1
 fi
 

@@ -1,28 +1,5 @@
 USE kloxo;
 
-CREATE TABLE IF NOT EXISTS `watchdog` (
-  `nname` varchar(255) NOT NULL,
-  `parent_clname` varchar(255) DEFAULT NULL,
-  `parent_cmlist` text,
-  `servicename` varchar(255) DEFAULT NULL,
-  `syncserver` varchar(255) DEFAULT NULL,
-  `port` varchar(255) DEFAULT NULL,
-  `action` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `added_by_system` varchar(255) DEFAULT NULL,
-  `oldsyncserver` varchar(255) DEFAULT NULL,
-  `olddeleteflag` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`nname`),
-  KEY `parent_clname_watchdog` (`parent_clname`)
-) DEFAULT CHARSET=latin1;
-
-UPDATE `watchdog` SET `nname`='dns___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='dns',`syncserver`='localhost',`port`='53',`action`='__driver_dns',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='dns___localhost';
-UPDATE `watchdog` SET `nname`='web___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='web',`syncserver`='localhost',`port`='80',`action`='__driver_web',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='web___localhost';
-UPDATE `watchdog` SET `nname`='mail___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mail',`syncserver`='localhost',`port`='25',`action`='__driver_qmail',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mail___localhost';
-UPDATE `watchdog` SET `nname`='mysql___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='mysql',`syncserver`='localhost',`port`='3306',`action`='__driver_mysql',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='mysql___localhost';
-UPDATE `watchdog` SET `nname`='ftp___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='ftp',`syncserver`='localhost',`port`='pgrep ^pure-ftpd',`action`='__driver_ftp',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='ftp___localhost';
-UPDATE `watchdog` SET `nname`='php-fpm___localhost',`parent_clname`='pserver-localhost',`parent_cmlist`='',`servicename`='php-fpm',`syncserver`='localhost',`port`='pgrep ^php-fpm',`action`='__driver_php-fpm',`status`='on',`added_by_system`='on',`oldsyncserver`='',`olddeleteflag`='' WHERE `nname`='php-fpm___localhost';
-
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `nname` varchar(255) NOT NULL,

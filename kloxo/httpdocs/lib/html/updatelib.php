@@ -140,7 +140,7 @@ function doUpdates()
 
 	call_with_flag("fix_domainkey");
 
-	setWatchdogDefaults();
+//	setWatchdogDefaults();
 
 	fixMySQLRootPassword();
 

@@ -98,7 +98,7 @@ for j in php.d php-zts.d ; do
 						echo $x
 						echo $x >>/opt/${base_name}/install.log
 
-						'mv' -f /opt/${base_name}/etc/${j}/${d} /opt/${base_name}/etc/${j}/${d%.ini}.nonini
+						'mv' -f /opt/${base_name}/etc/${j}/${d} /opt/${base_name}/etc/${j}/${d%.ini}_unused.nonini
 					done
 				done
 

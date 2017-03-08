@@ -46,43 +46,60 @@ if (file_exists("{$kloxopath}/init/kloxo_use_php-cgi")) {
 	$phpsver = $phpsver . " (fpm mode)";
 }
 
-$httpdbranch = getRpmBranchInstalled('httpd');
-if ($httpdbranch) {
-	exec("rpm -qa {$httpdbranch}", $out);
-	$apphttpd = trim($out[0]);
-} else {
-	$apphttpd = '--uninstalled--';
-}
+$appApache = '--uninstalled--';
+exec("cat /usr/local/lxlabs/kloxo/etc/list/web.lst|tr ',' '\n'|awk -F\"_\" '{print $1}'|" .
+	"grep httpd|grep -v 'nginx\|tengine'|grep -v lighttpd|grep -v hiawatha", $apachelist);
 
 $out = null;
+foreach ($apachelist as $k => $v) {
+	$apachebranch = getRpmBranchInstalled($v);
 
-$lighttpdbranch = getRpmBranchInstalled('lighttpd');
-if ($lighttpdbranch) {
-	exec("rpm -qa {$lighttpdbranch}", $out);
-	$applighttpd = trim($out[0]);
-} else {
-	$applighttpd = '--uninstalled--';
+	if ($apachebranch) {
+		exec("rpm -qa {$apachebranch}", $out);
+		$appApache = trim($out[0]);
+	}
 }
 
-$out = null;
+$appLighttpd = '--uninstalled--';
+exec("cat /usr/local/lxlabs/kloxo/etc/list/web.lst|tr ',' '\n'|awk -F\"_\" '{print $1}'|" .
+	"grep lighttpd|grep -v 'nginx\|tengine'|grep -v hiawatha", $lighttpdlist);
 
-$nginxbranch = getRpmBranchInstalled('nginx');
-if ($nginxbranch) {
-	exec("rpm -qa {$nginxbranch}", $out);
-	$appnginx = trim($out[0]);
-} else {
-	$appnginx = '--uninstalled--';
+$out = null;
+foreach ($lighttpdlist as $k => $v) {
+	$lighttpdbranch = getRpmBranchInstalled($v);
+
+	if ($lighttpdbranch) {
+		exec("rpm -qa {$lighttpdbranch}", $out);
+		$appLighttpd = trim($out[0]);
+	}
 }
 
-$out = null;
+$appNginx = '--uninstalled--';
+exec("cat /usr/local/lxlabs/kloxo/etc/list/web.lst|tr ',' '\n'|awk -F\"_\" '{print $1}'|" .
+	"grep 'nginx\|tengine'|grep -v httpd|grep -v lighttpd|grep -v hiawatha", $nginxlist);
 
-$hiawathabranch = getRpmBranchInstalled('hiawatha');
-if ($hiawathabranch) {
-	exec("rpm -qa {$hiawathabranch}", $out);
-	$apphiawatha = trim($out[0]);
-	$kloxohiawatha = $apphiawatha;
-} else {
-	$apphiawatha = '--uninstalled--';
+$out = null;
+foreach ($nginxlist as $k => $v) {
+	$nginxbranch = getRpmBranchInstalled($v);
+
+	if ($nginxbranch) {
+		exec("rpm -qa {$nginxbranch}", $out);
+		$appNginx = trim($out[0]);
+	}
+}
+
+$appHiawatha = '--uninstalled--';
+exec("cat /usr/local/lxlabs/kloxo/etc/list/web.lst|tr ',' '\n'|awk -F\"_\" '{print $1}'|" .
+	"grep hiawatha|grep -v httpd|grep -v lighttpd|grep -v nginx", $hiawathalist);
+
+$out = null;
+foreach ($hiawathalist as $k => $v) {
+	$hiawathabranch = getRpmBranchInstalled($v);
+
+	if ($hiawathabranch) {
+		exec("rpm -qa {$hiawathabranch}", $out);
+		$appHiawatha = trim($out[0]);
+	}
 }
 
 $out = null;
@@ -282,7 +299,7 @@ echo "\n";
 echo "A. Control Panel:" .
 	"               \n"; // need more space because overwrite waiting line
 echo "   - Kloxo-MR: " . $kloxomrver . "\n";
-echo "   - Web: " . $kloxohiawatha . "\n";
+echo "   - Web: " . $appHiawatha . "\n";
 echo "   - PHP: " . $phpsbranch . "-" . $phpsver . "\n";
 //echo "\n";
 echo "B. Plateform:\n";
@@ -311,10 +328,10 @@ if (file_exists("{$kloxopath}/etc/flag/enablemultiplephp.flg")) {
 }
 
 echo "   3. Web Used: " . slave_get_driver('web') . "\n";
-echo "     - Hiawatha: " .  $apphiawatha . "\n";
-echo "     - Lighttpd: " .  $applighttpd . "\n";
-echo "     - Nginx: " .  $appnginx . "\n";
-echo "     - Apache: " .  $apphttpd . "\n";
+echo "     - Hiawatha: " .  $appHiawatha . "\n";
+echo "     - Lighttpd: " .  $appLighttpd . "\n";
+echo "     - Nginx: " .  $appNginx . "\n";
+echo "     - Apache: " .  $appApache . "\n";
 echo "       - PHP Type: " . $phptype . "\n";
 echo "       - Secondary PHP: " . $secondary_php . "\n";
 echo "   4. WebCache: " .  slave_get_driver('webcache') . "\n";

@@ -453,6 +453,8 @@ class Client extends ClientBase
 				if (file_exists("../etc/flag/enablecronforall.flg")) {
 					$alist[] = "a=list&c=cron";
 				}
+			} else {
+				$alist[] = "a=list&c=cron";
 			}
 		}
 

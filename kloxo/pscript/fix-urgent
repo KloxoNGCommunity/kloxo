@@ -34,7 +34,9 @@ echo 'sslverify=false' >> /etc/yum.conf
 
 
 ## MR -- make install x86_64 only in 64bit OS
-echo "%_query_all_fmt %%{name}-%%{version}-%%{release}.%%{arch}" > ~/.rpmmacros
+if [ "$(cat ~/.rpmmacros|grep '_query_all_fmt')" == "" ] ; then
+	echo "%_query_all_fmt %%{name}-%%{version}-%%{release}.%%{arch}" >> ~/.rpmmacros
+fi
 
 ## MR -- remove 32bit packages in 64bit OS
 if [ "$(uname -m)" == "x86_64" ] ; then
