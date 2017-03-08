@@ -77,16 +77,15 @@ done
 for j in php.d php-zts.d ; do
 	if [ -d /opt/${base_name}/etc/${j} ] ; then
 		if [ -d /opt/${base_name}/etc/${j} ] ; then
-
-			a=$(dir -l /opt/${base_name}/etc/${j}|grep "\.nonini"|grep -v "_unused\."|awk '{print $9}'|tr '\n' ' ')
-
-			for b in $a ; do
-				mv -f /opt/${base_name}/etc/${j}/${b} /opt/${base_name}/etc/${j}/${b%.nonini}_unused.nonini
-			done
-
 			for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 				apc apcu imagick interbase ioncube-loader sourceguardian memcache memcached \
 				z-memcached mssql debug pdo_dblib pdo_firebird xdebug xcache opcache lzf redis enchant wddx ; do
+
+				a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}_unused\.nonini"|awk '{print $9}'|tr '\n' ' ')
+
+				for b in $a ; do
+					mv -f /opt/${base_name}/etc/${j}/${b} /opt/${base_name}/etc/${j}/${b%_unused.nonini}.nonini
+				done
 
 				a=$(dir -l /opt/${base_name}/etc/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ')
 
@@ -98,7 +97,7 @@ for j in php.d php-zts.d ; do
 						echo $x
 						echo $x >>/opt/${base_name}/install.log
 
-						'mv' -f /opt/${base_name}/etc/${j}/${d} /opt/${base_name}/etc/${j}/${d%.ini}_unused.nonini
+						'mv' -f /opt/${base_name}/etc/${j}/${d} /opt/${base_name}/etc/${j}/${d%.ini}.nonini
 					done
 				done
 
