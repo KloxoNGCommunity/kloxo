@@ -7748,13 +7748,14 @@ function setPhpBranch($select, $nolog = null)
 
 		return null;
 	} else {
+	/*
 		// check 'yum-plugin-replace' installed or not
 		$yumreplace = 'yum-plugin-replace';
 
 		if (!isRpmInstalled($yumreplace)) {
 			setRpmInstalled($yumreplace);
 		}
-
+	*/
 		// MR -- reinstall php modules to make sure replace too; must execute before replace
 		exec("cd /; yum list installed php* |grep -P 'php[a-zA-z0-9\-]+'", $phpmodules);
 
@@ -8525,7 +8526,9 @@ function setAllWebserverInstall($nolog = null)
 		if ($v === 'apache') {
 			if ($use_apache24) {
 				if (isRpmInstalled('httpd')) {
-					exec("yum -y replace httpd --replace-with=httpd24u >/dev/null 2>&1;" . "yum -y remove {$hm['httpd']} >/dev/null 2>&1;" . "yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
+					exec("yum -y replace httpd --replace-with=httpd24u >/dev/null 2>&1;" .
+						"yum -y remove {$hm['httpd']} >/dev/null 2>&1;" .
+						"yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
 
 					log_cleanup("- Replace 'httpd' to 'httpd24u'", $nolog);
 				} else {
@@ -8549,7 +8552,8 @@ function setAllWebserverInstall($nolog = null)
 			} else {
 				if (isRpmInstalled('httpd24u')) {
 					exec("yum -y replace httpd24u --replace-with=httpd >/dev/null 2>&1;" .
-						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" . "yum -y install {$hm['httpd']} >/dev/null 2>&1");
+						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" .
+						"yum -y install {$hm['httpd']} >/dev/null 2>&1");
 
 					log_cleanup("- Replace 'httpd24' to 'httpd'", $nolog);
 				} else {

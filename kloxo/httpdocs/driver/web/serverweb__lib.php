@@ -427,13 +427,13 @@ class serverweb__ extends lxDriverClass
 	{
 		$ehcdpath = '/etc/httpd/conf.d';
 		$haecdpath = '/opt/configs/apache/etc/conf.d';
-
+	/*
 		$installed = isRpmInstalled('yum-plugin-replace');
 
 		if (!$installed) {
 			setRpmInstalled("yum-plugin-replace");
 		}
-
+	*/
 		$scripting = '/script/set-php-branch';
 
 		if ($branch) {
@@ -449,13 +449,15 @@ class serverweb__ extends lxDriverClass
 		$scripting = '/script/fixweb';
 
 		lxshell_return("sh", $scripting, '--nolog');
-
+	/*
 		$installed = isRpmInstalled("{$branchselect}-fpm");
 
 		if ($installed) {
 		//	lxshell_return("chkconfig", "php-fpm", "on");
 			createRestartFile("restart-web");
 		}
+	*/
+		createRestartFile("restart-web");
 
 		if (stripos('mod_php', $this->main->php_type) === false) {
 			lxfile_mv(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");

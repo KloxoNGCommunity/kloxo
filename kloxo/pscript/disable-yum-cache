@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ "$(cat /etc/yum.conf|grep 'http_caching=none')" == "" ] ; then
+	echo 'http_caching=none' >> /etc/yum.conf
+fi
+
+if [ "$(cat /etc/yum.conf|grep 'keepcache=0')" == "" ] ; then
+	echo 'keepcache=0' >> /etc/yum.conf
+fi

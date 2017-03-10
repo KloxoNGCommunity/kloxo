@@ -53,12 +53,12 @@ function resetQmailAssign($nolog = null)
 		$o = fileowner($v);
 		$ua .= "+{$k}-:{$k}:{$o}:{$o}:{$v}:-::\n";
 
-		if (isRpmInstalled('qmail-toaster')) {
+	//	if (isRpmInstalled('qmail-toaster')) {
 			// MR -- also fix /home/lxadmin/mail/bin to /home/vpopmail/bin
 			$d = $v . "/.qmail-default";
 			$x = file_get_contents($d);
 			$x = str_replace("/home/lxadmin/mail/bin", "/home/vpopmail/bin", $x);
-		}
+	//	}
 
 		file_put_contents($d, $x);
 
