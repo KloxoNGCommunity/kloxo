@@ -579,7 +579,7 @@ class serverweb__ extends lxDriverClass
 		exec("sh /script/stop-php-fpm");
 
 		foreach ($list as $k => $v) {
-			exec("'rm' -rf /opt/{$v} /opt/configs/php-fpm/conf/{$v}");
+			exec("sh /script/phpm-remover {$v}");
 		}
 
 		exec("sh /script/start-php-fpm");

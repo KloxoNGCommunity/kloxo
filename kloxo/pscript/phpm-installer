@@ -158,8 +158,10 @@ if [ -f /opt/${base_name}/etc ] ; then
 	find /opt/${base_name}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
-yumdownloader ${pack_name}-* -x *debuginfo* >>/opt/${base_name}/install.log
+yumdownloader ${pack_name}-* -x *debuginfo* --downloadonly -y >>/opt/${base_name}/install.log
 #'rm' -rf *-debuginfo*
+
+dir -l *.rpm|awk '{print "Package "$9}' >>/opt/${base_name}/install.log
 
 x="- Extract all rpms to '/opt/${base_name}'"
 echo $x
