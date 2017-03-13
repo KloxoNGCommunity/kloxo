@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ "${1}" == "-y" ] || [ "${1}" == "--force" ] ; then
+	action=${1}
+else
+	action=""
+fi
+
+branch=$(rpm -qa|grep ^php|grep '\-cli'|awk -F"-" '{print $1}')
+
+sh /script/php-branch-installer $branch

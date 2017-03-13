@@ -3,17 +3,16 @@
 # release on Kloxo 6.5.0
 # by mustafa.ramadhan@lxcenter.org
 
+branchlist=$(cat /usr/local/lxlabs/kloxo/etc/list/php.lst|tr ',' '\n'|tr '_(as' ' '|awk '{print $1}'|tr '\n' ' '|xargs)
+
 if [ "$1" == "--help" ] ; then
-	select=$(cat /usr/local/lxlabs/kloxo/etc/list/php.lst|tr ',' '\n'|tr '_(as' ' '|awk '{print $1}'|tr '\n' ' '|xargs|tr ' ' '/')
+	select=$(echo $branchlist|tr ' ' '|')
 	echo
 	echo " ---------------------------------------------------------------------------"
-	echo "  format: sh $0 --select=<>"
+	echo "  format: sh $0 <${select}>"
 	echo " ---------------------------------------------------------------------------"
 	echo
-	echo " --select:"
-	echo "   ${select}"
-	echo
-	exit;
+	exit
 fi
 
 echo
@@ -21,9 +20,31 @@ echo "- For help, type '$0 --help'"
 
 if [ "$#" == 0 ] ; then
 	echo "- No argument supplied. Run 'sh $0 --help'"
+	exit
 fi
 
 echo
 
-. /script/directory
-lxphp.exe ../bin/fix/set-php-branch.php $*
+#. /script/directory
+#lxphp.exe ../bin/fix/set-php-branch.php $*
+
+echo "- Php Branch replace"
+
+result="php"
+
+for x in $branchlist ; do
+	if [ "$(rpm -qa ${x}-cli)" != "" ] ; then
+		result=${x}
+		target=${1}
+	fi
+done
+
+if [ "${result}" == "${target}" ] ; then
+	echo "-- It's the same branch (${result}); no changed"
+else
+	yum replace -y --skip-broken ${result}-cli --replace-with=${target}-cli
+	#yum install -y --skip-broken ${target}
+fi
+
+sh /script/php-branch-updater ${target}
+

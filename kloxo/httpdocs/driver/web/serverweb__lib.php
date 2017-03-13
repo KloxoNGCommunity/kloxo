@@ -444,7 +444,7 @@ class serverweb__ extends lxDriverClass
 
 		$branchselect = preg_replace('/(.*)\_\(as\_(.*)\)/', '$1', $branchselect);
 
-		lxshell_return("sh", $scripting, "--select={$branchselect}", '--nolog');
+		lxshell_return("sh", $scripting, $branchselect);
 
 		$scripting = '/script/fixweb';
 

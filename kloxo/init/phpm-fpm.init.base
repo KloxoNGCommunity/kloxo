@@ -38,7 +38,7 @@ start () {
 }
 stop () {
     echo -n $"Stopping $prog (Multiple Php): "
-    killproc -p ${pidfile} -d 10 $prog
+    killproc -p ${pidfile} -d 15 $prog
     RETVAL=$?
     echo
     if [ $RETVAL -eq 0 ] ; then
@@ -53,7 +53,7 @@ restart () {
 
 reload () {
     echo -n $"Reloading $prog (Multiple Php): "
-    killproc -p ${pidfile} -d 10 $prog -USR2
+    killproc -p ${pidfile} -d 15 $prog -USR2
     RETVAL=$?
     echo
 }

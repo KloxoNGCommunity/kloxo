@@ -1,0 +1,19 @@
+#!/bin/sh
+
+kloxopath="/usr/local/lxlabs/kloxo"
+
+if [ "${1}" == "" ] ; then
+	echo
+	echo "* You choose 'kloxo.exe' (less memory usage) or 'lxphp.exe' with:"
+	echo "  Format: sh $0 [kloxo.exe|lxphp.exe]"
+	echo
+else
+	if [ "${1}" == "kloxo.exe" ] ; then
+		echo '' > ${kloxopath}/etc/flag/lowmem.flag
+	elif [ "${1}" == "lxphp.exe" ] ; then
+		'rm' -f > ${kloxopath}/etc/flag/lowmem.flag
+	fi
+
+	service kloxo-wrap restart
+fi
+

@@ -28,7 +28,15 @@ class sshconfig extends lxdb
 		switch ($subaction) {
 			case "ssh_port":
 				$vlist['ssh_port'] = null;
-				$this->setDefaultValue("ssh_port", "22");
+
+				exec("cat /etc/ssh/sshd_config|grep ^'Port'|awk '{print $2}'", $out);
+				if (count($out) > 0) {
+					$port = $out[0];
+				} else {
+					$port = "22";
+				}
+
+				$this->setDefaultValue("ssh_port", $port);
 
 				$vlist['without_password_flag'] = null;
 				$vlist['disable_password_flag'] = null;

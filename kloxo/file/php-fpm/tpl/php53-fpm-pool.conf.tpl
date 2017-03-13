@@ -112,7 +112,7 @@ pm.min_spare_servers = <?=$minspareservers;?>
 pm.max_spare_servers = <?=$maxspareservers;?>
 
 pm.max_requests = 1000
-pm.process_idle_timeout = 20s
+pm.process_idle_timeout = 10s
 
 ;pm.status_path = /status
 ;ping.path = /ping

@@ -3,14 +3,12 @@
 if [ "$1" == "--help" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
-	echo "  format: sh $0 <phpXYm|phpXYs> [--force]"
+	echo "  format: sh $0 <phpXYm|phpXYs>"
 	echo " ------------------------------------------------------------------------------"
 	echo "  phpXYm/phpXYs"
 	echo "      - start from php52m/php52s"
 	echo "      - phpXYm for 'multiple php'"
 	echo "      - phpXYs for 'special php' for Kloxo-MR panel"
-	echo "  --force"
-	echo "      - for re-install"
 	echo
 	exit;
 fi
@@ -24,6 +22,8 @@ fi
 
 base_name="${1}"
 
+main_path="/opt/${base_name}"
+
 . /script/counter-start.inc
 
 ## MR -- remove last char (default m or s)
@@ -36,9 +36,9 @@ else
 
 	stype=$(ps --no-headers -o comm 1)
 
-	if [ -f /opt/${base_name}/usr/sbin/php-fpm ] ; then
+	if [ -f ${main_path}/usr/sbin/php-fpm ] ; then
 		service ${base_name}-fpm stop
-		'rm' -rf /opt/${base_name} >/dev/null 2>&1
+		'rm' -rf ${main_path} >/dev/null 2>&1
 		chkconfig ${base_name}-fpm off >/dev/null 2>&1
 		chkconfig --del ${base_name}-fpm >/dev/null 2>&1
 		if [ "${stype}" == "systemd" ] ; then

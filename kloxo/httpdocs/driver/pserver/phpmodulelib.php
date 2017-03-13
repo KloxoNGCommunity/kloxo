@@ -34,7 +34,7 @@ class PhpModule extends lxclass
 
 	function write() { }
 
-	function isSelect()	{ return false; }
+//	function isSelect()	{ return false; }
 
 	static function createListAlist($parent, $class)
 	{
@@ -151,7 +151,8 @@ class PhpModule extends lxclass
 			//	throw new lxException($login->getThrow('disable'), '', $subaction);
 				break;
 			case "restart":
-				exec("sh /script/restart-php-fpm -y");
+				createRestartFile("restart-php-fpm");
+				createRestartFile("kloxo-php");
 				break;
 		}
 

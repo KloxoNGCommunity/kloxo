@@ -264,26 +264,26 @@ class General extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$sslport = $param['portconfig_b-sslport'];
-		$nonsslport = $param['portconfig_b-nonsslport'];
+		$sslport = $this->portconfig_b->sslport = $param['portconfig_b-sslport'];
+		$nonsslport = $this->portconfig_b->nonsslport = $param['portconfig_b-nonsslport'];
+		$redirect_to_domain = $this->portconfig_b->redirecttodomain = $param['portconfig_b-redirecttodomain'];
+		$redirect_to_ssl = $this->portconfig_b->redirectnonssl_flag = $param['portconfig_b-redirectnonssl_flag'];
 
 		exec("echo '$sslport' > /home/kloxo/httpd/cp/.ssl.port");
 		exec("echo '$nonsslport' > /home/kloxo/httpd/cp/.nonssl.port");
 
 		$loginpath = "../httpdocs/login";
 
-		if ($param['portconfig_b-redirectnonssl_flag'] === 'on') {
+		if ($redirect_to_ssl === 'on') {
 			touch("{$loginpath}/redirect-to-ssl");
 		} else {
 			unlink("{$loginpath}/redirect-to-ssl");
 		}
 
-		if ($param['portconfig_b-redirecttodomain'] !== '') {
-			$dom = $param['portconfig_b-redirecttodomain'];
+		if ($redirect_to_domain !== '') {
+			validate_domain_name($redirect_to_domain);
 
-			validate_domain_name($dom);
-
-			exec("echo '$dom' > {$loginpath}/redirect-to-domain");
+			exec("echo '$redirect_to_domain' > {$loginpath}/redirect-to-domain");
 		} else {
 			exec("rm -f {$loginpath}/redirect-to-domain");
 		}
@@ -293,6 +293,8 @@ class General extends Lxdb
 
 	function postUpdate()
 	{
+		global $ghtml;
+
 		// We need to write because reads everything from the database.
 		$this->write();
 
@@ -302,6 +304,37 @@ class General extends Lxdb
 			$this->generalmisc_b->disableeasyinstaller = 'on';
 
 			touch("../etc/flag/disableeasyinstaller.flg");
+		} elseif ($this->subaction === 'portconfig') {
+			$host = $_SERVER["HTTP_HOST"];
+			$splitter = explode(":", $host);
+
+			if ($this->portconfig_b->redirecttodomain !== '') {
+				$domain = $this->portconfig_b->redirecttodomain;
+			} else {
+				$domain = $splitter[0];
+			}
+
+			if ($this->portconfig_b->redirectnonssl_flag === 'om') {
+				$scheme = 'https';
+				$port = $this->portconfig_b->sslport;
+			} else {
+				$scheme = $_SERVER["HTTP_SCHEME"];
+
+				if ($scheme === 'https') {
+					$port = $this->portconfig_b->sslport;
+				} else {
+					$port = $this->portconfig_b->nonsslport;
+				}
+			}
+
+			$requesturi = $_SERVER["REQUEST_URI"];
+
+			$cmd = "/tmp/kloxo-restart.sh";
+			$text = "sh /script/restart; 'rm' -f {$cmd}";
+			file_put_contents($cmd, $text);
+
+			lxshell_background("sh", $cmd);
+			$ghtml->print_redirect_self("{$scheme}://{$domain}:{$port}/display.php?frm_action=show");
 		}
 	}
 

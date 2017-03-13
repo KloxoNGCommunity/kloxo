@@ -24,9 +24,17 @@ fi
 
 base_name="${1}"
 
-if [ "$(grep 's' <<<${base_name})" == "" ] && [ "$(grep 'm' <<<${base_name})" == "" ] ; then
-	echo "* WARNING: only for phpXYm or phpXYs (change XY from 52)"
-	exit
+if [ "${base_name}" == "php" ] ; then
+	main_path=""
+else
+	main_path="/opt/${base_name}"
+fi
+
+if [ "${base_name}" != "php" ] ; then
+	if [ "$(grep 's' <<<${base_name})" == "" ] && [ "$(grep 'm' <<<${base_name})" == "" ] ; then
+		echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 70)"
+		exit
+	fi
 fi
 
 . /script/counter-start.inc
@@ -41,16 +49,16 @@ if [ "${base_name}" == "php52s" ] || [ "${base_name}" == "php53s" ] || [ "${base
 	fi
 fi
 
-mkdir -p /opt/${base_name} >/dev/null 2>&1
+mkdir -p ${main_path} >/dev/null 2>&1
 
-cd /opt/${base_name} >/dev/null 2>&1
+cd ${main_path} >/dev/null 2>&1
 
-rm -f /opt/${base_name}/install.log >/dev/null 2>&1
+rm -f ${main_path}/${base_name}_install.log >/dev/null 2>&1
 
 ## MR -- use 'echo "$var"' instead 'echo $var'!!!
 end_note="
 Note:
-- See '/opt/${base_name}/install.log' for detail install process
+- See '${main_path}/${base_name}_install.log' for detail install process
 - Example: copy 'xcache.nonini' to '_xcache.ini' or 'xcache_used.ini'
            for enable 'xcache' module in '/etc/${base_name}/etc/php.d'
 - For config setup only, run 'sh /script/phpm-config-setup ${base_name}
@@ -58,7 +66,7 @@ Note:
 
 x="=== BEGIN '$1' install ==="
 echo $x
-echo $x >>/opt/${base_name}/install.log
+echo $x >>${main_path}/${base_name}_install.log
 
 if yum list ${src_name}u-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}u"
@@ -82,18 +90,18 @@ if [ "$(rpm -qa yum-utils)" == "" ] ; then
 	yum install yum-utils -y
 fi
 
-if [ -f /opt/${base_name}/${base_name} ] ; then
+if [ -f ${main_path}/${base_name} ] ; then
 	## remove from previous process
-	'rm' -f /opt/${base_name}/${base_name}
+	'rm' -f ${main_path}/${base_name}
 fi
 
 pack_verrel=$(repoquery --qf='%{version}-%{release}' ${pack_name}-cli)
 
-if [ -f /opt/${base_name}/version ] ; then
+if [ -f ${main_path}/version ] ; then
 	if [ "${2}" == "-y" ] || [ "${2}" == "--force" ] ; then
-		echo "${pack_verrel}" > /opt/${base_name}/version
+		echo "${pack_verrel}" > ${main_path}/version
 	else
-		cver=$(cat /opt/${base_name}/version)
+		cver=$(cat ${main_path}/version)
 
 		if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 			yum install rpmdevtools -y
@@ -104,7 +112,7 @@ if [ -f /opt/${base_name}/version ] ; then
 		if [[ $out != *${pack_verrel}* ]] ; then
 			x="- '${pack_name}-${pack_verrel}' ready to installed/updated"
 			echo $x
-			echo $x >>/opt/${base_name}/install.log
+			echo $x >>${main_path}/${base_name}_install.log
 			. /script/counter-end.inc
 
 			cd /
@@ -115,23 +123,23 @@ if [ -f /opt/${base_name}/version ] ; then
 			exit
 		fi
 
-		echo "${pack_verrel}" >/opt/${base_name}/version
+		echo "${pack_verrel}" >${main_path}/version
 	fi
 else
-	echo "${pack_verrel}" >/opt/${base_name}/version
+	echo "${pack_verrel}" >${main_path}/version
 fi
 
 x="- Dependencies rpms... Please wait!"
 echo $x
-echo $x >>/opt/${base_name}/install.log
+echo $x >>${main_path}/${base_name}_install.log
 
 c=""
 
 x="-- Check dependencies rpms"
 echo $x
-echo $x >>/opt/${base_name}/install.log
+echo $x >>${main_path}/${base_name}_install.log
 
-repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine)(.*)'|sort -u > /opt/${base_name}/dependencies
+repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine)(.*)'|sort -u > ${main_path}/dependencies
 
 if [ "$(yum list|grep libmemcached10)" != "" ] ; then
 	libm1=$(yum info libmemcached10${v}|grep Version|awk '{print $3}')
@@ -142,30 +150,36 @@ fi
 libm2=$(yum info libmemcached${v}|grep Version|awk '{print $3}')
 
 if [[ $libm1 < $libm2 ]] ; then
-	sed -i 's/libmemcached10/libmemcached/g' /opt/${base_name}/dependencies /opt/${base_name}/dependencies
+	sed -i 's/libmemcached10/libmemcached/g' ${main_path}/dependencies ${main_path}/dependencies
 fi
 
 x="-- Install dependencies rpms"
 echo $x
-echo $x >>/opt/${base_name}/install.log
-yum -y install $(cat /opt/${base_name}/dependencies) --skip-broken >>/opt/${base_name}/install.log
+echo $x >>${main_path}/${base_name}_install.log
+yum -y install $(cat ${main_path}/dependencies) --skip-broken >>${main_path}/${base_name}_install.log
 
 x="- Download all rpms (not including debuginfo)... Please wait!"
 echo $x
-echo $x >>/opt/${base_name}/install.log
+echo $x >>${main_path}/${base_name}_install.log
 
-if [ -f /opt/${base_name}/etc ] ; then
-	find /opt/${base_name}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
+if [ -f ${main_path}/etc ] ; then
+	find ${main_path}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
-yumdownloader ${pack_name}-* -x *debuginfo* --downloadonly -y >>/opt/${base_name}/install.log
+yumdownloader ${pack_name}-* -x *debuginfo* >>${main_path}/${base_name}_install.log
 #'rm' -rf *-debuginfo*
 
-dir -l *.rpm|awk '{print "Package "$9}' >>/opt/${base_name}/install.log
+#rpmrebuild -v --change-spec-whole='sed -e "s/^Prefix:.*/Prefix: \//"' \
+#	--change-spec-whole='sed -e "s/^\(.*:[ ]\+\..*\)/#ERROR \1/"' \
+#	--notest-install -p -d ${main_path}/rpms-patch ${main_path}/rpms-original \
+#	>>${main_path}/${base_name}_install.log
+#rpm -i --dbpath /rpm force --root ${main_path} --nopre --nopost --nodeps ${main_path}/rpms-patch \
+#	>>${main_path}/${base_name}_install.log
 
-x="- Extract all rpms to '/opt/${base_name}'"
+
+x="- Extract all rpms to '${main_path}'"
 echo $x
-echo $x >>/opt/${base_name}/install.log
+echo $x >>${main_path}/${base_name}_install.log
 
 for i in $(ls ./*.rpm) ; do
 	rpm2cpio $i | cpio -idmv >/dev/null 2>$1
@@ -176,8 +190,8 @@ done
 cd /
 sh /script/phpm-config-setup $base_name
 
-if [ -f /opt/${base_name}/${base_name} ] ; then
-	'rm' -f /opt/${base_name}/${base_name}
+if [ -f ${main_path}/${base_name} ] ; then
+	'rm' -f ${main_path}/${base_name}
 fi
 
 #sh /script/set-php-fpm $base_name
@@ -185,7 +199,7 @@ sh /script/enable-php-fpm
 
 x="=== END '$1' install ==="
 echo $x
-echo $x >>/opt/${base_name}/install.log
+echo $x >>${main_path}/${base_name}_install.log
 
 . /script/counter-end.inc
 

@@ -181,6 +181,8 @@ function checkRestart()
 					} else {
 						if (strpos($cmd, 'restart-') !== false) {
 							exec_with_all_closed("sh /script/{$cmd} -y");
+						} elseif ($cmd === 'restart') {
+							exec_with_all_closed("sh /script/{$cmd} -y");
 						} else {
 						//	exec("service {$cmd} restart");
 							exec_with_all_closed("service {$cmd} restart");
