@@ -240,19 +240,7 @@ function install_php()
 	// MR -- for accept for php and apache branch rpm
 	$phpbranch = getPhpBranch();
 	
-	if ((strpos($phpbranch, '52') !== false) || (strpos($phpbranch, '53') !== false)) {
-		$phpbranchmysql = "{$phpbranch}-mysql";
-	} else {
-		$phpbranchmysql = "{$phpbranch}-mysqlnd";
-	}
-
-	system("yum install -y {$phpbranch} {$phpbranch}-cli {$phpbranch}-mbstring {$phpbranchmysql} {$phpbranch}-pear " .
-		"{$phpbranch}-pecl-geoip {$phpbranch}-mcrypt {$phpbranch}-xml {$phpbranch}-embedded " .
-		"{$phpbranch}-imap {$phpbranch}-intl {$phpbranch}-ldap {$phpbranch}-fpm " . 
-		"{$phpbranch}-litespeed {$phpbranch}-process {$phpbranch}-pspell {$phpbranch}-recode " .
-		"{$phpbranch}-snmp {$phpbranch}-soap {$phpbranch}-tidy {$phpbranch}-xmlrpc " . 
-		"{$phpbranch}-gd {$phpbranch}-ioncube-loader " .
-		"--skip-broken");
+	system("sh /script/php-branch-installer {$phpbranch}");
 }
 
 function install_database()

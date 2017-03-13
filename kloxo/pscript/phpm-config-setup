@@ -297,8 +297,6 @@ if [ "${uname_m}" == "64" ] ; then
 	fi
 fi
 
-'cp' -f /opt/configs/php-fpm/etc/php-fpm.d/www.conf ${main_path}/etc/php-fpm.d/www.conf >/dev/null 2>&1
-
 if [ -f ${main_path}/${base_name} ] ; then
 	'rm' -f ${main_path}/${base_name}
 fi
@@ -359,6 +357,12 @@ else
 	fi
 fi
 
-if [ ! -f /etc/php-fpm.d/default.conf ] ; then
-	'cp' -f /opt/configs/php-fpm/conf/php/php-fpm.d/default.conf /etc/php-fpm.d/default.conf
-fi
+'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${main_path}/etc/php-fpm.d/www.conf >/dev/null 2>&1
+'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${main_path}/etc/php-fpm.d/default.conf >/dev/null 2>&1
+
+fpmpath="/opt/configs/php-fpm/conf/php"
+
+'cp' -f ${kpath}/file/php-fpm/etc/php53-fpm.conf ${fpmpath}/php-fpm.conf
+'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${fpmpath}/php-fpm.d/www.conf >/dev/null 2>&1
+'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${fpmpath}/php-fpm.d/default.conf >/dev/null 2>&1
+

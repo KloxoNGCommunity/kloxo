@@ -34,7 +34,7 @@ class PhpModule extends lxclass
 
 	function write() { }
 
-//	function isSelect()	{ return false; }
+	function isSelect()	{ return false; }
 
 	static function createListAlist($parent, $class)
 	{
