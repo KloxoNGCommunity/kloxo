@@ -1,16 +1,21 @@
-php53u_run="yum install -y --skip-broken php53u-* --exclude=*debuginfo* --exclude=php53u-xcache --exclude=php53u-pecl-imagick --exclude=php53u-eaccelerator"
+php_yum="yum install -y --skip-broken"
 
-php54_run="yum install -y --skip-broken php54-* --exclude=*debuginfo* --exclude=php54-xcache --exclude=php54-mysql --exclude=php54-pecl-zendopcache --exclude=php54-pgsql84 --exclude=php54-pecl-memcache"
+php_exclude="--exclude=*debuginfo* --exclude=php*-xcache* --exclude=php*-pecl-imagick* --exclude=php*-eaccelerator* --exclude=php*-pecl-zendopcache* --exclude=php*-pgsql84* --exclude=php*-opcache* --exclude=php*-fpm-httpd* --exclude=php*-fpm-nginx* --exclude=php*-pecl-sphinx*"
 
-php55u_run="yum install -y --skip-broken php55u-* --exclude=*debuginfo*"
-php55w_run="yum install -y --skip-broken php55w-* --exclude=*debuginfo*"
+php53u_run="${php_yum} php53u-* ${php_exclude}"
 
-php56u_run="yum install -y --skip-broken php56u-* --exclude=*debuginfo* --exclude=php56u-opcache --exclude=php56u-fpm-httpd --exclude=php56u-fpm-nginx --exclude=php56u-pecl-sphinx"
-php56w_run="yum install -y --skip-broken php56w-* --exclude=*debuginfo*"
+php54_run="${php_yum} php54-* --exclude=php*-mysql* --exclude=php*-pecl-memcache* ${php_exclude}"
 
-php70u_run="yum install -y --skip-broken php70u-* --exclude=*debuginfo* --exclude=php70u-fpm-httpd --exclude=php70u-fpm-nginx"
-php70w_run="yum install -y --skip-broken php70w-* --exclude=*debuginfo* --exclude=php70w-mysql"
+php55u_run="${php_yum} php55u-* ${php_exclude}"
+php55w_run="${php_yum} php55w-* ${php_exclude}"
 
-php71u_run="yum install -y --skip-broken php71u-* --exclude=*debuginfo* --exclude=php71u-fpm-httpd --exclude=php71u-fpm-nginx"
-php71w_run="yum install -y --skip-broken php71w-* --exclude=*debuginfo* --exclude=php71w-mysql"
+php56u_run="${php_yum} php56u-* ${php_exclude}"
+php56w_run="${php_yum} php56w-* ${php_exclude}"
+
+php70u_run="${php_yum} php70u-* ${php_exclude}"
+php70w_run="${php_yum} php70w-* --exclude=php*-mysql* ${php_exclude}"
+
+php71u_run="${php_yum} php71u-* ${php_exclude}"
+php71w_run="${php_yum} php71w-* --exclude=php*-mysql* ${php_exclude}"
+
 

@@ -238,15 +238,17 @@ function check_blocked_ip()
 	if (!$login->isAllowed()) {
 		$ip = $_SERVER['REMOTE_ADDR'];
 		log_message("Denied Entry from Ip $ip for $login->nname");
-		$gbl->c_session->delete();
-		$gbl->c_session->was();
+		// MR -- disable 'delete' because not exists
+	//	$gbl->c_session->delete();
+	//	$gbl->c_session->was();
 		$ghtml->print_redirect_self("/login/?frm_emessage=not_in_list_of_allowed_ip&frm_m_emessage_data=$ip");
 	}
 
 	if ($login->isBlocked()) {
 		$ip = $_SERVER['REMOTE_ADDR'];
-		$gbl->c_session->delete();
-		$gbl->c_session->was();
+		// MR -- disable 'delete' because not exists
+	//	$gbl->c_session->delete();
+	//	$gbl->c_session->was();
 		log_message("Denied Entry from Ip $ip for $login->nname");
 		$ghtml->print_redirect_self("/login/?frm_emessage=in_the_list_of_blocked_ip&frm_m_emessage_data=$ip");
 	}

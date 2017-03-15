@@ -120,6 +120,11 @@ class phpini__sync extends Lxdriverclass
 			$phpfpm_path_etc = "/opt/configs/php-fpm/etc";
 			$phpfpm_path = "/opt/configs/php-fpm/tpl";
 
+			if (!file_exists($phpfpm_path)) {
+				$phpfpm_path_etc = "../file/php-fpm/etc";
+				$phpfpm_path = "../file/php-fpm/tpl";
+			}
+
 			$phps = array_merge(array('php'), $input['phpmlist']);
 
 			foreach ($phps as $k => $v) {
@@ -176,10 +181,12 @@ class phpini__sync extends Lxdriverclass
 
 					$phpfpm_parse_default = getParseInlinePhp($phpfpm_default, $input);
 					file_put_contents($phpfpm_target_default, $phpfpm_parse_default);
-
+				/*
+					// MR -- don't need it because Kloxo-MR using special path for php-branch
 					if ($v === 'php') {
 						exec("'cp' -f {$path}/php-fpm.conf /etc/php-fpm.conf");
 					}
+				*/
 				}
 			}
 		} else {

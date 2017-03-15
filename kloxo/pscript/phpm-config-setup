@@ -357,12 +357,17 @@ else
 	fi
 fi
 
-'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${main_path}/etc/php-fpm.d/www.conf >/dev/null 2>&1
-'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${main_path}/etc/php-fpm.d/default.conf >/dev/null 2>&1
+if [ "${base_name}" == "php" ] ; then
+	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${main_path}/etc/php-fpm.d/www.conf >/dev/null 2>&1
+	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${main_path}/etc/php-fpm.d/default.conf >/dev/null 2>&1
 
-fpmpath="/opt/configs/php-fpm/conf/php"
+	fpmpath="/opt/configs/php-fpm/conf/php"
 
-'cp' -f ${kpath}/file/php-fpm/etc/php53-fpm.conf ${fpmpath}/php-fpm.conf
-'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${fpmpath}/php-fpm.d/www.conf >/dev/null 2>&1
-'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${fpmpath}/php-fpm.d/default.conf >/dev/null 2>&1
+	if [ ! -d ${fpmpath}/php-fpm.d ] ; then
+		mkdir -p ${fpmpath}/php-fpm.d
+	fi
 
+	'cp' -f ${kpath}/file/php-fpm/etc/php53-fpm.conf ${fpmpath}/php-fpm.conf >/dev/null 2>&1
+	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${fpmpath}/php-fpm.d/www.conf >/dev/null 2>&1
+	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${fpmpath}/php-fpm.d/default.conf >/dev/null 2>&1
+fi

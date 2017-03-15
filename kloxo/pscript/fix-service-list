@@ -1,4 +1,35 @@
 #!/bin/sh
 
-. /script/directory
-lxphp.exe ../bin/fix/fix-service-list.php $*
+listpath="/usr/local/lxlabs/kloxo/etc/list"
+
+echo "Update Services Branch List"
+
+for x in $(dir -l ${listpath}/set.*.lst|awk '{print $9}') ; do
+	f=$(basename $x)
+	n=${f%.lst}
+	n=${n#set.}
+	if [ -f ${listpath}/custom.${f} ] ; then
+		p=${listpath}/custom.${f}
+	else
+		p=${listpath}/${f}
+	fi
+
+	echo "- List for '${n}' branch"
+
+	s=$(cat ${p}|tr ',' ' ')
+
+	a=$(yum info ${s}|grep -e ^'Name' -e ^'Version'|awk '{print $3}'|xargs -n2 -d'\n'|sed 's/\(.*\) \(.*\)/\1_\(as_\2\)/g'|tr '\n' ','|sed 's/\(.*\),/\1/g')
+
+	echo ${a} > ${listpath}/${n}.lst
+
+	if [ "${n}" == "web" ] ; then
+		echo ${a}|tr ',' '\n'|grep httpd|grep -v lighttpd|tr '\n' ','|sed 's/\(.*\),/\1/g' > ${listpath}/httpd.lst
+		echo ${a}|tr ',' '\n'|grep lighttpd|tr '\n' ','|sed 's/\(.*\),/\1/g' > ${listpath}/lighttpd.lst
+		echo ${a}|tr ',' '\n'|grep nginx|tr '\n' ','|sed 's/\(.*\),/\1/g' > ${listpath}/nginx.lst
+		echo ${a}|tr ',' '\n'|grep hiawatha|tr '\n' ','|sed 's/\(.*\),/\1/g' > ${listpath}/hiawatha.lst
+	fi
+
+	if [ "${n}" == "database" ] ; then
+		echo ${a}|tr ',' '\n'|grep -e 'mysql' -e 'mariadb' -e 'MariaDB'|tr '\n' ','|sed 's/\(.*\),/\1/g' > ${listpath}/mysql.lst
+	fi
+done

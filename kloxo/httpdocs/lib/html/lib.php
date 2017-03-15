@@ -6473,7 +6473,7 @@ function fix_hiawatha()
 		if (strpos($webdrv, 'hiawatha') !== false) {
 			exec("chkconfig hiawatha on >/dev/null 2>&1");
 		} else {
-			exec("chkconfig hiawatha off >/dev/null 2>&1; service hiawatha stop");
+			exec("chkconfig hiawatha off >/dev/null 2>&1; service hiawatha stop >/dev/null 2>&1");
 		}
 	}
 }
@@ -7656,60 +7656,14 @@ function getAllDnsDriverList()
 
 function setRealServiceBranchList($nolog = null)
 {
+function setRealServiceBranchList($nolog = null)
+{
 	log_cleanup("Update Services Branch List", $nolog);
+	log_cleanup("- Wait to process...", $nolog);
 
-	$path = "../etc/list";
-	$dirs = glob("{$path}/*.lst");
-
-	foreach ($dirs as $d) {
-		if (strpos($d, "/set.") !== false) {
-			$f = str_replace("{$path}/", "", $d);
-
-			if (file_exists("{$path}/custom.{$f}")) {
-				$f = "custom.{$f}";
-				$t = str_replace("/custom.set.", "/", $d);
-			} else {
-				$t = str_replace("/set.", "/", $d);
-			}
-
-			$n = str_replace("set.", "", str_replace(".lst", "", $f));
-
-			log_cleanup("- List for '{$n}' branch", $nolog);
-
-			$sc = file_get_contents("{$path}/{$f}");
-
-			$sl = explode(",", str_replace(" ", "", $sc));
-
-			$a = array();
-
-			foreach ($sl as $s) {
-				if (strpos($s, 'php') !== false) {
-					$ret = lxshell_return("yum", "list", "{$s}-cli");
-				} else {
-					$ret = lxshell_return("yum", "list", "{$s}");
-				}
-
-				if ($ret === 0) {
-					if (strpos($s, 'php') !== false) {
-						$ver = getRpmVersionViaYum("{$s}-cli");
-					} else {
-						$ver = getRpmVersionViaYum($s);
-					}
-
-					if ($ver !== '') {
-						$a[] = $s . "_(as_" . $ver . ")";
-					} else {
-						$a[] = $s;
-					}
-				}
-			}
-
-			$tc = implode(",", $a);
-
-			file_put_contents($t, $tc);
-		}
-	}
+	exec("sh /script/fix-service-list");
 }
+
 
 function getRpmVersionViaYum($rpm)
 {

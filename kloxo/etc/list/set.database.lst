@@ -1,1 +1,1 @@
-MariaDB-server,MariaDB-Galera-server,mysql,mysql50,mysql51,mysql55,mysql56u,mysql57u,sqlite,sqlite2,postgresql,mongodb
+mariadb,mariadb100u,MariaDB-server,MariaDB-Galera-server,mysql,mysql50,mysql51,mysql55,mysql56u,mysql57u,sqlite,sqlite2,postgresql,mongodb

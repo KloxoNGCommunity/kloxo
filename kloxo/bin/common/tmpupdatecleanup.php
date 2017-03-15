@@ -74,7 +74,8 @@ function updatecleanup_main()
 
 	## MR -- change to update all
 
-	log_cleanup('Updating All packages - WAIT to process...');
+	log_cleanup('Updating All packages');
+	log_cleanup('- WAIT to process...');
 //	exec("'rm' -f /var/run/yum.pid");
 	lxshell_return("yum", "clean", "expire-cache");
 	$ret = lxshell_return("yum", "update", "-y");

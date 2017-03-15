@@ -304,7 +304,7 @@ $__throw["no_root_dir_specified"] = "No root dir specified";
 
 $__throw["domain_already_exists_as_virtual"] = "Domain_already_exists_as_virtual";
 
-$__throw["no_dns_template"] = "No DNS template";
+$__throw["no_dns_template"] = "No DNS template. Go to [b]DNS Templates[/b]";
 
 $__throw["webserver_not_same"] = "Webserver not same";
 $__throw["mailserver_not_same"] = "Mailserver not same";
