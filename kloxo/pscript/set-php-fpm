@@ -1,15 +1,16 @@
 #!/bin/sh
 
 if [ "$1" == "--help" ] ; then
+	select=$(ls -ld /opt/configs/php-fpm/conf/php* | awk '{print $9}' | sed 's:/opt/configs/php-fpm/conf/::g' | tr '\n' '|'|sed 's/\(.*\)|/\1/g')
 	echo
 	echo " --------------------------------------------------------------"
-	echo "  format: sh $0 <php/php53m/php54m/php55m>"
+	echo "  format: sh $0 <${select}>"
 	echo " --------------------------------------------------------------"
 	echo "   - 'php' mean 'php branch' (check with 'php v')"
 	echo "   - for 'phpXYm', check with 'php55m-cli -v' (for php55m)"
 	echo "   - unsupport for 'php52m'"
 	echo
-	exit;
+	exit
 fi
 
 echo

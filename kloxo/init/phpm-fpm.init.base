@@ -24,6 +24,7 @@ RETVAL=0
 prog="__custom_name__-fpm"
 pidfile=${PIDFILE-/var/run/php-fpm/__custom_name__-fpm.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/__custom_name__-fpm}
+STOP_TIMEOUT=${STOP_TIMEOUT-30}
 
 start () {
     echo -n $"Starting $prog (Multiple Php): "
@@ -38,7 +39,7 @@ start () {
 }
 stop () {
     echo -n $"Stopping $prog (Multiple Php): "
-    killproc -p ${pidfile} -d 15 $prog
+    killproc -p ${pidfile} -d ${STOP_TIMEOUT} $prog
     RETVAL=$?
     echo
     if [ $RETVAL -eq 0 ] ; then
@@ -53,7 +54,7 @@ restart () {
 
 reload () {
     echo -n $"Reloading $prog (Multiple Php): "
-    killproc -p ${pidfile} -d 15 $prog -USR2
+    killproc -p ${pidfile} -d ${STOP_TIMEOUT} $prog -USR2
     RETVAL=$?
     echo
 }

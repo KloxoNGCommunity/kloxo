@@ -10,21 +10,19 @@
 		}
 	}
 ?>
-[default]
+[<?=$phpselected;?>-default]
 ; listen = 127.0.0.1:50000
 listen = /opt/configs/php-fpm/sock/<?=$phpselected;?>-apache.sock
-
 listen.backlog = -1
 listen.allowed_clients = 127.0.0.1
 listen.backlog = 65536
-listen.allowed_clients = 127.0.0.1
 listen.owner = apache
 listen.group = apache
 listen.mode = 0666
 user = apache
 group = apache
 pm = dynamic
-pm.max_children = 10
+pm.max_children = 6
 pm.start_servers = 2
 pm.min_spare_servers = 2
 pm.max_spare_servers = 4

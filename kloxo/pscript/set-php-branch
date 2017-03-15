@@ -30,14 +30,22 @@ echo
 
 echo "- Php Branch replace"
 
-result="php"
+result=""
+target=""
 
-for x in $branchlist ; do
+for x in ${branchlist} ; do
 	if [ "$(rpm -qa ${x}-cli)" != "" ] ; then
 		result=${x}
+	fi
+	if [ "${1}" == "${x}" ] ; then
 		target=${1}
 	fi
 done
+
+if [ "${target}" == "" ] ; then
+	echo "- Wrong argument supplied (${1}). Run 'sh $0 --help'"
+	exit
+fi
 
 if [ "${result}" == "${target}" ] ; then
 	echo "-- It's the same branch (${result}); no changed"

@@ -36,7 +36,7 @@
 	}
 ?>
 		<section name="pool">
-			<value name="name"><?=$pool;?></value>
+			<value name="name">php52m-<?=$pool;?></value>
 			<!-- <value name="listen_address">127.0.0.1:<?=$fpmport;?></value> -->
 			<value name="listen_address">/opt/configs/php-fpm/sock/php52m-<?=$user;?>.sock</value>
 			<value name="listen_options">

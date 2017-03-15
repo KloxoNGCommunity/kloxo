@@ -1,5 +1,5 @@
 		<section name="pool">
-			<value name="name">default</value>
+			<value name="name">php52m-default</value>
 			<!-- <value name="listen_address">127.0.0.1:50000</value> -->
 			<value name="listen_address">/opt/configs/php-fpm/sock/php52m-apache.sock</value>
 			<value name="listen_options">

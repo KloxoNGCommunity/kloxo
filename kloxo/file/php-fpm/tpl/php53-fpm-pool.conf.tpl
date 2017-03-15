@@ -86,7 +86,7 @@
 
 	$openbasedir = str_replace("/var/lib/php/session/", "{$session_save_path_flag}/", $openbasedir);
 ?>
-[<?=$pool;?>]
+[<?=$phpselected;?>-<?=$pool;?>]
 ;listen = 127.0.0.1:<?=$fpmport;?>
 
 listen = /opt/configs/php-fpm/sock/<?=$phpselected;?>-<?=$user;?>.sock
