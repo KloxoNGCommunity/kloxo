@@ -7656,14 +7656,11 @@ function getAllDnsDriverList()
 
 function setRealServiceBranchList($nolog = null)
 {
-function setRealServiceBranchList($nolog = null)
-{
 	log_cleanup("Update Services Branch List", $nolog);
 	log_cleanup("- Wait to process...", $nolog);
 
 	exec("sh /script/fix-service-list");
 }
-
 
 function getRpmVersionViaYum($rpm)
 {
