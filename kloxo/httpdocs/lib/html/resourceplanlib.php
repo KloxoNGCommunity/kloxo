@@ -387,6 +387,8 @@ class resourceplan extends resourcecore
 
 	static function add($parent, $class, $param)
 	{
+		validate_plan_name($param['realname']);
+
 		$param['realname'] = fix_nname_to_be_variable_without_lowercase($param['realname']);
 		ClientBase::fixpserver_list($param);
 		
@@ -396,7 +398,7 @@ class resourceplan extends resourcecore
 	static function continueForm($parent, $class, $param, $continueaction)
 	{
 		$param['realname'] = trim($param['realname']);
-		
+
 		if ($continueaction === 'server') {
 			$ret = self::continueFormlistpriv($parent, $class, $param, $continueaction);
 		} else if ($continueaction === 'clientfinish') {

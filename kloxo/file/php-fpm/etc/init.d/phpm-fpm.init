@@ -27,93 +27,99 @@ arr=$(dir -l -d /opt/php*m/usr/bin/php 2>/dev/null|awk '{print $9}'|sed 's:/opt/
 
 #if [ ${#arr[@]} -eq 0 ] ; then
 if [ "${arr}" == "" ] ; then
-	echo "*** No 'multiple PHP' execute because no conf files ***"
-	exit
+    echo "*** No 'multiple PHP' execute because no conf files ***"
+    exit
 fi
 
 for i in ${arr[*]} ; do
-	prog[$count]="${i}-fpm"
-	pidfile[$count]=${PIDFILE-/var/run/php-fpm/${i}-fpm.pid}
-	lockfile[$count]=${LOCKFILE-/var/lock/subsys/${i}-fpm}
-	fpm_conf[$count]="/opt/configs/php-fpm/conf/${i}/php-fpm.conf"
-	((count++))
+    basename[$count]=${i}
+    prog[$count]="${i}-fpm"
+    pidfile[$count]=${PIDFILE-/var/run/php-fpm/${i}-fpm.pid}
+    lockfile[$count]=${LOCKFILE-/var/lock/subsys/${i}-fpm}
+    fpm_conf[$count]="/opt/configs/php-fpm/conf/${i}/php-fpm.conf"
+    ((count++))
 done
 
 start () {
-	for (( c=0; c<count; c++ )) ; do
-		echo -n $"Starting ${prog[$c]} (Multiple Php): "
-		if [ "${prog[$c]}" == "php52m-fpm" ] ; then
-			daemonize=""
-		else
-			daemonize="--daemonize"
-		fi
+    for (( c=0; c<count; c++ )) ; do
+        echo -n $"Starting ${prog[$c]} (Multiple Php): "
+        if [ "${prog[$c]}" == "php52m-fpm" ] ; then
+            daemonize=""
+        else
+            daemonize="--daemonize"
+        fi
+        for sockfile in $(dir -l /opt/configs/php-fpm/sock/${basename[$c]}-*.sock 2>/dev/null|awk '{print $9}') ; do
+            if [ "${sockfile}" != "" ] ; then
+                echo "- Delete $sockfile"
+                unlink $sockfile >/dev/null 2>&1
+            fi
+        done
+        daemon --pidfile ${pidfile[$c]} ${prog[$c]} -y ${fpm_conf[$c]} $daemonize
 
-		daemon --pidfile ${pidfile[$c]} ${prog[$c]} -y ${fpm_conf[$c]} $daemonize
-
-		RETVAL=$?
-		echo
-		[ $RETVAL -eq 0 ] && touch ${lockfile[$c]}
-	done
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && touch ${lockfile[$c]}
+    done
 }
 
 stop () {
-	for (( c=0; c<count; c++ )) ; do
-		echo -n $"Stopping ${prog[$c]} (Multiple Php): "
-		killproc -p ${pidfile[$c]} -d 15 ${prog[$c]}
+    for (( c=0; c<count; c++ )) ; do
+        echo -n $"Stopping ${prog[$c]} (Multiple Php): "
+        killproc -p ${pidfile[$c]} -d 15 ${prog[$c]}
 
-		RETVAL=$?
-		echo
-		if [ $RETVAL -eq 0 ] ; then
-			rm -f ${lockfile[$c]} ${pidfile[$c]}
-		fi
-	done
+        RETVAL=$?
+        echo
+        if [ $RETVAL -eq 0 ] ; then
+            rm -f ${lockfile[$c]} ${pidfile[$c]}
+        fi
+    done
 }
 
 restart () {
-	stop
-	echo ""
-	start
+    stop
+    echo ""
+    start
 }
 
 reload () {
-	for (( c=0; c<count; c++ )) ; do
-		echo -n $"Reloading ${prog[$c]} (Multiple Php): "
-		killproc -p ${pidfile[$c]} -d 15 ${prog[$c]} -USR2
-		RETVAL=$?
-		echo
-	done
+    for (( c=0; c<count; c++ )) ; do
+        echo -n $"Reloading ${prog[$c]} (Multiple Php): "
+        killproc -p ${pidfile[$c]} -d 15 ${prog[$c]} -USR2
+        RETVAL=$?
+        echo
+    done
 }
 
 
 # See how we were called.
 case "$1" in
-	start)
-		start
-		;;
-	stop)
-		stop
-		;;
-	status)
-		for (( c=0; c<count; c++ )) ; do
-			status -p ${pidfile[$c]} ${prog[$c]}
-		done
-		RETVAL=$?
-		;;
-	restart)
-		restart
-		;;
-	reload|force-reload)
-		reload
-		;;
-	condrestart|try-restart)
-		for (( c=0; c<count; c++ )); do
-			[ -f ${lockfile[$c]} ] && restart || :
-		done
-		;;
-	*)
-	echo $"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|try-restart}"
-	RETVAL=2
-	;;
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        for (( c=0; c<count; c++ )) ; do
+            status -p ${pidfile[$c]} ${prog[$c]}
+        done
+        RETVAL=$?
+        ;;
+    restart)
+        restart
+        ;;
+    reload|force-reload)
+        reload
+        ;;
+    condrestart|try-restart)
+        for (( c=0; c<count; c++ )); do
+            [ -f ${lockfile[$c]} ] && restart || :
+        done
+        ;;
+    *)
+    echo $"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|try-restart}"
+    RETVAL=2
+    ;;
 esac
 
 exit $RETVAL

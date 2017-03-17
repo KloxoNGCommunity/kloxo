@@ -32,6 +32,12 @@ start () {
         ## MR -- bug fix for handle 'php branch'
         export PHP_INI_SCAN_DIR="/etc/php.d"
     fi
+    for sockfile in $(dir -l /opt/configs/php-fpm/sock/php-*.sock 2>/dev/null|awk '{print $9}') ; do
+        if [ "${sockfile}" != "" ] ; then
+            echo "- Delete $sockfile"
+            unlink $sockfile >/dev/null 2>&1
+        fi
+    done
     daemon --pidfile ${pidfile} $prog --daemonize
     RETVAL=$?
     echo
@@ -48,8 +54,8 @@ stop () {
 }
 
 restart () {
-        stop
-        start
+    stop
+    start
 }
 
 reload () {
