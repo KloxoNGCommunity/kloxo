@@ -18,10 +18,10 @@ for x in $(dir -l ${listpath}/set.*.lst|awk '{print $9}') ; do
 
 	if [ "${n}" == "php" ] ; then
 		s=$(cat ${p}|tr ',' '\n'|sed -e 's/\(.*\)/\1-cli/g'|tr '\n' ' ')
-		a=$(yum info ${s}|grep -e ^'Name' -e ^'Version'|awk '{print $3}'|xargs -n2 -d'\n'|sed 's/\(.*\)-cli \(.*\)/\1_\(as_\2\)/g'|tr '\n' ','|sed 's/\(.*\),/\1/g')
+		a=$(yum info ${s}|grep -e ^'Name' -e ^'Version'|awk '{print $3}'|xargs -n2 -d'\n'|sed 's/\(.*\)-cli \(.*\)/\1_\(as_\2\)/g'|sort|tr '\n' ','|sed 's/\(.*\),/\1/g')
 	else
 		s=$(cat ${p}|tr ',' ' ')
-		a=$(yum info ${s}|grep -e ^'Name' -e ^'Version'|awk '{print $3}'|xargs -n2 -d'\n'|sed 's/\(.*\) \(.*\)/\1_\(as_\2\)/g'|tr '\n' ','|sed 's/\(.*\),/\1/g')
+		a=$(yum info ${s}|grep -e ^'Name' -e ^'Version'|awk '{print $3}'|xargs -n2 -d'\n'|sed 's/\(.*\) \(.*\)/\1_\(as_\2\)/g'|sort|tr '\n' ','|sed 's/\(.*\),/\1/g')
 	fi
 
 	echo ${a} > ${listpath}/${n}.lst
