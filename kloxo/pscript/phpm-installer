@@ -166,7 +166,7 @@ if [ -f ${main_path}/etc ] ; then
 	find ${main_path}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
-yumdownloader ${pack_name}-* -x *debuginfo* >>${main_path}/${base_name}_install.log
+yumdownloader ${pack_name}-* mod_-${pack_name} -x *debuginfo* >>${main_path}/${base_name}_install.log
 #'rm' -rf *-debuginfo*
 
 #rpmrebuild -v --change-spec-whole='sed -e "s/^Prefix:.*/Prefix: \//"' \

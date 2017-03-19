@@ -1302,21 +1302,21 @@ STRIN;
 					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy'));
 
 				// MR -- get httpd24u info
-				exec("cat '../etc/list/httpd.lst'|grep httpd24", $out);
+				exec("cat ../etc/list/httpd.lst|grep httpd24", $out);
 
 				if ($out[0] !== null) {
-					if (file_exists("../etc/flag/use_apache24.flg")) {
-						$this->use_apache24 = 'on';
-					} else {
-						$this->use_apache24 = 'off';
-					}
-
 					if (version_compare(getRpmVersionFromYum('httpd'), '2.4.0', '>')) {
+						exec("echo '' > ../etc/flag/use_apache24.flg");
+						$this->use_apache24 = 'on';
 						$vlist['use_apache24'] = array('M', 'on', 'off');
 					} else {
 						if (version_compare(getRpmVersionFromYum('httpd24u'), '2.4.0', '>')) {
+							exec("echo '' > ../etc/flag/use_apache24.flg");
+							$this->use_apache24 = 'on';
 							$vlist['use_apache24'] = array('f', 'on', 'off');
 						} else{
+							exec("'rm' -f ../etc/flag/use_apache24.flg");
+							$this->use_apache24 = 'off';
 							$vlist['use_apache24'] = array('M', 'on', 'off');
 						}
 					}

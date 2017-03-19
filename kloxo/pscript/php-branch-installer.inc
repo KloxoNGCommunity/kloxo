@@ -15,7 +15,7 @@ php56w_run="${php_yum} php56w-* ${php_exclude}"
 php70u_run="${php_yum} php70u-* ${php_exclude}"
 php70w_run="${php_yum} php70w-* --exclude=php*-mysql* ${php_exclude}"
 
-php71u_run="${php_yum} php71u-* ${php_exclude}"
-php71w_run="${php_yum} php71w-* --exclude=php*-mysql* ${php_exclude}"
+php71u_run="${php_yum} php71u-* mod_php71u ${php_exclude}"
+php71w_run="${php_yum} php71w-* mod_php71u --exclude=php*-mysql* ${php_exclude}"
 
 
