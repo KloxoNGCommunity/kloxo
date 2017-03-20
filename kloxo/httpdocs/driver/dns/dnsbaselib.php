@@ -10,6 +10,8 @@ class dns_record_a extends LxDnsClass
 	static $__desc_nname = array("n", "", "dns_record");
 	static $__desc_param = array("n", "", "value");
 	static $__desc_hostname = array("n", "", "hostname", "a=updateform&sa=edit");
+	static $__desc_flag = array("n", "", "flag");
+	static $__desc_tag = array("n", "", "tag");
 	static $__desc_ttype = array("", "", "type");
 	static $__desc_ttype_v_mx = array("", "", "MX");
 	static $__desc_ttype_v_ns = array("", "", "NS");
@@ -19,6 +21,7 @@ class dns_record_a extends LxDnsClass
 	static $__desc_ttype_v_cname = array("", "", "CNAME");
 	static $__desc_ttype_v_fcname = array("", "", "FCNAME");
 	static $__desc_priority = array("", "", "priority");
+	static $__desc_ttype_v_caa = array("", "", "CAA");
 
 	function isSelect()
 	{
@@ -91,6 +94,10 @@ class dns_record_a extends LxDnsClass
 				if (strlen($this->$var) > 75) {
 					return substr($this->$var, 0, 75) . "...";
 				}
+			}
+
+			if ($this->ttype === 'caa') {
+				return "{$this->flag} {$this->tag} \"{$this->param}\"";
 			}
 
 			if (strpos($this->getParentO()->nname, '.dnst') !== false) {
@@ -199,6 +206,16 @@ class dns_record_a extends LxDnsClass
 			validate_hostname_name($val);
 
 			$param['nname'] = "{$param['ttype']}_{$val}";
+		} elseif ($param['ttype'] === 'caa') {
+			// Validates hostname subdomain
+
+			$val =  str_replace('.__base__', '', $param['hostname']);
+
+			validate_hostname_name($val);
+
+			validate_domain_name($param['param']);
+
+			$param['nname'] = "{$param['ttype']}_{$param['param']}";
 		} else {
 			$param['nname'] = "{$param['ttype']}_{$param['hostname']}";
 		}
@@ -224,6 +241,11 @@ class dns_record_a extends LxDnsClass
 		} elseif ($typetd['val'] === 'txt') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('t', "");
+		} elseif ($typetd['val'] === 'caa') {
+			$vlist['hostname'] = array('m', array('value'=> '__base__'));
+			$vlist['flag'] = array('s', array('0', '1', '128'));
+			$vlist['tag'] = array('s', array('issue', 'issuewild', 'iodef'));
+			$vlist['param'] = array('m', array('value'=> 'letsencrypt.org'));
 		} else {
 		//	$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['hostname'] = null;
@@ -489,6 +511,7 @@ abstract class Dnsbase extends Lxdb
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=fcname';
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=mx';
 			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=txt';
+			$alist['property'][] = 'a=addform&c=dns_record_a&dta[var]=ttype&dta[val]=caa';
 			$alist['property'][] = 'a=updateform&sa=parameter';
 
 		//	$alist[] = 'a=updateform&sa=parameter';

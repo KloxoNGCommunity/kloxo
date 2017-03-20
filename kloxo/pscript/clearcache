@@ -14,7 +14,10 @@
 # grubfile="/boot/grub/grub.conf"
 
 proc__user_beancounters="/proc/user_beancounters"
+## MR -- for CentOS 5/6
 file_grub_conf="/boot/grub/grub.conf"
+## MR -- for CentOS 7
+file_grub2_conf="/boot/grub2/grub.cfg"
 
 execf() {
 	echo "--- Memory BEFORE clearcache ---"
@@ -22,11 +25,11 @@ execf() {
 
 	echo ""
 
-	if [ "$1" == "--select=1" ]; then
+	if [ "$1" == "--select=1" ] ; then
 		sync; echo 1 > /proc/sys/vm/drop_caches
-	elif [ "$1" == "--select=2" ]; then
+	elif [ "$1" == "--select=2" ] ; then
 		sync; echo 2 > /proc/sys/vm/drop_caches
-	elif [ "$1" == "--select=3" ]; then
+	elif [ "$1" == "--select=3" ] ; then
 		sync; echo 3 > /proc/sys/vm/drop_caches
 	else
 		echo
@@ -46,19 +49,19 @@ execf() {
 }
 
 noexecf() {
-	if [ "$2" != "--silent" ]; then
+	if [ "$2" != "--silent" ] ; then
 		echo
 		echo "Not work on OpenVZ VPS"
 		echo
 	fi
 }
 
-if [ ! -f $proc__user_beancounters ]; then
-	if [ -f $file_grub_conf ]; then
+if [ ! -f $proc__user_beancounters ] ; then
+	if [ -f $file_grub_conf ] || [ -f $file_grub2_conf ] ; then
 		execf $1 $2
 	fi
 else
-	if [ -f $file_grub_conf ]; then
+	if [ -f $file_grub_conf ] || [ -f $file_grub2_conf ] ; then
 		execf $1 $2
 	else
 		noexecf $1 $2

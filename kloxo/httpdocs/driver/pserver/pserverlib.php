@@ -100,7 +100,7 @@ class pserver extends pservercore {
 		$pagespeedflag = "../etc/flag/use_pagespeed.flg";
 		$usepagespeed = $param['use_pagespeed'];
 
-		if (isWebProxyOrApache()) {
+	//	if (isWebProxyOrApache()) {
 			if ($usepagespeed === 'on') {
 				exec("echo '' > {$pagespeedflag}");
 
@@ -110,7 +110,7 @@ class pserver extends pservercore {
 
 				web__apache::setWebserverInstall('httpd');
 			}
-		}
+	//	}
 
 		// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
 	//	$a['pserver'] = $this->nname;
@@ -123,7 +123,8 @@ class pserver extends pservercore {
 			$class = strtilfirst($k, "_");
 			$drstring = "{$class}_driver";
 
-			if (($class === 'web') && (isWebProxyOrApache())) {
+		//	if (($class === 'web') && (isWebProxyOrApache())) {
+			if ($class === 'web') {
 				if ($current_useapache24 !== $next_useapache24) {
 					dprint("Change 'Use Apache24' from '{$current_useapache24}' to '{$next_useapache24}'\n");
 					rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $v, $v));

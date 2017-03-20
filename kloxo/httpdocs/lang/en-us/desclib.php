@@ -49,7 +49,7 @@ $__description["ipaddress"] = array("IP Address");
 $__description["ipaddress_begin"] = array("Begin IP Address");
 $__description["ipaddress_end"] = array("End IP Address");
 
-$__description["ttl_(seconds)"] = array("TTL (Seconds) - RFC 1912 recommends 1209600-2419200 (14-28 days)");
+$__description["ttl_(seconds)"] = array("TTL (Seconds) - RFC 1912 recommend 1209600-2419200 (14-28 days)");
 $__description["primary_dns"] = array("Primary DNS");
 $__description["ns_record"] = array("NS Record");
 $__description["a_record"] = array("A Record");

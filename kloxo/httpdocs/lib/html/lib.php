@@ -8486,8 +8486,13 @@ function setAllWebserverInstall($nolog = null)
 		$confpath = "/opt/configs/{$v}/etc/conf";
 
 		if ($v === 'apache') {
+			$a24mpath = "/etc/httpd/conf.modules.d";
 			if ($use_apache24) {
 				if (isRpmInstalled('httpd')) {
+					if (file_exists("{$a24mpath}/00-base.conf")) {
+						exec("'mv' -f {$a24mpath}/00-base.conf {$a24mpath}/00-base.conf.rpmold");
+					}
+
 					exec("yum -y replace httpd --replace-with=httpd24u >/dev/null 2>&1;" .
 						"yum -y remove {$hm['httpd']} >/dev/null 2>&1;" .
 						"yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
@@ -8501,6 +8506,10 @@ function setAllWebserverInstall($nolog = null)
 				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
 			} else {
 				if (isRpmInstalled('httpd24u')) {
+					if (file_exists("{$a24mpath}/00-base.conf")) {
+						exec("'mv' -f {$a24mpath}/00-base.conf {$a24mpath}/00-base.conf.rpmold");
+					}
+
 					exec("yum -y replace httpd24u --replace-with=httpd >/dev/null 2>&1;" .
 						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" .
 						"yum -y install {$hm['httpd']} >/dev/null 2>&1");

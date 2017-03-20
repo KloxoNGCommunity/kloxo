@@ -182,26 +182,16 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 <?php
             break;
         case "srv":
-            $key = $o->hostname;
-            $param = $o->param;
-            $proto = $o->proto;
-            $priority = $o->priority;
-            $service = $o->service;
-            $port = $o->port;
-
-            if($o->param === null) { continue; }
-
-            if ($key !== "__base__") {
-                $key = "$key.$domainname";
-            } else {
-                $key = "$domainname";
-            }
-
-            $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
 ?>
 ### no implementing yet for SRV record
 <?php
             break;
+        case "caa":
+?>
+### no implementing yet for CAA record
+<?php
+			break;
+
     }
 }
 ?>

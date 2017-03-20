@@ -223,6 +223,24 @@ _<?php echo $service; ?>._<?php echo $proto; ?>.<?php echo $key; ?>. IN SRV <?ph
 
 <?php
             break;
+        case "caa":
+            $key = $o->hostname;
+            $value = $o->param; // example: letsencrypt.org
+            $flag = $o->flag; // 0 or 1 or 128
+            $tag = $o->tag; // issue or issuewild or iodef
+            $value = $o->param;
+
+            if($o->param === null) { continue; }
+
+            if ($key !== "__base__") {
+                $key = "{$key}.{$domainname}";
+            } else {
+                $key = $domainname;
+            }
+?>
+<?php echo $key; ?>. IN CAA <?php echo $flag; ?> <?php echo $tag; ?> "<?php echo $value; ?>"
+<?php
+            break;
     }
 }
 ?>

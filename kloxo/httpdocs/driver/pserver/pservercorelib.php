@@ -1304,7 +1304,7 @@ STRIN;
 				// MR -- get httpd24u info
 				exec("cat ../etc/list/httpd.lst|grep httpd24", $out);
 
-				if ($out[0] !== null) {
+				if (count($out) > 0) {
 					if (version_compare(getRpmVersionFromYum('httpd'), '2.4.0', '>')) {
 						exec("echo '' > ../etc/flag/use_apache24.flg");
 						$this->use_apache24 = 'on';

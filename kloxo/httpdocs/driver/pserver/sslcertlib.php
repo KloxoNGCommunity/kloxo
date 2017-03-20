@@ -182,9 +182,16 @@ class SslCert extends Lxdb
 		} else {
 			$san = str_replace("DNS:", "", $san);
 		}
+
+		$issuer = $ar['issuer']['CN'];
+
+		if (!isset($issuer)) {
+			$issuer = "-";
+		}
 	
 		$string = "- Common Name: {$ar['subject']['CN']}\n" .
 			"- Subject Alt Name: {$san}\n" .
+			"- Issuer: {$issuer}\n" .
 			"- Valid: {$validfrom} - {$validto}";
 
 		return $string;
