@@ -28,7 +28,7 @@ class web__ extends lxDriverClass
 		foreach ($list as $k => $v) {
 			$a = ($v === 'apache') ? 'httpd' : $v;
 
-			self::setWebserverInstall($a);
+			self::setWebServerInstall($a);
 			self::setBaseWebConfig($v);
 
 			exec("chkconfig {$a} on >/dev/null 2>&1");
@@ -57,7 +57,7 @@ class web__ extends lxDriverClass
 		}
 	}
 
-	static function setWebserverInstall($webserver)
+	static function setWebServerInstall($webserver)
 	{
 		// MR -- overwrite init
 

@@ -84,6 +84,28 @@ class Service__Redhat extends lxDriverClass
 		return false;
 	}
 
+	static function checkServiceOn($service)
+	{
+		exec("ps --no-headers -o comm 1", $servicetype);
+
+		if ($servicetype[0] === 'systemd') {
+			exec("systemctl list-unit-files --type=service|grep ^'${service}'", $systemd);
+
+			if (count($systemd) > 0) {
+				return true;
+			}
+		}
+
+		exec("chkconfig --list 2>/dev/null|grep ^'${service}'", $sysv);
+
+		if (count($sysv) > 0) {
+			return true;
+		}
+
+		return false;
+
+	}
+
 	static function getServiceDetails($list)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
@@ -102,7 +124,8 @@ class Service__Redhat extends lxDriverClass
 			} else {
 				continue;
 			}
-			if (self::checkServiceInRc($rclist, $__l['servicename'])) {
+		//	if (self::checkServiceInRc($rclist, $__l['servicename'])) {
+			if (self::checkServiceOn($__l['servicename'])) {
 				$__l['boot_state'] = 'on';
 			}
 

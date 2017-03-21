@@ -1333,7 +1333,8 @@ STRIN;
 				$vlist['webcache_driver'] = array('s', array('none', 'squid', 'trafficserver', 'varnish'));
 
 			//	$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'maradns', 'nsd', 'pdns'));
-				$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'nsd', 'pdns', 'mydns', 'yadifa'));
+			//	$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'nsd', 'pdns', 'mydns', 'yadifa'));
+				$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'nsd', 'pdns', 'yadifa'));
 
 				$vlist['spam_driver'] = array('s', array('none', 'spamassassin', 'bogofilter'));
 

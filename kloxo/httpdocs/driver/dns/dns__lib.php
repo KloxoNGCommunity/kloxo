@@ -6,83 +6,33 @@ class dns__ extends lxDriverClass
 	{
 	}
 
-	static function unInstallMeTrue($driver = null)
+	static function unInstallMeTrue($drivertype = null)
 	{
-		if ($driver === 'bind') {
-			$driveralias = 'named';
-		} else {
-			$driveralias = $driver;
+		if ($drivertype === 'none') { return; }
+
+		$list = getAllDnsDriverList();
+
+		foreach ($list as &$l) {
+			$a = ($l === 'bind') ? 'named' : $l;
+
+			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
 		}
 
-		setRpmRemoved($driver);
-
-		if ($driver === 'bind') {
-			setRpmInstalled("bind-utils");
-			exec("killall -9 named");
-		}
-
-		if ($driver === 'maradns') {
-			$a = array('', '.deadwood', '.zoneserver');
-
-			foreach ($a as $v) {
-				exec("service {$driveralias}{$v} stop");
-				lunlink("/etc/init.d/{$driveralias}{$v}");
-				lunlink("/usr/lib/systemd/system/{$driveralias}{$v}.service");
-			}
-		} else {
-			lunlink("/etc/init.d/{$driveralias}");
-			lunlink("/usr/lib/systemd/system/{$driveralias}.service");
-		}
 	}
 
 	static function installMeTrue($driver = null)
 	{
-		if ($driver === 'bind') {
-			$driveralias = 'named';
-		} else {
-			$driveralias = $driver;
+		if ($drivertype === 'none') { return; }
+	
+		$list = getDnsDriverList($drivertype);
+
+		foreach ($list as $k => $v) {
+			$a = ($v === 'bind') ? 'named' : $v;
+
+			exec("chkconfig {$a} on >/dev/null 2>&1");
 		}
 
-		setRpmInstalled($driver);
-
-		if ($driver === 'bind') {
-		//	setRpmInstalled("{$driver}-utils");
-			setRpmRemoved("{$driver}-chroot");
-			setRpmInstalled("{$driver}-libs");
-			
-			if (!file_exists("/var/log/named")) {
-				exec("mkdir -p /var/log/named");
-			}
-		} elseif ($driver === 'pdns') {
-			setRpmInstalled("{$driver}-backend-mysql");
-			setRpmInstalled("{$driver}-tools");
-			setRpmInstalled("{$driver}-geo");
-		} elseif ($driver === 'mydns') {
-			setRpmInstalled("{$driver}-mysql");
-		}
-
-		setCopyDnsConfFiles($driver);
-
-		if ($driver === 'djbdns') {
-			lxshell_return("/etc/init.d/djbdns", "setup");
-		} elseif ($driver === 'nsd') {
-			$path = "/opt/configs/nsd/conf/defaults";
-
-			if (!file_exists("{$path}/{$driver}.master.conf")) {
-				touch("{$path}/{$driver}.master.conf");
-			}
-
-			if (!file_exists("{$path}/nsd.slave.conf")) {
-				touch("{$path}/nsd.slave.conf");
-			}
-		}
-
-	//	lxshell_return("chkconfig", $driveralias, "on");
-		exec("chkconfig {$driveralias} on >/dev/null 2>&1");
-
-		// MR -- disable here because execute in switchProgramPost()
-	//	createRestartFile($driveralias);
-	//	createRestartFile("restart-dns");
+		@exec("sh /script/fixdns");
 	}
 
 	static function getActiveDriver()

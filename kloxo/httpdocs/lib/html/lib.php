@@ -6400,10 +6400,11 @@ function setCheckPackages($nolog = null)
 
 	log_cleanup("Check for rpm packages", $nolog);
 
+	// MR --remove spamdyke-utils because conflict with djbdns and not needed
 	$list = array("autorespond-toaster", "courier-imap-toaster", "dovecot-toaster", "daemontools-toaster",
 		"ezmlm-toaster", "libdomainkeys-toaster", "libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster",
 		"qmail-toaster", "ripmime", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", "spamdyke",
-		"spamdyke-utils", "pure-ftpd", "webalizer", "dos2unix", "rrdtool", "xinetd", "lxjailshell");
+		"pure-ftpd", "webalizer", "dos2unix", "rrdtool", "xinetd", "lxjailshell");
 
 	foreach ($list as $l) {
 		if ($l === '') {
@@ -7161,6 +7162,14 @@ function setInitialServices($nolog = null)
 
 	setInitialAdminAccount($nolog);
 
+	setAllDnsServerInstall($nolog);
+	setAllInactivateDnsServer($nolog);
+	setActivateDnsServer($nolog);
+
+	setAllWebServerInstall($nolog);
+	setAllInactivateWebServer($nolog);
+	setActivateWebServer($nolog);
+
 	setInitialAllDnsConfigs($nolog);
 	setInitialAllWebConfigs($nolog);
 	setInitialAllWebCacheConfigs($nolog);
@@ -7173,10 +7182,6 @@ function setInitialServices($nolog = null)
 	setInitialPureftpConfig($nolog);
 
 	setInitialLogrotate($nolog);
-
-	setAllWebserverInstall($nolog);
-	setAllInactivateWebServer($nolog);
-	setActivateWebServer($nolog);
 
 	setCopyIndexFileToAwstatsDir($nolog);
 
@@ -7662,7 +7667,8 @@ function getDnsDriverList($drivertype = null)
 function getAllDnsDriverList()
 {
 //	return array('bind', 'djbdns', 'maradns', 'nsd', 'pdns');
-	return array('bind', 'djbdns', 'nsd', 'pdns', 'mydns', 'yadifa');
+//	return array('bind', 'djbdns', 'nsd', 'pdns', 'mydns', 'yadifa');
+	return array('bind', 'djbdns', 'nsd', 'pdns', 'yadifa');
 }
 
 function setRealServiceBranchList($nolog = null)
@@ -8458,7 +8464,7 @@ function callWithSudo($res, $username = null)
 	return $rmt;
 }
 
-function setAllWebserverInstall($nolog = null)
+function setAllWebServerInstall($nolog = null)
 {
 	log_cleanup("Install All Web servers", $nolog);
 
@@ -8572,6 +8578,76 @@ function setActivateWebServer($nolog = null)
 		if ($v === 'nginx') {
 			exec("chkconfig spawn-fcgi on >/dev/null 2>&1");
 		}
+	}
+}
+
+function setAllDnsServerInstall($nolog = null)
+{
+	log_cleanup("Install All Dns servers", $nolog);
+
+	$list = getAllDnsDriverList();
+
+	$ds = array('bind' => 'bind bind-utils bind-libs', 'djbdns' => 'djbdns',
+		'nsd' => 'nsd', 'pdns' => 'pdns pdns-backend-mysql pdns-tools pdns-geo',
+		'yadifa' => 'yadifa');
+
+
+	foreach ($list as $k => $v) {
+		// MR -- remove because my conflict with djbdns
+		if (isRpmInstalled('spamdyke-utils')) { 
+			setRpmRemovedViaYum("spamdyke-utils");
+		}
+
+		$confpath = "/opt/configs/{$v}/etc/conf";
+
+		$t = $ds[$v];
+
+		if (isRpmInstalled($v)) {
+			if (isServiceExists($v)) {
+				log_cleanup("- No process for '{$v}'", $nolog);
+			}
+		} else {
+			exec("yum -y install {$t} >/dev/null 2>&1");
+			log_cleanup("- Install '{$v}'", $nolog);
+
+			if ($t === 'djbdns') {
+				exec("sh /script/setup-djbdns");
+			} elseif ($t === 'pdns') {
+				PreparePowerdnsDb($nolog);
+			}
+		}
+	}
+}
+
+function setAllInactivateDnsServer($nolog = null)
+{
+	log_cleanup("Inactivate DNS servers", $nolog);
+
+	$list = getAllDnsDriverList();
+
+	foreach ($list as $k => $v) {
+		if ($v === 'bind') {
+			$v = 'named';
+		}
+
+		log_cleanup("- Inactivate '$v'", $nolog);
+		exec("chkconfig $v off >/dev/null 2>&1");
+	}
+}
+
+function setActivateDnsServer($nolog = null)
+{
+	log_cleanup("Activate Dns servers", $nolog);
+
+	$list = getDnsDriverList();
+
+	foreach ($list as $k => $v) {
+		if ($v === 'bind') {
+			$v = 'named';
+		}
+
+		log_cleanup("- Activate '{$v}' as Dns server", $nolog);
+		exec("chkconfig {$v} on >/dev/null 2>&1");
 	}
 }
 
