@@ -223,7 +223,7 @@ $phptype = db_get_value('serverweb', "pserver-{$b}", 'php_type');
 if (!isset($phptype)) { $phptype = 'php-fpm_event (default)'; }
 
 if (getServiceType('php-fpm') === 'systemd') {
-	$seddata = 's:^ExecStart=/usr/sbin/\(.*\) \(.*\):\1:';
+	$seddata = 's:^ExecStart=/usr/sbin/\(.*\) -y \(.*\):\1:';
 	exec("cat /usr/lib/systemd/system/php-fpm.service|grep 'ExecStart='|sed -e '" . $seddata . "'", $out);
 } else {
 	$seddata = 's:^prog=\"\(.*\)\":\1:';

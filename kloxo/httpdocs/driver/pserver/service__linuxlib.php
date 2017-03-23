@@ -43,8 +43,8 @@ class Service__Linux extends Lxlclass
 		$nval['lighttpd'] = 'lighttpd';
 		$nval['nginx'] = 'nginx';
 		$nval['hiawatha'] = 'hiawatha';
-		$nval['openlitespeed'] = 'lsws';
-		$nval['monkey'] = 'monkey';
+	//	$nval['openlitespeed'] = 'lsws';
+	//	$nval['monkey'] = 'monkey';
 
 		$nval['varnish'] = 'varnish';
 		$nval['squid'] = 'squid';
@@ -58,8 +58,8 @@ class Service__Linux extends Lxlclass
 	//	$nval['powerdns'] = "powerdns";
 		$nval['pdns'] = "pdns";
 		$nval['nsd'] = "nsd";
-		$nval['mydns'] = "mydns";
-		$nval['yadifa'] = "yadifa";
+	//	$nval['mydns'] = "mydns";
+		$nval['yadifad'] = "yadifad";
 
 		$nval['qmail'] = 'qmail';
 	//	$nval['courier-imap'] = 'courier';
@@ -67,6 +67,7 @@ class Service__Linux extends Lxlclass
 	//	$nval['dovecot'] = 'dovecot';
 
 		$nval['iptables'] = "iptables";
+		$nval['firewalld'] = "firewalld";
 
 		return $nval;
 	}

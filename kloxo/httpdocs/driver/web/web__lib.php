@@ -22,28 +22,19 @@ class web__ extends lxDriverClass
 	static function installMeTrue($drivertype = null)
 	{
 		if ($drivertype === 'none') { return; }
-	
+
 		$list = getWebDriverList($drivertype);
 
 		foreach ($list as $k => $v) {
 			$a = ($v === 'apache') ? 'httpd' : $v;
 
-			self::setWebServerInstall($a);
+		//	self::setWebServerInstall($a);
 			self::setBaseWebConfig($v);
 
 			exec("chkconfig {$a} on >/dev/null 2>&1");
 		}
 	
 		self::setInstallPhpfpm();
-
-	/*
-		if (($drivertype === 'hiawatha') || (count($list) > 1)) {
-			// MR -- fixweb for domains also if hiawatha or proxy
-			exec("sh /script/fixweb");
-		} else {
-			exec("sh /script/fixweb --target=defaults");
-		}
-	*/
 
 		@exec("sh /script/fixweb --target=defaults");
 	}

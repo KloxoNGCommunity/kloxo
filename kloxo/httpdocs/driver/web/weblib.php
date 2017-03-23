@@ -1111,10 +1111,8 @@ class Web extends Lxdb
 
 	static function removeOtherDriver()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		// MR -- and then make a simple
-		removeOtherDrivers($class = 'web', $nolog = true);
+	//	removeOtherDrivers($class = 'web', $nolog = true);
 	}
 
 	static function switchProgramPre($old, $new)
@@ -1128,7 +1126,8 @@ class Web extends Lxdb
 
 	static function switchProgramPost($old, $new)
 	{
-		lxshell_return("lxphp.exe", "../bin/fix/fixweb.php");
+	//	lxshell_return("lxphp.exe", "../bin/fix/fixweb.php");
+		createRestartFile("restart-web");
 	}
 
 	function createShowAlist(&$alist, $subaction = null)
