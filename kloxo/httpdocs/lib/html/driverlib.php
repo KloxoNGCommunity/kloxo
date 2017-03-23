@@ -82,8 +82,8 @@ class Driver extends Lxdb
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$os = $this->getParentO()->ostype;
-	//	include "../file/driver/$os.inc";
-		include "../file/driver/rhel.inc";
+	//	include_once "../file/driver/$os.inc";
+		include_once "../file/driver/rhel.inc";
 
 		$vlist = null;
 

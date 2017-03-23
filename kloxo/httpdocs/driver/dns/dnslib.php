@@ -127,10 +127,8 @@ class Dns extends DnsBase
 
 	static function removeOtherDriver()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
-
 		// MR -- and then make a simple
-		removeOtherDrivers($class = 'dns', $nolog = true);
+	//	removeOtherDrivers($class = 'dns', $nolog = true);
 	}
 
 	function inheritSynserverFromParent() { return false; }

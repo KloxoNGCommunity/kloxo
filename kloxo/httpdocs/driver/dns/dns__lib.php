@@ -12,27 +12,37 @@ class dns__ extends lxDriverClass
 
 		$list = getAllDnsDriverList();
 
-		foreach ($list as &$l) {
-			$a = ($l === 'bind') ? 'named' : $l;
+		foreach ($list as $k => $v) {
+			if ($v === 'bind') {
+				$a = 'named';
+			} elseif ($v === 'yadifa') {
+				$a = 'yadifad';
+			} else {
+				$a = $v;
+			}
 
 			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
 		}
-
 	}
 
-	static function installMeTrue($driver = null)
+	static function installMeTrue($drivertype = null)
 	{
 		if ($drivertype === 'none') { return; }
-	
-		$list = getDnsDriverList($drivertype);
+
+	//	$list = getDnsDriverList($drivertype);
+		$list = getDnsDriverList();
 
 		foreach ($list as $k => $v) {
-			$a = ($v === 'bind') ? 'named' : $v;
+			if ($v === 'bind') {
+				$a = 'named';
+			} elseif ($v === 'yadifa') {
+				$a = 'yadifad';
+			} else {
+				$a = $v;
+			}
 
-			exec("chkconfig {$a} on >/dev/null 2>&1");
+			@exec("chkconfig {$a} on >/dev/null 2>&1");
 		}
-
-		@exec("sh /script/fixdns");
 	}
 
 	static function getActiveDriver()

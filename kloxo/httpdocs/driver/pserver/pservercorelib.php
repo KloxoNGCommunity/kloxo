@@ -917,8 +917,8 @@ class pservercore extends Lxclient
 		$ob->get();
 
 		$os = $this->ostype;
-	//	include "../file/driver/$os.inc";
-		include "../file/driver/rhel.inc";
+	//	include_once "../file/driver/$os.inc";
+		include_once "../file/driver/rhel.inc";
 
 		if (!$driver) {
 			print("Error Reading Driver Config File...\n");
@@ -1291,15 +1291,9 @@ STRIN;
 				// MR -- always off because one-time process
 			//	$this->no_fix_config = 'off';
 
-			/*
-				$vlist['web_driver'] = array('s', array('none', 'apache', 'lighttpd', 'nginx', 
-					'hiawatha', 'openlitespeed', 'monkey',
-					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy', 'openlitespeedproxy',
-					'monkeyproxy'));
-			*/
-				$vlist['web_driver'] = array('s', array('none',
-					'apache', 'lighttpd', 'nginx', 'hiawatha',
-					'lighttpdproxy', 'nginxproxy', 'hiawathaproxy'));
+				include_once "../file/driver/rhel.inc";
+				
+				$vlist['web_driver'] = array('s', $driver['web']);
 
 				// MR -- get httpd24u info
 				exec("cat ../etc/list/httpd.lst|grep httpd24", $out);
@@ -1330,17 +1324,14 @@ STRIN;
 
 				$vlist['use_pagespeed'] = array('f', 'on', 'off');
 
-				$vlist['webcache_driver'] = array('s', array('none', 'squid', 'trafficserver', 'varnish'));
+				$vlist['webcache_driver'] = array('s', $driver['webcache']);
 
-			//	$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'maradns', 'nsd', 'pdns'));
-			//	$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'nsd', 'pdns', 'mydns', 'yadifa'));
-				$vlist['dns_driver'] = array('s', array('none', 'bind', 'djbdns', 'nsd', 'pdns', 'yadifa'));
+				$vlist['dns_driver'] = array('s', $driver['dns']);
 
-				$vlist['spam_driver'] = array('s', array('none', 'spamassassin', 'bogofilter'));
+				$vlist['spam_driver'] = array('s', $driver['spam']);
 
-				$vlist['pop3_driver'] = array('s', array('none', 'courier', 'dovecot'));
-			//	$vlist['imap4_driver'] = array('h', null);
-				$vlist['smtp_driver'] = array('s', array('none', 'qmail'));
+				$vlist['pop3_driver'] = array('s', $driver['pop3']);
+				$vlist['smtp_driver'] = array('s', $driver['smtp']);
 
 				// MR -- no needed under Kloxo-MR 7.0 because fix 'defaults' level
 			//	$vlist['no_fix_config'] = array('f', 'on', 'off');

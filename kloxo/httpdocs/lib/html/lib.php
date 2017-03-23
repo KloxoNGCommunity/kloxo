@@ -59,7 +59,7 @@ function http_is_self_ssl()
 
 function get_other_driver($class, $driverapp)
 {
-	include "../file/driver/rhel.inc";
+	include_once "../file/driver/rhel.inc";
 
 	$ret = null;
 
@@ -430,9 +430,9 @@ function changeDriverFunc($server, $class, $pgm)
 	$server = $login->getFromList('pserver', $server);
 
 //	$os = $server->ostype;
-//	include "../file/driver/$os.inc";
+//	include_once "../file/driver/$os.inc";
 
-	include "../file/driver/rhel.inc";
+	include_once "../file/driver/rhel.inc";
 
 //	dprintr($driver[$class]);
 
@@ -1050,11 +1050,9 @@ function merge_array_object_not_deleted($array, $object)
 			$ret[] = $a;
 		}
 	} else {
-		if ($array['nname'] === $object->nname) {
-			continue;
+		if ($array['nname'] !== $object->nname) {
+			$ret[] = $array;
 		}
-
-		$ret[] = $array;
 	}
 
 	if ($object->isDeleted()) {
@@ -3026,7 +3024,7 @@ function se_submit($contact, $dom, $email)
 {
 	$tmpfile = lx_tmp_file("se_submit_$dom");
 
-	include "sesubmit/engines.php";
+	include "./sesubmit/engines.php";
 
 	foreach ($enginelist as $e => $k) {
 		$k = str_replace("[>URL<]", "http://$dom", $k);
@@ -4727,7 +4725,7 @@ function lxguard_main($clearflag = false, $since = false)
 
 	}
 
-	include_once "lib/html/lxguardincludelib.php";
+	include_once "./lib/html/lxguardincludelib.php";
 
 	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
 	lxfile_mkdir($lxgpath);
@@ -4856,7 +4854,7 @@ function lxguard_save_hitlist($hl)
 {
 	global $sgbl;
 
-	include_once "lib/html/lxguardincludelib.php";
+	include_once "./lib/html/lxguardincludelib.php";
 
 	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
 	lxfile_mkdir($lxgpath);
@@ -5635,10 +5633,11 @@ function setPhpModuleInactive($module, $ininamelist = null)
 
 function setInitialAllDnsConfigs($nolog = null)
 {
-//	$list = array('bind', 'djbdns', 'maradns', 'mydns', 'nsd', 'pdns', 'yadifa');
-	$list = array('bind', 'djbdns', 'mydns', 'nsd', 'pdns', 'yadifa');
+	include_once "../file/driver/rhel.inc";
 
-	foreach ($list as $k => $v) {
+	foreach ($driver['dns'] as $k => $v) {
+		if ($v === 'none') { continue; }
+
 		setInitialDnsConfig($v, $nolog);
 	}
 }
@@ -5700,9 +5699,12 @@ function setInitialDnsConfig($type, $nolog = null)
 
 function setInitialAllWebConfigs($nolog = null)
 {
-	$list = array('apache', 'lighttpd', 'nginx', 'hiawatha', 'openlitespeed', 'monkey');
+	include_once "../file/driver/rhel.inc";
 
-	foreach ($list as $k => $v) {
+	foreach ($driver['web'] as $k => $v) {
+		if ($v === 'none') { continue; }
+		if (strpos($v, 'proxy') !== false) { continue; }
+
 		setInitialWebConfig($v, $nolog);
 		setWebDriverChownChmod($v, $nolog);
 	}
@@ -5778,9 +5780,11 @@ function setInitialWebConfig($type, $nolog = null)
 
 function setInitialAllWebCacheConfigs($nolog = null)
 {
-	$list = array('varnish', 'squid', 'trafficserver');
+	include_once "../file/driver/rhel.inc";
 
-	foreach ($list as $k => $v) {
+	foreach ($driver['webcache'] as $k => $v) {
+		if ($v === 'none') { continue; }
+		
 		setInitialWebCacheConfig($v, $nolog);
 	}
 }
@@ -6401,8 +6405,9 @@ function setCheckPackages($nolog = null)
 	log_cleanup("Check for rpm packages", $nolog);
 
 	// MR --remove spamdyke-utils because conflict with djbdns and not needed
+	// remove qmail-pop3d-toaster because pop3 already include in courier-imap/dovecot
 	$list = array("autorespond-toaster", "courier-imap-toaster", "dovecot-toaster", "daemontools-toaster",
-		"ezmlm-toaster", "libdomainkeys-toaster", "libsrs2-toaster", "maildrop-toaster", "qmail-pop3d-toaster",
+		"ezmlm-toaster", "libdomainkeys-toaster", "libsrs2-toaster", "maildrop-toaster",
 		"qmail-toaster", "ripmime", "ucspi-tcp-toaster", "vpopmail-toaster", "fetchmail", "bogofilter", "spamdyke",
 		"pure-ftpd", "webalizer", "dos2unix", "rrdtool", "xinetd", "lxjailshell");
 
@@ -6413,6 +6418,14 @@ function setCheckPackages($nolog = null)
 
 		install_if_package_not_exist($l);
 	}
+/*
+	$p = "autorespond-toaster courier-imap-toaster dovecot-toaster daemontools-toaster " .
+		"ezmlm-toaster libdomainkeys-toaster libsrs2-toaster maildrop-toaster qmail-pop3d-toaster " .
+		"qmail-toaster ripmime ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter spamdyke " .
+		"pure-ftpd webalizer dos2unix rrdtool xinetd lxjailshell");
+
+	exec("yum -y install --skip-broken {$p}");
+*/
 }
 
 function setInstallMailserver($nolog = null)
@@ -6611,7 +6624,7 @@ function removeOtherDrivers($class = null, $nolog = null)
 {
 	log_cleanup("Enable the correct drivers (Service daemons)", $nolog);
 
-	include "../file/driver/rhel.inc";
+	include_once "../file/driver/rhel.inc";
 
 	if ($class) {
 		$list[$class] = $driver[$class];
@@ -7162,6 +7175,10 @@ function setInitialServices($nolog = null)
 
 	setInitialAdminAccount($nolog);
 
+	setInitialAllDnsConfigs($nolog);
+	setInitialAllWebConfigs($nolog);
+	setInitialAllWebCacheConfigs($nolog);
+
 	setAllDnsServerInstall($nolog);
 	setAllInactivateDnsServer($nolog);
 	setActivateDnsServer($nolog);
@@ -7169,10 +7186,6 @@ function setInitialServices($nolog = null)
 	setAllWebServerInstall($nolog);
 	setAllInactivateWebServer($nolog);
 	setActivateWebServer($nolog);
-
-	setInitialAllDnsConfigs($nolog);
-	setInitialAllWebConfigs($nolog);
-	setInitialAllWebCacheConfigs($nolog);
 
 	setPhpUpdate();
 
@@ -8127,7 +8140,7 @@ function setSyncDrivers($nolog = null)
 
 	log_cleanup("Synchronize driver between table and slavedb", $nolog);
 
-//	include "../file/driver/rhel.inc";
+//	include_once "../file/driver/rhel.inc";
 
 	$classlist = array('web' => 'apache', 'webcache' => 'none', 'dns' => 'bind',
 		'pop3' => 'courier', 'smtp' => 'qmail', 'spam' => 'bogofilter');
@@ -8551,11 +8564,13 @@ function setAllInactivateWebServer($nolog = null)
 
 	foreach ($list as $k => $v) {
 		if ($v === 'apache') {
-			$v = 'httpd';
+			$a = 'httpd';
+		} else {
+			$a = $v;
 		}
 
-		log_cleanup("- Inactivate '$v'", $nolog);
-		exec("chkconfig $v off >/dev/null 2>&1");
+		log_cleanup("- Inactivate '{$v}'", $nolog);
+		exec("chkconfig {$a} off >/dev/null 2>&1");
 
 		exec("chkconfig spawn-fcgi off >/dev/null 2>&1");
 	}
@@ -8569,11 +8584,13 @@ function setActivateWebServer($nolog = null)
 
 	foreach ($list as $k => $v) {
 		if ($v === 'apache') {
-			$v = 'httpd';
+			$a = 'httpd';
+		} else {
+			$a = $v;
 		}
 
 		log_cleanup("- Activate '{$v}' as Web server", $nolog);
-		exec("chkconfig {$v} on >/dev/null 2>&1");
+		exec("chkconfig {$a} on >/dev/null 2>&1");
 
 		if ($v === 'nginx') {
 			exec("chkconfig spawn-fcgi on >/dev/null 2>&1");
@@ -8589,31 +8606,40 @@ function setAllDnsServerInstall($nolog = null)
 
 	$ds = array('bind' => 'bind bind-utils bind-libs', 'djbdns' => 'djbdns',
 		'nsd' => 'nsd', 'pdns' => 'pdns pdns-backend-mysql pdns-tools pdns-geo',
-		'yadifa' => 'yadifa');
+		'yadifa' => 'yadifa yadifa-tools');
 
 
 	foreach ($list as $k => $v) {
 		// MR -- remove because my conflict with djbdns
-		if (isRpmInstalled('spamdyke-utils')) { 
-			setRpmRemovedViaYum("spamdyke-utils");
+		if ($v === 'djbdns') {
+			if (isRpmInstalled('spamdyke-utils')) { 
+				setRpmRemovedViaYum("spamdyke-utils");
+			}
 		}
 
 		$confpath = "/opt/configs/{$v}/etc/conf";
 
 		$t = $ds[$v];
 
+		$a = ($v === 'bind') ? 'named' : $v;
+		$a = ($v === 'yadifa') ? 'yadifad' : $a;
+
 		if (isRpmInstalled($v)) {
-			if (isServiceExists($v)) {
+			if (isServiceExists($a)) {
 				log_cleanup("- No process for '{$v}'", $nolog);
 			}
 		} else {
 			exec("yum -y install {$t} >/dev/null 2>&1");
 			log_cleanup("- Install '{$v}'", $nolog);
 
-			if ($t === 'djbdns') {
+			if ($v === 'djbdns') {
 				exec("sh /script/setup-djbdns");
-			} elseif ($t === 'pdns') {
+			} elseif ($v === 'pdns') {
 				PreparePowerdnsDb($nolog);
+			} elseif ($v === 'yadifa') {
+				if (!isServiceExists($a)) {
+					exec("yum -y install yadifa-tools >/dev/null 2>&1");
+				}
 			}
 		}
 	}
@@ -8627,11 +8653,15 @@ function setAllInactivateDnsServer($nolog = null)
 
 	foreach ($list as $k => $v) {
 		if ($v === 'bind') {
-			$v = 'named';
+			$a = 'named';
+		} elseif ($v === 'yadifa') {
+			$a = 'yadifad';
+		} else {
+			$a = $v;
 		}
 
-		log_cleanup("- Inactivate '$v'", $nolog);
-		exec("chkconfig $v off >/dev/null 2>&1");
+		log_cleanup("- Inactivate '{$v}'", $nolog);
+		exec("chkconfig {$a} off >/dev/null 2>&1");
 	}
 }
 
@@ -8643,11 +8673,15 @@ function setActivateDnsServer($nolog = null)
 
 	foreach ($list as $k => $v) {
 		if ($v === 'bind') {
-			$v = 'named';
+			$a = 'named';
+		} elseif ($v === 'yadifa') {
+			$a = 'yadifa';
+		} else {
+			$a = $v;
 		}
 
 		log_cleanup("- Activate '{$v}' as Dns server", $nolog);
-		exec("chkconfig {$v} on >/dev/null 2>&1");
+		exec("chkconfig {$a} on >/dev/null 2>&1");
 	}
 }
 
