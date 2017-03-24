@@ -21,7 +21,7 @@ class dns__ extends lxDriverClass
 				$a = $v;
 			}
 
-			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
+			exec("chkconfig {$a} off >/dev/null 2>&1");
 		}
 	}
 
@@ -29,7 +29,6 @@ class dns__ extends lxDriverClass
 	{
 		if ($drivertype === 'none') { return; }
 
-	//	$list = getDnsDriverList($drivertype);
 		$list = getDnsDriverList();
 
 		foreach ($list as $k => $v) {
@@ -41,7 +40,7 @@ class dns__ extends lxDriverClass
 				$a = $v;
 			}
 
-			@exec("chkconfig {$a} on >/dev/null 2>&1");
+			exec("chkconfig {$a} on >/dev/null 2>&1");
 		}
 	}
 
@@ -104,7 +103,7 @@ class dns__ extends lxDriverClass
 		$input = array();
 
 		$ip_dns = $this->getIps();
-		$ip_hostname = array(gethostbyname(php_uname('n')));
+	//	$ip_hostname = array(gethostbyname(php_uname('n')));
 		// MR -- IP list without hostname IP
 	//	$input['ips'] = array_diff($ip_dns, $ip_hostname);
 		$input['ips'] = $ip_dns;
@@ -246,6 +245,10 @@ class dns__ extends lxDriverClass
 
 	function dosyncToSystemPost()
 	{
-		// MR -- no need action
+		$driver = self::getActiveDriver();
+
+		if (($driver !== 'pdns') && ($driver !== 'mydns')) {
+			createRestartFile("restart-dns");
+		}
 	}
 }

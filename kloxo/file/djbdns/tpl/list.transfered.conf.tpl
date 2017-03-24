@@ -30,11 +30,7 @@
 		touch("{$datadir}/reverse");
 	}
 
-	if (!isServiceExists('djbdns')) { return; }
-
 	exec("cd {$datadir}; cat master slave reverse > data; make");
-
-	createRestartFile("restart-dns");
 
 	$path = "/opt/configs/djbdns/conf/master";
 	$dirs = glob("{$path}/*");

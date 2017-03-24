@@ -25,7 +25,7 @@ function updatecleanup_main()
 		$login = new Client(null, null, 'update');
 	}
 
-	log_cleanup("*** Executing Update (cleanup) - BEGIN ***");
+	log_cleanup("*** Execute Update (cleanup) - BEGIN ***");
 
 	if ($opt['type'] === 'master') {
 		$sgbl->slave = false;
@@ -57,7 +57,7 @@ function updatecleanup_main()
 	}
 
 	// MR -- mysql not start after kloxo slave install
-	log_cleanup("- Preparing MySQL/MariaDB service");
+	log_cleanup("Prepare MySQL/MariaDB service");
 
 	if (isServiceExists('mysqld')) {
 		log_cleanup("- MySQL activated");
@@ -74,7 +74,7 @@ function updatecleanup_main()
 
 	## MR -- change to update all
 
-	log_cleanup('Updating All packages');
+	log_cleanup('Update All packages');
 	log_cleanup('- WAIT to process...');
 //	exec("'rm' -f /var/run/yum.pid");
 	lxshell_return("yum", "clean", "expire-cache");
@@ -101,10 +101,10 @@ function updatecleanup_main()
 		symlink("/var/installatron/frontend", "/usr/local/lxlabs/kloxo/httpdocs/installatron");
 	}
 
-	log_cleanup("- Fixing Hiawatha service");
+	log_cleanup("- Fix Hiawatha service");
 	fix_hiawatha();
 
-	log_cleanup("*** Executing Update (cleanup) - END ***");
+	log_cleanup("*** Execute Update (cleanup) - END ***");
 }
 
 function cp_dbfile()

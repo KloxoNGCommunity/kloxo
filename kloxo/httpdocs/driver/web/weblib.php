@@ -1381,7 +1381,7 @@ class Web extends Lxdb
 				return $vlist;
 
 			case "sesubmit":
-				include "sesubmit/engines.php";
+				include "./sesubmit/engines.php";
 				$selist = array_keys($enginelist);
 				$selist = implode("\n", $selist);
 				$selist = "\n$selist";
@@ -1700,7 +1700,7 @@ class Web extends Lxdb
 		$dir = dirname($filename);
 		$owner = "{$this->username}:apache";
 
-		$password = crypt($this->stats_password);
+		$password = crypt($this->stats_password, CRYPT_MD5);
 		$content = "{$this->stats_username}:$password\n";
 
 		lxuser_mkdir($owner, $dir);

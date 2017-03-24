@@ -40,5 +40,3 @@
 
 	file_put_contents($file, $str);
 
-	if (!isServiceExists('yadifa')) { return; }
-	createRestartFile("restart-dns");

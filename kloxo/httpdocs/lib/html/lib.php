@@ -59,7 +59,7 @@ function http_is_self_ssl()
 
 function get_other_driver($class, $driverapp)
 {
-	include_once "../file/driver/rhel.inc";
+	include "../file/driver/rhel.inc";
 
 	$ret = null;
 
@@ -430,22 +430,20 @@ function changeDriverFunc($server, $class, $pgm)
 	$server = $login->getFromList('pserver', $server);
 
 //	$os = $server->ostype;
-//	include_once "../file/driver/$os.inc";
+//	include "../file/driver/$os.inc";
 
-	include_once "../file/driver/rhel.inc";
-
-//	dprintr($driver[$class]);
+	include "../file/driver/rhel.inc";
 
 	if (is_array($driver[$class])) {
 		if (!array_search_bool($pgm, $driver[$class])) {
 			$str = "'" . implode("', '", $driver[$class]) . "'";
-			print("\nAvailable drivers for $class: $str\n");
+			print("\nAvailable drivers for '{$class}': '{$str}'\n");
 
 			return;
 		}
 	} else {
 		if ($driver[$class] !== $pgm) {
-			print("\nAvailable driver for '$class': '{$driver[$class]}'\n");
+			print("\nAvailable driver for '{$class}': '{$driver[$class]}'\n");
 
 			return;
 		}
@@ -453,23 +451,23 @@ function changeDriverFunc($server, $class, $pgm)
 
 	$dr = $server->getObject('driver');
 
-	$v = "pg_$class";
+	$v = "pg_{$class}";
 	$dr->driver_b->$v = $pgm;
 
 	$dr->setUpdateSubaction();
 
 	$dr->write();
 
-	print("Successfully changed driver for '$class' on '$server->nname' to '$pgm'\n");
+	print("Successfully changed driver for '{$class}' on '{$server->nname}' to '{$pgm}'\n");
 }
 
 function slave_get_db_pass()
 {
 //	global $login;
 
-	$rmt = lfile_get_unserialize("../etc/slavedb/dbadmin");
-
 //	$rmt = rl_exec_get('localhost', $login->syncserver, 'lfile_get_unserialize', array('../etc/slavedb/dbadmin'));
+
+	$rmt = lfile_get_unserialize("../etc/slavedb/dbadmin");
 
 	return $rmt->data['mysql']['dbpassword'];
 }
@@ -478,9 +476,9 @@ function slave_get_driver($class)
 {
 //	global $login;
 
-	$rmt = lfile_get_unserialize("../etc/slavedb/driver");
-
 //	$rmt = rl_exec_get('localhost', $login->syncserver, 'lfile_get_unserialize', array('../etc/slavedb/driver'));
+
+	$rmt = lfile_get_unserialize("../etc/slavedb/driver");
 
 	return $rmt->data[$class];
 }
@@ -1932,8 +1930,6 @@ function set_login_skin_to_simplicity()
 function get_kloxo_port($type)
 {
 	global $sgbl;
-
-	include_once "lib/php/generallib.php";
 
 	$port = db_get_value("general", "admin", "ser_portconfig_b");
 	$port = unserialize(base64_decode($port));
@@ -4725,7 +4721,7 @@ function lxguard_main($clearflag = false, $since = false)
 
 	}
 
-	include_once "./lib/html/lxguardincludelib.php";
+	include "./lib/html/lxguardincludelib.php";
 
 	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
 	lxfile_mkdir($lxgpath);
@@ -4854,7 +4850,7 @@ function lxguard_save_hitlist($hl)
 {
 	global $sgbl;
 
-	include_once "./lib/html/lxguardincludelib.php";
+	include "./lib/html/lxguardincludelib.php";
 
 	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
 	lxfile_mkdir($lxgpath);
@@ -5633,7 +5629,7 @@ function setPhpModuleInactive($module, $ininamelist = null)
 
 function setInitialAllDnsConfigs($nolog = null)
 {
-	include_once "../file/driver/rhel.inc";
+	include "../file/driver/rhel.inc";
 
 	foreach ($driver['dns'] as $k => $v) {
 		if ($v === 'none') { continue; }
@@ -5699,7 +5695,7 @@ function setInitialDnsConfig($type, $nolog = null)
 
 function setInitialAllWebConfigs($nolog = null)
 {
-	include_once "../file/driver/rhel.inc";
+	include "../file/driver/rhel.inc";
 
 	foreach ($driver['web'] as $k => $v) {
 		if ($v === 'none') { continue; }
@@ -5780,7 +5776,7 @@ function setInitialWebConfig($type, $nolog = null)
 
 function setInitialAllWebCacheConfigs($nolog = null)
 {
-	include_once "../file/driver/rhel.inc";
+	include "../file/driver/rhel.inc";
 
 	foreach ($driver['webcache'] as $k => $v) {
 		if ($v === 'none') { continue; }
@@ -5972,13 +5968,6 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 	$ks = "kloxoscript";
 
 	if (file_exists("{$cdir}/{$ks}")) {
-	/*
-	//	exec("chown -R {$clname}:{$clname} {$cdir}/{$ks}/");
-		exec("find {$cdir}/{$ks} -not -user apache -not -group apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
-		log_cleanup("- chown {$clname}:{$clname} FOR DIRS INSIDE {$cdir}/{$ks}/ EXCEPT apache:apache", $nolog);
-		exec("find {$cdir}/{$ks} -not -user apache -not -group apache -type f -exec chown {$clname}:{$clname} \{\} \\;");
-		log_cleanup("- chown {$clname}:{$clname} FOR FILES INSIDE {$cdir}/{$ks}/ EXCEPT apache:apache", $nolog);
-	*/
 		exec("find {$cdir}/{$ks} -not -user apache -not -group apache -exec chown {$clname}:{$clname} \{\} \\;");
 		log_cleanup("- chown {$clname}:{$clname} FOR FILES/DIRS INSIDE {$cdir}/{$ks}/ EXCEPT apache:apache", $nolog);
 
@@ -6005,13 +5994,6 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 		$dom = $web->nname;
 
 		if (($select === "all") || ($select === 'chown')) {
-		/*
-		//	exec("chown -R {$clname}:{$clname} {$cdir}/{$docroot}/");
-			exec("find {$cdir}/{$docroot}/ -not -user apache -not -group apache -type d -exec chown {$clname}:{$clname} \{\} \\;");
-			log_cleanup("- chown {$clname}:{$clname} FOR DIRS INSIDE {$cdir}/{$docroot}/ EXCEPT apache:apache", $nolog);
-			exec("find {$cdir}/{$docroot}/ -not -user apache -not -group apache -type f -exec chown {$clname}:{$clname} \{\} \\;");
-			log_cleanup("- chown {$clname}:{$clname} FOR FILES INSIDE {$cdir}/{$docroot}/ EXCEPT apache:apache", $nolog);
-		*/
 			exec("find {$cdir}/{$docroot}/ -not -user apache -not -group apache -exec chown {$clname}:{$clname} \{\} \\;");
 			log_cleanup("- chown {$clname}:{$clname} FOR FILES/DIRS INSIDE {$cdir}/{$docroot}/ EXCEPT apache:apache", $nolog);
 		}
@@ -6056,7 +6038,6 @@ function setFixChownChmodMailPerUser($select, $user, $nolog = null)
 		if ($c->nname === $user) {
 			$clname = $c->getPathFromName('nname');
 
-		//	$cdir = "/home/{$clname}";
 			$dlist = $c->getList('domaina');
 
 			break;
@@ -6238,7 +6219,6 @@ function getDnsReverses($servername)
 	$dnsdb = new Sqlite(null, 'reverse');
 	$sync = "syncserver = '{$servername}'";
 
-//	$d = $dnsdb->getRowsWhere($sync, array('nname', 'reversename'));
 	$d = $dnsdb->getRowsWhere($sync, array('reversename', 'nname'));
 
 	if (!$d) {
@@ -6276,10 +6256,7 @@ function setInitialPureftpConfig($nolog = null)
 		@lxfile_rm("/etc/xinetd.d/pure-ftpd");
 	}
 
-//	if (!lxfile_exists("/etc/xinetd.d/pureftp")) {
 	if (lxfile_exists("/etc/xinetd.d/pureftp")) {
-	//	log_cleanup("- Install /etc/xinetd.d/pureftp TCP Wrapper file", $nolog);
-	//	lxfile_cp("../file/xinetd.pureftp", "/etc/xinetd.d/pureftp");
 		log_cleanup("- Remove /etc/xinetd.d/pureftp service file", $nolog);
 		@lxfile_rm("/etc/xinetd.d/pureftp");
 		exec("service xinetd restart");
@@ -6301,13 +6278,7 @@ function setInitialPureftpConfig($nolog = null)
 		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/rc.d/init.d/pure-ftpd");
 		exec("chkconfig pure-ftpd on >/dev/null 2>&1; chmod 0755 /etc/rc.d/init.d/pure-ftpd");
 	}
-/*
-	if (!lxfile_exists("/etc/pure-ftpd/pureftpd.passwd")) {
-		log_cleanup("- Initialize /etc/pure-ftpd/pureftpd.passwd password database", $nolog);
-		lxfile_cp("/etc/pureftpd.passwd", "/etc/pure-ftpd/pureftpd.passwd");
-		lxshell_return("pure-pw", "mkdb");
-	}
-*/
+
 	log_cleanup("- Restart pure-ftpd service", $nolog);
 	createRestartFile('restart-ftp');
 }
@@ -6331,13 +6302,11 @@ function setInitialPhpMyAdmin($nolog = null)
 		$DbPass . "';", $content);
 
 	lfile_put_contents($phpMyAdminCfg, $content);
-
-	/*
-		 // TODO: Need another way to do this (use root pass)
-		 log_cleanup("- phpMyAdmin: Import PMA Database and create tables if they do not exist", $nolog);
-		 exec("kloxodb < ../httpdocs/sql/phpMyAdmin/phpMyAdmin.sql");
-	*/
-
+/*
+	 // TODO: Need another way to do this (use root pass)
+	 log_cleanup("- phpMyAdmin: Import PMA Database and create tables if they do not exist", $nolog);
+	 exec("../sbin/kloxodb < ../httpdocs/sql/phpMyAdmin/phpMyAdmin.sql");
+*/
 }
 
 function setRemoveOldDirs($nolog = null)
@@ -6382,14 +6351,6 @@ function setInitialBinary($nolog = null)
 	// MR -- because no need lxrestart (also lxsuexec) so remove if exist
 	exec("'rm' -rf /usr/sbin/lxrestart");
 
-	/*
-		if (!lxfile_exists("/usr/bin/php-cgi")) {
-			log_cleanup("- Install php-cgi binary", $nolog);
-			lxfile_cp("/usr/bin/php", "/usr/bin/php-cgi");
-		} else {
-			log_cleanup("- php-cgi binary already installed", $nolog);
-		}
-	*/
 	if (!lxfile_exists("/usr/local/bin/php")) {
 		log_cleanup("- Create Symlink /usr/bin/php to /usr/local/bin/php", $nolog);
 		lxfile_symlink("/usr/bin/php", "/usr/local/bin/php");
@@ -6418,14 +6379,6 @@ function setCheckPackages($nolog = null)
 
 		install_if_package_not_exist($l);
 	}
-/*
-	$p = "autorespond-toaster courier-imap-toaster dovecot-toaster daemontools-toaster " .
-		"ezmlm-toaster libdomainkeys-toaster libsrs2-toaster maildrop-toaster qmail-pop3d-toaster " .
-		"qmail-toaster ripmime ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter spamdyke " .
-		"pure-ftpd webalizer dos2unix rrdtool xinetd lxjailshell");
-
-	exec("yum -y install --skip-broken {$p}");
-*/
 }
 
 function setInstallMailserver($nolog = null)
@@ -6624,7 +6577,7 @@ function removeOtherDrivers($class = null, $nolog = null)
 {
 	log_cleanup("Enable the correct drivers (Service daemons)", $nolog);
 
-	include_once "../file/driver/rhel.inc";
+	include "../file/driver/rhel.inc";
 
 	if ($class) {
 		$list[$class] = $driver[$class];
@@ -6633,6 +6586,9 @@ function removeOtherDrivers($class = null, $nolog = null)
 	}
 
 	foreach ($list as $k => $v) {
+		if ($v === 'none') { continue; }
+		if (strpos($v, 'proxy') !== false) { continue; }
+
 		$driverapp = slave_get_driver($k);
 
 		if (!$driverapp) {
@@ -7082,11 +7038,11 @@ function updatecleanup($nolog = null)
 		log_cleanup("- Remove process", $nolog);
 		lxfile_rm("phpinfo.php");
 	}
-
-//	log_cleanup("Kill gettraffic system process", $nolog);
-//	log_cleanup("- Kill process", $nolog);
-//	exec("pkill -f gettraffic");
-
+/*
+	log_cleanup("Kill gettraffic system process", $nolog);
+	log_cleanup("- Kill process", $nolog);
+	exec("pkill -f gettraffic");
+*/
 	setSyncDrivers($nolog);
 
 	setRealServiceBranchList($nolog);
@@ -7119,12 +7075,6 @@ function updatecleanup($nolog = null)
 
 	setSomeScript($nolog);
 
-	// MR -- disabled for awhile
-/*
-	removeWebcacheOtherDrivers($class = null, $nolog);
-	removeWebOtherDrivers($class = null, $nolog);
-	removeDnsOtherDrivers($class = null, $nolog);
-*/
 	log_cleanup("Remove cache dir", $nolog);
 	log_cleanup("- Remove process", $nolog);
 	lxfile_rm_rec("__path_program_root/cache");
@@ -7261,7 +7211,6 @@ function update_all_slave()
 			print("\n");
 		}
 	}
-
 }
 
 function findNextVersion($lastversion = null)
@@ -7283,6 +7232,7 @@ function findNextVersion($lastversion = null)
 			$upgrade = $l;
 			break;
 		}
+
 		$k++;
 	}
 
@@ -7330,7 +7280,7 @@ function getParseInlinePhp($template, $input)
 	$ret = null;
 
 //	if (!ob_get_status()) {
-	ob_start();
+		ob_start();
 //	}
 
 	eval('?>' . $template);
@@ -7447,7 +7397,6 @@ function setCopyWebCacheConfFiles($webcachedriver, $nolog = null)
 		exec("mkdir -p {$pathconf}");
 	}
 
-//	if (!file_exists("/etc/{$webcachedriver}")) { return; }
 
 	if ($webcachedriver === 'varnish') {
 		$t = getLinkCustomfile($pathdrv . "/etc/conf", "default.vcl");
@@ -7655,7 +7604,18 @@ function getWebDriverList($drivertype = null)
 
 function getAllWebDriverList()
 {
-	return array('apache', 'lighttpd', 'nginx', 'hiawatha');
+	include "../file/driver/rhel.inc";
+
+	$ret = array();
+
+	foreach ($driver['web'] as $k => $v) {
+		if ($v === 'none') { continue; }
+		if (strpos($v, 'proxy') !== false) { continue; }
+
+		$ret[] = $v;
+	}
+
+	return $ret;
 }
 
 function getWebCacheDriverList($drivertype = null)
@@ -7667,7 +7627,17 @@ function getWebCacheDriverList($drivertype = null)
 
 function getAllWebCacheDriverList()
 {
-	return array('varnish', 'squid', 'trafficserver');
+	include "../file/driver/rhel.inc";
+
+	$ret = array();
+
+	foreach ($driver['webcache'] as $k => $v) {
+		if ($v === 'none') { continue; }
+
+		$ret[] = $v;
+	}
+
+	return $ret;
 }
 
 function getDnsDriverList($drivertype = null)
@@ -7679,9 +7649,17 @@ function getDnsDriverList($drivertype = null)
 
 function getAllDnsDriverList()
 {
-//	return array('bind', 'djbdns', 'maradns', 'nsd', 'pdns');
-//	return array('bind', 'djbdns', 'nsd', 'pdns', 'mydns', 'yadifa');
-	return array('bind', 'djbdns', 'nsd', 'pdns', 'yadifa');
+	include "../file/driver/rhel.inc";
+
+	$ret = array();
+
+	foreach ($driver['dns'] as $k => $v) {
+		if ($v === 'none') { continue; }
+
+		$ret[] = $v;
+	}
+
+	return $ret;
 }
 
 function setRealServiceBranchList($nolog = null)
@@ -7729,24 +7707,12 @@ function setPhpBranch($select, $nolog = null)
 
 		return null;
 	} else {
-	/*
-		// check 'yum-plugin-replace' installed or not
-		$yumreplace = 'yum-plugin-replace';
-
-		if (!isRpmInstalled($yumreplace)) {
-			setRpmInstalled($yumreplace);
-		}
-	*/
 		// MR -- reinstall php modules to make sure replace too; must execute before replace
 		exec("cd /; yum list installed php* |grep -P 'php[a-zA-z0-9\-]+'", $phpmodules);
 
 		log_cleanup("-- Replace using 'yum replace {$phpbranch} --replace-with={$select}'", $nolog);
 		setRpmReplaced("{$phpbranch}-cli", "{$select}-cli");
-	/*
-		if ($phpmodules[0] === $phpbranch) {
-			unset($phpmodules[0]);
-		}
-	*/
+
 		foreach ($phpmodules as $k => $v) {
 			if ($phpmodules[0] === $phpbranch) {
 				continue;
@@ -7790,12 +7756,8 @@ function setHostsFile($nolog = null)
 
 	exec("hostname -s", $hnshort);
 	exec("hostname", $hnfull);
-//	exec("hostname -i", $hnip);
 
-	// MR -- something trouble for centos 6 and then use it!
-//	if ($hnip[0] === '') {
 	exec("ifconfig |grep -i 'inet addr:'|grep -v '127.0.0.1'|awk '{print $2}'|sed 's/addr\://'", $hnip);
-//	}
 
 	$content = "{$hnip[0]} {$hnfull[0]} {$hnshort[0]}\n";
 
@@ -7979,32 +7941,6 @@ function is_cli()
 	return false;
 }
 
-/*
-// taken from ...
-function getCSRFToken($length = 8) {
-	$nonce = randomString($length);
-
-	if (empty($_SESSION['csrf_tokens'])) {
-		$_SESSION['csrf_tokens'] = array();
-	}
-
-	$_SESSION['csrf_tokens'][$nonce] = true;
-
-	return $nonce;
-}
-
-function validateCSRFToken($token) {
-
-	if (isset($_SESSION['csrf_tokens'][$token])) {
-	//	unset($_SESSION['csrf_tokens'][$token]);
-
-		return true;
-	}
-
-	return false;
-}
-*/
-
 // taken from http://snipplr.com/view/11410/prevent-remote-form-submit/
 function isRemotePost()
 {
@@ -8058,19 +7994,20 @@ function isCSRFTokenMatch()
 			$ret = false;
 		}
 	} else {
-		/*
-			// MR -- disable for implementation because too much exception and include less of less risk
-			$action = $_GET['frm_action'];
-			$subaction = $_GET['frm_subaction'];
-			if (($action === 'add') || ($action === 'update') || ($action === 'delete')) {
-				if (($subaction !== 'toggle_state') && ($subaction !== 'toggle_boot_state') &&
-					($subaction !== 'start') && ($subaction !== 'stop') && ($subaction !== 'restart') &&
-					($subaction !== 'readipaddress')) {
+	/*
+		// MR -- disable for implementation because too much exception and include less of less risk
+		$action = $_GET['frm_action'];
+		$subaction = $_GET['frm_subaction'];
 
-					$ret = false;
-				}
+		if (($action === 'add') || ($action === 'update') || ($action === 'delete')) {
+			if (($subaction !== 'toggle_state') && ($subaction !== 'toggle_boot_state') &&
+				($subaction !== 'start') && ($subaction !== 'stop') && ($subaction !== 'restart') &&
+				($subaction !== 'readipaddress')) {
+
+				$ret = false;
 			}
-		*/
+		}
+	*/
 	}
 
 	return $ret;
@@ -8140,7 +8077,7 @@ function setSyncDrivers($nolog = null)
 
 	log_cleanup("Synchronize driver between table and slavedb", $nolog);
 
-//	include_once "../file/driver/rhel.inc";
+//	include "../file/driver/rhel.inc";
 
 	$classlist = array('web' => 'apache', 'webcache' => 'none', 'dns' => 'bind',
 		'pop3' => 'courier', 'smtp' => 'qmail', 'spam' => 'bogofilter');
@@ -8218,51 +8155,6 @@ function setRemoveHttpdocsSymlink($nolog)
 	// MR -- script also remove /home/httpd/*/conf
 	exec("sh /script/remove-httpdocs-symlink");
 }
-
-define("ENCRYPTION_KEY", "!@#$%^&*");
-
-// Returns an encrypted & utf8-encoded
-function encrypt($pure_string, $encryption_key)
-{
-	$iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-	$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-	$encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, $encryption_key, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
-
-	return $encrypted_string;
-}
-
-// Returns decrypted original string
-function decrypt($encrypted_string, $encryption_key)
-{
-	$iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-	$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-	$decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, $encryption_key, $encrypted_string, MCRYPT_MODE_ECB, $iv);
-
-	return $decrypted_string;
-}
-
-/*
-// MR -- taken from https://github.com/NewEraCracker/php_work/blob/master/ipv6_hack.php with mod
-function ipv6_expand($ip) {
-	$ip = explode(':', $ip);
-	$res = '';
-	$expand = true;
-
-	foreach($ip as $seg) {
-		if($seg == '' && $expand) {
-			// This will expand a compacted IPv6
-			$res .= str_pad('', (((8 - count($ip)) + 1) * 4), '0', STR_PAD_LEFT);
-			// Only expand once, otherwise it will cause troubles with ::1 or ffff::
-			$expand = false;
-		} else {
-			// This will pad to ensure each IPv6 part has 4 digits.
-			$res .= str_pad($seg, 4, '0', STR_PAD_LEFT);
-		}
-	}
-
-	return $res;
-}
-*/
 
 function ipv6_expand($ip)
 {
@@ -8362,9 +8254,7 @@ function setRemoveLetsencrypt($nolog = null)
 
 function setInstallAcmesh($nolog = null)
 {
-//	if (!file_exists("/root/.acme.sh/acme.sh")) {
-		exec("sh /script/acme.sh-installer");
-//	}
+	exec("sh /script/acme.sh-installer");
 }
 
 function setRemoveAcmesh($nolog = null)
@@ -8387,12 +8277,6 @@ function setRemoveStartapish($nolog = null)
 function setInstallHttpry($nolog = null)
 {
 	exec("sh /script/httpry-installer");
-/*
-	// MR -- move to /script/httpry-installer
-	if (!file_exists("/var/log/httpry")) {
-		exec("mkdir -p /var/log/httpry");
-	}
-*/
 }
 
 function setAllSSLPortions($nolog = null)
@@ -8516,9 +8400,9 @@ function setAllWebServerInstall($nolog = null)
 						"yum -y remove {$hm['httpd']} >/dev/null 2>&1;" .
 						"yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
 
-					log_cleanup("- Replace 'httpd' to 'httpd24u'", $nolog);
+					log_cleanup("- Replace for 'apache' ('httpd' to 'httpd24u')", $nolog);
 				} else {
-					log_cleanup("- No process for 'httpd24u'", $nolog);
+					log_cleanup("- No process for 'apache' ('httpd24')", $nolog);
 				}
 
 				$conffile = getLinkCustomfile("{$confpath}", "httpd24.conf");
@@ -8533,9 +8417,9 @@ function setAllWebServerInstall($nolog = null)
 						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" .
 						"yum -y install {$hm['httpd']} >/dev/null 2>&1");
 
-					log_cleanup("- Replace 'httpd24' to 'httpd'", $nolog);
+					log_cleanup("- Replace for 'apache' ('httpd24' to 'httpd')", $nolog);
 				} else {
-					log_cleanup("- No process for 'httpd'", $nolog);
+					log_cleanup("- No process for 'apache' ('httpd')", $nolog);
 				}
 
 				$conffile = getLinkCustomfile("{$confpath}", "httpd.conf");
@@ -8783,7 +8667,7 @@ function isServiceRunning($srvc)
 {
 //	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'(pid'");
 //	$ret = lxshell_return("service", $srvc, "status", "|", "grep", "'running'");
-	$ret = lxshell_return("pgrep", "^{$srvc}");
+	$ret = lxshell_return("pgrep", "^'{$srvc}'");
 
 	if ($ret) {
 		return false;

@@ -9,26 +9,27 @@ class web__ extends lxDriverClass
 	static function uninstallMeTrue($drivertype = null)
 	{
 		if ($drivertype === 'none') { return; }
+		if (strpos($drivertype, 'proxy') !== false) { return; }
 
 		$list = getAllWebDriverList();
 
-		foreach ($list as &$l) {
-			$a = ($l === 'apache') ? 'httpd' : $l;
+		foreach ($list as $k => $v) {
+			$a = ($v === 'apache') ? 'httpd' : $v;
 
-			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
+			@exec("chkconfig {$a} off >/dev/null 2>&1");
 		}
 	}
 
 	static function installMeTrue($drivertype = null)
 	{
 		if ($drivertype === 'none') { return; }
+		if (strpos($drivertype, 'proxy') !== false) { return; }
 
 		$list = getWebDriverList($drivertype);
 
 		foreach ($list as $k => $v) {
 			$a = ($v === 'apache') ? 'httpd' : $v;
 
-		//	self::setWebServerInstall($a);
 			self::setBaseWebConfig($v);
 
 			exec("chkconfig {$a} on >/dev/null 2>&1");
@@ -48,43 +49,6 @@ class web__ extends lxDriverClass
 		}
 	}
 
-	static function setWebServerInstall($webserver)
-	{
-		// MR -- overwrite init
-
-		$altname = ($webserver === 'httpd') ? 'apache' : $webserver;
-
-		if (($altname === 'apache') && (file_exists("../etc/flag/use_apache24.flg"))) {
-			$src = 'httpd24';
-		} else {
-			$src = $webserver;
-		}
-
-		if (getServiceType($webserver) === 'systemd') {
-			lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/systemd", "{$src}.service"),
-				"/usr/lib/systemd/system/{$webserver}.service");
-		} else {
-			lxfile_cp(getLinkCustomfile("/opt/configs/{$altname}/etc/init.d", "{$src}.init"),
-				"/etc/rc.d/init.d/{$webserver}");
-			exec("chmod 755 /etc/rc.d/init.d/{$webserver}");
-		}
-
-		if ($webserver === 'httpd') {
-			if (file_exists("../etc/flag/use_pagespeed.flg")) {
-				// MR -- this is a trick to use isRpmInstalled
-				if (!isRpmInstalled('| grep pagespeed')) {
-					exec("yum -y install mod-pagespeed-stable");
-				}
-
-				lxfile_cp(getLinkCustomfile("/opt/configs/apache/etc/conf.d", "pagespeed.conf"),
-					"/etc/httpd/conf.d/pagespeed.conf");
-			} else {
-			//		lxfile_rm("/etc/httpd/conf.d/pagespeed.conf");
-					lxfile_cp("/etc/httpd/conf.d/_inactive_.conf", "/etc/httpd/conf.d/pagespeed.conf");
-			}
-		}
-	}
-
 	static function setUnnstallPhpfpm()
 	{
 		// MR -- change to it for speedup process
@@ -94,15 +58,7 @@ class web__ extends lxDriverClass
 	static function setInstallPhpfpm()
 	{
 		exec("'cp' -rf ../file/php-fpm /opt/configs");
-	/*
-		$phpbranch = getRpmBranchInstalled('php');
 
-		$ret = isRpmInstalled("{$phpbranch}-fpm");
-
-		if (!$ret) {
-			lxshell_return("yum", "-y", "install", "{$phpbranch}-fpm");
-		}
-	*/
 		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
 			lxfile_cp(getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");
 
@@ -182,7 +138,6 @@ class web__ extends lxDriverClass
 
 		$input['webmailremote'] = $this->getWebmailInfo('remote');
 		$input['webmailapp'] = $this->getWebmailInfo('app');
-	//	$input['webmailappdefault'] = self::getWebmailAppDefault();
 
 		$input['rootpath'] = $this->main->getFullDocRoot();
 
@@ -197,7 +152,6 @@ class web__ extends lxDriverClass
 
 		$input['phptype'] = self::getPhptype();
 
-	//	$input['webcache'] = rl_exec_get('localhost', $this->main->__syncserver, 'slave_get_driver', array('webcache'));
 		$input['webcache'] = $gbl->getSyncClass('localhost', $this->main->__syncserver, 'webcache');
 
 		$input['enablecgi'] = $this->getEnableCGI();
@@ -238,7 +192,6 @@ class web__ extends lxDriverClass
 
 		$input['phptype'] = self::getPhptype();
 
-	//	$input['webcache'] = rl_exec_get('localhost', $this->main->__syncserver, 'slave_get_driver', array('webcache'));
 		$input['webcache'] = $gbl->getSyncClass('localhost', $this->main->__syncserver, 'webcache');
 
 		$input['stats'] = $this->getStats();
@@ -346,8 +299,6 @@ class web__ extends lxDriverClass
 				lxfile_mv("/etc/php-fpm.d/www.conf", "/etc/php-fpm.d/www.nonconf");
 			}
 		}
-
-	//	createRestartFile('restart-php-fpm');
 	}
 
 
@@ -403,8 +354,8 @@ class web__ extends lxDriverClass
 
 		$string = "syncserver = '{$this->main->__syncserver}'";
 		$mmaildb = new Sqlite(null, 'mmail');
-		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
 	//	$mlist = $this->main->__var_mmaillist;
+		$mlist = $mmaildb->getRowsWhere($string, array('nname', 'parent_clname', 'webmailprog', 'webmail_url', 'remotelocalflag'));
 
 		// --- for the first time domain create
 		$list = array('nname' => $domainname, 'parent_clname' => 'domain-'.$domainname,
@@ -455,23 +406,17 @@ class web__ extends lxDriverClass
 				$conftype = 'domains';
 				$conftpl = 'domains';
 				$conffile = $input['domainname'] . '.conf';
-				// MR -- change process to create client (user-level php.ini)
-			//	self::setHttpdFcgid($input);
 			}
 		}
 
 		$input['reverseproxy'] = isWebProxy();
 
-	//	$list = getWebDriverList();
 		$list = getAllWebDriverList();
 
 		$input['webdriverlist'] = $list;
 
 		foreach ($list as &$l) {
 			$tplsource = getLinkCustomfile("/opt/configs/{$l}/tpl", "{$conftpl}.conf.tpl");
-
-			// MR -- to make sure no 'old' config -
-		//	lxshell_return("'rm'", "-rf", "/opt/configs/{$l}/conf/{$conftpl}/*.conf");
 
 			if (($l === 'hiawatha') && ($conftype === 'domains')) {
 				$types = array('domains' => false, 'proxies' => true);
@@ -1171,7 +1116,6 @@ class web__ extends lxDriverClass
 		lxfile_unix_chown("/home/httpd/{$domainname}", "{$username}:apache");
 		lxfile_unix_chmod("/home/httpd/{$domainname}", "0775");
 
-		// TODO -- done
 		// MR -- change to user-level php
 		if (!lxfile_exists("/home/kloxo/client/{$username}/php.ini")) {
 			// MR -- issue #650 - lxuser_cp does not work and change to lxfile_cp;

@@ -36,7 +36,3 @@
 	$file = "/opt/configs/bind/conf/defaults/named.master.conf";
 
 	file_put_contents($file, $str);
-
-	if (!isServiceExists('named')) { return; }
-
-	createRestartFile("restart-dns");

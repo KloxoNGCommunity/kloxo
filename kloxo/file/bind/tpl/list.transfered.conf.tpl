@@ -9,10 +9,6 @@
 	
 	exec("chown named:named /var/log/named; chmod 755 /var/log/named");
 
-	if (isServiceExists('named')) {
-		exec("chkconfig named on");
-	}
-
 	exec("sed -i 's/rndckey/rndc-key/' /etc/rndc.key");
 
 	$file = "/opt/configs/bind/conf/defaults/named.acl.conf";

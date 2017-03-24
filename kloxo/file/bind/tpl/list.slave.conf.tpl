@@ -45,7 +45,4 @@
 
 	file_put_contents($file, $str);
 
-	if (!isServiceExists('named')) { return; }
-
-	createRestartFile("restart-dns");
 

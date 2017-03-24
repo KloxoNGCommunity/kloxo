@@ -5,18 +5,7 @@ rm_if_exists("/var/run/yum.pid");
 // MR -- make sure no issue with yum
 system("yum-complete-transaction");
 
-exec("command -v firewalld", $test1);
-
-if (count($test1) > 0) {
-	// MR -- make inactive firewalld (in CentOS 7)
-	exec("chkconfig firewalld off 2>/dev/null; chkconfig --del firewalld 2>/dev/null; service firewalld stop 2>/dev/null");
-}
-
-exec("command -v iptables", $test2);
-
-if (count($test2) > 0) {
-	exec("chkconfig {$ipt} off 2>/dev/null; chkconfig --del {$ipt} 2>/dev/null; service {$ipt} stop 2>/dev/null");
-}
+exec("sh /script/disable-firewall");
 
 $lxlabspath = "/usr/local/lxlabs";
 $kloxopath = "{$lxlabspath}/kloxo";
