@@ -917,8 +917,8 @@ class pservercore extends Lxclient
 		$ob->get();
 
 		$os = $this->ostype;
-	//	include_once "../file/driver/$os.inc";
-		include_once "../file/driver/rhel.inc";
+	//	include "../file/driver/$os.inc";
+		include "../file/driver/rhel.inc";
 
 		if (!$driver) {
 			print("Error Reading Driver Config File...\n");
@@ -949,7 +949,7 @@ class pservercore extends Lxclient
 
 		foreach ((array)$list as $l) {
 		//	$mod = getreal("/module/") . "/$l";
-		//	include_once "$mod/lib/driver.inc";
+		//	include "$mod/lib/driver.inc";
 
 			$dlist = $driver[$os];
 
@@ -1291,8 +1291,8 @@ STRIN;
 				// MR -- always off because one-time process
 			//	$this->no_fix_config = 'off';
 
-				include_once "../file/driver/rhel.inc";
-				
+				include "../file/driver/rhel.inc";
+
 				$vlist['web_driver'] = array('s', $driver['web']);
 
 				// MR -- get httpd24u info

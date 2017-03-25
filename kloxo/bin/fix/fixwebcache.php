@@ -18,7 +18,7 @@ log_cleanup("Fixing WebCache server config", $nolog);
 foreach($plist as $s) {
 	$conftpl = 'defaults';
 
-	$list = getAllWebCacheDriverList();
+	$list = getAllRealWebCacheDriverList();
 	$driver = $gbl->getSyncClass(null, $s->syncserver, 'webcache');;
 
 	$input['driverlist'] = $list;

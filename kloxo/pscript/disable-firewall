@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "*** Process for disable firewall ***"
+
+for x in iptables ip6tables ; do
+	if [ -f /etc/sysconfig/${x} ] ; then
+		echo "- '/etc/sysconfig/${x}' exists and then rename to '${x}.kloxosave'"
+		'mv' -f /etc/sysconfig/${x} /etc/sysconfig/${x}.kloxosave
+	else
+		echo "- No exists for '/etc/sysconfig/${x}'"
+	fi
+done
+
+for y in iptables firewall firewalld ; do
+	c=$(command -v ${y})
+	if [ "${c}" != "" ] ; then
+		echo "- Found '${c}' command and then disable/inactivate service"
+		chkconfig ${c} off 2>/dev/null
+		chkconfig --del ${c} 2>/dev/null
+		service ${c} stop 2>/dev/null
+	fi
+done

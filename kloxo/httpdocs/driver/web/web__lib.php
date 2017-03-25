@@ -14,9 +14,12 @@ class web__ extends lxDriverClass
 		$list = getAllWebDriverList();
 
 		foreach ($list as $k => $v) {
+			if ($v === 'none') { continue; }
+			if (strpos($v, 'proxy') !== false) { continue; }
+
 			$a = ($v === 'apache') ? 'httpd' : $v;
 
-			@exec("chkconfig {$a} off >/dev/null 2>&1");
+			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
 		}
 	}
 
@@ -25,14 +28,27 @@ class web__ extends lxDriverClass
 		if ($drivertype === 'none') { return; }
 		if (strpos($drivertype, 'proxy') !== false) { return; }
 
-		$list = getWebDriverList($drivertype);
+		$list = getWebDriverList();
 
 		foreach ($list as $k => $v) {
-			$a = ($v === 'apache') ? 'httpd' : $v;
+			if ($v === 'none') { continue; }
+			if (strpos($v, 'proxy') !== false) {
+				$a[0] = 'httpd';
+				$a[1] = str_replace('proxy', '', $v);
 
-			self::setBaseWebConfig($v);
+				foreach ($a as $k2 => $v2) {
+					self::setBaseWebConfig($v2);
 
-			exec("chkconfig {$a} on >/dev/null 2>&1");
+					exec("chkconfig {$v2} on >/dev/null 2>&1");
+				}
+			} else {
+				$a = ($v === 'apache') ? 'httpd' : $v;
+
+				self::setBaseWebConfig($v);
+
+				exec("chkconfig {$a} on >/dev/null 2>&1");
+			}
+
 		}
 	
 		self::setInstallPhpfpm();
@@ -44,7 +60,6 @@ class web__ extends lxDriverClass
 	{
 		// MR -- only need here for apache because switch between apache 2.2 and 2.4
 		if ($webtype === 'apache') {
-			setAllWebserverInstall();
 			setCopyWebConfFiles($webtype);
 		}
 	}
@@ -162,7 +177,7 @@ class web__ extends lxDriverClass
 		$input['kloxoportnonssl'] = get_kloxo_port('nonssl');
 		$input['kloxoportssl'] = get_kloxo_port('ssl');
 
-		$input['driverlist'] = getAllWebDriverList();
+		$input['driverlist'] = getAllRealWebDriverList();
 		$input['driver'] = getWebDriverList();
 
 		self::setCreateConfFile($input);

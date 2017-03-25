@@ -1041,11 +1041,9 @@ function merge_array_object_not_deleted($array, $object)
 
 	if (is_array($array)) {
 		foreach ($array as $a) {
-			if ($a['nname'] === $object->nname) {
-				continue;
+			if ($a['nname'] !== $object->nname) {
+				$ret[] = $a;
 			}
-
-			$ret[] = $a;
 		}
 	} else {
 		if ($array['nname'] !== $object->nname) {
@@ -5629,11 +5627,9 @@ function setPhpModuleInactive($module, $ininamelist = null)
 
 function setInitialAllDnsConfigs($nolog = null)
 {
-	include "../file/driver/rhel.inc";
+	$list = setAllRealDnsDeviceList();
 
-	foreach ($driver['dns'] as $k => $v) {
-		if ($v === 'none') { continue; }
-
+	foreach ($list as $k => $v) {
 		setInitialDnsConfig($v, $nolog);
 	}
 }
@@ -5695,12 +5691,9 @@ function setInitialDnsConfig($type, $nolog = null)
 
 function setInitialAllWebConfigs($nolog = null)
 {
-	include "../file/driver/rhel.inc";
+	$list = getAllRealWebDriverList();
 
-	foreach ($driver['web'] as $k => $v) {
-		if ($v === 'none') { continue; }
-		if (strpos($v, 'proxy') !== false) { continue; }
-
+	foreach ($list as $k => $v) {
 		setInitialWebConfig($v, $nolog);
 		setWebDriverChownChmod($v, $nolog);
 	}
@@ -5713,8 +5706,6 @@ function setInitialWebConfig($type, $nolog = null)
 	if (!file_exists("{$fpath}/{$type}")) {
 		return;
 	}
-
-//	$hkhpath = "/home/kloxo/httpd";
 
 	if ($type === 'apache') {
 		$atype = 'httpd';
@@ -5776,11 +5767,9 @@ function setInitialWebConfig($type, $nolog = null)
 
 function setInitialAllWebCacheConfigs($nolog = null)
 {
-	include "../file/driver/rhel.inc";
-
-	foreach ($driver['webcache'] as $k => $v) {
-		if ($v === 'none') { continue; }
-		
+	$list = getAllRealWebCacheDriverList();
+	
+	foreach ($list as $k => $v) {
 		setInitialWebCacheConfig($v, $nolog);
 	}
 }
@@ -6586,9 +6575,6 @@ function removeOtherDrivers($class = null, $nolog = null)
 	}
 
 	foreach ($list as $k => $v) {
-		if ($v === 'none') { continue; }
-		if (strpos($v, 'proxy') !== false) { continue; }
-
 		$driverapp = slave_get_driver($k);
 
 		if (!$driverapp) {
@@ -7606,9 +7592,16 @@ function getAllWebDriverList()
 {
 	include "../file/driver/rhel.inc";
 
+	return $driver['web'];
+}
+
+function getAllRealWebDriverList()
+{
+	$list = getAllWebDriverList();
+
 	$ret = array();
 
-	foreach ($driver['web'] as $k => $v) {
+	foreach ($list as $k => $v) {
 		if ($v === 'none') { continue; }
 		if (strpos($v, 'proxy') !== false) { continue; }
 
@@ -7629,9 +7622,16 @@ function getAllWebCacheDriverList()
 {
 	include "../file/driver/rhel.inc";
 
+	return $driver['webcache'];
+}
+
+function getAllRealWebCacheDriverList()
+{
+	$list = getAllWebCacheDriverList();
+
 	$ret = array();
 
-	foreach ($driver['webcache'] as $k => $v) {
+	foreach ($list as $k => $v) {
 		if ($v === 'none') { continue; }
 
 		$ret[] = $v;
@@ -7651,9 +7651,16 @@ function getAllDnsDriverList()
 {
 	include "../file/driver/rhel.inc";
 
+	return $driver['dns'];
+}
+
+function getAllRealDnsDriverList()
+{
+	$list = getAllDnsDriverList();
+
 	$ret = array();
 
-	foreach ($driver['dns'] as $k => $v) {
+	foreach ($list as $k => $v) {
 		if ($v === 'none') { continue; }
 
 		$ret[] = $v;
@@ -8494,7 +8501,7 @@ function setAllDnsServerInstall($nolog = null)
 
 
 	foreach ($list as $k => $v) {
-		// MR -- remove because my conflict with djbdns
+		// MR -- remove because may conflict with djbdns
 		if ($v === 'djbdns') {
 			if (isRpmInstalled('spamdyke-utils')) { 
 				setRpmRemovedViaYum("spamdyke-utils");

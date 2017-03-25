@@ -13,6 +13,8 @@ class dns__ extends lxDriverClass
 		$list = getAllDnsDriverList();
 
 		foreach ($list as $k => $v) {
+			if ($v === 'none') { continue; }
+
 			if ($v === 'bind') {
 				$a = 'named';
 			} elseif ($v === 'yadifa') {
@@ -21,7 +23,7 @@ class dns__ extends lxDriverClass
 				$a = $v;
 			}
 
-			exec("chkconfig {$a} off >/dev/null 2>&1");
+			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
 		}
 	}
 
@@ -32,6 +34,8 @@ class dns__ extends lxDriverClass
 		$list = getDnsDriverList();
 
 		foreach ($list as $k => $v) {
+			if ($v === 'none') { continue; }
+
 			if ($v === 'bind') {
 				$a = 'named';
 			} elseif ($v === 'yadifa') {
@@ -41,6 +45,7 @@ class dns__ extends lxDriverClass
 			}
 
 			exec("chkconfig {$a} on >/dev/null 2>&1");
+		//	createRestartFile("restart-web");
 		}
 	}
 
@@ -77,6 +82,8 @@ class dns__ extends lxDriverClass
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $v) {
+			if ($v === 'none') { return; }
+
 			if (($v === 'bind') || ($v === 'yadifa')) { continue; }
 
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "domains.conf.tpl");
@@ -119,6 +126,8 @@ class dns__ extends lxDriverClass
 		$rlist = $this->getReverseList();
 
 		foreach ($dnsdrvlist as $v) {
+			if ($v === 'none') { return; }
+
 			$input['domains'] = $mlist;
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.master.conf.tpl");
 			$tpl = file_get_contents($tplsource);
@@ -154,6 +163,8 @@ class dns__ extends lxDriverClass
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $v) {
+			if ($v === 'none') { return; }
+
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.transfered.conf.tpl");
 
 			$tpl = file_get_contents($tplsource);

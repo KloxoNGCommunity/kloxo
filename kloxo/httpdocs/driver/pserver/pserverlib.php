@@ -59,17 +59,6 @@ class pserver extends pservercore {
 
 	//	$nofixconfig = $param['no_fix_config'];
 
-		$apachelist = getCleanRpmBranchListOnList('httpd');
-
-		$httpd24ready = false;
-
-		foreach ($apachelist as $k => $v) {
-			if (strpos($k, 'httpd24')) {
-				$httpd24ready = true;
-				break;
-			}
-		}
-
 		$httpd24flag = "../etc/flag/use_apache24.flg";
 
 		if (file_exists($httpd24flag)) {
@@ -103,12 +92,8 @@ class pserver extends pservercore {
 	//	if (isWebProxyOrApache()) {
 			if ($usepagespeed === 'on') {
 				exec("echo '' > {$pagespeedflag}");
-
-				web__apache::setWebserverInstall('httpd');
 			} else {
 				exec("'rm' -f {$pagespeedflag}");
-
-				web__apache::setWebserverInstall('httpd');
 			}
 	//	}
 
@@ -134,8 +119,6 @@ class pserver extends pservercore {
 			if ($this->$k === $v) {
 				dprint("No change for $k: $v\n");
 			} else {
-				$t = str_replace("proxy", "", $v);
-
 				dprint("Change for $k: $v\n");
 
 				rl_exec_get(null, $this->nname, array($class, 'switchDriver'), array($class, $this->$drstring, $v));
@@ -317,7 +300,7 @@ class pserver extends pservercore {
 
 	function createShowPropertyList(&$alist)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $ghtml;
 
 		if ($ghtml->frm_subaction === 'commandcenter') {
 			$alist['property'][] = "a=updateform&sa=commandcenter";
@@ -353,7 +336,7 @@ class pserver extends pservercore {
 
 	function createShowAlist(&$alist, $subaction = null)
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+		global $login, $ghtml;
 
 		// LxCenter:
 		// No menu structures for Domain and Advanced here?
