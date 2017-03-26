@@ -10,11 +10,10 @@ class dns__ extends lxDriverClass
 	{
 		if ($drivertype === 'none') { return; }
 
-		$list = getAllDnsDriverList();
+		$list = getAllRealDnsDriverList();
 
 		foreach ($list as $k => $v) {
 			if ($v === 'none') { continue; }
-
 			if ($v === 'bind') {
 				$a = 'named';
 			} elseif ($v === 'yadifa') {
@@ -31,7 +30,7 @@ class dns__ extends lxDriverClass
 	{
 		if ($drivertype === 'none') { return; }
 
-		$list = getDnsDriverList();
+		$list = getDnsDriverList($drivertype);
 
 		foreach ($list as $k => $v) {
 			if ($v === 'none') { continue; }
@@ -82,7 +81,7 @@ class dns__ extends lxDriverClass
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $v) {
-			if ($v === 'none') { return; }
+			if ($v === 'none') { continue; }
 
 			if (($v === 'bind') || ($v === 'yadifa')) { continue; }
 
@@ -126,7 +125,7 @@ class dns__ extends lxDriverClass
 		$rlist = $this->getReverseList();
 
 		foreach ($dnsdrvlist as $v) {
-			if ($v === 'none') { return; }
+			if ($v === 'none') { continue; }
 
 			$input['domains'] = $mlist;
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.master.conf.tpl");
@@ -163,7 +162,7 @@ class dns__ extends lxDriverClass
 		$dnsdrvlist = getAllDnsDriverList();
 
 		foreach ($dnsdrvlist as $v) {
-			if ($v === 'none') { return; }
+			if ($v === 'none') { continue; }
 
 			$tplsource = getLinkCustomfile("/opt/configs/{$v}/tpl", "list.transfered.conf.tpl");
 

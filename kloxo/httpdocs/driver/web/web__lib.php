@@ -9,14 +9,10 @@ class web__ extends lxDriverClass
 	static function uninstallMeTrue($drivertype = null)
 	{
 		if ($drivertype === 'none') { return; }
-		if (strpos($drivertype, 'proxy') !== false) { return; }
 
-		$list = getAllWebDriverList();
+		$list = getAllRealWebDriverList();
 
 		foreach ($list as $k => $v) {
-			if ($v === 'none') { continue; }
-			if (strpos($v, 'proxy') !== false) { continue; }
-
 			$a = ($v === 'apache') ? 'httpd' : $v;
 
 			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
@@ -26,29 +22,15 @@ class web__ extends lxDriverClass
 	static function installMeTrue($drivertype = null)
 	{
 		if ($drivertype === 'none') { return; }
-		if (strpos($drivertype, 'proxy') !== false) { return; }
 
-		$list = getWebDriverList();
+		$list = getWebDriverList($drivertype);
 
 		foreach ($list as $k => $v) {
 			if ($v === 'none') { continue; }
-			if (strpos($v, 'proxy') !== false) {
-				$a[0] = 'httpd';
-				$a[1] = str_replace('proxy', '', $v);
 
-				foreach ($a as $k2 => $v2) {
-					self::setBaseWebConfig($v2);
+			self::setBaseWebConfig($v);
 
-					exec("chkconfig {$v2} on >/dev/null 2>&1");
-				}
-			} else {
-				$a = ($v === 'apache') ? 'httpd' : $v;
-
-				self::setBaseWebConfig($v);
-
-				exec("chkconfig {$a} on >/dev/null 2>&1");
-			}
-
+			exec("chkconfig {$v} on >/dev/null 2>&1");
 		}
 	
 		self::setInstallPhpfpm();
@@ -426,7 +408,7 @@ class web__ extends lxDriverClass
 
 		$input['reverseproxy'] = isWebProxy();
 
-		$list = getAllWebDriverList();
+		$list = getAllRealWebDriverList();
 
 		$input['webdriverlist'] = $list;
 
