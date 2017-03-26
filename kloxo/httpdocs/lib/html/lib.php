@@ -5627,7 +5627,7 @@ function setPhpModuleInactive($module, $ininamelist = null)
 
 function setInitialAllDnsConfigs($nolog = null)
 {
-	$list = getAllRealDnsDeviceList();
+	$list = getAllRealDnsDriverList();
 
 	foreach ($list as $k => $v) {
 		setInitialDnsConfig($v, $nolog);
@@ -8540,7 +8540,7 @@ function setAllInactivateDnsServer($nolog = null)
 {
 	log_cleanup("Inactivate DNS servers", $nolog);
 
-	$list = getAllDnsDriverList();
+	$list = getAllRealDnsDriverList();
 
 	foreach ($list as $k => $v) {
 		if ($v === 'bind') {
