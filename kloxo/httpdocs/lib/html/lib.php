@@ -5627,7 +5627,7 @@ function setPhpModuleInactive($module, $ininamelist = null)
 
 function setInitialAllDnsConfigs($nolog = null)
 {
-	$list = setAllRealDnsDeviceList();
+	$list = getAllRealDnsDeviceList();
 
 	foreach ($list as $k => $v) {
 		setInitialDnsConfig($v, $nolog);
@@ -8493,7 +8493,7 @@ function setAllDnsServerInstall($nolog = null)
 {
 	log_cleanup("Install All Dns servers", $nolog);
 
-	$list = getAllDnsDriverList();
+	$list = getAllRealDnsDriverList();
 
 	$ds = array('bind' => 'bind bind-utils bind-libs', 'djbdns' => 'djbdns',
 		'nsd' => 'nsd', 'pdns' => 'pdns pdns-backend-mysql pdns-tools pdns-geo',
