@@ -8372,7 +8372,7 @@ function setAllWebServerInstall($nolog = null)
 {
 	log_cleanup("Install All Web servers", $nolog);
 
-	$list = getAllWebDriverList();
+	$list = getAllRealWebDriverList();
 
 	$ws = array('nginx' => 'nginx nginx-module* GeoIP spawn-fcgi fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
 		'hiawatha' => 'hiawatha hiawatha-addons', 'httpd' => 'httpd httpd-tools',
