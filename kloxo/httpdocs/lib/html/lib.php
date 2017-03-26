@@ -7453,10 +7453,10 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 		if (file_exists("../etc/flag/use_apache24.flg")) {
 			lxfile_cp(getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}{$addition}24.conf"), "{$pathconf}/{$aliasdriver}.conf");
 		} else {
-			lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
+			lxfile_cp($t, "{$pathconf}/{$aliasdriver}{$addition}.conf");
 		}
 	} else {
-		lxfile_cp($t, "{$pathconf}/{$aliasdriver}.conf");
+		lxfile_cp($t, "{$pathconf}/{$aliasdriver}{$addition}.conf");
 	}
 	// MR - remove unwanted files
 	if ($webdriver === 'apache') {

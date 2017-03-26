@@ -169,6 +169,8 @@ class pservercore extends Lxclient
 	static $__desc_pserver_o = array('d', '', '', '');
 
 	static $__desc_use_apache24 = array("f", "", "use_apache24");
+	static $__desc_use_apache24_message = array("", "", "use_apache24");
+
 	static $__desc_use_pagespeed = array("f", "", "use_pagespeed");
 
 	function __construct($masterserver, $readserver, $name)
@@ -1301,17 +1303,16 @@ STRIN;
 				if (count($out) > 0) {
 					if (version_compare(getRpmVersionFromYum('httpd'), '2.4.0', '>')) {
 						exec("echo '' > ../etc/flag/use_apache24.flg");
-						$this->use_apache24 = 'on';
-						$vlist['use_apache24'] = array('M', 'on', 'off');
+						$vlist['use_apache24'] = array('h', 'on', 'off');
+						$vlist['use_apache24_message'] = array('M', array('on'));
 					} else {
 						if (version_compare(getRpmVersionFromYum('httpd24u'), '2.4.0', '>')) {
 							exec("echo '' > ../etc/flag/use_apache24.flg");
-							$this->use_apache24 = 'on';
 							$vlist['use_apache24'] = array('f', 'on', 'off');
 						} else{
 							exec("'rm' -f ../etc/flag/use_apache24.flg");
-							$this->use_apache24 = 'off';
-							$vlist['use_apache24'] = array('M', 'on', 'off');
+							$vlist['use_apache24'] = array('h', 'on', 'off');
+							$vlist['use_apache24_message'] = array('M', array('on'));
 						}
 					}
 				}

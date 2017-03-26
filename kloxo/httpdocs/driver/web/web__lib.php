@@ -8,15 +8,7 @@ class web__ extends lxDriverClass
 
 	static function uninstallMeTrue($drivertype = null)
 	{
-		if ($drivertype === 'none') { return; }
-
-		$list = getAllRealWebDriverList();
-
-		foreach ($list as $k => $v) {
-			$a = ($v === 'apache') ? 'httpd' : $v;
-
-			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
-		}
+		setAllInactivateWebServer();
 	}
 
 	static function installMeTrue($drivertype = null)
@@ -28,14 +20,18 @@ class web__ extends lxDriverClass
 		foreach ($list as $k => $v) {
 			if ($v === 'none') { continue; }
 
+			$a = ($v === 'apache') ? 'httpd' : $v;
+
 			self::setBaseWebConfig($v);
 
-			exec("chkconfig {$v} on >/dev/null 2>&1");
+			exec("chkconfig {$a} on >/dev/null 2>&1");
 		}
 	
 		self::setInstallPhpfpm();
 
 		@exec("sh /script/fixweb --target=defaults");
+
+		createRestartFile("restart-web");
 	}
 
 	static function setBaseWebConfig($webtype)

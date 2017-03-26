@@ -8,22 +8,8 @@ class dns__ extends lxDriverClass
 
 	static function unInstallMeTrue($drivertype = null)
 	{
-		if ($drivertype === 'none') { return; }
 
-		$list = getAllRealDnsDriverList();
-
-		foreach ($list as $k => $v) {
-			if ($v === 'none') { continue; }
-			if ($v === 'bind') {
-				$a = 'named';
-			} elseif ($v === 'yadifa') {
-				$a = 'yadifad';
-			} else {
-				$a = $v;
-			}
-
-			@exec("service {$a} stop; chkconfig {$a} off >/dev/null 2>&1; 'rm' -f /var/lock/subsys/{$a}");
-		}
+		setAllInactivateDnsServer();
 	}
 
 	static function installMeTrue($drivertype = null)
@@ -44,8 +30,9 @@ class dns__ extends lxDriverClass
 			}
 
 			exec("chkconfig {$a} on >/dev/null 2>&1");
-		//	createRestartFile("restart-web");
 		}
+	
+		createRestartFile("restart-dns");
 	}
 
 	static function getActiveDriver()
