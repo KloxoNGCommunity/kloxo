@@ -26,8 +26,12 @@ for i in kloxo-web kloxo-php kloxo-wrap ; do
 done
 
 for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
-	if [ "$(readlink /usr/bin/${i}-cli)" == "/opt/${i}/custom/${i}-cli.sh" ] ; then
-		sh /script/phpm-installer $i -y
+	if [ "${i}" == "php" ] ; then
+		rm -rf /opt/${i}
+	else
+		if [ "$(readlink /usr/bin/${i}-cli)" == "/opt/${i}/custom/${i}-cli.sh" ] ; then
+			sh /script/phpm-installer $i -y
+		fi
 	fi
 done
 

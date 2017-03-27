@@ -5468,7 +5468,7 @@ function getRpmVersion($rpmname)
 	if ($ret === 0) {
 		$ver = $out[0];
 	} else {
-		$ver = '';
+		$ver = '0.0.0';
 	}
 
 	return $ver;
