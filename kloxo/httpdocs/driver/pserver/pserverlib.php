@@ -89,13 +89,13 @@ class pserver extends pservercore {
 		$pagespeedflag = "../etc/flag/use_pagespeed.flg";
 		$usepagespeed = $param['use_pagespeed'];
 
-	//	if (isWebProxyOrApache()) {
-			if ($usepagespeed === 'on') {
-				exec("echo '' > {$pagespeedflag}");
-			} else {
-				exec("'rm' -f {$pagespeedflag}");
-			}
-	//	}
+		if ($usepagespeed === 'on') {
+			exec("echo '' > {$pagespeedflag}");
+			setAllWebServerInstall();
+		} else {
+			exec("'rm' -f {$pagespeedflag}");
+			setAllWebServerInstall();
+		}
 
 		// MR -- add 'pserver' on slavedb - read current server enough from slave_get_db
 	//	$a['pserver'] = $this->nname;

@@ -8432,6 +8432,18 @@ function setAllWebServerInstall($nolog = null)
 				$conffile = getLinkCustomfile("{$confpath}", "httpd.conf");
 				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
 			}
+
+			if (file_exists("../etc/flag/use_pagespeed.flg")) {
+				// MR -- this is a trick to use isRpmInstalled
+				if (!isRpmInstalled('| grep pagespeed')) {
+					exec("yum -y install mod-pagespeed-stable");
+				}
+
+				lxfile_cp(getLinkCustomfile("/opt/configs/apache/etc/conf.d", "pagespeed.conf"),
+					"/etc/httpd/conf.d/pagespeed.conf");
+			} else {
+					lxfile_cp("/etc/httpd/conf.d/_inactive_.conf", "/etc/httpd/conf.d/pagespeed.conf");
+			}
 		} else {
 			$t = $ws[$v];
 
