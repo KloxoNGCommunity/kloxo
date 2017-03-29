@@ -14,9 +14,10 @@ done
 for y in iptables firewall firewalld ; do
 	c=$(command -v ${y})
 	if [ "${c}" != "" ] ; then
-		echo "- Found '${c}' command and then disable/inactivate service"
-		chkconfig ${c} off 2>/dev/null
-		chkconfig --del ${c} 2>/dev/null
-		service ${c} stop 2>/dev/null
+		b=$(basename ${c})
+		echo "- Found '${b}' command and then disable/inactivate service"
+		chkconfig ${b} off 2>/dev/null
+		chkconfig --del ${b} 2>/dev/null
+		service ${b} stop 2>/dev/null
 	fi
 done
