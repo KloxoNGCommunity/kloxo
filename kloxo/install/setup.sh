@@ -155,7 +155,9 @@ cd /
 
 #yum clean all
 
-yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace vim-minimal subversion curl sudo
+yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace \
+	vim-minimal subversion curl sudo --skip-broken
+
 yum remove -y bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver \
 		*-toaster postfix exim libmhash
@@ -180,7 +182,7 @@ chown mysql:mysql /var/lib/mysqltmp
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
-if [ "$(yum list|grep 'php56u')" != "" ] ; then
+if [ "$(yum list|grep ^'php56u')" != "" ] ; then
 	phpused="php56"
 	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
 else
@@ -194,20 +196,9 @@ if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php
 fi
 
-if [ "$1" == "--with-php52s" ] || [ "$2" == "--with-php52s" ] || [ "$3" == "--with-php52s" ] \
-		|| [ "$1" == "-2s" ] || [ "$2" == "-2s" ] || [ "$3" == "-2s" ] ; then
-	with_php52s="yes"
-
-	mkdir -p /opt/php52s/custom
-	sh /script/phpm-installer php52s -y
-	sh /script/fixlxphpexe php52s
-else
-	with_php52s="no"
-
-	mkdir -p /opt/${phpused}s/custom
-	sh /script/phpm-installer ${phpused}s -y
-	sh /script/fixlxphpexe ${phpused}s
-fi
+mkdir -p /opt/${phpused}s/custom
+sh /script/phpm-installer ${phpused}s -y
+sh /script/fixlxphpexe ${phpused}s
 
 cd /
 
@@ -215,7 +206,14 @@ export PATH=/usr/bin:/usr/sbin:/sbin:$PATH
 
 cd ${ppath}/install
 
-/usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE --install-from=setup $*
+if [ ! -f ./step2.inc ] ; then
+	/usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE $*
+else
+	installtype=$APP_TYPE
+	installstep='1'
+
+	source step2.inc
+fi
 
 ## set skin to simplicity
 sh /script/skin-set-for-all >/dev/null 2>&1
@@ -224,12 +222,7 @@ sh /script/set-hosts >/dev/null 2>&1
 sh /script/set-fs >/dev/null 2>&1
 
 echo
-if [ "${with_php52s}" != "no" ] ; then
-	echo "... Wait until finished (switch to ${phpused}s and restart services) ..."
-	sh /script/phpm-installer ${phpused}s -y >/dev/null 2>&1
-else
-	echo "... Wait until finished (restart services) ..."
-fi
+echo "... Wait until finished (restart services) ..."
 
 ## fix driver - always set default
 sh /script/setdriver --server=localhost --class=web --driver=apache >/dev/null 2>&1

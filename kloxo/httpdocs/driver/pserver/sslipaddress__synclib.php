@@ -6,7 +6,9 @@ class sslipaddress__sync extends lxDriverClass
 	{
 		global $login;
 
-		$name = sslcert::getSslCertnameFromIP($this->main->nname);
+		// MR -- no need convert like eth0-0 to eth0_0 for ssl filename
+	//	$name = sslcert::getSslCertnameFromIP($this->main->nname);
+		$name = $this->main->nname;
 
 		$path = "__path_ssl_root";
 

@@ -33,17 +33,11 @@ $srcconfpath = "/opt/configs/hiawatha/etc/conf";
 $trgtconfpath = "/etc/hiawatha";
 
 if ($reverseproxy) {
-	if (file_exists("{$srcconfpath}/custom.hiawatha_proxy.conf")) {
-		copy("{$srcconfpath}/custom.hiawatha_proxy.conf", "{$trgtconfpath}/hiawatha.conf");
-	} else if (file_exists("{$srcconfpath}/hiawatha_proxy.conf")) {
-		copy("{$srcconfpath}/hiawatha_proxy.conf", "{$trgtconfpath}/hiawatha.conf");
-	}
+	$custom_conf = getLinkCustomfile($srcconfpath, "hiawatha_proxy.conf");
+	copy($custom_conf, "{$trgtconfpath}/hiawatha.conf");
 } else {
-	if (file_exists("{$srcconfpath}/custom.hiawatha_standard.conf")) {
-		copy("{$srcconfpath}/custom.hiawatha_standard.conf", "{$trgtconfpath}/hiawatha.conf");
-	} else if (file_exists("{$srcconfpath}/hiawatha_standard.conf")) {
-		copy("{$srcconfpath}/hiawatha_standard.conf", "{$trgtconfpath}/hiawatha.conf");
-	}
+	$custom_conf = getLinkCustomfile($srcconfpath, "hiawatha_standard.conf");
+	copy($custom_conf, "{$trgtconfpath}/hiawatha.conf");
 }
 
 if (($webcache === 'none') || (!$webcache)) {

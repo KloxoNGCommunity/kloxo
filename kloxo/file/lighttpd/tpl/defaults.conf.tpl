@@ -28,17 +28,11 @@ $trgtconfdpath = "/etc/lighttpd/conf.d";
 
 $sslpath = "/home/kloxo/ssl";
 
-if (file_exists("{$srcconfpath}/custom.lighttpd.conf")) {
-	copy("{$srcconfpath}/custom.lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
-} else if (file_exists("{$srcconfpath}/lighttpd.conf")) {
-	copy("{$srcconfpath}/lighttpd.conf", "{$trgtconfpath}/lighttpd.conf");
-}
+$custom_conf = getLinkCustomfile($srcconfpath, "lighttpd.conf");
+copy($custom_conf, "{$trgtconfpath}/lighttpd.conf");
 
-if (file_exists("{$srcconfdpath}/custom.~lxcenter.conf")) {
-	copy("{$srcconfdpath}/custom.~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-} else if (file_exists("{$srcconfdpath}/~lxcenter.conf")) {
-	copy("{$srcconfdpath}/~lxcenter.conf", "{$trgtconfdpath}/~lxcenter.conf");
-}
+$custom_conf = getLinkCustomfile($srcconfdpath, "~lxcenter.conf");
+copy($custom_conf, "{$trgtconfdpath}/~lxcenter.conf");
 
 if (($webcache === 'none') || (!$webcache)) {
 	$ports[] = '80';
@@ -52,36 +46,18 @@ $portlist = array('var.port', 'var.portssl');
 
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
-//if ($reverseproxy) {
-//	$confs = array('proxy_standard' => 'switch_standard', 'stats_none' => 'stats', 
-//		'dirprotect_none' => 'dirprotect_stats');
-//} else {
-	if ($stats['app'] === 'webalizer') {
-		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_webalizer' => 'stats');
-	} else {
-		$confs = array('php-fpm_standard' => 'switch_standard', 'stats_awstats' => 'stats');
-	}
-//}
+if ($stats['app'] === 'webalizer') {
+	$confs = array('php-fpm_standard' => 'switch_standard', 'stats_webalizer' => 'stats');
+} else {
+	$confs = array('php-fpm_standard' => 'switch_standard', 'stats_awstats' => 'stats');
+}
 
 foreach ($confs as $k => $v) {
-	if (file_exists("{$globalspath}/custom.{$k}.conf")) {
-		copy("{$globalspath}/custom.{$k}.conf", "{$globalspath}/{$v}.conf");
-	} else if (file_exists("{$globalspath}/{$k}.conf")) {
-		copy("{$globalspath}/{$k}.conf", "{$globalspath}/{$v}.conf");
-	}
+	$custom_conf = getLinkCustomfile($globalspath, "{$k}.conf");
+	copy($custom_conf, "{$globalspath}/{$v}.conf");
 }
 
-if (file_exists("{$globalspath}/custom.header_base.conf")) {
-	$header_base = "custom.header_base";
-} else if (file_exists("{$globalspath}/header_base.conf")) {
-	$header_base = "header_base";
-}
-
-if (file_exists("{$globalspath}/custom.header_ssl.conf")) {
-	$header_ssl = "custom.header_ssl";
-} else if (file_exists("{$globalspath}/header_ssl.conf")) {
-	$header_ssl = "header_ssl";
-}
+$acmechallenge_conf = getLinkCustomfile($globalspath, "acme-challenge.conf");
 
 foreach ($certnamelist as $ip => $certname) {
 	$cert_ip = $ip;
@@ -167,7 +143,7 @@ $HTTP["host"] =~ "^default\.*" {
 
 	server.follow-symlink = "enable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 
 	var.rootdir = "/home/kloxo/httpd/default/"
 	var.user = "apache"

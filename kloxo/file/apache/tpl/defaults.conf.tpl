@@ -97,37 +97,28 @@ if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 }
 
 if ($use_httpd24) {
-	if (file_exists("{$srccpath}/custom.httpd24.conf")) {
-		copy("{$srccpath}/custom.httpd24.conf", "{$trgtcpath}/httpd.conf");
-	} else if (file_exists("{$srccpath}/httpd24.conf")) {
-		copy("{$srccpath}/httpd24.conf", "{$trgtcpath}/httpd.conf");
-	}
+	$custom_conf = getLinkCustomfile($srccpath, "httpd24.conf");
+	copy($custom_conf, "{$trgtcpath}/httpd.conf");
 } else {
-	if (file_exists("{$srccpath}/custom.httpd.conf")) {
-		copy("{$srccpath}/custom.httpd.conf", "{$trgtcpath}/httpd.conf");
-	} else if (file_exists("{$srccpath}/httpd.conf")) {
-		copy("{$srccpath}/httpd.conf", "{$trgtcpath}/httpd.conf");
-	}
+	$custom_conf = getLinkCustomfile($srccpath, "httpd.conf");
+	copy($custom_conf, "{$trgtcpath}/httpd.conf");
 }
 
 $modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define", "_inactive_");
 
 foreach ($modlist as $k => $v) {
-	if (file_exists("{$srccdpath}/custom.{$v}.conf")) {
-		copy("{$srccdpath}/custom.{$v}.conf", "{$trgtcdpath}/{$v}.conf");
-	} else if (file_exists("{$srccdpath}/{$v}.conf")) {
-		if ($v !== '~lxcenter') {
-			copy("{$srccdpath}/{$v}.conf", "{$trgtcdpath}/{$v}.conf");
-		}
+	$custom_conf = getLinkCustomfile($srccdpath, "{$v}.conf");
+
+	if (strpos($custom_conf, "/~lxcenter.conf") !== false) {
+		// no action because handle by ~lxcenter.conf.tpl
+	} else {
+		copy($custom_conf, "{$trgtcdpath}/{$v}.conf");
 	}
 }
 
 // MR -- because 'pure' mod_php disabled (security reason)
-if (file_exists("{$srccdpath}/custom._inactive_.conf")) {
-	copy("{$srccdpath}/custom._inactive_.conf", "{$trgtcdpath}/php.conf");
-} else {
-	copy("{$srccdpath}/_inactive_.conf", "{$trgtcdpath}/php.conf");
-}
+$custom_conf = getLinkCustomfile($srccdpath, "_inactive_.conf");
+copy($custom_conf, "{$trgtcdpath}/php.conf");
 
 $typelist = array('ruid2', 'suphp', 'fcgid', 'fastcgi', 'proxy_fcgi');
 
@@ -139,39 +130,27 @@ foreach ($typelist as $k => $v) {
 	}
 
 	if (strpos($phptype, "{$w}") !== false) {
-		if (file_exists("{$srccdpath}/custom.{$v}.conf")) {
-			copy("{$srccdpath}/custom.{$v}.conf", "{$trgtcdpath}/{$v}.conf");
-		} else if (file_exists("{$srccdpath}/{$v}.conf")) {
-			copy("{$srccdpath}/{$v}.conf", "{$trgtcdpath}/{$v}.conf");
-		}
+		$custom_conf = getLinkCustomfile($srccdpath, "{$v}.conf");
+		copy($custom_conf, "{$trgtcdpath}/{$v}.conf");
 	} else {
 		if ($v === 'proxy_fcgi') {
-			if (file_exists("{$srccmdpath}/custom._inactive_.conf")) {
-				copy("{$srccmdpath}/custom._inactive_.conf", "{$trgtcmdpath}/00-proxy.conf");
-			} else if (file_exists("{$srccmdpath}/_inactive_.conf")) {
-				copy("{$srccmdpath}/_inactive_.conf", "{$trgtcmdpath}/00-proxy.conf");
-			}
+			$custom_conf = getLinkCustomfile($srccmdpath, "_inactive_.conf");
+			copy($custom_conf, "{$trgtcmdpath}/00-proxy.conf");
 
 			if (file_exists("{$trgtcdpath}/{$v}.conf")) {
 				unlink("{$trgtcdpath}/{$v}.conf");
 				unlink("{$trgtcdpath}/{$v}.nonconf");
 			}
 		} else {
-			if (file_exists("{$srccdpath}/custom._inactive_.conf")) {
-				copy("{$srccdpath}/custom._inactive_.conf", "{$trgtcdpath}/{$v}.conf");
-			} else if (file_exists("{$srccdpath}/_inactive_.conf")) {
-				copy("{$srccdpath}/_inactive_.conf", "{$trgtcdpath}/{$v}.conf");
-			}
+			$custom_conf = getLinkCustomfile($srccdpath, "_inactive_.conf");
+			copy($custom_conf, "{$trgtcdpath}/{$v}.conf");
 		}
 	}
 }
 
-if (file_exists("{$srcpath}/custom.suphp.conf")) {
-	copy("{$srcpath}/custom.suphp.conf", "{$trgtpath}/suphp.conf");
-} else if (file_exists("{$srcpath}/suphp.conf")) {
-	copy("{$srcpath}/suphp.conf", "{$trgtpath}/suphp.conf");
-}
-
+$custom_conf = getLinkCustomfile($srcpath, "suphp.conf");
+copy($custom_conf, "{$trgtpath}/suphp.conf");
+			
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "{$sslpath}/{$certname}";
 }
@@ -218,25 +197,9 @@ if ($indexorder) {
 	$indexorder = implode(' ', $indexorder);
 }
 
-if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
-	$acmechallenge = "custom.acme-challenge";
-} else if (file_exists("{$globalspath}/acme-challenge.conf")) {
-	$acmechallenge = "acme-challenge";
-}
+$acmechallenge_conf = getLinkCustomfile($globalspath, "acme-challenge.conf");
 
-if ($use_httpd24) {
-	if (file_exists("{$globalspath}/custom.ssl_base24.conf")) {
-		$ssl_base = "custom.ssl_base24";
-	} else if (file_exists("{$globalspath}/ssl_base24.conf")) {
-		$ssl_base = "ssl_base24";
-	}
-} else {
-	if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
-		$ssl_base = "custom.ssl_base";
-	} else if (file_exists("{$globalspath}/ssl_base.conf")) {
-		$ssl_base = "ssl_base";
-	}
-}
+$ssl_base_conf = getLinkCustomfile($globalspath, "ssl_base.conf");
 
 // MR -- for future purpose, apache user have uid 50000
 // $userinfoapache = posix_getpwnam('apache');
@@ -315,7 +278,7 @@ foreach ($certnamelist as $ip => $certname) {
 
 	DocumentRoot "<?=$defaultdocroot;?>"
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DirectoryIndex <?=$indexorder;?>
 
@@ -328,7 +291,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key

@@ -61,23 +61,15 @@ if ($statsapp === 'webalizer') {
 
 $globalspath = "/opt/configs/nginx/conf/globals";
 
-if (file_exists("{$globalspath}/custom.gzip.conf")) {
-	$gzip_base = "custom.gzip";
-} else if (file_exists("{$globalspath}/gzip.conf")) {
-	$gzip_base = "gzip";
-}
+$gzip_base_conf = getLinkCustomfile($globalspath, "gzip.conf");
 
-if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
-	$ssl_base = "custom.ssl_base";
-} else if (file_exists("{$globalspath}/ssl_base.conf")) {
-	$ssl_base = "ssl_base";
-}
+$ssl_base_conf = getLinkCustomfile($globalspath, "ssl_base.conf");
 
-if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
-	$acme_challenge = "custom.acme-challenge";
-} else if (file_exists("{$globalspath}/acme-challenge.conf")) {
-	$acme_challenge = "acme-challenge";
-}
+$acmechallenge_conf = getLinkCustomfile($globalspath, "acme-challenge.conf");
+
+$pagespeed_conf = getLinkCustomfile($globalspath, "pagespeed.conf");
+
+$cgi_conf = getLinkCustomfile($globalspath, "cgi.conf");
 
 $listens = array('listen_nonssl', 'listen_ssl');
 
@@ -230,7 +222,7 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 
 <?=$general_header_text;?>
 
@@ -238,7 +230,7 @@ server {
 		if ($count !== 0) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -256,7 +248,7 @@ server {
 
 	server_name cp.<?=$domainname;?>;
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 
 	index <?=$indexorder;?>;
 
@@ -280,7 +272,7 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 
 <?=$general_header_text;?>
 
@@ -288,7 +280,7 @@ server {
 		if ($count !== 0) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -306,7 +298,7 @@ server {
 
 	server_name stats.<?=$domainname;?>;
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 
 	index <?=$indexorder;?>;
 
@@ -341,7 +333,7 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 
 <?=$general_header_text;?>
 
@@ -349,7 +341,7 @@ server {
 		if ($count !== 0) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -367,7 +359,7 @@ server {
 
 	server_name webmail.<?=$domainname;?>;
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 
 	index <?=$indexorder;?>;
 
@@ -405,7 +397,7 @@ server {
 			if (!$disable_pagespeed) {
 ?>
 
-	include '<?=$globalspath;?>/pagespeed.conf';
+	include '<?=$pagespeed_conf;?>';
 <?php
 			} else {
 ?>
@@ -420,7 +412,7 @@ server {
 	//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 <?php
 	//	}
 ?>
@@ -439,7 +431,7 @@ server {
 			if ($enablessl) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -468,7 +460,7 @@ server {
 		}
 ?>
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 
 	index <?=$indexorder;?>;
 
@@ -532,7 +524,7 @@ server {
 		if ($enablecgi) {
 ?>
 
-	include '<?=$globalspath;?>/cgi.conf';
+	include '<?=$cgi_conf;?>';
 <?php
 		}
 
@@ -717,13 +709,12 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/pagespeed.conf';
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 <?php
 				//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 <?php
 				//	}
 ?>
@@ -734,7 +725,7 @@ server {
 						if ($enablessl) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -753,7 +744,7 @@ server {
 
 	server_name <?=$redirdomainname;?> www.<?=$redirdomainname;?>;
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 
 	index <?=$indexorder;?>;
 
@@ -766,7 +757,7 @@ server {
 					if ($enablecgi) {
 ?>
 
-	include '<?=$globalspath;?>/cgi.conf';
+	include '<?=$cgi_conf;?>';
 <?php
 					}
 ?>
@@ -812,7 +803,7 @@ server {
 	//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 <?php
 	//	}
 ?>
@@ -824,7 +815,7 @@ server {
 						if ($enablessl) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -843,7 +834,7 @@ server {
 
 	server_name <?=$redirdomainname;?> www.<?=$redirdomainname;?>;
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 
 	index <?=$indexorder;?>;
 
@@ -856,7 +847,7 @@ server {
 					if ($enablecgi) {
 ?>
 
-	include '<?=$globalspath;?>/cgi.conf';
+	include '<?=$cgi_conf;?>';
 <?php
 					}
 ?>
@@ -885,7 +876,7 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 
 <?=$general_header_text;?>
 
@@ -893,7 +884,7 @@ server {
 					if ($count !== 0) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -911,7 +902,7 @@ server {
 
 	server_name webmail.<?=$parkdomainname;?>;
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 <?php
 					if ($webmailremote) {
 ?>
@@ -951,7 +942,7 @@ server {
 
 	include '<?=$globalspath;?>/<?=$listen;?>.conf';
 
-	include '<?=$globalspath;?>/<?=$gzip_base;?>.conf';
+	include '<?=$gzip_base_conf;?>';
 
 <?=$general_header_text;?>
 
@@ -959,7 +950,7 @@ server {
 					if ($count !== 0) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$ssl_base;?>.conf';
+	include '<?=$ssl_base_conf;?>';
 
 	ssl_certificate <?=$certname;?>.pem;
 	ssl_certificate_key <?=$certname;?>.key;
@@ -977,7 +968,7 @@ server {
 
 	server_name webmail.<?=$redirdomainname;?>;
 
-	include '<?=$globalspath;?>/<?=$acme_challenge;?>.conf';
+	include '<?=$acmechallenge_conf;?>';
 <?php
 					if ($webmailremote) {
 ?>

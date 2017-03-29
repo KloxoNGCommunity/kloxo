@@ -141,11 +141,7 @@ if ($blockips) {
 	$blockips = implode(' ', $blockips);
 }
 
-if (file_exists("{$globalspath}/custom.acme-challenge.conf")) {
-	$acmechallenge = "custom.acme-challenge";
-} else if (file_exists("{$globalspath}/acme-challenge.conf")) {
-	$acmechallenge = "acme-challenge";
-}
+$acmechallenge_conf = getLinkCustomfile($globalspath, "acme-challenge.conf");
 
 if ($general_header) {
 //	if (!reverseproxy) {
@@ -204,19 +200,7 @@ if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 	$use_httpd24 = false;
 }
 
-if ($use_httpd24) {
-	if (file_exists("{$globalspath}/custom.ssl_base24.conf")) {
-		$ssl_base = "custom.ssl_base24";
-	} else if (file_exists("{$globalspath}/ssl_base24.conf")) {
-		$ssl_base = "ssl_base24";
-	}
-} else {
-	if (file_exists("{$globalspath}/custom.ssl_base.conf")) {
-		$ssl_base = "custom.ssl_base";
-	} else if (file_exists("{$globalspath}/ssl_base.conf")) {
-		$ssl_base = "ssl_base";
-	}
-}
+$ssl_base_conf = getLinkCustomfile($globalspath, "ssl_base.conf");
 
 $userinfo = posix_getpwnam($user);
 
@@ -296,7 +280,7 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName cp.<?=$domainname;?>
 
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$cpdocroot;?>"
 
@@ -314,7 +298,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key
@@ -450,7 +434,7 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName stats.<?=$domainname;?>
 
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$statsdocroot;?>"
 
@@ -468,7 +452,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key
@@ -675,7 +659,7 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?=$domainname;?>
 
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$webmaildocroot;?>"
 
@@ -692,7 +676,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key
@@ -740,7 +724,7 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?=$domainname;?>
 
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$webmaildocroot;?>"
 
@@ -758,7 +742,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key
@@ -935,7 +919,7 @@ foreach ($certnamelist as $ip => $certname) {
 		*/
 ?>
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 <?php
 			if ($count !== 0) {
 				if ($enablessl) {
@@ -946,7 +930,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key
@@ -1271,7 +1255,7 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerAlias www.<?=$redirdomainname;?>
 
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$webdocroot;?>"
 
@@ -1289,7 +1273,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key
@@ -1347,7 +1331,7 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?=$parkdomainname;?>
 
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$webmaildocroot;?>"
 
@@ -1362,7 +1346,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key
@@ -1526,7 +1510,7 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?=$redirdomainname;?>
 
 
-	Include <?=$globalspath;?>/<?=$acmechallenge;?>.conf
+	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$webmaildocroot;?>"
 
@@ -1541,7 +1525,7 @@ foreach ($certnamelist as $ip => $certname) {
 	</IfModule>
 
 	<IfModule mod_ssl.c>
-		Include <?=$globalspath;?>/<?=$ssl_base;?>.conf
+		Include "<?=$ssl_base_conf;?>"
 
 		SSLCertificateFile <?=$certname;?>.pem
 		SSLCertificateKeyFile <?=$certname;?>.key

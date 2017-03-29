@@ -1,4 +1,12 @@
-yum deplist php53u* \
+#!/bin/sh
+
+if [ "${1}" == "" ] ; then
+	t='php56u'
+else
+	t=${1}
+fi
+
+yum deplist ${t}* \
 	|grep "dependency:"\
 	|grep -v "php"\
 	|grep -v "httpd"\

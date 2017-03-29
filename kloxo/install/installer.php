@@ -11,16 +11,12 @@ $lxlabspath = "/usr/local/lxlabs";
 $kloxopath = "{$lxlabspath}/kloxo";
 $currentpath = realpath(dirname(__FILE__));
 
-date_default_timezone_set('UTC');
-$currentstamp = date("Y-m-d-H-i-s");
-
 // State must declate first
 $kloxostate = getKloxoType();
 
 $opt = parse_opt($argv);
 
 $installtype = (isset($opt['install-type'])) ? $opt['install-type'] : 'master';
-$installfrom = (isset($opt['install-from'])) ? $opt['install-from'] : 'install';
 $installstep = (isset($opt['install-step'])) ? $opt['install-step'] : '1';
 
 $mypass = password_gen();
@@ -33,7 +29,7 @@ $dbpass = '';
 
 function lxins_main()
 {
-	global $kloxopath, $kloxostate, $installtype, $installfrom, $installstep, $currentstamp;
+	global $kloxopath, $kloxostate, $installtype, $installstep;
 
 	// MR -- crucial because segfault if not exists
 	if (!file_exists("{$kloxopath}/log")) {
@@ -102,30 +98,10 @@ function lxins_main()
 		//--- Create temporary flags for install
 		@system("mkdir -p /var/cache/kloxo/");
 
-		if ($installfrom !== 'setup') {
-			//--- Ask Reinstall
-			if (get_yes_no("\nKloxo seems already installed do you wish to continue?") == 'n') {
-				print("\nInstallation Aborted.\n");
-
-				exit;
-			}
-		}
-
-		system("'cp' -rf {$kloxopath} {$kloxopath}.{$currentstamp}");
-	} else {
-		if ($installfrom !== 'setup') {
-			print("\n*** You are installing Kloxo-MR (Kloxo fork by Mustafa Ramadhan) ***\n");
-			print("- Better using backup-restore process for update from Kloxo 6.1.12+.\n");
-			print("  No guarantee always success update from Kloxo after 6.1.12 version\n\n");
-
-
-			//--- Ask License
-			if (get_yes_no("Kloxo is using AGPL-V3.0 License, do you agree with the terms?") == 'n') {
-				print("\nYou did not agree to the AGPL-V3.0 license terms.\n");
-				print("Installation aborted.\n\n");
-				exit;
-			} else {
-				print("\nInstalling Kloxo-MR = YES\n\n");
+		for ($x=0; $x<1000; $x++) {
+			if (!file_exists("{$kloxopath}.old{$x}")) {
+				system("'cp' -rf {$kloxopath} {$kloxopath}.old{$x}");
+				break;
 			}
 		}
 	}
@@ -172,18 +148,6 @@ function install_general_mine($value)
 	$value = implode(" ", $value);
 	print("\nInstalling $value ....\n");
 	system("yum -y install $value");
-}
-
-function installcomp_mail()
-{
-	/*
-		print(">>> Updateing PEAR chaannel <<<\n");
-		system('pear channel-update "pear.php.net"'); // to remove old channel warning
-		system("pear upgrade --force pear"); // force is needed
-		system("pear upgrade --force Archive_Tar"); // force is needed
-		system("pear upgrade --force structures_graph"); // force is needed
-		system("pear install log");
-	*/
 }
 
 function install_main()
@@ -341,7 +305,7 @@ function kloxo_vpopmail()
 
 function kloxo_install_step1()
 {
-	global $kloxopath, $kloxostate, $installfrom, $lxlabspath;
+	global $kloxopath, $kloxostate, $lxlabspath;
 
 	// MR -- disable this 'if' because trouble for update from lower version
 
@@ -396,30 +360,15 @@ function kloxo_install_step1()
 
 	system("mkdir -p {$kloxopath}");
 
-	if ($installfrom !== 'setup') {
-		if (file_exists("../../kloxomr-latest.tar.gz")) {
-			//--- Install from local file if exists
-			rm_if_exists("{$kloxopath}/kloxo-current.zip");
-			rm_if_exists("{$kloxopath}/kloxo-mr-latest.zip");
-			rm_if_exists("{$kloxopath}/kloxomr.tar.gz");
+	@chdir("/usr/local/lxlabs/kloxo");
+	@system("mkdir -p {$kloxopath}/log");
 
-			print("- Local copying Kloxo-MR release\n");
-			@system("mkdir -p /var/cache/kloxo");
-			@system("'cp' -rf ../../kloxomr-latest.tar.gz {$kloxopath}");
-
-			@chdir("/usr/local/lxlabs/kloxo");
-			@system("mkdir -p {$kloxopath}/log");
-		} else {
-			@chdir("/usr/local/lxlabs/kloxo");
-			@system("mkdir -p {$kloxopath}/log");
-
-			rm_if_exists("{$kloxopath}/kloxo-current.zip");
-			rm_if_exists("{$kloxopath}/kloxo-mr-latest.zip");
-			rm_if_exists("{$kloxopath}/kloxomr.tar.gz");
-		}
-	}
+	rm_if_exists("{$kloxopath}/kloxo-current.zip");
+	rm_if_exists("{$kloxopath}/kloxo-mr-latest.zip");
+	rm_if_exists("{$kloxopath}/kloxomr.tar.gz");
 
 	print(">>> Creating Symlink (in 64bit OS) for certain components <<<\n");
+
 	if (php_uname('m') === 'x86_64') {
 		if (file_exists("/usr/lib/php")) {
 			@system("'mv' -f /usr/lib/php /usr/lib/php.bck");
@@ -436,16 +385,6 @@ function kloxo_install_step1()
 				@system("ln -s /usr/lib64/{$sl} /usr/lib/{$sl}");
 			}
 		}
-	}
-
-	if ($installfrom !== 'setup') {
-		print("\n\nInstalling Kloxo-MR.....\n\n");
-
-		system("tar -xzf kloxomr-latest.tar.gz -C ../");
-		rm_if_exists("{$kloxopath}/kloxomr-latest.tar.gz");
-		@system("'mv' -f ../kloxomr-* ../kloxomr");
-		@system("'cp' -rf ../kloxomr/* ../kloxo");
-		rm_if_exists("../kloxomr");
 	}
 
 	@system("chown -R lxlabs:lxlabs {$kloxopath}/cexe");
@@ -815,7 +754,7 @@ function getPhpBranch()
 // MR -- taken from lib.php
 function getMysqlBranch()
 {
-	$a = array('mysql', 'mysql50', 'mysql51', 'mysql53', 'mysql55', 'mariadb', 'MariaDB');
+	$a = array('mysql', 'mysql55', 'mysql56', 'mariadb', 'MariaDB');
 
 	foreach ($a as &$e) {
 		if (isRpmInstalled($e . '-server')) {

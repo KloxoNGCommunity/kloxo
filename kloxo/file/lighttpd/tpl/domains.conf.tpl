@@ -152,17 +152,11 @@ if ($statsapp === 'webalizer') {
 
 $globalspath = "/opt/configs/lighttpd/conf/globals";
 
-if (file_exists("{$globalspath}/custom.gzip.conf")) {
-	$gzip_base = "custom.gzip";
-} else if (file_exists("{$globalspath}/gzip.conf")) {
-	$gzip_base = "gzip";
-}
+$acmechallenge_conf = getLinkCustomfile($globalspath, "acme-challenge.conf");
 
-if (file_exists("{$globalspath}/custom.generic.conf")) {
-	$generic = "custom.generic";
-} else {
-	$generic = "generic";
-}
+$gzip_base_conf = getLinkCustomfile($globalspath, "gzip.conf");
+
+$generic_conf = getLinkCustomfile($globalspath, "generic.conf");
 
 if ($general_header) {
 	$gh = explode("\n", trim($general_header, "\n"));
@@ -211,7 +205,7 @@ $HTTP["host"] =~ "^cp\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	server.follow-symlink = "disable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 
 <?=$general_header_text;?>
 
@@ -236,7 +230,7 @@ $HTTP["host"] =~ "^stats\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	server.follow-symlink = "disable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 
 <?=$general_header_text;?>
 
@@ -289,7 +283,7 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $domainname);?>" {
 
 	server.follow-symlink = "disable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 
 <?=$general_header_text;?>
 
@@ -330,12 +324,12 @@ $HTTP["host"] =~ "^<?=str_replace(".", "\.", $redirdomainname);?>" {
 
 	server.follow-symlink = "disable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 <?php
 		if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
-	include "<?=$globalspath;?>/<?=$gzip_base;?>.conf"
+	include "<?=$gzip_base_conf;?>"
 <?php
 		}
 ?>
@@ -422,7 +416,7 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $parkdomainname);?>" {
 
 	server.follow-symlink = "disable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 
 <?=$general_header_text;?>
 
@@ -479,7 +473,7 @@ $HTTP["host"] =~ "^webmail\.<?=str_replace(".", "\.", $redirdomainname);?>" {
 
 	server.follow-symlink = "disable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 
 <?=$general_header_text;?>
 
@@ -540,12 +534,12 @@ $HTTP["host"] =~ "<?=$serveralias;?><?=$ipssl;?>" {
 
 	server.follow-symlink = "disable"
 
-	include "<?=$globalspath;?>/acme-challenge.conf"
+	include "<?=$acmechallenge_conf;?>"
 <?php
 		if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
 
-	include "<?=$globalspath;?>/<?=$gzip_base;?>.conf"
+	include "<?=$gzip_base_conf;?>"
 <?php
 		}
 ?>
@@ -670,7 +664,7 @@ if ($redirectionremote) {
 	var.kloxoportssl = "<?=$kloxoportssl;?>"
 	var.kloxoportnonssl = "<?=$kloxoportnonssl;?>"
 
-	include "<?=$globalspath;?>/<?=$generic;?>.conf"
+	include "<?=$generic_conf;?>"
 
 	alias.url += ( "/" => var.rootdir )
 <?php
