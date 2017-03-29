@@ -8463,7 +8463,7 @@ function setAllInactivateWebServer($nolog = null)
 {
 	log_cleanup("Inactivate Web servers", $nolog);
 
-	$list = getAllWebDriverList();
+	$list = getAllRealWebDriverList();
 
 	foreach ($list as $k => $v) {
 		if ($v === 'apache') {
