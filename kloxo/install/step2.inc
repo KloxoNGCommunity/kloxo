@@ -21,7 +21,7 @@ else
 	fi
 fi
 
-$mypass = password_gen();
+mypass=$(mkpasswd -l 10)
 
 dbroot='root'
 dbpass=''
@@ -370,17 +370,17 @@ kloxo_install_before_bye() {
 }
 
 kloxo_install_bye() {
-	this_ip=$(ip addr show|grep 'inet'|grep 'scope global'|grep -v 'secondary'|awk '{print $2}'|awk -F '/' '{print $1}')
+	this_ip=$(hostname -i)
 	len=${#this_ip}
 
-	https_len=""
+	https_spc=""
 	for (( x=0; x<(39-${len}); x++ )) ; do
-		https_len=$https_len" "
+		https_spc=$https_spc" "
 	done
 
-	http_len=""
+	http_spc=""
 	for (( x=0; x<(43-${len}); x++ )) ; do
-		http_len=$http_len" "
+		http_spc=$http_spc" "
 	done
 
 		echo
@@ -391,8 +391,8 @@ kloxo_install_bye() {
 
 	if [ "${installtype}" == 'master' ] ; then
 		echo "._/ You can connect to the server at:                                        _/."
-		echo "._/     https://${this_ip}:7777 - secure ssl connection, or${https_len}_/."
-		echo "._/     http://${this_ip}:7778 - normal one.${http_len}_/."
+		echo "._/     https://${this_ip}:7777 - secure ssl connection, or${https_spc}_/."
+		echo "._/     http://${this_ip}:7778 - normal one.${http_spc}_/."
 		echo "._/                                                                          _/."
 		echo "._/ The login and password are 'admin' and 'admin' for new install.          _/."
 		echo "._/ After Logging in, you will have to change your password to               _/."
