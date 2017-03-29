@@ -8578,7 +8578,7 @@ function setActivateDnsServer($nolog = null)
 		if ($v === 'bind') {
 			$a = 'named';
 		} elseif ($v === 'yadifa') {
-			$a = 'yadifa';
+			$a = 'yadifad';
 		} else {
 			$a = $v;
 		}

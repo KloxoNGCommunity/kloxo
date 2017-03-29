@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Process for NSD service ***"
+echo "*** Process for SPAWN-FCGI service ***"
 
 if [ ! -f /tmp/fcgiwrap.sock ] ; then
 	'rm' -f /tmp/fcgiwrap.sock
