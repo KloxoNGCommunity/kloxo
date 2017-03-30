@@ -1,18 +1,20 @@
 #!/bin/sh
 
+list="php "$(ls -ld /opt/php* 2>/dev/null | grep -v 's'$ | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ')
+
 if [ "${1}" == "" ] ; then
-	echo "- Enable for all php-fpm (branch and multiple phps)"
-	for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
+	echo "- Enable for all php-fpm (branch and multiple php)"
+	for x in ${list} ; do
 		if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
-			echo "-- Enable for ${i}-fpm"
-			chkconfig ${i}-fpm on >/dev/null 2>&1
+			echo "-- Enable for ${x}-fpm"
+			chkconfig ${x}-fpm on >/dev/null 2>&1
 		else
-			if [ "${i}" != "php" ] ; then
-				echo "-- Enable for ${i}-fpm"
-				chkconfig ${i}-fpm on >/dev/null 2>&1
+			if [ "${x}" != "php" ] ; then
+				echo "-- Disable for ${x}-fpm"
+				chkconfig ${x}-fpm off >/dev/null 2>&1
 			else
-				echo "-- Disable for ${i}-fpm"
-				chkconfig ${i}-fpm off >/dev/null 2>&1
+				echo "-- Enable for ${x}-fpm"
+				chkconfig ${x}-fpm on >/dev/null 2>&1
 			fi
 		fi
 	done

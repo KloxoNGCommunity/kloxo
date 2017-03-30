@@ -1,13 +1,15 @@
 #!/bin/sh
 
+list="php "$(ls -ld /opt/php* 2>/dev/null | grep -v 's'$ | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ')
+
 if [ "{$1}" == "" ] ; then
-	echo "Disable for all php-fpm (branch and multiple phps)"
-	for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
-		echo "- For ${i}-fpm"
-		if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
-			chkconfig ${i}-fpm off >/dev/null 2>&1
-			chkconfig --del ${i}-fpm >/dev/null 2>&1
-		fi
+	echo "Disable for all php-fpm (branch and multiple php)"
+	for x in ${list} ; do
+		echo "- For ${x}-fpm"
+		#if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
+			chkconfig ${x}-fpm off >/dev/null 2>&1
+			chkconfig --del ${x}-fpm >/dev/null 2>&1
+		#fi
 	done
 else
 	echo "Disable for ${1}-fpm"
