@@ -370,11 +370,12 @@ kloxo_install_before_bye() {
 }
 
 kloxo_install_bye() {
-	this_ip=$(hostname -i)
+	## MR -- use '-i' instead '-I' because not exists in CentOS 5
+	this_ip=$(hostname -i|awk '{print $1}')
 	len=${#this_ip}
 
 	https_spc=""
-	for (( x=0; x<(39-${len}); x++ )) ; do
+	for (( x=0; x<(28-${len}); x++ )) ; do
 		https_spc=$https_spc" "
 	done
 
@@ -486,7 +487,7 @@ EOF
 		mkdir -p /var/cache/kloxo
 
 		for (( x=0; x<1000; x++ )) ; do
-			if [ ! -d ${kloxopath}.${x} ] ; then
+			if [ ! -d ${kloxopath}.old${x} ] ; then
 					'cp' -rf ${kloxopath} ${kloxopath}.old${x}
 					break
 			fi
