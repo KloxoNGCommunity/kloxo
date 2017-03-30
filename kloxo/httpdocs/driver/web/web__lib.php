@@ -50,7 +50,11 @@ class web__ extends lxDriverClass
 
 	static function setInstallPhpfpm()
 	{
-		exec("'cp' -rf ../file/php-fpm /opt/configs");
+		if (!file_exists("/opt/configs/php-fpm")) {
+			exec("mkdir -p /opt/configs/php-fpm");
+		}
+
+		exec("'cp' -rf ../file/php-fpm/* /opt/configs/php-fpm");
 
 		if (version_compare(getPhpVersion(), "5.3.2", ">")) {
 			lxfile_cp(getLinkCustomfile("/opt/configs/php-fpm/etc", "php53-fpm.conf"), "/etc/php-fpm.conf");

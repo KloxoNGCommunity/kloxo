@@ -5463,9 +5463,10 @@ function getRpmBranchList($pname)
 function getRpmVersion($rpmname)
 {
 
-	exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
+	// MR -- use '-qa' because need no output if package not exits
+	exec("rpm -qa --qf '%{VERSION}\n' {$rpmname}", $out);
 
-	if ($ret === 0) {
+	if (count($out) > 0) {
 		$ver = $out[0];
 	} else {
 		$ver = '0.0.0';
