@@ -8442,7 +8442,7 @@ function setAllWebServerInstall($nolog = null)
 				lxfile_cp(getLinkCustomfile("/opt/configs/apache/etc/conf.d", "pagespeed.conf"),
 					"/etc/httpd/conf.d/pagespeed.conf");
 			} else {
-					lxfile_cp("/etc/httpd/conf.d/_inactive_.conf", "/etc/httpd/conf.d/pagespeed.conf");
+				lxfile_cp("/opt/configs/apache/etc/conf.d/_inactive_.conf", "/etc/httpd/conf.d/pagespeed.conf");
 			}
 		} else {
 			$t = $ws[$v];

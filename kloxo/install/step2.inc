@@ -45,7 +45,7 @@ install_main() {
 install_web() {
 	echo ">>> Install Web services <<<"
 
-	if [ "$(yum list ^'httpd24u')" != "" ] ; then
+	if [ "$(yum list httpd24u)" != "" ] ; then
 		if [ "$(rpm -qa httpd)" != "" ] ; then
 			yum -y remove httpd* mod_*
 		fi
