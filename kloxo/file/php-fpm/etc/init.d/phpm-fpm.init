@@ -42,18 +42,18 @@ done
 
 start () {
     for (( c=0; c<count; c++ )) ; do
-        echo -n $"Starting ${prog[$c]} (Multiple Php): "
-        if [ "${prog[$c]}" == "php52m-fpm" ] ; then
-            daemonize=""
-        else
-            daemonize="--daemonize"
-        fi
         for sockfile in $(dir -l /opt/configs/php-fpm/sock/${basename[$c]}-*.sock 2>/dev/null|awk '{print $9}') ; do
             if [ "${sockfile}" != "" ] ; then
                 echo "- Delete $sockfile"
                 unlink $sockfile >/dev/null 2>&1
             fi
         done
+        echo -n $"Starting ${prog[$c]} (Multiple Php): "
+        if [ "${prog[$c]}" == "php52m-fpm" ] ; then
+            daemonize=""
+        else
+            daemonize="--daemonize"
+        fi
         daemon --pidfile ${pidfile[$c]} ${prog[$c]} -y ${fpm_conf[$c]} $daemonize
 
         RETVAL=$?

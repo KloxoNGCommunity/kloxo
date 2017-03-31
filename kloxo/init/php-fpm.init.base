@@ -27,17 +27,17 @@ lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 STOP_TIMEOUT=${STOP_TIMEOUT-30}
 
 start () {
-    echo -n $"Starting $prog (PHP Used): "
-    if [ "$prog" == "php-fpm" ] ; then
-        ## MR -- bug fix for handle 'php branch'
-        export PHP_INI_SCAN_DIR="/etc/php.d"
-    fi
     for sockfile in $(dir -l /opt/configs/php-fpm/sock/php-*.sock 2>/dev/null|awk '{print $9}') ; do
         if [ "${sockfile}" != "" ] ; then
             echo "- Delete $sockfile"
             unlink $sockfile >/dev/null 2>&1
         fi
     done
+    echo -n $"Starting $prog (PHP Used): "
+    if [ "$prog" == "php-fpm" ] ; then
+        ## MR -- bug fix for handle 'php branch'
+        export PHP_INI_SCAN_DIR="/etc/php.d"
+    fi
     daemon --pidfile ${pidfile} $prog -y /opt/configs/php-fpm/conf/php/php-fpm.conf 
     RETVAL=$?
     echo
