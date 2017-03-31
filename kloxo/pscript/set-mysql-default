@@ -2,32 +2,39 @@
 
 for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
 	if [ -f ${i} ] ; then
-		if [ "$(grep 'innodb_use_native_aio' ${i})" == "" ] ; then
-			sed -i -e's|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb_use_native_aio=0|g' ${i}
+		if [ "$(grep 'innodb_use_native_aio' ${i})" == "" ] || [ "$(grep 'innodb-use-native-aio' ${i})" == "" ] ; then
+			sed -i -e's|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb-use-native-aio=0|g' ${i}
 			echo "Add 'innodb_use_native_aio=0' to ${i}"
 		else
 			echo "Already exist 'innodb_use_native_aio' in ${i}"
 		fi
 
-		if [ "$(grep 'skip-innodb' ${i})" == "" ] ; then
+		if [ "$(grep 'skip_innodb' ${i})" == "" ] || [ "$(grep 'skip-innodb' ${i})" == "" ] ; then
 			sed -i -e's|\[mysqld\]|\[mysqld\]\nskip-innodb|g' ${i}
 			echo "Add 'skip-innodb' to ${i}"
 		else
 			echo "Already exist 'skip-innodb' in ${i}"
 		fi
 
-		if [ "$(grep 'default-storage-engine' ${i})" == "" ] ; then
+		if [ "$(grep 'default_storage_engine' ${i})" == "" ] || [ "$(grep 'default-storage-engine' ${i})" == "" ] ; then
 			sed -i -e's|\[mysqld\]|\[mysqld\]\ndefault-storage-engine=myisam|g' ${i}
 			echo "Add 'default-storage-engine=myisam' to ${i}"
 		else
 			echo "Already exist 'default-storage-engine=myisam' in ${i}"
 		fi
 
-		if [ "$(grep 'performance_schema' ${i})" == "" ] ; then
-			sed -i -e's|\[mysqld\]|\[mysqld\]\nperformance_schema=on|g' ${i}
+		if [ "$(grep 'performance_schema' ${i})" == "" ] || [ "$(grep 'performance-schema' ${i})" == "" ] ; then
+			sed -i -e's|\[mysqld\]|\[mysqld\]\nperformance-schema=on|g' ${i}
 			echo "Add 'performance_schema=on' to ${i}"
 		else
-			echo "Already exist 'performance_schema=on' in ${i}"
+			echo "Already exist 'performance-schema=on' in ${i}"
+		fi
+
+		if [ "$(grep 'max_allowed_packet' ${i})" == "" ] [ "$(grep 'max-allowed-packet' ${i})" == "" ] ; then
+			sed -i -e's|\[mysqld\]|\[mysqld\]\nmax-allowed-packet=256M|g' ${i}
+			echo "Add 'max-allowed-packet=256M' to ${i}"
+		else
+			echo "Already exist 'max-allowed-packet=256M' in ${i}"
 		fi
 	fi
 done
