@@ -8408,7 +8408,7 @@ function setAllWebServerInstall($nolog = null)
 						"yum -y remove {$hm['httpd']} >/dev/null 2>&1;" .
 						"yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
 
-					log_cleanup("- Replace for 'apache' ('httpd' to 'httpd24u')", $nolog);
+					log_cleanup("- Replace for 'apache' (to 'httpd24u')", $nolog);
 				} else {
 					log_cleanup("- No process for 'apache' ('httpd24')", $nolog);
 				}
@@ -8425,7 +8425,7 @@ function setAllWebServerInstall($nolog = null)
 						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" .
 						"yum -y install {$hm['httpd']} >/dev/null 2>&1");
 
-					log_cleanup("- Replace for 'apache' ('httpd24' to 'httpd')", $nolog);
+					log_cleanup("- Replace for 'apache' (to 'httpd24u')", $nolog);
 				} else {
 					log_cleanup("- No process for 'apache' ('httpd')", $nolog);
 				}

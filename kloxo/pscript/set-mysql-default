@@ -30,7 +30,7 @@ for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
 			echo "Already exist 'performance-schema=on' in ${i}"
 		fi
 
-		if [ "$(grep 'max_allowed_packet' ${i})" == "" ] [ "$(grep 'max-allowed-packet' ${i})" == "" ] ; then
+		if [ "$(grep 'max_allowed_packet' ${i})" == "" ] || [ "$(grep 'max-allowed-packet' ${i})" == "" ] ; then
 			sed -i -e's|\[mysqld\]|\[mysqld\]\nmax-allowed-packet=256M|g' ${i}
 			echo "Add 'max-allowed-packet=256M' to ${i}"
 		else
