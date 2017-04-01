@@ -89,30 +89,29 @@ class Service__Redhat extends lxDriverClass
 		exec("ps --no-headers -o comm 1", $servicetype);
 
 		if ($servicetype[0] === 'systemd') {
-			exec("systemctl list-unit-files --type=service|grep ^'${service}'", $systemd);
+			exec("systemctl list-unit-files --type=service|grep ^'{$service}'|grep 'enabled'", $systemd);
 
 			if (count($systemd) > 0) {
 				return true;
 			}
 		}
 
-		exec("chkconfig --list 2>/dev/null|grep ^'${service}'", $sysv);
+		exec("chkconfig --list 2>/dev/null|grep ^'{$service}'|grep ':on'", $sysv);
 
 		if (count($sysv) > 0) {
 			return true;
 		}
 
 		return false;
-
 	}
 
 	static function getServiceDetails($list)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$ps = lxshell_output("ps", "ax");
-		$run = Service__linux::getRunLevel();
-		$rclist = lscandir_without_dot("{$sgbl->__path_real_etc_root}/rc$run.d/");
+	//	$ps = lxshell_output("ps", "ax");
+	//	$run = Service__linux::getRunLevel();
+	//	$rclist = lscandir_without_dot("{$sgbl->__path_real_etc_root}/rc$run.d/");
 
 		foreach ($list as &$__l) {
 			$__l['install_state'] = 'dull';

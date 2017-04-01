@@ -104,7 +104,7 @@ class Llog extends Lxclass {
 			'djbdns.log' => 'DJBDns',
 			'nsd.log' => 'NSD',
 			'pdns.log' => 'PowerDNS',
-			'yadifa/' => 'Yadifa',
+			'yadifa/yadifa.log' => 'Yadifa',
 
 			'mysqld.log' => 'MySQL',
 
