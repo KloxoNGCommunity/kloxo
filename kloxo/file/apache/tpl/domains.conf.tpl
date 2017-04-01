@@ -237,7 +237,7 @@ foreach ($certnamelist as $ip => $certname) {
 </IfVersion>
 
 <IfVersion >= 2.4>
-	Include <?=$globalspath;?>/portnip.conf
+	Include "<?=$globalspath;?>/portnip.conf"
 </IfVersion>
 
 <?php
@@ -267,12 +267,14 @@ foreach ($certnamelist as $ip => $certname) {
 ## cp for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
 <?php
-			if ($pagespeed_ready) {
+		//	if ($disable_pagespeed) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
-			}
+		//	}
 ?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
@@ -421,12 +423,14 @@ foreach ($certnamelist as $ip => $certname) {
 ## stats for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
 <?php
-			if ($pagespeed_ready) {
+		//	if ($disable_pagespeed) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
-			}
+		//	}
 ?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
@@ -646,12 +650,14 @@ foreach ($certnamelist as $ip => $certname) {
 ## webmail for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
 <?php
-			if ($pagespeed_ready) {
+		//	if ($disable_pagespeed) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
-			}
+		//	}
 ?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
@@ -711,12 +717,14 @@ foreach ($certnamelist as $ip => $certname) {
 ## webmail for '<?=$domainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
 <?php
-			if ($pagespeed_ready) {
+		//	if ($disable_pagespeed) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
-			}
+		//	}
 ?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
@@ -880,11 +888,13 @@ foreach ($certnamelist as $ip => $certname) {
 
 	LimitInternalRecursion 256
 <?php
-		if ($pagespeed_ready) {
+		if ($disable_pagespeed) {
 			if (($disable_pagespeed) || (($driver[0] === 'nginx') && (file_exists("/etc/nginx/conf.d/pagespeed.conf")))) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
 			}
 		}
@@ -1144,7 +1154,7 @@ foreach ($certnamelist as $ip => $certname) {
 	<IfModule mod_php5.c>
 		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i"
 		php_admin_value sendmail_from "<?=$domainname;?>"
-		Include /home/kloxo/client/<?=$user;?>/prefork.inc
+		Include "/home/kloxo/client/<?=$user;?>/prefork.inc"
 	</IfModule>
 
 	<Location "/">
@@ -1239,12 +1249,14 @@ foreach ($certnamelist as $ip => $certname) {
 ## web for redirect '<?=$redirdomainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
 <?php
-				if ($pagespeed_ready) {
+			//	if ($disable_pagespeed) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
-				}
+			//	}
 ?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
@@ -1318,10 +1330,12 @@ foreach ($certnamelist as $ip => $certname) {
 ## webmail for parked '<?=$parkdomainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
 <?php
-					if ($pagespeed_ready) {
+					if ($disable_pagespeed) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
 					}
 ?>
@@ -1497,12 +1511,14 @@ foreach ($certnamelist as $ip => $certname) {
 ## webmail for redirect '<?=$redirdomainname;?>'
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
 <?php
-					if ($pagespeed_ready) {
+				//	if ($disable_pagespeed) {
 ?>
 
-	ModPageSpeed unplugged
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 <?php
-					}
+				//	}
 ?>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1

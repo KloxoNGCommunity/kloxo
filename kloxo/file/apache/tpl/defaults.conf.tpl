@@ -150,7 +150,7 @@ foreach ($typelist as $k => $v) {
 
 $custom_conf = getLinkCustomfile($srcpath, "suphp.conf");
 copy($custom_conf, "{$trgtpath}/suphp.conf");
-			
+
 foreach ($certnamelist as $ip => $certname) {
 	$certnamelist[$ip] = "{$sslpath}/{$certname}";
 }
@@ -269,6 +269,10 @@ foreach ($certnamelist as $ip => $certname) {
 
 ### 'default' config
 <VirtualHost ${ip}:<?=$portlist[$count];?> >
+
+	<IfModule pagespeed_module>
+		ModPageSpeed unplugged
+	</IfModule>
 
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
