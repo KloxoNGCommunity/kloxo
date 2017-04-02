@@ -445,35 +445,7 @@ lxins_main() {
 	## MR -- to make sure /tmp ready for all; found mysql not able to start if not 1777
 	chmod 1777 /tmp
 
-	## MR -- modified sysctl.conf because using socket instead port for php-fpm
-	pattern="fs.file-max"
-	sysctlconf=$(cat /etc/sysctl.conf)
-
-	echo ">>> Modified /etc/sysctl.conf <<<"
-
-	## MR - https://bbs.archlinux.org/viewtopic.php?pid=1002264
-	#       also add 'fs.aio-max-nr' for mysql 5.5 innodb aio issue
-read -r -d '' patch << EOF
-### begin -- add by Kloxo-MR
-fs.aio-max-nr = 1048576
-fs.file-max = 1048576
-net.ipv4.tcp_syncookies = 1 .
-net.ipv4.tcp_max_syn_backlog = 2048
-net.ipv4.tcp_synack_retries = 3
-#vm.swappiness = 10
-#vm.vfs_cache_pressure = 100
-#vm.dirty_background_ratio = 15
-#vm.dirty_ratio = 5
-### end -- add by Kloxo-MR
-EOF
-
-	if [ "$(echo ${sysctlconf}|grep ${pattern})" == "" ] ; then
-		## MR -- problem with for openvz
-		if [ "$(/proc/self/status|grep envID)" == "" ] ; then
-			echo ${patch} >> /etc/sysctl.conf
-			sysctl -e -p
-		fi
-	fi
+	sh /script/fix-sysctl
 
 	install_yum_repo
 

@@ -42,3 +42,7 @@ fi
 if [ "$(uname -m)" == "x86_64" ] ; then
 	yum remove -y *.i386 *.i686
 fi
+
+if [ "$(rpm -qa redhat-lsb)" == "" ] ; then
+	yum install -y redhat-lsb
+fi
