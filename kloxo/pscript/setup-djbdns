@@ -1,8 +1,15 @@
 #!/bin/sh
 
+ppath="/home/djbdns"
+
 ### MR - use 0.0.0.0 (that mean all ips) instead current IPs
 
 for a in dnslog dnscache tinydns axfrdns ; do
+	## MR -- delete wrong location
+	if [ -d /{$a} ] ; then
+		'rm' -rf ${a}
+	fi
+
 	if ! [ $(id -u ${a}) ] ; then
 		/usr/sbin/useradd -r ${a}
 	else
@@ -15,7 +22,7 @@ echo "* DJBDns setup for: "
 
 echo '  - tinydns setup finished'
 if [ -d ${ppath}/tinydns/env ] ; then
-	rm -rf ${ppath}/tinydns
+	'rm' -rf ${ppath}/tinydns
 fi
 
 tinydns-conf tinydns dnslog ${ppath}/tinydns 127.0.0.1
@@ -25,14 +32,14 @@ echo '0.0.0.0' > ${ppath}/tinydns/env/IP
 echo '  - axfrdns setup finished'
 
 if [ -d ${ppath}/axfrdns/env ] ; then
-	rm -rf ${ppath}/axfrdns
+	'rm' -rf ${ppath}/axfrdns
 fi
 
 axfrdns-conf axfrdns dnslog ${ppath}/axfrdns ${ppath}/tinydns 0.0.0.0
 /usr/bin/tcprules ${ppath}/axfrdns/tcp.cdb ${ppath}/axfrdns/tcp.tmp	< ${ppath}/axfrdns/tcp
 
 if [ -d ${ppath}/dnscache/env ] ; then
-	rm -rf ${ppath}/dnscache
+	'rm' -rf ${ppath}/dnscache
 fi
 
 echo '  - dnscache setup finished'

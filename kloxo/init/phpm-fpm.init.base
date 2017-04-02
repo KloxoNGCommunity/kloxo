@@ -27,12 +27,6 @@ lockfile=${LOCKFILE-/var/lock/subsys/__custom_name__-fpm}
 STOP_TIMEOUT=${STOP_TIMEOUT-30}
 
 start () {
-    for sockfile in $(dir -l /opt/configs/php-fpm/sock/__custom_name__-*.sock 2>/dev/null|awk '{print $9}') ; do
-        if [ "${sockfile}" != "" ] ; then
-            echo "- Delete $sockfile"
-            unlink $sockfile >/dev/null 2>&1
-        fi
-    done
     echo -n $"Starting $prog (Multiple Php): "
     if [ "$prog" == "php-fpm" ] ; then
         ## MR -- bug fix for handle 'php branch'
@@ -50,6 +44,12 @@ stop () {
     echo
     if [ $RETVAL -eq 0 ] ; then
         rm -f ${lockfile} ${pidfile}
+        for sockfile in $(dir -l /opt/configs/php-fpm/sock/__custom_name__-*.sock 2>/dev/null|awk '{print $9}') ; do
+            if [ "${sockfile}" != "" ] ; then
+                echo "- Delete $sockfile"
+                unlink $sockfile >/dev/null 2>&1
+            fi
+        done
     fi
 }
 
