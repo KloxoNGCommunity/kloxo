@@ -18,31 +18,27 @@ for a in dnslog dnscache tinydns axfrdns ; do
 	fi
 done
 
+if [ ! -d ${ppath} ] ; then
+	mkdir -p ${ppath}
+fi
+
 echo "* DJBDns setup for: "
 
 echo '  - tinydns setup finished'
-if [ -d ${ppath}/tinydns/env ] ; then
-	'rm' -rf ${ppath}/tinydns
-fi
-
 tinydns-conf tinydns dnslog ${ppath}/tinydns 127.0.0.1
-mkdir -p ${ppath}/tinydns/env
+if [ ! -d ${ppath}/tinydns/env ] ; then
+	mkdir -p ${ppath}/tinydns/env
+fi
 echo '0.0.0.0' > ${ppath}/tinydns/env/IP
 
 echo '  - axfrdns setup finished'
-
-if [ -d ${ppath}/axfrdns/env ] ; then
-	'rm' -rf ${ppath}/axfrdns
-fi
-
 axfrdns-conf axfrdns dnslog ${ppath}/axfrdns ${ppath}/tinydns 0.0.0.0
 /usr/bin/tcprules ${ppath}/axfrdns/tcp.cdb ${ppath}/axfrdns/tcp.tmp	< ${ppath}/axfrdns/tcp
 
-if [ -d ${ppath}/dnscache/env ] ; then
-	'rm' -rf ${ppath}/dnscache
-fi
-
 echo '  - dnscache setup finished'
 dnscache-conf dnscache dnslog ${ppath}/dnscache 127.0.0.1
-mkdir -p ${ppath}/dnscache/env
+if [ ! -d ${ppath}/dnscache/env ] ; then
+	mkdir -p ${ppath}/dnscache/env
+fi
 echo '127.0.0.1' > ${ppath}/dnscache/env/IP
+
