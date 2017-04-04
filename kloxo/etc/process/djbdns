@@ -8,10 +8,11 @@ if [ ! -f /var/run/djbdns.pid ] ; then
 	fi
 fi
 
-echo "  - Process: dnsnotify"
-for i in $(ls /opt/configs/djbdns/conf/master) ; do
-	sh /script/dnsnotify ${i}
-done
+## MR -- exists in list.transfered.conf.tpl
+#echo "  - Process: dnsnotify"
+#for i in $(ls /opt/configs/djbdns/conf/master) ; do
+#	sh /script/dnsnotify ${i}
+#done
 
 echo "  - Process: restart"
 service djbdns stop

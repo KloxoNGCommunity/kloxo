@@ -22,6 +22,8 @@
 
 	file_put_contents($file, $content);
 
+	if {$driver !== 'maradns') { return; }
+
 	if (!isServiceExists('maradns')) {
 		if ($action === 'fix') {
 			if (array_keys($domains)) {

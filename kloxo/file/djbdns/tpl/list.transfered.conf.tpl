@@ -32,10 +32,12 @@
 
 	exec("cd {$datadir}; cat master slave reverse > data; make");
 
+	if ($driver === 'djbdns') { return; }
+
 	$path = "/opt/configs/djbdns/conf/master";
 	$dirs = glob("{$path}/*");
 
 	foreach ($dirs as $d) {
 		$d = str_replace("{$path}/", "", $d);
-			exec_with_all_closed("sh /script/dnsnotify {$d}");
+		exec_with_all_closed("sh /script/dnsnotify {$d}");
 	}

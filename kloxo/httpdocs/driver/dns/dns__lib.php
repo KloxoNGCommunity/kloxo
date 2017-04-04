@@ -95,6 +95,9 @@ class dns__ extends lxDriverClass
 	{
 		$input = array();
 
+		// MR -- need to make sure for dnsnotify
+		$input['driver'] = self::getActiveDriver();
+
 		$ip_dns = $this->getIps();
 	//	$ip_hostname = array(gethostbyname(php_uname('n')));
 		// MR -- IP list without hostname IP
@@ -140,6 +143,8 @@ class dns__ extends lxDriverClass
 		// MR -- IP list without hostname IP
 		$input['ips'] = array_diff($ip_dns, $ip_hostname);
 	*/
+		// MR -- need to make sure for dnsnotify
+		$input['driver'] = self::getActiveDriver();
 
 		$input['ips'] = $this->getIps();
 		$input['serverips'] = $this->getServerIps();
