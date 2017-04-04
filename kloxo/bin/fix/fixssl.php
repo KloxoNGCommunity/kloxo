@@ -15,7 +15,7 @@ foreach($ilist as $b) {
 	if (strrpos($b->nname, '__localhost')) {
 		$n = $b->nname;
 
-		print("- Processing for '{$n}' ssl files\n");
+		print("- Process for '{$n}' ssl files\n");
 
 		if (!is_link("{$kloxo_ssl_path}/{$n}.pem")) {
 			$list = array('key', 'crt', 'ca', 'pem');
@@ -29,7 +29,31 @@ foreach($ilist as $b) {
 	}
 }
 
-print("- Processing for 'program' SSL files\n");
+print("- Process for 'program' SSL files\n");
+
+if ((!is_link("{$kloxo_etc_path}/program.pem")) ||
+		((is_link("{$kloxo_etc_path}/program.pem")) && (!file_exists("{$kloxo_etc_path}/program.pem")))) {
+	$list = array('key', 'crt', 'ca', 'pem');
+
+	foreach ($list as $k => $v) {
+		if (file_exists("{$kloxo_file_path}/default.{$v}")) {
+			exec("'rm' -f {$kloxo_etc_path}/program.{$v}");
+			exec("'cp' -f {$kloxo_file_path}/default.{$v} {$kloxo_etc_path}/program.{$v}");
+		}
+	}
+}
+
+print("- Process for Pure-FTPD SSL files\n");
+
+$pureftp_path="/etc/pki/pure-ftpd";
+
+if (file_exists("{$pureftp_path}/pure-ftpd.pem")) {
+	if (!file_exists("{$pureftp_path}/pure-ftpd.pem.old")) {
+		exec("'mv' -f {$pureftp_path}/pure-ftpd.pem {$pureftp_path}/pure-ftpd.pem.old");
+	}
+
+	exec("'cp' -f {$kloxo_file_path}/default.pem {$pureftp_path}/pure-ftpd.pem");
+}
 
 if ((!is_link("{$kloxo_etc_path}/program.pem")) ||
 		((is_link("{$kloxo_etc_path}/program.pem")) && (!file_exists("{$kloxo_etc_path}/program.pem")))) {
@@ -52,7 +76,7 @@ $lepath = "/etc/letsencrypt";
 $apath = "/root/.acme.sh/";
 $spath = "/root/.startapi.sh";
 
-print("- Updating for 'domain' SSL files\n");
+print("- Update for 'domain' SSL files\n");
 
 foreach($slist as $b) {
 	if (csb($b->parent_clname, 'web-')) {
@@ -87,7 +111,7 @@ foreach($slist as $b) {
 	$b->was();
 }
 
-print("- Processing for 'domain' SSL files\n");
+print("- Process for 'domain' SSL files\n");
 
 foreach($slist as $b) {
 	if (csb($b->parent_clname, 'web-')) {
