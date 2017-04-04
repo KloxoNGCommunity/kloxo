@@ -32,7 +32,7 @@
 
 	exec("cd {$datadir}; cat master slave reverse > data; make");
 
-	if ($driver === 'djbdns') { return; }
+	if ($driver !== 'djbdns') { return; }
 
 	$path = "/opt/configs/djbdns/conf/master";
 	$dirs = glob("{$path}/*");
