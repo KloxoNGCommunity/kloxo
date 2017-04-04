@@ -4,10 +4,18 @@ ppath="/home/djbdns"
 
 ### MR - use 0.0.0.0 (that mean all ips) instead current IPs
 
+if [ ! -d ${ppath} ] ; then
+	mkdir -p ${ppath}
+fi
+
 for a in dnslog dnscache tinydns axfrdns ; do
 	## MR -- delete wrong location
-	if [ -d /{$a} ] ; then
-		'rm' -rf ${a}
+	if [ -d /${a} ] ; then
+		'rm' -rf /${a}
+	fi
+
+	if [ -d /home/djbdns/${a} ] ; then
+		'rm' -rf /home/djbdns/${a}
 	fi
 
 	if ! [ $(id -u ${a}) ] ; then
@@ -17,10 +25,6 @@ for a in dnslog dnscache tinydns axfrdns ; do
 		/usr/sbin/useradd -r ${a}
 	fi
 done
-
-if [ ! -d ${ppath} ] ; then
-	mkdir -p ${ppath}
-fi
 
 echo "* DJBDns setup for: "
 

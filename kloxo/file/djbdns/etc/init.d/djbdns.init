@@ -120,10 +120,18 @@ status() {
 setup() {
 	### MR - use 0.0.0.0 (that mean all ips) instead current IPs
 
+	if [ ! -d ${ppath} ] ; then
+		mkdir -p ${ppath}
+	fi
+
 	for a in dnslog dnscache tinydns axfrdns ; do
 		## MR -- delete wrong location
-		if [ -d /{$a} ] ; then
-			'rm' -rf ${a}
+		if [ -d /${a} ] ; then
+			'rm' -rf /${a}
+		fi
+
+		if [ -d /home/djbdns/${a} ] ; then
+			'rm' -rf /home/djbdns/${a}
 		fi
 
 		if ! [ $(id -u ${a}) ] ; then
@@ -134,16 +142,12 @@ setup() {
 		fi
 	done
 
-	if [ ! -d ${ppath} ] ; then
-		mkdir -p ${ppath}
-	fi
-
 	echo "* DJBDns setup for: "
 
 	echo '  - tinydns setup finished'
 	tinydns-conf tinydns dnslog ${ppath}/tinydns 127.0.0.1
-	if [ ! -f ${ppath}/tinydns/env ] ; then
-		mkdir -p ${ppath}/tinydns/env
+	if [ ! -d ${ppath}/tinydns/env ] ; then
+	mkdir -p ${ppath}/tinydns/env
 	fi
 	echo '0.0.0.0' > ${ppath}/tinydns/env/IP
 
@@ -153,7 +157,7 @@ setup() {
 
 	echo '  - dnscache setup finished'
 	dnscache-conf dnscache dnslog ${ppath}/dnscache 127.0.0.1
-	if [ ! -f ${ppath}/dnscache/env ] ; then
+	if [ ! -d ${ppath}/dnscache/env ] ; then
 		mkdir -p ${ppath}/dnscache/env
 	fi
 	echo '127.0.0.1' > ${ppath}/dnscache/env/IP
