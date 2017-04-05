@@ -419,12 +419,12 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
-
-	UseLocalConfig = yes
 <?php
 /*
-		if ($reverseproxy) {
+		if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
+
+	UseLocalConfig = no
 
 	UseToolkit = block_shellshock, block_httpoxy
 
@@ -438,6 +438,8 @@ VirtualHost {
 		} else {
 */
 ?>
+
+	UseLocalConfig = yes
 
 	UseFastCGI = php_apache
 	UseToolkit = block_shellshock, block_httpoxy, findindexfile_<?=$domcleaner;?>, permalink
@@ -508,12 +510,13 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
-
-	UseLocalConfig = yes
 <?php
 /*
-		if ($reverseproxy) {
+		if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
+
+	UseLocalConfig = no
+
 	UseToolkit = block_shellshock, block_httpoxy
 
 	#ReverseProxy ^/.* http://127.0.0.1:30080/ <?=$timeout;?>
@@ -526,6 +529,8 @@ VirtualHost {
 		} else {
 */
 ?>
+
+	UseLocalConfig = yes
 
 	UseFastCGI = php_apache
 <?php
@@ -598,12 +603,12 @@ VirtualHost {
 
 
 	ExecuteCGI = yes
-
-	UseLocalConfig = yes
 <?php
 /*
-		if ($reverseproxy) {
+		if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
+
+	UseLocalConfig = no
 
 	UseToolkit = block_shellshock, block_httpoxy
 
@@ -617,6 +622,8 @@ VirtualHost {
 		} else {
 */
 ?>
+
+	UseLocalConfig = yes
 
 	UseFastCGI = php_apache
 <?php
@@ -769,16 +776,11 @@ VirtualHost {
 
 	ExecuteCGI = yes
 <?php
-				if ((!$reverseproxy) || (($reverseproxy) && ($webselected === 'front-end'))) {
+				if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
 
-	UseFastCGI = php_<?=$domclean;?>
-
-	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=$domcleaner;?>_<?=$protocol;?>, findindexfile_<?=$domcleaner;?>, permalink
-
-	UseLocalConfig = yes
+	UseLocalConfig = no
 <?php
-				} else {
 					if ($enablephp) {
 ?>
 
@@ -792,6 +794,15 @@ VirtualHost {
 
 <?php
 					}
+				} else {
+?>
+
+	UseLocalConfig = yes
+
+	UseFastCGI = php_<?=$domclean;?>
+
+	UseToolkit = block_shellshock, block_httpoxy, redirect_<?=$domcleaner;?>_<?=$protocol;?>, findindexfile_<?=$domcleaner;?>, permalink
+<?php
 				}
 		//	}
 		}
@@ -898,10 +909,11 @@ VirtualHost {
 
 	ExecuteCGI = yes
 
-	UseLocalConfig = yes
 <?php
 				if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
+
+	UseLocalConfig = no
 
 	UseToolkit = block_shellshock, block_httpoxy
 
@@ -914,6 +926,8 @@ VirtualHost {
 <?php
 				} else {
 ?>
+
+	UseLocalConfig = yes
 
 	UseFastCGI = php_<?=$domclean;?>
 
@@ -986,10 +1000,11 @@ VirtualHost {
 
 	ExecuteCGI = yes
 
-	UseLocalConfig = yes
 <?php
-					if ($reverseproxy) {
+					if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
+
+	UseLocalConfig = no
 
 	UseToolkit = block_shellshock, block_httpoxy
 
@@ -1002,6 +1017,8 @@ VirtualHost {
 <?php
 					} else {
 ?>
+
+	UseLocalConfig = yes
 
 	UseFastCGI = php_apache
 <?php
@@ -1093,10 +1110,11 @@ VirtualHost {
 
 	ExecuteCGI = yes
 
-	UseLocalConfig = yes
 <?php
-					if ($reverseproxy) {
+					if (($reverseproxy) && ($webselected === 'back-end')) {
 ?>
+
+	UseLocalConfig = no
 
 	UseToolkit = block_shellshock, block_httpoxy
 
@@ -1109,6 +1127,8 @@ VirtualHost {
 <?php
 					} else {
 ?>
+
+	UseLocalConfig = yes
 
 	UseFastCGI = php_apache
 <?php
