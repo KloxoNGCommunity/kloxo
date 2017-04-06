@@ -8,9 +8,11 @@
 
 	if (array_keys($ips)) {
 		$i = implode(", ", $ips);
-		$text .="    slave       {$i}\n";
+		$text .= "    slave       {$i}\n";
+		$yfile = getLinkCustomfile("{$ypath}/etc", "yadifad.conf");
 	} else {
-		$text .="    ## no info for slave\n";
+		$text .= "    ## no info for slave\n";
+		$yfile = getLinkCustomfile("{$ypath}/etc", "yadifad_noslave.conf");
 	}
 
 	$text .="</acl>\n\n";
@@ -18,12 +20,6 @@
 	file_put_contents($file, $text);
 
 	// MR -- then merge files because trouble with 'include'
-
-	if (file_exists("{$ypath}/etc/custom.yadifad.conf")) {
-		$yfile = "{$ypath}/etc/custom.yadifad.conf";
-	} else {
-		$yfile = "{$ypath}/etc/yadifad.conf";
-	}
 
 	$afile = $file;
 	$mfile = "{$ypath}/conf/defaults/yadifa.master.conf";
