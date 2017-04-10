@@ -320,7 +320,7 @@ class General extends Lxdb
 				$domain = $splitter[0];
 			}
 
-			if ($this->portconfig_b->redirectnonssl_flag === 'om') {
+			if ($this->portconfig_b->redirectnonssl_flag === 'on') {
 				$scheme = 'https';
 				$port = $this->portconfig_b->sslport;
 			} else {
