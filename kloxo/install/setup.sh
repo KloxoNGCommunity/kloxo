@@ -23,6 +23,12 @@
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 #
 
+## MR -- prohibit to install to CentOS 5 (EOL since 31 Mar 2017)
+if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
+	echo "*** No permit to install to CentOS 5 (because EOL since 31 Mar 2017)"
+	exit
+fi
+
 ppath="/usr/local/lxlabs/kloxo"
 
 if ! [ -d ${ppath}/log ] ; then

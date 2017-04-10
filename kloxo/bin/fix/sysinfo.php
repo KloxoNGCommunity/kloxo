@@ -287,12 +287,32 @@ if (file_exists("/etc/httpd/conf.d/suphp2.conf")) {
 	$secondary_php = 'off';
 }
 
+$out = null;
+
+$ftpbranch = getRpmBranchInstalled('pure-ftpd');
+if ($ftpbranch) {
+	exec("rpm -qa {$ftpbranch}", $out);
+	$appftp = trim($out[0]);
+} else {
+	$appftp = '--uninstalled--';
+}
+
 exec("free -m", $meminfo);
 
 exec("df -h /", $diskinfo);
 
 $gen = $login->getObject('general')->generalmisc_b;
 $webstatsprog = ($gen->webstatisticsprogram) ? $gen->webstatisticsprogram : 'awstats';
+
+$out = null;
+
+exec("rpm -qa {$webstatsprog}", $out);
+
+if (count($out) > 0) {
+	$appstats = $out[0];
+} else {
+	$appstats = '--uninstalled--';
+}
 
 echo "";
 echo "\n";
@@ -354,7 +374,11 @@ echo "      - pop3/imap4: " . $pop3app  . "\n";
 echo "      - smtp: " . $smtpapp  . "\n";
 echo "      - spam: " . $spamapp  . "\n";
 
-echo "   7. Stats: " .  $webstatsprog . "\n";
+echo "   7. FTP: pure-ftpd\n";
+echo "      - pure-ftpd: " . $appftp  . "\n";
+
+echo "   8. Stats: " .  $webstatsprog . "\n";
+echo "      - $webstatsprog: " . $appstats  . "\n";
 
 //echo "\n";
 echo "D. Memory:\n";

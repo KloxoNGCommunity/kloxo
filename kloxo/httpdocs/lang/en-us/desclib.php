@@ -413,7 +413,8 @@ $__description["config_buttons"] = array("Buttons Configure");
 $__description["deprecated"] = array("Deprecated");
 $__description["session_config"] = array("Session Configure");
 $__description["download_config"] = array("Download Configure");
-$__description["port_config"] = array("Port and Redirect Configure");
+//$__description["port_config"] = array("Port and Redirect Configure");
+$__description["port_config"] = array("Control Panel Configure");
 $__description["browse_backup_config"] = array("Browse Backup Configure");
 $__description["Configuration"] = array("Configuration");
 $__description["location"] = array("Location");
@@ -1453,3 +1454,5 @@ $__description["sendmailban"] = array("Sendmail to ban");
 $__description["sendmailban_target"] = array("Target");
 
 $__description["pagespeed_cache"] = array("Pagespeed cache (if used)");
+
+$__description["kloxo_wrapper"] = array("Select wrapper");

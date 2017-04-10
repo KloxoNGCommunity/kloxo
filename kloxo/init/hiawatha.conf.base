@@ -113,6 +113,8 @@ __fpmdisabled__UseFastCGI = PHP5
 UseToolkit = block_shellshock, block_httpoxy, findindexfile
 UseDirectory = static_file
 TimeForCGI = 3600
+UseLocalConfig = no
+
 #ErrorHandler = 400:/error/400.html
 ErrorHandler = 401:/error/401.html
 ErrorHandler = 403:/error/403.html

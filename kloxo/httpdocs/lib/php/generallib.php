@@ -48,6 +48,8 @@ class portconfig_b extends lxaclass
 	static $__desc_nonsslportdisable_flag = array("f", "", "disable_plainport");
 	static $__desc_redirectnonssl_flag = array("f", "", "redirect_non_ssl_to_ssl");
 	static $__desc_redirecttodomain = array("", "", "redirect_to_domain");
+
+	static $__desc_kloxowrapper = array("", "", "kloxo_wrapper");
 }
 
 class kloxoconfig_b extends lxaclass
@@ -269,6 +271,8 @@ class General extends Lxdb
 		$redirect_to_domain = $this->portconfig_b->redirecttodomain = $param['portconfig_b-redirecttodomain'];
 		$redirect_to_ssl = $this->portconfig_b->redirectnonssl_flag = $param['portconfig_b-redirectnonssl_flag'];
 
+		$kloxowrapper = $this->portconfig_b->kloxowrapper = $param['portconfig_b-kloxowrapper'];
+
 		exec("echo '$sslport' > /home/kloxo/httpd/cp/.ssl.port");
 		exec("echo '$nonsslport' > /home/kloxo/httpd/cp/.nonssl.port");
 
@@ -305,6 +309,8 @@ class General extends Lxdb
 
 			touch("../etc/flag/disableeasyinstaller.flg");
 		} elseif ($this->subaction === 'portconfig') {
+			exec("sh /script/select-kloxo-wrapper {$this->portconfig_b->kloxowrapper}");
+
 			$host = $_SERVER["HTTP_HOST"];
 			$splitter = explode(":", $host);
 
@@ -408,6 +414,14 @@ class General extends Lxdb
 			//	$vlist['portconfig_b-nonsslportdisable_flag'] = null;
 				$vlist['portconfig_b-redirectnonssl_flag'] = null;
 				$vlist['portconfig_b-redirecttodomain'] = null;
+
+				if (file_exists("../etc/flag/lowmem.flag")) {
+					$this->portconfig_b->setDefaultValue('kloxowrapper', 'kloxo.exe');
+				} else {
+					$this->portconfig_b->setDefaultValue('kloxowrapper', 'lxphp.exe');
+				}
+
+				$vlist['portconfig_b-kloxowrapper'] = array('s', array('kloxo.exe', 'lxphp.exe'));
 
 				break;
 

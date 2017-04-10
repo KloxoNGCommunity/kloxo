@@ -148,9 +148,9 @@ $__information['blockedip_addform__pre'] = "<p>This is only meant for blocking a
 	"If allowed ip list is non-empty then, automatically all ips not listed are denied.</p>";
 
 $__information['general_updateform_portconfig_pre'] = "<p>This page is primarily meant to configure the ports of Kloxo-MR.</p>".
-	"<p>After making the changes here, you will need to restart Kloxo-MR service once for the changes to take effect.</p>".
-	"<p>Run this command '<b>sh /script/defaultport</b>' and the ports will be reset to the default. You can then restart Kloxo-MR.</p>".
-	"<p>Leave the fields blank to revert to default ports.</p>";
+	"<p>Leave the fields blank to revert to default ports. Need restart panel with <b>sh /script/restart</b> if auto restart failed.</p>".
+	"<p>Run '<b>sh /script/defaultport; sh /script/restart</b>' and the ports will be reset to the default.</p>".
+	"<p>Choose <b>kloxo.exe</b> if need low memory usage for panel itself.</p>";
 
 $__information['lxbackup_updateform_schedule_conf_pre'] = "<p>Please note that only the scheduled backups, that is, ".
 	"backups that start with the name <b>kloxo-scheduled-</b>, will be rotated.</p>".
