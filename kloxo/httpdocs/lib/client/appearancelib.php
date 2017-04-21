@@ -56,7 +56,7 @@ class SpecialPlay_b extends Lxaclass
 	static $__desc_customermode_flag = array("f", "", "log_into_domain_owner_mode");
 	static $__desc_show_help = array("f", "", "show_xp_like_left_panel");
 	static $__desc_show_help_v_on = array("", "", "");
-	static $__desc_ssession_timeout = array("", "", "session_timeout_(in_secs)");
+	static $__desc_ssession_timeout = array("", "", "session_timeout");
 	static $__desc_show_add_buttons = array("f", "", "show_add_buttons_in_main_page");
 	static $__desc_lpanel_scrollbar = array("f", "", "enable_scroll_bar_in_tree_menu");
 	static $__desc_lpanel_group_resource = array("f", "", "group_resources_in_tree_menu");

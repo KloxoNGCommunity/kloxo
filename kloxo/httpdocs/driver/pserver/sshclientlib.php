@@ -59,7 +59,13 @@ class sshclient extends lxclass
 			$connectimmediately = "true";
 		}
 
-		if (file_exists("thirdparty/jcterm")) {
+		if (file_exists("thirdparty/web-console")) {
+?>
+<div style="text-align:center">
+<IFRAME style="width:800px; height:600px" src="thirdparty/web-console"></IFRAME>
+</div>
+<?php
+		} elseif (file_exists("thirdparty/jcterm")) {
 ?>
 
 <div style="text-align:center">

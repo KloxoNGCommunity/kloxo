@@ -48,13 +48,18 @@ class serverweb__ extends lxDriverClass
 
 				break;
 
-			case "php_used":
-				$this->set_php_used();
+			case "multiple_php_remove":
+				$this->set_multiple_php_remove();
 
 				break;
 
-			case "multiple_php_remove":
-				$this->set_multiple_php_remove();
+			case "multiple_php_activate":
+				$this->set_multiple_php_activate();
+
+				break;
+
+			case "php_used":
+				$this->set_php_used();
 
 				break;
 
@@ -498,66 +503,35 @@ class serverweb__ extends lxDriverClass
 	{
 		global $login;
 
-		$ins = $this->main->multiple_php_install;
+		$i = $this->main->multiple_php_install;
 
-		if ($ins === '') {
-			throw new lxException($login->getThrow('no_options_selected'), '', 'blank');
-		}
+		if ($i !== '') {
+			$c = '/tmp/phpm-install-process.sh';
 
-		$c = '/tmp/phpm-install-process.sh';
+			if (file_exists($c)) {
+				throw new lxException($login->getThrow('other_install_process_still_running'), '', $this->main->syncserver);
+				return;
+			}
 
-		if (file_exists($c)) {
-			throw new lxException($login->getThrow('other_install_process_still_running'), '', $this->main->syncserver);
-			return;
-		}
-
-	/*
-		// MR -- see preUpdate in serverweblib.php for why using this trick!
-
-		$s = '/tmp/multiple_php_install.tmp';
-
-		if (file_exists($s)) {
-
-			$a = explode(',', file_get_contents($s));
-
-			lxfile_rm($s);
+			$list = explode(',', $i);
 
 			$b = '';
 
-			foreach ($a as $k => $v) {
-				$b .= "sh /script/phpm-installer {$v}\n";
+			foreach ($list as $k => $v) {
+				$b .= "sh /script/phpm-installer {$v} -y\n";
 			}
 
+			$b .= "sh /script/fixphp\n";
 			$b .= "'rm' -f {$c}\n";
-
 
 			file_put_contents($c, $b);
 
 			lxshell_background("sh", $c);
-			
+
+			if (file_exists($c)) {
+				throw new lxException($login->getThrow('install_process_running_in_background'), '', $this->main->syncserver);
+			}
 		}
-	*/
-
-		$list = explode(',', $ins);
-
-		$b = '';
-
-		foreach ($list as $k => $v) {
-			$b .= "sh /script/phpm-installer {$v} -y\n";
-		}
-
-		$b .= "sh /script/fixphp\n";
-		$b .= "sh /script/add-start-queue restart-php-fpm\n";
-		$b .= "'rm' -f {$c}\n";
-
-		file_put_contents($c, $b);
-
-		lxshell_background("sh", $c);
-
-		if (file_exists($c)) {
-			throw new lxException($login->getThrow('install_process_running_in_background'), '', $this->main->syncserver);
-		}
-
 	}
 
 	function set_multiple_php_remove()
@@ -585,6 +559,21 @@ class serverweb__ extends lxDriverClass
 		}
 
 		exec("sh /script/start-php-fpm");
+	}
+
+	function set_multiple_php_activate()
+	{
+		global $login;
+
+		$e = $this->main->multiple_php_flag;
+
+		if ($e === 'on') {
+			@touch('../etc/flag/enablemultiplephp.flg');
+		} else {
+			@unlink('../etc/flag/enablemultiplephp.flg');
+		}
+
+		exec("sh /script/enable-php-fpm; sh /script/add-start-queue restart-php-fpm");
 	}
 
 	function set_pagespeed_clear_cache()

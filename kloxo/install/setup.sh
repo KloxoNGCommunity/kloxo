@@ -166,7 +166,7 @@ yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace \
 
 yum remove -y bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver \
-		*-toaster postfix exim libmhash
+		*-toaster postfix exim opensmtpd libmhash
 rpm -e pure-ftpd --noscripts
 userdel postfix
 rpm -e vpopmail-toaster --noscripts

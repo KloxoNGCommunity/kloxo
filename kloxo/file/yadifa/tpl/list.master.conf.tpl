@@ -26,11 +26,11 @@
 
 	foreach ($d1names as $k => $v) {
 		$zone  = "<zone>";
-		$zone .= "\n    domain          {$v}";
-		$zone .= "\n    type            master";
-		$zone .= "\n    file-name       master/{$v}";
-		$zone .= "\n#    allow-transfer  allower";
-		$zone .= "\n#    allow-notity    allower";
+		$zone .= "\n    domain             {$v}";
+		$zone .= "\n    type               master";
+		$zone .= "\n    file-name          master/{$v}";
+	//	$zone .= "\n    #allow-transfer    slave";
+	//	$zone .= "\n    #allow-notity      slave";
 		$zone .= "\n</zone>\n\n";
 
 		$str .= $zone;

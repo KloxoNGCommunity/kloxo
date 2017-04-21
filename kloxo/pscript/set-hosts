@@ -14,13 +14,15 @@ hf=$(hostname)
 #ip=$(ifconfig | grep -i 'inet addr:' | grep -v '127.0.0.1' | awk '{print $2}' | sed 's/addr\://')
 ip=$(hostname -i | awk '{print $1}')
 
-echo "- add parameters between 'add by Kloxo-MR' in /etc/hosts"
-echo "" >> /etc/hosts2
-echo "### begin - add by Kloxo-MR" >> /etc/hosts2
-echo "${ip} ${hf} ${hs}" >> /etc/hosts2
-echo "### end - add by Kloxo-MR" >> /etc/hosts2
+if [ "${ip}" != "" ] ; then
+	echo "- add parameters between 'add by Kloxo-MR' in /etc/hosts"
+	echo "" >> /etc/hosts2
+	echo "### begin - add by Kloxo-MR" >> /etc/hosts2
+	echo "${ip} ${hf} ${hs}" >> /etc/hosts2
+	echo "### end - add by Kloxo-MR" >> /etc/hosts2
 
-mv -f /etc/hosts2 /etc/hosts
+	mv -f /etc/hosts2 /etc/hosts
 
-## MR -- trick for temporary change hostname
-sysctl kernel.hostname=$hf >/dev/null 2>&1
+	## MR -- trick for temporary change hostname
+	sysctl kernel.hostname=$hf >/dev/null 2>&1
+fi

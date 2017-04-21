@@ -37,11 +37,11 @@ class phpini_flag_b extends lxaclass
 	static $__desc_session_autostart_flag = array("f", "", "session_autostart");
 	static $__desc_safe_mode_flag = array("f", "", "safe_mode");
 
-	static $__desc_multiple_php_flag = array("f", "", "multiple_php_enable");
-	static $__desc_multiple_php_ready = array("", "", "multiple_php_ready");
-	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
+//	static $__desc_multiple_php_flag = array("f", "", "multiple_php_enable");
+//	static $__desc_multiple_php_ready = array("", "", "multiple_php_ready");
+//	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
 
-	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
+//	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
 
 	static $__desc_max_input_vars_flag = array("", "", "max_input_vars");
 
@@ -86,11 +86,12 @@ class phpini extends lxdb
 		$server = $this->syncserver;
 		$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-{$server}",
 			"ser_phpini_flag_b")));
-
+	/*
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() === 'pserver') {
 			$list[] = 'multiple_php_flag';
 		}
+	*/
 
 	//	if (!$this->getParentO()->is__table('web')) {
 	//	if ($this->getParentO()->getClass() !== 'web') {
@@ -238,12 +239,13 @@ class phpini extends lxdb
 
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() === 'pserver') {
+		/*
 			if ($this->phpini_flag_b->multiple_php_flag === 'on') {
 				@touch('../etc/flag/enablemultiplephp.flg');
 			} else {
 				@unlink('../etc/flag/enablemultiplephp.flg');
 			}
-
+		*/
 			lxshell_return("__path_php_path", "../bin/fix/fixphpini.php",
 				"--server={$this->getParentO()->nname}");
 
@@ -284,7 +286,7 @@ class phpini extends lxdb
 		$this->initPhpIni();
 
 		$parent = $this->getParentO();
-
+	/*
 	//	if ($parent->getClass() !== 'web') {
 			if ($subaction !== 'extraedit') {
 				// MR -- found error in debug because not exists in db but work
@@ -294,7 +296,7 @@ class phpini extends lxdb
 					implode(" ", getMultiplePhpList()));
 			}
 	//	}
-
+	*/
 		if ($subaction === 'extraedit') {
 			$totallist = $this->getExtraList();
 		} else {
@@ -420,11 +422,11 @@ class phpini extends lxdb
 
 		$this->initialValue('sendmail_from', '');
 
-		$this->initialValue('multiple_php_flag', 'off');
+	//	$this->initialValue('multiple_php_flag', 'off');
 
-		$php_ratio = '0:0:6:0:0';
+	//	$php_ratio = '0:0:6:0:0';
 
-		$this->initialValue('multiple_php_ratio', $php_ratio);
+	//	$this->initialValue('multiple_php_ratio', $php_ratio);
 
 		$this->initialValue('max_input_vars_flag', '3000');
 

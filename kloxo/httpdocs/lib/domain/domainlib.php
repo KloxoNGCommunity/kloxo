@@ -1386,7 +1386,7 @@ class Domaind extends DomainBase
 		$alist['__title_domain_classweb'] = $web->getTitleWithSync();
 	//	$alist['__title_domain_classweb'] = 'web';
 
-/*
+	/*
 		// MR -- not work under client except admin
 		$plist = $login->getList('pserver');
 
@@ -1396,7 +1396,8 @@ class Domaind extends DomainBase
 				break;
 			}
 		}
-*/
+	*/
+
 	//	$php = $this->getParentO()->getObject('phpini');
 
 	//	if ($php->phpini_flag_b->multiple_php_flag === 'on') {

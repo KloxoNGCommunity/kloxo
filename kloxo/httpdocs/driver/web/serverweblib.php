@@ -21,6 +21,8 @@ class serverweb extends lxdb
 	static $__desc_php_branch = array("", "", "php_branch");
 	static $__desc_php_used = array("", "", "php_used");
 
+	static $__desc_multiple_php_flag = array("f", "", "multiple_php_enable");
+
 	static $__desc_multiple_php_install = array("", "", "multiple_php_install");
 	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
 	static $__desc_multiple_php_remove = array("", "", "multiple_php_remove");
@@ -38,6 +40,7 @@ class serverweb extends lxdb
 
 			$uflist['php_branch'] = null;
 
+			$uflist['multiple_php_active'] = null;
 			$uflist['multiple_php_install'] = null;
 			$uflist['multiple_php_remove'] = null;
 
@@ -57,34 +60,15 @@ class serverweb extends lxdb
 
 		return $uflist;
 	}
-/*
+
 	function preUpdate($subaction, $param)
 	{
 		global $login;
 
 		// MR -- preUpdate (also preAdd) is new function; process before Update/Add
 
-		// MR -- still any trouble passing value so use this trick
-	//	if (isset($_POST['frm_serverweb_b_multiple_php_install'])) {
-		if ($subaction === 'multiple_php_install') {
-			// MR -- $this->multiple_php_install (frm_serverweb_c_multiple_php_install) still empty
-			// so, use frm_serverweb_b_multiple_php_install (second multiselect)
-			$this->multiple_php_install = $_POST['frm_serverweb_b_multiple_php_install'];
-
-			if ($this->multiple_php_install === '') {
-				throw new lxException($login->getThrow('no_options_selected'), '', $this->multiple_php_install);
-			}
-
-			$join = implode(',', $this->multiple_php_install);
-
-			file_put_contents('/tmp/multiple_php_install.tmp', $join);
-
-			// MR -- no need while under root
-		//	chown('/tmp/multiple_php_install.tmp', 'root:root');
-		}
-
 	}
-*/
+
 	function updateform($subaction, $param)
 	{
 		switch($subaction) {
@@ -213,13 +197,34 @@ class serverweb extends lxdb
 
 				$u = array_diff($a, $g);
 
+				$vlist['multiple_php_install'] = array("U", $u);
+
+				break;
+
+			case "multiple_php_remove":
+				$this->multiple_php_remove = null;
+
+				$a = getMultiplePhpList();
+
+				$vlist['multiple_php_remove'] = array("U", $a);
+
+				break;
+
+			case "multiple_php_activate":
 				$h = implode(" ", getMultiplePhpList());
 
 				$vlist['multiple_php_already_installed'] = array("M", $h);
 
-				$vlist['multiple_php_install'] = array("U", $u);
+				$vlist['multiple_php_flag'] = array("f", array('on', 'off'));
+
+				$this->multiple_php_flag = null;
+
+				$s = (file_exists("../etc/flag/enablemultiplephp.flg")) ? 'on' : 'off';
+
+				$this->setDefaultValue('multiple_php_flag', $s);
 
 				break;
+
 			case "php_used":
 				$this->php_used = null;
 
@@ -249,15 +254,6 @@ class serverweb extends lxdb
 				$this->setDefaultValue('php_used', $j);
 
 				$vlist['php_used'] = array('s', $d);
-
-				break;
-
-			case "multiple_php_remove":
-				$this->multiple_php_remove = null;
-
-				$a = getMultiplePhpList();
-
-				$vlist['multiple_php_remove'] = array("U", $a);
 
 				break;
 

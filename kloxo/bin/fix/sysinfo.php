@@ -306,7 +306,8 @@ $webstatsprog = ($gen->webstatisticsprogram) ? $gen->webstatisticsprogram : 'aws
 
 $out = null;
 
-exec("rpm -qa {$webstatsprog}", $out);
+// MR -- use grep because possible as kloxomr-stats-<statsprog> or just <statsprog>
+exec("rpm -qa|grep {$webstatsprog}", $out);
 
 if (count($out) > 0) {
 	$appstats = $out[0];
