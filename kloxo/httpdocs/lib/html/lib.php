@@ -7447,12 +7447,13 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 	}
 
 	$s = "{$aliasdriver}{$addition}.conf";
-	$t = getLinkCustomfile($pathdrv . "/etc/conf", $s);
+	$t = getLinkCustomfile("{$pathdrv}/etc/conf", $s);
 
 	log_cleanup("- Copy etc/conf/{$s} to {$pathconf}/{$aliasdriver}.conf", $nolog);
 	if ($webdriver === 'apache') {
 		if (file_exists("../etc/flag/use_apache24.flg")) {
-			lxfile_cp(getLinkCustomfile($pathdrv . "/etc/conf", "{$aliasdriver}{$addition}24.conf"), "{$pathconf}/{$aliasdriver}.conf");
+			lxfile_cp(getLinkCustomfile("{$pathdrv}/etc/conf", "{$aliasdriver}{$addition}24.conf"),
+				"{$pathconf}/{$aliasdriver}.conf");
 		} else {
 			lxfile_cp($t, "{$pathconf}/{$aliasdriver}{$addition}.conf");
 		}
@@ -7465,6 +7466,9 @@ function setCopyWebConfFiles($webdriver, $nolog = null)
 		lxfile_rm("{$pathdrv}/etc/conf.d/perl.conf");
 		lxfile_rm("{$pathdrv}/etc/conf.d/perl.conf.original");
 	}
+	
+	// MR -- make sure init.conf is right (especially for apache)
+	exec("sh /script/fixweb --target=defaults");
 }
 
 function setCopyOpenSSLConfFiles($nolog = null)
