@@ -40,7 +40,7 @@ class serverweb extends lxdb
 
 			$uflist['php_branch'] = null;
 
-			$uflist['multiple_php_active'] = null;
+			$uflist['multiple_php_activate'] = null;
 			$uflist['multiple_php_install'] = null;
 			$uflist['multiple_php_remove'] = null;
 

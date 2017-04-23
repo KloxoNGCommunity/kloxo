@@ -152,6 +152,12 @@ foreach($slist as $b) {
 		//	exec("echo '{$keyc}\n{$crtc}\n{$cac}' >{$sslpath}/{$dom}.pem");
 			file_put_contents("{$sslpath}/{$dom}.pem", $pemc);
 		}
+
+		if (!file_exists("{$sslpath}/{$dom}.hpkp")) {
+			exec("openssl rsa -in /home/kloxo/ssl/{$dom}.pem -outform der -pubout | " .
+				"openssl dgst -sha256 -binary | " .
+				"openssl enc -base64 >/home/kloxo/ssl/{$dom}.hpkp");
+		}
 	}
 
 	$b->was();
