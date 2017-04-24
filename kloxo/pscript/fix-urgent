@@ -58,3 +58,9 @@ for x in $(dir -l ${path}/ifcfg-*|awk '{print $9}'|tr '\', ' ') ; do
 		dhclient ${y} >/dev/null 2>&1
 	fi
 done
+
+if [ ! -d /var/log/hiawatha ] ; then
+	mkdir -p /var/log/hiawatha
+fi
+
+chmod 777 /var/run
