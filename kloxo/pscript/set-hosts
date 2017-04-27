@@ -1,10 +1,10 @@
 #!/bin/sh
 
 #if grep 'add by Kloxo-MR' /etc/hosts >/dev/null 2>&1 ; then
-if [ "$(grep 'add by Kloxo-MR' /etc/hosts)" != "" ] ; then
-	echo "- 'add by Kloxo-MR' already exists in /etc/hosts"
-	exit
-fi
+#if [ "$(grep 'add by Kloxo-MR' /etc/hosts)" != "" ] ; then
+#	echo "- 'add by Kloxo-MR' already exists in /etc/hosts"
+#	exit
+#fi
 
 sed '/### begin/,/### end/d' /etc/hosts > /etc/hosts2
 

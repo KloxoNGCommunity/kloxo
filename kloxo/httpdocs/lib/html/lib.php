@@ -7762,14 +7762,15 @@ function getKloxoType()
 function setHostsFile($nolog = null)
 {
 	log_cleanup("Add 'hostname' information to '/etc/hosts'", $nolog);
-
+/*
 	$begincomment[] = "### begin - add by Kloxo-MR";
 	$endcomment[] = "### end - add by Kloxo-MR";
 
 	exec("hostname -s", $hnshort);
 	exec("hostname", $hnfull);
 
-	exec("ifconfig |grep -i 'inet addr:'|grep -v '127.0.0.1'|awk '{print $2}'|sed 's/addr\://'", $hnip);
+	#exec("ifconfig |grep -i 'inet addr:'|grep -v '127.0.0.1'|awk '{print $2}'|sed 's/addr\://'", $hnip);
+	exec("hostname -i | awk '{print $1}'", $hnip);
 
 	$content = "{$hnip[0]} {$hnfull[0]} {$hnshort[0]}\n";
 
@@ -7779,6 +7780,8 @@ function setHostsFile($nolog = null)
 
 	file_put_between_comments("root:root", $begincomment, $endcomment,
 		$begincomment[0], $endcomment[0], $hnfile, $content, $nowarning = true);
+*/
+	exec("sh /script/set-hosts");
 }
 
 // MR -- taken http://stackoverflow.com/questions/6875913/simple-how-to-replace-all-between-with-php
