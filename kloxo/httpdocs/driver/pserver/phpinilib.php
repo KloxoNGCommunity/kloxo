@@ -26,7 +26,6 @@ class phpini_flag_b extends lxaclass
 	static $__desc_enable_dl_flag = array("f", "", "enable_dl");
 	static $__desc_sendmail_from = array("", "", "sendmail_from");
 	static $__desc_cgi_force_redirect_flag = array("f", "", "cgi_force_redirect");
-//	static $__desc_mysql_allow_persistent_flag = array("f", "", "mysql_allow_persistent_flag");
 	static $__desc_disable_functions = array("t", "", "disable_functions");
 	static $__desc_max_execution_time_flag = array("", "", "max_execution_time");
 	static $__desc_max_input_time_flag = array("", "", "max_input_time");
@@ -37,16 +36,11 @@ class phpini_flag_b extends lxaclass
 	static $__desc_session_autostart_flag = array("f", "", "session_autostart");
 	static $__desc_safe_mode_flag = array("f", "", "safe_mode");
 
-//	static $__desc_multiple_php_flag = array("f", "", "multiple_php_enable");
-//	static $__desc_multiple_php_ready = array("", "", "multiple_php_ready");
-//	static $__desc_multiple_php_ratio = array("", "", "multiple_php_ratio");
-
-//	static $__desc_multiple_php_already_installed = array("", "", "multiple_php_already_installed");
-
 	static $__desc_max_input_vars_flag = array("", "", "max_input_vars");
 
 	static $__desc_date_timezone_flag = array("s", "", "date_timezone");
 	static $__desc_phpfpm_type_flag = array("s", "", "phpfpm_type");
+	static $__desc_phpfpm_limit_extensions = array("", "", "phpfpm_extensions");
 }
 
 class phpini extends lxdb
@@ -69,13 +63,6 @@ class phpini extends lxdb
 
 	function getInheritedList()
 	{
-	/*
-		$list[] = 'enable_xcache_flag';
-		$list[] = 'enable_zend_flag';
-		$list[] = "enable_ioncube_flag";
-		$list[] = "enable_suhosin_flag";
-	*/
-	//	$list[] = 'safe_mode_flag';
 		$list[] = 'output_compression_flag';
 
 		return $list;
@@ -86,30 +73,15 @@ class phpini extends lxdb
 		$server = $this->syncserver;
 		$server_phpini = unserialize(base64_decode(db_get_value("phpini", "pserver-{$server}",
 			"ser_phpini_flag_b")));
-	/*
-	//	if ($this->getParentO()->is__table('pserver')) {
-		if ($this->getParentO()->getClass() === 'pserver') {
-			$list[] = 'multiple_php_flag';
-		}
-	*/
 
-	//	if (!$this->getParentO()->is__table('web')) {
-	//	if ($this->getParentO()->getClass() !== 'web') {
-			$list[] = 'display_error_flag';
-		//	$list[] = 'register_global_flag';
-			$list[] = 'log_errors_flag';
-			$list[] = 'output_compression_flag';
-			$list[] = 'date_timezone_flag';
-			$list[] = 'phpfpm_type_flag';
-		//	$list[] = 'session_autostart_flag' ;
-			$list[] = 'session_save_path_flag';
-	//	}
-	/*
-		$list[] = 'enable_xcache_flag';
-		$list[] = 'enable_zend_flag';
-		$list[] = "enable_ioncube_flag";
-		$list[] = "enable_suhosin_flag";
-	*/
+		$list[] = 'display_error_flag';
+		$list[] = 'log_errors_flag';
+		$list[] = 'output_compression_flag';
+		$list[] = 'date_timezone_flag';
+		$list[] = 'phpfpm_type_flag';
+		$list[] = 'session_save_path_flag';
+		$list[] = 'phpfpm_limit_extensions';
+
 		return $list;
 	}
 
@@ -118,12 +90,9 @@ class phpini extends lxdb
 		$list[] = 'sendmail_from';
 		$list[] = 'enable_dl_flag';
 		$list[] = 'output_buffering_flag';
-	//	$list[] = 'register_long_arrays_flag';
 		$list[] = 'allow_url_fopen_flag';
 		$list[] = 'allow_url_include_flag';
 		$list[] = 'register_argc_argv_flag';
-	//	$list[] = 'magic_quotes_gpc_flag';
-	//	$list[] = 'mysql_allow_persistent_flag';
 		$list[] = 'disable_functions';
 		$list[] = 'max_execution_time_flag';
 		$list[] = 'max_input_time_flag';
@@ -134,10 +103,7 @@ class phpini extends lxdb
 		$list[] = 'max_input_vars_flag';
 
 		$list[] = 'file_uploads_flag';
-	//	$list[] = 'magic_quotes_runtime_flag';
-	//	$list[] = 'magic_quotes_sybase_flag';
 		$list[] = 'cgi_force_redirect_flag';
-	//	$list[] = 'safe_mode_flag';
 
 		return $list;
 	}
@@ -217,9 +183,7 @@ class phpini extends lxdb
 	{
 		$alist['property'][] = 'a=show';
 
-	//	if ($this->getParentO()->getClass() !== 'web') {
-			$alist['property'][] = 'a=updateform&sa=extraedit';
-	//	}
+		$alist['property'][] = 'a=updateform&sa=extraedit';
 	}
 
 
@@ -235,20 +199,10 @@ class phpini extends lxdb
 		// We need to write because the fixphpini reads everything from the database.
 		$this->write();
 
-	//	$this->setPhpModuleUpdate();
 
 	//	if ($this->getParentO()->is__table('pserver')) {
 		if ($this->getParentO()->getClass() === 'pserver') {
-		/*
-			if ($this->phpini_flag_b->multiple_php_flag === 'on') {
-				@touch('../etc/flag/enablemultiplephp.flg');
-			} else {
-				@unlink('../etc/flag/enablemultiplephp.flg');
-			}
-		*/
-			lxshell_return("__path_php_path", "../bin/fix/fixphpini.php",
-				"--server={$this->getParentO()->nname}");
-
+			exec("sh /script/fixphp --server={$this->getParentO()->nname}");
 
 			exec("sh /script/enable-php-fpm");
 		}
@@ -273,9 +227,6 @@ class phpini extends lxdb
 
 	function initPhpIni()
 	{
-	//	if ($this->getParentO()->getClass() === 'web') { return; }
-	//	if ($this->getParentO()->getClass() === 'domain') { return; }
-
 		$this->setUpInitialValues();
 	}
 
@@ -286,49 +237,39 @@ class phpini extends lxdb
 		$this->initPhpIni();
 
 		$parent = $this->getParentO();
-	/*
-	//	if ($parent->getClass() !== 'web') {
-			if ($subaction !== 'extraedit') {
-				// MR -- found error in debug because not exists in db but work
-				$vlist["phpini_flag_b-multiple_php_ready"] = array('M',
-					implode(" ", getCleanRpmBranchListOnList('php')));
-				$vlist['phpini_flag_b-multiple_php_already_installed'] = array("M",
-					implode(" ", getMultiplePhpList()));
-			}
-	//	}
-	*/
+
 		if ($subaction === 'extraedit') {
 			$totallist = $this->getExtraList();
 		} else {
 			$totallist = $this->getLocalList();
 		}
 
-	//	if ($parent->getClass() !== 'web') {
-			$inheritedlist = $this->getInheritedList();
-			$adminList = $this->getAdminList();
+		$inheritedlist = $this->getInheritedList();
+		$adminList = $this->getAdminList();
 
-			foreach ($totallist as $l) {
-			//	if ((!$parent->is__table('pserver') && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
-				if (($parent->getClass() !== 'pserver' && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
-					$vlist["phpini_flag_b-$l"] = array('M', null);
-				} else {
-					$vlist["phpini_flag_b-$l"] = null;
-				}
+		foreach ($totallist as $l) {
+		//	if ((!$parent->is__table('pserver') && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
+			if (($parent->getClass() !== 'pserver' && array_search_bool($l, $inheritedlist)) || array_search_bool($l, $adminList)) {
+				$vlist["phpini_flag_b-$l"] = array('M', null);
+			} else {
+				$vlist["phpini_flag_b-$l"] = null;
+			}
+		}
+
+		if ($subaction !== 'extraedit') {
+			$this->initialValue('phpini_flag_b-date_timezone_flag', 'Europe/London');
+			$vlist["phpini_flag_b-date_timezone_flag"] = array('s', getTimeZoneList());
+
+			if ($login->isAdmin()) {
+				$this->initialValue('phpini_flag_b-phpfpm_type_flag', 'ondemand');
+				$vlist["phpini_flag_b-phpfpm_type_flag"] = array('s', self::getPhpfpmTypeList());
+			} else {
+				$vlist["phpini_flag_b-phpfpm_type_flag"] = array('s', array($this->phpini_flag_b->phpfpm_type_flag));
 			}
 
-			if ($subaction !== 'extraedit') {
-				$this->initialValue('phpini_flag_b-date_timezone_flag', 'Europe/London');
-			//	$vlist["phpini_flag_b-date_timezone_flag"] = array('s', timezone_identifiers_list());
-				$vlist["phpini_flag_b-date_timezone_flag"] = array('s', getTimeZoneList());
+		//	$vlist["phpini_flag_b-phpfpm_limit_extensions"] = array('t', self::getPhpfpmLimitExtensions());
 
-				if ($login->isAdmin()) {
-					$this->initialValue('phpini_flag_b-phpfpm_type_flag', 'ondemand');
-					$vlist["phpini_flag_b-phpfpm_type_flag"] = array('s', self::getPhpfpmTypeList());
-				} else {
-					$vlist["phpini_flag_b-phpfpm_type_flag"] = array('s', array($this->phpini_flag_b->phpfpm_type_flag));
-				}
-			}
-	//	}
+		}
 
 		// MR -- still not work (like in 'appearance')
 		// still something wrong with 'updateall' process!
@@ -378,17 +319,10 @@ class phpini extends lxdb
 
 	function initialValuesBasic()
 	{
-	/*
-		$this->initialValueRpmStatus('enable_xcache_flag');
-		$this->initialValueRpmStatus('enable_zend_flag');
-		$this->initialValueRpmStatus('enable_ioncube_flag');
-		$this->initialValueRpmStatus('enable_suhosin_flag');
-	*/
 		$this->initialValue('output_compression_flag', 'off');
 
 		$this->initialValue('upload_max_filesize', '16M');
 		$this->initialValue('register_global_flag', 'off');
-	//	$this->initialValue('mysql_allow_persistent_flag', 'off');
 
 		$this->phpini_flag_b->session_save_path_flag = '/var/lib/php/session';
 		$this->initialValue('session_save_path_flag', $this->phpini_flag_b->session_save_path_flag);
@@ -422,11 +356,6 @@ class phpini extends lxdb
 
 		$this->initialValue('sendmail_from', '');
 
-	//	$this->initialValue('multiple_php_flag', 'off');
-
-	//	$php_ratio = '0:0:6:0:0';
-
-	//	$this->initialValue('multiple_php_ratio', $php_ratio);
 
 		$this->initialValue('max_input_vars_flag', '3000');
 
@@ -440,55 +369,14 @@ class phpini extends lxdb
 		}
 
 		$this->initialValue('phpfpm_type_flag', 'ondemand');
+
+		$this->initialValue('phpfpm_limit_extensions', '.php .php3 .php4 .php5');
 	}
 
 	function initialValue($var, $val)
 	{
 		if (!isset($this->phpini_flag_b->$var) || !$this->phpini_flag_b->$var) {
 			$this->phpini_flag_b->$var = $val;
-		}
-	}
-
-	function initialValueRpmStatus($var)
-	{
-		if ($var === 'enable_xcache_flag') {
-			$module = "xcache";
-			$active = isPhpModuleActive($module);
-		} elseif ($var === 'enable_suhosin_flag') {
-			$module = "suhosin";
-			$active = isPhpModuleActive($module);
-		} elseif ($var === 'enable_ioncube_flag') {
-			$modulebase = "ioncube";
-			$modulelist = array($modulebase, "{$modulebase}-loader");
-			$ininamelist = $modulelist;
-
-			foreach ($modulelist as &$m) {
-				$active = isPhpModuleActive($m, $ininamelist);
-
-				if ($active) { break; }
-			}
-		} elseif ($var === 'enable_zend_flag') {
-			$modulebase = "zend";
-
-			if (version_compare(getPhpVersion(), "5.3.0", ">=")) {
-				$modulelist = array("{$modulebase}-guard-loader");
-				$ininamelist = array("zendguard");
-			} else {
-				$modulelist = array($modulebase, "{$modulebase}-guard-loader");
-				$ininamelist = array("zend", "zendoptimizer");
-			}
-
-			foreach ($modulelist as &$m) {
-				$active = isPhpModuleActive($m, $ininamelist);
-
-				if ($active) { break; }
-			}
-		}
-
-		if ($active) {
-			$this->phpini_flag_b->$var = 'on';
-		} else {
-			$this->phpini_flag_b->$var = 'off';
 		}
 	}
 }

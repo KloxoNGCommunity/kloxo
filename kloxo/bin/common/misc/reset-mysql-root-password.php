@@ -2,6 +2,8 @@
 
 include_once "lib/html/include.php";
 
+$tpath = "/usr/local/lxlabs/kloxo/serverfile";
+
 if (isset($argv[1])) {
 	$pass = $argv[1];
 } else {
@@ -16,7 +18,7 @@ EOF;
 $text = str_replace("'USER'", "'root'", $text);
 $text = str_replace("'PASSWORD'", "'{$pass}'", $text);
 
-file_put_contents("/tmp/reset-mysql-password.sql", $text);
+file_put_contents("{$tpath}/reset-mysql-password.sql", $text);
 
 print("Stop MySQL service...\n");
 if (isServiceExists('mysqld')) {
@@ -27,7 +29,7 @@ if (isServiceExists('mysqld')) {
 
 print("MySQL ROOT password reset...\n");
 sleep(10);
-system("mysqld_safe --init-file=/tmp/reset-mysql-password.sql >/dev/null 2>&1 &");
+system("mysqld_safe --skip-grant-tables --init-file={$tpath}/reset-mysql-password.sql >/dev/null 2>&1 &");
 sleep(15);
 
 print("Start MySQL service...\n");
@@ -37,7 +39,7 @@ if (isServiceExists('mysqld')) {
 	exec("service mysql start");
 }
 
-exec("'rm' -f /tmp/reset-mysql-password.sql");
+exec("'rm' -f {$tpath}/reset-mysql-password.sql");
 
 $conn = new mysqli('localhost', 'root', $pass, 'mysql');
 

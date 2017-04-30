@@ -59,10 +59,10 @@ class sshclient extends lxclass
 			$connectimmediately = "true";
 		}
 
-		if (file_exists("thirdparty/web-console")) {
+		if (file_exists("thirdparty/web-console/index.php")) {
 ?>
 <div style="text-align:center">
-<IFRAME style="width:800px; height:600px" src="thirdparty/web-console"></IFRAME>
+<IFRAME style="width:800px; height:600px" src="thirdparty/web-console/index.php?user=<?php echo $login->nname; ?>"></IFRAME>
 </div>
 <?php
 		} elseif (file_exists("thirdparty/jcterm")) {

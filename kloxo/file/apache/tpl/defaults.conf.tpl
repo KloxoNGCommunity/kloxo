@@ -235,10 +235,23 @@ Listen ${ip}:${portssl}
 </IfVersion>
 <?php
 }
+
+if ($reverseproxy) {
 ?>
 
-## MR -- ruid2 not work dor userdir!
-<Ifmodule mod_userdir.c>
+<IfModule mod_remoteip.c>
+	<IfVersion >= 2.4>
+		RemoteIPInternalProxy <?=$ip;?>
+
+		RemoteIPHeader X-Real-IP
+	</IfVersion>
+</IfModule>
+<?php
+}
+?>
+
+## MR -- ruid2 not work for userdir!
+<IfModule mod_userdir.c>
 	UserDir enabled
 	UserDir /home/*/public_html
 <?php
@@ -258,7 +271,7 @@ Listen ${ip}:${portssl}
 <?php
 }
 ?>
-</Ifmodule>
+</IfModule>
 
 <?php
 foreach ($certnamelist as $ip => $certname) {

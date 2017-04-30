@@ -96,8 +96,8 @@ install_dns() {
 install_mail() {
 	echo ">>> Remove certain mail packages <<<"
 
-	yum -y remove sendmail sendmail-cf sendmail-doc sendmail-devel vsftpd postfix \
-		ssmtp smail lxzend pure-ftpd exim
+	yum -y remove sendmail* vsftpd* postfix* \
+		ssmtp* smail* lxzend* pure-ftpd* exim* opensmtpd* esmtp* libesmtp*
 
 	echo ">>> Remove postfix user <<<"
 

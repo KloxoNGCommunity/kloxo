@@ -126,7 +126,8 @@ rlimit_core = 0
 
 ;chdir = /
 catch_workers_output = yes
-security.limit_extensions = .php .php3 .php4 .php5
+security.limit_extensions = <?=$phpfpm_limit_extensions;?>
+
 
 env[HOSTNAME] = $HOSTNAME
 env[PATH] = /bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin

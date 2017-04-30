@@ -117,7 +117,7 @@ KeepAliveTimeout 15
 
     MaxSpareThreads <?php echo $maxpar_w; ?>
 
-    ThreadsPerChild 25
+    ThreadsPerChild <?php echo $mcfactor; ?>
     ServerLimit <?php echo $maxpar_w; ?>
 
     <IfVersion >= 2.4>
@@ -141,7 +141,8 @@ KeepAliveTimeout 15
 
     MaxSpareThreads <?php echo $maxpar_w; ?>
 
-    ThreadsPerChild 25
+    ThreadsPerChild <?php echo $mcfactor; ?>
+
     ServerLimit <?php echo $maxpar_w; ?>
 
     MaxRequestsPerChild 0

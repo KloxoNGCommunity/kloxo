@@ -12,23 +12,17 @@ smtp_secure = "TLS"
 smtp_auth = On
 EOF
 
-path=$(dir -l /home/kloxo/httpd/webmail/rainloop/data/*/_default_/domains/ 2>/dev/null|grep '/:'|awk -F"/:" '{print $1}')
+dir=$(dirname /home/kloxo/httpd/webmail/rainloop/data/*/_default_/domains)/domains
 
-if [ "${path}" == "" ] ; then
-	echo "- Directory not exists"
-	exit
-else
-	for z in $path ; do
-		if [ "${1}" == "" ] ; then
-			doms=$(/home/vpopmail/bin/vdominfo|grep 'domain:'|awk '{print $2}')
+if [ "${1}" == "" ] ; then
+	doms=$(/home/vpopmail/bin/vdominfo|grep 'domain:'|awk '{print $2}')
 	
-			for x in ${doms} ; do
-				echo "- '${x}.ini' added"
-				echo ${ini_content} > ${z}/${x}.ini
-			done
-		else
-			echo "- '${1}.ini' added"
-			echo ${ini_content} > ${z}/${1}.ini
-		fi
+	for x in ${doms} ; do
+		echo "- '${x}.ini' added"
+		echo "${ini_content}" > ${dir}/${x}.ini
 	done
+else
+	echo "- '${1}.ini' added"
+	echo ${ini_content} > ${dir}/${1}.ini
 fi
+

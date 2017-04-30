@@ -4,34 +4,8 @@ class phpini__sync extends Lxdriverclass
 {
 	function initString()
 	{
-	//	$pclass = $this->main->getParentClass();
-
 		$this->main->fixphpIniFlag();
 
-	//	$this->setInitString();
-
-	}
-
-	function setInitString()
-	{
-		$modulelist = array('xcache', 'suhosin', 'ioncube', 'zend');
-
-		foreach ($modulelist as &$m) {
-			if ($this->main->phpini_flag_b->isOn("enable_{$m}_flag")) {
-				$active = isPhpModuleActive($m);
-
-				if ($active) {
-					setPhpModuleActive($m);
-				}
-			} else {
-				setPhpModuleInactive($m);
-			}
-		}
-	}
-
-	function enableDisableModule($flag, $mod)
-	{
-		// MR -- not used since 6.2.x
 	}
 
 	function createIniFile()

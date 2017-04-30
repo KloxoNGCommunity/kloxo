@@ -1435,6 +1435,7 @@ $__description["allowedblocked_ip"] = array("Allowed / Blocked IP");
 $__description["all_sslcert"] = array("All SSLCert");
 
 $__description["phpfpm_type"] = array("PHP-fpm type");
+$__description["phpfpm_extensions"] = array("PHP-fpm Limit Extensions");
 
 $__description["phpmodule"] = array("PHP Module");
 $__description["phpmodule_name"] = array("Module");
