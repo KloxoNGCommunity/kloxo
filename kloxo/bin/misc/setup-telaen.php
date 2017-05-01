@@ -21,6 +21,15 @@ function setSetupApp()
 
 	log_cleanup("- Preparing Configs", $nolog);
 	lxfile_cp("{$path}/inc/config/config.php.default", "{$path}/inc/config/config.php");
+
+	$s = file_get_contents("{$path}/inc/config/config.php");
+	$s = str_replace("/some/place/safe/smarty/", "./smarty/", $s);
+	file_put_contents("{$path}/inc/config/config.php", $s);
+	
+	if (!file_exists("{$path}/ChangeMe!")) {
+		mkdir("{$path}/ChangeMe!");
+	}
+
 	lxfile_cp("{$path}/inc/config/config.languages.php.default", "{$path}/inc/config/config.languages.php");
 	lxfile_cp("{$path}/inc/config/config.security.php.default", "{$path}/inc/config/config.security.php");
 }
