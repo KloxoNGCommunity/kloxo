@@ -59,13 +59,18 @@ class sshclient extends lxclass
 			$connectimmediately = "true";
 		}
 
-		if (file_exists("thirdparty/web-console/index.php")) {
+		if ($login->nname === 'admin') {
+			$ar['ip_address'] = $gbl->c_session->ip_address;
+			$ar['session'] = $gbl->c_session->tsessionid;
+			lfile_put_serialize("../session/ssh_{$ar['session']}", $ar['ip_address']);
+			$servar = base64_encode(serialize($ar));
 ?>
 <div style="text-align:center">
-<IFRAME style="width:800px; height:600px" src="thirdparty/web-console/index.php?user=<?php echo $login->nname; ?>"></IFRAME>
+<IFRAME style="width:800px; height:600px" src="web-console/index.php?session=<?php echo $servar; ?>"></IFRAME>
 </div>
 <?php
-		} elseif (file_exists("thirdparty/jcterm")) {
+		} else {
+			if (file_exists("thirdparty/jcterm")) {
 ?>
 
 <div style="text-align:center">
@@ -79,7 +84,7 @@ class sshclient extends lxclass
 	</applet>
 </div>
 <?php
-		} else {
+			} else {
 ?>
 
 <div style="text-align:center; width: 640px; height: 480px; margin: 0 auto; border: 0; padding: 0">
@@ -96,6 +101,7 @@ class sshclient extends lxclass
 	</applet>
 </div>
 <?php
+			}
 		}
 	}
 
