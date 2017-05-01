@@ -23,6 +23,6 @@ if [ "${1}" == "" ] ; then
 	done
 else
 	echo "- '${1}.ini' added"
-	echo ${ini_content} > ${dir}/${1}.ini
+	echo "${ini_content}" > ${dir}/${1}.ini
 fi
 

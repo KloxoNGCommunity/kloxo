@@ -11,3 +11,5 @@ fi
 
 . /script/directory
 lxphp.exe ../bin/misc/setup-rainloop.php "$@"
+
+sh /script/add-rainloop-domains
