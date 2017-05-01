@@ -5,7 +5,7 @@ initProgram('admin');
 
 setSetupApp();
 
-function setSetupApp()
+function setSetupApp($nolog = null)
 {
 	log_cleanup("*** TheHostingTool Billing setup ***", $nolog);
 
