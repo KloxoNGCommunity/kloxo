@@ -27,7 +27,7 @@ if [ "${appfiles}" != "" ] ; then
 	done
 fi
 
-datfiles=$(dir -l ${path}/data/_data_*/_default_/configs/application.ini"
+datfiles=$(dir -l ${path}/data/_data_*/_default_/configs/application.ini)
 
 echo "- Change admin password"
 

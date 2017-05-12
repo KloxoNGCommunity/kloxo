@@ -11,7 +11,7 @@ fi
 
 echo "*** T-Dah Webmail setup ***"
 	
-if [ -f ${path}/index.php ] ; then
+if [ ! -f ${path}/index.php ] ; then
 	echo "- Application not exists. Exit"
 	exit
 fi

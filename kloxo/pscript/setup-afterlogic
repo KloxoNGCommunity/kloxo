@@ -11,7 +11,7 @@ fi
 
 echo "*** Afterlogic Webmail Lite setup ***"
 
-if [ -f ${path}/index.php ] ; then
+if [ ! -f ${path}/index.php ] ; then
 	echo "- Application not exists. Exit"
 	exit
 fi

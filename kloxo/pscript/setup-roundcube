@@ -29,7 +29,7 @@ echo "- Fixing MySQL commands in import files"
 
 mysql -f -u root -p${rootpass} < ${path}/SQL/mysql.initial.sql >/dev/null 2>&1
 
-log_cleanup("- Add Password to configuration file", $nolog);
+echo "- Add Password to configuration file"
 
 pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 
@@ -53,7 +53,7 @@ SQL="${Q1}${Q2}${Q3}"
 
 mysql -u root -p${rootpass} -e "$SQL" >/dev/null 2>&1
 
-sqlfiles=$(dir -l ${path}/SQL/mysql/*.sql)
+sqlfiles=$(dir -l ${path}/SQL/mysql/*.sql|awk '{print $9}')
 
 for x in $sqlfiles ; do
 	mysql -f -u root -p${rootpass} < ${x} >/dev/null 2>&1
