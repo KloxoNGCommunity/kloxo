@@ -219,7 +219,7 @@ if (!$cgi_forgotpwd) {
 
 		if ($email && $cgi_email == $email[0]['contactemail']) {
 			$rndstring = randomString(8);
-			$pass = crypt($rndstring);
+			$pass = crypt($rndstring, '$1$'.randomString(8).'$');
 
 			$rawdb->rawQuery("update $tablename set password = '$pass' where nname = '$cgi_clientname'");
 			$mailto = $email[0]['contactemail'];

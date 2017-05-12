@@ -369,7 +369,7 @@ function createHtpasswordFile($object, $sdir, $list)
 	$fstr = null;
 
 	foreach ($list as $k => $p) {
-		$cr = crypt($p);
+		$cr = crypt($p, '$1$'.randomString(8).'$');
 		$fstr .= "$k:$cr\n";
 	}
 

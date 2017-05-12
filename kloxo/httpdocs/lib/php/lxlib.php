@@ -3034,7 +3034,7 @@ function add_superadmin($pass)
 
 	$ddb = new Sqlite(null, "superclient");
 	if (!$ddb->existInTable("nname", 'superclient')) {
-		$res['password'] = crypt($pass);
+		$res['password'] = crypt($pass, '$1$'.randomString(8).'$');
 		$res['cttype'] = 'superadmin';
 		$res['cpstatus'] = 'on';
 		if (if_demo()) {
@@ -3076,7 +3076,7 @@ function init_slave($pass)
 {
 	global $gbl, $sgbl, $login, $ghtml;
 	$rm = new Remote();
-	$rm->password = crypt($pass);
+	$rm->password = crypt($pass, '$1$'.randomString(8).'$');
 	lfile_put_contents('__path_slave_db', serialize($rm));
 }
 

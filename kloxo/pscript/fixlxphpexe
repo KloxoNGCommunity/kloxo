@@ -33,7 +33,6 @@ else
 	if [ -f ${INIT_DIR}/kloxo_php_active ] ; then
 		base_name="$(cat ${INIT_DIR}/kloxo_php_active)"
 	else
-
 		if [ ! -f /opt/php56s/custom/php-cli.sh ] ; then
 			base_name="php56s"
 		else

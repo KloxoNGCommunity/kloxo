@@ -39,7 +39,7 @@ function create_servername()
 	$servername = new pserver(null, null, "titan.lxcenter.net");
 	$servername->initThisDef();
 	$servername->syncserver = $servername->nname;
-	$servername->password = crypt('admin');
+	$servername->password = crypt('admin', '$1$'.randomString(8).'$');
 	$servername->dbaction = "add";
 	$servername->write();
 
@@ -168,7 +168,7 @@ function add_customer_reseller()
 					$client->initThisDef();
 					client_priv($client->priv, 1);
 
-					$res['password'] = crypt('admin');
+					$res['password'] = crypt('admin', '$1$'.randomString(8).'$');
 					$res['email'] = $name . "@lxcenter.net";
 					$res['status'] = "on";
 					$res['cpstatus'] = "on";
@@ -260,7 +260,7 @@ function add_domain($domain_name, $parent_name)
 
 	$domain = new Domain(null, null, $domain_name);
 	$domain->initThisDef();
-	$domain->password = crypt('admin');
+	$domain->password = crypt('admin', '$1$'.randomString(8).'$');
 	$domain->cpstatus = 'on';
 
 	$domain->parent_clname = "client-$parent_name";
@@ -282,14 +282,14 @@ function add_domain($domain_name, $parent_name)
 	$mailaccount = new Mailaccount(null, null, "test@$domain_name");
 	$mailaccount->initThisDef();
 	$mailaccount->syncserver = 'localhost';
-	$mailaccount->password = crypt('admin');
+	$mailaccount->password = crypt('admin', '$1$'.randomString(8).'$');
 	$mailaccount->parent_clname = "domain-$domain_name";
 	$mailaccount->cpstatus = 'on';
 	$mailaccount->write();
 
 	$ftpuser = new ftpuser(null, null, "test@$domain_name");
 	$ftpuser->initThisDef();
-	$ftpuser->password = crypt('admin');
+	$ftpuser->password = crypt('admin', '$1$'.randomString(8).'$');
 	$ftpuser->parent_clname = "domain-$domain_name";
 	$ftpuser->cpstatus = 'on';
 	$ftpuser->write();
@@ -304,7 +304,7 @@ function add_domain($domain_name, $parent_name)
 	$uuser = new Uuser(null, null, $unname);
 	$uuser->initThisDef();
 	$uuser->username = $user;
-	$uuser->password = crypt('admin');
+	$uuser->password = crypt('admin', '$1$'.randomString(8).'$');
 	$uuser->parent_clname = "domain-$domain_name";
 	$uuser->cpstatus = 'on';
 	$uuser->syncserver = localhost;

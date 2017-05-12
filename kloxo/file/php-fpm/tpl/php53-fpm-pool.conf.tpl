@@ -130,7 +130,7 @@ security.limit_extensions = <?=$phpfpm_limit_extensions;?>
 
 
 env[HOSTNAME] = $HOSTNAME
-env[PATH] = /bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+env[PATH] = /bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
 env[TMP] = /tmp
 env[TMPDIR] = /tmp
 env[TEMP] = /tmp

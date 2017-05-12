@@ -5,9 +5,56 @@ path="/home/kloxo/httpd/webmail/roundcube"
 if [ "${1}" == "-y" ] ; then
 	if [ ! -f ${path}/index.php ] ; then
 		yum install kloxomr-webmail-roundcube -y
-		chown -R apache:apache $path
+		chown -R apache:apache ${path}
 	fi
 fi
 
-. /script/directory
-lxphp.exe ../bin/misc/setup-roundcube.php "$@"
+echo "*** RoundCube Webmail setup ***"
+
+## MR -- because Roundcube use rpm on Kloxo-MR,
+## so roundcube_mysql.initial.sql and db.inc.php as template
+
+if [ ! -f ${path}/index.php ] ; then
+	echo "- Application not exists. Exit"
+	exit
+fi
+
+echo "- Preparing database"
+
+rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
+
+echo "- Fixing MySQL commands in import files"
+
+'cp' -f ${path}/SQL/roundcube_mysql.initial.sql ${path}/SQL/mysql.initial.sql
+
+mysql -f -u root -p${rootpass} < ${path}/SQL/mysql.initial.sql >/dev/null 2>&1
+
+log_cleanup("- Add Password to configuration file", $nolog);
+
+pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+
+if [ -f ${path}/config/roundcube_main.inc.php ] ; then
+	'cp' -f ${path}/config/roundcube_main.inc.php ${path}/config/main.inc.php
+fi
+
+for x in defaults.inc.php db.inc.php config.inc.php ; do
+	if [ -f ${path}/config/${x} ] ; then
+		'cp' -f ${path}/config/roundcube_${x} ${path}/config/${x}
+		sed -i 's!mysql://roundcube:roundcube!mysql://roundcube:'${pass}'!g' ${path}/config/${x}
+		sed -i 's!mysql://roundcube:pass!mysql://roundcube:'${pass}'!g' ${path}/config/${x}
+		sed -i 's!mysql://roundcube:@!mysql://roundcube:'${pass}'!g' ${path}/config/${x}
+	fi
+done
+
+Q1="USE roundcubemail;"
+Q2="GRANT ALL ON roundcubemail.* TO roundcubemail@localhost IDENTIFIED BY '${pass}';"
+Q3="FLUSH PRIVILEGES;"
+SQL="${Q1}${Q2}${Q3}"
+
+mysql -u root -p${rootpass} -e "$SQL" >/dev/null 2>&1
+
+sqlfiles=$(dir -l ${path}/SQL/mysql/*.sql)
+
+for x in $sqlfiles ; do
+	mysql -f -u root -p${rootpass} < ${x} >/dev/null 2>&1
+done

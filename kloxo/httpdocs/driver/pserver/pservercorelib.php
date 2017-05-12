@@ -651,7 +651,7 @@ class pservercore extends Lxclient
 		$param['nname'] = trim($param['nname']);
 		$param['syncserver'] = $param['nname'];
 		$param['realpass'] = $param['ps_password'];
-		$param['password'] = crypt($param['ps_password']);
+		$param['password'] = crypt($param['ps_password'], '$1$'.randomString(8).'$');
 
 		return $param;
 	}

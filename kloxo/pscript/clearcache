@@ -43,6 +43,9 @@ execf() {
 		exit;
 	fi
 
+    #swapoff -a
+    #swapon -a
+
 	echo "--- Memory AFTER clearcache ---"
 	free -m
 

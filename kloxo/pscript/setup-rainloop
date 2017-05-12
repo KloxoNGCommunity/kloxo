@@ -5,11 +5,39 @@ path="/home/kloxo/httpd/webmail/rainloop"
 if [ "${1}" == "-y" ] ; then
 	if [ ! -f ${path}/index.php ] ; then
 		yum install kloxomr-webmail-rainloop -y
-		chown -R apache:apache $path
+		chown -R apache:apache ${path}
 	fi
 fi
 
-. /script/directory
-lxphp.exe ../bin/misc/setup-rainloop.php "$@"
+echo "*** Rainloop Webmail setup ***"
+
+if [ ! -f ${path}/index.php ] ; then
+	echo "- Application not exists. Exit"
+	exit
+fi
+
+appfiles=$(dir -l ${path}/rainloop/v/*/app/libraries/RainLoop/Config/Application.php)
+
+echo "- Change application.ini to application.ini.php"
+
+if [ "${appfiles}" != "" ] ; then
+	for x in $appfiles ; do
+		sed -i 's:\'application.ini\':\'application.ini.php\':g' $x
+		sed -i 's:; RainLoop Webmail configuration file:;<?php exit;?> RainLoop Webmail configuration file:g' $x
+	done
+fi
+
+datfiles=$(dir -l ${path}/data/_data_*/_default_/configs/application.ini"
+
+echo "- Change admin password"
+
+key=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+
+if [ "${datfiles}" != "" ] ; then
+	for x in $datfiles ; do
+		'mv' -f ${x} ${x}.php
+		sed -i 's:"12345":'${key}':g' $x
+	done
+fi
 
 sh /script/add-rainloop-domains

@@ -5,7 +5,7 @@ class DnsSlave extends Lxdb
 	static $__desc = array("", "",  "dnsslave",);
 	static $__desc_nname =  array("h", "",  "slave_domain");
 	static $__desc_master_ip =  array("", "",  "master_ip");
-	static $__desc_syncserver =  array("", "",  "syncserver");
+	static $__desc_syncserver =  array("s", "",  "syncserver");
 	static $__desc_serial =  array("", "",  "Serial");
 
 	function isSync()
@@ -97,9 +97,24 @@ class DnsSlave extends Lxdb
 
 		$vlist['nname'] = null;
 		$vlist['master_ip'] = null;
+		$vlist['syncserver'] = array('s', self::getServerList());
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
 		
+		return $ret;
+	}
+
+	static function getServerList()
+	{
+		global $login;
+
+		$plist = $login->getList('pserver');
+
+		foreach($plist as $s) {
+			$ret[] = $s->nname;
+		}
+
 		return $ret;
 	}
 }

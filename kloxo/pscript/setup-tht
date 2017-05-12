@@ -5,9 +5,44 @@ path="/home/kloxo/httpd/cp/tht"
 if [ "${1}" == "-y" ] ; then
 	if [ ! -f ${path}/index.php ] ; then
 		yum install kloxomr-panel-tht -y
-		chown -R apache:apache $path
+		chown -R apache:apache ${path}
 	fi
 fi
 
-. /script/directory
-lxphp.exe ../bin/misc/setup-tht.php "$@"
+echo "*** TheHostingTool Billing setup ***"
+
+if [ -f ${path}/index.php ] ; then
+	echo "- Application not exists. Exit"
+	exit
+fi
+
+echo "- Preparing Database"
+
+rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
+
+echo "- Create 'thehostingtool' database"
+mysql -f -u root p${rootpass} < ${path}/tht_install.sql >/dev/null 2>&1
+
+if [ -f ${path}/custom.tht_conf.inc.php ] ; then
+	sfile="${path}/custom.tht_conf.inc.php"
+else
+	sfile="${path}/tht_conf.inc.php"
+fi
+
+tfile = "${path}/includes/conf.inc.php";
+
+'cp' -f ${sfile} ${tfile}
+
+pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+
+sed -i 's:sql[\'pass\'] = \'thehostingtool\':sql[\'pass\'] = \''${pass}'\':g' ${tfile}
+
+Q1="USE thehostingtool;"
+Q2="GRANT ALL ON thehostingtool.* TO thehostingtool@localhost IDENTIFIED BY '${pass}';"
+Q3="FLUSH PRIVILEGES;"
+SQL="${Q1}${Q2}${Q3}"
+
+mysql -u root -p${rootpass} -e "$SQL" >/dev/null 2>&1
+
+echo "* Note: Access to 'http://cp.<yourdomain>/tht/admin' with 'admin'"
+echo "        for username and password (change password immediately)"

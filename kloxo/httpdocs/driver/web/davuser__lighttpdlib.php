@@ -1,90 +1,89 @@
 <?php 
 
-class davuser__lighttpd extends Lxdriverclass {
-
-
-function dbactionAdd()
+class davuser__lighttpd extends Lxdriverclass
 {
-	$this->createDiruserfile();
-}
-
-
-function createDiruserfile()
-{
-	global $gbl, $sgbl, $login, $ghtml; 
-	
-	$result = $this->main->__var_davuser;
-
-	$res = null;
-	foreach($result as $r) {
-		$cr = crypt($r['realpass']);
-		//$cr = $r['realpass'];
-		$res .= "{$r['username']}:$cr\n";
+	function dbactionAdd()
+	{
+		$this->createDiruserfile();
 	}
 
-	lxfile_mkdir("__path_httpd_root/{$this->main->getParentName()}/__davuser");
-	lfile_put_contents("__path_httpd_root/{$this->main->getParentName()}/__davuser/davuser", $res);
+	function createDiruserfile()
+	{
+		global $gbl, $sgbl, $login, $ghtml; 
 
-	$this->createDavSuexec();
+		$result = $this->main->__var_davuser;
 
-	$string = $this->createVirtualHost();
+		$res = null;
+		foreach($result as $r) {
+			$cr = crypt($r['realpass'], '$1$'.randomString(8).'$');
+		//	$cr = $r['realpass'];
+			$res .= "{$r['username']}:$cr\n";
+		}
 
-	lfile_put_contents("/home/kloxo/httpd/webdisk/virtualhost.conf", $string);
-	createRestartFile("webdisk");
-}
+		lxfile_mkdir("__path_httpd_root/{$this->main->getParentName()}/__davuser");
+		lfile_put_contents("__path_httpd_root/{$this->main->getParentName()}/__davuser/davuser", $res);
 
-function createVirtualHost()
-{
-	$string = null;
-	foreach($this->main->__var_domlist as $v) {
-		$string .= "\$HTTP[\"host\"] =~ \"^$v\" {\n";
-		$string .= "server.document-root =  \"/usr/local/lxlabs/kloxo/httpdocs/webdisk/\"\n";
-		$string .= "cgi.assign = ( \".php\" => \"/home/httpd/$v/davsuexec.sh\" )\n";
-		$string .= $this->getDirprotectCore($v);
-		$string .= "}\n\n\n";
-		lxfile_mkdir("__path_httpd_root/$v/__davuser/");
-		lxfile_touch("__path_httpd_root/$v/__davuser/davuser");
+		$this->createDavSuexec();
+
+		$string = $this->createVirtualHost();
+
+		lfile_put_contents("/home/kloxo/httpd/webdisk/virtualhost.conf", $string);
+		createRestartFile("webdisk");
 	}
-	return $string;
-}
 
-function getDirprotectCore($domain)
-{
-	global $gbl, $sgbl, $login, $ghtml; 
-	$string = null;
-	$string .= "\$HTTP[\"url\"] =~ \"/\" {\n";
-	$string .= "auth.backend = \"htpasswd\"\n";
-	$string .= "auth.debug = 2\n";
-	$string .= "auth.backend.htpasswd.userfile = \"$sgbl->__path_httpd_root/$domain/__davuser/davuser\"\n";
-	$string .= "auth.require = ( \"/\" => (\n";
-	$string .= "\"method\" => \"basic\",\n";
-	$string .= "\"realm\" => \"$domain\",\n";
-	$string .= "\"require\" => \"valid-user\"\n";
-	$string .= "))\n}\n";
-	return $string;
-}
+	function createVirtualHost()
+	{
+		$string = null;
+		foreach($this->main->__var_domlist as $v) {
+			$string .= "\$HTTP[\"host\"] =~ \"^$v\" {\n";
+			$string .= "server.document-root =  \"/usr/local/lxlabs/kloxo/httpdocs/webdisk/\"\n";
+			$string .= "cgi.assign = ( \".php\" => \"/home/httpd/$v/davsuexec.sh\" )\n";
+			$string .= $this->getDirprotectCore($v);
+			$string .= "}\n\n\n";
+			lxfile_mkdir("__path_httpd_root/$v/__davuser/");
+			lxfile_touch("__path_httpd_root/$v/__davuser/davuser");
+		}
 
-function createDavSuexec()
-{
-	$string = null;
-	$uid = os_get_uid_from_user($this->main->__var_system_username);
-	$gid = os_get_gid_from_user($this->main->__var_system_username);
+		return $string;
+	}
 
-	$string .= "#!/bin/sh\n";
-	$string .= "export MUID=$uid\n";
-	$string .= "export GID=$gid\n";
-	$string .= " export PHPRC=/opt/php52s/etc/php.ini\n";
-	$string .= "export TARGET=<%program%>\n";
-	$string .= "export NON_RESIDENT=1\n";
-	$string .= "exec lxsuexec $*\n";
-	$st = str_replace("<%program%>", "/opt/php52s/bin/php-cgi", $string);
-	lfile_put_contents("__path_httpd_root/{$this->main->getParentName()}/davsuexec.sh", $st);
-	lxfile_unix_chmod("__path_httpd_root/{$this->main->getParentName()}/davsuexec.sh", "0755");
-}
+	function getDirprotectCore($domain)
+	{
+		global $gbl, $sgbl, $login, $ghtml; 
+		$string = null;
+		$string .= "\$HTTP[\"url\"] =~ \"/\" {\n";
+		$string .= "auth.backend = \"htpasswd\"\n";
+		$string .= "auth.debug = 2\n";
+		$string .= "auth.backend.htpasswd.userfile = \"$sgbl->__path_httpd_root/$domain/__davuser/davuser\"\n";
+		$string .= "auth.require = ( \"/\" => (\n";
+		$string .= "\"method\" => \"basic\",\n";
+		$string .= "\"realm\" => \"$domain\",\n";
+		$string .= "\"require\" => \"valid-user\"\n";
+		$string .= "))\n}\n";
 
-function dbactionUpdate($subaction)
-{
-	$this->createDiruserfile();
-}
+		return $string;
+	}
 
+	function createDavSuexec()
+	{
+		$string = null;
+		$uid = os_get_uid_from_user($this->main->__var_system_username);
+		$gid = os_get_gid_from_user($this->main->__var_system_username);
+
+		$string .= "#!/bin/sh\n";
+		$string .= "export MUID=$uid\n";
+		$string .= "export GID=$gid\n";
+		$string .= " export PHPRC=/opt/php52s/etc/php.ini\n";
+		$string .= "export TARGET=<%program%>\n";
+		$string .= "export NON_RESIDENT=1\n";
+		$string .= "exec lxsuexec $*\n";
+		$st = str_replace("<%program%>", "/opt/php52s/bin/php-cgi", $string);
+		lfile_put_contents("__path_httpd_root/{$this->main->getParentName()}/davsuexec.sh", $st);
+		lxfile_unix_chmod("__path_httpd_root/{$this->main->getParentName()}/davsuexec.sh", "0755");
+	}
+
+	function dbactionUpdate($subaction)
+	{
+		$this->createDiruserfile();
+	}
 }

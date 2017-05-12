@@ -1,5 +1,0 @@
-Config files location:
-
-- php-fpm.conf (main) under '/opt/phpXYm/etc' and (user) under '/opt/phpXYm/etc/php-fpm.d'
-- php.ini (main) under '/opt/phpXYm/etc' and (user) under '/home/phpcfg/XYm/<user>'
-- php-cgi.sh and php-ls.sh (main) under '/home/phpcfg/XYm/' and (user) under '/home/phpcfg/XYm/<user>'

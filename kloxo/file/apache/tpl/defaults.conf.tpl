@@ -201,6 +201,8 @@ $acmechallenge_conf = getLinkCustomfile($globalspath, "acme-challenge.conf");
 
 $ssl_base_conf = getLinkCustomfile($globalspath, "ssl_base.conf");
 
+$remoteip_conf = getLinkCustomfile($globalspath, "remoteip.conf");
+
 // MR -- for future purpose, apache user have uid 50000
 // $userinfoapache = posix_getpwnam('apache');
 // $fpmportapache = (50000 + $userinfoapache['uid']);
@@ -223,7 +225,7 @@ foreach ($certnamelist as $ip => $certname) {
 </IfVersion>
 
 <IfVersion >= 2.4>
-	Include <?=$globalspath;?>/portnip.conf
+	Include "<?=$globalspath;?>/portnip.conf"
 </IfVersion>
 
 Listen ${ip}:${port}
@@ -239,13 +241,7 @@ Listen ${ip}:${portssl}
 if ($reverseproxy) {
 ?>
 
-<IfModule mod_remoteip.c>
-	<IfVersion >= 2.4>
-		RemoteIPInternalProxy <?=$ip;?>
-
-		RemoteIPHeader X-Real-IP
-	</IfVersion>
-</IfModule>
+Include "<?=$remoteip_conf;?>"
 <?php
 }
 ?>

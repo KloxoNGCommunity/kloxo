@@ -15,7 +15,7 @@ if (!isset($argv[1])) {
 
 if ($argv[1] === 'master') {
 	initProgram('admin');
-	$login->password = crypt($argv[2]);
+	$login->password = crypt($argv[2], '$1$'.randomString(8).'$');
 	$login->realpass = $argv[2];
 	$login->setUpdateSubaction('password');
 	$login->createSyncClass();
@@ -27,7 +27,7 @@ if ($argv[1] === 'master') {
 		exit;
 		}
 	$rmt = unserialize(lfile_get_contents("$sgbl->__path_slave_db"));
-	$rmt->password = crypt($argv[2]);
+	$rmt->password = crypt($argv[2], '$1$'.randomString(8).'$');
 	lfile_put_contents("$sgbl->__path_slave_db", serialize($rmt));
 } else {
 	print("first argument is master/slave\n");

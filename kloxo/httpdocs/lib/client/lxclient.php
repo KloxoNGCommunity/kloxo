@@ -279,7 +279,7 @@ abstract class Lxclient extends Lxdb
 	{
 		$this->realpass = $param['password'];
 		$param['realpass'] = $param['password'];
-		$param['password'] = crypt($param['password']);
+		$param['password'] = crypt($param['password'], '$1$'.randomString(8).'$');
 		
 		return $param;
 	}
@@ -921,7 +921,7 @@ abstract class Lxclient extends Lxdb
 		
 		$this->__old_password = $this->password;
 		$param['realpass'] = $param['password'];
-		$param['password'] = crypt($param['password']);
+		$param['password'] = crypt($param['password'], '$1$'.randomString(8).'$');
 		
 		// Hack hack... this is due the forced security password change in the admin. Most likely the referal url, 
 		// to which it is redirected, is empty. So if you are changing the login password, you can anyway redirect to 'show';

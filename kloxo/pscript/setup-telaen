@@ -5,9 +5,26 @@ path="/home/kloxo/httpd/webmail/telaen"
 if [ "${1}" == "-y" ] ; then
 	if [ ! -f ${path}/index.php ] ; then
 		yum install kloxomr-webmail-telaen -y
-		chown -R apache:apache $path
+		chown -R apache:apache ${path}
 	fi
 fi
 
-. /script/directory
-lxphp.exe ../bin/misc/setup-telaen.php "$@"
+echo "*** Telaen Webmail setup ***"
+
+if [ ! -f ${path}/index.php ] ; then
+	echo "- Application not exists. Exit"
+	exit
+fi
+
+echo "- Preparing Configs"
+
+'cp' -f ${path}/inc/config/config.php.default ${path}/inc/config/config.php
+
+sed -i 's:/some/place/safe/smarty/:./smarty/:g' ${path}/inc/config/config.php
+	
+if [ ! -f  ${path}/ChangeMe! ] ; then
+	mkdir -p  ${path}/ChangeMe!
+fi
+
+'cp' -f	${path}/inc/config/config.languages.php.default ${path}/inc/config/config.languages.php
+'cp' -f	${path}/inc/config/config.security.php.default ${path}/inc/config/config.security.php

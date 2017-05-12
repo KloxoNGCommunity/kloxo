@@ -109,7 +109,7 @@ class Service__Redhat extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-	//	$ps = lxshell_output("ps", "ax");
+		$ps = lxshell_output("ps", "ax");
 	//	$run = Service__linux::getRunLevel();
 	//	$rclist = lscandir_without_dot("{$sgbl->__path_real_etc_root}/rc$run.d/");
 

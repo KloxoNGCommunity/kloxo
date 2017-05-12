@@ -187,7 +187,6 @@ class Domaind extends DomainBase
 		return true;
 	}
 
-
 	function updatePassword($param)
 	{
 		$web = $this->getObject('web');
@@ -196,7 +195,7 @@ class Domaind extends DomainBase
 	/*
 		$ftpuser = $web->getFromList('ftpuser', $web->ftpusername);
 		$ftpuser->realpass = $param['password'];
-		$ftpuser->password = crypt($param['password']);
+		$ftpuser->password = crypt($param['password'], '$1$'.randomString(8).'$');
 		$ftpuser->setUpdateSubaction('password');
 	*/	
 		return parent::updatePassword($param);
@@ -777,24 +776,18 @@ class Domaind extends DomainBase
 
 		////////////////////
 
-	//	$uuser->syncserver = $web->syncserver;
 		$ftpuser->syncserver = $web->syncserver;
-	//	$ftpuser->directory =  "/domain/$this->nname";
 		// Hack hack uuser needs driver to be redone, since the driver was created when uuser had no syncserver....
-	//	$uuser->createSyncClass();
 		$ftpuser->createSyncClass();
 		$web->createSyncClass();
 		$mmail->createSyncClass();
 		$dns->createSyncClass();
 
-	//	$uuser->realpass = $this->realpass;
-	//	$uuser->password = crypt($this->realpass);
 		$ftpuser->realpass = $this->realpass;
-		$ftpuser->password = crypt($this->realpass);
+		$ftpuser->password = crypt($this->realpass, '$1$'.randomString(8).'$');
 		$mmail->remotelocalflag = 'local';
 
 		$web->stats_username = $this->nname;
-	//	$web->stats_password = null;
 		// MR -- stats always protected by default
 		$web->stats_password = randomString(8);
 
@@ -990,10 +983,6 @@ class Domaind extends DomainBase
 		// the uuser is two steps removed from the main object (domain), and thus the automatic nname creation 
 		// doesn't seem to work. So we have to do it here.
 
-	/*
-		$param['realpass'] = $param['password'];
-		$param['password'] = crypt($param['password']);
-	*/
 		return $param;
 	}
 

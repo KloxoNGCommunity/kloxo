@@ -8546,6 +8546,10 @@ function uploadAbort(e) { // upload abort
 	{
 		global $gbl, $sgbl, $login;
 
+		if (!isset($login->syncserver)) {
+			return $pinfo;
+		}
+
 		$pinfo = str_replace("[%_program_%]", $sgbl->__var_program_name, $pinfo);
 
 		if ($this->frm_o_o[0]['class'] === 'mailaccount') {

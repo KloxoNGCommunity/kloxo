@@ -1017,7 +1017,7 @@ $__description["remove_processed_logs"] = array("Remove Processed Logs");
 $__description["mail_forward"] = array("Mail Forward");
 $__description["forward_address"] = array("Forward Address");
 $__description["account_name"] = array("Account Name");
-$__description["mail_disk_usage"] = array("Mail Disk Usage");
+$__description["mail_disk_usage"] = array("Mail Disk Usage (in MB)");
 $__description["forward"] = array("Forward");
 $__description["autoresponder_name"] = array("Autoresponder Name");
 $__description["no_local_copy"] = array("No Local Copy");
@@ -1406,7 +1406,7 @@ $__description["multiple_php_ready"] = array("Multiple PHP Ready");
 $__description["multiple_php_ratio"] = array("Multiple PHP Ratio");
 $__description["php_selected"] = array("PHP Selected");
 $__description["web_selected"] = array("Web Selected");
-$__description["time_out"] = array("Timeout (seconds)");
+$__description["time_out"] = array("Timeout (in seconds; 0 to reset)");
 
 $__description["microcache_time"] = array("Microcache Time (seconds; -1 to disabled; 0 to reset)");
 $__description["microcache_insert_into"] = array("Microcache Insert into");
@@ -1426,9 +1426,9 @@ $__description["enable_cronforall"] = array("Enable cron for all users");
 
 $__description["date_timezone"] = array("Timezone");
 
-$__description["dnsslave"] = array("Secondary DNS Configure");
-$__description["master_ip"] = array("Master IP Address");
-$__description["slave_domain"] = array("Slave Domain");
+$__description["dnsslave"] = array("Secondary/Slave DNS Configure");
+$__description["master_ip"] = array("Primary/Master IP Address");
+$__description["slave_domain"] = array("Domain Name");
 
 $__description["allowedblocked_ip"] = array("Allowed / Blocked IP");
 
@@ -1445,8 +1445,8 @@ $__description["phpmodule_fullfile"] = array("File");
 $__description["phpmodule_status"] = array("PHP Module Status");
 $__description["phpmodule_restart"] = array("Restart");
 
-$__description["general_header"] = array("General Header (in Apache format)");
-$__description["https_header"] = array("HTTPS Header (in Apache format)");
+$__description["general_header"] = array("General Header (in Apache format; blank to reset)");
+$__description["https_header"] = array("HTTPS Header (in Apache format; blank to reset)");
 $__description["static_files_expire"] = array("Static Files Expire (in days; -1 to disabled; 0 to reset)");
 
 $__description["disable_pagespeed"] = array("Disable Pagespeed (if used)");

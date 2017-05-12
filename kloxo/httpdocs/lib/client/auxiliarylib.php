@@ -72,7 +72,7 @@ class auxiliary extends Lxclient
 		$param['cpstatus'] = 'on';
 		$param['status'] = 'on';
 		$param['realpass'] = $param['password'];
-		$param['password'] = crypt($param['password']);
+		$param['password'] = crypt($param['password'], '$1$'.randomString(8).'$');
 		
 		return $param;
 	}

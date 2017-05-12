@@ -247,7 +247,7 @@ class Ticket extends Lxclient
 		$this->addToList("tickethistory", $hist);
 
 		$this->realpass = randomString(6);
-		$this->password = crypt($this->realpass);
+		$this->password = crypt($this->realpass, '$1$'.randomString(8).'$');
 		$this->status = 'on';
 		$this->cpstatus = 'on';
 		$this->escalate = 'dull';

@@ -12,7 +12,7 @@ smtp_secure = "TLS"
 smtp_auth = On
 EOF
 
-dir=$(dirname /home/kloxo/httpd/webmail/rainloop/data/*/_default_/domains)/domains
+dir=$(dirname /home/kloxo/httpd/webmail/rainloop/data/_data_*/_default_/domains)/domains
 
 if [ "${1}" == "" ] ; then
 	doms=$(/home/vpopmail/bin/vdominfo|grep 'domain:'|awk '{print $2}')

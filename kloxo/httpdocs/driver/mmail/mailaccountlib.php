@@ -179,35 +179,36 @@ class Mailaccount extends Lxclient
 	{
 		global $login;
 
-		if ($subaction === 'autores') {
-			$list = $this->getList('autoresponder');
+		switch ($subaction) {
+			case 'autores':
+				$list = $this->getList('autoresponder');
 
-			if (!$list) {
-				throw new lxException($login->getThrow("first_add_some_autoresponders"));
-			}
+				if (!$list) {
+					throw new lxException($login->getThrow("first_add_some_autoresponders"));
+				}
 
-			$nlist = get_namelist_from_objectlist($list, "nname", "autores_name");
-			$vlist['autores_name'] = array('A', $nlist);
+				$nlist = get_namelist_from_objectlist($list, "nname", "autores_name");
+				$vlist['autores_name'] = array('A', $nlist);
+				
+				break;
 
-			return $vlist;
+			case 'filter':
+				$this->setDefaultValue('filter_spam_status', 'mailbox');
+				$vlist['filter_spam_status'] = array('s', array('spambox', 'mailbox', 'delete'));
+				$vlist['__v_updateall_button'] = array();
+
+				break;
+
+			case 'configuration':
+				$vlist['no_local_copy'] = null;
+				$vlist['__v_updateall_button'] = array();
+
+				break;
 		}
 
-		if ($subaction === 'filter') {
-			$this->setDefaultValue('filter_spam_status', 'mailbox');
-			$vlist['filter_spam_status'] = array('s', array('spambox', 'mailbox', 'delete'));
-			$vlist['__v_updateall_button'] = array();
+	//	return parent::updateform($subaction, $param);
 
-			return $vlist;
-		}
-
-		if ($subaction === 'configuration') {
-			$vlist['no_local_copy'] = null;
-			$vlist['__v_updateall_button'] = array();
-
-			return $vlist;
-		}
-
-		return parent::updateform($subaction, $param);
+		return $vlist;
 	}
 
 	function updateAutores($param)
@@ -272,7 +273,6 @@ class Mailaccount extends Lxclient
 		$this->setUpdateSubaction('sync_forward');
 
 		return null;
-
 	}
 
 	function updateEnable_Forward($param)
@@ -417,7 +417,7 @@ class Mailaccount extends Lxclient
 		$parent = $this->getTrueParentO();
 
 		$this->realpass = $this->password;
-		$this->password = crypt($this->password);
+		$this->password = crypt($this->password, '$1$'.randomString(8).'$');
 
 		if ($this->isOn("simple_add_f")) {
 			$this->priv = clone $parent->priv;

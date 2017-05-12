@@ -32,7 +32,7 @@ class davuser extends Lxclient
 		$web = $parent;
 		$web->setUpdateSubaction('create_config');
 		$param['realpass'] = $param['password'];
-		$param['password'] = crypt($param['password']);
+		$param['password'] = crypt($param['password'], '$1$'.randomString(8).'$');
 		$param['syncserver'] = $web->syncserver;
 		$param['directory'] = trim($param['directory'], "/ ");
 		$param['directory'] = "/{$param['directory']}";

@@ -8,13 +8,14 @@ else
 	t="0.85"
 fi
 
-if [ "$(ps aux|grep 'backup'|grep -v 'grep')" == "" ] ; then
-	i=$(free -m|grep 'Mem'|awk '{print $3/$2}')
-	j=$(printf "%.2f\n" $i)
-	e=$(echo "$j>=$t"|bc)
+i=$(free -m|grep 'Mem'|awk '{print $3/$2}')
+j=$(printf "%.2f\n" $i)
 
+if [ "$(ps aux|grep 'backup'|grep -v 'grep')" == "" ] ; then
+	e=$(echo "$j>=$t"|bc)
 	if [ "$e" == "1" ] ; then
-		s="- Clear memory ('$j' >= '$t' usage) with restart-all"
+		#s="- Clear memory ('$j' >= '$t' usage) with restart-all"
+		s="- Clear memory ('$j' >= '$t' usage)"
 		sh /script/clearcache3
 		#sh /script/restart-all
 	else

@@ -84,7 +84,8 @@ static function findTotalmailQuota($driver, $list, $oldtime, $newtime)
 	}
 	lunlink($convertedfile);
 
-	self::rotateLog($processedir, $file);
+	// MR -- not rotate here because using logrotate
+//	self::rotateLog($processedir, $file);
 //	self::rotateLog("/var/log/kloxo/", "/var/log/kloxo/courier");
 //	self::rotateLog("/var/log/kloxo/", "/var/log/kloxo/smtp.log");
 	return $tlist;

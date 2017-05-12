@@ -1340,10 +1340,11 @@ class Web extends Lxdb
 
 		$this->web_selected = $param['web_selected'];
 		$this->php_selected = $param['php_selected'];
+
+		if ($param['time_out'] === '0') { $param['time_out'] = self::geTimeoutDefault(); }
 		$this->time_out = $param['time_out'];
 
 		if ($param['microcache_time'] === '0') { $param['microcache_time'] = self::getMicrocacheTimeDefault(); }
-
 		$this->microcache_time = $param['microcache_time'];
 		$this->microcache_insert_into = $param['microcache_insert_into'];
 
@@ -1351,8 +1352,8 @@ class Web extends Lxdb
 		$this->https_header = $param['https_header'];
 
 		if ($param['static_files_expire'] === '0') { $param['static_files_expire'] = self::getStaticFilesExpireDefault(); }
-
 		$this->static_files_expire = $param['static_files_expire'];
+
 		$this->disable_pagespeed = $param['disable_pagespeed'];
 
 		return $param;
@@ -1700,7 +1701,7 @@ class Web extends Lxdb
 		$dir = dirname($filename);
 		$owner = "{$this->username}:apache";
 
-		$password = crypt($this->stats_password, CRYPT_MD5);
+		$password = crypt($this->stats_password, '$1$'.randomString(8).'$');
 		$content = "{$this->stats_username}:$password\n";
 
 		lxuser_mkdir($owner, $dir);
@@ -1788,6 +1789,11 @@ class Web extends Lxdb
 		}
 
 		return null;
+	}
+
+	static function getTimeoutDefault()
+	{
+		return '300';
 	}
 
 	static function getMicrocacheTimeDefault()
