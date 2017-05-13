@@ -1,0 +1,15 @@
+#!/bin/sh
+
+echo "*** Cron for restart mail if mail queue exists (recommended: per-hour) ***"
+
+if [ "$(sh /script/mailqueue -l|grep 'Total messages: 0')" == "" ] ; then
+	s="- Mail queue is NOT empty. Run 'restart-mail'"
+	sh /script/restart-mail
+else
+	s="- Mail queue is empty. No need 'restart-mail'"
+fi
+
+d="$(date +'%Y-%m-%d %H:%M:%S')"
+
+echo $s
+echo "$d $s" >> /usr/local/lxlabs/kloxo/log/cron-restart-mail
