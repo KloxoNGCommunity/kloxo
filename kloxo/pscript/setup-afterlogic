@@ -40,7 +40,7 @@ fi
 
 echo "- Generating password"
 
-pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 
 echo "- Add Password to configuration file"
 

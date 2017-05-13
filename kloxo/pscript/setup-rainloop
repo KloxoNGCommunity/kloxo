@@ -31,12 +31,12 @@ datfiles=$(dir -l ${path}/data/_data_*/_default_/configs/application.ini)
 
 echo "- Change admin password"
 
-key=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 
 if [ "${datfiles}" != "" ] ; then
 	for x in $datfiles ; do
 		'mv' -f ${x} ${x}.php
-		sed -i 's:"12345":'${key}':g' $x
+		sed -i 's:"12345":'${pass}':g' $x
 	done
 fi
 

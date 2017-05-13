@@ -31,7 +31,7 @@ mysql -f -u root -p${rootpass} < ${path}/SQL/mysql.initial.sql >/dev/null 2>&1
 
 echo "- Add Password to configuration file"
 
-pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 
 if [ -f ${path}/config/roundcube_main.inc.php ] ; then
 	'cp' -f ${path}/config/roundcube_main.inc.php ${path}/config/main.inc.php

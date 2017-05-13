@@ -33,7 +33,12 @@ tfile = "${path}/includes/conf.inc.php";
 
 'cp' -f ${sfile} ${tfile}
 
-pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+## MR -- need install pwgen rpm
+#pass=$(pwgen 8 1)
+pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
+#pass=$(openssl rand -base64 6)
+## MR -- urandom trouble in openvz (high cpu usage)
+#pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 
 sed -i 's:sql[\'pass\'] = \'thehostingtool\':sql[\'pass\'] = \''${pass}'\':g' ${tfile}
 

@@ -5,7 +5,6 @@ echo ">>> Modified /etc/sysctl.conf <<<"
 sed -i '/### begin/,/### end/d' /etc/sysctl.conf
 
 ## MR -- modified sysctl.conf because using socket instead port for php-fpm
-#pattern="fs.file-max"
 sysctlconf=$(cat /etc/sysctl.conf)
 
 ## MR - https://bbs.archlinux.org/viewtopic.php?pid=1002264
@@ -24,11 +23,9 @@ net.ipv4.tcp_synack_retries = 3
 ### end -- add by Kloxo-MR
 EOF
 
-#if [ "$(echo ${sysctlconf}|grep ${pattern})" == "" ] ; then
-	## MR -- problem with for openvz
-	if [ "$(/proc/self/status|grep envID)" == "" ] ; then
-		## MR -- need "" to multiline echo
-		echo "${patch}" >> /etc/sysctl.conf
-		sysctl -e -p
-	fi
-#fi
+## MR -- problem with for openvz
+if [ ! -f /proc/user_beancounters ] ; then
+	## MR -- need "" to multiline echo
+	echo "${patch}" >> /etc/sysctl.conf
+	sysctl -e -p
+fi

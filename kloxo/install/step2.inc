@@ -455,7 +455,7 @@ lxins_main() {
 	fi
 
 	if [ "${kloxostate}" != 'none' ] ; then
-		MR -- Create temporary flags for install
+		## MR -- Create temporary flags for install
 		mkdir -p /var/cache/kloxo
 
 		for (( x=0; x<1000; x++ )) ; do
