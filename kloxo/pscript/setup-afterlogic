@@ -20,22 +20,19 @@ echo "- Preparing database"
 
 rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
 
-mysql -f -u root p${rootpass} < ${path}/data/settings/afterlogic_initial.sql >/dev/null 2>&1
+mysql -f -u root -p"${rootpass}" < ${path}/data/settings/afterlogic_initial.sql >/dev/null 2>&1
+
+basefile="${path}/libraries/afterlogic/common/settings.php"
 
 if [ -f ${path}/data/settings/afterlogic_settings.xml.php ] ; then
 	'rm' -f ${path}/data/settings/settings.xml
 	'cp' -f ${path}/data/settings/afterlogic_settings.xml.php ${path}/data/settings/settings.xml.php
 
 	cfgfile="${path}/data/settings/settings.xml.php"
-	basefile="${path}/libraries/afterlogic/common/settings.php"
 
 	echo "- Change 'setting.xml' to 'settings.xml.php' in 'settings/php'"
 
-	sed -i 's:\'/settings/settings.xml\':\'/settings/settings.xml.php\':g' ${basefile}
-else
-	'cp' -f ${path}/data/settings/afterlogic_settings.xml ${path}/data/settings/settings.xml");
-	cfgfile="${path}/data/settings/settings.xml"
-	basefile="${path}/libraries/afterlogic/common/settings.php"
+	sed -i "s:'/settings/settings.xml':'/settings/settings.xml.php':g" ${basefile}
 fi
 
 echo "- Generating password"
@@ -44,12 +41,13 @@ pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 
 echo "- Add Password to configuration file"
 
-sed -i 's:<DBPassword>afterlogic</DBPassword>:<DBPassword>'${pass}'</DBPassword>:g' $cfgfile
-sed -i 's:<AdminPassword>afterlogic</AdminPassword>:<AdminPassword>'${pass}'</AdminPassword>:g' $cfgfile
+sed -i "s:<DBPassword>afterlogic</DBPassword>:<DBPassword>${pass}</DBPassword>:g" ${cfgfile}
+sed -i "s:<AdminPassword>afterlogic</AdminPassword>:<AdminPassword>${pass}</AdminPassword>:g" ${cfgfile}
+sed -i "s:<?xml version=\"1.0\":<?php exit;?><?xml version=\"1.0\":g" ${cfgfile}
 
 Q1="USE afterlogic;"
 Q2="GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '${pass}';"
 Q3="FLUSH PRIVILEGES;"
 SQL="${Q1}${Q2}${Q3}"
 
-mysql -u root -p${rootpass} -e "$SQL" >/dev/null 2>&1
+mysql -u root -p"${rootpass}" -e "${SQL}" >/dev/null 2>&1

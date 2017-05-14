@@ -26,5 +26,5 @@ if [ ! -f  ${path}/ChangeMe! ] ; then
 	mkdir -p  ${path}/ChangeMe!
 fi
 
-'cp' -f	${path}/inc/config/config.languages.php.default ${path}/inc/config/config.languages.php
-'cp' -f	${path}/inc/config/config.security.php.default ${path}/inc/config/config.security.php
+'cp' -f ${path}/inc/config/config.languages.php.default ${path}/inc/config/config.languages.php
+'cp' -f ${path}/inc/config/config.security.php.default ${path}/inc/config/config.security.php

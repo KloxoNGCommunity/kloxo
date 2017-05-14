@@ -27,7 +27,7 @@ echo "- Fixing MySQL commands in import files"
 
 'cp' -f ${path}/SQL/roundcube_mysql.initial.sql ${path}/SQL/mysql.initial.sql
 
-mysql -f -u root -p${rootpass} < ${path}/SQL/mysql.initial.sql >/dev/null 2>&1
+mysql -f -u root -p"${rootpass}" < ${path}/SQL/mysql.initial.sql >/dev/null 2>&1
 
 echo "- Add Password to configuration file"
 
@@ -40,9 +40,9 @@ fi
 for x in defaults.inc.php db.inc.php config.inc.php ; do
 	if [ -f ${path}/config/${x} ] ; then
 		'cp' -f ${path}/config/roundcube_${x} ${path}/config/${x}
-		sed -i 's!mysql://roundcube:roundcube!mysql://roundcube:'${pass}'!g' ${path}/config/${x}
-		sed -i 's!mysql://roundcube:pass!mysql://roundcube:'${pass}'!g' ${path}/config/${x}
-		sed -i 's!mysql://roundcube:@!mysql://roundcube:'${pass}'!g' ${path}/config/${x}
+		sed -i "s!mysql://roundcube:roundcube!mysql://roundcube:${pass}!g" ${path}/config/${x}
+		sed -i "s!mysql://roundcube:pass!mysql://roundcube:${pass}!g" ${path}/config/${x}
+		sed -i "s!mysql://roundcube:@!mysql://roundcube:${pass}!g" ${path}/config/${x}
 	fi
 done
 
@@ -51,10 +51,10 @@ Q2="GRANT ALL ON roundcubemail.* TO roundcubemail@localhost IDENTIFIED BY '${pas
 Q3="FLUSH PRIVILEGES;"
 SQL="${Q1}${Q2}${Q3}"
 
-mysql -u root -p${rootpass} -e "$SQL" >/dev/null 2>&1
+mysql -u root -p"${rootpass}" -e "${SQL}" >/dev/null 2>&1
 
 sqlfiles=$(dir -l ${path}/SQL/mysql/*.sql|awk '{print $9}')
 
 for x in $sqlfiles ; do
-	mysql -f -u root -p${rootpass} < ${x} >/dev/null 2>&1
+	mysql -f -u root -p"${rootpass}" < ${x} >/dev/null 2>&1
 done

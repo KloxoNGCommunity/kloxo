@@ -16,18 +16,18 @@ if [ ! -f ${path}/index.php ] ; then
 	exit
 fi
 
-appfiles=$(dir -l ${path}/rainloop/v/*/app/libraries/RainLoop/Config/Application.php)
+appfiles=$(dir -l ${path}/rainloop/v/*/app/libraries/RainLoop/Config/Application.php|awk '{print $9}')
 
 echo "- Change application.ini to application.ini.php"
 
 if [ "${appfiles}" != "" ] ; then
 	for x in $appfiles ; do
-		sed -i 's:\'application.ini\':\'application.ini.php\':g' $x
-		sed -i 's:; RainLoop Webmail configuration file:;<?php exit;?> RainLoop Webmail configuration file:g' $x
+		sed -i "s:'application.ini':'application.ini.php':g" ${x}
+		sed -i "s:; RainLoop Webmail configuration file:;<?php exit;?> RainLoop Webmail configuration file:g" ${x}
 	done
 fi
 
-datfiles=$(dir -l ${path}/data/_data_*/_default_/configs/application.ini)
+datfiles=$(dir -l ${path}/data/_data_*/_default_/configs/application.ini|awk '{print $9}')
 
 echo "- Change admin password"
 
@@ -36,7 +36,7 @@ pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 if [ "${datfiles}" != "" ] ; then
 	for x in $datfiles ; do
 		'mv' -f ${x} ${x}.php
-		sed -i 's:"12345":'${pass}':g' $x
+		sed -i "s:\"12345\":\"${pass}\":g" ${x}
 	done
 fi
 

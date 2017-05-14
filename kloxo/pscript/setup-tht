@@ -21,7 +21,8 @@ echo "- Preparing Database"
 rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
 
 echo "- Create 'thehostingtool' database"
-mysql -f -u root p${rootpass} < ${path}/tht_install.sql >/dev/null 2>&1
+
+mysql -f -u root p"${rootpass}" < ${path}/tht_install.sql >/dev/null 2>&1
 
 if [ -f ${path}/custom.tht_conf.inc.php ] ; then
 	sfile="${path}/custom.tht_conf.inc.php"
@@ -29,25 +30,23 @@ else
 	sfile="${path}/tht_conf.inc.php"
 fi
 
-tfile = "${path}/includes/conf.inc.php";
+tfile = "${path}/includes/conf.inc.php"
 
 'cp' -f ${sfile} ${tfile}
 
-## MR -- need install pwgen rpm
 #pass=$(pwgen 8 1)
 pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 #pass=$(openssl rand -base64 6)
-## MR -- urandom trouble in openvz (high cpu usage)
 #pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 
-sed -i 's:sql[\'pass\'] = \'thehostingtool\':sql[\'pass\'] = \''${pass}'\':g' ${tfile}
+sed -i "s:sql['pass'] = 'thehostingtool':sql['pass'] = '${pass}':g" ${tfile}
 
 Q1="USE thehostingtool;"
 Q2="GRANT ALL ON thehostingtool.* TO thehostingtool@localhost IDENTIFIED BY '${pass}';"
 Q3="FLUSH PRIVILEGES;"
 SQL="${Q1}${Q2}${Q3}"
 
-mysql -u root -p${rootpass} -e "$SQL" >/dev/null 2>&1
+mysql -u root -p${rootpass} -e "${SQL}" >/dev/null 2>&1
 
 echo "* Note: Access to 'http://cp.<yourdomain>/tht/admin' with 'admin'"
 echo "        for username and password (change password immediately)"
