@@ -46,6 +46,8 @@ for x in defaults.inc.php db.inc.php config.inc.php ; do
 	fi
 done
 
+chown -R apache:apache ${path}
+
 Q1="USE roundcubemail;"
 Q2="GRANT ALL ON roundcubemail.* TO roundcubemail@localhost IDENTIFIED BY '${pass}';"
 Q3="FLUSH PRIVILEGES;"

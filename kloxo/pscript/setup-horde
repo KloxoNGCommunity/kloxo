@@ -45,6 +45,8 @@ echo "- Add password to configuration file"
 
 sed -i "s:conf['sql']['password'] = 'horde';:conf['sql']['password'] = '${pass}';:g" ${cfgfile}
 
+chown -R apache:apache ${path}
+
 Q1="USE horde_groupware;"
 Q2="GRANT ALL ON horde_groupware.* TO horde_groupware@localhost IDENTIFIED BY '${pass}';"
 Q3="FLUSH PRIVILEGES;"

@@ -33,6 +33,8 @@ if [ -f ${path}/data/settings/afterlogic_settings.xml.php ] ; then
 	echo "- Change 'setting.xml' to 'settings.xml.php' in 'settings/php'"
 
 	sed -i "s:'/settings/settings.xml':'/settings/settings.xml.php':g" ${basefile}
+
+	chown -R apache:apache ${path}
 fi
 
 echo "- Generating password"

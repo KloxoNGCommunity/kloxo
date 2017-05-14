@@ -41,6 +41,8 @@ pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 
 sed -i "s:sql['pass'] = 'thehostingtool':sql['pass'] = '${pass}':g" ${tfile}
 
+chown -R apache:apache ${path}
+
 Q1="USE thehostingtool;"
 Q2="GRANT ALL ON thehostingtool.* TO thehostingtool@localhost IDENTIFIED BY '${pass}';"
 Q3="FLUSH PRIVILEGES;"
