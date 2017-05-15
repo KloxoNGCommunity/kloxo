@@ -205,15 +205,15 @@ class SubWeb_a extends LxaClass
 
 class Customerror_b extends lxaClass
 {
-	static $__desc_url_400 = array("", "", "_400_(bad_request)");
-	static $__desc_url_401 = array("", "", "401_(authorization_required)");
-	static $__desc_url_403 = array("", "", "403_(forbidden)");
-	static $__desc_url_404 = array("", "", "404_(not_found)");
-	static $__desc_url_500 = array("", "", "500_(internal_server_error)");
-	static $__desc_url_501 = array("", "", "501_(not_implemented)");
-	static $__desc_url_502 = array("", "", "502_(bad_gateway)");
-	static $__desc_url_503 = array("", "", "503_(service_unavailable)");
-	static $__desc_url_504 = array("", "", "504_(gateway_timeout)");
+	static $__desc_url_400 = array("", "", "400_bad_request");
+	static $__desc_url_401 = array("", "", "401_authorization_required");
+	static $__desc_url_403 = array("", "", "403_forbidden");
+	static $__desc_url_404 = array("", "", "404_not_found");
+	static $__desc_url_500 = array("", "", "500_internal_server_error");
+	static $__desc_url_501 = array("", "", "501_not_implemented");
+	static $__desc_url_502 = array("", "", "502_bad_gateway");
+	static $__desc_url_503 = array("", "", "503_service_unavailable");
+	static $__desc_url_504 = array("", "", "504_gateway_timeout");
 }
 
 class Server_Alias_a extends Lxaclass
@@ -305,8 +305,8 @@ class Web extends Lxdb
 	static $__desc_indexfile_list = array("", "", "index_file_order");
 	static $__desc_lighty_pretty_path_f = array("n", "", "installed_path");
 	static $__desc_hotlink_flag = array("f", "", "enable_hotlink_protection");
-	static $__desc_text_hotlink_allowed = array("", "", "allowed_domains_(one_per_line)");
-	static $__desc_hotlink_redirect = array("", "", "redirect_to_(img)");
+	static $__desc_text_hotlink_allowed = array("", "", "allowed_domains");
+	static $__desc_hotlink_redirect = array("", "", "redirect_to_img");
 	static $__desc_fcgi_children = array("f", "", "use_php_fcgi_children");
 	static $__desc_text_blockip = array("t", "", "block_ip");
 	static $__desc_docroot = array("", "", "document_root");
@@ -315,9 +315,9 @@ class Web extends Lxdb
 	static $__desc_force_www_redirect = array("f", "", "force_redirect_domain.com_to_www.domain.com");
 	static $__desc_force_https_redirect = array("f", "", "force_redirect_http_to_https");
 
-	static $__desc_ssl_flag = array("q", "", "enable_ssl_(only_on_linux)");
+	static $__desc_ssl_flag = array("q", "", "enable_ssl");
 	static $__desc_awstats_flag = array("q", "", "enable_awstats");
-	static $__desc_dotnet_flag = array("q", "", "enable_asp.net_(windows_only)");
+	static $__desc_dotnet_flag = array("q", "", "enable_asp.net");
 	static $__desc_cron_manage_flag = array("q", "", "allow_scheduler_management");
 	static $__desc_easyinstaller_flag = array("q", "", "enable_easyinstaller");
 	static $__desc_text_lighty_rewrite = array("t", "", "lighttp_rewrite_rule");

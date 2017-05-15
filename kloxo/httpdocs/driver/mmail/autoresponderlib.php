@@ -11,7 +11,7 @@ class Autoresponder extends Lxdb
 	static $__desc_status = array("e", "",  "s", URL_TOGGLE_STATUS);
 	static $__desc_status_v_on = array("", "", "enabled");
 	static $__desc_status_v_off = array("", "", "disabled");
-	static $__desc_rule = array("", "", "request_text:request_text_in_subject_(blank_for_always_respond)");
+	static $__desc_rule = array("", "", "request_text:request_text_in_subject");
 	static $__desc_text_message = array("t", "", "message");
 
 	static $__acdesc_update_update = array("", "", "edit");

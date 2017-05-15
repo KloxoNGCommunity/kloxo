@@ -11,7 +11,8 @@ sysctlconf=$(cat /etc/sysctl.conf)
 #       also add 'fs.aio-max-nr' for mysql 5.5 innodb aio issue
 read -r -d '' patch << EOF
 ### begin -- add by Kloxo-MR
-fs.aio-max-nr = 1048576
+#fs.aio-max-nr = 1048576
+fs.file-nr = 1048576
 fs.file-max = 1048576
 net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_max_syn_backlog = 2048
@@ -24,8 +25,8 @@ net.ipv4.tcp_synack_retries = 3
 EOF
 
 ## MR -- problem with for openvz
-if [ ! -f /proc/user_beancounters ] ; then
+#if [ ! -f /proc/user_beancounters ] ; then
 	## MR -- need "" to multiline echo
 	echo "${patch}" >> /etc/sysctl.conf
 	sysctl -e -p
-fi
+#fi

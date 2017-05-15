@@ -22,7 +22,7 @@ class Ffile extends Lxclass
 	static $__desc_ttype_v_dirlink = array("", "", "directory_link");
 	static $__desc_ttype_v_filelink = array("", "", "file_link");
 	static $__desc_ttype_v_brokenlink = array("", "", "broken_link");
-	static $__desc_ttype_v_directory_copy = array("", "", "directory_(copy)");
+	static $__desc_ttype_v_directory_copy = array("", "", "directory_copy");
 	static $__desc_ttype_v_zip = array("", "", "zip");
 	static $__desc_ttype_v_tgz = array("", "", "tgz");
 	static $__desc_ttype_v_tbz2 = array("", "", "tbz2");
@@ -33,10 +33,10 @@ class Ffile extends Lxclass
 	static $__desc_ttype_v_p7z = array("", "", "p7z");
 	static $__desc_ttype_v_rar = array("", "", "rar");
 	static $__desc_ttype_v_tar = array("", "", "tar");
-	static $__desc_ttype_v_directory_cut = array("", "", "directory_(cut)");
+	static $__desc_ttype_v_directory_cut = array("", "", "directory_cut");
 	static $__desc_ttype_v_file = array("", "", "file");
-	static $__desc_ttype_v_file_copy = array("", "", "file_(copy)");
-	static $__desc_ttype_v_file_cut = array("", "", "file_(cut)");
+	static $__desc_ttype_v_file_copy = array("", "", "file_copy");
+	static $__desc_ttype_v_file_cut = array("", "", "file_cut");
 	static $__desc_ttype_v_ahtml = array("", "", "file_(html)");
 //	static $__desc_protect = array("e", "",  "p", "__int|goback=1&a=show&l[class]=dirprotect&l[nname]=hello");
 	static $__desc_protect = array("e", "", "p");
@@ -68,8 +68,8 @@ class Ffile extends Lxclass
 	static $__desc_download_password_f = array("n", "", "password");
 	static $__desc_download_url_f = array("n", "", "upload_from_url");
 	static $__desc_download_overwrite_f = array("f", "", "overwrite_file");
-	static $__desc_file_permission_f = array("", "", "size_(k)");
-	static $__desc_file_ownership_f = array("", "", "size_(k)");
+	static $__desc_file_permission_f = array("", "", "size_k");
+	static $__desc_file_ownership_f = array("", "", "size_k");
 	static $__desc_new_name_f = array("", "", "new_name");
 	static $__desc_newfolder_f = array("", "", "folder_name");
 	static $__desc_newfile_f = array("", "", "file_name");
@@ -96,8 +96,8 @@ class Ffile extends Lxclass
 	static $__acdesc_update_paste = array("", "", "paste");
 	static $__acdesc_update_paste_inactive = array("", "", "paste");
 	static $__acdesc_update_download_from_url = array("", "", "upload_from_url");
-	static $__acdesc_update_download_from_http = array("", "", "upload_(http)");
-	static $__acdesc_update_download_from_ftp = array("", "", "upload_(ftp)");
+	static $__acdesc_update_download_from_http = array("", "", "upload_http");
+	static $__acdesc_update_download_from_ftp = array("", "", "upload_ftp");
 	static $__acdesc_update_copy = array("", "", "copy");
 	static $__acdesc_update_fancyedit = array("", "", "html_edit");
 	static $__acdesc_update_cut = array("", "", "cut");

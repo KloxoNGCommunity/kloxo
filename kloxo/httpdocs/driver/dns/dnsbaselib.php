@@ -283,7 +283,7 @@ class Cn_rec_a extends Lxdnsclass
 abstract class Dnsbase extends Lxdb
 {
 	// Mysql
-	static $__desc_ttl = array("", "", "ttl_(seconds)");
+	static $__desc_ttl = array("", "", "ttl");
 	static $__desc_syncserver = array("sd", "", "primary_dns");
 	static $__desc_ns_rec_a = array("", "", "ns_record");
 	static $__desc_a_rec_a = array("", "", "a_record");

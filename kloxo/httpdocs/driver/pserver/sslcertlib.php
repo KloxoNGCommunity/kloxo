@@ -31,7 +31,7 @@ class SslCert extends Lxdb
 	static $__desc_add_type = array("n", "", "ssl_add_type", URL_SHOW);
 	static $__desc_parent_domain = array("n", "", "parent_domain", URL_SHOW);
 	static $__desc_syncserver = array("", "", "");
-	static $__desc_slave_id = array("", "", "slave_ID (master_is_localhost)");
+	static $__desc_slave_id = array("", "", "slave_ID");
 	static $__desc_text_csr_content = array("t", "", "CSR");
 	static $__desc_text_key_content = array("t", "", "Key");
 	static $__desc_text_crt_content = array("t", "", "Certificate");

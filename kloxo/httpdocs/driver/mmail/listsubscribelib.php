@@ -5,7 +5,7 @@ class ListSubscribe extends Lxclass
 	static $__desc = array("", "", "list_member");
 
 	static $__desc_nname = array("", "", "list_member");
-	static $__desc_address = array("", "", "addresses (one per line)");
+	static $__desc_address = array("", "", "addresses");
 	static $__rewrite_nname_const = Array("address", "parent_clname");
 
 	function get()

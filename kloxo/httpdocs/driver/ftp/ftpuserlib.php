@@ -10,7 +10,7 @@ class ftpuser extends Lxclient
 	static $__desc_status = array("e", "", "s:status", URL_TOGGLE_STATUS);
 	static $__desc_status_v_on = array("", "", "on");
 	static $__desc_status_v_off = array("", "", "off");
-	static $__desc_ftp_disk_usage = array("", "", "disk_quota_(MB) (blank_for_unlimited)");
+	static $__desc_ftp_disk_usage = array("", "", "disk_quota");
 
 	static $__acdesc_update_edit = array('', '', 'edit', 'edit');
 

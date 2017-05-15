@@ -24,7 +24,7 @@ class ClientBase extends ClientCore
 
 	static $__desc_skeleton = array("", "", "skeleton");
 	static $__desc_skeletonarchive = array("", "", "current_skeleton");
-	static $__desc_skeletonarchive_f = array("F", "", "upload_archive_of_skeleton_(zip_file)");
+	static $__desc_skeletonarchive_f = array("F", "", "upload_archive_of_skeleton");
 
 	static $__desc___v_priv_used_client_num = array("S", "", "clients");
 	static $__desc___v_priv_used_traffic_usage = array("S", "", "traffic");

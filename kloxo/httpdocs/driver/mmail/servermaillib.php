@@ -40,7 +40,7 @@ class ServerMail extends lxdb
 	static $__desc_smtp_instance = array("", "",  "max_smtp_instances");
 	static $__desc_smtp_relay = array("t", "",  "smtp_relay");
 
-	static $__desc_max_size = array("", "",  "max_mail_attachment_size(bytes)");
+	static $__desc_max_size = array("", "",  "max_mail_attachment_size");
 //	static $__desc_additional_smtp_port = array("", "",  "additional_smtp_port");
 	static $__desc_virus_scan_flag = array("f", "",  "enable_virus_scan");
 	static $__acdesc_update_update = array("", "",  "server_mail_settings");

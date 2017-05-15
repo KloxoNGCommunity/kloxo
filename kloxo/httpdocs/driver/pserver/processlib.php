@@ -17,7 +17,7 @@ class  Process extends Lxclass
 	public static $__desc_state_v_z = array("", "",  "zombie");
 	public static $__desc_username = array("", "",  "user");
 	public static $__desc_command = array("", "",  "command");
-	public static $__desc_memory = array("", "",  "memory_(MB)");
+	public static $__desc_memory = array("", "",  "memory");
 
 	static $__acdesc_update_kill = array("", "",  "kill");
 	static $__acdesc_update_term = array("", "",  "terminate");

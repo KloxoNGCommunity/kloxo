@@ -25,7 +25,7 @@ abstract class Lxclient extends Lxdb
 	static $__desc_resourceplan_used = array("", "", "plan_name");
 	static $__desc_text_comment = array("t", "", "comments");
 	static $__desc_extra_email_f = array("", "", "extra_email");
-	static $__desc_disable_per = array("", "", "disable_when_usage_reaches_(percentage)_");
+	static $__desc_disable_per = array("", "", "disable_when_usage_reaches");
 
 	static $__desc_old_password_f = array("n", "", "old_password");
 

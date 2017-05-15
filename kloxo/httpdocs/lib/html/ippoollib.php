@@ -98,9 +98,9 @@ class ippool extends Lxdb
 	static $__desc_pserver_list = array("n", "", "servers_this_is_applicable_to");
 	static $__desc_coma_ippserver_a = array("n", "", "nodes_this_is_applicable_to");
 	static $__desc_ippoolip_l = array("", "", "");
-	static $__desc_networkgateway =  array("", "",  "gateway (IP)");
+	static $__desc_networkgateway =  array("", "",  "gateway");
 	static $__desc_networknetmask =  array("", "",  "NetMask");
-	static $__desc_nameserver	 = array("", "",  "resolv_entries_(space_separated)");
+	static $__desc_nameserver	 = array("", "",  "resolv_entries");
 
 	function createExtraVariables()
 	{

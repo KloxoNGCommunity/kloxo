@@ -4,10 +4,10 @@
 class emailalert extends lxdb {
 
 
-static $__desc = array("S", "",  "Email Contact");
+static $__desc = array("S", "",  "email_contact");
 static $__desc_nname =  array("n", "",  "email_address");
 static $__desc_emailid =  array("n", "",  "email_address", "a=show");
-static $__desc_period =  array("n", "",  "alert period (minutes)");
+static $__desc_period =  array("n", "",  "alert_period");
 
 static $__rewrite_nname_const = array("emailid", "parent_clname");
 

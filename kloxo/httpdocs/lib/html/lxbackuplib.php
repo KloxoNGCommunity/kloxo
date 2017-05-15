@@ -25,7 +25,7 @@ class lxbackup extends Lxdb
 	static $__desc_temp_f = array("", "", "");
 	static $__desc_upload_to_ftp = array("f", "", "upload_files_to_remote_server_");
 	static $__desc_no_local_copy_flag = array("f", "", "dont_keep_a_local_copy");
-	static $__desc_backupextra_stopvpsflag = array('f', "", "stop_vps_while_backup_snapshot_(recommended)", "");
+	static $__desc_backupextra_stopvpsflag = array('f', "", "stop_vps_while_backup_snapshot", "");
 
 	static $__acdesc_update_backup = array("", "", "backup_now");
 	static $__acdesc_update_restore = array("", "", "restore");

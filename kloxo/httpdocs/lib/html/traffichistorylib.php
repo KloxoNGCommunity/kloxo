@@ -6,7 +6,7 @@ class TrafficHistory extends Lxclass
 	static $__desc_nname         = array('', '', 'device_name');
 	static $__desc_parent_name   = array('', '', 'device_name');
 	static $__desc_month         = array('', '', 'month');
-	static $__desc_traffic_usage = array('', '', 'total_traffic_(MB)');
+	static $__desc_traffic_usage = array('', '', 'total_traffic');
 	static $__acdesc_list        = array('', '', 'traffic_history');
 
 	function write() {}

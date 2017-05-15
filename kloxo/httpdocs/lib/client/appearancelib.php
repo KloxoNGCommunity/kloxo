@@ -35,9 +35,9 @@ class SpecialPlay_b extends Lxaclass
 	static $__desc_close_add_form = array("f", "", "keep_the_add_forms_closed_by_default");
 	static $__desc_disableipcheck = array("f", "", "disable_ip_check");
 	static $__desc_disable_ajax = array("f", "", "disable_dialog_boxes");
-	static $__desc_enable_ajax = array("f", "", "enable_ajax_(Needs_high_bandwidth)");
+	static $__desc_enable_ajax = array("f", "", "enable_ajax");
 	static $__desc_cpanel_skin = array("f", "", "simple_skin");
-	static $__desc_simple_skin = array("f", "", "simple_skin_(Recommended_for_end_user)");
+	static $__desc_simple_skin = array("f", "", "simple_skin_recommended_for_end_user");
 	static $__desc_show_thin_header = array("f", "", "show_thin_header");
 	static $__desc_resource_bottom = array("fe", "", "show_resource_at_bottom");
 	static $__desc_resource_bottom_v_off = array("fe", "", "show_resource_at_bottom");
@@ -102,9 +102,9 @@ class sp_basespecialplay extends LxspecialClass
 	static $__desc = array("", "", "display");
 	static $__desc_nname = array("", "", "account");
 
-//	static $__desc_logo_image_f  = array("F","",  "upload_logo_image_(gif)");
-//	static $__desc_logo_image_loading_f  = array("F","",  "upload_logo_image_shown_while_loading_(gif)");
-	static $__desc_logo_image_f = array("F", "", "upload_logo_image_(png)");
+//	static $__desc_logo_image_f  = array("F","",  "upload_logo_image_gif");
+//	static $__desc_logo_image_loading_f  = array("F","",  "upload_logo_image_shown_while_loading_gif");
+	static $__desc_logo_image_f = array("F", "", "upload_logo_image_png");
 
 	static $__desc_specialplay_b = array("", "", "skin");
 	static $__acdesc_update_login_options = array("v", "", "login_options");

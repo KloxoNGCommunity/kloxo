@@ -80,8 +80,8 @@ class pservercore extends Lxclient
 	static $__desc_nname = array("n", "", "IP_or_hostname", "a=show");
 	static $__desc_username = array("", "", "user_name.");
 	static $__desc_rolelist = array("", "", "roles");
-	static $__desc_description = array("n", "", "verbose_description (to_identify)");
-	static $__desc_tmpdir = array("", "", "tmpdir_for_backup_(/tmp)");
+	static $__desc_description = array("n", "", "verbose_description");
+	static $__desc_tmpdir = array("", "", "tmpdir_for_backup");
 	static $__desc_timezone = array("n", "", "timezone");
 	static $__desc_ostype = array("e", "", "t:type_of_os");
 	static $__desc_ostype_v_fedora = array("", "", "fedora");

@@ -2,9 +2,9 @@
 
 class DomaintrafficHistory extends TrafficHistory
 {
-	static $__desc_ftptraffic_usage  = array('', '', 'ftp_traffic_(MB)');
-	static $__desc_webtraffic_usage  = array('', '', 'web_(MB)');
-	static $__desc_mailtraffic_usage = array('', '', 'mail_(MB)');
+	static $__desc_ftptraffic_usage  = array('', '', 'ftp_traffic');
+	static $__desc_webtraffic_usage  = array('', '', 'web_traffic');
+	static $__desc_mailtraffic_usage = array('', '', 'mail_traffic');
 
 	static function createListNlist($parent, $view)
 	{
