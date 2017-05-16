@@ -445,7 +445,7 @@ lxins_main() {
 	## MR -- to make sure /tmp ready for all; found mysql not able to start if not 1777
 	chmod 1777 /tmp
 
-	sh /script/fix-sysctl
+	sh /script/set-limits
 
 	install_yum_repo
 

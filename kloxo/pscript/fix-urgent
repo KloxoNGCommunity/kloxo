@@ -72,3 +72,5 @@ if [ "$(lxphp.exe -v | head -n 1 | cut -d " " -f 2 | cut -c 1,3)" == "php54" ] ;
 		sh /script/restart
 	fi
 fi
+
+sh /script/fix-limits > /dev/null 2>&1

@@ -225,7 +225,6 @@ fi
 sh /script/skin-set-for-all >/dev/null 2>&1
 
 sh /script/set-hosts >/dev/null 2>&1
-sh /script/set-fs >/dev/null 2>&1
 
 echo
 echo "... Wait until finished (restart services) ..."
