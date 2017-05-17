@@ -65,7 +65,7 @@ fi
 
 chmod 777 /var/run
 
-if [ "$(lxphp.exe -v | head -n 1 | cut -d " " -f 2 | cut -c 1,3)" == "php54" ] ; then
+if [ "$(lxphp.exe -v | head -n 1 | cut -d " " -f 2 | cut -c 1,3)" == "54" ] ; then
 	if [ "$(yum list yum* | grep '@')" != "" ] ; then
 		sh /script/phpm-installer php56s
 		sh /script/fixlxphpexe php56s
