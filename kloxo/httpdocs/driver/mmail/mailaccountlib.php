@@ -190,25 +190,23 @@ class Mailaccount extends Lxclient
 				$nlist = get_namelist_from_objectlist($list, "nname", "autores_name");
 				$vlist['autores_name'] = array('A', $nlist);
 				
-				break;
+				return $vlist;
 
 			case 'filter':
 				$this->setDefaultValue('filter_spam_status', 'mailbox');
 				$vlist['filter_spam_status'] = array('s', array('spambox', 'mailbox', 'delete'));
 				$vlist['__v_updateall_button'] = array();
 
-				break;
+				return $vlist;
 
 			case 'configuration':
 				$vlist['no_local_copy'] = null;
 				$vlist['__v_updateall_button'] = array();
 
-				break;
+				return $vlist;
 		}
 
-	//	return parent::updateform($subaction, $param);
-
-		return $vlist;
+		return parent::updateform($subaction, $param);
 	}
 
 	function updateAutores($param)
