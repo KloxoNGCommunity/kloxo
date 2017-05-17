@@ -49,7 +49,7 @@ done
 chown -R apache:apache ${path}
 
 Q1="USE roundcubemail;"
-Q2="GRANT ALL ON roundcubemail.* TO roundcubemail@localhost IDENTIFIED BY '${pass}';"
+Q2="GRANT ALL ON roundcubemail.* TO roundcube@localhost IDENTIFIED BY '${pass}';"
 Q3="FLUSH PRIVILEGES;"
 SQL="${Q1}${Q2}${Q3}"
 

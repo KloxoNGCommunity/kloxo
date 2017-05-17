@@ -204,9 +204,7 @@ foreach($dns_records as $k => $o) {
         case "srv":
             $key = $o->hostname;
             $param = $o->param;
-            $proto = $o->proto;
             $priority = $o->priority;
-            $service = $o->service;
             $port = $o->port;
 
             if($o->param === null) { continue; }
@@ -219,7 +217,7 @@ foreach($dns_records as $k => $o) {
 
             $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
 ?>
-_<?php echo $service; ?>._<?php echo $proto; ?>.<?php echo $key; ?>. IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>.
+<?php echo $key; ?>. IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>.
 
 <?php
             break;

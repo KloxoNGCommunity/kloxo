@@ -162,7 +162,7 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
-            if($o->param === null) { continue; }
+            if($value === null) { continue; }
 
             if ($key !== "__base__") {
                 $key = "{$key}.{$domainname}";
@@ -191,7 +191,7 @@ foreach($dns_records as $k => $o) {
             $tag = $o->tag; // issue or issuewild or iodef
             $value = $o->param;
 
-            if($o->param === null) { continue; }
+            if($value === null) { continue; }
 
             if ($key !== "__base__") {
                 $key = "{$key}.{$domainname}";
@@ -203,6 +203,28 @@ foreach($dns_records as $k => $o) {
 
             $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
                 "VALUES ('{$domain_id}', '{$key}', '{$flag} {$tag} {$value}', 'CAA', '{$ttl}', 'NULL');");
+
+            break;
+        case "srv":
+            $key = $o->hostname;
+            $value = $o->param;
+            $prio = $o->priority;
+            $port = $o->port;
+
+            if($value === null) { continue; }
+
+            if ($key !== "__base__") {
+                $key = "{$key}.{$domainname}";
+            } else {
+                $key = $domainname;
+            }
+
+            $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
+
+            $value = '"' . $value . '"';
+
+            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', '{$weight} {$port} {$value}', 'SRV', '{$ttl}', '{$prio}');");
 
     }
 }
