@@ -69,11 +69,11 @@ echo $x
 echo $x >>${main_path}/${base_name}_install.log
 
 if yum list ${src_name}u-cli >/dev/null 2>&1 ; then
-	pack_name="${src_name}u"
-elif yum list ${src_name}-cli >/dev/null 2>&1 ; then
-	pack_name="${src_name}"
-elif yum list ${src_name}w-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}w"
+elif yum list ${src_name}-cli >/dev/null 2>&1 ; then
+	pack_name="${src_name}u"
+elif yum list ${src_name}w-cli >/dev/null 2>&1 ; then
+	pack_name="${src_name}"
 else
 	echo "- No PHP packages exists. Only detecting '${src_name}u', '${src_name}' or '${src_name}w'. Exit"
 	echo
@@ -150,7 +150,14 @@ fi
 libm2=$(yum info libmemcached${v}|grep Version|awk '{print $3}')
 
 if [[ $libm1 < $libm2 ]] ; then
+	if [ "$(rpm -qa libmemcached10)" != "" ] ; then
+		yum replace libmemcached10 --replace-with=libmemcached -y >/dev/null 2>&1
+	fi
 	sed -i 's/libmemcached10/libmemcached/g' ${main_path}/dependencies ${main_path}/dependencies
+else
+	if [ "$(rpm -qa libmemcached)" != "" ] ; then
+		yum replace libmemcached --replace-with=libmemcached10 -y >/dev/null 2>&1
+	fi
 fi
 
 x="-- Install dependencies rpms"
