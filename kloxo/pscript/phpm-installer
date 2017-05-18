@@ -69,11 +69,11 @@ echo $x
 echo $x >>${main_path}/${base_name}_install.log
 
 if yum list ${src_name}u-cli >/dev/null 2>&1 ; then
-	pack_name="${src_name}w"
-elif yum list ${src_name}-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}u"
-elif yum list ${src_name}w-cli >/dev/null 2>&1 ; then
+elif yum list ${src_name}-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}"
+elif yum list ${src_name}w-cli >/dev/null 2>&1 ; then
+	pack_name="${src_name}w"
 else
 	echo "- No PHP packages exists. Only detecting '${src_name}u', '${src_name}' or '${src_name}w'. Exit"
 	echo
@@ -139,7 +139,7 @@ x="-- Check dependencies rpms"
 echo $x
 echo $x >>${main_path}/${base_name}_install.log
 
-repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine)(.*)'|sort -u > ${main_path}/dependencies
+repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine|pear1u)(.*)'|sort -u > ${main_path}/dependencies
 
 if [ "$(yum list|grep libmemcached10)" != "" ] ; then
 	libm1=$(yum info libmemcached10${v}|grep Version|awk '{print $3}')
