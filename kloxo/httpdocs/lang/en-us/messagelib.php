@@ -955,6 +955,7 @@ $__information['phpmodule_list__pre'] = "<p>Click 'enable' ('+' sign) to enable 
 	"<p>Otherwise, enabled for disable module will be change '*.nonini' to '*_used.ini' (example: 'dba.nonini' to 'dba_used.nonini').</p>";
 
 $__information['sendmailban_addform__pre'] = "<p>Add 'Target' directory to ban PHP's sendmail.</p>" .
-	"<p>If select '/' that mean ban all sendmails from all domains under this client.</p>";
+	"<p>If select '/' that mean ban all sendmails from all domains under this client.</p>" .
+	"<p>Under 'admin', enable 'As Absolute Path' if want absolute path. Example: '/home' will be convert to '/home' instead '/home/admin/home'";
 
 

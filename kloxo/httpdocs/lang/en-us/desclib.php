@@ -1452,7 +1452,8 @@ $__description["static_files_expire"] = array("Static Files Expire (in days; -1 
 $__description["disable_pagespeed"] = array("Disable Pagespeed (if used)");
 
 $__description["sendmailban"] = array("Sendmail to ban");
-$__description["sendmailban_target"] = array("Target");
+$__description["sendmailban_target_path"] = array("Target path");
+$__description["sendmailban_absolute_path"] = array("As absolute path");
 
 $__description["pagespeed_cache"] = array("Pagespeed cache (if used)");
 

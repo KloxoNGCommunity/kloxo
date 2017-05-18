@@ -4,8 +4,10 @@ class Sendmailban extends Lxdb
 {
 	static $__desc = array("", "",  "sendmailban",);
 	static $__desc_nname = array("", "",  "sendmailban",);
-	static $__desc_target =  array("h", "",  "sendmailban_target");
+	static $__desc_target =  array("h", "",  "sendmailban_target_path");
 	static $__desc_syncserver =  array("", "",  "syncserver");
+
+	static $__desc_absolute_path =  array("f", "",  "sendmailban_absolute_path");
 
 	function isSync()
 	{
@@ -31,7 +33,12 @@ class Sendmailban extends Lxdb
 	static function add($parent, $class, $param)
 	{
 		$user = $parent->nname;
-		$target = '/home/' . $parent->nname . $param['target'];
+
+		if ($param['absolute_path'] === 'on') {
+			$target = $param['target'];
+		} else {
+			$target = '/home/' . $user . $param['target'];
+		}
 
 		if (is_file($target)) {
 			$target = dirname($target);
@@ -66,7 +73,12 @@ class Sendmailban extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$vlist['target'] = array('L', '/');
+		$vlist['target'] = array('L', array('pretext' => "/home/{$parent->nname}/"));
+
+		if ($login->nname === 'admin') {
+			$vlist['absolute_path'] = null;
+		}
+
 		$ret['variable'] = $vlist;
 		$ret['action'] = 'add';
 		
