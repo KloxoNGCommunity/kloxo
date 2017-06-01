@@ -5,6 +5,7 @@ if [ "$(grep envID /proc/self/status)" == "" ] ; then
 		yum install kexec-tools -y
 	fi
 
+	currentkernel=$(uname -r)
 	latestkernel=$(ls -t /boot/vmlinuz-* | sed "s/\/boot\/vmlinuz-//g" | head -n1)
 
 	if [ -f /boot/initrd-${latestkernel}.img ] ; then

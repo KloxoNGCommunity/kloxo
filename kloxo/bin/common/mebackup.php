@@ -12,11 +12,11 @@ function mebackup_main()
 	$progname = 'kloxomr70';
 	$cprogname = ucfirst($progname);
 	initProgram('admin');
-	lxfile_mkdir("__path_program_home/selfbackup/self/__backup");
+	lxfile_mkdir("{$sgbl->__path_program_home}/selfbackup/self/__backup");
 
 	$backup = $login->getObject('general')->selfbackupparam_b;
 	$dbf = $sgbl->__var_dbf;
-	$pass = trim(lfile_get_contents("__path_program_root/etc/conf/kloxo.pass"));
+	$pass = trim(lfile_get_contents("{$sgbl->__path_program_root}/etc/conf/kloxo.pass"));
 
 	$vd = createTempDir("/tmp", "mebackup");
 

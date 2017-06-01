@@ -120,6 +120,7 @@ ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `microcache_time` VARCHAR(255) NULL D
 ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `microcache_insert_into` VARCHAR(255) NULL DEFAULT NULL AFTER `microcache_time`;
 
 ALTER TABLE `servermail` ADD COLUMN IF NOT EXISTS `smtp_relay` text AFTER `concurrencyremote`;
+ALTER TABLE `servermail` ADD COLUMN IF NOT EXISTS `blacklist_headers` VARCHAR(1023) NULL DEFAULT NULL AFTER `dns_blacklists`;
 
 ALTER TABLE `lxbackup` ADD COLUMN IF NOT EXISTS `backupschedule_time` INT NULL AFTER `backupschedule_type`;
 ALTER TABLE `lxbackup` CHANGE COLUMN IF EXISTS `backupschedule_time` `backupschedule_time` VARCHAR(255) NULL DEFAULT NULL;

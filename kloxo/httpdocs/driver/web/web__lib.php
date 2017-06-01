@@ -468,6 +468,7 @@ class web__ extends lxDriverClass
 			}
 		}
 	}
+
 	function setRemoveAllDomainConfigs()
 	{
 		$list = getAllWebDriverList();
@@ -480,6 +481,7 @@ class web__ extends lxDriverClass
 			exec("'rm' -rf /opt/configs/{$l}/conf/proxies/*.conf");
 		}
 	}
+
 	function AddExtraBaseDir()
 	{
 		$extrabasedir = ($this->main->__var_extrabasedir) ? $this->main->__var_extrabasedir : '';

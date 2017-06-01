@@ -212,14 +212,14 @@ export PATH=/usr/bin:/usr/sbin:/sbin:$PATH
 
 cd ${ppath}/install
 
-if [ ! -f ${ppath}/install/step2.inc ] ; then
-	/usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE $*
-else
+#if [ ! -f ${ppath}/install/step2.inc ] ; then
+#	/usr/bin/lxphp.exe installer.php --install-type=$APP_TYPE $*
+#else
 	installtype=$APP_TYPE
 	installstep='1'
 
 	source ${ppath}/install/step2.inc
-fi
+#fi
 
 ## set skin to simplicity
 sh /script/skin-set-for-all >/dev/null 2>&1

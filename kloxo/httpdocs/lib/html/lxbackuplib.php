@@ -206,7 +206,8 @@ class lxbackup extends Lxdb
 				if (trim($this->ftp_server)) {
 					$vlist['ftp_server'] = array('M', null);
 					$vlist['rm_username'] = array('M', null);
-					$vlist['rm_password'] = array('M', '***');
+				//	$vlist['rm_password'] = array('M', '***');
+					$vlist['rm_password'] = null;
 					$vlist['upload_to_ftp'] = array('M', null);
 				} else {
 					$vlist['upload_to_ftp'] = array('M', "Ftp Server Not Set");
@@ -316,7 +317,8 @@ class lxbackup extends Lxdb
 				$vlist['ftp_server'] = null;
 			//	$vlist['ssh_server'] = null;
 				$vlist['rm_username'] = null;
-				$vlist['rm_password'] = array('m', get_star_password());
+			//	$vlist['rm_password'] = array('m', get_star_password());
+				$vlist['rm_password'] = null;
 				$vlist['rm_directory'] = null;
 				$vlist['upload_to_ftp'] = null;
 				$vlist['upload_type'] = array('M', 'ftp');
@@ -340,7 +342,8 @@ class lxbackup extends Lxdb
 			*/
 				$vlist['ftp_server'] = array('M', null);
 				$vlist['rm_username'] = array('M', null);
-				$vlist['rm_password'] = array('M', "****");
+			//	$vlist['rm_password'] = array('M', "****");
+				$vlist['rm_password'] = null;
 				$vlist['restorestage'] = array('M', null);
 				$vlist['backup_ftp_file_f'] = null;
 				$vlist['__v_next'] = 'restore_confirm';
@@ -815,6 +818,7 @@ class lxbackup extends Lxdb
 	function download_from_server($file, $localfile)
 	{
 		global $login;
+
 
 		$fn = lxftp_connect($this->ftp_server);
 		$mylogin = ftp_login($fn, $this->rm_username, $this->rm_password);

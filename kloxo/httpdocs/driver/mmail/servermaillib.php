@@ -58,7 +58,10 @@ class ServerMail extends lxdb
 	static $__desc_dns_blacklists = array("t", "",  "dns_blacklists");
 	static $__desc_alt_smtp_sdyke_flag = array("f","","alt_smtp_sdyke");
 
-	static $__desc_defaultdnsblacklists_flag = array("f", "",  "enable_defaultdnsblacklists");
+	static $__desc_default_dns_blacklists_flag = array("f", "",  "enable_default_dns_blacklists");
+
+	static $__desc_blacklist_headers = array("f", "",  "blacklist_headers");
+	static $__desc_default_blacklist_headers_flag = array("f", "",  "enable_default_blacklist_headers");
 
 	function createExtraVariables()
 	{
@@ -94,7 +97,7 @@ class ServerMail extends lxdb
 	{
 		$path = "../file/template";
 
-		if ($param['defaultdnsblacklists_flag'] === 'on') {
+		if ($param['default_dns_blacklists_flag'] === 'on') {
 			unlink ("{$path}/current.spamdyke_rbl.txt");
 			$param['dns_blacklists'] = file_get_contents("{$path}/spamdyke_rbl.txt");
 		} else {
@@ -103,6 +106,18 @@ class ServerMail extends lxdb
 
 			file_put_contents($file, $content);
 		}
+
+		if ($param['default_blacklist_headers_flag'] === 'on') {
+			unlink ("{$path}/current.spamdyke_blacklist_headers.txt");
+			$param['dns_blacklists'] = file_get_contents("{$path}/spamdyke_blacklist_headers.txt");
+		} else {
+			$content = $param['blacklist_headers'];
+			$file = "{$path}/current.spamdyke_blacklist_headers.txt";
+			file_put_contents($file, $content);
+		}
+
+		file_put_contents('/var/qmail/spamdyke/blacklist_headers', $content);
+		exec('chown qmaild:qmail /var/qmail/spamdyke/blacklist_headers');
 
 		return $param;
 	}
@@ -165,7 +180,17 @@ class ServerMail extends lxdb
 
 				$vlist['dns_blacklists'] = array("t", lfile_get_contents($file));
 
-				$vlist['defaultdnsblacklists_flag'] = null;
+				$vlist['default_dns_blacklists_flag'] = null;
+
+				if (file_exists("{$path}/current.spamdyke_blacklist_headers.txt")) {
+					$file = "{$path}/current.spamdyke_blacklist_headers.txt";
+				} else {
+					$file = "{$path}/spamdyke_blacklist_headers.txt";
+				}
+
+				$vlist['blacklist_headers'] = array("t", lfile_get_contents($file));
+
+				$vlist['default_blacklist_headers_flag'] = null;
 
 				break;
 		}

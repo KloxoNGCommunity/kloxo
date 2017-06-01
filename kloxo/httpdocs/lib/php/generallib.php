@@ -253,11 +253,12 @@ class General extends Lxdb
 		if (isOn($param['selfbackupparam_b-selfbackupflag'])) {
 			$fn = lxftp_connect($param['selfbackupparam_b-ftp_server']);
 			$mylogin = ftp_login($fn, $param['selfbackupparam_b-rm_username'], $param['selfbackupparam_b-rm_password']);
-
 			if (!$mylogin) {
 				$p = error_get_last();
 				throw new lxException($login->getThrow('could_not_connect_to_ftp_server'), '', $p);
 			}
+
+			ftp_pasv($fn, true);
 		}
 		return $param;
 	}
@@ -532,7 +533,8 @@ class General extends Lxdb
 				$vlist['selfbackupparam_b-ftp_server'] = null;
 				$vlist['selfbackupparam_b-rm_directory'] = null;
 				$vlist['selfbackupparam_b-rm_username'] = null;
-				$vlist['selfbackupparam_b-rm_password'] = array('m', '***');
+			//	$vlist['selfbackupparam_b-rm_password'] = array('m', '***');
+				$vlist['selfbackupparam_b-rm_password'] = null;
 			//	$vlist['selfbackupparam_b-rm_last_number'] = null;
 
 				break;

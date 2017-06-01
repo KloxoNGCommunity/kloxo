@@ -830,8 +830,11 @@ $__description["reject_empty_rdns"] = array("Reject servers without rDNS names")
 $__description["reject_ip_in_cc_rdns"] = array("Reject servers with IP address in rDNS names");
 $__description["reject_missing_sender_mx"] = array("Reject messages from server without MX records");
 $__description["reject_unresolvable_rdns"] = array("Reject servers with rDNS names not resolving to IP");
-$__description["dns_blacklists"] = array("Space separated DNS RBL servers");
-$__description["enable_defaultdnsblacklists"] = array("Enable default DNS RBL servers");
+$__description["dns_blacklists"] = array("DNS RBL servers");
+$__description["enable_default_dns_blacklists"] = array("Enable default DNS RBL servers");
+
+$__description["blacklist_headers"] = array("Blacklist headers");
+$__description["enable_default_blacklist_headers"] = array("Enable default Blacklist headers");
 
 $__description["FTP_config"] = array("FTP Configure");
 $__description["enable_anonymous_ftp"] = array("Enable Anonymous FTP");
@@ -1364,6 +1367,7 @@ $__description["path"] = array("Path");
 
 // MR -- in 'webserver config'
 $__description["apache_optimize"] = array("Apache memory optimize");
+$__description["enable_keepalive"] = array("Enable keep-alive");
 $__description["mysql_convert"] = array("MySQL convert (Select to execute)");
 $__description["mysql_charset"] = array("MySQL charset (Select to execute)");
 $__description["fix_chownchmod"] = array("Fix 'ownership' and 'permissions' (Select to execute)");

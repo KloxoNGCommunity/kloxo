@@ -1802,6 +1802,7 @@ CREATE TABLE IF NOT EXISTS `servermail` (
   `reject_ip_in_cc_rdns_flag` varchar(255) DEFAULT NULL,
   `reject_empty_rdns_flag` varchar(255) DEFAULT NULL,
   `dns_blacklists` varchar(255) DEFAULT NULL,
+  `blacklist_headers` varchar(1023) DEFAULT NULL,
   `alt_smtp_sdyke_flag` varchar(255) DEFAULT NULL,
   `oldsyncserver` varchar(255) DEFAULT NULL,
   `olddeleteflag` varchar(255) DEFAULT NULL,

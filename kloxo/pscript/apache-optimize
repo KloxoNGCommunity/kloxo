@@ -6,7 +6,7 @@
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo
 	echo " ---------------------------------------------------------------------------"
-	echo "  format: sh $0 --select=<> --spare=[]"
+	echo "  format: sh $0 --select=<> --spare=[] --keepalive=[]"
 	echo " ---------------------------------------------------------------------------"
 	echo "   --select - choose default, low, medium and high"
 	echo "     - default -> minspare = 2; max-spare = 4"
@@ -14,6 +14,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo "     - medium  -> 1/3 x available memory"
 	echo "     - high    -> 1/2 x available memory"
 	echo "   --spare - spare/unused memory in MB; default: 25% total memory"
+	echo "   --keepalive - choose on or off; default off"
 	echo
 	echo " Equation: a = t - s - c"
 	echo "   where: a = available, t = total, s = spare, c = used +- buffers/cache"

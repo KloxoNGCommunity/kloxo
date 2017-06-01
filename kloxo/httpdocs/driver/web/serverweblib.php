@@ -11,6 +11,7 @@ class serverweb extends lxdb
 	static $__acdesc_show = array("", "", "webserver_config");
 
 	static $__desc_apache_optimize = array("", "", "apache_optimize");
+	static $__desc_enable_keepalive = array("f", "", "enable_keepalive");
 
 	static $__desc_mysql_convert = array("", "", "mysql_convert");
 	static $__desc_mysql_charset = array("", "", "mysql_charset");
@@ -104,6 +105,12 @@ class serverweb extends lxdb
 				if ($b !== '') {
 					$this->setDefaultValue('apache_optimize', $b);
 				}
+
+				$vlist['enable_keepalive'] = null;
+
+				$s = (file_exists("../etc/flag/enable_keepalive.flg")) ? 'on' : 'off';
+
+				$this->setDefaultValue('enable_keepalive', $s);
 	
 				break;
 			case "mysql_convert":

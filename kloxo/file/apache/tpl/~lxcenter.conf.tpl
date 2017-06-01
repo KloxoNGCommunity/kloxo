@@ -45,13 +45,13 @@
 	if ($minpar_p < 2) { $minpar_p = 2; }
 	if ($maxpar_w < 4) { $maxpar_w = 4; }
 	if ($minpar_w < 2) { $minpar_w = 2; }
-
+/*
 	if (!isset($keepalive)) {
-		$keepalive = 'Off';
+		$keepalive = 'off';
 	} else {
-		$keepalive = 'On';
+		$keepalive = 'on';
 	}
-	
+*/	
 	// MR -- default is 25
 	$mcfactor = 25;
 ?>
