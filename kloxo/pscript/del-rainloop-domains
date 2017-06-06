@@ -2,14 +2,16 @@
 
 echo "*** Delete domain ini for Rainloop webmail ***"
 
+rdir="/home/kloxo/httpd/webmail/rainloop"
+
 if [ "${1}" == "" ] ; then
 	echo "Format: $0 <domainname>"
 else
-	a=$(dir -l /home/kloxo/httpd/webmail/rainloop/data/*/_default_/domains|grep ^'${1}.ini')
+	a=$(dir -l ${rdir}/data/*/_default_/domains|grep ^'${1}.ini')
 	
 	if [ "${a}" != "" ] ; then
 		echo "- '${1}.ini' deleted"
-		'rm' -f /home/kloxo/httpd/webmail/rainloop/data/*/_default_/domains/${1}.ini
+		'rm' -f ${rdir}/data/*/_default_/domains/${1}.ini
 	else
 		echo "- '${1}.ini' no exists"
 	fi

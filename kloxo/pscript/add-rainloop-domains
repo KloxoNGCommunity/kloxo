@@ -12,17 +12,22 @@ smtp_secure = "TLS"
 smtp_auth = On
 EOF
 
-dir=$(dirname /home/kloxo/httpd/webmail/rainloop/data/_data_*/_default_/domains)/domains
+rdir="/home/kloxo/httpd/webmail/rainloop"
 
-if [ "${1}" == "" ] ; then
-	doms=$(/home/vpopmail/bin/vdominfo|grep 'domain:'|awk '{print $2}')
+if [ -d ${rdir} ] ; then
+	dir=$(dirname ${rdir}/data/_data_*/_default_/domains)/domains
+
+	if [ "${1}" == "" ] ; then
+		doms=$(/home/vpopmail/bin/vdominfo|grep 'domain:'|awk '{print $2}')
 	
-	for x in ${doms} ; do
-		echo "- '${x}.ini' added"
-		echo "${ini_content}" > ${dir}/${x}.ini
-	done
+		for x in ${doms} ; do
+			echo "- '${x}.ini' added"
+			echo "${ini_content}" > ${dir}/${x}.ini
+		done
+	else
+		echo "- '${1}.ini' added"
+		echo "${ini_content}" > ${dir}/${1}.ini
+	fi
 else
-	echo "- '${1}.ini' added"
-	echo "${ini_content}" > ${dir}/${1}.ini
+	echo "Need browse 'your webmail.yourdomain.com' and then select rainloop"
 fi
-
