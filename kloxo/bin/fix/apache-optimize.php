@@ -25,6 +25,15 @@ function setApacheOptimize($select, $spare = null, $keepalive = null, $nolog = n
 	$input['spare'] = $spare;
 	$input['keepalive'] = $keepalive;
 
+	print("* Options:\n");
+	print("  - Select: {$select}\n");
+	if ($spare === null) {
+		print("  - Spare: 25%\n");
+	} else {
+		print("  - Spare: {$spare}\n");
+	}
+	print("  - Keep Alive: {$keepalive}\n");
+
 	$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "~lxcenter.conf.tpl");
 
 	$tpltarget = "/etc/httpd/conf.d/~lxcenter.conf";
@@ -34,6 +43,8 @@ function setApacheOptimize($select, $spare = null, $keepalive = null, $nolog = n
 	$tplparse = getParseInlinePhp($tpl, $input);
 
 	file_put_contents($tpltarget, $tplparse);
+
+	print("\n* Note: need running 'sh /script/restart-web'\n");
 }
 
 /* ****** END - setApacheOptimize ***** */

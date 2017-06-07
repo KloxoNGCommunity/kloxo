@@ -92,7 +92,7 @@ class serverweb extends lxdb
 				$vlist['apache_optimize'] = array('s', $a);
 
 				$b = '';
-				
+
 				if (count($out) > 0) {
 					foreach ($a as $k => $v) {
 						if (strpos($out[0], $v) !== false) {
@@ -121,12 +121,12 @@ class serverweb extends lxdb
 				}
 
 				$this->setDefaultValue('enable_keepalive', $s);
-	
+
 				break;
 			case "mysql_convert":
 				$this->mysql_convert = null;
 				$this->mysql_charset = null;
-				
+
 				// TODO: "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'kloxo';"
 				// mysql -u[user] -p -D[database] -e "show table status\G"| egrep "(Index|Data)_length" | awk 'BEGIN { rsum = 0 } { rsum += $2 } END { print rsum }'
 
@@ -135,7 +135,7 @@ class serverweb extends lxdb
 				} else {
 					$vlist['mysql_convert'] = array('s', array('to-myisam', 'to-innodb'));
 				}
-				
+	
 				$vlist['mysql_charset'] = array('s', array( 'utf8'));
 
 				break;
