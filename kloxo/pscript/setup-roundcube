@@ -37,6 +37,18 @@ if [ -f ${path}/config/roundcube_main.inc.php ] ; then
 	'cp' -f ${path}/config/roundcube_main.inc.php ${path}/config/main.inc.php
 fi
 
+if [ -f ${path}/config/roundcube_db.inc.php ] ; then
+	'cp' -f ${path}/config/roundcube_db.inc.php ${path}/config/db.inc.php
+fi
+
+if [ -f ${path}/config/roundcube_defaults.inc.php ] ; then
+	'cp' -f ${path}/config/roundcube_defaults.inc.php ${path}/config/defaults.inc.php
+fi
+
+if [ -f ${path}/config/roundcube_config.inc.php ] ; then
+	'cp' -f ${path}/config/roundcube_config.inc.php ${path}/config/config.inc.php
+fi
+
 for x in defaults.inc.php db.inc.php config.inc.php ; do
 	if [ -f ${path}/config/${x} ] ; then
 		'cp' -f ${path}/config/roundcube_${x} ${path}/config/${x}

@@ -45,7 +45,7 @@ echo "- Add Password to configuration file"
 
 sed -i "s:<DBPassword>afterlogic</DBPassword>:<DBPassword>${pass}</DBPassword>:g" ${cfgfile}
 sed -i "s:<AdminPassword>afterlogic</AdminPassword>:<AdminPassword>${pass}</AdminPassword>:g" ${cfgfile}
-sed -i "s:<?xml version=\"1.0\":<?php exit;?><?xml version=\"1.0\":g" ${cfgfile}
+sed -i "s:<Common>:<Common><?php exit;?>:g" ${cfgfile}
 
 Q1="USE afterlogic;"
 Q2="GRANT ALL ON afterlogic.* TO afterlogic@localhost IDENTIFIED BY '${pass}';"
