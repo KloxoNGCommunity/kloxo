@@ -14,7 +14,7 @@ EOF
 
 rdir="/home/kloxo/httpd/webmail/rainloop"
 
-if [ -d ${rdir} ] ; then
+if [ -d ${rdir}/data/_data_ ] ; then
 	dir=$(dirname ${rdir}/data/_data_*/_default_/domains)/domains
 
 	if [ "${1}" == "" ] ; then

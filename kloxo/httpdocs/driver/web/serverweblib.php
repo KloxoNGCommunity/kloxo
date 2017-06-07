@@ -76,7 +76,8 @@ class serverweb extends lxdb
 			case "apache_optimize":
 				$this->apache_optimize = null;
 
-				exec("cat /etc/httpd/conf.d/~lxcenter.conf | grep '### selected:'", $out);
+				$out = null;
+				exec("cat /etc/httpd/conf.d/~lxcenter.conf | grep -i '### selected:'", $out);
 
 				if (count($out) > 0) {
 					if (strpos($out[0], 'customize') !== false) {
@@ -106,9 +107,18 @@ class serverweb extends lxdb
 					$this->setDefaultValue('apache_optimize', $b);
 				}
 
+				$this->enable_keepalive = null;
+
 				$vlist['enable_keepalive'] = null;
 
-				$s = (file_exists("../etc/flag/enable_keepalive.flg")) ? 'on' : 'off';
+				$out = null;
+				exec("cat /etc/httpd/conf.d/~lxcenter.conf | grep -i ^'keepalive on'", $out);
+
+				if (count($out) > 0) {
+					$s = 'on';
+				} else {
+					$s = 'off';
+				}
 
 				$this->setDefaultValue('enable_keepalive', $s);
 	
