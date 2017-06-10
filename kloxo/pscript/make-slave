@@ -1,10 +1,15 @@
 #!/bin/sh
 
-if [ "$1" == "reverse" ] ; then
+if [ "$1" == "reverse" ] || [ "$1" == "--reverse" ] ; then
 	mv -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db /usr/local/lxlabs/kloxo/etc/conf/slave-db.db.bck
 	sh /script/restart -y
 else
-	. /script/directory
-	lxphp.exe ../bin/install/create.php --install-type=slave
-	sh /script/restart -y
+	if [[ "$1" == *"--admin-password="* ]] ; then
+		. /script/directory
+		lxphp.exe ../bin/install/create.php --install-type=slave "$@"
+		sh /script/restart -y
+	else
+		echo "*NOTE: run with"
+		echo "$0 --install-type=slave --admin-password=YourAdminPassword"
+	fi
 fi

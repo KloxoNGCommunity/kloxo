@@ -16,7 +16,7 @@ function updatecleanup_main()
 
 	if ($opt['type'] === 'master') {
 		initProgram('admin');
-		$flg = "$sgbl->__path_program_start_vps_flag";
+		$flg = $sgbl->__path_program_start_vps_flag;
 
 		if (!lxfile_exists($flg)) {
 			set_login_skin_to_simplicity();
@@ -36,7 +36,7 @@ function updatecleanup_main()
 			print(">>> Execute doUpdates() <<<\n");
 			doUpdates();
 			print(">>> Execute driverload.php <<<\n");
-			lxshell_return("$sgbl->__path_php_path", "../bin/common/driverload.php");
+			lxshell_return($sgbl->__path_php_path, "../bin/common/driverload.php");
 		}
 
 		print(">>> Execute update_all_slave() <<<\n");
@@ -53,7 +53,7 @@ function updatecleanup_main()
 	}
 
 	if ($opt['type'] === 'master') {
-		lxfile_touch("$sgbl->__path_program_start_vps_flag");
+		lxfile_touch($sgbl->__path_program_start_vps_flag);
 	}
 
 	// MR -- mysql not start after kloxo slave install

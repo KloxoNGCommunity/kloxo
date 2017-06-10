@@ -3075,9 +3075,10 @@ function init_supernode($pass)
 function init_slave($pass)
 {
 	global $gbl, $sgbl, $login, $ghtml;
+
 	$rm = new Remote();
 	$rm->password = crypt($pass, '$1$'.randomString(8).'$');
-	lfile_put_contents('__path_slave_db', serialize($rm));
+	lfile_put_contents($sgbl->__path_slave_db, serialize($rm));
 }
 
 function lx_socket_read($socket)

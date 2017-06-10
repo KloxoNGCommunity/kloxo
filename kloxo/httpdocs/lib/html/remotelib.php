@@ -398,7 +398,22 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd, $reexec 
 	if (isLocalhost($raddress)) {
 		$rraddress = "127.0.0.1";
 	}
-	$socket = stream_socket_client("$con://$rraddress:$port");
+
+	if ($raddress === "localhost") {
+		$socket = stream_socket_client("{$con}://{$rraddress}:{$port}", $errno, $errstr, 30000000000);
+	} else {
+		$opts = array(
+			$con => array(
+				'allow_self_signed' => true,
+				'verify_peer' => false,
+				'verify_peer_name' => false
+			)
+		);
+
+		$ctx = stream_context_create($opts);
+
+		$socket = stream_socket_client("{$con}://{$rraddress}:{$port}", $errno, $errstr, 30000000000, STREAM_CLIENT_CONNECT, $ctx);
+	}
 
 //	$socket =  fsockopen("$con://$raddress", $port);
 	print_time('serverstart', "Fsockopen");
@@ -414,10 +429,6 @@ function send_to_some_stream_server($type, $size, $raddress, $var, $fd, $reexec 
 			throw new lxException($login->getThrow('no_socket_connect_to_server'), '', $raddress);
 		}
 	}
-
-	stream_set_timeout($socket, 30000000000);
-//	stream_context_set_option($socket, 'ssl', 'allow_self_signed', true);
-//	stream_context_set_option($socket, 'ssl', 'verify_peer', false);
 
 	$in = $var;
 	fwrite($socket, $in);
@@ -760,7 +771,6 @@ function process_server_input($total)
 	global $gbl, $sgbl, $login, $ghtml;
 
 	$remotechar = $sgbl->__var_remote_char;
-
 
 	if (csb($total, $remotechar)) {
 		$list = explode("\n", $total);
