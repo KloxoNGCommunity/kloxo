@@ -28,7 +28,7 @@ $minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 3600;
 $ORIGIN <?php echo $domainname; ?>.
 $TTL <?php echo $ttl; ?>
 
-<?php echo $domainname; ?>. IN SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. ( <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> )
+@ IN SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. ( <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> )
 <?php
 foreach($dns_records as $k => $o) {
     $ttl = isset($o->ttl) && strlen($o->ttl) ? $o->ttl : $ttl;
@@ -39,41 +39,37 @@ foreach($dns_records as $k => $o) {
             $value = $o->param;
 
             if ($key === $value) {
-                $key = $domainname;
+                $key = '@';
             } else {
                 if (($key === '') || (!$key) || ($key === '__base__')) {
-                    $key = $domainname;
+                    $key = '@';
                 } else {
                     if (strpos($key, '__base__') !== false) {
-                        $key = str_replace('__base__', $domainname, $key);
-                    } else {
-                        $key = "{$key}.{$domainname}";
+                        $key = '@';
                     }
                 }
             }
 ?>
-<?php echo $key; ?>. IN NS <?php echo $value; ?>.
+<?php echo $key; ?> IN NS <?php echo $value; ?>.
 <?php
             break;
         case "mx":
-            $key = $domainname;
+            $key = '@';
             $priority = $o->priority;
             $value = $o->param;
 ?>
-<?php echo $key; ?>. IN MX <?php echo $priority; ?> <?php echo $value; ?>.
+<?php echo $key; ?> IN MX <?php echo $priority; ?> <?php echo $value; ?>.
 <?php
             break;
         case "aaaa":
             $key = $o->hostname;
             $value = $o->param;
 
-            if ($key !== "__base__") {
-                $key = "{$key}.{$domainname}";
-            } else {
-                $key = $domainname;
+            if ($key === "__base__") {
+                $key = '@';
             }
 ?>
-<?php echo $key; ?>. IN AAAA <?php echo $value; ?>
+<?php echo $key; ?> IN AAAA <?php echo $value; ?>
 
 <?php
             break;
@@ -81,13 +77,11 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
-            if ($key !== "__base__") {
-                $key = "{$key}.{$domainname}";
-            } else {
-                $key = $domainname;
+            if ($key === "__base__") {
+                $key = '@';
             }
 ?>
-<?php echo $key; ?>. IN A <?php echo $value; ?>
+<?php echo $key; ?> IN A <?php echo $value; ?>
 
 <?php
             break;
@@ -96,16 +90,14 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
-            if ($key !== "__base__") {
-                $key = "{$key}.{$domainname}";
-            } else {
-                $key = $domainname;
+            if ($key === "__base__") {
+                $key = '@';
             }
 
             if (isset($arecord[$value])) {
                 $rvalue = $arecord[$value];
 ?>
-<?php echo $key; ?>. IN A <?php echo $rvalue; ?>
+<?php echo $key; ?> IN A <?php echo $rvalue; ?>
 
 <?php
             } else {
@@ -115,7 +107,7 @@ foreach($dns_records as $k => $o) {
                     $value = $domainname;
                 }
 ?>
-<?php echo $key; ?>. IN CNAME <?php echo $value; ?>.
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>.
 <?php
             }
 
@@ -125,10 +117,8 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
-            if ($key !== "__base__") {
-                $key = "{$key}.{$domainname}";
-            } else {
-                $key = $domainname;
+            if ($key === "__base__") {
+                $key = '@';
             }
 
             if ($value !== "__base__") {
@@ -141,7 +131,7 @@ foreach($dns_records as $k => $o) {
                 $value = $domainname;
             }
 ?>
-<?php echo $key; ?>. IN CNAME <?php echo $value; ?>.
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>.
 <?php
             break;
 
@@ -151,10 +141,8 @@ foreach($dns_records as $k => $o) {
 
             if($value === null) {continue; }
 
-            if ($key !== "__base__") {
-                $key = "{$key}.{$domainname}";
-            } else {
-                $key = $domainname;
+            if ($key === "__base__") {
+                $key = '@';
             }
 
             $value = str_replace("<%domain%>", $domainname, $value);
@@ -184,17 +172,17 @@ foreach($dns_records as $k => $o) {
                 $value = $str;
 
 ?>
-<?php echo $key; ?>. IN TXT <?php echo $value; ?>
+<?php echo $key; ?> IN TXT <?php echo $value; ?>
 
 <?php
             } else {
 ?>
-<?php echo $key; ?>. IN TXT "<?php echo $value; ?>"
+<?php echo $key; ?> IN TXT "<?php echo $value; ?>"
 <?php
 /*
                 if (strpos($value, "v=spf1") !== false) {
 ?>
-<?php echo $key; ?>. IN SPF "<?php echo $value; ?>"
+<?php echo $key; ?> IN SPF "<?php echo $value; ?>"
 <?php
                 }
 */
@@ -209,15 +197,13 @@ foreach($dns_records as $k => $o) {
 
             if($o->param === null) { continue; }
 
-            if ($key !== "__base__") {
-                $key = "{$key}.{$domainname}";
-            } else {
-                $key = $domainname;
+            if ($key === "__base__") {
+                $key = '@';
             }
 
             $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
 ?>
-<?php echo $key; ?>. IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>.
+<?php echo $key; ?> IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>.
 
 <?php
             break;
@@ -230,13 +216,11 @@ foreach($dns_records as $k => $o) {
 
             if($o->param === null) { continue; }
 
-            if ($key !== "__base__") {
-                $key = "{$key}.{$domainname}";
-            } else {
-                $key = $domainname;
+            if ($key === "__base__") {
+                $key = '@';
             }
 ?>
-<?php echo $key; ?>. IN CAA <?php echo $flag; ?> <?php echo $tag; ?> "<?php echo $value; ?>"
+<?php echo $key; ?> IN CAA <?php echo $flag; ?> <?php echo $tag; ?> "<?php echo $value; ?>"
 <?php
             break;
     }

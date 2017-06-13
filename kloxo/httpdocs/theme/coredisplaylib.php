@@ -2080,7 +2080,6 @@ function password_contact_check()
 	}
 
 	if (check_raw_password('client', 'admin', 'admin')) {
-/*
 ?>
 
 		<br/>
@@ -2100,9 +2099,10 @@ function password_contact_check()
 		<br/>
 <?php
 		exit;
-*/
+
 		// MR -- change to redirect to 'password' page
-		$ghtml->print_redirect($ghtml->getFullUrl("a=updateform&sa=password"), $gbl->__this_window_url);
+		// disable because trouble if slave using admin as password
+	//	$ghtml->print_redirect($ghtml->getFullUrl("a=updateform&sa=password"), $gbl->__this_window_url);
 	}
 }
 

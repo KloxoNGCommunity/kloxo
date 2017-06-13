@@ -46,7 +46,11 @@ class dns_record_a extends LxDnsClass
 		if ($this->ttype === 'txt') {
 			$vlist['param'] = array("t", "");
 		} else {
-			$vlist['param'] = null;
+			if (($this->ttype === 'fcname') || ($this->ttype === 'ns') || ($this->ttype === 'mx')) {
+				$vlist['param'] = array('m', array('posttext' => "."));
+			} else {
+				$vlist['param'] = null;
+			}
 		}
 
 		return $vlist;
@@ -107,13 +111,25 @@ class dns_record_a extends LxDnsClass
 				return "{$this->weight} {$this->port} \"{$this->param}\"";
 			}
 
-			if (strpos($this->getParentO()->nname, '.dnst') !== false) {
+		//	if (strpos($this->getParentO()->nname, '.dnst') !== false) {
 				// MR -- for template
 			//	$this->$var = str_replace($this->getParentO()->nname, "__base__", $this->$var);
-			} else {
+		//	} else {
 				// MR -- for dns setting
-				$this->$var = str_replace("__base__", $this->getParentO()->nname, $this->$var);
-			}
+				if ($this->ttype !== 'cn') {
+					$this->$var = str_replace("__base__", $this->getParentO()->nname, $this->$var);
+				} else {
+					if ($this->$var === '__base__') {
+						$this->$var = $this->getParentO()->nname . '.';
+					} else {
+						$this->$var .= '.' . $this->getParentO()->nname . '.';
+					}
+				}
+
+				if (($this->ttype === 'fcname') || ($this->ttype === 'ns') || ($this->ttype === 'mx')) {
+					$this->$var .= '.';
+				}
+		//	}
 		}
 
 		// MR -- fix appear in 'old' data
@@ -246,16 +262,16 @@ class dns_record_a extends LxDnsClass
 		if ($typetd['val'] === 'ns') {
 			// MR -- add hostname entry to make possible to 'delegate' to other server!
 			$vlist['hostname'] = array('m', array('value'=> '__base__'));
-			$vlist['param'] = null;
+			$vlist['param'] = array('m', array('posttext' => "."));
 		} elseif ($typetd['val'] === 'mx') {
 			$vlist['priority'] = array('s', array('5', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'));
-			$vlist['param'] = null;
+			$vlist['param'] = array('m', array('posttext' => "."));
 		} elseif ($typetd['val'] === 'cname') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('m', array('posttext' => ".$parent->nname."));
 		} elseif ($typetd['val'] === 'fcname') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
-			$vlist['param'] = array('m', array('posttext' => ""));
+			$vlist['param'] = array('m', array('posttext' => "."));
 		} elseif ($typetd['val'] === 'txt') {
 			$vlist['hostname'] = array('m', array('posttext' => ".$parent->nname."));
 			$vlist['param'] = array('t', "");
@@ -587,6 +603,7 @@ abstract class Dnsbase extends Lxdb
 				return $vlist;
 
 			case "parameter":
+xprint($this->dns_record_a);
 				foreach ($this->dns_record_a as $d) {
 					if ($d->ttype === 'ns') {
 						$nslist[] = $d->param;
