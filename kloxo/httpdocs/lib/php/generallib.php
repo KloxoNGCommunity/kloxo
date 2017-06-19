@@ -50,6 +50,8 @@ class portconfig_b extends lxaclass
 	static $__desc_redirecttodomain = array("", "", "redirect_to_domain");
 
 	static $__desc_kloxowrapper = array("", "", "kloxo_wrapper");
+	static $__desc_randomimage_flag = array("f", "", "login_randomimage");
+	static $__desc_chooseimage = array("", "", "login_chooseimage");
 }
 
 class kloxoconfig_b extends lxaclass
@@ -272,6 +274,9 @@ class General extends Lxdb
 		$redirect_to_domain = $this->portconfig_b->redirecttodomain = $param['portconfig_b-redirecttodomain'];
 		$redirect_to_ssl = $this->portconfig_b->redirectnonssl_flag = $param['portconfig_b-redirectnonssl_flag'];
 
+		$randomimage_flag = $this->portconfig_b->randomimage_flag = $param['portconfig_b-randomimage_flag'];
+		$chooseimage = $this->portconfig_b->chooseimage = $param['portconfig_b-chooseimage'];
+
 		$kloxowrapper = $this->portconfig_b->kloxowrapper = $param['portconfig_b-kloxowrapper'];
 
 		exec("echo '$sslport' > /home/kloxo/httpd/cp/.ssl.port");
@@ -291,6 +296,18 @@ class General extends Lxdb
 			exec("echo '$redirect_to_domain' > {$loginpath}/redirect-to-domain");
 		} else {
 			exec("rm -f {$loginpath}/redirect-to-domain");
+		}
+
+		if ($randomimage_flag === 'off') {
+			if (trim($chooseimage) !== '') {
+				$c = trim($chooseimage);
+			} else {
+				$c = '';
+			}
+
+			exec("echo '{$c}' > {$loginpath}/.norandomimage");
+		} else {
+			exec("'rm' -f {$loginpath}/.norandomimage");
 		}
 
 		return $param;
@@ -423,6 +440,23 @@ class General extends Lxdb
 				}
 
 				$vlist['portconfig_b-kloxowrapper'] = array('s', array('kloxo.exe', 'lxphp.exe'));
+
+				$vlist['portconfig_b-randomimage_flag'] = null;
+			//	$vlist['portconfig_b-chooseimage'] = array('L', '/');
+				$vlist['portconfig_b-chooseimage'] = null;
+
+				if (file_exists("./login/.norandomimage")) {
+					$this->portconfig_b->setDefaultValue('randomimage_flag', 'off');
+
+					$c = trim(file_get_contents("./login/.norandomimage"));
+					
+					if ($c !== '') {
+						$this->portconfig_b->setDefaultValue('chooseimage', $c);
+					}
+				} else {
+					$this->portconfig_b->setDefaultValue('randomimage_flag', 'on');
+					$this->portconfig_b->setDefaultValue('chooseimage', '');
+				}
 
 				break;
 

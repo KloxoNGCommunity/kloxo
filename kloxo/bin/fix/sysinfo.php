@@ -319,28 +319,33 @@ echo "";
 echo "\n";
 echo "A. Control Panel:" .
 	"               \n"; // need more space because overwrite waiting line
-echo "   - Kloxo-MR: " . $kloxomrver . "\n";
-echo "   - Web: " . $appHiawatha . "\n";
-echo "   - PHP: " . $phpsbranch . "-" . $phpsver . "\n";
+echo "   - Kloxo-MR: {$kloxomrver}\n";
+echo "   - Web: {$appHiawatha}\n";
+echo "   - PHP: {$phpsbranch} - {$phpsver}\n";
 //echo "\n";
 echo "B. Plateform:\n";
-echo "   - OS: " . $osrelease[0] . " " . $osplateform[0] . "\n";
+echo "   - OS: {$osrelease[0]} {$osplateform[0]} \n";
 echo "   - Hostname: " . gethostname() . "\n";
 //echo "\n";
 echo "C. Services:\n";
-echo "   1. MySQL: " .  $appmysql . "\n";
+echo "   1. MySQL: {$appmysql}\n";
 echo "   2. PHP: \n";
 echo "      - Installed:\n";
-echo "        - Branch: " .  $appphp . "\n";
+echo "        - Branch: {$appphp}\n";
 if ($phpmdirs) {
 	echo "        - Multiple: \n";
 	foreach ($phpmdirs as $k => $v) {
-		$v1 = str_replace("/", "", str_replace("/opt/", "", $v));
-		$v2  = file_get_contents($v . "/version");
-		echo "          * " . $v1 . "-" . str_replace("\n", "", $v2) . "\n";
+		if (file_exists("{$v}/version")) {
+			$v1 = str_replace("/", "", str_replace("/opt/", "", $v));
+			$v2  = file_get_contents("{$v}/version");
+			echo "          * {$v1} - " . str_replace("\n", "", $v2) . "\n";
+		} else {
+			// MR - remove if not version file not exists
+			exec("'rm' -rf {$v}");
+		}
 	}
 }
-echo "      - Used: " . $phpused . "\n";
+echo "      - Used: {$phpused}\n";
 
 if (file_exists("{$kloxopath}/etc/flag/enablemultiplephp.flg")) {
 	echo "      - Multiple: enable\n";
@@ -349,48 +354,46 @@ if (file_exists("{$kloxopath}/etc/flag/enablemultiplephp.flg")) {
 }
 
 echo "   3. Web Used: " . slave_get_driver('web') . "\n";
-echo "     - Hiawatha: " .  $appHiawatha . "\n";
-echo "     - Lighttpd: " .  $appLighttpd . "\n";
-echo "     - Nginx: " .  $appNginx . "\n";
-echo "     - Apache: " .  $appApache . "\n";
-echo "       - PHP Type: " . $phptype . "\n";
-echo "       - Secondary PHP: " . $secondary_php . "\n";
+echo "     - Hiawatha: {$appHiawatha}\n";
+echo "     - Lighttpd: {$appLighttpd}\n";
+echo "     - Nginx: {$appNginx}\n";
+echo "     - Apache: {$appApache}\n";
+echo "       - PHP Type: {$phptype}\n";
+echo "       - Secondary PHP: {$secondary_php}\n";
 echo "   4. WebCache: " .  slave_get_driver('webcache') . "\n";
-echo "     - ATS: " .  $appats . "\n";
-echo "     - Squid: " .  $appsquid . "\n";
-echo "     - Varnish: " .  $appvarnish . "\n";
+echo "     - ATS: {$appats}\n";
+echo "     - Squid: {$appsquid}\n";
+echo "     - Varnish: {$appvarnish}\n";
 echo "   5. Dns: " .  slave_get_driver('dns') . "\n";
-echo "     - Bind: " .  $appbind . "\n";
-echo "     - DJBDns: " .  $appdjbdns . "\n";
-echo "     - NSD: " .  $appnsd . "\n";
-echo "     - PowerDNS: " .  $apppdns . "\n";
-echo "     - Yadifa: " .  $appyadifa . "\n";
-echo "   6. Mail: " .  $appqmail . "\n";
+echo "     - Bind: {$appbind}\n";
+echo "     - DJBDns: {$appdjbdns}\n";
+echo "     - NSD: {$appnsd}\n";
+echo "     - PowerDNS: {$apppdns}\n";
+echo "     - Yadifa: {$appyadifa}\n";
+echo "   6. Mail: {$appqmail}\n";
 
 if ($appdovecot !== '--uninstalled--') {
-	echo "      - with: " . $appdovecot  . "\n";
+	echo "      - with: {$appdovecot}\n";
 }
 
-echo "      - pop3/imap4: " . $pop3app  . "\n";
-echo "      - smtp: " . $smtpapp  . "\n";
-echo "      - spam: " . $spamapp  . "\n";
+echo "      - pop3/imap4: {$pop3app}\n";
+echo "      - smtp: {$smtpapp}\n";
+echo "      - spam: {$spamapp}\n";
 
 echo "   7. FTP: pure-ftpd\n";
-echo "      - pure-ftpd: " . $appftp  . "\n";
+echo "      - pure-ftpd: {$appftp}\n";
 
-echo "   8. Stats: " .  $webstatsprog . "\n";
-echo "      - $webstatsprog: " . $appstats  . "\n";
+echo "   8. Stats: {$webstatsprog}\n";
+echo "      - {$webstatsprog}: {$appstats}\n";
 
-//echo "\n";
 echo "D. Memory:\n";
 foreach ($meminfo as $k => $v) {
-//	echo "   " . $v . "\n";
 	echo $v . "\n";
 }
-//echo "\n";
+
 echo "E. Disk Space:\n";
 foreach ($diskinfo as $k => $v) {
-//	echo "   " . $v . "\n";
-	echo $v . "\n";
+	echo "{$v}\n";
 }
+
 echo "\n";

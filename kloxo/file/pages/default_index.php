@@ -50,9 +50,9 @@
 			$title = "Kloxo-MR Page";
 		}
 
-		$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
-
 		if (basename(getcwd()) === 'login') {
+
+			$selimg = './images/abstract.jpg';
 
 			$path = "../theme/background";
 
@@ -74,15 +74,19 @@
 						} else {
 							$selimg = $dirs[$selnum];
 						}
-
-						$bckgrnd = "\tbackground-image: url({$selimg});\n".
-							"\tbackground-size: cover;\n".
-							"\tbackground-attachment: fixed;";
 					}
-				} catch (Exception $e) {
-					$bckgrnd = $bckgrnd;
+				} catch (Exception $e) { }
+			} else {
+				$c = trim(file_get_contents("./.norandomimage"));
+					
+				if ($c !== '') {
+					$selimg = "{$path}/{$c}";
 				}
 			}
+
+			$bckgrnd = "\tbackground-image: url({$selimg});\n".
+				"\tbackground-size: cover;\n".
+				"\tbackground-attachment: fixed;";
 		}
 ?>
 	<title><?= $title; ?></title>
