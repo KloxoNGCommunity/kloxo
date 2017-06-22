@@ -603,7 +603,6 @@ abstract class Dnsbase extends Lxdb
 				return $vlist;
 
 			case "parameter":
-xprint($this->dns_record_a);
 				foreach ($this->dns_record_a as $d) {
 					if ($d->ttype === 'ns') {
 						$nslist[] = $d->param;
