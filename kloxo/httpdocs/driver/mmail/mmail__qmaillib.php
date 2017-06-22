@@ -327,12 +327,19 @@ class Mmail__Qmail extends lxDriverClass
 	function delDomain()
 	{
 		global $gbl, $sgbl, $login, $ghtml;
+
+		$vdeld = "{$sgbl->__path_mail_root}/bin/vdeldomain";
 		
-		lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", "-f","{$this->main->nname}");
-		exec("'rm' -f /var/qmail/control/domainkeys/{$this->main->nname}");
+		lxshell_return($vdeld, "-f","{$this->main->nname}");
+
+		$ddir = "/var/qmail/control/domainkeys/{$this->main->nname}";
+
+		if (file_exists($ddir)) {
+			exec("'rm' -rf {$ddir}");
+		}
 
 		if ($this->doesListExist()) {
-			lxshell_return("{$sgbl->__path_mail_root}/bin/vdeldomain", "lists.{$this->main->nname}");
+			lxshell_return($vdeld, "lists.{$this->main->nname}");
 		}
 	}
 
