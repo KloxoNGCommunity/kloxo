@@ -87,6 +87,8 @@
 			$bckgrnd = "\tbackground-image: url({$selimg});\n".
 				"\tbackground-size: cover;\n".
 				"\tbackground-attachment: fixed;";
+		} else {
+			$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 		}
 ?>
 	<title><?= $title; ?></title>
