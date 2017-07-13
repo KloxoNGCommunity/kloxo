@@ -4,9 +4,9 @@ include_once "lib/html/include.php";
 
 initProgram('admin');
 
-$kloxo_file_path = $sgbl->__path_program_root . "/file/ssl";
+$kloxo_file_path = "{$sgbl->__path_program_root}/file/ssl";
 $kloxo_ssl_path = "/home/kloxo/ssl";
-$kloxo_etc_path = $sgbl->__path_program_root . "/etc";
+$kloxo_etc_path = "{$sgbl->__path_program_root}/etc";
 
 $login->loadAllObjects('ipaddress');
 $ilist = $login->getList('ipaddress');
@@ -88,8 +88,8 @@ foreach($slist as $b) {
 				print("  * Letsencrypt SSL file for '{$dom}'\n");
 				$b->text_key_content = file_get_contents("{$apath}/{$dom}/{$dom}.key");
 				$b->text_crt_content = file_get_contents("{$apath}/{$dom}/{$dom}.cer");
-				$b->text_ca_content = file_get_contents("{$apath}/{$dom}/ca.cer");
-
+				$b->text_ca_content  = file_get_contents("{$apath}/{$dom}/ca.cer");
+				$b->text_ca_content .= "\n" . file_get_contents("{$kloxo_file_path}/letsencryptauthorityx3.pem");
 				$b->setUpdateSubaction();
 
 				$b->write();

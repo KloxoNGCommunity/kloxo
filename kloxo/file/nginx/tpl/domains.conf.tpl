@@ -357,7 +357,7 @@ server {
 		}
 ?>
 
-	server_name webmail.<?=$domainname;?>;
+	server_name webmail.<?=$domainname;?> mail.<?=$domainname;?>;
 
 	include '<?=$acmechallenge_conf;?>';
 
@@ -900,7 +900,7 @@ server {
 					}
 ?>
 
-	server_name webmail.<?=$parkdomainname;?>;
+	server_name webmail.<?=$parkdomainname;?> mail.<?=$parkdomainname;?>;
 
 	include '<?=$acmechallenge_conf;?>';
 <?php
@@ -966,7 +966,7 @@ server {
 					}
 ?>
 
-	server_name webmail.<?=$redirdomainname;?>;
+	server_name webmail.<?=$redirdomainname;?> mail.<?=$redirdomainname;?>;
 
 	include '<?=$acmechallenge_conf;?>';
 <?php

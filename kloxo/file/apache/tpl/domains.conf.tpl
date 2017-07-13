@@ -665,6 +665,9 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?=$domainname;?>
 
 
+	ServerAlias mail.<?=$domainname;?>
+
+
 	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$webmaildocroot;?>"
@@ -730,6 +733,9 @@ foreach ($certnamelist as $ip => $certname) {
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
 	ServerName webmail.<?=$domainname;?>
+
+
+	ServerAlias mail.<?=$domainname;?>
 
 
 	Include "<?=$acmechallenge_conf;?>"
@@ -1345,6 +1351,9 @@ foreach ($certnamelist as $ip => $certname) {
 	ServerName webmail.<?=$parkdomainname;?>
 
 
+	ServerAlias mail.<?=$parkdomainname;?>
+
+
 	Include "<?=$acmechallenge_conf;?>"
 
 	DocumentRoot "<?=$webmaildocroot;?>"
@@ -1524,6 +1533,9 @@ foreach ($certnamelist as $ip => $certname) {
 	SetEnvIf X-Forwarded-Proto https HTTPS=1
 
 	ServerName webmail.<?=$redirdomainname;?>
+
+
+	ServerAlias mail.<?=$redirdomainname;?>
 
 
 	Include "<?=$acmechallenge_conf;?>"

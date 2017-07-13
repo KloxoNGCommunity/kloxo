@@ -13,9 +13,11 @@ After=syslog.target network.target
 [Service]
 Type=notify
 PIDFile=/run/php-fpm/php-fpm.pid
-#ExecStartPre=/usr/bin/rm -f /opt/configs/php-fpm/sock/php-*.sock
+#ExecStartPre=/usr/bin/rm -f /opt/configs/php-fpm/sock/php-*.sock >/dev/null 2>&1
 ExecStart=/usr/sbin/__custom_name__-fpm -y /opt/configs/php-fpm/conf/php/php-fpm.conf --nodaemonize
 ExecReload=/bin/kill -USR2 $MAINPID
+ExecStopPre=/usr/bin/rm -f /opt/configs/php-fpm/sock/php-*.sock >/dev/null 2>&1
+ExecStop=/bin/kill -s QUIT $MAINPID
 PrivateTmp=true
 
 [Install]

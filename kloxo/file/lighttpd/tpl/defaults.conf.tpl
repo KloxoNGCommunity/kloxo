@@ -113,7 +113,7 @@ if (count($dirs) > 0) {
 		if ($certname === $d) { continue; }
 ?>
 
-	$HTTP["host"] =~ "(^|www\.|cp\.|webmail\.)<?=str_replace(".", "\.", $d);?>" {
+	$HTTP["host"] =~ "(^|www\.|cp\.|webmail\.|mail\.)<?=str_replace(".", "\.", $d);?>" {
 
 		ssl.pemfile = "<?=$v;?>"
 <?php

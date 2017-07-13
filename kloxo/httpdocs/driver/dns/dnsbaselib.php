@@ -122,7 +122,7 @@ class dns_record_a extends LxDnsClass
 					if (($this->$var === '__base__') || ($this->$var === $this->getParentO()->nname)) {
 						$this->$var = $this->getParentO()->nname . '.';
 					} else {
-						$this->$var .= '.' . $this->getParentO()->nname . '.';
+					//	$this->$var .= '.' . $this->getParentO()->nname . '.';
 					}
 				}
 
