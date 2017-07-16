@@ -1,7 +1,12 @@
 <?php
 	ini_set("display_errors","1");
 
-	session_start();
+	try {
+		session_start();
+	} catch(Exception $e) {
+		exec("'rm' -f /usr/local/lxlabs/kloxo/session/*");
+		session_start();
+	}
 
 	if (file_exists("./custom-index.php")) {
 		include_once "./custom-index.php";

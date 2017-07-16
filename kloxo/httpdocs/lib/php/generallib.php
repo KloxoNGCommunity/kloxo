@@ -443,7 +443,7 @@ class General extends Lxdb
 
 				$vlist['portconfig_b-randomimage_flag'] = null;
 			//	$vlist['portconfig_b-chooseimage'] = array('L', '/');
-				$vlist['portconfig_b-chooseimage'] = null;
+				$vlist['portconfig_b-chooseimage'] = array('s', lscandir_without_dot(getreal("/theme/background")));
 
 				if (file_exists("./login/.norandomimage")) {
 					$this->portconfig_b->setDefaultValue('randomimage_flag', 'off');
