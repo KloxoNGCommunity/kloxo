@@ -41,11 +41,16 @@ foreach($dns_records as $k => $o) {
             if ($key === $value) {
                 $key = '@';
             } else {
-                if (($key === '') || (!$key) || ($key === '__base__')) {
+                if (($key === '') || (!$key) || ($key === '__base__') || ($key === $domainname)) {
                     $key = '@';
                 } else {
-                    if (strpos($key, '__base__') !== false) {
+                    if (strpos($key, '.__base__') !== false) {
                         $key = str_replace('.__base__', '', $key);
+                    }
+
+                    if (strpos($key, ".{$domainname}") !== false) {
+                        $key = str_replace(".{$domainname}.", '', $key);
+                        $key = str_replace(".{$domainname}", '', $key);
                     }
                 }
             }
