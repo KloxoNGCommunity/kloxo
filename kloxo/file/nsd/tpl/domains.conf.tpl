@@ -45,7 +45,7 @@ foreach($dns_records as $k => $o) {
                     $key = '@';
                 } else {
                     if (strpos($key, '__base__') !== false) {
-                        $key = '@';
+                        $key = str_replace('.__base__', '', $key);
                     }
                 }
             }
