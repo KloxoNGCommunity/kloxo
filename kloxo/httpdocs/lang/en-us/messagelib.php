@@ -858,7 +858,7 @@ $__information['domain_updateform_changeowner_pre'] = "<p>No information...</p>"
 
 $__information['mailforward_list__pre'] = "<p>No information...</p>";
 
-$__information['mailforward_addform_forward_pre'] = "<p>No information...</p>";
+$__information['mailforward_addform_forward_pre'] = "<p>If want to piping to php, set like '| lxphp.exe /path/to/file.php' to 'Forward To'. By default, to mail address (like account@domain.com)</p>";
 
 $__information['mailforward_addform_alias_pre'] = "<p>No information...</p>";
 
