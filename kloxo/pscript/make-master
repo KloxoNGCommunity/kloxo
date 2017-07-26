@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db ] ; then
+	mv -f /usr/local/lxlabs/kloxo/etc/conf/slave-db.db /usr/local/lxlabs/kloxo/etc/conf/slave-db.db.bck
+	sh /script/restart -y
+else
+	echo "* Already as master"
+fi
