@@ -37,7 +37,7 @@ maindom="<?php echo $basedom; ?>"
 if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 	action="--force --renew"
 else
-	action="--issue"
+	action="--force --issue"
 fi
 
 ${rootpath}/acme.sh ${action} --webroot /var/run/letsencrypt \

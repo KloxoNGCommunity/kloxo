@@ -3349,7 +3349,7 @@ function update_database()
 
 	$dbpath = '../file/sql';
 
-	exec("mysql -f -u root $pstring < {$dbpath}/db-structure-update.sql");
+	exec("mysql -f -u root $pstring < {$dbpath}/db-structure-update.sql &");
 }
 
 function get_default_fields()

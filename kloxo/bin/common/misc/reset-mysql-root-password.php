@@ -7,7 +7,7 @@ $tpath = "/usr/local/lxlabs/kloxo/serverfile";
 if (isset($argv[1])) {
 	$pass = $argv[1];
 } else {
-	$pass = "";
+	$pass = randomString(9);
 }
 
 $text = <<<EOF
