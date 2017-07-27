@@ -958,14 +958,15 @@ function do_exec_system($username, $dir, $cmd, &$out, &$err, &$ret, $input)
 }
 
 // MR -- new function for handle ftp connection
-function lxftp_connect($ftp_server) {
+function lxftp_connect($ftp_server)
+{
+/*
+	list($ftp_scheme, $ftp_rest) = explode("://", $ftp_server);
 
-	list($ftp_protocol, $ftp_rest) = explode("://", $ftp_server);
-
-	// Remark - if not use 'ftp://' or 'ftps://', ftp_protocol=ftp_server and ftp_rest=null
+	// Remark - if not use 'ftp://' or 'ftps://', ftp_scheme=ftp_server and ftp_rest=null
 	if (!$ftp_rest) {
-		$ftp_rest = $ftp_protocol;
-		$ftp_protocol = "ftp";
+		$ftp_rest = $ftp_scheme;
+		$ftp_scheme = "ftp";
 	}
 
 	list($ftp_domain, $ftp_port) = explode(":", $ftp_rest);
@@ -974,12 +975,32 @@ function lxftp_connect($ftp_server) {
 		$ftp_port = "21";
 	}
 
-	if ($ftp_protocol === 'ftps') {
+	if ($ftp_scheme === 'ftps') {
 		return ftp_ssl_connect($ftp_domain, $ftp_port);
-	} elseif ($ftp_protocol === 'ftpes') {
+	} elseif ($ftp_scheme === 'ftpes') {
 		// MR -- still unfinished
 	} else {
 		return ftp_connect($ftp_domain, $ftp_port);
+	}
+*/
+	if (strpos($ftp_server, '://') !== false) {
+		// no action
+	} else {
+		$ftp_server = 'ftp://' . $ftp_server;
+	}
+
+	$list = parse_url($ftp_server);
+
+	$scheme = $list['scheme'];
+	$host = $list['host'];
+	$port = (isset($list['port'])) ? $list['port'] : '21';
+
+	if ($scheme === 'ftps') {
+		return ftp_ssl_connect($host, $port);
+	} elseif ($scheme === 'ftpes') {
+		// MR -- still unfinished
+	} else {
+		return ftp_connect($host, $port);
 	}
 }
 
