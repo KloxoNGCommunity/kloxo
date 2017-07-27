@@ -974,9 +974,9 @@ function lxftp_connect($ftp_server) {
 		$ftp_port = "21";
 	}
 
-	if ($ftp_url === 'ftps') {
+	if ($ftp_protocol === 'ftps') {
 		return ftp_ssl_connect($ftp_domain, $ftp_port);
-	} elseif ($ftp_url === 'ftpes') {
+	} elseif ($ftp_protocol === 'ftpes') {
 		// MR -- still unfinished
 	} else {
 		return ftp_connect($ftp_domain, $ftp_port);
