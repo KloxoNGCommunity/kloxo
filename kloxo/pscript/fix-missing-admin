@@ -1,4 +1,13 @@
 #!/bin/sh
 
-. /script/directory
-lxphp.exe ../bin/fix/fix-missing-admin.php $*
+echo "This script will be fixed an issue:"
+echo "- Run 'sh /script/resetpassword' will appear 'only_admin_can_modify_general'"
+echo "- Fail login as 'admin' with error 'This login has been Disabled'"
+echo ""
+
+sh /script/reset-mysql-root-password >/dev/null 2>&1
+sh /script/reset-mysql-kloxo-password >/dev/null 2>&1
+
+echo "* Note:"
+echo "  - Process just only running 'sh /script/reset-mysql-root-password' and"
+echo "    'sh /script/reset-mysql-kloxo-password'"
