@@ -2,12 +2,24 @@
 
 list="php "$(ls -ld /opt/php* 2>/dev/null | grep -v 's'$ | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ')
 
+flagpath="/usr/local/lxlabs/kloxo/etc/flag"
+
 if [ "${1}" == "" ] ; then
 	echo "- Enable for all php-fpm (branch and multiple php)"
 	for x in ${list} ; do
-		if [ -f /usr/local/lxlabs/kloxo/etc/flag/enablemultiplephp.flg ] ; then
-			echo "-- Enable for ${x}-fpm"
-			chkconfig ${x}-fpm on >/dev/null 2>&1
+		if [ -f ${flagpath}/enablemultiplephp.flg ] ; then
+			if [ ${x} == "php52m" ] ; then
+				if [ -f ${flagpath}/enable_php52m-fpm.flg ] ; then
+					echo "-- Enable for ${x}-fpm"
+					chkconfig ${x}-fpm on >/dev/null 2>&1
+				else
+					echo "-- Disable for ${x}-fpm"
+					chkconfig ${x}-fpm off >/dev/null 2>&1
+				fi
+			else
+				echo "-- Enable for ${x}-fpm"
+				chkconfig ${x}-fpm on >/dev/null 2>&1
+			fi
 		else
 			if [ "${x}" != "php" ] ; then
 				echo "-- Disable for ${x}-fpm"

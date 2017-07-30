@@ -30,6 +30,8 @@ class serverweb extends lxdb
 
 	static $__desc_pagespeed_cache = array("", "", "pagespeed_cache");
 
+	static $__desc_enable_php52m_fpm = array("", "", "enable_php52m_fpm");
+
 	function createShowUpdateform()
 	{
 		global $login;
@@ -44,6 +46,16 @@ class serverweb extends lxdb
 			$uflist['multiple_php_activate'] = null;
 			$uflist['multiple_php_install'] = null;
 			$uflist['multiple_php_remove'] = null;
+
+			$a = getListOnList('php');
+
+			foreach ($a as $k => $v) {
+				if (strpos($v, 'php52') !== false) {
+					$uflist['enable_php52m_fpm'] = null;
+
+					break;
+				}
+			}
 
 			if (isWebProxyOrApache()) {
 				$uflist['php_type'] = null;
@@ -271,6 +283,18 @@ class serverweb extends lxdb
 				$this->setDefaultValue('php_used', $j);
 
 				$vlist['php_used'] = array('s', $d);
+
+				break;
+
+			case "enable_php52m_fpm":
+
+				$this->enable_php52m_fpm = null;
+
+				$vlist['enable_php52m_fpm'] = array("f", array('on', 'off'));
+
+				if (file_exists("../etc/flag/enable_php52m-fpm.flg")) {
+					$this->setDefaultValue('enable_php52m_fpm', 'on');
+				}
 
 				break;
 

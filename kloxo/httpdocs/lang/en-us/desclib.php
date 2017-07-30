@@ -1464,3 +1464,7 @@ $__description["sendmailban_absolute_path"] = array("As absolute path");
 $__description["pagespeed_cache"] = array("Pagespeed cache (if used)");
 
 $__description["kloxo_wrapper"] = array("Select wrapper");
+
+$__description["enable_php52m_fpm"] = array("Enable PHP52m as FPM (only 'static' PM)");
+
+
