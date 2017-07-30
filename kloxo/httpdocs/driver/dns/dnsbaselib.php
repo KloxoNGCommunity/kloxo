@@ -111,6 +111,7 @@ class dns_record_a extends LxDnsClass
 				return "{$this->weight} {$this->port} \"{$this->param}\"";
 			}
 
+		/*
 		//	if (strpos($this->getParentO()->nname, '.dnst') !== false) {
 				// MR -- for template
 			//	$this->$var = str_replace($this->getParentO()->nname, "__base__", $this->$var);
@@ -130,6 +131,7 @@ class dns_record_a extends LxDnsClass
 					$this->$var .= '.';
 				}
 		//	}
+		*/
 		}
 
 		// MR -- fix appear in 'old' data
