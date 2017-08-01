@@ -8,11 +8,13 @@ echo "*** Fixing SSL cron ***"
 
 if [ -f ${acmepath}/acme.sh ] ; then
 	echo "- Cron per-week for renew letsencrypt ssl using acme.sh"
+	'cp' -f ${kloxopath}/file/acme.sh/acme-cron.sh ${kloxopath}/acme.sh/acme-cron.sh
 	cmd="sh ${kloxopath}/acme.sh/acme-cron.sh"
 	#crontab -l | { cat; echo "0 0 * * 0 ${cmd} >/dev/null 2>&1"; } | crontab -
 	echo "0 0 * * 0 root ${cmd}" > /etc/cron.d/letsencrypt_renew
 else
 	echo "- Cron per-week for renew letsencrypt ssl using letsencrypt-auto"
+	'cp' -f ${kloxopath}/file/certbot/letsencrypt-cron.sh ${kloxopath}/certbot/letsencrypt-cron.sh
 	cmd="sh ${kloxopath}/certbot/letsencrypt-cron.sh"
 	#crontab -l | { cat; echo "0 0 * * 0 ${cmd} >/dev/null 2>&1"; } | crontab -
 	echo "0 0 * * 0 root ${cmd}" > /etc/cron.d/letsencrypt_renew
@@ -20,6 +22,7 @@ fi
 
 if [ -f ${startapipath}/startapi.sh ] ; then
 	echo "- Cron per-week for renew startapi ssl"
+	'cp' -f ${kloxopath}/file/startapi.sh/startapi-cron.sh ${kloxopath}/startapi.sh/startapi-cron.sh
 	cmd="sh ${kloxopath}/startapi.sh/startapi-cron.sh"
 	#crontab -l | { cat; echo "0 0 * * 0 ${cmd} >/dev/null 2>&1"; } | crontab -
 	echo "0 0 * * 0 root ${cmd}" > /etc/cron.d/startapi_renew
