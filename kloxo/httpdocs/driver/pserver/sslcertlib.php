@@ -326,6 +326,15 @@ class SslCert extends Lxdb
 					exec("ln -sf {$spath}/{$dom}.{$v} {$tpath}/program.{$v}");
 				}
 			}
+
+			// MR -- make qmail using the same ssl
+
+			$mpath = "/var/qmail/control";
+
+			if (!is_link("{$mpath}/servercert.pem")) {
+				exec("mv -f {$mpath}/servercert.pem {$mpath}/servercert.pem.old");
+				exec("ln -sf {$tpath}/program.pem {$mpath}/servercert.pem");
+			}
 		} else {
 			$this->updateSetProgramSSL($param);
 		}
@@ -596,11 +605,13 @@ class SslCert extends Lxdb
 	{
 		global $login;
 
+	/*
 		if ($login->nname === 'admin') {
-		//	$filesearch = "/home/kloxo/client/*/ssl/*.ca";
+			$filesearch = "/home/kloxo/client/*/ssl/*.ca";
 		} else {
-		//	$filesearch = "/home/kloxo/client/{$login->nname}/ssl/*.ca";
+			$filesearch = "/home/kloxo/client/{$login->nname}/ssl/*.ca";
 		}
+	*/
 
 		$filesearch = "/home/kloxo/ssl/*.ca";
 	
@@ -611,7 +622,7 @@ class SslCert extends Lxdb
 				if ($x !== $nname) {
 					$ssllist[] = $x;
 				} else {
-					$ssllist[] = null;
+					continue;
 				}
 			}
 		}
