@@ -605,13 +605,11 @@ class SslCert extends Lxdb
 	{
 		global $login;
 
-	/*
 		if ($login->nname === 'admin') {
-			$filesearch = "/home/kloxo/client/*/ssl/*.ca";
+		//	$filesearch = "/home/kloxo/client/*/ssl/*.ca";
 		} else {
-			$filesearch = "/home/kloxo/client/{$login->nname}/ssl/*.ca";
+		//	$filesearch = "/home/kloxo/client/{$login->nname}/ssl/*.ca";
 		}
-	*/
 
 		$filesearch = "/home/kloxo/ssl/*.ca";
 	
