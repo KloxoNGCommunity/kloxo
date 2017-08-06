@@ -12,11 +12,12 @@ fi
 
 oldver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
 
-out=$(rpmdev-vercmp ${newver} ${oldver})
+rpmdev-vercmp ${oldver} ${newver} >/dev/null 2>&1
+status="$?"
 
 echo "*** Upgrade MariaDB from ${oldver} to ${newver} ***"
 
-if [[ $out != *${newver}* ]] ; then
+if [ "${status}" == "12" ] ; then
 	echo "- Begin process..."
 
 	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/mratwork.repo

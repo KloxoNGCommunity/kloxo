@@ -107,9 +107,10 @@ if [ -f ${main_path}/version ] ; then
 			yum install rpmdevtools -y
 		fi
 
-		out=$(rpmdev-vercmp ${pack_verrel} ${cver})
+		rpmdev-vercmp ${cver} ${pack_verrel} >/dev/null 2>&1
+		status="$?"
 
-		if [[ $out != *${pack_verrel}* ]] ; then
+		if [ "${status}" == "12" ] ; then
 			x="- '${pack_name}-${pack_verrel}' ready to installed/updated"
 			echo $x
 			echo $x >>${main_path}/${base_name}_install.log
