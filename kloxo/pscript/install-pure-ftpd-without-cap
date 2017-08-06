@@ -1,0 +1,37 @@
+#!/bin/sh
+
+echo "*** Install Pure-ftpd rpm without capability (resolve for LXC container) ***"
+
+if [ "${1} == "" ] ; then
+	ver="1.0.37-1"
+else
+	ver=${1}
+fi
+
+cd /tmp
+rm -f pure-ftpd*.rpm
+
+echo "- Get src.rpm from mratwork repo and installed"
+wget http://rpms.mratwork.com/repo/mratwork/SRPMS/pure-ftpd-${ver}.mr.src.rpm
+rpm -ivh pure-ftpd*
+
+echo " - Replace to '--without-capabilities' in pure-ftpd.spec"
+sed -i 's/--with-capabilities/--without-capabilities/g' /root/rpmbuild/SPECS/pure-ftpd.spec
+echo " - Change 'release' to 100"
+sed -i 's/1%{?dist}/100%{?dist}/g' /root/rpmbuild/SPECS/pure-ftpd.spec
+
+echo "- Install dependencies"
+yum install pam-devel libcap-devel openldap-devel selinux-policy-devel rpm-build -y
+
+echo "- Create rpm"
+rpmbuild -bb --define 'dist .mr.el6' /root/rpmbuild/SPECS/pure-ftpd.spec
+
+echo "- Update rpm"
+rpm -Uvh /root/rpmbuild/RPMS/x86_64/pure-ftpd-${ver}00.mr.el6.x86_64.rpm
+
+sh /script/restart-ftp
+
+echo
+echo "* Note:"
+echo "  - Format: $0 [target-version]"
+echo "    where [target-version] = 1.0.37-1 (by default)"

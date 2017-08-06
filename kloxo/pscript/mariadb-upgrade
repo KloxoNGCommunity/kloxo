@@ -1,0 +1,47 @@
+#!/bin/sh
+
+if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
+	yum install rpmdevtools -y
+fi
+
+if [ "${1}" == "" ] ; then
+	newver="10.2"
+else
+	newver=${1}
+fi
+
+oldver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
+
+out=$(rpmdev-vercmp ${newver} ${oldver})
+
+echo "*** Upgrade MariaDB from ${oldver} to ${newver} ***"
+
+if [[ $out != *${newver}* ]] ; then
+	echo "- Begin process..."
+
+	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/mratwork.repo
+	yum clean all
+	yum update MariaDB* -y
+	yum remove MariaDB-server -y
+	yum install MariaDB-server -y
+
+	'cp' -f /etc/my.cnf.d/server.cnf.rpmsave /etc/my.cnf.d/server.cnf
+
+	sh /script/restart-mysql
+
+	pass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
+
+	mysql_upgrade -u root -p${pass}
+
+	sh /script/restart-mysql
+
+	echo "- End process..."
+else
+	echo "- Already upgrade to ${newver}"
+fi
+
+echo
+echo "* Note:"
+echo "  - Format: $0 [target-version]"
+echo "    where [target-version] = 10.2 (by default)"
+
