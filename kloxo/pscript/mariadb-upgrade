@@ -30,7 +30,7 @@ if [ "${status}" == "12" ] ; then
 
 	sh /script/restart-mysql
 
-	pass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
+	pass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
 
 	mysql_upgrade -u root -p${pass}
 

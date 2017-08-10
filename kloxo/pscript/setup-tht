@@ -18,7 +18,7 @@ fi
 
 echo "- Preparing Database"
 
-rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
+rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
 
 echo "- Create 'thehostingtool' database"
 

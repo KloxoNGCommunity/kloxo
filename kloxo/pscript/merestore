@@ -1,0 +1,26 @@
+#!/bin/sh
+
+path="/home/kloxo/selfbackup/self/__backup"
+
+echo "*** Self Restore ***"
+
+if [ "${1}" == "--list" ] ; then
+	echo "- List of Self Backup files"
+	dir -l ${path}
+fi
+
+if [ "${1}" == "--select=" ] ; then
+	option=${1}
+	file=${option#--select=}
+	echo ${file}
+fi
+
+cd /tmp
+
+'rm' -f ${file}
+'cp' -f ${path}/${file} /tmp/${file}
+unzip ${file}
+
+rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
+mysql -f -u root -p"${rootpass}" < /tmp/mebackup.dump >/dev/null 2>&1
+

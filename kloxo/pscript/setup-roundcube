@@ -21,7 +21,7 @@ fi
 
 echo "- Preparing database"
 
-rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
+rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
 
 echo "- Fixing MySQL commands in import files"
 

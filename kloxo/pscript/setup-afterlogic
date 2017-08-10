@@ -18,7 +18,7 @@ fi
 
 echo "- Preparing database"
 
-rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/dbadmin.php)
+rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
 
 mysql -f -u root -p"${rootpass}" < ${path}/data/settings/afterlogic_initial.sql >/dev/null 2>&1
 
