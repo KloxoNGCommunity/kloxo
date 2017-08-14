@@ -38,7 +38,7 @@ execf() {
 		echo " ----------------------------------------------------"
 		echo "  ---select: 1 = pagecache, 2 = dentries+inodes, 3 = all"
 		echo
-		echo " * no effect for OS-level VPS (like OpenVZ)"
+		echo " * no effect for Container-type VPS (like OpenVZ)"
 		echo
 		exit;
 	fi
@@ -54,7 +54,7 @@ execf() {
 noexecf() {
 	if [ "$2" != "--silent" ] ; then
 		echo
-		echo "Not work on OS-level VPS (like OpenVZ)"
+		echo "Not work on Container-type VPS (like OpenVZ)"
 		echo
 	fi
 }
@@ -65,7 +65,8 @@ noexecf() {
 #	fi
 #else
 	#if [ -f $file_grub_conf ] || [ -f $file_grub2_conf ] ; then
-	if [ "$(grep envID /proc/self/status)" == "" ] ; then
+	#if [ "$(grep envID /proc/self/status)" == "" ] ; then
+	if [ "$(sh /script/virtual-info -t)" != "container" ] ; then
 		execf $1 $2
 	else
 		noexecf $1 $2

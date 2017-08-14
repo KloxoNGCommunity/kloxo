@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ "$(rpm -qa|grep 'virt-what')" == "" ] ; then
+	yum install virt-what -y
+fi
+
+p=$(virt-what)
+	
+if [ "${1}" == "--type" ] || [ "${1}" == "-t" ] ; then
+	if [ "${p}" == "" ] ; then
+		echo "dedicated"
+	elif [ "${p}" == "openvz" ] || [ "${p}" == "lxc" ] || [ "${p}" == "linux_vserver" ] || [ "${p}" == "docker" ] || [ "${p}" == "linux_vserver" ]; then
+		echo "container"
+	else
+		echo "hypervisor"
+	fi
+else
+	echo ${p}
+fi

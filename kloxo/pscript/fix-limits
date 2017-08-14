@@ -24,12 +24,13 @@ net.ipv4.tcp_synack_retries = 3
 EOF
 
 #if [ ! -f /proc/user_beancounters ] ; then
-if [ "$(grep envID /proc/self/status)" != "" ] ; then
+#if [ "$(grep envID /proc/self/status)" != "" ] ; then
+if [ "$(sh /script/virtual-info -t)" != "container" ] ; then
 	echo "- Modified process"
 	echo "${patch1}" >> ${sysctlf}
 	sysctl -e -p
 else
-	echo "- No modified because under OS-level VPS (like OpenVZ)"
+	echo "- No modified because under Container-type VPS (like OpenVZ)"
 fi
 
 limitsf="/etc/security/limits.conf"
