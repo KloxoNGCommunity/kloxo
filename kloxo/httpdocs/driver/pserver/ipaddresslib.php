@@ -160,10 +160,7 @@ class Ipaddress extends Lxdb
 		foreach ($list as $row) {
 			list($devname, $id) = explode("-", $row);
 
-			// MR -- not work with 'if' for OpenVZ
-		//	if (!isset($id) || $id === null || $id = "") {
-				$result[] = $devname;
-		//	}
+			$result[] = $devname;
 		}
 
 		return array_unique($result);

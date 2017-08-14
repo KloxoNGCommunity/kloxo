@@ -3,7 +3,7 @@
 echo "*** Enable SELinux (in permissive mode)"
 
 if [ "$(grep envID /proc/self/status)" == "" ] ; then
-	echo "- Not work under OpenVZ VPS"
+	echo "- Not work under OS-level VPS (like OpenVZ)"
 	exit
 fi
 

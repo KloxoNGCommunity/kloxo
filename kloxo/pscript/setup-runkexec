@@ -1,8 +1,11 @@
 #!/bin/sh
 
 echo "*** Setup 'runkexec' (for fast reboot) ***"
-if [ -f /proc/user_beancounters ] ; then
-	echo '- Not work under OpenVZ'
+
+
+#if [ -f /proc/user_beancounters ] ; then
+if [ "$(grep envID /proc/self/status)" != "" ] ; then
+	echo '- Not work under OS-level VPS (like OpenVZ)'
 	exit
 fi
 

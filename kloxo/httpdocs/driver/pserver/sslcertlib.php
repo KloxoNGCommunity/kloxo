@@ -335,6 +335,15 @@ class SslCert extends Lxdb
 				exec("mv -f {$mpath}/servercert.pem {$mpath}/servercert.pem.old");
 				exec("ln -sf {$tpath}/program.pem {$mpath}/servercert.pem");
 			}
+
+			// MR -- make pure-ftp using the same ssl
+
+			$ppath = "/etc/pki/pure-ftpd";
+
+			if (!is_link("{$ppath}/pure-ftpd.pem")) {
+				exec("mv -f {$ppath}/pure-ftpd.pem {$ppath}/pure-ftpd.pem.old");
+				exec("ln -sf {$tpath}/program.pem {$ppath}/pure-ftpd.pem");
+			}
 		} else {
 			$this->updateSetProgramSSL($param);
 		}

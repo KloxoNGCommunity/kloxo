@@ -38,7 +38,7 @@ execf() {
 		echo " ----------------------------------------------------"
 		echo "  ---select: 1 = pagecache, 2 = dentries+inodes, 3 = all"
 		echo
-		echo " * no effect for Openvz VPS"
+		echo " * no effect for OS-level VPS (like OpenVZ)"
 		echo
 		exit;
 	fi
@@ -54,20 +54,21 @@ execf() {
 noexecf() {
 	if [ "$2" != "--silent" ] ; then
 		echo
-		echo "Not work on OpenVZ VPS"
+		echo "Not work on OS-level VPS (like OpenVZ)"
 		echo
 	fi
 }
 
-if [ ! -f $proc__user_beancounters ] ; then
-	if [ -f $file_grub_conf ] || [ -f $file_grub2_conf ] ; then
-		execf $1 $2
-	fi
-else
-	if [ -f $file_grub_conf ] || [ -f $file_grub2_conf ] ; then
+#if [ ! -f $proc__user_beancounters ] ; then
+#	if [ -f $file_grub_conf ] || [ -f $file_grub2_conf ] ; then
+#		execf $1 $2
+#	fi
+#else
+	#if [ -f $file_grub_conf ] || [ -f $file_grub2_conf ] ; then
+	if [ "$(grep envID /proc/self/status)" == "" ] ; then
 		execf $1 $2
 	else
 		noexecf $1 $2
 	fi
-fi
+#fi
 

@@ -1356,8 +1356,8 @@ $__description["realtime"] = array("Realtime");
 $__description["referer"] = array("Referer");
 $__description["remote_host"] = array("Remote Host");
 $__description["webserver_config"] = array("Webserver Configure");
-$__description["php_type"] = array("PHP Type");
-$__description["secondary_php"] = array("Enable Multiple PHP as secondary PHP");
+$__description["php_type"] = array("PHP Type (for Apache)");
+$__description["secondary_php"] = array("Enable Multiple PHP as secondary PHP (for Apache)");
 
 $__description["config"] = array("Configure");
 $__description["rails_app"] = array("Rails App");

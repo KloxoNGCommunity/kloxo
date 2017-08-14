@@ -157,8 +157,10 @@ class ServerMail extends lxdb
 			//	$vlist['alt_smtp_sdyke_flag'] = null;
 
 				if (!$this->smtp_relay) {
-					$vlist['smtp_relay'] = array("t", lfile_get_contents("/var/qmail/control/smtproutes"));
+					$this->smtp_relay = lfile_get_contents("/var/qmail/control/smtproutes");
 				}
+
+				$vlist['smtp_relay'] = null;
 
 				$this->postUpdate($subaction);
 

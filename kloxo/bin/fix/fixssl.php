@@ -50,9 +50,12 @@ $pureftp_path="/etc/pki/pure-ftpd";
 if (file_exists("{$pureftp_path}/pure-ftpd.pem")) {
 	if (!file_exists("{$pureftp_path}/pure-ftpd.pem.old")) {
 		exec("'mv' -f {$pureftp_path}/pure-ftpd.pem {$pureftp_path}/pure-ftpd.pem.old");
+	} else {
+		exec("'rm' -f {$pureftp_path}/pure-ftpd.pem.old");
+		exec("'mv' -f {$pureftp_path}/pure-ftpd.pem {$pureftp_path}/pure-ftpd.pem.old");
 	}
 
-	exec("'cp' -f {$kloxo_file_path}/default.pem {$pureftp_path}/pure-ftpd.pem");
+	exec("ln -sf {$kloxo_etc_path}/program.pem {$pureftp_path}/pure-ftpd.pem");
 }
 
 if ((!is_link("{$kloxo_etc_path}/program.pem")) ||

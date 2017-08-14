@@ -19,7 +19,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo " Equation: a = t - s - c"
 	echo "   where: a = available, t = total, s = spare, c = used +- buffers/cache"
 	echo "   - memory info taken from 'free -m' after running 'sh /script/clearcache"
-	echo "   - Need reboot for OpenVZ to make accurate calculation"
+	echo "   - Need reboot for OS-level VPS (like OpenVZ) to make accurate calculation"
 	echo " * Assume: 30M (for prefork) and 35MB (for worker/event) per instance"
 	echo
 	exit;
