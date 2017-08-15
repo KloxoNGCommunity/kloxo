@@ -4,7 +4,7 @@ echo "*** Enable SELinux (in permissive mode)"
 
 #if [ "$(grep envID /proc/self/status)" == "" ] ; then
 if [ "$(sh /script/virtual-info -t)" == "container" ] ; then
-	echo "- Not work under Container-type VPS (like OpenVZ)"
+	echo "- Not work in Container-type VPS (like OpenVZ)"
 	exit
 fi
 

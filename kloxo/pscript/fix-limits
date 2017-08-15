@@ -30,7 +30,7 @@ if [ "$(sh /script/virtual-info -t)" != "container" ] ; then
 	echo "${patch1}" >> ${sysctlf}
 	sysctl -e -p
 else
-	echo "- No modified because under Container-type VPS (like OpenVZ)"
+	echo "- No modified because in Container-type VPS (like OpenVZ)"
 fi
 
 limitsf="/etc/security/limits.conf"
