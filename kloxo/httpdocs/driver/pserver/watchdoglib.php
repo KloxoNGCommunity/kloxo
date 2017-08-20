@@ -86,7 +86,7 @@ class watchdog extends lxdb
 		self::addOneWatchdog($pserver, "dns", "53", "__driver_dns");
 		self::addOneWatchdog($pserver, "web", "80", "__driver_web");
 		self::addOneWatchdog($pserver, "mail", "25", "__driver_qmail");
-		self::addOneWatchdog($pserver, "mysql", "3306", "__driver_mysql");
+		self::addOneWatchdog($pserver, "mysql", "pgrep ^mysql", "__driver_mysql");
 		self::addOneWatchdog($pserver, "ftp", "pgrep ^pure-ftpd", "__driver_ftp");
 		self::addOneWatchdog($pserver, "php-fpm", "pgrep ^php-fpm", "__driver_php-fpm");
 

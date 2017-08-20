@@ -106,7 +106,9 @@ class Llog extends Lxclass {
 			'pdns.log' => 'PowerDNS',
 			'yadifa/yadifa.log' => 'Yadifa',
 
-			'mysqld.log' => 'MySQL',
+			'/var/lib/mysql/mysql-slow.log' => 'MySQL Slow (MariaDB)',
+			'/var/lib/mysql/' . gethostname() . '.err' => 'MySQL Error (MariaDB)',
+			'mysqld.log' => 'MySQL Log (MySQL)',
 
 			'pureftpd.log' => 'Pure-ftp',
 

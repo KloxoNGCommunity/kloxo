@@ -673,7 +673,7 @@ if ($redirectionremote) {
 
 	$HTTP["url"] =~ "^/cgi-bin" {
 		#cgi.assign = ( "" => "/home/httpd/" + var.domain + "/perlsuexec.sh" )
-		cgi.assign = ( "" => "/usr/bin/perl" )
+		cgi.assign = ( ".pl" => "/usr/bin/perl", ".py" => "/usr/bin/python", ".cgi" => "" )
 	}
 <?php
 	}
@@ -693,7 +693,7 @@ if ($redirectionremote) {
 	if ($enablecgi) {
 ?>
 		#cgi.assign = ( ".pl" => "/home/httpd/" + var.domain + "/perlsuexec.sh" )
-		cgi.assign = ( ".pl" => "/usr/bin/perl" )
+		cgi.assign = ( ".pl" => "/usr/bin/perl", ".py" => "/usr/bin/python", ".cgi" => "" )
 <?php
 	}
 

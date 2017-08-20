@@ -278,7 +278,7 @@ UrlToolkit {
 UrlToolkit {
 	ToolkitID = cgi_<?=$domcleaner;?>
 
-	Match ^/.*\.(pl|cgi)(/|$) UseFastCGI cgi_apache
+	Match ^/.*\.(pl|cgi|py)(/|$) UseFastCGI cgi_apache
 }
 <?php
 foreach ($protocols as $k => $v) {

@@ -609,7 +609,7 @@ foreach ($certnamelist as $ip => $certname) {
 					if ($statsapp === 'awstats') {
 ?>
 		Options +ExecCGI
-		<FilesMatch \.(cgi|pl)$>
+		<FilesMatch \.(cgi|pl|py)$>
 			#<IfModule !mod_fastcgi.c>
 				<IfModule mod_suphp.c>
 					SuPhp_UserGroup apache apache
@@ -1134,7 +1134,7 @@ foreach ($certnamelist as $ip => $certname) {
 			if ($enablecgi) {
 ?>
 		Options +ExecCGI
-		<FilesMatch \.(cgi|pl)$>
+		<FilesMatch \.(cgi|pl|py)$>
 			#<IfModule !mod_fastcgi.c>
 				<IfModule mod_suphp.c>
 					SuPhp_UserGroup <?=$sockuser;?> <?=$sockuser;?>

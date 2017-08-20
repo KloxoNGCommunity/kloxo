@@ -162,7 +162,7 @@ class ServerMail extends lxdb
 
 				$vlist['smtp_relay'] = null;
 
-				$this->postUpdate($subaction);
+			//	$this->postUpdate($subaction);
 
 				break;
 			case "spamdyke":

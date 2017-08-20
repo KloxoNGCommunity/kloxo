@@ -114,6 +114,16 @@ class Servermail__Qmail  extends lxDriverClass
 			lxfile_cp("../file/linux/simcontrol", "/var/qmail/control/");
 			lxshell_return("/var/qmail/bin/simscanmk");
 			lxshell_return("/var/qmail/bin/simscanmk", "-g");
+
+			$cpath = "/var/qmail/supervise/clamd";
+
+			lxfile_mv("{$cpath}/down", "{$cpath}/run");
+			lxfile_mv("{$cpath}/log/down", "{$cpath}/log/run");
+
+			createRestartFile("restart-mail");
+
+			// MR -- clamav for ftp upload file
+			exec("sh /script/pure-ftpd-with-clamav");
 		} else {
 			if (isServiceExists("freshclam")) {
 				exec("chkconfig freshclam off >/dev/null 2>&1");
@@ -122,6 +132,11 @@ class Servermail__Qmail  extends lxDriverClass
 				// MR -- don't need uninstall because possible used by other purpose
 			//	lxshell_return("rpm", "-e", "--nodeps", "clamav");
 			//	lxshell_return("rpm", "-e", "--nodeps", "clamd");
+
+				$cpath = "/var/qmail/supervise/clamd";
+
+				lxfile_mv("{$cpath}/run", "{$cpath}/down");
+				lxfile_mv("{$cpath}/log/run", "{$cpath}/log/down");
 			}
 		}
 

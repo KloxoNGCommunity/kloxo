@@ -1,0 +1,37 @@
+#!/bin/sh
+
+if [ "$(rpm -qa|grep '^clamav')" == "" ] ; then
+	echo "ClamAV not installed. Exit"
+	exit
+fi
+
+if [ "$(grep -i '^calluploadscript' /etc/pure-ftpd/pure-ftpd.conf)" == "" ] ; then
+	echo 'CallUploadScript   yes' >> /etc/pure-ftpd/pure-ftpd.conf
+fi
+
+if [ ! -f /etc/pure-ftpd/clamscan.sh ] ; then
+	echo '- Create /etc/pure-ftpd/clamscan.sh'
+
+	echo '#!/bin/bash' >> /etc/pure-ftpd/clamscan.sh
+	echo '/usr/bin/clamscan --remove --quiet --no-summary "$1"' >> /etc/pure-ftpd/clamscan.sh
+	chmod 755 /etc/pure-ftpd/clamscan.sh
+
+	if [ "$(grep -i '^pure-uploadscript' /etc/rc.local)" == "" ] ; then
+		echo "-- Run 'pure-uploadscript' for 'clamscan.sh'"
+
+		echo "pure-uploadscript -B -r /etc/pure-ftpd/clamscan.sh" >> /etc/rc.local
+	else
+		echo "-- Line of 'pure-uploadscript' string already exists in '/etc/rc.local'"
+	fi
+
+	sh /script/restart-ftp
+else
+	echo "- clamscan.sh file already exists. No need setup process"
+fi
+
+if [ "$(ps aux|grep pure-uploadscript|grep -v grep)" == "" ] ; then
+	echo "- Load 'pure-uploadscript'"
+
+	pure-uploadscript -B -r /etc/pure-ftpd/clamscan.sh
+fi
+
