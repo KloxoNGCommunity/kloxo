@@ -108,7 +108,7 @@ class ServerMail extends lxdb
 			$content = $param['dns_blacklists'];
 			$file = "{$path}/current.spamdyke_rbl.txt";
 
-			file_put_contents($file, $content);
+			lfile_put_contents($file, $content);
 		}
 
 		if ($param['default_blacklist_headers_flag'] === 'on') {
@@ -117,10 +117,10 @@ class ServerMail extends lxdb
 		} else {
 			$content = $param['blacklist_headers'];
 			$file = "{$path}/current.spamdyke_blacklist_headers.txt";
-			file_put_contents($file, $content);
+			lfile_put_contents($file, $content);
 		}
 
-		file_put_contents('/var/qmail/spamdyke/blacklist_headers', $content);
+		lfile_put_contents('/var/qmail/spamdyke/blacklist_headers', $content);
 		exec('chown qmaild:qmail /var/qmail/spamdyke/blacklist_headers');
 
 		return $param;

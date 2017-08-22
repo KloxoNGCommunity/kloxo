@@ -380,11 +380,11 @@ class serverweb__ extends lxDriverClass
 			if ($a === '') { $a = 'prefork'; }
 
 		//	exec("echo 'LoadModule mpm_{$a}_module modules/mod_mpm_{$a}.so' >/etc/httpd/conf.modules.d/00-mpm.conf");
-			file_put_contents("/etc/httpd/conf.modules.d/00-mpm.conf",
+			lfile_put_contents("/etc/httpd/conf.modules.d/00-mpm.conf",
 				"LoadModule mpm_{$a}_module modules/mod_mpm_{$a}.so");
 		} else {
 		//	exec("echo 'HTTPD=/usr/sbin/httpd{$a}' >/etc/sysconfig/httpd");
-			file_put_contents("/etc/sysconfig/httpd.conf", "HTTPD=/usr/sbin/httpd{$a}");
+			lfile_put_contents("/etc/sysconfig/httpd.conf", "HTTPD=/usr/sbin/httpd{$a}");
 		}
 
 		$scripting = '/script/fixweb';
@@ -541,7 +541,7 @@ class serverweb__ extends lxDriverClass
 			$b .= "sh /script/fixphp\n";
 			$b .= "'rm' -f {$c}\n";
 
-			file_put_contents($c, $b);
+			lfile_put_contents($c, $b);
 
 			lxshell_background("sh", $c);
 

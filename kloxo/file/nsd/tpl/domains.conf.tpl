@@ -38,6 +38,8 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
+            $value = trim($value, '.');
+
             if ($key === $value) {
                 $key = '@';
             } else {
@@ -62,6 +64,8 @@ foreach($dns_records as $k => $o) {
             $key = '@';
             $priority = $o->priority;
             $value = $o->param;
+
+            $value = trim($value, '.');
 ?>
 <?php echo $key; ?> IN MX <?php echo $priority; ?> <?php echo $value; ?>.
 <?php
@@ -95,6 +99,8 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
+            $value = trim($value, '.');
+
             if ($key === "__base__") {
                 $key = '@';
             }
@@ -121,6 +127,8 @@ foreach($dns_records as $k => $o) {
         case "fcname":
             $key = $o->hostname;
             $value = $o->param;
+
+            $value = trim($value, '.');
 
             if ($key === "__base__") {
                 $key = '@';

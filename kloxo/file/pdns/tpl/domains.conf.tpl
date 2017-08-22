@@ -61,6 +61,8 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
+            $value = trim($value, '.');
+
             if ($key === $value) {
                 $key = $domainname;
             } else {
@@ -83,6 +85,8 @@ foreach($dns_records as $k => $o) {
             $key = $domainname;
             $value = $o->param;
             $prio = $o->priority;
+
+            $value = trim($value, '.');
 
             $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
                 "VALUES ('{$domain_id}', '{$key}', '{$value}', 'MX', '{$ttl}', '{$prio}');");
@@ -122,6 +126,8 @@ foreach($dns_records as $k => $o) {
             $value = $o->param;
             $key .= ".{$domainname}";
 
+            $value = trim($value, '.');
+
             if (isset($arecord[$value])) {
                 $rvalue = $arecord[$value];
 
@@ -143,6 +149,8 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
             $key .= ".{$domainname}";
+
+            $value = trim($value, '.');
 
             if ($value !== "__base__") {
                 if (strpos($value, ".") !== false) {

@@ -355,7 +355,7 @@ class General extends Lxdb
 
 			$cmd = "/tmp/kloxo-restart.sh";
 			$text = "sh /script/restart; 'rm' -f {$cmd}";
-			file_put_contents($cmd, $text);
+			lfile_put_contents($cmd, $text);
 
 			lxshell_background("sh", $cmd);
 			$ghtml->print_redirect_self("{$scheme}://{$domain}:{$port}/display.php?frm_action=show");

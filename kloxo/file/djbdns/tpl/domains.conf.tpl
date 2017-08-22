@@ -28,6 +28,8 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
+            $value = trim($value, '.');
+
             if ($key === $value) {
                 $key = $domainname;
             } else {
@@ -49,6 +51,8 @@ foreach($dns_records as $k => $o) {
         case "mx":
             $value = $o->param;
             $priority = $o->priority;
+
+            $value = trim($value, '.');
 ?>
 @<?php echo $domainname; ?>::<?php echo $value; ?>:<?php echo $priority; ?>:<?php echo $ttl; ?>
 
@@ -107,6 +111,8 @@ foreach($dns_records as $k => $o) {
             $key = $o->hostname;
             $value = $o->param;
 
+            $value = trim($value, '.');
+
             if (isset($arecord[$value])) {
                 $rvalue = $arecord[$value];
 
@@ -147,6 +153,8 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
         case "fcname":
             $key = $o->hostname;
             $value = $o->param;
+
+            $value = trim($value, '.');
 
             if ($value !== "__base__") {
                 $value = $value;

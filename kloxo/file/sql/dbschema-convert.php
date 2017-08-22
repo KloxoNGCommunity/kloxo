@@ -32,7 +32,7 @@ function dbschema_to_phpvar()
 */
 	$v = var_export($u, true);
 
-	file_put_contents("$p/db_schema.php", '<' . '?php' . "\n" . "\$var = " . $v . ';');
+	lfile_put_contents("$p/db_schema.php", '<' . '?php' . "\n" . "\$var = " . $v . ';');
 }
 
 
