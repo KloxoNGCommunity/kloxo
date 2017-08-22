@@ -528,7 +528,7 @@ function PreparePowerdnsDb($nolog = null)
 
 	log_cleanup("- Add Password to configuration file", $nolog);
 
-	lfile_put_contents($tfile, $content);
+	file_put_contents($tfile, $content);
 }
 
 function PrepareMyDnsDb($nolog = null)
@@ -574,7 +574,7 @@ function PrepareMyDnsDb($nolog = null)
 
 	log_cleanup("- Add Password to configuration file", $nolog);
 
-	lfile_put_contents($tfile, $content);
+	file_put_contents($tfile, $content);
 
 	$mydns = null;
 
@@ -4106,7 +4106,7 @@ function fprint($var, $type = 0)
 
 	$string = var_export($var, true);
 
-	lfile_put_contents("file.txt", $string . "\n", FILE_APPEND);
+	file_put_contents("file.txt", $string . "\n", FILE_APPEND);
 }
 
 function print_and_exit($rem)
@@ -4830,8 +4830,8 @@ function lxguard_main($clearflag = false, $since = false)
 	exec("/usr/bin/qmailctl cdb");
 
 	// MR -- no need this action where enough 'route host'
-	lfile_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
-//	lfile_put_contents('/var/qmail/spamdyke/blacklist_ip', '');
+	file_put_contents('/var/qmail/spamdyke/blacklist_ip', $str_spamdyke);
+//	file_put_contents('/var/qmail/spamdyke/blacklist_ip', '');
 
 	if ($clearflag) {
 		lxfile_rm("{$lxgpath}/access.info");
@@ -6558,7 +6558,7 @@ function install_bogofilter($nolog = null)
 
 	lxfile_rm($wordlist);
 	$content = file_get_contents("http://download.lxcenter.org/download/wordlist.db");
-	lfile_put_contents($wordlist, $content);
+	file_put_contents($wordlist, $content);
 	lxfile_unix_chown_rec($dir, "lxpopuser:lxpopgroup");
 	lxfile_cp($wordlist, $kloxo_wordlist);
 }

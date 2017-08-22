@@ -85,7 +85,7 @@ class dns__ extends lxDriverClass
 				} else {
 					$tplparse = getParseInlinePhp($tpl, $input);
 
-					lfile_put_contents($tpltarget, $tplparse);
+					file_put_contents($tpltarget, $tplparse);
 				}
 			}
 		}

@@ -74,7 +74,7 @@ function check_for_debug($file)
 	global $gbl, $sgbl, $login, $ghtml;
 	if (file_exists(getreal($file))) {
 		// MR -- fix if file have LF
-		$content = lfile_get_contents(getreal($file));
+		$content = file_get_contents(getreal($file));
 		$sgbl->dbg = $content[0];
 		if ($sgbl->dbg != "1" && $sgbl->dbg != "2" && $sgbl->dbg != "3" && $sgbl->dbg != "4" && $sgbl->dbg != "5") {
 			$sgbl->dbg = -1;
@@ -143,7 +143,7 @@ function findOperatingSystem($type = null)
 {
 	if (file_exists("/etc/fedora-release")) {
 		$ret['os'] = 'fedora';
-		$ret['version'] = lfile_get_contents("/etc/fedora-release");
+		$ret['version'] = file_get_contents("/etc/fedora-release");
 		$ret['pointversion'] = find_os_pointversion();
 	} else if (file_exists("/etc/redhat-release")) {
 		$ret['os'] = 'rhel';
@@ -519,9 +519,6 @@ function new_process_cmd($user, $dir, $cmd)
 function lfile_put_contents($file, $data, $flag = null)
 {
 	$file = expand_real_root($file);
-	
-	// MR -- replace DOS to Linux file format
-	$data = str_replace("\r", "", $data);
 
 	if (is_soft_or_hardlink($file)) {
 		log_log("link_error", "$file is hard or symlink. Not writing\n");
@@ -538,7 +535,7 @@ function lfile_put_contents($file, $data, $flag = null)
 	if (file_exists($file)) {
 		if (is_readable($file)){
 			if(is_writable($file)) {
-				return lfile_put_contents($file, $data, $flag);
+				return file_put_contents($file, $data, $flag);
 			} else{
 				$error_msg = 'Could not write the file \''.$file.'\' with permissions: '.substr(sprintf('%o', fileperms($file)), -4);
 				dprint($error_msg);

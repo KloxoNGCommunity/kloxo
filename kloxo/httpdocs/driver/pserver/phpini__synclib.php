@@ -62,7 +62,7 @@ class phpini__sync extends Lxdriverclass
 
 			$phpini_parse = getParseInlinePhp($phpini_cont, $input);
 			$phpini_target = '/etc/php.ini';
-			lfile_put_contents($phpini_target, $phpini_parse);
+			file_put_contents($phpini_target, $phpini_parse);
 
 			$fcgid_target_old = '/home/kloxo/client/*.fcgi';
 			@exec("'rm' -f {$fcgid_target_old}");
@@ -70,7 +70,7 @@ class phpini__sync extends Lxdriverclass
 			$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 			$fcgid_target = '/home/kloxo/client/php.fcgi';
 
-			lfile_put_contents($fcgid_target, $fcgid_parse);
+			file_put_contents($fcgid_target, $fcgid_parse);
 
 		//	exec("'cp' -f /opt/configs/apache/tpl/php*.fcgi /home/kloxo/client");
 			lxfile_unix_chmod($fcgid_target, "0755");
@@ -78,13 +78,13 @@ class phpini__sync extends Lxdriverclass
 			$suphp_parse = getParseInlinePhp($suphp_cont, $input);
 			$suphp_target = '/etc/suphp.conf';
 
-			lfile_put_contents($suphp_target, $suphp_parse);
+			file_put_contents($suphp_target, $suphp_parse);
 	
 			$suphp2_parse = getParseInlinePhp($suphp2_cont, $input);
 			$suphp2_target = '/etc/httpd/conf.d/suphp2.conf';
 
 			if (file_exists($suphp2_target)) {
-				lfile_put_contents($suphp2_target, $suphp2_parse);
+				file_put_contents($suphp2_target, $suphp2_parse);
 			}
 
 			if (!file_exists("/opt/configs/php-fpm/sock")) {
@@ -110,7 +110,7 @@ class phpini__sync extends Lxdriverclass
 
 				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 				$fcgid_target = "/home/kloxo/client/{$w}.fcgi";
-				lfile_put_contents($fcgid_target, $fcgid_parse);
+				file_put_contents($fcgid_target, $fcgid_parse);
 
 				lxfile_unix_chmod($fcgid_target, "0755");
 
@@ -134,14 +134,14 @@ class phpini__sync extends Lxdriverclass
 					$phpfpm_target_global_post = "{$path}/php-fpm_post.conf";
 
 					$phpfpm_parse_global_pre = getParseInlinePhp($phpfpm_global_pre, $input);
-					lfile_put_contents($phpfpm_target_global_pre, $phpfpm_parse_global_pre);
+					file_put_contents($phpfpm_target_global_pre, $phpfpm_parse_global_pre);
 
 					$phpfpm_parse_global_post = getParseInlinePhp($phpfpm_global_post, $input);
 					file_put_contents($phpfpm_target_global_post, $phpfpm_parse_global_post);
 
 					// MR -- don't move after 'merge' .conf
 					$phpfpm_parse_default = getParseInlinePhp($phpfpm_default, $input);
-					lfile_put_contents($phpfpm_target_default, $phpfpm_parse_default);
+					file_put_contents($phpfpm_target_default, $phpfpm_parse_default);
 
 					exec("cat {$phpfpm_target_global_pre} {$path}/php-fpm.d/*.conf {$phpfpm_target_global_post} > {$path}/php-fpm.conf");
 				} else {
@@ -151,7 +151,7 @@ class phpini__sync extends Lxdriverclass
 					$phpfpm_target_global = "{$path}/php-fpm.conf";
 
 					$phpfpm_parse_global = getParseInlinePhp($phpfpm_global, $input);
-					lfile_put_contents($phpfpm_target_global, $phpfpm_parse_global);
+					file_put_contents($phpfpm_target_global, $phpfpm_parse_global);
 
 					$phpfpm_parse_default = getParseInlinePhp($phpfpm_default, $input);
 					file_put_contents($phpfpm_target_default, $phpfpm_parse_default);
@@ -178,14 +178,14 @@ class phpini__sync extends Lxdriverclass
 
 				$phpini_parse = getParseInlinePhp($phpini_cont, $input);
 				$phpini_target = "/home/kloxo/client/{$user}/php.ini";
-				lfile_put_contents($phpini_target, $phpini_parse);
+				file_put_contents($phpini_target, $phpini_parse);
 
 				$fcgid_target_old = "/home/kloxo/client/{$user}/*.fcgi";
 				@exec("'rm' -f {$fcgid_target_old}");
 
 				$fcgid_parse = getParseInlinePhp($fcgid_cont, $input);
 				$fcgid_target = "/home/kloxo/client/{$user}/php.fcgi";
-				lfile_put_contents($fcgid_target, $fcgid_parse);
+				file_put_contents($fcgid_target, $fcgid_parse);
 
 				lxfile_unix_chmod($fcgid_target, "0755");
 
@@ -213,12 +213,12 @@ class phpini__sync extends Lxdriverclass
 
 					$phpfpm_parse = getParseInlinePhp($phpfpm_cont, $input);
 
-					lfile_put_contents($phpfpm_target, $phpfpm_parse);
+					file_put_contents($phpfpm_target, $phpfpm_parse);
 				}
 
 				$prefork_parse = getParseInlinePhp($prefork_cont, $input);
 				$prefork_target = "/home/kloxo/client/{$user}/prefork.inc";
-				lfile_put_contents($prefork_target, $prefork_parse);
+				file_put_contents($prefork_target, $prefork_parse);
 			}
 		}
 

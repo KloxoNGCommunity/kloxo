@@ -98,7 +98,7 @@ class Sendmailban extends Lxdb
 			
 		}
 
-		lfile_put_contents('/var/qmail/control/badsendmailfrom', $s);
+		file_put_contents('/var/qmail/control/badsendmailfrom', $s);
 	}
 }
 

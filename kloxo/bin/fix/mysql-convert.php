@@ -197,7 +197,7 @@ function setMysqlConvert($engine, $database, $table, $config, $utf8)
 				$string_collect = str_replace($string_source, $string_replace, $string_collect);
 
 				if (file_exists($mycnf)) {
-					lfile_put_contents($mycnf, $string_collect);
+					file_put_contents($mycnf, $string_collect);
 				}
 			}
 		}

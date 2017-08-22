@@ -15,7 +15,7 @@ class sshauthorizedkey__sync extends Lxdriverclass
 
 		$f = "/root/.ssh/{$username}.authorized_keys";
 
-		lfile_put_contents($f, $key);
+		file_put_contents($f, $key);
 
 	//	lxuser_chmod($username, $f, "0644");
 
@@ -42,7 +42,7 @@ class sshauthorizedkey__sync extends Lxdriverclass
 			$t .= "User " . $z[0] . "\n\n";
 		}
 
-		lfile_put_contents("/root/.ssh/config", $t);
+		file_put_contents("/root/.ssh/config", $t);
 	}
 
 	static function readAuthorizedKey($username)
@@ -75,7 +75,7 @@ class sshauthorizedkey__sync extends Lxdriverclass
 			$s = file_get_contents("{$f}2");
 			$s = "\n{$s}\n";
 		//	lfile_put_contents($username, $f, $s, FILE_APPEND);
-			lfile_put_contents($f, $s);
+			file_put_contents($f, $s);
 			lunlink("{$f}2");
 		}
 

@@ -229,7 +229,7 @@ class web__ extends lxDriverClass
 		$tplparse = getParseInlinePhp($tpl, $input);
 
 		if (!file_exists($tpltarget)) {
-			lfile_put_contents($tpltarget, $tplparse);
+			file_put_contents($tpltarget, $tplparse);
 		}
 	}
 
@@ -254,7 +254,7 @@ class web__ extends lxDriverClass
 			$tpltarget = "/etc/php-fpm.conf";
 			$tpl = file_get_contents($tplsource);
 			$tplparse = getParseInlinePhp($tpl, $input);
-			lfile_put_contents($tpltarget, $tplparse);
+			file_put_contents($tpltarget, $tplparse);
 		} else {
 			if ($forwhat === 'add') {
 				self::addPhpFpmConfig($foruser);
@@ -283,7 +283,7 @@ class web__ extends lxDriverClass
 				$tpltarget = "/etc/php-fpm.d/{$user}.conf";
 				$tplparse = getParseInlinePhp($tpl, $input);
 
-				lfile_put_contents($tpltarget, $tplparse);
+				file_put_contents($tpltarget, $tplparse);
 			}
 
 			// MR - for 'default' user
@@ -427,7 +427,7 @@ class web__ extends lxDriverClass
 					$tplparse = getParseInlinePhp($tpl, $input);
 
 					if ($tplparse) {
-						lfile_put_contents("{$tpltarget}/{$conffile}", $tplparse);
+						file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
 					}
 				}
 			} else {
@@ -438,7 +438,7 @@ class web__ extends lxDriverClass
 				$tplparse = getParseInlinePhp($tpl, $input);
 
 				if ($tplparse) {
-					lfile_put_contents("{$tpltarget}/{$conffile}", $tplparse);
+					file_put_contents("{$tpltarget}/{$conffile}", $tplparse);
 				}
 			}
 
@@ -462,7 +462,7 @@ class web__ extends lxDriverClass
 					$tplparse = getParseInlinePhp($tpl, $input);
 
 					if ($tplparse) {
-						lfile_put_contents("{$tpltarget}", $tplparse);
+						file_put_contents("{$tpltarget}", $tplparse);
 					}
 				}
 			}
@@ -1045,7 +1045,7 @@ class web__ extends lxDriverClass
 		$tplparse = getParseInlinePhp($tpl, $input);
 
 		if ($tplparse) {
-			lfile_put_contents($tpltarget, $tplparse);
+			file_put_contents($tpltarget, $tplparse);
 
 			lxfile_unix_chmod($tpltarget, '755');
 		}
@@ -1071,7 +1071,7 @@ class web__ extends lxDriverClass
 		$tplparse = getParseInlinePhp($tpl, $input);
 
 		if ($tplparse) {
-			lfile_put_contents($tpltarget, $tplparse);
+			file_put_contents($tpltarget, $tplparse);
 
 			lxfile_generic_chmod($tpltarget, "755");
 		}
@@ -1084,7 +1084,7 @@ class web__ extends lxDriverClass
 
 		$tplparse = getParseInlinePhp($tpl, $input);
 
-		lfile_put_contents($tpltarget, $tplparse);
+		file_put_contents($tpltarget, $tplparse);
 
 		lxfile_generic_chmod($tpltarget, "755");
 	}
