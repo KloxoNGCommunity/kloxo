@@ -136,6 +136,11 @@ class ServerMail extends lxdb
 
 			//	if (csa($this->getParentO()->osversion, " 5")) {
 					$vlist['domainkey_flag'] = null;
+
+					if (!$this->virus_scan_flag) {
+						$this->virus_scan_flag = 'off';
+					}
+
 					$vlist['virus_scan_flag'] = null;
 
 					if (!$this->max_size) {

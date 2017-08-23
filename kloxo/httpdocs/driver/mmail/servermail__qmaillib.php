@@ -94,7 +94,8 @@ class Servermail__Qmail  extends lxDriverClass
 			lfile_put_contents("/var/qmail/control/smtproutes", $this->main->smtp_relay);
 		}
 
-		if ($this->main->isOn('virus_scan_flag')) {
+	//	if ($this->main->isOn('virus_scan_flag')) {
+		if ($this->main->virus_scan_flag == 'on') {
 			$ret = lxshell_return("rpm", "-q", "simscan-toaster");
 
 			if ($ret) {
@@ -137,6 +138,9 @@ class Servermail__Qmail  extends lxDriverClass
 
 				lxfile_mv("{$cpath}/run", "{$cpath}/down");
 				lxfile_mv("{$cpath}/log/run", "{$cpath}/log/down");
+
+				// MR -- clamav for ftp upload file
+				exec("sh /script/pure-ftpd-without-clamav")
 			}
 		}
 
