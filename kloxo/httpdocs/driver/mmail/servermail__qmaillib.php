@@ -140,7 +140,7 @@ class Servermail__Qmail  extends lxDriverClass
 				lxfile_mv("{$cpath}/log/run", "{$cpath}/log/down");
 
 				// MR -- clamav for ftp upload file
-				exec("sh /script/pure-ftpd-without-clamav")
+				exec("sh /script/pure-ftpd-without-clamav");
 			}
 		}
 
