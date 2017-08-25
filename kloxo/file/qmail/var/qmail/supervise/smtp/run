@@ -52,7 +52,7 @@ if [ -f /var/qmail/control/softlimit ] ; then
 	### MR -- softlimit file must content with '/usr/bin/softlimit -m SOFTLIMITVAR'
 	### where SOFTLIMITVAR is 72000000 for 64bit and 18000000
 	### Note: incresing SOFTLIMITVAR if not enough (example: because 'login fail')
-	SOFTLIMIT=$(cat /var/qmail/control/softlimit)
+	SOFTLIMIT=$(cat /var/qmail/control/softlimit|tr '\r' ' '|tr '\n' ' ')
 else
 	SOFTLIMIT=""
 fi

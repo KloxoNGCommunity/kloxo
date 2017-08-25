@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo "*** Run 'kexec' (for fast reboot) ***"
+
+
+if [ "$(sh /script/virtual-info -t)" == "container" ] ; then
+	echo '- Not work in Container-type VPS (like OpenVZ)'
+	exit
+fi
+
+if [ "$(rpm -qa kexec-tools)" == "" ] ; then
+	echo "- Install 'kexec-tools'"
+	yum install kexec-tools -y
+fi
+
+if [ "${1}" != "" ] ; then
+	KV=${1}
+else
+	VM=$(ls /boot/ | grep vmlinuz|tail -n 1)
+	KV=${VM#vmlinuz-}
+fi
+
+PC=$(cat /proc/cmdline)
+
+kexec -l --append="${PC}" --initrd=/boot/initramfs-${KV}.img /boot/vmlinuz-${KV}
+kexec -e

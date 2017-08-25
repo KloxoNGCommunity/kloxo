@@ -125,3 +125,8 @@ ErrorHandler = 501:/error/501.html
 #ErrorHandler = 502:/error/502.html
 ErrorHandler = 503:/error/503.html
 #ErrorHandler = 504:/error/504.html
+
+CustomHeader = X-Content-Type-Options:nosniff
+CustomHeader = X-XSS-Protection:1;mode=block
+CustomHeader = X-Frame-Options:SAMEORIGIN
+CustomHeader = Access-Control-Allow-Origin:*
