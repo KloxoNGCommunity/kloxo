@@ -1,0 +1,4 @@
+#!/bin/sh
+
+. /script/directory
+lxphp.exe ../bin/fix/fix-pdns-db.php $*

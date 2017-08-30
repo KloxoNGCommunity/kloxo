@@ -428,9 +428,9 @@ class ClientBase extends ClientCore
 
 		$alist['__title_amisc'] = $login->getKeywordUc('misc');
 
-		if (!$this->isLogin()) {
+	//	if (!$this->isLogin()) {
 			$alist['__v_dialog_disa'] = "a=updateform&sa=disable_per";
-		}
+	//	}
 
 		if ($login->priv->isOn('logo_manage_flag') && $this->isLogin()) {
 			$alist['__v_dialog_uplo'] = "o=sp_specialplay&a=updateform&sa=upload_logo";

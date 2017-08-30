@@ -660,9 +660,9 @@ class Client extends ClientBase
 		$alist[] = "a=list&c=blockedip";
 		$alist[] = "a=show&o=notification";
 
-		if (!$this->isLogin()) {
+	//	if (!$this->isLogin()) {
 			$alist['__v_dialog_disa'] = "a=updateform&sa=disable_per";
-		}
+	//	}
 
 		// temporary, only for admin
 		if ($this->isAdmin()) {

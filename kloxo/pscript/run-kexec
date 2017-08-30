@@ -16,7 +16,7 @@ fi
 if [ "${1}" != "" ] ; then
 	KV=${1}
 else
-	VM=$(ls /boot/ | grep vmlinuz|tail -n 1)
+	VM=$(ls /boot/ | grep vmlinuz | tail -n 1)
 	KV=${VM#vmlinuz-}
 fi
 

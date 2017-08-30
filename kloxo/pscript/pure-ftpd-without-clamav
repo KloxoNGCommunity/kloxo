@@ -6,7 +6,7 @@ if [ "$(grep -i '^calluploadscript' /etc/pure-ftpd/pure-ftpd.conf)" != "" ] ; th
 fi
 
 if [ "$(grep -i '^pure-uploadscript' /etc/rc.local)" != "" ] ; then
-	echo "- Remove 'calluploadscript' line from '/etc/rc.local'"
+	echo "- Remove 'pure-uploadscript' line from '/etc/rc.local'"
 	sed -i '/^pure-uploadscript/ld' /etc/rc.local
 fi
 

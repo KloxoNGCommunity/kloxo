@@ -191,6 +191,8 @@ $portnip = "Define port {$ports[0]}\nDefine portssl {$ports[1]}\nDefine ip {$tmp
 
 file_put_contents("{$globalspath}/portnip.conf", $portnip);
 
+$portnip_conf = getLinkCustomfile($globalspath, "portnip.conf");
+
 $defaultdocroot = "/home/kloxo/httpd/default";
 
 if ($indexorder) {
@@ -225,7 +227,7 @@ foreach ($certnamelist as $ip => $certname) {
 </IfVersion>
 
 <IfVersion >= 2.4>
-	Include "<?=$globalspath;?>/portnip.conf"
+	Include "<?=$portnip_conf;?>"
 </IfVersion>
 
 Listen ${ip}:${port}
