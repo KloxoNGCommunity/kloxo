@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "*** Process for enable service ***"
+
+if [ "${1}" != "" ] ; then
+	echo "- Enable '${1}' service"
+
+	if [ "$(command -v systemctl)" != "" ] ; then
+		if [ "$(systemctl list-unit-files|grep ^${1}.service)" != "" ] ; then
+			systemctl enable ${1} >/dev/null 2>&1
+			systemctl daemon-reload >/dev/null 2>&1
+		else
+			chkconfig ${1} on 2>/dev/null
+		fi
+	else
+		chkconfig ${1} on 2>/dev/null
+	fi
+
+	service ${1} restart 2>/dev/null
+else
+	echo "- Format: ${0} <servicename>"
+fi

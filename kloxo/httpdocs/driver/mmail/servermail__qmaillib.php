@@ -108,10 +108,16 @@ class Servermail__Qmail  extends lxDriverClass
 
 			// MR -- clamav from epel use clamd instead clamav init
 			if (isServiceExists("freshclam")) {
-				exec("chkconfig freshclam on >/dev/null 2>&1");
-				os_service_manage("freshclam", "restart");
+			//	exec("chkconfig freshclam on >/dev/null 2>&1");
+			//	os_service_manage("freshclam", "restart");
+				exec("sh /script/enable-service freshclam");
 			}
 	
+			// MR -- clamav from epel use clamd instead clamav init
+			if (isServiceExists("clamd")) {
+				exec("sh /script/disable-service clamd");
+			}
+
 			lxfile_cp("../file/linux/simcontrol", "/var/qmail/control/");
 			lxshell_return("/var/qmail/bin/simscanmk");
 			lxshell_return("/var/qmail/bin/simscanmk", "-g");
@@ -126,13 +132,16 @@ class Servermail__Qmail  extends lxDriverClass
 			// MR -- clamav for ftp upload file
 			exec("sh /script/pure-ftpd-with-clamav");
 		} else {
-			if (isServiceExists("freshclam")) {
+		//	if (isServiceExists("freshclam")) {
 				exec("chkconfig freshclam off >/dev/null 2>&1");
 				os_service_manage("freshclam", "stop");
+				exec("chkconfig clamd off >/dev/null 2>&1");
+				os_service_manage("clamd", "stop");
 
-				// MR -- don't need uninstall because possible used by other purpose
 			//	lxshell_return("rpm", "-e", "--nodeps", "clamav");
 			//	lxshell_return("rpm", "-e", "--nodeps", "clamd");
+				lxshell_return("yum", "remove", "-y", "clamav", "clamd");
+				lxshell_return("yum", "remove", "-y", "simscan-toaster");
 
 				$cpath = "/var/qmail/supervise/clamd";
 
@@ -141,7 +150,7 @@ class Servermail__Qmail  extends lxDriverClass
 
 				// MR -- clamav for ftp upload file
 				exec("sh /script/pure-ftpd-without-clamav");
-			}
+		//	}
 		}
 
 		if ($this->main->max_size) {

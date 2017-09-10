@@ -128,7 +128,7 @@ FastCGIserver {
 	FastCGIid = cgi_apache
 
 	ConnectTo = /tmp/fcgiwrap.sock
-	Extension = pl,cgi
+	Extension = pl,cgi,py,rb,shtml
 	SessionTimeout = <?=$timeout;?>
 
 }

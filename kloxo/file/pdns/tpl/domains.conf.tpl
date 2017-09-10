@@ -44,7 +44,7 @@ $expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
 $minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 3600;
 
 if (!$rowid) {
-    $conn->query("INSERT INTO domains (name,type) values('$domainname', 'MASTER');");
+    $conn->query("INSERT INTO domains (name,type) values('{$domainname}', 'MASTER');");
     $domain_id = $conn->insert_id;
 } else {
     $domain_id = $rowid;
@@ -52,8 +52,8 @@ if (!$rowid) {
 
 $soa = "{$nameserver} {$email} {$serial} {$refresh} {$retry} {$expire} {$minimum}";
 
-$conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-    "VALUES ('$domain_id', '{$domainname}', '{$soa}', 'SOA', '$ttl', 'NULL');");
+$conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+    "VALUES ('{$domain_id}', '{$domainname}', 'SOA', '{$soa}', '{$ttl}', NULL);");
 
 foreach($dns_records as $k => $o) {
     switch ($o->ttype) {
@@ -77,8 +77,8 @@ foreach($dns_records as $k => $o) {
                 }
             }
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$value}', 'NS', '{$ttl}', 'NULL');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'NS', '{$value}', '{$ttl}', NULL);");
 
             break;
         case "mx":
@@ -88,8 +88,8 @@ foreach($dns_records as $k => $o) {
 
             $value = trim($value, '.');
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$value}', 'MX', '{$ttl}', '{$prio}');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'MX', '{$value}', '{$ttl}', '{$prio}');");
 
             break;
         case "a":
@@ -102,8 +102,8 @@ foreach($dns_records as $k => $o) {
                 $key = $domainname;
             }
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$value}', 'A', '{$ttl}', 'NULL');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'A', '{$value}', '{$ttl}', NULL);");
 
             break;
         case "aaaa":
@@ -116,8 +116,8 @@ foreach($dns_records as $k => $o) {
                 $key = $domainname;
             }
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$value}', 'AAAA', '{$ttl}', 'NULL');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'AAAA', '{$value}', '{$ttl}', NULL);");
 
             break;
         case "cn":
@@ -131,8 +131,8 @@ foreach($dns_records as $k => $o) {
             if (isset($arecord[$value])) {
                 $rvalue = $arecord[$value];
 
-                $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
-                    "VALUES ('{$domain_id}', '{$key}', '{$rvalue}', 'A', '{$ttl}', 'NULL');");
+                $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                    "VALUES ('{$domain_id}', '{$key}', 'A', '{$rvalue}', '{$ttl}', NULL);");
             } else {
                 if ($value !== "__base__") {
                     $value = "{$value}.{$domainname}";
@@ -140,8 +140,8 @@ foreach($dns_records as $k => $o) {
                     $value = $domainname;
                 }
 
-                $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) ".
-                    "VALUES ('{$domain_id}', '{$key}', '{$value}', 'CNAME', '{$ttl}', 'NULL');");
+                $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                    "VALUES ('{$domain_id}', '{$key}', 'CNAME', '{$value}', '{$ttl}', NULL);");
             }
 
             break;
@@ -162,8 +162,8 @@ foreach($dns_records as $k => $o) {
                 $value = $domainname;
             }
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$value}', 'CNAME', '{$ttl}', 'NULL');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'CNAME', '{$value}', '{$ttl}', NULL);");
 
             break;
         case "txt":
@@ -182,13 +182,13 @@ foreach($dns_records as $k => $o) {
             $value = str_replace("__base__", $domainname, $value);
             $value = '"' . $value . '"';
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$value}', 'TXT', '{$ttl}', 'NULL');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'TXT', '{$value}', '{$ttl}', NULL);");
 
         /*
             if (strpos($value, "v=spf1") !== false) {
-                $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                    "VALUES ('{$domain_id}', '{$key}', '{$value}', 'SPF', '{$ttl}', 'NULL');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                    "VALUES ('{$domain_id}', '{$key}', 'SPF', '{$value}', '{$ttl}', NULL);");
             }
         */
             break;
@@ -209,8 +209,8 @@ foreach($dns_records as $k => $o) {
 
             $value = '"' . $value . '"';
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$flag} {$tag} {$value}', 'CAA', '{$ttl}', 'NULL');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'CAA', '{$flag} {$tag} {$value}', '{$ttl}', NULL);");
 
             break;
         case "srv":
@@ -231,17 +231,17 @@ foreach($dns_records as $k => $o) {
 
             $value = '"' . $value . '"';
 
-            $conn->query("INSERT INTO records (domain_id, name, content, type, ttl, prio) " .
-                "VALUES ('{$domain_id}', '{$key}', '{$weight} {$port} {$value}', 'SRV', '{$ttl}', '{$prio}');");
+            $conn->query("INSERT INTO records (domain_id, name, type, content, ttl, prio) " .
+                "VALUES ('{$domain_id}', '{$key}', 'SRV', '{$weight} {$port} {$value}', '{$ttl}', '{$prio}');");
 
     }
 }
 
 $conn->query("INSERT INTO domainmetadata (domain_id, kind, content) " .
-    "VALUES ('{$domain_id}', 'ALLOW-AXFR-FROM', 'AUTO-NS');");
+    "VALUES ({$domain_id}, 'ALLOW-AXFR-FROM', 'AUTO-NS');");
 
 $conn->query("INSERT INTO zones (domain_id, owner) " .
-    "VALUES ('{$domain_id}', '1');");
+    "VALUES ('{$domain_id}', 1);");
 
 // MR -- account not implementing yet; importance for poweradmin to multiple use!
 $account = 'admin';
