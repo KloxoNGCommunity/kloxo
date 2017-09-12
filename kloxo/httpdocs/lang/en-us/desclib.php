@@ -817,7 +817,7 @@ $__description["enable_maps_protection"] = array("Enable Maps Protection");
 $__description["enable_spamdyke"] = array("Enable Spamdyke");
 $__description["enable_domainkey"] = array("Enable Domainkey (DKIM)");
 $__description["max_smtp_instances"] = array("Max SMTP Instances");
-$__description["max_mail_attachment_size"] = array("Max Mail Attachment Size(in bytes)");
+$__description["max_mail_attachment_size"] = array("Max Mail Attachment Size (in bytes)");
 $__description["additional_smtp_port"] = array("Additional SMTP Port");
 $__description["alt_smtp_sdyke"] = array("Spamdyke on Additional SMTP Port");
 $__description["enable_virus_scan"] = array("Enable Virus Scan");
@@ -1467,4 +1467,4 @@ $__description["kloxo_wrapper"] = array("Select wrapper");
 
 $__description["enable_php52m_fpm"] = array("Enable PHP52m as FPM (only 'static' PM)");
 
-
+$__description["send_limit"] = array("Send Limit (per-account per-day)");

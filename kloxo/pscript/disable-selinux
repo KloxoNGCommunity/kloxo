@@ -1,0 +1,16 @@
+#!/bin/sh
+
+echo "*** Disable SELinux (in 'disabled' mode)"
+
+if [ "$(sh /script/virtual-info -t)" == "container" ] ; then
+	echo "- Not work in Container-type VPS (like OpenVZ)"
+	exit
+fi
+
+if [ "$(cat /etc/selinux/config|grep -i '^SELINUX=')" != "" ] ; then
+	echo "- Change SELinux to 'disabled'"
+	sed -i '/^SELINUX=/d' /etc/selinux/config
+	echo -e "SELINUX=disabled" > /etc/selinux/config
+	# don't need reboot
+	echo 0 > /selinux/enforce
+fi

@@ -1,0 +1,100 @@
+#!/bin/sh
+
+# Qmail Toaster AntiSpam - qmail limit number of emails sent by user by day
+# PseudoAntiSpam - Fake Antispam - Toxic Antispam - LogBased Antispam
+# Prevent when an attacker steal a user password and abuse the server.
+#
+# This script limit the number of emails sent per user per day. If the user reached a maximum preset,
+# the script will change the password and an email is sent to the administrator.
+#
+# To install:
+# 1 - Save and execute permissions to this script as: /home/vpopmail/bin/qmail-antispam
+# 2 - Create this file: /etc/qmailadmin/qmail-spam/blacklist
+# 3 - In the crontab add
+# * / 5 **** /home/vpopmail/bin/qmail-antispam >> /var/log/maillog 2>&1
+#
+#
+# Review the logs so to check if it works:
+# tail -f /var/log/maillog | grep "qmail-antispam"
+#
+#
+#Author: 3.14
+#Contact: 3.141592x5@gmail.com
+
+#Modified: Mustafa Ramadhan (for Kloxo-MR 7.0+)
+#Contact: mustafa@bigraf.com
+#Note:
+# - change name from qmail-antispam to sendlimiter
+# - change cron from crontab to cron.d
+# - change path from /home/vpopmail/bin to /var/qmail/bin
+# - change /etc/qmailadmin/qmail-antispam to /var/qmail/control/sendlimit
+# - change /etc/qmailadmin/blacklist to /var/qmail/control/blacklist
+
+#if [ ! -f /etc/cron.d/qmail-sendlimiter ] ; then
+	echo "*/5 * * * * root /var/qmail/bin/sendlimiter" > /etc/cron.d/qmail-sendlimiter
+#fi
+
+#Configuracion / Config
+MAILLOG="/var/log/maillog"
+if [ "$1" != "" ] ; then
+	MAX_POST=$(cat /var/qmail/control/maxpost)
+else
+	MAX_POST=3000
+fi
+ID_SERVER=$(cat /var/qmail/control/me)
+if [ -f /var/qmail/control/contactemail ] ; then
+	CONTACT=$(cat /var/qmail/control/contactemail)
+else
+	CONTACT=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/contactemail.php)
+	echo $CONTACT > /var/qmail/control/contactemail
+fi
+BLACKLIST="/var/control/blacklist"
+VUSERINFO="/home/vpopmail/bin/vuserinfo"
+VPASSWD="/home/vpopmail/bin/vpasswd"
+AUX=$(mktemp)
+
+echo "$(date) qmail-sendlimiter : Reviewing logs"
+
+function LstUsers
+{
+	#grep "$(date +"%b %d")" /var/log/maillog | grep auth: | grep ALL | awk -Fauth: {'print $2'} \
+	#	| awk {'print $1'} | sort | uniq -c | sort -n | grep -v \(unknown\) | awk {'print $1"|"$2'}
+
+	x=$(cat /var/log/maillog)
+	# for send
+	a=$(echo "$x" | grep "$(date +"%b %d")" | grep 'send: info msg' | awk '{print $12}' | grep -v '<>' | sed -E 's/<(.*)>/\1/' | sort | uniq -c)
+	# for smtp login
+	b=$(echo "$x" | grep "$(date +"%b %d")" | grep 'vchkpw-smtp:' | grep 'login success' | awk '{print $10}' | awk -F: '{print $1}' | sort | uniq -c)
+
+	echo "$a$b"  | sort -n | awk '{print $1"|"$2}'
+}
+
+LstUsers >$AUX
+
+#cat $AUX
+
+for i in $(cat $AUX); do
+	quantity=$(echo $i | awk -F\| {'print $1'})
+	user=$(echo $i | awk -F\| {'print $2'})
+	account=$(echo $user | awk -F@ '{print $1}')
+	domain=$(echo $user | awk -F@ '{print $2}')
+
+	if [ "$($VUSERINFO -D $domain | grep '^name:')" != "" ]; then
+		if [ $quantity -gt $MAX_POST ]; then
+			#echo "$(date) Authentication limit exceeded: $user"
+			#echo "$(date) Checking if $user is suspended"
+
+			if [ "$(cat $BLACKLIST | grep "$(date +"%b %d %Y")" | grep $user)" == "" ]; then
+				echo "$(date) qmail-sendlimiter : Suspending the user: $user " \
+					"submissions: $quantity maximum_permitted: $MAX_POST" >> $MAILLOG
+				password_captured=$($VUSERINFO $user | grep "clear passwd" | awk -F: {'print $2'})
+				echo "$(date +"%b %d %Y")" $user $password_captured>>$BLACKLIST
+				echo -e "Date: $(date) \nUser: $user \nPassword: $password_captured \nShipping: $quantity" \
+					| mail -s "Spam warning on $ID_SERVER" "$CONTACT"
+				$VPASSWD $user -r
+			fi
+		fi
+	fi
+done
+
+echo "$(date) qmail-sendlimiter : End of review"

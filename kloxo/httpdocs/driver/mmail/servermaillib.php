@@ -40,6 +40,8 @@ class ServerMail extends lxdb
 	static $__desc_smtp_instance = array("", "",  "max_smtp_instances");
 	static $__desc_smtp_relay = array("t", "",  "smtp_relay");
 
+	static $__desc_send_limit = array("", "",  "send_limit");
+
 	static $__desc_max_size = array("", "",  "max_mail_attachment_size");
 //	static $__desc_additional_smtp_port = array("", "",  "additional_smtp_port");
 	static $__desc_virus_scan_flag = array("f", "",  "enable_virus_scan");
@@ -166,6 +168,18 @@ class ServerMail extends lxdb
 				}
 
 				$vlist['smtp_relay'] = null;
+
+				$sl_file = "/var/qmail/control/sendlimit";
+
+				if (!$this->send_limit) {
+					if (!file_exists($sl_file)) {
+						$this->send_limit = 3000;
+					} else {
+						$this->send_limit = lfile_get_contents($sl_file);
+					}
+				}
+
+				$vlist['send_limit'] = null;
 
 			//	$this->postUpdate($subaction);
 

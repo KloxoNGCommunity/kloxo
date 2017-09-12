@@ -483,6 +483,17 @@ function slave_get_driver($class)
 	return $rmt->data[$class];
 }
 
+function slave_get_db_contactemail()
+{
+//	global $login;
+
+//	$rmt = rl_exec_get('localhost', $login->syncserver, 'lfile_get_unserialize', array('../etc/slavedb/contactemail'));
+
+	$rmt = lfile_get_unserialize("../etc/slavedb/contactemail");
+
+	return $rmt->data['admin']['contactemail'];
+}
+
 function PreparePowerdnsDb($nolog = null)
 {
 	log_cleanup("Prepare PowerDNS database", $nolog);

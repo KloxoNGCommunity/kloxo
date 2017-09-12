@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Enable SELinux (in permissive mode)"
+echo "*** Enable SELinux (in 'permissive' mode)"
 
 #if [ "$(grep envID /proc/self/status)" == "" ] ; then
 if [ "$(sh /script/virtual-info -t)" == "container" ] ; then
@@ -15,11 +15,15 @@ for i in policycoreutils setroubleshoot setools ; do
 	fi
 done
 
-if [ "$(cat /etc/selinux/config|grep '^SELINUXTYPE=targeted')" == "" ] ; then
-	echo "- Creating/Overwriting /etc/selinux/config and then 'reboot' and rerun '$0'"
-	echo "- And then 'reboot' and rerun '$0'"
-	echo -e "SELINUX=permissive\nSELINUXTYPE=targeted" > /etc/selinux/config
-	reboot
+if [ "$1" == "enforcing" ] || [ "$2" == "enforcing" ] ; then
+	sed -i '/^SELINUX=/d' /etc/selinux/config
+	echo -e "SELINUX=permissive" > /etc/selinux/config
+	# don't need reboot
+	echo enforcing > /selinux/enforce
+else
+	echo -e "SELINUX=permissive" > /etc/selinux/config
+	# don't need reboot
+	echo permissive > /selinux/enforce
 fi
 
 if [ -f /.autorelabel ] ; then
@@ -27,13 +31,12 @@ if [ -f /.autorelabel ] ; then
 	rm -f /.autorelabel
 fi
 
-if [ "$1" == "--relabel" ] ; then
+if [ "$1" == "--relabel" ] || [ "$2" == "--relabel" ] ; then
 	echo "- Relabeling... Wait!"
 	restorecon -Rv -n /
 	fixfiles relabel /
 fi
 
-echo "- Need 'reboot'"
-#reboot
-
-echo "WARNING: - Run with '$0 --relabel' if want relabel files/directories"
+echo "WARNING: - Run with:
+echo " - '$0 --relabel' if want relabel files/directories"
+echo " - '$0 enforcing' if want as 'enforcing' mode (default: 'permissive')"

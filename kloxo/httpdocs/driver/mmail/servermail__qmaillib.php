@@ -153,8 +153,14 @@ class Servermail__Qmail  extends lxDriverClass
 		//	}
 		}
 
-		if ($this->main->max_size) {
+		if (isset($this->main->max_size)) {
 			lfile_put_contents("/var/qmail/control/databytes", $this->main->max_size);
+		}
+
+		if (isset($this->main->send_limit)) {
+			$slbin = "/var/qmail/bin/sendlimiter";
+			lfile_put_contents("/var/qmail/control/sendlimit", $this->main->send_limit);
+			exec("'cp' -f ../file/qmail/var/qmail/bin/sendlimiter {$slbin}; chown root:qmail {$slbin}; chmod 755 {$slbin}; sh {$slbin}");
 		}
 	}
 
