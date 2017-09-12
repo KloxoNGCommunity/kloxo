@@ -78,8 +78,8 @@ for i in $(cat $AUX); do
 	user=$(echo $i | awk -F\| {'print $2'})
 	account=$(echo $user | awk -F@ '{print $1}')
 	domain=$(echo $user | awk -F@ '{print $2}')
-
-	if [ "$($VUSERINFO -D $domain | grep '^name:')" != "" ]; then
+	
+	if [ "$domain" != "" ] && [ "$($VUSERINFO -D $domain | grep '^name:')" != "" ]; then
 		if [ $quantity -gt $MAX_POST ]; then
 			#echo "$(date) Authentication limit exceeded: $user"
 			#echo "$(date) Checking if $user is suspended"
