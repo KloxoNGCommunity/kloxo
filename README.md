@@ -13,9 +13,9 @@ Branch:
 
 ===================
 
-# KloxoNG
+## KloxoNG
 
-This is a new development path of Kloxo based on the Kloxo-MR.
+This is a new development path of Kloxo based on the work of Kloxo-MR.
 
 The aim of this project is to create a develpment pathway that is not dependent on a single individual, while providing support to existing Kloxo-MR users.
 
