@@ -1,6 +1,6 @@
 ![Kloxo-MR logo](https://github.com/mustafaramadhan/kloxo/blob/dev/kloxo-mr_big.png)
 
-### Kloxo fork by Mustafa Ramadhan
+### Kloxo-MR fork by The Kloxo Next Generation Community
 
 
 ===================
@@ -13,11 +13,11 @@ Branch:
 
 ===================
 
-# Kloxo-MR
+# KloxoNG
 
-This is special edition (fork) of Kloxo with many features not existing on Kloxo official release (6.1.12+).
+This is a new development path of Kloxo based on the Kloxo-MR.
 
-This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
+The aim of this project is to create a develpment pathway that is not dependent on a single individual, while providing support to existing Kloxo-MR users.
 
 ### URL
 
@@ -25,7 +25,7 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 2. More information about Kloxo-MR - http://mratwork.com/ and http://forum.mratwork.com/
 
-### Kloxo-MR Features
+### Features (based on exsitng Kloxo-MR features - this will change as we develop our road map)
 
 * OS: Redhat/CentOS 5 and 6 (32bit and 64bit) or their variants; also Redhat/Centos 7 *)
 * Billing: AWBS, WHMCS, HostBill, TheHostingTool, AccountLab Plus, Blesta and BoxBilling (note: claim by billing's author)
