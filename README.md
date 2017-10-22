@@ -1,6 +1,6 @@
-![Kloxo-MR logo](https://github.com/mustafaramadhan/kloxo/blob/dev/kloxo-mr_big.png)
+# KloxoNG
 
-### Kloxo-MR fork by The Kloxo Next Generation Community
+### A Kloxo-MR fork by The Kloxo Next Generation Community
 
 
 ===================
