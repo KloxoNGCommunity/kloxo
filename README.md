@@ -44,7 +44,7 @@ The aim of this project is to create a develpment pathway that is not dependent 
 
 ### Contributing
 
-* The door is always open for developers and testers. Pull Requests are very welcome, browse the issues pages if you want to help but don't know what
+* The door is always open for developers and testers. Pull Requests are very welcome, browse the issues pages if you want to help but don't know where to start
 
 ### Licensing - AGPLv3
 
