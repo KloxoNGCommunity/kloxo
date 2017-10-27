@@ -21,9 +21,7 @@ The aim of this project is to create a develpment pathway that is not dependent 
 
 ### URL
 
-1. More information about Kloxo (Official from LxCenter) - http://lxcenter.org/ and http://forum.lxcenter.org/
-
-2. More information about Kloxo-MR - http://mratwork.com/ and http://forum.mratwork.com/
+1. More information about Kloxo NG go to https://kloxong.org/
 
 ### Features (based on exsitng Kloxo-MR features - this will change as we develop our road map)
 
@@ -46,15 +44,15 @@ The aim of this project is to create a develpment pathway that is not dependent 
 
 ### Contributing
 
-* Always invite for devs and testers. Go to http://mratwork.com/ and http://forum.mratwork.com/
+* The door is always open for developers and testers. Pull Requests are very welcome, browse the issues pages if you want to help but don't know what
 
 ### Licensing - AGPLv3
 
-* Like Kloxo Official, Kloxo-MR adopt AGPLv3 too.
+* Like Kloxo Official, Kloxo-NG adopt AGPLv3 too.
 
 ### How to install
 
-* Read https://github.com/mustafaramadhan/kloxo/blob/dev/how-to-install.txt
+* Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/dev/how-to-install.txt
 
 ### Notes
 *) New features in Kloxo-MR 7.0.0 (aka Kloxo-MR 7)
