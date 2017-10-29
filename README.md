@@ -1,4 +1,4 @@
-<img src="https://kloxong.org/wp-content/uploads/2017/10/cropped-KloxoNG.jpg width="250" >
+![KloxoNG](https://kloxong.org/wp-content/uploads/2017/10/KloxoNG.jpg )
 # KloxoNG
 
 ### A Kloxo-MR fork by The Kloxo Next Generation Community
