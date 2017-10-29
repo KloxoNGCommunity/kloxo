@@ -49,7 +49,7 @@ The aim of this project is to create a develpment pathway that is not dependent 
 
 ### Licensing - AGPLv3
 
-* Like Kloxo Official, Kloxo-NG adopt AGPLv3 too.
+* Like Kloxo Official, Kloxo-NG will adopt AGPLv3 as well.
 
 ### How to install
 
