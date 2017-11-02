@@ -22,7 +22,7 @@ The aim of this project is to create a develpment pathway that is not dependent 
 
 ### URL
 
-1. More information about Kloxo NG go to https://kloxong.org/
+1. More information about Kloxo NG go to https://kloxong.org/ ([Mirror](https://kloxongcommunity.github.io/kloxoNG-CP/))
 
 ### Features (based on exsitng Kloxo-MR features - this will change as we develop our road map)
 
