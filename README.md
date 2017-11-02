@@ -7,10 +7,7 @@
 ===================
 
 Branch:
-- master - original code from lxcenter
-- dev - branch for next release
-- bugfix-6.5.0 - branch for bugfix for 6.5.0.f
-- rpms - branch for mratwork repo rpms
+- master
 
 ===================
 
@@ -56,11 +53,10 @@ The aim of this project is to create a develpment pathway that is not dependent 
 * Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/dev/how-to-install.txt
 
 ### Notes
-*) New features in Kloxo-MR 7.0.0 (aka Kloxo-MR 7)
+*) Features inheritited from Kloxo-MR 7 (Note: these may change as we develop our road map)
 
-- Version 6.5.1 change to 7.0.0 since 20 Aug 2014 (beta step)
 - OS: Redhat/CentOS 7 (64bit) (since 27 Feb 2017) *)
-- Web server: Hiawatha (since 28 Sep 2013) and Httpd 2.4 (since 20 Jun 2015); Dual (since 19 Jan 2016) and Multiple Web server (in progress)
+- Web server: Httpd 2.4 (since 20 Jun 2015); Dual (since 19 Jan 2016)
 - Webcache server: Squid, Varnish and ATS (Apache Traffic Server) (since 3 Oct 2013)
 - DNS server: Powerdns, NSD, MyDNS and Yadifa (since 16 Sep 2013)
 - Mail server: Dovecot (since 19 Jun 2016)
@@ -75,7 +71,4 @@ The aim of this project is to create a develpment pathway that is not dependent 
 - Stats:
   * Change URL from 'domain.com/stats' to 'stats.domain.com' (since 3 Sep 2016)
 
-**) New features in Kloxo-MR 6.5.0 after released
-- Panel: Adminer, MyWebSql and SqlBuddy as alternative for Database management
-- Core: change from lxphp + lxlighttpd  to use Hiawatha + php52s for running panel
 
