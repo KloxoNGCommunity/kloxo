@@ -2136,7 +2136,7 @@ function do_display_init()
 ?>
 	<html>
 	<head>
-		<title> Kloxo-MR Display Page </title>
+		<title> KloxoNG Display Page </title>
 <?php
 		print_meta_lan();
 ?>

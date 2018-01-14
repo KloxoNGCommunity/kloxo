@@ -1,7 +1,7 @@
 # Hiawatha main configuration file
 # Convictions Hosting Custom - September 9th
 
-ServerString = Hiawatha_for_Kloxo-MR
+ServerString = Hiawatha_for_KloxoNG
 
 ServerId = lxlabs
 ConnectionsTotal = 2048

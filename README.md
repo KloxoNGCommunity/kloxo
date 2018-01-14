@@ -1,31 +1,27 @@
-![Kloxo-MR logo](https://github.com/mustafaramadhan/kloxo/blob/dev/kloxo-mr_big.png)
+![KloxoNG](https://kloxong.org/wp-content/uploads/2017/10/KloxoNG.jpg )
+# KloxoNG
 
-### Kloxo fork by Mustafa Ramadhan
+### A Kloxo-MR fork by The Kloxo Next Generation Community
 
 
 ===================
 
 Branch:
-- master - original code from lxcenter
-- dev - branch for next release
-- bugfix-6.5.0 - branch for bugfix for 6.5.0.f
-- rpms - branch for mratwork repo rpms
+- master
 
 ===================
 
-# Kloxo-MR
+## KloxoNG
 
-This is special edition (fork) of Kloxo with many features not existing on Kloxo official release (6.1.12+).
+This is a new development path of Kloxo based on the work of Kloxo-MR.
 
-This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
+The aim of this project is to create a develpment pathway that is not dependent on a single individual, while providing support to existing Kloxo-MR users.
 
 ### URL
 
-1. More information about Kloxo (Official from LxCenter) - http://lxcenter.org/ and http://forum.lxcenter.org/
+1. More information about Kloxo NG go to https://kloxong.org/ ([Mirror](https://kloxongcommunity.github.io/kloxoNG-CP/))
 
-2. More information about Kloxo-MR - http://mratwork.com/ and http://forum.mratwork.com/
-
-### Kloxo-MR Features
+### Features (based on exsitng Kloxo-MR features - this will change as we develop our road map)
 
 * OS: Redhat/CentOS 5 and 6 (32bit and 64bit) or their variants; also Redhat/Centos 7 *)
 * Billing: AWBS, WHMCS, HostBill, TheHostingTool, AccountLab Plus, Blesta and BoxBilling (note: claim by billing's author)
@@ -46,22 +42,21 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 
 ### Contributing
 
-* Always invite for devs and testers. Go to http://mratwork.com/ and http://forum.mratwork.com/
+* The door is always open for developers and testers. Pull Requests are very welcome, browse the issues pages if you want to help but don't know where to start
 
 ### Licensing - AGPLv3
 
-* Like Kloxo Official, Kloxo-MR adopt AGPLv3 too.
+* Like Kloxo Official, Kloxo-NG will adopt AGPLv3 as well.
 
 ### How to install
 
-* Read https://github.com/mustafaramadhan/kloxo/blob/dev/how-to-install.txt
+* Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/dev/how-to-install.txt
 
 ### Notes
-*) New features in Kloxo-MR 7.0.0 (aka Kloxo-MR 7)
+*) Features inheritited from Kloxo-MR 7 (Note: these may change as we develop our road map)
 
-- Version 6.5.1 change to 7.0.0 since 20 Aug 2014 (beta step)
 - OS: Redhat/CentOS 7 (64bit) (since 27 Feb 2017) *)
-- Web server: Hiawatha (since 28 Sep 2013) and Httpd 2.4 (since 20 Jun 2015); Dual (since 19 Jan 2016) and Multiple Web server (in progress)
+- Web server: Httpd 2.4 (since 20 Jun 2015); Dual (since 19 Jan 2016)
 - Webcache server: Squid, Varnish and ATS (Apache Traffic Server) (since 3 Oct 2013)
 - DNS server: Powerdns, NSD, MyDNS and Yadifa (since 16 Sep 2013)
 - Mail server: Dovecot (since 19 Jun 2016)
@@ -76,7 +71,4 @@ This fork named as Kloxo-MR (meaning 'Kloxo fork by Mustafa Ramadhan').
 - Stats:
   * Change URL from 'domain.com/stats' to 'stats.domain.com' (since 3 Sep 2016)
 
-**) New features in Kloxo-MR 6.5.0 after released
-- Panel: Adminer, MyWebSql and SqlBuddy as alternative for Database management
-- Core: change from lxphp + lxlighttpd  to use Hiawatha + php52s for running panel
 
