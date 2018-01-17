@@ -50,7 +50,7 @@ The aim of this project is to create a develpment pathway that is not dependent 
 
 ### How to install
 
-* Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/dev/how-to-install.txt
+* Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/master/how-to-install.txt (Currently for Kloxo-MR)
 
 ### Notes
 *) Features inheritited from Kloxo-MR 7 (Note: these may change as we develop our road map)
