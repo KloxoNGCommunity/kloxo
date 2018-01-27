@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#	Kloxo-MR - Hosting Control Panel
+#	KloxoNG - Control Panel
 #
-#	Copyright (C) 2013 - MRatWork
+#	Copyright (C) 2018 - KloxoNGCommunity
 #
 #	This program is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,22 @@
 # MRatWork - Kloxo-MR Release Setup
 #
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
+# Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
 #
+
+#define variables 
+kloxoreporpm="mratwork-release-0.0.1-1.noarch.rpm"
+mainreponame='kloxong'
+mainrpmlink="https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch"
+#this is for installing base packages
+yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
+	vim-minimal subversion curl sudo expect"
+#this is for remove packages
+yum_pack2="bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
+		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
+		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
+# database specific pagkages
+yum_database_pack="MariaDB MariaDB-shared"
 
 ## MR -- prohibit to install to CentOS 5 (EOL since 31 Mar 2017)
 if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
@@ -44,12 +59,12 @@ cd /
 
 yum clean all
 
-if rpm -qa|grep 'mratwork-' >/dev/null 2>&1 ; then
-	yum update mratwork* -y
+if rpm -qa|grep 'kloxong-' >/dev/null 2>&1 ; then
+	yum update $mainreponame* -y
 else
 	cd /tmp
-	rpm -Uvh https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
-	yum update mratwork-* -y
+	rpm -Uvh $mainrpmlink/$kloxongreporpm
+	yum update $mainreponame-* -y
 	
 	'rm' -rf /etc/yum.repos.d/kloxo-mr.repo
 	'rm' -rf /etc/yum.repos.d/kloxo-custom.repo
@@ -60,7 +75,7 @@ else
 fi
 
 ## trouble with mysql55 for qmail-toaster
-sed -i 's/exclude\=mysql51/exclude\=mysql5/g' /etc/yum.repos.d/mratwork.repo
+sed -i 's/exclude\=mysql51/exclude\=mysql5/g' /etc/yum.repos.d/$mainreponame.repo
 
 cd /
 
@@ -85,7 +100,7 @@ echo
 #read -n 1 -p "Press any key to continue ..."
 echo
 
-APP_NAME='Kloxo-MR'
+APP_NAME='KloxoNG'
 
 if [ -f ${ppath}/etc/conf/slave-db.db ] ; then
 	APP_TYPE='slave'
@@ -161,12 +176,9 @@ cd /
 
 #yum clean all
 
-yum -y install wget zip unzip yum-utils yum-priorities yum-plugin-replace \
-	vim-minimal subversion curl sudo expect --skip-broken
+yum -y install $yum_pack1 --skip-broken
 
-yum remove -y bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
-		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
-		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*
+yum remove -y $yum_pack2
 rpm -e pure-ftpd --noscripts
 userdel postfix
 rpm -e vpopmail-toaster --noscripts
@@ -176,7 +188,7 @@ if id -u postfix >/dev/null 2>&1 ; then
 fi
 
 #yum -y install mysql55 mysql55-server mysql55-libs
-yum -y install MariaDB MariaDB-shared
+yum -y install $yum_database_pack
 yum -y install mysqlclient* --exclude=*devel* --exclude=*debuginfo*
 if ! [ -d /var/lib/mysqltmp ] ; then
 	mkdir -p /var/lib/mysqltmp
