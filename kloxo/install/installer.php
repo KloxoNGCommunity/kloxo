@@ -1,14 +1,14 @@
 <?php
 
-rm_if_exists("/var/run/yum.pid");
+rm_if_exists('/var/run/yum.pid');
 
 // Make sure no issue with yum
-system("yum-complete-transaction");
+system('yum-complete-transaction');
 
-exec("sh /script/disable-firewall");
+exec('sh /script/disable-firewall');
 
-$lxlabspath  = "/usr/local/lxlabs";
-$kloxopath   = "{$lxlabspath}/kloxo";
+$lxlabspath  = '/usr/local/lxlabs';
+$kloxopath   = $lxlabspath . '/kloxo';
 $currentpath = realpath(dirname(__FILE__));
 
 // State must declare first
@@ -16,13 +16,13 @@ $kloxostate = getKloxoType();
 
 $opt = parse_opt($argv);
 
-$installtype = (isset($opt['install-type'])) ? $opt['install-type'] : 'master';
-$installstep = (isset($opt['install-step'])) ? $opt['install-step'] : '1';
+$installtype = isset($opt['install-type']) ? $opt['install-type'] : 'master';
+$installstep = isset($opt['install-step']) ? $opt['install-step'] : '1';
 
 $mypass = password_gen();
 
-$dbroot = "root";
-// MR -- always set to ''
+$dbroot = 'root';
+// always set to ''
 $dbpass = '';
 
 // $osversion = find_os_version();
@@ -33,24 +33,22 @@ $dbpass = '';
 function lxins_main() {
     global $kloxopath, $kloxostate, $installtype, $installstep;
 
-    // MR -- crucial because segfault if not exists
-    if (!file_exists("{$kloxopath}/log")) {
-        @mkdir("{$kloxopath}/log");
+    // Crucial because segfault if not exists
+    if (!file_exists($kloxopath . '/log')) {
+        @mkdir($kloxopath . '/log');
     }
 
-//	$arch = trim( `arch` );
-//	$arch = php_uname('m');
 
-    // MR -- to make sure /tmp ready for all; found mysql not able to start if not 1777
-    system("chmod 1777 /tmp");
+    // Make sure /tmp ready for all; found mysql not able to start if not 1777
+    system('chmod 1777 /tmp');
 
-    // MR -- modified sysctl.conf because using socket instead port for php-fpm
-    $pattern    = "fs.file-max";
-    $sysctlconf = file_get_contents("/etc/sysctl.conf");
+    // Modified sysctl.conf because using socket instead port for php-fpm
+    $pattern    = 'fs.file-max';
+    $sysctlconf = file_get_contents('/etc/sysctl.conf');
 
     print(">>> Modified /etc/sysctl.conf <<<\n");
 
-    // MR - https://bbs.archlinux.org/viewtopic.php?pid=1002264
+    // https://bbs.archlinux.org/viewtopic.php?pid=1002264
     // also add 'fs.aio-max-nr' for mysql 5.5 innodb aio issue
     $patch = "\n### begin -- add by Kloxo-MR\n" . "fs.aio-max-nr = 1048576\n" . "fs.file-max = 1048576\n" .
         "net.ipv4.tcp_syncookies = 1\n" . "net.ipv4.tcp_max_syn_backlog = 2048\n" . "net.ipv4.tcp_synack_retries = 3\n" .
@@ -60,8 +58,8 @@ function lxins_main() {
     if (strpos($sysctlconf, $pattern) !== false) {
         //
     } else {
-        // MR -- problem with for openvz
-        @exec("grep envID /proc/self/status", $out, $ret);
+        // Problem with for openvz
+        @exec('grep envID /proc/self/status', $out, $ret);
 
         if ($ret === 0) {
             // no action
@@ -74,7 +72,7 @@ function lxins_main() {
         kloxo_install_step2();
 
         if ($installtype === 'master') {
-            if (file_exists("/var/lib/mysql/kloxo")) {
+            if (file_exists('/var/lib/mysql/kloxo')) {
                 kloxo_install_bye();
             }
         }
@@ -85,13 +83,13 @@ function lxins_main() {
     install_yum_repo();
 
     if (php_uname('m') === 'x86_64') {
-        // MR -- remove because make conflict
-        @exec("yum remove *.i386 *.i686 -y >/dev/null 2>&1");
+        // Remove because make conflict
+        @exec('yum remove *.i386 *.i686 -y >/dev/null 2>&1');
     }
 
     if ($kloxostate !== 'none') {
-        //--- Create temporary flags for install
-        @system("mkdir -p /var/cache/kloxo/");
+        // Create temporary flags for install
+        @system('mkdir -p /var/cache/kloxo/');
 
         for ($x = 0; $x < 1000; $x++) {
             if (!file_exists("{$kloxopath}.old{$x}")) {
@@ -116,7 +114,7 @@ function lxins_main() {
     kloxo_install_before_bye();
 
     if ($installtype === 'master') {
-        if (file_exists("/var/lib/mysql/kloxo")) {
+        if (file_exists('/var/lib/mysql/kloxo')) {
             kloxo_service_init();
             kloxo_install_bye();
         }
@@ -133,7 +131,7 @@ function lxins_main() {
 function kloxo_service_init() {
     global $kloxopath;
 
-    print(">>> Copy Kloxo-MR service <<<\n");
+    print(">>> Copy Kloxo-NG service <<<\n");
 
     exec("sh /script/fixlxphpexe");
 }
@@ -141,9 +139,9 @@ function kloxo_service_init() {
 // ==== kloxo_all portion ===
 
 function install_general_mine($value) {
-    $value = implode(" ", $value);
+    $value = implode(' ', $value);
     print("\nInstalling $value ....\n");
-    system("yum -y install $value");
+    system('yum -y install ' .  $value);
 }
 
 /**
@@ -166,21 +164,21 @@ function install_web() {
 
     print(">>> Installing Apache and Hiawatha<<<\n");
 
-    exec("yum list|grep ^httpd24u", $test);
+    exec('yum list|grep ^httpd24u', $test);
 
     if (count($test) > 0) {
-        system("yum remove -y httpd-* mod_*");
-        system("yum install -y httpd24u httpd24u-tools httpd24u-filesystem httpd24u-mod_security2 " . "mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive");
+        system('yum remove -y httpd-* mod_*');
+        system('yum install -y httpd24u httpd24u-tools httpd24u-filesystem httpd24u-mod_security2 ' . 'mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive');
         if (!file_exists("{$kloxopath}/etc/flag")) {
             system("mkdir -p  {$kloxopath}/etc/flag");
         }
 
         system("echo '' > {$kloxopath}/etc/flag/use_apache24.flg");
     } else {
-        system("yum install -y httpd httpd-tools " . "mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*");
+        system('yum install -y httpd httpd-tools ' . 'mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*');
     }
 
-    system("yum install -y hiawatha");
+    system('yum install -y hiawatha');
 }
 
 /**
@@ -188,9 +186,9 @@ function install_web() {
  */
 function install_php() {
     print(">>> Adding Standard PHP components<<<\n");
-    // MR -- xcache, zend, ioncube, suhosin and zts not default install
+    // xcache, zend, ioncube, suhosin and zts not default install
 
-    // MR -- for accept for php and apache branch rpm
+    // For accept for php and apache branch rpm
     $phpbranch = getPhpBranch();
 
     system("sh /script/php-branch-installer {$phpbranch}");
@@ -205,9 +203,9 @@ function install_database() {
     $mysql = getMysqlBranch();
 
     if (strpos($mysql, 'MariaDB') !== false) {
-        // MR -- need separated becuase 'yum install MariaDB' will be install Galera
+        // need separated becuase 'yum install MariaDB' will be install Galera
         //	system("yum -y install {$mysql}-server {$mysql}-shared");
-        // MR -- already fix by MariaDB
+        // already fix by MariaDB
         //	system("yum -y install {$mysql} {$mysql}-shared");
     } else {
         system("yum -y install {$mysql} {$mysql}-server {$mysql}-libs");
@@ -220,13 +218,13 @@ function install_database() {
 function install_dns() {
     print(">>> Installing DNS services <<<\n");
 
-    system("yum -y install bind bind-utils");
+    system('yum -y install bind bind-utils');
 
-    if (!file_exists("/var/log/named")) {
-        @exec("mkdir -p /var/log/named; chown named:root /var/log/named");
+    if (!file_exists('/var/log/named')) {
+        @exec('mkdir -p /var/log/named; chown named:root /var/log/named');
     }
 
-    if (file_exists("/etc/rndc.conf")) {
+    if (file_exists('/etc/rndc.conf')) {
         @exec("'rm' -f /etc/rndc.conf");
     }
 
@@ -237,27 +235,27 @@ function install_dns() {
  * Install Mail Softwares
  */
 function install_mail() {
-    $s = "sendmail sendmail-cf sendmail-doc sendmail-devel vsftpd postfix ssmtp smail lxzend pure-ftpd exim";
+    $s = 'sendmail sendmail-cf sendmail-doc sendmail-devel vsftpd postfix ssmtp smail lxzend pure-ftpd exim';
 
     print(">>> Removing $s packages <<<\n");
 
     system("yum -y remove {$s}");
 
     print(">>> Removing postfix user <<<\n");
-    // MR -- force remove postfix and their user
-    system("userdel postfix");
+    // force remove postfix and their user
+    system('userdel postfix');
 
-    // MR -- force remove spamassassin, qmail and vpopmail (because using toaster)
-    system("userdel lxpopuser");
-    system("groupdel lxpopgroup");
+    // force remove spamassassin, qmail and vpopmail (because using toaster)
+    system('userdel lxpopuser');
+    system('groupdel lxpopgroup');
 
     print(">>> Installing Mail services <<<\n");
 
-    $s = "autorespond-toaster courier-authlib-toaster courier-imap-toaster " . "daemontools-toaster ezmlm-toaster libdomainkeys-toaster libsrs2-toaster " . "maildrop-toaster qmail-toaster " . "ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter";
+    $s = 'autorespond-toaster courier-authlib-toaster courier-imap-toaster ' . 'daemontools-toaster ezmlm-toaster libdomainkeys-toaster libsrs2-toaster ' . "maildrop-toaster qmail-toaster " . "ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter";
 
     system("yum -y install {$s}");
 
-    system("groupadd -g 89 vchkpw");
+    system('groupadd -g 89 vchkpw');
     system("useradd -u 89 -g 89 vpopmail -s '/sbin/nologin'");
 }
 
@@ -267,7 +265,7 @@ function install_mail() {
 function install_others() {
     print(">>> Installing OTHER services <<<\n");
 
-    $s = "pure-ftpd webalizer cronie cronie-anacron crontabs vixie-cron rpmdevtools yum-utils";
+    $s = 'pure-ftpd webalizer cronie cronie-anacron crontabs vixie-cron rpmdevtools yum-utils';
 
     system("yum -y install {$s}");
 }
@@ -280,34 +278,34 @@ function kloxo_vpopmail() {
 
     print(">>> Creating Vpopmail database <<<\n");
 
-    if (file_exists("/home/vpopmail/etc")) {
+    if (file_exists('/home/vpopmail/etc')) {
         //	system("sh /usr/local/lxlabs/kloxo/bin/misc/vpop.sh $dbroot \"$dbpass\" vpopmail $mypass");
-        system("sh /script/fixvpop");
+        system('sh /script/fixvpop');
     }
 
     print(">>> Fixing Vpopmail settings <<<\n");
 
-    file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u vpopmail\"");
+    file_put_contents('/etc/sysconfig/spamassassin', 'SPAMDOPTIONS=" -v -d -p 783 -u vpopmail"');
 
-    // MR -- until Kloxo-MR 6.5.1, still using the same mail path
-    @system("mkdir -p /home/lxadmin/mail/domains");
-    @system("chmod 755 /home/lxadmin");
-    @system("chmod 755 /home/lxadmin/mail");
-    @system("chmod 755 /home/lxadmin/mail/domains");
+    // until Kloxo-MR 6.5.1, still using the same mail path
+    @system('mkdir -p /home/lxadmin/mail/domains');
+    @system('chmod 755 /home/lxadmin');
+    @system('chmod 755 /home/lxadmin/mail');
+    @system('chmod 755 /home/lxadmin/mail/domains');
 
 //	if (isRpmInstalled('qmail-toaster')) {
-    @system("chmod 755 /home/vpopmail");
-    @system("chmod 755 /home/vpopmail/domains");
+    @system('chmod 755 /home/vpopmail');
+    @system('chmod 755 /home/vpopmail/domains');
 
-    rm_if_exists("/etc/rc.d/init.d/courier-imap");
-    rm_if_exists("/etc/rc.d/init.d/clamav");
-    rm_if_exists("/etc/xinetd.d/smtp_lxa");
-    rm_if_exists("/etc/xinetd.d/kloxo_smtp_lxa");
+    rm_if_exists('/etc/rc.d/init.d/courier-imap');
+    rm_if_exists('/etc/rc.d/init.d/clamav');
+    rm_if_exists('/etc/xinetd.d/smtp_lxa');
+    rm_if_exists('/etc/xinetd.d/kloxo_smtp_lxa');
 //	}
 
-    @system("chmod -R 755 /var/log/httpd/");
-    @system("mkdir -p /var/log/kloxo/");
-    @system("mkdir -p /var/log/news");
+    @system('chmod -R 755 /var/log/httpd/');
+    @system('mkdir -p /var/log/kloxo/');
+    @system('mkdir -p /var/log/news');
 }
 
 /**
@@ -316,7 +314,7 @@ function kloxo_vpopmail() {
 function kloxo_install_step1() {
     global $kloxopath, $kloxostate, $lxlabspath;
 
-    // MR -- disable this 'if' because trouble for update from lower version
+    // disable this 'if' because trouble for update from lower version
 
     print(">>> Adding System users and groups (nouser, nogroup and lxlabs, lxlabs) <<<\n");
     @system("groupadd nogroup");
@@ -333,7 +331,7 @@ function kloxo_install_step1() {
         }
     }
 
-    // MR -- remove lxphp, lxlighttpd and lxzend
+    // remove lxphp, lxlighttpd and lxzend
     print(">>> Removing 'old' lxphp/lxligttpd/lxzend/kloxo* <<<\n");
     system("yum remove -y lxphp lxlighttpd lxzend kloxo-*");
     if (file_exists("/usr/local/lxlabs/ext")) {
@@ -341,7 +339,7 @@ function kloxo_install_step1() {
     }
 
 	print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
-	// MR -- xcache, zend, ioncube, suhosin and zts not default install
+	// Xcache, zend, ioncube, suhosin and zts not default install
 	// install curl-devel (need by php-common) will be install curl-devel in CentOS 5 and libcurl-devel in CentOS 6
 	$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl-devel", "libcurl-devel", "autoconf",
 		"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
@@ -357,11 +355,11 @@ function kloxo_install_step1() {
 
     system("sh /script/maldet-installer");
 
-    print(">>> Adding Kloxo-MR webmail/thirparty/stats <<<\n");
+    print(">>> Adding Kloxo-NG webmail/thirparty/stats <<<\n");
 
-    // MR -- it's include packages like kloxomr7-thirdparty
+    // it's include packages like kloxomr7-thirdparty
     system("yum -y install kloxomr7-*.noarch");
-    // MR -- regular packages (as the same as for Kloxo-MR 6.5.0)
+    // regular packages (as the same as for Kloxo-MR 6.5.0)
     system("yum -y install kloxomr-webmail-*.noarch kloxomr-thirdparty-*.noarch kloxomr-stats-*.noarch kloxomr-editor-*.noarch " . "--exclude=kloxomr-thirdparty-phpmyadmin-*.noarch");
 
 	print(">>> Prepare installation directories <<<\n");
@@ -476,7 +474,7 @@ function kloxo_install_before_bye() {
         system("yum install fetchmail -y");
     }
 
-    // MR -- because php 5.2 have problem with php-fpm
+    // because php 5.2 have problem with php-fpm
     if (version_compare(getPhpVersion(), "5.3.2", "<")) {
         $phpbranch = getPhpBranch();
         system("yum remove {$phpbranch}-fpm -y");
@@ -485,7 +483,7 @@ function kloxo_install_before_bye() {
     $sp = "{$kloxopath}/file/apache/etc/conf.d";
     $tp = "/etc/httpd/conf.d";
 
-    // MR -- php-fpm_event as default instead mod_php
+    // php-fpm_event as default instead mod_php
     if (file_exists("/etc/httpd/conf.d/php.conf")) {
         system("'cp' -rf {$sp}/fastcgi.conf {$tp}/fastcgi.conf;" . "'cp' -rf {$sp}/_inactive_.conf {$tp}/fcgid.conf;" . "'cp' -rf {$sp}/_inactive_.conf {$tp}/php.conf;" . "'cp' -rf {$sp}/_inactive_.conf {$tp}/ruid2.conf;" . "'cp' -rf {$sp}/_inactive_.conf {$tp}/suphp.conf;" . "'cp' -rf {$sp}/~lxcenter.conf {$tp}/~lxcenter.conf;" . "'cp' -rf {$sp}/ssl.conf {$tp}/ssl.conf;" . "'cp' -rf {$sp}/__version.conf {$tp}/__version.conf;" . "echo 'HTTPD=/usr/sbin/httpd.event' >/etc/sysconfig/httpd;");
     }
@@ -568,7 +566,7 @@ function kloxo_install_bye() {
 
 // ==== kloxo_common portion ===
 
-// MR -- this class must be exist for slave_get_db_pass()
+// this class must be exist for slave_get_db_pass()
 class remote
 {
 }
@@ -615,11 +613,7 @@ function password_gen() {
  * @return bool
  */
 function char_search_beg($haystack, $needle) {
-    if (strpos($haystack, $needle) === 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return strpos($haystack, $needle) === 0;
 }
 
 /**
@@ -634,10 +628,10 @@ function install_yum_repo() {
             return;
         }
 
-        // MR -- just to know @ exist or not because centos 6 change 'installed' to '@'
+        // just to know @ exist or not because centos 6 change 'installed' to '@'
         @exec("yum list *yum*|grep '@'", $out, $ret);
 
-        // MR -- need for OS (like fedora) where os version not the same with redhat/centos
+        // need for OS (like fedora) where os version not the same with redhat/centos
         if (count($out) > 0) {
             $exec("rpm --qf '%{name}\n' -qf /sbin/init", $out2);
 
@@ -651,7 +645,7 @@ function install_yum_repo() {
             system("sed -i 's/\$releasever/5/' /etc/yum.repos.d/mratwork.repo");
         }
 
-        // MR -- remove all old repos
+        // remove all old repos
         rm_if_exists("/etc/yum.repos.d/kloxo-mr.repo");
         rm_if_exists("/etc/yum.repos.d/kloxo-custom.repo");
         rm_if_exists("/etc/yum.repos.d/kloxo.repo");
@@ -697,15 +691,15 @@ function find_os_version() {
         }
 
         return $ossup[$osver[0]] . "-" . $oss;
-    } else {
-        print("\nThis Operating System is currently *NOT* supported.\n");
-
-        exit;
     }
+
+    print("\nThis Operating System is currently *NOT* supported.\n");
+
+    exit;
 }
 
 function get_yes_no($question, $default = 'n') {
-    if ($default != 'y') {
+    if ($default !== 'y') {
         $default  = 'n';
         $question .= ' [y/N]: ';
     } else {
@@ -802,11 +796,7 @@ function getRpmVersion($rpmname) {
 
     exec("rpm -q --qf '%{VERSION}\n' {$rpmname}", $out, $ret);
 
-    if ($ret === 0) {
-        $ver = $out[0];
-    } else {
-        $ver = '';
-    }
+    $ver = $ret === 0 ? $out[0] : '';
 
     return $ver;
 }
@@ -818,12 +808,8 @@ function getRpmVersion($rpmname) {
 function getPhpVersion() {
     exec("php -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
 
-    // MR -- 'php -v' may not work when php 5.4/5.5 using php.ini from 5.2/5.3
-    if ($ret === 0) {
-        return $out[0];
-    } else {
-        return '5.4.0';
-    }
+    // 'php -v' may not work when php 5.4/5.5 using php.ini from 5.2/5.3
+    return $ret === 0 ? $out[0] : '5.4.0';
 }
 
 /**
@@ -834,11 +820,7 @@ function getPhpVersion() {
 function isRpmInstalled($rpmname) {
     exec("rpm -qa {$rpmname}", $out);
 
-    if (count($out) < 1) {
-        return false;
-    } else {
-        return true;
-    }
+    return !(count($out) < 1);
 }
 
 /**
@@ -852,14 +834,14 @@ function isRpmInstalled($rpmname) {
 function setUsingMyIsam() {
     global $kloxostate;
 
-    // MR -- taken from mysql-convert.php with modified
+    // taken from mysql-convert.php with modified
     // to make fresh install already use myisam as storage engine
     // with purpose minimize memory usage (save around 100MB)
 
     $mysqlver = getRpmVersion('mysql');
 
     if (version_compare($mysqlver, '5.5.0', ">=")) {
-        // MR -- MySQL (also MariaDB) no permit 'skip-innodb'
+        // MySQL (also MariaDB) no permit 'skip-innodb'
         return false;
     }
 
@@ -904,11 +886,7 @@ function setUsingMyIsam() {
 function isMysqlRunning() {
     @exec("pgrep ^mysql", $out);
 
-    if (count($out) > 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return count($out) > 0;
 }
 
 /**
@@ -943,7 +921,7 @@ function copy_script() {
 //	unlink("/script");
 //	symlink("{$kloxopath}/pscript", "/script");
 
-    // MR -- move to setup/installer.sh
+    // move to setup/installer.sh
 //	@exec("'rm' -rf /script; ln -sf {$kloxopath}/pscript /script");
 }
 
@@ -956,13 +934,12 @@ function getKloxoType() {
 
     if (file_exists("{$kloxopath}/etc/conf/slave-db.db")) {
         return 'slave';
+    } else if (file_exists("/var/lib/mysql/kloxo")) {
+        return 'master';
     } else {
-        if (file_exists("/var/lib/mysql/kloxo")) {
-            return 'master';
-        } else {
-            return 'none';
-        }
+        return 'none';
     }
+
 }
 
 /**
