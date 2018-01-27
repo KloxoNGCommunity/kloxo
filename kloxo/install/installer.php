@@ -27,6 +27,141 @@ $dbpass = '';
 
 // $osversion = find_os_version();
 
+
+{ // Repos and Applications
+    // If httpd24 already installed
+    $yumWebIF = array(
+        'httpd24u',
+        'httpd24u-tools',
+        'httpd24u-filesystem',
+        'httpd24u-mod_security2',
+        'mod24u_ssl',
+        'mod24u_session',
+        'mod24u_suphp',
+        'mod24u_ruid2',
+        'mod24u_fcgid',
+        'mod24u_fastcgi',
+        'mod24u_evasive'
+    );
+
+    $yumWeb = array(
+        'httpd',
+        'httpd-tools',
+        'mod_rpaf',
+        'mod_ssl',
+        'mod_ruid2',
+        'mod_fastcgi',
+        'mod_fcgid',
+        'mod_suphp',
+        'mod_perl',
+        'mod_define',
+        'perl-Taint*'
+    );
+
+
+    $yumDNS = array('bind', 'bind-utils');
+
+
+    // Old Mail packages to remove
+    $yumMailRemove = array(
+        'sendmail',
+        'sendmail-cf',
+        'sendmail-doc',
+        'sendmail-devel',
+        'vsftpd',
+        'postfix',
+        'ssmtp',
+        'smail',
+        'lxzend',
+        'pure-ftpd',
+        'exim'
+    );
+
+    $yumMail = array(
+        'autorespond-toaster',
+        'courier-authlib-toaster',
+        'courier-imap-toaster',
+        'daemontools-toaster',
+        'ezmlm-toaster',
+        'libdomainkeys-toaster',
+        'libsrs2-toaster',
+        'maildrop-toaster',
+        'qmail-toaster',
+        'ucspi-tcp-toaster',
+        'vpopmail-toaster',
+        'fetchmail',
+        'bogofilter'
+    );
+
+
+    $yumOther = array(
+        'pure-ftpd',
+        'webalizer',
+        'cronie',
+        'cronie-anacron',
+        'crontabs',
+        'vixie-cron',
+        'rpmdevtools',
+        'yum-utils',
+    );
+
+
+    $yumRemoveOldLx = array('lxphp', 'lxlighttpd', 'lxzend', 'kloxo-*');
+
+
+    $yumInstallPackages = array(
+        'tnef',
+        'which',
+        'gcc',
+        'cpp',
+        'gcc-c++',
+        'zip',
+        'unzip',
+        'curl-devel',
+        'libcurl-devel',
+        'autoconf',
+        'automake',
+        'make',
+        'libtool',
+        'openssl-devel',
+        'pure-ftpd',
+        'yum-protectbase',
+        'yum-plugin-replace',
+        'crontabs',
+        'make',
+        'glibc-static',
+        'net-snmp',
+        'tmpwatch',
+        'rkhunter',
+        'quota',
+        'xinetd',
+        'screen',
+        'telnet',
+        'ncdu',
+        'sysstat',
+        'net-tools',
+        'xz',
+        'xz-libs',
+        'p7zip',
+        'p7zip-plugins',
+        'rar',
+        'unrar',
+        'lxjailshell',
+        'yum-presto',
+        'deltarpm'
+    );
+
+    $yumKloxoPackages = array(
+        'kloxomr7-*.noarch',
+        'kloxomr-webmail-*.noarch',
+        'kloxomr-thirdparty-*.noarch',
+        'kloxomr-stats-*.noarch',
+        'kloxomr-editor-*.noarch',
+        '--exclude=kloxomr-thirdparty-phpmyadmin-*.noarch',
+    );
+}
+
+
 /**
  * Main Function
  */
@@ -50,10 +185,7 @@ function lxins_main() {
 
     // https://bbs.archlinux.org/viewtopic.php?pid=1002264
     // also add 'fs.aio-max-nr' for mysql 5.5 innodb aio issue
-    $patch = "\n### begin -- add by Kloxo-MR\n" . "fs.aio-max-nr = 1048576\n" . "fs.file-max = 1048576\n" .
-        "net.ipv4.tcp_syncookies = 1\n" . "net.ipv4.tcp_max_syn_backlog = 2048\n" . "net.ipv4.tcp_synack_retries = 3\n" .
-        "#vm.swappiness = 10\n" . "#vm.vfs_cache_pressure = 100\n" . "#vm.dirty_background_ratio = 15\n" .
-        "#vm.dirty_ratio = 5\n" . "### end -- add by Kloxo-MR\n";
+    $patch = "\n### begin -- add by Kloxo-MR\n" . "fs.aio-max-nr = 1048576\n" . "fs.file-max = 1048576\n" . "net.ipv4.tcp_syncookies = 1\n" . "net.ipv4.tcp_max_syn_backlog = 2048\n" . "net.ipv4.tcp_synack_retries = 3\n" . "#vm.swappiness = 10\n" . "#vm.vfs_cache_pressure = 100\n" . "#vm.dirty_background_ratio = 15\n" . "#vm.dirty_ratio = 5\n" . "### end -- add by Kloxo-MR\n";
 
     if (strpos($sysctlconf, $pattern) !== false) {
         //
@@ -141,7 +273,7 @@ function kloxo_service_init() {
 function install_general_mine($value) {
     $value = implode(' ', $value);
     print("\nInstalling $value ....\n");
-    system('yum -y install ' .  $value);
+    system('yum -y install ' . $value);
 }
 
 /**
@@ -162,20 +294,25 @@ function install_main() {
 function install_web() {
     global $kloxopath;
 
+    global $yumWebIF, $yumWeb;
+
+    $yumWif = implode(' ', $yumWebIF);
+    $yumW   = implode(' ', $yumWeb);
+
     print(">>> Installing Apache and Hiawatha<<<\n");
 
     exec('yum list|grep ^httpd24u', $test);
 
     if (count($test) > 0) {
         system('yum remove -y httpd-* mod_*');
-        system('yum install -y httpd24u httpd24u-tools httpd24u-filesystem httpd24u-mod_security2 ' . 'mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive');
+        system('yum install -y ' . $yumWif);
         if (!file_exists("{$kloxopath}/etc/flag")) {
             system("mkdir -p  {$kloxopath}/etc/flag");
         }
 
         system("echo '' > {$kloxopath}/etc/flag/use_apache24.flg");
     } else {
-        system('yum install -y httpd httpd-tools ' . 'mod_rpaf mod_ssl mod_ruid2 mod_fastcgi mod_fcgid mod_suphp mod_perl mod_define perl-Taint*');
+        system('yum install -y ' . $yumW);
     }
 
     system('yum install -y hiawatha');
@@ -203,7 +340,7 @@ function install_database() {
     $mysql = getMysqlBranch();
 
     if (strpos($mysql, 'MariaDB') !== false) {
-        // need separated becuase 'yum install MariaDB' will be install Galera
+        // need separated because 'yum install MariaDB' will be install Galera
         //	system("yum -y install {$mysql}-server {$mysql}-shared");
         // already fix by MariaDB
         //	system("yum -y install {$mysql} {$mysql}-shared");
@@ -216,9 +353,12 @@ function install_database() {
  * Install DNS tools
  */
 function install_dns() {
+    global $yumDNS;
+    $yumD = implode(' ', $yumDNS);
+
     print(">>> Installing DNS services <<<\n");
 
-    system('yum -y install bind bind-utils');
+    system('yum -y install ' . $yumD);
 
     if (!file_exists('/var/log/named')) {
         @exec('mkdir -p /var/log/named; chown named:root /var/log/named');
@@ -235,11 +375,14 @@ function install_dns() {
  * Install Mail Softwares
  */
 function install_mail() {
-    $s = 'sendmail sendmail-cf sendmail-doc sendmail-devel vsftpd postfix ssmtp smail lxzend pure-ftpd exim';
+    global $yumMailRemove, $yumMail;
 
-    print(">>> Removing $s packages <<<\n");
+    $yumMR = implode(' ', $yumMailRemove);
+    $yumM  = implode(' ', $yumMail);
 
-    system("yum -y remove {$s}");
+    print(">>> Removing $yumMR packages <<<\n");
+
+    system('yum -y remove ' . $yumMR);
 
     print(">>> Removing postfix user <<<\n");
     // force remove postfix and their user
@@ -251,9 +394,7 @@ function install_mail() {
 
     print(">>> Installing Mail services <<<\n");
 
-    $s = 'autorespond-toaster courier-authlib-toaster courier-imap-toaster ' . 'daemontools-toaster ezmlm-toaster libdomainkeys-toaster libsrs2-toaster ' . "maildrop-toaster qmail-toaster " . "ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter";
-
-    system("yum -y install {$s}");
+    system('yum -y install ' . $yumM);
 
     system('groupadd -g 89 vchkpw');
     system("useradd -u 89 -g 89 vpopmail -s '/sbin/nologin'");
@@ -263,11 +404,14 @@ function install_mail() {
  * Install Other Tools
  */
 function install_others() {
+
+    global $yumOther;
+
+    $yumO = implode(' ', $yumOther);
+
     print(">>> Installing OTHER services <<<\n");
 
-    $s = 'pure-ftpd webalizer cronie cronie-anacron crontabs vixie-cron rpmdevtools yum-utils';
-
-    system("yum -y install {$s}");
+    system('yum -y install ' . $yumO);
 }
 
 /**
@@ -314,6 +458,12 @@ function kloxo_vpopmail() {
 function kloxo_install_step1() {
     global $kloxopath, $kloxostate, $lxlabspath;
 
+
+    global $yumRemoveOldLx, $yumInstallPackages, $yumKloxoPackages;
+
+    $yumRemove   = implode(' ', $yumRemoveOldLx);
+    $yumPackages = implode(' ', $yumInstallPackages);
+    $yumKloxoP   = implode(' ', $yumKloxoPackages);
     // disable this 'if' because trouble for update from lower version
 
     print(">>> Adding System users and groups (nouser, nogroup and lxlabs, lxlabs) <<<\n");
@@ -333,23 +483,17 @@ function kloxo_install_step1() {
 
     // remove lxphp, lxlighttpd and lxzend
     print(">>> Removing 'old' lxphp/lxligttpd/lxzend/kloxo* <<<\n");
-    system("yum remove -y lxphp lxlighttpd lxzend kloxo-*");
+    system('yum remove -y ' . $yumRemove);
     if (file_exists("/usr/local/lxlabs/ext")) {
         rm_if_exists("/usr/local/lxlabs/ext");
     }
 
-	print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
-	// Xcache, zend, ioncube, suhosin and zts not default install
-	// install curl-devel (need by php-common) will be install curl-devel in CentOS 5 and libcurl-devel in CentOS 6
-	$packages = array("tnef", "which", "gcc", "cpp", "gcc-c++", "zip", "unzip", "curl-devel", "libcurl-devel", "autoconf",
-		"automake", "make", "libtool", "openssl-devel", "pure-ftpd", "yum-protectbase",
-		"yum-plugin-replace", "crontabs", "make", "glibc-static", "net-snmp", "tmpwatch",
-		"rkhunter", "quota", "xinetd", "screen", "telnet", "ncdu", "sysstat", "net-tools",
-		"xz", "xz-libs", "p7zip", "p7zip-plugins", "rar", "unrar", "lxjailshell", "yum-presto", "deltarpm");
+    print(">>> Adding certain components (like curl/contabs/rkhunter) <<<\n");
+    // Xcache, zend, ioncube, suhosin and zts not default install
+    // install curl-devel (need by php-common) will be install curl-devel in CentOS 5 and libcurl-devel in CentOS 6
 
-	$list = implode(" ", $packages);
 
-    system("yum -y install $list; rkhunter --update");
+    system("yum -y install $yumPackages; rkhunter --update");
 
     print(">>> Adding MalDetect <<<\n");
 
@@ -357,12 +501,9 @@ function kloxo_install_step1() {
 
     print(">>> Adding Kloxo-NG webmail/thirparty/stats <<<\n");
 
-    // it's include packages like kloxomr7-thirdparty
-    system("yum -y install kloxomr7-*.noarch");
-    // regular packages (as the same as for Kloxo-MR 6.5.0)
-    system("yum -y install kloxomr-webmail-*.noarch kloxomr-thirdparty-*.noarch kloxomr-stats-*.noarch kloxomr-editor-*.noarch " . "--exclude=kloxomr-thirdparty-phpmyadmin-*.noarch");
+    system("yum -y install " . $yumKloxoP);
 
-	print(">>> Prepare installation directories <<<\n");
+    print(">>> Prepare installation directories <<<\n");
 
     system("mkdir -p {$kloxopath}");
 
