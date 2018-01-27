@@ -27,7 +27,7 @@
 #we define here the array of variables and for packages that we will use on installing with yum 
 yum_pack1=(zip unzip)
 yum_pack2=(wget)
-kloxoflname=kloxong
+kloxoflname="kloxong"
 
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo

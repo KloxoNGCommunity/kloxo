@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#    Kloxo-MR - Hosting Control Panel
+#    KloxoNG - Hosting Control Panel
 #
-#    Copyright (C) 2013 - MRatWork
+#    Copyright (C) 2018 - MRatWork
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,15 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# MRatWork - Kloxo-MR dev Installer
+# MRatWork - KloxoNG dev Installer
 #
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
+# Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
 #
+
+$main_repo_url="https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch"
+$main_release_rpm="mratwork-release-0.0.1-1.noarch.rpm"
+$rpm_main_pck='kloxong'
 
 if [ "$(rpm -qa mratwork-release)" == "" ] ; then
 	cd /tmp
-	rpm -ivh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm >/dev/null 2>&1
-	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm >/dev/null 2>&1
+	rpm -ivh $main_repo_url/$main_release_rpm >/dev/null 2>&1
+	rpm -ivh $main_release_rpm >/dev/null 2>&1
 	yum update mratwork-release -y >/dev/null 2>&1
 
 	'mv' -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo >/dev/null 2>&1
@@ -35,8 +40,8 @@ else
 	yum update mratwork-release -y >/dev/null 2>&1
 fi
 
-if [ "$(rpm -qa ^'kloxomr7')" == "" ] ; then
-	yum install -y kloxomr7 >/dev/null 2>&1
+if [ "$(rpm -qa ^'$rpm_main_pck')" == "" ] ; then
+	yum install -y $rpm_main_pck >/dev/null 2>&1
 fi
 
 if [ ! -L /script ] ; then
@@ -48,14 +53,14 @@ if [ ! -L /script ] ; then
 fi
 
 echo ""
-echo "*** Update Kloxo-MR 7.0 with github source (packed with packer.sh) ***"
+echo "*** Update KloxoNG with github source (packed with packer.sh) ***"
 
 echo ""
-'rm' -rf ./kloxomr7*/ >/dev/null 2>&1
+'rm' -rf ./$rpm_main_pck*/ >/dev/null 2>&1
 echo "- extract tar.gz file and copy to /usr/local/lxlabs/kloxo"
-tar -xzf ./kloxomr7-*.tar.gz >/dev/null 2>&1
-'cp' -rf ./kloxomr7-*/* /usr/local/lxlabs/kloxo >/dev/null 2>&1
-'rm' -rf ./kloxomr7*/ >/dev/null 2>&1
+tar -xzf ./$rpm_main_pck-*.tar.gz >/dev/null 2>&1
+'cp' -rf ./$rpm_main_pck-*/* /usr/local/lxlabs/kloxo >/dev/null 2>&1
+'rm' -rf ./$rpm_main_pck*/ >/dev/null 2>&1
 
 echo ""
 echo "* Note:"

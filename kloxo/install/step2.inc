@@ -1,6 +1,13 @@
 #delcaring variables and variables list 
 klxpckname='kloxong'
 
+#Packages removing web 
+yum_rem_pack=(
+				httpd*
+				mod_*
+			  )	
+				
+
 #for apache24 packages
 yum_httpd24_pack=(
 				  httpd24u
@@ -206,7 +213,7 @@ install_web() {
 
 	if [ "$(yum list httpd24u)" != "" ] ; then
 		if [ "$(rpm -qa httpd)" != "" ] ; then
-			yum -y remove httpd* mod_*
+			yum -y remove ${yum_rem_pack[@]}
 		fi
 
 		yum -y install ${yum_httpd24_pack[@]}
