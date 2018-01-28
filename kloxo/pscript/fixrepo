@@ -1,9 +1,14 @@
 #!/bin/sh
+# declaring Variables
+reponame="kloxong"
+repourl="https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch"
+relrpmname="mratwork-release-0.0.1-1.noarch.rpm"
+
 
 yum clean all
 
-if [ "$(rpm -qa|grep 'mratwork-')" != "" ] ; then
-	yum update mratwork* -y
+if [ "$(rpm -qa|grep '$reponame-')" != "" ] ; then
+	yum update $reponame* -y
 else
 	cd /tmp
 
@@ -14,9 +19,9 @@ else
 	'rm' -rf /etc/yum.repos.d/lxlabs.repo	
 	'rm' -rf /etc/yum.repos.d/mratwork.repo.*
 	
-	wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-	rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
-	yum update mratwork-* -y
+	wget $repourl/$relrpmname --no-check-certificate
+	rpm -ivh $relrpmname
+	yum update $reponame-* -y
 fi
 
 . /script/fix-urgent
