@@ -1,3 +1,169 @@
+#delcaring variables and variables list 
+klxpckname='kloxong'
+
+#Packages removing web 
+yum_rem_pack=(
+				httpd*
+				mod_*
+			  )	
+				
+
+#for apache24 packages
+yum_httpd24_pack=(
+				  httpd24u
+				  httpd24u-tools
+				  httpd24u-filesystem
+				  httpd24u-mod_security2 
+				  mod24u_ssl
+				  mod24u_session
+				  mod24u_suphp
+				  mod24u_ruid2
+				  mod24u_fcgid
+				  mod24u_fastcgi
+				  mod24u_evasive
+				  )
+#for apache packages 
+yum_httpd_pack=(
+					httpd httpd-tools
+					mod_ssl
+					mod_rpaf
+					mod_ruid2
+					mod_suphp
+					mod_fastcgi
+					mod_fcgid
+					mod_define
+				)
+
+#for database installation packages
+yum_database_pack=(
+					mysql
+					mysql55
+					mysql56
+					mariadb
+					MariaDB
+				   )
+
+#for dns pack
+yum_dns_pack=(
+				bind
+				bind-utils
+			  )
+
+#for yum mailserver packages
+yum_remove_mail_pack=(
+						sendmail*
+						sftpd* postfix*
+						ssmtp*
+						smail*
+						lxzend*
+						pure-ftpd*
+						exim*
+						opensmtpd*
+						esmtp*
+						libesmtp*
+					 )
+
+yum_mail_pack=(
+				autorespond-toaster
+				courier-authlib-toaster
+				courier-imap-toaster
+				daemontools-toaster
+				ezmlm-toaster
+				libdomainkeys-toaster
+				libsrs2-toaster
+				maildrop-toaster
+				qmail-toaster
+				ucspi-tcp-toaster
+				vpopmail-toaster
+				fetchmail
+				bogofilter
+			  )
+
+#for other services pack
+yum_other_pack=(
+					pure-ftpd
+					webalizer
+					cronie
+					cronie-anacron
+					crontabs
+					vixie-cron
+					rpmdevtools
+					yum-utils
+				)	 
+
+# array for old kloxo packages removal
+old_rem_kloxo_pack=(
+						lxphp
+						lxlighttpd
+						lxzend
+						kloxo-*
+					) 
+
+#yum other required componements for kloxo and centos
+yum_comp_pack=(
+				tnef
+				which
+				gcc
+				cpp
+				gcc-c++
+				zip
+				unzip
+				curl-devel
+				libcurl-devel
+				autoconf
+				automake
+				make
+				libtool
+				openssl-devel
+				pure-ftpd
+				yum-protectbase
+				yum-plugin-replace
+				crontabs
+				make
+				glibc-static
+				net-snmp
+				tmpwatch
+				rkhunter
+				quota
+				xinetd
+				screen
+				telnet
+				ncdu
+				sysstat
+				net-tools
+				xz
+				xz-libs
+				p7zip
+				p7zip-plugins
+				rar
+				unrar
+				lxjailshell
+			 )
+			 
+#for php packages instalation
+php_pack=(
+			php
+			php54
+			php55u
+			php56u
+			php54w
+			php55w
+			php56w
+		)	
+
+#yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and   kloxong
+yum_klx_legacy_pack=(
+						kloxomr-webmail-*.noarch
+						kloxomr-thirdparty-*.noarch
+						kloxomr-stats-*.noarch
+						kloxomr-editor-*.noarch
+					)
+					
+yum_klx_legacy_excl_pack=(
+							kloxomr-thirdparty-phpmyadmin-*.noarch
+						 )						
+
+
 f="/var/run/yum.pid" ; [[ -f "${f}" ]] && 'rm' -f "${f}"
 
 yum-complete-transaction
@@ -27,7 +193,7 @@ dbroot='root'
 dbpass=''
 
 kloxo_service_init() {
-	echo ">>> Copy Kloxo-MR service <<<"
+	echo ">>> Copy KloxoNG service <<<"
 
 	sh /script/fixlxphpexe
 }
@@ -47,18 +213,12 @@ install_web() {
 
 	if [ "$(yum list httpd24u)" != "" ] ; then
 		if [ "$(rpm -qa httpd)" != "" ] ; then
-			yum -y remove httpd* mod_*
+			yum -y remove ${yum_rem_pack[@]}
 		fi
 
-		yum -y install httpd24u httpd24u-tools \
-			httpd24u-filesystem httpd24u-mod_security2 \
-			mod24u_ssl mod24u_session \
-			mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi \
-			mod24u_evasive
+		yum -y install ${yum_httpd24_pack[@]}
 	else
-		yum -y install httpd httpd-tools \
-			mod_ssl mod_rpaf mod_ruid2 mod_suphp mod_fastcgi mod_fcgid \
-			mod_define
+		yum -y install ${yum_httpd_pack[@]}
 	fi
 }
 
@@ -67,7 +227,7 @@ install_database() {
 
 	m='MariaDB'
 
-	for x in mysql mysql55 mysql56 mariadb MariaDB ; do
+	for x in ${yum_database_pack[@]} ; do
 		if [ "$(rpm -qa ${x}-server)" != "" ] ; then
 			m=${x}
 		fi
@@ -79,7 +239,7 @@ install_database() {
 install_dns() {
 	echo ">>> Install DNS services <<<"
 
-	yum -y install bind bind-utils --skip-broken
+	yum -y install ${yum_dns_pack[@]} --skip-broken
 
 	vlnpath="/var/log/named"
 
@@ -96,8 +256,7 @@ install_dns() {
 install_mail() {
 	echo ">>> Remove certain mail packages <<<"
 
-	yum -y remove sendmail* vsftpd* postfix* \
-		ssmtp* smail* lxzend* pure-ftpd* exim* opensmtpd* esmtp* libesmtp*
+	yum -y remove ${yum_remove_mail_pack[@]}
 
 	echo ">>> Remove postfix user <<<"
 
@@ -110,10 +269,7 @@ install_mail() {
 
 	echo ">>> Install Mail services <<<"
 
-	yum -y install autorespond-toaster courier-authlib-toaster courier-imap-toaster \
-		daemontools-toaster ezmlm-toaster libdomainkeys-toaster libsrs2-toaster \
-		maildrop-toaster qmail-toaster \
-		ucspi-tcp-toaster vpopmail-toaster fetchmail bogofilter --skip-broken
+	yum -y install ${yum_mail_pack[@]} --skip-broken
 
 	groupadd -g 89 vchkpw
 	useradd -u 89 -g 89 vpopmail -s '/sbin/nologin'
@@ -122,8 +278,7 @@ install_mail() {
 install_others() {
 	echo ">>> Install OTHER services <<<"
 
-	yum -y install pure-ftpd webalizer cronie cronie-anacron crontabs vixie-cron \
-		rpmdevtools yum-utils --skip-broken
+	yum -y install ${yum_other_pack[@]} --skip-broken
 }
 
 kloxo_vpopmail() {
@@ -137,7 +292,7 @@ kloxo_vpopmail() {
 
 	echo 'SPAMDOPTIONS=" -v -d -p 783 -u vpopmail"' > /etc/sysconfig/spamassassin
 
-	## MR -- until Kloxo-MR 7.0.0, still using the same mail path
+	## MR -- until KloxoNG 0.0.1, still using the same mail path
 	mkdir -p /home/lxadmin/mail/domains
 	chmod 755 /home/lxadmin
 	chmod 755 /home/lxadmin/mail
@@ -181,7 +336,7 @@ kloxo_install_step1() {
 
 	ullepath="/usr/local/lxlabs/ext"
 
-	yum remove -y lxphp lxlighttpd lxzend kloxo-*
+	yum remove -y ${old_rem_kloxo_pack[@]}
 
 	if [ -d ${ullepath} ] ; then
 		'rm' -f ${ullepath}
@@ -191,11 +346,7 @@ kloxo_install_step1() {
 
 	## MR -- install curl-devel (need by php-common) will be install curl-devel
 	## in CentOS 5 and libcurl-devel in CentOS 6
-	yum -y install tnef which gcc cpp gcc-c++ zip unzip curl-devel libcurl-devel autoconf \
-		 automake make libtool openssl-devel pure-ftpd yum-protectbase \
-		 yum-plugin-replace crontabs make glibc-static net-snmp tmpwatch \
-		 rkhunter quota xinetd screen telnet ncdu sysstat net-tools \
-		 xz xz-libs p7zip p7zip-plugins rar unrar lxjailshell --skip-broken
+	yum -y install ${yum_comp_pack[@]} --skip-broken
 
 	rkhunter --update
 
@@ -205,7 +356,7 @@ kloxo_install_step1() {
 
 	phpbranch='php'
 
-	for x in php php54 php55u php56u php54w php55w php56w ; do
+	for x in ${php_pack[@]} ; do
 		if [ "$(rpm -qa ${x})" != "" ] ; then
 			phpbranch=${x}
 		fi
@@ -225,12 +376,11 @@ kloxo_install_step1() {
 
 	echo ">>> Add Kloxo-MR webmail/thirparty/stats <<<"
 
-	## MR -- it's include packages like kloxomr7-thirdparty
-	yum -y install kloxomr7-*.noarch
+	## MR -- it's include packages like kloxong-thirdparty
+	yum -y install $klxpckname-*.noarch
 
 	## MR -- regular packages (as the same as for Kloxo-MR 6.5.0)
-	yum -y install kloxomr-webmail-*.noarch kloxomr-thirdparty-*.noarch kloxomr-stats-*.noarch \
-		kloxomr-editor-*.noarch --exclude=kloxomr-thirdparty-phpmyadmin-*.noarch --skip-broken
+	yum -y install ${yum_klx_legacy_pack[@]} --exclude=${yum_klx_legacy_excl_pack[@]} --skip-broken
 
 	echo ">>> Prepare installation directories <<<"
 
@@ -262,7 +412,7 @@ kloxo_install_step1() {
 }
 
 kloxo_install_step2() {
-	echo ">>> Process basic Kloxo-MR configures (setting and database) <<<"
+	echo ">>> Process basic KloxoNG configuration (setting and database) <<<"
 
 	if [ ! -d ${kloxopath}/etc/conf ] ; then
 		mkdir -p ${kloxopath}/etc/conf
@@ -387,7 +537,7 @@ kloxo_install_bye() {
 		echo
 		echo "._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/."
 		echo "._/                                                                          _/."
-		echo "._/ Congratulations. Kloxo-MR has been installed succesfully as 'MASTER'     _/."
+		echo "._/ Congratulations. KloxoNG has been installed succesfully as 'MASTER'     _/."
 		echo "._/                                                                          _/."
 
 	if [ "${installtype}" == 'master' ] ; then
