@@ -106,7 +106,7 @@ $dbpass = '';
     );
 
 
-    $yumRemoveOldLx = array('lxphp', 'lxlighttpd', 'lxzend', 'kloxo-*');
+    $yumRemoveOldLx = array('lxphp', 'lxlighttpd', 'lxzend', 'kloxo-*', 'kloxomr-*');
 
 
     $yumInstallPackages = array(
@@ -152,12 +152,12 @@ $dbpass = '';
     );
 
     $yumKloxoPackages = array(
-        'kloxomr7-*.noarch',
-        'kloxomr-webmail-*.noarch',
-        'kloxomr-thirdparty-*.noarch',
-        'kloxomr-stats-*.noarch',
-        'kloxomr-editor-*.noarch',
-        '--exclude=kloxomr-thirdparty-phpmyadmin-*.noarch',
+        'kloxong-*.noarch',
+        'kloxong-webmail-*.noarch',
+        'kloxong-thirdparty-*.noarch',
+        'kloxong-stats-*.noarch',
+        'kloxong-editor-*.noarch',
+        '--exclude=kloxong-thirdparty-phpmyadmin-*.noarch',
     );
 }
 

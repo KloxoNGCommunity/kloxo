@@ -97,6 +97,11 @@ old_rem_kloxo_pack=(
 						lxlighttpd
 						lxzend
 						kloxo-*
+                                                kloxomr-webmail-*.noarch
+						kloxomr-thirdparty-*.noarch
+						kloxomr-stats-*.noarch
+						kloxomr-editor-*.noarch
+                                                kloxomr-thirdparty-phpmyadmin-*.noarch
 					) 
 
 #yum other required componements for kloxo and centos
@@ -153,14 +158,14 @@ php_pack=(
 
 #yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and   kloxong
 yum_klx_legacy_pack=(
-						kloxomr-webmail-*.noarch
-						kloxomr-thirdparty-*.noarch
-						kloxomr-stats-*.noarch
-						kloxomr-editor-*.noarch
+						kloxong-webmail-*.noarch
+						kloxong-thirdparty-*.noarch
+						kloxong-stats-*.noarch
+						kloxong-editor-*.noarch
 					)
 					
 yum_klx_legacy_excl_pack=(
-							kloxomr-thirdparty-phpmyadmin-*.noarch
+							kloxong-thirdparty-phpmyadmin-*.noarch
 						 )						
 
 
@@ -578,7 +583,7 @@ kloxo_install_bye() {
 }
 
 install_yum_repo() {
-	echo ">>> Modified mratwork.repo and remove older repo names <<<"
+	echo ">>> Modified kloxong.repo and remove older repo names <<<"
 
 	sh /script/fixrepo
 
