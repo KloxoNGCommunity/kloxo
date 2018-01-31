@@ -3,169 +3,169 @@ klxpckname='kloxong'
 
 #Packages removing web 
 yum_rem_pack=(
-				httpd*
-				mod_*
+				"httpd*"
+				"mod_*"
 			  )	
 				
 
 #for apache24 packages
 yum_httpd24_pack=(
-				  httpd24u
-				  httpd24u-tools
-				  httpd24u-filesystem
-				  httpd24u-mod_security2 
-				  mod24u_ssl
-				  mod24u_session
-				  mod24u_suphp
-				  mod24u_ruid2
-				  mod24u_fcgid
-				  mod24u_fastcgi
-				  mod24u_evasive
+				  "httpd24u"
+				  "httpd24u-tools"
+				  "httpd24u-filesystem"
+				  "httpd24u-mod_security2" 
+				  "mod24u_ssl"
+				  "mod24u_session"
+				  "mod24u_suphp"
+				  "mod24u_ruid2"
+				  "mod24u_fcgid"
+				  "mod24u_fastcgi"
+				  "mod24u_evasive"
 				  )
 #for apache packages 
 yum_httpd_pack=(
-					httpd httpd-tools
-					mod_ssl
-					mod_rpaf
-					mod_ruid2
-					mod_suphp
-					mod_fastcgi
-					mod_fcgid
-					mod_define
+					"httpd httpd-tools"
+					"mod_ssl"
+					"mod_rpaf"
+					"mod_ruid2"
+					"mod_suphp"
+					"mod_fastcgi"
+					"mod_fcgid"
+					"mod_define"
 				)
 
 #for database installation packages
 yum_database_pack=(
-					mysql
-					mysql55
-					mysql56
-					mariadb
-					MariaDB
+					"mysql"
+					"mysql55"
+					"mysql56"
+					"mariadb"
+					"MariaDB"
 				   )
 
 #for dns pack
 yum_dns_pack=(
-				bind
-				bind-utils
+				"bind"
+				"bind-utils"
 			  )
 
 #for yum mailserver packages
 yum_remove_mail_pack=(
-						sendmail*
-						sftpd* postfix*
-						ssmtp*
-						smail*
-						lxzend*
-						pure-ftpd*
-						exim*
-						opensmtpd*
-						esmtp*
-						libesmtp*
+						"sendmail*"
+						"sftpd* postfix*"
+						"ssmtp*"
+						"smail*"
+						"lxzend*"
+						"pure-ftpd*"
+						"exim*"
+						"opensmtpd*"
+						"esmtp*"
+						"libesmtp*"
 					 )
 
 yum_mail_pack=(
-				autorespond-toaster
-				courier-authlib-toaster
-				courier-imap-toaster
-				daemontools-toaster
-				ezmlm-toaster
-				libdomainkeys-toaster
-				libsrs2-toaster
-				maildrop-toaster
-				qmail-toaster
-				ucspi-tcp-toaster
-				vpopmail-toaster
-				fetchmail
-				bogofilter
+				"autorespond-toaster"
+				"courier-authlib-toaster"
+				"courier-imap-toaster"
+				"daemontools-toaster"
+				"ezmlm-toaster"
+				"libdomainkeys-toaster"
+				"libsrs2-toaster"
+				"maildrop-toaster"
+				"qmail-toaster"
+				"ucspi-tcp-toaster"
+				"vpopmail-toaster"
+				"fetchmail"
+				"bogofilter"
 			  )
 
 #for other services pack
 yum_other_pack=(
-					pure-ftpd
-					webalizer
-					cronie
-					cronie-anacron
-					crontabs
-					vixie-cron
-					rpmdevtools
-					yum-utils
+					"pure-ftpd"
+					"webalizer"
+					"cronie"
+					"cronie-anacron"
+					"crontabs"
+					"vixie-cron"
+					"rpmdevtools"
+					"yum-utils"
 				)	 
 
 # array for old kloxo packages removal
 old_rem_kloxo_pack=(
-						lxphp
-						lxlighttpd
-						lxzend
-						kloxo-*
-                                                kloxomr-webmail-*.noarch
-						kloxomr-thirdparty-*.noarch
-						kloxomr-stats-*.noarch
-						kloxomr-editor-*.noarch
-                                                kloxomr-thirdparty-phpmyadmin-*.noarch
+						"lxphp"
+						"lxlighttpd"
+						"lxzend"
+						"kloxo-*"
+                                               " kloxomr-webmail-*.noarch"
+						"kloxomr-thirdparty-*.noarch"
+						"kloxomr-stats-*.noarch"
+						"kloxomr-editor-*.noarch"
+                                                "kloxomr-thirdparty-phpmyadmin-*.noarch"
 					) 
 
 #yum other required componements for kloxo and centos
 yum_comp_pack=(
-				tnef
-				which
-				gcc
-				cpp
-				gcc-c++
-				zip
-				unzip
-				curl-devel
-				libcurl-devel
-				autoconf
-				automake
-				make
-				libtool
-				openssl-devel
-				pure-ftpd
-				yum-protectbase
-				yum-plugin-replace
-				crontabs
-				make
-				glibc-static
-				net-snmp
-				tmpwatch
-				rkhunter
-				quota
-				xinetd
-				screen
-				telnet
-				ncdu
-				sysstat
-				net-tools
-				xz
-				xz-libs
-				p7zip
-				p7zip-plugins
-				rar
-				unrar
-				lxjailshell
+				"tnef"
+				"which"
+				"gcc"
+				"cpp"
+				"gcc-c++"
+				"zip"
+				"unzip"
+				"curl-devel"
+				"libcurl-devel"
+				"autoconf"
+				"automake"
+				"make"
+				"libtool"
+				"openssl-devel"
+				"pure-ftpd"
+				"yum-protectbase"
+				"yum-plugin-replace"
+				"crontabs"
+				"make"
+				"glibc-static"
+				"net-snmp"
+				"tmpwatch"
+				"rkhunter"
+				"quota"
+				"xinetd"
+				"screen"
+				"telnet"
+				"ncdu"
+				"sysstat"
+				"net-tools"
+				"xz"
+				"xz-libs"
+				"p7zip"
+				"p7zip-plugins"
+				"rar"
+				"unrar"
+				"lxjailshell"
 			 )
 			 
 #for php packages instalation
 php_pack=(
-			php
-			php54
-			php55u
-			php56u
-			php54w
-			php55w
-			php56w
+			"php"
+			"php54"
+			"php55u"
+			"php56u"
+			"php54w"
+			"php55w"
+			"php56w"
 		)	
 
 #yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and   kloxong
 yum_klx_legacy_pack=(
-						kloxong-webmail-*.noarch
-						kloxong-thirdparty-*.noarch
-						kloxong-stats-*.noarch
-						kloxong-editor-*.noarch
+						"kloxong-webmail-*.noarch"
+						"kloxong-thirdparty-*.noarch"
+						"kloxong-stats-*.noarch"
+						"kloxong-editor-*.noarch"
 					)
 					
 yum_klx_legacy_excl_pack=(
-							kloxong-thirdparty-phpmyadmin-*.noarch
+							"kloxong-thirdparty-phpmyadmin-*.noarch"
 						 )						
 
 
@@ -379,7 +379,7 @@ kloxo_install_step1() {
 
 	sh /script/maldet-installer
 
-	echo ">>> Add Kloxo-MR webmail/thirparty/stats <<<"
+	echo ">>> Add KloxoNG webmail/thirparty/stats <<<"
 
 	## MR -- it's include packages like kloxong-thirdparty
 	yum -y install $klxpckname-*.noarch
