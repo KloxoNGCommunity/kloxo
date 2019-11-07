@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$(yum list inotify-tools|grep @)" == "" ] ; then
+	yum install inotify-tools -y
+fi
+
 if [ ! -f /usr/local/maldetect/maldet ] ; then
 	cd /tmp
 

@@ -13,8 +13,6 @@ function __autoload($class)
 
 	global $gl_class_array;
 
-//	dprint("Searching for class: $class  <br> \n");
-
 	$class = strtolower($class);
 
 	if (csb($class, "all_")) { $class = strfrom($class, "all_"); }

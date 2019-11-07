@@ -26,7 +26,7 @@
 logdir="/var/log/startapi.sh"
 rootpath="/root/.startapi.sh"
 sslpath="/home/kloxo/ssl"
-maindom="<?php echo $basedom; ?>"
+maindom="<?=$basedom;?>"
 
 if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 	action="--force --renew"
@@ -34,9 +34,9 @@ else
 	action="--issue"
 fi
 
-${rootpath}/startapi.sh ${action} --webroot <?php echo $docroot; ?> \
-<?php echo $dom; ?>
-	<?php echo $req; ?> >> /dev/null \
+${rootpath}/startapi.sh ${action} --webroot <?=$docroot;?> \
+<?=$dom;?>
+	<?=$req;?> >> /dev/null \
 	&> ${logdir}/startapi.sh_tmp.log
 
 RETVAL=$?

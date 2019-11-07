@@ -11,13 +11,14 @@ foreach($list as $c) {
 	foreach($dlist as $l) {
 		$web = $l->getObject('web');
 		$web->setUpdateSubaction('full_update');
-		$web->was();
 		$dirp = $web->getList('dirprotect');
 
-		foreach($dplist as $dp) {
+		foreach($dirp as $dp) {
 			$dp->setUpdateSubaction('full_update');
 
 			$dp->was();
 		}
+
+		$web->was();
 	}
 }

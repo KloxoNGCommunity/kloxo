@@ -25,7 +25,7 @@ class Spam__Spamassassin extends lxDriverClass
 		}
 
 	//	lxshell_return("chkconfig", "spamassassin", "on");
-	//	lxfile_cp("../file/sysconfig_spamassassin", "/etc/sysconfig/spamassassin");
+		lxfile_cp("../file/spamassassin/etc/sysconfig/spamassassin", "/etc/sysconfig/spamassassin");
 	//	createRestartFile("spamassassin");
 	}
 
@@ -64,7 +64,15 @@ class Spam__Spamassassin extends lxDriverClass
 
 		if ($user) {
 		//	$prefpath = "$mailpath/domains/{$domain}/{$user}/user_prefs";
-			$prefpath = "{$mailpath}/{$user}/user_prefs";
+		/* JP add proper spamassassin path
+			* For this to work ensure that /var/qmail/supervise/spamd/run
+			* contains the correct --virtual-config-dir=/home/lxadmin/mail/spamassassin/%d/%l/.spamassassin command
+			*   
+			* eg exec /usr/bin/spamd --virtual-config-dir=/home/lxadmin/mail/spamassassin/%d/%l/.spamassassin -x -u vpopmail -s stderr -i 0.0.0.0 2>&1   
+		 */
+			// $prefpath = "{$mailpath}/{$user}/.spamassassin/user_prefs";
+
+			$prefpath = "/home/lxadmin/mail/spamassassin/{$domain}/{$user}/.spamassassin/user_prefs";
 		} else {
 			return;
 		}

@@ -89,6 +89,8 @@ yum_other_pack=(
 					"vixie-cron"
 					"rpmdevtools"
 					"yum-utils"
+					"procps-ng" 
+					"psmisc"
 				)	 
 
 # array for old kloxo packages removal
@@ -104,46 +106,6 @@ old_rem_kloxo_pack=(
                                                 "kloxomr-thirdparty-phpmyadmin-*.noarch"
 					) 
 
-#yum other required componements for kloxo and centos
-yum_comp_pack=(
-				"tnef"
-				"which"
-				"gcc"
-				"cpp"
-				"gcc-c++"
-				"zip"
-				"unzip"
-				"curl-devel"
-				"libcurl-devel"
-				"autoconf"
-				"automake"
-				"make"
-				"libtool"
-				"openssl-devel"
-				"pure-ftpd"
-				"yum-protectbase"
-				"yum-plugin-replace"
-				"crontabs"
-				"make"
-				"glibc-static"
-				"net-snmp"
-				"tmpwatch"
-				"rkhunter"
-				"quota"
-				"xinetd"
-				"screen"
-				"telnet"
-				"ncdu"
-				"sysstat"
-				"net-tools"
-				"xz"
-				"xz-libs"
-				"p7zip"
-				"p7zip-plugins"
-				"rar"
-				"unrar"
-				"lxjailshell"
-			 )
 			 
 #for php packages instalation
 php_pack=(
@@ -295,7 +257,9 @@ kloxo_vpopmail() {
 
 	echo ">>> Fix Vpopmail settings <<<"
 
-	echo 'SPAMDOPTIONS=" -v -d -p 783 -u vpopmail"' > /etc/sysconfig/spamassassin
+	#echo 'SPAMDOPTIONS="-i 127.0.0.1 -A 127.0.0.1 -v -d -p 783 -u vpopmail"' > /etc/sysconfig/spamassassin
+	'cp' -f /usr/local/lxlabs/kloxo/file/spamassassin/etc/sysconfig/spamassassin /etc/sysconfig/spamassassin
+
 
 	## MR -- until KloxoNG 0.0.1, still using the same mail path
 	mkdir -p /home/lxadmin/mail/domains
@@ -349,11 +313,7 @@ kloxo_install_step1() {
 
 	echo ">>> Add certain components (like curl/contabs/rkhunter) <<<"
 
-	## MR -- install curl-devel (need by php-common) will be install curl-devel
-	## in CentOS 5 and libcurl-devel in CentOS 6
-	yum -y install ${yum_comp_pack[@]} --skip-broken
-
-	rkhunter --update
+	sh /script/rkhunter-installer
 
 	echo ">>> Add Standard PHP components and Hiawatha <<<"
 	## MR -- xcache, zend, ioncube, suhosin and zts not default install
@@ -526,7 +486,7 @@ kloxo_install_before_bye() {
 
 kloxo_install_bye() {
 	## MR -- use '-i' instead '-I' because not exists in CentOS 5
-	this_ip=$(hostname -i|awk '{print $1}')
+	this_ip=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
 	len=${#this_ip}
 
 	https_spc=""
@@ -570,7 +530,7 @@ kloxo_install_bye() {
 		echo "._/ - Need running 'sh /script/cleanup' for update                           _/."
 	fi
 
-		echo "._/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQLcccc   _/."
+		echo "._/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQL       _/."
 		echo "._/   memory usage. Or, go to 'admin->Webserver Configure'                   _/."
 		echo "._/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/."
 
@@ -600,7 +560,7 @@ lxins_main() {
 	## MR -- to make sure /tmp ready for all; found mysql not able to start if not 1777
 	chmod 1777 /tmp
 
-	sh /script/set-limits
+	sh /script/fix-limits
 
 	install_yum_repo
 

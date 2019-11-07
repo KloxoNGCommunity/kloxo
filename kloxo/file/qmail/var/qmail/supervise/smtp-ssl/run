@@ -25,7 +25,7 @@ else
 	RECORDIO="/usr/bin/recordio"
 fi
 
-#BLACKLIST=`cat /var/qmail/control/blacklists`
+#BLACKLIST=$(cat /var/qmail/control/blacklists)
 #RBLSMTPD="/usr/bin/rblsmtpd"
 
 if [ -f /var/qmail/control/spamdyke ] ; then

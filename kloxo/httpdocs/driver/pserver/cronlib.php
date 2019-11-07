@@ -194,10 +194,6 @@ class Cron extends Lxdb
 		return ($this->ttype === 'simple');
 	}
 
-	function PreUpdate($subaction, $param)
-	{
-	}
-
 	function update($subaction, $param)
 	{
 		$param['minute'] = self::convertToAllIfExists($param['minute']);

@@ -7,7 +7,7 @@ initProgram('admin');
 $login->loadAllObjects('client');
 $list = $login->getList('client');
 
-log_cleanup("Fixing Mail Outgoing IP", $nolog);
+log_cleanup("Fixing Mail Outgoing IP",  $nolog = null);
 
 $t = '';
 

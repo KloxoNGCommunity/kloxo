@@ -12,5 +12,5 @@
 // have a problem if restart kloxo service and then bypass it.
 exec("yum clean all; yum update kloxomr7 -y; sh /script/cleanup-nokloxorestart");
 
-createRestartFile('kloxo');
+createRestartFile('restart');
 

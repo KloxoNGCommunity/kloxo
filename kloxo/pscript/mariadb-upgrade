@@ -5,7 +5,7 @@ if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 fi
 
 if [ "${1}" == "" ] ; then
-	newver="10.2"
+	newver="10.3"
 else
 	newver=${1}
 fi
@@ -26,13 +26,20 @@ if [ "${status}" == "12" ] ; then
 	yum remove MariaDB-server -y
 	yum install MariaDB-server -y
 
-	'cp' -f /etc/my.cnf.d/server.cnf.rpmsave /etc/my.cnf.d/server.cnf
+	mv -f /etc/my.cnf.d/server.cnf /etc/my.cnf.d/server.cnf.rpmnew
+	mv -f /etc/my.cnf.d/server.cnf.rpmsave /etc/my.cnf.d/server.cnf
+
+	if [ "$(yum list MariaDB-rocksdb-engine)" != "" ] ; then
+		yum install MariaDB-rocksdb-engine -y
+	fi
 
 	sh /script/restart-mysql
 
-	pass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
+	. /script/directory
 
-	mysql_upgrade -u root -p${pass}
+	pass=$(lxphp.exe ../bin/common/mp.php)
+
+	mysql_upgrade -u root -p${pass} --force
 
 	sh /script/restart-mysql
 
@@ -44,5 +51,5 @@ fi
 echo
 echo "* Note:"
 echo "  - Format: $0 [target-version]"
-echo "    where [target-version] = 10.2 (by default)"
+echo "    where [target-version] = 10.3 (by default)"
 

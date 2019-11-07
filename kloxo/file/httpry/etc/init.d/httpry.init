@@ -28,9 +28,11 @@ pidfile=${PIDFILE-/var/run/httpry.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/httpry}
 logfile="/var/log/httpry/httpry.log"
 
+idevice=$(ip route get 1 | sed -n 's/^.*dev \([a-zA-Z0-9.]*\) .*$/\1/p')
+
 start () {
     echo -n $"Starting $prog: "
-    daemon --pidfile=$pidfile "httpry -d -q -P $pidfile -F -o $logfile"
+    daemon --pidfile=$pidfile "httpry -d -q -P $pidfile -F -o $logfile -i $idevice"
     if [ -f /var/log/httpry/httpry.log ] ; then
         awk '{if (++dup[$0] == 1) print $0;}' /var/log/httpry/httpry.log > /var/log/httpry/httpry2.log
         'rm' -f /var/log/httpry/httpry.log

@@ -9,7 +9,7 @@ fi
 #LOGCOUNT=`cat /var/qmail/control/logcount`
 
 #exec /usr/bin/setuidgid qmaill \
-#	/usr/bin/multilog t s$LOGSIZE n$LOGCOUNT /var/log/qmail/clamd 2>&1
+#	/usr/bin/multilog t s$LOGSIZE n$LOGCOUNT /var/log/qmail/clamscan 2>&1
 
-exec /usr/bin/setuidgid qmaill \
-	/var/qmail/bin/splogger clamd 2>&1
+exec /usr/bin/setuidgid clamscan \
+	/var/qmail/bin/splogger clamscan 2>&1

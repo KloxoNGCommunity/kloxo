@@ -37,6 +37,8 @@ class davuser extends Lxclient
 		$param['directory'] = trim($param['directory'], "/ ");
 		$param['directory'] = "/{$param['directory']}";
 
+		$web->was();
+
 		return $param;
 	}
 

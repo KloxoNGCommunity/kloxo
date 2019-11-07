@@ -1,13 +1,13 @@
 #!/bin/sh
 
-echo "*** Process for HIAWATHA service ***"
+echo "*** Restart for HIAWATHA service ***"
 
 ## tricky detect if hiawatha as web server
 if [ "$(grep 'hiawatha' /usr/local/lxlabs/kloxo/etc/slavedb/driver)" == "" ] ; then
 	chkconfig hiawatha off >/dev/null 2>&1
 	#if [ "$(service hiawatha status|grep '(pid')" == "" ] ; then
 	if [ "$(pgrep ^hiawatha)" == "" ] ; then
-		/etc/init.d/hiawatha stop >/dev/null 2>&1
+		killall -9 hiawatha >/dev/null 2>&1
 	fi
 else
 	chkconfig hiawatha on >/dev/null 2>&1
@@ -19,7 +19,6 @@ if [ ! -f /var/run/hiawatha.pid ] ; then
 	fi
 fi
 
-echo "  - Process: restart"
-service hiawatha stop
-#pkill -9 hiawatha
-service hiawatha start
+prog='hiawatha'
+
+. /usr/local/lxlabs/kloxo/etc/process/service.inc

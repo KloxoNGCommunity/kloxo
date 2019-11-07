@@ -2,7 +2,7 @@
 
 ### lighhtpd not create pid
 
-echo "*** Process for LIGHTTPD service ***"
+echo "*** Restart for LIGHTTPD service ***"
 
 if [ ! -f /var/run/lighttpd.pid ] ; then
 	if [ -f /var/lock/subsys/lighttpd ] ; then
@@ -10,7 +10,6 @@ if [ ! -f /var/run/lighttpd.pid ] ; then
 	fi
 fi
 
-echo "  - Process: restart"
-service lighttpd stop
-pkill -9 lighttpd
-service lighttpd start
+prog='lighttpd'
+
+. /usr/local/lxlabs/kloxo/etc/process/service.inc

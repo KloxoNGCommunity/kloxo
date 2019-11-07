@@ -1,10 +1,12 @@
 <?php
-	if (!file_exists("/opt/configs/php-fpm/sock")) {
-		mkdir("/opt/configs/php-fpm/sock");
+
+	if (!file_exists($sdir = "/opt/configs/php-fpm/sock")) {
+		mkdir($sdir);
 	}
 
-	if (!file_exists("/var/run/php-fpm")) {
-		mkdir("/var/run/php-fpm");
+
+	if (!file_exists($pdir = "/var/run/php-fpm")) {
+		mkdir($pdir);
 	}
 
 	$userinfo = posix_getpwnam($user);
@@ -49,8 +51,8 @@
 		}
 	}
 
-//	exec("php -r 'echo phpversion();'", $out, $ret);
-	exec("{$phpcli} -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
+//	exec("{$phpcli} -v|grep 'PHP'|grep '(built:'|awk '{print $2}'", $out, $ret);
+	exec("{$phpcli} -r 'echo phpversion();'", $out, $ret);
 
 	if ($ret) {
 		$phpver = '5.4.0';

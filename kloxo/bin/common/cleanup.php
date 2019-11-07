@@ -9,7 +9,7 @@ if (isset($list['nolog'])) {
 	$nologtext = '';
 }
 
-if (lxfile_exists("$sgbl->__path_slave_db")) {
+if (lxfile_exists($sgbl->__path_slave_db)) {
 	$typetext = '--type=slave';
 } else {
 	$typetext = '--type=master';

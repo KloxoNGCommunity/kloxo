@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Process for XINETD (including Pure-FTPd) service ***"
+echo "*** Restart for XINETD service ***"
 
 if [ ! -f /var/run/xinetd.pid ] ; then
 	if [ -f /var/lock/subsys/xinetd ] ; then
@@ -8,7 +8,8 @@ if [ ! -f /var/run/xinetd.pid ] ; then
 	fi
 fi
 
-echo "  - Process: restart"
-service xinetd stop
-pkill -9 xinetd
-service xinetd start
+prog='xinetd'
+
+. /script/directory
+
+. ../etc/process/service.inc

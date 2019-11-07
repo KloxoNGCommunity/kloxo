@@ -59,6 +59,10 @@ else
 fi
 
 function hiawatha_start() {
+	if [ "$(pgrep ^mysql)" == "" ] ; then
+		sh /script/restart-mysql
+	fi
+
 	cd ${MAIN_DIR}/httpdocs
 	lxphp.exe -f ../init/changeport.php
 

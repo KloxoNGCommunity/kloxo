@@ -206,7 +206,7 @@ class web__ extends lxDriverClass
 		$webmailapp = (isset($login->getObject('general')->generalmisc_b->webmail_system_default)) ?
 			$login->getObject('general')->generalmisc_b->webmail_system_default : null;
 
-		if (($webmailapp === '--chooser--') || ($webmailapp)) {
+		if (($webmailapp === '--chooser--') || (!$webmailapp)) {
 			$ret = '';
 		} else {
 			$ret = $webmailapp;
@@ -1056,6 +1056,8 @@ class web__ extends lxDriverClass
 		lxfile_cp(getLinkCustomfile("/opt/configs/nginx/tpl", "cgi-bin.php"), "/home/httpd/cgi-bin.php");
 	}
 
+	// MR -- not need this function because using php-cgi directly
+	// for multiple php, also create php*m-cgi using phpm-installer
 	static function setHttpdFcgid($input)
 	{
 		$tplsource = getLinkCustomfile("/opt/configs/apache/tpl", "php.fcgi.tpl");

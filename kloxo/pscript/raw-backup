@@ -66,7 +66,7 @@ mv -f $zipfile $bckpath >/dev/null 2>&1
 
 echo
 echo "Attention:"
-echo "- Raw backup only work for MySQL with MyISAM storage-engine."
+echo "- Raw backup only work for MariaDB/MySQL with MyISAM storage-engine."
 echo "  Run 'sh /script/mysql-convert' for convert to MyISAM"
 echo
 echo "- Your '$zipfile' move to: "

@@ -122,7 +122,8 @@ abstract class Lxclass
 		if ($this->inheritSynserverFromParent() && $parent) {
 			if (!$this->isClass('ssession')) {
 				$this->syncserver = $parent->getSyncServerForChild($this->getClass());
-				log_log("syncserveriherit", "Adding syncserver $this->syncserver to $this->nname {$this->getclass()} from {$parent->getClName()}");
+				log_log("syncserveriherit", "Adding syncserver $this->syncserver to $this->nname ".
+					"{$this->getclass()} from {$parent->getClName()}");
 			}
 		}
 	}
@@ -259,7 +260,8 @@ abstract class Lxclass
 		}
 
 		// Don't need this. Ruins the appearance <b> [</b>{$obj->getShowInfo()}<b>] </b>
-		return "{$desc}  <span title=\"{$desc} is Configured {$descr} on {$obj->__driverappclass}\"> {$str} {$switch} &#x00bb; <span style='font-weight: normal'>{$obj->__driverappclass}<span> </span>";
+		return "{$desc}  <span title=\"{$desc} is Configured {$descr} on {$obj->__driverappclass}\"> ".
+			"{$str} {$switch} &#x00bb; <span style='font-weight: normal'>{$obj->__driverappclass}<span> </span>";
 
 	}
 
@@ -379,7 +381,16 @@ abstract class Lxclass
 
 		$acto = $login->getObject('general')->customaction_b;
 
-		$var = "{$this->get__table()}__{$this->dbaction}__{$this->subaction}";
+		$avar = array();
+
+		if (!is_array($this->subaction)) {
+			$avar[] = $this->subaction;
+		} else {
+			$avar = $this->subaction;
+		}
+
+		foreach($avar as $key => $value) {
+			$var = "{$this->get__table()}__{$this->dbaction}__{$value}";
 
 		if (isset($acto->$var) && $acto->$var) {
 			$action = $acto->$var;
@@ -397,7 +408,8 @@ abstract class Lxclass
 		if ($this->dbaction === 'add') {
 			$query = "action = '$this->dbaction' AND class = '{$this->getClass()}'";
 		} else {
-			$query = "action = '$this->dbaction' AND subaction = '$this->subaction' AND class = '{$this->getClass()}'";
+				$query = "action = '$this->dbaction' AND subaction = '$this->subaction' AND ".
+					"class = '{$this->getClass()}'";
 		}
 
 		$this->__var_custom_exec = null;
@@ -424,6 +436,7 @@ abstract class Lxclass
 				$this->__var_custom_exec = $ex;
 			}
 		}
+	}
 	}
 
 	function isDisabled($var)
@@ -677,7 +690,8 @@ abstract class Lxclass
 			}
 		}
 
-		// If it is pserver, then when it is initialized don't create the driver, since the driver system is not in place at all.
+		// If it is pserver, then when it is initialized don't create the driver,
+		// since the driver system is not in place at all.
 		if ($this->get__table() !== 'pserver') {
 			if ($this->hasDriverClass()) {
 				$this->createSyncClass();
@@ -1056,7 +1070,8 @@ abstract class Lxclass
 			$obj = exec_class_method($class, 'initThisObject', $this, $class);
 		}
 
-		// If the object doesn't exist and is newly created, then assign it fully to the current guy. WIhtout this, it becomes impossible to delete the object if it doesn't exist in the db.
+		// If the object doesn't exist and is newly created, then assign it fully to the current guy.
+		// Without this, it becomes impossible to delete the object if it doesn't exist in the db.
 		if (!$obj) {
 			$obj = new $class($this->__masterserver, $this->__readserver, $name);
 			$obj->get();
@@ -1201,6 +1216,7 @@ abstract class Lxclass
 
 		return true;
 
+	/*
 		if (!$filter) {
 			return 1;
 		}
@@ -1230,6 +1246,7 @@ abstract class Lxclass
 		}
 
 		return $res;
+	*/
 	}
 
 	static function isTreeForDelete()
@@ -1239,6 +1256,7 @@ abstract class Lxclass
 
 	function getDefaultQuery($class, $result)
 	{
+		$query = null;
 		if (is_array($result)) {
 			foreach ($result as &$k) {
 				if (is_array($k)) {
@@ -1342,7 +1360,7 @@ abstract class Lxclass
 
 	function inNoBackuplist()
 	{
-		global $gbl, $sgbl, $login, $ghtml;
+	//	global $gbl, $sgbl, $login, $ghtml;
 	}
 
 	function loadBackupAll()
@@ -2232,7 +2250,8 @@ abstract class Lxclass
 				$res = $db->getRowsGeneric($query);
 
 				if (!$res) {
-					throw new lxException($login->getThrow("no_element"), '', "{$name} in {$this->getClass()}:{$this->nname} {$list}");
+					// MR -- disabled it - may trouble for delete domain (for example)
+				//	throw new lxException($login->getThrow("no_element"), '', "{$name} in {$this->getClass()}:{$this->nname} {$list}");
 				}
 
 				$obj = new $class($this->__masterserver, $this->__readserver, $name);
@@ -3103,7 +3122,9 @@ abstract class Lxclass
 
 	function getVariable($var)
 	{
+		if (isset($this->$var)) {
 		return $this->$var;
+	}
 	}
 
 	static function exec_collectQuota()
@@ -3929,21 +3950,14 @@ abstract class Lxclass
 
 	static function preAdd($parent, $class, $param)
 	{
+		return trimming($param);
 	}
 
 	static function add($parent, $class, $param)
 	{
 		if_demo_throw_exception();
-	/*
-		// MR -- only process if NOT multidimensional array
-		if (count($param) === count($param, COUNT_RECURSIVE)) {
-			// MR -- trim all array values
-			$param = array_map('trim', $param);
-		}
-	*/
-		$param = trimming($param);
 
-		return $param;
+		return trimming($param);
 	}
 
 	static function continueForm($parent, $class, $param, $continueaction)
@@ -4232,20 +4246,13 @@ abstract class Lxclass
 
 	function preUpdate($subaction, $param)
 	{
+		return trimming($param);
 	}
 
 	function update($subaction, $param)
 	{
 		if_demo_throw_exception();
 
-	/*
-		// MR -- only process if NOT multidimensional array
-		if (count($param) === count($param, COUNT_RECURSIVE)) {
-			// MR -- trim all array values
-			$param = array_map('trim', $param);
-		}
-	*/
-		$param = trimming($param);
 
 		return $param;
 	}

@@ -103,19 +103,19 @@ class Servermail__Qmail  extends lxDriverClass
 			//	throw new lxException($login->getThrow('simscan_is_not_installed_for_virus_scan'), '', 'simscan-toaster');
 			}
 
-			lxshell_return("yum", "install", "-y", "clamav", "clamd");
+			exec("sh /script/clamav-installer");
 
 
 			// MR -- clamav from epel use clamd instead clamav init
 			if (isServiceExists("freshclam")) {
 			//	exec("chkconfig freshclam on >/dev/null 2>&1");
 			//	os_service_manage("freshclam", "restart");
-				exec("sh /script/enable-service freshclam");
+				exec("sh /script/enable-service freshclam restart");
 			}
 	
 			// MR -- clamav from epel use clamd instead clamav init
 			if (isServiceExists("clamd")) {
-				exec("sh /script/disable-service clamd");
+				exec("sh /script/disable-service clamd stop");
 			}
 
 			lxfile_cp("../file/linux/simcontrol", "/var/qmail/control/");
@@ -124,8 +124,10 @@ class Servermail__Qmail  extends lxDriverClass
 
 			$cpath = "/var/qmail/supervise/clamd";
 
+			if (file_exists("{$cpath}/down")) {
 			lxfile_mv("{$cpath}/down", "{$cpath}/run");
 			lxfile_mv("{$cpath}/log/down", "{$cpath}/log/run");
+			}
 
 			createRestartFile("restart-mail");
 
@@ -145,8 +147,10 @@ class Servermail__Qmail  extends lxDriverClass
 
 				$cpath = "/var/qmail/supervise/clamd";
 
+				if (file_exists("{$cpath}/run")) {
 				lxfile_mv("{$cpath}/run", "{$cpath}/down");
 				lxfile_mv("{$cpath}/log/run", "{$cpath}/log/down");
+				}
 
 				// MR -- clamav for ftp upload file
 				exec("sh /script/pure-ftpd-without-clamav");
@@ -157,9 +161,12 @@ class Servermail__Qmail  extends lxDriverClass
 			lfile_put_contents("/var/qmail/control/databytes", $this->main->max_size);
 		}
 
+		$slbin = "/var/qmail/bin/sendlimiter";
 		if (isset($this->main->send_limit)) {
-			$slbin = "/var/qmail/bin/sendlimiter";
 			lfile_put_contents("/var/qmail/control/sendlimit", $this->main->send_limit);
+			exec("'cp' -f ../file/qmail/var/qmail/bin/sendlimiter {$slbin}; chown root:qmail {$slbin}; chmod 755 {$slbin}; sh {$slbin}");
+		} else {
+			exec("'rm' -f /var/qmail/control/sendlimit");
 			exec("'cp' -f ../file/qmail/var/qmail/bin/sendlimiter {$slbin}; chown root:qmail {$slbin}; chmod 755 {$slbin}; sh {$slbin}");
 		}
 	}

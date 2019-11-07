@@ -78,8 +78,7 @@ class ndskshortcut extends lxdb
 			$separatorid = getIncrementedValueFromTable('ndskshortcut', 'separatorid');
 			$param['separatorid'] = $separatorid;
 			$param['nname'] = "{$separatorid}___{$parent->getClName()}";
-			return $param;
-		}
+		} else {
 
 		$url = base64_decode($param['url']);
 
@@ -93,6 +92,7 @@ class ndskshortcut extends lxdb
 		}
 
 		$param['nname'] = "{$param['url']}___{$parent->getClName()}";
+		}
 
 		return $param;
 	}

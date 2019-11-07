@@ -24,6 +24,9 @@ if (isset($par['value'])) {
 $client = (isset($par['client'])) ? $par['client'] : null;
 $clist = array();
 
+$domain = (isset($par['domain'])) ? $par['domain'] : null;
+$domlist = array();
+
 $nolog = false;
 
 log_cleanup("*** Add DNS record for '{$hostname}' key in '{$ttype}' type ***", $nolog);
@@ -40,6 +43,12 @@ foreach($list as $c) {
 	foreach($dlist as $l) {
 		$dns = $l->getObject('dns');
 		$dns->setUpdateSubaction('full_update');
+
+		if ($domain) {
+			$da = explode(",", $domain);
+
+			if (!in_array($dns->nname, $da)) { continue; }
+		}
 
 		print("- For '{$dns->nname}' ('{$c->nname}') at '{$c->syncserver}'\n");
 

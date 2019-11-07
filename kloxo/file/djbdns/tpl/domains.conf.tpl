@@ -1,4 +1,4 @@
-### begin - dns of '<?php echo $domainname; ?>' - do not remove/modify this line
+### begin - dns of '<?=$domainname;?>' - do not remove/modify this line
 
 <?php
 $nameserver = null;
@@ -19,7 +19,7 @@ if ($soanameserver) {
     $nameserver = $soanameserver;
 }
 ?>
-Z<?php echo $domainname; ?>:<?php echo $nameserver; ?>:<?php echo $email; ?>:<?php echo $serial; ?>:::::<?php echo $ttl; ?>
+Z<?=$domainname;?>:<?=$nameserver;?>:<?=$email;?>:<?=$serial;?>:::::<?=$ttl;?>
 
 <?php
 foreach($dns_records as $k => $o) {
@@ -44,7 +44,7 @@ foreach($dns_records as $k => $o) {
                 }
             }
 ?>
-&<?php echo $key; ?>::<?php echo $value; ?>:<?php echo $ttl; ?>
+&<?=$key;?>::<?=$value;?>:<?=$ttl;?>
 
 <?php
             break;
@@ -54,7 +54,7 @@ foreach($dns_records as $k => $o) {
 
             $value = trim($value, '.');
 ?>
-@<?php echo $domainname; ?>::<?php echo $value; ?>:<?php echo $priority; ?>:<?php echo $ttl; ?>
+@<?=$domainname;?>::<?=$value;?>:<?=$priority;?>:<?=$ttl;?>
 
 <?php
             break;
@@ -64,7 +64,7 @@ foreach($dns_records as $k => $o) {
 
             if ($key === '*') {
 ?>
-+*.<?php echo $domainname; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
++*.<?=$domainname;?>:<?=$value;?>:<?=$ttl;?>
 
 <?php
                 break;
@@ -76,7 +76,7 @@ foreach($dns_records as $k => $o) {
                 $key = $domainname;
             }
 ?>
-+<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
++<?=$key;?>:<?=$value;?>:<?=$ttl;?>
 
 <?php
             break;
@@ -89,7 +89,7 @@ foreach($dns_records as $k => $o) {
 			
             if ($key === '*') {
 ?>
-:*.<?php echo $domainname; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
+:*.<?=$domainname;?>:28:<?=$value;?>:<?=$ttl;?>
 
 <?php
                 break;
@@ -101,7 +101,7 @@ foreach($dns_records as $k => $o) {
                 $key = $domainname;
             }
 ?>
-:<?php echo $key; ?>:28:<?php echo $value; ?>:<?php echo $ttl; ?>
+:<?=$key;?>:28:<?=$value;?>:<?=$ttl;?>
 
 <?php
             break;
@@ -118,13 +118,13 @@ foreach($dns_records as $k => $o) {
 
                 if ($key === '*') {
 ?>
-+*.<?php echo $domainname; ?>:<?php echo $rvalue; ?>:<?php echo $ttl; ?>
++*.<?=$domainname;?>:<?=$rvalue;?>:<?=$ttl;?>
 
 <?php
                 } else {
                     $key .= ".$domainname";
 ?>
-+<?php echo $key; ?>:<?php echo $rvalue; ?>:<?php echo $ttl; ?>
++<?=$key;?>:<?=$rvalue;?>:<?=$ttl;?>
 
 <?php
                 }
@@ -137,13 +137,13 @@ foreach($dns_records as $k => $o) {
 
                 if ($key === '*') {
 ?>
-C*.<?php echo $domainname; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
+C*.<?=$domainname;?>:<?=$value;?>:<?=$ttl;?>
 
 <?php
                 } else {
                     $key .= ".{$domainname}";
 ?>
-C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
+C<?=$key;?>:<?=$value;?>:<?=$ttl;?>
 
 <?php
                 }
@@ -164,7 +164,7 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 
             $key .= ".{$domainname}";
 ?>
-C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
+C<?=$key;?>:<?=$value;?>:<?=$ttl;?>
 
 <?php
             break;
@@ -185,7 +185,7 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
             $value = str_replace(":", "\\072", $value);
             $value = str_replace(" ", "\\040", $value);
 ?>
-'<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
+'<?=$key;?>:<?=$value;?>:<?=$ttl;?>
 
 <?php
             break;
@@ -204,5 +204,5 @@ C<?php echo $key; ?>:<?php echo $value; ?>:<?php echo $ttl; ?>
 }
 ?>
 
-### end - dns of '<?php echo $domainname; ?>' - do not remove/modify this line
+### end - dns of '<?=$domainname;?>' - do not remove/modify this line
 

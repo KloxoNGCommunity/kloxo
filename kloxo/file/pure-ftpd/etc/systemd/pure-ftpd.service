@@ -6,6 +6,7 @@ After=syslog.target network.target
 Type=forking
 PIDFile=/var/run/pure-ftpd.pid
 ExecStart=/usr/sbin/pure-config.pl /etc/pure-ftpd/pure-ftpd.conf --daemonize
+#ExecStart=/usr/sbin/pure-ftpd /etc/pure-ftpd/pure-ftpd.conf --daemonize
 
 [Install]
 WantedBy=multi-user.target

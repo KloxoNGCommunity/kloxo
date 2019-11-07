@@ -27,12 +27,12 @@ foreach($list as $c) {
 	}
 
 	$dlist = $c->getList('domaina');
-	$cdir = "$sgbl->__path_customer_root/{$c->getPathFromName('nname')}";
+	$cdir = "{$sgbl->__path_customer_root}/{$c->getPathFromName('nname')}";
 
 	foreach($dlist as $l) {
 		$web = $l->getObject('web');
 
-		lxfile_mv_rec("$cdir/cgi-bin/$l->nname", "$cdir/$l->nname/cgi-bin");
+		lxfile_mv_rec("{$cdir}/cgi-bin/{$l->nname}", "{$cdir}/{$l->nname}/cgi-bin");
 
 		$web->setUpdateSubaction('full_update');
 

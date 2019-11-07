@@ -26,7 +26,7 @@ function init_main($admin_pass)
 
 	} catch (Exception $e) {
 		print($e->getMessage());
-		print("\\n\n\n\n\n\n\n\n\n\nn\n");
+	//	print("\\n\n\n\n\n\n\n\n\n\nn\n");
 	}
 
 	print("\n");

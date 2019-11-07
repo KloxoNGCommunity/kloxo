@@ -155,7 +155,8 @@ CREATE TABLE IF NOT EXISTS `zone_templ_records` (
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 ;
 
-ALTER TABLE `records` ADD CONSTRAINT `records_ibfk_1` FOREIGN KEY (`domain_id`) REFERENCES `domains` (`id`) ON DELETE CASCADE;
+/* MR -- disabled foreign index because not support by RocksDB storage-engine
+/* ALTER TABLE `records` ADD CONSTRAINT `records_ibfk_1` FOREIGN KEY (`domain_id`) REFERENCES `domains` (`id`) ON DELETE CASCADE; */
 
 
 /* --- Update from 3.0 to 3.1 --- */

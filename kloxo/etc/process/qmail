@@ -1,6 +1,11 @@
 #!/bin/sh
 
-echo "*** Process for QMAIL service ***"
+echo "*** Restart for QMAIL service ***"
+
 qmailctl stop
 sleep 2
 qmailctl start
+
+#prog='qmail'
+
+#./service.inc

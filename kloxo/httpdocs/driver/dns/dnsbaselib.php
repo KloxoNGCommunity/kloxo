@@ -345,9 +345,9 @@ abstract class Dnsbase extends Lxdb
 	{
 		global $login;
 
-	//	$this->ttl = "86000";
+		$this->ttl = "86400"; // in seconds; 1 day
 		// MR -- based on https://www.ietf.org/rfc/rfc1912.txt
-		$this->ttl = "1209600";
+	//	$this->ttl = "1209600"; // in seconds; 2 weeks
 
 		validate_domain_name($nameserver);
 
@@ -382,6 +382,9 @@ abstract class Dnsbase extends Lxdb
 		$this->addRec("fcname", "pop", "mail.$this->nname");
 		$this->addRec("fcname", "imap", "mail.$this->nname");
 		$this->addRec("mx", "10", "mail.$this->nname");
+
+		// MR -- special CN record for letsencrypt wildcards domains ssl
+		$this->addRec("cn", "_acme-challenge", "myalias");
 
 		return;
 	}

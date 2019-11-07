@@ -198,7 +198,8 @@ $__information['resourceplan_show__pre'] = "<p><b>Note:</b> ".
 	"If you change the values here, every account that uses this plan will be updated with the new values.</p>".
 	"<p>Click <url:a=updateForm&sa=description>[here]</url> to see the accounts configured on this plan.</p>";
 
-$__information['resourceplan_addform__pre'] = "<p>You can set 'Resource Plan' here and then create client based on it.</p>";
+$__information['resourceplan_addform__pre'] = "<p>You can set 'Resource Plan' here and then create client based on it.</p>".
+	"<p>Note: for 'Number Of FastCGI Children', 'Unlimited' equal to '4'</p>";
 
 $__information['lxbackup_updateform_backup_pre'] = "<p>The backup file will appear in the __backup directory of your client area. ".
 	"You can access it by clicking on the 'File Manager' Tab.</p>".

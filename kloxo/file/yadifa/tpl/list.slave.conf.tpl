@@ -1,5 +1,7 @@
 <?php
-	exec("echo '' > /opt/configs/yadifa/conf/defaults/yadifa.slave.conf");
+	$ypath = "/opt/configs/yadifa/conf/defaults";
+
+	exec("echo '' > {$ypath}/yadifa.slave.conf");
 
 	foreach($domains as $k => $v) {
 		$t = explode(':', $v);
@@ -41,7 +43,7 @@
 		$str .= $zone;
 	}
 
-	$file = "/opt/configs/yadifa/conf/defaults/yadifa.slave.conf";
+	$file = "{$ypath}/yadifa.slave.conf";
 
 	file_put_contents($file, $str);
 

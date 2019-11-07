@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Process for HTTPD service ***"
+echo "*** Restart for HTTPD service ***"
 
 if [ ! -f /var/run/httpd.pid ] ; then
 	if [ -f /var/lock/subsys/httpd ] ; then
@@ -8,7 +8,6 @@ if [ ! -f /var/run/httpd.pid ] ; then
 	fi
 fi
 
-echo "  - Process: restart"
-service httpd stop
-pkill -9 httpd
-service httpd start
+prog='httpd'
+
+. /usr/local/lxlabs/kloxo/etc/process/service.inc

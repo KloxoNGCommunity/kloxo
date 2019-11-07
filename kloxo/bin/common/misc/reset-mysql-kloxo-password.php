@@ -2,6 +2,12 @@
 
 include_once "lib/html/include.php";
 
+$path = "{$sgbl->__path_program_root}/etc/conf";
+
+if (!file_exists($path)) {
+	mkdir($path);
+}
+
 $db = $sgbl->__var_dbf;
 $username = $sgbl->__var_program_name;
 $program = $username;
@@ -20,7 +26,7 @@ $conn = new mysqli('localhost', 'root', $rootpass, 'mysql');
 
 $cmd = "grant all on {$db}.* to {$username}@localhost identified by '{$mysqlpass}'";
 
-print($cmd . "\n");
+// print($cmd . "\n");
 
 $result = $conn->query($cmd);
 
@@ -31,5 +37,5 @@ if (!$result) {
 
 $conn->close();
 
-file_put_contents("../etc/conf/$program.pass", $mysqlpass);
+file_put_contents("{$path}/{$program}.pass", $mysqlpass);
 

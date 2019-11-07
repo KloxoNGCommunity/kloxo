@@ -5,4 +5,6 @@ if [ -f ./custom.run ] ; then
 	return $?
 fi
 
-exec /usr/bin/setuidgid clamav /usr/sbin/clamd 2>&1
+if [ "$(pgrep -a ^clamd)" == "" ] ; then
+	exec /usr/bin/setuidgid clamscan /usr/sbin/clamd 2>&1
+fi

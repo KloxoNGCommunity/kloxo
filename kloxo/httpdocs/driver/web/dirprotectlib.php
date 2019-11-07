@@ -83,6 +83,7 @@ class Dirprotect extends Lxdb
 		// Update the parent. The syncing of dirprotect is handled by the web object.
 		$web = $parent;
 		$web->setUpdateSubaction('add_delete_dirprotect');
+		$web->was();
 
 		return $param;
 	}
@@ -91,6 +92,7 @@ class Dirprotect extends Lxdb
 	{
 		$web = $this->getParentO();
 		$web->setUpdateSubaction('add_delete_dirprotect');
+		$web->was();
 	}
 
 	function updateAdd($param)

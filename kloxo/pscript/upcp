@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(hostname)" == "$(hostname -s)" ] ; then
+if [ "$(hostname -f)" == "$(hostname -s)" ] ; then
 	echo "-------------------------------------------------------------------"
 	echo " WARNING:"
 	echo " - Need change hostname with qualify to FQDN"

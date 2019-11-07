@@ -2,13 +2,12 @@
 
 <?php
 
-// MR -- disable cgi module
-if (file_exists('/etc/httpd/conf.modules.d/01-cgi.conf')) {
-	exec("'cp' -f /opt/configs/apache/etc/conf.modules.d/01-cgi.conf /etc/httpd/conf.modules.d/01-cgi.conf");
+if (!file_exists("/usr/sbin/php-cgi")) {
+	exec("ln -sf /usr/bin/php-cgi /usr/sbin/php-cgi");
 }
 
-if (!file_exists("/var/run/letsencrypt/.well-known/acme-challenge")) {
-	exec("mkdir -p /var/run/letsencrypt/.well-known/acme-challenge");
+if (!empty($fcgilist = glob("/home/kloxo/client/*.fcgi"))) {
+	exec("'rm' -f /home/kloxo/client/*.fcgi; 'rm' -f /home/kloxo/client/*/*.fcgi");
 }
 
 if (!isset($phpselected)) {
@@ -31,8 +30,17 @@ $trgtcmdpath = "/etc/httpd/conf.modules.d";
 $sslpath = "/home/kloxo/ssl";
 $kloxopath = "/usr/local/lxlabs/kloxo";
 
+// MR -- disable cgi module
+if (file_exists($cfile = "{$trgtcmdpath}/01-cgi.conf")) {
+	copy("{$srccmdpath}/01-cgi.conf", $cfile);
+}
+
+if (!file_exists($afile = "/var/run/letsencrypt/.well-known/acme-challenge")) {
+	mkdir($afile, 0755, true);
+}
+
 // MR -- fix error 'Directory / is not owned by admin' for suphp
-exec("chown root.root /");
+chown("/", "root"); chgrp("/", "root");
 
 // MR -- mod_ruid2 from epel use mod_ruid2.conf
 foreach (glob("{$trgtcdpath}/mod_*.conf") as $file)
@@ -55,7 +63,7 @@ $mpmlist = array('prefork', 'itk', 'event', 'worker');
 if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 	$use_httpd24 = true;
 
-	exec("'cp' -f {$srccpath}/httpd24.conf /{$trgtcpath}/httpd.conf");
+	copy("{$srccpath}/httpd24.conf", "{$trgtcpath}/httpd.conf");
 
 	if (file_exists("{$trgtcmdpath}/00-base.conf")) {
 		exec("sed -i 's/^LoadModule deflate_module/#LoadModule deflate_module/' {$trgtcmdpath}/00-base.conf");
@@ -64,7 +72,7 @@ if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 	foreach ($mpmlist as $k => $v) {
 		if (strpos($phptype, $v) !== false) {
 			if (file_exists("{$trgtcmdpath}/00-mpm.conf")) {
-				exec("echo 'LoadModule mpm_{$v}_module modules/mod_mpm_{$v}.so' > {$trgtcmdpath}/00-mpm.conf");
+				file_put_contents("{$trgtcmdpath}/00-mpm.conf", "LoadModule mpm_{$v}_module modules/mod_mpm_{$v}.so");
 				break;
 			}
 		}
@@ -76,18 +84,18 @@ if (file_exists("{$kloxopath}/etc/flag/use_apache24.flg")) {
 	}
 	
 	// MR -- make blank content
-	exec("echo '' > /etc/sysconfig/httpd");
+	file_put_contents("/etc/sysconfig/httpd", "");
 } else {
 	$use_httpd24 = false;
 
-	exec("'cp' -f {$srccpath}/httpd.conf {$trgtcpath}/httpd.conf");
+	copy("{$srccpath}/httpd.conf", "{$trgtcpath}/httpd.conf");
 
 	// as 'httpd' as default mpm
-	exec("echo 'HTTPD=/usr/sbin/httpd' > /etc/sysconfig/httpd");
+	file_put_contents("/etc/sysconfig/httpd", "HTTPD=/usr/sbin/httpd");
 
 	foreach ($mpmlist as $k => $v) {
 		if (strpos($phptype, $v) !== false) {
-			exec("echo 'HTTPD=/usr/sbin/httpd.{$v}' > /etc/sysconfig/httpd");
+			file_put_contents("/etc/sysconfig/httpd", "HTTPD=/usr/sbin/httpd.{$v}");
 			break;
 		}
 	}
@@ -104,7 +112,7 @@ if ($use_httpd24) {
 	copy($custom_conf, "{$trgtcpath}/httpd.conf");
 }
 
-$modlist = array("~lxcenter", "ssl", "__version", "perl", "rpaf", "define", "_inactive_");
+$modlist = array("~lxcenter", "ssl", "__version", "rpaf", "define", "_inactive_");
 
 foreach ($modlist as $k => $v) {
 	$custom_conf = getLinkCustomfile($srccdpath, "{$v}.conf");
@@ -130,8 +138,13 @@ foreach ($typelist as $k => $v) {
 	}
 
 	if (strpos($phptype, "{$w}") !== false) {
+		if ($v === 'proxy_fcgi') {
+			$custom_conf = getLinkCustomfile($srccmdpath, "00-proxy.conf");
+			copy($custom_conf, "{$trgtcmdpath}/00-proxy.conf");
+		} else {
 		$custom_conf = getLinkCustomfile($srccdpath, "{$v}.conf");
 		copy($custom_conf, "{$trgtcdpath}/{$v}.conf");
+		}
 	} else {
 		if ($v === 'proxy_fcgi') {
 			$custom_conf = getLinkCustomfile($srccmdpath, "_inactive_.conf");
@@ -374,7 +387,7 @@ foreach ($certnamelist as $ip => $certname) {
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
 							</FilesMatch>
-							FCGIWrapper /home/kloxo/client/php.fcgi .php
+							FCGIWrapper /usr/sbin/<?=$phpselected;?>-cgi .php
 						</Directory>
 					</IfModule>
 				</IfModule>
@@ -388,18 +401,19 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyErrorOverride On
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
-			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/php-apache.sock|fcgi://localhost"
-			</FilesMatch>
-			<Proxy "fcgi://localhost">
+			<Proxy "unix:/opt/configs/php-fpm/sock/php-apache.sock|fcgi://localhost">
 				ProxySet timeout=<?=$timeout;?>
 
 				ProxySet connectiontimeout=<?=$timeout;?>
 
-				#ProxySet enablereuse=on
+				# need 'disablereuse=on' for 'ondemand'
+				ProxySet disablereuse=on
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
+			<FilesMatch \.php$>
+				SetHandler "proxy:fcgi://localhost"
+			</FilesMatch>
 		</IfModule>
 	</IfVersion>
 

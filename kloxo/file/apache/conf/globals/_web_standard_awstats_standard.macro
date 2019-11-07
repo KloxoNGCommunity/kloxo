@@ -62,7 +62,7 @@
 		<Directory "${webdocroot}/">
 			Options +ExecCGI
 			AddHandler fcgid-script .php
-			FCGIWrapper /home/kloxo/client/${user}/php5.fcgi .php
+			FCGIWrapper /usr/sbin/php-cgi .php
 		</Directory>
 	</IfModule>
 
@@ -185,7 +185,7 @@
 		<Directory "${webdocroot}/">
 			Options +ExecCGI
 			AddHandler fcgid-script .php
-			FCGIWrapper /home/kloxo/client/${user}/php5.fcgi .php
+			FCGIWrapper /usr/sbin/php-cgi .php
 		</Directory>
 	</IfModule>
 

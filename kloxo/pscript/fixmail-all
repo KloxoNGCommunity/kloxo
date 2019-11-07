@@ -130,6 +130,14 @@ sh /script/fixmail
 echo "--------------------------"
 sh /script/fixwebmail
 
+if [ -f ${VQSPATH}/clamd/run ] ; then
+	echo "--------------------------"
+	echo "Fixing clamd"
+	echo "- Copying 'run' files"
+	'cp' -f ${ULLKFPATH}/qmail/${VQSPATH}/clamd/run ${VQSPATH}/clamd/run
+	'cp' -f ${ULLKFPATH}/qmail/${VQSPATH}/clamd/log/run ${VQSPATH}/clamd/log/run
+fi
+
 echo ""
 echo "- NOTE: use 'sh /script/fixdomainkey' if want to fix domainkeys"
 echo ""

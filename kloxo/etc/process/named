@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Process for BIND service ***"
+echo "*** Restart for BIND service ***"
 
 if [ ! -f /var/run/named.pid ] ; then
 	if [ -f /var/lock/subsys/named ] ; then
@@ -8,8 +8,8 @@ if [ ! -f /var/run/named.pid ] ; then
 	fi
 fi
 
-echo "  - Process: restart"
-## possible transfer zone with 'rndc retranfer' but need each zone - it's not practice
-service named stop
-pkill -9 named
-service named start
+prog='named'
+
+. /usr/local/lxlabs/kloxo/etc/process/service.inc
+
+## Note: possible transfer zone with 'rndc retranfer' but need each zone - it's not practice

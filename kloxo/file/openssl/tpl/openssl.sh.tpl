@@ -41,18 +41,18 @@
 ?>
 #!/bin/sh
 
-openssl req -new -newkey rsa:<?php echo $key_bits; ?> -days 365 -sha256 -nodes -x509 \
-	-subj '<?php echo $subj_txt;?>' \
-	-keyout <?php echo $name; ?>.key \
-	-out <?php echo $name; ?>.crt
+openssl req -new -newkey rsa:<?=$key_bits;?> -days 365 -sha256 -nodes -x509 \
+	-subj '<?=$subj_txt;?>' \
+	-keyout <?=$name;?>.key \
+	-out <?=$name;?>.crt
 
 openssl req -new -sha256 \
-	-subj '<?php echo $subj_txt;?>' \
-	-key <?php echo $name; ?>.key \
-	-out <?php echo $name; ?>.csr
+	-subj '<?=$subj_txt;?>' \
+	-key <?=$name;?>.key \
+	-out <?=$name;?>.csr
 
-#openssl dhparam -out <?php echo $name; ?>.dhp <?php echo $key_bits; ?>
+#openssl dhparam -out <?=$name;?>.dhp <?=$key_bits;?>
 
 
-#cat <?php echo $name; ?>.key <?php echo $name; ?>.crt <?php echo $name; ?>.dhp > <?php echo $name; ?>.pem
-cat <?php echo $name; ?>.key <?php echo $name; ?>.crt > <?php echo $name; ?>.pem
+#cat <?=$name;?>.key <?=$name;?>.crt <?=$name;?>.dhp > <?=$name;?>.pem
+cat <?=$name;?>.key <?=$name;?>.crt > <?=$name;?>.pem

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$(pgrep ^mysql)" == "" ] ; then
+	sh /script/restart-mysql
+fi
+
 #list=(kloxo)
 
 if [ -f /script/custom.restart-list.inc ] ; then

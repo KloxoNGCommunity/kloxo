@@ -175,7 +175,7 @@ function getIPs_from_ipaddr($withV6 = true)
 		}
 	}
 
-	return array_values($a);
+	return array_values(array_unique($a));
 }
 
 // Bug #797 - Failed identify ip on apache
@@ -202,7 +202,8 @@ function getIPs_from_ifcfg()
 					if ($ip === '127.0.0.1') { 
 						continue;
 					} else {
-						$r[] = trim($i[1]);
+					//	$r[] = trim($i[1]);
+					$r[] = preg_replace('/[^0-9\.]/', '', trim($i[1]));
 					}
 				}
 			}
@@ -307,14 +308,11 @@ function os_create_program_service()
 
 	$a = array('web', 'php', 'wrap');
 
-//	exec("command -v systemctl", $test);
-
-//	if (count($test) > 0) {
 	if (getServiceType() === 'systemd') {
 		foreach ($a as $k => $v) {
 			lxfile_cp("{$sgbl->__path_program_root}/init/{$pgm}-{$v}.service", "/usr/lib/systemd/system/{$pgm}-{$v}.service");
 			lxfile_unix_chmod("/usr/lib/systemd/system/{$pgm}-{$v}.service", "0644");
-			exec("chkconfig {$pgm}-{$v} on  >/dev/null 2>&1");
+			exec("systemctl enable {$pgm}-{$v} >/dev/null 2>&1");
 		}
 
 		exec("systemctl daemon-reload");

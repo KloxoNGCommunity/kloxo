@@ -5,8 +5,8 @@ regex_map http://(.*):443/ http://127.0.0.1:8080/
 
 foreach ($domains as $k => $v) {
 ?>
-map http://<?php echo $v; ?>:80/ http://127.0.0.1:8080/
-map http://<?php echo $v; ?>:443/ http://127.0.0.1:8080/
+map http://<?=$v;?>:80/ http://127.0.0.1:8080/
+map http://<?=$v;?>:443/ http://127.0.0.1:8080/
 <?php
 }
 ?>

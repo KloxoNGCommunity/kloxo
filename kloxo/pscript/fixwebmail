@@ -2,3 +2,11 @@
 . /script/directory
 
 lxphp.exe ../bin/misc/installWebmailDb.php
+
+if [ "$( rpm -qa kloxomr*telaen*)" != "" ] ; then
+	yum remove kloxo*telaen* -y
+fi
+
+if [ "$( rpm -qa kloxomr*squirrelmail*)" != "" ] ; then
+	yum remove kloxomr*squirrelmail* -y
+fi

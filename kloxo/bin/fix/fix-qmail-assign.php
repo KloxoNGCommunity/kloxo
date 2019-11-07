@@ -4,7 +4,7 @@
 
 include_once "lib/html/include.php";
 
-log_cleanup("Fixing Qmail Assign", $nolog);
+log_cleanup("Fixing Qmail Assign", $nolog = null);
 
 resetQmailAssign();
 

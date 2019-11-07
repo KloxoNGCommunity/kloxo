@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "*** >>> Web portion <<<***"
+
 . /script/counter-start.inc
 
 if [ ! -f /etc/ssl/certs/dhparam.pem ] ; then
@@ -21,3 +23,9 @@ fi
 lxphp.exe ../bin/fix/fixweb.php $*
 
 . /script/counter-end.inc
+
+echo "-------------------------------------"
+echo
+echo "*** >>> PHP portion <<<***"
+
+sh /script/fixphp

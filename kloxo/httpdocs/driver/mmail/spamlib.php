@@ -99,7 +99,7 @@ class Spam extends Lxdb
 	static function switchProgramPost($old, $new)
 	{
 		if ($new === 'spamassassin') {
-			lxfile_cp("../file/spamassassin/sysconfig", "/etc/sysconfig/spamassassin");
+			lxfile_cp("../file/spamassassin/etc/sysconfig/spamassassin", "/etc/sysconfig/spamassassin");
 			createRestartFile("spamassassin");
 		}
 	}

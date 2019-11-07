@@ -1,8 +1,8 @@
 <?php
-	if (file_exists("/opt/djbdns/bin/axfr-get")) {
-		$axfr_get = "/opt/djbdns/bin/axfr-get";
-	} elseif (file_exists("/bin/axfr-get")) {
-		$axfr_get = "/bin/axfr-get"; 
+	if (file_exists($agf1 = "/opt/djbdns/bin/axfr-get")) {
+		$axfr_get = $agf1;
+	} elseif (file_exists($agf2 = "/bin/axfr-get")) {
+		$axfr_get = $agf2; 
 	} else {
 		$axfr_get = null;
 	}

@@ -17,7 +17,7 @@ if [ "$#" == 0 ] || [ "$1" == "--help" ] ; then
 	echo "    sh $0 --engine=<> --database=[] --table=[] \\"
 	echo "        --utf8=[] --config=[]"
 	echo " ------------------------------------------------------------------------------"
-	echo "  --engine - change to MyISAM/InnoDB"
+	echo "  --engine - change to MyISAM/InnoDB/Aria"
 	echo "  --database - database name; default: all databases"
 	echo "  --table - table name; default: all tables"
 	echo "  --utf8 - yes/no; default: no"

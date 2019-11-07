@@ -5,14 +5,14 @@ if [ -f ./custom.run ] ; then
 	return $?
 fi
 
-HOSTNAME=`hostname --fqdn`
+HOSTNAME=$(hostname --fqdn)
 
 rm -rf "./env/*";
 cat /etc/courier/pop3d | /usr/bin/envconv
 
 if [ -f /var/qmail/control/softlimit ] ; then
 	### MR -- softlimit file must content with '/usr/bin/softlimit -m SOFTLIMITVAR'
-	### where SOFTLIMITVAR is 72000000 for 64bit and 18000000
+	### where SOFTLIMITVAR is 72000000 for 64bit and 18000000 for 32bit OS
 	### Note: incresing SOFTLIMITVAR if not enough (example: because 'login fail')
 	SOFTLIMIT=$(cat /var/qmail/control/softlimit|tr '\r' ' '|tr '\n' ' ')
 else

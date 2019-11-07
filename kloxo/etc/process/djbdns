@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Process for DJBDNS service ***"
+echo "*** Restart for DJBDNS service ***"
 
 if [ ! -f /var/run/djbdns.pid ] ; then
 	if [ -f /var/lock/subsys/djbdns ] ; then
@@ -14,8 +14,7 @@ fi
 #	sh /script/dnsnotify ${i}
 #done
 
-echo "  - Process: restart"
-service djbdns stop
-pkill -9 djbdns
-service djbdns start
+prog='djbdns'
+
+. /usr/local/lxlabs/kloxo/etc/process/service.inc
 

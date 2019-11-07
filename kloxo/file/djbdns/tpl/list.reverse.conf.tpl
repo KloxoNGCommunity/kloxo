@@ -4,11 +4,14 @@
 	// MR -- importance if not active
 	if (!file_exists($datadir)) { return; }
 
-	if (file_exists("/opt/djbdns/bin/tinydns-data")) {
-		exec("echo 'data.cdb: data\n\t/opt/djbdns/bin/tinydns-data' > " .
+	$tdf1 = "/opt/djbdns/bin/tinydns-data";
+	$tdf2 = "/bin/tinydns-data";
+
+	if (file_exists($tdf1)) {
+	exec("echo 'data.cdb: data\n\t{$tdf1}' > " .
 			"{$datadir}/Makefile");
-	} elseif (file_exists("/bin/tinydns-data")) {
-		exec("echo 'data.cdb: data\n\t//bin/tinydns-data' > " .
+	} elseif (file_exists($tdf2)) {
+		exec("echo 'data.cdb: data\n\t/{$tdf2}' > " .
 			"{$datadir}/Makefile");
 	} else {
 		return;

@@ -843,6 +843,7 @@ class pservercore extends Lxclient
 		rl_exec_get($this->__masterserver, $this->nname, array("pserver__linux", 'mysqlPasswordReset'), array($pass));
 		$ghtml->print_redirect_back_success("Success", "");
 
+		$p->was();
 	//	exit;
 	}
 

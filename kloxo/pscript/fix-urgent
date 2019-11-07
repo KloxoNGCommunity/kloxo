@@ -1,5 +1,11 @@
 #!/bin/sh
 
+sfdir='/usr/local/lxlabs/kloxo/serverfile'
+
+if [ ! -d $sfdir ] ; then
+	mkdir -p $sfdir
+fi
+
 if [ "$(rpm -qa yum-presto)" == "" ] ; then
 	if [ "$(yum list *yum*|grep '@')" != "" ] ; then
 		yum install -y yum-presto deltarpm >/dev/null 2>&1
@@ -11,6 +17,10 @@ if [ "$(cat /etc/yum.conf|grep 'exclude=')" != "" ] ; then
 	sed -i 's/\(exclude\=\)\(.*\)\(mysql5\*\|mysql5?\*\|MariaDB\*\|dovecot\*\)\(.*\)/\1\4 mysql5\*/g' /etc/yum.conf
 else
 	echo "exclude=mysql5*" >> /etc/yum.conf
+fi
+
+if [ "$(cat /etc/yum.conf|grep '^assumeyes=1')" == "" ] ; then
+	echo "assumeyes=1" >> /etc/yum.conf
 fi
 
 if [ ! -L /usr/bin/chkconfig ] ; then

@@ -99,7 +99,7 @@ function filltraffictable()
 	if(($newtime - $oldtime) >= (19 * 60 * 60)) {
 		if($flag == 1) {  
 			$old   =  @ mktime(00, 01, 00, @ date("n"), @ date("j"), @ date("Y"));
-			$timearray[0] = $newtime . "-" . $old; 
+			$timearray[0] = "{$newtime}-{$old}";
 			$newtime = $old;
 		}
 
@@ -107,7 +107,7 @@ function filltraffictable()
 
 		for($i = $newtime; $i >= $oldtime ; $i-= (24 *  60 * 60)) {
 			if($j > 0) { 
-				$timearray[]  = $new . "-" . $i ;
+				$timearray[]  = "{$new}-{$i}" ;
 			}
 			$new = $i;
 			$j++;
@@ -193,7 +193,7 @@ function findtraffic($weblist, $mmaillist, $globaldomlist, $oldtime, $newtime)
 			$web_usage = lx_array_merge(array($web_usage , $web_usaget));
 		}
 	} catch (exception $e) {
-		print($e->getMessage(). "\n");
+		print("{$e->getMessage()}\n");
 	}
 
 	try {
@@ -204,7 +204,7 @@ function findtraffic($weblist, $mmaillist, $globaldomlist, $oldtime, $newtime)
 			$mailusage = lx_array_merge(array($mailusaget, $mailusage));
 		}
 	} catch (exception $e) {
-		print($e->getMessage(). "\n");
+		print("{$e->getMessage()}\n");
 	}
 
 	try {
@@ -215,7 +215,7 @@ function findtraffic($weblist, $mmaillist, $globaldomlist, $oldtime, $newtime)
 			$ftpusage = lx_array_merge(array($ftpusaget, $ftpusage));
 		}
 	} catch (exception $e) {
-		print($e->getMessage(). "\n");
+		print("{$e->getMessage()}\n");
 	}
 
 	//dprintr($web_usage);

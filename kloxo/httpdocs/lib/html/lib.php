@@ -37,7 +37,7 @@ function auto_update()
 
 		if ((date('d') == 10) && !checkIfLatest()) {
 			$latest = getLatestVersion();
-			$msg = "New Version $latest Available for $sgbl->__var_program_name";
+			$msg = "New Version $latest Available for {$sgbl->__var_program_name}";
 			send_mail_to_admin($msg, $msg);
 		}
 	}
@@ -204,7 +204,7 @@ function db_get_count($table, $query)
 	return $count;
 }
 
-function db_del_value($table, $nname)
+function db_del_value($table, $nname, $value)
 {
 	$sql = new Sqlite(null, $table);
 	$del = $sql->delRow($nname, $value);
@@ -290,7 +290,7 @@ function recursively_get_file($dir, $file)
 		}
 	}
 
-	return recursively_get_file("$dir/$l", $file);
+//	return recursively_get_file("$dir/$l", $file);
 }
 
 function get_com_ob($obj)
@@ -401,6 +401,8 @@ function convert_favorite()
 
 function fix_meta_character($v)
 {
+	$nv = array();
+
 	for ($i = 0; $i < strlen($v); $i++) {
 		if (ord($v[$i]) > 128) {
 			$nv[] = strtolower(urlencode($v[$i]));
@@ -721,8 +723,8 @@ function EasyinstallerPHP($var, $cmd)
 	lxfile_mkdir("/home/httpd/$domain/httpdocs/__easyinstallerlog");
 	$i = 0;
 
+	$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 	while (1) {
-		$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 		if (!lxfile_exists($file)) {
 			break;
 		}
@@ -793,7 +795,7 @@ function validate_domain_name($name, $bypass = null)
 		throw new lxException($login->getThrow('add_without_www'), '', $name);
 	}
 
-	if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,16})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
+	if (!preg_match('/^([a-z0-9_]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,16})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
 		throw new lxException($login->getThrow('invalid_domain_name'), '', $name);
 	}
 
@@ -912,6 +914,8 @@ function validate_docroot($docroot)
 
 function validate_filename($filename)
 {
+	global $login;
+
 	if (!preg_match('/[^a-zA-Z0-9-_\.]$/', $filename)) {
 		throw new lxException($login->getThrow('invalid_filename'), '', $filename);
 	}
@@ -937,9 +941,9 @@ function execEasyinstallerPhp($domain, $appname, $cmd)
 	lxfile_mkdir("/home/httpd/$domain/httpdocs/__easyinstallerlog");
 	$i = 0;
 
-	while (1) {
 		$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 
+	while (1) {
 		if (!lxfile_exists($file)) {
 			break;
 		}
@@ -1065,6 +1069,8 @@ function merge_array_object_not_deleted($array, $object)
 	if ($object->isDeleted()) {
 		return $ret;
 	}
+
+	$nl = array();
 
 	foreach ($object as $k => $v) {
 		if (!is_object($v)) {
@@ -1257,6 +1263,8 @@ function upload_file_to_db($dbtype, $dbhost, $dbuser, $dbpassword, $dbname, $fil
 
 function calculateRealTotal($inout)
 {
+	$realtotalinout = array();
+
 	foreach ($inout as $k => $v) {
 		$sum = 0;
 
@@ -1323,12 +1331,15 @@ function testAllServers()
 			rl_exec_get(null, $l, 'test_remote_func', null);
 		} catch (Exception $e) {
 			$flist[$l] = $e->getMessage();
+			throw new lxException($e->getMessage(), '', $l);
 		}
 	}
 
+/*
 	if ($flist) {
 		throw new lxException($e->getMessage(), '', $flist);
 	}
+*/
 }
 
 function exec_with_all_closed($cmd)
@@ -1356,6 +1367,8 @@ function exec_with_all_closed_output($cmd)
 // Convert Com to Php Array.
 function convertCOMarray($array)
 {
+	$res = array();
+
 	foreach ($array as $v) {
 		$res[] = "$v";
 	}
@@ -1615,6 +1628,8 @@ function get_license_resource()
 
 function cp_fileserv_list($root, $list)
 {
+	$res = array();
+
 	foreach ($list as $l) {
 		$fp = "$root/$l";
 		$res[$fp] = cp_fileserv($fp);
@@ -1646,7 +1661,7 @@ function cp_fileserv($file)
 	}
 
 	$basebase = basename($file);
-	$base = basename(ltempnam("$sgbl->__path_serverfile", $basebase));
+	$base = basename(ltempnam($sgbl->__path_serverfile, $basebase));
 	$pass = md5($file . time());
 	$ar = array('filename' => $file, 'password' => $pass);
 	lfile_put_serialize("{$path}/$base", $ar);
@@ -1670,7 +1685,7 @@ function do_zip_to_fileserv($type, $arg, $logto = null)
 
 	$basebase = basename($arg[0]);
 
-	$base = basename(ltempnam("$sgbl->__path_serverfile/tmp", $basebase));
+	$base = basename(ltempnam("{$sgbl->__path_serverfile}/tmp", $basebase));
 
 	// Create the pass file now itself so that it isn't unwittingly created again.
 
@@ -1733,7 +1748,7 @@ function fileserv_unlink_if_tmp($file)
 
 	$base = dirname($file);
 
-	if (expand_real_root($base) === expand_real_root("$sgbl->__path_serverfile/tmp")) {
+	if (expand_real_root($base) === expand_real_root("{$sgbl->__path_serverfile}/tmp")) {
 		log_log("servfile", "Delete tmp servfile $file");
 		lunlink($file);
 	}
@@ -1791,7 +1806,7 @@ function doRealGetFromFileServ($cmd, $serv, $filepass, $copyto = null)
 		log_log("servfile", "get local file $realfile");
 
 		if (lxfile_exists($realfile) && lis_readable($realfile)) {
-			lunlink("$sgbl->__path_serverfile/$base");
+			lunlink($path);
 
 			if ($cmd === 'fileprint') {
 				slow_print($realfile);
@@ -2104,6 +2119,8 @@ function rrd_graph_server($type, $list, $time)
 		}
 	}
 
+	$arg = null;
+
 	switch ($type) {
 		case "traffic":
 			$i = 0;
@@ -2139,7 +2156,7 @@ function rrd_graph_server($type, $list, $time)
 
 			foreach ($list as $k => $file) {
 				$i++;
-				$fullpath = "$sgbl->__path_program_root/data/$type/$file.rrd";
+				$fullpath = "{$sgbl->__path_program_root}/data/{$type}/{$file}.rrd";
 				$arg[] = "DEF:dss$i=$fullpath:$type:AVERAGE";
 
 				if (isset($color[$i])) {
@@ -2265,6 +2282,8 @@ function parse_opt($argv)
 		return null;
 	}
 
+	$ret = array();
+
 	foreach ($argv as $v) {
 		if (!csb($v, "--")) {
 			$ret['final'] = $v;
@@ -2365,7 +2384,7 @@ function lx_core_lock($file = null)
 		$file = basename($file);
 	}
 
-	$pidfile = "$sgbl->__path_program_root/pid/$file";
+	$pidfile = "{$sgbl->__path_program_root}/pid/{$file}";
 	$pid = null;
 
 	if (lxfile_exists($pidfile)) {
@@ -2575,9 +2594,8 @@ function getLastFromList(&$list)
 	}
 
 	foreach ($list as &$l) {
+		return $l;
 	}
-
-	return $l;
 }
 
 function getFirstKeyFromList(&$list)
@@ -2611,7 +2629,7 @@ function get_best_location($list)
 {
 	dprintr($list);
 
-	$lvmlist = null;
+	$lvmlist = $normallist = $out = array();
 
 	foreach ($list as $l) {
 		if (csb($l, "lvm:")) {
@@ -2841,15 +2859,15 @@ function getVersionList($till = null)
 {
 	$list = getFullVersionList($till);
 
+	$nlist = array();
+
 	foreach ($list as $k => $l) {
 		if (preg_match("/2$/", $l) && ($k !== count($list) - 1)) {
 			continue;
 		}
 
-		$nnlist[] = $l;
+		$nlist[] = $l;
 	}
-
-	$nlist = $nnlist;
 
 	return $nlist;
 }
@@ -3031,6 +3049,8 @@ function se_submit($contact, $dom, $email)
 
 	include "./sesubmit/engines.php";
 
+	$var = null;
+
 	foreach ($enginelist as $e => $k) {
 		$k = str_replace("[>URL<]", "http://$dom", $k);
 		$k = str_replace("[>EMAIL<]", $email, $k);
@@ -3152,7 +3172,7 @@ function get_title()
 	$title = null;
 
 	if ($login->isAdmin()) {
-		$title = $sgbl->__ver_major . "." . $sgbl->__ver_minor . "." . $sgbl->__ver_release . " " . $sgbl->__ver_extra;
+		$title = "{$sgbl->__ver_major}.{$sgbl->__ver_minor}.{$sgbl->__ver_release} {$sgbl->__ver_extra}";
 	}
 
 	if (check_if_many_server()) {
@@ -3223,7 +3243,7 @@ function callInChild($func, $arglist)
 	$name = tempnam("/tmp", "lxchild");
 	lxfile_generic_chmod($name, "700");
 	lfile_put_contents($name, serialize($res));
-	$var = lxshell_output("$sgbl->__path_php_path", "../bin/common/child.php", $name);
+	$var = lxshell_output($sgbl->__path_php_path, "../bin/common/child.php", $name);
 	$rmt = unserialize(base64_decode($var));
 
 	return $rmt;
@@ -3241,7 +3261,7 @@ function callInBackground($func, $arglist)
 	lxfile_generic_chmod($name, "700");
 	lfile_put_contents($name, serialize($res));
 
-	lxshell_background("$sgbl->__path_php_path", "../bin/common/background.php", $name);
+	lxshell_background($sgbl->__path_php_path, "../bin/common/background.php", $name);
 }
 
 function callObjectInBackground($object, $func)
@@ -3263,7 +3283,7 @@ function get_with_cache($file, $cmdarglist)
 
 	$stat = @ llstat($file);
 
-	lxfile_mkdir("$sgbl->__path_program_root/cache");
+	lxfile_mkdir("{$sgbl->__path_program_root}/cache");
 
 	$tim = 120;
 
@@ -3309,6 +3329,8 @@ function change_underscore($var)
 function getIpaddressList($master, $servername)
 {
 	$sql = new Sqlite($master, 'ipaddress');
+
+	$ret = array();
 
 	if (!$servername) {
 		$servername = 'localhost';
@@ -3859,7 +3881,7 @@ function MonthList()
 function readfirstline($file)
 {
 	$firstline = fgets($file);
-	fclose($fp);
+	fclose($file);
 
 	return $firstline;
 }
@@ -3872,7 +3894,7 @@ function getNotexistingFile($dir, $file)
 		}
 	}
 
-	return $dir . "/" . $file . "-" . $i;
+//	return $dir . "/" . $file . "-" . $i;
 }
 
 function clearLxbackup($backup)
@@ -3934,7 +3956,7 @@ function fixResourcePlan()
 			$l->setUpdateSubaction();
 			$l->write();
 
-			$write = false;
+		//	$write = false;
 		}
 	}
 }
@@ -4021,6 +4043,8 @@ function getAllIpaddress()
 {
 	$mydb = new Sqlite(null, 'ipaddress');
 	$res = $mydb->getTable(array('ipaddr', 'nname'));
+
+	$list = array();
 
 	foreach ($res as $r) {
 		$list[] = $r['ipaddr'];
@@ -4288,7 +4312,7 @@ function securityBlanketExec($table, $nname, $variable, $func, $arglist)
 	lxfile_generic_chmod($name, "700");
 	lfile_put_contents($name, serialize($rem));
 
-	lxshell_background("$sgbl->__path_php_path", "../bin/common/securityblanket.php", $name);
+	lxshell_background($sgbl->__path_php_path, "../bin/common/securityblanket.php", $name);
 }
 
 function checkClusterDiskQuota()
@@ -4443,7 +4467,7 @@ function do_serve_file($fd, $rem)
 	$file = $rem->filename;
 
 	$file = basename($file);
-	$file = "$sgbl->__path_serverfile/$file";
+	$file = "{$sgbl->__path_serverfile}/{$file}";
 
 	if (!lxfile_exists($file)) {
 		log_log("servfile", "datafile $file dosn't exist, exiting");
@@ -4471,8 +4495,8 @@ function do_serve_file($fd, $rem)
 	if (is_dir($realfile)) {
 		// This should neverhappen. The directories are zipped at cp-fileserv and tar_to_filserved then itself.
 		$b = basename($realfile);
-		lxfile_mkdir("$sgbl->__path_serverfile/tmp/");
-		$tfile = tempnam("$sgbl->__path_serverfile/tmp/", "$b.tar");
+		lxfile_mkdir("{$sgbl->__path_serverfile}/tmp/");
+		$tfile = tempnam("{$sgbl->__path_serverfile}/tmp/", "{$b}.tar");
 		$list = lscandir_without_dot($realfile);
 		lxshell_tar($realfile, $tfile, $list);
 		$realfile = $tfile;
@@ -4596,7 +4620,7 @@ function findServerTraffic()
 
 function createMultipLeVps($param)
 {
-	global $$sgbl;
+	global $sgbl;
 
 	$adminpass = $param['vps_admin_password_f'];
 	$template = $param['vps_template_name_f'];
@@ -4604,7 +4628,7 @@ function createMultipLeVps($param)
 	$base = $param['vps_basename_f'];
 	$count = $param['vps_count_f'];
 
-	lxshell_background("$sgbl->__path_php_path", "../bin/multicreate.php", "--admin-password=$adminpass", "--v-template_name=$template", "--count=$count", "--basename=$base", "--v-one_ipaddress=$one_ip");
+	lxshell_background($sgbl->__path_php_path, "../bin/multicreate.php", "--admin-password={$adminpass}", "--v-template_name={$template}", "--count=$count", "--basename=$base", "--v-one_ipaddress=$one_ip");
 }
 
 function collect_quota_later()
@@ -4639,7 +4663,7 @@ function exec_vzmigrate($vpsid, $newserver, $ssh_port)
 		$ssh_string = "--ssh=\"-p $ssh_port\"";
 	}
 
-	do_exec_exec($username, null, "vzmigrate $ssh_string -r yes $newserver $vpsid", $out, $err, $ret, null);
+	do_exec_system($username, null, "vzmigrate $ssh_string -r yes $newserver $vpsid", $out, $err, $ret, null);
 
 	return array($ret, $global_shell_error);
 }
@@ -4701,6 +4725,8 @@ function remove_scpid($cont)
 	$file = "$home/.ssh/authorized_keys2";
 	$list = lfile_trim($file);
 
+	$nlist = array();
+
 	foreach ($list as $l) {
 		if (!$l) {
 			continue;
@@ -4723,7 +4749,13 @@ function lxguard_main($clearflag = false, $since = false)
 {
 	global $sgbl;
 
-	$hl_file = "/home/kloxo/lxguard/hitlist.info";
+	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
+
+	if (!file_exists($lxgpath)) {
+		lxfile_mkdir($lxgpath);
+	}
+
+	$hl_file = "{$lxgpath}/hitlist.info";
 
 	if ((file_exists($hl_file)) && (strpos(file_get_contents($hl_file), "\n\"") !== false)) {
 		exec("sh /script/fix-lxguardhit-db");
@@ -4731,9 +4763,6 @@ function lxguard_main($clearflag = false, $since = false)
 	}
 
 	include "./lib/html/lxguardincludelib.php";
-
-	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
-	lxfile_mkdir($lxgpath);
 
 	$newtime = time();
 
@@ -4749,13 +4778,22 @@ function lxguard_main($clearflag = false, $since = false)
 		}
 	}
 
-	$rmt =  array_map('trim', lfile_get_unserialize("{$lxgpath}/hitlist.info"));
+	// MR -- array_map to object may error
+//	$rmt =  array_map('trim', lfile_get_unserialize("{$lxgpath}/hitlist.info"));
+
+	$t = toArray(lfile_get_unserialize("{$lxgpath}/hitlist.info"));
+	$r = new Remote();
+	$rmt = toObject(array_map($t), $r);
 
 	if ($rmt) {
 		$oldtime = max((int)$oldtime, (int)$rmt->ddate);
 	}
 
-	$list = array_map('trim', lfile_get_unserialize("{$lxgpath}/access.info"));
+//	$list = array_map('trim', lfile_get_unserialize("{$lxgpath}/access.info"));
+
+	$t2 = toArray(lfile_get_unserialize("{$lxgpath}/access.info"));
+	$r2 = new Remote();
+	$list = toObject(array_map($t2), $r2);
 
 	$type = array('sshd' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages', 'vpopmail' => '/var/log/maillog');
 
@@ -4794,7 +4832,7 @@ function lxguard_main($clearflag = false, $since = false)
 	$str_tcprules = null;
 	$str_spamdyke = null;
 
-	$note = "## blocked IP enough to use 'null routing'\n";
+//	$note = "## blocked IP enough to use 'null routing'\n";
 
 	// MR -- remove blackhole blocked
 	exec("sh /script/remove-blackhole-block");
@@ -4900,7 +4938,7 @@ function addcustomername()
 {
 	global $sgbl;
 
-	lxshell_return("$sgbl->__path_php_path", "../bin/misc/addcustomername.php");
+	lxshell_return($sgbl->__path_php_path, "../bin/misc/addcustomername.php");
 }
 
 function fix_phpini($nolog = null)
@@ -4910,7 +4948,7 @@ function fix_phpini($nolog = null)
 	log_cleanup("Fix php.ini", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
-	lxshell_return("$sgbl->__path_php_path", "../bin/fix/fixphpini.php");
+	lxshell_return($sgbl->__path_php_path, "../bin/fix/fixphpini.php");
 }
 
 function switchtoaliasnext()
@@ -5101,7 +5139,7 @@ function cronfix()
 
 function changetoclient()
 {
-	global $gbl, $sgbl;
+	global $sgbl;
 
 //	exec("service xinetd stop");
 	exec("service pure-ftpd stop");
@@ -5200,7 +5238,7 @@ function fixupDnsRec($l)
 
 function installEasyinstaller($nolog = null)
 {
-	global $sgbl, $login;
+	global $sgbl;
 
 	// Install/Update easyinstaller if needed or remove easyinstaller when easyinstaller is disabled.
 	// Added in Kloxo 6.1.4
@@ -5216,7 +5254,7 @@ function installEasyinstaller($nolog = null)
 	}
 
 	if ($sgbl->is_this_master()) {
-		$gen = $login->getObject('general')->generalmisc_b;
+	//	$gen = $login->getObject('general')->generalmisc_b;
 	//	$diflag = $gen->isOn('disableeasyinstaller');
 		log_cleanup("- 'Easy Installer' is disabled by Flag", $nolog);
 		exec("echo 1 > ../etc/flag/disableeasyinstaller.flg");
@@ -5277,14 +5315,14 @@ function setDefaultPages($nolog = null)
 
 	$pages = array("default", "disable", "webmail", "cp", "error");
 
-	$newer = false;
+//	$newer = false;
 
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 		//	log_cleanup("- Copy $sourcezip to $targetzip", $nolog);
 			log_cleanup("- Copy $sourcezip to $httpdpath", $nolog);
 			exec("'cp' -rf $sourcezip $targetzip");
-			$newer = true;
+		//	$newer = true;
 		}
 	}
 
@@ -5688,8 +5726,10 @@ function setInitialDnsConfig($type, $nolog = null)
 		}
 
 		if ($type === 'bind') {
-			if (!file_exists("/var/log/named")) {
-				exec("mkdir -p /var/log/named");
+			$logf = '/var/log/named';
+
+			if (!file_exists($logf)) {
+				exec("mkdir -p {$logf}; chown named:named {$logf}; chmod 0755 {$logf}");
 			}
 		}
 	}
@@ -5942,6 +5982,8 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 	$login->loadAllObjects('client');
 	$list = $login->getList('client');
 
+	$clname = $cdir = $dlist = null;
+
 	foreach ($list as $c) {
 		if ($c->nname === $user) {
 			$clname = $c->getPathFromName('nname');
@@ -6035,6 +6077,8 @@ function setFixChownChmodMailPerUser($select, $user, $nolog = null)
 	$login->loadAllObjects('client');
 	$list = $login->getList('client');
 
+	$clname = $dlist = null;
+
 	foreach ($list as $c) {
 		if ($c->nname === $user) {
 			$clname = $c->getPathFromName('nname');
@@ -6107,6 +6151,8 @@ function getIpfromARecord($servername, $nobase = null)
 
 	$z = array();
 
+	$base = null;
+
 	foreach ($d as $dk => $dv) {
 		$w = unserialize(base64_decode($dv['ser_dns_record_a']));
 
@@ -6155,6 +6201,8 @@ function getDnsMasters($servername)
 	}
 
 	$addondb = new Sqlite(null, 'addondomain');
+
+	$e = array();
 
 	foreach ($d as $k => $v) {
 		foreach ($v as $k2 => $v2) {
@@ -6245,6 +6293,8 @@ function getDnsReverses($servername)
 
 function setInitialPureftpConfig($nolog = null)
 {
+	global $sgbl;
+
 	log_cleanup("Initialize PureFtp service", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
@@ -6259,7 +6309,7 @@ function setInitialPureftpConfig($nolog = null)
 
 	if (lxfile_exists("/etc/xinetd.d/pureftp")) {
 		log_cleanup("- Remove /etc/xinetd.d/pureftp service file", $nolog);
-		@lxfile_rm("/etc/xinetd.d/pureftp");
+		lxfile_rm("/etc/xinetd.d/pureftp");
 		exec("service xinetd restart");
 	}
 
@@ -6275,9 +6325,32 @@ function setInitialPureftpConfig($nolog = null)
 		lxshell_return("pure-pw", "mkdb");
 	}
 
+	if (!lxfile_exists("/etc/ssl/private/pure-ftpd-dhparams.pem")) {
+		if (!lxfile_exists("/etc/ssl/private")) {
+			mkdir("/etc/ssl/private");
+		}
+
+		lxfile_cp("../file/openssl/tpl/dhparam_2048.pem", "/etc/ssl/private/pure-ftpd-dhparams.pem");
+	}
+
+	// MR -- pure-ftpd high version (1.0.47+) pure-config.pl didn't exists
+
+	if (is_link("/usr/sbin/pure-config.pl")) {
+		unlink("/usr/sbin/pure-config.pl");
+	}
+
+	if (!lxfile_exists("/usr/sbin/pure-config.pl")) {
+		$sfile = "{$sgbl->__path_program_root}/httpdocs/file/pure-ftd/usr/sbin/pure-config.pl";
+		log_cleanup("Copy pure-config.pl to /usr/sbin", $nolog);
+		copy($sfile, "/usr/sbin/pure-config.pl");
+		chown($sfile, "root:root");
+		chmod($sfile, 0755);
+	}
+
 	if (getServiceType('pure-ftpd') === 'init') {
 		lxfile_cp("../file/pure-ftpd/etc/init.d/pure-ftpd.init", "/etc/rc.d/init.d/pure-ftpd");
-		exec("chkconfig pure-ftpd on >/dev/null 2>&1; chmod 0755 /etc/rc.d/init.d/pure-ftpd");
+	//	exec("chkconfig pure-ftpd on >/dev/null 2>&1; chmod 0755 /etc/rc.d/init.d/pure-ftpd");
+		exec("sh /script/enable-service pure-ftpd >/dev/null 2>&1; chmod 0755 /etc/rc.d/init.d/pure-ftpd");
 	}
 
 	log_cleanup("- Restart pure-ftpd service", $nolog);
@@ -6362,7 +6435,7 @@ function setInitialBinary($nolog = null)
 
 function setCheckPackages($nolog = null)
 {
-	$phpbranch = getRpmBranchInstalled('php');
+//	$phpbranch = getRpmBranchInstalled('php');
 
 	log_cleanup("Check for rpm packages", $nolog);
 
@@ -6437,7 +6510,7 @@ function setInitialServer($nolog = null)
 
 	$list = implode(" ", $packages);
 
-	exec("yum -y install $list >/dev/null 2>&1");
+	exec("yum -y install $list --exclude=*afterlogic8* >/dev/null 2>&1");
 
 	exec("sh /script/fixlxphpexe");
 
@@ -6725,6 +6798,8 @@ function enable_xinetd($nolog = null)
 
 function fix_mailaccount_only($nolog = null)
 {
+	global $login;
+
 	log_cleanup("Fix mailaccount only", $nolog);
 	log_cleanup("- Fix process", $nolog);
 
@@ -6826,6 +6901,8 @@ function changeColumn($tbl_name, $changelist)
 	$query = "select * from" . " " . $tbl_name;
 	$res = $db->rawQuery($query);
 
+	$newcollist = array();
+
 	foreach ($columnold as $l) {
 		$check = array_search($l, $conlist);
 
@@ -6875,6 +6952,8 @@ function dropcolumn($tbl_name, $column)
 	$db = new Sqlite($tbl_name);
 	$columnold = $db->getColumnTypes();
 	$oldcolumns = array_keys($columnold);
+
+	$newcollist = array();
 
 	foreach ($oldcolumns as $key => $l) {
 		$t = array_search(trim($l), $column);
@@ -6935,8 +7014,6 @@ function is_64bit()
 
 function checkIdenticalFile($file1, $file2)
 {
-	$ret = false;
-
 	if (!file_exists($file1)) {
 		return false;
 	}
@@ -6946,18 +7023,16 @@ function checkIdenticalFile($file1, $file2)
 	}
 
 	if (filesize($file1) === filesize($file2)) {
-		$ret = true;
+		return true;
 	} else {
 		return false;
 	}
 
 	if (md5_file($file1) === md5_file($file2)) {
-		$ret = true;
+		return true;
 	} else {
 		return false;
 	}
-
-	return $ret;
 }
 
 // Issue #798 - Check for Core packages (rpm) when running upcp
@@ -6989,7 +7064,7 @@ function setUpdateServices($list, $nolog = null)
 
 function setUpdateConfigWithVersionCheck($list, $servertype = null, $nolog = null)
 {
-	$fixstr = "";
+//	$fixstr = null;
 
 	foreach ($list as $k => $v) {
 		log_cleanup("- Fix {$v} services", $nolog);
@@ -7264,7 +7339,7 @@ function getLinkCustomfile($path, $file)
 
 function getParseInlinePhp($template, $input)
 {
-	extract($input);
+	extract($input, EXTR_OVERWRITE);
 
 	$ret = null;
 
@@ -8044,7 +8119,7 @@ function getTimeZoneList()
 function trimming($data)
 {
 	if (gettype($data) == 'array') {
-		return array_map("trimming", $data);
+		return array_map("trim", $data);
 	} else {
 		return trim($data);
 	}
@@ -8105,6 +8180,8 @@ function setSyncDrivers($nolog = null)
 		$nodriver = true;
 		slave_save_db("driver", $classlist);
 	}
+
+	$realval = array();
 
 	foreach ($classlist as $key => $val) {
 		if ($nodriver) {
@@ -8188,6 +8265,8 @@ function getMultiplePhpList()
 	if (empty($d)) {
 		return array();
 	}
+
+	$f = array();
 
 	foreach ($d as $k => $v) {
 		$e = str_replace('/opt/', '', $v);
@@ -8309,8 +8388,9 @@ function setAllSSLPortions($nolog = null)
 	log_cleanup("- Copy 'acme.sh' config Files", $nolog);
 	setCopyAcmeshConfFiles();
 
-	log_cleanup("- Copy 'startapi.sh' config Files", $nolog);
-	setCopyStartapishConfFiles();
+	// MR -- StartAPI already stopped. So disabled
+//	log_cleanup("- Copy 'startapi.sh' config Files", $nolog);
+//	setCopyStartapishConfFiles();
 
 //	log_cleanup("- Install Letsencrypt-auto", $nolog);
 //	setInstallLetsencrypt($nolog);
@@ -8321,8 +8401,9 @@ function setAllSSLPortions($nolog = null)
 	log_cleanup("- Install acme.sh", $nolog);
 	setInstallAcmesh($nolog);
 
-	log_cleanup("- Install startapi.sh", $nolog);
-	setInstallStartapish($nolog);
+	// MR -- StartAPI already stopped. So disabled
+//	log_cleanup("- Install startapi.sh", $nolog);
+//	setInstallStartapish($nolog);
 
 	log_cleanup("- Fix SSL path", $nolog);
 	setFixSSLPath($nolog);
@@ -8530,7 +8611,7 @@ function setAllDnsServerInstall($nolog = null)
 			}
 		}
 
-		$confpath = "/opt/configs/{$v}/etc/conf";
+	//	$confpath = "/opt/configs/{$v}/etc/conf";
 
 		$t = $ds[$v];
 
@@ -8748,4 +8829,47 @@ function safefilerewrite($fileName, $dataToSave)
 
 		fclose($fp);
 	}
+}
+
+// MR -- https://likegeeks.com/convert-array-to-object-using-php/
+function toObject(array $array, $object)
+{
+	$class = get_class($object);
+	$methods = get_class_methods($class);
+
+	foreach ($methods as $method) {
+		preg_match(' /^(set)(.*?)$/i', $method, $results);
+
+		$pre = $results[1] ? $results[1] : '';
+		$k = $results[2] ? $results[2] : '';
+		$k = strtolower(substr($k, 0, 1)) . substr($k, 1);
+
+		if ($pre == 'set' && !empty($array[$k])) {
+			$object->$method($array[$k]);
+		}
+	}
+
+	return $object;
+}
+
+// MR -- https://likegeeks.com/convert-array-to-object-using-php/
+function toArray($object)
+{
+	$array = array();
+	$class = get_class($object);
+	$methods = get_class_methods($class);
+
+	foreach ($methods as $method) {
+		preg_match(' /^(get)(.*?)$/i', $method, $results);
+
+		$pre = $results[1] ? $results[1] : '';
+		$k = $results[2]  ? $results[2] : '';
+		$k = strtolower(substr($k, 0, 1)) . substr($k, 1);
+
+		if ($pre == 'get') {
+			$array[$k] = $object->$method();
+		}
+	}
+
+	return $array;
 }

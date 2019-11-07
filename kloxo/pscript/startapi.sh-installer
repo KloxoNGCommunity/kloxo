@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "WARNING: StartAPI free ssl already stopped (read 'http://startssl.com/'). So disabled"
+exit
+
 kloxopath='/usr/local/lxlabs/kloxo'
 startapipath='/root/.startapi.sh'
 cronfile='/var/spool/cron/root'

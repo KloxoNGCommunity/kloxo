@@ -51,7 +51,7 @@ dummy_debug_function();
 
 function getreal($vpath)
 {
-     return  $_SERVER["DOCUMENT_ROOT"] . "/". $vpath; 
+	return  "{$_SERVER["DOCUMENT_ROOT"]}/{$vpath}"; 
 }
 
 function readvirtual($vpath)

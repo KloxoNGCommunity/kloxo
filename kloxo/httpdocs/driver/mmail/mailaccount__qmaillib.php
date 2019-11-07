@@ -27,6 +27,7 @@ class Mailaccount__Qmail extends lxDriverClass
 		$password = $this->main->password;
 
 		if (!$this->main->password) {
+		// MR -- fix for php 5.6+
 		//	$password = crypt('something', '$1$'.randomString(8).'$');
 			$password = crypt(randomString(8), '$1$'.randomString(8).'$');
 		}
@@ -352,6 +353,8 @@ class Mailaccount__Qmail extends lxDriverClass
 	{
 		global $gbl, $sgbl, $login;
 
+		// only run for bogofilter
+		if ($this->main->__var_spam_driver === 'bogofilter') {
 		list($user, $domain) = explode("@", $this->main->nname);
 
 		$mailpath = mmail__qmail::getDir($domain);
@@ -362,7 +365,12 @@ class Mailaccount__Qmail extends lxDriverClass
 		lunlink("/var/bogofilter/$fname.wordlist.db");
 		system("bogofilter -d /var/bogofilter/ --wordlist=R,user,$fname.wordlist.db,1 -n < /etc/my.cnf");
 	}
+	}
 
+ /**
+ *  Trains Spamassassin or bogofilter 
+ *  (detects if spamassassin is installed and uses sa-learn if it is)
+ */
 	function trainAsSpam()
 	{
 		global $global_dontlogshell;
@@ -372,6 +380,30 @@ class Mailaccount__Qmail extends lxDriverClass
 		$listname = "{$this->main->subaction}_list";
 
 		$name = fix_nname_to_be_variable($this->main->nname);
+
+		if ($this->main->__var_spam_driver === 'spamassassin') {
+
+			// For Kloxo-wp we are using site wide bayes
+			// TODO remove train_as_system_ option from menu if Spamassassin is used
+			/* if (csb($this->main->subaction, "train_as_system_")) {
+					$optstring = null;
+				} else {
+					$optstring = "--wordlist=R,user,$name.wordlist.db,1";
+				}
+			*/
+			$flag = "--ham";
+
+			if (cse($this->main->subaction, '_spam')) {
+				$flag = "--spam";
+			}
+
+			foreach ($this->main->$listname as $f) {
+				$name = str_replace("_s_coma_s_", ",", $f);
+				$name = str_replace("_s_colon_s_", ":", $name);
+				$cmd = "/usr/bin/sa-learn $flag $name";
+				do_exec_system("vpopmail", null, $cmd, $out, $err, $ret, null);
+			}
+		} else {
 
 		if (csb($this->main->subaction, "train_as_system_")) {
 			$optstring = null;
@@ -390,6 +422,7 @@ class Mailaccount__Qmail extends lxDriverClass
 			$name = str_replace("_s_colon_s_", ":", $name);
 			$cmd = "bogofilter -d /var/bogofilter/ $optstring $flag < $name";
 			do_exec_system("__system__", null, $cmd, $out, $err, $ret, null);
+			}
 		}
 	}
 

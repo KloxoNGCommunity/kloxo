@@ -6,6 +6,7 @@ After=network.target remote-fs.target nss-lookup.target
 [Service]
 Type=forking
 PIDFile=/usr/local/lxlabs/kloxo/init/kloxo-hiawatha.pid
+ExecStartPre=-/usr/bin/bash -c "if [ \"$(pgrep ^mysql)\" == \"\" ]; then /usr/bin/bash /script/restart-mysql; fi"
 ExecStartPre=/usr/bin/lxphp.exe -f /usr/local/lxlabs/kloxo/init/changeport.php
 ExecStart=/usr/local/lxlabs/kloxo/init/kloxo-hiawatha -c /usr/local/lxlabs/kloxo/init
 ExecReload=/bin/kill -s HUP $MAINPID

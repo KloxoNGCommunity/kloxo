@@ -340,6 +340,9 @@ abstract class Lxclient extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
+	/*
+		// MR -- disable this code because change to use .tpl model code (php parse)
+
 		$text = str_replace("%name%", "$object->nname\n", $text);
 		$text = str_replace("%clientname%", $object->getParentName() . "\n", $text);
 		$text = str_replace("%password%", $object->realpass, $text);
@@ -409,6 +412,43 @@ abstract class Lxclient extends Lxdb
 		}
 		
 		return implode("\n", $total);
+	*/
+
+		$input = array();
+
+		$input['name'] = $object->nname;
+		$input['clientname'] = $object->getParentName();
+		$input['password'] = $object->realpass;
+
+		if ($sgbl->isKloxo()) {
+			$input['default_domain'] = $object->default_domain;
+		}
+
+		$input['ipaddress'] = $input['masterserver'] = getFQDNforServer('localhost');
+
+		$string = null;
+
+		foreach ($this->priv as $k => $v) {
+			if ($this->isQuotaVariable($k)) {
+				$var = get_v_descr($this, $k);
+				$var = get_form_variable_name($var);
+				$string .= "{$var}: {$v}\n";
+			}
+		}
+
+		$input['quota'] = $string;
+
+		$gen = $login->getObject('general');
+
+		$a = $gen->portconfig_b->sslport;
+		$b = $gen->portconfig_b->nonsslport;
+
+		$input['sslport'] = isset($a) ? $a : $sgbl->__var_prog_ssl_port;
+		$input['nonsslport'] = isset($b) ? $b : $sgbl->__var_prog_port;
+
+		$tplparse = getParseInlinePhp($text, $input);
+
+		return $tplparse;
 	}
 
 	function isSlave()
