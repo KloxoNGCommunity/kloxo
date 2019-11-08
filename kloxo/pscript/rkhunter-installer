@@ -1,0 +1,24 @@
+#!/bin/sh
+
+echo "*** Installing 'rkhunter' ***"
+
+if [ "$(rpm -qa rkhunter)" == "" ] ; then
+	echo "* 'rkhunter' install processing"
+	yum install tnef which gcc cpp gcc-c++ zip unzip curl-devel libcurl-devel autoconf \
+		automake make libtool openssl-devel pure-ftpd yum-protectbase \
+		yum-plugin-replace crontabs make glibc-static net-snmp tmpwatch \
+		rkhunter quota xinetd screen telnet ncdu sysstat net-tools \
+		xz xz-libs p7zip p7zip-plugins rar unrar lxjailshell yum-presto deltarpm
+else
+	echo "* 'rkhunter' already installed"
+fi
+
+echo "* Updating 'rkhunter'"
+rkhunter --update
+
+if [ -f /var/lib/rkhunter/db/rkhunter.dat ] ; then
+	echo "* 'rkhunter.dat' file already exits"
+else
+	echo "* Running 'rkhunter --propupd' to creating 'rkhunter.dat'"
+	rkhunter --propupd
+fi

@@ -1,0 +1,57 @@
+#
+# /etc/systemd/system/mariadb.service
+#
+# This file is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# Thanks to:
+# Daniel Black
+# Erkan Yanar
+# David Strauss
+# and probably others
+
+[Unit]
+Description=MariaDB 10.4.6 database server
+Documentation=man:mysqld(8)
+Documentation=https://mariadb.com/kb/en/library/systemd/
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+#Alias=mysql.service
+#Alias=mysqld.service
+
+[Service]
+Type=notify
+PrivateNetwork=false
+User=mysql
+Group=mysql
+CapabilityBoundingSet=CAP_IPC_LOCK
+ProtectSystem=full
+PrivateDevices=true
+ProtectHome=true
+PermissionsStartOnly=true
+ExecStartPre=/bin/sh -c "systemctl unset-environment _WSREP_START_POSITION"
+ExecStartPre=/bin/sh -c "[ ! -e /usr/bin/galera_recovery ] && VAR= || \
+ VAR=`/usr/bin/galera_recovery`; [ $? -eq 0 ] \
+ && systemctl set-environment _WSREP_START_POSITION=$VAR || exit 1"
+ExecStart=/usr/sbin/mysqld $MYSQLD_OPTS $_WSREP_NEW_CLUSTER $_WSREP_START_POSITION
+ExecStartPost=/bin/sh -c "systemctl unset-environment _WSREP_START_POSITION"
+KillSignal=SIGTERM
+SendSIGKILL=no
+Restart=on-abort
+RestartSec=5s
+UMask=007
+# OOMScoreAdjust=-600
+# BlockIOWeight=1000
+PrivateTmp=false
+LimitNOFILE=16364
+# LimitCore=
+# Nice=-5
+# Environment="
+# Environment="LD_LIBRARY_PATH=/path1 /path2" "LD_PRELOAD=
+# ExecStartPre=sync
+# ExecStartPre=sysctl -q -w vm.drop_caches=3
+# FailureAction=

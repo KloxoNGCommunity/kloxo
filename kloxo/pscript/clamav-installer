@@ -1,0 +1,25 @@
+#!/bin/sh
+
+yum install clamav* clamd --exclude=clamav-milter* --exclude=clamav-unofficial*  -y
+
+
+#if [ "$(id -u 'clamav' 1>/dev/null 2>&1; echo $?)" == "0" ] ; then
+if [ -z "$(id -u 'clamav' 2>/dev/null)" ] ; then
+	groupadd clamav
+	useradd -g clamav -s /sbin/nologin -c "Clam AntiVirus" clamav
+fi
+
+'cp' -f /etc/clamd.d/scan.conf /etc/clamd.conf
+'cp' -f /usr/local/lxlabs/kloxo/file/clamav/etc/init.d/freshclam.init /etc/init.d/freshclam
+
+chown root:root /etc/init.d/freshclam
+chmod 755 /etc/init.d/freshclam
+
+# for clamd scan (under qmail's clamd)
+sed -i '/^Example/d' /etc/clamd.d/scan.conf
+sed -i '/^Example/d' /etc/freshclam.conf
+sed -i '/^Example/d' /etc/clamd.conf
+
+sed -i 's/#LocalSocket/LocalSocket/g' /etc/clamd.d/scan.conf
+sed -i 's/#LocalSocket/LocalSocket/g' /etc/freshclam.conf
+sed -i 's/#LocalSocket/LocalSocket/g' /etc/clamd.conf

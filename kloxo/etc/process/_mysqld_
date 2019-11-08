@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "*** Restart for MYSQL/MARIADB service ***"
+
+if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ]; then
+	prog="mysqld"
+elif [ -f /etc/rc.d/init.d/mysql ] || [ -f /usr/lib/systemd/system/mysql.service ]; then
+	prog="mysql"
+fi
+
+. /usr/local/lxlabs/kloxo/etc/process/service.inc

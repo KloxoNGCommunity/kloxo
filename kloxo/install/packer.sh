@@ -72,10 +72,10 @@ fi
 if [ ! -d ./kloxo/httpdocs ] ; then
 	echo "Download Kloxo git Sources"
 	'rm' -rf ${kloxo_branch}* > /dev/null 2>&1
-	wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip -O kloxo-mr-${kloxo_branch}.zip
+	wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip -O kloxo-ng-${kloxo_branch}.zip
 
-	unzip -oq kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
-	'rm' -rf kloxo-mr-${kloxo_branch}.zip > /dev/null 2>&1
+	unzip -oq kloxo-ng-${kloxo_branch}.zip > /dev/null 2>&1
+	'rm' -rf kloxo-ng-${kloxo_branch}.zip > /dev/null 2>&1
 	'mv' -f ./kloxo*-${kloxo_branch}/kloxo ./
 	'rm' -rf ./kloxo*-${kloxo_branch}
 else
