@@ -18,6 +18,6 @@ if [ -d ${rdir}/roundcube ] ; then
 	echo
 else
 	echo
-	echo "* Need install with 'yum install kloxomr-webmail-roundcube -y' first"
+	echo "* Need install with 'yum install kloxong-webmail-roundcube -y' first"
 	echo
 fi

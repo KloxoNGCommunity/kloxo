@@ -3,10 +3,10 @@
 
 lxphp.exe ../bin/misc/installWebmailDb.php
 
-if [ "$( rpm -qa kloxomr*telaen*)" != "" ] ; then
+if [ "$( rpm -qa kloxong*telaen*)" != "" ] ; then
 	yum remove kloxo*telaen* -y
 fi
 
-if [ "$( rpm -qa kloxomr*squirrelmail*)" != "" ] ; then
-	yum remove kloxomr*squirrelmail* -y
+if [ "$( rpm -qa kloxong*squirrelmail*)" != "" ] ; then
+	yum remove kloxong*squirrelmail* -y
 fi

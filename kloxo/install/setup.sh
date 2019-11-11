@@ -25,9 +25,9 @@
 #
 
 #define variables 
-kloxoreporpm="mratwork-release-0.0.1-1.noarch.rpm"
+kloxoreporpm="kloxong-release-0.1.1-1.noarch.rpm"
 mainreponame='kloxong'
-mainrpmlink="https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch"
+mainrpmlink="http://repo.kloxong.org/kloxong/release/neutral/noarch"
 #this is for installing base packages
 yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
 	vim-minimal subversion curl sudo expect"

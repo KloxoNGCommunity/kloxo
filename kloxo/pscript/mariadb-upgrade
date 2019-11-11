@@ -20,7 +20,7 @@ echo "*** Upgrade MariaDB from ${oldver} to ${newver} ***"
 if [ "${status}" == "12" ] ; then
 	echo "- Begin process..."
 
-	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/mratwork.repo
+	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/kloxong.repo
 	yum clean all
 	yum update MariaDB* -y
 	yum remove MariaDB-server -y

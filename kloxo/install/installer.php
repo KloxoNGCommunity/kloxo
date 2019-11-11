@@ -537,6 +537,8 @@ function kloxo_install_step1()
     rm_if_exists("{$kloxopath}/kloxo-current.zip");
     rm_if_exists("{$kloxopath}/kloxo-mr-latest.zip");
     rm_if_exists("{$kloxopath}/kloxomr.tar.gz");
+	rm_if_exists("{$kloxopath}/kloxo-ng-latest.zip");
+    rm_if_exists("{$kloxopath}/kloxong.tar.gz");
 
     print(">>> Creating Symlink (in 64bit OS) for certain components <<<\n");
 

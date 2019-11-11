@@ -3,7 +3,7 @@
 chdir("..");
 include_once "lib/html/displayinclude.php";
 
-$kloxo_mr_version = $sgbl->__ver_full;
+$kloxong_version = $sgbl->__ver_full;
 
 init_language();
 
@@ -141,7 +141,7 @@ if (!$cgi_forgotpwd) {
 		</div>
 		<div class="clr"></div>
 	</div>
-	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">Kloxo-MR <?php echo $kloxo_mr_version ?></div>
+	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">KloxoNG <?php echo $kloxong_version ?></div>
 <?php echo $msg;?>
 
 </div>
@@ -190,7 +190,7 @@ if (!$cgi_forgotpwd) {
 
 		<div class="clr"></div>
 	</div>
-	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">Kloxo-MR <?php echo $kloxo_mr_version ?></div>
+	<div style="margin: 4px auto; width: 200px; padding: 4px; color: #fff; background-color: #000">KloxoNG<?php echo $kloxong_version ?></div>
 </div>
 
 <div id="break"></div>

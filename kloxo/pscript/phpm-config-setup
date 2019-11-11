@@ -8,7 +8,7 @@ if [ "$1" == "--help" ] ; then
 	echo "  phpXYm/phpXYs"
 	echo "      - start from php52m/php52s"
 	echo "      - phpXYm for 'multiple php'"
-	echo "      - phpXYs for 'special php' for Kloxo-MR panel"
+	echo "      - phpXYs for 'special php' for KloxoNG panel"
 	echo "  --force"
 	echo "      - for re-install"
 	echo

@@ -20,12 +20,7 @@ if (strpos($mysqlbranch, "mysql") !== false) {
 
 	exec("yum list|grep MariaDB", $out, $ret);
 	
-//	if ($ret) {
-//		echo "- Repo for MariaDB exists.\n";
-//		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=1' to 'enable=0'\n";
-//		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
-//		exit;
-//	} else {
+
 		// MR -- don't use $mysqlbranch because for MariaDB mean MariaDB-server
 		$out2 = shell_exec("rpm -qa|grep MariaDB");
 

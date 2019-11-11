@@ -641,13 +641,13 @@ abstract class Lxclient extends Lxdb
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$data["commonName"] = "mratwork.com";
+		$data["commonName"] = "kloxong.org";
 		$data["countryName"] = "ID";
 		$data["stateOrProvinceName"] = "DIY";
 		$data["localityName"] = "id";
 		$data["organizationName"] = "MRatWork";
 		$data["organizationalUnitName"] = "software";
-		$data["emailAddress"] = "admin@mratwork.com";
+		$data["emailAddress"] = "info@kloxong.org";
 
 		foreach ($data as $key => $value) {
 			$ltemp[$key] = $value;

@@ -69,7 +69,7 @@ function backup_main()
 		$param['backup_to_file_f'] = $opt['v-backup_file_name'];
 	} else {
 	//	$param['backup_to_file_f'] = "$progname-scheduled";
-		$param['backup_to_file_f'] = "kloxomr70-scheduled";
+		$param['backup_to_file_f'] = "kloxong-scheduled";
 	}
 
 	foreach($opt as $k => $v) {

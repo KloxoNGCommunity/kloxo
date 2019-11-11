@@ -157,7 +157,7 @@ if ($general_header) {
 		}
 		}
 
-		$general_header_text .= "\t\tHeader always set X-Supported-By \"Kloxo-MR 7.0\"\n" .
+		$general_header_text .= "\t\tHeader always set X-Supported-By \"KloxoNG\"\n" .
 			"\t\tRequestHeader unset Proxy early\n" . 
 			"\t</IfModule>";
 //	} else {

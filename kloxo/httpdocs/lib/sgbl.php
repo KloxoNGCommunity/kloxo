@@ -30,8 +30,8 @@ class Sgbl
 		$t = file_get_contents('/usr/local/lxlabs/kloxo/bin/kloxoversion');
 		$a = explode('.', $t);
 
-		$this->__ver_name = 'Kloxo-MR';
-		$this->__ver_note = 'Kloxo fork by Mustafa Ramadhan';
+		$this->__ver_name = 'KloxoNG';
+		$this->__ver_note = 'Kloxo-MR fork by Kloxo Next Generation';
 
 		$this->__ver_major = ($t) ? $a[0] : '[unknown]';
 		$this->__ver_minor = ($t) ? $a[1] : '[unknown]';

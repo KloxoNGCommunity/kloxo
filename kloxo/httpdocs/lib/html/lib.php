@@ -784,7 +784,7 @@ function validate_domain_name($name, $bypass = null)
 	global $sgbl, $login;
 
 	if (!$bypass) {
-		if ($name === 'lxlabs.com' || $name === 'lxcenter.org' || $name === 'mratwork.com') {
+		if ($name === 'lxlabs.com' || $name === 'lxcenter.org' || $name === 'kloxong.org') {
 			if (!$sgbl->isDebug()) {
 				throw new lxException($login->getThrow('can_not_be_added'), '', $name);
 			}
@@ -2883,7 +2883,7 @@ function checkIfLatest()
 
 function getLatestVersion()
 {
-	exec("yum check-update kloxomr7|grep kloxomr7|awk '{print $2}'", $out, $ret);
+	exec("yum check-update kloxong|grep kloxong|awk '{print $2}'", $out, $ret);
 
 	if ($ret === 0) {
 		$ver = getInstalledVersion();
@@ -2897,7 +2897,7 @@ function getLatestVersion()
 
 function getInstalledVersion()
 {
-	exec("cd /; yum list installed kloxomr7|grep kloxomr7|awk '{print $2}'", $out, $ret);
+	exec("cd /; yum list installed kloxong|grep kloxong|awk '{print $2}'", $out, $ret);
 
 	$ver = str_replace(".mr", "", $out[0]);
 
@@ -6497,7 +6497,7 @@ function setInitialServer($nolog = null)
 	}
 
 	// MR - Change to different purpose
-	// install php52s + hiawatha (also kloxomr specific component) and their setting for Kloxo-MR
+	// install php52s + hiawatha (also kloxong specific component) and their setting for Kloxo-MR
 
 	// MR -- remove old Kloxo ext
 	$packages = array("lxphp", "lxzend", "lxlighttpd");
@@ -6506,7 +6506,7 @@ function setInitialServer($nolog = null)
 
 	exec("yum -y remove $list >/dev/null 2>&1");
 
-	$packages = array("kloxomr-webmail-*.noarch", "kloxomr7-thirdparty-*.noarch", "kloxomr-thirdparty-*.noarch", "kloxomr-stats-*.noarch", "kloxomr-editor-*.noarch", "hiawatha");
+	$packages = array("kloxong-webmail-*.noarch", "kloxong-thirdparty-*.noarch", "kloxong-thirdparty-*.noarch", "kloxong-stats-*.noarch", "kloxong-editor-*.noarch", "hiawatha");
 
 	$list = implode(" ", $packages);
 

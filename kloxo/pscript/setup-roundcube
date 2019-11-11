@@ -4,7 +4,7 @@ path="/home/kloxo/httpd/webmail/roundcube"
 
 if [ "${1}" == "-y" ] ; then
 	if [ ! -f ${path}/index.php ] ; then
-		yum install kloxomr-webmail-roundcube -y
+		yum install kloxong-webmail-roundcube -y
 		chown -R apache:apache ${path}
 	fi
 fi

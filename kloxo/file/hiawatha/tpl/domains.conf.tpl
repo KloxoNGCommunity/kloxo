@@ -46,7 +46,7 @@ if ($general_header) {
 	}
 	}
 
-	$general_header_text .= "\tCustomHeader = X-Supported-By:Kloxo-MR 7.0";
+	$general_header_text .= "\tCustomHeader = X-Supported-By:KloxoNG";
 }
 
 if ($https_header) {

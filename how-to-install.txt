@@ -76,7 +76,7 @@ WARNING:
     In CentOS 32bit may trouble with:
 
         # install rpm (read Warning)
-        rpm -Uvh https://github.com/mustafaramadhan/rpms/raw/master/kloxong/release/neutral/noarch/kloxong-release-0.0.1-1.noarch.rpm
+        rpm -Uvh http://repo.kloxong.org/kloxong/release/neutral/noarch/kloxong-release-0.1.1-1.noarch.rpm
 
     and then use:
 
@@ -85,6 +85,6 @@ WARNING:
         rm -f kloxong*
 
         # get rpm file
-        wget https://github.com/mustafaramadhan/rpms/raw/master/kloxong/release/neutral/noarch/kloxong-release-0.0.1-1.noarch.rpm
+        wget http://repo.kloxong.org/kloxong/release/neutral/noarch/kloxong-release-0.1.1-1.noarch.rpm
 
         rpm -ivh kloxong-release-0.0.1-1.noarch.rpm

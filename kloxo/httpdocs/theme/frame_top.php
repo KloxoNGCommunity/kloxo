@@ -193,7 +193,7 @@ function createHeaderData()
 	}
 
 //	$helpurl = "http://wiki.lxcenter.org";
-	$helpurl = "http://forum.mratwork.com";
+	$helpurl = "https://www.facebook.com/groups/KloxoNextGeneration";
 
 	$gdata = array(
 		"desktop" => array($deskdesc, "/display.php?frm_action=desktop", "client_list.gif"),

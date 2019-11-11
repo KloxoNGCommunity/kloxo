@@ -22,6 +22,6 @@ if [ -d ${rdir}/afterlogic ] ; then
 	echo
 else
 	echo
-	echo "* Need install with 'yum install kloxomr-webmail-afterlogic -y' first"
+	echo "* Need install with 'yum install kloxong-webmail-afterlogic -y' first"
 	echo
 fi

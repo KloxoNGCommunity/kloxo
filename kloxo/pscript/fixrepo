@@ -1,8 +1,8 @@
 #!/bin/sh
 # declaring Variables
 reponame="kloxong"
-repourl="https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch"
-relrpmname="mratwork-release-0.0.1-1.noarch.rpm"
+repourl="http://repo.kloxong.org/kloxong/release/neutral/noarch"
+relrpmname="kloxong-release-0.1.1-1.noarch.rpm"
 
 
 yum clean all
@@ -17,7 +17,7 @@ else
 	'rm' -rf /etc/yum.repos.d/kloxo-custom.repo
 	'rm' -rf /etc/yum.repos.d/lxcenter.repo
 	'rm' -rf /etc/yum.repos.d/lxlabs.repo	
-	'rm' -rf /etc/yum.repos.d/mratwork.repo.*
+	'rm' -rf /etc/yum.repos.d/kloxong.repo.*
 	
 	wget $repourl/$relrpmname --no-check-certificate
 	rpm -ivh $relrpmname

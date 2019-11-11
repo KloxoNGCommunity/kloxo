@@ -14,5 +14,5 @@ lxphp.exe ../bin/fix/sysinfo.php $*
 . /script/counter-end.inc
 
 echo "* Note: run 'sh $0 -y' if you want run 'fix-service-list' also"
-echo "        (importance after Kloxo-MR update)"
+echo "        (importance after KloxoNG update)"
 echo

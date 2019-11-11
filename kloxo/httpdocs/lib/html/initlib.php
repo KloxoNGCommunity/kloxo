@@ -57,7 +57,7 @@ function add_admin($pass)
 	if (!$ddb->existInTable("nname", 'admin')) {
 		if ($sgbl->dbg > 0) {
 			$pass = 'lxlabs';
-			$res['contacemail'] = 'admin@mratwork.com';
+			$res['contacemail'] = 'info@kloxong.org';
 		}
 
 		$res['password'] = crypt($pass, '$1$'.randomString(8).'$');
@@ -65,7 +65,7 @@ function add_admin($pass)
 		$res['cpstatus'] = 'on';
 
 		if(if_demo()){
-			$res['email'] = "admin@mratwork.com";
+			$res['email'] = "info@kloxong.org";
 		}
 
 		$client->create($res);

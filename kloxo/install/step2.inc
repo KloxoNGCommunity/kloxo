@@ -99,11 +99,11 @@ old_rem_kloxo_pack=(
 						"lxlighttpd"
 						"lxzend"
 						"kloxo-*"
-                                               " kloxomr-webmail-*.noarch"
-						"kloxomr-thirdparty-*.noarch"
-						"kloxomr-stats-*.noarch"
-						"kloxomr-editor-*.noarch"
-                                                "kloxomr-thirdparty-phpmyadmin-*.noarch"
+                                               " kloxong-webmail-*.noarch"
+						"kloxong-thirdparty-*.noarch"
+						"kloxong-stats-*.noarch"
+						"kloxong-editor-*.noarch"
+                                                "kloxong-thirdparty-phpmyadmin-*.noarch"
 					) 
 
 			 
@@ -118,7 +118,7 @@ php_pack=(
 			"php56w"
 		)	
 
-#yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and   kloxong
+#yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and kloxong
 yum_klx_legacy_pack=(
 						"kloxong-webmail-*.noarch"
 						"kloxong-thirdparty-*.noarch"

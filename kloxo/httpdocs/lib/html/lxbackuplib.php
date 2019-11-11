@@ -684,7 +684,7 @@ class lxbackup extends Lxdb
 		global $sgbl;
 
 		$progname = $sgbl->__var_program_name;
-	//	$progname = "kloxomr70";
+	//	$progname = "kloxong";
 		dprint("$object->nname\n");
 		$aname = strfrom($object->nname, "-");
 		$aname = "-$aname";

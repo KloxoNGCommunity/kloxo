@@ -48,9 +48,9 @@
 		if(isset($incfile2)) { include_once $incfile2 ; }
 
 		if (isset($page)) {
-			$title = "Kloxo-MR {$page} page";
+			$title = "KloxoNG {$page} page";
 		} else {
-			$title = "Kloxo-MR Page";
+			$title = "KloxoNG Page";
 		}
 
 		if (basename(getcwd()) === 'login') {
