@@ -10,44 +10,22 @@ A. pre-install -- better for fresh install
 
     cd /
 
-B. Install Kloxo-MR
+B. Install kloxoNG
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing Kloxo (6.1.x), run 'sh /script/update' first.
 
 B.1. Fresh Install
 
-    B.1.1. for version 6.5.0 (rpm naming as kloxomr-6.5.0-*.rpm)
+    B.1.1 for version 7.0.0 (rpm naming as kloxong7-7.0.0-*.rpm)
 
         # move to /tmp
         cd /tmp
 
         # remove old rpm
-        rm -f mratwork*
+        rm -f kloxong*
 
         # install rpm (read Warning)
-        rpm -ivh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
-        # move to /
-        cd /
-
-        # update
-        yum clean all
-
-        yum update mratwork-* -y
-
-        yum install kloxomr -y
-
-        sh /script/upcp
-  
-    B.1.2. for version 7.0.0 (rpm naming as kloxomr7-7.0.0-*.rpm)
-
-        # move to /tmp
-        cd /tmp
-
-        # remove old rpm
-        rm -f mratwork*
-
-        # install rpm (read Warning)
-        rpm -ivh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        rpm -ivh https://github.com/mustafaramadhan/rpms/raw/master/kloxong/release/neutral/noarch/kloxong-release-0.0.1-1.noarch.rpm
 
         # move to /
         cd /
@@ -55,19 +33,12 @@ B.1. Fresh Install
         # update
         yum clean all
 
-        yum update mratwork-* -y
+        yum update kloxong-* -y
 
-        yum install kloxomr7 -y
+        yum install 7 -y
 
         sh /script/upcp
 
-B.2. update from 6.5.0 to 7.0.0
-
-    yum replace kloxomr --replace-with=kloxomr7 -y
-	
-    # '-y' mean force
-    sh /script/upcp -y
-    sh /script/mysql-optimize --select=upgrade
 
 B.3. update from Kloxo Official 6.1.19
 
@@ -92,7 +63,7 @@ WARNING:
     # remove packages from Kloxo Official
     yum remove kloxo* -y
     
-3. Since 6.5.0.f-20130701, Kloxo-MR using MySQLi API instead MySQL API. Need update mysql 5.0.x to 5.1.x or above for Centos 5.
+3. Since 6.5.0.f-20130701, kloxoNG using MySQLi API instead MySQL API. Need update mysql 5.0.x to 5.1.x or above for Centos 5.
 
     Check mysql version with:
 
@@ -112,15 +83,15 @@ WARNING:
     In CentOS 32bit may trouble with:
 
         # install rpm (read Warning)
-        rpm -Uvh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        rpm -Uvh https://github.com/mustafaramadhan/rpms/raw/master/kloxong/release/neutral/noarch/kloxong-release-0.0.1-1.noarch.rpm
 
     and then use:
 
         cd /tmp
         # remove old rpm
-        rm -f mratwork*
+        rm -f kloxong*
 
         # get rpm file
-        wget https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm
+        wget https://github.com/mustafaramadhan/rpms/raw/master/kloxong/release/neutral/noarch/kloxong-release-0.0.1-1.noarch.rpm
 
-        rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
+        rpm -ivh kloxong-release-0.0.1-1.noarch.rpm
