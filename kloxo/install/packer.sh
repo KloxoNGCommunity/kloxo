@@ -22,6 +22,7 @@
 #
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 # Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
+# Version 1.1.1 (2019-11-12) - JP 
 #
 
 #we define here the array of variables and for packages that we will use on installing with yum 
@@ -34,7 +35,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo " ----------------------------------------------------------------------"
 	echo "  format: sh $0 --fork=<> --branch=<>"
 	echo " ----------------------------------------------------------------------"
-	echo "  --fork - example: kloxong or <yourforkname> (for certain developer)"
+	echo "  --fork - example: KloxoNGCommunity or <yourforkname> (for certain developer)"
 	echo "  --branch - example: master or dev"
 	echo
 	echo "  * Pack main kloxo package from git"
@@ -48,9 +49,9 @@ fi
 echo "Start pack..."
 
 if [ "$1" == "" ] ; then
-	kloxo_fork="kloxoNG-CP"
+	kloxong_fork="KloxoNGCommunity"
 else
-	kloxo_fork=${1#--fork\=}
+	kloxong_fork=${1#--fork\=}
 fi
 
 if [ "$2" == "" ] ; then
@@ -72,7 +73,7 @@ fi
 if [ ! -d ./kloxo/httpdocs ] ; then
 	echo "Download Kloxo git Sources"
 	'rm' -rf ${kloxo_branch}* > /dev/null 2>&1
-	wget https://github.com/${kloxo_fork}/kloxo/archive/${kloxo_branch}.zip -O kloxo-ng-${kloxo_branch}.zip
+	wget https://github.com/${kloxong_fork}/kloxoNG-CP/archive/${kloxo_branch}.zip -O kloxo-ng-${kloxo_branch}.zip
 
 	unzip -oq kloxo-ng-${kloxo_branch}.zip > /dev/null 2>&1
 	'rm' -rf kloxo-ng-${kloxo_branch}.zip > /dev/null 2>&1
