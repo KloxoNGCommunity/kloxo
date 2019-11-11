@@ -25,7 +25,7 @@ B.1. Fresh Install
         rm -f kloxong*
 
         # install rpm (read Warning)
-        rpm -ivh https://github.com/mustafaramadhan/rpms/raw/master/kloxong/release/neutral/noarch/kloxong-release-0.0.1-1.noarch.rpm
+        rpm -ivh http://repo.kloxong.org/kloxong/release/neutral/noarch/kloxong-release-0.1.1-1.noarch.rpm
 
         # move to /
         cd /
@@ -50,13 +50,6 @@ B.3. update from Kloxo Official 6.1.19
 
 WARNING:
 
-1. Need running 'sh /script/backup-patch' in Kloxo Official (6.1.12) before backup data.
-
-    - In Kloxo offical run:
-
-        cd /script
-        wget https://github.com/mustafaramadhan/kloxo/raw/dev/kloxo/pscript/backup-patch  --no-check-certificate
-        sh ./backup-patch
 
 2. Need remove certain rpms in Kloxo Official after 6.1.12 (testing in 6.1.19)
 
