@@ -59,7 +59,7 @@ cd /
 
 yum clean all
 
-if rpm -qa|grep 'kloxong-' >/dev/null 2>&1 ; then
+if rpm -qa|grep 'kloxong-release' >/dev/null 2>&1 ; then
 	yum update $mainreponame* -y
 else
 	cd /tmp
