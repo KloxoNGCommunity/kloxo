@@ -35,7 +35,7 @@ B.1. Fresh Install
 
         yum update kloxong-* -y
 
-        yum install 7 -y
+        yum install kloxong -y
 
         sh /script/upcp
 

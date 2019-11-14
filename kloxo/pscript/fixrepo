@@ -18,6 +18,7 @@ else
 	'rm' -rf /etc/yum.repos.d/lxcenter.repo
 	'rm' -rf /etc/yum.repos.d/lxlabs.repo	
 	'rm' -rf /etc/yum.repos.d/kloxong.repo.*
+	'rm' -rf /tmp/kloxong*
 	
 	wget $repourl/$relrpmname --no-check-certificate
 	rpm -ivh $relrpmname

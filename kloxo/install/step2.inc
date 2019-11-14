@@ -99,11 +99,11 @@ old_rem_kloxo_pack=(
 						"lxlighttpd"
 						"lxzend"
 						"kloxo-*"
-                                               " kloxong-webmail-*.noarch"
+                        "kloxong-webmail-*.noarch"
 						"kloxong-thirdparty-*.noarch"
 						"kloxong-stats-*.noarch"
 						"kloxong-editor-*.noarch"
-                                                "kloxong-thirdparty-phpmyadmin-*.noarch"
+                        "kloxong-thirdparty-phpmyadmin-*.noarch"
 					) 
 
 			 
