@@ -1,4 +1,4 @@
-;;; begin - dns of '<?=$domainname;?>' - do not remove/modify this line
+;;; begin - dns of '<?php echo $domainname; ?>' - do not remove/modify this line
 
 <?php
 $nameserver = null;
@@ -25,10 +25,10 @@ $retry = isset($retry) && strlen($retry) > 0 ? $retry : 1800;
 $expire = isset($expire) && strlen($expire) > 0 ? $expire : 604800;
 $minimum = isset($minimum) && strlen($minimum) > 0 ? $minimum : 3600;
 ?>
-$ORIGIN <?=$domainname;?>.
-$TTL <?=$ttl;?>
+$ORIGIN <?php echo $domainname; ?>.
+$TTL <?php echo $ttl; ?>
 
-@ IN SOA <?=$nameserver;?>. <?=$email;?>. ( <?=$serial;?> <?=$refresh;?> <?=$retry;?> <?=$expire;?> <?=$minimum;?> )
+@ IN SOA <?php echo $nameserver; ?>. <?php echo $email; ?>. ( <?php echo $serial; ?> <?php echo $refresh; ?> <?php echo $retry; ?> <?php echo $expire; ?> <?php echo $minimum; ?> )
 <?php
 foreach($dns_records as $k => $o) {
     $ttl = isset($o->ttl) && strlen($o->ttl) ? $o->ttl : $ttl;
@@ -57,7 +57,7 @@ foreach($dns_records as $k => $o) {
                 }
             }
 ?>
-<?=$key;?> IN NS <?=$value;?>.
+<?php echo $key; ?> IN NS <?php echo $value; ?>.
 <?php
             break;
         case "mx":
@@ -67,7 +67,7 @@ foreach($dns_records as $k => $o) {
 
             $value = trim($value, '.');
 ?>
-<?=$key;?> IN MX <?=$priority;?> <?=$value;?>.
+<?php echo $key; ?> IN MX <?php echo $priority; ?> <?php echo $value; ?>.
 <?php
             break;
         case "aaaa":
@@ -78,7 +78,7 @@ foreach($dns_records as $k => $o) {
                 $key = '@';
             }
 ?>
-<?=$key;?> IN AAAA <?=$value;?>
+<?php echo $key; ?> IN AAAA <?php echo $value; ?>
 
 <?php
             break;
@@ -90,7 +90,7 @@ foreach($dns_records as $k => $o) {
                 $key = '@';
             }
 ?>
-<?=$key;?> IN A <?=$value;?>
+<?php echo $key; ?> IN A <?php echo $value; ?>
 
 <?php
             break;
@@ -108,17 +108,17 @@ foreach($dns_records as $k => $o) {
             if (isset($arecord[$value])) {
                 $rvalue = $arecord[$value];
 ?>
-<?=$key;?> IN A <?=$rvalue;?>
+<?php echo $key; ?> IN A <?php echo $rvalue; ?>
 
 <?php
             } else {
                 if ($value !== "__base__") {
-					$value = "{$value}.{$domainname}";
+					$value = $value;
                 } else {
                     $value = $domainname;
                 }
 ?>
-<?=$key;?> IN CNAME <?=$value;?>.
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>.
 <?php
             }
 
@@ -138,13 +138,13 @@ foreach($dns_records as $k => $o) {
                 if (strpos($value, ".") !== false) {
                     // no action
                 } else {
-					$value = $value;
+					$value = "$value";
                 }
             } else {
                 $value = $domainname;
             }
 ?>
-<?=$key;?> IN CNAME <?=$value;?>.
+<?php echo $key; ?> IN CNAME <?php echo $value; ?>.
 <?php
             break;
 
@@ -185,17 +185,17 @@ foreach($dns_records as $k => $o) {
                 $value = $str;
 
 ?>
-<?=$key;?> IN TXT <?=$value;?>
+<?php echo $key; ?> IN TXT <?php echo $value; ?>
 
 <?php
             } else {
 ?>
-<?=$key;?> IN TXT "<?=$value;?>"
+<?php echo $key; ?> IN TXT "<?php echo $value; ?>"
 <?php
 /*
                 if (strpos($value, "v=spf1") !== false) {
 ?>
-<?=$key;?> IN SPF "<?=$value;?>"
+<?php echo $key; ?> IN SPF "<?php echo $value; ?>"
 <?php
                 }
 */
@@ -216,7 +216,7 @@ foreach($dns_records as $k => $o) {
 
             $weight = ($o->weight == null || strlen($o->weight) == 0) ? 0 : $o->weight;
 ?>
-<?=$key;?> IN SRV <?=$priority;?> <?=$weight;?> <?=$port;?> <?=$param;?>.
+<?php echo $key; ?> IN SRV <?php echo $priority; ?> <?php echo $weight; ?> <?php echo $port; ?> <?php echo $param; ?>.
 
 <?php
             break;
@@ -233,12 +233,12 @@ foreach($dns_records as $k => $o) {
                 $key = '@';
             }
 ?>
-<?=$key;?> IN CAA <?=$flag;?> <?=$tag;?> "<?=$value;?>"
+<?php echo $key; ?> IN CAA <?php echo $flag; ?> <?php echo $tag; ?> "<?php echo $value; ?>"
 <?php
             break;
     }
 }
 ?>
 
-;;; end - dns of '<?=$domainname;?>' - do not remove/modify this line
+;;; end - dns of '<?php echo $domainname; ?>' - do not remove/modify this line
 

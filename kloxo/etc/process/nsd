@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Restart for NSD service ***"
+echo "*** Process for NSD service ***"
 
 if [ ! -f /var/run/nsd/nsd.pid ] ; then
 	if [ -f /var/lock/subsys/nsd ] ; then
@@ -8,9 +8,7 @@ if [ ! -f /var/run/nsd/nsd.pid ] ; then
 	fi
 fi
 
-prog='nsd'
+echo "  - Process 'nsd': restart"
+service nsd restart
 
-. /script/directory
-
-. ../etc/process/service.inc
 

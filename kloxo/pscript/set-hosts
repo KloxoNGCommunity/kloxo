@@ -17,7 +17,7 @@ ip=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
 
 if [ "${ip}" != "" ] ; then
 	echo "- add parameters between 'add by KloxoNG' in /etc/hosts"
-	#echo "" >> /etc/hosts2
+	echo "" >> /etc/hosts2
 	echo "### begin - add by KloxoNG" >> /etc/hosts2
 	echo "${ip} ${hf} ${hs}" >> /etc/hosts2
 	echo "### end - add by KloxoNG" >> /etc/hosts2

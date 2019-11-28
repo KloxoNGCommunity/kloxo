@@ -1,0 +1,6 @@
+#!/bin/sh
+
+## MR -- protect from DDOS
+if [ -f /etc/sysconfig/memcached ] ; then
+	sed -i 's|OPTIONS=""|OPTIONS="-l 127.0.0.1"|' /etc/sysconfig/memcached
+fi

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "*** Restart for YADIFA service ***"
+echo "*** Process for YADIFA service ***"
 
 if [ ! -f /var/run/yadifad.pid ] ; then
 	if [ -f /var/lock/subsys/yadifad ] ; then
@@ -8,8 +8,7 @@ if [ ! -f /var/run/yadifad.pid ] ; then
 	fi
 fi
 
-prog='yadifad'
-
-. /script/directory
-
-. ../etc/process/service.inc
+echo "  - Process: restart"
+service yadifad stop
+pkill -9 yadifad
+service yadifad start

@@ -38,11 +38,8 @@ for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
 		fi
 
 		if [ "$(grep '[mysqldump]' ${i})" == "" ] ; then
-			echo "\n[mysqldump]\nmaximum_max_allowed_packet" >> ${i}
+			echo "\n[mysqldump]\nquick\nmaximum_max_allowed_packet" >> ${i}
 			echo "Add 'maximum_max_allowed_packet for [mysqldump]' to ${i}"
-			if [ "$(grep '^quick' ${i})" == "" ] ; then
-				echo "#quick" >> ${i}
-			fi
 		else
 			echo "Already exist 'maximum_max_allowed_packet for [mysqldump]' in ${i}"
 		fi

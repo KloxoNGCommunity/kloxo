@@ -542,8 +542,7 @@ class lxbackup extends Lxdb
 
 		$name = str_replace("/", "", $name);
 		$name = str_replace(";", "", $name);
-	//	$date = @ date('Y-M-d');
-		$date = @ date('Y-m-d');
+		$date = @ date('Y-M-d');
 		$time = time();
 		$bfile = "{$name}-{$parent->nname}-{$date}-{$time}";
 
@@ -560,13 +559,12 @@ class lxbackup extends Lxdb
 		$parent = $this->getParentO();
 
 		$bpath = "{$sgbl->__path_program_home}/{$parent->get__table()}/{$parent->nname}/__backup";
-		$bfile = $this->createBackupFileName($param['backup_to_file_f']);
-		$fbfile = "{$bpath}/{$bfile}.{$parent->getZiptype()}";
+		$bfile = $bpath . "/" . $this->createBackupFileName($param['backup_to_file_f']) . "." . $parent->getZiptype();
 
 		if ($parent->isSimpleBackup()) {
-			$parent->doSimpleBackup($fbfile, $param);
+			$parent->doSimpleBackup($bfile, $param);
 		} else {
-			$parent->doCoreBackup($fbfile, $param);
+			$parent->doCoreBackup($bfile, $param);
 		}
 
 		$object = clone($this);
@@ -576,13 +574,12 @@ class lxbackup extends Lxdb
 		if ($object->upload_to_ftp === 'on') {
 			try {
 				if ($parent->isClient() || $parent->isLocalhost()) {
-					self::upload_to_server($fbfile, basename($fbfile), $object);
+					self::upload_to_server($bfile, basename($bfile), $object);
 				} else {
-					rl_exec_get(null, $parent->syncserver, array('lxbackup', 'upload_to_server'), array($fbfile, basename($fbfile), $object));
+					rl_exec_get(null, $parent->syncserver, array('lxbackup', 'upload_to_server'), array($bfile, basename($bfile), $object));
 				}
 			} catch (Exception $e) {
-			//	$text1 = "$cprogname Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') . " Hours";
-				$text1 = "$cprogname Backup Upload Failed on " . date('Y-m-d') . " at " . date('H') . " Hours";
+				$text1 = "$cprogname Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') . " Hours";
 				$text2 = "$cprogname Backup upload Failed for '{$parent->nname}' due to '{$e->getMessage()}'";
 
 				lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
@@ -603,10 +600,7 @@ class lxbackup extends Lxdb
 			$tobackup = 'local backup';
 		}
 
-		// MR -- change format. Use '2019-07-20' instead '2019-jul-20'
-	//	$text1 = "$cprogname Backup on " . date('Y-M-d') . " at " . date('H') . " Hours";
-		$text1 = "$cprogname Backup on " . date('Y-m-d') . " at " . date('H') . " Hours";
-
+		$text1 = "$cprogname Backup on " . date('Y-M-d') . " at " . date('H') . " Hours";
 		$text2 = "$cprogname Backup Succeeded for '{$parent->nname}' to '{$tobackup}'";
 
 		lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");
@@ -811,8 +805,7 @@ class lxbackup extends Lxdb
 		}
 
 		if (!$gbl->__var_list_flag) {
-		//	$text1 = "$cprogname Restore on " . date('Y-M-d') . " at " . date('H') . " Hours";
-			$text1 = "$cprogname Restore on " . date('Y-m-d') . " at " . date('H') . " Hours";
+			$text1 = "$cprogname Restore on " . date('Y-M-d') . " at " . date('H') . " Hours";
 			$text2 = "$cprogname Restore Succeeded for '{$parent->nname}' on '$parent->syncserver'";
 
 			lx_mail(null, $parent->contactemail, $text1, $text2 . "\n");

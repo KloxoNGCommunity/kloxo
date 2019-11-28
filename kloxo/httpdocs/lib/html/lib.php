@@ -204,7 +204,7 @@ function db_get_count($table, $query)
 	return $count;
 }
 
-function db_del_value($table, $nname, $value)
+function db_del_value($table, $nname)
 {
 	$sql = new Sqlite(null, $table);
 	$del = $sql->delRow($nname, $value);
@@ -290,7 +290,7 @@ function recursively_get_file($dir, $file)
 		}
 	}
 
-//	return recursively_get_file("$dir/$l", $file);
+	return recursively_get_file("$dir/$l", $file);
 }
 
 function get_com_ob($obj)
@@ -401,8 +401,6 @@ function convert_favorite()
 
 function fix_meta_character($v)
 {
-	$nv = array();
-
 	for ($i = 0; $i < strlen($v); $i++) {
 		if (ord($v[$i]) > 128) {
 			$nv[] = strtolower(urlencode($v[$i]));
@@ -723,8 +721,8 @@ function EasyinstallerPHP($var, $cmd)
 	lxfile_mkdir("/home/httpd/$domain/httpdocs/__easyinstallerlog");
 	$i = 0;
 
-	$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 	while (1) {
+		$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 		if (!lxfile_exists($file)) {
 			break;
 		}
@@ -795,7 +793,7 @@ function validate_domain_name($name, $bypass = null)
 		throw new lxException($login->getThrow('add_without_www'), '', $name);
 	}
 
-	if (!preg_match('/^([a-z0-9_]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,16})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
+	if (!preg_match('/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+(([a-z]{2,16})|(xn--[a-z0-9]{4,14}))$/i', $name)) {
 		throw new lxException($login->getThrow('invalid_domain_name'), '', $name);
 	}
 
@@ -941,9 +939,9 @@ function execEasyinstallerPhp($domain, $appname, $cmd)
 	lxfile_mkdir("/home/httpd/$domain/httpdocs/__easyinstallerlog");
 	$i = 0;
 
+	while (1) {
 		$file = "/home/httpd/$domain/httpdocs/__easyinstallerlog/$appname$i.html";
 
-	while (1) {
 		if (!lxfile_exists($file)) {
 			break;
 		}
@@ -1069,8 +1067,6 @@ function merge_array_object_not_deleted($array, $object)
 	if ($object->isDeleted()) {
 		return $ret;
 	}
-
-	$nl = array();
 
 	foreach ($object as $k => $v) {
 		if (!is_object($v)) {
@@ -1263,8 +1259,6 @@ function upload_file_to_db($dbtype, $dbhost, $dbuser, $dbpassword, $dbname, $fil
 
 function calculateRealTotal($inout)
 {
-	$realtotalinout = array();
-
 	foreach ($inout as $k => $v) {
 		$sum = 0;
 
@@ -1331,15 +1325,12 @@ function testAllServers()
 			rl_exec_get(null, $l, 'test_remote_func', null);
 		} catch (Exception $e) {
 			$flist[$l] = $e->getMessage();
-			throw new lxException($e->getMessage(), '', $l);
 		}
 	}
 
-/*
 	if ($flist) {
 		throw new lxException($e->getMessage(), '', $flist);
 	}
-*/
 }
 
 function exec_with_all_closed($cmd)
@@ -1367,8 +1358,6 @@ function exec_with_all_closed_output($cmd)
 // Convert Com to Php Array.
 function convertCOMarray($array)
 {
-	$res = array();
-
 	foreach ($array as $v) {
 		$res[] = "$v";
 	}
@@ -1628,8 +1617,6 @@ function get_license_resource()
 
 function cp_fileserv_list($root, $list)
 {
-	$res = array();
-
 	foreach ($list as $l) {
 		$fp = "$root/$l";
 		$res[$fp] = cp_fileserv($fp);
@@ -2119,8 +2106,6 @@ function rrd_graph_server($type, $list, $time)
 		}
 	}
 
-	$arg = null;
-
 	switch ($type) {
 		case "traffic":
 			$i = 0;
@@ -2281,8 +2266,6 @@ function parse_opt($argv)
 	if (!$argv) {
 		return null;
 	}
-
-	$ret = array();
 
 	foreach ($argv as $v) {
 		if (!csb($v, "--")) {
@@ -2594,8 +2577,9 @@ function getLastFromList(&$list)
 	}
 
 	foreach ($list as &$l) {
-		return $l;
 	}
+
+	return $l;
 }
 
 function getFirstKeyFromList(&$list)
@@ -2629,7 +2613,7 @@ function get_best_location($list)
 {
 	dprintr($list);
 
-	$lvmlist = $normallist = $out = array();
+	$lvmlist = null;
 
 	foreach ($list as $l) {
 		if (csb($l, "lvm:")) {
@@ -2859,15 +2843,15 @@ function getVersionList($till = null)
 {
 	$list = getFullVersionList($till);
 
-	$nlist = array();
-
 	foreach ($list as $k => $l) {
 		if (preg_match("/2$/", $l) && ($k !== count($list) - 1)) {
 			continue;
 		}
 
-		$nlist[] = $l;
+		$nnlist[] = $l;
 	}
+
+	$nlist = $nnlist;
 
 	return $nlist;
 }
@@ -3048,8 +3032,6 @@ function se_submit($contact, $dom, $email)
 	$tmpfile = lx_tmp_file("se_submit_$dom");
 
 	include "./sesubmit/engines.php";
-
-	$var = null;
 
 	foreach ($enginelist as $e => $k) {
 		$k = str_replace("[>URL<]", "http://$dom", $k);
@@ -3329,8 +3311,6 @@ function change_underscore($var)
 function getIpaddressList($master, $servername)
 {
 	$sql = new Sqlite($master, 'ipaddress');
-
-	$ret = array();
 
 	if (!$servername) {
 		$servername = 'localhost';
@@ -3881,7 +3861,7 @@ function MonthList()
 function readfirstline($file)
 {
 	$firstline = fgets($file);
-	fclose($file);
+	fclose($fp);
 
 	return $firstline;
 }
@@ -3894,7 +3874,7 @@ function getNotexistingFile($dir, $file)
 		}
 	}
 
-//	return $dir . "/" . $file . "-" . $i;
+	return $dir . "/" . $file . "-" . $i;
 }
 
 function clearLxbackup($backup)
@@ -3956,7 +3936,7 @@ function fixResourcePlan()
 			$l->setUpdateSubaction();
 			$l->write();
 
-		//	$write = false;
+			$write = false;
 		}
 	}
 }
@@ -4043,8 +4023,6 @@ function getAllIpaddress()
 {
 	$mydb = new Sqlite(null, 'ipaddress');
 	$res = $mydb->getTable(array('ipaddr', 'nname'));
-
-	$list = array();
 
 	foreach ($res as $r) {
 		$list[] = $r['ipaddr'];
@@ -4620,7 +4598,7 @@ function findServerTraffic()
 
 function createMultipLeVps($param)
 {
-	global $sgbl;
+	global $$sgbl;
 
 	$adminpass = $param['vps_admin_password_f'];
 	$template = $param['vps_template_name_f'];
@@ -4663,7 +4641,7 @@ function exec_vzmigrate($vpsid, $newserver, $ssh_port)
 		$ssh_string = "--ssh=\"-p $ssh_port\"";
 	}
 
-	do_exec_system($username, null, "vzmigrate $ssh_string -r yes $newserver $vpsid", $out, $err, $ret, null);
+	do_exec_exec($username, null, "vzmigrate $ssh_string -r yes $newserver $vpsid", $out, $err, $ret, null);
 
 	return array($ret, $global_shell_error);
 }
@@ -4725,8 +4703,6 @@ function remove_scpid($cont)
 	$file = "$home/.ssh/authorized_keys2";
 	$list = lfile_trim($file);
 
-	$nlist = array();
-
 	foreach ($list as $l) {
 		if (!$l) {
 			continue;
@@ -4749,13 +4725,8 @@ function lxguard_main($clearflag = false, $since = false)
 {
 	global $sgbl;
 
-	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
 
-	if (!file_exists($lxgpath)) {
-		lxfile_mkdir($lxgpath);
-	}
-
-	$hl_file = "{$lxgpath}/hitlist.info";
+	$hl_file = "/home/kloxo/lxguard/hitlist.info";
 
 	if ((file_exists($hl_file)) && (strpos(file_get_contents($hl_file), "\n\"") !== false)) {
 		exec("sh /script/fix-lxguardhit-db");
@@ -4763,6 +4734,9 @@ function lxguard_main($clearflag = false, $since = false)
 	}
 
 	include "./lib/html/lxguardincludelib.php";
+
+	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
+	lxfile_mkdir($lxgpath);
 
 	$newtime = time();
 
@@ -4778,22 +4752,13 @@ function lxguard_main($clearflag = false, $since = false)
 		}
 	}
 
-	// MR -- array_map to object may error
-//	$rmt =  array_map('trim', lfile_get_unserialize("{$lxgpath}/hitlist.info"));
-
-	$t = toArray(lfile_get_unserialize("{$lxgpath}/hitlist.info"));
-	$r = new Remote();
-	$rmt = toObject(array_map($t), $r);
+	$rmt =  array_map('trim', lfile_get_unserialize("{$lxgpath}/hitlist.info"));
 
 	if ($rmt) {
 		$oldtime = max((int)$oldtime, (int)$rmt->ddate);
 	}
 
-//	$list = array_map('trim', lfile_get_unserialize("{$lxgpath}/access.info"));
-
-	$t2 = toArray(lfile_get_unserialize("{$lxgpath}/access.info"));
-	$r2 = new Remote();
-	$list = toObject(array_map($t2), $r2);
+	$list = array_map('trim', lfile_get_unserialize("{$lxgpath}/access.info"));
 
 	$type = array('sshd' => '/var/log/secure', 'pure-ftpd' => '/var/log/messages', 'vpopmail' => '/var/log/maillog');
 
@@ -4832,7 +4797,7 @@ function lxguard_main($clearflag = false, $since = false)
 	$str_tcprules = null;
 	$str_spamdyke = null;
 
-//	$note = "## blocked IP enough to use 'null routing'\n";
+	$note = "## blocked IP enough to use 'null routing'\n";
 
 	// MR -- remove blackhole blocked
 	exec("sh /script/remove-blackhole-block");
@@ -5139,7 +5104,7 @@ function cronfix()
 
 function changetoclient()
 {
-	global $sgbl;
+	global $gbl, $sgbl;
 
 //	exec("service xinetd stop");
 	exec("service pure-ftpd stop");
@@ -5238,7 +5203,7 @@ function fixupDnsRec($l)
 
 function installEasyinstaller($nolog = null)
 {
-	global $sgbl;
+	global $sgbl, $login;
 
 	// Install/Update easyinstaller if needed or remove easyinstaller when easyinstaller is disabled.
 	// Added in Kloxo 6.1.4
@@ -5254,7 +5219,7 @@ function installEasyinstaller($nolog = null)
 	}
 
 	if ($sgbl->is_this_master()) {
-	//	$gen = $login->getObject('general')->generalmisc_b;
+		$gen = $login->getObject('general')->generalmisc_b;
 	//	$diflag = $gen->isOn('disableeasyinstaller');
 		log_cleanup("- 'Easy Installer' is disabled by Flag", $nolog);
 		exec("echo 1 > ../etc/flag/disableeasyinstaller.flg");
@@ -5315,14 +5280,14 @@ function setDefaultPages($nolog = null)
 
 	$pages = array("default", "disable", "webmail", "cp", "error");
 
-//	$newer = false;
+	$newer = false;
 
 	if (file_exists($sourcezip)) {
 		if (!checkIdenticalFile($sourcezip, $targetzip)) {
 		//	log_cleanup("- Copy $sourcezip to $targetzip", $nolog);
 			log_cleanup("- Copy $sourcezip to $httpdpath", $nolog);
 			exec("'cp' -rf $sourcezip $targetzip");
-		//	$newer = true;
+			$newer = true;
 		}
 	}
 
@@ -5726,10 +5691,8 @@ function setInitialDnsConfig($type, $nolog = null)
 		}
 
 		if ($type === 'bind') {
-			$logf = '/var/log/named';
-
-			if (!file_exists($logf)) {
-				exec("mkdir -p {$logf}; chown named:named {$logf}; chmod 0755 {$logf}");
+			if (!file_exists("/var/log/named")) {
+				exec("mkdir -p /var/log/named");
 			}
 		}
 	}
@@ -5982,8 +5945,6 @@ function setFixChownChmodWebPerUser($select, $user, $nolog = null)
 	$login->loadAllObjects('client');
 	$list = $login->getList('client');
 
-	$clname = $cdir = $dlist = null;
-
 	foreach ($list as $c) {
 		if ($c->nname === $user) {
 			$clname = $c->getPathFromName('nname');
@@ -6077,8 +6038,6 @@ function setFixChownChmodMailPerUser($select, $user, $nolog = null)
 	$login->loadAllObjects('client');
 	$list = $login->getList('client');
 
-	$clname = $dlist = null;
-
 	foreach ($list as $c) {
 		if ($c->nname === $user) {
 			$clname = $c->getPathFromName('nname');
@@ -6151,8 +6110,6 @@ function getIpfromARecord($servername, $nobase = null)
 
 	$z = array();
 
-	$base = null;
-
 	foreach ($d as $dk => $dv) {
 		$w = unserialize(base64_decode($dv['ser_dns_record_a']));
 
@@ -6201,8 +6158,6 @@ function getDnsMasters($servername)
 	}
 
 	$addondb = new Sqlite(null, 'addondomain');
-
-	$e = array();
 
 	foreach ($d as $k => $v) {
 		foreach ($v as $k2 => $v2) {
@@ -6293,8 +6248,6 @@ function getDnsReverses($servername)
 
 function setInitialPureftpConfig($nolog = null)
 {
-	global $sgbl;
-
 	log_cleanup("Initialize PureFtp service", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
@@ -6309,7 +6262,7 @@ function setInitialPureftpConfig($nolog = null)
 
 	if (lxfile_exists("/etc/xinetd.d/pureftp")) {
 		log_cleanup("- Remove /etc/xinetd.d/pureftp service file", $nolog);
-		lxfile_rm("/etc/xinetd.d/pureftp");
+		@lxfile_rm("/etc/xinetd.d/pureftp");
 		exec("service xinetd restart");
 	}
 
@@ -6323,14 +6276,6 @@ function setInitialPureftpConfig($nolog = null)
 		log_cleanup("Make pure-ftpd user database", $nolog);
 		lxfile_touch("/etc/pure-ftpd/pureftpd.passwd");
 		lxshell_return("pure-pw", "mkdb");
-	}
-
-	if (!lxfile_exists("/etc/ssl/private/pure-ftpd-dhparams.pem")) {
-		if (!lxfile_exists("/etc/ssl/private")) {
-			mkdir("/etc/ssl/private");
-		}
-
-		lxfile_cp("../file/openssl/tpl/dhparam_2048.pem", "/etc/ssl/private/pure-ftpd-dhparams.pem");
 	}
 
 	// MR -- pure-ftpd high version (1.0.47+) pure-config.pl didn't exists
@@ -6435,7 +6380,7 @@ function setInitialBinary($nolog = null)
 
 function setCheckPackages($nolog = null)
 {
-//	$phpbranch = getRpmBranchInstalled('php');
+	$phpbranch = getRpmBranchInstalled('php');
 
 	log_cleanup("Check for rpm packages", $nolog);
 
@@ -6510,7 +6455,7 @@ function setInitialServer($nolog = null)
 
 	$list = implode(" ", $packages);
 
-	exec("yum -y install $list --exclude=*afterlogic8* >/dev/null 2>&1");
+	exec("yum -y install $list >/dev/null 2>&1");
 
 	exec("sh /script/fixlxphpexe");
 
@@ -6901,8 +6846,6 @@ function changeColumn($tbl_name, $changelist)
 	$query = "select * from" . " " . $tbl_name;
 	$res = $db->rawQuery($query);
 
-	$newcollist = array();
-
 	foreach ($columnold as $l) {
 		$check = array_search($l, $conlist);
 
@@ -6952,8 +6895,6 @@ function dropcolumn($tbl_name, $column)
 	$db = new Sqlite($tbl_name);
 	$columnold = $db->getColumnTypes();
 	$oldcolumns = array_keys($columnold);
-
-	$newcollist = array();
 
 	foreach ($oldcolumns as $key => $l) {
 		$t = array_search(trim($l), $column);
@@ -7014,6 +6955,8 @@ function is_64bit()
 
 function checkIdenticalFile($file1, $file2)
 {
+	$ret = false;
+
 	if (!file_exists($file1)) {
 		return false;
 	}
@@ -7023,16 +6966,18 @@ function checkIdenticalFile($file1, $file2)
 	}
 
 	if (filesize($file1) === filesize($file2)) {
-		return true;
+		$ret = true;
 	} else {
 		return false;
 	}
 
 	if (md5_file($file1) === md5_file($file2)) {
-		return true;
+		$ret = true;
 	} else {
 		return false;
 	}
+
+	return $ret;
 }
 
 // Issue #798 - Check for Core packages (rpm) when running upcp
@@ -7064,7 +7009,7 @@ function setUpdateServices($list, $nolog = null)
 
 function setUpdateConfigWithVersionCheck($list, $servertype = null, $nolog = null)
 {
-//	$fixstr = null;
+	$fixstr = "";
 
 	foreach ($list as $k => $v) {
 		log_cleanup("- Fix {$v} services", $nolog);
@@ -8181,8 +8126,6 @@ function setSyncDrivers($nolog = null)
 		slave_save_db("driver", $classlist);
 	}
 
-	$realval = array();
-
 	foreach ($classlist as $key => $val) {
 		if ($nodriver) {
 			$driver_from_slavedb = $val;
@@ -8265,8 +8208,6 @@ function getMultiplePhpList()
 	if (empty($d)) {
 		return array();
 	}
-
-	$f = array();
 
 	foreach ($d as $k => $v) {
 		$e = str_replace('/opt/', '', $v);
@@ -8611,7 +8552,7 @@ function setAllDnsServerInstall($nolog = null)
 			}
 		}
 
-	//	$confpath = "/opt/configs/{$v}/etc/conf";
+		$confpath = "/opt/configs/{$v}/etc/conf";
 
 		$t = $ds[$v];
 
@@ -8829,47 +8770,4 @@ function safefilerewrite($fileName, $dataToSave)
 
 		fclose($fp);
 	}
-}
-
-// MR -- https://likegeeks.com/convert-array-to-object-using-php/
-function toObject(array $array, $object)
-{
-	$class = get_class($object);
-	$methods = get_class_methods($class);
-
-	foreach ($methods as $method) {
-		preg_match(' /^(set)(.*?)$/i', $method, $results);
-
-		$pre = $results[1] ? $results[1] : '';
-		$k = $results[2] ? $results[2] : '';
-		$k = strtolower(substr($k, 0, 1)) . substr($k, 1);
-
-		if ($pre == 'set' && !empty($array[$k])) {
-			$object->$method($array[$k]);
-		}
-	}
-
-	return $object;
-}
-
-// MR -- https://likegeeks.com/convert-array-to-object-using-php/
-function toArray($object)
-{
-	$array = array();
-	$class = get_class($object);
-	$methods = get_class_methods($class);
-
-	foreach ($methods as $method) {
-		preg_match(' /^(get)(.*?)$/i', $method, $results);
-
-		$pre = $results[1] ? $results[1] : '';
-		$k = $results[2]  ? $results[2] : '';
-		$k = strtolower(substr($k, 0, 1)) . substr($k, 1);
-
-		if ($pre == 'get') {
-			$array[$k] = $object->$method();
-		}
-	}
-
-	return $array;
 }

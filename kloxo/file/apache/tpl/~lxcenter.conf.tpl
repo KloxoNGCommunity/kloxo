@@ -1,6 +1,6 @@
 <?php
 
-	// exec("sh /script/clearcache3");
+	exec("sh /script/clearcache3");
 
 	$factor = 1;
 
@@ -57,26 +57,26 @@
 ?>
 
 Timeout 150
-KeepAlive <?=$keepalive;?>
+KeepAlive <?php echo $keepalive; ?>
 
 MaxKeepAliveRequests 100
 KeepAliveTimeout 15
 
 <IfModule prefork.c>
     StartServers 2
-	MinSpareServers <?=$minpar_p;?>
+	MinSpareServers <?php echo $minpar_p; ?>
 
-	MaxSpareServers <?=$maxpar_p;?>
+	MaxSpareServers <?php echo $maxpar_p; ?>
 
-	ServerLimit <?=$maxpar_p;?>
+	ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-		MaxRequestWorkers <?=$maxpar_p;?>
+		MaxRequestWorkers <?php echo $maxpar_p; ?>
 
         MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-		MaxClients <?=$maxpar_p;?>
+		MaxClients <?php echo $maxpar_p; ?>
 
         MaxRequestsPerChild 4000
     </IfVersion>
@@ -87,19 +87,19 @@ KeepAliveTimeout 15
 
 <IfModule itk.c>
     StartServers 2
-	MinSpareServers <?=$minpar_p;?>
+	MinSpareServers <?php echo $minpar_p; ?>
 
-	MaxSpareServers <?=$maxpar_p;?>
+	MaxSpareServers <?php echo $maxpar_p; ?>
 
-	ServerLimit <?=$maxpar_p;?>
+	ServerLimit <?php echo $maxpar_p; ?>
 
     <IfVersion >= 2.4>
-		MaxRequestWorkers <?=$maxpar_p;?>
+		MaxRequestWorkers <?php echo $maxpar_p; ?>
 
         MaxConnectionsPerChild 4000
     </IfVersion>
     <IfVersion < 2.4>
-		MaxClients <?=$maxpar_p;?>
+		MaxClients <?php echo $maxpar_p; ?>
 
         MaxRequestsPerChild 4000
     </IfVersion>
@@ -110,21 +110,21 @@ KeepAliveTimeout 15
 
 <IfModule worker.c>
     StartServers 2
-	MinSpareThreads <?=$minpar_w;?>
+	MinSpareThreads <?php echo $minpar_w; ?>
 
-	MaxSpareThreads <?=$maxpar_w;?>
+	MaxSpareThreads <?php echo $maxpar_w; ?>
 
-	ThreadsPerChild <?=$mcfactor;?>
+	ThreadsPerChild <?php echo $mcfactor; ?>
 
-	ServerLimit <?=$maxpar_w;?>
+	ServerLimit <?php echo $maxpar_w; ?>
 
     <IfVersion >= 2.4>
-		MaxRequestWorkers <?=$maxpar_w * $mcfactor;?>
+		MaxRequestWorkers <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-		MaxClients <?=$maxpar_w * $mcfactor;?>
+		MaxClients <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxRequestsPerChild 0
     </IfVersion>
@@ -135,22 +135,22 @@ KeepAliveTimeout 15
 
 <IfModule event.c>
     StartServers 2
-	MinSpareThreads <?=$minpar_w;?>
+	MinSpareThreads <?php echo $minpar_w; ?>
 
-	MaxSpareThreads <?=$maxpar_w;?>
+	MaxSpareThreads <?php echo $maxpar_w; ?>
 
-	ThreadsPerChild <?=$mcfactor;?>
+	ThreadsPerChild <?php echo $mcfactor; ?>
 
-	ServerLimit <?=$maxpar_w;?>
+	ServerLimit <?php echo $maxpar_w; ?>
 
     MaxRequestsPerChild 0
     <IfVersion >= 2.4>
-		MaxRequestWorkers <?=$maxpar_w * $mcfactor;?>
+		MaxRequestWorkers <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxConnectionsPerChild 0
     </IfVersion>
     <IfVersion < 2.4>
-		MaxClients <?=$maxpar_w * $mcfactor;?>
+		MaxClients <?php echo $maxpar_w * $mcfactor; ?>
 
         MaxRequestsPerChild 0
     </IfVersion>
@@ -172,5 +172,5 @@ Include /opt/configs/apache/conf/domains/*.conf
 </IfVersion>
 
 
-### selected: <?=$select;?> ###
+### selected: <?php echo $select; ?> ###
 

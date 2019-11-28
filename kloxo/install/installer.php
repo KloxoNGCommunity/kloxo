@@ -448,8 +448,7 @@ function kloxo_vpopmail()
 
     print(">>> Fixing Vpopmail settings <<<\n");
 
-	// file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u vpopmail\"");
-	copy("/usr/local/lxlabs/kloxo/file/spamassassin/etc/sysconfig/spamassassin", "/etc/sysconfig/spamassassin");
+	file_put_contents("/etc/sysconfig/spamassassin", "SPAMDOPTIONS=\" -v -d -p 783 -u vpopmail\"");
 
     // until Kloxo-MR 6.5.1, still using the same mail path
 	@system("mkdir -p /home/lxadmin/mail/domains");
@@ -516,8 +515,6 @@ function kloxo_install_step1()
 
 
     system("yum -y install $yumPackages; rkhunter --update");
-*/
-	system("sh /script/rkhunter-installer");
 
     print(">>> Adding MalDetect <<<\n");
 
@@ -944,6 +941,8 @@ function addLineIfNotExist($filename, $pattern, $comment)
  * Check which PHP RPM is installed
  * @return mixed|string
  */
+function getPhpBranch()
+{
 
 $a = explode(",", file_get_contents('/usr/local/lxlabs/kloxo/etc/list/set.php.lst'));
 

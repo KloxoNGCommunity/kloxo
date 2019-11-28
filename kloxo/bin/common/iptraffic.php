@@ -51,7 +51,7 @@ function find_cpuusage()
 		if (!cse($val[0], ".vm")) {
 			continue;
 		}
-		execRrdCpuusage($val[0], $val[5]);
+		execRrdCpuusage("$val[0]", $val[5]);
 	}
 }
 
@@ -59,22 +59,21 @@ function interfacetraffic_main()
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	if (!lxfile_exists("{$sgbl->__path_program_etc}/xeninterface.list")) {
+	if (!lxfile_exists("$sgbl->__path_program_etc/xeninterface.list")) {
 		return;
 	}
+	$list = lfile_trim("$sgbl->__path_program_etc/xeninterface.list");
 
-	$list = lfile_trim("{$sgbl->__path_program_etc}/xeninterface.list");
-
-	if (!lxfile_exists("{$sgbl->__path_program_etc}/newxeninterfacebw.data")) {
+	if (!lxfile_exists("$sgbl->__path_program_etc/newxeninterfacebw.data")) {
 		foreach($list as $k) {
 			$total[$k] = get_bytes_for_interface($k);
 		}
 		dprintr($total);
-		lfile_put_contents("{$sgbl->__path_program_etc/newxeninterfacebw.data}", serialize($total));
+		lfile_put_contents("$sgbl->__path_program_etc/newxeninterfacebw.data", serialize($total));
 		return;
 	}
 
-	$data = unserialize(lfile_get_contents("{$sgbl->__path_program_etc}/newxeninterfacebw.data"));
+	$data = unserialize(lfile_get_contents("$sgbl->__path_program_etc/newxeninterfacebw.data"));
 
 	$total = null;
 
@@ -103,10 +102,9 @@ function interfacetraffic_main()
 	}
 
 	dprintr($total);
-
-	$string = implode("\n{$stringa}");
-	lfile_put_contents("/var/log/lxinterfacetraffic.log", "{$string}\n", FILE_APPEND);
-	lfile_put_contents("{$sgbl->__path_program_etc}/newxeninterfacebw.data", serialize($total));
+	$string = implode("\n", $stringa);
+	lfile_put_contents("/var/log/lxinterfacetraffic.log", "$string\n", FILE_APPEND);
+	lfile_put_contents("$sgbl->__path_program_etc/newxeninterfacebw.data", serialize($total));
 }
 
 function get_bytes_for_interface($l)
@@ -160,8 +158,7 @@ function iptraffic_main()
 		}
 
 		if (csb($list[7], "0.0.0")) {
-			// Just make sure that we don't calculate this goddamn thing twice,
-			// which would happen if there are multiple copies of the same rule.
+			// Just make sure that we don't calculate this goddamn thing twice, which would happen if there are multiple copies of the same rule.
 			// So mark that we have already read it in the sourcelist.
 			if (!isset($sourcelist[$list[6]])) {
 				$outgoing[$list[6]][] = $list[1];
@@ -209,7 +206,7 @@ function iptraffic_main()
 
 	if ($stringa) {
 		$string = implode("\n", $stringa);
-		lfile_put_contents($sgbl->__path_iptraffic_file, "{$string}\n", FILE_APPEND);
+		lfile_put_contents("$sgbl->__path_iptraffic_file", "$string\n", FILE_APPEND);
 	}
 	
 	lxshell_return("iptables", "-Z");
@@ -219,15 +216,12 @@ function execRrdTraffic($filename, $tot, $inc, $out)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	$file = "{$sgbl->__path_program_root}/data/traffic/{$filename}.rrd";
-	lxfile_mkdir("{$sgbl->__path_program_root}/data/traffic");
+	$file = "$sgbl->__path_program_root/data/traffic/$filename.rrd";
+	lxfile_mkdir("$sgbl->__path_program_root/data/traffic");
 
 	if (!lxfile_exists($file)) {
-		lxshell_return("rrdtool", 'create', $file, 'DS:cpu:ABSOLUTE:800:-1125000000:1125000000',
-
-			'DS:incoming:ABSOLUTE:800:-1125000000:1125000000',
-			'DS:outgoing:ABSOLUTE:800:-1125000000:1125000000', 'RRA:AVERAGE:0.5:1:600',
-			'RRA:AVERAGE:0.5:6:700', 'RRA:AVERAGE:0.5:24:775',
+		lxshell_return("rrdtool", 'create', $file, 'DS:cpu:ABSOLUTE:800:-1125000000:1125000000', 'DS:incoming:ABSOLUTE:800:-1125000000:1125000000',
+			'DS:outgoing:ABSOLUTE:800:-1125000000:1125000000', 'RRA:AVERAGE:0.5:1:600', 'RRA:AVERAGE:0.5:6:700', 'RRA:AVERAGE:0.5:24:775',
 			'RRA:AVERAGE:0.5:288:797');
 	}
 
@@ -238,13 +232,11 @@ function execRrdLoadAvg($filename, $tot)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	$file = "{$sgbl->__path_program_root}/data/cpu/$filename.rrd";
-	lxfile_mkdir("{$sgbl->__path_program_root}/data/cpu");
+	$file = "$sgbl->__path_program_root/data/cpu/$filename.rrd";
+	lxfile_mkdir("$sgbl->__path_program_root/data/cpu");
 	
 	if (!lxfile_exists($file)) {
-		lxshell_return("rrdtool", 'create', $file, 'DS:load:GAUGE:800:0:11250',
-			'RRA:AVERAGE:0.5:1:600', 'RRA:AVERAGE:0.5:6:700', 'RRA:AVERAGE:0.5:24:775',
-			'RRA:AVERAGE:0.5:288:797');
+		lxshell_return("rrdtool", 'create', $file, 'DS:load:GAUGE:800:0:11250', 'RRA:AVERAGE:0.5:1:600', 'RRA:AVERAGE:0.5:6:700', 'RRA:AVERAGE:0.5:24:775', 'RRA:AVERAGE:0.5:288:797');
 	}
 	
 	lxshell_return("rrdtool", "update", $file, "N:$tot");
@@ -255,13 +247,11 @@ function execRrdCpuusage($filename, $tot)
 	global $gbl, $sgbl, $login, $ghtml; 
 
 	$tot = round($tot);
-	$file = "{$sgbl->__path_program_root}/data/cpu/{$filename}.rrd";
-	lxfile_mkdir("{$sgbl->$sgbl->__path_program_root}/data/cpu");
+	$file = "$sgbl->__path_program_root/data/cpu/$filename.rrd";
+	lxfile_mkdir("$sgbl->$sgbl->__path_program_root/data/cpu");
 	
 	if (!lxfile_exists($file)) {
-		lxshell_return("rrdtool", 'create', $file, 'DS:cpu:DERIVE:800:0:112500',
-			'RRA:AVERAGE:0.5:1:600', 'RRA:AVERAGE:0.5:6:700', 'RRA:AVERAGE:0.5:24:775',
-			'RRA:AVERAGE:0.5:288:797');
+		lxshell_return("rrdtool", 'create', $file, 'DS:cpu:DERIVE:800:0:112500', 'RRA:AVERAGE:0.5:1:600', 'RRA:AVERAGE:0.5:6:700', 'RRA:AVERAGE:0.5:24:775', 'RRA:AVERAGE:0.5:288:797');
 	}
 	
 	lxshell_return("rrdtool", "update", $file, "N:$tot");

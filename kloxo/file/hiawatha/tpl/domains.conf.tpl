@@ -32,33 +32,36 @@ if (file_exists($mfile)) {
 }
 
 if ($general_header) {
-	$gh = explode("\n", trim($general_header, "\n"));
+	$x = array();
 
-	$general_header_text = "";
+	$gh = explode("\n", trim($general_header, "\n"));
 
 	foreach ($gh as $k => $v) {
 		if (stripos($v, 'x-powered-by') !== false) {
 			// no action
 		} else {
 		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
-			$general_header_text .= "\tCustomHeader = {$v}";
-
+			$x[] = "\tCustomHeader = {$v}";
 	}
 	}
 
-	$general_header_text .= "\tCustomHeader = X-Supported-By:KloxoNG";
+	$x[] = "\tCustomHeader = X-Supported-By:Kloxo-MR 7.0";
+
+	$general_header_text = implode("\n", $x);
 }
 
 if ($https_header) {
-	$hh = explode("\n", trim($https_header, "\n"));
+	$x = array();
 
-	$https_header_text = "";
+	$hh = explode("\n", trim($https_header, "\n"));
 
 	foreach ($hh as $k => $v) {
 		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
 
-		$https_header_text .= "\tCustomHeader = {$v}";
+		$x[] = "\tCustomHeader = {$v}";
 	}
+
+	$https_header_text = implode("\n", $x);
 }
 
 $error_handler = "Alias = /error:/home/kloxo/httpd/error

@@ -25,7 +25,7 @@ class Spam__Spamassassin extends lxDriverClass
 		}
 
 	//	lxshell_return("chkconfig", "spamassassin", "on");
-		lxfile_cp("../file/spamassassin/etc/sysconfig/spamassassin", "/etc/sysconfig/spamassassin");
+	//	lxfile_cp("../file/sysconfig_spamassassin", "/etc/sysconfig/spamassassin");
 	//	createRestartFile("spamassassin");
 	}
 

@@ -45,6 +45,4 @@ $dr->setUpdateSubaction();
 
 $dr->write();
 
-$dr->was();
-
 print("Successfully changed Driver for '{$class}' to '{$pgm}'\n");

@@ -23,9 +23,3 @@ fi
 lxphp.exe ../bin/fix/fixweb.php $*
 
 . /script/counter-end.inc
-
-echo "-------------------------------------"
-echo
-echo "*** >>> PHP portion <<<***"
-
-sh /script/fixphp

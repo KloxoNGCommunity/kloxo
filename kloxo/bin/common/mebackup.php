@@ -28,9 +28,7 @@ function mebackup_main()
 	// MR -- remove 'engine=' to make portable
 	exec("sed -i" . " 's/engine=\([a-zA-z0-9]*\) //gi' " . $docf);
 
-//	$string = @ date('Y-M-d'). '-' . time(); 
-	$string = @ date('Y-m-d'). '-' . time(); 
-
+	$string = @ date('Y-M-d'). '-' . time(); 
 	$bfile = "{$sgbl->__path_program_home}/selfbackup/self/__backup/{$progname}-scheduled-masterselfbackup-{$string}.zip";
 	lxshell_zip($vd, $bfile, array("mebackup.dump"));
 	lxfile_tmp_rm_rec($vd);
@@ -41,9 +39,7 @@ function mebackup_main()
 		} catch (Exception $e) {
 			print("Sending warning to $login->contactemail ..\n");
 
-		//	lx_mail(null, $login->contactemail, "{$cprogname} Self Database Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') ." Hours" , 
-		//		"{$cprogname} Backup upload Failed due to {$e->getMessage()}\n");  
-			lx_mail(null, $login->contactemail, "{$cprogname} Self Database Backup Upload Failed on " . date('Y-m-d') . " at " . date('H') ." Hours" , 
+			lx_mail(null, $login->contactemail, "{$cprogname} Self Database Backup Upload Failed on " . date('Y-M-d') . " at " . date('H') ." Hours" , 
 				"{$cprogname} Backup upload Failed due to {$e->getMessage()}\n");  
 		}
 	}

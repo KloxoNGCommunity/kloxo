@@ -25,14 +25,14 @@ fi
 base_name="${1}"
 
 if [ "${base_name}" == "php" ] ; then
-	main_path="/opt"
+	main_path=""
 else
 	main_path="/opt/${base_name}"
 fi
 
 if [ "${base_name}" != "php" ] ; then
 	if [ "$(grep 's' <<<${base_name})" == "" ] && [ "$(grep 'm' <<<${base_name})" == "" ] ; then
-		echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 73 or more)"
+		echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 70)"
 		exit
 	fi
 fi
@@ -174,7 +174,7 @@ if [ -f ${main_path}/etc ] ; then
 	find ${main_path}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
-yumdownloader ${pack_name}-* mod_${pack_name} -x *debuginfo* >>${main_path}/${base_name}_install.log
+yumdownloader ${pack_name}-* mod_-${pack_name} -x *debuginfo* >>${main_path}/${base_name}_install.log
 #'rm' -rf *-debuginfo*
 
 #rpmrebuild -v --change-spec-whole='sed -e "s/^Prefix:.*/Prefix: \//"' \

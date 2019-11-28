@@ -35,11 +35,7 @@ class webcache__squid extends webcache__
 
 	//	if (!file_exists("/etc/squid")) { return; }
 
-		if (file_exists("{$pathdrv}/etc/conf")) {
-			exec("'rm' -rf {$pathdrv}/etc/conf");
-		}
-
-		$t = getLinkCustomfile("{$pathdrv}/etc/conf/etc/squid", "squid.conf");
+		$t = getLinkCustomfile($pathdrv . "/etc/conf", "squid.conf");
 		lxfile_cp($t, "$pathetc/squid/squid.conf");
 	}
 }

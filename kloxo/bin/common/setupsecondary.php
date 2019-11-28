@@ -30,7 +30,7 @@ function setupsecondary_main()
 	lxshell_php("../bin/common/mebackup.php");
 
 
-	$slavepass = randomString(8);
+	$slavepass = randomString(7);
 
 	print("Setting up mysql to receive data from master\n");
 	add_line_to_secondary_mycnf($master, $slavepass);

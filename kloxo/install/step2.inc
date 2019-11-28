@@ -106,6 +106,46 @@ old_rem_kloxo_pack=(
                         "kloxong-thirdparty-phpmyadmin-*.noarch"
 					) 
 
+#yum other required componements for kloxo and centos
+yum_comp_pack=(
+				"tnef"
+				"which"
+				"gcc"
+				"cpp"
+				"gcc-c++"
+				"zip"
+				"unzip"
+				"curl-devel"
+				"libcurl-devel"
+				"autoconf"
+				"automake"
+				"make"
+				"libtool"
+				"openssl-devel"
+				"pure-ftpd"
+				"yum-protectbase"
+				"yum-plugin-replace"
+				"crontabs"
+				"make"
+				"glibc-static"
+				"net-snmp"
+				"tmpwatch"
+				"rkhunter"
+				"quota"
+				"xinetd"
+				"screen"
+				"telnet"
+				"ncdu"
+				"sysstat"
+				"net-tools"
+				"xz"
+				"xz-libs"
+				"p7zip"
+				"p7zip-plugins"
+				"rar"
+				"unrar"
+				"lxjailshell"
+			 )
 			 
 #for php packages instalation
 php_pack=(
@@ -257,9 +297,7 @@ kloxo_vpopmail() {
 
 	echo ">>> Fix Vpopmail settings <<<"
 
-	#echo 'SPAMDOPTIONS="-i 127.0.0.1 -A 127.0.0.1 -v -d -p 783 -u vpopmail"' > /etc/sysconfig/spamassassin
-	'cp' -f /usr/local/lxlabs/kloxo/file/spamassassin/etc/sysconfig/spamassassin /etc/sysconfig/spamassassin
-
+	echo 'SPAMDOPTIONS=" -v -d -p 783 -u vpopmail"' > /etc/sysconfig/spamassassin
 
 	## MR -- until KloxoNG 0.0.1, still using the same mail path
 	mkdir -p /home/lxadmin/mail/domains
@@ -313,7 +351,11 @@ kloxo_install_step1() {
 
 	echo ">>> Add certain components (like curl/contabs/rkhunter) <<<"
 
-	sh /script/rkhunter-installer
+	## MR -- install curl-devel (need by php-common) will be install curl-devel
+	## in CentOS 5 and libcurl-devel in CentOS 6
+	yum -y install ${yum_comp_pack[@]} --skip-broken
+	
+	rkhunter --update
 
 	echo ">>> Add Standard PHP components and Hiawatha <<<"
 	## MR -- xcache, zend, ioncube, suhosin and zts not default install

@@ -5,7 +5,7 @@ if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 fi
 
 if [ "${1}" == "" ] ; then
-	newver="10.3"
+	newver="10.2"
 else
 	newver=${1}
 fi
@@ -20,26 +20,19 @@ echo "*** Upgrade MariaDB from ${oldver} to ${newver} ***"
 if [ "${status}" == "12" ] ; then
 	echo "- Begin process..."
 
-	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/kloxong.repo
+	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/mratwork.repo
 	yum clean all
 	yum update MariaDB* -y
 	yum remove MariaDB-server -y
 	yum install MariaDB-server -y
 
-	mv -f /etc/my.cnf.d/server.cnf /etc/my.cnf.d/server.cnf.rpmnew
-	mv -f /etc/my.cnf.d/server.cnf.rpmsave /etc/my.cnf.d/server.cnf
-
-	if [ "$(yum list MariaDB-rocksdb-engine)" != "" ] ; then
-		yum install MariaDB-rocksdb-engine -y
-	fi
+	'cp' -f /etc/my.cnf.d/server.cnf.rpmsave /etc/my.cnf.d/server.cnf
 
 	sh /script/restart-mysql
 
-	. /script/directory
+	pass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
 
-	pass=$(lxphp.exe ../bin/common/mp.php)
-
-	mysql_upgrade -u root -p${pass} --force
+	mysql_upgrade -u root -p${pass}
 
 	sh /script/restart-mysql
 
@@ -51,5 +44,5 @@ fi
 echo
 echo "* Note:"
 echo "  - Format: $0 [target-version]"
-echo "    where [target-version] = 10.3 (by default)"
+echo "    where [target-version] = 10.2 (by default)"
 

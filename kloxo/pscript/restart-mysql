@@ -1,17 +1,5 @@
 #!/bin/sh
 
-pfile1="/usr/local/lxlabs/kloxo/etc/process/mysql"
-
-if [ -f $pfile1 ] ; then
-	rm -f "${pfile1}"*
-fi
-
-pfile2="/usr/local/lxlabs/kloxo/etc/process/_mysql"
-
-if [ -f $pfile2 ] ; then
-	rm -f "${pfile2}"*
-fi
-
 if [ -f /script/custom.restart-list.inc ] ; then
 	. /script/custom.restart-list.inc
 else

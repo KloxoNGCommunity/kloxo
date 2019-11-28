@@ -1,7 +1,0 @@
-#!/bin/sh
-
-cd /tmp
-rm -rf kloxomr*
-rm -rf kloxong*
-sh /usr/local/lxlabs/kloxo/install/packer.sh
-sh ./installer.sh

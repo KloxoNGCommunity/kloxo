@@ -19,15 +19,13 @@ foreach($list as $c) {
 	$dlist = $c->getList('domain');
 
 	foreach($dlist as $d) {
-		$w = $d->getObject('web');
 
+		$w = $d->getObject('web');
 		if ($w->ftpusername) {
 			continue;
 		}
 
-		$hpath = "/home/httpd/{$w->nname}/httpdocs";
-
-		if (is_link($hpath)) {
+		if (is_link("/home/httpd/$w->nname/httpdocs")) {
 			continue;
 		}
 
@@ -46,22 +44,19 @@ foreach($list as $c) {
 		$w->username = $w->getRealClientParentO()->username;
 		$w->setUpdateSubaction('full_update');
 
-		$cpath = "{$sgbl->__path_customer_root}/{$clientname}";
+		lxfile_mkdir("$sgbl->__path_customer_root/$clientname/domain");
+		lxfile_unix_chown("$sgbl->__path_customer_root/$clientname", "{$w->username}:apache");
+		lxfile_unix_chmod("$sgbl->__path_customer_root/$clientname", "750");
 
-		lxfile_mkdir("{$cpath}/domain");
-		lxfile_unix_chown($cpath, "{$w->username}:apache");
-		lxfile_unix_chmod($cpath, "750");
-
-		print("moving {$w->nname} to {$cpath}/domain\n");
-		$ret = lxshell_return("mv", "-f", $hpath, "{$cpath}/{$w->nname}");
+		print("moving $w->nname to /home/$clientname/domain\n");
+		$ret = lxshell_return("mv", "-f", "/home/httpd/$w->nname/httpdocs", "/home/$clientname/domain/$w->nname");
 		
 		if ($ret) {
-			print("Couldnt move {$w->nname} to {$cpath}\n");
+			print("Couldnt move $w->nname to /home/$clientname\n");
 			//continue;
 		}
-
-		lxshell_return("ln", "-sf", "{$cpath}/domain/{$w->nname}", $hpath);
-		lxfile_unix_chown_rec("{$cpath}/domain/{$w->nname}", "{$w->username}:{$w->username}");
+		lxshell_return("ln", "-sf", "/home/$clientname/domain/$w->nname", "/home/httpd/$w->nname/httpdocs");
+		lxfile_unix_chown_rec("/home/$clientname/domain/$w->nname", "$w->username:$w->username");
 
 		$dirp = $w->getList('dirprotect');
 		

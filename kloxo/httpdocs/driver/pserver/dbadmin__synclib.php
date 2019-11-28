@@ -30,6 +30,8 @@ class Dbadmin__sync extends lxDriverClass
 
 	function dosyncToSystemPost()
 	{
+		dprint("in synctosystem post\n");
+
 		$a['mysql']['dbpassword'] = $this->main->dbpassword;
 
 		slave_save_db("dbadmin", $a);
@@ -41,8 +43,7 @@ class Dbadmin__sync extends lxDriverClass
 
 		$rdb = $this->lx_mysql_connect("localhost", $this->main->dbadmin_name, $this->main->old_db_password);
 
-	//	$res = $rdb->query("set password=Password('{$this->main->dbpassword}');");
-		$res = $rdb->query("UPDATE mysql.user SET Password=PASSWORD('{$this->main->dbpassword}') WHERE User='{$this->main->dbadmin_name}';");
+		$res = $rdb->query("set password=Password('{$this->main->dbpassword}');");
 
 		if (!$res) {
 			throw new lxException($login->getThrow('mysql_password_reset_failed'), '', $this->main->dbadmin_name);

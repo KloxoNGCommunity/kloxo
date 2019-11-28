@@ -1,13 +1,12 @@
 #!/bin/sh
 
-echo "*** Restart for SPAWN-FCGI service ***"
+echo "*** Process for SPAWN-FCGI service ***"
 
-if [ -f /tmp/fcgiwrap.sock ] ; then
+if [ ! -f /tmp/fcgiwrap.sock ] ; then
 	'rm' -f /tmp/fcgiwrap.sock
 fi
 
-prog='spawn-fcgi'
+echo "  - Process 'spawn-fcgi': restart"
+service spawn-fcgi restart
 
-. /script/directory
 
-. ../etc/process/service.inc

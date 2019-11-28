@@ -59,7 +59,7 @@ class Sqlite
 			//	$mysqlsrv = ':/var/lib/mysql/mysql.sock';
 			}
 
-			$gbl->$fdbvar = new mysqli($mysqlsrv, $user, $pass, $db) or dprint("Could not connect and select select {$db} MySQL database.\n");
+			$gbl->$fdbvar = new mysqli($mysqlsrv, $user, $pass, $db) or dprint("Could not connect and select select $db MySQL database.\n");
 			self::$__database = 'mysql';
 		} else {
 			try {
@@ -104,9 +104,7 @@ class Sqlite
 
 	function setPassword($newp)
 	{
-		global $sgbl;
-
-		return $this->rawQuery("set password=Password('{$newp}');");
+		return $this->rawQuery("set password=Password('$newp');");
 	}
 
 	function database_query($res, $string)
@@ -134,8 +132,8 @@ class Sqlite
 		}
 	
 		if (!$result) {
-			dprint("Query error: {$error_message}\n");
-		log_database("Query failed: {$string}");
+			dprint("Query error: $error_message\n");
+			log_database("Query failed: $string");
 		}
 
 		return $result;
@@ -154,10 +152,12 @@ class Sqlite
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$fdbvar = "__fdb_{$this->__readserver}";
+		$fdbvar = "__fdb_" . $this->__readserver;
 
 		if (self::$__database == 'mysql') {
 			$gbl->$fdbvar->close();
+		} else {
+			//
 		}
 
 		$gbl->$fdbvar = NULL;
@@ -212,7 +212,7 @@ class Sqlite
 			$select = "*";
 		}
 
-		$query = "select {$select} from {$this->__sqtable} {$string};";
+		$query = "select $select from $this->__sqtable $string;";
 		$fulresult = $this->rl_query($query);
 
 		// The ser varialbles are now handled in the setfromarray, and this saves us a lot time.
@@ -227,7 +227,7 @@ class Sqlite
 
 	function existInTable($var, $value)
 	{
-		$result = $this->getRowsWhere("{$var} = '{$value}'");
+		$result = $this->getRowsWhere("$var = '$value'");
 
 		if ($result) {
 			return true;
@@ -238,27 +238,27 @@ class Sqlite
 
 	function getRowsWhere($string, $list = null)
 	{
-		return $this->getRowsGeneric("where {$string}", $list);
+		return $this->getRowsGeneric("where " . $string, $list);
 	}
 
 	function getRowsOr($field1, $value1, $field2, $value2)
 	{
-		return $this->getRowsWhere("{$field1} = '{$value1}' or {$field2} = '{$value2}'");
+		return $this->getRowsWhere("$field1 = '$value1' or $field2 = '$value2'");
 	}
 
 	function getRowAnd($field1, $value1, $field2, $value2)
 	{
-		return $this->getRowsWhere("{$field1} = '{$value1}' and  {$field2} = '{$value2}'");
+		return $this->getRowsWhere("$field1 = '$value1' and  $field2='$value2'");
 	}
 
 	function getRowsNot($field, $notval)
 	{
-		return $this->getRowsWhere("{$field} != '{$notval}'");
+		return $this->getRowsWhere("$field != '$notval'");
 	}
 
 	function getRows($field, $value)
 	{
-		return $this->getRowsWhere("{$field} = '{$value}'");
+		return $this->getRowsWhere("$field = '$value'");
 	}
 
 	function getTable($list = null)
@@ -270,13 +270,13 @@ class Sqlite
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$fdbvar = "__fdb_{$this->__readserver}";
+		$fdbvar = "__fdb_" . $this->__readserver;
 
 		if (!$this->__column_type) {
 			if ($sgbl->__var_database_type === 'mysql') {
-				$query = "SHOW COLUMNS FROM {$this->__sqtable}";
+				$query = "SHOW COLUMNS FROM $this->__sqtable";
 			} else {
-				$query = "select * from {$this->__sqtable} where nname = '__dummy__dummy__' ";
+				$query = "select * from $this->__sqtable where nname = '__dummy__dummy__' ";
 			}
 		
 			$result = $this->database_query($gbl->$fdbvar, $query);
@@ -324,28 +324,28 @@ class Sqlite
 		$result = $this->getColumnTypes();
 
 		foreach ($result as $key => $val) {
-			$string .= " $key,";
+			$string = $string . " $key,";
 		}
 
 		$string = preg_replace("/,$/i", "", $string);
-		$string .= " values(";
+		$string = $string . ") values(";
 
 		foreach ($result as $key => $val) {
 			if ($key === 'realpass') {
 				$rp = $array[$key];
 				$rp = base64_encode($rp);
-				$rp = "__lxen:{$rp}";
-				$string .= " '{$rp}',";
+				$rp = "__lxen:$rp";
+				$string = "$string '$rp',";
 
 				continue;
 			}
 
-			$string .= " '" . $this->escapeBack($key, $array[$key]). "',";
+			$string = "$string '{$this->escapeBack($key, $array[$key])}',";
 
 		}
 
 		$string = preg_replace("/,$/i", "", $string);
-		$string .= " )";
+		$string = $string . " )";
 
 		return $string;
 	}
@@ -370,14 +370,14 @@ class Sqlite
 
 				if (!csb($rp, "__lxen:")) {
 					$rp = base64_encode($rp);
-					$rp = "__lxen:{$rp}";
+					$rp = "__lxen:$rp";
 				}
-				$strarray[] = "{$key} = '{$rp}'";
+				$strarray[] = "$key = '$rp'";
 
 				continue;
 			}
 
-			$strarray[] = "$key = '".$this->escapeBack($key, $array[$key])."'";
+			$strarray[] = "$key = '{$this->escapeBack($key, $array[$key])}'";
 		}
 
 		$string = implode(",", $strarray);
@@ -389,7 +389,7 @@ class Sqlite
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$countres = $this->rawquery("select count(*) from {$this->__sqtable} where ${query}");
+		$countres = $this->rawquery("select count(*) from $this->__sqtable where $query");
 	
 		if ($sgbl->__var_database_type === 'mysql') {
 			$countres = $countres[0]['count(*)'];
@@ -417,9 +417,9 @@ class Sqlite
 					}
 
 					$ret[$key] = implode(",", $namelist);
-					dprint("in Coma {$key} ".$ret[$key]."<br> ");
+					dprint("in COma $key {$ret[$key]}<br> ");
 
-					$ret[$key] = ",".$ret[$key].",";
+					$ret[$key] = ",$ret[$key],";
 				} else {
 					$ret[$key] = '';
 				}
@@ -483,7 +483,7 @@ class Sqlite
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$fdbvar = "__fdb_{$this->__readserver}";
+		$fdbvar = "__fdb_" . $this->__readserver;
 
 		if (!$this->isLocalhost()) {
 			print("Major Error\n");
@@ -492,17 +492,17 @@ class Sqlite
 
 		$string = $this->createQueryStringUpdate($array);
 
-		$update = "update {$this->__sqtable} set {$string} where {$nname}='{$value}'";
+		$update = "update $this->__sqtable set $string where $nname= '$value'";
 
 		if ($array['nname'] === 'boxtrapper.com') {
 			//
 		}
 
 		if (!($upd = $this->database_query($gbl->$fdbvar, $update))) {
-			log_database("DbError: Update Failed for {$update}");
+			log_database("DbError: Update Failed for $update");
 		} else {
 			if ($this->__sqtable !== 'utmp') {
-				dprint("Success: updated {$this->__sqtable} for {$array['nname']}\n", 1);
+				dprint("Success: updated " . $this->__sqtable . " for " . $array['nname'] . "\n", 1);
 			}
 		}
 	}
@@ -511,7 +511,7 @@ class Sqlite
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$fdbvar = "__fdb_{$this->__readserver}";
+		$fdbvar = "__fdb_" . $this->__readserver;
 
 		if (!$this->isLocalhost()) {
 			print("Major Error\n");
@@ -522,10 +522,10 @@ class Sqlite
 		$string = $this->createQueryStringAdd($array);
 
 	//	$insert = "insert into $this->__sqtable $string ;";
-		$insert = "insert ignore into {$this->__sqtable} {$string} ;";
+		$insert = "insert ignore into $this->__sqtable $string ;";
 
 		if ($ins = $this->database_query($gbl->$fdbvar, $insert)) {
-			dprint("Record inserted in {$this->__sqtable} for {$array['nname']}\n", 1);
+			dprint("Record inserted in $this->__sqtable for {$array['nname']}\n", 1);
 		} else {
 			// MR -- the problem is delete domain not delete sp_childspecialplay and sp_specialplay
 			// that why this error happen... use 'insert ignore into' instead 'insert into'
@@ -548,16 +548,16 @@ class Sqlite
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
-		$fdbvar = "__fdb_{$this->__readserver}";
+		$fdbvar = "__fdb_" . $this->__readserver;
 
-		$delete = "delete from {$this->__sqtable} where {$nname} = '{$value}'";
+		$delete = "delete from $this->__sqtable where $nname = '$value'";
 
 		$delresult = $this->database_query($gbl->$fdbvar, $delete);
 
 		if (!$delresult) {
 			log_database("DbError: delete Failed for $delete");
 		} else {
-			dprint("Record deleted from {$this->__sqtable} for {$nname} <br>.");
+			dprint("Record deleted from $this->__sqtable for $nname <br>.");
 		}
 
 		return $delresult;

@@ -13,19 +13,19 @@ distinguished_name = req_distinguished_name
 #req_extensions = v3_req
 
 [req_distinguished_name]
-countryName = <?=$countryName;?>
+countryName = <?php echo $countryName; ?>
 
-stateOrProvinceName = <?=$stateOrProvinceName;?>
+stateOrProvinceName = <?php echo $stateOrProvinceName; ?>
 
-localityName = <?=$localityName;?>
+localityName = <?php echo $localityName; ?>
 
-organizationName = <?=$organizationName;?>
+organizationName = <?php echo $organizationName; ?>
 
-organizationalUnitName = <?=$organizationalUnitName;?>
+organizationalUnitName = <?php echo $organizationalUnitName; ?>
 
-emailAddress = <?=$emailAddress;?>
+emailAddress = <?php echo $emailAddress; ?>
 
-commonName = <?=$commonName;?>
+commonName = <?php echo $commonName; ?>
 
 <?php
 /*
@@ -34,14 +34,14 @@ commonName = <?=$commonName;?>
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName = @alt_names
-# subjectAltName = "<?=$SAN;?>"
+# subjectAltName = "<?php echo $SAN; ?>"
 
 [alt_names]
 <?php
 	foreach ($subjectAltName as $k => $v) {
 		$c = (int)$k + 1;
 ?>
-DNS.<?=$c;?> = <?=$v;?>
+DNS.<?php echo $c; ?> = <?php echo $v; ?>
 
 <?php
 	}

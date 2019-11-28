@@ -293,8 +293,8 @@ class serverweb__ extends lxDriverClass
 
 		$this->rename_to_nonconf();
 
-	//	lxfile_rm("{$ehcdpath}/proxy_fcgi.nonconf");
-	//	lxfile_rm("{$ehcdpath}/proxy_fcgi.conf");
+		lxfile_rm("{$ehcdpath}/proxy_fcgi.nonconf");
+		lxfile_rm("{$ehcdpath}/proxy_fcgi.conf");
 		lxfile_rm("{$ehcdpath}/fastcgi.nonconf");
 
 		lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/php.conf");

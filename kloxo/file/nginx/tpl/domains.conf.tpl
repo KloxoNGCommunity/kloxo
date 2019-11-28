@@ -167,27 +167,31 @@ if (count($out) > 0) {
 if ($general_header) {
 	$gh = explode("\n", trim($general_header, "\n"));
 
-	$general_header_text = "";
+	$x = array();
 
 	foreach ($gh as $k => $v) {
 		if (stripos($v, 'x-powered-by') !== false) {
 			// no action
 		} else {
-			$general_header_text .= "\tadd_header {$v};\n";
+			$x[] = "\tadd_header {$v};";
 		}
 	}
 
-	$general_header_text .= "\tadd_header X-Supported-By \"KloxoNG 0.01\";";
+	$x[] = "\tadd_header X-Supported-By \"KloxoNG 0.01\";";
+
+	$general_header_text = implode("\n", $x);
 }
 
 if ($https_header) {
 	$hh = explode("\n", trim($https_header, "\n"));
 
-	$https_header_text = "";
+	$x = array();
 
 	foreach ($hh as $k => $v) {
-		$https_header_text .= "\tadd_header {$v};\n";
+		$x[] = "\tadd_header {$v};";
 	}
+
+	$https_header_text = implode("\n", $x);
 }
 
 if (intval($static_files_expire) > -1) {

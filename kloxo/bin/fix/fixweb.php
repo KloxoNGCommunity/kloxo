@@ -17,8 +17,7 @@ $list = $login->getList('client');
 
 log_cleanup("Fixing Web server config", $nolog);
 
-// MR -- disabled because include inside fixphp
-// web__apache::setInstallPhpfpm();
+web__apache::setInstallPhpfpm();
 
 $clist = array();
 $slist = array();

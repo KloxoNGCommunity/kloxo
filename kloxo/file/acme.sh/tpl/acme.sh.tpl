@@ -32,7 +32,7 @@
 logdir="/var/log/acme.sh"
 rootpath="/root/.acme.sh"
 sslpath="/home/kloxo/ssl"
-maindom="<?=$basedom;?>"
+maindom="<?php echo $basedom; ?>"
 
 if [ -f ${rootpath}/${maindom}/ca.cer ] ; then
 	action="--force --renew"
@@ -41,8 +41,8 @@ else
 fi
 
 ${rootpath}/acme.sh ${action} --webroot /var/run/letsencrypt \
-<?=$dom;?>
-	<?=$req;?> >> /dev/null \
+<?php echo $dom; ?>
+	<?php echo $req; ?> >> /dev/null \
 	&> ${logdir}/acme.sh_tmp.log
 
 RETVAL=$?

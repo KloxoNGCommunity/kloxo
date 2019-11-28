@@ -138,8 +138,7 @@ function doUpdates()
 
 //	call_with_flag("fix_awstats");
 
-	// MR -- disabled because too long process. Add message at the end of 'cleanup' process
-//	call_with_flag("fix_domainkey");
+	call_with_flag("fix_domainkey");
 
 //	setWatchdogDefaults();
 

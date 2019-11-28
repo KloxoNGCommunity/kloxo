@@ -10,10 +10,6 @@ cd /
 
 newinstall=1
 
-if [ ! -d ${kloxopath}/acme.sh ] ; then
-	mkdir ${kloxopath}/acme.sh
-fi
-
 if [ -f ${acmepath}/acme.sh ] ; then
 	if [ "$1" != "-y" ] && [ "$1" != "--force" ] ; then
 		if [ "$(${acmepath}/acme.sh --help|grep '\-\-upgrade')" != "" ] ; then

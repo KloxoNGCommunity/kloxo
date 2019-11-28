@@ -422,7 +422,7 @@ class Mmail extends Lxdb
 			//	$this->fixWebmailRedirect();
 
 				$this->setDefaultValue('webmailprog', '--system-default--');
-			//	$base = "/home/kloxo/httpd/webmail/";
+				$base = "/home/kloxo/httpd/webmail/";
 			//	$list = lscandir_without_dot_or_underscore($base);
 				$nlist[] = '--system-default--';
 				$nlist[] = '--chooser--';
@@ -528,7 +528,6 @@ class Mmail extends Lxdb
 			$web = $this->getParentO()->getObject('web');
 
 			$web->setUpdateSubaction('addondomain');
-			$web->was();
 		}
 	}
 

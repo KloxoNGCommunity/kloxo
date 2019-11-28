@@ -55,7 +55,7 @@ else
 fi
 
 if [ "$2" == "" ] ; then
-	kloxo_branch="master"
+	kloxo_branch="dev"
 else
 	kloxo_branch=${2#--branch\=}
 fi

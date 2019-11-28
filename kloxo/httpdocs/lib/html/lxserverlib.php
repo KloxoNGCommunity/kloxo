@@ -15,7 +15,7 @@ function lxserver_main()
 	//	$login->initThisDef();
 		$gbl->is_slave = true;
 		$gbl->is_master = false;
-		$rmt = unserialize(lfile_get_contents($sgbl->__path_slave_db));
+		$rmt = unserialize(lfile_get_contents("__path_slave_db"));
 		$login->password = $rmt->password;
 		$argv[1] = "Running as Slave";
 	} else if ($argv[1] === 'master') {

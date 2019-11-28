@@ -1,11 +1,13 @@
 <?php
-	if (file_exists($rcf = "/etc/rndc.conf")) {
-		unlink($rcf);
+	if (file_exists("/etc/rndc.conf")) {
+		exec("'rm' -f /etc/rndc.conf");
 	}
 
-	if (!file_exists($lpath = "/var/log/named")) {
-		exec("mkdir -p {$lpath}; chown named:named {$lpath}; chmod 0755 {$lpath}");
+	if (!file_exists("/var/log/named")) {
+		exec("mkdir -p /var/log/named");
 	}
+	
+	exec("chown named:named /var/log/named; chmod 755 /var/log/named");
 
 	exec("sed -i 's/rndckey/rndc-key/' /etc/rndc.key");
 
