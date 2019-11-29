@@ -93,6 +93,8 @@
 		} else {
 			$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 		}
+		//Override background image
+		$bckgrnd=" ";
 ?>
 	<title><?= $title; ?></title>
 <style>
