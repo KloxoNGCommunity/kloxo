@@ -87,7 +87,7 @@ for j in php.d php-zts.d ; do
 		if [ -d ${main_path}/etc/${j} ] ; then
 			for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 				apc apcu imagick interbase ioncube-loader sourceguardian memcache memcached \
-				z-memcached mssql debug pdo_dblib pdo_firebird xdebug xcache opcache lzf redis enchant wddx sphinx amqp ; do
+				z-memcached mssql debug pdo_dblib pdo_firebird xdebug xcache opcache lzf redis enchant wddx ; do
 
 				a=$(dir -l ${main_path}/etc/${j}|grep "${i}_unused\.nonini"|awk '{print $9}'|tr '\n' ' ')
 
