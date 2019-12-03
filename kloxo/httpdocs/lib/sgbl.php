@@ -36,8 +36,8 @@ class Sgbl
 		$this->__ver_major = ($t) ? $a[0] : '[unknown]';
 		$this->__ver_minor = ($t) ? $a[1] : '[unknown]';
 		$this->__ver_release = ($t) ? $a[2] : '[unknown]';
-		
-		$s = ($t) ? $a[3] : '[unknown]';
+// Hide code for extracting sub version details as not used in NG		
+/*		$s = ($t) ? $a[3] : '[unknown]';
 		$b = explode('-', $s);
 		
 		$this->__ver_extra = ($b) ? $b[0] : '[unknown]';
@@ -46,7 +46,7 @@ class Sgbl
 		
 		// MR -- add new var!
 		$this->__ver_stamp = ($b) ? $b[1] : '[unknown]';
-
+*/
 		$this->__ver_enterprise = "Single Server Edition";
 		$this->__ver_type = "production";
 	//	$this->__ver_extra = "Beta";
