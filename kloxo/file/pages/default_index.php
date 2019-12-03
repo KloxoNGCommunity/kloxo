@@ -52,8 +52,8 @@
 		} else {
 			$title = "KloxoNG Page";
 		}
-
-		if (basename(getcwd()) === 'login') {
+		// Hide random images
+/*		if (basename(getcwd()) === 'login') {
 
 			$selimg = './images/abstract.jpg';
 
@@ -93,6 +93,7 @@
 		} else {
 			$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 		}
+		*/		
 		//Override background image
 		$bckgrnd=" ";
 ?>
