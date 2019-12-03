@@ -61,6 +61,7 @@ Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p -m0755 %{buildroot}%{kloxopath}
 %{__cp} -rp kloxo/* %{buildroot}%{kloxopath}/
+%{__rm} -rf %{buildroot}%{kloxopath}/rpm
 %{__ln_s} -f %{kloxopath}/pscript %{buildroot}/script
 
 %clean

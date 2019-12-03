@@ -28,16 +28,16 @@
 %define debug_package %{nil}
 %define kloxopath /usr/local/lxlabs/kloxo
 %define productname kloxong 
-
+%define build_timestamp %{lua: print(os.date("%Y%m%d"))}
 
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 0.1.1
-Release: 1
+Release: %{build_timestamp}
 License: GPL
 Group: Applications/Internet
 
-Source0:  https://github.com/KloxoNGCommunity/kloxoNG-CP/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:  https://github.com/KloxoNGCommunity/kloxoNG-CP/archive/dev/%{name}-dev.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root-%(%{__id_u} -n)
 BuildArch: noarch
@@ -52,7 +52,7 @@ Conflicts: kloxomr <= 6.5.0
 Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-MR is a Fork of the original Kloxo
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup -n %{name}-dev
 
 
 %build
@@ -61,6 +61,7 @@ Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p -m0755 %{buildroot}%{kloxopath}
 %{__cp} -rp kloxo/* %{buildroot}%{kloxopath}/
+%{__rm} -rf %{buildroot}%{kloxopath}/rpm
 %{__ln_s} -f %{kloxopath}/pscript %{buildroot}/script
 
 %clean
