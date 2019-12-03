@@ -7,7 +7,7 @@ relrpmname="kloxong-release-0.1.1-1.noarch.rpm"
 
 yum clean all
 
-if [ "$(rpm -qa|grep '$reponame-')" != "" ] ; then
+if [ "$(rpm -qa|grep $reponame-release)" != "" ] ; then
 	yum update $reponame* -y
 else
 	cd /tmp
@@ -20,6 +20,9 @@ else
 	'rm' -rf /etc/yum.repos.d/kloxong.repo.*
 	'rm' -rf /tmp/kloxong*
 	
+	if [ "$(rpm -qa|grep wget)" == "" ] ; then
+		yum install wget -y
+	fi
 	wget $repourl/$relrpmname --no-check-certificate
 	rpm -ivh $relrpmname
 	yum update $reponame-* -y
