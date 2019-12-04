@@ -23,7 +23,7 @@ Kloxo Next Generation rpm release. This package contains yum configuration for t
 %build
 
 cat > kloxong.repo << _EOF_
-[[kloxong-copr]
+[kloxong-copr]
 name=Copr repo for kloxong
 baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxong/epel-$releasever-$basearch/
 type=rpm-md
