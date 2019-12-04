@@ -315,8 +315,8 @@ _EOF_
 
 %install
 %{__rm} -rf %{buildroot}
-%{__mkdir} -p %{buildroot}/%{_sysconfdir}/yum.repos.d/
-install -m 755 kloxong.repo %{buildroot}/%{_sysconfdir}/yum.repos.d/kloxong.repo
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/yum.repos.d/
+install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 
 
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo.repo
@@ -324,7 +324,7 @@ install -m 755 kloxong.repo %{buildroot}/%{_sysconfdir}/yum.repos.d/kloxong.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo-custom.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/lxcenter.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/lxlabs.repo
-%{__cp} -f %{buildroot}/%{_sysconfdir}/yum.repos.d/kloxong.repo %{_sysconfdir}/yum.repos.d/kloxong.repo
+
 
 %clean
 
@@ -333,7 +333,7 @@ install -m 755 kloxong.repo %{buildroot}/%{_sysconfdir}/yum.repos.d/kloxong.repo
 %files
 %defattr(-, root, root, 0755)
 %dir %{_sysconfdir}/yum.repos.d/
-%config %{_sysconfdir}/yum.repos.d/kloxong.repo
+%{_sysconfdir}/yum.repos.d/kloxong.repo
 
 %changelog
 * Mon Jan 29 2018 John Parnell Pierce <john@luckytanuki.com> 
