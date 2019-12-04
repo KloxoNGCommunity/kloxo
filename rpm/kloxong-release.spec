@@ -22,11 +22,7 @@ Kloxo Next Generation rpm release. This package contains yum configuration for t
 
 %build
 
-%install
-%{__rm} -rf %{buildroot}
-%{__mkdir} -p %{buildroot}/%{_sysconfdir}/yum.repos.d/
-
-cat > %{buildroot}/%{_sysconfdir}/yum.repos.d/kloxong.repo << _EOF_
+cat > kloxong.repo << _EOF_
 [kloxong-release-neutral-noarch]
 name=KloxoNG - release-neutral-noarch
 baseurl=https://%{repohost}/kloxong/release/neutral/noarch/
@@ -316,6 +312,12 @@ enabled=0
 gpgcheck=0
 
 _EOF_
+
+%install
+%{__rm} -rf %{buildroot}
+%{__mkdir} -p %{buildroot}/%{_sysconfdir}/yum.repos.d/
+install -m 755 kloxong.repo %{buildroot}/%{_sysconfdir}/yum.repos.d/kloxong.repo
+
 
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo-mr.repo
