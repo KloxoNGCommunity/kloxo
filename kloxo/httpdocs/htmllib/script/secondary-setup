@@ -1,6 +1,0 @@
-#!/bin/sh
-. /script/directory
-lphp.exe ../bin/common/setupsecondary.php "$@"
-
-
-

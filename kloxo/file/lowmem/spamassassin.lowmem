@@ -1,1 +1,0 @@
-SPAMDOPTIONS=" -v -d -p 783 -u lxpopuser -m 2"

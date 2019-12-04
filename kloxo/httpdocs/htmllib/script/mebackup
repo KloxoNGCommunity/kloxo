@@ -1,4 +1,0 @@
-#!/bin/sh
-. /script/directory
-lphp.exe ../bin/common/mebackup.php
-

@@ -1,2 +1,0 @@
-. /script/directory
-lphp.exe ../bin/fix/fixclientquota.php
