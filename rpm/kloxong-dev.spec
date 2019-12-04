@@ -509,7 +509,7 @@ EOF
 
 %changelog
 
-* Mon Dec 3 2019 John Parnell Pierce <john@luckytanuki.com> 
+* Tue Dec 3 2019 John Parnell Pierce <john@luckytanuki.com> 
 - make kloxong-release a subpackage of the kloxong package so it is built at same time
 
 * Mon Jan 29 2018 John Parnell Pierce <john@luckytanuki.com> 
