@@ -25,7 +25,7 @@ B.1. Fresh Install
         rm -f kloxong*
 
         # install rpm (read Warning)
-        rpm -ivh https://github.com/KloxoNGCommunity/kloxong/raw/dev/rpm/kloxong-release.rpm
+        rpm -ivh https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/kloxong-release.rpm
 
         # move to /
         cd /
