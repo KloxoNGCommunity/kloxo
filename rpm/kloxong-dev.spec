@@ -54,7 +54,6 @@ Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-
 %prep
 %autosetup -n %{name}-dev
 
-
 %build
 
 %install
