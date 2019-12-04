@@ -42,7 +42,7 @@ Source0:  https://github.com/KloxoNGCommunity/kloxoNG-CP/archive/dev/%{name}-dev
 BuildRoot: %{_tmppath}/%{name}-%{version}-root-%(%{__id_u} -n)
 BuildArch: noarch
 
-Obsoletes: kloxomr >= 6.5.1, kloxomr7
+Obsoletes: kloxomr >= 6.5.1, kloxomr7 > 0
 #Obsoletes: kloxomr-addon-extjs, kloxomr-addon-yui-dragdrop
 Conflicts: kloxomr <= 6.5.0
 
