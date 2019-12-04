@@ -3,6 +3,7 @@
 
 ### A Kloxo-MR fork by The Kloxo Next Generation Community
 
+Please use Dev branch
 
 ===================
 
@@ -71,6 +72,6 @@ The aim of this project is to create a develpment pathway that is not dependent 
 - Stats:
   * Change URL from 'domain.com/stats' to 'stats.domain.com' (since 3 Sep 2016)
   
-  <a href="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/status_image/last_build.png" /></a>
+
 
 
