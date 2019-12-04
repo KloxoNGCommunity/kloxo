@@ -23,6 +23,17 @@ Kloxo Next Generation rpm release. This package contains yum configuration for t
 %build
 
 cat > kloxong.repo << _EOF_
+[[kloxong-copr]
+name=Copr repo for kloxong
+baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxong/epel-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxong/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
 [kloxong-release-neutral-noarch]
 name=KloxoNG - release-neutral-noarch
 baseurl=https://%{repohost}/kloxong/release/neutral/noarch/
