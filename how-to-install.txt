@@ -5,18 +5,18 @@ A. pre-install -- better for fresh install
     # update centos to latest version
     yum update -y
     # install some packages like package-cleanup, etc
-    yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
+    yum install yum-utils yum-priorities vim-minimal curl zip unzip -y
     yum install telnet wget -y
 
     cd /
 
 B. Install kloxoNG
    - Install/reinstall/upgrade -- data not destroyed with this fork
-     for existing Kloxo (6.1.x), run 'sh /script/update' first.
+     for existing Kloxo (6.1.x), run 'sh /script/update' first. (don't trust this - needs to be confirmed )
 
-B.1. Fresh Install
 
-    B.1.1 for version 7.0.0 (rpm naming as kloxong7-7.0.0-*.rpm)
+
+		Kloxong 
 
         # move to /tmp
         cd /tmp
@@ -40,51 +40,3 @@ B.1. Fresh Install
         sh /script/upcp
 
 
-B.3. update from Kloxo Official 6.1.19
-
-    ## follow step B.1.1 or B.1.2 and read 'WARNING' below before next step
-
-    # '-y' mean force
-    sh /script/upcp -y
-    sh /script/mysql-optimize --select=upgrade
-
-WARNING:
-
-
-2. Need remove certain rpms in Kloxo Official after 6.1.12 (testing in 6.1.19)
-
-    # remove packages from Kloxo Official
-    yum remove kloxo* -y
-    
-3. Since 6.5.0.f-20130701, kloxoNG using MySQLi API instead MySQL API. Need update mysql 5.0.x to 5.1.x or above for Centos 5.
-
-    Check mysql version with:
-
-        mysql -V|awk '{print $5}'
-
-    Update with:
-
-        yum replace mysql --replace-with=mysql55' (ask to forum for update to MariaDB)
-
-4. Make sure all MySQL databases in MyISAM storage-engine (especially upgrade to version 6.5.0) with execute:
-
-    ## convert to MyISAM storage-engine
-    sh /script/mysql-convert --engine=myisam
-
-5. Trouble with 'rpm -Uvh':
-
-    In CentOS 32bit may trouble with:
-
-        # install rpm (read Warning)
-        rpm -Uvh http://repo.kloxong.org/kloxong/release/neutral/noarch/kloxong-release-0.1.1-1.noarch.rpm
-
-    and then use:
-
-        cd /tmp
-        # remove old rpm
-        rm -f kloxong*
-
-        # get rpm file
-        wget http://repo.kloxong.org/kloxong/release/neutral/noarch/kloxong-release-0.1.1-1.noarch.rpm
-
-        rpm -ivh kloxong-release-0.0.1-1.noarch.rpm
