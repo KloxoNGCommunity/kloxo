@@ -104,21 +104,21 @@ name=KloxoNG - IUS Community Packages for EL \$releasever
 baseurl=https://repo.ius.io/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
-exclude=mysql51* mysql56*
+exclude=mysql51* mysql56* mariadb*
 
 [kloxong-ius-archive]
 name=KloxoNG - IUS Community Packages for EL \$releasever (archive)
 baseurl=https://repo.ius.io/archive/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
-exclude=mysql51* mysql56*
+exclude=mysql51* mysql56*  mariadb*
 
 [kloxong-ius-testing]
 name=KloxoNG - IUS Community Packages for EL \$releasever (testing)
 baseurl=https://repo.ius.io/testing/\$releasever/\$basearch
 enabled=0
 gpgcheck=0
-exclude=mysql51* mysql56*
+exclude=mysql51* mysql56*  mariadb*
 
 # ==================================
 
@@ -191,14 +191,14 @@ exclude=cairo*
 
 # for nginx
 [kloxong-nginx]
-name=Kloxo-MR - nginx repo
+name=KloxoNG - nginx repo
 baseurl=http://nginx.org/packages/mainline/centos/\$releasever/\$basearch/
 enabled=1
 gpgcheck=0
 
 # for nginx-stable
 [kloxong-nginx-stable]
-name=Kloxo-MR - nginx-stable repo
+name=KloxoNG - nginx-stable repo
 baseurl=http://nginx.org/packages/centos/\$releasever/\$basearch/
 enabled=1
 gpgcheck=0
@@ -207,7 +207,7 @@ gpgcheck=0
 
 # for mariadb
 [kloxong-mariadb]
-name=Kloxo-MR - mariadb repo
+name=KloxoNG - mariadb repo
 baseurl=http://yum.mariadb.org/10.0/centos/\$releasever/\$basearch/
 enabled=1
 gpgcheck=0
@@ -216,7 +216,7 @@ gpgcheck=0
 
 # for atrpms
 [kloxong-atrpms]
-name=Kloxo-MR - Fedora Core \$releasever - $basearch - ATrpms
+name=KloxoNG - Fedora Core \$releasever - $basearch - ATrpms
 baseurl=http://dl.atrpms.net/el\$releasever-\$basearch/atrpms/stable
 enabled=0
 gpgcheck=0
@@ -331,7 +331,7 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 
 
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo.repo
-%{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo-mr.repo
+%{__rm} -rf %{_sysconfdir}/yum.repos.d/KloxoNG.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo-custom.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/lxcenter.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/lxlabs.repo
