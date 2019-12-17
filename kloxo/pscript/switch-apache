@@ -9,7 +9,7 @@ if [ "$1" == "httpd24" ] ; then
 			exit
 		else
 			service httpd stop
-			yum -y replace httpd --replace-with=httpd24u
+			yum -y replace httpd --replace-with=httpd24u --exclude=httpd-*
 			yum -y remove mod_ssl mod_rpaf mod_ruid2 mod_suphp mod_fastcgi mod_fcgid mod_define
 			yum -y install mod24u_ssl mod24u_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi
 			cp -f /opt/configs/apache/etc/conf/httpd24.conf /etc/httpd/conf/httpd.conf

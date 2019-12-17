@@ -24,7 +24,8 @@ yum_httpd24_pack=(
 				  )
 #for apache packages 
 yum_httpd_pack=(
-					"httpd httpd-tools"
+					"httpd"
+					"httpd-tools"
 					"mod_ssl"
 					"mod_rpaf"
 					"mod_ruid2"
@@ -223,9 +224,9 @@ install_web() {
 			yum -y remove ${yum_rem_pack[@]}
 		fi
 
-		yum -y install ${yum_httpd24_pack[@]}
+		yum -y install ${yum_httpd24_pack[@]} --exclude=httpd --exclude=httpd-* --exclude=mod_*
 	else
-		yum -y install ${yum_httpd_pack[@]}
+		yum -y install ${yum_httpd_pack[@]} --exclude=httpd24u --exclude=httpd24u-* --exclude=mod24u_*
 	fi
 }
 
