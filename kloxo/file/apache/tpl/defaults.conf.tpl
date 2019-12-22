@@ -388,10 +388,7 @@ foreach ($certnamelist as $ip => $certname) {
 			ProxyErrorOverride On
 			ProxyPass /error !
 			ErrorDocument 500 /error/500.html
-			<FilesMatch \.php$>
-				SetHandler "proxy:unix:/opt/configs/php-fpm/sock/php-apache.sock|fcgi://localhost"
-			</FilesMatch>
-			<Proxy "fcgi://localhost">
+			<Proxy "unix:/opt/configs/php-fpm/sock/php-apache.sock|fcgi://localhost">
 				ProxySet timeout=<?=$timeout;?>
 
 				ProxySet connectiontimeout=<?=$timeout;?>
@@ -400,6 +397,9 @@ foreach ($certnamelist as $ip => $certname) {
 				ProxySet max=25
 				ProxySet retry=0
 			</Proxy>
+			<FilesMatch \.php$>
+				SetHandler "proxy:fcgi://localhost"
+			</FilesMatch>
 		</IfModule>
 	</IfVersion>
 

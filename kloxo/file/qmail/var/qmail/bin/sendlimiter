@@ -53,7 +53,7 @@ VUSERINFO="/home/vpopmail/bin/vuserinfo"
 VPASSWD="/home/vpopmail/bin/vpasswd"
 AUX=$(mktemp)
 
-echo "$(date) qmail-sendlimiter : Reviewing logs"
+#echo "$(date) qmail-sendlimiter : Reviewing logs"
 
 function LstUsers
 {
@@ -97,4 +97,4 @@ for i in $(cat $AUX); do
 	fi
 done
 
-echo "$(date) qmail-sendlimiter : End of review"
+#echo "$(date) qmail-sendlimiter : End of review"

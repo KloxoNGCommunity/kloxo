@@ -38,6 +38,7 @@ function create_main()
 		create_database();
 		print(">>> Execute create_general() for MASTER <<<\n");
 		create_general();
+		print(">>> Execute init_main() for MASTER <<<\n");
 		init_main($admin_pass);
 		print(">>> Execute collectquota.php... for MASTER <<<\n");
 		lxshell_return("$sgbl->__path_php_path", "../bin/collectquota.php");

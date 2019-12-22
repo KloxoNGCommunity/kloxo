@@ -1,6 +1,0 @@
-#!/bin/sh
-. /script/directory
-lxphp.exe ../bin/raw_update.php
-
-
-

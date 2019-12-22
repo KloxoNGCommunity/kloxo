@@ -163,11 +163,6 @@ if (count($out) > 0) {
 	$IPv6Enable = false;
 }
 
-if (file_exists("{$globalspath}/custom.generic.conf")) {
-	$generic = 'custom.generic';
-} else if (file_exists("{$globalspath}/generic.conf")) {
-	$generic = 'generic';
-}
 
 if ($general_header) {
 	$gh = explode("\n", trim($general_header, "\n"));
@@ -175,10 +170,14 @@ if ($general_header) {
 	$x = array();
 
 	foreach ($gh as $k => $v) {
-		$x[] = "\tadd_header {$v};";
+		if (stripos($v, 'x-powered-by') !== false) {
+			// no action
+		} else {
+			$x[] = "\tadd_header {$v};";
+		}
 	}
 
-	$x[] = "\tadd_header X-Supported-By \"Kloxo-MR 7.0\";";
+	$x[] = "\tadd_header X-Supported-By \"KloxoNG 0.01\";";
 
 	$general_header_text = implode("\n", $x);
 }
@@ -220,7 +219,7 @@ foreach ($certnamelist as $ip => $certname) {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 
 	include '<?=$gzip_base_conf;?>';
 
@@ -261,8 +260,7 @@ server {
 	set $var_fpmport '<?=$fpmportapache;?>';
 	set $var_phpselected 'php';
 
-	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "php-fpm_standard{$switches[$count]}.conf");?>';
 }
 
 
@@ -270,7 +268,7 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 
 	include '<?=$gzip_base_conf;?>';
 
@@ -314,12 +312,12 @@ server {
 		if ($enablestats) {
 ?>
 
-	include '<?=$globalspath;?>/stats.conf';
+	include '<?=getLinkCustomfile($globalspath, "stats.conf");?>';
 <?php
 			if ($statsprotect) {
 ?>
 
-	include '<?=$globalspath;?>/dirprotect_stats.conf';
+	include '<?=getLinkCustomfile($globalspath, "dirprotect_stats.conf");?>';
 <?php
 			}
 		}
@@ -331,7 +329,7 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 
 	include '<?=$gzip_base_conf;?>';
 
@@ -372,8 +370,7 @@ server {
 	set $var_fpmport '<?=$fpmportapache;?>';
 	set $var_phpselected 'php';
 
-	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "php-fpm_standard{$switches[$count]}.conf");?>';
 <?php
 
 		if ($webmailremote) {
@@ -407,7 +404,7 @@ server {
 		}
 ?>
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 <?php
 	//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
@@ -572,7 +569,7 @@ server {
 		// MR - bug for nginx where error if using 'include stats_log.conf' (use $var_domain)
 ?>
 
-	#include '<?=$globalspath;?>/stats_log.conf';
+	#include '<?=getLinkCustomfile($globalspath, "stats_log.conf");?>';
 	access_log /home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-custom_log main;
 	error_log /home/httpd/<?=$domainname;?>/stats/<?=$domainname;?>-error_log error;
 
@@ -594,7 +591,7 @@ server {
 			if ($enablephp) {
 ?>
 
-	include '<?=$globalspath;?>/<?=$domainname;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$domainname}.conf");?>';
 <?php
 			}
 		} else {
@@ -603,14 +600,13 @@ server {
 					if ($enablephp) {
 ?>
 
-	include '<?=$globalspath;?>/php-fpm_wildcards<?=$switches[$count];?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "php-fpm_wildcards{$switches[$count]}.conf");?>';
 <?php
 					}
 				} else {
 ?>
 
-	#include '<?=$globalspath;?>/switch_wildcards<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/switch_wildcards.conf';
+	include '<?=getLinkCustomfile($globalspath, "switch_wildcards.conf");?>';
 <?php
 				}
 			} else {
@@ -618,14 +614,13 @@ server {
 					if ($enablephp) {
 ?>
 
-	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "php-fpm_standard{$switches[$count]}.conf");?>';
 <?php
 					}
 				} else {
 ?>
 
-	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/switch_standard.conf';
+	include '<?=getLinkCustomfile($globalspath, "switch_standard.conf");?>';
 <?php
 				}
 			}
@@ -643,7 +638,7 @@ server {
 	set $var_std_protectauthname '<?=$protectauthname;?>';
 	set $var_std_protectfile '<?=$protectfile;?>';
 
-	include '<?=$globalspath;?>/dirprotect_standard.conf';
+	include '<?=getLinkCustomfile($globalspath, "dirprotect_standard.conf");?>';
 <?php
 				}
 			}
@@ -669,7 +664,7 @@ server {
 	set $var_kloxoportssl '<?=$kloxoportssl;?>';
 	set $var_kloxoportnonssl '<?=$kloxoportnonssl;?>';
 
-	include '<?=$globalspath;?>/<?=$generic;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "generic.conf");?>';
 <?php
 		if (intval($microcache_time) > 0) {
 ?>
@@ -709,7 +704,7 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 <?php
 				//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
@@ -773,13 +768,12 @@ server {
 					if (($reverseproxy) && ($webselected === 'front-end')) {
 ?>
 
-	include '<?=$globalspath;?>/php-fpm_standard<?=$switches[$count];?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "php-fpm_standard{$switches[$count]}.conf");?>';
 <?php
 					} else {
 ?>
 
-	#include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
-	include '<?=$globalspath;?>/switch_standard.conf';
+	include '<?=getLinkCustomfile($globalspath, "switch_standard.conf");?>';
 <?php
 					}
 ?>
@@ -798,7 +792,7 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include <?=getLinkCustomfile($globalspath, "{$listen}.conf");?>;
 <?php
 	//	if ((!$reverseproxy) || ($webselected === 'front-end')) {
 ?>
@@ -874,7 +868,7 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 
 	include '<?=$gzip_base_conf;?>';
 
@@ -940,7 +934,7 @@ server {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 
 	include '<?=$gzip_base_conf;?>';
 

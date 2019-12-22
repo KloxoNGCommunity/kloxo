@@ -4,7 +4,7 @@ path="/home/kloxo/httpd/cp/tht"
 
 if [ "${1}" == "-y" ] ; then
 	if [ ! -f ${path}/index.php ] ; then
-		yum install kloxomr-panel-tht -y
+		yum install kloxong-panel-tht -y
 		chown -R apache:apache ${path}
 	fi
 fi

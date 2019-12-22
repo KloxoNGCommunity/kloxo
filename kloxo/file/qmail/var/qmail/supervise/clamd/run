@@ -5,4 +5,4 @@ if [ -f ./custom.run ] ; then
 	return $?
 fi
 
-exec /usr/bin/setuidgid clamav /usr/sbin/clamd 2>&1
+exec /usr/bin/setuidgid root /usr/sbin/clamd 2>&1

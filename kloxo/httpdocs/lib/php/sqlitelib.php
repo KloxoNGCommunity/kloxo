@@ -355,6 +355,7 @@ class Sqlite
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$string = "";
+		$strarray = array();
 		$result = $this->getColumnTypes();
 
 		foreach ($result as $key => $val) {
@@ -371,15 +372,15 @@ class Sqlite
 					$rp = base64_encode($rp);
 					$rp = "__lxen:$rp";
 				}
-				$string[] = "$key = '$rp'";
+				$strarray[] = "$key = '$rp'";
 
 				continue;
 			}
 
-			$string[] = "$key = '{$this->escapeBack($key, $array[$key])}'";
+			$strarray[] = "$key = '{$this->escapeBack($key, $array[$key])}'";
 		}
 
-		$string = implode(",", $string);
+		$string = implode(",", $strarray);
 
 		return $string;
 	}

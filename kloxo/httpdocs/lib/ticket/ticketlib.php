@@ -254,7 +254,7 @@ class Ticket extends Lxclient
 		
 		list($sec, $usec) = explode(" ", microtime());
 		
-	//	$this->mail_messageid = "<$sec$usec.GA8614@mratwork.com>";
+	//	$this->mail_messageid = "<$sec$usec.GA8614@kloxong.org>";
 
 		$this->mail_messageid = "<$sec$usec.GA8614@localhost>";
 

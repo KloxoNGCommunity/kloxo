@@ -13,11 +13,11 @@ fi
 cd /tmp
 rm -f pure-ftpd*.rpm
 
-echo "- Get src.rpm from mratwork repo and installed"
+echo "- Get src.rpm from kloxong repo and installed"
 if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
 	wget http://download.fedoraproject.org/pub/epel/7/SRPMS/p/pure-ftpd-${ver}.src.rpm
 else
-	wget http://rpms.mratwork.com/repo/mratwork/SRPMS/pure-ftpd-${ver}.mr.src.rpm
+	wget http://repo.kloxong.org/kloxong/SRPMS/pure-ftpd-${ver}.mr.src.rpm
 fi
 
 rpm -ivh pure-ftpd*

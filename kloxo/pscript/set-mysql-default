@@ -36,6 +36,20 @@ for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
 		else
 			echo "Already exist 'max-allowed-packet=256M' in ${i}"
 		fi
+
+		if [ "$(grep '[mysqldump]' ${i})" == "" ] ; then
+			echo "\n[mysqldump]\nquick\nmaximum_max_allowed_packet" >> ${i}
+			echo "Add 'maximum_max_allowed_packet for [mysqldump]' to ${i}"
+		else
+			echo "Already exist 'maximum_max_allowed_packet for [mysqldump]' in ${i}"
+		fi
+
+		if [ "$(grep 'socket=' ${i})" == "" ] ; then
+			sed -i -e's|\[mysqld\]|\[mysqld\]\nsocket=/var/lib/mysql/mysql.sock|g' ${i}
+			echo "Add 'socket=/var/lib/mysql/mysql.sock for [mysqld]' to ${i}"
+		else
+			echo "Already exist 'socket=/var/lib/mysql/mysql.sock for [mysqld]' in ${i}"
+		fi
 	fi
 done
 

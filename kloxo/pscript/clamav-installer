@@ -1,0 +1,13 @@
+#!/bin/sh
+
+yum install clamav* clamd --exclude=clamav-milter* --exclude=clamav-unofficial*  -y
+
+'cp' -f /usr/local/lxlabs/kloxo/file/clamav/etc/init.d/freshclam.init /etc/init.d/freshclam
+
+chown root:root /etc/init.d/freshclam
+chmod 755 /etc/init.d/freshclam
+
+# for clamd scan (under qmail's clamd)
+sed -i '/^Example/d' /etc/clamd.d/scan.conf
+sed -i '/^Example/d' /etc/freshclam.conf
+#sed -i '/^Example/d' /etc/clamd.conf

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "*** >>> Web portion <<<***"
+
 . /script/counter-start.inc
 
 if [ ! -f /etc/ssl/certs/dhparam.pem ] ; then

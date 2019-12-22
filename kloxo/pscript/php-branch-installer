@@ -28,6 +28,10 @@ else
 	. /script/php-branch-installer.inc
 fi
 
+if [ ! -d /etc/php.d ] ; then
+	mkdir -p /etc/php.d
+fi
+
 repoquery -l ${1}*|grep '.ini'|grep '/etc/php.d/' > /etc/php.d/ini.lst
 
 branch_run="${1}_run"

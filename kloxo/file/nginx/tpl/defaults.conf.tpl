@@ -137,7 +137,7 @@ foreach ($certnamelist as $ip => $certname) {
 server {
 	#disable_symlinks if_not_owner;
 
-	include '<?=$globalspath;?>/<?=$listen;?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "{$listen}.conf");?>';
 
 	include '<?=$gzip_base_conf;?>';
 <?php
@@ -189,7 +189,7 @@ server {
 		//}
 ?>
 
-	include '<?=$globalspath;?>/switch_standard<?=$switches[$count];?>.conf';
+	include '<?=getLinkCustomfile($globalspath, "switch_standard{$switches[$count]}.conf");?>';
 <?php
 		$count++;
 ?>

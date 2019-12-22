@@ -211,9 +211,9 @@ class Mailaccount extends Lxclient
 
 	function updateAutores($param)
 	{
-		$v = $param['autores_name'];
+
 	//	$autores = $this->getFromList('autoresponder', "{$v}___{$this->getClName()}");
-		$autores = $this->getFromList('autoresponder', $v);
+		$autores = $this->getFromList('autoresponder', $param['autores_name']);
 		$this->__var_autores_message = $autores->text_message;
 		$this->__var_autores_subject = $autores->reply_subject;
 		dprintr($this->__var_autores_message);

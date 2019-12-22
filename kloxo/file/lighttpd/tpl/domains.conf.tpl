@@ -165,8 +165,15 @@ if ($general_header) {
 
 	foreach ($gh as $k => $v) {
 		list($key, $value) = explode(" \"", $v);
-		$general_header_text .= "\tsetenv.add-response-header += ( \"{$key}\" => \"{$value} )\n";
+
+		if (stripos($key, 'x-powered-by') !== false) {
+			// no action
+		} else {
+			$general_header_text .= "\tsetenv.add-response-header += ( \"{$key}\" => \"{$value}\" )\n";
 	}
+	}
+
+	$general_header_text .= "\tsetenv.add-response-header += ( \"X-Supported-By\" => \"KloxoNG\" )\n";
 }
 
 if ($https_header) {

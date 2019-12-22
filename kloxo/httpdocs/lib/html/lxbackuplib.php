@@ -14,7 +14,9 @@ class lxbackup extends Lxdb
 	static $__desc_backupschedule_type = array("", "", "schedule_backup");
 	static $__desc_backupschedule_time = array("", "", "schedule_backup_time");
 	static $__desc_backup_from_file_f = array("n", "", "backup_from_file");
+	static $__desc_restore_from_file_f = array("n", "", "restore_from_file");
 	static $__desc_backup_ftp_file_f = array("n", "", "filename_on_the_ftp_server");
+	static $__desc_restore_ftp_file_f = array("n", "", "filename_on_the_ftp_server");
 	static $__desc_backup_to_file_f = array("n", "", "backup_file_initial_string");
 	static $__desc_send_email = array("f", "", "send_email_after_backup");
 	static $__desc_backupstage = array("", "", "last_backup_status");
@@ -676,7 +678,7 @@ class lxbackup extends Lxdb
 		global $sgbl;
 
 		$progname = $sgbl->__var_program_name;
-	//	$progname = "kloxomr70";
+	//	$progname = "kloxong";
 		dprint("$object->nname\n");
 		$aname = strfrom($object->nname, "-");
 		$aname = "-$aname";

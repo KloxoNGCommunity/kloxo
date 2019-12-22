@@ -16,7 +16,13 @@ if [ "${1}" != "" ] ; then
 		chkconfig ${1} on 2>/dev/null
 	fi
 
-	service ${1} restart 2>/dev/null
+	if [ "${2}" != "" ] ; then
+		if [ "$(command -v systemctl)" != "" ] ; then
+			systemctl ${2} ${1}.service 2>/dev/null
+		else
+			service ${1} ${2} 2>/dev/null
+		fi
+	fi
 else
 	echo "- Format: ${0} <servicename>"
 fi

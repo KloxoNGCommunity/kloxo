@@ -1,10 +1,8 @@
 <?php
 	ini_set("display_errors","1");
 
-	try {
-		session_start();
-	} catch(Exception $e) {
-		exec("'rm' -f /usr/local/lxlabs/kloxo/session/*");
+//	if(!isset($_SESSION)) {
+	if (session_id() == "") {
 		session_start();
 	}
 
@@ -50,12 +48,12 @@
 		if(isset($incfile2)) { include_once $incfile2 ; }
 
 		if (isset($page)) {
-			$title = "Kloxo-MR {$page} page";
+			$title = "KloxoNG {$page} page";
 		} else {
-			$title = "Kloxo-MR Page";
+			$title = "KloxoNG Page";
 		}
-
-		if (basename(getcwd()) === 'login') {
+		// Hide random images
+/*		if (basename(getcwd()) === 'login') {
 
 			$selimg = './images/abstract.jpg';
 
@@ -95,6 +93,9 @@
 		} else {
 			$bckgrnd = "\tbackground-image: url(./images/abstract.jpg);";
 		}
+		*/		
+		//Override background image
+		$bckgrnd=" ";
 ?>
 	<title><?= $title; ?></title>
 <style>
@@ -165,7 +166,7 @@ table.content_title td {
 <table class="header">
 	<tr>
 		<td width="100%"><img style="margin:5px; padding:5px; height:50px" class="logo" src="<?php echo $logo_url; ?>" alt="hosting-logo"></td>
-		<td><a href="//kloxong.org/" title="KloxoNG website"><img style="margin:5px; padding:5px; height:50px" class="logo" src="./images/kloxo-mr.png" alt="kloxo-mr-logo"></a></td>
+		<td><a href="//kloxong.org/" title="KloxoNG website"><img style="margin:5px; padding:5px; height:50px" class="logo" src="./images/kloxong.png" alt="kloxoNG-logo"></a></td>
 	</tr>
 </table>
 <table class="content">

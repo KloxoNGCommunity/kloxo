@@ -1,26 +1,17 @@
 <?php
 
-$srcconfpath ="/opt/configs/varnish/etc/conf";
-$trgtconfpath ="/etc/varnish";
+$spath ="/opt/configs/varnish/etc/conf";
+$tpath ="/etc/varnish";
 
-if (file_exists("{$srcconfpath}/custom.default.vcl")) {
-	copy("{$srcconfpath}/custom.default.vcl", "{$trgtconfpath}/default.vcl");
-} else {
-	copy("{$srcconfpath}/default.vcl", "{$trgtconfpath}/default.vcl");
-}
+$sfile = getLinkCustomfile($spath, "default.vcl");
+copy($sfile, "{$tpath}/default.vcl");
 
-//if (file_exists("{$srcconfpath}/custom.boosted-varnish.vcl")) {
-//	copy("{$srcconfpath}/custom.boosted-varnish.vcl", "{$trgtconfpath}/boosted-varnish.vcl");
-//} else {
-//	copy("{$srcconfpath}/boosted-varnish.vcl", "{$trgtconfpath}/boosted-varnish.vcl");
-//}
+// $bfile = getLinkCustomfile($spath, "boosted-varnish.vcl");
+// copy($bfile, "{$tpath}/boosted-varnish.vcl);
 
-$srcsyspath ="/opt/configs/varnish/etc/sysconfig";
-$trgtsyspath ="/etc/sysconfig";
+$sypath ="/opt/configs/varnish/etc/sysconfig";
+$typath ="/etc/sysconfig";
 
-if (file_exists("{$srsyspath}/custom.varnish")) {
-	copy("{$srsyspath}/custom.varnish", "{$trgtsyspath}/varnish");
-} else {
-	copy("{$srsyspath}/varnish", "{$trgtsyspath}/varnish");
-}
+$syfile = getLinkCustomfile($sypath, "varnish");
+copy($syfile, "{$typath}/varnish");
 ?>

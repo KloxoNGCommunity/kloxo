@@ -9,7 +9,7 @@ p=$(virt-what)
 if [ "${1}" == "--type" ] || [ "${1}" == "-t" ] ; then
 	if [ "${p}" == "" ] ; then
 		echo "dedicated"
-	elif [ "${p}" == "openvz" ] || [ "${p}" == "lxc" ] || [ "${p}" == "linux_vserver" ] || [ "${p}" == "docker" ] || [ "${p}" == "linux_vserver" ]; then
+	elif [ "${p}" == "openvz" ] || [ "${p}" == "lxc" ] || [ "${p}" == "linux_vserver" ] || [ "${p}" == "docker" ] ; then
 		echo "container"
 	else
 		echo "hypervisor"

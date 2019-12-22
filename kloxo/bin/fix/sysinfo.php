@@ -7,8 +7,8 @@ initProgram('admin');
 
 $kloxopath="/usr/local/lxlabs/kloxo";
 
-exec("sh /script/version --vertype=full", $kloxomrver);
-$kloxomrver = $kloxomrver[0];
+exec("sh /script/version --vertype=full", $kloxongver);
+$kloxongver = $kloxongver[0];
 
 exec("cat /etc/*release", $osrelease);
 exec("uname -m", $osplateform);
@@ -306,7 +306,7 @@ $webstatsprog = ($gen->webstatisticsprogram) ? $gen->webstatisticsprogram : 'aws
 
 $out = null;
 
-// MR -- use grep because possible as kloxomr-stats-<statsprog> or just <statsprog>
+// MR -- use grep because possible as kloxong-stats-<statsprog> or just <statsprog>
 exec("rpm -qa|grep {$webstatsprog}", $out);
 
 if (count($out) > 0) {
@@ -319,7 +319,7 @@ echo "";
 echo "\n";
 echo "A. Control Panel:" .
 	"               \n"; // need more space because overwrite waiting line
-echo "   - Kloxo-MR: {$kloxomrver}\n";
+echo "   - KloxoNG: {$kloxongver}\n";
 echo "   - Web: {$appHiawatha}\n";
 echo "   - PHP: {$phpsbranch} - {$phpsver}\n";
 //echo "\n";

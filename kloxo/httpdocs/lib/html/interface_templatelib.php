@@ -28,7 +28,8 @@ function updateUpdate($param)
 		$param[$k] = self::fixListVariable($v);
 	}
 	dprintr($param);
-	return $param;
+
+		return trimming($param);
 }
 
 function updateform($subaction, $param)

@@ -37,8 +37,12 @@ if ($general_header) {
 	$gh = explode("\n", trim($general_header, "\n"));
 
 	foreach ($gh as $k => $v) {
+		if (stripos($v, 'x-powered-by') !== false) {
+			// no action
+		} else {
 		$v = str_replace(" ", "", str_replace("\"", "", str_replace(" \"", ":", $v)));
-		$x[] = "\tCustomHeader = {$v}";
+			$x[] = "\tCustomHeader = {$v}";
+	}
 	}
 
 	$x[] = "\tCustomHeader = X-Supported-By:Kloxo-MR 7.0";

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#if grep 'add by Kloxo-MR' /etc/hosts >/dev/null 2>&1 ; then
-#if [ "$(grep 'add by Kloxo-MR' /etc/hosts)" != "" ] ; then
-#	echo "- 'add by Kloxo-MR' already exists in /etc/hosts"
+#if grep 'add by KloxoNG' /etc/hosts >/dev/null 2>&1 ; then
+#if [ "$(grep 'add by KloxoNG' /etc/hosts)" != "" ] ; then
+#	echo "- 'add by KloxoNG' already exists in /etc/hosts"
 #	exit
 #fi
 
@@ -12,14 +12,15 @@ hs=$(hostname -s)
 ## use it instead 'hostname -f'
 hf=$(hostname)
 #ip=$(ifconfig | grep -i 'inet addr:' | grep -v '127.0.0.1' | awk '{print $2}' | sed 's/addr\://')
-ip=$(hostname -i | awk '{print $1}')
+#ip=$(hostname -I | awk '{print $1}')
+ip=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
 
 if [ "${ip}" != "" ] ; then
-	echo "- add parameters between 'add by Kloxo-MR' in /etc/hosts"
+	echo "- add parameters between 'add by KloxoNG' in /etc/hosts"
 	echo "" >> /etc/hosts2
-	echo "### begin - add by Kloxo-MR" >> /etc/hosts2
+	echo "### begin - add by KloxoNG" >> /etc/hosts2
 	echo "${ip} ${hf} ${hs}" >> /etc/hosts2
-	echo "### end - add by Kloxo-MR" >> /etc/hosts2
+	echo "### end - add by KloxoNG" >> /etc/hosts2
 
 	mv -f /etc/hosts2 /etc/hosts
 

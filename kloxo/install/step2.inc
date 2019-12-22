@@ -24,7 +24,8 @@ yum_httpd24_pack=(
 				  )
 #for apache packages 
 yum_httpd_pack=(
-					"httpd httpd-tools"
+					"httpd"
+					"httpd-tools"
 					"mod_ssl"
 					"mod_rpaf"
 					"mod_ruid2"
@@ -89,6 +90,8 @@ yum_other_pack=(
 					"vixie-cron"
 					"rpmdevtools"
 					"yum-utils"
+					"procps-ng" 
+					"psmisc"
 				)	 
 
 # array for old kloxo packages removal
@@ -97,11 +100,11 @@ old_rem_kloxo_pack=(
 						"lxlighttpd"
 						"lxzend"
 						"kloxo-*"
-                                               " kloxomr-webmail-*.noarch"
-						"kloxomr-thirdparty-*.noarch"
-						"kloxomr-stats-*.noarch"
-						"kloxomr-editor-*.noarch"
-                                                "kloxomr-thirdparty-phpmyadmin-*.noarch"
+                        "kloxong-webmail-*.noarch"
+						"kloxong-thirdparty-*.noarch"
+						"kloxong-stats-*.noarch"
+						"kloxong-editor-*.noarch"
+                        "kloxong-thirdparty-phpmyadmin-*.noarch"
 					) 
 
 #yum other required componements for kloxo and centos
@@ -156,7 +159,7 @@ php_pack=(
 			"php56w"
 		)	
 
-#yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and   kloxong
+#yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and kloxong
 yum_klx_legacy_pack=(
 						"kloxong-webmail-*.noarch"
 						"kloxong-thirdparty-*.noarch"
@@ -221,9 +224,9 @@ install_web() {
 			yum -y remove ${yum_rem_pack[@]}
 		fi
 
-		yum -y install ${yum_httpd24_pack[@]}
+		yum -y install ${yum_httpd24_pack[@]} --exclude=httpd --exclude=httpd-* --exclude=mod_*
 	else
-		yum -y install ${yum_httpd_pack[@]}
+		yum -y install ${yum_httpd_pack[@]} --exclude=httpd24u --exclude=httpd24u-* --exclude=mod24u_*
 	fi
 }
 
@@ -352,7 +355,7 @@ kloxo_install_step1() {
 	## MR -- install curl-devel (need by php-common) will be install curl-devel
 	## in CentOS 5 and libcurl-devel in CentOS 6
 	yum -y install ${yum_comp_pack[@]} --skip-broken
-
+	
 	rkhunter --update
 
 	echo ">>> Add Standard PHP components and Hiawatha <<<"
@@ -526,7 +529,7 @@ kloxo_install_before_bye() {
 
 kloxo_install_bye() {
 	## MR -- use '-i' instead '-I' because not exists in CentOS 5
-	this_ip=$(hostname -i|awk '{print $1}')
+	this_ip=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
 	len=${#this_ip}
 
 	https_spc=""
@@ -570,7 +573,7 @@ kloxo_install_bye() {
 		echo "._/ - Need running 'sh /script/cleanup' for update                           _/."
 	fi
 
-		echo "._/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQLcccc   _/."
+		echo "._/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQL       _/."
 		echo "._/   memory usage. Or, go to 'admin->Webserver Configure'                   _/."
 		echo "._/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/."
 
@@ -600,7 +603,7 @@ lxins_main() {
 	## MR -- to make sure /tmp ready for all; found mysql not able to start if not 1777
 	chmod 1777 /tmp
 
-	sh /script/set-limits
+	sh /script/fix-limits
 
 	install_yum_repo
 

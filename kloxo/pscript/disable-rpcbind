@@ -1,0 +1,15 @@
+#!/bin/sh
+
+
+if [ "$(command -v systemctl)" != "" ] ; then
+	echo "Disable rpcbind"
+	systemctl stop rpcbind
+	systemctl disable rpcbind
+	systemctl mask rpcbind
+	systemctl stop rpcbind.socket
+	systemctl disable rpcbind.socket
+else
+	echo "Disable rpcbind only for Centos 7+"
+fi
+
+

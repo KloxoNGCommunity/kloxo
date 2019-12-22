@@ -76,12 +76,10 @@ class Llog extends Lxclass {
 
 			'secure' => 'Secure',
 
-			'clamav/clamd.log' => 'Clamd',
-			'clamav/freshclam.log' => 'Freshclam',
+			'freshclam.log' => 'Freshclam',
 
 			'letsencrypt/letsencrypt.log' => 'Letsencrypt (certbot)',
 			'acme.sh/acme.sh.log' => 'Letsencrypt (acme.sh)',
-			'startapi.sh/startapi.sh.log' => 'StartAPI SSL',
 
 			'maillog' => 'Mail log',
 

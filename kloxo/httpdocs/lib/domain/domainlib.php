@@ -228,7 +228,7 @@ class Domaind extends DomainBase
 				return false;
 			}
 
-			if ($this->nname === 'mratwork.com') {
+			if ($this->nname === 'kloxong.org') {
 				return false;
 			}
 		}

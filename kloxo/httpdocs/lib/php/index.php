@@ -149,6 +149,7 @@ function print_index()
 		if ($cgi_token != $sess_token) {
 			if ((!$cgi_token) || (!$sess_token) || ($cgi_token != $sess_token)) {
 				print("<div align=\"center\">*** {$g_language_mes->__emessage['token_not_match']} ***</div>");
+				session_destroy();
 				exit;
 			}
 		}

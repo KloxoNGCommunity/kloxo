@@ -113,7 +113,7 @@ foreach($dns_records as $k => $o) {
 <?php
             } else {
                 if ($value !== "__base__") {
-                    $value = $value;
+					$value = $value;
                 } else {
                     $value = $domainname;
                 }
@@ -138,7 +138,7 @@ foreach($dns_records as $k => $o) {
                 if (strpos($value, ".") !== false) {
                     // no action
                 } else {
-                    $value = "$value";
+					$value = "$value";
                 }
             } else {
                 $value = $domainname;

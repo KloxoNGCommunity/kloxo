@@ -421,6 +421,7 @@ class serverweb__ extends lxDriverClass
 					lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/fcgid2.conf");
 				} else {
 					lxfile_cp(getLinkCustomfile($haecdpath, "_inactive_.conf"), $ehcdpath . "/fcgid.conf");
+					// MR -- only enable under Apache 2.2 (because trouble if enable together with proxy_fcgi
 					lxfile_cp(getLinkCustomfile($haecdpath, "fcgid2.conf"), $ehcdpath . "/fcgid2.conf");
 				}
 			}
@@ -498,10 +499,10 @@ class serverweb__ extends lxDriverClass
 
 			if ($v !== '--PHP Branch--') {
 
-				if (strpos($p, 'php-fpm') !== false) {
+				if ((strpos($p, 'php-fpm') !== false) || (strpos($p, 'proxy_fcgi') !== false)) {
 					// no action
 				} else {
-					throw new lxException($login->getThrow("only_work_for_php-type_for_php-fpm"), '', $p);
+					throw new lxException($login->getThrow("only_work_for_php-type_for_php-fpm_or_proxy_fcgi"), '', $p);
 				}
 			}
 		}

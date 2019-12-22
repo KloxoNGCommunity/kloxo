@@ -22,7 +22,7 @@ else
 		echo
 	else
 		echo
-		echo "* Need install with 'yum install kloxomr-editor-ckeditor -y' first"
+		echo "* Need install with 'yum install kloxong-editor-ckeditor -y' first"
 		echo
 	fi
 fi

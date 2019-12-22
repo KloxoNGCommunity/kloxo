@@ -8,9 +8,11 @@ Please use Dev branch
 ===================
 
 Branch:
-- master
+- Dev
 
 ===================
+
+<a href="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/status_image/last_build.png" /></a>
 
 ## KloxoNG
 

@@ -25,14 +25,14 @@
 #
 
 #define variables 
-kloxoreporpm="mratwork-release-0.0.1-1.noarch.rpm"
+kloxoreporpm="kloxong-release-0.1.1-1.noarch.rpm"
 mainreponame='kloxong'
-mainrpmlink="https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch"
+mainrpmlink="http://repo.kloxong.org/kloxong/release/neutral/noarch"
 #this is for installing base packages
 yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
 	vim-minimal subversion curl sudo expect"
 #this is for remove packages
-yum_pack2="bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql* mariadb* MariaDB* php* \
+yum_pack2=" bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-* php*\
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
 		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
 # database specific pagkages
@@ -59,7 +59,7 @@ cd /
 
 yum clean all
 
-if rpm -qa|grep 'kloxong-' >/dev/null 2>&1 ; then
+if rpm -qa|grep 'kloxong-release' >/dev/null 2>&1 ; then
 	yum update $mainreponame* -y
 else
 	cd /tmp
@@ -202,10 +202,12 @@ sh /script/set-mysql-default
 
 if [ "$(yum list|grep ^'php56u')" != "" ] ; then
 	phpused="php56"
-	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
+#	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
+	sh /script/php-branch-installer ${phpused}u
 else
 	phpused="php54"
-	yum -y install ${phpused}-cli ${phpused}-mysqlnd ${phpused}-fpm
+#	yum -y install ${phpused}-cli ${phpused}-mysqlnd ${phpused}-fpm
+	sh /script/php-branch-installer ${phpused}u
 fi
 
 chkconfig php-fpm on >/dev/null 2>&1

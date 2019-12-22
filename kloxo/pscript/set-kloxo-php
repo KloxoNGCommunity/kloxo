@@ -5,7 +5,7 @@
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
-	echo "  format: sh $0 <fpm/cgi>"
+	echo "  format: sh $0 <fpm/cgi> <phpXYs>"
 	echo " ------------------------------------------------------------------------------"
 	echo
 	exit
@@ -15,7 +15,7 @@ echo
 echo "- For help, type '$0 --help'"
 
 if [ "$#" == 0 ] ; then
-	echo "- No argument supplied. Defaulting to 'fpm'"
+	echo "- No argument supplied. Defaulting to 'fpm' and 'php56s'"
 	echo
 fi
 
@@ -31,5 +31,14 @@ fi
 	echo 'lxlabs ALL=(ALL:ALL) NOPASSWD:/usr/local/lxlabs/kloxo' > /etc/sudoers.d/mount
 	chmod 0440 /etc/sudoers.d/mount
 #fi
+
+if [ "${2}" == "" ] ; then
+	echo "- No php selected. Defaulting to 'php56s'"
+	echo
+	echo "php56s" > /usr/local/lxlabs/kloxo/init/kloxo_php_active
+else
+	sh /script/phpm-installer ${2}
+	echo "${2}" > /usr/local/lxlabs/kloxo/init/kloxo_php_active
+fi
 
 sh /script/restart -y

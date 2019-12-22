@@ -2,7 +2,7 @@
 
 #    KloxoNG - Hosting Control Panel
 #
-#    Copyright (C) 2018 - MRatWork
+#    Copyright (C) 2018 - KloxoNG
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,8 +24,8 @@
 # Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
 #
 
-$main_repo_url="https://github.com/KloxoNGCommunity/KloxoNG-rpms/tree/master/kloxong/release/neutral/noarch"
-$main_release_rpm="kloxong-release-0.1.0-1.noarch.rpm"
+$main_repo_url="http://repo.kloxong.org/kloxong/release/neutral/noarch/"
+$main_release_rpm="kloxong-release-0.1.1-1.noarch.rpm"
 $rpm_main_pck='kloxong'
 
 if [ "$(rpm -qa kloxong-release)" == "" ] ; then
@@ -38,7 +38,7 @@ if [ "$(rpm -qa kloxong-release)" == "" ] ; then
 	'mv' -f /etc/yum.repos.d/kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.nonrepo >/dev/null 2>&1
         'mv' -f /etc/yum.repos.d/kloxong.repo /etc/yum.repos.d/kloxong.nonrepo >/dev/null 2>&1
 else
-	yum update mratwork-release -y >/dev/null 2>&1
+	yum update kloxong-release -y >/dev/null 2>&1
 fi
 
 if [ "$(rpm -qa ^'$rpm_main_pck')" == "" ] ; then

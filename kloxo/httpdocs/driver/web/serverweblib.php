@@ -74,14 +74,6 @@ class serverweb extends lxdb
 		return $uflist;
 	}
 
-	function preUpdate($subaction, $param)
-	{
-		global $login;
-
-		// MR -- preUpdate (also preAdd) is new function; process before Update/Add
-
-	}
-
 	function updateform($subaction, $param)
 	{
 		switch($subaction) {

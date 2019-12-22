@@ -19,5 +19,6 @@ foreach($list as $c) {
 
 			$dp->was();
 		}
+
 	}
 }

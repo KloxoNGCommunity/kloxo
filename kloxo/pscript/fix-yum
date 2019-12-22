@@ -2,13 +2,19 @@
 
 ## run if found: ** Found 3 pre-existing rpmdb problem(s), 'yum check' output follows
 
+yum clean metadata
 yum clean all
 rm -f /var/lib/rpm/__db*
 rpm --rebuilddb
 yum update -y
+yum clean metadata
 yum clean all
 yum reinstall glibc glibc-common libgcc -y
 yum upgrade -y
 yum install yum-utils -y
 package-cleanup --problems
 package-cleanup --dupes
+
+# make possible using i686 for i386
+sed -i 's/exactarch\=1/exactarch\=0/g' /etc/yum.conf
+

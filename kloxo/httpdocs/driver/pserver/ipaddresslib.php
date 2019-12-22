@@ -161,6 +161,8 @@ class Ipaddress extends Lxdb
 			list($devname, $id) = explode("-", $row);
 
 			$result[] = $devname;
+			// MR -- assume device number are 0-9
+			$result[] = 'NAT' . substr($devname, -1);
 		}
 
 		return array_unique($result);
@@ -607,7 +609,11 @@ class Ipaddress extends Lxdb
 		}
 
 		if (!self::isValidIpaddress($param['netmask'])) {
+			if (strpos($param['devname'], 'NAT') !== false) {
+				// no action
+			} else {
 			throw new lxException($login->getThrow("invalid_netmask"), '', $param['netmask']);
+		}
 		}
 
 		$sq = new Sqlite($parent->__masterserver, "ipaddress");
@@ -651,8 +657,14 @@ class Ipaddress extends Lxdb
 		}
 		
 		$param['ipaddr'] = trim($param['ipaddr']);
+
+		if (strpos($dev, 'NAT') !== false) {
 		$param['gateway'] = trim($param['gateway']);
 		$param['netmask'] = trim($param['netmask']);
+		} else {
+			$param['gateway'] = '';
+			$param['netmask'] = '';
+		}
 
 		self::VerifyString($parent, $param);
 

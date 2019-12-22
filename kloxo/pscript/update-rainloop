@@ -17,6 +17,6 @@ if [ -d ${rdir}/rainloop ] ; then
 	echo
 else
 	echo
-	echo "* Need install with 'yum install kloxomr-webmail-rainloop -y' first"
+	echo "* Need install with 'yum install kloxong-webmail-rainloop -y' first"
 	echo
 fi

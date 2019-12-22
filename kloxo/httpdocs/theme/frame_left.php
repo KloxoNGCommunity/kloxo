@@ -263,7 +263,7 @@ function xp_panel($object)
 <?php
 	}
 
-	$forumurl = "http://forum.mratwork.com";
+	$forumurl = "https://www.facebook.com/groups/KloxoNextGeneration";
 
 	if (!$login->isAdmin() && isset($login->getObject('general')->generalmisc_b->forumurl)) {
 		$forumurl = $login->getObject('general')->generalmisc_b->forumurl;

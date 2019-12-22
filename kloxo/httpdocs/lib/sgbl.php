@@ -30,14 +30,14 @@ class Sgbl
 		$t = file_get_contents('/usr/local/lxlabs/kloxo/bin/kloxoversion');
 		$a = explode('.', $t);
 
-		$this->__ver_name = 'Kloxo-MR';
-		$this->__ver_note = 'Kloxo fork by Mustafa Ramadhan';
+		$this->__ver_name = 'KloxoNG';
+		$this->__ver_note = 'Kloxo-MR fork by Kloxo Next Generation';
 
 		$this->__ver_major = ($t) ? $a[0] : '[unknown]';
 		$this->__ver_minor = ($t) ? $a[1] : '[unknown]';
 		$this->__ver_release = ($t) ? $a[2] : '[unknown]';
-		
-		$s = ($t) ? $a[3] : '[unknown]';
+// Hide code for extracting sub version details as not used in NG		
+/*		$s = ($t) ? $a[3] : '[unknown]';
 		$b = explode('-', $s);
 		
 		$this->__ver_extra = ($b) ? $b[0] : '[unknown]';
@@ -46,7 +46,7 @@ class Sgbl
 		
 		// MR -- add new var!
 		$this->__ver_stamp = ($b) ? $b[1] : '[unknown]';
-
+*/
 		$this->__ver_enterprise = "Single Server Edition";
 		$this->__ver_type = "production";
 	//	$this->__ver_extra = "Beta";
@@ -54,8 +54,6 @@ class Sgbl
 		$this->__ver_major_minor_release = $this->__ver_major_minor . "." . $this->__ver_release;
 		$this->__ver_full = $t;
 		$this->__var_nname_impstr = "___";
-		$this->__var_prog_port = "7778";
-		$this->__var_prog_ssl_port = "7777";
 
 		$this->__var_lxlabs_marker = "__lxlabs_marker";
 		$this->__var_lpanelwidth = "220";
@@ -137,6 +135,22 @@ class Sgbl
 	//	$this->__path_ssl_root = $this->__path_kloxo_httpd_root . "/ssl";
 		$this->__path_ssl_root = $this->__path_kloxo_root . "/ssl";
 	//	$this->__path_named_realpath = "$this->__path_named_chroot/$this->__path_named_path";
+
+		// MR -- something wrong under CentOS 7 if change port but after reboot back to use default port
+		// so, use this trick.
+		if (file_exists($this->__path_program_root . '/init/port-nonssl')) {
+			$this->__var_prog_port = file_get_contents(trim($this->__path_program_root . '/init/port-nonssl'));
+		} else {
+			$this->__var_prog_port = "7778";
+		}
+
+		// MR -- something wrong under CentOS 7 if change port but after reboot back to use default port
+		// so, use this trick.
+		if (file_exists($this->__path_program_root . '/init/port-ssl')) {
+			$this->__var_prog_ssl_port = file_get_contents(trim($this->__path_program_root . '/init/port-ssl'));
+		} else {
+			$this->__var_prog_ssl_port = "7777";
+		}
 
 		$this->__var_local_port = '7776';
 		$this->__var_remote_port = '7779';

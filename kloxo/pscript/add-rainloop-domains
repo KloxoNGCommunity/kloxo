@@ -29,5 +29,5 @@ if [ -d ${rdir}/data/_data_ ] ; then
 		echo "${ini_content}" > ${dir}/${1}.ini
 	fi
 else
-	echo "Need browse 'your webmail.yourdomain.com' and then select rainloop"
+	echo "- Need browse 'your webmail.yourdomain.com' and then select rainloop"
 fi

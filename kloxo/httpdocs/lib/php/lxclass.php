@@ -2232,7 +2232,8 @@ abstract class Lxclass
 				$res = $db->getRowsGeneric($query);
 
 				if (!$res) {
-					throw new lxException($login->getThrow("no_element"), '', "{$name} in {$this->getClass()}:{$this->nname} {$list}");
+					// MR -- disabled it - may trouble for delete domain (for example)
+				//	throw new lxException($login->getThrow("no_element"), '', "{$name} in {$this->getClass()}:{$this->nname} {$list}");
 				}
 
 				$obj = new $class($this->__masterserver, $this->__readserver, $name);
@@ -3929,21 +3930,14 @@ abstract class Lxclass
 
 	static function preAdd($parent, $class, $param)
 	{
+		return trimming($param);
 	}
 
 	static function add($parent, $class, $param)
 	{
 		if_demo_throw_exception();
-	/*
-		// MR -- only process if NOT multidimensional array
-		if (count($param) === count($param, COUNT_RECURSIVE)) {
-			// MR -- trim all array values
-			$param = array_map('trim', $param);
-		}
-	*/
-		$param = trimming($param);
 
-		return $param;
+		return trimming($param);
 	}
 
 	static function continueForm($parent, $class, $param, $continueaction)
@@ -4232,20 +4226,13 @@ abstract class Lxclass
 
 	function preUpdate($subaction, $param)
 	{
+		return trimming($param);
 	}
 
 	function update($subaction, $param)
 	{
 		if_demo_throw_exception();
 
-	/*
-		// MR -- only process if NOT multidimensional array
-		if (count($param) === count($param, COUNT_RECURSIVE)) {
-			// MR -- trim all array values
-			$param = array_map('trim', $param);
-		}
-	*/
-		$param = trimming($param);
 
 		return $param;
 	}

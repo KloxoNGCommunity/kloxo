@@ -61,10 +61,10 @@ foreach($res as $k => $v) {
 	</tr>
 	<tr>
 		<td>&nbsp;-&nbsp;</td>
-		<td><a href=http://forum.mratwork.com/ target='_blank'>Visit our forums</a></td>
+		<td><a href=https://www.facebook.com/groups/KloxoNextGeneration/ target='_blank'>Visit our forums</a></td>
 	</tr>
 	<tr>
 		<td>&nbsp;-&nbsp;</td>
-		<td><a href=http://mratwork.com/ target='_blank'>MRatWork</a></td>
+		<td><a href=http://kloxong.org/ target='_blank'>MRatWork</a></td>
 	</tr>
 </table>
