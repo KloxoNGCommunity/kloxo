@@ -184,9 +184,14 @@ exclude=postfix* exim* ssmtp* pdns*
 # for varnish
 [kloxong-varnish]
 name=KloxoNG - Varnish for EL \$releasever
-baseurl=https://packagecloud.io/varnishcache/varnish5/el/\$releasever/\$basearch
-enabled=1
+baseurl=https://packagecloud.io/varnishcache/varnish5/el/$releasever/$basearch
+repo_gpgcheck=1
 gpgcheck=0
+enabled=1
+gpgkey=https://packagecloud.io/varnishcache/varnish5/gpgkey
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
 
 # ==================================
 
