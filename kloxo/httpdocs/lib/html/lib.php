@@ -6289,7 +6289,7 @@ function setInitialPureftpConfig($nolog = null)
 	}
 
 	if (!lxfile_exists("/usr/sbin/pure-config.pl")) {
-		$sfile = "{$sgbl->__path_program_root}/httpdocs/file/pure-ftd/usr/sbin/pure-config.pl";
+		$sfile = "{$sgbl->__path_program_root}/file/pure-ftd/usr/sbin/pure-config.pl";
 		log_cleanup("Copy pure-config.pl to /usr/sbin", $nolog);
 		copy($sfile, "/usr/sbin/pure-config.pl");
 		chown($sfile, "root:root");
