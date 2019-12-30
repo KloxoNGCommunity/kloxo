@@ -1,0 +1,13 @@
+openssl genrsa -out default.key 2048
+
+openssl req -new -x509 -days 3650 -key default.key -out default.ca
+ 
+openssl x509 -in default.ca -text -noout
+ 
+openssl req -new -days 3650 -key default.key -out default.csr
+ 
+openssl req -in default.csr -noout -text
+ 
+openssl x509 -req -days 3650 -in default.csr -CA default.ca -CAkey default.key -CAcreateserial -out default.crt
+ 
+openssl verify -CAfile default.ca default.crt
