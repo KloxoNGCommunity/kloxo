@@ -33,7 +33,7 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 0.1.2
-Release: alpha-%{build_timestamp}
+Release: alpha.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
 
