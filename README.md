@@ -3,14 +3,16 @@
 
 ### A Kloxo-MR fork by The Kloxo Next Generation Community
 
-Please use Dev branch
+Please use master branch
 
 ===================
 
 Branch:
-- Dev
+- Master
 
 ===================
+
+The current release v0.1.2-alpha is a test release to check that all functions work as expected and to test migration from Kloxo-MR to KloxoMG. 
 
 <a href="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/status_image/last_build.png" /></a>
 
@@ -18,15 +20,15 @@ Branch:
 
 This is a new development path of Kloxo based on the work of Kloxo-MR.
 
-The aim of this project is to create a develpment pathway that is not dependent on a single individual, while providing support to existing Kloxo-MR users.
+The aim of this project is to create a development pathway that is not dependent on a single individual, while providing support to existing Kloxo-MR users.
 
 ### URL
 
-1. More information about Kloxo NG go to https://kloxong.org/ ([Mirror](https://kloxongcommunity.github.io/kloxoNG-CP/))
+1. More information about Kloxo NG go to https://kloxong.org/ 
 
 ### Features (based on exsitng Kloxo-MR features - this will change as we develop our road map)
 
-* OS: Redhat/CentOS 5 and 6 (32bit and 64bit) or their variants; also Redhat/Centos 7 *)
+* OS: Redhat/CentOS 6 (64bit) or their variants; also Redhat/Centos 7 *)
 * Billing: AWBS, WHMCS, HostBill, TheHostingTool, AccountLab Plus, Blesta and BoxBilling (note: claim by billing's author)
 * Web server: Nginx, Nginx-Proxy and Lighttpd-proxy, Hiawatha, Hiawatha-proxy and Httpd 24, beside Httpd and Lighttpd; also Dual and Multiple Web server *)
 * Webcache server: Squid, Varnish and ATS *)
@@ -53,7 +55,7 @@ The aim of this project is to create a develpment pathway that is not dependent 
 
 ### How to install
 
-* Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/master/how-to-install.txt (Currently for Kloxo-MR)
+* Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/master/how-to-install.txt
 
 ### Notes
 *) Features inheritited from Kloxo-MR 7 (Note: these may change as we develop our road map)
