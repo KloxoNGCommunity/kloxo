@@ -52,7 +52,7 @@ Conflicts: kloxomr <= 6.5.0
 Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-MR is a Fork of the original Kloxo
 
 %prep
-%autosetup -n %{name}-dev
+%autosetup -n %{name}-master
 
 %build
 
