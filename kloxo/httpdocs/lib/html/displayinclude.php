@@ -23,4 +23,5 @@ $dir = dirname(dirname(dirname($path)));
 include_once "$dir/lib/html/includecore.php";
 include_once "$dir/theme/html.php";
 include_once "$dir/lib/html/include.php";
+//Set global html $ghtml object
 $ghtml = new Html();
