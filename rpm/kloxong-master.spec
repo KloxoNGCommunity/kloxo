@@ -33,7 +33,7 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 0.1.2
-Release: alpha.%{build_timestamp}
+Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
 
@@ -161,6 +161,8 @@ EOF
 
 
 %changelog
+* Fri Jan 24 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2-beta
+- update release numbers
 
 * Tue Dec 3 2019 John Parnell Pierce <john@luckytanuki.com> 
 - setup file to use copr autp build service
