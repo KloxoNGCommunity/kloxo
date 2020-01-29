@@ -33,7 +33,7 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 0.1.2
-Release: alpha.%{build_timestamp}
+Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
 
@@ -52,7 +52,7 @@ Conflicts: kloxomr <= 6.5.0
 Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-MR is a Fork of the original Kloxo
 
 %prep
-%autosetup -n %{name}-dev
+%autosetup -n %{name}-master
 
 %build
 
@@ -161,6 +161,8 @@ EOF
 
 
 %changelog
+* Fri Jan 24 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2-beta
+- update release numbers
 
 * Tue Dec 3 2019 John Parnell Pierce <john@luckytanuki.com> 
 - setup file to use copr autp build service
