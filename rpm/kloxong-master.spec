@@ -110,7 +110,7 @@ EOF
 read -r -d '' for_upcp << EOF
 ._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
 ._/                                                                          _/.
-._/  ..:: Kloxo-MR Web Panel ::..                                            _/.
+._/  ..:: Kloxo Next Generation Web Panel ::..                                            _/.
 ._/                                                                          _/.
 ._/  Attention:                                                              _/.
 ._/                                                                          _/.
