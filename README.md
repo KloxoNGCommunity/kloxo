@@ -4,12 +4,11 @@
 ### A Kloxo-MR fork by The Kloxo Next Generation Community
 
 Please use master branch
-This is a development brach with unstable code
 
 ===================
 
 Branch:
-- Dev
+- Master
 
 ===================
 
