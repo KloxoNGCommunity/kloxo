@@ -225,6 +225,7 @@ install_web() {
 		fi
 
 		yum -y install ${yum_httpd24_pack[@]} --exclude=httpd --exclude=httpd-* --exclude=mod_*
+		cat '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg
 	else
 		yum -y install ${yum_httpd_pack[@]} --exclude=httpd24u --exclude=httpd24u-* --exclude=mod24u_*
 	fi
