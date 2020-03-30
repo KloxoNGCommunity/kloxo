@@ -32,7 +32,7 @@
 
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
-Version: 0.1.2
+Version: 0.1.2.1
 Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
@@ -161,6 +161,9 @@ EOF
 
 
 %changelog
+* Mon Mar 30 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.1-beta
+- Fix for httpd fails to start with missing mod_authn_alias.so error - issue #48
+
 * Fri Jan 24 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2-beta
 - update release numbers
 
