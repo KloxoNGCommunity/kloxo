@@ -1,7 +1,7 @@
 %define repohost repo.kloxong.org
 %define mirrorhost raw.githubusercontent.com/KloxoNGCommunity/KloxoNG-rpms/dev/kloxong/mirror
 Summary: KloxoNG release file and package configuration
-Name: kloxong-release
+Name: kloxong-testing
 Version: 0.1.1
 Release: 1
 License: AGPLV3
@@ -12,11 +12,11 @@ BuildArch: noarch
 Packager: John Parnell Pierce <john@luckytanuki.com>
 Vendor: Kloxo Next Generation Repository, http://%{repohost}/
 #BuildRequires: redhat-rpm-config
-Obsoletes: mratwork-release > 0 , kloxong-testing > 0
-Conflicts: mratwork-testing > 0 , kloxong-testing > 0
+Obsoletes: kloxong-release > 0, mratwork-release > 0 ,
+Conflicts: kloxong-release > 0
 
 %description
-Kloxo Next Generation rpm release. This package contains yum configuration for the Kloxo Next Generation RPM Repository.
+Kloxo Next Generation rpm testing. This package contains yum configuration for the Kloxo Next Generation test RPM Repository.
 
 %prep
 
@@ -53,8 +53,8 @@ skip_if_unavailable=True
 gpgcheck=1
 gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/pubkey.gpg
 repo_gpgcheck=0
-enabled=0
-enabled_metadata=0
+enabled=1
+enabled_metadata=1
 
 [kloxong-release-version-arch]
 name=KloxoNG - release-version-arch
@@ -119,7 +119,6 @@ mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-testing/\$basearch/mirr
 enabled=1
 gpgcheck=0
 exclude=mysql* nginx*
-
 
 # ==================================
 
@@ -332,13 +331,13 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 - clean up spec file
 - add gpg key for varnish repo (Thanks DK)
 - update test repos
+- rebrand to Kloxo Next Generation
 - remove old kloxong neutral and no arch repos
 
+
 * Mon Jan 29 2018 John Parnell Pierce <john@luckytanuki.com> 
-- rebrand to Kloxo Next Generation
 - change product name to kloxong
 - add obsolete for kloxomr 
-- change MRatWork to kloxong
 
 * Mon Dec 16 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 0.0.1-1
 - first release
