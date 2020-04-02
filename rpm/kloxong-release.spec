@@ -12,7 +12,7 @@ BuildArch: noarch
 Packager: John Parnell Pierce <john@luckytanuki.com>
 Vendor: Kloxo Next Generation Repository, http://%{repohost}/
 #BuildRequires: redhat-rpm-config
-Obsoletes: mratwork-release > 0 , kloxong-testing > 0
+Obsoletes: mratwork-release > 0
 Conflicts: mratwork-testing > 0 , kloxong-testing > 0
 
 %description
