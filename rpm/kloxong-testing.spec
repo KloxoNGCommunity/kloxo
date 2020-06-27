@@ -38,7 +38,7 @@ _EOF_
 %install
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/yum.repos.d/
-install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
+install -m 755 kloxong-test.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong-test.repo
 
 
 %clean
