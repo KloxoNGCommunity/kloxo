@@ -32,7 +32,7 @@
 
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
-Version: 0.1.2.1
+Version: 0.1.2.2
 Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
@@ -110,11 +110,14 @@ EOF
 read -r -d '' for_upcp << EOF
 ._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
 ._/                                                                          _/.
-._/  ..:: Kloxo Next Generation Web Panel ::..                                            _/.
+._/  ..:: Kloxo Next Generation Web Panel ::..                               _/.
 ._/                                                                          _/.
 ._/  Attention:                                                              _/.
 ._/                                                                          _/.
 ._/  - Run 'sh /script/upcp' to install completely                           _/.
+._/                                                                          _/.
+._/ 	To use test repo use sh /script/upcp -t                                                                          _/.
+._/                                                                          _/.
 ._/                                                                          _/.
 ._/  - Some file downloads may not show a progress bar so please             _/.
 ._/    do not interrupt the process.                                         _/.
@@ -161,6 +164,19 @@ EOF
 
 
 %changelog
+=======
+* Sat Jun 27 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-beta
+- update release numbers
+- update kloxoversion file
+- fix location of initial yum repo rpm. Should alway be located at https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/kloxong-release.rpm issue #56
+- refactored command line options in upcp script
+- added install yum test repo command line option (-t or -test) to upcp
+- kloxo-testing to be only installed by -t/--test option
+- remove conflicting obsoletes and conflicts from kloxo-release and kloxo-testing
+- remove test repo from kloxo-testing
+- remove all but the test repo from kloxo-release
+- update release numbers
+
 * Mon Mar 30 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.1-beta
 - Fix for httpd fails to start with missing mod_authn_alias.so error - issue #48
 

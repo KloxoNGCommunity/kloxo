@@ -24,8 +24,8 @@
 # Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
 #
 
-$main_repo_url="http://repo.kloxong.org/kloxong/release/neutral/noarch/"
-$main_release_rpm="kloxong-release-0.1.1-1.noarch.rpm"
+$main_repo_url="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
+$main_release_rpm="kloxong-release.rpm"
 $rpm_main_pck='kloxong'
 
 if [ "$(rpm -qa kloxong-release)" == "" ] ; then
