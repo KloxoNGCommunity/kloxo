@@ -1,5 +1,38 @@
 #!/bin/sh
 
+function args()
+{
+    options=$(getopt -o try --long remove-kloxo-databse,test,force -- "$@")
+    
+    eval set -- "$options"
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+        -t)
+            TEST=1
+            ;;
+        -r)
+            REMOVE=1
+            ;;
+        -y)
+            FORCE=1
+            ;;			
+        --test)
+            TEST=1
+            ;;
+        --remove-kloxo-databse)
+            REMOVE=1
+            ;;
+		--force)
+			FORCE=1
+            ;;	
+        esac
+        shift
+    done
+}
+ 
+args $0 "$@"
+ 
+
 if [ "$(hostname -f)" == "$(hostname -s)" ] ; then
 	echo "-------------------------------------------------------------------"
 	echo " WARNING:"
@@ -16,6 +49,18 @@ fi
 
 if [ "$(rpm -qa yum-plugin-replace)" == "" ] ; then
 	yum -y install yum-plugin-replace
+fi
+
+
+if ["$TEST"] ; then
+	if [ "$(rpm -qa kloxong-testing)" == "" ] ; then
+		echo "Installing Test repo"
+		echo
+		yum -y install kloxong-testing
+	else
+		echo "Test Repo already installed"
+		echo
+	fi
 fi
 
 sh /script/fixrepo
@@ -76,8 +121,7 @@ if ! [ -d ${ppath}/log ] ; then
 	mkdir -p ${ppath}/log
 fi
 
-if [ "$1" == "--remove-kloxo-databse" ] || [ "$2" == "--remove-kloxo-databse" ] || [ "$3" == "--remove-kloxo-databse" ] \
-		|| [ "$1" == "-r" ] || [ "$2" == "-r" ] || [ "$3" == "-r" ] ; then
+if [ "$REMOVE" ] ; then
 	if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ] ; then
 		service mysqld stop
 		'rm' -rf /var/lib/mysql/kloxo
@@ -89,8 +133,7 @@ if [ "$1" == "--remove-kloxo-databse" ] || [ "$2" == "--remove-kloxo-databse" ] 
 	fi
 fi
 
-if [ "$1" == "-y" ] || [ "$1" == "--force" ] || [ "$2" == "-y" ] || \
-		[ "$2" == "--force" ]  || [ "$3" == "-y" ] || [ "$3" == "--force" ] ; then
+if [ "$FORCE" ]  ; then
 	if [ -f /etc/rc.d/init.d/qmail ] || [ -f /usr/lib/systemd/system/qmail.service ] ; then
 		service qmail stop
 		'rm' -f /etc/rc.d/init.d/qmail >/dev/null 2>&1

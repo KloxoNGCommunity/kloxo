@@ -12,8 +12,7 @@ BuildArch: noarch
 Packager: John Parnell Pierce <john@luckytanuki.com>
 Vendor: Kloxo Next Generation Repository, http://%{repohost}/
 #BuildRequires: redhat-rpm-config
-Obsoletes: mratwork-release > 0
-Conflicts: mratwork-testing > 0 , kloxong-testing > 0
+Obsoletes: mratwork-release > 0 , mratwork-testing > 0
 
 %description
 Kloxo Next Generation rpm release. This package contains yum configuration for the Kloxo Next Generation RPM Repository.
@@ -44,17 +43,6 @@ gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/pubkey.gp
 repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
-
-[kloxong-copr-testing]
-name=kloxong testing Copr repo 
-baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/epel-\$releasever-\$basearch/
-type=rpm-md
-skip_if_unavailable=True
-gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/pubkey.gpg
-repo_gpgcheck=0
-enabled=0
-enabled_metadata=0
 
 [kloxong-release-version-arch]
 name=KloxoNG - release-version-arch
@@ -325,6 +313,9 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 %{_sysconfdir}/yum.repos.d/kloxong.repo
 
 %changelog
+* Fri Jun 26 2020 John Parnell Pierce <john@luckytanuki.com> 
+- updating way testing repo is installed. This file has had yum entry for test repo removed
+
 * Thu Apr 2 2020  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-1
 - updated changelog for changes over 12 months
 - merge updates from Kloxo-MR

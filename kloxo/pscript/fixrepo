@@ -1,9 +1,8 @@
 #!/bin/sh
 # declaring Variables
 reponame="kloxong"
-repourl="http://repo.kloxong.org/kloxong/release/neutral/noarch"
-relrpmname="kloxong-release-0.1.1-1.noarch.rpm"
-
+repourl="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
+relrpmname="kloxong-release.rpm"
 
 yum clean all
 
