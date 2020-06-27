@@ -164,7 +164,7 @@ EOF
 
 
 %changelog
-=======
+
 * Sat Jun 27 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-beta
 - update release numbers
 - update kloxoversion file
