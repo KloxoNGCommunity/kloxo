@@ -254,8 +254,15 @@ install_dns() {
 
 	if [ -d ${vlnpath} ] ; then
 		mkdir -p ${vlnpath}
-		chown named:root ${vlnpath}
+#		chown named:root ${vlnpath}
 	fi
+# Set permissions so named can start  
+	chown named:named ${vlnpath}; 
+	chmod 755 ${vlnpath}
+	
+	#this isn't required but could be explored in the future fix "the working directory is not writable" message in log at startup
+	#chown named:root /opt/configs/nsd/conf -R
+
 
 	if [ -f /etc/rndc.conf ] ; then
 		'rm' -f /etc/rndc.conf
