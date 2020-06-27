@@ -175,7 +175,7 @@ EOF
 - remove conflicting obsoletes and conflicts from kloxo-release and kloxo-testing
 - remove test repo from kloxo-testing
 - remove all but the test repo from kloxo-release
-- update release numbers
+
 
 * Mon Mar 30 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.1-beta
 - Fix for httpd fails to start with missing mod_authn_alias.so error - issue #48
