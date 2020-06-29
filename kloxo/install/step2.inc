@@ -386,7 +386,9 @@ kloxo_install_step1() {
 	echo ">>> Add KloxoNG webmail/thirparty/stats <<<"
 
 	## MR -- it's include packages like kloxong-thirdparty
-	yum -y install $klxpckname-*.noarch
+	## JP -- exclude testing repo as will already ne installed if actually needed	
+
+	yum -y install $klxpckname-*.noarch --exclude $klxpckname-testing
 
 	## MR -- regular packages (as the same as for Kloxo-MR 6.5.0)
 	yum -y install ${yum_klx_legacy_pack[@]} --exclude=${yum_klx_legacy_excl_pack[@]} --skip-broken
