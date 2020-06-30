@@ -252,13 +252,15 @@ install_dns() {
 
 	vlnpath="/var/log/named"
 
-	if [ -d ${vlnpath} ] ; then
-		mkdir -p ${vlnpath}
-#		chown named:root ${vlnpath}
-	fi
-# Set permissions so named can start  
-	chown named:named ${vlnpath}; 
-	chmod 755 ${vlnpath}
+		if [ -d ${vlnpath} ] ; then
+                mkdir -p ${vlnpath}
+                chown named:root ${vlnpath}
+                echo "-Set path permissions so named can start"
+                chmod 755 ${vlnpath}
+        else
+                echo  "path not found"
+        fi
+
 	
 	#this isn't required but could be explored in the future fix "the working directory is not writable" message in log at startup
 	#chown named:root /opt/configs/nsd/conf -R
