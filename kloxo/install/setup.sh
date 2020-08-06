@@ -25,9 +25,11 @@
 #
 
 #define variables 
-kloxoreporpm="kloxong-release-0.1.1-1.noarch.rpm"
+
 mainreponame='kloxong'
-mainrpmlink="http://repo.kloxong.org/kloxong/release/neutral/noarch"
+main_repo_url="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
+main_release_rpm="kloxong-release.rpm"
+rpm_main_pck='kloxong'
 #this is for installing base packages
 yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
 	vim-minimal subversion curl sudo expect"
@@ -63,7 +65,7 @@ if rpm -qa|grep 'kloxong-release' >/dev/null 2>&1 ; then
 	yum update $mainreponame* -y
 else
 	cd /tmp
-	rpm -Uvh $mainrpmlink/$kloxongreporpm
+	rpm -Uvh $main_repo_url/$main_release_rpm
 	yum update $mainreponame-* -y
 	
 	'rm' -rf /etc/yum.repos.d/kloxo-mr.repo
