@@ -61,7 +61,7 @@ print("- Process for Qmail-toaster SSL files\n");
 
 $qmail_path="/var/qmail/control";
 
-if (file_exists("{$qmail_path}/servercert.pem")) {
+if (file_exists("{$qmail_path}/servercert.pem") && !is_link("{$qmail_path}/servercert.pem")) {
 	if (!file_exists("{$qmail_path}/servercert.pem.old")) {
 		exec("'mv' -f {$qmail_path}/servercert.pem {$qmail_path}/servercert.pem.old");
 	} else {

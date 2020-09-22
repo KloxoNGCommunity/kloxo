@@ -5697,6 +5697,7 @@ function setInitialDnsConfig($type, $nolog = null)
 		if ($type === 'bind') {
 			if (!file_exists("/var/log/named")) {
 				exec("mkdir -p /var/log/named");
+				exec("chown named:root /var/log/named; chmod 1777 /var/log/named");
 			}
 		}
 	}

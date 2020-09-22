@@ -33,7 +33,8 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 0.1.2.2
-Release: beta.%{build_timestamp}
+Release: final
+#Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
 
@@ -164,6 +165,15 @@ EOF
 
 
 %changelog
+
+* Sat Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-final
+- exclude install of kloxong-testing.rpm from wild card yum install
+- Fix gpg key
+- add line to change permission of log file folder for named to try to resolve issue #59
+- Add chown to set named as owner of /var/log/named
+- code fix for secondary check/detection of missmatch on repositories
+- Don't overwrite qmails certificate if it is a symlink - issue #67
+- Add Clamav resurce usage warning to Virus scanner select check box
 
 * Sat Jun 27 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-beta
 - update release numbers
