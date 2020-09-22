@@ -32,8 +32,8 @@
 
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
-Version: 0.1.2.3
-Release: 0
+Version: 0.1.2.2
+Release: final
 #Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
@@ -166,7 +166,7 @@ EOF
 
 %changelog
 
-* Sat Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.3
+* Sat Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-final
 - exclude install of kloxong-testing.rpm from wild card yum install
 - Fix gpg key
 - add line to change permission of log file folder for named to try to resolve issue #59
