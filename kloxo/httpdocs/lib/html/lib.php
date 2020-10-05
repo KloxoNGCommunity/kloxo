@@ -6166,6 +6166,11 @@ function getDnsMasters($servername)
 
 	foreach ($d as $k => $v) {
 		foreach ($v as $k2 => $v2) {
+			//skip if empty record
+			if (!$v2) {
+				continue;
+			}
+			
 			$e[] = $v2;
 
 			$p = "parent_clname = 'domain-{$v2}'";
@@ -6178,6 +6183,10 @@ function getDnsMasters($servername)
 
 			foreach ($a as $k3 => $v3) {
 				foreach ($v3 as $k4 => $v4) {
+					//skip if empty record
+					if (!$v4) {
+						continue;
+					}
 					$e[] = $v4;
 				}
 			}
