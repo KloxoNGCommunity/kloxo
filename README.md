@@ -14,7 +14,7 @@ Branch:
 
 The current release v0.1.2-alpha is a test release to check that all functions work as expected and to test migration from Kloxo-MR to KloxoMG. 
 
-<a href="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/kloxong/package/kloxong/status_image/last_build.png" /></a>
+<a href="https://copr.fedorainfracloud.org/coprs/kloxong/Testing/package/kloxong/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/Testing/package/kloxong/status_image/last_build.png" /></a>
 
 ## KloxoNG
 

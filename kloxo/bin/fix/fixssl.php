@@ -66,12 +66,10 @@ if (file_exists("{$qmail_path}/servercert.pem") && !is_link("{$qmail_path}/serve
 		exec("'mv' -f {$qmail_path}/servercert.pem {$qmail_path}/servercert.pem.old");
 	} else {
 		exec("'mv' -f {$qmail_path}/servercert.pem {$qmail_path}/servercert.pem.old");
-		}
 	}
-
-exec("'cp' -f {$kloxo_etc_path}/program.pem {$qmail_path}/servercert.pem; ".
+	exec("'cp' -f {$kloxo_etc_path}/program.pem {$qmail_path}/servercert.pem; ".
 		"chown -f root:qmail {$qmail_path}/servercert.pem");
-
+}
 $login->loadAllObjects('sslcert');
 $slist = $login->getList('sslcert');
 

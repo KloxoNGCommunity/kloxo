@@ -13,9 +13,33 @@ $t = '';
 
 $flgfile = "/usr/local/lxlabs/kloxo/etc/flag/manualoutgoingips.flg";
 
+/*Note to remap ips for AWS or NAT hosting include pairs public_ip:internal_ip in file
+eg. 
+203.23.45.23:192.168.0.23
+201.43.42.2:10.0.10.1
+*/
+$process=1;
+$ipmap=array();
 if (file_exists($flgfile)) {
-	print("- No process because '{$flgfile}' exists\n");
+	$ipsmap = file($flgfile);
+	foreach($ipsmap as $iprow) {
+		$ips = explode(':',$iprow);
+		$ipmap[$ips[0]] = $ips[1];
+	}
+	if(empty($ipmap)){
+		$process=0;
+	}
+	else
+	{
+		print("- File '{$flgfile}' exists with ip remapping data\n");
+	}	
+	
+}	
+	
+if(!$process){
+		print("- No process because empty '{$flgfile}' exists\n");}
 } else {
+	
 	foreach($list as $c) {
 		$dlist = $c->getList('domain');
 
@@ -31,7 +55,11 @@ if (file_exists($flgfile)) {
 					} else {
 						$ip = $drec->param;
 					}
-
+					if(array_key_exists($ipmc,$ipmap)}{
+						print("  map '{$ip}' to $ipmap[$ip]\n");
+						$ip=$ipmap[$ip];
+					}
+					
 					$t .= "{$dns->nname}:{$ip}\n";
 				}
 			}
