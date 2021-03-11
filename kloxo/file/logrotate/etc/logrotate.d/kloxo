@@ -15,7 +15,7 @@
 #/usr/local/lxlabs/kloxo/processed_log/*
 {
     daily
-    #create 0664 apache apache
+    create 0664 apache apache
     #rotate 52
     compress
     delaycompress
@@ -24,6 +24,8 @@
     sharedscripts
     postrotate
         sh /script/restart-web -y >/dev/null 2>&1 || true
-        sh /script/restart -y >/dev/null 2>&1 || true
+    # Not required as no longer rotating kloxo logs
+	#   sh /script/restart -y >/dev/null 2>&1 || true
     endscript
+	su apache apache
 }
