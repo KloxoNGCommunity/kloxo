@@ -103,7 +103,9 @@ class Mailaccount__Qmail extends lxDriverClass
 		if ($this->main->isOn('__var_spam_status')) {
 			if ($this->main->__var_spam_driver === 'spamassassin') {
 				$maildropspam = "spamc -p 783 -u {$this->main->nname}";
-				$addextraspamheader = "\nif ( /^X-Spam-status: Yes/ )\n{\n    $spamdir\n} \n";
+				// Delete any spam with 10 or more stars no matter what the setting
+				//$addextraspamheader = "\nif ( /^X-Spam-status: Yes/ )\n{\n    $spamdir\n} \n";
+				$addextraspamheader = "\nif(/^X-Spam-Level: [\*]{10,}$/)\n{\n    EXITCODE=0\n    exit\n}\nelse\n{\n   if ( /^X-Spam-status: Yes/ )\n{\n        $spamdir\n    }\n} \n";
 			} else {
 				$bogconf = "$mailpath/$user/.bogopref.cf";
 
