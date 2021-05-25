@@ -32,8 +32,8 @@
 
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
-Version: 0.1.2.2
-Release: final
+Version: 0.1.3
+Release: 1
 #Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
@@ -117,13 +117,17 @@ read -r -d '' for_upcp << EOF
 ._/                                                                          _/.
 ._/  - Run 'sh /script/upcp' to install completely                           _/.
 ._/                                                                          _/.
-._/ 	To use test repo use sh /script/upcp -t                                                                          _/.
+._/ 	To use test repo use sh /script/upcp -t                              _/.
 ._/                                                                          _/.
 ._/                                                                          _/.
 ._/  - Some file downloads may not show a progress bar so please             _/.
 ._/    do not interrupt the process.                                         _/.
 ._/                                                                          _/.
-._/  - Then, go to 'Switch Program' to enable web and other programs         _/.
+._/  - Then, go to 'Switch Program' to enable web and other programs         _/.    
+._/                                                                          _/.
+._/  If php74 is not available then run the command:                         _/.
+._/  # sudo sh /script/fix-service-list                                      _/.
+._/  This should update the list of available php versions.                  _/.
 ._/                                                                          _/.
 ._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
 EOF
@@ -165,6 +169,14 @@ EOF
 
 
 %changelog
+
+* Tue May 25 2021 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-1
+- test for null domain records when building DNS configuration files
+- allow list of remap ips for AWS or NAT hosting - include pairs public_ip:internal_ip in manualoutgoingips.flg file
+- add support for IUS php74
+- fix "overwriting servercert.pem when it is a symlink" problem - issue #67
+- fix permission problem for logrotate of httpd logs as required for new logrotate versions in centos 7
+- with Spamassassin - delete any spam with 10 or more stars - no matter what the spam retention settings
 
 * Sat Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-final
 - exclude install of kloxong-testing.rpm from wild card yum install
