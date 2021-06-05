@@ -169,6 +169,10 @@ yum_klx_legacy_pack=(
 					
 yum_klx_legacy_excl_pack=(
 							"kloxong-thirdparty-phpmyadmin-*.noarch"
+							"kloxong-webmail-squirrelmail.noarch"
+							"kloxong-webmail-telaen.noarch"
+							"kloxong-webmail-horde.noarch"
+							"kloxong-webmail-t-dah.noarch"
 						 )						
 
 

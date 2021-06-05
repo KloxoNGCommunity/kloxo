@@ -6465,7 +6465,19 @@ function setInitialServer($nolog = null)
 
 	exec("yum -y remove $list >/dev/null 2>&1");
 
-	$packages = array("kloxong-webmail-*.noarch", "kloxong-thirdparty-*.noarch", "kloxong-thirdparty-*.noarch", "kloxong-stats-*.noarch", "kloxong-editor-*.noarch", "hiawatha");
+	$packages = array(
+		"kloxong-webmail-*.noarch",
+		"kloxong-thirdparty-*.noarch", 
+		"kloxong-thirdparty-*.noarch", 
+		"kloxong-stats-*.noarch", 
+		"kloxong-editor-*.noarch", 
+		"hiawatha",
+		"--exclude=kloxong-thirdparty-phpmyadmin-*.noarch",
+		"--exclude=kloxong-webmail-squirrelmail.noarch",
+		"--exclude=kloxong-webmail-telaen.noarch",
+		"--exclude=kloxong-webmail-horde.noarch",
+		"--exclude=kloxong-webmail-t-dah.noarch"
+	);
 
 	$list = implode(" ", $packages);
 

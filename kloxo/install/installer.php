@@ -74,7 +74,10 @@ $dbpass = '';
         'smail',
         'lxzend',
         'pure-ftpd',
-        'exim'
+        'exim',
+		'postfix',
+		'postfix32u'
+		
     );
 
     $yumMail = array(
@@ -158,6 +161,10 @@ $dbpass = '';
         'kloxong-stats-*.noarch',
         'kloxong-editor-*.noarch',
         '--exclude=kloxong-thirdparty-phpmyadmin-*.noarch',
+		'--exclude=kloxong-webmail-squirrelmail.noarch',
+		'--exclude=kloxong-webmail-telaen.noarch',
+		'--exclude=kloxong-webmail-horde.noarch',
+		'--exclude=kloxong-webmail-t-dah.noarch'
     );
 }
 
