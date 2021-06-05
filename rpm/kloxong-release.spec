@@ -3,7 +3,7 @@
 Summary: KloxoNG release file and package configuration
 Name: kloxong-release
 Version: 0.1.1
-Release: 1
+Release: 2
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -65,21 +65,21 @@ name=KloxoNG - IUS Community Packages for EL \$releasever
 baseurl=https://repo.ius.io/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
-exclude=mysql51* mysql56* mariadb*
+exclude=mysql51* mysql56* mariadb* postfix32u*
 
 [kloxong-ius-archive]
 name=KloxoNG - IUS Community Packages for EL \$releasever (archive)
 baseurl=https://repo.ius.io/archive/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
-exclude=mysql51* mysql56*  mariadb*
+exclude=mysql51* mysql56*  mariadb* postfix32u*
 
 [kloxong-ius-testing]
 name=KloxoNG - IUS Community Packages for EL \$releasever (testing)
 baseurl=https://repo.ius.io/testing/\$releasever/\$basearch
 enabled=0
 gpgcheck=0
-exclude=mysql51* mysql56*  mariadb*
+exclude=mysql51* mysql56*  mariadb* postfix32u*
 
 # ==================================
 
@@ -313,6 +313,9 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 %{_sysconfdir}/yum.repos.d/kloxong.repo
 
 %changelog
+* Sat Jun 5 2021  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-2
+- Exclude postfix32u* as it conflicts with toaster packages 
+
 * Fri Jun 26 2020 John Parnell Pierce <john@luckytanuki.com> 
 - updating way testing repo is installed. This file has had yum entry for test repo removed
 
