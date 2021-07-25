@@ -76,7 +76,11 @@ $dbpass = '';
         'pure-ftpd',
         'exim',
 		'postfix',
-		'postfix32u'
+		'postfix32u',
+		'kloxong-webmail-squirrelmail',
+		'kloxong-webmail-telaen',
+		'kloxong-webmail-horde',
+		'kloxong-webmail-t-dah'
 		
     );
 

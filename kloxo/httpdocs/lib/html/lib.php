@@ -6464,6 +6464,18 @@ function setInitialServer($nolog = null)
 	$list = implode(" ", $packages);
 
 	exec("yum -y remove $list >/dev/null 2>&1");
+	
+	//Remove old webmail packages
+	$packages = array(
+		"kloxong-webmail-squirrelmail",
+		"kloxong-webmail-telaen",
+		"kloxong-webmail-horde",
+		"kloxong-webmail-t-dah"
+	);
+
+	$list = implode(" ", $packages);
+
+	exec("yum -y remove $list >/dev/null 2>&1");
 
 	$packages = array(
 		"kloxong-webmail-*.noarch",
