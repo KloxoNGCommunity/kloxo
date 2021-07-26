@@ -125,7 +125,7 @@ read -r -d '' for_upcp << EOF
 ._/                                                                          _/.
 ._/  - Then, go to 'Switch Program' to enable web and other programs         _/.    
 ._/                                                                          _/.
-._/  If php74 is not available then run the command:                         _/.
+._/  If php74 / php80 is not available then run the command:                 _/.
 ._/  # sudo sh /script/fix-service-list                                      _/.
 ._/  This should update the list of available php versions.                  _/.
 ._/                                                                          _/.

@@ -2,7 +2,6 @@ php_yum="yum install -y --skip-broken"
 
 php_exclude="--exclude=*debuginfo* --exclude=php*-xcache* --exclude=php*-eaccelerator* --exclude=php*-pecl-zendopcache* --exclude=php*-pgsql84* --exclude=php*-opcache* --exclude=php*-fpm-httpd* --exclude=php*-fpm-nginx* --exclude=php*-pecl-sphinx*"
 
-php53u_run="${php_yum} php53u-* ${php_exclude}"
 
 php54_run="${php_yum} php54-* --exclude=php*-mysql* --exclude=php*-pecl-memcache* ${php_exclude}"
 
@@ -27,3 +26,4 @@ php73w_run="${php_yum} php73w-* mod_php73u --exclude=php*-mysql* ${php_exclude}"
 
 php74_run="${php_yum} php74-* mod_php74 ${php_exclude}"
 
+php80_run="${php_yum} php80-* ${php_exclude}"
