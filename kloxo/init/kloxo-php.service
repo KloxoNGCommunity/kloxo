@@ -6,7 +6,7 @@ After=network.target remote-fs.target nss-lookup.target
 [Service]
 Type=forking
 PIDFile=/usr/local/lxlabs/kloxo/init/kloxo-phpcgi.pid
-ExecStart=/usr/local/lxlabs/kloxo/init/kloxo-phpcgi -y /usr/local/lxlabs/kloxo/init/kloxo-php-fpm.conf -c /opt/php56s/custom/php.ini -R
+ExecStart=/usr/local/lxlabs/kloxo/init/kloxo-phpcgi -y /usr/local/lxlabs/kloxo/init/kloxo-php-fpm.conf -c /opt/php74s/custom/php.ini -R
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s QUIT $MAINPID
 PrivateTmp=true

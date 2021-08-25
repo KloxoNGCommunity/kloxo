@@ -3,7 +3,7 @@
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
-	echo "  format: sh $0 <php53s/php54s>"
+	echo "  format: sh $0 <php56s/php70s/php71s/etc>"
 	echo " ------------------------------------------------------------------------------"
 	echo
 	exit
@@ -33,8 +33,8 @@ else
 	if [ -f ${INIT_DIR}/kloxo_php_active ] ; then
 		base_name="$(cat ${INIT_DIR}/kloxo_php_active)"
 	else
-		if [ ! -f /opt/php56s/custom/php-cli.sh ] ; then
-			base_name="php56s"
+		if [ ! -f /opt/php74s/custom/php-cli.sh ] ; then
+			base_name="php74s"
 		else
 			base_name="php54s"
 		fi

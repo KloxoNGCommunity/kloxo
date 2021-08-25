@@ -202,12 +202,13 @@ chown mysql:mysql /var/lib/mysqltmp
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
-if [ "$(yum list|grep ^'php56u')" != "" ] ; then
-	phpused="php56"
+# ToDo - probably needs reworking - currently falls back to php56 if php74 isn't available
+if [ "$(yum list|grep ^'php74')" != "" ] ; then
+	phpused="php74"
 #	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
-	sh /script/php-branch-installer ${phpused}u
+	sh /script/php-branch-installer ${phpused}
 else
-	phpused="php54"
+	phpused="php56"
 #	yum -y install ${phpused}-cli ${phpused}-mysqlnd ${phpused}-fpm
 	sh /script/php-branch-installer ${phpused}u
 fi

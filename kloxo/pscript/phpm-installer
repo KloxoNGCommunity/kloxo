@@ -32,7 +32,7 @@ fi
 
 if [ "${base_name}" != "php" ] ; then
 	if [ "$(grep 's' <<<${base_name})" == "" ] && [ "$(grep 'm' <<<${base_name})" == "" ] ; then
-		echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 70)"
+		echo "* WARNING: only for phpXYm or phpXYs (change XY to 52 - 74)"
 		exit
 	fi
 fi
