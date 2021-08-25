@@ -1,6 +1,7 @@
 #!/bin/sh
 
-if [ "$(rpm -qa qmail-toaster)" != "" ] ; then
+#if [ "$(rpm -qa qmail-toaster)" != "" ] ; then
+if [ "$(rpm -q qmail-toaster | grep -v 'package .* is not installed')" != "" ] ; then
 	echo
 	echo "Mail server already use qmail-toaster"
 	echo

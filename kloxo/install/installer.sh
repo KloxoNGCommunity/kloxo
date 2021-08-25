@@ -28,7 +28,10 @@ $main_repo_url="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
 $main_release_rpm="kloxong-release.rpm"
 $rpm_main_pck='kloxong'
 
-if [ "$(rpm -qa kloxong-release)" == "" ] ; then
+#if [ "$(rpm -qa kloxong-release)" == "" ] ; then
+if [ "$(rpm -q kloxong-release | grep -v 'package .* is not installed')" == "" ] ; then
+
+
 	cd /tmp
 	rpm -ivh $main_repo_url/$main_release_rpm >/dev/null 2>&1
 	rpm -ivh $main_release_rpm >/dev/null 2>&1
@@ -41,7 +44,8 @@ else
 	yum update kloxong-release -y >/dev/null 2>&1
 fi
 
-if [ "$(rpm -qa ^'$rpm_main_pck')" == "" ] ; then
+#if [ "$(rpm -qa ^'$rpm_main_pck')" == "" ] ; then
+if [ "$(rpm -q ^'$rpm_main_pck' | grep -v 'package .* is not installed')" == "" ] ; then
 	yum install -y $rpm_main_pck >/dev/null 2>&1
 fi
 

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-if [ "$(rpm -qa yum-presto)" == "" ] ; then
+#if [ "$(rpm -qa yum-presto)" == "" ] ; then
+if [ "$(rpm -q yum-presto | grep -v 'package .* is not installed')" == "" ] ; then
 	if [ "$(yum list *yum*|grep '@')" != "" ] ; then
 		yum install -y yum-presto deltarpm >/dev/null 2>&1
 	fi
@@ -18,7 +19,8 @@ if [ ! -L /usr/bin/chkconfig ] ; then
 	ln -s /sbin/chkconfig /usr/bin/chkconfig
 fi
 
-if [ "$(rpm -qa sudo)" == "" ] ; then
+#if [ "$(rpm -qa sudo)" == "" ] ; then
+if [ "$(rpm -q sudo | grep -v 'package .* is not installed')" == "" ] ; then
 	## Add sudo
 	yum install -y sudo >/dev/null 2>&1
 fi
@@ -43,11 +45,13 @@ if [ "$(uname -m)" == "x86_64" ] ; then
 	yum remove -y *.i386 *.i686 >/dev/null 2>&1
 fi
 
-if [ "$(rpm -qa redhat-lsb)" == "" ] ; then
+#if [ "$(rpm -qa redhat-lsb)" == "" ] ; then
+if [ "$(rpm -q redhat-lsb | grep -v 'package .* is not installed')" == "" ] ; then
 	yum install -y redhat-lsb >/dev/null 2>&1
 fi
 
-if [ "$(rpm -qa dhclient)" == "" ] ; then
+#if [ "$(rpm -qa dhclient)" == "" ] ; then
+if [ "$(rpm -q dhclient | grep -v 'package .* is not installed')" == "" ] ; then
 	yum install -y dhclient >/dev/null 2>&1
 fi
 
@@ -67,8 +71,8 @@ chmod 777 /var/run
 
 if [ "$(lxphp.exe -v 2>/dev/null | head -n 1 | cut -d " " -f 2 | cut -c 1,3)" == "54" ] ; then
 	if [ "$(yum list yum* | grep '@')" != "" ] ; then
-		sh /script/phpm-installer php56s >/dev/null 2>&1
-		sh /script/fixlxphpexe php56s >/dev/null 2>&1
+		sh /script/phpm-installer php74s >/dev/null 2>&1
+		sh /script/fixlxphpexe php74s >/dev/null 2>&1
 		sh /script/restart >/dev/null 2>&1
 	fi
 fi

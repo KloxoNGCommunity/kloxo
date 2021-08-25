@@ -157,6 +157,8 @@ php_pack=(
 			"php54w"
 			"php55w"
 			"php56w"
+			"php73"
+			"php74"
 		)	
 
 #yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and kloxong
@@ -223,8 +225,9 @@ install_main() {
 install_web() {
 	echo ">>> Install Web services <<<"
 
-	if [ "$(yum list httpd24u)" != "" ] ; then
-		if [ "$(rpm -qa httpd)" != "" ] ; then
+	if [ "$(yum -q list httpd24u)" != "" ] ; then
+#		if [ "$(rpm -qa httpd)" != "" ] ; then
+		if [ "$(rpm -q httpd | grep -v 'package .* is not installed')" != "" ] ; then
 			yum -y remove ${yum_rem_pack[@]}
 		fi
 
@@ -241,7 +244,8 @@ install_database() {
 	m='MariaDB'
 
 	for x in ${yum_database_pack[@]} ; do
-		if [ "$(rpm -qa ${x}-server)" != "" ] ; then
+#		if [ "$(rpm -qa ${x}-server)" != "" ] ; then
+		if [ "$(rpm -q ${x}-server) | grep -v 'package .* is not installed')" != "" ] ; then
 			m=${x}
 		fi
 	done
@@ -379,7 +383,9 @@ kloxo_install_step1() {
 	phpbranch='php'
 
 	for x in ${php_pack[@]} ; do
-		if [ "$(rpm -qa ${x})" != "" ] ; then
+#		if [ "$(rpm -qa ${x})" != "" ] ; then
+		if [ "$(rpm -q ${x} | grep -v 'package .* is not installed')" != "" ] ; then
+
 			phpbranch=${x}
 		fi
 	done
@@ -518,7 +524,9 @@ kloxo_prepare_kloxo_httpd_dir() {
 kloxo_install_before_bye() {
 	echo ">>> Setup default configure for Webserver <<<"
 
-	if [ "$(rpm -qa fetchmail)" == "" ] ; then
+#	if [ "$(rpm -qa fetchmail)" == "" ] ; then
+	if [ "$(rpm -q fetchmail | grep -v 'package .* is not installed')" == "" ] ; then
+
 		yum install fetchmail -y
 	fi
 	
@@ -593,7 +601,9 @@ kloxo_install_bye() {
 		echo "._/   memory usage. Or, go to 'admin->Webserver Configure'                   _/."
 		echo "._/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/."
 
-	if [ "$(rpm -qa qmail)" != "" ] ; then
+
+#	if [ "$(rpm -qa qmail)" != "" ] ; then
+	if [ "$(rpm -q qmail | grep -v 'package .* is not installed')" != "" ] ; then
 		echo "._/ - Run 'sh /script/convert-to-qmailtoaster' to convert qmail-toaster      _/."
 	fi
 

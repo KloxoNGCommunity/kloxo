@@ -62,11 +62,13 @@ fi
 
 #Preparing enviroment for packing
 
-if [ "$(rpm -qa|grep unzip)" == "" ] ; then
+#if [ "$(rpm -qa|grep unzip)" == "" ] ; then
+if [ "$(rpm -q unzip | grep -v 'package .* is not installed')" == "" ] ; then
 	yum install $yum_pack1 -y
 fi
 
-if [ "$(rpm -qa|grep wget)" == "" ] ; then
+#if [ "$(rpm -qa|grep wget)" == "" ] ; then
+if [ "$(rpm -q wget | grep -v 'package .* is not installed')" == "" ] ; then
 	yum install $yum_pack2 -y
 fi
 
