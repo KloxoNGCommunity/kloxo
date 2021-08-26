@@ -32,7 +32,7 @@
 
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
-Version: 0.1.2
+Version: 0.1.4
 Release: alpha.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
@@ -116,10 +116,17 @@ read -r -d '' for_upcp << EOF
 ._/                                                                          _/.
 ._/  - Run 'sh /script/upcp' to install completely                           _/.
 ._/                                                                          _/.
+._/ 	To use test repo use sh /script/upcp -t                              _/.
+._/                                                                          _/.
+._/                                                                          _/.
 ._/  - Some file downloads may not show a progress bar so please             _/.
 ._/    do not interrupt the process.                                         _/.
 ._/                                                                          _/.
 ._/  - Then, go to 'Switch Program' to enable web and other programs         _/.
+._/                                                                          _/.
+._/  If php74 / php80 is not available then run the command:                 _/.
+._/  # sudo sh /script/fix-service-list                                      _/.
+._/  This should update the list of available php versions.                  _/.
 ._/                                                                          _/.
 ._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
 EOF
@@ -161,6 +168,49 @@ EOF
 
 
 %changelog
+* Thu Aug 26 2021 John Parnell Pierce <john@luckytanuki.com> - 0.1.4-alpha
+- Remove old webmail packages
+- Block loading of postfix32u as this conflicts with toater packages
+- Ensue that old webmail packages are removed
+- add in php80
+- remove references to old php packages
+- Update suphp handler versions versions - though suPHP has been replaced by php-fpm and should be removed from kloxo
+- Testing faster but messier yum query method - probably needs to be turned into a function
+- Testing system php74 as default php and system php
+
+* Tue May 25 2021 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-1
+- test for null domain records when building DNS configuration files
+- allow list of remap ips for AWS or NAT hosting - include pairs public_ip:internal_ip in manualoutgoingips.flg file
+- add support for IUS php74
+- fix "overwriting servercert.pem when it is a symlink" problem - issue #67
+- fix permission problem for logrotate of httpd logs as required for new logrotate versions in centos 7
+- with Spamassassin - delete any spam with 10 or more stars - no matter what the spam retention settings
+
+* Sat Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-final
+- exclude install of kloxong-testing.rpm from wild card yum install
+- Fix gpg key
+- add line to change permission of log file folder for named to try to resolve issue #59
+- Add chown to set named as owner of /var/log/named
+- code fix for secondary check/detection of missmatch on repositories
+- Don't overwrite qmails certificate if it is a symlink - issue #67
+- Add Clamav resurce usage warning to Virus scanner select check box
+
+* Sat Jun 27 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-beta
+- update release numbers
+- update kloxoversion file
+- fix location of initial yum repo rpm. Should alway be located at https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/kloxong-release.rpm issue #56
+- refactored command line options in upcp script
+- added install yum test repo command line option (-t or -test) to upcp
+- kloxo-testing to be only installed by -t/--test option
+- remove conflicting obsoletes and conflicts from kloxo-release and kloxo-testing
+- remove test repo from kloxo-testing
+- remove all but the test repo from kloxo-release
+
+* Mon Mar 30 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.1-beta
+- Fix for httpd fails to start with missing mod_authn_alias.so error - issue #48
+
+* Fri Jan 24 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2-beta
+- update release numbers
 
 * Tue Dec 3 2019 John Parnell Pierce <john@luckytanuki.com> 
 - setup file to use copr autp build service
