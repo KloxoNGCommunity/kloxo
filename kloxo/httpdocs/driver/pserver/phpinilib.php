@@ -370,7 +370,7 @@ class phpini extends lxdb
 
 		$this->initialValue('phpfpm_type_flag', 'ondemand');
 
-		$this->initialValue('phpfpm_limit_extensions', '.php .php5 .php7');
+		$this->initialValue('phpfpm_limit_extensions', '.php .php5 .php7 .php8');
 	}
 
 	function initialValue($var, $val)
