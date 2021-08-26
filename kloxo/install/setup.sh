@@ -34,7 +34,7 @@ rpm_main_pck='kloxong'
 yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
 	vim-minimal subversion curl sudo expect"
 #this is for remove packages
-yum_pack2=" bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-* php*\
+yum_pack2=" bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-* php* php54* php55* php56*\
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
 		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
 # database specific pagkages
