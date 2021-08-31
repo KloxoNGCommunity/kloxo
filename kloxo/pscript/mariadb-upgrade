@@ -20,13 +20,39 @@ echo "*** Upgrade MariaDB from ${oldver} to ${newver} ***"
 if [ "${status}" == "12" ] ; then
 	echo "- Begin process..."
 
-	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/mratwork.repo
+	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/kloxong.repo
 	yum clean all
 	yum update MariaDB* -y
 	yum remove MariaDB-server -y
 	yum install MariaDB-server -y
 
 	'cp' -f /etc/my.cnf.d/server.cnf.rpmsave /etc/my.cnf.d/server.cnf
+	
+
+		if [ "$(grep 'log_error' '/etc/my.cnf.d/server.cnf')" == "" ]; then
+			sed -i -e's|\[mariadb\]|\[mariadb\]\n#Activate log file\nlog_error|g' /etc/my.cnf.d/server.cnf
+			echo "Add log_error to /etc/my.cnf.d/server.cnf"
+		else
+			echo "Already exist log_error"
+		fi
+
+	if [ "$(grep '[mariadb-${newver}]' '/etc/my.cnf.d/server.cnf')" == "" ]; then
+			echo "[mariadb-${newver}]" >>  /etc/my.cnf.d/server.cnf
+			echo "Add [mariadb-${newver}] to /etc/my.cnf.d/server.cnf"
+		else
+			echo "Already exist [mariadb-${newver}]"
+		fi
+
+	if [ "$(command -v systemctl)" != "" ] ; then
+		if [ "$(systemctl list-unit-files|grep ^mysql.service)" != "" ] ; then
+			systemctl enable mysql >/dev/null 2>&1
+			systemctl daemon-reload >/dev/null 2>&1
+		else
+			chkconfig mysql on 2>/dev/null
+		fi
+	else
+		chkconfig mysql on 2>/dev/null
+	fi
 
 	sh /script/restart-mysql
 
