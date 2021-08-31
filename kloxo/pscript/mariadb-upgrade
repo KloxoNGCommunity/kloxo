@@ -36,7 +36,7 @@ if [ "${status}" == "12" ] ; then
 			echo "Already exist log_error"
 		fi
 
-	if [ "$(grep '[mariadb-${newver}]' '/etc/my.cnf.d/server.cnf')" == "" ]; then
+	if [ "$(grep '\[mariadb-'${newver}'\]' '/etc/my.cnf.d/server.cnf')" == "" ]; then
 			echo "[mariadb-${newver}]" >>  /etc/my.cnf.d/server.cnf
 			echo "Add [mariadb-${newver}] to /etc/my.cnf.d/server.cnf"
 		else
