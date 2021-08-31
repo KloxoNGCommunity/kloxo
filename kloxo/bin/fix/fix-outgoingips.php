@@ -37,7 +37,7 @@ if (file_exists($flgfile)) {
 }	
 	
 if(!$process){
-		print("- No process because empty '{$flgfile}' exists\n");}
+		print("- No process because empty '{$flgfile}' exists\n");
 } else {
 	
 	foreach($list as $c) {
@@ -55,7 +55,7 @@ if(!$process){
 					} else {
 						$ip = $drec->param;
 					}
-					if(array_key_exists($ipmc,$ipmap)}{
+					if(array_key_exists($ipmc,$ipmap)){
 						print("  map '{$ip}' to $ipmap[$ip]\n");
 						$ip=$ipmap[$ip];
 					}

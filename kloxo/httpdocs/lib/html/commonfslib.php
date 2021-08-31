@@ -89,7 +89,7 @@ function lxshell_directory($dir, $cmd)
 {
 	global $gbl, $sgbl, $login, $ghtml; 
 
-	$dir = expand_real_root($dir);
+	$dir_real = expand_real_root($dir);
 	$username = '__system__';
 
 	$start = 2;
@@ -110,7 +110,7 @@ function lxshell_directory($dir, $cmd)
 
 	$cmd = getShellCommand($cmd, $arglist);
 
-	do_exec_system($username, $dir, $cmd, $out, $err, $ret, null);
+	do_exec_system($username, $dir_real, $cmd, $out, $err, $ret, null);
 
 	return $out;
 

@@ -171,7 +171,7 @@ function __cmd_desc_getproperty($p)
 
 		if (csa($nv, "-")) {
 			$cc = explode("-", $nv);
-			$result["v-$k"] = $o->{$cc[0]}->$cc[1];
+			$result["v-$k"] = $o->{$cc[0]}->{$cc[1]};
 
 			continue;
 		}
