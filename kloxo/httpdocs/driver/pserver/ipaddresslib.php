@@ -155,7 +155,7 @@ class Ipaddress extends Lxdb
 			$i++;
 		}
 
-		$result = "";
+		$result = [];
 
 		foreach ($list as $row) {
 			list($devname, $id) = explode("-", $row);
