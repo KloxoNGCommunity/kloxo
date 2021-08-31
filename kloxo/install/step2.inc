@@ -14,8 +14,8 @@ yum_httpd24_pack=(
 				  "httpd24u-tools"
 				  "httpd24u-filesystem"
 				  "httpd24u-mod_security2" 
-				  "mod24u_ssl"
-				  "mod24u_session"
+				  "httpd24u-mod_ssl"
+				  "httpd24u-mod_session"
 				  "mod24u_suphp"
 				  "mod24u_ruid2"
 				  "mod24u_fcgid"
@@ -384,7 +384,7 @@ kloxo_install_step1() {
 
 	for x in ${php_pack[@]} ; do
 #		if [ "$(rpm -qa ${x})" != "" ] ; then
-		if [ "$(rpm -q ${x} | grep -v 'package .* is not installed')" != "" ] ; then
+		if [ "$(rpm -q ${x}-cli | grep -v 'package .* is not installed')" != "" ] ; then
 
 			phpbranch=${x}
 		fi
