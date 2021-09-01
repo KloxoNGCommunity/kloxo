@@ -2,7 +2,7 @@
 
 $clearflag = false;
 
-if ($argv) {
+if ($argc > 1) {
 	$since = $argv[1];
 } else {
 	$since = false;

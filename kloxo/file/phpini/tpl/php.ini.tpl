@@ -16,6 +16,14 @@
 		}
 //	}
 
+	if (version_compare($phpver, "7.4.0", ">=")) {
+		$php74enable = '';
+		$php74disable = ';';
+	} else {
+		$php74enable = ';';
+		$php74disable = '';
+	}
+
 	if (version_compare($phpver, "5.4.0", ">=")) {
 		$php54enable = '';
 		$php54disable = ';';
@@ -132,7 +140,7 @@ memory_limit = <?php echo $memory_limit_flag; ?>
 
 allow_url_fopen = <?php echo $allow_url_fopen_flag; ?>
 
-allow_url_include = <?php echo $allow_url_include_flag; ?>
+<?php echo $php74disable; ?>allow_url_include = <?php echo $allow_url_include_flag; ?>
 
 session.save_path = <?php echo $session_save_path_flag; ?>
 
@@ -325,7 +333,7 @@ ibase.timeformat = "%H:%M:%S"
 
 [MySQL]
 mysql.allow_local_infile = On
-mysql.allow_persistent = On
+<?php echo $php74disable; ?>mysql.allow_persistent = On
 mysql.cache_size = 2000
 mysql.max_persistent = -1
 mysql.max_links = -1

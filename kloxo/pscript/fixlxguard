@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# repairs lxguard using data from logs.
+# argument in seconds to extend scan period
+
 'rm' -f /home/kloxo/lxguard/access.info
 'rm' -f /home/kloxo/lxguard/hitlist.info
 
