@@ -360,7 +360,7 @@ class phpini extends lxdb
 		$this->initialValue('max_input_vars_flag', '3000');
 
 		if (is_link("/etc/localtime")) {
-			$c = str_replace("/usr/share/zoneinfo/", "", readlink("/etc/localtime"));
+			$c = str_replace("../usr/share/zoneinfo/", "", readlink("/etc/localtime"));
 			$this->initialValue('date_timezone_flag', $c);
 		} else {
 			// it's mean php in panel itself and wrong. so changed
