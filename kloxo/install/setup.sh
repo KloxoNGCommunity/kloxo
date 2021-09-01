@@ -180,6 +180,32 @@ cd /
 
 yum -y install $yum_pack1 --skip-broken
 
+# Set MariaDB version
+# Ensure that MariaDB isn't downgraded during update process
+
+if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
+	yum install rpmdevtools -y
+fi
+
+if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
+			
+	MDBver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
+	
+	Refver="10.5"
+	
+	rpmdev-vercmp ${Refver} ${MDBver%.*}} >/dev/null 2>&1
+	
+	status="$?"
+
+	if [ "${status}" == "12" ] ; then
+
+		sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${MDBver%.*}/centos/\2:g" /etc/yum.repos.d/kloxong.repo
+		yum clean all
+	fi
+fi
+
+
+
 yum remove -y $yum_pack2
 rpm -e pure-ftpd --noscripts
 userdel postfix
@@ -188,6 +214,8 @@ rpm -e vpopmail-toaster --noscripts
 if id -u postfix >/dev/null 2>&1 ; then
 	userdel postfix
 fi
+
+
 
 #yum -y install mysql55 mysql55-server mysql55-libs
 yum -y install $yum_database_pack
