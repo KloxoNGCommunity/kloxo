@@ -8,7 +8,7 @@
 		exec("echo 'data.cdb: data\n\t/opt/djbdns/bin/tinydns-data' > " .
 			"{$datadir}/Makefile");
 	} elseif (file_exists("/bin/tinydns-data")) {
-		exec("echo 'data.cdb: data\n\t//bin/tinydns-data' > " .
+		exec("echo 'data.cdb: data\n\t/bin/tinydns-data' > " .
 			"{$datadir}/Makefile");
 	} else {
 		return;
