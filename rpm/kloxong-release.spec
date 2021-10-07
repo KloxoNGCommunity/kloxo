@@ -3,7 +3,7 @@
 Summary: KloxoNG release file and package configuration
 Name: kloxong-release
 Version: 0.1.1
-Release: 2
+Release: 3
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -13,6 +13,15 @@ Packager: John Parnell Pierce <john@luckytanuki.com>
 Vendor: Kloxo Next Generation Repository, http://%{repohost}/
 #BuildRequires: redhat-rpm-config
 Obsoletes: mratwork-release > 0 , mratwork-testing > 0
+
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+# switch to add and exclude repos for EL8
+%global with_pre8_repos  0
+%else
+%global with_pre8_repos  1
+%endif
+
+
 
 %description
 Kloxo Next Generation rpm release. This package contains yum configuration for the Kloxo Next Generation RPM Repository.
@@ -267,7 +276,8 @@ gpgcheck=0
 
 _EOF_
 
-%if 0%{?fedora} < 27 || 0%{?rhel} < 8
+
+%if %{with_pre8_repos}
 cat >> kloxong.repo << _EOF_
 # ==================================
 
@@ -321,6 +331,9 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 %{_sysconfdir}/yum.repos.d/kloxong.repo
 
 %changelog
+* Thu Oct 7 2021  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-3
+- Exclude IUS from Centos 8 version 
+
 * Sat Jun 5 2021  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-2
 - Exclude postfix32u* as it conflicts with toaster packages 
 
