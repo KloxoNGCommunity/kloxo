@@ -69,34 +69,6 @@ gpgcheck=0
 
 # ==================================
 
-# for Webtatic
-[kloxong-webtatic]
-name=KloxoNG - Webtatic for CentOS \$releasever - \$basearch
-#baseurl=http://repo.webtatic.com/yum/el\$releasever/\$basearch
-mirrorlist=http://mirror.webtatic.com/yum/el\$releasever/\$basearch/mirrorlist
-enabled=1
-gpgcheck=0
-exclude=mysql* nginx*
-
-[kloxong-webtatic-archive]
-name=KloxoNG - Webtatic for CentOS \$releasever Archive - \$basearch
-#baseurl=http://repo.webtatic.com/yum/el\$releasever-archive/\$basearch
-mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-archive/\$basearch/mirrorlist
-enabled=1
-gpgcheck=0
-exclude=mysql* nginx*
-
-[kloxong-webtatic-testing]
-name=KloxoNG - Webtatic for CentOS \$releasever Testing - \$basearch
-#baseurl=http://repo.webtatic.com/yum/el\$releasever/\$basearch
-mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-testing/\$basearch/mirrorlist
-enabled=1
-gpgcheck=0
-exclude=mysql* nginx*
-
-
-# ==================================
-
 [kloxong-remi]
 name=KloxoNG - Les RPM de remi pour Enterprise Linux \$releasever
 #baseurl=http://rpms.famillecollet.com/enterprise/\$releasever/remi/\$basearch/
@@ -114,20 +86,6 @@ mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=epel-\$releasever&arch
 enabled=1
 gpgcheck=0
 exclude=postfix* exim* ssmtp* pdns*
-
-# ==================================
-
-# for varnish
-[kloxong-varnish]
-name=KloxoNG - Varnish for EL \$releasever
-baseurl=https://packagecloud.io/varnishcache/varnish5/el/\$releasever/\$basearch
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-gpgkey=https://packagecloud.io/varnishcache/varnish5/gpgkey
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
 
 # ==================================
 
@@ -301,6 +259,48 @@ baseurl=https://repo.ius.io/testing/\$releasever/\$basearch
 enabled=0
 gpgcheck=0
 exclude=mysql51* mysql56*  mariadb* postfix32u*
+
+# ==================================
+
+# for Webtatic
+[kloxong-webtatic]
+name=KloxoNG - Webtatic for CentOS \$releasever - \$basearch
+#baseurl=http://repo.webtatic.com/yum/el\$releasever/\$basearch
+mirrorlist=http://mirror.webtatic.com/yum/el\$releasever/\$basearch/mirrorlist
+enabled=1
+gpgcheck=0
+exclude=mysql* nginx*
+
+[kloxong-webtatic-archive]
+name=KloxoNG - Webtatic for CentOS \$releasever Archive - \$basearch
+#baseurl=http://repo.webtatic.com/yum/el\$releasever-archive/\$basearch
+mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-archive/\$basearch/mirrorlist
+enabled=1
+gpgcheck=0
+exclude=mysql* nginx*
+
+[kloxong-webtatic-testing]
+name=KloxoNG - Webtatic for CentOS \$releasever Testing - \$basearch
+#baseurl=http://repo.webtatic.com/yum/el\$releasever/\$basearch
+mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-testing/\$basearch/mirrorlist
+enabled=1
+gpgcheck=0
+exclude=mysql* nginx*
+
+# ==================================
+
+# for varnish
+[kloxong-varnish]
+name=KloxoNG - Varnish for EL \$releasever
+baseurl=https://packagecloud.io/varnishcache/varnish5/el/\$releasever/\$basearch
+repo_gpgcheck=1
+gpgcheck=0
+enabled=1
+gpgkey=https://packagecloud.io/varnishcache/varnish5/gpgkey
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
 
 _EOF_
 
