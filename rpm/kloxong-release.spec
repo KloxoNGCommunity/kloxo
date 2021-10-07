@@ -60,29 +60,6 @@ gpgcheck=0
 
 # ==================================
 
-[kloxong-ius]
-name=KloxoNG - IUS Community Packages for EL \$releasever
-baseurl=https://repo.ius.io/\$releasever/\$basearch
-enabled=1
-gpgcheck=0
-exclude=mysql51* mysql56* mariadb* postfix32u*
-
-[kloxong-ius-archive]
-name=KloxoNG - IUS Community Packages for EL \$releasever (archive)
-baseurl=https://repo.ius.io/archive/\$releasever/\$basearch
-enabled=1
-gpgcheck=0
-exclude=mysql51* mysql56*  mariadb* postfix32u*
-
-[kloxong-ius-testing]
-name=KloxoNG - IUS Community Packages for EL \$releasever (testing)
-baseurl=https://repo.ius.io/testing/\$releasever/\$basearch
-enabled=0
-gpgcheck=0
-exclude=mysql51* mysql56*  mariadb* postfix32u*
-
-# ==================================
-
 # for Webtatic
 [kloxong-webtatic]
 name=KloxoNG - Webtatic for CentOS \$releasever - \$basearch
@@ -289,6 +266,37 @@ enabled=0
 gpgcheck=0
 
 _EOF_
+
+%if 0%{?fedora} < 27 || 0%{?rhel} < 8
+cat >> kloxong.repo << _EOF_
+# ==================================
+
+[kloxong-ius]
+name=KloxoNG - IUS Community Packages for EL \$releasever
+baseurl=https://repo.ius.io/\$releasever/\$basearch
+enabled=1
+gpgcheck=0
+exclude=mysql51* mysql56* mariadb* postfix32u*
+
+[kloxong-ius-archive]
+name=KloxoNG - IUS Community Packages for EL \$releasever (archive)
+baseurl=https://repo.ius.io/archive/\$releasever/\$basearch
+enabled=1
+gpgcheck=0
+exclude=mysql51* mysql56*  mariadb* postfix32u*
+
+[kloxong-ius-testing]
+name=KloxoNG - IUS Community Packages for EL \$releasever (testing)
+baseurl=https://repo.ius.io/testing/\$releasever/\$basearch
+enabled=0
+gpgcheck=0
+exclude=mysql51* mysql56*  mariadb* postfix32u*
+
+_EOF_
+
+%endif
+
+
 
 %install
 %{__rm} -rf %{buildroot}
