@@ -72,7 +72,7 @@ gpgcheck=0
 [kloxong-remi]
 name=KloxoNG - Les RPM de remi pour Enterprise Linux \$releasever
 #baseurl=http://rpms.famillecollet.com/enterprise/\$releasever/remi/\$basearch/
-mirrorlist=http://rpms.famillecollet.com/enterprise/\$releasever/remi/mirror
+mirrorlist=http://cdn.remirepo.net/enterprise/8/remi/$basearch/mirror
 enabled=0
 gpgcheck=0
 includepkgs=php-ffmpeg php-ioncube-loader

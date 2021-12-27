@@ -193,7 +193,7 @@ if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ]
 	
 	Refver="10.5"
 	
-	rpmdev-vercmp ${Refver} ${MDBver%.*}} >/dev/null 2>&1
+	rpmdev-vercmp ${Refver} ${MDBver%.*} >/dev/null 2>&1
 	
 	status="$?"
 
