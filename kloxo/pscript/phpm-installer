@@ -78,6 +78,8 @@ if yum list ${src_name}u-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}u"
 elif yum list ${src_name}-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}"
+elif yum list ${src_name}-php-cli >/dev/null 2>&1 ; then
+	pack_name="${src_name}"
 elif yum list ${src_name}w-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}w"
 else
