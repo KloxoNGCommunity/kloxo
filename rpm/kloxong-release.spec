@@ -3,7 +3,7 @@
 Summary: KloxoNG release file and package configuration
 Name: kloxong-release
 Version: 0.1.1
-Release: 3
+Release: 4
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -72,10 +72,14 @@ gpgcheck=0
 [kloxong-remi]
 name=KloxoNG - Les RPM de remi pour Enterprise Linux \$releasever
 #baseurl=http://rpms.famillecollet.com/enterprise/\$releasever/remi/\$basearch/
-mirrorlist=http://cdn.remirepo.net/enterprise/8/remi/$basearch/mirror
-enabled=0
+mirrorlist=http://cdn.remirepo.net/enterprise/8/remi/\$basearch/mirror
 gpgcheck=0
+%if %{with_pre8_repos}
+enabled=0
 includepkgs=php-ffmpeg php-ioncube-loader
+%else
+enabled=1
+%endif
 
 # ==================================
 
@@ -118,7 +122,8 @@ gpgcheck=0
 # for mariadb
 [kloxong-mariadb]
 name=KloxoNG - mariadb repo
-baseurl=http://yum.mariadb.org/10.5/centos/\$releasever/\$basearch/
+#baseurl=http://yum.mariadb.org/10.5/centos/\$releasever/\$basearch/
+baseurl=https://dlm.mariadb.com/repo/mariadb-server/10.6/yum/centos/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
 
