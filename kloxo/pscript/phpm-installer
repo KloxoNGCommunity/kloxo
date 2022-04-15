@@ -42,31 +42,37 @@ fi
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
 
+if [ "${base_name}" == "php" ] ; then
+	main_path=""
+else
+	main_path="/etc/opt/remi/${src_name}"
+fi
+
 if [ "${base_name}" == "php52s" ] || [ "${base_name}" == "php53s" ] || [ "${base_name}" == "php54s" ] ;  then
-	if [ "$(rpm -qa ${base_name}-cli)" != "" ] ; then
-		yum remove ${base_name}* -y -q >/dev/null 2>&1
-		'rpm' -e ${base_name}-fpm --noscripts >/dev/null 2>&1
+	if [ "$(rpm -qa ${src_name}-cli)" != "" ] ; then
+		yum remove ${src_name}* -y -q >/dev/null 2>&1
+		'rpm' -e ${src_name}-fpm --noscripts >/dev/null 2>&1
 	fi
 fi
 
 mkdir -p ${main_path} >/dev/null 2>&1
 
-cd ${main_path} >/dev/null 2>&1
+#cd ${main_path} >/dev/null 2>&1
 
-rm -f ${main_path}/${base_name}_install.log >/dev/null 2>&1
+rm -f ${main_path}/${src_name}_install.log >/dev/null 2>&1
 
 ## MR -- use 'echo "$var"' instead 'echo $var'!!!
 end_note="
 Note:
-- See '${main_path}/${base_name}_install.log' for detail install process
+- See '${main_path}/${src_name}_install.log' for detail install process
 - Example: copy 'xcache.nonini' to '_xcache.ini' or 'xcache_used.ini'
-           for enable 'xcache' module in '/etc/${base_name}/etc/php.d'
-- For config setup only, run 'sh /script/phpm-config-setup ${base_name}
+           for enable 'xcache' module in '/etc/${src_name}/etc/php.d'
+- For config setup only, run 'sh /script/phpm-config-setup ${src_name}
 "
 
 x="=== BEGIN '$1' install ==="
 echo $x
-echo $x >>${main_path}/${base_name}_install.log
+echo $x >>${main_path}/${src_name}_install.log
 
 if yum list ${src_name}u-cli >/dev/null 2>&1 ; then
 	pack_name="${src_name}u"
@@ -90,9 +96,9 @@ if [ "$(rpm -qa yum-utils)" == "" ] ; then
 	yum install yum-utils -y
 fi
 
-if [ -f ${main_path}/${base_name} ] ; then
+if [ -f ${main_path}/${src_name} ] ; then
 	## remove from previous process
-	'rm' -f ${main_path}/${base_name}
+	'rm' -f ${main_path}/${src_name}
 fi
 
 pack_verrel=$(repoquery --qf='%{version}-%{release}' ${pack_name}-cli)
@@ -113,7 +119,7 @@ if [ -f ${main_path}/version ] ; then
 		if [ "$?" != "12" ] ; then
 			x="- '${pack_name}-${pack_verrel}' already installed"
 			echo $x
-			echo $x >>${main_path}/${base_name}_install.log
+			echo $x >>${main_path}/${src_name}_install.log
 			. /script/counter-end.inc
 
 			cd /
@@ -132,15 +138,15 @@ fi
 
 x="- Dependencies rpms... Please wait!"
 echo $x
-echo $x >>${main_path}/${base_name}_install.log
+echo $x >>${main_path}/${src_name}_install.log
 
 c=""
 
 x="-- Check dependencies rpms"
 echo $x
-echo $x >>${main_path}/${base_name}_install.log
+echo $x >>${main_path}/${src_name}_install.log
 
-repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine|pear1u)(.*)'|sort -u > ${main_path}/dependencies
+repoquery --qf='%{name}' --requires --resolve ${pack_name} ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine|pear1u)(.*)'|sort -u > ${main_path}/dependencies
 
 if [ "$(yum list|grep libmemcached10)" != "" ] ; then
 	libm1=$(yum info libmemcached10${v}|grep Version|awk '{print $3}')
@@ -163,51 +169,54 @@ fi
 
 x="-- Install dependencies rpms"
 echo $x
-echo $x >>${main_path}/${base_name}_install.log
-yum -y install $(cat ${main_path}/dependencies) --skip-broken >>${main_path}/${base_name}_install.log
+echo $x >>${main_path}/${src_name}_install.log
+yum -y install $(cat ${main_path}/dependencies) --skip-broken >>${main_path}/${src_name}_install.log
 
-x="- Download all rpms (not including debuginfo)... Please wait!"
+x="- Intall php packages... Please wait!"
 echo $x
-echo $x >>${main_path}/${base_name}_install.log
+echo $x >>${main_path}/${src_name}_install.log
 
 if [ -f ${main_path}/etc ] ; then
 	find ${main_path}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
-yumdownloader ${pack_name}-* mod_-${pack_name} -x *debuginfo* >>${main_path}/${base_name}_install.log
+#yumdownloader ${pack_name}-* mod_-${pack_name} -x *debuginfo* >>${main_path}/${src_name}_install.log
+
+yum install ${pack_name} ${pack_name}-* mod_-${pack_name} >>${main_path}/${src_name}_install.log
+
 #'rm' -rf *-debuginfo*
 
 #rpmrebuild -v --change-spec-whole='sed -e "s/^Prefix:.*/Prefix: \//"' \
 #	--change-spec-whole='sed -e "s/^\(.*:[ ]\+\..*\)/#ERROR \1/"' \
 #	--notest-install -p -d ${main_path}/rpms-patch ${main_path}/rpms-original \
-#	>>${main_path}/${base_name}_install.log
+#	>>${main_path}/${src_name}_install.log
 #rpm -i --dbpath /rpm force --root ${main_path} --nopre --nopost --nodeps ${main_path}/rpms-patch \
-#	>>${main_path}/${base_name}_install.log
+#	>>${main_path}/${src_name}_install.log
 
 
-x="- Extract all rpms to '${main_path}'"
-echo $x
-echo $x >>${main_path}/${base_name}_install.log
+#x="- Extract all rpms to '${main_path}'"
+#echo $x
+#echo $x >>${main_path}/${src_name}_install.log
 
-for i in $(ls ./*.rpm) ; do
-	rpm2cpio $i | cpio -idmv >/dev/null 2>$1
-done
+#for i in $(ls ./*.rpm) ; do
+#	rpm2cpio $i | cpio -idmv >/dev/null 2>$1
+#done
 
-'rm' -rf ./*.rpm
+#'rm' -rf ./*.rpm
 
 cd /
 sh /script/phpm-config-setup $base_name
 
-if [ -f ${main_path}/${base_name} ] ; then
-	'rm' -f ${main_path}/${base_name}
+if [ -f ${main_path}/${src_name} ] ; then
+	'rm' -f ${main_path}/${src_name}
 fi
 
-#sh /script/set-php-fpm $base_name
+#sh /script/set-php-fpm $src_name
 sh /script/enable-php-fpm
 
 x="=== END '$1' install ==="
 echo $x
-echo $x >>${main_path}/${base_name}_install.log
+echo $x >>${main_path}/${src_name}_install.log
 
 . /script/counter-end.inc
 

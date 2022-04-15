@@ -6,8 +6,8 @@ else
 	action=""
 fi
 
-for i in $(ls -ld /opt/php* | awk '{print $9}' | sed 's:/opt/::g' | tr '\n' ' ') ; do
-	if [ "$(readlink /usr/bin/${i}-cli)" == "/opt/${i}/custom/php-cli.sh" ] ; then
+for i in $(ls -ld /etc/opt/remi/php* | awk '{print $9}' | sed 's:/etc/opt/remi/::g' | tr '\n' ' ') ; do
+	if [ "$(readlink /usr/bin/${i}-cli)" == "/etc/opt/remi/${i}/custom/php-cli.sh" ] ; then
 		sh /script/phpm-installer $i $action
 	fi
 done

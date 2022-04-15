@@ -24,11 +24,7 @@ fi
 
 base_name="${1}"
 
-if [ "${base_name}" == "php" ] ; then
-	main_path=""
-else
-	main_path="/opt/${base_name}"
-fi
+
 
 if [ "${base_name}" != "php" ] ; then
 	if [ "$(grep 's' <<<${base_name})" == "" ] && [ "$(grep 'm' <<<${base_name})" == "" ] ; then
@@ -40,6 +36,13 @@ fi
 ## MR -- remove last char (default m or s)
 src_name="${base_name%?}"
 
+if [ "${base_name}" == "php" ] ; then
+	etc_path=""
+else
+	etc_path="/etc/opt/remi/${src_name}"
+	main_path="/opt/remi/${src_name}/root"
+fi
+
 if [ "$(uname -m)" == "x86_64" ] ; then
 	uname_m="64"
 else
@@ -48,34 +51,34 @@ fi
 
 x="- Disable certain modules (rename to .nonini) in 'php.d' and 'php-zts.d'"
 echo ${x}
-echo ${x} >>${main_path}/${base_name}_install.log
+echo ${x} >>${etc_path}/${base_name}_install.log
 
 for j in php.d php-zts.d ; do
-	if [ -d ${main_path}/etc/${j} ] ; then
-		for a in $(dir -l ${main_path}/etc/${j}|egrep "(\.ini|\.nonini)$"|awk '{print $9}'|tr '\n' ' ') ; do
+	if [ -d ${etc_path}/${j} ] ; then
+		for a in $(dir -l ${etc_path}/${j}|egrep "(\.ini|\.nonini)$"|awk '{print $9}'|tr '\n' ' ') ; do
 			x="-- Fix 'extension' path of '${a}' in '/etc/${base_name}/etc/${j}'"
 			echo $x
-			echo $x >>${main_path}/${base_name}_install.log
+			echo $x >>${etc_path}/${src_name}_install.log
 
 			## MR -- remove path in 'extension='
-			sed -i 's:extension = /:extension=/:' ${main_path}/etc/${j}/${a}
+			sed -i 's:extension = /:extension=/:' ${etc_path}/${j}/${a}
 
-			if [ "$(cat ${main_path}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=')" == "" ] ; then
-				sed -ri 's:extension=/(.*)/:extension=:g' ${main_path}/etc/${j}/${a}
+			if [ "$(cat ${etc_path}/${j}/${a} 2>/dev/null|grep 'zend_extension=')" == "" ] ; then
+				sed -ri 's:extension=/(.*)/:extension=:g' ${etc_path}/${j}/${a}
 			else
-				if [ "$(cat ${main_path}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=${main_path}')" != "" ] ; then
-					sed -ri 's:extension=/(.*)/:extension=:g' ${main_path}/etc/${j}/${a}
-				elif [ "$(cat ${main_path}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=/usr/lib')" != "" ] ; then
-					sed -ri 's:extension=/(.*)/:extension=:g' ${main_path}/etc/${j}/${a}
+				if [ "$(cat ${etc_path}/${j}/${a} 2>/dev/null|grep 'zend_extension=${main_path}')" != "" ] ; then
+					sed -ri 's:extension=/(.*)/:extension=:g' ${etc_path}/${j}/${a}
+				elif [ "$(cat ${etc_path}/${j}/${a} 2>/dev/null|grep 'zend_extension=/usr/lib')" != "" ] ; then
+					sed -ri 's:extension=/(.*)/:extension=:g' ${etc_path}/${j}/${a}
 				fi
 			fi
 
 			## MR -- re-add path in 'zend_extension='
-			if [ "$(cat ${main_path}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=/')" == "" ] ; then
-				sed -i 's:zend_extension=:zend_extension='${main_path}'/usr/lib'${uname_m}'/php/modules/:' ${main_path}/etc/${j}/${a}
+			if [ "$(cat ${etc_path}/${j}/${a} 2>/dev/null|grep 'zend_extension=/')" == "" ] ; then
+				sed -i 's:zend_extension=:zend_extension='${main_path}'/usr/lib'${uname_m}'/php/modules/:' ${etc_path}/${j}/${a}
 			else
-				if [ "$(cat ${main_path}/etc/${j}/${a} 2>/dev/null|grep 'zend_extension=/opt/')" == "" ] ; then
-					sed -i 's:zend_extension=/:zend_extension='${main_path}'/usr/lib'${uname_m}'/php/modules/:' ${main_path}/etc/${j}/${a}
+				if [ "$(cat ${etc_path}/${j}/${a} 2>/dev/null|grep 'zend_extension=/opt/')" == "" ] ; then
+					sed -i 's:zend_extension=/:zend_extension='${main_path}'/usr/lib'${uname_m}'/php/modules/:' ${etc_path}/${j}/${a}
 				fi
 			fi
 		done
@@ -83,29 +86,29 @@ for j in php.d php-zts.d ; do
 done
 
 for j in php.d php-zts.d ; do
-	if [ -d ${main_path}/etc/${j} ] ; then
-		if [ -d ${main_path}/etc/${j} ] ; then
+	if [ -d ${etc_path}/${j} ] ; then
+		if [ -d ${etc_path}/${j} ] ; then
 			for i in dba dbase eaccelerator ioncube pdo_dblib pdo_odbc pdo_pgsql pgsql suhosin odbc mongo \
 				apc apcu imagick interbase ioncube-loader sourceguardian memcache memcached \
 				z-memcached mssql debug pdo_dblib pdo_firebird xdebug xcache opcache lzf redis enchant wddx sphinx amqp ; do
 
-				a=$(dir -l ${main_path}/etc/${j}|grep "${i}_unused\.nonini"|awk '{print $9}'|tr '\n' ' ')
+				a=$(dir -l ${etc_path}/${j}|grep "${i}_unused\.nonini"|awk '{print $9}'|tr '\n' ' ')
 
 				for b in $a ; do
-					mv -f ${main_path}/etc/${j}/${b} ${main_path}/etc/${j}/${b%_unused.nonini}.nonini
+					mv -f ${etc_path}/${j}/${b} ${etc_path}/${j}/${b%_unused.nonini}.nonini
 				done
 
-				a=$(dir -l ${main_path}/etc/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ')
+				a=$(dir -l ${etc_path}/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ')
 
 				for b in $a ; do
-					c=$(dir -l ${main_path}/etc/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ');
+					c=$(dir -l ${etc_path}/${j}|grep "${i}\.ini"|awk '{print $9}'|tr '\n' ' ');
 
 					for d in $c ; do
 						x="-- Disable '${i}' in '/etc/${base_name}/etc/${j}'"
 						echo $x
-						echo $x >>${main_path}/${base_name}_install.log
+						echo $x >>${etc_path}/${src_name}_install.log
 
-						'mv' -f ${main_path}/etc/${j}/${d} ${main_path}/etc/${j}/${d%.ini}.nonini
+						'mv' -f ${etc_path}/${j}/${d} ${etc_path}/${j}/${d%.ini}.nonini
 					done
 				done
 
@@ -113,8 +116,8 @@ for j in php.d php-zts.d ; do
 
 			## MR -- exception for php54
 			if [ "${base_name}" == "php54m" ] || [ "${base_name}" == "php54s" ] ; then
-				if [ -f ${main_path}/etc/${j}/mysql.ini ] ; then
-					'mv' -f ${main_path}/etc/${j}/mysql.ini ${main_path}/etc/${j}/mysql_unused.nonini
+				if [ -f ${etc_path}/${j}/mysql.ini ] ; then
+					'mv' -f ${etc_path}/${j}/mysql.ini ${etc_path}/${j}/mysql_unused.nonini
 				fi
 			fi
 		fi
@@ -122,42 +125,42 @@ for j in php.d php-zts.d ; do
 done
 
 for j in php.d php-zts.d ; do
-	if [ -d ${main_path}/etc/${j} ] ; then
-		for i in $(dir -l ${main_path}/etc/${j}|grep "\.ini"|awk '{print $9}') ; do
-			if [ -f ${main_path}/etc/${j}/${i%.ini}_unused.nonini ] ; then
+	if [ -d ${etc_path}/${j} ] ; then
+		for i in $(dir -l ${etc_path}/${j}|grep "\.ini"|awk '{print $9}') ; do
+			if [ -f ${etc_path}/${j}/${i%.ini}_unused.nonini ] ; then
 				x="-- Remove '${i}' in '/etc/${base_name}/etc/${j}'"
 				echo $x
-				echo $x >>${main_path}/${base_name}_install.log
+				echo $x >>${etc_path}/${src_name}_install.log
 
-				'rm' -f ${main_path}/etc/${j}/${i}
+				'rm' -f ${etc_path}/${j}/${i}
 			fi
 		done
 	fi
 done
 
 for j in php.d php-zts.d ; do
-	if [ -d ${main_path}/etc/${j} ] ; then
-		for i in $(dir -l ${main_path}/etc/${j}|grep "\.nonini"|awk '{print $9}') ; do
-			if [ -f ${main_path}/etc/${j}/${i%.nonini}_used.ini ] ; then
+	if [ -d ${etc_path}/${j} ] ; then
+		for i in $(dir -l ${etc_path}/${j}|grep "\.nonini"|awk '{print $9}') ; do
+			if [ -f ${etc_path}/${j}/${i%.nonini}_used.ini ] ; then
 				x="-- Remove '${i}' in '/etc/${base_name}/etc/${j}'"
 				echo $x
-				echo $x >>${main_path}/${base_name}_install.log
+				echo $x >>${etc_path}/${base_name}_install.log
 
-				'rm' -f ${main_path}/etc/${j}/${i}
+				'rm' -f ${etc_path}/${j}/${i}
 			fi
 		done
 	fi
 done
 
-cd ${main_path}
+cd ${etc_path}
 
-mkdir -p ${main_path}/custom >/dev/null 2>&1
+mkdir -p ${etc_path}/custom >/dev/null 2>&1
 
-x="- Copy certain files to '${main_path}/custom'"
+x="- Copy certain files to '${etc_path}/custom'"
 echo ${x}
-echo ${x} >>${main_path}/${base_name}_install.log
+echo ${x} >>${etc_path}/${src_name}_install.log
 
-'rm' -f  ${main_path}/custom/php5* >/dev/null 2>&1
+'rm' -f  ${etc_path}/custom/php5* >/dev/null 2>&1
 
 kpath="/usr/local/lxlabs/kloxo"
 eripath="/etc/rc.d/init.d"
@@ -165,118 +168,118 @@ ulspath="/usr/lib/systemd/system"
 
 x="-- Processing for 'php.ini.base'"
 echo ${x}
-echo ${x} >>${main_path}/${base_name}_install.log
+echo ${x} >>${etc_path}/${src_name}_install.log
 
-'rm' -f  ${main_path}/custom/php5* >/dev/null 2>&1
+'rm' -f  ${etc_path}/custom/php5* >/dev/null 2>&1
 
 if [ -f ${kpath}/init/custom.php.ini.base ] ; then
-	'cp' -rf ${kpath}/init/custom.php.ini.base ${main_path}/custom/php.ini >/dev/null 2>&1
+	'cp' -rf ${kpath}/init/custom.php.ini.base ${etc_path}/custom/php.ini >/dev/null 2>&1
 
 	if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
-		'cp' -rf ${kpath}/init/custom.php.ini.base ${main_path}/custom/php-fpm.ini >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/custom.php.ini.base ${etc_path}/custom/php-fpm.ini >/dev/null 2>&1
 	fi
 else
-	'cp' -rf ${kpath}/init/php.ini.base ${main_path}/custom/php.ini >/dev/null 2>&1
+	'cp' -rf ${kpath}/init/php.ini.base ${etc_path}/custom/php.ini >/dev/null 2>&1
 
 	if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
-		'cp' -rf ${kpath}/init/php.ini.base ${main_path}/custom/php-fpm.ini >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/php.ini.base ${etc_path}/custom/php-fpm.ini >/dev/null 2>&1
 	fi
 fi
 
-sed -i 's:__extension_dir__:'${main_path}'/usr/lib/php/modules:' ${main_path}/custom/php.ini
+sed -i 's:__extension_dir__:'${etc_path}'/usr/lib/php/modules:' ${etc_path}/custom/php.ini
 
 if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
-	sed -i 's:__extension_dir__:/opt/'${base_name}'/usr/lib/php/modules:' ${main_path}/custom/php-fpm.ini
+	sed -i 's:__extension_dir__:/opt/'${src_name}'/usr/lib/php/modules:' ${etc_path}/custom/php-fpm.ini
 fi
 
 if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
-	sed -i 's:__disable_functions__::' ${main_path}/custom/php.ini
-	sed -i 's:__for_phpm__::' ${main_path}/custom/php.ini
-	sed -i 's:__for_phps__:;:' ${main_path}/custom/php.ini
-	sed -i 's:__session_save_path__:/var/lib/php/session:' ${main_path}/custom/php.ini
+	sed -i 's:__disable_functions__::' ${etc_path}/custom/php.ini
+	sed -i 's:__for_phpm__::' ${etc_path}/custom/php.ini
+	sed -i 's:__for_phps__:;:' ${etc_path}/custom/php.ini
+	sed -i 's:__session_save_path__:/var/lib/php/session:' ${etc_path}/custom/php.ini
 
-	sed -i 's:__disable_functions__:;:' ${main_path}/custom/php-fpm.ini
-	sed -i 's:__for_phpm__::' ${main_path}/custom/php-fpm.ini
-	sed -i 's:__for_phps__:;:' ${main_path}/custom/php-fpm.ini
-	sed -i 's:__session_save_path__:/var/lib/php/session:' ${main_path}/custom/php-fpm.ini
+	sed -i 's:__disable_functions__:;:' ${etc_path}/custom/php-fpm.ini
+	sed -i 's:__for_phpm__::' ${etc_path}/custom/php-fpm.ini
+	sed -i 's:__for_phps__:;:' ${etc_path}/custom/php-fpm.ini
+	sed -i 's:__session_save_path__:/var/lib/php/session:' ${etc_path}/custom/php-fpm.ini
 
-	sed -i 's:/var/log/php-error.log:/var/log/'${base_name}'-error.log:' ${main_path}/custom/php-fpm.ini
-	sed -i 's:/var/log/php-error.log:/var/log/'${base_name}'-error.log:' ${main_path}/custom/php.ini
+	sed -i 's:/var/log/php-error.log:/var/log/'${src_name}'-error.log:' ${etc_path}/custom/php-fpm.ini
+	sed -i 's:/var/log/php-error.log:/var/log/'${src_name}'-error.log:' ${etc_path}/custom/php.ini
 else
-	sed -i 's:__disable_functions__:;:' ${main_path}/custom/php.ini
-	sed -i 's:__for_phpm__:;:' ${main_path}/custom/php.ini
-	sed -i 's:__for_phps__::' ${main_path}/custom/php.ini
-	sed -i 's:__session_save_path__:/usr/local/lxlabs/kloxo/session:' ${main_path}/custom/php.ini
+	sed -i 's:__disable_functions__:;:' ${etc_path}/custom/php.ini
+	sed -i 's:__for_phpm__:;:' ${etc_path}/custom/php.ini
+	sed -i 's:__for_phps__::' ${etc_path}/custom/php.ini
+	sed -i 's:__session_save_path__:/usr/local/lxlabs/kloxo/session:' ${etc_path}/custom/php.ini
 
-	'cp' -rf ${main_path}/custom/php.ini ${main_path}/custom/php-fpm.ini >/dev/null 2>&1
+	'cp' -rf ${etc_path}/custom/php.ini ${etc_path}/custom/php-fpm.ini >/dev/null 2>&1
 
 
-	sed -i 's:/var/log/php-error.log:/usr/local/lxlabs/kloxo/log/php-error.log:' ${main_path}/custom/php-fpm.ini
-	sed -i 's:/var/log/php-error.log:/usr/local/lxlabs/kloxo/log/php-error.log:' ${main_path}/custom/php.ini
+	sed -i 's:/var/log/php-error.log:/usr/local/lxlabs/kloxo/log/php-error.log:' ${etc_path}/custom/php-fpm.ini
+	sed -i 's:/var/log/php-error.log:/usr/local/lxlabs/kloxo/log/php-error.log:' ${etc_path}/custom/php.ini
 fi
 
 x="-- Processing for 'php-cgi.sh/php-cli.sh/php-fpm.sh/php-ls.sh'"
 echo ${x}
-echo ${x} >>${main_path}/${base_name}_install.log
+echo ${x} >>${etc_path}/${src_name}_install.log
 
 for i in php-cgi.sh php-cli.sh php-fpm.sh php-ls.sh ; do
 	if [ -f ${kpath}/init/custom.${i}.base ] ; then
-		'cp' -rf ${kpath}/init/custom.${i}.base ${main_path}/custom/${i} >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/custom.${i}.base ${etc_path}/custom/${i} >/dev/null 2>&1
 	else
-		'cp' -rf ${kpath}/init/${i}.base ${main_path}/custom/${i} >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/${i}.base ${etc_path}/custom/${i} >/dev/null 2>&1
 	fi
 
-	sed -i 's:__phpm__:'${base_name}':' ${main_path}/custom/${i} >/dev/null 2>&1
+	sed -i 's:__phpm__:'${base_name}':' ${etc_path}/custom/${i} >/dev/null 2>&1
 done
 
 x="-- Processing for 'php52-fpm.conf.base/php53-fpm.conf.base'"
 echo ${x}
-echo ${x} >>${main_path}/${base_name}_install.log
+echo ${x} >>${etc_path}/${src_name}_install.log
 
 if [ "${base_name}" == "php52s" ] || [ "${base_name}" == "php52m" ] ; then
 	if [ -f ${kpath}/init/custom.php52-fpm.conf.base ] ; then
-		'cp' -rf ${kpath}/init/custom.php52-fpm.conf.base ${main_path}/custom/php-fpm.conf >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/custom.php52-fpm.conf.base ${etc_path}/custom/php-fpm.conf >/dev/null 2>&1
 	else
-		'cp' -rf ${kpath}/init/php52-fpm.conf.base ${main_path}/custom/php-fpm.conf >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/php52-fpm.conf.base ${etc_path}/custom/php-fpm.conf >/dev/null 2>&1
 	fi
 
-	sed -i 's:/var/run/php-fpm.pid:/var/run/'${base_name}'-fpm.pid:' ${main_path}/custom/php-fpm.conf >/dev/null 2>&1
+	sed -i 's:/var/run/php-fpm.pid:/var/run/'${src_name}'-fpm.pid:' ${etc_path}/custom/php-fpm.conf >/dev/null 2>&1
 else
 	if [ -f ${kpath}/init/custom.php53-fpm.conf.base ] ; then
-		'cp' -rf ${kpath}/init/custom.php53-fpm.conf.base ${main_path}/custom/php-fpm.conf >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/custom.php53-fpm.conf.base ${etc_path}/custom/php-fpm.conf >/dev/null 2>&1
 	else
-		'cp' -rf ${kpath}/init/php53-fpm.conf.base ${main_path}/custom/php-fpm.conf >/dev/null 2>&1
+		'cp' -rf ${kpath}/init/php53-fpm.conf.base ${etc_path}/custom/php-fpm.conf >/dev/null 2>&1
 	fi
 
-	sed -i 's:/var/run/php-fpm/php-fpm.pid:/var/run/php-fpm/'${base_name}'-fpm.pid:' ${main_path}/custom/php-fpm.conf
+	sed -i 's:/var/run/php-fpm/php-fpm.pid:/var/run/php-fpm/'${src_name}'-fpm.pid:' ${etc_path}/custom/php-fpm.conf
 fi
 
 x="- Setting .sh to 755"
 echo ${x}
-echo ${x} >>${main_path}/${base_name}_install.log
+echo ${x} >>${etc_path}/${src_name}_install.log
 
-chmod 755 ${main_path}/custom/*.sh
+chmod 755 ${etc_path}/custom/*.sh
 
-if [ "${base_name}" != "php" ] ; then
+if [ "${src_name}" != "php" ] ; then
 	x="- Creating .sh symlink"
 	echo ${x}
-	echo ${x} >>${main_path}/${base_name}_install.log
+	echo ${x} >>${etc_path}/${src_name}_install.log
 
 	for i in cgi cli ls fpm ; do
-		if [ -f ${main_path}/custom/php-${i}.sh ] ;  then
-			x="-- From '${main_path}/custom/php-${i}.sh' to '/usr/bin/${base_name}-${i}'"
+		if [ -f ${etc_path}/custom/php-${i}.sh ] ;  then
+			x="-- From '${etc_path}/custom/php-${i}.sh' to '/usr/bin/${base_name}-${i}'"
 			echo ${x}
-			echo ${x} >>${main_path}/${base_name}_install.log
+			echo ${x} >>${etc_path}/${src_name}_install.log
 
 			'rm' -f /usr/bin/${base_name}-${i} >/dev/null 2>&1
-			ln -sf ${main_path}/custom/php-${i}.sh /usr/bin/${base_name}-${i} >/dev/null 2>&1
+			ln -sf ${etc_path}/custom/php-${i}.sh /usr/bin/${base_name}-${i} >/dev/null 2>&1
 
-			x="-- From '${main_path}/custom/php-${i}.sh' to '/usr/sbin/${base_name}-${i}'"
+			x="-- From '${etc_path}/custom/php-${i}.sh' to '/usr/sbin/${base_name}-${i}'"
 			echo ${x}
-			echo ${x} >>${main_path}/${base_name}_install.log
+			echo ${x} >>${etc_path}/${base_name}_install.log
 
 			'rm' -f /usr/sbin/${base_name}-${i} >/dev/null 2>&1
-			ln -sf ${main_path}/custom/php-${i}.sh /usr/sbin/${base_name}-${i} >/dev/null 2>&1
+			ln -sf ${etc_path}/custom/php-${i}.sh /usr/sbin/${base_name}-${i} >/dev/null 2>&1
 		fi
 	done
 fi
@@ -284,7 +287,7 @@ fi
 if [ "${uname_m}" == "64" ] ; then
 	x="- Create symlink from ${main_path}/usr/lib64 to ${main_path}/usr/lib"
 	echo ${x}
-	echo ${x} >>${main_path}/${base_name}_install.log
+	echo ${x} >>${etc_path}/${src_name}_install.log
 
 	if [ -d ${main_path}/usr/lib ] ; then
 		ln -sf ${main_path}/usr/lib64/php ${main_path}/usr/lib/php >/dev/null 2>&1
@@ -297,8 +300,8 @@ if [ "${uname_m}" == "64" ] ; then
 	fi
 fi
 
-if [ -f ${main_path}/${base_name} ] ; then
-	'rm' -f ${main_path}/${base_name}
+if [ -f ${etc_path}/${src_name} ] ; then
+	'rm' -f ${etc_path}/${src_name}
 fi
 
 if [ -f ${kpath}/init/custom.phpm-fpm.init.base ] ; then
@@ -343,23 +346,23 @@ else
 		#if [ "$(command -v systemctl)" != "" ] ; then
 		#if [ "$(ps --no-headers -o comm 1)" == "systemd" ] ; then
 		if [ "${stype}" == "systemd" ] ; then
-			'cp' -f ${mulsfile} ${ulspath}/${base_name}-fpm.service
-			sed -i 's:__custom_name__:'${base_name}':g' ${ulspath}/${base_name}-fpm.service
+			'cp' -f ${mulsfile} ${ulspath}/${src_name}-fpm.service
+			sed -i 's:__custom_name__:'${src_name}':g' ${ulspath}/${src_name}-fpm.service
 			chown root:root ${ulspath}/php-fpm.service
-			chmod 0644 ${ulspath}/${base_name}-fpm.service
+			chmod 0644 ${ulspath}/${src_name}-fpm.service
 			systemctl daemon-reload
 		else
-			'cp' -f ${merifile} ${eripath}/${base_name}-fpm
-			sed -i 's:__custom_name__:'${base_name}':g' ${eripath}/${base_name}-fpm
-			chown root:root ${eripath}/${base_name}-fpm
-			chmod 0755 ${eripath}/${base_name}-fpm
+			'cp' -f ${merifile} ${eripath}/${src_name}-fpm
+			sed -i 's:__custom_name__:'${src_name}':g' ${eripath}/${src_name}-fpm
+			chown root:root ${eripath}/${src_name}-fpm
+			chmod 0755 ${eripath}/${src_name}-fpm
 		fi
 	fi
 fi
 
 if [ "${base_name}" == "php" ] ; then
-	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${main_path}/etc/php-fpm.d/www.conf >/dev/null 2>&1
-	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${main_path}/etc/php-fpm.d/default.conf >/dev/null 2>&1
+	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${etc_path}/php-fpm.d/www.conf >/dev/null 2>&1
+	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${etc_path}/php-fpm.d/default.conf >/dev/null 2>&1
 
 	fpmpath="/opt/configs/php-fpm/conf/php"
 

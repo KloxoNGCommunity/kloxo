@@ -200,6 +200,9 @@ if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ]
 	if [ "${status}" == "12" ] ; then
 
 		sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${MDBver%.*}/centos/\2:g" /etc/yum.repos.d/kloxong.repo
+		
+		sed -i -e "s:dlm.mariadb.com/repo/mariadb-server/\(.*\)/yum/centos/\(.*\):dlm.mariadb.com/repo/mariadb-server/${MDBver%.*}/yum/centos/\2:g" /etc/yum.repos.d/kloxong.repo
+		
 		yum clean all
 	fi
 fi
@@ -234,11 +237,11 @@ sh /script/set-mysql-default
 if [ "$(yum list|grep ^'php74')" != "" ] ; then
 	phpused="php74"
 #	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
-	sh /script/php-branch-installer ${phpused}
+	#sh /script/php-branch-installer ${phpused}
 else
 	phpused="php56"
 #	yum -y install ${phpused}-cli ${phpused}-mysqlnd ${phpused}-fpm
-	sh /script/php-branch-installer ${phpused}u
+	#sh /script/php-branch-installer ${phpused}u
 fi
 
 chkconfig php-fpm on >/dev/null 2>&1

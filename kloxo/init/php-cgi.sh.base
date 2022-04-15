@@ -1,8 +1,8 @@
 #!/bin/sh
 
-php_rc="/opt/__phpm__/custom/php.ini"
-php_scan='/opt/__phpm__/etc/php.d'
-php_prog='/opt/__phpm__/usr/bin/php-cgi'
+php_rc="/etc/opt/remi/__phpm__/custom/php.ini"
+php_scan='/etc/opt/remi/__phpm__/etc/php.d'
+php_prog='/etc/opt/remi/__phpm__/usr/bin/php-cgi'
 
 #export PHPRC=$php_rc
 export PHP_INI_SCAN_DIR=$php_scan
