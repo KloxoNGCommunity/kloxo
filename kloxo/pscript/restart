@@ -19,7 +19,7 @@ if [ -f ${bpath}/init/php_active ] ; then
 fi
 
 ln -sf /usr/sbin/hiawatha ${bpath}/init/kloxo-hiawatha
-ln -sf /opt/$(cat ${bpath}/init/kloxo_php_active)/custom/php-fpm.sh ${bpath}/init/kloxo-phpcgi
+ln -sf /etc/opt/remi/$(cat ${bpath}/init/kloxo_php_active)/custom/php-fpm.sh ${bpath}/init/kloxo-phpcgi
 
 if [ ! -f ${bpath}/sbin/kloxo.exe ] ; then
 	sh /script/create-kloxoexe

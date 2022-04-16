@@ -186,10 +186,10 @@ else
 	fi
 fi
 
-sed -i 's:__extension_dir__:'${etc_path}'/usr/lib/php/modules:' ${etc_path}/custom/php.ini
+sed -i 's:__extension_dir__:'/opt/remi/'${src_name}'/root/usr/lib/php/modules:' ${etc_path}/custom/php.ini
 
 if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
-	sed -i 's:__extension_dir__:/opt/'${src_name}'/usr/lib/php/modules:' ${etc_path}/custom/php-fpm.ini
+	sed -i 's:__extension_dir__:/opt/remi/'${src_name}'/root/usr/lib/php/modules:' ${etc_path}/custom/php-fpm.ini
 fi
 
 if [ "$(grep 'm' <<<${base_name})" != "" ] ; then
