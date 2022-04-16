@@ -40,7 +40,7 @@ fi
 . /script/counter-start.inc
 
 ## MR -- remove last char (default m or s)
-src_name="${base_name%?}"
+src_name="${base_name%[s,m]}"
 
 if [ "${base_name}" == "php" ] ; then
 	main_path=""

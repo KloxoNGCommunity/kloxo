@@ -34,7 +34,7 @@ if [ "${base_name}" != "php" ] ; then
 fi
 
 ## MR -- remove last char (default m or s)
-src_name="${base_name%?}"
+src_name="${base_name%[s,m]}"
 
 if [ "${base_name}" == "php" ] ; then
 	etc_path=""
@@ -267,19 +267,21 @@ if [ "${src_name}" != "php" ] ; then
 
 	for i in cgi cli ls fpm ; do
 		if [ -f ${etc_path}/custom/php-${i}.sh ] ;  then
-			x="-- From '${etc_path}/custom/php-${i}.sh' to '/usr/bin/${base_name}-${i}'"
+			x="-- From '${etc_path}/custom/php-${i}.sh' to '/usr/bin/${src_name}-${i}'"
 			echo ${x}
 			echo ${x} >>${etc_path}/${src_name}_install.log
 
+			'rm' -f /usr/bin/${src_name}-${i} >/dev/null 2>&1
 			'rm' -f /usr/bin/${base_name}-${i} >/dev/null 2>&1
-			ln -sf ${etc_path}/custom/php-${i}.sh /usr/bin/${base_name}-${i} >/dev/null 2>&1
+			ln -sf ${etc_path}/custom/php-${i}.sh /usr/bin/${src_name}-${i} >/dev/null 2>&1
 
-			x="-- From '${etc_path}/custom/php-${i}.sh' to '/usr/sbin/${base_name}-${i}'"
+			x="-- From '${etc_path}/custom/php-${i}.sh' to '/usr/sbin/${src_name}-${i}'"
 			echo ${x}
-			echo ${x} >>${etc_path}/${base_name}_install.log
+			echo ${x} >>${etc_path}/${src_name}_install.log
 
+			'rm' -f /usr/sbin/${src_name}-${i} >/dev/null 2>&1
 			'rm' -f /usr/sbin/${base_name}-${i} >/dev/null 2>&1
-			ln -sf ${etc_path}/custom/php-${i}.sh /usr/sbin/${base_name}-${i} >/dev/null 2>&1
+			ln -sf ${etc_path}/custom/php-${i}.sh /usr/sbin/${src_name}-${i} >/dev/null 2>&1
 		fi
 	done
 fi
