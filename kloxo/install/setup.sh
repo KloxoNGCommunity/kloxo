@@ -250,7 +250,7 @@ if [ "$(uname -m)" == "x86_64" ] ; then
 	ln -sf /usr/lib64/php /usr/lib/php
 fi
 
-mkdir -p /opt/${phpused}s/custom
+mkdir -p /etc/opt/remi/${phpused}/custom
 sh /script/phpm-installer ${phpused}s -y
 sh /script/fixlxphpexe ${phpused}s
 

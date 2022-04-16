@@ -169,10 +169,10 @@ else
 	fi
 fi
 
-x="-- Install dependencies rpms"
+x="-- List dependencies rpms"
 echo $x
 echo $x >>${main_path}/${src_name}_install.log
-yum -y install $(cat ${main_path}/dependencies) --skip-broken >>${main_path}/${src_name}_install.log
+#yum -y install $(cat ${main_path}/dependencies) --skip-broken >>${main_path}/${src_name}_install.log
 
 x="- Intall php packages... Please wait!"
 echo $x
@@ -184,7 +184,9 @@ fi
 
 #yumdownloader ${pack_name}-* mod_-${pack_name} -x *debuginfo* >>${main_path}/${src_name}_install.log
 
-yum install ${pack_name} ${pack_name}-* mod_-${pack_name} >>${main_path}/${src_name}_install.log
+php_exclude="--exclude=*debuginfo* --exclude=php*-xcache* --exclude=php*-eaccelerator* --exclude=php*-pecl-zendopcache* --exclude=php*-pgsql84* --exclude=php*-opcache* --exclude=php*-fpm-httpd* --exclude=php*-fpm-nginx* --exclude=php*-pecl-sphinx*"
+
+yum install ${pack_name} ${pack_name}-* ${php_exclude} -y --skip-broken >>${main_path}/${src_name}_install.log
 
 #'rm' -rf *-debuginfo*
 

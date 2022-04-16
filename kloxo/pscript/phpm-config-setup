@@ -51,12 +51,12 @@ fi
 
 x="- Disable certain modules (rename to .nonini) in 'php.d' and 'php-zts.d'"
 echo ${x}
-echo ${x} >>${etc_path}/${base_name}_install.log
+echo ${x} >>${etc_path}/${src_name}_install.log
 
 for j in php.d php-zts.d ; do
 	if [ -d ${etc_path}/${j} ] ; then
 		for a in $(dir -l ${etc_path}/${j}|egrep "(\.ini|\.nonini)$"|awk '{print $9}'|tr '\n' ' ') ; do
-			x="-- Fix 'extension' path of '${a}' in '/etc/${base_name}/etc/${j}'"
+			x="-- Fix 'extension' path of '${a}' in '/etc/${src_name}/etc/${j}'"
 			echo $x
 			echo $x >>${etc_path}/${src_name}_install.log
 
