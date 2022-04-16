@@ -229,7 +229,7 @@ for i in php-cgi.sh php-cli.sh php-fpm.sh php-ls.sh ; do
 		'cp' -rf ${kpath}/init/${i}.base ${etc_path}/custom/${i} >/dev/null 2>&1
 	fi
 
-	sed -i 's:__phpm__:'${base_name}':' ${etc_path}/custom/${i} >/dev/null 2>&1
+	sed -i 's:__phpm__:'${src_name}':' ${etc_path}/custom/${i} >/dev/null 2>&1
 done
 
 x="-- Processing for 'php52-fpm.conf.base/php53-fpm.conf.base'"
