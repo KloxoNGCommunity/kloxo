@@ -144,32 +144,34 @@ echo $x >>${main_path}/${src_name}_install.log
 
 c=""
 
-x="-- Check dependencies rpms"
+x="-- Check dependencies rpms  (now disabled JP)"
 echo $x
 echo $x >>${main_path}/${src_name}_install.log
 
-repoquery --qf='%{name}' --requires --resolve ${pack_name} ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine|pear1u)(.*)'|sort -u > ${main_path}/dependencies
 
-if [ "$(yum list|grep libmemcached10)" != "" ] ; then
-	libm1=$(yum info libmemcached10${v}|grep Version|awk '{print $3}')
-else
-	libml="0.0.0"
-fi
+#repoquery --qf='%{name}' --requires --resolve ${pack_name} ${pack_name}-*|egrep -iv '(php|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine|pear1u)(.*)'|sort -u > ${main_path}/dependencies
 
-libm2=$(yum info libmemcached${v}|grep Version|awk '{print $3}')
+Default libmemcached is now greated than IUS libmemcached10
+#if [ "$(yum list|grep libmemcached10)" != "" ] ; then
+#	libm1=$(yum info libmemcached10${v}|grep Version|awk '{print $3}')
+#else
+#	libml="0.0.0"
+#fi
 
-if [[ $libm1 < $libm2 ]] ; then
-	if [ "$(rpm -qa libmemcached10)" != "" ] ; then
-		yum replace libmemcached10 --replace-with=libmemcached -y >/dev/null 2>&1
-	fi
-	sed -i 's/libmemcached10/libmemcached/g' ${main_path}/dependencies ${main_path}/dependencies
-else
-	if [ "$(rpm -qa libmemcached)" != "" ] ; then
-		yum replace libmemcached --replace-with=libmemcached10 -y >/dev/null 2>&1
-	fi
-fi
+#libm2=$(yum info libmemcached${v}|grep Version|awk '{print $3}')
 
-x="-- List dependencies rpms"
+#if [[ $libm1 < $libm2 ]] ; then
+#	if [ "$(rpm -qa libmemcached10)" != "" ] ; then
+#		yum replace libmemcached10 --replace-with=libmemcached -y >/dev/null 2>&1
+#	fi
+#	sed -i 's/libmemcached10/libmemcached/g' ${main_path}/dependencies ${main_path}/dependencies
+#else
+#	if [ "$(rpm -qa libmemcached)" != "" ] ; then
+#		yum replace libmemcached --replace-with=libmemcached10 -y >/dev/null 2>&1
+#	fi
+#fi
+
+x="-- List dependencies rpms (not used anymore as we now use remi)"
 echo $x
 echo $x >>${main_path}/${src_name}_install.log
 #yum -y install $(cat ${main_path}/dependencies) --skip-broken >>${main_path}/${src_name}_install.log
@@ -178,13 +180,14 @@ x="- Intall php packages... Please wait!"
 echo $x
 echo $x >>${main_path}/${src_name}_install.log
 
+
 if [ -f ${main_path}/etc ] ; then
 	find ${main_path}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
 #yumdownloader ${pack_name}-* mod_-${pack_name} -x *debuginfo* >>${main_path}/${src_name}_install.log
 
-php_exclude="--exclude=*debuginfo* --exclude=php*-xcache* --exclude=php*-eaccelerator* --exclude=php*-pecl-zendopcache* --exclude=php*-pgsql84* --exclude=php*-opcache* --exclude=php*-fpm-httpd* --exclude=php*-fpm-nginx* --exclude=php*-pecl-sphinx*"
+php_exclude="--exclude=*debuginfo* --exclude=php*-xcache* --exclude=php*-eaccelerator* --exclude=php*-pecl-zendopcache* --exclude=php*-pgsql84*  --exclude=php*-oci8* --exclude=php*-opcache* --exclude=php*-fpm-httpd* --exclude=php*-fpm-nginx* --exclude=php*-pecl-sphinx* --exclude=php*-wkhtmltox* --exclude=php*-pecl-rdkafka*"
 
 yum install ${pack_name} ${pack_name}-* ${php_exclude} -y --skip-broken >>${main_path}/${src_name}_install.log
 
