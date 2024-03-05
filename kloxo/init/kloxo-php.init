@@ -48,11 +48,11 @@ else
 	fi
 fi
 
-phpcgi_file="/etc/opt/remi/${php_active}/custom/php-fpm.sh"
+phpcgi_file="/opt/${php_active}/custom/php-fpm.sh"
 
 phpcgi_conf="${INIT_DIR}/kloxo-php-fpm.conf"
 
-phpcgi_ini="/etc/opt/remi/${php_active}/custom/php.ini"
+phpcgi_ini="/opt/${php_active}/custom/php.ini"
 
 phpcgi_pidfile="${INIT_DIR}/kloxo-phpcgi.pid"
 phpcgi_symlink="${INIT_DIR}/kloxo-phpcgi"

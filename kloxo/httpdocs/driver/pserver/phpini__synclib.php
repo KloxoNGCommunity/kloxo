@@ -102,12 +102,9 @@ class phpini__sync extends Lxdriverclass
 			$phps = array_merge(array('php'), $input['phpmlist']);
 
 			foreach ($phps as $k => $v) {
-				
-				/etc/opt/remi/${phpused}/custom
-				
-				$input['phpinipath'] = "/etc/opt/remi/{$v}/custom";
-				$input['phpscanpath'] = "/etc/opt/remi/{$v}/php.d";
-				$input['phpcgipath'] = "/opt/remi/{$v}/root/usr/bin/php-cgi";
+				$input['phpinipath'] = "/opt/{$v}/custom";
+				$input['phpscanpath'] = "/opt/{$v}/etc/php.d";
+				$input['phpcgipath'] = "/opt/{$v}/usr/bin/php-cgi";
 
 				$w = str_replace('m', '', $v);
 
@@ -120,7 +117,7 @@ class phpini__sync extends Lxdriverclass
 				$input['phpselected'] = $v;
 			//	array_unique($input);
 
-				$path = "/etc/opt/remi/{$v}/php-fpm.d";
+				$path = "/opt/configs/php-fpm/conf/{$v}";
 
 				if (!file_exists("{$path}/php-fpm.d")) {
 					exec("mkdir -p {$path}/php-fpm.d");

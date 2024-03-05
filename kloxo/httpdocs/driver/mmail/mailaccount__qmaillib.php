@@ -128,7 +128,7 @@ class Mailaccount__Qmail extends lxDriverClass
 		$maildropdata = "SHELL=/bin/sh\n\n";
 
 		if ($this->main->isOn('__var_spam_status')) {
-			$maildropdata .= "if ( \$SIZE < 96144 )\n{\n    exception {\n        xfilter \"$maildropspam\"\n    }\n}\n $addextraspamheader\n";
+			$maildropdata .= "if ( \$SIZE < 512000 )\n{\n    exception {\n        xfilter \"$maildropspam\"\n    }\n}\n $addextraspamheader\n";
 		}
 
 		$maildropdata .= "to {$maildirpath}/\n";

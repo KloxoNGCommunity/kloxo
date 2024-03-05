@@ -3,7 +3,7 @@
 Summary: KloxoNG release file and package configuration
 Name: kloxong-release
 Version: 0.1.1
-Release: 4
+Release: 10
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -53,10 +53,23 @@ repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
 
+[kloxong-copr-curl]
+name=kloxong curl repo 
+baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/Curl/epel-\$releasever-\$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/Curl/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
+
 [kloxong-release-version-arch]
 name=KloxoNG - release-version-arch
 baseurl=https://%{repohost}/kloxong/release/centos\$releasever/\$basearch/
 #mirrorlist=https://%{mirrorhost}/kloxong-release-centos\$releasever-\$basearch-mirrors.txt
+skip_if_unavailable=True
 enabled=1
 gpgcheck=0
 
@@ -64,22 +77,21 @@ gpgcheck=0
 name=KloxoNG - srpms
 baseurl=https://%{repohost}/kloxong/SRPMS/
 #mirrorlist=https://%{mirrorhost}/kloxong-SRPMS-mirrors.txt
+skip_if_unavailable=True
 enabled=0
 gpgcheck=0
 
 # ==================================
 
 [kloxong-remi]
-name=KloxoNG - Les RPM de remi pour Enterprise Linux \$releasever
-#baseurl=http://rpms.famillecollet.com/enterprise/\$releasever/remi/\$basearch/
-mirrorlist=http://cdn.remirepo.net/enterprise/8/remi/\$basearch/mirror
+name=KloxoNG - Les RPM de remi pour Enterprise Linux $releasever
+#baseurl=http://rpms.famillecollet.com/enterprise/\$releasever/remi/$basearch/
+mirrorlist=http://cdn.remirepo.net/enterprise/\$releasever/remi/mirror
 gpgcheck=0
-%if %{with_pre8_repos}
-enabled=0
-includepkgs=php-ffmpeg php-ioncube-loader
-%else
 enabled=1
-%endif
+#includepkgs=php-ffmpeg php-ioncube-loader
+exclude=php5* php7* php80* php-* mysql5* mysql56*  mariadb* postfix32u*
+
 
 # ==================================
 
@@ -122,8 +134,8 @@ gpgcheck=0
 # for mariadb
 [kloxong-mariadb]
 name=KloxoNG - mariadb repo
-#baseurl=http://yum.mariadb.org/10.5/centos/\$releasever/\$basearch/
-baseurl=https://dlm.mariadb.com/repo/mariadb-server/10.6/yum/centos/\$releasever/\$basearch
+baseurl=http://yum.mariadb.org/10.5/centos/\$releasever/\$basearch/
+#baseurl=https://dlm.mariadb.com/repo/mariadb-server/10.2/yum/centos/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
 
@@ -274,7 +286,7 @@ name=KloxoNG - Webtatic for CentOS \$releasever - \$basearch
 mirrorlist=http://mirror.webtatic.com/yum/el\$releasever/\$basearch/mirrorlist
 enabled=1
 gpgcheck=0
-exclude=mysql* nginx*
+exclude=mysql* nginx* php55* php56* php7*
 
 [kloxong-webtatic-archive]
 name=KloxoNG - Webtatic for CentOS \$releasever Archive - \$basearch
@@ -282,7 +294,7 @@ name=KloxoNG - Webtatic for CentOS \$releasever Archive - \$basearch
 mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-archive/\$basearch/mirrorlist
 enabled=1
 gpgcheck=0
-exclude=mysql* nginx*
+exclude=mysql* nginx* php55* php56* php7*
 
 [kloxong-webtatic-testing]
 name=KloxoNG - Webtatic for CentOS \$releasever Testing - \$basearch
@@ -290,7 +302,7 @@ name=KloxoNG - Webtatic for CentOS \$releasever Testing - \$basearch
 mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-testing/\$basearch/mirrorlist
 enabled=1
 gpgcheck=0
-exclude=mysql* nginx*
+exclude=mysql* nginx* php55* php56* php7*
 
 # ==================================
 
@@ -336,6 +348,27 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 %{_sysconfdir}/yum.repos.d/kloxong.repo
 
 %changelog
+* Wed Sep 13 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.1-10
+- go back to MariaDB 10.5
+
+* Thu Sep 7 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.1-9
+- add missing php excludes for webtastic
+
+* Tue Sep 5 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.1-8
+- add excludes for conflicting php versions
+
+* Thu Aug 31 2023  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-7
+- Fix typo in remi mirror url
+
+* Thu Aug 31 2023  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-6
+- Active remi repo for php 8.1 & 8.2
+
+* Mon May 1 2023  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-5
+- Move Kloxong Curl to it own copr repo
+
+* Fri Apr 15 2022  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-4
+- Add repo includes/excludes for EL8 builds
+
 * Thu Oct 7 2021  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-3
 - Exclude IUS from Centos 8 version 
 

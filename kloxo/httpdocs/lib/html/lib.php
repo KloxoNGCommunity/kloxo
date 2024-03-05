@@ -8239,6 +8239,24 @@ function ipv6_expand($ip)
 	return $ip;
 }
 
+function getBranchPhpList()
+{
+	$d = glob("/opt/*s/usr/bin/php");
+
+	if (empty($d)) {
+		return array();
+	}
+
+	foreach ($d as $k => $v) {
+		$e = str_replace('/opt/', '', $v);
+		$e = str_replace('/usr/bin/php', '', $e);
+		$f[] = $e;
+	}
+
+	return $f;
+}
+
+
 function getMultiplePhpList()
 {
 	$d = glob("/opt/*m/usr/bin/php");
@@ -8263,7 +8281,10 @@ function getCleanRpmBranchListOnList($branchtype)
 	$c = array();
 
 	foreach ($a as $k => $v) {
-		if (strpos($v, 'php_(') !== false) {
+		
+		
+		
+		if (strpos(str_replace('-php', '', $a[$k]), 'php_(') !== false ) {
 			unset($a[$k]);
 		} else {
 			$b = explode('_(', $v);
@@ -8273,14 +8294,17 @@ function getCleanRpmBranchListOnList($branchtype)
 				$c[] = str_replace('u', '', $a[$k]);
 			} elseif (strrpos($a[$k], 'w') !== false) {
 				$c[] = str_replace('w', '', $a[$k]);
+			}elseif (strrpos($a[$k], '-php') !== false) {
+			    $c[] = str_replace('-php', '', $a[$k]);
 			}
+			
 		}
 	}
 
 	$a = array_diff($a, $c);
 
 	foreach ($a as $k => $v) {
-		$a[$k] = str_replace('w', '', str_replace('u', '', $v) . "m");
+		$a[$k] = str_replace('w', '', str_replace('u', '', str_replace('-php', '', $v)) . "m");
 	}
 
 	return array_unique($a);

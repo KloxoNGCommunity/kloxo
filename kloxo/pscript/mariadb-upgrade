@@ -5,7 +5,7 @@ if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 fi
 
 if [ "${1}" == "" ] ; then
-	newver="10.2"
+	newver="10.5"
 else
 	newver=${1}
 fi
@@ -21,15 +21,14 @@ if [ "${status}" == "12" ] ; then
 	echo "- Begin process..."
 
 	sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${newver}/centos/\2:g" /etc/yum.repos.d/kloxong.repo
-	
-	sed -i -e "s:dlm.mariadb.com/repo/mariadb-server/\(.*\)/yum/centos/\(.*\):dlm.mariadb.com/repo/mariadb-server/${MDBver%.*}/yum/centos/\2:g" /etc/yum.repos.d/kloxong.repo
-	
 	yum clean all
+	yum remove MariaDB-gssapi-* -y
 	yum update MariaDB* -y
 	yum remove MariaDB-server -y
 	yum install MariaDB-server -y
 
 	'cp' -f /etc/my.cnf.d/server.cnf.rpmsave /etc/my.cnf.d/server.cnf
+	sed -i 's:skip-innodb:#skip-innodb:g' /etc/my.cnf.d/server.cnf
 	
 
 		if [ "$(grep 'log_error' '/etc/my.cnf.d/server.cnf')" == "" ]; then

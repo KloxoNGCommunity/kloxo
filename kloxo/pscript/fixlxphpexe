@@ -3,7 +3,7 @@
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
-	echo "  format: sh $0 <php56s/php70s/php71s/etc>"
+	echo "  format: sh $0 <php53s/php54s>"
 	echo " ------------------------------------------------------------------------------"
 	echo
 	exit
@@ -19,11 +19,9 @@ if [ "$1" != "" ] ; then
 
 	base_name="$1"
 
-## JP -- remove last char (default m or s)
-src_name="${base_name%[s,m]}"
+	if [ ! -f /opt/${base_name}/custom/php-cli.sh ] ; then
+		echo "File: '/opt/${base_name}/custom/php-cli.sh' not exists. Installing..."
 
-	if [ ! -f /etc/opt/remi/${src_name}/custom/php-cli.sh ] ; then
-		echo "File: '/etc/opt/remi/${src_name}/custom/php-cli.sh' not exists. Installing..."
 		sh /script/phpm-installer ${base_name}
 	else
 		echo "${src_name}" > ${INIT_DIR}/kloxo_php_active
@@ -36,35 +34,34 @@ else
 	if [ -f ${INIT_DIR}/kloxo_php_active ] ; then
 		base_name="$(cat ${INIT_DIR}/kloxo_php_active)"
 	else
-		if [ ! -f /etc/opt/remi/php74s/custom/php-cli.sh ] ; then
+		if [ ! -f /opt/php74s/custom/php-cli.sh ] ; then
 			base_name="php74s"
 		else
 			base_name="php54s"
 		fi
 		src_name="${base_name%[s,m]}"
-		if [ ! -f /etc/opt/remi/${src_name}/custom/php-cli.sh ] ; then
-			echo "File: '/etc/opt/remi/${src_name}/custom/php-cli.sh' not exists. Installing..."
+		if [ ! -f /opt/${base_name}/custom/php-cli.sh ] ; then
+			echo "File: '/opt/${base_name}/custom/php-cli.sh' not exists. Installing..."
 			sh /script/phpm-installer ${base_name} -y
 		fi
 
-		echo "${src_name}" > ${INIT_DIR}/kloxo_php_active
+		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active
 	fi
 fi
 
-mkdir -p /etc/opt/remi/${src_name}/custom
+mkdir -p /opt/${base_name}/custom
 
-if [ -f /etc/opt/remi/${src_name}/custom/custom.php.ini ] ; then
-	'cp' -f /etc/opt/remi/${src_name}/custom/custom.php.ini /etc/opt/remi/${src_name}/custom/php.ini
+if [ -f /opt/${base_name}/custom/custom.php.ini ] ; then
+	'cp' -f /opt/${base_name}/custom/custom.php.ini /opt/${base_name}/custom/php.ini
 fi
 
-chown -R root:root /etc/opt/remi/${src_name}
+chown -R root:root /opt/${base_name}
 
 'rm' -f /usr/bin/lphp.exe
 'rm' -f /usr/bin/lxphp.exe
 
-ln -sf /etc/opt/remi/${src_name}/custom/php-cli.sh /usr/bin/lphp.exe
-ln -sf /etc/opt/remi/${src_name}/custom/php-cli.sh /usr/bin/lxphp.exe
-ln -sf /etc/opt/remi/${src_name}/custom/php-cli.sh /usr/bin/lxphp.exe
+ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lphp.exe
+ln -sf /opt/${base_name}/custom/php-cli.sh /usr/bin/lxphp.exe
 
 if [ -f /usr/lib/systemd/system/kloxo.service ] ; then
 	'rm' -f /usr/lib/systemd/system/kloxo.service

@@ -22,32 +22,30 @@ fi
 
 base_name="${1}"
 
-## MR -- remove last char (default m or s)
-src_name="${base_name%[s,m]}"
-
-main_path="/opt/remi/${src_name}"
+main_path="/opt/${base_name}"
 
 . /script/counter-start.inc
 
-
+## MR -- remove last char (default m or s)
+src_name="${base_name%?}"
 
 if [ "$(grep 's' <<<${base_name})" == "" ] && [ "$(grep 'm' <<<${base_name})" == "" ] ; then
 	echo "* WARNING: only for phpXYm or phpXYs (change XY from 52)"
 else
-	echo "- Remove ${src_name}-fpm service"
+	echo "- Remove ${base_name}-fpm service"
 
 	stype=$(ps --no-headers -o comm 1)
 
 	if [ -f ${main_path}/usr/sbin/php-fpm ] ; then
-		service ${src_name}-fpm stop
+		service ${base_name}-fpm stop
 		'rm' -rf ${main_path} >/dev/null 2>&1
-		chkconfig ${src_name}-fpm off >/dev/null 2>&1
-		chkconfig --del ${src_name}-fpm >/dev/null 2>&1
+		chkconfig ${base_name}-fpm off >/dev/null 2>&1
+		chkconfig --del ${base_name}-fpm >/dev/null 2>&1
 		if [ "${stype}" == "systemd" ] ; then
-			'rm' -f /usr/lib/systemd/system/${src_name}-fpm.service >/dev/null 2>&1
+			'rm' -f /usr/lib/systemd/system/${base_name}-fpm.service >/dev/null 2>&1
 			systemctl daemon-reload >/dev/null 2>&1
 		else
-			'rm' -f /etc/rc.d/init.d/${src_name}-fpm >/dev/null 2>&1
+			'rm' -f /etc/rc.d/init.d/${base_name}-fpm >/dev/null 2>&1
 		fi
 	fi
 fi

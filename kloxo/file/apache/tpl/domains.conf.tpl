@@ -376,7 +376,7 @@ foreach ($certnamelist as $ip => $certname) {
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
 							</FilesMatch>
-							FCGIWrapper /usr/sbin/<?=$phpselected;?>-cgi .php
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
 						</Directory>
 					</IfModule>
 				</IfModule>
@@ -533,7 +533,7 @@ foreach ($certnamelist as $ip => $certname) {
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
 							</FilesMatch>
-							FCGIWrapper /usr/sbin/<?=$phpselected;?>-cgi .php
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
 						</Directory>
 					</IfModule>
 				</IfModule>
@@ -834,7 +834,7 @@ foreach ($certnamelist as $ip => $certname) {
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
 							</FilesMatch>
-							FCGIWrapper /usr/sbin/<?=$phpselected;?>-cgi .php
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
 						</Directory>
 					</IfModule>
 				</IfModule>
@@ -1097,7 +1097,7 @@ foreach ($certnamelist as $ip => $certname) {
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
 							</FilesMatch>
-							FCGIWrapper /usr/sbin/<?=$phpselected;?>-cgi .php
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
 						</Directory>
 					</IfModule>
 				</IfModule>
@@ -1456,7 +1456,7 @@ foreach ($certnamelist as $ip => $certname) {
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
 							</FilesMatch>
-							FCGIWrapper /usr/sbin/<?=$phpselected;?>-cgi .php
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
 						</Directory>
 					</IfModule>
 				</IfModule>
@@ -1641,7 +1641,7 @@ foreach ($certnamelist as $ip => $certname) {
 							<FilesMatch \.php$>
 								SetHandler fcgid-script
 							</FilesMatch>
-							FCGIWrapper /usr/sbin/<?=$phpselected;?>-cgi .php
+							FCGIWrapper /home/kloxo/client/php.fcgi .php
 						</Directory>
 					</IfModule>
 				</IfModule>

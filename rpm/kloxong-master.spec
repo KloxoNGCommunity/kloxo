@@ -33,7 +33,7 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 0.1.3
-Release: 1
+Release: 7
 #Release: beta.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
@@ -169,6 +169,35 @@ EOF
 
 
 %changelog
+* Wed Sep 6 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-7
+- Fix broken paths for fcgi handler
+
+* Tue Sep 5 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-6
+- adjust excluded php packages
+- ensure mysql modules are active
+
+* Fri Sep 1 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-5
+- fixing parsing of remi package names
+- fix rewriting of remi php symlinks
+
+* Thu Aug 31 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-4
+- php install now loads remi php packages
+- add php8.1 and php8.2 to list if available php versions
+
+* Thu Apr 14 2022 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-3
+- Fix wrong brackets and variable in Fix-outgoingips
+- Fix typo in fixdomainkey
+- Move Kloxong Curl into its own yum repo to fix build errors
+
+* Thu Apr 14 2022 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-2
+- Block loading of postfix32u as this conflicts with toater packages
+- Remove old webmail packages
+- support for php80
+- Update mariadb-upgrade script to work with the new version of mariadb
+- Update MariaDB repo to version 10.5
+- Fix Remi repo address
+- Fix domain key folder permission issues
+- remove extra slash from djbdns comd
 
 * Tue May 25 2021 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-1
 - test for null domain records when building DNS configuration files
