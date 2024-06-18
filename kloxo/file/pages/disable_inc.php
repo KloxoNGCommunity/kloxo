@@ -4,7 +4,7 @@
 			<tr>
 				<td><br />
 				<font size="3" face="arial" color="#336699"><strong>This is  
-				KloxoNG Disable Page</strong></font> </td>
+				Kloxo Disable Page</strong></font> </td>
 			</tr>
 		</table>
 		<br />

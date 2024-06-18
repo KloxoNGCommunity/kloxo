@@ -1,8 +1,8 @@
 %define repohost repo.kloxong.org
 %define mirrorhost raw.githubusercontent.com/KloxoNGCommunity/KloxoNG-rpms/dev/kloxong/mirror
-Summary: KloxoNG release file and package configuration
-Name: kloxong-release
-Version: 0.1.1
+Summary: Kloxo release file and package configuration
+Name: kloxo-release
+Version: 8.0.0
 Release: 1
 License: AGPLV3
 Group: System Environment/Base
@@ -21,19 +21,19 @@ Kloxo Next Generation rpm release. This package contains yum configuration for t
 
 %build
 
-cat > kloxong.repo << _EOF_
-[kloxong-copr]
+cat > kloxo.repo << _EOF_
+[kloxo-copr]
 name=kloxong master Copr repo 
-baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxong/epel-\$releasever-\$basearch/
+baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxo/epel-\$releasever-\$basearch/
 type=rpm-md
 skip_if_unavailable=True
 gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxong/pubkey.gpg
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxo/pubkey.gpg
 repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
 
-[kloxong-copr-httpd24]
+[kloxo-copr-httpd24]
 name=kloxong httpd24 Copr repo 
 baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/epel-\$releasever-\$basearch/
 type=rpm-md
@@ -52,7 +52,7 @@ _EOF_
 %install
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/yum.repos.d/
-install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
+install -m 755 kloxo.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxo.repo
 
 
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo.repo
@@ -69,9 +69,12 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 %files
 %defattr(-, root, root, 0755)
 %dir %{_sysconfdir}/yum.repos.d/
-%{_sysconfdir}/yum.repos.d/kloxong.repo
+%{_sysconfdir}/yum.repos.d/kloxo.repo
 
 %changelog
+
+* Tue Jun 18 2024  John Parnell Pierce <john@luckytanuki.com> - 8.0.0-1
+- starter repo for installing kloxo 8
 
 * Thu Apr 2 2020  John Parnell Pierce <john@luckytanuki.com> - 0.1.1-1
 - starter repo for installing kloxong

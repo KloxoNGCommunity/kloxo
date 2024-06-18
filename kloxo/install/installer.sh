@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#    KloxoNG - Hosting Control Panel
+#    Kloxo - Hosting Control Panel
 #
-#    Copyright (C) 2018 - KloxoNG
+#    Copyright (C) 2018 - Kloxo
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,30 +18,31 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# KloxoNG - KloxoNG dev Installer
+# Kloxo - Kloxo dev Installer
 #
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 # Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
 #
 
-$main_repo_url="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
-$main_release_rpm="kloxong-release.rpm"
-$rpm_main_pck='kloxong'
+$main_repo_url="https://github.com/KloxoNGCommunity/kloxo8/raw/initial-rpm/"
+$main_release_rpm="kloxo-release.rpm"
+$rpm_main_pck='kloxo'
 
-#if [ "$(rpm -qa kloxong-release)" == "" ] ; then
-if [ "$(rpm -q kloxong-release | grep -v 'package .* is not installed')" == "" ] ; then
+#if [ "$(rpm -qa kloxo-release)" == "" ] ; then
+if [ "$(rpm -q kloxo-release | grep -v 'package .* is not installed')" == "" ] ; then
 
 
 	cd /tmp
 	rpm -ivh $main_repo_url/$main_release_rpm >/dev/null 2>&1
 	rpm -ivh $main_release_rpm >/dev/null 2>&1
-	yum update kloxong-release -y >/dev/null 2>&1
+	yum update kloxo-release -y >/dev/null 2>&1
 
 	'mv' -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo >/dev/null 2>&1
 	'mv' -f /etc/yum.repos.d/kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.nonrepo >/dev/null 2>&1
         'mv' -f /etc/yum.repos.d/kloxong.repo /etc/yum.repos.d/kloxong.nonrepo >/dev/null 2>&1
+		    'mv' -f /etc/yum.repos.d/kloxo.repo /etc/yum.repos.d/kloxo.nonrepo >/dev/null 2>&1
 else
-	yum update kloxong-release -y >/dev/null 2>&1
+	yum update kloxo-release -y >/dev/null 2>&1
 fi
 
 #if [ "$(rpm -qa ^'$rpm_main_pck')" == "" ] ; then
@@ -58,7 +59,7 @@ if [ ! -L /script ] ; then
 fi
 
 echo ""
-echo "*** Update KloxoNG with github source (packed with packer.sh) ***"
+echo "*** Update Kloxo with github source (packed with packer.sh) ***"
 
 echo ""
 'rm' -rf ./$rpm_main_pck*/ >/dev/null 2>&1

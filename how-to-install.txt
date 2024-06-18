@@ -1,4 +1,4 @@
-KloxoNG install instructions
+Kloxo 8 install instructions
 
 A. pre-install -- better for fresh install
 
@@ -12,7 +12,7 @@ A. pre-install -- better for fresh install
 
     cd /
 
-B. Install kloxoNG
+B. Install kloxo 8
    - Install/reinstall/upgrade -- data not destroyed with this fork
      for existing Kloxo (6.1.x), run 'sh /script/update' first. (don't trust this - needs to be confirmed )
 
@@ -21,9 +21,10 @@ B. Install kloxoNG
 
     # remove old rpm
     rm -f kloxong*
-
+	rm -f kloxo*
+	
     # install rpm (read Warning)
-    rpm -ivh https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/kloxong-release.rpm
+    rpm -ivh https://github.com/KloxoNGCommunity/kloxo8/raw/initial-rpm/kloxo-release.rpm
 
     # move to /
     cd /
@@ -31,9 +32,9 @@ B. Install kloxoNG
     # update
     yum clean all
 
-    yum update kloxong-* -y
+    yum update kloxo-* -y
 
-    yum install kloxong -y
+    yum install kloxo -y
 
     sh /script/upcp
 

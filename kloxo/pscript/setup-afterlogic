@@ -4,7 +4,7 @@ path="/home/kloxo/httpd/webmail/afterlogic"
 
 if [ "${1}" == "-y" ] ; then
 	if [ ! -f ${path}/index.php ] ; then
-		yum install kloxong-webmail-afterlogic -y
+		yum install kloxo-webmail-afterlogic -y
 		chown -R apache:apache ${path}
 	fi
 fi

@@ -7,7 +7,7 @@ echo;
 
 
 if [ -f /usr/local/lxlabs/kloxo/bin/kloxoversion ] ; then
-	echo "- No need running this patch for KloxoNG. Just update your KloxoNG";
+	echo "- No need running this patch for Kloxo. Just update your Kloxo";
 else
 	echo " - Patch for Backup/Restore on Kloxo 6.1.12,";
 

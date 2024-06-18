@@ -1,8 +1,8 @@
 #!/bin/sh
 # declaring Variables
-reponame="kloxong"
-repourl="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
-relrpmname="kloxong-release.rpm"
+reponame="kloxo"
+repourl="https://github.com/KloxoNGCommunity/kloxo8/raw/initial-rpm/"
+relrpmname="kloxo-release.rpm"
 
 yum clean all
 
@@ -16,8 +16,9 @@ else
 	'rm' -rf /etc/yum.repos.d/kloxo-custom.repo
 	'rm' -rf /etc/yum.repos.d/lxcenter.repo
 	'rm' -rf /etc/yum.repos.d/lxlabs.repo	
-	'rm' -rf /etc/yum.repos.d/kloxong.repo.*
+	'rm' -rf /etc/yum.repos.d/kloxo.repo.*
 	'rm' -rf /tmp/kloxong*
+	'rm' -rf /tmp/kloxo*
 	
 	if [ "$(rpm -qa|grep wget)" == "" ] ; then
 		yum install wget -y

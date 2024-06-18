@@ -84,7 +84,7 @@ Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-
 %pre
 echo 'pre' >> /tmp/scriptlet.txt
 /usr/sbin/useradd -s /sbin/nologin -M -r -d /home/lxlabs/ \
-    -c "KloxoNG Website Control Panel" lxlabs &>/dev/null || :
+    -c "Kloxo Website Control Panel" lxlabs &>/dev/null || :
 
 %post
 
@@ -187,7 +187,7 @@ EOF
 - with Spamassassin - delete any spam with 10 or more stars - no matter what the spam retention settings
 
 * Sat Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-final
-- exclude install of kloxong-testing.rpm from wild card yum install
+- exclude install of kloxo-testing.rpm from wild card yum install
 - Fix gpg key
 - add line to change permission of log file folder for named to try to resolve issue #59
 - Add chown to set named as owner of /var/log/named
@@ -198,7 +198,7 @@ EOF
 * Sat Jun 27 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-beta
 - update release numbers
 - update kloxoversion file
-- fix location of initial yum repo rpm. Should alway be located at https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/kloxong-release.rpm issue #56
+- fix location of initial yum repo rpm. Should alway be located at https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/kloxo-release.rpm issue #56
 - refactored command line options in upcp script
 - added install yum test repo command line option (-t or -test) to upcp
 - kloxo-testing to be only installed by -t/--test option

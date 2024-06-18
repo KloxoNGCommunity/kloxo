@@ -21,7 +21,7 @@ homepath=/home
 mysqlpath=/var/lib/mysql
 logpath=/var/log
 stamp=$(date +"%Y-%m-%d-%H-%M")
-zipfile=kloxong_raw_$stamp.tgz
+zipfile=kloxo_raw_$stamp.tgz
 homefile=home.tgz
 mysqlfile=mysql.tgz
 logfile=log.tgz
@@ -31,7 +31,7 @@ bckpath=/home/kloxo/client/admin/__backup
 . /script/counter-start.inc
 
 echo
-echo "*** KloxoNG raw-restore - BEGIN ***"
+echo "*** Kloxo raw-restore - BEGIN ***"
 echo
 
 cd /tmp
@@ -78,6 +78,6 @@ rm -f $logfile
 . /script/counter-start.inc
 
 echo
-echo "*** KloxoNG raw-restore - END ***"
+echo "*** Kloxo raw-restore - END ***"
 echo
 

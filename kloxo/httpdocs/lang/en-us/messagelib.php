@@ -7,7 +7,7 @@
 	- [%_client_%] - translate to current client of user login (example: tester)
 	- [%_mailaccount_%] - translate to current user login (example: admin@domain.com)
 	- [%_program_%] - translate kloxo
-	- [%_programname_%] - translate KloxoNG
+	- [%_programname_%] - translate Kloxo
 	- [%_domain_%] - translate to current domain (example: domain.com)
 */
 
@@ -21,7 +21,7 @@ $__emessage['no_socket_connect_to_server'] = "Could not Connect to the server [%
 $__emessage['restarting_backend'] = "Restarting the backend. Please try again after 30 seconds.";
 $__emessage['quota_exceeded'] = "Quota Exceeded for [%s]";
 $__emessage['license_no_ipaddress'] = "The public ipaddress [%s] of this server was not found in in the license repository. Please contact Lxlabs sales or your reseller to create a license for this server.";
-$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via KloxoNG itself. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=sshconfig>[here]</url> to configure your ssh server.";
+$__emessage['ssh_root_password_access'] = "You have not disabled password based access to root on this server. Password based access to root is not necessary since you can manage your ssh authorized keys via Kloxo itself. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=updateform&sa=update&o=sshconfig>[here]</url> to configure your ssh server.";
 $__emessage['already_exists'] = "The resource of name [%s] already exists.";
 $__emessage['lxguard_not_configured'] = "Lxguard for this server is not configured. Click <url:k[class]=pserver&k[nname]=[%_server_%]&a=show&o=lxguard>[here]</url> to configure Lxguard since it is very important that you understand what it does. Lxguard is critical for the security of your server, at the same time, it can block your own IPaddress from accessing the server, which can be frustrating if you don't know what's happening.";
 $__emessage['root_cannot_extract_to_existing_dir'] = "Directory you provided already exists. Root user cannot extract archive into an existing directory. Please provide the name of a directory that doesn't exist in the system.";
@@ -37,7 +37,7 @@ $__emessage['ssh_port_not_configured'] = "The ssh port for this server is not se
 $__emessage['system_is_updating_itself'] = "The system at this point is upgrading itself, and thus you won't be able to make any changes for a few minutes. All read actions work normally though.";
 $__emessage['system_is_locked'] = "Someone has initiated system-modification-action on this particular object which is still going on. You wont be able to make any changes till it is finished. All read actions work normally though.";
 $__emessage['system_is_locked_by_u'] = "You have initiated a system-modification-action which is still going on. You wont be able to make any changes till it is finished. All read actions work normally though.";
-$__emessage['smtp_server_not_running'] = "KloxoNG could not connect to an smtp server on this server. That means that KloxoNG will not able to send out any mails. This is very critical since KloxoNG monitors the health of the entire cluster and sends email to the admin if there is any problem. You should make sure that the smtp service is running on this server. Once you restart the SMTP service, please wait 5 minutes for this error message to disappear, since KloxoNG checks for the service availability only once every 5 minutes.";
+$__emessage['smtp_server_not_running'] = "Kloxo could not connect to an smtp server on this server. That means that Kloxo will not able to send out any mails. This is very critical since Kloxo monitors the health of the entire cluster and sends email to the admin if there is any problem. You should make sure that the smtp service is running on this server. Once you restart the SMTP service, please wait 5 minutes for this error message to disappear, since Kloxo checks for the service availability only once every 5 minutes.";
 $__emessage['template_not_owner'] = "You are not the Owner of this Template";
 $__emessage['ipaddress_changed_amidst_session'] = "IP Address Changed Amidst Session. Possible Session Hijacking.";
 $__emessage['more_than_one_user'] = "More than one user is logged in this account. Click <url:a=list&c=ssession>[here]</url> to see list of logins. ";
@@ -107,7 +107,7 @@ $__information['lxguardwhitelist_addform__pre'] = "<p>It is recommended that you
 	"<p>Manually entering the IP is bound to lead to spelling mistakes, and you will be left confused.</p>".
 	"<p>If you are entering your IP here, please double check that it is correct.</p>";
 
-$__information['login_pre'] = "<p>Welcome to KloxoNG</p>".
+$__information['login_pre'] = "<p>Welcome to Kloxo</p>".
 	"<p>Use a valid username and password to gain access to the console.</p>";
 
 $__information['tickethistory_addform__pre'] = "<p>You can use &#91quote&#93 &#91/quote &#93 to quote some text, which will shown properly formatted.</p>".
@@ -119,7 +119,7 @@ $__information['sshconfig_updateform_update_pre'] = "<p>It is recommended that y
 
 $__information['all_dns_list__pre'] = "<p>This is the list of every dns created by your VPS owners.</p>".
 	"<p>Click <url:o=general&a=updateform&sa=reversedns>[here]</url> to configure DNS servers so that all your customers can use it.</p>".
-	"<p>KloxoNG's DNS manager allows a VPS owner to create DNS directly in KloxoNG itself, and the data will be saved on the VPS vendor's servers.</p>".
+	"<p>Kloxo's DNS manager allows a VPS owner to create DNS directly in Kloxo itself, and the data will be saved on the VPS vendor's servers.</p>".
 	"<p>In other words, it allows you to host your vps customer's DNS on your servers.</p>";
 
 $__information['actionlog_list__pre'] = "<p>Action log records all the actions executed on a client or a vps. ".
@@ -130,7 +130,7 @@ $__information['sshauthorizedkey_list__pre'] = "<p>Please note, the ~/.ssh/autho
 	"and so only the ~/.ssh/authorized_keys file is managed.</p>".
 	"<p>These are the ssh keys from the machines which can login to this server without providing password. Make sure you keep this list trimmed.</p>";
 
-$__information['updateform_forcedeletepserver_pre'] = "<p>Force delete Server just removes the server from KloxoNG's database.</p>".
+$__information['updateform_forcedeletepserver_pre'] = "<p>Force delete Server just removes the server from Kloxo's database.</p>".
 	"<p>This is useful if the server has been completely removed is no longer accessible.</p>";
 
 $__information['allowedip_addform__pre'] = "<p>This is only meant for blocking access to the control panel, and will not block access to the actual resource. ".
@@ -147,7 +147,7 @@ $__information['blockedip_addform__pre'] = "<p>This is only meant for blocking a
 	"<p>You should add blocked ips only if the allowed ip list is empty. ".
 	"If allowed ip list is non-empty then, automatically all ips not listed are denied.</p>";
 
-$__information['general_updateform_portconfig_pre'] = "<p>This page is primarily meant to configure the ports of KloxoNG.</p>".
+$__information['general_updateform_portconfig_pre'] = "<p>This page is primarily meant to configure the ports of Kloxo.</p>".
 	"<p>Leave the fields blank to revert to default ports. Need restart panel with <b>sh /script/restart</b> if auto restart failed.</p>".
 	"<p>Run '<b>sh /script/defaultport; sh /script/restart</b>' and the ports will be reset to the default.</p>".
 	"<p>Choose <b>kloxo.exe</b> if need low memory usage for panel itself.</p>";
@@ -157,8 +157,8 @@ $__information['lxbackup_updateform_schedule_conf_pre'] = "<p>Please note that o
 	"<p>If you create your own backup with your own name, they won't be rotated.</p>".
 	"<p>So if you want a manually created backup to be rotated, provide the initial string as <b>kloxo-scheduled-</b>.</p>";
 
-$__information['updateform_ssl_kloxo_pre'] = "<p>This will set the ssl certificate for KloxoNG as this particular certificate.</p>".
-	"<p>Make sure you restart KloxoNG after you set it here.</p>";
+$__information['updateform_ssl_kloxo_pre'] = "<p>This will set the ssl certificate for Kloxo as this particular certificate.</p>".
+	"<p>Make sure you restart Kloxo after you set it here.</p>";
 
 $__information['updateform_ssl_authorized_keys_pre'] = "<p>These are the SSH keys from the machines which are authorized to login to ".
 	"your account without supplying the password.</p>".
@@ -189,7 +189,7 @@ $__information['custombutton_addform__pre'] = "<p>In 'URL', you can use %nname%,
 $__information['updateform_download_config_pre'] = "<p>Normally, when downloading files, the master creates a temporary session, ".
 	"and then redirects the browser directly to the slave.</p>".
 	"<p>This is to save the bandwidth, since otherwise, the files are pointlessly have to go through the master.</p>".
-	"<p>If you enable this, KloxoNG will instead route the file via the master itself.</p>".
+	"<p>If you enable this, Kloxo will instead route the file via the master itself.</p>".
 	"<p>This is useful if you have given private ips for slaves, and the slaves are not accessible from the outside world.</p>";
 
 $__information['updateform_login_options_pre'] = "<p><b>Note:</b> session timeout cannot be less than 100 and if less, will be automatically set to 100.</p>";
@@ -204,7 +204,7 @@ $__information['resourceplan_addform__pre'] = "<p>You can set 'Resource Plan' he
 $__information['lxbackup_updateform_backup_pre'] = "<p>The backup file will appear in the __backup directory of your client area. ".
 	"You can access it by clicking on the 'File Manager' Tab.</p>".
 	"<p>To restore a backup, you can first upload it to the server using the <b>upload</b> tab or use 'Restore from FTP' (not recommended for big size backup file).</p>".
-	"<p>Please note that KloxoNG backup is heirarchical. ".
+	"<p>Please note that Kloxo backup is heirarchical. ".
 	"If you take backup of a particular resource, everything under it is automatically included. ".
 	"Thus if you take backup of admin, then you need not take backups of clients under you separately.</p>";
 
@@ -237,9 +237,9 @@ $__information['dskshortcut_a_list__pre'] = "<p>To add a page to the favorites, 
 	"<p>You can click on the <b>description</b> header, and the list will be sorted by that field, and then refresh the entire frame.</p>".
 	"<p>The actual favorite list on the left panel will exactly reflect the order that's visible here.</p>";
 
-$__information['ticketconfig_updateform_ticketconfig_pre'] = "<p>The mailgate is an account from which KloxoNG will download mails at particular intervals, ".
+$__information['ticketconfig_updateform_ticketconfig_pre'] = "<p>The mailgate is an account from which Kloxo will download mails at particular intervals, ".
 	"and will be parsed and added to the helpdesk.</p>".
-	"<p>When sending out mails, KloxoNG will send the mails as originating from the address you configure. ".
+	"<p>When sending out mails, Kloxo will send the mails as originating from the address you configure. ".
 	"The address is of the form <b>account@domain.com</b>. Server is the pop server from which to download the mail.<b>server.com</b>.</p>".
 	"<p>If you check the <b>use ssl</b> box, then the mail will be downloaded over pop3-ssl, at port 995. ".
 	"It is always recommended that you use ssl, but you will need to make sure that the remote mail serer does support pop3-ssl service at port 995.</p>";
@@ -264,9 +264,9 @@ $__information['vv_updateform_skin_logo_pre'] = "<p>To enforce your logo on your
 
 $__information['pserver_updateform_information_pre'] = "<p>FQDN is a very important field and it should be set to a domain name ".
 	"that will properly resolve to this particular machine.</p>".
-	"<p>Once you set the FQDN, KloxoNG will use that value for all further network communication, ".
+	"<p>Once you set the FQDN, Kloxo will use that value for all further network communication, ".
 	"and if the FQDN set here is wrong, then network communication between the master/slave would fail.</p>".
-	"<p>If you leave it blank, KloxoNG will use the first ipaddress on this server for communication.</p>".
+	"<p>If you leave it blank, Kloxo will use the first ipaddress on this server for communication.</p>".
 	"<p>Set FQDN to a hostname using which you can access this machine from everywhere.</p>";
 
 $__information['pserver_addform__pre'] = "<p>If you have freshly installed a slave server, the password is admin.</p>".
@@ -297,7 +297,7 @@ $__information['web_updateform_dirindex_pre'] = "<p>Enabling <b>directory index<
 	"<p>If directory index is disabled, and if an index.xxx file is not found inside the directory, a forbidden error message will be raised.</p>";
 
 $__information['updateform_editmx_pre'] = "<p>If you want to configure remote mail server, click <url:a=updateform&sa=remotelocalmail>[here]</url>.</p>".
-	"<p>You can tell KloxoNG that the mail server is configured remotely, so that all local generated mails will be sent to that server.</p>".
+	"<p>You can tell Kloxo that the mail server is configured remotely, so that all local generated mails will be sent to that server.</p>".
 	"<p>If you don't configure remote mail, then all mails to this domain will delivered locally itself, without doing any DNS lookup.</p>";
 
 $__information['web_updateform_run_stats_pre'] = "<p>This will allow you to forcibly run the stats program, ".
@@ -305,7 +305,7 @@ $__information['web_updateform_run_stats_pre'] = "<p>This will allow you to forc
 	"<p>Use <b>update all</b> to run it on all the domains visible in the top pull down menu.</p>";
 
 $__information['server_alias_a_addform__pre'] = "<p>You can add wildcards (*) as an alias so that all the subdomains are automatically directed to this domain. ".
-	"KloxoNG will also automatically add a DNS entry for the alias.</p>".
+	"Kloxo will also automatically add a DNS entry for the alias.</p>".
 	"<p>Once you configure the catchall subdomain with wildcards (*), you can add the proper logic in your script to detect the correct subdomain and do accordingly.</p>".
 	"<p>Lighttpd may be confused with selected wildcards (*). Access to defaults (default, cp, disable and 'customize') pages will be lead to the domain page.</p>";
 
@@ -366,7 +366,7 @@ $__information['easyinstaller_addform__pre'] = "<p>To install an application in 
 	"and you will be able to get same form with the new domain as the parent.</p>".
 	"<p>A message with login and url information will be sent to the contact email address you provide here.</p>";
 
-$__information['mysqldb_updateform_restore_pre'] = "<p>You can use this only to restore the backups that were explicitly taken in KloxoNG ".
+$__information['mysqldb_updateform_restore_pre'] = "<p>You can use this only to restore the backups that were explicitly taken in Kloxo ".
 	"itself using the <b>Get Backup</b> tab.</p>".
 	"<p>To restore normal mysql dump file, please use phpMyAdmin.</p>";
 
@@ -450,7 +450,7 @@ $__information['updateform_switchprogram_pre'] = "<p>Switching Programs will tak
 	"Only Nginx and Hiawatha able to use 'microcache' at this moment.</p>".
 	"<p>All web servers already installed and it's make faster switch between them. If select/unselect 'Use Apache 2.4' and or 'Use Pagespeed' better choose other webserver (other than Apache or Proxy) and then select back to previous.</p>";
 
-$__information['updateform_permalink_pre'] = "<p>KloxoNG comes with default permalink configuration for many apps.</p>".
+$__information['updateform_permalink_pre'] = "<p>Kloxo comes with default permalink configuration for many apps.</p>".
 	"<p>Please select the application and the directory where you have installed it, ".
 	"and kloxo will add the corresponding rewrite rule into the lighty configuration.</p>".
 	"<p>Please note that for some applications, permalinks are achieved via setting the 404 error handler, for instance wordpress.</p>";
@@ -584,7 +584,7 @@ $__information['webserver_config'] =
 // $__information['domain_show__pre'] = "<p>No information...</p>";
 // $__information['pserver_show__pre'] = "<p>No information...</p>";
 
-$__information['mailaccount_show__pre'] = "<p>Login in KloxoNG panel with <b>[%_mailaccount_%]</b> will be going to this page directly.</p>";
+$__information['mailaccount_show__pre'] = "<p>Login in Kloxo panel with <b>[%_mailaccount_%]</b> will be going to this page directly.</p>";
 
 $__information['smessage_addform__pre'] = "<p>You can send a message your client.</p>";
 
@@ -643,14 +643,14 @@ $__information['dns_updateform_parameter_pre'] = "<p>Here you can manage the 'SO
 
 $__information['domain_addform__pre'] = "<p>Better use lowercase for 'Domain Name' and 'Document Root' to minimize compatiblity issue.</p>".
 	"<p>Subdomain like 'subdom.domain.com' consider as domain.</p>".
-	"<p>Leave the document root blank and KloxoNG will automatically use domain from 'Domain Name' as the docroot.</p>".
+	"<p>Leave the document root blank and Kloxo will automatically use domain from 'Domain Name' as the docroot.</p>".
 	"<p>The document root may not contain any space at the end or before the slash. Please check and submit again.</p>";
 
 $__information['subdomain_addform__pre'] = "<p>Better use lowercase for 'Domain Name' and 'Document Root' to minimize compatiblity issue.</p>".
-	"<p>Leave the document root blank and KloxoNG will automatically use domain from 'Subdomain Name' + selected domain as the docroot.</p>".
+	"<p>Leave the document root blank and Kloxo will automatically use domain from 'Subdomain Name' + selected domain as the docroot.</p>".
 	"<p>The document root may not contain any space at the end or before the slash. Please check and submit again.</p>";
 
-$__information['mailaccount_addform__pre'] = "<p>KloxoNG automatically add <b>postmaster</b> account if you add domain/subdomain.</p>".
+$__information['mailaccount_addform__pre'] = "<p>Kloxo automatically add <b>postmaster</b> account if you add domain/subdomain.</p>".
 	"<p>You can add another mail accounts if you need them.</p>";
 
 $__information['sp_specialplay_updateform_skin_pre'] = "<p>Base 'Appearance' is 'Skin'. Different skin have different features.</p>".
@@ -658,13 +658,13 @@ $__information['sp_specialplay_updateform_skin_pre'] = "<p>Base 'Appearance' is 
 	"<p><b>Note:</b> Simplicity skin may not work in old browser version. Found 'menu' problem in IE 8 or less version.</p>";
 
 $__information['lxupdate_updateform_lxupdateinfo_pre'] = "<p>Click 'Update Now' for update. Update process will be run in background. The same way with <b>'sh /script/cleanup'</b>.</p>".
-	"<p>If KloxoNG panel not able to access after update, need running 'sh /script/restart' from ssh.</p>";
+	"<p>If Kloxo panel not able to access after update, need running 'sh /script/restart' from ssh.</p>";
 
-$__information['releasenote_list__pre'] = "<p>Information about KloxoNG release since first release.</p>";
+$__information['releasenote_list__pre'] = "<p>Information about Kloxo release since first release.</p>";
 
 $__information['client_updateform_password_pre'] = "<p>Update password for <b>[%_client_%]</b>.</p>".
 	"<p>Better use 8 character or more with a combination of uppercase, lowercase and numbers.</p>".
-	"<p>Click 'Generate Password' if you want KloxoNG to generate password for you.</p>";
+	"<p>Click 'Generate Password' if you want Kloxo to generate password for you.</p>";
 
 $__information['auxiliary_addform__pre'] = "<p>You can add/delete 'auxiliary login' (always with '.aux' postfix) as alternative id to login.</p>".
 	"<p>Don't give main account to anyone, instead 'auxiliary login'.</p>";
@@ -719,7 +719,7 @@ $__information['pserver_updateform_reboot_pre'] = "<p>Click 'Reboot' to reboot y
 $__information['pserver_updateform_poweroff_pre'] = "<p>Click 'Poweroff' to poweroff/shutdown your <b>[%_server_%]</b>.</p>";
 
 $__information['service_list__pre'] = "<p>Click 'SB' for start/stop service when the server is rebooted. Click 'State' to start/stop service now.</p>".
-	"<p>KloxoNG always monitor services with green 'SB' and try to start them periodically in case of red 'State' .</p>";
+	"<p>Kloxo always monitor services with green 'SB' and try to start them periodically in case of red 'State' .</p>";
 
 // $__information['process_list__pre'] = "<p>No information...</p>";
 

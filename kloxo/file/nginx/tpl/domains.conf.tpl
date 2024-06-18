@@ -177,7 +177,7 @@ if ($general_header) {
 		}
 	}
 
-	$x[] = "\tadd_header X-Supported-By \"KloxoNG 0.01\";";
+	$x[] = "\tadd_header X-Supported-By \"Kloxo 0.01\";";
 
 	$general_header_text = implode("\n", $x);
 }

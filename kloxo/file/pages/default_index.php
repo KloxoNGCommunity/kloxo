@@ -48,9 +48,9 @@
 		if(isset($incfile2)) { include_once $incfile2 ; }
 
 		if (isset($page)) {
-			$title = "KloxoNG {$page} page";
+			$title = "Kloxo {$page} page";
 		} else {
-			$title = "KloxoNG Page";
+			$title = "Kloxo Page";
 		}
 		// Hide random images
 /*		if (basename(getcwd()) === 'login') {
@@ -166,7 +166,7 @@ table.content_title td {
 <table class="header">
 	<tr>
 		<td width="100%"><img style="margin:5px; padding:5px; height:50px" class="logo" src="<?php echo $logo_url; ?>" alt="hosting-logo"></td>
-		<td><a href="//kloxong.org/" title="KloxoNG website"><img style="margin:5px; padding:5px; height:50px" class="logo" src="./images/kloxong.png" alt="kloxoNG-logo"></a></td>
+		<td><a href="//kloxong.org/" title="Kloxo website"><img style="margin:5px; padding:5px; height:50px" class="logo" src="./images/kloxong.png" alt="kloxoNG-logo"></a></td>
 	</tr>
 </table>
 <table class="content">

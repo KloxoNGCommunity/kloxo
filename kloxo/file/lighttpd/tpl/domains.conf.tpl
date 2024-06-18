@@ -173,7 +173,7 @@ if ($general_header) {
 	}
 	}
 
-	$general_header_text .= "\tsetenv.add-response-header += ( \"X-Supported-By\" => \"KloxoNG\" )\n";
+	$general_header_text .= "\tsetenv.add-response-header += ( \"X-Supported-By\" => \"Kloxo\" )\n";
 }
 
 if ($https_header) {

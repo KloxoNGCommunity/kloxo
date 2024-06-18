@@ -1,5 +1,5 @@
 [Unit]
-Description=Startup script for KloxoNG.
+Description=Startup script for Kloxo.
 Documentation=https://www.facebook.com/groups/KloxoNextGeneration
 After=network.target remote-fs.target nss-lookup.target
  

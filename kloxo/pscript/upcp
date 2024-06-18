@@ -53,10 +53,10 @@ fi
 
 
 if [ "$TEST" ] ; then
-	if [ "$(rpm -qa kloxong-testing)" == "" ] ; then
+	if [ "$(rpm -qa kloxo-testing)" == "" ] ; then
 		echo "Installing Test repo"
 		echo
-		yum -y install kloxong-testing
+		yum -y install kloxo-testing
 	else
 		echo "Test Repo already installed"
 		echo

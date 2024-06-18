@@ -1,7 +1,7 @@
 ![KloxoNG](https://kloxong.org/wp-content/uploads/2017/10/KloxoNG.jpg )
-# KloxoNG
+# Kloxo
 
-### A Kloxo-MR fork by The Kloxo Next Generation Community
+### A Kloxo fork by The Kloxo Next Generation Community
 
 Please use master branch
 
@@ -12,11 +12,11 @@ Branch:
 
 ===================
 
-The current release Kloxong 0.1.3-1 - adds php74 and nat ip mapping to KloxoMG. 
+The current release Kloxo 0.1.3-1 - adds php74 and nat ip mapping to Kloxo. 
 
 <a href="https://copr.fedorainfracloud.org/coprs/kloxong/Testing/package/kloxong/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/Testing/package/kloxong/status_image/last_build.png" /></a>
 
-## KloxoNG
+## Kloxo
 
 This is a new development path of Kloxo based on the work of Kloxo-MR.
 
@@ -24,11 +24,11 @@ The aim of this project is to create a development pathway that is not dependent
 
 ### URL
 
-1. More information about Kloxo NG go to https://kloxong.org/ 
+1. More information about Kloxo Next Geneeration go to https://kloxong.org/ 
 
 ### Features (based on exsitng Kloxo-MR features - this will change as we develop our road map)
 
-* OS: Redhat/Centos 7  (Redhat/CentOS 6 is now EOL)
+* OS: Redhat/Centos 8 
 * Billing: AWBS, WHMCS, HostBill, TheHostingTool, AccountLab Plus, Blesta and BoxBilling (note: claim by billing's author)
 * Web server: Nginx, Nginx-Proxy and Lighttpd-proxy, Hiawatha, Hiawatha-proxy and Httpd 24, beside Httpd and Lighttpd; also Dual and Multiple Web server *)
 * Webcache server: Squid, Varnish and ATS *)
@@ -55,12 +55,12 @@ The aim of this project is to create a development pathway that is not dependent
 
 ### How to install
 
-* Read https://github.com/KloxoNGCommunity/kloxoNG-CP/blob/master/how-to-install.txt
+* Read https://github.com/KloxoNGCommunity/kloxo8/blob/master/how-to-install.txt
 
 ### Notes
 *) Features inheritited from Kloxo-MR 7 (Note: these may change as we develop our road map)
 
-- OS: Redhat/CentOS 7 (64bit) (since 27 Feb 2017) *)
+- OS: Redhat/CentOS 8 (64bit) 
 - Web server: Httpd 2.4 (since 20 Jun 2015); Dual (since 19 Jan 2016)
 - Webcache server: Squid, Varnish and ATS (Apache Traffic Server) (since 3 Oct 2013)
 - DNS server: Powerdns, NSD, MyDNS and Yadifa (since 16 Sep 2013)

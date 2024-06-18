@@ -2871,7 +2871,7 @@ function checkIfLatest()
 
 function getLatestVersion()
 {
-	exec("yum check-update kloxong|grep kloxong|awk '{print $2}'", $out, $ret);
+	exec("yum check-update kloxo|grep kloxo|awk '{print $2}'", $out, $ret);
 
 	if ($ret === 0) {
 		$ver = getInstalledVersion();
@@ -2885,7 +2885,7 @@ function getLatestVersion()
 
 function getInstalledVersion()
 {
-	exec("cd /; yum list installed kloxong|grep kloxong|awk '{print $2}'", $out, $ret);
+	exec("cd /; yum list installed kloxo|grep kloxo|awk '{print $2}'", $out, $ret);
 
 	$ver = str_replace(".mr", "", $out[0]);
 
@@ -6456,7 +6456,7 @@ function setInitialServer($nolog = null)
 	}
 
 	// MR - Change to different purpose
-	// install php52s + hiawatha (also kloxong specific component) and their setting for Kloxo-MR
+	// install php52s + hiawatha (also kloxo specific component) and their setting for Kloxo
 
 	// MR -- remove old Kloxo ext
 	$packages = array("lxphp", "lxzend", "lxlighttpd");
@@ -6467,10 +6467,10 @@ function setInitialServer($nolog = null)
 	
 	//Remove old webmail packages
 	$packages = array(
-		"kloxong-webmail-squirrelmail",
-		"kloxong-webmail-telaen",
-		"kloxong-webmail-horde",
-		"kloxong-webmail-t-dah"
+		"kloxo-webmail-squirrelmail",
+		"kloxo-webmail-telaen",
+		"kloxo-webmail-horde",
+		"kloxo-webmail-t-dah"
 	);
 
 	$list = implode(" ", $packages);
@@ -6478,17 +6478,17 @@ function setInitialServer($nolog = null)
 	exec("yum -y remove $list >/dev/null 2>&1");
 
 	$packages = array(
-		"kloxong-webmail-*.noarch",
-		"kloxong-thirdparty-*.noarch", 
-		"kloxong-thirdparty-*.noarch", 
-		"kloxong-stats-*.noarch", 
-		"kloxong-editor-*.noarch", 
+		"kloxo-webmail-*.noarch",
+		"kloxo-thirdparty-*.noarch", 
+		"kloxo-thirdparty-*.noarch", 
+		"kloxo-stats-*.noarch", 
+		"kloxo-editor-*.noarch", 
 		"hiawatha",
-		"--exclude=kloxong-thirdparty-phpmyadmin-*.noarch",
-		"--exclude=kloxong-webmail-squirrelmail.noarch",
-		"--exclude=kloxong-webmail-telaen.noarch",
-		"--exclude=kloxong-webmail-horde.noarch",
-		"--exclude=kloxong-webmail-t-dah.noarch"
+		"--exclude=kloxo-thirdparty-phpmyadmin-*.noarch",
+		"--exclude=kloxo-webmail-squirrelmail.noarch",
+		"--exclude=kloxo-webmail-telaen.noarch",
+		"--exclude=kloxo-webmail-horde.noarch",
+		"--exclude=kloxo-webmail-t-dah.noarch"
 	);
 
 	$list = implode(" ", $packages);

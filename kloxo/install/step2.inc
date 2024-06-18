@@ -1,5 +1,5 @@
 #delcaring variables and variables list 
-klxpckname='kloxong'
+klxpckname='kloxo'
 
 #Packages removing web 
 yum_rem_pack=(
@@ -100,11 +100,11 @@ old_rem_kloxo_pack=(
 						"lxlighttpd"
 						"lxzend"
 						"kloxo-*"
-                        "kloxong-webmail-*.noarch"
-						"kloxong-thirdparty-*.noarch"
-						"kloxong-stats-*.noarch"
-						"kloxong-editor-*.noarch"
-                        "kloxong-thirdparty-phpmyadmin-*.noarch"
+                        "kloxo-webmail-*.noarch"
+						"kloxo-thirdparty-*.noarch"
+						"kloxo-stats-*.noarch"
+						"kloxo-editor-*.noarch"
+                        "kloxo-thirdparty-phpmyadmin-*.noarch"
 					) 
 
 #yum other required componements for kloxo and centos
@@ -163,18 +163,18 @@ php_pack=(
 
 #yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and kloxong
 yum_klx_legacy_pack=(
-						"kloxong-webmail-*.noarch"
-						"kloxong-thirdparty-*.noarch"
-						"kloxong-stats-*.noarch"
-						"kloxong-editor-*.noarch"
+						"kloxo-webmail-*.noarch"
+						"kloxo-thirdparty-*.noarch"
+						"kloxo-stats-*.noarch"
+						"kloxo-editor-*.noarch"
 					)
 					
 yum_klx_legacy_excl_pack=(
-							"kloxong-thirdparty-phpmyadmin-*.noarch"
-							"kloxong-webmail-squirrelmail.noarch"
-							"kloxong-webmail-telaen.noarch"
-							"kloxong-webmail-horde.noarch"
-							"kloxong-webmail-t-dah.noarch"
+							"kloxo-thirdparty-phpmyadmin-*.noarch"
+							"kloxo-webmail-squirrelmail.noarch"
+							"kloxo-webmail-telaen.noarch"
+							"kloxo-webmail-horde.noarch"
+							"kloxo-webmail-t-dah.noarch"
 						 )						
 
 
@@ -207,7 +207,7 @@ dbroot='root'
 dbpass=''
 
 kloxo_service_init() {
-	echo ">>> Copy KloxoNG service <<<"
+	echo ">>> Copy Kloxo service <<<"
 
 	sh /script/fixlxphpexe
 }
@@ -318,7 +318,7 @@ kloxo_vpopmail() {
 
 	echo 'SPAMDOPTIONS=" -v -d -p 783 -u vpopmail"' > /etc/sysconfig/spamassassin
 
-	## MR -- until KloxoNG 0.0.1, still using the same mail path
+	## MR -- until Kloxo 0.0.1, still using the same mail path
 	mkdir -p /home/lxadmin/mail/domains
 	chmod 755 /home/lxadmin
 	chmod 755 /home/lxadmin/mail
@@ -402,9 +402,9 @@ kloxo_install_step1() {
 
 	sh /script/maldet-installer
 
-	echo ">>> Add KloxoNG webmail/thirparty/stats <<<"
+	echo ">>> Add Kloxo webmail/thirparty/stats <<<"
 
-	## MR -- it's include packages like kloxong-thirdparty
+	## MR -- it's include packages like kloxo-thirdparty
 	## JP -- exclude testing repo as will already ne installed if actually needed	
 
 	yum -y install $klxpckname-*.noarch --exclude $klxpckname-testing
@@ -442,7 +442,7 @@ kloxo_install_step1() {
 }
 
 kloxo_install_step2() {
-	echo ">>> Process basic KloxoNG configuration (setting and database) <<<"
+	echo ">>> Process basic Kloxo configuration (setting and database) <<<"
 
 	if [ ! -d ${kloxopath}/etc/conf ] ; then
 		mkdir -p ${kloxopath}/etc/conf
@@ -569,7 +569,7 @@ kloxo_install_bye() {
 		echo
 		echo "._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/."
 		echo "._/                                                                          _/."
-		echo "._/ Congratulations. KloxoNG has been installed succesfully as 'MASTER'     _/."
+		echo "._/ Congratulations. Kloxo has been installed succesfully as 'MASTER'     _/."
 		echo "._/                                                                          _/."
 
 	if [ "${installtype}" == 'master' ] ; then
@@ -612,7 +612,7 @@ kloxo_install_bye() {
 }
 
 install_yum_repo() {
-	echo ">>> Modified kloxong.repo and remove older repo names <<<"
+	echo ">>> Modified kloxo.repo and remove older repo names <<<"
 
 	sh /script/fixrepo
 

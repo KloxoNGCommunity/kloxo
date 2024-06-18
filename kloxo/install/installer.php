@@ -77,10 +77,10 @@ $dbpass = '';
         'exim',
 		'postfix',
 		'postfix32u',
-		'kloxong-webmail-squirrelmail',
-		'kloxong-webmail-telaen',
-		'kloxong-webmail-horde',
-		'kloxong-webmail-t-dah'
+		'kloxo-webmail-squirrelmail',
+		'kloxo-webmail-telaen',
+		'kloxo-webmail-horde',
+		'kloxo-webmail-t-dah'
 		
     );
 
@@ -159,16 +159,16 @@ $dbpass = '';
     );
 */
     $yumKloxoPackages = array(
-        'kloxong-*.noarch',
-        'kloxong-webmail-*.noarch',
-        'kloxong-thirdparty-*.noarch',
-        'kloxong-stats-*.noarch',
-        'kloxong-editor-*.noarch',
-        '--exclude=kloxong-thirdparty-phpmyadmin-*.noarch',
-		'--exclude=kloxong-webmail-squirrelmail.noarch',
-		'--exclude=kloxong-webmail-telaen.noarch',
-		'--exclude=kloxong-webmail-horde.noarch',
-		'--exclude=kloxong-webmail-t-dah.noarch'
+        'kloxo-*.noarch',
+        'kloxo-webmail-*.noarch',
+        'kloxo-thirdparty-*.noarch',
+        'kloxo-stats-*.noarch',
+        'kloxo-editor-*.noarch',
+        '--exclude=kloxo-thirdparty-phpmyadmin-*.noarch',
+		'--exclude=kloxo-webmail-squirrelmail.noarch',
+		'--exclude=kloxo-webmail-telaen.noarch',
+		'--exclude=kloxo-webmail-horde.noarch',
+		'--exclude=kloxo-webmail-t-dah.noarch'
     );
 }
 
@@ -820,7 +820,7 @@ function char_search_beg($haystack, $needle)
  */
 function install_yum_repo()
 {
-    print(">>> Modified kloxong.repo and remove older repo names <<<\n");
+    print(">>> Modified kloxo.repo and remove older repo names <<<\n");
     /*
         if (!file_exists("/etc/yum.repos.d")) {
             print("- No yum.repos.d dir detected!\n");
@@ -840,9 +840,9 @@ function install_yum_repo()
             } else {
                 $ver = '6';
             }
-            system("sed -i 's/\$releasever/{$ver}/' /etc/yum.repos.d/kloxong.repo");
+            system("sed -i 's/\$releasever/{$ver}/' /etc/yum.repos.d/kloxo.repo");
         } else {
-            system("sed -i 's/\$releasever/5/' /etc/yum.repos.d/kloxong.repo");
+            system("sed -i 's/\$releasever/5/' /etc/yum.repos.d/kloxo.repo");
         }
 
         // remove all old repos

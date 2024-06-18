@@ -605,7 +605,7 @@ abstract class Lxclient extends Lxdb
 		$data["countryName"] = "ID";
 		$data["stateOrProvinceName"] = "DIY";
 		$data["localityName"] = "id";
-		$data["organizationName"] = "MRatWork";
+		$data["organizationName"] = "Kloxo Next Generation";
 		$data["organizationalUnitName"] = "software";
 		$data["emailAddress"] = "info@kloxong.org";
 

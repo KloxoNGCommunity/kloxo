@@ -27,7 +27,7 @@
 
 %define debug_package %{nil}
 %define kloxopath /usr/local/lxlabs/kloxo
-%define productname kloxong 
+%define productname kloxo 
 
 
 Name: %{productname}
@@ -83,7 +83,7 @@ Kloxo Next Generation. This is a community release of a fork of Kloxo-MR. Kloxo-
 %pre
 echo 'pre' >> /tmp/scriptlet.txt
 /usr/sbin/useradd -s /sbin/nologin -M -r -d /home/lxlabs/ \
-    -c "KloxoNG Website Control Panel" lxlabs &>/dev/null || :
+    -c "Kloxo Website Control Panel" lxlabs &>/dev/null || :
 
 %post
 
@@ -101,7 +101,7 @@ read -r -d '' for_cleanup << EOF
 ._/    and then 'sh /script/fix-all' and 'sh /script/restart-all'            _/.
 ._/                                                                          _/.
 ._/  - If trouble when execute 'sh /script/cleanup' (missing directory),     _/.
-._/    try 'yum reinstall kloxong -y'                                       _/.
+._/    try 'yum reinstall kloxo -y'                                       _/.
 ._/                                                                          _/.
 ._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
 EOF

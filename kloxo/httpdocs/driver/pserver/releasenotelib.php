@@ -55,7 +55,7 @@ class ReleaseNote extends Lxlclass
 
 		$ver = $out1[0];
 
-		exec("rpm -q --changelog kloxong | less", $out2);
+		exec("rpm -q --changelog kloxo | less", $out2);
 
 		$result = array();
 

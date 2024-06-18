@@ -1,7 +1,7 @@
 %define repohost repo.kloxong.org
 %define mirrorhost raw.githubusercontent.com/KloxoNGCommunity/KloxoNG-rpms/dev/kloxong/mirror
-Summary: KloxoNG release file and package configuration
-Name: kloxong-release
+Summary: Kloxo release file and package configuration
+Name: kloxo-release
 Version: 0.1.1
 Release: 10
 License: AGPLV3
@@ -30,8 +30,8 @@ Kloxo Next Generation rpm release. This package contains yum configuration for t
 
 %build
 
-cat > kloxong.repo << _EOF_
-[kloxong-copr]
+cat > kloxo.repo << _EOF_
+[kloxo-copr]
 name=kloxong master Copr repo 
 baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxong/epel-\$releasever-\$basearch/
 type=rpm-md
@@ -42,7 +42,7 @@ repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
 
-[kloxong-copr-httpd24]
+[kloxo-copr-httpd24]
 name=kloxong httpd24 Copr repo 
 baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/epel-\$releasever-\$basearch/
 type=rpm-md
@@ -53,7 +53,7 @@ repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
 
-[kloxong-copr-curl]
+[kloxo-copr-curl]
 name=kloxong curl repo 
 baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/Curl/epel-\$releasever-\$basearch/
 type=rpm-md
@@ -65,26 +65,26 @@ enabled=1
 enabled_metadata=1
 
 
-[kloxong-release-version-arch]
-name=KloxoNG - release-version-arch
+[kloxo-release-version-arch]
+name=Kloxo - release-version-arch
 baseurl=https://%{repohost}/kloxong/release/centos\$releasever/\$basearch/
-#mirrorlist=https://%{mirrorhost}/kloxong-release-centos\$releasever-\$basearch-mirrors.txt
+#mirrorlist=https://%{mirrorhost}/kloxo-release-centos\$releasever-\$basearch-mirrors.txt
 skip_if_unavailable=True
 enabled=1
 gpgcheck=0
 
-[kloxong-srpms]
-name=KloxoNG - srpms
+[kloxo-srpms]
+name=Kloxo - srpms
 baseurl=https://%{repohost}/kloxong/SRPMS/
-#mirrorlist=https://%{mirrorhost}/kloxong-SRPMS-mirrors.txt
+#mirrorlist=https://%{mirrorhost}/kloxo-SRPMS-mirrors.txt
 skip_if_unavailable=True
 enabled=0
 gpgcheck=0
 
 # ==================================
 
-[kloxong-remi]
-name=KloxoNG - Les RPM de remi pour Enterprise Linux $releasever
+[kloxo-remi]
+name=Kloxo - Les RPM de remi pour Enterprise Linux $releasever
 #baseurl=http://rpms.famillecollet.com/enterprise/\$releasever/remi/$basearch/
 mirrorlist=http://cdn.remirepo.net/enterprise/\$releasever/remi/mirror
 gpgcheck=0
@@ -95,8 +95,8 @@ exclude=php5* php7* php80* php-* mysql5* mysql56*  mariadb* postfix32u*
 
 # ==================================
 
-[kloxong-epel]
-name=KloxoNG - Extra Packages for EL \$releasever
+[kloxo-epel]
+name=Kloxo - Extra Packages for EL \$releasever
 #baseurl=http://download.fedoraproject.org/pub/epel/\$releasever/\$basearch
 mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=epel-\$releasever&arch=\$basearch
 enabled=1
@@ -106,8 +106,8 @@ exclude=postfix* exim* ssmtp* pdns*
 # ==================================
 
 # for hiawatha
-[kloxong-centosec]
-name=KloxoNG - CentOS \$releasever Packages from CentOS.EC
+[kloxo-centosec]
+name=Kloxo - CentOS \$releasever Packages from CentOS.EC
 baseurl=http://centos\$releasever.ecualinux.com/\$basearch
 enabled=0
 gpgcheck=0
@@ -116,15 +116,15 @@ exclude=cairo*
 # ==================================
 
 # for nginx
-[kloxong-nginx]
-name=KloxoNG - nginx repo
+[kloxo-nginx]
+name=Kloxo - nginx repo
 baseurl=http://nginx.org/packages/mainline/centos/\$releasever/\$basearch/
 enabled=1
 gpgcheck=0
 
 # for nginx-stable
-[kloxong-nginx-stable]
-name=KloxoNG - nginx-stable repo
+[kloxo-nginx-stable]
+name=Kloxo - nginx-stable repo
 baseurl=http://nginx.org/packages/centos/\$releasever/\$basearch/
 enabled=1
 gpgcheck=0
@@ -132,8 +132,8 @@ gpgcheck=0
 # ==================================
 
 # for mariadb
-[kloxong-mariadb]
-name=KloxoNG - mariadb repo
+[kloxo-mariadb]
+name=Kloxo - mariadb repo
 baseurl=http://yum.mariadb.org/10.5/centos/\$releasever/\$basearch/
 #baseurl=https://dlm.mariadb.com/repo/mariadb-server/10.2/yum/centos/\$releasever/\$basearch
 enabled=1
@@ -142,8 +142,8 @@ gpgcheck=0
 # ==================================
 
 # for atrpms
-[kloxong-atrpms]
-name=KloxoNG - Fedora Core \$releasever - $basearch - ATrpms
+[kloxo-atrpms]
+name=Kloxo - Fedora Core \$releasever - $basearch - ATrpms
 baseurl=http://dl.atrpms.net/el\$releasever-\$basearch/atrpms/stable
 enabled=0
 gpgcheck=0
@@ -152,15 +152,15 @@ exclude=clam*
 # ==================================
 
 # for litespeed
-[kloxong-litespeed]
-name=KloxoNG - LiteSpeed Tech Repository for CentOS \$releasever - \$basearch
+[kloxo-litespeed]
+name=Kloxo - LiteSpeed Tech Repository for CentOS \$releasever - \$basearch
 baseurl=http://rpms.litespeedtech.com/centos/\$releasever/\$basearch/
 #failovermethod=priority
 enabled=0
 gpgcheck=0
 
-[kloxong-litespeed-update]
-name=KloxoNG - LiteSpeed Tech Repository for CentOS \$releasever - \$basearch
+[kloxo-litespeed-update]
+name=Kloxo - LiteSpeed Tech Repository for CentOS \$releasever - \$basearch
 baseurl=http://rpms.litespeedtech.com/centos/\$releasever/update/\$basearch/
 #failovermethod=priority
 enabled=0
@@ -169,8 +169,8 @@ gpgcheck=0
 # ==================================
 
 # for mod-pagespeed
-[kloxong-google-mod-pagespeed]
-name=KloxoNG - google-mod-pagespeed
+[kloxo-google-mod-pagespeed]
+name=Kloxo - google-mod-pagespeed
 baseurl=http://dl.google.com/linux/mod-pagespeed/rpm/stable/\$basearch
 enabled=1
 gpgcheck=0
@@ -178,8 +178,8 @@ gpgcheck=0
 # ==================================
 
 # for mod_mono
-[kloxong-mod-mono]
-name=KloxoNG - mod_mono
+[kloxo-mod-mono]
+name=Kloxo - mod_mono
 baseurl=http://download.mono-project.com/repo/centos/
 enabled=0
 gpgcheck=0
@@ -187,8 +187,8 @@ gpgcheck=0
 # ==================================
 
 # for CentOS kernel
-[kloxong-centos-kernel]
-name=KloxoNG - CentOS kernel
+[kloxo-centos-kernel]
+name=Kloxo - CentOS kernel
 baseurl=http://elrepo.org/linux/kernel/el\$releasever/\$basearch
 enabled=0
 gpgcheck=0
@@ -196,30 +196,30 @@ gpgcheck=0
 # ==================================
 
 # for RSysLog
-[kloxong-rsyslog-v8-devel]
-name=KloxoNG - Adiscon Rsyslog v8-devel for CentOS-\$releasever-\$basearch
+[kloxo-rsyslog-v8-devel]
+name=Kloxo - Adiscon Rsyslog v8-devel for CentOS-\$releasever-\$basearch
 baseurl=http://rpms.adiscon.com/v8-devel/epel-\$releasever/\$basearch
 enabled=0
 gpgcheck=0
 
-[kloxong-rsyslog-v8-stable]
-name=KloxoNG - Adiscon Rsyslog v8-stable for CentOS-\$releasever-\$basearch
+[kloxo-rsyslog-v8-stable]
+name=Kloxo - Adiscon Rsyslog v8-stable for CentOS-\$releasever-\$basearch
 baseurl=http://rpms.adiscon.com/v8-stable/epel-\$releasever/\$basearch
 enabled=0
 gpgcheck=0
 
 # ==================================
 
-[kloxong-zfs]
-name=KloxoNG - ZFS on Linux for EL \$releasever
+[kloxo-zfs]
+name=Kloxo - ZFS on Linux for EL \$releasever
 baseurl=http://archive.zfsonlinux.org/epel/\$releasever/\$basearch/
 enabled=0
 gpgcheck=0
 
 # ==================================
 
-[kloxong-gleez]
-name=KloxoNG - Gleez repo for CentOS-\$releasever-\$basearch
+[kloxo-gleez]
+name=Kloxo - Gleez repo for CentOS-\$releasever-\$basearch
 baseurl=https://yum.gleez.com/\$releasever/\$basearch/
 enabled=0
 gpgcheck=0
@@ -227,23 +227,23 @@ includepkgs=hhvm*
 
 # ==================================
 
-[kloxong-ulyaoth]
-name=KloxoNG - Ulyaoth Repository
+[kloxo-ulyaoth]
+name=Kloxo - Ulyaoth Repository
 baseurl=http://repos.ulyaoth.net/centos/\$releasever/\$basearch/os/
 enabled=0
 gpgcheck=0
 
 # ==================================
 
-[kloxong-rpmforge]
-name=KloxoNG - RHEL \$releasever - RPMforge.net - dag
+[kloxo-rpmforge]
+name=Kloxo - RHEL \$releasever - RPMforge.net - dag
 baseurl=http://apt.sw.be/redhat/el\$releasever/en/\$basearch/rpmforge
 mirrorlist=http://apt.sw.be/redhat/el\$releasever/en/mirrors-rpmforge
 enabled=0
 gpgcheck=0
 
-[kloxong-rpmforge-extras]
-name=KloxoNG - RHEL \$releasever - RPMforge.net - extras
+[kloxo-rpmforge-extras]
+name=Kloxo - RHEL \$releasever - RPMforge.net - extras
 baseurl=http://apt.sw.be/redhat/el\$releasever/en/\$basearch/extras
 mirrorlist=http://apt.sw.be/redhat/el\$releasever/en/mirrors-rpmforge-extras
 enabled=0
@@ -253,25 +253,25 @@ _EOF_
 
 
 %if %{with_pre8_repos}
-cat >> kloxong.repo << _EOF_
+cat >> kloxo.repo << _EOF_
 # ==================================
 
-[kloxong-ius]
-name=KloxoNG - IUS Community Packages for EL \$releasever
+[kloxo-ius]
+name=Kloxo - IUS Community Packages for EL \$releasever
 baseurl=https://repo.ius.io/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
 exclude=mysql51* mysql56* mariadb* postfix32u*
 
-[kloxong-ius-archive]
-name=KloxoNG - IUS Community Packages for EL \$releasever (archive)
+[kloxo-ius-archive]
+name=Kloxo - IUS Community Packages for EL \$releasever (archive)
 baseurl=https://repo.ius.io/archive/\$releasever/\$basearch
 enabled=1
 gpgcheck=0
 exclude=mysql51* mysql56*  mariadb* postfix32u*
 
-[kloxong-ius-testing]
-name=KloxoNG - IUS Community Packages for EL \$releasever (testing)
+[kloxo-ius-testing]
+name=Kloxo - IUS Community Packages for EL \$releasever (testing)
 baseurl=https://repo.ius.io/testing/\$releasever/\$basearch
 enabled=0
 gpgcheck=0
@@ -280,24 +280,24 @@ exclude=mysql51* mysql56*  mariadb* postfix32u*
 # ==================================
 
 # for Webtatic
-[kloxong-webtatic]
-name=KloxoNG - Webtatic for CentOS \$releasever - \$basearch
+[kloxo-webtatic]
+name=Kloxo - Webtatic for CentOS \$releasever - \$basearch
 #baseurl=http://repo.webtatic.com/yum/el\$releasever/\$basearch
 mirrorlist=http://mirror.webtatic.com/yum/el\$releasever/\$basearch/mirrorlist
 enabled=1
 gpgcheck=0
 exclude=mysql* nginx* php55* php56* php7*
 
-[kloxong-webtatic-archive]
-name=KloxoNG - Webtatic for CentOS \$releasever Archive - \$basearch
+[kloxo-webtatic-archive]
+name=Kloxo - Webtatic for CentOS \$releasever Archive - \$basearch
 #baseurl=http://repo.webtatic.com/yum/el\$releasever-archive/\$basearch
 mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-archive/\$basearch/mirrorlist
 enabled=1
 gpgcheck=0
 exclude=mysql* nginx* php55* php56* php7*
 
-[kloxong-webtatic-testing]
-name=KloxoNG - Webtatic for CentOS \$releasever Testing - \$basearch
+[kloxo-webtatic-testing]
+name=Kloxo - Webtatic for CentOS \$releasever Testing - \$basearch
 #baseurl=http://repo.webtatic.com/yum/el\$releasever/\$basearch
 mirrorlist=http://mirror.webtatic.com/yum/el\$releasever-testing/\$basearch/mirrorlist
 enabled=1
@@ -307,8 +307,8 @@ exclude=mysql* nginx* php55* php56* php7*
 # ==================================
 
 # for varnish
-[kloxong-varnish]
-name=KloxoNG - Varnish for EL \$releasever
+[kloxo-varnish]
+name=Kloxo - Varnish for EL \$releasever
 baseurl=https://packagecloud.io/varnishcache/varnish5/el/\$releasever/\$basearch
 repo_gpgcheck=1
 gpgcheck=0
@@ -328,7 +328,7 @@ _EOF_
 %install
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/yum.repos.d/
-install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
+install -m 755 kloxo.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxo.repo
 
 
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo.repo
@@ -345,7 +345,7 @@ install -m 755 kloxong.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong.repo
 %files
 %defattr(-, root, root, 0755)
 %dir %{_sysconfdir}/yum.repos.d/
-%{_sysconfdir}/yum.repos.d/kloxong.repo
+%{_sysconfdir}/yum.repos.d/kloxo.repo
 
 %changelog
 * Wed Sep 13 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.1-10

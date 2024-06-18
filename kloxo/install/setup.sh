@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#	KloxoNG - Control Panel
+#	Kloxo - Control Panel
 #
-#	Copyright (C) 2018 - KloxoNGCommunity
+#	Copyright (C) 2018 - KloxoCommunity
 #
 #	This program is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU Affero General Public License as
@@ -26,10 +26,10 @@
 
 #define variables 
 
-mainreponame='kloxong'
+mainreponame='kloxo'
 main_repo_url="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
-main_release_rpm="kloxong-release.rpm"
-rpm_main_pck='kloxong'
+main_release_rpm="kloxo-release.rpm"
+rpm_main_pck='kloxo'
 #this is for installing base packages
 yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
 	vim-minimal subversion curl sudo expect"
@@ -61,7 +61,7 @@ cd /
 
 yum clean all
 
-if rpm -qa|grep 'kloxong-release' >/dev/null 2>&1 ; then
+if rpm -qa|grep 'kloxo-release' >/dev/null 2>&1 ; then
 	yum update $mainreponame* -y
 else
 	cd /tmp
@@ -102,7 +102,7 @@ echo
 #read -n 1 -p "Press any key to continue ..."
 echo
 
-APP_NAME='KloxoNG'
+APP_NAME='Kloxo'
 
 if [ -f ${ppath}/etc/conf/slave-db.db ] ; then
 	APP_TYPE='slave'
@@ -199,9 +199,9 @@ if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ]
 
 	if [ "${status}" == "12" ] ; then
 
-		sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${MDBver%.*}/centos/\2:g" /etc/yum.repos.d/kloxong.repo
+		sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${MDBver%.*}/centos/\2:g" /etc/yum.repos.d/kloxo.repo
 		
-		sed -i -e "s:dlm.mariadb.com/repo/mariadb-server/\(.*\)/yum/centos/\(.*\):dlm.mariadb.com/repo/mariadb-server/${MDBver%.*}/yum/centos/\2:g" /etc/yum.repos.d/kloxong.repo
+		sed -i -e "s:dlm.mariadb.com/repo/mariadb-server/\(.*\)/yum/centos/\(.*\):dlm.mariadb.com/repo/mariadb-server/${MDBver%.*}/yum/centos/\2:g" /etc/yum.repos.d/kloxo.repo
 		
 		yum clean all
 	fi

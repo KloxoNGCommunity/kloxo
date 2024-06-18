@@ -4,7 +4,7 @@ homepath=/home
 mysqlpath=/var/lib/mysql
 logpath=/var/log
 stamp=$(date +"%Y-%m-%d-%H-%M")
-zipfile=kloxong_raw_$stamp.tgz
+zipfile=kloxo_raw_$stamp.tgz
 homefile=home.tgz
 mysqlfile=mysql.tgz
 logfile=log.tgz
@@ -14,7 +14,7 @@ bckpath=/home/kloxo/client/admin/__backup
 . /script/counter-start.inc
 
 echo
-echo "*** KloxoNG raw-backup - BEGIN ***"
+echo "*** Kloxo raw-backup - BEGIN ***"
 echo
 
 if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ] ; then
@@ -72,6 +72,6 @@ echo
 echo "- Your '$zipfile' move to: "
 echo "  '$bckpath'"
 echo
-echo "*** KloxoNG raw-backup - END ***"
+echo "*** Kloxo raw-backup - END ***"
 echo
 

@@ -9,7 +9,7 @@ function mebackup_main()
 	global $gbl, $sgbl, $login, $ghtml; 
 
 //	$progname = $sgbl->__var_program_name;
-	$progname = 'kloxong';
+	$progname = 'kloxo';
 	$cprogname = ucfirst($progname);
 	initProgram('admin');
 	lxfile_mkdir("{$sgbl->__path_program_home}/selfbackup/self/__backup");

@@ -1,7 +1,7 @@
 %define repohost repo.kloxong.org
 %define mirrorhost raw.githubusercontent.com/KloxoNGCommunity/KloxoNG-rpms/dev/kloxong/mirror
-Summary: KloxoNG release file and package configuration
-Name: kloxong-testing
+Summary: Kloxo release file and package configuration
+Name: kloxo-testing
 Version: 0.1.1
 Release: 1
 License: AGPLV3
@@ -20,9 +20,9 @@ Kloxo Next Generation rpm testing. This package contains yum configuration for t
 
 %build
 
-cat > kloxong-test.repo << _EOF_
+cat > kloxo-test.repo << _EOF_
 
-[kloxong-copr-testing]
+[kloxo-copr-testing]
 name=kloxong testing Copr repo 
 baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/Testing/epel-\$releasever-\$basearch/
 type=rpm-md
@@ -38,7 +38,7 @@ _EOF_
 %install
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/yum.repos.d/
-install -m 755 kloxong-test.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong-test.repo
+install -m 755 kloxo-test.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxo-test.repo
 
 
 %clean
@@ -48,7 +48,7 @@ install -m 755 kloxong-test.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxong-
 %files
 %defattr(-, root, root, 0755)
 %dir %{_sysconfdir}/yum.repos.d/
-%{_sysconfdir}/yum.repos.d/kloxong-test.repo
+%{_sysconfdir}/yum.repos.d/kloxo-test.repo
 
 %changelog
 * Fri Jun 26 2020 John Parnell Pierce <john@luckytanuki.com> 

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-#    KloxoNG - Control Panel
+#    Kloxo - Control Panel
 #
-#    Copyright (C) 2018 - KloxoNGCommunity
+#    Copyright (C) 2018 - KloxoCommunity
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# KloxoNGCommunity - KloxoNG dev Installer
+# KloxoCommunity - Kloxo dev Installer
 #
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 # Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
@@ -28,14 +28,14 @@
 #we define here the array of variables and for packages that we will use on installing with yum 
 yum_pack1="zip unzip"
 yum_pack2="wget"
-kloxoflname="kloxong"
+kloxoflname="kloxo"
 
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
 	echo
 	echo " ----------------------------------------------------------------------"
 	echo "  format: sh $0 --fork=<> --branch=<>"
 	echo " ----------------------------------------------------------------------"
-	echo "  --fork - example: KloxoNGCommunity or <yourforkname> (for certain developer)"
+	echo "  --fork - example: Kloxo Next Generation Community or <yourforkname> (for certain developer)"
 	echo "  --branch - example: master or dev"
 	echo
 	echo "  * Pack main kloxo package from git"
@@ -49,9 +49,9 @@ fi
 echo "Start pack..."
 
 if [ "$1" == "" ] ; then
-	kloxong_fork="KloxoNGCommunity"
+	kloxo_fork="KloxoNGCommunity"
 else
-	kloxong_fork=${1#--fork\=}
+	kloxo_fork=${1#--fork\=}
 fi
 
 if [ "$2" == "" ] ; then
@@ -75,7 +75,7 @@ fi
 if [ ! -d ./kloxo/httpdocs ] ; then
 	echo "Download Kloxo git Sources"
 	'rm' -rf ${kloxo_branch}* > /dev/null 2>&1
-	wget https://github.com/${kloxong_fork}/kloxoNG-CP/archive/${kloxo_branch}.zip -O kloxo-ng-${kloxo_branch}.zip
+	wget https://github.com/${kloxo_fork}/kloxo8/archive/${kloxo_branch}.zip -O kloxo8-${kloxo_branch}.zip
 
 	unzip -oq kloxo-ng-${kloxo_branch}.zip > /dev/null 2>&1
 	'rm' -rf kloxo-ng-${kloxo_branch}.zip > /dev/null 2>&1
