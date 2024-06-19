@@ -34,7 +34,7 @@ Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 8.0.0
 Release: alpha.%{build_timestamp}
-#Release: beta.%{build_timestamp}
+
 License: GPL
 Group: Applications/Internet
 
@@ -207,7 +207,7 @@ EOF
 - fix permission problem for logrotate of httpd logs as required for new logrotate versions in centos 7
 - with Spamassassin - delete any spam with 10 or more stars - no matter what the spam retention settings
 
-* Sat Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-final
+* Tue Sep 22 2020 John Parnell Pierce <john@luckytanuki.com> - 0.1.2.2-final
 - exclude install of kloxo-testing.rpm from wild card yum install
 - Fix gpg key
 - add line to change permission of log file folder for named to try to resolve issue #59
@@ -302,7 +302,7 @@ EOF
 - fix servermaillib.php (appear for 'smtp relay')
 - change detect for container vps (not for OpenVZ only)
 
-* Thu Aug 09 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017080901.mr
+* Wed Aug 09 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017080901.mr
 - fix install-pure-ftpd-without-cap script
 - use old mp.php instead dbadmin.php (because the same content)
 - add merestore script (restore for mebackup)
@@ -354,7 +354,7 @@ EOF
 - fix delete domainkeys dir if not exists in mmail__qmaillib.php
 - remove unwanted call xprint in dns/dnsbaselib.php
 
-* Tue Jun 16 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017061602.mr
+* Fri Jun 16 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017061602.mr
 - fix messagelib.php (related to 'web features')
 - fix remotelib.php (need adjustment for php 5.6)
 - set make-slave always need admin password (do not use admin as password)
@@ -365,7 +365,7 @@ EOF
 - fix display dns settings (related to 'cname record')
 - add 'fixdomainkey' process for 'mailserver configure'
 
-* Fri Jun 08 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017060801.mr
+* Thu Jun 08 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017060801.mr
 - fix setup-afterlogic (change php exit position)
 - fix setup-roundcube (add copy for missing files)
 
@@ -1006,7 +1006,7 @@ EOF
 - fix validate_server_alias (related to wildcards)
 - disable 'custom error' (TODO)
 
-* Thu Sep 03 2016 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2016090305.mr
+* Sat Sep 03 2016 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2016090305.mr
 - move 'domain.com/stats' to 'stats.domain.com'
 - fix all web configs (related to 'stats' address)
 - add 'remark' in cleanup (related to 'stats' address)
@@ -1142,7 +1142,7 @@ EOF
 - mod domains.conf.tpl for hiawatha (stats_dir_for only declare if enablestats)
 - fix phpm-config-setup (activate all various mysql modules)
 
-* Mon Aug 02 2016 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2016080201.mr
+* Tue Aug 02 2016 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2016080201.mr
 - fix/mod resource appear (like 'memory_usage')
 - mod getGBOrMB to process TB beside MB and GB
 - add 'getNumericValue' (related to 'isQuotaGreaterThanOrEq' and 'isQuotaGreaterThan')
@@ -1866,7 +1866,7 @@ EOF
 - fix phpm-all-install and phpm-all-setup
 - mod restart-list.inc (add perl-fastcgi)
 
-* Sat Feb 05 2016 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2016020503.mr
+* Fri Feb 05 2016 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2016020503.mr
 - fix syslog logrotate
 - fix acme-challenge.conf in nginx
 - fix sslcert for self-assign
@@ -2426,7 +2426,7 @@ EOF
 - disable 'create ...' in logrotate
 - disable reading IP from ifcfg (because need 'perfect' format) and use read 'ifconfig' and 'ip' only
 
-* Wed Apr 30 2015 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2015043001.mr
+* Thu Apr 30 2015 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2015043001.mr
 - mod without set to myisam for mysql in install process (minimize trouble for update from Kloxo or Kloxo-MR 6.5)
 
 * Tue Apr 28 2015 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2015042903.mr
@@ -2924,7 +2924,7 @@ EOF
 * Sun Oct 26 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2014102603.mr
 - make only one time process in fix-chownchmod if the same docroot
 
-* Sun Oct 25 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2014102602.mr
+* Sat Oct 25 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2014102602.mr
 - mod set-hosts with using 'hostname -i' instead 'ifconfig' to detect 'primary' IP
 - accept php56m in 'php ratio' at 'php configure'
 - mod to create sock dir before copy php-fpm configs
@@ -3452,7 +3452,7 @@ EOF
 * Mon Sep 08 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2014090801.mr
 - fix kloxo.init (missing 'special' php.ini path)
 
-* Sat Sep 07 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2014090601.mr
+* Sun Sep 07 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.b-2014090601.mr
 - change to use \\rm to 'rm' for temporary unalias for cp/mv/rm; fix kloxo port for thirdparty if not 7778/7777
 - fix enable/disable perl in hiawatha
 - fix ssl port in nginx
@@ -3710,7 +3710,7 @@ EOF
 * Sat May 24 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014052401.mr
 - mod/fix lx_mail() to accept utf8 and html and remove pre from message
 
-* Mon May 21 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014052103.mr
+* Wed May 21 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014052103.mr
 - set /tmp dir as upload and save dir for phpmyadmin
 - add 'max_input_vars' in php.ini and php-fpm config (set '3000' as default)
 - add 'max input vars' in 'advanced php configure'
@@ -4163,7 +4163,7 @@ EOF
 - add database without prefix name and also database username for admin
 - fix userdir in httpd with make declare userdir outside 'default' virtualhost
 
-* Sun Feb 24 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022404.mr
+* Mon Feb 24 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022404.mr
 - add fixftp-all
 - add 'standard command' like fixdns in 'command center'
 - remove installapp
@@ -4174,15 +4174,15 @@ EOF
 - use * instead *.lxlabs.com certificate
 - upload new certificate
 
-* Sat Feb 23 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022305.mr
+* Sun Feb 23 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022305.mr
 - fix userdir in httpd
 - add fixftp-all
 - add 'standard command' like fixdns in 'command center'
 
-* Sat Feb 23 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022303.mr
+* Sun Feb 23 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022303.mr
 - resubmit certain restart scripts because wrong files 
 
-* Sat Feb 23 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022302.mr
+* Sun Feb 23 2014 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.b-2014022302.mr
 - mod clock also hour with 2 digit format
 - fix all restart and cleanup scripts
 - move clock js code to clock.js file
@@ -4357,7 +4357,7 @@ EOF
 * Tue Dec 17 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.a-2013121702.mr
 - fix logic for custom php-fpm in nginx 
 
-* Tue Dec 16 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.a-2013121701.mr
+* Mon Dec 16 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.a-2013121701.mr
 - add/mod certain keyword/message
 - fix 'webmail system default'
 - mod message box (remove image)
@@ -4712,7 +4712,7 @@ EOF
 - fix webmail logic
 - introduce 'none' driver for web, dns and spam (as the same as webcache model)
 
-* Thu Oct 2 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.a-2013100302.mr
+* Wed Oct 2 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.1.a-2013100302.mr
 - back to add .db_schema which importance for panel display
 - all web server include 'generic' permalink
 - change user as 'ats' instead 'root' for trafficserver
@@ -4916,7 +4916,7 @@ EOF
 - fix upcp script for fresh install 
 - fix installer.php for 'default' web using ruid2 (need enable php.conf) 
 
-* Tue Sep 2 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.0.f-2013090302.mr
+* Mon Sep 2 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.0.f-2013090302.mr
 - make install setup (run 'sh /script/upcp' instead '/usr/local/lxlabs/kloxo/install'
 - fix mysqli_query for webmail database
 - better reset-mysql-root password and mysql-convert code
@@ -5014,7 +5014,7 @@ EOF
 - fix some minor bugs for install process
 - mod/add restart/clearcache script
 
-* Tue Aug 7 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.0.f-2013080701.mr
+* Wed Aug 7 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.0.f-2013080701.mr
 - fix bind dns config (bind work now like djbsns)
 
 * Tue Aug 6 2013 Mustafa Ramadhan <mustafa@bigraf.com> - 6.5.0.f-2013080605.mr

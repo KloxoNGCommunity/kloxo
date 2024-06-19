@@ -27,7 +27,7 @@
 
 %define debug_package %{nil}
 %define kloxopath /usr/local/lxlabs/kloxo
-%define productname kloxong 
+%define productname kloxo 
 %define build_timestamp %{lua: print(os.date("%Y%m%d"))}
 
 Name: %{productname}
@@ -37,7 +37,7 @@ Release: alpha.3.%{build_timestamp}
 License: GPL
 Group: Applications/Internet
 
-Source0:  https://github.com/KloxoNGCommunity/kloxoNG-CP/archive/dev/%{name}-dev.tar.gz
+Source0:  https://github.com/KloxoNGCommunity/kloxo8/archive/dev/%{name}-dev.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root-%(%{__id_u} -n)
 BuildArch: noarch
@@ -102,7 +102,7 @@ read -r -d '' for_cleanup << EOF
 ._/    and then 'sh /script/fix-all' and 'sh /script/restart-all'            _/.
 ._/                                                                          _/.
 ._/  - If trouble when execute 'sh /script/cleanup' (missing directory),     _/.
-._/    try 'yum reinstall kloxong -y'                                       _/.
+._/    try 'yum reinstall kloxo -y'                                       _/.
 ._/                                                                          _/.
 ._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
 EOF
