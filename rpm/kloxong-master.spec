@@ -369,7 +369,7 @@ EOF
 - fix setup-afterlogic (change php exit position)
 - fix setup-roundcube (add copy for missing files)
 
-* Thu Jun 07 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017060702.mr
+* Thu Jun 08 2017 Mustafa Ramadhan <mustafa@bigraf.com> - 7.0.0.c-2017060702.mr
 - fix apache-optimize (script and panel)
 - fix add-rainloop-domains (related to data dir)
 - more info for apache-optimize
