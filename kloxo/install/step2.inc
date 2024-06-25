@@ -99,7 +99,6 @@ old_rem_kloxo_pack=(
 						"lxphp"
 						"lxlighttpd"
 						"lxzend"
-						"kloxo-*"
                         "kloxo-webmail-*.noarch"
 						"kloxo-thirdparty-*.noarch"
 						"kloxo-stats-*.noarch"
