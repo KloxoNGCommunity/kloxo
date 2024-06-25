@@ -1,1 +1,1 @@
-httpd,httpd24,httpd24u,lighttpd,nginx,nginx-stable,tengine,ulyaoth-nginx-mainline-pagespeed,ulyaoth-nginx-pagespeed,nginx1w,hiawatha,ulyaoth-hiawatha,ulyaoth-hiawatha-letsencrypt,openlitespeed,monkey
+httpd,lighttpd,nginx,nginx-stable,tengine,ulyaoth-nginx-mainline-pagespeed,ulyaoth-nginx-pagespeed,nginx1w,hiawatha,ulyaoth-hiawatha,ulyaoth-hiawatha-letsencrypt
