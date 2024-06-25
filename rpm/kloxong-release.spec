@@ -60,8 +60,8 @@ enabled_metadata=1
 
 [kloxo-remi]
 name=Kloxo - Les RPM de remi pour Enterprise Linux $releasever
-#baseurl=http://rpms.famillecollet.com/enterprise/\$releasever/remi/$basearch/
-mirrorlist=http://cdn.remirepo.net/enterprise/\$releasever/remi/mirror
+#baseurl=http://rpms.remirepo.net/enterprise/$releasever/remi/$basearch/
+mirrorlist=http://cdn.remirepo.net/enterprise/$releasever/remi/mirror/$basearch
 gpgcheck=0
 enabled=1
 #includepkgs=php-ffmpeg php-ioncube-loader
