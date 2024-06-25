@@ -109,8 +109,8 @@ gpgcheck=0
 # for mariadb
 [kloxo-mariadb]
 name=Kloxo - mariadb repo
-baseurl=http://yum.mariadb.org/10.5/centos/\$releasever/\$basearch/
-#baseurl=https://dlm.mariadb.com/repo/mariadb-server/10.2/yum/centos/\$releasever/\$basearch
+baseurl=https://rpm.mariadb.org/10.5/rhel/$releasever/$basearch
+gpgkey = https://rpm.mariadb.org/RPM-GPG-KEY-MariaDB
 enabled=1
 gpgcheck=0
 

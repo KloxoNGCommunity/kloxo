@@ -52,16 +52,16 @@ if [ "$(rpm -qa yum-plugin-replace)" == "" ] ; then
 fi
 
 
-if [ "$TEST" ] ; then
-	if [ "$(rpm -qa kloxo-testing)" == "" ] ; then
-		echo "Installing Test repo"
-		echo
-		yum -y install kloxo-testing
-	else
-		echo "Test Repo already installed"
-		echo
-	fi
-fi
+#if [ "$TEST" ] ; then
+#	if [ "$(rpm -qa kloxo-testing)" == "" ] ; then
+#		echo "Installing Test repo"
+#		echo
+#		yum -y install kloxo-testing
+#	else
+#		echo "Test Repo already installed"
+#		echo
+#	fi
+#fi
 
 sh /script/fixrepo
 
@@ -110,7 +110,7 @@ elif [ "$(rpm -qa MariaDB-server)" != "" ] ; then
 else
 	if [ "$(rpm -qa mysql)" != "" ] ; then
 		echo "Replace mysql to MariaDB-server"
-		yum replace mysql --replace-with=MariaDB-server -y
+		yum swap mysql MariaDB-server -y
 	fi
 fi
 

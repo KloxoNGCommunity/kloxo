@@ -19,7 +19,7 @@ if [ "${#}" == 0 ] ; then
 fi
 
 if [ "$(ps --no-headers -o comm 1)" != "systemd" ] ; then
-	yum replace -y libmemcached --replace-with=libmemcached10
+	yum swap -y libmemcached libmemcached10
 fi
 
 if [ -f /script/custom.php-branch-installer.inc ] ; then

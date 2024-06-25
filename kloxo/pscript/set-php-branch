@@ -50,7 +50,7 @@ fi
 if [ "${result}" == "${target}" ] ; then
 	echo "-- It's the same branch (${result}); no changed"
 else
-	yum replace -y --skip-broken ${result}-cli --replace-with=${target}-cli
+	yum swap -y --skip-broken ${result}-cli ${target}-cli
 	#yum install -y --skip-broken ${target}
 fi
 

@@ -11,6 +11,6 @@ if [ "$(rpm -qa|grep -e 'ulyaoth-nginx' -e 'pagespeed')" != "" ] ; then
 else
 	echo "- Nginx with pagespeed installing..."
 	yum remove nginx-module* -y
-	yum replace nginx --replace-with=ulyaoth-nginx-pagespeed --enablerepo=*ulyaoth* -y
+	yum swap nginx ulyaoth-nginx-pagespeed --enablerepo=*ulyaoth* -y
 	yum install ulyaoth-nginx-module* --exclude=*debuginfo* --enablerepo=*ulyaoth* -y
 fi

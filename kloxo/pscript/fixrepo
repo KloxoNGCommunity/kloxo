@@ -1,7 +1,7 @@
 #!/bin/sh
 # declaring Variables
 reponame="kloxo"
-repourl="https://github.com/KloxoNGCommunity/kloxo8/raw/initial-rpm/"
+repourl="https://github.com/KloxoNGCommunity/kloxo/raw/initial-rpm/"
 relrpmname="kloxo-release.rpm"
 
 yum clean all
@@ -16,7 +16,7 @@ else
 	'rm' -rf /etc/yum.repos.d/kloxo-custom.repo
 	'rm' -rf /etc/yum.repos.d/lxcenter.repo
 	'rm' -rf /etc/yum.repos.d/lxlabs.repo	
-	'rm' -rf /etc/yum.repos.d/kloxo.repo.*
+	'rm' -rf /etc/yum.repos.d/kloxong.repo.*
 	'rm' -rf /tmp/kloxong*
 	'rm' -rf /tmp/kloxo*
 	

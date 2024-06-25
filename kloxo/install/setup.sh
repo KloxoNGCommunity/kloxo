@@ -27,24 +27,24 @@
 #define variables 
 
 mainreponame='kloxo'
-main_repo_url="https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/"
+main_repo_url="https://github.com/KloxoNGCommunity/kloxo/raw/initial-rpm/"
 main_release_rpm="kloxo-release.rpm"
 rpm_main_pck='kloxo'
 #this is for installing base packages
 yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
 	vim-minimal subversion curl sudo expect"
 #this is for remove packages
-yum_pack2=" bind* nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-* php* php54* php55* php56*\
+yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-* php* php54* php55* php56*\
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
 		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
 # database specific pagkages
 yum_database_pack="MariaDB MariaDB-shared"
 
 ## MR -- prohibit to install to CentOS 5 (EOL since 31 Mar 2017)
-if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
-	echo "*** No permit to install to CentOS 5 (because EOL since 31 Mar 2017)"
-	exit
-fi
+#if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
+#	echo "*** No permit to install to CentOS 5 (because EOL since 31 Mar 2017)"
+#	exit
+#fi
 
 ppath="/usr/local/lxlabs/kloxo"
 
@@ -72,7 +72,7 @@ else
 	'rm' -rf /etc/yum.repos.d/kloxo-custom.repo
 	'rm' -rf /etc/yum.repos.d/lxcenter.repo
 	'rm' -rf /etc/yum.repos.d/lxlabs.repo
-
+	'rm' -rf /etc/yum.repos.d/kloxong.repo
 	'rm' -rf /etc/yum.repos.d/epel*.repo
 fi
 
@@ -193,15 +193,15 @@ if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ]
 	
 	Refver="10.5"
 	
-	rpmdev-vercmp ${Refver} ${MDBver%.*} >/dev/null 2>&1
+	rpmdev-vercmp ${Refver} ${MDBver} >/dev/null 2>&1
 	
 	status="$?"
 
 	if [ "${status}" == "12" ] ; then
 
-		sed -i -e "s:yum.mariadb.org/\(.*\)/centos/\(.*\):yum.mariadb.org/${MDBver%.*}/centos/\2:g" /etc/yum.repos.d/kloxo.repo
+		sed -i -e "s:rpm.mariadb.org/\(.*\)/rhel/:rpm.mariadb.org/${Refver}/rhel/\2:g" /etc/yum.repos.d/kloxo.repo
 		
-		sed -i -e "s:dlm.mariadb.com/repo/mariadb-server/\(.*\)/yum/centos/\(.*\):dlm.mariadb.com/repo/mariadb-server/${MDBver%.*}/yum/centos/\2:g" /etc/yum.repos.d/kloxo.repo
+		
 		
 		yum clean all
 	fi
