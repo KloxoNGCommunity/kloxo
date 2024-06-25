@@ -24,7 +24,7 @@ B. Install kloxo 8
 	rm -f kloxo*
 	
     # install rpm (read Warning)
-    rpm -ivh https://github.com/KloxoNGCommunity/kloxo8/raw/initial-rpm/kloxo-release.rpm
+    rpm -ivh https://github.com/KloxoNGCommunity/kloxo/raw/initial-rpm/kloxo-release.rpm
 
     # move to /
     cd /

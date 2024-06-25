@@ -55,7 +55,7 @@ The aim of this project is to create a development pathway that is not dependent
 
 ### How to install
 
-* Read https://github.com/KloxoNGCommunity/kloxo8/blob/master/how-to-install.txt
+* Read https://github.com/KloxoNGCommunity/kloxo/blob/main/how-to-install.txt
 
 ### Notes
 *) Features inheritited from Kloxo-MR 7 (Note: these may change as we develop our road map)
