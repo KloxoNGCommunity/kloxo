@@ -40,7 +40,7 @@ if [ "$(rpm -q kloxo-release | grep -v 'package .* is not installed')" == "" ] ;
 	'mv' -f /etc/yum.repos.d/lxcenter.repo /etc/yum.repos.d/lxcenter.nonrepo >/dev/null 2>&1
 	'mv' -f /etc/yum.repos.d/kloxo-mr.repo /etc/yum.repos.d/kloxo-mr.nonrepo >/dev/null 2>&1
         'mv' -f /etc/yum.repos.d/kloxong.repo /etc/yum.repos.d/kloxong.nonrepo >/dev/null 2>&1
-		    'mv' -f /etc/yum.repos.d/kloxo.repo /etc/yum.repos.d/kloxo.nonrepo >/dev/null 2>&1
+#		    'mv' -f /etc/yum.repos.d/kloxo.repo /etc/yum.repos.d/kloxo.nonrepo >/dev/null 2>&1
 else
 	yum update kloxo-release -y >/dev/null 2>&1
 fi

@@ -849,7 +849,7 @@ function install_yum_repo()
         rm_if_exists("/etc/yum.repos.d/kloxo-mr.repo");
 		rm_if_exists("/etc/yum.repos.d/kloxo-ng.repo");
         rm_if_exists("/etc/yum.repos.d/kloxo-custom.repo");
-        rm_if_exists("/etc/yum.repos.d/kloxo.repo");
+       
         rm_if_exists("/etc/yum.repos.d/lxcenter.repo");
     */
     @system("sh /script/fixrepo");
