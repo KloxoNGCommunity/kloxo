@@ -24,25 +24,15 @@ Kloxo Next Generation rpm release. This package contains yum configuration for t
 cat > kloxo.repo << _EOF_
 [kloxo-copr]
 name=kloxong master Copr repo 
-baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxo/epel-\$releasever-\$basearch/
+baseurl=https://download.copr.fedorainfracloud.org/results/kloxong/kloxo/epel-\$releasever-\$basearch/
 type=rpm-md
 skip_if_unavailable=True
 gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/kloxo/pubkey.gpg
+gpgkey=https://download.copr.fedorainfracloud.org/results/kloxong/kloxo/pubkey.gpg
 repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
 
-[kloxo-copr-httpd24]
-name=kloxong httpd24 Copr repo 
-baseurl=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/epel-\$releasever-\$basearch/
-type=rpm-md
-skip_if_unavailable=True
-gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/kloxong/httpd24/pubkey.gpg
-repo_gpgcheck=0
-enabled=1
-enabled_metadata=1
 
 _EOF_
 
