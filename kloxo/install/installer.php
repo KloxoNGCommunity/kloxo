@@ -113,7 +113,7 @@ $dbpass = '';
     );
 
 
-    $yumRemoveOldLx = array('lxphp', 'lxlighttpd', 'lxzend', 'kloxo-*');
+    $yumRemoveOldLx = array('lxphp', 'lxlighttpd', 'lxzend', 'kloxong-*');
 
 /*
     $yumInstallPackages = array(
