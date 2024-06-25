@@ -4,10 +4,10 @@ Kloxo Next Generation - Building upon Kloxo-MR, KloxoNG aims to address the shor
 To install
 
 # remove old rpm
-    rm -f kloxong*
+    rm -f kloxo*
 
 # install rpm (read Warning)
-    rpm -ivh https://github.com/KloxoNGCommunity/kloxong/raw/initial-rpm/kloxong-release.rpm
+    rpm -ivh https://github.com/KloxoNGCommunity/kloxo/raw/initial-rpm/kloxo-release.rpm
 
 # move to /
     cd /
@@ -15,8 +15,8 @@ To install
 # update
     yum clean all
 
-    yum update kloxong-* -y
+    yum update kloxo-* -y
 
-    yum install kloxong -y
+    yum install kloxo -y
 
     sh /script/upcp
