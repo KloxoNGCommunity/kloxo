@@ -236,8 +236,6 @@ _EOF_
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/yum.repos.d/
 install -m 755 kloxo.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxo.repo
 
-
-%{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/KloxoNG.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/kloxo-custom.repo
 %{__rm} -rf %{_sysconfdir}/yum.repos.d/lxcenter.repo
