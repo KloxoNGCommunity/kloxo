@@ -125,7 +125,6 @@ yum_comp_pack=(
 				"openssl-devel"
 				"pure-ftpd"
 				"yum-protectbase"
-				"yum-plugin-replace"
 				"crontabs"
 				"make"
 				"glibc-static"

@@ -47,9 +47,7 @@ if [ "$(hostname -f)" == "$(hostname -s)" ] ; then
 	exit
 fi
 
-if [ "$(rpm -qa yum-plugin-replace)" == "" ] ; then
-	yum -y install yum-plugin-replace
-fi
+
 
 
 #if [ "$TEST" ] ; then

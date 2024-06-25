@@ -31,7 +31,7 @@ main_repo_url="https://github.com/KloxoNGCommunity/kloxo/raw/initial-rpm/"
 main_release_rpm="kloxo-release.rpm"
 rpm_main_pck='kloxo'
 #this is for installing base packages
-yum_pack1="wget zip unzip yum-utils yum-priorities yum-plugin-replace \
+yum_pack1="wget zip unzip yum-utils yum-priorities \
 	vim-minimal subversion curl sudo expect"
 #this is for remove packages
 yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-* php* php54* php55* php56*\
