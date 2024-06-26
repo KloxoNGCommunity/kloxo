@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo "=== BEGIN phpm-installer ==="
 if [ "$1" == "--help" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
@@ -98,7 +98,7 @@ if [ -f ${main_path}/${base_name} ] ; then
 	'rm' -f ${main_path}/${base_name}
 fi
 
-pack_verrel=$(repoquery --qf='%{version}-%{release}' ${pack_name}-cli)
+pack_verrel=$(repoquery --latest-limit 1 --qf='%{version}-%{release}' ${pack_name}-cli)
 
 if [ -f ${main_path}/version ] ; then
 	if [ "${2}" == "-y" ] || [ "${2}" == "--force" ] ; then
@@ -180,7 +180,7 @@ if [ -f ${main_path}/etc ] ; then
 	find ${main_path}/etc ! \( -name "_*.ini" -or -name "*_used.ini" \) -exec rm -rf {} \;
 fi
 
-yumdownloader ${pack_name}-* mod_-${pack_name} -x *debuginfo* >>${main_path}/${base_name}_install.log
+yumdownloader ${pack_name}-* -x *debuginfo* >>${main_path}/${base_name}_install.log
 #'rm' -rf *-debuginfo*
 
 #rpmrebuild -v --change-spec-whole='sed -e "s/^Prefix:.*/Prefix: \//"' \
@@ -233,3 +233,4 @@ echo $x >>${main_path}/${base_name}_install.log
 . /script/counter-end.inc
 
 echo -e "$end_note"
+echo "=== END phpm-installer ==="

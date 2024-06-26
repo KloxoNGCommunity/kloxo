@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo "=== BEGIN phpm-config-setup ==="
 if [ "$1" == "--help" ] ; then
 	echo
 	echo " ------------------------------------------------------------------------------"
@@ -438,3 +438,4 @@ if [ "${base_name}" == "php" ] ; then
 	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/www.conf ${fpmpath}/php-fpm.d/www.conf >/dev/null 2>&1
 	'cp' -f ${kpath}/file/php-fpm/etc/php-fpm.d/default.conf ${fpmpath}/php-fpm.d/default.conf >/dev/null 2>&1
 fi
+echo "=== END phpm-config-setup ==="

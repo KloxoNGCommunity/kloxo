@@ -3,7 +3,7 @@
 Summary: Kloxo release file and package configuration
 Name: kloxo-release
 Version: 8.1.1
-Release: 2
+Release: 3
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -65,7 +65,7 @@ mirrorlist=http://cdn.remirepo.net/enterprise/\$releasever/remi/\$basearch/mirro
 gpgcheck=0
 enabled=1
 #includepkgs=php-ffmpeg php-ioncube-loader
-exclude=php5* php7* php80* php-* mysql5* mysql56*  mariadb* postfix32u*
+exclude= php-* mysql5* mysql56*  mariadb* postfix32u*
 
 
 # ==================================
