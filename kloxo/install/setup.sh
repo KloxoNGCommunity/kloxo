@@ -180,6 +180,7 @@ cd /
 
 yum -y install $yum_pack1 --skip-broken
 
+echo "Set MariaDB version in yum"
 # Set MariaDB version
 # Ensure that MariaDB isn't downgraded during update process
 
@@ -208,7 +209,7 @@ if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ]
 fi
 
 
-
+echo "Remove old and not required packages. Delete postfix user"
 yum remove -y $yum_pack2
 rpm -e pure-ftpd --noscripts
 userdel postfix
@@ -219,7 +220,7 @@ if id -u postfix >/dev/null 2>&1 ; then
 fi
 
 
-
+echo "Install database"
 #yum -y install mysql55 mysql55-server mysql55-libs
 yum -y install $yum_database_pack
 yum -y install mysqlclient* --exclude=*devel* --exclude=*debuginfo*
@@ -233,6 +234,7 @@ chown mysql:mysql /var/lib/mysqltmp
 sh /script/disable-mysql-aio
 sh /script/set-mysql-default
 
+echo "Install php"
 # ToDo - probably needs reworking - currently falls back to php56 if php74 isn't available
 if [ "$(yum list php74*|grep ^'php74')" != "" ] ; then
 	phpused="php74"

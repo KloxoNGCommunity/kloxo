@@ -10,17 +10,23 @@ for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
 		fi
 
 		if [ "$(grep 'skip_innodb' ${i})" == "" ] || [ "$(grep 'skip-innodb' ${i})" == "" ] ; then
-			sed -i -e's|\[mysqld\]|\[mysqld\]\nskip-innodb|g' ${i}
-			echo "Add 'skip-innodb' to ${i}"
+			#sed -i -e's|\[mysqld\]|\[mysqld\]\nskip-innodb|g' ${i}
+			echo "Don't add 'skip-innodb' to ${i}"
 		else
-			echo "Already exist 'skip-innodb' in ${i}"
+			sed -i -e's|skip-innodb||g' ${i}
+			echo "Remove 'skip-innodb' in ${i}"
 		fi
 
 		if [ "$(grep 'default_storage_engine' ${i})" == "" ] || [ "$(grep 'default-storage-engine' ${i})" == "" ] ; then
-			sed -i -e's|\[mysqld\]|\[mysqld\]\ndefault-storage-engine=myisam|g' ${i}
-			echo "Add 'default-storage-engine=myisam' to ${i}"
+			sed -i -e's|\[mysqld\]|\[mysqld\]\ndefault-storage-engine=innodb|g' ${i}
+			echo "Add 'default-storage-engine=innodb' to ${i}"
 		else
-			echo "Already exist 'default-storage-engine=myisam' in ${i}"
+			if [ "$(grep 'default_storage_engine=myisam' ${i})" == "" ] || [ "$(grep 'default-storage-engine=myisam' ${i})" == "" ] ; then
+				sed -i -e's|default-storage-engine=myisam|default-storage-engine=innodb|g' ${i}
+				echo "Change 'default-storage-engine=myisam' in ${i} to innodb"
+			else
+				echo "Already exists 'default-storage-engine=innodb' in ${i} to innodb"
+			fi
 		fi
 
 		if [ "$(grep 'performance_schema' ${i})" == "" ] || [ "$(grep 'performance-schema' ${i})" == "" ] ; then
