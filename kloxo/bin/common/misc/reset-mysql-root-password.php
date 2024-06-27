@@ -11,13 +11,14 @@ if (isset($argv[1])) {
 }
 
 $text = <<<EOF
-UPDATE mysql.user SET Password=PASSWORD('PASSWORD') WHERE User='USER';
+FLUSH PRIVILEGES;
+SET PASSWORD FOR root@localhost = PASSWORD('PASSWORD');
 FLUSH PRIVILEGES;
 EOF;
 
 $text = str_replace("'USER'", "'root'", $text);
 $text = str_replace("'PASSWORD'", "'{$pass}'", $text);
-
+if(!is_dir($tpath)) mkdir($tpath);
 file_put_contents("{$tpath}/reset-mysql-password.sql", $text);
 
 print("Stop MySQL service...\n");
@@ -29,9 +30,9 @@ if (isServiceExists('mysqld')) {
 
 print("MySQL ROOT password reset...\n");
 sleep(10);
-system("mysqld_safe --skip-grant-tables --init-file={$tpath}/reset-mysql-password.sql >/dev/null 2>&1 &");
+system("mariadbd-safe --skip-grant-tables --init-file={$tpath}/reset-mysql-password.sql >/dev/null 2>&1 &");
 sleep(15);
-
+system("mysqladmin -u root -p='{$pass}' shutdown");
 print("Start MySQL service...\n");
 if (isServiceExists('mysqld')) {
 	exec("service mysqld start");
