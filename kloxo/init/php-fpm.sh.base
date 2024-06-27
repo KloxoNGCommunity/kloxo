@@ -2,8 +2,7 @@
 
 php_rc='/opt/__phpm__/custom/php-fpm.ini'
 php_scan='/opt/__phpm__/etc/php.d'
-php_prog='/opt/remi/__phpm__/root/usr/sbin/php-fpm'
-
+php_prog='/opt/__phpm__/usr/sbin/php-fpm'
 #export PHPRC=$php_rc
 export PHP_INI_SCAN_DIR=$php_scan
 
