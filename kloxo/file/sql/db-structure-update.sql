@@ -1,5 +1,9 @@
 USE kloxo;
 
+SET SESSION innodb_strict_mode=ON;
+
+SET GLOBAL innodb_default_row_format='dynamic';
+
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `nname` varchar(255) NOT NULL,
