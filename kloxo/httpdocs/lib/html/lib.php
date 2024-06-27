@@ -8492,42 +8492,12 @@ function setAllWebServerInstall($nolog = null)
 		if ($v === 'apache') {
 			$a24mpath = "/etc/httpd/conf.modules.d";
 // httpd 24 is now the default			
-/*			if ($use_apache24) {
-				if (isRpmInstalled('httpd')) {
-					if (file_exists("{$a24mpath}/00-base.conf")) {
-						exec("'mv' -f {$a24mpath}/00-base.conf {$a24mpath}/00-base.conf.rpmold");
-					}
 
-					exec("yum -y replace httpd --replace-with=httpd24u >/dev/null 2>&1;" .
-						"yum -y remove {$hm['httpd']} >/dev/null 2>&1;" .
-						"yum -y install {$hm['httpd24u']} >/dev/null 2>&1");
-
-					log_cleanup("- Replace for 'apache' (to 'httpd24u')", $nolog);
-				} else {
-					log_cleanup("- No process for 'apache' ('httpd24')", $nolog);
-				}
-*/
 				$conffile = getLinkCustomfile("{$confpath}", "httpd24.conf");
 				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
-/*			} else {
-				if (isRpmInstalled('httpd24u')) {
-					if (file_exists("{$a24mpath}/00-base.conf")) {
-						exec("'mv' -f {$a24mpath}/00-base.conf {$a24mpath}/00-base.conf.rpmold");
-					}
 
-					exec("yum -y replace httpd24u --replace-with=httpd >/dev/null 2>&1;" .
-*/						"yum -y remove {$hm['httpd24u']} >/dev/null 2>&1;" 
 					exec("	"yum -y install {$hm['httpd']} >/dev/null 2>&1");
-/*
-					log_cleanup("- Replace for 'apache' (to 'httpd24u')", $nolog);
-				} else {
-					log_cleanup("- No process for 'apache' ('httpd')", $nolog);
-				}
 
-				$conffile = getLinkCustomfile("{$confpath}", "httpd.conf");
-				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
-			}
-*/
 			if (file_exists("../etc/flag/use_pagespeed.flg")) {
 				// MR -- this is a trick to use isRpmInstalled
 				if (!isRpmInstalled('| grep pagespeed')) {
