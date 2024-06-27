@@ -8487,7 +8487,7 @@ function setAllWebServerInstall($nolog = null)
 	}
 
 	foreach ($list as $k => $v) {
-		$confpath = "/opt/configs/{$v}/etc/conf";S
+		$confpath = "/opt/configs/{$v}/etc/conf";
 
 		if ($v === 'apache') {
 			$a24mpath = "/etc/httpd/conf.modules.d";
