@@ -56,6 +56,17 @@ for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
 		else
 			echo "Already exist 'socket=/var/lib/mysql/mysql.sock for [mysqld]' in ${i}"
 		fi
+		
+		if [ "$(grep 'innodb_default_row_format' ${i})" == "" ] || [ "$(grep 'innodb-default-row-format' ${i})" == "" ] ; then
+			sed -i -e's|\[mariadb\]|\[mariadb\]\ninnodb_default_row_format=dynamic|g' ${i}
+			echo "Add 'innodb_default_row_format=dynamic' to ${i}"
+		else
+			echo "Already exist 'innodb_default_row_format=dynamic' in ${i}"
+		fi
+		
+		
+		
+		
 	fi
 	echo "=== END set-mysql-default ==="
 done
