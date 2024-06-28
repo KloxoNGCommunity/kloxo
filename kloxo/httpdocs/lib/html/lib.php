@@ -8496,7 +8496,7 @@ function setAllWebServerInstall($nolog = null)
 				$conffile = getLinkCustomfile("{$confpath}", "httpd24.conf");
 				exec("'cp' -f {$conffile} /etc/httpd/conf/httpd.conf");
 
-					exec("	"yum -y install {$hm['httpd']} >/dev/null 2>&1");
+					exec("yum -y install {$hm['httpd']} >/dev/null 2>&1");
 
 			if (file_exists("../etc/flag/use_pagespeed.flg")) {
 				// MR -- this is a trick to use isRpmInstalled
