@@ -24,7 +24,7 @@ if [ "$1" != "" ] ; then
 
 		sh /script/phpm-installer ${base_name}
 	else
-		echo "${src_name}" > ${INIT_DIR}/kloxo_php_active
+		echo "${base_name}" > ${INIT_DIR}/kloxo_php_active
 	fi
 else
 	if [ -f ${INIT_DIR}/php_active ] ; then

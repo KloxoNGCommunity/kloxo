@@ -38,7 +38,7 @@ yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-*
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
 		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
 # database specific pagkages
-yum_database_pack="MariaDB MariaDB-shared MariaDB-compat"
+yum_database_pack="MariaDB MariaDB-shared MariaDB-compat MariaDB-client MariaDB-backup MariaDB-common"
 
 ## MR -- prohibit to install to CentOS 5 (EOL since 31 Mar 2017)
 #if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
@@ -77,7 +77,7 @@ else
 fi
 
 ## trouble with mysql55 for qmail-toaster
-sed -i 's/exclude\=mysql51/exclude\=mysql5/g' /etc/yum.repos.d/$mainreponame.repo
+#sed -i 's/exclude\=mysql51/exclude\=mysql5/g' /etc/yum.repos.d/$mainreponame.repo
 
 cd /
 
@@ -232,7 +232,7 @@ chown mysql:mysql /var/lib/mysqltmp
 	
 # MR -- always disable mysql-aio
 sh /script/disable-mysql-aio
-sh /script/set-mysql-default
+#sh /script/set-mysql-default
 
 echo "Install php"
 # ToDo - probably needs reworking - currently falls back to php56 if php74 isn't available

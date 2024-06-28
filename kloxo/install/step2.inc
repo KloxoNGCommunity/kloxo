@@ -249,6 +249,7 @@ install_database() {
 	done
 
 	yum -y install ${m} ${m}-server ${m}-libs --skip-broken
+	sh /script/set-mysql-default
 }
 
 install_dns() {
