@@ -239,7 +239,7 @@ install_web() {
 install_database() {
 	echo ">>> Install Database services <<<"
 
-	m='MariaDB'
+	m='mariadb'
 
 	for x in ${yum_database_pack[@]} ; do
 #		if [ "$(rpm -qa ${x}-server)" != "" ] ; then

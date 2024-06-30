@@ -34,11 +34,11 @@ rpm_main_pck='kloxo'
 yum_pack1="wget zip unzip yum-utils yum-priorities \
 	vim-minimal subversion curl sudo expect mkpasswd"
 #this is for remove packages
-yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb-* MariaDB-* php* php54* php55* php56*\
+yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb mariadb-* MariaDB-* php* php54* php55* php56*\
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
 		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
 # database specific pagkages
-yum_database_pack="MariaDB MariaDB-shared MariaDB-compat MariaDB-client MariaDB-backup MariaDB-common"
+yum_database_pack="mariadb mariadb-common mariadb-connector mariadb-server"
 
 ## MR -- prohibit to install to CentOS 5 (EOL since 31 Mar 2017)
 #if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
@@ -180,7 +180,7 @@ cd /
 
 yum -y install $yum_pack1 --skip-broken
 
-echo "Set MariaDB version in yum"
+#echo "Set MariaDB version in yum"
 # Set MariaDB version
 # Ensure that MariaDB isn't downgraded during update process
 
@@ -188,25 +188,25 @@ if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 	yum install rpmdevtools -y
 fi
 
-if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
+#if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
 			
-	MDBver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
+#	MDBver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
 	
-	Refver="10.5"
+#	Refver="10.5"
 	
-	rpmdev-vercmp ${Refver} ${MDBver} >/dev/null 2>&1
+#	rpmdev-vercmp ${Refver} ${MDBver} >/dev/null 2>&1
 	
-	status="$?"
+#	status="$?"
 
-	if [ "${status}" == "12" ] ; then
+#	if [ "${status}" == "12" ] ; then
 
-		sed -i -e "s:rpm.mariadb.org/\(.*\)/rhel/:rpm.mariadb.org/${Refver}/rhel/\2:g" /etc/yum.repos.d/kloxo.repo
+#		sed -i -e "s:rpm.mariadb.org/\(.*\)/rhel/:rpm.mariadb.org/${Refver}/rhel/\2:g" /etc/yum.repos.d/kloxo.repo
 		
 		
 		
-		yum clean all
-	fi
-fi
+#		yum clean all
+#	fi
+#fi
 
 
 echo "Remove old and not required packages. Delete postfix user"

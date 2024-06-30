@@ -112,7 +112,7 @@ name=Kloxo - mariadb repo
 baseurl=https://rpm.mariadb.org/10.5/rhel/\$releasever/\$basearch
 gpgkey = https://rpm.mariadb.org/RPM-GPG-KEY-MariaDB
 module_hotfixes = 1
-enabled=1
+enabled=0
 gpgcheck=0
 
 # ==================================
