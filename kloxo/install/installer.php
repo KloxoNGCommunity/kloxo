@@ -1114,7 +1114,9 @@ function isMysqlRunning()
  */
 function actionMysql($action)
 {
-    if ((file_exists("/etc/rc.d/init.d/mysqld")) || (file_exists("/usr/lib/systemd/system/mysqld.service"))) {
+    if ((file_exists("/etc/rc.d/init.d/mariadb")) || (file_exists("/usr/lib/systemd/system/mariadb.service"))) {
+        system("service mariadb {$action}");
+    } elseif ((file_exists("/etc/rc.d/init.d/mysqld")) || (file_exists("/usr/lib/systemd/system/mysqld.service"))) {
         system("service mysqld {$action}");
     } else {
         system("service mysql {$action}");

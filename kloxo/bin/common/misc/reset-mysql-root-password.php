@@ -21,8 +21,10 @@ $text = str_replace("'PASSWORD'", "'{$pass}'", $text);
 if(!is_dir($tpath)) mkdir($tpath);
 file_put_contents("{$tpath}/reset-mysql-password.sql", $text);
 
-print("Stop MySQL service...\n");
-if (isServiceExists('mysqld')) {
+print("Stop MySQL/mariadb service...\n");
+if (isServiceExists('mariadb')) {
+	exec("service mysqld stop");
+} elseif(isServiceExists('mysqld')) {
 	exec("service mysqld stop");
 } else {
 	exec("service mysql stop");
@@ -34,7 +36,9 @@ system("mariadbd-safe --skip-grant-tables --init-file={$tpath}/reset-mysql-passw
 sleep(15);
 system("mysqladmin -u root -p='{$pass}' shutdown");
 print("Start MySQL service...\n");
-if (isServiceExists('mysqld')) {
+if (isServiceExists('mariadb')) {
+	exec("service mariadb start");
+} elseif(isServiceExists('mysqld')) {
 	exec("service mysqld start");
 } else {
 	exec("service mysql start");

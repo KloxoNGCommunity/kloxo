@@ -1222,7 +1222,9 @@ function fix_vgname($vgname)
 
 function restart_mysql()
 {
-	if (isServiceExists('mysqld')) {
+	if (isServiceExists('mariadb')) {
+		exec_with_all_closed("service mariadb restart >/dev/null 2>&1");
+	} elseif (isServiceExists('mysqld')) {
 		exec_with_all_closed("service mysqld restart >/dev/null 2>&1");
 	} else {
 		exec_with_all_closed("service mysql restart >/dev/null 2>&1");

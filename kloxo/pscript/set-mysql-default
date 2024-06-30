@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "=== BEGIN set-mysql-default ==="
-for i in /etc/my.cnf /etc/my.cnf.d/server.cnf ; do
+for i in /etc/my.cnf /etc/my.cnf.d/server.cnf /etc/my.cnf.d/mariadb-server.cnf; do
 	if [ -f ${i} ] ; then
 		if [ "$(grep 'innodb_use_native_aio' ${i})" == "" ] || [ "$(grep 'innodb-use-native-aio' ${i})" == "" ] ; then
 			sed -i -e's|\[mysqld\]|\[mysqld\]\n#OpenVZ AIO bug fix\ninnodb-use-native-aio=0|g' ${i}

@@ -223,17 +223,17 @@ install_main() {
 install_web() {
 	echo ">>> Install Web services <<<"
 
-	if [ "$(yum -q list httpd24u)" != "" ] ; then
+#	if [ "$(yum -q list httpd24u)" != "" ] ; then
 #		if [ "$(rpm -qa httpd)" != "" ] ; then
-		if [ "$(rpm -q httpd | grep -v 'package .* is not installed')" != "" ] ; then
-			yum -y remove ${yum_rem_pack[@]}
-		fi
+#		if [ "$(rpm -q httpd | grep -v 'package .* is not installed')" != "" ] ; then
+#			yum -y remove ${yum_rem_pack[@]}
+#		fi
 
-		yum -y install ${yum_httpd24_pack[@]} --exclude=httpd --exclude=httpd-* --exclude=mod_*
+#		yum -y install ${yum_httpd24_pack[@]} --exclude=httpd --exclude=httpd-* --exclude=mod_*
 		cat '' > /usr/local/lxlabs/kloxo/etc/flag/use_apache24.flg
-	else
+#	else
 		yum -y install ${yum_httpd_pack[@]} --exclude=httpd24u --exclude=httpd24u-* --exclude=mod24u_*
-	fi
+#	fi
 }
 
 install_database() {
@@ -469,25 +469,35 @@ kloxo_install_step2() {
 
 		echo ${driverdata} > ${kloxopath}/etc/slavedb/driver
 	fi
-
-	if [ -f ${initdpath}/mysqld ] || [ -f ${systemdpath}/mysqld.service ] ; then
-		if [ "$(pgrep mysqld)" == "" ] ; then
-			service mysqld start
+	if [ -f ${initdpath}/mariadb ] || [ -f ${systemdpath}/mariadb.service ] ; then
+		if [ "$(pgrep mariadb)" == "" ] ; then
+			service mariadb start
 		fi
 	else
-		if [ "$(pgrep mysql)" == "" ] ; then
-			service mysql start
+		if [ -f ${initdpath}/mysqld ] || [ -f ${systemdpath}/mysqld.service ] ; then
+			if [ "$(pgrep mysqld)" == "" ] ; then
+				service mysqld start
+			fi
+		else
+			if [ "$(pgrep mysql)" == "" ] ; then
+				service mysql start
+			fi
 		fi
 	fi
 
 	sh /script/reset-mysql-root-password ${dbpass}
 
-	if [ -f ${initdpath}/mysqld ] || [ -f ${systemdpath}/mysqld.service ] ; then
-		service mysqld restart
+	if [ -f ${initdpath}/mariadb ] || [ -f ${systemdpath}/mariadb.service ] ; then
+		if [ "$(pgrep mariadb)" == "" ] ; then
+			service mariadb restart
+		fi
 	else
-		service mysql restart
+		if [ -f ${initdpath}/mysqld ] || [ -f ${systemdpath}/mysqld.service ] ; then
+			service mysqld restart
+		else
+			service mysql restart
+		fi
 	fi
-
 	cd ${kloxopath}/httpdocs
 
 	lxphp.exe ${kloxopath}/bin/install/create.php \

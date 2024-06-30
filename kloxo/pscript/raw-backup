@@ -17,10 +17,14 @@ echo
 echo "*** Kloxo raw-backup - BEGIN ***"
 echo
 
-if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ] ; then
-	service mysqld stop >/dev/null 2>&1
+if [ -f /etc/rc.d/init.d/mariadb ] || [ -f /usr/lib/systemd/system/mariadb.service ] ; then
+	service mariadb stop >/dev/null 2>&1
 else
-	service mysql stop >/dev/null 2>&1
+	if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ] ; then
+		service mysqld stop >/dev/null 2>&1
+	else
+		service mysql stop >/dev/null 2>&1
+	fi
 fi
 
 cd /tmp
@@ -30,12 +34,15 @@ echo "- Create zip file"
 echo "-- 'mysql' portion"
 nice -n +10 ionice -c3 tar -czf "$mysqlfile" "$mysqlpath" >/dev/null 2>&1
 
-if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ] ; then
-	service mysqld start >/dev/null 2>&1
+if [ -f /etc/rc.d/init.d/mariadb ] || [ -f /usr/lib/systemd/system/mariadb.service ] ; then
+	service mariadb start >/dev/null 2>&1
 else
-	service mysql start >/dev/null 2>&1
+	if [ -f /etc/rc.d/init.d/mysqld ] || [ -f /usr/lib/systemd/system/mysqld.service ] ; then
+		service mysqld start >/dev/null 2>&1
+	else
+		service mysql start >/dev/null 2>&1
+	fi
 fi
-
 echo "-- 'home' portion"
 nice -n +10 ionice -c3 tar -czf "$homefile" "$homepath" \
 	--exclude "$homepath/kloxo/client/*/__backup/*" \
