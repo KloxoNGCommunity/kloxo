@@ -241,12 +241,12 @@ install_database() {
 
 	m='mariadb'
 
-	for x in ${yum_database_pack[@]} ; do
+#	for x in ${yum_database_pack[@]} ; do
 #		if [ "$(rpm -qa ${x}-server)" != "" ] ; then
-		if [ "$(rpm -q ${x}-server) | grep -v 'package .* is not installed')" != "" ] ; then
-			m=${x}
-		fi
-	done
+#		if [ "$(rpm -q ${x}-server) | grep -v 'package .* is not installed')" != "" ] ; then
+#			m=${x}
+#		fi
+#	done
 
 	yum -y install ${m} ${m}-server ${m}-libs --skip-broken
 	sh /script/set-mysql-default

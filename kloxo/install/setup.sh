@@ -38,7 +38,7 @@ yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb mariadb-* M
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
 		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
 # database specific pagkages
-yum_database_pack="mariadb mariadb-common mariadb-connector mariadb-server"
+yum_database_pack="mariadb mariadb-common mariadb-server"
 
 ## MR -- prohibit to install to CentOS 5 (EOL since 31 Mar 2017)
 #if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
