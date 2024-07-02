@@ -66,7 +66,9 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 
 		echo "- Restart MariaDB\n";
 		system("chkconfig mysql on >/dev/null 2>&1");
+		system("chkconfig mariadb on >/dev/null 2>&1");
 		system("service mysql restart");
+		system("service mariadb restart");
 //	}
 }
 

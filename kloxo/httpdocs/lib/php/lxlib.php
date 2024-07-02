@@ -2216,7 +2216,7 @@ function check_raw_password($class, $client, $pass)
 
 	$rawdb = new Sqlite(null, $class);
 	$password = $rawdb->rawquery("select password from $class where nname = '$client'");
-	$enp = $password[0]['password'];
+	$enp = is_null($password) ? null :$password[0]['password'];
 
 	if ($enp && check_password($pass, $enp)) {
 		return true;

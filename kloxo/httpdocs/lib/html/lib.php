@@ -4739,7 +4739,7 @@ function lxguard_main($clearflag = false, $since = false)
 
 	}
 
-	include "./lib/html/lxguardincludelib.php";
+	include_once "./lib/html/lxguardincludelib.php";
 
 	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
 	lxfile_mkdir($lxgpath);
@@ -4868,7 +4868,7 @@ function lxguard_save_hitlist($hl)
 {
 	global $sgbl;
 
-	include "./lib/html/lxguardincludelib.php";
+	include_once "./lib/html/lxguardincludelib.php";
 
 	$lxgpath = "{$sgbl->__path_home_root}/lxguard";
 	lxfile_mkdir($lxgpath);

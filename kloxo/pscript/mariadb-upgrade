@@ -43,19 +43,22 @@ if [ "${status}" == "12" ] ; then
 			echo "Add [mariadb-${newver}] to /etc/my.cnf.d/server.cnf"
 		else
 			echo "Already exist [mariadb-${newver}]"
-		fi
+	fi
 
 	if [ "$(command -v systemctl)" != "" ] ; then
 		if [ "$(systemctl list-unit-files|grep ^mysql.service)" != "" ] ; then
 			systemctl enable mysql >/dev/null 2>&1
 			systemctl daemon-reload >/dev/null 2>&1
 		else
-			chkconfig mysql on 2>/dev/null
+			if [ "$(systemctl list-unit-files|grep ^mariadb.service)" != "" ] ; then
+				systemctl enable mariadb >/dev/null 2>&1
+				systemctl daemon-reload >/dev/null 2>&1
+			fi
 		fi
 	else
 		chkconfig mysql on 2>/dev/null
-	fi
-
+		chkconfig mariadb on 2>/dev/null
+	fi	
 	sh /script/restart-mysql
 
 	pass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)

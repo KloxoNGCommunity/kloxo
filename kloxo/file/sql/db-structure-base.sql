@@ -22,6 +22,9 @@ SET GLOBAL innodb_default_row_format='dynamic';
 --
 -- Database: `kloxo`
 --
+CREATE DATABASE IF NOT EXISTS kloxo;
+
+USE kloxo;
 
 -- --------------------------------------------------------
 
