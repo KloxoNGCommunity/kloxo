@@ -59,6 +59,28 @@ static time_t restart_timer  = (time_t)0;
 static time_t scavenge_timer = (time_t)0;
 static time_t sisinfoc_timer = (time_t)0;
 
+int ssl_or_tcp_write(SSL *ssl, int sock, char * buf, int n)
+{
+	if (sock) {
+		return write(sock, buf, n);
+	} else {
+		return SSL_write(ssl, buf, n);
+	}
+}
+
+int ssl_or_tcp_read(SSL *ssl, int sock, char * buf, int n)
+{
+	int p;
+
+	if (sock) {
+		p = read(sock, buf, n);
+		printf("Read %d %s \n", p, buf);
+	} else {
+		p = SSL_read(ssl, buf, n);
+	}
+	return p;
+}
+
 int run_php_prog_ssl(SSL *ssl, int sock)
 {
 	char ftempname[BUFSIZ];
@@ -341,7 +363,7 @@ int accept_and(int listen_sock)
 	return sock;
 }
 
-ssl_or_tcp_fork(int listen_socket, SSL_CTX *ctx)
+int ssl_or_tcp_fork(int listen_socket, SSL_CTX *ctx)
 {
 	int pid;
 	int sock;

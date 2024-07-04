@@ -371,6 +371,10 @@ kloxo_install_step1() {
 
 	## MR -- install curl-devel (need by php-common) will be install curl-devel
 	## in CentOS 5 and libcurl-devel in CentOS 6
+
+	## crb required for static libraries required by cexe
+	yum-config-manager --enable crb
+
 	yum -y install ${yum_comp_pack[@]} --skip-broken
 	
 	rkhunter --update
@@ -393,7 +397,7 @@ kloxo_install_step1() {
 	yum -y install $phpbranch $phpbranch-mbstring $phpbranch-mysqlnd $phpbranch-pear \
 		$phpbranch-pecl-geoip $phpbranch-mcrypt $phpbranch-xml \
 		$phpbranch-embedded $phpbranch-imap $phpbranch-intl \
-		$phpbranch-ldap $phpbranch-litespeed $phpbranch-process $phpbranch-pspell \
+		$phpbranch-ldap $phpbranch-litespeed $phpbranch-process \
 		$phpbranch-recode $phpbranch-snmp $phpbranch-soap $phpbranch-tidy \
 		$phpbranch-xmlrpc $phpbranch-gd $phpbranch-ioncube-loader hiawatha --skip-broken
 

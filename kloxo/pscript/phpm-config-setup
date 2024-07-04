@@ -91,7 +91,7 @@ for j in php.d php-zts.d ; do
 				immutable_cache interbase ioncube ioncube-loader ioncube_loader json_post jsonpath lzf maxminddb \
 				memcache memcached memprof mongo mongodb msgpack mssql mustache mysqlnd_krb nsq \
 				oauth oci8 odbc opcache pam pdo_dblib pdo_firebird pdo_oci pdo_odbc pdo_pgsql \
-				pdo_sqlite pgsql phalcon pq psr raphf rar rdkafka realpath_turbo redis rrd \
+				pdo_sqlite pgsql phalcon pq pspell psr raphf rar rdkafka realpath_turbo redis rrd \
 				scoutapm SeasClick SeasSnowflake simdjson solr sourceguardian sphinx ssdeep \
 				ssh2 stats stomp suhosin swoole sync teds tensor trader \
 				uopz wddx xcache xdebug xmldiff xxtea xz yac seaslog \

@@ -7,8 +7,8 @@ all:
 	rm -f kloxo.exe
 	rm -f kloxo.o
 
-	cc -static -o closeinput closeinput.c
-	cc -static -o closeallinput closeallinput.c
+	gcc -static -o closeinput closeinput.c
+	gcc -static -o closeallinput closeallinput.c
 
 	gcc -o kloxo.exe kloxo.c -lssl -lcrypto
 
