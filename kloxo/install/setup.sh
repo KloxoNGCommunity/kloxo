@@ -237,7 +237,7 @@ sh /script/disable-mysql-aio
 echo "Install php"
 # ToDo - probably needs reworking - currently falls back to php56 if php74 isn't available
 if [ "$(yum list php56*|grep ^'php56')" != "" ] ; then
-	phpused="php56"
+	phpused="php74"
 #	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
 	#sh /script/php-branch-installer ${phpused}
 else
