@@ -1012,7 +1012,7 @@ function __ac_desc_UpdateForm($object)
 	// MR -- use logic from show
 	$object->createShowPropertyList($prlist);
 
-	if (!$prlist['property']) {
+	if (empty($prlist['property'])) {
 		$object->getParentO()->createShowPropertyList($prlist);
 
 		foreach ($prlist['property'] as $k => $v) {

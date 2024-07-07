@@ -14,7 +14,7 @@ class phpini_flag_b extends lxaclass
 	static $__desc_upload_tmp_dir_flag = array("", "", "upload_tmp_dir");
 	static $__desc_output_buffering_flag = array("f", "", "output_buffering");
 	static $__desc_register_argc_argv_flag = array("f", "", "register_argc_argv");
-	static $__desc_magic_quotes_gpc_flag = array("f", "", "magic_quotes_gpc");
+//	static $__desc_magic_quotes_gpc_flag = array("f", "", "magic_quotes_gpc");
 	static $__desc_register_long_arrays_flag = array("f", "", "register_long_arrays");
 	static $__desc_variables_order_flag = array("", "", "variables_order");
 	static $__desc_output_compression_flag = array("f", "", "output_compression");
@@ -342,7 +342,7 @@ class phpini extends lxdb
 		$this->initialValue('output_buffering_flag', 'off');
 		$this->initialValue('register_argc_argv_flag', 'on');
 		$this->initialValue('register_long_arrays_flag', 'on');
-		$this->initialValue('magic_quotes_gpc_flag', 'off');
+//		$this->initialValue('magic_quotes_gpc_flag', 'off');
 		$this->initialValue('gpc_order_flag', 'GPC');
 		$this->initialValue('variables_order_flag', 'EGPCS');
 		$this->initialValue('post_max_size_flag', '32M');

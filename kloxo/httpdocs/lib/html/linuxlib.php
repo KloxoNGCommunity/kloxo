@@ -181,6 +181,7 @@ function getIPs_from_ipaddr($withV6 = true)
 // Bug #797 - Failed identify ip on apache
 // MR - mimic from getCurrentIps() on ipaddress__redhatlib.php
 // back to use mimic because possibility trouble on slave 
+// Not used at the moment
 function getIPs_from_ifcfg()
 {
 	$p = '/etc/sysconfig/network-scripts/';

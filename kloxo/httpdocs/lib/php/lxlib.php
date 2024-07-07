@@ -211,7 +211,7 @@ function find_os_pointversion()
 function find_os_selecttype($select)
 {
 	// list os support
-	$ossup = array('redhat' => 'rhel', 'fedora' => 'fedora', 'centos' => 'centos');
+	$ossup = array('redhat' => 'rhel', 'fedora' => 'fedora', 'centos' => 'centos', 'almalinux' => 'almalinux');
 	
 	foreach(array_keys($ossup) as $k) {
 		$osrel = file_get_contents("/etc/{$k}-release");

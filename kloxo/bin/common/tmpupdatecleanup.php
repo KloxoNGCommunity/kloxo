@@ -64,6 +64,7 @@ function updatecleanup_main()
 		exec("chkconfig mysql off >/dev/null 2>&1");
 		exec("chkconfig mysqld off >/dev/null 2>&1");
 		exec("chkconfig mariadb on >/dev/null 2>&1");
+		exec("systemctl enable mariadb.service>/dev/null 2>&1");	
 	
 	} elseif (isServiceExists('mysqld')) {
 		log_cleanup("- MySQL activated");
@@ -71,7 +72,7 @@ function updatecleanup_main()
 		exec("chkconfig mysqld on >/dev/null 2>&1");
 	
 	} else {
-		log_cleanup("- MariaDB activated");
+		log_cleanup("- MariaDB / mysql activated");
 		exec("chkconfig mysqld off >/dev/null 2>&1");
 		exec("chkconfig mysql on >/dev/null 2>&1");
 	}

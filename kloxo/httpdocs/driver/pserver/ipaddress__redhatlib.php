@@ -144,15 +144,25 @@ class Ipaddress__Redhat extends LxDriverclass
 		global $gbl, $sgbl, $login, $ghtml;
 
 		$path = $sgbl->__path_real_etc_root . "sysconfig/network-scripts";
-
+		
 		$flist = lscandir($path);
-
+		
 		foreach ($flist as $file) {
 			if (char_search_a($file, "ifcfg-")) {
-				$result1[] = self::get_network_data(str_replace("{$path}/ifcfg-", "", "{$path}/{$file}"));
+				$result1[] = self::get_network_data(str_replace("ifcfg-", "", "{$file}"));
 			}
 		}
-
+		
+		$path = $sgbl->__path_real_etc_root . "NetworkManager/system-connections";
+		
+		$flist = lscandir($path);
+		
+		foreach ($flist as $file) {
+			if (char_search_a($file, ".nmconnection")) {
+				$result1[] = self::get_network_data(str_replace(".nmconnection", "","{$file}"));
+			}
+		}
+		print_r($result1);
 		$result = array(); // Initialize as array (expected return result)
 
 		foreach ($result1 as $res) {
