@@ -160,27 +160,9 @@ int run_php_prog_ssl(SSL *ssl, int sock)
 	exit(0);
 }
 
-int ssl_or_tcp_write(SSL *ssl, int sock, char * buf, int n)
-{
-	if (sock) {
-		return write(sock, buf, n);
-	} else {
-		return SSL_write(ssl, buf, n);
-	}
-}
 
-int ssl_or_tcp_read(SSL *ssl, int sock, char * buf, int n)
-{
-	int p;
 
-	if (sock) {
-		p = read(sock, buf, n);
-		printf("Read %d %s \n", p, buf);
-	} else {
-		p = SSL_read(ssl, buf, n);
-	}
-	return p;
-}
+
 
 SSL_CTX * ssl_init()
 {
