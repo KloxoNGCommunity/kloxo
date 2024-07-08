@@ -107,7 +107,6 @@ $dbpass = '';
         'cronie',
         'cronie-anacron',
         'crontabs',
-        'vixie-cron',
         'rpmdevtools',
         'yum-utils',
     );

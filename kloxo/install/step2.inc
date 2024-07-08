@@ -87,7 +87,6 @@ yum_other_pack=(
 					"cronie"
 					"cronie-anacron"
 					"crontabs"
-					"vixie-cron"
 					"rpmdevtools"
 					"yum-utils"
 					"procps-ng" 
@@ -199,7 +198,13 @@ else
 	fi
 fi
 
-mypass=$(mkpasswd -l 10)
+## Expect version of mkpasswd renamed to mkpasswd-expect in recent version of EL
+   
+if [ -f /usr/bin/mkpasswd-expect ] ; then
+	mypass=$(mkpasswd-expect -l 10)
+else
+	mypass=$(mkpasswd -l 10)
+fi
 
 dbroot='root'
 dbpass=''
