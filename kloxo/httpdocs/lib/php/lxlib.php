@@ -2899,8 +2899,8 @@ function exec_class_method($class, $func)
 
 	//list($iclass, $mclass, $rclass) = get_composite($class);
 	$rclass = $class;
-
-	$class = strtolower($class);
+	//Moved below func_get_arg as functions inspecting arguments, like func_get_arg(), no longer report the original value as passed to a parameter, but will instead provide the current value.
+	//$class = strtolower($class);
 
 	//Arg getting string is a function that needs $start to be set.
 	$start = 2;
@@ -2918,7 +2918,7 @@ function exec_class_method($class, $func)
 		}
 
 	}
-
+	$class = strtolower($class);
 	// workaround for the following php bug:
 	//   http://bugs.php.net/bug.php?id=47948
 	//   http://bugs.php.net/bug.php?id=51329
@@ -3235,7 +3235,9 @@ function getFromAny($list, $class, $name)
 
 function arrayGetFirstObject($list)
 {
-	foreach ($list as $k => $v) break;
+	foreach ($list as $k => $v){
+		break;
+	}	
 	return $list[$k];
 }
 

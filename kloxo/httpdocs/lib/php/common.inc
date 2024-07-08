@@ -5,8 +5,7 @@ define('URL_TOGGLE_STATUS', 'a=update&sa=toggle_status');
 define('URL_TOGGLE_STATE', 'a=update&sa=toggle_state');
 define('URL_UPDATE', 'a=updateform&sa=update');
 
-function __autoload($class)
-{
+spl_autoload_register(function($class){
 	global $gbl, $sgbl, $login, $ghtml; 
 
 	if (strpos($class, '_none') !== false) { return; }
@@ -27,6 +26,6 @@ function __autoload($class)
 	}
 
 	dprint("Class Not found $class <br> \n");
-}
+});
 
 

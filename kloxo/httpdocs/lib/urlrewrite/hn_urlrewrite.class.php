@@ -319,7 +319,7 @@ class hn_urlRewrite
 	/////////////////////////////////////////////
 	//	CONSTRUCTOR
 
-	function hn_urlRewrite($registered_scripts=FALSE)
+	function  __construct($registered_scripts=FALSE)
 	{
 		// store DOCUMENT_ROOT without optionally trailing slash!
 		$this->DOCUMENT_ROOT = (strrpos($_SERVER['DOCUMENT_ROOT'],'/')==strlen($_SERVER['DOCUMENT_ROOT'])-1) ? $_SERVER['DOCUMENT_ROOT'] = substr($_SERVER['DOCUMENT_ROOT'], 0, strlen($_SERVER['DOCUMENT_ROOT'])-1) : $_SERVER['DOCUMENT_ROOT'];
@@ -576,7 +576,7 @@ class hn_urlRewrite
 
 	function send_page($compressed=FALSE)
 	{
-		if($compressed && ereg('gzip',$_SERVER["HTTP_ACCEPT_ENCODING"]))
+		if($compressed && preg_match("/gzip/",$_SERVER["HTTP_ACCEPT_ENCODING"]))
 		{
 			// Browser kann komprimierte Daten verarbeiten:
 			header ("Content-Encoding: gzip");								// Content-Encoding senden (damit der Browser was merkt)
@@ -1013,7 +1013,7 @@ class hn_urlRewrite
 	{
 		$alpha_array = $this->CodingKey;
 		$decoded = base64_decode($str);
-		list($decoded,$letter) = split("\+",$decoded);
+		list($decoded,$letter) = explode("\+",$decoded);
 		for($i=0;$i<count($alpha_array);$i++)
 		{
 			if($alpha_array[$i] == $letter)

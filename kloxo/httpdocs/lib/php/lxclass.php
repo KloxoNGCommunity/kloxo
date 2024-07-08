@@ -524,7 +524,9 @@ abstract class Lxclass
 
 			return;
 		}
-		$class = $class . "_" . $driverapp;
+		
+		//Moved below func_get_arg as functions inspecting arguments, like func_get_arg(), no longer report the original value as passed to a parameter, but will instead provide the current value.
+		//$class = $class . "_" . $driverapp;
 
 		$start = 2;
 		$transforming_func = null;
@@ -541,6 +543,8 @@ abstract class Lxclass
 			}
 
 		}
+		
+		$class = $class . "_" . $driverapp;
 
 		return call_user_func_array(array($class, $func), $arglist);
 	}

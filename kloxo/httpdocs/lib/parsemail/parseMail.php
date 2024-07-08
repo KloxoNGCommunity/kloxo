@@ -31,7 +31,7 @@
 		var $part =array();
 		
 		// decode a mail header
-		function parseMail($text="") {
+		function __construct($text="") {
 			$start=0;
 			$lastheader="";
 			$message_id = null;

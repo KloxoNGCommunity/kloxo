@@ -135,7 +135,7 @@ class Ffile extends Lxclass
 		// MR -- trouble if $root with format '__path_' and then converted!
 		if (strpos($root, '__path_') !== false) {
 			$a = explode('/', $root);
-			$a[0] = $sgbl->$a[0];
+			$a[0] = $sgbl->{$a[0]};
 			$this->root = implode('/', $a);
 		} else {
 			$this->root = $root;

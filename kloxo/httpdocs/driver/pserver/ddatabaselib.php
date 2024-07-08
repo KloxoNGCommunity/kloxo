@@ -392,7 +392,6 @@ class databasecore extends Lxdb
 		if (!extension_loaded($dbtype)) {
 			dprint("Warning No $dbtype <br> ");
 			exit;
-			dl("$dbtype.". PHP_SHLIB_SUFFIX);
 		}
 	}
 
