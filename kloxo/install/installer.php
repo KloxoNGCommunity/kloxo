@@ -963,7 +963,7 @@ $a = explode(",", file_get_contents('/usr/local/lxlabs/kloxo/etc/list/set.php.ls
         }
     }
 
-	return 'php56';
+	return 'php74';
 }
 
 /**

@@ -32,7 +32,7 @@ main_release_rpm="kloxo-release.rpm"
 rpm_main_pck='kloxo'
 #this is for installing base packages
 yum_pack1="wget zip unzip yum-utils yum-priorities net-tools chkconfig\
-	vim-minimal subversion curl sudo expect mkpasswd"
+	vim-minimal subversion curl sudo expect mkpasswd initscripts"
 #this is for remove packages
 yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb mariadb-* MariaDB-* php* php54* php55* php56*\
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
@@ -236,8 +236,8 @@ sh /script/disable-mysql-aio
 
 echo "Install php"
 # ToDo - probably needs reworking - currently falls back to php56 if php74 isn't available
-if [ "$(yum list php56*|grep ^'php56')" != "" ] ; then
-	phpused="php56"
+if [ "$(yum list php74*|grep ^'php74')" != "" ] ; then
+	phpused="php74"
 #	yum -y install ${phpused}u-cli ${phpused}u-mysqlnd ${phpused}u-fpm
 	#sh /script/php-branch-installer ${phpused}
 else

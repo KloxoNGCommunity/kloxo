@@ -584,4 +584,3 @@ class all_mailaccount extends mailaccount
 		return $nlist;
 	}
 }
-

@@ -34,10 +34,10 @@ else
 	if [ -f ${INIT_DIR}/kloxo_php_active ] ; then
 		base_name="$(cat ${INIT_DIR}/kloxo_php_active)"
 	else
-		if [ ! -f /opt/php56s/custom/php-cli.sh ] ; then
-			base_name="php56s"
+		if [ ! -f /opt/php74s/custom/php-cli.sh ] ; then
+			base_name="php74s"
 		else
-			base_name="php54s"
+			base_name="php56s"
 		fi
 		src_name="${base_name%[s,m]}"
 		if [ ! -f /opt/${base_name}/custom/php-cli.sh ] ; then
