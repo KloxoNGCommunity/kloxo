@@ -214,6 +214,19 @@ echo $x >>${main_path}/${base_name}_install.log
     rm -r -v ${main_path}/etc/opt	>>${main_path}/${base_name}_install.log	
     rm -r -v ${main_path}/var/opt	>>${main_path}/${base_name}_install.log
 fi  
+if [ -d ${main_path}/opt/rh ] ; then
+x="- Remi found, rearranging folders"
+echo $x
+echo $x >>${main_path}/${base_name}_install.log
+
+    echo 1 > ${main_path}/rh
+    /bin/cp -r -v ${main_path}/opt/rh/${src_name}/root/usr/* ${main_path}/usr >>${main_path}/${base_name}_install.log
+    /bin/cp -r -v ${main_path}/etc/opt/rh/${src_name}/* ${main_path}/etc >>${main_path}/${base_name}_install.log
+    /bin/cp -r -v ${main_path}/var/opt/rh/${src_name}/* ${main_path}/var >>${main_path}/${base_name}_install.log
+    rm -r -v ${main_path}/opt >>${main_path}/${base_name}_install.log	
+    rm -r -v ${main_path}/etc/opt	>>${main_path}/${base_name}_install.log	
+    rm -r -v ${main_path}/var/opt	>>${main_path}/${base_name}_install.log
+fi  
 
 
 cd /

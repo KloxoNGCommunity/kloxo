@@ -151,6 +151,7 @@ php_pack=(
 			"php54"
 			"php55u"
 			"php56u"
+			"php56"
 			"php54w"
 			"php55w"
 			"php56w"

@@ -211,6 +211,54 @@ echo ${x} >>${main_path}/${base_name}_install.log
 
 fi
 
+if [ -f ${main_path}/rh ]	; then
+x="- Fix rh paths"
+echo ${x}
+echo ${x} >>${main_path}/${base_name}_install.log
+
+    if	[ ! -d /etc/opt/rh ] ; then
+        mkdir -p /etc/opt/rh
+    fi	
+    cd /etc/opt/rh
+
+    ln -snf ${main_path}/custom ${src_name}
+
+    cd ${main_path}/etc
+    rm -f php.ini >/dev/null 2>&1
+    ln -sf ${main_path}/custom/php.ini php.ini
+
+
+    cd ${main_path}/usr/bin
+    for i in phpize pear peardev pecl phpsdl php-config phar phar.phar ;do
+	x="- Update ${main_path}/usr/bin/${i} settings"
+	echo ${x}
+	echo ${x} >>${main_path}/${base_name}_install.log
+	sed -i 's:/etc/opt/rh/'${src_name}':'${main_path}'/etc:g' ${i}
+	sed -i 's:/opt/rh/'${src_name}'/root/usr:'${main_path}'/usr:g' ${i}
+	sed -i 's:/var/opt/rh/'${src_name}':'${main_path}'/var:g' ${i}
+    done
+    ln -sf lsphp ls${src_name}
+    ln -sf  php ${src_name}
+    ln -sf  php-cgi ${src_name}-cgi
+    ln -sf  pear ${src_name}-pear
+    ln -sf  phar ${src_name}-phar
+    ln -sf  phpdbg ${src_name}-phpdbg
+    
+    cd ${main_path}/usr/share/pear
+    for i in peclcmd.php pearcmd.php ;do
+        sed -i 's:/etc/opt/rh/'${src_name}':'${main_path}'/etc:g' ${i}
+	sed -i 's:/opt/rh/'${src_name}'/root/usr:'${main_path}'/usr:g' ${i}
+	sed -i 's:/var/opt/rh/'${src_name}':'${main_path}'/var:g' ${i}
+    done
+    cd ${main_path}/usr/lib/rpm/macros.d
+    for i in macros.${src_name}-pear macros.${src_name}-php ;do
+        sed -i 's:/etc/opt/rh/'${src_name}':'${main_path}'/etc:g' ${i}
+	sed -i 's:/opt/rh/'${src_name}'/root/usr:'${main_path}'/usr:g' ${i}
+	sed -i 's:/var/opt/rh/'${src_name}':'${main_path}'/var:g' ${i}
+    done
+
+
+fi
 
 
 cd ${main_path}

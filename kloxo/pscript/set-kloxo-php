@@ -35,7 +35,7 @@ fi
 if [ "${2}" == "" ] ; then
 	echo "- No php selected. Defaulting to 'php74s'"
 	echo
-	echo "php74s" > /usr/local/lxlabs/kloxo/init/kloxo_php_active
+	echo "php56s" > /usr/local/lxlabs/kloxo/init/kloxo_php_active
 else
 	sh /script/phpm-installer ${2}
 	echo "${2}" > /usr/local/lxlabs/kloxo/init/kloxo_php_active

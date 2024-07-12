@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "${1}" == "" ] ; then
-	t='php74'
+	t='php56'
 else
 	t=${1}
 fi

@@ -8,6 +8,7 @@ php54_run="${php_yum} php54-* --exclude=php*-mysql* --exclude=php*-pecl-memcache
 php55u_run="${php_yum} php55u-* ${php_exclude}"
 php55w_run="${php_yum} php55w-* ${php_exclude}"
 
+php56_run="${php_yum} php56-* ${php_exclude}"
 php56u_run="${php_yum} php56u-* ${php_exclude}"
 php56w_run="${php_yum} php56w-* ${php_exclude}"
 
