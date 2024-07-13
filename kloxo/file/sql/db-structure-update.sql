@@ -1,14 +1,10 @@
 USE kloxo;
 
-SET SESSION innodb_strict_mode=ON;
-
-SET GLOBAL innodb_default_row_format='dynamic';
-
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `nname` varchar(255) NOT NULL,
   `parent_clname` varchar(255) DEFAULT NULL,
-  `parent_cmlist` text,
+  `parent_cmlist` text DEFAULT '',
   `servicename` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `grepstring` varchar(255) DEFAULT NULL,
@@ -30,7 +26,7 @@ INSERT IGNORE INTO `service` (`nname`, `parent_clname`, `parent_cmlist`, `servic
 ('httpd___localhost', 'pserver-localhost', '', 'httpd', 'Apache Web Server', 'httpd', 'localhost', '', ''),
 ('lighttpd___localhost', 'pserver-localhost', '', 'lighttpd', 'Lighttpd Web Server', 'lighttpd', 'localhost', '', ''),
 ('nginx___localhost', 'pserver-localhost', '', 'nginx', 'Nginx Web Server', 'nginx', 'localhost', '', ''),
-('hiawatha___localhost', 'pserver-localhost', '', 'hiawatha', 'Hiawatha Web Server (use by Kloxo)', 'hiawatha', 'localhost', '', ''),
+('hiawatha___localhost', 'pserver-localhost', '', 'hiawatha', 'Hiawatha Web Server (use by KloxoNG)', 'hiawatha', 'localhost', '', ''),
 ('varnish___localhost', 'pserver-localhost', '', 'varnish', 'Varnish Web Cache', 'varnish', 'localhost', '', ''),
 ('squid___localhost', 'pserver-localhost', '', 'squid', 'Squid Web Cache', 'squid', 'localhost', '', ''),
 ('trafficserver___localhost', 'pserver-localhost', '', 'trafficserver', 'Apache Traffic Server Web Cache', 'trafficserver', 'localhost', '', ''),
@@ -45,7 +41,7 @@ UPDATE `service` SET `description`='Php Fastcgi Process Manager (Php Used)' WHER
 CREATE TABLE IF NOT EXISTS `jailed` (
   `nname` varchar(255) NOT NULL,
   `parent_clname` varchar(255) DEFAULT NULL,
-  `parent_cmlist` text,
+  `parent_cmlist` text DEFAULT '',
   `enable_jailed` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
   KEY `parent_clname_jailed` (`parent_clname`)
@@ -54,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `jailed` (
 CREATE TABLE IF NOT EXISTS `dnsslave` (
   `nname` varchar(255) NOT NULL,
   `parent_clname` varchar(255) DEFAULT NULL,
-  `parent_cmlist` text,
+  `parent_cmlist` text DEFAULT '',
   `master_ip` varchar(255) DEFAULT NULL,
   `syncserver` varchar(255) DEFAULT NULL,
   `serial` varchar(255) DEFAULT NULL,
@@ -138,7 +134,7 @@ ALTER TABLE `web` ADD COLUMN IF NOT EXISTS `disable_pagespeed` VARCHAR(255) NULL
 CREATE TABLE IF NOT EXISTS `sendmailban` (
   `nname` varchar(255) NOT NULL,
   `parent_clname` varchar(255) DEFAULT NULL,
-  `parent_cmlist` text,
+  `parent_cmlist` text DEFAULT '',
   `target` varchar(255) DEFAULT NULL,
   `syncserver` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nname`),
