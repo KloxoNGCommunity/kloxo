@@ -60,7 +60,7 @@ function updatecleanup_main()
 	log_cleanup("Prepare MySQL/MariaDB service");
 
 	if (isServiceExists('mariadb')) {
-		log_cleanup("- MariaDB activated")
+		log_cleanup("- MariaDB activated");
 		exec("chkconfig mysql off >/dev/null 2>&1");
 		exec("chkconfig mysqld off >/dev/null 2>&1");
 		exec("chkconfig mariadb on >/dev/null 2>&1");
