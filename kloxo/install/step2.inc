@@ -279,8 +279,8 @@ install_dns() {
         fi
 
 	
-	#this isn't required but could be explored in the future fix "the working directory is not writable" message in log at startup
-	#chown named:root /opt/configs/nsd/conf -R
+	#fix for "the working directory is not writable" named startup
+	chown named:root /opt/configs/nsd/conf -R
 
 
 	if [ -f /etc/rndc.conf ] ; then
