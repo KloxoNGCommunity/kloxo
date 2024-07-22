@@ -354,7 +354,10 @@ class serverweb__ extends lxDriverClass
 			$source = getLinkCustomfile($spath, "_inactive_.conf");
 			if ($l === 'proxy_fcgi') {
 				lxfile_cp($source, "{$tpath}/00-proxy.conf");
+				//proxy_h2 requires proxy so remove for the moment until h2 behaviour coded
+ 				lxfile_cp($source, "{$tpath}/10-proxy_h2.conf");
 				lxfile_rm("{$tpath}/00-proxy.nonconf");
+				lxfile_rm("{$tpath}/10-proxy_h2.nonconf");
 			} else {
 				lxfile_cp($source, "{$tpath}/{$l}.conf");
 				lxfile_rm("{$tpath}/{$l}.nonconf");

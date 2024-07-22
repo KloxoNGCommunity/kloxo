@@ -8470,7 +8470,7 @@ function setAllWebServerInstall($nolog = null)
 
 	$list = getAllRealWebDriverList();
 
-	$ws = array('nginx' => 'nginx nginx-module* GeoIP spawn-fcgi fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
+	$ws = array('nginx' => 'nginx nginx-module* GeoIP fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
 		'hiawatha' => 'hiawatha hiawatha-addons', 'httpd' => 'httpd httpd-tools',
 		'httpd24u' => 'httpd24u httpd24u-tools httpd24u-filesystem httpd24u-mod_security2');
 
