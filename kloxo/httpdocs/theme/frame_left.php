@@ -159,7 +159,7 @@ function xp_panel($object)
 				}
 
 				document.write("<table  border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"padding:0 0 0 0;\" width=\"100%\">");
-				document.write("<tr style=\"background:#efe8e0 url(<?=$skinget?>/images/expand.gif)\" onMouseover=\"this.style.background='#efe8e0 url(<?=$skinget?>/images/onexpand.gif)'\" onMouseout=\"this.style.background='#efe8e0 url(<?=$skinget?>/images/expand.gif)'\"><td style=\"width:180px;vertical-align: center; \"><span style='font-weight:bold'>&nbsp;" + this.label + "</span></td><td class=" + menuclass + " id=\"" + this.id + "\"" + "onclick=\"toggle(this)\">");
+				document.write("<tr style=\"background:#eee url(<?=$skinget?>/images/expand.gif)\" onMouseover=\"this.style.background='#eee url(<?=$skinget?>/images/onexpand.gif)'\" onMouseout=\"this.style.background='#eee url(<?=$skinget?>/images/expand.gif)'\"><td style=\"width:180px;vertical-align: center; \"><span style='font-weight:bold'>&nbsp;" + this.label + "</span></td><td class=" + menuclass + " id=\"" + this.id + "\"" + "onclick=\"toggle(this)\">");
 				document.write("&nbsp;<img id=" + this.id + "_image src=" + image + "></td></tr>");
 				document.write("</table>");
 				document.write("<div style=\"display: " + disp + "; visibility: " + visib + ";\"" + " class=\"menuItems\" id=\"" + this.id + "_child" + "\">");
@@ -252,7 +252,7 @@ function xp_panel($object)
 								continue;
 							}
 
-							$rdesc .= "<tr align=left style=\"border-width:1 ;background:#efe8e0 url($skinget/images/a.gif)\"> <td> " .
+							$rdesc .= "<tr align=left style=\"border-width:1 ;background:#eee url($skinget/images/a.gif)\"> <td> " .
 								"<img width=15 height=15 src=\"$icondir/state_v_{$or->display('state')}.gif\"> {$or->shortdescr} </td> " .
 								"<td nowrap> {$or->display('resourceused')} </td> <td align=left> $limit&nbsp;</td> </tr>";
 						}

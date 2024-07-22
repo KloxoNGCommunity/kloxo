@@ -358,16 +358,24 @@
 		/* margin-bottom: 6px; */
 		height: 20px;
 		float: left;
-		border: 1px solid #dcb;
+		border: 1px solid #6698c9;
 		margin: 0 1px;
-		background-color: #dcb;
+		background-color: #6698c9;
 		padding: 6px 6px 0 6px;
+	}
+	
+	.verb a span {
+    color: white;
 	}
 
 	.verb:hover {
-		background-color: #ceb;
+		background-color: #cccccc;
 	}
-
+	.verb:hover a span {
+    color: black;
+	}
+	
+	
 	.verb2 {
 		white-space: nowrap;
 		/* margin-bottom: 6px; */
@@ -392,23 +400,40 @@
 		margin: 0 1px;
 		border: 1px solid #eee;
 		border-bottom: 1px solid #fffae8;
-		background-color: #fffae8;
+		background-color: #cccccc;
 		padding: 6px 6px 0 6px;
 	}
+
+
+	.verb3 a span {
+    color: black;
+	}
+
+	.verb3:hover {
+		background-color: #cccccc;
+	}
+	.verb3:hover a span {
+    color: white;
+	}
+
 
 	.verb4 {
 		padding: 0px;
 		border-bottom: 1px solid #ddd;
 		margin-bottom: 10px;
-		background-color: #fffae8;
+		background-color: #eeeeee;
+	}
+	
+	.verb4 a {
+		color: #333333;
+	}
+	
+	.verb4 a:hover {
+		color: #6698c9;
 	}
 
 	.verb_all {
 		float: left;
-	}
-
-	.verb3:hover {
-		background-color: #ceb;
 	}
 
 	.tabnew {

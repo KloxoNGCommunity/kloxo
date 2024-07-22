@@ -201,7 +201,7 @@
 /* Others */
 .div_menu {
 	width: 680px;
-	background-color: #16a085;
+	background-color: #6698c9;
 	border: 0;
 	margin:0 auto 0 auto;
 	height: 30px; 
@@ -213,15 +213,15 @@
 	color: #fff;
 	margin: 2px;
 	padding: 3px;
-	background-color: #3498db;
+	background-color: #707070;
 	border: 0
 }
 
 .div_header_message_inactive {
-	color: #3498db;
+	color: #707070;
 	margin: 2px;
 	padding: 3px;
-	background-color: #3498db;
+	background-color: #707070;
 	border: 0
 }
 

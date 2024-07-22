@@ -484,14 +484,14 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #edc <?= $img_url ?>;
+				background: #6698c9 <?= $img_url ?>;
 
 				border: 1px solid #<?=$col?>;
 			}
 
 			.expanded {
 				cursor: pointer;
-				background: #edc <?= $img_url ?>;
+				background: #6698c9 <?= $img_url ?>;
 
 				border: 1px solid #<?=$col?>;
 			}
@@ -534,7 +534,7 @@ class HtmlLib
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 115%;
 				color: #036;
-				background: #edc <?= $img_url ?>;
+				background: #6698c9 <?= $img_url ?>;
 
 				margin-bottom: 0
 			}
@@ -635,7 +635,7 @@ class HtmlLib
 
 			.trigger {
 				cursor: pointer;
-				background: #edc <?= $img_url ?>;
+				background: #6698c9 <?= $img_url ?>;
 
 				border: 1px solid #<?=$col?>;
 				height: 25px;
@@ -643,7 +643,7 @@ class HtmlLib
 
 			.expanded {
 				cursor: pointer;
-				background: #edc <?= $img_url ?>;
+				background: #6698c9 <?= $img_url ?>;
 
 				border: 1px solid #<?= $col ?>;
 				height: 25px;
@@ -691,7 +691,7 @@ class HtmlLib
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				font-size: 130%;
 				color: #036;
-				background: #edc <?= $img_url ?>;
+				background: #6698c9 <?= $img_url ?>;
 
 				margin-bottom: 10px;
 				margin-top: 10px
@@ -1686,7 +1686,7 @@ class HtmlLib
 				display: block;
 				font-family: Tahoma, Verdana, Arial, Helvetica, Arial, sans-serif;
 				color: #036;
-				background: #edc <?= $img_url ?>;
+				background: #6698c9 <?= $img_url ?>;
 				border-bottom: 1px solid #<?=$col?>;
 			}
 
@@ -1769,11 +1769,11 @@ class HtmlLib
 <?php
 			if ($show_direction !== 'horizontal') {
 ?>
-									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc <?= $img_url ?>" onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#edc'" onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#edc'">
+									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#6698c9 <?= $img_url ?>" onMouseover="document.getElementById('font_<?= $nametitle ?>').style.visibility='visible'; this.style.background='#6698c9'" onMouseout="document.getElementById('font_<?= $nametitle ?>').style.visibility='hidden'; this.style.background='#6698c9'">
 <?php
 			} else {
 ?>
-									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#edc">
+									<tr class='handle' id="handle_<?= $nametitle ?>" style="background:#6698c9">
 
 <?php
 			}
@@ -4242,7 +4242,7 @@ class HtmlLib
 			$visiblity = "visibility:hidden;display:none";
 		}
 
-		$backgroundstring = "background:#fee;";
+		$backgroundstring = "background:#fff;";
 		$backgroundnullstring = null;
 		$bordertop = "#ddd";
 
@@ -4578,7 +4578,7 @@ class HtmlLib
 
 		} else {
 			$blackstyle = null;
-			$backgroundstring = "background:#fee;";
+			$backgroundstring = "background:#fff;";
 			$stylebackgroundstring = null;
 			$filteropacitystring = null;
 			$filteropacitystringspan = null;
@@ -4811,7 +4811,7 @@ class HtmlLib
 				if ($sgbl->isBlackBackground()) {
 					$wrapstr .= " style='background:gray'";
 				} else {
-					$wrapstr .= " style='background:#edc {$img_url}'";
+					$wrapstr .= " style='background:#6698c9 {$img_url}'";
 				}
 ?>
 					<td <?= $wrapstr ?> width="<?= $width ?>">
@@ -4822,9 +4822,9 @@ class HtmlLib
 <?php
 			} else {
 				if ($sgbl->isBlackBackground()) {
-					$wrapstr .= " style='background:#edc'";
+					$wrapstr .= " style='background:#6698c9'";
 				} else {
-					$wrapstr .= " style='background:#edc {$img_url}'";
+					$wrapstr .= " style='background:#6698c9 {$img_url}'";
 				}
 ?>
 
@@ -4991,7 +4991,7 @@ class HtmlLib
 				<tr>
 					<td colspan="<?= $nlcount ?>">
 						<table cellpadding="0" cellspacing="0" border="0" width="100%">
-							<tr height="1" style="background:#edc <?= $img_url ?>">
+							<tr height="1" style="background:#6698c9 <?= $img_url ?>">
 							</tr>
 							<tr>
 								<td>
@@ -6617,7 +6617,7 @@ class HtmlLib
 		// MR -- metro color from http://flatuicolors.com/
 
 		$c = array('#1abc9c', '#40d47e', '#3498db', '#9b59b6', '#34495e',
-			'#16a085', '#27ae60', '#2980b9', '#8e44ad', '#2c3e50',
+			'##6698c9', '#27ae60', '#2980b9', '#8e44ad', '#2c3e50',
 			'#f1c40f', '#e67e22', '#e74c3c', '#95a5a6',
 			'#f39c12', '#d35400', '#c0392b', '#bdc3c7', '#7f8c8d');
 
@@ -7110,7 +7110,7 @@ class HtmlLib
 			}
 ?>
 
-										<option value="<?= $key ?>" style="vertical-align:middle;padding:0 0 0 25px; width:300px; height:20px; background:#edc url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+										<option value="<?= $key ?>" style="vertical-align:middle;padding:0 0 0 25px; width:300px; height:20px; background:#6698c9 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 		}
 ?>
@@ -7144,7 +7144,7 @@ class HtmlLib
 				$desc = $ac_descr[2];
 			}
 ?>
-										<option value="<?= $d ?>" style="vertical-align:middle; padding:0 0 0 25px; width:300px; height:20px; background:#edc url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
+										<option value="<?= $d ?>" style="vertical-align:middle; padding:0 0 0 25px; width:300px; height:20px; background:#6698c9 url(<?= $_t_image ?>) no-repeat;"><?= $desc ?></option>
 <?php
 		}
 ?>
@@ -7199,7 +7199,7 @@ class HtmlLib
 ?>
 
 		<div class="div_note">
-			<div class="div_note_title" style="background:#edc <?= $img_url ?>"><span style="font-weight:bold">&nbsp;Find</span></div>
+			<div class="div_note_title" style="background:#6698c9 <?= $img_url ?>"><span style="font-weight:bold">&nbsp;Find</span></div>
 			<div><input style="width: 100%; border:0; padding:2px;" type='text' name='find' onKeyUp="searchpage(this)"></div>
 		</div>
 		<br/>
@@ -8711,7 +8711,7 @@ function uploadAbort(e) { // upload abort
 			$imgfile = $img_path . "/button/warningpic.gif";
 			$color = 'brown';
 			$message = "<span style='color:red'><b>Alert: </b></span> ";
-			$style = 'border: 1px solid red; background:#fee;';
+			$style = 'border: 1px solid red; background:#fff;';
 			$fontstyle = 'color: #000';
 
 			// In the status bar, you should print with mainframe. But in the main page, it should be simple url.
@@ -9950,8 +9950,8 @@ function uploadAbort(e) { // upload abort
 		} else {
 ?>
 
-			<td height="34" wrap class='alink' style='cursor: pointer; background: #edc; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
-			<td height="<?= $height ?>" nowrap class='alink' style='cursor: pointer; background: #edc; padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
+			<td height="34" wrap class='alink' style='cursor: pointer; background: #6698c9; padding:3px 0 0 0; vertical-align:middle'><?= $imgstr ?> </td>
+			<td height="<?= $height ?>" nowrap class='alink' style='cursor: pointer; background: #6698c9; padding:3px 0 0 0; vertical-align:middle'><span size=-'1'><?= $displaystring ?></td>
 <?php
 		}
 	}

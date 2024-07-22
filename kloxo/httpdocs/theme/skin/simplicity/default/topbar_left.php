@@ -20,12 +20,12 @@
 				<div class="div_fixed_left">
 					<div style="float: left">
 						<a href="<?="/display.php?frm_action=list&frm_o_cname=smessage";?>">
-							<div id="div_smessage" class="div_header_message" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('message_title'); ?>">&nbsp;<?=$message_text;?>&nbsp;</div>
+							<div id="div_smessage" class="div_header_message" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#707070'; this.style.color='#fff';" title="<?= $login->getKeywordUc('message_title'); ?>">&nbsp;<?=$message_text;?>&nbsp;</div>
 						</a>
 					</div>
 					<div style="float: left">
 						<a href="<?="/display.php?frm_action=list&frm_o_cname=ticket";?>">
-							<div id="div_ticket" class="div_header_message" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#3498db'; this.style.color='#fff';" title="<?= $login->getKeywordUc('ticket_title'); ?>">&nbsp;<?=$ticket_text;?>&nbsp;</div>
+							<div id="div_ticket" class="div_header_message" onMouseOver="this.style.backgroundColor='#fff'; this.style.color='#000';" onMouseOut="this.style.backgroundColor='#707070'; this.style.color='#fff';" title="<?= $login->getKeywordUc('ticket_title'); ?>">&nbsp;<?=$ticket_text;?>&nbsp;</div>
 						</a>
 					</div>
 				</div>
