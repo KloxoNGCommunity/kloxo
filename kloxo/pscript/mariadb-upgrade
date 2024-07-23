@@ -10,7 +10,12 @@ else
 	newver=${1}
 fi
 
-oldver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
+if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
+	oldver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
+else
+	oldver=$(rpm -q --queryformat '%{VERSION}' mariadb-server)
+fi
+
 
 rpmdev-vercmp ${oldver} ${newver} >/dev/null 2>&1
 status="$?"

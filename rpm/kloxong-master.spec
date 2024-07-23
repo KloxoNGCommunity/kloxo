@@ -117,17 +117,12 @@ read -r -d '' for_upcp << EOF
 ._/                                                                          _/.
 ._/  - Run 'sh /script/upcp' to install completely                           _/.
 ._/                                                                          _/.
-._/ 	To use test repo use sh /script/upcp -t                              _/.
-._/                                                                          _/.
 ._/                                                                          _/.
 ._/  - Some file downloads may not show a progress bar so please             _/.
 ._/    do not interrupt the process.                                         _/.
 ._/                                                                          _/.
 ._/  - Then, go to 'Switch Program' to enable web and other programs         _/.    
 ._/                                                                          _/.
-._/  If php74 / php80 is not available then run the command:                 _/.
-._/  # sudo sh /script/fix-service-list                                      _/.
-._/  This should update the list of available php versions.                  _/.
 ._/                                                                          _/.
 ._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
 EOF

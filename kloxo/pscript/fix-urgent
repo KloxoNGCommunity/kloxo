@@ -7,11 +7,11 @@ if [ "$(rpm -q yum-presto | grep -v 'package .* is not installed')" == "" ] ; th
 	fi
 fi
 
-## trouble with mysql55 for qmail-toaster
+## trouble with mysql for qmail-toaster
 if [ "$(cat /etc/yum.conf|grep 'exclude=')" != "" ] ; then
-	sed -i 's/\(exclude\=\)\(.*\)\(mysql5\*\|mysql5?\*\|MariaDB\*\|dovecot\*\)\(.*\)/\1\4 mysql5\*/g' /etc/yum.conf
+	sed -i 's/\(exclude\=\)\(.*\)\(mysql5\*\|mysql5?\*\|MariaDB\*\|dovecot\*\)\(.*\)/\1\4 mysql\*/g' /etc/yum.conf
 else
-	echo "exclude=mysql5*" >> /etc/yum.conf
+	echo "exclude=mysql* mariadb*" >> /etc/yum.conf
 fi
 
 if [ ! -L /usr/bin/chkconfig ] ; then
@@ -31,8 +31,8 @@ fi
 
 echo 'sslverify=false' >> /etc/yum.conf
 
-## MR -- importance for CentOS 6+ for cp/mv/rm
-# sh /script/disable-alias
+# Stop annoying journald logging in messages log
+sed -i 's/^#ForwardToWall=yes/ForwardToWall=no/g' /etc/systemd/journald.conf
 
 
 ## MR -- make install x86_64 only in 64bit OS
@@ -69,12 +69,13 @@ fi
 
 chmod 777 /var/run
 
-if [ "$(lxphp.exe -v 2>/dev/null | head -n 1 | cut -d " " -f 2 | cut -c 1,3)" == "54" ] ; then
-	if [ "$(yum list yum* | grep '@')" != "" ] ; then
-		sh /script/phpm-installer php74s >/dev/null 2>&1
-		sh /script/fixlxphpexe php74s >/dev/null 2>&1
-		sh /script/restart >/dev/null 2>&1
-	fi
-fi
+# upgrade from php54
+#if [ "$(lxphp.exe -v 2>/dev/null | head -n 1 | cut -d " " -f 2 | cut -c 1,3)" == "54" ] ; then
+#	if [ "$(yum list yum* | grep '@')" != "" ] ; then
+#		sh /script/phpm-installer php74s >/dev/null 2>&1
+#		sh /script/fixlxphpexe php74s >/dev/null 2>&1
+#		sh /script/restart >/dev/null 2>&1
+#	fi
+#fi
 
 sh /script/fix-limits > /dev/null 2>&1

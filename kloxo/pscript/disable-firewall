@@ -20,9 +20,11 @@ for y in iptables firewall firewalld ; do
 		if [ "$(command -v systemctl)" != "" ] ; then
 			systemctl disable ${b}
 			systemctl daemon-reload >/dev/null 2>&1
+			systemctl stop ${b} >/dev/null 2>&1
 		else
 			chkconfig ${b} off 2>/dev/null
 			chkconfig --del ${b} 2>/dev/null
+			service ${b} stop 2>/dev/null
 		fi
 
 		service ${b} stop 2>/dev/null

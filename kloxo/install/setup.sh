@@ -34,12 +34,11 @@ rpm_main_pck='kloxo'
 yum_pack1="wget zip unzip yum-utils yum-priorities net-tools chkconfig\
 	vim-minimal subversion curl sudo expect mkpasswd initscripts"
 #this is for remove packages
-yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql-* mariadb mariadb-* MariaDB-* php* php54* php55* php56*\
+yum_pack2="nsd* pdns* mydns* yadifa* maradns djbdns* mysql mysql-* mariadb mariadb-* MariaDB-* php* php54* php55* php56*\
 		httpd-* mod_* httpd24u* mod24u_* nginx* lighttpd* varnish* squid* trafficserver* \
 		*-toaster postfix* exim* opensmtpd* esmtp* libesmtp* libmhash*"
 # database specific pagkages
-yum_database_pack="mariadb mariadb-common mariadb-server"
-
+yum_database_pack="MariaDB MariaDB-client MariaDB-common MariaDB-shared MariaDB-server"
 ## MR -- prohibit to install to CentOS 5 (EOL since 31 Mar 2017)
 #if [ "$(yum list|grep ^yum|awk '{print $3}'|grep '@')" == "" ] ; then
 #	echo "*** No permit to install to CentOS 5 (because EOL since 31 Mar 2017)"
@@ -188,25 +187,16 @@ if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 	yum install rpmdevtools -y
 fi
 
-#if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
-			
-#	MDBver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
-	
-#	Refver="10.5"
-	
-#	rpmdev-vercmp ${Refver} ${MDBver} >/dev/null 2>&1
-	
-#	status="$?"
-
-#	if [ "${status}" == "12" ] ; then
-
-#		sed -i -e "s:rpm.mariadb.org/\(.*\)/rhel/:rpm.mariadb.org/${Refver}/rhel/\2:g" /etc/yum.repos.d/kloxo.repo
-		
-		
-		
-#		yum clean all
-#	fi
-#fi
+if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
+	MDBver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
+	Refver="10.6"
+	rpmdev-vercmp ${Refver} ${MDBver} >/dev/null 2>&1
+	status="$?"
+	if [ "${status}" == "12" ] ; then
+		sed -i -e "s:rpm.mariadb.org/\(.*\)/rhel/:rpm.mariadb.org/${Refver}/rhel/\2:g" /etc/yum.repos.d/kloxo.repo
+		yum clean all
+	fi
+fi
 
 
 echo "Remove old and not required packages. Delete postfix user"
@@ -221,9 +211,7 @@ fi
 
 
 echo "Install database"
-#yum -y install mysql55 mysql55-server mysql55-libs
 yum -y install $yum_database_pack
-yum -y install mysqlclient* --exclude=*devel* --exclude=*debuginfo*
 if ! [ -d /var/lib/mysqltmp ] ; then
 	mkdir -p /var/lib/mysqltmp
 fi

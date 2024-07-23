@@ -26,13 +26,14 @@ yum_httpd24_pack=(
 yum_httpd_pack=(
 					"httpd"
 					"httpd-tools"
+					"httpd-filesystem"
 					"mod_ssl"
-					"mod_rpaf"
+					"mod_security"
 					"mod_ruid2"
 					"mod_suphp"
 					"mod_fastcgi"
 					"mod_fcgid"
-					"mod_define"
+					"mod_evasive"
 				)
 
 #for database installation packages

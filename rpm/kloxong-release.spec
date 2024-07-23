@@ -3,7 +3,7 @@
 Summary: Kloxo release file and package configuration
 Name: kloxo-release
 Version: 8.1.1
-Release: 3
+Release: 4
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -109,10 +109,10 @@ gpgcheck=0
 # for mariadb
 [kloxo-mariadb]
 name=Kloxo - mariadb repo
-baseurl=https://rpm.mariadb.org/10.5/rhel/\$releasever/\$basearch
+baseurl=https://rpm.mariadb.org/10.6/rhel/\$releasever/\$basearch
 gpgkey = https://rpm.mariadb.org/RPM-GPG-KEY-MariaDB
 module_hotfixes = 1
-enabled=0
+enabled=1
 gpgcheck=0
 
 # ==================================

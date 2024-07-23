@@ -8471,16 +8471,14 @@ function setAllWebServerInstall($nolog = null)
 	$list = getAllRealWebDriverList();
 
 	$ws = array('nginx' => 'nginx nginx-module* GeoIP fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
-		'hiawatha' => 'hiawatha hiawatha-addons', 'httpd' => 'httpd httpd-tools',
-		'httpd24u' => 'httpd24u httpd24u-tools httpd24u-filesystem httpd24u-mod_security2');
+		'hiawatha' => 'hiawatha hiawatha-addons', 'httpd' => 'httpd httpd-tools httpd-filesystem');
 
-	$hm = array('httpd' => 'mod_ssl mod_rpaf mod_ruid2 mod_suphp mod_fastcgi mod_fcgid mod_define',
-		'httpd24u' => 'httpd24u-mod_ssl httpd24u-mod_session mod24u_suphp mod24u_ruid2 mod24u_fcgid mod24u_fastcgi mod24u_evasive');
+	$hm = array('httpd' => 'mod_ssl mod_security mod_session mod_ruid2 mod_suphp mod_fastcgi mod_fcgid mod_evasive ');
 
 	if (file_exists("../etc/flag/use_apache24.flg")) {
 		$use_apache24 = true;
 	} else {
-		if (version_compare(getRpmVersion('httpd'), '2.4.0', '>') || version_compare(getRpmVersion('httpd24u'), '2.4.0', '>') ) {
+		if (version_compare(getRpmVersion('httpd'), '2.4.0', '>') ) {
 			$use_apache24 = true;
 			exec("echo '' > ../etc/flag/use_apache24.flg");
 		} else {
