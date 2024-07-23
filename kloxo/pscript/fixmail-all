@@ -88,7 +88,7 @@ chmod 755 ${HLMDPATH}
 echo "Setting '${HVBPATH}/vchkpw' for 4751 permissions"
 chmod -f 4755 ${HVBPATH}/vchkpw
 
-echo "Set '${DMKYPATH' for 755 permissions"
+echo "Set '${DMKYPATH}' for 755 permissions"
 chmod 755 ${DMKYPATH}
 
 echo "--------------------------"
