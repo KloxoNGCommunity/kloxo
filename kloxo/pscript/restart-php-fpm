@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ ! -d /var/run/php-fpm ] ; then
+	mkdir -p /var/run/php-fpm
+fi
+
 if [ -f /script/custom.restart-list.inc ] ; then
 	. /script/custom.restart-list.inc
 else
