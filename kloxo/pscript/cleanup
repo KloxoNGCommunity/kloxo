@@ -1,4 +1,4 @@
 #!/bin/sh
-
+echo ">>> cleanup <<<"
 sh /script/cleanup.inc
 	

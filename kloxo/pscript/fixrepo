@@ -1,4 +1,7 @@
 #!/bin/sh
+
+echo ">>> fixrepo <<<"
+
 # declaring Variables
 reponame="kloxo"
 repourl="https://github.com/KloxoNGCommunity/kloxo/raw/initial-rpm/"

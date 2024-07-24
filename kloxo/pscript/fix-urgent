@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo ">>> fix-urgent <<<"
+
 #if [ "$(rpm -qa yum-presto)" == "" ] ; then
 if [ "$(rpm -q yum-presto | grep -v 'package .* is not installed')" == "" ] ; then
 	if [ "$(yum list *yum*|grep '@')" != "" ] ; then

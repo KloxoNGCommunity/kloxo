@@ -1,3 +1,5 @@
+echo ">>> step2.inc <<<"
+
 #delcaring variables and variables list 
 klxpckname='kloxo'
 
