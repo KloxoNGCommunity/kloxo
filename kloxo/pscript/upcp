@@ -61,6 +61,7 @@ fi
 #	fi
 #fi
 
+echo ">>> upcp <<<"
 sh /script/fixrepo
 
 checktmpfs=$(cat /etc/fstab|grep '/tmp'|grep 'tmpfs')
@@ -87,23 +88,23 @@ if [ "$(rpm -qa lxphp)" != "" ] ; then
 	'rm' -rf /usr/local/lxlabs/ext >/dev/null 2>&1
 fi
 
-if [ "$(rpm -qa php52s)" != "" ] ; then
-	yum remove php52s -y
-	sh /script/phpm-installer php53s
-fi
+#if [ "$(rpm -qa php52s)" != "" ] ; then
+#	yum remove php52s -y
+#	sh /script/phpm-installer php53s
+#fi
 
-if [ "$(rpm -qa php53s)" != "" ] ; then
-	yum remove php53s* -y
-	rpm -e php53s-fpm --noscript
+#if [ "$(rpm -qa php53s)" != "" ] ; then
+#	yum remove php53s* -y
+#	rpm -e php53s-fpm --noscript
+#
+#	sh /script/phpm-installer php53s
+#fi
 
-	sh /script/phpm-installer php53s
-fi
-
-if [ "$(rpm -qa mysql56u)" != "" ] ; then
-	echo "Already use mysql56u. No replace"
-elif [ "$(rpm -qa mysql55)" != "" ] ; then
-	echo "Already use mysql55. No replace"
-elif [ "$(rpm -qa MariaDB-server)" != "" ] ; then
+#if [ "$(rpm -qa mysql56u)" != "" ] ; then
+#	echo "Already use mysql56u. No replace"
+#elif [ "$(rpm -qa mysql55)" != "" ] ; then
+#	echo "Already use mysql55. No replace"
+if [ "$(rpm -qa MariaDB-server)" != "" ] ; then
 	echo "Already use MariaDB. No replace"
 else
 	if [ "$(rpm -qa mysql)" != "" ] ; then

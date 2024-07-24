@@ -12,14 +12,14 @@ fi
 
 . /script/counter-start.inc
 
-t=$(mysql -V|awk '{print $5}'|grep -i '5.0.')
+#t=$(mysql -V|awk '{print $5}'|grep -i '5.0.')
 
-if [ "$t" != "" ] ; then
-	echo "Need update mysql first..."
-	echo "- Run 'yum replace mysql --replace-with=mysql55'" 
-	echo "- For OpenVZ VPS, add 'innodb_use_native_aio=0' under '[mysqld]' in '/etc/my.cnf'"
-	exit
-fi
+#if [ "$t" != "" ] ; then
+#	echo "Need update mysql first..."
+#	echo "- Run 'yum replace mysql --replace-with=mysql55'" 
+#	echo "- For OpenVZ VPS, add 'innodb_use_native_aio=0' under '[mysqld]' in '/etc/my.cnf'"
+#	exit
+#fi
 
 for i in kloxo-web kloxo-php kloxo-wrap ; do
 	chkconfig ${i} on 2>/dev/null
@@ -56,6 +56,9 @@ echo "*** Restart services - END ***"
 echo
 
 . /script/counter-end.inc
+
+#fix for "the working directory is not writable" named startup
+chown named:root /opt/configs/nsd/conf -R
 
 echo ""
 echo "REMARK:"

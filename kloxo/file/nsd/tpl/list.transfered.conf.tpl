@@ -3,6 +3,9 @@
 //	exec("chown -R nsd:nsd /var/lib/nsd");
 //	exec("chmod 0777 /opt/configs/nsd/conf/master; chmod 0777 /opt/configs/nsd/conf/slave");
 
+//fix for "the working directory is not writable" named startup
+	exec("chown named:root /opt/configs/nsd/conf -R");
+
 	$file = "/opt/configs/nsd/conf/defaults/nsd.acl.conf";
 
 	$text = '';
