@@ -73,6 +73,8 @@ fi
 
 echo
 ${acmepath}/acme.sh --version
+
+${acmepath}/acme.sh --set-default-ca  --server  letsencrypt
 echo
 echo "*** 'acme.sh' installed (need run 'exec bash' or 'reboot') ***"
 echo
