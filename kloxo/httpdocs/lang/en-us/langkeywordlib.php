@@ -218,7 +218,7 @@ $__throw["install_failed"] = "Install failed";
 $__throw["remove_failed"] = "Remove failed";
 $__throw["replace_failed"] = "Replace failed";
 
-$__throw["invalid_client_name"] = "Invalid client name";
+$__throw["invalid_client_name"] = "Invalid client name - lower case and numbers only";
 $__throw["invalid_database_name"] = "Invalid database name";
 $__throw["invalid_password"] = "Password is too simple or contains invalid characters";
 
