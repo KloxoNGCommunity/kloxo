@@ -330,6 +330,8 @@ else
 
 fi
 
+chmod 777 /usr/local/lxlabs/kloxo/session
+
 x="-- Processing for 'php-cgi.sh/php-cli.sh/php-fpm.sh/php-ls.sh'"
 echo ${x}
 echo ${x} >>${main_path}/${base_name}_install.log
