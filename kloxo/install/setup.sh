@@ -18,7 +18,7 @@
 #	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# MRatWork - Kloxo-MR Release Setup
+# Kloxo 8 Release Setup
 #
 # Version: 1.0 (2013-01-11 - by Mustafa Ramadhan <mustafa@bigraf.com>)
 # Version: 1.1 (2018-01-27 - by Dionysis Kladis <dkstiler@gmail.com>)
