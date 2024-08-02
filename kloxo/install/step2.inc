@@ -146,6 +146,7 @@ yum_comp_pack=(
 				"rar"
 				"unrar"
 				"lxjailshell"
+				"compat-openssl11"
 			 )
 			 
 #for php packages instalation
@@ -408,11 +409,11 @@ kloxo_install_step1() {
 
 	## MR -- xcache, zend, suhosin and zts not default install
 	yum -y install $phpbranch $phpbranch-mbstring $phpbranch-mysqlnd $phpbranch-pear \
-		$phpbranch-pecl-geoip $phpbranch-mcrypt $phpbranch-xml \
-		$phpbranch-embedded $phpbranch-imap $phpbranch-intl \
+		$phpbranch-pecl-geoip $phpbranch-mcrypt $phpbranch-pecl-mcrypt $phpbranch-xml \
+		$phpbranch-embedded $phpbranch-imap $phpbranch-pecl-imap $phpbranch-intl \
 		$phpbranch-ldap $phpbranch-litespeed $phpbranch-process \
-		$phpbranch-recode $phpbranch-snmp $phpbranch-soap $phpbranch-tidy \
-		$phpbranch-xmlrpc $phpbranch-gd $phpbranch-ioncube-loader hiawatha --skip-broken
+		$phpbranch-recode $phpbranch-pecl-recode $phpbranch-snmp $phpbranch-soap $phpbranch-tidy \
+		$phpbranch-xmlrpc $phpbranch-pecl-xmlrpc $phpbranch-gd $phpbranch-ioncube-loader hiawatha --skip-broken
 
 	echo ">>> Install MalDetect <<<"
 
