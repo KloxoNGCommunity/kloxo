@@ -73,20 +73,10 @@ exclude= php-* mysql5* mysql56*  mariadb* postfix32u*
 [kloxo-epel]
 name=Kloxo - Extra Packages for EL \$releasever
 #baseurl=http://download.fedoraproject.org/pub/epel/\$releasever/\$basearch
-mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=epel-\$releasever&arch=\$basearch
+metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-$releasever&arch=$basearch&infra=$infra&content=$contentdir
 enabled=1
 gpgcheck=0
 exclude=postfix* exim* ssmtp* pdns*
-
-# ==================================
-
-# for hiawatha
-[kloxo-centosec]
-name=Kloxo - CentOS \$releasever Packages from CentOS.EC
-baseurl=http://centos\$releasever.ecualinux.com/\$basearch
-enabled=0
-gpgcheck=0
-exclude=cairo*
 
 # ==================================
 
@@ -117,16 +107,6 @@ gpgcheck=0
 
 # ==================================
 
-# for atrpms
-[kloxo-atrpms]
-name=Kloxo - Fedora Core \$releasever - $basearch - ATrpms
-baseurl=http://dl.atrpms.net/el\$releasever-\$basearch/atrpms/stable
-enabled=0
-gpgcheck=0
-exclude=clam*
-
-# ==================================
-
 # for litespeed
 [kloxo-litespeed]
 name=Kloxo - LiteSpeed Tech Repository for CentOS \$releasever - \$basearch
@@ -149,80 +129,6 @@ gpgcheck=0
 name=Kloxo - google-mod-pagespeed
 baseurl=http://dl.google.com/linux/mod-pagespeed/rpm/stable/\$basearch
 enabled=1
-gpgcheck=0
-
-# ==================================
-
-# for mod_mono
-[kloxo-mod-mono]
-name=Kloxo - mod_mono
-baseurl=http://download.mono-project.com/repo/centos/
-enabled=0
-gpgcheck=0
-
-# ==================================
-
-# for CentOS kernel
-[kloxo-centos-kernel]
-name=Kloxo - CentOS kernel
-baseurl=http://elrepo.org/linux/kernel/el\$releasever/\$basearch
-enabled=0
-gpgcheck=0
-
-# ==================================
-
-# for RSysLog
-[kloxo-rsyslog-v8-devel]
-name=Kloxo - Adiscon Rsyslog v8-devel for CentOS-\$releasever-\$basearch
-baseurl=http://rpms.adiscon.com/v8-devel/epel-\$releasever/\$basearch
-enabled=0
-gpgcheck=0
-
-[kloxo-rsyslog-v8-stable]
-name=Kloxo - Adiscon Rsyslog v8-stable for CentOS-\$releasever-\$basearch
-baseurl=http://rpms.adiscon.com/v8-stable/epel-\$releasever/\$basearch
-enabled=0
-gpgcheck=0
-
-# ==================================
-
-[kloxo-zfs]
-name=Kloxo - ZFS on Linux for EL \$releasever
-baseurl=http://archive.zfsonlinux.org/epel/\$releasever/\$basearch/
-enabled=0
-gpgcheck=0
-
-# ==================================
-
-[kloxo-gleez]
-name=Kloxo - Gleez repo for CentOS-\$releasever-\$basearch
-baseurl=https://yum.gleez.com/\$releasever/\$basearch/
-enabled=0
-gpgcheck=0
-includepkgs=hhvm*
-
-# ==================================
-
-[kloxo-ulyaoth]
-name=Kloxo - Ulyaoth Repository
-baseurl=http://repos.ulyaoth.net/centos/\$releasever/\$basearch/os/
-enabled=0
-gpgcheck=0
-
-# ==================================
-
-[kloxo-rpmforge]
-name=Kloxo - RHEL \$releasever - RPMforge.net - dag
-baseurl=http://apt.sw.be/redhat/el\$releasever/en/\$basearch/rpmforge
-mirrorlist=http://apt.sw.be/redhat/el\$releasever/en/mirrors-rpmforge
-enabled=0
-gpgcheck=0
-
-[kloxo-rpmforge-extras]
-name=Kloxo - RHEL \$releasever - RPMforge.net - extras
-baseurl=http://apt.sw.be/redhat/el\$releasever/en/\$basearch/extras
-mirrorlist=http://apt.sw.be/redhat/el\$releasever/en/mirrors-rpmforge-extras
-enabled=0
 gpgcheck=0
 
 
