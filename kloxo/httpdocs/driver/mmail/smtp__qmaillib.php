@@ -6,7 +6,7 @@ class Smtp__qmail extends lxDriverClass
 	{
 		$spath = '/var/qmail/supervise';
 
-		$darray = array('smtp', 'smtp-ssl', 'submission', 'send');
+		$darray = array('smtp', 'smtps', 'submission', 'send');
 
 		foreach ($darray as $k => $v) {
 			rename("{$spath}/{$v}/down", "{$spath}/{$v}/run");
@@ -18,7 +18,7 @@ class Smtp__qmail extends lxDriverClass
 	{
 		$spath = '/var/qmail/supervise';
 
-		$darray = array('smtp', 'smtp-ssl', 'submission', 'send');
+		$darray = array('smtp', 'smtps', 'submission', 'send');
 
 		foreach ($darray as $k => $v) {
 			rename("{$spath}/{$v}/run", "{$spath}/{$v}/down");
