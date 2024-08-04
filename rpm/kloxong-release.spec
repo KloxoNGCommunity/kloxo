@@ -3,7 +3,7 @@
 Summary: Kloxo release file and package configuration
 Name: kloxo-release
 Version: 8.1.1
-Release: 4
+Release: 5
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/

@@ -9,7 +9,7 @@ fi
 #LOGCOUNT=`cat /var/qmail/control/logcount`
 
 #exec /usr/bin/setuidgid qmaill \
-#	/usr/bin/multilog t s$LOGSIZE n$LOGCOUNT /var/log/qmail/smtp-ssl 2>&1
+#	/usr/bin/multilog t s$LOGSIZE n$LOGCOUNT /var/log/qmail/smtps 2>&1
 
 exec /usr/bin/setuidgid qmaill \
-	/var/qmail/bin/splogger smtp-ssl 2>&1
+	/var/qmail/bin/splogger smtps 2>&1

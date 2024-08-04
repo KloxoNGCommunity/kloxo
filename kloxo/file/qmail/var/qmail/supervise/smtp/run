@@ -5,9 +5,28 @@ if [ -f ./custom.run ] ; then
 	return $?
 fi
 
-QMAILDUID=$(id -u qmaild)
-NOFILESGID=$(id -g qmaild)
-MAXSMTPD=$(cat /var/qmail/control/concurrencyincoming)
+QMAILDUID=`id -u vpopmail`
+NOFILESGID=`id -g vpopmail`
+MAXSMTPD=`cat /var/qmail/control/concurrencyincoming`
+
+if [ -f /var/qmail/control/spamdyke ] ; then
+        ### MR -- content of SPAMDYKE is '/usr/bin/spamdyke -f /etc/spamdyke.conf'
+        VAR1=$(cat /var/qmail/control/spamdyke)
+        VAR2=" --tls-level=smtp-no-passthrough"
+        ### MR -- special for smtp tls
+        SPAMDYKE=$VAR1$VAR2
+else
+	SPAMDYKE=""
+
+#	if [ -f /var/qmail/control/rblsmtpd ] ; then
+#		### MR -- content of RBLSMTPD is '/usr/bin/rblsmtpd'
+#		RBLSMTPD=$(cat /var/qmail/control/rblsmtpd)
+#		BLACKLIST=$(cat /var/qmail/control/blacklists)
+#	else
+		RBLSMTPD=""
+		BLACKLIST=""
+#	fi
+fi
 SMTPD="/var/qmail/bin/qmail-smtpd"
 TCP_CDB="/etc/tcprules.d/tcp.smtp.cdb"
 
@@ -28,47 +47,20 @@ fi
 #BLACKLIST=`cat /var/qmail/control/blacklists`
 #RBLSMTPD="/usr/bin/rblsmtpd"
 
-if [ -f /var/qmail/control/spamdyke ] ; then
-	### MR -- content of SPAMDYKE is '/usr/bin/spamdyke -f /etc/spamdyke.conf'
-	VAR1=$(cat /var/qmail/control/spamdyke)
-	VAR2=" --tls-level=smtp-no-passthrough"
-	### MR -- special for smtp tls
-	SPAMDYKE=$VAR1$VAR2
-else
-	SPAMDYKE=""
-
-	if [ -f /var/qmail/control/rblsmtpd ] ; then
-		### MR -- content of RBLSMTPD is '/usr/bin/rblsmtpd'
-		RBLSMTPD=$(cat /var/qmail/control/rblsmtpd)
-		BLACKLIST=$(cat /var/qmail/control/blacklists)
-	else
-		RBLSMTPD=""
-		BLACKLIST=""
-	fi
-fi
 
 
 if [ -f /var/qmail/control/softlimit ] ; then
-	### MR -- softlimit file must content with '/usr/bin/softlimit -m SOFTLIMITVAR'
 	### where SOFTLIMITVAR is 72000000 for 64bit and 18000000
-	### Note: incresing SOFTLIMITVAR if not enough (example: because 'login fail')
-	SOFTLIMIT=$(cat /var/qmail/control/softlimit|tr '\r' ' '|tr '\n' ' ')
+       ### Note: increase SOFTLIMITVAR if not enough (example: because 'login fail')
+	SOFTLIMIT="/usr/bin/softlimit -m $(cat /var/qmail/control/softlimit)"
 else
 	SOFTLIMIT=""
 fi
 
-IP=0
-PORT=25
+export SMTPAUTH="-"
 
-### MR -- SSL must using SMTPS=1 and SSL=1 but non-SSL only SSL=0 (without SMTPS=0)
-export SMTPAUTH="!" \
-	SSL=0 \
-	REQUIRE_AUTH=0 \
-	FORCE_TLS=0 \
-	DENY_TLS=0 \
-	AUTH=1 \
-	REQUIRE_AUTH=0 \
-	ALLOW_INSECURE_AUTH=1
+IP=0
+PORT="smtp"
 
 ### MR -- spamhaus.org recommended for not using $RBLSMTPD $BLACKLIST entry before $SMTPD
 exec $SOFTLIMIT \
