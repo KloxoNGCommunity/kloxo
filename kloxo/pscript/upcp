@@ -80,13 +80,13 @@ if [ ! -f /script/programname ] ; then
 	echo 'kloxo' > /script/programname
 fi
 
-if [ "$(rpm -qa lxphp)" != "" ] ; then
-	rpm -e lxphp --nodeps
-	rpm -e lxlighttpd --nodeps
-	rpm -e lxzend --nodeps
-	
-	'rm' -rf /usr/local/lxlabs/ext >/dev/null 2>&1
-fi
+#if [ "$(rpm -qa lxphp)" != "" ] ; then
+#	rpm -e lxphp --nodeps
+#	rpm -e lxlighttpd --nodeps
+#	rpm -e lxzend --nodeps
+#	
+#	'rm' -rf /usr/local/lxlabs/ext >/dev/null 2>&1
+#fi
 
 #if [ "$(rpm -qa php52s)" != "" ] ; then
 #	yum remove php52s -y
