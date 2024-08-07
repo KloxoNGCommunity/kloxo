@@ -26,27 +26,6 @@ else
 	RECORDIO="/usr/bin/recordio"
 fi
 
-#BLACKLIST=`cat /var/qmail/control/blacklists`
-#RBLSMTPD="/usr/bin/rblsmtpd"
-
-if [ -f /var/qmail/control/spamdyke ] ; then
-	### MR -- content of SPAMDYKE is '/usr/bin/spamdyke -f /etc/spamdyke.conf'
-	VAR1=$(cat /var/qmail/control/spamdyke)
-	VAR2=" --tls-level=smtp-no-passthrough"
-	### MR -- special for smtp tls
-	SPAMDYKE=$VAR1$VAR2
-else
-	SPAMDYKE=""
-
-#	if [ -f /var/qmail/control/rblsmtpd ] ; then
-#		### MR -- content of RBLSMTPD is '/usr/bin/rblsmtpd'
-#		RBLSMTPD=$(cat /var/qmail/control/rblsmtpd)
-#		BLACKLIST=$(cat /var/qmail/control/blacklists)
-#	else
-		RBLSMTPD=""
-		BLACKLIST=""
-#	fi
-fi
 
 if [ -f /var/qmail/control/softlimit ] ; then
 	### MR -- softlimit file must content with '/usr/bin/softlimit -m SOFTLIMITVAR'
@@ -64,5 +43,5 @@ PORT=587
 exec $SOFTLIMIT \
 	/usr/bin/tcpserver -v -R -H -l $HOSTNAME -x $TCP_CDB -c "$MAXSMTPD" \
 	-u "$QMAILDUID" -g "$NOFILESGID" $IP $PORT $RECORDIO \
-	$SPAMDYKE $RBLSMTPD $SMTPD $VCHKPW /bin/true 2>&1
+	$SMTPD $VCHKPW /bin/true 2>&1
 
