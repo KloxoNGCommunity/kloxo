@@ -12,9 +12,9 @@ Branch:
 
 ===================
 
-The current release Kloxo 8.0.0-15.apha - A Kloxo build for EL8 and EL9. 
+The current release Kloxo 8.0.0-17.apha - A Kloxo build for EL8 and EL9. 
 
-<a href="https://copr.fedorainfracloud.org/coprs/kloxong/Testing/package/kloxong/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/Testing/package/kloxong/status_image/last_build.png" /></a>
+<a href="https://copr.fedorainfracloud.org/coprs/kloxong/kloxo/package/kloxo/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/kloxo/package/kloxo/status_image/last_build.png" /></a>
 
 ## Kloxo
 
