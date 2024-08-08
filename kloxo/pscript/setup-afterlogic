@@ -28,7 +28,7 @@ if [ -f ${path}/data/settings/afterlogic_config.json ] ; then
 	'rm' -f ${path}/data/settings/config.json
 	'cp' -f ${path}/data/settings/afterlogic_config.json ${path}/data/settings/config.json
 
-#	cfgfile="${path}/data/settings/settings.xml.php"
+	cfgfile="${path}/data/settings/config.json"
 
 #	echo "- Change 'setting.xml' to 'settings.xml.php' in 'settings/php'"
 
