@@ -22,17 +22,17 @@ rootpass=$(cd /usr/local/lxlabs/kloxo/httpdocs; lxphp.exe ../bin/common/mp.php)
 
 mysql -f -u root -p"${rootpass}" < ${path}/data/settings/afterlogic_initial.sql >/dev/null 2>&1
 
-basefile="${path}/libraries/afterlogic/common/settings.php"
+#basefile="${path}/libraries/afterlogic/common/settings.php"
 
-if [ -f ${path}/data/settings/afterlogic_settings.xml.php ] ; then
-	'rm' -f ${path}/data/settings/settings.xml
-	'cp' -f ${path}/data/settings/afterlogic_settings.xml.php ${path}/data/settings/settings.xml.php
+if [ -f ${path}/data/settings/afterlogic_config.json ] ; then
+	'rm' -f ${path}/data/settings/config.json
+	'cp' -f ${path}/data/settings/afterlogic_config.json ${path}/data/settings/config.json
 
-	cfgfile="${path}/data/settings/settings.xml.php"
+#	cfgfile="${path}/data/settings/settings.xml.php"
 
-	echo "- Change 'setting.xml' to 'settings.xml.php' in 'settings/php'"
+#	echo "- Change 'setting.xml' to 'settings.xml.php' in 'settings/php'"
 
-	sed -i "s:'/settings/settings.xml':'/settings/settings.xml.php':g" ${basefile}
+#	sed -i "s:'/settings/settings.xml':'/settings/settings.xml.php':g" ${basefile}
 
 	chown -R apache:apache ${path}
 fi
@@ -43,8 +43,8 @@ pass=$(date +%s | md5sum | base64 | head -c 8 ; echo)
 
 echo "- Add Password to configuration file"
 
-sed -i "s:<DBPassword>afterlogic</DBPassword>:<DBPassword>${pass}</DBPassword>:g" ${cfgfile}
-sed -i "s:<AdminPassword>afterlogic</AdminPassword>:<AdminPassword>${pass}</AdminPassword>:g" ${cfgfile}
+sed -i "s:<DBPassword>:${pass}:g" ${cfgfile}
+sed -i "s:<AdminPassword>:${pass}:g" ${cfgfile}
 sed -i "s:<Common>:<Common><?php exit;?>:g" ${cfgfile}
 
 Q1="USE afterlogic;"
