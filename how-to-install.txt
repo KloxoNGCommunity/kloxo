@@ -1,5 +1,8 @@
 Kloxo 8 install instructions
 
+Note: for Almalinus 9, Rocky 9 and other EL9 linuxes 
+(Rocky 8 and probably other EL8 linuxes is brokern)
+
 A. pre-install -- better for fresh install
 
     cd /
