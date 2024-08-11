@@ -145,6 +145,7 @@ echo $x >>${main_path}/${base_name}_install.log
 
 repoquery --qf='%{name}' --requires --resolve ${pack_name}-*|egrep -iv "(${src_name}|mysql|postgresql|mariadb|httpd|openssl|nginx|tengine|pear1u|common)(.*)|php[0-9][0-9]"|sort -u > ${main_path}/dependencies
 
+yum -y install libmemcached-awesome coreutils libcurl  --skip-broken
 
 #Default libmemcached is now greated than IUS libmemcached10
 #if [ "$(yum list|grep libmemcached10)" != "" ] ; then
