@@ -38,6 +38,33 @@ if [ "${checktmpfs}" != "" ] ; then
 	exit
 fi
 
+read -r -d '' for_script_install << EOF
+._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
+._/                                                                          _/.
+._/  ..:: Kloxo Next Generation Web Panel ::..                               _/.
+._/                                                                          _/.
+._/                                                                          _/.
+._/    The process of installing Kloxo will make make major changes to       _/.
+._/                                                                          _/.
+._/    your server setup. Do not run on an existing production server        _/.
+._/                                                                          _/.
+._/    unless you are aware of the changes that will be made and have made   _/.
+._/                                                                          _/.
+._/    a backup of the server.                                               _/.
+._/                                                                          _/.
+._/    The installation requires multiple yum/dnf commands and there         _/.
+._/                                                                          _/.
+._/    may be long periods of no activity on the screen.                     _/.
+._/                                                                          _/.
+._/    Please do not interrupt the process unless you are completely         _/.
+._/                                                                          _/.
+._/    certain that the installation has finished.                           _/.
+._/                                                                          _/.
+._/                                                                          _/.
+._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/.
+EOF
+
+echo "${for_script_install}"
 
 cd /tmp
 
