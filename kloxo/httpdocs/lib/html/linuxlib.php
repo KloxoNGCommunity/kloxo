@@ -238,7 +238,7 @@ function os_create_default_slave_driver_db()
 	$a['web'] = "apache";
 	$a['webcache'] = "none";
 	$a['dns'] = "bind";
-	$a['pop3'] = "courier";
+	$a['pop3'] = "dovecot";
 //	$a['imap4'] = "courier";
 	$a['smtp'] = "qmail";
 	$a['spam'] = "bogofilter";

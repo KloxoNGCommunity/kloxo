@@ -115,9 +115,11 @@ read -r -d '' for_upcp << EOF
 ._/                                                                          _/.
 ._/  Attention:                                                              _/.
 ._/                                                                          _/.
-._/  If you are installing Kloxo from you you will need to                   _/.
+._/  If you are installing with yum install kloxo you will need to           _/.
 ._/                                                                          _/.
 ._/  run 'sh /script/upcp' to install completely                             _/.
+._/                                                                          _/.
+._/  If you are installing with kloxo.sh , you can ignore this message.      _/.
 ._/                                                                          _/.
 ._/                                                                          _/.
 ._/  - Some file downloads may not show a progress bar so please             _/.

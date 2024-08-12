@@ -3,7 +3,7 @@
 $driver['hostdeny'] = "linux";
 //$driver['dns'] = array("none", "bind", "djbdns", "pdns", "nsd", "mydns", "yadifa");
 $driver['dns'] = array("none", "bind", "djbdns", "pdns", "nsd", "yadifa");
-$driver['pop3'] = array("none", "courier", "dovecot");
+$driver['pop3'] = array("none", "dovecot", "courier");
 //$driver['imap4'] = array("none", "courier", "dovecot");
 $driver['smtp'] = array("none", "qmail");
 $driver['spam'] = array("none", "bogofilter", "spamassassin");

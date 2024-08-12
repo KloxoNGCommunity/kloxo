@@ -8157,7 +8157,7 @@ function setSyncDrivers($nolog = null)
 //	include "../file/driver/rhel.inc";
 
 	$classlist = array('web' => 'apache', 'webcache' => 'none', 'dns' => 'bind',
-		'pop3' => 'courier', 'smtp' => 'qmail', 'spam' => 'bogofilter');
+		'pop3' => 'dovecot', 'smtp' => 'qmail', 'spam' => 'bogofilter');
 
 	$nodriver = false;
 

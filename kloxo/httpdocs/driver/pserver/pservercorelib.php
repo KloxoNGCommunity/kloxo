@@ -1277,7 +1277,7 @@ STRIN;
 				$a['webcache'] = $this->webcache_driver;
 				$a['dns'] = $this->dns_driver;
 				$a['spam'] = $this->spam_driver;
-				$a['pop3'] = (isset($this->pop3_driver)) ? $this->pop3_driver : 'courier';
+				$a['pop3'] = (isset($this->pop3_driver)) ? $this->pop3_driver : 'dovecot';
 				// MR -- use pop3 driver because as the same as for imap4
 			//	$a['imap4'] = (isset($this->pop3_driver)) ? $this->pop3_driver : 'courier';
 				$a['smtp'] = (isset($this->smtp_driver)) ? $this->smtp_driver : 'qmail';

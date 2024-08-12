@@ -86,8 +86,7 @@ $dbpass = '';
 
     $yumMail = array(
         'autorespond-toaster',
-        'courier-authlib-toaster',
-        'courier-imap-toaster',
+        'dovecot-toaster',
         'daemontools-toaster',
         'ezmlm-toaster',
         'libdomainkeys-toaster',
@@ -471,6 +470,7 @@ function kloxo_vpopmail()
 	@system("chmod 755 /home/vpopmail/domains");
 
 	rm_if_exists("/etc/rc.d/init.d/courier-imap");
+	rm_if_exists("/etc/rc.d/init.d/dovecot");
 	rm_if_exists("/etc/rc.d/init.d/clamav");
 	rm_if_exists("/etc/xinetd.d/smtp_lxa");
 	rm_if_exists("/etc/xinetd.d/kloxo_smtp_lxa");
@@ -619,7 +619,7 @@ function kloxo_install_step2()
     if (!file_exists("{$kloxopath}/etc/slavedb/driver")) {
 		$driverdata = 'O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";' .
 			's:4:"spam";s:10:"bogofilter";s:3:"dns";s:4:"bind";' .
-			's:4:"pop3";s:7:"courier";s:4:"smtp";s:5:"qmail";}}';
+			's:4:"pop3";s:7:"dovecot";s:4:"smtp";s:5:"qmail";}}';
         //	system("echo '{$driverdata}' > {$kloxopath}/etc/slavedb/driver");
     }
 

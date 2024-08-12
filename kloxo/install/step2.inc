@@ -69,8 +69,7 @@ yum_remove_mail_pack=(
 
 yum_mail_pack=(
 				"autorespond-toaster"
-				"courier-authlib-toaster"
-				"courier-imap-toaster"
+				"dovecot-toaster"
 				"daemontools-toaster"
 				"ezmlm-toaster"
 				"libdomainkeys-toaster"
@@ -341,7 +340,7 @@ kloxo_vpopmail() {
 	chmod 755 /home/vpopmail/domains
 
 	for x in "${initdpath}/courier-imap" "${initdpath}/clamav" "${xinetdpath}/smtp_lxa" \
-			"${xinetdpath}/kloxo_smtp_lxa" ; do
+			"${xinetdpath}/kloxo_smtp_lxa" "${initdpath}/dovecot" ; do
 		if [ -f ${x} ] ; then
 			'rm' -f ${x}
 		fi
@@ -482,7 +481,7 @@ kloxo_install_step2() {
 		driverdata='O:6:"Remote":1:{s:4:"data";a:3:{s:3:"web";s:6:"apache";'
 		driverdata=${driverdata}'s:4:"spam";s:10:"bogofilter";'
 		driverdata=${driverdata}'s:3:"dns";s:4:"bind";'
-		driverdata=${driverdata}'s:4:"pop3";s:7:"courier";'
+		driverdata=${driverdata}'s:4:"pop3";s:7:"dovecot";'
 		driverdata=${driverdata}'s:4:"smtp";s:5:"qmail";}}'
 
 		echo ${driverdata} > ${kloxopath}/etc/slavedb/driver
@@ -596,7 +595,7 @@ kloxo_install_bye() {
 		echo
 		echo "._/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/."
 		echo "._/                                                                          _/."
-		echo "._/ Congratulations. Kloxo has been installed succesfully as 'MASTER'     _/."
+		echo "._/ Congratulations. Kloxo has been installed succesfully as 'MASTER'        _/."
 		echo "._/                                                                          _/."
 
 	if [ "${installtype}" == 'master' ] ; then
@@ -626,7 +625,7 @@ kloxo_install_bye() {
 
 		echo "._/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQL       _/."
 		echo "._/   memory usage. Or, go to 'admin->Webserver Configure'                   _/."
-		echo "._/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/."
+#		echo "._/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/."
 
 
 #	if [ "$(rpm -qa qmail)" != "" ] ; then
