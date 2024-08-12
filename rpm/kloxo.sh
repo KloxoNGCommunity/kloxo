@@ -66,7 +66,7 @@ enabled_metadata=1
 _EOF_
 
 ## Remove alias on cp
-unalias cp > /dev/null 2>&1
+unalias cp > /dev/null 2>&1; unalias mv > /dev/null 2>&1; unalias rm > /dev/null 2>&1
 
 
 cp -rf /tmp/kloxo.repo /etc/yum.repos.d/kloxo.repo
