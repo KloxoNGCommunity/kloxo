@@ -9523,7 +9523,8 @@ function uploadAbort(e) { // upload abort
 
 		if ($skin_name === 'simplicity') {
 			$skin_background = $login->getSpecialObject('sp_specialplay')->skin_background;
-			$bodybackground = "url(/theme/background/{$skin_background}) center; background-size: cover; background-attachment: fixed";
+		//	$bodybackground = "url(/theme/background/{$skin_background}) center; background-size: cover; background-attachment: fixed";
+			$bodybackground = "";
 			$bodycolor = "ffffff";
 		} else {
 			$bodybackground = "";
