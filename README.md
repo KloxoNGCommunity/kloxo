@@ -12,7 +12,7 @@ Branch:
 
 ===================
 
-The current release Kloxo 8.0.0-17.apha - A Kloxo build for EL8 and EL9. 
+The current release Kloxo 8.0.0-18 - A Kloxo build for EL8 and EL9. 
 
 <a href="https://copr.fedorainfracloud.org/coprs/kloxong/kloxo/package/kloxo/"><img src="https://copr.fedorainfracloud.org/coprs/kloxong/kloxo/package/kloxo/status_image/last_build.png" /></a>
 
@@ -26,7 +26,9 @@ The aim of this project is to create a development pathway that is sustainable a
 
 1. More information about Kloxo Next Generation go to https://kloxong.org/ 
 
-### Features (based on exsitng Kloxo-MR features - this will change as we develop our road map)
+2. To support Kloxo Next Generation Join our Patreon at https://patreon.com/KloxoNextGeneration 
+
+### Features 
 
 Note: struck out items may or may not work. They either haven't been tested yet or are still in the process of being repackaged for el8/9   
 
@@ -39,7 +41,7 @@ Note: struck out items may or may not work. They either haven't been tested yet 
 * Mail server: qmail-toaster instead special qmail (in progress: change from courier-imap to dovecot as imap/pop3) *)
 * Database: ~~MySQL or~~ MariaDB *)
 * Database Manager: PHPMyAdmin; ~~Adminer, MyWebSql and SqlBuddy as additional~~ **)
-* Webmail: ~~Afterlogic Webmail Lite, Telaen, Squirrelmail,~~ Roundcube ~~and Rainloop~~; 
+* Webmail: Afterlogic Webmail Lite, ~~Telaen, Squirrelmail,~~ Roundcube and Rainloop; 
 * FTP server: Pure-ftpd
 * DNS Server: Bind ~~and Djbdns; add Powerdns,~~ ~~MaraDNS, NSD, myDNS and Yadifa~~ *)
 * Addons: ClamAV, Spamassassin/Bogofilter/Spamdyke, RKHunter and MalDetect
