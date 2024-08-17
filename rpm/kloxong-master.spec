@@ -33,7 +33,7 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 8.0.0
-Release: 17.alpha.%{build_timestamp}
+Release: 18.%{build_timestamp}
 
 License: GPL
 Group: Applications/Internet
@@ -168,6 +168,80 @@ EOF
 
 
 %changelog
+* Sat Aug 17 2024 John Parnell Pierce <john@luckytanuki.com> - 8.0.0-18
+- Update Maradns files
+- Update awstats version
+- Remove spamdyke and rbl from qmail submission and smtp 
+- Remove qmail-pop3 supervise files
+- add TLS DH key stuff
+- Fix qmail run file configs
+- Merge in updates from http://repo.qmailtoaster.com/9/testing/SRPMS/qmail-1.03-3.3.11.qt.el9.src.rpm  to make EL9 version
+- Change to mod_evasive24
+- change http mod24_ nameing to mod_ naming as nolonger using IUS http24 rpm packages 
+- add missing executables from qmail 1.06
+- install openssl11 due to error /opt/php56m/usr/sbin/php-fpm: error while loading shared libraries: libssl.so.1.1:
+- change depreciated vixie-cron requires to cronie in spec files
+- update phpmyadmin to 5.2.1
+- upgrade to isoqlog-2.2.1
+- add libzip for php56
+- qmail Fix certificate error in self test due to tighter openssl requirements
+- compat-openssl added as required for building php56 on el9
+- add geo-ip package 
+- update tengine but not still building
+- add gcc , gcc++ to build reqs in spec files where required
+- Change product name back to kloxo
+- Tidy up installer messages 
+- Make Dovecot the default pop3/imap server as courier having problems on new osupdate install scripts
+- Update dovecot
+- add in new installer script
+- hiawatha upgrade to v11.6
+- Update phpmyadmin
+- Update pure-ftp configuration fies for new version 
+- Change to OS version of pure-ftp rather than providing package. 
+- Update afterlogic setup to work with new json config file
+- update webmail packages
+- Remove old code from installer 
+- Add tls ciphers
+- Clean up spamdyke calls 
+- Remove spamdyke from submission and smtpd
+- change smtp-ssl to smtps
+- include php packages that have moved to pecl
+- Remove old repos from yum
+- Change branding back to kloxo
+- remove zen.spamhaus rbl as it blocks everything
+- Set permissions for php session folder
+- update error message to stop confusion with client names
+- set letsencrypt as default for acme.sh
+- clean out unused php5*  and mysql lines from installer
+- For debugging purposes add echos showing name of script file running
+- Fix for #7 fixmail-all unexpected EOF
+- Fix for #5  "listen ... http2" directive is deprecated
+- Check for /var/run/php-fpm/ before restarting as something deletes it
+- Set default template colors to a more neutral palette
+- Fix server errors
+- Fix broken skeleton.zip files
+- Updated BIND version requireD updated permissions on working directory
+- Change available php versions
+- add trim to fix-outgoingips
+- Update kloxo to run on php74
+- ensure flag directory exists before writing flag
+- Remove duplicate functions from kloxo.c
+- Add dynamic rows for mariadb
+- Make http 2.4 the default (remove select between http24 and http 2.4) Update version
+- remove depreciated MinTLSversion commands
+- Remove reference to old remi file location
+- fixes for change  root password
+- Change database defaults for Mariadb
+- fix issues with php - remove remi excludes for php5,7,&8 - 
+- remove mod_php install as depeciated in el8/9 
+- Add BEGIN/END to packages for debugging purposes
+- MariaDB requires hotfixes activated to install MariaDB-server
+- remove kloxo-* from yum removal list
+- remove lines that delete kloxo.repo
+- Remove yum-plugin-replace
+- update remi repo
+- Edit install scripts for el8
+
 * Wed Sep 6 2023 John Parnell Pierce <john@luckytanuki.com> - 0.1.3-7
 - Fix broken paths for fcgi handler
 
