@@ -1,7 +1,7 @@
 Kloxo 8 install instructions
 
-Note: for Almalinux 9, Rocky 9 and other EL9 linuxes 
-(Rocky 8 and probably other EL8 linuxes is brokern)
+Note: for Almalinux 9, Rocky 9 and other RHEL 9 Derivative linux 
+(Will also work on Almalinux 8, Rocky 8)
 
 A. pre-install -- better for fresh install
 
