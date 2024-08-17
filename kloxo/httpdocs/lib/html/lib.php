@@ -782,7 +782,7 @@ function validate_domain_name($name, $bypass = null)
 	global $sgbl, $login;
 
 	if (!$bypass) {
-		if ($name === 'lxlabs.com' || $name === 'lxcenter.org' || $name === 'kloxong.org') {
+		if ($name === 'lxlabs.com' || $name === 'lxcenter.org' || $name === 'kloxong.org' || $name === 'kloxo.org') {
 			if (!$sgbl->isDebug()) {
 				throw new lxException($login->getThrow('can_not_be_added'), '', $name);
 			}

@@ -9554,7 +9554,7 @@ function uploadAbort(e) { // upload abort
 <?php include_once "{$simplicity_topbar_right}"; ?>
 			</div>
 
-			<div class="div_fixed_logo_right"><a href="//kloxong.org"><img src="/login/images/kloxong.png" height="40"/></a></div>
+			<div class="div_fixed_logo_right"><a href="//kloxo.org"><img src="/login/images/kloxong.png" height="40"/></a></div>
 <?php
 		}
 

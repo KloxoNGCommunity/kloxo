@@ -65,6 +65,6 @@ foreach($res as $k => $v) {
 	</tr>
 	<tr>
 		<td>&nbsp;-&nbsp;</td>
-		<td><a href=http://kloxong.org/ target='_blank'>MRatWork</a></td>
+		<td><a href=http://kloxo.org/ target='_blank'>Kloxo</a></td>
 	</tr>
 </table>

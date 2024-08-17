@@ -19,12 +19,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 } else {
 	exec("yum list|grep MariaDB", $out, $ret);
 	
-//	if ($ret) {
-//		echo "- No repo for MariaDB.\n";
-//		echo "  Open '/etc/yum.repos.d/mratwork.repo and change 'enable=0' to 'enable=1'\n";
-//		echo "  under [mratwork-mariadb32] for 32bit OS or [mratwork-mariadb64] for 64bit OS\n";
-//		exit;
-//	} else {
+
 		system("yum clean all");
 
 		// MR -- also issue on Centos 5.9 - prevent for update!
@@ -69,7 +64,7 @@ if (strpos($mysqlbranch, "MariaDB") !== false) {
 		system("chkconfig mariadb on >/dev/null 2>&1");
 		system("service mysql restart");
 		system("service mariadb restart");
-//	}
+
 }
 
 echo "\n";

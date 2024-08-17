@@ -231,6 +231,10 @@ class Domaind extends DomainBase
 			if ($this->nname === 'kloxong.org') {
 				return false;
 			}
+			
+			if ($this->nname === 'kloxo.org') {
+				return false;
+			}
 		}
 		
 		return true;
