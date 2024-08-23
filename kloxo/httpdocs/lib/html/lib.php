@@ -6457,6 +6457,15 @@ function setInitialServer($nolog = null)
 		}
 	}
 
+	// MR - Change to different purpose
+	// install php52s + hiawatha (also kloxo specific component) and their setting for Kloxo
+
+	// MR -- remove old Kloxo ext
+	$packages = array("lxphp", "lxzend", "lxlighttpd");
+
+	$list = implode(" ", $packages);
+
+	exec("yum -y remove $list >/dev/null 2>&1");
 	
 	//Remove old webmail packages
 	$packages = array(

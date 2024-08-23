@@ -59,6 +59,7 @@ yum_remove_mail_pack=(
 						"sftpd* postfix*"
 						"ssmtp*"
 						"smail*"
+						"lxzend*"
 						"pure-ftpd*"
 						"exim*"
 						"opensmtpd*"
@@ -96,6 +97,9 @@ yum_other_pack=(
 
 # array for old kloxo packages removal
 old_rem_kloxo_pack=(
+						"lxphp"
+						"lxlighttpd"
+						"lxzend"
                         "kloxo-webmail-*.noarch"
 						"kloxo-thirdparty-*.noarch"
 						"kloxo-stats-*.noarch"
@@ -147,6 +151,8 @@ yum_comp_pack=(
 #for php packages instalation
 php_pack=(
 			"php"
+			"php54"
+			"php55u"
 			"php56u"
 			"php56"
 			"php54w"
@@ -154,11 +160,6 @@ php_pack=(
 			"php56w"
 			"php73"
 			"php74"
-			"php80"
-			"php81"
-			"php82"
-			"php83"
-			"php84"
 		)	
 
 #yum packages that are shared forl kloxo 6.5.1 or kloxo-mr and kloxong
@@ -368,8 +369,8 @@ kloxo_install_step1() {
 		done
 	fi
 
-
-	echo ">>> Remove 'old' kloxo* <<<"
+	## MR -- remove lxphp, lxlighttpd and lxzend
+	echo ">>> Remove 'old' lxphp/lxligttpd/lxzend/kloxo* <<<"
 
 	ullepath="/usr/local/lxlabs/ext"
 
