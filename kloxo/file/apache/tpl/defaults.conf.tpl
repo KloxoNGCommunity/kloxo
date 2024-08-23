@@ -136,7 +136,7 @@ foreach ($typelist as $k => $v) {
 		if ($v === 'proxy_fcgi') {
 			$custom_conf = getLinkCustomfile($srccmdpath, "_inactive_.conf");
 			copy($custom_conf, "{$trgtcmdpath}/00-proxy.conf");
-
+			copy($custom_conf, "{$trgtcmdpath}/10-proxy_h2.conf");
 			if (file_exists("{$trgtcdpath}/{$v}.conf")) {
 				unlink("{$trgtcdpath}/{$v}.conf");
 				unlink("{$trgtcdpath}/{$v}.nonconf");

@@ -140,17 +140,17 @@ class Servermail__Qmail  extends lxDriverClass
 				exec("chkconfig clamd off >/dev/null 2>&1");
 				os_service_manage("clamd", "stop");
 
-			//	lxshell_return("rpm", "-e", "--nodeps", "clamav");
-			//	lxshell_return("rpm", "-e", "--nodeps", "clamd");
+				if (file_exists("{$cpath}/run")) {
+				lxfile_mv("{$cpath}/run", "{$cpath}/down");
+				lxfile_mv("{$cpath}/log/run", "{$cpath}/log/down");
+				}
+
 				lxshell_return("yum", "remove", "-y", "clamav", "clamd");
 				lxshell_return("yum", "remove", "-y", "simscan-toaster");
 
 				$cpath = "/var/qmail/supervise/clamd";
 
-				if (file_exists("{$cpath}/run")) {
-				lxfile_mv("{$cpath}/run", "{$cpath}/down");
-				lxfile_mv("{$cpath}/log/run", "{$cpath}/log/down");
-				}
+
 
 				// MR -- clamav for ftp upload file
 				exec("sh /script/pure-ftpd-without-clamav");

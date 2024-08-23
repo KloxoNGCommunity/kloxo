@@ -72,7 +72,6 @@ $dbpass = '';
         'postfix',
         'ssmtp',
         'smail',
-        'lxzend',
         'pure-ftpd',
         'exim',
 		'postfix',
@@ -111,7 +110,7 @@ $dbpass = '';
     );
 
 
-    $yumRemoveOldLx = array('lxphp', 'lxlighttpd', 'lxzend', 'kloxong-*');
+    $yumRemoveOldLx = array('kloxong-*');
 
 /*
     $yumInstallPackages = array(
@@ -511,8 +510,7 @@ function kloxo_install_step1()
         }
     }
 
-    // remove lxphp, lxlighttpd and lxzend
-    print(">>> Removing 'old' lxphp/lxligttpd/lxzend/kloxo* <<<\n");
+    print(">>> Removing 'old' kloxo* <<<\n");
     system('yum remove -y ' . $yumRemove);
     if (file_exists("/usr/local/lxlabs/ext")) {
         rm_if_exists("/usr/local/lxlabs/ext");
