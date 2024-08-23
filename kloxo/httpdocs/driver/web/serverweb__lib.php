@@ -235,7 +235,7 @@ class serverweb__ extends lxDriverClass
 				exec("chkconfig php-fpm off >/dev/null 2>&1");
 			}
 
-		//	$this->set_mpm($t);
+			$this->set_mpm($t);
 		}
 
 		$this->set_secondary_php();
@@ -327,7 +327,9 @@ class serverweb__ extends lxDriverClass
 		$this->rename_to_nonconf();
 
 		lxfile_cp(getLinkCustomfile($haecmdpath, "00-proxy.conf"), $ehcmdpath . "/00-proxy.conf");
+		lxfile_cp(getLinkCustomfile($haecmdpath, "10-proxy_h2.conf"), $ehcmdpath . "/10-proxy_h2.conf");
 		lxfile_rm("{$ehcmdpath}/00-proxy.nonconf");
+		lxfile_rm("{$ehcmdpath}/10-proxy_h2.nonconf");
 	}
 
 	function remove_phpfpm()
