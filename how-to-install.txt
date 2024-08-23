@@ -3,6 +3,13 @@ Kloxo 8 install instructions
 Note: for Almalinux 9, Rocky 9 and other RHEL 9 Derivative linux 
 (Will also work on Almalinux 8, Rocky 8)
 
+The quick method
+
+sudo curl -O https://kloxo.org/kloxo8/kloxo.sh
+sudo sh kloxo.sh
+
+The longer method
+
 A. pre-install -- better for fresh install
 
     #Not reallly necessary with modern linuxes
