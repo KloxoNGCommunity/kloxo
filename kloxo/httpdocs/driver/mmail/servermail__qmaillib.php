@@ -139,7 +139,9 @@ class Servermail__Qmail  extends lxDriverClass
 				os_service_manage("freshclam", "stop");
 				exec("chkconfig clamd off >/dev/null 2>&1");
 				os_service_manage("clamd", "stop");
-
+				
+				$cpath = "/var/qmail/supervise/clamd";
+				
 				if (file_exists("{$cpath}/run")) {
 				lxfile_mv("{$cpath}/run", "{$cpath}/down");
 				lxfile_mv("{$cpath}/log/run", "{$cpath}/log/down");
@@ -148,7 +150,7 @@ class Servermail__Qmail  extends lxDriverClass
 				lxshell_return("yum", "remove", "-y", "clamav", "clamd");
 				lxshell_return("yum", "remove", "-y", "simscan-toaster");
 
-				$cpath = "/var/qmail/supervise/clamd";
+				//$cpath = "/var/qmail/supervise/clamd";
 
 
 
