@@ -8564,7 +8564,7 @@ function setAllDnsServerInstall($nolog = null)
 	$list = getAllRealDnsDriverList();
 
 	$ds = array('bind' => 'bind bind-utils bind-libs', 'djbdns' => 'djbdns',
-		'nsd' => 'nsd', 'pdns' => 'pdns pdns-backend-mysql pdns-tools pdns-geo',
+		'nsd' => 'nsd', 'pdns' => 'pdns pdns-backend-mysql pdns-tools  pdns-backend-geoip',
 		'yadifa' => 'yadifa yadifa-tools');
 
 

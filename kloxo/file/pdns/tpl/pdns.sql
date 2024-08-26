@@ -242,3 +242,45 @@ CREATE TABLE IF NOT EXISTS comments (
 CREATE INDEX IF NOT EXISTS comments_domain_id_idx ON comments (domain_id);
 CREATE INDEX IF NOT EXISTS comments_name_type_idx ON comments (name, type);
 CREATE INDEX IF NOT EXISTS comments_order_idx ON comments (domain_id, modified_at);
+ 
+/* --- Update from 3.4.0 to 4.1.0  --- */
+
+ALTER TABLE domains MODIFY account VARCHAR(40) CHARACTER SET 'utf8' DEFAULT NULL;
+ALTER TABLE domains CHARACTER SET 'latin1';
+
+ALTER TABLE records MODIFY id BIGINT AUTO_INCREMENT;
+ALTER TABLE records CHARACTER SET 'latin1';
+CREATE INDEX ordername ON records (ordername);
+DROP INDEX recordorder ON records;
+
+ALTER TABLE supermasters MODIFY account VARCHAR(40) CHARACTER SET 'utf8' NOT NULL;
+ALTER TABLE supermasters CHARACTER SET 'latin1';
+
+ALTER TABLE comments MODIFY account VARCHAR(40) CHARACTER SET 'utf8' DEFAULT NULL;
+ALTER TABLE comments MODIFY comment TEXT CHARACTER SET 'utf8' NOT NULL;
+ALTER TABLE comments CHARACTER SET 'latin1';
+DROP INDEX comments_domain_id_idx ON comments;
+
+ALTER TABLE domainmetadata CHARACTER SET 'latin1';
+
+ALTER TABLE cryptokeys CHARACTER SET 'latin1';
+
+ALTER TABLE tsigkeys CHARACTER SET 'latin1';
+
+/* --- Update from 4.1.0 to 4.2.0  --- */
+
+ALTER TABLE domains MODIFY notified_serial INT UNSIGNED DEFAULT NULL;
+
+ALTER TAB
+
+/* --- Update from 4.2.0 to 4.3.0  --- */
+
+ALTER TABLE cryptokeys ADD published BOOL NULL DEFAULT 1 AFTER active;
+
+/* --- Update from 4.3.0 to 4.7.0  --- */
+
+ALTER TABLE domains ADD options VARCHAR(64000) DEFAULT NULL;
+ALTER TABLE domains ADD catalog VARCHAR(255) DEFAULT NULL;
+ALTER TABLE domains MODIFY type VARCHAR(8) NOT NULL;
+
+CREATE INDEX catalog_idx ON domains(catalog);
