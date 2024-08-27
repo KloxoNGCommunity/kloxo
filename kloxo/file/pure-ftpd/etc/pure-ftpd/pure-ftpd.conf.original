@@ -74,7 +74,7 @@ AnonymousOnly               no
 
 # Disallow anonymous connections. Only allow authenticated users.
 
-NoAnonymous                 no
+NoAnonymous                 yes
 
 
 

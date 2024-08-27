@@ -58,6 +58,8 @@ fi
 
 cd /
 
+
+
 yum clean all
 
 if rpm -qa|grep 'kloxo-release' >/dev/null 2>&1 ; then
@@ -187,6 +189,9 @@ if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 	yum install rpmdevtools -y
 fi
 
+# crb required for some packages
+yum-config-manager --enable crb
+
 if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
 	MDBver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)
 	Refver="10.6"
@@ -221,6 +226,8 @@ chown mysql:mysql /var/lib/mysqltmp
 # MR -- always disable mysql-aio
 sh /script/disable-mysql-aio
 #sh /script/set-mysql-default
+
+
 
 echo "Install php"
 # ToDo - probably needs reworking - currently falls back to php56 if php74 isn't available

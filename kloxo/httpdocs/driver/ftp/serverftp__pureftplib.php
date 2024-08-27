@@ -14,9 +14,9 @@ class serverftp__pureftp extends lxDriverclass
 	function updateXinConfig()
 	{
 		if ($this->main->isOn('enable_anon_ftp')) {
-			$anonval = "yes";
-		} else { 
 			$anonval = "no";
+		} else { 
+			$anonval = "yes";
 		}
 
 		if ($this->main->isOn('enable_tls')) {

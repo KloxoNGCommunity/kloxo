@@ -170,7 +170,7 @@ yum -y install libmemcached-awesome coreutils libcurl  --skip-broken
 x="-- Install dependencies rpms"
 echo $x
 echo $x >>${main_path}/${base_name}_install.log
-yum -y install $(cat ${main_path}/dependencies) --skip-broken >>${main_path}/${base_name}_install.log
+yum -y install $(cat ${main_path}/dependencies) --skip-broken --exclude=libcurl-minimal --exclude=coreutils-single >>${main_path}/${base_name}_install.log
 
 x="- Download all rpms (not including debuginfo)... Please wait!"
 echo $x

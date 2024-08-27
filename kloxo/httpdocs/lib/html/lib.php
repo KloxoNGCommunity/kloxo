@@ -6267,10 +6267,6 @@ function setInitialPureftpConfig($nolog = null)
 	log_cleanup("Initialize PureFtp service", $nolog);
 	log_cleanup("- Initialize process", $nolog);
 
-	if (!isRpmInstalled("xinetd")) {
-		exec("yum install xinetd -y");
-	}
-
 	if (lxfile_exists("/etc/xinetd.d/pure-ftpd")) {
 		log_cleanup("- Remove /etc/xinetd.d/pure-ftpd service file", $nolog);
 		@lxfile_rm("/etc/xinetd.d/pure-ftpd");
@@ -6313,6 +6309,10 @@ function setInitialPureftpConfig($nolog = null)
 	//	exec("chkconfig pure-ftpd on >/dev/null 2>&1; chmod 0755 /etc/rc.d/init.d/pure-ftpd");
 		exec("sh /script/enable-service pure-ftpd >/dev/null 2>&1; chmod 0755 /etc/rc.d/init.d/pure-ftpd");
 	}
+	else
+	{
+		exec("sh /script/enable-service pure-ftpd >/dev/null 2>&1");
+	}	
 
 	log_cleanup("- Restart pure-ftpd service", $nolog);
 	createRestartFile('restart-ftp');

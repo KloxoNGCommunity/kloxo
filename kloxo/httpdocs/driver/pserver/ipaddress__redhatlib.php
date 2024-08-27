@@ -162,7 +162,8 @@ class Ipaddress__Redhat extends LxDriverclass
 				$result1[] = self::get_network_data(str_replace(".nmconnection", "","{$file}"));
 			}
 		}
-		print_r($result1);
+		// For debug print ip addresses found
+		//print_r($result1);
 		$result = array(); // Initialize as array (expected return result)
 
 		foreach ($result1 as $res) {

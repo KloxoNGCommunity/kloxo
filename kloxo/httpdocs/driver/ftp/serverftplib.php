@@ -43,7 +43,7 @@ class serverftp extends lxdb
 		$this->setDefaultValue('lowport', "45000");
 		$this->setDefaultValue('highport', "65000");
 		$this->setDefaultValue('maxclient', "5000");
-		$this->setDefaultValue('enable_anon_ftp', "on");
+		$this->setDefaultValue('enable_anon_ftp', "off");
 		$this->setDefaultValue('defaultport', "21");
 		$this->setDefaultValue('enable_tls', "off");
 	}
