@@ -24,6 +24,15 @@ class serverftp__pureftp extends lxDriverclass
 		} else { 
 			$tlsval = 0;
 		}
+		
+		if(filter_var($this->main->passiveip, FILTER_VALIDATE_IP)){
+			$forcepassiveip = "ForcePassiveIP    ".$this->main->passiveip;
+		}
+		else
+		{
+			$forcepassiveip ="#ForcePassiveIP";
+		}	
+		
 
 	/*
 		// MR -- xinetd
@@ -50,6 +59,7 @@ class serverftp__pureftp extends lxDriverclass
 		$txt = lfile_get_contents("../file/pure-ftpd/etc/pure-ftpd/pure-ftpd.conf");
 		$txt = str_replace("%lowport%", $this->main->lowport, $txt);
 		$txt = str_replace("%highport%", $this->main->highport, $txt);
+		$txt = str_replace("%forcepassiveip%", $forcepassiveip, $txt);   
 		$txt = str_replace("%maxclient%", $this->main->maxclient, $txt);
 		$txt = str_replace("%port%", $this->main->defaultport, $txt);
 		$txt = str_replace("%anonymous%", $anonval, $txt);

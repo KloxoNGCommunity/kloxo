@@ -8,6 +8,7 @@ class serverftp extends lxdb
 	static $__desc_enable_anon_ftp = array("f", "", "enable_anonymous_ftp");
 	static $__desc_highport = array("", "", "high_port_for_passive_ftp");
 	static $__desc_lowport = array("", "", "low_port_for_passive_ftp");
+	static $__desc_passiveip = array("", "", "ipaddress_for_passive_ftp");
 	static $__desc_maxclient = array("", "", "maximum_number_of_clients");
 	static $__desc_defaultport = array("", "", "default_port_ftp");
 	static $__desc_enable_tls = array("f", "", "enable_tls");
@@ -33,6 +34,7 @@ class serverftp extends lxdb
 		$vlist['maxclient'] = null;
 		$vlist['lowport'] = null;
 		$vlist['highport'] = null;
+		$vlist['passiveip'] = null;
 		$vlist['defaultport'] = null;
 		$vlist['enable_tls'] = null;
 		return $vlist;
@@ -43,6 +45,7 @@ class serverftp extends lxdb
 		$this->setDefaultValue('lowport', "45000");
 		$this->setDefaultValue('highport', "65000");
 		$this->setDefaultValue('maxclient', "5000");
+		$this->setDefaultValue('passiveip', "");
 		$this->setDefaultValue('enable_anon_ftp', "off");
 		$this->setDefaultValue('defaultport', "21");
 		$this->setDefaultValue('enable_tls', "off");
