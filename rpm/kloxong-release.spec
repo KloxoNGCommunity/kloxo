@@ -3,7 +3,7 @@
 Summary: Kloxo release file and package configuration
 Name: kloxo-release
 Version: 8.1.1
-Release: 5
+Release: 6
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -73,7 +73,7 @@ exclude= php-* mysql5* mysql56*  mariadb* postfix32u*
 [kloxo-epel]
 name=Kloxo - Extra Packages for EL \$releasever
 #baseurl=http://download.fedoraproject.org/pub/epel/\$releasever/\$basearch
-metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-$releasever&arch=$basearch&infra=$infra&content=$contentdir
+metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-\$releasever&arch=\$basearch&infra=\$infra&content=\$contentdir
 enabled=1
 gpgcheck=0
 exclude=postfix* exim* ssmtp* pdns*
