@@ -147,12 +147,7 @@ yum_comp_pack=(
 #for php packages instalation
 php_pack=(
 			"php"
-			"php56u"
 			"php56"
-			"php54w"
-			"php55w"
-			"php56w"
-			"php73"
 			"php74"
 			"php80"
 			"php81"

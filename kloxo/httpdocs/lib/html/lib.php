@@ -8461,7 +8461,7 @@ function setAllWebServerInstall($nolog = null)
 
 	$list = getAllRealWebDriverList();
 
-	$ws = array('nginx' => 'nginx nginx-module* GeoIP fcgiwrap', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
+	$ws = array('nginx' => 'nginx nginx-module* GeoIP fcgiwrap --disablerepo=appstream', 'lighttpd' => 'lighttpd lighttpd-fastcgi',
 		'hiawatha' => 'hiawatha hiawatha-addons', 'httpd' => 'httpd httpd-tools httpd-filesystem');
 
 	$hm = array('httpd' => 'mod_ssl mod_security mod_session mod_ruid2 mod_suphp mod_fastcgi mod_fcgid mod_evasive ');
