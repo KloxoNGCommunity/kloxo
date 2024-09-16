@@ -8,22 +8,8 @@ yum_rem_pack=(
 				"httpd*"
 				"mod_*"
 			  )	
-				
+		
 
-#for apache24 packages
-yum_httpd24_pack=(
-				  "httpd24u"
-				  "httpd24u-tools"
-				  "httpd24u-filesystem"
-				  "httpd24u-mod_security2" 
-				  "httpd24u-mod_ssl"
-				  "httpd24u-mod_session"
-				  "mod24u_suphp"
-				  "mod24u_ruid2"
-				  "mod24u_fcgid"
-				  "mod24u_fastcgi"
-				  "mod24u_evasive"
-				  )
 #for apache packages 
 yum_httpd_pack=(
 					"httpd"
@@ -226,34 +212,17 @@ install_main() {
 install_web() {
 	echo ">>> Install Web services <<<"
 
-#	if [ "$(yum -q list httpd24u)" != "" ] ; then
-#		if [ "$(rpm -qa httpd)" != "" ] ; then
-#		if [ "$(rpm -q httpd | grep -v 'package .* is not installed')" != "" ] ; then
-#			yum -y remove ${yum_rem_pack[@]}
-#		fi
-
-#		yum -y install ${yum_httpd24_pack[@]} --exclude=httpd --exclude=httpd-* --exclude=mod_*
-
 		if [ ! -d ${kloxopath}/etc/flag ] ; then
 			mkdir -p  ${kloxopath}/etc/flag
 		fi
-		cat '' > ${kloxopath}/etc/flag/use_apache24.flg
-#	else
+		echo '' > ${kloxopath}/etc/flag/use_apache24.flg
 		yum -y install ${yum_httpd_pack[@]} --exclude=httpd24u --exclude=httpd24u-* --exclude=mod24u_*
-#	fi
 }
 
 install_database() {
 	echo ">>> Install Database services <<<"
 
-	m='mariadb'
-
-#	for x in ${yum_database_pack[@]} ; do
-#		if [ "$(rpm -qa ${x}-server)" != "" ] ; then
-#		if [ "$(rpm -q ${x}-server) | grep -v 'package .* is not installed')" != "" ] ; then
-#			m=${x}
-#		fi
-#	done
+	m='MariaDB'
 
 	yum -y install ${m} ${m}-server ${m}-libs --skip-broken
 	sh /script/set-mysql-default

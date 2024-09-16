@@ -3,11 +3,11 @@
 echo ">>> fix-urgent <<<"
 
 #if [ "$(rpm -qa yum-presto)" == "" ] ; then
-if [ "$(rpm -q yum-presto | grep -v 'package .* is not installed')" == "" ] ; then
-	if [ "$(yum list *yum*|grep '@')" != "" ] ; then
-		yum install -y yum-presto deltarpm >/dev/null 2>&1
-	fi
-fi
+#if [ "$(rpm -q yum-presto | grep -v 'package .* is not installed')" == "" ] ; then
+#	if [ "$(yum list *yum*|grep '@')" != "" ] ; then
+#		yum install -y yum-presto deltarpm >/dev/null 2>&1
+#	fi
+#fi
 
 ## trouble with mysql for qmail-toaster
 if [ "$(cat /etc/yum.conf|grep 'exclude=')" != "" ] ; then
