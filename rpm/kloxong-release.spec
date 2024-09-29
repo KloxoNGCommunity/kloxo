@@ -3,7 +3,7 @@
 Summary: Kloxo release file and package configuration
 Name: kloxo-release
 Version: 8.1.1
-Release: 6
+Release: 7
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -127,7 +127,7 @@ gpgcheck=0
 # for mod-pagespeed
 [kloxo-google-mod-pagespeed]
 name=Kloxo - google-mod-pagespeed
-baseurl=http://dl.google.com/linux/mod-pagespeed/rpm/stable/\$basearch
+baseurl=https://dl.google.com/linux/mod-pagespeed/rpm/stable/\$basearch
 enabled=1
 gpgcheck=0
 
@@ -159,6 +159,9 @@ install -m 755 kloxo.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxo.repo
 %{_sysconfdir}/yum.repos.d/kloxo.repo
 
 %changelog
+* Sun Sep 29 2024  John Parnell Pierce <john@luckytanuki.com> - 8.1.1-7
+- google-mod-pagespeed requires https
+
 * Tue Jun 25 2024  John Parnell Pierce <john@luckytanuki.com> - 8.1.1-1
 - Configure for kloxo 8
 
