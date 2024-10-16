@@ -644,18 +644,18 @@ function lx_merge_good($arg)
 	$start = 0;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+//	}
 
 	//dprintr($arglist);
 
@@ -956,17 +956,17 @@ function lx_redefine_func($func)
 	$start = 1;
 	$transforming_func = "expand_real_root";
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 				$arglist[] = $transforming_func(func_get_arg($i));
 		}
-	}
+//	}
 
 	return call_user_func_array($func, $arglist);
 }
@@ -2907,18 +2907,18 @@ function exec_class_method($class, $func)
 	$start = 2;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+//	}
 	$class = strtolower($class);
 	// workaround for the following php bug:
 	//   http://bugs.php.net/bug.php?id=47948

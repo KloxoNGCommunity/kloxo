@@ -654,12 +654,12 @@ function kloxo_install_before_bye()
         system("yum install fetchmail -y");
     }
 
-    // because php 5.2 have problem with php-fpm
-    if (version_compare(getPhpVersion(), "5.3.2", "<")) {
+    // should be on php 7 at leas so redundant - because php 5.2 have problem with php-fpm
+/*    if (version_compare(getPhpVersion(), "5.3.2", "<")) {
         $phpbranch = getPhpBranch();
         system("yum remove {$phpbranch}-fpm -y");
     }
-
+*/
     $sp = "{$kloxopath}/file/apache/etc/conf.d";
     $tp = "/etc/httpd/conf.d";
 

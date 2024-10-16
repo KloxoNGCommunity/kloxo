@@ -33,7 +33,7 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 8.0.0
-Release: 23.%{build_timestamp}
+Release: 24.%{build_timestamp}
 
 License: GPL
 Group: Applications/Internet
@@ -168,6 +168,19 @@ EOF
 
 
 %changelog
+* Thu Oct 17 2024 John Parnell Pierce <john@luckytanuki.com> - 8.0.0-24
+- Fix Lighttpd config files for new version
+- Trim added Lighttpd config to remove unwanted CRs being added to header files
+- Comment out unused functions (esp dead evals)
+- Remove old code from install
+- clean up nginx install
+- add Passive IP Address option to FTP configuration. This is required for VMs that have public and private IPs.
+- fix ftp systemd enable
+- update pdns install and sql for pdns 4.8.4
+- run folder renamed /down if no pop/imap/smtp server set
+- fix run/php-fpm folder is disappearing issue
+- Remove old detects for php < 5.3 as default php is now php7.4
+
 * Sat Aug 17 2024 John Parnell Pierce <john@luckytanuki.com> - 8.0.0-18
 - Update Maradns files
 - Update awstats version

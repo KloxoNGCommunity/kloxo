@@ -533,18 +533,18 @@ abstract class Lxclass
 		$start = 2;
 		$transforming_func = null;
 	
-		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 			eval($sgbl->arg_getting_string);
 		} else {
 		//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 			$arglist = array();
 
 			for ($i = $start; $i < func_num_args(); $i++) {
 				$arglist[] = func_get_arg($i);
 			}
 
-		}
+//		}
 		
 		$class = $class . "_" . $driverapp;
 
