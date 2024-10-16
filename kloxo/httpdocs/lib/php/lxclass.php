@@ -267,12 +267,14 @@ abstract class Lxclass
 
 	function getShowInfo() { return null; }
 
+	/* Not used
 	function eeval($rule)
 	{
 		global $gbl, $sgbl, $login, $ghtml;
 
 		return eval("return {$rule};");
 	}
+	*/
 
 	function syncToSystemCommon()
 	{
