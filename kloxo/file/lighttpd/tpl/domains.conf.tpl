@@ -164,6 +164,7 @@ if ($general_header) {
 	$general_header_text = "";
 
 	foreach ($gh as $k => $v) {
+		$v=trim($v);
 		$v=trim($v, "\"");
 		list($key, $value) = explode(" \"", $v);
 
@@ -183,6 +184,7 @@ if ($https_header) {
 	$https_header_text = "";
 
 	foreach ($hh as $k => $v) {
+		$v=trim($v);
 		$v=trim($v, "\"");
 		list($key, $value) = explode(" \"", $v);
 		$https_header_text .= "\t\tsetenv.add-response-header += ( \"{$key}\" => \"{$value}\" )\n";
