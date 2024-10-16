@@ -164,6 +164,7 @@ if ($general_header) {
 	$general_header_text = "";
 
 	foreach ($gh as $k => $v) {
+		$v=trim($v, "\"");
 		list($key, $value) = explode(" \"", $v);
 
 		if (stripos($key, 'x-powered-by') !== false) {
@@ -182,8 +183,9 @@ if ($https_header) {
 	$https_header_text = "";
 
 	foreach ($hh as $k => $v) {
+		$v=trim($v, "\"");
 		list($key, $value) = explode(" \"", $v);
-		$https_header_text .= "\t\tsetenv.add-response-header += ( \"{$key}\" => \"{$value} )\n";
+		$https_header_text .= "\t\tsetenv.add-response-header += ( \"{$key}\" => \"{$value}\" )\n";
 	}
 }
 
