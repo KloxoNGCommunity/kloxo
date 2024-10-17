@@ -63,18 +63,18 @@ function lxshell_redirect($file, $cmd)
 	$start = 2;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+//	}
 
 	$cmd = getShellCommand($cmd, $arglist);
 
@@ -95,18 +95,18 @@ function lxshell_directory($dir, $cmd)
 	$start = 2;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+//	}
 
 	$cmd = getShellCommand($cmd, $arglist);
 
@@ -125,18 +125,18 @@ function lxshell_output($cmd)
 	$start = 1;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+//	}
 
 	$cmd = getShellCommand($cmd, $arglist);
 	do_exec_system($username, null, $cmd, $out, $err, $ret, null);
@@ -151,11 +151,11 @@ function lxshell_return($cmd)
 	$start = 1;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
@@ -184,18 +184,18 @@ function lxshell_input($input, $cmd)
 	$start = 2;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+//	}
 
 	$cmd = getShellCommand($cmd, $arglist);
 	do_exec_system($username, null, $cmd, $out, $err, $ret, $input);
@@ -358,18 +358,18 @@ function lxuser_return($username, $cmd) {
 	$start = 2;
 	$transforming_func = null;
 
-	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+/*	if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 		eval($sgbl->arg_getting_string);
 	} else {
 	//	$arglist = get_function_arglist($start, $transforming_func);
-
+*/
 		$arglist = array();
 
 		for ($i = $start; $i < func_num_args(); $i++) {
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+//	}
 	
 	$cmd = getShellCommand($cmd, $arglist);
 	
