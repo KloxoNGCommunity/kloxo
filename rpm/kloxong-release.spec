@@ -3,7 +3,7 @@
 Summary: Kloxo release file and package configuration
 Name: kloxo-release
 Version: 8.1.1
-Release: 7
+Release: 8
 License: AGPLV3
 Group: System Environment/Base
 URL: http://kloxong.org/
@@ -84,6 +84,7 @@ exclude=postfix* exim* ssmtp* pdns*
 [kloxo-nginx]
 name=Kloxo - nginx repo
 baseurl=http://nginx.org/packages/mainline/centos/\$releasever/\$basearch/
+module_hotfixes = 1
 enabled=1
 gpgcheck=0
 
@@ -91,6 +92,7 @@ gpgcheck=0
 [kloxo-nginx-stable]
 name=Kloxo - nginx-stable repo
 baseurl=http://nginx.org/packages/centos/\$releasever/\$basearch/
+module_hotfixes = 1
 enabled=1
 gpgcheck=0
 
@@ -159,6 +161,9 @@ install -m 755 kloxo.repo %{buildroot}%{_sysconfdir}/yum.repos.d/kloxo.repo
 %{_sysconfdir}/yum.repos.d/kloxo.repo
 
 %changelog
+* Thu Oct 24 2024  John Parnell Pierce <john@luckytanuki.com> - 8.1.1-8
+- Module hot fix needs to be one for nginx repos to work in el8
+
 * Sun Sep 29 2024  John Parnell Pierce <john@luckytanuki.com> - 8.1.1-7
 - google-mod-pagespeed requires https
 
