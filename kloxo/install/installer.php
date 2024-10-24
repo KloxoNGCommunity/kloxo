@@ -376,7 +376,7 @@ function install_database()
 /**
  * Install DNS tools
  */
-function install_dns()
+function install_dns(){
     global $yumDNS;
     $yumD = implode(' ', $yumDNS);
 

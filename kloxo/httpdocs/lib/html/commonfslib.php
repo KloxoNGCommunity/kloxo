@@ -162,7 +162,7 @@ function lxshell_return($cmd)
 			$arglist[] = func_get_arg($i);
 		}
 
-	}
+	//}
 
 	$cmd = getShellCommand($cmd, $arglist);
 
