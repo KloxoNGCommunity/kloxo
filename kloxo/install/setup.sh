@@ -190,7 +190,12 @@ if [ "$(rpm -qa rpmdevtools)" == "" ] ; then
 fi
 
 # crb required for some packages
-yum-config-manager --enable crb
+
+	# For el9
+	yum-config-manager --enable crb
+	
+	# For el8
+	yum-config-manager --enable powertools
 
 if [ "$(rpm -q MariaDB-server) | grep -v 'package .* is not installed')" != "" ] ; then
 	MDBver=$(rpm -q --queryformat '%{VERSION}' MariaDB-server)

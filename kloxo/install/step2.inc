@@ -349,7 +349,11 @@ kloxo_install_step1() {
 	## in CentOS 5 and libcurl-devel in CentOS 6
 
 	## crb required for static libraries required by cexe
+	# For el9
 	yum-config-manager --enable crb
+	
+	# For el8
+	yum-config-manager --enable powertools
 
 	yum -y install ${yum_comp_pack[@]} --skip-broken
 	
