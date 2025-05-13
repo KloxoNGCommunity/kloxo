@@ -258,7 +258,7 @@ class pserver extends pservercore {
 			if (file_exists("./thirdparty/mywebsql/")) {
 				$url = "/thirdparty/mywebsql/";
 			} else {
-				$url = "/thirdparty/phpMyAdmin/";
+				$url = "/thirdparty/phpMyAdmin/examples/signon.php";
 			}
 
 			if (!$this->isLocalhost('nname')) {
@@ -291,7 +291,7 @@ class pserver extends pservercore {
 				$alist[] = create_simpleObject(array('url' => "{$dbadminUrl}?auth_user={$user}&auth_pwd={$pass}",
 					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 			} else {
-				$alist[] = create_simpleObject(array('url' => "{$dbadminUrl}?pma_username={$user}&pma_password={$pass}",
+				$alist[] = create_simpleObject(array('url' => "{$dbadminUrl}?user={$user}&password={$pass}",
 					'purl' => "c=mysqldb&a=updateform&sa=phpmyadmin", 'target' => "target='_blank'"));
 			}
 		} catch (Exception $e) {}
