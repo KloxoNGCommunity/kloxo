@@ -33,7 +33,7 @@
 Name: %{productname}
 Summary: Kloxo Next Generation web panel
 Version: 8.0.0
-Release: 24.%{build_timestamp}
+Release: 25.%{build_timestamp}
 
 License: GPL
 Group: Applications/Internet
@@ -168,6 +168,12 @@ EOF
 
 
 %changelog
+* Mon Jun 9 2025 John Parnell Pierce <john@luckytanuki.com> - 8.0.0-25
+- Fix for phpmyadmin auto login Issue #17. Change to single sign on using signon.php script based on provided example script.
+- Fix password update script to work with newer MariaDB versions
+- upgrade backend certs to 4096
+- upgrade spamdyke to use vpopmail for auth rather than qmail
+
 * Thu Oct 17 2024 John Parnell Pierce <john@luckytanuki.com> - 8.0.0-24
 - Fix Lighttpd config files for new version
 - Trim added Lighttpd config to remove unwanted CRs being added to header files
