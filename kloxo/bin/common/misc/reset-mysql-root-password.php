@@ -10,17 +10,10 @@ if (isset($argv[1])) {
 	$pass = randomString(9);
 }
 
-//$text = <<<EOF
-//SET PASSWORD FOR root@localhost = PASSWORD('PASSWORD');
-//FLUSH PRIVILEGES;
-//EOF;
+$text = "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('PWORD123') OR unix_socket;";
 
-
-$text = "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PASSWORD';";
-
-echo $pass."\n";
 $text = str_replace("'USER'", "'root'", $text);
-$text = str_replace("'PASSWORD'", "'{$pass}'", $text);
+$text = str_replace("'PWORD123'", "'{$pass}'", $text);
 if(!is_dir($tpath)) mkdir($tpath);
 file_put_contents("{$tpath}/reset-mysql-password.sql", $text);
 
@@ -35,13 +28,13 @@ if (isServiceExists('mariadb')) {
 system("killall mariadbd");
 print("MySQL ROOT password reset...\n");
 sleep(10);
-echo "1\n";
+
 //system("mariadbd-safe --skip-grant-tables  >/dev/null 2>&1 &");
 system("mariadbd  --user=mysql --init-file={$tpath}/reset-mysql-password.sql >/dev/null 2>&1 &");
-echo "2\n";
+
 //system("mysql -u root < {$tpath}/reset-mysql-password.sql");
 sleep(15);
-echo "3\n";
+
 //system("mysqladmin -u root -p='{$pass}' shutdown");
 print("Start MySQL service...\n");
 system("killall mariadbd");
@@ -64,11 +57,9 @@ if ($conn->connect_errno) {
 	exit();
 }
 
-$cmd = "grant all on .* to {$username}@localhost identified by '{$mysqlpass}'";
-
 $cmd = "UPDATE kloxo.dbadmin SET dbpassword = '$pass' WHERE dbadmin_name = 'root'";
 
-//print($cmd . "\n");
+
 
 $result = $conn->query($cmd);
 
